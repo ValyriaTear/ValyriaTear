@@ -1,0 +1,388 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{36d8552f-a5d0-41a0-ac69-1f0d66f15076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{2d673c39-5e49-445b-a718-7559af595030}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{c2f3ea01-55cd-4ddd-9a9c-86a544f87f08}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{bf7c7c34-28ee-49ce-9ae3-0b07b826736e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\video">
+      <UniqueIdentifier>{f3280f25-8755-4575-a472-cb6377ddf54c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\script">
+      <UniqueIdentifier>{e0a1b485-058c-41e8-af91-44122d315069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{96066e2f-6c6d-415c-94f4-12ec97576d0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\gui">
+      <UniqueIdentifier>{ffffe84a-becb-4e4b-a228-10c61eca3d8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\global">
+      <UniqueIdentifier>{73e81eca-8986-4301-82fe-4a703c1c8f91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\audio">
+      <UniqueIdentifier>{d9b7b867-082d-4240-a8d8-4005724012d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\editor\editor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\editor_main.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\grid.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\skill_editor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\sprites.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\tileset.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\tileset_editor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dialog_boxes.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dialog_boxes.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_editor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_editor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_grid.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_grid.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_skill_editor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_skill_editor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_tileset_editor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_tileset_editor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\dialog_boxes.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\script\script.cpp">
+      <Filter>engine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\script\script_modify.cpp">
+      <Filter>engine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\script\script_read.cpp">
+      <Filter>engine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\script\script_write.cpp">
+      <Filter>engine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\effects.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\fade.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\image.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\image_base.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\interpolator.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\particle_effect.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\particle_manager.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\particle_system.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\shake.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\text.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\texture.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\texture_controller.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\video\video.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\common_bindings.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\dialogue.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\common.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\global\global.cpp">
+      <Filter>common\global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\global\global_actors.cpp">
+      <Filter>common\global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\global\global_effects.cpp">
+      <Filter>common\global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\global\global_objects.cpp">
+      <Filter>common\global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\global\global_skills.cpp">
+      <Filter>common\global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\global\global_utils.cpp">
+      <Filter>common\global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\gui\gui.cpp">
+      <Filter>common\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\gui\menu_window.cpp">
+      <Filter>common\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\gui\option.cpp">
+      <Filter>common\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\gui\textbox.cpp">
+      <Filter>common\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\input.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\mode_manager.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\system.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\engine_bindings.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\audio\audio.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\audio\audio_descriptor.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\audio\audio_effects.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\audio\audio_input.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\audio\audio_stream.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\editor\dialog_boxes.h">
+      <Filter>Editor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\editor\editor.h">
+      <Filter>Editor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\editor\grid.h">
+      <Filter>Editor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\editor\skill_editor.h">
+      <Filter>Editor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\editor\tileset_editor.h">
+      <Filter>Editor</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\editor\sprites.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\editor\tileset.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\script\script_read.h">
+      <Filter>engine\script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\script\script_write.h">
+      <Filter>engine\script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\script\script.h">
+      <Filter>engine\script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\script\script_modify.h">
+      <Filter>engine\script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\video.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\color.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\context.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\coord_sys.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\fade.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\image.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\image_base.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\interpolator.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\particle.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\particle_effect.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\particle_emitter.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\particle_keyframe.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\particle_manager.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\particle_system.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\screen_rect.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\shake.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\text.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\texture.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\video\texture_controller.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\common.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\dialogue.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\global\global_utils.h">
+      <Filter>common\global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\global\global.h">
+      <Filter>common\global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\global\global_actors.h">
+      <Filter>common\global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\global\global_effects.h">
+      <Filter>common\global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\global\global_objects.h">
+      <Filter>common\global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\global\global_skills.h">
+      <Filter>common\global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\gui\gui.h">
+      <Filter>common\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\gui\menu_window.h">
+      <Filter>common\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\gui\option.h">
+      <Filter>common\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\gui\textbox.h">
+      <Filter>common\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\input.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\mode_manager.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\system.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\audio\audio_stream.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\audio\audio.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\audio\audio_descriptor.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\audio\audio_effects.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\audio\audio_input.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

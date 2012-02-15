@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Map Editor" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option platforms="Windows;" />
+				<Option output="Map_Editor_Dbg" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Editor-Debug" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-DQT3_SUPPORT" />
+					<Add option="-DQT_CLEAN_NAMESPACE" />
+					<Add option="-DQT_NO_DEBUG" />
+					<Add option="-DQT_GUI_LIB" />
+					<Add option="-DQT_CORE_LIB" />
+					<Add option="-DQT_SHARED" />
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+					<Add directory="allacrost-win32-depends/include" />
+					<Add directory="allacrost-win32-depends/include/AL" />
+					<Add directory="allacrost-win32-depends/include/libpng12" />
+					<Add directory="allacrost-win32-depends/include/lua5.1" />
+					<Add directory="allacrost-win32-depends/include/luabind" />
+					<Add directory="allacrost-win32-depends/include/qt4/include" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/Qt" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/Qt3Support" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/QtCore" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/QtGui" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/QtOpenGL" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="shell32" />
+					<Add library="mingw32" />
+					<Add library="QtGui4" />
+					<Add library="QtCore4" />
+					<Add library="QtOpenGL4" />
+					<Add library="Qt3Support4" />
+					<Add library="ogg" />
+					<Add library="vorbis" />
+					<Add library="vorbisfile" />
+					<Add library="Opengl32" />
+					<Add library="glu32" />
+					<Add library="libpng" />
+					<Add library="libjpeg" />
+					<Add library="OpenAL32" />
+					<Add library="Lua51" />
+					<Add library="LuaBind" />
+					<Add directory="allacrost-win32-depends/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option platforms="Windows;" />
+				<Option output="Map_Editor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Editor-Release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-W" />
+					<Add option="-DQT3_SUPPORT" />
+					<Add option="-DQT_CLEAN_NAMESPACE" />
+					<Add option="-DQT_NO_DEBUG" />
+					<Add option="-DQT_GUI_LIB" />
+					<Add option="-DQT_CORE_LIB" />
+					<Add option="-DQT_SHARED" />
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+					<Add directory="allacrost-win32-depends/include" />
+					<Add directory="allacrost-win32-depends/include/AL" />
+					<Add directory="allacrost-win32-depends/include/libpng12" />
+					<Add directory="allacrost-win32-depends/include/lua5.1" />
+					<Add directory="allacrost-win32-depends/include/luabind" />
+					<Add directory="allacrost-win32-depends/include/qt4/include" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/Qt" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/Qt3Support" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/QtCore" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/QtGui" />
+					<Add directory="allacrost-win32-depends/include/qt4/include/QtOpenGL" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="shell32" />
+					<Add library="mingw32" />
+					<Add library="QtGui4" />
+					<Add library="QtCore4" />
+					<Add library="QtOpenGL4" />
+					<Add library="Qt3Support4" />
+					<Add library="ogg" />
+					<Add library="vorbis" />
+					<Add library="vorbisfile" />
+					<Add library="Opengl32" />
+					<Add library="glu32" />
+					<Add library="libpng" />
+					<Add library="libjpeg" />
+					<Add library="OpenAL32" />
+					<Add library="Lua51" />
+					<Add library="LuaBind" />
+					<Add directory="allacrost-win32-depends/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug Linux">
+				<Option platforms="Unix;" />
+				<Option output="Map_Editor_Dbg" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Editor-Debug" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-W" />
+					<Add option="-O0" />
+					<Add option="-DQT3_SUPPORT" />
+					<Add option="-DQT_CLEAN_NAMESPACE" />
+					<Add option="-DQT_NO_DEBUG" />
+					<Add option="-DQT_GUI_LIB" />
+					<Add option="-DQT_CORE_LIB" />
+					<Add option="-DQT_SHARED" />
+					<Add option='-DDATADIR=\\\&quot;/usr/local/share/games/allacrost\\\&quot;' />
+					<Add option='-DLOCALEDIR=\\\&quot;/usr/local/share/games/allacrost/txt\\\&quot;' />
+					<Add option='-DPACKAGE=\\\&quot;allacrost\\\&quot;' />
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+					<Add directory="/usr/include" />
+					<Add directory="/usr/include/AL" />
+					<Add directory="/usr/include/libpng12" />
+					<Add directory="/usr/include/lua5.1" />
+					<Add directory="/usr/include/luabind" />
+					<Add directory="/usr/include/qt4" />
+					<Add directory="/usr/include/qt4/Qt" />
+					<Add directory="/usr/include/qt4/Qt3Support" />
+					<Add directory="/usr/include/qt4/QtCore" />
+					<Add directory="/usr/include/qt4/QtGui" />
+					<Add directory="/usr/include/qt4/QtOpenGL" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="QtGui" />
+					<Add library="QtCore" />
+					<Add library="QtOpenGL" />
+					<Add library="Qt3Support" />
+					<Add library="vorbisfile" />
+					<Add library="GLU" />
+					<Add library="GL" />
+					<Add library="png" />
+					<Add library="jpeg" />
+					<Add library="openal" />
+					<Add library="lua5.1" />
+					<Add library="luabind" />
+				</Linker>
+			</Target>
+			<Target title="Release Linux">
+				<Option platforms="Unix;" />
+				<Option output="Map_Editor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Editor-Release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-W" />
+					<Add option="-DQT3_SUPPORT" />
+					<Add option="-DQT_CLEAN_NAMESPACE" />
+					<Add option="-DQT_NO_DEBUG" />
+					<Add option="-DQT_GUI_LIB" />
+					<Add option="-DQT_CORE_LIB" />
+					<Add option="-DQT_SHARED" />
+					<Add option='-DDATADIR=\\\&quot;/usr/local/share/games/allacrost\\\&quot;' />
+					<Add option='-DLOCALEDIR=\\\&quot;/usr/local/share/games/allacrost/txt\\\&quot;' />
+					<Add option='-DPACKAGE=\\\&quot;allacrost\\\&quot;' />
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+					<Add directory="/usr/include" />
+					<Add directory="/usr/include/AL" />
+					<Add directory="/usr/include/libpng12" />
+					<Add directory="/usr/include/lua5.1" />
+					<Add directory="/usr/include/luabind" />
+					<Add directory="/usr/include/qt4" />
+					<Add directory="/usr/include/qt4/Qt" />
+					<Add directory="/usr/include/qt4/Qt3Support" />
+					<Add directory="/usr/include/qt4/QtCore" />
+					<Add directory="/usr/include/qt4/QtGui" />
+					<Add directory="/usr/include/qt4/QtOpenGL" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="src" />
+					<Add directory="src/common/global" />
+					<Add directory="src/editor" />
+					<Add directory="src/engine" />
+					<Add directory="src/engine/audio" />
+					<Add directory="src/engine/script" />
+					<Add directory="src/engine/video" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="QtGui" />
+					<Add library="QtCore" />
+					<Add library="QtOpenGL" />
+					<Add library="Qt3Support" />
+					<Add library="vorbisfile" />
+					<Add library="GLU" />
+					<Add library="GL" />
+					<Add library="png" />
+					<Add library="jpeg" />
+					<Add library="openal" />
+					<Add library="lua5.1" />
+					<Add library="luabind" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="src/common/global/defs_global.cpp" />
+		<Unit filename="src/common/global/global.cpp" />
+		<Unit filename="src/common/global/global.h" />
+		<Unit filename="src/common/global/global_actors.cpp" />
+		<Unit filename="src/common/global/global_actors.h" />
+		<Unit filename="src/common/global/global_effects.cpp" />
+		<Unit filename="src/common/global/global_effects.h" />
+		<Unit filename="src/common/global/global_objects.cpp" />
+		<Unit filename="src/common/global/global_objects.h" />
+		<Unit filename="src/common/global/global_skills.cpp" />
+		<Unit filename="src/common/global/global_skills.h" />
+		<Unit filename="src/common/global/global_utils.cpp" />
+		<Unit filename="src/common/global/global_utils.h" />
+		<Unit filename="src/defs.h" />
+		<Unit filename="src/editor/dialog_boxes.cpp" />
+		<Unit filename="src/editor/dialog_boxes.h" />
+		<Unit filename="src/editor/editor.cpp" />
+		<Unit filename="src/editor/editor.h" />
+		<Unit filename="src/editor/editor_main.cpp" />
+		<Unit filename="src/editor/grid.cpp" />
+		<Unit filename="src/editor/grid.h" />
+		<Unit filename="src/editor/skill_editor.cpp" />
+		<Unit filename="src/editor/skill_editor.h" />
+		<Unit filename="src/editor/sprites.cpp" />
+		<Unit filename="src/editor/sprites.h" />
+		<Unit filename="src/editor/tileset.cpp" />
+		<Unit filename="src/editor/tileset.h" />
+		<Unit filename="src/editor/tileset_editor.cpp" />
+		<Unit filename="src/editor/tileset_editor.h" />
+		<Unit filename="src/engine/mode_manager.cpp" />
+		<Unit filename="src/engine/mode_manager.h" />
+		<Unit filename="src/engine/script/script.cpp" />
+		<Unit filename="src/engine/script/script.h" />
+		<Unit filename="src/engine/script/script_modify.cpp" />
+		<Unit filename="src/engine/script/script_modify.h" />
+		<Unit filename="src/engine/script/script_read.cpp" />
+		<Unit filename="src/engine/script/script_read.h" />
+		<Unit filename="src/engine/script/script_write.cpp" />
+		<Unit filename="src/engine/script/script_write.h" />
+		<Unit filename="src/engine/system.cpp" />
+		<Unit filename="src/engine/system.h" />
+		<Unit filename="src/engine/video/color.h" />
+		<Unit filename="src/engine/video/context.h" />
+		<Unit filename="src/engine/video/coord_sys.h" />
+		<Unit filename="src/engine/video/effects.cpp" />
+		<Unit filename="src/engine/video/fade.cpp" />
+		<Unit filename="src/engine/video/fade.h" />
+		<Unit filename="src/engine/video/gui.h" />
+		<Unit filename="src/engine/video/image.cpp" />
+		<Unit filename="src/engine/video/image.h" />
+		<Unit filename="src/engine/video/image_base.cpp" />
+		<Unit filename="src/engine/video/image_base.h" />
+		<Unit filename="src/engine/video/interpolator.cpp" />
+		<Unit filename="src/engine/video/interpolator.h" />
+		<Unit filename="src/engine/video/menu_window.h" />
+		<Unit filename="src/engine/video/particle.h" />
+		<Unit filename="src/engine/video/particle_effect.cpp" />
+		<Unit filename="src/engine/video/particle_effect.h" />
+		<Unit filename="src/engine/video/particle_keyframe.h" />
+		<Unit filename="src/engine/video/particle_manager.cpp" />
+		<Unit filename="src/engine/video/particle_manager.h" />
+		<Unit filename="src/engine/video/particle_system.cpp" />
+		<Unit filename="src/engine/video/particle_system.h" />
+		<Unit filename="src/engine/video/screen_rect.h" />
+		<Unit filename="src/engine/video/shake.cpp" />
+		<Unit filename="src/engine/video/shake.h" />
+		<Unit filename="src/engine/video/text.cpp" />
+		<Unit filename="src/engine/video/text.h" />
+		<Unit filename="src/engine/video/texture.cpp" />
+		<Unit filename="src/engine/video/texture.h" />
+		<Unit filename="src/engine/video/texture_controller.cpp" />
+		<Unit filename="src/engine/video/texture_controller.h" />
+		<Unit filename="src/engine/video/video.cpp" />
+		<Unit filename="src/engine/video/video.h" />
+		<Unit filename="src/utils.cpp" />
+		<Unit filename="src/utils.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,80 @@
+===== Hero of Allacrost - Player's Manual =====
+
+This file contains a very concise manual for playing Hero of Allacrost. More complete and thorough information on playing Allacrost can be found on the Allacrost wiki at http://wiki.allacrost.org/. Please note that this demo is a work in progress, and several of the game features are not yet implemented in this release.
+
+
+=== Description ===
+
+Hero of Allacrost plays very much like a typical console role-playing game, or CRPG. You can explore maps and talk to non-playable characters (NPCs), fight active-time battles against multiple enemies, and manage your characters and equipment through a series of menus. HoA runs in a series of "game modes" which represent different states of operation in the game. The most important game modes are: boot mode, map mode, battle mode, and menu mode.
+
+
+=== Game Input ===
+
+Allacrost players can input commands to the game either through the keyboard or a gamepad/joystick. Mouse input is not supported. The table below lists the standard set of user input commands, their default keyboard mappings, and their general purpose. Most of these keys can be re-mapped from the Allacrost main menu (the boot screen you see when first starting Allacrost).
+
+Command Name    Default Key Map    General Purpose
+
+Up              'up arrow'         Move sprite or cursor upwards
+Down            'down arrow'       Move sprite or cursor downwards
+Left            'left arrow'       Move sprite or cursor to the left
+Right           'right arrow'      Move sprite or cursor to the right
+Confirm         'f'                Confirm an action or menu command
+Cancel          'd'                Cancel an action or menu command
+Menu            's'                Display the main menu
+Swap            'a'                Swap the character being displayed
+Left Select     'w'                Select multiple targets or page scroll up
+Right Select    'e'                Select multiple targets or page scroll down
+Pause           'spacebar'         Pause/unpause the game
+Quit            'ESC'              Quit the game
+
+
+There are also a series of meta-commands which serve various functions. These commands are not normally used during game play.
+
+
+Command Name    Default Key Map    General Purpose
+Fullscreen	'Ctrl+f'           Toggles between full-screen mode and windowed mode 	 
+Quit            'Ctrl+q'           Quit the game
+FPS Display 	'Ctrl+r'           Toggles display of the frames per second in the upper-right hand corner
+Screenshot 	'Ctrl+s'           Takes a screenshot and saves it to 'screenshot.jpg'	
+
+
+=== Quitting the Game ===
+
+The game may be quit at any time through three different methods:
+
+- Pressing Ctrl+Q
+- Clicking the close button on the game's window (only available if not running in full-screen mode)
+- Pressing the ESC key
+
+If a game is in progress (the player is not at the boot menu when the quit command is received), this will bring the player to a quit menu where they can select if they want to truly quit the game, return to the boot screen, or cancel the quit operation. Inputting a quit command a second time while in the quit menu will quit the game without further question.
+
+
+=== Boot Mode ===
+
+Boot mode is what the player first experiences when starting the game. It begins with a short animation of the game's logo, which the player may choose to skip by pressing any key on their keyboard. In boot mode the player may change a number of options that affect how the game is played, including changing the resolution of the game, toggling full-screen mode, changing the volume levels, re-mapping the input keys for their keyboard or gamepad, etc. To begin a new game, the player should use the arrow keys to select the "New Game" option and press the confirm key to begin.
+
+
+=== Map Mode ===
+
+Map mode is where large environments are drawn to the screen, which may be populated with several sprite characters. Most of the time, the player has control over a single sprite that represents their main character. The player may interact with other NPC sprites in map mode by facing that character and pressing the confirm key. Dialogue text can be fast-forwarded by pressing the confirm key while the text is gradually being rendered to the screen. The cancel key toggles run-walk mode for the player's character sprite. Random encounters may occur on a map while the player walks across the map. Currently, random encounters may be toggled off and on using the swap key (this feature will not be present in future releases). Menu mode may be entered from map mode by pressing the menu key when a dialogue between characters is not taking place.
+
+
+=== Menu Mode ===
+
+Menu mode is where the player can manage their characters, equipment, inventory, and perform other operations. Perhaps the most important function is to allow the player to restore the health of their characters. This can be done by selecting the "Inventory" option in menu mode, selecting the potion using the confirm key, and then selecting the character to use the potion on by pressing the confirm key once again.
+
+
+=== Battle Mode ===
+
+Battles are fought between two types of actors: characters on the left and enemies on the right. Battles are active-time based, which means that only one actor can initiate an action at any given time, but it is not strictly turn-based since actions may be selected by actors while another actor is carrying out an action. The player-controlled characters may select an action to carry out once their stamina (ST) rating is full. Both enemies and characters may be targetted in multiple locations (e.g. head, torso, etc.), called attack points. The battle is over when either all character actors have zero health points (HP) or all enemy actors have zero health points.
+
+
+=== Other Resources ===
+
+This manual contained only the most essential information that was needed to be known for a player to begin playing Hero of Allacrost. The following resources can help the player learn more about the game and how to receive help.
+
+
+- Hero of Allacrost Website       ---   http://www.allacrost.org/
+- Hero of Allacrost Wiki          ---   http://wiki.allacrost.org/
+- Hero of Allacrost Forums        ---   http://www.allacrost.org/forum/
+- Hero of Allacrost Bug Tracker   ---   http://bugs.allacrost.org/
