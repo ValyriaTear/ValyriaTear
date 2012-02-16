@@ -38,10 +38,10 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "audio.h"
-#include "video.h"
-#include "gui.h"
-#include "input.h"
+#include "engine/audio/audio.h"
+#include "engine/video/video.h"
+#include "common/gui/gui.h"
+#include "engine/input.h"
 #include "script.h"
 #include "system.h"
 
