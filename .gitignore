@@ -10,7 +10,7 @@ install_manifest.txt
 # files created during build
 *.o
 *.gmo
-po/translatable-files
+txt/translatable-files
 src/allacrost
 
 # files created during Windows build
