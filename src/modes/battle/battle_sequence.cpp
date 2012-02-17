@@ -13,15 +13,15 @@
 *** \brief   Source file for battle sequence manager.
 *** ***************************************************************************/
 
-#include "audio.h"
-#include "mode_manager.h"
-#include "system.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/mode_manager.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "battle.h"
-#include "battle_actors.h"
-#include "battle_sequence.h"
-#include "battle_utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_sequence.h"
+#include "modes/battle/battle_utils.h"
 
 using namespace std;
 

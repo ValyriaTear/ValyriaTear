@@ -24,9 +24,9 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "global_skills.h"
-#include "global_actors.h"
-#include "global_effects.h"
+#include "common/global/global_skills.h"
+#include "common/global/global_actors.h"
+#include "common/global/global_effects.h"
 
 #include "battle_utils.h"
 

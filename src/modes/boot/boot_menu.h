@@ -19,8 +19,8 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "video.h"
-#include "gui.h"
+#include "engine/video/video.h"
+#include "common/gui/gui.h"
 
 namespace hoa_boot {
 

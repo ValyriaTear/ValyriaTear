@@ -22,12 +22,12 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "video.h"
+#include "engine/video/video.h"
 
-#include "gui.h"
-#include "global.h"
+#include "common/gui/gui.h"
+#include "common/global/global.h"
 
-#include "battle_utils.h"
+#include "modes/battle/battle_utils.h"
 
 namespace hoa_battle {
 

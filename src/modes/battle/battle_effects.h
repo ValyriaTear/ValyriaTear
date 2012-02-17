@@ -22,10 +22,10 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "script.h"
-#include "system.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
 
-#include "global_effects.h"
+#include "common/global/global_effects.h"
 
 namespace hoa_battle {
 
@@ -147,7 +147,7 @@ private:
 
 	/** \brief Performs necessary operations in response to a change in intensity
 	*** \param reset_timer_only If true, this indicates that the intensity level remains unchanged and only the timer needs to be reset
-	*** 
+	***
 	*** This method should be called after every change in intensity is made.
 	**/
 	void _ProcessIntensityChange(bool reset_timer_only);
@@ -161,7 +161,7 @@ private:
 *** updated regularly by this class and are removed when their timers expire or their
 *** intensity status is nullified by an external call. This class performs all the
 *** calls to the Lua script functions (Apply/Update/Remove) for each status effect at
-*** the appropriate time. The class also contains a draw function which will display 
+*** the appropriate time. The class also contains a draw function which will display
 *** icons for all the active status effects of an actor to the screen.
 ***
 *** \todo The Draw function probably should be renamed to something more specific
@@ -209,7 +209,7 @@ public:
 	*** use a combination of GetActiveStatusEffects() and repeated calls to ChangeStatus() for each effect.
 	**/
 	void RemoveAllStatus();
-	
+
 	/** \brief Changes the intensity level of a status effect
 	*** \param status The status effect type to change
 	*** \param intensity The amount of intensity to increase or decrease the status effect by

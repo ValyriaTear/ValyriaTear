@@ -20,11 +20,11 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "audio.h"
-#include "input.h"
-#include "system.h"
-#include "video.h"
-#include "mode_manager.h"
+#include "engine/audio/audio.h"
+#include "engine/input.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
+#include "engine/mode_manager.h"
 
 #include "shop.h"
 #include "shop_leave.h"

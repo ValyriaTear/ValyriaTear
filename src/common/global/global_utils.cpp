@@ -16,7 +16,7 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "system.h"
+#include "engine/system.h"
 
 #include "global.h"
 #include "global_objects.h"
@@ -132,7 +132,7 @@ GlobalObject* GlobalCreateNewObject(uint32 id, uint32 count) {
 		delete new_object;
 		new_object = NULL;
 	}
-	
+
 	return new_object;
 }
 

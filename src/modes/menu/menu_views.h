@@ -27,10 +27,10 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "video.h"
-#include "gui.h"
+#include "engine/video/video.h"
+#include "common/gui/gui.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 
 

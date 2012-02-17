@@ -13,9 +13,9 @@
 *** \brief   Source file for the boot welcome window
 *** ***************************************************************************/
 
-#include "system.h"
+#include "engine/system.h"
 
-#include "boot_welcome.h"
+#include "modes/boot/boot_welcome.h"
 
 using namespace std;
 

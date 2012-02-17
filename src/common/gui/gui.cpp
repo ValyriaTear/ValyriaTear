@@ -7,9 +7,9 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "video.h"
+#include "engine/video/video.h"
 #include "gui.h"
-#include "input.h"
+#include "engine/input.h"
 
 using namespace std;
 using namespace hoa_utils;

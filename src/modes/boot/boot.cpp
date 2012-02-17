@@ -16,23 +16,23 @@
 #include <iostream>
 #include <sstream>
 
-#include "audio.h"
-#include "script.h"
-#include "input.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/script/script.h"
+#include "engine/input.h"
+#include "engine/system.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
-#include "boot.h"
-#include "boot_credits.h"
-#include "boot_welcome.h"
+#include "modes/boot/boot.h"
+#include "modes/boot/boot_credits.h"
+#include "modes/boot/boot_welcome.h"
 
-#include "map.h"
-#include "save_mode.h"
+#include "modes/map/map.h"
+#include "modes/save/save_mode.h"
 // Files below are included temporarily, used for boot mode to do a test launch of other modes
-#include "battle.h"
-#include "menu.h"
-#include "shop.h"
+#include "modes/battle/battle.h"
+#include "modes/menu/menu.h"
+#include "modes/shop/shop.h"
 
 using namespace std;
 using namespace hoa_utils;

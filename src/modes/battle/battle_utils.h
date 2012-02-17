@@ -22,10 +22,10 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "system.h"
+#include "engine/system.h"
 
-#include "global_objects.h"
-#include "global_utils.h"
+#include "common/global/global_objects.h"
+#include "common/global/global_utils.h"
 
 namespace hoa_battle {
 

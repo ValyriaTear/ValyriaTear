@@ -24,7 +24,7 @@
 #include "utils.h"
 
 #include "gui.h"
-#include "system.h"
+#include "engine/system.h"
 
 namespace hoa_gui {
 

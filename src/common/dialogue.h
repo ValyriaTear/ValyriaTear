@@ -21,10 +21,10 @@
 #include "utils.h"
 
 // Allacrost engines
-#include "video.h"
+#include "engine/video/video.h"
 
 // Local common headers
-#include "gui.h"
+#include "common/gui/gui.h"
 
 namespace hoa_common {
 

@@ -17,18 +17,18 @@
 #include "utils.h"
 
 // Allacrost engines
-#include "audio.h"
-#include "system.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
 // Allacrost globals
-#include "global.h"
+#include "common/global/global.h"
 
 // Local map mode headers
-#include "map.h"
-#include "map_dialogue.h"
-#include "map_objects.h"
-#include "map_sprites.h"
+#include "modes/map/map.h"
+#include "modes/map/map_dialogue.h"
+#include "modes/map/map_objects.h"
+#include "modes/map/map_sprites.h"
 
 using namespace std;
 using namespace hoa_utils;

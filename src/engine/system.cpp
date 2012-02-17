@@ -30,9 +30,9 @@
 // #include "gettext.h"
 #include <libintl.h>
 
-#include "system.h"
-#include "audio.h"
-#include "script.h"
+#include "engine/system.h"
+#include "engine/audio/audio.h"
+#include "engine/script/script.h"
 
 using namespace std;
 
@@ -274,23 +274,23 @@ bool SystemEngine::SingletonInitialize() {
 		// Look for translation files in LOCALEDIR only if they are not available in the
 		// current directory.
 		if (ifstream("dat/config/settings.lua") == NULL) {
-			bindtextdomain(PACKAGE, LOCALEDIR);
-			bind_textdomain_codeset(PACKAGE, "UTF-8");
-			textdomain(PACKAGE);
+			bindtextdomain(PKG_NAME, LOCALEDIR);
+			bind_textdomain_codeset(PKG_NAME, "UTF-8");
+			textdomain(PKG_NAME);
 		}
 		else {
 			char buffer[PATH_MAX];
 			// Get the current working directory.
 			string cwd(getcwd(buffer, PATH_MAX));
 			cwd.append("/txt/");
-			bindtextdomain(PACKAGE, cwd.c_str());
-			bind_textdomain_codeset(PACKAGE, "UTF-8");
-			textdomain(PACKAGE);
+			bindtextdomain(PKG_NAME, cwd.c_str());
+			bind_textdomain_codeset(PKG_NAME, "UTF-8");
+			textdomain(PKG_NAME);
 		}
 	#else
-		bindtextdomain(PACKAGE, LOCALEDIR);
-		bind_textdomain_codeset(PACKAGE, "UTF-8");
-		textdomain(PACKAGE);
+		bindtextdomain(PKG_NAME, LOCALEDIR);
+		bind_textdomain_codeset(PKG_NAME, "UTF-8");
+		textdomain(PKG_NAME);
 	#endif
 
 	// Called here to set the default English language to use nice quote characters.

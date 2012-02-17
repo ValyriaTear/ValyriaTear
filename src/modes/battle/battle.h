@@ -25,13 +25,13 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "audio.h"
-#include "mode_manager.h"
-#include "script.h"
-#include "system.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/mode_manager.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 #include "battle_utils.h"
 

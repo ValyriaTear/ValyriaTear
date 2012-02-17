@@ -16,22 +16,22 @@
 *** \brief   Source file for battle mode interface.
 *** ***************************************************************************/
 
-#include "audio.h"
-#include "input.h"
-#include "mode_manager.h"
-#include "script.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/input.h"
+#include "engine/mode_manager.h"
+#include "engine/script/script.h"
+#include "engine/video/video.h"
 
-#include "pause.h"
+#include "modes/pause.h"
 
-#include "battle.h"
-#include "battle_actors.h"
-#include "battle_actions.h"
-#include "battle_command.h"
-#include "battle_dialogue.h"
-#include "battle_finish.h"
-#include "battle_sequence.h"
-#include "battle_utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_actions.h"
+#include "modes/battle/battle_command.h"
+#include "modes/battle/battle_dialogue.h"
+#include "modes/battle/battle_finish.h"
+#include "modes/battle/battle_sequence.h"
+#include "modes/battle/battle_utils.h"
 
 using namespace std;
 

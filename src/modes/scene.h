@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "mode_manager.h"
+#include "engine/mode_manager.h"
 
 //! All calls to scene mode are wrapped in this namespace.
 namespace hoa_scene {
@@ -43,12 +43,12 @@ namespace private_scene {
 const uint32 MIN_SCENE_UPDATES = 750;
 
 } // namespace private_scene
- 
+
 /*!****************************************************************************
  * \brief Handles everything that needs to be done when full-screen artwork is displayed.
  *
  * This game mode displays a single full-screen art scene, which are used in
- * various places in the game. The scene can not be exited until the amount 
+ * various places in the game. The scene can not be exited until the amount
  * of milliseconds defined in MIN_SCENE_UPDATES has expired, to ensure that
  * the user does not accidentally skip the scene and can take the time to
  * appreciate the art.

@@ -17,11 +17,11 @@
 #include <iostream>
 #include <sstream>
 
-#include "audio.h"
-#include "input.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/input.h"
+#include "engine/system.h"
 
-#include "menu.h"
+#include "modes/menu/menu.h"
 
 using namespace std;
 using namespace hoa_menu::private_menu;

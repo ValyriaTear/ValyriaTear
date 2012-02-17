@@ -15,13 +15,13 @@ extern "C" {
 	#include <lualib.h>
 }
 
-#include "video.h"
-#include "script.h"
+#include "engine/video/video.h"
+#include "engine/script/script.h"
 
-#include "particle_manager.h"
-#include "particle_effect.h"
-#include "particle_system.h"
-#include "particle_keyframe.h"
+#include "engine/video/particle_manager.h"
+#include "engine/video/particle_effect.h"
+#include "engine/video/particle_system.h"
+#include "engine/video/particle_keyframe.h"
 
 using namespace std;
 using namespace hoa_script;

@@ -17,22 +17,22 @@
 #include "utils.h"
 
 // Allacrost engines
-#include "audio.h"
-#include "mode_manager.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/mode_manager.h"
+#include "engine/system.h"
 
 // Allacrost globals
-#include "global.h"
+#include "common/global/global.h"
 
 // Local map mode headers
-#include "map.h"
-#include "map_sprites.h"
-#include "map_objects.h"
-#include "map_dialogue.h"
-#include "map_events.h"
+#include "modes/map/map.h"
+#include "modes/map/map_sprites.h"
+#include "modes/map/map_objects.h"
+#include "modes/map/map_dialogue.h"
+#include "modes/map/map_events.h"
 
 // Other game mode headers
-#include "battle.h"
+#include "modes/battle/battle.h"
 
 using namespace std;
 using namespace hoa_utils;

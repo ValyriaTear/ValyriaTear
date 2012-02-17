@@ -19,9 +19,9 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "video.h"
-#include "gui.h"
-#include "mode_manager.h"
+#include "engine/video/video.h"
+#include "common/gui/gui.h"
+#include "engine/mode_manager.h"
 
 //! \brief All calls to pause mode are wrapped in this namespace.
 namespace hoa_pause {

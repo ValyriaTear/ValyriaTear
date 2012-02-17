@@ -22,8 +22,8 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "script.h"
-#include "video.h"
+#include "engine/script/script.h"
+#include "engine/video/video.h"
 
 #include "global_utils.h"
 

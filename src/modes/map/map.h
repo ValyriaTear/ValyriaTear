@@ -32,11 +32,11 @@
 #include "utils.h"
 
 // Allacrost engines
-#include "audio.h"
-#include "mode_manager.h"
-#include "script.h"
-#include "video.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/mode_manager.h"
+#include "engine/script/script.h"
+#include "engine/video/video.h"
+#include "engine/system.h"
 
 // Local map mode headers
 #include "map_utils.h"

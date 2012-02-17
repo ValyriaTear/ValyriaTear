@@ -23,9 +23,9 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "mode_manager.h"
+#include "engine/mode_manager.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 #include "shop_utils.h"
 

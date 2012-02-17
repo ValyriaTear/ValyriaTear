@@ -13,15 +13,15 @@
 *** \brief   Source file for battle indicator displays.
 *** ***************************************************************************/
 
-#include "system.h"
-#include "video.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "global_utils.h"
+#include "common/global/global_utils.h"
 
-#include "battle.h"
-#include "battle_actors.h"
-#include "battle_indicators.h"
-#include "battle_utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_indicators.h"
+#include "modes/battle/battle_utils.h"
 
 using namespace std;
 

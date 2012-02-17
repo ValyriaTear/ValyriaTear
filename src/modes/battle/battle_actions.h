@@ -24,10 +24,10 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "system.h"
-#include "video.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 namespace hoa_battle {
 

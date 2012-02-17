@@ -23,8 +23,8 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "video.h"
-#include "global.h"
+#include "engine/video/video.h"
+#include "common/global/global.h"
 
 #include "shop_utils.h"
 

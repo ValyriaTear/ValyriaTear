@@ -14,27 +14,27 @@
 *** ***************************************************************************/
 
 // Allacrost engines
-#include "audio.h"
-#include "script.h"
-#include "input.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/script/script.h"
+#include "engine/input.h"
+#include "engine/system.h"
 
 // Allacrost globals
-#include "global.h"
+#include "common/global/global.h"
 
 // Other mode headers
-#include "menu.h"
-#include "pause.h"
+#include "modes/menu/menu.h"
+#include "modes/pause.h"
 
 // Local map mode headers
-#include "map.h"
-#include "map_dialogue.h"
-#include "map_events.h"
-#include "map_objects.h"
-#include "map_sprites.h"
-#include "map_tiles.h"
-#include "map_treasure.h"
-#include "map_zones.h"
+#include "modes/map/map.h"
+#include "modes/map/map_dialogue.h"
+#include "modes/map/map_events.h"
+#include "modes/map/map_objects.h"
+#include "modes/map/map_sprites.h"
+#include "modes/map/map_tiles.h"
+#include "modes/map/map_treasure.h"
+#include "modes/map/map_zones.h"
 
 using namespace std;
 using namespace hoa_utils;

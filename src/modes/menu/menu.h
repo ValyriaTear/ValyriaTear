@@ -27,11 +27,11 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "video.h"
+#include "engine/video/video.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
-#include "mode_manager.h"
+#include "engine/mode_manager.h"
 #include "menu_views.h"
 
 //! \brief All calls to menu mode are wrapped in this namespace.

@@ -14,21 +14,21 @@
 *** ***************************************************************************/
 
 // Allacrost engines
-#include "audio.h"
-#include "mode_manager.h"
-#include "script.h"
-#include "system.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/mode_manager.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
 // Local map mode headers
-#include "map.h"
-#include "map_events.h"
-#include "map_objects.h"
-#include "map_sprites.h"
+#include "modes/map/map.h"
+#include "modes/map/map_events.h"
+#include "modes/map/map_objects.h"
+#include "modes/map/map_sprites.h"
 
 // Other mode headers
-#include "shop.h"
-#include "battle.h"
+#include "modes/shop/shop.h"
+#include "modes/battle/battle.h"
 
 using namespace std;
 

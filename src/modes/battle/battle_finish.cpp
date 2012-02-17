@@ -13,19 +13,19 @@
 *** \brief   Source file for battle finish menu
 *** ***************************************************************************/
 
-#include "audio.h"
-#include "mode_manager.h"
-#include "input.h"
-#include "system.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/mode_manager.h"
+#include "engine/input.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "battle.h"
-#include "battle_actions.h"
-#include "battle_actors.h"
-#include "battle_finish.h"
-#include "battle_utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actions.h"
+#include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_finish.h"
+#include "modes/battle/battle_utils.h"
 
-#include "boot.h"
+#include "modes/boot/boot.h"
 
 using namespace std;
 

@@ -42,14 +42,14 @@
 #include "engine/video/video.h"
 #include "common/gui/gui.h"
 #include "engine/input.h"
-#include "script.h"
-#include "system.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
-#include "mode_manager.h"
-#include "boot.h"
-#include "map.h"
+#include "engine/mode_manager.h"
+#include "modes/boot/boot.h"
+#include "modes/map/map.h"
 #include "main_options.h"
 
 
@@ -374,7 +374,7 @@ int main(int argc, char *argv[]) {
 		#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
 			// Look for data files in DATADIR only if they are not available in the current directory.
 			if (ifstream("dat/config/settings.lua") == NULL) {
-				if (chdir(DATADIR) != 0) {
+				if (chdir(PKG_DATADIR) != 0) {
 					throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
 				}
 			}

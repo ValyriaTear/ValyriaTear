@@ -16,9 +16,9 @@
 *** classes.
 *** ***************************************************************************/
 
-#include "video.h"
+#include "engine/video/video.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 #include "shop_utils.h"
 #include "shop.h"

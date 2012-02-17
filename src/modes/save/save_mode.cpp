@@ -16,14 +16,14 @@
 #include <iostream>
 #include <sstream>
 
-#include "audio.h"
-#include "video.h"
-#include "script.h"
-#include "input.h"
-#include "system.h"
-#include "boot.h"
-#include "map.h"
-#include "mode_manager.h"
+#include "engine/audio/audio.h"
+#include "engine/video/video.h"
+#include "engine/script/script.h"
+#include "engine/input.h"
+#include "engine/system.h"
+#include "modes/boot/boot.h"
+#include "modes/map/map.h"
+#include "engine/mode_manager.h"
 
 #include "save_mode.h"
 

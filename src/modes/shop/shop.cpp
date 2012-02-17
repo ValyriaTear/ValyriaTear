@@ -22,15 +22,15 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "audio.h"
-#include "video.h"
-#include "input.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/video/video.h"
+#include "engine/input.h"
+#include "engine/system.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
-#include "mode_manager.h"
-#include "pause.h"
+#include "engine/mode_manager.h"
+#include "modes/pause.h"
 
 #include "shop.h"
 #include "shop_root.h"

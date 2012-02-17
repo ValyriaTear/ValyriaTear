@@ -14,13 +14,13 @@
 *** ***************************************************************************/
 
 // Allacrost engines
-#include "input.h"
-#include "video.h"
+#include "engine/input.h"
+#include "engine/video/video.h"
 
 // Allacrost common
-#include "dialogue.h"
-#include "global.h"
-#include "gui.h"
+#include "common/dialogue.h"
+#include "common/global/global.h"
+#include "common/gui/gui.h"
 
 // Local battle mode headers
 #include "battle.h"

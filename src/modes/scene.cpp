@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,10 +15,10 @@
 
 #include <iostream>
 
-#include "audio.h"
-#include "video.h"
-#include "input.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/video/video.h"
+#include "engine/input.h"
+#include "engine/system.h"
 
 #include "scene.h"
 
@@ -37,7 +37,7 @@ bool SCENE_DEBUG = false;
 SceneMode::SceneMode() {
 	if (SCENE_DEBUG) cout << "SCENE: SceneMode constructor invoked" << endl;
 	mode_type = MODE_MANAGER_SCENE_MODE;
-	
+
 
 	// setup the scene Image Descriptor
 

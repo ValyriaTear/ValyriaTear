@@ -21,12 +21,12 @@
 #include "defs.h"
 
 // Allacrost engines
-#include "script.h"
-#include "video.h"
+#include "engine/script/script.h"
+#include "engine/video/video.h"
 
 // Allacrost common
-#include "dialogue.h"
-#include "gui.h"
+#include "common/dialogue.h"
+#include "common/gui/gui.h"
 
 // Local map mode headers
 #include "map_utils.h"

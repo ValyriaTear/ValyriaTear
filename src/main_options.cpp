@@ -16,14 +16,14 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "audio.h"
-#include "video.h"
-#include "script.h"
-#include "input.h"
-#include "system.h"
-#include "mode_manager.h"
+#include "engine/audio/audio.h"
+#include "engine/video/video.h"
+#include "engine/script/script.h"
+#include "engine/input.h"
+#include "engine/system.h"
+#include "engine/mode_manager.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 #include "main_options.h"
 

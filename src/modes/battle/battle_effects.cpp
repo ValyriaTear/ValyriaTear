@@ -13,16 +13,16 @@
 *** \brief   Source file for battle actor effects.
 *** ***************************************************************************/
 
-#include "script.h"
-#include "system.h"
-#include "video.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
-#include "battle.h"
-#include "battle_actors.h"
-#include "battle_effects.h"
-#include "battle_utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_effects.h"
+#include "modes/battle/battle_utils.h"
 
 using namespace std;
 

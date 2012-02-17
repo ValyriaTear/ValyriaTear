@@ -13,9 +13,9 @@
 *** \brief  Source file for processing user input
 *** **************************************************************************/
 
-#include "input.h"
-#include "video.h"
-#include "script.h"
+#include "engine/input.h"
+#include "engine/video/video.h"
+#include "engine/script/script.h"
 
 #include "mode_manager.h"
 #include "system.h"
@@ -204,7 +204,7 @@ bool InputEngine::AnyKeyRelease() {
 // Handles all of the event processing for the game.
 void InputEngine::EventHandler() {
 	SDL_Event event; // Holds the game event
-	
+
 	// Reset all of the press and release flags so that they don't get detected twice.
 	_any_key_press   = false;
 	_any_key_release = false;

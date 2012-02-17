@@ -27,11 +27,11 @@
 #include "utils.h"
 
 // Allacrost engines
-#include "script.h"
+#include "engine/script/script.h"
 
 // Local map mode headers
-#include "map_utils.h"
-#include "map_sprites.h"
+#include "modes/map/map_utils.h"
+#include "modes/map/map_sprites.h"
 
 namespace hoa_map {
 

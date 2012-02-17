@@ -21,9 +21,9 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "screen_rect.h"
-#include "image.h"
-#include "text.h"
+#include "engine/video/screen_rect.h"
+#include "engine/video/image.h"
+#include "engine/video/text.h"
 
 namespace hoa_gui {
 
@@ -304,7 +304,7 @@ public:
 	// Don't commit this.
 	std::vector<hoa_video::StillImage>* GetScrollArrows()
 		{ return &_scroll_arrows; }
-	
+
 	/** \brief Debug functioning for enabling/disabling the drawing of GUI element boundaries
 	*** \param enable Set to true to enable outlines, false to disable
 	**/

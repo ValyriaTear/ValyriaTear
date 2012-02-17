@@ -17,12 +17,12 @@
 #include "utils.h"
 
 // Allacrost engines
-#include "video.h"
+#include "engine/video/video.h"
 
 // Local common headers
 #include "common.h"
 #include "dialogue.h"
-#include "gui.h"
+#include "common/gui/gui.h"
 
 using namespace std;
 

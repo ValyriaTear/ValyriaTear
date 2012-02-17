@@ -18,12 +18,12 @@
 #include <iostream>
 #include <sstream>
 
-#include "script.h"
+#include "engine/script/script.h"
 
-#include "battle.h"
-#include "battle_actions.h"
-#include "battle_actors.h"
-#include "battle_utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actions.h"
+#include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_utils.h"
 
 using namespace std;
 

@@ -28,12 +28,12 @@
 #include "common.h"
 #include "dialogue.h"
 
-#include "global.h"
-#include "global_actors.h"
-#include "global_effects.h"
-#include "global_objects.h"
-#include "global_skills.h"
-#include "global_utils.h"
+#include "common/global/global.h"
+#include "common/global/global_actors.h"
+#include "common/global/global_effects.h"
+#include "common/global/global_objects.h"
+#include "common/global/global_skills.h"
+#include "common/global/global_utils.h"
 
 using namespace luabind;
 

@@ -13,16 +13,16 @@
 *** \brief   Source file for battle menu windows
 *** ***************************************************************************/
 
-#include "audio.h"
-#include "input.h"
-#include "system.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/input.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "battle.h"
-#include "battle_actions.h"
-#include "battle_actors.h"
-#include "battle_command.h"
-#include "battle_utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actions.h"
+#include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_command.h"
+#include "modes/battle/battle_utils.h"
 
 using namespace std;
 

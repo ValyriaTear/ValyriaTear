@@ -20,8 +20,8 @@
 #include "utils.h"
 
 #include "gui.h"
-#include "screen_rect.h"
-#include "image.h"
+#include "engine/video/screen_rect.h"
+#include "engine/video/image.h"
 
 namespace hoa_gui {
 

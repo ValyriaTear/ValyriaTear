@@ -13,8 +13,8 @@
 *** \brief   Source file for global game skills.
 *** ***************************************************************************/
 
-#include "script.h"
-#include "video.h"
+#include "engine/script/script.h"
+#include "engine/video/video.h"
 
 #include "global_skills.h"
 #include "global.h"

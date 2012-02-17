@@ -2,16 +2,16 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "video.h"
-#include "script.h"
+#include "engine/video/video.h"
+#include "engine/script/script.h"
 
-#include "particle_effect.h"
-#include "particle_system.h"
+#include "engine/video/particle_effect.h"
+#include "engine/video/particle_system.h"
 
 using namespace std;
 using namespace hoa_script;
@@ -48,27 +48,27 @@ bool ParticleEffect::_Draw()
 	VideoManager->Move(_x, _y);
 
 	list<ParticleSystem *>::iterator iSystem = _systems.begin();
-	
+
 	while(iSystem != _systems.end())
 	{
 		VideoManager->PushMatrix();
 		if(!(*iSystem)->Draw())
 		{
 			VideoManager->PopMatrix();
-			success = false;			
+			success = false;
 			if(VIDEO_DEBUG)
 				cerr << "VIDEO ERROR: failed to draw system in ParticleEffect::_Update()" << endl;
-		}		
-		
+		}
+
 		VideoManager->PopMatrix();
 		++iSystem;
 	}
-	
+
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_ALPHA_TEST);
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
-	
+
 	return success;
 }
 
@@ -81,22 +81,22 @@ bool ParticleEffect::_Update(float frame_time)
 {
 	_age += frame_time;
 	_num_particles = 0;
-	
+
 	if(!_alive)
 		return true;
-	
+
 	bool success = true;
 
 	private_video::EffectParameters effect_parameters;
 	effect_parameters.orientation = _orientation;
-	
+
 	// note we subtract the effect position to put the attractor point in effect
 	// space instead of screen space
 	effect_parameters.attractor_x = _attractor_x - _x;
 	effect_parameters.attractor_y = _attractor_y - _y;
 
-	list<ParticleSystem *>::iterator iSystem = _systems.begin();	
-	
+	list<ParticleSystem *>::iterator iSystem = _systems.begin();
+
 	while(iSystem != _systems.end())
 	{
 		if(!(*iSystem)->IsAlive())
@@ -107,16 +107,16 @@ bool ParticleEffect::_Update(float frame_time)
 			if(_systems.empty())
 				_alive = false;
 		}
-		else 
+		else
 		{
 			if(!(*iSystem)->Update(frame_time, effect_parameters))
 			{
 				success = false;
 				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: failed to update system in ParticleEffect::_Update()" << endl;				
+					cerr << "VIDEO ERROR: failed to update system in ParticleEffect::_Update()" << endl;
 			}
-			
-			_num_particles += (*iSystem)->GetNumParticles();			
+
+			_num_particles += (*iSystem)->GetNumParticles();
 			++iSystem;
 		}
 	}
@@ -133,7 +133,7 @@ bool ParticleEffect::_Update(float frame_time)
 void ParticleEffect::_Destroy()
 {
 	list<ParticleSystem *>::iterator iSystem = _systems.begin();
-	
+
 	while(iSystem != _systems.end())
 	{
 		(*iSystem)->Destroy();
@@ -218,14 +218,14 @@ void ParticleEffect::Stop(bool kill_immediate)
 	{
 		// if we're not killing immediately, then calling Stop() just means to stop emitting NEW
 		// particles, so go through each system and turn off its emitter
-		
+
 		list<ParticleSystem *>::iterator iSystem = _systems.begin();
-		
+
 		while(iSystem != _systems.end())
 		{
 			(*iSystem)->Stop();
 			++iSystem;
-		}		
+		}
 	}
 }
 
@@ -236,7 +236,7 @@ void ParticleEffect::Stop(bool kill_immediate)
 
 int32 ParticleEffect::GetNumParticles() const
 {
-	return _num_particles;	
+	return _num_particles;
 }
 
 

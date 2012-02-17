@@ -21,11 +21,11 @@
 #include "defs.h"
 
 // Allacrost engines
-#include "video.h"
+#include "engine/video/video.h"
 
 // Local map mode headers
-#include "map_utils.h"
-#include "map_treasure.h"
+#include "modes/map/map_utils.h"
+#include "modes/map/map_treasure.h"
 
 namespace hoa_map {
 

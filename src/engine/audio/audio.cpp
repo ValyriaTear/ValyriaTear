@@ -20,8 +20,8 @@
 *** ***************************************************************************/
 #include <iostream>
 
-#include "audio.h"
-#include "system.h"
+#include "engine/audio/audio.h"
+#include "engine/system.h"
 
 using namespace std;
 using namespace hoa_utils;

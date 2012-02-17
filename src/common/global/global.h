@@ -25,7 +25,7 @@
 
 #include "defs.h"
 #include "utils.h"
-#include "script.h"
+#include "engine/script/script.h"
 
 #include "global_actors.h"
 #include "global_effects.h"

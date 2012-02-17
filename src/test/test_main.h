@@ -16,6 +16,8 @@
 #ifndef __TEST_MAIN_HEADER__
 #define __TEST_MAIN_HEADER__
 
+#include <string>
+
 /** \brief Namespace containing code used only for testing purposes
 *** \note Normally no other code should need to use this namespace.
 **/

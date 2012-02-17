@@ -24,10 +24,10 @@
 
 #include <algorithm>
 
-#include <luabind/lua_include.hpp>
+#include "luabind/lua_include.hpp"
 
-#include <luabind/config.hpp>
-#include <luabind/weak_ref.hpp>
+#include "luabind/config.hpp"
+#include "luabind/luabind/weak_ref.hpp"
 #include <cassert>
 
 namespace luabind {
@@ -96,7 +96,7 @@ namespace luabind
         : m_impl(0)
     {
     }
-    
+
     weak_ref::weak_ref(lua_State* L, int index)
         : m_impl(new impl(L, index))
     {
@@ -152,6 +152,6 @@ namespace luabind
         assert(m_impl);
         return m_impl->state;
     }
-    
+
 } // namespace luabind
 

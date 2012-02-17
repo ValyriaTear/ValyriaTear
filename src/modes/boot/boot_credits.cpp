@@ -13,11 +13,11 @@
 *** \brief   Source file for the boot credits window
 *** ***************************************************************************/
 
-#include "script.h"
-#include "system.h"
-#include "video.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "boot_credits.h"
+#include "modes/boot/boot_credits.h"
 
 using namespace std;
 

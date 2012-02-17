@@ -21,8 +21,8 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "video.h"
-#include "mode_manager.h"
+#include "engine/video/video.h"
+#include "engine/mode_manager.h"
 
 //! \brief All calls to save mode are wrapped in this namespace.
 namespace hoa_save {

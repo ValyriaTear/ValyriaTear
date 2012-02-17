@@ -24,8 +24,8 @@
 #include "utils.h"
 #include "defs.h"
 
-#include "gui.h"
-#include "global.h"
+#include "common/gui/gui.h"
+#include "common/global/global.h"
 
 #include "battle_utils.h"
 

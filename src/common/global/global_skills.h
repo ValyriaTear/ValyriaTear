@@ -23,7 +23,7 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "script.h"
+#include "engine/script/script.h"
 
 #include "global_utils.h"
 

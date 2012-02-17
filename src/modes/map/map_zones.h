@@ -21,7 +21,7 @@
 #include "defs.h"
 
 // Allacrost engine
-#include "system.h"
+#include "engine/system.h"
 
 namespace hoa_map {
 

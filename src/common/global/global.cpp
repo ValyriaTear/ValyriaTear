@@ -13,7 +13,7 @@
 *** \brief   Source file for the global game manager
 *** ***************************************************************************/
 
-#include "system.h"
+#include "engine/system.h"
 #include "global.h"
 
 using namespace std;

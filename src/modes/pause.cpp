@@ -13,12 +13,12 @@
 *** \brief   Source file for pause mode interface.
 *** ***************************************************************************/
 
-#include "audio.h"
-#include "video.h"
-#include "input.h"
-#include "system.h"
-#include "boot.h"
-#include "pause.h"
+#include "engine/audio/audio.h"
+#include "engine/video/video.h"
+#include "engine/input.h"
+#include "engine/system.h"
+#include "modes/boot/boot.h"
+#include "modes/pause.h"
 
 using namespace std;
 using namespace hoa_utils;

@@ -17,14 +17,14 @@
 #include <iostream>
 #include <sstream>
 
-#include "system.h"
-#include "input.h"
-#include "audio.h"
-#include "pause.h"
+#include "engine/system.h"
+#include "engine/input.h"
+#include "engine/audio/audio.h"
+#include "modes/pause.h"
 
-#include "save_mode.h" // TODO: remove this
+#include "modes/save/save_mode.h" // TODO: remove this
 
-#include "mode_manager.h"
+#include "engine/mode_manager.h"
 #include "menu.h"
 
 

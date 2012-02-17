@@ -14,13 +14,13 @@
 *** ***************************************************************************/
 
 // Allacrost engines
-#include "system.h"
+#include "engine/system.h"
 
 // Local map mode headers
-#include "map.h"
-#include "map_objects.h"
-#include "map_sprites.h"
-#include "map_zones.h"
+#include "modes/map/map.h"
+#include "modes/map/map_objects.h"
+#include "modes/map/map_sprites.h"
+#include "modes/map/map_zones.h"
 
 using namespace std;
 using namespace hoa_utils;

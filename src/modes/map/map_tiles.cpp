@@ -14,12 +14,12 @@
 *** ***************************************************************************/
 
 // Allacrost engines
-#include "script.h"
-#include "video.h"
+#include "engine/script/script.h"
+#include "engine/video/video.h"
 
 // Local map mode headers
-#include "map.h"
-#include "map_tiles.h"
+#include "modes/map/map.h"
+#include "modes/map/map_tiles.h"
 
 using namespace std;
 using namespace hoa_utils;

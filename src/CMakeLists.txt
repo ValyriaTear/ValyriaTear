@@ -28,6 +28,7 @@ ENDIF()
 SET(FLAGS "-DPACKAGE_VERSION=\\\"${VERSION}\\\"")
 SET(FLAGS "${FLAGS} -DPKG_DATADIR=\\\"${PKG_DATADIR}/\\\"")
 SET(FLAGS "${FLAGS} -DLOCALEDIR=\\\"${LOCALEDIR}/\\\"")
+SET(FLAGS "${FLAGS} -DPKG_NAME=\\\"${PKG_NAME}/\\\"")
 
 IF (CMAKE_BUILD_TYPE)
     STRING(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_TOLOWER)
@@ -87,37 +88,12 @@ MARK_AS_ADVANCED(SDLMAIN_LIBRARY)
 MARK_AS_ADVANCED(SDL_INCLUDE_DIR)
 MARK_AS_ADVANCED(SDL_LIBRARY)
 
-SET(SRCS
-utils.cpp
-defs.h
-main.cpp
-common/global/global_objects.h
-common/global/global_actors.cpp
-common/global/global.cpp
-common/global/global_effects.cpp
-common/global/global_actors.h
-common/global/global_utils.cpp
-common/global/global.h
-common/global/global_objects.cpp
-common/global/global_skills.h
-common/global/global_skills.cpp
-common/global/global_effects.h
-common/global/global_utils.h
-common/common.cpp
-common/dialogue.cpp
-common/gui/option.h
-common/gui/menu_window.cpp
-common/gui/menu_window.h
-common/gui/gui.h
-common/gui/textbox.cpp
-common/gui/textbox.h
-common/gui/option.cpp
-common/gui/gui.cpp
-common/dialogue.h
-common/common.h
-common/common_bindings.cpp
+SET(SRCS_TESTS
 test/test_main.cpp
 test/test_main.h
+)
+
+SET(SRCS_EDITOR
 editor/dialog_boxes.cpp
 editor/editor.cpp
 editor/editor_main.cpp
@@ -133,23 +109,9 @@ editor/tileset.h
 editor/tileset_editor.h
 editor/tileset_editor.cpp
 editor/sprites.cpp
-luabind/src/class_registry.cpp
-luabind/src/class_rep.cpp
-luabind/src/object_rep.cpp
-luabind/src/pcall.cpp
-luabind/src/scope.cpp
-luabind/src/stack_content_by_name.cpp
-luabind/src/inheritance.cpp
-luabind/src/class.cpp
-luabind/src/error.cpp
-luabind/src/weak_ref.cpp
-luabind/src/class_info.cpp
-luabind/src/create_class.cpp
-luabind/src/function.cpp
-luabind/src/link_compatibility.cpp
-luabind/src/exception_handler.cpp
-luabind/src/wrapper_base.cpp
-luabind/src/open.cpp
+)
+
+SET(SRCS_LUABIND_TESTS
 luabind/examples/hello_world/hello_world.cpp
 luabind/examples/cln/cln_test.cpp
 luabind/examples/any_converter/any_converter.cpp
@@ -208,6 +170,54 @@ luabind/test/test_class_info.cpp
 luabind/test/test.hpp
 luabind/test/test_extend_class_in_lua.cpp
 luabind/test/test_unsigned_int.cpp
+)
+
+SET(SRCS
+utils.cpp
+defs.h
+main.cpp
+common/global/global_objects.h
+common/global/global_actors.cpp
+common/global/global.cpp
+common/global/global_effects.cpp
+common/global/global_actors.h
+common/global/global_utils.cpp
+common/global/global.h
+common/global/global_objects.cpp
+common/global/global_skills.h
+common/global/global_skills.cpp
+common/global/global_effects.h
+common/global/global_utils.h
+common/common.cpp
+common/dialogue.cpp
+common/gui/option.h
+common/gui/menu_window.cpp
+common/gui/menu_window.h
+common/gui/gui.h
+common/gui/textbox.cpp
+common/gui/textbox.h
+common/gui/option.cpp
+common/gui/gui.cpp
+common/dialogue.h
+common/common.h
+common/common_bindings.cpp
+luabind/src/class_registry.cpp
+luabind/src/class_rep.cpp
+luabind/src/object_rep.cpp
+luabind/src/pcall.cpp
+luabind/src/scope.cpp
+luabind/src/stack_content_by_name.cpp
+luabind/src/inheritance.cpp
+luabind/src/class.cpp
+luabind/src/error.cpp
+luabind/src/weak_ref.cpp
+luabind/src/class_info.cpp
+luabind/src/create_class.cpp
+luabind/src/function.cpp
+luabind/src/link_compatibility.cpp
+luabind/src/exception_handler.cpp
+luabind/src/wrapper_base.cpp
+luabind/src/open.cpp
 luabind/luabind/prefix.hpp
 luabind/luabind/operator.hpp
 luabind/luabind/back_reference_fwd.hpp
@@ -440,7 +450,7 @@ TARGET_LINK_LIBRARIES(allacrost
     ${SDL_LIBRARY}
     ${SDLTTF_LIBRARY}
     ${OPENGL_LIBRARIES}
-    ${OPENAL_LIBRARIES}
+    ${OPENAL_LIBRARY}
     ${VORBISFILE_LIBRARIES}
     ${PNG_LIBRARIES}
     ${JPEG_LIBRARIES}

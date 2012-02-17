@@ -19,8 +19,8 @@
 #include <math.h>
 #include <vector>
 
-#include "video.h"
-#include "script.h"
+#include "engine/video/video.h"
+#include "engine/script/script.h"
 
 using namespace std;
 
@@ -232,7 +232,7 @@ bool VideoEngine::SingletonInitialize() {
 		return false;
 	}
 
-	
+
 
 	return true;
 } // bool VideoEngine::SingletonInitialize()
@@ -413,7 +413,7 @@ void VideoEngine::Display(uint32 frame_time) {
 		TextureManager->DEBUG_ShowTexSheet();
 
 	DrawFPS(frame_time); // Draw FPS Counter If We Need To
-		
+
 	PopState();
 
 	SDL_GL_SwapBuffers();
@@ -522,7 +522,7 @@ bool VideoEngine::ApplySettings() {
 
 		return true;
 	}
-	
+
 	InitExtensions();
 
 	return false;
@@ -725,14 +725,14 @@ void VideoEngine::EnableSceneLighting(const Color& color) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "color argument had alpha not equal to 1.0f" << endl;
 		_light_color[3] = 1.0f;
 	}
-	
+
 	_light_overlay = TextureManager->_CreateBlankGLTexture(1024, 1024);
 	eglGenFramebuffers(1, &_light_overlay_fbo);
 	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, _light_overlay_fbo);
 	eglFramebufferTexture2D(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, _light_overlay, 0);
 	glViewport(0, 0, 1024, 1024);
 	glClearColor(_light_color.GetRed(),
-	             _light_color.GetGreen(), 
+	             _light_color.GetGreen(),
 				 _light_color.GetBlue(), 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, _screen_width, _screen_height);
@@ -745,7 +745,7 @@ void VideoEngine::DisableSceneLighting() {
 	if (!extension_FBO)
 		return;
 	_light_color = Color::white;
-	
+
 	if (_light_overlay != INVALID_TEXTURE_ID) {
 		TextureManager->_DeleteTexture(_light_overlay);
 	}
@@ -761,7 +761,7 @@ void VideoEngine::DisableSceneLighting() {
 void VideoEngine::ApplyLightingOverlay() {
 	if (!extension_FBO)
 		return;
-	
+
 	if (_light_overlay == INVALID_TEXTURE_ID) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "light overlay texture was invalid" << endl;
 		return;
@@ -799,11 +799,11 @@ void VideoEngine::ApplyLightingOverlay() {
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-	
+
 	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, _light_overlay_fbo);
 	glViewport(0, 0, 1024, 1024);
 	glClearColor(_light_color.GetRed(),
-	             _light_color.GetGreen(), 
+	             _light_color.GetGreen(),
 				 _light_color.GetBlue(), 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, _light_overlay_fbo);
@@ -1267,7 +1267,7 @@ void VideoEngine::DrawLight(float radius, float x, float y, const Color &color) 
 
 	PushMatrix();
 	Move(x, y);
-	
+
 	glEnable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -1294,11 +1294,11 @@ void VideoEngine::DrawLight(float radius, float x, float y, const Color &color) 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glColorPointer(4, GL_FLOAT, 0, colours);
-	
+
 	glDrawArrays(GL_TRIANGLE_FAN, 0, NUM_SIDES+1);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	
+
 	PopMatrix();
 
 	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);

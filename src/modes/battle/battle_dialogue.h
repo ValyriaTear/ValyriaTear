@@ -38,10 +38,10 @@
 #include "utils.h"
 
 // Allacrost engines
-#include "video.h"
+#include "engine/video/video.h"
 
 // Common code headers
-#include "dialogue.h"
+#include "common/dialogue.h"
 
 
 namespace hoa_battle {

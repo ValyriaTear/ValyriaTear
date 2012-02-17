@@ -13,8 +13,8 @@
 *** \brief   Source file for global game effects
 *** ***************************************************************************/
 
-#include "script.h"
-#include "system.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
 
 #include "global_effects.h"
 #include "global.h"

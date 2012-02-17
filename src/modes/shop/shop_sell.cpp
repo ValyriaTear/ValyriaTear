@@ -20,12 +20,12 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "audio.h"
-#include "input.h"
-#include "system.h"
-#include "video.h"
+#include "engine/audio/audio.h"
+#include "engine/input.h"
+#include "engine/system.h"
+#include "engine/video/video.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 #include "shop.h"
 #include "shop_sell.h"

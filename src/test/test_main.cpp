@@ -15,7 +15,10 @@
 
 #include "test_main.h"
 
+#include <iostream>
+
 using namespace hoa_test;
+using namespace std;
 
 bool ExecuteTests(string tests) {
 	cout << "This option is not yet implemented." << endl;

@@ -13,7 +13,7 @@
 *** \brief   Source file for global game actors
 *** ***************************************************************************/
 
-#include "video.h"
+#include "engine/video/video.h"
 #include "global_actors.h"
 #include "global_objects.h"
 #include "global_effects.h"
