@@ -24,9 +24,9 @@ namespace hoa_editor {
 
 MapPropertiesDialog::MapPropertiesDialog
 	(QWidget* parent, const QString& name, bool prop)
-	: QDialog(parent, (const char*)name)
+	: QDialog(parent)
 {
-	setCaption("Map Properties...");
+	setWindowTitle("Map Properties...");
 
 	// Set up the height spinbox
 	_height_label = new QLabel("Height (in tiles):", this);
@@ -147,9 +147,9 @@ void MapPropertiesDialog::_EnableOKButton()
 ///////////////////////////////////////////////////////////////////////////////
 
 MusicDialog::MusicDialog(QWidget* parent, const QString& name)
-	: QDialog(parent, name)
+	: QDialog(parent)
 {
-	setCaption("Map Music Picker");
+	setWindowTitle("Map Music Picker");
 	_dia_layout = new QGridLayout(this);
 
 
@@ -254,9 +254,9 @@ void MusicDialog::_RemoveMusic()
 
 ContextPropertiesDialog::ContextPropertiesDialog
 	(QWidget* parent, const QString& name)
-	: QDialog(parent, (const char*) name)
+	: QDialog(parent)
 {
-	setCaption("Context Properties...");
+	setWindowTitle("Context Properties...");
 	_name_label = new QLabel("Context name", this);
 	_name_ledit = new QLineEdit(this);
 	connect(_name_ledit, SIGNAL(textEdited(const QString&)), this,

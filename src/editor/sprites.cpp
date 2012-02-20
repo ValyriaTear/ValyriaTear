@@ -15,8 +15,8 @@
 
 #include "utils.h"
 
-#include "system.h"
-#include "global.h"
+#include "engine/system.h"
+#include "common/global/global.h"
 #include "sprites.h"
 
 using namespace std;

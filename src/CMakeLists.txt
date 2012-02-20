@@ -154,35 +154,7 @@ luabind/test/test_extend_class_in_lua.cpp
 luabind/test/test_unsigned_int.cpp
 )
 
-SET(SRCS
-utils.cpp
-defs.h
-main.cpp
-common/global/global_objects.h
-common/global/global_actors.cpp
-common/global/global.cpp
-common/global/global_effects.cpp
-common/global/global_actors.h
-common/global/global_utils.cpp
-common/global/global.h
-common/global/global_objects.cpp
-common/global/global_skills.h
-common/global/global_skills.cpp
-common/global/global_effects.h
-common/global/global_utils.h
-common/common.cpp
-common/dialogue.cpp
-common/gui/option.h
-common/gui/menu_window.cpp
-common/gui/menu_window.h
-common/gui/gui.h
-common/gui/textbox.cpp
-common/gui/textbox.h
-common/gui/option.cpp
-common/gui/gui.cpp
-common/dialogue.h
-common/common.h
-common/common_bindings.cpp
+SET(SRCS_LUABIND
 luabind/src/class_registry.cpp
 luabind/src/class_rep.cpp
 luabind/src/object_rep.cpp
@@ -281,6 +253,77 @@ luabind/luabind/detail/call_operator_iterate.hpp
 luabind/luabind/yield_policy.hpp
 luabind/luabind/error.hpp
 luabind/luabind/wrapper_base.hpp
+)
+
+# Files used by both the game and the editor
+SET(SRCS_COMMON
+common/global/global.cpp
+common/global/global.h
+common/global/global_actors.cpp
+common/global/global_actors.h
+common/global/global_effects.cpp
+common/global/global_effects.h
+common/global/global_objects.cpp
+common/global/global_objects.h
+common/global/global_skills.cpp
+common/global/global_skills.h
+common/global/global_utils.cpp
+common/global/global_utils.h
+common/common_bindings.cpp
+engine/mode_manager.h
+engine/mode_manager.cpp
+engine/system.cpp
+engine/system.h
+engine/video/video.h
+engine/video/video.cpp
+engine/video/texture_controller.h
+engine/video/texture_controller.cpp
+engine/video/texture.cpp
+engine/video/texture.h
+engine/video/image.cpp
+engine/video/image.h
+engine/video/image_base.cpp
+engine/video/image_base.h
+engine/video/interpolator.cpp
+engine/video/interpolator.h
+engine/video/fade.h
+engine/video/fade.cpp
+engine/video/text.cpp
+engine/video/text.h
+engine/video/shake.cpp
+engine/video/shake.h
+engine/video/particle_manager.h
+engine/video/particle_manager.cpp
+engine/video/particle_effect.h
+engine/video/particle_effect.cpp
+engine/video/particle_system.h
+engine/video/particle_system.cpp
+engine/script/script.h
+engine/script/script.cpp
+engine/script/script_read.h
+engine/script/script_read.cpp
+engine/script/script_write.h
+engine/script/script_write.cpp
+utils.h
+utils.cpp
+defs.h
+)
+
+SET(SRCS
+main.cpp
+common/common.cpp
+common/dialogue.cpp
+common/gui/option.h
+common/gui/menu_window.cpp
+common/gui/menu_window.h
+common/gui/gui.h
+common/gui/textbox.cpp
+common/gui/textbox.h
+common/gui/option.cpp
+common/gui/gui.cpp
+common/dialogue.h
+common/common.h
+common/common_bindings.cpp
 main_options.h
 modes/pause.cpp
 modes/shop/shop_root.h
@@ -355,20 +398,10 @@ modes/menu/menu.cpp
 modes/menu/menu_views.cpp
 modes/menu/menu_views.h
 modes/pause.h
-engine/system.cpp
-engine/script/script_write.cpp
-engine/script/script.h
-engine/script/script.cpp
 engine/script/script_modify.h
-engine/script/script_write.h
-engine/script/script_read.cpp
-engine/script/script_read.h
 engine/script/script_modify.cpp
-engine/mode_manager.h
-engine/system.h
 engine/input.h
 engine/input.cpp
-engine/mode_manager.cpp
 engine/audio/audio_stream.cpp
 engine/audio/audio_descriptor.h
 engine/audio/audio.h
@@ -381,34 +414,10 @@ engine/audio/audio_input.h
 engine/audio/audio_effects.cpp
 engine/engine_bindings.cpp
 engine/video/screen_rect.h
-engine/video/particle_system.cpp
-engine/video/texture_controller.h
 engine/video/color.h
-engine/video/image_base.h
-engine/video/particle_system.h
-engine/video/particle_manager.cpp
-engine/video/fade.cpp
-engine/video/texture.h
-engine/video/text.cpp
-engine/video/interpolator.cpp
-engine/video/particle_manager.h
 engine/video/particle_emitter.h
 engine/video/particle_keyframe.h
-engine/video/interpolator.h
-engine/video/fade.h
-engine/video/video.h
-engine/video/image.h
-engine/video/text.h
-engine/video/video.cpp
-engine/video/particle_effect.cpp
-engine/video/image_base.cpp
-engine/video/shake.cpp
-engine/video/shake.h
-engine/video/texture_controller.cpp
-engine/video/particle_effect.h
 engine/video/context.h
-engine/video/image.cpp
-engine/video/texture.cpp
 engine/video/particle.h
 engine/video/effects.cpp
 engine/video/coord_sys.h
@@ -425,7 +434,7 @@ ENDIF ()
 
 SET (PROGRAMS allacrost)
 
-ADD_EXECUTABLE(allacrost WIN32 ${SRCS})
+ADD_EXECUTABLE(allacrost WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
 
 TARGET_LINK_LIBRARIES(allacrost
     ${INTERNAL_LIBRARIES}
@@ -488,16 +497,32 @@ IF (EDITOR_SUPPORT)
 
     SET (PROGRAMS allacrost-editor)
 
-    ADD_EXECUTABLE(allacrost-editor ${SRCS_EDITOR} ${EDITOR_QT_HEADERS_MOC})
+    ADD_EXECUTABLE(allacrost-editor
+        ${SRCS_EDITOR}
+        ${SRCS_LUABIND}
+        ${EDITOR_QT_HEADERS_MOC}
+        ${SRCS_COMMON}
+    )
 
     TARGET_LINK_LIBRARIES(allacrost-editor
         ${INTERNAL_LIBRARIES}
         ${QT_LIBRARIES}
         ${QT_QT3SUPPORT_LIBRARY} # for the Q3* headers.
+        ${QT_QTOPENGL_LIBRARY}
+        ${SDL_LIBRARY}
+        ${SDLTTF_LIBRARY}
+        ${OPENGL_LIBRARIES}
+        ${OPENAL_LIBRARY}
+        ${VORBISFILE_LIBRARIES}
+        ${PNG_LIBRARIES}
+        ${JPEG_LIBRARIES}
+        ${LUA_LIBRARIES}
+        ${X11_LIBRARIES}
+        ${LIBINTL_LIBRARIES}
         ${EXTRA_LIBRARIES}
     )
 
     INSTALL(TARGETS allacrost-editor RUNTIME DESTINATION ${PKG_BINDIR})
-    SET_TARGET_PROPERTIES(allacrost-editor PROPERTIES COMPILE_FLAGS "${FLAGS}")
+    SET_TARGET_PROPERTIES(allacrost-editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DQT3_SUPPORT")
 ENDIF(EDITOR_SUPPORT)
 

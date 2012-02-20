@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -30,8 +30,8 @@
 #include <QButtonGroup>
 #include <QRadioButton>
 
-#include "global_skills.h"
-#include "script.h"
+#include "common/global/global_skills.h"
+#include "engine/script/script.h"
 
 namespace hoa_editor
 {
@@ -43,7 +43,7 @@ class SkillEditor : public QWidget
 
 public:
 	SkillEditor(QWidget *parent, const QString &name);
-	~SkillEditor();	
+	~SkillEditor();
 
 private slots:
 	//! \brief slot to handle tab changes

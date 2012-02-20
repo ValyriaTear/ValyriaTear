@@ -268,11 +268,13 @@ void Editor::_FileNew() {
 					new_map_progress->setValue(checked_items++);
 
 					TilesetTable* a_tileset = new TilesetTable();
-					if (a_tileset->Load(tilesets->topLevelItem(i)->text(0)) == false)
+					if (!a_tileset->Load(tilesets->topLevelItem(i)->text(0)))
+                    {
+                        const std::string mes = "Failed to load tileset image: "
+                            + tilesets->topLevelItem(i)->text(0).toStdString();
 						QMessageBox::critical(this, tr("HoA Level Editor"),
-							tr("Failed to load tileset image: " +
-							   tilesets->topLevelItem(i)->text(0)));
-
+							tr(mes.c_str()));
+                    }
 					_ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
 					_ed_scrollview->_map->tilesets.push_back(a_tileset);
 					_ed_scrollview->_map->tileset_names.push_back(a_tileset->tileset_name);
@@ -378,9 +380,13 @@ void Editor::_FileOpen() {
 				new_map_progress->setValue(progress_steps++);
 
 				TilesetTable* a_tileset = new TilesetTable();
-				if (a_tileset->Load(*it) == false)
+				if (!a_tileset->Load(*it))
+                {
+                    const std::string mes = "Failed to load tileset image: "
+                        + (*it).toStdString();
 					QMessageBox::critical(this, tr("HoA Level Editor"),
-						tr("Failed to load tileset image: " + *it));
+						tr(mes.c_str()));
+                }
 
 				_ed_tabs->addTab(a_tileset->table, *it);
 				_ed_scrollview->_map->tilesets.push_back(a_tileset);
@@ -466,7 +472,7 @@ void Editor::_FileSave() {
 
 	_ed_scrollview->_map->SaveMap();      // actually saves the map
 	_undo_stack->setClean();
-	setCaption(QString("%1").arg(_ed_scrollview->_map->GetFileName()));
+	setWindowTitle(QString("%1").arg(_ed_scrollview->_map->GetFileName()));
 	statusBar()->showMessage(QString("Saved \'%1\' successfully!").
 		arg(_ed_scrollview->_map->GetFileName()), 5000);
 }
@@ -500,7 +506,7 @@ void Editor::_FileClose() {
 			_ed_tabs = NULL;
 		} // tabs must exist first
 
-		setCaption("Hero of Allacrost Level Editor");
+		setWindowTitle("Hero of Allacrost Level Editor");
 	} // make sure an unsaved map is not lost
 }
 
@@ -601,15 +607,16 @@ void Editor::_ViewTextures() {
 
 void Editor::_TileLayerFill() {
 	// get reference to current tileset
-	Q3Table* table = static_cast<Q3Table*> (_ed_tabs->currentPage());
+	Q3Table* table = static_cast<Q3Table*> (_ed_tabs->currentWidget());
 
 	// put selected tile from tileset into tile array at correct position
 	int32 tileset_index = table->currentRow() * 16 + table->currentColumn();
-	int32 multiplier = _ed_scrollview->_map->tileset_names.findIndex(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+	int32 multiplier = _ed_scrollview->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+
 	if (multiplier == -1)
 	{
 		_ed_scrollview->_map->tileset_names.append(_ed_tabs->tabText(_ed_tabs->currentIndex()));
-		multiplier = _ed_scrollview->_map->tileset_names.findIndex(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+		multiplier = _ed_scrollview->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
 	} // calculate index of current tileset
 
 	vector<int32>& current_layer = _ed_scrollview->GetCurrentLayer();
@@ -1430,7 +1437,7 @@ bool Editor::_EraseOK() {
 ///////////////////////////////////////////////////////////////////////////////
 
 EditorScrollView::EditorScrollView(QWidget* parent, const QString& name, int width, int height) :
-	Q3ScrollView(parent, (const char*)name, Qt::WNoAutoErase | Qt::WStaticContents)
+	Q3ScrollView(parent, (const char*)name.toStdString().c_str())
 {
 	// Set default editing modes.
 	_tile_mode  = PAINT_TILE;
@@ -1609,7 +1616,7 @@ void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt) {
 		(evt->x() / TILE_WIDTH)  >= static_cast<uint32>(_map->GetWidth()) ||
 		evt->x() < 0 || evt->y() < 0 )
 	{
-		editor->statusBar()->clear();
+		editor->statusBar()->clearMessage();
 		return;
 	}
 
@@ -1867,7 +1874,7 @@ void EditorScrollView::contentsContextMenuEvent(QContextMenuEvent *evt) {
 
 	_tile_index = evt->y() / TILE_HEIGHT * _map->GetWidth() + evt->x() / TILE_WIDTH;
 	_context_menu->exec(QCursor::pos());
-	(static_cast<Editor*> (topLevelWidget()))->statusBar()->clear();
+	(static_cast<Editor*> (topLevelWidget()))->statusBar()->clearMessage();
 }
 
 
@@ -1916,15 +1923,15 @@ void EditorScrollView::_ContextDeleteColumn() {
 void EditorScrollView::_PaintTile(int32 index) {
 	// get reference to current tileset
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
-	Q3Table* table = static_cast<Q3Table*> (editor->_ed_tabs->currentPage());
+	Q3Table* table = static_cast<Q3Table*> (editor->_ed_tabs->currentWidget());
 	QString tileset_name = editor->_ed_tabs->tabText(editor->_ed_tabs->currentIndex());
 	Q3TableSelection selection = table->selection(0);
 
-	int32 multiplier = _map->tileset_names.findIndex(tileset_name);
+	int32 multiplier = _map->tileset_names.indexOf(tileset_name);
 	if (multiplier == -1)
 	{
 		_map->tileset_names.append(tileset_name);
-		multiplier = _map->tileset_names.findIndex(tileset_name);
+		multiplier = _map->tileset_names.indexOf(tileset_name);
 	} // calculate index of current tileset
 
 	if (selection.isActive() && (selection.numCols() * selection.numRows() > 1))

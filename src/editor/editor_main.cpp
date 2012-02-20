@@ -19,8 +19,8 @@
 #endif
 
 #include "editor.h"
-#include "script.h"
-#include "global.h"
+#include "engine/script/script.h"
+#include "common/global/global.h"
 
 #if defined(main) && !defined(_WIN32)
 	#undef main
@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 	// Look for data files in DATADIR only if they are not available in the
 	// current directory.
 	if (ifstream("./dat/config/settings.lua") == NULL) {
-		if (chdir(DATADIR) != 0) {
+		if (chdir(PKG_DATADIR) != 0) {
 			PRINT_ERROR << "failed to change directory to data location" << endl;
 		}
 	}

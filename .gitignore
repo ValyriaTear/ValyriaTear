@@ -12,6 +12,7 @@ install_manifest.txt
 *.gmo
 txt/translatable-files
 src/allacrost
+src/allacrost-editor
 
 # files created during Windows build
 .objs
@@ -41,3 +42,6 @@ doc/SOURCE/html/*
 
 # static libraries
 *.a
+
+# files created by qmake
+*.cxx

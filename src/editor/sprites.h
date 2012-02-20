@@ -18,7 +18,7 @@
 
 #include "utils.h"
 #include "defs.h"
-#include "video.h"
+#include "engine/video/video.h"
 
 #include <QRectF>
 #include <QPointF>
@@ -213,7 +213,7 @@ public:
 	//! \brief Indicates if the icon indicating that there is a dialogue available should be drawn or not.
 	//bool _show_dialogue_icon;
 
-	//! \brief Used to fade the dialogue icon according to distance 
+	//! \brief Used to fade the dialogue icon according to distance
 	//hoa_video::Color _dialogue_icon_color;
 
 	/** \brief An identification number for the object as it is represented in the map file.
@@ -415,7 +415,7 @@ public:
 	float ComputeDrawXLocation() const
 		{ return (static_cast<float>(x_position) - img_half_width) / X_POS_FACTOR + x_offset; }
 
-	float ComputeDrawYLocation() const		
+	float ComputeDrawYLocation() const
 		{ return (static_cast<float>(y_position) - img_height) / Y_POS_FACTOR + y_offset; }
 
 	QRectF ComputeHoverArea() const

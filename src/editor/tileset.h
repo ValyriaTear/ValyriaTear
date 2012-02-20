@@ -25,9 +25,9 @@
 #include <QVariant>
 
 #include "defs.h"
-#include "script.h"
+#include "engine/script/script.h"
 #include "utils.h"
-#include "video.h"
+#include "engine/video/video.h"
 
 //! All calls to the editor are wrapped in this namespace.
 namespace hoa_editor
