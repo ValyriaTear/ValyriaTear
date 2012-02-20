@@ -3,6 +3,8 @@ CMAKE_POLICY(VERSION 2.6)
 
 PROJECT(ALLACROST)
 
+OPTION(EDITOR_SUPPORT "Compile the Qt Allacrost editor" OFF)
+
 IF (NOT VERSION)
     SET(VERSION 0.1.0)
 ENDIF()
@@ -54,7 +56,7 @@ ADD_SUBDIRECTORY(txt)
 
 # CPack installation part
 If(UNIX)
-    INSTALL(FILES allacrost.desktop DESTINATION share/applications) #TODO Add a desktp file
+    INSTALL(FILES allacrost.desktop DESTINATION share/applications) #TODO Add a desktop file
 ENDIF()
 
 SET(CPACK_PACKAGE_NAME "allacrost")

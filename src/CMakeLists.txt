@@ -93,24 +93,6 @@ test/test_main.cpp
 test/test_main.h
 )
 
-SET(SRCS_EDITOR
-editor/dialog_boxes.cpp
-editor/editor.cpp
-editor/editor_main.cpp
-editor/grid.cpp
-editor/sprites.h
-editor/skill_editor.h
-editor/grid.h
-editor/dialog_boxes.h
-editor/editor.h
-editor/skill_editor.cpp
-editor/tileset.cpp
-editor/tileset.h
-editor/tileset_editor.h
-editor/tileset_editor.cpp
-editor/sprites.cpp
-)
-
 SET(SRCS_LUABIND_TESTS
 luabind/examples/hello_world/hello_world.cpp
 luabind/examples/cln/cln_test.cpp
@@ -468,3 +450,54 @@ IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
 ENDIF()
 
 SET_TARGET_PROPERTIES(allacrost PROPERTIES COMPILE_FLAGS "${FLAGS}")
+
+
+# Editor part
+IF (EDITOR_SUPPORT)
+
+    FIND_PACKAGE(Qt4 REQUIRED)
+    INCLUDE_DIRECTORIES(
+    ${QT_QT3SUPPORT_INCLUDE_DIR} # for the Q3* includes
+    ${QT_QTOPENGL_INCLUDE_DIR}
+    )
+    INCLUDE(${QT_USE_FILE})
+    ADD_DEFINITIONS(${QT_DEFINITIONS})
+
+    SET(EDITOR_QT_HEADERS
+    editor/dialog_boxes.h
+    editor/editor.h
+    editor/grid.h
+    editor/skill_editor.h
+    editor/tileset_editor.h
+    )
+
+    SET(SRCS_EDITOR
+    editor/dialog_boxes.cpp
+    editor/editor.cpp
+    editor/editor_main.cpp
+    editor/grid.cpp
+    editor/sprites.h
+    editor/skill_editor.cpp
+    editor/tileset.cpp
+    editor/tileset.h
+    editor/tileset_editor.cpp
+    editor/sprites.cpp
+    )
+
+    QT4_WRAP_CPP(EDITOR_QT_HEADERS_MOC ${EDITOR_QT_HEADERS})
+
+    SET (PROGRAMS allacrost-editor)
+
+    ADD_EXECUTABLE(allacrost-editor ${SRCS_EDITOR} ${EDITOR_QT_HEADERS_MOC})
+
+    TARGET_LINK_LIBRARIES(allacrost-editor
+        ${INTERNAL_LIBRARIES}
+        ${QT_LIBRARIES}
+        ${QT_QT3SUPPORT_LIBRARY} # for the Q3* headers.
+        ${EXTRA_LIBRARIES}
+    )
+
+    INSTALL(TARGETS allacrost-editor RUNTIME DESTINATION ${PKG_BINDIR})
+    SET_TARGET_PROPERTIES(allacrost-editor PROPERTIES COMPILE_FLAGS "${FLAGS}")
+ENDIF(EDITOR_SUPPORT)
+
