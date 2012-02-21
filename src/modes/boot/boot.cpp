@@ -498,6 +498,21 @@ void BootMode::Draw() {
 // ****************************************************************************
 // ***** BootMode menu setup and refresh methods
 // ****************************************************************************
+bool BootMode::_SavesAvailable(int maxId)
+{
+	assert(maxId > 0);
+	int savesAvailable = 0;
+	for (int id = 1; id <= maxId; ++id) {
+		ostringstream f;
+		f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+		const string filename = f.str();
+
+		if (DoesFileExist(filename)) {
+			++savesAvailable;
+		}
+	}
+	return (savesAvailable > 0);
+}
 
 void BootMode::_SetupMainMenu() {
 	if (TEMP_BOOT_TEST == true) {
@@ -539,8 +554,8 @@ void BootMode::_SetupMainMenu() {
 		_main_menu.AddOption(UTranslate("Quit"), &BootMode::_OnQuit);
 	}
 
-	string path = GetUserDataPath(true) + "saved_game_1.lua";
-	if (DoesFileExist(path) == false) {
+
+	if (!_SavesAvailable()) {
 		_main_menu.EnableOption(1, false);
 		_main_menu.SetSelection(0);
 	}
