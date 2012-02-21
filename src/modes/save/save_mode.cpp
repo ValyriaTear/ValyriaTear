@@ -185,6 +185,8 @@ SaveMode::SaveMode(bool enable_saving) :
 
 	if (_saving_enabled == false) {
 		_save_options.EnableOption(SAVE_GAME, false);
+		// Directly display the saves list window in that case.
+		_current_state = SAVE_MODE_LOADING;
 	}
 
 	if (_save_music.LoadAudio("mus/Save_Game.ogg") == false) {
@@ -311,7 +313,16 @@ void SaveMode::Update() {
 					_LoadGame( _file_list.GetSelection() );
 				}
 				else {
-					_current_state = SAVE_MODE_NORMAL;
+					if (_saving_enabled)
+					{
+						_current_state = SAVE_MODE_NORMAL;
+					}
+					else
+					{
+						// Leave right away where there is nothing else
+						// to do than loading.
+						ModeManager->Pop();
+					}
 				}
 				break;
 		} // end switch (_current_state)
@@ -324,7 +335,16 @@ void SaveMode::Update() {
 				return;
 
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
-				_current_state = SAVE_MODE_NORMAL;
+				if (_saving_enabled)
+				{
+					_current_state = SAVE_MODE_NORMAL;
+				}
+				else
+				{
+					// Leave right away where there is nothing else to do than
+					// loading.
+					ModeManager->Pop();
+				}
 				break;
 
 			case SAVE_MODE_CONFIRMING_SAVE:
