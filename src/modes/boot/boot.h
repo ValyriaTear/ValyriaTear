@@ -221,6 +221,9 @@ private:
 
 	// ---------- Setup and refresh methods for boot menus
 
+	//! \brief Returns whether at least one save is available to be loaded.
+	bool _SavesAvailable(int maxId = 6);
+
 	//! \brief Setup functions for the various boot menus
 	//@{
 	void _SetupMainMenu();
