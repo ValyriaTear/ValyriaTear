@@ -118,7 +118,7 @@ void PauseMode::Update() {
 		_quit_options.Update();
 
 		if (InputManager->QuitPress() == true) {
-			SystemManager->ExitGame();
+			ModeManager->Pop();
 			return;
 		}
 
