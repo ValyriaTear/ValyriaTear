@@ -820,6 +820,9 @@ private:
 	//! Image used as overlay for ambient lightning
 	StillImage *_light_overlay_img;
 
+	//! Image used as a sub-fading overlay
+	StillImage _fade_overlay_img;
+
 	//! X offset to shake the screen by (if any)
 	float  _x_shake;
 
