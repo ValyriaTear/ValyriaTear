@@ -77,6 +77,9 @@ BootMode::BootMode() :
 	_file_name_alert(ustring(),300.0f,35.0f),
 	_file_name_window(ustring(),150.0f,35.0f)
 {
+	// Remove previous possible ambient light effects
+	VideoManager->DisableLightningOverlay();
+
 	IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << endl;
 	mode_type = MODE_MANAGER_BOOT_MODE;
 

@@ -213,6 +213,15 @@ void ModeEngine::Draw() {
 }
 
 
+void ModeEngine::DrawPostEffects() {
+	if (_game_stack.size() == 0) {
+		return;
+	}
+
+	_game_stack.back()->DrawPostEffects();
+}
+
+
 // Used for debugging purposes ONLY. Prints the contents of the game mode stack.
 void ModeEngine::DEBUG_PrintStack() {
 	cout << "MODE MANAGER DEBUG: Printing Game Stack" << endl;

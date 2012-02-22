@@ -160,29 +160,7 @@ bool ParticleSystem::Draw()
 	float img_width_half = img_width * 0.5f;
 	float img_height_half = img_height * 0.5f;
 
-	Color scene_light_modifier;
-
-	bool use_scene_lighting = false;
-
-	if(_system_def->scene_lighting != 0.0f)
-	{
-		scene_light_modifier = VideoManager->GetSceneLightingColor();
-
-		if(scene_light_modifier[0] != 1.0f ||
-		   scene_light_modifier[1] != 1.0f ||
-		   scene_light_modifier[2] != 1.0f ||
-		   scene_light_modifier[3] != 1.0f )
-		{
-			use_scene_lighting = true;
-
-			if(_system_def->scene_lighting != 1.0f)
-				scene_light_modifier = Color::white * (1.0f - _system_def->scene_lighting) + scene_light_modifier * (_system_def->scene_lighting);
-		}
-	}
-
-
 	// fill the vertex array
-
 	if(_system_def->rotation_used)
 	{
 		int32 v = 0;
@@ -291,9 +269,6 @@ bool ParticleSystem::Draw()
 		if(_system_def->smooth_animation)
 			color = color * (1.0f - frame_progress);
 
-		if(use_scene_lighting)
-			color = color * scene_light_modifier;
-
 		_particle_colors[c] = color;
 		++c;
 		_particle_colors[c] = color;
@@ -390,8 +365,6 @@ bool ParticleSystem::Draw()
 		{
 			Color color = _particles[j].color;
 			color = color * frame_progress;
-			if(use_scene_lighting)
-				color = color * scene_light_modifier;
 
 			_particle_colors[c] = color;
 			++c;

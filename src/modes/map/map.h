@@ -101,6 +101,9 @@ public:
 	//! \brief The highest level draw function that will call the appropriate lower-level draw functions
 	void Draw();
 
+	//! \brief The highest level draw function for stuff unaffected by light and fade effects.
+	void DrawPostEffects();
+
 	// The methods below this line are not intended to be used outside of the map code
 
 	//! \brief Empties the state stack and places an invalid state on top

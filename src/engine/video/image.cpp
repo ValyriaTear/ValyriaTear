@@ -987,13 +987,7 @@ bool StillImage::Load(const string& filename) {
 
 
 void StillImage::Draw() const {
-	// If real lighting is enabled, draw images normally since the light overlay
-	// will take care of the modulation. If not, (i.e. no overlay is being used)
-	// then pass the light color so the vertex colors can do the modulation
-	if (VideoManager->_uses_lights == false && (VideoManager->_light_color != Color::white))
-		Draw(VideoManager->_light_color);
-	else
-		Draw(Color::white);
+	Draw(Color::white);
 }
 
 
@@ -1446,13 +1440,7 @@ void CompositeImage::Clear() {
 
 
 void CompositeImage::Draw() const {
-	// If real lighting is enabled, draw images normally since the light overlay
-	// will take care of the modulation. If not, (i.e. no overlay is being used)
-	// then pass the light color so the vertex colors can do the modulation
-	if (VideoManager->_uses_lights == false && (VideoManager->_light_color != Color::white))
-		Draw(VideoManager->_light_color);
-	else
-		Draw(Color::white);
+	Draw(Color::white);
 }
 
 

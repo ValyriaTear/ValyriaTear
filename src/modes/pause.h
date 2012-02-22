@@ -69,6 +69,9 @@ public:
 	//! \brief Draws the next frame to be displayed on the screen
 	void Draw();
 
+	//! \brief Draws the next frame to be displayed on the screen, bunt unaffected but ambient effects
+	void DrawPostEffects();
+
 private:
 	//! \brief When true, the player is presented with quit options. When false, "Paused" is displayed on the screen
 	bool _quit_state;

@@ -31,36 +31,6 @@ template<> hoa_video::VideoEngine* Singleton<hoa_video::VideoEngine>::_singleton
 
 namespace hoa_video {
 
-namespace {
-// OpenGL extensions
-bool extension_FBO;
-
-typedef void (*eglGenFramebuffers_ptr)(GLsizei, GLuint*);
-typedef void (*eglFramebufferTexture2D_ptr)(GLenum, GLenum, GLenum, GLuint, GLint);
-typedef void (*eglDeleteFramebuffers_ptr)(GLsizei, GLuint*);
-typedef void (*eglBindFramebuffer_ptr)(GLenum, GLuint);
-
-eglGenFramebuffers_ptr eglGenFramebuffers;
-eglFramebufferTexture2D_ptr eglFramebufferTexture2D;
-eglDeleteFramebuffers_ptr eglDeleteFramebuffers;
-eglBindFramebuffer_ptr eglBindFramebuffer;
-
-static void InitExtensions()
-{
-	const char* extensions = (const char*)glGetString(GL_EXTENSIONS);
-	extension_FBO = (bool)strstr(extensions, "GL_EXT_framebuffer_object");
-	eglGenFramebuffers      =
-	                    (eglGenFramebuffers_ptr)SDL_GL_GetProcAddress("glGenFramebuffersEXT");
-	eglFramebufferTexture2D =
-	               (eglFramebufferTexture2D_ptr)SDL_GL_GetProcAddress("glFramebufferTexture2DEXT");
-	eglDeleteFramebuffers   =
-					(eglDeleteFramebuffers_ptr)SDL_GL_GetProcAddress("glDeleteFramebuffersEXT");
-	eglBindFramebuffer      =
-					   (eglBindFramebuffer_ptr)SDL_GL_GetProcAddress("glBindFramebufferEXT");
-}
-
-}
-
 VideoEngine* VideoManager = NULL;
 bool VIDEO_DEBUG = false;
 
@@ -114,14 +84,11 @@ VideoEngine::VideoEngine() :
 	_temp_width = 0;
 	_temp_height = 0;
 	_temp_fullscreen = false;
-	_uses_lights = false;
-	_light_overlay = INVALID_TEXTURE_ID;
-	_light_overlay_fbo = 0;
+	_light_overlay_img = 0;
 	_advanced_display = false;
 	_x_shake = 0;
 	_y_shake = 0;
 	_gamma_value = 1.0f;
-	_light_color = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	_gl_error_code = GL_NO_ERROR;
 	_animation_counter = 0;
 	_current_frame_diff = 0;
@@ -211,6 +178,10 @@ void VideoEngine::DrawFPS(uint32 frame_time) {
 
 
 VideoEngine::~VideoEngine() {
+	// Clear out potential overlays
+	if (_light_overlay_img)
+		delete _light_overlay_img;
+
 	_particle_manager.Destroy();
 	TextManager->SingletonDestroy();
 
@@ -390,7 +361,10 @@ void VideoEngine::Display(uint32 frame_time) {
 	if (_lightning_current_time > _lightning_end_time)
 		_lightning_active = false;
 
-	// Draw a screen overlay if we are in the process of fading fading
+	// Apply potential active ambient lightning
+	ApplyLightningOverlay();
+
+	// Draw a screen overlay if we are in the process of fading
 	if (_screen_fader.ShouldUseFadeOverlay()) {
 		Color fade_color = _screen_fader.GetFadeOverlayColor();
 		StillImage fade_overlay;
@@ -415,8 +389,6 @@ void VideoEngine::Display(uint32 frame_time) {
 	DrawFPS(frame_time); // Draw FPS Counter If We Need To
 
 	PopState();
-
-	SDL_GL_SwapBuffers();
 
 	_screen_fader.Update(frame_time);
 
@@ -499,8 +471,6 @@ bool VideoEngine::ApplySettings() {
 			}
 		}
 
-		InitExtensions();
-
 		// Turn off writing to the depth buffer
 		glDepthMask(GL_FALSE);
 
@@ -522,8 +492,6 @@ bool VideoEngine::ApplySettings() {
 
 		return true;
 	}
-
-	InitExtensions();
 
 	return false;
 } // bool VideoEngine::ApplySettings()
@@ -715,99 +683,28 @@ void VideoEngine::SetTransform(float matrix[16]) {
 }
 
 
-
-void VideoEngine::EnableSceneLighting(const Color& color) {
-	if (!extension_FBO)
-		return;
-	_light_color = color;
-
-	if (IsFloatEqual(color[3], 1.0f) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "color argument had alpha not equal to 1.0f" << endl;
-		_light_color[3] = 1.0f;
-	}
-
-	_light_overlay = TextureManager->_CreateBlankGLTexture(1024, 1024);
-	eglGenFramebuffers(1, &_light_overlay_fbo);
-	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, _light_overlay_fbo);
-	eglFramebufferTexture2D(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, _light_overlay, 0);
-	glViewport(0, 0, 1024, 1024);
-	glClearColor(_light_color.GetRed(),
-	             _light_color.GetGreen(),
-				 _light_color.GetBlue(), 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glViewport(0, 0, _screen_width, _screen_height);
-	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
-	_uses_lights = true;
+void VideoEngine::EnableLightningOverlay(const Color& color) {
+	_light_overlay_img = new StillImage();
+	_light_overlay_img->SetColor(color);
+	_light_overlay_img->Load("", 1024.0f, 768.0f);
 }
 
 
-void VideoEngine::DisableSceneLighting() {
-	if (!extension_FBO)
-		return;
-	_light_color = Color::white;
-
-	if (_light_overlay != INVALID_TEXTURE_ID) {
-		TextureManager->_DeleteTexture(_light_overlay);
-	}
-	if (_light_overlay_fbo != 0) {
-		eglDeleteFramebuffers(1, &_light_overlay_fbo);
-	}
-	_light_overlay = INVALID_TEXTURE_ID;
-	_light_overlay_fbo = 0;
-	_uses_lights = false;
+void VideoEngine::DisableLightningOverlay() {
+	delete _light_overlay_img;
+	_light_overlay_img = 0;
 }
 
 
-void VideoEngine::ApplyLightingOverlay() {
-	if (!extension_FBO)
-		return;
-
-	if (_light_overlay == INVALID_TEXTURE_ID) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "light overlay texture was invalid" << endl;
-		return;
+ void VideoEngine::ApplyLightningOverlay() {
+	if (_light_overlay_img)
+	{
+		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+		PushState();
+		Move(0.0f, 0.0f);
+		_light_overlay_img->Draw();
+		PopState();
 	}
-
-	TextureManager->_BindTexture(_light_overlay);
-
-	glEnable(GL_TEXTURE_2D);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ZERO, GL_SRC_COLOR);
-
-	glPushMatrix();
-	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-
-	TextureManager->_BindTexture(_light_overlay);
-
-	GLfloat vertices[8] = { -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f };
-	GLfloat tex_coords[8] = { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f };
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(2, GL_FLOAT, 0, vertices);
-	glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
-
-	glDrawArrays(GL_QUADS, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-
-	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, _light_overlay_fbo);
-	glViewport(0, 0, 1024, 1024);
-	glClearColor(_light_color.GetRed(),
-	             _light_color.GetGreen(),
-				 _light_color.GetBlue(), 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, _light_overlay_fbo);
-	glViewport(0, 0, _screen_width, _screen_height);
 }
 
 
@@ -1253,7 +1150,10 @@ void VideoEngine::DrawHalo(const ImageDescriptor &id, float x, float y, const Co
 
 
 void VideoEngine::DrawLight(float radius, float x, float y, const Color &color) {
-	static const int NUM_SIDES = 32;
+	// Disabled due the fact of leaving out the use of:
+	// 1. direct gl calls for such operations
+	// 2. FBOs as the gui would be affected, too.
+	/*static const int NUM_SIDES = 32;
 
 	if (!extension_FBO)
 		return;
@@ -1302,7 +1202,7 @@ void VideoEngine::DrawLight(float radius, float x, float y, const Color &color) 
 	PopMatrix();
 
 	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
-	glViewport(0, 0, _screen_width, _screen_height);
+	glViewport(0, 0, _screen_width, _screen_height);*/
 }
 
 }  // namespace hoa_video
