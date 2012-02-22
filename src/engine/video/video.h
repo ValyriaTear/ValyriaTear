@@ -544,17 +544,11 @@ public:
 	/** \brief turn on the ligt color for the scene
 	 * \param color the light color to use
 	 */
-	void EnableSceneLighting(const Color& color);
+	void EnableLightningOverlay(const Color& color);
 
 	/** \brief disables scene lighting
 	*/
-	void DisableSceneLighting();
-
-	/** \brief returns the scene lighting color
-	 * \return the light color used in the scene
-	 */
-	const Color& GetSceneLightingColor()
-		{ return _light_color; }
+	void DisableLightningOverlay();
 
 	/** \brief draws a halo at the given spot
 	 *
@@ -578,7 +572,7 @@ public:
 	 *         menu and text rendering should occur AFTER this call, so that
 	 *         they are not affected by lighting.
 	 */
-	void ApplyLightingOverlay();
+	void ApplyLightningOverlay();
 
 	//-- Overlays / lightning -------------------------------------------------------
 
@@ -774,7 +768,7 @@ private:
 
 	//! fps display flag. If true, FPS is displayed
 	bool _fps_display;
-	
+
 	//! \brief A circular array of FPS samples used for calculating average FPS
 	uint32 _fps_samples[private_video::FPS_SAMPLES];
 
@@ -823,14 +817,8 @@ private:
 	//! keep track of number of draw calls per frame
 	int32 _num_draw_calls;
 
-	//! true if real lights are enabled
-	bool _uses_lights;
-
-	//! lighting overlay texture
-	GLuint _light_overlay;
-
-	//! lighting overlay FBO
-	GLuint _light_overlay_fbo;
+	//! Image used as overlay for ambient lightning
+	StillImage *_light_overlay_img;
 
 	//! X offset to shake the screen by (if any)
 	float  _x_shake;
@@ -865,9 +853,6 @@ private:
 
 	//! Image used for rendering rectangles
 	StillImage _rectangle_image;
-
-	//! current scene lighting color (essentially just modulates vertex colors of all the images)
-	Color _light_color;
 
 	//! true if a lightning effect is active
 	bool _lightning_active;

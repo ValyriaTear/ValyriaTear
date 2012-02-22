@@ -176,27 +176,27 @@ function Load(m)
 	EventManager = Map.event_supervisor;
 	TreasureManager = Map.treasure_supervisor;
 	GlobalEvents = Map.map_event_group;
-	
+
 	-- This boolean determines whether we execute the initial or return scene on this map
 	initial_scene = true;
 	-- Global starting coordinates for the center of the group of knights. All sprites
 	-- use these coordinates in determining their initial positions.
 	group_start_x = 0;
 	group_start_y = 0;
-	
-	
+
+
 	-- If the river access cave map has not been visited yet, it won't register as an event group. When this is true
 	-- we want to display the initial scene. Otherwise, we display the return scene.
 	if (GlobalManager:DoesEventGroupExist("dat_maps_river_access_cave_lua") == false) then
 		initial_scene = true;
 		group_start_x = 100;
-		group_start_y = 20;	
+		group_start_y = 20;
 	else
 		initial_scene = false;
 		group_start_x = 300;
 		group_start_y = 24;
 	end
-	
+
 	if (initial_scene == true) then
 		InitialCreateCharacters();
 		InitialCreateNPCs();
@@ -208,11 +208,11 @@ function Load(m)
 		ReturnCreateDialogue();
 		ReturnCreateEvents();
 	end
-	
+
 	Map:SetCamera(claudius);
-	
---	VideoManager:EnableSceneLighting(hoa_video.Color(1.0, 1.0, 1.0, 1.0));
---	VideoManager:DisableSceneLighting();
+
+	-- Draw night-time scene lighting
+	VideoManager:EnableLightningOverlay(hoa_video.Color(0.0, 0.0, 0.0, 0.5));
 
 	-- This entire map is played out in scene state. As soon as the map is loaded, we start the chain of events.
 	Map:PushState(hoa_map.MapMode.STATE_SCENE);
@@ -226,14 +226,6 @@ function Update()
 
 end
 
-
-
-function Draw()
-	Map:DrawMapLayers();
---	VideoManager:ApplyLightingOverlay();
-
-	-- TODO: Draw night-time scene lighting
-end
 
 --------------------------------------------------------------------------------
 -- Initial scene setup functions: knights heading across desert to cave entrance
@@ -351,8 +343,8 @@ function InitialCreateDialogue()
 		dialogue:AddLineTimed(text, 2500, 10000);
 		text = hoa_system.Translate("Although the great sand storms that had swept through our lands for the past several days had finally vanished, the winds still howled throughout the desert...");
 		dialogue:AddLineTimed(text, 2500, 10000);
-	DialogueManager:AddDialogue(dialogue);		
-	
+	DialogueManager:AddDialogue(dialogue);
+
 	-- Captain's orders after troop movement
 	dialogue = hoa_map.SpriteDialogue(20);
 		text = hoa_system.Translate("Alright, listen up!");
@@ -385,7 +377,7 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function InitialCreateEvents()
 	local event = {};
-	
+
 	-- Move all sprites away from the cave entrance
 	local march_distance = 280;
 	event = hoa_map.PathMoveSpriteEvent(10, 1000, march_distance, 0);
@@ -499,7 +491,7 @@ function InitialCreateEvents()
 	event = hoa_map.ChangeDirectionSpriteEvent(113, 2008, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent(114, 2009, hoa_map.MapMode.EAST);
-	EventManager:RegisterEvent(event);	
+	EventManager:RegisterEvent(event);
 
 	event = hoa_map.PathMoveSpriteEvent(130, 2000, -10, -2);
 	event:SetRelativeDestination(true);
@@ -631,7 +623,7 @@ function ReturnCreateCharacters()
 	lukar:SetDirection(hoa_map.MapMode.WEST);
 	lukar:SetName(hoa_system.Translate("Lukar"));
 	lukar:SetNoCollision(true);
-	Map:AddGroundObject(lukar);	
+	Map:AddGroundObject(lukar);
 end
 
 
@@ -689,7 +681,7 @@ function ReturnCreateNPCs()
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
-	
+
 	-- This sprite is the scout that runs in from the left side of the screen
 	sprite = ConstructSprite("Karlate", 2010, 20, group_start_y);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
@@ -709,7 +701,7 @@ function ReturnCreateDialogue()
 		text = hoa_system.Translate("I can't wait to get back home. Maybe now that the water supply is restored they'll finally let us take a shower. I've been covered in sand for days.");
 		dialogue:AddLineTimed(text, 1001, 8000);
 	DialogueManager:AddDialogue(dialogue);
-		
+
 	dialogue = hoa_map.SpriteDialogue(20);
 		dialogue:SetInputBlocked(true);
 		text = hoa_system.Translate("That's odd, the sky is brighter in the direction of the city.");

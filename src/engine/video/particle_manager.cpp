@@ -423,7 +423,6 @@ bool TEMP_LoadEffectHelper(const string &filename, lua_State *L, ParticleEffectD
 			sys_def->stencil_op = VIDEO_STENCIL_OP_ONE;
 
 		LOAD_BOOL("use_stencil", sys_def->use_stencil);
-		LOAD_FLOAT("scene_lighting", sys_def->scene_lighting);
 		LOAD_BOOL ("random_initial_angle", sys_def->random_initial_angle);
 
 		// pop the system table

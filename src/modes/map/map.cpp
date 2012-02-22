@@ -79,6 +79,9 @@ MapMode::MapMode(string filename) :
 	_current_track(0),
 	_run_stamina(10000)
 {
+	// Remove previous possible ambient light effects
+	VideoManager->DisableLightningOverlay();
+
 	mode_type = MODE_MANAGER_MAP_MODE;
 	_current_instance = this;
 
@@ -233,6 +236,12 @@ void MapMode::Draw() {
 	else
 		_DrawMapLayers();
 
+	_object_supervisor->DrawDialogIcons(&_map_frame);
+}
+
+void MapMode::DrawPostEffects() {
+	// Draw the gui, unaffected by potential
+	// fading effects.
 	_DrawGUI();
 	if (CurrentState() == STATE_DIALOGUE) {
 		_dialogue_supervisor->Draw();
@@ -698,8 +707,6 @@ void MapMode::_DrawMapLayers() {
 	_tile_supervisor->DrawUpperLayer(&_map_frame);
 
 	_object_supervisor->DrawSkyObjects(&_map_frame);
-
-	_object_supervisor->DrawDialogIcons(&_map_frame);
 } // void MapMode::_DrawMapLayers()
 
 

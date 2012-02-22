@@ -412,6 +412,8 @@ int main(int argc, char *argv[]) {
 			VideoManager->Clear();
 			ModeManager->Draw();
 			VideoManager->Display(SystemManager->GetUpdateTime());
+			ModeManager->DrawPostEffects();
+			SDL_GL_SwapBuffers();
 
 			// 2) Process all new events
 			InputManager->EventHandler();

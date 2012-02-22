@@ -82,6 +82,11 @@ public:
 	virtual void Update() = 0;
 	//! Draws the next screen frame for the game mode.
 	virtual void Draw() = 0;
+	/**
+	*** Draws the next screen frame for the game mode, but unaffected
+	*** by potential light and fade effects.
+	**/
+	virtual void DrawPostEffects() {};
 	/** \brief Resets the state of the class.
 	***
 	*** This function is called whenever the game mode is made active (ie, it is made the new active game mode
@@ -187,6 +192,9 @@ public:
 
 	//! \brief Calls the Draw() function on the active game mode.
 	void Draw();
+
+	//! \brief Calls the DrawPostEffects() function on the active game mode.
+	void DrawPostEffects();
 
 	//! \brief Prints the contents of the game_stack member to standard output.
 	void DEBUG_PrintStack();

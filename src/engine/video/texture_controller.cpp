@@ -112,12 +112,6 @@ bool TextureController::UnloadTextures() {
 		i++;
 	}
 
-	// Delete the light overlay texture
-	if (VideoManager->_light_overlay != INVALID_TEXTURE_ID) {
-		_DeleteTexture(VideoManager->_light_overlay);
-		VideoManager->_light_overlay = INVALID_TEXTURE_ID;
-	}
-
 	// Clear all font caches
 	map<string, FontProperties*>::iterator j = TextManager->_font_map.begin();
 	while (j != TextManager->_font_map.end()) {
@@ -160,9 +154,6 @@ bool TextureController::ReloadTextures() {
 	}
 
 	_DeleteTempTextures();
-
-	if (VideoManager->_uses_lights)
-		VideoManager->_light_overlay = _CreateBlankGLTexture(1024, 1024);
 
 	return success;
 }
