@@ -207,7 +207,7 @@ bool Grid::LoadMap()
 			        arg(QString::fromStdString(read_data.GetErrorMessages())));
 		return false;
 	}
-	
+
 	// Loading the tileset images using LoadMultiImage is done in editor.cpp in
 	// FileOpen via creation of the TilesetTable(s)
 
@@ -950,8 +950,8 @@ void Grid::paintGL()
 	top_tile    = _ed_scrollview->verticalScrollBar()->value() / TILE_HEIGHT;
 	right_tile  = left_tile + num_tiles_width + 1;
 	bottom_tile = top_tile + num_tiles_height + 1;
-	right_tile  = (right_tile  < _width)  ? right_tile  : _width  - 1;
-	bottom_tile = (bottom_tile < _height) ? bottom_tile : _height - 1;
+	right_tile  = (right_tile  < (int32)_width)  ? right_tile  : _width  - 1;
+	bottom_tile = (bottom_tile < (int32)_height) ? bottom_tile : _height - 1;
 
 	// Draw lower tile layer if it is enabled for viewing
 	if (_ll_on)

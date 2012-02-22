@@ -1940,9 +1940,9 @@ void EditorScrollView::_PaintTile(int32 index) {
 		int32 map_col = index % _map->GetWidth();
 
 		// Draw tiles from tileset selection onto map, one tile at a time.
-		for (int32 i = 0; i < selection.numRows() && map_row + i < _map->GetHeight(); i++)
+		for (int32 i = 0; i < selection.numRows() && map_row + i < (int32)_map->GetHeight(); i++)
 		{
-			for (int32 j = 0; j < selection.numCols() && map_col + j < _map->GetWidth(); j++)
+			for (int32 j = 0; j < selection.numCols() && map_col + j < (int32)_map->GetWidth(); j++)
 			{
 				int32 tileset_index = (selection.topRow() + i) * 16 + (selection.leftCol() + j);
 				int32 tile = (map_row + i) * _map->GetWidth() + map_col + j;
@@ -2029,7 +2029,7 @@ void EditorScrollView::_AutotileTransitions(int32& tileset_num, int32& tile_inde
 	// These booleans are used to know whether the current tile being painted is on the edge of the map.
 	// This will affect the transition/border algorithm.
 	//bool top_edge    = (_tile_index - _map->GetWidth()) < 0;
-	bool top_edge    =  _tile_index < _map->GetWidth();
+	bool top_edge    =  _tile_index < (int32)_map->GetWidth();
 	bool bottom_edge = (_tile_index + _map->GetWidth()) >= (_map->GetWidth() * _map->GetHeight());
 	bool left_edge   = ( _tile_index    % _map->GetWidth()) == 0;
 	bool right_edge  = ((_tile_index+1) % _map->GetWidth()) == 0;
