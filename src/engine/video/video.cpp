@@ -84,7 +84,7 @@ VideoEngine::VideoEngine() :
 	_temp_width = 0;
 	_temp_height = 0;
 	_temp_fullscreen = false;
-	_light_overlay_img = 0;
+	_uses_light_overlay = false;
 	_advanced_display = false;
 	_x_shake = 0;
 	_y_shake = 0;
@@ -116,8 +116,9 @@ VideoEngine::VideoEngine() :
 	for (uint32 sample = 0; sample < FPS_SAMPLES; sample++)
 		 _fps_samples[sample] = 0;
 
-	// Create the fading overlay
+	// Create the fading overlays
 	_fade_overlay_img.Load("", 1024.0f, 768.0f);
+	_light_overlay_img.Load("", 1024.0f, 768.0f);
 }
 
 
@@ -181,10 +182,6 @@ void VideoEngine::DrawFPS(uint32 frame_time) {
 
 
 VideoEngine::~VideoEngine() {
-	// Clear out potential overlays
-	if (_light_overlay_img)
-		delete _light_overlay_img;
-
 	_particle_manager.Destroy();
 	TextManager->SingletonDestroy();
 
@@ -674,25 +671,23 @@ void VideoEngine::SetTransform(float matrix[16]) {
 
 
 void VideoEngine::EnableLightningOverlay(const Color& color) {
-	_light_overlay_img = new StillImage();
-	_light_overlay_img->SetColor(color);
-	_light_overlay_img->Load("", 1024.0f, 768.0f);
+	_light_overlay_img.SetColor(color);
+	_uses_light_overlay = true;
 }
 
 
 void VideoEngine::DisableLightningOverlay() {
-	delete _light_overlay_img;
-	_light_overlay_img = 0;
+	_uses_light_overlay = false;
 }
 
 
  void VideoEngine::ApplyLightningOverlay() {
-	if (_light_overlay_img)
+	if (_uses_light_overlay)
 	{
 		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 		PushState();
 		Move(0.0f, 0.0f);
-		_light_overlay_img->Draw();
+		_light_overlay_img.Draw();
 		PopState();
 	}
 	// Draw a screen overlay if we are in the process of doing a custom fading
