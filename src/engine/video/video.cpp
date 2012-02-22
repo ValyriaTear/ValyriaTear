@@ -115,6 +115,9 @@ VideoEngine::VideoEngine() :
 
 	for (uint32 sample = 0; sample < FPS_SAMPLES; sample++)
 		 _fps_samples[sample] = 0;
+
+	// Create the fading overlay
+	_fade_overlay_img.Load("", 1024.0f, 768.0f);
 }
 
 
@@ -363,19 +366,6 @@ void VideoEngine::Display(uint32 frame_time) {
 
 	// Apply potential active ambient lightning
 	ApplyLightningOverlay();
-
-	// Draw a screen overlay if we are in the process of fading
-	if (_screen_fader.ShouldUseFadeOverlay()) {
-		Color fade_color = _screen_fader.GetFadeOverlayColor();
-		StillImage fade_overlay;
-		fade_overlay.SetColor(fade_color);
-		fade_overlay.Load("", 1024.0f, 768.0f);
-		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-		PushState();
-		Move(0, 0);
-		fade_overlay.Draw();
-		PopState();
-	}
 
 	// This must be called before DrawFPS, because we only want to count
 	// texture switches related to the game's normal operation, not the
@@ -703,6 +693,15 @@ void VideoEngine::DisableLightningOverlay() {
 		PushState();
 		Move(0.0f, 0.0f);
 		_light_overlay_img->Draw();
+		PopState();
+	}
+	// Draw a screen overlay if we are in the process of doing a custom fading
+	if (_screen_fader.ShouldUseFadeOverlay()) {
+		_fade_overlay_img.SetColor(_screen_fader.GetFadeOverlayColor());
+		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+		PushState();
+		Move(0, 0);
+		_fade_overlay_img.Draw();
 		PopState();
 	}
 }
