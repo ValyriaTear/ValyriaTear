@@ -817,8 +817,11 @@ private:
 	//! keep track of number of draw calls per frame
 	int32 _num_draw_calls;
 
+	//! true if ambient lights are enabled
+	bool _uses_light_overlay;
+
 	//! Image used as overlay for ambient lightning
-	StillImage *_light_overlay_img;
+	StillImage _light_overlay_img;
 
 	//! Image used as a sub-fading overlay
 	StillImage _fade_overlay_img;
