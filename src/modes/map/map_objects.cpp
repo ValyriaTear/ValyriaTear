@@ -122,16 +122,31 @@ void MapObject::CheckPositionOffsets() {
 
 
 
-void MapObject::GetCollisionRectangle(MapRectangle& rect) const {
+MapRectangle MapObject::GetCollisionRectangle() const {
 	float x_pos = static_cast<float>(x_position) + x_offset;
 	float y_pos = static_cast<float>(y_position) + y_offset;
 
+	MapRectangle rect;
 	rect.left = x_pos - coll_half_width;
 	rect.right = x_pos + coll_half_width;
 	rect.top = y_pos - coll_height;
 	rect.bottom = y_pos;
+
+	return rect;
 }
 
+
+MapRectangle MapObject::GetCollisionRectangle(uint16 row, uint16 col) const {
+	float x_pos = static_cast<float>(row) + x_offset;
+	float y_pos = static_cast<float>(col) + y_offset;
+
+	MapRectangle rect;
+	rect.left = x_pos - coll_half_width;
+	rect.right = x_pos + coll_half_width;
+	rect.top = y_pos - coll_height;
+	rect.bottom = y_pos;
+	return rect;
+}
 
 
 void MapObject::GetImageRectangle(MapRectangle& rect) const {
@@ -459,10 +474,9 @@ void ObjectSupervisor::DrawDialogIcons(const MapFrame* const frame) {
 
 MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, float search_distance) {
 	// NOTE: We don't check if the argument is NULL here for performance reasons
-	MapRectangle search_area;
 
 	// ---------- (1) Using the sprite's direction, determine the boundaries of the search area to check for objects
-	sprite->GetCollisionRectangle(search_area);
+	MapRectangle search_area = sprite->GetCollisionRectangle();
 	if (sprite->direction & FACING_NORTH) {
 		search_area.bottom = search_area.top;
 		search_area.top = search_area.top - search_distance;
@@ -502,8 +516,7 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 		if (((*i)->context & sprite->context) == 0)
 			continue;
 
-		MapRectangle object_rect;
-		(*i)->GetCollisionRectangle(object_rect);
+		MapRectangle object_rect = (*i)->GetCollisionRectangle();
 		if (MapRectangle::CheckIntersection(object_rect, search_area) == true)
 			valid_objects.push_back(*i);
 	} // for (map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
@@ -546,8 +559,7 @@ bool ObjectSupervisor::CheckMapCollision(const private_map::MapObject* const obj
 		return false;
 	}
 
-	MapRectangle coll_rect;
-	obj->GetCollisionRectangle(coll_rect);
+	MapRectangle coll_rect = obj->GetCollisionRectangle();
 
 	// Check if any part of the object's collision rectangle is outside of the map boundary
 	if (coll_rect.left < 0.0f || coll_rect.right >= static_cast<float>(_num_grid_cols) ||
@@ -579,8 +591,7 @@ bool ObjectSupervisor::CheckMapCollision(const private_map::MapObject* const obj
 
 bool ObjectSupervisor::CheckObjectCollision(const MapRectangle& rect, const private_map::MapObject* const obj) {
 	// NOTE: We don't check if the argument is NULL here for performance reasons
-	MapRectangle obj_rect;
-	obj->GetCollisionRectangle(obj_rect);
+	MapRectangle obj_rect = obj->GetCollisionRectangle();
 	return MapRectangle::CheckIntersection(rect, obj_rect);
 }
 
@@ -599,12 +610,68 @@ bool ObjectSupervisor::DoObjectsCollide(const MapObject* const obj1, const MapOb
 		return false;
 	}
 
-	MapRectangle rect1, rect2;
-	obj1->GetCollisionRectangle(rect1);
-	obj2->GetCollisionRectangle(rect2);
+	// If the two object aren't going at the same height, they won't collide
+	if (obj1->sky_object != obj2->sky_object)
+		return false;
+
+	MapRectangle rect1 = obj1->GetCollisionRectangle();
+	MapRectangle rect2 = obj2->GetCollisionRectangle();
 
 	return MapRectangle::CheckIntersection(rect1, rect2);
 }
+
+COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) const {
+	if (!obj)
+		return NO_COLLISION;
+
+	switch (obj->GetType()) {
+		case VIRTUAL_TYPE:
+		case SPRITE_TYPE:
+			return CHARACTER_COLLISION;
+			break;
+		case ENEMY_TYPE:
+			return ENEMY_COLLISION;
+			break;
+		case TREASURE_TYPE:
+		case PHYSICAL_TYPE:
+			return WALL_COLLISION;
+			break;
+		default:
+			break;
+	}
+	return NO_COLLISION;
+}
+
+COLLISION_TYPE ObjectSupervisor::DetectCollisionType(VirtualSprite* sprite,
+													 uint16 row, uint16 col) {
+	// If the sprite has this property set it can not collide
+	if (!sprite || sprite->no_collision)
+		return NO_COLLISION;
+
+	// get the collision rectangle at the given position
+	MapRectangle sprite_rect = sprite->GetCollisionRectangle(row, col);
+
+	vector<MapObject*>* objects = sprite->sky_object ?
+		&_sky_objects : &_ground_objects;
+
+	std::vector<hoa_map::private_map::MapObject*>::const_iterator it, it_end;
+	for (it = objects->begin(), it_end = objects->end(); it != it_end; ++it) {
+		// Check if either of the two objects have the no_collision property enabled
+		if ((*it)->no_collision)
+			continue;
+
+		// If the two objects are not contained within the same context, they can not overlap
+		if (sprite->context != (*it)->context)
+			continue;
+
+		if (CheckObjectCollision(sprite_rect, *it)) {
+			return GetCollisionFromObjectType(*it);
+		}
+	}
+
+	return NO_COLLISION;
+}
+
 
 
 
@@ -616,13 +683,12 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 		return NO_COLLISION;
 	}
 
-	MapRectangle coll_rect;
-	sprite->GetCollisionRectangle(coll_rect);
+	MapRectangle coll_rect = sprite->GetCollisionRectangle();
 
 	// ---------- (1) Check if any part of the object's collision rectangle is outside of the map boundary
 	if (coll_rect.left < 0.0f || coll_rect.right >= static_cast<float>(_num_grid_cols) ||
 		coll_rect.top < 0.0f || coll_rect.bottom >= static_cast<float>(_num_grid_rows)) {
-		return BOUNDARY_COLLISION;
+		return WALL_COLLISION;
 	}
 
 	// ---------- (2) Check if the object's collision rectangel overlaps with any unwalkable elements on the collision grid
@@ -635,7 +701,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 			for (uint32 c = static_cast<uint32>(coll_rect.left); c <= static_cast<uint32>(coll_rect.right); c++) {
 				// Checks the collision grid at the row-column at the object's current context
 				if ((_collision_grid[r][c] & sprite->context) != 0) {
-					return GRID_COLLISION;
+					return WALL_COLLISION;
 				}
 			}
 		}
@@ -650,8 +716,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 		objects = &_sky_objects;
 
 	// ---------- (4) Check collision areas for all objects matching the layer and context of the sprite
-	MapRectangle sprite_rect;
-	sprite->GetCollisionRectangle(sprite_rect);
+	MapRectangle sprite_rect = sprite->GetCollisionRectangle();
 
 	for (uint32 i = 0; i < objects->size(); i++) {
 		// Check for conditions where we would not want to do collision detection between the two objects
@@ -672,7 +737,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 		if (collision_object != NULL) {
 			*collision_object = obstruction_object;
 		}
-		return OBJECT_COLLISION;
+		return GetCollisionFromObjectType(obstruction_object);
 	}
 
 	return NO_COLLISION;
@@ -680,8 +745,8 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 
 
 
-MapObject* ObjectSupervisor::IsPositionOccupied(int16 row, int16 col) {
-	vector<MapObject*>* objects = &_ground_objects;
+MapObject* ObjectSupervisor::IsPositionOccupied(int16 row, int16 col, bool on_sky) {
+	vector<MapObject*>* objects = on_sky ? &_sky_objects : &_ground_objects;
 
 	uint16 tmp_x;
 	uint16 tmp_y;
@@ -728,34 +793,35 @@ bool ObjectSupervisor::IsPositionOccupiedByObject(int16 row, int16 col, MapObjec
 
 
 
-bool ObjectSupervisor::AdjustSpriteAroundCollision(private_map::VirtualSprite* sprite, COLLISION_TYPE coll_type, MapObject* coll_obj) {
-	// 1) Check for special cases where we do not want to adjust the sprite's position even though this function was called
-	// If the sprite collided with another sprite that is moving and this sprite is not the map camera (not player-controlled),
+bool ObjectSupervisor::AdjustSpriteAroundCollision(private_map::VirtualSprite* sprite,
+												   COLLISION_TYPE coll_type,
+												   MapObject* coll_obj) {
+	// 1) Check for special cases where we do not want to adjust the sprite's position
+	// even though this function was called.
+	// If the sprite collided with another sprite that is moving
+	// and this sprite is not the map camera (not player-controlled),
 	// don't attempt any adjustments. Instead we allow the other sprite to make its own adjustments.
 	// TODO: maybe in this case, we should allow for position alignment but no other forms of movement adjustment
-	if ((sprite != MapMode::CurrentInstance()->GetCamera()) && (coll_type == OBJECT_COLLISION)) {
-		MAP_OBJECT_TYPE obj_type = coll_obj->GetType();
-		if ((obj_type == VIRTUAL_TYPE) || (obj_type == SPRITE_TYPE) || (obj_type == ENEMY_TYPE)) {
-			VirtualSprite* coll_sprite = dynamic_cast<VirtualSprite*>(coll_obj);
-			if (coll_sprite->moving == true) {
-				return false;
-			}
+	if ((sprite != MapMode::CurrentInstance()->GetCamera())
+		&& ((coll_type == CHARACTER_COLLISION) || (coll_type == ENEMY_COLLISION))) {
+		VirtualSprite* coll_sprite = dynamic_cast<VirtualSprite*>(coll_obj);
+		if (coll_sprite->moving == true) {
+			return false;
 		}
 	}
 
 	// Retrieve collision rectangle of the sprite and the collision object if available
-	MapRectangle sprite_coll_rect, object_coll_rect;
-	sprite->GetCollisionRectangle(sprite_coll_rect);
-	if (coll_obj != NULL) {
-		coll_obj->GetCollisionRectangle(object_coll_rect);
-	}
+	MapRectangle sprite_coll_rect = sprite->GetCollisionRectangle();
+	MapRectangle object_coll_rect;
+	if (coll_obj)
+		object_coll_rect = coll_obj->GetCollisionRectangle();
 
 	// Attempt alignment and adjustment changes to the sprite as appropriate
 	if (sprite->direction & MOVING_ORTHOGONALLY) {
 		if (_AlignSpriteWithCollision(sprite, sprite->direction, coll_type, sprite_coll_rect, object_coll_rect) == true) {
 			return true;
 		}
-		else if (coll_type != BOUNDARY_COLLISION) {
+		else if (coll_type != WALL_COLLISION) {
 			return _MoveSpriteAroundCollisionCorner(sprite, coll_type, sprite_coll_rect, object_coll_rect);
 		}
 	}
@@ -767,13 +833,23 @@ bool ObjectSupervisor::AdjustSpriteAroundCollision(private_map::VirtualSprite* s
 
 
 
-bool ObjectSupervisor::FindPath(VirtualSprite* sprite, vector<PathNode>& path, const PathNode& dest) {
-	// NOTE: Refer to the implementation of the A* algorithm to understand what all these lists and score values are for
-	std::vector<PathNode> open_list;
-	std::vector<PathNode> closed_list;
+std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const PathNode& dest) {
+	// NOTE: Refer to the implementation of the A* algorithm to understand
+	// what all these lists and score values are for.
+	std::vector<PathNode> path;
 
 	// The starting node of this path discovery
 	PathNode source_node(static_cast<int16>(sprite->y_position), static_cast<int16>(sprite->x_position));
+
+	// Check that the source node is not the same as the destination node
+	if (source_node == dest) {
+		PRINT_ERROR << "source node coordinates are the same as the destination" << endl;
+		// return an empty path.
+		return path;
+	}
+
+	std::vector<PathNode> open_list;
+	std::vector<PathNode> closed_list;
 
 	// The current "best node"
 	PathNode best_node;
@@ -788,32 +864,14 @@ bool ObjectSupervisor::FindPath(VirtualSprite* sprite, vector<PathNode>& path, c
 	// Original offset for sprite
 	float x_offset, y_offset;
 
-	path.clear();
-
-	// Check that the source node is not the same as the destination node
-	if (source_node == dest) {
-		PRINT_ERROR << "source node coordinates are the same as the destination" << endl;
-		return false;
-	}
-
 	// Check that the destination is valid for the sprite to move to
 	x_offset = sprite->x_offset;
 	y_offset = sprite->y_offset;
 
-	sprite->x_position = dest.col;
-	sprite->y_position = dest.row;
-	// Don't use 0.0f here for both since errors at the border between two positions may occure, especially when running
+	// Don't use 0.0f here for both since errors at the border between
+	// two positions may occure, especially when running.
 	sprite->x_offset = 0.5f;
 	sprite->y_offset = 0.5f;
-
-	if (DetectCollision(sprite, NULL) != NO_COLLISION) {
-		sprite->x_position = source_node.col;
-		sprite->y_position = source_node.row;
-		sprite->x_offset = x_offset;
-		sprite->y_offset = y_offset;
-		PRINT_ERROR << "sprite can not move to destination node on path because one or more grid tiles are unwalkable" << endl;
-		return false;
-	}
 
 	open_list.push_back(source_node);
 
@@ -824,9 +882,8 @@ bool ObjectSupervisor::FindPath(VirtualSprite* sprite, vector<PathNode>& path, c
 		closed_list.push_back(best_node);
 
 		// Check if destination has been reached, and break out of the loop if so
-		if (best_node == dest) {
+		if (best_node == dest)
 			break;
-		}
 
 		// Setup the coordinates of the 8 adjacent nodes to the best node
 		nodes[0].row = best_node.row - 1; nodes[0].col = best_node.col;
@@ -841,17 +898,18 @@ bool ObjectSupervisor::FindPath(VirtualSprite* sprite, vector<PathNode>& path, c
 		// Check the eight adjacent nodes
 		for (uint8 i = 0; i < 8; ++i) {
 			// ---------- (A): Check if all tiles are walkable
-			sprite->x_position = nodes[i].col;
-			sprite->y_position = nodes[i].row;
-
-			if (DetectCollision(sprite, NULL) != NO_COLLISION) {
+			COLLISION_TYPE collision_type = DetectCollisionType(sprite,
+																nodes[i].row,
+																nodes[i].col);
+			// Can't go through walls.
+			// TODO: Handle small walls to permit sky objects
+			// to go through terrain level changes.
+			if (collision_type == WALL_COLLISION)
 				continue;
-			}
 
 			// ---------- (B): Check if the node is already in the closed list
-			if (find(closed_list.begin(), closed_list.end(), nodes[i]) != closed_list.end()) {
+			if (find(closed_list.begin(), closed_list.end(), nodes[i]) != closed_list.end())
 				continue;
-			}
 
 			// ---------- (C): If this point has been reached, the node is valid for the sprite to move to
 			// If this is a lateral adjacent node, g_score is +10, otherwise diagonal adjacent node is +14
@@ -859,6 +917,13 @@ bool ObjectSupervisor::FindPath(VirtualSprite* sprite, vector<PathNode>& path, c
 				g_add = 10;
 			else
 				g_add = 14;
+
+			// Add some g cost when there is another sprite there,
+			// so the NPC try to get around when possible,
+			// but will still go through it when there are no other choices.
+			if (collision_type == CHARACTER_COLLISION
+				|| collision_type == ENEMY_COLLISION)
+				g_add += 20;
 
 			// Set the node's parent and calculate its g_score
 			nodes[i].parent_row = best_node.row;
@@ -894,7 +959,7 @@ bool ObjectSupervisor::FindPath(VirtualSprite* sprite, vector<PathNode>& path, c
 
 	if (open_list.empty() == true) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "could not find path to destination" << endl;
-		return false;
+		return path;
 	}
 
 	// Add the destination node to the vector, retain its parent, and remove it from the closed list
@@ -914,13 +979,12 @@ bool ObjectSupervisor::FindPath(VirtualSprite* sprite, vector<PathNode>& path, c
 	std::reverse(path.begin(), path.end());
 
 	// Move sprite back to original position
-	sprite->x_position = source_node.col;
-	sprite->y_position = source_node.row;
+	// Needed because of setting the sprite offset to 0.5 during pathfinding
 	sprite->x_offset = x_offset;
 	sprite->y_offset = y_offset;
 
-	return true;
-} // bool ObjectSupervisor::FindPath(const VirtualSprite* sprite, std::vector<PathNode>& path, const PathNode& dest)
+	return path;
+} // bool ObjectSupervisor::FindPath(const VirtualSprite* sprite, const PathNode& dest)
 
 
 
@@ -936,70 +1000,53 @@ bool ObjectSupervisor::_AlignSpriteWithCollision(VirtualSprite* sprite, uint16 d
 	// Used to hold the proper coordinate of the sprite and the collision border
 	float pos_sprite = 0.0f, pos_border = 0.0f;
 
-	if (coll_type == BOUNDARY_COLLISION) {
-		switch (direction) {
-			case NORTH:
-				pos_sprite = sprite_coll_rect.top;
-				pos_border = 0.0f;
-				break;
-			case SOUTH:
-				pos_sprite = sprite_coll_rect.bottom;
-				pos_border = static_cast<float>(_num_grid_rows);
-				break;
-			case EAST:
-				pos_sprite = sprite_coll_rect.right;
-				pos_border = static_cast<float>(_num_grid_cols);
-				break;
-			case WEST:
-				pos_sprite = sprite_coll_rect.left;
-				pos_border = 0.0f;
-				break;
-		}
-	}
-	else if (coll_type == GRID_COLLISION) {
-		// When aligning with the grid, we only need to check that the fractional part of the float is equal to 0.0f
-		switch (direction) {
-			case NORTH:
-				pos_sprite = GetFloatFraction(sprite_coll_rect.top);
-				pos_border = 0.0f;
-				break;
-			case SOUTH:
-				pos_sprite = 1.0f - GetFloatFraction(sprite_coll_rect.bottom);
-				pos_border = 0.0f;
-				break;
-			case EAST:
-				pos_sprite = 1.0f - GetFloatFraction(sprite_coll_rect.right);
-				pos_border = 0.0f;
-				break;
-			case WEST:
-				pos_sprite = GetFloatFraction(sprite_coll_rect.left);
-				pos_border = 0.0f;
-				break;
-		}
-	}
-	else if (coll_type == OBJECT_COLLISION) {
-		switch (direction) {
-			case NORTH:
-				pos_sprite = sprite_coll_rect.top;
-				pos_border = object_coll_rect.bottom;
-				break;
-			case SOUTH:
-				pos_sprite = sprite_coll_rect.bottom;
-				pos_border = object_coll_rect.top;
-				break;
-			case EAST:
-				pos_sprite = sprite_coll_rect.right;
-				pos_border = object_coll_rect.left;
-				break;
-			case WEST:
-				pos_sprite = sprite_coll_rect.left;
-				pos_border = object_coll_rect.right;
-				break;
-		}
-	}
-	else {
-		IF_PRINT_WARNING(MAP_DEBUG) << "invalid collision type: " << coll_type << endl;
-		return false;
+	switch (coll_type) {
+		case WALL_COLLISION:
+			// When aligning with the grid, we only need to check that the fractional part of the float is equal to 0.0f
+			switch (direction) {
+				case NORTH:
+					pos_sprite = GetFloatFraction(sprite_coll_rect.top);
+					pos_border = 0.0f;
+					break;
+				case SOUTH:
+					pos_sprite = 1.0f - GetFloatFraction(sprite_coll_rect.bottom);
+					pos_border = 0.0f;
+					break;
+				case EAST:
+					pos_sprite = 1.0f - GetFloatFraction(sprite_coll_rect.right);
+					pos_border = 0.0f;
+					break;
+				case WEST:
+					pos_sprite = GetFloatFraction(sprite_coll_rect.left);
+					pos_border = 0.0f;
+					break;
+			}
+		break;
+		case CHARACTER_COLLISION:
+		case ENEMY_COLLISION:
+			switch (direction) {
+				case NORTH:
+					pos_sprite = sprite_coll_rect.top;
+					pos_border = object_coll_rect.bottom;
+					break;
+				case SOUTH:
+					pos_sprite = sprite_coll_rect.bottom;
+					pos_border = object_coll_rect.top;
+					break;
+				case EAST:
+					pos_sprite = sprite_coll_rect.right;
+					pos_border = object_coll_rect.left;
+					break;
+				case WEST:
+					pos_sprite = sprite_coll_rect.left;
+					pos_border = object_coll_rect.right;
+					break;
+			}
+		break;
+		default:
+			IF_PRINT_WARNING(MAP_DEBUG) << "invalid collision type: " << coll_type << endl;
+			return false;
+		break;
 	}
 
 	// ---------- (2): Check if the sprite is already aligned and modify the sprite's position if it is not
@@ -1028,7 +1075,7 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionCorner(VirtualSprite* sprite, C
 	bool check_start = true, check_end = true;
 
 	// ---------- (1): If this was an object collision, first check if there is a corner close enough to move around
-	if (coll_type == OBJECT_COLLISION) {
+	if (coll_type == CHARACTER_COLLISION || coll_type == ENEMY_COLLISION) {
 		if (horizontal_adjustment == true) {
 			if (object_coll_rect.left < sprite_coll_rect.left) {
 				check_start = false;
@@ -1193,7 +1240,7 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionCorner(VirtualSprite* sprite, C
 		move_in_start_direction = false;
 	}
 	// In the following cases, both start and end sides are valid to make adjustments to
-	else if (coll_type != OBJECT_COLLISION) {
+	else if (coll_type != CHARACTER_COLLISION && coll_type != ENEMY_COLLISION) {
 		// Adjust in the position of least grid distance
 		move_in_start_direction = (start_distance <= end_distance) ? true : false;
 	}
@@ -1282,21 +1329,7 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionDiagonal(VirtualSprite* sprite,
 	}
 
 	// ---------- (2): Determine whether the collision occurred in the horizontal or vertical direction (or both)
-	if (coll_type == BOUNDARY_COLLISION) {
-		if (north_or_south == true) {
-			check_vertical_align = (mod_sprite_rect.top < 0.0f) ? true : false;
-		}
-		else {
-			check_vertical_align = (mod_sprite_rect.bottom > static_cast<float>(_num_grid_rows)) ? true : false;
-		}
-		if (sprite->direction == MOVING_EASTWARD) {
-			check_horizontal_align = (mod_sprite_rect.right > static_cast<float>(_num_grid_cols)) ? true : false;
-		}
-		else {
-			check_horizontal_align = (mod_sprite_rect.left < 0.0f) ? true : false;
-		}
-	}
-	else if (coll_type == GRID_COLLISION) {
+	if (coll_type == WALL_COLLISION) {
 		uint32 axis;
 
 		check_vertical_align = false;
@@ -1317,7 +1350,7 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionDiagonal(VirtualSprite* sprite,
 			}
 		}
 	}
-	else if (coll_type == OBJECT_COLLISION) {
+	else if (coll_type == CHARACTER_COLLISION || coll_type == ENEMY_COLLISION) {
 		if (north_or_south == true) {
 			check_vertical_align = (sprite_coll_rect.top > object_coll_rect.bottom) ? true : false;
 		}

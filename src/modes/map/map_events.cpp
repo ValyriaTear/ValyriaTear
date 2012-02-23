@@ -640,14 +640,8 @@ void PathMoveSpriteEvent::_Start() {
 		return;
 	}
 
-	// TODO: If we already have a path from this source to this destination, re-use it and do not compute a new path
-// 	if ((_path.empty() == false) && (_source_col == _sprite->x_position) && (_source_row == _sprite->y_position)) {
-// 		_sprite->moving = true;
-// 		_SetDirection();
-// 		return;
-// 	}
-
-	if (MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, _path, _destination_node) == true) {
+	_path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, _destination_node);
+	if (!_path.empty()) {
 		_sprite->moving = true;
 		_SetSpriteDirection();
 	}
@@ -735,7 +729,7 @@ void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject*
 	// Boundary and grid collisions should not occur on a pre-calculated path. If these conditions do occur,
 	// we terminate the path event immediately. The conditions may occur if, for some reason, the map's boundaries
 	// or collision grid are modified after the path is calculated
-	if (coll_type == BOUNDARY_COLLISION || coll_type == GRID_COLLISION) {
+	if (coll_type == WALL_COLLISION) {
 		if (MapMode::CurrentInstance()->GetObjectSupervisor()->AdjustSpriteAroundCollision(_sprite, coll_type, coll_obj) == false) {
 			IF_PRINT_WARNING(MAP_DEBUG) << "boundary or grid collision occurred on a pre-calculated path movement" << endl;
 		}
@@ -750,7 +744,6 @@ void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject*
 
 	// Determine if the obstructing object is blocking the destination of this path
 	bool destination_blocked = MapMode::CurrentInstance()->GetObjectSupervisor()->IsPositionOccupiedByObject(_destination_node.row, _destination_node.col, coll_obj);
-	VirtualSprite* coll_sprite = NULL;
 
 	switch (coll_obj->GetObjectType()) {
 		case PHYSICAL_TYPE:
@@ -775,7 +768,6 @@ void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject*
 		case VIRTUAL_TYPE:
 		case SPRITE_TYPE:
 		case ENEMY_TYPE:
-			coll_sprite = dynamic_cast<VirtualSprite*>(coll_obj);
 			if (destination_blocked == true) {
 				// Do nothing but wait for the obstructing sprite to move out of the way
 				return;

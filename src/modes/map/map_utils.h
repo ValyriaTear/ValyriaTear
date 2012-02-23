@@ -139,11 +139,12 @@ const uint32 TILES_PER_TILESET = 256;
 
 //! \brief Used to identify the type of map object
 enum MAP_OBJECT_TYPE {
-	PHYSICAL_TYPE = 0,
-	VIRTUAL_TYPE = 1,
-	SPRITE_TYPE = 2,
-	ENEMY_TYPE = 3,
-	TREASURE_TYPE = 4
+	PHYSICAL_TYPE = 0,	//! This is a physical (visible) object, like a rock, a door, ect...
+	VIRTUAL_TYPE = 1,	//! This is used as another type of NPC sprite, but without interaction.
+	SPRITE_TYPE = 2,    //! This is a NPC sprite. Blocking for the hero, but not for the other sprites.
+	ENEMY_TYPE = 3,		//! This is an enemy sprite. Blocking the hero, and triggering a battle.
+	TREASURE_TYPE = 4	/** This is a treasure, can obtain a treasure from it when exploring,
+						    but blocking for movement. */
 };
 
 
@@ -229,10 +230,11 @@ const uint32 ANIM_ATTACKING_EAST = 12;
 
 //! \brief Represents the various types of collisions which may occur for a sprite
 enum COLLISION_TYPE {
-	NO_COLLISION = 0,       //!< Indicates that no collision has occurred
-	BOUNDARY_COLLISION = 1, //!< Happens when the sprite attempts to move outside any of the map's boundaries
-	GRID_COLLISION = 2,     //!< Condition when the sprite's collision rectangle overlaps an invalid element of the map's collision grid
-	OBJECT_COLLISION = 3,   //!< Occurs when the sprite collides with another map object in the same object layer
+	NO_COLLISION = 0,       //!< Indicates that no collision has occurred.
+	CHARACTER_COLLISION = 1,//!< Indicates that a collision happened with a character.
+	ENEMY_COLLISION = 2,    //!< Indicates that a collision happened with an enemy.
+	WALL_COLLISION = 3,     //! Indicates a collision with a wall.
+	COLLISION_TYPES = 4
 };
 
 

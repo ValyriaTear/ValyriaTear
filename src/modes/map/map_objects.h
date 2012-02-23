@@ -204,7 +204,13 @@ public:
 	/** \brief Returns the collision rectangle for the current object
 	*** \param rect A reference to the MapRectangle object to store the collision rectangle data
 	**/
-	void GetCollisionRectangle(MapRectangle& rect) const;
+	MapRectangle GetCollisionRectangle() const;
+
+	/** \brief Returns the collision rectangle for the current object for the given position
+	*** \param rect A reference to the MapRectangle object to store the collision rectangle data
+	*** but on the given position.
+	**/
+	MapRectangle GetCollisionRectangle(uint16 row, uint16 col) const;
 
 	/** \brief Returns the image rectangle for the current object
 	*** \param rect A reference to the MapRectangle object to store the image rectangle data
@@ -569,11 +575,12 @@ public:
 	/** \brief Determines if a map object or sprite occupies a certain element of the collision grid
 	*** \param col The collision grid column
 	*** \param row The collision grid row
+	*** \param on_sky Tells whether we should check ground or sky objects.
 	*** \return A pointer to the object occupying the grid position or NULL if the position is unoccupied
 	***
 	*** \todo Take into account the object/sprite's collision property and also add a parameter for map context
 	**/
-	private_map::MapObject* IsPositionOccupied(int16 col, int16 row);
+	private_map::MapObject* IsPositionOccupied(int16 col, int16 row, bool on_sky = false);
 
 	/** \brief Determines if a specific map object occupies a specific element of the collision grid
 	*** \param col The collision grid column
@@ -584,6 +591,21 @@ public:
 	*** \todo Take into account the object/sprite's collision property and also add a parameter for map context
 	**/
 	bool IsPositionOccupiedByObject(int16 col, int16 row, MapObject* object);
+
+	/** \brief Tells the collision type corresponding to an object type.
+	*** \param obj A pointer to the map object to check
+	*** \return The corresponding type of collision detected.
+	**/
+	COLLISION_TYPE GetCollisionFromObjectType(MapObject *obj) const;
+
+	/** \brief Tells the collision type of a sprite when it is at the given position
+	*** \param sprite A pointer to the map sprite to check
+	*** \param col The collision grid column
+	*** \param row The collision grid rows
+	*** \return The type of collision detected, which may include NO_COLLISION
+	*** if none was detected
+	**/
+	COLLISION_TYPE DetectCollisionType(VirtualSprite* sprite, uint16 row, uint16 col);
 
 	/** \brief Determines if a map sprite's position is invalid because of a collision
 	*** \param sprite A pointer to the map sprite to check
@@ -622,9 +644,8 @@ public:
 
 	/** \brief Finds a path from a sprite's current position to a destination
 	*** \param sprite A pointer of the sprite to find the path for
-	*** \param path A reference to a vector of PathNode objects to store the path
 	*** \param dest The destination coordinates
-	*** \return True if a path to the destination was found successfully
+	*** \param path A vector of PathNode objects storing the path
 	***
 	*** This algorithm uses the A* algorithm to find a path from a source to a destination.
 	*** This function ignores the position of all other objects and only concerns itself with
@@ -632,7 +653,7 @@ public:
 	***
 	*** \note If an error is detected or a path could not be found, the function will empty the path vector before returning
 	**/
-	bool FindPath(private_map::VirtualSprite* sprite, std::vector<private_map::PathNode>& path, const private_map::PathNode& dest);
+	std::vector<PathNode> FindPath(private_map::VirtualSprite* sprite, const private_map::PathNode& dest);
 
 	/** \brief Returns the pointer to the virtual focus.
 	**/
