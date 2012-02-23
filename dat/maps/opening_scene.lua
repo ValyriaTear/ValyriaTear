@@ -335,13 +335,13 @@ function InitialCreateDialogue()
 	-- Introduction Dialogue
 	dialogue = hoa_map.SpriteDialogue(10);
 		dialogue:SetInputBlocked(true);
-		text = hoa_system.Translate("I watched the men in the pale light of the blue moon. The dark cloaks they wore for warmth only better distinguishing them against the light sand for my trained eye.");
+		text = hoa_system.Translate("I watched my comrads in the pale light of the blue moon. The dark cloaks they wore for warmth only helped me to better distinguish them against the light sand for my untrained eyes.");
 		dialogue:AddLineTimed(text, 2500, 10000);
-		text = hoa_system.Translate("The Harrvah Knights, though powerful in their great city of stone, were powerless in the might of the desert. The desert was the land of the Muabi tribe, my tribe. Out here, a squad of troops such as this was no match for even a small group of Muabi.");
+		text = hoa_system.Translate("We are the Harrvah Knights, though powerful in our great city of stone, we're powerless in the might of the desert. The desert was the land of the Muabi tribe. Out here, a squad of troops such as us was no match for even a small group of Muabi.");
 		dialogue:AddLineTimed(text, 2500, 15000);
-		text = hoa_system.Translate("I knew where they were headed. We had seen that their water supply had been blocked, but such problems were not Muabi problems. The outsiders had built their grand city away from the water, because they could not tame the creatures there.");
+		text = hoa_system.Translate("But I knew where we were headed: our water supply had been blocked, and such problems were very tricky to us, as we had built our city away from the water, because we simply could not tame the creatures there.");
 		dialogue:AddLineTimed(text, 2500, 10000);
-		text = hoa_system.Translate("Although the great sand storms that had swept through our lands for the past several days had finally vanished, the winds still howled throughout the desert...");
+		text = hoa_system.Translate("Although the great sand storms that had swept through this no man's land for the past several days had finally vanished, the winds still howled throughout the desert...");
 		dialogue:AddLineTimed(text, 2500, 10000);
 	DialogueManager:AddDialogue(dialogue);
 
@@ -548,10 +548,19 @@ function InitialCreateEvents()
 	-- Captain gives his orders
 	event = hoa_map.DialogueEvent(200, 21);
 	event:AddEventLinkAtEnd(250, 250);
-	event:AddEventLinkAtEnd(300, 1000);
+	-- The soldiers start to walk at the end of the speech
+	event:AddEventLinkAtEnd(301, 30);
+	event:AddEventLinkAtEnd(302, 40);
+	event:AddEventLinkAtEnd(303, 80);
+	event:AddEventLinkAtEnd(304, 1000);
+	event:AddEventLinkAtEnd(305, 1600);
+	event:AddEventLinkAtEnd(306, 1900);
+	event:AddEventLinkAtEnd(307, 2100);
+	event:AddEventLinkAtEnd(308, 2600);
+	event:AddEventLinkAtEnd(309, 2600);
 	EventManager:RegisterEvent(event);
 
-	-- Start dialogue between character party and beginning moving other sprites into cave
+	-- Start dialogue between character party
 	event = hoa_map.ScriptedSpriteEvent(250, 1003, 1, 0);
 	event:AddEventLinkAtEnd(251);
 	EventManager:RegisterEvent(event);
@@ -571,22 +580,110 @@ function InitialCreateEvents()
 	event = hoa_map.ChangeDirectionSpriteEvent(255, 1002, hoa_map.MapMode.SOUTH);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.DialogueEvent(256, 31);
-	event:AddEventLinkAtEnd(350, 1000);
+
+	-- The Hero's formation goes into the cave at the end of the talk
+	event:AddEventLinkAtEnd(323, 300);
+	event:AddEventLinkAtEnd(321, 300);
+	event:AddEventLinkAtEnd(322, 300);
+	event:AddEventLinkAtEnd(320, 300);
+
+	-- and the captain last
+	event:AddEventLinkAtEnd(300, 2300);
+
 	EventManager:RegisterEvent(event);
 
+
 	-- While characters are talking amongst each other, move sprites to cave entrance and disappear
-	-- TODO: waiting on bug fixes and improvements in pathfinding code before fully scripting this
 	local cave_entrance_x = 371;
 	local cave_entrance_y = 8;
-	event = hoa_map.PathMoveSpriteEvent(300, 2000, cave_entrance_x, cave_entrance_y);
-	event:AddEventLinkAtEnd(301);
+	-- walk to the cave entrance
+	event = hoa_map.PathMoveSpriteEvent(301, 2001, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(311, 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(301, 2000, 2, 0);
+	-- disappear once in front of it
+	event = hoa_map.ScriptedSpriteEvent(311, 2001, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(302, 2002, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(312, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(312, 2002, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(303, 2003, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(313, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(313, 2003, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(304, 2004, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(314, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(314, 2004, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(305, 2005, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(315, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(315, 2005, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(306, 2006, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(316, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(316, 2006, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(307, 2007, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(317, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(317, 2007, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(308, 2008, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(318, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(318, 2008, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent(309, 2009, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(319, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(319, 2009, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	-- The captain also enters the cave.
+	event = hoa_map.PathMoveSpriteEvent(300, 2000, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(310, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(310, 2000, 2, 0);
+	-- After the captain leaves, we face to the next map.
+	event:AddEventLinkAtEnd(340, 500);
 	EventManager:RegisterEvent(event);
 
 	-- Move character sprites toward cave entrance and transition to the cave map
-	-- TODO: waiting on bug fixes and improvements in pathfinding code before doing character movements
-	event = hoa_map.MapTransitionEvent(350, "dat/maps/river_access_cave.lua");
+	event = hoa_map.PathMoveSpriteEvent(320, 1000, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(330, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(330, 1000, 2, 0);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent(321, 1001, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(331, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(331, 1001, 2, 0);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent(322, 1002, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(332, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(332, 1002, 2, 0);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent(323, 1003, cave_entrance_x, cave_entrance_y);
+	event:AddEventLinkAtEnd(333, 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent(333, 1003, 2, 0);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent(340, "dat/maps/river_access_cave.lua");
 	EventManager:RegisterEvent(event);
 end
 
