@@ -553,42 +553,6 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 
 
 
-bool ObjectSupervisor::CheckMapCollision(const private_map::MapObject* const obj) {
-	// NOTE: We don't check if the argument is NULL here for performance reasons
-	if (obj->no_collision == true) {
-		return false;
-	}
-
-	MapRectangle coll_rect = obj->GetCollisionRectangle();
-
-	// Check if any part of the object's collision rectangle is outside of the map boundary
-	if (coll_rect.left < 0.0f || coll_rect.right >= static_cast<float>(_num_grid_cols) ||
-		coll_rect.top < 0.0f || coll_rect.bottom >= static_cast<float>(_num_grid_rows)) {
-		return true;
-	}
-
-	// Grid based collision is not done for objects in the sky layer
-	if (obj->sky_object == true) {
-		return false;
-	}
-
-	// Determine if the object's collision rectangle overlaps any unwalkable tiles
-	// Note that because the sprite's collision rectangle was previously determined to be within the map bounds,
-	// the map grid tile indeces referenced in this loop are all valid entries and do not need to be checked.
-	for (uint32 r = static_cast<uint32>(coll_rect.top); r <= static_cast<uint32>(coll_rect.bottom); r++) {
-		for (uint32 c = static_cast<uint32>(coll_rect.left); c <= static_cast<uint32>(coll_rect.right); c++) {
-			// Checks the collision grid at the row-column at the object's current context
-			if ((_collision_grid[r][c] & obj->context) != 0) {
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
-
-
 bool ObjectSupervisor::CheckObjectCollision(const MapRectangle& rect, const private_map::MapObject* const obj) {
 	// NOTE: We don't check if the argument is NULL here for performance reasons
 	MapRectangle obj_rect = obj->GetCollisionRectangle();
@@ -596,29 +560,6 @@ bool ObjectSupervisor::CheckObjectCollision(const MapRectangle& rect, const priv
 }
 
 
-
-bool ObjectSupervisor::DoObjectsCollide(const MapObject* const obj1, const MapObject* const obj2) {
-	// NOTE: We don't check if the arguments are NULL here for performance reasons
-
-	// Check if either of the two objects have the no_collision property enabled
-	if (obj1->no_collision == true || obj2->no_collision == true) {
-		return false;
-	}
-
-	// If the two objects are not contained within the same context, they can not overlap
-	if (obj1->context != obj2->context) {
-		return false;
-	}
-
-	// If the two object aren't going at the same height, they won't collide
-	if (obj1->sky_object != obj2->sky_object)
-		return false;
-
-	MapRectangle rect1 = obj1->GetCollisionRectangle();
-	MapRectangle rect2 = obj2->GetCollisionRectangle();
-
-	return MapRectangle::CheckIntersection(rect1, rect2);
-}
 
 COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) const {
 	if (!obj)
@@ -642,7 +583,9 @@ COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) cons
 	return NO_COLLISION;
 }
 
-COLLISION_TYPE ObjectSupervisor::DetectCollisionType(VirtualSprite* sprite,
+
+
+COLLISION_TYPE ObjectSupervisor::DetectCollisionAtLocation(VirtualSprite* sprite,
 													 uint16 row, uint16 col) {
 	// If the sprite has this property set it can not collide
 	if (!sprite || sprite->no_collision)
@@ -742,30 +685,6 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 
 	return NO_COLLISION;
 } // bool ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObject** collision_object)
-
-
-
-MapObject* ObjectSupervisor::IsPositionOccupied(int16 row, int16 col, bool on_sky) {
-	vector<MapObject*>* objects = on_sky ? &_sky_objects : &_ground_objects;
-
-	uint16 tmp_x;
-	uint16 tmp_y;
-	float tmp_x_offset;
-	float tmp_y_offset;
-
-	for (uint32 i = 0; i < objects->size(); i++) {
-		(*objects)[i]->GetXPosition(tmp_x, tmp_x_offset);
-		(*objects)[i]->GetYPosition(tmp_y, tmp_y_offset);
-
-		if (col >= tmp_x - (*objects)[i]->GetCollHalfWidth() && col <= tmp_x + (*objects)[i]->GetCollHalfWidth()) {
-			if (row <= tmp_y + (*objects)[i]->GetCollHeight() && row >= tmp_y) {
-				return (*objects)[i];
-			}
-		}
-	}
-
-	return NULL;
-}
 
 
 
@@ -898,7 +817,7 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 		// Check the eight adjacent nodes
 		for (uint8 i = 0; i < 8; ++i) {
 			// ---------- (A): Check if all tiles are walkable
-			COLLISION_TYPE collision_type = DetectCollisionType(sprite,
+			COLLISION_TYPE collision_type = DetectCollisionAtLocation(sprite,
 																nodes[i].row,
 																nodes[i].col);
 			// Can't go through walls.

@@ -546,16 +546,6 @@ public:
 	**/
 	private_map::MapObject* FindNearestObject(const private_map::VirtualSprite* sprite, float search_distance = 3.0f);
 
-	/** \brief Determines if an object occupies an invalid position on the map
-	*** \param obj A pointer to the map object whose position should be checked
-	*** \return True if the object has collided with
-	***
-	*** The collision condition is true if the object's collision rectangle occupies any space
-	*** outside of the map boundaries or if any of the collision grid tiles occupied by the
-	*** collision rectangle are unwalkable in the object's current context.
-	**/
-	bool CheckMapCollision(const private_map::MapObject* const obj);
-
 	/** \brief Determines if a map object's collision rectangle intersects with a specified map area
 	*** \param rect A reference to the rectangular section of the map to do collision detection with
 	*** \param obj A pointer to a map object
@@ -564,23 +554,6 @@ public:
 	*** not the no_collision property is enabled on the MapObject.
 	**/
 	bool CheckObjectCollision(const MapRectangle& rect, const private_map::MapObject* const obj);
-
-	/** \brief Determines if two map objects have overlapping collision rectangles
-	*** \param obj1 A pointer to a map object
-	*** \param obj2 A pointer to a different map object
-	*** \return True if the objects collide
-	**/
-	bool DoObjectsCollide(const private_map::MapObject* const obj1, const private_map::MapObject* const obj2);
-
-	/** \brief Determines if a map object or sprite occupies a certain element of the collision grid
-	*** \param col The collision grid column
-	*** \param row The collision grid row
-	*** \param on_sky Tells whether we should check ground or sky objects.
-	*** \return A pointer to the object occupying the grid position or NULL if the position is unoccupied
-	***
-	*** \todo Take into account the object/sprite's collision property and also add a parameter for map context
-	**/
-	private_map::MapObject* IsPositionOccupied(int16 col, int16 row, bool on_sky = false);
 
 	/** \brief Determines if a specific map object occupies a specific element of the collision grid
 	*** \param col The collision grid column
@@ -605,7 +578,7 @@ public:
 	*** \return The type of collision detected, which may include NO_COLLISION
 	*** if none was detected
 	**/
-	COLLISION_TYPE DetectCollisionType(VirtualSprite* sprite, uint16 row, uint16 col);
+	COLLISION_TYPE DetectCollisionAtLocation(VirtualSprite* sprite, uint16 row, uint16 col);
 
 	/** \brief Determines if a map sprite's position is invalid because of a collision
 	*** \param sprite A pointer to the map sprite to check
