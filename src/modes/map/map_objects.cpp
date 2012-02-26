@@ -136,9 +136,9 @@ MapRectangle MapObject::GetCollisionRectangle() const {
 }
 
 
-MapRectangle MapObject::GetCollisionRectangle(uint16 row, uint16 col) const {
-	float x_pos = static_cast<float>(row) + x_offset;
-	float y_pos = static_cast<float>(col) + y_offset;
+MapRectangle MapObject::GetCollisionRectangle(uint16 x, uint16 y) const {
+	float x_pos = static_cast<float>(x) + x_offset;
+	float y_pos = static_cast<float>(y) + y_offset;
 
 	MapRectangle rect;
 	rect.left = x_pos - coll_half_width;
@@ -586,13 +586,13 @@ COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) cons
 
 
 COLLISION_TYPE ObjectSupervisor::DetectCollisionAtLocation(VirtualSprite* sprite,
-													 uint16 row, uint16 col) {
+														uint16 x, uint16 y) {
 	// If the sprite has this property set it can not collide
 	if (!sprite || sprite->no_collision)
 		return NO_COLLISION;
 
 	// get the collision rectangle at the given position
-	MapRectangle sprite_rect = sprite->GetCollisionRectangle(row, col);
+	MapRectangle sprite_rect = sprite->GetCollisionRectangle(x, y);
 
 	vector<MapObject*>* objects = sprite->sky_object ?
 		&_sky_objects : &_ground_objects;
@@ -640,10 +640,10 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 		// Determine if the object's collision rectangle overlaps any unwalkable tiles
 		// Note that because the sprite's collision rectangle was previously determined to be within the map bounds,
 		// the map grid tile indeces referenced in this loop are all valid entries and do not need to be checked for out-of-bounds conditions
-		for (uint32 r = static_cast<uint32>(coll_rect.top); r <= static_cast<uint32>(coll_rect.bottom); r++) {
-			for (uint32 c = static_cast<uint32>(coll_rect.left); c <= static_cast<uint32>(coll_rect.right); c++) {
+		for (uint32 y = static_cast<uint32>(coll_rect.top); y <= static_cast<uint32>(coll_rect.bottom); ++y) {
+			for (uint32 x = static_cast<uint32>(coll_rect.left); x <= static_cast<uint32>(coll_rect.right); ++x) {
 				// Checks the collision grid at the row-column at the object's current context
-				if ((_collision_grid[r][c] & sprite->context) != 0) {
+				if ((_collision_grid[y][x] & sprite->context) != 0) {
 					return WALL_COLLISION;
 				}
 			}

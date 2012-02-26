@@ -210,7 +210,7 @@ public:
 	*** \param rect A reference to the MapRectangle object to store the collision rectangle data
 	*** but on the given position.
 	**/
-	MapRectangle GetCollisionRectangle(uint16 row, uint16 col) const;
+	MapRectangle GetCollisionRectangle(uint16 x, uint16 y) const;
 
 	/** \brief Returns the image rectangle for the current object
 	*** \param rect A reference to the MapRectangle object to store the image rectangle data
@@ -573,12 +573,12 @@ public:
 
 	/** \brief Tells the collision type of a sprite when it is at the given position
 	*** \param sprite A pointer to the map sprite to check
-	*** \param col The collision grid column
-	*** \param row The collision grid rows
+	*** \param x The collision point on the x axis
+	*** \param y The collision point on the y axis
 	*** \return The type of collision detected, which may include NO_COLLISION
 	*** if none was detected
 	**/
-	COLLISION_TYPE DetectCollisionAtLocation(VirtualSprite* sprite, uint16 row, uint16 col);
+	COLLISION_TYPE DetectCollisionAtLocation(VirtualSprite* sprite, uint16 x, uint16 y);
 
 	/** \brief Determines if a map sprite's position is invalid because of a collision
 	*** \param sprite A pointer to the map sprite to check
@@ -655,6 +655,8 @@ private:
 	/** \brief A 2D vector indicating which grid element on the map sprites may be occupied by objects.
 	*** Each bit of each element in this grid corresponds to a context. So all together this entire grid
 	*** stores the collision information for all 32 possible map contexts.
+	*** \Note A position in this member is stored like this:
+	*** _collision_grid[y][x]
 	**/
 	std::vector<std::vector<uint32> > _collision_grid;
 

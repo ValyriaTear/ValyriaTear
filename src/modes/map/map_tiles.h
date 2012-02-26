@@ -127,6 +127,8 @@ private:
 	*** Each key-value pair in the std::map represents a map context, thus the size of the std::map is equal to
 	*** number of contexts in the game map (up to 32). The 2D vector represents the rows and columns of tiles,
 	*** respectively, for the given map context.
+	*** \Note A position in this member is stored like this:
+	*** _tile_grid[y][x]
 	**/
 	std::map<MAP_CONTEXT, std::vector<std::vector<MapTile> > > _tile_grid;
 
