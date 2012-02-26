@@ -688,7 +688,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 
 
 
-bool ObjectSupervisor::IsPositionOccupiedByObject(int16 row, int16 col, MapObject* object) {
+bool ObjectSupervisor::IsPositionOccupiedByObject(int16 x, int16 y, MapObject* object) {
 	if (object == NULL) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "NULL pointer passed into function argument" << endl;
 		return false;
@@ -702,8 +702,8 @@ bool ObjectSupervisor::IsPositionOccupiedByObject(int16 row, int16 col, MapObjec
 	object->GetXPosition(tmp_x, tmp_x_offset);
 	object->GetYPosition(tmp_y, tmp_y_offset);
 
-	if (col >= tmp_x - object->GetCollHalfWidth() && col <= tmp_x + object->GetCollHalfWidth()) {
-		if (row <= tmp_y + object->GetCollHeight() && row >= tmp_y) {
+	if (x >= tmp_x - object->GetCollHalfWidth() && x <= tmp_x + object->GetCollHalfWidth()) {
+		if (y <= tmp_y + object->GetCollHeight() && y >= tmp_y) {
 			return true;
 		}
 	}

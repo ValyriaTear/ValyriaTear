@@ -556,14 +556,14 @@ public:
 	bool CheckObjectCollision(const MapRectangle& rect, const private_map::MapObject* const obj);
 
 	/** \brief Determines if a specific map object occupies a specific element of the collision grid
-	*** \param col The collision grid column
-	*** \param row The collision grid row
+	*** \param x The x axis position
+	*** \param y The y axis position
 	*** \param object The object to check for occupation of the grid element
 	*** \return True if the grid element is occupied by the object
 	***
 	*** \todo Take into account the object/sprite's collision property and also add a parameter for map context
 	**/
-	bool IsPositionOccupiedByObject(int16 col, int16 row, MapObject* object);
+	bool IsPositionOccupiedByObject(int16 x, int16 y, MapObject* object);
 
 	/** \brief Tells the collision type corresponding to an object type.
 	*** \param obj A pointer to the map object to check
