@@ -318,8 +318,8 @@ void TreasureObject::Update() {
 // ----------------------------------------------------------------------------
 
 ObjectSupervisor::ObjectSupervisor() :
-	_num_grid_rows(0),
-	_num_grid_cols(0),
+	_num_grid_x_axis(0),
+	_num_grid_y_axis(0),
 	_last_id(1000)
 {
 	_virtual_focus = new VirtualSprite();
@@ -407,13 +407,13 @@ void ObjectSupervisor::SortObjects() {
 void ObjectSupervisor::Load(ReadScriptDescriptor& map_file) {
 	// ---------- Construct the collision grid
 	map_file.OpenTable("map_grid");
-	_num_grid_rows = map_file.GetTableSize();
-	for (uint16 r = 0; r < _num_grid_rows; r++) {
+	_num_grid_y_axis = map_file.GetTableSize();
+	for (uint16 y = 0; y < _num_grid_y_axis; ++y) {
 		_collision_grid.push_back(vector<uint32>());
-		map_file.ReadUIntVector(r, _collision_grid.back());
+		map_file.ReadUIntVector(y, _collision_grid.back());
 	}
 	map_file.CloseTable();
-	_num_grid_cols = _collision_grid[0].size();
+	_num_grid_x_axis = _collision_grid[0].size();
 }
 
 
@@ -629,8 +629,8 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite, MapObjec
 	MapRectangle coll_rect = sprite->GetCollisionRectangle();
 
 	// ---------- (1) Check if any part of the object's collision rectangle is outside of the map boundary
-	if (coll_rect.left < 0.0f || coll_rect.right >= static_cast<float>(_num_grid_cols) ||
-		coll_rect.top < 0.0f || coll_rect.bottom >= static_cast<float>(_num_grid_rows)) {
+	if (coll_rect.left < 0.0f || coll_rect.right >= static_cast<float>(_num_grid_x_axis) ||
+		coll_rect.top < 0.0f || coll_rect.bottom >= static_cast<float>(_num_grid_y_axis)) {
 		return WALL_COLLISION;
 	}
 
@@ -1032,8 +1032,8 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionCorner(VirtualSprite* sprite, C
 		end_point = start_point + (3 * sprite_length);
 
 		// Ensure that the line end points do not go outside of the map boundaries.
-		start_point = (start_point < 0) ? 0 : start_point;
-		end_point = (end_point >= _num_grid_cols) ? _num_grid_cols : end_point;
+		start_point = std::max(start_point, (int16)0);
+		end_point = std::min(end_point, (int16)_num_grid_x_axis);
 	}
 	else {
 		// +1 is added since the cast throws away everything after the decimal and we want a ceiling integer
@@ -1042,8 +1042,8 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionCorner(VirtualSprite* sprite, C
 		end_point = start_point + (3 * sprite_length);
 
 		// Ensure that the line end points do not go outside of the map boundaries.
-		start_point = (start_point < 0) ? 0 : start_point;
-		end_point = (end_point >= _num_grid_rows) ? _num_grid_rows : end_point;
+		start_point = std::max(start_point, (int16)0);
+		end_point = std::min(end_point, (int16)_num_grid_y_axis);
 	}
 
 	// ---------- (3): Determine the collision grid line axis based on the direction the sprite is trying to move
@@ -1059,12 +1059,12 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionCorner(VirtualSprite* sprite, C
 		case SOUTH:
 			// Set to the row below the bottom of the sprite's collision rectangle
 			line_axis = static_cast<int16>(sprite_coll_rect.bottom) + 1;
-			line_axis = (line_axis < _num_grid_rows) ? line_axis : _num_grid_rows - 1;
+			line_axis = (line_axis < _num_grid_y_axis) ? line_axis : _num_grid_y_axis - 1;
 			break;
 		case EAST:
 			// Set to the column to the right of the right edge of the sprite's collision rectangle
 			line_axis = static_cast<int16>(sprite_coll_rect.right) + 1;
-			line_axis = (line_axis < _num_grid_cols) ? line_axis : _num_grid_cols - 1;
+			line_axis = (line_axis < _num_grid_x_axis) ? line_axis : _num_grid_x_axis - 1;
 			break;
 		case WEST:
 			// Set to the column to the left of the left edge of the sprite's collision rectangle

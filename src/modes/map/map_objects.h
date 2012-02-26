@@ -639,7 +639,7 @@ private:
 	*** The number of collision grid rows and columns is always equal to twice
 	*** that of the number of rows and columns of tiles (stored in the TileManager).
 	**/
-	uint16 _num_grid_rows, _num_grid_cols;
+	uint16 _num_grid_x_axis, _num_grid_y_axis;
 
 	//! \brief Holds the most recently generated object ID number
 	uint16 _last_id;
