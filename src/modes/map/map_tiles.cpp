@@ -340,20 +340,20 @@ void TileSupervisor::Update() {
 void TileSupervisor::DrawLowerLayer(const MapFrame* const frame) {
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
 	VideoManager->Move(frame->tile_x_start, frame->tile_y_start);
-	for (uint32 r = static_cast<uint32>(frame->starting_row);
-			r < static_cast<uint32>(frame->starting_row + frame->num_draw_rows); r++)
+	for (uint32 y = static_cast<uint32>(frame->starting_y);
+			y < static_cast<uint32>(frame->starting_y + frame->num_draw_y_axis); ++y)
 		{
-		for (uint32 c = static_cast<uint32>(frame->starting_col);
-				c < static_cast<uint32>(frame->starting_col + frame->num_draw_cols); c++)
+		for (uint32 x = static_cast<uint32>(frame->starting_x);
+				x < static_cast<uint32>(frame->starting_x + frame->num_draw_x_axis); ++x)
 		{
 			// Draw a tile image if it exists at this location
-			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][r][c].lower_layer >= 0)
+			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].lower_layer >= 0)
 			{
-				_tile_images[_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][r][c].lower_layer]->Draw();
+				_tile_images[_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].lower_layer]->Draw();
 			}
 			VideoManager->MoveRelative(2.0f, 0.0f);
 		}
-		VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_cols * 2), 2.0f);
+		VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
 	}
 }
 
@@ -362,21 +362,21 @@ void TileSupervisor::DrawLowerLayer(const MapFrame* const frame) {
 void TileSupervisor::DrawMiddleLayer(const MapFrame* const frame) {
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
 	VideoManager->Move(frame->tile_x_start, frame->tile_y_start);
-	for (uint32 r = static_cast<uint32>(frame->starting_row);
-			r < static_cast<uint32>(frame->starting_row + frame->num_draw_rows); r++)
+	for (uint32 y = static_cast<uint32>(frame->starting_y);
+			y < static_cast<uint32>(frame->starting_y + frame->num_draw_y_axis); ++y)
 	{
-		for (uint32 c = static_cast<uint32>(frame->starting_col);
-				c < static_cast<uint32>(frame->starting_col + frame->num_draw_cols); c++)
+		for (uint32 x = static_cast<uint32>(frame->starting_x);
+				x < static_cast<uint32>(frame->starting_x + frame->num_draw_x_axis); ++x)
 		{
 			// Draw a tile image if it exists at this location
-			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][r][c].middle_layer >= 0)
+			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].middle_layer >= 0)
 			{
-				_tile_images[_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][r][c].middle_layer]->Draw();
+				_tile_images[_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].middle_layer]->Draw();
 			}
 			VideoManager->MoveRelative(2.0f, 0.0f);
 		}
 
-		VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_cols * 2), 2.0f);
+		VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
 	}
 }
 
@@ -385,20 +385,20 @@ void TileSupervisor::DrawMiddleLayer(const MapFrame* const frame) {
 void TileSupervisor::DrawUpperLayer(const MapFrame* const frame) {
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
 	VideoManager->Move(frame->tile_x_start, frame->tile_y_start);
-	for (uint32 r = static_cast<uint32>(frame->starting_row);
-			r < static_cast<uint32>(frame->starting_row + frame->num_draw_rows); r++)
+	for (uint32 y = static_cast<uint32>(frame->starting_y);
+			y < static_cast<uint32>(frame->starting_y + frame->num_draw_y_axis); ++y)
 	{
-		for (uint32 c = static_cast<uint32>(frame->starting_col);
-				c < static_cast<uint32>(frame->starting_col + frame->num_draw_cols); c++)
+		for (uint32 x = static_cast<uint32>(frame->starting_x);
+				x < static_cast<uint32>(frame->starting_x + frame->num_draw_x_axis); ++x)
 		{
 			// Draw a tile image if it exists at this location
-			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][r][c].upper_layer >= 0)
+			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].upper_layer >= 0)
 			{
-				_tile_images[_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][r][c].upper_layer]->Draw();
+				_tile_images[_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].upper_layer]->Draw();
 			}
 			VideoManager->MoveRelative(2.0f, 0.0f);
 		}
-		VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_cols * 2), 2.0f);
+		VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
 	}
 }
 

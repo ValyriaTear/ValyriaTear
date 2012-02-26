@@ -336,11 +336,11 @@ public:
 *** ***************************************************************************/
 class MapFrame {
 public:
-	//! \brief The column and row indeces of the starting tile to draw (the top-left tile).
-	int16 starting_col, starting_row;
+	//! \brief The x and y indeces of the starting tile to draw (the top-left tile).
+	int16 starting_x, starting_y;
 
-	//! \brief The number of columns and rows of tiles to draw on the screen.
-	uint8 num_draw_cols, num_draw_rows;
+	//! \brief The number of tiles to draw on the x and y axes on the screen.
+	uint8 num_draw_x_axis, num_draw_y_axis;
 
 	//! \brief The x and y position screen coordinates to start drawing tiles from.
 	float tile_x_start, tile_y_start;
