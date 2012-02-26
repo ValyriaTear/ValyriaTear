@@ -625,16 +625,16 @@ void PathMoveSpriteEvent::_Start() {
 
 	// Set and check the destination position
 	if (_relative_destination == false) {
-		_destination_node.col = _destination_col;
-		_destination_node.row = _destination_row;
+		_destination_node.tile_y = _destination_col;
+		_destination_node.tile_x = _destination_row;
 	}
 	else {
-		_destination_node.col = _source_col + _destination_col;
-		_destination_node.row = _source_row + _destination_row;
+		_destination_node.tile_y = _source_col + _destination_col;
+		_destination_node.tile_x = _source_row + _destination_row;
 	}
 
 	// TODO: check if destination node exceeds map boundaries
-	if (_destination_node.col < 0 || _destination_node.row < 0) {
+	if (_destination_node.tile_y < 0 || _destination_node.tile_x < 0) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "invalid destination coordinates" << endl;
 		_path.clear();
 		return;
@@ -660,7 +660,7 @@ bool PathMoveSpriteEvent::_Update() {
 	}
 
 	// Check if the sprite has arrived at the position of the current node
-	if (_sprite->x_position == _path[_current_node].col && _sprite->y_position == _path[_current_node].row) {
+	if (_sprite->x_position == _path[_current_node].tile_y && _sprite->y_position == _path[_current_node].tile_x) {
 		_current_node++;
 
 		// When the current node index is at the end of the path, the event is finished
@@ -688,17 +688,17 @@ bool PathMoveSpriteEvent::_Update() {
 void PathMoveSpriteEvent::_SetSpriteDirection() {
 	uint16 direction = 0;
 
-	if (_sprite->y_position > _path[_current_node].row) { // Need to move north
+	if (_sprite->y_position > _path[_current_node].tile_x) { // Need to move north
 		direction |= NORTH;
 	}
-	else if (_sprite->y_position < _path[_current_node].row) { // Need to move south
+	else if (_sprite->y_position < _path[_current_node].tile_x) { // Need to move south
 		direction |= SOUTH;
 	}
 
-	if (_sprite->x_position > _path[_current_node].col) { // Need to move west
+	if (_sprite->x_position > _path[_current_node].tile_y) { // Need to move west
 		direction |= WEST;
 	}
-	else if (_sprite->x_position < _path[_current_node].col) { // // Need to move east
+	else if (_sprite->x_position < _path[_current_node].tile_y) { // // Need to move east
 		direction |= EAST;
 	}
 
@@ -743,7 +743,7 @@ void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject*
 	// If the code has reached this point, then we are dealing with an object collision
 
 	// Determine if the obstructing object is blocking the destination of this path
-	bool destination_blocked = MapMode::CurrentInstance()->GetObjectSupervisor()->IsPositionOccupiedByObject(_destination_node.row, _destination_node.col, coll_obj);
+	bool destination_blocked = MapMode::CurrentInstance()->GetObjectSupervisor()->IsPositionOccupiedByObject(_destination_node.tile_x, _destination_node.tile_y, coll_obj);
 
 	switch (coll_obj->GetObjectType()) {
 		case PHYSICAL_TYPE:

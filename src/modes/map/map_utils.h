@@ -369,7 +369,7 @@ public:
 	*** These coordinates correspond to the collision grid, where each element
 	*** is a 16x16 pixel space on the map.
 	**/
-	int16 row, col;
+	int16 tile_x, tile_y;
 
 	//! \name Path Scoring Members
 	//@{
@@ -388,19 +388,19 @@ public:
 
 	// ---------- Methods
 
-	PathNode() : row(-1), col(-1), f_score(0), g_score(0), h_score(0), parent_row(0), parent_col(0)
+	PathNode() : tile_x(-1), tile_y(-1), f_score(0), g_score(0), h_score(0), parent_row(0), parent_col(0)
 		{}
 
-	PathNode(int16 r, int16 c) : row(r), col(c), f_score(0), g_score(0), h_score(0), parent_row(0), parent_col(0)
+	PathNode(int16 x_, int16 y_) : tile_x(x_), tile_y(y_), f_score(0), g_score(0), h_score(0), parent_row(0), parent_col(0)
 		{}
 
 	//! \brief Overloaded comparison operator checks that row and col members are equal
 	bool operator==(const PathNode& that) const
-		{ return ((this->row == that.row) && (this->col == that.col)); }
+		{ return ((this->tile_x == that.tile_x) && (this->tile_y == that.tile_y)); }
 
 	//! \brief Overloaded comparison operator checks that row or col members are unequal
 	bool operator!=(const PathNode& that) const
-		{ return ((this->row != that.row) || (this->col != that.col)); }
+		{ return ((this->tile_x != that.tile_x) || (this->tile_y != that.tile_y)); }
 
 	//! \brief Overloaded comparison operator only used for path finding, compares the two f_scores
 	bool operator<(const PathNode& that) const

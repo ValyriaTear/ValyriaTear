@@ -805,21 +805,21 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 			break;
 
 		// Setup the coordinates of the 8 adjacent nodes to the best node
-		nodes[0].row = best_node.row - 1; nodes[0].col = best_node.col;
-		nodes[1].row = best_node.row + 1; nodes[1].col = best_node.col;
-		nodes[2].row = best_node.row;     nodes[2].col = best_node.col - 1;
-		nodes[3].row = best_node.row;     nodes[3].col = best_node.col + 1;
-		nodes[4].row = best_node.row - 1; nodes[4].col = best_node.col - 1;
-		nodes[5].row = best_node.row - 1; nodes[5].col = best_node.col + 1;
-		nodes[6].row = best_node.row + 1; nodes[6].col = best_node.col - 1;
-		nodes[7].row = best_node.row + 1; nodes[7].col = best_node.col + 1;
+		nodes[0].tile_x = best_node.tile_x - 1; nodes[0].tile_y = best_node.tile_y;
+		nodes[1].tile_x = best_node.tile_x + 1; nodes[1].tile_y = best_node.tile_y;
+		nodes[2].tile_x = best_node.tile_x;     nodes[2].tile_y = best_node.tile_y - 1;
+		nodes[3].tile_x = best_node.tile_x;     nodes[3].tile_y = best_node.tile_y + 1;
+		nodes[4].tile_x = best_node.tile_x - 1; nodes[4].tile_y = best_node.tile_y - 1;
+		nodes[5].tile_x = best_node.tile_x - 1; nodes[5].tile_y = best_node.tile_y + 1;
+		nodes[6].tile_x = best_node.tile_x + 1; nodes[6].tile_y = best_node.tile_y - 1;
+		nodes[7].tile_x = best_node.tile_x + 1; nodes[7].tile_y = best_node.tile_y + 1;
 
 		// Check the eight adjacent nodes
 		for (uint8 i = 0; i < 8; ++i) {
 			// ---------- (A): Check if all tiles are walkable
 			COLLISION_TYPE collision_type = DetectCollisionAtLocation(sprite,
-																nodes[i].row,
-																nodes[i].col);
+																nodes[i].tile_x,
+																nodes[i].tile_y);
 			// Can't go through walls.
 			// TODO: Handle small walls to permit sky objects
 			// to go through terrain level changes.
@@ -845,8 +845,8 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 				g_add += 20;
 
 			// Set the node's parent and calculate its g_score
-			nodes[i].parent_row = best_node.row;
-			nodes[i].parent_col = best_node.col;
+			nodes[i].parent_row = best_node.tile_x;
+			nodes[i].parent_col = best_node.tile_y;
 			nodes[i].g_score = best_node.g_score + g_add;
 
 			// ---------- (D): Check to see if the node is already on the open list and update it if necessary
@@ -863,8 +863,8 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 			// ---------- (E): Add the new node to the open list
 			else {
 				// Calculate the H and F score of the new node (the heuristic used is diagonal)
-				x_delta = abs(dest.col - nodes[i].col);
-				y_delta = abs(dest.row - nodes[i].row);
+				x_delta = abs(dest.tile_y - nodes[i].tile_y);
+				y_delta = abs(dest.tile_x - nodes[i].tile_x);
 				if (x_delta > y_delta)
 					nodes[i].h_score = 14 * y_delta + 10 * (x_delta - y_delta);
 				else
@@ -889,7 +889,7 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 
 	// Go backwards through the closed list following the parent nodes to construct the path
 	for (vector<PathNode>::iterator iter = closed_list.end() - 1; iter != closed_list.begin(); --iter) {
-		if (iter->col == parent_col && iter->row == parent_row) {
+		if (iter->tile_y == parent_col && iter->tile_x == parent_row) {
 			path.push_back(*iter);
 			parent_col = iter->parent_col;
 			parent_row = iter->parent_row;
