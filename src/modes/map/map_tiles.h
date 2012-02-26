@@ -113,15 +113,15 @@ public:
 	//@}
 
 private:
-	/** \brief The number of rows of tiles in the map.
-	*** This number must be greater than or equal to 24 for the map to be valid.
-	**/
-	uint16 _num_tile_rows;
-
 	/** \brief The number of columns of tiles in the map.
 	*** This number must be greater than or equal to 32 for the map to be valid.
 	**/
-	uint16 _num_tile_cols;
+	uint16 _num_tile_on_x_axis;
+
+	/** \brief The number of rows of tiles in the map.
+	*** This number must be greater than or equal to 24 for the map to be valid.
+	**/
+	uint16 _num_tile_on_y_axis;
 
 	/** \brief A map of 2D vectors that contains all of the map's tile objects.
 	*** Each key-value pair in the std::map represents a map context, thus the size of the std::map is equal to

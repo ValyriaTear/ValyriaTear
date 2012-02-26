@@ -632,8 +632,8 @@ void MapMode::_CalculateMapFrame() {
 		_map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
 	}
 	// Camera exceeds the right boundary of the map
-	else if (_map_frame.starting_x + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_cols) {
-		_map_frame.starting_x = static_cast<int16>(_tile_supervisor->_num_tile_cols - TILES_ON_X_AXIS);
+	else if (_map_frame.starting_x + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
+		_map_frame.starting_x = static_cast<int16>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
 		_map_frame.tile_x_start = 1.0f;
 		_map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_cols);
 		_map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
@@ -647,8 +647,8 @@ void MapMode::_CalculateMapFrame() {
 		_map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
 	}
 	// Camera exceeds the bottom boundary of the map
-	else if (_map_frame.starting_y + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_rows) {
-		_map_frame.starting_y = static_cast<int16>(_tile_supervisor->_num_tile_rows - TILES_ON_Y_AXIS);
+	else if (_map_frame.starting_y + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
+		_map_frame.starting_y = static_cast<int16>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
 		_map_frame.tile_y_start = 2.0f;
 		_map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_rows);
 		_map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
