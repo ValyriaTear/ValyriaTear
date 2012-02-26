@@ -384,21 +384,21 @@ public:
 	//@}
 
 	//! \brief The grid coordinates for the parent of this node
-	int16 parent_row, parent_col;
+	int16 parent_x, parent_y;
 
 	// ---------- Methods
 
-	PathNode() : tile_x(-1), tile_y(-1), f_score(0), g_score(0), h_score(0), parent_row(0), parent_col(0)
+	PathNode() : tile_x(-1), tile_y(-1), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
 		{}
 
-	PathNode(int16 x_, int16 y_) : tile_x(x_), tile_y(y_), f_score(0), g_score(0), h_score(0), parent_row(0), parent_col(0)
+	PathNode(int16 x_, int16 y_) : tile_x(x_), tile_y(y_), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
 		{}
 
-	//! \brief Overloaded comparison operator checks that row and col members are equal
+	//! \brief Overloaded comparison operator, only checks that the tile_x and tile_y members are equal
 	bool operator==(const PathNode& that) const
 		{ return ((this->tile_x == that.tile_x) && (this->tile_y == that.tile_y)); }
 
-	//! \brief Overloaded comparison operator checks that row or col members are unequal
+	//! \brief Overloaded comparison operator, only checks that the tile_x or tile_y members are unequal
 	bool operator!=(const PathNode& that) const
 		{ return ((this->tile_x != that.tile_x) || (this->tile_y != that.tile_y)); }
 

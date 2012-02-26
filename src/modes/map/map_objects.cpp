@@ -845,8 +845,8 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 				g_add += 20;
 
 			// Set the node's parent and calculate its g_score
-			nodes[i].parent_row = best_node.tile_x;
-			nodes[i].parent_col = best_node.tile_y;
+			nodes[i].parent_x = best_node.tile_x;
+			nodes[i].parent_y = best_node.tile_y;
 			nodes[i].g_score = best_node.g_score + g_add;
 
 			// ---------- (D): Check to see if the node is already on the open list and update it if necessary
@@ -856,8 +856,8 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 				if (iter->g_score > nodes[i].g_score) {
 					iter->g_score = nodes[i].g_score;
 					iter->f_score = nodes[i].g_score + iter->h_score;
-					iter->parent_row = nodes[i].parent_row;
-					iter->parent_col = nodes[i].parent_col;
+					iter->parent_x = nodes[i].parent_x;
+					iter->parent_y = nodes[i].parent_y;
 				}
 			}
 			// ---------- (E): Add the new node to the open list
@@ -883,16 +883,16 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 
 	// Add the destination node to the vector, retain its parent, and remove it from the closed list
 	path.push_back(best_node);
-	int16 parent_row = best_node.parent_row;
-	int16 parent_col = best_node.parent_col;
+	int16 parent_x = best_node.parent_x;
+	int16 parent_y = best_node.parent_y;
 	closed_list.pop_back();
 
 	// Go backwards through the closed list following the parent nodes to construct the path
 	for (vector<PathNode>::iterator iter = closed_list.end() - 1; iter != closed_list.begin(); --iter) {
-		if (iter->tile_y == parent_col && iter->tile_x == parent_row) {
+		if (iter->tile_y == parent_y && iter->tile_x == parent_x) {
 			path.push_back(*iter);
-			parent_col = iter->parent_col;
-			parent_row = iter->parent_row;
+			parent_x = iter->parent_x;
+			parent_y = iter->parent_y;
 		}
 	}
 	std::reverse(path.begin(), path.end());
