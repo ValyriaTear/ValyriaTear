@@ -556,10 +556,10 @@ bool ChangeDirectionSpriteEvent::_Update() {
 PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id, int16 x_coord, int16 y_coord) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite_id),
 	_relative_destination(false),
-	_source_col(-1),
-	_source_row(-1),
-	_destination_col(x_coord),
-	_destination_row(y_coord),
+	_source_x(-1),
+	_source_y(-1),
+	_destination_x(x_coord),
+	_destination_y(y_coord),
 	_last_x_position(0),
 	_last_y_position(0),
 	_current_node(0)
@@ -570,10 +570,10 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id, int1
 PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite, int16 x_coord, int16 y_coord) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
 	_relative_destination(false),
-	_source_col(-1),
-	_source_row(-1),
-	_destination_col(x_coord),
-	_destination_row(y_coord),
+	_source_x(-1),
+	_source_y(-1),
+	_destination_x(x_coord),
+	_destination_y(y_coord),
 	_last_x_position(0),
 	_last_y_position(0),
 	_current_node(0)
@@ -599,8 +599,8 @@ void PathMoveSpriteEvent::SetDestination(int16 x_coord, int16 y_coord) {
 		return;
 	}
 
-	_destination_col = x_coord;
-	_destination_row = y_coord;
+	_destination_x = x_coord;
+	_destination_y = y_coord;
 	_path.clear();
 }
 
@@ -614,9 +614,9 @@ void PathMoveSpriteEvent::_Start() {
 	_last_y_position = _sprite->y_position;
 
 	// Set and check the source position
-	_source_col = _sprite->x_position;
-	_source_row = _sprite->y_position;
-	if (_source_col < 0 || _source_row < 0) {
+	_source_x = _sprite->x_position;
+	_source_y = _sprite->y_position;
+	if (_source_x < 0 || _source_y < 0) {
 		// TODO: Also check if the source position is beyond the maximum row/col map boundaries
 		IF_PRINT_WARNING(MAP_DEBUG) << "sprite position is invalid" << endl;
 		_path.clear();
@@ -625,12 +625,12 @@ void PathMoveSpriteEvent::_Start() {
 
 	// Set and check the destination position
 	if (_relative_destination == false) {
-		_destination_node.tile_y = _destination_col;
-		_destination_node.tile_x = _destination_row;
+		_destination_node.tile_x = _destination_x;
+		_destination_node.tile_y = _destination_y;
 	}
-	else {
-		_destination_node.tile_y = _source_col + _destination_col;
-		_destination_node.tile_x = _source_row + _destination_row;
+	else {// The tangle is here!!!
+		_destination_node.tile_x = _source_x + _destination_x;
+		_destination_node.tile_y = _source_y + _destination_y;
 	}
 
 	// TODO: check if destination node exceeds map boundaries
@@ -660,8 +660,8 @@ bool PathMoveSpriteEvent::_Update() {
 	}
 
 	// Check if the sprite has arrived at the position of the current node
-	if (_sprite->x_position == _path[_current_node].tile_y && _sprite->y_position == _path[_current_node].tile_x) {
-		_current_node++;
+	if (_sprite->x_position == _path[_current_node].tile_x && _sprite->y_position == _path[_current_node].tile_y) {
+		++_current_node;
 
 		// When the current node index is at the end of the path, the event is finished
 		if (_current_node >= _path.size() - 1) {
@@ -688,17 +688,17 @@ bool PathMoveSpriteEvent::_Update() {
 void PathMoveSpriteEvent::_SetSpriteDirection() {
 	uint16 direction = 0;
 
-	if (_sprite->y_position > _path[_current_node].tile_x) { // Need to move north
+	if (_sprite->y_position > _path[_current_node].tile_y) { // Need to move north
 		direction |= NORTH;
 	}
-	else if (_sprite->y_position < _path[_current_node].tile_x) { // Need to move south
+	else if (_sprite->y_position < _path[_current_node].tile_y) { // Need to move south
 		direction |= SOUTH;
 	}
 
-	if (_sprite->x_position > _path[_current_node].tile_y) { // Need to move west
+	if (_sprite->x_position > _path[_current_node].tile_x) { // Need to move west
 		direction |= WEST;
 	}
-	else if (_sprite->x_position < _path[_current_node].tile_y) { // // Need to move east
+	else if (_sprite->x_position < _path[_current_node].tile_x) { // // Need to move east
 		direction |= EAST;
 	}
 

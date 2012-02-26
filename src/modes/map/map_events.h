@@ -620,10 +620,10 @@ protected:
 	bool _relative_destination;
 
 	//! \brief Stores the source coordinates for the path movement (the sprite's position when the event is started).
-	int16 _source_col, _source_row;
+	int16 _source_x, _source_y;
 
 	//! \brief Stores the destination coordinates for the path movement. These may be either absolute or relative coordinates.
-	int16 _destination_col, _destination_row;
+	int16 _destination_x, _destination_y;
 
 	//! \brief Used to store the previous coordinates of the sprite during path movement, so as to set the proper direction of the sprite as it moves
 	uint16 _last_x_position, _last_y_position;

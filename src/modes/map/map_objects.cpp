@@ -758,7 +758,7 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 	std::vector<PathNode> path;
 
 	// The starting node of this path discovery
-	PathNode source_node(static_cast<int16>(sprite->y_position), static_cast<int16>(sprite->x_position));
+	PathNode source_node(static_cast<int16>(sprite->x_position), static_cast<int16>(sprite->y_position));
 
 	// Check that the source node is not the same as the destination node
 	if (source_node == dest) {
@@ -863,8 +863,8 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 			// ---------- (E): Add the new node to the open list
 			else {
 				// Calculate the H and F score of the new node (the heuristic used is diagonal)
-				x_delta = abs(dest.tile_y - nodes[i].tile_y);
-				y_delta = abs(dest.tile_x - nodes[i].tile_x);
+				x_delta = abs(dest.tile_x - nodes[i].tile_x);
+				y_delta = abs(dest.tile_y - nodes[i].tile_y);
 				if (x_delta > y_delta)
 					nodes[i].h_score = 14 * y_delta + 10 * (x_delta - y_delta);
 				else
