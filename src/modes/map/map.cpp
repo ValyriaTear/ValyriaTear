@@ -154,7 +154,7 @@ MapMode::~MapMode() {
 
 void MapMode::Reset() {
 	// Reset video engine context properties
-	VideoManager->SetCoordSys(0.0f, SCREEN_COLS, SCREEN_ROWS, 0.0f);
+	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
 	// Set the active instance pointer to this map
@@ -611,13 +611,13 @@ void MapMode::_CalculateMapFrame() {
 		_map_frame.tile_y_start -= 1.0f;
 
 	// The starting row and column of tiles to draw is determined by the map camera's position
-	_map_frame.starting_x = (current_x / 2) - HALF_TILE_COLS;
-	_map_frame.starting_y = (current_y / 2) - HALF_TILE_ROWS;
+	_map_frame.starting_x = (current_x / 2) - HALF_TILES_ON_X_AXIS;
+	_map_frame.starting_y = (current_y / 2) - HALF_TILES_ON_Y_AXIS;
 
-	_map_frame.screen_edges.top    = camera_y - HALF_SCREEN_ROWS;
-	_map_frame.screen_edges.bottom = camera_y + HALF_SCREEN_ROWS;
-	_map_frame.screen_edges.left   = camera_x - HALF_SCREEN_COLS;
-	_map_frame.screen_edges.right  = camera_x + HALF_SCREEN_COLS;
+	_map_frame.screen_edges.top    = camera_y - HALF_SCREEN_GRID_Y_LENGTH;
+	_map_frame.screen_edges.bottom = camera_y + HALF_SCREEN_GRID_Y_LENGTH;
+	_map_frame.screen_edges.left   = camera_x - HALF_SCREEN_GRID_X_LENGTH;
+	_map_frame.screen_edges.right  = camera_x + HALF_SCREEN_GRID_X_LENGTH;
 
 	// ---------- (3) Check for boundary conditions and re-adjust as necessary so we don't draw outside the map area
 
@@ -629,14 +629,14 @@ void MapMode::_CalculateMapFrame() {
 		_map_frame.starting_x = 0;
 		_map_frame.tile_x_start = 1.0f;
 		_map_frame.screen_edges.left = 0.0f;
-		_map_frame.screen_edges.right = SCREEN_COLS;
+		_map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
 	}
 	// Camera exceeds the right boundary of the map
-	else if (_map_frame.starting_x + TILE_COLS >= _tile_supervisor->_num_tile_cols) {
-		_map_frame.starting_x = static_cast<int16>(_tile_supervisor->_num_tile_cols - TILE_COLS);
+	else if (_map_frame.starting_x + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_cols) {
+		_map_frame.starting_x = static_cast<int16>(_tile_supervisor->_num_tile_cols - TILES_ON_X_AXIS);
 		_map_frame.tile_x_start = 1.0f;
 		_map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_cols);
-		_map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_COLS;
+		_map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
 	}
 
 	// Camera exceeds the top boundary of the map
@@ -644,30 +644,30 @@ void MapMode::_CalculateMapFrame() {
 		_map_frame.starting_y = 0;
 		_map_frame.tile_y_start = 2.0f;
 		_map_frame.screen_edges.top = 0.0f;
-		_map_frame.screen_edges.bottom = SCREEN_ROWS;
+		_map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
 	}
 	// Camera exceeds the bottom boundary of the map
-	else if (_map_frame.starting_y + TILE_ROWS >= _tile_supervisor->_num_tile_rows) {
-		_map_frame.starting_y = static_cast<int16>(_tile_supervisor->_num_tile_rows - TILE_ROWS);
+	else if (_map_frame.starting_y + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_rows) {
+		_map_frame.starting_y = static_cast<int16>(_tile_supervisor->_num_tile_rows - TILES_ON_Y_AXIS);
 		_map_frame.tile_y_start = 2.0f;
 		_map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_rows);
-		_map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_ROWS;
+		_map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
 	}
 
 	// ---------- (4) Determine the number of rows and columns of tiles that need to be drawn
 
 	// When the tile images align perfectly with the screen, we can afford to draw one less row or column of tiles
 	if (IsFloatInRange(_map_frame.tile_x_start, 0.999f, 1.001f)) {
-		_map_frame.num_draw_x_axis = TILE_COLS;
+		_map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
 	}
 	else {
-		_map_frame.num_draw_x_axis = TILE_COLS + 1;
+		_map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
 	}
 	if (IsFloatInRange(_map_frame.tile_y_start, 1.999f, 2.001f)) {
-		_map_frame.num_draw_y_axis = TILE_ROWS;
+		_map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
 	}
 	else {
-		_map_frame.num_draw_y_axis = TILE_ROWS + 1;
+		_map_frame.num_draw_y_axis = TILES_ON_Y_AXIS + 1;
 	}
 
 	// Comment this out to print out map draw debugging info about once a second
@@ -695,7 +695,7 @@ void MapMode::_CalculateMapFrame() {
 
 
 void MapMode::_DrawMapLayers() {
-	VideoManager->SetCoordSys(0.0f, SCREEN_COLS, SCREEN_ROWS, 0.0f);
+	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
 	_tile_supervisor->DrawLowerLayer(&_map_frame);
 	_tile_supervisor->DrawMiddleLayer(&_map_frame);

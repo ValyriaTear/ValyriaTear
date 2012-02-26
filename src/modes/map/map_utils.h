@@ -36,15 +36,15 @@ namespace private_map {
 *** number of rows and columns of tiles.
 **/
 //@{
-const float SCREEN_COLS = 32.0f;
-const float SCREEN_ROWS = 24.0f;
-const float HALF_SCREEN_COLS = SCREEN_COLS / 2;
-const float HALF_SCREEN_ROWS = SCREEN_ROWS / 2;
+const float SCREEN_GRID_X_LENGTH = 32.0f;
+const float SCREEN_GRID_Y_LENGTH = 24.0f;
+const float HALF_SCREEN_GRID_X_LENGTH = SCREEN_GRID_X_LENGTH / 2;
+const float HALF_SCREEN_GRID_Y_LENGTH = SCREEN_GRID_Y_LENGTH / 2;
 
-const uint16 TILE_COLS = 16; // Number of tile columns that fit on the screen
-const uint16 TILE_ROWS = 12; // Number of tile rows that fit on the screen
-const uint16 HALF_TILE_COLS = TILE_COLS / 2;
-const uint16 HALF_TILE_ROWS = TILE_ROWS / 2;
+const uint16 TILES_ON_X_AXIS = (uint16)SCREEN_GRID_X_LENGTH / 2; // Number of tile columns that fit on the screen
+const uint16 TILES_ON_Y_AXIS = (uint16)SCREEN_GRID_Y_LENGTH / 2; // Number of tile rows that fit on the screen
+const uint16 HALF_TILES_ON_X_AXIS = TILES_ON_X_AXIS / 2;
+const uint16 HALF_TILES_ON_Y_AXIS = TILES_ON_Y_AXIS / 2;
 
 const uint16 GRID_LENGTH = 32; // Length of a grid element in pixels
 const uint16 TILE_LENGTH = 64; // Length of a tile in pixels
