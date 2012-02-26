@@ -594,6 +594,29 @@ COLLISION_TYPE ObjectSupervisor::DetectCollisionAtLocation(VirtualSprite* sprite
 	// get the collision rectangle at the given position
 	MapRectangle sprite_rect = sprite->GetCollisionRectangle(x, y);
 
+
+	// Check if any part of the object's collision rectangle is outside of the map boundary
+	if (sprite_rect.left < 0.0f || sprite_rect.right >= static_cast<float>(_num_grid_x_axis) ||
+		sprite_rect.top < 0.0f || sprite_rect.bottom >= static_cast<float>(_num_grid_y_axis)) {
+		return WALL_COLLISION;
+	}
+
+	// Check if the object's collision rectangel overlaps with any unwalkable elements on the collision grid
+	// Grid based collision is not done for objects in the sky layer
+	if (!sprite->sky_object) {
+		// Determine if the object's collision rectangle overlaps any unwalkable tiles
+		// Note that because the sprite's collision rectangle was previously determined to be within the map bounds,
+		// the map grid tile indeces referenced in this loop are all valid entries and do not need to be checked for out-of-bounds conditions
+		for (uint32 y = static_cast<uint32>(sprite_rect.top); y <= static_cast<uint32>(sprite_rect.bottom); ++y) {
+			for (uint32 x = static_cast<uint32>(sprite_rect.left); x <= static_cast<uint32>(sprite_rect.right); ++x) {
+				// Checks the collision grid at the row-column at the object's current context
+				if ((_collision_grid[y][x] & sprite->context) != 0) {
+					return WALL_COLLISION;
+				}
+			}
+		}
+	}
+
 	vector<MapObject*>* objects = sprite->sky_object ?
 		&_sky_objects : &_ground_objects;
 
@@ -821,8 +844,6 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 																nodes[i].tile_x,
 																nodes[i].tile_y);
 			// Can't go through walls.
-			// TODO: Handle small walls to permit sky objects
-			// to go through terrain level changes.
 			if (collision_type == WALL_COLLISION)
 				continue;
 

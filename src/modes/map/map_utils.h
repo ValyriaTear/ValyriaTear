@@ -233,7 +233,7 @@ enum COLLISION_TYPE {
 	NO_COLLISION = 0,       //!< Indicates that no collision has occurred.
 	CHARACTER_COLLISION = 1,//!< Indicates that a collision happened with a character.
 	ENEMY_COLLISION = 2,    //!< Indicates that a collision happened with an enemy.
-	WALL_COLLISION = 3,     //! Indicates a collision with a wall.
+	WALL_COLLISION = 3,     //! Indicates a collision with a wall. (Sky objects will have a wall collision on the map bounds)
 	COLLISION_TYPES = 4
 };
 
