@@ -244,10 +244,6 @@ void BootMode::Reset() {
 
 void BootMode::Update() {
 	_options_window.Update(SystemManager->GetUpdateTime());
-	if (InputManager->QuitPress() == true) {
-		SystemManager->ExitGame();
-		return;
-	}
 
 	// Screen is in the process of fading out
 	if (_fade_out)
@@ -375,6 +371,12 @@ void BootMode::Update() {
 
 	_active_menu->Update();
 
+	// Only quit when we are at the main menu level
+	if (_active_menu == &_main_menu && InputManager->QuitPress() && !_credits_window->IsActive()) {
+		SystemManager->ExitGame();
+		return;
+	}
+
 	// A confirm-key was pressed -> handle it (but ONLY if the credits screen isn't visible)
 	if (InputManager->ConfirmPress() && !_credits_window->IsActive())
 	{
@@ -403,7 +405,7 @@ void BootMode::Update() {
 	{
 		_active_menu->InputDown();
 	}
-	else if(InputManager->CancelPress())
+	else if(InputManager->CancelPress() || InputManager->QuitPress())
 	{
 		// Close the credits-screen if it was visible
 		if (_credits_window->IsActive())
