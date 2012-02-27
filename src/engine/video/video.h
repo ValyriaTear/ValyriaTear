@@ -269,7 +269,7 @@ public:
 	**/
 	void Clear(const Color& background_color);
 
-	/** \brief Swaps the frame buffers and displays the newly drawn contents onto the screen
+	/** \brief Displays the newly drawn contents onto the screen
 	*** \param frame_time The number of milliseconds that have expired since the last frame was drawn.
 	**/
 	void Display(uint32 frame_time);

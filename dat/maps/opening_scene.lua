@@ -177,6 +177,8 @@ function Load(m)
 	TreasureManager = Map.treasure_supervisor;
 	GlobalEvents = Map.map_event_group;
 
+	Map.unlimited_stamina = true; -- no interaction in this map
+
 	-- This boolean determines whether we execute the initial or return scene on this map
 	initial_scene = true;
 	-- Global starting coordinates for the center of the group of knights. All sprites

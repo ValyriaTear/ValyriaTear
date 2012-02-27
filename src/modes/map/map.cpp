@@ -712,9 +712,8 @@ void MapMode::_DrawMapLayers() {
 
 
 
-void MapMode::_DrawGUI() {
-	// TODO: figure out what this color represents and create an approximate name for it
-	const Color unknown(0.0196f, 0.207f, 0.0196f, 1.0f);
+void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
+	const Color dark_olive_green(0.0196f, 0.207f, 0.0196f, 1.0f);
 	const Color lighter_green(0.419f, 0.894f, 0.0f, 1.0f);
 	const Color light_green(0.0196f, 0.207f, 0.0196f, 1.0f);
 	const Color medium_green(0.0509f, 0.556f, 0.0509f, 1.0f);
@@ -722,6 +721,64 @@ void MapMode::_DrawGUI() {
 	const Color dark_green(0.0196f, 0.207f, 0.0196f, 1.0f);
 	const Color bright_yellow(0.937f, 1.0f, 0.725f, 1.0f);
 
+	float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
+
+	VideoManager->PushState();
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 768.0f, 0.0f);
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+
+	// Draw the background image
+	VideoManager->Move(780, 747);
+	_stamina_bar_background.Draw(blending);
+
+	// Draw the base color of the bar
+	VideoManager->Move(800, 740);
+	VideoManager->DrawRectangle(200 * fill_size, 10, dark_olive_green * blending);
+
+	// Shade the bar with a faux lighting effect
+	VideoManager->Move(800,739);
+	VideoManager->DrawRectangle(200 * fill_size, 2, dark_green * blending);
+	VideoManager->Move(800, 737);
+	VideoManager->DrawRectangle(200 * fill_size, 7, darkish_green * blending);
+
+	// Only do this if the bar is at least 4 pixels long
+	if ((200 * fill_size) >= 4) {
+		VideoManager->Move(801, 739);
+		VideoManager->DrawRectangle((200 * fill_size) -2, 1, darkish_green * blending);
+
+		VideoManager->Move(801, 738);
+		VideoManager->DrawRectangle(1, 2, medium_green * blending);
+		VideoManager->Move(800 + (fill_size * 200 - 2), 738); // Automatically reposition to be at moving endcap
+		VideoManager->DrawRectangle(1, 2, medium_green * blending);
+	}
+
+	VideoManager->Move(800, 736);
+	VideoManager->DrawRectangle(200 * fill_size, 5, medium_green * blending);
+
+	// Only do this if the bar is at least 4 pixels long
+	if ((200 * fill_size) >= 4) {
+		VideoManager->Move(801, 735);
+		VideoManager->DrawRectangle(1, 1, lighter_green * blending);
+		VideoManager->Move(800 + (fill_size * 200 - 2), 735); // automatically reposition to be at moving endcap
+		VideoManager->DrawRectangle(1, 1, lighter_green * blending);
+		VideoManager->Move(800, 734);
+		VideoManager->DrawRectangle(200 * fill_size, 2, lighter_green * blending);
+	}
+
+	// Only do this if the bar is at least 6 pixels long
+	if ((200 * fill_size) >= 6) {
+		VideoManager->Move(802, 733);
+		VideoManager->DrawRectangle((200 * fill_size) - 4, 1, bright_yellow * blending);
+	}
+
+	if (_unlimited_stamina) { // Draw the infinity symbol over the stamina bar
+		VideoManager->Move(780, 747);
+		_stamina_bar_infinite_overlay.Draw(blending);
+	}
+	VideoManager->PopState();
+}
+
+void MapMode::_DrawGUI() {
 	// ---------- (1) Draw the introductory location name and graphic if necessary
 	if (_intro_timer.IsFinished() == false) {
 		uint32 time = _intro_timer.GetTimeExpired();
@@ -742,71 +799,26 @@ void MapMode::_DrawGUI() {
 		VideoManager->MoveRelative(0.0f, -80.0f);
 		VideoManager->Text()->Draw(_map_name, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
 		VideoManager->PopState();
+
+		// Draw the unlimited stamina bar with a fade out
+		if (_unlimited_stamina) {
+			_DrawStaminaBar(blend);
+		}
+		else if (time < 2000) {
+			// Draw the normal bar fade in only (no fade out)
+			_DrawStaminaBar(blend);
+		}
+		else {
+			_DrawStaminaBar();
+		}
 	}
 
 	// ---------- (2) Draw the stamina bar in the lower right corner
-	// TODO: the code in this section needs better comments to explain what each coloring step is doing
-	float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
-
-	VideoManager->PushState();
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 768.0f, 0.0f);
-	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-
-	// Draw the background image
-	VideoManager->Move(780, 747);
-	_stamina_bar_background.Draw();
-	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_NO_BLEND, 0);
-
-	// Draw the base color of the bar
-	VideoManager->Move(800, 740);
-	VideoManager->DrawRectangle(200 * fill_size, 10, unknown);
-
-	// Shade the bar with a faux lighting effect
-	VideoManager->Move(800,739);
-	VideoManager->DrawRectangle(200 * fill_size, 2, dark_green);
-	VideoManager->Move(800, 737);
-	VideoManager->DrawRectangle(200 * fill_size, 7, darkish_green);
-
-	// Only do this if the bar is at least 4 pixels long
-	if ((200 * fill_size) >= 4) {
-		VideoManager->Move(801, 739);
-		VideoManager->DrawRectangle((200 * fill_size) -2, 1, darkish_green);
-
-		VideoManager->Move(801, 738);
-		VideoManager->DrawRectangle(1, 2, medium_green);
-		VideoManager->Move(800 + (fill_size * 200 - 2), 738); // Automatically reposition to be at moving endcap
-		VideoManager->DrawRectangle(1, 2, medium_green);
-	}
-
-	VideoManager->Move(800, 736);
-	VideoManager->DrawRectangle(200 * fill_size, 5, medium_green);
-
-	// Only do this if the bar is at least 4 pixels long
-	if ((200 * fill_size) >= 4) {
-		VideoManager->Move(801, 735);
-		VideoManager->DrawRectangle(1, 1, lighter_green);
-		VideoManager->Move(800 + (fill_size * 200 - 2), 735); // automatically reposition to be at moving endcap
-		VideoManager->DrawRectangle(1, 1, lighter_green);
-		VideoManager->Move(800, 734);
-		VideoManager->DrawRectangle(200 * fill_size, 2, lighter_green);
-	}
-
-	// Only do this if the bar is at least 6 pixels long
-	if ((200 * fill_size) >= 6) {
-		VideoManager->Move(802, 733);
-		VideoManager->DrawRectangle((200 * fill_size) - 4, 1, bright_yellow);
-	}
-
-	if (_unlimited_stamina) { // Draw the infinity symbol over the stamina bar
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		VideoManager->Move(780, 747);
-		_stamina_bar_infinite_overlay.Draw();
-	}
-
-	VideoManager->PopState();
+	if (!_unlimited_stamina && _intro_timer.IsFinished())
+		_DrawStaminaBar();
 
 	// ---------- (3) Draw the treasure menu if necessary
-	if (_treasure_supervisor->IsActive() == true)
+	if (_treasure_supervisor->IsActive())
 		_treasure_supervisor->Draw();
 } // void MapMode::_DrawGUI()
 

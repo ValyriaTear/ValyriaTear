@@ -376,6 +376,9 @@ private:
 
 	//! \brief Draws all GUI visuals, such as dialogue icons and the stamina bar
 	void _DrawGUI();
+
+	//! \brief Draws the stamina bar, part of DrawGUI()
+	void _DrawStaminaBar(const hoa_video::Color &blending = hoa_video::Color::white);
 }; // class MapMode
 
 } // namespace hoa_map;
