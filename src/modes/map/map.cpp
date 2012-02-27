@@ -79,8 +79,9 @@ MapMode::MapMode(string filename) :
 	_current_track(0),
 	_run_stamina(10000)
 {
-	// Remove previous possible ambient light effects
-	VideoManager->DisableLightningOverlay();
+	// Remove potential previous ambient overlay effects
+	VideoManager->DisableOverlays();
+
 
 	mode_type = MODE_MANAGER_MAP_MODE;
 	_current_instance = this;

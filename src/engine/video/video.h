@@ -547,9 +547,29 @@ public:
 	void EnableLightningOverlay(const Color& color);
 
 	/** \brief disables scene lighting
-	*/
+	 */
 	void DisableLightningOverlay();
 
+	/** \brief Load and enable the textured ambient overlay
+	 * the speed x and y factor are used to make the overlay slide on the screen.
+	 */
+	void EnableAmbientOverlay(const std::string &filename, float x_speed, float y_speed);
+
+	/** \brief disables the textured ambient overlay
+	 */
+	void DisableAmbientOverlay();
+
+	/** \brief call after all map images are drawn to apply lighting and texture overlays.
+	 *         All menu and text rendering should occur AFTER this call, so that
+	 *         they are not affected by lighting.
+	 */
+	void ApplyOverlays();
+
+	/** \brief disables all the active overlay effects (useful when switching modes)
+	 */
+	void DisableOverlays();
+
+	//TODO: review the DrawHalo, DrawLight, DrawFullscreenOverlay, DrawLightning, MakeLightning functions.
 	/** \brief draws a halo at the given spot
 	 *
 	 *  \param id    image descriptor for the halo image
@@ -567,12 +587,6 @@ public:
 	 *  \param color  color of light
 	 */
 	void DrawLight(float radius, float x, float y, const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
-
-	/** \brief call after all map images are drawn to apply lighting. All
-	 *         menu and text rendering should occur AFTER this call, so that
-	 *         they are not affected by lighting.
-	 */
-	void ApplyLightningOverlay();
 
 	//-- Overlays / lightning -------------------------------------------------------
 
@@ -825,6 +839,17 @@ private:
 
 	//! Image used as a sub-fading overlay
 	StillImage _fade_overlay_img;
+
+	//! Image used as ambient overlay
+	StillImage _ambient_overlay_img;
+	//! x and y speed of the ambient overlay (in pixel per second)
+	float _ambient_x_speed;
+	float _ambient_y_speed;
+	//! Current shifting state
+	float _ambient_x_shift;
+	float _ambient_y_shift;
+	//! Tells whether the ambient effect is enabled
+	bool _uses_ambient_overlay;
 
 	//! X offset to shake the screen by (if any)
 	float  _x_shake;

@@ -22,6 +22,8 @@
 #include "engine/video/video.h"
 #include "engine/script/script.h"
 
+#include "engine/system.h"
+
 using namespace std;
 
 using namespace hoa_utils;
@@ -84,7 +86,7 @@ VideoEngine::VideoEngine() :
 	_temp_width = 0;
 	_temp_height = 0;
 	_temp_fullscreen = false;
-	_uses_light_overlay = false;
+
 	_advanced_display = false;
 	_x_shake = 0;
 	_y_shake = 0;
@@ -116,6 +118,12 @@ VideoEngine::VideoEngine() :
 	for (uint32 sample = 0; sample < FPS_SAMPLES; sample++)
 		 _fps_samples[sample] = 0;
 
+	_uses_light_overlay = false;
+	_uses_ambient_overlay = false;
+	_ambient_x_speed = 0;
+	_ambient_y_speed = 0;
+	_ambient_x_shift = 0;
+	_ambient_y_shift = 0;
 	// Create the fading overlays
 	_fade_overlay_img.Load("", 1024.0f, 768.0f);
 	_light_overlay_img.Load("", 1024.0f, 768.0f);
@@ -362,7 +370,7 @@ void VideoEngine::Display(uint32 frame_time) {
 		_lightning_active = false;
 
 	// Apply potential active ambient lightning
-	ApplyLightningOverlay();
+	ApplyOverlays();
 
 	// This must be called before DrawFPS, because we only want to count
 	// texture switches related to the game's normal operation, not the
@@ -681,9 +689,60 @@ void VideoEngine::DisableLightningOverlay() {
 }
 
 
- void VideoEngine::ApplyLightningOverlay() {
-	if (_uses_light_overlay)
-	{
+void VideoEngine::EnableAmbientOverlay(const string &filename,
+									   float x_speed, float y_speed) {
+	// Note: The StillImage class handles clearing an image
+	// when loading another one.
+	if (_ambient_overlay_img.Load(filename)) {
+		_ambient_x_speed = x_speed;
+		_ambient_y_speed = y_speed;
+		_uses_ambient_overlay = true;
+	}
+}
+
+void VideoEngine::DisableAmbientOverlay() {
+	_uses_ambient_overlay = false;
+}
+
+
+void VideoEngine::ApplyOverlays() {
+	// Draw the textured ambient overlay
+	if (_uses_ambient_overlay) {
+		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+		PushState();
+		float width = _ambient_overlay_img.GetWidth();
+		float height = _ambient_overlay_img.GetHeight();
+		for (float x = _ambient_x_shift; x <= 1024.0f; x = x + width) {
+			for (float y = _ambient_y_shift; y <= 768.0f; y = y + height) {
+				Move(x, y);
+				_ambient_overlay_img.Draw();
+			}
+		}
+		PopState();
+
+		// Update the shifting
+		float elapsed_ms = static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
+		_ambient_x_shift += elapsed_ms / 1000 * _ambient_x_speed;
+		_ambient_y_shift += elapsed_ms / 1000 * _ambient_y_speed;
+
+		// Make them negative to draw on the entire screen
+		while (_ambient_x_shift > 0.0f) {
+			_ambient_x_shift -= width;
+		}
+		// handle negative shifting
+		if (_ambient_x_shift < 2 * -width)
+			_ambient_x_shift += width;
+
+		while (_ambient_y_shift > 0.0f) {
+			_ambient_y_shift -= height;
+		}
+		// handle negative shifting
+		if (_ambient_y_shift < 2 * -height)
+			_ambient_y_shift += height;
+	}
+
+	// Draw the light overlay
+	if (_uses_light_overlay) {
 		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 		PushState();
 		Move(0.0f, 0.0f);
@@ -695,12 +754,16 @@ void VideoEngine::DisableLightningOverlay() {
 		_fade_overlay_img.SetColor(_screen_fader.GetFadeOverlayColor());
 		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 		PushState();
-		Move(0, 0);
+		Move(0.0f, 0.0f);
 		_fade_overlay_img.Draw();
 		PopState();
 	}
 }
 
+void VideoEngine::DisableOverlays() {
+	DisableAmbientOverlay();
+	DisableLightningOverlay();
+}
 
 
 StillImage VideoEngine::CaptureScreen() throw(Exception) {

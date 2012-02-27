@@ -128,6 +128,8 @@ void PauseMode::Update() {
 					ModeManager->Pop();
 					break;
 				case QUIT_TO_BOOT:
+					// Disable potential previous effects
+					VideoManager->DisableOverlays();
 					ModeManager->PopAll();
 					ModeManager->Push(new BootMode());
 					break;
