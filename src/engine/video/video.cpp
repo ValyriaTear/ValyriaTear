@@ -118,15 +118,15 @@ VideoEngine::VideoEngine() :
 	for (uint32 sample = 0; sample < FPS_SAMPLES; sample++)
 		 _fps_samples[sample] = 0;
 
+	// Initialize the overlays
 	_uses_light_overlay = false;
 	_uses_ambient_overlay = false;
 	_ambient_x_speed = 0;
 	_ambient_y_speed = 0;
 	_ambient_x_shift = 0;
 	_ambient_y_shift = 0;
-	// Create the fading overlays
-	_fade_overlay_img.Load("", 1024.0f, 768.0f);
 	_light_overlay_img.Load("", 1024.0f, 768.0f);
+	_fade_overlay_img.Load("", 1024.0f, 768.0f);
 }
 
 
@@ -195,6 +195,7 @@ VideoEngine::~VideoEngine() {
 
 	_default_menu_cursor.Clear();
 	_rectangle_image.Clear();
+	_ambient_overlay_img.Clear();
 
 	TextureManager->SingletonDestroy();
 }
