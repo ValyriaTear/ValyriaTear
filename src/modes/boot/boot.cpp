@@ -53,10 +53,14 @@ namespace hoa_boot {
 
 bool BOOT_DEBUG = false;
 
-// A temporary hack to boot mode used to make it possible to enter battle mode, menu mode, and
+// An option to boot mode used to make it possible to enter battle mode, menu mode, and
 // shop mode from the main boot menu. Set this member to true to enable those options or false
 // to disable them. Make sure to set this boolean to false for release builds!
-bool TEMP_BOOT_TEST = true;
+#ifdef DEBUG_MENU
+bool MENU_DEBUG = true;
+#else
+bool MENU_DEBUG = false;
+#endif
 
 // Initialize static members here
 bool BootMode::_initial_entry = true;
@@ -520,7 +524,7 @@ bool BootMode::_SavesAvailable(int maxId)
 }
 
 void BootMode::_SetupMainMenu() {
-	if (TEMP_BOOT_TEST == true) {
+	if (MENU_DEBUG) {
 		_main_menu.SetPosition(512.0f, 80.0f);
 		_main_menu.SetDimensions(1000.0f, 50.0f, 8, 1, 8, 1);
 		_main_menu.SetTextStyle(TextStyle("title24"));

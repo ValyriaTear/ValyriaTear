@@ -4,6 +4,7 @@ CMAKE_POLICY(VERSION 2.6)
 PROJECT(ALLACROST)
 
 OPTION(EDITOR_SUPPORT "Compile the Qt Allacrost editor" OFF)
+OPTION(DEBUG_MENU "Add the debug menu options at game start" OFF)
 
 IF (NOT VERSION)
     SET(VERSION 0.1.0)
