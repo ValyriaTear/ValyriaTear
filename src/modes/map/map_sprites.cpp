@@ -77,13 +77,13 @@ VirtualSprite::~VirtualSprite()
 void VirtualSprite::Update() {
 	moved_position = false;
 
-	if (!updatable) {
+	if (!updatable)
 		return;
-	}
 
 	// Determine if a movement event is controlling the sprite.
 	if (moving == false) {
 		return;
+// TODO: Figure out whether this commented code has to leave.
 // 		if (control_event != NULL) {
 // 			EVENT_TYPE event_type = control_event->GetEventType();
 // 			if (event_type == PATH_MOVE_SPRITE_EVENT || event_type == RANDOM_MOVE_SPRITE_EVENT) {
@@ -96,36 +96,40 @@ void VirtualSprite::Update() {
 // 		}
 	}
 
-	// Save the previous sprite's position temporarily
-	float tmp_x = x_offset;
-	float tmp_y = y_offset;
+	// Next sprite's position
+	float next_x_offset = x_offset;
+	float next_y_offset = y_offset;
 
 	float distance_moved = CalculateDistanceMoved();
 
 	// Move the sprite the appropriate distance in the appropriate Y and X direction
 	if (direction & (NORTH | MOVING_NORTHWEST | MOVING_NORTHEAST))
-		y_offset -= distance_moved;
+		next_y_offset -= distance_moved;
 	else if (direction & (SOUTH | MOVING_SOUTHWEST | MOVING_SOUTHEAST))
-		y_offset += distance_moved;
+		next_y_offset += distance_moved;
 	if (direction & (WEST | MOVING_NORTHWEST | MOVING_SOUTHWEST))
-		x_offset -= distance_moved;
+		next_x_offset -= distance_moved;
 	else if (direction & (EAST | MOVING_NORTHEAST | MOVING_SOUTHEAST))
-		x_offset += distance_moved;
+		next_x_offset += distance_moved;
 
 	MapObject* collision_object = NULL;
 	COLLISION_TYPE collision_type = NO_COLLISION;
-	collision_type = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(this, &collision_object);
+	collision_type = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(this,
+																						x_position,
+																						y_position,
+																						next_x_offset,
+																						next_y_offset,
+																						&collision_object);
 
 	if (collision_type == NO_COLLISION) {
+		x_offset = next_x_offset;
+		y_offset = next_y_offset;
 		CheckPositionOffsets();
 		moved_position = true;
 	}
 	else {
-		// Restore the sprite's position. The _ResolveCollision() call that follows may find an alternative
+		// The _ResolveCollision() call that follows may find an alternative
 		// position to move the sprite to.
-		x_offset = tmp_x;
-		y_offset = tmp_y;
-
 		_ResolveCollision(collision_type, collision_object);
 	}
 } // void VirtualSprite::Update()
