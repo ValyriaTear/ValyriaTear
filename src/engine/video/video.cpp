@@ -679,13 +679,13 @@ void VideoEngine::SetTransform(float matrix[16]) {
 }
 
 
-void VideoEngine::EnableLightningOverlay(const Color& color) {
+void VideoEngine::EnableLightingOverlay(const Color& color) {
 	_light_overlay_img.SetColor(color);
 	_uses_light_overlay = true;
 }
 
 
-void VideoEngine::DisableLightningOverlay() {
+void VideoEngine::DisableLightingOverlay() {
 	_uses_light_overlay = false;
 }
 
@@ -763,7 +763,7 @@ void VideoEngine::ApplyOverlays() {
 
 void VideoEngine::DisableOverlays() {
 	DisableAmbientOverlay();
-	DisableLightningOverlay();
+	DisableLightingOverlay();
 }
 
 

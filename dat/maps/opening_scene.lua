@@ -214,7 +214,7 @@ function Load(m)
 	Map:SetCamera(claudius);
 
 	-- Draw night-time scene lighting
-	VideoManager:EnableLightningOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.6));
+	VideoManager:EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.6));
 	VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
 
 	-- This entire map is played out in scene state. As soon as the map is loaded, we start the chain of events.

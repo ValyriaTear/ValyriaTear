@@ -471,7 +471,7 @@ function Load(m)
 	TreasureManager = Map.treasure_supervisor;
 	GlobalEvents = Map.map_event_group;
 
-	Map.unlimited_stamina = true; -- TEMP: enabled for development. Change this to false prior to release
+	Map.unlimited_stamina = false; -- TEMP: enabled for development. Change this to false prior to release
 
 	CreateObjects();
 	CreateCharacters();

@@ -544,11 +544,11 @@ public:
 	/** \brief turn on the ligt color for the scene
 	 * \param color the light color to use
 	 */
-	void EnableLightningOverlay(const Color& color);
+	void EnableLightingOverlay(const Color& color);
 
 	/** \brief disables scene lighting
 	 */
-	void DisableLightningOverlay();
+	void DisableLightingOverlay();
 
 	/** \brief Load and enable the textured ambient overlay
 	 * the speed x and y factor are used to make the overlay slide on the screen.
