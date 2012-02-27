@@ -713,13 +713,15 @@ void MapMode::_DrawMapLayers() {
 
 
 void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
-	const Color dark_olive_green(0.0196f, 0.207f, 0.0196f, 1.0f);
+	const Color olive_green(0.0196f, 0.207f, 0.0196f, 1.0f);
 	const Color lighter_green(0.419f, 0.894f, 0.0f, 1.0f);
 	const Color light_green(0.0196f, 0.207f, 0.0196f, 1.0f);
 	const Color medium_green(0.0509f, 0.556f, 0.0509f, 1.0f);
 	const Color darkish_green(0.352f, 0.4f, 0.352f, 1.0f);
 	const Color dark_green(0.0196f, 0.207f, 0.0196f, 1.0f);
 	const Color bright_yellow(0.937f, 1.0f, 0.725f, 1.0f);
+	const Color dark_orange(0.737f, 0.5f, 0.196f, 1.0f);
+	const Color dark_red(0.737f, 0.0f, 0.125f, 1.0f);
 
 	float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
 
@@ -733,7 +735,7 @@ void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
 
 	// Draw the base color of the bar
 	VideoManager->Move(800, 740);
-	VideoManager->DrawRectangle(200 * fill_size, 10, dark_olive_green * blending);
+	VideoManager->DrawRectangle(200 * fill_size, 10, olive_green * blending);
 
 	// Shade the bar with a faux lighting effect
 	VideoManager->Move(800,739);
@@ -752,8 +754,17 @@ void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
 		VideoManager->DrawRectangle(1, 2, medium_green * blending);
 	}
 
+	// the bar color depending on its size
+	Color bar_color;
+	if ((200 * fill_size) > 75)
+		bar_color = medium_green;
+	else if ((200 * fill_size) > 30)
+		bar_color = dark_orange;
+	else
+		bar_color = dark_red;
+
 	VideoManager->Move(800, 736);
-	VideoManager->DrawRectangle(200 * fill_size, 5, medium_green * blending);
+	VideoManager->DrawRectangle(200 * fill_size, 5, bar_color * blending);
 
 	// Only do this if the bar is at least 4 pixels long
 	if ((200 * fill_size) >= 4) {
