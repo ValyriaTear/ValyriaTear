@@ -77,24 +77,8 @@ VirtualSprite::~VirtualSprite()
 void VirtualSprite::Update() {
 	moved_position = false;
 
-	if (!updatable)
+	if (!updatable || !moving)
 		return;
-
-	// Determine if a movement event is controlling the sprite.
-	if (moving == false) {
-		return;
-// TODO: Figure out whether this commented code has to leave.
-// 		if (control_event != NULL) {
-// 			EVENT_TYPE event_type = control_event->GetEventType();
-// 			if (event_type == PATH_MOVE_SPRITE_EVENT || event_type == RANDOM_MOVE_SPRITE_EVENT) {
-// 				moving = true;
-// 			}
-// 		}
-// 		// If the sprite still isn't moving, there's nothing more to update here
-// 		if (moving == false) {
-// 			return;
-// 		}
-	}
 
 	// Next sprite's position
 	float next_x_offset = x_offset;

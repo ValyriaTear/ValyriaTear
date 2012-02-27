@@ -1273,42 +1273,17 @@ bool ObjectSupervisor::_ModifySpritePosition(VirtualSprite *sprite, uint16 direc
 	float next_x_offset = sprite->x_offset;
 	float next_y_offset = sprite->y_offset;
 
-	switch (direction) {
-		case NORTH:
-			next_y_offset -= distance;
-			break;
-		case SOUTH:
-			next_y_offset += distance;
-			break;
-		case EAST:
-			next_x_offset += distance;
-			break;
-		case WEST:
-			next_x_offset -= distance;
-			break;
-		case NW_NORTH:
-		case NW_WEST:
-			next_x_offset -= distance;
-			next_y_offset -= distance;
-			break;
-		case NE_NORTH:
-		case NE_EAST:
-			next_x_offset += distance;
-			next_y_offset -= distance;
-			break;
-		case SW_SOUTH:
-		case SW_WEST:
-			next_x_offset -= distance;
-			next_y_offset += distance;
-			break;
-		case SE_SOUTH:
-		case SE_EAST:
-			next_x_offset += distance;
-			next_y_offset += distance;
-			break;
-		default:
-			IF_PRINT_WARNING(MAP_DEBUG) << "invalid direction argument passed to this function: " << direction << endl;
-			return false;
+	if (direction & (NORTH | MOVING_NORTHWEST | MOVING_NORTHEAST))
+		next_y_offset -= distance;
+	else if (direction & (SOUTH | MOVING_SOUTHWEST | MOVING_SOUTHEAST))
+		next_y_offset += distance;
+	if (direction & (WEST | MOVING_NORTHWEST | MOVING_SOUTHWEST))
+		next_x_offset -= distance;
+	else if (direction & (EAST | MOVING_NORTHEAST | MOVING_SOUTHEAST))
+		next_x_offset += distance;
+	else {
+		IF_PRINT_WARNING(MAP_DEBUG) << "invalid direction argument passed to this function: " << direction << endl;
+		return false;
 	}
 
 	// Check for a collision in the next position
