@@ -121,6 +121,13 @@ void VirtualSprite::Update() {
 																						next_y_offset,
 																						&collision_object);
 
+	// Don't stuck the player when it's auto-piloted and a NPC goes in the way,
+	// or a small wall corner is blocking, for instance.
+	if (this == MapMode::CurrentInstance()->GetCamera()
+		&& control_event && control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
+		collision_type = NO_COLLISION;
+	}
+
 	if (collision_type == NO_COLLISION) {
 		x_offset = next_x_offset;
 		y_offset = next_y_offset;
