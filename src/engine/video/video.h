@@ -539,7 +539,7 @@ public:
 	TextureController* Textures()
 		{ return TextureManager; }
 
-	//-- Lighting -----------------------------------------------------
+	//-- Overlays: Lighting, Lightning  -----------------------------------------------------
 
 	/** \brief turn on the ligt color for the scene
 	 * \param color the light color to use
@@ -559,17 +559,42 @@ public:
 	 */
 	void DisableAmbientOverlay();
 
+	/** \brief Load a lightning effect
+	 *  \param lit_file a .lit file which contains lightning intensities stored
+	 *                 as bytes (0-255).
+	 * \return success/failure
+	 */
+	bool LoadLightning(const std::string& lit_file);
+
+	/** \brief Enable the lightning overlay
+	 * the speed x and y factor are used to make the overlay slide on the screen.
+	 */
+	void EnableLightning(bool loop = false)
+	{ _lightning_active = true; _loop_lightning = loop; }
+
+	/** \brief disables the lightning overlay
+	 */
+	void DisableLightning()
+	{ _lightning_active = false; }
+
+	/** \brief call this every frame to draw any lightning effects. You should make
+	 *         sure to place this call in an appropriate spot. In particular, you should
+	 *         draw the lightning before drawing the GUI. The lightning is drawn by
+	 *         using a fullscreen overlay.
+	 */
+	void DrawLightning();
+
 	/** \brief call after all map images are drawn to apply lighting and texture overlays.
 	 *         All menu and text rendering should occur AFTER this call, so that
 	 *         they are not affected by lighting.
 	 */
-	void ApplyOverlays();
+	void DrawOverlays();
 
 	/** \brief disables all the active overlay effects (useful when switching modes)
 	 */
 	void DisableOverlays();
 
-	//TODO: review the DrawHalo, DrawLight, DrawFullscreenOverlay, DrawLightning, MakeLightning functions.
+	//TODO: review the DrawHalo, DrawLight functions.
 	/** \brief draws a halo at the given spot
 	 *
 	 *  \param id    image descriptor for the halo image
@@ -587,27 +612,6 @@ public:
 	 *  \param color  color of light
 	 */
 	void DrawLight(float radius, float x, float y, const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
-
-	//-- Overlays / lightning -------------------------------------------------------
-
-	/** \brief draws a full screen overlay of the given color
-	 *  \note  This is very slow, so use sparingly!
-	 */
-	void DrawFullscreenOverlay(const Color& color);
-
-	/** \brief call to create lightning effect
-	 *  \param lit_file a .lit file which contains lightning intensities stored
-	 *                 as bytes (0-255).
-	 * \return success/failure
-	 */
-	bool MakeLightning(const std::string& lit_file);
-
-	/** \brief call this every frame to draw any lightning effects. You should make
-	 *         sure to place this call in an appropriate spot. In particular, you should
-	 *         draw the lightning before drawing the GUI. The lightning is drawn by
-	 *         using a fullscreen overlay.
-	 */
-	void DrawLightning();
 
 	//-- Fading ---------------------------------------------------------------
 
@@ -831,15 +835,6 @@ private:
 	//! keep track of number of draw calls per frame
 	int32 _num_draw_calls;
 
-	//! true if ambient lights are enabled
-	bool _uses_light_overlay;
-
-	//! Image used as overlay for ambient lightning
-	StillImage _light_overlay_img;
-
-	//! Image used as a sub-fading overlay
-	StillImage _fade_overlay_img;
-
 	//! Image used as ambient overlay
 	StillImage _ambient_overlay_img;
 	//! x and y speed of the ambient overlay (in pixel per second)
@@ -850,6 +845,33 @@ private:
 	float _ambient_y_shift;
 	//! Tells whether the ambient effect is enabled
 	bool _uses_ambient_overlay;
+
+	//! true if ambient lights are enabled
+	bool _uses_light_overlay;
+
+	//! Image used as overlay for ambient lightning
+	StillImage _light_overlay_img;
+
+	//! Image used as overlay for lightning effects
+	StillImage _lightning_overlay_img;
+
+	//! true if a lightning effect is active
+	bool _lightning_active;
+
+	//! tells whether the lightning effect has to loop
+	bool _loop_lightning;
+
+	//! current time of lightning effect (time since it started)
+	int32 _lightning_current_time;
+
+	//! how many milliseconds to do the lightning effect for
+	int32 _lightning_end_time;
+
+	//! intensity data for lightning effect
+	std::vector <float> _lightning_data;
+
+	//! Image used as a sub-fading overlay
+	StillImage _fade_overlay_img;
 
 	//! X offset to shake the screen by (if any)
 	float  _x_shake;
@@ -884,18 +906,6 @@ private:
 
 	//! Image used for rendering rectangles
 	StillImage _rectangle_image;
-
-	//! true if a lightning effect is active
-	bool _lightning_active;
-
-	//! current time of lightning effect (time since it started)
-	int32 _lightning_current_time;
-
-	//! how many milliseconds to do the lightning effect for
-	int32 _lightning_end_time;
-
-	//! intensity data for lightning effect
-	std::vector <float> _lightning_data;
 
 	//! counter to keep track of milliseconds since game started for animations
 	int32 _animation_counter;

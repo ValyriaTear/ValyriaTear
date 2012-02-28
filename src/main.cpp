@@ -239,8 +239,8 @@ void InitializeEngine() throw (Exception) {
 	// Create and initialize singleton class managers
 	AudioManager = AudioEngine::SingletonCreate();
 	InputManager = InputEngine::SingletonCreate();
-	VideoManager = VideoEngine::SingletonCreate();
 	ScriptManager = ScriptEngine::SingletonCreate();
+	VideoManager = VideoEngine::SingletonCreate();
 	SystemManager = SystemEngine::SingletonCreate();
 	ModeManager = ModeEngine::SingletonCreate();
 	GUIManager = GUISystem::SingletonCreate();

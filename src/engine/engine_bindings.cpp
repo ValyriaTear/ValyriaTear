@@ -173,6 +173,8 @@ void BindEngineCode() {
 			.def("DisableLightingOverlay", &VideoEngine::DisableLightingOverlay)
 			.def("EnableAmbientOverlay", &VideoEngine::EnableAmbientOverlay)
 			.def("DisableAmbientOverlay", &VideoEngine::DisableAmbientOverlay)
+			.def("EnableLightning", &VideoEngine::EnableLightning)
+			.def("DisableLightning", &VideoEngine::DisableLightning)
 			.def("DisableOverlays", &VideoEngine::DisableOverlays)
 
 			// Namespace constants

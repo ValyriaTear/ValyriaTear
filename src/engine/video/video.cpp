@@ -119,14 +119,22 @@ VideoEngine::VideoEngine() :
 		 _fps_samples[sample] = 0;
 
 	// Initialize the overlays
+	// Light overlay
 	_uses_light_overlay = false;
+	_light_overlay_img.Load("", 1024.0f, 768.0f);
+	// Ambient overlay
 	_uses_ambient_overlay = false;
 	_ambient_x_speed = 0;
 	_ambient_y_speed = 0;
 	_ambient_x_shift = 0;
 	_ambient_y_shift = 0;
-	_light_overlay_img.Load("", 1024.0f, 768.0f);
+	// lightning overlay
+	_lightning_overlay_img.Load("", 1024.0f, 768.0f);
+	_loop_lightning = false;
+	// Custom fading overlay
 	_fade_overlay_img.Load("", 1024.0f, 768.0f);
+	// Load the lightning effect
+	LoadLightning("dat/effects/lightning.lua");
 }
 
 
@@ -367,11 +375,15 @@ void VideoEngine::Display(uint32 frame_time) {
 	// Update lightning timer
 	_lightning_current_time += frame_time;
 
-	if (_lightning_current_time > _lightning_end_time)
-		_lightning_active = false;
+	if (_lightning_current_time > _lightning_end_time) {
+		if (_loop_lightning)
+			_lightning_current_time = 0;
+		else
+			_lightning_active = false;
+	}
 
 	// Apply potential active ambient lightning
-	ApplyOverlays();
+	DrawOverlays();
 
 	// This must be called before DrawFPS, because we only want to count
 	// texture switches related to the game's normal operation, not the
@@ -678,18 +690,6 @@ void VideoEngine::SetTransform(float matrix[16]) {
 	glLoadMatrixf(matrix);
 }
 
-
-void VideoEngine::EnableLightingOverlay(const Color& color) {
-	_light_overlay_img.SetColor(color);
-	_uses_light_overlay = true;
-}
-
-
-void VideoEngine::DisableLightingOverlay() {
-	_uses_light_overlay = false;
-}
-
-
 void VideoEngine::EnableAmbientOverlay(const string &filename,
 									   float x_speed, float y_speed) {
 	// Note: The StillImage class handles clearing an image
@@ -705,8 +705,76 @@ void VideoEngine::DisableAmbientOverlay() {
 	_uses_ambient_overlay = false;
 }
 
+void VideoEngine::EnableLightingOverlay(const Color& color) {
+	_light_overlay_img.SetColor(color);
+	_uses_light_overlay = true;
+}
 
-void VideoEngine::ApplyOverlays() {
+
+void VideoEngine::DisableLightingOverlay() {
+	_uses_light_overlay = false;
+}
+
+bool VideoEngine::LoadLightning(const std::string &lightning_file) {
+	_lightning_data.clear();
+
+	hoa_script::ReadScriptDescriptor lightning_script;
+	if (lightning_script.OpenFile(lightning_file) == false) {
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "No script file: '"
+			<< lightning_file << "' The effect won't work." << endl;
+		return false;
+	}
+	// Read a list of alpha intensities (0-255)
+	// the lightning_intensity lua table.
+	std::vector<int32> lightning_ints;
+	lightning_script.ReadIntVector("lightning_intensity", lightning_ints);
+	lightning_script.CloseFile();
+
+	if (lightning_ints.empty()) {
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "No lightning intensities read from: '"
+			<< lightning_file << "'. The effect won't work." << endl;
+		return false;
+	}
+
+	// Create the table of float out of it
+	std::vector<int32>::const_iterator it, it_end;
+	for (it = lightning_ints.begin(), it_end = lightning_ints.end(); it != it_end;
+		 ++it) {
+		float f = float(*it) / 255.0f;
+		_lightning_data.push_back(f);
+	}
+
+	// reset the effect timers
+	_lightning_current_time = 0;
+	_lightning_end_time = _lightning_data.size() * 1000 / 100;
+	return true;
+}
+
+void VideoEngine::DrawLightning() {
+	// convert milliseconds elapsed into data points elapsed
+	float t = _lightning_current_time * 100.0f / 1000.0f;
+
+	int32 rounded_t = static_cast<int32>(t);
+	t -= rounded_t;
+
+	// Safety check
+	if (rounded_t + 1 >= (int32)_lightning_data.size())
+		return;
+
+	// get 2 separate data points and blend together (linear interpolation)
+	float data1 = _lightning_data[rounded_t];
+	float data2 = _lightning_data[rounded_t + 1];
+
+	float intensity = data1 * (1 - t) + data2 * t;
+
+	PushState();
+	SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+	Move(0.0f, 0.0f);
+	_lightning_overlay_img.Draw(Color(1.0f, 1.0f, 1.0f, intensity));
+	PopState();
+}
+
+void VideoEngine::DrawOverlays() {
 	// Draw the textured ambient overlay
 	if (_uses_ambient_overlay) {
 		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -750,6 +818,11 @@ void VideoEngine::ApplyOverlays() {
 		_light_overlay_img.Draw();
 		PopState();
 	}
+
+	if (_lightning_active) {
+		DrawLightning();
+	}
+
 	// Draw a screen overlay if we are in the process of doing a custom fading
 	if (_screen_fader.ShouldUseFadeOverlay()) {
 		_fade_overlay_img.SetColor(_screen_fader.GetFadeOverlayColor());
@@ -764,6 +837,7 @@ void VideoEngine::ApplyOverlays() {
 void VideoEngine::DisableOverlays() {
 	DisableAmbientOverlay();
 	DisableLightingOverlay();
+	DisableLightning();
 }
 
 
@@ -1010,96 +1084,6 @@ int32 VideoEngine::_ScreenCoordY(float y) {
 			(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom());
 
 	return static_cast<int32>(percent * static_cast<float>(_screen_height));
-}
-
-
-
-bool VideoEngine::MakeLightning(const std::string &lit_file) {
-	FILE *fp = fopen(lit_file.c_str(), "rb");
-	if(!fp)
-		return false;
-
-	int32 data_size;
-	if(!fread(&data_size, 4, 1, fp))
-	{
-		fclose(fp);
-		return false;
-	}
-
-	// since this file was created on windows, it uses little endian byte order
-	// Check if this processor uses big endian, and reorder bytes if so.
-
-	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-		data_size = ((data_size & 0xFF000000) >> 24) |
-		           ((data_size & 0x00FF0000) >> 8) |
-		           ((data_size & 0x0000FF00) << 8) |
-		           ((data_size & 0x000000FF) << 24);
-	#endif
-
-	uint8 *data = new uint8[data_size];
-
-	if(!fread(data, data_size, 1, fp))
-	{
-		delete [] data;
-		fclose(fp);
-		return false;
-	}
-
-	fclose(fp);
-
-	_lightning_data.clear();
-
-	for(int32 j = 0; j < data_size; ++j)
-	{
-		float f = float(data[j]) / 255.0f;
-		_lightning_data.push_back(f);
-	}
-
-	delete [] data;
-
-	_lightning_active = true;
-	_lightning_current_time = 0;
-	_lightning_end_time = data_size * 1000 / 100;
-
-	return true;
-}
-
-
-
-void VideoEngine::DrawLightning() {
-	if(!_lightning_active)
-		return;
-
-	// convert milliseconds elapsed into data points elapsed
-
-	float t = _lightning_current_time * 100.0f / 1000.0f;
-
-	int32 rounded_t = static_cast<int32>(t);
-	t -= rounded_t;
-
-	// get 2 separate data points and blend together (linear interpolation)
-
-	float data1 = _lightning_data[rounded_t];
-	float data2 = _lightning_data[rounded_t+1];
-
-	float intensity = data1 * (1-t) + data2 * t;
-
-	DrawFullscreenOverlay(Color(1.0f, 1.0f, 1.0f, intensity));
-}
-
-
-
-void VideoEngine::DrawFullscreenOverlay(const Color& color) {
-	PushState();
-
-	SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
-	SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-	Move(0.0f, 0.0f);
-	StillImage img;
-	img.Load("", 1.0f, 1.0f);
-	img.Draw(color);
-
-	PopState();
 }
 
 

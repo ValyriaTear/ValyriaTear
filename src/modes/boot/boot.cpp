@@ -1507,9 +1507,10 @@ void BootMode::_AnimateLogo() {
 		_DrawBackgroundItems();
 		Color targetColor(Color::white);
 		targetColor.SetAlpha(delta);
-		VideoManager->DrawFullscreenOverlay(targetColor);
+		VideoManager->EnableLightingOverlay(targetColor);
 	}
 	else if (total_time >= SEQUENCE_SEVEN) {
+		VideoManager->DisableLightingOverlay();
 		_EndLogoAnimation();
 		_DrawBackgroundItems();
 	}
