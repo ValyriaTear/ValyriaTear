@@ -1,4 +1,140 @@
 <<<< Hero of Allacrost developers, artists, musicians, contributers >>>>
 
-Please see the credits page on our main site:
-http://www.allacrost.org/index.php?q=node/12
+Founder and Lead Designer
+
+    Tyler Olsen (Roots)
+
+Deputy Lead
+
+    Philip Vorsilak (gorzuate)
+
+Team Managers
+
+    Emre Motan (emrebfg)
+
+Programming Team
+
+    Andy Gardner (ChopperDave) - battle code, menu code
+    Baris Soner Usakli (Black Knight) - game editor
+    Daniel Steuernol (Steu) - game engine
+    Guillaume Anctil (Drakkoon) - map code
+    Jacob Rudolph (rujasu) - menu code
+    Lindsay Roberts (Linds) - video engine
+    Moises Ferrer Serra (byaku) - video engine, audio engine
+    Philip Vorsilak (gorzuate) - game editor
+    Tyler Olsen (Roots) - programming lead, game engine, map code
+    Viljami Korhonen (MindFlayer) - boot code, battle code
+
+Artwork Team
+
+    Brett Steele (Safir-Kreuz) - map sprites, battle sprites, character portraits, location graphics
+    Joe Raucci (Sylon) - battle sprites, old GUI artwork
+    Josiah Tobin (Josiah Tobin) - map tiles
+    Matthew James (nunvuru) - website graphics, GUI artwork, game logos
+    Richard Kettering (Jetryl) - map tiles, map sprites, inventory icons, artwork coordination
+
+Music and Sound Team
+
+    Jamie Bremaneson (Jam) - sound composer
+    Joe Rouse (Loodwig) - soundtrack composer
+    Ryan Reilly (Rain) - music and sound lead, soundtrack composer
+    Samuel Justice (sam_justice) - sound composer
+    Zhe Zhou (shizeet) - sound composer
+
+Map Designers
+
+    Richard Kettering (Jetryl)
+    Tyler Olsen (Roots)
+
+Team Managers
+
+    Emre Motan (emrebfg)
+    Matt Gallivan (Gallivan)
+
+Internet Services
+
+    Daniel Steuernol (Steu) - wiki support
+    Emre Motan (emrebfg) - website content, forum administration
+    Heikki Naski (raging_hog) - content management system
+    Matt Gallivan (Gallivan) - administration
+    Matthew James (nunvuru) - website design
+
+Story
+
+    Brian Aloisi (Brian Aloisi) - writer, editor
+    Tim Hargreaves (Balthazar) - editor
+    Tyler Olsen (Roots) - author
+
+Packaging
+
+    Andy Gardner (ChopperDave) - Windows distribution
+    Dmitry Marakasov (AMDmi3) - FreeBSD distribution
+    Jorda Polo (ettin) - Debian distribution
+    Philip Vorsilak (gorzuate) - OS X distribution
+    Tyler Olsen (Roots) - Source distribution
+
+Additional Programming
+
+    Aaron Smith (Etherstar) - audio engine
+    Brandon Barnes (Winter Knight) - game engine, game modes
+    Corey Hoffstein (visage) - battle code
+    DongHa Lee (MoOshiCow) - internationalization
+    Farooq Mela (CamelJockey) - video engine
+    Kevin Martin (kev82) - video engine, game engine
+    Nick Weihs (nickw) - video engine
+    Raj Sharma (roos) - video engine
+    Vladimir Mitrovic (snipe714) - scripting engine
+
+Additional Artwork
+
+    Adam Black (indigoshift) - concept art
+    Blake Heatly (KaelisEbonrai) - inventory icons
+    Chris Hopp (fydo) - map sprite animations
+    Chris Luspo (Venndetta1) - concept art
+    Francisco Munoz (fmunoz) - inventory icons
+    Jason Frailey (Valdroni) - concept art, map sprites
+    Jerimiah Short (BigPapaN0z) - map tiles
+    John W. Bjerk (eleazar) - map tiles
+    Jon Williams (Jonatron) - map sprites
+    Herbert Glaser (hollowgrind) - map sprite animations
+    Mark Goodenough (RangerM) - map sprite animations, map tiles
+    Max Humber (zomby138) - concept art, title screen image
+    Nathan Christie (Adarias) - concept art, map sprites, map tiles
+    Peter Geinitz (wayfarer) - Concept art, map sprites
+    Richard Marks (DeveloperX) - map tiles
+    Tyler Olsen (Roots) - various art
+    Tyler Stroud (gloomcover) - map tiles
+    Victoria Smith (alenacat) - map sprites, map tiles
+    (Jarks) - map tiles, inventory icons
+
+Additional Music and Sound
+
+    Jean Malary (hamiko) - sound mixer
+    Matt Dexter (Star Pilot) - soundtrack composer
+    Simon Frisch (SimonF) - soundtrack composer
+
+Additional Internet Services
+
+    Felix Kastner (Biohazard) - previous website
+    Tim Hargreaves (Balthazar) - previous website, forum administration
+
+Additional Translation
+
+    Mikko HÃƒÂ¤nninen (Burnsaber) - Finnish prologue
+
+Extra Thanks
+
+    (Melchior)
+    (Egan1)
+
+Special Thanks
+
+    Daniel Cook (Danc) - Map Tiles
+    The Battle for Wesnoth Development Team - Inventory Icons
+    (neoriceisgood) - map monster sprites
+
+
+Files authoring since Allacrost 2011:
+img/ambient/sandstorm.png:		The Mana World Team
+snd/thunder.wav:				Public domain
+snd/lightning.wav:				Public domain

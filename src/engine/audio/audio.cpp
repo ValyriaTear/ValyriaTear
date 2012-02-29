@@ -355,6 +355,9 @@ void AudioEngine::SetListenerOrientation(const float orientation[3]) {
 
 
 bool AudioEngine::LoadSound(const std::string& filename) {
+	if (!DoesFileExist(filename))
+		return false;
+
 	SoundDescriptor* new_sound = new SoundDescriptor();
 
 	if (_LoadAudio(new_sound, filename) == false) {
