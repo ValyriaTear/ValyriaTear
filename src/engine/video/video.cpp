@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "engine/video/video.h"
+#include "engine/audio/audio.h"
 #include "engine/script/script.h"
 
 #include "engine/system.h"
@@ -95,8 +96,8 @@ VideoEngine::VideoEngine() :
 	_animation_counter = 0;
 	_current_frame_diff = 0;
 	_lightning_active = false;
+	_active_lightning_id = -1;
 	_lightning_current_time = 0;
-	_lightning_end_time = 0;
 
 	_fps_sum = 0;
 	_fps_display = false;
@@ -134,7 +135,7 @@ VideoEngine::VideoEngine() :
 	// Custom fading overlay
 	_fade_overlay_img.Load("", 1024.0f, 768.0f);
 	// Load the lightning effect
-	LoadLightning("dat/effects/lightning.lua");
+	_LoadLightnings("dat/effects/lightning.lua");
 }
 
 
@@ -372,18 +373,10 @@ void VideoEngine::Display(uint32 frame_time) {
 	SetCoordSys(0, 1024, 0, 768);
 	_UpdateShake(frame_time);
 
-	// Update lightning timer
-	_lightning_current_time += frame_time;
-
-	if (_lightning_current_time > _lightning_end_time) {
-		if (_loop_lightning)
-			_lightning_current_time = 0;
-		else
-			_lightning_active = false;
-	}
-
 	// Apply potential active ambient lightning
 	DrawOverlays();
+
+	_UpdateLightning(frame_time);
 
 	// This must be called before DrawFPS, because we only want to count
 	// texture switches related to the game's normal operation, not the
@@ -715,42 +708,148 @@ void VideoEngine::DisableLightingOverlay() {
 	_uses_light_overlay = false;
 }
 
-bool VideoEngine::LoadLightning(const std::string &lightning_file) {
+bool VideoEngine::_LoadLightnings(const std::string &lightning_file) {
 	_lightning_data.clear();
 
 	hoa_script::ReadScriptDescriptor lightning_script;
 	if (lightning_script.OpenFile(lightning_file) == false) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "No script file: '"
-			<< lightning_file << "' The effect won't work." << endl;
+			<< lightning_file << "' The lightning effects won't work." << endl;
 		return false;
 	}
-	// Read a list of alpha intensities (0-255)
+
+	int16 lightnings_size = lightning_script.ReadInt("num_of_lightnings");
+	_lightning_end_times.resize(lightnings_size);
+	_lightning_data.resize(lightnings_size);
+	_lightning_sound_events.resize(lightnings_size);
+
+	// Read a list of alpha intensities (0.0f - 1.0f)
 	// the lightning_intensity lua table.
-	std::vector<int32> lightning_ints;
-	lightning_script.ReadIntVector("lightning_intensity", lightning_ints);
+	lightning_script.OpenTable("lightning_intensities");
+	for (int i = 0; i < lightnings_size; ++i) {
+		lightning_script.ReadFloatVector(i, _lightning_data[i]);
+	}
+	lightning_script.CloseTable();
+
+	// Load the lightning sounds events
+	lightning_script.OpenTable("lightning_sounds_filenames");
+	std::vector <std::string> sound_filenames;
+	for (int i = 0; i < lightnings_size; ++i) {
+		sound_filenames.clear();
+		lightning_script.ReadStringVector(i, sound_filenames);
+		_lightning_sound_events[i].resize(sound_filenames.size());
+		for (size_t j = 0; j < sound_filenames.size(); ++j) {
+			_lightning_sound_events[i][j].sound_filename = sound_filenames.at(j);
+		}
+	}
+	lightning_script.CloseTable();
+	lightning_script.OpenTable("lightning_sounds_times");
+
+	std::vector <int32> times;
+	for (int i = 0; i < lightnings_size; ++i) {
+		times.clear();
+		lightning_script.ReadIntVector(i, times);
+		for (size_t j = 0; j < times.size(); ++j) {
+			_lightning_sound_events[i][j].time = times.at(j);
+		}
+		// Add a sound event queue terminator
+		lightning_sound_event terminator_event;
+		terminator_event.time = -1;
+		_lightning_sound_events[i].push_back(terminator_event);
+	}
+	lightning_script.CloseTable();
 	lightning_script.CloseFile();
 
-	if (lightning_ints.empty()) {
+	if (_lightning_data.empty()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "No lightning intensities read from: '"
-			<< lightning_file << "'. The effect won't work." << endl;
+			<< lightning_file << "'. The effects won't work." << endl;
 		return false;
 	}
 
-	// Create the table of float out of it
-	std::vector<int32>::const_iterator it, it_end;
-	for (it = lightning_ints.begin(), it_end = lightning_ints.end(); it != it_end;
-		 ++it) {
-		float f = float(*it) / 255.0f;
-		_lightning_data.push_back(f);
+	// Check the table of float intensities for sane values
+	std::vector<float>::iterator it, it_end;
+	for (int i = 0; i < lightnings_size; ++i) {
+		for (it = _lightning_data[i].begin(), it_end = _lightning_data[i].end();
+			it != it_end; ++it) {
+			if (*it > 1.0f)
+				*it = 1.0f;
+			else if (*it < 0.0f)
+				*it = 0.0f;
+		}
+		// Set the timer's end (one piece of data each 100ms)
+		_lightning_end_times[i] = _lightning_data.at(i).size() * 1000 / 100;
 	}
 
-	// reset the effect timers
+	// reset the effect timer
 	_lightning_current_time = 0;
-	_lightning_end_time = _lightning_data.size() * 1000 / 100;
 	return true;
 }
 
-void VideoEngine::DrawLightning() {
+void VideoEngine::EnableLightning(int16 id, bool loop) {
+	if (id > -1 && id < (int16)_lightning_data.size()) {
+		_active_lightning_id = id;
+		_lightning_active = true;
+		_loop_lightning = loop;
+		_lightning_current_time = 0;
+
+		// Load the current sound events
+		_current_lightning_sound_events.clear();
+		std::vector<lightning_sound_event>::iterator it, it_end;
+		for (it = _lightning_sound_events.at(id).begin(),
+			it_end = _lightning_sound_events.at(id).end(); it != it_end; ++it) {
+			_current_lightning_sound_events.push_back(*it);
+			// Preload the files for efficiency
+			hoa_audio::AudioManager->LoadSound(it->sound_filename);
+		}
+	}
+	else {
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid lightning effect requested: "
+		<< id << ", the effect won't be displayed." << endl;
+		DisableLightning();
+	}
+}
+
+void VideoEngine::_UpdateLightning(uint32 frame_time) {
+	// Update lightning timer
+	_lightning_current_time += frame_time;
+
+	// Play potential lightning effect sounds based on their timers
+	std::deque<lightning_sound_event>::const_iterator it = _current_lightning_sound_events.begin();
+	if (it != _current_lightning_sound_events.end()
+		&& (*it).time > -1 && (*it).time <= _lightning_current_time) {
+		// Play the sound
+		hoa_audio::AudioManager->PlaySound((*it).sound_filename);
+		// And put the data at bottom for next potential lightning loop
+		lightning_sound_event next_event;
+		next_event.sound_filename = (*it).sound_filename;
+		next_event.time = (*it).time;
+		_current_lightning_sound_events.push_back(next_event);
+		_current_lightning_sound_events.pop_front();
+	}
+
+	if (_active_lightning_id > -1
+		&& _lightning_current_time > _lightning_end_times.at(_active_lightning_id)) {
+		if (_loop_lightning) {
+			_lightning_current_time = 0;
+			// Remove the sound terminator event when the queue has got sufficient events.
+			// One event + the terminator event.
+			if (_current_lightning_sound_events.size() > 1) {
+				_current_lightning_sound_events.pop_front();
+				lightning_sound_event terminator_event;
+				terminator_event.time = -1;
+				_current_lightning_sound_events.push_back(terminator_event);
+			}
+		}
+		else {
+			_lightning_active = false;
+		}
+	}
+}
+
+void VideoEngine::_DrawLightning() {
+	if (_active_lightning_id < 0 || !_lightning_active)
+		return;
+
 	// convert milliseconds elapsed into data points elapsed
 	float t = _lightning_current_time * 100.0f / 1000.0f;
 
@@ -758,12 +857,12 @@ void VideoEngine::DrawLightning() {
 	t -= rounded_t;
 
 	// Safety check
-	if (rounded_t + 1 >= (int32)_lightning_data.size())
+	if (rounded_t + 1 >= (int32)_lightning_data[_active_lightning_id].size())
 		return;
 
 	// get 2 separate data points and blend together (linear interpolation)
-	float data1 = _lightning_data[rounded_t];
-	float data2 = _lightning_data[rounded_t + 1];
+	float data1 = _lightning_data.at(_active_lightning_id)[rounded_t];
+	float data2 = _lightning_data.at(_active_lightning_id)[rounded_t + 1];
 
 	float intensity = data1 * (1 - t) + data2 * t;
 
@@ -820,7 +919,7 @@ void VideoEngine::DrawOverlays() {
 	}
 
 	if (_lightning_active) {
-		DrawLightning();
+		_DrawLightning();
 	}
 
 	// Draw a screen overlay if we are in the process of doing a custom fading

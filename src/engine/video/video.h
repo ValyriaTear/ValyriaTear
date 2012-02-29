@@ -559,30 +559,16 @@ public:
 	 */
 	void DisableAmbientOverlay();
 
-	/** \brief Load a lightning effect
-	 *  \param lit_file a .lit file which contains lightning intensities stored
-	 *                 as bytes (0-255).
-	 * \return success/failure
-	 */
-	bool LoadLightning(const std::string& lit_file);
-
 	/** \brief Enable the lightning overlay
-	 * the speed x and y factor are used to make the overlay slide on the screen.
+	 * \param id the lighning effect id (See the lightning effect lua script)
+	 * \param loop Whether the effect should be looped.
 	 */
-	void EnableLightning(bool loop = false)
-	{ _lightning_active = true; _loop_lightning = loop; }
+	void EnableLightning(int16 id, bool loop = false);
 
 	/** \brief disables the lightning overlay
 	 */
 	void DisableLightning()
 	{ _lightning_active = false; }
-
-	/** \brief call this every frame to draw any lightning effects. You should make
-	 *         sure to place this call in an appropriate spot. In particular, you should
-	 *         draw the lightning before drawing the GUI. The lightning is drawn by
-	 *         using a fullscreen overlay.
-	 */
-	void DrawLightning();
 
 	/** \brief call after all map images are drawn to apply lighting and texture overlays.
 	 *         All menu and text rendering should occur AFTER this call, so that
@@ -835,6 +821,8 @@ private:
 	//! keep track of number of draw calls per frame
 	int32 _num_draw_calls;
 
+	// Overlays
+
 	//! Image used as ambient overlay
 	StillImage _ambient_overlay_img;
 	//! x and y speed of the ambient overlay (in pixel per second)
@@ -852,26 +840,47 @@ private:
 	//! Image used as overlay for ambient lightning
 	StillImage _light_overlay_img;
 
+	//! Image used as a sub-fading overlay
+	StillImage _fade_overlay_img;
+
+	// Lightnings
+
 	//! Image used as overlay for lightning effects
 	StillImage _lightning_overlay_img;
 
 	//! true if a lightning effect is active
 	bool _lightning_active;
 
+	//! Active lightning effect id;
+	int16 _active_lightning_id;
+
 	//! tells whether the lightning effect has to loop
 	bool _loop_lightning;
 
-	//! current time of lightning effect (time since it started)
+	//! current time of currently active lightning effect (time since it started in ms)
 	int32 _lightning_current_time;
 
-	//! how many milliseconds to do the lightning effect for
-	int32 _lightning_end_time;
+	//! how many milliseconds to do the lightning effects for
+	std::vector<int32> _lightning_end_times;
 
-	//! intensity data for lightning effect
-	std::vector <float> _lightning_data;
+	//! intensity data for lightning effects
+	std::vector< std::vector <float> > _lightning_data;
 
-	//! Image used as a sub-fading overlay
-	StillImage _fade_overlay_img;
+	struct lightning_sound_event {
+		// The time to trigger the sound at, in ms.
+		int32 time;
+		// The sound event filename
+		std::string sound_filename;
+	};
+	//! The sound events to play when displaying a lightning effect.
+	std::vector< std::vector<lightning_sound_event> > _lightning_sound_events;
+
+	/** the current lightning sound event vector, made for efficiency,
+	*** And used to play the sound for the current lightning effect.
+	**/
+	std::deque<lightning_sound_event> _current_lightning_sound_events;
+
+	// Shaking effects
 
 	//! X offset to shake the screen by (if any)
 	float  _x_shake;
@@ -969,6 +978,25 @@ private:
 	* \return the converted value
 	*/
 	int32 _ScreenCoordY(float y);
+
+	/** \brief Load the lightning effects lua script
+	 *  \param script_file a lua script file which contains lightning intensities stored
+	 *  as floats (0.0 - 1.0f). and sound events for several lightning effects.
+	 * \return success/failure
+	 */
+	bool _LoadLightnings(const std::string& script_file);
+
+	/** \brief call this every frame to draw any lightning effects. You should make
+	 *         sure to place this call in an appropriate spot. In particular, you should
+	 *         draw the lightning before drawing the GUI. The lightning is drawn by
+	 *         using a fullscreen overlay.
+	 */
+	void _DrawLightning();
+
+	/** \brief updated all the lightning related timers and trigger sounds events.
+	*** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
+	 */
+	void _UpdateLightning(uint32 frame_time);
 
 	/** \brief Updates all active shaking effects
 	*** \param frame_time The number of milliseconds that have elapsed for the current rendering frame

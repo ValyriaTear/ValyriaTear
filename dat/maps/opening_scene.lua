@@ -216,7 +216,8 @@ function Load(m)
 	-- Draw night-time scene lighting
 	VideoManager:EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.6));
 	VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
-	VideoManager:EnableLightning(true);
+	-- Add a far storm effect
+	VideoManager:EnableLightning(1, true);
 
 	-- This entire map is played out in scene state. As soon as the map is loaded, we start the chain of events.
 	Map:PushState(hoa_map.MapMode.STATE_SCENE);
