@@ -122,7 +122,7 @@ VideoEngine::VideoEngine() :
 	// Initialize the overlays
 	// Light overlay
 	_uses_light_overlay = false;
-	_light_overlay_img.Load("", 1024.0f, 768.0f);
+	_light_overlay_img.Load("", 1.0f, 1.0f);
 	// Ambient overlay
 	_uses_ambient_overlay = false;
 	_ambient_x_speed = 0;
@@ -130,10 +130,10 @@ VideoEngine::VideoEngine() :
 	_ambient_x_shift = 0;
 	_ambient_y_shift = 0;
 	// lightning overlay
-	_lightning_overlay_img.Load("", 1024.0f, 768.0f);
+	_lightning_overlay_img.Load("", 1.0f, 1.0f);
 	_loop_lightning = false;
 	// Custom fading overlay
-	_fade_overlay_img.Load("", 1024.0f, 768.0f);
+	_fade_overlay_img.Load("", 1.0f, 1.0f);
 	// Load the lightning effect
 	_LoadLightnings("dat/effects/lightning.lua");
 }
@@ -896,6 +896,7 @@ void VideoEngine::_DrawLightning() {
 
 	PushState();
 	SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+	SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
 	Move(0.0f, 0.0f);
 	_lightning_overlay_img.Draw(Color(1.0f, 1.0f, 1.0f, intensity));
 	PopState();
@@ -905,6 +906,7 @@ void VideoEngine::DrawOverlays() {
 	// Draw the textured ambient overlay
 	if (_uses_ambient_overlay) {
 		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+		SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f);
 		PushState();
 		float width = _ambient_overlay_img.GetWidth();
 		float height = _ambient_overlay_img.GetHeight();
@@ -920,6 +922,7 @@ void VideoEngine::DrawOverlays() {
 	// Draw the light overlay
 	if (_uses_light_overlay) {
 		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+		SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
 		PushState();
 		Move(0.0f, 0.0f);
 		_light_overlay_img.Draw();
@@ -934,6 +937,7 @@ void VideoEngine::DrawOverlays() {
 	if (_screen_fader.ShouldUseFadeOverlay()) {
 		_fade_overlay_img.SetColor(_screen_fader.GetFadeOverlayColor());
 		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+		SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
 		PushState();
 		Move(0.0f, 0.0f);
 		_fade_overlay_img.Draw();
