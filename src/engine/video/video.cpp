@@ -373,6 +373,8 @@ void VideoEngine::Display(uint32 frame_time) {
 	SetCoordSys(0, 1024, 0, 768);
 	_UpdateShake(frame_time);
 
+	_UpdateAmbientOverlay(frame_time);
+
 	// Apply potential active ambient lightning
 	DrawOverlays();
 
@@ -698,6 +700,32 @@ void VideoEngine::DisableAmbientOverlay() {
 	_uses_ambient_overlay = false;
 }
 
+void VideoEngine::_UpdateAmbientOverlay(uint32 frame_time) {
+	// Update the shifting
+	float elapsed_ms = static_cast<float>(frame_time);
+	//static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
+	_ambient_x_shift += elapsed_ms / 1000 * _ambient_x_speed;
+	_ambient_y_shift += elapsed_ms / 1000 * _ambient_y_speed;
+
+	float width = _ambient_overlay_img.GetWidth();
+	float height = _ambient_overlay_img.GetHeight();
+
+	// Make them negative to draw on the entire screen
+	while (_ambient_x_shift > 0.0f) {
+		_ambient_x_shift -= width;
+	}
+	// handle negative shifting
+	if (_ambient_x_shift < 2 * -width)
+		_ambient_x_shift += width;
+
+	while (_ambient_y_shift > 0.0f) {
+		_ambient_y_shift -= height;
+	}
+	// handle negative shifting
+	if (_ambient_y_shift < 2 * -height)
+		_ambient_y_shift += height;
+}
+
 void VideoEngine::EnableLightingOverlay(const Color& color) {
 	_light_overlay_img.SetColor(color);
 	_uses_light_overlay = true;
@@ -887,26 +915,6 @@ void VideoEngine::DrawOverlays() {
 			}
 		}
 		PopState();
-
-		// Update the shifting
-		float elapsed_ms = static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
-		_ambient_x_shift += elapsed_ms / 1000 * _ambient_x_speed;
-		_ambient_y_shift += elapsed_ms / 1000 * _ambient_y_speed;
-
-		// Make them negative to draw on the entire screen
-		while (_ambient_x_shift > 0.0f) {
-			_ambient_x_shift -= width;
-		}
-		// handle negative shifting
-		if (_ambient_x_shift < 2 * -width)
-			_ambient_x_shift += width;
-
-		while (_ambient_y_shift > 0.0f) {
-			_ambient_y_shift -= height;
-		}
-		// handle negative shifting
-		if (_ambient_y_shift < 2 * -height)
-			_ambient_y_shift += height;
 	}
 
 	// Draw the light overlay

@@ -998,6 +998,11 @@ private:
 	 */
 	void _UpdateLightning(uint32 frame_time);
 
+	/** \brief updated all the ambient overlay related timers
+	*** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
+	 */
+	void _UpdateAmbientOverlay(uint32 frame_time);
+
 	/** \brief Updates all active shaking effects
 	*** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
 	**/
