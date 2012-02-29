@@ -1510,7 +1510,6 @@ void BootMode::_AnimateLogo() {
 		VideoManager->EnableLightingOverlay(targetColor);
 	}
 	else if (total_time >= SEQUENCE_SEVEN) {
-		VideoManager->DisableLightingOverlay();
 		_EndLogoAnimation();
 		_DrawBackgroundItems();
 	}
@@ -1519,6 +1518,8 @@ void BootMode::_AnimateLogo() {
 
 
 void BootMode::_EndLogoAnimation() {
+	// Stop the potential lightning effect in progress.
+	VideoManager->DisableLightingOverlay();
 	// Stop playing SFX and start playing the main theme
 //	_boot_music.at(1).SetFadeOutTime(1000);
 	_boot_music.at(1).Stop();
