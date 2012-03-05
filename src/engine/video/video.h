@@ -597,7 +597,7 @@ public:
 	 *  \param y      y coordinate of light
 	 *  \param color  color of light
 	 */
-	void DrawLight(float radius, float x, float y, const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+	//void DrawLight(float radius, float x, float y, const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
 
 	//-- Fading ---------------------------------------------------------------
 

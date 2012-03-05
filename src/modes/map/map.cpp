@@ -237,7 +237,7 @@ void MapMode::Draw() {
 	else
 		_DrawMapLayers();
 
-	_object_supervisor->DrawDialogIcons(&_map_frame);
+	_object_supervisor->DrawDialogIcons();
 }
 
 void MapMode::DrawPostEffects() {
@@ -701,13 +701,13 @@ void MapMode::_DrawMapLayers() {
 	_tile_supervisor->DrawLowerLayer(&_map_frame);
 	_tile_supervisor->DrawMiddleLayer(&_map_frame);
 
-	_object_supervisor->DrawGroundObjects(&_map_frame, false); // First draw pass of ground objects
-	_object_supervisor->DrawPassObjects(&_map_frame);
-	_object_supervisor->DrawGroundObjects(&_map_frame, true); // Second draw pass of ground objects
+	_object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects
+	_object_supervisor->DrawPassObjects();
+	_object_supervisor->DrawGroundObjects(true); // Second draw pass of ground objects
 
 	_tile_supervisor->DrawUpperLayer(&_map_frame);
 
-	_object_supervisor->DrawSkyObjects(&_map_frame);
+	_object_supervisor->DrawSkyObjects();
 } // void MapMode::_DrawMapLayers()
 
 

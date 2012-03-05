@@ -81,7 +81,7 @@ public:
 		{ return (_state != ACTOR_STATE_DEAD); }
 
 	//! \brief Empty method. Required because this is a pure virtual method of GlobalActor
-	void AddSkill(uint32 skill_id)
+	void AddSkill(uint32 /*skill_id*/)
 		{}
 
 	/** \brief Restores an actor to the initial state it was in when the battle began
@@ -113,7 +113,7 @@ public:
 	*** \warning This function is not a pure virtual one because it needs to be accessed by Lua
 	*** and there is an issue with using Luabind on pure virtual functions.
 	**/
-	virtual void ChangeSpriteAnimation(const std::string& alias)
+	virtual void ChangeSpriteAnimation(const std::string& /*alias*/)
 		{}
 
 	/** \brief Deals damage to the actor by reducing its hit points by a certain amount
@@ -391,6 +391,15 @@ public:
 	float GetSpriteHeight() const
 		{ return 0.0f; } // TEMP: should retrieve height of current sprite animation
 
+	/** \brief Changes the battle character's current sprite animation image
+	*** \param alias The alias text used to identify the animation to change
+	***
+	*** \note Not all forms of battle sprites have multiple animations or any animations at all. For
+	*** example, enemies typically only have a standard set of unanimated damage frames for their
+	*** sprites. The reason this method is defined for all actors is so that the same skills may be
+	*** reused for both characters and enemies, since some skill implementations will wish to call
+	*** this method on the actor performing the skill.
+	**/
 	void ChangeSpriteAnimation(const std::string& alias);
 
 	//! \brief Changes the action and target selection text to reflect the character's current state
@@ -471,9 +480,20 @@ public:
 	float GetSpriteHeight() const
 		{ return _global_enemy->GetBattleSpriteFrames()->at(0).GetHeight(); }
 
-	//! \note Enemies do not have animations so calling this function will achieve nothing
-	void ChangeSpriteAnimation(const std::string& alias)
-		{ return; }
+	/** \brief Changes the battle enemy's current sprite animation image
+	*** \param alias The alias text used to identify the animation to change
+	***
+	*** \note Not all forms of battle sprites have multiple animations or any animations at all. For
+	*** example, enemies typically only have a standard set of unanimated damage frames for their
+	*** sprites. The reason this method is defined for all actors is so that the same skills may be
+	*** reused for both characters and enemies, since some skill implementations will wish to call
+	*** this method on the actor performing the skill.
+	***
+	*** \warning This function is not a pure virtual one because it needs to be accessed by Lua
+	*** and there is an issue with using Luabind on pure virtual functions.
+	**/
+	void ChangeSpriteAnimation(const std::string& /*alias*/)
+		{ }
 
 	void Update(bool animation_only = false);
 

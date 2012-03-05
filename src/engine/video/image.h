@@ -654,9 +654,6 @@ public:
 	**/
 	void SetDimensions(float width, float height);
 
-	void SetUVCoordinates(float u1, float v1, float u2, float v2)
-		{}
-
 	/** \brief Sets the static member for all animation frame images
 	*** \param is_static Flag indicating whether the image will be static or not.
 	*** \note If the frames are already loaded, it doesn't bother to try to unload them
@@ -803,9 +800,6 @@ public:
 		{}
 
 	void DisableGrayScale()
-		{}
-
-	void SetUVCoordinates(float u1, float v1, float u2, float v2)
 		{}
 
 	/** \brief Sets the image's four vertices to a single color

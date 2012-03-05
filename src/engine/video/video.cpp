@@ -1301,12 +1301,12 @@ void VideoEngine::DrawHalo(const ImageDescriptor &id, float x, float y, const Co
 
 
 
-
+// Disabled due the fact of leaving out the use of:
+// 1. direct gl calls for such operations
+// 2. FBOs as the gui would be affected, too.
+/*
 void VideoEngine::DrawLight(float radius, float x, float y, const Color &color) {
-	// Disabled due the fact of leaving out the use of:
-	// 1. direct gl calls for such operations
-	// 2. FBOs as the gui would be affected, too.
-	/*static const int NUM_SIDES = 32;
+	static const int NUM_SIDES = 32;
 
 	if (!extension_FBO)
 		return;
@@ -1355,7 +1355,7 @@ void VideoEngine::DrawLight(float radius, float x, float y, const Color &color) 
 	PopMatrix();
 
 	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
-	glViewport(0, 0, _screen_width, _screen_height);*/
-}
+	glViewport(0, 0, _screen_width, _screen_height);
+}*/
 
 }  // namespace hoa_video

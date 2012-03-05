@@ -549,7 +549,7 @@ bool TextSupervisor::SingletonInitialize() {
 
 
 
-bool TextSupervisor::LoadFont(const string& filename, const string& font_name, uint32 size, bool make_default)
+bool TextSupervisor::LoadFont(const string& filename, const string& font_name, uint32 size)
 {
 	// Make sure that the font name is not already taken
 	if (IsFontValid(font_name) == true) {

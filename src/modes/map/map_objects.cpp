@@ -439,7 +439,7 @@ void ObjectSupervisor::Update() {
 
 
 
-void ObjectSupervisor::DrawGroundObjects(const MapFrame* const frame, const bool second_pass) {
+void ObjectSupervisor::DrawGroundObjects(const bool second_pass) {
 	for (uint32 i = 0; i < _ground_objects.size(); i++) {
 		if (_ground_objects[i]->draw_on_second_pass == second_pass) {
 			_ground_objects[i]->Draw();
@@ -449,7 +449,7 @@ void ObjectSupervisor::DrawGroundObjects(const MapFrame* const frame, const bool
 
 
 
-void ObjectSupervisor::DrawPassObjects(const MapFrame* const frame) {
+void ObjectSupervisor::DrawPassObjects() {
 	for (uint32 i = 0; i < _pass_objects.size(); i++) {
 		_pass_objects[i]->Draw();
 	}
@@ -457,13 +457,13 @@ void ObjectSupervisor::DrawPassObjects(const MapFrame* const frame) {
 
 
 
-void ObjectSupervisor::DrawSkyObjects(const MapFrame* const frame) {
+void ObjectSupervisor::DrawSkyObjects() {
 	for (uint32 i = 0; i < _sky_objects.size(); i++) {
 		_sky_objects[i]->Draw();
 	}
 }
 
-void ObjectSupervisor::DrawDialogIcons(const MapFrame* const frame) {
+void ObjectSupervisor::DrawDialogIcons() {
     MapSprite *mapSprite;
 	for (uint32 i = 0; i < _ground_objects.size(); i++) {
 		if (_ground_objects[i]->GetObjectType() == SPRITE_TYPE) {

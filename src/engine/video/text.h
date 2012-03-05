@@ -313,10 +313,6 @@ public:
 	virtual void SetDimensions(float width, float height)
 		{ _width  = width; _height = height; }
 
-	//! \brief Dervied from ImageDescriptor, this method is not used by TextImage
-	void SetUVCoordinates(float u1, float v1, float u2, float v2)
-		{}
-
 	//! \brief Sets the color for the image (for all four verteces).
 	void SetColor(const Color &color)
 		{ _color[0] = _color[1] = _color[2] = _color[3] = color; }
@@ -402,10 +398,9 @@ public:
 	*** \param font_filename The filename of the font file to load
 	*** \param font_name The name which to refer to the font after it is loaded
 	*** \param size The point size to set the font after it is loaded
-	*** \param make_default If set to true, this font will be made the default font if it is loaded successfully (default value = false)
 	*** \return True if the font was successfully loaded, or false if there was an error
 	**/
-	bool LoadFont(const std::string& filename, const std::string& font_name, uint32 size, bool make_default = false);
+	bool LoadFont(const std::string& filename, const std::string& font_name, uint32 size);
 
 	/** \brief Removes a loaded font from memory and frees up associated resources
 	*** \param font_name The reference name of the font to unload

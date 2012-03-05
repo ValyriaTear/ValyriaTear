@@ -429,7 +429,7 @@ ContextZone::ContextZone(MAP_CONTEXT one, MAP_CONTEXT two) :
 
 
 
-void ContextZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) {
+void ContextZone::AddSection(uint16 /*left_col*/, uint16 /*right_col*/, uint16 /*top_row*/, uint16 /*bottom_row*/) {
 	IF_PRINT_WARNING(MAP_DEBUG) << "this method is invalid for this class and should not be called: section will not be added" << endl;
 }
 

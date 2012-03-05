@@ -525,10 +525,10 @@ public:
 	*** upon its return. Take measures to retain this information before calling these functions if necessary.
 	**/
 	//@{
-	void DrawGroundObjects(const MapFrame* const frame, const bool second_pass);
-	void DrawPassObjects(const MapFrame* const frame);
-	void DrawSkyObjects(const MapFrame* const frame);
-	void DrawDialogIcons(const MapFrame* const frame);
+	void DrawGroundObjects(const bool second_pass);
+	void DrawPassObjects();
+	void DrawSkyObjects();
+	void DrawDialogIcons();
 	//@}
 
 	/** \brief Finds the nearest map object within a certain distance of a sprite
