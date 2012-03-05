@@ -1380,6 +1380,7 @@ void BootMode::_OnPickLetter() {
 // ****************************************************************************
 
 void BootMode::_DrawBackgroundItems() {
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 	VideoManager->Move(512.0f, 384.0f);
 	VideoManager->SetDrawFlags(VIDEO_NO_BLEND, 0);
 	_boot_images[0].Draw(); // Draw background
