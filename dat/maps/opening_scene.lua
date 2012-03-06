@@ -200,11 +200,27 @@ function Load(m)
 	end
 
 	if (initial_scene == true) then
+		VideoManager:DisableEffects();
+		-- Draw night-time scene lighting
+		VideoManager:EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.6));
+		-- Show some sandy wind
+		VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
+		-- Add a far storm effect
+		VideoManager:EnableLightning(1, true);
+		-- Add also the rain going with it
+		VideoManager:AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0, false);
+
 		InitialCreateCharacters();
 		InitialCreateNPCs();
 		InitialCreateDialogue();
 		InitialCreateEvents();
 	else
+		VideoManager:DisableEffects();
+		-- Draw morning-time scene lighting
+		VideoManager:EnableLightingOverlay(hoa_video.Color(0.6, 0.0, 0.3, 0.3));
+		-- TODO: Show some sandy wind: Fix the display of it the second time
+		--VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
+
 		ReturnCreateCharacters();
 		ReturnCreateNPCs();
 		ReturnCreateDialogue();
@@ -212,12 +228,6 @@ function Load(m)
 	end
 
 	Map:SetCamera(claudius);
-
-	-- Draw night-time scene lighting
-	VideoManager:EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.6));
-	VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
-	-- Add a far storm effect
-	VideoManager:EnableLightning(1, true);
 
 	-- This entire map is played out in scene state. As soon as the map is loaded, we start the chain of events.
 	Map:PushState(hoa_map.MapMode.STATE_SCENE);

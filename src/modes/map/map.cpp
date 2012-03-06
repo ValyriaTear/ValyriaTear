@@ -80,8 +80,7 @@ MapMode::MapMode(string filename) :
 	_run_stamina(10000)
 {
 	// Remove potential previous ambient overlay effects
-	VideoManager->DisableOverlays();
-
+	VideoManager->DisableEffects();
 
 	mode_type = MODE_MANAGER_MAP_MODE;
 	_current_instance = this;

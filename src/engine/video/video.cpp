@@ -365,15 +365,21 @@ void VideoEngine::Clear(const Color &c) {
 
 
 void VideoEngine::Display(uint32 frame_time) {
+	PushState();
+
+	// Restore possible previous coords changes
+	SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+
 	// Update all particle effects
 	_particle_manager.Update(frame_time);
 
 	// Update shaking effect
-	PushState();
-	SetCoordSys(0, 1024, 0, 768);
 	_UpdateShake(frame_time);
 
 	_UpdateAmbientOverlay(frame_time);
+
+	// Draw the particle effects
+	DrawParticleEffects();
 
 	// Apply potential active ambient lightning
 	DrawOverlays();
@@ -948,10 +954,11 @@ void VideoEngine::DrawOverlays() {
 	}
 }
 
-void VideoEngine::DisableOverlays() {
+void VideoEngine::DisableEffects() {
 	DisableAmbientOverlay();
 	DisableLightingOverlay();
 	DisableLightning();
+	StopAllParticleEffects(true);
 }
 
 

@@ -54,10 +54,9 @@ bool ParticleEffect::_Draw()
 		VideoManager->PushMatrix();
 		if(!(*iSystem)->Draw())
 		{
-			VideoManager->PopMatrix();
 			success = false;
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: failed to draw system in ParticleEffect::_Update()" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG)
+				<< "Failed to draw system!" << endl;
 		}
 
 		VideoManager->PopMatrix();
@@ -67,7 +66,6 @@ bool ParticleEffect::_Draw()
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_ALPHA_TEST);
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
 
 	return success;
 }
@@ -112,8 +110,8 @@ bool ParticleEffect::_Update(float frame_time)
 			if(!(*iSystem)->Update(frame_time, effect_parameters))
 			{
 				success = false;
-				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: failed to update system in ParticleEffect::_Update()" << endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG)
+					<< "Failed to update system!" << endl;
 			}
 
 			_num_particles += (*iSystem)->GetNumParticles();

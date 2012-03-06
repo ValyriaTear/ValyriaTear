@@ -27,101 +27,6 @@ using namespace std;
 using namespace hoa_script;
 using namespace hoa_video;
 
-
-#define LOAD_INT(str, var)  \
-{ \
-	lua_pushstring(L, str); \
-	lua_gettable(L, -2); \
-	if(!lua_isnumber(L, -1))  \
-	{\
-		if(VIDEO_DEBUG) \
-			cerr << "VIDEO ERROR: could not load parameter " << str << " in ParticleManager::LoadEffect()!" << endl; \
-		return false; \
-	}\
-	(var) = (int32)lua_tonumber(L, -1);\
-	lua_pop(L, 1); \
-}
-
-
-#define LOAD_FLOAT(str, var)  \
-{ \
-	lua_pushstring(L, str); \
-	lua_gettable(L, -2); \
-	if(!lua_isnumber(L, -1))  \
-	{\
-		if(VIDEO_DEBUG) \
-			cerr << "VIDEO ERROR: could not load parameter " << str << " in ParticleManager::LoadEffect()!" << endl; \
-		return false; \
-	}\
-	(var) = (float)lua_tonumber(L, -1);\
-	lua_pop(L, 1); \
-}
-
-
-#define LOAD_BOOL(str, var)  \
-{ \
-	lua_pushstring(L, str); \
-	lua_gettable(L, -2); \
-	if(!lua_isnumber(L, -1))  \
-	{\
-		if(VIDEO_DEBUG) \
-			cerr << "VIDEO ERROR: could not load parameter " << str << " in ParticleManager::LoadEffect()!" << endl; \
-		return false; \
-	}\
-	(var) = (bool)lua_tonumber(L, -1);\
-	lua_pop(L, 1); \
-}
-
-
-#define LOAD_STRING(str, var)  \
-{ \
-	lua_pushstring(L, str); \
-	lua_gettable(L, -2); \
-	if(!lua_isstring(L, -1))  \
-	{\
-		if(VIDEO_DEBUG) \
-			cerr << "VIDEO ERROR: could not load parameter " << str << " in ParticleManager::LoadEffect()!" << endl; \
-		return false; \
-	}\
-	var = string(lua_tostring(L, -1));\
-	lua_pop(L, 1); \
-}
-
-
-#define LOAD_COLOR(str, var)  \
-{ \
-	lua_pushstring(L, str); \
-	lua_gettable(L, -2); \
-	if(!lua_istable(L, -1))  \
-	{\
-		if(VIDEO_DEBUG) \
-			cerr << "VIDEO ERROR: could not load parameter " << str << " in ParticleManager::LoadEffect()!" << endl; \
-		return false; \
-	}\
-	int32 num_color_components = lua_objlen(L, -1); \
-	if(num_color_components != 4)\
-	{\
-		if(VIDEO_DEBUG) \
-			cerr << "VIDEO ERROR: wrong number of components while loading color " << str << " in ParticleManager::LoadEffect()!" << endl; \
-		return false; \
-	}\
-	for(int32 cmp = 1; cmp <= 4; ++cmp) \
-	{\
-		lua_rawgeti(L, -1, cmp);\
-		if(!lua_isnumber(L, -1)) \
-		{\
-			if(VIDEO_DEBUG) \
-				cerr << "VIDEO ERROR: lua_isnumber() returned false while trying to load " << str << " in ParticleManager::LoadEffect()!" << endl; \
-			return false; \
-		}\
-		var[cmp-1] = (float)lua_tonumber(L, -1);\
-		lua_pop(L, 1);\
-	}\
-	lua_pop(L, 1); \
-}
-
-
-
 namespace hoa_video
 {
 
@@ -129,86 +34,87 @@ namespace private_video
 {
 
 
-//-----------------------------------------------------------------------------
-// Loads the effect, returns false on failure. This is a temporary function, until
-// the ScriptEngine code is finished
-//-----------------------------------------------------------------------------
+// A helper function reading a lua subtable of 4 float values.
+Color ParticleManager::_ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
+						   std::string param_name) {
+	std::vector<float> float_vec;
+	particle_script.ReadFloatVector(param_name, float_vec);
+	if (float_vec.size() < 4) {
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid color read" << endl;
+		return Color();
+	}
+	Color new_color(float_vec[0], float_vec[1], float_vec[2], float_vec[3]);
 
-bool TEMP_LoadEffectHelper(const string &filename, lua_State *L, ParticleEffectDef *def)
+	return new_color;
+}
+
+
+//-----------------------------------------------------------------------------
+// LoadEffect: loads an effect definition from disk given the filename
+//             Returns NULL if there is a problem with loading
+//-----------------------------------------------------------------------------
+ParticleEffectDef *ParticleManager::LoadEffect(const std::string &particle_file)
 {
-	if(!L)
-	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: lua_open() failed in ParticleManager::LoadEffect()!" << endl;
-		return false;
+	hoa_script::ReadScriptDescriptor particle_script;
+	if (!particle_script.OpenFile(particle_file)) {
+		PRINT_WARNING << "No script file: '"
+			<< particle_file << "' The corresponding particle effect won't work." << endl;
+		return NULL;
 	}
 
-	luaopen_base(L);
-	luaopen_io(L);
-	luaopen_string(L);
-	luaopen_math(L);
-
-	if(luaL_loadfile(L, filename.c_str()) || lua_pcall(L, 0, 0, 0))
-	{
-		cerr << "VIDEO ERROR: could not load particle effect " << filename << " :: " << lua_tostring(L, -1) << endl;
-		return false;
+	if (!particle_script.DoesTableExist("systems")) {
+		PRINT_WARNING << "Could not find the 'systems' array in particle effect " << particle_file << endl;
+		particle_script.CloseFile();
+		return NULL;
 	}
 
-
-	lua_getglobal(L, "systems");
-	if(!lua_istable(L, -1))
+	particle_script.OpenTable("systems");
+	uint32 system_size = particle_script.GetTableSize();
+	if(system_size < 1)
 	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: could not find 'systems' in particle effect " << filename << endl;
-		return false;
+		PRINT_WARNING << "No valid particle systems defined in the particle effect " << particle_file << endl;
+		particle_script.CloseTable();
+		particle_script.CloseFile();
+		return NULL;
 	}
 
+	ParticleEffectDef *def = new ParticleEffectDef;
 
-	int32 num_systems = lua_objlen(L, -1);
-
-	if(num_systems < 1)
-	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: num_systems less than 1 while opening particle effect " << filename << endl;
-		return false;
-	}
-
-	for(int32 sys = 1; sys <= num_systems; ++sys)
+	for(uint32 sys = 0; sys < system_size; ++sys)
 	{
 		// open the table for the sys'th system
-		lua_rawgeti(L, -1, sys);
-		if(!lua_istable(L, -1))
-		{
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: could not find system #" << sys << " in particle effect " << filename << endl;
-			return false;
+		if (!particle_script.DoesTableExist(sys)) {
+			PRINT_WARNING << "Could not find system #" << sys << " in particle effect " << particle_file << endl;
+			delete def;
+			particle_script.CloseAllTables();
+			particle_script.CloseFile();
+			return NULL;
 		}
+		particle_script.OpenTable(sys);
 
 		// open up the emitter table
-		lua_pushstring(L, "emitter");
-		lua_gettable(L, -2);
-		if(!lua_istable(L, -1))
-		{
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: could not find emitter in system #" << sys << " in particle effect " << filename << endl;
-			return false;
+		if (!particle_script.DoesTableExist("emitter")) {
+			PRINT_WARNING << "Could not find 'emitter' the array in system #" << sys << " in particle effect " << particle_file << endl;
+			delete def;
+			particle_script.CloseAllTables();
+			particle_script.CloseFile();
+			return NULL;
 		}
+		particle_script.OpenTable("emitter");
 
 		ParticleSystemDef *sys_def = new ParticleSystemDef;
 
-		LOAD_FLOAT("x", sys_def->emitter._x);
-		LOAD_FLOAT("y", sys_def->emitter._y);
-		LOAD_FLOAT("x2", sys_def->emitter._x2);
-		LOAD_FLOAT("y2", sys_def->emitter._y2);
-		LOAD_FLOAT("center_x", sys_def->emitter._center_x);
-		LOAD_FLOAT("center_y", sys_def->emitter._center_y);
-		LOAD_FLOAT("x_variation", sys_def->emitter._x_variation);
-		LOAD_FLOAT("y_variation", sys_def->emitter._y_variation);
-		LOAD_FLOAT("radius", sys_def->emitter._radius);
+		sys_def->emitter._x = particle_script.ReadFloat("x");
+		sys_def->emitter._y = particle_script.ReadFloat("y");
+		sys_def->emitter._x2 = particle_script.ReadFloat("x2");
+		sys_def->emitter._y2 = particle_script.ReadFloat("y2");
+		sys_def->emitter._center_x = particle_script.ReadFloat("center_x");
+		sys_def->emitter._center_y = particle_script.ReadFloat("center_y");
+		sys_def->emitter._x_variation = particle_script.ReadFloat("x_variation");
+		sys_def->emitter._y_variation = particle_script.ReadFloat("y_variation");
+		sys_def->emitter._radius = particle_script.ReadFloat("radius");
 
-		string shape_string;
-		LOAD_STRING("shape", shape_string);
-
+		string shape_string = particle_script.ReadString("shape");
 		if(!strcasecmp(shape_string.c_str(), "point"))
 			sys_def->emitter._shape = EMITTER_SHAPE_POINT;
 		else if(!strcasecmp(shape_string.c_str(), "line"))
@@ -220,18 +126,16 @@ bool TEMP_LoadEffectHelper(const string &filename, lua_State *L, ParticleEffectD
 		else if(!strcasecmp(shape_string.c_str(), "rectangle"))
 			sys_def->emitter._shape = EMITTER_SHAPE_FILLED_RECTANGLE;
 
-		LOAD_BOOL("omnidirectional", sys_def->emitter._omnidirectional);
-		LOAD_FLOAT("orientation", sys_def->emitter._orientation);
-		LOAD_FLOAT("outer_cone", sys_def->emitter._outer_cone);
-		LOAD_FLOAT("inner_cone", sys_def->emitter._inner_cone);
-		LOAD_FLOAT("initial_speed", sys_def->emitter._initial_speed);
-		LOAD_FLOAT("initial_speed_variation", sys_def->emitter._initial_speed_variation);
-		LOAD_FLOAT("emission_rate", sys_def->emitter._emission_rate);
-		LOAD_FLOAT("start_time", sys_def->emitter._start_time);
+		sys_def->emitter._omnidirectional = particle_script.ReadBool("omnidirectional");
+		sys_def->emitter._orientation = particle_script.ReadFloat("orientation");
+		sys_def->emitter._outer_cone = particle_script.ReadFloat("outer_cone");
+		sys_def->emitter._inner_cone = particle_script.ReadFloat("inner_cone");
+		sys_def->emitter._initial_speed = particle_script.ReadFloat("initial_speed");
+		sys_def->emitter._initial_speed_variation = particle_script.ReadFloat("initial_speed_variation");
+		sys_def->emitter._emission_rate = particle_script.ReadFloat("emission_rate");
+		sys_def->emitter._start_time = particle_script.ReadFloat("start_time");
 
-		string emitter_mode_string;
-		LOAD_STRING("emitter_mode", emitter_mode_string);
-
+		string emitter_mode_string = particle_script.ReadString("emitter_mode");
 		if(!strcasecmp(emitter_mode_string.c_str(), "looping"))
 			sys_def->emitter._emitter_mode = EMITTER_MODE_LOOPING;
 		else if(!strcasecmp(emitter_mode_string.c_str(), "one shot"))
@@ -241,9 +145,7 @@ bool TEMP_LoadEffectHelper(const string &filename, lua_State *L, ParticleEffectD
 		else //.. if(!strcasecmp(emitter_mode_string.c_str(), "always"))
 			sys_def->emitter._emitter_mode = EMITTER_MODE_ALWAYS;
 
-		string spin_string;
-		LOAD_STRING("spin", spin_string);
-
+		string spin_string = particle_script.ReadString("spin");
 		if(!strcasecmp(spin_string.c_str(), "random"))
 			sys_def->emitter._spin = EMITTER_SPIN_RANDOM;
 		else if(!strcasecmp(spin_string.c_str(), "counterclockwise"))
@@ -251,167 +153,134 @@ bool TEMP_LoadEffectHelper(const string &filename, lua_State *L, ParticleEffectD
 		else //..if(!strcasecmp(spin_string.c_str(), "clockwise"))
 			sys_def->emitter._spin = EMITTER_SPIN_CLOCKWISE;
 
-		// OK! done loading the emitter data. Now, load the keyframes
+		// Close the emitter table
+		particle_script.CloseTable();
 
-		lua_pop(L, 1);   // pop the emitter table
-		lua_pushstring(L, "keyframes");
-		lua_gettable(L, -2);
-
-		if(!lua_istable(L, -1))
-		{
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: could not locate keyframes while loading particle effect " << filename << endl;
-			return false;
+		// open up the keyframes table
+		if (!particle_script.DoesTableExist("keyframes")) {
+			PRINT_WARNING << "Could not find the 'keyframes' array in system #" << sys << " in particle effect " << particle_file << endl;
+			delete def;
+			particle_script.CloseAllTables();
+			particle_script.CloseFile();
+			return NULL;
 		}
+		particle_script.OpenTable("keyframes");
 
-		int32 num_keyframes = lua_objlen(L, -1);
-
+		uint32 num_keyframes = particle_script.GetTableSize();
 		sys_def->keyframes.resize(num_keyframes);
 
-
-		for(int32 kf = 0; kf < num_keyframes; ++kf)
+		for(uint32 kf = 0; kf < num_keyframes; ++kf)
 		{
 			sys_def->keyframes[kf] = new ParticleKeyframe;
 
 			// get the kf'th keyframe table
-			lua_rawgeti(L, -1, kf+1);
+			// unamed tables starts at offset 1 in lua.
+			particle_script.OpenTable(kf + 1);
 
-			LOAD_FLOAT("size_x", sys_def->keyframes[kf]->size_x);
-			LOAD_FLOAT("size_y", sys_def->keyframes[kf]->size_y);
-			LOAD_COLOR("color", sys_def->keyframes[kf]->color);
-			LOAD_FLOAT("rotation_speed", sys_def->keyframes[kf]->rotation_speed);
-			LOAD_FLOAT("size_variation_x", sys_def->keyframes[kf]->size_variation_x);
-			LOAD_FLOAT("size_variation_y", sys_def->keyframes[kf]->size_variation_y);
-			LOAD_COLOR("color_variation", sys_def->keyframes[kf]->color_variation);
-			LOAD_FLOAT("rotation_speed_variation", sys_def->keyframes[kf]->rotation_speed_variation);
-			LOAD_FLOAT("time", sys_def->keyframes[kf]->time);
+			sys_def->keyframes[kf]->size_x = particle_script.ReadFloat("size_x");
+			sys_def->keyframes[kf]->size_y = particle_script.ReadFloat("size_y");
+			sys_def->keyframes[kf]->color = _ReadColor(particle_script, "color");
+			sys_def->keyframes[kf]->rotation_speed = particle_script.ReadFloat("rotation_speed");
+			sys_def->keyframes[kf]->size_variation_x = particle_script.ReadFloat("size_variation_x");
+			sys_def->keyframes[kf]->size_variation_y = particle_script.ReadFloat("size_variation_y");
+			sys_def->keyframes[kf]->color_variation = _ReadColor(particle_script, "color_variation");
+			sys_def->keyframes[kf]->rotation_speed_variation = particle_script.ReadFloat("rotation_speed_variation");
+			sys_def->keyframes[kf]->time = particle_script.ReadFloat("time");
 
 			// pop the current keyframe
-			lua_pop(L, 1);
+			particle_script.CloseTable();
 		}
 
 		// pop the keyframes table
-		lua_pop(L, 1);
+		particle_script.CloseTable();
 
-		lua_pushstring(L, "animation_frames");
-		lua_gettable(L, -2);
+		// open up the animation_frames table
+		particle_script.ReadStringVector("animation_frames", sys_def->animation_frame_filenames);
 
-		if(!lua_istable(L, -1))
+		if(sys_def->animation_frame_filenames.size() < 1)
 		{
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: could not locate 'animation_frames' in the effect file " << filename << endl;
-			return false;
+			PRINT_WARNING << "No animation filenames found while opening particle effect " << particle_file << endl;
+			delete def;
+			particle_script.CloseAllTables();
+			particle_script.CloseFile();
+			return NULL;
 		}
 
-		int32 num_animation_frames = lua_objlen(L, -1);
+		particle_script.ReadIntVector("animation_frame_times", sys_def->animation_frame_times);
 
-		if(num_animation_frames < 1)
-		{
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: the 'animation_frames' table was empty in effect file " << filename << endl;
-			return false;
-		}
 
-		for(int32 n_frame = 0; n_frame < num_animation_frames; ++n_frame)
-		{
-			lua_rawgeti(L, -1, n_frame+1);
-
-			if(!lua_isstring(L, -1))
-			{
-				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: encountered a non-string element in animation frames array, in effect file " << filename << endl;
-				return false;
+		// Test each file availability
+		std::vector<std::string>::const_iterator it, it_end;
+		for (it = sys_def->animation_frame_filenames.begin(),
+			it_end = sys_def->animation_frame_filenames.end(); it != it_end; ++it) {
+			if (!hoa_utils::DoesFileExist(*it)) {
+				PRINT_WARNING << "Could not find file: "
+					<< *it << " in system #" << sys << " in particle effect "
+					<< particle_file << endl;
+				delete def;
+				particle_script.CloseAllTables();
+				particle_script.CloseFile();
+				return NULL;
 			}
-
-			string anim_filename = lua_tostring(L, -1);
-			sys_def->animation_frame_filenames.push_back(anim_filename);
-
-			// pop the current animation frame filename
-			lua_pop(L, 1);
 		}
 
-		// pop the animation_frames table
-		lua_pop(L, 1);
-
-		lua_pushstring(L, "animation_frame_times");
-		lua_gettable(L, -2);
-
-		if(!lua_istable(L, -1))
+		if(sys_def->animation_frame_times.size() < 1)
 		{
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: could not locate 'animation_frame_times' in the effect file " << filename << endl;
-			return false;
+			PRINT_WARNING << "No animation frame times found while opening particle effect " << particle_file << endl;
+			delete def;
+			particle_script.CloseAllTables();
+			particle_script.CloseFile();
+			return NULL;
 		}
 
-		int32 num_animation_frame_times = lua_objlen(L, -1);
+		sys_def->enabled = particle_script.ReadBool("enabled");
+		sys_def->blend_mode = particle_script.ReadInt("blend_mode");
+		sys_def->system_lifetime = particle_script.ReadFloat("system_lifetime");
 
-		if(num_animation_frame_times < 1)
-		{
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: the 'animation_frame_times' table was empty in effect file " << filename << endl;
-			return false;
-		}
+		sys_def->particle_lifetime = particle_script.ReadFloat("particle_lifetime");
+		sys_def->particle_lifetime_variation = particle_script.ReadFloat("particle_lifetime_variation");
+		sys_def->max_particles = particle_script.ReadInt("max_particles");
 
-		for(int32 n_frame_time = 0; n_frame_time < num_animation_frame_times; ++n_frame_time)
-		{
-			lua_rawgeti(L, -1, n_frame_time+1);
+		sys_def->damping = particle_script.ReadFloat("damping");
+		sys_def->damping_variation = particle_script.ReadFloat("damping_variation");
 
-			if(!lua_isnumber(L, -1))
-			{
-				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: encountered a non-numeric element in animation frame times array, in effect file " << filename << endl;
-				return false;
-			}
+		sys_def->acceleration_x = particle_script.ReadFloat("acceleration_x");
+		sys_def->acceleration_y = particle_script.ReadFloat("acceleration_y");
+		sys_def->acceleration_variation_x = particle_script.ReadFloat("acceleration_variation_x");
+		sys_def->acceleration_variation_y = particle_script.ReadFloat("acceleration_variation_y");
 
-			int32 anim_frame_time = (int32)lua_tonumber(L, -1);
-			sys_def->animation_frame_times.push_back(anim_frame_time);
+		sys_def->wind_velocity_x = particle_script.ReadFloat("wind_velocity_x");
+		sys_def->wind_velocity_y = particle_script.ReadFloat("wind_velocity_y");
+		sys_def->wind_velocity_variation_x = particle_script.ReadFloat("wind_velocity_variation_x");
+		sys_def->wind_velocity_variation_y = particle_script.ReadFloat("wind_velocity_variation_y");
 
-			// pop the current animation frame time
-			lua_pop(L, 1);
-		}
+		sys_def->wave_motion_used = particle_script.ReadBool("wave_motion_used");
+		sys_def->wave_length = particle_script.ReadFloat("wave_length");
+		sys_def->wave_length_variation = particle_script.ReadFloat("wave_length_variation");
+		sys_def->wave_amplitude = particle_script.ReadFloat("wave_amplitude");
+		sys_def->wave_amplitude_variation = particle_script.ReadFloat("wave_amplitude_variation");
 
-		// pop the animation_frame times table
-		lua_pop(L, 1);
+		sys_def->tangential_acceleration = particle_script.ReadFloat("tangential_acceleration");
+		sys_def->tangential_acceleration_variation = particle_script.ReadFloat("tangential_acceleration_variation");
 
-		LOAD_BOOL("enabled", sys_def->enabled);
-		LOAD_INT ("blend_mode", sys_def->blend_mode);
-		LOAD_FLOAT("system_lifetime", sys_def->system_lifetime);
+		sys_def->radial_acceleration = particle_script.ReadFloat("radial_acceleration");
+		sys_def->radial_acceleration_variation = particle_script.ReadFloat("radial_acceleration_variation");
 
-		LOAD_FLOAT("particle_lifetime", sys_def->particle_lifetime);
-		LOAD_FLOAT("particle_lifetime_variation", sys_def->particle_lifetime_variation);
-		LOAD_INT  ("max_particles", sys_def->max_particles);
-		LOAD_FLOAT("damping", sys_def->damping);
-		LOAD_FLOAT("damping_variation", sys_def->damping_variation);
-		LOAD_FLOAT("acceleration_x", sys_def->acceleration_x);
-		LOAD_FLOAT("acceleration_y", sys_def->acceleration_y);
-		LOAD_FLOAT("acceleration_variation_x", sys_def->acceleration_variation_x);
-		LOAD_FLOAT("acceleration_variation_y", sys_def->acceleration_variation_y);
-		LOAD_FLOAT("wind_velocity_x", sys_def->wind_velocity_x);
-		LOAD_FLOAT("wind_velocity_y", sys_def->wind_velocity_y);
-		LOAD_FLOAT("wind_velocity_variation_x", sys_def->wind_velocity_variation_x);
-		LOAD_FLOAT("wind_velocity_variation_y", sys_def->wind_velocity_variation_y);
-		LOAD_BOOL ("wave_motion_used", sys_def->wave_motion_used);
-		LOAD_FLOAT("wave_length", sys_def->wave_length);
-		LOAD_FLOAT("wave_length_variation", sys_def->wave_length_variation);
-		LOAD_FLOAT("wave_amplitude", sys_def->wave_amplitude);
-		LOAD_FLOAT("wave_amplitude_variation", sys_def->wave_amplitude_variation);
-		LOAD_FLOAT("tangential_acceleration", sys_def->tangential_acceleration);
-		LOAD_FLOAT("tangential_acceleration_variation", sys_def->tangential_acceleration_variation);
-		LOAD_FLOAT("radial_acceleration", sys_def->radial_acceleration);
-		LOAD_FLOAT("radial_acceleration_variation", sys_def->radial_acceleration_variation);
-		LOAD_BOOL ("user_defined_attractor", sys_def->user_defined_attractor);
-		LOAD_FLOAT("attractor_falloff", sys_def->attractor_falloff);
-		LOAD_BOOL ("rotation_used", sys_def->rotation_used);
-		LOAD_BOOL ("rotate_to_velocity", sys_def->rotate_to_velocity);
-		LOAD_BOOL ("speed_scale_used", sys_def->speed_scale_used);
-		LOAD_FLOAT("speed_scale", sys_def->speed_scale);
-		LOAD_FLOAT("min_speed_scale", sys_def->min_speed_scale);
-		LOAD_FLOAT("max_speed_scale", sys_def->max_speed_scale);
-		LOAD_BOOL ("smooth_animation", sys_def->smooth_animation);
-		LOAD_BOOL ("modify_stencil", sys_def->modify_stencil);
+		sys_def->user_defined_attractor = particle_script.ReadBool("user_defined_attractor");
+		sys_def->attractor_falloff = particle_script.ReadFloat("attractor_falloff");
 
-		string stencil_op_string;
-		LOAD_STRING("stencil_op", stencil_op_string);
+		sys_def->rotation_used = particle_script.ReadBool("rotation_used");
+		sys_def->rotate_to_velocity = particle_script.ReadBool("rotate_to_velocity");
+
+		sys_def->speed_scale_used = particle_script.ReadBool("speed_scale_used");
+		sys_def->speed_scale = particle_script.ReadFloat("speed_scale");
+		sys_def->min_speed_scale = particle_script.ReadFloat("min_speed_scale");
+		sys_def->max_speed_scale = particle_script.ReadFloat("max_speed_scale");
+
+		sys_def->smooth_animation = particle_script.ReadBool("smooth_animation");
+		sys_def->modify_stencil = particle_script.ReadBool("modify_stencil");
+
+		string stencil_op_string = particle_script.ReadString("stencil_op");
 
 		if(!strcasecmp(stencil_op_string.c_str(), "incr"))
 			sys_def->stencil_op = VIDEO_STENCIL_OP_INCREASE;
@@ -422,36 +291,13 @@ bool TEMP_LoadEffectHelper(const string &filename, lua_State *L, ParticleEffectD
 		else //..if(!strcasecmp(stencil_op_string.c_str(), "one"))
 			sys_def->stencil_op = VIDEO_STENCIL_OP_ONE;
 
-		LOAD_BOOL("use_stencil", sys_def->use_stencil);
-		LOAD_BOOL ("random_initial_angle", sys_def->random_initial_angle);
+		sys_def->use_stencil = particle_script.ReadBool("use_stencil");
+		sys_def->random_initial_angle = particle_script.ReadBool("random_initial_angle");
 
 		// pop the system table
-		lua_pop(L, 1);
+		particle_script.CloseTable();
 
 		def->_systems.push_back(sys_def);
-	}
-
-	return true;
-}
-
-
-//-----------------------------------------------------------------------------
-// LoadEffect: loads an effect definition from disk given the filename
-//             Returns NULL if there is a problem with loading
-//-----------------------------------------------------------------------------
-
-ParticleEffectDef *ParticleManager::LoadEffect(const std::string &filename)
-{
-	ParticleEffectDef *def = new ParticleEffectDef;
-	lua_State *L = lua_open();
-
-	bool could_load = TEMP_LoadEffectHelper(filename, L, def);
-
-	if(!could_load)
-	{
-		lua_close(L);
-		delete def;
-		return NULL;
 	}
 
 	return def;
@@ -461,28 +307,27 @@ ParticleEffectDef *ParticleManager::LoadEffect(const std::string &filename)
 //-----------------------------------------------------------------------------
 // AddEffect: adds a new particle effect to the list
 //-----------------------------------------------------------------------------
-
 ParticleEffectID ParticleManager::AddEffect(const ParticleEffectDef *def, float x, float y)
 {
 	if(!def)
 	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: ParticleManager::AddEffect() failed because def was NULL!" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< "AddEffect() failed because def was NULL!" << endl;
 		return VIDEO_INVALID_EFFECT;
 	}
 
 	if(def->_systems.empty())
 	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: ParticleManager::AddEffect() failed because def->_systems was empty!" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< "AddEffect() failed because def->_systems was empty!" << endl;
 		return VIDEO_INVALID_EFFECT;
 	}
 
 	ParticleEffect *effect = _CreateEffect(def);
 	if(!effect)
 	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: could not create particle effect in ParticleManager::AddEffect()!" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< "Could not create particle effect!" << endl;
 		return VIDEO_INVALID_EFFECT;
 	}
 
@@ -498,10 +343,11 @@ ParticleEffectID ParticleManager::AddEffect(const ParticleEffectDef *def, float 
 //-----------------------------------------------------------------------------
 // Draw: draws all particle effects
 //-----------------------------------------------------------------------------
-
 bool ParticleManager::Draw()
 {
 	VideoManager->PushState();
+	// Note: The particle manager is using inverted y coord compared to the rest
+	// of the engine
 	VideoManager->SetCoordSys(CoordSys(0.0f, 1024.0f, 768.0f, 0.0f));
 	VideoManager->DisableScissoring();
 
@@ -517,8 +363,8 @@ bool ParticleManager::Draw()
 		if(!(iEffect->second)->_Draw())
 		{
 			success = false;
-			if(VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: effect failed to draw in ParticleManager::Draw()!" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG)
+				<< "Effect failed to draw!" << endl;
 		}
 		++iEffect;
 	}
@@ -531,7 +377,6 @@ bool ParticleManager::Draw()
 //-----------------------------------------------------------------------------
 // Update: updates all particle effects
 //-----------------------------------------------------------------------------
-
 bool ParticleManager::Update(int32 frame_time)
 {
 	float frame_time_seconds = static_cast<float>(frame_time) / 1000.0f;
@@ -553,8 +398,8 @@ bool ParticleManager::Update(int32 frame_time)
 			if(!(iEffect->second)->_Update(frame_time_seconds))
 			{
 				success = false;
-				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: effect failed to update in ParticleManager::Update()!" << endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG)
+					<< "Effect failed to update!" << endl;
 			}
 
 			_num_particles += iEffect->second->GetNumParticles();
@@ -577,6 +422,7 @@ void ParticleManager::StopAll(bool kill_immediate)
 	while(iEffect != _effects.end())
 	{
 		(iEffect->second)->Stop(kill_immediate);
+		++iEffect;
 	}
 }
 
@@ -643,14 +489,10 @@ ParticleEffect *ParticleManager::_CreateEffect(const ParticleEffectDef *def)
 
 	ParticleEffect *effect = new ParticleEffect;
 
-
 	// store pointer of effect properties
-
 	effect->_effect_def = def;
 
-
 	// initialize systems
-
 	while(iSystem != iEnd)
 	{
 		if((*iSystem)->enabled)
@@ -672,8 +514,8 @@ ParticleEffect *ParticleManager::_CreateEffect(const ParticleEffectDef *def)
 					++iEffectSystem;
 				}
 
-				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: sys->Create() returned false while trying to create effect!" << endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG)
+					<< "sys->Create() returned false while trying to create effect!" << endl;
 				return NULL;
 
 			}

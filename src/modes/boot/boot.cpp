@@ -82,7 +82,7 @@ BootMode::BootMode() :
 	_file_name_window(ustring(),150.0f,35.0f)
 {
 	// Remove potential previous ambient overlays
-	VideoManager->DisableOverlays();
+	VideoManager->DisableEffects();
 
 	IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << endl;
 	mode_type = MODE_MANAGER_BOOT_MODE;
@@ -1401,6 +1401,8 @@ void BootMode::_DrawBackgroundItems() {
 
 
 void BootMode::_AnimateLogo() {
+	// Make sure to display it correctly
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 	// Sequence starting times. Note: I've changed _every_ variable here into floats
 	// to avoid unneccessary type casts that would kill performance! -Viljami
 	static const float SEQUENCE_ONE = 0.0f;

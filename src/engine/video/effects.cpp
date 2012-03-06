@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 using namespace std;
 using namespace hoa_video::private_video;
 
-namespace hoa_video 
+namespace hoa_video
 {
 
 
@@ -29,36 +29,35 @@ namespace hoa_video
 ParticleEffectID VideoEngine::AddParticleEffect(const string &filename, float x, float y, bool reload)
 {
 	ParticleEffectDef *def = NULL;
-	
+
 	bool effect_loaded = _particle_effect_defs.find(filename) != _particle_effect_defs.end();
-		
+
 	if(effect_loaded && !reload)
 	{
 		def = _particle_effect_defs[filename];
 	}
 	else
 	{
-		def = _particle_manager.LoadEffect(filename);		
+		def = _particle_manager.LoadEffect(filename);
 		if(effect_loaded)
-			delete _particle_effect_defs[filename];			
+			delete _particle_effect_defs[filename];
 		_particle_effect_defs[filename] = def;
 	}
-	
+
 	if(!def)
 	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: failed to load particle definition file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) <<
+			"Failed to load particle definition file: " << filename << endl;
 		return VIDEO_INVALID_EFFECT;
 	}
-		
+
 	ParticleEffectID id = _particle_manager.AddEffect(def, x, y);
-	
 	if(id == VIDEO_INVALID_EFFECT)
 	{
-		if(VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: failed to add effect to particle manager in VideoEngine::AddParticleEffect()!" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) <<
+			"Failed to add effect to particle manager!" << endl;
 	}
-	
+
 	return id;
 }
 
@@ -83,7 +82,7 @@ bool VideoEngine::DrawParticleEffects()
 
 void VideoEngine::StopAllParticleEffects(bool kill_immediate)
 {
-	return _particle_manager.StopAll();
+	return _particle_manager.StopAll(kill_immediate);
 }
 
 

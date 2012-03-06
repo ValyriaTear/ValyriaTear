@@ -576,9 +576,10 @@ public:
 	 */
 	void DrawOverlays();
 
-	/** \brief disables all the active overlay effects (useful when switching modes)
+	/** \brief disables all the active overlay effects, including particles and halos
+	 *  (useful when switching modes)
 	 */
-	void DisableOverlays();
+	void DisableEffects();
 
 	//TODO: review the DrawHalo, DrawLight functions.
 	/** \brief draws a halo at the given spot

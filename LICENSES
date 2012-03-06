@@ -1,0 +1,34 @@
+Licenses
+
+This file is listing all the files licenses from the point of the fork
+from the Allacrost project.
+Note: The licensing of the allacrost's files is assumed to be GPLv2 or later,
+as told on the allacrost web site:
+http://www.allacrost.org
+
+Scripts:
+dat/effects/lightning.lua						GPLv2 or later	Bertram
+dat/effects/particles/rain.lua					GPLv2 or later	roos + Bertram modifications
+dat/effects/particles/snow.lua					GPLv2 or later	roos + Bertram modifications
+dat/effects/particles/blue_firework.lua			GPLv2 or later	roos + Bertram modifications
+dat/effects/particles/explosion.lua				GPLv2 or later	roos + Bertram modifications
+dat/effects/particles/fire.lua					GPLv2 or later	roos + Bertram modifications
+
+Images:
+img/ambient/sandstorm.png:						GPLv2 or later	The Mana World Team + Bertram's modifications
+img/effects/explosion.png						GPLv2 or later	Roos
+img/effects/fire.png							GPLv2 or later	Roos
+img/effects/flame1.png							GPLv2 or later	Roos
+img/effects/flame2.png							GPLv2 or later	Roos
+img/effects/flame3.png							GPLv2 or later	Roos
+img/effects/flame4.png							GPLv2 or later	Roos
+img/effects/flame5.png							GPLv2 or later	Roos
+img/effects/flame6.png							GPLv2 or later	Roos
+img/effects/flame7.png							GPLv2 or later	Roos
+img/effects/flame8.png							GPLv2 or later	Roos
+img/effects/outlined_circle_small.png			GPLv2 or later	Roos
+
+Sounds:
+snd/thunder.wav:								Public domain
+snd/lightning.wav:								Public domain
+

@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -39,14 +39,14 @@ namespace private_video
 
 
 /*!***************************************************************************
- *  \brief ParticleManager, used internally by video engine to store/update/draw 
+ *  \brief ParticleManager, used internally by video engine to store/update/draw
  *         all particle effects.
  *****************************************************************************/
 
 class ParticleManager
 {
 public:
-	
+
 	/*!
 	 *  \brief Constructor
 	 */
@@ -56,10 +56,10 @@ public:
 	 *  \brief loads an effect definition from a particle file
 	 * \param filename file to load the effect from
 	 * \return handle to the effect
-	 */		
+	 */
 	ParticleEffectDef *LoadEffect(const std::string &filename);
 
-	
+
 	/*!
 	 *  \brief creates a new instance of an effect at (x,y), given its definition.
 	 *         The effect is added to the internal std::map, _effects, and is now
@@ -68,14 +68,14 @@ public:
 	 * \param x x coordinate of where to add the effect
 	 * \param y y coordinate of where to add the effect
 	 * \return ID corresponding to the effect
-	 */			
-	ParticleEffectID AddEffect(const ParticleEffectDef *def, float x, float y);	
+	 */
+	ParticleEffectID AddEffect(const ParticleEffectDef *def, float x, float y);
 
 
 	/*!
 	 *  \brief draws all active effects
 	 * \return success/failure
-	 */		
+	 */
 	bool Draw();
 
 
@@ -83,7 +83,7 @@ public:
 	 *  \brief updates all active effects
 	 * \param the new time
 	 * \return success/failure
-	 */		
+	 */
 	bool Update(int32 frame_time);
 
 
@@ -94,10 +94,10 @@ public:
 	 *                        it isn't true, then we stop the effects from emitting
 	 *                        new particles, and allow them to live until all the active
 	 *                        particles fizzle out.
-	 */		
+	 */
 	void StopAll(bool kill_immediate = false);
-	
-	
+
+
 	/*!
 	 *  \brief Converts a particle effect id into a ParticleEffect pointer.
 	 *         The pointers that this function returns are valid only up until
@@ -105,20 +105,20 @@ public:
 	 *         them for the current frame and then throw them away.
 	 * \param id ID of the effect to get
 	 * \return the desired effect
-	 */			
+	 */
 	ParticleEffect *GetEffect(ParticleEffectID id);
 
 
 	/*!
 	 *  \brief returns the total number of particles among all active effects
 	 * \return number of particles in the effect
-	 */		
+	 */
 	int32 GetNumParticles();
-	
-	
+
+
 	/*!
 	 *  \brief destroys the system. Called by VideoEngine's destructor
-	 */			
+	 */
 	void Destroy();
 
 private:
@@ -131,13 +131,17 @@ private:
 	 */
 	ParticleEffect *_CreateEffect(const ParticleEffectDef *def);
 
+	//! \brief Helper function used to read a color subtable.
+	Color _ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
+					std::string param_name);
+
 	//! All the effects currently being managed. An std::map is used so that
 	//! we can convert easily between an id and a pointer
 	std::map<ParticleEffectID, ParticleEffect *> _effects;
-	
+
 	//! The next time we create an effect, its id will be _current_id
 	int32 _current_id;
-	
+
 	//! Total number of particles among all the active effects. This is updated
 	//! during each call to Update(), so that when GetNumParticles() is called,
 	//! we can just return this value instead of having to calculate it
