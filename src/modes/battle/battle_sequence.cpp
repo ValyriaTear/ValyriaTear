@@ -104,6 +104,18 @@ void SequenceSupervisor::Draw() {
 	}
 }
 
+void SequenceSupervisor::DrawPostEffects() {
+	switch (_battle->_state) {
+		case BATTLE_STATE_INITIAL:
+			_DrawInitialSequencePostEffects();
+			break;
+		case BATTLE_STATE_EXITING:
+			_DrawExitingSequencePostEffects();
+			break;
+		default:
+			break;
+	}
+}
 
 
 void SequenceSupervisor::_UpdateInitialSequence() {
@@ -273,22 +285,24 @@ void SequenceSupervisor::_DrawInitialSequence() {
 	if (_sequence_step >= INIT_STEP_SPRITE_MOVEMENT) {
 		_DrawSprites();
 	}
+}
+
+void SequenceSupervisor::_DrawInitialSequencePostEffects() {
 	if (_sequence_step >= INIT_STEP_GUI_POSITIONING) {
 		_DrawGUI();
 	}
 }
 
-
-
 void SequenceSupervisor::_DrawExitingSequence() {
 	_DrawBackgroundGraphics();
 	_DrawSprites();
+}
+
+void SequenceSupervisor::_DrawExitingSequencePostEffects() {
 	if (_sequence_step <= EXIT_STEP_GUI_POSITIONING) {
 		_DrawGUI();
 	}
 }
-
-
 
 void SequenceSupervisor::_DrawBackgroundGraphics() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);

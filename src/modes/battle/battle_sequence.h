@@ -71,6 +71,11 @@ public:
 	//! \brief Draws all contents of the battle to the screen appropriately
 	void Draw();
 
+	/** \brief Draws all contents of the battle to the screen appropriately
+	*** that mustn't be affected by light effects.
+	**/
+	void DrawPostEffects();
+
 private:
 	//! \brief A pointer to the active battle mode instance, retained locally in this class only for convience
 	BattleMode* _battle;
@@ -96,8 +101,14 @@ private:
 	//! \brief Main draw function for the initial sequence
 	void _DrawInitialSequence();
 
+	//! \brief Main draw function for the initial sequence unaffected by light effects
+	void _DrawInitialSequencePostEffects();
+
 	//! \brief Main draw function for the exiting sequence
 	void _DrawExitingSequence();
+
+	//! \brief Main draw function for the exiting sequence unaffected by light effects
+	void _DrawExitingSequencePostEffects();
 
 	//! \brief Draws the battle background and other environmental graphics
 	void _DrawBackgroundGraphics();

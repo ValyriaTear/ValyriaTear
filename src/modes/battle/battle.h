@@ -230,6 +230,9 @@ public:
 
 	//! \brief This method calls different draw functions depending on the battle state.
 	void Draw();
+
+	//! \brief This method calls different draw functions depending on the battle state.
+	void DrawPostEffects();
 	//@}
 
 	/** \brief Sets the name of the script to execute during the battle

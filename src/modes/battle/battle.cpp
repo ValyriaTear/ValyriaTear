@@ -358,7 +358,17 @@ void BattleMode::Update() {
 		}
 	}
 
-	// If the battle is transitioning to/from a different mode, the sequenece supervisor has control
+	//TODO: Apply scene lighting if the battle has finished
+	if ((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {// && _after_scripts_finished) {
+		if (_state == BATTLE_STATE_VICTORY) {
+			VideoManager->EnableLightingOverlay(Color(0.914f, 0.753f, 0.106f, 0.2f)); // Golden color for victory
+		}
+		else {
+//			VideoManager->EnableSceneLighting(Color(1.0f, 0.0f, 0.0f, 1.0f)); // Red color for defeat
+		}
+	}
+
+	// If the battle is transitioning to/from a different mode, the sequence supervisor has control
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
 		_sequence_supervisor->Update();
 		return;
@@ -462,16 +472,9 @@ void BattleMode::Update() {
 
 
 void BattleMode::Draw() {
-	//TODO: Apply scene lighting if the battle has finished
+	// Restore correct display metrics
+	// Remove me once the particle manager is using the same ones
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
-	if ((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {// && _after_scripts_finished) {
-		if (_state == BATTLE_STATE_VICTORY) {
-//			VideoManager->EnableSceneLighting(Color(0.914f, 0.753f, 0.106f, 1.0f)); // Golden color for victory
-		}
-		else {
-//			VideoManager->EnableSceneLighting(Color(1.0f, 0.0f, 0.0f, 1.0f)); // Red color for defeat
-		}
-	}
 
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
 		_sequence_supervisor->Draw();
@@ -480,11 +483,23 @@ void BattleMode::Draw() {
 
 	_DrawBackgroundGraphics();
 	_DrawSprites();
-	_DrawGUI();
 
 	if (_battle_script.IsFileOpen() == true) {
 		ScriptCallFunction<void>(_draw_function);
 	}
+}
+
+void BattleMode::DrawPostEffects() {
+	// Restore correct display metrics
+	// Remove me once the particle manager is using the same ones
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+
+	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
+		_sequence_supervisor->DrawPostEffects();
+		return;
+	}
+
+	_DrawGUI();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
