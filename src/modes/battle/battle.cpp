@@ -411,9 +411,6 @@ void BattleMode::Update() {
 		if (character_selection != NULL) {
 			OpenCommandMenu(character_selection);
 		}
-
-		// TODO: Determine whether we should play a sound if the player presses an invalid key and/or the selected character is not currently
-		// allowed to select a command.
 	}
 	// If the player is selecting a command for a character, the command supervisor has control
 	else if (_state == BATTLE_STATE_COMMAND) {

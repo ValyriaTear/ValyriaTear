@@ -1040,7 +1040,8 @@ void CommandSupervisor::_UpdateAttackPointTarget() {
 		BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
 	}
 
-	else if (InputManager->ConfirmPress()) {
+	else if (InputManager->ConfirmPress()
+		|| _selected_target.GetActor()->GetAttackPoints().size() == 1) {
 		_FinalizeCommand();
 	}
 
