@@ -838,6 +838,9 @@ void VideoEngine::EnableLightning(int16 id, bool loop) {
 }
 
 void VideoEngine::_UpdateLightning(uint32 frame_time) {
+	if (!_lightning_active)
+		return;
+
 	// Update lightning timer
 	_lightning_current_time += frame_time;
 
