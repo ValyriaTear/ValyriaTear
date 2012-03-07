@@ -99,6 +99,9 @@ public:
 	uint32 GetCooldownTime() const
 		{ return _cooldown_time; }
 
+	std::string GetActionName() const
+		{ return _action_name; }
+
 	GLOBAL_TARGET GetTargetType() const
 		{ return _target_type; }
 
@@ -149,6 +152,12 @@ private:
 	*** It is acceptable for this member to be zero.
 	**/
 	uint32 _cooldown_time;
+
+	/** \brief The animation name played before dealing the battle_execute_function.
+	*** When a character is ready to attack, it will first play an attack animation for instance
+	*** before delaing damage.
+	**/
+	std::string _action_name;
 
 	/** \brief The type of target for the skill
 	*** Target types include attack points, actors, and parties. This enum type is defined in global_actors.h

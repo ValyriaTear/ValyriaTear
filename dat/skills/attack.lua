@@ -20,6 +20,7 @@
 --                selecting the skill and executing it (a value of zero is valid).
 -- {cooldown_time}: The number of milliseconds that the actor using the skill must wait after
 --                  executing the skill before their stamina begins regenrating (zero is valid).
+-- {action_name}: The sprite action played before executing the battle scripted function.
 -- {target_type}: The type of target the skill affects, which may be an attack point, actor, or party.
 --
 -- Each skill entry requires a function called {BattleExecute} to be defined. This function implements the
@@ -43,10 +44,10 @@ skills[1] = {
 	sp_required = 0,
 	warmup_time = 2000,
 	cooldown_time = 200,
+	action_name = "attack",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		user:ChangeSpriteAnimation("attack");
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasion(target) == false) then
@@ -65,10 +66,10 @@ skills[2] = {
 	sp_required = 2,
 	warmup_time = 500,
 	cooldown_time = 0,
+	action_name = "attack",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		user:ChangeSpriteAnimation("attack");
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasionAdder(target, 5.0) == false) then
@@ -88,10 +89,10 @@ skills[3] = {
 	sp_required = 5,
 	warmup_time = 1200,
 	cooldown_time = 0,
+	action_name = "attack",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
-		user:ChangeSpriteAnimation("attack");
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasionAdder(target, 5.5) == false) then
@@ -112,10 +113,10 @@ skills[4] = {
 	sp_required = 4,
 	warmup_time = 2000,
 	cooldown_time = 0,
+	action_name = "attack",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		user:ChangeSpriteAnimation("attack");
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then

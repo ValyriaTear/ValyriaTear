@@ -78,6 +78,7 @@ GlobalSkill::GlobalSkill(uint32 id) :
 	_sp_required = skill_script->ReadUInt("sp_required");
 	_warmup_time = skill_script->ReadUInt("warmup_time");
 	_cooldown_time = skill_script->ReadUInt("cooldown_time");
+	_action_name = skill_script->ReadString("action_name");
 	_target_type = static_cast<GLOBAL_TARGET>(skill_script->ReadInt("target_type"));
 
 	if (skill_script->DoesFunctionExist("BattleExecute")) {
@@ -123,6 +124,7 @@ GlobalSkill::GlobalSkill(const GlobalSkill& copy) {
 	_sp_required = copy._sp_required;
 	_warmup_time = copy._warmup_time;
 	_cooldown_time = copy._cooldown_time;
+	_action_name = copy._action_name;
 	_target_type = copy._target_type;
 
 	// Make copies of valid ScriptObject function pointers
@@ -150,6 +152,7 @@ GlobalSkill& GlobalSkill::operator=(const GlobalSkill& copy) {
 	_sp_required = copy._sp_required;
 	_warmup_time = copy._warmup_time;
 	_cooldown_time = copy._cooldown_time;
+	_action_name = copy._action_name;
 	_target_type = copy._target_type;
 
 	// Make copies of valid ScriptObject function pointers

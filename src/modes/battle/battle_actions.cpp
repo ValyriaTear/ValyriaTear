@@ -147,7 +147,12 @@ ustring SkillAction::GetName() const {
 		return _skill->GetName();
 }
 
-
+std::string SkillAction::GetActionName() const {
+	if (_skill == NULL)
+		return std::string();
+	else
+		return _skill->GetActionName();
+}
 
 
 uint32 SkillAction::GetWarmUpTime() const {

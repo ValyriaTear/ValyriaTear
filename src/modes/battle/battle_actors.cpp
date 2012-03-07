@@ -426,8 +426,15 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 				ChangeState(ACTOR_STATE_COMMAND);
 			break;
 		case ACTOR_STATE_ACTING:
-			// TODO: reset state timer?
+		{
+			// Trigger the action animation
+			std::string animation_name = _action->GetActionName().empty() ? "idle" : _action->GetActionName();
+			ChangeSpriteAnimation(animation_name);
+			// Reset state timer
+			_state_timer.Initialize(_global_character->RetrieveBattleAnimation(animation_name)->GetAnimationLength());
+			_state_timer.Run();
 			break;
+		}
 		case ACTOR_STATE_DEAD:
 			ChangeSpriteAnimation("idle");
 			_global_character->RetrieveBattleAnimation("idle")->GetCurrentFrame()->EnableGrayScale();
@@ -450,20 +457,19 @@ void BattleCharacter::Update(bool animation_only) {
 		_animation_timer.Update();
 
 		// Update the active sprite animation
-		if (IsAlive() == true) {
+		if (IsAlive())
 			_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Update();
-		}
 
 		// Do no further update action if we are only supposed to update animations
-		if (animation_only == true) {
+		if (animation_only)
 			return;
-		}
 
-		// If the character is executing their action,
-		if (_state == ACTOR_STATE_ACTING) {
-			if (_action->Execute() == true) {
+		// If the character has finished to execute its battle action,
+		if (_state == ACTOR_STATE_ACTING && _state_timer.IsFinished()) {
+			// Triggers here the skill or item action
+			// and set the actor to cool down mode when successful.
+			if (_action->Execute())
 				ChangeState(ACTOR_STATE_COOL_DOWN);
-			}
 		}
 	}
 }
@@ -483,10 +489,10 @@ void BattleCharacter::DrawSprite() {
 	else if (_animation_timer.IsFinished()) {
 		ChangeSpriteAnimation("idle");
 	}
-	else {
-		PRINT_DEBUG << "attack animation name: " << _sprite_animation_alias << endl;
-		uint32 dist = _animation_timer.GetDuration() > 0 ?
-			120 * _animation_timer.GetTimeExpired() / _animation_timer.GetDuration() :
+	// Only advance when attacking, not when casting magic for instance
+	else if (_sprite_animation_alias == "attack") {
+		uint32 dist = _state_timer.GetDuration() > 0 ?
+			120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
 			0;
 		VideoManager->MoveRelative(dist, 0.0f);
 	}
@@ -500,7 +506,7 @@ void BattleCharacter::ChangeSpriteAnimation(const std::string& alias) {
 	_sprite_animation_alias = alias;
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->ResetAnimation();
 	uint32 timer_length = _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetAnimationLength();
-	PRINT_DEBUG << "Total time: " << timer_length << endl;
+
 	_animation_timer.Reset();
 	_animation_timer.SetDuration(timer_length);
 	_animation_timer.Run();

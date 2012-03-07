@@ -74,6 +74,9 @@ public:
 	//! \brief Returns the number of milliseconds that the owner actor must wait in the cool down state
 	virtual uint32 GetCoolDownTime() const = 0;
 
+	//! \brief Returns the character action name played before executing the scripted function.
+	virtual std::string GetActionName() const = 0;
+
 	//! \name Class member access functions
 	//@{
 	BattleActor* GetActor()
@@ -131,6 +134,8 @@ public:
 
 	uint32 GetCoolDownTime() const;
 
+	std::string GetActionName() const;
+
 	hoa_global::GlobalSkill* GetSkill()
 		{ return _skill; }
 
@@ -167,6 +172,9 @@ public:
 	uint32 GetCoolDownTime() const
 		{ return 0; }
 
+	std::string GetActionName() const
+		{ return "idle"; }
+
 	BattleItem* GetItem()
 		{ return _item; }
 
@@ -180,3 +188,5 @@ private:
 } // namespace hoa_battle
 
 #endif // __BATTLE_ACTIONS_HEADER__
+
+
