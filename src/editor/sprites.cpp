@@ -456,9 +456,6 @@ MapSprite::~MapSprite() {
 
 // Load in the appropriate images and other data for the sprite
 bool MapSprite::LoadStandardAnimations(std::string filename) {
-	// The speed to display each frame in the walking animation
-	uint32 frame_speed = static_cast<uint32>(movement_speed / 10.0f);
-
 	// Prepare the four standing and four walking animations
 	for (uint8 i = 0; i < 8; i++)
 		animations.push_back(AnimatedImage());
@@ -473,39 +470,39 @@ bool MapSprite::LoadStandardAnimations(std::string filename) {
 	}
 
 	// Add standing frames to animations
-	animations[ANIM_STANDING_SOUTH].AddFrame(frames[0], frame_speed);
-	animations[ANIM_STANDING_NORTH].AddFrame(frames[6], frame_speed);
-	animations[ANIM_STANDING_WEST].AddFrame(frames[12], frame_speed);
-	animations[ANIM_STANDING_EAST].AddFrame(frames[18], frame_speed);
+	animations[ANIM_STANDING_SOUTH].AddFrame(frames[0], movement_speed);
+	animations[ANIM_STANDING_NORTH].AddFrame(frames[6], movement_speed);
+	animations[ANIM_STANDING_WEST].AddFrame(frames[12], movement_speed);
+	animations[ANIM_STANDING_EAST].AddFrame(frames[18], movement_speed);
 
 	// Add walking frames to animations
-	animations[ANIM_WALKING_SOUTH].AddFrame(frames[1], frame_speed);
-	animations[ANIM_WALKING_SOUTH].AddFrame(frames[2], frame_speed);
-	animations[ANIM_WALKING_SOUTH].AddFrame(frames[3], frame_speed);
-	animations[ANIM_WALKING_SOUTH].AddFrame(frames[1], frame_speed);
-	animations[ANIM_WALKING_SOUTH].AddFrame(frames[4], frame_speed);
-	animations[ANIM_WALKING_SOUTH].AddFrame(frames[5], frame_speed);
+	animations[ANIM_WALKING_SOUTH].AddFrame(frames[1], movement_speed);
+	animations[ANIM_WALKING_SOUTH].AddFrame(frames[2], movement_speed);
+	animations[ANIM_WALKING_SOUTH].AddFrame(frames[3], movement_speed);
+	animations[ANIM_WALKING_SOUTH].AddFrame(frames[1], movement_speed);
+	animations[ANIM_WALKING_SOUTH].AddFrame(frames[4], movement_speed);
+	animations[ANIM_WALKING_SOUTH].AddFrame(frames[5], movement_speed);
 
-	animations[ANIM_WALKING_NORTH].AddFrame(frames[7], frame_speed);
-	animations[ANIM_WALKING_NORTH].AddFrame(frames[8], frame_speed);
-	animations[ANIM_WALKING_NORTH].AddFrame(frames[9], frame_speed);
-	animations[ANIM_WALKING_NORTH].AddFrame(frames[7], frame_speed);
-	animations[ANIM_WALKING_NORTH].AddFrame(frames[10], frame_speed);
-	animations[ANIM_WALKING_NORTH].AddFrame(frames[11], frame_speed);
+	animations[ANIM_WALKING_NORTH].AddFrame(frames[7], movement_speed);
+	animations[ANIM_WALKING_NORTH].AddFrame(frames[8], movement_speed);
+	animations[ANIM_WALKING_NORTH].AddFrame(frames[9], movement_speed);
+	animations[ANIM_WALKING_NORTH].AddFrame(frames[7], movement_speed);
+	animations[ANIM_WALKING_NORTH].AddFrame(frames[10], movement_speed);
+	animations[ANIM_WALKING_NORTH].AddFrame(frames[11], movement_speed);
 
-	animations[ANIM_WALKING_WEST].AddFrame(frames[13], frame_speed);
-	animations[ANIM_WALKING_WEST].AddFrame(frames[14], frame_speed);
-	animations[ANIM_WALKING_WEST].AddFrame(frames[15], frame_speed);
-	animations[ANIM_WALKING_WEST].AddFrame(frames[13], frame_speed);
-	animations[ANIM_WALKING_WEST].AddFrame(frames[16], frame_speed);
-	animations[ANIM_WALKING_WEST].AddFrame(frames[17], frame_speed);
+	animations[ANIM_WALKING_WEST].AddFrame(frames[13], movement_speed);
+	animations[ANIM_WALKING_WEST].AddFrame(frames[14], movement_speed);
+	animations[ANIM_WALKING_WEST].AddFrame(frames[15], movement_speed);
+	animations[ANIM_WALKING_WEST].AddFrame(frames[13], movement_speed);
+	animations[ANIM_WALKING_WEST].AddFrame(frames[16], movement_speed);
+	animations[ANIM_WALKING_WEST].AddFrame(frames[17], movement_speed);
 
-	animations[ANIM_WALKING_EAST].AddFrame(frames[19], frame_speed);
-	animations[ANIM_WALKING_EAST].AddFrame(frames[20], frame_speed);
-	animations[ANIM_WALKING_EAST].AddFrame(frames[21], frame_speed);
-	animations[ANIM_WALKING_EAST].AddFrame(frames[19], frame_speed);
-	animations[ANIM_WALKING_EAST].AddFrame(frames[22], frame_speed);
-	animations[ANIM_WALKING_EAST].AddFrame(frames[23], frame_speed);
+	animations[ANIM_WALKING_EAST].AddFrame(frames[19], movement_speed);
+	animations[ANIM_WALKING_EAST].AddFrame(frames[20], movement_speed);
+	animations[ANIM_WALKING_EAST].AddFrame(frames[21], movement_speed);
+	animations[ANIM_WALKING_EAST].AddFrame(frames[19], movement_speed);
+	animations[ANIM_WALKING_EAST].AddFrame(frames[22], movement_speed);
+	animations[ANIM_WALKING_EAST].AddFrame(frames[23], movement_speed);
 
 	return true;
 } // bool MapSprite::LoadStandardAnimations(std::string filename)
@@ -513,9 +510,6 @@ bool MapSprite::LoadStandardAnimations(std::string filename) {
 
 
 bool MapSprite::LoadRunningAnimations(std::string filename) {
-	// The speed to display each frame in the running animation
-	uint32 frame_speed = static_cast<uint32>(movement_speed / 10.0f);
-
 	// Prepare to add the four running animations
 	for (uint8 i = 0; i < 4; i++)
 		animations.push_back(AnimatedImage());
@@ -530,33 +524,33 @@ bool MapSprite::LoadRunningAnimations(std::string filename) {
 	}
 
 	// Add walking frames to animations
-	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[1], frame_speed);
-	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[2], frame_speed);
-	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[3], frame_speed);
-	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[1], frame_speed);
-	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[4], frame_speed);
-	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[5], frame_speed);
+	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[1], movement_speed);
+	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[2], movement_speed);
+	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[3], movement_speed);
+	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[1], movement_speed);
+	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[4], movement_speed);
+	animations[ANIM_RUNNING_SOUTH].AddFrame(frames[5], movement_speed);
 
-	animations[ANIM_RUNNING_NORTH].AddFrame(frames[7], frame_speed);
-	animations[ANIM_RUNNING_NORTH].AddFrame(frames[8], frame_speed);
-	animations[ANIM_RUNNING_NORTH].AddFrame(frames[9], frame_speed);
-	animations[ANIM_RUNNING_NORTH].AddFrame(frames[7], frame_speed);
-	animations[ANIM_RUNNING_NORTH].AddFrame(frames[10], frame_speed);
-	animations[ANIM_RUNNING_NORTH].AddFrame(frames[11], frame_speed);
+	animations[ANIM_RUNNING_NORTH].AddFrame(frames[7], movement_speed);
+	animations[ANIM_RUNNING_NORTH].AddFrame(frames[8], movement_speed);
+	animations[ANIM_RUNNING_NORTH].AddFrame(frames[9], movement_speed);
+	animations[ANIM_RUNNING_NORTH].AddFrame(frames[7], movement_speed);
+	animations[ANIM_RUNNING_NORTH].AddFrame(frames[10], movement_speed);
+	animations[ANIM_RUNNING_NORTH].AddFrame(frames[11], movement_speed);
 
-	animations[ANIM_RUNNING_WEST].AddFrame(frames[13], frame_speed);
-	animations[ANIM_RUNNING_WEST].AddFrame(frames[14], frame_speed);
-	animations[ANIM_RUNNING_WEST].AddFrame(frames[15], frame_speed);
-	animations[ANIM_RUNNING_WEST].AddFrame(frames[13], frame_speed);
-	animations[ANIM_RUNNING_WEST].AddFrame(frames[16], frame_speed);
-	animations[ANIM_RUNNING_WEST].AddFrame(frames[17], frame_speed);
+	animations[ANIM_RUNNING_WEST].AddFrame(frames[13], movement_speed);
+	animations[ANIM_RUNNING_WEST].AddFrame(frames[14], movement_speed);
+	animations[ANIM_RUNNING_WEST].AddFrame(frames[15], movement_speed);
+	animations[ANIM_RUNNING_WEST].AddFrame(frames[13], movement_speed);
+	animations[ANIM_RUNNING_WEST].AddFrame(frames[16], movement_speed);
+	animations[ANIM_RUNNING_WEST].AddFrame(frames[17], movement_speed);
 
-	animations[ANIM_RUNNING_EAST].AddFrame(frames[19], frame_speed);
-	animations[ANIM_RUNNING_EAST].AddFrame(frames[20], frame_speed);
-	animations[ANIM_RUNNING_EAST].AddFrame(frames[21], frame_speed);
-	animations[ANIM_RUNNING_EAST].AddFrame(frames[19], frame_speed);
-	animations[ANIM_RUNNING_EAST].AddFrame(frames[22], frame_speed);
-	animations[ANIM_RUNNING_EAST].AddFrame(frames[23], frame_speed);
+	animations[ANIM_RUNNING_EAST].AddFrame(frames[19], movement_speed);
+	animations[ANIM_RUNNING_EAST].AddFrame(frames[20], movement_speed);
+	animations[ANIM_RUNNING_EAST].AddFrame(frames[21], movement_speed);
+	animations[ANIM_RUNNING_EAST].AddFrame(frames[19], movement_speed);
+	animations[ANIM_RUNNING_EAST].AddFrame(frames[22], movement_speed);
+	animations[ANIM_RUNNING_EAST].AddFrame(frames[23], movement_speed);
 
 	has_running_anim = true;
 	return true;

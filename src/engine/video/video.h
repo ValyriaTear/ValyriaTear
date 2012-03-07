@@ -83,10 +83,6 @@ extern VideoEngine* VideoManager;
 //! \brief Determines whether the code in the hoa_video namespace should print
 extern bool VIDEO_DEBUG;
 
-
-//! animation frame period: how many milliseconds 1 frame of animation lasts for
-const int32 VIDEO_ANIMATION_FRAME_PERIOD = 10;
-
 namespace private_video {
 //! \brief The number of FPS samples to retain across frames
 const uint32 FPS_SAMPLES = 250;
@@ -507,14 +503,6 @@ public:
 	**/
 	StillImage CaptureScreen() throw(hoa_utils::Exception);
 
-	/** \brief returns the amount of animation frames that have passed since the last
-	 *         call to VideoEngine::Display(). This number is based on VIDEO_ANIMATION_FRAME_PERIOD,
-	 *         and is used so that AnimatedImages know how many frames to increment themselves by.
-	 * \return the number of nimations frames passed since last VideoEngine::Display() call
-	 */
-	int32 GetFrameChange()
-		{ return _current_frame_diff; }
-
 	/** \brief Returns a pointer to the GUIManager singleton object
 	*** This method allows the user to perform text operations. For example, to load a
 	*** font, the user may utilize this method like so:
@@ -916,12 +904,6 @@ private:
 
 	//! Image used for rendering rectangles
 	StillImage _rectangle_image;
-
-	//! counter to keep track of milliseconds since game started for animations
-	int32 _animation_counter;
-
-	//! keeps track of the number of frames animations should increment by for the current frame
-	int32 _current_frame_diff;
 
 	//! STL map containing all loaded particle effect definitions
 	std::map<std::string, ParticleEffectDef*> _particle_effect_defs;

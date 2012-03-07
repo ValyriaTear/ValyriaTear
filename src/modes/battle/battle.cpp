@@ -965,7 +965,8 @@ void BattleMode::_DrawSprites() {
 	BattleActor* actor_target = target.GetActor(); // A pointer to an actor being targetted (value may be NULL if target is party)
 
 	// Determine if selector graphics should be drawn
-	if ((_state == BATTLE_STATE_COMMAND) && ((_command_supervisor->GetState() == COMMAND_STATE_ACTOR) || (_command_supervisor->GetState() == COMMAND_STATE_POINT))) {
+	if ((_state == BATTLE_STATE_COMMAND)
+		&& ((_command_supervisor->GetState() == COMMAND_STATE_ACTOR) || (_command_supervisor->GetState() == COMMAND_STATE_POINT))) {
 		draw_actor_selection = true;
 		if ((_command_supervisor->GetState() == COMMAND_STATE_POINT) && (IsTargetPoint(target.GetType()) == true))
 			draw_point_selection = true;

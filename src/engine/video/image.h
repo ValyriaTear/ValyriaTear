@@ -533,6 +533,18 @@ public:
 	**/
 	bool LoadFromFrameGrid(const std::string& filename, const std::vector<uint32>& timings, const uint32 frame_rows, const uint32 frame_cols, const uint32 trim = 0);
 
+	/** \brief Loads an animated image from a lua script
+	*** \param filename The name of the multi image lua script to load the image data from
+	*** \return True upon successful loading, false if there was an error
+	***
+	*** This function determines the image elements to extract from the multi image by the width and height
+	*** of each element (in pixels) specified in the function arguments. Upon success, the size of the images
+	*** reference vector will always be equal to the area of the multi image divided by the area of each
+	*** element image.
+	*** \note All image elements within the multi image should be of the same size
+	 */
+	bool LoadFromAnimationScript(const std::string& filename);
+
 	//! \brief Draws the current frame image to the screen
 	void Draw() const;
 
@@ -565,9 +577,8 @@ public:
 		{ _frame_index = 0; _frame_counter = 0; _loop_counter = 0; _loops_finished = false; }
 
 	/** \brief Called every frame to update the animation's current frame
-	*** This will automatically synchronize the animation to VIDEO_ANIMATION_FRAME_PERIOD,
-	*** i.e. 30 frames per second. If you want to update the frames yourself using some custom
-	*** algorithm, then use the SetFrame() method instead of calling this function
+	*** This will automatically synchronize the animation according to the time passed
+	*** since the last call.
 	***
 	*** \note This method will do nothing if there are no frames contained in the animation,
 	*** or if the _loops_finished member is set to true.
@@ -633,6 +644,10 @@ public:
 	**/
 	float GetPercentProgress() const
 		{ return static_cast<float>(_frame_counter) / _frames[_frame_index].frame_time; }
+
+	//! \brief Returns the total time used to play the animation in milliseconds.
+	uint32 GetAnimationLength() const
+		{ return _animation_time; }
 
 	//! \brief Returns true if the loops have finished, false otherwise
 	bool IsLoopsFinished() const
@@ -732,6 +747,9 @@ private:
 
 	//! \brief The vector of animation frames (contains both images and timing)
 	std::vector<private_video::AnimationFrame> _frames;
+
+	//! \brief The total time used to play the animation
+	uint32 _animation_time;
 }; // class AnimatedImage : public ImageDescriptor
 
 

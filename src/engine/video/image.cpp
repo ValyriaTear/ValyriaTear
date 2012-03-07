@@ -17,6 +17,8 @@
 #include <math.h>
 
 #include "video.h"
+#include "engine/script/script.h"
+#include "engine/system.h"
 
 using namespace std;
 using namespace hoa_utils;
@@ -246,7 +248,6 @@ bool ImageDescriptor::LoadMultiImageFromElementSize(vector<StillImage>& images, 
 
 	return _LoadMultiImage(images, filename, grid_rows, grid_cols);
 } // bool ImageDescriptor::LoadMultiImageFromElementSize(...)
-
 
 
 bool ImageDescriptor::LoadMultiImageFromElementGrid(vector<StillImage>& images, const string& filename,
@@ -1170,8 +1171,48 @@ void AnimatedImage::Clear() {
 	_number_loops = -1;
 	_loop_counter = 0;
 	_loops_finished = false;
+	_animation_time = 0;
 }
 
+bool AnimatedImage::LoadFromAnimationScript(const string& filename) {
+	hoa_script::ReadScriptDescriptor image_script;
+	if (!image_script.OpenFile(filename))
+		return false;
+
+	if (!image_script.DoesTableExist("animation"))
+		return false;
+
+	image_script.OpenTable("animation");
+
+	std::string image_filename = image_script.ReadString("image_filename");
+
+	if (!hoa_utils::DoesFileExist(image_filename)) {
+		image_script.CloseTable();
+		image_script.CloseFile();
+		return false;
+	}
+
+	uint32 rows = image_script.ReadUInt("rows");
+	uint32 columns = image_script.ReadUInt("columns");
+
+	if (!image_script.DoesTableExist("frames_duration")) {
+		image_script.CloseTable();
+		image_script.CloseFile();
+		return false;
+	}
+
+	std::vector<uint32> frames_duration;
+	image_script.ReadUIntVector("frames_duration", frames_duration);
+
+	image_script.CloseAllTables();
+	image_script.CloseFile();
+
+	// Check that the number of given frames is correct
+	if (frames_duration.size() != (rows * columns))
+		return false;
+
+	return LoadFromFrameGrid(image_filename, frames_duration, rows, columns);
+}
 
 
 bool AnimatedImage::LoadFromFrameSize(const string& filename, const vector<uint32>& timings, const uint32 frame_width, const uint32 frame_height, const uint32 trim) {
@@ -1201,6 +1242,8 @@ bool AnimatedImage::LoadFromFrameSize(const string& filename, const vector<uint3
 		image_frames[i].SetDimensions(_width, _height);
 		_frames.back().image = image_frames[i];
 		_frames.back().frame_time = timings[i];
+
+		_animation_time += timings[i];
 		if (timings[i] == 0) {
 			IF_PRINT_WARNING(VIDEO_DEBUG) << "added a frame time value of zero when loading file: " << filename << endl;
 		}
@@ -1232,12 +1275,23 @@ bool AnimatedImage::LoadFromFrameGrid(const string& filename, const vector<uint3
 		return false;
 	}
 
+	if (image_frames.size() == 0)
+		return false;
+
+	// If the animation dimensions are not set yet, we're using the first frame
+	// size.
+	if (IsFloatEqual(_width, 0.0f) && IsFloatEqual(_height, 0.0f)) {
+		_width = image_frames.begin()->GetWidth();
+		_height = image_frames.begin()->GetHeight();
+	}
+
 	// Add the loaded frame image and timing information
 	for (uint32 i = 0; i < frame_rows * frame_cols - trim; i++) {
 		_frames.push_back(AnimationFrame());
 		image_frames[i].SetDimensions(_width, _height);
 		_frames.back().image = image_frames[i];
 		_frames.back().frame_time = timings[i];
+		_animation_time += timings[i];
 		if (timings[i] == 0) {
 			IF_PRINT_WARNING(VIDEO_DEBUG) << "added zero frame time for an image frame when loading file: " << filename << endl;
 		}
@@ -1321,13 +1375,12 @@ void AnimatedImage::Update() {
 	if (_loops_finished)
 		return;
 
-	// Get the amount of time that expired since the last frame
-	uint32 frame_change = VideoManager->GetFrameChange();
-	_frame_counter += frame_change;
-
+	// Get the amount of milliseconds that have pass since the last display
+	uint32 ms_change = hoa_system::SystemManager->GetUpdateTime();
+	_frame_counter += ms_change;
 	// If the frame time has expired, update the frame index and counter.
 	while (_frame_counter >= _frames[_frame_index].frame_time) {
-		frame_change = _frame_counter - _frames[_frame_index].frame_time;
+		ms_change = _frame_counter - _frames[_frame_index].frame_time;
 		_frame_index++;
 		if (_frame_index >= _frames.size()) {
 				// Check if the animation has looping enabled and if so, increment the loop counter
@@ -1340,7 +1393,7 @@ void AnimatedImage::Update() {
 			}
 			_frame_index = 0;
 		}
-		_frame_counter = frame_change;
+		_frame_counter = ms_change;
 	}
 } // void AnimatedImage::Update()
 

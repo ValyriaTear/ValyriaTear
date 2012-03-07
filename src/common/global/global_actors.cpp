@@ -1253,7 +1253,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
 	// Store only the right-facing run frames in the animated image
 	for (uint32 i = 19; i < run_frames.size(); i++) {
-		run.AddFrame(run_frames[i], 15);
+		run.AddFrame(run_frames[i], 75);
 	}
 	run.SetDimensions(64, 128);
 	_battle_animation["run"] = run;
@@ -1261,21 +1261,18 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	// TEMP: Load the character's idle animation
 	AnimatedImage idle;
 	idle.SetDimensions(128, 128);
-	vector<uint32> idle_timings(4, 15);
+	vector<uint32> idle_timings(4, 150);
 
 	if (idle.LoadFromFrameGrid("img/sprites/map/" + _filename + "_idle.png", idle_timings, 1, 4) == false) {
 		exit(1);
 	}
 	_battle_animation["idle"] = idle;
 
-	// TEMP: Load the character's attack animation
+	// Load the character's attack animation
+	// TODO: dehardcode the filename
 	AnimatedImage attack;
 	attack.SetDimensions(128, 128);
-	vector<uint32> attack_timings(5, 10);
-
-	if (attack.LoadFromFrameGrid("img/sprites/map/" + _filename + "_attack.png", attack_timings, 1, 5) == false) {
-		exit(1);
-	}
+	attack.LoadFromAnimationScript("img/sprites/map/" + _filename + "_attack.lua");
 	_battle_animation["attack"] = attack;
 
 	// TEMP: Load the character's battle portraits from a multi image
