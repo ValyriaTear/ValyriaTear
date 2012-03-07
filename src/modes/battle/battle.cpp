@@ -645,14 +645,6 @@ bool BattleMode::OpenCommandMenu(BattleCharacter* character) {
 
 
 void BattleMode::Exit() {
-	// TEMP: Restore all dead characters back to life by giving them a single health point
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		if (_character_actors[i]->IsAlive() == false) {
-// 			_character_actors[i]->SetHitPoints(1);
-// 			_character_actors[i]->RetrieveBattleAnimation("idle")->GetCurrentFrame()->DisableGrayScale();
-		}
-	}
-
 	ModeManager->Pop();
 }
 
