@@ -189,7 +189,9 @@ ItemAction::ItemAction(BattleActor* source, BattleTarget target, BattleItem* ite
 
 
 bool ItemAction::Execute() {
-	// TODO: Check that item count > 0?
+	// Check whether item is in inventory
+	if (!GlobalManager->IsObjectInInventory(_item->GetItem().GetID()))
+		return false;
 
 	const ScriptObject* script_function = _item->GetItem().GetBattleUseFunction();
 	if (script_function == NULL) {
