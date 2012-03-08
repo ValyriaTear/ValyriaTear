@@ -499,6 +499,11 @@ void BattleCharacter::DrawSprite() {
 		VideoManager->MoveRelative(dist, 0.0f);
 	}
 
+	// Add a shake effect when the battle actor has received damages
+	if (_state_timer.IsStunActive()) {
+		VideoManager->MoveRelative(RandomFloat(-6.0f, 6.0f), 0.0f);
+	}
+
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Draw();
 } // void BattleCharacter::DrawSprite()
 
@@ -807,6 +812,11 @@ void BattleEnemy::DrawSprite() {
 
 	// Draw the enemy's damage-blended sprite frames
 	VideoManager->Move(_x_location - enemy_draw_offset, _y_location);
+
+	// Add a shake effect when the battle actor has received damages
+	if (_state_timer.IsStunActive()) {
+		VideoManager->MoveRelative(RandomFloat(-6.0f, 6.0f), 0.0f);
+	}
 
 	float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
