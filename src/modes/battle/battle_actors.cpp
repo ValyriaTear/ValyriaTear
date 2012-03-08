@@ -467,9 +467,11 @@ void BattleCharacter::Update(bool animation_only) {
 		// If the character has finished to execute its battle action,
 		if (_state == ACTOR_STATE_ACTING && _state_timer.IsFinished()) {
 			// Triggers here the skill or item action
-			// and set the actor to cool down mode when successful.
-			if (_action->Execute())
-				ChangeState(ACTOR_STATE_COOL_DOWN);
+			// and set the actor to cool down mode.
+			if (!_action->Execute())
+				// Indicate the the skill execution failed to the user.
+				RegisterMiss();
+			ChangeState(ACTOR_STATE_COOL_DOWN);
 		}
 	}
 }
@@ -769,10 +771,13 @@ void BattleEnemy::Update(bool animation_only) {
 	}
 
 	if (_state == ACTOR_STATE_ACTING) {
-		if (_execution_finished == false)
-			_execution_finished = _action->Execute();
+		if (!_execution_finished) {
+			if (!_action->Execute())
+				RegisterMiss();
+			_execution_finished = true;
+		}
 
-		if ((_execution_finished == true) && (_state_timer.IsFinished() == true))
+		if (_execution_finished && _state_timer.IsFinished() == true)
 			ChangeState(ACTOR_STATE_COOL_DOWN);
 	}
 }
