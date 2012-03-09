@@ -732,16 +732,6 @@ void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
 	VideoManager->Move(780, 747);
 	_stamina_bar_background.Draw(blending);
 
-	// Draw the base color of the bar
-	VideoManager->Move(800, 740);
-	VideoManager->DrawRectangle(200 * fill_size, 10, olive_green * blending);
-
-	// Shade the bar with a faux lighting effect
-	VideoManager->Move(800,739);
-	VideoManager->DrawRectangle(200 * fill_size, 2, dark_green * blending);
-	VideoManager->Move(800, 737);
-	VideoManager->DrawRectangle(200 * fill_size, 7, darkish_green * blending);
-
 	// Only do this if the bar is at least 4 pixels long
 	if ((200 * fill_size) >= 4) {
 		VideoManager->Move(801, 739);
@@ -765,6 +755,28 @@ void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
 	VideoManager->Move(800, 736);
 	VideoManager->DrawRectangle(200 * fill_size, 5, bar_color * blending);
 
+	// Only do this if the bar is at least 6 pixels long
+	if ((200 * fill_size) >= 6) {
+		VideoManager->Move(802, 733);
+		VideoManager->DrawRectangle((200 * fill_size) - 4, 1, bright_yellow * blending);
+	}
+
+    // Draw the rest only when the color is green
+    if (bar_color != medium_green) {
+        VideoManager->PopState();
+        return;
+    }
+
+	// Draw the base color of the bar
+	VideoManager->Move(800, 740);
+	VideoManager->DrawRectangle(200 * fill_size, 10, olive_green * blending);
+
+	// Shade the bar with a faux lighting effect
+	VideoManager->Move(800,739);
+	VideoManager->DrawRectangle(200 * fill_size, 2, dark_green * blending);
+	VideoManager->Move(800, 737);
+	VideoManager->DrawRectangle(200 * fill_size, 7, darkish_green * blending);
+
 	// Only do this if the bar is at least 4 pixels long
 	if ((200 * fill_size) >= 4) {
 		VideoManager->Move(801, 735);
@@ -773,12 +785,6 @@ void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
 		VideoManager->DrawRectangle(1, 1, lighter_green * blending);
 		VideoManager->Move(800, 734);
 		VideoManager->DrawRectangle(200 * fill_size, 2, lighter_green * blending);
-	}
-
-	// Only do this if the bar is at least 6 pixels long
-	if ((200 * fill_size) >= 6) {
-		VideoManager->Move(802, 733);
-		VideoManager->DrawRectangle((200 * fill_size) - 4, 1, bright_yellow * blending);
 	}
 
 	if (_unlimited_stamina) { // Draw the infinity symbol over the stamina bar
