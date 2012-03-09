@@ -318,7 +318,7 @@ protected:
 *** \note A simple '<' operator cannot be used with the sorting algorithm because it is sorting pointers.
 **/
 struct MapObject_Ptr_Less {
-	const bool operator()(const MapObject* a, const MapObject* b) {
+	bool operator()(const MapObject* a, const MapObject* b) {
 		return (a->y_position + a->y_offset) < (b->y_position + b->y_offset);
 	}
 };

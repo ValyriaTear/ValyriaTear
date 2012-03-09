@@ -153,7 +153,7 @@ public:
 
 	//! \brief Class member accessor functions
 	//@{
-	static MapMode* const CurrentInstance()
+	static MapMode* CurrentInstance()
 		{ return _current_instance; }
 
 	const hoa_utils::ustring& GetMapName() const

@@ -137,7 +137,7 @@ public:
 		{ return _filename; }
 
 	//! \note This can also be used to determine what type of derived object this object points to (read, write, modify)
-	const SCRIPT_ACCESS_MODE GetAccessMode()
+	SCRIPT_ACCESS_MODE GetAccessMode()
 		{ return _access_mode; }
 
 	/** \brief Clears any error messages that have been logged

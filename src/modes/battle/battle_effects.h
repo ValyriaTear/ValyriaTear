@@ -82,7 +82,7 @@ public:
 	const std::string& GetName() const
 		{ return _name; }
 
-	const uint32 GetIconIndex() const
+	uint32 GetIconIndex() const
 		{ return _icon_index; }
 
 	hoa_global::GLOBAL_STATUS GetOppositeEffect() const
