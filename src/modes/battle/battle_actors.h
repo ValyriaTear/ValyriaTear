@@ -386,10 +386,10 @@ public:
 	void ChangeState(ACTOR_STATE new_state);
 
 	float GetSpriteWidth() const
-		{ return 0.0f; } // TEMP: should retrieve width of current sprite animation
+		{ return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetWidth(); }
 
 	float GetSpriteHeight() const
-		{ return 0.0f; } // TEMP: should retrieve height of current sprite animation
+		{ return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetHeight(); }
 
 	/** \brief Changes the battle character's current sprite animation image
 	*** \param alias The alias text used to identify the animation to change

@@ -30,29 +30,16 @@ namespace hoa_battle {
 
 namespace private_battle {
 
-//! \brief The total amount of time (in milliseconds) that the display sequence lasts for indicator elements
-const uint32 INDICATOR_TIME = 5000;
-
-//! \brief The amount of time (in milliseconds) that indicator elements fade at the beginning of the display sequence
-const uint32 INDICATOR_FADEIN_TIME = 500;
-
-//! \brief The amount of time (in milliseconds) that indicator elements fade at the end of the display sequence
-const uint32 INDICATOR_FADEOUT_TIME = 1000;
-
-// These constants are used to determine the draw position at various phases of the indicator animation.
-// The animation (as it pertains to draw position) is determined in a number of phases.
-// Phase 01: Indicator starts from below the sprite and shoots upward to a peak
-// Phase 02: Indicator drops back down to the bottom of the sprite
-// Phase 03: Indicator moves upward again to a smaller peak (a "bounce")
-// Phase 04: Indicator falls back to bottom of the sprite
-// Phase 05: Indicator rests at bottom of sprite
-// Phase 06: Indicator falls as it fades away
-const uint32 PHASE01_END    = 750;
-const uint32 PHASE02_END    = 1500;
-const uint32 PHASE03_END    = 2000;
-const uint32 PHASE04_END    = 2500;
-const uint32 PHASE05_END    = 4000;
-const uint32 PHASE06_END    = INDICATOR_TIME;
+/** \brief the indicator types.
+*** According to the indicator type, the draw position computation won't be the same
+**/
+enum INDICATOR_TYPE {
+    DAMAGE_INDICATOR = 0,
+    HEALING_INDICATOR = 1,
+    MISS_INDICATOR = 2,
+    POSITIVE_STATUS_EFFECT_INDICATOR = 3,
+    NEGATIVE_STATUS_EFFECT_INDICATOR = 4
+};
 
 /** ****************************************************************************
 *** \brief An abstract class for displaying information about a change in an actor's state
@@ -74,7 +61,8 @@ const uint32 PHASE06_END    = INDICATOR_TIME;
 class IndicatorElement {
 public:
 	//! \param actor A valid pointer to the actor object this indicator
-	IndicatorElement(BattleActor* actor);
+	//! \param indicator_type tells the indicator use in game.
+	IndicatorElement(BattleActor* actor, INDICATOR_TYPE indicator_type);
 
 	virtual ~IndicatorElement()
 		{}
@@ -82,22 +70,24 @@ public:
 	//! \brief Begins the display of the indicator element
 	void Start();
 
-	//! \brief Updates the timer
+	//! \brief Updates the timer and the draw coordinates
 	virtual void Update();
 
 	//! \brief Returns a floating point value that represents the height of the element drawn
 	virtual float ElementHeight() const = 0;
 
-	//! \brief Draws the indicator information to the screen
-	virtual void Draw() = 0;
+	/** \brief Draws the indicator information to the screen.
+	*** This function will automatically place the cursor at the actor location.
+	**/
+	virtual void Draw();
 
 	//! \brief Returns true when the indicator element has expired and should be removed
 	bool IsExpired() const
 		{ return _timer.IsFinished(); }
 
-	//! \brief Returns if the indicator has already be started. Here, started means the indicator has gone half the way from PHASE 1
+	//! \brief Returns if the indicator has already been started.
 	bool HasStarted() const
-		{ return _timer.GetTimeExpired() >= PHASE01_END/2; }
+		{ return _timer.GetTimeExpired() > 0; }
 
 	//! \name Class member accessor methods
 	//@{
@@ -118,13 +108,31 @@ protected:
 	//! \brief A modulation color used to modify the alpha (transparency) of the drawn element
 	hoa_video::Color _alpha_color;
 
+	//! \brief Represent the force currently applied on the effects per second on the x axis.
+	float _x_force;
 
-	/** \brief Calculates and sets the draw cursor position to the place where the indicator should be drawn
-	***
-	*** This method also sets the appropriate draw flags for the indicator. This method should be called at
-	*** the beginning of every Draw() method in derived classes.
-	**/
-	void _CalculateDrawPosition();
+	//! \brief Represent the force currently applied on the effects per second on the y axis.
+	float _y_force;
+
+	//! \brief Represent the current x position of the effect, relative to its actor coordinates.
+	float _x_position;
+
+	//! \brief Represent the current y position of the effect, relative to its actor coordinates.
+	float _y_position;
+
+	//! \brief Represent the absolute (or starting) x position of the effect.
+	float _x_absolute_position;
+
+	//! \brief Represent the absolute (or starting) y position of the effect.
+	float _y_absolute_position;
+
+    /** \brief the indicator type.
+    *** According to the indicator type, the draw position computation won't be the same
+    **/
+	INDICATOR_TYPE _indicator_type;
+
+	//! \brief Updates the draw indicator effect position
+	void _UpdateDrawPosition();
 
 	/** \brief Calculates the standard alpha (transparency) value for drawing the element
 	*** \return True if the alpha value is 1.0f and thus the indicator should be drawn with no alpha applied
@@ -134,7 +142,7 @@ protected:
 	*** Alpha gradually increases from 0.0f to 1.0f in the first stage, remains at 1.0f for a majority
 	*** of the time, then gradually decreases back to 0.0f as the display finishes.
 	**/
-	bool _CalculateDrawAlpha();
+	bool _ComputeDrawAlpha();
 }; // class IndicatorElement
 
 
@@ -154,8 +162,10 @@ public:
 	/** \param actor A valid pointer to the actor object
 	*** \param text The text to use to render the text image
 	*** \param style The style to use to render the text image
+	*** \param indicator_type tells the indicator use in game.
 	**/
-	IndicatorText(BattleActor* actor, std::string& text, hoa_video::TextStyle& style);
+	IndicatorText(BattleActor* actor, std::string& text, hoa_video::TextStyle& style,
+					INDICATOR_TYPE indicator_type);
 
 	~IndicatorText()
 		{}
@@ -184,13 +194,17 @@ class IndicatorImage : public IndicatorElement {
 public:
 	/** \param actor A valid pointer to the actor object this indicator
 	*** \param filename The name of the image file to load
+	*** \param indicator_type tells the indicator use in game.
 	**/
-	IndicatorImage(BattleActor* actor, const std::string& filename);
+	IndicatorImage(BattleActor* actor, const std::string& filename,
+					INDICATOR_TYPE indicator_type);
 
 	/** \param actor A valid pointer to the actor object this indicator
 	*** \param image A const reference to the loaded image object to display
+	*** \param indicator_type tells the indicator use in game.
 	**/
-	IndicatorImage(BattleActor* actor, const hoa_video::StillImage& image);
+	IndicatorImage(BattleActor* actor, const hoa_video::StillImage& image,
+					INDICATOR_TYPE indicator_type);
 
 	~IndicatorImage()
 		{}
@@ -235,14 +249,20 @@ public:
 	/** \param actor A valid pointer to the actor object this indicator
 	*** \param first_filename The name of the first image file to load
 	*** \param second_filename The name of the second image file to load
+	*** \param indicator_type tells the indicator use in game.
 	**/
-	IndicatorBlendedImage(BattleActor* actor, const std::string& first_filename, const std::string& second_filename);
+	IndicatorBlendedImage(BattleActor* actor, const std::string& first_filename,
+						  const std::string& second_filename,
+						  INDICATOR_TYPE indicator_type);
 
 	/** \param actor A valid pointer to the actor object this indicator
 	*** \param first_image A const reference to the first loaded image to display
 	*** \param second_image A const reference to the second loaded image to display
+	*** \param indicator_type tells the indicator use in game.
 	**/
-	IndicatorBlendedImage(BattleActor* actor, const hoa_video::StillImage& first_image, const hoa_video::StillImage& second_image);
+	IndicatorBlendedImage(BattleActor* actor, const hoa_video::StillImage& first_image,
+						  const hoa_video::StillImage& second_image,
+						  INDICATOR_TYPE indicator_type);
 
 	~IndicatorBlendedImage()
 		{}

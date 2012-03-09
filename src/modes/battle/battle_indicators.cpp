@@ -36,19 +36,44 @@ namespace hoa_battle {
 
 namespace private_battle {
 
+//! \brief The total amount of time (in milliseconds) that the display sequence lasts for indicator elements
+const uint32 INDICATOR_TIME = 5000;
+
+//! \brief The amount of time (in milliseconds) that indicator elements fade at the beginning of the display sequence
+const uint32 INDICATOR_FADEIN_TIME = 500;
+
+//! \brief The amount of time (in milliseconds) that indicator elements fade at the end of the display sequence
+const uint32 INDICATOR_FADEOUT_TIME = 1000;
+
+//! \brief Represents the initial y (up) force applied on the indicator effect
+const float INITIAL_FORCE = 12.0f;
+
 ////////////////////////////////////////////////////////////////////////////////
 // IndicatorElement class
 ////////////////////////////////////////////////////////////////////////////////
 
-IndicatorElement::IndicatorElement(BattleActor* actor) :
+IndicatorElement::IndicatorElement(BattleActor* actor, INDICATOR_TYPE indicator_type) :
 	_actor(actor),
 	_timer(INDICATOR_TIME),
-	_alpha_color(1.0f, 1.0f, 1.0f, 0.0f)
+	_alpha_color(1.0f, 1.0f, 1.0f, 0.0f),
+	_y_force(INITIAL_FORCE),
+	_x_position(0.0f),
+	_y_position(0.0f),
+	_x_absolute_position(0.0f),
+	_y_absolute_position(0.0f),
+	_indicator_type(indicator_type)
 {
 	if (actor == NULL)
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor argument" << endl;
-}
 
+    _x_force = RandomFloat(-20.0f, 20.0f);
+
+    // Setup a default aboslute position
+    if (_actor) {
+        _x_absolute_position = _actor->GetXLocation();
+        _y_absolute_position = _actor->GetYLocation();
+    }
+}
 
 
 void IndicatorElement::Start() {
@@ -56,52 +81,100 @@ void IndicatorElement::Start() {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "timer was not in initial state when started" << endl;
 	}
 	_timer.Run();
+
+	// Reinit the indicator push
+	_x_force = RandomFloat(-20.0f, 20.0f);
+	_x_position = 0.0f;
+	_y_force = INITIAL_FORCE;
+	_y_position = 0.0f;
+	// Reset a default aboslute position
+	if (_actor) {
+		_x_absolute_position = _actor->GetXLocation();
+		_y_absolute_position = _actor->GetYLocation();
+	}
 }
 
+
+void IndicatorElement::Draw() {
+    VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+    // Sets the cursor position to just below the bottom center location of the sprite
+    VideoManager->Move(_x_absolute_position, _y_absolute_position);
+
+    // Takes in account the indicator current position.
+    VideoManager->MoveRelative(_x_position, _y_position);
+}
 
 
 void IndicatorElement::Update() {
 	_timer.Update();
+	_UpdateDrawPosition();
+}
+
+void IndicatorElement::_UpdateDrawPosition() {
+	// the time passed since the last call in ms.
+	float elapsed_ms = static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
+
+	switch (_indicator_type) {
+		case DAMAGE_INDICATOR:
+		{
+			// Indicator gravity appliance in pixels / seconds
+			const float INDICATOR_WEIGHT = 26.0f;
+
+			_y_force -= elapsed_ms / 1000 * INDICATOR_WEIGHT;
+
+			// Compute a potential maximum fall speed
+			if (_y_force < -15.0f)
+				_y_force = -15.0f;
+
+			_y_position += _y_force;
+
+			// Resolve a ground collision
+			if (_y_position <= 0.0f) {
+				_y_position = 0.0f;
+
+				// If the force is very low, the bouncing is over
+				if (std::abs(_y_force) <= INDICATOR_WEIGHT / 10.0f) {
+					_y_force = 0.0f;
+				}
+				else {
+					// Make the object bounce
+					_y_force = -(_y_force * 0.6f);
+				}
+			}
+
+			// Make the object advance only if it still can.
+			if (_y_position > 0.0f)
+				_x_position += (_x_force / 1000 * elapsed_ms);
+		}
+		break;
+
+		case MISS_INDICATOR:
+			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 2);
+
+			if (_actor->IsEnemy())
+				_x_position += 5.0f / 1000 * elapsed_ms;
+			else
+				_x_position -= 5.0f / 1000 * elapsed_ms;
+			break;
+
+		case NEGATIVE_STATUS_EFFECT_INDICATOR:
+			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
+
+			_y_position -= 5.0f / 1000 * elapsed_ms;
+			break;
+		default:
+		case HEALING_INDICATOR:
+		case POSITIVE_STATUS_EFFECT_INDICATOR:
+			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
+
+			_y_position += 5.0f / 1000 * elapsed_ms;
+			break;
+	}
 }
 
 
 
-void IndicatorElement::_CalculateDrawPosition() {
-	const float PEAK_HEIGHT     = 40.0f;
-	const float BOUNCE_HEIGHT   = 16.0f;
-
-	VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-	// Sets the cursor position to just below the bottom center location of the sprite
-	VideoManager->Move(_actor->GetXLocation(), _actor->GetYLocation());
-
-	// TODO: Improve the animation by decreasing/increasing velocity as the element peaks (physics). This will create a much more natural and smooth effect.
-
-	float y_offset = 0.0f;
-	if (_timer.GetTimeExpired() < PHASE01_END) {
-		y_offset = ((PEAK_HEIGHT + ElementHeight()) * (static_cast<float>(_timer.GetTimeExpired()) / static_cast<float>(PHASE01_END))) - ElementHeight();
-	}
-	else if (_timer.GetTimeExpired() < PHASE02_END) {
-		y_offset = PEAK_HEIGHT - (PEAK_HEIGHT * (static_cast<float>(_timer.GetTimeExpired() - PHASE01_END) / static_cast<float>(PHASE02_END - PHASE01_END)));
-	}
-	else if (_timer.GetTimeExpired() < PHASE03_END) {
-		y_offset = BOUNCE_HEIGHT * (static_cast<float>(_timer.GetTimeExpired() - PHASE02_END) / static_cast<float>(PHASE03_END - PHASE02_END));
-	}
-	else if (_timer.GetTimeExpired() < PHASE04_END) {
-		y_offset = BOUNCE_HEIGHT - (BOUNCE_HEIGHT * (static_cast<float>(_timer.GetTimeExpired() - PHASE03_END) / static_cast<float>(PHASE04_END - PHASE03_END)));
-	}
-	else if (_timer.GetTimeExpired() < PHASE05_END) {
-		y_offset = 0.0f;
-	}
-	else {
-		y_offset = 0.0f - (ElementHeight() * (static_cast<float>(_timer.GetTimeExpired() - PHASE05_END) / static_cast<float>(PHASE06_END - PHASE05_END)));
-	}
-
-	VideoManager->MoveRelative(0.0f, y_offset);
-}
-
-
-
-bool IndicatorElement::_CalculateDrawAlpha() {
+bool IndicatorElement::_ComputeDrawAlpha() {
 	// Case 1: Timer is not running nor paused so indicator should not be drawn
 	if ((_timer.GetState() == SYSTEM_TIMER_RUNNING) && (_timer.GetState() == SYSTEM_TIMER_PAUSED)) {
 		_alpha_color.SetAlpha(0.0f);
@@ -127,17 +200,18 @@ bool IndicatorElement::_CalculateDrawAlpha() {
 // IndicatorText class
 ////////////////////////////////////////////////////////////////////////////////
 
-IndicatorText::IndicatorText(BattleActor* actor, string& text, TextStyle& style) :
-	IndicatorElement(actor),
+IndicatorText::IndicatorText(BattleActor* actor, string& text, TextStyle& style,
+								INDICATOR_TYPE indicator_type) :
+	IndicatorElement(actor, indicator_type),
 	_text_image(text, style)
 {}
 
 
 
 void IndicatorText::Draw() {
-	_CalculateDrawPosition();
+	IndicatorElement::Draw();
 
-	if (_CalculateDrawAlpha() == true)
+	if (_ComputeDrawAlpha())
 		_text_image.Draw(_alpha_color);
 	else
 		_text_image.Draw();
@@ -147,8 +221,9 @@ void IndicatorText::Draw() {
 // IndicatorImage class
 ////////////////////////////////////////////////////////////////////////////////
 
-IndicatorImage::IndicatorImage(BattleActor* actor, const string& filename) :
-	IndicatorElement(actor)
+IndicatorImage::IndicatorImage(BattleActor* actor, const string& filename,
+								INDICATOR_TYPE indicator_type) :
+	IndicatorElement(actor, indicator_type)
 {
 	if (_image.Load(filename) == false)
 		PRINT_ERROR << "failed to load indicator image: " << filename << endl;
@@ -156,18 +231,18 @@ IndicatorImage::IndicatorImage(BattleActor* actor, const string& filename) :
 
 
 
-IndicatorImage::IndicatorImage(BattleActor* actor, const StillImage& image) :
-	IndicatorElement(actor),
+IndicatorImage::IndicatorImage(BattleActor* actor, const StillImage& image,
+								INDICATOR_TYPE indicator_type) :
+	IndicatorElement(actor, indicator_type),
 	_image(image)
 {} // TODO: check if the image argument is valid...currently seems the only possible check is that its filename is not an empty string.
 
 
 
 void IndicatorImage::Draw() {
-	_CalculateDrawPosition();
-	VideoManager->Move(_actor->GetXLocation(), _actor->GetYLocation());
+	IndicatorElement::Draw();
 
-	if (_CalculateDrawAlpha() == true)
+	if (_ComputeDrawAlpha())
 		_image.Draw(_alpha_color);
 	else
 		_image.Draw();
@@ -177,8 +252,11 @@ void IndicatorImage::Draw() {
 // IndicatorBlendedImage class
 ////////////////////////////////////////////////////////////////////////////////
 
-IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor, const string& first_filename, const string& second_filename) :
-	IndicatorElement(actor),
+IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor,
+											 const string& first_filename,
+											 const string& second_filename,
+											 INDICATOR_TYPE indicator_type) :
+	IndicatorElement(actor, indicator_type),
 	_second_alpha_color(1.0f, 1.0f, 1.0f, 0.0f)
 {
 	if (_first_image.Load(first_filename) == false)
@@ -189,8 +267,11 @@ IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor, const string& f
 
 
 
-IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor, const StillImage& first_image, const StillImage& second_image) :
-	IndicatorElement(actor),
+IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor,
+											 const StillImage& first_image,
+											 const StillImage& second_image,
+											 INDICATOR_TYPE indicator_type) :
+	IndicatorElement(actor, indicator_type),
 	_first_image(first_image),
 	_second_image(second_image),
 	_second_alpha_color(1.0f, 1.0f, 1.0f, 0.0f)
@@ -199,32 +280,32 @@ IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor, const StillImag
 
 
 void IndicatorBlendedImage::Draw() {
-	_CalculateDrawPosition();
+	IndicatorElement::Draw();
 
 	// Case 1: Initial fade in of first image
 	if (_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME) {
-		_CalculateDrawAlpha();
+		_ComputeDrawAlpha();
 		_first_image.Draw(_alpha_color);
 	}
 	// Case 2: Opaque draw of first image
-	else if (_timer.GetTimeExpired() <= 2000) { // TEMP: (INDICATOR_FADE_TIME * 2)
+	else if (_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME * 4) {
 		_first_image.Draw();
 	}
 	// Case 3: Blended draw of first and second images
-	else if (_timer.GetTimeExpired() <= 3000) { // TEMP: (INDICATOR_FADE_TIME * 3)
-		_alpha_color.SetAlpha(static_cast<float>(3000 - _timer.GetTimeExpired())
+	else if (_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME * 6) {
+		_alpha_color.SetAlpha(static_cast<float>((INDICATOR_FADEIN_TIME * 6) - _timer.GetTimeExpired())
 			/ static_cast<float>(1000));
 		_second_alpha_color.SetAlpha(1.0f - _alpha_color.GetAlpha());
 		_first_image.Draw(_alpha_color);
 		_second_image.Draw(_second_alpha_color);
 	}
 	// Case 4: Opaque draw of second image
-	else if (_timer.GetTimeExpired() <= 4000) { // TEMP: (INDICATOR_FADE_TIME * 4)
+	else if (_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME * 8) {
 		_second_image.Draw();
 	}
 	// Case 5: Final fade out of second image
-	else { // (_timer.GetTimeExpired() <= INDICATOR_TIME)
-		_CalculateDrawAlpha();
+	else { // <= end
+		_ComputeDrawAlpha();
 		_second_image.Draw(_alpha_color);
 	}
 }
@@ -326,7 +407,7 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount) {
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 
-	_wait_queue.push_back(new IndicatorText(_actor, text, style));
+	_wait_queue.push_back(new IndicatorText(_actor, text, style, DAMAGE_INDICATOR));
 }
 
 
@@ -369,7 +450,7 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount) {
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 
-	_wait_queue.push_back(new IndicatorText(_actor, text, style));
+	_wait_queue.push_back(new IndicatorText(_actor, text, style, HEALING_INDICATOR));
 }
 
 
@@ -377,9 +458,39 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount) {
 void IndicatorSupervisor::AddMissIndicator() {
 	string text = Translate("Miss");
 	TextStyle style("text24", Color::white);
-	_wait_queue.push_back(new IndicatorText(_actor, text, style));
+	_wait_queue.push_back(new IndicatorText(_actor, text, style, MISS_INDICATOR));
 }
 
+
+//! \brief Tells whether the new status is better for the character than the previous one
+bool IsNewStatusBetter(GLOBAL_STATUS new_status, GLOBAL_INTENSITY old_intensity, GLOBAL_INTENSITY new_intensity) {
+
+	switch (new_status) {
+	    case GLOBAL_STATUS_STRENGTH_LOWER:
+	    case GLOBAL_STATUS_VIGOR_LOWER:
+	    case GLOBAL_STATUS_FORTITUDE_LOWER:
+	    case GLOBAL_STATUS_PROTECTION_LOWER:
+	    case GLOBAL_STATUS_AGILITY_LOWER:
+	    case GLOBAL_STATUS_EVADE_LOWER:
+	    case GLOBAL_STATUS_HP_DRAIN:
+	    case GLOBAL_STATUS_SP_DRAIN:
+	    case GLOBAL_STATUS_PARALYSIS:
+	    case GLOBAL_STATUS_STASIS:
+			if (old_intensity < new_intensity)
+				return false;
+			else
+				return true;
+			break;
+		default:
+			if (old_intensity < new_intensity)
+				return true;
+			else
+				return false;
+			break;
+	}
+
+	return true; // by default
+}
 
 
 void IndicatorSupervisor::AddStatusIndicator(GLOBAL_STATUS old_status, GLOBAL_INTENSITY old_intensity,
@@ -388,13 +499,15 @@ void IndicatorSupervisor::AddStatusIndicator(GLOBAL_STATUS old_status, GLOBAL_IN
 	// If the status and intensity has not changed, only a single status icon needs to be used
 	if ((old_status == new_status) && (old_intensity == new_intensity)) {
 		StillImage* image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(new_status, new_intensity);
-		_wait_queue.push_back(new IndicatorImage(_actor, *image));
+		_wait_queue.push_back(new IndicatorImage(_actor, *image, POSITIVE_STATUS_EFFECT_INDICATOR));
 	}
 	// Otherwise two status icons need to be used in the indicator image
 	else {
 		StillImage* first_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(old_status, old_intensity);
 		StillImage* second_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(new_status, new_intensity);
-		_wait_queue.push_back(new IndicatorBlendedImage(_actor, *first_image, *second_image));
+		INDICATOR_TYPE indicator_type = IsNewStatusBetter(new_status, old_intensity, new_intensity) ?
+		    POSITIVE_STATUS_EFFECT_INDICATOR : NEGATIVE_STATUS_EFFECT_INDICATOR;
+		_wait_queue.push_back(new IndicatorBlendedImage(_actor, *first_image, *second_image, indicator_type));
 	}
 }
 
