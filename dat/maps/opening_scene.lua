@@ -271,7 +271,7 @@ function InitialCreateCharacters()
 	dester:SetNoCollision(true);
 	Map:AddGroundObject(dester);
 
-	lukar = ConstructSprite("Karlate", 1003, group_start_x + 4, group_start_y, 0, 0);
+	lukar = ConstructSprite("Knight", 1003, group_start_x + 4, group_start_y, 0, 0);
 	lukar:SetDirection(hoa_map.MapMode.EAST);
 	sprite:SetName(hoa_system.Translate("Lukar"));
 	lukar:SetNoCollision(true);
@@ -731,7 +731,7 @@ function ReturnCreateCharacters()
 	dester:SetNoCollision(true);
 	Map:AddGroundObject(dester);
 
-	lukar = ConstructSprite("Karlate", 1003, group_start_x + 4, group_start_y, 0, 0);
+	lukar = ConstructSprite("Knight", 1003, group_start_x + 4, group_start_y, 0, 0);
 	lukar:SetDirection(hoa_map.MapMode.WEST);
 	lukar:SetName(hoa_system.Translate("Lukar"));
 	lukar:SetNoCollision(true);
