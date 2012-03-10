@@ -171,7 +171,7 @@ void BattleActor::RegisterDamage(uint32 amount) {
 void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 	if (amount == 0) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << endl;
-		RegisterMiss();
+		RegisterMiss(true);
 		return;
 	}
 	if (_state == ACTOR_STATE_DEAD) {
@@ -239,8 +239,11 @@ void BattleActor::RegisterHealing(uint32 amount) {
 
 
 
-void BattleActor::RegisterMiss() {
+void BattleActor::RegisterMiss(bool was_attacked) {
 	_indicator_supervisor->AddMissIndicator();
+
+		if (was_attacked && !IsEnemy())
+			ChangeSpriteAnimation("dodge");
 }
 
 
@@ -488,15 +491,18 @@ void BattleCharacter::DrawSprite() {
 	else if (_sprite_animation_alias == "run") {
 		// no need to do anything
 	}
+	// Makes the action listed below be set back to idle once done.
 	else if (_animation_timer.IsFinished()) {
 		ChangeSpriteAnimation("idle");
 	}
-	// Only advance when attacking, not when casting magic for instance
 	else if (_sprite_animation_alias == "attack") {
 		uint32 dist = _state_timer.GetDuration() > 0 ?
 			120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
 			0;
 		VideoManager->MoveRelative(dist, 0.0f);
+	}
+	else if (_sprite_animation_alias == "dodge") {
+		VideoManager->MoveRelative(-20.0f, 0.0f);
 	}
 
 	// Add a shake effect when the battle actor has received damages

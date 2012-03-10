@@ -54,7 +54,7 @@ skills[1] = {
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
 	end
@@ -76,7 +76,7 @@ skills[2] = {
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 0, 0.5), target);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
 
@@ -101,7 +101,7 @@ skills[3] = {
 			target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
 	end
@@ -123,7 +123,7 @@ skills[4] = {
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
 			AudioManager:PlaySound("snd/swordslice2.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
 	end
@@ -147,7 +147,7 @@ skills[1001] = {
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 10), target);
 			AudioManager:PlaySound("snd/slime_attack.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 		end
 	end
 }
@@ -166,7 +166,7 @@ skills[1002] = {
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 13), target);
 			AudioManager:PlaySound("snd/spider_attack.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 		end
 	end
 }
@@ -185,7 +185,7 @@ skills[1003] = {
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
 			AudioManager:PlaySound("snd/snake_attack.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 		end
 	end
 }
@@ -204,7 +204,7 @@ skills[1004] = {
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
 			AudioManager:PlaySound("snd/skeleton_attack.wav");
 		else
-			target_actor:RegisterMiss();
+			target_actor:RegisterMiss(true);
 		end
 	end
 }

@@ -146,8 +146,11 @@ public:
 	**/
 	void RegisterHealing(uint32 amount);
 
-	//! \brief Indicates that an action failed to connect on this target
-	void RegisterMiss();
+	/** \brief Indicates that an action failed to connect on this target
+	*** \param was_attacked Tells whether the miss is due to a missed attack
+	*** It will be used to make the actor play a dodge animation.
+	**/
+	void RegisterMiss(bool was_attacked = false);
 
 	/** \brief Causes a change in a character's status
 	*** \param status The type of status to change

@@ -1257,6 +1257,13 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	attack.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_attack.lua");
 	_battle_animation["attack"] = attack;
 
+	// Load the character's dodge animation
+	// TODO: dehardcode the filename
+	AnimatedImage dodge;
+	dodge.SetDimensions(128, 128);
+	dodge.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_dodge.lua");
+	_battle_animation["dodge"] = dodge;
+
 	// TEMP: Load the character's battle portraits from a multi image
 	_battle_portraits.assign(5, StillImage());
 	for (uint32 i = 0; i < _battle_portraits.size(); i++) {
