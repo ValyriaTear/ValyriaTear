@@ -815,7 +815,7 @@ void BattleEnemy::DrawSprite() {
 
 	// Add a shake effect when the battle actor has received damages
 	if (_state_timer.IsStunActive()) {
-		VideoManager->MoveRelative(RandomFloat(-6.0f, 6.0f), 0.0f);
+		VideoManager->MoveRelative(RandomFloat(-2.0f, 2.0f), 0.0f);
 	}
 
 	float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());

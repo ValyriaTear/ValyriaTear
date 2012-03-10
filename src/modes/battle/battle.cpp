@@ -1151,6 +1151,10 @@ void BattleMode::_DrawStaminaBar() {
 				draw_positions[i] = STAMINA_LOCATION_BOTTOM - 50.0f;
 				break;
 		}
+		// Add a shake effect when the battle actor has received damages
+	    if (live_actors[i]->GetStateTimer().IsStunActive()) {
+		    draw_positions[i] += RandomFloat(-4.0f, 4.0f);
+		}
 	}
 
 	// TODO: sort the draw positions container and correspond that to live_actors
