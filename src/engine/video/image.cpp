@@ -253,6 +253,10 @@ bool ImageDescriptor::LoadMultiImageFromElementSize(vector<StillImage>& images, 
 bool ImageDescriptor::LoadMultiImageFromElementGrid(vector<StillImage>& images, const string& filename,
 		const uint32 grid_rows, const uint32 grid_cols)
 {
+	if (!DoesFileExist(filename)) {
+		PRINT_WARNING << "Multi-image file not found: " << filename << endl;
+		return false;
+	}
 	// First retrieve the dimensions of the multi image (in pixels)
 	uint32 img_height, img_width, bpp;
 	try {

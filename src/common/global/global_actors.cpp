@@ -1267,9 +1267,19 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	// TEMP: Load the character's battle portraits from a multi image
 	_battle_portraits.assign(5, StillImage());
 	for (uint32 i = 0; i < _battle_portraits.size(); i++) {
-		_battle_portraits[i].SetDimensions(100, 100);
+		_battle_portraits[i].SetDimensions(100.0f, 100.0f);
 	}
-	ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits, "img/portraits/battle/" + _filename + "_damage.png", 1, 5);
+
+	std::string portraits_filename = "img/portraits/battle/" + _filename + "_damage.png";
+	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits,
+														portraits_filename, 1, 5)) {
+		// Load empty portraits when they don't exist.
+		for (uint32 i = 0; i < _battle_portraits.size(); i++) {
+			_battle_portraits[i].Clear();
+			_battle_portraits[i].Load("", 1.0f, 1.0f);
+		}
+	}
+
 } // GlobalCharacter::GlobalCharacter(uint32 id, bool initial)
 
 

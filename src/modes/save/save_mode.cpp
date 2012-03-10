@@ -596,7 +596,14 @@ void SmallCharacterWindow::SetCharacter(GlobalCharacter *character) {
 
 	if (character != NULL) {
 		_portrait.SetStatic(true);
-		_portrait.Load("img/portraits/menu/" + character->GetFilename() + "_small.png", 100, 100);
+		std::string portrait_filename = "img/portraits/menu/" + character->GetFilename() + "_small.png";
+		if (DoesFileExist(portrait_filename)) {
+			_portrait.Load(portrait_filename, 100.0f, 100.0f);
+		}
+		else {
+			PRINT_WARNING << "Portrait file not found: " << portrait_filename << endl;
+			_portrait.Load("", 1.0f, 1.0f);
+		}
 	}
 } // void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
 
