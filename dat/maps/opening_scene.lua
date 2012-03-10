@@ -610,7 +610,7 @@ function InitialCreateEvents()
 
 	-- While characters are talking amongst each other, move sprites to cave entrance and disappear
 	local cave_entrance_x = 371;
-	local cave_entrance_y = 8;
+	local cave_entrance_y = 5;
 	-- walk to the cave entrance
 	event = hoa_map.PathMoveSpriteEvent(301, 2001, cave_entrance_x, cave_entrance_y);
 	event:AddEventLinkAtEnd(311, 30);
