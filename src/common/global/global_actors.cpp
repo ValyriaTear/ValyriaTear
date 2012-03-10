@@ -1236,43 +1236,25 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	_CalculateDefenseRatings();
 	_CalculateEvadeRatings();
 
-	// ----- (8) Load character sprite and portrait images
-	// NOTE: The code below is all TEMP and is subject to great change or removal in the future
-	// TEMP: load standard map sprite walking frames
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(_map_frames_standard, "img/sprites/map/" + _filename + "_walk.png", 4, 6) == false) {
-		exit(1);
-	}
-
-	// TEMP: Load the character's run animation
-	AnimatedImage run;
-	vector<StillImage> run_frames;
-
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(run_frames, "img/sprites/map/" + _filename + "_run.png", 4, 6) == false) {
-		exit(1);
-	}
-
-	// Store only the right-facing run frames in the animated image
-	for (uint32 i = 19; i < run_frames.size(); i++) {
-		run.AddFrame(run_frames[i], 75);
-	}
-	run.SetDimensions(64, 128);
-	_battle_animation["run"] = run;
-
-	// TEMP: Load the character's idle animation
+	// Load the character's idle battle stance animation
+	// TODO: dehardcode the filename
 	AnimatedImage idle;
 	idle.SetDimensions(128, 128);
-	vector<uint32> idle_timings(4, 150);
-
-	if (idle.LoadFromFrameGrid("img/sprites/map/" + _filename + "_idle.png", idle_timings, 1, 4) == false) {
-		exit(1);
-	}
+	idle.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_idle.lua");
 	_battle_animation["idle"] = idle;
+
+	// Load the character's run animation
+	// TODO: dehardcode the filename
+	AnimatedImage run;
+	run.SetDimensions(64, 128);
+	run.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_run.lua");
+	_battle_animation["run"] = run;
 
 	// Load the character's attack animation
 	// TODO: dehardcode the filename
 	AnimatedImage attack;
 	attack.SetDimensions(128, 128);
-	attack.LoadFromAnimationScript("img/sprites/map/" + _filename + "_attack.lua");
+	attack.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_attack.lua");
 	_battle_animation["attack"] = attack;
 
 	// TEMP: Load the character's battle portraits from a multi image
@@ -1280,8 +1262,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	for (uint32 i = 0; i < _battle_portraits.size(); i++) {
 		_battle_portraits[i].SetDimensions(100, 100);
 	}
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits, "img/portraits/battle/" + _filename + "_damage.png", 1, 5) == false)
-		exit(1);
+	ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits, "img/portraits/battle/" + _filename + "_damage.png", 1, 5);
 } // GlobalCharacter::GlobalCharacter(uint32 id, bool initial)
 
 

@@ -99,7 +99,7 @@ characters[CLAUDIUS] = {
 
 characters[MARK] = {
 	name = hoa_system.Translate("Mark"),
-	filename = "knight",
+	filename = "soldier",
 
 	initial_stats = {
 		experience_level = 7,
@@ -177,7 +177,7 @@ characters[MARK] = {
 
 characters[DESTER] = {
 	name = hoa_system.Translate("Dester"),
-	filename = "knight",
+	filename = "soldier",
 
 	initial_stats = {
 		experience_level = 9,
@@ -331,13 +331,13 @@ characters[LUKAR] = {
 
 
 ------------------------------------------------------------------------------[[
--- \brief Called everytime a character reaches a new experience level. 
+-- \brief Called everytime a character reaches a new experience level.
 -- \param character A pointer to the GlobalCharacter who has gained the new level
--- 
--- Before this function is called, the character should already have their 
+--
+-- Before this function is called, the character should already have their
 -- _experience_level member incremented. What this function does is determine
 -- the amount that each stat will grow by on the next level and if any new
--- skills are learned on this level. 
+-- skills are learned on this level.
 ------------------------------------------------------------------------------]]
 function DetermineGrowth(character)
 	local new_level = character:GetExperienceLevel();        -- The value of the character's new XP level
@@ -352,7 +352,7 @@ function DetermineGrowth(character)
 	end
 
 	-- Find the appropriate index in the growth_stats table for determining how much the stats should grow by this level
-	local growth_index = new_level 
+	local growth_index = new_level
 	while (growth_index > 0) do
 		if (character_table["growth_stats"][growth_index] ~= nil) then
 			growth_table = character_table["growth_stats"][growth_index];
@@ -360,7 +360,7 @@ function DetermineGrowth(character)
 		end
 		growth_index = growth_index - 1;
 	end
-	
+
 	if (growth_table == nil) then
 		print("LUA ERROR: characters.lua::GainExperienceLevel() failed because no growth stats were found");
 		return;
@@ -375,8 +375,8 @@ function DetermineGrowth(character)
 	character_growth._protection_growth = growth_table["protection"];
 	character_growth._agility_growth = growth_table["agility"];
 	character_growth._evade_growth = 0;
-	
-	-- Determine if the character learns any skills at this new level	
+
+	-- Determine if the character learns any skills at this new level
 	if (type(new_skills) == "number") then
 		character_growth:_AddSkill(new_skills);
 	elseif (type(new_skills) == "table") then
