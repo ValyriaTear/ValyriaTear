@@ -37,7 +37,7 @@ namespace hoa_battle {
 namespace private_battle {
 
 //! \brief The total amount of time (in milliseconds) that the display sequence lasts for indicator elements
-const uint32 INDICATOR_TIME = 5000;
+const uint32 INDICATOR_TIME = 3000;
 
 //! \brief The amount of time (in milliseconds) that indicator elements fade at the beginning of the display sequence
 const uint32 INDICATOR_FADEIN_TIME = 500;
@@ -288,19 +288,19 @@ void IndicatorBlendedImage::Draw() {
 		_first_image.Draw(_alpha_color);
 	}
 	// Case 2: Opaque draw of first image
-	else if (_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME * 4) {
+	else if (_timer.GetTimeExpired() <= INDICATOR_TIME / 4) {
 		_first_image.Draw();
 	}
 	// Case 3: Blended draw of first and second images
-	else if (_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME * 6) {
-		_alpha_color.SetAlpha(static_cast<float>((INDICATOR_FADEIN_TIME * 6) - _timer.GetTimeExpired())
+	else if (_timer.GetTimeExpired() <= INDICATOR_TIME / 2) {
+		_alpha_color.SetAlpha(static_cast<float>((INDICATOR_TIME / 2) - _timer.GetTimeExpired())
 			/ static_cast<float>(1000));
 		_second_alpha_color.SetAlpha(1.0f - _alpha_color.GetAlpha());
 		_first_image.Draw(_alpha_color);
 		_second_image.Draw(_second_alpha_color);
 	}
 	// Case 4: Opaque draw of second image
-	else if (_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME * 8) {
+	else if (_timer.GetTimeExpired() <= INDICATOR_TIME / 3 * 2) {
 		_second_image.Draw();
 	}
 	// Case 5: Final fade out of second image
