@@ -716,7 +716,7 @@ BattleEnemy::BattleEnemy(GlobalEnemy* enemy) :
 	_global_enemy(enemy)
 {
 	if (_stamina_icon.Load("img/icons/actors/enemies/" + _global_actor->GetFilename() + ".png", 45, 45) == false)
-		PRINT_ERROR << "failed to load enemy stamina icon: " << _global_actor->GetFilename() << endl;
+		PRINT_WARNING << "failed to load enemy stamina icon: " << _global_actor->GetFilename() << endl;
 
 	for (map<uint32, GlobalSkill*>::const_iterator i = (_global_enemy->GetSkills()).begin(); i != (_global_enemy->GetSkills()).end(); i++) {
 		_enemy_skills.push_back(i->second);

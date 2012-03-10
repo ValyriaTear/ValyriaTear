@@ -515,9 +515,9 @@ void BattleMode::AddEnemy(GlobalEnemy* new_enemy) {
 	}
 
 	new_enemy->Initialize();
-	BattleEnemy* new_enemy_combatant = new BattleEnemy(new_enemy);
-	_enemy_actors.push_back(new_enemy_combatant);
-	_enemy_party.push_back(new_enemy_combatant);
+	BattleEnemy* new_battle_enemy = new BattleEnemy(new_enemy);
+	_enemy_actors.push_back(new_battle_enemy);
+	_enemy_party.push_back(new_battle_enemy);
 }
 
 
@@ -552,9 +552,6 @@ void BattleMode::RestartBattle() {
 
 
 void BattleMode::FreezeTimers() {
-	// Pause scripts
-// 	list<BattleAction*>::iterator it = _action_queue.begin();
-
 	// Pause character and enemy state timers
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
 		_character_actors[i]->GetStateTimer().Pause();
@@ -567,14 +564,7 @@ void BattleMode::FreezeTimers() {
 
 
 void BattleMode::UnFreezeTimers() {
-	// FIX ME: Do not unpause timers for paralyzed actors
-
-	// Unpause scripts
-// 	list<BattleAction*>::iterator it = _action_queue.begin();
-// 	while (it != _action_queue.end()) {
-// 		(*it)->GetWarmUpTime()->Run();
-// 		it++;
-// 	}
+	// FIXME: Do not unpause timers for paralyzed actors
 
 	// Unpause character and enemy state timers
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
