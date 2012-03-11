@@ -185,6 +185,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 
 	if (GetHitPoints() == 0) {
 		ChangeState(ACTOR_STATE_DEAD);
+		return;
 	}
 
 	// Apply a stun to the actor timer depending on the amount of damage dealt
@@ -302,6 +303,10 @@ void BattleActor::Update(bool animation_only) {
 	}
 }
 
+
+void BattleActor::DrawSprite() {
+	VideoManager->Move(_x_location, _y_location);
+}
 
 
 void BattleActor::DrawIndicators() const {
@@ -462,12 +467,44 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 void BattleCharacter::Update(bool animation_only) {
 	BattleActor::Update(animation_only);
 
-	if (_state_paused == false) {
+	if (!_state_paused) {
 		_animation_timer.Update();
 
 		// Update the active sprite animation
 		if (IsAlive())
 			_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Update();
+
+		// Only set the origin when actor are in normal battle mode,
+		// Otherwise the battle sequence manager will take care of them.
+		if (BattleMode::CurrentInstance()->GetState() == BATTLE_STATE_NORMAL) {
+			_x_location = _x_origin;
+			_y_location = _y_origin;
+		}
+
+		if (_sprite_animation_alias == "idle") {
+			// no need to do anything
+		}
+		else if (_sprite_animation_alias == "run") {
+			// no need to do anything
+		}
+		// Makes the action listed below be set back to idle once done.
+		else if (_animation_timer.IsFinished()) {
+			ChangeSpriteAnimation("idle");
+		}
+		else if (_sprite_animation_alias == "attack") {
+			uint32 dist = _state_timer.GetDuration() > 0 ?
+				120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
+				0;
+			_x_location += dist;
+		}
+		else if (_sprite_animation_alias == "dodge") {
+			_x_location -= 20.0f;
+		}
+
+		// Add a shake effect when the battle actor has received damages
+		if (_state_timer.IsStunActive()) {
+			_x_location += RandomFloat(-6.0f, 6.0f);
+		}
 
 		// Do no further update action if we are only supposed to update animations
 		if (animation_only)
@@ -488,33 +525,7 @@ void BattleCharacter::Update(bool animation_only) {
 
 
 void BattleCharacter::DrawSprite() {
-	// Draw the character sprite
-	VideoManager->Move(_x_location, _y_location);
-
-	if (_sprite_animation_alias == "idle") {
-		// no need to do anything
-	}
-	else if (_sprite_animation_alias == "run") {
-		// no need to do anything
-	}
-	// Makes the action listed below be set back to idle once done.
-	else if (_animation_timer.IsFinished()) {
-		ChangeSpriteAnimation("idle");
-	}
-	else if (_sprite_animation_alias == "attack") {
-		uint32 dist = _state_timer.GetDuration() > 0 ?
-			120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
-			0;
-		VideoManager->MoveRelative(dist, 0.0f);
-	}
-	else if (_sprite_animation_alias == "dodge") {
-		VideoManager->MoveRelative(-20.0f, 0.0f);
-	}
-
-	// Add a shake effect when the battle actor has received damages
-	if (_state_timer.IsStunActive()) {
-		VideoManager->MoveRelative(RandomFloat(-6.0f, 6.0f), 0.0f);
-	}
+	BattleActor::DrawSprite();
 
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Draw();
 } // void BattleCharacter::DrawSprite()
@@ -656,10 +667,6 @@ void BattleCharacter::DrawStatus(uint32 order) {
 		VideoManager->Move(293.0f, 84.0f + y_offset);
 		BattleMode::CurrentInstance()->GetMedia().character_bar_covers.Draw();
 
-		// TODO: The SetText calls below should not be done here. They should be made whenever the character's HP/SP
-		// is modified. This re-renders the text every frame regardless of whether or not the HP/SP changed so its
-		// not efficient
-
 		VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
 		// Draw the character's current health on top of the middle of the HP bar
 		VideoManager->Move(355.0f, 88.0f + y_offset);
@@ -668,6 +675,10 @@ void BattleCharacter::DrawStatus(uint32 order) {
 		// Draw the character's current skill points on top of the middle of the SP bar
 		VideoManager->MoveRelative(110.0f, 0.0f);
 		_skill_points_text.Draw();
+
+		// TODO: The SetText calls below should not be done here. They should be made whenever the character's HP/SP
+		// is modified. This re-renders the text every frame regardless of whether or not the HP/SP changed so its
+		// not efficient
 
 		// Update hit and skill points after drawing to reduce gpu stall
 		if (_last_rendered_hp != GetHitPoints())
@@ -788,10 +799,30 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state) {
 void BattleEnemy::Update(bool animation_only) {
 	BattleActor::Update(animation_only);
 
-	// Do nothing in this function if only animations are to be updated
-	if (animation_only == true) {
-		return;
+	// Only set the origin when actor are in normal battle mode,
+	// Otherwise the battle sequence manager will take care of them.
+	if (BattleMode::CurrentInstance()->GetState() == BATTLE_STATE_NORMAL) {
+		_x_location = _x_origin;
+		_y_location = _y_origin;
 	}
+
+	if (!_state_paused) {
+		// Note: that update part only handles attack actions
+		if (_state == ACTOR_STATE_ACTING) {
+			if (_state_timer.PercentComplete() <= 0.50f)
+				_x_location -= TILE_SIZE * (2.0f * _state_timer.PercentComplete());
+			else
+				_x_location -= TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
+		}
+
+		// Add a shake effect when the battle actor has received damages
+		if (_state_timer.IsStunActive())
+			_x_location += RandomFloat(-2.0f, 2.0f);
+	}
+
+	// Do nothing in this function if only animations are to be updated
+	if (animation_only)
+		return;
 
 	if (_state == ACTOR_STATE_ACTING) {
 		if (!_execution_finished) {
@@ -808,32 +839,14 @@ void BattleEnemy::Update(bool animation_only) {
 
 
 void BattleEnemy::DrawSprite() {
+	BattleActor::DrawSprite();
+
 	vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 
 	// Draw the sprite's final damage frame, which should have grayscale enabled
 	if (_state == ACTOR_STATE_DEAD) {
-		VideoManager->Move(_x_location, _y_location);
 		sprite_frames[3].Draw();
 		return;
-	}
-
-	// TEMP: when the actor is acting, change its x draw position to show it move forward and then
-	// backward one tile as it completes its execution. In the future this functionality should be
-	// replaced by modifying the enemy's draw location members directly
-	uint32 enemy_draw_offset = 0;
-	if (_state == ACTOR_STATE_ACTING) {
-		if (_state_timer.PercentComplete() <= 0.50f)
-			enemy_draw_offset = TILE_SIZE * (2.0f * _state_timer.PercentComplete());
-		else
-			enemy_draw_offset = TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
-	}
-
-	// Draw the enemy's damage-blended sprite frames
-	VideoManager->Move(_x_location - enemy_draw_offset, _y_location);
-
-	// Add a shake effect when the battle actor has received damages
-	if (_state_timer.IsStunActive()) {
-		VideoManager->MoveRelative(RandomFloat(-2.0f, 2.0f), 0.0f);
 	}
 
 	float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());

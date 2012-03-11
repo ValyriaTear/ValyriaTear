@@ -1142,7 +1142,9 @@ void BattleMode::_DrawStaminaBar() {
 				break;
 		}
 		// Add a shake effect when the battle actor has received damages
-	    if (live_actors[i]->GetStateTimer().IsStunActive()) {
+		// and when not in battle command state.
+	    if (BattleMode::CurrentInstance()->GetState() != BATTLE_STATE_COMMAND
+			&& live_actors[i]->GetStateTimer().IsStunActive()) {
 		    draw_positions[i] += RandomFloat(-4.0f, 4.0f);
 		}
 	}

@@ -205,7 +205,7 @@ public:
 	virtual void Update(bool animation_only = false);
 
 	//! \brief Draws the actor's current sprite animation frame
-	virtual void DrawSprite() = 0;
+	virtual void DrawSprite();
 
 	//! \brief Draws all active indicator text and graphics for the actor
 	void DrawIndicators() const;
