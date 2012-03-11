@@ -1327,6 +1327,13 @@ void GlobalCharacter::AddSkill(uint32 skill_id) {
 	}
 }
 
+hoa_video::AnimatedImage* GlobalCharacter::RetrieveBattleAnimation(const std::string & name) {
+	if (_battle_animation.find(name) == _battle_animation.end())
+		return &_battle_animation["idle"];
+
+	return &_battle_animation.at(name);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalEnemy class
 ////////////////////////////////////////////////////////////////////////////////

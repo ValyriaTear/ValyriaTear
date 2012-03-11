@@ -99,9 +99,10 @@ enum ACTOR_STATE {
 	ACTOR_STATE_READY         =  3, //!< Actor is prepared to execute action and is waiting their turn to act
 	ACTOR_STATE_ACTING        =  4, //!< Actor is in the process of executing their selected action
 	ACTOR_STATE_COOL_DOWN     =  5, //!< Actor is finished with previous action execution and recovering
-	ACTOR_STATE_DEAD          =  6, //!< Actor has perished and is inactive in battle
-	ACTOR_STATE_PARALYZED     =  7, //!< Actor is in some state of paralysis and can not act nor recover stamina
-	ACTOR_STATE_TOTAL         =  8
+	ACTOR_STATE_DYING         =  6, //!< Actor is in the transitive dying state.
+	ACTOR_STATE_DEAD          =  7, //!< Actor has perished and is inactive in battle
+	ACTOR_STATE_PARALYZED     =  8, //!< Actor is in some state of paralysis and can not act nor recover stamina
+	ACTOR_STATE_TOTAL         =  9
 };
 
 

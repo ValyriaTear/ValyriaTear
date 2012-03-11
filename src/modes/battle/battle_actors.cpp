@@ -151,7 +151,12 @@ void BattleActor::ChangeState(ACTOR_STATE new_state) {
 				_state_timer.Run();
 			}
 			break;
-		case ACTOR_STATE_DEAD:
+		case ACTOR_STATE_DYING:
+			ChangeSpriteAnimation("dying");
+			_state_timer.Initialize(1500); // TEMP: Default value
+			_state_timer.Run();
+
+			// Make the battle engine aware of the actor death
 			_effects_supervisor->RemoveAllStatus();
 			BattleMode::CurrentInstance()->NotifyActorDeath(this);
 			break;
@@ -174,7 +179,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 		RegisterMiss(true);
 		return;
 	}
-	if (_state == ACTOR_STATE_DEAD) {
+	if (_state == ACTOR_STATE_DYING || _state == ACTOR_STATE_DEAD) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state was dead" << endl;
 		RegisterMiss();
 		return;
@@ -184,7 +189,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 	_indicator_supervisor->AddDamageIndicator(amount);
 
 	if (GetHitPoints() == 0) {
-		ChangeState(ACTOR_STATE_DEAD);
+		ChangeState(ACTOR_STATE_DYING);
 		return;
 	}
 
@@ -228,7 +233,7 @@ void BattleActor::RegisterHealing(uint32 amount) {
 		RegisterMiss();
 		return;
 	}
-	if (_state == ACTOR_STATE_DEAD) {
+	if (_state == ACTOR_STATE_DYING || _state == ACTOR_STATE_DEAD) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state was dead" << endl;
 		RegisterMiss();
 		return;
@@ -299,6 +304,9 @@ void BattleActor::Update(bool animation_only) {
 		}
 		else if (_state == ACTOR_STATE_COOL_DOWN) {
 			ChangeState(ACTOR_STATE_IDLE);
+		}
+		else if (_state == ACTOR_STATE_DYING) {
+			ChangeState(ACTOR_STATE_DEAD);
 		}
 	}
 }
@@ -450,8 +458,8 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 			break;
 		}
 		case ACTOR_STATE_DEAD:
-			ChangeSpriteAnimation("idle");
-			_global_character->RetrieveBattleAnimation("idle")->GetCurrentFrame()->EnableGrayScale();
+			ChangeSpriteAnimation("dead");
+			_global_character->RetrieveBattleAnimation("dead")->GetCurrentFrame()->EnableGrayScale();
 			break;
 		default:
 			break;
@@ -487,6 +495,12 @@ void BattleCharacter::Update(bool animation_only) {
 		else if (_sprite_animation_alias == "run") {
 			// no need to do anything
 		}
+		else if (_sprite_animation_alias == "dying") {
+			// no need to do anything, the change state will handle it
+		}
+		else if (_sprite_animation_alias == "dead") {
+			// no need to do anything
+		}
 		// Makes the action listed below be set back to idle once done.
 		else if (_animation_timer.IsFinished()) {
 			ChangeSpriteAnimation("idle");
@@ -495,15 +509,15 @@ void BattleCharacter::Update(bool animation_only) {
 			uint32 dist = _state_timer.GetDuration() > 0 ?
 				120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
 				0;
-			_x_location += dist;
+			_x_location = _x_origin + dist;
 		}
 		else if (_sprite_animation_alias == "dodge") {
-			_x_location -= 20.0f;
+			_x_location = _x_origin - 20.0f;
 		}
 
 		// Add a shake effect when the battle actor has received damages
 		if (_state_timer.IsStunActive()) {
-			_x_location += RandomFloat(-6.0f, 6.0f);
+			_x_location = _x_origin + RandomFloat(-6.0f, 6.0f);
 		}
 
 		// Do no further update action if we are only supposed to update animations
@@ -730,7 +744,9 @@ void BattleCharacter::DrawStatus(uint32 order) {
 
 BattleEnemy::BattleEnemy(GlobalEnemy* enemy) :
 	BattleActor(enemy),
-	_global_enemy(enemy)
+	_global_enemy(enemy),
+	_sprite_animation_alias("idle"),
+	_sprite_alpha(1.0f)
 {
 	std::string icon_filename = "img/icons/actors/enemies/" + _global_actor->GetFilename() + ".png";
 	if (DoesFileExist(icon_filename)) {
@@ -776,25 +792,27 @@ void BattleEnemy::ResetActor() {
 void BattleEnemy::ChangeState(ACTOR_STATE new_state) {
 	BattleActor::ChangeState(new_state);
 
-	vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 	switch (_state) {
 		case ACTOR_STATE_COMMAND:
 			_DecideAction();
 			ChangeState(ACTOR_STATE_WARM_UP);
 			break;
 		case ACTOR_STATE_ACTING:
-			_state_timer.Initialize(400); // TEMP: 400ms is a random time for the enemy sprite to move
+			_state_timer.Initialize(400); // TEMP: default value
 			_state_timer.Run();
-			break;
-		case ACTOR_STATE_DEAD:
-			sprite_frames[3].EnableGrayScale();
 			break;
 		default:
 			break;
 	}
 }
 
+void BattleEnemy::ChangeSpriteAnimation(const std::string& alias)
+{
+	_sprite_animation_alias = alias;
+	_animation_timer.Initialize(400); // TEMP: default monster action time
+	_animation_timer.Run();
 
+}
 
 void BattleEnemy::Update(bool animation_only) {
 	BattleActor::Update(animation_only);
@@ -810,9 +828,20 @@ void BattleEnemy::Update(bool animation_only) {
 		// Note: that update part only handles attack actions
 		if (_state == ACTOR_STATE_ACTING) {
 			if (_state_timer.PercentComplete() <= 0.50f)
-				_x_location -= TILE_SIZE * (2.0f * _state_timer.PercentComplete());
+				_x_location = _x_origin - TILE_SIZE * (2.0f * _state_timer.PercentComplete());
 			else
-				_x_location -= TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
+				_x_location = _x_origin - TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
+		}
+		else if (_state == ACTOR_STATE_DYING) {
+			// Add a fade out effect
+			_sprite_alpha = 1.0f - _state_timer.PercentComplete();
+		}
+		// Reset the animations set below to idle once done
+		else if (_animation_timer.IsFinished()) {
+			ChangeSpriteAnimation("idle");
+		}
+		else if (_sprite_animation_alias == "dodge") {
+			_x_location = _x_origin + 20.0f;
 		}
 
 		// Add a shake effect when the battle actor has received damages
@@ -843,25 +872,23 @@ void BattleEnemy::DrawSprite() {
 
 	vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 
-	// Draw the sprite's final damage frame, which should have grayscale enabled
-	if (_state == ACTOR_STATE_DEAD) {
-		sprite_frames[3].Draw();
+	// Dead enemies are gone from screen.
+	if (_state == ACTOR_STATE_DEAD)
 		return;
-	}
 
 	float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
 	// Alpha will range from 1.0 to 0.0 in the following calculations
-	if (GetHitPoints() == GetMaxHitPoints()) {
-		sprite_frames[0].Draw();
+	if (_state == ACTOR_STATE_DYING) {
+		sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
 	}
-	else if (GetHitPoints() == 0) {
-		sprite_frames[3].Draw();
+	else if (GetHitPoints() == GetMaxHitPoints()) {
+		sprite_frames[0].Draw();
 	}
 	else if (hp_percent > 0.666f) {
 		sprite_frames[0].Draw();
 		float alpha = 1.0f - ((hp_percent - 0.666f) * 3.0f);
-		sprite_frames[1].Draw(Color (1.0f, 1.0f, 1.0f, alpha));
+		sprite_frames[1].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
 	}
 	else if (hp_percent >  0.333f) {
 		sprite_frames[1].Draw();

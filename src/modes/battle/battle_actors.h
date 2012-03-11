@@ -495,8 +495,7 @@ public:
 	*** \warning This function is not a pure virtual one because it needs to be accessed by Lua
 	*** and there is an issue with using Luabind on pure virtual functions.
 	**/
-	void ChangeSpriteAnimation(const std::string& /*alias*/)
-		{ }
+	void ChangeSpriteAnimation(const std::string& alias);
 
 	void Update(bool animation_only = false);
 
@@ -515,6 +514,12 @@ protected:
 
 	//! \brief An unsorted vector containing all the skills that the enemy may use
 	std::vector<hoa_global::GlobalSkill*> _enemy_skills;
+
+	//! \brief Contains the identifier text of the current sprite animation
+	std::string _sprite_animation_alias;
+
+	//! \brief Contains the alpha value to draw the sprite at: useful for fading effects
+	float _sprite_alpha;
 
 	/** \brief Decides what action that the enemy should execute and the target
 	*** \todo This function is extremely rudimentary right now. Later, it should be given a more complete

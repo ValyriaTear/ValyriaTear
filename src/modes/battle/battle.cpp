@@ -375,6 +375,13 @@ void BattleMode::Update() {
 	}
 	// If the battle is in its typical state and player is not selecting a command, check for player input
 	else if (_state == BATTLE_STATE_NORMAL) {
+		// Check for victory or defeat conditions
+		if (_NumberCharactersAlive() == 0) {
+			ChangeState(BATTLE_STATE_DEFEAT);
+		}
+		else if (_NumberEnemiesAlive() == 0) {
+			ChangeState(BATTLE_STATE_VICTORY);
+		}
 		// Holds a pointer to the character to select an action for
 		BattleCharacter* character_selection = NULL;
 
@@ -703,28 +710,13 @@ void BattleMode::NotifyActorDeath(BattleActor* actor) {
 
 		// If the actor who died was the character that the player was selecting a command for, this will cause the
 		// command supervisor will return to the invalid state.
-		if (_command_supervisor->GetState() == COMMAND_STATE_INVALID) {
+		if (_command_supervisor->GetState() == COMMAND_STATE_INVALID)
 			ChangeState(BATTLE_STATE_NORMAL);
-		}
 	}
 
 	// Determine if the battle should proceed to the victory or defeat state
-	if (IsBattleFinished() == true) {
+	if (IsBattleFinished())
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor death occurred after battle was finished" << endl;
-	}
-
-	uint32 num_alive_characters = _NumberCharactersAlive();
-	uint32 num_alive_enemies = _NumberEnemiesAlive();
-	if ((num_alive_characters == 0) && (num_alive_enemies == 0)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "both parties were defeated; changing to defeat state" << endl;
-		ChangeState(BATTLE_STATE_DEFEAT);
-	}
-	else if (num_alive_characters == 0) {
-		ChangeState(BATTLE_STATE_DEFEAT);
-	}
-	else if (num_alive_enemies == 0) {
-		ChangeState(BATTLE_STATE_VICTORY);
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

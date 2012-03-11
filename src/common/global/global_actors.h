@@ -831,8 +831,7 @@ public:
 	void AddBattleAnimation(const std::string & name, hoa_video::AnimatedImage anim)
 		{ _battle_animation[name] = anim; }
 
-	hoa_video::AnimatedImage* RetrieveBattleAnimation(const std::string & name)
-		{ return &_battle_animation[name]; }
+	hoa_video::AnimatedImage* RetrieveBattleAnimation(const std::string & name);
 
 	std::vector<hoa_video::StillImage>* GetBattlePortraits()
 		{ return &_battle_portraits; }
