@@ -743,6 +743,8 @@ bool BattleTarget::IsValid() {
 			return false;
 		else if (_actor->IsAlive() == false)
 			return false;
+		else if (_actor->GetState() == ACTOR_STATE_DYING)
+			return false;
 		else
 			return true;
 	}
@@ -750,6 +752,8 @@ bool BattleTarget::IsValid() {
 		if (_actor == NULL)
 			return false;
 		else if (_actor->IsAlive() == false)
+			return false;
+		else if (_actor->GetState() == ACTOR_STATE_DYING)
 			return false;
 		else
 			return true;
