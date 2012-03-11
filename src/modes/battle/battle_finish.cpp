@@ -372,15 +372,21 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 		_number_characters = 4;
 	}
 
-	for (uint32 i = 0; i < _number_characters; i++) {
+	for (uint32 i = 0; i < _number_characters; ++i) {
 		_characters.push_back(all_characters[i]->GetGlobalCharacter());
 		_character_growths.push_back(_characters[i]->GetGrowth());
-		_character_portraits[i].Load("img/portraits/map/" + _characters[i]->GetFilename() + ".png", 100.0f, 100.0f);
+		std::string portrait_filename = "img/portraits/map/" + _characters[i]->GetFilename() + ".png";
+		if (DoesFileExist(portrait_filename)) {
+			_character_portraits[i].Load(portrait_filename, 100.0f, 100.0f);
+		}
+		else {
+			PRINT_WARNING << "Portrait file not found: " << portrait_filename << endl;
+			_character_portraits[i].Load("");
+		}
 
 		// Grey out portraits of deceased characters
-		if (all_characters[i]->IsAlive() == false) {
+		if (!all_characters[i]->IsAlive())
 			_character_portraits[i].EnableGrayScale();
-		}
 	}
 
 	// ----- (2): Collect the XP, drunes, and dropped objects for each defeated enemy
