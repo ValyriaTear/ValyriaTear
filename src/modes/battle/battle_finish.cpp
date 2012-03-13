@@ -845,10 +845,8 @@ void FinishSupervisor::Update() {
 	}
 
 	if (_state == FINISH_END) {
-		if (_battle_victory == true) {
+		if (_battle_victory) {
 			BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_EXITING);
-// 			// TODO: start battle end sequence instead of exiting immediately
-// 			BattleMode::CurrentInstance()->Exit();
 		}
 
 		else {
@@ -861,7 +859,7 @@ void FinishSupervisor::Update() {
 					break;
 				case DEFEAT_OPTION_RETURN:
 					ModeManager->PopAll();
-					ModeManager->Push(new hoa_boot::BootMode());
+					ModeManager->Push(new hoa_boot::BootMode(), true, true);
 					break;
 				case DEFEAT_OPTION_RETIRE:
 					SystemManager->ExitGame();

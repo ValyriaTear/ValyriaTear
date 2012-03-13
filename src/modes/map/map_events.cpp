@@ -180,6 +180,7 @@ void MapTransitionEvent::_Start() {
 bool MapTransitionEvent::_Update() {
 	_fade_timer.Update();
 
+	// NOTE: Using a custom fade to be able to tell when it's finished
 	if (_fade_timer.IsFinished() == true) {
 		ModeManager->Pop();
 		try {
@@ -271,7 +272,7 @@ void BattleEncounterEvent::_Start() {
 
 	batt_mode->GetMedia().SetBackgroundImage(_battle_background);
 	batt_mode->GetMedia().SetBattleMusic(_battle_music);
-	ModeManager->Push(batt_mode);
+	ModeManager->Push(batt_mode, true, true);
 }
 
 

@@ -403,7 +403,7 @@ int main(int argc, char *argv[]) {
 		return EXIT_FAILURE;
 	}
 
-	ModeManager->Push(new BootMode());
+	ModeManager->Push(new BootMode(), false, true);
 
 	try {
 		// This is the main loop for the game. The loop iterates once for every frame drawn to the screen.

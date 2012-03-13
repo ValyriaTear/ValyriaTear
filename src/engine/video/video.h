@@ -601,6 +601,17 @@ public:
 	bool IsFading()
 		{ return _screen_fader.IsFading(); }
 
+	void StartTransitionFadeOut(const Color &final, uint32 time)
+		{ _screen_fader.StartTransitionFadeOut(final, time); }
+
+	//! \brief A shortcut function used to make a fade in more explicitely.
+	void FadeIn(uint32 time)
+		{ _screen_fader.FadeIn(time); }
+
+	//! \brief tells whether the last fade effect was transitional.
+	bool IsLastFadeTransitional() const
+		{ return _screen_fader.IsLastFadeTransitional(); }
+
 	//-- Screen shaking -------------------------------------------------------
 
 	/** \brief Adds a new shaking effect to the screen

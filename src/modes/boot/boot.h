@@ -131,8 +131,8 @@ private:
 	//! \brief A pointer to the most recently active instance of boot mode
 	static BootMode* _current_instance;
 
-	//! \brief When true boot mode is exiting and the screen should be faded out
-	bool _fade_out;
+	//! \brief True when the boot mode is in exitting state.
+	bool _exiting;
 
 	//! \brief Set to true when the player has made modification to any application settings
 	bool _has_modified_settings;

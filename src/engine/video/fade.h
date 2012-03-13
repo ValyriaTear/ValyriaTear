@@ -63,6 +63,20 @@ public:
 	bool IsFading() const
 		{ return _is_fading; }
 
+	/** \brief start a fade used as a transition between two game modes.
+	*** It's a simple fade but flagged as special to let the mode manager handle it.
+	**/
+	void StartTransitionFadeOut(const Color &final, uint32 time)
+		{ BeginFade(final, time); _transitional_fading = true; }
+
+	//! \brief A shortcut function used to make a fade in more explicitely.
+	void FadeIn(uint32 time)
+		{ BeginFade(Color::clear, time); }
+
+	//! \brief tells whether the last fade effect was transitional.
+	bool IsLastFadeTransitional() const
+		{ return _transitional_fading; }
+
 private:
 	//! \brief The color that the screen is currently faded to.
 	Color _current_color;
@@ -93,6 +107,9 @@ private:
 
 	//! \brief Set to true if the fading process requires interpolation of RGB values between colors
 	bool _interpolate_rgb_values;
+
+	//! \brief Tells whether the current fading is used to make a transition between two game mode.
+	bool _transitional_fading;
 	//@}
 }; // class ScreenFader
 

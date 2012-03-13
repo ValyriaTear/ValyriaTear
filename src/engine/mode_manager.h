@@ -142,30 +142,44 @@ private:
 	//! The number of game modes to pop from the back of the stack on the next call to ModeEngine#Update().
 	uint32 _pop_count;
 
+	/** \brief Tells whether there is a transitional fade out has to be triggered
+	*** The new game modes will be pushed or popped afterward.
+	**/
+	bool _fade_out;
+
+	//! \brief Tells whether the fade in effect should occur
+	bool _fade_in;
+
+	//! Tells whether the fade out has finished.
+	bool _fade_out_finished;
+
 public:
 	~ModeEngine();
 
 	bool SingletonInitialize();
 
-	//! \brief Increments by one the number of game modes to pop off the stack
-	void Pop();
+	/** \brief Increments by one the number of game modes to pop off the stack
+	*** \param fade_out Tells whether a fade out should be processed before adding the game mode
+	*** \param fade_in Tells whether a fade in should be processed after the fade in effect
+	**/
+	void Pop(bool fade_out = false, bool fade_in = false);
 
 	/** \brief Removes all game modes from the stack on the next call to ModeEngine#Update().
 	***
 	*** This function sets the ModeEngine#pop_count member to the size of GameModeManager#game_stack.
 	*** If there is no game mode in ModeEngine#push_stack before the next call to GameModeManager#Update(),
 	*** The game will encounter a segmentation fault and die. Therefore, be careful with this function.
-	***
-	*** \note Typically this function is only used when the game exits, or when a programmer is smoking crack.
 	**/
 	void PopAll();
 
 	/** \brief Pushes a new GameMode object on top of the stack.
 	*** \param gm The new GameMode object that will go to the top of the stack.
+	*** \param fade_out Tells whether a fade out should be processed before adding the game mode
+	*** \param fade_in Tells whether a fade in should be processed after the fade in effect
 	*** \note This should be obvious, but once you push a new object on the stack
 	*** top, it will automatically become the new active game state.
 	**/
-	void Push(GameMode* gm);
+	void Push(GameMode* gm, bool fade_out = false, bool fade_in = false);
 
 	/**  \brief  Gets the type of the currently active game mode.
 	***  \return The value of the mode_type member of the GameMode object on the top of the stack.

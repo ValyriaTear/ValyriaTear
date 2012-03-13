@@ -71,7 +71,7 @@ BootMode* BootMode::_current_instance = NULL;
 // ****************************************************************************
 
 BootMode::BootMode() :
-	_fade_out(false),
+	_exiting(false),
 	_has_modified_settings(false),
 	_key_setting_function(NULL),
 	_joy_setting_function(NULL),
@@ -250,21 +250,7 @@ void BootMode::Update() {
 	_options_window.Update(SystemManager->GetUpdateTime());
 
 	// Screen is in the process of fading out
-	if (_fade_out)
-	{
-		// When the screen is finished fading to black, create a new map mode and fade back in
-		if (!VideoManager->IsFading()) {
-			ModeManager->Pop();
-			try {
-				hoa_map::MapMode *MM = new hoa_map::MapMode(MakeStandardString(GlobalManager->GetLocationName()));
-				ModeManager->Push(MM);
-			} catch (luabind::error e) {
-				PRINT_ERROR << "Map::_Load -- Error loading map " << MakeStandardString(GlobalManager->GetLocationName()) << ", returning to BootMode." << endl;
-				cerr << "Exception message:" << endl;
-				ScriptManager->HandleLuaError(e);
-			}
-			VideoManager->FadeScreen(Color::clear, 1000);
-		}
+	if (_exiting) {
 		return;
 	}
 	else if (_initial_entry) // We're animating the opening logo
@@ -956,8 +942,15 @@ void BootMode::_RefreshSaveAndLoadProfiles() {
 void BootMode::_OnNewGame() {
 	GlobalManager->NewGame();
 
-	_fade_out = true;
-	VideoManager->FadeScreen(Color::black, 1000); // Fade to black over the course of one second
+	ModeManager->Pop();
+	try {
+		hoa_map::MapMode *MM = new hoa_map::MapMode(MakeStandardString(GlobalManager->GetLocationName()));
+		ModeManager->Push(MM, true, true);
+	} catch (luabind::error e) {
+		PRINT_ERROR << "Map::_Load -- Error loading map " << MakeStandardString(GlobalManager->GetLocationName()) << ", returning to BootMode." << endl
+		<< "Exception message:" << endl;
+		ScriptManager->HandleLuaError(e);
+	}
 //	_boot_music.at(0).SetFadeOutTime(500); // Fade out the music
 	_boot_music.at(0).Stop();
 }
@@ -966,7 +959,7 @@ void BootMode::_OnNewGame() {
 
 void BootMode::_OnLoadGame() {
 	_boot_music.at(0).Stop();
-	// TODO: SaveMode music should take over when this is used for loading games...
+
 	hoa_save::SaveMode *SVM = new hoa_save::SaveMode(false);
 	ModeManager->Push(SVM);
 }

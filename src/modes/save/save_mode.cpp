@@ -237,22 +237,7 @@ void SaveMode::Update() {
 	_file_list.Update();
 
 	// Screen is in the process of fading out, in order to load a game
-	if (_current_state == SAVE_MODE_FADING_OUT)
-	{
-		// When the screen is finished fading to black, create a new map mode and fade back in
-		if (!VideoManager->IsFading()) {
-			ModeManager->PopAll();
-			try {
-				MapMode *MM = new MapMode(MakeStandardString(GlobalManager->GetLocationName()));
-				ModeManager->Push(MM);
-			} catch (luabind::error e) {
-				PRINT_ERROR << "Map::_Load -- Error loading map " << MakeStandardString(GlobalManager->GetLocationName()) << ", returning to BootMode." << endl;
-				cerr << "Exception message:" << endl;
-				ScriptManager->HandleLuaError(e);
-				ModeManager->Push(new BootMode());
-			}
-			VideoManager->FadeScreen(Color::clear, 1000);
-		}
+	if (_current_state == SAVE_MODE_FADING_OUT) {
 		return;
 	}
 	// Otherwise, it's time to start handling events.
@@ -449,16 +434,26 @@ bool SaveMode::_LoadGame(int id) {
 
 	if (DoesFileExist(filename)) {
 		_current_state = SAVE_MODE_FADING_OUT;
-		VideoManager->FadeScreen(Color::black, 1000);
 		// TODO: stop music, if it's playing
 
 		GlobalManager->LoadGame(filename);
 
+		// Create a new map mode, and fade out and in
+		ModeManager->PopAll();
+        try {
+            MapMode *MM = new MapMode(MakeStandardString(GlobalManager->GetLocationName()));
+            ModeManager->Push(MM, true, true);
+        } catch (luabind::error e) {
+            PRINT_ERROR << "Map::_Load -- Error loading map " << MakeStandardString(GlobalManager->GetLocationName()) << ", returning to BootMode." << endl;
+            cerr << "Exception message:" << endl;
+            ScriptManager->HandleLuaError(e);
+            ModeManager->Push(new BootMode(), true, true);
+        }
 		return true;
 	}
 	else {
-		cout << "BOOT: No saved game file exists, can not load game" << endl;
-		cout << filename << endl;
+		PRINT_ERROR << "BOOT: No saved game file exists, can not load game: "
+			<< filename << endl;
 		return false;
 	}
 }

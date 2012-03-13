@@ -131,7 +131,7 @@ void PauseMode::Update() {
 					// Disable potential previous effects
 					VideoManager->DisableEffects();
 					ModeManager->PopAll();
-					ModeManager->Push(new BootMode());
+					ModeManager->Push(new BootMode(), true, true);
 					break;
 				case QUIT_GAME:
 					SystemManager->ExitGame();

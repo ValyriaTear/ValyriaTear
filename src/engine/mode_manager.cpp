@@ -16,12 +16,14 @@
 #include "mode_manager.h"
 #include "system.h"
 
+#include "engine/video/video.h"
+
 using namespace std;
 
 using namespace hoa_utils;
 using namespace hoa_system;
 using namespace hoa_boot;
-
+using namespace hoa_video;
 
 template<> hoa_mode_manager::ModeEngine* Singleton<hoa_mode_manager::ModeEngine>::_singleton_reference = NULL;
 
@@ -59,6 +61,8 @@ ModeEngine::ModeEngine() {
 	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: ModeEngine constructor invoked" << endl;
 	_pop_count = 0;
 	_state_change = false;
+	_fade_out = false;
+	_fade_out_finished = false;
 }
 
 
@@ -101,9 +105,22 @@ bool ModeEngine::SingletonInitialize() {
 
 
 // Free the top mode on the stack and pop it off
-void ModeEngine::Pop() {
+void ModeEngine::Pop(bool fade_out, bool fade_in) {
+	_fade_in = fade_in;
+
 	_pop_count++;
 	_state_change = true;
+
+    if (fade_out) {
+        // Start a fade out between the two game modes.
+        VideoManager->StartTransitionFadeOut(Color::black, 1000);
+        _fade_out = true;
+        _fade_out_finished = false;
+    }
+    else {
+        _fade_out = false;
+        _fade_out_finished = true;
+    }
 }
 
 
@@ -114,9 +131,22 @@ void ModeEngine::PopAll() {
 
 
 // Push a new game mode onto the stack
-void ModeEngine::Push(GameMode* gm) {
+void ModeEngine::Push(GameMode* gm, bool fade_out, bool fade_in) {
 	_push_stack.push_back(gm);
+
 	_state_change = true;
+
+	_fade_in = fade_in;
+
+	if (fade_out) {
+		VideoManager->StartTransitionFadeOut(Color::black, 1000);
+		_fade_out = true;
+		_fade_out_finished = false;
+	}
+	else {
+		_fade_out = false;
+		_fade_out_finished = true;
+	}
 }
 
 
@@ -158,8 +188,14 @@ GameMode* ModeEngine::Get(uint32 index) {
 
 // Checks if any game modes need to be pushed or popped off the stack, then updates the top stack mode.
 void ModeEngine::Update() {
+	// Check whether the fade out is done.
+	if (_fade_out && VideoManager->IsLastFadeTransitional() && !VideoManager->IsFading()) {
+		_fade_out = false;
+		_fade_out_finished = true;
+	}
+
 	// If a Push() or Pop() function was called, we need to adjust the state of the game stack.
-	if (_state_change == true) {
+	if (_fade_out_finished && _state_change) {
 		// Pop however many game modes we need to from the top of the stack
 		while (_pop_count != 0) {
 			if (_game_stack.empty()) {
@@ -191,6 +227,12 @@ void ModeEngine::Update() {
 		// Reset the state change variable
 		_state_change = false;
 
+		// Reset the fade out member
+        _fade_out_finished = false;
+
+		// We can now fade in, or not
+        VideoManager->FadeIn(_fade_in ? 1000 : 0);
+
 		// Call the system manager and tell it that the active game mode changed so it can update timers accordingly
 		SystemManager->ExamineSystemTimers();
 
@@ -199,24 +241,23 @@ void ModeEngine::Update() {
 	} // if (_state_change == true)
 
 	// Call the Update function on the top stack mode (the active game mode)
-	_game_stack.back()->Update();
+	if (!_game_stack.empty())
+		_game_stack.back()->Update();
 }
 
 
 // Checks if any game modes need to be pushed or popped off the stack, then updates the top stack mode.
 void ModeEngine::Draw() {
-	if (_game_stack.size() == 0) {
+	if (_game_stack.empty())
 		return;
-	}
 
 	_game_stack.back()->Draw();
 }
 
 
 void ModeEngine::DrawPostEffects() {
-	if (_game_stack.size() == 0) {
+	if (_game_stack.empty())
 		return;
-	}
 
 	_game_stack.back()->DrawPostEffects();
 }

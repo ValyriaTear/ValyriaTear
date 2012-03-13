@@ -211,7 +211,7 @@ void SequenceSupervisor::_UpdateInitialSequence() {
 void SequenceSupervisor::_UpdateExitingSequence() {
 	// Constants that define the time duration of each step in the sequence
 	const uint32 STEP_01_TIME = 500;
-	const uint32 STEP_02_TIME = 750;
+	const uint32 STEP_02_TIME = 1200;
 
 	// The furthest position offset we place the GUI objects when bringing them out of view
 	const float GUI_OFFSCREEN_OFFSET = 150.0f;
@@ -222,11 +222,6 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 		_gui_position_offset = 0.0f;
 		_sequence_timer.Initialize(STEP_01_TIME);
 		_sequence_timer.Run();
-
-		// TEMP: move all enemy sprites off screen so they are not drawn
-		for (uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
-			_battle->_enemy_actors[i]->SetXLocation(1500.0f);
-		}
 
 		_sequence_step = EXIT_STEP_GUI_POSITIONING;
 	}
@@ -243,25 +238,20 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 			for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
 				_battle->_character_actors[i]->ChangeSpriteAnimation("run");
 			}
+
+			// Trigger a fade out exit state.
+			ModeManager->Pop(true, true);
 		}
 	}
 	// Step 2: Run living characters right and fade screen to black
 	else if (_sequence_step == EXIT_STEP_SCREEN_FADE) {
 		_sequence_timer.Update();
-		// TODO: Screen fade doesn't work well right now (its instant instead of gradual). Add fade back in when its functional.
-// 		VideoManager->FadeScreen(Color::black, STEP_02_TIME / 2);
 
 		for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
 			if (_battle->_character_actors[i]->IsAlive() == true) {
 				_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() +
 					_sequence_timer.GetTimeExpired());
 			}
-		}
-
-		// Finished with the final step, reset the sequence step counter and exit battle mode
-		if (_sequence_timer.IsFinished() == true) {
-			_sequence_step = 0;
-			ModeManager->Pop();
 		}
 	}
 	// If we're in at an unknown step, restart at sequence zero

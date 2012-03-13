@@ -33,12 +33,14 @@ ScreenFader::ScreenFader() :
 	_use_fade_overlay(false),
 	_fade_overlay_color(0.0f, 0.0f, 0.0f, 0.0f),
 	_fade_modulation(1.0f),
-	_interpolate_rgb_values(false)
+	_interpolate_rgb_values(false),
+	_transitional_fading(false)
 {}
 
 
 
 void ScreenFader::BeginFade(const Color &final, uint32 time) {
+	_transitional_fading = false;
 	_is_fading = true;
 
 	_end_time = time;
