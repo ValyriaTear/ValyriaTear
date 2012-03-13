@@ -548,7 +548,8 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects() {
 		_level_xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
 		_level_xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 		_level_xp_text[i].SetDisplayText(UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())) +
-			MakeUnicodeString("\n") + UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel())));
+			MakeUnicodeString("\n") + UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
+			- _characters[i]->GetExperiencePoints())));
 
 		_skill_text[i].SetOwner(&_character_window[i]);
 		_skill_text[i].SetPosition(130.0f, 60.0f);
