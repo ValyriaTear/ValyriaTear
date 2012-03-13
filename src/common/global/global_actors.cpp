@@ -1236,31 +1236,29 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	_CalculateDefenseRatings();
 	_CalculateEvadeRatings();
 
+    // TODO: Factor the code below if possible.
+
 	// Load the character's idle battle stance animation
 	// TODO: dehardcode the filename
 	AnimatedImage idle;
-	idle.SetDimensions(128, 128);
 	idle.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_idle.lua");
 	_battle_animation["idle"] = idle;
 
 	// Load the character's run animation
 	// TODO: dehardcode the filename
 	AnimatedImage run;
-	run.SetDimensions(64, 128);
 	run.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_run.lua");
 	_battle_animation["run"] = run;
 
 	// Load the character's attack animation
 	// TODO: dehardcode the filename
 	AnimatedImage attack;
-	attack.SetDimensions(128, 128);
 	attack.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_attack.lua");
 	_battle_animation["attack"] = attack;
 
 	// Load the character's dodge animation
 	// TODO: dehardcode the filename
 	AnimatedImage dodge;
-	dodge.SetDimensions(128, 128);
 	dodge.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_dodge.lua");
 	_battle_animation["dodge"] = dodge;
 

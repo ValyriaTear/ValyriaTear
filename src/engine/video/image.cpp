@@ -1199,6 +1199,12 @@ bool AnimatedImage::LoadFromAnimationScript(const string& filename) {
 	uint32 rows = image_script.ReadUInt("rows");
 	uint32 columns = image_script.ReadUInt("columns");
 
+	float frame_width = image_script.ReadFloat("frame_width");
+	float frame_height = image_script.ReadFloat("frame_height");
+
+	if (frame_width > 0.0f && frame_height > 0.0f)
+		SetDimensions(frame_width, frame_height);
+
 	if (!image_script.DoesTableExist("frames_duration")) {
 		image_script.CloseTable();
 		image_script.CloseFile();
