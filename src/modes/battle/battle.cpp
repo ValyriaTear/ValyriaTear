@@ -310,6 +310,9 @@ BattleMode::~BattleMode() {
 void BattleMode::Reset() {
 	_current_instance = this;
 
+	// Disable potential previous overlay effects
+	VideoManager->DisableEffects();
+
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
 	// Load the default battle music track if no other music has been added
@@ -541,6 +544,9 @@ void BattleMode::LoadBattleScript(const std::string& filename) {
 
 
 void BattleMode::RestartBattle() {
+	// Disable potential previous light effects
+	VideoManager->DisableEffects();
+
 	// Reset the state of all characters and enemies
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
 		_character_actors[i]->ResetActor();
