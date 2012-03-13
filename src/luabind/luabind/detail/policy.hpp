@@ -415,7 +415,7 @@ namespace luabind { namespace detail
 		typedef const_ref_converter type;
         typedef mpl::false_ is_native;
 
-        int const consumed_args(...)
+        int consumed_args(...)
         {
             return 1;
         }

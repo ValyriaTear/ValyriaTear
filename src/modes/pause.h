@@ -66,8 +66,9 @@ public:
 	//! \brief Updates the game state by the amount of time that has elapsed
 	void Update();
 
-	//! \brief Draws the next frame to be displayed on the screen
-	void Draw();
+	// Everything is drawn in post effects
+	void Draw()
+	{}
 
 	//! \brief Draws the next frame to be displayed on the screen, bunt unaffected but ambient effects
 	void DrawPostEffects();

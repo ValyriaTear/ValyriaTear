@@ -159,10 +159,6 @@ void PauseMode::Update() {
 } // void PauseMode::Update()
 
 
-void PauseMode::Draw() {
-	// Drawn in post effects only
-}
-
 void PauseMode::DrawPostEffects() {
 	// Set the coordinate system for the background and draw
 	VideoManager->SetCoordSys(0.0f, _screen_capture.GetWidth(), 0.0f, _screen_capture.GetHeight());
