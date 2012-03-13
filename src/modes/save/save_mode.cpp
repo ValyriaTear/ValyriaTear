@@ -48,7 +48,6 @@ bool SAVE_DEBUG = false;
 //@{
 const uint8 SAVE_GAME           = 0;
 const uint8 SAVE_LOAD_GAME      = 1;
-const uint8 SAVE_CANCEL         = 2;
 //@}
 
 //! \name SaveMode States
@@ -95,7 +94,7 @@ SaveMode::SaveMode(bool enable_saving) :
 
 	// Initialize the save options box
 	_save_options.SetPosition(512.0f, 384.0f);
-	_save_options.SetDimensions(250.0f, 200.0f, 1, 3, 1, 3);
+	_save_options.SetDimensions(250.0f, 200.0f, 1, 2, 1, 2);
 	_save_options.SetTextStyle(TextStyle("title22"));
 
 	_save_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -105,14 +104,13 @@ SaveMode::SaveMode(bool enable_saving) :
 
 	_save_options.AddOption(UTranslate("Save Game"));
 	_save_options.AddOption(UTranslate("Load Game"));
-	_save_options.AddOption(UTranslate("Cancel"));
-	_save_options.SetSelection(SAVE_CANCEL);
+	_save_options.SetSelection(SAVE_GAME);
 
 	_save_options.SetSkipDisabled(true);
 
 	// Initialize the save options box
 	_file_list.SetPosition(315.0f, 384.0f);
-	_file_list.SetDimensions(150.0f, 500.0f, 1, 7, 1, 7);
+	_file_list.SetDimensions(150.0f, 500.0f, 1, 6, 1, 6);
 	_file_list.SetTextStyle(TextStyle("title22"));
 
 	_file_list.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -120,18 +118,17 @@ SaveMode::SaveMode(bool enable_saving) :
 	_file_list.SetSelectMode(VIDEO_SELECT_SINGLE);
 	_file_list.SetCursorOffset(-58.0f, 18.0f);
 
-	_file_list.AddOption(UTranslate("Cancel"));
-	_file_list.AddOption(UTranslate("File #1"));
-	_file_list.AddOption(UTranslate("File #2"));
-	_file_list.AddOption(UTranslate("File #3"));
-	_file_list.AddOption(UTranslate("File #4"));
-	_file_list.AddOption(UTranslate("File #5"));
-	_file_list.AddOption(UTranslate("File #6"));
+	_file_list.AddOption(UTranslate("Slot 1"));
+	_file_list.AddOption(UTranslate("Slot 2"));
+	_file_list.AddOption(UTranslate("Slot 3"));
+	_file_list.AddOption(UTranslate("Slot 4"));
+	_file_list.AddOption(UTranslate("Slot 5"));
+	_file_list.AddOption(UTranslate("Slot 6"));
 	_file_list.SetSelection(0);
 
 	// Initialize the confirmation option box
-	_confirm_save_optionbox.SetPosition(512.0f, 284.0f);
-	_confirm_save_optionbox.SetDimensions(250.0f, 500.0f, 1, 7, 1, 7);
+	_confirm_save_optionbox.SetPosition(512.0f, 384.0f);
+	_confirm_save_optionbox.SetDimensions(250.0f, 200.0f, 1, 2, 1, 2);
 	_confirm_save_optionbox.SetTextStyle(TextStyle("title22"));
 
 	_confirm_save_optionbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -148,14 +145,14 @@ SaveMode::SaveMode(bool enable_saving) :
 	_save_success_message.SetDimensions(250.0f, 100.0f);
 	_save_success_message.SetTextStyle(TextStyle("title22"));
 	_save_success_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_save_success_message.SetDisplayText("Save successful!");
+	_save_success_message.SetDisplayText(UTranslate("Save successful!"));
 
 	// Initialize the save failure message box
 	_save_failure_message.SetPosition(512.0f, 384.0f);
 	_save_failure_message.SetDimensions(250.0f, 100.0f);
 	_save_failure_message.SetTextStyle(TextStyle("title22"));
 	_save_failure_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_save_failure_message.SetDisplayText("Unable to save game!\nSave FAILED!");
+	_save_failure_message.SetDisplayText(UTranslate("Unable to save game!\nSave FAILED!"));
 
 	// Initialize the save preview text boxes
 	_location_name_textbox.SetPosition(600.0f, 215.0f);
@@ -189,13 +186,13 @@ SaveMode::SaveMode(bool enable_saving) :
 		_current_state = SAVE_MODE_LOADING;
 	}
 
-	if (_save_music.LoadAudio("mus/Save_Game.ogg") == false) {
+	if (!_save_music.LoadAudio("mus/Save_Game.ogg"))
 		PRINT_ERROR << "failed to load save/load music file: " << endl;
-		SystemManager->ExitGame();
-		return;
-	}
 
 	_window.Show();
+
+	// Load the first slot data
+	_PreviewGame( _file_list.GetSelection() );
 }
 
 
@@ -274,7 +271,7 @@ void SaveMode::Update() {
 				break;
 
 			case SAVE_MODE_SAVING:
-				if (_file_list.GetSelection() > 0) {
+				if (_file_list.GetSelection() > -1) {
 					_current_state = SAVE_MODE_CONFIRMING_SAVE;
 				}
 				else {
@@ -309,7 +306,7 @@ void SaveMode::Update() {
 				break;
 
 			case SAVE_MODE_LOADING:
-				if (_file_list.GetSelection() > 0) {
+				if (_file_list.GetSelection() > -1) {
 					_LoadGame( _file_list.GetSelection() );
 				}
 				else {
@@ -362,7 +359,7 @@ void SaveMode::Update() {
 
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
 				_file_list.InputUp();
-				if (_file_list.GetSelection() > 0) {
+				if (_file_list.GetSelection() > -1) {
 					_PreviewGame( _file_list.GetSelection() );
 				}
 				else {
@@ -386,7 +383,7 @@ void SaveMode::Update() {
 
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
 				_file_list.InputDown();
-				if (_file_list.GetSelection() > 0) {
+				if (_file_list.GetSelection() > -1) {
 					_PreviewGame( _file_list.GetSelection() );
 				}
 				break;
@@ -420,7 +417,7 @@ void SaveMode::Draw() {
 		case SAVE_MODE_SAVING:
 		case SAVE_MODE_LOADING:
 			_left_window.Draw(); // draw a panel on the left for the file list
-			if (_file_list.GetSelection() > 0) {
+			if (_file_list.GetSelection() > -1) {
 				for (uint32 i = 0; i < 4; i++) {
 					_character_window[i].Draw();
 				}
