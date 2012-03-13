@@ -75,7 +75,7 @@ BattleMedia::BattleMedia() {
 		PRINT_ERROR << "failed to load stamina icon selected image" << endl;
 
 	attack_point_indicator.SetDimensions(16.0f, 16.0f);
-	if (attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png", vector<uint32>(4, 10), 1, 4) == false)
+	if (attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png", vector<uint32>(4, 100), 1, 4) == false)
 		PRINT_ERROR << "failed to load attack point indicator." << endl;
 
 	if (stamina_meter.Load("img/menus/stamina_bar.png") == false)
