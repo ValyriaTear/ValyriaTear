@@ -1262,6 +1262,12 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	dodge.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_dodge.lua");
 	_battle_animation["dodge"] = dodge;
 
+	// Load the character's victory animation
+	// TODO: dehardcode the filename
+	AnimatedImage victory;
+	victory.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_victory.lua");
+	_battle_animation["victory"] = victory;
+
 	// TEMP: Load the character's battle portraits from a multi image
 	_battle_portraits.assign(5, StillImage());
 	for (uint32 i = 0; i < _battle_portraits.size(); i++) {

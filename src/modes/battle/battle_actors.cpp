@@ -501,6 +501,9 @@ void BattleCharacter::Update(bool animation_only) {
 		else if (_sprite_animation_alias == "dead") {
 			// no need to do anything
 		}
+		else if (_sprite_animation_alias == "victory") {
+			// no need to do anything
+		}
 		// Makes the action listed below be set back to idle once done.
 		else if (_animation_timer.IsFinished()) {
 			ChangeSpriteAnimation("idle");

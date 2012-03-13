@@ -228,11 +228,6 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 			_battle->_enemy_actors[i]->SetXLocation(1500.0f);
 		}
 
-		// Restore characters to their idle animations
-		for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-			_battle->_character_actors[i]->ChangeSpriteAnimation("idle");
-		}
-
 		_sequence_step = EXIT_STEP_GUI_POSITIONING;
 	}
 	// Step 1: Shift GUI objects off screen
