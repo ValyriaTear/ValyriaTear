@@ -1011,7 +1011,10 @@ void BattleMode::_DrawSprites() {
 void BattleMode::_DrawGUI() {
 	_DrawBottomMenu();
 	_DrawStaminaBar();
-	_DrawIndicators();
+
+	// Don't draw battle actor indicators at battle ends
+	if (_state != BATTLE_STATE_VICTORY && _state != BATTLE_STATE_DEFEAT)
+		_DrawIndicators();
 
 	if (_command_supervisor->GetState() != COMMAND_STATE_INVALID) {
 		if ((_dialogue_supervisor->IsDialogueActive() == true) && (_dialogue_supervisor->GetCurrentDialogue()->IsHaltBattleAction() == true)) {
