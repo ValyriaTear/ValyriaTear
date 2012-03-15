@@ -379,7 +379,8 @@ class BattleCharacter : public BattleActor {
 public:
 	BattleCharacter(hoa_global::GlobalCharacter* character);
 
-	~BattleCharacter();
+	~BattleCharacter()
+	{}
 
 	bool IsEnemy() const
 		{ return false; }

@@ -641,34 +641,30 @@ public:
 	hoa_global::GlobalItem& GetItem()
 		{ return _item; }
 
-	uint32 GetAvailableCount() const
-		{ return _available_count; }
+	uint32 GetBattleCount() const
+		{ return _battle_count; }
 	//@}
 
-	/** \brief Increases the available count of the item by one
+	/** \brief Increases the available count of the item by one for this battle
 	*** The available count will not be allowed to exceed the GlobalItem _count member
+	*** Note that the battle and inventory counts are separated because the changes are only committed
+	*** when the battle is won.
 	**/
-	void IncrementAvailableCount();
+	void IncrementBattleCount();
 
-	/** \brief Decreases the available count of the item by one
+	/** \brief Decreases the available count of the item by one for this battle
 	*** The available count will not be allowed to decrement below zero
+	*** Note that the battle and inventory counts are separated because the changes are only committed
+	*** when the battle is won.
 	**/
-	void DecrementAvailableCount();
-
-	/** \brief Increments the count of an item by one
-	*** \note This method should not be called under normal battle circumstances
-	**/
-	void IncrementCount();
-
-	/** \brief Decrements the count of the item by one
-	*** Will also decrement the available count if the two counts are equal
-	**/
-	void DecrementCount();
+	void DecrementBattleCount();
 
 	/** \brief A wrapper function that retrieves the actual count of the item
 	*** \note Calling this function is equivalent to calling GetItem().GetCount()
+	*** Note that the battle and inventory counts are separated because the changes are only committed
+	*** when the battle is won.
 	**/
-	uint32 GetCount() const
+	uint32 GetInventoryCount() const
 		{ return _item.GetCount(); }
 
 	/** \brief A wrapper function that retrieves the target type of the item
@@ -690,7 +686,7 @@ private:
 	hoa_global::GlobalItem _item;
 
 	//! \brief The number of instances of this item that are available to be selected to be used
-	uint32 _available_count;
+	uint32 _battle_count;
 }; // class BattleItem
 
 } // namespace private_battle

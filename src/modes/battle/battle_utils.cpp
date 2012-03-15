@@ -942,61 +942,36 @@ ustring BattleTarget::GetName() {
 
 BattleItem::BattleItem(hoa_global::GlobalItem item) :
 	_item(item),
-	_available_count(item.GetCount())
+	_battle_count(item.GetCount())
 {
 	if (item.GetID() == 0)
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item argument" << endl;
 }
 
 
-
 BattleItem::~BattleItem() {
-	if (_available_count != _item.GetCount())
+	if (_battle_count != _item.GetCount())
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "actual count was not equal to available count upon destruction" << endl;
 }
 
 
-
-void BattleItem::IncrementAvailableCount() {
-	_available_count++;
-	if (_available_count > _item.GetCount()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to increment available count above actual count: " << _available_count << endl;
-		_available_count--;
+void BattleItem::IncrementBattleCount() {
+	++_battle_count;
+	if (_battle_count > _item.GetCount()) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to increment available count above actual count: " << _battle_count << endl;
+		--_battle_count;
 	}
 }
 
 
-
-void BattleItem::DecrementAvailableCount() {
-	if (_available_count == 0) {
+void BattleItem::DecrementBattleCount() {
+	if (_battle_count == 0) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to decrement available count below zero" << endl;
 		return;
 	}
-	_available_count--;
+	--_battle_count;
 }
 
-
-
-void BattleItem::IncrementCount() {
-	_item.IncrementCount();
-	_available_count++;
-}
-
-
-
-void BattleItem::DecrementCount() {
-	if (_item.GetCount() == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "item count was zero when function was called" << endl;
-		return;
-	}
-
-	_item.DecrementCount();
-
-	if (_available_count > _item.GetCount()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "available count was greater than actual count: " << _available_count  << endl;
-		_available_count = _item.GetCount();
-	}
-}
 
 } // namespace private_shop
 

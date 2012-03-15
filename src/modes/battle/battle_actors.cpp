@@ -412,18 +412,6 @@ BattleCharacter::BattleCharacter(GlobalCharacter* character) :
 }
 
 
-
-BattleCharacter::~BattleCharacter() {
-	// If character was about to use an item before being destructed, restore it to inventory
-	if ((_action != NULL) && (_action->IsItemAction() == true)) {
-		// TODO: not sure if this is necessary/safe to do.
-// 		ItemAction* item_action = dynamic_cast<ItemAction*>(_action);
-// 		item_action->GetItem()->IncrementCount(1);
-	}
-}
-
-
-
 void BattleCharacter::ResetActor() {
 	BattleActor::ResetActor();
 
@@ -457,6 +445,11 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 			_state_timer.Run();
 			break;
 		}
+		case ACTOR_STATE_DYING:
+			// Cancel possible previous actions in progress.
+			if (_action)
+				_action->Cancel();
+			break;
 		case ACTOR_STATE_DEAD:
 			ChangeSpriteAnimation("dead");
 			_global_character->RetrieveBattleAnimation("dead")->GetCurrentFrame()->EnableGrayScale();

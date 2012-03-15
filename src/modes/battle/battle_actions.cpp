@@ -171,7 +171,8 @@ uint32 SkillAction::GetCoolDownTime() const {
 
 ItemAction::ItemAction(BattleActor* source, BattleTarget target, BattleItem* item) :
 	BattleAction(source, target),
-	_item(item)
+	_item(item),
+	_action_canceled(false)
 {
 	if (item == NULL) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL item argument" << endl;
@@ -189,9 +190,8 @@ ItemAction::ItemAction(BattleActor* source, BattleTarget target, BattleItem* ite
 
 
 bool ItemAction::Execute() {
-	// Check whether item is in inventory
-	if (!GlobalManager->IsObjectInInventory(_item->GetItem().GetID()))
-		return false;
+	// Note that the battle item is already removed from the item list at that
+	// step.
 
 	const ScriptObject* script_function = _item->GetItem().GetBattleUseFunction();
 	if (script_function == NULL) {
@@ -202,12 +202,26 @@ bool ItemAction::Execute() {
 		ScriptCallFunction<void>(*script_function, _actor, _target); }
 	catch (luabind::error err) {
 		ScriptManager->HandleLuaError(err);
+
+		// Cancel item action.
+		Cancel();
+
+		return false;
 	}
 
 	return true;
 }
 
+void ItemAction::Cancel() {
+	if (_action_canceled)
+		return;
 
+	// Give the item back in that case
+	_item->IncrementBattleCount();
+
+	// Permit to cancel only once.
+	_action_canceled = true;
+}
 
 ustring ItemAction::GetName() const {
 	if (_item == NULL)

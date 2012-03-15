@@ -291,7 +291,7 @@ void ItemCommand::ConstructList() {
 	uint32 option_index = 0;
 	for (uint32 i = 0; i < _items.size(); i++) {
 		// Don't add any items with a non-zero count
-		if (_items[i].GetAvailableCount() == 0) {
+		if (_items[i].GetBattleCount() == 0) {
 			_item_mappings[i] = -1;
 			continue;
 		}
@@ -301,7 +301,7 @@ void ItemCommand::ConstructList() {
 		_item_list.AddOptionElementPosition(option_index, TARGET_ICON_OFFSET);
 		_item_list.AddOptionElementImage(option_index, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(_items[i].GetTargetType()));
 		_item_list.AddOptionElementAlignment(option_index, VIDEO_OPTION_ELEMENT_RIGHT_ALIGN);
-		_item_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(_items[i].GetAvailableCount())));
+		_item_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(_items[i].GetBattleCount())));
 
 		_item_mappings[i] = option_index;
 		option_index++;
@@ -395,6 +395,15 @@ uint32 ItemCommand::GetItemIndex() const {
 }
 
 
+bool ItemCommand::IsSelectedItemAvailable() const {
+	uint32 index = GetItemIndex();
+
+	if (index == 0xFFFFFFFF)
+		return false;
+	else
+		return (_items[index].GetBattleCount() > 0);
+}
+
 
 void ItemCommand::UpdateList() {
 	_item_list.Update();
@@ -430,18 +439,31 @@ void ItemCommand::DrawInformation() {
 
 
 
-void ItemCommand::CommitInventoryChanges() {
-	for (uint32 i = 0; i < _items.size(); i++) {
-		if (_items[i].GetAvailableCount() != _items[i].GetCount()) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "" << endl;
-		}
+void ItemCommand::CommitChangesToInventory() {
+	for (uint32 i = 0; i < _items.size(); ++i) {
+		// Get the global item id
+		uint32 id = _items[i].GetItem().GetID();
 
-		// TODO
+		// Remove slots totally used
+		if (_items[i].GetBattleCount() == 0) {
+			GlobalManager->RemoveFromInventory(id);
+		}
+		else {
+			int32 diff = _items[i].GetBattleCount() - _items[i].GetInventoryCount();
+			if (diff > 0) {
+				// Somehow the character have more than before the battle.
+				GlobalManager->IncrementObjectCount(id, diff);
+			}
+			else if (diff < 0) {
+				// Remove the used items.
+				GlobalManager->DecrementObjectCount(id, -diff);
+			}
+		}
 	}
 }
 
 
-void ItemCommand::_RefreshEntry(uint32 entry) {
+void ItemCommand::RefreshEntry(uint32 entry) {
 	if (entry >= _item_list.GetNumberOptions()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "entry argument was out-of-range: " << entry << endl;
 		return;
@@ -462,7 +484,16 @@ void ItemCommand::_RefreshEntry(uint32 entry) {
 	_item_list.AddOptionElementPosition(entry, TARGET_ICON_OFFSET);
 	_item_list.AddOptionElementImage(entry, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(_items[item_index].GetTargetType()));
 	_item_list.AddOptionElementAlignment(entry, VIDEO_OPTION_ELEMENT_RIGHT_ALIGN);
-	_item_list.AddOptionElementText(entry, MakeUnicodeString(NumberToString(_items[item_index].GetAvailableCount())));
+	_item_list.AddOptionElementText(entry, MakeUnicodeString(NumberToString(_items[item_index].GetBattleCount())));
+
+	// Gray out the option when there are no items available.
+	if (_items[item_index].GetBattleCount() == 0) {
+		_item_list.EnableOption(entry, false);
+	}
+	else {
+		// Re-enable it if we come to get an item back for any reasons
+		_item_list.EnableOption(entry, true);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -979,7 +1010,8 @@ void CommandSupervisor::_UpdateAction() {
 		_selected_item = _item_command.GetSelectedItem();
 
 		if (InputManager->ConfirmPress()) {
-			if (_selected_item != NULL) {
+			// Permit the selection only where are items left.
+			if (_selected_item != NULL && _item_command.IsSelectedItemAvailable()) {
 				_ChangeState(COMMAND_STATE_ACTOR);
 				BattleMode::CurrentInstance()->GetMedia().confirm_sound.Play();
 			}
@@ -1244,7 +1276,7 @@ void CommandSupervisor::_CreateInformationText() {
 	else if (_IsItemCategorySelected() == true) {
 		_window_header.SetText(_selected_item->GetItem().GetName());
 
-		info_text = UTranslate("Quantity: " + NumberToString(_selected_item->GetCount())) + MakeUnicodeString("\n");
+		info_text = UTranslate("Quantity: " + NumberToString(_selected_item->GetBattleCount())) + MakeUnicodeString("\n");
 		info_text += UTranslate("Target Type: ") + MakeUnicodeString(GetTargetText(_selected_item->GetItem().GetTargetType())) + MakeUnicodeString("\n");
 	}
 	else {
@@ -1267,6 +1299,10 @@ void CommandSupervisor::_FinalizeCommand() {
 	}
 	else if (_IsItemCategorySelected() == true) {
 		new_action = new ItemAction(character, _selected_target, _selected_item);
+
+		// Reserve the item for use by the character.
+		_selected_item->DecrementBattleCount();
+		_item_command.RefreshEntry(_item_command.GetItemIndex());
 	}
 	else {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "did not create action for character, unknown category selected: " << _category_options.GetSelection() << endl;

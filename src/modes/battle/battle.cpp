@@ -612,6 +612,17 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 			// TODO
 			break;
 		case BATTLE_STATE_VICTORY:
+			// Official victory:
+			// Cancel all character actions to free possible involved objects
+			for (uint32 i = 0; i < _character_actors.size(); ++i) {
+				BattleAction *action = _character_actors[i]->GetAction();
+				if (action)
+					action->Cancel();
+			}
+
+			// Remove the items used in battle from inventory.
+			_command_supervisor->CommitChangesToInventory();
+
 			_battle_media.victory_music.Play();
 			_finish_supervisor->Initialize(true);
 			break;

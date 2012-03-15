@@ -60,10 +60,13 @@ public:
 	//! \brief Returns true if this action consumes an item
 	virtual bool IsItemAction() const = 0;
 
-	/** \brief Executes the action; This function may be called several times before execution is finished
-	*** \return True if the action is finished executing
+	/** \brief Executes the action.
+	*** \return True if the action executed fine, or false otherwise.
 	**/
 	virtual bool Execute() = 0;
+
+	///! \brief Cancel a waiting action, and restore potential involved objects if necessary.
+	virtual void Cancel() = 0;
 
 	//! \brief Returns the name of the action that the player would read
 	virtual hoa_utils::ustring GetName() const = 0;
@@ -128,6 +131,9 @@ public:
 
 	bool Execute();
 
+	void Cancel()
+		{}
+
 	hoa_utils::ustring GetName() const;
 
 	uint32 GetWarmUpTime() const;
@@ -164,6 +170,9 @@ public:
 
 	bool Execute();
 
+	///! \brief Cancel a waiting action, putting back the item in available battle items.
+	void Cancel();
+
 	hoa_utils::ustring GetName() const;
 
 	uint32 GetWarmUpTime() const;
@@ -179,6 +188,9 @@ public:
 private:
 	//! \brief Pointer to the item attached to this script
 	BattleItem* _item;
+
+	//! \brief Tells whether the action has already been canceled.
+	bool _action_canceled;
 }; // class ItemAction : public BattleAction
 
 } // namespace private_battle

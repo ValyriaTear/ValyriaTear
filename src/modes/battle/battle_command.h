@@ -188,6 +188,10 @@ public:
 	**/
 	BattleItem* GetSelectedItem();
 
+	/** \brief Returns whether there are still available item from the selected type.
+	**/
+	bool IsSelectedItemAvailable() const;
+
 	/** \brief Returns the index of the item currently selected in the item list
 	*** If the selection is invalid (because the list is empty) or the item could not be found,
 	*** the value 0xFFFFFFFF will be returned.
@@ -217,11 +221,20 @@ public:
 	*** This should be called only after the battle has finished. There is no need to modify the party's
 	*** inventory while the battle is still progressing.
 	**/
-	void CommitInventoryChanges();
+	void CommitChangesToInventory();
 
 	//! \brief Retuns the number of items that will be displayed in the list
 	uint32 GetNumberListOptions() const
 		{ return _item_list.GetNumberOptions(); }
+
+	/** \brief Refreshes a single entry in the _item_list
+	*** \param entry An index to the element of the OptionBox to refresh
+	***
+	*** This method is called whenever the available count for a given item is changed. However if
+	*** the count is changing between a zero and non-zero value, this method is not used because the
+	*** entire list needs to be reconstructed in this case.
+	**/
+	void RefreshEntry(uint32 entry);
 
 private:
 	/** \brief Container for all available items
@@ -245,15 +258,6 @@ private:
 
 	//! \brief A display list of all usable items
 	hoa_gui::OptionBox _item_list;
-
-	/** \brief Refreshes a single entry in the _item_list
-	*** \param entry An index to the element of the OptionBox to refresh
-	***
-	*** This method is called whenever the available count for a given item is changed. However if
-	*** the count is changing between a zero and non-zero value, this method is not used because the
-	*** entire list needs to be reconstructed in this case.
-	**/
-	void _RefreshEntry(uint32 entry);
 }; // class ItemCommand
 
 
@@ -392,6 +396,12 @@ public:
 
 	BattleTarget GetSelectedTarget() const
 		{ return _selected_target; }
+
+	/** \brief Apply battle items count on inventory items.
+	*** This will have to be called upon victory.
+	**/
+	void CommitChangesToInventory()
+		{ _item_command.CommitChangesToInventory(); }
 	//@}
 
 private:
