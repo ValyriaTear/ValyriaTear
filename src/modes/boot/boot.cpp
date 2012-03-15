@@ -371,7 +371,7 @@ void BootMode::Update() {
 	if (InputManager->ConfirmPress() && !_credits_window->IsActive())
 	{
 		// Play 'confirm sound' if the selection isn't grayed out and it has a confirm handler
-		if (_active_menu->IsEnabled(_active_menu->GetSelection()))
+		if (_active_menu->IsOptionEnabled(_active_menu->GetSelection()))
 			_boot_sounds.at(0).Play();
 		else
 			_boot_sounds.at(3).Play(); // Otherwise play a different sound

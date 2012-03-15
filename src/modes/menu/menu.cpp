@@ -270,7 +270,7 @@ void MenuMode::Update() {
 	}
 	else if (InputManager->ConfirmPress()) {
 		// Play Sound
-		if (_current_menu->IsEnabled(_current_menu->GetSelection()))
+		if (_current_menu->IsOptionEnabled(_current_menu->GetSelection()))
 			_menu_sounds["confirm"].Play();
 
 		_current_menu->InputConfirm();

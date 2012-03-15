@@ -519,7 +519,7 @@ void OptionBox::EnableOption(uint32 index, bool enable) {
 
 
 
-bool OptionBox::IsOptionEnabled(uint32 index) {
+bool OptionBox::IsOptionEnabled(uint32 index) const {
 	if (index >= GetNumberOptions()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << endl;
 		return false;
@@ -527,18 +527,6 @@ bool OptionBox::IsOptionEnabled(uint32 index) {
 
 	return (!_options[index].disabled);
 }
-
-
-
-bool OptionBox::IsEnabled(uint32 index) const {
-	if (index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << endl;
-		return false;
-	}
-
-	return !_options[index].disabled;
-}
-
 
 
 StillImage* OptionBox::GetEmbeddedImage(uint32 index) const {
