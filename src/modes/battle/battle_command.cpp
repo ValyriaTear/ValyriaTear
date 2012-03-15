@@ -613,6 +613,9 @@ CommandSupervisor::CommandSupervisor() :
 	_category_options.SetOptions(option_text);
 	_category_options.SetSelection(0);
 
+    // Skip disabled category items
+	_category_options.SetSkipDisabled(true);
+
 	_target_options.SetOwner(&_command_window);
 	_target_options.SetPosition(TARGET_POSITION_X, TARGET_POSITION_Y);
 	_target_options.SetDimensions(TARGET_SIZE_X, TARGET_SIZE_Y, 1, 255, 1, 4);
