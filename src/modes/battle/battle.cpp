@@ -364,16 +364,6 @@ void BattleMode::Update() {
 		}
 	}
 
-	//TODO: Apply scene lighting if the battle has finished
-/*	if ((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {// && _after_scripts_finished) {
-		if (_state == BATTLE_STATE_VICTORY) {
-//			VideoManager->EnableLightingOverlay(Color(0.914f, 0.753f, 0.106f, 0.2f)); // Golden color for victory
-		}
-		else {
-//			VideoManager->EnableSceneLighting(Color(1.0f, 0.0f, 0.0f, 0.4f)); // Red color for defeat
-		}
-	}*/
-
 	// If the battle is transitioning to/from a different mode, the sequence supervisor has control
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
 		_sequence_supervisor->Update();
@@ -641,6 +631,9 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 			_finish_supervisor->Initialize(true);
 			break;
 		case BATTLE_STATE_DEFEAT:
+			//Apply scene lighting if the battle has finished badly
+			VideoManager->EnableLightingOverlay(Color(1.0f, 0.0f, 0.0f, 0.4f));
+
 			_battle_media.defeat_music.Play();
 			_finish_supervisor->Initialize(false);
 			break;
