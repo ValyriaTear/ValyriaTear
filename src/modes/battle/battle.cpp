@@ -362,14 +362,14 @@ void BattleMode::Update() {
 	}
 
 	//TODO: Apply scene lighting if the battle has finished
-	if ((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {// && _after_scripts_finished) {
+/*	if ((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {// && _after_scripts_finished) {
 		if (_state == BATTLE_STATE_VICTORY) {
 //			VideoManager->EnableLightingOverlay(Color(0.914f, 0.753f, 0.106f, 0.2f)); // Golden color for victory
 		}
 		else {
 //			VideoManager->EnableSceneLighting(Color(1.0f, 0.0f, 0.0f, 0.4f)); // Red color for defeat
 		}
-	}
+	}*/
 
 	// If the battle is transitioning to/from a different mode, the sequence supervisor has control
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
@@ -1191,15 +1191,13 @@ void BattleMode::_DrawStaminaBar() {
 
 
 void BattleMode::_DrawIndicators() {
-	// TODO: Draw sprites indicators in an ordered manner?
-
 	// Draw all character sprites
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
+	for (uint32 i = 0; i < _character_actors.size(); ++i) {
 		_character_actors[i]->DrawIndicators();
 	}
 
 	// Draw all enemy sprites
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
 		_enemy_actors[i]->DrawIndicators();
 	}
 }
