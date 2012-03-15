@@ -1086,14 +1086,18 @@ void BattleMode::_DrawBottomMenu() {
 
 
 void BattleMode::_DrawStaminaBar() {
-	bool draw_icon_selection = false; // Used to determine whether or not an icon selector graphic needs to be drawn
-	bool is_party_selected = false; // If true, an entire party of actors is selected
-	bool is_party_enemy = false; // If true, the selected party is the enemy party
+	// Used to determine whether or not an icon selector graphic needs to be drawn
+	bool draw_icon_selection = false;
+	// If true, an entire party of actors is selected
+	bool is_party_selected = false;
+	// If true, the selected party is the enemy party
+	bool is_party_enemy = false;
 
 	BattleActor* selected_actor = NULL; // A pointer to the selected actor
 
-	// ----- (1): Determine if selector graphics should be drawn
-	if ((_state == BATTLE_STATE_COMMAND) && ((_command_supervisor->GetState() == COMMAND_STATE_ACTOR) || (_command_supervisor->GetState() == COMMAND_STATE_POINT))) {
+	// Determine whether the selector graphics should be drawn
+	if ((_state == BATTLE_STATE_COMMAND)
+		&& ((_command_supervisor->GetState() == COMMAND_STATE_ACTOR) || (_command_supervisor->GetState() == COMMAND_STATE_POINT))) {
 		BattleTarget target = _command_supervisor->GetSelectedTarget();
 
 		draw_icon_selection = true;
@@ -1109,83 +1113,43 @@ void BattleMode::_DrawStaminaBar() {
 		}
 	}
 
-	// ----- (2): Determine the draw order of stamina icons for all living actors
-	// A container to hold all actors that should have their stamina icons drawn
-	vector<BattleActor*> live_actors;
+	// TODO: sort the draw positions
 
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		if (_character_actors[i]->IsAlive())
-			live_actors.push_back(_character_actors[i]);
-	}
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		if (_enemy_actors[i]->IsAlive())
-			live_actors.push_back(_enemy_actors[i]);
-	}
-
-	//std::vector<bool> selected(live_actors.size(), false);
-
-	vector<float> draw_positions(live_actors.size(), 0.0f);
-	for (uint32 i = 0; i < live_actors.size(); i++) {
-		switch (live_actors[i]->GetState()) {
-			case ACTOR_STATE_IDLE:
-				draw_positions[i] = STAMINA_LOCATION_BOTTOM + (STAMINA_LOCATION_COMMAND - STAMINA_LOCATION_BOTTOM) *
-					live_actors[i]->GetStateTimer().PercentComplete();
-				break;
-			case ACTOR_STATE_COMMAND:
-				draw_positions[i] = STAMINA_LOCATION_COMMAND;
-				break;
-			case ACTOR_STATE_WARM_UP:
-				draw_positions[i] = STAMINA_LOCATION_COMMAND + (STAMINA_LOCATION_TOP - STAMINA_LOCATION_COMMAND) *
-					live_actors[i]->GetStateTimer().PercentComplete();
-				break;
-			case ACTOR_STATE_READY:
-				draw_positions[i] = STAMINA_LOCATION_TOP;
-				break;
-			case ACTOR_STATE_ACTING:
-				draw_positions[i] = STAMINA_LOCATION_TOP + 25.0f;
-				break;
-			case ACTOR_STATE_COOL_DOWN:
-				draw_positions[i] = STAMINA_LOCATION_BOTTOM;
-				break;
-			default:
-				// This case is invalid. Instead of printing a debug message that will get echoed every
-				// loop, draw the icon at a clearly invalid position well away from the stamina bar
-				draw_positions[i] = STAMINA_LOCATION_BOTTOM - 50.0f;
-				break;
-		}
-		// Add a shake effect when the battle actor has received damages
-		// and when not in battle command state.
-	    if (BattleMode::CurrentInstance()->GetState() != BATTLE_STATE_COMMAND
-			&& live_actors[i]->GetStateTimer().IsStunActive()) {
-		    draw_positions[i] += RandomFloat(-4.0f, 4.0f);
-		}
-	}
-
-	// TODO: sort the draw positions container and correspond that to live_actors
-// 	sort(draw_positions.begin(), draw_positions.end());
-
-	// ----- (3): Draw the stamina bar
-	const float STAMINA_BAR_POSITION_X = 970.0f, STAMINA_BAR_POSITION_Y = 128.0f; // The X and Y position of the stamina bar
+	// Draw the stamina bar
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 	VideoManager->Move(STAMINA_BAR_POSITION_X, STAMINA_BAR_POSITION_Y); // 1010
 	_battle_media.stamina_meter.Draw();
 
-	// ----- 4): Draw all stamina icons in order along with the selector graphic
+	// Draw all stamina icons in order along with the selector graphic
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-	for (uint32 i = 0; i < live_actors.size(); i++) {
-		if (live_actors[i]->IsEnemy() == false)
-			VideoManager->Move(STAMINA_BAR_POSITION_X - 25.0f, draw_positions[i]);
-		else
-			VideoManager->Move(STAMINA_BAR_POSITION_X + 25.0f, draw_positions[i]);
-		live_actors[i]->GetStaminaIcon().Draw();
 
-		if (draw_icon_selection == true) {
-			if ((is_party_selected == false) && (live_actors[i] == selected_actor))
-				_battle_media.stamina_icon_selected.Draw();
-			else if ((is_party_selected == true) && (live_actors[i]->IsEnemy() == is_party_enemy))
-				_battle_media.stamina_icon_selected.Draw();
-		}
-	}
+    for (uint32 i = 0; i < _character_actors.size(); ++i) {
+        if (!_character_actors[i]->IsAlive())
+            continue;
+
+        _character_actors[i]->DrawStaminaIcon();
+
+        if (!draw_icon_selection)
+            continue;
+
+        // Draw selections
+        if ((is_party_selected && !is_party_enemy) || _character_actors[i] == selected_actor)
+            _battle_media.stamina_icon_selected.Draw();
+    }
+
+    for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
+        if (!_enemy_actors[i]->IsAlive())
+            continue;
+
+        _enemy_actors[i]->DrawStaminaIcon();
+
+        if (!draw_icon_selection)
+            continue;
+
+        // Draw selections
+        if ((is_party_selected && is_party_enemy) || _enemy_actors[i] == selected_actor)
+            _battle_media.stamina_icon_selected.Draw();
+    }
 } // void BattleMode::_DrawStaminaBar()
 
 

@@ -318,7 +318,7 @@ void SequenceSupervisor::_DrawSprites() {
 
 
 void SequenceSupervisor::_DrawGUI() {
-	// ----- (1): Draw all images that compose the bottom menu area
+	// Draw all images that compose the bottom menu area
 	// Draw the static image for the lower menu
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 	VideoManager->Move(0.0f, 0.0f -  _gui_position_offset);
@@ -328,13 +328,7 @@ void SequenceSupervisor::_DrawGUI() {
 	VideoManager->MoveRelative(6.0f, 16.0f);
 	_battle->GetMedia().swap_icon.Draw(Color::gray);
 
-	// TODO: Decide if we want to draw this information during initial sequence or not
-// 	// Draw the status information of all character actors
-// 	for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-// 		_battle->_character_actors[i]->DrawStatus(i);
-// 	}
-
-	// ----- (2): Determine the draw order of stamina icons for all living actors
+	// Determine the draw order of stamina icons for all living actors
 	// A container to hold all actors that should have their stamina icons drawn
 	vector<BattleActor*> live_actors;
 
@@ -347,8 +341,6 @@ void SequenceSupervisor::_DrawGUI() {
 			live_actors.push_back(_battle->_enemy_actors[i]);
 	}
 
-	//std::vector<bool> selected(live_actors.size(), false);
-
 	vector<float> draw_positions(live_actors.size(), 0.0f);
 	for (uint32 i = 0; i < live_actors.size(); i++) {
 		switch (live_actors[i]->GetState()) {
@@ -357,23 +349,19 @@ void SequenceSupervisor::_DrawGUI() {
 					live_actors[i]->GetStateTimer().PercentComplete();
 				break;
 			default:
-				// All other cases are invalid. Instead of printing a debug message that will get echoed every
-				// loop, draw the icon at a clearly invalid position well away from the stamina bar
 				draw_positions[i] = STAMINA_LOCATION_BOTTOM - 50.0f;
 				break;
 		}
 	}
 
-	// TODO: sort the draw positions container and correspond that to live_actors
-// 	sort(draw_positions.begin(), draw_positions.end());
+	// TODO: sort the draw positions container
 
-	// ----- (3): Draw the stamina bar
-	const float STAMINA_BAR_POSITION_X = 970.0f, STAMINA_BAR_POSITION_Y = 128.0f; // The X and Y position of the stamina bar
+	// Draw the stamina bar
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 	VideoManager->Move(STAMINA_BAR_POSITION_X + _gui_position_offset, STAMINA_BAR_POSITION_Y);
 	_battle->GetMedia().stamina_meter.Draw();
 
-	// ----- (4): Draw all stamina icons in order
+	// Draw all stamina icons in order
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 	for (uint32 i = 0; i < live_actors.size(); i++) {
 		if (live_actors[i]->IsEnemy() == false)

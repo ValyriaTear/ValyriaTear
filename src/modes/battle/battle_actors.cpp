@@ -57,6 +57,8 @@ BattleActor::BattleActor(GlobalActor* actor) :
 	_state_paused(false),
 	_idle_state_time(0),
 	_animation_timer(0),
+	_x_stamina_location(0.0f),
+	_y_stamina_location(0.0f),
 	_effects_supervisor(new EffectsSupervisor(this)),
 	_indicator_supervisor(new IndicatorSupervisor(this))
 {
@@ -285,8 +287,10 @@ void BattleActor::ChangeSkillPoints(int32 amount) {
 
 
 void BattleActor::Update(bool animation_only) {
-	if ((_state_paused == false) && (animation_only == false))
+	if (!_state_paused && !animation_only)
 		_state_timer.Update();
+
+	_UpdateStaminaIconPosition();
 
 	_effects_supervisor->Update();
 	_indicator_supervisor->Update();
@@ -312,6 +316,57 @@ void BattleActor::Update(bool animation_only) {
 }
 
 
+void BattleActor::_UpdateStaminaIconPosition() {
+	float x_pos = _x_stamina_location;
+	float y_pos = _y_stamina_location;
+
+	if (IsValid()) {
+		if (IsEnemy())
+			x_pos = STAMINA_BAR_POSITION_X + 25.0f;
+		else
+			x_pos = STAMINA_BAR_POSITION_X - 25.0f;
+	}
+
+	switch (_state) {
+		case ACTOR_STATE_IDLE:
+			y_pos = STAMINA_LOCATION_BOTTOM + ((STAMINA_LOCATION_COMMAND - STAMINA_LOCATION_BOTTOM) *
+				_state_timer.PercentComplete());
+			break;
+		case ACTOR_STATE_COMMAND:
+			y_pos = STAMINA_LOCATION_COMMAND;
+			break;
+		case ACTOR_STATE_WARM_UP:
+			y_pos = STAMINA_LOCATION_COMMAND + ((STAMINA_LOCATION_TOP - STAMINA_LOCATION_COMMAND) *
+				_state_timer.PercentComplete());
+			break;
+		case ACTOR_STATE_READY:
+			y_pos = STAMINA_LOCATION_TOP;
+			break;
+		case ACTOR_STATE_ACTING:
+			y_pos = STAMINA_LOCATION_TOP + 25.0f;
+			break;
+		case ACTOR_STATE_COOL_DOWN:
+			y_pos = STAMINA_LOCATION_BOTTOM;
+			break;
+		case ACTOR_STATE_DYING:
+			// Make the icon fall whil disappearing...
+			y_pos -= _state_timer.PercentComplete();
+			break;
+		default:
+			y_pos = STAMINA_LOCATION_BOTTOM - 50.0f;
+			break;
+	}
+
+	// Add a shake effect when the battle actor has received damages
+	if (_state_timer.IsStunActive()) {
+		x_pos += RandomFloat(-4.0f, 4.0f);
+	}
+
+	_x_stamina_location = x_pos;
+	_y_stamina_location = y_pos;
+}
+
+
 void BattleActor::DrawSprite() {
 	VideoManager->Move(_x_location, _y_location);
 }
@@ -321,6 +376,18 @@ void BattleActor::DrawIndicators() const {
 	_indicator_supervisor->Draw();
 }
 
+
+void BattleActor::DrawStaminaIcon() const {
+	if (!IsAlive())
+		return;
+
+	VideoManager->Move(_x_stamina_location, _y_stamina_location);
+	// Make the stamina icon fade away when dying
+	if (_state == ACTOR_STATE_DYING)
+		_stamina_icon.Draw(Color(1.0f, 1.0f, 1.0f, 1.0f - _state_timer.PercentComplete()));
+	else
+		_stamina_icon.Draw();
+}
 
 
 void BattleActor::SetAction(BattleAction* action) {

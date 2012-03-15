@@ -76,9 +76,13 @@ public:
 	//! \brief Returns true if the actor is considered an enemy of the character party
 	virtual bool IsEnemy() const = 0;
 
-	//! \brief Returns true so long as the actor is not in the "dead" state
+	//! \brief Returns true as long as the actor is not in the "dead" state
 	bool IsAlive() const
 		{ return (_state != ACTOR_STATE_DEAD); }
+
+	//! \brief Returns true if the actor can still fight.
+	bool IsValid() const
+		{ return (_state != ACTOR_STATE_DYING && IsAlive()); }
 
 	//! \brief Empty method. Required because this is a pure virtual method of GlobalActor
 	void AddSkill(uint32 /*skill_id*/)
@@ -209,6 +213,9 @@ public:
 
 	//! \brief Draws all active indicator text and graphics for the actor
 	void DrawIndicators() const;
+
+	//! \brief Draws the stamina icon
+	void DrawStaminaIcon() const;
 
 	/** \brief Sets the action that the actor should execute next
 	*** \param action A pointer to the action that the actor should execute
@@ -360,11 +367,17 @@ protected:
 	//! \brief The actor's icon for the stamina meter
 	hoa_video::StillImage _stamina_icon;
 
+	//! \brief The x and y coordinates of the actor's current stamina icon on the stamina bar.
+	float _x_stamina_location, _y_stamina_location;
+
 	//! \brief An assistant class to the actor that manages all the actor's status and elemental effects
 	EffectsSupervisor* _effects_supervisor;
 
 	//! \brief An assistant class to the actor that manages all the actor's indicator text and graphics
 	IndicatorSupervisor* _indicator_supervisor;
+
+	//! \brief Updates the Stamina Icon position.
+	void _UpdateStaminaIconPosition();
 }; // class BattleActor
 
 
