@@ -156,7 +156,10 @@ void IndicatorElement::_UpdateDrawPosition() {
 			else
 				_x_position -= 5.0f / 1000 * elapsed_ms;
 			break;
-
+		case ITEM_INDICATOR:
+			_y_absolute_position = _actor->GetYLocation() + _actor->GetSpriteHeight();
+			_y_position -= 5.0f / 1000 * elapsed_ms;
+			break;
 		case NEGATIVE_STATUS_EFFECT_INDICATOR:
 			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
 
@@ -509,6 +512,11 @@ void IndicatorSupervisor::AddStatusIndicator(GLOBAL_STATUS old_status, GLOBAL_IN
 		    POSITIVE_STATUS_EFFECT_INDICATOR : NEGATIVE_STATUS_EFFECT_INDICATOR;
 		_wait_queue.push_back(new IndicatorBlendedImage(_actor, *first_image, *second_image, indicator_type));
 	}
+}
+
+void IndicatorSupervisor::AddItemIndicator(const GlobalItem& item) {
+	_wait_queue.push_back(new IndicatorImage(_actor, item.GetIconImage(),
+											ITEM_INDICATOR));
 }
 
 } // namespace private_battle

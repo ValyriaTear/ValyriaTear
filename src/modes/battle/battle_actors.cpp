@@ -534,6 +534,13 @@ void BattleCharacter::Update(bool animation_only) {
 			if (!_action->Execute())
 				// Indicate the the skill execution failed to the user.
 				RegisterMiss();
+
+			// If it was an item action, show the item used.
+			if (_action->IsItemAction()) {
+				ItemAction *item_action = static_cast<ItemAction*>(_action);
+				_indicator_supervisor->AddItemIndicator(item_action->GetItem()->GetItem());
+			}
+
 			ChangeState(ACTOR_STATE_COOL_DOWN);
 		}
 	}

@@ -38,7 +38,8 @@ enum INDICATOR_TYPE {
     HEALING_INDICATOR = 1,
     MISS_INDICATOR = 2,
     POSITIVE_STATUS_EFFECT_INDICATOR = 3,
-    NEGATIVE_STATUS_EFFECT_INDICATOR = 4
+    NEGATIVE_STATUS_EFFECT_INDICATOR = 4,
+	ITEM_INDICATOR = 5
 };
 
 /** ****************************************************************************
@@ -361,6 +362,8 @@ public:
 	void AddStatusIndicator(hoa_global::GLOBAL_STATUS old_status, hoa_global::GLOBAL_INTENSITY old_intensity,
 		hoa_global::GLOBAL_STATUS new_status, hoa_global::GLOBAL_INTENSITY new_intensity);
 
+	//! \brief Creates indicator with item image above the character
+	void AddItemIndicator(const hoa_global::GlobalItem& item);
 private:
 	//! \brief A pointer to the actor that this class supervises indicator elements for
 	BattleActor* _actor;
