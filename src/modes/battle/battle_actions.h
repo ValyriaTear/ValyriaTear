@@ -166,11 +166,9 @@ public:
 
 	hoa_utils::ustring GetName() const;
 
-	uint32 GetWarmUpTime() const
-		{ return ITEM_WARM_UP_TIME; }
+	uint32 GetWarmUpTime() const;
 
-	uint32 GetCoolDownTime() const
-		{ return 0; }
+	uint32 GetCoolDownTime() const;
 
 	std::string GetActionName() const
 		{ return "idle"; }

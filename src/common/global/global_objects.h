@@ -202,6 +202,16 @@ public:
 	**/
 	const ScriptObject* GetFieldUseFunction() const
 		{ return _field_use_function; }
+
+	/** \brief Returns Warmup time needed before using this item in battles.
+	**/
+	uint32 GetWarmUpTime() const
+		{ return _warmup_time; }
+
+	/** \brief Returns Warmup time needed before using this item in battles.
+	**/
+	uint32 GetCoolDownTime() const
+		{ return _cooldown_time; }
 	//@}
 
 private:
@@ -213,6 +223,12 @@ private:
 
 	//! \brief A pointer to the script function that performs the item's effect while in a menu
 	ScriptObject* _field_use_function;
+
+	//! \brief The warmup time in milliseconds needed before using this item in battles.
+	uint32 _warmup_time;
+
+	//! \brief The cooldown time in milliseconds needed after using this item in battles.
+	uint32 _cooldown_time;
 }; // class GlobalItem : public GlobalObject
 
 

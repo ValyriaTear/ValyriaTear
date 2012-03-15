@@ -72,10 +72,6 @@ const uint32 INVALID_BATTLE_ACTOR_INDEX = 999;
 //! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
 const uint32 MIN_IDLE_WAIT_TIME = 10000;
 
-//! \brief Warm up time for using items (try to keep short, should be constant regardless of item used)
-const uint32 ITEM_WARM_UP_TIME = 1000;
-
-
 //! \brief Used to indicate what state the overall battle is currently operating in
 enum BATTLE_STATE {
 	BATTLE_STATE_INVALID   = -1,
@@ -680,6 +676,14 @@ public:
 	**/
 	hoa_global::GLOBAL_TARGET GetTargetType() const
 		{ return _item.GetTargetType(); }
+
+	//! \brief A wrapper function retrieving the warmup time needed to use the item in battles.
+	uint32 GetWarmUpTime() const
+		{ return _item.GetWarmUpTime(); }
+
+	//! \brief A wrapper function retrieving the cooldown time needed after the item use in battles.
+	uint32 GetCoolDownTime() const
+		{ return _item.GetCoolDownTime(); }
 
 private:
 	//! \brief The item that this class represents

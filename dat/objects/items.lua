@@ -7,10 +7,10 @@
 -- each other, but among other inventory game objects as well (weapons, armor,
 -- etc).
 --
--- Object IDs 1 through 10,000 are reserved for items. Do not break this 
+-- Object IDs 1 through 10,000 are reserved for items. Do not break this
 -- limit, because other value ranges correspond to other types of inventory objects.
 --
--- Item IDs do -not- need to be sequential. When you make a new item, keep it 
+-- Item IDs do -not- need to be sequential. When you make a new item, keep it
 -- grouped with similar item types (potions, scrolls, etc.) and keep a buffer of
 -- space between group types. This way we won't get a mess of random items all over
 -- this file.
@@ -21,6 +21,8 @@
 -- {icon}: The filepath to the image icon representing this icon.
 -- {target_type}: The type of target the item affects, which may be an attack point, actor, or party.
 -- {standard_price}: The standard asking price of this weapon from merchants.
+-- {warmup_time}: The time needed before using that item in battles.
+-- {cooldown_time}: The time needed after using that item in battles.
 --
 -- Each item entry requires a function called {BattleUse} to be defined. This function implements the
 -- use of item in battle, healing damage, causing status changes, playing sounds, and animating
@@ -48,6 +50,8 @@ items[1] = {
 	icon = "img/icons/items/potion_green_small.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 60,
+	warmup_time = 1000,
+	cooldown_time = 700,
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
@@ -71,6 +75,8 @@ items[1001] = {
 	icon = "img/icons/items/potion_blue_small.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 60,
+	use_warmup_time = 1200,
+	cooldown_time = 700,
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();

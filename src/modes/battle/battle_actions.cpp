@@ -216,6 +216,20 @@ ustring ItemAction::GetName() const {
 		return (UTranslate("Use: ") + (_item->GetItem()).GetName());
 }
 
+uint32 ItemAction::GetWarmUpTime() const {
+	if (_item == NULL)
+		return 0;
+	else
+		return _item->GetWarmUpTime();
+}
+
+uint32 ItemAction::GetCoolDownTime() const {
+	if (_item == NULL)
+		return 0;
+	else
+		return _item->GetCoolDownTime();
+}
+
 } // namespace private_battle
 
 } // namespace hoa_battle

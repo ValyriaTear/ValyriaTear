@@ -53,7 +53,9 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
 	GlobalObject(id, count),
 	_target_type(GLOBAL_TARGET_INVALID),
 	_battle_use_function(NULL),
-	_field_use_function(NULL)
+	_field_use_function(NULL),
+	_warmup_time(0),
+	_cooldown_time(0)
 {
 	if ((_id == 0) || (_id > MAX_ITEM_ID)) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << endl;
@@ -73,6 +75,8 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
 	_LoadObjectData(script_file);
 
 	_target_type = static_cast<GLOBAL_TARGET>(script_file.ReadInt("target_type"));
+	_warmup_time = script_file.ReadUInt("warmup_time");
+	_cooldown_time = script_file.ReadUInt("cooldown_time");
 	if (script_file.DoesFunctionExist("BattleUse") == true) {
 		_battle_use_function = new ScriptObject();
 		*_battle_use_function = script_file.ReadFunctionPointer("BattleUse");
@@ -112,6 +116,8 @@ GlobalItem::GlobalItem(const GlobalItem& copy) :
 	GlobalObject(copy)
 {
 	_target_type = copy._target_type;
+	_warmup_time = copy._warmup_time;
+	_cooldown_time = copy._cooldown_time;
 
 	// Make copies of valid ScriptObject function pointers
 	if (copy._battle_use_function == NULL)
@@ -133,6 +139,8 @@ GlobalItem& GlobalItem::operator=(const GlobalItem& copy) {
 
 	GlobalObject::operator=(copy);
 	_target_type = copy._target_type;
+	_warmup_time = copy._warmup_time;
+	_cooldown_time = copy._cooldown_time;
 
 	// Make copies of valid ScriptObject function pointers
 	if (copy._battle_use_function == NULL)
