@@ -257,7 +257,8 @@ BattleMode::BattleMode() :
 	_command_supervisor(NULL),
 	_dialogue_supervisor(NULL),
 	_finish_supervisor(NULL),
-	_current_number_swaps(0)
+	_current_number_swaps(0),
+	_last_enemy_dying(false)
 {
 	IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << endl;
 
@@ -324,6 +325,8 @@ void BattleMode::Reset() {
 
 	_battle_media.battle_music.Play();
 
+	_last_enemy_dying = false;
+
 	if (_state == BATTLE_STATE_INVALID) {
 		_Initialize();
 	}
@@ -385,6 +388,11 @@ void BattleMode::Update() {
 		else if (_NumberEnemiesAlive() == 0) {
 			ChangeState(BATTLE_STATE_VICTORY);
 		}
+
+		// Check whether the last enemy is dying
+		if (_last_enemy_dying == false && _NumberValidEnemies() == 0)
+		    _last_enemy_dying = true;
+
 		// Holds a pointer to the character to select an action for
 		BattleCharacter* character_selection = NULL;
 
@@ -418,16 +426,20 @@ void BattleMode::Update() {
 			}
 		}
 
-		if (character_selection != NULL) {
+		if (!_last_enemy_dying && character_selection != NULL) {
 			OpenCommandMenu(character_selection);
 		}
 	}
 	// If the player is selecting a command for a character, the command supervisor has control
 	else if (_state == BATTLE_STATE_COMMAND) {
-		_command_supervisor->Update();
+		// If the last enemy is dying, there is no need to process command further
+		if (!_last_enemy_dying)
+			_command_supervisor->Update();
+		else
+			ChangeState(BATTLE_STATE_NORMAL);
 	}
 	// If the battle is in either finish state, the finish supervisor has control
-	else if ((_state == private_battle::BATTLE_STATE_VICTORY) || (_state == private_battle::BATTLE_STATE_DEFEAT)) {
+	else if ((_state == BATTLE_STATE_VICTORY) || (_state == BATTLE_STATE_DEFEAT)) {
 		_finish_supervisor->Update();
 		return;
 	}
@@ -436,7 +448,7 @@ void BattleMode::Update() {
 	// command state to allow the player to enter a command for that character before resuming. We also want to make sure
 	// that the command menu is open whenever we find a character in the command state. If the command menu is not open, we
 	// forcibly open it and make the player choose a command for the character so that the battle may continue.
-	if (GlobalManager->GetBattleSetting() == GLOBAL_BATTLE_WAIT) {
+	if (!_last_enemy_dying && GlobalManager->GetBattleSetting() == GLOBAL_BATTLE_WAIT) {
 		for (uint32 i = 0; i < _character_actors.size(); i++) {
 			if (_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
 				if (_state != BATTLE_STATE_COMMAND) {
@@ -448,7 +460,7 @@ void BattleMode::Update() {
 	}
 
 	// Process the actor ready queue
-	if (_ready_queue.empty() == false) {
+	if (!_last_enemy_dying && !_ready_queue.empty()) {
 		// Only the acting actor is examined in the ready queue. If this actor is in the READY state,
 		// that means it has been waiting for BattleMode to allow it to begin its action and thus
 		// we set it to the ACTING state. We do nothing while it is in the ACTING state, allowing the
@@ -558,6 +570,8 @@ void BattleMode::RestartBattle() {
 
 	_battle_media.battle_music.Rewind();
 	_battle_media.battle_music.Play();
+
+	_last_enemy_dying = false;
 
 	ChangeState(BATTLE_STATE_INITIAL);
 }
@@ -741,6 +755,9 @@ void BattleMode::NotifyActorDeath(BattleActor* actor) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void BattleMode::_Initialize() {
+	// Unset a possible last enemy dying sequence.
+	_last_enemy_dying = false;
+
 	// (1): Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
 	GlobalParty* active_party = GlobalManager->GetActiveParty();
 	if (active_party->GetPartySize() == 0) {
@@ -923,21 +940,31 @@ void BattleMode::_DetermineActorLocations() {
 
 uint32 BattleMode::_NumberEnemiesAlive() const {
 	uint32 enemy_count = 0;
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		if (_enemy_actors[i]->IsAlive() == true) {
-			enemy_count++;
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
+		if (_enemy_actors[i]->IsAlive()) {
+			++enemy_count;
 		}
 	}
 	return enemy_count;
 }
 
 
+uint32 BattleMode::_NumberValidEnemies() const {
+	uint32 enemy_count = 0;
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
+		if (_enemy_actors[i]->IsValid()) {
+			++enemy_count;
+		}
+	}
+	return enemy_count;
+}
+
 
 uint32 BattleMode::_NumberCharactersAlive() const {
 	uint32 character_count = 0;
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		if (_character_actors[i]->IsAlive() == true) {
-			character_count++;
+	for (uint32 i = 0; i < _character_actors.size(); ++i) {
+		if (_character_actors[i]->IsAlive()) {
+			++character_count;
 		}
 	}
 	return character_count;

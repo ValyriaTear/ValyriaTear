@@ -451,6 +451,12 @@ private:
 	**/
 	uint8 _current_number_swaps;
 
+	/** \brief Tells whether the last enemy is dying.
+	*** In that case, the battle character action must be canceled, and the command made unavailable
+	*** until the last die animation is done.
+	**/
+	bool _last_enemy_dying;
+
 	////////////////////////////// PRIVATE METHODS ///////////////////////////////
 
 	//! \brief Initializes all data necessary for the battle to begin
@@ -474,6 +480,12 @@ private:
 
 	//! \brief Returns the number of enemies that are still alive in the battle
 	uint32 _NumberEnemiesAlive() const;
+
+	/** \brief Returns the number of enemies that are still capable to fight in the battle.
+	*** Which isn't the number of alive enemies, since that function can tell whether an enemy
+	*** is currently dying.
+	**/
+	uint32 _NumberValidEnemies() const;
 
 	/** \brief Returns the number of characters that are still alive in the battle
 	*** \note This function only counts the characters on the screen, not characters in the party reserves
