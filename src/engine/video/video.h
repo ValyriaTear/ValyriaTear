@@ -590,7 +590,7 @@ public:
 
 	//-- Fading ---------------------------------------------------------------
 
-	/** \brief Begins a screen fade.
+	/** \brief Begins a game-wise screen fade.
 	*** \param color The color to fade the screen to
 	*** \param time The fading process will take this number of milliseconds
 	**/
@@ -601,14 +601,11 @@ public:
 	bool IsFading()
 		{ return _screen_fader.IsFading(); }
 
-	void StartTransitionFadeOut(const Color &final, uint32 time)
-		{ _screen_fader.StartTransitionFadeOut(final, time); }
-
 	//! \brief A shortcut function used to make a fade in more explicitely.
 	void FadeIn(uint32 time)
 		{ _screen_fader.FadeIn(time); }
 
-	//! \brief tells whether the last fade effect was transitional.
+	//! \brief tells whether the last fade effect was transitional (done by the system).
 	bool IsLastFadeTransitional() const
 		{ return _screen_fader.IsLastFadeTransitional(); }
 
@@ -767,6 +764,11 @@ public:
 		{ _fps_display = !_fps_display; }
 private:
 	VideoEngine();
+
+	//-- System fades. Only usable by the mode manager
+	friend class hoa_mode_manager::ModeEngine;
+	void _StartTransitionFadeOut(const Color &final, uint32 time)
+		{ _screen_fader.StartTransitionFadeOut(final, time); }
 
 	//-- Private variables ----------------------------------------------------
 

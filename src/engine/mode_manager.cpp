@@ -113,7 +113,7 @@ void ModeEngine::Pop(bool fade_out, bool fade_in) {
 
     if (fade_out) {
         // Start a fade out between the two game modes.
-        VideoManager->StartTransitionFadeOut(Color::black, 1000);
+        VideoManager->_StartTransitionFadeOut(Color::black, 1000);
         _fade_out = true;
         _fade_out_finished = false;
     }
@@ -139,7 +139,7 @@ void ModeEngine::Push(GameMode* gm, bool fade_out, bool fade_in) {
 	_fade_in = fade_in;
 
 	if (fade_out) {
-		VideoManager->StartTransitionFadeOut(Color::black, 1000);
+		VideoManager->_StartTransitionFadeOut(Color::black, 1000);
 		_fade_out = true;
 		_fade_out_finished = false;
 	}

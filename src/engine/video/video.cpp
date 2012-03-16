@@ -951,6 +951,12 @@ void VideoEngine::DisableEffects() {
 	DisableLightingOverlay();
 	DisableLightning();
 	StopAllParticleEffects(true);
+
+	// Disable potential game fades as it is just another light effect.
+	// Transitional effects are done by the mode manager and shouldn't
+	// be interrupted.
+	if (IsFading() && !IsLastFadeTransitional())
+		FadeIn(0);
 }
 
 
