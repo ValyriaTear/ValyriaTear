@@ -770,6 +770,9 @@ private:
 	void _StartTransitionFadeOut(const Color &final, uint32 time)
 		{ _screen_fader.StartTransitionFadeOut(final, time); }
 
+	void _TransitionalFadeIn(uint32 time)
+		{ _screen_fader.TransitionalFadeIn(time); }
+
 	//-- Private variables ----------------------------------------------------
 
 	//! fps display flag. If true, FPS is displayed

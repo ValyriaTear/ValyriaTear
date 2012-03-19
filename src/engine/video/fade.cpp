@@ -39,12 +39,12 @@ ScreenFader::ScreenFader() :
 
 
 
-void ScreenFader::BeginFade(const Color &final, uint32 time) {
+void ScreenFader::BeginFade(const Color &final, uint32 time, bool transitional) {
 	// If last fade is made by the system, don't permit to fade:
-	if (_is_fading && _transitional_fading)
+	if (!transitional && _is_fading && _transitional_fading)
 		return;
 
-	_transitional_fading = false;
+	_transitional_fading = transitional;
 	_is_fading = true;
 
 	_end_time = time;

@@ -231,7 +231,7 @@ void ModeEngine::Update() {
         _fade_out_finished = false;
 
 		// We can now fade in, or not
-        VideoManager->FadeIn(_fade_in ? 1000 : 0);
+        VideoManager->_TransitionalFadeIn(_fade_in ? 1000 : 0);
 
 		// Call the system manager and tell it that the active game mode changed so it can update timers accordingly
 		SystemManager->ExamineSystemTimers();

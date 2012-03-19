@@ -42,8 +42,9 @@ public:
 	/** \brief Begins a new screen fading process
 	*** \param final The color to fade the screen to.
 	*** \param time The number of milliseconds that the fade should last for.
+	*** \param transitional whether the fading is done between two game modes.
 	**/
-	void BeginFade(const Color &final, uint32 time);
+	void BeginFade(const Color &final, uint32 time, bool transitional = false);
 
 	/** \brief Updates the amount of fading for the screen
 	*** \param time The number of milliseconds that have passed since last update.
@@ -67,7 +68,11 @@ public:
 	*** It's a simple fade but flagged as special to let the mode manager handle it.
 	**/
 	void StartTransitionFadeOut(const Color &final, uint32 time)
-		{ BeginFade(final, time); _transitional_fading = true; }
+		{ BeginFade(final, time, true); }
+
+	//! \brief A shortcut function used to make a fade in more explicitely.
+	void TransitionalFadeIn(uint32 time)
+		{ BeginFade(Color::clear, time, true); }
 
 	//! \brief A shortcut function used to make a fade in more explicitely.
 	void FadeIn(uint32 time)
