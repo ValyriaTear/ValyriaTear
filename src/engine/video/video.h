@@ -265,10 +265,13 @@ public:
 	**/
 	void Clear(const Color& background_color);
 
-	/** \brief Displays the newly drawn contents onto the screen
-	*** \param frame_time The number of milliseconds that have expired since the last frame was drawn.
+	/** \brief Updates every main game sub-engines.
 	**/
-	void Display(uint32 frame_time);
+	void Update();
+
+	/** \brief Displays the newly drawn contents onto the screen
+	**/
+	void Draw();
 
 	/** \brief Retrieves the OpenGL error code and retains it in the _gl_error_code member
 	*** \return True if an OpenGL error has been detected, false if no errors were detected
@@ -753,10 +756,8 @@ public:
 	 */
 	TextStyle GetTextStyle();
 
-	/** \brief Updates the FPS counter and draws the current average FPS to the screen
-	*** The number of milliseconds that have expired since the last frame was drawn
-	**/
-	void DrawFPS(uint32 frame_time);
+	//! \brief Updates the FPS counter and draws the current average FPS to the screen.
+	void DrawFPS();
 
 	/** \brief toggles the FPS display (on by default)
 	 */

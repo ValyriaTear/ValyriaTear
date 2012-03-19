@@ -137,10 +137,11 @@ VideoEngine::VideoEngine() :
 }
 
 
-void VideoEngine::DrawFPS(uint32 frame_time) {
+void VideoEngine::DrawFPS() {
 	if (!_fps_display)
 		return;
-	PushState();
+
+	uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
 	SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
 
 	// Calculate the FPS for the current frame
@@ -192,7 +193,7 @@ void VideoEngine::DrawFPS(uint32 frame_time) {
 
 	Move(930.0f, 720.0f); // Upper right hand corner of the screen
 	Text()->Draw(fps_text, TextStyle("text20", Color::white));
-	PopState();
+
 } // void GUISystem::_DrawFPS(uint32 frame_time)
 
 
@@ -249,7 +250,7 @@ bool VideoEngine::FinalizeInitialization() {
 
 	// Prepare the screen for rendering
 	Clear();
-	Display(0);
+	Draw();
 	Clear();
 
 	// TEMP: this is a hack and should be removed when we can support procedural images
@@ -361,12 +362,8 @@ void VideoEngine::Clear(const Color &c) {
 }
 
 
-
-void VideoEngine::Display(uint32 frame_time) {
-	PushState();
-
-	// Restore possible previous coords changes
-	SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+void VideoEngine::Update() {
+	uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
 
 	// Update all particle effects
 	_particle_manager.Update(frame_time);
@@ -376,13 +373,23 @@ void VideoEngine::Display(uint32 frame_time) {
 
 	_UpdateAmbientOverlay(frame_time);
 
+	_UpdateLightning(frame_time);
+
+	_screen_fader.Update(frame_time);
+}
+
+
+void VideoEngine::Draw() {
+	PushState();
+
+	// Restore possible previous coords changes
+	SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+
 	// Draw the particle effects
 	DrawParticleEffects();
 
 	// Apply potential active ambient lightning
 	DrawOverlays();
-
-	_UpdateLightning(frame_time);
 
 	// This must be called before DrawFPS, because we only want to count
 	// texture switches related to the game's normal operation, not the
@@ -393,11 +400,9 @@ void VideoEngine::Display(uint32 frame_time) {
 	if (TextureManager->debug_current_sheet >= 0)
 		TextureManager->DEBUG_ShowTexSheet();
 
-	DrawFPS(frame_time); // Draw FPS Counter If We Need To
-
+	// Draw FPS Counter If We Need To
+	DrawFPS();
 	PopState();
-
-	_screen_fader.Update(frame_time);
 } // void VideoEngine::Display(uint32 frame_time)
 
 

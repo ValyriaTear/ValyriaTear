@@ -411,12 +411,16 @@ int main(int argc, char *argv[]) {
 			// 1) Render the scene
 			VideoManager->Clear();
 			ModeManager->Draw();
-			VideoManager->Display(SystemManager->GetUpdateTime());
+			VideoManager->Draw();
 			ModeManager->DrawPostEffects();
+			// Swap the buffers once the draw operations are done.
 			SDL_GL_SwapBuffers();
 
 			// 2) Process all new events
 			InputManager->EventHandler();
+
+			// Update video
+			VideoManager->Update();
 
 			// 3) Update any streaming audio sources
 			AudioManager->Update();
