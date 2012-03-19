@@ -218,8 +218,8 @@ function Load(m)
 		VideoManager:DisableEffects();
 		-- Draw morning-time scene lighting
 		VideoManager:EnableLightingOverlay(hoa_video.Color(0.6, 0.0, 0.3, 0.3));
-		-- TODO: Show some sandy wind: Fix the display of it the second time
-		--VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
+		-- Show some sandy wind
+		VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", 450.0, 25.0);
 
 		ReturnCreateCharacters();
 		ReturnCreateNPCs();

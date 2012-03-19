@@ -687,6 +687,7 @@ void VideoEngine::EnableAmbientOverlay(const string &filename,
 									   float x_speed, float y_speed) {
 	// Note: The StillImage class handles clearing an image
 	// when loading another one.
+	_ambient_overlay_img.Clear();
 	if (_ambient_overlay_img.Load(filename)) {
 		_ambient_x_speed = x_speed;
 		_ambient_y_speed = y_speed;
