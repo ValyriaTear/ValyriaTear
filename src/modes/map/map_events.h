@@ -302,7 +302,7 @@ public:
 	/** \param event_id The ID of this event
 	*** \param filename The name of the map file to transition to
 	**/
-	MapTransitionEvent(uint32 event_id, std::string filneame);
+	MapTransitionEvent(uint32 event_id, std::string filename);
 
 	~MapTransitionEvent();
 
@@ -381,6 +381,9 @@ protected:
 
 	//! \brief Filename of the battle script
 	std::string _battle_script;
+
+	//! \brief A timer used to do a custom fade out
+	hoa_system::SystemTimer _fade_timer;
 
 	//! \brief Starts the battle
 	void _Start();
