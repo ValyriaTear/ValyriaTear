@@ -560,6 +560,10 @@ void BindModeCode() {
 	[
 		class_<BattleMedia>("BattleMedia")
 			.def("SetBackgroundImage", &BattleMedia::SetBackgroundImage)
+			.def("AddCustomAnimation", &BattleMedia::AddCustomAnimation)
+			.def("AddCustomImage", &BattleMedia::AddCustomImage)
+			.def("DrawCustomImage", &BattleMedia::DrawCustomImage)
+			.def("DrawCustomAnimation", &BattleMedia::DrawCustomAnimation)
 			.def("SetBattleMusic", &BattleMedia::SetBattleMusic)
 	];
 

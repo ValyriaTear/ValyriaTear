@@ -68,7 +68,7 @@ const char* DEFAULT_DEFEAT_MUSIC   = "mus/Allacrost_Intermission.ogg";
 //@}
 
 BattleMedia::BattleMedia() {
-	if (background_image.Load("img/backdrops/battle/desert_cave.png") == false)
+	if (!background_image.Load("img/backdrops/battle/desert_cave/desert_cave.png"))
 		PRINT_ERROR << "failed to load default background image" << endl;
 
 	if (stamina_icon_selected.Load("img/menus/stamina_icon_selected.png") == false)
@@ -169,6 +169,15 @@ BattleMedia::~BattleMedia() {
 }
 
 
+void BattleMedia::Update() {
+	attack_point_indicator.Update();
+
+	// Update custom animations
+	for (uint32 i = 0; i < _custom_battle_animations.size(); ++i) {
+	    _custom_battle_animations[i].Update();
+	}
+}
+
 
 void BattleMedia::SetBackgroundImage(const string& filename) {
 	if (background_image.Load(filename) == false) {
@@ -176,6 +185,51 @@ void BattleMedia::SetBackgroundImage(const string& filename) {
 	}
 }
 
+
+int32 BattleMedia::AddCustomAnimation(const std::string& filename) {
+	AnimatedImage anim;
+	if (!anim.LoadFromAnimationScript(filename)) {
+		PRINT_WARNING << "Custom animation file could not be loaded: " << filename << endl;
+		return -1;
+	}
+
+	_custom_battle_animations.push_back(anim);
+
+	int32 id = _custom_battle_animations.size() - 1;
+	return id;
+}
+
+
+void BattleMedia::DrawCustomAnimation(int32 id, float x, float y) {
+	if (id < 0 || id > static_cast<int32>(_custom_battle_animations.size()) - 1)
+		return;
+
+	VideoManager->Move(x, y);
+	_custom_battle_animations[id].Draw();
+}
+
+
+int32 BattleMedia::AddCustomImage(const std::string& filename, float width,
+									float height) {
+	StillImage img;
+	if (!img.Load(filename, width, height)) {
+		PRINT_WARNING << "Custom image file could not be loaded: " << filename << endl;
+		return -1;
+	}
+
+	_custom_battle_images.push_back(img);
+
+	int32 id = _custom_battle_images.size() - 1;
+	return id;
+}
+
+void BattleMedia::DrawCustomImage(int32 id, float x, float y, Color color) {
+	if (id < 0 || id > static_cast<int32>(_custom_battle_images.size()) - 1)
+		return;
+
+	VideoManager->Move(x, y);
+	_custom_battle_images[id].Draw(color);
+}
 
 
 void BattleMedia::SetBattleMusic(const string& filename) {
@@ -337,7 +391,8 @@ void BattleMode::Reset() {
 
 
 void BattleMode::Update() {
-	_battle_media.attack_point_indicator.Update(); // Required update to animated image
+	// Update potential battle animations
+	_battle_media.Update();
 
 	// Pause/quit requests take priority
 	if (InputManager->QuitPress()) {
@@ -492,10 +547,10 @@ void BattleMode::Draw() {
 
 	_DrawBackgroundGraphics();
 	_DrawSprites();
+	_DrawForegroundGraphics();
 
-	if (_battle_script.IsFileOpen() == true) {
-		ScriptCallFunction<void>(_draw_function);
-	}
+	if (_battle_script.IsFileOpen())
+		ScriptCallFunction<void>(_draw_effects_function);
 }
 
 void BattleMode::DrawPostEffects() {
@@ -839,23 +894,33 @@ void BattleMode::_Initialize() {
 
 	// (6): Determine if the battle is scripted and if so, open the script file and perform additional scripted initialization
 	if (_script_filename != "") {
-		if (_battle_script.OpenFile(_script_filename) == true) {
-			// If any of the three required function signatures are not found, close the file and do not allow the script to be executed
-			if (_battle_script.DoesFunctionExist("Initialize") == false) {
+		if (_battle_script.OpenFile(_script_filename)) {
+			// If any of the required function signatures are not found, close the file and do not allow the script to be executed
+			if (!_battle_script.DoesFunctionExist("Initialize")) {
 				IF_PRINT_WARNING(BATTLE_DEBUG) << "required function [Initialize] not found within battle script: " << _script_filename << endl;
 				_battle_script.CloseFile();
 			}
-			else if (_battle_script.DoesFunctionExist("Update") == false) {
+			else if (!_battle_script.DoesFunctionExist("Update")) {
 				IF_PRINT_WARNING(BATTLE_DEBUG) << "required function [Update] not found within battle script: " << _script_filename << endl;
 				_battle_script.CloseFile();
 			}
-			else if (_battle_script.DoesFunctionExist("Draw") == false) {
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "required function [Draw] not found within battle script: " << _script_filename << endl;
+			else if (!_battle_script.DoesFunctionExist("DrawBackground")) {
+				PRINT_WARNING << "required function [DrawBackground] not found within battle script: " << _script_filename << endl;
+				_battle_script.CloseFile();
+			}
+			else if (!_battle_script.DoesFunctionExist("DrawForeground")) {
+				PRINT_WARNING << "required function [DrawForeground] not found within battle script: " << _script_filename << endl;
+				_battle_script.CloseFile();
+			}
+			else if (!_battle_script.DoesFunctionExist("DrawEffects")) {
+				PRINT_WARNING << "required function [DrawEffects] not found within battle script: " << _script_filename << endl;
 				_battle_script.CloseFile();
 			}
 			else {
 				_update_function = _battle_script.ReadFunctionPointer("Update");
-				_draw_function = _battle_script.ReadFunctionPointer("Draw");
+				_draw_background_function = _battle_script.ReadFunctionPointer("DrawBackground");
+				_draw_foreground_function = _battle_script.ReadFunctionPointer("DrawForeground");
+				_draw_effects_function = _battle_script.ReadFunctionPointer("DrawEffects");
 
 				ScriptObject init_function = _battle_script.ReadFunctionPointer("Initialize");
 				ScriptCallFunction<void>(init_function, this);
@@ -964,15 +1029,27 @@ uint32 BattleMode::_NumberCharactersAlive() const {
 }
 
 
-
 void BattleMode::_DrawBackgroundGraphics() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_NO_BLEND, 0);
 	VideoManager->Move(0.0f, 0.0f);
 	_battle_media.background_image.Draw();
 
-	// TODO: Draw other background objects and animations
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+
+	// Handles custom scripted draw before sprites
+	if (_battle_script.IsFileOpen())
+		ScriptCallFunction<void>(_draw_background_function);
 }
 
+
+void BattleMode::_DrawForegroundGraphics() {
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+
+	if (_battle_script.IsFileOpen())
+		ScriptCallFunction<void>(_draw_foreground_function);
+}
 
 
 void BattleMode::_DrawSprites() {

@@ -62,10 +62,38 @@ public:
 
 	~BattleMedia();
 
+	///! \brief Updates the different animations and media
+	void Update();
+
 	/** \brief Sets the background image for the battle
 	*** \param filename The filename of the new background image to load
 	**/
 	void SetBackgroundImage(const std::string& filename);
+
+	/** \brief Loads a custom lua animation file for the battle, to be drawn through scripting
+	*** \param filename The filename of the new background image to load
+	*** \return id the id used to invoke the animation through scripted draw calls.
+	**/
+	int32 AddCustomAnimation(const std::string& filename);
+
+	/** \brief Draws a custom animation.
+	*** \param custom image id, obtained through AddCustomAnimation()
+	*** \param position screen position to draw at.
+	**/
+	void DrawCustomAnimation(int32 id, float x, float y);
+
+	/** \brief Loads a custom image for the battle, to be drawn through scripting
+	*** \param filename The filename of the new background image to load
+	*** \return id the id used to invoke the animation through scripted draw calls.
+	**/
+	int32 AddCustomImage(const std::string& filename, float width, float height);
+
+	/** \brief Draws a custom image .
+	*** \param custom image id, obtained through AddCustomImage()
+	*** \param position screen position to draw at.
+	*** \param color to blend the image at.
+	**/
+	void DrawCustomImage(int32 id, float x, float y, hoa_video::Color color = hoa_video::Color::white);
 
 	/** \brief Sets the battle music to use
 	*** \param filename The full filename of the music to play
@@ -184,6 +212,12 @@ private:
 
 	//! \brief Contains the entire set of status effect icons
 	std::vector<hoa_video::StillImage> _status_icons;
+
+	//! \brief Contains a collection of custom loaded battle images, usable to be drawn through scripting.
+	std::vector<hoa_video::StillImage> _custom_battle_images;
+
+	//! \brief Contains a collection of custom loaded battle animation, usable to be drawn through scripting.
+	std::vector<hoa_video::AnimatedImage> _custom_battle_animations;
 
 }; // class BattleMedia
 
@@ -385,11 +419,23 @@ private:
 	**/
 	ScriptObject _update_function;
 
-	/** \brief Script function which assists with the MapMode#Draw method
+	/** \brief Script function which assists with the MapMode#DrawBackground method
 	*** This function executes any code that needs to be performed on a draw call. This allows us battle's to
-	*** utilize custom lighting or other visual effects.
+	*** utilize custom background effects.
 	**/
-	ScriptObject _draw_function;
+	ScriptObject _draw_background_function;
+
+	/** \brief Script function which assists with the MapMode#DrawForeground method
+	*** This function executes any code that needs to be performed on a draw call. This allows us battle's to
+	*** utilize custom visual effects over the characters and enemies sprites.
+	**/
+	ScriptObject _draw_foreground_function;
+
+	/** \brief Script function which assists with the MapMode#DrawEffects methods
+	*** This function executes any code that needs to be performed on a draw call. This allows us battle's to
+	*** utilize custom light effects just below the gui.
+	**/
+	ScriptObject _draw_effects_function;
 	//@}
 
 	//! \name Battle supervisor classes
@@ -495,6 +541,12 @@ private:
 	*** For example, the actor selector image and any visible action effects like magic.
 	**/
 	void _DrawSprites();
+
+	/** \brief Draws all foreground images and animations
+	*** The images and effects drawn by this function will be drawn over sprites,
+	*** but not over the post effects and the gui.
+	**/
+	void _DrawForegroundGraphics();
 
 	//! \brief Draws all GUI graphics on the screen
 	void _DrawGUI();

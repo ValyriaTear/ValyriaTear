@@ -1480,7 +1480,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 SetBattleEnvironment = function(enemy)
 	enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
-	enemy:SetBattleBackground("img/backdrops/battle/desert_cave.png");
+	enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
 	enemy:SetBattleScript("dat/battles/first_battle.lua");
 end
 

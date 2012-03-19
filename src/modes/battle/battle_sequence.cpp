@@ -260,12 +260,14 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 
 
 void SequenceSupervisor::_DrawInitialSequence() {
-	if (_sequence_step >= INIT_STEP_BACKGROUND_FADE) {
+	if (_sequence_step >= INIT_STEP_BACKGROUND_FADE)
 		_battle->_DrawBackgroundGraphics();
-	}
-	if (_sequence_step >= INIT_STEP_SPRITE_MOVEMENT) {
+
+	if (_sequence_step >= INIT_STEP_SPRITE_MOVEMENT)
 		_battle->_DrawSprites();
-	}
+
+	if (_sequence_step >= INIT_STEP_BACKGROUND_FADE)
+		_battle->_DrawForegroundGraphics();
 }
 
 void SequenceSupervisor::_DrawInitialSequencePostEffects() {
@@ -277,6 +279,7 @@ void SequenceSupervisor::_DrawInitialSequencePostEffects() {
 void SequenceSupervisor::_DrawExitingSequence() {
 	_battle->_DrawBackgroundGraphics();
 	_battle->_DrawSprites();
+	_battle->_DrawForegroundGraphics();
 }
 
 void SequenceSupervisor::_DrawExitingSequencePostEffects() {
