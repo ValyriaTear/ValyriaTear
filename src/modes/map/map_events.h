@@ -354,11 +354,20 @@ public:
 	**/
 	BattleEncounterEvent(uint32 event_id, uint32 enemy_id);
 
-	~BattleEncounterEvent();
+	~BattleEncounterEvent()
+		{}
 
-	void SetMusic(std::string filename);
-	void SetBackground(std::string filename);
-	void AddEnemy(uint32 enemy_id);
+	void SetMusic(const std::string& filename)
+		{ _battle_music = filename; }
+
+	void SetBackground(const std::string& filename)
+		{ _battle_background = filename; }
+
+	void AddEnemy(uint32 enemy_id)
+		{ _enemy_ids.push_back(enemy_id); }
+
+	void SetBattleScript(const std::string& filename)
+		{ _battle_script = filename; }
 
 protected:
 	//! \brief ID numbers for enemies to generate
@@ -369,6 +378,9 @@ protected:
 
 	//! \brief Filename for battle background
 	std::string _battle_background;
+
+	//! \brief Filename of the battle script
+	std::string _battle_script;
 
 	//! \brief Starts the battle
 	void _Start();

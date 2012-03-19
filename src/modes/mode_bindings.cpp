@@ -476,6 +476,7 @@ void BindModeCode() {
 			.def(constructor<uint32, uint32>())
 			.def("SetMusic", &BattleEncounterEvent::SetMusic)
 			.def("SetBackground", &BattleEncounterEvent::SetBackground)
+			.def("SetBattleScript", &BattleEncounterEvent::SetBattleScript)
 			.def("AddEnemy", &BattleEncounterEvent::AddEnemy)
 	];
 

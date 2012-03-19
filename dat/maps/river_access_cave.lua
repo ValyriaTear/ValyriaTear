@@ -1311,7 +1311,8 @@ function CreateEvents()
 		-- Boss battle
 		event = hoa_map.BattleEncounterEvent(87, 91);
 		event:SetMusic("mus/The_Creature_Awakens.ogg");
-		event:SetBackground("img/backdrops/battle/desert_cave.png");
+		event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+		event:SetBattleScript("dat/battles/first_battle.lua");
 		event:AddEventLinkAtEnd(90);
 		EventManager:RegisterEvent(event);
 

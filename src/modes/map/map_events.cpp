@@ -240,30 +240,6 @@ BattleEncounterEvent::BattleEncounterEvent(uint32 event_id, uint32 enemy_id) :
 }
 
 
-
-BattleEncounterEvent::~BattleEncounterEvent() {
-}
-
-
-
-void BattleEncounterEvent::SetMusic(std::string filename) {
-	_battle_music = filename;
-}
-
-
-
-void BattleEncounterEvent::SetBackground(std::string filename) {
-	_battle_background = filename;
-}
-
-
-
-void BattleEncounterEvent::AddEnemy(uint32 enemy_id) {
-	_enemy_ids.push_back(enemy_id);
-}
-
-
-
 void BattleEncounterEvent::_Start() {
 	BattleMode* batt_mode = new BattleMode();
 	for (uint32 i = 0; i < _enemy_ids.size(); i++) {
@@ -272,9 +248,9 @@ void BattleEncounterEvent::_Start() {
 
 	batt_mode->GetMedia().SetBackgroundImage(_battle_background);
 	batt_mode->GetMedia().SetBattleMusic(_battle_music);
+	batt_mode->LoadBattleScript(_battle_script);
 	ModeManager->Push(batt_mode, true, true);
 }
-
 
 
 bool BattleEncounterEvent::_Update() {
