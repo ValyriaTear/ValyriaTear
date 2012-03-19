@@ -267,7 +267,8 @@ bool BattleEncounterEvent::_Update() {
 
 			batt_mode->GetMedia().SetBackgroundImage(_battle_background);
 			batt_mode->GetMedia().SetBattleMusic(_battle_music);
-			batt_mode->LoadBattleScript(_battle_script);
+			if (!_battle_script.empty())
+				batt_mode->LoadBattleScript(_battle_script);
 			ModeManager->Push(batt_mode);
 		} catch (luabind::error e) {
 			PRINT_ERROR << "Error loading battle encounter event!" << endl;

@@ -302,7 +302,7 @@ void VirtualSprite::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_
 			}
 
 			string enemy_battle_script = enemy->GetBattleScript();
-			if (enemy_battle_script != "")
+			if (!enemy_battle_script.empty())
 				BM->LoadBattleScript(enemy_battle_script);
 
 			ModeManager->Push(BM, true, true);
