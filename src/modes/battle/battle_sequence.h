@@ -86,9 +86,6 @@ private:
 	//! \brief A timer utilized for many different purposes when playing out a sequence
 	hoa_system::SystemTimer _sequence_timer;
 
-	//! \brief Color whose alpha value is used for fading background graphics in and out
-	hoa_video::Color _background_fade;
-
 	//! \brief A position offset used to move GUI objects from off screen to their permanent positions
 	float _gui_position_offset;
 
@@ -109,12 +106,6 @@ private:
 
 	//! \brief Main draw function for the exiting sequence unaffected by light effects
 	void _DrawExitingSequencePostEffects();
-
-	//! \brief Draws the battle background and other environmental graphics
-	void _DrawBackgroundGraphics();
-
-	//! \brief Draws all sprites to the screen
-	void _DrawSprites();
 
 	//! \brief Draws the bottom battle menu, stamina bar, and other GUI objects
 	void _DrawGUI();

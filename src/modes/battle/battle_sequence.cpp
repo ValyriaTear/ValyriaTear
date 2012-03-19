@@ -55,7 +55,6 @@ static const uint32 EXIT_STEP_SCREEN_FADE      =  2;
 SequenceSupervisor::SequenceSupervisor(BattleMode* current_instance) :
 	_battle(current_instance),
 	_sequence_step(0),
-	_background_fade(1.0f, 1.0f, 1.0f, 0.0f),
 	_gui_position_offset(0.0f)
 {}
 
@@ -132,7 +131,6 @@ void SequenceSupervisor::_UpdateInitialSequence() {
 
 	// Step 0: Initial entry, prepare members for the steps to follow
 	if (_sequence_step == 0) {
-		_background_fade.SetAlpha(0.0f);
 		_gui_position_offset = MAX_GUI_OFFSET;
 		_sequence_timer.Initialize(STEP_01_TIME);
 		_sequence_timer.Run();
@@ -151,7 +149,6 @@ void SequenceSupervisor::_UpdateInitialSequence() {
 	// Step 1: Fade in the background graphics
 	else if (_sequence_step == INIT_STEP_BACKGROUND_FADE) {
 		_sequence_timer.Update();
-		_background_fade.SetAlpha(_sequence_timer.PercentComplete());
 
 		if (_sequence_timer.IsFinished() == true) {
 			_sequence_timer.Initialize(STEP_02_TIME);
@@ -218,7 +215,6 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 
 	// Step 0: Initial entry, prepare members for the steps to follow
 	if (_sequence_step == 0) {
-		_background_fade.SetAlpha(1.0f);
 		_gui_position_offset = 0.0f;
 		_sequence_timer.Initialize(STEP_01_TIME);
 		_sequence_timer.Run();
@@ -265,10 +261,10 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 
 void SequenceSupervisor::_DrawInitialSequence() {
 	if (_sequence_step >= INIT_STEP_BACKGROUND_FADE) {
-		_DrawBackgroundGraphics();
+		_battle->_DrawBackgroundGraphics();
 	}
 	if (_sequence_step >= INIT_STEP_SPRITE_MOVEMENT) {
-		_DrawSprites();
+		_battle->_DrawSprites();
 	}
 }
 
@@ -279,8 +275,8 @@ void SequenceSupervisor::_DrawInitialSequencePostEffects() {
 }
 
 void SequenceSupervisor::_DrawExitingSequence() {
-	_DrawBackgroundGraphics();
-	_DrawSprites();
+	_battle->_DrawBackgroundGraphics();
+	_battle->_DrawSprites();
 }
 
 void SequenceSupervisor::_DrawExitingSequencePostEffects() {
@@ -288,33 +284,6 @@ void SequenceSupervisor::_DrawExitingSequencePostEffects() {
 		_DrawGUI();
 	}
 }
-
-void SequenceSupervisor::_DrawBackgroundGraphics() {
-	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-	VideoManager->Move(0.0f, 0.0f);
-	_battle->GetMedia().background_image.Draw(_background_fade);
-
-
-	// TODO: Draw other background objects and animations
-}
-
-
-
-void SequenceSupervisor::_DrawSprites() {
-	// TODO: Draw sprites in order based on their x and y coordinates on the screen (top to bottom, then left to right)
-
-	// Draw all character sprites
-	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-	for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-		_battle->_character_actors[i]->DrawSprite();
-	}
-
-	// Draw all enemy sprites
-	for (uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
-		_battle->_enemy_actors[i]->DrawSprite();
-	}
-}
-
 
 
 void SequenceSupervisor::_DrawGUI() {
