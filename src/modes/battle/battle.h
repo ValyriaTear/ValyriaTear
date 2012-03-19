@@ -462,16 +462,6 @@ private:
 	//! \brief Initializes all data necessary for the battle to begin
 	void _Initialize();
 
-	/** \brief Manages battle mode when it is in the initial state
-	***
-	*** This function serves to achieve the following parts of the battle initialization sequence:
-	***  - Fade in the background image
-	***  - Bring in both character and enemy sprites from off screen
-	***  - Bring in the stamina bar and icons from off screen
-	***  - Bring in the bottom battle menu
-	**/
-	void _InitialSequence();
-
 	/** \brief Sets the origin location of all character and enemy actors
 	*** The location of the actors in both parties is dependent upon the number and physical size of the actor
 	*** (the size of its sprite image). This function implements the algorithm that determines those locations.
