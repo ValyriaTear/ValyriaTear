@@ -176,6 +176,11 @@ protected:
 	**/
 	void _ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj);
 
+	/** \brief Start a battle encounter with a given enemy
+	*** \param enemy The enemy sprite the character has collided with.
+	**/
+	void _StartBattleEncounter(EnemySprite *enemy);
+
 	/** \name Saved state attributes
 	*** These attributes are used to save and restore the state of a VirtualSprite
 	**/

@@ -35,6 +35,7 @@
 
 #include "battle_utils.h"
 
+struct U;
 namespace hoa_battle {
 
 //! \brief Determines whether the code in the hoa_battle namespace should print debug statements or not.
@@ -564,6 +565,40 @@ private:
 	void _DrawIndicators();
 	//@}
 }; // class BattleMode : public hoa_mode_manager::GameMode
+
+
+/** ****************************************************************************
+*** \brief Handles transition from an event or a mode to the battle mode
+***
+*** Must be called without fade transition, as it will do it.
+***
+*** ***************************************************************************/
+class TransitionToBattleMode : public hoa_mode_manager::GameMode {
+public:
+	TransitionToBattleMode(BattleMode *BM);
+
+	~TransitionToBattleMode()
+	{}
+
+	void Update();
+
+	void Draw();
+
+	void Reset();
+
+private:
+	//! \brief The screen capture of the moment of the encounter
+	hoa_video::StillImage _screen_capture;
+
+	//! \brief The transition timer, used to display the encounter visual effect
+	hoa_system::SystemTimer _transition_timer;
+
+	//! \brief Used to display the effect
+	float _position;
+
+	//! \brief The Battle mode to trigger afterward. Must not be NULL.
+	BattleMode *_BM;
+};
 
 } // namespace hoa_battle
 

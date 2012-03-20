@@ -236,50 +236,30 @@ BattleEncounterEvent::BattleEncounterEvent(uint32 event_id, uint32 enemy_id) :
 	_battle_music("mus/Confrontation.ogg"),
 	_battle_background("img/backdrops/battle/desert.png")
 {
-	_fade_timer.Initialize(MAP_FADE_OUT_TIME, SYSTEM_TIMER_NO_LOOPS);
 	_enemy_ids.push_back(enemy_id);
 }
 
 
 void BattleEncounterEvent::_Start() {
 	MapMode::CurrentInstance()->PushState(STATE_SCENE);
-	_fade_timer.Reset();
-	_fade_timer.Run();
 
-	// TODO: The call below is a problem because if the user pauses while this event is in progress,
-	// the screen fade will continue while in pause mode (it shouldn't). I think instead we'll have
-	// to perform a manual fade of the screen.
-	VideoManager->FadeScreen(Color::black, _fade_timer.GetDuration());
+	try {
+		BattleMode* BM = new BattleMode();
+		for (uint32 i = 0; i < _enemy_ids.size(); ++i)
+			BM->AddEnemy(_enemy_ids.at(i));
 
-	// TODO: fade out the map music
-}
+		BM->GetMedia().SetBackgroundImage(_battle_background);
+		BM->GetMedia().SetBattleMusic(_battle_music);
+		if (!_battle_script.empty())
+			BM->LoadBattleScript(_battle_script);
 
+		TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 
-bool BattleEncounterEvent::_Update() {
-	_fade_timer.Update();
-
-	// NOTE: Using a custom fade to be able to tell when it's finished
-	if (_fade_timer.IsFinished() == true) {
-		try {
-			BattleMode* batt_mode = new BattleMode();
-			for (uint32 i = 0; i < _enemy_ids.size(); ++i)
-				batt_mode->AddEnemy(_enemy_ids.at(i));
-
-			batt_mode->GetMedia().SetBackgroundImage(_battle_background);
-			batt_mode->GetMedia().SetBattleMusic(_battle_music);
-			if (!_battle_script.empty())
-				batt_mode->LoadBattleScript(_battle_script);
-			ModeManager->Push(batt_mode);
-		} catch (luabind::error e) {
-			PRINT_ERROR << "Error loading battle encounter event!" << endl;
-			ScriptManager->HandleLuaError(e);
-		}
-		// This will fade the screen back in from black
-		VideoManager->FadeScreen(Color::clear, _fade_timer.GetDuration() / 2);
-		return true;
+		ModeManager->Push(TM);
+	} catch (luabind::error e) {
+		PRINT_ERROR << "Error while loading battle encounter event!" << endl;
+		ScriptManager->HandleLuaError(e);
 	}
-
-	return false;
 }
 
 // -----------------------------------------------------------------------------

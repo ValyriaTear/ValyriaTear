@@ -382,14 +382,14 @@ protected:
 	//! \brief Filename of the battle script
 	std::string _battle_script;
 
-	//! \brief A timer used to do a custom fade out
-	hoa_system::SystemTimer _fade_timer;
-
 	//! \brief Starts the battle
 	void _Start();
 
-	//! \brief Currently does nothing
-	bool _Update();
+	/** \brief Currently does nothing, since the battle transition management
+	*** is done through games modes.
+	**/
+	bool _Update()
+		{ return true; }
 }; // class BattleEncounterEvent : public MapEvent
 
 

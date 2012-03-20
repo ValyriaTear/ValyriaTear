@@ -272,7 +272,7 @@ void VirtualSprite::RestoreState() {
 
 
 void VirtualSprite::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj) {
-	// ---------- (1) First check for the case where the player has collided with a hostile enemy sprite
+	// First check for the case where the player has collided with a hostile enemy sprite
 	if (coll_obj != NULL) {
 		EnemySprite* enemy = NULL;
 		if (this == MapMode::CurrentInstance()->GetCamera() && coll_obj->GetType() == ENEMY_TYPE) {
@@ -284,30 +284,7 @@ void VirtualSprite::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_
 
 		// If these two conditions are true, begin the battle
 		if (enemy != NULL && enemy->IsHostile() && MapMode::CurrentInstance()->AttackAllowed()) {
-			enemy->ChangeStateDead();
-
-			BattleMode *BM = new BattleMode();
-
-			string battle_background = enemy->GetBattleBackground();
-			if (battle_background != "")
-				BM->GetMedia().SetBackgroundImage(battle_background);
-
-			string enemy_battle_music = enemy->GetBattleMusicTheme();
-			if (enemy_battle_music != "")
-				BM->GetMedia().SetBattleMusic(enemy_battle_music);
-
-			const vector<uint32>& enemy_party = enemy->RetrieveRandomParty();
-			for (uint32 i = 0; i < enemy_party.size(); i++) {
-				BM->AddEnemy(enemy_party[i]);
-			}
-
-			string enemy_battle_script = enemy->GetBattleScript();
-			if (!enemy_battle_script.empty())
-				BM->LoadBattleScript(enemy_battle_script);
-
-			ModeManager->Push(BM, true, true);
-
-			// TODO: some sort of map-to-battle transition animation sequence needs to start here
+			_StartBattleEncounter(enemy);
 			return;
 		}
 	}
@@ -333,6 +310,37 @@ void VirtualSprite::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_
 		IF_PRINT_WARNING(MAP_DEBUG) << "collision occurred when sprite was controlled by a non-motion event" << endl;
 	}
 } // void VirtualSprite::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj)
+
+
+void VirtualSprite::_StartBattleEncounter(EnemySprite* enemy) {
+
+	// Start a map-to-battle transition animation sequence
+	BattleMode* BM = new BattleMode();
+
+	string battle_background = enemy->GetBattleBackground();
+	if (!battle_background.empty())
+		BM->GetMedia().SetBackgroundImage(battle_background);
+
+	string enemy_battle_music = enemy->GetBattleMusicTheme();
+	if (!enemy_battle_music.empty())
+		BM->GetMedia().SetBattleMusic(enemy_battle_music);
+
+	const vector<uint32>& enemy_party = enemy->RetrieveRandomParty();
+	for (uint32 i = 0; i < enemy_party.size(); ++i) {
+		BM->AddEnemy(enemy_party[i]);
+	}
+
+	string enemy_battle_script = enemy->GetBattleScript();
+	if (!enemy_battle_script.empty())
+		BM->LoadBattleScript(enemy_battle_script);
+
+	TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
+
+	// Make the enemy disappear, after creating the transition mode.
+	enemy->ChangeStateDead();
+
+	ModeManager->Push(TM);
+}
 
 // ****************************************************************************
 // ********** MapSprite class methods

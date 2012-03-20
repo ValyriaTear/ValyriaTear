@@ -173,8 +173,6 @@ void MapMode::Reset() {
 
 
 void MapMode::Update() {
-	// TODO: we need to detect if a battle is about to occur and if so, fade the screen gradually from
-	// map mode into the battle
 	_dialogue_icon.Update();
 
 	// TODO: instead of doing this every frame, see if it can be done only when the _camera pointer is modified

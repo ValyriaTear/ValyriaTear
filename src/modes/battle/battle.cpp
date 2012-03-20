@@ -127,10 +127,10 @@ BattleMedia::BattleMedia() {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cursor sound" << endl;
 
 	if (invalid_sound.LoadAudio("snd/cancel.wav") == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load invalid sound" << endl;\
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load invalid sound" << endl;
 
 	if (finish_sound.LoadAudio("snd/confirm.wav") == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load finish sound" << endl;;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load finish sound" << endl;
 
 	// Determine which status effects correspond to which icons and store the result in the _status_indices container
 	ReadScriptDescriptor& script_file = GlobalManager->GetStatusEffectsScript();
@@ -1261,6 +1261,63 @@ void BattleMode::_DrawIndicators() {
 	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
 		_enemy_actors[i]->DrawIndicators();
 	}
+}
+
+
+// Available encounter sounds
+static std::string encounter_sound_filenames[] = {
+	"snd/battle_encounter_01.ogg",
+	"snd/battle_encounter_02.ogg",
+	"snd/battle_encounter_03.ogg" };
+
+TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM):
+	_position(0.0f),
+	_BM(BM) {
+
+	_screen_capture = VideoManager->CaptureScreen();
+	_screen_capture.SetDimensions(1024.0f, 769.0f);
+}
+
+void TransitionToBattleMode::Update() {
+	_transition_timer.Update();
+
+	_position += _transition_timer.PercentComplete();
+
+	if (_BM && _transition_timer.IsFinished()) {
+		ModeManager->Pop();
+		ModeManager->Push(_BM, true, true);
+		_BM = NULL;
+	}
+}
+
+void TransitionToBattleMode::Draw() {
+	// Draw the battle transition effect
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 769.0f, 0.0f);
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+	VideoManager->Move(0.0f, 0.0f);
+	_screen_capture.Draw();
+	VideoManager->Move(_position, _position);
+	_screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
+	VideoManager->Move(-_position, _position);
+	_screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
+	VideoManager->Move(-_position, -_position);
+	_screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
+	VideoManager->Move(_position, -_position);
+	_screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
+}
+
+void TransitionToBattleMode::Reset() {
+
+	_position = 0.0f;
+	_transition_timer.Initialize(1500, SYSTEM_TIMER_NO_LOOPS);
+	_transition_timer.Run();
+
+	// Stop the map music
+	AudioManager->StopAllMusic();
+
+	// Play a random encounter sound
+	uint32 file_id = hoa_utils::RandomBoundedInteger(0, 2);
+	hoa_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
 }
 
 } // namespace hoa_battle
