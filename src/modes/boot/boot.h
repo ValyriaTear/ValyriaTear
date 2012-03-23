@@ -253,9 +253,11 @@ private:
 	void _OnOptions();
 	void _OnQuit();
 
-	void _TEMP_OnBattle();
-	void _TEMP_OnMenu();
-	void _TEMP_OnShop();
+#ifdef DEBUG_MENU
+	void _DEBUG_OnBattle();
+	void _DEBUG_OnMenu();
+	void _DEBUG_OnShop();
+#endif
 	//@}
 
 	//! \brief Handler methods for the primary options menu

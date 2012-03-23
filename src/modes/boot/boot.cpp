@@ -28,10 +28,13 @@
 
 #include "modes/map/map.h"
 #include "modes/save/save_mode.h"
-// Files below are included temporarily, used for boot mode to do a test launch of other modes
+
+#ifdef DEBUG_MENU
+// Files below are used for boot mode to do a test launch of other modes
 #include "modes/battle/battle.h"
 #include "modes/menu/menu.h"
 #include "modes/shop/shop.h"
+#endif
 
 using namespace std;
 using namespace hoa_utils;
@@ -51,15 +54,6 @@ using namespace hoa_boot::private_boot;
 namespace hoa_boot {
 
 bool BOOT_DEBUG = false;
-
-// An option to boot mode used to make it possible to enter battle mode, menu mode, and
-// shop mode from the main boot menu. Set this member to true to enable those options or false
-// to disable them. Make sure to set this boolean to false for release builds!
-#ifdef DEBUG_MENU
-bool MENU_DEBUG = true;
-#else
-bool MENU_DEBUG = false;
-#endif
 
 // Initialize static members here
 bool BootMode::_initial_entry = true;
@@ -149,34 +143,6 @@ BootMode::BootMode() :
 	_options_window.SetPosition(360.0f, 580.0f);
 	_options_window.SetDisplayMode(VIDEO_MENU_INSTANT);
 	_options_window.Hide();
-
-/*
-	if (!_is_windowed) // without a window
-	{
-		_active_menu.SetTextStyle(TextStyle("title22"));
-// 		_active_menu.SetCellSize(150.0f, 70.0f);
-		_active_menu.SetPosition(552.0f, 50.0f);
-		_active_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-		_active_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-		_active_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-		_active_menu.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-		_active_menu.SetCursorOffset(-50.0f, 28.0f);
-// 		_active_menu.SetSize(_active_menu.GetNumberOptions(), 1);
-	}
-	else // windowed
-	{
-		_active_menu.SetTextStyle(TextStyle("title22"));
-// 		_active_menu.SetCellSize(210.0f, 50.0f);
-		_active_menu.SetPosition(150.0f, 200.0f);
-		_active_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-		_active_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-		_active_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-		_active_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-		_active_menu.SetCursorOffset(-50.0f, 28.0f);
-// 		_active_menu.SetSize(1, _active_menu.GetNumberOptions());
-		_active_menu.SetOwner(_options_window);
-	}
-*/
 
 	// Setup all boot menu options and properties
 	_SetupMainMenu();
@@ -486,42 +452,29 @@ bool BootMode::_SavesAvailable(int32 maxId)
 }
 
 void BootMode::_SetupMainMenu() {
-	if (MENU_DEBUG) {
-		_main_menu.SetPosition(512.0f, 80.0f);
-		_main_menu.SetDimensions(1000.0f, 50.0f, 7, 1, 7, 1);
-		_main_menu.SetTextStyle(TextStyle("title24"));
-		_main_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-		_main_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-		_main_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-		_main_menu.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-		_main_menu.SetCursorOffset(-50.0f, 28.0f);
-		_main_menu.SetSkipDisabled(true);
+	_main_menu.SetPosition(512.0f, 80.0f);
+	_main_menu.SetTextStyle(TextStyle("title24"));
+	_main_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+	_main_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+	_main_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
+	_main_menu.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+	_main_menu.SetCursorOffset(-50.0f, 28.0f);
+	_main_menu.SetSkipDisabled(true);
 
-		// Add all the needed menu options to the main menu
-		_main_menu.AddOption(UTranslate("New Game"), &BootMode::_OnNewGame);
-		_main_menu.AddOption(UTranslate("Load Game"), &BootMode::_OnLoadGame);
-		_main_menu.AddOption(UTranslate("Options"), &BootMode::_OnOptions);
-		_main_menu.AddOption(UTranslate("Battle"), &BootMode::_TEMP_OnBattle);
-		_main_menu.AddOption(UTranslate("Menu"), &BootMode::_TEMP_OnMenu);
-		_main_menu.AddOption(UTranslate("Shop"), &BootMode::_TEMP_OnShop);
-		_main_menu.AddOption(UTranslate("Quit"), &BootMode::_OnQuit);
-	}
-	else {
-		_main_menu.SetPosition(512.0f, 80.0f);
-		_main_menu.SetDimensions(800.0f, 50.0f, 4, 1, 4, 1);
-		_main_menu.SetTextStyle(TextStyle("title24"));
-		_main_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-		_main_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-		_main_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-		_main_menu.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-		_main_menu.SetCursorOffset(-50.0f, 28.0f);
+	_main_menu.AddOption(UTranslate("New Game"), &BootMode::_OnNewGame);
+	_main_menu.AddOption(UTranslate("Load Game"), &BootMode::_OnLoadGame);
+	_main_menu.AddOption(UTranslate("Options"), &BootMode::_OnOptions);
 
-		// Add all the needed menu options to the main menu
-		_main_menu.AddOption(UTranslate("New Game"), &BootMode::_OnNewGame);
-		_main_menu.AddOption(UTranslate("Load Game"), &BootMode::_OnLoadGame);
-		_main_menu.AddOption(UTranslate("Options"), &BootMode::_OnOptions);
-		_main_menu.AddOption(UTranslate("Quit"), &BootMode::_OnQuit);
-	}
+	// Insert the debug options
+#ifdef DEBUG_MENU
+	_main_menu.SetDimensions(1000.0f, 50.0f, 7, 1, 7, 1);
+	_main_menu.AddOption(UTranslate("Battle"), &BootMode::_DEBUG_OnBattle);
+	_main_menu.AddOption(UTranslate("Menu"), &BootMode::_DEBUG_OnMenu);
+	_main_menu.AddOption(UTranslate("Shop"), &BootMode::_DEBUG_OnShop);
+#else
+	_main_menu.SetDimensions(800.0f, 50.0f, 4, 1, 4, 1);
+#endif
+	_main_menu.AddOption(UTranslate("Quit"), &BootMode::_OnQuit);
 
 
 	if (!_SavesAvailable()) {
@@ -951,8 +904,8 @@ void BootMode::_OnQuit() {
 }
 
 
-
-void BootMode::_TEMP_OnBattle() {
+#ifdef DEBUG_MENU
+void BootMode::_DEBUG_OnBattle() {
 	ReadScriptDescriptor read_data;
 	if (!read_data.OpenFile("dat/config/boot.lua")) {
 		PRINT_ERROR << "failed to load boot data file" << endl;
@@ -969,7 +922,7 @@ void BootMode::_TEMP_OnBattle() {
 
 
 
-void BootMode::_TEMP_OnMenu() {
+void BootMode::_DEBUG_OnMenu() {
 	ReadScriptDescriptor read_data;
 	if (!read_data.OpenFile("dat/config/boot.lua")) {
 		PRINT_ERROR << "failed to load boot data file" << endl;
@@ -995,7 +948,7 @@ void BootMode::_TEMP_OnMenu() {
 
 
 
-void BootMode::_TEMP_OnShop() {
+void BootMode::_DEBUG_OnShop() {
 	ReadScriptDescriptor read_data;
 	if (!read_data.OpenFile("dat/config/boot.lua")) {
 		PRINT_ERROR << "failed to load boot data file" << endl;
@@ -1009,7 +962,7 @@ void BootMode::_TEMP_OnShop() {
 	}
 	read_data.CloseFile();
 }
-
+#endif // #ifdef DEBUG_MENU
 
 
 void BootMode::_OnVideoOptions() {
