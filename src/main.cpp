@@ -408,6 +408,9 @@ int main(int argc, char *argv[]) {
 	try {
 		// This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
 		while (SystemManager->NotDone()) {
+		    // Update only every 10 milliseconds.
+		    SDL_Delay(10);
+
 			// 1) Render the scene
 			VideoManager->Clear();
 			ModeManager->Draw();
