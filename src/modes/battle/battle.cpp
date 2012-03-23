@@ -898,6 +898,11 @@ void BattleMode::_Initialize() {
 		if (!battle_script.OpenFile(_script_filenames[i]))
 			continue;
 
+		if (battle_script.OpenTablespace().empty()) {
+			PRINT_ERROR << "The battle script file: " << _script_filenames[i] << "has not set a correct namespace" << endl;
+			continue;
+		}
+
 		_update_functions.push_back(battle_script.ReadFunctionPointer("Update"));
 		_draw_background_functions.push_back(battle_script.ReadFunctionPointer("DrawBackground"));
 		_draw_foreground_functions.push_back(battle_script.ReadFunctionPointer("DrawForeground"));

@@ -7,11 +7,10 @@
 -- used to record when the first battle occurs. If it has already occurred, this script effectively does
 -- nothing
 
--- TODO: Add tablespace support
---local ns = {}
---setmetatable(ns, {__index = _G})
---tutorial_battle_dialogs = ns;
---setfenv(1, ns);
+local ns = {}
+setmetatable(ns, {__index = _G})
+tutorial_battle_dialogs = ns;
+setfenv(1, ns);
 
 function Initialize(battle_instance)
 	Battle = battle_instance;

@@ -189,7 +189,7 @@ void MapMode::Update() {
 	}
 
 	// ---------- (1) Call the map script's update function
-	if (_update_function)
+	if (_update_function.is_valid())
 		ScriptCallFunction<void>(_update_function);
 
 	// ---------- (2) Update all animated tile images
@@ -229,7 +229,7 @@ void MapMode::Update() {
 void MapMode::Draw() {
 	_CalculateMapFrame();
 
-	if (_draw_function)
+	if (_draw_function.is_valid())
 		ScriptCallFunction<void>(_draw_function);
 	else
 		_DrawMapLayers();
@@ -386,16 +386,17 @@ bool MapMode::AttackAllowed() {
 
 void MapMode::_Load() {
 	// ---------- (1) Open map script file and read in the basic map properties and tile definitions
-	if (_map_script.OpenFile(_map_filename) == false) {
-		return;
+	if (!_map_script.OpenFile(_map_filename)) {
+	    PRINT_ERROR << "Couldn't open map script file: " << _map_filename << endl;
 	}
 
-	// Determine the map's tablespacename and then open it. The tablespace is the name of the map file without
-	// file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
-	int32 period = _map_filename.find(".");
-	int32 last_slash = _map_filename.find_last_of("/");
-	_map_tablespace = _map_filename.substr(last_slash + 1, period - (last_slash + 1));
-	_map_script.OpenTable(_map_tablespace);
+	// The map tablespace is needed later by scripted events.
+	_map_tablespace = _map_script.OpenTablespace();
+
+	if (_map_tablespace.empty()) {
+		PRINT_ERROR << "Couldn't open map name space: " << _map_filename << endl;
+		return;
+	}
 
 	// Read the number of map contexts, the name of the map, and load the location graphic image
 	_num_map_contexts = _map_script.ReadUInt("num_map_contexts");
@@ -440,7 +441,11 @@ void MapMode::_Load() {
 	// ---------- (5) Call the map script's custom load function and get a reference to all other script function pointers
 	ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
 	ScriptObject function = map_table["Load"];
-	ScriptCallFunction<void>(function, this);
+
+	if (function.is_valid())
+		ScriptCallFunction<void>(function, this);
+	else
+		PRINT_ERROR << "Invalid map Load() function. The function wasn't called." << endl;
 
 	_update_function = _map_script.ReadFunctionPointer("Update");
 	_draw_function = _map_script.ReadFunctionPointer("Draw");

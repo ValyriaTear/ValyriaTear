@@ -282,6 +282,22 @@ public:
 	**/
 	void OpenTable(int32 table_name);
 
+	/** Opens the lua file own tablespace. It's useful to permit having several lua files
+	*** with their own function without worrying too much about the global naming collisions.
+	*** \note the tablespace must be named like the lua filename, but without the extension:
+	*** e.g.: dat/script/my_script.lua should have a 'my_script' tablespace defined
+	*** at the beginning of the file using the following way:
+	***
+	*** local ns = {}
+	*** setmetatable(ns, {__index = _G})
+	*** my_script = ns;
+	*** setfenv(1, ns);
+	***
+	*** @See WriteScriptDescriptor::WriteTablespace(const std::string &ns);
+	*** \return the tablespace name or an empty string when it failed.
+	**/
+	std::string OpenTablespace();
+
 	//! \brief Closes the most recently opened table
 	void CloseTable();
 

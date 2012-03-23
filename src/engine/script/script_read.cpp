@@ -50,40 +50,36 @@ bool ReadScriptDescriptor::OpenFile(const string& filename) {
 
 
 bool ReadScriptDescriptor::OpenFile(const string& filename, bool force_reload) {
-	// check for file extensions
-	string file_name = filename;
-	if (DoesFileExist(file_name + ".lua")) {
-		file_name = filename + ".lua";
-	}
-	if (DoesFileExist(file_name + ".hoa")) {
-		if (!(DoesFileExist(file_name + ".lua") && SCRIPT_DEBUG))
-			file_name = filename + ".hoa";
+	// check for file existence
+	if (!DoesFileExist(filename)) {
+		PRINT_ERROR << "Attempted to open unavailable file: "
+			<< filename << endl;
+		return false;
 	}
 
-	if (ScriptManager->IsFileOpen(file_name) == true) {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT WARNING: ReadScriptDescriptor::OpenFile() attempted to open file that is already opened: "
-				<< file_name << endl;
+	if (ScriptManager->IsFileOpen(filename)) {
+		PRINT_ERROR << "Attempted to open file that is already opened: "
+			<< filename << endl;
 		return false;
 	}
 
 	// Check if this file was opened previously.
-	if ((force_reload == true) || (_lstack = ScriptManager->_CheckForPreviousLuaState(file_name)) == NULL) {
+	if ((force_reload) || (_lstack = ScriptManager->_CheckForPreviousLuaState(filename)) == NULL) {
 		// Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
 		// stack and we have to be sure there is enough space there.
 		lua_checkstack(ScriptManager->GetGlobalState(), 1);
 		_lstack = lua_newthread(ScriptManager->GetGlobalState());
 
 		// Attempt to load and execute the Lua file
-		if (luaL_loadfile(_lstack, file_name.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
-			PRINT_ERROR << "could not open script file: " << file_name << ", error message:" << endl;
+		if (luaL_loadfile(_lstack, filename.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
+			PRINT_ERROR << "could not open script file: " << filename << ", error message:" << endl;
 			cerr << lua_tostring(_lstack, private_script::STACK_TOP) << endl;
 			_access_mode = SCRIPT_CLOSED;
 			return false;
 		}
 	}
 
-	_filename = file_name;
+	_filename = filename;
 	_access_mode = SCRIPT_READ;
 	ScriptManager->_AddOpenFile(this);
 	return true;
@@ -343,6 +339,26 @@ void ReadScriptDescriptor::OpenTable(int32 table_name) {
 	_open_tables.push_back(NumberToString(table_name));
 } // void ReadScriptDescriptor::OpenTable(int32 key)
 
+
+std::string ReadScriptDescriptor::OpenTablespace() {
+	if (!IsFileOpen()) {
+		PRINT_ERROR << "Can't open a table space without opening a script file." << endl;
+		return std::string();
+	}
+
+	// file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
+	int32 period = _filename.find(".");
+	int32 last_slash = _filename.find_last_of("/");
+	std::string tablespace = _filename.substr(last_slash + 1, period - (last_slash + 1));
+
+	if (tablespace.empty()) {
+	    PRINT_ERROR << "The script filename is not valid to be used as tablespace name: " << _filename << endl;
+		return std::string();
+	}
+
+	OpenTable(tablespace);
+	return tablespace;
+}
 
 
 void ReadScriptDescriptor::CloseTable() {

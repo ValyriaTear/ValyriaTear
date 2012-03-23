@@ -1,10 +1,9 @@
 -- Desert cave scripted animation
 
--- TODO: Add tablespace support
---local ns = {}
---setmetatable(ns, {__index = _G})
---desert_cave_battle_anim = ns;
---setfenv(1, ns);
+local ns = {}
+setmetatable(ns, {__index = _G})
+desert_cave_battle_anim = ns;
+setfenv(1, ns);
 
 -- Animation members
 local rock_id = -1;
