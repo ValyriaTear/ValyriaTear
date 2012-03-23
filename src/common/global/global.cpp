@@ -75,8 +75,8 @@ void GlobalEventGroup::SetEvent(const string& event_name, int32 event_value) {
 ////////////////////////////////////////////////////////////////////////////////
 
 GameGlobal::GameGlobal() :
-	_battle_setting(GLOBAL_BATTLE_INVALID)
-{
+	_drunes(0),
+	_battle_setting(GLOBAL_BATTLE_INVALID) {
 	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << endl;
 }
 
