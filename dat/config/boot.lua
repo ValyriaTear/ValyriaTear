@@ -42,12 +42,6 @@ sound_files = { "snd/confirm.wav",
 
 -- -------------------------------------------------- --
 
-function BootMenuTest()
-	print("BootMenuTest");
-end
-
-
-
 function BootShopTest()
 	print("BootShopTest");
 

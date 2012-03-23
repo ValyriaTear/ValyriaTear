@@ -44,12 +44,17 @@ void BindCommonCode() {
 	{
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_utils")
 	[
-		def("RandomFloat", (float(*)(void)) &hoa_utils::RandomFloat)
+		class_<hoa_utils::ustring>("ustring")
+			.def(constructor<uint16 *>())
+			.def(constructor<>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_utils")
 	[
-		def("RandomBoundedInteger", &hoa_utils::RandomBoundedInteger)
+		def("RandomFloat", (float(*)(void)) &hoa_utils::RandomFloat),
+		def("RandomBoundedInteger", &hoa_utils::RandomBoundedInteger),
+		def("MakeUnicodeString", &hoa_utils::MakeUnicodeString),
+		def("MakeStandardString", &hoa_utils::MakeStandardString)
 	];
 	}
 

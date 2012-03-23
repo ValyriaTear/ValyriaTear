@@ -929,26 +929,22 @@ void BootMode::_DEBUG_OnBattle() {
 
 void BootMode::_DEBUG_OnMenu() {
 	ReadScriptDescriptor read_data;
-	if (!read_data.OpenFile("dat/config/boot.lua")) {
-		PRINT_ERROR << "failed to load boot data file" << endl;
+	if (!read_data.OpenFile("dat/config/debug_menu.lua"))
+	    return;
+
+	if (!read_data.DoesFunctionExist("BootMenuTest")) {
+		PRINT_ERROR << "No 'BootMenuTest' function!" << endl;
+		read_data.CloseFile();
+		return;
 	}
 
-	ScriptCallFunction<void>(read_data.GetLuaState(), "BootMenuTest");
-
-	if (read_data.IsErrorDetected()) {
-		PRINT_ERROR << "an error occured during reading of the boot data file" << endl;
-		PRINT_ERROR << read_data.GetErrorMessages() << endl;
+	try {
+		ScriptCallFunction<void>(read_data.GetLuaState(), "BootMenuTest");
+	} catch(luabind::error e) {
+		PRINT_ERROR << "Error while loading debug menu!" << endl;
+		ScriptManager->HandleLuaError(e);
 	}
 	read_data.CloseFile();
-
-	// TEMP: remove this once menu mode can be created in Lua and then add to boot.lua
-	GlobalManager->AddToInventory(1, 5);
-	GlobalManager->AddCharacter(1);
-	GlobalManager->AddCharacter(2);
-	GlobalManager->AddCharacter(4);
-	GlobalManager->AddCharacter(8);
-	hoa_menu::MenuMode *MM = new hoa_menu::MenuMode(MakeUnicodeString("The Boot Screen"), "img/menus/locations/desert_cave.png");
-	ModeManager->Push(MM);
 }
 
 

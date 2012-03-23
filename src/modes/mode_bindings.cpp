@@ -42,6 +42,7 @@
 #include "modes/map/map_treasure.h"
 #include "modes/map/map_utils.h"
 #include "modes/map/map_zones.h"
+#include "modes/menu/menu.h"
 #include "modes/shop/shop.h"
 
 using namespace luabind;
@@ -667,6 +668,17 @@ void BindModeCode() {
 
 	} // End using battle mode namespaces
 
+	// ----- Menu Mode Bindings
+	{
+	using namespace hoa_menu;
+
+	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_menu")
+	[
+		class_<MenuMode, hoa_mode_manager::GameMode>("MenuMode")
+			.def(constructor<hoa_utils::ustring, std::string>())
+	];
+
+	} // End using menu mode namespaces
 
 
 	// ----- Shop Mode bindings
