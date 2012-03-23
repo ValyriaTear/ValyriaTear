@@ -719,13 +719,6 @@ bool BattleMode::OpenCommandMenu(BattleCharacter* character) {
 }
 
 
-
-void BattleMode::Exit() {
-	ModeManager->Pop();
-}
-
-
-
 void BattleMode::NotifyCommandCancel() {
 	if (_state != BATTLE_STATE_COMMAND) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was not in command state when function was called" << endl;

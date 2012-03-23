@@ -144,7 +144,6 @@ void PrintUsage() {
 	cout << "  --help/-h         :: prints this help menu" << endl;
 	cout << "  --info/-i         :: prints information about the user's system" << endl;
 	cout << "  --reset/-r        :: resets game configuration to use default settings" << endl;
-	cout << "  --version/-v      :: checks for newer versions of Allacrost online" << endl;
 }
 
 

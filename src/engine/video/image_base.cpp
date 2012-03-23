@@ -68,8 +68,7 @@ bool ImageMemory::LoadImage(const string& filename) {
 
 	string extension = string(filename, ext_position, filename.length() - ext_position);
 
-	// NOTE: We could technically try uppercase forms of the file extension, or also include the .jpeg extension name,
-	// but Allacrost's file standard states that only the .png and .jpg image file extensions are suppported.
+	// NOTE: Only the .png and .jpg image file extensions are suppported atm.
 	if (extension == ".png")
 		return _LoadPngImage(filename);
 	else if (extension == ".jpg")

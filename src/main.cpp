@@ -279,7 +279,7 @@ void InitializeEngine() throw (Exception) {
 	#ifdef _WIN32
 		SDL_WM_SetIcon(SDL_LoadBMP("img/logos/program_icon.bmp"), NULL);
 	#else
-		// Later, add an icon here for non-Windows systems (which support more than 32x32 .bmp files)
+		// TODO: Later, add an icon here for non-Windows systems (which support more than 32x32 .bmp files)
 		SDL_WM_SetIcon(SDL_LoadBMP("img/logos/program_icon.bmp"), NULL);
 	#endif
 

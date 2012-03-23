@@ -246,7 +246,6 @@ void ModeEngine::Update() {
 }
 
 
-// Checks if any game modes need to be pushed or popped off the stack, then updates the top stack mode.
 void ModeEngine::Draw() {
 	if (_game_stack.empty())
 		return;

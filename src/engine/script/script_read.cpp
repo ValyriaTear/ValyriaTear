@@ -328,7 +328,8 @@ void ReadScriptDescriptor::OpenTable(int32 table_name) {
 		<< "table, or the table does not exist for the table element key: " << table_name << endl;
 	}
 
-	lua_gettable(_lstack, STACK_TOP - 1); // sometimes, this line will cause a major b0rk and kill Allacrost silently
+	// Note: This call is unsafe and might make the game crash.
+	lua_gettable(_lstack, STACK_TOP - 1);
 
 	if (!lua_istable(_lstack, STACK_TOP)) {
 		IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because the data retrieved was not a table "

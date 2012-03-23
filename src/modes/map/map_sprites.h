@@ -545,7 +545,7 @@ private:
 	std::vector<std::string> _script_files;
 
 	/** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
-	*** The numbers contained within this member are ID numbers for the enemy. If the
+	*** The numbers contained within this member are ID numbers for the enemy.
 	**/
 	std::vector<std::vector<uint32> > _enemy_parties;
 }; // class EnemySprite : public MapSprite

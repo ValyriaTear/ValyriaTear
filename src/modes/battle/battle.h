@@ -334,9 +334,6 @@ public:
 	bool IsBattleFinished() const
 		 { return ((_state == private_battle::BATTLE_STATE_VICTORY) || (_state == private_battle::BATTLE_STATE_DEFEAT)); }
 
-	//! \brief Exits the battle performing any final changes as needed
-	void Exit();
-
 	//! \brief Returns the number of character actors in the battle, both living and dead
 	uint32 GetNumberOfCharacters() const
 		{ return _character_actors.size(); }
