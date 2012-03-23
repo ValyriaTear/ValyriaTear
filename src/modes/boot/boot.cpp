@@ -24,7 +24,6 @@
 #include "common/global/global.h"
 
 #include "modes/boot/boot.h"
-#include "modes/boot/boot_credits.h"
 #include "modes/boot/boot_welcome.h"
 
 #include "modes/map/map.h"
@@ -87,13 +86,10 @@ BootMode::BootMode() :
 	IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << endl;
 	mode_type = MODE_MANAGER_BOOT_MODE;
 
-	_credits_window = new CreditsWindow();
 	_welcome_window = new WelcomeWindow();
 
 	_version_text.SetStyle(TextStyle("text20"));
 	_version_text.SetText(UTranslate("Development Release"));
-	_copyright_text.SetStyle(TextStyle("text20"));
-	_copyright_text.SetText(UTranslate("© 2004 — 2011 The Allacrost Project"));
 
 	ReadScriptDescriptor read_data;
 	if (!read_data.OpenFile("dat/config/boot.lua")) {
@@ -207,7 +203,6 @@ BootMode::BootMode() :
 
 
 BootMode::~BootMode() {
-	delete _credits_window;
 	delete _welcome_window;
 
 	_options_window.Destroy();
@@ -265,9 +260,6 @@ void BootMode::Update() {
 			return; // Otherwise skip rest of the event handling for now
 		}
 	}
-
-	// Update the credits window (because it may be hiding/showing!)
-	_credits_window->Update();
 
 	//CD: Handle key press here, just like any other time
 	if (_welcome_window->IsActive())
@@ -362,14 +354,12 @@ void BootMode::Update() {
 	_active_menu->Update();
 
 	// Only quit when we are at the main menu level
-	if (_active_menu == &_main_menu && InputManager->QuitPress() && !_credits_window->IsActive()) {
+	if (_active_menu == &_main_menu && InputManager->QuitPress()) {
 		SystemManager->ExitGame();
 		return;
 	}
 
-	// A confirm-key was pressed -> handle it (but ONLY if the credits screen isn't visible)
-	if (InputManager->ConfirmPress() && !_credits_window->IsActive())
-	{
+	if (InputManager->ConfirmPress()) {
 		// Play 'confirm sound' if the selection isn't grayed out and it has a confirm handler
 		if (_active_menu->IsOptionEnabled(_active_menu->GetSelection()))
 			_boot_sounds.at(0).Play();
@@ -379,31 +369,21 @@ void BootMode::Update() {
 		_active_menu->InputConfirm();
 
 	}
-	else if (InputManager->LeftPress() && !_credits_window->IsActive())
-	{
+	else if (InputManager->LeftPress()) {
 		_active_menu->InputLeft();
 	}
-	else if(InputManager->RightPress() && !_credits_window->IsActive())
-	{
+	else if(InputManager->RightPress()) {
 		_active_menu->InputRight();
 	}
-	else if(InputManager->UpPress() && !_credits_window->IsActive())
-	{
+	else if(InputManager->UpPress()) {
 		_active_menu->InputUp();
 	}
-	else if(InputManager->DownPress() && !_credits_window->IsActive())
-	{
+	else if(InputManager->DownPress()) {
 		_active_menu->InputDown();
 	}
 	else if(InputManager->CancelPress() || InputManager->QuitPress())
 	{
-		// Close the credits-screen if it was visible
-		if (_credits_window->IsActive())
-		{
-			_credits_window->Hide();
-			_boot_sounds.at(1).Play(); // Play cancel sound here as well
-		}
-		else if (_active_menu == &_main_menu) {
+		if (_active_menu == &_main_menu) {
 
 		}
 		else if (_active_menu == &_options_menu) {
@@ -468,10 +448,8 @@ void BootMode::Draw() {
 
 	_options_window.Draw();
 
-	// Decide whether to draw the credits window, welcome window or the main menu
-	if (_credits_window->IsActive())
-		_credits_window->Draw();
-	else if (_welcome_window->IsActive())
+	// Decide whether to draw welcome window or the main menu
+	if (_welcome_window->IsActive())
 		_welcome_window->Draw();
 	else if (_active_menu != NULL)
 		_active_menu->Draw();
@@ -479,9 +457,6 @@ void BootMode::Draw() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 	VideoManager->Move(10.0f, 10.0f);
 	_version_text.Draw();
-	VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
-	VideoManager->Move(1013.0f, 10.0f);
-	_copyright_text.Draw();
 
 // 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 	VideoManager->Move(0.0f, 0.0f);
@@ -512,7 +487,7 @@ bool BootMode::_SavesAvailable(int maxId)
 void BootMode::_SetupMainMenu() {
 	if (MENU_DEBUG) {
 		_main_menu.SetPosition(512.0f, 80.0f);
-		_main_menu.SetDimensions(1000.0f, 50.0f, 8, 1, 8, 1);
+		_main_menu.SetDimensions(1000.0f, 50.0f, 7, 1, 7, 1);
 		_main_menu.SetTextStyle(TextStyle("title24"));
 		_main_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 		_main_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -525,7 +500,6 @@ void BootMode::_SetupMainMenu() {
 		_main_menu.AddOption(UTranslate("New Game"), &BootMode::_OnNewGame);
 		_main_menu.AddOption(UTranslate("Load Game"), &BootMode::_OnLoadGame);
 		_main_menu.AddOption(UTranslate("Options"), &BootMode::_OnOptions);
-		_main_menu.AddOption(UTranslate("Credits"), &BootMode::_OnCredits);
 		_main_menu.AddOption(UTranslate("Battle"), &BootMode::_TEMP_OnBattle);
 		_main_menu.AddOption(UTranslate("Menu"), &BootMode::_TEMP_OnMenu);
 		_main_menu.AddOption(UTranslate("Shop"), &BootMode::_TEMP_OnShop);
@@ -533,7 +507,7 @@ void BootMode::_SetupMainMenu() {
 	}
 	else {
 		_main_menu.SetPosition(512.0f, 80.0f);
-		_main_menu.SetDimensions(800.0f, 50.0f, 5, 1, 5, 1);
+		_main_menu.SetDimensions(800.0f, 50.0f, 4, 1, 4, 1);
 		_main_menu.SetTextStyle(TextStyle("title24"));
 		_main_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 		_main_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -545,7 +519,6 @@ void BootMode::_SetupMainMenu() {
 		_main_menu.AddOption(UTranslate("New Game"), &BootMode::_OnNewGame);
 		_main_menu.AddOption(UTranslate("Load Game"), &BootMode::_OnLoadGame);
 		_main_menu.AddOption(UTranslate("Options"), &BootMode::_OnOptions);
-		_main_menu.AddOption(UTranslate("Credits"), &BootMode::_OnCredits);
 		_main_menu.AddOption(UTranslate("Quit"), &BootMode::_OnQuit);
 	}
 
@@ -970,13 +943,6 @@ void BootMode::_OnOptions() {
 	_active_menu = &_options_menu;
 	_options_window.Show();
 }
-
-
-
-void BootMode::_OnCredits() {
-	_credits_window->Show();
-}
-
 
 
 void BootMode::_OnQuit() {

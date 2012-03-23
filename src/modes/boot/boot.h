@@ -155,14 +155,8 @@ private:
 	//! \brief Rendered text of the release version number
 	hoa_video::TextImage _version_text;
 
-	//! \brief Rendered text of the game copyright notice
-	hoa_video::TextImage _copyright_text;
-
 	//! \brief A simple menu window where the various options menus are displayed
 	hoa_gui::MenuWindow _options_window;
-
-	//! \brief A window used to display the game credits
-	private_boot::CreditsWindow* _credits_window;
 
 	//! \brief A window used to display important information to the player
 	private_boot::WelcomeWindow* _welcome_window;
@@ -257,7 +251,6 @@ private:
 	void _OnNewGame();
 	void _OnLoadGame();
 	void _OnOptions();
-	void _OnCredits();
 	void _OnQuit();
 
 	void _TEMP_OnBattle();
