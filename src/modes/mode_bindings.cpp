@@ -681,7 +681,7 @@ void BindModeCode() {
 	} // End using menu mode namespaces
 
 
-	// ----- Shop Mode bindings
+	// ----- Shop Mode Bindings
 	{
 	using namespace hoa_shop;
 

@@ -1030,6 +1030,7 @@ ShopMode::ShopMode() :
 	option_text.push_back(UTranslate("Confirm"));
 	_action_options.SetOptions(option_text);
 	_action_options.SetSelection(0);
+	_action_options.SetSkipDisabled(true);
 
 	_action_titles.push_back(TextImage(option_text[0], TextStyle("title28")));
 	_action_titles.push_back(TextImage(option_text[1], TextStyle("title28")));
@@ -1178,8 +1179,42 @@ void ShopMode::Initialize() {
 	_trade_interface->Initialize();
 	_confirm_interface->Initialize();
 	_leave_interface->Initialize();
+
+	_UpdateAvailableCategories();
 } // void ShopMode::Initialize()
 
+void ShopMode::_UpdateAvailableCategories() {
+	// Test the available categories
+	if (_buy_interface->GetBuyableItemsNumber() > 0)
+		_action_options.EnableOption(0, true);
+	else
+		_action_options.EnableOption(0, false);
+
+	if (_sell_interface->GetSellableItemsNumber() > 0)
+		_action_options.EnableOption(1, true);
+	else
+		_action_options.EnableOption(1, false);
+
+	// Nothing to do in this shop
+	if (!_action_options.IsOptionEnabled(0) && !_action_options.IsOptionEnabled(1)) {
+		// Disable the confirm option.
+		_action_options.EnableOption(2, false);
+		// Put the cursor on cancel.
+		_action_options.SetSelection(3);
+	}
+	else if (!_action_options.IsOptionEnabled(0)) {
+		// Put the cursor on sell.
+		_action_options.SetSelection(1);
+		// Enable the confirm option.
+		_action_options.EnableOption(2, true);
+	}
+	else if (!_action_options.IsOptionEnabled(1)) {
+		// Put the cursor on buy.
+		_action_options.SetSelection(0);
+		// Enable the confirm option.
+		_action_options.EnableOption(2, true);
+	}
+}
 
 
 void ShopMode::Update() {
@@ -1497,6 +1532,9 @@ void ShopMode::CompleteTransaction() {
 	_trade_interface->TransactionNotification();
 	_confirm_interface->TransactionNotification();
 	_leave_interface->TransactionNotification();
+
+	// Update the available categories and place the cursor accordingly.
+	_UpdateAvailableCategories();
 } // void ShopMode::CompleteTransaction()
 
 

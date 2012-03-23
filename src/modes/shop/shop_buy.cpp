@@ -93,7 +93,7 @@ BuyInterface::~BuyInterface() {
 
 
 void BuyInterface::Initialize() {
-	// ---------- (1): Load all category names and icon images to be used
+	// Load all category names and icon images to be used
 	_number_categories = ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames()->size();
 
 	_category_names = *(ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames());
@@ -103,15 +103,16 @@ void BuyInterface::Initialize() {
 	}
 
 	// Set the initial category to the last category that was added (this is usually "All Wares")
-	_current_category = _number_categories - 1;
+	_current_category = _number_categories > 0 ? _number_categories - 1 : 0;
 	// Initialize the category display with the initial category
-	_category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
+	if (_number_categories > 0)
+	    _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
 
-	// ---------- (2): Prepare object data containers and determine category index mappings
+	// Prepare object data containers and determine category index mappings
 	// Containers of object data used to populate the display lists
 	vector<vector<ShopObject*> > object_data;
 
-	for (uint32 i = 0; i < _number_categories; i++) {
+	for (uint32 i = 0; i < _number_categories; ++i) {
 		object_data.push_back(vector<ShopObject*>());
 	}
 
@@ -137,10 +138,10 @@ void BuyInterface::Initialize() {
 		}
 	}
 
-	// ---------- (3): Populate the object_data containers
+	// Populate the object_data containers
 	// Used to temporarily hold a pointer to a valid shop object
 	ShopObject* obj = NULL;
-	// Pointer to the container of all objects that are bought/sold/traded in the ship
+	// Pointer to the container of all objects that are bought/sold/traded in the shop
 	map<uint32, ShopObject>* shop_objects = ShopMode::CurrentInstance()->GetShopObjects();
 
 	for (map<uint32, ShopObject>::iterator i = shop_objects->begin(); i != shop_objects->end(); i++) {
@@ -191,7 +192,8 @@ void BuyInterface::Initialize() {
 		_list_displays.push_back(new_list);
 	}
 
-	_selected_object = _list_displays[_current_category]->GetSelectedObject();
+	if (_number_categories > 0)
+		_selected_object = _list_displays[_current_category]->GetSelectedObject();
 	_ChangeViewMode(SHOP_VIEW_MODE_LIST);
 } // void BuyInterface::Initialize()
 
@@ -217,7 +219,7 @@ void BuyInterface::TransactionNotification() {
 		_list_displays[i]->ResetSelection();
 	}
 
-	_current_category = _number_categories - 1;
+	_current_category = _number_categories > 0 ? _number_categories - 1 : 0;
 	_view_mode = SHOP_VIEW_MODE_LIST;
 }
 

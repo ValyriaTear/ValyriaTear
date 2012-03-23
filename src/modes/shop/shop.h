@@ -580,6 +580,9 @@ public:
 	//@}
 
 private:
+    //! \brief update (enable, disable) the available categories (buy, sell, ...)
+    void _UpdateAvailableCategories();
+
 	/** \brief A reference to the current instance of ShopMode
 	*** This is used by other shop clases to be able to refer to the shop that they exist in. This member
 	*** is NULL when no shop is active

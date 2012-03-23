@@ -59,6 +59,10 @@ public:
 	//! \brief Sets the selected object for the ShopObjectViewer class
 	void MakeActive();
 
+	//! \brief Tells the number of sellable items.
+    uint32 GetSellableItemsNumber()
+        { return _list_displays.size(); }
+
 	//! \brief Completely reconstructs all display lists from the party's inventory
 	void TransactionNotification();
 

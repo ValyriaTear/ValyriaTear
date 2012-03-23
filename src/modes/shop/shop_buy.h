@@ -53,6 +53,10 @@ public:
 	//! \brief Sets the selected object for the ShopObjectViewer class
 	void MakeActive();
 
+//! \brief Tells the number of buyable items.
+	uint32 GetBuyableItemsNumber()
+		{ return _list_displays.size(); }
+
 	//! \brief Reconstructs all buy display lists and resets the current category
 	void TransactionNotification();
 

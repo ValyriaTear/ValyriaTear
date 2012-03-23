@@ -951,15 +951,20 @@ void BootMode::_DEBUG_OnMenu() {
 
 void BootMode::_DEBUG_OnShop() {
 	ReadScriptDescriptor read_data;
-	if (!read_data.OpenFile("dat/config/boot.lua")) {
-		PRINT_ERROR << "failed to load boot data file" << endl;
+	if (!read_data.OpenFile("dat/config/debug_shop.lua"))
+	    return;
+
+	if (!read_data.DoesFunctionExist("BootShopTest")) {
+		PRINT_ERROR << "No 'BootShopTest' function!" << endl;
+		read_data.CloseFile();
+		return;
 	}
 
-	ScriptCallFunction<void>(read_data.GetLuaState(), "BootShopTest");
-
-	if (read_data.IsErrorDetected()) {
-		PRINT_ERROR << "an error occured during reading of the boot data file" << endl;
-		PRINT_ERROR << read_data.GetErrorMessages() << endl;
+	try {
+		ScriptCallFunction<void>(read_data.GetLuaState(), "BootShopTest");
+	} catch(luabind::error e) {
+		PRINT_ERROR << "Error while loading debug shop!" << endl;
+		ScriptManager->HandleLuaError(e);
 	}
 	read_data.CloseFile();
 }

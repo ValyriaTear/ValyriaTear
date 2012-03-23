@@ -93,7 +93,7 @@ SellInterface::~SellInterface() {
 
 
 void SellInterface::Initialize() {
-	// ---------- (1): Load all category names and icon images to be used
+	// Load all category names and icon images to be used
 	_number_categories = ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames()->size();
 
 	_category_names = *(ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames());
@@ -116,19 +116,20 @@ void SellInterface::Initialize() {
 		}
 	}
 
-	// ---------- (2): Create the sell displays and populate them with the object data
+	// Create the sell displays and populate them with the object data
 	for (uint32 i = 0; i < _number_categories; i++) {
 		_list_displays.push_back(new SellListDisplay());
 	}
 	_PopulateLists();
 
-	// ---------- (3): Initialize other class members and states appropriately
+	// Initialize other class members and states appropriately
 	// Set the initial category to the last category that was added (this is usually "All Wares")
-	_current_category = _number_categories - 1;
+	_current_category = _number_categories > 0 ? _number_categories - 1 : 0;
 	// Initialize the category display with the initial category
-	_category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
-
-	_selected_object = _list_displays[_current_category]->GetSelectedObject();
+	if (_number_categories > 0) {
+		_category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
+		_selected_object = _list_displays[_current_category]->GetSelectedObject();
+	}
 	_ChangeViewMode(SHOP_VIEW_MODE_LIST);
 } // void SellInterface::Initialize()
 
@@ -151,7 +152,7 @@ void SellInterface::MakeActive() {
 void SellInterface::TransactionNotification() {
 	_PopulateLists();
 
-	_current_category = _number_categories - 1;
+	_current_category = _number_categories > 0 ? _number_categories - 1 : 0;
 	_view_mode = SHOP_VIEW_MODE_LIST;
 }
 
