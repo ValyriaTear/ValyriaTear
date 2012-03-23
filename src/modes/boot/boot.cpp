@@ -907,16 +907,21 @@ void BootMode::_OnQuit() {
 #ifdef DEBUG_MENU
 void BootMode::_DEBUG_OnBattle() {
 	ReadScriptDescriptor read_data;
-	if (!read_data.OpenFile("dat/config/boot.lua")) {
-		PRINT_ERROR << "failed to load boot data file" << endl;
-	}
+	if (!read_data.OpenFile("dat/config/debug_battle.lua"))
+	    return;
 
-	ScriptCallFunction<void>(read_data.GetLuaState(), "BootBattleTest");
+    if (!read_data.DoesFunctionExist("BootBattleTest")) {
+        PRINT_ERROR << "No 'BootBattleTest' function!" << endl;
+        read_data.CloseFile();
+        return;
+    }
 
-	if (read_data.IsErrorDetected()) {
-		PRINT_ERROR << "an error occured during reading of the boot data file" << endl;
-		PRINT_ERROR << read_data.GetErrorMessages() << endl;
-	}
+    try {
+	    ScriptCallFunction<void>(read_data.GetLuaState(), "BootBattleTest");
+    } catch(luabind::error e) {
+		PRINT_ERROR << "Error while loading debug battle!" << endl;
+		ScriptManager->HandleLuaError(e);
+    }
 	read_data.CloseFile();
 }
 

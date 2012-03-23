@@ -42,34 +42,6 @@ sound_files = { "snd/confirm.wav",
 
 -- -------------------------------------------------- --
 
-function BootBattleTest()
-	print("BootBattleTest");
-
---	GlobalManager:SetBattleSetting(hoa_global.GameGlobal.GLOBAL_BATTLE_WAIT);
-	GlobalManager:SetBattleSetting(hoa_global.GameGlobal.GLOBAL_BATTLE_ACTIVE);
-
-	GlobalManager:AddCharacter(1);
-	GlobalManager:AddCharacter(2);
-	GlobalManager:AddCharacter(4);
-	GlobalManager:AddCharacter(8);
-	GlobalManager:AddToInventory(1, 5);
-
-	-- local claudius = GlobalManager:GetCharacter(1);
-	-- claudius:AddSkill(10001);
-	
-	local battle = hoa_battle.BattleMode();
-	battle:AddEnemy(6);
-	battle:AddEnemy(7);
-	battle:AddEnemy(8);
-	battle:AddEnemy(9);
-	battle:AddEnemy(10);
---	battle:LoadBattleScript("dat/battles/first_battle.lua");
-
-	ModeManager:Push(battle);
-end
-
-
-
 function BootMenuTest()
 	print("BootMenuTest");
 end
