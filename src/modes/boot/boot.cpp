@@ -468,13 +468,14 @@ void BootMode::Draw() {
 // ****************************************************************************
 // ***** BootMode menu setup and refresh methods
 // ****************************************************************************
-bool BootMode::_SavesAvailable(int maxId)
+bool BootMode::_SavesAvailable(int32 maxId)
 {
 	assert(maxId > 0);
-	int savesAvailable = 0;
-	for (int id = 1; id <= maxId; ++id) {
+	int32 savesAvailable = 0;
+	std::string data_path = GetUserDataPath(true);
+	for (int id = 0; id < maxId; ++id) {
 		ostringstream f;
-		f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+		f << data_path + "saved_game_" << id << ".lua";
 		const string filename = f.str();
 
 		if (DoesFileExist(filename)) {
