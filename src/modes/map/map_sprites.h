@@ -467,8 +467,8 @@ public:
 	std::string GetBattleBackground() const
 		{ return _bg_file; }
 
-	std::string GetBattleScript() const
-		{ return _script_file; }
+	const std::vector<std::string>& GetBattleScripts() const
+		{ return _script_files; }
 
 	bool IsDead() const
 		{ return _state == DEAD; }
@@ -497,8 +497,8 @@ public:
 	void SetBattleBackground(const std::string& bg_file)
 		{ _bg_file = bg_file; }
 
-	void SetBattleScript(const std::string& script_file)
-		{ _script_file = script_file; }
+	void AddBattleScript(const std::string& script_file)
+		{ _script_files.push_back(script_file); }
 
 	void ChangeStateDead()
 		{ Reset(); if (_zone) _zone->EnemyDead(); }
@@ -541,8 +541,8 @@ private:
 	//! \brief The default background for the battle
 	std::string _bg_file;
 
-	//! \brief The filename of the script to pass to the battle
-	std::string _script_file;
+	//! \brief The filenames of the script to pass to the battle
+	std::vector<std::string> _script_files;
 
 	/** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
 	*** The numbers contained within this member are ID numbers for the enemy. If the

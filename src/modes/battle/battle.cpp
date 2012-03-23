@@ -306,7 +306,6 @@ StillImage* BattleMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 
 BattleMode::BattleMode() :
 	_state(BATTLE_STATE_INVALID),
-	_script_filename(""),
 	_sequence_supervisor(NULL),
 	_command_supervisor(NULL),
 	_dialogue_supervisor(NULL),
@@ -333,8 +332,6 @@ BattleMode::BattleMode() :
 
 
 BattleMode::~BattleMode() {
-	_battle_script.CloseFile();
-
 	delete _sequence_supervisor;
 	delete _command_supervisor;
 	delete _dialogue_supervisor;
@@ -404,8 +401,9 @@ void BattleMode::Update() {
 		return;
 	}
 
-	if (_battle_script.IsFileOpen() == true) {
-		ScriptCallFunction<void>(_update_function);
+	for (uint32 i = 0; i < _update_functions.size(); ++i) {
+	if (_update_functions[i].is_valid())
+		ScriptCallFunction<void>(_update_functions[i]);
 	}
 
 	if (_dialogue_supervisor->IsDialogueActive() == true) {
@@ -549,8 +547,10 @@ void BattleMode::Draw() {
 	_DrawSprites();
 	_DrawForegroundGraphics();
 
-	if (_battle_script.IsFileOpen())
-		ScriptCallFunction<void>(_draw_effects_function);
+	for (uint32 i = 0; i < _draw_effects_functions.size(); ++i) {
+		if (_draw_effects_functions[i].is_valid())
+			ScriptCallFunction<void>(_draw_effects_functions[i]);
+	}
 }
 
 void BattleMode::DrawPostEffects() {
@@ -589,13 +589,13 @@ void BattleMode::AddEnemy(GlobalEnemy* new_enemy) {
 
 
 
-void BattleMode::LoadBattleScript(const std::string& filename) {
+void BattleMode::AddBattleScript(const std::string& filename) {
 	if (_state != BATTLE_STATE_INVALID) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function was called when battle mode was already initialized" << endl;
 		return;
 	}
 
-	_script_filename = filename;
+	_script_filenames.push_back(filename);
 }
 
 
@@ -892,43 +892,24 @@ void BattleMode::_Initialize() {
 		_enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
 	}
 
-	// (6): Determine if the battle is scripted and if so, open the script file and perform additional scripted initialization
-	if (_script_filename != "") {
-		if (_battle_script.OpenFile(_script_filename)) {
-			// If any of the required function signatures are not found, close the file and do not allow the script to be executed
-			if (!_battle_script.DoesFunctionExist("Initialize")) {
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "required function [Initialize] not found within battle script: " << _script_filename << endl;
-				_battle_script.CloseFile();
-			}
-			else if (!_battle_script.DoesFunctionExist("Update")) {
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "required function [Update] not found within battle script: " << _script_filename << endl;
-				_battle_script.CloseFile();
-			}
-			else if (!_battle_script.DoesFunctionExist("DrawBackground")) {
-				PRINT_WARNING << "required function [DrawBackground] not found within battle script: " << _script_filename << endl;
-				_battle_script.CloseFile();
-			}
-			else if (!_battle_script.DoesFunctionExist("DrawForeground")) {
-				PRINT_WARNING << "required function [DrawForeground] not found within battle script: " << _script_filename << endl;
-				_battle_script.CloseFile();
-			}
-			else if (!_battle_script.DoesFunctionExist("DrawEffects")) {
-				PRINT_WARNING << "required function [DrawEffects] not found within battle script: " << _script_filename << endl;
-				_battle_script.CloseFile();
-			}
-			else {
-				_update_function = _battle_script.ReadFunctionPointer("Update");
-				_draw_background_function = _battle_script.ReadFunctionPointer("DrawBackground");
-				_draw_foreground_function = _battle_script.ReadFunctionPointer("DrawForeground");
-				_draw_effects_function = _battle_script.ReadFunctionPointer("DrawEffects");
+	// Open every possible battle script files registered and process them.
+	for (uint32 i = 0; i < _script_filenames.size(); ++i) {
+		ReadScriptDescriptor battle_script;
+		if (!battle_script.OpenFile(_script_filenames[i]))
+			continue;
 
-				ScriptObject init_function = _battle_script.ReadFunctionPointer("Initialize");
-				ScriptCallFunction<void>(init_function, this);
-			}
-		}
-		else {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to open requested battle script: " << _script_filename << endl;
-		}
+		_update_functions.push_back(battle_script.ReadFunctionPointer("Update"));
+		_draw_background_functions.push_back(battle_script.ReadFunctionPointer("DrawBackground"));
+		_draw_foreground_functions.push_back(battle_script.ReadFunctionPointer("DrawForeground"));
+		_draw_effects_functions.push_back(battle_script.ReadFunctionPointer("DrawEffects"));
+
+		// Trigger the Initialize functions in the loading order.
+		ScriptObject init_function = battle_script.ReadFunctionPointer("Initialize");
+		if (init_function.is_valid())
+			ScriptCallFunction<void>(init_function, this);
+
+		battle_script.CloseTable(); // The tablespace
+		battle_script.CloseFile();
 	}
 
 	ChangeState(BATTLE_STATE_INITIAL);
@@ -1038,8 +1019,10 @@ void BattleMode::_DrawBackgroundGraphics() {
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
 	// Handles custom scripted draw before sprites
-	if (_battle_script.IsFileOpen())
-		ScriptCallFunction<void>(_draw_background_function);
+	for (uint32 i = 0; i < _draw_background_functions.size(); ++i) {
+		if (_draw_background_functions[i].is_valid())
+			ScriptCallFunction<void>(_draw_background_functions[i]);
+	}
 }
 
 
@@ -1047,8 +1030,10 @@ void BattleMode::_DrawForegroundGraphics() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
-	if (_battle_script.IsFileOpen())
-		ScriptCallFunction<void>(_draw_foreground_function);
+	for (uint32 i = 0; i < _draw_foreground_functions.size(); ++i) {
+		if (_draw_foreground_functions[i].is_valid())
+		    ScriptCallFunction<void>(_draw_foreground_functions[i]);
+	}
 }
 
 

@@ -273,7 +273,7 @@ void BindModeCode() {
 			.def("SetTimeToSpawn", &EnemySprite::SetTimeToSpawn)
 			.def("SetBattleMusicTheme", &EnemySprite::SetBattleMusicTheme)
 			.def("SetBattleBackground", &EnemySprite::SetBattleBackground)
-			.def("SetBattleScript", &EnemySprite::SetBattleScript)
+			.def("AddBattleScript", &EnemySprite::AddBattleScript)
 			.def("ChangeStateDead", &EnemySprite::ChangeStateDead)
 			.def("ChangeStateSpawning", &EnemySprite::ChangeStateSpawning)
 			.def("ChangeStateHostile", &EnemySprite::ChangeStateHostile)
@@ -476,7 +476,7 @@ void BindModeCode() {
 			.def(constructor<uint32, uint32>())
 			.def("SetMusic", &BattleEncounterEvent::SetMusic)
 			.def("SetBackground", &BattleEncounterEvent::SetBackground)
-			.def("SetBattleScript", &BattleEncounterEvent::SetBattleScript)
+			.def("AddBattleScript", &BattleEncounterEvent::AddBattleScript)
 			.def("AddEnemy", &BattleEncounterEvent::AddEnemy)
 	];
 
@@ -530,7 +530,8 @@ void BindModeCode() {
 		class_<BattleMode, hoa_mode_manager::GameMode>("BattleMode")
 			.def(constructor<>())
 			.def("AddEnemy", (void(BattleMode::*)(uint32)) &BattleMode::AddEnemy)
-			.def("LoadBattleScript", &BattleMode::LoadBattleScript)
+			.def("SetBattleScripts", &BattleMode::SetBattleScripts)
+			.def("AddBattleScript", &BattleMode::AddBattleScript)
 			.def("RestartBattle", &BattleMode::RestartBattle)
 			.def("FreezeTimers", &BattleMode::FreezeTimers)
 			.def("UnFreezeTimers", &BattleMode::UnFreezeTimers)

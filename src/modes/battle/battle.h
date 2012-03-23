@@ -276,7 +276,11 @@ public:
 	*** is called for the first time). Calling it after the battle has been initialized will have no effect and
 	*** print out a warning.
 	**/
-	void LoadBattleScript(const std::string& filename);
+	void AddBattleScript(const std::string& filename);
+
+	//! \brief Copy all the battle script filenames at once.
+    void SetBattleScripts(const std::vector<std::string>& scripts)
+         { _script_filenames = scripts; }
 
 	/** \brief Adds a new active enemy to the battle field
 	*** \param new_enemy A copy of the GlobalEnemy object to add to the battle
@@ -325,10 +329,6 @@ public:
 	*** different character, it will reject the request.
 	**/
 	bool OpenCommandMenu(private_battle::BattleCharacter* character);
-
-	//! \brief Returns true if the battle has an open and active script file running
-	bool IsBattleScripted() const
-		{ return (_battle_script.IsFileOpen() == true); }
 
 	//! \brief Returns true if the battle has finished and entered either the victory or defeat state
 	bool IsBattleFinished() const
@@ -403,39 +403,33 @@ private:
 
 	//! \name Battle script data
 	//@{
-	//! \brief The name of the Lua file used for scripting this battle
-	std::string _script_filename;
+	//! \brief The name of the Lua files used to script this battle
+	std::vector<std::string> _script_filenames;
 
-	/** \brief The interface to the file which contains the battle's scripted routines
-	*** The script remains open for as long as the BattleMode object exists. The script is required to
-	*** have the following functions defined: "Initialize", "Update", and "Draw"
-	**/
-	hoa_script::ReadScriptDescriptor _battle_script;
-
-	/** \brief A script function which assists with the BattleMode#Update method
-	*** This function executes any code that needs to be performed on an update call. An example of
+	/** \brief Script functions which assists with the BattleMode#Update method
+	*** Those functions execute any code that needs to be performed on an update call. An example of
 	*** one common operation is to detect certain conditions in battle and respond appropriately, such as
 	*** triggering a dialogue.
 	**/
-	ScriptObject _update_function;
+	std::vector<ScriptObject> _update_functions;
 
-	/** \brief Script function which assists with the MapMode#DrawBackground method
-	*** This function executes any code that needs to be performed on a draw call. This allows us battle's to
+	/** \brief Script functions which assists with the MapMode#DrawBackground method
+	*** Those functions execute any code that needs to be performed on a draw call. This allows us battle's to
 	*** utilize custom background effects.
 	**/
-	ScriptObject _draw_background_function;
+	std::vector<ScriptObject> _draw_background_functions;
 
-	/** \brief Script function which assists with the MapMode#DrawForeground method
-	*** This function executes any code that needs to be performed on a draw call. This allows us battle's to
+	/** \brief Script functions which assists with the MapMode#DrawForeground method
+	*** Those functions execute any code that needs to be performed on a draw call. This allows us battle's to
 	*** utilize custom visual effects over the characters and enemies sprites.
 	**/
-	ScriptObject _draw_foreground_function;
+	std::vector<ScriptObject> _draw_foreground_functions;
 
-	/** \brief Script function which assists with the MapMode#DrawEffects methods
-	*** This function executes any code that needs to be performed on a draw call. This allows us battle's to
+	/** \brief Script functions which assists with the MapMode#DrawEffects methods
+	*** Those functions execute any code that needs to be performed on a draw call. This allows us battle's to
 	*** utilize custom light effects just below the gui.
 	**/
-	ScriptObject _draw_effects_function;
+	std::vector<ScriptObject> _draw_effects_functions;
 	//@}
 
 	//! \name Battle supervisor classes

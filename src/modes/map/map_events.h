@@ -366,8 +366,8 @@ public:
 	void AddEnemy(uint32 enemy_id)
 		{ _enemy_ids.push_back(enemy_id); }
 
-	void SetBattleScript(const std::string& filename)
-		{ _battle_script = filename; }
+	void AddBattleScript(const std::string& filename)
+		{ _battle_scripts.push_back(filename); }
 
 protected:
 	//! \brief ID numbers for enemies to generate
@@ -379,8 +379,8 @@ protected:
 	//! \brief Filename for battle background
 	std::string _battle_background;
 
-	//! \brief Filename of the battle script
-	std::string _battle_script;
+	//! \brief Filenames of the battle scripts
+	std::vector<std::string> _battle_scripts;
 
 	//! \brief Starts the battle
 	void _Start();

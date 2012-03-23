@@ -330,9 +330,9 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite* enemy) {
 		BM->AddEnemy(enemy_party[i]);
 	}
 
-	string enemy_battle_script = enemy->GetBattleScript();
-	if (!enemy_battle_script.empty())
-		BM->LoadBattleScript(enemy_battle_script);
+	std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
+	if (!enemy_battle_scripts.empty())
+		BM->SetBattleScripts(enemy_battle_scripts);
 
 	TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 
@@ -756,10 +756,7 @@ EnemySprite::EnemySprite() :
 	_color(1.0f, 1.0f, 1.0f, 0.0f),
 	_aggro_range(8.0f),
 	_time_dir_change(2500),
-	_time_to_spawn(3500),
-	_music_theme(""),
-	_bg_file(""),
-	_script_file("")
+	_time_to_spawn(3500)
 {
 	filename = "";
 	MapObject::_object_type = ENEMY_TYPE;
@@ -774,10 +771,7 @@ EnemySprite::EnemySprite(std::string file) :
 	_color(1.0f, 1.0f, 1.0f, 0.0f),
 	_aggro_range(8.0f),
 	_time_dir_change(2500),
-	_time_to_spawn(3500),
-	_music_theme(""),
-	_bg_file(""),
-	_script_file("")
+	_time_to_spawn(3500)
 {
 	filename = file;
 	MapObject::_object_type = ENEMY_TYPE;

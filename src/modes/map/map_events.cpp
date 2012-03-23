@@ -250,8 +250,8 @@ void BattleEncounterEvent::_Start() {
 
 		BM->GetMedia().SetBackgroundImage(_battle_background);
 		BM->GetMedia().SetBattleMusic(_battle_music);
-		if (!_battle_script.empty())
-			BM->LoadBattleScript(_battle_script);
+		for (uint32 i = 0; i < _battle_scripts.size(); ++i)
+			BM->AddBattleScript(_battle_scripts[i]);
 
 		TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 
