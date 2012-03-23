@@ -792,7 +792,11 @@ bool DeleteFile(const std::string &filename) {
 
 
 
+#if defined __MACH__
 const std::string GetUserDataPath(bool user_files) {
+#else
+const std::string GetUserDataPath(bool /*user_files*/) {
+#endif
 	#if defined _WIN32
 		TCHAR path[MAX_PATH];
 
