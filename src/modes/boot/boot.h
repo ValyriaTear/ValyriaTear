@@ -31,6 +31,12 @@
 //! \brief All calls to boot mode are wrapped in this namespace.
 namespace hoa_boot {
 
+//! \brief Various states that boot mode may be in
+enum BOOT_STATE {
+	BOOT_STATE_INTRO   = 0,
+	BOOT_STATE_MENU    = 1
+};
+
 //! \brief Determines whether the code in the hoa_boot namespace should print debug statements or not.
 extern bool BOOT_DEBUG;
 
@@ -38,17 +44,6 @@ extern bool BOOT_DEBUG;
 namespace private_boot {
 
 const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
-
-//! \brief Various states that boot mode may be in
-enum BOOT_STATE {
-	BOOT_INVALID = 0,
-	BOOT_INTRO   = 1,
-	BOOT_MAIN    = 2,
-	BOOT_LOAD    = 3,
-	BOOT_OPTIONS = 4,
-	BOOT_CREDITS = 5,
-	BOOT_TOTAL   = 6
-};
 
 //! \brief ???
 enum WAIT_FOR {
@@ -124,9 +119,36 @@ public:
 	//! \brief Draws the contents and menus of boot mode depending on the current state
 	void Draw();
 
+	/** \brief Add a boot image available for display at boot time.
+	*** \return the image id to be used later at draw time.
+	**/
+	int32 AddImage(const std::string& filename, float width, float height);
+
+	/** \brief Add a boot animation available for display at boot time.
+	*** \return the animation id to be used later at draw time.
+	**/
+	int32 AddAnimation(const std::string& filename);
+
+	//! \brief draw an image added through AddImage at the current cursor position.
+	void DrawImage(int32 id, hoa_video::Color color = hoa_video::Color::white);
+
+	//! \brief draw an animation added through Addanimation.
+	void DrawAnimation(int32 id, float x, float y);
+
+	//! \brief Used to permit changing a draw flag at boot time.
+	void SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag);
+
+	//! \brief Tells the boot state
+	BOOT_STATE GetState() const
+		{ return _boot_state; }
+
+	//! \brief Sets the boot state
+	void ChangeState(BOOT_STATE boot_state)
+		{ _boot_state = boot_state; }
+
 private:
-	//! \brief Determines if this is the first time boot mode is entered. Used for the logo animation
-	static bool _initial_entry;
+	//! \brief The boot state used to know whether the menu has to be displayed.
+    BOOT_STATE _boot_state;
 
 	//! \brief A pointer to the most recently active instance of boot mode
 	static BootMode* _current_instance;
@@ -143,14 +165,20 @@ private:
 	//! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
 	std::vector<std::string> _po_files;
 
+	//! \brief Animations that will be used at the boot screen.
+	std::vector<hoa_video::AnimatedImage> _boot_animations;
+
 	//! \brief Images that will be used at the boot screen.
 	std::vector<hoa_video::StillImage> _boot_images;
 
-	//! \brief Music pieces to be used at the boot screen.
-	std::vector<hoa_audio::MusicDescriptor> _boot_music;
+	//! \brief A pointer to the Reset() lua script function used to display the boot presentation.
+	ScriptObject _reset_function;
 
-	//! \brief Sounds that will be used at the boot screen.
-	std::vector<hoa_audio::SoundDescriptor> _boot_sounds;
+	//! \brief A pointer to the Update() lua script function used to display the boot presentation.
+	ScriptObject _update_function;
+
+	//! \brief A pointer to the Draw() lua script function used to display the boot presentation.
+	ScriptObject _draw_function;
 
 	//! \brief Rendered text of the release version number
 	hoa_video::TextImage _version_text;
@@ -201,7 +229,8 @@ private:
 	void (BootMode::*_joy_axis_setting_function)(int8 axis);
 
 	//! \brief The function to call when we want to overwrite
-	//! \todo I don't understand this function pointer. Is it necessary? What does it overwrite?
+	//! \todo I don't understand this function pointer. Is it necessary?
+	//! \note The function pointer can point to an profile overwrite function according to the code.
 	void (BootMode::*_overwrite_function) ();
 
 	//! \brief Window display message for "select a key"
@@ -326,37 +355,8 @@ private:
 
 	// ---------- Helper methods not directly tied to any specific boot menu
 
-	//! \brief Draws the background image, logo and sword at their standard locations
-	void _DrawBackgroundItems();
-
-	/** \brief Animates the game logo when this class is first initialized
-	*** The logo animation is performed in a series of sequences. When the animation is finished,
-	*** the _initial_entry member is set to false. The audio that plays during this animation is
-	*** a special music file (.ogg) that was created specifically to the timings of this animation.
-	*** Therefore, don't screw with the timings in this method! A visual description of this
-	*** animation is described below.
-	***
-	*** -#) When the animation sequence begins, initially the screen is completely black.
-	*** -#) The logo gradually fades in from the background to appear on the center of the screen,
-	***     with the sword placed horizontally as if it were "sheathed" inside the word "Allacros".
-	***     The background remains black with only the logo partially visible.
-	*** -#) After the logo fade in is complete, the sword slides out ("unsheathes") and moves to
-	***     the right
-	*** -#) After the sword is completely removed, it moves upwards and performs two 360 degree
-	***     swings as if an invisible person was swinging/twirling it. The speed slows to a rest
-	***     above the logo with the sword tip facing downward.
-	*** -#) The sword then comes crashing down into the logo and sets into its final vertical
-	***     position.
-	*** -#) A brilliant flash of white light eminates from the sword, quickly whiting out the
-	***     entire screen
-	*** -#) The light fades away, now revealing the background image instead of a black backdrop
-	***     and the logo is now located at the top center of the screen.
-	*** -#) When the light fade finishes, the boot menu and other text instantly appear.
-	**/
-	void _AnimateLogo();
-
-	//! \brief Immediately finishes and ends the opening logo animation
-	void _EndLogoAnimation();
+	//! \brief Tests whether the welcome window should be shown.
+	void _ShowWelcomeWindow();
 
 	/** \brief Shows the message window to display text that its waiting for either a joystick or keyboard event
 	*** \param joystick True if the window should state its waiting for a joystick event, false for a keyboard event

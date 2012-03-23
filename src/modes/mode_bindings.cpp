@@ -28,6 +28,7 @@
 #include "common/global/global_actors.h"
 #include "common/global/global_effects.h"
 
+#include "modes/boot/boot.h"
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_command.h"
@@ -50,6 +51,32 @@ using namespace luabind;
 namespace hoa_defs {
 
 void BindModeCode() {
+	// ----- Boot Mode Bindings
+	{
+	using namespace hoa_boot;
+	using namespace hoa_boot::private_boot;
+
+	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_boot")
+	[
+		class_<BootMode, hoa_mode_manager::GameMode>("BootMode")
+			.def(constructor<>())
+			.def("AddImage", &BootMode::AddImage)
+			.def("AddAnimation", &BootMode::AddAnimation)
+			.def("DrawImage", &BootMode::DrawImage)
+			.def("DrawAnimation", &BootMode::DrawAnimation)
+			.def("GetState", &BootMode::GetState)
+			.def("ChangeState", &BootMode::ChangeState)
+			.def("SetDrawFlag", &BootMode::SetDrawFlag)
+
+			// Namespace constants
+			.enum_("constants") [
+				// Battle states
+				value("BOOT_STATE_INTRO", BOOT_STATE_INTRO),
+				value("BOOT_STATE_MENU", BOOT_STATE_MENU)
+			]
+	];
+	}
+
 	// ----- Map Mode Bindings
 	{
 	using namespace hoa_map;

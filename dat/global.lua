@@ -6,6 +6,10 @@ DESTER    = 4;
 LUKAR     = 8;
 
 function NewGame()
+	-- Plays a special starting sound
+	AudioManager:PlaySound("snd/opening_sword_fall.wav");
+
+	-- Prepare the new game data
 	GlobalManager:AddCharacter(LUKAR);
 	GlobalManager:AddCharacter(DESTER);
 	GlobalManager:AddCharacter(MARK);

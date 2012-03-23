@@ -55,8 +55,6 @@ namespace hoa_boot {
 
 bool BOOT_DEBUG = false;
 
-// Initialize static members here
-bool BootMode::_initial_entry = true;
 BootMode* BootMode::_current_instance = NULL;
 
 // ****************************************************************************
@@ -64,6 +62,7 @@ BootMode* BootMode::_current_instance = NULL;
 // ****************************************************************************
 
 BootMode::BootMode() :
+	_boot_state(BOOT_STATE_INTRO),
 	_exiting(false),
 	_has_modified_settings(false),
 	_key_setting_function(NULL),
@@ -85,59 +84,32 @@ BootMode::BootMode() :
 	_version_text.SetStyle(TextStyle("text20"));
 	_version_text.SetText(UTranslate("Development Release"));
 
-	ReadScriptDescriptor read_data;
-	if (!read_data.OpenFile("dat/config/boot.lua")) {
-		PRINT_ERROR << "failed to load boot data file" << endl;
+	ReadScriptDescriptor boot_script;
+	if (!boot_script.OpenFile("dat/config/boot.lua")) {
+		PRINT_ERROR << "Failed to load boot data file" << endl;
+		SystemManager->ExitGame();
+		return;
 	}
 
-	// Load all bitmaps using this StillImage
-	StillImage im;
-	bool success = true;
+	// Open the boot table spacename
+	if (boot_script.OpenTablespace().empty()) {
+		PRINT_ERROR << "The boot script file has not set a correct tablespace" << endl;
+		SystemManager->ExitGame();
+		return;
+    }
 
-	success &= im.Load(read_data.ReadString("background_image"), read_data.ReadFloat("background_image_width"), read_data.ReadFloat("background_image_height"));
-	_boot_images.push_back(im);
+	// Trigger the Initialize functions in the loading order.
+	ScriptObject init_function = boot_script.ReadFunctionPointer("Initialize");
+	if (init_function.is_valid())
+		ScriptCallFunction<void>(init_function, this);
 
-	success &= im.Load(read_data.ReadString("logo_background"), read_data.ReadFloat("logo_background_width"), read_data.ReadFloat("logo_background_height"));
-	_boot_images.push_back(im);
+	// Load other script functions object
+	_update_function = boot_script.ReadFunctionPointer("Update");
+	_draw_function = boot_script.ReadFunctionPointer("Draw");
+	_reset_function = boot_script.ReadFunctionPointer("Reset");
 
-	success &= im.Load(read_data.ReadString("logo_sword"), read_data.ReadFloat("logo_sword_width"), read_data.ReadFloat("logo_sword_height"));
-	_boot_images.push_back(im);
-
-	success &= im.Load(read_data.ReadString("logo_text"), read_data.ReadFloat("logo_text_width"), read_data.ReadFloat("logo_text_height"));
-	_boot_images.push_back(im);
-
-	if (success == false) {
-		PRINT_ERROR << "failed to load one or more boot images" << endl;
-	}
-
-	// Load audio data
-	vector<string> new_music_files;
-	vector<string> new_sound_files;
-	read_data.ReadStringVector("music_files", new_music_files);
-	read_data.ReadStringVector("sound_files", new_sound_files);
-	if (read_data.IsErrorDetected()) {
-		PRINT_ERROR << "an error occured during reading of the boot data file" << endl;
-		PRINT_ERROR << read_data.GetErrorMessages() << endl;
-	}
-	read_data.CloseFile();
-
-	_boot_music.resize(new_music_files.size(), MusicDescriptor());
-	for (uint32 i = 0; i < new_music_files.size(); i++) {
-		if (_boot_music[i].LoadAudio(new_music_files[i]) == false) {
-			PRINT_ERROR << "failed to load music file: " << new_music_files[i] << endl;
-			SystemManager->ExitGame();
-			return;
-		}
-	}
-
-	_boot_sounds.resize(new_sound_files.size(), SoundDescriptor());
-	for (uint32 i = 0; i < new_sound_files.size(); i++) {
-		if (_boot_sounds[i].LoadAudio(new_sound_files[i]) == false) {
-			PRINT_ERROR << "failed to load sound file: " << new_sound_files[i] << endl;
-			SystemManager->ExitGame();
-			return;
-		}
-	}
+	boot_script.CloseTable(); // The namespace
+	boot_script.CloseFile();
 
 	_options_window.Create(300.0f, 550.0f);
 	_options_window.SetPosition(360.0f, 580.0f);
@@ -176,12 +148,6 @@ BootMode::~BootMode() {
 
 	if (BOOT_DEBUG) cout << "BOOT: BootMode destructor invoked." << endl;
 
-	for (uint32 i = 0; i < _boot_music.size(); i++)
-		_boot_music[i].FreeAudio();
-
-	for (uint32 i = 0; i < _boot_sounds.size(); i++)
-		_boot_sounds[i].FreeAudio();
-
 	_key_setting_function = NULL;
 	_joy_setting_function = NULL;
 	_joy_axis_setting_function = NULL;
@@ -189,20 +155,68 @@ BootMode::~BootMode() {
 }
 
 
+int32 BootMode::AddImage(const std::string& filename, float width, float height) {
+	StillImage img;
+	if (!img.Load(filename, width, height)) {
+		PRINT_WARNING << "Boot image file could not be loaded: " << filename << endl;
+		return -1;
+	}
+
+	_boot_images.push_back(img);
+
+	int32 id = _boot_images.size() - 1;
+	return id;
+}
+
+
+int32 BootMode::AddAnimation(const std::string& filename) {
+	AnimatedImage anim;
+	if (!anim.LoadFromAnimationScript(filename)) {
+		PRINT_WARNING << "Boot animation file could not be loaded: " << filename << endl;
+		return -1;
+	}
+
+	_boot_animations.push_back(anim);
+
+	int32 id = _boot_animations.size() - 1;
+	return id;
+}
+
+
+void BootMode::DrawImage(int32 id, Color color) {
+	if (id < 0 || id > static_cast<int32>(_boot_images.size()) - 1)
+		return;
+
+	_boot_images[id].Draw(color);
+}
+
+
+void BootMode::DrawAnimation(int32 id, float x, float y) {
+	if (id < 0 || id > static_cast<int32>(_boot_animations.size()) - 1)
+		return;
+
+	VideoManager->Move(x, y);
+	_boot_animations[id].Draw();
+}
+
+
+void BootMode::SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag) {
+	VideoManager->SetDrawFlags(draw_flag, 0);
+}
+
 
 void BootMode::Reset() {
 	// Set the coordinate system that BootMode uses
-	VideoManager->SetCoordSys(0.0f, 1023.0f, 0.0f, 767.0f);
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
 	GlobalManager->ClearAllData(); // Resets the game universe to a NULL state
 	_current_instance = this;
 
-	// Decide which music track to play
-	if (_initial_entry == true)
-		_boot_music.at(1).Play(); // Opening Effect
-	else
-		_boot_music.at(0).Play(); // Main theme
+	AudioManager->StopAllMusic();
+
+	if (_reset_function.is_valid())
+		ScriptCallFunction<void>(_reset_function);
 }
 
 
@@ -210,29 +224,30 @@ void BootMode::Reset() {
 void BootMode::Update() {
 	_options_window.Update(SystemManager->GetUpdateTime());
 
+	// Update background animation
+	if (_update_function.is_valid())
+	    ScriptCallFunction<void>(_update_function);
+
 	// Screen is in the process of fading out
-	if (_exiting) {
+	if (_exiting)
 		return;
-	}
-	else if (_initial_entry) // We're animating the opening logo
-	{
-		if (InputManager->AnyKeyPress()) // Check if we want to skip the demo
-		{
-			_EndLogoAnimation();
+
+    // The intro is being played
+	if (_boot_state == BOOT_STATE_INTRO) {
+		if (InputManager->AnyKeyPress()) {
+		    ChangeState(BOOT_STATE_MENU);
 			return;
 		}
-		else
-		{
+		else {
 			return; // Otherwise skip rest of the event handling for now
 		}
 	}
 
-	//CD: Handle key press here, just like any other time
 	if (_welcome_window->IsActive())
 	{
 		if (InputManager->AnyKeyPress())
 		{
-			_boot_sounds.at(0).Play();
+			AudioManager->PlaySound("snd/confirm.wav");
 			_welcome_window->Hide();
 
 			// save the settings (automatically changes the welcome variable to 0
@@ -327,10 +342,15 @@ void BootMode::Update() {
 
 	if (InputManager->ConfirmPress()) {
 		// Play 'confirm sound' if the selection isn't grayed out and it has a confirm handler
-		if (_active_menu->IsOptionEnabled(_active_menu->GetSelection()))
-			_boot_sounds.at(0).Play();
-		else
-			_boot_sounds.at(3).Play(); // Otherwise play a different sound
+		if (_active_menu->IsOptionEnabled(_active_menu->GetSelection())) {
+			// Don't play the sound on New Games as they have their own sound
+			if (_active_menu->GetSelection() != 0)
+				AudioManager->PlaySound("snd/confirm.wav");
+		}
+		else {
+			// Otherwise play a different sound
+			AudioManager->PlaySound("snd/bump.wav");
+		}
 
 		_active_menu->InputConfirm();
 
@@ -392,43 +412,45 @@ void BootMode::Update() {
 			_active_menu = &_save_profile_menu;
 		}
 		// Play cancel sound
-		_boot_sounds.at(1).Play();
+		AudioManager->PlaySound("snd/cancel.wav");
 	}
-
-	// Update menu events
-// 	_active_menu->GetEvent();
 } // void BootMode::Update()
 
 
 
 void BootMode::Draw() {
-	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
-	// If we're animating logo at the moment, handle all drawing in there and simply return
-	if (_initial_entry) {
-		_AnimateLogo();
-		return;
+	if (_draw_function.is_valid())
+	    ScriptCallFunction<void>(_draw_function);
+
+	if (_boot_state == BOOT_STATE_MENU) {
+		_options_window.Draw();
+
+		// Test whether the welcome window should be shown once
+		static bool welcome_window_shown = false;
+		if (!welcome_window_shown) {
+			_ShowWelcomeWindow();
+			welcome_window_shown = true;
+		}
+
+		// Decide whether to draw welcome window or the main menu
+		if (_welcome_window->IsActive())
+			_welcome_window->Draw();
+		else if (_active_menu != NULL)
+			_active_menu->Draw();
+
+		VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+		VideoManager->Move(10.0f, 10.0f);
+		_version_text.Draw();
+		VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
+
+		VideoManager->Move(0.0f, 0.0f);
+		_message_window.Draw();
+		_file_name_alert.Draw();
+		_file_name_window.Draw();
 	}
-
-	_DrawBackgroundItems();
-
-	_options_window.Draw();
-
-	// Decide whether to draw welcome window or the main menu
-	if (_welcome_window->IsActive())
-		_welcome_window->Draw();
-	else if (_active_menu != NULL)
-		_active_menu->Draw();
-
-	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-	VideoManager->Move(10.0f, 10.0f);
-	_version_text.Draw();
-
-// 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-	VideoManager->Move(0.0f, 0.0f);
-	_message_window.Draw();
-	_file_name_alert.Draw();
-	_file_name_window.Draw();
 }
 
 // ****************************************************************************
@@ -484,6 +506,11 @@ void BootMode::_SetupMainMenu() {
 	else {
 		_main_menu.SetSelection(1);
 	}
+
+	// Preload main sounds
+	AudioManager->LoadSound("snd/confirm.wav");
+	AudioManager->LoadSound("snd/cancel.wav");
+	AudioManager->LoadSound("snd/bump.wav");
 }
 
 
@@ -550,6 +577,9 @@ void BootMode::_SetupAudioOptionsMenu() {
 	_audio_options_menu.AddOption(UTranslate("Music Volume: "), NULL, NULL, NULL, &BootMode::_OnMusicLeft, &BootMode::_OnMusicRight);
 
 	_audio_options_menu.SetSelection(0);
+
+	// Preload test sound
+	AudioManager->LoadSound("snd/volume_test.wav");
 }
 
 
@@ -867,25 +897,18 @@ void BootMode::_RefreshSaveAndLoadProfiles() {
 // ****************************************************************************
 
 void BootMode::_OnNewGame() {
+	AudioManager->StopAllMusic();
 	GlobalManager->NewGame();
 
 	ModeManager->Pop();
-	try {
-		hoa_map::MapMode *MM = new hoa_map::MapMode(MakeStandardString(GlobalManager->GetLocationName()));
-		ModeManager->Push(MM, true, true);
-	} catch (luabind::error e) {
-		PRINT_ERROR << "Map::_Load -- Error loading map " << MakeStandardString(GlobalManager->GetLocationName()) << ", returning to BootMode." << endl
-		<< "Exception message:" << endl;
-		ScriptManager->HandleLuaError(e);
-	}
-//	_boot_music.at(0).SetFadeOutTime(500); // Fade out the music
-	_boot_music.at(0).Stop();
+	hoa_map::MapMode *MM = new hoa_map::MapMode(MakeStandardString(GlobalManager->GetLocationName()));
+	ModeManager->Push(MM, true, true);
 }
 
 
 
 void BootMode::_OnLoadGame() {
-	_boot_music.at(0).Stop();
+	AudioManager->StopAllMusic();
 
 	hoa_save::SaveMode *SVM = new hoa_save::SaveMode(false);
 	ModeManager->Push(SVM);
@@ -1076,7 +1099,8 @@ void BootMode::_OnBrightnessRight() {
 void BootMode::_OnSoundLeft() {
 	AudioManager->SetSoundVolume(AudioManager->GetSoundVolume() - 0.1f);
 	_RefreshAudioOptions();
-	_boot_sounds.at(4).Play(); // Play a sound for user to hear new volume level.
+	// Play a sound for user to hear new volume level.
+	AudioManager->PlaySound("snd/volume_test.wav");
 	_has_modified_settings = true;
 }
 
@@ -1085,7 +1109,8 @@ void BootMode::_OnSoundLeft() {
 void BootMode::_OnSoundRight() {
 	AudioManager->SetSoundVolume(AudioManager->GetSoundVolume() + 0.1f);
 	_RefreshAudioOptions();
-	_boot_sounds.at(4).Play(); // Play a sound for user to hear new volume level
+	// Play a sound for user to hear new volume level.
+	AudioManager->PlaySound("snd/volume_test.wav");
 	_has_modified_settings = true;
 }
 
@@ -1298,159 +1323,7 @@ void BootMode::_OnPickLetter() {
 // ***** BootMode helper methods
 // ****************************************************************************
 
-void BootMode::_DrawBackgroundItems() {
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
-	VideoManager->Move(512.0f, 384.0f);
-	VideoManager->SetDrawFlags(VIDEO_NO_BLEND, 0);
-	_boot_images[0].Draw(); // Draw background
-
-	VideoManager->Move(512.0f, 648.0f);
-	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-	_boot_images[1].Draw(); // Draw the logo background
-
-	VideoManager->Move(762.0f, 578.0f);
-	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-	_boot_images[2].Draw(); // Draw the sword
-
-	VideoManager->Move(512.0f, 648.0f);
-	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-	_boot_images[3].Draw(); // Draw the logo text
-}
-
-
-
-void BootMode::_AnimateLogo() {
-	// Make sure to display it correctly
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
-	// Sequence starting times. Note: I've changed _every_ variable here into floats
-	// to avoid unneccessary type casts that would kill performance! -Viljami
-	static const float SEQUENCE_ONE = 0.0f;
-	static const float SEQUENCE_TWO = SEQUENCE_ONE + 1000.0f;
-	static const float SEQUENCE_THREE = SEQUENCE_TWO + 2000.0f;
-	static const float SEQUENCE_FOUR = SEQUENCE_THREE + 575.0f;
-	static const float SEQUENCE_FIVE = SEQUENCE_FOUR + 1900.0f;
-	static const float SEQUENCE_SIX = SEQUENCE_FIVE + 1400.0f;
-	static const float SEQUENCE_SEVEN = SEQUENCE_SIX + 3500.0f;
-
-	// Sword image position and rotation
-	static float sword_x = 670.0f;
-	static float sword_y = 360.0f;
-	static float rotation = -90.0f;
-
-	// Total time in ms
-	static float total_time = 0.0f;
-
-	// Get the frametime and update total time
-	float time_elapsed = static_cast<float>(SystemManager->GetUpdateTime());
-	total_time += time_elapsed;
-
-	// Sequence one: black
-	if (total_time >= SEQUENCE_ONE && total_time < SEQUENCE_TWO) {
-		// Nothing drawn during this sequence
-	}
-	// Sequence two: fade in logo+sword
-	else if (total_time >= SEQUENCE_TWO && total_time < SEQUENCE_THREE) {
-		float alpha = (total_time - SEQUENCE_TWO) / (SEQUENCE_THREE - SEQUENCE_TWO);
-
-		VideoManager->Move(512.0f, 385.0f); // logo bg
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[1].Draw(Color(alpha, alpha, alpha, 1.0f));
-		VideoManager->Move(sword_x, sword_y); // sword
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		VideoManager->Rotate(-90.0f);
-		_boot_images[2].Draw(Color(alpha, alpha, alpha, 1.0f));
-		VideoManager->Move(512.0f, 385.0f); // text
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[3].Draw(Color(alpha, alpha, alpha, 1.0f));
-	}
-	// Sequence three: Sword unsheathe & slide
-	else if (total_time >= SEQUENCE_THREE && total_time < SEQUENCE_FOUR) {
-		float dt = (total_time - SEQUENCE_THREE) * 0.001f;
-		sword_x = 670.0f + (dt * dt) * 660.0f; // s = s0 + 0.5 * a * t^2
-		VideoManager->Move(512.0f, 385.0f); // logo bg
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[1].Draw();
-		VideoManager->Move(sword_x, sword_y); // sword
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		VideoManager->Rotate(-90.0f);
-		_boot_images[2].Draw();
-		VideoManager->Move(512.0f, 385.0f); // text
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[3].Draw();
-	}
-	// Sequence four: Spin around the sword
-	else if (total_time >= SEQUENCE_FOUR && total_time < SEQUENCE_FIVE) {
-		const float ROTATIONS = 720.0f + 90.0f;
-		const float SPEED_LEFT = 35.0f;
-		const float SPEED_UP = 750.0f;
-		const float GRAVITY = 120.0f;
-
-		// Delta goes from 0.0f to 1.0f
-		float delta = ((total_time - SEQUENCE_FOUR) / (SEQUENCE_FIVE - SEQUENCE_FOUR));
-		float dt = (total_time - SEQUENCE_FOUR) * 0.001f;
-		sword_x = 885.941f - dt * dt * SPEED_LEFT; // Small accelerated movement to left
-		sword_y = 360.0f - dt * dt * GRAVITY + SPEED_UP * delta;
-		rotation = -90.0f + delta * ROTATIONS;
-
-		VideoManager->Move(512.0f, 385.0f); // logo bg
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[1].Draw();
-		VideoManager->Move(512.0f, 385.0f); // text
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[3].Draw();
-		VideoManager->Move(sword_x, sword_y); // sword
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		VideoManager->Rotate(rotation);
-		_boot_images[2].Draw();
-	}
-	// Sequence five: Sword comes back
-	else if (total_time >= SEQUENCE_FIVE && total_time < SEQUENCE_SIX) {
-		// Delta goes from 0.0f to 1.0f
-		float delta_root = (total_time - SEQUENCE_FIVE) / (SEQUENCE_SIX - SEQUENCE_FIVE);
-		float delta = delta_root * delta_root * delta_root * delta_root;
-		float newX = (1.0f - delta) * sword_x + 762.0f * delta;
-		float newY = (1.0f - delta) * sword_y + 310.0f * delta;
-
-		VideoManager->Move(512.0f, 385.0f); // logo bg
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[1].Draw();
-		VideoManager->Move(512.0f, 385.0f); // text
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[3].Draw();
-		VideoManager->Move(newX, newY); // sword
-		VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-		_boot_images[2].Draw();
-	}
-	// Sequence six: flash of light
-	else if (total_time >= SEQUENCE_SIX && total_time < SEQUENCE_SEVEN) {
-		// Delta goes from 1.0f to 0.0f
-		float delta = (total_time - SEQUENCE_SIX) / (SEQUENCE_SEVEN - SEQUENCE_SIX);
-		delta = 1.0f - delta * delta;
-		_DrawBackgroundItems();
-		Color targetColor(Color::white);
-		targetColor.SetAlpha(delta);
-		VideoManager->EnableLightingOverlay(targetColor);
-	}
-	else if (total_time >= SEQUENCE_SEVEN) {
-		_EndLogoAnimation();
-		_DrawBackgroundItems();
-	}
-} // void BootMode::_AnimateLogo()
-
-
-
-void BootMode::_EndLogoAnimation() {
-	// Stop the potential lightning effect in progress.
-	VideoManager->DisableLightingOverlay();
-	// Stop playing SFX and start playing the main theme
-//	_boot_music.at(1).SetFadeOutTime(1000);
-	_boot_music.at(1).Stop();
-//	_boot_music.at(0).SetFadeInTime(5000);
-	_boot_music.at(0).Play();
-
-//	Effects::FadeOut(_boot_music.at(1), 10.0f);
-//	Effects::FadeIn(_boot_music.at(0), 50.0f);
-
+void BootMode::_ShowWelcomeWindow() {
 	// Load the settings file for reading in the welcome variable
 	ReadScriptDescriptor settings_lua;
 	string file = GetSettingsFilename();
@@ -1464,9 +1337,7 @@ void BootMode::_EndLogoAnimation() {
 	}
 	settings_lua.CloseTable();
 	settings_lua.CloseFile();
-	_initial_entry = false;
 }
-
 
 
 void BootMode::_ShowMessageWindow(bool joystick) {
