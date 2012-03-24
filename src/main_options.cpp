@@ -133,7 +133,7 @@ bool ParseSecondaryOptions(string vars, vector<string>& options) {
 
 // Prints out the usage options (arguments) for running the program (work in progress)
 void PrintUsage() {
-	cout << "usage: allacrost [options]" << endl;
+	cout << "usage: "APPSHORTNAME" [options]" << endl;
 	cout << "  --check/-c        :: checks all files for integrity" << endl;
 	cout << "  --debug/-d <args> :: enables debug statements in specifed sections of the" << endl;
 	cout << "                       program, where <args> can be:" << endl;
