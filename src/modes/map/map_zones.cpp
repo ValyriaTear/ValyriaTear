@@ -13,7 +13,6 @@
 *** \brief   Source file for map mode zones.
 *** ***************************************************************************/
 
-// Allacrost engines
 #include "engine/system.h"
 
 // Local map mode headers

@@ -45,7 +45,7 @@ extern bool GLOBAL_DEBUG;
 /** ****************************************************************************
 *** \brief A container that manages the occurences of several related game events
 ***
-*** Events in Allacrost are nothing more than a string-integer pair. The string
+*** Events are nothing more than a string-integer pair. The string
 *** represents the name of the event while the integer takes on various meanings
 *** about the event. One example of an event could be if the player has already
 *** seen a certain piece of dialogue, and the integer would be set to zero or

@@ -2,12 +2,15 @@
 -- Filename: credits.lua
 --
 -- Description: Contains the credits as they are seen on the screen. This file
--- is updated for every Allacrost release to reflect any new additions or to
+-- is updated for every release to reflect any new additions or to
 -- re-arrange the ordering.
 ------------------------------------------------------------------------------]]
 
 credits_text =
-	"Hero of Allacrost Development Team\n" ..
+	"Valyria Tear\n" ..
+	"Development: Bertram" ..
+	"\n\n\n" ..
+	"Until 2011: Hero of Allacrost Development Team\n" ..
 	"\n\n\n" ..
 
 -- Special credit levels

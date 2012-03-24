@@ -1,16 +1,16 @@
 ------------------------------------------------------------------------------[[
 -- Filename: weapons.lua
 --
--- Description: This file contains the definitions of all weapons that exist in
--- Hero of Allacrost. Each weapon has a unique integer identifier that is used
+-- Description: This file contains the definitions of all weapons.
+-- Each weapon has a unique integer identifier that is used
 -- as its key in the weapons table below. Weapon IDs are unique not only among
 -- each other, but among other inventory game objects as well (items, armor,
 -- etc).
 --
--- Object IDs 10,001 through 20,000 are reserved for weapons. Do not break this 
+-- Object IDs 10,001 through 20,000 are reserved for weapons. Do not break this
 -- limit, because other value ranges correspond to other types of inventory objects.
 --
--- Weapons IDs do -not- need to be sequential. When you make a new weapon, keep it 
+-- Weapons IDs do -not- need to be sequential. When you make a new weapon, keep it
 -- grouped with similar weapon types (swords with swords, etc.) and keep a buffer of
 -- space between group types. This way we won't get a mess of random weapons all over
 -- this file.

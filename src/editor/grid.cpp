@@ -402,8 +402,8 @@ void Grid::SaveMap()
 	ifstream file;
 	string before_text;
 	string after_text;
-	const char * BEFORE_TEXT_MARKER = "-- Allacrost map editor begin. Do not edit this line. --";
-	const char * AFTER_TEXT_MARKER =  "-- Allacrost map editor end. Do not edit this line. --";
+	const char * BEFORE_TEXT_MARKER = "-- Valyria Tear map editor begin. Do not edit this line. --";
+	const char * AFTER_TEXT_MARKER =  "-- Valyria Tear map editor end. Do not edit this line. --";
 
 	// First, get the non-editor data (such as map scripting) from the file to save, so we don't clobber it.
 	file.open(_file_name.toAscii(), ifstream::in);

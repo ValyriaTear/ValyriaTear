@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------[[
 -- Filename: support.lua
 --
--- Description: This file contains the definitions of all support skills that
--- exist in Hero of Allacrost. Each support skill has a unique integer identifier
+-- Description: This file contains the definitions of all support skills.
+-- Each support skill has a unique integer identifier
 -- that is used as its key in the skills table below. Some skills are primarily
 -- intended for characters to use while others are intended for enemies to use.
 -- Normally, we do not want to share skills between characters and enemies as
@@ -52,13 +52,13 @@ skills[20001] = {
 	warmup_time = 1500,
 	cooldown_time = 200,
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
-   
+
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 		target_actor:AddHitPoints(hoa_utils.RandomBoundedInteger(30, 50));
 		AudioManager:PlaySound("snd/heal.wav");
 	end,
-   
+
 	FieldExecute = function(target, instigator)
 		target:AddHitPoints(hoa_utils.RandomBoundedInteger(30, 50));
 		AudioManager:PlaySound("snd/heal.wav");
@@ -72,7 +72,7 @@ skills[20002] = {
 	warmup_time = 4000,
 	cooldown_time = 750,
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
-   
+
 	BattleExecute = function(user, target)
 		local index = 0;
 		while true do

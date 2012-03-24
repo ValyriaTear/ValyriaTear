@@ -1,4 +1,4 @@
-#Allacrost /src
+#Valyria Tear /src
 
 FIND_PACKAGE(SDL REQUIRED)
 FIND_PACKAGE(SDL_ttf REQUIRED)
@@ -12,7 +12,7 @@ FIND_PACKAGE(Gettext REQUIRED)
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
     # Help getting compilation warnings
-    SET(CMAKE_CXX_FLAGS "-Wall")
+    SET(CMAKE_CXX_FLAGS "-Wall -Wextra")
     IF (WIN32)
         # This includes enough debug information to get something useful
         # from Dr. Mingw while keeping binary size down. Almost useless
@@ -432,15 +432,15 @@ main_options.cpp
 IF (WIN32)
     SET(SRCS
         ${SRCS}
-        allacrost.rc
+       icon.rc
     )
 ENDIF ()
 
-SET (PROGRAMS allacrost)
+SET (PROGRAMS valyriatear)
 
-ADD_EXECUTABLE(allacrost WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
+ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
 
-TARGET_LINK_LIBRARIES(allacrost
+TARGET_LINK_LIBRARIES(valyriatear
     ${INTERNAL_LIBRARIES}
     ${SDL_LIBRARY}
     ${SDLTTF_LIBRARY}
@@ -454,15 +454,15 @@ TARGET_LINK_LIBRARIES(allacrost
     ${LIBINTL_LIBRARIES}
     ${EXTRA_LIBRARIES})
 
-INSTALL(TARGETS allacrost RUNTIME DESTINATION ${PKG_BINDIR})
+INSTALL(TARGETS valyriatear RUNTIME DESTINATION ${PKG_BINDIR})
 
 IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     # we expect the SMCgtxt package to be present on Solaris;
     # the Solaris gettext is not API-compatible to GNU gettext
-    SET_TARGET_PROPERTIES(allacrost PROPERTIES LINK_FLAGS "-L/usr/local/lib")
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L/usr/local/lib")
 ENDIF()
 
-SET_TARGET_PROPERTIES(allacrost PROPERTIES COMPILE_FLAGS "${FLAGS}")
+SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
 
 
 # Editor part
@@ -499,16 +499,16 @@ IF (EDITOR_SUPPORT)
 
     QT4_WRAP_CPP(EDITOR_QT_HEADERS_MOC ${EDITOR_QT_HEADERS})
 
-    SET (PROGRAMS allacrost-editor)
+    SET (PROGRAMS editor)
 
-    ADD_EXECUTABLE(allacrost-editor
+    ADD_EXECUTABLE(editor
         ${SRCS_EDITOR}
         ${SRCS_LUABIND}
         ${EDITOR_QT_HEADERS_MOC}
         ${SRCS_COMMON}
     )
 
-    TARGET_LINK_LIBRARIES(allacrost-editor
+    TARGET_LINK_LIBRARIES(editor
         ${INTERNAL_LIBRARIES}
         ${QT_LIBRARIES}
         ${QT_QT3SUPPORT_LIBRARY} # for the Q3* headers.
@@ -526,7 +526,6 @@ IF (EDITOR_SUPPORT)
         ${EXTRA_LIBRARIES}
     )
 
-    INSTALL(TARGETS allacrost-editor RUNTIME DESTINATION ${PKG_BINDIR})
-    SET_TARGET_PROPERTIES(allacrost-editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DQT3_SUPPORT")
+    INSTALL(TARGETS editor RUNTIME DESTINATION ${PKG_BINDIR})
+    SET_TARGET_PROPERTIES(editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DQT3_SUPPORT")
 ENDIF(EDITOR_SUPPORT)
-

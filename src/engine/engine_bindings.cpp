@@ -10,7 +10,7 @@
 /** ***************************************************************************
 *** \file    engine_bindings.cpp
 *** \author  Daniel Steuernol, steu@allacrost.org
-*** \brief   Lua bindings for Allacrost engine code
+*** \brief   Lua bindings for the engine code
 ***
 *** All bindings for the engine code is contained within this file.
 *** Therefore, everything that you see bound within this file will be made

@@ -207,7 +207,7 @@
 		4931EC140BAF28B900013185 /* mus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mus; sourceTree = "<group>"; };
 		4931EC1A0BAF28B900013185 /* snd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = snd; sourceTree = "<group>"; };
 		493D9E440B9C9FFD00DF1F52 /* map_zones.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = map_zones.h; sourceTree = "<group>"; };
-		4941A4B00AC1D77500D65B8E /* Allacrost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Allacrost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4941A4B00AC1D77500D65B8E /* ValyriaTear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ValyriaTear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4941A6470AC1D86300D65B8E /* defs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = defs.h; sourceTree = "<group>"; };
 		4941A68B0AC1D86400D65B8E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4941A68C0AC1D86400D65B8E /* main_options.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main_options.cpp; sourceTree = "<group>"; };
@@ -252,7 +252,7 @@
 		4999AC4D0AF407BE004DD3A3 /* input.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
 		4999AC4E0AF407BE004DD3A3 /* system.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = system.cpp; sourceTree = "<group>"; };
 		4999AC4F0AF407BE004DD3A3 /* system.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = system.h; sourceTree = "<group>"; };
-		49DEC4260AD18E9800DC8362 /* Allacrost-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Allacrost-Info.plist"; sourceTree = "<group>"; };
+		49DEC4260AD18E9800DC8362 /* ValyriaTear-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "ValyriaTear-Info.plist"; sourceTree = "<group>"; };
 		572AF8E7111CB426009A7AF6 /* defs_global.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = defs_global.cpp; sourceTree = "<group>"; };
 		572AF8E8111CB426009A7AF6 /* global.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = global.cpp; sourceTree = "<group>"; };
 		572AF8E9111CB426009A7AF6 /* global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = global.h; sourceTree = "<group>"; };
@@ -483,7 +483,7 @@
 		4941A4B10AC1D77600D65B8E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4941A4B00AC1D77500D65B8E /* Allacrost.app */,
+				4941A4B00AC1D77500D65B8E /* ValyriaTear.app */,
 				D4D1BA490B02B1DB0052BF1E /* Editor.app */,
 			);
 			name = Products;
@@ -493,7 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				D4A1AEBC0E8A122500488ECD /* libiconv.2.dylib */,
-				49DEC4260AD18E9800DC8362 /* Allacrost-Info.plist */,
+				49DEC4260AD18E9800DC8362 /* ValyriaTear-Info.plist */,
 				D4D1BA4B0B02B1DB0052BF1E /* Editor-Info.plist */,
 				D49A54B80DB2BD8400FBD800 /* libintl.dylib */,
 				4941A7120AC1D87200D65B8E /* Frameworks */,
@@ -901,9 +901,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4941A4AF0AC1D77500D65B8E /* Allacrost */ = {
+		4941A4AF0AC1D77500D65B8E /* ValyriaTear */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4941A4B40AC1D77900D65B8E /* Build configuration list for PBXNativeTarget "Allacrost" */;
+			buildConfigurationList = 4941A4B40AC1D77900D65B8E /* Build configuration list for PBXNativeTarget "ValyriaTear" */;
 			buildPhases = (
 				4941A4AD0AC1D77500D65B8E /* Sources */,
 				4941A4AE0AC1D77500D65B8E /* Frameworks */,
@@ -916,9 +916,9 @@
 			);
 			dependencies = (
 			);
-			name = Allacrost;
-			productName = Allacrost;
-			productReference = 4941A4B00AC1D77500D65B8E /* Allacrost.app */;
+			name = ValyriaTear;
+			productName = ValyriaTear;
+			productReference = 4941A4B00AC1D77500D65B8E /* ValyriaTear.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D4D1BA480B02B1DB0052BF1E /* Editor */ = {
@@ -954,7 +954,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4941A4AF0AC1D77500D65B8E /* Allacrost */,
+				4941A4AF0AC1D77500D65B8E /* ValyriaTear */,
 				D4D1BA480B02B1DB0052BF1E /* Editor */,
 			);
 		};
@@ -1012,7 +1012,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "dir=\"$TARGET_BUILD_DIR/Allacrost.app/Contents/Resources/translations\"\nmkdir -p $dir\nfor file in `echo txt/*.po`\ndo\n\ttemp=`basename $file`\n\tname=${temp%\\.*}\n\t../allacrost-dep/bin/msgfmt -c $file -o $name.mo\n\tmkdir -p $dir/$name\n\tmkdir -p $dir/$name/LC_MESSAGES\n\tmv $name.mo $dir/$name/LC_MESSAGES/allacrost.mo\ndone";
+			shellScript = "dir=\"$TARGET_BUILD_DIR/ValyriaTear.app/Contents/Resources/translations\"\nmkdir -p $dir\nfor file in `echo txt/*.po`\ndo\n\ttemp=`basename $file`\n\tname=${temp%\\.*}\n\t../allacrost-dep/bin/msgfmt -c $file -o $name.mo\n\tmkdir -p $dir/$name\n\tmkdir -p $dir/$name/LC_MESSAGES\n\tmv $name.mo $dir/$name/LC_MESSAGES/allacrost.mo\ndone";
 		};
 		D49A54A30DB2B38000FBD800 /* Remap libs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1041,7 +1041,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "install_name_tool -change /usr/local/lib/libintl.8.dylib @executable_path/../Frameworks/libintl.dylib -id libintl.dylib $TARGET_BUILD_DIR/Allacrost.app/Contents/MacOS/Allacrost\ninstall_name_tool -change /usr/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib -id libiconv.2.dylib $TARGET_BUILD_DIR/Allacrost.app/Contents/Frameworks/libintl.dylib\ninstall_name_tool -change /usr/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib -id libiconv.2.dylib $TARGET_BUILD_DIR/Allacrost.app/Contents/Frameworks/libintl.dylib";
+			shellScript = "install_name_tool -change /usr/local/lib/libintl.8.dylib @executable_path/../Frameworks/libintl.dylib -id libintl.dylib $TARGET_BUILD_DIR/ValyriaTear.app/Contents/MacOS/ValyriaTear\ninstall_name_tool -change /usr/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib -id libiconv.2.dylib $TARGET_BUILD_DIR/ValyriaTear.app/Contents/Frameworks/libintl.dylib\ninstall_name_tool -change /usr/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib -id libiconv.2.dylib $TARGET_BUILD_DIR/ValyriaTear.app/Contents/Frameworks/libintl.dylib";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1269,7 +1269,7 @@
 				GCC_PREFIX_HEADER = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../allacrost-dep/include";
-				INFOPLIST_FILE = "Allacrost-Info.plist";
+				INFOPLIST_FILE = "ValyriaTear-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"../allacrost-dep/lib",
@@ -1293,7 +1293,7 @@
 					"-liconv",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = Allacrost;
+				PRODUCT_NAME = ValyriaTear;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				USER_HEADER_SEARCH_PATHS = "../allacrost-dep/frameworks/SDL.framework/Headers";
 				WRAPPER_EXTENSION = app;
@@ -1322,7 +1322,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THREADSAFE_STATICS = NO;
 				HEADER_SEARCH_PATHS = "../allacrost-dep/include";
-				INFOPLIST_FILE = "Allacrost-Info.plist";
+				INFOPLIST_FILE = "ValyriaTear-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"../allacrost-dep/lib",
@@ -1347,7 +1347,7 @@
 					"-liconv",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = Allacrost;
+				PRODUCT_NAME = ValyriaTear;
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "../allacrost-dep/frameworks/SDL.framework/Headers";
@@ -1480,7 +1480,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4941A4B40AC1D77900D65B8E /* Build configuration list for PBXNativeTarget "Allacrost" */ = {
+		4941A4B40AC1D77900D65B8E /* Build configuration list for PBXNativeTarget "ValyriaTear" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4941A4B50AC1D77900D65B8E /* Debug */,

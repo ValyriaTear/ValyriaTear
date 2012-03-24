@@ -14,12 +14,10 @@
 *** \brief   Header file for video engine interface.
 ***
 *** This code provides a comprehensive API for managing all drawing, rendering,
-*** GUI, and other related graphical functions. This video engine is very large,
-*** so the API user is advised to seek the documentation for it available on the
-*** Allacrost wiki (http://wiki.allacrost.org).
+*** GUI, and other related graphical functions.
 ***
 *** In addition for its use in the game, the video engine is also actively used
-*** by the Allacrost map editor GUI as a QT widget.
+*** by the map editor GUI as a QT widget.
 ***
 *** \note This code uses the OpenGL library for graphics rendering.
 *** \note This code uses the libpng and libjpeg libraries for loading images.
@@ -168,7 +166,7 @@ enum VIDEO_STENCIL_OP {
 	VIDEO_STENCIL_OP_TOTAL = 4
 };
 
-//! \brief The standard screen resolution for Allacrost
+//! \brief The standard screen resolution
 enum {
 	VIDEO_STANDARD_RES_WIDTH  = 1024,
 	VIDEO_STANDARD_RES_HEIGHT = 768
@@ -195,7 +193,7 @@ void RotatePoint(float &x, float &y, float angle);
 /** ****************************************************************************
 *** \brief Manages all the video operations and serves as the API to the video engine.
 ***
-*** This is one of the largest classes in the Allacrost engine. Because it is so
+*** This is one of the largest classes in the engine. Because it is so
 *** large, the implementation of many of the methods for this class are split up
 *** into multiple .cpp source files in the video code directory.
 *** *****************************************************************************/

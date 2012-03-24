@@ -13,19 +13,15 @@
 *** \brief   Source file for map mode treasures.
 *** ***************************************************************************/
 
-// Allacrost engines
 #include "engine/input.h"
 #include "engine/mode_manager.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 
-// Allacrost globals
 #include "common/global/global.h"
 
-// Other mode headers
 #include "modes/menu/menu.h"
 
-// Local map mode headers
 #include "modes/map/map.h"
 #include "modes/map/map_objects.h"
 #include "modes/map/map_treasure.h"

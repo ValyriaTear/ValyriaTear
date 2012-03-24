@@ -13,22 +13,17 @@
 *** \brief   Source file for map mode dialogue.
 *** ***************************************************************************/
 
-// Allacrost utilities
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
 
-// Allacrost common
 #include "common/dialogue.h"
 #include "common/global/global.h"
 
-// Other game mode headers
 #include "modes/menu/menu.h"
 
-// Local map mode headers
 #include "modes/map/map.h"
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_events.h"

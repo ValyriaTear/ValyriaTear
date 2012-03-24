@@ -267,9 +267,9 @@ bool SystemEngine::SingletonInitialize() {
 		// Get the current working directory.
 		string cwd(getcwd(buffer, PATH_MAX));
 		cwd.append("/translations/");
-		bindtextdomain("allacrost", cwd.c_str());
-		bind_textdomain_codeset("allacrost", "UTF-8");
-		textdomain("allacrost");
+		bindtextdomain(APPSHORTNAME, cwd.c_str());
+		bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
+		textdomain(APPSHORTNAME);
 	#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
 		// Look for translation files in LOCALEDIR only if they are not available in the
 		// current directory.

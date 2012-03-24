@@ -13,25 +13,20 @@
 *** \brief   Source file for map mode sprites.
 *** ***************************************************************************/
 
-// Allacrost utilities
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/system.h"
 
-// Allacrost globals
 #include "common/global/global.h"
 
-// Local map mode headers
 #include "modes/map/map.h"
 #include "modes/map/map_sprites.h"
 #include "modes/map/map_objects.h"
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_events.h"
 
-// Other game mode headers
 #include "modes/battle/battle.h"
 
 using namespace std;

@@ -22,14 +22,11 @@
 #ifndef __MAP_EVENTS_HEADER__
 #define __MAP_EVENTS_HEADER__
 
-// Allacrost utilities
 #include "defs.h"
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/script/script.h"
 
-// Local map mode headers
 #include "modes/map/map_utils.h"
 #include "modes/map/map_sprites.h"
 

@@ -38,7 +38,7 @@ end
 
 function Reset()
 	if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
-		AudioManager:PlayMusic("mus/Allacrost_Opening_Theme.ogg");
+		AudioManager:PlayMusic("mus/Opening_Theme.ogg");
 	end
 end
 
@@ -205,7 +205,7 @@ function Draw()
     elseif (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
         if (menu_started == false) then
             VideoManager:DisableLightingOverlay();
-            AudioManager:PlayMusic("mus/Allacrost_Opening_Theme.ogg");
+            AudioManager:PlayMusic("mus/Opening_Theme.ogg");
 
             menu_started = true;
         end

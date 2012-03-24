@@ -59,8 +59,8 @@ int main(int argc, char **argv) {
 	path.erase(path.find_last_of('/'));
 	// remove the Editor.app directory
 	path.erase(path.find_last_of('/'));
-	// we are now in a common directory containing both Allacrost and the Editor
-	path.append("/Allacrost.app/Contents/Resources/");
+	// we are now in a common directory containing both the game and the Editor
+	path.append("/ValyriaTear.app/Contents/Resources/");
 	chdir(path.c_str());
 #endif
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 	hoa_defs::BindCommonCode();
 
 	Editor* editor = new Editor();
-	editor->setCaption("Hero of Allacrost Level Editor");
+	editor->setCaption("Level Editor");
 	app.setMainWidget(editor);
 	editor->show();
 

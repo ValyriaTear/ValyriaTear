@@ -13,20 +13,16 @@
 *** \brief   Source file for map mode interface.
 *** ***************************************************************************/
 
-// Allacrost engines
 #include "engine/audio/audio.h"
 #include "engine/script/script.h"
 #include "engine/input.h"
 #include "engine/system.h"
 
-// Allacrost globals
 #include "common/global/global.h"
 
-// Other mode headers
 #include "modes/menu/menu.h"
 #include "modes/pause.h"
 
-// Local map mode headers
 #include "modes/map/map.h"
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_events.h"

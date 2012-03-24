@@ -1,7 +1,7 @@
 /*   SDLMain.m - main entry point for our Cocoa-ized SDL app
        Initial Version: Darrell Walisser <dwaliss1@purdue.edu>
        Non-NIB-Code & other changes: Max Horn <max@quendi.de>
-	   Refactor & cleanup for Hero of Allacrost: Alastair Lynn <arplynn@gmail.com>
+	   Refactor & cleanup for Hero of Allacrost and Valyria Tear: Alastair Lynn <arplynn@gmail.com>
 
     Feel free to customize this file to suit your needs
 */
@@ -65,17 +65,17 @@ static void SetupWindowMenu()
     NSMenuItem* menuItem;
 
     windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
-    
+
     // "Minimize" item
     menuItem = [[NSMenuItem alloc] initWithTitle:@"Minimize" action:@selector(performMiniaturize:) keyEquivalent:@"m"];
     [windowMenu addItem:menuItem];
     [menuItem release];
-    
+
     // Put menu into the menubar
     windowMenuItem = [[NSMenuItem alloc] initWithTitle:@"Window" action:nil keyEquivalent:@""];
     [windowMenuItem setSubmenu:windowMenu];
     [[NSApp mainMenu] addItem:windowMenuItem];
-    
+
     // Tell the application object that this is now the window menu
     [NSApp setWindowsMenu:windowMenu];
 
@@ -92,18 +92,18 @@ void CustomApplicationMain ()
 
     // Ensure the application object is initialised
     [NSApplication sharedApplication];
-    
+
     // Set up the menubar
     [NSApp setMainMenu:[[NSMenu alloc] init]];
     SetupWindowMenu();
-    
+
     // Create SDLMain and make it the app delegate
     sdlMain = [[SDLMain alloc] init];
     [NSApp setDelegate:sdlMain];
-    
+
     // Start the main event loop
     [NSApp run];
-    
+
     [sdlMain release];
     [pool release];
 }
@@ -134,7 +134,7 @@ void CustomApplicationMain ()
 
     // Set the working directory to the .app's parent directory
     [self setupWorkingDirectory];
-	
+
 	// Fix the arguments to remove Carbon process serial numbers
 	GenerateSDLArguments();
 

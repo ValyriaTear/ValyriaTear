@@ -13,18 +13,14 @@
 *** \brief   Source file for map mode objects.
 *** ***************************************************************************/
 
-// Allacrost utilities
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/audio/audio.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 
-// Allacrost globals
 #include "common/global/global.h"
 
-// Local map mode headers
 #include "modes/map/map.h"
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_objects.h"

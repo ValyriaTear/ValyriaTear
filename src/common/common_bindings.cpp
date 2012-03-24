@@ -14,7 +14,7 @@
 ***
 *** All bindings for the common code is contained within this file.
 *** Therefore, everything that you see bound within this file will be made
-*** available in Lua. This file also binds some of the Allacrost utility code
+*** available in Lua. This file also binds some of the utility code
 *** found in src/utils.h.
 ***
 *** \note To most C++ programmers, the syntax of the binding code found in this

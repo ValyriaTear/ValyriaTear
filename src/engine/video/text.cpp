@@ -15,7 +15,7 @@
 *** This code makes use of the SDL_ttf font library for representing fonts,
 *** font glyphs, and text.
 ***
-*** \note Normally the int data type should not be used in Allacrost code,
+*** \note Normally the int data type should not be used in the game code,
 *** however it is used periodically throughout this file as the SDL_ttf library
 *** requests integer arguments.
 *** ***************************************************************************/

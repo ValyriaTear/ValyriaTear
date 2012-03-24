@@ -59,7 +59,7 @@ struct AnimatedTileData
 *** This is a container of tileset data. The tileset's properties are contained
 *** within a Lua file specific to the tileset. The Lua file is located in a
 *** separate path from the tileset's image file. Currently this class assumes
-*** and only supports the Allacrost standard tileset of 512x512 pixels with
+*** and only supports a standard tileset of 512x512 pixels with
 *** 32x32 pixel tiles (256 total tiles in one tileset file).
 ***
 *** \todo Add support for animated tiles (display, editing)

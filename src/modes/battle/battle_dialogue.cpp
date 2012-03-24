@@ -13,16 +13,13 @@
 *** \brief   Source file for battle dialogue code.
 *** ***************************************************************************/
 
-// Allacrost engines
 #include "engine/input.h"
 #include "engine/video/video.h"
 
-// Allacrost common
 #include "common/dialogue.h"
 #include "common/global/global.h"
 #include "common/gui/gui.h"
 
-// Local battle mode headers
 #include "battle.h"
 #include "battle_actors.h"
 #include "battle_dialogue.h"

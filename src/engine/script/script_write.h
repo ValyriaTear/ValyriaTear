@@ -29,7 +29,7 @@ namespace hoa_script {
 ***
 *** This class does not actually involve Lua in any way. Rather, it provides an
 *** interface with which to write a Lua file from scratch. One area of the code
-*** base which uses this class graciously is the Allacrost editor when it saves
+*** base which uses this class graciously is the editor when it saves
 *** new map files. Be cautious when using this class, as it can overwrite
 *** existing Lua files. This class is primarily for writing data, not
 *** code, although it is indeed possible to write script code using this class.

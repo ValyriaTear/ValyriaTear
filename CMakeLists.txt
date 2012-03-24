@@ -1,9 +1,9 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 CMAKE_POLICY(VERSION 2.6)
 
-PROJECT(ALLACROST)
+PROJECT(VALYRIATEAR)
 
-OPTION(EDITOR_SUPPORT "Compile the Qt Allacrost editor" OFF)
+OPTION(EDITOR_SUPPORT "Compile the Qt editor" OFF)
 OPTION(DEBUG_MENU "Add the debug menu options at game start" OFF)
 
 IF (NOT VERSION)
@@ -29,7 +29,7 @@ ENDIF()
 # where to look for cmake modules
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 
-SET(PKG_NAME "allacrost")
+SET(PKG_NAME "valyriatear")
 IF (WIN32)
     SET(PKG_DATADIR ".")
     SET(PKG_BINDIR ".")
@@ -39,7 +39,7 @@ ELSE (WIN32)
     IF (NOT OSX AND NOT BEOS)
         OPTION(USE_X11 "Use X11 Clipboard functionality" ON)
     ENDIF ()
-    SET(PKG_DATADIR ${CMAKE_INSTALL_PREFIX}/share/mana)
+    SET(PKG_DATADIR ${CMAKE_INSTALL_PREFIX}/share/valyriatear)
     SET(LOCALEDIR ${CMAKE_INSTALL_PREFIX}/share/locale)
     SET(PKG_BINDIR ${CMAKE_INSTALL_PREFIX}/bin)
 ENDIF (WIN32)
@@ -57,22 +57,22 @@ ADD_SUBDIRECTORY(txt)
 
 # CPack installation part
 If(UNIX)
-    INSTALL(FILES allacrost.desktop DESTINATION share/applications) #TODO Add a desktop file
+    INSTALL(FILES valyriatear.desktop DESTINATION share/applications) #TODO Add a desktop file
 ENDIF()
 
-SET(CPACK_PACKAGE_NAME "allacrost")
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Hero of Allacrost")
-SET(CPACK_PACKAGE_VENDOR "Allacrost Team")
+SET(CPACK_PACKAGE_NAME "valyriatear")
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Valyria Tear")
+SET(CPACK_PACKAGE_VENDOR "Bertram")
 SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
 SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
-SET(CPACK_PACKAGE_INSTALL_DIRECTORY "Allacrost")
+SET(CPACK_PACKAGE_INSTALL_DIRECTORY "ValyriaTear")
 SET(CPACK_PACKAGE_VERSION_MAJOR ${VER_MAJOR})
 SET(CPACK_PACKAGE_VERSION_MINOR ${VER_MINOR})
 SET(CPACK_PACKAGE_VERSION_PATCH ${VER_RELEASE})
 IF(WIN32)
-    SET(CPACK_NSIS_DISPLAY_NAME "Allacrost")
+    SET(CPACK_NSIS_DISPLAY_NAME "Valyria Tear")
     SET(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}/img/logos/program_icon.ico")
-    SET(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/img/logos/main_logo_sword.png") #TODO: use a bmp
-    SET(CPACK_NSIS_URL_INFO_ABOUT "http://www.allacrost.org")
+    SET(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/img/logos/program_icon.png") #TODO: use a bmp
+    SET(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/Bertram25/ValyriaTear/wiki")
 ENDIF()
 INCLUDE(CPack)

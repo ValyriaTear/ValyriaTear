@@ -13,13 +13,10 @@
 *** \brief   Source file for common dialogue code.
 *** ***************************************************************************/
 
-// Allacrost utilities
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/video/video.h"
 
-// Local common headers
 #include "common.h"
 #include "dialogue.h"
 #include "common/gui/gui.h"

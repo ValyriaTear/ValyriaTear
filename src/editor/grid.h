@@ -170,7 +170,7 @@ protected:
 	//! \brief Sets up the rendering context of the OpenGL portion of the editor.
 	void initializeGL();
 
-	//! \brief Paints the entire map with the Allacrost video engine.
+	//! \brief Paints the entire map with the video engine.
 	void paintGL();
 
 	//! \brief Performs a resize operation of the OpenGL widget when appropriate.

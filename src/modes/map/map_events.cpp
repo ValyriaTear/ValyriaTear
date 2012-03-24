@@ -13,20 +13,17 @@
 *** \brief   Source file for map mode events and event processing.
 *** ***************************************************************************/
 
-// Allacrost engines
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/script/script.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 
-// Local map mode headers
 #include "modes/map/map.h"
 #include "modes/map/map_events.h"
 #include "modes/map/map_objects.h"
 #include "modes/map/map_sprites.h"
 
-// Other mode headers
 #include "modes/shop/shop.h"
 #include "modes/battle/battle.h"
 

@@ -1,19 +1,19 @@
 Valyria Tear
 
-Copyright (C) 2004 - 2011 by The Allacrost Project
+
 Copyright (C) 2012 by Bertram
-All Rights Reserved
+Copyright (C) 2004 - 2011 by The Allacrost Project
 
 This code is licensed under the GNU GPL. It is free software and you may
 modify it and/or redistribute it under the terms of this license.
 See http://www.gnu.org/copyleft/gpl.html for details.
 
-Valyria Tear is an attempt at creating a small J-RPG using the HoA engine (See http://www.allacrost.org/).
+Valyria Tear is an attempt at creating a small J-RPG using an upgraded HoA engine (See http://www.allacrost.org/).
 
 Install procedure:
 Once you've unpacked the tarball or checked it out of Git, just run 'cmake . && make ' from the top-level directory at the prompt.
 
-You'll then be able to play by typing: 'src/allacrost'
+You'll then be able to play by typing: 'src/valyriatear'
 
 A Code::Blocks project file is also provided.
 

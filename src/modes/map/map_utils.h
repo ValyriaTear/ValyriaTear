@@ -16,7 +16,6 @@
 #ifndef __MAP_UTILS_HEADER__
 #define __MAP_UTILS_HEADER__
 
-// Allacrost utilities
 #include "utils.h"
 #include "defs.h"
 

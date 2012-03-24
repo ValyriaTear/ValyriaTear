@@ -562,7 +562,7 @@ protected:
 *** an interface for external code to determine when and what growth occurs in a
 *** character's stats. Growth may occur whenever a character gains additional experience
 *** points. Growth does occur even when the character has not reached a new experience
-*** level, as Allacrost allows for a gradual growth in stats over time with a
+*** level, as gradual growth is allowed in stats over time with a
 *** larger spike in growth after achieving a new experience level.
 ***
 *** The advised procedure for determining and processing character growth is as follows.
@@ -903,7 +903,7 @@ protected:
 /** ****************************************************************************
 *** \brief Representation of enemies that fight in battles
 ***
-*** Allacrost handles enemies a little different than most RPGs. Instead of an
+*** The game handles enemies a little different than most RPGs. Instead of an
 *** enemy always having the same statistics for health, strength, etc., enemy
 *** stats are randomized so that the same type of enemy does not always have
 *** the exact same stats. Guassian random values are applied to each enemy's

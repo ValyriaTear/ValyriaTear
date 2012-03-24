@@ -10,11 +10,11 @@
 /** ***************************************************************************(
 *** \file    utils.h
 *** \author  Tyler Olsen, roots@allacrost.org
-*** \brief   Header file for Allacrost utility code.
+*** \brief   Header file for the utility code.
 ***
 *** This code includes various utility functions that are used across different
 *** parts of the code base. This file is included in every header file in the
-*** Allacrost source tree.
+*** source tree.
 ***
 *** \note Use the following macros for OS-dependent code.
 ***   - Windows    #ifdef _WIN32
@@ -33,7 +33,7 @@
 ***   - Big endian      if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 ***   - Little endian   if (SDL_BYTEORDER == SDL_LITTLE_ENDIAN)
 ***
-*** \note Use the following integer types throughout the entire Allacrost code.
+*** \note Use the following integer types throughout the entire code.
 ***   - int32
 ***   - uint32
 ***   - int16
@@ -41,7 +41,7 @@
 ***   - int8
 ***   - uint8
 ***
-*** \note Use the following string types througout the entire Allacrost code.
+*** \note Use the following string types througout the entire code.
 ***   - ustring   Unicode strings, meant only for text to be rendered on the screen.
 ***   - string    Standard C++ strings, used for all text that is not to be rendered to the screen.
 ***   - char*     Acceptable, but use strings instead wherever possible.
@@ -82,7 +82,7 @@
 #endif
 
 #ifdef _WIN32
-	// Even though Allacrost is platform independent, OpenGL on Windows requires windows.h to be included
+	// Even though the game is platform independent, OpenGL on Windows requires windows.h to be included
 	#include <windows.h>
 	// Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
 	#ifndef strcasecmp
@@ -123,10 +123,15 @@
 #define IF_PRINT_WARNING(var) if (var) std::cerr << "WARNING:" << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << ": "
 //@}
 
-/** \name Allacrost Integer Types
-*** \brief These are the integer types used throughout the Allacrost source code.
+//! \brief Different App full, shortnames, and directories
+#define APPFULLNAME "Valyria Tear"
+#define APPSHORTNAME "valyriatear"
+#define APPUPCASEDIRNAME "ValyriaTear"
+
+/** \name Integer Types
+*** \brief These are the integer types used throughout the source code.
 *** These types are created by redefining the ANSI C types.
-*** Use of the standard int, long, etc. is forbidden in Allacrost source code! Don't attempt to use any
+*** Use of the standard int, long, etc. is forbidden in the source code! Don't attempt to use any
 *** 64-bit types either, since a large population of PCs in our target audience are not a 64-bit
 *** architecture.
 **/
@@ -259,7 +264,7 @@ void DataToString(std::string &s, const T &data)
 *** basic_string<uint16>, so this class is a custom version of it.
 ***
 *** \note Currently not all functionality of basic_string has been implemented, but
-*** instead only the functions that we typically use in Allacrost. If you need a
+*** instead only the functions that we typically use in the game. If you need a
 *** basic_string function available that isn't already implemented in this class,
 *** go ahead and add it yourself.
 ***

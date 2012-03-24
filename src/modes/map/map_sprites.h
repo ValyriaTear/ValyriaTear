@@ -16,14 +16,11 @@
 #ifndef __MAP_SPRITES_HEADER__
 #define __MAP_SPRITES_HEADER__
 
-// Allacrost utilities
 #include "utils.h"
 #include "defs.h"
 
-// Allacrost engines
 #include "engine/video/video.h"
 
-// Local map mode headers
 #include "modes/map/map_utils.h"
 #include "modes/map/map_objects.h"
 #include "modes/map/map_dialogue.h"

@@ -1,16 +1,16 @@
 ------------------------------------------------------------------------------[[
 -- Filename: arm_armor.lua
 --
--- Description: This file contains the definitions of all arm armor that exist in
--- Hero of Allacrost. Each armor has a unique integer identifier that is used
+-- Description: This file contains the definitions of all arm armor.
+-- Each armor has a unique integer identifier that is used
 -- as its key in the armor table below. Armor IDs are unique not only among
 -- each other, but among other inventory game objects as well (items, weapons,
 -- other classes of armor, etc).
 --
--- Object IDs 40,001 through 50,000 are reserved for arm armor. Do not break this 
+-- Object IDs 40,001 through 50,000 are reserved for arm armor. Do not break this
 -- limit, because other value ranges correspond to other types of inventory objects.
 --
--- Armor IDs do -not- need to be sequential. When you make a new armor, keep it 
+-- Armor IDs do -not- need to be sequential. When you make a new armor, keep it
 -- grouped with similar armor types (shields with shields, etc.) and keep a buffer of
 -- space between group types. This way we won't get a mess of random arm armor all over
 -- this file.

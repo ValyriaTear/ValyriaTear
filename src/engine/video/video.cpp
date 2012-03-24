@@ -490,7 +490,7 @@ bool VideoEngine::ApplySettings() {
 		return true;
 	} // if (_target == VIDEO_TARGET_SDL_WINDOW)
 
-	// Used by the Allacrost editor, which uses QT4
+	// Used by the editor, which uses QT4
 	else if (_target == VIDEO_TARGET_QT_WIDGET) {
 		_screen_width = _temp_width;
 		_screen_height = _temp_height;
@@ -1097,7 +1097,7 @@ void VideoEngine::MakeScreenshot(const std::string& filename) {
 std::string VideoEngine::_CreateTempFilename(const std::string &extension)
 {
 	// figure out the temp filename to return
-	string file_name = "/tmp/allacrost";
+	string file_name = "/tmp/"APPSHORTNAME;
 	file_name += _next_temp_file;
 	file_name += extension;
 

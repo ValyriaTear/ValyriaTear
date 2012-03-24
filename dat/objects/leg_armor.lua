@@ -1,16 +1,16 @@
 ------------------------------------------------------------------------------[[
 -- Filename: leg_armor.lua
 --
--- Description: This file contains the definitions of all leg armor that exist in
--- Hero of Allacrost. Each armor has a unique integer identifier that is used
+-- Description: This file contains the definitions of all leg armor.
+-- Each armor has a unique integer identifier that is used
 -- as its key in the armor table below. Armor IDs are unique not only among
 -- each other, but among other inventory game objects as well (items, weapons,
 -- other classes of armor, etc).
 --
--- Object IDs 50,001 through 60,000 are reserved for leg armor. Do not break this 
+-- Object IDs 50,001 through 60,000 are reserved for leg armor. Do not break this
 -- limit, because other value ranges correspond to other types of inventory objects.
 --
--- Armor IDs do -not- need to be sequential. When you make a new armor, keep it 
+-- Armor IDs do -not- need to be sequential. When you make a new armor, keep it
 -- grouped with similar armor types (greaves with greaves, etc.) and keep a buffer of
 -- space between group types. This way we won't get a mess of random leg armor all over
 -- this file.

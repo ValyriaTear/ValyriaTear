@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------[[
 -- Filename: items.lua
 --
--- Description: This file contains the definitions of all items that exist in
--- Hero of Allacrost. Each item has a unique integer identifier that is used
+-- Description: This file contains the definitions of all items.
+-- Each item has a unique integer identifier that is used
 -- as its key in the items table below. Item IDs are unique not only among
 -- each other, but among other inventory game objects as well (weapons, armor,
 -- etc).

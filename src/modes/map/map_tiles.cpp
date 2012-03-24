@@ -13,11 +13,9 @@
 *** \brief   Source file for map mode tile management.
 *** ***************************************************************************/
 
-// Allacrost engines
 #include "engine/script/script.h"
 #include "engine/video/video.h"
 
-// Local map mode headers
 #include "modes/map/map.h"
 #include "modes/map/map_tiles.h"
 

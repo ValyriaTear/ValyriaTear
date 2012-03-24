@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------[[
 -- Filename: characters.lua
 --
--- Description: This file contains the definitions of all characters that exist
--- in Hero of Allacrost. When a new character is added to the party, this file
+-- Description: This file contains the definitions of all characters.
+-- When a new character is added to the party, this file
 -- is accessed and the character is created using the data loaded from this file.
 ------------------------------------------------------------------------------]]
 

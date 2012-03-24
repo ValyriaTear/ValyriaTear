@@ -33,14 +33,11 @@
 #ifndef __BATTLE_DIALOGUE_HEADER__
 #define __BATTLE_DIALOGUE_HEADER__
 
-// Allacrost utilities
 #include "defs.h"
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/video/video.h"
 
-// Common code headers
 #include "common/dialogue.h"
 
 

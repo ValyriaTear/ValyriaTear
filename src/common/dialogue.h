@@ -16,14 +16,11 @@
 #ifndef __DIALOGUE_HEADER__
 #define __DIALOGUE_HEADER__
 
-// Allacrost utilities
 #include "defs.h"
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/video/video.h"
 
-// Local common headers
 #include "common/gui/gui.h"
 
 namespace hoa_common {

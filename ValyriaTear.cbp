@@ -2,14 +2,14 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Allacrost" />
+		<Option title="Valyria Tear" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug Win32">
 				<Option platforms="Windows;" />
-				<Option output="AllacrostWinDbg" prefix_auto="1" extension_auto="1" />
-				<Option object_output="Allacrost-Debug" />
+				<Option output="ValyriaTearWinDbg" prefix_auto="1" extension_auto="1" />
+				<Option object_output="ValyriaTear-Debug" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -21,14 +21,14 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D_WINDOWS" />
-					<Add directory="allacrost-win32-depends\include" />
-					<Add directory="allacrost-win32-depends\include\AL" />
-					<Add directory="allacrost-win32-depends\include\boost" />
-					<Add directory="allacrost-win32-depends\include\libpng12" />
-					<Add directory="allacrost-win32-depends\include\lua5.1" />
-					<Add directory="allacrost-win32-depends\include\ogg" />
-					<Add directory="allacrost-win32-depends\include\SDL" />
-					<Add directory="allacrost-win32-depends\include\vorbis" />
+					<Add directory="valyriatear-win32-depends\include" />
+					<Add directory="valyriatear-win32-depends\include\AL" />
+					<Add directory="valyriatear-win32-depends\include\boost" />
+					<Add directory="valyriatear-win32-depends\include\libpng12" />
+					<Add directory="valyriatear-win32-depends\include\lua5.1" />
+					<Add directory="valyriatear-win32-depends\include\ogg" />
+					<Add directory="valyriatear-win32-depends\include\SDL" />
+					<Add directory="valyriatear-win32-depends\include\vorbis" />
 				</Compiler>
 				<Linker>
 					<Add library="shell32" />
@@ -47,13 +47,13 @@
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
-					<Add directory="allacrost-win32-depends\lib" />
+					<Add directory="valyriatear-win32-depends\lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
 				<Option platforms="Windows;" />
-				<Option output="AllacrostWin" prefix_auto="1" extension_auto="1" />
-				<Option object_output="Allacrost-Release" />
+				<Option output="ValyriaTearWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="ValyriaTear-Release" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -61,14 +61,14 @@
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
 					<Add option="-D_WINDOWS" />
-					<Add directory="allacrost-win32-depends\include" />
-					<Add directory="allacrost-win32-depends\include\AL" />
-					<Add directory="allacrost-win32-depends\include\boost" />
-					<Add directory="allacrost-win32-depends\include\libpng12" />
-					<Add directory="allacrost-win32-depends\include\lua5.1" />
-					<Add directory="allacrost-win32-depends\include\ogg" />
-					<Add directory="allacrost-win32-depends\include\SDL" />
-					<Add directory="allacrost-win32-depends\include\vorbis" />
+					<Add directory="valyriatear-win32-depends\include" />
+					<Add directory="valyriatear-win32-depends\include\AL" />
+					<Add directory="valyriatear-win32-depends\include\boost" />
+					<Add directory="valyriatear-win32-depends\include\libpng12" />
+					<Add directory="valyriatear-win32-depends\include\lua5.1" />
+					<Add directory="valyriatear-win32-depends\include\ogg" />
+					<Add directory="valyriatear-win32-depends\include\SDL" />
+					<Add directory="valyriatear-win32-depends\include\vorbis" />
 				</Compiler>
 				<Linker>
 					<Add library="shell32" />
@@ -87,13 +87,13 @@
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
-					<Add directory="allacrost-win32-depends\lib" />
+					<Add directory="valyriatear-win32-depends\lib" />
 				</Linker>
 			</Target>
 			<Target title="Debug Linux">
 				<Option platforms="Unix;" />
-				<Option output="allacrost" prefix_auto="1" extension_auto="1" />
-				<Option object_output="Allacrost-Debug" />
+				<Option output="valyriatear" prefix_auto="1" extension_auto="1" />
+				<Option object_output="ValyriaTear-Debug" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
@@ -102,9 +102,9 @@
 					<Add option="-W" />
 					<Add option="-O0" />
 					<Add option="`sdl-config --cflags`" />
-					<Add option='-DDATADIR=\\\&quot;/usr/local/share/games/allacrost\\\&quot;' />
-					<Add option='-DLOCALEDIR=\\\&quot;/usr/local/share/games/allacrost/txt\\\&quot;' />
-					<Add option='-DPACKAGE=\\\&quot;allacrost\\\&quot;' />
+					<Add option='-DDATADIR=\\\&quot;/usr/local/share/games/valyriatear\\\&quot;' />
+					<Add option='-DLOCALEDIR=\\\&quot;/usr/local/share/games/valyriatear/txt\\\&quot;' />
+					<Add option='-DPACKAGE=\\\&quot;valyriatear\\\&quot;' />
 					<Add directory="\usr\include" />
 					<Add directory="\usr\include\AL" />
 					<Add directory="\usr\include\lua5.1" />
@@ -136,17 +136,17 @@
 			</Target>
 			<Target title="Release Linux">
 				<Option platforms="Unix;" />
-				<Option output="allacrost" prefix_auto="1" extension_auto="1" />
-				<Option object_output="Allacrost-Release" />
+				<Option output="valyriatear" prefix_auto="1" extension_auto="1" />
+				<Option object_output="ValyriaTear-Release" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-W" />
 					<Add option="`sdl-config --cflags`" />
-					<Add option='-DDATADIR=\\\&quot;/usr/local/share/games/allacrost\\\&quot;' />
-					<Add option='-DLOCALEDIR=\\\&quot;/usr/local/share/games/allacrost/txt\\\&quot;' />
-					<Add option='-DPACKAGE=\\\&quot;allacrost\\\&quot;' />
+					<Add option='-DDATADIR=\\\&quot;/usr/local/share/games/valyriatear\\\&quot;' />
+					<Add option='-DLOCALEDIR=\\\&quot;/usr/local/share/games/valyriatear/txt\\\&quot;' />
+					<Add option='-DPACKAGE=\\\&quot;valyriatear\\\&quot;' />
 					<Add directory="\usr\include" />
 					<Add directory="\usr\include\AL" />
 					<Add directory="\usr\include\lua5.1" />

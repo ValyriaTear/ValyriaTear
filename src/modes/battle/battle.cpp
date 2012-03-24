@@ -63,8 +63,8 @@ namespace private_battle {
 // Filenames of the default music that is played when no specific music is requested
 //@{
 const char* DEFAULT_BATTLE_MUSIC   = "mus/Confrontation.ogg";
-const char* DEFAULT_VICTORY_MUSIC  = "mus/Allacrost_Fanfare.ogg";
-const char* DEFAULT_DEFEAT_MUSIC   = "mus/Allacrost_Intermission.ogg";
+const char* DEFAULT_VICTORY_MUSIC  = "mus/Fanfare.ogg";
+const char* DEFAULT_DEFEAT_MUSIC   = "mus/Intermission.ogg";
 //@}
 
 BattleMedia::BattleMedia() {

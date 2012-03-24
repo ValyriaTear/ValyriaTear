@@ -13,7 +13,7 @@
 *** \brief   Header file for map mode interface.
 ***
 *** This file contains the interface for map mode, active when the player is
-*** exploring town or dungeon maps. The map environments of Allacrost are
+*** exploring town or dungeon maps. The map environments are
 *** quite extensive, thus this code is responsible for processing many things.
 *** This includes handling all tile images, objects, sprites, map events,
 *** dialogue, and more.
@@ -27,18 +27,15 @@
 #ifndef __MAP_HEADER__
 #define __MAP_HEADER__
 
-// Allacrost utilities
 #include "defs.h"
 #include "utils.h"
 
-// Allacrost engines
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/script/script.h"
 #include "engine/video/video.h"
 #include "engine/system.h"
 
-// Local map mode headers
 #include "map_utils.h"
 
 //! All calls to map mode are wrapped in this namespace.

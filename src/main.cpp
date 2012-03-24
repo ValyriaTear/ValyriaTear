@@ -10,10 +10,10 @@
 /** ****************************************************************************
 *** \file    main.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
-*** \brief   Allacrost initialization code and main game loop.
+*** \brief   initialization code and main game loop.
 ***
 *** The code in this file is the first to execute when the game is started and
-*** the last to execute before the game exits. The core engine of Allacrost
+*** the last to execute before the game exits. The core engine
 *** uses time-based updating, which means that the state of the game is
 *** updated based on how much time has expired since the last update.
 ***
@@ -67,19 +67,19 @@ using namespace hoa_boot;
 using namespace hoa_map;
 
 
-/** \brief Frees all data allocated by Allacrost by destroying the singleton classes
+/** \brief Frees all data allocated by the game by destroying the singleton classes
 ***
 *** \note <b>Do not attempt to call or otherwise reference this function.</b>
 *** It is for use in the application's main() function only.
 ***
 *** Deleteing the singleton class objects will free all of the memory that the game uses.
-*** This is because all other classes and data structures in Allacrost are managed
+*** This is because all other classes and data structures in the game are managed
 *** by these singletons either directly or in directly. For example, BattleMode is a
 *** class object that is managed by the ModeEngine class, and thus the GameModeManager
 *** destructor will also invoke the BattleMode destructor (as well as the destructors of any
 *** other game modes that exist).
 **/
-void QuitAllacrost() {
+void QuitApp() {
 	// NOTE: Even if the singleton objects do not exist when this function is called, invoking the
 	// static Destroy() singleton function will do no harm (it checks that the object exists before deleting it).
 
@@ -96,7 +96,7 @@ void QuitAllacrost() {
 	ScriptEngine::SingletonDestroy();
 	SystemEngine::SingletonDestroy();
 	VideoEngine::SingletonDestroy();
-} // void QuitAllacrost()
+} // void QuitApp()
 
 /** \brief Reads in all of the saved game settings and sets values in the according game manager classes
 *** \return True if the settings were loaded successfully
@@ -329,7 +329,7 @@ void InitializeEngine() throw (Exception) {
 	VideoManager->Text()->SetDefaultStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_BLACK, 1, -2));
 
 	// Set the window title and icon name
-	SDL_WM_SetCaption("Hero of Allacrost", "Hero of Allacrost");
+	SDL_WM_SetCaption(APPFULLNAME, APPFULLNAME);
 
 	// Hide the mouse cursor since we don't use or acknowledge mouse input from the user
 	SDL_ShowCursor(SDL_DISABLE);
@@ -355,12 +355,12 @@ void InitializeEngine() throw (Exception) {
 
 // Every great game begins with a single function :)
 int main(int argc, char *argv[]) {
-	// When the program exits, the QuitAllacrost() function will be called first, followed by SDL_Quit()
+	// When the program exits, the QuitApp() function will be called first, followed by SDL_Quit()
 	atexit(SDL_Quit);
-	atexit(QuitAllacrost);
+	atexit(QuitApp);
 
 	try {
-		// Change to the directory where the Allacrost data is stored
+		// Change to the directory where the game data is stored
 		#ifdef __MACH__
 			string path;
 			path = argv[0];

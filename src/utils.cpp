@@ -10,7 +10,7 @@
 /** ****************************************************************************
 *** \file    utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
-*** \brief   Source file for Allacrost utility code.
+*** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
 // Headers included for directory manipulation. Windows has its own way of
@@ -615,7 +615,7 @@ bool CleanDirectory(const std::string& dir_name) {
 	#ifdef _WIN32
 		//--- WINDOWS --------------------------------------------------------------
 
-		// Get the current directory that the Allacrost application resides in
+		// Get the current directory that the application resides in
 		char app_path[1024];
 		GetCurrentDirectoryA(1024, app_path);
 
@@ -716,7 +716,7 @@ vector<string> ListDirectory(const std::string& dir_name, const std::string& fil
 	#if defined _WIN32
 	//Windows platform
 
-		// Get the current directory that the Allacrost application resides in
+		// Get the current directory that the application resides in
 		char app_path[1024];
 		GetCurrentDirectoryA(1024, app_path);
 
@@ -801,7 +801,7 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 		TCHAR path[MAX_PATH];
 
 		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, path))) {
-			string user_path = string(path) + "/Allacrost/";
+			string user_path = string(path) + "/"APPUPCASEDIRNAME"/";
 			if (DoesFileExist(user_path) == false)
 				MakeDirectory(user_path);
 			return user_path;
@@ -812,9 +812,9 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 		if (pw) {
 			string path = "";
 			if (user_files)
-				path = string(pw->pw_dir) + "/Library/Application Support/Allacrost/";
+				path = string(pw->pw_dir) + "/Library/Application Support/"APPUPCASEDIRNAME"/";
 			else
-				path = string(pw->pw_dir) + "/Library/Preferences/Allacrost/";
+				path = string(pw->pw_dir) + "/Library/Preferences/"APPUPCASEDIRNAME"/";
 			if (DoesFileExist(path) == false)
 				MakeDirectory(path);
 			return path;

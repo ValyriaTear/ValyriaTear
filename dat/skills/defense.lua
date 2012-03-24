@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------[[
 -- Filename: defense.lua
 --
--- Description: This file contains the definitions of all defense skills that
--- exist in Hero of Allacrost. Each defense skill has a unique integer identifier
+-- Description: This file contains the definitions of all defense skills.
+-- Each defense skill has a unique integer identifier
 -- that is used as its key in the skills table below. Some skills are primarily
 -- intended for characters to use while others are intended for enemies to use.
 -- Normally, we do not want to share skills between characters and enemies as
