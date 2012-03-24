@@ -7,12 +7,39 @@ as told on the allacrost web site:
 http://www.allacrost.org
 
 Scripts:
+dat/config/debug_menu.lua					GPLv2 or later	Bertram
+dat/config/debug_shop.lua					GPLv2 or later	Bertram
+dat/config/debug_battle.lua					GPLv2 or later	Bertram
+dat/config/boot.lua							GPLv2 or later	Bertram (Completely redone it.)
+dat/battles/desert_cave_battle_anim.lua					GPLv2 or later	Bertram
+dat/battles/tutorial_battle_dialogs.lua					GPLv2 or later	Allacrost + Bertram
 dat/effects/lightning.lua						GPLv2 or later	Bertram
 dat/effects/particles/rain.lua					GPLv2 or later	roos + Bertram modifications
 dat/effects/particles/snow.lua					GPLv2 or later	roos + Bertram modifications
 dat/effects/particles/blue_firework.lua			GPLv2 or later	roos + Bertram modifications
 dat/effects/particles/explosion.lua				GPLv2 or later	roos + Bertram modifications
 dat/effects/particles/fire.lua					GPLv2 or later	roos + Bertram modifications
+img/backdrops/battle/desert_cave/desert_cave_eyes2.lua		GPLv2	Bertram
+img/backdrops/battle/desert_cave/desert_cave_water.lua		GPLv2	Bertram
+img/backdrops/battle/desert_cave/desert_cave_waterdrop.lua		GPLv2	Bertram
+img/backdrops/battle/desert_cave/desert_cave_eyes1.lua		GPLv2	Bertram
+img/backdrops/battle/desert_cave/desert_cave_creatures.lua		GPLv2	Bertram
+img/sprites/battle/characters/knight_dodge.lua		GPLv2	Bertram
+img/sprites/battle/characters/soldier_dodge.lua		GPLv2	Bertram
+img/sprites/battle/characters/soldier_victory.lua		GPLv2	Bertram
+img/sprites/battle/characters/soldier_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/knight_victory.lua		GPLv2	Bertram
+img/sprites/battle/characters/claudius_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/knight_run.lua		GPLv2	Bertram
+img/sprites/battle/characters/soldier_run.lua		GPLv2	Bertram
+img/sprites/battle/characters/claudius_victory.lua		GPLv2	Bertram
+img/sprites/battle/characters/soldier_attack.lua		GPLv2	Bertram
+img/sprites/battle/characters/claudius_run.lua		GPLv2	Bertram
+img/sprites/battle/characters/knight_attack.lua		GPLv2	Bertram
+img/sprites/battle/characters/knight_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/claudius_attack.lua		GPLv2	Bertram
+img/sprites/battle/characters/claudius_dodge.lua		GPLv2	Bertram
+
 
 Images:
 img/ambient/sandstorm.png:						GPLv2 or later	The Mana World Team + Bertram's modifications
@@ -27,8 +54,411 @@ img/effects/flame6.png							GPLv2 or later	Roos
 img/effects/flame7.png							GPLv2 or later	Roos
 img/effects/flame8.png							GPLv2 or later	Roos
 img/effects/outlined_circle_small.png			GPLv2 or later	Roos
+img/backgrops/boot_background.png				GPLv2			JAP (OGA)
+img/logos/valyria_logo_black.png				GPLv2			Bertram (using the scriptina font which is CC0)
+img/logos/program_icon.bmp						GPLv2			Bertram (using the scriptina font which is CC0)
+img/logos/program_icon.ico						GPLv2			Bertram (using the scriptina font which is CC0)
+img/backdrops/battle/desert_cave/desert_cave.png		GPLv2	Allacrost + Bertram
+img/backdrops/battle/desert_cave/tpl_desert_cave_anim.png		GPLv2	Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_eyes1.png		GPLv2	Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_water.png		GPLv2	Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_eyes2.png		GPLv2	Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_waterdrop.png		GPLv2	Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_creatures.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/soldier_victory.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/claudius_victory.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/soldier_idle.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/knight_run.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/knight_attack.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/claudius_idle.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/claudius_attack.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/soldier_run.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/claudius_dodge.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/knight_victory.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/soldier_attack.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/soldier_dodge.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/knight_dodge.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/claudius_run.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/knight_idle.png		GPLv2	Allacrost + Bertram
 
 Sounds:
 snd/thunder.wav:								Public domain
 snd/lightning.wav:								Public domain
 
+Musics:
+mus/Soliloquy_1-OGA-mat-pablo.ogg				CC by SA 3.0 or GPLv3	Mathew Pablo (OGA)
+
+
+Allacrost files: (Each and every are assumed to be licensed under the GPLv2 conditions according to the original authors.)
+Files:
+./snd/battle_encounter_02.ogg
+./snd/magic_blast.ogg
+./snd/chestopen2.wav
+./snd/chestclose1.wav
+./snd/door_open2.wav
+./snd/bite_02.ogg
+./snd/footstep_grass2.wav
+./snd/bite_01.ogg
+./snd/footstep_grass1.wav
+./snd/fountain_small.ogg
+./snd/crossbow.ogg
+./snd/wind.ogg
+./snd/opening_sword_unsheathe.wav
+./snd/lively_crowd.ogg
+./snd/heal.wav
+./snd/male_scream.ogg
+./snd/makok_howl.ogg
+./snd/chestopen3.wav
+./snd/slime_attack.wav
+./snd/opening_sword_swipe.wav
+./snd/rumble.wav
+./snd/coins.wav
+./snd/chestclose3.wav
+./snd/menu_click_02.wav
+./snd/thunder.wav
+./snd/obtain.wav
+./snd/menu_click_01.wav
+./snd/confirm.wav
+./snd/gong2.wav
+./snd/swordslice2.wav
+./snd/crossbow_miss.ogg
+./snd/sword_swipe.wav
+./snd/door_open1.wav
+./snd/battle_encounter_03.ogg
+./snd/snake_attack.wav
+./snd/heal_spell.wav
+./snd/missed_target.wav
+./snd/spider_attack.wav
+./snd/battle_encounter_01.ogg
+./snd/swordslice1.wav
+./snd/potion_drink.wav
+./snd/cave-in.ogg
+./snd/footstep_concrete1.wav
+./snd/evil_hiss.ogg
+./snd/chestopen1.wav
+./snd/chestclose2.wav
+./snd/lightning.wav
+./snd/opening_sword_fall.wav
+./snd/fountain_large.ogg
+./snd/bump.wav
+./snd/skeleton_attack.wav
+./snd/volume_test.wav
+./snd/gentle_stream.ogg
+./snd/footstep_concrete2.wav
+./snd/gong.wav
+./snd/door_close.wav
+./snd/cancel.wav
+./snd/female_scream.ogg
+./snd/swordslice3.wav
+
+./mus/Venturing_Dragons_in_the_Dark.ogg
+./mus/Cave2.ogg
+./mus/Confrontation.ogg
+./mus/Fanfare.ogg
+./mus/Town_Folk.ogg
+./mus/Battle_Jazz.ogg
+./mus/Seeking_New_Worlds.ogg
+./mus/The_Creature_Awakens.ogg
+./mus/Save_Game.ogg
+./mus/Claudius.ogg
+./mus/old_Opening_Effect.ogg
+./mus/old_Opening_Theme.ogg
+./mus/Desert.ogg
+./mus/Betrayal.ogg
+./mus/Intermission.ogg
+./mus/Betrayal_Battle.ogg
+
+./img/tilesets/building_interior_objects_01.png
+./img/tilesets/mountain_house_exterior.png
+./img/tilesets/desert_cave_walls.png
+./img/tilesets/mountain_house_interior.png
+./img/tilesets/desert_cave_water.png
+./img/tilesets/mountain_landscape.png
+./img/tilesets/desert_cave_ground.png
+./img/tilesets/desert_cave_walls2.png
+./img/tilesets/harrvah_house_interior.png
+./img/tilesets/harrvah_house.png
+./img/tilesets/desert_ground.png
+./img/tilesets/harrvah_house_exterior.png
+./img/tilesets/desert_cave.png
+./img/tilesets/castle_exterior_01.png
+./img/tilesets/mountain_house_exterior2.png
+./img/sprites/battle/enemies/spider.png
+./img/sprites/battle/enemies/skeleton.png
+./img/sprites/battle/enemies/scorpion.png
+./img/sprites/battle/enemies/scorpion_goliath.png
+./img/sprites/battle/enemies/snake.png
+./img/sprites/battle/enemies/deceleon.png
+./img/sprites/battle/enemies/bat.png
+./img/sprites/battle/enemies/aerocephal.png
+./img/sprites/battle/enemies/daemarbora.png
+./img/sprites/battle/enemies/green_slime.png
+./img/sprites/battle/enemies/demonic_essence.png
+./img/sprites/battle/enemies/kyle.png
+./img/sprites/battle/enemies/dune_crawler.png
+./img/sprites/battle/enemies/nagaruda.png
+./img/sprites/battle/enemies/arcana_drake.png
+./img/sprites/battle/enemies/aurum-drakueli.png
+./img/sprites/battle/enemies/stygian_lizard.png
+./img/sprites/battle/enemies/rat.png
+./img/sprites/map/claudius_frightened.png
+./img/sprites/map/rafaela_idle.png
+./img/sprites/map/knight_walk.png
+./img/sprites/map/mak_hound_mounted.png
+./img/sprites/map/scorpion_walk.png
+./img/sprites/map/soldier_npc02_walk.png
+./img/sprites/map/kyle_attack.png
+./img/sprites/map/knight_idle.png
+./img/sprites/map/woman_npc01_walk.png
+./img/sprites/map/soldier_npc01_walk.png
+./img/sprites/map/laila_attack.png
+./img/sprites/map/rafaela_run.png
+./img/sprites/map/claudius_idle_s.png
+./img/sprites/map/claudius_walk.png
+./img/sprites/map/gigas_walk.png
+./img/sprites/map/laila_idle.png
+./img/sprites/map/vanica_walk.png
+./img/sprites/map/slime_walk.png
+./img/sprites/map/mak_hound_saddle.png
+./img/sprites/map/man_npc01_walk.png
+./img/sprites/map/claudius_herostance.png
+./img/sprites/map/rafaela_walk.png
+./img/sprites/map/kyle_walk.png
+./img/sprites/map/kyle_run.png
+./img/sprites/map/laila_walk.png
+./img/sprites/map/claudius_attack.png
+./img/sprites/map/knight_attack.lua
+./img/sprites/map/naga_walk.png
+./img/sprites/map/claudius_run.png
+./img/sprites/map/rocks.png
+./img/sprites/map/knight_run.png
+./img/sprites/map/mak_hound.png
+./img/sprites/map/kyle_idle.png
+./img/sprites/map/man_npc02_walk.png
+./img/sprites/map/girl_npc02_walk.png
+./img/sprites/map/knight_attack.png
+./img/sprites/map/old_woman_npc01_walk.png
+./img/sprites/map/marcus_walk.png
+./img/sprites/map/boy_npc01_walk.png
+./img/sprites/map/claudius_idle.png
+./img/sprites/map/claudius_attack.lua
+./img/sprites/map/laila_run.png
+./img/sprites/map/woman_npc02_walk.png
+./img/sprites/map/rafaela_attack.png
+./img/sprites/map/kyle_attack_w.png
+./img/sprites/map/snake_walk.png
+
+./img/logos/valyria_logo_black.png
+
+./img/logos/mac_logo.icns
+./img/logos/main_logo_sword.png
+
+./img/fonts
+./img/fonts/libertine.ttf
+./img/fonts/vtc_switchblade_romance.ttf
+./img/fonts/junicode_regular.ttf
+./img/fonts/tarnhalo.ttf
+./img/fonts/libertine_capitals.ttf
+
+./img/misc/chest1.png
+./img/misc/stamina_bar_infinite_overlay.png
+./img/misc/dialogue_icon.png
+./img/misc/torch_light_mask.png
+./img/misc/category_icons.png
+./img/misc/stamina_bar_background.png
+./img/misc/skeleton_corpse.png
+./img/misc/editor-tools
+./img/misc/editor-tools/stock-tool-rect-select-22.png
+./img/misc/editor-tools/arrow-left.png
+./img/misc/editor-tools/stock-tool-arrow.png
+./img/misc/editor-tools/stock-tool-pencil-22.png
+./img/misc/editor-tools/stock-tool-color-picker-22.png
+./img/misc/editor-tools/arrow-right.png
+./img/misc/editor-tools/stock-tool-eraser-22.png
+./img/misc/editor-tools/stock-tool-bucket-fill-22.png
+./img/menus/star.png
+./img/menus/green_check.png
+./img/menus/dialogue_cont_arrow.png
+./img/menus/battle_bottom_menu.png
+./img/menus/stamina_icon_selected.png
+./img/menus/locations
+./img/menus/locations/mountain_village.png
+./img/menus/locations/blank.png
+./img/menus/locations/desert_cave.png
+./img/menus/locations/desert.png
+./img/menus/battle_character_bars.png
+./img/menus/stamina_bar.png
+./img/menus/scroll_arrows.png
+./img/menus/equip.png
+./img/menus/battle_character_command.png
+./img/menus/black_sleet_texture.png
+./img/menus/socket.png
+./img/menus/battle_character_selection.png
+./img/menus/dialogue_nameplate.png
+./img/menus/cursor.png
+./img/menus/black_sleet_skin.png
+./img/menus/stamina_icon.png
+./img/menus/dialogue_box.png
+./img/menus/dialogue_last_ind.png
+./img/menus/red_x.png
+./img/menus/black_sleet_parch.png
+./img/menus/battle_command_buttons.png
+./img/portraits
+./img/portraits/battle
+./img/portraits/battle/laila_damage.png
+./img/portraits/battle/claudius_damage.png
+./img/portraits/battle/rafaela_damage.png
+./img/portraits/map
+./img/portraits/map/claudius.png
+./img/portraits/map/vanica.png
+./img/portraits/map/marcus.png
+./img/portraits/map/rafaela.png
+./img/portraits/map/laila.png
+./img/portraits/menu
+./img/portraits/menu/claudius.png
+./img/portraits/menu/rafaela_small.png
+./img/portraits/menu/laila_small.png
+./img/portraits/menu/rafaela_large.png
+./img/portraits/menu/claudius_small.png
+./img/portraits/menu/vanica_small.png
+./img/portraits/menu/laila_large.png
+./img/portraits/menu/marcus_small.png
+./img/portraits/menu/claudius_large.png
+./img/portraits/menu/rafaela.png
+./img/portraits/menu/laila.png
+./img/backdrops/battle/mountain_village.png
+./img/backdrops/battle/rock.png
+
+./img/icons/weapons/iron_sword.png
+./img/icons/weapons/arbalest.png
+./img/icons/weapons/karlate_sword.png
+./img/icons/weapons/reinforced_crossbow.png
+./img/icons/weapons/quick_crossbow.png
+./img/icons/weapons/standard_crossbow.png
+./img/icons/weapons/knights_blade.png
+./img/icons/items/instrument_kantele.png
+./img/icons/items/potion_blue_huge.png
+./img/icons/items/scroll_red.png
+./img/icons/items/potion_green_large.png
+./img/icons/items/potion_red_huge.png
+./img/icons/items/potion_red_small.png
+./img/icons/items/potion_blue_small.png
+./img/icons/items/potion_red_large.png
+./img/icons/items/potion_green_medium.png
+./img/icons/items/potion_blue_medium.png
+./img/icons/items/potion_red_medium.png
+./img/icons/items/potion_blue_large.png
+./img/icons/items/potion_green_huge.png
+./img/icons/items/potion_green_small.png
+./img/icons/actors/templates.png
+./img/icons/actors/default_stamina_icon.png
+./img/icons/actors/enemies/spider.png
+./img/icons/actors/enemies/skeleton.png
+./img/icons/actors/enemies/scorpion.png
+./img/icons/actors/enemies/scorpion_goliath.png
+./img/icons/actors/enemies/snake.png
+./img/icons/actors/enemies/deceleon.png
+./img/icons/actors/enemies/bat.png
+./img/icons/actors/enemies/aerocephal.png
+./img/icons/actors/enemies/daemarbora.png
+./img/icons/actors/enemies/green_slime.png
+./img/icons/actors/enemies/demonic_essence.png
+./img/icons/actors/enemies/dune_crawler.png
+./img/icons/actors/enemies/nagaruda.png
+./img/icons/actors/enemies/arcana_drake.png
+./img/icons/actors/enemies/aurum-drakueli.png
+./img/icons/actors/enemies/stygian_lizard.png
+./img/icons/actors/enemies/rat.png
+./img/icons/actors/characters
+./img/icons/actors/characters/claudius.png
+./img/icons/actors/characters/laila.png
+./img/icons/effects/templates.png
+./img/icons/effects/status.png
+./img/icons/effects/targets.png
+./img/icons/effects/elemental.png
+./img/icons/drunes.png
+./img/icons/object_category_icons.png
+./img/icons/battle/character_selector.png
+./img/icons/battle/support.png
+./img/icons/battle/attack.png
+./img/icons/battle/swap_icon.png
+./img/icons/battle/swap_card.png
+./img/icons/battle/defend.png
+./img/icons/battle/item.png
+./img/icons/battle/attack_point_target.png
+./img/icons/armor/winged_circlet.png
+./img/icons/armor/shouldered_breastplate.png
+./img/icons/armor/cloak_leather_brown.png
+./img/icons/armor/standard_greaves.png
+./img/icons/armor/leather_sandals.png
+./img/icons/armor/karlate_helmet.png
+./img/icons/armor/stone_bracelet.png
+./img/icons/armor/karlate_breastplate.png
+./img/icons/armor/phoenix_shield.png
+./img/icons/armor/jewelry_necklace_amber.png
+./img/icons/armor/helmet_bascinet.png
+./img/icons/armor/leather_chain_mail.png
+./img/icons/armor/jewelry_ring_prismatic.png
+./img/icons/armor/leather_boots.png
+./img/icons/armor/cobalt_helm.png
+./img/icons/armor/cuirass_muscled.png
+./img/icons/armor/wooden_shield.png
+./img/icons/armor/trident_shield.png
+./img/icons/armor/crested_helmet.png
+./img/icons/armor/willow_dress.png
+./img/icons/armor/tempered_greaves.png
+./img/icons/armor/metal_shield.png
+./img/icons/armor/butterfly_pins.png
+
+./dat/tilesets/harrvah_house_interior.lua
+./dat/tilesets/autotiling.lua
+./dat/tilesets/desert_cave.lua
+./dat/tilesets/building_interior_objects_01.lua
+./dat/tilesets/desert_ground.lua
+./dat/tilesets/castle_exterior_01.lua
+./dat/tilesets/mountain_landscape.lua
+./dat/tilesets/desert_cave_walls.lua
+./dat/tilesets/mountain_house_exterior2.lua
+./dat/tilesets/harrvah_house_exterior.lua
+./dat/tilesets/harrvah_house.lua
+./dat/tilesets/mountain_house_interior.lua
+./dat/tilesets/desert_cave_walls2.lua
+./dat/tilesets/mountain_house_exterior.lua
+./dat/tilesets/desert_cave_ground.lua
+./dat/tilesets/desert_cave_water.lua
+./dat/skills/defense.lua
+./dat/skills/support.lua
+./dat/skills/attack.lua
+./dat/credits.lua
+./dat/global.lua
+./dat/actors/map_sprites_stock.lua
+./dat/actors/characters.lua
+./dat/actors/enemies_set_02.lua
+./dat/actors/enemies_set_01.lua
+./dat/config/restore_settings.lua
+./dat/config/settings.lua
+./dat/config/languages.lua
+./dat/effects/status.lua
+./dat/effects/particles/rain.lua
+./dat/effects/particles/blue_firework.lua
+./dat/effects/particles/fire.lua
+./dat/effects/particles/explosion.lua
+./dat/effects/particles/snow.lua
+./dat/battle_events.lua
+./dat/maps/demo_cave.lua
+./dat/maps/demo_town.lua
+./dat/maps/demo2_desert_barracks.lua
+./dat/maps/river_access_cave.lua
+./dat/maps/harrvah_city.lua
+./dat/maps/demo2_new_cave.lua
+./dat/maps/demo2_desert_outskirts.lua
+./dat/maps/opening_scene.lua
+./dat/maps/sample_castle_map.lua
+./dat/maps/demo2_desert_training.lua
+./dat/maps/demo2_betrayal_room.lua
+./dat/objects/head_armor.lua
+./dat/objects/torso_armor.lua
+./dat/objects/leg_armor.lua
+./dat/objects/weapons.lua
+./dat/objects/items.lua
+./dat/objects/arm_armor.lua
