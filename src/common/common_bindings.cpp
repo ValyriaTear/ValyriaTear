@@ -117,6 +117,7 @@ void BindCommonCode() {
 			.def("GetNumberEventGroups", &GameGlobal::GetNumberEventGroups)
 			.def("GetNumberEvents", &GameGlobal::GetNumberEvents)
 			.def("SetLocation", (void(GameGlobal::*)(const std::string&)) &GameGlobal::SetLocation)
+			.def("GetLocationName", &GameGlobal::GetLocationName)
 			.def("GetBattleSetting", &GameGlobal::GetBattleSetting)
 			.def("SetBattleSetting", &GameGlobal::SetBattleSetting)
 
