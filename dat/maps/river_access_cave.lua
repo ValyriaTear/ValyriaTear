@@ -471,7 +471,7 @@ function Load(m)
 	TreasureManager = Map.treasure_supervisor;
 	GlobalEvents = Map.map_event_group;
 
-	Map.unlimited_stamina = false; -- TEMP: enabled for development. Change this to false prior to release
+	Map.unlimited_stamina = false;
 
 	CreateObjects();
 	CreateCharacters();
@@ -549,13 +549,6 @@ function Update()
 		end
 	end
 end -- function Update()
-
-
--- Mandatory function for custom drawing
-function Draw()
-	Map:DrawMapLayers();
-end
-
 
 -- Creates non-sprite map objects
 function CreateObjects()
@@ -661,6 +654,11 @@ function CreateNPCs()
 	sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	Map:AddGroundObject(sprite);
 	knight_path_sprite = sprite;
+
+	-- If the knight has already moved and the passage collapsed, don't display it.
+	if (GlobalEvents:DoesEventExist("passage_collapsed") == true) then
+		map_functions[12]();
+	end
 
 	-- Knight standing at edge of pit
 	sprite = ConstructSprite("Karlate", 2006, 78, 58);
@@ -1312,7 +1310,7 @@ function CreateEvents()
 		event = hoa_map.BattleEncounterEvent(87, 91);
 		event:SetMusic("mus/The_Creature_Awakens.ogg");
 		event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
-		event:AddBattleScript("dat/battles/first_battle.lua");
+		event:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
 		event:AddEventLinkAtEnd(90);
 		EventManager:RegisterEvent(event);
 
