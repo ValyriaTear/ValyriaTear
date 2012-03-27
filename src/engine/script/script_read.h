@@ -370,6 +370,22 @@ public:
 	lua_State* GetLuaState()
 		{ return _lstack; }
 
+	/** \brief Generic functions permitting to quickly load script function with the usual checks.
+	*** \param filename the script file
+	*** \param function_name The script function name
+	*** \param global when false, uses the file tablespace, if true don't use it and search into the global space.
+	*** \return whether everything went fine.
+	**/
+	bool RunScriptFunction(const std::string& filename, const std::string& function_name, bool global = false);
+
+	//! \brief  The same function as its homonym but using a opened file and not closing it afterwards.
+	bool RunScriptFunction(const std::string& function_name);
+
+	/** \brief  Generic function running a lua script using an object pointer with the usual checks.
+	*** \note that this function can only call fonctions without parameters atm.
+	**/
+	static bool RunScriptObject(const ScriptObject& object);
+
 	/** \brief Prints out the contents of the Lua stack mechanism to standard output
 	*** The elements are printed from stack top to stack bottom.
 	**/

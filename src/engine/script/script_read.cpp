@@ -357,7 +357,7 @@ std::string ReadScriptDescriptor::OpenTablespace() {
 		return std::string();
 	}
 
-	OpenTable(tablespace);
+	OpenTable(tablespace, true); // Open the tablespace from the global stack.
 	return tablespace;
 }
 
@@ -433,6 +433,65 @@ uint32 ReadScriptDescriptor::GetTableSize() {
 		table_size++;
 
 	return table_size;
+}
+
+
+bool ReadScriptDescriptor::RunScriptFunction(const std::string& filename,
+											const std::string& function_name,
+											bool global) {
+	// The error message handling is done into OpenFile()
+	if (!OpenFile(filename))
+	    return false;
+
+	if (!DoesFunctionExist(function_name)) {
+		PRINT_ERROR << "No '" << function_name << "' function!" << endl;
+		CloseFile();
+		return false;
+	}
+
+	if (!global)
+		OpenTablespace();
+
+	bool ran = RunScriptFunction(function_name);
+
+	CloseFile();
+
+	return ran;
+}
+
+
+bool ReadScriptDescriptor::RunScriptFunction(const std::string& function_name) {
+	if (!IsFileOpen()) {
+		PRINT_ERROR << "Can't call function " << function_name << "without opening a script file." << endl;
+		return false;
+	}
+
+	try {
+	    ScriptCallFunction<void>(GetLuaState(), function_name.c_str());
+	} catch(luabind::error e) {
+		PRINT_ERROR << "Error while loading :" << function_name << endl;
+		ScriptManager->HandleLuaError(e);
+		return false;
+	}
+	return true;
+}
+
+
+bool ReadScriptDescriptor::RunScriptObject(const luabind::object& object) {
+
+	// Don't log in that case because we might want to run invalid (empty) objects
+	// to simplify the caller code.
+	if (!object.is_valid())
+		return true;
+
+	try {
+	    ScriptCallFunction<void>(object);
+	} catch(luabind::error e) {
+		PRINT_ERROR << "Error while loading script object." << endl;
+		ScriptManager->HandleLuaError(e);
+		return false;
+	}
+	return true;
 }
 
 //-----------------------------------------------------------------------------

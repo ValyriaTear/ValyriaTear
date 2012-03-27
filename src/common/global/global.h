@@ -369,7 +369,7 @@ public:
 
 	//! \brief Executes function NewGame() from global script
 	void NewGame()
-		{ ScriptCallFunction<void>(_global_script.GetLuaState(), "NewGame"); }
+		{ _global_script.RunScriptFunction("NewGame"); }
 
 	/** \brief Saves all global data to a saved game file
 	*** \param filename The filename of the saved game file where to write the data to

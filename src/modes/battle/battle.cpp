@@ -401,10 +401,8 @@ void BattleMode::Update() {
 		return;
 	}
 
-	for (uint32 i = 0; i < _update_functions.size(); ++i) {
-	if (_update_functions[i].is_valid())
-		ScriptCallFunction<void>(_update_functions[i]);
-	}
+	for (uint32 i = 0; i < _update_functions.size(); ++i)
+		ReadScriptDescriptor::RunScriptObject(_update_functions[i]);
 
 	if (_dialogue_supervisor->IsDialogueActive() == true) {
 		_dialogue_supervisor->Update();
@@ -547,10 +545,8 @@ void BattleMode::Draw() {
 	_DrawSprites();
 	_DrawForegroundGraphics();
 
-	for (uint32 i = 0; i < _draw_effects_functions.size(); ++i) {
-		if (_draw_effects_functions[i].is_valid())
-			ScriptCallFunction<void>(_draw_effects_functions[i]);
-	}
+	for (uint32 i = 0; i < _draw_effects_functions.size(); ++i)
+		ReadScriptDescriptor::RunScriptObject(_draw_effects_functions[i]);
 }
 
 void BattleMode::DrawPostEffects() {
@@ -1017,10 +1013,8 @@ void BattleMode::_DrawBackgroundGraphics() {
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
 	// Handles custom scripted draw before sprites
-	for (uint32 i = 0; i < _draw_background_functions.size(); ++i) {
-		if (_draw_background_functions[i].is_valid())
-			ScriptCallFunction<void>(_draw_background_functions[i]);
-	}
+	for (uint32 i = 0; i < _draw_background_functions.size(); ++i)
+		ReadScriptDescriptor::RunScriptObject(_draw_background_functions[i]);
 }
 
 
@@ -1028,10 +1022,8 @@ void BattleMode::_DrawForegroundGraphics() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
-	for (uint32 i = 0; i < _draw_foreground_functions.size(); ++i) {
-		if (_draw_foreground_functions[i].is_valid())
-		    ScriptCallFunction<void>(_draw_foreground_functions[i]);
-	}
+	for (uint32 i = 0; i < _draw_foreground_functions.size(); ++i)
+	    ReadScriptDescriptor::RunScriptObject(_draw_foreground_functions[i]);
 }
 
 
