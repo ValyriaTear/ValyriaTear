@@ -90,7 +90,7 @@ namespace
 
   void cache::put(
       class_id src, class_id target, class_id dynamic_id
-    , std::ptrdiff_t object_offset, std::size_t distance, std::ptrdiff_t offset)
+    , std::ptrdiff_t /*object_offset*/, std::size_t distance, std::ptrdiff_t offset)
   {
       m_cache.insert(std::make_pair(
           key_type(src, target, dynamic_id, offset)
