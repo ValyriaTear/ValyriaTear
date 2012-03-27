@@ -215,8 +215,7 @@ void BootMode::Reset() {
 
 	AudioManager->StopAllMusic();
 
-	if (_reset_function.is_valid())
-		ScriptCallFunction<void>(_reset_function);
+	ReadScriptDescriptor::RunScriptObject(_reset_function);
 }
 
 
@@ -225,8 +224,7 @@ void BootMode::Update() {
 	_options_window.Update(SystemManager->GetUpdateTime());
 
 	// Update background animation
-	if (_update_function.is_valid())
-	    ScriptCallFunction<void>(_update_function);
+	ReadScriptDescriptor::RunScriptObject(_update_function);
 
 	// Screen is in the process of fading out
 	if (_exiting)
@@ -422,8 +420,7 @@ void BootMode::Draw() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
-	if (_draw_function.is_valid())
-	    ScriptCallFunction<void>(_draw_function);
+	ReadScriptDescriptor::RunScriptObject(_draw_function);
 
 	if (_boot_state == BOOT_STATE_MENU) {
 		_options_window.Draw();
@@ -930,66 +927,24 @@ void BootMode::_OnQuit() {
 #ifdef DEBUG_MENU
 void BootMode::_DEBUG_OnBattle() {
 	ReadScriptDescriptor read_data;
-	if (!read_data.OpenFile("dat/config/debug_battle.lua"))
-	    return;
-
-    if (!read_data.DoesFunctionExist("BootBattleTest")) {
-        PRINT_ERROR << "No 'BootBattleTest' function!" << endl;
-        read_data.CloseFile();
-        return;
-    }
-
-    try {
-	    ScriptCallFunction<void>(read_data.GetLuaState(), "BootBattleTest");
-    } catch(luabind::error e) {
-		PRINT_ERROR << "Error while loading debug battle!" << endl;
-		ScriptManager->HandleLuaError(e);
-    }
-	read_data.CloseFile();
+	read_data.RunScriptFunction("dat/config/debug_battle.lua",
+								"BootBattleTest", true);
 }
 
 
 
 void BootMode::_DEBUG_OnMenu() {
 	ReadScriptDescriptor read_data;
-	if (!read_data.OpenFile("dat/config/debug_menu.lua"))
-	    return;
-
-	if (!read_data.DoesFunctionExist("BootMenuTest")) {
-		PRINT_ERROR << "No 'BootMenuTest' function!" << endl;
-		read_data.CloseFile();
-		return;
-	}
-
-	try {
-		ScriptCallFunction<void>(read_data.GetLuaState(), "BootMenuTest");
-	} catch(luabind::error e) {
-		PRINT_ERROR << "Error while loading debug menu!" << endl;
-		ScriptManager->HandleLuaError(e);
-	}
-	read_data.CloseFile();
+	read_data.RunScriptFunction("dat/config/debug_menu.lua",
+								"BootMenuTest", true);
 }
 
 
 
 void BootMode::_DEBUG_OnShop() {
 	ReadScriptDescriptor read_data;
-	if (!read_data.OpenFile("dat/config/debug_shop.lua"))
-	    return;
-
-	if (!read_data.DoesFunctionExist("BootShopTest")) {
-		PRINT_ERROR << "No 'BootShopTest' function!" << endl;
-		read_data.CloseFile();
-		return;
-	}
-
-	try {
-		ScriptCallFunction<void>(read_data.GetLuaState(), "BootShopTest");
-	} catch(luabind::error e) {
-		PRINT_ERROR << "Error while loading debug shop!" << endl;
-		ScriptManager->HandleLuaError(e);
-	}
-	read_data.CloseFile();
+	read_data.RunScriptFunction("dat/config/debug_shop.lua",
+								"BootShopTest", true);
 }
 #endif // #ifdef DEBUG_MENU
 
