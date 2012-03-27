@@ -896,10 +896,6 @@ void BootMode::_RefreshSaveAndLoadProfiles() {
 void BootMode::_OnNewGame() {
 	AudioManager->StopAllMusic();
 	GlobalManager->NewGame();
-
-	ModeManager->Pop();
-	hoa_map::MapMode *MM = new hoa_map::MapMode(MakeStandardString(GlobalManager->GetLocationName()));
-	ModeManager->Push(MM, true, true);
 }
 
 
