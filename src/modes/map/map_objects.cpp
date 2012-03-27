@@ -66,7 +66,8 @@ bool MapObject::ShouldDraw() {
 	if (visible == false)
 		return false;
 
-	if (context != MapMode::CurrentInstance()->GetCurrentContext())
+	// If the context is not in one of the active context, don't display it.
+	if (!(context & MapMode::CurrentInstance()->GetCurrentContext()))
 		return false;
 
 	// ---------- Determine if the sprite is off-screen and if so, don't draw it.
@@ -509,8 +510,9 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 		if (*i == sprite) // Don't allow the sprite itself to be considered in the search
 			continue;
 
-		// If the object and sprite do not exist in the same context, do not consider the object for the search
-		if (((*i)->context & sprite->context) == 0)
+		// If the object and sprite do not exist in one of the same contexts,
+		// do not consider the object for the search
+		if (!((*i)->context & sprite->context))
 			continue;
 
 		MapRectangle object_rect = (*i)->GetCollisionRectangle();
@@ -629,8 +631,9 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 		if (collision_object->object_id == sprite->object_id)
 			continue;
 
-		// If the two objects are not contained within the same context, they can not overlap
-		if (sprite->context != collision_object->context)
+		// If the two objects are not contained within one of the same contexts,
+		// they can not overlap
+		if (!(sprite->context & collision_object->context))
 			continue;
 
 		// If the two objects aren't colliding, try next.
