@@ -76,6 +76,8 @@ void GlobalEventGroup::SetEvent(const string& event_name, int32 event_value) {
 
 GameGlobal::GameGlobal() :
 	_drunes(0),
+	_x_save_map_position(0),
+	_y_save_map_position(0),
 	_battle_setting(GLOBAL_BATTLE_INVALID) {
 	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << endl;
 }
@@ -645,28 +647,31 @@ void GameGlobal::SetLocation(const ustring& location_name, const string& locatio
 
 
 
-bool GameGlobal::SaveGame(const string& filename) {
+bool GameGlobal::SaveGame(const string& filename, uint32 x_position, uint32 y_position) {
 	WriteScriptDescriptor file;
 	if (file.OpenFile(filename) == false) {
 		return false;
 	}
 
-	// ----- (1) Write out namespace information
+	// Write out namespace information
 	file.WriteNamespace("save_game1");
 
-	// ----- (2) Save play settings
+	// Save play settings
 	file.InsertNewLine();
 	file.WriteInt("battle_setting", _battle_setting);
 
-	// ----- (3) Save simple play data
+	// Save simple play data
 	file.InsertNewLine();
 	file.WriteString("location_name", MakeStandardString(_location_name));
+	//! \note Coords are in map tiles
+	file.WriteUInt("location_x", x_position);
+	file.WriteUInt("location_y", y_position);
 	file.WriteUInt("play_hours", SystemManager->GetPlayHours());
 	file.WriteUInt("play_minutes", SystemManager->GetPlayMinutes());
 	file.WriteUInt("play_seconds", SystemManager->GetPlaySeconds());
 	file.WriteUInt("drunes", _drunes);
 
-	// ----- (4) Save the inventory (object id + object count pairs)
+	// Save the inventory (object id + object count pairs)
 	// NOTE: This does not save any weapons/armor that are equipped on the characters. That data
 	// is stored alongside the character data when it is saved
 	_SaveInventory(file, "items", _inventory_items);
@@ -736,11 +741,14 @@ bool GameGlobal::LoadGame(const string& filename) {
 	// open the namespace that the save game is encapsulated in.
 	file.OpenTable("save_game1");
 
-	// ----- (1) Load play settings
+	// Load play settings
 	_battle_setting = static_cast<GLOBAL_BATTLE_SETTING>(file.ReadInt("battle_setting"));
 
-	// ----- (2) Load play data
+	// Load play data
 	_location_name = MakeUnicodeString(file.ReadString("location_name"));
+	// Load a potential saved position
+	_x_save_map_position = file.ReadUInt("location_x");
+	_y_save_map_position = file.ReadUInt("location_y");
 	uint8 hours, minutes, seconds;
 	hours = file.ReadUInt("play_hours");
 	minutes = file.ReadUInt("play_minutes");
@@ -748,7 +756,7 @@ bool GameGlobal::LoadGame(const string& filename) {
 	SystemManager->SetPlayTime(hours, minutes, seconds);
 	_drunes = file.ReadUInt("drunes");
 
-	// ----- (3) Load inventory
+	// Load inventory
 	_LoadInventory(file, "items");
 	_LoadInventory(file, "weapons");
 	_LoadInventory(file, "head_armor");
@@ -758,7 +766,7 @@ bool GameGlobal::LoadGame(const string& filename) {
 	_LoadInventory(file, "shards");
 	_LoadInventory(file, "key_items");
 
-	// ----- (4) Load characters into the party in the correct order
+	// Load characters into the party in the correct order
 	file.OpenTable("characters");
 	vector<uint32> char_ids;
 	file.ReadUIntVector("order", char_ids);
@@ -767,7 +775,7 @@ bool GameGlobal::LoadGame(const string& filename) {
 	}
 	file.CloseTable();
 
-	// ----- (5) Load event data
+	// Load event data
 	vector<string> group_names;
 	file.OpenTable("event_groups");
 	file.ReadTableKeys(group_names);
@@ -775,7 +783,7 @@ bool GameGlobal::LoadGame(const string& filename) {
 		_LoadEvents(file, group_names[i]);
 	file.CloseTable();
 
-	// ----- (6) Report any errors detected from the previous read operations
+	// Report any errors detected from the previous read operations
 	if (file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
 			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << endl;

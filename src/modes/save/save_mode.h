@@ -68,7 +68,11 @@ public:
 *** ***************************************************************************/
 class SaveMode : public hoa_mode_manager::GameMode {
 public:
-	SaveMode(bool enable_saving);
+	/**
+	*** \param enable_saving Tells whether the save mode permits saving.
+	*** \param positions When used in a save point, the save map tile positions are given there.
+	**/
+	SaveMode(bool save_mode, uint32 x_position = 0, uint32 y_position = 0);
 
 	~SaveMode();
 
@@ -94,11 +98,12 @@ private:
 	//! \brief The MenuWindow for the left panel
 	hoa_gui::MenuWindow _left_window;
 
+	//! \brief The save mode title window
+	hoa_gui::MenuWindow _title_window;
+	hoa_gui::TextBox _title_textbox;
+
 	//! \brief Windows to display character previews
 	hoa_save::SmallCharacterWindow _character_window[4];
-
-	//! \brief The music file to be played
-	hoa_audio::MusicDescriptor _save_music;
 
 	//! \brief Current state of SaveMode
 	uint8 _current_state;
@@ -111,9 +116,6 @@ private:
 
 	//! \brief The color used to dim the background screen capture image
 	hoa_video::Color _dim_color;
-
-	//! \brief The list of save/load/cancel
-	hoa_gui::OptionBox _save_options;
 
 	//! \brief The list of files to save/load from
 	hoa_gui::OptionBox _file_list;
@@ -132,8 +134,11 @@ private:
 	hoa_gui::TextBox _time_textbox;
 	hoa_gui::TextBox _drunes_textbox;
 
-	//! \brief Tracks whether games can be saved, or only loaded.
-	bool _saving_enabled;
+	//! \brief Used to know whether a save position has to be saved.
+	uint32 _x_position, _y_position;
+
+	//! \brief Tells whether we're in save or load mode.
+	bool _save_mode;
 }; // class SaveMode : public hoa_mode_manager::GameMode
 
 } // namespace hoa_save

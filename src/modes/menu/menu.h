@@ -50,9 +50,8 @@ enum MAIN_CATEGORY {
 	MAIN_EQUIP          = 2,
 	MAIN_STATUS         = 3,
 //	MAIN_OPTIONS        = 3;
-	MAIN_SAVE           = 4,
-	MAIN_FORMATION      = 5,
-	MAIN_SIZE           = 6
+	MAIN_FORMATION      = 4,
+	MAIN_SIZE           = 5
 };
 
 //! \name Inventory Menu Options Constants
@@ -100,13 +99,6 @@ const uint32 OPTIONS_BACK    = 2;
 const uint32 OPTIONS_SIZE    = 3;
 //@}
 
-//! \name Save Menu Options Constants
-//@{
-const uint32 SAVE_SAVE    = 0;
-const uint32 SAVE_BACK    = 1;
-const uint32 SAVE_SIZE    = 2;
-//@}
-
 //! \name MenuMode OptionBox Show Flags
 //! \brief Constants used to determine which option box is currently showing.
 //@{
@@ -116,9 +108,8 @@ const uint32 SHOW_SKILLS        = 2;
 const uint32 SHOW_EQUIP         = 3;
 const uint32 SHOW_STATUS        = 4;
 //const uint32 SHOW_OPTIONS       = 5;
-const uint32 SHOW_SAVE          = 5;
-const uint32 SHOW_FORMATION     = 6;
-const uint32 SHOW_EXIT          = 7;
+const uint32 SHOW_FORMATION     = 5;
+const uint32 SHOW_EXIT          = 6;
 //@}
 
 /** \name MenuMode Active Window Flags
@@ -218,8 +209,6 @@ private:
 	 **/
 	hoa_gui::MenuWindow *_active_window;
 
-//	private_menu::SaveWindow _save_window;
-
 	// FIXME
 	//std::vector<private_menu::CharacterWindow> _character_windows;
 	//std::vector<private_menu::FormationWindow> _formation_windows;
@@ -254,7 +243,6 @@ private:
 	hoa_gui::OptionBox _menu_options;
 	hoa_gui::OptionBox _menu_equip;
 	hoa_gui::OptionBox _menu_formation;
-	hoa_gui::OptionBox _menu_save;
 	hoa_gui::OptionBox _char_select;
 	//@}
 
@@ -267,7 +255,6 @@ private:
 	void _SetupStatusOptionBox();
 	void _SetupOptionsOptionBox();
 	void _SetupFormationOptionBox();
-	void _SetupSaveOptionBox();
 	void _SetupEquipOptionBox();
 	//@}
 
@@ -281,7 +268,6 @@ private:
 	void _HandleStatusMenu();
 	void _HandleOptionsMenu();
 	void _HandleFormationMenu();
-	void _HandleSaveMenu();
 	void _HandleEquipMenu();
 	//@}
 

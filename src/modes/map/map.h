@@ -137,6 +137,13 @@ public:
 	//! \brief Adds a new zone to the map
 	void AddZone(private_map::MapZone *zone);
 
+	//! \brief Adds a save point (Map Object) at the given coordinates.
+	void AddSavePoint(float x, float y, hoa_map::private_map::MAP_CONTEXT map_context);
+
+	//! \brief Vectors containing the save points animations (when the character is in or not).
+	std::vector<hoa_video::AnimatedImage> active_save_point_animations;
+	std::vector<hoa_video::AnimatedImage> inactive_save_point_animations;
+
 	/** \brief Checks if a GlobalEnemy with the specified id is already loaded in the MapMode#_enemies container
 	*** \param id The id of the enemy to find
 	*** \return True if the enemy is loaded

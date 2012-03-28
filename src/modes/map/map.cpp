@@ -22,6 +22,7 @@
 
 #include "modes/menu/menu.h"
 #include "modes/pause.h"
+#include "modes/save/save_mode.h"
 
 #include "modes/map/map.h"
 #include "modes/map/map_dialogue.h"
@@ -43,6 +44,7 @@ using namespace hoa_video;
 using namespace hoa_global;
 using namespace hoa_menu;
 using namespace hoa_pause;
+using namespace hoa_save;
 using namespace hoa_map::private_map;
 
 namespace hoa_map {
@@ -83,6 +85,39 @@ MapMode::MapMode(string filename) :
 
 	ResetState();
 	PushState(STATE_EXPLORE);
+
+	// Load the save point animation files.
+	AnimatedImage anim;
+	anim.LoadFromAnimationScript("img/misc/save_point/save_point4.lua");
+	active_save_point_animations.push_back(anim);
+
+	anim.Clear();
+	anim.LoadFromAnimationScript("img/misc/save_point/save_point3.lua");
+	active_save_point_animations.push_back(anim);
+
+	anim.Clear();
+	anim.LoadFromAnimationScript("img/misc/save_point/save_point2.lua");
+	active_save_point_animations.push_back(anim);
+
+	anim.Clear();
+	anim.LoadFromAnimationScript("img/misc/save_point/save_point1.lua");
+	inactive_save_point_animations.push_back(anim);
+
+	anim.Clear();
+	anim.LoadFromAnimationScript("img/misc/save_point/save_point2.lua");
+	inactive_save_point_animations.push_back(anim);
+
+	// Transform the animation size to correspond to the map coodinates system.
+	// TODO: Remove that way of setting the video coords, making white borders appear on map sprites.
+	// And remove that hack afterward.
+	for (uint32 i = 0; i < active_save_point_animations.size(); ++i) {
+		active_save_point_animations[i].SetWidth(active_save_point_animations[i].GetWidth() / (GRID_LENGTH / 2));
+		active_save_point_animations[i].SetHeight(active_save_point_animations[i].GetHeight() / (GRID_LENGTH / 2));
+	}
+	for (uint32 i = 0; i < inactive_save_point_animations.size(); ++i) {
+		inactive_save_point_animations[i].SetWidth(inactive_save_point_animations[i].GetWidth() / (GRID_LENGTH / 2));
+		inactive_save_point_animations[i].SetHeight(inactive_save_point_animations[i].GetHeight() / (GRID_LENGTH / 2));
+	}
 
 	// Create the event group name by modifying the filename to consists only of alphanumeric characters and underscores
 	// This will make it a valid identifier name in Lua syntax
@@ -184,16 +219,16 @@ void MapMode::Update() {
 		return;
 	}
 
-	// ---------- (1) Call the map script's update function
+	// Call the map script's update function
 	if (_update_function.is_valid())
 		ScriptCallFunction<void>(_update_function);
 
-	// ---------- (2) Update all animated tile images
+	// Update all animated tile images
 	_tile_supervisor->Update();
 	_object_supervisor->Update();
 	_object_supervisor->SortObjects();
 
-	// ---------- (3) Update the active state of the map
+	// Update the active state of the map
 	switch (CurrentState()) {
 		case STATE_EXPLORE:
 			_UpdateExplore();
@@ -283,12 +318,10 @@ void MapMode::AddGroundObject(MapObject *obj) {
 }
 
 
-
 void MapMode::AddPassObject(MapObject *obj) {
 	_object_supervisor->_pass_objects.push_back(obj);
 	_object_supervisor->_all_objects.insert(make_pair(obj->object_id, obj));
 }
-
 
 
 void MapMode::AddSkyObject(MapObject *obj) {
@@ -297,11 +330,15 @@ void MapMode::AddSkyObject(MapObject *obj) {
 }
 
 
-
 void MapMode::AddZone(MapZone *zone) {
 	_object_supervisor->_zones.push_back(zone);
 }
 
+
+void MapMode::AddSavePoint(float x, float y, MAP_CONTEXT map_context) {
+	SavePoint *save_point = new SavePoint(x, y, map_context);
+	_object_supervisor->_save_points.push_back(save_point);
+}
 
 
 bool MapMode::IsEnemyLoaded(uint32 id) const {
@@ -521,6 +558,10 @@ void MapMode::_UpdateExplore() {
 					treasure_object->Open();
 				}
 			}
+			else if (obj->GetType() == SAVE_TYPE) {
+				SaveMode *save_mode = new SaveMode(true, obj->x_position, obj->y_position);
+				ModeManager->Push(save_mode, false, false);
+			}
 		}
 	}
 
@@ -697,6 +738,8 @@ void MapMode::_DrawMapLayers() {
 	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
 	_tile_supervisor->DrawLowerLayer(&_map_frame);
+	// Save points are engraved on the ground, and thus shouldn't be drawn after walls.
+	_object_supervisor->DrawSavePoints();
 	_tile_supervisor->DrawMiddleLayer(&_map_frame);
 
 	_object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects

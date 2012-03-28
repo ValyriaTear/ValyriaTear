@@ -142,8 +142,9 @@ enum MAP_OBJECT_TYPE {
 	VIRTUAL_TYPE = 1,	//! This is used as another type of NPC sprite, but without interaction.
 	SPRITE_TYPE = 2,    //! This is a NPC sprite. Blocking for the hero, but not for the other sprites.
 	ENEMY_TYPE = 3,		//! This is an enemy sprite. Blocking the hero, and triggering a battle.
-	TREASURE_TYPE = 4	/** This is a treasure, can obtain a treasure from it when exploring,
+	TREASURE_TYPE = 4,	/** This is a treasure, can obtain a treasure from it when exploring,
 						    but blocking for movement. */
+	SAVE_TYPE = 5		//! This is a save point. The player can save while its character is in it.
 };
 
 

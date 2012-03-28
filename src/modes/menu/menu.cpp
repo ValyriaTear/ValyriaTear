@@ -22,8 +22,6 @@
 #include "engine/audio/audio.h"
 #include "modes/pause.h"
 
-#include "modes/save/save_mode.h" // TODO: remove this
-
 #include "engine/mode_manager.h"
 #include "menu.h"
 
@@ -52,7 +50,7 @@ MenuMode* MenuMode::_current_instance = NULL;
 // MenuMode class -- Initialization and Destruction Code
 ////////////////////////////////////////////////////////////////////////////////
 
-MenuMode::MenuMode(ustring locale_name, string locale_image) :
+MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 	_message_window(NULL)
 {
 	if (MENU_DEBUG)
@@ -218,7 +216,6 @@ void MenuMode::Reset() {
 	_SetupSkillsOptionBox();
 	_SetupStatusOptionBox();
 	_SetupOptionsOptionBox();
-	_SetupSaveOptionBox();
 	_SetupEquipOptionBox();
 	_SetupFormationOptionBox();
 } // void MenuMode::Reset()
@@ -324,10 +321,6 @@ void MenuMode::Update() {
 				_HandleOptionsMenu();
 				break;*/
 
-			case SHOW_SAVE:
-				_HandleSaveMenu();
-				break;
-
 			default:
 				cerr << "MENU: ERROR: Invalid menu showing!" << endl;
 				break;
@@ -402,7 +395,6 @@ void MenuMode::Draw() {
 			_HandleOptionsMenu();
 			break;*/
 
-		case SHOW_SAVE:
 		case SHOW_EXIT:
 		case SHOW_FORMATION:
 			_formation_window.Draw();
@@ -424,7 +416,6 @@ void MenuMode::Draw() {
 } // void MenuMode::Draw()
 
 
-//FIX ME:  Adjust for new layout
 void MenuMode::_HandleMainMenu() {
 	switch (_main_options.GetSelection()) {
 		case MAIN_INVENTORY:
@@ -457,19 +448,12 @@ void MenuMode::_HandleMainMenu() {
 			_current_menu = &_menu_equip;
 			break;
 
-		case MAIN_SAVE:
-//			_current_menu_showing = SHOW_SAVE;
-//			_current_menu = &_menu_save;
-		{	hoa_save::SaveMode *SVM = new hoa_save::SaveMode(true);
-			ModeManager->Push(SVM);
-			break;
-		} // end scope
-
 		default:
 			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleMainMenu()" << endl;
 			break;
 	}
 } // void MenuMode::_HandleMainMenu()
+
 
 void MenuMode::_HandleInventoryMenu() {
 	switch (_menu_inventory.GetSelection()) {
@@ -495,6 +479,7 @@ void MenuMode::_HandleInventoryMenu() {
 	}
 }
 
+
 void MenuMode::_SetupOptionBoxCommonSettings(OptionBox *ob) {
 	// Set all the default options
 	ob->SetTextStyle(TextStyle("title22"));
@@ -508,11 +493,10 @@ void MenuMode::_SetupOptionBoxCommonSettings(OptionBox *ob) {
 }
 
 
-
 void MenuMode::_SetupMainOptionBox() {
 	// Setup the main options box
 	_SetupOptionBoxCommonSettings(&_main_options);
-	_main_options.SetDimensions(745.0f, 50.0f, MAIN_SIZE, 1, 6, 1);
+	_main_options.SetDimensions(745.0f, 50.0f, MAIN_SIZE, 1, 5, 1);
 
 	// Generate the strings
 	vector<ustring> options;
@@ -520,14 +504,12 @@ void MenuMode::_SetupMainOptionBox() {
 	options.push_back(UTranslate("Skills"));
 	options.push_back(UTranslate("Equip"));
 	options.push_back(UTranslate("Status"));
-	options.push_back(UTranslate("Save"));
 	options.push_back(UTranslate("Formation"));
 
 	// Add strings and set default selection.
 	_main_options.SetOptions(options);
 	_main_options.SetSelection(MAIN_INVENTORY);
 }
-
 
 
 void MenuMode::_SetupInventoryOptionBox() {
@@ -547,7 +529,6 @@ void MenuMode::_SetupInventoryOptionBox() {
 }
 
 
-
 void MenuMode::_SetupSkillsOptionBox() {
 	// Setup the option box
 	_SetupOptionBoxCommonSettings(&_menu_skills);
@@ -563,6 +544,7 @@ void MenuMode::_SetupSkillsOptionBox() {
 	_menu_skills.SetSelection(SKILLS_USE);
 }
 
+
 void MenuMode::_SetupStatusOptionBox() {
 	// Setup the status option box
 	_SetupOptionBoxCommonSettings(&_menu_status);
@@ -577,7 +559,6 @@ void MenuMode::_SetupStatusOptionBox() {
 	_menu_status.SetOptions(options);
 	_menu_status.SetSelection(STATUS_VIEW);
 }
-
 
 
 void MenuMode::_SetupOptionsOptionBox() {
@@ -596,20 +577,6 @@ void MenuMode::_SetupOptionsOptionBox() {
 	_menu_options.SetSelection(OPTIONS_EDIT);
 }
 
-void MenuMode::_SetupSaveOptionBox() {
-	// setup the save options box
-	_SetupOptionBoxCommonSettings(&_menu_save);
-// 	_menu_save.SetSize(SAVE_SIZE, 1);
-
-	// Generate the strings
-	vector<ustring> options;
-	options.push_back(UTranslate("Save"));
-	options.push_back(UTranslate("Back"));
-
-	// Add strings and set default selection.
-	_menu_save.SetOptions(options);
-	_menu_save.SetSelection(SAVE_SAVE);
-}
 
 void MenuMode::_SetupFormationOptionBox() {
 	// setup the save options box
@@ -679,6 +646,7 @@ void MenuMode::_HandleStatusMenu() {
 	}
 }
 
+
 void MenuMode::_HandleOptionsMenu() {
 	switch (_menu_options.GetSelection()) {
 		case OPTIONS_EDIT:
@@ -703,7 +671,6 @@ void MenuMode::_HandleOptionsMenu() {
 }
 
 
-
 void MenuMode::_HandleFormationMenu() {
 	switch (_menu_formation.GetSelection()) {
 		case FORMATION_SWITCH:
@@ -722,28 +689,6 @@ void MenuMode::_HandleFormationMenu() {
 	}
 }
 
-
-
-void MenuMode::_HandleSaveMenu() {
-	string file_name;
-	switch (_menu_save.GetSelection()) {
-		case SAVE_SAVE: {
-			hoa_save::SaveMode *SVM = new hoa_save::SaveMode(true);
-			ModeManager->Push(SVM);
-			break;
-		}
-
-		case SAVE_BACK: {
-			_current_menu_showing = SHOW_MAIN;
-			_current_menu = &_main_options;
-			break;
-		}
-
-		default: {
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleSaveMenu()" << endl;
-		}
-	}
-}
 
 void MenuMode::_HandleEquipMenu() {
 	switch (_menu_equip.GetSelection()) {
