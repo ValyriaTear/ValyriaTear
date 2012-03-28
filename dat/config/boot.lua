@@ -13,13 +13,21 @@ local animation_timer;
 
 -- Init all the needed variables
 function Initialize(boot_instance)
-    Boot = boot_instance;
+	Boot = boot_instance;
 
-    boot_state = Boot:GetState();
+	boot_state = Boot:GetState();
 
     -- Load the necessary files
-    bckgrnd_id = Boot:AddImage("img/backdrops/boot_background.png", 1024, 769);
-    logo_id = Boot:AddImage("img/logos/valyria_logo_black.png", 630, 318);
+	bckgrnd_id = Boot:AddImage("img/backdrops/boot/background.png", 1024, 768);
+	logo_id = Boot:AddImage("img/logos/valyria_logo_black.png", 630, 318);
+	cloud_field_id = Boot:AddImage("img/backdrops/boot/cloudfield.png", 248, 120);
+	mist_id = Boot:AddImage("img/backdrops/boot/cloudy_mist.png", 1024, 768);
+	fog_id = Boot:AddImage("img/backdrops/boot/fog.png", 1024, 768);
+	crystal_id = Boot:AddImage("img/backdrops/boot/crystal.png", 140, 220);
+	crystal_shadow_id = Boot:AddImage("img/backdrops/boot/crystal_shadow.png", 192, 168);
+	satellite_id = Boot:AddImage("img/backdrops/boot/satellite.png", 34, 34);
+	satellite_shadow_id = Boot:AddImage("img/backdrops/boot/satellite_shadow.png", 48, 32);
+	flare_id = Boot:AddImage("img/backdrops/boot/flare.png", 256, 256);
 
     -- Init the timer
     animation_timer = hoa_system.SystemTimer(7000, 0);
@@ -35,8 +43,41 @@ end
 local logo_alpha = 0.0;
 local bckgrnd_alpha = 0.0;
 
+-- cloud field members
+local x_positions1 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
+local y_position1 = 400.0;
+local x_positions2 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
+local y_position2 = 330.0;
+local x_positions3 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
+local y_position3 = 260.0;
+local x_positions4 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
+local y_position4 = 190.0;
+local x_positions5 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
+local y_position5 = 120.0;
+local x_positions6 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
+local y_position6 = 50.0;
 
-function UpdateAnimation()
+-- crystal members
+local crystal_decay = 0.0;
+local crystal_up = true;
+
+-- satellite members
+local sat1_decay = 0.0;
+local sat1_x_position = -15.0;
+local sat1_up = true;
+local sat1_behind = false;
+
+local sat2_decay = 20.0;
+local sat2_x_position = 80.0;
+local sat2_up = false;
+local sat2_behind = false;
+
+local sat3_decay = 10.0;
+local sat3_x_position = 40.0;
+local sat3_up = true;
+local sat3_behind = true;
+
+function UpdateIntroFade()
     -- After one second of black, start fade in the logo
     if (animation_timer:GetTimeExpired() > 1000
             and animation_timer:GetTimeExpired() <= 4000) then
@@ -50,11 +91,134 @@ function UpdateAnimation()
 	end
 end
 
+-- Put the x coord on screen
+function fix_pos(position)
+	if (position <= -248.0) then
+		return position + 1224.0;
+	else
+		return position;
+	end
+end
+
+function UpdateBackgroundAnimation()
+	local time_expired = SystemManager:GetUpdateTime();
+
+	-- deal with all the clouds
+	for i=1, #x_positions1 do
+		x_positions1[i] = fix_pos(x_positions1[i]) - 0.1 * time_expired;
+	end
+
+	for i=1, #x_positions2 do
+		x_positions2[i] = fix_pos(x_positions2[i]) - 0.2 * time_expired;
+	end
+
+	for i=1, #x_positions3 do
+		x_positions3[i] = fix_pos(x_positions3[i]) - 0.3 * time_expired;
+	end
+
+	for i=1, #x_positions4 do
+		x_positions4[i] = fix_pos(x_positions4[i]) - 0.4 * time_expired;
+	end
+
+	for i=1, #x_positions5 do
+		x_positions5[i] = fix_pos(x_positions5[i]) - 0.5 * time_expired;
+	end
+
+	for i=1, #x_positions6 do
+		x_positions6[i] = fix_pos(x_positions6[i]) - 0.6 * time_expired;
+	end
+
+	-- Compute the crystal and shadow movement
+	if (crystal_up) then
+		crystal_decay = crystal_decay + 0.01 * time_expired;
+		if (crystal_decay > 20.0) then
+			crystal_up = false;
+		end
+	else
+		crystal_decay = crystal_decay - 0.01 * time_expired;
+		if (crystal_decay < 0.0) then
+			crystal_up = true;
+		end
+	end
+
+	-- compute the satellite movement
+	if (sat1_up) then
+		sat1_decay = sat1_decay + 0.02 * time_expired;
+		if (sat1_decay > 15.0) then
+			sat1_up = false;
+		end
+	else
+		sat1_decay = sat1_decay - 0.02 * time_expired;
+		if (sat1_decay < -15.0) then
+			sat1_up = true;
+		end
+	end
+	if (sat1_behind) then
+		sat1_x_position = sat1_x_position - 0.03 * time_expired;
+		if (sat1_x_position < -25.0) then
+			sat1_behind = false;
+		end
+	else
+		sat1_x_position = sat1_x_position + 0.03 * time_expired;
+		if (sat1_x_position > 110.0) then
+			sat1_behind = true;
+		end
+	end
+
+	if (sat2_up) then
+		sat2_decay = sat2_decay + 0.02 * time_expired;
+		if (sat2_decay > 15.0) then
+			sat2_up = false;
+		end
+	else
+		sat2_decay = sat2_decay - 0.02 * time_expired;
+		if (sat2_decay < -15.0) then
+			sat2_up = true;
+		end
+	end
+	if (sat2_behind) then
+		sat2_x_position = sat2_x_position - 0.03 * time_expired;
+		if (sat2_x_position < -25.0) then
+			sat2_behind = false;
+		end
+	else
+		sat2_x_position = sat2_x_position + 0.03 * time_expired;
+		if (sat2_x_position > 110.0) then
+			sat2_behind = true;
+		end
+	end
+
+	if (sat3_up) then
+		sat3_decay = sat3_decay + 0.02 * time_expired;
+		if (sat3_decay > 15.0) then
+			sat3_up = false;
+		end
+	else
+		sat3_decay = sat3_decay - 0.02 * time_expired;
+		if (sat3_decay < -15.0) then
+			sat3_up = true;
+		end
+	end
+	if (sat3_behind) then
+		sat3_x_position = sat3_x_position - 0.03 * time_expired;
+		if (sat3_x_position < -25.0) then
+			sat3_behind = false;
+		end
+	else
+		sat3_x_position = sat3_x_position + 0.03 * time_expired;
+		if (sat3_x_position > 110.0) then
+			sat3_behind = true;
+		end
+	end
+end
+
 
 -- Update the animation
 function Update()
 
-    animation_timer:Update();
+	animation_timer:Update();
+
+	UpdateBackgroundAnimation();
 
     if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_INTRO) then
         -- Start the timer
@@ -66,7 +230,7 @@ function Update()
         end
 
         -- Update the starting animation
-        UpdateAnimation();
+        UpdateIntroFade();
     else
 		logo_alpha = 1.0;
 		bckgrnd_alpha = 1.0;
@@ -78,10 +242,89 @@ function Update()
 end
 
 
+function DrawCloudFieldLine(x_positions, y_position)
+
+	for _,v in pairs(x_positions) do
+		VideoManager:Move(v, y_position);
+		Boot:DrawImage(cloud_field_id, hoa_video.Color(1.0, 1.0, 1.0, 0.6 * bckgrnd_alpha));
+	end
+end
+
+
 function DrawMenuBackground()
+	-- The background image
     VideoManager:Move(0.0, 769.0);
     Boot:DrawImage(bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha));
-    VideoManager:Move(198.0, 667.0);
+
+	-- The passing clouds
+	DrawCloudFieldLine(x_positions1, y_position1);
+	DrawCloudFieldLine(x_positions2, y_position2);
+	DrawCloudFieldLine(x_positions3, y_position3);
+	DrawCloudFieldLine(x_positions4, y_position4);
+	DrawCloudFieldLine(x_positions5, y_position5);
+	DrawCloudFieldLine(x_positions6, y_position6);
+
+	-- front mist + fog
+    VideoManager:Move(0.0, 769.0);
+    Boot:DrawImage(mist_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
+    Boot:DrawImage(fog_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.8));
+
+	-- satellite behind
+	if (sat1_behind) then
+		VideoManager:Move(640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0) );
+		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+
+		VideoManager:Move(448.0 + sat1_x_position, 400.0 + sat1_decay);
+		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+	end
+	if (sat2_behind) then
+		VideoManager:Move(640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0) );
+		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+
+		VideoManager:Move(448.0 + sat2_x_position, 400.0 + sat2_decay);
+		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+	end
+	if (sat3_behind) then
+		VideoManager:Move(640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0) );
+		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+
+		VideoManager:Move(448.0 + sat3_x_position, 400.0 + sat3_decay);
+		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+	end
+
+	-- Crystal
+	VideoManager:Move(498.0 + crystal_decay, 330.0);
+	Boot:DrawImage(crystal_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+	VideoManager:Move(384.0, 440.0 + crystal_decay);
+	Boot:DrawImage(flare_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
+	VideoManager:Move(448.0, 400.0 + crystal_decay);
+	Boot:DrawImage(crystal_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+
+	-- satellite in front
+	if (sat1_behind == false) then
+		VideoManager:Move(640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0) );
+		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+
+		VideoManager:Move(448.0 + sat1_x_position, 400.0 + sat1_decay);
+		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+	end
+	if (sat2_behind == false) then
+		VideoManager:Move(640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0) );
+		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+
+		VideoManager:Move(448.0 + sat2_x_position, 400.0 + sat2_decay);
+		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+	end
+	if (sat3_behind == false) then
+		VideoManager:Move(640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0) );
+		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+
+		VideoManager:Move(448.0 + sat3_x_position, 400.0 + sat3_decay);
+		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+	end
+
+	-- Logo
+    VideoManager:Move(198.0, 750.0);
     Boot:DrawImage(logo_id, hoa_video.Color(1.0, 1.0, 1.0, logo_alpha));
 end
 
