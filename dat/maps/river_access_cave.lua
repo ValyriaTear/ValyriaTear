@@ -480,13 +480,24 @@ function Load(m)
 	CreateDialogue();
 	CreateEvents();
 
+	-- Deal with possible saved position (on save points).
+	local x_position = GlobalManager:GetSaveLocationX();
+	local y_position = GlobalManager:GetSaveLocationY();
+
+	if (x_position ~= 0 and y_position ~= 0) then
+		-- Use the save point position, and clear the save position data for next maps
+		GlobalManager:UnsetSaveLocation();
+		-- Make the character look at us in that case
+		claudius:SetDirection(hoa_map.MapMode.SOUTH);
+	else
+		-- Set up the entering position to the cave entrance
+		x_position = 12;
+		y_position = 157;
+	end
+
 	Map:SetCamera(claudius);
-    Map:MoveVirtualFocus(80, 130);
-
-	-- DEBUG: uncomment the lines below to set the camera to locations close to testing areas
-
-	-- Location: just before enemy boss
-	-- Map.camera:SetXPosition(205, 0); Map.camera:SetYPosition(5, 0);
+	Map.camera:SetXPosition(x_position, 0); Map.camera:SetYPosition(y_position, 0);
+	Map:MoveVirtualFocus(x_position, y_position);
 end
 
 
@@ -569,6 +580,12 @@ function CreateObjects()
 	object:SetNoCollision(false);
 	object:AddAnimation("img/misc/skeleton_corpse.png");
 	Map:AddGroundObject(object);
+
+	-- save points
+	-- Near cave entrance
+	Map:AddSavePoint(86, 134, hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
+	-- Near river bed
+	Map:AddSavePoint(205, 5, hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
 end -- function CreateObjects()
 
 

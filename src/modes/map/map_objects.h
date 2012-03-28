@@ -334,7 +334,7 @@ struct MapObject_Ptr_Less {
 ***
 *** \note If the object does not have any animated images, set the 'updatable'
 *** member of the base class to false. Forgetting to do this will do no harm, but
-*** it will
+*** it will make it heavier.
 *** ***************************************************************************/
 class PhysicalObject : public MapObject {
 public:
@@ -383,6 +383,37 @@ public:
 		{ return current_animation; }
 	//@}
 }; // class PhysicalObject : public MapObject
+
+/** ****************************************************************************
+*** \brief Represents save point on the map
+*** ***************************************************************************/
+class SavePoint : public MapObject {
+public:
+	SavePoint(uint16 x, uint16 y, MAP_CONTEXT map_context);
+
+	~SavePoint()
+	{}
+
+	//! \brief Updates the object's current animation.
+	//! \note the actual image resources is handled by the main map object.
+	void Update();
+
+	//! \brief Draws the object to the screen, if it is visible.
+	//! \note the actual image resources is handled by the main map object.
+	void Draw();
+
+	//! \brief Tells whether a character is in or not, and setup the animation
+	//! accordingly.
+	void SetActive(bool active);
+
+private:
+	//! \brief A reference to the current map save animation.
+	std::vector<hoa_video::AnimatedImage>* _animations;
+
+	//! \brief Tells whether the save has become active
+	bool _save_active;
+	//@}
+}; // class SavePoint : public MapObject
 
 
 /** ****************************************************************************
@@ -525,6 +556,7 @@ public:
 	*** upon its return. Take measures to retain this information before calling these functions if necessary.
 	**/
 	//@{
+	void DrawSavePoints();
 	void DrawGroundObjects(const bool second_pass);
 	void DrawPassObjects();
 	void DrawSkyObjects();
@@ -626,6 +658,12 @@ public:
 	}
 
 private:
+	//! \brief Returns the nearest save point. Used by FindNearestObject.
+	private_map::MapObject* _FindNearestSavePoint(const VirtualSprite* sprite);
+
+	//! \brief Updates save points animation and active state.
+	void _UpdateSavePoints();
+
 	/** \brief The number of rows and columns in the collision gride
 	*** The number of collision grid rows and columns is always equal to twice
 	*** that of the number of rows and columns of tiles (stored in the TileManager).
@@ -661,6 +699,10 @@ private:
 	*** The ground object layer is where most objects and sprites exist in a typical map.
 	**/
 	std::vector<MapObject*> _ground_objects;
+
+	//! \brief A container for all of the save points, quite similar as the ground objects container.
+	//! \note Save points are not registered in _all_objects.
+	std::vector<SavePoint*> _save_points;
 
 	/** \brief A container for all of the map objects located on the pass layer.
 	*** The pass object layer is named so because objects on this layer can both be

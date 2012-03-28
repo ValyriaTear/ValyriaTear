@@ -52,20 +52,21 @@ const uint8 SAVE_LOAD_GAME      = 1;
 
 //! \name SaveMode States
 //@{
-const uint8 SAVE_MODE_NORMAL          = 0;
-const uint8 SAVE_MODE_SAVING          = 1;
-const uint8 SAVE_MODE_LOADING         = 2;
-const uint8 SAVE_MODE_CONFIRMING_SAVE = 3;
-const uint8 SAVE_MODE_SAVE_COMPLETE   = 4;
-const uint8 SAVE_MODE_SAVE_FAILED     = 5;
-const uint8 SAVE_MODE_FADING_OUT      = 6;
+const uint8 SAVE_MODE_SAVING          = 0;
+const uint8 SAVE_MODE_LOADING         = 1;
+const uint8 SAVE_MODE_CONFIRMING_SAVE = 2;
+const uint8 SAVE_MODE_SAVE_COMPLETE   = 3;
+const uint8 SAVE_MODE_SAVE_FAILED     = 4;
+const uint8 SAVE_MODE_FADING_OUT      = 5;
 //@}
 
-SaveMode::SaveMode(bool enable_saving) :
+SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 	GameMode(),
-	_current_state(SAVE_MODE_NORMAL),
+	_current_state(SAVE_MODE_LOADING),
 	_dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
-	_saving_enabled(enable_saving)
+	_x_position(x_position),
+	_y_position(y_position),
+	_save_mode(save_mode)
 {
 	_location_name = MakeUnicodeString("");
 
@@ -81,6 +82,21 @@ SaveMode::SaveMode(bool enable_saving) :
 	_left_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
 	_left_window.Show();
 
+	_title_window.Create(600.0f, 50.0f);
+	_title_window.SetPosition(212.0f, 680.0f);
+	_title_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
+	_title_window.Show();
+
+	// Initialize the save successful message box
+	_title_textbox.SetPosition(552.0f, 665.0f);
+	_title_textbox.SetDimensions(200.0f, 50.0f);
+	_title_textbox.SetTextStyle(TextStyle("title22"));
+	_title_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+	if (_save_mode)
+		_title_textbox.SetDisplayText(UTranslate("Save Game"));
+	else
+		_title_textbox.SetDisplayText(UTranslate("Load Game"));
+
 	for (int i = 0; i < 4; i++) {
 		_character_window[i].Create(450.0f, 100.0f);
 		_character_window[i].SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
@@ -91,22 +107,6 @@ SaveMode::SaveMode(bool enable_saving) :
 	_character_window[1].SetPosition(355.0f, 530.0f);
 	_character_window[2].SetPosition(355.0f, 430.0f);
 	_character_window[3].SetPosition(355.0f, 330.0f);
-
-	// Initialize the save options box
-	_save_options.SetPosition(512.0f, 384.0f);
-	_save_options.SetDimensions(250.0f, 200.0f, 1, 2, 1, 2);
-	_save_options.SetTextStyle(TextStyle("title22"));
-
-	_save_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_save_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_save_options.SetSelectMode(VIDEO_SELECT_SINGLE);
-	_save_options.SetCursorOffset(-58.0f, 18.0f);
-
-	_save_options.AddOption(UTranslate("Save Game"));
-	_save_options.AddOption(UTranslate("Load Game"));
-	_save_options.SetSelection(SAVE_GAME);
-
-	_save_options.SetSkipDisabled(true);
 
 	// Initialize the save options box
 	_file_list.SetPosition(315.0f, 384.0f);
@@ -141,7 +141,7 @@ SaveMode::SaveMode(bool enable_saving) :
 	_confirm_save_optionbox.SetSelection(0);
 
 	// Initialize the save successful message box
-	_save_success_message.SetPosition(512.0f, 384.0f);
+	_save_success_message.SetPosition(552.0f, 454.0f);
 	_save_success_message.SetDimensions(250.0f, 100.0f);
 	_save_success_message.SetTextStyle(TextStyle("title22"));
 	_save_success_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -176,18 +176,8 @@ SaveMode::SaveMode(bool enable_saving) :
 	_drunes_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 	_drunes_textbox.SetDisplayText(" ");
 
-	hoa_gui::TextBox _location_name_textbox;
-		hoa_gui::TextBox _time_textbox;
-		hoa_gui::TextBox _drunes_textbox;
-
-	if (_saving_enabled == false) {
-		_save_options.EnableOption(SAVE_GAME, false);
-		// Directly display the saves list window in that case.
-		_current_state = SAVE_MODE_LOADING;
-	}
-
-	if (!_save_music.LoadAudio("mus/Save_Game.ogg"))
-		PRINT_ERROR << "failed to load save/load music file: " << endl;
+	if (_save_mode)
+		_current_state = SAVE_MODE_SAVING;
 
 	_window.Show();
 
@@ -221,8 +211,6 @@ void SaveMode::Reset() {
 
 	VideoManager->SetCoordSys(0.0f, 1023.0f, 0.0f, 767.0f);
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-
-	_save_music.Play();
 }
 
 
@@ -233,7 +221,6 @@ void SaveMode::Update() {
 		return;
 	}
 
-	_save_options.Update();
 	_file_list.Update();
 
 	// Screen is in the process of fading out, in order to load a game
@@ -241,26 +228,11 @@ void SaveMode::Update() {
 		return;
 	}
 	// Otherwise, it's time to start handling events.
-	else if (InputManager->ConfirmPress() == true) {
+	else if (InputManager->ConfirmPress()) {
 		switch (_current_state) {
-			case SAVE_MODE_NORMAL:
-				if (_save_options.GetSelection() == SAVE_GAME && _saving_enabled) {
-					_current_state = SAVE_MODE_SAVING;
-				}
-				else if (_save_options.GetSelection() == SAVE_LOAD_GAME) {
-					_current_state = SAVE_MODE_LOADING;
-				}
-				else {
-					ModeManager->Pop();
-				}
-				break;
-
 			case SAVE_MODE_SAVING:
 				if (_file_list.GetSelection() > -1) {
 					_current_state = SAVE_MODE_CONFIRMING_SAVE;
-				}
-				else {
-					_current_state = SAVE_MODE_NORMAL;
 				}
 				break;
 
@@ -273,7 +245,7 @@ void SaveMode::Update() {
 					f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
 					string filename = f.str();
 					// now, attempt to save the game.  If failure, we need to tell the user that!
-					if (GlobalManager->SaveGame(filename) == true) {
+					if (GlobalManager->SaveGame(filename, _x_position, _y_position)) {
 						_current_state = SAVE_MODE_SAVE_COMPLETE;
 					}
 					else {
@@ -295,38 +267,20 @@ void SaveMode::Update() {
 					_LoadGame( _file_list.GetSelection() );
 				}
 				else {
-					if (_saving_enabled)
-					{
-						_current_state = SAVE_MODE_NORMAL;
-					}
-					else
-					{
-						// Leave right away where there is nothing else
-						// to do than loading.
-						ModeManager->Pop();
-					}
+					// Leave right away where there is nothing else
+					// to do than loading.
+					ModeManager->Pop();
 				}
 				break;
 		} // end switch (_current_state)
-	} // end if (InputManager->ConfirmPress() == true)
+	} // end if (InputManager->ConfirmPress())
 
-	else if (InputManager->CancelPress() == true) {
+	else if (InputManager->CancelPress()) {
 		switch (_current_state) {
-			case SAVE_MODE_NORMAL:
-				ModeManager->Pop();
-				return;
-
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
-				if (_saving_enabled)
-				{
-					_current_state = SAVE_MODE_NORMAL;
-				}
-				else
-				{
-					// Leave right away where there is nothing else to do than
-					// loading.
-					ModeManager->Pop();
-				}
+				// Leave right away where there is nothing else to do than
+				// loading.
+				ModeManager->Pop();
 				break;
 
 			case SAVE_MODE_CONFIRMING_SAVE:
@@ -334,14 +288,10 @@ void SaveMode::Update() {
 				_PreviewGame( _file_list.GetSelection() );
 				break;
 		} // end switch (_current_state)
-	} // end if (InputManager->CancelPress() == true)
+	} // end if (InputManager->CancelPress())
 
-	else if (InputManager->UpPress() == true) {
+	else if (InputManager->UpPress()) {
 		switch (_current_state) {
-			case SAVE_MODE_NORMAL:
-				_save_options.InputUp();
-				return;
-
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
 				_file_list.InputUp();
 				if (_file_list.GetSelection() > -1) {
@@ -358,14 +308,10 @@ void SaveMode::Update() {
 				_confirm_save_optionbox.InputUp();
 				break;
 		} // end switch (_current_state)
-	} // end if (InputManager->UpPress() == true)
+	} // end if (InputManager->UpPress())
 
-	else if (InputManager->DownPress() == true) {
+	else if (InputManager->DownPress()) {
 		switch (_current_state) {
-			case SAVE_MODE_NORMAL:
-				_save_options.InputDown();
-				return;
-
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
 				_file_list.InputDown();
 				if (_file_list.GetSelection() > -1) {
@@ -377,7 +323,7 @@ void SaveMode::Update() {
 				_confirm_save_optionbox.InputDown();
 				break;
 		} // end switch (_current_state)
-	} // end if (InputManager->DownPress() == true)
+	} // end if (InputManager->DownPress())
 } // void SaveMode::Update()
 
 
@@ -391,14 +337,11 @@ void SaveMode::Draw() {
 	_screen_capture.Draw(_dim_color);
 
 	// Re-set the coordinate system for everything else
-	VideoManager->SetCoordSys(0.0f, 1023.0f, 0.0f, 767.0f);
+	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f);
 
 	_window.Draw();
 
 	switch (_current_state) {
-		case SAVE_MODE_NORMAL:
-			_save_options.Draw();
-			break;
 		case SAVE_MODE_SAVING:
 		case SAVE_MODE_LOADING:
 			_left_window.Draw(); // draw a panel on the left for the file list
@@ -425,6 +368,10 @@ void SaveMode::Draw() {
 
 			break;
 	}
+
+	// Draw the title above everything else
+	_title_window.Draw();
+	_title_textbox.Draw();
 }
 
 bool SaveMode::_LoadGame(int id) {
@@ -434,7 +381,7 @@ bool SaveMode::_LoadGame(int id) {
 
 	if (DoesFileExist(filename)) {
 		_current_state = SAVE_MODE_FADING_OUT;
-		// TODO: stop music, if it's playing
+		AudioManager->StopAllMusic();
 
 		GlobalManager->LoadGame(filename);
 

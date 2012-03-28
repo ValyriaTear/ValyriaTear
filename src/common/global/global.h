@@ -373,9 +373,10 @@ public:
 
 	/** \brief Saves all global data to a saved game file
 	*** \param filename The filename of the saved game file where to write the data to
+	*** \param positions When used in a save point, the save map tile positions are given there.
 	*** \return True if the game was successfully saved, false if it was not
 	**/
-	bool SaveGame(const std::string& filename);
+	bool SaveGame(const std::string& filename, uint32 x_position = 0, uint32 y_position = 0);
 
 	/** \brief Loads all global data from a saved game file
 	*** \param filename The filename of the saved game file where to read the data from
@@ -396,6 +397,18 @@ public:
 
 	hoa_utils::ustring& GetLocationName()
 		{ return _location_name; }
+
+	uint32 GetSaveLocationX()
+		{ return _x_save_map_position; }
+
+	uint32 GetSaveLocationY()
+		{ return _y_save_map_position; }
+
+	/** \brief Unset the save location once retreived at load time.
+	*** It should be done in the map code once the location has been set up.
+	**/
+	void UnsetSaveLocation()
+		{ _x_save_map_position = 0; _y_save_map_position = 0; }
 
 	hoa_video::StillImage& GetLocationGraphic()
 		{ return _location_graphic; }
@@ -478,6 +491,9 @@ private:
 
 	//! \brief The name of the map that the current party is on
 	hoa_utils::ustring _location_name;
+
+	//! \brief last save point map tile location.
+	uint32 _x_save_map_position, _y_save_map_position;
 
 	//! \brief The graphical image which represents the current location
 	hoa_video::StillImage _location_graphic;

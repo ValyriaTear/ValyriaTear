@@ -67,7 +67,7 @@ MapObject::MapObject() :
 
 
 bool MapObject::ShouldDraw() {
-	if (visible == false)
+	if (!visible)
 		return false;
 
 	// If the context is not in one of the active context, don't display it.
@@ -202,6 +202,71 @@ void PhysicalObject::AddAnimation(string filename) {
 	}
 
 	animations.push_back(new_animation);
+}
+
+
+// Save points
+SavePoint::SavePoint(uint16 x, uint16 y, MAP_CONTEXT map_context):
+	MapObject(),
+	_animations(0),
+	_save_active(false)
+{
+	x_position = x;
+	y_position = y;
+
+	_object_type = SAVE_TYPE;
+	context = map_context;
+	no_collision = true;
+
+	_animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
+
+	// Set the collision rectangle according to the dimensions of the first frame
+	// Remove a margin to the save point so that the character has to actually
+	// enter the save point before colliding with it.
+	SetCollHalfWidth((_animations->at(0).GetWidth() - 1.0f) / 2.0f);
+	SetCollHeight(_animations->at(0).GetHeight() - 0.3f);
+
+	// Setup the image collision for the display update
+	SetImgHalfWidth(_animations->at(0).GetWidth() / 2.0f);
+	SetImgHeight(_animations->at(0).GetHeight());
+
+	// Preload the save active sound
+	AudioManager->LoadSound("snd/heal_spell.wav");
+}
+
+void SavePoint::Update() {
+	if (!_animations)
+		return;
+
+	if (updatable) {
+		for (uint32 i = 0; i < _animations->size(); ++i)
+			_animations->at(i).Update();
+	}
+}
+
+
+void SavePoint::Draw() {
+	if (!_animations)
+		return;
+
+	if (MapObject::ShouldDraw()) {
+		for (uint32 i = 0; i < _animations->size(); ++i)
+			_animations->at(i).Draw();
+	}
+}
+
+void SavePoint::SetActive(bool active) {
+	if (active) {
+		_animations = &MapMode::CurrentInstance()->active_save_point_animations;
+
+		// Play a sound when the save point become active
+		if (!_save_active)
+			AudioManager->PlaySound("snd/heal_spell.wav");
+	}
+	else {
+		_animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
+	}
+	_save_active = active;
 }
 
 // ----------------------------------------------------------------------------
@@ -339,6 +404,9 @@ ObjectSupervisor::~ObjectSupervisor() {
 	for (uint32 i = 0; i < _ground_objects.size(); i++) {
 		delete(_ground_objects[i]);
 	}
+	for (uint32 i = 0; i < _save_points.size(); ++i) {
+		delete(_save_points[i]);
+	}
 	for (uint32 i = 0; i < _pass_objects.size(); i++) {
 		delete(_pass_objects[i]);
 	}
@@ -424,6 +492,8 @@ void ObjectSupervisor::Update() {
 	for (uint32 i = 0; i < _ground_objects.size(); i++) {
 		_ground_objects[i]->Update();
 	}
+	// Update save point animation and activeness.
+	_UpdateSavePoints();
 	for (uint32 i = 0; i < _pass_objects.size(); i++) {
 		_pass_objects[i]->Update();
 	}
@@ -438,6 +508,12 @@ void ObjectSupervisor::Update() {
 	// TODO: examine all sprites for movement and context change, then check all resident zones to see if the sprite has entered
 }
 
+
+void ObjectSupervisor::DrawSavePoints() {
+	for (uint32 i = 0; i < _save_points.size(); ++i) {
+		_save_points[i]->Draw();
+	}
+}
 
 
 void ObjectSupervisor::DrawGroundObjects(const bool second_pass) {
@@ -474,10 +550,48 @@ void ObjectSupervisor::DrawDialogIcons() {
 	}
 }
 
+
+void ObjectSupervisor::_UpdateSavePoints() {
+	VirtualSprite *sprite = MapMode::CurrentInstance()->GetCamera();
+
+	MapRectangle spr_rect;
+	if (sprite)
+		spr_rect = sprite->GetCollisionRectangle();
+
+	for (std::vector<SavePoint*>::iterator it = _save_points.begin();
+		it != _save_points.end(); ++it) {
+		(*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
+										(*it)->GetCollisionRectangle()));
+		(*it)->Update();
+	}
+}
+
+
+MapObject* ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite* sprite) {
+	if (sprite == NULL)
+	    return NULL;
+
+	for (std::vector<SavePoint*>::iterator it = _save_points.begin();
+		it != _save_points.end(); ++it) {
+
+		// If the object and sprite do not exist in one of the same context,
+		// do not consider the object for the search
+		if (!((*it)->context & sprite->context))
+			continue;
+
+		if (MapRectangle::CheckIntersection(sprite->GetCollisionRectangle(),
+										(*it)->GetCollisionRectangle())) {
+			return (*it);
+		}
+	}
+	return NULL;
+}
+
+
 MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, float search_distance) {
 	// NOTE: We don't check if the argument is NULL here for performance reasons
 
-	// ---------- (1) Using the sprite's direction, determine the boundaries of the search area to check for objects
+	// Using the sprite's direction, determine the boundaries of the search area to check for objects
 	MapRectangle search_area = sprite->GetCollisionRectangle();
 	if (sprite->direction & FACING_NORTH) {
 		search_area.bottom = search_area.top;
@@ -500,12 +614,12 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 		return NULL;
 	}
 
-	// ---------- (2) Go through all objects and determine which (if any) lie within the search area
+	// Go through all objects and determine which (if any) lie within the search area
 	vector<MapObject*> valid_objects; // A vector to hold objects which are inside the search area (either partially or fully)
 	vector<MapObject*>* search_vector = NULL; // A pointer to the vector of objects to search
 
 	// Only search the object layer that the sprite resides on. Note that we do not consider searching the pass layer.
-	if (sprite->sky_object == true)
+	if (sprite->sky_object)
 		search_vector = &_sky_objects;
 	else
 		search_vector = &_ground_objects;
@@ -524,15 +638,15 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 			valid_objects.push_back(*i);
 	} // for (map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
 
-	// ---------- (3) Check for early exit conditions
-	if (valid_objects.empty() == true) {
-		return NULL;
+	if (valid_objects.empty()) {
+		// If no sprite was here, try searching a save point.
+		return _FindNearestSavePoint(sprite);
 	}
 	else if (valid_objects.size() == 1) {
 		return valid_objects[0];
 	}
 
-	// ---------- (4) Figure out which of the valid objects is the closest to the sprite
+	// Figure out which of the valid objects is the closest to the sprite
 	// NOTE: For simplicity, we use the Manhattan distance to determine which object is the closest
 	MapObject* closest_obj = valid_objects[0];
 

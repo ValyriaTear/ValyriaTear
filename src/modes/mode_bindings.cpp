@@ -102,6 +102,7 @@ void BindModeCode() {
 			.def("AddPassObject", &MapMode::AddPassObject, adopt(_2))
 			.def("AddSkyObject", &MapMode::AddSkyObject, adopt(_2))
 			.def("AddZone", &MapMode::AddZone, adopt(_2))
+			.def("AddSavePoint", &MapMode::AddSavePoint)
 			.def("SetCamera", (void(MapMode::*)(private_map::VirtualSprite*))&MapMode::SetCamera)
 			.def("SetCamera", (void(MapMode::*)(private_map::VirtualSprite*, uint32))&MapMode::SetCamera)
 			.def("MoveVirtualFocus", (void(MapMode::*)(uint16, uint16))&MapMode::MoveVirtualFocus)
