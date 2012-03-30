@@ -1152,7 +1152,7 @@ function CreateEvents()
 		event:AddEventLinkAtEnd(24, 500);
 		EventManager:RegisterEvent(event);
 		-- Move player sprite to NPC that called out
-		event = hoa_map.PathMoveSpriteEvent(24, 1000, 149, 68);
+		event = hoa_map.PathMoveSpriteEvent(24, 1000, 149, 68, true);
 		event:AddEventLinkAtEnd(25);
 		EventManager:RegisterEvent(event);
 		-- Exit scene state
@@ -1172,7 +1172,7 @@ function CreateEvents()
         event:AddEventLinkAtEnd(32, 300);
         EventManager:RegisterEvent(event);
 		-- Move knight sprite down passage
-		event = hoa_map.PathMoveSpriteEvent(32, knight_path_sprite, 210, 61);
+		event = hoa_map.PathMoveSpriteEvent(32, knight_path_sprite, 210, 61, false);
 		--event:AddEventLinkAtStart(32);
 		event:AddEventLinkAtStart(33, 2000);
 		event:AddEventLinkAtStart(34, 3000);
@@ -1242,15 +1242,15 @@ function CreateEvents()
 		event:AddEventLinkAtEnd(51);
 		EventManager:RegisterEvent(event);
 		-- Move camera inside of wall
-		event = hoa_map.PathMoveSpriteEvent(51, claudius, 85, 6);
+		event = hoa_map.PathMoveSpriteEvent(51, claudius, 85, 6, true);
 		event:AddEventLinkAtEnd(52);
 		EventManager:RegisterEvent(event);
 		-- Move camera down and to the right near wall passage exit
-		event = hoa_map.PathMoveSpriteEvent(52, claudius, 104, 22);
+		event = hoa_map.PathMoveSpriteEvent(52, claudius, 104, 22, true);
 		event:AddEventLinkAtEnd(53);
 		EventManager:RegisterEvent(event);
 		-- Move sprite back outside of wall
-		event = hoa_map.PathMoveSpriteEvent(53, claudius, 112, 21);
+		event = hoa_map.PathMoveSpriteEvent(53, claudius, 112, 21, true);
 		event:AddEventLinkAtEnd(54);
 		EventManager:RegisterEvent(event);
 		-- Make player sprite visible and restore collision detection
@@ -1266,15 +1266,15 @@ function CreateEvents()
 		event:AddEventLinkAtEnd(61);
 		EventManager:RegisterEvent(event);
 		-- Move camera inside of wall
-		event = hoa_map.PathMoveSpriteEvent(61, claudius, 112, 21);
+		event = hoa_map.PathMoveSpriteEvent(61, claudius, 112, 21, true);
 		event:AddEventLinkAtEnd(62);
 		EventManager:RegisterEvent(event);
 		-- Move camera up and to the left near wall passage exit
-		event = hoa_map.PathMoveSpriteEvent(62, claudius, 85, 6);
+		event = hoa_map.PathMoveSpriteEvent(62, claudius, 85, 6, true);
 		event:AddEventLinkAtEnd(63);
 		EventManager:RegisterEvent(event);
 		-- Move sprite back outside of wall
-		event = hoa_map.PathMoveSpriteEvent(63, claudius, 76, 6);
+		event = hoa_map.PathMoveSpriteEvent(63, claudius, 76, 6, true);
 		event:AddEventLinkAtEnd(64);
 		EventManager:RegisterEvent(event);
 		-- Make player sprite visible and restore collision detection
@@ -1298,7 +1298,7 @@ function CreateEvents()
 		event:AddEventLinkAtEnd(81);
 		EventManager:RegisterEvent(event);
 		-- Move player sprite in to the gathering of knights in the river bed
-		event = hoa_map.PathMoveSpriteEvent(81, claudius, 238, 12);
+		event = hoa_map.PathMoveSpriteEvent(81, claudius, 238, 12, true);
 		event:AddEventLinkAtEnd(82);
 		EventManager:RegisterEvent(event);
 		-- Make sure player sprite is facing the captain

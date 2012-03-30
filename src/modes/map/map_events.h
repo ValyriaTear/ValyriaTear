@@ -603,15 +603,17 @@ public:
 	*** \param sprite_id The ID of the sprite that is to be moved
 	*** \param x_coord The X coordinate to move the sprite to
 	*** \param y_coord The Y coordinate to move the sprite to
+	*** \param run whether the character has to go there by walking or running
 	**/
-	PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id, int16 x_coord, int16 y_coord);
+	PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id, int16 x_coord, int16 y_coord, bool run);
 
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite to move
 	*** \param x_coord The X coordinate to move the sprite to
 	*** \param y_coord The Y coordinate to move the sprite to
+	*** \param run whether the character has to go there by walking or running
 	**/
-	PathMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite, int16 x_coord, int16 y_coord);
+	PathMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite, int16 x_coord, int16 y_coord, bool run);
 
 	~PathMoveSpriteEvent()
 		{}
@@ -625,10 +627,11 @@ public:
 	/** \brief Used to change the destination coordinates after the class object has been constructed
 	*** \param x_coord The X coordinate to move the sprite to
 	*** \param y_coord The Y coordinate to move the sprite to
+	*** \param run whether the character has to go there by walking or running
 	*** \note Any previous existing paths are cleared when this function is called. If this function is called when
 	*** the event is active, no change will take place.
 	**/
-	void SetDestination(int16 x_coord, int16 y_coord);
+	void SetDestination(int16 x_coord, int16 y_coord, bool run);
 
 protected:
 	//! \brief When true, the destination coordinates are relative to the current position of the sprite. Otherwise the destination is absolute.
@@ -651,6 +654,9 @@ protected:
 
 	//! \brief Holds the path needed to traverse from source to destination
 	std::vector<PathNode> _path;
+
+	//! \brief Tells whether the sprite should use the walk or run animation
+	bool _run;
 
 	//! \brief Calculates a path for the sprite to move to the destination
 	void _Start();
