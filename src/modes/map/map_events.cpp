@@ -531,7 +531,8 @@ bool ChangeDirectionSpriteEvent::_Update() {
 // ---------- PathMoveSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id, int16 x_coord, int16 y_coord) :
+PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id,
+										 int16 x_coord, int16 y_coord, bool run) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite_id),
 	_relative_destination(false),
 	_source_x(-1),
@@ -540,12 +541,14 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id, int1
 	_destination_y(y_coord),
 	_last_x_position(0),
 	_last_y_position(0),
-	_current_node(0)
+	_current_node(0),
+	_run(run)
 {}
 
 
 
-PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite, int16 x_coord, int16 y_coord) :
+PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite,
+										 int16 x_coord, int16 y_coord, bool run) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
 	_relative_destination(false),
 	_source_x(-1),
@@ -554,7 +557,8 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite,
 	_destination_y(y_coord),
 	_last_x_position(0),
 	_last_y_position(0),
-	_current_node(0)
+	_current_node(0),
+	_run(run)
 {}
 
 
@@ -571,7 +575,7 @@ void PathMoveSpriteEvent::SetRelativeDestination(bool relative) {
 
 
 
-void PathMoveSpriteEvent::SetDestination(int16 x_coord, int16 y_coord) {
+void PathMoveSpriteEvent::SetDestination(int16 x_coord, int16 y_coord, bool run) {
 	if (MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "attempted illegal operation while event was active: " << GetEventID() << endl;
 		return;
@@ -580,6 +584,7 @@ void PathMoveSpriteEvent::SetDestination(int16 x_coord, int16 y_coord) {
 	_destination_x = x_coord;
 	_destination_y = y_coord;
 	_path.clear();
+	_run = run;
 }
 
 
@@ -590,6 +595,7 @@ void PathMoveSpriteEvent::_Start() {
 	_current_node = 0;
 	_last_x_position = _sprite->x_position;
 	_last_y_position = _sprite->y_position;
+	_sprite->is_running = _run;
 
 	// Set and check the source position
 	_source_x = _sprite->x_position;

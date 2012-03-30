@@ -479,8 +479,8 @@ void BindModeCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<PathMoveSpriteEvent, SpriteEvent>("PathMoveSpriteEvent")
-			.def(constructor<uint32, uint32, int16, int16>())
-			.def(constructor<uint32, VirtualSprite*, int16, int16>())
+			.def(constructor<uint32, uint32, int16, int16, bool>())
+			.def(constructor<uint32, VirtualSprite*, int16, int16, bool>())
 			.def("SetRelativeDestination", &PathMoveSpriteEvent::SetRelativeDestination)
 			.def("SetDestination", &PathMoveSpriteEvent::SetDestination)
 	];

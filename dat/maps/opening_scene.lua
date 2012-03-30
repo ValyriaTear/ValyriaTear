@@ -395,7 +395,7 @@ function InitialCreateEvents()
 
 	-- Move all sprites away from the cave entrance
 	local march_distance = 280;
-	event = hoa_map.PathMoveSpriteEvent(10, 1000, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(10, 1000, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	event:AddEventLinkAtStart(11);
 	event:AddEventLinkAtStart(12);
@@ -412,44 +412,44 @@ function InitialCreateEvents()
 	event:AddEventLinkAtStart(23);
 	event:AddEventLinkAtStart(50, 4000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(11, 1001, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(11, 1001, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(12, 1002, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(12, 1002, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(13, 1003, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(13, 1003, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(14, 2000, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(14, 2000, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	event:AddEventLinkAtEnd(100, 250); -- The captain moves toward the head of the cave entrance as soon as the march ends
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(15, 2001, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(15, 2001, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(16, 2002, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(16, 2002, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(17, 2003, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(17, 2003, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(18, 2004, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(18, 2004, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(19, 2005, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(19, 2005, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(20, 2006, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(20, 2006, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(21, 2007, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(21, 2007, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(22, 2008, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(22, 2008, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(23, 2009, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(23, 2009, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
 
@@ -477,7 +477,7 @@ function InitialCreateEvents()
 	event:AddEventLinkAtStart(114, 750);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(101, 2000, 0, -6);
+	event = hoa_map.PathMoveSpriteEvent(101, 2000, 0, -6, false);
 	event:SetRelativeDestination(true);
 	event:AddEventLinkAtEnd(130);
 	EventManager:RegisterEvent(event);
@@ -508,7 +508,7 @@ function InitialCreateEvents()
 	event = hoa_map.ChangeDirectionSpriteEvent(114, 2009, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(130, 2000, -10, -2);
+	event = hoa_map.PathMoveSpriteEvent(130, 2000, -10, -2, false);
 	event:SetRelativeDestination(true);
 	event:AddEventLinkAtEnd(131);
 	EventManager:RegisterEvent(event);
@@ -612,63 +612,63 @@ function InitialCreateEvents()
 	local cave_entrance_x = 371;
 	local cave_entrance_y = 5;
 	-- walk to the cave entrance
-	event = hoa_map.PathMoveSpriteEvent(301, 2001, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(301, 2001, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(311, 30);
 	EventManager:RegisterEvent(event);
 	-- disappear once in front of it
 	event = hoa_map.ScriptedSpriteEvent(311, 2001, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(302, 2002, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(302, 2002, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(312, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(312, 2002, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(303, 2003, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(303, 2003, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(313, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(313, 2003, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(304, 2004, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(304, 2004, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(314, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(314, 2004, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(305, 2005, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(305, 2005, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(315, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(315, 2005, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(306, 2006, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(306, 2006, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(316, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(316, 2006, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(307, 2007, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(307, 2007, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(317, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(317, 2007, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(308, 2008, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(308, 2008, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(318, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(318, 2008, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(309, 2009, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(309, 2009, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(319, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(319, 2009, 2, 0);
 	EventManager:RegisterEvent(event);
 
 	-- The captain also enters the cave.
-	event = hoa_map.PathMoveSpriteEvent(300, 2000, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(300, 2000, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(310, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(310, 2000, 2, 0);
@@ -677,22 +677,22 @@ function InitialCreateEvents()
 	EventManager:RegisterEvent(event);
 
 	-- Move character sprites toward cave entrance and transition to the cave map
-	event = hoa_map.PathMoveSpriteEvent(320, 1000, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(320, 1000, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(330, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(330, 1000, 2, 0);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(321, 1001, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(321, 1001, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(331, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(331, 1001, 2, 0);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(322, 1002, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(322, 1002, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(332, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(332, 1002, 2, 0);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(323, 1003, cave_entrance_x, cave_entrance_y);
+	event = hoa_map.PathMoveSpriteEvent(323, 1003, cave_entrance_x, cave_entrance_y, false);
 	event:AddEventLinkAtEnd(333, 30);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent(333, 1003, 2, 0);
@@ -713,25 +713,25 @@ function ReturnCreateCharacters()
 	dester = {};
 	lukar = {};
 
-	claudius = ConstructSprite("Claudius", 1000, group_start_x, group_start_y, 0.5, 0.5);
+	claudius = ConstructSprite("Claudius", 1000, group_start_x, group_start_y, 0.5, 0.5, false);
 	claudius:SetDirection(hoa_map.MapMode.WEST);
 	claudius:SetMovementSpeed(hoa_map.MapMode.SLOW_SPEED);
 	claudius:SetNoCollision(true);
 	Map:AddGroundObject(claudius);
 
-	mark = ConstructSprite("Karlate", 1001, group_start_x + 1, group_start_y + 3, 0.5, 0);
+	mark = ConstructSprite("Karlate", 1001, group_start_x + 1, group_start_y + 3, 0.5, 0, false);
 	mark:SetDirection(hoa_map.MapMode.WEST);
 	mark:SetName(hoa_system.Translate("Mark"));
 	mark:SetNoCollision(true);
 	Map:AddGroundObject(mark);
 
-	dester = ConstructSprite("Karlate", 1002, group_start_x + 2, group_start_y - 2, 0.5, 0);
+	dester = ConstructSprite("Karlate", 1002, group_start_x + 2, group_start_y - 2, 0.5, 0, false);
 	dester:SetDirection(hoa_map.MapMode.WEST);
 	dester:SetName(hoa_system.Translate("Dester"));
 	dester:SetNoCollision(true);
 	Map:AddGroundObject(dester);
 
-	lukar = ConstructSprite("Knight", 1003, group_start_x + 4, group_start_y, 0, 0);
+	lukar = ConstructSprite("Knight", 1003, group_start_x + 4, group_start_y, 0, 0, false);
 	lukar:SetDirection(hoa_map.MapMode.WEST);
 	lukar:SetName(hoa_system.Translate("Lukar"));
 	lukar:SetNoCollision(true);
@@ -844,7 +844,7 @@ function ReturnCreateEvents()
 	-- Move all sprites away from the cave entrance
 	local total_march_distance = 280;
 	local march_distance = -220;
-	event = hoa_map.PathMoveSpriteEvent(10, 1000, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(10, 1000, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	event:AddEventLinkAtStart(11);
 	event:AddEventLinkAtStart(12);
@@ -864,46 +864,46 @@ function ReturnCreateEvents()
 	event:AddEventLinkAtEnd(24); -- The scout moves towards the main party as the dialogue ends
 	event:AddEventLinkAtEnd(52, 2000); -- The scout makes his report
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(11, 1001, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(11, 1001, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(12, 1002, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(12, 1002, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(13, 1003, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(13, 1003, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(14, 2000, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(14, 2000, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(15, 2001, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(15, 2001, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(16, 2002, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(16, 2002, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(17, 2003, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(17, 2003, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(18, 2004, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(18, 2004, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(19, 2005, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(19, 2005, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(20, 2006, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(20, 2006, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(21, 2007, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(21, 2007, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(22, 2008, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(22, 2008, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(23, 2009, march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(23, 2009, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(24, 2010, total_march_distance + march_distance, 0);
+	event = hoa_map.PathMoveSpriteEvent(24, 2010, total_march_distance + march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
 
@@ -962,7 +962,7 @@ function ReturnCreateEvents()
 	EventManager:RegisterEvent(event);
 
 	-- Rush off to the city
-	event = hoa_map.PathMoveSpriteEvent(310, 1000, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(310, 1000, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	event:AddEventLinkAtStart(250);
 	event:AddEventLinkAtStart(311);
@@ -981,46 +981,46 @@ function ReturnCreateEvents()
 	event:AddEventLinkAtStart(324);
 	event:AddEventLinkAtEnd(500);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(311, 1001, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(311, 1001, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(312, 1002, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(312, 1002, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(313, 1003, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(313, 1003, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(314, 2000, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(314, 2000, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(315, 2001, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(315, 2001, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(316, 2002, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(316, 2002, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(317, 2003, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(317, 2003, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(318, 2004, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(318, 2004, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(319, 2005, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(319, 2005, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(320, 2006, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(320, 2006, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(321, 2007, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(321, 2007, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(322, 2008, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(322, 2008, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(323, 2009, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(323, 2009, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(324, 2010, -(total_march_distance + march_distance), 0);
+	event = hoa_map.PathMoveSpriteEvent(324, 2010, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.MapTransitionEvent(500, "dat/maps/harrvah_city.lua");
