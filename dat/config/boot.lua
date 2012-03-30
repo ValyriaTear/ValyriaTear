@@ -295,10 +295,10 @@ function DrawMenuBackground()
 	-- Crystal
 	VideoManager:Move(498.0 + crystal_decay, 330.0);
 	Boot:DrawImage(crystal_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
-	VideoManager:Move(384.0, 440.0 + crystal_decay);
-	Boot:DrawImage(flare_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
 	VideoManager:Move(448.0, 400.0 + crystal_decay);
 	Boot:DrawImage(crystal_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+	VideoManager:Move(384.0, 440.0 + crystal_decay);
+	Boot:DrawImage(flare_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
 
 	-- satellite in front
 	if (sat1_behind == false) then
