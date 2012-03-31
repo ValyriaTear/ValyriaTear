@@ -334,13 +334,14 @@ public:
 	void AddDamageIndicator(uint32 amount);
 
 	/** \brief Creates indicator text representing a numeric amount of healing dealt
-	*** \param amount The amount of healing to display, in hit points. Should be non-zero.
+	*** \param amount The amount of healing to display, in points. Should be non-zero.
+	*** \param hit_points whether the healing is speaking about Hit Points or Skill Points.
 	***
 	*** This function will not actually cause any healing to come to the actor (that is, the actor's
 	*** hit points are not modified by this function). The degree of healing relative to the character's
 	*** maximum hit points determines the color and size of the text rendered.
 	**/
-	void AddHealingIndicator(uint32 amount);
+	void AddHealingIndicator(uint32 amount, bool hit_points = true);
 
 	/** \brief Creates indicator text showing a miss on the actor
 	*** Miss text is always drawn with the same style in a small font with white text

@@ -585,12 +585,9 @@ void FinishVictoryAssistant::_SetCharacterStatus() {
 	for (deque<BattleCharacter*>::iterator i = battle_characters.begin(); i != battle_characters.end(); i++) {
 		GlobalCharacter* character = (*i)->GetGlobalCharacter();
 
+		// Put back the current HP / SP onto the global characters.
 		character->SetHitPoints((*i)->GetHitPoints());
-
-		// TODO: SP setting is disabled for now because we have no means to restore SP in the game, so we just always want to
-		// leave the global character with the max SP at the start of every battle. When SP regeneration is figured out, add
-		// the line below back in.
-// 		character->SetSkillPoints((*i)->SetSkillPoints());
+		character->SetSkillPoints((*i)->GetSkillPoints());
 	}
 }
 

@@ -415,11 +415,14 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount) {
 
 
 
-void IndicatorSupervisor::AddHealingIndicator(uint32 amount) {
-	const Color low_green(0.0f, 1.0f, 0.75f, 1.0f);
-	const Color mid_green(0.0f, 1.0f, 0.50f, 1.0f);
-	const Color high_green(0.0f, 1.0f, 0.25f, 1.0f);
-	const Color full_green(Color::green);
+void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points) {
+	const Color low_green(0.0f, 1.0f, 0.60f, 1.0f);
+	const Color mid_green(0.0f, 1.0f, 0.30f, 1.0f);
+	const Color high_green(0.0f, 1.0f, 0.15f, 1.0f);
+
+	const Color low_blue(0.0f, 0.60f, 1.0f, 1.0f);
+	const Color mid_blue(0.0f, 0.30f, 1.0f, 1.0f);
+	const Color high_blue(0.0f, 0.15f, 1.0f, 1.0f);
 
 	if (amount == 0) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function was given a zero value argument" << endl;
@@ -434,22 +437,22 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount) {
 	float healing_percent = static_cast<float>(amount / _actor->GetMaxHitPoints());
 	if (healing_percent < 0.10f) {
 		style.font = "text24";
-		style.color = low_green;
+		style.color = hit_points ? low_green : low_blue;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 	else if (healing_percent < 0.20f) {
 		style.font = "text24";
-		style.color = mid_green;
+		style.color = hit_points ? mid_green : mid_blue;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 	else if (healing_percent < 0.30f) {
 		style.font = "text24";
-		style.color = high_green;
+		style.color = hit_points ? high_green : high_blue;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 	else { // (healing_percent >= 0.30f)
 		style.font = "text24";
-		style.color = full_green;
+		style.color = hit_points ? Color::green : Color::blue;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 

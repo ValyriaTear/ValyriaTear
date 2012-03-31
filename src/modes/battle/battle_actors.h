@@ -141,14 +141,15 @@ public:
 	**/
 	void RegisterDamage(uint32 amount, BattleTarget* target);
 
-	/** \brief Heals the actor by restoring a certain amount of hit points
-	*** \param amount The number of hit points to add to the actor
+	/** \brief Heals the actor by restoring a certain amount of points
+	*** \param amount The number of points to add to the actor.
+	*** \param hit_points whether hit points of skill points will be restored.
 	***
 	*** If the state of the actor is ACTOR_STATE_DEAD, this function will print a warning and change nothing.
 	*** The number of hit points on the actor are not allowed to increase beyond the actor's maximum hit
 	*** points.
 	**/
-	void RegisterHealing(uint32 amount);
+	void RegisterHealing(uint32 amount, bool hit_points = true);
 
 	/** \brief Indicates that an action failed to connect on this target
 	*** \param was_attacked Tells whether the miss is due to a missed attack

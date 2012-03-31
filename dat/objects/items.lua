@@ -46,7 +46,7 @@ end
 
 items[1] = {
 	name = hoa_system.Translate("Minor Healing Potion"),
-	description = hoa_system.Translate("Restores a small amount of hit points to a target."),
+	description = hoa_system.Translate("Restores a small amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_small.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 60,
@@ -55,12 +55,160 @@ items[1] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(45);
+		target_actor:RegisterHealing(40, true);
 		AudioManager:PlaySound("snd/potion_drink.wav");
 	end,
 
 	FieldUse = function(target)
 		target:AddHitPoints(45);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+items[2] = {
+	name = hoa_system.Translate("Medium Healing Potion"),
+	description = hoa_system.Translate("Restores a reasonable amount of hit points to an ally."),
+	icon = "img/icons/items/potion_green_medium.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 300,
+	warmup_time = 1200,
+	cooldown_time = 900,
+
+	BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		target_actor:RegisterHealing(150, true);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end,
+
+	FieldUse = function(target)
+		target:AddHitPoints(200);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+items[3] = {
+	name = hoa_system.Translate("Healing Potion"),
+	description = hoa_system.Translate("Restores a large amount of hit points to an ally."),
+	icon = "img/icons/items/potion_green_large.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 1000,
+	warmup_time = 1200,
+	cooldown_time = 900,
+
+	BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		target_actor:RegisterHealing(500, true);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end,
+
+	FieldUse = function(target)
+		target:AddHitPoints(620);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+items[4] = {
+	name = hoa_system.Translate("Mega Healing Potion"),
+	description = hoa_system.Translate("Restores a very high amount of hit points to an ally."),
+	icon = "img/icons/items/potion_green_large.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 5000,
+	warmup_time = 1200,
+	cooldown_time = 1200,
+
+	BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		target_actor:RegisterHealing(9000, true);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end,
+
+	FieldUse = function(target)
+		target:AddHitPoints(12000);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+-- Moon juices : Skill points
+items[11] = {
+	name = hoa_system.Translate("Small Moon Juice Potion"),
+	description = hoa_system.Translate("Restores a small amount of skill points to an ally."),
+	icon = "img/icons/items/potion_blue_small.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 90,
+	use_warmup_time = 1000,
+	cooldown_time = 1200,
+
+    BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		target_actor:RegisterHealing(40, false);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end,
+
+	FieldUse = function(target)
+		target:AddSkillPoints(45);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+items[12] = {
+	name = hoa_system.Translate("Medium Moon Juice Potion"),
+	description = hoa_system.Translate("Restores a reasonable amount of skill points to an ally."),
+	icon = "img/icons/items/potion_blue_medium.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 380,
+	use_warmup_time = 1000,
+	cooldown_time = 1200,
+
+    BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		target_actor:RegisterHealing(150, false);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end,
+
+	FieldUse = function(target)
+		target:AddSkillPoints(200);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+items[13] = {
+	name = hoa_system.Translate("Moon Juice Potion"),
+	description = hoa_system.Translate("Restores a large amount of skill points to an ally."),
+	icon = "img/icons/items/potion_blue_large.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 1300,
+	use_warmup_time = 1000,
+	cooldown_time = 1200,
+
+    BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		target_actor:RegisterHealing(300, false);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end,
+
+	FieldUse = function(target)
+		target:AddSkillPoints(420);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+items[13] = {
+	name = hoa_system.Translate("Mega Moon Juice Potion"),
+	description = hoa_system.Translate("Restores a very high amount of skill points to an ally."),
+	icon = "img/icons/items/potion_blue_huge.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 6100,
+	use_warmup_time = 1200,
+	cooldown_time = 1300,
+
+    BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		target_actor:RegisterHealing(999, false);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+	end,
+
+	FieldUse = function(target)
+		target:AddSkillPoints(1200);
 		AudioManager:PlaySound("snd/potion_drink.wav");
 	end
 }
@@ -72,11 +220,11 @@ items[1] = {
 items[1001] = {
 	name = hoa_system.Translate("Minor Elixir"),
 	description = hoa_system.Translate("Reduces ailing status effects by a limited degree."),
-	icon = "img/icons/items/potion_blue_small.png",
+	icon = "img/icons/items/potion_red_small.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 60,
+	standard_price = 160,
 	use_warmup_time = 1200,
-	cooldown_time = 700,
+	cooldown_time = 1800,
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
