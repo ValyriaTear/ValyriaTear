@@ -901,8 +901,6 @@ void BootMode::_OnNewGame() {
 
 
 void BootMode::_OnLoadGame() {
-	AudioManager->StopAllMusic();
-
 	hoa_save::SaveMode *SVM = new hoa_save::SaveMode(false);
 	ModeManager->Push(SVM);
 }
