@@ -367,11 +367,6 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 	deque<BattleCharacter*>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 	_number_characters = all_characters.size();
 
-	if (_number_characters > 4) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "party exceeded maximum number of characters: " << _number_characters;
-		_number_characters = 4;
-	}
-
 	for (uint32 i = 0; i < _number_characters; ++i) {
 		_characters.push_back(all_characters[i]->GetGlobalCharacter());
 		_character_growths.push_back(_characters[i]->GetGrowth());
@@ -387,9 +382,9 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 		// Grey out portraits of deceased characters
 		if (!all_characters[i]->IsAlive())
 			_character_portraits[i].EnableGrayScale();
-
-		// Set up the victory animation for the living beings
-		all_characters[i]->ChangeSpriteAnimation("victory");
+		else
+			// Set up the victory animation for the living beings
+			all_characters[i]->ChangeSpriteAnimation("victory");
 	}
 
 	// ----- (2): Collect the XP, drunes, and dropped objects for each defeated enemy
