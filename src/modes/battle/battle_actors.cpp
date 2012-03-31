@@ -56,6 +56,7 @@ BattleActor::BattleActor(GlobalActor* actor) :
 	_execution_finished(false),
 	_state_paused(false),
 	_idle_state_time(0),
+	_shake_timer(0),
 	_animation_timer(0),
 	_x_stamina_location(0.0f),
 	_y_stamina_location(0.0f),
@@ -197,18 +198,21 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 
 	// Apply a stun to the actor timer depending on the amount of damage dealt
 	float damage_percent = static_cast<float>(amount) / static_cast<float>(GetMaxHitPoints());
-	if (damage_percent < 0.10f) {
-		_state_timer.StunTimer(250);
-	}
-	else if (damage_percent < 0.25f) {
-		_state_timer.StunTimer(500);
-	}
-	else if (damage_percent < 0.50f) {
-		_state_timer.StunTimer(750);
-	}
-	else { // (damage_percent >= 0.50f)
-		_state_timer.StunTimer(1000);
-	}
+	uint32 stun_time = 0;
+	if (damage_percent < 0.10f)
+		stun_time = 250;
+	else if (damage_percent < 0.25f)
+		stun_time = 500;
+	else if (damage_percent < 0.50f)
+		stun_time = 750;
+	else // (damage_percent >= 0.50f)
+		stun_time = 1000;
+
+	_state_timer.StunTimer(stun_time);
+	// Run a shake effect for the same time.
+	_shake_timer.Initialize(stun_time);
+	_shake_timer.Run();
+
 
 	// If the damage dealt was to a point target type, check for and apply any status effects triggered by this point hit
 	if ((target != NULL) && (IsTargetPoint(target->GetType()) == true)) {
@@ -278,6 +282,10 @@ void BattleActor::Update(bool animation_only) {
 	if (!_state_paused && !animation_only)
 		_state_timer.Update();
 
+    // Ths shaking updates even in pause mode, so that the shaking
+    // doesn't last indefinitely in that state.
+    _shake_timer.Update();
+
 	_UpdateStaminaIconPosition();
 
 	_effects_supervisor->Update();
@@ -346,7 +354,7 @@ void BattleActor::_UpdateStaminaIconPosition() {
 	}
 
 	// Add a shake effect when the battle actor has received damages
-	if (_state_timer.IsStunActive()) {
+	if (_shake_timer.IsRunning()) {
 		x_pos += RandomFloat(-4.0f, 4.0f);
 	}
 
@@ -567,7 +575,7 @@ void BattleCharacter::Update(bool animation_only) {
 		}
 
 		// Add a shake effect when the battle actor has received damages
-		if (_state_timer.IsStunActive()) {
+		if (_shake_timer.IsRunning()) {
 			_x_location = _x_origin + RandomFloat(-6.0f, 6.0f);
 		}
 
@@ -903,7 +911,7 @@ void BattleEnemy::Update(bool animation_only) {
 		}
 
 		// Add a shake effect when the battle actor has received damages
-		if (_state_timer.IsStunActive())
+		if (_shake_timer.IsRunning())
 			_x_location += RandomFloat(-2.0f, 2.0f);
 	}
 
