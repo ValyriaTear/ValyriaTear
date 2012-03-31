@@ -358,6 +358,9 @@ protected:
 	//! \brief A timer used as the character progresses through the standard series of actor states
 	BattleTimer _state_timer;
 
+	//! \brief A timer telling the time the character will be visually shaking.
+	hoa_system::SystemTimer _shake_timer;
+
 	//! \brief Used to assist in the animation of actors as they move on the battlefield
 	hoa_system::SystemTimer _animation_timer;
 
