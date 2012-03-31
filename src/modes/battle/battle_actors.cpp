@@ -229,7 +229,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 
 
 
-void BattleActor::RegisterHealing(uint32 amount) {
+void BattleActor::RegisterHealing(uint32 amount, bool hit_points) {
 	if (amount == 0) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << endl;
 		RegisterMiss();
@@ -241,8 +241,11 @@ void BattleActor::RegisterHealing(uint32 amount) {
 		return;
 	}
 
-	AddHitPoints(amount);
-	_indicator_supervisor->AddHealingIndicator(amount);
+	if (hit_points)
+		AddHitPoints(amount);
+	else
+    	AddSkillPoints(amount);
+	_indicator_supervisor->AddHealingIndicator(amount, hit_points);
 }
 
 
@@ -269,21 +272,6 @@ void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY in
 		_indicator_supervisor->AddStatusIndicator(old_status, old_intensity, new_status, new_intensity);
 	}
 }
-
-
-
-void BattleActor::ChangeSkillPoints(int32 amount) {
-	uint32 unsigned_amount = static_cast<uint32>(amount);
-
-	// Modify actor's skill points accordingly
-	if (amount > 0)
-		AddSkillPoints(unsigned_amount);
-	else if (amount < 0)
-		SubtractSkillPoints(unsigned_amount);
-
-	// TODO: SP change text needs to be implemented
-}
-
 
 
 void BattleActor::Update(bool animation_only) {
