@@ -572,16 +572,14 @@ public:
 	 */
 	void DisableEffects();
 
-	//TODO: review the DrawHalo, DrawLight functions.
-	/** \brief draws a halo at the given spot
+	/** \brief draws a halo at the current draw cursor position
 	 *
 	 *  \param id    image descriptor for the halo image
-	 *  \param x     x coordinate of halo
-	 *  \param y     y coordinate of halo
 	 *  \param color color of halo
 	 */
-	void DrawHalo(const ImageDescriptor &id, float x, float y, const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+	void DrawHalo(const ImageDescriptor &id, const Color &color = Color::white);
 
+	//TODO: review the DrawLight function.
 	/** \brief draws a real light at the given spot
 	 *
 	 *  \param radius light radius
@@ -589,7 +587,7 @@ public:
 	 *  \param y      y coordinate of light
 	 *  \param color  color of light
 	 */
-	//void DrawLight(float radius, float x, float y, const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+	//void DrawLight(float radius, float x, float y, const Color &color = Color::white);
 
 	//-- Fading ---------------------------------------------------------------
 

@@ -586,6 +586,26 @@ function CreateObjects()
 	Map:AddSavePoint(86, 134, hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
 	-- Near river bed
 	Map:AddSavePoint(205, 5, hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
+
+	-- Draw spooky scene lighting
+	VideoManager:DisableEffects();
+	VideoManager:EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.7));
+
+
+	-- Halos of light
+	-- at the entrance
+	Map:AddHalo("img/misc/torch_light_mask.lua", 15, 172,
+		hoa_video.Color(1.0, 1.0, 1.0, 1.0),
+		hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
+	-- near a corner
+	Map:AddHalo("img/misc/torch_light_mask.lua", 100, 132,
+		hoa_video.Color(1.0, 1.0, 1.0, 1.0),
+		hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
+	-- near the fountain
+	Map:AddHalo("img/misc/torch_light_mask.lua", 179, 8,
+		hoa_video.Color(0.1, 0.1, 1.0, 0.7),
+		hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
+
 end -- function CreateObjects()
 
 

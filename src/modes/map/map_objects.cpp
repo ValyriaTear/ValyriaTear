@@ -269,6 +269,44 @@ void SavePoint::SetActive(bool active) {
 	_save_active = active;
 }
 
+
+// Halos
+Halo::Halo(const std::string& filename, uint16 x, uint16 y, const Color& color, MAP_CONTEXT map_context):
+	MapObject()
+{
+	_color = color;
+	x_position = x;
+	y_position = y;
+
+	_object_type = HALO_TYPE;
+	context = map_context;
+	no_collision = true;
+
+	if (_animation.LoadFromAnimationScript(filename)) {
+	    // Transform the animation size to correspond to the map coodinates system.
+	    // TODO: Remove that way of setting the video coords, making white borders appear on map sprites.
+	    // And remove that hack afterward.
+	    _animation.SetWidth(_animation.GetWidth() / (GRID_LENGTH / 2));
+		_animation.SetHeight(_animation.GetHeight() / (GRID_LENGTH / 2));
+
+	    // Setup the image collision for the display update
+	    SetImgHalfWidth(_animation.GetWidth() / 2.0f);
+	    SetImgHeight(_animation.GetHeight());
+	}
+}
+
+void Halo::Update() {
+	if (updatable)
+		_animation.Update();
+}
+
+
+void Halo::Draw() {
+	if (MapObject::ShouldDraw())
+		VideoManager->DrawHalo(*_animation.GetCurrentFrame(), _color);
+}
+
+
 // ----------------------------------------------------------------------------
 // ---------- TreasureObject Class Functions
 // ----------------------------------------------------------------------------
@@ -413,6 +451,9 @@ ObjectSupervisor::~ObjectSupervisor() {
 	for (uint32 i = 0; i < _sky_objects.size(); i++) {
 		delete(_sky_objects[i]);
 	}
+	for (uint32 i = 0; i < _halos.size(); ++i) {
+		delete(_halos[i]);
+	}
 	delete(_virtual_focus);
 }
 
@@ -489,21 +530,18 @@ void ObjectSupervisor::Load(ReadScriptDescriptor& map_file) {
 
 
 void ObjectSupervisor::Update() {
-	for (uint32 i = 0; i < _ground_objects.size(); i++) {
+	for (uint32 i = 0; i < _ground_objects.size(); ++i)
 		_ground_objects[i]->Update();
-	}
 	// Update save point animation and activeness.
 	_UpdateSavePoints();
-	for (uint32 i = 0; i < _pass_objects.size(); i++) {
+	for (uint32 i = 0; i < _pass_objects.size(); ++i)
 		_pass_objects[i]->Update();
-	}
-	for (uint32 i = 0; i < _sky_objects.size(); i++) {
+	for (uint32 i = 0; i < _sky_objects.size(); ++i)
 		_sky_objects[i]->Update();
-	}
-
-	for (uint32 i = 0; i < _zones.size(); i++) {
+	for (uint32 i = 0; i < _halos.size(); ++i)
+		_halos[i]->Update();
+	for (uint32 i = 0; i < _zones.size(); ++i)
 		_zones[i]->Update();
-	}
 
 	// TODO: examine all sprites for movement and context change, then check all resident zones to see if the sprite has entered
 }
@@ -525,7 +563,6 @@ void ObjectSupervisor::DrawGroundObjects(const bool second_pass) {
 }
 
 
-
 void ObjectSupervisor::DrawPassObjects() {
 	for (uint32 i = 0; i < _pass_objects.size(); i++) {
 		_pass_objects[i]->Draw();
@@ -533,12 +570,18 @@ void ObjectSupervisor::DrawPassObjects() {
 }
 
 
-
 void ObjectSupervisor::DrawSkyObjects() {
 	for (uint32 i = 0; i < _sky_objects.size(); i++) {
 		_sky_objects[i]->Draw();
 	}
 }
+
+
+void ObjectSupervisor::DrawHalos() {
+	for (uint32 i = 0; i < _halos.size(); ++i)
+		_halos[i]->Draw();
+}
+
 
 void ObjectSupervisor::DrawDialogIcons() {
     MapSprite *mapSprite;

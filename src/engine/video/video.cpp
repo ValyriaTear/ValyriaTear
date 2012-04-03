@@ -1302,15 +1302,13 @@ void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, fl
 }
 
 
-void VideoEngine::DrawHalo(const ImageDescriptor &id, float x, float y, const Color &color) {
-	PushMatrix();
-	Move(x, y);
-
+void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color) {
+	//PushMatrix();
 	char old_blend_mode = _current_context.blend;
 	_current_context.blend = VIDEO_BLEND_ADD;
 	id.Draw(color);
 	_current_context.blend = old_blend_mode;
-	PopMatrix();
+	//PopMatrix();
 }
 
 
