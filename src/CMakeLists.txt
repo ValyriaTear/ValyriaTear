@@ -69,6 +69,7 @@ INCLUDE_DIRECTORIES(
     ${PNG_INCLUDE_DIR}
     ${JPEG_INCLUDE_DIR}
     ${LUA_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/luabind
     )
 
 # enable rc-handling with mingw
