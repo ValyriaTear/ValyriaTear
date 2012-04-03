@@ -140,6 +140,10 @@ public:
 	//! \brief Adds a save point (Map Object) at the given coordinates.
 	void AddSavePoint(float x, float y, hoa_map::private_map::MAP_CONTEXT map_context);
 
+	//! \brief Adds a halo light (as Map Object) at the given coordinates.
+	void AddHalo(const std::string& filename, float x, float y, const hoa_video::Color& color,
+					hoa_map::private_map::MAP_CONTEXT map_context);
+
 	//! \brief Vectors containing the save points animations (when the character is in or not).
 	std::vector<hoa_video::AnimatedImage> active_save_point_animations;
 	std::vector<hoa_video::AnimatedImage> inactive_save_point_animations;

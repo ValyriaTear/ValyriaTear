@@ -414,6 +414,38 @@ private:
 
 
 /** ****************************************************************************
+*** \brief Represents a halo (source of light) on the map
+*** ***************************************************************************/
+class Halo : public MapObject {
+public:
+    //! \brief setup a halo on the map, using the given animation file.
+	Halo(const std::string& filename, uint16 x, uint16 y,
+		 const hoa_video::Color& color, MAP_CONTEXT map_context);
+
+	~Halo()
+	{}
+
+	//! \brief Updates the object's current animation.
+	//! \note the actual image resources is handled by the main map object.
+	void Update();
+
+	//! \brief Draws the object to the screen, if it is visible.
+	//! \note the actual image resources is handled by the main map object.
+	void Draw();
+
+
+private:
+	//! \brief A reference to the current map save animation.
+	hoa_video::AnimatedImage _animation;
+
+	//! The blending color of the halo
+	hoa_video::Color _color;
+
+	//@}
+}; // class SavePoint : public MapObject
+
+
+/** ****************************************************************************
 *** \brief Represents an obtainable treasure on the map which the player may access
 ***
 *** A treasure is a specific type of physical object, usually in the form of a
@@ -557,6 +589,7 @@ public:
 	void DrawGroundObjects(const bool second_pass);
 	void DrawPassObjects();
 	void DrawSkyObjects();
+	void DrawHalos();
 	void DrawDialogIcons();
 	//@}
 
@@ -715,6 +748,10 @@ private:
 	*** Translucent clouds can make good use of this object layer, for instance.
 	**/
 	std::vector<MapObject*> _sky_objects;
+
+	//! \brief A container for all of the map source of light, quite similar as the ground objects container.
+	//! \note Halos are not registered in _all_objects.
+	std::vector<Halo*> _halos;
 
 	//! \brief Container for all zones used in this map
 	std::vector<MapZone*> _zones;

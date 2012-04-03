@@ -269,6 +269,11 @@ void MapMode::Draw() {
 }
 
 void MapMode::DrawPostEffects() {
+	// Halos are additive blending made, so they should be applied
+	// as post-effects but before the GUI.
+	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
+	_object_supervisor->DrawHalos();
+
 	// Draw the gui, unaffected by potential
 	// fading effects.
 	_DrawGUI();
@@ -338,6 +343,13 @@ void MapMode::AddZone(MapZone *zone) {
 void MapMode::AddSavePoint(float x, float y, MAP_CONTEXT map_context) {
 	SavePoint *save_point = new SavePoint(x, y, map_context);
 	_object_supervisor->_save_points.push_back(save_point);
+}
+
+
+void MapMode::AddHalo(const std::string& filename, float x, float y,
+						const Color& color, MAP_CONTEXT map_context) {
+	Halo *halo = new Halo(filename, x, y, color, map_context);
+	_object_supervisor->_halos.push_back(halo);
 }
 
 
