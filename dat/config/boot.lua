@@ -59,22 +59,22 @@ local y_position6 = 50.0;
 
 -- crystal members
 local crystal_decay = 0.0;
-local crystal_up = true;
+local crystal_time = 0;
 
 -- satellite members
 local sat1_decay = 0.0;
 local sat1_x_position = -15.0;
-local sat1_up = true;
+local sat1_time = 0;
 local sat1_behind = false;
 
 local sat2_decay = 20.0;
 local sat2_x_position = 80.0;
-local sat2_up = false;
+local sat2_time = 0;
 local sat2_behind = false;
 
 local sat3_decay = 10.0;
 local sat3_x_position = 40.0;
-local sat3_up = true;
+local sat3_time = 0;
 local sat3_behind = true;
 
 function UpdateIntroFade()
@@ -129,84 +129,63 @@ function UpdateBackgroundAnimation()
 	end
 
 	-- Compute the crystal and shadow movement
-	if (crystal_up) then
-		crystal_decay = crystal_decay + 0.01 * time_expired;
-		if (crystal_decay > 20.0) then
-			crystal_up = false;
-		end
-	else
-		crystal_decay = crystal_decay - 0.01 * time_expired;
-		if (crystal_decay < 0.0) then
-			crystal_up = true;
-		end
+	crystal_time = crystal_time + time_expired
+	if (crystal_time >= 31400) then
+		crystal_time = crystal_time - 31400;
+	end
+	crystal_decay = 10 + math.sin(0.002 * crystal_time) * 10;
+
+	-- compute the satellites movement
+	sat1_time = sat1_time + time_expired
+	if (sat1_time >= 31400) then
+		sat1_time = sat1_time - 31400;
 	end
 
-	-- compute the satellite movement
-	if (sat1_up) then
-		sat1_decay = sat1_decay + 0.02 * time_expired;
-		if (sat1_decay > 15.0) then
-			sat1_up = false;
-		end
-	else
-		sat1_decay = sat1_decay - 0.02 * time_expired;
-		if (sat1_decay < -15.0) then
-			sat1_up = true;
-		end
-	end
+	sat1_decay = -5 + math.sin(0.003 * sat1_time) * 10;
+	sat1_x_position = 50 + (math.sin(0.0008 * sat1_time - 0.785) * 75);
+
 	if (sat1_behind) then
-		sat1_x_position = sat1_x_position - 0.03 * time_expired;
-		if (sat1_x_position < -25.0) then
+		if (sat1_x_position < -24.0) then
 			sat1_behind = false;
 		end
 	else
-		sat1_x_position = sat1_x_position + 0.03 * time_expired;
-		if (sat1_x_position > 110.0) then
+		if (sat1_x_position > 124.0) then
 			sat1_behind = true;
 		end
 	end
 
-	if (sat2_up) then
-		sat2_decay = sat2_decay + 0.02 * time_expired;
-		if (sat2_decay > 15.0) then
-			sat2_up = false;
-		end
-	else
-		sat2_decay = sat2_decay - 0.02 * time_expired;
-		if (sat2_decay < -15.0) then
-			sat2_up = true;
-		end
+	sat2_time = sat2_time + time_expired
+	if (sat2_time >= 31400) then
+		sat2_time = sat2_time - 31400;
 	end
+
+	sat2_decay = -5 + math.sin(0.003 * sat2_time + 1.57) * 10;
+	sat2_x_position = 50 + (math.sin(0.0008 * sat2_time + 3.14) * 75);
+
 	if (sat2_behind) then
-		sat2_x_position = sat2_x_position - 0.03 * time_expired;
-		if (sat2_x_position < -25.0) then
+		if (sat2_x_position < -24.0) then
 			sat2_behind = false;
 		end
 	else
-		sat2_x_position = sat2_x_position + 0.03 * time_expired;
-		if (sat2_x_position > 110.0) then
+		if (sat2_x_position > 124.0) then
 			sat2_behind = true;
 		end
 	end
 
-	if (sat3_up) then
-		sat3_decay = sat3_decay + 0.02 * time_expired;
-		if (sat3_decay > 15.0) then
-			sat3_up = false;
-		end
-	else
-		sat3_decay = sat3_decay - 0.02 * time_expired;
-		if (sat3_decay < -15.0) then
-			sat3_up = true;
-		end
+	sat3_time = sat3_time + time_expired
+	if (sat3_time >= 31400) then
+		sat3_time = sat3_time - 31400;
 	end
+
+	sat3_decay = -5 + math.sin(0.003 * sat3_time + 0.785) * 10;
+	sat3_x_position = 50 + (math.sin(0.0008 * sat3_time + 0.785) * 75);
+
 	if (sat3_behind) then
-		sat3_x_position = sat3_x_position - 0.03 * time_expired;
-		if (sat3_x_position < -25.0) then
+		if (sat3_x_position < -24.0) then
 			sat3_behind = false;
 		end
 	else
-		sat3_x_position = sat3_x_position + 0.03 * time_expired;
-		if (sat3_x_position > 110.0) then
+		if (sat3_x_position > 124.0) then
 			sat3_behind = true;
 		end
 	end
