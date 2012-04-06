@@ -222,6 +222,15 @@ public:
 
 	//! \brief Tells whether a battle can start
     bool AttackAllowed();
+
+	/**
+	 * \brief Since the map coords are non standard, this function
+	 * permits to quickly adapt the images to the map scale.
+	 */
+	static void ScaleToMapCoords(hoa_video::ImageDescriptor& img)
+		{ img.SetDimensions(img.GetWidth() / (private_map::GRID_LENGTH / 2),
+							img.GetHeight() / (private_map::GRID_LENGTH / 2)); }
+
 	//@}
 
 private:

@@ -108,16 +108,11 @@ MapMode::MapMode(string filename) :
 	inactive_save_point_animations.push_back(anim);
 
 	// Transform the animation size to correspond to the map coodinates system.
-	// TODO: Remove that way of setting the video coords, making white borders appear on map sprites.
-	// And remove that hack afterward.
-	for (uint32 i = 0; i < active_save_point_animations.size(); ++i) {
-		active_save_point_animations[i].SetWidth(active_save_point_animations[i].GetWidth() / (GRID_LENGTH / 2));
-		active_save_point_animations[i].SetHeight(active_save_point_animations[i].GetHeight() / (GRID_LENGTH / 2));
-	}
-	for (uint32 i = 0; i < inactive_save_point_animations.size(); ++i) {
-		inactive_save_point_animations[i].SetWidth(inactive_save_point_animations[i].GetWidth() / (GRID_LENGTH / 2));
-		inactive_save_point_animations[i].SetHeight(inactive_save_point_animations[i].GetHeight() / (GRID_LENGTH / 2));
-	}
+	for (uint32 i = 0; i < active_save_point_animations.size(); ++i)
+		ScaleToMapCoords(active_save_point_animations[i]);
+
+	for (uint32 i = 0; i < inactive_save_point_animations.size(); ++i)
+		ScaleToMapCoords(inactive_save_point_animations[i]);
 
 	// Create the event group name by modifying the filename to consists only of alphanumeric characters and underscores
 	// This will make it a valid identifier name in Lua syntax
@@ -145,10 +140,8 @@ MapMode::MapMode(string filename) :
 	_Load();
 
 	// Load miscellaneous map graphics
-	vector<uint32> timings(16, 100); // holds the timing data for the new dialogue animation; 16 frames at 100ms each
-	_dialogue_icon.SetDimensions(2, 2);
-	if (_dialogue_icon.LoadFromFrameSize("img/misc/dialogue_icon.png", timings, 32, 32) == false)
-		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the new dialogue icon image" << endl;
+	_dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
+	ScaleToMapCoords(_dialogue_icon);
 
 	if (_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24) == false)
 		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar background image" << endl;

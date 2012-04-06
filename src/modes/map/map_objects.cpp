@@ -282,11 +282,7 @@ Halo::Halo(const std::string& filename, uint16 x, uint16 y, const Color& color, 
 	no_collision = true;
 
 	if (_animation.LoadFromAnimationScript(filename)) {
-	    // Transform the animation size to correspond to the map coodinates system.
-	    // TODO: Remove that way of setting the video coords, making white borders appear on map sprites.
-	    // And remove that hack afterward.
-	    _animation.SetWidth(_animation.GetWidth() / (GRID_LENGTH / 2));
-		_animation.SetHeight(_animation.GetHeight() / (GRID_LENGTH / 2));
+	    MapMode::ScaleToMapCoords(_animation);
 
 	    // Setup the image collision for the display update
 	    SetImgHalfWidth(_animation.GetWidth() / 2.0f);
@@ -326,11 +322,8 @@ TreasureObject::TreasureObject(string image_file, uint8 num_total_frames, uint8 
 		return;
 	}
 
-	// Update the frame image sizes to work in the MapMode coordinate system
-	for (uint32 i = 0; i < frames.size(); i++) {
-		frames[i].SetWidth(frames[i].GetWidth() / (GRID_LENGTH / 2));
-		frames[i].SetHeight(frames[i].GetHeight() / (GRID_LENGTH / 2));
-	}
+	for (uint32 i = 0; i < frames.size(); i++)
+		MapMode::ScaleToMapCoords(frames[i]);
 
 	// (2) Now that we know the total number of frames in the image, make sure the frame count arguments make sense
 	if (num_open_frames == 0 || num_closed_frames == 0 || num_open_frames + num_closed_frames >= num_total_frames) {
