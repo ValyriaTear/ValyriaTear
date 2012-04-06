@@ -300,6 +300,13 @@ public:
 	void ToggleFullscreen()
 		{ SetFullscreen(!_temp_fullscreen); }
 
+	void SetTextureSmoothed(bool smooth)
+		{ _smooth_textures = smooth; }
+
+	//! \brief Returns true if textures should be smoothed (used for non natural screen resolutions)
+	bool ShouldSmooth()
+		{ return _smooth_textures; }
+
 	//! \brief Returns a reference to the current coordinate system
 	const CoordSys& GetCoordSys() const
 		{ return _current_context.coordinate_system; }
@@ -757,6 +764,9 @@ private:
 	//! holds the desired screen height. Not actually applied until ApplySettings() is called
 	int32 _temp_height;
 
+	//! \brief Tells whether the graphics should be smoothed.
+	bool _smooth_textures;
+
 	//! image which is to be used as the cursor
 	StillImage _default_menu_cursor;
 
@@ -821,10 +831,6 @@ private:
 	*** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
 	**/
 	void _UpdateShake(uint32 frame_time);
-
-	//! \brief Returns true if textures should be smoothed (used for non natural screen resolutions)
-	bool _ShouldSmooth()
-		{ return ( _screen_width != VIDEO_STANDARD_RES_WIDTH || _screen_height != VIDEO_STANDARD_RES_HEIGHT); }
 }; // class VideoEngine : public hoa_utils::Singleton<VideoEngine>
 
 }  // namespace hoa_video
