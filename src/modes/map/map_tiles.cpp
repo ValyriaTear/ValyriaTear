@@ -339,12 +339,12 @@ void TileSupervisor::Update() {
 
 void TileSupervisor::DrawLowerLayer(const MapFrame* const frame) {
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-	VideoManager->Move(frame->tile_x_start, frame->tile_y_start);
-	for (uint32 y = static_cast<uint32>(frame->starting_y);
-			y < static_cast<uint32>(frame->starting_y + frame->num_draw_y_axis); ++y)
+	VideoManager->Move(frame->tile_x_offset, frame->tile_y_offset);
+	for (uint32 y = static_cast<uint32>(frame->tile_y_start);
+			y < static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis); ++y)
 		{
-		for (uint32 x = static_cast<uint32>(frame->starting_x);
-				x < static_cast<uint32>(frame->starting_x + frame->num_draw_x_axis); ++x)
+		for (uint32 x = static_cast<uint32>(frame->tile_x_start);
+				x < static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis); ++x)
 		{
 			// Draw a tile image if it exists at this location
 			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].lower_layer >= 0)
@@ -361,12 +361,12 @@ void TileSupervisor::DrawLowerLayer(const MapFrame* const frame) {
 
 void TileSupervisor::DrawMiddleLayer(const MapFrame* const frame) {
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-	VideoManager->Move(frame->tile_x_start, frame->tile_y_start);
-	for (uint32 y = static_cast<uint32>(frame->starting_y);
-			y < static_cast<uint32>(frame->starting_y + frame->num_draw_y_axis); ++y)
+	VideoManager->Move(frame->tile_x_offset, frame->tile_y_offset);
+	for (uint32 y = static_cast<uint32>(frame->tile_y_start);
+			y < static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis); ++y)
 	{
-		for (uint32 x = static_cast<uint32>(frame->starting_x);
-				x < static_cast<uint32>(frame->starting_x + frame->num_draw_x_axis); ++x)
+		for (uint32 x = static_cast<uint32>(frame->tile_x_start);
+				x < static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis); ++x)
 		{
 			// Draw a tile image if it exists at this location
 			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].middle_layer >= 0)
@@ -384,12 +384,12 @@ void TileSupervisor::DrawMiddleLayer(const MapFrame* const frame) {
 
 void TileSupervisor::DrawUpperLayer(const MapFrame* const frame) {
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-	VideoManager->Move(frame->tile_x_start, frame->tile_y_start);
-	for (uint32 y = static_cast<uint32>(frame->starting_y);
-			y < static_cast<uint32>(frame->starting_y + frame->num_draw_y_axis); ++y)
+	VideoManager->Move(frame->tile_x_offset, frame->tile_y_offset);
+	for (uint32 y = static_cast<uint32>(frame->tile_y_start);
+			y < static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis); ++y)
 	{
-		for (uint32 x = static_cast<uint32>(frame->starting_x);
-				x < static_cast<uint32>(frame->starting_x + frame->num_draw_x_axis); ++x)
+		for (uint32 x = static_cast<uint32>(frame->tile_x_start);
+				x < static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis); ++x)
 		{
 			// Draw a tile image if it exists at this location
 			if (_tile_grid[MapMode::CurrentInstance()->GetCurrentContext()][y][x].upper_layer >= 0)

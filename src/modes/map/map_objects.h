@@ -213,9 +213,9 @@ public:
 									   float offset_x = 0.5, float offset_y = 0.5) const;
 
 	/** \brief Returns the image rectangle for the current object
-	*** \param rect A reference to the MapRectangle object to store the image rectangle data
+	*** \param rect A MapRectangle object storing the image rectangle data
 	**/
-	void GetImageRectangle(MapRectangle& rect) const;
+	MapRectangle GetImageRectangle() const;
 
 	/** \brief Restores the saved state of the object
 	*** This state data is retained in the saved game file. When any map object is created and added

@@ -259,7 +259,7 @@ void MapMode::Update() {
 	_event_supervisor->Update();
 
 	// Update the map frame coords
-	_CalculateMapFrame();
+	_UpdateMapFrame();
 
 	GameMode::Update();
 } // void MapMode::Update()
@@ -276,9 +276,9 @@ void MapMode::Draw() {
 }
 
 void MapMode::DrawPostEffects() {
+	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 	// Halos are additive blending made, so they should be applied
 	// as post-effects but before the GUI.
-	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 	_object_supervisor->DrawHalos();
 
 	// Draw the gui, unaffected by potential
@@ -624,8 +624,8 @@ void MapMode::_UpdateExplore() {
 
 
 
-void MapMode::_CalculateMapFrame() {
-	// ---------- (1) Determine the center position coordinates for the camera
+void MapMode::_UpdateMapFrame() {
+	// Determine the center position coordinates for the camera
 	float camera_x, camera_y; // Holds the final X, Y coordinates of the camera
 	float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
 	float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the camera, rounded to perfectly align on a pixel boundary
@@ -659,70 +659,70 @@ void MapMode::_CalculateMapFrame() {
 	camera_x = static_cast<float>(current_x) + rounded_x_offset;
 	camera_y = static_cast<float>(current_y) + rounded_y_offset;
 
-	// ---------- (2) Calculate all four screen edges and determine
+	// Calculate all four screen edges and determine
 	// Determine the draw coordinates of the top left corner using the camera's current position
-	_map_frame.tile_x_start = 1.0f - rounded_x_offset;
+	_map_frame.tile_x_offset = 1.0f - rounded_x_offset;
 	if (IsOddNumber(current_x))
-		_map_frame.tile_x_start -= 1.0f;
+		_map_frame.tile_x_offset -= 1.0f;
 
-	_map_frame.tile_y_start = 2.0f - rounded_y_offset;
+	_map_frame.tile_y_offset = 2.0f - rounded_y_offset;
 	if (IsOddNumber(current_y))
-		_map_frame.tile_y_start -= 1.0f;
+		_map_frame.tile_y_offset -= 1.0f;
 
 	// The starting row and column of tiles to draw is determined by the map camera's position
-	_map_frame.starting_x = (current_x / 2) - HALF_TILES_ON_X_AXIS;
-	_map_frame.starting_y = (current_y / 2) - HALF_TILES_ON_Y_AXIS;
+	_map_frame.tile_x_start = (current_x / 2) - HALF_TILES_ON_X_AXIS;
+	_map_frame.tile_y_start = (current_y / 2) - HALF_TILES_ON_Y_AXIS;
 
 	_map_frame.screen_edges.top    = camera_y - HALF_SCREEN_GRID_Y_LENGTH;
 	_map_frame.screen_edges.bottom = camera_y + HALF_SCREEN_GRID_Y_LENGTH;
 	_map_frame.screen_edges.left   = camera_x - HALF_SCREEN_GRID_X_LENGTH;
 	_map_frame.screen_edges.right  = camera_x + HALF_SCREEN_GRID_X_LENGTH;
 
-	// ---------- (3) Check for boundary conditions and re-adjust as necessary so we don't draw outside the map area
+	// Check for boundary conditions and re-adjust as necessary so we don't draw outside the map area
 
 	// Usually the map centers on the camera's position, but when the camera becomes too close to
 	// the edges of the map, we need to modify the drawing properties of the frame.
 
 	// Camera exceeds the left boundary of the map
-	if (_map_frame.starting_x < 0) {
-		_map_frame.starting_x = 0;
-		_map_frame.tile_x_start = 1.0f;
+	if (_map_frame.tile_x_start < 0) {
+		_map_frame.tile_x_start = 0;
+		_map_frame.tile_x_offset = 1.0f;
 		_map_frame.screen_edges.left = 0.0f;
 		_map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
 	}
 	// Camera exceeds the right boundary of the map
-	else if (_map_frame.starting_x + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
-		_map_frame.starting_x = static_cast<int16>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
-		_map_frame.tile_x_start = 1.0f;
+	else if (_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
+		_map_frame.tile_x_start = static_cast<int16>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
+		_map_frame.tile_x_offset = 1.0f;
 		_map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
 		_map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
 	}
 
 	// Camera exceeds the top boundary of the map
-	if (_map_frame.starting_y < 0) {
-		_map_frame.starting_y = 0;
-		_map_frame.tile_y_start = 2.0f;
+	if (_map_frame.tile_y_start < 0) {
+		_map_frame.tile_y_start = 0;
+		_map_frame.tile_y_offset = 2.0f;
 		_map_frame.screen_edges.top = 0.0f;
 		_map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
 	}
 	// Camera exceeds the bottom boundary of the map
-	else if (_map_frame.starting_y + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
-		_map_frame.starting_y = static_cast<int16>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
-		_map_frame.tile_y_start = 2.0f;
+	else if (_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
+		_map_frame.tile_y_start = static_cast<int16>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
+		_map_frame.tile_y_offset = 2.0f;
 		_map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
 		_map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
 	}
 
-	// ---------- (4) Determine the number of rows and columns of tiles that need to be drawn
+	// Determine the number of rows and columns of tiles that need to be drawn
 
 	// When the tile images align perfectly with the screen, we can afford to draw one less row or column of tiles
-	if (IsFloatInRange(_map_frame.tile_x_start, 0.999f, 1.001f)) {
+	if (IsFloatInRange(_map_frame.tile_x_offset, 0.999f, 1.001f)) {
 		_map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
 	}
 	else {
 		_map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
 	}
-	if (IsFloatInRange(_map_frame.tile_y_start, 1.999f, 2.001f)) {
+	if (IsFloatInRange(_map_frame.tile_y_offset, 1.999f, 2.001f)) {
 		_map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
 	}
 	else {

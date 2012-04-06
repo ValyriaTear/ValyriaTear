@@ -592,31 +592,33 @@ void MapSprite::Update() {
 } // void MapSprite::Update()
 
 
-// Draw the appropriate sprite frame at the correct position on the screen
 void MapSprite::Draw() {
-	if (MapObject::ShouldDraw() == true) {
+	if (MapObject::ShouldDraw())
 		_animations[_current_animation].Draw();
-	}
 }
+
 
 void MapSprite::DrawDialog()
 {
     // Update the alpha of the dialogue icon according to it's distance from the player sprite
 	const float DIALOGUE_ICON_VISIBLE_RANGE = 10.0f;
 
-    if (MapObject::ShouldDraw() == true)
-        if (_has_available_dialogue == true && _has_unseen_dialogue == true && MapMode::CurrentInstance()->IsShowGUI() == true && !MapMode::CurrentInstance()->IsCameraOnVirtualFocus()) {
-                Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
-                float icon_alpha = 1.0f - (fabs(ComputeXLocation() - MapMode::CurrentInstance()->GetCamera()->ComputeXLocation()) + fabs(ComputeYLocation() -
-                    MapMode::CurrentInstance()->GetCamera()->ComputeYLocation())) / DIALOGUE_ICON_VISIBLE_RANGE;
+    if (MapObject::ShouldDraw()) {
+		MapMode *map = MapMode::CurrentInstance();
+        if (_has_available_dialogue && _has_unseen_dialogue
+				&& map->IsShowGUI() && !map->IsCameraOnVirtualFocus()) {
+			Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
+			float icon_alpha = 1.0f - (fabs(ComputeXLocation() - map->GetCamera()->ComputeXLocation())
+				+ fabs(ComputeYLocation() - map->GetCamera()->ComputeYLocation())) / DIALOGUE_ICON_VISIBLE_RANGE;
 
-                if (icon_alpha < 0.0f)
-                    icon_alpha = 0.0f;
-                icon_color.SetAlpha(icon_alpha);
+			if (icon_alpha < 0.0f)
+				icon_alpha = 0.0f;
+			icon_color.SetAlpha(icon_alpha);
 
-                VideoManager->MoveRelative(0, -GetImgHeight());
-                MapMode::CurrentInstance()->GetDialogueIcon().Draw(icon_color);
+			VideoManager->MoveRelative(0, -GetImgHeight());
+			map->GetDialogueIcon().Draw(icon_color);
         }
+	}
 }
 
 void MapSprite::AddDialogueReference(uint32 dialogue_id) {
