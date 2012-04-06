@@ -27,33 +27,32 @@ using namespace std;
 using namespace hoa_script;
 using namespace hoa_video;
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
 
-namespace private_video
+ParticleEffectID ParticleManager::AddParticleEffect(const string &filename, float x, float y)
 {
+	ParticleEffectDef *def = _LoadEffect(filename);
 
-
-// A helper function reading a lua subtable of 4 float values.
-Color ParticleManager::_ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
-						   std::string param_name) {
-	std::vector<float> float_vec;
-	particle_script.ReadFloatVector(param_name, float_vec);
-	if (float_vec.size() < 4) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid color read" << endl;
-		return Color();
+	if(!def)
+	{
+		IF_PRINT_WARNING(VIDEO_DEBUG) <<
+			"Failed to load particle definition file: " << filename << endl;
+		return VIDEO_INVALID_EFFECT;
 	}
-	Color new_color(float_vec[0], float_vec[1], float_vec[2], float_vec[3]);
 
-	return new_color;
+	ParticleEffectID id = _AddEffect(def, x, y);
+	if(id == VIDEO_INVALID_EFFECT)
+	{
+		IF_PRINT_WARNING(VIDEO_DEBUG) <<
+			"Failed to add effect to particle manager!" << endl;
+	}
+
+	return id;
 }
 
 
-//-----------------------------------------------------------------------------
-// LoadEffect: loads an effect definition from disk given the filename
-//             Returns NULL if there is a problem with loading
-//-----------------------------------------------------------------------------
-ParticleEffectDef *ParticleManager::LoadEffect(const std::string &particle_file)
+ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file)
 {
 	hoa_script::ReadScriptDescriptor particle_script;
 	if (!particle_script.OpenFile(particle_file)) {
@@ -304,10 +303,7 @@ ParticleEffectDef *ParticleManager::LoadEffect(const std::string &particle_file)
 }
 
 
-//-----------------------------------------------------------------------------
-// AddEffect: adds a new particle effect to the list
-//-----------------------------------------------------------------------------
-ParticleEffectID ParticleManager::AddEffect(const ParticleEffectDef *def, float x, float y)
+ParticleEffectID ParticleManager::_AddEffect(const ParticleEffectDef *def, float x, float y)
 {
 	if(!def)
 	{
@@ -332,17 +328,21 @@ ParticleEffectID ParticleManager::AddEffect(const ParticleEffectDef *def, float 
 	}
 
 	effect->Move(x, y);
-	_effects[_current_id] = effect;
+	_effects.push_back(effect);
 
-	++_current_id;
-
-	return _current_id - 1;
+	return _effects.size() - 1;
 };
 
 
-//-----------------------------------------------------------------------------
-// Draw: draws all particle effects
-//-----------------------------------------------------------------------------
+void ParticleManager::_DEBUG_ShowParticleStats() {
+	char text[50];
+	sprintf(text, "Particles: %d", GetNumParticles());
+
+	VideoManager->Move(896.0f, 690.0f);
+	TextManager->Draw(text);
+}
+
+
 bool ParticleManager::Draw()
 {
 	VideoManager->PushState();
@@ -351,7 +351,7 @@ bool ParticleManager::Draw()
 	VideoManager->SetCoordSys(CoordSys(0.0f, 1024.0f, 768.0f, 0.0f));
 	VideoManager->DisableScissoring();
 
-	map<ParticleEffectID, ParticleEffect *>::iterator iEffect = _effects.begin();
+	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
 
 	glClearStencil(0);
 	glClear(GL_STENCIL_BUFFER_BIT);
@@ -360,7 +360,7 @@ bool ParticleManager::Draw()
 
 	while(iEffect != _effects.end())
 	{
-		if(!(iEffect->second)->_Draw())
+		if(!(*iEffect)->_Draw())
 		{
 			success = false;
 			IF_PRINT_WARNING(VIDEO_DEBUG)
@@ -374,14 +374,11 @@ bool ParticleManager::Draw()
 }
 
 
-//-----------------------------------------------------------------------------
-// Update: updates all particle effects
-//-----------------------------------------------------------------------------
 bool ParticleManager::Update(int32 frame_time)
 {
 	float frame_time_seconds = static_cast<float>(frame_time) / 1000.0f;
 
-	map<ParticleEffectID, ParticleEffect *>::iterator iEffect = _effects.begin();
+	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
 
 	bool success = true;
 
@@ -389,20 +386,20 @@ bool ParticleManager::Update(int32 frame_time)
 
 	while(iEffect != _effects.end())
 	{
-		if(!(iEffect->second)->IsAlive())
+		if(!(*iEffect)->IsAlive())
 		{
 			_effects.erase(iEffect++);
 		}
 		else
 		{
-			if(!(iEffect->second)->_Update(frame_time_seconds))
+			if(!(*iEffect)->_Update(frame_time_seconds))
 			{
 				success = false;
 				IF_PRINT_WARNING(VIDEO_DEBUG)
 					<< "Effect failed to update!" << endl;
 			}
 
-			_num_particles += iEffect->second->GetNumParticles();
+			_num_particles += (*iEffect)->GetNumParticles();
 			++iEffect;
 		}
 	}
@@ -411,34 +408,25 @@ bool ParticleManager::Update(int32 frame_time)
 }
 
 
-//-----------------------------------------------------------------------------
-// StopAll: stops all particle effects
-//-----------------------------------------------------------------------------
-
 void ParticleManager::StopAll(bool kill_immediate)
 {
-	map<ParticleEffectID, ParticleEffect *>::iterator iEffect = _effects.begin();
+	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
 
 	while(iEffect != _effects.end())
 	{
-		(iEffect->second)->Stop(kill_immediate);
+		(*iEffect)->Stop(kill_immediate);
 		++iEffect;
 	}
 }
 
 
-//-----------------------------------------------------------------------------
-// Destroy: destroys all particle effects
-//-----------------------------------------------------------------------------
-
-void ParticleManager::Destroy()
-{
-	map<ParticleEffectID, ParticleEffect *>::iterator iEffect = _effects.begin();
+void ParticleManager::_Destroy() {
+	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
 
 	while(iEffect != _effects.end())
 	{
-		(iEffect->second)->_Destroy();
-		delete (iEffect->second);
+		(*iEffect)->_Destroy();
+		delete (*iEffect);
 		++iEffect;
 	}
 
@@ -446,28 +434,13 @@ void ParticleManager::Destroy()
 }
 
 
-//-----------------------------------------------------------------------------
-// GetEffect: returns a pointer to the effect with the given ID. Only valid
-//            up until the next call to ParticleManager::Update(). In other words,
-//            don't store any pointers yourself, store the ID and call GetEffect()
-//
-//            Returns NULL if the effect cannot be found (perhaps it died)
-//-----------------------------------------------------------------------------
+ParticleEffect *ParticleManager::_GetEffect(ParticleEffectID id) {
+	if (id > -1 && id < (int32)_effects.size())
+		return _effects[id];
 
-ParticleEffect *ParticleManager::GetEffect(ParticleEffectID id)
-{
-	map<ParticleEffectID, ParticleEffect *>::iterator iEffect = _effects.find(id);
-	if(iEffect == _effects.end())
-		return NULL;
-	else
-		return iEffect->second;
+	return NULL;
 }
 
-
-//-----------------------------------------------------------------------------
-// GetNumParticles: returns the entire number of live particles between all
-//                  currently displaying effects
-//-----------------------------------------------------------------------------
 
 int32 ParticleManager::GetNumParticles()
 {
@@ -475,17 +448,25 @@ int32 ParticleManager::GetNumParticles()
 }
 
 
-//-----------------------------------------------------------------------------
-// _CreateEffect: helper to AddEffect(), does the job of initializing a new effect
-//                given its definition. Returns NULL on failure
-//
-//                NOTE: assumes that def isn't NULL and def->_systems is non-empty
-//-----------------------------------------------------------------------------
+// A helper function reading a lua subtable of 4 float values.
+Color ParticleManager::_ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
+						   std::string param_name) {
+	std::vector<float> float_vec;
+	particle_script.ReadFloatVector(param_name, float_vec);
+	if (float_vec.size() < 4) {
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid color read" << endl;
+		return Color();
+	}
+	Color new_color(float_vec[0], float_vec[1], float_vec[2], float_vec[3]);
+
+	return new_color;
+}
+
 
 ParticleEffect *ParticleManager::_CreateEffect(const ParticleEffectDef *def)
 {
-	list<ParticleSystemDef *>::const_iterator iSystem = def->_systems.begin();
-	list<ParticleSystemDef *>::const_iterator iEnd = def->_systems.end();
+	std::list<ParticleSystemDef *>::const_iterator iSystem = def->_systems.begin();
+	std::list<ParticleSystemDef *>::const_iterator iEnd = def->_systems.end();
 
 	ParticleEffect *effect = new ParticleEffect;
 
@@ -529,6 +510,4 @@ ParticleEffect *ParticleManager::_CreateEffect(const ParticleEffectDef *def)
 	return effect;
 }
 
-
-}  // namespace private_video
 }  // namespace hoa_video

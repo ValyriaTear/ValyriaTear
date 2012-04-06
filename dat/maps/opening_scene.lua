@@ -207,7 +207,7 @@ function Load(m)
 		-- Add a far storm effect
 		Map:GetEffectSupervisor():EnableLightning(1, true);
 		-- Add also the rain going with it
-		VideoManager:AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0, false);
+		Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
 
 		InitialCreateCharacters();
 		InitialCreateNPCs();

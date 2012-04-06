@@ -91,11 +91,6 @@ namespace hoa_video {
 
 	class Interpolator;
 
-	class ParticleEffect;
-	class ParticleEffectDef;
-	class ParticleEmitter;
-	class EffectParameters;
-
 	namespace private_video {
 		class Context;
 
@@ -113,14 +108,6 @@ namespace hoa_video {
 		class TextElement;
 		class AnimationFrame;
 		class ImageElement;
-
-		class ParticleManager;
-		class ParticleSystem;
-		class ParticleSystemDef;
-		class Particle;
-		class ParticleVertex;
-		class ParticleTexCoord;
-		class ParticleKeyframe;
 
 		class ScreenFader;
 		class ShakeForce;
@@ -144,6 +131,19 @@ namespace hoa_mode_manager {
 	class ModeEngine;
 
 	class GameMode;
+
+	class ParticleEffect;
+	class ParticleEffectDef;
+	class ParticleEmitter;
+	class EffectParameters;
+
+	class ParticleManager;
+	class ParticleSystem;
+	class ParticleSystemDef;
+	class Particle;
+	class ParticleVertex;
+	class ParticleTexCoord;
+	class ParticleKeyframe;
 }
 
 // Input declarations, see src/engine/

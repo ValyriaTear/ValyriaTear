@@ -336,7 +336,7 @@ class StillImage : public ImageDescriptor {
 	friend class AnimatedImage;
 	friend class CompositeImage;
 	friend class TextureController;
-	friend class private_video::ParticleSystem;
+	friend class hoa_mode_manager::ParticleSystem;
 
 public:
 	//! \brief Supply the constructor with "true" if you want this to represent a grayscale image

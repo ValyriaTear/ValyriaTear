@@ -71,8 +71,6 @@ extern "C" {
 #include "screen_rect.h"
 #include "texture_controller.h"
 #include "text.h"
-#include "particle_manager.h"
-#include "particle_effect.h"
 
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace hoa_video {
@@ -148,27 +146,7 @@ enum VIDEO_TARGET {
 	VIDEO_TARGET_TOTAL = 2
 };
 
-
-//! \brief Specifies the stencil operation to use and describes how the stencil buffer is modified
-enum VIDEO_STENCIL_OP {
-	VIDEO_STENCIL_OP_INVALID = -1,
-
-	//! Set the stencil value to one
-	VIDEO_STENCIL_OP_ZERO = 0,
-
-	//! Set the stencil value to zero
-	VIDEO_STENCIL_OP_ONE = 1,
-
-	//! Increase the stencil value
-	VIDEO_STENCIL_OP_INCREASE = 2,
-
-	//! Decrease the stencil value
-	VIDEO_STENCIL_OP_DECREASE = 3,
-
-	VIDEO_STENCIL_OP_TOTAL = 4
-};
-
-//! \brief The standard screen resolution for Allacrost
+//! \brief The standard screen resolution
 enum {
 	VIDEO_STANDARD_RES_WIDTH  = 1024,
 	VIDEO_STANDARD_RES_HEIGHT = 768
@@ -214,7 +192,8 @@ class VideoEngine : public hoa_utils::Singleton<VideoEngine> {
 	friend class private_video::TexSheet;
 	friend class private_video::FixedTexSheet;
 	friend class private_video::VariableTexSheet;
-	friend class private_video::ParticleSystem;
+
+	friend class hoa_mode_manager::ParticleSystem;
 
 	friend class ImageDescriptor;
 	friend class StillImage;
@@ -532,12 +511,6 @@ public:
 
 	//-- Overlays: Lighting, Lightning  -----------------------------------------------------
 
-	//! \brief call after all map images are drawn to apply a fade effect.
-	void DrawFadeEffect();
-
-	//! \brief disables all the active fade effects.
-	void DisableFadeEffect();
-
 	/** \brief draws a halo at the current draw cursor position
 	 *
 	 *  \param id    image descriptor for the halo image
@@ -556,6 +529,12 @@ public:
 	//void DrawLight(float radius, float x, float y, const Color &color = Color::white);
 
 	//-- Fading ---------------------------------------------------------------
+
+	//! \brief call after all map images are drawn to apply a fade effect.
+	void DrawFadeEffect();
+
+	//! \brief disables all the active fade effects.
+	void DisableFadeEffect();
 
 	/** \brief Begins a game-wise screen fade.
 	*** \param color The color to fade the screen to
@@ -595,43 +574,6 @@ public:
 	//! \brief Returns true if the screen is shaking
 	bool IsShaking()
 		{ return (_shake_forces.empty() == false); }
-
-	// ----------  Particle effect methods
-
-	/** \brief add a particle effect at the given point x and y
-	 *  \param particle_effect_filename - file containing the particle effect definition
-	 *  \param x - X coordinate of the effect
-	 *  \param y - Y coordinate of the effect
-	 *  \param reload - reload the effect from file if it already exists
-	 *  \return id corresponding to the loaded particle effect
-	 *  \note  set the reload parameter to true to reload the effect definition file
-	 *         every time the effect is played. This is useful if you are working on an
-	 *         effect and want to see how it looks. When we actually release the game,
-	 *         reload should be false since it adds some cost to the loading
-	 */
-	ParticleEffectID AddParticleEffect(const std::string &particle_effect_filename, float x, float y, bool reload=false);
-
-	/** \brief draws all active particle effects
-	 * \return success/failure
-	 */
-	bool DrawParticleEffects();
-
-	/** \brief stops all active particle effects
-	 *  \param kill_immediate  If this is true, then the particle effects die out immediately
-	 *                         If it is false, then they don't immediately die, but new particles
-	 *                         stop spawning
-	 */
-	void StopAllParticleEffects(bool kill_immediate = false);
-
-	/** \brief get pointer to an effect given its ID
-	 * \return the particle effect with the given ID
-	 */
-	ParticleEffect *GetParticleEffect(ParticleEffectID id);
-
-	/** \brief get number of live particles
-	 * \return the number of live particles in the system
-	 */
-	int32 GetNumParticles();
 
 	//-- Miscellaneous --------------------------------------------------------
 
@@ -808,9 +750,6 @@ private:
 	//! current shake forces affecting screen
 	std::list<private_video::ShakeForce> _shake_forces;
 
-	//! particle manager, does dirty work of managing particle effects
-	private_video::ParticleManager _particle_manager;
-
 	// changing the video settings does not actually do anything until
 	// you call ApplySettings(). Up til that point, store them in temp
 	// variables so if the new settings are invalid, we can roll back.
@@ -829,9 +768,6 @@ private:
 
 	//! Image used for rendering rectangles
 	StillImage _rectangle_image;
-
-	//! STL map containing all loaded particle effect definitions
-	std::map<std::string, ParticleEffectDef*> _particle_effect_defs;
 
 	//! stack containing context, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
 	std::stack<private_video::Context> _context_stack;
@@ -895,11 +831,6 @@ private:
 	//! \brief Returns true if textures should be smoothed (used for non natural screen resolutions)
 	bool _ShouldSmooth()
 		{ return ( _screen_width != VIDEO_STANDARD_RES_WIDTH || _screen_height != VIDEO_STANDARD_RES_HEIGHT); }
-
-	/** \brief Shows graphical statistics useful for performance tweaking
-	*** This includes, for instance, the number of texture switches made during a frame.
-	**/
-	void _DEBUG_ShowAdvancedStats();
 }; // class VideoEngine : public hoa_utils::Singleton<VideoEngine>
 
 }  // namespace hoa_video

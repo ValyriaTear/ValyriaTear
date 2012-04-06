@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,12 +28,8 @@
 #include "particle_keyframe.h"
 
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
-
-namespace private_video
-{
-
 
 /*!***************************************************************************
  *  \brief this is used in the vertex array for DrawArrays(). Every time
@@ -80,40 +76,40 @@ public:
 	//! position
 	float  x;
 	float  y;
-	
+
 	//! size
 	float  size_x;
 	float  size_y;
-	
+
 	//! velocity
 	float  velocity_x;
 	float  velocity_y;
-	
+
 	//! store the combined velocity (particle + wind + wave) so we only have
 	//! to calculate it once
 	float combined_velocity_x;
 	float combined_velocity_y;
-	
+
 	//! color
-	Color  color;
-		
+	hoa_video::Color  color;
+
 	//! current rotation angle
 	float  rotation_angle;
-	
+
 	//! rotation speed
 	float  rotation_speed;
-	
+
 	//! seconds since particle was spawned
 	float  time;
-	
+
 	//! lifetime (when the particle is supposed to die)
 	float  lifetime;
-	
+
 	//! this is 2 * pi / wavelength. The reason we store this weird
 	//! number instead of the wavelength is because that's what we
 	//! will ultimately plug into the sin function
-	float wave_length_coefficient;	
-	
+	float wave_length_coefficient;
+
 	//! half the amplitude of the wave. We store half the amplitude
 	//! instead of the whole amplitude because that's what gets multiplied
 	//! with the sin function
@@ -125,48 +121,47 @@ public:
 	//! those forces.
 	float acceleration_x;
 	float acceleration_y;
-	
+
 	//! tangential acceleration- just like normal acceleration, except it
 	//! is applied in the tangent direction. positive = clockwise.
 	float tangential_acceleration;
-	
+
 	//! radial acceleration- acceleration towards (negative) or away (positive)
 	//! from an attractor. Note that the default attractor is the emitter position.
 	//! The client can set an attractor for the entire effect by calling
 	//! ParticleEffect::SetAttractor(x,y)
 	float radial_acceleration;
-	
+
 	//! wind velocity. this gets added to the particle's velocity each frame.
 	//! note that different particles might also have a slightly different wind
-	//! velocity, if the system has some wind velocity variation	
+	//! velocity, if the system has some wind velocity variation
 	float wind_velocity_x;
 	float wind_velocity_y;
-	
+
 	//! damping- the particle's velocity gets multiplied by this value each second.
 	//! So for example, a damping of .6 means that a particle slows down by 40% each
 	//! second.
-	float damping;	
-	
+	float damping;
+
 	//! when a particle is created, it is given a rotation direction: either
 	//! 1 (clockwise) or -1 (counterclockwise)
 	float rotation_direction;
-		
-	//! property variations	
+
+	//! property variations
 	float current_size_variation_x;
 	float current_size_variation_y;
 	float next_size_variation_x;
-	float next_size_variation_y;	
+	float next_size_variation_y;
 	float current_rotation_speed_variation;
-	float next_rotation_speed_variation;	
-	Color current_color_variation;
-	Color next_color_variation;
-	
+	float next_rotation_speed_variation;
+	hoa_video::Color current_color_variation;
+	hoa_video::Color next_color_variation;
+
 	//! keep track of current and next keyframes
 	ParticleKeyframe *current_keyframe;
 	ParticleKeyframe *next_keyframe;
 };
 
-}
-}
+} // hoa_mode_manager
 
 #endif  //! __PARTICLE_HEADER__

@@ -43,18 +43,29 @@ GameMode::GameMode() {
 	mode_type = MODE_MANAGER_DUMMY_MODE;
 }
 
+
 GameMode::GameMode(uint8 mt) {
 	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode constructor invoked" << endl;
 	mode_type = mt;
 }
 
+
 GameMode::~GameMode() {
 	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode destructor invoked" << endl;
 }
 
+
 void GameMode::Update() {
 	uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
+
 	_effect_supervisor.Update(frame_time);
+	_particle_manager.Update(frame_time);
+}
+
+
+void GameMode::DrawEffects() {
+	_particle_manager.Draw();
+	_effect_supervisor.DrawEffects();
 }
 
 

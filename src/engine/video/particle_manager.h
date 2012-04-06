@@ -29,14 +29,8 @@ typedef int32 ParticleEffectID;
 //! \brief -1 represents an invalid effect
 const ParticleEffectID VIDEO_INVALID_EFFECT = -1;
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
-
-namespace private_video
-{
-
-#include "utils.h"
-
 
 /*!***************************************************************************
  *  \brief ParticleManager, used internally by video engine to store/update/draw
@@ -50,18 +44,13 @@ public:
 	/*!
 	 *  \brief Constructor
 	 */
-	ParticleManager()  { _current_id = 0; }
+	ParticleManager() {}
+
+	~ParticleManager()
+		{ _Destroy(); }
 
 	/*!
-	 *  \brief loads an effect definition from a particle file
-	 * \param filename file to load the effect from
-	 * \return handle to the effect
-	 */
-	ParticleEffectDef *LoadEffect(const std::string &filename);
-
-
-	/*!
-	 *  \brief creates a new instance of an effect at (x,y), given its definition.
+	 *  \brief creates a new instance of an effect at (x,y), given its definition file.
 	 *         The effect is added to the internal std::map, _effects, and is now
 	 *         included in calls to Draw() and Update()
 	 * \param def the new effect to add
@@ -69,8 +58,7 @@ public:
 	 * \param y y coordinate of where to add the effect
 	 * \return ID corresponding to the effect
 	 */
-	ParticleEffectID AddEffect(const ParticleEffectDef *def, float x, float y);
-
+	ParticleEffectID AddParticleEffect(const std::string &filename, float x, float y);
 
 	/*!
 	 *  \brief draws all active effects
@@ -78,14 +66,12 @@ public:
 	 */
 	bool Draw();
 
-
 	/*!
 	 *  \brief updates all active effects
 	 * \param the new time
 	 * \return success/failure
 	 */
 	bool Update(int32 frame_time);
-
 
 	/*!
 	 *  \brief stops all effects
@@ -97,6 +83,17 @@ public:
 	 */
 	void StopAll(bool kill_immediate = false);
 
+	/*!
+	 *  \brief returns the total number of particles among all active effects
+	 * \return number of particles in the effect
+	 */
+	int32 GetNumParticles();
+
+private:
+	/*!
+	 *  \brief destroys the system. Called by VideoEngine's destructor
+	 */
+	void _Destroy();
 
 	/*!
 	 *  \brief Converts a particle effect id into a ParticleEffect pointer.
@@ -106,41 +103,45 @@ public:
 	 * \param id ID of the effect to get
 	 * \return the desired effect
 	 */
-	ParticleEffect *GetEffect(ParticleEffectID id);
-
+	ParticleEffect *_GetEffect(ParticleEffectID id);
 
 	/*!
-	 *  \brief returns the total number of particles among all active effects
-	 * \return number of particles in the effect
+	 *  \brief loads an effect definition from a particle file
+	 * \param filename file to load the effect from
+	 * \return handle to the effect
 	 */
-	int32 GetNumParticles();
-
+	ParticleEffectDef *_LoadEffect(const std::string &filename);
 
 	/*!
-	 *  \brief destroys the system. Called by VideoEngine's destructor
+	 *  \brief creates a new instance of an effect at (x,y), given its definition.
+	 *         The effect is added to the internal std::map, _effects, and is now
+	 *         included in calls to Draw() and Update()
+	 * \param def the new effect to add
+	 * \param x x coordinate of where to add the effect
+	 * \param y y coordinate of where to add the effect
+	 * \return ID corresponding to the effect
 	 */
-	void Destroy();
-
-private:
+	ParticleEffectID _AddEffect(const ParticleEffectDef *def, float x, float y);
 
 	/*!
-	 *  \brief Helper function to initialize a new ParticleEffect from its definition.
+	*  \brief Helper function to initialize a new ParticleEffect from its definition.
 	*	      Used by AddEffect()
 	* \param def definition used to create the effect
 	* \return the effect created with the specified definition
-	 */
+	*/
 	ParticleEffect *_CreateEffect(const ParticleEffectDef *def);
 
 	//! \brief Helper function used to read a color subtable.
-	Color _ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
-					std::string param_name);
+	hoa_video::Color _ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
+								std::string param_name);
 
-	//! All the effects currently being managed. An std::map is used so that
-	//! we can convert easily between an id and a pointer
-	std::map<ParticleEffectID, ParticleEffect *> _effects;
+	/** \brief Shows graphical statistics useful for performance tweaking
+	*** This includes, for instance, the number of texture switches made during a frame.
+	**/
+	void _DEBUG_ShowParticleStats();
 
-	//! The next time we create an effect, its id will be _current_id
-	int32 _current_id;
+	//! All the effects currently being managed.
+	std::vector<ParticleEffect *> _effects;
 
 	//! Total number of particles among all the active effects. This is updated
 	//! during each call to Update(), so that when GetNumParticles() is called,
@@ -148,7 +149,6 @@ private:
 	int32 _num_particles;
 };
 
-}  // namespace private_video
-}  // namespace hoa_video
+}  // namespace hoa_mode_manager
 
 #endif // !__PARTICLE_MANAGER_HEADER

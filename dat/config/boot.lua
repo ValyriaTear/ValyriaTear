@@ -128,7 +128,7 @@ function UpdateAnimation()
 
         local delta = (animation_timer:GetTimeExpired() - SEQUENCE_SIX) / (SEQUENCE_SEVEN - SEQUENCE_SIX);
 		delta = 1.0 - delta * delta;
-        VideoManager:EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, delta));
+        Boot:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, delta));
     end
 
 end
@@ -204,7 +204,7 @@ function Draw()
         DrawAnimation();
     elseif (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
         if (menu_started == false) then
-            VideoManager:DisableLightingOverlay();
+            Boot:GetEffectSupervisor():DisableLightingOverlay();
             AudioManager:PlayMusic("mus/Allacrost_Opening_Theme.ogg");
 
             menu_started = true;

@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -53,14 +53,15 @@ class TextureController : public hoa_utils::Singleton<TextureController> {
 	friend class private_video::TexSheet;
 	friend class private_video::FixedTexSheet;
 	friend class private_video::VariableTexSheet;
-	friend class private_video::ParticleSystem;
+
+	friend class hoa_mode_manager::ParticleSystem;
 
 public:
 	TextureController();
 
 	bool SingletonInitialize();
 
-	/** \brief Unloads all texture sheets from memory 
+	/** \brief Unloads all texture sheets from memory
 	*** \return True only if all texture sheets were successfully unloaded
 	***
 	*** This leaves the lists of images intact so that they can be reloaded.

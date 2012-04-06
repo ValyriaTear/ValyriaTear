@@ -17,6 +17,7 @@
 #define __MODE_MANAGER_HEADER__
 
 #include "effect_supervisor.h"
+#include "engine/video/particle_manager.h"
 
 //! All calls to the mode management code are wrapped inside this namespace
 namespace hoa_mode_manager {
@@ -83,8 +84,7 @@ public:
 	virtual void Draw() = 0;
 
 	//! \brief Draws the ambient effects
-	void DrawEffects()
-		{ _effect_supervisor.DrawEffects(); }
+	void DrawEffects();
 
 	/**
 	*** Draws the next screen frame for the game mode, but unaffected
@@ -103,9 +103,15 @@ public:
 	EffectSupervisor& GetEffectSupervisor()
 		{ return _effect_supervisor; }
 
+	ParticleManager& GetParticleManager()
+		{ return _particle_manager; }
+
 private:
 	//! \brief Handles the work around ambient effects for the given mode.
 	EffectSupervisor _effect_supervisor;
+
+	//! \brief The particle manager instance, handles the work of managing particle effects
+	ParticleManager _particle_manager;
 }; // class GameMode
 
 
