@@ -19,13 +19,7 @@
 #ifndef __BATTLE_UTILS_HEADER__
 #define __BATTLE_UTILS_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "engine/system.h"
-
-#include "common/global/global_objects.h"
-#include "common/global/global_utils.h"
 
 namespace hoa_battle {
 

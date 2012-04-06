@@ -17,7 +17,6 @@
 #define __MAP_UTILS_HEADER__
 
 #include "utils.h"
-#include "defs.h"
 
 namespace hoa_map {
 

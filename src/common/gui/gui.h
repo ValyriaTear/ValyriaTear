@@ -19,11 +19,8 @@
 #define __GUI_HEADER__
 
 #include "defs.h"
-#include "utils.h"
 
-#include "engine/video/screen_rect.h"
-#include "engine/video/image.h"
-#include "engine/video/text.h"
+#include "engine/video/color.h"
 
 namespace hoa_gui {
 
@@ -381,9 +378,5 @@ private:
 }; // class GUISystem : public hoa_utils::Singleton<GUISystem>
 
 } // namespace hoa_gui
-
-#include "menu_window.h"
-#include "option.h"
-#include "textbox.h"
 
 #endif // __GUI_HEADER__

@@ -20,10 +20,6 @@
 #ifndef __SHOP_CONFIRM_HEADER__
 #define __SHOP_CONFIRM_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-#include "engine/video/video.h"
 #include "common/global/global.h"
 
 #include "shop_utils.h"

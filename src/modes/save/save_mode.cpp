@@ -13,19 +13,14 @@
 *** \brief   Source file for save mode interface.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <sstream>
+#include "save_mode.h"
 
+#include "common/global/global.h"
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
-#include "engine/script/script.h"
 #include "engine/input.h"
-#include "engine/system.h"
 #include "modes/boot/boot.h"
 #include "modes/map/map.h"
-#include "engine/mode_manager.h"
-
-#include "save_mode.h"
 
 using namespace std;
 using namespace hoa_utils;

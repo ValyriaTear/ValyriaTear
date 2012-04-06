@@ -16,14 +16,11 @@
 #ifndef __MAP_TREASURE_HEADER__
 #define __MAP_TREASURE_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
-#include "engine/video/video.h"
-
-#include "common/gui/gui.h"
-
 #include "modes/map/map_utils.h"
+
+#include "common/gui/menu_window.h"
+#include "common/gui/option.h"
+#include "common/gui/textbox.h"
 
 namespace hoa_map {
 

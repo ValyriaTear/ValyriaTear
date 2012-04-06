@@ -19,8 +19,17 @@
 #ifndef __TEXT_HEADER__
 #define __TEXT_HEADER__
 
-#include "defs.h"
+// OpenGL includes
+#ifdef __APPLE__
+	#include <OpenGL/gl.h>
+	#include <OpenGL/glu.h>
+#else
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+#endif
+
 #include "utils.h"
+#include "engine/video/image.h"
 
 typedef struct _TTF_Font TTF_Font;
 

@@ -25,33 +25,21 @@
 *** -# Update the game status based on how much time expired from the last update.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <ctime>
-#include <cmath>
-#include <string>
-#include <ctime>
-#ifdef __MACH__
-	#include <unistd.h>
-	#include <string>
-#endif
-
-#include "utils.h"
-#include "defs.h"
-
 #include "engine/audio/audio.h"
-#include "engine/video/video.h"
-#include "common/gui/gui.h"
 #include "engine/input.h"
-#include "engine/script/script.h"
+#include "engine/mode_manager.h"
+#include "engine/video/video.h"
 #include "engine/system.h"
 
 #include "common/global/global.h"
+#include "common/gui/gui.h"
 
-#include "engine/mode_manager.h"
 #include "modes/boot/boot.h"
-#include "modes/map/map.h"
 #include "main_options.h"
 
+#ifdef __MACH__
+	#include <unistd.h>
+#endif
 
 using namespace std;
 using namespace hoa_utils;
@@ -65,7 +53,6 @@ using namespace hoa_global;
 using namespace hoa_script;
 using namespace hoa_boot;
 using namespace hoa_map;
-
 
 /** \brief Frees all data allocated by the game by destroying the singleton classes
 ***

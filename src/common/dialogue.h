@@ -21,7 +21,8 @@
 
 #include "engine/video/video.h"
 
-#include "common/gui/gui.h"
+#include "common/gui/textbox.h"
+#include "common/gui/option.h"
 
 namespace hoa_common {
 

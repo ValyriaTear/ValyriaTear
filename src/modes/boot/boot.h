@@ -19,14 +19,13 @@
 #ifndef __BOOT_HEADER__
 #define __BOOT_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "engine/mode_manager.h"
 #include "engine/video/video.h"
+#include "engine/script/script.h"
+
+#include "modes/menu/menu_views.h"
 
 #include "boot_menu.h"
-#include "modes/menu/menu_views.h"
 
 //! \brief All calls to boot mode are wrapped in this namespace.
 namespace hoa_boot {

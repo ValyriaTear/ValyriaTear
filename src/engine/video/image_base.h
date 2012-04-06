@@ -38,9 +38,6 @@
 #ifndef __IMAGE_BASE_HEADER__
 #define __IMAGE_BASE_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "color.h"
 #include "texture.h"
 

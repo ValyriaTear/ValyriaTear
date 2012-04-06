@@ -27,12 +27,9 @@
 #ifndef __MAP_HEADER__
 #define __MAP_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
-#include "engine/script/script.h"
+#include "engine/script/script_read.h"
 #include "engine/video/video.h"
 #include "engine/system.h"
 

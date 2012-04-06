@@ -19,13 +19,9 @@
 #ifndef __BATTLE_FINISH_HEADER__
 #define __BATTLE_FINISH_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
-#include "engine/video/video.h"
-
-#include "common/gui/gui.h"
-#include "common/global/global.h"
+#include "common/gui/option.h"
+#include "common/gui/menu_window.h"
+#include "common/gui/textbox.h"
 
 #include "modes/battle/battle_utils.h"
 

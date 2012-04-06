@@ -39,10 +39,11 @@
 #include <SDL/SDL.h>
 
 #include "utils.h"
-#include "defs.h"
 
 //! All calls to the input engine are wrapped in this namespace.
 namespace hoa_input {
+
+class InputEngine;
 
 //! The singleton pointer responsible for handling and updating user input.
 extern InputEngine* InputManager;

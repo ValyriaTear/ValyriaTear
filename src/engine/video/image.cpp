@@ -17,7 +17,7 @@
 #include <math.h>
 
 #include "video.h"
-#include "engine/script/script.h"
+#include "engine/script/script_read.h"
 #include "engine/system.h"
 
 using namespace std;

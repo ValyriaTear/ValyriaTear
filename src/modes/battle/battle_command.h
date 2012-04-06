@@ -21,11 +21,8 @@
 #ifndef __BATTLE_COMMAND_HEADER__
 #define __BATTLE_COMMAND_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
-#include "common/gui/gui.h"
-#include "common/global/global.h"
+#include "common/gui/menu_window.h"
+#include "common/gui/option.h"
 
 #include "battle_utils.h"
 

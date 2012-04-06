@@ -20,11 +20,9 @@
 #ifndef __TEXTBOX_HEADER__
 #define __TEXTBOX_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "gui.h"
 #include "engine/system.h"
+#include "engine/video/text.h"
 
 namespace hoa_gui {
 

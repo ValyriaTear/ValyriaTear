@@ -16,11 +16,8 @@
 #ifndef __BOOT_MENU__
 #define __BOOT_MENU__
 
-#include "defs.h"
-#include "utils.h"
-
-#include "engine/video/video.h"
-#include "common/gui/gui.h"
+#include "common/gui/option.h"
+#include "common/gui/menu_window.h"
 
 namespace hoa_boot {
 

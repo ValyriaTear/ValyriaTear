@@ -16,11 +16,8 @@
 #ifndef __PAUSE_HEADER__
 #define __PAUSE_HEADER__
 
-#include "defs.h"
-#include "utils.h"
+#include "common/gui/option.h"
 
-#include "engine/video/video.h"
-#include "common/gui/gui.h"
 #include "engine/mode_manager.h"
 
 //! \brief All calls to pause mode are wrapped in this namespace.

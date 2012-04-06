@@ -19,10 +19,9 @@
 #ifndef __OPTION_HEADER__
 #define __OPTION_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-#include "gui.h"
+#include "common/gui/gui.h"
+#include "engine/video/image.h"
+#include "engine/video/text.h"
 #include "engine/system.h"
 
 namespace hoa_gui {

@@ -21,18 +21,10 @@
 #ifndef __MENU_VIEWS__
 #define __MENU_VIEWS__
 
-#include <string>
-#include <vector>
+#include "common/gui/textbox.h"
 
-#include "utils.h"
-#include "defs.h"
-
-#include "engine/video/video.h"
-#include "common/gui/gui.h"
-
-#include "common/global/global.h"
-
-
+#include "common/gui/menu_window.h"
+#include "common/gui/option.h"
 
 namespace hoa_menu {
 
