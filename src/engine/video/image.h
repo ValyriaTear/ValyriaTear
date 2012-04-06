@@ -46,12 +46,7 @@
 #ifndef __IMAGE_HEADER__
 #define __IMAGE_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "image_base.h"
-#include "color.h"
-#include "texture.h"
 
 namespace hoa_video {
 

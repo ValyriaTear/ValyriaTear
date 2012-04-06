@@ -19,12 +19,8 @@
 #ifndef __SHOP_UTILS_HEADER__
 #define __SHOP_UTILS_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-#include "engine/system.h"
-#include "engine/video/video.h"
-#include "common/gui/gui.h"
+#include "common/gui/textbox.h"
+#include "common/gui/option.h"
 
 namespace hoa_shop {
 

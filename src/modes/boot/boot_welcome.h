@@ -16,9 +16,9 @@
 #ifndef __BOOT_WELCOME__
 #define __BOOT_WELCOME__
 
-#include "utils.h"
-#include "engine/video/video.h"
-#include "common/gui/gui.h"
+#include "common/gui/menu_window.h"
+#include "engine/video/text.h"
+#include "common/gui/option.h"
 
 namespace hoa_boot {
 

@@ -16,18 +16,11 @@
 #ifndef __MAP_TREASURE_HEADER__
 #define __MAP_TREASURE_HEADER__
 
-// Allacrost utilities
-#include "utils.h"
-#include "defs.h"
-
-// Allacrost engines
-#include "engine/video/video.h"
-
-// Allacrost common code
-#include "common/gui/gui.h"
-
-// Local map mode headers
 #include "modes/map/map_utils.h"
+
+#include "common/gui/menu_window.h"
+#include "common/gui/option.h"
+#include "common/gui/textbox.h"
 
 namespace hoa_map {
 

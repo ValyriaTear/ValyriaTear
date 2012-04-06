@@ -9,7 +9,8 @@
 
 #include "engine/video/video.h"
 #include "gui.h"
-#include "engine/input.h"
+
+#include "common/gui/menu_window.h"
 
 using namespace std;
 using namespace hoa_utils;

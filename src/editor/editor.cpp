@@ -14,6 +14,7 @@
  *****************************************************************************/
 
 #include "editor.h"
+#include "engine/script/script_read.h"
 
 using namespace std;
 

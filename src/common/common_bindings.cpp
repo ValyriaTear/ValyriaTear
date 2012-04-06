@@ -22,9 +22,6 @@
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
 
-#include "defs.h"
-#include "utils.h"
-
 #include "common.h"
 #include "dialogue.h"
 

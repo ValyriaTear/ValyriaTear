@@ -16,6 +16,9 @@
 
 #include "tileset.h"
 
+#include "engine/script/script_read.h"
+#include "engine/script/script_write.h"
+
 using namespace std;
 using namespace hoa_video;
 using namespace hoa_script;

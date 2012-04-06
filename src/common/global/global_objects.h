@@ -19,12 +19,6 @@
 #ifndef __GLOBAL_OBJECTS_HEADER__
 #define __GLOBAL_OBJECTS_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-#include "engine/script/script.h"
-#include "engine/video/video.h"
-
 #include "global_utils.h"
 
 namespace hoa_global {

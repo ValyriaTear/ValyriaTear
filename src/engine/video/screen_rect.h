@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,6 @@
 #ifndef __SCREEN_RECT_HEADER__
 #define __SCREEN_RECT_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 namespace hoa_video {
@@ -30,7 +29,7 @@ namespace hoa_video {
 *** floats)
 *** ***************************************************************************/
 class ScreenRect {
-public:	
+public:
 	ScreenRect()
 		{}
 	ScreenRect(int32 l, int32 t, int32 w, int32 h)

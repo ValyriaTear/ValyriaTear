@@ -20,9 +20,6 @@
 #ifndef __SHOP_SELL_HEADER__
 #define __SHOP_SELL_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "engine/video/video.h"
 #include "common/global/global.h"
 

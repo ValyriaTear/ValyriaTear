@@ -16,7 +16,7 @@ extern "C" {
 }
 
 #include "engine/video/video.h"
-#include "engine/script/script.h"
+#include "engine/script/script_read.h"
 
 #include "engine/video/particle_manager.h"
 #include "engine/video/particle_effect.h"

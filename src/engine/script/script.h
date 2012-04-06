@@ -267,16 +267,4 @@ private:
 
 } // namespace hoa_script
 
-// These #includes are made here rather than the top of the file to avoid a recurisve inclusion problem.
-// Each of these files contains a class that dervies from the ScriptDescriptor class that is defined in
-// this file. Thus these headers must all include this header file, "script.h". However we would like to
-// make the entire script engine API available to the user through one header inclusion (script.h), so
-// this file must likewise include these files. When these are placed at the top of this file, the
-// ScriptDescriptor definition is not fully parsed by the time control reaches the other script headers,
-// hence why they are included here so that the ScriptDescriptor definition is available for the
-// other script headers to use.
-#include "script_read.h"
-#include "script_write.h"
-#include "script_modify.h"
-
 #endif // __SCRIPT_HEADER__

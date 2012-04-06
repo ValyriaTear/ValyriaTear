@@ -20,12 +20,11 @@
 #ifndef __SHOP_HEADER__
 #define __SHOP_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "engine/mode_manager.h"
 
 #include "common/global/global.h"
+
+#include "common/gui/menu_window.h"
 
 #include "shop_utils.h"
 

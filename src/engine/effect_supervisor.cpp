@@ -16,7 +16,7 @@
 
 #include "effect_supervisor.h"
 
-#include "engine/script/script.h"
+#include "engine/script/script_read.h"
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 

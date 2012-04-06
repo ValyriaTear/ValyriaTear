@@ -23,10 +23,7 @@
 #ifndef __GLOBAL_ACTORS_HEADER__
 #define __GLOBAL_ACTORS_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-#include "engine/video/video.h"
+#include "engine/video/image.h"
 
 #include "global_utils.h"
 

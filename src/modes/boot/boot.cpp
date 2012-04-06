@@ -17,7 +17,7 @@
 #include <sstream>
 
 #include "engine/audio/audio.h"
-#include "engine/script/script.h"
+#include "engine/script/script_modify.h"
 #include "engine/input.h"
 #include "engine/system.h"
 

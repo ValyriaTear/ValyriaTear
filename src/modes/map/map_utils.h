@@ -18,7 +18,6 @@
 
 // Allacrost utilities
 #include "utils.h"
-#include "defs.h"
 
 namespace hoa_map {
 

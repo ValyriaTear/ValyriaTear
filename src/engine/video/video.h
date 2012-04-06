@@ -58,9 +58,6 @@ extern "C" {
 	#include <SDL/SDL_ttf.h>
 #endif
 
-#include "defs.h"
-#include "utils.h"
-
 #include "context.h"
 #include "color.h"
 #include "coord_sys.h"

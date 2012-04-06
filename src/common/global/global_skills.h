@@ -20,12 +20,9 @@
 #ifndef __GLOBAL_SKILLS_HEADER__
 #define __GLOBAL_SKILLS_HEADER__
 
-#include "defs.h"
-#include "utils.h"
+#include "global_utils.h"
 
 #include "engine/script/script.h"
-
-#include "global_utils.h"
 
 namespace hoa_global {
 

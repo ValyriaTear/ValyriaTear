@@ -13,8 +13,9 @@
 *** \brief   Source file for global game actors
 *** ***************************************************************************/
 
-#include "engine/video/video.h"
 #include "global_actors.h"
+
+#include "engine/script/script_read.h"
 #include "global_objects.h"
 #include "global_effects.h"
 #include "global_skills.h"

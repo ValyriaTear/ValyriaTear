@@ -13,7 +13,7 @@
 *** \brief   Source file for the boot credits window
 *** ***************************************************************************/
 
-#include "engine/script/script.h"
+#include "engine/script/script_read.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 

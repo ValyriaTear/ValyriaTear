@@ -18,11 +18,11 @@
 #ifndef __SAVE_HEADER__
 #define __SAVE_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
-#include "engine/video/video.h"
 #include "engine/mode_manager.h"
+
+#include "common/gui/menu_window.h"
+#include "common/gui/textbox.h"
+#include "common/gui/option.h"
 
 //! \brief All calls to save mode are wrapped in this namespace.
 namespace hoa_save {

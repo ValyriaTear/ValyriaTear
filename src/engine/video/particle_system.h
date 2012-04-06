@@ -28,11 +28,8 @@
 #ifndef __PARTICLE_SYSTEM_HEADER__
 #define __PARTICLE_SYSTEM_HEADER__
 
-#include "defs.h"
-#include "utils.h"
 #include "particle.h"
 #include "particle_emitter.h"
-#include "video.h"
 
 namespace hoa_mode_manager
 {

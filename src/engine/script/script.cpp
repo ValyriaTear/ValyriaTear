@@ -19,6 +19,7 @@
 #include <stdarg.h>
 
 #include "script.h"
+#include "script_read.h"
 
 using namespace std;
 using namespace luabind;

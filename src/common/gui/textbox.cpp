@@ -7,11 +7,10 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <sstream>
-
-#include "engine/video/video.h"
-
 #include "textbox.h"
+
+#include "common/gui/menu_window.h"
+#include "engine/video/video.h"
 
 using namespace std;
 using namespace hoa_utils;

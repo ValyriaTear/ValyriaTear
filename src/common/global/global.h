@@ -23,9 +23,8 @@
 #ifndef __GLOBAL_HEADER__
 #define __GLOBAL_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-#include "engine/script/script.h"
+#include "engine/script/script_read.h"
+#include "engine/script/script_write.h"
 
 #include "global_actors.h"
 #include "global_effects.h"
