@@ -10,14 +10,13 @@
 /** ***************************************************************************
 *** \file   mode_manager.h
 *** \author Tyler Olsen, roots@allacrost.org
-*** \brief  Header file for game mode processingd
+*** \brief  Header file for game mode processing
 *** **************************************************************************/
 
 #ifndef __MODE_MANAGER_HEADER__
 #define __MODE_MANAGER_HEADER__
 
-#include "utils.h"
-#include "defs.h"
+#include "effect_supervisor.h"
 
 //! All calls to the mode management code are wrapped inside this namespace
 namespace hoa_mode_manager {
@@ -42,7 +41,6 @@ const uint8 MODE_MANAGER_SCENE_MODE  = 7;
 const uint8 MODE_MANAGER_WORLD_MODE  = 8;
 const uint8 MODE_MANAGER_SAVE_MODE   = 9;
 //@}
-
 
 /** ***************************************************************************
 *** \brief An abstract class that all game mode classes inherit from.
@@ -79,14 +77,21 @@ public:
 	virtual ~GameMode();
 
 	//! Updates the state of the game mode.
-	virtual void Update() = 0;
+	virtual void Update();
+
 	//! Draws the next screen frame for the game mode.
 	virtual void Draw() = 0;
+
+	//! \brief Draws the ambient effects
+	void DrawEffects()
+		{ _effect_supervisor.DrawEffects(); }
+
 	/**
 	*** Draws the next screen frame for the game mode, but unaffected
 	*** by potential light and fade effects.
 	**/
 	virtual void DrawPostEffects() {};
+
 	/** \brief Resets the state of the class.
 	***
 	*** This function is called whenever the game mode is made active (ie, it is made the new active game mode
@@ -94,6 +99,13 @@ public:
 	*** game stack, so in that manner it can also be viewed as a helper function to the constructor.
 	**/
 	virtual void Reset() = 0;
+
+	EffectSupervisor& GetEffectSupervisor()
+		{ return _effect_supervisor; }
+
+private:
+	//! \brief Handles the work around ambient effects for the given mode.
+	EffectSupervisor _effect_supervisor;
 }; // class GameMode
 
 
@@ -206,6 +218,9 @@ public:
 
 	//! \brief Calls the Draw() function on the active game mode.
 	void Draw();
+
+	//! \brief Calls the DrawEffects() function on the active game mode.
+	void DrawEffects();
 
 	//! \brief Calls the DrawPostEffects() function on the active game mode.
 	void DrawPostEffects();

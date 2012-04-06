@@ -200,13 +200,12 @@ function Load(m)
 	end
 
 	if (initial_scene == true) then
-		VideoManager:DisableEffects();
 		-- Draw night-time scene lighting
-		VideoManager:EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.6));
+		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.6));
 		-- Show some sandy wind
-		VideoManager:EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
+		Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/sandstorm.png", -450.0, 25.0);
 		-- Add a far storm effect
-		VideoManager:EnableLightning(1, true);
+		Map:GetEffectSupervisor():EnableLightning(1, true);
 		-- Add also the rain going with it
 		VideoManager:AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0, false);
 
@@ -215,7 +214,6 @@ function Load(m)
 		InitialCreateDialogue();
 		InitialCreateEvents();
 	else
-		VideoManager:DisableEffects();
 		-- Draw morning-time scene lighting
 		VideoManager:EnableLightingOverlay(hoa_video.Color(0.6, 0.0, 0.3, 0.3));
 		-- Show some sandy wind

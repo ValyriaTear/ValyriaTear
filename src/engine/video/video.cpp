@@ -71,6 +71,7 @@ void RotatePoint(float& x, float& y, float angle) {
 	y = y * cos_angle + original_x * sin_angle;
 }
 
+
 //-----------------------------------------------------------------------------
 // VideoEngine class
 //-----------------------------------------------------------------------------
@@ -93,9 +94,6 @@ VideoEngine::VideoEngine() :
 	_y_shake = 0;
 	_gamma_value = 1.0f;
 	_gl_error_code = GL_NO_ERROR;
-	_lightning_active = false;
-	_active_lightning_id = -1;
-	_lightning_current_time = 0;
 
 	_fps_sum = 0;
 	_fps_display = false;
@@ -117,23 +115,8 @@ VideoEngine::VideoEngine() :
 	for (uint32 sample = 0; sample < FPS_SAMPLES; sample++)
 		 _fps_samples[sample] = 0;
 
-	// Initialize the overlays
-	// Light overlay
-	_uses_light_overlay = false;
-	_light_overlay_img.Load("", 1.0f, 1.0f);
-	// Ambient overlay
-	_uses_ambient_overlay = false;
-	_ambient_x_speed = 0;
-	_ambient_y_speed = 0;
-	_ambient_x_shift = 0;
-	_ambient_y_shift = 0;
-	// lightning overlay
-	_lightning_overlay_img.Load("", 1.0f, 1.0f);
-	_loop_lightning = false;
 	// Custom fading overlay
 	_fade_overlay_img.Load("", 1.0f, 1.0f);
-	// Load the lightning effect
-	_LoadLightnings("dat/effects/lightning.lua");
 }
 
 
@@ -203,7 +186,6 @@ VideoEngine::~VideoEngine() {
 
 	_default_menu_cursor.Clear();
 	_rectangle_image.Clear();
-	_ambient_overlay_img.Clear();
 
 	TextureManager->SingletonDestroy();
 }
@@ -371,10 +353,6 @@ void VideoEngine::Update() {
 	// Update shaking effect
 	_UpdateShake(frame_time);
 
-	_UpdateAmbientOverlay(frame_time);
-
-	_UpdateLightning(frame_time);
-
 	_screen_fader.Update(frame_time);
 }
 
@@ -387,9 +365,6 @@ void VideoEngine::Draw() {
 
 	// Draw the particle effects
 	DrawParticleEffects();
-
-	// Apply potential active ambient lightning
-	DrawOverlays();
 
 	// This must be called before DrawFPS, because we only want to count
 	// texture switches related to the game's normal operation, not the
@@ -688,257 +663,7 @@ void VideoEngine::SetTransform(float matrix[16]) {
 	glLoadMatrixf(matrix);
 }
 
-void VideoEngine::EnableAmbientOverlay(const string &filename,
-									   float x_speed, float y_speed) {
-	// Note: The StillImage class handles clearing an image
-	// when loading another one.
-	_ambient_overlay_img.Clear();
-	if (_ambient_overlay_img.Load(filename)) {
-		_ambient_x_speed = x_speed;
-		_ambient_y_speed = y_speed;
-		_uses_ambient_overlay = true;
-	}
-}
-
-void VideoEngine::DisableAmbientOverlay() {
-	_uses_ambient_overlay = false;
-}
-
-void VideoEngine::_UpdateAmbientOverlay(uint32 frame_time) {
-	// Update the shifting
-	float elapsed_ms = static_cast<float>(frame_time);
-	//static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
-	_ambient_x_shift += elapsed_ms / 1000 * _ambient_x_speed;
-	_ambient_y_shift += elapsed_ms / 1000 * _ambient_y_speed;
-
-	float width = _ambient_overlay_img.GetWidth();
-	float height = _ambient_overlay_img.GetHeight();
-
-	// Make them negative to draw on the entire screen
-	while (_ambient_x_shift > 0.0f) {
-		_ambient_x_shift -= width;
-	}
-	// handle negative shifting
-	if (_ambient_x_shift < 2 * -width)
-		_ambient_x_shift += width;
-
-	while (_ambient_y_shift > 0.0f) {
-		_ambient_y_shift -= height;
-	}
-	// handle negative shifting
-	if (_ambient_y_shift < 2 * -height)
-		_ambient_y_shift += height;
-}
-
-void VideoEngine::EnableLightingOverlay(const Color& color) {
-	_light_overlay_img.SetColor(color);
-	_uses_light_overlay = true;
-}
-
-
-void VideoEngine::DisableLightingOverlay() {
-	_uses_light_overlay = false;
-}
-
-bool VideoEngine::_LoadLightnings(const std::string &lightning_file) {
-	_lightning_data.clear();
-
-	hoa_script::ReadScriptDescriptor lightning_script;
-	if (lightning_script.OpenFile(lightning_file) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "No script file: '"
-			<< lightning_file << "' The lightning effects won't work." << endl;
-		return false;
-	}
-
-	int16 lightnings_size = lightning_script.ReadInt("num_of_lightnings");
-	_lightning_end_times.resize(lightnings_size);
-	_lightning_data.resize(lightnings_size);
-	_lightning_sound_events.resize(lightnings_size);
-
-	// Read a list of alpha intensities (0.0f - 1.0f)
-	// the lightning_intensity lua table.
-	lightning_script.OpenTable("lightning_intensities");
-	for (int i = 0; i < lightnings_size; ++i) {
-		lightning_script.ReadFloatVector(i, _lightning_data[i]);
-	}
-	lightning_script.CloseTable();
-
-	// Load the lightning sounds events
-	lightning_script.OpenTable("lightning_sounds_filenames");
-	std::vector <std::string> sound_filenames;
-	for (int i = 0; i < lightnings_size; ++i) {
-		sound_filenames.clear();
-		lightning_script.ReadStringVector(i, sound_filenames);
-		_lightning_sound_events[i].resize(sound_filenames.size());
-		for (size_t j = 0; j < sound_filenames.size(); ++j) {
-			_lightning_sound_events[i][j].sound_filename = sound_filenames.at(j);
-		}
-	}
-	lightning_script.CloseTable();
-	lightning_script.OpenTable("lightning_sounds_times");
-
-	std::vector <int32> times;
-	for (int i = 0; i < lightnings_size; ++i) {
-		times.clear();
-		lightning_script.ReadIntVector(i, times);
-		for (size_t j = 0; j < times.size(); ++j) {
-			_lightning_sound_events[i][j].time = times.at(j);
-		}
-		// Add a sound event queue terminator
-		lightning_sound_event terminator_event;
-		terminator_event.time = -1;
-		_lightning_sound_events[i].push_back(terminator_event);
-	}
-	lightning_script.CloseTable();
-	lightning_script.CloseFile();
-
-	if (_lightning_data.empty()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "No lightning intensities read from: '"
-			<< lightning_file << "'. The effects won't work." << endl;
-		return false;
-	}
-
-	// Check the table of float intensities for sane values
-	std::vector<float>::iterator it, it_end;
-	for (int i = 0; i < lightnings_size; ++i) {
-		for (it = _lightning_data[i].begin(), it_end = _lightning_data[i].end();
-			it != it_end; ++it) {
-			if (*it > 1.0f)
-				*it = 1.0f;
-			else if (*it < 0.0f)
-				*it = 0.0f;
-		}
-		// Set the timer's end (one piece of data each 100ms)
-		_lightning_end_times[i] = _lightning_data.at(i).size() * 1000 / 100;
-	}
-
-	// reset the effect timer
-	_lightning_current_time = 0;
-	return true;
-}
-
-void VideoEngine::EnableLightning(int16 id, bool loop) {
-	if (id > -1 && id < (int16)_lightning_data.size()) {
-		_active_lightning_id = id;
-		_lightning_active = true;
-		_loop_lightning = loop;
-		_lightning_current_time = 0;
-
-		// Load the current sound events
-		_current_lightning_sound_events.clear();
-		std::vector<lightning_sound_event>::iterator it, it_end;
-		for (it = _lightning_sound_events.at(id).begin(),
-			it_end = _lightning_sound_events.at(id).end(); it != it_end; ++it) {
-			_current_lightning_sound_events.push_back(*it);
-			// Preload the files for efficiency
-			hoa_audio::AudioManager->LoadSound(it->sound_filename);
-		}
-	}
-	else {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid lightning effect requested: "
-		<< id << ", the effect won't be displayed." << endl;
-		DisableLightning();
-	}
-}
-
-void VideoEngine::_UpdateLightning(uint32 frame_time) {
-	if (!_lightning_active)
-		return;
-
-	// Update lightning timer
-	_lightning_current_time += frame_time;
-
-	// Play potential lightning effect sounds based on their timers
-	std::deque<lightning_sound_event>::const_iterator it = _current_lightning_sound_events.begin();
-	if (it != _current_lightning_sound_events.end()
-		&& (*it).time > -1 && (*it).time <= _lightning_current_time) {
-		// Play the sound
-		hoa_audio::AudioManager->PlaySound((*it).sound_filename);
-		// And put the data at bottom for next potential lightning loop
-		lightning_sound_event next_event;
-		next_event.sound_filename = (*it).sound_filename;
-		next_event.time = (*it).time;
-		_current_lightning_sound_events.push_back(next_event);
-		_current_lightning_sound_events.pop_front();
-	}
-
-	if (_active_lightning_id > -1
-		&& _lightning_current_time > _lightning_end_times.at(_active_lightning_id)) {
-		if (_loop_lightning) {
-			_lightning_current_time = 0;
-			// Remove the sound terminator event when the queue has got sufficient events.
-			// One event + the terminator event.
-			if (_current_lightning_sound_events.size() > 1) {
-				_current_lightning_sound_events.pop_front();
-				lightning_sound_event terminator_event;
-				terminator_event.time = -1;
-				_current_lightning_sound_events.push_back(terminator_event);
-			}
-		}
-		else {
-			_lightning_active = false;
-		}
-	}
-}
-
-void VideoEngine::_DrawLightning() {
-	if (_active_lightning_id < 0 || !_lightning_active)
-		return;
-
-	// convert milliseconds elapsed into data points elapsed
-	float t = _lightning_current_time * 100.0f / 1000.0f;
-
-	int32 rounded_t = static_cast<int32>(t);
-	t -= rounded_t;
-
-	// Safety check
-	if (rounded_t + 1 >= (int32)_lightning_data[_active_lightning_id].size())
-		return;
-
-	// get 2 separate data points and blend together (linear interpolation)
-	float data1 = _lightning_data.at(_active_lightning_id)[rounded_t];
-	float data2 = _lightning_data.at(_active_lightning_id)[rounded_t + 1];
-
-	float intensity = data1 * (1 - t) + data2 * t;
-
-	PushState();
-	SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-	SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
-	Move(0.0f, 0.0f);
-	_lightning_overlay_img.Draw(Color(1.0f, 1.0f, 1.0f, intensity));
-	PopState();
-}
-
-void VideoEngine::DrawOverlays() {
-	// Draw the textured ambient overlay
-	if (_uses_ambient_overlay) {
-		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-		SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f);
-		PushState();
-		float width = _ambient_overlay_img.GetWidth();
-		float height = _ambient_overlay_img.GetHeight();
-		for (float x = _ambient_x_shift; x <= 1024.0f; x = x + width) {
-			for (float y = _ambient_y_shift; y <= 768.0f; y = y + height) {
-				Move(x, y);
-				_ambient_overlay_img.Draw();
-			}
-		}
-		PopState();
-	}
-
-	// Draw the light overlay
-	if (_uses_light_overlay) {
-		SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-		SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
-		PushState();
-		Move(0.0f, 0.0f);
-		_light_overlay_img.Draw();
-		PopState();
-	}
-
-	if (_lightning_active) {
-		_DrawLightning();
-	}
+void VideoEngine::DrawFadeEffect() {
 
 	// Draw a screen overlay if we are in the process of doing a custom fading
 	if (_screen_fader.ShouldUseFadeOverlay()) {
@@ -952,12 +677,8 @@ void VideoEngine::DrawOverlays() {
 	}
 }
 
-void VideoEngine::DisableEffects() {
-	DisableAmbientOverlay();
-	DisableLightingOverlay();
-	DisableLightning();
-	StopAllParticleEffects(true);
 
+void VideoEngine::DisableFadeEffect() {
 	// Disable potential game fades as it is just another light effect.
 	// Transitional effects are done by the mode manager and shouldn't
 	// be interrupted.

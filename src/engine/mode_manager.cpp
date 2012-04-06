@@ -52,6 +52,12 @@ GameMode::~GameMode() {
 	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode destructor invoked" << endl;
 }
 
+void GameMode::Update() {
+	uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
+	_effect_supervisor.Update(frame_time);
+}
+
+
 // ****************************************************************************
 // ***** ModeEngine class
 // ****************************************************************************
@@ -253,6 +259,12 @@ void ModeEngine::Draw() {
 	_game_stack.back()->Draw();
 }
 
+void ModeEngine::DrawEffects() {
+	if (_game_stack.empty())
+		return;
+
+	_game_stack.back()->DrawEffects();
+}
 
 void ModeEngine::DrawPostEffects() {
 	if (_game_stack.empty())

@@ -74,7 +74,7 @@ BootMode::BootMode() :
 	_file_name_window(ustring(),150.0f,35.0f)
 {
 	// Remove potential previous ambient overlays
-	VideoManager->DisableEffects();
+	VideoManager->DisableFadeEffect();
 
 	IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << endl;
 	mode_type = MODE_MANAGER_BOOT_MODE;

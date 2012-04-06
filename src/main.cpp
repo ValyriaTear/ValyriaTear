@@ -415,23 +415,24 @@ int main(int argc, char *argv[]) {
 			VideoManager->Clear();
 			ModeManager->Draw();
 			VideoManager->Draw();
+			ModeManager->DrawEffects();
 			ModeManager->DrawPostEffects();
 			// Swap the buffers once the draw operations are done.
 			SDL_GL_SwapBuffers();
 
-			// 2) Process all new events
+			// Update timers for correct time-based movement operation
+			SystemManager->UpdateTimers();
+
+			// Process all new events
 			InputManager->EventHandler();
 
 			// Update video
 			VideoManager->Update();
 
-			// 3) Update any streaming audio sources
+			// Update any streaming audio sources
 			AudioManager->Update();
 
-			// 4) Update timers for correct time-based movement operation
-			SystemManager->UpdateTimers();
-
-			// 5) Update the game status
+			// Update the game status
 			ModeManager->Update();
 
 		} // while (SystemManager->NotDone())

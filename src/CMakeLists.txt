@@ -275,6 +275,8 @@ common/global/global_skills.h
 common/global/global_utils.cpp
 common/global/global_utils.h
 common/common_bindings.cpp
+engine/effect_supervisor.h
+engine/effect_supervisor.cpp
 engine/mode_manager.h
 engine/mode_manager.cpp
 engine/system.cpp
