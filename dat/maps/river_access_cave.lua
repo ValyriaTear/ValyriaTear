@@ -588,8 +588,7 @@ function CreateObjects()
 	Map:AddSavePoint(205, 5, hoa_map.MapMode.CONTEXT_01 + hoa_map.MapMode.CONTEXT_02);
 
 	-- Draw spooky scene lighting
-	VideoManager:DisableEffects();
-	VideoManager:EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.7));
+	Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.3, 0.7));
 
 
 	-- Halos of light

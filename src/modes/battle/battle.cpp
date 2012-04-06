@@ -363,7 +363,7 @@ void BattleMode::Reset() {
 	_current_instance = this;
 
 	// Disable potential previous overlay effects
-	VideoManager->DisableEffects();
+	VideoManager->DisableFadeEffect();
 
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
@@ -598,7 +598,7 @@ void BattleMode::AddBattleScript(const std::string& filename) {
 
 void BattleMode::RestartBattle() {
 	// Disable potential previous light effects
-	VideoManager->DisableEffects();
+	VideoManager->DisableFadeEffect();
 
 	// Reset the state of all characters and enemies
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
@@ -683,7 +683,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 			break;
 		case BATTLE_STATE_DEFEAT:
 			//Apply scene lighting if the battle has finished badly
-			VideoManager->EnableLightingOverlay(Color(1.0f, 0.0f, 0.0f, 0.4f));
+			GetEffectSupervisor().EnableLightingOverlay(Color(1.0f, 0.0f, 0.0f, 0.4f));
 
 			_battle_media.defeat_music.Play();
 			_finish_supervisor->Initialize(false);

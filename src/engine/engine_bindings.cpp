@@ -71,7 +71,20 @@ void BindEngineCode() {
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
+		class_<EffectSupervisor>("EffectSupervisor")
+			.def("EnableLightingOverlay", &EffectSupervisor::EnableLightingOverlay)
+			.def("DisableLightingOverlay", &EffectSupervisor::DisableLightingOverlay)
+			.def("EnableAmbientOverlay", &EffectSupervisor::EnableAmbientOverlay)
+			.def("DisableAmbientOverlay", &EffectSupervisor::DisableAmbientOverlay)
+			.def("EnableLightning", &EffectSupervisor::EnableLightning)
+			.def("DisableLightning", &EffectSupervisor::DisableLightning)
+			.def("DisableEffects", &EffectSupervisor::DisableEffects)
+	];
+
+	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+	[
 		class_<GameMode>("GameMode")
+			.def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
@@ -172,15 +185,8 @@ void BindEngineCode() {
 			.def("FadeScreen", &VideoEngine::FadeScreen)
 			.def("IsFading", &VideoEngine::IsFading)
 			.def("ShakeScreen", &VideoEngine::ShakeScreen)
-			.def("EnableLightingOverlay", &VideoEngine::EnableLightingOverlay)
-			.def("DisableLightingOverlay", &VideoEngine::DisableLightingOverlay)
-			.def("EnableAmbientOverlay", &VideoEngine::EnableAmbientOverlay)
-			.def("DisableAmbientOverlay", &VideoEngine::DisableAmbientOverlay)
-			.def("EnableLightning", &VideoEngine::EnableLightning)
-			.def("DisableLightning", &VideoEngine::DisableLightning)
 			.def("AddParticleEffect", &VideoEngine::AddParticleEffect)
 			.def("StopAllParticleEffects", &VideoEngine::StopAllParticleEffects)
-			.def("DisableEffects", &VideoEngine::DisableEffects)
 
 			// Draw cursor commands
 			.def("Move", &VideoEngine::Move)

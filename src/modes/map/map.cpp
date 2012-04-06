@@ -78,7 +78,7 @@ MapMode::MapMode(string filename) :
 	_run_stamina(10000)
 {
 	// Remove potential previous ambient overlay effects
-	VideoManager->DisableEffects();
+	VideoManager->DisableFadeEffect();
 
 	mode_type = MODE_MANAGER_MAP_MODE;
 	_current_instance = this;
@@ -253,13 +253,16 @@ void MapMode::Update() {
 
 	// ---------- (5) Update all active map events
 	_event_supervisor->Update();
+
+	// Update the map frame coords
+	_CalculateMapFrame();
+
+	GameMode::Update();
 } // void MapMode::Update()
 
 
 
 void MapMode::Draw() {
-	_CalculateMapFrame();
-
 	if (_draw_function.is_valid())
 		ScriptCallFunction<void>(_draw_function);
 	else
