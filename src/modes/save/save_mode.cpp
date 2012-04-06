@@ -323,7 +323,7 @@ void SaveMode::Update() {
 
 
 
-void SaveMode::Draw() {
+void SaveMode::DrawPostEffects() {
 	// Set the coordinate system for the background and draw
 	float width = _screen_capture.GetWidth();
 	float height = _screen_capture.GetHeight();
@@ -335,6 +335,10 @@ void SaveMode::Draw() {
 	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f);
 
 	_window.Draw();
+
+	// Draw the title above everything else
+	_title_window.Draw();
+	_title_textbox.Draw();
 
 	switch (_current_state) {
 		case SAVE_MODE_SAVING:
@@ -363,10 +367,6 @@ void SaveMode::Draw() {
 
 			break;
 	}
-
-	// Draw the title above everything else
-	_title_window.Draw();
-	_title_textbox.Draw();
 }
 
 bool SaveMode::_LoadGame(int id) {
