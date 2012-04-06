@@ -142,11 +142,8 @@ enum VIDEO_TARGET {
 };
 
 //! \brief The standard screen resolution
-enum {
-	VIDEO_STANDARD_RES_WIDTH  = 1024,
-	VIDEO_STANDARD_RES_HEIGHT = 768
-};
-
+const float	VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
+const float	VIDEO_STANDARD_RES_HEIGHT = 768.0f;
 
 /** \brief Linearly interpolates a value which is (alpha * 100) percent between initial and final
 *** \param alpha Determines where inbetween initial (0.0f) and final (1.0f) the interpolation should be
@@ -340,10 +337,12 @@ public:
 	*** \param top The coordinate for the top border of screen
 	*** \param bottom The coordinate for the bottom border of screen
 	*** \note The default coordinate system for the video engine is
-	*** (0.0f, 1024.0f, 0.0f, 768.0f)
+	*** (0.0f, 1024.0f, 768.0f, 0.0f)
 	**/
 	void SetCoordSys(float left, float right, float bottom, float top)
 		{ SetCoordSys(CoordSys(left, right, bottom, top)); }
+	void SetStandardCoordSys()
+		{ SetCoordSys(CoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT, 0.0f)); }
 
 	/** \brief Sets the coordinate system to use.
 	*** \param coordinate_system The coordinate system to set the screen to use

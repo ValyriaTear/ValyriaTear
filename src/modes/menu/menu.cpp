@@ -192,7 +192,7 @@ MenuMode::~MenuMode() {
 // Resets configuration/data for the class as appropriate
 void MenuMode::Reset() {
 	// Top left corner coordinates in menu mode are always (0,0)
-	VideoManager->SetCoordSys(0.0f, 1023.0f, 767.0f, 0.0f);
+	VideoManager->SetStandardCoordSys();
 
 	// Show all windows (make them visible)
 	_bottom_window.Show();
@@ -348,7 +348,7 @@ void MenuMode::Draw() {
 	_saved_screen.Draw();
 
 	// Restore the Coordinate system (that one is menu mode coodinate system)
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 768.0f, 0.0f);
+	VideoManager->SetStandardCoordSys();
 
 
 	uint32 draw_window;

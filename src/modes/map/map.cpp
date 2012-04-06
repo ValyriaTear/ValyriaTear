@@ -782,7 +782,7 @@ void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
 	float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
 
 	VideoManager->PushState();
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 768.0f, 0.0f);
+	VideoManager->SetStandardCoordSys();
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
 	// Draw the background image
@@ -865,7 +865,7 @@ void MapMode::_DrawGUI() {
 		}
 
 		VideoManager->PushState();
-		VideoManager->SetCoordSys(0.0f, 1024.0f, 768.0f, 0.0f);
+		VideoManager->SetStandardCoordSys();
 		VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 		VideoManager->Move(512.0f, 100.0f);
 		_location_graphic.Draw(blend);

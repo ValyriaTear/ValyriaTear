@@ -348,7 +348,7 @@ bool ParticleManager::Draw()
 	VideoManager->PushState();
 	// Note: The particle manager is using inverted y coord compared to the rest
 	// of the engine
-	VideoManager->SetCoordSys(CoordSys(0.0f, 1024.0f, 768.0f, 0.0f));
+	VideoManager->SetStandardCoordSys();
 	VideoManager->DisableScissoring();
 
 	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();

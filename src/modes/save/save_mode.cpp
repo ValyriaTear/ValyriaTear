@@ -204,7 +204,7 @@ void SaveMode::Reset() {
 		IF_PRINT_WARNING(SAVE_DEBUG) << e.ToString() << endl;
 	}
 
-	VideoManager->SetCoordSys(0.0f, 1023.0f, 0.0f, 767.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 }
 
@@ -332,7 +332,7 @@ void SaveMode::DrawPostEffects() {
 	_screen_capture.Draw(_dim_color);
 
 	// Re-set the coordinate system for everything else
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	_window.Draw();
 
