@@ -365,7 +365,7 @@ void BattleMode::Reset() {
 	// Disable potential previous overlay effects
 	VideoManager->DisableFadeEffect();
 
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	// Load the default battle music track if no other music has been added
 	if (_battle_media.battle_music.GetState() == AUDIO_STATE_UNLOADED) {
@@ -534,7 +534,7 @@ void BattleMode::Update() {
 void BattleMode::Draw() {
 	// Restore correct display metrics
 	// Remove me once the particle manager is using the same ones
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
 		_sequence_supervisor->Draw();
@@ -552,7 +552,7 @@ void BattleMode::Draw() {
 void BattleMode::DrawPostEffects() {
 	// Restore correct display metrics
 	// Remove me once the particle manager is using the same ones
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
 		_sequence_supervisor->DrawPostEffects();
@@ -1010,7 +1010,7 @@ void BattleMode::_DrawBackgroundGraphics() {
 	_battle_media.background_image.Draw();
 
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	// Handles custom scripted draw before sprites
 	for (uint32 i = 0; i < _draw_background_functions.size(); ++i)
@@ -1020,7 +1020,7 @@ void BattleMode::_DrawBackgroundGraphics() {
 
 void BattleMode::_DrawForegroundGraphics() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	for (uint32 i = 0; i < _draw_foreground_functions.size(); ++i)
 	    ReadScriptDescriptor::RunScriptObject(_draw_foreground_functions[i]);
@@ -1267,7 +1267,7 @@ void TransitionToBattleMode::Update() {
 
 void TransitionToBattleMode::Draw() {
 	// Draw the battle transition effect
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 769.0f, 0.0f);
+	VideoManager->SetStandardCoordSys();
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->Move(0.0f, 0.0f);
 	_screen_capture.Draw();

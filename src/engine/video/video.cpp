@@ -357,7 +357,7 @@ void VideoEngine::Draw() {
 	PushState();
 
 	// Restore possible previous coords changes
-	SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	if (TextureManager->debug_current_sheet >= 0)
 		TextureManager->DEBUG_ShowTexSheet();

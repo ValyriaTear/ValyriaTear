@@ -196,7 +196,7 @@ CommonDialogueWindow::CommonDialogueWindow() :
 		PRINT_ERROR << "failed to load dialogue image: " << _last_line_image.GetFilename() << endl;
 
 	VideoManager->PushState();
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 768.0f, 0.0f);
+	VideoManager->SetStandardCoordSys();
 
 	_display_textbox.SetDisplaySpeed(30);
 	_display_textbox.SetPosition(260.0f, 596.0f);
@@ -244,7 +244,7 @@ void CommonDialogueWindow::Clear() {
 void CommonDialogueWindow::Draw() {
 	// Temporarily change the coordinate system to 1024x768 and draw the contents of the dialogue window
 	VideoManager->PushState();
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 768.0f, 0.0f);
+	VideoManager->SetStandardCoordSys();
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
 	VideoManager->Move(_pos_x, _pos_y);

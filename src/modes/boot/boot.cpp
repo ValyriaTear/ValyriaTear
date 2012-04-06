@@ -207,7 +207,7 @@ void BootMode::SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag) {
 
 void BootMode::Reset() {
 	// Set the coordinate system that BootMode uses
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
 	GlobalManager->ClearAllData(); // Resets the game universe to a NULL state
@@ -418,7 +418,7 @@ void BootMode::Update() {
 
 void BootMode::Draw() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	ReadScriptDescriptor::RunScriptObject(_draw_function);
 

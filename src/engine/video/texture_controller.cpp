@@ -206,7 +206,7 @@ void TextureController::DEBUG_ShowTexSheet() {
 
 	VideoManager->PushState();
 	VideoManager->SetDrawFlags(VIDEO_NO_BLEND, VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	glPushMatrix();
 	VideoManager->Move(0.0f,0.0f);

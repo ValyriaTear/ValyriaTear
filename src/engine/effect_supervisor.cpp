@@ -294,7 +294,7 @@ void EffectSupervisor::DrawEffects() {
 	if (_info.overlay.active) {
 		VideoManager->PushState();
 		VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-		VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f);
+		VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 		float width = _ambient_overlay_img.GetWidth();
 		float height = _ambient_overlay_img.GetHeight();
 		for (float x = _info.overlay.x_shift; x <= 1024.0f; x = x + width) {

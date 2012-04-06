@@ -1096,7 +1096,7 @@ ShopMode::~ShopMode() {
 
 
 void ShopMode::Reset() {
-	VideoManager->SetCoordSys(0.0f, 1023.0f, 0.0f, 767.0f);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 
 	_current_instance = this;
@@ -1299,14 +1299,15 @@ void ShopMode::Update() {
 
 
 void ShopMode::Draw() {
-	// ---------- (1): Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
+	// Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
 	VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetScreenWidth()), 0.0f, static_cast<float>(VideoManager->GetScreenHeight()));
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 	VideoManager->Move(0.0f, 0.0f);
 	_screen_backdrop.Draw();
 
-	// ---------- (2): Draw all menu windows
-	VideoManager->SetCoordSys(0.0f, 1024.0f, 0.0f, 768.0f); // Restore the standard shop coordinate system before drawing the shop windows
+	// Draw all menu windows
+	// Restore the standard shop coordinate system before drawing the shop windows
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 	_top_window.Draw();
 	_bottom_window.Draw();
 	_middle_window.Draw(); // Drawn last because the middle window has the middle upper and lower window borders attached
