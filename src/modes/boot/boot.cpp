@@ -550,9 +550,7 @@ void BootMode::_SetupVideoOptionsMenu() {
 	// Left & right will change window mode as well as confirm
 	_video_options_menu.AddOption(UTranslate("Window mode:"), &BootMode::_OnToggleFullscreen, NULL, NULL, &BootMode::_OnToggleFullscreen, &BootMode::_OnToggleFullscreen);
 	_video_options_menu.AddOption(UTranslate("Brightness:"), NULL, NULL, NULL, &BootMode::_OnBrightnessLeft, &BootMode::_OnBrightnessRight);
-	_video_options_menu.AddOption(UTranslate("Image quality:"));
-
-	_video_options_menu.EnableOption(3, false); // Disable image quality
+	_video_options_menu.AddOption(UTranslate("Image quality:"), &BootMode::_OnToggleImageSmoothed, NULL, NULL, &BootMode::_OnToggleImageSmoothed, &BootMode::_OnToggleImageSmoothed);
 
 	_video_options_menu.SetSelection(0);
 }
@@ -838,6 +836,12 @@ void BootMode::_RefreshVideoOptions() {
 
 	// Update brightness
 	_video_options_menu.SetOptionText(2, UTranslate("Brightness: ") + MakeUnicodeString(NumberToString(VideoManager->GetGamma() * 50.0f + 0.5f) + " %"));
+
+	// Update the image quality text
+	if (VideoManager->ShouldSmooth())
+		_video_options_menu.SetOptionText(3, UTranslate("Image quality: smoothed"));
+	else
+		_video_options_menu.SetOptionText(3, UTranslate("Image quality: normal"));
 }
 
 
@@ -995,6 +999,13 @@ void BootMode::_OnToggleFullscreen() {
 	_has_modified_settings = true;
 }
 
+void BootMode::_OnToggleImageSmoothed() {
+	// Toggle smooth texturing
+	VideoManager->SetTextureSmoothed(!VideoManager->ShouldSmooth());
+	VideoManager->ApplySettings();
+	_RefreshVideoOptions();
+	_has_modified_settings = true;
+}
 
 
 void BootMode::_OnResolution() {
@@ -1408,6 +1419,7 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 	// Load video settings
 	settings.OpenTable("video_settings");
 	bool fullscreen = static_cast<bool>(settings.ReadBool("full_screen"));
+	VideoManager->SetTextureSmoothed(static_cast<bool>(settings.ReadBool("smooth_graphics")));
 	int32 resx = static_cast<int32>(settings.ReadInt("screen_resx"));
 
 
@@ -1517,6 +1529,7 @@ bool BootMode::_SaveSettingsFile(const std::string& filename) {
 	settings_lua.ModifyInt("video_settings.screen_resx", VideoManager->GetScreenWidth());
 	settings_lua.ModifyInt("video_settings.screen_resy", VideoManager->GetScreenHeight());
 	settings_lua.ModifyBool("video_settings.full_screen", VideoManager->IsFullscreen());
+	settings_lua.ModifyBool("video_settings.smooth_graphics", VideoManager->ShouldSmooth());
 	//settings_lua.ModifyFloat("video_settings.brightness", VideoManager->GetGamma());
 
 	// audio

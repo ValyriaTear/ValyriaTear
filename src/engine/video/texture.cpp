@@ -148,7 +148,7 @@ bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect& screen_rect) {
 
 void TexSheet::Smooth(bool flag) {
 	// In case of global smoothing, do nothing here
-	if (VideoManager->_ShouldSmooth())
+	if (VideoManager->ShouldSmooth())
 		return;
 
 	// If setting has changed, set the appropriate filtering
@@ -267,7 +267,7 @@ bool FixedTexSheet::InsertTexture(BaseTexture* img) {
 	// Retrieve the node from the head of the list to use for this texture
 	FixedTexNode* node = _RemoveOpenNode();
 	if (node == NULL) // This condition indicates that there are no remaining free nodes on the open list
-		return false; 
+		return false;
 
 	// Check if there's already an image allocated at this block (an image was freed earlier, but not removed)
 	// If so, we must now remove it from memory
@@ -347,7 +347,7 @@ void FixedTexSheet::RestoreTexture(BaseTexture *img) {
 	FixedTexNode* now = _open_list_head;
 
 	while (now != NULL) {
-		// If we found the texture, update the list so that the containing node temporarily becomes 
+		// If we found the texture, update the list so that the containing node temporarily becomes
 		// the head of the open list, then remove that node from the list head
 		if (now->image == img) {
 			if (last != NULL) {

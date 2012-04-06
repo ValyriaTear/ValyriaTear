@@ -301,6 +301,7 @@ private:
 	//! \brief Handler methods for the video options menu
 	//@{
 	void _OnToggleFullscreen();
+	void _OnToggleImageSmoothed();
 	void _OnResolution();
 	void _OnResolution640x480();
 	void _OnResolution800x600();
