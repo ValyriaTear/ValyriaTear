@@ -374,8 +374,8 @@ private:
 	//! \brief A helper function to Update() that is called only when the map is in the explore state
 	void _UpdateExplore();
 
-	//! \brief Calculates information about how to draw the next map frame
-	void _CalculateMapFrame();
+	//! \brief Update the map frame coordinates
+	void _UpdateMapFrame();
 
 	//! \brief Draws all visible map tiles and sprites to the screen
 	void _DrawMapLayers();

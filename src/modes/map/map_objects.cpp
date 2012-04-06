@@ -66,17 +66,17 @@ bool MapObject::ShouldDraw() {
 	if (!visible)
 		return false;
 
+	MapMode *map = MapMode::CurrentInstance();
+
 	// If the context is not in one of the active context, don't display it.
-	if (!(context & MapMode::CurrentInstance()->GetCurrentContext()))
+	if (!(context & map->GetCurrentContext()))
 		return false;
 
-	// ---------- Determine if the sprite is off-screen and if so, don't draw it.
-	MapRectangle img_rect;
-	GetImageRectangle(img_rect);
-	if (MapRectangle::CheckIntersection(img_rect, MapMode::CurrentInstance()->GetMapFrame().screen_edges) == false)
+	// Determine if the sprite is off-screen and if so, don't draw it.
+	if (!MapRectangle::CheckIntersection(GetImageRectangle(), map->GetMapFrame().screen_edges))
 		return false;
 
-	// ---------- (1) Determine the center position coordinates for the camera
+	// Determine the center position coordinates for the camera
 	float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
 	float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
 	float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the object, rounded to perfectly align on a pixel boundary
@@ -92,9 +92,10 @@ bool MapObject::ShouldDraw() {
 	y_pos = static_cast<float>(y_position) + rounded_y_offset;
 
 	// ---------- Move the drawing cursor to the appropriate coordinates for this sprite
-	VideoManager->Move(x_pos - MapMode::CurrentInstance()->GetMapFrame().screen_edges.left, y_pos - MapMode::CurrentInstance()->GetMapFrame().screen_edges.top);
+	VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
+					   y_pos - map->GetMapFrame().screen_edges.top);
 	return true;
-} // bool MapObject::DrawHelper()
+} // bool MapObject::ShouldDraw()
 
 
 
@@ -120,8 +121,8 @@ void MapObject::CheckPositionOffsets() {
 
 
 MapRectangle MapObject::GetCollisionRectangle() const {
-	float x_pos = static_cast<float>(x_position) + x_offset;
-	float y_pos = static_cast<float>(y_position) + y_offset;
+	float x_pos = ComputeXLocation();
+	float y_pos = ComputeYLocation();
 
 	MapRectangle rect;
 	rect.left = x_pos - coll_half_width;
@@ -147,14 +148,16 @@ MapRectangle MapObject::GetCollisionRectangle(uint16 x, uint16 y,
 }
 
 
-void MapObject::GetImageRectangle(MapRectangle& rect) const {
-	float x_pos = static_cast<float>(x_position) + x_offset;
-	float y_pos = static_cast<float>(y_position) + y_offset;
+MapRectangle MapObject::GetImageRectangle() const {
+	float x_pos = ComputeXLocation();
+	float y_pos = ComputeYLocation();
 
+	MapRectangle rect;
 	rect.left = x_pos - img_half_width;
 	rect.right = x_pos + img_half_width;
 	rect.top = y_pos - img_height;
 	rect.bottom = y_pos;
+	return rect;
 }
 
 // ----------------------------------------------------------------------------
@@ -363,9 +366,9 @@ TreasureObject::TreasureObject(string image_file, uint8 num_total_frames, uint8 
 	AddAnimation(opening_anim);
 	AddAnimation(open_anim);
 
-	// (4) Set the collision rectangle according to the dimensions of the first frame
-	SetCollHalfWidth(frames[0].GetWidth() / 2.0f);
-	SetCollHeight(frames[0].GetHeight());
+	// Set the collision rectangle according to the dimensions of the first frame
+	SetCollHalfWidth(frames.at(0).GetWidth() / 2.0f);
+	SetCollHeight(frames.at(0).GetHeight());
 } // TreasureObject::TreasureObject(string image_file, uint8 num_total_frames, uint8 num_closed_frames, uint8 num_open_frames)
 
 
