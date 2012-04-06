@@ -83,7 +83,11 @@ public:
 	void Update();
 
 	//! \brief Draws the next frame to be displayed on the screen
-	void Draw();
+	void DrawPostEffects();
+
+	// Empty since everything is drawn in post effects.
+	void Draw()
+	{}
 
 private:
 	//! \brief Attempts to load a game. returns true on success, false on fail
