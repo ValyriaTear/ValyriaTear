@@ -15,15 +15,10 @@
 
 using namespace std;
 using namespace hoa_script;
-using namespace hoa_video::private_video;
+using namespace hoa_video;
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
-
-
-//-----------------------------------------------------------------------------
-// ParticleEffect
-//-----------------------------------------------------------------------------
 
 ParticleEffect::ParticleEffect()
 {
@@ -35,10 +30,6 @@ ParticleEffect::ParticleEffect()
 	_orientation = 0.0f;
 }
 
-
-//-----------------------------------------------------------------------------
-// _Draw: draws the effect. This is called by ParticleManager, not by API user
-//-----------------------------------------------------------------------------
 
 bool ParticleEffect::_Draw()
 {
@@ -71,10 +62,6 @@ bool ParticleEffect::_Draw()
 }
 
 
-//-----------------------------------------------------------------------------
-// Update: updates particle effect. Called by ParticleManager, not by user.
-//-----------------------------------------------------------------------------
-
 bool ParticleEffect::_Update(float frame_time)
 {
 	_age += frame_time;
@@ -85,7 +72,7 @@ bool ParticleEffect::_Update(float frame_time)
 
 	bool success = true;
 
-	private_video::EffectParameters effect_parameters;
+	hoa_mode_manager::EffectParameters effect_parameters;
 	effect_parameters.orientation = _orientation;
 
 	// note we subtract the effect position to put the attractor point in effect
@@ -123,11 +110,6 @@ bool ParticleEffect::_Update(float frame_time)
 }
 
 
-//-----------------------------------------------------------------------------
-// Destroy: destroys the effect. Called by ParticleManager during _Update(), if
-//          this effect is not alive (i.e. IsAlive() returns false)
-//-----------------------------------------------------------------------------
-
 void ParticleEffect::_Destroy()
 {
 	list<ParticleSystem *>::iterator iSystem = _systems.begin();
@@ -140,22 +122,12 @@ void ParticleEffect::_Destroy()
 }
 
 
-//-----------------------------------------------------------------------------
-// Move: function for the API user to move the effect around to different
-//       locations
-//-----------------------------------------------------------------------------
-
 void ParticleEffect::Move(float x, float y)
 {
 	_x = x;
 	_y = y;
 }
 
-
-//-----------------------------------------------------------------------------
-// MoveRelative: function for API user to move the effect relative to its current
-//            position
-//-----------------------------------------------------------------------------
 
 void ParticleEffect::MoveRelative(float dx, float dy)
 {
@@ -164,22 +136,11 @@ void ParticleEffect::MoveRelative(float dx, float dy)
 }
 
 
-//-----------------------------------------------------------------------------
-// SetOrientation: sets the orientation of the effect, which is added to the
-//                 orientation for each of the emitters
-//-----------------------------------------------------------------------------
-
 void ParticleEffect::SetOrientation(float angle)
 {
 	_orientation = angle;
 }
 
-
-//-----------------------------------------------------------------------------
-// SetAttractorPoint: set the location of an attractor point. Any systems with
-//                    radial acceleration and user-defined attractor points
-//                    enabled will have particles gravitate toward this point
-//-----------------------------------------------------------------------------
 
 void ParticleEffect::SetAttractorPoint(float x, float y)
 {
@@ -188,22 +149,11 @@ void ParticleEffect::SetAttractorPoint(float x, float y)
 }
 
 
-//-----------------------------------------------------------------------------
-// IsAlive: returns true if effect is still alive. Used by ParticleManager
-//          so it knows when to destroy an effect.
-//-----------------------------------------------------------------------------
-
 bool ParticleEffect::IsAlive()
 {
 	return _alive;
 }
 
-
-//-----------------------------------------------------------------------------
-// Stop: stops the effect. If kill_immediate is true, then the effect is stopped
-//       immediately. Otherwise, the particles which are still alive are allowed
-//       to keep drawing, but no new particles are emitted.
-//-----------------------------------------------------------------------------
 
 void ParticleEffect::Stop(bool kill_immediate)
 {
@@ -228,19 +178,11 @@ void ParticleEffect::Stop(bool kill_immediate)
 }
 
 
-//-----------------------------------------------------------------------------
-// GetNumParticles: returns the number of live particles for the entire effect
-//-----------------------------------------------------------------------------
-
 int32 ParticleEffect::GetNumParticles() const
 {
 	return _num_particles;
 }
 
-
-//-----------------------------------------------------------------------------
-// GetPosition: returns the current position of the effect
-//-----------------------------------------------------------------------------
 
 void ParticleEffect::GetPosition(float &x, float &y) const
 {
@@ -249,15 +191,9 @@ void ParticleEffect::GetPosition(float &x, float &y) const
 }
 
 
-//-----------------------------------------------------------------------------
-// GetAge: returns the current age of the effect, i.e. how many seconds it has
-//         been since the effect was created
-//-----------------------------------------------------------------------------
-
 float ParticleEffect::GetAge() const
 {
 	return _age;
 }
-
 
 } // namespace hoa_video

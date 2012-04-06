@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,12 +26,8 @@
 #include "utils.h"
 #include "color.h"
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
-
-namespace private_video
-{
-
 
 /*!***************************************************************************
  *  \brief Keyframes, consist of a _time, plus various properties. These are
@@ -60,29 +56,27 @@ public:
 	//! width and height scale. 1.0 means to use the normal height
 	float size_x;
 	float size_y;
-	
+
 	//! color (includes alpha)
-	Color color;
-	
+	hoa_video::Color color;
+
 	//! rotation speed, radians per second clockwise
 	float rotation_speed;
 
 	//! random variation added to size
 	float size_variation_x;
 	float size_variation_y;
-	
+
 	//! random variation added to rotation speed
 	float rotation_speed_variation;
-	
+
 	//! random variation added to color (each channel contains
 	//! the variation for that channel)
-	Color color_variation;
+	hoa_video::Color color_variation;
 
-	float time;	
+	float time;
 };
 
-
-}  // namespace private_video
-}  // namespace hoa_video
+}  // namespace hoa_mode_manager
 
 #endif  //! __PARTICLE_KEYFRAME_HEADER__

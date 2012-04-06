@@ -281,7 +281,6 @@ engine/mode_manager.h
 engine/mode_manager.cpp
 engine/system.cpp
 engine/system.h
-engine/video/effects.cpp
 engine/video/video.h
 engine/video/video.cpp
 engine/video/texture_controller.h

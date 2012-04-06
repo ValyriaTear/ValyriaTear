@@ -181,7 +181,6 @@ void VideoEngine::DrawFPS() {
 
 
 VideoEngine::~VideoEngine() {
-	_particle_manager.Destroy();
 	TextManager->SingletonDestroy();
 
 	_default_menu_cursor.Clear();
@@ -347,9 +346,6 @@ void VideoEngine::Clear(const Color &c) {
 void VideoEngine::Update() {
 	uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
 
-	// Update all particle effects
-	_particle_manager.Update(frame_time);
-
 	// Update shaking effect
 	_UpdateShake(frame_time);
 
@@ -363,22 +359,13 @@ void VideoEngine::Draw() {
 	// Restore possible previous coords changes
 	SetCoordSys(0.0f, 1024.0f, 0.0f, 769.0f);
 
-	// Draw the particle effects
-	DrawParticleEffects();
-
-	// This must be called before DrawFPS, because we only want to count
-	// texture switches related to the game's normal operation, not the
-	// ones used to draw the video engine debugging text
-	if (_advanced_display)
-		_DEBUG_ShowAdvancedStats();
-
 	if (TextureManager->debug_current_sheet >= 0)
 		TextureManager->DEBUG_ShowTexSheet();
 
 	// Draw FPS Counter If We Need To
 	DrawFPS();
 	PopState();
-} // void VideoEngine::Display(uint32 frame_time)
+} // void VideoEngine::Draw()
 
 
 
@@ -931,17 +918,6 @@ int32 VideoEngine::_ScreenCoordY(float y) {
 
 	return static_cast<int32>(percent * static_cast<float>(_screen_height));
 }
-
-
-
-void VideoEngine::_DEBUG_ShowAdvancedStats() {
-	char text[50];
-	sprintf(text, "Switches: %d\nParticles: %d", TextureManager->_debug_num_tex_switches, _particle_manager.GetNumParticles());
-
-	Move(896.0f, 690.0f);
-	TextManager->Draw(text);
-}
-
 
 
 void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color& color) {

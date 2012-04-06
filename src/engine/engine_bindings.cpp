@@ -83,8 +83,16 @@ void BindEngineCode() {
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
+		class_<ParticleManager>("ParticleManager")
+			.def("AddParticleEffect", &ParticleManager::AddParticleEffect)
+			.def("StopAll", &ParticleManager::StopAll)
+	];
+
+	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+	[
 		class_<GameMode>("GameMode")
 			.def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
+			.def("GetParticleManager", &GameMode::GetParticleManager)
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
@@ -185,8 +193,6 @@ void BindEngineCode() {
 			.def("FadeScreen", &VideoEngine::FadeScreen)
 			.def("IsFading", &VideoEngine::IsFading)
 			.def("ShakeScreen", &VideoEngine::ShakeScreen)
-			.def("AddParticleEffect", &VideoEngine::AddParticleEffect)
-			.def("StopAllParticleEffects", &VideoEngine::StopAllParticleEffects)
 
 			// Draw cursor commands
 			.def("Move", &VideoEngine::Move)

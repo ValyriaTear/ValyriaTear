@@ -11,20 +11,14 @@
 
 #include "particle_system.h"
 #include "particle_keyframe.h"
+#include "engine/video/video.h"
 
 using namespace std;
 using namespace hoa_utils;
+using namespace hoa_video;
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
-
-namespace private_video
-{
-
-
-//-----------------------------------------------------------------------------
-// ParticleSystem
-//-----------------------------------------------------------------------------
 
 ParticleSystem::ParticleSystem()
 {
@@ -143,7 +137,7 @@ bool ParticleSystem::Draw()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	StillImage *id = _animation.GetFrame(_animation.GetCurrentFrameIndex());
-	ImageTexture *img = id->_image_texture;
+	private_video::ImageTexture *img = id->_image_texture;
 	TextureManager->_BindTexture(img->texture_sheet->tex_id);
 
 
@@ -324,7 +318,7 @@ bool ParticleSystem::Draw()
 		findex = (findex + 1) % _animation.GetNumFrames();
 
 		StillImage *id2 = _animation.GetFrame(findex);
-		ImageTexture *img2 = id2->_image_texture;
+		private_video::ImageTexture *img2 = id2->_image_texture;
 		TextureManager->_BindTexture(img2->texture_sheet->tex_id);
 
 
@@ -991,16 +985,9 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
 }
 
 
-//-----------------------------------------------------------------------------
-// GetAge: return the number of seconds since this system was created
-//-----------------------------------------------------------------------------
-
 float ParticleSystem::GetAge() const
 {
 	return _age;
 }
 
-
-
-}  // namespace private_video
-}  // namespace hoa_video
+}  // namespace hoa_mode_manager
