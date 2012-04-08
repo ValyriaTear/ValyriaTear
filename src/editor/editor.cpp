@@ -66,7 +66,7 @@ Editor::Editor() : QMainWindow(),
 	resize(600, 400);
 
 	// set the window icon
-	setWindowIcon(QIcon("img/logos/program_icon.bmp"));
+	setWindowIcon(QIcon("img/logos/program_icon.ico"));
 
 	// create error message for exceeding maximum number of contexts
 	_error_max_contexts = new QErrorMessage(this);
