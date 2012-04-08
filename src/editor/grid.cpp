@@ -30,7 +30,7 @@ using namespace std;
 namespace hoa_editor {
 
 
-LAYER_TYPE& operator++(LAYER_TYPE& value, int dummy)
+LAYER_TYPE& operator++(LAYER_TYPE& value, int /*dummy*/)
 {
 	value = static_cast<LAYER_TYPE>(static_cast<int>(value) + 1);
 	return value;
@@ -259,79 +259,6 @@ bool Grid::LoadMap()
 			        arg(QString::fromStdString(read_data.GetErrorMessages())));
 		return false;
 	}
-
-	// Load sprites
-	/*
-	read_data.OpenTable("sprites");
-	vector<int32> keys;
-	read_data.ReadTableKeys(keys);
-
-	// Create empty sprites
-	for( uint32 i = 0; i < keys.size(); i++ ) {
-		_object_layer.push_back( keys[i] );
-		sprites.push_back(new MapSprite());
-	}
-
-	std::list<MapSprite* >::iterator it=sprites.begin();
-	for (uint32 i = 0; i < keys.size(); i++)
-	{
-		// Read lua spites and write to sprites vector
-		read_data.OpenTable( keys[i] );
-		(*it)->SetObjectID( read_data.ReadInt("object_id") );
-		(*it)->SetName( read_data.ReadString("name") );
-		(*it)->SetContext( read_data.ReadInt("context") );
-		(*it)->SetXPosition( read_data.ReadInt("x_position"), read_data.ReadFloat("x_position_offset") );
-		(*it)->SetYPosition( read_data.ReadInt("y_position"), read_data.ReadFloat("y_position_offset") );
-		(*it)->SetCollHalfWidth( read_data.ReadFloat("col_half_width") );
-		(*it)->SetCollHeight( read_data.ReadFloat("col_height") );
-		(*it)->SetImgHalfWidth( read_data.ReadFloat("img_half_width") );
-		(*it)->SetImgHeight( read_data.ReadFloat("img_height") );
-		(*it)->SetMovementSpeed( read_data.ReadFloat("movement_speed") );
-		(*it)->SetDirection( read_data.ReadInt("direction") );
-		(*it)->LoadStandardAnimations( read_data.ReadString("standard_animations") );
-		(*it)->LoadRunningAnimations( read_data.ReadString("running_animations") );
-		(*it)->SetFacePortrait( read_data.ReadString("face_portrait") );
-
-		if( it != sprites.end() )
-			it++;
-		read_data.CloseTable();
-	}
-	read_data.CloseTable();
-*/
-	// The map_grid is 4x as big as the map: 2x in the width and 2x in the height. Starting
-	// with row 0 (and doing the same thing for every row that is a multiple of 2), we take the first 2 entries,
-	// bit-wise AND them, and put them into a temporary vector called walk_temp. We keep doing this for every 2
-	// entries until the row is exhausted. walk_temp should now be the same length or size as the width of the map.
-	//
-	// Now we go on to the next row (and we do the same thing here for every other row, or rows that are not
-	// multiples of 2. We do the same thing that we did for the multiples-of-2 rows, except now we bit-wise AND the
-	// 2 entries with their corresponding entry in the walk_temp vector. We have now reconstructed the walkability
-	// for each tile.
-	/*read_data.ReadOpenTable("map_grid");
-	uint32 walk_west;
-	vector<uint32> walk_temp;
-	vector<uint32>::iterator wit;
-	for (int32 i = 0; i < _height * 2; i++)
-	{
-		read_data.ReadIntVector(i, vect);
-		wit = walk_temp.begin();
-		for (vector<int32>::iterator it = vect.begin(); it != vect.end(); it++)
-		{
-			walk_west = *it;
-			it++;
-			if (i % 2 == 0)
-				walk_temp.push_back(walk_west & *it);
-			else
-			{
-				indiv_walkable.push_back(*wit & walk_west & *it);
-				wit++;
-			} // remainder means entire tile has been read
-		} // iterate through the row
-		vect.clear();
-		if (i % 2 != 0)
-			walk_temp.clear();
-	} // iterate through the rows of the walkability table
-	read_data.ReadCloseTable();*/
 
 	// Load any existing map context data
 	for (uint32 i = 1; i < num_contexts; i++)

@@ -23,7 +23,7 @@ namespace hoa_editor {
 ///////////////////////////////////////////////////////////////////////////////
 
 MapPropertiesDialog::MapPropertiesDialog
-	(QWidget* parent, const QString& name, bool prop)
+	(QWidget* parent, const QString& /*name*/, bool prop)
 	: QDialog(parent)
 {
 	setWindowTitle("Map Properties...");
@@ -146,7 +146,7 @@ void MapPropertiesDialog::_EnableOKButton()
 // MusicDialog class -- all functions
 ///////////////////////////////////////////////////////////////////////////////
 
-MusicDialog::MusicDialog(QWidget* parent, const QString& name)
+MusicDialog::MusicDialog(QWidget* parent, const QString& /*name*/)
 	: QDialog(parent)
 {
 	setWindowTitle("Map Music Picker");
@@ -253,7 +253,7 @@ void MusicDialog::_RemoveMusic()
 ////////////////////////////////////////////////////////////////////////////////
 
 ContextPropertiesDialog::ContextPropertiesDialog
-	(QWidget* parent, const QString& name)
+	(QWidget* parent, const QString& /*name*/)
 	: QDialog(parent)
 {
 	setWindowTitle("Context Properties...");

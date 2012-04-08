@@ -60,7 +60,7 @@ Editor::Editor() : QMainWindow(),
 
 	// create the main widget and layout
 	_ed_splitter = new QSplitter(this);
-	_ed_splitter->setOrientation(Qt::Vertical);
+	_ed_splitter->setOrientation(Qt::Horizontal);
 	_ed_tabs = NULL;
 	setCentralWidget(_ed_splitter);
 	resize(600, 400);
@@ -171,6 +171,7 @@ void Editor::_TilesEnableActions() {
 		_edit_ul_action->setEnabled(true);
 		_edit_ol_action->setEnabled(true);
 		_context_cbox->setEnabled(true);
+		_layer_cbox->setEnabled(true);
 	} // map must exist in order to paint it
 	else
 	{
@@ -187,6 +188,7 @@ void Editor::_TilesEnableActions() {
 		_edit_ul_action->setEnabled(false);
 		_edit_ol_action->setEnabled(false);
 		_context_cbox->setEnabled(false);
+		_layer_cbox->setEnabled(false);
 	} // map does not exist, can't paint it
 }
 
@@ -273,7 +275,7 @@ void Editor::_FileNew() {
                     {
                         const std::string mes = "Failed to load tileset image: "
                             + tilesets->topLevelItem(i)->text(0).toStdString();
-						QMessageBox::critical(this, tr("HoA Level Editor"),
+						QMessageBox::critical(this, tr("Level Editor"),
 							tr(mes.c_str()));
                     }
 					_ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
@@ -317,6 +319,7 @@ void Editor::_FileNew() {
 
 			// Set default edit mode
 			_ed_scrollview->_layer_edit = LOWER_LAYER;
+
 			_ed_scrollview->_tile_mode  = PAINT_TILE;
 
 			_undo_stack->setClean();
@@ -340,7 +343,7 @@ void Editor::_FileOpen() {
 	if (_EraseOK())
 	{
 		// file to open
-		QString file_name = QFileDialog::getOpenFileName(this, "HoA Level Editor -- File Open",
+		QString file_name = QFileDialog::getOpenFileName(this, "Level Editor -- File Open",
 			"dat/maps", "Maps (*.lua)");
 
 		if (!file_name.isEmpty())
@@ -385,7 +388,7 @@ void Editor::_FileOpen() {
                 {
                     const std::string mes = "Failed to load tileset image: "
                         + (*it).toStdString();
-					QMessageBox::critical(this, tr("HoA Level Editor"),
+					QMessageBox::critical(this, tr("Level Editor"),
 						tr(mes.c_str()));
                 }
 
@@ -442,6 +445,8 @@ void Editor::_FileOpen() {
 		else
 			statusBar()->showMessage("No map created!", 5000);
 	} // make sure an unsaved map is not lost
+
+	setWindowTitle(QString("Level Editor - ") + _ed_scrollview->_map->GetFileName());
 } // void Editor::_FileOpen()
 
 
@@ -449,12 +454,13 @@ void Editor::_FileOpen() {
 void Editor::_FileSaveAs() {
 	// get the file name from the user
 	QString file_name = QFileDialog::getSaveFileName(this,
-		"HoA Level Editor -- File Save", "dat/maps", "Maps (*.lua)");
+		"Level Editor -- File Save", "dat/maps", "Maps (*.lua)");
 
 	if (!file_name.isEmpty())
 	{
 		_ed_scrollview->_map->SetFileName(file_name);
 		_FileSave();
+		setWindowTitle(QString("Level Editor - ") + _ed_scrollview->_map->GetFileName());
 		return;
     } // make sure the file name is not blank
 
@@ -754,22 +760,31 @@ void Editor::_TileModeDelete() {
 
 
 void Editor::_TileEditLL() {
-	if (_ed_scrollview != NULL)
+	if (_ed_scrollview)
 		_ed_scrollview->_layer_edit = LOWER_LAYER;
+
+	if (_layer_cbox->currentIndex() != 0)
+		_layer_cbox->setCurrentIndex(0);
 }
 
 
 
 void Editor::_TileEditML() {
-	if (_ed_scrollview != NULL)
+	if (_ed_scrollview)
 		_ed_scrollview->_layer_edit = MIDDLE_LAYER;
+
+	if (_layer_cbox->currentIndex() != 1)
+		_layer_cbox->setCurrentIndex(1);
 }
 
 
 
 void Editor::_TileEditUL() {
-	if (_ed_scrollview != NULL)
+	if (_ed_scrollview)
 		_ed_scrollview->_layer_edit = UPPER_LAYER;
+
+	if (_layer_cbox->currentIndex() != 2)
+		_layer_cbox->setCurrentIndex(2);
 }
 
 
@@ -1092,6 +1107,27 @@ void Editor::_SwitchMapContext(int context) {
 	} // map must exist in order to change the context
 }
 
+#include <iostream>
+void Editor::_SwitchMapLayer(int layer) {
+	switch (layer) {
+		case 0: // Lower layer
+			_TileEditLL();
+			_edit_ll_action->setChecked(true);
+		break;
+		case 1: // middle layer
+			_TileEditML();
+			_edit_ml_action->setChecked(true);
+		break;
+		case 2: // Upper layer
+			_TileEditUL();
+			_edit_ul_action->setChecked(true);
+		break;
+		default:
+		break;
+	};
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // Editor class -- private functions
 ///////////////////////////////////////////////////////////////////////////////
@@ -1396,10 +1432,23 @@ void Editor::_CreateToolbars() {
 	_tiles_toolbar->addWidget(context_label);
 	_context_cbox = new QComboBox(this);
 	_context_cbox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-	_context_cbox->addItem("Base");
+	_context_cbox->addItem(tr("Base"));
 	_tiles_toolbar->addWidget(_context_cbox);
 	connect(_context_cbox, SIGNAL(currentIndexChanged(int)), this,
 		SLOT(_SwitchMapContext(int)));
+
+	_tiles_toolbar->addSeparator();
+
+	QLabel* layer_label = new QLabel("Layer:", this);
+	_tiles_toolbar->addWidget(layer_label);
+	_layer_cbox = new QComboBox(this);
+	_layer_cbox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+	_layer_cbox->addItem(tr("Lower layer"));
+	_layer_cbox->addItem(tr("Middle layer"));
+	_layer_cbox->addItem(tr("Upper layer"));
+	_tiles_toolbar->addWidget(_layer_cbox);
+	connect(_layer_cbox, SIGNAL(currentIndexChanged(int)), this,
+		SLOT(_SwitchMapLayer(int)));
 }
 
 
