@@ -189,6 +189,8 @@ private slots:
 
 	//! This slot switches the map context to the designated one for editing.
 	void _SwitchMapContext(int context);
+	//! This switches the map layer being edited.
+	void _SwitchMapLayer(int layer);
 private:
 	//! Helper function to the constructor, creates actions for use by menus
 	//! and toolbars.
@@ -312,6 +314,10 @@ private:
 	//! The combobox that allows the user to change the current map context
 	//! for editing. Contains a list of all existing contexts.
 	QComboBox* _context_cbox;
+
+	//! The combobox that allows the user to change the current map layer
+	//! for editing. Contains a list of all existing layers.
+	QComboBox* _layer_cbox;
 
 	//! An error dialog for exceeding the maximum allowable number of contexts.
 	QErrorMessage* _error_max_contexts;
