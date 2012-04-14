@@ -30,7 +30,7 @@
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/script/script_read.h"
-#include "engine/video/video.h"
+#include "engine/video/color.h"
 #include "engine/system.h"
 
 #include "map_utils.h"

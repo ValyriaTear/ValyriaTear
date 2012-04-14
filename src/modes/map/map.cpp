@@ -13,8 +13,9 @@
 *** \brief   Source file for map mode interface.
 *** ***************************************************************************/
 
+#include "modes/map/map.h"
+
 #include "engine/audio/audio.h"
-#include "engine/script/script.h"
 #include "engine/input.h"
 #include "engine/system.h"
 
@@ -24,7 +25,6 @@
 #include "modes/pause.h"
 #include "modes/save/save_mode.h"
 
-#include "modes/map/map.h"
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_events.h"
 #include "modes/map/map_objects.h"

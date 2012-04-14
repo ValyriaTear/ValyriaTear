@@ -14,11 +14,6 @@
 *** ***************************************************************************/
 
 
-#include <cassert>
-#include <cstdarg>
-#include <math.h>
-#include <vector>
-
 #include "engine/video/video.h"
 #include "engine/audio/audio.h"
 #include "engine/script/script_read.h"

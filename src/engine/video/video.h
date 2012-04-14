@@ -185,8 +185,6 @@ class VideoEngine : public hoa_utils::Singleton<VideoEngine> {
 	friend class private_video::FixedTexSheet;
 	friend class private_video::VariableTexSheet;
 
-	friend class hoa_mode_manager::ParticleSystem;
-
 	friend class ImageDescriptor;
 	friend class StillImage;
 	friend class CompositeImage;
