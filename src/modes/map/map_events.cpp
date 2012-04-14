@@ -148,51 +148,34 @@ bool SoundEvent::_Update() {
 
 MapTransitionEvent::MapTransitionEvent(uint32 event_id, std::string filename) :
 	MapEvent(event_id, MAP_TRANSITION_EVENT),
-	_transition_map_filename(filename)
-{
-	_fade_timer.Initialize(MAP_FADE_OUT_TIME, SYSTEM_TIMER_NO_LOOPS);
-}
-
-
-
-MapTransitionEvent::~MapTransitionEvent()
+	_transition_map_filename(filename),
+	_done(false)
 {}
-
 
 
 void MapTransitionEvent::_Start() {
 	MapMode::CurrentInstance()->PushState(STATE_SCENE);
-	_fade_timer.Reset();
-	_fade_timer.Run();
-	// TODO: The call below is a problem because if the user pauses while this event is in progress,
-	// the screen fade will continue while in pause mode (it shouldn't). I think instead we'll have
-	// to perform a manual fade of the screen.
-	VideoManager->FadeScreen(Color::black, _fade_timer.GetDuration());
+
+	VideoManager->FadeScreen(Color::black, MAP_FADE_OUT_TIME);
+	_done = false;
 
 	// TODO: fade out the map music
 }
 
 
-
 bool MapTransitionEvent::_Update() {
-	_fade_timer.Update();
+	if (VideoManager->IsFading())
+		return false;
 
-	// NOTE: Using a custom fade to be able to tell when it's finished
-	if (_fade_timer.IsFinished() == true) {
+	// Only load the map once the fade out is done, since the load time can
+	// break the fade smoothness and visible duration.
+	if (!_done) {
+		MapMode *MM = new MapMode(_transition_map_filename);
 		ModeManager->Pop();
-		try {
-			MapMode *MM = new MapMode(_transition_map_filename);
-			ModeManager->Push(MM);
-		} catch (luabind::error e) {
-			PRINT_ERROR << "Error loading map: " << _transition_map_filename << endl;
-			ScriptManager->HandleLuaError(e);
-		}
-		// This will fade the screen back in from black
-		VideoManager->FadeScreen(Color::clear, _fade_timer.GetDuration() / 2);
-		return true;
+		ModeManager->Push(MM, false, true);
+		_done = true;
 	}
-
-	return false;
+	return true;
 }
 
 // -----------------------------------------------------------------------------

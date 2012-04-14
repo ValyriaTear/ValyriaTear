@@ -301,7 +301,7 @@ public:
 	**/
 	MapTransitionEvent(uint32 event_id, std::string filename);
 
-	~MapTransitionEvent();
+	~MapTransitionEvent() {};
 
 protected:
 	//! \brief Begins the transition process by fading out the screen and music
@@ -313,8 +313,8 @@ protected:
 	//! \brief The filename of the map to transition to
 	std::string _transition_map_filename;
 
-	//! \brief A timer used for fading out the current map
-	hoa_system::SystemTimer _fade_timer;
+	//! \brief tells the update function to trigger the new map.
+	bool _done;
 }; // class MapTransitionEvent : public MapEvent
 
 
