@@ -28,37 +28,27 @@ namespace hoa_map {
 
 namespace private_map {
 
-/** ****************************************************************************
-*** \brief Represents a single image tile on the map.
-***
-*** The images that a tile uses are not stored within this class. This class
-*** only holds indices to the container class holding those images. This class
-*** also does not contain any information about walkability or the collision grid.
-*** That information is maintained in the map object manager.
-***
-*** \note The reason that tiles do not contain walkability information is that
-*** each tile is 32x32 pixels, but walkability is defined on a 16x16 granularity,
-*** meaning that there are four "walkable" sections to each tile. Certain code
-*** such as pathfinding is more simple if all walkability information is kept in
-*** in another form of container.
-*** ***************************************************************************/
-class MapTile {
+//! \brief Layer types: Drawn before, along, or after the map objects according to their types.
+enum LAYER_TYPE {
+	GROUND_LAYER = 0,
+	FRINGE_LAYER = 1,
+	SKY_LAYER = 2,
+	INVALID_LAYER = 3
+};
+
+class Layer {
 public:
-	/** \name Tile Layer Indeces
-	*** \brief Indeces to the tile image container, mapping the three tile layers.
-	*** \note A negative value means that no image is registered to that tile layer.
-	**/
-	//@{
-	int16 lower_layer, middle_layer, upper_layer;
-	//@}
+	LAYER_TYPE layer_type;
+	// Represents the tile indeces: i.e: tiles[y][x] = tile_id at (x,y)
+	std::vector< std::vector<int16> > tiles;
 
-	MapTile()
-		{ lower_layer = -1; middle_layer = -1; upper_layer = -1; }
+	Layer():
+		layer_type(GROUND_LAYER)
+	{}
+};
 
-	MapTile(int16 lower, int16 middle, int16 upper)
-		{ lower_layer = lower; middle_layer = middle; upper_layer = upper; }
-}; // class MapTile
-
+// A map context - A map file can have several, but at least one.
+typedef std::vector<Layer> Context;
 
 /** ****************************************************************************
 *** \brief A helper class to MapMode responsible for all tile data and operations
@@ -83,7 +73,7 @@ public:
 	*** \param map_instance A pointer to the MapMode object which invoked this function
 	*** \note The map file should already be opened with no Lua tables open
 	**/
-	void Load(hoa_script::ReadScriptDescriptor& map_file, const MapMode* map_instance);
+	bool Load(hoa_script::ReadScriptDescriptor& map_file, const MapMode* map_instance);
 
 	//! \brief Updates all animated tile images
 	void Update();
@@ -91,13 +81,7 @@ public:
 	/** \brief Draws the various tile layers to the screen
 	*** \param frame A pointer to the computed information required to draw this frame
 	***
-	*** The implementation of these functions are nearly identical except for using
-	*** a different layer index to reference the tile image and some minor
-	*** differences in draw flags. We do not attempt to apply code reuse to these
-	*** functions because we need them to be as fast as possible since they are
-	*** each executed for every frame.
-	***
-	*** \note These functions do not reset the coordinate system and hence require
+	*** \note This function does not reset the coordinate system and hence require
 	*** that the proper coordinate system is already set prior to these function
 	*** calls (0.0f, SCREEN_COLS, SCREEN_ROWS, 0.0f). These functions do make
 	*** modifications to the blending draw flag and the draw cursor position
@@ -105,9 +89,7 @@ public:
 	*** to retain this information before calling these functions if necessary.
 	**/
 	//@{
-	void DrawLowerLayer(const MapFrame* const frame);
-	void DrawMiddleLayer(const MapFrame* const frame);
-	void DrawUpperLayer(const MapFrame* const frame);
+	void DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_type);
 	//@}
 
 private:
@@ -123,12 +105,9 @@ private:
 
 	/** \brief A map of 2D vectors that contains all of the map's tile objects.
 	*** Each key-value pair in the std::map represents a map context, thus the size of the std::map is equal to
-	*** number of contexts in the game map (up to 32). The 2D vector represents the rows and columns of tiles,
-	*** respectively, for the given map context.
-	*** \Note A position in this member is stored like this:
-	*** _tile_grid[y][x]
+	*** the number of contexts in the game map (up to 32).
 	**/
-	std::map<MAP_CONTEXT, std::vector<std::vector<MapTile> > > _tile_grid;
+	std::map<MAP_CONTEXT, Context > _tile_grid;
 
 	//! \brief Contains the image objects for all map tiles, both still and animated.
 	std::vector<hoa_video::ImageDescriptor*> _tile_images;
