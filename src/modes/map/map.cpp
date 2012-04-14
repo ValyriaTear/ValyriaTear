@@ -450,8 +450,11 @@ void MapMode::_Load() {
 		PRINT_ERROR << "failed to load location graphic image: " << _location_graphic.GetFilename() << endl;
 	}
 
-	// ---------- (2) Instruct the supervisor classes to perform their portion of the load operation
-	_tile_supervisor->Load(_map_script, this);
+	// Instruct the supervisor classes to perform their portion of the load operation
+	if (!_tile_supervisor->Load(_map_script, this)) {
+		PRINT_ERROR << "failed to load the tile data." << endl;
+		return;
+	}
 	_object_supervisor->Load(_map_script);
 
 	// ---------- (3) Load map sounds and music
@@ -749,16 +752,17 @@ void MapMode::_UpdateMapFrame() {
 void MapMode::_DrawMapLayers() {
 	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
-	_tile_supervisor->DrawLowerLayer(&_map_frame);
+	_tile_supervisor->DrawLayers(&_map_frame, GROUND_LAYER);
 	// Save points are engraved on the ground, and thus shouldn't be drawn after walls.
 	_object_supervisor->DrawSavePoints();
-	_tile_supervisor->DrawMiddleLayer(&_map_frame);
+
+	_tile_supervisor->DrawLayers(&_map_frame, FRINGE_LAYER);
 
 	_object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects
 	_object_supervisor->DrawPassObjects();
 	_object_supervisor->DrawGroundObjects(true); // Second draw pass of ground objects
 
-	_tile_supervisor->DrawUpperLayer(&_map_frame);
+	_tile_supervisor->DrawLayers(&_map_frame, SKY_LAYER);
 
 	_object_supervisor->DrawSkyObjects();
 } // void MapMode::_DrawMapLayers()
