@@ -3,7 +3,7 @@
 -- Author: roos, modifications by Bertram
 
 -- Example of use:
--- VideoManager:AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0, false);
+-- <mode>:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0, false);
 
 systems = {}
 
