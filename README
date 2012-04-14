@@ -32,5 +32,5 @@ libvorbis
 GNU Gettext
 lua 5.1.x
 Luabind (Provided as a static library)
-Boost headers (make sure that the boost headers used to compile Luabind are the same version used to compile Allacrost)
+Boost headers (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 Qt 4+ (only if you wish to compile the map editor)
