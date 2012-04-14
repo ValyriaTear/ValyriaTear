@@ -1254,6 +1254,16 @@ TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM):
 }
 
 void TransitionToBattleMode::Update() {
+	// Process quit and pause events
+	if (InputManager->QuitPress()) {
+		ModeManager->Push(new PauseMode(true));
+		return;
+	}
+	else if (InputManager->PausePress()) {
+		ModeManager->Push(new PauseMode(false));
+		return;
+	}
+
 	_transition_timer.Update();
 
 	_position += _transition_timer.PercentComplete();
@@ -1282,6 +1292,9 @@ void TransitionToBattleMode::Draw() {
 }
 
 void TransitionToBattleMode::Reset() {
+	// Don't reset a transition in progress
+    if (_transition_timer.IsRunning())
+        return;
 
 	_position = 0.0f;
 	_transition_timer.Initialize(1500, SYSTEM_TIMER_NO_LOOPS);
