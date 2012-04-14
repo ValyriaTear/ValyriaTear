@@ -640,8 +640,6 @@ function CreateDialogue()
 		dialogue:AddLine(text, 2000);
 		text = hoa_system.Translate("You can explore this area if you like. Some of the buildings here may be entered by walking up to the doors, but not all of them.");
 		dialogue:AddLine(text, 2000);
-		text = hoa_system.Translate("Also I would recommend that you not save your game while you are on this map, because you are stuck here with no way to go back.");
-		dialogue:AddLine(text, 2000);
 	DialogueManager:AddDialogue(dialogue);
 
 	dialogue = hoa_map.SpriteDialogue(11);
