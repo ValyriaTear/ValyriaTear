@@ -28,9 +28,10 @@ function Initialize(boot_instance)
 	satellite_id = Boot:AddImage("img/backdrops/boot/satellite.png", 34, 34);
 	satellite_shadow_id = Boot:AddImage("img/backdrops/boot/satellite_shadow.png", 48, 32);
 	flare_id = Boot:AddImage("img/backdrops/boot/flare.png", 256, 256);
+	menu_bar_id = Boot:AddImage("img/menus/battle_bottom_menu.png", 1024, 128);
 
-    -- Init the timer
-    animation_timer = hoa_system.SystemTimer(7000, 0);
+	-- Init the timer
+	animation_timer = hoa_system.SystemTimer(7000, 0);
 end
 
 function Reset()
@@ -39,9 +40,10 @@ function Reset()
 	end
 end
 
--- The image alpha channel value
+-- The image alpha channel values
 local logo_alpha = 0.0;
 local bckgrnd_alpha = 0.0;
+local menu_bar_alpha = 0.0;
 
 -- cloud field members
 local x_positions1 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
@@ -78,14 +80,14 @@ local sat3_time = 0;
 local sat3_behind = true;
 
 function UpdateIntroFade()
-    -- After one second of black, start fade in the logo
-    if (animation_timer:GetTimeExpired() > 1000
-            and animation_timer:GetTimeExpired() <= 4000) then
+	-- After one second of black, start fade in the logo
+	if (animation_timer:GetTimeExpired() > 1000
+			and animation_timer:GetTimeExpired() <= 4000) then
 
-        logo_alpha = (animation_timer:GetTimeExpired() - 1000) / (4000 - 1000);
+		logo_alpha = (animation_timer:GetTimeExpired() - 1000) / (4000 - 1000);
 
 	elseif (animation_timer:GetTimeExpired() > 4000
-            and animation_timer:GetTimeExpired() <= 7000) then
+			and animation_timer:GetTimeExpired() <= 7000) then
 
 		bckgrnd_alpha = (animation_timer:GetTimeExpired() - 4000) / (7000 - 4000);
 	end
@@ -192,6 +194,9 @@ function UpdateBackgroundAnimation()
 end
 
 
+local music_started = false;
+local snow_started = false;
+
 -- Update the animation
 function Update()
 
@@ -199,25 +204,44 @@ function Update()
 
 	UpdateBackgroundAnimation();
 
-    if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_INTRO) then
-        -- Start the timer
-        if (animation_timer:IsInitial() == true and animation_timer:IsRunning() ~= true) then
-            animation_timer:Run();
-        elseif (animation_timer:IsFinished() == true) then
-            -- Show the menu once the presentation is done
-            Boot:ChangeState(hoa_boot.BootMode.BOOT_STATE_MENU);
-        end
+	if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_INTRO) then
+		-- Start the timer
+		if (animation_timer:IsInitial() == true and animation_timer:IsRunning() ~= true) then
+			animation_timer:Run();
+		elseif (animation_timer:IsFinished() == true) then
+			-- Show the menu once the presentation is done
+			Boot:ChangeState(hoa_boot.BootMode.BOOT_STATE_MENU);
+		end
 
-        -- Update the starting animation
-        UpdateIntroFade();
-    else
+		-- Update the starting animation
+		UpdateIntroFade();
+	else
 		logo_alpha = 1.0;
 		bckgrnd_alpha = 1.0;
-        animation_timer:Finish();
-    end
+		animation_timer:Finish();
+	end
 
-    -- Nothing to do in menu mode.
+	if (music_started == false) then
+		AudioManager:PlayMusic("mus/Soliloquy_1-OGA-mat-pablo.ogg");
+		menu_started = true;
+	end
 
+	-- Update the menu bar alpha in menu mode.
+
+	if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
+		local time_expired = SystemManager:GetUpdateTime();
+		if (menu_bar_alpha < 0.6) then
+			menu_bar_alpha = menu_bar_alpha + 0.001 * time_expired
+
+			if menu_bar_alpha >= 0.6 then menu_bar_alpha = 0.6 end
+		end
+
+
+		if (snow_started == false) then
+			Boot:GetParticleManager():AddParticleEffect("dat/effects/particles/snow.lua", 512.0, 384.0);
+			snow_started = true;
+		end
+	end
 end
 
 
@@ -230,10 +254,10 @@ function DrawCloudFieldLine(x_positions, y_position)
 end
 
 
-function DrawMenuBackground()
+function Draw()
 	-- The background image
-    VideoManager:Move(0.0, 769.0);
-    Boot:DrawImage(bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha));
+	VideoManager:Move(0.0, 769.0);
+	Boot:DrawImage(bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha));
 
 	-- The passing clouds
 	DrawCloudFieldLine(x_positions1, y_position1);
@@ -242,11 +266,14 @@ function DrawMenuBackground()
 	DrawCloudFieldLine(x_positions4, y_position4);
 	DrawCloudFieldLine(x_positions5, y_position5);
 	DrawCloudFieldLine(x_positions6, y_position6);
+end
 
+
+function DrawPostEffects()
 	-- front mist + fog
-    VideoManager:Move(0.0, 769.0);
-    Boot:DrawImage(mist_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
-    Boot:DrawImage(fog_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.8));
+	VideoManager:Move(0.0, 769.0);
+	Boot:DrawImage(mist_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
+	Boot:DrawImage(fog_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.8));
 
 	-- satellite behind
 	if (sat1_behind) then
@@ -302,20 +329,13 @@ function DrawMenuBackground()
 		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 
-	-- Logo
-    VideoManager:Move(198.0, 750.0);
-    Boot:DrawImage(logo_id, hoa_video.Color(1.0, 1.0, 1.0, logo_alpha));
-end
-
-
-
-local menu_started = false;
--- Draw the animation in progress
-function Draw()
-	DrawMenuBackground();
-	if (menu_started == false) then
-		AudioManager:PlayMusic("mus/Soliloquy_1-OGA-mat-pablo.ogg");
-
-		menu_started = true;
+	-- A dark bar used to make the menu more visible
+	if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
+		VideoManager:Move(0.0, 128.0);
+		Boot:DrawImage(menu_bar_id, hoa_video.Color(1.0, 1.0, 1.0, menu_bar_alpha));
 	end
+
+	-- Logo
+	VideoManager:Move(198.0, 750.0);
+	Boot:DrawImage(logo_id, hoa_video.Color(1.0, 1.0, 1.0, logo_alpha));
 end

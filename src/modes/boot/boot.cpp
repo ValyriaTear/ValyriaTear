@@ -106,6 +106,7 @@ BootMode::BootMode() :
 	// Load other script functions object
 	_update_function = boot_script.ReadFunctionPointer("Update");
 	_draw_function = boot_script.ReadFunctionPointer("Draw");
+	_draw_post_effects_function = boot_script.ReadFunctionPointer("DrawPostEffects");
 	_reset_function = boot_script.ReadFunctionPointer("Reset");
 
 	boot_script.CloseTable(); // The namespace
@@ -225,6 +226,9 @@ void BootMode::Update() {
 
 	// Update background animation
 	ReadScriptDescriptor::RunScriptObject(_update_function);
+
+	// Update the game mode generic members.
+	GameMode::Update();
 
 	// Screen is in the process of fading out
 	if (_exiting)
@@ -417,11 +421,19 @@ void BootMode::Update() {
 
 
 void BootMode::Draw() {
+	VideoManager->PushState();
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	ReadScriptDescriptor::RunScriptObject(_draw_function);
+	VideoManager->PopState();
+}
 
+void BootMode::DrawPostEffects() {
+	VideoManager->PushState();
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+	ReadScriptDescriptor::RunScriptObject(_draw_post_effects_function);
 	if (_boot_state == BOOT_STATE_MENU) {
 		_options_window.Draw();
 
@@ -448,6 +460,7 @@ void BootMode::Draw() {
 		_file_name_alert.Draw();
 		_file_name_window.Draw();
 	}
+	VideoManager->PopState();
 }
 
 // ****************************************************************************
