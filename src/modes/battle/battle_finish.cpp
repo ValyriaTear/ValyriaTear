@@ -647,32 +647,64 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 
 		if (_characters[i]->AddExperiencePoints(xp_to_add) == true) {
 			do {
-				// TODO: Only add text for the stats that experienced growth
-				_growth_list[i].SetOptionText(0, UTranslate("HP:"));
-				if (_character_growths[i]->GetHitPointsGrowth() > 0)
-					_growth_list[i].SetOptionText(1, MakeUnicodeString(NumberToString(_character_growths[i]->GetHitPointsGrowth())));
-				_growth_list[i].SetOptionText(2, UTranslate("SP:"));
-				if (_character_growths[i]->GetSkillPointsGrowth() > 0)
-					_growth_list[i].SetOptionText(3, MakeUnicodeString(NumberToString(_character_growths[i]->GetSkillPointsGrowth())));
-				_growth_list[i].SetOptionText(4, UTranslate("STR:"));
-				if (_character_growths[i]->GetStrengthGrowth() > 0)
-					_growth_list[i].SetOptionText(5, MakeUnicodeString(NumberToString(_character_growths[i]->GetStrengthGrowth())));
-				_growth_list[i].SetOptionText(6, UTranslate("VIG:"));
-				if (_character_growths[i]->GetVigorGrowth() > 0)
-					_growth_list[i].SetOptionText(7, MakeUnicodeString(NumberToString(_character_growths[i]->GetVigorGrowth())));
-				_growth_list[i].SetOptionText(8, UTranslate("FOR:"));
-				if (_character_growths[i]->GetFortitudeGrowth() > 0)
-					_growth_list[i].SetOptionText(9, MakeUnicodeString(NumberToString(_character_growths[i]->GetFortitudeGrowth())));
-				_growth_list[i].SetOptionText(10, UTranslate("PRO:"));
-				if (_character_growths[i]->GetProtectionGrowth() > 0)
-					_growth_list[i].SetOptionText(11, MakeUnicodeString(NumberToString(_character_growths[i]->GetProtectionGrowth())));
-				_growth_list[i].SetOptionText(12, UTranslate("AGI:"));
-				if (_character_growths[i]->GetAgilityGrowth() > 0)
-					_growth_list[i].SetOptionText(13, MakeUnicodeString(NumberToString(_character_growths[i]->GetAgilityGrowth())));
-				_growth_list[i].SetOptionText(14, UTranslate("EVA:"));
-				if (_character_growths[i]->GetEvadeGrowth() > 0.0f)
-					_growth_list[i].SetOptionText(15, MakeUnicodeString(NumberToString(_character_growths[i]->GetEvadeGrowth())));
+				// Only add text for the stats that experienced growth
+				uint32 line = 0;
 
+				// HP
+				if (_character_growths[i]->GetHitPointsGrowth() > 0) {
+					_growth_list[i].SetOptionText(line, UTranslate("HP:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetHitPointsGrowth())));
+					line = line + 2;
+				}
+
+				// SP
+				if (_character_growths[i]->GetSkillPointsGrowth() > 0) {
+					_growth_list[i].SetOptionText(line, UTranslate("SP:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetSkillPointsGrowth())));
+					line = line + 2;
+				}
+
+				// Strength
+				if (_character_growths[i]->GetStrengthGrowth() > 0) {
+					_growth_list[i].SetOptionText(line, UTranslate("STR:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetStrengthGrowth())));
+					line = line + 2;
+				}
+
+				// Vigor
+				if (_character_growths[i]->GetVigorGrowth() > 0) {
+					_growth_list[i].SetOptionText(line, UTranslate("VIG:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetVigorGrowth())));
+					line = line + 2;
+				}
+
+				// Fortitude
+				if (_character_growths[i]->GetFortitudeGrowth() > 0) {
+					_growth_list[i].SetOptionText(line, UTranslate("FOR:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetFortitudeGrowth())));
+					line = line + 2;
+				}
+
+				// Protection
+				if (_character_growths[i]->GetProtectionGrowth() > 0) {
+					_growth_list[i].SetOptionText(line, UTranslate("PRO:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetProtectionGrowth())));
+					line = line + 2;
+				}
+
+				// Agility
+				if (_character_growths[i]->GetAgilityGrowth() > 0) {
+					_growth_list[i].SetOptionText(line, UTranslate("AGI:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetAgilityGrowth())));
+					line = line + 2;
+				}
+
+				// Evade
+				if (_character_growths[i]->GetEvadeGrowth() > 0.001f) {
+					_growth_list[i].SetOptionText(line, UTranslate("EVA:"));
+					_growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i]->GetEvadeGrowth())));
+					line = line + 2;
+				}
 				_character_growths[i]->AcknowledgeGrowth();
 			} while (_character_growths[i]->IsGrowthDetected());
 
