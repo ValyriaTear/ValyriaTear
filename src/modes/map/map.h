@@ -206,8 +206,11 @@ public:
 	uint8 GetNumMapContexts() const
 		{ return _num_map_contexts; }
 
-	private_map::MAP_CONTEXT GetCurrentContext() const
-		{ return _current_context; }
+	/** \brief Gets the currently active map context
+	*** which is always equal to the context of the object pointed to by the _camera member,
+	*** or the base context when no camera has been set up.
+	**/
+	private_map::MAP_CONTEXT GetCurrentContext() const;
 
 	bool IsShowGUI() const
 		{ return _show_gui; }
@@ -312,11 +315,6 @@ private:
 
 	//! \brief The number of contexts that this map uses (at least 1, at most 32)
 	uint8 _num_map_contexts;
-
-	/** \brief The currently active map context
-	*** This is always equal to the context of the object pointed to by the _camera member
-	**/
-	private_map::MAP_CONTEXT _current_context;
 
 	//! \brief If true, the player is not allowed to run.
 	bool _running_disabled;
