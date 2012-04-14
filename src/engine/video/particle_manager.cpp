@@ -34,18 +34,14 @@ ParticleEffectID ParticleManager::AddParticleEffect(const string &filename, floa
 {
 	ParticleEffectDef *def = _LoadEffect(filename);
 
-	if(!def)
-	{
-		IF_PRINT_WARNING(VIDEO_DEBUG) <<
-			"Failed to load particle definition file: " << filename << endl;
+	if(!def) {
+		PRINT_WARNING << "Failed to load particle definition file: " << filename << endl;
 		return VIDEO_INVALID_EFFECT;
 	}
 
 	ParticleEffectID id = _AddEffect(def, x, y);
-	if(id == VIDEO_INVALID_EFFECT)
-	{
-		IF_PRINT_WARNING(VIDEO_DEBUG) <<
-			"Failed to add effect to particle manager!" << endl;
+	if(id == VIDEO_INVALID_EFFECT) {
+		PRINT_WARNING << "Failed to add effect to particle manager from: " << filename << endl;
 	}
 
 	return id;
@@ -346,8 +342,6 @@ void ParticleManager::_DEBUG_ShowParticleStats() {
 bool ParticleManager::Draw()
 {
 	VideoManager->PushState();
-	// Note: The particle manager is using inverted y coord compared to the rest
-	// of the engine
 	VideoManager->SetStandardCoordSys();
 	VideoManager->DisableScissoring();
 
