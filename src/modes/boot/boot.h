@@ -115,8 +115,11 @@ public:
 	//! \brief Handles user input and updates the boot menu
 	void Update();
 
-	//! \brief Draws the contents and menus of boot mode depending on the current state
+	//! \brief Draws the boot menu background depending on the current state
 	void Draw();
+
+	//! \brief Draws the contents and menus of boot mode depending on the current state
+	void DrawPostEffects();
 
 	/** \brief Add a boot image available for display at boot time.
 	*** \return the image id to be used later at draw time.
@@ -178,6 +181,9 @@ private:
 
 	//! \brief A pointer to the Draw() lua script function used to display the boot presentation.
 	ScriptObject _draw_function;
+
+	//! \brief A pointer to the DrawPosteffects() lua script function used to display the boot presentation.
+	ScriptObject _draw_post_effects_function;
 
 	//! \brief Rendered text of the release version number
 	hoa_video::TextImage _version_text;

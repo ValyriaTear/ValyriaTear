@@ -134,6 +134,9 @@ function UpdateAnimation()
 end
 
 
+local music_started = false;
+local snow_started = false;
+
 -- Update the animation
 function Update()
 
@@ -154,8 +157,11 @@ function Update()
         animation_timer:Finish();
     end
 
-    -- Nothing to do in menu mode.
-
+		if (snow_started == false) then
+			Boot:GetParticleManager():AddParticleEffect("dat/effects/particles/snow.lua", 512.0, 384.0);
+			snow_started = true;
+		end
+	end
 end
 
 
