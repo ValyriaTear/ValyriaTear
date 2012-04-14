@@ -70,7 +70,6 @@ MapMode::MapMode(string filename) :
 	_delta_x(0),
 	_delta_y(0),
 	_num_map_contexts(0),
-	_current_context(MAP_CONTEXT_01),
 	_running_disabled(false),
 	_unlimited_stamina(false),
 	_show_gui(true),
@@ -198,9 +197,6 @@ void MapMode::Reset() {
 
 void MapMode::Update() {
 	_dialogue_icon.Update();
-
-	// TODO: instead of doing this every frame, see if it can be done only when the _camera pointer is modified
-	_current_context = _camera->GetContext();
 
 	// Process quit and pause events unconditional to the state of map mode
 	if (InputManager->QuitPress() == true) {
@@ -410,11 +406,16 @@ void MapMode::MoveVirtualFocus(uint16 loc_x, uint16 loc_y, uint32 duration) {
 }
 
 
-
 bool MapMode::IsCameraOnVirtualFocus() {
     return _camera == _object_supervisor->VirtualFocus();
 }
 
+
+MAP_CONTEXT MapMode::GetCurrentContext() const {
+	if (_camera)
+		return _camera->GetContext();
+	return MAP_CONTEXT_01;
+}
 
 
 bool MapMode::AttackAllowed() {
