@@ -47,9 +47,6 @@ Grid::Grid(QWidget* parent, const QString& name, uint32 width, uint32 height) :
 	_initialized(false),
 	_grid_on(true),
 	_select_on(false),
-	_ll_on(true),
-	_ml_on(false),
-	_ul_on(false),
 	_ol_on(true)
 {
 	context_names << "Base";
@@ -59,16 +56,41 @@ Grid::Grid(QWidget* parent, const QString& name, uint32 width, uint32 height) :
 
 	// Initialize layers with -1 to indicate that no tile/object/etc. is
 	// present at this location
-	vector<int> vect;
-	for (uint32 i = 0; i < _width * _height; i++)
-	{
-		vect.push_back(-1);
-		_select_layer.push_back(-1);
-		_object_layer.push_back(-1);
+	_select_layer.resize(_height);
+	for (uint32 y = 0; y < _height; ++y) {
+		_select_layer[y].resize(_width);
+		for (uint32 x = 0; x < _width; ++x) {
+			_select_layer[y][x] = -1;
+		}
 	}
-	_lower_layer.push_back(vect);
-	_middle_layer.push_back(vect);
-	_upper_layer.push_back(vect);
+
+	// Create default base context
+	_tile_contexts.resize(1);
+	_tile_contexts[0].name = tr("Base").toStdString();
+	// Create default base layers
+	_tile_contexts[0].layers.resize(3);
+	// Add a default ground type and name to it
+	_tile_contexts[0].layers[0].layer_type = GROUND_LAYER;
+	_tile_contexts[0].layers[0].name = tr("Background").toStdString();
+	_tile_contexts[0].layers[1].layer_type = FRINGE_LAYER;
+	_tile_contexts[0].layers[1].name = tr("Fringe").toStdString();
+	_tile_contexts[0].layers[2].layer_type = SKY_LAYER;
+	_tile_contexts[0].layers[2].name = tr("Sky").toStdString();
+
+	// Set up its size, and fill it with empty values
+	_tile_contexts[0].layers[0].tiles.resize(_height);
+	_tile_contexts[0].layers[1].tiles.resize(_height);
+	_tile_contexts[0].layers[2].tiles.resize(_height);
+	for (uint32 y = 0; y < _height; ++y) {
+		_tile_contexts[0].layers[0].tiles[y].resize(_width);
+		_tile_contexts[0].layers[1].tiles[y].resize(_width);
+		_tile_contexts[0].layers[2].tiles[y].resize(_width);
+		for (uint32 x = 0; x < _width; ++x) {
+			_tile_contexts[0].layers[0].tiles[y][x] = -1;
+			_tile_contexts[0].layers[1].tiles[y][x] = -1;
+			_tile_contexts[0].layers[2].tiles[y][x] = -1;
+		}
+	}
 } // Grid constructor
 
 
@@ -88,38 +110,67 @@ Grid::~Grid()
 // Grid class -- public functions
 ///////////////////////////////////////////////////////////////////////////////
 
-vector<int32>& Grid::GetLayer(LAYER_TYPE layer, int context)
+void Grid::ClearSelectionLayer()
 {
-	switch (layer) {
-		case LOWER_LAYER:
-			return _lower_layer[context];
-		case MIDDLE_LAYER:
-			return _middle_layer[context];
-		case UPPER_LAYER:
-			return _upper_layer[context];
-		case SELECT_LAYER:
-			return _select_layer;
-		case OBJECT_LAYER:
-			return _object_layer;
-		case INVALID_LAYER:
-			// fall-through
-		case TOTAL_LAYER:
-			// fall-through
-		default:
-			return _lower_layer[context];
-	} // switch on the current layer
-} // Grid::GetLayer(...)
-
+	for (uint32 y = 0; y < _height; ++y) {
+		for(uint32 x = 0; x < _width; ++x) {
+			_select_layer[y][x] = -1;
+		}
+	}
+}
 
 void Grid::CreateNewContext(uint32 inherit_context)
 {
-	// Assumes all 3 layers have the same number of contexts.
+	// Use the base context when the inheritance is invalid.
+	if (inherit_context >= _tile_contexts.size())
+		inherit_context = 0;
 
-	_lower_layer.push_back(_lower_layer[inherit_context]);
-	_middle_layer.push_back(_middle_layer[inherit_context]);
-	_upper_layer.push_back(_upper_layer[inherit_context]);
+	int context_id = _tile_contexts.size();
+	stringstream context;
+	context << "context_";
+	if (context_id < 10)
+		context << "0";
+	context << context_id;
+
+	// Push a new base context copy
+	// Make sure the context to be created is indeed the next one
+	_tile_contexts.resize(context_id + 1);
+
+	// set up the name of the context - TODO: Permit custom names
+	_tile_contexts[context_id].name = context.str();
+
+	uint32 layers_num = _tile_contexts[inherit_context].layers.size();
+
+	// Resize the context to have the same size as the base one
+	// The number of layers
+	_tile_contexts[context_id].layers.resize(layers_num);
+	// For each layer, set up the grid size
+	for (uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
+		// Type
+		_tile_contexts[context_id].layers[layer_id].layer_type = _tile_contexts[inherit_context].layers[layer_id].layer_type;
+		// Layer name
+		_tile_contexts[context_id].layers[layer_id].name = _tile_contexts[inherit_context].layers[layer_id].name;
+		// Height
+		_tile_contexts[context_id].layers[layer_id].tiles.resize(_height);
+		for (uint32 y = 0; y < _height; ++y) {
+			// and width
+			_tile_contexts[context_id].layers[layer_id].tiles[y].resize(_width);
+		}
+	}
 } // Grid::CreateNewContext(...)
 
+
+LAYER_TYPE getLayerType(const std::string& type) {
+	if (type == "ground")
+		return GROUND_LAYER;
+	else if (type == "fringe")
+		return FRINGE_LAYER;
+	else if (type == "sky")
+		return SKY_LAYER;
+
+	return INVALID_LAYER;
+
+}
 
 bool Grid::LoadMap()
 {
@@ -156,13 +207,19 @@ bool Grid::LoadMap()
 	music_files.clear();
 	tileset_names.clear();
 	tilesets.clear();
-	_lower_layer.clear();
-	_middle_layer.clear();
-	_upper_layer.clear();
-	_object_layer.clear();
+	_tile_contexts.clear();
+
+	// Add a default context
+	_tile_contexts.resize(1);
+	_tile_contexts[0].name = tr("Base context").toStdString();
 
 	// Read the various map descriptor variables
 	uint32 num_contexts = read_data.ReadUInt("num_map_contexts");
+
+	// Read whether the other contexts inherit of the base one.
+	vector<uint32> context_inherits;
+	read_data.ReadUIntVector("context_inherits", context_inherits);
+
 	_height = read_data.ReadUInt("num_tile_rows");
 	_width  = read_data.ReadUInt("num_tile_cols");
 
@@ -179,8 +236,13 @@ bool Grid::LoadMap()
 	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
 
 	// Create selection layer
-	for (uint32 i = 0; i < _width * _height; i++)
-		_select_layer.push_back(-1);
+	_select_layer.resize(_height);
+	for (uint32 y = 0; y < _height; ++y) {
+		_select_layer[y].resize(_width);
+		for (uint32 x = 0; x < _width; ++x) {
+			_select_layer[y][x] = -1;
+		}
+	}
 
 	// Base context is default and not saved in the map file
 	read_data.OpenTable("context_names");
@@ -214,42 +276,83 @@ bool Grid::LoadMap()
 	// Loading the tileset images using LoadMultiImage is done in editor.cpp in
 	// FileOpen via creation of the TilesetTable(s)
 
+	if (!read_data.DoesTableExist("layers")) {
+		QMessageBox::warning(this, message_box_title,
+			QString(tr("No 'layers' table found.")));
+		return false;
+	}
+
+	// Will keep each tile line data
+	std::vector<int32> row_vect;
+	// Stores the layers available indeces
+	std::vector<int32> keys_vect;
+
 	// Read the map tile layer data
-	vector<int32> row_vect;
-	_lower_layer.push_back(row_vect);
-	_middle_layer.push_back(row_vect);
-	_upper_layer.push_back(row_vect);
+	read_data.OpenTable("layers");
+	uint32 layers_num = read_data.GetTableSize();
 
-	read_data.OpenTable("lower_layer");
-	for (uint32 i = 0; i < _height; i++)
-	{
-		read_data.ReadIntVector(i, vect);
-		for (vector<int32>::iterator it = vect.begin(); it != vect.end(); it++)
-			_lower_layer.begin()->push_back(*it);
-		vect.clear();
-	} // iterate through the rows of the lower layer
-	read_data.CloseTable();
+	// Parse the 'layers' table
+	for (uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
 
-	row_vect.clear();
-	read_data.OpenTable("middle_layer");
-	for (uint32 i = 0; i < _height; i++)
-	{
-		read_data.ReadIntVector(i, vect);
-		for (vector<int32>::iterator it = vect.begin(); it != vect.end(); it++)
-			_middle_layer.begin()->push_back(*it);
-		vect.clear();
-	} // iterate through the rows of the middle layer
-	read_data.CloseTable();
+		if (!read_data.DoesTableExist(layer_id))
+			continue;
 
-	row_vect.clear();
-	read_data.OpenTable("upper_layer");
-	for (uint32 i = 0; i < _height; i++)
-	{
-		read_data.ReadIntVector(i, vect);
-		for (vector<int32>::iterator it = vect.begin(); it != vect.end(); it++)
-			_upper_layer.begin()->push_back(*it);
-		vect.clear();
-	} // iterate through the rows of the upper layer
+		// opens layers[layer_id]
+		read_data.OpenTable(layer_id);
+
+		LAYER_TYPE layer_type = getLayerType(read_data.ReadString("type"));
+
+		if (layer_type == INVALID_LAYER) {
+			//QMessageBox::warning(this, message_box_title,
+			//QString(tr("Ignoring unexisting layer type: %i in file: %s"),
+			//		   (int32)layer_type, read_data.GetFilename().c_str()));
+			read_data.CloseTable(); // layers[layer_id]
+			return false;
+		}
+
+		// Add a new layer
+		_tile_contexts[0].layers.resize(layer_id + 1);
+		// Set the new layer type
+		_tile_contexts[0].layers[layer_id].layer_type = layer_type;
+
+		// the layer visible name
+		_tile_contexts[0].layers[layer_id].name = read_data.ReadString("name");
+
+		// Parse layers[layer_id].tiles[y]
+		for (uint32 y = 0; y < _height; ++y)
+		{
+			if (!read_data.DoesTableExist(y)) {
+				//QMessageBox::warning(this, message_box_title,
+				//QString(tr("Missing layers[%i][%i] in file: %s",
+				//		layer_id, y, read_data.GetFilename().c_str())));
+				read_data.CloseTable(); // layers[layer_id]
+				return false;
+			}
+
+			read_data.ReadIntVector(y, vect);
+
+			// Prepare the the row
+			_tile_contexts[0].layers[layer_id].tiles.resize(y + 1);
+
+			if (vect.size() != _width) {
+				//QMessageBox::warning(this, message_box_title,
+				//QString(tr("Invalid line size of layers[%i][%i] in file: %s").arg(,
+				//		layer_id, y, read_data.GetFilename())));
+				read_data.CloseTable(); // layers[layer_id]
+				return false;
+			}
+
+			for (vector<int32>::iterator it = vect.begin(); it != vect.end(); ++it)
+				_tile_contexts[0].layers[layer_id].tiles[y].push_back(*it);
+			vect.clear();
+		} // iterate through the rows of the layer
+
+		// Closes layers[layer_id]
+		read_data.CloseTable();
+
+	} // for each layers
+
+	// close the 'layers' table
 	read_data.CloseTable();
 
 	if (read_data.IsErrorDetected())
@@ -261,18 +364,44 @@ bool Grid::LoadMap()
 	}
 
 	// Load any existing map context data
-	for (uint32 i = 1; i < num_contexts; i++)
+	for (uint32 ctxt = 1; ctxt < num_contexts; ++ctxt)
 	{
 		stringstream context;
 		context << "context_";
-		if (i < 10)
+		if (ctxt < 10)
 			context << "0";
-		context << i;
+		context << ctxt;
 
-		// Allocate space in the tile layer containers
-		_lower_layer.push_back(_lower_layer[0]);
-		_middle_layer.push_back(_middle_layer[0]);
-		_upper_layer.push_back(_upper_layer[0]);
+		// Push a new base context copy
+		// Make sure the context to be created is indeed the next one
+		_tile_contexts.resize(ctxt + 1);
+
+		// set up the name of the context
+		_tile_contexts[ctxt].name = context_names.at(ctxt).toStdString();
+
+		// Initialize this context by making a copy of the base map context first, as most contexts re-use many of the same tiles from the base context
+		// If non-inheriting context, start with an empty one.
+		if (context_inherits[ctxt - 1] == 1) {
+			_tile_contexts[ctxt] = _tile_contexts[0];
+		}
+		else {
+			// Resize the context to have the same size as the base one
+			// The number of layers
+			_tile_contexts[ctxt].layers.resize(layers_num);
+			// For each layer, set up the grid size
+			for (uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
+				// Type
+				_tile_contexts[ctxt].layers[layer_id].layer_type = _tile_contexts[0].layers[layer_id].layer_type;
+				// Layer name
+				_tile_contexts[ctxt].layers[layer_id].name = _tile_contexts[0].layers[layer_id].name;
+				// Height
+				_tile_contexts[ctxt].layers[layer_id].tiles.resize(_height);
+				for (uint32 y = 0; y < _height; ++y) {
+					// and width
+					_tile_contexts[ctxt].layers[layer_id].tiles[y].resize(_width);
+				}
+			}
+		}
 
 		// Read the table corresponding to this context and modify each tile
 		// accordingly. The context table is an array of integer data. The size
@@ -287,23 +416,13 @@ bool Grid::LoadMap()
 		vector<int32> context_data;
 		read_data.ReadIntVector(context.str(), context_data);
 		for (uint32 j = 0; j < context_data.size(); j += 4) {
-			switch (context_data[j]) {
-				case 0: // lower layer
-					_lower_layer[i][context_data[j+1] * _width + context_data[j+2]] =
-						context_data[j+3];
-					break;
-				case 1: // middle layer
-					_middle_layer[i][context_data[j+1] * _width + context_data[j+2]] =
-						context_data[j+3];
-					break;
-				case 2: // upper layer
-					_upper_layer[i][context_data[j+1] * _width + context_data[j+2]] =
-						context_data[j+3];
-					break;
-				default:
-					qWarning("Unknown tile layer index reference when loading map context tiles");
-					break;
-			} // switch on the layers
+			int32 layer_id = context_data[j];
+			int32 y = context_data[j + 1];
+			int32 x = context_data[j + 2];
+			int32 tile_id = context_data[j + 3];
+
+			_tile_contexts[ctxt].layers[layer_id].tiles[y][x] = tile_id;
+
 		} // iterate through all tiles in this context
 	} // iterate through all existing contexts
 
@@ -320,14 +439,26 @@ bool Grid::LoadMap()
 } // Grid::LoadMap()
 
 
+std::string getTypeFromLayer(const LAYER_TYPE& type) {
+
+	switch (type) {
+		case GROUND_LAYER:
+			return "ground";
+		case FRINGE_LAYER:
+			return "fringe";
+		case SKY_LAYER:
+			return "sky";
+		default:
+			break;
+	};
+	return "other";
+}
+
 void Grid::SaveMap()
 {
 	const int32 BUFFER_SIZE = 1024;
 	char buffer[BUFFER_SIZE];
-	int i;
 	WriteScriptDescriptor write_data;
-	int tileset_index;
-	int tile_index;
 
 	ifstream file;
 	string before_text;
@@ -399,7 +530,7 @@ void Grid::SaveMap()
 	write_data.WriteComment("The music files used as background music on this map.");
 	write_data.BeginTable("music_filenames");
 	QString music_file;
-	i = 0;
+	int i = 0;
 	for (QStringList::Iterator qit = music_files.begin();
 	     qit != music_files.end(); ++qit)
 	{
@@ -439,86 +570,60 @@ void Grid::SaveMap()
 	write_data.WriteComment("The map grid to indicate walkability. The size of the grid is 4x the size of the tile layer tables");
 	write_data.WriteComment("Walkability status of tiles for 32 contexts. Zero indicates walkable. Valid range: [0:2^32-1]");
 	write_data.BeginTable("map_grid");
-	vector<int32> ll_vect;
-	vector<int32> ml_vect;
-	vector<int32> ul_vect;
+	//[layer][walkability]
+	std::vector<std::vector<int32> > walk_vect;
 	// Used to save the northern walkability info of tiles in all layers of
 	// all contexts; initialize to walkable.
-	vector<int32> map_row_north(_width * 2, 0);
+	std::vector<int32> map_row_north(_width * 2, 0);
 	// Used to save the southern walkability info of tiles in all layers of
 	// all contexts; initialize to walkable.
-	vector<int32> map_row_south(_width * 2, 0);
-	for (uint32 row = 0; row < _height; row++)
+	std::vector<int32> map_row_south(_width * 2, 0);
+	for (uint32 y = 0; y < _height; ++y)
 	{
 		// Iterate through all contexts of all layers, column by column,
 		// row by row.
-		for (int context = 0; context < static_cast<int>(_lower_layer.size());
-		     context++)
+		for (int context = 0; context < static_cast<int>(_tile_contexts.size());
+		     ++context)
 		{
-			for (uint32 col = row * _width; col < row * _width + _width; col++)
-			{
+			for (uint32 x = 0; x < _width; ++x) {
+
 				// Used to know if any tile at all on all combined layers exists.
 				bool missing_tile = true;
 
-				// Get walkability for lower layer tile.
-				tileset_index = _lower_layer[context][col] / 256;
-				if (tileset_index == 0)
-					tile_index = _lower_layer[context][col];
-				else  // Don't divide by 0
-					tile_index = _lower_layer[context][col] %
-						(tileset_index * 256);
-				if (tile_index == -1)
-				{
-					ll_vect.push_back(0);
-					ll_vect.push_back(0);
-					ll_vect.push_back(0);
-					ll_vect.push_back(0);
-				}
-				else
-				{
-					missing_tile = false;
-					ll_vect = tilesets[tileset_index]->walkability[tile_index];
-				}
+				// linearized coords
+				int32 col = y * _width + x;
 
-				// Get walkability for middle layer tile.
-				tileset_index = _middle_layer[context][col] / 256;
-				if (tileset_index == 0)
-					tile_index = _middle_layer[context][col];
-				else  // Don't divide by 0
-					tile_index = _middle_layer[context][col] %
-						(tileset_index * 256);
-				if (tile_index == -1)
+				// Get walkability for each tile layers.
+				for (uint32 layer_id = 0; layer_id < _tile_contexts[context].layers.size(); ++layer_id)
 				{
-					ml_vect.push_back(0);
-					ml_vect.push_back(0);
-					ml_vect.push_back(0);
-					ml_vect.push_back(0);
-				}
-				else
-				{
-					missing_tile = false;
-					ml_vect = tilesets[tileset_index]->walkability[tile_index];
-				}
+					// Don't deal with sky layers
+					if (_tile_contexts[context].layers[layer_id].layer_type == SKY_LAYER)
+						continue;
 
-				// Get walkability for upper layer tile.
-				tileset_index = _upper_layer[context][col] / 256;
-				if (tileset_index == 0)
-					tile_index = _upper_layer[context][col];
-				else  // Don't divide by 0
-					tile_index = _upper_layer[context][col] %
-						(tileset_index * 256);
-				if (tile_index == -1)
-				{
-					ul_vect.push_back(0);
-					ul_vect.push_back(0);
-					ul_vect.push_back(0);
-					ul_vect.push_back(0);
-				}
-				else
-				{
-					missing_tile = false;
-					ul_vect = tilesets[tileset_index]->walkability[tile_index];
-				}
+					int tileset_index = _tile_contexts[context].layers[layer_id].tiles[y][x] / 256;
+					int tile_index = 0;
+					if (tileset_index == 0)
+						tile_index = _tile_contexts[context].layers[layer_id].tiles[y][x];
+					else  // Don't divide by 0
+						tile_index = _tile_contexts[context].layers[layer_id].tiles[y][x] %
+							(tileset_index * 256);
+
+					// Push back a layer
+					walk_vect.resize(layer_id + 1);
+
+					if (tile_index == -1)
+					{
+						walk_vect[layer_id].push_back(0);
+						walk_vect[layer_id].push_back(0);
+						walk_vect[layer_id].push_back(0);
+						walk_vect[layer_id].push_back(0);
+					}
+					else
+					{
+						missing_tile = false;
+						walk_vect[layer_id] = tilesets[tileset_index]->walkability[tile_index];
+					}
+				} // For each layer
 
 				if (missing_tile == true)
 				{
@@ -533,154 +638,92 @@ void Grid::SaveMap()
 				} // no tile exists at current location
 				else
 				{
-					// NW corner
-					map_row_north[col % _width * 2]     |=
-						((ll_vect[0] | ml_vect[0] | ul_vect[0]) << context);
-					// NE corner
-					map_row_north[col % _width * 2 + 1] |=
-						((ll_vect[1] | ml_vect[1] | ul_vect[1]) << context);
-					// SW corner
-					map_row_south[col % _width * 2]     |=
-						((ll_vect[2] | ml_vect[2] | ul_vect[2]) << context);
-					// SE corner
-					map_row_south[col % _width * 2 + 1] |=
-						((ll_vect[3] | ml_vect[3] | ul_vect[3]) << context);
+					for (uint32 i = 0; i < walk_vect.size(); ++i)
+					{
+						// NW corner
+						map_row_north[col % _width * 2] |= (walk_vect[i][0] << context);
+						// NE corner
+						map_row_north[col % _width * 2 + 1] |= (walk_vect[i][1] << context);
+						// SW corner
+						map_row_south[col % _width * 2] |= (walk_vect[i][2] << context);
+						// SE corner
+						map_row_south[col % _width * 2 + 1] |= (walk_vect[i][3] << context);
+					}
 				} // a real tile exists at current location
 
-				ll_vect.clear();
-				ml_vect.clear();
-				ul_vect.clear();
-			} // iterate through the columns of the layers
+				walk_vect.clear();
+			} // x
 		} // iterate through each context
 
-		write_data.WriteIntVector(row*2,   map_row_north);
-		write_data.WriteIntVector(row*2+1, map_row_south);
-		map_row_north.assign(_width*2, 0);
-		map_row_south.assign(_width*2, 0);
-	} // iterate through the rows of the layers
+		write_data.WriteIntVector(y * 2,   map_row_north);
+		write_data.WriteIntVector(y * 2 + 1, map_row_south);
+		map_row_north.assign(_width * 2, 0);
+		map_row_south.assign(_width * 2, 0);
+	} // iterate through the rows (y axis) of the layers
 	write_data.EndTable();
 	write_data.InsertNewLine();
 
-	write_data.WriteComment("The lower tile layer. The numbers are indeces to the tile_mappings table.");
-	write_data.BeginTable("lower_layer");
-	vector<int32>::iterator it;    // used to iterate through the layers
-	vector<int32> layer_row;       // one row of a layer
-	it = _lower_layer[0].begin();
-	for (uint32 row = 0; row < _height; row++)
-	{
-		for (uint32 col = 0; col < _width; col++)
-		{
-			layer_row.push_back(*it);
-			it++;
-		} // iterate through the columns of the lower layer
-		write_data.WriteIntVector(row, layer_row);
-		layer_row.clear();
-	} // iterate through the rows of the lower layer
-	write_data.EndTable();
-	write_data.InsertNewLine();
+	write_data.WriteComment("The tile layers. The numbers are indeces to the tile_mappings table.");
+	write_data.BeginTable("layers");
 
-	write_data.WriteComment("The middle tile layer. The numbers are indeces to the tile_mappings table.");
-	write_data.BeginTable("middle_layer");
-	it = _middle_layer[0].begin();
-	for (uint32 row = 0; row < _height; row++)
-	{
-		for (uint32 col = 0; col < _width; col++)
-		{
-			layer_row.push_back(*it);
-			it++;
-		} // iterate through the columns of the middle layer
-		write_data.WriteIntVector(row, layer_row);
-		layer_row.clear();
-	} // iterate through the rows of the middle layer
-	write_data.EndTable();
-	write_data.InsertNewLine();
+	uint32 layers_num = _tile_contexts[0].layers.size();
+	for (uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
 
-	write_data.WriteComment("The upper tile layer. The numbers are indeces to the tile_mappings table.");
-	write_data.BeginTable("upper_layer");
-	it = _upper_layer[0].begin();
-	for (uint32 row = 0; row < _height; row++)
-	{
-		for (uint32 col = 0; col < _width; col++)
+		write_data.BeginTable(layer_id);
+
+		write_data.WriteString("type", getTypeFromLayer(_tile_contexts[0].layers[layer_id].layer_type));
+		write_data.WriteString("name", _tile_contexts[0].layers[layer_id].name);
+
+		std::vector<int32> layer_row;
+
+		for (uint32 y = 0; y < _height; y++)
 		{
-			layer_row.push_back(*it);
-			it++;
-		} // iterate through the columns of the upper layer
-		write_data.WriteIntVector(row, layer_row);
-		layer_row.clear();
-	} // iterate through the rows of the upper layer
-	write_data.EndTable();
+			for (uint32 x = 0; x < _width; x++)
+			{
+				layer_row.push_back(_tile_contexts[0].layers[layer_id].tiles[y][x]);
+			} // iterate through the columns of the lower layer
+			write_data.WriteIntVector(y, layer_row);
+			layer_row.clear();
+		} // iterate through the rows of each layer
+
+		write_data.EndTable(); // layer[layer_id]
+		write_data.InsertNewLine();
+	} // for each layers
+	write_data.EndTable(); // Layers
 	write_data.InsertNewLine();
 
 	write_data.WriteComment("All, if any, existing contexts follow.");
-	vector<int32>::iterator base_it;  // used to iterate through the base layers
 	vector<int32> context_data;  // one vector of ints contains all the context info
 	// Iterate through all contexts of all layers.
-	for (int i = 1; i < static_cast<int>(_lower_layer.size()); i++)
+	for (int context_id = 1; context_id < static_cast<int>(_tile_contexts.size()); ++context_id)
 	{
-		base_it = _lower_layer[0].begin();
-		it      = _lower_layer[i].begin();
-		for (uint32 row = 0; row < _height; row++)
-		{
-			for (uint32 col = 0; col < _width; col++)
+		for (uint32 layer_id = 0; layer_id < _tile_contexts[context_id].layers.size(); ++layer_id) {
+			for (uint32 y = 0; y < _height; ++y)
 			{
-				if (*it != *base_it)
+				for (uint32 x = 0; x < _width; ++x)
 				{
-					context_data.push_back(0);    // lower layer = 0
-					context_data.push_back(row);
-					context_data.push_back(col);
-					context_data.push_back(*it);
-				} // a valid tile exists so record it
+					int32 base_tile_id = _tile_contexts[0].layers[layer_id].tiles[y][x];
+					int32 ctxt_tile_id = _tile_contexts[context_id].layers[layer_id].tiles[y][x];
+					// A different tile exists so record it
+					if (base_tile_id != ctxt_tile_id)
+					{
+						context_data.push_back(layer_id);
+						context_data.push_back(y);
+						context_data.push_back(x);
+						context_data.push_back(ctxt_tile_id);
+					}
 
-				base_it++;
-				it++;
-			} // iterate through the columns of the lower layer
-		} // iterate through the rows of the lower layer
+				} // iterate through the columns of the lower layer
+			} // iterate through the rows of the lower layer
+		} // Layers
 
-		base_it = _middle_layer[0].begin();
-		it      = _middle_layer[i].begin();
-		for (uint32 row = 0; row < _height; row++)
-		{
-			for (uint32 col = 0; col < _width; col++)
-			{
-				if (*it != *base_it)
-				{
-					context_data.push_back(1);    // middle layer = 1
-					context_data.push_back(row);
-					context_data.push_back(col);
-					context_data.push_back(*it);
-				} // a valid tile exists so record it
-
-				base_it++;
-				it++;
-			} // iterate through the columns of the middle layer
-		} // iterate through the rows of the middle layer
-
-		base_it = _upper_layer[0].begin();
-		it      = _upper_layer[i].begin();
-		for (uint32 row = 0; row < _height; row++)
-		{
-			for (uint32 col = 0; col < _width; col++)
-			{
-				if (*it != *base_it)
-				{
-					context_data.push_back(2);    // upper layer = 2
-					context_data.push_back(row);
-					context_data.push_back(col);
-					context_data.push_back(*it);
-				} // a valid tile exists so record it
-
-				base_it++;
-				it++;
-			} // iterate through the columns of the upper layer
-		} // iterate through the rows of the upper layer
-
-		if (context_data.empty() == false)
+		if (!context_data.empty())
 		{
 			stringstream context;
 			context << "context_";
-			if (i < 10)
+			if (context_id < 10)
 				context << "0";
-			context << i;
+			context << context_id;
 
 			write_data.WriteIntVector(context.str(), context_data);
 			write_data.InsertNewLine();
@@ -700,30 +743,30 @@ void Grid::SaveMap()
 } // Grid::SaveMap()
 
 
-void Grid::InsertRow(uint32 tile_index)
+void Grid::InsertRow(uint32 tile_index_y)
 {
 // See bugs #153 & 154 as to why this function is not implemented for Windows
 // TODO: Check that tile_index is within acceptable bounds
-
+/*
 #if !defined(WIN32)
 	uint32 row = tile_index / _width;
 
 	// Insert the row throughout all contexts
 	for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); i++)
 	{
-		_lower_layer[i].insert(_lower_layer[i].begin()   + row * _width, _width, -1);
-		_middle_layer[i].insert(_middle_layer[i].begin() + row * _width, _width, -1);
-		_upper_layer[i].insert(_upper_layer[i].begin()   + row * _width, _width, -1);
+		_ground_layers[0][i].insert(_ground_layers[0][i].begin()   + row * _width, _width, -1);
+		_fringe_layers[0][i].insert(_fringe_layers[0][i].begin() + row * _width, _width, -1);
+		_sky_layers[0][i].insert(_sky_layers[0][i].begin()   + row * _width, _width, -1);
 	} // iterate through all contexts
 
 	_height++;
 	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-#endif
+#endif*/
 } // Grid::InsertRow(...)
 
 
-void Grid::InsertCol(uint32 tile_index)
-{
+void Grid::InsertCol(uint32 tile_index_x)
+{/*
 // See bugs #153 & 154 as to why this function is not implemented for Windows
 // TODO: Check that tile_index is within acceptable bounds
 
@@ -734,24 +777,24 @@ void Grid::InsertCol(uint32 tile_index)
 	for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); i++)
 	{
 		// Iterate through all rows in each tile layer
-		vector<int32>::iterator it = _lower_layer[i].begin() + col;
+		vector<int32>::iterator it = _ground_layers[0][i].begin() + col;
 		for (uint32 row = 0; row < _height; row++)
 		{
-			it  = _lower_layer[i].insert(it, -1);
+			it  = _ground_layers[0][i].insert(it, -1);
 			it += _width + 1;
 		} // iterate through the rows of the lower layer
 
-		it = _middle_layer[i].begin() + col;
+		it = _fringe_layers[0][i].begin() + col;
 		for (uint32 row = 0; row < _height; row++)
 		{
-			it  = _middle_layer[i].insert(it, -1);
+			it  = _fringe_layers[0][i].insert(it, -1);
 			it += _width + 1;
 		} // iterate through the rows of the middle layer
 
-		it = _upper_layer[i].begin() + col;
+		it = _sky_layers[0][i].begin() + col;
 		for (uint32 row = 0; row < _height; row++)
 		{
-			it  = _upper_layer[i].insert(it, -1);
+			it  = _sky_layers[0][i].insert(it, -1);
 			it += _width + 1;
 		} // iterate through the rows of the upper layer
 	} // iterate through all contexts
@@ -759,11 +802,12 @@ void Grid::InsertCol(uint32 tile_index)
 	_width++;
 	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
 #endif
+*/
 } // Grid::InsertCol(...)
 
 
-void Grid::DeleteRow(uint32 tile_index)
-{
+void Grid::DeleteRow(uint32 tile_index_y)
+{/*
 // See bugs #153 & 154 as to why this function is not implemented for Windows
 // TODO: Check that tile_index is within acceptable bounds
 // TODO: Check that deleting this row does not cause map height to fall below
@@ -786,11 +830,12 @@ void Grid::DeleteRow(uint32 tile_index)
 	_height--;
 	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
 #endif
+*/
 } // Grid::DeleteRow(...)
 
 
-void Grid::DeleteCol(uint32 tile_index)
-{
+void Grid::DeleteCol(uint32 tile_index_x)
+{/*
 // See bugs #153 & 154 as to why this function is not implemented for Windows
 // TODO: Check that tile_index is within acceptable bounds
 // TODO: Check that deleting this column does not cause map width to fall below
@@ -828,8 +873,23 @@ void Grid::DeleteCol(uint32 tile_index)
 	_width--;
 	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
 #endif
+*/
 } // Grid::DeleteCol(...)
 
+std::vector<QTreeWidgetItem*> Grid::getLayerNames()
+{
+	std::vector<QTreeWidgetItem*> layers_names;
+	for (uint32 layer_id = 0; layer_id < _tile_contexts[0].layers.size(); ++layer_id)
+	{
+		QTreeWidgetItem *item = new QTreeWidgetItem();
+		item->setText(0, QString::number(layer_id));
+		item->setText(1, QString::fromStdString(_tile_contexts[0].layers[layer_id].name));
+		item->setText(2, tr(getTypeFromLayer(_tile_contexts[0].layers[layer_id].layer_type).c_str()));
+		layers_names.push_back(item);
+	}
+
+	return layers_names;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Grid class -- protected functions
@@ -853,7 +913,7 @@ void Grid::initializeGL()
 
 void Grid::paintGL()
 {
-	int32 col, row;                  // tile array loop index
+	int32 x, y;                  // tile array loop index
 	int layer_index;
 	vector<int32>::iterator it;      // used to iterate through tile arrays
 	int tileset_index;               // index into the tileset_names vector
@@ -883,17 +943,15 @@ void Grid::paintGL()
 	right_tile  = (right_tile  < (int32)_width)  ? right_tile  : _width  - 1;
 	bottom_tile = (bottom_tile < (int32)_height) ? bottom_tile : _height - 1;
 
-	// Draw lower tile layer if it is enabled for viewing
-	if (_ll_on)
-	{
-		// Start drawing from the top left
-		VideoManager->Move(left_tile, top_tile);
+	// Start drawing from the top left
+	VideoManager->Move(left_tile, top_tile);
 
-		col = left_tile;
-		row = top_tile;
-		while (row <= bottom_tile)
-		{
-			layer_index = _lower_layer[_context][row * _width + col];
+	x = left_tile;
+	y = top_tile;
+	while (y <= bottom_tile)
+	{
+		for (uint32 layer_id = 0; layer_id < _tile_contexts[_context].layers.size(); ++layer_id) {
+			layer_index = _tile_contexts[_context].layers[layer_id].tiles[y][x];
 			// Draw tile if one exists at this location
 			if (layer_index != -1)
 			{
@@ -906,56 +964,21 @@ void Grid::paintGL()
 				tilesets[tileset_index]->tiles[tile_index].Draw();
 			} // a tile exists to draw
 
-			if (col == right_tile)
-			{
-				col = left_tile;
-				row++;
-				VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
-			}
-			else
-		   	{
-				col++;
-				VideoManager->MoveRelative(1.0f, 0.0f);
-			}
-		} // iterate through lower layer
-	} // lower layer must be viewable
+		}
 
-	// Draw middle tile layer if it is enabled for viewing
-	if (_ml_on)
-	{
-		// Start drawing from the top left
-		VideoManager->Move(left_tile, top_tile);
-
-		col = left_tile;
-		row = top_tile;
-		while (row <= bottom_tile)
+		if (x == right_tile)
 		{
-			layer_index = _middle_layer[_context][row * _width + col];
-			// Draw tile if one exists at this location
-			if (layer_index != -1)
-			{
-				tileset_index = layer_index / 256;
-				// Don't divide by zero
-				if (tileset_index == 0)
-					tile_index = layer_index;
-				else
-					tile_index = layer_index % (tileset_index * 256);
-				tilesets[tileset_index]->tiles[tile_index].Draw();
-			} // a tile exists to draw
+			x = left_tile;
+			y++;
+			VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
+		}
+		else
+		{
+			x++;
+			VideoManager->MoveRelative(1.0f, 0.0f);
+		}
+	}
 
-			if (col == right_tile)
-			{
-				col = left_tile;
-				row++;
-				VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
-			}
-			else
-		   	{
-				col++;
-				VideoManager->MoveRelative(1.0f, 0.0f);
-			}
-		} // iterate through middle layer
-	} // middle layer must be viewable
 
 	// Draw object layer if it is enabled for viewing
 	if (_ol_on)
@@ -977,43 +1000,6 @@ void Grid::paintGL()
 		} // iterate through object layer
 	} // object layer must be viewable
 
-	// Draw upper tile layer if it is enabled for viewing
-	if (_ul_on)
-	{
-		// Start drawing from the top left
-		VideoManager->Move(left_tile, top_tile);
-
-		col = left_tile;
-		row = top_tile;
-		while (row <= bottom_tile)
-		{
-			layer_index = _upper_layer[_context][row * _width + col];
-			// Draw tile if one exists at this location
-			if (layer_index != -1)
-			{
-				tileset_index = layer_index / 256;
-				// Don't divide by zero
-				if (tileset_index == 0)
-					tile_index = layer_index;
-				else
-					tile_index = layer_index % (tileset_index * 256);
-				tilesets[tileset_index]->tiles[tile_index].Draw();
-			} // a tile exists to draw
-
-			if (col == right_tile)
-			{
-				col = left_tile;
-				row++;
-				VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
-			}
-			else
-		   	{
-				col++;
-				VideoManager->MoveRelative(1.0f, 0.0f);
-			}
-		} // iterate through upper layer
-	} // upper layer must be viewable
-
 	// Draw selection rectangle if this mode is active
 	if (_select_on)
 	{
@@ -1022,24 +1008,24 @@ void Grid::paintGL()
 		// Start drawing from the top left
 		VideoManager->Move(left_tile, top_tile);
 
-		col = left_tile;
-		row = top_tile;
-		while (row <= bottom_tile)
+		x = left_tile;
+		y = top_tile;
+		while (y <= bottom_tile)
 		{
-			layer_index = _select_layer[row * _width + col];
+			layer_index = _select_layer[y][x];
 			// Draw tile if one exists at this location
 			if (layer_index != -1)
 				VideoManager->DrawRectangle(1.0f, 1.0f, blue_selection);
 
-			if (col == right_tile)
+			if (x == right_tile)
 			{
-				col = left_tile;
-				row++;
+				x = left_tile;
+				y++;
 				VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
 			}
 			else
 		   	{
-				col++;
+				x++;
 				VideoManager->MoveRelative(1.0f, 0.0f);
 			}
 		} // iterate through selection layer

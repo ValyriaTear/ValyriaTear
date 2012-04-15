@@ -22,6 +22,7 @@
 #include <QGLWidget>
 #include <QStringList>
 #include <QMessageBox>
+#include <QTreeWidgetItem>
 
 #include "tileset.h"
 #include "sprites.h"
@@ -32,9 +33,9 @@ namespace hoa_editor {
 enum LAYER_TYPE
 {
 	INVALID_LAYER = -1,
-	LOWER_LAYER   =  0,
-	MIDDLE_LAYER  =  1,
-	UPPER_LAYER   =  2,
+	GROUND_LAYER  =  0,
+	FRINGE_LAYER  =  1,
+	SKY_LAYER     =  2,
 	SELECT_LAYER  =  3,
 	OBJECT_LAYER  =  4,
 	TOTAL_LAYER   =  5
@@ -54,6 +55,20 @@ LAYER_TYPE& operator++(LAYER_TYPE& value, int dummy);
 
 class EditorScrollView;
 
+struct Layer {
+	std::string name;
+	LAYER_TYPE layer_type;
+	// Represents the tile indeces: i.e: tiles[y][x] = tile_id at (x,y)
+	std::vector< std::vector<int32> > tiles;
+
+	Layer()
+	{ layer_type = GROUND_LAYER; }
+};
+
+struct Context {
+	std::string name;
+	std::vector<Layer> layers;
+};
 
 /** ***************************************************************************
 *** \brief Used for the OpenGL map portion where tiles are painted and edited.
@@ -86,7 +101,14 @@ public:
 	uint32  GetContext()  const { return _context; }
 	bool    GetChanged()  const { return _changed; }
 
-	std::vector<int32>& GetLayer(LAYER_TYPE layer, int context);
+	std::vector<Layer>& GetLayers(int context)
+	{ return _tile_contexts[context].layers; }
+
+	std::vector<std::vector<int32> >& GetSelectionLayer()
+	{ return _select_layer; }
+
+	// Fill the selection layer with the empty tile (-1) value.
+	void ClearSelectionLayer();
 
 	void SetFileName(QString filename) { _file_name = filename; }
 	void SetHeight(uint32 height)      { _height    = height; _changed = true; }
@@ -100,11 +122,6 @@ public:
 	void SetSelectOn(bool value) { _select_on = value; updateGL(); }
 
 	void SetDebugTexturesOn(bool value) { _debug_textures_on = value; updateGL(); }
-
-	void SetLLOn(bool value) { _ll_on = value; updateGL(); }
-	void SetMLOn(bool value) { _ml_on = value; updateGL(); }
-	void SetULOn(bool value) { _ul_on = value; updateGL(); }
-	void SetOLOn(bool value) { _ol_on = value; updateGL(); }
 	//@}
 
 	/** \brief Creates a new context for each layer.
@@ -144,6 +161,10 @@ public:
 	void DeleteRow(uint32 tile_index);
 	void DeleteCol(uint32 tile_index);
 	//@}
+
+	//! \brief List the layer names and types
+	// Be sure to set the parent of the items returned, and add them in the corresponding Qt widget.
+	std::vector<QTreeWidgetItem*> getLayerNames();
 
 	//! \brief List of the tileset names being used.
 	QStringList tileset_names;
@@ -196,23 +217,11 @@ private:
 	bool _select_on;
 	//! \brief When TRUE the texture sheets are displayed.
 	bool _debug_textures_on;
-	//! \brief When TRUE the lower layer of tiles is displayed.
-	bool _ll_on;
-	//! \brief When TRUE the middle layer of tiles is displayed.
-	bool _ml_on;
-	//! \brief When TRUE the upper layer of tiles is displayed.
-	bool _ul_on;
 	//! \brief When TRUE the object layer of tiles is displayed.
 	bool _ol_on;
 
-	//! \brief A vector of tiles in the lower layer.
-	std::vector<std::vector<int32> > _lower_layer;
-	//! \brief A vector of tiles in the middle layer.
-	std::vector<std::vector<int32> > _middle_layer;
-	//! \brief A vector of tiles in the upper layer.
-	std::vector<std::vector<int32> > _upper_layer;
-	//! \brief A vector of sprites in the object layer.
-	std::vector<int32> _object_layer;
+	//! \brief A vector of contexts containing the tiles in the each layers.
+	std::vector<Context> _tile_contexts;
 
 	/** \brief A vector of tiles in the selection rectangle.
 	***
@@ -220,7 +229,7 @@ private:
 	*** nor the game. It acts similar to an actual tile layer as far as drawing
 	*** is concerned.
 	**/
-	std::vector<int32> _select_layer;
+	std::vector<std::vector<int32> > _select_layer;
 }; // class Grid : public QGLWidget
 
 } // namespace hoa_editor
