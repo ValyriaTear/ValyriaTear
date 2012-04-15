@@ -39,6 +39,12 @@ IF (CMAKE_BUILD_TYPE)
     IF(CMAKE_BUILD_TYPE_TOLOWER MATCHES debug OR
        CMAKE_BUILD_TYPE_TOLOWER MATCHES relwithdebinfo)
         SET(FLAGS "${FLAGS} -DDEBUG")
+
+        IF (CMAKE_COMPILER_IS_GNUCXX)
+            # Help getting debug info
+            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
+        ENDIF()
+
         MESSAGE(STATUS "Set Debug build type")
     ENDIF()
 ENDIF()
