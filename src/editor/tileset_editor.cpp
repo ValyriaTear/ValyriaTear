@@ -107,7 +107,7 @@ void TilesetDisplay::paintGL()
 
 
 
-void TilesetDisplay::resizeGL(int w, int h)
+void TilesetDisplay::resizeGL(int /*w*/, int /*h*/)
 {
 	VideoManager->SetResolution(512, 512);
 	VideoManager->ApplySettings();
@@ -126,7 +126,7 @@ void TilesetDisplay::mousePressEvent(QMouseEvent* evt)
 		int32 tile_x, tile_y;
 		tile_x = evt->x() / 32;
 		tile_y = evt->y() / 32;
-	
+
 		// Now determine which quadrant of that tile was clicked, and change it's walkability status
 		if (((evt->x() % 32) < 16) && ((evt->y() % 32) < 16)) { // Upper left quadrant (index 0)
 			tileset->walkability[tile_y * 16 + tile_x][0] = (tileset->walkability[tile_y * 16 + tile_x][0] ? 0 : 1);
@@ -149,7 +149,7 @@ void TilesetDisplay::mousePressEvent(QMouseEvent* evt)
 ////////// TilesetEditor class
 ////////////////////////////////////////////////////////////////////////////////
 
-TilesetEditor::TilesetEditor(QWidget* parent, const QString& name, bool prop)
+TilesetEditor::TilesetEditor(QWidget* parent, const QString& name, bool /*prop*/)
 	: QDialog(parent, (const char*)name)
 {
 	setCaption("Tileset Editor");

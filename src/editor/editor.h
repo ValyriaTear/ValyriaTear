@@ -135,10 +135,6 @@ private slots:
 	//! \brief These slots process selection for their item in the View menu.
 	//{@
 	void _ViewToggleGrid();
-	void _ViewToggleLL();
-	void _ViewToggleML();
-	void _ViewToggleUL();
-	void _ViewToggleOL();
 	void _ViewCoordTile();
 	void _ViewCoordCollision();
 	void _ViewTextures();
@@ -153,10 +149,6 @@ private slots:
 	void _TileModePaint();
 	void _TileModeMove();
 	void _TileModeDelete();
-	void _TileEditLL();
-	void _TileEditML();
-	void _TileEditUL();
-	void _TileEditOL();
 	//@}
 
 	//! \name Tileset Menu Item Slots
@@ -189,8 +181,8 @@ private slots:
 
 	//! This slot switches the map context to the designated one for editing.
 	void _SwitchMapContext(int context);
-	//! This switches the map layer being edited.
-	void _SwitchMapLayer(int layer);
+	//! Switch to the new map layer using the Item selected
+	void _UpdateSelectedLayer(QTreeWidgetItem *item);
 private:
 	//! Helper function to the constructor, creates actions for use by menus
 	//! and toolbars.
@@ -236,10 +228,6 @@ private:
 	QAction* _quit_action;
 
 	QAction* _toggle_grid_action;
-	QAction* _toggle_ll_action;
-	QAction* _toggle_ml_action;
-	QAction* _toggle_ul_action;
-	QAction* _toggle_ol_action;
 	QAction* _coord_tile_action;
 	QAction* _coord_collision_action;
 	QAction* _view_textures_action;
@@ -252,10 +240,7 @@ private:
 	QAction* _mode_paint_action;
 	QAction* _mode_move_action;
 	QAction* _mode_delete_action;
-	QAction* _edit_ll_action;
-	QAction* _edit_ml_action;
-	QAction* _edit_ul_action;
-	QAction* _edit_ol_action;
+	QAction* _edit_layer_action;
 	QActionGroup* _mode_group;
 	QActionGroup* _edit_group;
 
@@ -278,11 +263,15 @@ private:
 	//! Used to add scrollbars to the QGLWidget of the map.
 	EditorScrollView* _ed_scrollview;
 
-	//! The skills editor window
-	SkillEditor *_skill_editor;
+	QTreeWidget *_ed_layer_view;
 
 	//! Used as the main widget in the editor since it enables user-sizable sub-widgets.
 	QSplitter* _ed_splitter;
+
+	QSplitter* _ed_tileset_layer_splitter;
+
+	//! The skills editor window
+	SkillEditor *_skill_editor;
 
 	//! Grid toggle view switch.
 	bool _grid_on;
@@ -293,18 +282,6 @@ private:
 	//! Textures toggle view switch.
 	bool _textures_on;
 
-	//! Lower layer toggle view switch.
-	bool _ll_on;
-
-	//! Middle layer toggle view switch.
-	bool _ml_on;
-
-	//! Upper layer toggle view switch.
-	bool _ul_on;
-
-	//! Object layer toggle view switch.
-	bool _ol_on;
-
 	//! Coordinate display type (0 = tile, 1 = collision, 2 = classic)
 	int32 _coord_type;
 
@@ -314,10 +291,6 @@ private:
 	//! The combobox that allows the user to change the current map context
 	//! for editing. Contains a list of all existing contexts.
 	QComboBox* _context_cbox;
-
-	//! The combobox that allows the user to change the current map layer
-	//! for editing. Contains a list of all existing layers.
-	QComboBox* _layer_cbox;
 
 	//! An error dialog for exceeding the maximum allowable number of contexts.
 	QErrorMessage* _error_max_contexts;
@@ -346,7 +319,7 @@ public:
 	void Resize(int width, int height);
 
 	//! Gets currently edited layer
-	std::vector<int32>& GetCurrentLayer();
+	std::vector<std::vector<int32> >& GetCurrentLayer();
 
 protected:
 	//! \name Mouse Processing Functions
@@ -378,9 +351,9 @@ private:
 	//!        such as painting, deleting, and moving.
 	//! \param index The index on the map/grid of the tile to modify.
 	//{@
-	void _PaintTile(int32 index);
+	void _PaintTile(int32 x, int32 y);
 	//void _MoveTile(int32 index);
-	void _DeleteTile(int32 index);
+	void _DeleteTile(int32 x, int32 y);
 	//@}
 
 	//! \name Autotiling Functions
@@ -417,16 +390,19 @@ private:
 	//! Current tile edit mode being used.
 	TILE_MODE_TYPE _tile_mode;
 	//! Current layer being edited.
-	LAYER_TYPE _layer_edit;
+	uint32 _layer_id;
 	//! Mouse is at this tile index on the map.
-	int32 _tile_index;
+	int32 _tile_index_x;
+	int32 _tile_index_y;
 	//! Menu used on right-clicks of the mouse on the map.
 	QMenu* _context_menu;
 
 	//! Stores first index, i.e. beginning, of the selection rectangle.
-	int32 _first_corner_index;
+	int32 _first_corner_index_x;
+	int32 _first_corner_index_y;
 	//! Stores source index of the moved tile.
-	int32 _move_source_index;
+	int32 _move_source_index_x;
+	int32 _move_source_index_y;
 	//! Moving tiles has 2 phases to it when using the selection rectangle
 	//! and hence moving more than one tile at a time. This determines which phase
 	//! is in effect: false is the first phase, when the user creates the
@@ -439,7 +415,7 @@ private:
 	//!        for this command. They should be the same size and one-to-one. So, the j-th element
 	//!        of each vector should correspond to the j-th element of the other vectors.
 	//{@
-	std::vector<int32> _tile_indeces;  //! A vector of tile indeces in the map that were modified by a command.
+	std::vector<QPoint> _tile_indeces;  //! A vector of tile indeces in the map that were modified by a command.
 	std::vector<int32> _previous_tiles;//! A vector of indeces into tilesets of the modified tiles before they were modified.
 	std::vector<int32> _modified_tiles;//! A vector of indeces into tilesets of the modified tiles after they were modified.
 	//@}
@@ -453,8 +429,8 @@ class LayerCommand: public QUndoCommand {
 	friend class EditorScrollView;
 
 public:
-	LayerCommand(std::vector<int32> indeces, std::vector<int32> previous,
-		std::vector<int32> modified, LAYER_TYPE layer, int context, Editor* editor,
+	LayerCommand(std::vector<QPoint> indeces, std::vector<int32> previous,
+		std::vector<int32> modified, uint32 layer_id, int context, Editor* editor,
 		const QString& text = "Layer Operation", QUndoCommand* parent = 0);
 
 	//! \name Undo Functions
@@ -470,13 +446,13 @@ private:
 	//!        for this command. They should be the same size and one-to-one. So, the j-th element
 	//!        of each vector should correspond to the j-th element of the other vectors.
 	//{@
-	std::vector<int32> _tile_indeces;  //! A vector of tile indeces in the map that were modified by this command.
+	std::vector<QPoint> _tile_indeces;  //! A vector of tile indeces in the map that were modified by this command.
 	std::vector<int32> _previous_tiles;//! A vector of indeces into tilesets of the modified tiles before they were modified.
 	std::vector<int32> _modified_tiles;//! A vector of indeces into tilesets of the modified tiles after they were modified.
 	//@}
 
 	//! Indicates which map layer this command was performed upon.
-	LAYER_TYPE _edited_layer;
+	uint32 _edited_layer_id;
 
 	//! A record of the active context when this command was performed.
 	int _context;
