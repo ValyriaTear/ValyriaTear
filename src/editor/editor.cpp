@@ -345,8 +345,9 @@ void Editor::_FileNew() {
 			sky->setText(1, tr("Sky"));
 			sky->setText(2, tr("sky"));
 
-			_ed_layer_view->setCurrentItem(background); // layer 0
 			_ed_layer_view->adjustSize();
+
+			_ed_layer_view->setCurrentItem(background); // layer 0
 
 			_ed_scrollview->_tile_mode  = PAINT_TILE;
 
@@ -418,6 +419,8 @@ void Editor::_FileOpen() {
 			{
 				_ed_layer_view->addTopLevelItem(layer_names[i]);
 			}
+			_ed_layer_view->adjustSize();
+			_ed_layer_view->setCurrentItem(layer_names[0]); // layer 0
 
 			// Count for the tileset names
 			int num_items = _ed_scrollview->_map->tileset_names.count();
