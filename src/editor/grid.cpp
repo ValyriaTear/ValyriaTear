@@ -882,8 +882,13 @@ std::vector<QTreeWidgetItem*> Grid::getLayerNames()
 	for (uint32 layer_id = 0; layer_id < _tile_contexts[0].layers.size(); ++layer_id)
 	{
 		QTreeWidgetItem *item = new QTreeWidgetItem();
+		// Check for empty names
+		QString name = QString::fromStdString(_tile_contexts[0].layers[layer_id].name);
+		if (name.size() == 0)
+			name = QString::number(layer_id);
+
 		item->setText(0, QString::number(layer_id));
-		item->setText(1, QString::fromStdString(_tile_contexts[0].layers[layer_id].name));
+		item->setText(1, name);
 		item->setText(2, tr(getTypeFromLayer(_tile_contexts[0].layers[layer_id].layer_type).c_str()));
 		layers_names.push_back(item);
 	}
