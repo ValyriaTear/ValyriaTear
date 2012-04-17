@@ -69,7 +69,6 @@ enum PICK_LETTER {
 *** - "New Game": starts a new game
 *** - "Load Game": activates save mode to allow the player to select a game to load
 *** - "Options": enables the player to change various application settings
-*** - "Credits": displays a rolling list of the game credits
 *** - "Quit": exits the application
 ***
 *** The majority of the code in this class is for enabling the player to change their
@@ -81,12 +80,6 @@ enum PICK_LETTER {
 *** After the boot animation, a welcome screen may be displayed that lists the default
 *** controls for the player. This screen is only visible the very first time the player
 *** installs and starts the application and is hidden otherwise.
-***
-*** \note BootMode is currently "hacked" to make it easy to arrive at and test
-*** the various other game modes. This is temporary because we don't have any other
-*** form of a testing interface for the game at this time. There are several methods
-*** and variables pre-fixed with "TEMP" to indicate these testing routines. At some
-*** point in the future, they should be removed permanently.
 ***
 *** \todo BootMode uses SDL functions directly for many of its functions that handle
 *** keyboard/joystick input. This code should probably be moved to the input engine
@@ -156,7 +149,7 @@ private:
 	static BootMode* _current_instance;
 
 	//! \brief True when the boot mode is in exitting state.
-	bool _exiting;
+	bool _exiting_to_new_game;
 
 	//! \brief Set to true when the player has made modification to any application settings
 	bool _has_modified_settings;

@@ -63,7 +63,7 @@ BootMode* BootMode::_current_instance = NULL;
 
 BootMode::BootMode() :
 	_boot_state(BOOT_STATE_INTRO),
-	_exiting(false),
+	_exiting_to_new_game(false),
 	_has_modified_settings(false),
 	_key_setting_function(NULL),
 	_joy_setting_function(NULL),
@@ -230,9 +230,12 @@ void BootMode::Update() {
 	// Update the game mode generic members.
 	GameMode::Update();
 
-	// Screen is in the process of fading out
-	if (_exiting)
+	if (_exiting_to_new_game) {
+	    // When the dae out is done, we start a new game.
+	    if (!VideoManager->IsFading())
+	        GlobalManager->NewGame();
 		return;
+	}
 
     // The intro is being played
 	if (_boot_state == BOOT_STATE_INTRO) {
@@ -912,7 +915,10 @@ void BootMode::_RefreshSaveAndLoadProfiles() {
 
 void BootMode::_OnNewGame() {
 	AudioManager->StopAllMusic();
-	GlobalManager->NewGame();
+	VideoManager->FadeScreen(Color::black, 2000);
+
+	AudioManager->PlaySound("snd/new_game.wav");
+	_exiting_to_new_game = true;
 }
 
 
