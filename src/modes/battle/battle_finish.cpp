@@ -280,6 +280,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
 	_number_characters(0),
 	_xp_earned(0),
 	_drunes_dropped(0),
+	_begin_counting(false),
 	_number_character_windows_created(0)
 {
 	_header_window.Create(TOP_WINDOW_WIDTH, TOP_WINDOW_HEIGHT, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
@@ -591,19 +592,18 @@ void FinishVictoryAssistant::_SetCharacterStatus() {
 void FinishVictoryAssistant::_UpdateGrowth() {
 	// The number of milliseconds that we wait in between updating the XP count
 	const uint32 UPDATE_PERIOD = 50;
-	// When set to true, counting out of XP will begin
-	static bool begin_counting = false;
 	// A simple counter used to keep track of when the next XP count should begin
 	static uint32 time_counter = 0;
+
 	// The amount of XP to add to each character this update cycle
 	uint32 xp_to_add = 0;
 
 	// ---------- (1): Process confirm press inputs.
 	if (InputManager->ConfirmPress()) {
 		// Begin counting out XP earned
-		if (begin_counting == false) {
-			begin_counting = true;
-		}
+		if (!_begin_counting)
+			_begin_counting = true;
+
 		// If confirm received during counting, instantly add all remaining XP
 		else if (_xp_earned != 0) {
 			xp_to_add = _xp_earned;
@@ -616,7 +616,7 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 	}
 
 	// If counting has not began or counting is alreasy finished, there is nothing more to do here
-	if ((begin_counting == false) || (_xp_earned == 0)) {
+	if (!_begin_counting || (_xp_earned == 0)) {
 		return;
 	}
 
@@ -728,8 +728,6 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 void FinishVictoryAssistant::_UpdateSpoils() {
 	// The number of milliseconds that we wait in between updating the drunes count
 	const uint32 UPDATE_PERIOD = 50;
-	// When set to true, counting out of drunes will begin
-	static bool begin_counting = false;
 	// A simple counter used to keep track of when the next drunes count should begin
 	static uint32 time_counter = 0;
 	// TODO: Add drunes gradually instead of all at once
@@ -738,9 +736,9 @@ void FinishVictoryAssistant::_UpdateSpoils() {
 	// ---------- (1): Process confirm press inputs.
 	if (InputManager->ConfirmPress()) {
 		// Begin counting out drunes dropped
-		if (begin_counting == false) {
-			begin_counting = true;
-		}
+		if (!_begin_counting)
+			_begin_counting = true;
+
 		// If confirm received during counting, instantly add all remaining drunes
 		else if (_drunes_dropped != 0) {
 			drunes_to_add = _drunes_dropped;
@@ -752,7 +750,7 @@ void FinishVictoryAssistant::_UpdateSpoils() {
 	}
 
 	// If counting has not began or counting is alreasy finished, there is nothing more to do here
-	if ((begin_counting == false) || (_drunes_dropped == 0)) {
+	if (!_begin_counting || (_drunes_dropped == 0)) {
 		return;
 	}
 

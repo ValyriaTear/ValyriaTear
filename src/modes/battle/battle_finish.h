@@ -177,6 +177,9 @@ private:
 	//! \brief The amount of drunes dropped by the enemy party
 	uint32 _drunes_dropped;
 
+	//! \brief When set to true, counting out of XP or Drunes will begin
+	bool _begin_counting;
+
 	//! \brief Retains the number of character windows that were created
 	uint32 _number_character_windows_created;
 
