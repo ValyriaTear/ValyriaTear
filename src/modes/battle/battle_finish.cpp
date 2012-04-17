@@ -296,15 +296,32 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
 	_spoils_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
 	_spoils_window.Show();
 
-	_header_text.SetOwner(&_header_window);
-	_header_text.SetPosition(TOP_WINDOW_WIDTH / 2 - 50.0f, TOP_WINDOW_HEIGHT - 20.0f);
-	_header_text.SetDimensions(400.0f, 40.0f);
-	_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-	_header_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-	_header_text.SetDisplaySpeed(30);
-	_header_text.SetTextStyle(TextStyle("text20", Color::white));
-	_header_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
+	_header_growth.SetOwner(&_header_window);
+	_header_growth.SetPosition(TOP_WINDOW_WIDTH / 2 - 50.0f, TOP_WINDOW_HEIGHT - 20.0f);
+	_header_growth.SetDimensions(400.0f, 40.0f);
+	_header_growth.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+	_header_growth.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+	_header_growth.SetDisplaySpeed(30);
+	_header_growth.SetTextStyle(TextStyle("text20", Color::white));
+	_header_growth.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
+	_header_drunes_dropped.SetOwner(&_header_window);
+	_header_drunes_dropped.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, TOP_WINDOW_HEIGHT - 20.0f);
+	_header_drunes_dropped.SetDimensions(400.0f, 40.0f);
+	_header_drunes_dropped.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+	_header_drunes_dropped.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+	_header_drunes_dropped.SetDisplaySpeed(30);
+	_header_drunes_dropped.SetTextStyle(TextStyle("text20", Color::white));
+	_header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
+
+	_header_total_drunes.SetOwner(&_header_window);
+	_header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, TOP_WINDOW_HEIGHT - 20.0f);
+	_header_total_drunes.SetDimensions(400.0f, 40.0f);
+	_header_total_drunes.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+	_header_total_drunes.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+	_header_total_drunes.SetDisplaySpeed(30);
+	_header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
+	_header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
 	for (uint32 i = 0; i < 4; i++) {
 		_growth_list[i].SetOwner(&(_character_window[i]));
@@ -473,15 +490,17 @@ void FinishVictoryAssistant::Update() {
 
 void FinishVictoryAssistant::Draw() {
 	_header_window.Draw();
-	_header_text.Draw();
 
 	if (_state == FINISH_VICTORY_GROWTH) {
+		_header_growth.Draw();
 		for (uint32 i = 0; i < _number_characters; i++) {
 			_character_window[i].Draw();
 			_DrawGrowth(i);
 		}
 	}
 	else if (_state == FINISH_VICTORY_SPOILS) {
+		_header_drunes_dropped.Draw();
+		_header_total_drunes.Draw();
 		_spoils_window.Draw();
 		_DrawSpoils();
 		_object_list.Draw();
@@ -492,10 +511,11 @@ void FinishVictoryAssistant::Draw() {
 
 void FinishVictoryAssistant::_SetHeaderText() {
 	if ((_state == FINISH_ANNOUNCE_RESULT) || (_state == FINISH_VICTORY_GROWTH)) {
-		_header_text.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
+		_header_growth.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
 	}
 	else if (_state == FINISH_VICTORY_SPOILS) {
-		_header_text.SetDisplayText(UTranslate("Drunes Recovered: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
+		_header_drunes_dropped.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
+		_header_total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 	}
 	else {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << endl;
@@ -616,9 +636,8 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 	}
 
 	// If counting has not began or counting is alreasy finished, there is nothing more to do here
-	if (!_begin_counting || (_xp_earned == 0)) {
+	if (!_begin_counting || (_xp_earned == 0))
 		return;
-	}
 
 	// ---------- (2): Update the timer and determine how much XP to add if the time has been reached
 	// We don't want to modify the XP to add if a confirm event occurred in step (1)
@@ -627,8 +646,15 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 		if (time_counter >= UPDATE_PERIOD) {
 			time_counter -= UPDATE_PERIOD;
 
-			// TODO: determine an appropriate amount of XP to add here
-			xp_to_add = 1;
+			// Determine an appropriate amount of XP to add here
+			if (_xp_earned > 10000)
+			    xp_to_add = 1000;
+			else if (_xp_earned > 1000)
+				xp_to_add = 100;
+			else if (_xp_earned > 100)
+				xp_to_add = 10;
+			else
+				xp_to_add = 1;
 		}
 	}
 
@@ -750,9 +776,8 @@ void FinishVictoryAssistant::_UpdateSpoils() {
 	}
 
 	// If counting has not began or counting is alreasy finished, there is nothing more to do here
-	if (!_begin_counting || (_drunes_dropped == 0)) {
+	if (!_begin_counting || (_drunes_dropped == 0))
 		return;
-	}
 
 	// ---------- (2): Update the timer and determine how many drunes to add if the time has been reached
 	// We don't want to modify the drunes to add if a confirm event occurred in step (1)
@@ -761,8 +786,15 @@ void FinishVictoryAssistant::_UpdateSpoils() {
 		if (time_counter >= UPDATE_PERIOD) {
 			time_counter -= UPDATE_PERIOD;
 
-			// TODO: determine an appropriate amount of drunes to add here
-			drunes_to_add = 1;
+			// Determine an appropriate amount of drunes to add here
+			if (_drunes_dropped > 10000)
+			    drunes_to_add = 1000;
+			else if (_drunes_dropped > 1000)
+				drunes_to_add = 100;
+			else if (_drunes_dropped > 100)
+				drunes_to_add = 10;
+			else
+				drunes_to_add = 1;
 		}
 	}
 
