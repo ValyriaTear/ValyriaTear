@@ -204,8 +204,10 @@ private:
 	//! \brief A window used to display details about objects dropped by the defeated enemies
 	hoa_gui::MenuWindow _spoils_window;
 
-	//! \brief Drawn to the top header window displaying information about the
-	hoa_gui::TextBox _header_text;
+	//! \brief Drawn to the top header window displaying information about the stats/items obtained
+	hoa_gui::TextBox _header_growth;
+	hoa_gui::TextBox _header_drunes_dropped;
+	hoa_gui::TextBox _header_total_drunes;
 
 	//! \brief Four row, four column option box for each character to display their stat growth
 	hoa_gui::OptionBox _growth_list[4];
