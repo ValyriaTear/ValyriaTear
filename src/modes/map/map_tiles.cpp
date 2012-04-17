@@ -378,9 +378,15 @@ void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_t
 	MAP_CONTEXT context = MapMode::CurrentInstance()->GetCurrentContext();
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
 
-	// Test the layer
-	for (uint32 layer_id = 0; layer_id < _tile_grid[context].size(); ++layer_id) {
-		if (_tile_grid[context][layer_id].layer_type != layer_type)
+	std::map<MAP_CONTEXT, Context>::const_iterator it = _tile_grid.find(context);
+	if (it == _tile_grid.end())
+		return;
+	const Context& layers = it->second;
+
+	for (uint32 layer_id = 0; layer_id < layers.size(); ++layer_id) {
+
+		const Layer& layer = layers[layer_id];
+		if (layer.layer_type != layer_type)
 			continue;
 
 		VideoManager->Move(frame->tile_x_offset, frame->tile_y_offset);
@@ -390,8 +396,8 @@ void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_t
 			for (uint32 x = static_cast<uint32>(frame->tile_x_start);
 					x < static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis); ++x) {
 				// Draw a tile image if it exists at this location
-				if (_tile_grid[context][layer_id].tiles[y][x] >= 0)
-					_tile_images[ _tile_grid[context][layer_id].tiles[y][x] ]->Draw();
+				if (layer.tiles[y][x] >= 0)
+					_tile_images[ layer.tiles[y][x] ]->Draw();
 
 				VideoManager->MoveRelative(2.0f, 0.0f);
 			} // x
