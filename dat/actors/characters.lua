@@ -11,7 +11,24 @@ characters = {}
 
 characters[CLAUDIUS] = {
 	name = hoa_system.Translate("Claudius"),
-	filename = "claudius",
+	portrait = "img/portraits/claudius.png",
+	full_portrait = "img/portraits/claudius_full.png",
+	battle_portraits = "img/portraits/battle/claudius_damage.png",
+	stamina_icon = "img/icons/actors/characters/claudius.png",
+
+	battle_animations = {
+		idle = "img/sprites/battle/characters/claudius_idle.lua",
+		run = "img/sprites/battle/characters/claudius_run.lua",
+		attack = "img/sprites/battle/characters/claudius_attack.lua",
+		dodge = "img/sprites/battle/characters/claudius_dodge.lua",
+		victory = "img/sprites/battle/characters/claudius_victory.lua",
+		dying = "img/sprites/battle/characters/claudius_dead.lua",
+		dead = "img/sprites/battle/characters/claudius_dead.lua",
+		revive = "img/sprites/battle/characters/claudius_idle.lua",
+		item = "img/sprites/battle/characters/claudius_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/claudius_idle.lua",
+		magic_cast = "img/sprites/battle/characters/claudius_idle.lua"
+	},
 
 	initial_stats = {
 		experience_level = 1,
@@ -99,7 +116,20 @@ characters[CLAUDIUS] = {
 
 characters[MARK] = {
 	name = hoa_system.Translate("Mark"),
-	filename = "soldier",
+
+	battle_animations = {
+		idle = "img/sprites/battle/characters/soldier_idle.lua",
+		run = "img/sprites/battle/characters/soldier_run.lua",
+		attack = "img/sprites/battle/characters/soldier_attack.lua",
+		dodge = "img/sprites/battle/characters/soldier_idle.lua",
+		victory = "img/sprites/battle/characters/soldier_victory.lua",
+		dying = "img/sprites/battle/characters/soldier_dead.lua",
+		dead = "img/sprites/battle/characters/soldier_dead.lua",
+		revive = "img/sprites/battle/characters/soldier_idle.lua",
+		item = "img/sprites/battle/characters/soldier_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/soldier_idle.lua",
+		magic_cast = "img/sprites/battle/characters/soldier_idle.lua"
+	},
 
 	initial_stats = {
 		experience_level = 7,
@@ -177,7 +207,20 @@ characters[MARK] = {
 
 characters[DESTER] = {
 	name = hoa_system.Translate("Dester"),
-	filename = "soldier",
+
+	battle_animations = {
+		idle = "img/sprites/battle/characters/soldier_idle.lua",
+		run = "img/sprites/battle/characters/soldier_run.lua",
+		attack = "img/sprites/battle/characters/soldier_attack.lua",
+		dodge = "img/sprites/battle/characters/soldier_idle.lua",
+		victory = "img/sprites/battle/characters/soldier_victory.lua",
+		dying = "img/sprites/battle/characters/soldier_dead.lua",
+		dead = "img/sprites/battle/characters/soldier_dead.lua",
+		revive = "img/sprites/battle/characters/soldier_idle.lua",
+		item = "img/sprites/battle/characters/soldier_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/soldier_idle.lua",
+		magic_cast = "img/sprites/battle/characters/soldier_idle.lua"
+	},
 
 	initial_stats = {
 		experience_level = 9,
@@ -255,7 +298,20 @@ characters[DESTER] = {
 
 characters[LUKAR] = {
 	name = hoa_system.Translate("Lukar"),
-	filename = "knight",
+
+	battle_animations = {
+		idle = "img/sprites/battle/characters/knight_idle.lua",
+		run = "img/sprites/battle/characters/knight_run.lua",
+		attack = "img/sprites/battle/characters/knight_attack.lua",
+		dodge = "img/sprites/battle/characters/knight_idle.lua",
+		victory = "img/sprites/battle/characters/knight_victory.lua",
+		dying = "img/sprites/battle/characters/knight_dead.lua",
+		dead = "img/sprites/battle/characters/knight_dead.lua",
+		revive = "img/sprites/battle/characters/knight_idle.lua",
+		item = "img/sprites/battle/characters/knight_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/knight_idle.lua",
+		magic_cast = "img/sprites/battle/characters/knight_idle.lua"
+	},
 
 	initial_stats = {
 		experience_level = 18,

@@ -178,8 +178,9 @@ GlobalActor::~GlobalActor() {
 GlobalActor::GlobalActor(const GlobalActor& copy) {
 	_id = copy._id;
 	_name = copy._name;
-	_filename = copy._filename;
-	_experience_level = copy._experience_level;
+	_portrait = copy._portrait;
+	_full_portrait = copy._full_portrait;
+	_stamina_icon = copy._stamina_icon;	_experience_level = copy._experience_level;
 	_experience_points = copy._experience_points;
 	_hit_points = copy._hit_points;
 	_max_hit_points = copy._max_hit_points;
@@ -227,7 +228,9 @@ GlobalActor& GlobalActor::operator=(const GlobalActor& copy) {
 
 	_id = copy._id;
 	_name = copy._name;
-	_filename = copy._filename;
+	_portrait = copy._portrait;
+	_full_portrait = copy._full_portrait;
+	_stamina_icon = copy._stamina_icon;
 	_experience_level = copy._experience_level;
 	_experience_points = copy._experience_points;
 	_hit_points = copy._hit_points;
@@ -1078,7 +1081,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 {
 	_id = id;
 
-	// ----- (1): Open the characters script file
+	// Open the characters script file
 	string filename = "dat/actors/characters.lua";
 	ReadScriptDescriptor char_script;
 	if (char_script.OpenFile(filename) == false) {
@@ -1086,13 +1089,67 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		return;
 	}
 
-	// ----- (2): Retrieve their basic character property data
+	// Retrieve their basic character property data
 	char_script.OpenTable("characters");
 	char_script.OpenTable(_id);
 	_name = MakeUnicodeString(char_script.ReadString("name"));
-	_filename = char_script.ReadString("filename");
 
-	// ----- (3): Construct the character from the initial stats if necessary
+	// Load all the graphic data
+	std::string portrait_filename = char_script.ReadString("portrait");
+	if (DoesFileExist(portrait_filename)) {
+		_portrait.Load(portrait_filename);
+	}
+	else {
+		PRINT_WARNING << "Unavailable portrait image: " << portrait_filename
+			<< " for character: " << _name.c_str() << endl;
+	}
+
+	std::string full_portrait_filename = char_script.ReadString("full_portrait");
+	if (DoesFileExist(full_portrait_filename)) {
+		_full_portrait.Load(full_portrait_filename);
+	}
+	else {
+		PRINT_WARNING << "Unavailable full portrait image: " << full_portrait_filename
+			<< " for character: " << _name.c_str() << endl;
+	}
+
+	std::string stamina_icon_filename = char_script.ReadString("stamina_icon");
+	if (DoesFileExist(stamina_icon_filename)) {
+		_stamina_icon.Load(stamina_icon_filename, 45.0f, 45.0f);
+	}
+	else {
+		PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
+			<< " for character: " << _name.c_str() << ". Loading default one."<< endl;
+		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
+	}
+
+	// Load the character's battle portraits from a multi image
+	_battle_portraits.assign(5, StillImage());
+	for (uint32 i = 0; i < _battle_portraits.size(); i++) {
+		_battle_portraits[i].SetDimensions(100.0f, 100.0f);
+	}
+    std::string battle_portraits_filename = char_script.ReadString("battle_portraits");
+	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits,
+														battle_portraits_filename, 1, 5)) {
+		// Load empty portraits when they don't exist.
+		for (uint32 i = 0; i < _battle_portraits.size(); i++) {
+			_battle_portraits[i].Clear();
+			_battle_portraits[i].Load("", 1.0f, 1.0f);
+		}
+	}
+
+    // Read each battle_animations table keys and store the corresponding animation in memory.
+    std::vector<std::string> keys_vect;
+    char_script.ReadTableKeys("battle_animations", keys_vect);
+    char_script.OpenTable("battle_animations");
+    for (uint32 i = 0; i < keys_vect.size(); ++i) {
+        AnimatedImage animation;
+        animation.LoadFromAnimationScript(char_script.ReadString(keys_vect[i]));
+        _battle_animation[keys_vect[i]] = animation;
+    }
+    char_script.CloseTable();
+
+	// Construct the character from the initial stats if necessary
 	if (initial == true) {
 		char_script.OpenTable("initial_stats");
 		_experience_level = char_script.ReadUInt("experience_level");
@@ -1153,7 +1210,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		_armor_equipped.resize(4, NULL);
 	}
 
-	// ----- (4): Setup the character's attack points
+	// Setup the character's attack points
 	char_script.OpenTable("attack_points");
 	for (uint32 i = GLOBAL_POSITION_HEAD; i <= GLOBAL_POSITION_LEGS; i++) {
 		_attack_points.push_back(new GlobalAttackPoint(this));
@@ -1172,7 +1229,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		}
 	}
 
-	// ----- (5): Construct the character's initial skill set if necessary
+	// Construct the character's initial skill set if necessary
 	if (initial) {
 		// The skills table contains key/value pairs. The key indicate the level required to learn the skill and the value is the skill's id
 		vector<uint32> skill_levels;
@@ -1206,7 +1263,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	char_script.CloseTable(); // "characters[id]"
 	char_script.CloseTable(); // "characters"
 
-	// ----- (6): Determine the character's initial growth if necessary
+	// Determine the character's initial growth if necessary
 	if (initial) {
 		// Initialize the experience level milestones
 		_growth._experience_for_last_level = _experience_points;
@@ -1224,7 +1281,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		}
 	}
 
-	// ----- (7): Close the script file and calculate all rating totals
+	// Close the script file and calculate all rating totals
 	if (char_script.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
 			PRINT_WARNING << "one or more errors occurred while reading final data - they are listed below" << endl;
@@ -1236,54 +1293,6 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	_CalculateAttackRatings();
 	_CalculateDefenseRatings();
 	_CalculateEvadeRatings();
-
-    // TODO: Factor the code below if possible.
-
-	// Load the character's idle battle stance animation
-	// TODO: dehardcode the filename
-	AnimatedImage idle;
-	idle.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_idle.lua");
-	_battle_animation["idle"] = idle;
-
-	// Load the character's run animation
-	// TODO: dehardcode the filename
-	AnimatedImage run;
-	run.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_run.lua");
-	_battle_animation["run"] = run;
-
-	// Load the character's attack animation
-	// TODO: dehardcode the filename
-	AnimatedImage attack;
-	attack.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_attack.lua");
-	_battle_animation["attack"] = attack;
-
-	// Load the character's dodge animation
-	// TODO: dehardcode the filename
-	AnimatedImage dodge;
-	dodge.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_dodge.lua");
-	_battle_animation["dodge"] = dodge;
-
-	// Load the character's victory animation
-	// TODO: dehardcode the filename
-	AnimatedImage victory;
-	victory.LoadFromAnimationScript("img/sprites/battle/characters/" + _filename + "_victory.lua");
-	_battle_animation["victory"] = victory;
-
-	// TEMP: Load the character's battle portraits from a multi image
-	_battle_portraits.assign(5, StillImage());
-	for (uint32 i = 0; i < _battle_portraits.size(); i++) {
-		_battle_portraits[i].SetDimensions(100.0f, 100.0f);
-	}
-
-	std::string portraits_filename = "img/portraits/battle/" + _filename + "_damage.png";
-	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits,
-														portraits_filename, 1, 5)) {
-		// Load empty portraits when they don't exist.
-		for (uint32 i = 0; i < _battle_portraits.size(); i++) {
-			_battle_portraits[i].Clear();
-			_battle_portraits[i].Load("", 1.0f, 1.0f);
-		}
-	}
 
 } // GlobalCharacter::GlobalCharacter(uint32 id, bool initial)
 
@@ -1352,22 +1361,16 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 {
 	_id = id;
 
-	// ----- (1): Use the id member to determine the name of the data file that the enemy is defined in
+	// Use the id member to determine the name of the data file that the enemy is defined in
 	string file_ext;
 	string filename;
 
 	if (_id == 0)
 		PRINT_ERROR << "invalid id for loading enemy data: " << _id << endl;
-	else if ((_id > 0) && (_id <= 100))
-		file_ext = "01";
-	else if ((_id > 100) && (_id <= 200))
-		file_ext = "02";
 
-	filename = "dat/actors/enemies_set_" + file_ext + ".lua";
-
-	// ----- (2): Open the script file and table that store the enemy data
+	// Open the script file and table that store the enemy data
 	ReadScriptDescriptor enemy_data;
-	if (enemy_data.OpenFile(filename) == false) {
+	if (!enemy_data.OpenFile("dat/actors/enemies.lua")) {
 		PRINT_ERROR << "failed to open enemy data file: " << filename << endl;
 		return;
 	}
@@ -1375,20 +1378,28 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	enemy_data.OpenTable("enemies");
 	enemy_data.OpenTable(_id);
 
-	// ----- (3): Load the enemy's name and sprite data
+	// Load the enemy's name and sprite data
 	_name = MakeUnicodeString(enemy_data.ReadString("name"));
-	_filename = enemy_data.ReadString("filename");
 	_sprite_width = enemy_data.ReadInt("sprite_width");
 	_sprite_height = enemy_data.ReadInt("sprite_height");
 
-	// ----- (4): Attempt to load the MultiImage for the sprite's frames, which should contain one row and four columns of images
+	// Attempt to load the MultiImage for the sprite's frames, which should contain one row and four columns of images
 	_battle_sprite_frames.assign(4, StillImage());
-	string sprite_filename = "img/sprites/battle/enemies/" + _filename + ".png";
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(_battle_sprite_frames, sprite_filename, 1, 4) == false) {
+	string sprite_filename = enemy_data.ReadString("battle_sprites");
+	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_sprite_frames, sprite_filename, 1, 4))
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load sprite frames for enemy: " << sprite_filename << endl;
+
+	std::string stamina_icon_filename = enemy_data.ReadString("stamina_icon");
+	if (DoesFileExist(stamina_icon_filename)) {
+		_stamina_icon.Load(stamina_icon_filename, 45.0f, 45.0f);
+	}
+	else {
+		PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
+			<< " for enemy: " << _name.c_str() << ". Loading default one."<< endl;
+		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
 	}
 
-	// ----- (5): Load the enemy's base stats
+	// Load the enemy's base stats
 	if (enemy_data.DoesBoolExist("no_stat_randomization") == true) {
 		_no_stat_randomization = enemy_data.ReadBool("no_stat_randomization");
 	}
@@ -1408,7 +1419,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	_drunes_dropped = enemy_data.ReadUInt("drunes");
 	enemy_data.CloseTable();
 
-	// ----- (6): Create the attack points for the enemy
+	// Create the attack points for the enemy
 	enemy_data.OpenTable("attack_points");
 	uint32 ap_size = enemy_data.GetTableSize();
 	for (uint32 i = 1; i <= ap_size; i++) {
@@ -1421,14 +1432,14 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	}
 	enemy_data.CloseTable();
 
-	// ----- (7): Add the set of skills for the enemy
+	// Add the set of skills for the enemy
 	enemy_data.OpenTable("skills");
 	for (uint32 i = 1; i <= enemy_data.GetTableSize(); i++) {
 		_skill_set.push_back(enemy_data.ReadUInt(i));
 	}
 	enemy_data.CloseTable();
 
-	// ----- (8): Load the possible items that the enemy may drop
+	// Load the possible items that the enemy may drop
 	enemy_data.OpenTable("drop_objects");
 	for (uint32 i = 1; i <= enemy_data.GetTableSize(); i++) {
 		enemy_data.OpenTable(i);

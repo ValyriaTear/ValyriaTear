@@ -528,16 +528,11 @@ SmallCharacterWindow::~SmallCharacterWindow() {
 void SmallCharacterWindow::SetCharacter(GlobalCharacter *character) {
 	_character = character;
 
-	if (character != NULL) {
-		_portrait.SetStatic(true);
-		std::string portrait_filename = "img/portraits/menu/" + character->GetFilename() + "_small.png";
-		if (DoesFileExist(portrait_filename)) {
-			_portrait.Load(portrait_filename, 100.0f, 100.0f);
-		}
-		else {
-			PRINT_WARNING << "Portrait file not found: " << portrait_filename << endl;
-			_portrait.Load("", 1.0f, 1.0f);
-		}
+	if (character) {
+		_portrait = character->GetPortrait();
+		// Only size up valid portraits
+		if (!_portrait.GetFilename().empty())
+			_portrait.SetDimensions(100.0f, 100.0f);
 	}
 } // void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
 
@@ -554,8 +549,6 @@ void SmallCharacterWindow::Draw() {
 
 	if (_character->GetID() == hoa_global::GLOBAL_CHARACTER_INVALID)
 		return;
-
-//	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
 	// Get the window metrics
 	float x, y, w, h;

@@ -239,7 +239,6 @@ void BindCommonCode() {
 		class_<GlobalActor>("GlobalActor")
 			.def("GetID", &GlobalActor::GetID)
 			.def("GetName", &GlobalActor::GetName)
-			.def("GetFilename", &GlobalActor::GetFilename)
 
 			.def("GetHitPoints", &GlobalActor::GetHitPoints)
 			.def("GetMaxHitPoints", &GlobalActor::GetMaxHitPoints)

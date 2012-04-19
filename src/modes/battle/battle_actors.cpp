@@ -452,15 +452,6 @@ BattleCharacter::BattleCharacter(GlobalCharacter* character) :
 	_last_rendered_sp(0),
 	_sprite_animation_alias("idle")
 {
-	std::string icon_filename = "img/icons/actors/characters/" + character->GetFilename() + ".png";
-	if (DoesFileExist(icon_filename)) {
-		_stamina_icon.Load(icon_filename, 45.0f, 45.0f);
-	}
-	else {
-		PRINT_WARNING << "unable to load stamina icon file: " << icon_filename << endl;
-		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
-	}
-
 	_last_rendered_hp = GetHitPoints();
 	_last_rendered_sp = GetSkillPoints();
 
@@ -817,15 +808,6 @@ BattleEnemy::BattleEnemy(GlobalEnemy* enemy) :
 	_sprite_animation_alias("idle"),
 	_sprite_alpha(1.0f)
 {
-	std::string icon_filename = "img/icons/actors/enemies/" + _global_actor->GetFilename() + ".png";
-	if (DoesFileExist(icon_filename)) {
-		_stamina_icon.Load(icon_filename, 45.0f, 45.0f);
-	}
-	else {
-		PRINT_WARNING << "unable to load stamina icon file: " << icon_filename << endl;
-		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
-	}
-
 	for (map<uint32, GlobalSkill*>::const_iterator i = (_global_enemy->GetSkills()).begin(); i != (_global_enemy->GetSkills()).end(); i++) {
 		_enemy_skills.push_back(i->second);
 	}

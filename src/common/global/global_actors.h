@@ -232,8 +232,14 @@ public:
 	hoa_utils::ustring& GetName()
 		{ return _name; }
 
-	std::string& GetFilename()
-		{ return _filename; }
+	hoa_video::StillImage& GetPortrait()
+		{ return _portrait; }
+
+	hoa_video::StillImage& GetFullPortrait()
+		{ return _full_portrait; }
+
+	hoa_video::StillImage& GetStaminaIcon()
+		{ return _stamina_icon; }
 
 	uint32 GetHitPoints() const
 		{ return _hit_points; }
@@ -427,8 +433,14 @@ protected:
 	//! \brief The name of the actor as it will be displayed on the screen
 	hoa_utils::ustring _name;
 
-	//! \brief The filename base used to look up an actors image files and other data
-	std::string _filename;
+	//! \brief The character portrait
+	hoa_video::StillImage _portrait;
+
+	//! \brief The character full pose portrait
+	hoa_video::StillImage _full_portrait;
+
+	//! \brief The character stamina icon
+	hoa_video::StillImage _stamina_icon;
 
 	//! \name Base Actor Statistics
 	//@{

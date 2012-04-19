@@ -388,21 +388,20 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 	for (uint32 i = 0; i < _number_characters; ++i) {
 		_characters.push_back(all_characters[i]->GetGlobalCharacter());
 		_character_growths.push_back(_characters[i]->GetGrowth());
-		std::string portrait_filename = "img/portraits/map/" + _characters[i]->GetFilename() + ".png";
-		if (DoesFileExist(portrait_filename)) {
-			_character_portraits[i].Load(portrait_filename, 100.0f, 100.0f);
+		_character_portraits[i] = all_characters[i]->GetPortrait();
+
+		// Only size up non valid images
+		if (!_character_portraits[i].GetFilename().empty())
+			_character_portraits[i].SetDimensions(100.0f, 100.0f);
+
+		// Gray out portraits of deceased characters
+		if (!all_characters[i]->IsAlive()) {
+			_character_portraits[i].EnableGrayScale();
 		}
 		else {
-			PRINT_WARNING << "Portrait file not found: " << portrait_filename << endl;
-			_character_portraits[i].Load("");
-		}
-
-		// Grey out portraits of deceased characters
-		if (!all_characters[i]->IsAlive())
-			_character_portraits[i].EnableGrayScale();
-		else
 			// Set up the victory animation for the living beings
 			all_characters[i]->ChangeSpriteAnimation("victory");
+		}
 	}
 
 	// ----- (2): Collect the XP, drunes, and dropped objects for each defeated enemy

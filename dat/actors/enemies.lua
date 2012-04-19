@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------[[
--- Filename: enemies_set01.lua
+-- Filename: enemies.lua
 --
 -- Description: This file contains the definitions of multiple foes that the
 -- player encounters in battle. This file contains those enemies who have ids
@@ -46,7 +46,8 @@ end
 --------------------------------------------------------------------------------
 enemies[1] = {
 	name = hoa_system.Translate("Green Slime"),
-	filename = "green_slime",
+	stamina_icon = "img/icons/actors/enemies/green_slime.png",
+	battle_sprites = "img/sprites/battle/enemies/green_slime.png",
 	sprite_width = 64,
 	sprite_height = 64,
 
@@ -92,7 +93,8 @@ enemies[1] = {
 --------------------------------------------------------------------------------
 enemies[2] = {
 	name = hoa_system.Translate("Spider"),
-	filename = "spider",
+	stamina_icon = "img/icons/actors/enemies/spider.png",
+	battle_sprites = "img/sprites/battle/enemies/spider.png",
 	sprite_width = 64,
 	sprite_height = 64,
 
@@ -146,7 +148,8 @@ enemies[2] = {
 --------------------------------------------------------------------------------
 enemies[3] = {
 	name = hoa_system.Translate("Snake"),
-	filename = "snake",
+	stamina_icon = "img/icons/actors/enemies/snake.png",
+	battle_sprites = "img/sprites/battle/enemies/snake.png",
 	sprite_width = 128,
 	sprite_height = 64,
 
@@ -209,7 +212,8 @@ enemies[3] = {
 --------------------------------------------------------------------------------
 enemies[4] = {
 	name = hoa_system.Translate("Rat"),
-	filename = "rat",
+	stamina_icon = "img/icons/actors/enemies/rat.png",
+	battle_sprites = "img/sprites/battle/enemies/rat.png",
 	sprite_width = 64,
 	sprite_height = 64,
 
@@ -263,7 +267,8 @@ enemies[4] = {
 --------------------------------------------------------------------------------
 enemies[5] = {
 	name = hoa_system.Translate("Scorpion"),
-	filename = "scorpion",
+	stamina_icon = "img/icons/actors/enemies/scorpion.png",
+	battle_sprites = "img/sprites/battle/enemies/scorpion.png",
 	sprite_width = 64,
 	sprite_height = 64,
 
@@ -327,7 +332,8 @@ enemies[5] = {
 --------------------------------------------------------------------------------
 enemies[6] = {
 	name = hoa_system.Translate("Bat"),
-	filename = "bat",
+	stamina_icon = "img/icons/actors/enemies/bat.png",
+	battle_sprites = "img/sprites/battle/enemies/bat.png",
 	sprite_width = 64,
 	sprite_height = 128,
 
@@ -383,7 +389,8 @@ enemies[6] = {
 --------------------------------------------------------------------------------
 enemies[7] = {
 	name = hoa_system.Translate("Dune Crawler"),
-	filename = "dune_crawler",
+	stamina_icon = "img/icons/actors/enemies/dune_crawler.png",
+	battle_sprites = "img/sprites/battle/enemies/dune_crawler.png",
 	sprite_width = 64,
 	sprite_height = 64,
 
@@ -437,7 +444,8 @@ enemies[7] = {
 --------------------------------------------------------------------------------
 enemies[8] = {
 	name = hoa_system.Translate("Skeleton"),
-	filename = "skeleton",
+	stamina_icon = "img/icons/actors/enemies/skeleton.png",
+	battle_sprites = "img/sprites/battle/enemies/skeleton.png",
 	sprite_width = 64,
 	sprite_height = 128,
 
@@ -500,7 +508,8 @@ enemies[8] = {
 --------------------------------------------------------------------------------
 enemies[9] = {
 	name = hoa_system.Translate("Stygian Lizard"),
-	filename = "stygian_lizard",
+	stamina_icon = "img/icons/actors/enemies/stygian_lizard.png",
+	battle_sprites = "img/sprites/battle/enemies/stygian_lizard.png",
 	sprite_width = 192,
 	sprite_height = 192,
 
@@ -562,7 +571,8 @@ enemies[9] = {
 --------------------------------------------------------------------------------
 enemies[10] = {
 	name = hoa_system.Translate("Demonic Essence"),
-	filename = "demonic_essence",
+	stamina_icon = "img/icons/actors/enemies/demonic_essence.png",
+	battle_sprites = "img/sprites/battle/enemies/demonic_essence.png",
 	sprite_width = 128,
 	sprite_height = 192,
 
@@ -625,7 +635,8 @@ enemies[10] = {
 --------------------------------------------------------------------------------
 enemies[91] = {
 	name = hoa_system.Translate("Scorpion Goliath"),
-	filename = "scorpion_goliath",
+	stamina_icon = "img/icons/actors/enemies/scorpion_goliath.png",
+	battle_sprites = "img/sprites/battle/enemies/scorpion_goliath.png",
 	sprite_width = 512,
 	sprite_height = 448,
 
@@ -688,7 +699,8 @@ enemies[91] = {
 --------------------------------------------------------------------------------
 enemies[92] = {
 	name = hoa_system.Translate("Armored Beast"),
-	filename = "armored_beast",
+	stamina_icon = "img/icons/actors/enemies/armored_beast.png",
+	battle_sprites = "img/sprites/battle/enemies/armored_beast.png",
 	sprite_width = 256,
 	sprite_height = 256,
 
@@ -741,3 +753,393 @@ enemies[92] = {
 	}
 }
 
+
+enemies[101] = {
+	name = hoa_system.Translate("Daemarbora"),
+	stamina_icon = "img/icons/actors/enemies/daemarbora.png",
+	battle_sprites = "img/sprites/battle/enemies/daemarbora.png",
+	sprite_width = 128,
+	sprite_height = 128,
+
+	initial_stats = {
+		hit_points = 80,
+		skill_points = 20,
+		experience_points = 15,
+		strength = 12,
+		vigor = 20,
+		fortitude = 15,
+		protection = 7,
+		agility = 8,
+		evade = 1.0,
+		drunes = 55
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Trunk"),
+			x_position = -6,
+			y_position = 36,
+			fortitude_modifier = 0,
+			protection_modifier = 0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Branches"),
+			x_position = 0,
+			y_position = 80,
+			fortitude_modifier = 0,
+			protection_modifier = 0,
+			evade_modifier = 1.0
+		}
+	},
+
+	skills = {
+
+	},
+
+	drop_objects = {
+
+	}
+}
+
+
+enemies[102] = {
+	name = hoa_system.Translate("Aerocephal"),
+	stamina_icon = "img/icons/actors/enemies/aerocephal.png",
+	battle_sprites = "img/sprites/battle/enemies/aerocephal.png",
+	sprite_width = 192,
+	sprite_height = 192,
+
+	initial_stats = {
+		hit_points = 90,
+		skill_points = 10,
+		experience_points = 12,
+		strength = 8,
+		vigor = 0,
+		fortitude = 7,
+		protection = 4,
+		agility = 20,
+		evade = 10.0,
+		drunes = 60
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Forehead"),
+			x_position = -6,
+			y_position = 127,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Orifice"),
+			x_position = -1,
+			y_position = 77,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+	},
+
+	skills = {
+
+	},
+
+	drop_objects = {
+
+	}
+}
+
+
+enemies[103] = {
+	name = hoa_system.Translate("Arcana Drake"),
+	stamina_icon = "img/icons/actors/enemies/arcana_drake.png",
+	battle_sprites = "img/sprites/battle/enemies/arcana_drake.png",
+	sprite_width = 192,
+	sprite_height = 256,
+
+	initial_stats = {
+		hit_points = 85,
+		skill_points = 10,
+		experience_points = 45,
+		strength = 20,
+		vigor = 0,
+		fortitude = 8,
+		protection = 5,
+		agility = 15,
+		evade = 2.0,
+		drunes = 80
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Head"),
+			x_position = -6,
+			y_position = 167,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Body"),
+			x_position = -1,
+			y_position = 111,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[3] = {
+			name = hoa_system.Translate("Tail"),
+			x_position = -74,
+			y_position = 146,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+
+	},
+
+	drop_objects = {
+
+	}
+}
+
+
+enemies[104] = {
+	name = hoa_system.Translate("Nagaruda"),
+	stamina_icon = "img/icons/actors/enemies/nagaruda.png",
+	battle_sprites = "img/sprites/battle/enemies/nagaruda.png",
+	sprite_width = 192,
+	sprite_height = 256,
+
+	initial_stats = {
+		hit_points = 90,
+		skill_points = 10,
+		experience_points = 18,
+		strength = 10,
+		vigor = 0,
+		fortitude = 8,
+		protection = 4,
+		agility = 12,
+		evade = 2.0,
+		drunes = 70
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Head"),
+			x_position = -26,
+			y_position = 165,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Abdomen"),
+			x_position = -36,
+			y_position = 115,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[3] = {
+			name = hoa_system.Translate("Tail"),
+			x_position = -26,
+			y_position = 65,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+
+	},
+
+	drop_objects = {
+
+	}
+}
+
+
+enemies[105] = {
+	name = hoa_system.Translate("Deceleon"),
+	stamina_icon = "img/icons/actors/enemies/deceleon.png",
+	battle_sprites = "img/sprites/battle/enemies/deceleon.png",
+	sprite_width = 256,
+	sprite_height = 256,
+
+	initial_stats = {
+		hit_points = 100,
+		skill_points = 10,
+		experience_points = 18,
+		strength = 15,
+		vigor = 0,
+		fortitude = 20,
+		protection = 4,
+		agility = 4,
+		evade = 1.0,
+		drunes = 85
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Head"),
+			x_position = -104,
+			y_position = 226,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Chest"),
+			x_position = -106,
+			y_position = 190,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[3] = {
+			name = hoa_system.Translate("Arm"),
+			x_position = -56,
+			y_position = 155,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[4] = {
+			name = hoa_system.Translate("Legs"),
+			x_position = -106,
+			y_position = 105,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+
+	},
+
+	drop_objects = {
+
+	}
+}
+
+
+enemies[106] = {
+	name = hoa_system.Translate("Aurum Drakueli"),
+	stamina_icon = "img/icons/actors/enemies/aurum_drakueli.png",
+	battle_sprites = "img/sprites/battle/enemies/aurum_drakueli.png",
+	sprite_width = 320,
+	sprite_height = 256,
+
+
+	initial_stats = {
+		hit_points = 120,
+		skill_points = 10,
+		experience_points = 20,
+		strength = 22,
+		vigor = 0,
+		fortitude = 8,
+		protection = 4,
+		agility = 18,
+		evade = 2.0,
+		drunes = 100
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Head"),
+			x_position = -4,
+			y_position = 222,
+			fortitude_modifier = 0,
+			protection_modifier = 0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Chest"),
+			x_position = 39,
+			y_position = 155,
+			fortitude_modifier = 0,
+			protection_modifier = 0,
+			evade_modifier = 0.0
+		},
+		[3] = {
+			name = hoa_system.Translate("Arm"),
+			x_position = 82,
+			y_position = 143,
+			fortitude_modifier = 0,
+			protection_modifier = 0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+
+	},
+
+	drop_objects = {
+
+	}
+}
+
+enemies[107] = {
+	name = hoa_system.Translate("Kyle"),
+	stamina_icon = "img/icons/actors/enemies/kyle.png",
+	battle_sprites = "img/sprites/battle/enemies/kyle.png",
+	sprite_width = 48,
+	sprite_height = 96,
+
+	growth_stats = {
+		hit_points = 5.0,
+		skill_points = 1.0,
+		experience_points = 1.5,
+		strength = 5.0,
+		vigor = 1.0,
+		fortitude = 3.0,
+		protection = 1.0,
+		agility = 1.0,
+		evade = 0.0,
+		drunes = 2.0
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Head"),
+			x_position = 21,
+			y_position = 80,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Chest"),
+			x_position = 21,
+			y_position = 46,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[3] = {
+			name = hoa_system.Translate("Legs"),
+			x_position = 21,
+			y_position = 14,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+
+	},
+
+	drop_objects = {
+
+	}
+}

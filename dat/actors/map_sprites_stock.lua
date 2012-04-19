@@ -16,7 +16,7 @@ sprites["Claudius"] = {
 
 	standard_animations = "img/sprites/map/claudius_walk.png",
 	running_animations = "img/sprites/map/claudius_run.png",
-	face_portrait = "img/portraits/map/claudius.png"
+	face_portrait = "img/portraits/claudius.png"
 }
 
 sprites["Laila"] = {
@@ -29,7 +29,7 @@ sprites["Laila"] = {
 
 	standard_animations = "img/sprites/map/laila_walk.png",
 	running_animations = "img/sprites/map/laila_run.png",
-	face_portrait = "img/portraits/map/laila.png"
+	face_portrait = "img/portraits/laila.png"
 }
 
 sprites["Kyle"] = {
@@ -41,7 +41,7 @@ sprites["Kyle"] = {
 	movement_speed = SLOW_SPEED,
 
 	standard_animations = "img/sprites/map/kyle_walk.png",
-	face_portrait = "img/portraits/map/kyle.png"
+	face_portrait = "img/portraits/kyle.png"
 }
 
 sprites["Captain"] = {
@@ -64,7 +64,7 @@ sprites["Marcus"] = {
 	movement_speed = VERY_SLOW_SPEED,
 
 	standard_animations = "img/sprites/map/marcus_walk.png",
-	face_portrait = "img/portraits/map/marcus.png"
+	face_portrait = "img/portraits/npcs/marcus.png"
 }
 
 sprites["Vanica"] = {
@@ -76,7 +76,7 @@ sprites["Vanica"] = {
 	movement_speed = VERY_SLOW_SPEED,
 
 	standard_animations = "img/sprites/map/vanica_walk.png",
-	face_portrait = "img/portraits/map/vanica.png"
+	face_portrait = "img/portraits/npcs/vanica.png"
 }
 
 sprites["Alexander"] = {

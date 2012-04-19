@@ -368,9 +368,6 @@ protected:
 //	//! \brief When set to true, the actor essentially has immunity and can not be targeted by attacks
 //	bool _not_targetable;
 
-	//! \brief The actor's icon for the stamina meter
-	hoa_video::StillImage _stamina_icon;
-
 	//! \brief The x and y coordinates of the actor's current stamina icon on the stamina bar.
 	float _x_stamina_location, _y_stamina_location;
 
