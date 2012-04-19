@@ -240,7 +240,7 @@ void BattleMedia::SetBattleMusic(const string& filename) {
 
 
 
-StillImage* BattleMedia:: GetCharacterActionButton(uint32 index) {
+StillImage* BattleMedia::GetCharacterActionButton(uint32 index) {
 	if (index >= character_action_buttons.size()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid index argument: " << index << endl;
 		return NULL;
@@ -787,6 +787,15 @@ void BattleMode::NotifyActorDeath(BattleActor* actor) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor death occurred after battle was finished" << endl;
 }
 
+bool BattleMode::isOneCharacterDead() const {
+	for (std::deque<private_battle::BattleCharacter*>::const_iterator it = _character_actors.begin();
+			it != _character_actors.end(); ++it) {
+		if (!(*it)->IsAlive())
+			return true;
+	}
+	return false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // BattleMode class -- private methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -807,6 +816,10 @@ void BattleMode::_Initialize() {
 		BattleCharacter* new_actor = new BattleCharacter(dynamic_cast<GlobalCharacter*>(active_party->GetActorAtIndex(i)));
 		_character_actors.push_back(new_actor);
 		_character_party.push_back(new_actor);
+
+		// Check whether the character is alive
+		if (new_actor->GetHitPoints() == 0)
+			new_actor->ChangeState(ACTOR_STATE_DEAD);
 	}
 	_command_supervisor->ConstructMenus();
 
@@ -858,9 +871,11 @@ void BattleMode::_Initialize() {
 	// idle state time that is twice that of the slowest actor.
 	float proportion;
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		proportion = static_cast<float>(highest_agility) / static_cast<float>(_character_actors[i]->GetAgility());
-		_character_actors[i]->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
-		_character_actors[i]->ChangeState(ACTOR_STATE_IDLE);
+		if (_character_actors[i]->IsAlive()) {
+			proportion = static_cast<float>(highest_agility) / static_cast<float>(_character_actors[i]->GetAgility());
+			_character_actors[i]->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
+			_character_actors[i]->ChangeState(ACTOR_STATE_IDLE); // Needed to set up the stamina icon position.
+	    }
 	}
 	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
 		proportion = static_cast<float>(highest_agility) / static_cast<float>(_enemy_actors[i]->GetAgility());
@@ -868,13 +883,14 @@ void BattleMode::_Initialize() {
 		_enemy_actors[i]->ChangeState(ACTOR_STATE_IDLE);
 	}
 
-	// (5): Randomize each actor's initial idle state progress to be somewhere in the lower half of their total
+	// Randomize each actor's initial idle state progress to be somewhere in the lower half of their total
 	// idle state time. This is performed so that every battle doesn't start will all stamina icons piled on top
 	// of one another at the bottom of the stamina bar
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		uint32 max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
-		_character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
-
+		if (_character_actors[i]->IsAlive()) {
+			uint32 max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
+			_character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
+		}
 	}
 	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
 		uint32 max_init_timer = _enemy_actors[i]->GetIdleStateTime() / 2;

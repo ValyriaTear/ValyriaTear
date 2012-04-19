@@ -55,13 +55,21 @@ items[1] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(40, true);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(40, true);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddHitPoints(45);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddHitPoints(45);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -76,13 +84,21 @@ items[2] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(150, true);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(150, true);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddHitPoints(200);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddHitPoints(200);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -97,13 +113,21 @@ items[3] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(500, true);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(500, true);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddHitPoints(620);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddHitPoints(620);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -118,13 +142,21 @@ items[4] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(9000, true);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(9000, true);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddHitPoints(12000);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddHitPoints(12000);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -140,13 +172,21 @@ items[11] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(40, false);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(40, false);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddSkillPoints(45);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddSkillPoints(45);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -161,13 +201,21 @@ items[12] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(150, false);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(150, false);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddSkillPoints(200);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddSkillPoints(200);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -182,13 +230,21 @@ items[13] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(300, false);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(300, false);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddSkillPoints(420);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddSkillPoints(420);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -203,13 +259,21 @@ items[13] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterHealing(999, false);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target_actor:IsAlive()) then
+			target_actor:RegisterHealing(999, false);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target_actor:RegisterMiss(false);
+		end
 	end,
 
 	FieldUse = function(target)
-		target:AddSkillPoints(1200);
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		if (target:IsAlive()) then
+			target:AddSkillPoints(1200);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			AudioManager:PlaySound("snd/cancel.wav");
+		end
 	end
 }
 
@@ -230,6 +294,26 @@ items[1001] = {
 		target_actor = target:GetActor();
 		-- TODO: decrement any active negative status effects
 		AudioManager:PlaySound("snd/potion_drink.wav");
+	end
+}
+
+items[1003] = {
+	name = hoa_system.Translate("Elixir"),
+	description = hoa_system.Translate("Revive a character, or reduces almost all its ailing status effects if the potion is drunk when alive."),
+	icon = "img/icons/items/potion_red_large.png",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	standard_price = 1600,
+	use_warmup_time = 1600,
+	cooldown_time = 2100,
+
+	FieldUse = function(target)
+		if (target:GetHitPoints() > 0) then
+			-- TODO: decrement any active negative status effects when alive
+
+		else
+			-- When dead, revive the character
+			target:SetHitPoints(1);
+		end
 	end
 }
 
