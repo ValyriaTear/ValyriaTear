@@ -55,14 +55,11 @@ CharacterWindow::~CharacterWindow() {
 void CharacterWindow::SetCharacter(GlobalCharacter *character) {
 	_char_id = character->GetID();
 
-	_portrait.SetStatic(true);
-	std::string portrait_filename = "img/portraits/menu/" + character->GetFilename() + "_small.png";
-	if (DoesFileExist(portrait_filename)) {
-		_portrait.Load(portrait_filename, 100.0f, 100.0f);
-	}
-	else {
-		PRINT_WARNING << "Portrait file not found: " << portrait_filename << endl;
-		_portrait.Load("", 1.0f, 1.0f);
+	if (character) {
+		_portrait = character->GetPortrait();
+		// Only size up valid portraits
+		if (!_portrait.GetFilename().empty())
+			_portrait.SetDimensions(100.0f, 100.0f);
 	}
 } // void CharacterWindow::SetCharacter(GlobalCharacter *character)
 
@@ -468,16 +465,7 @@ StatusWindow::StatusWindow() :
 	// Set up the full body portrait
 	for (uint32 i = 0; i < partysize; i++) {
 		ch = dynamic_cast<GlobalCharacter*>(GlobalManager->GetActiveParty()->GetActorAtIndex(i));
-		portrait.SetStatic(true);
-		std::string portrait_filename = "img/portraits/menu/" + ch->GetFilename() + "_large.png";
-		if (DoesFileExist(portrait_filename)) {
-			portrait.Load(portrait_filename);
-		}
-		else {
-			PRINT_WARNING << "Could load large portrait file: " << portrait_filename << endl;
-			portrait.Load("");
-		}
-		_full_portraits.push_back(portrait);
+		_full_portraits.push_back(ch->GetFullPortrait());
 	}
 
 	// Init char select option box
