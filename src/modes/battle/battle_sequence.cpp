@@ -54,6 +54,7 @@ static const uint32 EXIT_STEP_SCREEN_FADE      =  2;
 
 SequenceSupervisor::SequenceSupervisor(BattleMode* current_instance) :
 	_battle(current_instance),
+	_one_is_dead(false),
 	_sequence_step(0),
 	_gui_position_offset(0.0f)
 {}
@@ -131,13 +132,27 @@ void SequenceSupervisor::_UpdateInitialSequence() {
 
 	// Step 0: Initial entry, prepare members for the steps to follow
 	if (_sequence_step == 0) {
+		// Check whether one character is dead
+		_one_is_dead = _battle->isOneCharacterDead();
+
 		_gui_position_offset = MAX_GUI_OFFSET;
 		_sequence_timer.Initialize(STEP_01_TIME);
 		_sequence_timer.Run();
 
+		// The characters can't run when one of them is dead,
+		// as they wouldn't let him behind.
 		for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-			_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() - MAX_CHARACTER_OFFSET);
-			_battle->_character_actors[i]->ChangeSpriteAnimation("run");
+			if (_one_is_dead) {
+				_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin());
+				if (_battle->_character_actors[i]->IsAlive())
+					_battle->_character_actors[i]->ChangeSpriteAnimation("idle");
+				else
+					_battle->_character_actors[i]->ChangeSpriteAnimation("dead");
+			}
+			else {
+				_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() - MAX_CHARACTER_OFFSET);
+				_battle->_character_actors[i]->ChangeSpriteAnimation("run");
+			}
 		}
 
 		for (uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
@@ -161,8 +176,10 @@ void SequenceSupervisor::_UpdateInitialSequence() {
 		_sequence_timer.Update();
 
 		float percent_incomplete = 1.0f - _sequence_timer.PercentComplete();
-		for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-			_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() - (MAX_CHARACTER_OFFSET * percent_incomplete));
+		if (!_one_is_dead) {
+			for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
+				_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() - (MAX_CHARACTER_OFFSET * percent_incomplete));
+			}
 		}
 
 		for (uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
@@ -173,7 +190,10 @@ void SequenceSupervisor::_UpdateInitialSequence() {
 			// Done to ensure that all actors are at their correct locations
 			for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
 				_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin());
-				_battle->_character_actors[i]->ChangeSpriteAnimation("idle");
+				if (_battle->_character_actors[i]->IsAlive())
+					_battle->_character_actors[i]->ChangeSpriteAnimation("idle");
+				else
+					_battle->_character_actors[i]->ChangeSpriteAnimation("dead");
 			}
 			for (uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
 				_battle->_enemy_actors[i]->SetXLocation(_battle->_enemy_actors[i]->GetXOrigin());
@@ -215,6 +235,9 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 
 	// Step 0: Initial entry, prepare members for the steps to follow
 	if (_sequence_step == 0) {
+		// Check whether one character is dead
+		_one_is_dead = _battle->isOneCharacterDead();
+
 		_gui_position_offset = 0.0f;
 		_sequence_timer.Initialize(STEP_01_TIME);
 		_sequence_timer.Run();
@@ -231,8 +254,10 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 			_sequence_timer.Run();
 			_sequence_step = EXIT_STEP_SCREEN_FADE;
 
-			for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-				_battle->_character_actors[i]->ChangeSpriteAnimation("run");
+			if (!_one_is_dead) {
+				for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
+					_battle->_character_actors[i]->ChangeSpriteAnimation("run");
+				}
 			}
 
 			// Trigger a fade out exit state.
@@ -243,8 +268,9 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 	else if (_sequence_step == EXIT_STEP_SCREEN_FADE) {
 		_sequence_timer.Update();
 
-		for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-			if (_battle->_character_actors[i]->IsAlive() == true) {
+		// Make the character run only if they're all alive.
+		if (!_one_is_dead) {
+			for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
 				_battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() +
 					_sequence_timer.GetTimeExpired());
 			}
@@ -263,7 +289,7 @@ void SequenceSupervisor::_DrawInitialSequence() {
 	if (_sequence_step >= INIT_STEP_BACKGROUND_FADE)
 		_battle->_DrawBackgroundGraphics();
 
-	if (_sequence_step >= INIT_STEP_SPRITE_MOVEMENT)
+	if (_one_is_dead || _sequence_step >= INIT_STEP_SPRITE_MOVEMENT)
 		_battle->_DrawSprites();
 
 	if (_sequence_step >= INIT_STEP_BACKGROUND_FADE)

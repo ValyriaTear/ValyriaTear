@@ -100,7 +100,10 @@ void BattleActor::ResetActor() {
 	ResetAgility();
 	ResetEvade();
 
-	ChangeState(ACTOR_STATE_IDLE);
+	if (GetHitPoints() > 0)
+		ChangeState(ACTOR_STATE_IDLE);
+	else
+		ChangeState(ACTOR_STATE_DEAD);
 }
 
 
@@ -156,7 +159,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state) {
 			break;
 		case ACTOR_STATE_DYING:
 			ChangeSpriteAnimation("dying");
-			_state_timer.Initialize(1500); // TEMP: Default value
+			_state_timer.Initialize(1500); // Default value, overriden for characters
 			_state_timer.Run();
 
 			// Make the battle engine aware of the actor death
@@ -477,8 +480,6 @@ BattleCharacter::BattleCharacter(GlobalCharacter* character) :
 
 void BattleCharacter::ResetActor() {
 	BattleActor::ResetActor();
-
-	_global_character->RetrieveBattleAnimation("idle")->GetCurrentFrame()->DisableGrayScale();
 }
 
 
@@ -512,10 +513,12 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 			// Cancel possible previous actions in progress.
 			if (_action)
 				_action->Cancel();
+			ChangeSpriteAnimation("dying");
+			_state_timer.Initialize(_global_character->RetrieveBattleAnimation("dying")->GetAnimationLength());
+			_state_timer.Run();
 			break;
 		case ACTOR_STATE_DEAD:
 			ChangeSpriteAnimation("dead");
-			_global_character->RetrieveBattleAnimation("dead")->GetCurrentFrame()->EnableGrayScale();
 			break;
 		default:
 			break;

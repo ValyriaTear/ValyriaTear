@@ -15,6 +15,7 @@ function NewGame()
 	GlobalManager:SetDrunes(100);
 	GlobalManager:AddToInventory(1, 4);
 	GlobalManager:AddToInventory(11, 1);
+	GlobalManager:AddToInventory(1003, 1);
 
 	-- Don't forget to set up the initial location name
 	local location_name = "dat/maps/opening_scene.lua";

@@ -80,6 +80,11 @@ private:
 	//! \brief A pointer to the active battle mode instance, retained locally in this class only for convience
 	BattleMode* _battle;
 
+	/** \brief Tells whether at least one character is dead.
+	*** This will avoid making the characters run or come from outside the screen in that case.
+	**/
+	bool _one_is_dead;
+
 	//! \brief Used to represent the state of which "step" we are on in producing a particular sequence
 	uint32 _sequence_step;
 

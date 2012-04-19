@@ -342,6 +342,9 @@ public:
 	uint32 GetNumberOfEnemies() const
 		{ return _enemy_actors.size(); }
 
+	//! \brief Computes whether at least one battle character is dead.
+	bool isOneCharacterDead() const;
+
 	/** \name Battle notification methods
 	*** These methods are called by other battle classes to indicate events such as when an actor
 	*** changes its state. Often BattleMode will respond by updating the state of one or more of its
