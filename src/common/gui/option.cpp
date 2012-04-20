@@ -122,8 +122,6 @@ OptionBox::OptionBox() :
 	_selection(0),
 	_first_selection(-1),
 	_cursor_state(VIDEO_CURSOR_STATE_VISIBLE),
-	_blink(false),
-	_blink_time(0),
 	_scrolling(false),
 	_scroll_time(0),
 	_scroll_direction(0),
@@ -137,9 +135,6 @@ OptionBox::OptionBox() :
 
 void OptionBox::Update(uint32 frame_time) {
 	_event = 0; // Clear all events
-
-	_blink = ((_blink_time / VIDEO_CURSOR_BLINK_RATE) % 2) == 1;
-	_blink_time += frame_time;
 
 	if (_scrolling) {
 		_scroll_time += frame_time;
@@ -229,10 +224,13 @@ void OptionBox::Draw() {
 
 			// Draw the cursor if the previously drawn option was or is selected
 			if ((static_cast<int32>(index) == _selection || static_cast<int32>(index) == _first_selection) &&
-				_cursor_state != VIDEO_CURSOR_STATE_HIDDEN && (_cursor_state != VIDEO_CURSOR_STATE_BLINKING || _blink == true))
+				_cursor_state != VIDEO_CURSOR_STATE_HIDDEN)
 			{
 				// If this option was the first selection, draw it darkened so that it has a different appearance
 				bool darken = (static_cast<int32>(index) == _first_selection) ? true : false;
+				// Also darken when requested
+				if (_cursor_state == VIDEO_CURSOR_STATE_DARKEN)
+					darken = true;
 				_DrawCursor(bounds, _scroll_offset, left_edge, darken);
 			}
 
