@@ -318,7 +318,7 @@ void InventoryWindow::Update() {
 			// Activate the character select for application
 			if (event == VIDEO_OPTION_CONFIRM) {
 				_active_box = ITEM_ACTIVE_CHAR;
-				_inventory_items.SetCursorState(VIDEO_CURSOR_STATE_BLINKING);
+				_inventory_items.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
 				_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 				MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
 			} // if VIDEO_OPTION_CONFIRM
@@ -814,7 +814,7 @@ void SkillsWindow::Update() {
 				if (skill->IsExecutableInField())
 				{
 					_active_box = SKILL_ACTIVE_CHAR_APPLY;
-					_skills_list.SetCursorState(VIDEO_CURSOR_STATE_BLINKING);
+					_skills_list.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
 					_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 					MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
 				}
@@ -1144,7 +1144,7 @@ void EquipWindow::Update() {
 	case EQUIP_ACTIVE_CHAR:
 		if (event == VIDEO_OPTION_CONFIRM) {
 			_active_box = EQUIP_ACTIVE_SELECT;
-			_char_select.SetCursorState(VIDEO_CURSOR_STATE_BLINKING);
+			_char_select.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
 			_equip_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 			MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
 		}
@@ -1509,7 +1509,7 @@ void FormationWindow::Update() {
 		case FORM_ACTIVE_CHAR:
 			if (event == VIDEO_OPTION_CONFIRM) {
 				_active_box = FORM_ACTIVE_SECOND;
-				_char_select.SetCursorState(VIDEO_CURSOR_STATE_BLINKING);
+				_char_select.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
 				_second_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 				MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
 			}

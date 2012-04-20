@@ -26,11 +26,6 @@
 
 namespace hoa_gui {
 
-  //! [phuedx] Should these constants not be in a core settings file?
-
-//! \brief The number of milliseconds that the menu cursor blinks when in the blinking state
-const int32 VIDEO_CURSOR_BLINK_RATE = 40;
-
 //! \brief The number of milliseconds it takes to scroll when the cursor goes past the end of an option box
 const int32 VIDEO_OPTION_SCROLL_TIME = 100;
 
@@ -83,8 +78,8 @@ enum CursorState {
 	VIDEO_CURSOR_STATE_HIDDEN   =  0,
 	//! Shows the cursor next to the selected option
 	VIDEO_CURSOR_STATE_VISIBLE  =  1,
-	//! Causes the cursor to continuously blink
-	VIDEO_CURSOR_STATE_BLINKING =  2,
+	//! Darkens the cursor to show its not the active one when double selecting.
+	VIDEO_CURSOR_STATE_DARKEN   =  2,
 	VIDEO_CURSOR_STATE_TOTAL    =  3
 };
 
@@ -570,12 +565,6 @@ private:
 
 	//! \brief The current cursor state (blinking, visible, hidden, etc)
 	CursorState _cursor_state;
-
-	//! \brief Used for the blinking cursor feature. When false, the cursor will not be drawn.
-	bool _blink;
-
-	//! \brief The timer used for controlling the cursor blinking rate
-	int32 _blink_time;
 
 	//! \brief Set to true if the box is currently in the middle of scrolling
 	bool _scrolling;
