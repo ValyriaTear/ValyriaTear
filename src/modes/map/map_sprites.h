@@ -504,7 +504,7 @@ public:
 		{ Reset(); if (_zone) _zone->EnemyDead(); }
 
 	void ChangeStateSpawning()
-		{ updatable = true; _state = SPAWNING; no_collision = false; }
+		{ updatable = true; _state = SPAWNING; no_collision = true; }
 
 	void ChangeStateHostile()
 		{ updatable = true; _state = HOSTILE; no_collision = false; _color.SetAlpha(1.0); }
