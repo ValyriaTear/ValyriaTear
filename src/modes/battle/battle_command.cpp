@@ -1063,7 +1063,7 @@ void CommandSupervisor::_UpdateActorTarget() {
 		else
 			_target_options.InputUp();
 
-		bool direction = InputManager->UpPress();
+		bool direction = InputManager->DownPress();
 		bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
 
 		if ((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
