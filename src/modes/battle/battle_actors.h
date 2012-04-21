@@ -151,6 +151,11 @@ public:
 	**/
 	void RegisterHealing(uint32 amount, bool hit_points = true);
 
+	/** \brief Heals a dead actor and permits him to go back in shape for the battle.
+	*** \param amount The number of points to add to the actor. Must be > 0.
+	**/
+	void RegisterRevive(uint32 amount);
+
 	/** \brief Indicates that an action failed to connect on this target
 	*** \param was_attacked Tells whether the miss is due to a missed attack
 	*** It will be used to make the actor play a dodge animation.

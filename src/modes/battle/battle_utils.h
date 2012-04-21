@@ -95,8 +95,9 @@ enum ACTOR_STATE {
 	ACTOR_STATE_COOL_DOWN     =  5, //!< Actor is finished with previous action execution and recovering
 	ACTOR_STATE_DYING         =  6, //!< Actor is in the transitive dying state.
 	ACTOR_STATE_DEAD          =  7, //!< Actor has perished and is inactive in battle
-	ACTOR_STATE_PARALYZED     =  8, //!< Actor is in some state of paralysis and can not act nor recover stamina
-	ACTOR_STATE_TOTAL         =  9
+	ACTOR_STATE_REVIVE        =  8, //!< Actor coming back from coma, and in the process to stand up again.
+	ACTOR_STATE_PARALYZED     =  9, //!< Actor is in some state of paralysis and can not act nor recover stamina
+	ACTOR_STATE_TOTAL         =  10
 };
 
 
@@ -526,13 +527,16 @@ public:
 	*** target is valid for their particular circumstances. For example, a revive item is only valid
 	*** to use on a dead actor. Other actions/items may have their own criteria for determining what
 	*** is a valid target.
+	***
+	*** \param permit_dead_targets Tells whether dead or dying target are valid.
 	**/
-	bool IsValid();
+	bool IsValid(bool permit_dead_targets = false);
 
 	/** \brief Changes the target attack point to reference the next available attack point target
 	*** \param user A pointer to the actor which is using this target
 	*** \param direction Tells the method to look either forward or backward (true/false) for the next target
 	*** \param valid_criteria When true the method will only select targets determined to be valid by IsValid()
+	*** \param permit_dead_targets Tells whether dead or dying target are valid.
 	*** \return True if the attack point or actor target was changed, false if no change took place
 	***
 	*** This method should only be invoked when the _type member is equal to one of the "POINT" types.
@@ -544,17 +548,20 @@ public:
 	*** member should be set to false. This will ignore whether or not the target actor is deceased and allow external
 	*** code to determine the validity of the new attack point target itself.
 	**/
-	bool SelectNextPoint(BattleActor* user, bool direction = true, bool valid_criteria = true);
+	bool SelectNextPoint(BattleActor* user, bool direction = true, bool valid_criteria = true,
+						bool permit_dead_targets = false);
 
 	/** \brief Changes the target actor to reference the next available actor
 	*** \param user A pointer to the actor which is using this target
 	*** \param direction Tells the method to look either forward or backward (true/false) for the next target
 	*** \param valid_criteria When true the method will only select actors determined to be valid by IsValid()
+	*** \param permit_dead_targets Tells whether dead or dying target are valid.
 	*** \return True if the _actor member was changed, false if it was not
 	***
 	*** This method should only be called when the target type is not one of the party types.
 	**/
-	bool SelectNextActor(BattleActor* user, bool direction = true, bool valid_criteria = true);
+	bool SelectNextActor(BattleActor* user, bool direction = true, bool valid_criteria = true,
+						bool permit_dead_targets = false);
 
 	/** \brief Retrieves a pointer to the actor of a party at the specified index
 	*** \param index The location in the party container of the actor to retrieves

@@ -271,7 +271,7 @@ items[1003] = {
 	name = hoa_system.Translate("Elixir"),
 	description = hoa_system.Translate("Revive a character, or reduces almost all its ailing status effects if the potion is drunk when alive."),
 	icon = "img/icons/items/potion_red_large.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
 	standard_price = 1600,
 	use_warmup_time = 1600,
 	cooldown_time = 2100,
@@ -282,8 +282,8 @@ items[1003] = {
 			-- TODO: decrement any active negative status effects when alive
 			return false;
 		else
-			-- TODO: When dead, revive the character
-			return false;
+			-- When dead, revive the character
+			target_actor:RegisterRevive(1);
 		end
 		return true;
 	end,

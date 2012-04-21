@@ -86,16 +86,17 @@ const int32 GLOBAL_BAD_EVENT = 0xFFFFFFFF;
 *** and the foe of the enemy is a character.
 **/
 enum GLOBAL_TARGET {
-	GLOBAL_TARGET_INVALID      = -1,
-	GLOBAL_TARGET_SELF_POINT   =  0,
-	GLOBAL_TARGET_ALLY_POINT   =  1, //!< \note This includes allowing the user to target itself
-	GLOBAL_TARGET_FOE_POINT    =  2,
-	GLOBAL_TARGET_SELF         =  3,
-	GLOBAL_TARGET_ALLY         =  4, //!< \note This includes allowing the user to target itself
-	GLOBAL_TARGET_FOE          =  5,
-	GLOBAL_TARGET_ALL_ALLIES   =  6,
-	GLOBAL_TARGET_ALL_FOES     =  7,
-	GLOBAL_TARGET_TOTAL        =  8
+	GLOBAL_TARGET_INVALID        = -1,
+	GLOBAL_TARGET_SELF_POINT     =  0,
+	GLOBAL_TARGET_ALLY_POINT     =  1, //!< \note This includes allowing the user to target itself
+	GLOBAL_TARGET_FOE_POINT      =  2,
+	GLOBAL_TARGET_SELF           =  3,
+	GLOBAL_TARGET_ALLY           =  4, //!< \note This includes allowing the user to target itself
+	GLOBAL_TARGET_ALLY_EVEN_DEAD =  5,
+	GLOBAL_TARGET_FOE            =  6,
+	GLOBAL_TARGET_ALL_ALLIES     =  7,
+	GLOBAL_TARGET_ALL_FOES       =  8,
+	GLOBAL_TARGET_TOTAL          =  9
 };
 
 

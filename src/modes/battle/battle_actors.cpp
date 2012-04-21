@@ -256,6 +256,27 @@ void BattleActor::RegisterHealing(uint32 amount, bool hit_points) {
 }
 
 
+void BattleActor::RegisterRevive(uint32 amount) {
+	if (amount == 0) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << endl;
+		RegisterMiss();
+		return;
+	}
+	if (_state != ACTOR_STATE_DYING && _state != ACTOR_STATE_DEAD) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state wasn't dead" << endl;
+		RegisterMiss();
+		return;
+	}
+
+	AddHitPoints(amount);
+	_indicator_supervisor->AddHealingIndicator(amount, true);
+
+	// Reset the stamina icon position and battle state time to the minimum
+	SetIdleStateTime(MIN_IDLE_WAIT_TIME);
+
+	ChangeState(ACTOR_STATE_REVIVE);
+}
+
 
 void BattleActor::RegisterMiss(bool was_attacked) {
 	_indicator_supervisor->AddMissIndicator();
@@ -310,6 +331,9 @@ void BattleActor::Update(bool animation_only) {
 		}
 		else if (_state == ACTOR_STATE_DYING) {
 			ChangeState(ACTOR_STATE_DEAD);
+		}
+		else if (_state == ACTOR_STATE_REVIVE) {
+			ChangeState(ACTOR_STATE_IDLE);
 		}
 	}
 }
@@ -511,6 +535,11 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 		case ACTOR_STATE_DEAD:
 			ChangeSpriteAnimation("dead");
 			break;
+		case ACTOR_STATE_REVIVE:
+			ChangeSpriteAnimation("revive");
+			_state_timer.Initialize(_global_character->RetrieveBattleAnimation("revive")->GetAnimationLength());
+			_state_timer.Run();
+			break;
 		default:
 			break;
 	}
@@ -529,8 +558,7 @@ void BattleCharacter::Update(bool animation_only) {
 		_animation_timer.Update();
 
 		// Update the active sprite animation
-		if (IsAlive())
-			_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Update();
+		_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Update();
 
 		// Only set the origin when actor are in normal battle mode,
 		// Otherwise the battle sequence manager will take care of them.
@@ -549,6 +577,9 @@ void BattleCharacter::Update(bool animation_only) {
 			// no need to do anything, the change state will handle it
 		}
 		else if (_sprite_animation_alias == "dead") {
+			// no need to do anything
+		}
+		else if (_sprite_animation_alias == "revive") {
 			// no need to do anything
 		}
 		else if (_sprite_animation_alias == "victory") {

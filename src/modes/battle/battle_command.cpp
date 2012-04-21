@@ -198,6 +198,7 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget& target) {
 			break;
 		case GLOBAL_TARGET_ALLY_POINT:
 		case GLOBAL_TARGET_ALLY:
+		case GLOBAL_TARGET_ALLY_EVEN_DEAD:
 			_last_character_target = target;
 			break;
 		case GLOBAL_TARGET_FOE_POINT:
@@ -227,7 +228,8 @@ void CharacterCommandSettings::SetLastSelfTarget(BattleTarget& target) {
 
 
 void CharacterCommandSettings::SetLastCharacterTarget(BattleTarget& target) {
-	if ((target.GetType() != GLOBAL_TARGET_ALLY_POINT) && (target.GetType() != GLOBAL_TARGET_ALLY)) {
+	if ((target.GetType() != GLOBAL_TARGET_ALLY_POINT) && (target.GetType() != GLOBAL_TARGET_ALLY)
+			&& (target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << endl;
 		return;
 	}
@@ -850,15 +852,17 @@ void CommandSupervisor::_SetInitialTarget() {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "no conditions met for invalid target type: " << target_type << endl;
 	}
 
+	bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
+
 	// If the target type is invalid that means that there is no previous target so grab the initial target
 	if (_selected_target.GetType() == GLOBAL_TARGET_INVALID) {
 		_selected_target.SetInitialTarget(user, target_type);
 	}
 	// Otherwise if the last target is no longer valid, select the next valid target
-	else if (_selected_target.IsValid() == false) {
+	else if (!_selected_target.IsValid(permit_dead_targets)) {
 		// Party targets should always be valid and attack points on actors do not disappear, so only the actor
 		// must be invalid
-		if (_selected_target.SelectNextActor(user) == false) {
+		if (!_selected_target.SelectNextActor(user, permit_dead_targets)) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "no valid targets found" << endl;
 		}
 	}
@@ -1059,8 +1063,11 @@ void CommandSupervisor::_UpdateActorTarget() {
 		else
 			_target_options.InputUp();
 
+		bool direction = InputManager->UpPress();
+		bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
+
 		if ((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
-			_selected_target.SelectNextActor(GetCommandCharacter(), InputManager->UpPress());
+			_selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);
 			_CreateActorTargetText();
 			BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
 		}
@@ -1212,7 +1219,8 @@ void CommandSupervisor::_CreateActorTargetText() {
 	else if (IsTargetAlly(_selected_target.GetType()) == true) {
 		for (uint32 i = 0; i < BattleMode::CurrentInstance()->GetCharacterActors().size(); i++) {
 			_target_options.AddOption(BattleMode::CurrentInstance()->GetCharacterActors().at(i)->GetName());
-			if (BattleMode::CurrentInstance()->GetCharacterActors().at(i)->IsAlive() == false) {
+			if (_selected_target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD
+					&& !BattleMode::CurrentInstance()->GetCharacterActors().at(i)->IsAlive()) {
 				_target_options.EnableOption(i, false);
 			}
 		}
