@@ -44,6 +44,28 @@ end
 -- IDs 1 - 1,000 are reserved for healing potions
 --------------------------------------------------------------------------------
 
+function battle_healing_potion(target, hit_points)
+		if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
+			target:RegisterHealing(hit_points, true);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target:RegisterMiss(false);
+		end
+end
+
+-- The return value tells the inventory whether the item was used successfully,
+-- and then whether it can be removed from it.
+function field_healing_potion(target, hit_points)
+	if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
+		target:AddHitPoints(hit_points);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+		return true;
+	else
+		AudioManager:PlaySound("snd/cancel.wav");
+		return false;
+	end
+end
+
 items[1] = {
 	name = hoa_system.Translate("Minor Healing Potion"),
 	description = hoa_system.Translate("Restores a small amount of hit points to an ally."),
@@ -55,21 +77,11 @@ items[1] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(40, true);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_healing_potion(target_actor, 40);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddHitPoints(45);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_healing_potion(target, 45);
 	end
 }
 
@@ -84,21 +96,11 @@ items[2] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(150, true);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_healing_potion(target_actor, 150);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddHitPoints(200);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_healing_potion(target, 200);
 	end
 }
 
@@ -113,21 +115,11 @@ items[3] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(500, true);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_healing_potion(target_actor, 500);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddHitPoints(620);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_healing_potion(target, 620);
 	end
 }
 
@@ -142,25 +134,38 @@ items[4] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(9000, true);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_healing_potion(target_actor, 9000);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddHitPoints(12000);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_healing_potion(target, 12000);
 	end
 }
 
 -- Moon juices : Skill points
+function battle_skill_potion(target, skill_points)
+		if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
+			target:RegisterHealing(hit_points, false);
+			AudioManager:PlaySound("snd/potion_drink.wav");
+		else
+			target:RegisterMiss(false);
+		end
+end
+
+-- The return value tells the inventory whether the item was used successfully,
+-- and then whether it can be removed from it.
+function field_skill_potion(target, skill_points)
+	if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
+		target:AddSkillPoints(skill_points);
+		AudioManager:PlaySound("snd/potion_drink.wav");
+		return true;
+	else
+		AudioManager:PlaySound("snd/cancel.wav");
+		return false;
+	end
+end
+
+
 items[11] = {
 	name = hoa_system.Translate("Small Moon Juice Potion"),
 	description = hoa_system.Translate("Restores a small amount of skill points to an ally."),
@@ -172,21 +177,11 @@ items[11] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(40, false);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_skill_potion(target_actor, 40);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddSkillPoints(45);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_skill_potion(target, 45);
 	end
 }
 
@@ -201,21 +196,11 @@ items[12] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(150, false);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_skill_potion(target_actor, 150);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddSkillPoints(200);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_skill_potion(target, 200);
 	end
 }
 
@@ -230,21 +215,11 @@ items[13] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(300, false);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_skill_potion(target_actor, 300);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddSkillPoints(420);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_skill_potion(target, 420);
 	end
 }
 
@@ -259,21 +234,11 @@ items[13] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		if (target_actor:IsAlive()) then
-			target_actor:RegisterHealing(999, false);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			target_actor:RegisterMiss(false);
-		end
+		battle_skill_potion(target_actor, 999);
 	end,
 
 	FieldUse = function(target)
-		if (target:IsAlive()) then
-			target:AddSkillPoints(1200);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-		else
-			AudioManager:PlaySound("snd/cancel.wav");
-		end
+		return field_skill_potion(target, 1200);
 	end
 }
 
@@ -309,11 +274,12 @@ items[1003] = {
 	FieldUse = function(target)
 		if (target:GetHitPoints() > 0) then
 			-- TODO: decrement any active negative status effects when alive
-
+			return false;
 		else
 			-- When dead, revive the character
 			target:SetHitPoints(1);
 		end
+		return true;
 	end
 }
 

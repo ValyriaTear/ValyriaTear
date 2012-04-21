@@ -341,6 +341,8 @@ void InventoryWindow::Update() {
 			if (event == VIDEO_OPTION_CONFIRM) {
 				GlobalObject* obj = _item_objects[ _inventory_items.GetSelection() ];
 				if (obj->GetObjectType() == GLOBAL_OBJECT_ITEM) {
+					// Returns an item object, already removed from inventory.
+					// Don't forget to readd the item if not used, or to delete the pointer.
 					GlobalItem *item = (GlobalItem*)GlobalManager->RetrieveFromInventory(obj->GetID());
 					const ScriptObject* script_function = item->GetFieldUseFunction();
 					if (script_function == NULL) {
@@ -349,13 +351,21 @@ void InventoryWindow::Update() {
 					else {
 						if (IsTargetParty(item->GetTargetType()) == true) {
 							GlobalParty *ch_party = GlobalManager->GetActiveParty();
-							ScriptCallFunction<void>(*script_function, ch_party);
-							item->DecrementCount();
+
+							// If the item use failed, we readd it to inventory.
+							if (!ScriptCallFunction<bool>(*script_function, ch_party))
+								GlobalManager->AddToInventory(item);
+							else // delete the item instance when succeeded.
+								delete item;
 						} // if GLOBAL_TARGET_PARTY
 						else { // Use on a single character only
 							GlobalCharacter *ch = dynamic_cast<GlobalCharacter*>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
-							ScriptCallFunction<void>(*script_function, ch);
-							item->DecrementCount();
+
+							// If the item use failed, we readd it to inventory.
+							if (!ScriptCallFunction<bool>(*script_function, ch))
+								GlobalManager->AddToInventory(item);
+							else // delete the item instance when succeeded.
+								delete item;
 						}
 					}
 				} // if GLOBAL_OBJECT_ITEM
