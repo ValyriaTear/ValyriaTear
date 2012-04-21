@@ -383,6 +383,7 @@ ShopObjectViewer::ShopObjectViewer() :
 	_target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_FOE_POINT), TextStyle("text22")));
 	_target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_SELF), TextStyle("text22")));
 	_target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALLY), TextStyle("text22")));
+	_target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALLY_EVEN_DEAD), TextStyle("text22")));
 	_target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_FOE), TextStyle("text22")));
 	_target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_ALLIES), TextStyle("text22")));
 	_target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_FOES), TextStyle("text22")));

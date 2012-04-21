@@ -43,6 +43,7 @@ string GetTargetText(GLOBAL_TARGET target) {
 		case GLOBAL_TARGET_SELF:
 			return Translate("Self");
 		case GLOBAL_TARGET_ALLY:
+		case GLOBAL_TARGET_ALLY_EVEN_DEAD:
 			return Translate("Ally");
 		case GLOBAL_TARGET_FOE:
 			return Translate("Foe");
@@ -67,7 +68,8 @@ bool IsTargetPoint(GLOBAL_TARGET target) {
 
 
 bool IsTargetActor(GLOBAL_TARGET target) {
-	if ((target == GLOBAL_TARGET_SELF) || (target == GLOBAL_TARGET_ALLY) || (target == GLOBAL_TARGET_FOE))
+	if ((target == GLOBAL_TARGET_SELF) || (target == GLOBAL_TARGET_ALLY) || (target == GLOBAL_TARGET_FOE)
+			|| (target == GLOBAL_TARGET_ALLY_EVEN_DEAD))
 		return true;
 	else
 		return false;
@@ -94,7 +96,8 @@ bool IsTargetSelf(GLOBAL_TARGET target) {
 
 
 bool IsTargetAlly(GLOBAL_TARGET target) {
-	if ((target == GLOBAL_TARGET_ALLY_POINT) || (target == GLOBAL_TARGET_ALLY) || (target == GLOBAL_TARGET_ALL_ALLIES))
+	if ((target == GLOBAL_TARGET_ALLY_POINT) || (target == GLOBAL_TARGET_ALLY) || (target == GLOBAL_TARGET_ALL_ALLIES)
+			|| (target == GLOBAL_TARGET_ALLY_EVEN_DEAD))
 		return true;
 	else
 		return false;

@@ -606,6 +606,7 @@ void BindModeCode() {
 			.def("RegisterDamage", (void(BattleActor::*)(uint32)) &BattleActor::RegisterDamage)
 			.def("RegisterDamage", (void(BattleActor::*)(uint32, BattleTarget*)) &BattleActor::RegisterDamage)
 			.def("RegisterHealing", &BattleActor::RegisterHealing)
+			.def("RegisterRevive", &BattleActor::RegisterRevive)
 			.def("RegisterMiss", &BattleActor::RegisterMiss)
 			.def("RegisterStatusChange", &BattleActor::RegisterStatusChange)
 			.def("ResetHitPoints", &BattleActor::ResetHitPoints)

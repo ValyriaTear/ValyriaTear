@@ -262,6 +262,7 @@ StillImage* BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type
 		case GLOBAL_TARGET_SELF:
 			return &_target_type_icons[3];
 		case GLOBAL_TARGET_ALLY:
+		case GLOBAL_TARGET_ALLY_EVEN_DEAD:
 			return &_target_type_icons[4];
 		case GLOBAL_TARGET_FOE:
 			return &_target_type_icons[5];
@@ -532,8 +533,7 @@ void BattleMode::Update() {
 
 
 void BattleMode::Draw() {
-	// Restore correct display metrics
-	// Remove me once the particle manager is using the same ones
+	// Use custom display metrics
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
@@ -550,8 +550,7 @@ void BattleMode::Draw() {
 }
 
 void BattleMode::DrawPostEffects() {
-	// Restore correct display metrics
-	// Remove me once the particle manager is using the same ones
+	// Use custom display metrics
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {

@@ -622,7 +622,8 @@ void BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 
 	// Determine what party the initial target will exist in
 	deque<BattleActor*>* target_party;
-	if ((type == GLOBAL_TARGET_ALLY_POINT) || (type == GLOBAL_TARGET_ALLY) || (type == GLOBAL_TARGET_ALL_ALLIES)) {
+	if ((type == GLOBAL_TARGET_ALLY_POINT) || (type == GLOBAL_TARGET_ALLY) || (type == GLOBAL_TARGET_ALL_ALLIES)
+			|| (type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
 		if (user->IsEnemy() == false)
 			target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
 		else
@@ -647,6 +648,7 @@ void BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 		case GLOBAL_TARGET_ALLY_POINT:
 		case GLOBAL_TARGET_FOE_POINT:
 		case GLOBAL_TARGET_ALLY:
+		case GLOBAL_TARGET_ALLY_EVEN_DEAD:
 		case GLOBAL_TARGET_FOE:
 			_actor = target_party->at(0);
 			break;
@@ -734,17 +736,16 @@ void BattleTarget::SetPartyTarget(GLOBAL_TARGET type, deque<BattleActor*>* party
 }
 
 
-
-bool BattleTarget::IsValid() {
+bool BattleTarget::IsValid(bool permit_dead_targets) {
 	if (IsTargetPoint(_type) == true) {
 		if (_actor == NULL)
 			return false;
 		else if (_point >= _actor->GetAttackPoints().size())
 			return false;
 		else if (_actor->IsAlive() == false)
-			return false;
+			return permit_dead_targets;
 		else if (_actor->GetState() == ACTOR_STATE_DYING)
-			return false;
+			return permit_dead_targets;
 		else
 			return true;
 	}
@@ -752,9 +753,9 @@ bool BattleTarget::IsValid() {
 		if (_actor == NULL)
 			return false;
 		else if (_actor->IsAlive() == false)
-			return false;
+			return permit_dead_targets;
 		else if (_actor->GetState() == ACTOR_STATE_DYING)
-			return false;
+			return permit_dead_targets;
 		else
 			return true;
 	}
@@ -772,7 +773,8 @@ bool BattleTarget::IsValid() {
 
 
 
-bool BattleTarget::SelectNextPoint(BattleActor* user, bool direction, bool valid_criteria) {
+bool BattleTarget::SelectNextPoint(BattleActor* user, bool direction, bool valid_criteria,
+									bool permit_dead_targets) {
 	if (user == NULL) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
 		return false;
@@ -787,9 +789,9 @@ bool BattleTarget::SelectNextPoint(BattleActor* user, bool direction, bool valid
 	}
 
 	// First check for the case where we need to select a new actor
-	if (valid_criteria == true && IsValid() == false) {
+	if (valid_criteria && !IsValid(permit_dead_targets)) {
 		_point = 0;
-		return SelectNextActor(user, direction, valid_criteria);
+		return SelectNextActor(user, direction, valid_criteria, permit_dead_targets);
 	}
 
 	// If the actor has only a single attack point, there's no way to select another attack point
@@ -814,7 +816,8 @@ bool BattleTarget::SelectNextPoint(BattleActor* user, bool direction, bool valid
 
 
 
-bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid_criteria) {
+bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid_criteria,
+									bool permit_dead_targets) {
 	if (user == NULL) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
 		return false;
@@ -833,7 +836,8 @@ bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid
 	if ((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_SELF)) {
 		return false; // Self type targets do not have multiple actors to select from
 	}
-	else if ((_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_ALLY)) {
+	else if ((_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_ALLY)
+			|| (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
 		if (user->IsEnemy() == false)
 			target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
 		else
@@ -897,7 +901,7 @@ bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid
 		if (valid_criteria == false) {
 			return true;
 		}
-		else if (IsValid() == true){
+		else if (IsValid(permit_dead_targets)){
 			return true;
 		}
 	}
@@ -923,7 +927,8 @@ ustring BattleTarget::GetName() {
 	if ((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_FOE_POINT)) {
 		return (_actor->GetName() + UTranslate(" — ") + (_actor->GetAttackPoints()).at(_point)->GetName());
 	}
-	else if ((_type == GLOBAL_TARGET_SELF) || (_type == GLOBAL_TARGET_ALLY) || (_type == GLOBAL_TARGET_FOE)) {
+	else if ((_type == GLOBAL_TARGET_SELF) || (_type == GLOBAL_TARGET_ALLY) || (_type == GLOBAL_TARGET_FOE)
+			|| (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
 		return _actor->GetName();
 	}
 	else if (_type == GLOBAL_TARGET_ALL_ALLIES) {
