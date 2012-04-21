@@ -48,8 +48,10 @@ function battle_healing_potion(target, hit_points)
 		if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
 			target:RegisterHealing(hit_points, true);
 			AudioManager:PlaySound("snd/potion_drink.wav");
+			return true;
 		else
 			target:RegisterMiss(false);
+			return false;
 		end
 end
 
@@ -77,7 +79,7 @@ items[1] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_healing_potion(target_actor, 40);
+		return battle_healing_potion(target_actor, 40);
 	end,
 
 	FieldUse = function(target)
@@ -96,7 +98,7 @@ items[2] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_healing_potion(target_actor, 150);
+		return battle_healing_potion(target_actor, 150);
 	end,
 
 	FieldUse = function(target)
@@ -115,7 +117,7 @@ items[3] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_healing_potion(target_actor, 500);
+		return battle_healing_potion(target_actor, 500);
 	end,
 
 	FieldUse = function(target)
@@ -134,7 +136,7 @@ items[4] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_healing_potion(target_actor, 9000);
+		return battle_healing_potion(target_actor, 9000);
 	end,
 
 	FieldUse = function(target)
@@ -147,8 +149,10 @@ function battle_skill_potion(target, skill_points)
 		if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
 			target:RegisterHealing(hit_points, false);
 			AudioManager:PlaySound("snd/potion_drink.wav");
+			return true;
 		else
 			target:RegisterMiss(false);
+			return false;
 		end
 end
 
@@ -177,7 +181,7 @@ items[11] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_skill_potion(target_actor, 40);
+		return battle_skill_potion(target_actor, 40);
 	end,
 
 	FieldUse = function(target)
@@ -196,7 +200,7 @@ items[12] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_skill_potion(target_actor, 150);
+		return battle_skill_potion(target_actor, 150);
 	end,
 
 	FieldUse = function(target)
@@ -215,7 +219,7 @@ items[13] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_skill_potion(target_actor, 300);
+		return battle_skill_potion(target_actor, 300);
 	end,
 
 	FieldUse = function(target)
@@ -234,7 +238,7 @@ items[13] = {
 
     BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		battle_skill_potion(target_actor, 999);
+		return battle_skill_potion(target_actor, 999);
 	end,
 
 	FieldUse = function(target)
@@ -259,6 +263,7 @@ items[1001] = {
 		target_actor = target:GetActor();
 		-- TODO: decrement any active negative status effects
 		AudioManager:PlaySound("snd/potion_drink.wav");
+		return false;
 	end
 }
 
@@ -270,6 +275,18 @@ items[1003] = {
 	standard_price = 1600,
 	use_warmup_time = 1600,
 	cooldown_time = 2100,
+
+	BattleUse = function(user, target)
+		target_actor = target:GetActor();
+		if (target_actor:GetHitPoints() > 0) then
+			-- TODO: decrement any active negative status effects when alive
+			return false;
+		else
+			-- TODO: When dead, revive the character
+			return false;
+		end
+		return true;
+	end,
 
 	FieldUse = function(target)
 		if (target:GetHitPoints() > 0) then
