@@ -194,22 +194,23 @@ bool ItemAction::Execute() {
 	// step.
 
 	const ScriptObject* script_function = _item->GetItem().GetBattleUseFunction();
+	bool ret = false;
 	if (script_function == NULL) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << endl;
 	}
 
 	try {
-		ScriptCallFunction<void>(*script_function, _actor, _target); }
+		ret = ScriptCallFunction<bool>(*script_function, _actor, _target); }
 	catch (luabind::error err) {
 		ScriptManager->HandleLuaError(err);
-
-		// Cancel item action.
-		Cancel();
-
-		return false;
+		ret = false;
 	}
 
-	return true;
+	// Cancel item action when failed.
+	if (!ret)
+		Cancel();
+
+	return ret;
 }
 
 void ItemAction::Cancel() {
