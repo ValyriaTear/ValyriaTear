@@ -213,6 +213,39 @@ void Editor::_ScriptMenuSetup() {
 }
 
 
+void Editor::SetupMainView() {
+	if (_ed_tabs != NULL)
+		delete _ed_tabs;
+	_ed_tabs = new QTabWidget();
+	_ed_tabs->setTabPosition(QTabWidget::South);
+
+	if (_ed_layer_view != NULL)
+		delete _ed_layer_view;
+	_ed_layer_view = new QTreeWidget();
+
+	connect(_ed_layer_view,
+		SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
+		this, SLOT(_UpdateSelectedLayer(QTreeWidgetItem *)));
+
+	_ed_layer_view->setColumnCount(2);
+
+	QStringList headers;
+	headers << "id" << tr("Layer") << tr("Type");
+	_ed_layer_view->setHeaderLabels(headers);
+	// Hide the id column as we'll only use it internally
+	_ed_layer_view->setColumnHidden(0, true);
+
+	// Left of the screen
+	_ed_splitter->addWidget(_ed_scrollview);
+
+	// right part
+	_ed_tileset_layer_splitter->addWidget(_ed_layer_view);
+	_ed_tileset_layer_splitter->addWidget(_ed_tabs);
+
+	_ed_splitter->addWidget(_ed_tileset_layer_splitter);
+}
+
+
 
 void Editor::_FileNew() {
 	if (_EraseOK()) {
@@ -224,35 +257,7 @@ void Editor::_FileNew() {
 				delete _ed_scrollview;
 			_ed_scrollview = new EditorScrollView(NULL, "map", new_map->GetWidth(), new_map->GetHeight());
 
-			if (_ed_tabs != NULL)
-				delete _ed_tabs;
-			_ed_tabs = new QTabWidget();
-			_ed_tabs->setTabPosition(QTabWidget::South);
-
-			if (_ed_layer_view != NULL)
-				delete _ed_layer_view;
-			_ed_layer_view = new QTreeWidget();
-
-			connect(_ed_layer_view,
-				SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-				this, SLOT(_UpdateSelectedLayer(QTreeWidgetItem *)));
-
-			_ed_layer_view->setColumnCount(2);
-
-			QStringList headers;
-			headers << "id" << tr("Layer") << tr("Type");
-			_ed_layer_view->setHeaderLabels(headers);
-			// Hide the id column as we'll only use it internally
-			_ed_layer_view->setColumnHidden(0, true);
-
-			// Left of the screen
-			_ed_splitter->addWidget(_ed_scrollview);
-
-			// right part
-			_ed_tileset_layer_splitter->addWidget(_ed_layer_view);
-			_ed_tileset_layer_splitter->addWidget(_ed_tabs);
-
-			_ed_splitter->addWidget(_ed_tileset_layer_splitter);
+			SetupMainView();
 
 			QTreeWidget* tilesets = new_map->GetTilesetTree();
 			int num_items     = tilesets->topLevelItemCount();
@@ -381,35 +386,7 @@ void Editor::_FileOpen() {
 				delete _ed_scrollview;
 			_ed_scrollview = new EditorScrollView(NULL, "map", 0, 0);
 
-			if (_ed_tabs != NULL)
-				delete _ed_tabs;
-			_ed_tabs = new QTabWidget();
-			_ed_tabs->setTabPosition(QTabWidget::South);
-
-			if (_ed_layer_view != NULL)
-				delete _ed_layer_view;
-			_ed_layer_view = new QTreeWidget();
-
-			connect(_ed_layer_view,
-				SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-				this, SLOT(_UpdateSelectedLayer(QTreeWidgetItem *)));
-
-			_ed_layer_view->setColumnCount(2);
-
-			QStringList headers;
-			headers << "id" << tr("Layer") << tr("Type");
-			_ed_layer_view->setHeaderLabels(headers);
-			// Hide the id column as we'll only use it internally
-			_ed_layer_view->setColumnHidden(0, true);
-
-			// Left of the screen
-			_ed_splitter->addWidget(_ed_scrollview);
-
-			// right part
-			_ed_tileset_layer_splitter->addWidget(_ed_layer_view);
-			_ed_tileset_layer_splitter->addWidget(_ed_tabs);
-
-			_ed_splitter->addWidget(_ed_tileset_layer_splitter);
+			SetupMainView();
 
 			_ed_scrollview->_map->SetFileName(file_name);
 			_ed_scrollview->_map->LoadMap();
