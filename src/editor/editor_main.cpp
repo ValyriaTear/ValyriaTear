@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 	hoa_defs::BindCommonCode();
 
 	Editor* editor = new Editor();
-	editor->setCaption("Level Editor");
+	editor->setCaption("Map Editor");
 	app.setMainWidget(editor);
 	editor->show();
 

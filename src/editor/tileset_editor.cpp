@@ -199,13 +199,13 @@ TilesetEditor::~TilesetEditor()
 void TilesetEditor::_NewFile()
 {
 	// Get the filename to open through the OpenFileName dialog
-	QString filename = QFileDialog::getOpenFileName(this, "HoA Level Editor -- File Open",
+	QString filename = QFileDialog::getOpenFileName(this, "Map Editor -- File Open",
 		"img/tilesets", "Tileset Images (*.png)");
 
 	if (!filename.isEmpty())
 	{
 		if (QFile::exists(Tileset::CreateDataFilename(Tileset::CreateTilesetName(filename)))) {
-			int response = QMessageBox::question(this, tr("HoA Level Editor"),
+			int response = QMessageBox::question(this, tr("Map Editor"),
 				tr("There already exists a data file that corresponds to this tileset image. "
 				"Executing a save operation will overwrite all data in this file. "
 				"Do you wish to continue anyway?"),
@@ -218,7 +218,7 @@ void TilesetEditor::_NewFile()
 		}
 
 		if (_tset_display->tileset->New(filename, true) == false)
-			QMessageBox::warning(this, tr("HoA Level Editor"),
+			QMessageBox::warning(this, tr("Map Editor"),
 				tr("Failed to create new tileset."));
 
 		_tset_display->updateGL();
@@ -230,7 +230,7 @@ void TilesetEditor::_NewFile()
 void TilesetEditor::_OpenFile()
 {
 	// Get the filename to open through the OpenFileName dialog
-	QString file_name = QFileDialog::getOpenFileName(this, "HoA Level Editor -- File Open",
+	QString file_name = QFileDialog::getOpenFileName(this, "Map Editor -- File Open",
 		"dat/tilesets", "Tilesets (*.lua)");
 
 	if (!file_name.isEmpty())
@@ -242,7 +242,7 @@ void TilesetEditor::_OpenFile()
 		file_name.chop(4);
 
 		if (_tset_display->tileset->Load(file_name, true) == false)
-			QMessageBox::warning(this, tr("HoA Level Editor"),
+			QMessageBox::warning(this, tr("Map Editor"),
 				tr("Failed to load existing tileset."));
 
 		_tset_display->updateGL();
@@ -255,7 +255,7 @@ void TilesetEditor::_SaveFile()
 	// Data must exist in order to save it
 	if (_tset_display->tileset->IsInitialized())
 		if (_tset_display->tileset->Save() == false)
-			QMessageBox::warning(this, tr("HoA Level Editor"),
+			QMessageBox::warning(this, tr("Map Editor"),
 				tr("Failed to save data to tileset definition file."));
 }
 

@@ -284,7 +284,7 @@ void Editor::_FileNew() {
                     {
                         const std::string mes = "Failed to load tileset image: "
                             + tilesets->topLevelItem(i)->text(0).toStdString();
-						QMessageBox::critical(this, tr("Level Editor"),
+						QMessageBox::critical(this, tr("Map Editor"),
 							tr(mes.c_str()));
                     }
 					_ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
@@ -372,7 +372,7 @@ void Editor::_FileOpen() {
 	if (_EraseOK())
 	{
 		// file to open
-		QString file_name = QFileDialog::getOpenFileName(this, tr("Level Editor -- File Open"),
+		QString file_name = QFileDialog::getOpenFileName(this, tr("Map Editor -- File Open"),
 			"dat/maps", "Maps (*.lua)");
 
 		if (!file_name.isEmpty())
@@ -447,7 +447,7 @@ void Editor::_FileOpen() {
                 {
                     const std::string mes = tr("Failed to load tileset image: ").toStdString()
                         + (*it).toStdString();
-					QMessageBox::critical(this, tr("Level Editor"),
+					QMessageBox::critical(this, tr("Map Editor"),
 						tr(mes.c_str()));
                 }
 
@@ -503,7 +503,7 @@ void Editor::_FileOpen() {
 			statusBar()->showMessage(QString(tr("Opened \'%1\'")).
 				arg(_ed_scrollview->_map->GetFileName()), 5000);
 
-			setWindowTitle(QString("Level Editor - ") + _ed_scrollview->_map->GetFileName());
+			setWindowTitle(QString("Map Editor - ") + _ed_scrollview->_map->GetFileName());
 		} // file must exist in order to open it
 		else
 			statusBar()->showMessage(tr("No map created!"), 5000);
@@ -515,13 +515,13 @@ void Editor::_FileOpen() {
 void Editor::_FileSaveAs() {
 	// get the file name from the user
 	QString file_name = QFileDialog::getSaveFileName(this,
-		tr("Level Editor -- File Save"), "dat/maps", "Maps (*.lua)");
+		tr("Map Editor -- File Save"), "dat/maps", "Maps (*.lua)");
 
 	if (!file_name.isEmpty())
 	{
 		_ed_scrollview->_map->SetFileName(file_name);
 		_FileSave();
-		setWindowTitle(QString("Level Editor - ") + _ed_scrollview->_map->GetFileName());
+		setWindowTitle(QString("Map Editor - ") + _ed_scrollview->_map->GetFileName());
 		return;
     } // make sure the file name is not blank
 
@@ -574,7 +574,7 @@ void Editor::_FileClose() {
 			_ed_tabs = NULL;
 		} // tabs must exist first
 
-		setWindowTitle(tr("Level Editor"));
+		setWindowTitle(tr("Map Editor"));
 	} // make sure an unsaved map is not lost
 }
 
@@ -1044,8 +1044,8 @@ void Editor::_HelpHelp() {
 
 
 void Editor::_HelpAbout() {
-    QMessageBox::about(this, tr("Level Editor -- About"),
-		tr("<center><h1><font color=blue>Level Editor<font>"
+    QMessageBox::about(this, tr("Map Editor -- About"),
+		tr("<center><h1><font color=blue>Map Editor<font>"
 		"</h1></center>"
 		"<center><h2><font color=blue>Copyright (c) 2004-2010<font></h2></center>"
 		"<p>A level editor created for the Hero of Allacrost project. "
@@ -1055,7 +1055,7 @@ void Editor::_HelpAbout() {
 
 
 void Editor::_HelpAboutQt() {
-    QMessageBox::aboutQt(this, tr("Level Editor -- About Qt"));
+    QMessageBox::aboutQt(this, tr("Map Editor -- About Qt"));
 }
 
 
