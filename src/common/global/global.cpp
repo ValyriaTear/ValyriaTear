@@ -638,11 +638,11 @@ uint32 GameGlobal::GetNumberEvents(const string& group_name) const {
 // GameGlobal class - Other Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-void GameGlobal::SetLocation(const ustring& location_name, const string& location_graphic_filename) {
-	_location_name = location_name;
+void GameGlobal::SetMap(const std::string& map_filename, const std::string& map_image_filename) {
+	_map_filename = map_filename;
 
-	if (_location_graphic.Load(location_graphic_filename) == false)
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load location graphic: " << location_graphic_filename << endl;
+	if (_map_image.Load(map_image_filename) == false)
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load map image: " << map_image_filename << endl;
 }
 
 
@@ -662,7 +662,7 @@ bool GameGlobal::SaveGame(const string& filename, uint32 x_position, uint32 y_po
 
 	// Save simple play data
 	file.InsertNewLine();
-	file.WriteString("location_name", MakeStandardString(_location_name));
+	file.WriteString("map_filename", _map_filename);
 	//! \note Coords are in map tiles
 	file.WriteUInt("location_x", x_position);
 	file.WriteUInt("location_y", y_position);
@@ -745,7 +745,7 @@ bool GameGlobal::LoadGame(const string& filename) {
 	_battle_setting = static_cast<GLOBAL_BATTLE_SETTING>(file.ReadInt("battle_setting"));
 
 	// Load play data
-	_location_name = MakeUnicodeString(file.ReadString("location_name"));
+	_map_filename = file.ReadString("map_filename");
 	// Load a potential saved position
 	_x_save_map_position = file.ReadUInt("location_x");
 	_y_save_map_position = file.ReadUInt("location_y");

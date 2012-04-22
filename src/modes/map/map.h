@@ -221,8 +221,8 @@ public:
 	const hoa_video::AnimatedImage& GetDialogueIcon() const
 		{ return _dialogue_icon; }
 
-	const hoa_video::StillImage& GetLocationGraphic() const
-		{ return _location_graphic; }
+	const hoa_video::StillImage& GetMapImage() const
+		{ return _map_image; }
 
 	//! \brief Tells whether a battle can start
     bool AttackAllowed();
@@ -349,7 +349,7 @@ private:
 	hoa_system::SystemTimer _intro_timer;
 
 	//! \brief Freestyle art image of the current map
-	hoa_video::StillImage _location_graphic;
+	hoa_video::StillImage _map_image;
 
 	//! \brief An icon graphic which appears over the heads of NPCs who have dialogue that has not been read by the player
 	hoa_video::AnimatedImage _dialogue_icon;

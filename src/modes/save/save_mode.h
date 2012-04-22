@@ -112,9 +112,6 @@ private:
 	//! \brief Current state of SaveMode
 	uint8 _current_state;
 
-	//! \brief Current location for highlighted saved game
-	hoa_utils::ustring _location_name;
-
 	//! \brief A screen capture of the last frame rendered on the screen before SaveMode was invoked
 	hoa_video::StillImage _screen_capture;
 
@@ -134,7 +131,7 @@ private:
 	hoa_gui::TextBox _save_failure_message;
 
 	//! \brief Displays preview info for highlighted game
-	hoa_gui::TextBox _location_name_textbox;
+	hoa_gui::TextBox _map_name_textbox;
 	hoa_gui::TextBox _time_textbox;
 	hoa_gui::TextBox _drunes_textbox;
 

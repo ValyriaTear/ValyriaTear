@@ -63,8 +63,6 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 	_y_position(y_position),
 	_save_mode(save_mode)
 {
-	_location_name = MakeUnicodeString("");
-
 	mode_type = MODE_MANAGER_SAVE_MODE;
 
 	_window.Create(600.0f, 500.0f);
@@ -150,12 +148,12 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 	_save_failure_message.SetDisplayText(UTranslate("Unable to save game!\nSave FAILED!"));
 
 	// Initialize the save preview text boxes
-	_location_name_textbox.SetPosition(600.0f, 215.0f);
-	_location_name_textbox.SetDimensions(250.0f, 26.0f);
-	_location_name_textbox.SetTextStyle(TextStyle("title22"));
-	_location_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_location_name_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-	_location_name_textbox.SetDisplayText(" ");
+	_map_name_textbox.SetPosition(600.0f, 215.0f);
+	_map_name_textbox.SetDimensions(250.0f, 26.0f);
+	_map_name_textbox.SetTextStyle(TextStyle("title22"));
+	_map_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+	_map_name_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+	_map_name_textbox.SetDisplayText(" ");
 
 	_time_textbox.SetPosition(600.0f, 185.0f);
 	_time_textbox.SetDimensions(250.0f, 26.0f);
@@ -293,7 +291,7 @@ void SaveMode::Update() {
 					_PreviewGame( _file_list.GetSelection() );
 				}
 				else {
-					_location_name_textbox.SetDisplayText(" ");
+					_map_name_textbox.SetDisplayText(" ");
 					_time_textbox.SetDisplayText(" ");
 					_drunes_textbox.SetDisplayText(" ");
 				}
@@ -350,7 +348,7 @@ void SaveMode::DrawPostEffects() {
 				}
 			}
 			_file_list.Draw();
-			_location_name_textbox.Draw();
+			_map_name_textbox.Draw();
 			_time_textbox.Draw();
 			_drunes_textbox.Draw();
 			break;
@@ -383,10 +381,10 @@ bool SaveMode::_LoadGame(int id) {
 		// Create a new map mode, and fade out and in
 		ModeManager->PopAll();
         try {
-            MapMode *MM = new MapMode(MakeStandardString(GlobalManager->GetLocationName()));
+            MapMode *MM = new MapMode(GlobalManager->GetMapFilename());
             ModeManager->Push(MM, true, true);
         } catch (luabind::error e) {
-            PRINT_ERROR << "Map::_Load -- Error loading map " << MakeStandardString(GlobalManager->GetLocationName()) << ", returning to BootMode." << endl;
+            PRINT_ERROR << "Map::_Load -- Error loading map " << GlobalManager->GetMapFilename() << ", returning to BootMode." << endl;
             cerr << "Exception message:" << endl;
             ScriptManager->HandleLuaError(e);
             ModeManager->Push(new BootMode(), true, true);
@@ -409,7 +407,7 @@ bool SaveMode::_PreviewGame(int id) {
 	ReadScriptDescriptor file, map_file;
 
 	if (file.OpenFile(filename, true) == false) {
-		_location_name_textbox.SetDisplayText("No Data");
+		_map_name_textbox.SetDisplayText("No Data");
 		_time_textbox.SetDisplayText(" ");
 		_drunes_textbox.SetDisplayText(" ");
 		for (uint32 i = 0; i < 4; i++) {
@@ -421,7 +419,7 @@ bool SaveMode::_PreviewGame(int id) {
 	// open the namespace that the save game is encapsulated in.
 	file.OpenTable("save_game1");
 
-	string location_filename = file.ReadString("location_name");
+	std::string map_filename = file.ReadString("map_filename");
 
 	// using ints to store temp data to populate text boxes
 	int hours, minutes, seconds, drunes;
@@ -469,19 +467,18 @@ bool SaveMode::_PreviewGame(int id) {
 	file.CloseFile();
 
 	// Load map file to get location name
-	if (map_file.OpenFile(location_filename) == false) {
+	if (!map_file.OpenFile(map_filename))
 		return false;
-	}
 
 	// Determine the map's tablespacename and then open it. The tablespace is the name of the map file without
 	// file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
-	int32 period = location_filename.find(".");
-	int32 last_slash = location_filename.find_last_of("/");
-	string map_tablespace = location_filename.substr(last_slash + 1, period - (last_slash + 1));
+	int32 period = map_filename.find(".");
+	int32 last_slash = map_filename.find_last_of("/");
+	string map_tablespace = map_filename.substr(last_slash + 1, period - (last_slash + 1));
 	map_file.OpenTable(map_tablespace);
 
 	// Read the name of the map
-	ustring location_name = MakeUnicodeString(map_file.ReadString("map_name"));
+	ustring map_name = MakeUnicodeString(map_file.ReadString("map_name"));
 
 	map_file.CloseTable();
 	map_file.CloseFile();
@@ -491,7 +488,7 @@ bool SaveMode::_PreviewGame(int id) {
 		_character_window[i].SetCharacter(character[i]);
 	}
 
-	_location_name_textbox.SetDisplayText(location_name);
+	_map_name_textbox.SetDisplayText(map_name);
 
 	std::ostringstream time_text;
 	time_text << "Time - ";

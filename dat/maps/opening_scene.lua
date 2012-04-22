@@ -5,7 +5,7 @@ setfenv(1, ns);
 
 -- The map name and location graphic
 map_name = " "
-location_filename = "blank.png"
+map_image_filename = ""
 
 context_inherits = {0}
 
