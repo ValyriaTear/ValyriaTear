@@ -6,7 +6,7 @@ local_chest_counter = 500;
 
 -- The map name and location graphic
 map_name = "Harrvah City"
-location_filename = "blank.png"
+map_image_filename = ""
 
 context_inherits = {0, 0, 0}
 

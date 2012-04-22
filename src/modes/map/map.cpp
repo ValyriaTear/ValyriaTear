@@ -184,7 +184,7 @@ void MapMode::Reset() {
 	MapMode::_current_instance = this;
 
 	// Make the map location known globally to other code that may need to know this information
-	GlobalManager->SetLocation(MakeUnicodeString(_map_filename), _location_graphic.GetFilename());
+	GlobalManager->SetMap(_map_filename, _map_image.GetFilename());
 
 	if (_music.size() > _current_track && _music[_current_track].GetState() != AUDIO_STATE_PLAYING) {
 		_music[_current_track].Play();
@@ -443,9 +443,9 @@ void MapMode::_Load() {
 	// Read the number of map contexts, the name of the map, and load the location graphic image
 	_num_map_contexts = _map_script.ReadUInt("num_map_contexts");
 	_map_name = MakeUnicodeString(_map_script.ReadString("map_name"));
-	if (_location_graphic.Load("img/menus/locations/" + _map_script.ReadString("location_filename")) == false) {
-		PRINT_ERROR << "failed to load location graphic image: " << _location_graphic.GetFilename() << endl;
-	}
+	std::string map_filename = _map_script.ReadString("map_image_filename");
+	if (!map_filename.empty() && !_map_image.Load(_map_script.ReadString("map_image_filename")))
+		PRINT_ERROR << "failed to load location graphic image: " << _map_image.GetFilename() << endl;
 
 	// Instruct the supervisor classes to perform their portion of the load operation
 	if (!_tile_supervisor->Load(_map_script, this)) {
@@ -517,7 +517,7 @@ void MapMode::_Load() {
 void MapMode::_UpdateExplore() {
 	// First go to menu mode if the user requested it
 	if (InputManager->MenuPress()) {
-		MenuMode *MM = new MenuMode(_map_name, _location_graphic.GetFilename());
+		MenuMode *MM = new MenuMode(_map_name, _map_image.GetFilename());
 		ModeManager->Push(MM);
 		return;
 	}
@@ -866,7 +866,7 @@ void MapMode::_DrawGUI() {
 		VideoManager->SetStandardCoordSys();
 		VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 		VideoManager->Move(512.0f, 100.0f);
-		_location_graphic.Draw(blend);
+		_map_image.Draw(blend);
 		VideoManager->MoveRelative(0.0f, -80.0f);
 		VideoManager->Text()->Draw(_map_name, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
 		VideoManager->PopState();

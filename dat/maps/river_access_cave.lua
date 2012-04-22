@@ -6,7 +6,7 @@ local_chest_counter = 500;
 
 -- The map name and location graphic
 map_name = "River Access Cave"
-location_filename = "desert_cave.png"
+map_image_filename = "img/menus/locations/desert_cave.png"
 
 context_inherits = {1, 1}
 

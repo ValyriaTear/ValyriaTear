@@ -348,23 +348,16 @@ public:
 		{ return static_cast<uint32>(_active_party.AverageExperienceLevel()); }
 
 	/** \brief Sets the name and graphic for the current location
-	*** \param location_name The ustring that contains the name of the current map
-	*** \param location_graphic_filename The filename of the graphic image that represents this location
+	*** \param map_filename The string that contains the name of the current map.
+	*** \param map_image_filename The filename of the image that presents this map
 	**/
-	void SetLocation(const hoa_utils::ustring& location_name, const std::string& location_graphic_filename);
+	void SetMap(const std::string& map_filename, const std::string& map_image_filename);
 
-	/** \brief Set the location
-	*** \param this is really only used when starting a new game, as we don't know the what the location graphic is yet
-	*** the location graphic filename is loaded during map loading.
-	**/
-	void SetLocation(const hoa_utils::ustring& location_name)
-		{ _location_name = location_name; }
-
-	/** \brief Sets the location
+	/** \brief Sets the active Map filename (for game saves)
 	*** \param location_name The string that contains the name of the current map
 	**/
-	void SetLocation(const std::string& location_name)
-		{ _location_name = hoa_utils::MakeUnicodeString(location_name); }
+	void SetMapFilename(const std::string& map_filename)
+		{ _map_filename = map_filename; }
 
 	//! \brief Executes function NewGame() from global script
 	void NewGame()
@@ -394,8 +387,8 @@ public:
 	uint32 GetDrunes() const
 		{ return _drunes; }
 
-	hoa_utils::ustring& GetLocationName()
-		{ return _location_name; }
+	const std::string& GetMapFilename()
+		{ return _map_filename; }
 
 	uint32 GetSaveLocationX()
 		{ return _x_save_map_position; }
@@ -409,8 +402,8 @@ public:
 	void UnsetSaveLocation()
 		{ _x_save_map_position = 0; _y_save_map_position = 0; }
 
-	hoa_video::StillImage& GetLocationGraphic()
-		{ return _location_graphic; }
+	hoa_video::StillImage& GetMapImage()
+		{ return _map_image; }
 
 	std::vector<GlobalCharacter*>* GetCharacterOrder()
 		{ return &_character_order; }
@@ -488,14 +481,14 @@ private:
 	//! \brief The amount of financial resources (drunes) that the party currently has
 	uint32 _drunes;
 
-	//! \brief The name of the map that the current party is on
-	hoa_utils::ustring _location_name;
+	//! \brief The map filename the current party is on.
+	std::string _map_filename;
 
 	//! \brief last save point map tile location.
 	uint32 _x_save_map_position, _y_save_map_position;
 
 	//! \brief The graphical image which represents the current location
-	hoa_video::StillImage _location_graphic;
+	hoa_video::StillImage _map_image;
 
 	//! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
 	GLOBAL_BATTLE_SETTING _battle_setting;

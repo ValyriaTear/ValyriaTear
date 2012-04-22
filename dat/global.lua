@@ -17,11 +17,7 @@ function NewGame()
 	GlobalManager:AddToInventory(11, 1);
 	GlobalManager:AddToInventory(1003, 1);
 
-	-- Don't forget to set up the initial location name
-	local location_name = "dat/maps/opening_scene.lua";
-	GlobalManager:SetLocation(location_name);
-
-	local MM = hoa_map.MapMode(location_name);
+	local MM = hoa_map.MapMode("dat/maps/opening_scene.lua");
 	ModeManager:Pop(false, false);
 	ModeManager:Push(MM, false, true);
 end
