@@ -131,6 +131,9 @@ private slots:
 	void _FileQuit();
 	//@}
 
+	//! \brief Setup the main editor view (used for FileNew and FileOpen)
+	void SetupMainView();
+
 	//! \name View Menu Item Slots
 	//! \brief These slots process selection for their item in the View menu.
 	//{@
