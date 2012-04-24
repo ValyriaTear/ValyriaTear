@@ -60,6 +60,7 @@ Editor::Editor() : QMainWindow(),
 
 	_ed_tabs = NULL;
 	_ed_layer_view = NULL;
+	_ed_layer_toolbar = NULL;
 	setCentralWidget(_ed_splitter);
 	resize(800, 600);
 
@@ -88,6 +89,9 @@ Editor::~Editor() {
 
 	if (_ed_layer_view != NULL)
 		delete _ed_layer_view;
+
+	if (_ed_layer_toolbar != NULL)
+		delete _ed_layer_toolbar;
 
 	delete _ed_tileset_layer_splitter;
 	delete _ed_splitter;
@@ -235,11 +239,62 @@ void Editor::SetupMainView() {
 	// Hide the id column as we'll only use it internally
 	_ed_layer_view->setColumnHidden(0, true);
 
+
+	// The button toolbar
+	if (_ed_layer_toolbar != NULL)
+		delete _ed_layer_toolbar;
+	_ed_layer_toolbar = new QToolBar("Layers", _ed_tileset_layer_splitter);
+
+	// Add the buttons
+	QPushButton *button = new QPushButton(QIcon(QString("img/misc/editor-tools/document-new.png")), QString(), _ed_layer_toolbar);
+	button->setContentsMargins(1,1,1,1);
+	button->setFixedSize(20, 20);
+	button->setToolTip(tr("Add Layer"));
+	connect(button, SIGNAL(clicked(bool)), this, SLOT(_MapAddLayer()));
+	_ed_layer_toolbar->addWidget(button);
+	button->setDisabled(true);
+
+	button = new QPushButton(QIcon(QString("img/misc/editor-tools/edit-rename.png")), QString(), _ed_layer_toolbar);
+	button->setContentsMargins(1,1,1,1);
+	button->setFixedSize(20, 20);
+	button->setToolTip(tr("Modify Layer"));
+	_ed_layer_toolbar->addWidget(button);
+	button->setDisabled(true);
+
+	button = new QPushButton(QIcon(QString("img/misc/editor-tools/edit-delete.png")), QString(), _ed_layer_toolbar);
+	button->setContentsMargins(1,1,1,1);
+	button->setFixedSize(20, 20);
+	button->setToolTip(tr("Delete Layer"));
+	_ed_layer_toolbar->addWidget(button);
+	button->setDisabled(true);
+
+	button = new QPushButton(QIcon(QString("img/misc/editor-tools/go-up.png")), QString(), _ed_layer_toolbar);
+	button->setContentsMargins(1,1,1,1);
+	button->setFixedSize(20, 20);
+	button->setToolTip(tr("Move Layer Up"));
+	_ed_layer_toolbar->addWidget(button);
+	button->setDisabled(true);
+
+	button = new QPushButton(QIcon(QString("img/misc/editor-tools/go-down.png")), QString(), _ed_layer_toolbar);
+	button->setContentsMargins(1,1,1,1);
+	button->setFixedSize(20, 20);
+	button->setToolTip(tr("Move Layer Down"));
+	_ed_layer_toolbar->addWidget(button);
+	button->setDisabled(true);
+
+	button = new QPushButton(QIcon(QString("img/misc/editor-tools/eye.png")), QString(), _ed_layer_toolbar);
+	button->setContentsMargins(1,1,1,1);
+	button->setFixedSize(20, 20);
+	button->setToolTip(tr("Toggle visibility of the layer"));
+	_ed_layer_toolbar->addWidget(button);
+	button->setDisabled(true);
+
 	// Left of the screen
 	_ed_splitter->addWidget(_ed_scrollview);
 
 	// right part
 	_ed_tileset_layer_splitter->addWidget(_ed_layer_view);
+	_ed_tileset_layer_splitter->addWidget(_ed_layer_toolbar);
 	_ed_tileset_layer_splitter->addWidget(_ed_tabs);
 
 	_ed_splitter->addWidget(_ed_tileset_layer_splitter);
@@ -308,7 +363,7 @@ void Editor::_FileNew() {
 			_ed_splitter->setSizes(sizes);
 
 			sizes.clear();
-			sizes << 200 << 400;
+			sizes << 150 << 50 << 400;
 			_ed_tileset_layer_splitter->setSizes(sizes);
 
 			_ed_splitter->show();
@@ -391,13 +446,7 @@ void Editor::_FileOpen() {
 			_ed_scrollview->_map->SetFileName(file_name);
 			_ed_scrollview->_map->LoadMap();
 
-			std::vector<QTreeWidgetItem*> layer_names = _ed_scrollview->_map->getLayerNames();
-			for (uint32 i = 0; i < layer_names.size(); ++i)
-			{
-				_ed_layer_view->addTopLevelItem(layer_names[i]);
-			}
-			_ed_layer_view->adjustSize();
-			_ed_layer_view->setCurrentItem(layer_names[0]); // layer 0
+			_UpdateLayersView();
 
 			// Count for the tileset names
 			int num_items = _ed_scrollview->_map->tileset_names.count();
@@ -443,7 +492,7 @@ void Editor::_FileOpen() {
 			_ed_splitter->setSizes(sizes);
 
 			sizes.clear();
-			sizes << 200 << 400;
+			sizes << 150 << 50 << 400;
 			_ed_tileset_layer_splitter->setSizes(sizes);
 
 			_ed_splitter->show();
@@ -551,6 +600,18 @@ void Editor::_FileClose() {
 			_ed_tabs = NULL;
 		} // tabs must exist first
 
+		if (_ed_layer_toolbar != NULL)
+		{
+			delete _ed_layer_toolbar;
+			_ed_layer_toolbar = NULL;
+		}
+
+		if (_ed_layer_view != NULL)
+		{
+			delete _ed_layer_view;
+			_ed_layer_view = NULL;
+		}
+
 		setWindowTitle(tr("Map Editor"));
 	} // make sure an unsaved map is not lost
 }
@@ -621,23 +682,22 @@ void Editor::_TileLayerFill() {
 	std::vector<std::vector<int32> >& current_layer = _ed_scrollview->GetCurrentLayer();
 
 	// Record the information for undo/redo operations.
-	std::vector<std::vector<int32> > previous = current_layer;
-	std::vector<std::vector<int32> > modified;
-	std::vector<std::vector<int32> > indeces(current_layer.size());
-	int16 i = 0;
-	for (uint32 y = 0; y < current_layer.size(); ++y)
-		for (uint32 x = 0; x < current_layer[y].size(); ++x)
-			indeces[y][x] = i;
+	std::vector<int32> previous;
+	std::vector<int32> modified;
+	std::vector<QPoint> indeces;;
 
-	// Fill the layer.
-			/*
-	for (std::vector<std::vector<int32> >::iterator iter = current_layer.begin(); iter != current_layer.end(); iter++)
-	{
-		_ed_scrollview->_AutotileRandomize(multiplier, tileset_index);
-		*iter = tileset_index + multiplier * 256;
-		modified.push_back(tileset_index + multiplier * 256);
-	} // iterate through the entire layer
+	for (uint32 y = 0; y < current_layer.size(); ++y) {
+		for (uint32 x = 0; x < current_layer[y].size(); ++x) {
+			// Stores the indeces
+			indeces.push_back(QPoint(x, y));
+			previous.push_back(current_layer[y][x]);
 
+			// Fill the layer
+			_ed_scrollview->_AutotileRandomize(multiplier, tileset_index);
+			current_layer[y][x] = tileset_index + multiplier * 256;
+			modified.push_back(tileset_index + multiplier * 256);
+		}
+	}
 
 	LayerCommand* fill_command = new LayerCommand(indeces, previous, modified,
 		_ed_scrollview->_layer_id, _ed_scrollview->_map->GetContext(), this,
@@ -646,7 +706,6 @@ void Editor::_TileLayerFill() {
 	indeces.clear();
 	previous.clear();
 	modified.clear();
-	*/
 
 	// Draw the changes.
 	_ed_scrollview->_map->SetChanged(true);
@@ -771,6 +830,40 @@ void Editor::_MapSelectMusic() {
 	} // only process results if user selected okay
 
 	delete music;
+}
+
+void Editor::_MapAddLayer() {
+	if (_ed_scrollview == NULL || _ed_scrollview->_map == NULL)
+		return;
+
+	LayerDialog *layer_dlg = new LayerDialog(this, "layer_dialog");
+
+	if (layer_dlg->exec() == QDialog::Accepted)
+	{
+		// TODO: Apply changes
+		LayerInfo layer_info = layer_dlg->_GetLayerInfo();
+
+		_ed_scrollview->_map->AddLayer(layer_info);
+
+		_UpdateLayersView();
+
+	} // only process results if user selected okay
+
+	delete layer_dlg;
+}
+
+void Editor::_MapModifyLayer() {
+	if (_ed_scrollview == NULL)
+		return;
+
+	// TODO
+}
+
+void Editor::_MapDeleteLayer() {
+	if (_ed_scrollview == NULL)
+		return;
+
+	// TODO
 }
 
 
@@ -998,6 +1091,19 @@ void Editor::_MapAddContext() {
 	delete props;
 } // void Editor::_MapAddContext()
 
+
+void Editor::_UpdateLayersView()
+{
+	_ed_layer_view->clear();
+	std::vector<QTreeWidgetItem*> layer_names = _ed_scrollview->_map->getLayerNames();
+	for (uint32 i = 0; i < layer_names.size(); ++i)
+	{
+		_ed_layer_view->addTopLevelItem(layer_names[i]);
+	}
+	_ed_layer_view->adjustSize();
+	_ed_layer_view->setCurrentItem(layer_names[0]); // layer 0
+
+}
 
 void Editor::_ScriptEditSkills() {
 	if (_skill_editor == NULL)

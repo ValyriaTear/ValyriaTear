@@ -29,6 +29,36 @@ using namespace std;
 
 namespace hoa_editor {
 
+LAYER_TYPE getLayerType(const std::string& type)
+{
+	if (type == "ground")
+		return GROUND_LAYER;
+	else if (type == "fringe")
+		return FRINGE_LAYER;
+	else if (type == "sky")
+		return SKY_LAYER;
+
+	return INVALID_LAYER;
+
+}
+
+
+std::string getTypeFromLayer(const LAYER_TYPE& type) {
+
+	switch (type) {
+		case GROUND_LAYER:
+			return "ground";
+		case FRINGE_LAYER:
+			return "fringe";
+		case SKY_LAYER:
+			return "sky";
+		default:
+			break;
+	};
+	return "other";
+}
+
+
 
 LAYER_TYPE& operator++(LAYER_TYPE& value, int /*dummy*/)
 {
@@ -159,19 +189,6 @@ void Grid::CreateNewContext(uint32 inherit_context)
 	}
 } // Grid::CreateNewContext(...)
 
-
-LAYER_TYPE getLayerType(const std::string& type) {
-	if (type == "ground")
-		return GROUND_LAYER;
-	else if (type == "fringe")
-		return FRINGE_LAYER;
-	else if (type == "sky")
-		return SKY_LAYER;
-
-	return INVALID_LAYER;
-
-}
-
 bool Grid::LoadMap()
 {
 	// File descriptor for the map data that is to be read
@@ -203,11 +220,16 @@ bool Grid::LoadMap()
 
 	read_data.OpenTable(main_map_table);
 
+	// Load the map name and image
+	map_name = QString::fromStdString(read_data.ReadString("map_name"));
+	map_image_filename = QString::fromStdString(read_data.ReadString("map_image_filename"));
+
 	// Reset container data
 	music_files.clear();
 	tileset_names.clear();
 	tilesets.clear();
 	_tile_contexts.clear();
+	context_inherits.clear();
 
 	// Add a default context
 	_tile_contexts.resize(1);
@@ -217,8 +239,11 @@ bool Grid::LoadMap()
 	uint32 num_contexts = read_data.ReadUInt("num_map_contexts");
 
 	// Read whether the other contexts inherit of the base one.
-	vector<uint32> context_inherits;
-	read_data.ReadUIntVector("context_inherits", context_inherits);
+	if (read_data.DoesTableExist("context_inherits"))
+		read_data.ReadUIntVector("context_inherits", context_inherits);
+	else
+		// Push at least one value, to make it be written on save.
+		context_inherits.push_back(0);
 
 	_height = read_data.ReadUInt("num_tile_rows");
 	_width  = read_data.ReadUInt("num_tile_cols");
@@ -439,48 +464,20 @@ bool Grid::LoadMap()
 } // Grid::LoadMap()
 
 
-std::string getTypeFromLayer(const LAYER_TYPE& type) {
-
-	switch (type) {
-		case GROUND_LAYER:
-			return "ground";
-		case FRINGE_LAYER:
-			return "fringe";
-		case SKY_LAYER:
-			return "sky";
-		default:
-			break;
-	};
-	return "other";
-}
-
 void Grid::SaveMap()
 {
 	const int32 BUFFER_SIZE = 1024;
 	char buffer[BUFFER_SIZE];
 	WriteScriptDescriptor write_data;
 
-	ifstream file;
-	string before_text;
-	string after_text;
-	const char * BEFORE_TEXT_MARKER = "-- Valyria Tear map editor begin. Do not edit this line. --";
-	const char * AFTER_TEXT_MARKER =  "-- Valyria Tear map editor end. Do not edit this line. --";
+	std::ifstream file;
+	std::string after_text;
+	const char * BEFORE_TEXT_MARKER = "-- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --";
+	const char * AFTER_TEXT_MARKER =  "-- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --";
 
 	// First, get the non-editor data (such as map scripting) from the file to save, so we don't clobber it.
 	file.open(_file_name.toAscii(), ifstream::in);
 	if (file.is_open()) {
-		// Put all text before BEFORE_TEXT_MARKER into before_text string
-		while(!file.eof()) {
-			file.clear();
-			file.getline(buffer, BUFFER_SIZE);
-			if (strstr(buffer, BEFORE_TEXT_MARKER))
-				break;
-			else {
-				before_text.append(buffer);
-				before_text.push_back('\n');
-			}
-		}
-
 		// Search for AFTER_TEXT_MARKER
 		while (!file.eof()) {
 			file.clear();
@@ -507,14 +504,27 @@ void Grid::SaveMap()
 		return;
 	}
 
-	if (!before_text.empty())
-		write_data.WriteLine(before_text, false);
-
 	write_data.WriteLine(BEFORE_TEXT_MARKER);
 	write_data.InsertNewLine();
-	write_data.WriteComment("A reference to the C++ MapMode object that was created with this file");
-	write_data.WriteLine("map = {}\n");
+	write_data.WriteComment("Set the namespace according to the map name.");
+	string main_map_table = string(_file_name.section('/', -1).remove(".lua").toAscii());
+	write_data.WriteNamespace(main_map_table);
 
+	write_data.InsertNewLine();
+	write_data.WriteComment("A reference to the C++ MapMode object that was created with this file");
+	write_data.WriteLine("map = {}");
+
+	write_data.InsertNewLine();
+	write_data.WriteComment("The map name and location image");
+	write_data.WriteString("map_name", map_name.toStdString());
+	write_data.WriteString("map_image_filename", map_image_filename.toStdString());
+
+	write_data.InsertNewLine();
+	write_data.WriteComment("The table telling from which other contexts, the contexts (from number 1) inherit");
+	write_data.WriteComment("0 means empty, 1 means inherits from base context.");
+	write_data.WriteUIntVector("context_inherits", context_inherits);
+
+	write_data.InsertNewLine();
 	write_data.WriteComment("The number of contexts, rows, and columns that compose the map");
 	write_data.WriteInt("num_map_contexts", context_names.size());
 	write_data.WriteInt("num_tile_cols", _width);
@@ -568,7 +578,8 @@ void Grid::SaveMap()
 	write_data.InsertNewLine();
 
 	write_data.WriteComment("The map grid to indicate walkability. The size of the grid is 4x the size of the tile layer tables");
-	write_data.WriteComment("Walkability status of tiles for 32 contexts. Zero indicates walkable. Valid range: [0:2^32-1]");
+	write_data.WriteComment("Walkability status of tiles for 32 contexts. Zero indicates walkable for all contexts. Valid range: [0:2^32-1]");
+	write_data.WriteComment("Example: 1 (BIN 001) = wall for first context only, 2 (BIN 010) means wall for second context only, 5 (BIN 101) means Wall for first and third context.");
 	write_data.BeginTable("map_grid");
 	//[layer][walkability]
 	std::vector<std::vector<int32> > walk_vect;
@@ -741,6 +752,71 @@ void Grid::SaveMap()
 
 	_changed = false;
 } // Grid::SaveMap()
+
+
+uint32 Grid::_GetNextLayerId(const LAYER_TYPE& layer_type)
+{
+	// Computes the new layer id
+	LAYER_TYPE previous_layer_type = GROUND_LAYER;
+	uint32 i = 0;
+	for (; i < _tile_contexts[0].layers.size(); ++i)
+	{
+		LAYER_TYPE current_type = _tile_contexts[0].layers[i].layer_type;
+
+		if (previous_layer_type == layer_type && current_type != layer_type)
+			return i;
+
+		// Not found yet
+		previous_layer_type = current_type;
+	}
+
+	// Return the last layer id
+	return i;
+}
+
+void Grid::AddLayer(const LayerInfo& layer_info)
+{
+	uint32 new_layer_id = _GetNextLayerId(layer_info.layer_type);
+
+	// Prepare the new layer
+	Layer layer;
+	layer.layer_type = layer_info.layer_type;
+	layer.name = layer_info.name;
+	layer.Resize(_width, _height);
+	layer.Fill(-1); // Make the layer empty
+
+	// The layer id is completely new, so we push a new layer for each context
+	if (new_layer_id >= _tile_contexts[0].layers.size())
+	{
+		assert (new_layer_id == _tile_contexts[0].layers.size());
+
+		for (uint32 ctxt = 0; ctxt < _tile_contexts.size(); ++ctxt)
+		{
+			_tile_contexts[ctxt].layers.push_back(layer);
+		}
+		return;
+	}
+
+	// If the id is taken, we have to insert the layer before the one
+	// with the same id.
+
+	for (uint32 ctxt = 0; ctxt < _tile_contexts.size(); ++ctxt)
+	{
+		std::vector<Layer> new_layers;
+		for (uint32 layer_id = 0; layer_id < _tile_contexts[ctxt].layers.size(); ++layer_id)
+		{
+			// If we have reached the wanted layer id, add the new layer
+			if (layer_id == new_layer_id)
+				new_layers.push_back(layer);
+
+			// Push the other layer in any case
+			new_layers.push_back(_tile_contexts[ctxt].layers[layer_id]);
+		}
+
+		// Once done, we can swap the data, replacing the layers with the one inserted.
+		_tile_contexts[ctxt].layers.swap(new_layers);
+	}
+}
 
 
 void Grid::InsertRow(uint32 tile_index_y)

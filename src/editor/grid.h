@@ -55,7 +55,17 @@ LAYER_TYPE& operator++(LAYER_TYPE& value, int dummy);
 
 class EditorScrollView;
 
-struct Layer {
+// A simplified struct used to pass everything but the tiles info
+struct LayerInfo {
+	std::string name;
+	LAYER_TYPE layer_type;
+
+	LayerInfo()
+	{ layer_type = GROUND_LAYER; }
+};
+
+class Layer {
+public:
 	std::string name;
 	LAYER_TYPE layer_type;
 	// Represents the tile indeces: i.e: tiles[y][x] = tile_id at (x,y)
@@ -63,12 +73,34 @@ struct Layer {
 
 	Layer()
 	{ layer_type = GROUND_LAYER; }
+
+	// Resize a layer to the given map size
+	void Resize(uint32 width, uint height)
+	{
+		tiles.resize(height);
+		for (uint32 y = 0; y < height; ++y)
+			tiles[y].resize(width);
+	}
+
+	// Fill a layer with the given tile index value.
+	void Fill (int32 tile_id = -1)
+	{
+		for (uint32 y = 0; y < tiles.size(); ++y)
+		{
+			for (uint32 x = 0; x < tiles[y].size(); ++x)
+				tiles[y][x] = tile_id;
+		}
+	}
 };
 
 struct Context {
 	std::string name;
 	std::vector<Layer> layers;
 };
+
+LAYER_TYPE getLayerType(const std::string& type);
+std::string getTypeFromLayer(const LAYER_TYPE& type);
+
 
 /** ***************************************************************************
 *** \brief Used for the OpenGL map portion where tiles are painted and edited.
@@ -144,6 +176,13 @@ public:
 	**/
 	void SaveMap();
 
+	/** \brief Add a new layer
+	***
+	*** depending on its type, the layer will be added after the last one
+	*** of the same type.
+	**/
+	void AddLayer(const LayerInfo& layer_info);
+
 	/** \name Context Modification Functions (Right-Click)
 	*** \brief Functions to insert or delete rows or columns of tiles from the
 	***        map.
@@ -166,6 +205,12 @@ public:
 	// Be sure to set the parent of the items returned, and add them in the corresponding Qt widget.
 	std::vector<QTreeWidgetItem*> getLayerNames();
 
+	//! \brief The map name presented to the player
+	QString map_name;
+
+	//! \brief The map image filename used to represent the map.
+	QString map_image_filename;
+
 	//! \brief List of the tileset names being used.
 	QStringList tileset_names;
 
@@ -180,6 +225,9 @@ public:
 	***       single map supports.
 	**/
 	QStringList context_names;
+
+	//! \brief The context inherit list. Tells whether the context inherits from the base one.
+	std::vector<uint32> context_inherits;
 
 	//! \brief A list storing the background music filenames.
 	QStringList music_files;
@@ -198,6 +246,10 @@ protected:
 	void resizeGL(int w, int h);
 
 private:
+	// Computes the next layer id to put for the givent layer type,
+	// Used when creating a new layer.
+	uint32 _GetNextLayerId(const LAYER_TYPE& layer_type);
+
 	//! \brief The map's file name.
 	QString _file_name;
 	//! \brief The height of the map in tiles.
