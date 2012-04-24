@@ -118,6 +118,7 @@ void BindCommonCode() {
 			.def("GetSaveLocationX", &GameGlobal::GetSaveLocationX)
 			.def("GetSaveLocationY", &GameGlobal::GetSaveLocationY)
 			.def("UnsetSaveLocation", &GameGlobal::UnsetSaveLocation)
+			.def("GetPreviousLocation", &GameGlobal::GetPreviousLocation)
 			.def("GetBattleSetting", &GameGlobal::GetBattleSetting)
 			.def("SetBattleSetting", &GameGlobal::SetBattleSetting)
 

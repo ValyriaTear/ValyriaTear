@@ -1364,7 +1364,7 @@ function CreateEvents()
 		EventManager:RegisterEvent(event);
 		event:AddEventLinkAtEnd(92);
 		-- Transition back to the opening scene map
-		event = hoa_map.MapTransitionEvent(92, "dat/maps/opening_scene.lua");
+		event = hoa_map.MapTransitionEvent(92, "dat/maps/opening_scene.lua", "river access cave");
 		EventManager:RegisterEvent(event);
 
 	----------------------------------------------------------------------------

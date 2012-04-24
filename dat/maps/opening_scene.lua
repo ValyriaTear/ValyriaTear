@@ -672,7 +672,7 @@ function InitialCreateEvents()
 	event = hoa_map.ScriptedSpriteEvent(333, 1003, 2, 0);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent(340, "dat/maps/river_access_cave.lua");
+	event = hoa_map.MapTransitionEvent(340, "dat/maps/river_access_cave.lua", "desert cave entrance");
 	EventManager:RegisterEvent(event);
 end
 
@@ -997,7 +997,7 @@ function ReturnCreateEvents()
 	event = hoa_map.PathMoveSpriteEvent(324, 2010, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.MapTransitionEvent(500, "dat/maps/harrvah_city.lua");
+	event = hoa_map.MapTransitionEvent(500, "dat/maps/harrvah_city.lua", "from desert");
 	EventManager:RegisterEvent(event);
 end
 

@@ -367,6 +367,17 @@ public:
 	void SetMapFilename(const std::string& map_filename)
 		{ _map_filename = map_filename; }
 
+	/** Set up the previous map point the character is coming from.
+	*** It is used to make the new map aware about where the character should appear.
+	***
+	*** \param previous_location The string telling the location the character is coming from.
+	**/
+	void SetPreviousLocation(const std::string& previous_location)
+		{ _previous_location = previous_location; }
+
+	const std::string& GetPreviousLocation() const
+		{ return _previous_location; }
+
 	//! \brief Executes function NewGame() from global script
 	void NewGame()
 		{ _global_script.RunScriptFunction("NewGame"); }
@@ -506,6 +517,9 @@ private:
 
 	//! \brief The graphical image which represents the current location
 	hoa_video::StillImage _map_image;
+
+	//! \brief The map location the character is com from. Used to make the new map know where to make the character appear.
+	std::string _previous_location;
 
 	//! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
 	GLOBAL_BATTLE_SETTING _battle_setting;

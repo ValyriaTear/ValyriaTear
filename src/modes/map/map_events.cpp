@@ -146,9 +146,11 @@ bool SoundEvent::_Update() {
 // ---------- MapTransitionEvent Class Methods
 // -----------------------------------------------------------------------------
 
-MapTransitionEvent::MapTransitionEvent(uint32 event_id, std::string filename) :
+MapTransitionEvent::MapTransitionEvent(uint32 event_id, std::string filename,
+										std::string coming_from) :
 	MapEvent(event_id, MAP_TRANSITION_EVENT),
 	_transition_map_filename(filename),
+	_transition_origin(coming_from),
 	_done(false)
 {}
 
@@ -170,6 +172,7 @@ bool MapTransitionEvent::_Update() {
 	// Only load the map once the fade out is done, since the load time can
 	// break the fade smoothness and visible duration.
 	if (!_done) {
+		hoa_global::GlobalManager->SetPreviousLocation(_transition_origin);
 		MapMode *MM = new MapMode(_transition_map_filename);
 		ModeManager->Pop();
 		ModeManager->Push(MM, false, true);
