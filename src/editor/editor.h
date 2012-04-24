@@ -95,6 +95,7 @@ class Editor: public QMainWindow {
 	friend class MapPropertiesDialog;
 	friend class MusicDialog;
 	friend class ContextPropertiesDialog;
+	friend class LayerDialog;
 	friend class LayerCommand;
 
 public:
@@ -168,6 +169,11 @@ private slots:
 	void _MapAddContext();
 	//@}
 
+	// Handles layer interaction
+	void _MapAddLayer();
+	void _MapModifyLayer();
+	void _MapDeleteLayer();
+
 	//! \name Script Menu Item Slots
 	//! \brief These slots handle the events for the Script menu
 	//{@
@@ -194,6 +200,11 @@ private:
 	void _CreateMenus();
 	//! Helper function to the constructor, creates the actual toolbars.
 	void _CreateToolbars();
+
+	// Clears and refill the layer view with the current layers found in the base context.
+	void _UpdateLayersView();
+
+	bool _update_view_on_layer_change;
 
 	//! \brief Used to determine if it is safe to erase the current map.
 	//!        Will prompt the user for action: to save or not to save.
@@ -268,6 +279,9 @@ private:
 
 	QTreeWidget *_ed_layer_view;
 
+	// Used to add / modify / remove layers.
+	QToolBar *_ed_layer_toolbar;
+
 	//! Used as the main widget in the editor since it enables user-sizable sub-widgets.
 	QSplitter* _ed_splitter;
 
@@ -309,6 +323,7 @@ class EditorScrollView : public Q3ScrollView {
 	friend class Editor;
 	friend class MapPropertiesDialog;
 	friend class MusicDialog;
+	friend class LayerDialog;
 	friend class ContextPropertiesDialog;
 	friend class LayerCommand;
 

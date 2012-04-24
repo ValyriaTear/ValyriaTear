@@ -26,6 +26,7 @@
 #include "utils.h"
 
 #include "editor.h"
+#include "grid.h"
 
 namespace hoa_editor {
 
@@ -105,7 +106,7 @@ private:
 
 
 /** ***************************************************************************
-*** \brief A dialog box that allows the user to declare what music files to 
+*** \brief A dialog box that allows the user to declare what music files to
 ***        load for this map.
 ***
 *** This only defines the music files that the map should load. It does not
@@ -231,6 +232,50 @@ private:
 	//! \brief A layout to manage all the labels, buttons, and line edits.
 	QGridLayout* _dia_layout;
 }; // class ContextPropertiesDialog : public QDialog
+
+
+/** ***************************************************************************
+*** \brief A dialog box that allows the user to add/modify a layer
+***
+*** **************************************************************************/
+class LayerDialog: public QDialog
+{
+	// Macro needed to use Qt's slots and signals.
+	Q_OBJECT
+
+	// Needed for accessing map properties.
+	friend class Editor;
+	friend class EditorScrollView;
+
+public:
+	/** \param parent The widget from which this dialog was invoked.
+	*** \param name The name of this widget.
+	**/
+	LayerDialog(QWidget* parent, const QString& name);
+
+	~LayerDialog();
+
+private slots:
+	//! \brief Tells the layer info written in the dialog box
+	LayerInfo _GetLayerInfo();
+
+private:
+	//! \brief A pushbutton for cancelling the action.
+	QPushButton* _cancel_pbut;
+	//! \brief A pushbutton for finishing the layer addition/modification.
+	QPushButton* _ok_pbut;
+
+	//! Layer position, name and type.
+	QLabel* _name_label;
+	QLabel* _type_label;
+
+	QLineEdit * _name_edit;
+	QComboBox *_type_cbox;
+
+	//! \brief A layout to manage all the labels, buttons, and listviews.
+	QGridLayout* _dialog_layout;
+
+}; // class MusicDialog
 
 } // namespace hoa_editor
 

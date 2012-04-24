@@ -321,4 +321,70 @@ void ContextPropertiesDialog::_EnableOKButton()
 		_ok_pbut->setEnabled(true);
 } // ContextPropertiesDialog::_EnableOKButton()
 
+///////////////////////////////////////////////////////////////////////////////
+// LayerDialog class -- all functions
+///////////////////////////////////////////////////////////////////////////////
+
+LayerDialog::LayerDialog(QWidget* parent, const QString& /*name*/)
+	: QDialog(parent)
+{
+	setWindowTitle(tr("Layer properties"));
+	_dialog_layout = new QGridLayout(this);
+
+	// Set up the push buttons
+	_cancel_pbut = new QPushButton(tr("Cancel"), this);
+	_ok_pbut = new QPushButton(tr("OK"), this);
+	_ok_pbut->setDefault(true);
+	connect(_ok_pbut,     SIGNAL(released()), this, SLOT(accept()));
+	connect(_cancel_pbut,     SIGNAL(released()), this, SLOT(reject()));
+
+	_name_label = new QLabel(tr("Layer name: "),this);
+	_name_edit = new QLineEdit(this);
+	_name_label->setBuddy(_name_edit);
+
+	_type_label = new QLabel(tr("Type: "),this);
+	_type_cbox = new QComboBox(this);
+	_type_label->setBuddy(_type_cbox);
+
+	// Add layer types
+	_type_cbox->addItem("ground");
+	_type_cbox->addItem("fringe");
+	_type_cbox->addItem("sky");
+
+	// Add all of the aforementioned widgets into a nice-looking grid layout
+	_dialog_layout->addWidget(_name_label,     0, 0);
+	_dialog_layout->addWidget(_name_edit,      1, 0);
+
+	_dialog_layout->addWidget(_type_label,     0, 1);
+	_dialog_layout->addWidget(_type_cbox,      1, 1);
+
+	_dialog_layout->addWidget(_cancel_pbut,    2, 0);
+	_dialog_layout->addWidget(_ok_pbut,        2, 1);
+} // MusicDialog constructor
+
+
+LayerDialog::~LayerDialog()
+{
+	delete _cancel_pbut;
+	delete _ok_pbut;
+	delete _name_label;
+	delete _name_edit;
+	delete _type_label;
+	delete _type_cbox;
+
+	delete _dialog_layout;
+} // MusicDialog destructor
+
+
+// ********** Private slots **********
+LayerInfo LayerDialog::_GetLayerInfo()
+{
+	LayerInfo layer_info;
+
+	layer_info.name = _name_edit->text().toStdString();
+	layer_info.layer_type = getLayerType(_type_cbox->currentText().toStdString());
+
+	return layer_info;
+}
+
 } // namespace hoa_editor
