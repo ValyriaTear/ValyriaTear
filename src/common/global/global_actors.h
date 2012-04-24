@@ -781,6 +781,13 @@ public:
 	virtual ~GlobalCharacter()
 		{}
 
+	//! \brief Tells whether a character is in the visible game formation
+	void Enable(bool enable)
+	{ _enabled = enable; }
+
+	bool IsEnabled() const
+	{ return _enabled; }
+
 	GlobalArmor* EquipHeadArmor(GlobalArmor* armor)
 		{ return EquipArmor(armor, GLOBAL_POSITION_HEAD); }
 
@@ -906,6 +913,9 @@ protected:
 	**/
 	hoa_video::StillImage _menu_portrait;
 	//@}
+
+	//! \brief Tells whether a character is in the visible game formation
+	bool _enabled;
 }; // class GlobalCharacter : public GlobalActor
 
 

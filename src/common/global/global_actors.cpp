@@ -1080,6 +1080,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	_growth(this)
 {
 	_id = id;
+	_enabled = true;
 
 	// Open the characters script file
 	string filename = "dat/actors/characters.lua";
