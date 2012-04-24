@@ -301,8 +301,9 @@ class MapTransitionEvent : public MapEvent {
 public:
 	/** \param event_id The ID of this event
 	*** \param filename The name of the map file to transition to
+	*** \param coming_from The transition origin.
 	**/
-	MapTransitionEvent(uint32 event_id, std::string filename);
+	MapTransitionEvent(uint32 event_id, std::string filename, std::string coming_from);
 
 	~MapTransitionEvent() {};
 
@@ -315,6 +316,11 @@ protected:
 
 	//! \brief The filename of the map to transition to
 	std::string _transition_map_filename;
+
+	/** \brief a string telling where the map transition is coming from.
+	*** useful when changing from a map to another to set up the camera position.
+	**/
+	std::string _transition_origin;
 
 	//! \brief tells the update function to trigger the new map.
 	bool _done;

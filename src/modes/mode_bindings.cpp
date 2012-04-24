@@ -449,7 +449,7 @@ void BindModeCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<MapTransitionEvent, MapEvent>("MapTransitionEvent")
-			.def(constructor<uint32, std::string>())
+			.def(constructor<uint32, std::string, std::string>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
