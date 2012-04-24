@@ -166,9 +166,8 @@ public:
 	//! \brief Draws the menu. Calls Draw() on active window if there is one.
 	void Draw();
 
-	// TEMP: other menu classes need access to this member
-	hoa_gui::OptionBox& GetCharSelect()
-		{ return _char_select; }
+	//! \brief (Re)Loads the characters windows based on the characters' positions in the party.
+	void ReloadCharacterWindows();
 
 private:
 	//! \brief A static pointer to the last instantiated MenuMode object
@@ -208,17 +207,10 @@ private:
 	/** \brief The currently active window
 	 **/
 	hoa_gui::MenuWindow *_active_window;
-
-	// FIXME
-	//std::vector<private_menu::CharacterWindow> _character_windows;
-	//std::vector<private_menu::FormationWindow> _formation_windows;
 	//@}
 
 	//! \brief A map of the sounds used while in MenuMode
 	std::map<std::string, hoa_audio::SoundDescriptor> _menu_sounds;
-
-	//! The selected character
-//	static uint32 _char_selected;
 
 	//! The selected item/skill/equipment
 	uint32 _item_selected;
@@ -243,7 +235,6 @@ private:
 	hoa_gui::OptionBox _menu_options;
 	hoa_gui::OptionBox _menu_equip;
 	hoa_gui::OptionBox _menu_formation;
-	hoa_gui::OptionBox _char_select;
 	//@}
 
 	//! \brief Functions that initialize the numerous option boxes

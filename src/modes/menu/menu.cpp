@@ -46,6 +46,11 @@ bool MENU_DEBUG = false;
 
 MenuMode* MenuMode::_current_instance = NULL;
 
+// Window size helpers
+const uint32 win_start_x = (1024 - 800) / 2 - 40;
+const uint32 win_start_y = (768 - 600) / 2 + 15;
+const uint32 win_width = 208;
+
 ////////////////////////////////////////////////////////////////////////////////
 // MenuMode class -- Initialization and Destruction Code
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,68 +80,37 @@ MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 
 	_current_window = WINDOW_INVENTORY;
 
-	GlobalParty & characters = *GlobalManager->GetActiveParty();
-
-	// Setup character windows based on active party size
-	switch (characters.GetPartySize()) {
-		case 4: _character_window3.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(3)));
-		case 3: _character_window2.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(2)));
-		case 2: _character_window1.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(1)));
-		case 1: _character_window0.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(0)));
-			break;
-		default:
-			cerr << "MENU ERROR: no characters in party!" << endl;
-			exit(1);
-	}
 
 	//////////// Setup the menu windows
-	uint32 start_x = (1024 - 800) / 2 - 40;
-	uint32 start_y = (768 - 600) / 2 + 15;
-	uint32 win_width = 208;
+	// The character windows
+	ReloadCharacterWindows();
 
-	//The bottom window for the menu
+	// The bottom window for the menu
 	_bottom_window.Create(static_cast<float>(win_width * 4 + 16), 140 + 16, VIDEO_MENU_EDGE_ALL);
-	_bottom_window.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 442));
-
-	// Width of each character window is 360 px.
-	// Each char window will have an additional 16 px for the left border
-	// The 4th (last) char window will have another 16 px for the right border
-	// Height of the char window is 98 px.
-	// The bottom window in the main view is 192 px high, and the full width which will be 216 * 4 + 16
-	_character_window0.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
-	_character_window0.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 10));
-
-	_character_window1.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
-	_character_window1.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 118));
-
-	_character_window2.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
-	_character_window2.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 226));
-
-	_character_window3.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
-	_character_window3.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 334));
+	_bottom_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 442));
 
 	_main_options_window.Create(static_cast<float>(win_width * 4 + 16), 60, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
-	_main_options_window.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y - 50));
+	_main_options_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y - 50));
 
 	// Set up the status window
 	_status_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
-	_status_window.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 10));
+	_status_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
 	//Set up the skills window
 	_skills_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
-	_skills_window.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 10));
+	_skills_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
 	//Set up the equipment window
 	_equip_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
-	_equip_window.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 10));
+	_equip_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
 	// Set up the inventory window
 	_inventory_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
-	_inventory_window.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 10));
+	_inventory_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
-// 	// TODO: Set up the formation window
+	// Set up the formation window
 	_formation_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
-	_formation_window.SetPosition(static_cast<float>(start_x), static_cast<float>(start_y + 10));
+	_formation_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
 
 	// Set the menu to show the main options
@@ -280,11 +254,6 @@ void MenuMode::Update() {
 		// Play Sound
 		_current_menu->InputRight();
 	}
-	else if (InputManager->SwapPress()) {
-		// Play Sound
-		_char_select.SetSelection((_char_select.GetSelection() + 1) %
-			GlobalManager->GetActiveParty()->GetPartySize());
-	}
 
 	// Get the latest event from the current menu
 	int32 event = _current_menu->GetEvent();
@@ -414,6 +383,41 @@ void MenuMode::Draw() {
 	if (_message_window != NULL)
 		_message_window->Draw();
 } // void MenuMode::Draw()
+
+
+void MenuMode::ReloadCharacterWindows() {
+	GlobalParty& characters = *GlobalManager->GetActiveParty();
+
+	// Setup character windows based on active party size
+	switch (characters.GetPartySize()) {
+		case 4: _character_window3.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(3)));
+		case 3: _character_window2.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(2)));
+		case 2: _character_window1.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(1)));
+		case 1: _character_window0.SetCharacter(dynamic_cast<GlobalCharacter*>(characters.GetActorAtIndex(0)));
+			break;
+		default:
+			PRINT_ERROR << "No characters in party!" << endl;
+			ModeManager->Pop();
+			break;
+	}
+
+	// Width of each character window is 360 px.
+	// Each char window will have an additional 16 px for the left border
+	// The 4th (last) char window will have another 16 px for the right border
+	// Height of the char window is 98 px.
+	// The bottom window in the main view is 192 px high, and the full width which will be 216 * 4 + 16
+	_character_window0.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
+	_character_window0.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
+	_character_window1.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
+	_character_window1.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 118));
+
+	_character_window2.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
+	_character_window2.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 226));
+
+	_character_window3.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
+	_character_window3.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 334));
+}
 
 
 void MenuMode::_HandleMainMenu() {
