@@ -410,10 +410,13 @@ public:
 	/*!
 	* \brief Activates the window
 	* \param new_value true to activate window, false to deactivate window
+	* \param equip Tells Whether the window should be in equip or unequip mode.
 	*/
-	void Activate(bool new_status);
+	void Activate(bool new_status, bool equip);
 
 private:
+	//! \brief Tells whether the window is in equip or unequip mode.
+	bool _equip;
 
 	//! Character selector
 	hoa_gui::OptionBox _char_select;

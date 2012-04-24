@@ -697,12 +697,11 @@ void MenuMode::_HandleFormationMenu() {
 void MenuMode::_HandleEquipMenu() {
 	switch (_menu_equip.GetSelection()) {
 		case EQUIP_EQUIP:
-			_equip_window.Activate(true);
+			_equip_window.Activate(true, true);
 			break;
 
 		case EQUIP_REMOVE:
-			// TODO: Handle the remove command
-			cout << "MENU: Equip - Remove command!" << endl;
+			_equip_window.Activate(true, false);
 			break;
 
 		case EQUIP_BACK:
@@ -807,36 +806,41 @@ void MenuMode::_DrawBottomMenu() {
 		VideoManager->Move(400, 577);
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("PHYS ATK: ") + MakeUnicodeString(NumberToString(ch->GetWeaponEquipped()->GetPhysicalAttack())));
+		GlobalWeapon *wpn = ch->GetWeaponEquipped();
+		VideoManager->Text()->Draw(UTranslate("PHYS ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetPhysicalAttack() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(ch->GetHeadArmorEquipped()->GetPhysicalDefense())));
+		GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
+		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(ch->GetTorsoArmorEquipped()->GetPhysicalDefense())));
+		GlobalArmor *torso_armor = ch->GetTorsoArmorEquipped();
+		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(ch->GetArmArmorEquipped()->GetPhysicalDefense())));
+		GlobalArmor *arm_armor = ch->GetArmArmorEquipped();
+		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(ch->GetLegArmorEquipped()->GetPhysicalDefense())));
+		GlobalArmor *leg_armor = ch->GetLegArmorEquipped();
+		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->Move(550, 577);
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META ATK: ") + MakeUnicodeString(NumberToString(ch->GetWeaponEquipped()->GetMetaphysicalAttack())));
+		VideoManager->Text()->Draw(UTranslate("META ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetMetaphysicalAttack() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(ch->GetHeadArmorEquipped()->GetMetaphysicalDefense())));
+		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetMetaphysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(ch->GetTorsoArmorEquipped()->GetMetaphysicalDefense())));
+		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetMetaphysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(ch->GetArmArmorEquipped()->GetMetaphysicalDefense())));
+		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetMetaphysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(ch->GetLegArmorEquipped()->GetMetaphysicalDefense())));
+		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetMetaphysicalDefense() : 0)));
 		VideoManager->SetDrawFlags(VIDEO_X_CENTER,VIDEO_Y_BOTTOM,0);
 
 
