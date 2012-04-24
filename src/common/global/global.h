@@ -185,8 +185,10 @@ public:
 
 	/** \brief Removes a character from the party.
 	*** \param id The ID number of the character to remove from the party.
+	*** \param erase Tells whether the character should be completely remove
+		or just from the active party.
 	**/
-	void RemoveCharacter(uint32 id);
+	void RemoveCharacter(uint32 id, bool erase = false);
 
 	/** \brief Returns a pointer to a character currently in the party.
 	*** \param id The ID number of the character to retrieve.
@@ -411,8 +413,8 @@ public:
 	hoa_video::StillImage& GetMapImage()
 		{ return _map_image; }
 
-	std::vector<GlobalCharacter*>* GetCharacterOrder()
-		{ return &_character_order; }
+	std::vector<GlobalCharacter*>* GetOrderedCharacters()
+		{ return &_ordered_characters; }
 
 	GLOBAL_BATTLE_SETTING GetBattleSetting() const
 		{ return _battle_setting; }
@@ -511,7 +513,7 @@ private:
 	/** \brief A vector whose purpose is to maintain the order of characters
 	*** The first four characters in this vector are in the active party; the rest are in reserve.
 	**/
-	std::vector<GlobalCharacter*> _character_order;
+	std::vector<GlobalCharacter*> _ordered_characters;
 
 	/** \brief The active party of characters
 	*** The active party contains the group of characters that will fight when a battle begins.
