@@ -95,6 +95,7 @@ void PauseMode::Reset() {
 
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
+	VideoManager->DisableFadeEffect();
 }
 
 
@@ -131,6 +132,10 @@ void PauseMode::Update() {
 					// Disable potential previous effects
 					VideoManager->DisableFadeEffect();
 					ModeManager->PopAll();
+
+					// This will permit the fade system to start updating again.
+					mode_type = MODE_MANAGER_DUMMY_MODE;
+
 					ModeManager->Push(new BootMode(), true, true);
 					break;
 				case QUIT_GAME:

@@ -14,10 +14,12 @@
 
 #include "fade.h"
 #include "video.h"
+#include "engine/mode_manager.h"
 
 using namespace std;
 
 using namespace hoa_utils;
+using namespace hoa_mode_manager;
 
 namespace hoa_video {
 
@@ -94,7 +96,11 @@ void ScreenFader::BeginFade(const Color &final, uint32 time, bool transitional) 
 
 
 void ScreenFader::Update(uint32 time) {
-	if (_is_fading == false)
+	if (!_is_fading)
+		return;
+
+	// Don't update fading while in pause
+	if (ModeManager->GetGameType() == MODE_MANAGER_PAUSE_MODE)
 		return;
 
 	// Check for fading finish condition
