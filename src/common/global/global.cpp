@@ -221,7 +221,7 @@ void GameGlobal::ClearAllData() {
 		delete i->second;
 	}
 	_characters.clear();
-	_character_order.clear();
+	_ordered_characters.clear();
 	_active_party.RemoveAllActors();
 
 	// Delete all event groups
@@ -245,10 +245,10 @@ void GameGlobal::AddCharacter(uint32 id) {
 	_characters.insert(make_pair(id, ch));
 
 	// Add the new character to the active party if the active party contains less than four characters
-	if (_character_order.size() < GLOBAL_MAX_PARTY_SIZE)
+	if (_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
 		_active_party.AddActor(ch);
 
-	_character_order.push_back(ch);
+	_ordered_characters.push_back(ch);
 }
 
 
@@ -267,38 +267,39 @@ void GameGlobal::AddCharacter(GlobalCharacter* ch) {
 	_characters.insert(make_pair(ch->GetID(), ch));
 
 	// Add the new character to the active party if the active party contains less than four characters
-	if (_character_order.size() < GLOBAL_MAX_PARTY_SIZE)
+	if (_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
 		_active_party.AddActor(ch);
 
-	_character_order.push_back(ch);
+	_ordered_characters.push_back(ch);
 }
 
 
 
-void GameGlobal::RemoveCharacter(uint32 id) {
-	map<uint32, GlobalCharacter*>::iterator ch = _characters.find(id);
-	if (ch == _characters.end()) {
+void GameGlobal::RemoveCharacter(uint32 id, bool erase) {
+	std::map<uint32, GlobalCharacter*>::iterator it = _characters.find(id);
+	if (it == _characters.end()) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove a character that did not exist: " << id << endl;
 		return;
 	}
 
-	for (vector<GlobalCharacter*>::iterator i = _character_order.begin(); i != _character_order.end(); i++) {
+	for (vector<GlobalCharacter*>::iterator i = _ordered_characters.begin(); i != _ordered_characters.end(); i++) {
 		if ((*i)->GetID() == id) {
-			_character_order.erase(i);
+			_ordered_characters.erase(i);
 			break;
 		}
 	}
 
 	// Reform the active party in case the removed character was a member of it
 	_active_party.RemoveAllActors();
-	for (uint32 j = 0; j < _character_order.size() && j < GLOBAL_MAX_PARTY_SIZE; j++) {
-		_active_party.AddActor(_character_order[j]);
+	for (uint32 j = 0; j < _ordered_characters.size() && j < GLOBAL_MAX_PARTY_SIZE; j++) {
+		_active_party.AddActor(_ordered_characters[j]);
 	}
 
-	// TODO: This should not be done. Once a character has been met in the game, the character data should
-	// not be deleted for any reason. Only removed from the party.
-	delete(ch->second);
-	_characters.erase(ch);
+	// If we were asked to remove the character completely from the game data.
+	if (erase) {
+		delete(it->second);
+		_characters.erase(it);
+	}
 }
 
 
@@ -689,20 +690,20 @@ bool GameGlobal::SaveGame(const string& filename, uint32 slot_id, uint32 x_posit
 	file.WriteLine("characters = {");
 	// First save the order of the characters in the party
 	file.WriteLine("\t[\"order\"] = {");
-	for (uint32 i = 0; i < _character_order.size(); i++) {
+	for (uint32 i = 0; i < _ordered_characters.size(); ++i) {
 		if (i == 0)
-			file.WriteLine("\t\t" + NumberToString(_character_order[i]->GetID()), false);
+			file.WriteLine("\t\t" + NumberToString(_ordered_characters[i]->GetID()), false);
 		else
-			file.WriteLine(", " + NumberToString(_character_order[i]->GetID()), false);
+			file.WriteLine(", " + NumberToString(_ordered_characters[i]->GetID()), false);
 	}
 	file.WriteLine("\n\t},");
 
 	// Now save each individual character's data
-	for (uint32 i = 0; i < _character_order.size(); i++) {
-		if ((i + 1) == _character_order.size())
-			_SaveCharacter(file, _character_order[i], true);
+	for (uint32 i = 0; i < _ordered_characters.size(); i++) {
+		if ((i + 1) == _ordered_characters.size())
+			_SaveCharacter(file, _ordered_characters[i], true);
 		else
-			_SaveCharacter(file, _character_order[i], false);
+			_SaveCharacter(file, _ordered_characters[i], false);
 	}
 	file.WriteLine("}");
 

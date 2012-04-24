@@ -160,7 +160,7 @@ void ShopMedia::Initialize() {
 	}
 
 	// Grab the sprite frames for all characters in the active party
-	vector<GlobalCharacter*>* characters = GlobalManager->GetCharacterOrder();
+	vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
 	for (uint32 i = 0; i < characters->size(); i++) {
 		_character_sprites.push_back(characters->at(i)->GetStandardSpriteFrames()->at(0));
 	}
@@ -624,7 +624,7 @@ void ShopObjectViewer::_SetEquipmentData() {
 	}
 
 	// ---------- (3): For each character, determine if they already have the selection equipped or determine the change in pricing
-	vector<GlobalCharacter*>* party = GlobalManager->GetCharacterOrder();
+	vector<GlobalCharacter*>* party = GlobalManager->GetOrderedCharacters();
 	GlobalCharacter* character = NULL;
 	GlobalWeapon* equipped_weapon = NULL;
 	GlobalArmor* equipped_armor = NULL;
