@@ -117,7 +117,11 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 	_file_list.AddOption(UTranslate("Slot 4"));
 	_file_list.AddOption(UTranslate("Slot 5"));
 	_file_list.AddOption(UTranslate("Slot 6"));
-	_file_list.SetSelection(0);
+
+	// Restore the cursor position to the last load/save position.
+	uint32 slot_id = GlobalManager->GetGameSlotId();
+
+	_file_list.SetSelection(slot_id);
 
 	// Initialize the confirmation option box
 	_confirm_save_optionbox.SetPosition(512.0f, 384.0f);
@@ -238,7 +242,7 @@ void SaveMode::Update() {
 					f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
 					string filename = f.str();
 					// now, attempt to save the game.  If failure, we need to tell the user that!
-					if (GlobalManager->SaveGame(filename, _x_position, _y_position)) {
+					if (GlobalManager->SaveGame(filename, (uint32)id, _x_position, _y_position)) {
 						_current_state = SAVE_MODE_SAVE_COMPLETE;
 					}
 					else {
@@ -376,7 +380,7 @@ bool SaveMode::_LoadGame(int id) {
 		_current_state = SAVE_MODE_FADING_OUT;
 		AudioManager->StopAllMusic();
 
-		GlobalManager->LoadGame(filename);
+		GlobalManager->LoadGame(filename, (uint32)id);
 
 		// Create a new map mode, and fade out and in
 		ModeManager->PopAll();

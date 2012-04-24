@@ -75,6 +75,7 @@ void GlobalEventGroup::SetEvent(const string& event_name, int32 event_value) {
 ////////////////////////////////////////////////////////////////////////////////
 
 GameGlobal::GameGlobal() :
+	_game_slot_id(0),
 	_drunes(0),
 	_x_save_map_position(0),
 	_y_save_map_position(0),
@@ -647,7 +648,7 @@ void GameGlobal::SetMap(const std::string& map_filename, const std::string& map_
 
 
 
-bool GameGlobal::SaveGame(const string& filename, uint32 x_position, uint32 y_position) {
+bool GameGlobal::SaveGame(const string& filename, uint32 slot_id, uint32 x_position, uint32 y_position) {
 	WriteScriptDescriptor file;
 	if (file.OpenFile(filename) == false) {
 		return false;
@@ -725,12 +726,16 @@ bool GameGlobal::SaveGame(const string& filename, uint32 x_position, uint32 y_po
 	}
 
 	file.CloseFile();
+
+	// Store the game slot the game is coming from.
+	_game_slot_id = slot_id;
+
 	return true;
 } // bool GameGlobal::SaveGame(string& filename)
 
 
 
-bool GameGlobal::LoadGame(const string& filename) {
+bool GameGlobal::LoadGame(const string& filename, uint32 slot_id) {
 	ReadScriptDescriptor file;
 	if (file.OpenFile(filename, true) == false) {
 		return false;
@@ -793,6 +798,9 @@ bool GameGlobal::LoadGame(const string& filename) {
 	}
 
 	file.CloseFile();
+
+	// Store the game slot the game is coming from.
+	_game_slot_id = slot_id;
 
 	return true;
 } // bool GameGlobal::LoadGame(string& filename)

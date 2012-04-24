@@ -365,16 +365,22 @@ public:
 
 	/** \brief Saves all global data to a saved game file
 	*** \param filename The filename of the saved game file where to write the data to
+	*** \param slot_id The game slot id used for the save menu.
 	*** \param positions When used in a save point, the save map tile positions are given there.
 	*** \return True if the game was successfully saved, false if it was not
 	**/
-	bool SaveGame(const std::string& filename, uint32 x_position = 0, uint32 y_position = 0);
+	bool SaveGame(const std::string& filename, uint32 slot_id, uint32 x_position = 0, uint32 y_position = 0);
 
 	/** \brief Loads all global data from a saved game file
 	*** \param filename The filename of the saved game file where to read the data from
+	*** \param slot_id The save slot the file correspond to. Used to set the correct cursor position
+	*** when further saving.
 	*** \return True if the game was successfully loaded, false if it was not
 	**/
-	bool LoadGame(const std::string& filename);
+	bool LoadGame(const std::string& filename, uint32 slot_id);
+
+	uint32 GetGameSlotId() const
+		{ return _game_slot_id; }
 
 	//! \name Class Member Access Functions
 	//@{
@@ -477,6 +483,9 @@ public:
 
 private:
 	GameGlobal();
+
+	//! \brief The slot id the game was loaded from/saved to, or 0 if none.
+	uint32 _game_slot_id;
 
 	//! \brief The amount of financial resources (drunes) that the party currently has
 	uint32 _drunes;
