@@ -236,13 +236,28 @@ void GameGlobal::ClearAllData() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void GameGlobal::AddCharacter(uint32 id) {
-	if (_characters.find(id) != _characters.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << id << endl;
-		return;
+	std::map<uint32, GlobalCharacter*>::iterator it = _characters.find(id);
+	if (it != _characters.end()) {
+		if (it->second->IsEnabled()) {
+				IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << id << endl;
+		        return;
+		}
+		else {
+			// Re-enable the character in that case
+			it->second->Enable(true);
+		}
 	}
 
-	GlobalCharacter *ch = new GlobalCharacter(id);
-	_characters.insert(make_pair(id, ch));
+	GlobalCharacter *ch = 0;
+
+	// Add the character if not existing in the main character data
+	if (it == _characters.end()) {
+		ch = new GlobalCharacter(id);
+		_characters.insert(make_pair(id, ch));
+	}
+	else {
+		ch = it->second;
+	}
 
 	// Add the new character to the active party if the active party contains less than four characters
 	if (_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
@@ -266,6 +281,10 @@ void GameGlobal::AddCharacter(GlobalCharacter* ch) {
 
 	_characters.insert(make_pair(ch->GetID(), ch));
 
+	// If the charactger is currently disabled, don't add it to the available characters.
+	if (!ch->IsEnabled())
+		return;
+
 	// Add the new character to the active party if the active party contains less than four characters
 	if (_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
 		_active_party.AddActor(ch);
@@ -281,6 +300,9 @@ void GameGlobal::RemoveCharacter(uint32 id, bool erase) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove a character that did not exist: " << id << endl;
 		return;
 	}
+
+	// Disable the character
+	it->second->Enable(false);
 
 	for (vector<GlobalCharacter*>::iterator i = _ordered_characters.begin(); i != _ordered_characters.end(); i++) {
 		if ((*i)->GetID() == id) {
@@ -822,6 +844,9 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor& file, GlobalCharacter* ch
 
 	file.WriteLine("\t[" + NumberToString(character->GetID()) + "] = {");
 
+	// Store whether the character is available
+	file.WriteLine("\t\tenabled = " + std::string(character->IsEnabled() ? "true" : "false") + ",");
+
 	// ----- (1): Write out the character's stats
 	file.WriteLine("\t\texperience_level = " + NumberToString(character->GetExperienceLevel()) + ",");
 	file.WriteLine("\t\texperience_points = " + NumberToString(character->GetExperiencePoints()) + ",");
@@ -1089,6 +1114,12 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	// This function assumes that the characters table in the saved game file is already open.
 	// So all we need to open is the character's table
 	file.OpenTable(id);
+
+    // Gets whether the character is currently enabled
+	if (file.DoesBoolExist("enabled"))
+		character->Enable(file.ReadBool("enabled"));
+	else // old format
+		character->Enable(true);
 
 	// ----- (2): Read in all of the character's stats data
 	character->SetExperienceLevel(file.ReadUInt("experience_level"));
