@@ -823,7 +823,7 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 	#else // Linux, BSD, other POSIX systems
 		passwd *pw = getpwuid(getuid());
 		if (pw) {
-			string path = string(pw->pw_dir) + "/.allacrost/";
+			string path = string(pw->pw_dir) + "/."APPSHORTNAME"/";
 			if (DoesFileExist(path) == false)
 				MakeDirectory(path);
 			return path;
