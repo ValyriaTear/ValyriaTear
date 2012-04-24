@@ -1100,29 +1100,37 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	if (DoesFileExist(portrait_filename)) {
 		_portrait.Load(portrait_filename);
 	}
-	else {
+	else if (!portrait_filename.empty()) {
 		PRINT_WARNING << "Unavailable portrait image: " << portrait_filename
-			<< " for character: " << _name.c_str() << endl;
+			<< " for character: " << MakeStandardString(_name) << endl;
 	}
 
 	std::string full_portrait_filename = char_script.ReadString("full_portrait");
 	if (DoesFileExist(full_portrait_filename)) {
 		_full_portrait.Load(full_portrait_filename);
 	}
-	else {
+	else if (!full_portrait_filename.empty()) {
 		PRINT_WARNING << "Unavailable full portrait image: " << full_portrait_filename
-			<< " for character: " << _name.c_str() << endl;
+			<< " for character: " << MakeStandardString(_name) << endl;
 	}
 
 	std::string stamina_icon_filename = char_script.ReadString("stamina_icon");
+	bool stamina_icon_loaded = false;
 	if (DoesFileExist(stamina_icon_filename)) {
-		_stamina_icon.Load(stamina_icon_filename, 45.0f, 45.0f);
+		if (_stamina_icon.Load(stamina_icon_filename, 45.0f, 45.0f))
+			stamina_icon_loaded = true;
 	}
 	else {
-		PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
-			<< " for character: " << _name.c_str() << ". Loading default one."<< endl;
-		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
+		// Don't complain if no icon was provided on purpose
+		if (!stamina_icon_filename.empty()) {
+			PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
+				<< " for character: " << MakeStandardString(_name) << ". Loading default one."<< endl;
+		}
 	}
+
+	// Load default in case of failure
+	if (!stamina_icon_loaded)
+		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
 
 	// Load the character's battle portraits from a multi image
 	_battle_portraits.assign(5, StillImage());
@@ -1130,10 +1138,11 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		_battle_portraits[i].SetDimensions(100.0f, 100.0f);
 	}
     std::string battle_portraits_filename = char_script.ReadString("battle_portraits");
-	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits,
+	if (battle_portraits_filename.empty() ||
+		!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits,
 														battle_portraits_filename, 1, 5)) {
 		// Load empty portraits when they don't exist.
-		for (uint32 i = 0; i < _battle_portraits.size(); i++) {
+		for (uint32 i = 0; i < _battle_portraits.size(); ++i) {
 			_battle_portraits[i].Clear();
 			_battle_portraits[i].Load("", 1.0f, 1.0f);
 		}
