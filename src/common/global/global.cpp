@@ -325,13 +325,37 @@ void GameGlobal::RemoveCharacter(uint32 id, bool erase) {
 }
 
 
-
 GlobalCharacter* GameGlobal::GetCharacter(uint32 id) {
 	map<uint32, GlobalCharacter*>::iterator ch = _characters.find(id);
 	if (ch == _characters.end())
 		return NULL;
 	else
 		return (ch->second);
+}
+
+
+void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index) {
+	// Deal with the ordered characters
+	if (first_index == second_index) {
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << endl;
+		return;
+	}
+	if (first_index >= _ordered_characters.size()) {
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index argument exceeded current party size: " << first_index << endl;
+		return;
+	}
+	if (second_index >= _ordered_characters.size()) {
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "second_index argument exceeded current party size: " << second_index << endl;
+		return;
+	}
+
+	// Swap the characters
+	GlobalCharacter* tmp = _ordered_characters[first_index];
+	_ordered_characters[first_index] = _ordered_characters[second_index];
+	_ordered_characters[second_index] = tmp;
+
+	// Do the same for the party member.
+	_active_party.SwapActorsByIndex(first_index, second_index);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

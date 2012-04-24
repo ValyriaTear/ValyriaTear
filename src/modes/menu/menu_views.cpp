@@ -1531,7 +1531,12 @@ void FormationWindow::Update() {
 
 		case FORM_ACTIVE_SECOND:
 			if (event == VIDEO_OPTION_CONFIRM) {
-				// TODO: Implement Character Switch
+				// Switch Characters
+				GlobalManager->SwapCharactersByIndex(_char_select.GetSelection(), _second_char_select.GetSelection());
+
+				// Update the character's view
+				MenuMode::CurrentInstance()->ReloadCharacterWindows();
+
 				_active_box = FORM_ACTIVE_CHAR;
 				_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 				_second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);

@@ -196,6 +196,12 @@ public:
 	***/
 	GlobalCharacter* GetCharacter(uint32 id);
 
+	/** \brief Swaps the location of two character in the party by their indeces
+	*** \param first_index The index of the first character to swap
+	*** \param second_index The index of the second character to swap
+	**/
+	void SwapCharactersByIndex(uint32 first_index, uint32 second_index);
+
 	/** \brief Checks whether or not a character is in the party
 	*** \param id The id of the character to check for
 	*** \return True if the character was found to be in the party, or false if they were not found.
