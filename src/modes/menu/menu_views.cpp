@@ -1013,13 +1013,13 @@ EquipWindow::EquipWindow() :
 }
 
 
-
 EquipWindow::~EquipWindow() {
 }
 
 
+void EquipWindow::Activate(bool new_status, bool equip) {
 
-void EquipWindow::Activate(bool new_status) {
+	_equip = equip;
 
 	//Activate window and first option box...or deactivate both
 	if (new_status) {
@@ -1033,11 +1033,8 @@ void EquipWindow::Activate(bool new_status) {
 }
 
 
-
 void EquipWindow::_InitEquipmentList() {
 	// Set up the inventory option box
-// 	_equip_list.SetCellSize(180.0f, 30.0f);
-
 	_equip_list.SetPosition(500.0f, 170.0f);
 	_equip_list.SetDimensions(400.0f, 360.0f, 1, 255, 1, 6);
 	_equip_list.SetTextStyle(TextStyle("text20"));
@@ -1159,27 +1156,54 @@ void EquipWindow::Update() {
 			MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
 		}
 		else if (event == VIDEO_OPTION_CANCEL) {
-			Activate(false);
+			Activate(false, true);
 			MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
 		}
 		break;
 
-	//Choose equipment to replace
+	//Choose equipment to replace/remove
 	case EQUIP_ACTIVE_SELECT:
 		if (event == VIDEO_OPTION_CONFIRM) {
-			_active_box = EQUIP_ACTIVE_LIST;
-			_UpdateEquipList();
-			if (_equip_list.GetNumberOptions() > 0) {
-				_equip_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-				_equip_list.SetSelection(0);
-				_equip_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-				MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
-			}
+			// Equip mode
+			if (_equip) {
+				_active_box = EQUIP_ACTIVE_LIST;
+				_UpdateEquipList();
+				if (_equip_list.GetNumberOptions() > 0) {
+					_equip_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+					_equip_list.SetSelection(0);
+					_equip_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+					MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
+				}
+				else {
+					_active_box = EQUIP_ACTIVE_SELECT;
+					MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
+				}
+			} // Unequip mode
 			else {
-				_active_box = EQUIP_ACTIVE_SELECT;
-				MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
-			}
-		}
+				GlobalCharacter* ch = dynamic_cast<GlobalCharacter*>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+				switch ( _equip_select.GetSelection() ) {
+					// Unequip and return the old weapon to inventory
+					case EQUIP_WEAPON:
+						GlobalManager->AddToInventory(ch->EquipWeapon(NULL));
+					break;
+					case EQUIP_HEADGEAR:
+						GlobalManager->AddToInventory(ch->EquipHeadArmor(NULL));
+					break;
+					case EQUIP_BODYARMOR:
+						GlobalManager->AddToInventory(ch->EquipTorsoArmor(NULL));
+					break;
+					case EQUIP_OFFHAND:
+						GlobalManager->AddToInventory(ch->EquipArmArmor(NULL));
+					break;
+					case EQUIP_LEGGINGS:
+						GlobalManager->AddToInventory(ch->EquipLegArmor(NULL));
+					break;
+					default:
+						PRINT_WARNING << "Unequip slot is invalid: " << _equip_select.GetSelection() << endl;
+					break;
+				}
+			} // Equip/Unequip
+		} // Confirm
 		else if (event == VIDEO_OPTION_CANCEL) {
 			_active_box = EQUIP_ACTIVE_CHAR;
 			_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
@@ -1251,7 +1275,7 @@ void EquipWindow::Update() {
 				break;}
 
 			default:
-				cout << "MENU ERROR: _equip_select.GetSelection value is invalid: " << _equip_select.GetSelection() << endl;
+				PRINT_WARNING << "Equip slot value is invalid: " << _equip_select.GetSelection() << endl;
 				break;
 			} // switch _equip_select.GetSelection()
 
@@ -1280,56 +1304,36 @@ void EquipWindow::_UpdateEquipList() {
 
 	if (_active_box == EQUIP_ACTIVE_LIST) {
 		uint32 gearsize = 0;
-//		vector<hoa_global::GlobalWeapon*> weapons;
-//		vector<hoa_global::GlobalArmor*> armor;
+		std::vector<GlobalObject*>* equipment_list = NULL;
 
 		switch (_equip_select.GetSelection()) {
 			case EQUIP_WEAPON:
-				gearsize = GlobalManager->GetInventoryWeapons()->size();
-
-				for (uint32 j = 0; j < gearsize; j++) {
-					options.push_back(GlobalManager->GetInventoryWeapons()->at(j)->GetName());
-				}
-
+				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryWeapons());
 				break;
-
 			case EQUIP_HEADGEAR:
-				gearsize = GlobalManager->GetInventoryHeadArmor()->size();
-
-				for (uint32 j = 0; j < gearsize; j++) {
-					options.push_back(GlobalManager->GetInventoryHeadArmor()->at(j)->GetName());
-				}
-
+				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryHeadArmor());
 				break;
-
 			case EQUIP_BODYARMOR:
-				gearsize = GlobalManager->GetInventoryTorsoArmor()->size();
-
-				for (uint32 j = 0; j < gearsize; j++) {
-					options.push_back(GlobalManager->GetInventoryTorsoArmor()->at(j)->GetName());
-				}
-
+				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryTorsoArmor());
 				break;
-
 			case EQUIP_OFFHAND:
-				gearsize = GlobalManager->GetInventoryArmArmor()->size();
-
-				for (uint32 j = 0; j < gearsize; j++) {
-					options.push_back(GlobalManager->GetInventoryArmArmor()->at(j)->GetName());
-				}
-
+				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryArmArmor());
 				break;
-
 			case EQUIP_LEGGINGS:
-				gearsize = GlobalManager->GetInventoryLegArmor()->size();
-
-				for (uint32 j = 0; j < gearsize; j++) {
-					options.push_back(GlobalManager->GetInventoryLegArmor()->at(j)->GetName());
-				}
-
-				break;
+				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryLegArmor());				break;
 		} // switch
-// 		_equip_list.SetSize(1, gearsize);
+
+		if (equipment_list != NULL)
+			gearsize = equipment_list->size();
+
+		// Add the options
+		for (uint32 j = 0; j < gearsize; j++) {
+			options.push_back(MakeUnicodeString("<") +
+				MakeUnicodeString(equipment_list->at(j)->GetIconImage().GetFilename()) +
+				MakeUnicodeString("><70>") +
+				equipment_list->at(j)->GetName());
+		}
+
 		_equip_list.SetOptions(options);
 	} // if EQUIP_ACTIVE_LIST
 
@@ -1338,30 +1342,33 @@ void EquipWindow::_UpdateEquipList() {
 		_equip_images.clear();
 		StillImage i;
 
-		i.Load(ch->GetWeaponEquipped()->GetIconImage().GetFilename(), 60, 60);
+		GlobalWeapon *wpn = ch->GetWeaponEquipped();
+		i.Load(wpn ? wpn->GetIconImage().GetFilename() : "");
 		_equip_images.push_back(i);
 
-		i.Load(ch->GetHeadArmorEquipped()->GetIconImage().GetFilename(), 60, 60);
+		GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
+		i.Load(head_armor ? head_armor->GetIconImage().GetFilename() : "");
 		_equip_images.push_back(i);
 
-		i.Load(ch->GetTorsoArmorEquipped()->GetIconImage().GetFilename(), 60, 60);
+		GlobalArmor *torso_armor = ch->GetTorsoArmorEquipped();
+		i.Load(torso_armor ? torso_armor->GetIconImage().GetFilename() : "");
 		_equip_images.push_back(i);
 
-		i.Load(ch->GetArmArmorEquipped()->GetIconImage().GetFilename(), 60, 60);
+		GlobalArmor *arm_armor = ch->GetArmArmorEquipped();
+		i.Load(arm_armor ? arm_armor->GetIconImage().GetFilename() : "");
 		_equip_images.push_back(i);
 
-		i.Load(ch->GetLegArmorEquipped()->GetIconImage().GetFilename(), 60, 60);
+		GlobalArmor *leg_armor = ch->GetLegArmorEquipped();
+		i.Load(leg_armor ? leg_armor->GetIconImage().GetFilename() : "");
 		_equip_images.push_back(i);
 
 		// Now, update the NAMES of the equipped items
+		options.push_back(wpn ? wpn->GetName() : UTranslate("No weapon"));
+		options.push_back(head_armor ? head_armor->GetName() : UTranslate("No head armor"));
+		options.push_back(torso_armor ? torso_armor->GetName() : UTranslate("No torso armor"));
+		options.push_back(arm_armor ? arm_armor->GetName() : UTranslate("No arm armor"));
+		options.push_back(leg_armor ? leg_armor->GetName() : UTranslate("No leg armor"));
 
-		options.push_back(ch->GetWeaponEquipped()->GetName());
-		options.push_back(ch->GetHeadArmorEquipped()->GetName());
-		options.push_back(ch->GetTorsoArmorEquipped()->GetName());
-		options.push_back(ch->GetArmArmorEquipped()->GetName());
-		options.push_back(ch->GetLegArmorEquipped()->GetName());
-
-// 		_equip_select.SetSize(1, 5);
 		_equip_select.SetOptions(options);
 	}
 
