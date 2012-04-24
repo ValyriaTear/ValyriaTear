@@ -196,17 +196,22 @@ void MapMode::Reset() {
 
 
 void MapMode::Update() {
-	_dialogue_icon.Update();
+	// Update the map frame coords
+	// NOTE: It's done before handling pause so that the frame is updated at
+	// least once before setting the pause mode, avoiding a crash.
+	_UpdateMapFrame();
 
 	// Process quit and pause events unconditional to the state of map mode
-	if (InputManager->QuitPress() == true) {
+	if (InputManager->QuitPress()) {
 		ModeManager->Push(new PauseMode(true));
 		return;
 	}
-	else if (InputManager->PausePress() == true) {
+	else if (InputManager->PausePress()) {
 		ModeManager->Push(new PauseMode(false));
 		return;
 	}
+
+	_dialogue_icon.Update();
 
 	// Call the map script's update function
 	if (_update_function.is_valid())
@@ -242,9 +247,6 @@ void MapMode::Update() {
 
 	// ---------- (5) Update all active map events
 	_event_supervisor->Update();
-
-	// Update the map frame coords
-	_UpdateMapFrame();
 
 	GameMode::Update();
 } // void MapMode::Update()

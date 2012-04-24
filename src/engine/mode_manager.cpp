@@ -216,9 +216,8 @@ void ModeEngine::Update() {
 		// Pop however many game modes we need to from the top of the stack
 		while (_pop_count != 0) {
 			if (_game_stack.empty()) {
-				if (MODE_MANAGER_DEBUG) {
-					cerr << "MODE MANAGER WARNING: Tried to pop off more game modes than were on the stack!" << endl;
-				}
+				PRINT_WARNING << "Tried to pop off more game modes than were on the stack!" << endl;
+				_pop_count = 0;
 				break; // Exit the loop
 			}
 			delete _game_stack.back();
