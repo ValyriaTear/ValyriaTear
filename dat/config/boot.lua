@@ -107,27 +107,27 @@ function UpdateBackgroundAnimation()
 
 	-- deal with all the clouds
 	for i=1, #x_positions1 do
-		x_positions1[i] = fix_pos(x_positions1[i]) - 0.1 * time_expired;
+		x_positions1[i] = fix_pos(x_positions1[i]) - 0.025 * time_expired;
 	end
 
 	for i=1, #x_positions2 do
-		x_positions2[i] = fix_pos(x_positions2[i]) - 0.2 * time_expired;
+		x_positions2[i] = fix_pos(x_positions2[i]) - 0.05 * time_expired;
 	end
 
 	for i=1, #x_positions3 do
-		x_positions3[i] = fix_pos(x_positions3[i]) - 0.3 * time_expired;
+		x_positions3[i] = fix_pos(x_positions3[i]) - 0.075 * time_expired;
 	end
 
 	for i=1, #x_positions4 do
-		x_positions4[i] = fix_pos(x_positions4[i]) - 0.4 * time_expired;
+		x_positions4[i] = fix_pos(x_positions4[i]) - 0.1 * time_expired;
 	end
 
 	for i=1, #x_positions5 do
-		x_positions5[i] = fix_pos(x_positions5[i]) - 0.5 * time_expired;
+		x_positions5[i] = fix_pos(x_positions5[i]) - 0.125 * time_expired;
 	end
 
 	for i=1, #x_positions6 do
-		x_positions6[i] = fix_pos(x_positions6[i]) - 0.6 * time_expired;
+		x_positions6[i] = fix_pos(x_positions6[i]) - 0.15 * time_expired;
 	end
 
 	-- Compute the crystal and shadow movement
