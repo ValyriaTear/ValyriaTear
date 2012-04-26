@@ -235,3 +235,149 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 
 -- All, if any, existing contexts follow.
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+-- The hero starting position
+local hero_start_x = 23;
+local hero_start_y = 14;
+
+local bronann_id = 1000;
+
+-- the main map loading code
+function Load(m)
+
+	Map = m;
+	ObjectManager = Map.object_supervisor;
+	DialogueManager = Map.dialogue_supervisor;
+	EventManager = Map.event_supervisor;
+	TreasureManager = Map.treasure_supervisor;
+	GlobalEvents = Map.map_event_group;
+
+	Map.unlimited_stamina = true;
+
+	CreateCharacters();
+
+	-- Set the camera focus on bronann
+	Map:SetCamera(bronann);
+
+	-- Start the opening dialogue
+	Map:PushState(hoa_map.MapMode.STATE_SCENE);
+
+	CreateDialogues();
+	CreateEvents();
+	CreateZones();
+	EventManager:StartEvent(0);
+end
+
+-- the map update function handles checks done on each game tick.
+function Update()
+	-- Check whether the character is in one of the zones
+	HandleZones();
+end
+
+-- Character creation
+function CreateCharacters()
+	bronann = {};
+
+	bronann = ConstructSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.5, 0.5);
+	bronann:SetDirection(hoa_map.MapMode.SOUTH);
+	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+	bronann:SetNoCollision(false);
+	Map:AddGroundObject(bronann);
+end
+
+
+-- Creates all events and sets up the entire event sequence chain
+function CreateEvents()
+	local event = {};
+
+	-- Start the opening dialogue
+
+	-- Empty event
+	event = hoa_map.DialogueEvent(0, 0);
+	-- Actual event started 3 sec after that
+	event:AddEventLinkAtEnd(1, 3000);
+	EventManager:RegisterEvent(event);
+
+	-- Bronann's opening dialogue
+	event = hoa_map.DialogueEvent(1, 1);
+	event:AddEventLinkAtEnd(2, 3000);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.DialogueEvent(2, 2);
+	event:AddEventLinkAtEnd(3, 10);
+	EventManager:RegisterEvent(event);
+
+	-- Unblock Bronann so he can start walking
+	event = hoa_map.ScriptedEvent(3, "MapPopState", "");
+	event:AddEventLinkAtEnd(4, 10);
+	EventManager:RegisterEvent(event);
+
+	-- Set the opening dialogue as done
+	event = hoa_map.ScriptedEvent(4, "OpeningDialogueDone", "");
+	EventManager:RegisterEvent(event);
+
+
+	-- Triggered events
+	event = hoa_map.MapTransitionEvent(5, "dat/maps/vt_bronanns_home.lua", "from_bronanns_room");
+	EventManager:RegisterEvent(event);
+
+end
+
+-- Creates all dialogue that takes place through characters and events
+function CreateDialogues()
+	local dialogue;
+	local text;
+
+	-- Bronann's opening dialogue
+	dialogue = hoa_map.SpriteDialogue(1);
+		dialogue:SetInputBlocked(true);
+		text = hoa_system.Translate("What a weird dream... I still feel dizzy even after getting up...");
+		dialogue:AddLineTimed(text, bronann_id, 5000);
+	DialogueManager:AddDialogue(dialogue);
+
+	dialogue = hoa_map.SpriteDialogue(2);
+		dialogue:SetInputBlocked(true);
+		text = hoa_system.Translate("Wait!!!");
+		dialogue:AddLineTimed(text, bronann_id, 2000);
+		text = hoa_system.Translate("Today's sunday!!");
+		dialogue:AddLineTimed(text, bronann_id, 2000);
+		text = hoa_system.Translate("HURRAY!! I've got nothing to do, great!");
+		dialogue:AddLineTimed(text, bronann_id, 4000);
+		text = hoa_system.Translate("I hope Mom and Dad won't mind if I go venture around today.");
+		dialogue:AddLineTimed(text, bronann_id, 4000);
+	DialogueManager:AddDialogue(dialogue);
+
+end
+
+-- Create the different map zones triggering events
+function CreateZones()
+	-- N.B.: left, right, top, bottom
+	room_exit_zone = hoa_map.CameraZone(26, 27, 16, 17, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(room_exit_zone);
+end
+
+-- Check whether the active camera has entered a zone. To be called within Update()
+function HandleZones()
+	if (room_exit_zone:IsCameraEntering() == true) then
+		EventManager:StartEvent(5);
+	end
+end
+
+
+-- Map Custom functions
+-- Used through scripted events
+if (map_functions == nil) then
+	map_functions = {}
+end
+
+map_functions = {
+
+	MapPopState = function()
+		Map:PopState();
+	end,
+
+	OpeningDialogueDone = function()
+		if (GlobalEvents:DoesEventExist("opening_dialogue_done") == false) then
+			GlobalEvents:AddNewEvent("opening_dialogue_done", 1);
+		end
+	end
+}

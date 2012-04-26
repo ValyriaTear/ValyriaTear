@@ -1,47 +1,16 @@
-
 -- Character IDs. Each ID can have only a single bit active as IDs are used in bitmask operations.
-CLAUDIUS  = 1;
-MARK      = 2;
-DESTER    = 4;
-LUKAR     = 8;
+BRONANN  = 1;
+KAHLIA   = 2;
 
 function NewGame()
 	-- Prepare the new game data
-	GlobalManager:AddCharacter(LUKAR);
-	GlobalManager:AddCharacter(DESTER);
-	GlobalManager:AddCharacter(MARK);
-	GlobalManager:AddCharacter(CLAUDIUS);
+	GlobalManager:AddCharacter(BRONANN);
 	GlobalManager:AddNewEventGroup("global_events"); -- this group stores the primary list of events completed in the game
-	GlobalManager:SetDrunes(100);
-	GlobalManager:AddToInventory(1, 4);
-	GlobalManager:AddToInventory(11, 1);
-	GlobalManager:AddToInventory(1003, 1);
+	GlobalManager:SetDrunes(0);
 
-	local MM = hoa_map.MapMode("dat/maps/opening_scene.lua");
+	local MM = hoa_map.MapMode("dat/maps/vt_bronanns_room.lua");
 	ModeManager:Pop(false, false);
 	ModeManager:Push(MM, false, true);
-end
-
-
--- Helper functions
-
-function LoadNewMap(map_name)
-	ModeManager:Pop();
-	local new_map = hoa_map.MapMode("dat/maps/" .. map_name .. ".lua");
-	ModeManager:Push(new_map);
-end
-
-function LoadNewShop(...)
-	local i, v, item;
-	local shop = hoa_shop.ShopMode();
-	for i,v in ipairs(arg) do
-		if (i % 2 == 1) then
-			item = v
-		else
-			shop:AddObject(item, v)
-		end
-	end
-	ModeManager:Push(shop);
 end
 
 

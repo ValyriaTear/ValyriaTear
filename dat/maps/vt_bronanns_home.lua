@@ -235,3 +235,109 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 
 -- All, if any, existing contexts follow.
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+-- The hero starting position
+local hero_start_x = 23;
+local hero_start_y = 14;
+
+local bronann_id = 1000;
+
+-- the main map loading code
+function Load(m)
+
+	Map = m;
+	ObjectManager = Map.object_supervisor;
+	DialogueManager = Map.dialogue_supervisor;
+	EventManager = Map.event_supervisor;
+	TreasureManager = Map.treasure_supervisor;
+	GlobalEvents = Map.map_event_group;
+
+	Map.unlimited_stamina = true;
+
+	CreateCharacters();
+
+	-- Set the camera focus on bronann
+	Map:SetCamera(bronann);
+
+	--Map:PushState(hoa_map.MapMode.STATE_SCENE);
+
+	CreateDialogues();
+	CreateEvents();
+	CreateZones();
+	--EventManager:StartEvent(0);
+end
+
+function Update()
+	-- Check whether the character is in one of the zones
+	HandleZones();
+end
+
+
+-- Character creation
+function CreateCharacters()
+	bronann = {};
+
+	bronann = ConstructSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.5, 0.5);
+	bronann:SetDirection(hoa_map.MapMode.SOUTH);
+	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+	bronann:SetNoCollision(false);
+	Map:AddGroundObject(bronann);
+end
+
+
+-- Creates all events and sets up the entire event sequence chain
+function CreateEvents()
+	local event = {};
+
+	-- Start the opening dialogue
+
+	-- Empty event
+	--event = hoa_map.DialogueEvent(0, 0);
+	-- Actual event started 3 sec after that
+	--event:AddEventLinkAtEnd(1, 3000);
+	--EventManager:RegisterEvent(event);
+
+	--event = hoa_map.DialogueEvent(1, 1);
+	--EventManager:RegisterEvent(event);
+
+end
+
+-- Creates all dialogue that takes place through characters and events
+function CreateDialogues()
+	local dialogue;
+	local text;
+
+	-- Bronann's opening dialogue
+	dialogue = hoa_map.SpriteDialogue(1);
+		dialogue:SetInputBlocked(true);
+		text = hoa_system.Translate("Dummy dialogue");
+		dialogue:AddLineTimed(text, bronann_id, 5000);
+	DialogueManager:AddDialogue(dialogue);
+
+end
+
+function CreateZones()
+	-- N.B.: left, right, top, bottom
+	dummy_zone = hoa_map.CameraZone(26, 27, 16, 17, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(dummy_zone);
+end
+
+function HandleZones()
+	if (dummy_zone:IsCameraEntering() == true) then
+		-- EventManager:StartEvent(x);
+	end
+end
+
+
+-- Map Custom functions
+if (map_functions == nil) then
+	map_functions = {}
+end
+
+map_functions = {
+
+	MapPopState = function()
+		Map:PopState();
+	end
+}
+

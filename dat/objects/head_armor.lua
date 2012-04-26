@@ -37,13 +37,13 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[20001] = {
-	name = hoa_system.Translate("Karlate Helmet"),
+	name = hoa_system.Translate("Standard Helmet"),
 	description = hoa_system.Translate("Standard Karlate issued equipment. Battle worn but reliable head protection."),
 	icon = "img/icons/armor/karlate_helmet.png",
 	physical_defense = 6,
 	metaphysical_defense = 2,
 	standard_price = 80,
-	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
+	usable_by = BRONANN + KAHLIA,
 	slots = 0
 }
 
@@ -54,7 +54,7 @@ armor[20002] = {
 	physical_defense = 8,
 	metaphysical_defense = 4,
 	standard_price = 140,
-	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
+	usable_by = BRONANN + KAHLIA,
 	slots = 0
 }
 
@@ -65,7 +65,7 @@ armor[20003] = {
 	physical_defense = 11,
 	metaphysical_defense = 6,
 	standard_price = 220,
-	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
+	usable_by = BRONANN + KAHLIA,
 	slots = 0
 }
 

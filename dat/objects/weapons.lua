@@ -43,7 +43,7 @@ weapons[10001] = {
 	physical_attack = 12,
 	metaphysical_attack = 0,
 	standard_price = 120,
-	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
+	usable_by = BRONANN,
 	slots = 0
 }
 
@@ -54,7 +54,7 @@ weapons[10002] = {
 	physical_attack = 16,
 	metaphysical_attack = 0,
 	standard_price = 250,
-	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
+	usable_by = BRONANN,
 	slots = 0
 }
 
@@ -65,7 +65,7 @@ weapons[10003] = {
 	physical_attack = 34,
 	metaphysical_attack = 0,
 	standard_price = 800,
-	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
+	usable_by = BRONANN,
 	slots = 1
 }
 

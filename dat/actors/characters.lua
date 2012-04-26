@@ -9,25 +9,25 @@
 -- All character definitions are stored in this table
 characters = {}
 
-characters[CLAUDIUS] = {
-	name = hoa_system.Translate("Claudius"),
-	portrait = "img/portraits/claudius.png",
-	full_portrait = "img/portraits/claudius_full.png",
-	battle_portraits = "img/portraits/battle/claudius_damage.png",
-	stamina_icon = "img/icons/actors/characters/claudius.png",
+characters[BRONANN] = {
+	name = hoa_system.Translate("Bronann"),
+	portrait = "img/portraits/bronann.png",
+	full_portrait = "img/portraits/bronann_full.png",
+	battle_portraits = "img/portraits/battle/bronann_damage.png",
+	stamina_icon = "img/icons/actors/characters/bronann.png",
 
 	battle_animations = {
-		idle = "img/sprites/battle/characters/claudius_idle.lua",
-		run = "img/sprites/battle/characters/claudius_run.lua",
-		attack = "img/sprites/battle/characters/claudius_attack.lua",
-		dodge = "img/sprites/battle/characters/claudius_dodge.lua",
-		victory = "img/sprites/battle/characters/claudius_victory.lua",
-		dying = "img/sprites/battle/characters/claudius_dead.lua",
-		dead = "img/sprites/battle/characters/claudius_dead.lua",
-		revive = "img/sprites/battle/characters/claudius_idle.lua",
-		item = "img/sprites/battle/characters/claudius_idle.lua",
-		magic_prepare = "img/sprites/battle/characters/claudius_idle.lua",
-		magic_cast = "img/sprites/battle/characters/claudius_idle.lua"
+		idle = "img/sprites/battle/characters/bronann_idle.lua",
+		run = "img/sprites/battle/characters/bronann_run.lua",
+		attack = "img/sprites/battle/characters/bronann_attack.lua",
+		dodge = "img/sprites/battle/characters/bronann_dodge.lua",
+		victory = "img/sprites/battle/characters/bronann_victory.lua",
+		dying = "img/sprites/battle/characters/bronann_dead.lua",
+		dead = "img/sprites/battle/characters/bronann_dead.lua",
+		revive = "img/sprites/battle/characters/bronann_idle.lua",
+		item = "img/sprites/battle/characters/bronann_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/bronann_idle.lua",
+		magic_cast = "img/sprites/battle/characters/bronann_idle.lua"
 	},
 
 	initial_stats = {
@@ -110,9 +110,9 @@ characters[CLAUDIUS] = {
 	},
 
 	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
-} -- characters[CLAUDIUS]
+} -- characters[BRONANN]
 
-
+--[[
 
 characters[MARK] = {
 	name = hoa_system.Translate("Mark"),
@@ -385,6 +385,7 @@ characters[LUKAR] = {
 	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4, [17] = 20002 }
 } -- characters[LUKAR]
 
+]]--
 
 ------------------------------------------------------------------------------[[
 -- \brief Called everytime a character reaches a new experience level.
