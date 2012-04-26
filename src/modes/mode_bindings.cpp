@@ -455,7 +455,7 @@ void BindModeCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<ScriptedEvent, MapEvent>("ScriptedEvent")
-			.def(constructor<uint32, uint32, uint32>())
+			.def(constructor<uint32, std::string, std::string>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -466,8 +466,8 @@ void BindModeCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<ScriptedSpriteEvent, SpriteEvent>("ScriptedSpriteEvent")
-			.def(constructor<uint32, uint16, uint32, uint32>())
-			.def(constructor<uint32, VirtualSprite*, uint32, uint32>())
+			.def(constructor<uint32, uint16, std::string, std::string>())
+			.def(constructor<uint32, VirtualSprite*, std::string, std::string>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
