@@ -252,7 +252,7 @@ void BattleEncounterEvent::_Start() {
 // ---------- ScriptedEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ScriptedEvent::ScriptedEvent(uint32 event_id, uint32 start_index, uint32 update_index) :
+ScriptedEvent::ScriptedEvent(uint32 event_id, const std::string& start_function, const std::string& update_function) :
 	MapEvent(event_id, SCRIPTED_EVENT),
 	_start_function(NULL),
 	_update_function(NULL)
@@ -260,13 +260,13 @@ ScriptedEvent::ScriptedEvent(uint32 event_id, uint32 start_index, uint32 update_
 	ReadScriptDescriptor& map_script = MapMode::CurrentInstance()->GetMapScript();
 	MapMode::CurrentInstance()->OpenMapTablespace(true);
 	map_script.OpenTable("map_functions");
-	if (start_index != 0) {
+	if (!start_function.empty()) {
 		_start_function = new ScriptObject();
-		*_start_function = map_script.ReadFunctionPointer(start_index);
+		*_start_function = map_script.ReadFunctionPointer(start_function);
 	}
-	if (update_index != 0) {
+	if (!update_function.empty()) {
 		_update_function = new ScriptObject();
-		*_update_function = map_script.ReadFunctionPointer(update_index);
+		*_update_function = map_script.ReadFunctionPointer(update_function);
 	}
 	map_script.CloseTable();
 	map_script.CloseTable();
@@ -364,7 +364,9 @@ SpriteEvent::SpriteEvent(uint32 event_id, EVENT_TYPE event_type, VirtualSprite* 
 // ---------- ScriptedSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ScriptedSpriteEvent::ScriptedSpriteEvent(uint32 event_id, uint16 sprite_id, uint32 start_index, uint32 update_index) :
+ScriptedSpriteEvent::ScriptedSpriteEvent(uint32 event_id, uint16 sprite_id,
+										 const std::string& start_function,
+										 const std::string& update_function) :
 	SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite_id),
 	_start_function(NULL),
 	_update_function(NULL)
@@ -372,13 +374,13 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(uint32 event_id, uint16 sprite_id, uint
 	ReadScriptDescriptor& map_script = MapMode::CurrentInstance()->GetMapScript();
 	MapMode::CurrentInstance()->OpenMapTablespace(true);
 	map_script.OpenTable("map_functions");
-	if (start_index != 0) {
+	if (!start_function.empty()) {
 		_start_function = new ScriptObject();
-		*_start_function = map_script.ReadFunctionPointer(start_index);
+		*_start_function = map_script.ReadFunctionPointer(start_function);
 	}
-	if (update_index != 0) {
+	if (!update_function.empty()) {
 		_update_function = new ScriptObject();
-		*_update_function = map_script.ReadFunctionPointer(update_index);
+		*_update_function = map_script.ReadFunctionPointer(update_function);
 	}
 	map_script.CloseTable();
 	map_script.CloseTable();
@@ -386,7 +388,9 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(uint32 event_id, uint16 sprite_id, uint
 
 
 
-ScriptedSpriteEvent::ScriptedSpriteEvent(uint32 event_id, VirtualSprite* sprite, uint32 start_index, uint32 update_index) :
+ScriptedSpriteEvent::ScriptedSpriteEvent(uint32 event_id, VirtualSprite* sprite,
+										 const std::string& start_function,
+										 const std::string& update_function) :
 	SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite),
 	_start_function(NULL),
 	_update_function(NULL)
@@ -394,13 +398,13 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(uint32 event_id, VirtualSprite* sprite,
 	ReadScriptDescriptor& map_script = MapMode::CurrentInstance()->GetMapScript();
 	MapMode::CurrentInstance()->OpenMapTablespace(true);
 	map_script.OpenTable("map_functions");
-	if (start_index != 0) {
+	if (!start_function.empty()) {
 		_start_function = new ScriptObject();
-		*_start_function = map_script.ReadFunctionPointer(start_index);
+		*_start_function = map_script.ReadFunctionPointer(start_function);
 	}
-	if (update_index != 0) {
+	if (!update_function.empty()) {
 		_update_function = new ScriptObject();
-		*_update_function = map_script.ReadFunctionPointer(update_index);
+		*_update_function = map_script.ReadFunctionPointer(update_function);
 	}
 	map_script.CloseTable();
 	map_script.CloseTable();

@@ -413,14 +413,14 @@ protected:
 class ScriptedEvent : public MapEvent {
 public:
 	/** \param event_id The ID of this event
-	*** \param start_index An index in the map file's function table that references the start function
-	*** \param update_index An index in the map file's function table that references the update function
+	*** \param start_function the map file's function start function name to call
+	*** \param update_function the map file's function update function name to call
 	***
-	*** \note A value of zero for either the start or update index arguments will result in no start or
+	*** \note An empty value for either the start or update arguments will result in no start or
 	*** update function being defined. If no update function is defined, the call to _Update() will always
 	*** return true, meaning that this event will end immediately after it starts.
 	**/
-	ScriptedEvent(uint32 event_id, uint32 start_index, uint32 check_index);
+	ScriptedEvent(uint32 event_id, const std::string& start_function, const std::string& update_function);
 
 	~ScriptedEvent();
 
@@ -507,25 +507,25 @@ class ScriptedSpriteEvent : public SpriteEvent {
 public:
 	/** \param event_id The ID of this event
 	*** \param sprite_id The id of the sprite that will be passed to the Lua script functions
-	*** \param start_index An index in the map file's function table that references the start function
-	*** \param update_index An index in the map file's function table that references the update function
+	*** \param start_function the map file's function start function name to call
+	*** \param update_function the map file's function update function name to call
 	***
 	*** \note A value of zero for either the start or update index arguments will result in no start or
 	*** update function being defined. If no update function is defined, the call to _Update() will always
 	*** return true, meaning that this event will end immediately after it starts.
 	**/
-	ScriptedSpriteEvent(uint32 event_id, uint16 sprite_id, uint32 start_index, uint32 check_index);
+	ScriptedSpriteEvent(uint32 event_id, uint16 sprite_id, const std::string& start_function, const std::string& update_function);
 
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite that will be passed to the Lua script functions
-	*** \param start_index An index in the map file's function table that references the start function
-	*** \param update_index An index in the map file's function table that references the update function
+	*** \param start_function the map file's function start function name to call
+	*** \param update_function the map file's function update function name to call
 	***
 	*** \note A value of zero for either the start or update index arguments will result in no start or
 	*** update function being defined. If no update function is defined, the call to _Update() will always
 	*** return true, meaning that this event will end immediately after it starts.
 	**/
-	ScriptedSpriteEvent(uint32 event_id, VirtualSprite* sprite, uint32 start_index, uint32 check_index);
+	ScriptedSpriteEvent(uint32 event_id, VirtualSprite* sprite, const std::string& start_function, const std::string& update_function);
 
 	~ScriptedSpriteEvent();
 
