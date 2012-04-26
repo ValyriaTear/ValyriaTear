@@ -205,6 +205,11 @@ public:
 	// Be sure to set the parent of the items returned, and add them in the corresponding Qt widget.
 	std::vector<QTreeWidgetItem*> getLayerNames();
 
+	//! \brief Gets the custom scripting data and stores it in an string buffer
+	void GetScriptingData();
+	//! \brief the scripting lines writtien after the map data.
+	std::string after_text;
+
 	//! \brief The map name presented to the player
 	QString map_name;
 

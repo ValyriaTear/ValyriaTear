@@ -29,6 +29,10 @@ using namespace std;
 
 namespace hoa_editor {
 
+// Map editor markup lines
+const char * BEFORE_TEXT_MARKER = "-- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --";
+const char * AFTER_TEXT_MARKER =  "-- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --";
+
 LAYER_TYPE getLayerType(const std::string& type)
 {
 	if (type == "ground")
@@ -460,20 +464,18 @@ bool Grid::LoadMap()
 	}
 
 	read_data.CloseTable();
+
+	// Gets the data at load time because we might change the filename during the session.
+	GetScriptingData();
+
 	return true;
 } // Grid::LoadMap()
 
-
-void Grid::SaveMap()
+void Grid::GetScriptingData()
 {
+	std::ifstream file;
 	const int32 BUFFER_SIZE = 1024;
 	char buffer[BUFFER_SIZE];
-	WriteScriptDescriptor write_data;
-
-	std::ifstream file;
-	std::string after_text;
-	const char * BEFORE_TEXT_MARKER = "-- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --";
-	const char * AFTER_TEXT_MARKER =  "-- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --";
 
 	// First, get the non-editor data (such as map scripting) from the file to save, so we don't clobber it.
 	file.open(_file_name.toAscii(), ifstream::in);
@@ -498,6 +500,12 @@ void Grid::SaveMap()
 
 		file.close();
 	}
+}
+
+
+void Grid::SaveMap()
+{
+	WriteScriptDescriptor write_data;
 
 	if (write_data.OpenFile(string(_file_name.toAscii())) == false) {
 		QMessageBox::warning(this, "Saving File...", QString("ERROR: could not open %1 for writing!").arg(_file_name));
