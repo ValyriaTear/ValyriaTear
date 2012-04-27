@@ -1353,8 +1353,12 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionDiagonal(VirtualSprite* sprite,
 
 		check_vertical_align = false;
 		axis = (north_or_south == true) ? static_cast<uint32>(mod_sprite_rect.top) : static_cast<uint32>(mod_sprite_rect.bottom);
-		for (uint32 i = static_cast<uint32>(sprite_coll_rect.left); i <= static_cast<uint32>(sprite_coll_rect.right); i++) {
-			if (_collision_grid[axis][i] & sprite->context) {
+
+		if (axis > _collision_grid.size() - 1)
+			axis = _collision_grid.size() - 1;
+		for (uint32 i = static_cast<uint32>(sprite_coll_rect.left); i <= static_cast<uint32>(sprite_coll_rect.right); ++i) {
+			if ((i >= _collision_grid[axis].size()) ||
+					(_collision_grid[axis][i] & sprite->context)) {
 				check_vertical_align = true;
 				break;
 			}
@@ -1362,8 +1366,10 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionDiagonal(VirtualSprite* sprite,
 
 		check_horizontal_align = false;
 		axis = (east_or_west == true) ? static_cast<uint32>(mod_sprite_rect.right) : static_cast<uint32>(mod_sprite_rect.left);
-		for (uint32 i = static_cast<uint32>(sprite_coll_rect.top); i <= static_cast<uint32>(sprite_coll_rect.bottom); i++) {
-			if (_collision_grid[i][axis] & sprite->context) {
+		for (uint32 i = static_cast<uint32>(sprite_coll_rect.top); i <= static_cast<uint32>(sprite_coll_rect.bottom); ++i) {
+			if ((axis >= _collision_grid[i].size())
+					|| (i >= _collision_grid.size())
+					|| (_collision_grid[i][axis] & sprite->context)) {
 				check_horizontal_align = true;
 				break;
 			}
