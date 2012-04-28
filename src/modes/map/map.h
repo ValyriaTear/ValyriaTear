@@ -377,7 +377,7 @@ private:
 	// ----- Methods -----
 
 	//! \brief Loads all map data contained in the Lua file that defines the map
-	void _Load();
+	bool _Load();
 
 	//! \brief A helper function to Update() that is called only when the map is in the explore state
 	void _UpdateExplore();
