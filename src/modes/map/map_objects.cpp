@@ -177,30 +177,51 @@ PhysicalObject::~PhysicalObject() {
 }
 
 
-
 void PhysicalObject::Update() {
-	if (updatable)
+	if (!animations.empty() && updatable)
 		animations[current_animation].Update();
 }
 
 
-
 void PhysicalObject::Draw() {
-	if (MapObject::ShouldDraw() == true)
+	if (!animations.empty() && MapObject::ShouldDraw())
 		animations[current_animation].Draw();
 }
 
 
-
-void PhysicalObject::AddAnimation(string filename) {
+int32 PhysicalObject::AddAnimation(std::string animation_filename) {
 	AnimatedImage new_animation;
-	new_animation.SetDimensions(img_half_width * 2, img_height);
-	if (new_animation.AddFrame(filename, 100000) == false) { // TODO: 1000000 is an arbitrary frame time
-		IF_PRINT_WARNING(MAP_DEBUG) << "could not add animation because image filename was invalid: " << filename << endl;
-		return;
+	if (!new_animation.LoadFromAnimationScript(animation_filename)) {
+		PRINT_WARNING << "Could not add animation because the animation filename was invalid: "
+		    << animation_filename << endl;
+		return -1;
 	}
+	new_animation.SetDimensions(img_half_width * 2, img_height);
 
 	animations.push_back(new_animation);
+	return (int32)animations.size() - 1;
+}
+
+
+int32 PhysicalObject::AddStillFrame(std::string image_filename) {
+	AnimatedImage new_animation;
+	if (!new_animation.AddFrame(image_filename, 100000)) {
+		PRINT_WARNING << "Could not add a still frame because the image filename was invalid: "
+		    << image_filename << endl;
+		return -1;
+	}
+	new_animation.SetDimensions(img_half_width * 2, img_height);
+
+	animations.push_back(new_animation);
+	return (int32)animations.size() - 1;
+}
+
+
+void PhysicalObject::SetCurrentAnimation(uint32 animation_id) {
+    if (animation_id < animations.size()) {
+        animations[current_animation].SetTimeProgress(0);
+        current_animation = animation_id;
+    }
 }
 
 

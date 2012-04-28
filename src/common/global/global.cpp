@@ -124,6 +124,7 @@ GameGlobal::~GameGlobal() {
 	_status_effects_script.CloseFile();
 
 	_map_sprites_script.CloseFile();
+	_map_objects_script.CloseFile();
 
 	_battle_events_script.CloseTable();
 	_battle_events_script.CloseFile();
@@ -187,7 +188,11 @@ bool GameGlobal::SingletonInitialize() {
 	}
 	_status_effects_script.OpenTable("status_effects");
 
-	if (_map_sprites_script.OpenFile("dat/actors/map_sprites_stock.lua") == false) {
+	if (!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua")) {
+		return false;
+	}
+
+	if (!_map_objects_script.OpenFile("dat/actors/map_objects.lua")) {
 		return false;
 	}
 
