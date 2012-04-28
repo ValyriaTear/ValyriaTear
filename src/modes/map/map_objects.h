@@ -328,9 +328,7 @@ struct MapObject_Ptr_Less {
 *** \brief Represents visible objects on the map that have no motion.
 ***
 *** This class represents both still image and animated objects. These objects
-*** are usually fixed in place and do not change their position. The object must
-*** have at least one entry in its image vector, otherwise a segmentation fault
-*** will occur if the Update or Draw functions are called.
+*** are usually fixed in place and do not change their position.
 ***
 *** \note If the object does not have any animated images, set the 'updatable'
 *** member of the base class to false. Forgetting to do this will do no harm, but
@@ -364,22 +362,27 @@ public:
 	*** These functions are specifically to enable Lua to access the members of this class.
 	**/
 	//@{
-	/** \brief Adds a new still animation using the image filename provided
-	*** \param filename The name of the image file to use for the animation
-	*** \note If the image fails to load, a warning message is printed and no animation is added.
+	/** \brief Sets a new animation using the animation filename provided
+	*** \param animation_filename The name of the animation file to use for the animation
+	*** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
 	**/
-	void AddAnimation(std::string filename);
+	int32 AddAnimation(std::string animation_filename);
+
+	/** \brief Sets a new still animation using the image filename provided
+	*** \param image_filename The name of the image file to use for the animation
+	*** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
+	**/
+	int32 AddStillFrame(std::string image_filename);
 
 	void AddAnimation(hoa_video::AnimatedImage new_img)
 		{ animations.push_back(new_img); }
 
-	void SetCurrentAnimation(uint8 current)
-		{ animations[current_animation].SetTimeProgress(0); current_animation = current; }
+	void SetCurrentAnimation(uint32 animation_id);
 
 	void SetAnimationProgress(uint32 progress)
 		{ animations[current_animation].SetTimeProgress(progress); }
 
-	uint8 GetCurrentAnimation() const
+		uint32 GetCurrentAnimation() const
 		{ return current_animation; }
 	//@}
 }; // class PhysicalObject : public MapObject

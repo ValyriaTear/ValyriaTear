@@ -241,7 +241,8 @@ void BindModeCode() {
 	[
 		class_<PhysicalObject, MapObject>("PhysicalObject")
 			.def(constructor<>())
-			.def("AddAnimation", (void(PhysicalObject::*)(std::string))&PhysicalObject::AddAnimation)
+			.def("AddAnimation", (int32(PhysicalObject::*)(std::string))&PhysicalObject::AddAnimation)
+			.def("AddStillFrame", &PhysicalObject::AddStillFrame)
 			.def("SetCurrentAnimation", &PhysicalObject::SetCurrentAnimation)
 			.def("SetAnimationProgress", &PhysicalObject::SetAnimationProgress)
 			.def("GetCurrentAnimation", &PhysicalObject::GetCurrentAnimation)
