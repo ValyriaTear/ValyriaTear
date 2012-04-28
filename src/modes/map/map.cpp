@@ -23,6 +23,7 @@
 
 #include "modes/menu/menu.h"
 #include "modes/pause.h"
+#include "modes/boot/boot.h"
 #include "modes/save/save_mode.h"
 
 #include "modes/map/map_dialogue.h"
@@ -36,6 +37,7 @@
 using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
+using namespace hoa_boot;
 using namespace hoa_input;
 using namespace hoa_mode_manager;
 using namespace hoa_script;
@@ -135,8 +137,14 @@ MapMode::MapMode(string filename) :
 
 	_camera_timer.Initialize(0, 1);
 
-	// TODO: Load the map data in a seperate thread
-	_Load();
+	if (!_Load()) {
+	    PRINT_ERROR << "Couldn't load the map file: " << _map_filename << endl
+	        << "Returning to boot mode. You should report this error." << endl;
+	    BootMode *BM = new BootMode();
+	    ModeManager->PopAll();
+	    ModeManager->Push(BM);
+	    return;
+	}
 
 	// Load miscellaneous map graphics
 	_dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
@@ -428,10 +436,11 @@ bool MapMode::AttackAllowed() {
 // ********** MapMode Private Class Methods
 // ****************************************************************************
 
-void MapMode::_Load() {
+bool MapMode::_Load() {
 	// ---------- (1) Open map script file and read in the basic map properties and tile definitions
 	if (!_map_script.OpenFile(_map_filename)) {
 	    PRINT_ERROR << "Couldn't open map script file: " << _map_filename << endl;
+		return false;
 	}
 
 	// The map tablespace is needed later by scripted events.
@@ -439,7 +448,7 @@ void MapMode::_Load() {
 
 	if (_map_tablespace.empty()) {
 		PRINT_ERROR << "Couldn't open map name space: " << _map_filename << endl;
-		return;
+		return false;
 	}
 
 	// Read the number of map contexts, the name of the map, and load the location graphic image
@@ -447,14 +456,17 @@ void MapMode::_Load() {
 	_map_name = MakeUnicodeString(_map_script.ReadString("map_name"));
 	std::string map_filename = _map_script.ReadString("map_image_filename");
 	if (!map_filename.empty() && !_map_image.Load(_map_script.ReadString("map_image_filename")))
-		PRINT_ERROR << "failed to load location graphic image: " << _map_image.GetFilename() << endl;
+		PRINT_ERROR << "Failed to load location graphic image: " << _map_image.GetFilename() << endl;
 
 	// Instruct the supervisor classes to perform their portion of the load operation
 	if (!_tile_supervisor->Load(_map_script, this)) {
-		PRINT_ERROR << "failed to load the tile data." << endl;
-		return;
+		PRINT_ERROR << "Failed to load the tile data." << endl;
+		return false;
 	}
-	_object_supervisor->Load(_map_script);
+
+	// NOTE: The object supervisor will complain itself about the error.
+	if (!_object_supervisor->Load(_map_script))
+		return false;
 
 	// ---------- (3) Load map sounds and music
 	vector<string> sound_filenames;
@@ -463,8 +475,7 @@ void MapMode::_Load() {
 	for (uint32 i = 0; i < sound_filenames.size(); i++) {
 		_sounds.push_back(SoundDescriptor());
 		if (_sounds.back().LoadAudio(sound_filenames[i]) == false) {
-			PRINT_ERROR << "failed to load map sound: " << sound_filenames[i] << endl;
-			return;
+			PRINT_WARNING << "Failed to load map sound: " << sound_filenames[i] << endl;
 		}
 	}
 
@@ -473,8 +484,7 @@ void MapMode::_Load() {
 	_music.resize(music_filenames.size(), MusicDescriptor());
 	for (uint32 i = 0; i < music_filenames.size(); i++) {
 		if (_music[i].LoadAudio(music_filenames[i]) == false) {
-			PRINT_ERROR << "failed to load map music: " << music_filenames[i] << endl;
-			return;
+			PRINT_WARNING << "Failed to load map music: " << music_filenames[i] << endl;
 		}
 	}
 
@@ -489,10 +499,28 @@ void MapMode::_Load() {
 	ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
 	ScriptObject function = map_table["Load"];
 
-	if (function.is_valid())
-		ScriptCallFunction<void>(function, this);
-	else
+    bool loading_succeeded = true;
+	if (function.is_valid()) {
+		try {
+		    ScriptCallFunction<void>(function, this);
+		}
+		catch (luabind::error e) {
+			ScriptManager->HandleLuaError(e);
+			loading_succeeded = false;
+		}
+		catch (luabind::cast_failed e) {
+			ScriptManager->HandleCastError(e);
+			loading_succeeded = false;
+		}
+	}
+	else {
+		loading_succeeded = false;
+	}
+
+	if (!loading_succeeded) {
 		PRINT_ERROR << "Invalid map Load() function. The function wasn't called." << endl;
+		return false;
+	}
 
 	_update_function = _map_script.ReadFunctionPointer("Update");
 	_draw_function = _map_script.ReadFunctionPointer("Draw");
@@ -512,7 +540,9 @@ void MapMode::_Load() {
 	}
 
 	_map_script.CloseAllTables();
-} // void MapMode::_Load()
+
+	return true;
+} // bool MapMode::_Load()
 
 
 

@@ -567,12 +567,13 @@ public:
 
 	/** \brief Loads the collision grid data and saved state of all map objects
 	*** \param map_file A reference to the open map script file
+	*** \return Whether the collision data loading was successful.
 	***
 	*** The file must be open prior to making this call and additionally must
 	*** be at the highest level scope (i.e., there are no actively open tables
 	*** in the script descriptor object).
 	**/
-	void Load(hoa_script::ReadScriptDescriptor& map_file);
+	bool Load(hoa_script::ReadScriptDescriptor& map_file);
 
 	//! \brief Updates the state of all map zones and objects
 	void Update();

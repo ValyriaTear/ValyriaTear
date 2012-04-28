@@ -507,8 +507,13 @@ void ObjectSupervisor::SortObjects() {
 
 
 
-void ObjectSupervisor::Load(ReadScriptDescriptor& map_file) {
-	// ---------- Construct the collision grid
+bool ObjectSupervisor::Load(ReadScriptDescriptor& map_file) {
+	if (!map_file.DoesTableExist("map_grid")) {
+		PRINT_ERROR << "No map grid found in map file: " << map_file.GetFilename() << endl;
+		return false;
+	}
+
+	// Construct the collision grid
 	map_file.OpenTable("map_grid");
 	_num_grid_y_axis = map_file.GetTableSize();
 	for (uint16 y = 0; y < _num_grid_y_axis; ++y) {
@@ -517,6 +522,7 @@ void ObjectSupervisor::Load(ReadScriptDescriptor& map_file) {
 	}
 	map_file.CloseTable();
 	_num_grid_x_axis = _collision_grid[0].size();
+	return true;
 }
 
 
