@@ -61,14 +61,17 @@ MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 	if (MENU_DEBUG)
 		cout << "MENU: MenuMode constructor invoked." << endl;
 
-	_locale_name.SetStyle(TextStyle("title22"));
-	_locale_name.SetText(locale_name);
+	_locale_name.SetPosition(win_start_x + 40, win_start_y + 457);
+	_locale_name.SetDimensions(500.0f, 50.0f);
+	_locale_name.SetTextStyle(TextStyle("title22"));
+	_locale_name.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+	_locale_name.SetDisplayText(locale_name);
 
 	// Initialize the location graphic
 	_locale_graphic.SetStatic(true);
-	if (_locale_graphic.Load(locale_image, 500, 125) == false) {
-		cerr << "MENU ERROR: failed to load locale graphic in MenuMode constructor: " << locale_image << endl;
-		exit(1);
+	if (!locale_image.empty() && !_locale_graphic.Load(locale_image, 480, 95)) {
+		PRINT_WARNING << "Failed to load locale graphic in MenuMode constructor: "
+			<< locale_image << endl;
 	}
 
 	try {
@@ -970,10 +973,12 @@ void MenuMode::_DrawBottomMenu() {
 		VideoManager->MoveRelative(0, 30);
 		VideoManager->Text()->Draw(UTranslate("Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 
-		VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
-		VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-		VideoManager->Move(390, 685);
-		_locale_graphic.Draw();
+		if (!_locale_graphic.GetFilename().empty()) {
+			VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
+			VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+			VideoManager->Move(390, 685);
+			_locale_graphic.Draw();
+		}
 	}
 } // void MenuMode::_DrawBottomMenu()
 
