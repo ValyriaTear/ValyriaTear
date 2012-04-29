@@ -320,24 +320,40 @@ MAP_STATE MapMode::CurrentState() {
 
 
 void MapMode::AddGroundObject(MapObject *obj) {
+	if (!obj) {
+		PRINT_WARNING << "Couldn't add NULL object." << endl;
+		return;
+	}
 	_object_supervisor->_ground_objects.push_back(obj);
 	_object_supervisor->_all_objects.insert(make_pair(obj->object_id, obj));
 }
 
 
 void MapMode::AddPassObject(MapObject *obj) {
+	if (!obj) {
+		PRINT_WARNING << "Couldn't add NULL object." << endl;
+		return;
+	}
 	_object_supervisor->_pass_objects.push_back(obj);
 	_object_supervisor->_all_objects.insert(make_pair(obj->object_id, obj));
 }
 
 
 void MapMode::AddSkyObject(MapObject *obj) {
+	if (!obj) {
+		PRINT_WARNING << "Couldn't add NULL object." << endl;
+		return;
+	}
 	_object_supervisor->_sky_objects.push_back(obj);
 	_object_supervisor->_all_objects.insert(make_pair(obj->object_id, obj));
 }
 
 
 void MapMode::AddZone(MapZone *zone) {
+	if (!zone) {
+		PRINT_WARNING << "Couldn't add NULL zone." << endl;
+		return;
+	}
 	_object_supervisor->_zones.push_back(zone);
 }
 

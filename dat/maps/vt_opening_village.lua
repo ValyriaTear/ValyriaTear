@@ -27,7 +27,7 @@ sound_filenames = {}
 
 -- The music files used as background music on this map.
 music_filenames = {}
-music_filenames[1] = "mus/Town_Folk.ogg"
+music_filenames[1] = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- The names of the contexts used to improve Editor user-friendliness
 context_names = {}
@@ -260,3 +260,105 @@ layers[2][39] = { -1, -1, -1, -1, -1, -1, 40, 41, 20, 21, -1, -1, -1, -1, -1, -1
 
 -- All, if any, existing contexts follow.
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+-- The hero starting position
+local hero_start_x = 12;
+local hero_start_y = 63;
+
+local bronann_id = 1000;
+
+-- the main map loading code
+function Load(m)
+
+	Map = m;
+	ObjectManager = Map.object_supervisor;
+	DialogueManager = Map.dialogue_supervisor;
+	EventManager = Map.event_supervisor;
+	TreasureManager = Map.treasure_supervisor;
+	GlobalEvents = Map.map_event_group;
+
+	Map.unlimited_stamina = true;
+
+	CreateCharacters();
+
+	-- Set the camera focus on Bronann
+	Map:SetCamera(bronann);
+
+	--Map:PushState(hoa_map.MapMode.STATE_SCENE);
+
+	CreateDialogues();
+	CreateEvents();
+	CreateZones();
+	--EventManager:StartEvent(0);
+end
+
+function Update()
+	-- Check whether the character is in one of the zones
+	CheckZones();
+end
+
+
+-- Character creation
+function CreateCharacters()
+	bronann = {};
+
+	bronann = ConstructSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.0, 0.0);
+	bronann:SetDirection(hoa_map.MapMode.SOUTH);
+	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+	bronann:SetNoCollision(false);
+	Map:AddGroundObject(bronann);
+end
+
+
+-- Creates all events and sets up the entire event sequence chain
+function CreateEvents()
+	local event = {};
+
+	-- Start the opening dialogue
+
+	-- Empty event
+	--event = hoa_map.DialogueEvent(0, 0);
+	-- Actual event started 3 sec after that
+	--event:AddEventLinkAtEnd(1, 3000);
+	--EventManager:RegisterEvent(event);
+
+    -- Triggered Events
+	event = hoa_map.MapTransitionEvent(10, "dat/maps/vt_bronanns_home.lua", "from_village");
+	EventManager:RegisterEvent(event);
+
+end
+
+-- Creates all dialogue that takes place through characters and events
+function CreateDialogues()
+	local dialogue;
+	local text;
+
+	-- Bronann's opening dialogue
+	dialogue = hoa_map.SpriteDialogue(1);
+		dialogue:SetInputBlocked(true);
+		text = hoa_system.Translate("Dummy dialogue");
+		dialogue:AddLineTimed(text, bronann_id, 5000);
+	DialogueManager:AddDialogue(dialogue);
+
+end
+
+function CreateZones()
+	-- N.B.: left, right, top, bottom
+	bronanns_home_entrance_zone = hoa_map.CameraZone(10, 13, 60, 61, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(bronanns_home_entrance_zone);
+end
+
+function CheckZones()
+	if (bronanns_home_entrance_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+        EventManager:StartEvent(10);
+	end
+end
+
+
+-- Map Custom functions
+if (map_functions == nil) then
+	map_functions = {}
+end

@@ -1,5 +1,13 @@
 objects = {}
 
+objects["Barrel1"] = {
+	animation_filename = "img/sprites/map/objects/barrel1.lua",
+	coll_half_width = 0.78,
+	coll_height = 1.6,
+	img_half_width = 0.78,
+	img_height = 2.125
+}
+
 objects["Bed1"] = {
 	animation_filename = "img/sprites/map/objects/bed1.lua",
 	coll_half_width = 1.75,
@@ -42,16 +50,32 @@ objects["Chair2"] = {
 
 objects["Clock1"] = {
 	animation_filename = "img/sprites/map/objects/clock1.lua",
-	coll_half_width = 0.5,
-	coll_height = 0.9,
-	img_half_width = 0.5,
-	img_height = 1.0
+	coll_half_width = 1.0,
+	coll_height = 1.9,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Flower Pot1"] = {
+	animation_filename = "img/sprites/map/objects/flower_pot1.lua",
+	coll_half_width = 0.59,
+	coll_height = 1.2,
+	img_half_width = 0.59,
+	img_height = 1.68
+}
+
+objects["Flower Pot2"] = {
+	animation_filename = "img/sprites/map/objects/flower_pot2.lua",
+	coll_half_width = 0.53,
+	coll_height = 1.2,
+	img_half_width = 0.53,
+	img_height = 1.75
 }
 
 objects["Table1"] = {
 	animation_filename = "img/sprites/map/objects/table1.lua",
 	coll_half_width = 2.95,
-	coll_height = 4.8,
+	coll_height = 3.9,
 	img_half_width = 2.95,
 	img_height = 5.0
 }
@@ -59,7 +83,7 @@ objects["Table1"] = {
 objects["Table2"] = {
 	animation_filename = "img/sprites/map/objects/table2.lua",
 	coll_half_width = 2.95,
-	coll_height = 4.8,
+	coll_height = 3.9,
 	img_half_width = 2.95,
 	img_height = 5.0
 }
@@ -80,22 +104,37 @@ objects["Small Wooden Table"] = {
 	img_height = 4.0
 }
 
+objects["Vase1"] = {
+	animation_filename = "img/sprites/map/objects/vase1.lua",
+	coll_half_width = 0.75,
+	coll_height = 1.2,
+	img_half_width = 0.75,
+	img_height = 1.5
+}
+
 
 -- "Ground" lights
 -- Those are special light effect that have to be applied before the sky layer
 objects["Left Window Light"] = {
-	animation_filename = "img/misc/left_window_light.lua",
+	animation_filename = "img/misc/lights/left_window_light.lua",
 	coll_half_width = 0.0,
 	coll_height = 0.0,
 	img_half_width = 1.56,
-	img_height = 4.0
+	img_height = 4.5
 }
 
+objects["Left Window Light 2"] = {
+	animation_filename = "img/misc/lights/left_window_light.lua",
+	coll_half_width = 0.0,
+	coll_height = 0.0,
+	img_half_width = 2.56,
+	img_height = 6.5
+}
 
 -- The helper function permitting to easily create a prepared map object
 object = {}
 
-function CreateObject(name, id, x, y, x_off, y_off)
+function _CreateObject(name, id, x, y, x_off, y_off)
 	if (x_off == nil) then
 		x_off = 0.5;
 	end
@@ -117,6 +156,7 @@ function CreateObject(name, id, x, y, x_off, y_off)
 
 		return object;
 	else
+		print("Error: No object named: "..name.." found!!");
 		return nil;
 	end
 end

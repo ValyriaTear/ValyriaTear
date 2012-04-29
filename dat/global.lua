@@ -9,6 +9,8 @@ function NewGame()
 	GlobalManager:SetDrunes(0);
 
 	local MM = hoa_map.MapMode("dat/maps/vt_bronanns_room.lua");
+	--local MM = hoa_map.MapMode("dat/maps/vt_bronanns_home.lua");
+	--local MM = hoa_map.MapMode("dat/maps/vt_opening_village.lua");
 	ModeManager:Pop(false, false);
 	ModeManager:Push(MM, false, true);
 end
