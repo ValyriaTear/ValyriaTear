@@ -174,7 +174,7 @@ private:
 	static MenuMode* _current_instance;
 
 	//! \brief Text image which displays the name of the location in the game where MenuMode was invoked
-	hoa_video::TextImage _locale_name;
+	hoa_gui::TextBox _locale_name;
 
 	/** \brief The graphic that represents the current map that the player is exploring
 	*** This image is set using the string in the MenuMode constructor
