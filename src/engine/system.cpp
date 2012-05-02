@@ -246,7 +246,7 @@ SystemEngine::SystemEngine() {
 	IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << endl;
 
 	_not_done = true;
-	SetLanguage("en"); //Default language is English
+	SetLanguage("en@quot"); //Default language is English
 }
 
 
@@ -256,49 +256,63 @@ SystemEngine::~SystemEngine() {
 }
 
 
-
-bool SystemEngine::SingletonInitialize() {
+void Reinitl10n() {
 	// Initialize the gettext library
 	setlocale(LC_ALL, "");
 	setlocale(LC_NUMERIC, "C");
 
+	std::string bind_text_domain_path;
+
 	#if defined(_WIN32) || defined(__MACH__)
 		char buffer[PATH_MAX];
 		// Get the current working directory.
-		string cwd(getcwd(buffer, PATH_MAX));
-		cwd.append("/translations/");
-		bindtextdomain(APPSHORTNAME, cwd.c_str());
-		bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
-		textdomain(APPSHORTNAME);
+		bind_text_domain_path = getcwd(buffer, PATH_MAX);
+		bind_text_domain_path.append("/po/");
+
 	#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
 		// Look for translation files in LOCALEDIR only if they are not available in the
 		// current directory.
-		if (ifstream("dat/config/settings.lua") == NULL) {
-			bindtextdomain(PKG_NAME, LOCALEDIR);
-			bind_textdomain_codeset(PKG_NAME, "UTF-8");
-			textdomain(PKG_NAME);
+		if (std::ifstream("dat/config/settings.lua") == NULL) {
+			bind_text_domain_path = LOCALEDIR;
 		}
 		else {
 			char buffer[PATH_MAX];
 			// Get the current working directory.
-			string cwd(getcwd(buffer, PATH_MAX));
-			cwd.append("/txt/");
-			bindtextdomain(PKG_NAME, cwd.c_str());
-			bind_textdomain_codeset(PKG_NAME, "UTF-8");
-			textdomain(PKG_NAME);
+			bind_text_domain_path = getcwd(buffer, PATH_MAX);
+			bind_text_domain_path.append("/po/");
 		}
 	#else
-		bindtextdomain(PKG_NAME, LOCALEDIR);
-		bind_textdomain_codeset(PKG_NAME, "UTF-8");
-		textdomain(PKG_NAME);
+		bind_text_domain_path = LOCALEDIR;
 	#endif
 
-	// Called here to set the default English language to use nice quote characters.
-	SetLanguage("en@quot");
-
-	return true;
+	bindtextdomain(APPSHORTNAME, bind_text_domain_path.c_str());
+	bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
+	textdomain(APPSHORTNAME);
 }
 
+
+void SystemEngine::SetLanguage(std::string lang) {
+	Reinitl10n();
+
+	_language = lang;
+	setlocale(LC_MESSAGES, _language.c_str());
+	setlocale(LC_ALL, "");
+
+	#ifdef _WIN32
+		std::string lang_var = "LANGUAGE=" + _language;
+		putenv(lang_var.c_str());
+		SetEnvironmentVariable("LANGUAGE", _language.c_str());
+		SetEnvironmentVariable("LANG", _language.c_str());
+	#else
+		setenv("LANGUAGE", _language.c_str(), 1);
+		setenv("LANG", _language.c_str(), 1);
+	#endif
+}
+
+
+bool SystemEngine::SingletonInitialize() {
+	return true;
+}
 
 
 void SystemEngine::InitializeTimers() {
@@ -390,20 +404,6 @@ void SystemEngine::ExamineSystemTimers() {
 			(*i)->Pause();
 	}
 }
-
-
-
-void SystemEngine::SetLanguage(std::string lang) {
-	_language = lang;
-
-	/// @TODO, implement a cross-platform wrapper for setenv in utils code
-	#ifdef _WIN32
-		SetEnvironmentVariable("LANGUAGE", _language.c_str());
-	#else
-		setenv("LANGUAGE", _language.c_str(), 1);
-	#endif
-}
-
 
 
 void SystemEngine::WaitForThread(Thread * thread) {

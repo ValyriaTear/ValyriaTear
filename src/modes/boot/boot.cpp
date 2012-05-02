@@ -123,8 +123,8 @@ BootMode::BootMode() :
 	_SetupVideoOptionsMenu();
 	_SetupAudioOptionsMenu();
 	_SetupLanguageOptionsMenu();
-	_SetupKeySetttingsMenu();
-	_SetupJoySetttingsMenu();
+	_SetupKeySettingsMenu();
+	_SetupJoySettingsMenu();
 	_SetupResolutionMenu();
 	_SetupProfileMenu();
 	_SetupLoadProfileMenu();
@@ -486,7 +486,23 @@ bool BootMode::_SavesAvailable(int32 maxId)
 	return (savesAvailable > 0);
 }
 
+
+void BootMode::_ReloadTranslatableMenus() {
+    _SetupMainMenu();
+    _SetupOptionsMenu();
+    _SetupVideoOptionsMenu();
+    _SetupAudioOptionsMenu();
+    _SetupKeySettingsMenu();
+    _SetupJoySettingsMenu();
+    _SetupResolutionMenu();
+    _SetupProfileMenu();
+    _SetupSaveProfileMenu();
+    _SetupUserInputMenu();
+}
+
+
 void BootMode::_SetupMainMenu() {
+	_main_menu.ClearOptions();
 	_main_menu.SetPosition(512.0f, 80.0f);
 	_main_menu.SetTextStyle(TextStyle("title24"));
 	_main_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -527,8 +543,8 @@ void BootMode::_SetupMainMenu() {
 }
 
 
-
 void BootMode::_SetupOptionsMenu() {
+	_options_menu.ClearOptions();
 	_options_menu.SetPosition(512.0f, 300.0f);
 	_options_menu.SetDimensions(300.0f, 600.0f, 1, 6, 1, 6);
 	_options_menu.SetTextStyle(TextStyle("title22"));
@@ -550,8 +566,8 @@ void BootMode::_SetupOptionsMenu() {
 }
 
 
-
 void BootMode::_SetupVideoOptionsMenu() {
+	_video_options_menu.ClearOptions();
 	_video_options_menu.SetPosition(512.0f, 300.0f);
 	_video_options_menu.SetDimensions(300.0f, 400.0f, 1, 4, 1, 4);
 	_video_options_menu.SetTextStyle(TextStyle("title22"));
@@ -572,8 +588,8 @@ void BootMode::_SetupVideoOptionsMenu() {
 }
 
 
-
 void BootMode::_SetupAudioOptionsMenu() {
+	_audio_options_menu.ClearOptions();
 	_audio_options_menu.SetPosition(512.0f, 300.0f);
 	_audio_options_menu.SetDimensions(300.0f, 200.0f, 1, 2, 1, 2);
 	_audio_options_menu.SetTextStyle(TextStyle("title22"));
@@ -592,7 +608,6 @@ void BootMode::_SetupAudioOptionsMenu() {
 	// Preload test sound
 	AudioManager->LoadSound("snd/volume_test.wav");
 }
-
 
 
 void BootMode::_SetupLanguageOptionsMenu() {
@@ -636,8 +651,8 @@ void BootMode::_SetupLanguageOptionsMenu() {
 }
 
 
-
-void BootMode::_SetupKeySetttingsMenu() {
+void BootMode::_SetupKeySettingsMenu() {
+	_key_settings_menu.ClearOptions();
 	_key_settings_menu.SetPosition(512.0f, 300.0f);
 	_key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 12, 1, 12);
 	_key_settings_menu.SetTextStyle(TextStyle("title22"));
@@ -663,8 +678,8 @@ void BootMode::_SetupKeySetttingsMenu() {
 }
 
 
-
-void BootMode::_SetupJoySetttingsMenu() {
+void BootMode::_SetupJoySettingsMenu() {
+	_joy_settings_menu.ClearOptions();
 	_joy_settings_menu.SetPosition(512.0f, 300.0f);
 	_joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 10, 1, 10);
 	_joy_settings_menu.SetTextStyle(TextStyle("title22"));
@@ -691,7 +706,6 @@ void BootMode::_SetupJoySetttingsMenu() {
 
 	_joy_settings_menu.AddOption(UTranslate("Restore defaults"), &BootMode::_OnRestoreDefaultJoyButtons);
 }
-
 
 
 void BootMode::_SetupResolutionMenu() {
@@ -721,8 +735,8 @@ void BootMode::_SetupResolutionMenu() {
 }
 
 
-
 void BootMode::_SetupProfileMenu() {
+	_profiles_menu.ClearOptions();
 	_profiles_menu.SetPosition(512.0f, 300.0f);
 	_profiles_menu.SetDimensions(300.0f, 300.0f, 1, 3, 1, 3);
 	_profiles_menu.SetTextStyle(TextStyle("title22"));
@@ -739,7 +753,6 @@ void BootMode::_SetupProfileMenu() {
 }
 
 
-
 void BootMode::_SetupLoadProfileMenu() {
 	_load_profile_menu.SetPosition(512.0f, 300.0f);
 	_load_profile_menu.SetTextStyle(TextStyle("title22"));
@@ -754,8 +767,8 @@ void BootMode::_SetupLoadProfileMenu() {
 }
 
 
-
 void BootMode::_SetupSaveProfileMenu() {
+	_save_profile_menu.ClearOptions();
 	_save_profile_menu.SetPosition(512.0f, 300.0f);
 	_save_profile_menu.SetTextStyle(TextStyle("title22"));
 	_save_profile_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -772,7 +785,6 @@ void BootMode::_SetupSaveProfileMenu() {
 }
 
 
-
 void BootMode::_SetupDeleteProfileMenu() {
 	_delete_profile_menu.SetPosition(512.0f, 300.0f);
 	_delete_profile_menu.SetTextStyle(TextStyle("title22"));
@@ -787,8 +799,8 @@ void BootMode::_SetupDeleteProfileMenu() {
 }
 
 
-
 void BootMode::_SetupUserInputMenu() {
+	_user_input_menu.ClearOptions();
 	_user_input_menu.SetPosition(275.0f, 475.0f);
 	_user_input_menu.SetDimensions(400.0f, 300.0f, 7, 4, 7, 4);
 	_user_input_menu.SetTextStyle(TextStyle("title22"));
@@ -837,27 +849,26 @@ void BootMode::_SetupUserInputMenu() {
 }
 
 
-
 void BootMode::_RefreshVideoOptions() {
 	// Update resolution text
 	std::ostringstream resolution("");
-	resolution << "Resolution: " << VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight();
-	_video_options_menu.SetOptionText(0, MakeUnicodeString(resolution.str()));
+	resolution << VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight();
+	_video_options_menu.SetOptionText(0, UTranslate("Resolution: ") + MakeUnicodeString(resolution.str()));
 
 	// Update text on current video mode
 	if (VideoManager->IsFullscreen())
-		_video_options_menu.SetOptionText(1, UTranslate("Window mode: fullscreen"));
+		_video_options_menu.SetOptionText(1, UTranslate("Window mode: ") + UTranslate("Fullscreen"));
 	else
-		_video_options_menu.SetOptionText(1, UTranslate("Window mode: windowed"));
+		_video_options_menu.SetOptionText(1, UTranslate("Window mode: ") + UTranslate("Windowed"));
 
 	// Update brightness
 	_video_options_menu.SetOptionText(2, UTranslate("Brightness: ") + MakeUnicodeString(NumberToString(VideoManager->GetGamma() * 50.0f + 0.5f) + " %"));
 
 	// Update the image quality text
 	if (VideoManager->ShouldSmooth())
-		_video_options_menu.SetOptionText(3, UTranslate("Image quality: smoothed"));
+		_video_options_menu.SetOptionText(3, UTranslate("Image quality: ") + UTranslate("Smoothed"));
 	else
-		_video_options_menu.SetOptionText(3, UTranslate("Image quality: normal"));
+		_video_options_menu.SetOptionText(3, UTranslate("Image quality: ") + UTranslate("Normal"));
 }
 
 
@@ -1115,8 +1126,8 @@ void BootMode::_OnLanguageSelect() {
 	SystemManager->SetLanguage(_po_files[_language_options_menu.GetSelection()]);
 	_has_modified_settings = true;
 
-	// TODO: when the new language is set by the above call, we need to reload/refresh all text,
-	// otherwise the new language will not take effect.
+	// Reload all the translatable text in the boot menus.
+	_ReloadTranslatableMenus();
 }
 
 
@@ -1149,17 +1160,15 @@ void BootMode::_OnSaveProfile() {
 }
 
 
-
 void BootMode::_OnDeleteProfile() {
 	_active_menu = &_delete_profile_menu;
 }
 
 
-
 void BootMode::_OnLoadFile() {
 	//get the file path
 	if (_load_profile_menu.GetSelection() < 0 || _load_profile_menu.GetSelection() >= (int32)_GetDirectoryListingUserProfilePath().size())
-		cerr << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << endl;
+		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << endl;
 	else {
 		//we took off the .lua extension so that end users wouldn't see it but we need to add it back now
 		const string& filename = GetUserProfilePath() + _GetDirectoryListingUserProfilePath().at(_load_profile_menu.GetSelection()) + ".lua";
@@ -1180,7 +1189,6 @@ void BootMode::_OnLoadFile() {
 		_RefreshAudioOptions();
 	}
 }
-
 
 
 void BootMode::_OnSaveFile() {
@@ -1205,10 +1213,9 @@ void BootMode::_OnSaveFile() {
 }
 
 
-
 void BootMode::_OnDeleteFile() {
 	if (_load_profile_menu.GetSelection() < 0 || _load_profile_menu.GetSelection() >= (int32)_GetDirectoryListingUserProfilePath().size())
-		cerr << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << endl;
+		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << endl;
 	else {
 		//get the file path
 		//we took off the .lua extension so that end users wouldn't see it but we need to add it back now
@@ -1234,7 +1241,6 @@ void BootMode::_OnDeleteFile() {
 		_SetupLoadProfileMenu();
 	}
 }
-
 
 
 void BootMode::_OnPickLetter() {

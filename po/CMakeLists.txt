@@ -4,11 +4,12 @@ FIND_PACKAGE(Gettext REQUIRED)
 # we need our own version because the upstream one contains
 # a call to msgmerge (updating po files) which can't be
 # disabled
-MACRO(ALLACROST_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
+MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
    # make it a real variable, so we can modify it here
    SET(_firstPoFile "${_firstPoFileArg}")
 
    SET(_gmoFiles)
+   SET(_moFiles)
    GET_FILENAME_COMPONENT(_potBasename ${_potFile} NAME_WE)
    GET_FILENAME_COMPONENT(_absPotFile ${_potFile} ABSOLUTE)
 
@@ -23,6 +24,7 @@ MACRO(ALLACROST_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
       GET_FILENAME_COMPONENT(_abs_PATH ${_absFile} PATH)
       GET_FILENAME_COMPONENT(_lang ${_absFile} NAME_WE)
       SET(_gmoFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo)
+      SET(_moFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo)
 
       ADD_CUSTOM_COMMAND(
          OUTPUT ${_gmoFile}
@@ -31,25 +33,30 @@ MACRO(ALLACROST_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
       )
 
       # Create the LC_MESSAGES folders locally to easily test the mo files.
-      EXECUTE_PROCESS(COMMAND rm -rf ${CMAKE_CURRENT_BINARY_DIR}/${_lang})
-      EXECUTE_PROCESS(COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang})
-      EXECUTE_PROCESS(COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES)
-      EXECUTE_PROCESS(COMMAND cp ${_gmoFile} ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/allacrost.mo)
+      ADD_CUSTOM_COMMAND(
+          OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
+          COMMAND rm -rf ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
+          COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
+          COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES
+          COMMAND cp ${_gmoFile} ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
+          DEPENDS ${_gmoFile}
+      )
 
       INSTALL(FILES ${_gmoFile} DESTINATION share/locale/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
       SET(_gmoFiles ${_gmoFiles} ${_gmoFile})
+      SET(_moFiles ${_moFiles} ${_moFile})
 
    ENDFOREACH (_currentPoFile)
 
-   ADD_CUSTOM_TARGET(translations ${_addToAll} DEPENDS ${_gmoFiles})
+   ADD_CUSTOM_TARGET(translations ${_addToAll} DEPENDS ${_gmoFiles} ${_moFiles})
 ENDMACRO()
 
-MACRO(ALLACROST_GETTEXT_UPDATE_PO _potFile _languages)
+MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
    GET_FILENAME_COMPONENT(_absPotFile ${_potFile} ABSOLUTE)
 
    ADD_CUSTOM_TARGET(
       update-pot
-      COMMAND xgettext --files-from=translatable-files --directory=. --output=${_potFile} -d allacrost --keyword=_ --keyword=N_ --keyword=Translate --from-code=UTF-8
+      COMMAND xgettext --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --from-code=UTF-8
       )
 
    ADD_CUSTOM_TARGET(
@@ -71,7 +78,6 @@ MACRO(ALLACROST_GETTEXT_UPDATE_PO _potFile _languages)
    ENDFOREACH()
 ENDMACRO()
 
-
 SET(languages)
 SET(POFILES)
 FILE(STRINGS LINGUAS _languages)
@@ -85,5 +91,5 @@ ENDFOREACH()
 
 ADD_CUSTOM_TARGET(update-po)
 
-ALLACROST_GETTEXT_CREATE_TRANSLATIONS(allacrost.pot ALL ${POFILES})
-ALLACROST_GETTEXT_UPDATE_PO(allacrost.pot "${languages}")
+VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS(valyriatear.pot ALL ${POFILES})
+VALYRIATEAR_GETTEXT_UPDATE_PO(valyriatear.pot "${languages}")
