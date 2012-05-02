@@ -349,7 +349,7 @@ void BootMode::Update() {
 		// Play 'confirm sound' if the selection isn't grayed out and it has a confirm handler
 		if (_active_menu->IsOptionEnabled(_active_menu->GetSelection())) {
 			// Don't play the sound on New Games as they have their own sound
-			if (_active_menu->GetSelection() != 0)
+			if (_active_menu != &_main_menu && _active_menu->GetSelection() != -1)
 				AudioManager->PlaySound("snd/confirm.wav");
 		}
 		else {
