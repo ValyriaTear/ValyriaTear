@@ -73,6 +73,6 @@ IF(WIN32)
     SET(CPACK_NSIS_DISPLAY_NAME "Valyria Tear")
     SET(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}/img/logos/program_icon.ico")
     SET(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/img/logos/program_icon.png") #TODO: use a bmp
-    SET(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/Bertram25/ValyriaTear/wiki")
+    SET(CPACK_NSIS_URL_INFO_ABOUT "http://valyriatear.blogspot.com")
 ENDIF()
 INCLUDE(CPack)
