@@ -4,10 +4,7 @@ function BootShopTest()
     -- The shop window is still crash prone
 
     -- Those calls make the game crash
-	--GlobalManager:AddCharacter(1);
-	--GlobalManager:AddCharacter(2);
-	--GlobalManager:AddCharacter(4);
-	--GlobalManager:AddCharacter(8);
+	--GlobalManager:AddCharacter(BRONANN);
 
     -- The drunes displayed are flawed.
 	GlobalManager:AddDrunes(1842);

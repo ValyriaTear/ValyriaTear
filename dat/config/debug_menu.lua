@@ -1,10 +1,7 @@
 function BootMenuTest()
 	print("BootMenuTest");
 
-	GlobalManager:AddCharacter(1);
-	GlobalManager:AddCharacter(2);
-	GlobalManager:AddCharacter(4);
-	GlobalManager:AddCharacter(8);
+	GlobalManager:AddCharacter(BRONANN);
 	GlobalManager:AddDrunes(1842);
 	GlobalManager:AddToInventory(1, 5);
 	GlobalManager:AddToInventory(1001, 2);
