@@ -56,12 +56,14 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
 
    ADD_CUSTOM_TARGET(
       update-pot
-      COMMAND xgettext --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --from-code=UTF-8
+      COMMAND xgettext --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --from-code=UTF-8
       )
 
    ADD_CUSTOM_TARGET(
       update-translatable-files
       COMMAND grep '_\(' -Irl ../src --include=*.cpp | sort > translatable-files
+      COMMAND grep 'Translate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
+      COMMAND grep 'UTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
       COMMAND grep 'Translate\(' -Irl ../dat | sort >> translatable-files
       )
 
