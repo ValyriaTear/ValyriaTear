@@ -245,6 +245,12 @@ private:
 	//! \brief Returns whether at least one save is available to be loaded.
 	bool _SavesAvailable(int32 maxId = 6);
 
+	/** \brief Reloads all the menus to refresh their translated text.
+	*** This is to be used only by the language menu.
+	*** \Note Only menus with translatable texts are reloaded.
+	**/
+	void _ReloadTranslatableMenus();
+
 	//! \brief Setup functions for the various boot menus
 	//@{
 	void _SetupMainMenu();
@@ -252,8 +258,8 @@ private:
 	void _SetupVideoOptionsMenu();
 	void _SetupAudioOptionsMenu();
 	void _SetupLanguageOptionsMenu();
-	void _SetupKeySetttingsMenu();
-	void _SetupJoySetttingsMenu();
+	void _SetupKeySettingsMenu();
+	void _SetupJoySettingsMenu();
 	void _SetupResolutionMenu();
 	void _SetupProfileMenu();
 	void _SetupLoadProfileMenu();

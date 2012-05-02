@@ -97,15 +97,6 @@ bool LoadSettings()
 	settings.OpenTable("settings");
 
 	// Load language settings
-//	uint32 lang_code = static_cast<uint32>(settings.ReadInt("lang_code"));
-
-//	if (lang_code == 1) SystemManager->SetLanguage("en@quot");
-//	else if (lang_code == 2) SystemManager->SetLanguage("fr");
-//	else if (lang_code == 3) SystemManager->SetLanguage("pt_BR");
-//	else if (lang_code == 4) SystemManager->SetLanguage("es");
-//	else if (lang_code == 5) SystemManager->SetLanguage("de");
-//	else SystemManager->SetLanguage("en@quot");
-
 	SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
 
 	settings.OpenTable("key_settings");
