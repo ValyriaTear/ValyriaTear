@@ -11,10 +11,10 @@ characters = {}
 
 characters[BRONANN] = {
 	name = hoa_system.Translate("Bronann"),
-	portrait = "img/portraits/bronann.png",
-	full_portrait = "img/portraits/bronann_full.png",
-	battle_portraits = "img/portraits/battle/bronann_damage.png",
-	stamina_icon = "img/icons/actors/characters/bronann.png",
+	--portrait = "img/portraits/bronann.png",
+	--full_portrait = "img/portraits/bronann_full.png",
+	--battle_portraits = "img/portraits/battle/bronann_damage.png",
+	--stamina_icon = "img/icons/actors/characters/bronann.png",
 
 	battle_animations = {
 		idle = "img/sprites/battle/characters/bronann_idle.lua",
@@ -111,6 +111,305 @@ characters[BRONANN] = {
 
 	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
 } -- characters[BRONANN]
+
+characters[KALYA] = {
+	name = hoa_system.Translate("Kalya"),
+	portrait = "img/portraits/kalya.png",
+	full_portrait = "img/portraits/kalya_full.png",
+	battle_portraits = "img/portraits/battle/kalya_damage.png",
+	stamina_icon = "img/icons/actors/characters/kalya.png",
+
+	battle_animations = {
+		idle = "img/sprites/battle/characters/kalya_idle.lua",
+		run = "img/sprites/battle/characters/kalya_run.lua",
+		attack = "img/sprites/battle/characters/kalya_run.lua",
+		dodge = "img/sprites/battle/characters/kalya_idle.lua",
+		victory = "img/sprites/battle/characters/kalya_idle.lua",
+		dying = "img/sprites/battle/characters/kalya_dead.lua",
+		dead = "img/sprites/battle/characters/kalya_dead.lua",
+		revive = "img/sprites/battle/characters/kalya_idle.lua",
+		item = "img/sprites/battle/characters/kalya_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/kalya_idle.lua",
+		magic_cast = "img/sprites/battle/characters/kalya_idle.lua"
+	},
+
+	initial_stats = {
+		experience_level = 1,
+		experience_points = 0,
+		max_hit_points = 62,
+		max_skill_points = 8,
+		strength = 12,
+		vigor = 4,
+		fortitude = 15,
+		protection = 6,
+		agility = 30,
+		evade = 5.0,
+		weapon = 10001,
+		head_armor = 20001,
+		torso_armor = 30001,
+		arm_armor = 40001,
+		leg_armor = 50001
+	},
+
+	attack_points = {
+		[hoa_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
+			name = hoa_system.Translate("Head"),
+			x_position = 31,
+			y_position = 54,
+			fortitude_modifier = -0.20,
+			protection_modifier = 0.25,
+			evade_modifier = 0.50,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
+			name = hoa_system.Translate("Torso"),
+			x_position = 37,
+			y_position = 34,
+			fortitude_modifier = 0.40,
+			protection_modifier = 0.10,
+			evade_modifier = -0.20
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
+			name = hoa_system.Translate("Arms"),
+			x_position = 31,
+			y_position = 54,
+			fortitude_modifier = 0.10,
+			protection_modifier = 0.00,
+			evade_modifier = 0.10,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
+			name = hoa_system.Translate("Legs"),
+			x_position = 37,
+			y_position = 34,
+			fortitude_modifier = 0.20,
+			protection_modifier = 0.20,
+			evade_modifier = 0.05,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+		}
+	},
+
+	growth_stats = {
+		[1] = {
+			hit_points = 5.0,
+			skill_points = 1.0,
+			strength = 2.0,
+			vigor = 1.0,
+			fortitude = 2.0,
+			protection = 1.0,
+			agility = 1.0,
+			evade = 0.0
+		},
+		[6] = {
+			hit_points = 5.0,
+			skill_points = 2.0,
+			strength = 3.0,
+			vigor = 2.0,
+			fortitude = 3.0,
+			protection = 1.0,
+			agility = 1.0,
+			evade = 0.0
+		}
+	},
+
+	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
+} -- characters[KALYA]
+
+characters[SYLVE] = {
+	name = hoa_system.Translate("Sylve"),
+	portrait = "img/portraits/sylve.png",
+	full_portrait = "img/portraits/sylve_full.png",
+	battle_portraits = "img/portraits/battle/sylve_damage.png",
+	--stamina_icon = "img/icons/actors/characters/sylve.png",
+
+	battle_animations = {
+		idle = "img/sprites/battle/characters/sylve_idle.lua",
+		run = "img/sprites/battle/characters/sylve_run.lua",
+		attack = "img/sprites/battle/characters/sylve_run.lua",
+		dodge = "img/sprites/battle/characters/sylve_idle.lua",
+		victory = "img/sprites/battle/characters/sylve_idle.lua",
+		dying = "img/sprites/battle/characters/sylve_dead.lua",
+		dead = "img/sprites/battle/characters/sylve_dead.lua",
+		revive = "img/sprites/battle/characters/sylve_idle.lua",
+		item = "img/sprites/battle/characters/sylve_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/sylve_idle.lua",
+		magic_cast = "img/sprites/battle/characters/sylve_idle.lua"
+	},
+
+	initial_stats = {
+		experience_level = 1,
+		experience_points = 0,
+		max_hit_points = 62,
+		max_skill_points = 8,
+		strength = 12,
+		vigor = 4,
+		fortitude = 15,
+		protection = 6,
+		agility = 30,
+		evade = 5.0,
+		weapon = 10001,
+		head_armor = 20001,
+		torso_armor = 30001,
+		arm_armor = 40001,
+		leg_armor = 50001
+	},
+
+	attack_points = {
+		[hoa_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
+			name = hoa_system.Translate("Head"),
+			x_position = 31,
+			y_position = 54,
+			fortitude_modifier = -0.20,
+			protection_modifier = 0.25,
+			evade_modifier = 0.50,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
+			name = hoa_system.Translate("Torso"),
+			x_position = 37,
+			y_position = 34,
+			fortitude_modifier = 0.40,
+			protection_modifier = 0.10,
+			evade_modifier = -0.20
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
+			name = hoa_system.Translate("Arms"),
+			x_position = 31,
+			y_position = 54,
+			fortitude_modifier = 0.10,
+			protection_modifier = 0.00,
+			evade_modifier = 0.10,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
+			name = hoa_system.Translate("Legs"),
+			x_position = 37,
+			y_position = 34,
+			fortitude_modifier = 0.20,
+			protection_modifier = 0.20,
+			evade_modifier = 0.05,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+		}
+	},
+
+	growth_stats = {
+		[1] = {
+			hit_points = 5.0,
+			skill_points = 1.0,
+			strength = 2.0,
+			vigor = 1.0,
+			fortitude = 2.0,
+			protection = 1.0,
+			agility = 1.0,
+			evade = 0.0
+		},
+		[6] = {
+			hit_points = 5.0,
+			skill_points = 2.0,
+			strength = 3.0,
+			vigor = 2.0,
+			fortitude = 3.0,
+			protection = 1.0,
+			agility = 1.0,
+			evade = 0.0
+		}
+	},
+
+	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
+} -- characters[SYLVE]
+
+characters[THANIS] = {
+	name = hoa_system.Translate("Thanis"),
+	portrait = "img/portraits/thanis.png",
+	full_portrait = "img/portraits/thanis_full.png",
+	battle_portraits = "img/portraits/battle/thanis_damage.png",
+	stamina_icon = "img/icons/actors/characters/thanis.png",
+
+	battle_animations = {
+		idle = "img/sprites/battle/characters/thanis_idle.lua",
+		run = "img/sprites/battle/characters/thanis_run.lua",
+		attack = "img/sprites/battle/characters/thanis_attack.lua",
+		dodge = "img/sprites/battle/characters/thanis_idle.lua",
+		victory = "img/sprites/battle/characters/thanis_victory.lua",
+		dying = "img/sprites/battle/characters/thanis_dead.lua",
+		dead = "img/sprites/battle/characters/thanis_dead.lua",
+		revive = "img/sprites/battle/characters/thanis_idle.lua",
+		item = "img/sprites/battle/characters/thanis_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/thanis_idle.lua",
+		magic_cast = "img/sprites/battle/characters/thanis_idle.lua"
+	},
+
+	initial_stats = {
+		experience_level = 18,
+		experience_points = 6728,
+		max_hit_points = 237,
+		max_skill_points = 25,
+		strength = 45,
+		vigor = 21,
+		fortitude = 47,
+		protection = 23,
+		agility = 46,
+		evade = 7.0,
+		weapon = 10003,
+		head_armor = 20003,
+		torso_armor = 30003,
+		arm_armor = 40003,
+		leg_armor = 50002
+	},
+
+	attack_points = {
+		[hoa_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
+			name = hoa_system.Translate("Head"),
+			x_position = 31,
+			y_position = 54,
+			fortitude_modifier = -0.20,
+			protection_modifier = 0.25,
+			evade_modifier = 0.50,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
+			name = hoa_system.Translate("Torso"),
+			x_position = 37,
+			y_position = 34,
+			fortitude_modifier = 0.40,
+			protection_modifier = 0.10,
+			evade_modifier = -0.20
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
+			name = hoa_system.Translate("Arms"),
+			x_position = 31,
+			y_position = 54,
+			fortitude_modifier = 0.10,
+			protection_modifier = 0.00,
+			evade_modifier = 0.10,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+		},
+		[hoa_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
+			name = hoa_system.Translate("Legs"),
+			x_position = 37,
+			y_position = 34,
+			fortitude_modifier = 0.20,
+			protection_modifier = 0.20,
+			evade_modifier = 0.05,
+			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+		}
+	},
+
+	growth_stats = {
+		[1] = {
+			hit_points = 5.0,
+			skill_points = 1.0,
+			strength = 2.0,
+			vigor = 1.0,
+			fortitude = 2.0,
+			protection = 1.0,
+			agility = 1.0,
+			evade = 0.0
+		}
+	},
+
+	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4, [17] = 20002 }
+} -- characters[THANIS]
 
 --[[
 

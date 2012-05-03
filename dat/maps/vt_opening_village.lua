@@ -302,7 +302,7 @@ end
 function CreateCharacters()
 	bronann = {};
 
-	bronann = ConstructSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.0, 0.0);
+	bronann = _CreateSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.0, 0.0);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);

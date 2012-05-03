@@ -1,6 +1,8 @@
 -- Character IDs. Each ID can have only a single bit active as IDs are used in bitmask operations.
 BRONANN  = 1;
-KAHLIA   = 2;
+KALYA    = 2;
+THANIS   = 4;
+SYLVE    = 8;
 
 function NewGame()
 	-- Prepare the new game data

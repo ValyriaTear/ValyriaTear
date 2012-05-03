@@ -14,24 +14,72 @@ sprites["Bronann"] = {
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
 
-	standard_animations = "img/sprites/map/bronann_walk.png",
-	running_animations = "img/sprites/map/bronann_run.png",
-	face_portrait = "img/portraits/bronann.png"
+	standard_animations = "img/sprites/map/characters/bronann_walk.png",
+	running_animations = "img/sprites/map/characters/bronann_run.png"
+	--face_portrait = "img/portraits/bronann.png"
 }
 
-sprites["Kahlia"] = {
-	name = hoa_system.Translate("Kahlia"),
+sprites["Kalya"] = {
+	name = hoa_system.Translate("Kalya"),
 	coll_half_width = 0.95,
 	coll_height = 1.0,
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/laila_walk.png",
-	running_animations = "img/sprites/map/laila_run.png",
-	face_portrait = "img/portraits/laila.png"
+	standard_animations = "img/sprites/map/characters/kalya_walk.png",
+	running_animations = "img/sprites/map/characters/kalya_run.png",
+	face_portrait = "img/portraits/kalya.png"
 }
 
+sprites["Thanis"] = {
+	name = hoa_system.Translate("Thanis"),
+	coll_half_width = 0.95,
+	coll_height = 1.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/thanis_walk.png",
+	face_portrait = "img/portraits/thanis.png"
+}
+
+sprites["Carson"] = {
+	name = hoa_system.Translate("Carson"),
+	coll_half_width = 0.95,
+	coll_height = 1.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = VERY_SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/carson_walk.png",
+	face_portrait = "img/portraits/npcs/carson.png"
+}
+
+sprites["Malta"] = {
+	name = hoa_system.Translate("Malta"),
+	coll_half_width = 0.95,
+	coll_height = 1.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = VERY_SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/malta_walk.png",
+	face_portrait = "img/portraits/npcs/malta.png"
+}
+
+sprites["Phenor"] = {
+	name = hoa_system.Translate("Phenor"),
+	coll_half_width = 0.95,
+	coll_height = 1.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_soldier02_walk.png"
+}
+
+--[[
 sprites["Kyle"] = {
 	name = hoa_system.Translate("Kyle"),
 	coll_half_width = 0.95,
@@ -166,18 +214,7 @@ sprites["Knight"] = {
 
 	standard_animations = "img/sprites/map/knight_walk.png"
 }
-
-sprites["Rubble"] = {
-	name = "????",
-	coll_half_width = 1.0,
-	coll_height = 2.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
-
-	standard_animations = "img/sprites/map/rocks.png"
-}
-
+--]]
 
 enemies["slime"] = {
 	coll_half_width = 1.0,
@@ -185,7 +222,7 @@ enemies["slime"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
-	standard_animations = "img/sprites/map/slime_walk.png"
+	standard_animations = "img/sprites/map/enemies/slime_walk.png"
 }
 
 
@@ -195,7 +232,7 @@ enemies["snake"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
-	standard_animations = "img/sprites/map/snake_walk.png"
+	standard_animations = "img/sprites/map/enemies/snake_walk.png"
 }
 
 
@@ -205,14 +242,14 @@ enemies["scorpion"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
-	standard_animations = "img/sprites/map/scorpion_walk.png"
+	standard_animations = "img/sprites/map/enemies/scorpion_walk.png"
 }
 
 
 sprite = {}
 enemy = {}
 
-function ConstructSprite(name, id, x, y, x_off, y_off)
+function _CreateSprite(name, id, x, y, x_off, y_off)
 	if (x_off == nil) then
 		x_off = 0.5;
 	end
@@ -249,7 +286,7 @@ end
 
 
 
-function ConstructEnemySprite(name, Map)
+function _CreateEnemySprite(name, Map)
 	if (enemies[name] == nil) then
 		return nil;
 	end
@@ -266,4 +303,3 @@ function ConstructEnemySprite(name, Map)
 
 	return enemy;
 end
-

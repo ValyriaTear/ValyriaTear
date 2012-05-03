@@ -4,16 +4,14 @@
 animation = {
 
 	-- The file to load the frames from
-	image_filename = "img/sprites/battle/characters/knight_victory.png",
+	image_filename = "img/sprites/battle/characters/kalya_run.png",
 	-- The number of rows and columns of images, will be used to compute
 	-- the images width and height, and also the frames number (row x col)
-	rows = 2,
-	columns = 4,
+	rows = 1,
+	columns = 5,
 	-- set the image dimensions on battles (in pixels)
-	frame_width = 128.0,
-	frame_height = 128.0,
+	frame_width = 64.0,
+	frame_height = 110.0,
 	-- The frames duration in milliseconds
-	frames_duration =
-    { 1000, 75, 75, 75,
-      75, 150, 300, 10000000}
+	frames_duration = { 75, 75, 75, 75, 75 }
 }

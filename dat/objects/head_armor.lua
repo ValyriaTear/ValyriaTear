@@ -43,7 +43,7 @@ armor[20001] = {
 	physical_defense = 6,
 	metaphysical_defense = 2,
 	standard_price = 80,
-	usable_by = BRONANN + KAHLIA,
+	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
 }
 
@@ -54,7 +54,7 @@ armor[20002] = {
 	physical_defense = 8,
 	metaphysical_defense = 4,
 	standard_price = 140,
-	usable_by = BRONANN + KAHLIA,
+	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
 }
 
@@ -65,7 +65,7 @@ armor[20003] = {
 	physical_defense = 11,
 	metaphysical_defense = 6,
 	standard_price = 220,
-	usable_by = BRONANN + KAHLIA,
+	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
 }
 

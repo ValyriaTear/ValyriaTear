@@ -5,6 +5,9 @@ function BootBattleTest()
 	GlobalManager:SetBattleSetting(hoa_global.GameGlobal.GLOBAL_BATTLE_ACTIVE);
 
 	GlobalManager:AddCharacter(BRONANN);
+	GlobalManager:AddCharacter(KALYA);
+	GlobalManager:AddCharacter(SYLVE);
+	GlobalManager:AddCharacter(THANIS);
 	GlobalManager:AddToInventory(1, 5);
 
 	-- local claudius = GlobalManager:GetCharacter(1);

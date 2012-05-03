@@ -283,7 +283,7 @@ end
 function CreateCharacters()
 	bronann = {};
 
-	bronann = ConstructSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.5, 0.5);
+	bronann = _CreateSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.5, 0.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -302,17 +302,17 @@ function CreateObjects()
 	object = {}
 
 	object = _CreateObject("Bed1", 10001, 20, 16, 0.0, 0.0);
-	Map:AddGroundObject(object);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject("Box1", 10002, 19, 18, 0.0, 0.0);
-	Map:AddGroundObject(object);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject("Chair1", 10003, 23, 22, 0.0, 0.0);
-	Map:AddGroundObject(object);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject("Small Wooden Table", 10004, 20, 23, 0.0, 0.0);
-	Map:AddGroundObject(object);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	object = _CreateObject("Left Window Light", 10005, 19, 15, 0.0, 0.0);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	Map:AddGroundObject(object);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
 
