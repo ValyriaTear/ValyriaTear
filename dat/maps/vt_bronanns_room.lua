@@ -268,7 +268,7 @@ function Load(m)
 	-- If not done, start the opening dialogue
 	if (GlobalEvents:DoesEventExist("opening_dialogue_done") == false) then
 		Map:PushState(hoa_map.MapMode.STATE_SCENE);
-		EventManager:StartEvent(0);
+		EventManager:StartEvent("opening", 3000);
 	end
 
 end
@@ -322,32 +322,26 @@ function CreateEvents()
 
 	-- Start the opening dialogue
 
-	-- Empty event
-	event = hoa_map.DialogueEvent(0, 0);
-	-- Actual event started 3 sec after that
-	event:AddEventLinkAtEnd(1, 3000);
-	EventManager:RegisterEvent(event);
-
 	-- Bronann's opening dialogue
-	event = hoa_map.DialogueEvent(1, 1);
-	event:AddEventLinkAtEnd(2, 3000);
+	event = hoa_map.DialogueEvent("opening", 1);
+	event:AddEventLinkAtEnd("opening2", 3000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.DialogueEvent(2, 2);
-	event:AddEventLinkAtEnd(3, 10);
+	event = hoa_map.DialogueEvent("opening2", 2);
+	event:AddEventLinkAtEnd("opening3", 10);
 	EventManager:RegisterEvent(event);
 
 	-- Unblock Bronann so he can start walking
-	event = hoa_map.ScriptedEvent(3, "Map_PopState", "");
-	event:AddEventLinkAtEnd(4, 10);
+	event = hoa_map.ScriptedEvent("opening3", "Map_PopState", "");
+	event:AddEventLinkAtEnd("opening4", 10);
 	EventManager:RegisterEvent(event);
 
 	-- Set the opening dialogue as done
-	event = hoa_map.ScriptedEvent(4, "OpeningDialogueDone", "");
+	event = hoa_map.ScriptedEvent("opening4", "OpeningDialogueDone", "");
 	EventManager:RegisterEvent(event);
 
 
 	-- Triggered events
-	event = hoa_map.MapTransitionEvent(5, "dat/maps/vt_bronanns_home.lua", "from_bronanns_room");
+	event = hoa_map.MapTransitionEvent("exit room", "dat/maps/vt_bronanns_home.lua", "from_bronanns_room");
 	EventManager:RegisterEvent(event);
 
 end
@@ -388,7 +382,7 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function CheckZones()
 	if (room_exit_zone:IsCameraEntering() == true) then
-		EventManager:StartEvent(5);
+		EventManager:StartEvent("exit room");
 	end
 end
 

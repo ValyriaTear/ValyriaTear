@@ -49,7 +49,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line, no display time, no event
 	**/
-	void AddLine(std::string text, uint32 speaker);
+	void AddLine(const std::string& text, uint32 speaker);
 
 	/** \brief Adds a new line of text to the dialogue
 	*** \param text The text to show on the screen
@@ -59,7 +59,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - no display time, no event
 	**/
-	void AddLine(std::string text, uint32 speaker, int32 next_line);
+	void AddLine(const std::string& text, uint32 speaker, int32 next_line);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
@@ -69,7 +69,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line, no event
 	**/
-	void AddLineTimed(std::string text, uint32 speaker, uint32 display_time);
+	void AddLineTimed(const std::string& text, uint32 speaker, uint32 display_time);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
@@ -80,7 +80,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - no event
 	**/
-	void AddLineTimed(std::string text, uint32 speaker, int32 next_line, uint32 display_time);
+	void AddLineTimed(const std::string& text, uint32 speaker, int32 next_line, uint32 display_time);
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
@@ -90,7 +90,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line, no display time
 	**/
-	void AddLineEvent(std::string text, uint32 speaker, uint32 event_id);
+	void AddLineEvent(const std::string& text, uint32 speaker, const std::string& event_id);
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
@@ -101,7 +101,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - no event
 	**/
-	void AddLineEvent(std::string text, uint32 speaker, int32 next_line, uint32 event_id);
+	void AddLineEvent(const std::string& text, uint32 speaker, int32 next_line, const std::string& event_id);
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
@@ -112,7 +112,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line
 	**/
-	void AddLineTimedEvent(std::string text, uint32 speaker, uint32 display_time, uint32 event_id);
+	void AddLineTimedEvent(const std::string& text, uint32 speaker, uint32 display_time, const std::string& event_id);
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
@@ -121,7 +121,8 @@ public:
 	*** \param display_time The number of milliseconds that the line should be displayed for
 	*** \param event_id The ID of the event to execute after this line finishes
 	**/
-	void AddLineTimedEvent(std::string text, uint32 speaker, int32 next_line, uint32 display_time, uint32 event_id);
+	void AddLineTimedEvent(const std::string& text, uint32 speaker, int32 next_line,
+						   uint32 display_time, const std::string& event_id);
 
 	/** \brief Adds an option to the most recently added line of text
 	*** \param text The text for this particular option
@@ -130,7 +131,7 @@ public:
 	*** The following option properties are set when using this call:
 	*** - proceed to next sequential line, no event
 	**/
-	void AddOption(std::string text);
+	void AddOption(const std::string& text);
 
 	/** \brief Adds an option to the most recently added line of text
 	*** \param text The text for this particular option
@@ -140,7 +141,7 @@ public:
 	*** The following option properties are set when using this call:
 	*** - no event
 	**/
-	void AddOption(std::string text, int32 next_line);
+	void AddOption(const std::string& text, int32 next_line);
 
 	/** \brief Adds an option to the most recently added line of text
 	*** \param text The text for this particular option
@@ -150,7 +151,7 @@ public:
 	*** The following option properties are set when using this call:
 	*** - proceed to next sequential line
 	**/
-	void AddOptionEvent(std::string text, uint32 event_id);
+	void AddOptionEvent(const std::string& text, const std::string& event_id);
 
 	/** \brief Adds an option to the most recently added line of text
 	*** \param text The text for this particular option
@@ -158,7 +159,7 @@ public:
 	*** \param event_id The ID of the event to execute should this option be selected
 	*** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
 	**/
-	void AddOptionEvent(std::string text, int32 next_line, uint32 event_id);
+	void AddOptionEvent(const std::string& text, int32 next_line, const std::string& event_id);
 
 	/** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
 	*** \return True if the validation was successful, false if any problems were discovered
@@ -176,7 +177,7 @@ public:
 		{ if (line >= _line_count) return 0; else return _speakers[line]; }
 
 	//! \brief Returns the ID of the event to execute for the line specified (or zero if the line index was invalid)
-	uint32 GetLineEvent(uint32 line) const
+	std::string GetLineEvent(uint32 line) const
 		{ if (line >= _line_count) return 0; else return _events[line]; }
 	//@}
 
@@ -212,7 +213,7 @@ private:
 	std::vector<uint32> _speakers;
 
 	//! \brief An optional MapEvent that may occur after each line is completed
-	std::vector<uint32> _events;
+	std::vector<std::string> _events;
 }; // class SpriteDialogue : public hoa_common::CommonDialogue
 
 
@@ -238,7 +239,7 @@ public:
 	*** The following option properties are set when using this call:
 	*** - proceed to next sequential line, no event
 	**/
-	void AddOption(std::string text);
+	void AddOption(const std::string& text);
 
 	/** \brief Adds a new option to the set of options
 	*** \param text The text for the new option
@@ -247,7 +248,7 @@ public:
 	*** The following option properties are set when using this call:
 	*** - no event
 	**/
-	void AddOption(std::string text, int32 next_line);
+	void AddOption(const std::string& text, int32 next_line);
 
 	/** \brief Adds a new option to the set of options with the addition of a map event to be executed
 	*** \param text The text for the new option
@@ -256,19 +257,19 @@ public:
 	*** The following option properties are set when using this call:
 	*** - proceed to next sequential line
 	**/
-	void AddOptionEvent(std::string text, uint32 event_id);
+	void AddOptionEvent(const std::string& text, const std::string& event_id);
 
 	/** \brief Adds a new option to the set of options with the addition of a map event to be executed
 	*** \param text The text for the new option
 	*** \param next_line An integer index of the next line of dialogue should this option be selected.
 	*** \param event_id The ID of the event to execute should this option be selected
 	**/
-	void AddOptionEvent(std::string text, int32 next_line, uint32 event_id);
+	void AddOptionEvent(const std::string& text, int32 next_line, const std::string& event_id);
 
 	//! \name Methods for retrieving properties of a specific line
 	//@{
-	uint32 GetOptionEvent(uint32 option) const
-		{ if (option >= GetNumberOptions()) return 0; else return _events[option]; }
+	std::string GetOptionEvent(uint32 option) const
+		{ if (option >= GetNumberOptions()) return std::string(); else return _events[option]; }
 	//@}
 
 	//! \brief Returns the number of options stored by this class
@@ -277,7 +278,7 @@ public:
 
 private:
 	//! \brief An optional MapEvent that may occur as a result of selecting each option
-	std::vector<uint32> _events;
+	std::vector<std::string> _events;
 }; // class MapDialogueOptions : public hoa_common::CommonDialogueOptions
 
 

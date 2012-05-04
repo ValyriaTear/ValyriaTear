@@ -393,18 +393,18 @@ void BindModeCode() {
 	[
 		class_<SpriteDialogue, hoa_common::CommonDialogue>("SpriteDialogue")
 			.def(constructor<uint32>())
-			.def("AddLine", (void(SpriteDialogue::*)(std::string, uint32))&SpriteDialogue::AddLine)
-			.def("AddLine", (void(SpriteDialogue::*)(std::string, uint32, int32))&SpriteDialogue::AddLine)
-			.def("AddLineTimed", (void(SpriteDialogue::*)(std::string, uint32, uint32))&SpriteDialogue::AddLineTimed)
-			.def("AddLineTimed", (void(SpriteDialogue::*)(std::string, uint32, int32, uint32))&SpriteDialogue::AddLineTimed)
-			.def("AddLineEvent", (void(SpriteDialogue::*)(std::string, uint32, uint32))&SpriteDialogue::AddLineEvent)
-			.def("AddLineEvent", (void(SpriteDialogue::*)(std::string, uint32, int32, uint32))&SpriteDialogue::AddLineEvent)
-			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(std::string, uint32, uint32, uint32))&SpriteDialogue::AddLineTimedEvent)
-			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(std::string, uint32, int32, uint32, uint32))&SpriteDialogue::AddLineTimedEvent)
-			.def("AddOption", (void(SpriteDialogue::*)(std::string))&SpriteDialogue::AddOption)
-			.def("AddOption", (void(SpriteDialogue::*)(std::string, int32))&SpriteDialogue::AddOption)
-			.def("AddOptionEvent", (void(SpriteDialogue::*)(std::string, uint32))&SpriteDialogue::AddOptionEvent)
-			.def("AddOptionEvent", (void(SpriteDialogue::*)(std::string, int32, uint32))&SpriteDialogue::AddOptionEvent)
+			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, uint32))&SpriteDialogue::AddLine)
+			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, uint32, int32))&SpriteDialogue::AddLine)
+			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, uint32, uint32))&SpriteDialogue::AddLineTimed)
+			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, uint32, int32, uint32))&SpriteDialogue::AddLineTimed)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddOption", (void(SpriteDialogue::*)(const std::string&))&SpriteDialogue::AddOption)
+			.def("AddOption", (void(SpriteDialogue::*)(const std::string&, int32))&SpriteDialogue::AddOption)
+			.def("AddOptionEvent", (void(SpriteDialogue::*)(const std::string&, const std::string&))&SpriteDialogue::AddOptionEvent)
+			.def("AddOptionEvent", (void(SpriteDialogue::*)(const std::string&, int32, const std::string&))&SpriteDialogue::AddOptionEvent)
 			.def("Validate", &SpriteDialogue::Validate)
 			.def("SetInputBlocked", &SpriteDialogue::SetInputBlocked)
 			.def("SetRestoreState", &SpriteDialogue::SetRestoreState)
@@ -414,8 +414,10 @@ void BindModeCode() {
 	[
 		class_<EventSupervisor>("EventSupervisor")
 			.def("RegisterEvent", &EventSupervisor::RegisterEvent, adopt(_2))
-			.def("StartEvent", (void(EventSupervisor::*)(uint32))&EventSupervisor::StartEvent)
+			.def("StartEvent", (void(EventSupervisor::*)(const std::string&))&EventSupervisor::StartEvent)
+			.def("StartEvent", (void(EventSupervisor::*)(const std::string&, uint32))&EventSupervisor::StartEvent)
 			.def("StartEvent", (void(EventSupervisor::*)(MapEvent*))&EventSupervisor::StartEvent)
+			.def("StartEvent", (void(EventSupervisor::*)(MapEvent*, uint32))&EventSupervisor::StartEvent)
 			.def("TerminateEvent", &EventSupervisor::TerminateEvent)
 			.def("IsEventActive", &EventSupervisor::IsEventActive)
 			.def("HasActiveEvent", &EventSupervisor::HasActiveEvent)
@@ -427,36 +429,36 @@ void BindModeCode() {
 	[
 		class_<MapEvent>("MapEvent")
 			.def("GetEventID", &MapEvent::GetEventID)
-			.def("AddEventLinkAtStart", (void(MapEvent::*)(uint32))&MapEvent::AddEventLinkAtStart)
-			.def("AddEventLinkAtStart", (void(MapEvent::*)(uint32, uint32))&MapEvent::AddEventLinkAtStart)
-			.def("AddEventLinkAtEnd", (void(MapEvent::*)(uint32))&MapEvent::AddEventLinkAtEnd)
-			.def("AddEventLinkAtEnd", (void(MapEvent::*)(uint32, uint32))&MapEvent::AddEventLinkAtEnd)
+			.def("AddEventLinkAtStart", (void(MapEvent::*)(const std::string&))&MapEvent::AddEventLinkAtStart)
+			.def("AddEventLinkAtStart", (void(MapEvent::*)(const std::string&, uint32))&MapEvent::AddEventLinkAtStart)
+			.def("AddEventLinkAtEnd", (void(MapEvent::*)(const std::string&))&MapEvent::AddEventLinkAtEnd)
+			.def("AddEventLinkAtEnd", (void(MapEvent::*)(const std::string&, uint32))&MapEvent::AddEventLinkAtEnd)
 	];
 
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<DialogueEvent, MapEvent>("DialogueEvent")
-			.def(constructor<uint32, uint32>())
+			.def(constructor<std::string, uint32>())
 			.def("SetStopCameraMovement", &DialogueEvent::SetStopCameraMovement)
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<SoundEvent, MapEvent>("SoundEvent")
-			.def(constructor<uint32, std::string>())
+			.def(constructor<std::string, std::string>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<MapTransitionEvent, MapEvent>("MapTransitionEvent")
-			.def(constructor<uint32, std::string, std::string>())
+			.def(constructor<std::string, std::string, std::string>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<ScriptedEvent, MapEvent>("ScriptedEvent")
-			.def(constructor<uint32, std::string, std::string>())
+			.def(constructor<std::string, std::string, std::string>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -467,22 +469,22 @@ void BindModeCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<ScriptedSpriteEvent, SpriteEvent>("ScriptedSpriteEvent")
-			.def(constructor<uint32, uint16, std::string, std::string>())
-			.def(constructor<uint32, VirtualSprite*, std::string, std::string>())
+			.def(constructor<std::string, uint16, std::string, std::string>())
+			.def(constructor<std::string, VirtualSprite*, std::string, std::string>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<ChangeDirectionSpriteEvent, SpriteEvent>("ChangeDirectionSpriteEvent")
-			.def(constructor<uint32, uint16, uint16>())
-			.def(constructor<uint32, VirtualSprite*, uint16>())
+			.def(constructor<std::string, uint16, uint16>())
+			.def(constructor<std::string, VirtualSprite*, uint16>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<PathMoveSpriteEvent, SpriteEvent>("PathMoveSpriteEvent")
-			.def(constructor<uint32, uint32, int16, int16, bool>())
-			.def(constructor<uint32, VirtualSprite*, int16, int16, bool>())
+			.def(constructor<std::string, uint32, int16, int16, bool>())
+			.def(constructor<std::string, VirtualSprite*, int16, int16, bool>())
 			.def("SetRelativeDestination", &PathMoveSpriteEvent::SetRelativeDestination)
 			.def("SetDestination", &PathMoveSpriteEvent::SetDestination)
 	];
@@ -490,13 +492,13 @@ void BindModeCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<RandomMoveSpriteEvent, SpriteEvent>("RandomMoveSpriteEvent")
-			.def(constructor<uint32, VirtualSprite*, uint32, uint32>())
+			.def(constructor<std::string, VirtualSprite*, uint32, uint32>())
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<AnimateSpriteEvent, MapEvent>("AnimateSpriteEvent")
-			.def(constructor<uint32, VirtualSprite*>())
+			.def(constructor<std::string, VirtualSprite*>())
 			.def("AddFrame", &AnimateSpriteEvent::AddFrame)
 			.def("SetLoopCount", &AnimateSpriteEvent::SetLoopCount)
 	];
@@ -504,7 +506,7 @@ void BindModeCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		class_<BattleEncounterEvent, MapEvent>("BattleEncounterEvent")
-			.def(constructor<uint32, uint32>())
+			.def(constructor<std::string, uint32>())
 			.def("SetMusic", &BattleEncounterEvent::SetMusic)
 			.def("SetBackground", &BattleEncounterEvent::SetBackground)
 			.def("AddBattleScript", &BattleEncounterEvent::AddBattleScript)
