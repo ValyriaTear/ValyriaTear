@@ -52,9 +52,6 @@ namespace hoa_map {
 
 namespace private_map {
 
-// Used to indicate that no event is to take place for a particular dialogue line or option
-const uint32 NO_DIALOGUE_EVENT = 0;
-
 ///////////////////////////////////////////////////////////////////////////////
 // SpriteDialogue Class Functions
 ///////////////////////////////////////////////////////////////////////////////
@@ -68,49 +65,50 @@ SpriteDialogue::SpriteDialogue(uint32 id) :
 
 
 
-void SpriteDialogue::AddLine(string text, uint32 speaker) {
-	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER, NO_DIALOGUE_EVENT);
+void SpriteDialogue::AddLine(const std::string& text, uint32 speaker) {
+	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER, std::string());
 }
 
 
 
-void SpriteDialogue::AddLine(string text, uint32 speaker, int32 next_line) {
-	AddLineTimedEvent(text, speaker, next_line, COMMON_DIALOGUE_NO_TIMER, NO_DIALOGUE_EVENT);
+void SpriteDialogue::AddLine(const std::string& text, uint32 speaker, int32 next_line) {
+	AddLineTimedEvent(text, speaker, next_line, COMMON_DIALOGUE_NO_TIMER, std::string());
 }
 
 
 
-void SpriteDialogue::AddLineTimed(string text, uint32 speaker, uint32 display_time) {
-	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, display_time, NO_DIALOGUE_EVENT);
+void SpriteDialogue::AddLineTimed(const std::string& text, uint32 speaker, uint32 display_time) {
+	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, display_time, std::string());
 }
 
 
 
-void SpriteDialogue::AddLineTimed(string text, uint32 speaker, int32 next_line, uint32 display_time) {
-	AddLineTimedEvent(text, speaker, next_line, display_time, NO_DIALOGUE_EVENT);
+void SpriteDialogue::AddLineTimed(const std::string& text, uint32 speaker, int32 next_line, uint32 display_time) {
+	AddLineTimedEvent(text, speaker, next_line, display_time, std::string());
 }
 
 
 
-void SpriteDialogue::AddLineEvent(string text, uint32 speaker, uint32 event_id) {
+void SpriteDialogue::AddLineEvent(const std::string& text, uint32 speaker, const std::string& event_id) {
 	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER, event_id);
 }
 
 
 
-void SpriteDialogue::AddLineEvent(string text, uint32 speaker, int32 next_line, uint32 event_id) {
+void SpriteDialogue::AddLineEvent(const std::string& text, uint32 speaker, int32 next_line, const std::string& event_id) {
 	AddLineTimedEvent(text, speaker, next_line, COMMON_DIALOGUE_NO_TIMER, event_id);
 }
 
 
 
-void SpriteDialogue::AddLineTimedEvent(string text, uint32 speaker, uint32 display_time, uint32 event_id) {
+void SpriteDialogue::AddLineTimedEvent(const std::string& text, uint32 speaker, uint32 display_time, const std::string& event_id) {
 	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, display_time, event_id);
 }
 
 
 
-void SpriteDialogue::AddLineTimedEvent(string text, uint32 speaker, int32 next_line, uint32 display_time, uint32 event_id) {
+void SpriteDialogue::AddLineTimedEvent(const std::string& text, uint32 speaker, int32 next_line,
+									   uint32 display_time, const std::string& event_id) {
 	CommonDialogue::AddLineTimed(text, next_line, display_time);
 	_speakers.push_back(speaker);
 	_events.push_back(event_id);
@@ -118,25 +116,25 @@ void SpriteDialogue::AddLineTimedEvent(string text, uint32 speaker, int32 next_l
 
 
 
-void SpriteDialogue::AddOption(string text) {
-	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, NO_DIALOGUE_EVENT);
+void SpriteDialogue::AddOption(const std::string& text) {
+	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, std::string());
 }
 
 
 
-void SpriteDialogue::AddOption(string text, int32 next_line) {
-	AddOptionEvent(text, next_line, NO_DIALOGUE_EVENT);
+void SpriteDialogue::AddOption(const std::string& text, int32 next_line) {
+	AddOptionEvent(text, next_line, std::string());
 }
 
 
 
-void SpriteDialogue::AddOptionEvent(string text, uint32 event_id) {
+void SpriteDialogue::AddOptionEvent(const std::string& text, const std::string& event_id) {
 	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, event_id);
 }
 
 
 
-void SpriteDialogue::AddOptionEvent(string text, int32 next_line, uint32 event_id) {
+void SpriteDialogue::AddOptionEvent(const std::string& text, int32 next_line, const std::string& event_id) {
 	if (_line_count == 0) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "Attempted to add an option to a dialogue with no lines" << endl;
 		return;
@@ -163,7 +161,7 @@ bool SpriteDialogue::Validate() {
 
 	// Construct containers that hold all unique sprite and event ids for this dialogue
 	set<uint32> sprite_ids;
-	set<uint32> event_ids;
+	set<std::string> event_ids;
 	for (uint32 i = 0; i < _line_count; i++) {
 		sprite_ids.insert(_speakers[i]);
 		event_ids.insert(_events[i]);
@@ -178,8 +176,8 @@ bool SpriteDialogue::Validate() {
 		}
 	}
 
-	for (set<uint32>::iterator i = event_ids.begin(); i != event_ids.end(); i++) {
-		if (*i != NO_DIALOGUE_EVENT) {
+	for (set<string>::iterator i = event_ids.begin(); i != event_ids.end(); i++) {
+		if (!(*i).empty()) {
 			if (MapMode::CurrentInstance()->GetEventSupervisor()->GetEvent(*i) == NULL) {
 				IF_PRINT_WARNING(MAP_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
 					<< ": dialogue referenced invalid event with id: " << *i << endl;
@@ -195,25 +193,25 @@ bool SpriteDialogue::Validate() {
 // MapDialogueOptions Class Functions
 ///////////////////////////////////////////////////////////////////////////////
 
-void MapDialogueOptions::AddOption(string text) {
-	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, NO_DIALOGUE_EVENT);
+void MapDialogueOptions::AddOption(const std::string& text) {
+	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, std::string());
 }
 
 
 
-void MapDialogueOptions::AddOption(string text, int32 next_line) {
-	AddOptionEvent(text, next_line, NO_DIALOGUE_EVENT);
+void MapDialogueOptions::AddOption(const std::string& text, int32 next_line) {
+	AddOptionEvent(text, next_line, std::string());
 }
 
 
 
-void MapDialogueOptions::AddOptionEvent(string text, uint32 event_id) {
+void MapDialogueOptions::AddOptionEvent(const std::string& text, const std::string& event_id) {
 	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, event_id);
 }
 
 
 
-void MapDialogueOptions::AddOptionEvent(string text, int32 next_line, uint32 event_id) {
+void MapDialogueOptions::AddOptionEvent(const std::string& text, int32 next_line, const std::string& event_id) {
 	CommonDialogueOptions::AddOption(text, next_line);
 	_events.push_back(event_id);
 }
@@ -477,15 +475,15 @@ void DialogueSupervisor::_BeginLine() {
 
 void DialogueSupervisor::_EndLine() {
 	// Execute any scripted events that should occur after this line of dialogue has finished
-	uint32 line_event = _current_dialogue->GetLineEvent(_line_counter);
-	if (line_event != NO_DIALOGUE_EVENT) {
+	std::string line_event = _current_dialogue->GetLineEvent(_line_counter);
+	if (!line_event.empty()) {
 		MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(line_event);
 	}
 
 	if (_current_options != NULL) {
 		uint32 selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
-		uint32 selected_event = _current_options->GetOptionEvent(selected_option);
-		if (selected_event != NO_DIALOGUE_EVENT) {
+		std::string selected_event = _current_options->GetOptionEvent(selected_option);
+		if (!selected_event.empty()) {
 			MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(selected_event);
 		}
 	}

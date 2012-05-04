@@ -58,14 +58,14 @@ namespace private_map {
 *** ***************************************************************************/
 class EventLink {
 public:
-	EventLink(uint32 child_id, bool start, uint32 time) :
+	EventLink(const std::string& child_id, bool start, uint32 time) :
 		child_event_id(child_id), launch_at_start(start), launch_timer(time) {}
 
 	~EventLink()
 		{}
 
 	//! \brief The ID of the child event in this link
-	uint32 child_event_id;
+	std::string child_event_id;
 
 	//! \brief The event will launch relative to the parent event's start if true, or its finish if false
 	bool launch_at_start;
@@ -85,8 +85,8 @@ public:
 *** class because common types of events (such as beginning a dialogue) are implemented
 *** in C++ code while Lua is used to represent not-so-common types of events.
 ***
-*** All events have a unique, non-zero, unsigned integer value that serve to
-*** distinguish the events from one another (an ID number). Events can also contain any
+*** All events have a unique, non empty, std::string value that serve to
+*** distinguish the events from one another (an ID string). Events can also contain any
 *** number of "links" to children events, which are events which launch simultaneously
 *** with or some time after the parent event. Events are processed via two
 *** functions. _Start() is called only one when the event begins. _Update() is called
@@ -96,14 +96,14 @@ public:
 class MapEvent {
 	friend class EventSupervisor;
 public:
-	//! \param id The ID for the map event (a zero value is invalid)
-	MapEvent(uint32 id, EVENT_TYPE type) :
+	//! \param id The ID for the map event (an empty() value is invalid)
+	MapEvent(const std::string& id, EVENT_TYPE type) :
 		_event_id(id), _event_type(type) {}
 
 	~MapEvent()
 		{}
 
-	uint32 GetEventID() const
+	const std::string& GetEventID() const
 		{ return _event_id; }
 
 	EVENT_TYPE GetEventType() const
@@ -112,27 +112,27 @@ public:
 	/** \brief Declares a child event to be launched immediately at the start of this event
 	*** \param child_event_id The event id of the child event
 	**/
-	void AddEventLinkAtStart(uint32 child_event_id)
+	void AddEventLinkAtStart(const std::string& child_event_id)
 		{ _AddEventLink(child_event_id, true, 0); }
 
 	/** \brief Declares a child event to be launched after the start of this event
 	*** \param child_event_id The event id of the child event
 	*** \param launch_time The number of milliseconds to wait before launching the child event
 	**/
-	void AddEventLinkAtStart(uint32 child_event_id, uint32 launch_time)
+	void AddEventLinkAtStart(const std::string& child_event_id, uint32 launch_time)
 		{ _AddEventLink(child_event_id, true, launch_time); }
 
 	/** \brief Declares a child event to be launched immediately at the end of this event
 	*** \param child_event_id The event id of the child event
 	**/
-	void AddEventLinkAtEnd(uint32 child_event_id)
+	void AddEventLinkAtEnd(const std::string& child_event_id)
 		{ _AddEventLink(child_event_id, false, 0); }
 
 	/** \brief Declares a child event to be launched after the end of this event
 	*** \param child_event_id The event id of the child event
 	*** \param launch_time The number of milliseconds to wait before launching the child event
 	**/
-	void AddEventLinkAtEnd(uint32 child_event_id, uint32 launch_time)
+	void AddEventLinkAtEnd(const std::string& child_event_id, uint32 launch_time)
 		{ _AddEventLink(child_event_id, false, launch_time); }
 
 protected:
@@ -154,12 +154,12 @@ protected:
 	*** \param launch_at_start The child starts relative to the start of the event if true, its finish if false
 	*** \param launch_time The number of milliseconds to wait before launching the child event
 	**/
-	void _AddEventLink(uint32 child_event_id, bool launch_at_start, uint32 launch_time)
+	void _AddEventLink(const std::string& child_event_id, bool launch_at_start, uint32 launch_time)
 		{ _event_links.push_back(EventLink(child_event_id, launch_at_start, launch_time)); }
 
 private:
-	//! \brief A unique ID number for the event. A value of zero is invalid
-	uint32 _event_id;
+	//! \brief A unique ID string for the event. An empty value is invalid
+	std::string _event_id;
 
 	//! \brief Identifier for the class type of this event
 	EVENT_TYPE _event_type;
@@ -186,7 +186,7 @@ public:
 	/** \param event_id The ID of this event
 	*** \param dialogue_id The ID of the dialogue to execute through this event
 	**/
-	DialogueEvent(uint32 event_id, uint32 dialogue_id);
+	DialogueEvent(const std::string& event_id, uint32 dialogue_id);
 
 	~DialogueEvent()
 		{}
@@ -219,7 +219,7 @@ protected:
 class ShopEvent : public MapEvent {
 public:
 	//! \param event_id The ID of this event
-	ShopEvent(uint32 event_id);
+	ShopEvent(const std::string& event_id);
 
 	~ShopEvent();
 
@@ -272,7 +272,7 @@ public:
 	/** \param event_id The ID of this event
 	*** \param sound_filename The name of the sound file to load
 	**/
-	SoundEvent(uint32 event_id, std::string sound_filename);
+	SoundEvent(const std::string& event_id, const std::string& sound_filename);
 
 	~SoundEvent();
 
@@ -303,7 +303,8 @@ public:
 	*** \param filename The name of the map file to transition to
 	*** \param coming_from The transition origin.
 	**/
-	MapTransitionEvent(uint32 event_id, std::string filename, std::string coming_from);
+	MapTransitionEvent(const std::string& event_id, const std::string& filename,
+					   const std::string& coming_from);
 
 	~MapTransitionEvent() {};
 
@@ -336,7 +337,7 @@ class JoinPartyEvent : public MapEvent {
 public:
 	/** \param event_id The ID of this event
 	**/
-	JoinPartyEvent(uint32 event_id);
+	JoinPartyEvent(const std::string& event_id);
 
 	~JoinPartyEvent();
 
@@ -358,7 +359,7 @@ class BattleEncounterEvent : public MapEvent {
 public:
 	/** \param event_id The ID of this event
 	**/
-	BattleEncounterEvent(uint32 event_id, uint32 enemy_id);
+	BattleEncounterEvent(const std::string& event_id, uint32 enemy_id);
 
 	~BattleEncounterEvent()
 		{}
@@ -420,7 +421,8 @@ public:
 	*** update function being defined. If no update function is defined, the call to _Update() will always
 	*** return true, meaning that this event will end immediately after it starts.
 	**/
-	ScriptedEvent(uint32 event_id, const std::string& start_function, const std::string& update_function);
+	ScriptedEvent(const std::string& event_id, const std::string& start_function,
+				  const std::string& update_function);
 
 	~ScriptedEvent();
 
@@ -469,13 +471,13 @@ public:
 	*** \param event_type The type of this event
 	*** \param sprite_id The id of the sprite that this event will control
 	**/
-	SpriteEvent(uint32 event_id, EVENT_TYPE event_type, uint16 sprite_id);
+	SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, uint16 sprite_id);
 
 	/** \param event_id The ID of this event
 	*** \param event_type The type of this event
 	*** \param sprite A pointer to the sprite that this event will control
 	**/
-	SpriteEvent(uint32 event_id, EVENT_TYPE event_type, VirtualSprite* sprite);
+	SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite);
 
 	~SpriteEvent()
 		{}
@@ -514,7 +516,8 @@ public:
 	*** update function being defined. If no update function is defined, the call to _Update() will always
 	*** return true, meaning that this event will end immediately after it starts.
 	**/
-	ScriptedSpriteEvent(uint32 event_id, uint16 sprite_id, const std::string& start_function, const std::string& update_function);
+	ScriptedSpriteEvent(const std::string& event_id, uint16 sprite_id,
+						const std::string& start_function, const std::string& update_function);
 
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite that will be passed to the Lua script functions
@@ -525,7 +528,8 @@ public:
 	*** update function being defined. If no update function is defined, the call to _Update() will always
 	*** return true, meaning that this event will end immediately after it starts.
 	**/
-	ScriptedSpriteEvent(uint32 event_id, VirtualSprite* sprite, const std::string& start_function, const std::string& update_function);
+	ScriptedSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+						const std::string& start_function, const std::string& update_function);
 
 	~ScriptedSpriteEvent();
 
@@ -568,13 +572,13 @@ public:
 	*** \param sprite _id The ID of the sprite to change the direction of
 	*** \param direction The direction to face the sprite
 	**/
-	ChangeDirectionSpriteEvent(uint32 event_id, uint16 sprite_id, uint16 direction);
+	ChangeDirectionSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 direction);
 
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite that this event will effect
 	*** \param direction The direction to face the sprite
 	**/
-	ChangeDirectionSpriteEvent(uint32 event_id, VirtualSprite* sprite, uint16 direction);
+	ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16 direction);
 
 	~ChangeDirectionSpriteEvent()
 		{}
@@ -611,7 +615,7 @@ public:
 	*** \param y_coord The Y coordinate to move the sprite to
 	*** \param run whether the character has to go there by walking or running
 	**/
-	PathMoveSpriteEvent(uint32 event_id, uint16 sprite_id, int16 x_coord, int16 y_coord, bool run);
+	PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id, int16 x_coord, int16 y_coord, bool run);
 
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite to move
@@ -619,7 +623,7 @@ public:
 	*** \param y_coord The Y coordinate to move the sprite to
 	*** \param run whether the character has to go there by walking or running
 	**/
-	PathMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite, int16 x_coord, int16 y_coord, bool run);
+	PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, int16 x_coord, int16 y_coord, bool run);
 
 	~PathMoveSpriteEvent()
 		{}
@@ -693,7 +697,8 @@ public:
 	*** \param move_time The total amount of time that this event should take
 	*** \param direction_time The amount of time to wait before changing the sprite's direction randomly
 	**/
-	RandomMoveSpriteEvent(uint32 event_id, VirtualSprite* sprite, uint32 move_time = 10000, uint32 direction_time = 2000);
+	RandomMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+						  uint32 move_time = 10000, uint32 direction_time = 2000);
 
 	~RandomMoveSpriteEvent();
 
@@ -748,7 +753,7 @@ public:
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite to move
 	**/
-	AnimateSpriteEvent(uint32 event_id, VirtualSprite* sprite);
+	AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite);
 
 	~AnimateSpriteEvent();
 
@@ -842,33 +847,37 @@ public:
 
 	/** \brief Marks a specified event as active and starts the event
 	*** \param event_id The ID of the event to activate
+	*** \param launch_time The time to wait before launching the event.
 	*** The specified event to start may be linked to several children, grandchildren, etc. events.
 	*** If the event has no children, it will activate only the single event requested. Otherwise
 	*** all events in the chain will become activated at the appropriate time.
 	**/
-	void StartEvent(uint32 event_id);
+	void StartEvent(const std::string& event_id);
+	void StartEvent(const std::string& event_id, uint32 launch_time);
 
 	/** \brief Marks a specified event as active and starts the event
 	*** \param event A pointer to the event to begin
+	*** \param launch_time The time to wait before launching the event.
 	*** The specified event to start may be linked to several children, grandchildren, etc. events.
 	*** If the event has no children, it will activate only the single event requested. Otherwise
 	*** all events in the chain will become activated at the appropriate time.
 	**/
 	void StartEvent(MapEvent* event);
+	void StartEvent(MapEvent* event, uint32 launch_time);
 
 	/** \brief Pauses an active event by preventing the event from updating
 	*** \param event_id The ID of the active event to pause
 	*** If the event corresponding to the ID is not active, a warning will be issued and no change
 	*** will occur.
 	**/
-	void PauseEvent(uint32 event_id);
+	void PauseEvent(const std::string& event_id);
 
 	/** \brief Resumes a pausd evend
 	*** \param event_id The ID of the active event to resume
 	*** If the event corresponding to the ID is not paused, a warning will be issued and no change
 	*** will occur.
 	**/
-	void ResumeEvent(uint32 event_id);
+	void ResumeEvent(const std::string& event_id);
 
 	/** \brief Terminates an event if it is active
 	*** \param event_id The ID of the event to terminate
@@ -878,7 +887,7 @@ public:
 	*** can lead to memory leaks, errors, and other problems. Make sure that the event you are terminating will not cause
 	*** any of these conditions.
 	**/
-	void TerminateEvent(uint32 event_id);
+	void TerminateEvent(const std::string& event_id);
 
 	//! \brief Updates the state of all active and launch events
 	void Update();
@@ -887,7 +896,7 @@ public:
 	*** \param event_id The ID of the event to check
 	*** \return True if the event is active, false if it is not or the event could not be found
 	**/
-	bool IsEventActive(uint32 event_id) const;
+	bool IsEventActive(const std::string& event_id) const;
 
 	//! \brief Returns true if any events are active
 	bool HasActiveEvent() const
@@ -901,11 +910,11 @@ public:
 	*** \param event_id The ID of the event to retrieve
 	*** \return A MapEvent pointer (which may need to be casted to the proper event type), or NULL if no event was found
 	**/
-	MapEvent* GetEvent(uint32 event_id) const;
+	MapEvent* GetEvent(const std::string& event_id) const;
 
 private:
 	//! \brief A container for all map events, where the event's ID serves as the key to the std::map
-	std::map<uint32, MapEvent*> _all_events;
+	std::map<std::string, MapEvent*> _all_events;
 
 	//! \brief A list of all events which have started but are not yet finished
 	std::list<MapEvent*> _active_events;
