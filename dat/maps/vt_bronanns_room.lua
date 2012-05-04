@@ -241,7 +241,8 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 local hero_start_x = 23;
 local hero_start_y = 14;
 
-local bronann_id = 1000;
+-- the main character handler
+local bronann = {};
 
 -- the main map loading code
 function Load(m)
@@ -281,9 +282,7 @@ end
 
 -- Character creation
 function CreateCharacters()
-	bronann = {};
-
-	bronann = _CreateSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.5, 0.5);
+	bronann = _CreateSprite(Map, "Bronann", hero_start_x, hero_start_y, 0.5, 0.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -301,16 +300,16 @@ end
 function CreateObjects()
 	object = {}
 
-	object = _CreateObject("Bed1", 10001, 20, 16, 0.0, 0.0);
+	object = _CreateObject(Map, "Bed1", 20, 16, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject("Box1", 10002, 19, 18, 0.0, 0.0);
+	object = _CreateObject(Map, "Box1", 19, 18, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject("Chair1", 10003, 23, 22, 0.0, 0.0);
+	object = _CreateObject(Map, "Chair1", 23, 22, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject("Small Wooden Table", 10004, 20, 23, 0.0, 0.0);
+	object = _CreateObject(Map, "Small Wooden Table", 20, 23, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject("Left Window Light", 10005, 19, 15, 0.0, 0.0);
+	object = _CreateObject(Map, "Left Window Light", 19, 15, 0.0, 0.0);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
@@ -355,19 +354,19 @@ function CreateDialogues()
 	dialogue = hoa_map.SpriteDialogue(1);
 		dialogue:SetInputBlocked(true);
 		text = hoa_system.Translate("What a weird dream... I still feel dizzy even after getting up...");
-		dialogue:AddLineTimed(text, bronann_id, 5000);
+		dialogue:AddLineTimed(text, bronann:GetObjectID(), 5000);
 	DialogueManager:AddDialogue(dialogue);
 
 	dialogue = hoa_map.SpriteDialogue(2);
 		dialogue:SetInputBlocked(true);
 		text = hoa_system.Translate("Wait!!!");
-		dialogue:AddLineTimed(text, bronann_id, 2000);
+		dialogue:AddLineTimed(text, bronann:GetObjectID(), 2000);
 		text = hoa_system.Translate("Today's sunday!!");
-		dialogue:AddLineTimed(text, bronann_id, 2000);
+		dialogue:AddLineTimed(text, bronann:GetObjectID(), 2000);
 		text = hoa_system.Translate("HURRAY!! I've got nothing to do, great!");
-		dialogue:AddLineTimed(text, bronann_id, 4000);
+		dialogue:AddLineTimed(text, bronann:GetObjectID(), 4000);
 		text = hoa_system.Translate("I hope Mom and Dad won't mind if I go venture around today.");
-		dialogue:AddLineTimed(text, bronann_id, 4000);
+		dialogue:AddLineTimed(text, bronann:GetObjectID(), 4000);
 	DialogueManager:AddDialogue(dialogue);
 
 end

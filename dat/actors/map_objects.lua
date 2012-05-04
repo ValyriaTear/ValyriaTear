@@ -134,7 +134,17 @@ objects["Left Window Light 2"] = {
 -- The helper function permitting to easily create a prepared map object
 object = {}
 
-function _CreateObject(name, id, x, y, x_off, y_off)
+function _CreateObject(Map, name, x, y, x_off, y_off)
+	if (objects[name] == nil) then
+		print("Error: No object named: "..name.." found!!");
+		return nil;
+	end
+
+	if (Map == nil) then
+		print("Error: Function called with invalid Map object");
+		return nil;
+    end
+
 	if (x_off == nil) then
 		x_off = 0.5;
 	end
@@ -142,21 +152,16 @@ function _CreateObject(name, id, x, y, x_off, y_off)
 		y_off = 0.5;
 	end
 
-	if (objects[name]) then
-		object = hoa_map.PhysicalObject();
-		object:SetObjectID(id);
-		object:SetContext(1);
-		object:SetXPosition(x, x_off);
-		object:SetYPosition(y, y_off);
-		object:SetCollHalfWidth(objects[name].coll_half_width);
-		object:SetCollHeight(objects[name].coll_height);
-		object:SetImgHalfWidth(objects[name].img_half_width);
-		object:SetImgHeight(objects[name].img_height);
-		object:AddAnimation(objects[name].animation_filename);
+	object = hoa_map.PhysicalObject();
+	object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	object:SetContext(hoa_map.MapMode.CONTEXT_01);
+	object:SetXPosition(x, x_off);
+	object:SetYPosition(y, y_off);
+	object:SetCollHalfWidth(objects[name].coll_half_width);
+	object:SetCollHeight(objects[name].coll_height);
+	object:SetImgHalfWidth(objects[name].img_half_width);
+	object:SetImgHeight(objects[name].img_height);
+	object:AddAnimation(objects[name].animation_filename);
 
-		return object;
-	else
-		print("Error: No object named: "..name.." found!!");
-		return nil;
-	end
+	return object;
 end
