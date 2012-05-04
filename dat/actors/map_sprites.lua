@@ -212,7 +212,17 @@ enemies["scorpion"] = {
 sprite = {}
 enemy = {}
 
-function ConstructSprite(name, id, x, y, x_off, y_off)
+function _CreateSprite(Map, name, x, y, x_off, y_off)
+	if (sprites[name] == nil) then
+		print("Error: No object named: "..name.." found!!");
+		return nil;
+	end
+
+	if (Map == nil) then
+		print("Error: Function called with invalid Map object");
+		return nil;
+	end
+
 	if (x_off == nil) then
 		x_off = 0.5;
 	end
@@ -221,36 +231,39 @@ function ConstructSprite(name, id, x, y, x_off, y_off)
 	end
 	dir = (2 ^ math.random(0, 3));
 
-	if (sprites[name]) then
-		sprite = hoa_map.MapSprite();
-		sprite:SetName(sprites[name].name);
-		sprite:SetObjectID(id);
-		sprite:SetContext(1);
-		sprite:SetXPosition(x, x_off);
-		sprite:SetYPosition(y, y_off);
-		sprite:SetCollHalfWidth(sprites[name].coll_half_width);
-		sprite:SetCollHeight(sprites[name].coll_height);
-		sprite:SetImgHalfWidth(sprites[name].img_half_width);
-		sprite:SetImgHeight(sprites[name].img_height);
-		sprite:SetMovementSpeed(sprites[name].movement_speed);
-		sprite:SetDirection(dir);
-		sprite:LoadStandardAnimations(sprites[name].standard_animations);
-		if (sprites[name].running_animations) then
-			sprite:LoadRunningAnimations(sprites[name].running_animations);
-		end
-		if (sprites[name].face_portrait) then
-			sprite:LoadFacePortrait(sprites[name].face_portrait);
-		end
-		return sprite;
-	else
-		return nil;
+	sprite = hoa_map.MapSprite();
+	sprite:SetName(sprites[name].name);
+	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
+	sprite:SetXPosition(x, x_off);
+	sprite:SetYPosition(y, y_off);
+	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
+	sprite:SetCollHeight(sprites[name].coll_height);
+	sprite:SetImgHalfWidth(sprites[name].img_half_width);
+	sprite:SetImgHeight(sprites[name].img_height);
+	sprite:SetMovementSpeed(sprites[name].movement_speed);
+	sprite:SetDirection(dir);
+	sprite:LoadStandardAnimations(sprites[name].standard_animations);
+	if (sprites[name].running_animations) then
+		sprite:LoadRunningAnimations(sprites[name].running_animations);
 	end
+	if (sprites[name].face_portrait) then
+		sprite:LoadFacePortrait(sprites[name].face_portrait);
+	end
+
+		return sprite;
 end
 
 
 
-function ConstructEnemySprite(name, Map)
+function _CreateEnemySprite(Map, name)
 	if (enemies[name] == nil) then
+		print("Error: No object named: "..name.." found!!");
+		return nil;
+	end
+
+	if (Map == nil) then
+		print("Error: Function called with invalid Map object");
 		return nil;
 	end
 
