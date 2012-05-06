@@ -911,7 +911,9 @@ bool AnimateSpriteEvent::_Update() {
 
 EventSupervisor::~EventSupervisor() {
 	_active_events.clear();
-	_launch_events.clear();
+	_paused_events.clear();
+	_active_delayed_events.clear();
+	_paused_delayed_events.clear();
 
 	for (std::map<std::string, MapEvent*>::iterator it = _all_events.begin(); it != _all_events.end(); ++it) {
 		delete it->second;
@@ -958,7 +960,7 @@ void EventSupervisor::StartEvent(const std::string& event_id, uint32 launch_time
 	if (launch_time == 0)
 		StartEvent(event);
 	else
-		_launch_events.push_back(make_pair(static_cast<int32>(launch_time), event));
+		_active_delayed_events.push_back(make_pair(static_cast<int32>(launch_time), event));
 }
 
 
@@ -983,26 +985,99 @@ void EventSupervisor::StartEvent(MapEvent* event, uint32 launch_time) {
 	if (launch_time == 0)
 		StartEvent(event);
 	else
-		_launch_events.push_back(make_pair(static_cast<int32>(launch_time), event));
+		_active_delayed_events.push_back(make_pair(static_cast<int32>(launch_time), event));
 }
 
 
 void EventSupervisor::PauseEvents(const std::string& event_id) {
-	for (list<MapEvent*>::iterator i = _active_events.begin(); i != _active_events.end(); i++) {
-		if ((*i)->_event_id == event_id) {
-			_paused_events.push_back(*i);
-			i = _active_events.erase(i);
+	// Search for active ones
+	for (list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
+		if ((*it)->_event_id == event_id) {
+			_paused_events.push_back(*it);
+			it = _active_events.erase(it);
+		}
+	}
+
+	// and for the delayed ones
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _active_delayed_events.begin();
+			it != _active_delayed_events.end(); ++it) {
+		if ((*it).second->_event_id == event_id) {
+			_paused_delayed_events.push_back(*it);
+			it = _active_delayed_events.erase(it);
 		}
 	}
 }
 
 
+void EventSupervisor::PauseAllEvents(VirtualSprite *sprite) {
+	if (!sprite)
+		return;
+	// Examine all potential active (now or later) events
+
+	// Starting by active ones.
+	for (std::list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
+		SpriteEvent *event = dynamic_cast<SpriteEvent*>(*it);
+		if (event && event->GetSprite() == sprite) {
+			_paused_events.push_back(*it);
+			it = _active_events.erase(it);
+		}
+	}
+
+	// Looking at incoming ones.
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _active_delayed_events.begin();
+			it != _active_delayed_events.end(); ++it)
+	{
+		SpriteEvent *event = dynamic_cast<SpriteEvent*>((*it).second);
+		if (event && event->GetSprite() == sprite) {
+			_paused_delayed_events.push_back(*it);
+			it = _active_delayed_events.erase(it);
+		}
+	}
+}
+
 
 void EventSupervisor::ResumeEvents(const std::string& event_id) {
-	for (list<MapEvent*>::iterator i = _paused_events.begin(); i != _paused_events.end(); i++) {
-		if ((*i)->_event_id == event_id) {
-			_active_events.push_back(*i);
-			i = _paused_events.erase(i);
+	for (std::list<MapEvent*>::iterator it = _paused_events.begin();
+			it != _paused_events.end(); ++it) {
+		if ((*it)->_event_id == event_id) {
+			_active_events.push_back(*it);
+			it = _paused_events.erase(it);
+		}
+	}
+
+	// and the delayed ones
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _paused_delayed_events.begin();
+			it != _paused_delayed_events.end(); ++it) {
+		if ((*it).second->_event_id == event_id) {
+			_active_delayed_events.push_back(*it);
+			it = _paused_delayed_events.erase(it);
+		}
+	}
+}
+
+
+void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite) {
+	if (!sprite)
+		return;
+	// Examine all potential active (now or later) events
+
+	// Starting by active ones.
+	for (std::list<MapEvent*>::iterator it = _paused_events.begin(); it != _paused_events.end(); ++it) {
+		SpriteEvent *event = dynamic_cast<SpriteEvent*>(*it);
+		if (event && event->GetSprite() == sprite) {
+			_active_events.push_back(*it);
+			it = _paused_events.erase(it);
+		}
+	}
+
+	// Looking at incoming ones.
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _paused_delayed_events.begin();
+			it != _paused_delayed_events.end(); ++it)
+	{
+		SpriteEvent *event = dynamic_cast<SpriteEvent*>((*it).second);
+		if (event && event->GetSprite() == sprite) {
+			_active_delayed_events.push_back(*it);
+			it = _paused_delayed_events.erase(it);
 		}
 	}
 }
@@ -1023,12 +1098,12 @@ void EventSupervisor::TerminateEvents(const std::string& event_id, bool trigger_
 	}
 
 	// Looking at incoming ones.
-	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _launch_events.begin();
-			it != _launch_events.end(); ++it)
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _active_delayed_events.begin();
+			it != _active_delayed_events.end(); ++it)
 	{
 		if ((*it).second->_event_id == event_id) {
 			MapEvent* terminated_event = (*it).second;
-			it = _launch_events.erase(it);
+			it = _active_delayed_events.erase(it);
 
 			// We examine the event links only after the event has been removed from the active list
 			if (trigger_event_links)
@@ -1041,7 +1116,20 @@ void EventSupervisor::TerminateEvents(const std::string& event_id, bool trigger_
 		if ((*it)->_event_id == event_id) {
 			MapEvent* terminated_event = *it;
 			it = _paused_events.erase(it);
-			// We examine the event links only after the event has been removed from the active list
+			// We examine the event links only after the event has been removed from the list
+			if (trigger_event_links)
+				_ExamineEventLinks(terminated_event, false);
+		}
+	}
+
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _paused_delayed_events.begin();
+			it != _paused_delayed_events.end(); ++it)
+	{
+		if ((*it).second->_event_id == event_id) {
+			MapEvent* terminated_event = (*it).second;
+			it = _paused_delayed_events.erase(it);
+
+			// We examine the event links only after the event has been removed from the list
 			if (trigger_event_links)
 				_ExamineEventLinks(terminated_event, false);
 		}
@@ -1067,53 +1155,62 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite) {
 	// Starting by active ones.
 	for (std::list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
 		SpriteEvent *event = dynamic_cast<SpriteEvent*>(*it);
-		if (event->GetSprite() == sprite)
+		if (event && event->GetSprite() == sprite)
 			it = _active_events.erase(it);
 	}
 
 	// Looking at incoming ones.
-	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _launch_events.begin();
-			it != _launch_events.end(); ++it)
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _active_delayed_events.begin();
+			it != _active_delayed_events.end(); ++it)
 	{
 		SpriteEvent *event = dynamic_cast<SpriteEvent*>((*it).second);
-		if (event->GetSprite() == sprite)
-			it = _launch_events.erase(it);
+		if (event && event->GetSprite() == sprite)
+			it = _active_delayed_events.erase(it);
 	}
 
 	// And paused ones
 	for (std::list<MapEvent*>::iterator it = _paused_events.begin(); it != _paused_events.end(); ++it) {
 		SpriteEvent *event = dynamic_cast<SpriteEvent*>(*it);
-		if (event->GetSprite() == sprite)
+		if (event && event->GetSprite() == sprite)
 			it = _paused_events.erase(it);
+	}
+
+	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _paused_delayed_events.begin();
+			it != _paused_delayed_events.end(); ++it)
+	{
+		SpriteEvent *event = dynamic_cast<SpriteEvent*>((*it).second);
+		if (event && event->GetSprite() == sprite)
+			it = _paused_delayed_events.erase(it);
 	}
 }
 
 
 void EventSupervisor::Update() {
 	// Update all launch event timers and start all events whose timers have finished
-	for (list<pair<int32, MapEvent*> >::iterator i = _launch_events.begin(); i != _launch_events.end();) {
-		i->first -= SystemManager->GetUpdateTime();
+	for (list<pair<int32, MapEvent*> >::iterator it = _active_delayed_events.begin();
+			it != _active_delayed_events.end();) {
+		it->first -= SystemManager->GetUpdateTime();
 
-		if (i->first <= 0) { // Timer has expired
-			MapEvent* start_event = i->second;
-			i = _launch_events.erase(i);
+		if (it->first <= 0) { // Timer has expired
+			MapEvent* start_event = it->second;
+			it = _active_delayed_events.erase(it);
 			// We begin the event only after it has been removed from the launch list
 			StartEvent(start_event);
 		}
 		else
-			++i;
+			++it;
 	}
 
 	// Check for active events which have finished
-	for (list<MapEvent*>::iterator i = _active_events.begin(); i != _active_events.end();) {
-		if ((*i)->_Update() == true) {
-			MapEvent* finished_event = *i;
-			i = _active_events.erase(i);
+	for (list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end();) {
+		if ((*it)->_Update() == true) {
+			MapEvent* finished_event = *it;
+			it = _active_events.erase(it);
 			// We examine the event links only after the event has been removed from the active list
 			_ExamineEventLinks(finished_event, false);
 		}
 		else
-			++i;
+			++it;
 	}
 }
 
@@ -1161,7 +1258,7 @@ void EventSupervisor::_ExamineEventLinks(MapEvent* parent_event, bool event_star
 				continue;
 			}
 			else {
-				_launch_events.push_back(make_pair(static_cast<int32>(link.launch_timer), child));
+				_active_delayed_events.push_back(make_pair(static_cast<int32>(link.launch_timer), child));
 			}
 		}
 	}

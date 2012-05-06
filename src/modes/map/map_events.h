@@ -878,12 +878,22 @@ public:
 	**/
 	void PauseEvents(const std::string& event_id);
 
-	/** \brief Resumes a pausd evend
+	/** \brief Pauses the given sprite events
+	*** \param sprite The sprite to pause the sprite events from
+	**/
+	void PauseAllEvents(VirtualSprite *sprite);
+
+	/** \brief Resumes a paused event
 	*** \param event_id The ID of the active event(s) to resume
 	*** If the event corresponding to the ID is not paused, a warning will be issued and no change
 	*** will occur.
 	**/
 	void ResumeEvents(const std::string& event_id);
+
+	/** \brief Resumes the given sprite events
+	*** \param sprite The sprite to resume the sprite events from
+	**/
+	void ResumeAllEvents(VirtualSprite *sprite);
 
 	/** \brief Terminates an event if it is active
 	*** \param event_id The ID of the event(s) to terminate
@@ -917,8 +927,8 @@ public:
 		{ return !_active_events.empty(); }
 
 	//! \brief Returns true if any events are being prepared to be launched after their timers expire
-	bool HasLaunchEvent() const
-		{ return !_launch_events.empty(); }
+	bool HasActiveDelayedEvent() const
+		{ return !_active_delayed_events.empty(); }
 
 	/** \brief Returns a pointer to a specified event stored by this class
 	*** \param event_id The ID of the event to retrieve
@@ -933,13 +943,19 @@ private:
 	//! \brief A list of all events which have started but are not yet finished
 	std::list<MapEvent*> _active_events;
 
+	//! \brief A list of all events which have been paused
+	std::list<MapEvent*> _paused_events;
+
 	/** \brief A list of all events that are waiting on their launch timers to expire before being started
 	*** The interger part of this std::pair is the countdown timer for this event to be launched
 	**/
-	std::list<std::pair<int32, MapEvent*> > _launch_events;
+	std::list<std::pair<int32, MapEvent*> > _active_delayed_events;
 
-	//! \brief A list of all events which have been paused
-	std::list<MapEvent*> _paused_events;
+	/** \brief A list of all events that are waiting on their launch timers to expire before being started
+	*** The interger part of this std::pair is the countdown timer for this event to be launched
+	*** Those ones are put on hold by PauseAllEvents() and PauseEvents();
+	**/
+	std::list<std::pair<int32, MapEvent*> > _paused_delayed_events;
 
 	/** \brief A function that is called whenever an event starts or finishes to examine that event's links
 	*** \param parent_event The event that has just started or finished

@@ -246,8 +246,7 @@ void VirtualSprite::SaveState() {
 	_saved_direction = direction;
 	_saved_movement_speed = movement_speed;
 	_saved_moving = moving;
-	if (control_event != NULL)
-		MapMode::CurrentInstance()->GetEventSupervisor()->PauseEvents(control_event->GetEventID());
+	MapMode::CurrentInstance()->GetEventSupervisor()->PauseAllEvents(this);
 }
 
 
@@ -257,11 +256,10 @@ void VirtualSprite::RestoreState() {
 		IF_PRINT_WARNING(MAP_DEBUG) << "restoring state when no saved state was detected" << endl;
 
 	_state_saved = false;
-	 direction = _saved_direction;
-	 movement_speed = _saved_movement_speed;
-	 moving = _saved_moving;
-	 if (control_event != NULL)
-		MapMode::CurrentInstance()->GetEventSupervisor()->ResumeEvents(control_event->GetEventID());
+	direction = _saved_direction;
+	movement_speed = _saved_movement_speed;
+	moving = _saved_moving;
+	MapMode::CurrentInstance()->GetEventSupervisor()->ResumeAllEvents(this);
 }
 
 

@@ -444,7 +444,7 @@ void BindModeCode() {
 			.def("TerminateAllEvents", &EventSupervisor::TerminateAllEvents)
 			.def("IsEventActive", &EventSupervisor::IsEventActive)
 			.def("HasActiveEvent", &EventSupervisor::HasActiveEvent)
-			.def("HasLaunchEvent", &EventSupervisor::HasLaunchEvent)
+			.def("HasActiveDelayedEvent", &EventSupervisor::HasActiveDelayedEvent)
 			.def("GetEvent", &EventSupervisor::GetEvent)
 	];
 
