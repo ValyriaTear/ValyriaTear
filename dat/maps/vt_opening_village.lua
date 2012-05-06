@@ -10,7 +10,7 @@ setfenv(1, ns);
 map = {}
 
 -- The map name and location image
-map_name = "Mountain village of Layna"
+map_name = hoa_system.Translate("Mountain village of Layna");
 map_image_filename = "img/menus/locations/mountain_village.png"
 
 -- The table telling from which other contexts, the contexts (from number 1) inherit
@@ -170,8 +170,8 @@ layers[0][38] = { 43, 126, 42, 42, 78, 78, 78, 78, 78, 78, 78, 78, 11, 13, 78, 7
 layers[0][39] = { 78, 43, 44, 44, 126, 42, 78, 78, 78, 78, 78, 78, 43, 45, 78, 78, 78, 78, 78, 42, 42, 28, 28, 28, 29, 78, 43, 126, 78, 78, 78, 78, 78, 78, 78, 78, 43, 126, 26, 42, 26, 42, 26, 127, 44, 44, 45, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 28 }
 
 layers[1] = {}
-layers[1].type = "fringe"
-layers[1].name = "Fringe"
+layers[1].type = "ground"
+layers[1].name = "Ground 2"
 layers[1][0] = { -1, -1, -1, -1, 249, 250, -1, -1, -1, -1, 233, 234, -1, -1, -1, -1, -1, -1, -1, 57, 144, -1, 64, 65, 68, 69, 96, 97, 98, 99, 86, 87, 82, 83, 70, 71, 66, 67, 66, 67, 66, 67, 54, -1, -1, 57, 54, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[1][1] = { 66, 67, 66, 67, 54, -1, -1, -1, -1, -1, 249, 250, -1, -1, 235, -1, -1, 57, 72, 73, 160, 161, 80, 81, 84, 85, -1, -1, -1, -1, 102, 103, 98, 99, 86, 87, 82, 83, 82, 83, 82, 83, 70, 71, 72, 73, 70, 71, 66, 67, 66, 67, 54, -1, -1, -1, -1, -1, -1, -1 }
 layers[1][2] = { 82, 83, 82, 83, 70, 71, 144, -1, -1, -1, -1, 252, -1, -1, 251, -1, 72, 73, 88, 89, 176, 177, 96, 97, 100, 101, -1, -1, -1, -1, -1, 251, -1, -1, 102, 103, 98, 99, 98, 99, 98, 99, 86, 87, 88, 89, 86, 87, 82, 83, 82, 83, 70, 71, 144, -1, -1, -1, -1, -1 }
@@ -265,7 +265,7 @@ layers[2][39] = { -1, -1, -1, -1, -1, -1, 40, 41, 20, 21, -1, -1, -1, -1, -1, -1
 local hero_start_x = 12;
 local hero_start_y = 63;
 
-local bronann_id = 1000;
+local bronann = {};
 
 -- the main map loading code
 function Load(m)
@@ -286,7 +286,6 @@ function Load(m)
 
 	--Map:PushState(hoa_map.MapMode.STATE_SCENE);
 
-	CreateDialogues();
 	CreateEvents();
 	CreateZones();
 	--EventManager:StartEvent(0);
@@ -300,9 +299,7 @@ end
 
 -- Character creation
 function CreateCharacters()
-	bronann = {};
-
-	bronann = _CreateSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.0, 0.0);
+	bronann = _CreateSprite(Map, "Bronann", hero_start_x, hero_start_y, 0.0, 0.0);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -323,22 +320,8 @@ function CreateEvents()
 	--EventManager:RegisterEvent(event);
 
     -- Triggered Events
-	event = hoa_map.MapTransitionEvent(10, "dat/maps/vt_bronanns_home.lua", "from_village");
+	event = hoa_map.MapTransitionEvent("to Bronann's home", "dat/maps/vt_bronanns_home.lua", "from_village");
 	EventManager:RegisterEvent(event);
-
-end
-
--- Creates all dialogue that takes place through characters and events
-function CreateDialogues()
-	local dialogue;
-	local text;
-
-	-- Bronann's opening dialogue
-	dialogue = hoa_map.SpriteDialogue(1);
-		dialogue:SetInputBlocked(true);
-		text = hoa_system.Translate("Dummy dialogue");
-		dialogue:AddLineTimed(text, bronann_id, 5000);
-	DialogueManager:AddDialogue(dialogue);
 
 end
 
@@ -353,7 +336,7 @@ function CheckZones()
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
-        EventManager:StartEvent(10);
+		EventManager:StartEvent("to Bronann's home");
 	end
 end
 
