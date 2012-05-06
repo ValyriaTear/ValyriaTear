@@ -185,8 +185,10 @@ class DialogueEvent : public MapEvent {
 public:
 	/** \param event_id The ID of this event
 	*** \param dialogue_id The ID of the dialogue to execute through this event
+	*** \param dialogue The SpriteDialogue* to execute through this event
 	**/
 	DialogueEvent(const std::string& event_id, uint32 dialogue_id);
+	DialogueEvent(const std::string& event_id, SpriteDialogue *dialogue);
 
 	~DialogueEvent()
 		{}

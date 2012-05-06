@@ -243,9 +243,12 @@ public:
 
 	/** \brief Adds a new reference to a dialogue that the sprite uses
 	*** \param dialogue_id The ID number of the dialogue
+	*** \param dialogue The SpriteDialogue used.
 	*** \note It is valid for a dialogue to be referenced more than once by a sprite
 	**/
 	void AddDialogueReference(uint32 dialogue_id);
+	void AddDialogueReference(SpriteDialogue *dialogue)
+	{ AddDialogueReference(dialogue->GetDialogueID()); }
 
     /** \brief Removes all dialogue references from a sprite
     **/
@@ -253,8 +256,11 @@ public:
 
 	/** \brief Removes a specific dialogue reference from a sprite
 	*** \param dialogue_id The ID number of the dialogue that should be removed
+	*** \param dialogue The SpriteDialogue used.
 	**/
 	void RemoveDialogueReference(uint32 dialogue_id);
+	void RemoveDialogueReference(SpriteDialogue *dialogue)
+	    { RemoveDialogueReference(dialogue->GetDialogueID()); }
 
 	/** \brief Begins a new dialogue with this sprite using its next referenced dialogue
 	***
