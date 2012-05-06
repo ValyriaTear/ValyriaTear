@@ -3,14 +3,14 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-vt_opening_village = ns;
+vt_village_of_layna = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file
 map = {}
 
 -- The map name and location image
-map_name = hoa_system.Translate("Mountain village of Layna");
+map_name = "Mountain Village of Layna";
 map_image_filename = "img/menus/locations/mountain_village.png"
 
 -- The table telling from which other contexts, the contexts (from number 1) inherit

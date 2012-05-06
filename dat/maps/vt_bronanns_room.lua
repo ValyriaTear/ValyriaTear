@@ -10,7 +10,7 @@ setfenv(1, ns);
 map = {}
 
 -- The map name and location image
-map_name = hoa_system.Translate("Bronann's Room");
+map_name = "Bronann's Room";
 map_image_filename = ""
 
 -- The table telling from which other contexts, the contexts (from number 1) inherit
