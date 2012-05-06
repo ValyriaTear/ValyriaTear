@@ -484,13 +484,20 @@ public:
 	~SpriteEvent()
 		{}
 
+	VirtualSprite* GetSprite() const
+		{ return _sprite; }
+
 protected:
 	//! \brief A pointer to the map sprite that the event controls
 	VirtualSprite* _sprite;
 
-	//! \brief Acquires control of the sprite that the event will operate on
-	virtual void _Start()
-		{ _sprite->AcquireControl(this); }
+	/** \brief Starts a sprite event.
+	***
+	*** This method will make sure no other sprite event is operating the current sprite
+	*** and will potentially end the previous event before
+	*** Acquiring control of the sprite.
+	**/
+	virtual void _Start();
 
 	//! \brief Updates the state of the sprite and returns true if the event is finished
 	virtual bool _Update() = 0;
@@ -867,29 +874,37 @@ public:
 	void StartEvent(MapEvent* event);
 	void StartEvent(MapEvent* event, uint32 launch_time);
 
-	/** \brief Pauses an active event by preventing the event from updating
-	*** \param event_id The ID of the active event to pause
+	/** \brief Pauses the active events by preventing them from updating
+	*** \param event_id The ID of the active event(s) to pause
 	*** If the event corresponding to the ID is not active, a warning will be issued and no change
 	*** will occur.
 	**/
-	void PauseEvent(const std::string& event_id);
+	void PauseEvents(const std::string& event_id);
 
 	/** \brief Resumes a pausd evend
-	*** \param event_id The ID of the active event to resume
+	*** \param event_id The ID of the active event(s) to resume
 	*** If the event corresponding to the ID is not paused, a warning will be issued and no change
 	*** will occur.
 	**/
-	void ResumeEvent(const std::string& event_id);
+	void ResumeEvents(const std::string& event_id);
 
 	/** \brief Terminates an event if it is active
-	*** \param event_id The ID of the event to terminate
+	*** \param event_id The ID of the event(s) to terminate
+	*** \param event Mapevent(s) to terminate
+	*** \param trigger_event_links Tells whether the launching of any of the events' children should occur, true by default.
 	*** \note If there is no active event that corresponds to the event ID, the function will do nothing.
-	*** \note This function will <b>not</b> terminate or prevent the launching of any of the event's children.
-	*** \note Use of this function is atypical and should be avoided. Termination of certain events before their completion
-	*** can lead to memory leaks, errors, and other problems. Make sure that the event you are terminating will not cause
-	*** any of these conditions.
 	**/
-	void TerminateEvent(const std::string& event_id);
+	void TerminateEvents(const std::string& event_id, bool trigger_event_links = true);
+	void TerminateEvents(MapEvent* event, bool trigger_event_links = true);
+
+	/** \brief Terminates all the SpriteEvents (active, paused, or incoming) for the given sprite.
+	***
+	*** This is very useful when wanting to break an active event chain controlling a sprite
+	*** and liberate it for something else.
+	*** Note that you should start the new sprite event chain *after* this call.
+	**/
+	void TerminateAllEvents(VirtualSprite *sprite);
+
 
 	//! \brief Updates the state of all active and launch events
 	void Update();

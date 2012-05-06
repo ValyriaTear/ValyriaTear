@@ -252,7 +252,7 @@ void VirtualSprite::SaveState() {
 	_saved_movement_speed = movement_speed;
 	_saved_moving = moving;
 	if (control_event != NULL)
-		MapMode::CurrentInstance()->GetEventSupervisor()->PauseEvent(control_event->GetEventID());
+		MapMode::CurrentInstance()->GetEventSupervisor()->PauseEvents(control_event->GetEventID());
 }
 
 
@@ -266,7 +266,7 @@ void VirtualSprite::RestoreState() {
 	 movement_speed = _saved_movement_speed;
 	 moving = _saved_moving;
 	 if (control_event != NULL)
-		MapMode::CurrentInstance()->GetEventSupervisor()->ResumeEvent(control_event->GetEventID());
+		MapMode::CurrentInstance()->GetEventSupervisor()->ResumeEvents(control_event->GetEventID());
 }
 
 
