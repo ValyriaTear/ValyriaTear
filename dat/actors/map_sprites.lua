@@ -52,7 +52,7 @@ sprites["Carson"] = {
 	img_height = 4.0,
 	movement_speed = VERY_SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/carson_walk.png",
+	standard_animations = "img/sprites/map/npcs/story/carson_walk.png",
 	face_portrait = "img/portraits/npcs/carson.png"
 }
 
@@ -64,7 +64,7 @@ sprites["Malta"] = {
 	img_height = 4.0,
 	movement_speed = VERY_SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/malta_walk.png",
+	standard_animations = "img/sprites/map/npcs/story/malta_walk.png",
 	face_portrait = "img/portraits/npcs/malta.png"
 }
 

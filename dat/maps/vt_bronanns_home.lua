@@ -241,7 +241,11 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 local hero_start_x = 23;
 local hero_start_y = 16;
 
-local bronann_id = 1000;
+-- The main character handlers
+local bronann = {};
+local bronanns_dad = {};
+local bronanns_mother = {};
+
 
 -- the main map loading code
 function Load(m)
@@ -256,31 +260,26 @@ function Load(m)
 	Map.unlimited_stamina = true;
 
 	CreateCharacters();
+	CreateNPCs();
 	CreateObjects();
 
 	-- Set the camera focus on bronann
 	Map:SetCamera(bronann);
 
-	--Map:PushState(hoa_map.MapMode.STATE_SCENE);
-
-	CreateDialogues();
 	CreateEvents();
 	CreateZones();
-	--EventManager:StartEvent(0);
 end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	HandleZones();
+	CheckZones();
 end
 
 
 -- Character creation
 function CreateCharacters()
-	bronann = {};
-
 	-- default position and direction
-	bronann = _CreateSprite("Bronann", bronann_id, hero_start_x, hero_start_y, 0.5, 0.5);
+	bronann = _CreateSprite(Map, "Bronann", hero_start_x, hero_start_y, 0.5, 0.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -295,75 +294,170 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
+function CreateNPCs()
+	local event = {}
+	local dialogue = {}
+	local text = {}
+
+	bronanns_dad = _CreateSprite(Map, "Carson", 33, 14, 0.5, 0.5);
+	Map:AddGroundObject(bronanns_dad);
+
+	event = hoa_map.RandomMoveSpriteEvent("Dad random move", bronanns_dad, 2000, 2000);
+	event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Dad random move");
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Hey Son! Slept well? Err, where is that oil lamp already?");
+	dialogue:AddLine(text, bronanns_dad);
+	DialogueManager:AddDialogue(dialogue);
+	bronanns_dad:AddDialogueReference(dialogue);
+
+	bronanns_mother = _CreateSprite(Map, "Malta", 39, 11, 0.5, 0.5);
+	bronanns_mother:SetNoCollision(true); -- Until the path finding for events is fixed. (Bug in resolve collision calls)
+	bronanns_mother:SetDirection(hoa_map.MapMode.SOUTH);
+	Map:AddGroundObject(bronanns_mother);
+	UpdateMotherDialogue();
+
+	-- Make her walk in front of the table to prepare the lunch.
+	event = hoa_map.PathMoveSpriteEvent("Mother goes right of kitchen", bronanns_mother, 47, 11, false);
+	event:AddEventLinkAtEnd("Look up 1");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ChangeDirectionSpriteEvent("Look up 1", bronanns_mother, hoa_map.MapMode.NORTH);
+	event:AddEventLinkAtEnd("Mother goes left of kitchen", 2000);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Mother goes left of kitchen", bronanns_mother, 39, 11, false);
+	event:AddEventLinkAtEnd("Look up 2");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ChangeDirectionSpriteEvent("Look up 2", bronanns_mother, hoa_map.MapMode.NORTH);
+	event:AddEventLinkAtEnd("Mother goes right of kitchen", 2000);
+	EventManager:RegisterEvent(event);
+	-- The mother routine event
+	EventManager:StartEvent("Mother goes right of kitchen");
+
+
+	-- The Hero's first noble quest briefing...
+	event = hoa_map.ScriptedSpriteEvent("Start Quest1", bronanns_mother, "StartQuest1", "");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Mother looks south", bronanns_mother, hoa_map.MapMode.SOUTH);
+	event:AddEventLinkAtEnd("Mother calls Bronann");
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Bronann!");
+	dialogue:AddLine(text, bronanns_mother);
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Mother calls Bronann", dialogue);
+	event:SetStopCameraMovement(true);
+	event:AddEventLinkAtEnd("SetCameraOnMother");
+	event:AddEventLinkAtEnd("BronannLooksUp");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ChangeDirectionSpriteEvent("BronannLooksUp", bronann, hoa_map.MapMode.NORTH);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedSpriteEvent("SetCameraOnMother", bronanns_mother, "Map_SetCamera", "");
+	event:AddEventLinkAtEnd("ClearDialogueRefOnMother");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("ClearDialogueRefOnMother", bronanns_mother, "ClearDialogueReferences", "");
+	event:AddEventLinkAtEnd("Mother moves near entrance1");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("Mother moves near entrance1", bronanns_mother, 34, 16, false); -- needed as long as objects are not counted as collision in path computation.
+	event:AddEventLinkAtEnd("Mother moves near entrance2");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Mother moves near entrance2", bronanns_mother, 34, 27, false);
+	event:AddEventLinkAtEnd("Mother quest1 dialogue");
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Now that you're *finally* up, could you go and buy some barley meal for us three?");
+	dialogue:AddLine(text, bronanns_mother);
+	text = hoa_system.Translate("Barley meal, err, again?");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("Hmm, hmm, just go boy. You'll be free after that, ok?");
+	dialogue:AddLine(text, bronanns_mother);
+	text = hoa_system.Translate("Ok, right!");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Mother quest1 dialogue", dialogue);
+	event:AddEventLinkAtEnd("Map_PopState");
+	event:AddEventLinkAtEnd("SetQuest1DialogueDone");
+	event:AddEventLinkAtEnd("SetCameraOnBronann");
+	event:AddEventLinkAtEnd("Mother back to kitchen1", 300);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("Mother back to kitchen1", bronanns_mother, 34, 16, false); -- needed as long as objects are not counted as collision in path computation.
+	event:AddEventLinkAtEnd("Mother goes left of kitchen");
+	EventManager:RegisterEvent(event);
+
+	-- Common events.
+	-- Pop Map state
+	event = hoa_map.ScriptedEvent("Map_PopState", "Map_PopState", "");
+	EventManager:RegisterEvent(event);
+
+	-- Set the opening dialogue as done
+	event = hoa_map.ScriptedEvent("SetQuest1DialogueDone", "MotherQuest1StartDialogueDone", "");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedSpriteEvent("SetCameraOnBronann", bronann, "Map_SetCamera", "");
+	EventManager:RegisterEvent(event);
+
+end
+
 
 function CreateObjects()
 	object = {}
 
-	object = _CreateObject("Chair1", 10001, 47, 22, 0.0, 0.0);
+	object = _CreateObject(Map, "Chair1", 47, 22, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject("Table1", 10002, 43, 23, 0.0, 0.0);
+	object = _CreateObject(Map, "Table1", 43, 23, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject("Barrel1", 10003, 49, 12, 0.0, 0.0);
+	object = _CreateObject(Map, "Barrel1", 49, 12, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject("Vase1", 10004, 41, 12, 0.0, 0.0);
+	object = _CreateObject(Map, "Vase1", 39, 10, 0.0, 0.0);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject("Flower Pot1", 10005, 16, 18, 0.0, 0.0);
-	Map:AddGroundObject(object);
+	object = _CreateObject(Map, "Flower Pot1", 16, 18, 0.0, 0.0);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject("Flower Pot1", 10005, 16, 14, 0.0, 0.0);
-	Map:AddGroundObject(object);
+	object = _CreateObject(Map, "Flower Pot1", 16, 14, 0.0, 0.0);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject("Flower Pot2", 10006, 49, 14, 0.0, 0.0);
-	Map:AddGroundObject(object);
+	object = _CreateObject(Map, "Flower Pot2", 49, 14, 0.0, 0.0);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 
 	--lights
-	object = _CreateObject("Left Window Light 2", 10005, 16, 18, 0.0, 0.0);
+	object = _CreateObject(Map, "Left Window Light 2", 16, 18, 0.0, 0.0);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	Map:AddGroundObject(object);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- REMOVE ME
-	object = _CreateObject("Clock1", 9999, 35, 4, 0.0, 0.0);
-	Map:AddGroundObject(object);
-
+	object = _CreateObject(Map, "Clock1", 35, 4, 0.0, 0.0);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function CreateEvents()
 	local event = {};
 
-	-- Empty event
-	--event = hoa_map.DialogueEvent(0, 0);
-	-- Actual event started 3 sec after that
-	--event:AddEventLinkAtEnd(1, 3000);
-	--EventManager:RegisterEvent(event);
-
 	-- Triggered Events
-	event = hoa_map.MapTransitionEvent(10, "dat/maps/vt_opening_village.lua", "from_bronanns_home");
+	event = hoa_map.MapTransitionEvent("to village", "dat/maps/vt_opening_village.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent(11, "dat/maps/vt_bronanns_room.lua", "from_bronanns_home");
+	event = hoa_map.MapTransitionEvent("to Bronann's room", "dat/maps/vt_bronanns_room.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
 
-
-end
-
--- Creates all dialogue that takes place through characters and events
-function CreateDialogues()
-	local dialogue;
-	local text;
-
-	-- Bronann's opening dialogue
-	dialogue = hoa_map.SpriteDialogue(1);
-		dialogue:SetInputBlocked(true);
-		text = hoa_system.Translate("Dummy dialogue");
-		dialogue:AddLineTimed(text, bronann_id, 5000);
-	DialogueManager:AddDialogue(dialogue);
-
+	-- When Bronann tries to get out the first time, his mother tells him that he's got things to do.
+	mother_intervention_zone = hoa_map.CameraZone(31, 38, 30, 33, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(mother_intervention_zone);
 end
 
 function CreateZones()
@@ -375,12 +469,52 @@ function CreateZones()
 	Map:AddZone(to_bronnans_room_zone);
 end
 
-function HandleZones()
+function CheckZones()
 	if (home_exit_zone:IsCameraEntering() == true) then
-		EventManager:StartEvent(10);
+		EventManager:StartEvent("to village");
 	end
 	if (to_bronnans_room_zone:IsCameraEntering() == true) then
-		EventManager:StartEvent(11);
+		EventManager:StartEvent("to Bronann's room");
+	end
+	if (mother_intervention_zone:IsCameraEntering() == true) then
+		if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
+			Map:PushState(hoa_map.MapMode.STATE_SCENE);
+			EventManager:StartEvent("Start Quest1");
+		end
+	end
+
+end
+
+
+-- Internal Custom functions
+function UpdateMotherDialogue()
+	bronanns_mother:ClearDialogueReferences();
+
+	if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
+		-- Begining dialogue
+		local dialogue = hoa_map.SpriteDialogue();
+		local text = hoa_system.Translate("Hi son, did you have a nightmare this night also?");
+		dialogue:AddLine(text, bronanns_mother);
+		text = hoa_system.Translate("Hi mum, huh, how do you know...");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Eh eh, have you already forgotten I'm your mother?");
+		dialogue:AddLine(text, bronanns_mother);
+		DialogueManager:AddDialogue(dialogue);
+		bronanns_mother:AddDialogueReference(dialogue);
+	elseif (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == true) then
+		-- 1st quest dialogue
+		local dialogue = hoa_map.SpriteDialogue();
+		local text = hoa_system.Translate("Could you go and buy some barley meal for us three?");
+		dialogue:AddLine(text, bronanns_mother);
+		DialogueManager:AddDialogue(dialogue);
+		bronanns_mother:AddDialogueReference(dialogue);
+	else
+		-- Last default dialogue
+		local dialogue = hoa_map.SpriteDialogue();
+		local text = hoa_system.Translate("Don't venture too far, I'll need your help quite soon!");
+		dialogue:AddLine(text, bronanns_mother);
+		DialogueManager:AddDialogue(dialogue);
+		bronanns_mother:AddDialogueReference(dialogue);
 	end
 end
 
@@ -389,3 +523,31 @@ end
 if (map_functions == nil) then
 	map_functions = {}
 end
+
+map_functions = {
+
+	Map_PopState = function()
+		Map:PopState();
+	end,
+
+	MotherQuest1StartDialogueDone = function()
+		if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
+			GlobalEvents:AddNewEvent("mother_quest1_start_dialogue_done", 1);
+
+			UpdateMotherDialogue();
+		end
+	end,
+
+	Map_SetCamera = function(sprite)
+		Map:SetCamera(sprite, 800);
+	end,
+
+	ClearDialogueReferences = function(sprite)
+		sprite:ClearDialogueReferences();
+	end,
+
+	StartQuest1 =  function(sprite)
+		EventManager:TerminateAllEvents(sprite);
+		EventManager:StartEvent("Quest1: Mother looks south");
+	end
+}
