@@ -278,9 +278,11 @@ void BindModeCode() {
 			.def("LoadStandardAnimations", &MapSprite::LoadStandardAnimations)
 			.def("LoadRunningAnimations", &MapSprite::LoadRunningAnimations)
 			.def("LoadAttackAnimations", &MapSprite::LoadAttackAnimations)
-			.def("AddDialogueReference", &MapSprite::AddDialogueReference)
+			.def("AddDialogueReference", (void(MapSprite::*)(uint32))&MapSprite::AddDialogueReference)
+			.def("AddDialogueReference", (void(MapSprite::*)(SpriteDialogue*))&MapSprite::AddDialogueReference)
 			.def("ClearDialogueReferences", &MapSprite::ClearDialogueReferences)
-			.def("RemoveDialogueReference", &MapSprite::RemoveDialogueReference)
+			.def("RemoveDialogueReference", (void(MapSprite::*)(uint32))&MapSprite::RemoveDialogueReference)
+			.def("RemoveDialogueReference", (void(MapSprite::*)(SpriteDialogue*))&MapSprite::RemoveDialogueReference)
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -393,18 +395,37 @@ void BindModeCode() {
 	[
 		class_<SpriteDialogue, hoa_common::CommonDialogue>("SpriteDialogue")
 			.def(constructor<uint32>())
+			.def(constructor<>())
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, uint32))&SpriteDialogue::AddLine)
+			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*))&SpriteDialogue::AddLine)
+
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, uint32, int32))&SpriteDialogue::AddLine)
+			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32))&SpriteDialogue::AddLine)
+
 			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, uint32, uint32))&SpriteDialogue::AddLineTimed)
+			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, uint32))&SpriteDialogue::AddLineTimed)
+
 			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, uint32, int32, uint32))&SpriteDialogue::AddLineTimed)
+			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, uint32))&SpriteDialogue::AddLineTimed)
+
 			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, const std::string&))&SpriteDialogue::AddLineEvent)
+
 			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, const std::string&))&SpriteDialogue::AddLineEvent)
+
 			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+
 			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+
 			.def("AddOption", (void(SpriteDialogue::*)(const std::string&))&SpriteDialogue::AddOption)
 			.def("AddOption", (void(SpriteDialogue::*)(const std::string&, int32))&SpriteDialogue::AddOption)
+
 			.def("AddOptionEvent", (void(SpriteDialogue::*)(const std::string&, const std::string&))&SpriteDialogue::AddOptionEvent)
 			.def("AddOptionEvent", (void(SpriteDialogue::*)(const std::string&, int32, const std::string&))&SpriteDialogue::AddOptionEvent)
+
 			.def("Validate", &SpriteDialogue::Validate)
 			.def("SetInputBlocked", &SpriteDialogue::SetInputBlocked)
 			.def("SetRestoreState", &SpriteDialogue::SetRestoreState)
@@ -440,6 +461,7 @@ void BindModeCode() {
 	[
 		class_<DialogueEvent, MapEvent>("DialogueEvent")
 			.def(constructor<std::string, uint32>())
+			.def(constructor<std::string, SpriteDialogue*>())
 			.def("SetStopCameraMovement", &DialogueEvent::SetStopCameraMovement)
 	];
 

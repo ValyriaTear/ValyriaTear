@@ -39,90 +39,108 @@ public:
 	//! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within this map
 	SpriteDialogue(uint32 id);
 
+	//! \brief Constructor with auto-generated dialogue ID
+	SpriteDialogue();
+
 	~SpriteDialogue()
 		{}
 
 	/** \brief Adds a new line of text to the dialogue
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	***
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line, no display time, no event
 	**/
-	void AddLine(const std::string& text, uint32 speaker);
+	void AddLine(const std::string& text, uint32 speaker_id);
+	void AddLine(const std::string& text, VirtualSprite *speaker);
 
 	/** \brief Adds a new line of text to the dialogue
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	*** \param next_line The line of dialogue which should follow this one
 	***
 	*** The following line properties are set when using this call:
 	*** - no display time, no event
 	**/
-	void AddLine(const std::string& text, uint32 speaker, int32 next_line);
+	void AddLine(const std::string& text, uint32 speaker_id, int32 next_line);
+	void AddLine(const std::string& text, VirtualSprite *speaker, int32 next_line);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	*** \param display_time The number of milliseconds that the line should be displayed for
 	***
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line, no event
 	**/
-	void AddLineTimed(const std::string& text, uint32 speaker, uint32 display_time);
+	void AddLineTimed(const std::string& text, uint32 speaker_id, uint32 display_time);
+	void AddLineTimed(const std::string& text, VirtualSprite *speaker, uint32 display_time);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	*** \param next_line The line of dialogue which should follow this one
 	*** \param display_time The number of milliseconds that the line should be displayed for
 	***
 	*** The following line properties are set when using this call:
 	*** - no event
 	**/
-	void AddLineTimed(const std::string& text, uint32 speaker, int32 next_line, uint32 display_time);
+	void AddLineTimed(const std::string& text, uint32 speaker_id, int32 next_line, uint32 display_time);
+	void AddLineTimed(const std::string& text, VirtualSprite *speaker, int32 next_line, uint32 display_time);
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	*** \param event_id The ID of the event to execute after this line finishes
 	***
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line, no display time
 	**/
-	void AddLineEvent(const std::string& text, uint32 speaker, const std::string& event_id);
+	void AddLineEvent(const std::string& text, uint32 speaker_id, const std::string& event_id);
+	void AddLineEvent(const std::string& text, VirtualSprite *speaker, const std::string& event_id);
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	*** \param next_line The line of dialogue which should follow this one
 	*** \param display_time The number of milliseconds that the line should be displayed for
 	***
 	*** The following line properties are set when using this call:
 	*** - no event
 	**/
-	void AddLineEvent(const std::string& text, uint32 speaker, int32 next_line, const std::string& event_id);
+	void AddLineEvent(const std::string& text, uint32 speaker_id, int32 next_line,
+						const std::string& event_id);
+    void AddLineEvent(const std::string& text, VirtualSprite *speaker, int32 next_line,
+						const std::string& event_id);
+
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	*** \param display_time The number of milliseconds that the line should be displayed for
 	*** \param event_id The ID of the event to execute after this line finishes
 	***
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line
 	**/
-	void AddLineTimedEvent(const std::string& text, uint32 speaker, uint32 display_time, const std::string& event_id);
+	void AddLineTimedEvent(const std::string& text, uint32 speaker_id, uint32 display_time,
+							const std::string& event_id);
+	void AddLineTimedEvent(const std::string& text, VirtualSprite *speaker, uint32 display_time,
+							const std::string& event_id);
+
 
 	/** \brief Adds a new line of text to the dialogue that uses a map event
 	*** \param text The text to show on the screen
-	*** \param speaker The object ID of the sprite speaking this line
+	*** \param speaker The object ID or VirtualSprite speaking this line
 	*** \param next_line The line of dialogue which should follow this one
 	*** \param display_time The number of milliseconds that the line should be displayed for
 	*** \param event_id The ID of the event to execute after this line finishes
 	**/
-	void AddLineTimedEvent(const std::string& text, uint32 speaker, int32 next_line,
-						   uint32 display_time, const std::string& event_id);
+	void AddLineTimedEvent(const std::string& text, uint32 speaker_id, int32 next_line, uint32 display_time,
+							const std::string& event_id);
+	void AddLineTimedEvent(const std::string& text, VirtualSprite *speaker, int32 next_line, uint32 display_time,
+							const std::string& event_id);
 
 	/** \brief Adds an option to the most recently added line of text
 	*** \param text The text for this particular option
@@ -346,6 +364,9 @@ public:
 
 	uint32 GetLineCounter() const
 		{ return _line_counter; }
+
+	uint32 GenerateDialogueID() const
+		{ return _dialogues.empty() ? 1 : _dialogues.rbegin()->first + 1; }
 	//@}
 
 private:

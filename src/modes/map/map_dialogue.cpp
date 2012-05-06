@@ -59,56 +59,101 @@ SpriteDialogue::SpriteDialogue(uint32 id) :
 {}
 
 
-
-void SpriteDialogue::AddLine(const std::string& text, uint32 speaker) {
-	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER, std::string());
+SpriteDialogue::SpriteDialogue() :
+	CommonDialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
+	_input_blocked(false),
+	_restore_state(true)
+{
+    _event_name = "dialogue#" + hoa_utils::NumberToString(GetDialogueID());
 }
 
 
-
-void SpriteDialogue::AddLine(const std::string& text, uint32 speaker, int32 next_line) {
-	AddLineTimedEvent(text, speaker, next_line, COMMON_DIALOGUE_NO_TIMER, std::string());
+void SpriteDialogue::AddLine(const std::string& text, uint32 speaker_id) {
+	AddLineTimedEvent(text, speaker_id, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER, std::string());
 }
 
 
-
-void SpriteDialogue::AddLineTimed(const std::string& text, uint32 speaker, uint32 display_time) {
-	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, display_time, std::string());
+void SpriteDialogue::AddLine(const std::string& text, VirtualSprite *speaker) {
+	AddLine(text, speaker->GetObjectID());
 }
 
 
-
-void SpriteDialogue::AddLineTimed(const std::string& text, uint32 speaker, int32 next_line, uint32 display_time) {
-	AddLineTimedEvent(text, speaker, next_line, display_time, std::string());
+void SpriteDialogue::AddLine(const std::string& text, uint32 speaker_id, int32 next_line) {
+	AddLineTimedEvent(text, speaker_id, next_line, COMMON_DIALOGUE_NO_TIMER, std::string());
 }
 
 
-
-void SpriteDialogue::AddLineEvent(const std::string& text, uint32 speaker, const std::string& event_id) {
-	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER, event_id);
+void SpriteDialogue::AddLine(const std::string& text, VirtualSprite *speaker, int32 next_line) {
+	AddLine(text, speaker->GetObjectID(), next_line);
 }
 
 
-
-void SpriteDialogue::AddLineEvent(const std::string& text, uint32 speaker, int32 next_line, const std::string& event_id) {
-	AddLineTimedEvent(text, speaker, next_line, COMMON_DIALOGUE_NO_TIMER, event_id);
+void SpriteDialogue::AddLineTimed(const std::string& text, uint32 speaker_id, uint32 display_time) {
+	AddLineTimedEvent(text, speaker_id, COMMON_DIALOGUE_NEXT_LINE, display_time, std::string());
 }
 
 
-
-void SpriteDialogue::AddLineTimedEvent(const std::string& text, uint32 speaker, uint32 display_time, const std::string& event_id) {
-	AddLineTimedEvent(text, speaker, COMMON_DIALOGUE_NEXT_LINE, display_time, event_id);
+void SpriteDialogue::AddLineTimed(const std::string& text, VirtualSprite *speaker, uint32 display_time) {
+	AddLineTimed(text, speaker->GetObjectID(), display_time);
 }
 
 
+void SpriteDialogue::AddLineTimed(const std::string& text, uint32 speaker_id, int32 next_line, uint32 display_time) {
+	AddLineTimedEvent(text, speaker_id, next_line, display_time, std::string());
+}
 
-void SpriteDialogue::AddLineTimedEvent(const std::string& text, uint32 speaker, int32 next_line,
-									   uint32 display_time, const std::string& event_id) {
+
+void SpriteDialogue::AddLineTimed(const std::string& text, VirtualSprite *speaker, int32 next_line, uint32 display_time) {
+	AddLineTimed(text, speaker->GetObjectID(), next_line, display_time);
+}
+
+
+void SpriteDialogue::AddLineEvent(const std::string& text, uint32 speaker_id, const std::string& event_id) {
+	AddLineTimedEvent(text, speaker_id, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER, event_id);
+}
+
+
+void SpriteDialogue::AddLineEvent(const std::string& text, VirtualSprite *speaker, const std::string& event_id) {
+	AddLineEvent(text, speaker->GetObjectID(), event_id);
+}
+
+
+void SpriteDialogue::AddLineEvent(const std::string& text, uint32 speaker_id, int32 next_line,
+                                  const std::string& event_id) {
+	AddLineTimedEvent(text, speaker_id, next_line, COMMON_DIALOGUE_NO_TIMER, event_id);
+}
+
+
+void SpriteDialogue::AddLineEvent(const std::string& text, VirtualSprite *speaker, int32 next_line,
+                                  const std::string& event_id) {
+	AddLineEvent(text, speaker->GetObjectID(), next_line, event_id);
+}
+
+
+void SpriteDialogue::AddLineTimedEvent(const std::string& text, uint32 speaker_id, uint32 display_time,
+                                       const std::string& event_id) {
+	AddLineTimedEvent(text, speaker_id, COMMON_DIALOGUE_NEXT_LINE, display_time, event_id);
+}
+
+
+void SpriteDialogue::AddLineTimedEvent(const std::string& text, VirtualSprite *speaker, uint32 display_time,
+                                       const std::string& event_id) {
+	AddLineTimedEvent(text, speaker->GetObjectID(), display_time, event_id);
+}
+
+
+void SpriteDialogue::AddLineTimedEvent(const std::string& text, uint32 speaker_id, int32 next_line, uint32 display_time,
+										const std::string& event_id) {
 	CommonDialogue::AddLineTimed(text, next_line, display_time);
-	_speakers.push_back(speaker);
+	_speakers.push_back(speaker_id);
 	_events.push_back(event_id);
 }
 
+
+void SpriteDialogue::AddLineTimedEvent(const std::string& text, VirtualSprite *speaker, int32 next_line, uint32 display_time,
+										const std::string& event_id) {
+	AddLineTimedEvent(text, speaker->GetObjectID(), next_line, display_time, event_id);
+}
 
 
 void SpriteDialogue::AddOption(const std::string& text) {
@@ -116,17 +161,14 @@ void SpriteDialogue::AddOption(const std::string& text) {
 }
 
 
-
 void SpriteDialogue::AddOption(const std::string& text, int32 next_line) {
 	AddOptionEvent(text, next_line, std::string());
 }
 
 
-
 void SpriteDialogue::AddOptionEvent(const std::string& text, const std::string& event_id) {
 	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, event_id);
 }
-
 
 
 void SpriteDialogue::AddOptionEvent(const std::string& text, int32 next_line, const std::string& event_id) {
@@ -145,7 +187,6 @@ void SpriteDialogue::AddOptionEvent(const std::string& text, int32 next_line, co
 	MapDialogueOptions* options = dynamic_cast<MapDialogueOptions*>(_options[current_line]);
 	options->AddOptionEvent(text, next_line, event_id);
 }
-
 
 
 bool SpriteDialogue::Validate() {
@@ -193,17 +234,14 @@ void MapDialogueOptions::AddOption(const std::string& text) {
 }
 
 
-
 void MapDialogueOptions::AddOption(const std::string& text, int32 next_line) {
 	AddOptionEvent(text, next_line, std::string());
 }
 
 
-
 void MapDialogueOptions::AddOptionEvent(const std::string& text, const std::string& event_id) {
 	AddOptionEvent(text, COMMON_DIALOGUE_NEXT_LINE, event_id);
 }
-
 
 
 void MapDialogueOptions::AddOptionEvent(const std::string& text, int32 next_line, const std::string& event_id) {
@@ -227,7 +265,6 @@ DialogueSupervisor::DialogueSupervisor() :
 }
 
 
-
 DialogueSupervisor::~DialogueSupervisor() {
 	_current_dialogue = NULL;
 	_current_options = NULL;
@@ -238,7 +275,6 @@ DialogueSupervisor::~DialogueSupervisor() {
 	}
 	_dialogues.clear();
 }
-
 
 
 void DialogueSupervisor::Update() {
@@ -264,7 +300,6 @@ void DialogueSupervisor::Update() {
 }
 
 
-
 void DialogueSupervisor::Draw() {
 	_dialogue_window.Draw();
 }
@@ -273,12 +308,12 @@ void DialogueSupervisor::Draw() {
 
 void DialogueSupervisor::AddDialogue(SpriteDialogue* dialogue) {
 	if (dialogue == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function received NULL argument" << endl;
+		PRINT_WARNING << "function received NULL argument" << endl;
 		return;
 	}
 
 	if (GetDialogue(dialogue->GetDialogueID()) != NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << endl;
+		PRINT_WARNING << "A dialogue was already registered with this ID: " << dialogue->GetDialogueID() << endl;
 		delete dialogue;
 		return;
 	}
@@ -351,13 +386,11 @@ void DialogueSupervisor::EndDialogue() {
 
 
 SpriteDialogue* DialogueSupervisor::GetDialogue(uint32 dialogue_id) {
-	map<uint32, SpriteDialogue*>::iterator location = _dialogues.find(dialogue_id);
-	if (location == _dialogues.end()) {
+	map<uint32, SpriteDialogue*>::iterator it = _dialogues.find(dialogue_id);
+	if (it == _dialogues.end())
 		return NULL;
-	}
-	else {
-		return location->second;
-	}
+
+	return it->second;
 }
 
 

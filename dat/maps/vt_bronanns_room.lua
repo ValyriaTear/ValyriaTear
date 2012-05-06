@@ -262,7 +262,6 @@ function Load(m)
 	-- Set the camera focus on bronann
 	Map:SetCamera(bronann);
 
-	CreateDialogues();
 	CreateEvents();
 	CreateZones();
 
@@ -318,14 +317,34 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function CreateEvents()
 	local event = {};
-
-	-- Start the opening dialogue
+	local dialogue = {};
+	local text = {};
 
 	-- Bronann's opening dialogue
-	event = hoa_map.DialogueEvent("opening", 1);
+	dialogue = hoa_map.SpriteDialogue();
+	dialogue:SetInputBlocked(true);
+	text = hoa_system.Translate("What a weird dream... I still feel dizzy even after getting up...");
+	dialogue:AddLineTimed(text, bronann, 5000);
+	DialogueManager:AddDialogue(dialogue);
+
+	-- Bronann's opening dialogue event
+	event = hoa_map.DialogueEvent("opening", dialogue);
 	event:AddEventLinkAtEnd("opening2", 3000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.DialogueEvent("opening2", 2);
+
+	dialogue = hoa_map.SpriteDialogue();
+		dialogue:SetInputBlocked(true);
+		text = hoa_system.Translate("Wait!!!");
+		dialogue:AddLineTimed(text, bronann, 2000);
+		text = hoa_system.Translate("Today's sunday!!");
+		dialogue:AddLineTimed(text, bronann, 2000);
+		text = hoa_system.Translate("HURRAY!! I've got nothing to do, great!");
+		dialogue:AddLineTimed(text, bronann, 4000);
+		text = hoa_system.Translate("I hope Mom and Dad won't mind if I go venture around today.");
+		dialogue:AddLineTimed(text, bronann, 4000);
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("opening2", dialogue);
 	event:AddEventLinkAtEnd("opening3", 10);
 	EventManager:RegisterEvent(event);
 
@@ -342,32 +361,6 @@ function CreateEvents()
 	-- Triggered events
 	event = hoa_map.MapTransitionEvent("exit room", "dat/maps/vt_bronanns_home.lua", "from_bronanns_room");
 	EventManager:RegisterEvent(event);
-
-end
-
--- Creates all dialogue that takes place through characters and events
-function CreateDialogues()
-	local dialogue;
-	local text;
-
-	-- Bronann's opening dialogue
-	dialogue = hoa_map.SpriteDialogue(1);
-		dialogue:SetInputBlocked(true);
-		text = hoa_system.Translate("What a weird dream... I still feel dizzy even after getting up...");
-		dialogue:AddLineTimed(text, bronann:GetObjectID(), 5000);
-	DialogueManager:AddDialogue(dialogue);
-
-	dialogue = hoa_map.SpriteDialogue(2);
-		dialogue:SetInputBlocked(true);
-		text = hoa_system.Translate("Wait!!!");
-		dialogue:AddLineTimed(text, bronann:GetObjectID(), 2000);
-		text = hoa_system.Translate("Today's sunday!!");
-		dialogue:AddLineTimed(text, bronann:GetObjectID(), 2000);
-		text = hoa_system.Translate("HURRAY!! I've got nothing to do, great!");
-		dialogue:AddLineTimed(text, bronann:GetObjectID(), 4000);
-		text = hoa_system.Translate("I hope Mom and Dad won't mind if I go venture around today.");
-		dialogue:AddLineTimed(text, bronann:GetObjectID(), 4000);
-	DialogueManager:AddDialogue(dialogue);
 
 end
 

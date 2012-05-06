@@ -52,6 +52,11 @@ DialogueEvent::DialogueEvent(const std::string& event_id, uint32 dialogue_id) :
 	_stop_camera_movement(false)
 {}
 
+DialogueEvent::DialogueEvent(const std::string& event_id, SpriteDialogue *dialogue) :
+	MapEvent(event_id, DIALOGUE_EVENT),
+	_dialogue_id(dialogue->GetDialogueID()),
+	_stop_camera_movement(false)
+{}
 
 
 void DialogueEvent::_Start() {
