@@ -19,8 +19,16 @@ objects["Bed1"] = {
 objects["Bench1"] = {
 	animation_filename = "img/sprites/map/objects/bench1.lua",
 	coll_half_width = 3.0,
-	coll_height = 1.9,
+	coll_height = 1.6,
 	img_half_width = 3.0,
+	img_height = 2.0
+}
+
+objects["Bench2"] = {
+	animation_filename = "img/sprites/map/objects/bench2.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.6,
+	img_half_width = 1.0,
 	img_height = 2.0
 }
 
@@ -34,6 +42,14 @@ objects["Box1"] = {
 
 objects["Chair1"] = {
 	animation_filename = "img/sprites/map/objects/chair1.lua",
+	coll_half_width = 0.95,
+	coll_height = 0.9,
+	img_half_width = 0.95,
+	img_height = 2.9
+}
+
+objects["Chair1_inverted"] = {
+	animation_filename = "img/sprites/map/objects/chair1_inverted.lua",
 	coll_half_width = 0.95,
 	coll_height = 0.9,
 	img_half_width = 0.95,
@@ -123,8 +139,24 @@ objects["Left Window Light"] = {
 	img_height = 4.5
 }
 
+objects["Right Window Light"] = {
+	animation_filename = "img/misc/lights/right_window_light.lua",
+	coll_half_width = 0.0,
+	coll_height = 0.0,
+	img_half_width = 1.56,
+	img_height = 4.5
+}
+
 objects["Left Window Light 2"] = {
 	animation_filename = "img/misc/lights/left_window_light.lua",
+	coll_half_width = 0.0,
+	coll_height = 0.0,
+	img_half_width = 2.56,
+	img_height = 6.5
+}
+
+objects["Right Window Light 2"] = {
+	animation_filename = "img/misc/lights/right_window_light.lua",
 	coll_half_width = 0.0,
 	coll_height = 0.0,
 	img_half_width = 2.56,
