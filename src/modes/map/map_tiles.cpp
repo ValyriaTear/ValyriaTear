@@ -198,7 +198,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file, const MapMode* map_ins
 				_tile_grid[this_context][layer_id].tiles.resize(_num_tile_on_y_axis);
 				for (uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
 					// and width
-					_tile_grid[this_context][layer_id].tiles[y].resize(_num_tile_on_x_axis);
+					_tile_grid[this_context][layer_id].tiles[y].assign((size_t)_num_tile_on_x_axis, -1);
 				}
 			}
 		}
