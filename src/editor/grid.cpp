@@ -170,7 +170,7 @@ void Grid::CreateNewContext(uint32 inherit_context)
 	// Make sure the context to be created is indeed the next one
 	_tile_contexts.resize(context_id + 1);
 
-	// set up the name of the context - TODO: Permit custom names
+	// set up the name of the context - TODO: Link better with custom names
 	_tile_contexts[context_id].name = context.str();
 
 	uint32 layers_num = _tile_contexts[inherit_context].layers.size();
@@ -188,7 +188,7 @@ void Grid::CreateNewContext(uint32 inherit_context)
 		_tile_contexts[context_id].layers[layer_id].tiles.resize(_height);
 		for (uint32 y = 0; y < _height; ++y) {
 			// and width
-			_tile_contexts[context_id].layers[layer_id].tiles[y].resize(_width);
+			_tile_contexts[context_id].layers[layer_id].tiles[y].assign((size_t)_width, -1);
 		}
 	}
 } // Grid::CreateNewContext(...)
@@ -427,7 +427,7 @@ bool Grid::LoadMap()
 				_tile_contexts[ctxt].layers[layer_id].tiles.resize(_height);
 				for (uint32 y = 0; y < _height; ++y) {
 					// and width
-					_tile_contexts[ctxt].layers[layer_id].tiles[y].resize(_width);
+					_tile_contexts[ctxt].layers[layer_id].tiles[y].assign((size_t)_width, -1);
 				}
 			}
 		}
