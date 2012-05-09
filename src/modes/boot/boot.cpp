@@ -214,8 +214,6 @@ void BootMode::Reset() {
 	GlobalManager->ClearAllData(); // Resets the game universe to a NULL state
 	_current_instance = this;
 
-	AudioManager->StopAllMusic();
-
 	ReadScriptDescriptor::RunScriptObject(_reset_function);
 }
 
