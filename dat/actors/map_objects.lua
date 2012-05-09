@@ -16,6 +16,14 @@ objects["Bed1"] = {
 	img_height = 5.68
 }
 
+objects["Big Bed1"] = {
+	animation_filename = "img/sprites/map/objects/bed1.lua",
+	coll_half_width = 2.75,
+	coll_height = 5.50,
+	img_half_width = 2.75,
+	img_height = 5.68
+}
+
 objects["Bench1"] = {
 	animation_filename = "img/sprites/map/objects/bench1.lua",
 	coll_half_width = 3.0,
@@ -86,6 +94,30 @@ objects["Flower Pot2"] = {
 	coll_height = 1.2,
 	img_half_width = 0.53,
 	img_height = 1.75
+}
+
+objects["Locker"] = {
+	animation_filename = "img/sprites/map/objects/locker.lua",
+	coll_half_width = 0.75,
+	coll_height = 1.1,
+	img_half_width = 0.75,
+	img_height = 1.43
+}
+
+objects["Paper and Feather"] = {
+	animation_filename = "img/sprites/map/objects/paper_feather.lua",
+	coll_half_width = 0.93,
+	coll_height = 1.75,
+	img_half_width = 0.93,
+	img_height = 1.75
+}
+
+objects["Parchment"] = {
+	animation_filename = "img/sprites/map/objects/parchment.lua",
+	coll_half_width = 0.59,
+	coll_height = 1.31,
+	img_half_width = 0.59,
+	img_height = 1.31
 }
 
 objects["Table1"] = {

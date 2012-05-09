@@ -17,10 +17,21 @@ map_image_filename = "img/menus/locations/mountain_village.png"
 -- 0 means empty, 1 means inherits from base context.
 context_inherits = { 0 }
 
--- The number of contexts, rows, and columns that compose the map
-num_map_contexts = 1
+-- The number of rows, and columns that compose the map
 num_tile_cols = 60
 num_tile_rows = 40
+
+-- The contexts names and inheritance definition
+-- Tells the context id the current context inherit from
+-- This means that the parent context will be used as a base, and the current
+-- context will only have its own differences from it.
+-- At least, the base context (id:0) can't a parent context, thus it should be equal to -1.
+-- Note that a context cannot inherit from itself or a context with a higher id
+-- since it would lead to nasty and useless loading use cases.
+contexts = {}
+contexts[0] = {}
+contexts[0].name = "Base"
+contexts[0].inherit_from = -1
 
 -- The sound files used on this map.
 sound_filenames = {}
@@ -28,9 +39,6 @@ sound_filenames = {}
 -- The music files used as background music on this map.
 music_filenames = {}
 music_filenames[1] = "mus/Caketown_1-OGA-mat-pablo.ogg"
-
--- The names of the contexts used to improve Editor user-friendliness
-context_names = {}
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -257,8 +265,6 @@ layers[2][37] = { -1, 131, 18, 19, 24, 25, 8, 9, -1, -1, 233, 234, -1, -1, -1, -
 layers[2][38] = { -1, -1, -1, -1, 40, 41, 24, 25, 4, -1, -1, -1, -1, -1, -1, -1, -1, 16, 17, 128, 196, 197, 198, -1, -1, -1, -1, -1, 115, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][39] = { -1, -1, -1, -1, -1, -1, 40, 41, 20, 21, -1, -1, -1, -1, -1, -1, -1, 32, -1, -1, 212, 213, 214, -1, -1, -1, -1, -1, -1, 20, 21, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 
-
--- All, if any, existing contexts follow.
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
 -- The hero starting position

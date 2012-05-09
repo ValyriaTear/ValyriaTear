@@ -13,14 +13,21 @@ map = {}
 map_name = "Bronann's Home"
 map_image_filename = ""
 
--- The table telling from which other contexts, the contexts (from number 1) inherit
--- 0 means empty, 1 means inherits from base context.
-context_inherits = { 0 }
-
--- The number of contexts, rows, and columns that compose the map
-num_map_contexts = 1
+-- The number of rows, and columns that compose the map
 num_tile_cols = 32
 num_tile_rows = 24
+
+-- The contexts names and inheritance definition
+-- Tells the context id the current context inherit from
+-- This means that the parent context will be used as a base, and the current
+-- context will only have its own differences from it.
+-- At least, the base context (id:0) can't a parent context, thus it should be equal to -1.
+-- Note that a context cannot inherit from itself or a context with a higher id
+-- since it would lead to nasty and useless loading use cases.
+contexts = {}
+contexts[0] = {}
+contexts[0].name = "Base"
+contexts[0].inherit_from = -1;
 
 -- The sound files used on this map.
 sound_filenames = {}
@@ -234,7 +241,6 @@ layers[4][22] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 
 
--- All, if any, existing contexts follow.
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
 -- The hero starting position
@@ -449,10 +455,12 @@ function CreateObjects()
 	--lights
 	object = _CreateObject(Map, "Left Window Light 2", 31, 15, 0.0, 0.0);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
+	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	object = _CreateObject(Map, "Right Window Light 2", 49, 15, 0.0, 0.0);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
+	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
@@ -464,7 +472,7 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to village", "dat/maps/vt_village_of_layna.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Bronann's room", "dat/maps/vt_bronanns_room.lua", "from_bronanns_home");
+	event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/vt_bronanns_home_first_floor.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
 
 	-- When Bronann tries to get out the first time, his mother tells him that he's got things to do.
@@ -486,7 +494,7 @@ function CheckZones()
 		EventManager:StartEvent("to village");
 	end
 	if (to_bronnans_room_zone:IsCameraEntering() == true) then
-		EventManager:StartEvent("to Bronann's room");
+		EventManager:StartEvent("to Bronann's 1st floor");
 	end
 	if (mother_intervention_zone:IsCameraEntering() == true) then
 		if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
