@@ -83,8 +83,6 @@ Grid::Grid(QWidget* parent, const QString& name, uint32 width, uint32 height) :
 	_select_on(false),
 	_ol_on(true)
 {
-	context_names << "Base";
-
 	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
 	setMouseTracking(true);
 
@@ -144,6 +142,16 @@ Grid::~Grid()
 // Grid class -- public functions
 ///////////////////////////////////////////////////////////////////////////////
 
+QStringList Grid::GetContextNames()
+{
+	QStringList context_names;
+	for (uint32 i = 0; i < _tile_contexts.size(); ++i) {
+		context_names.append(QString::fromStdString(_tile_contexts[i].name));
+	}
+	return context_names;
+}
+
+
 void Grid::ClearSelectionLayer()
 {
 	for (uint32 y = 0; y < _height; ++y) {
@@ -153,11 +161,11 @@ void Grid::ClearSelectionLayer()
 	}
 }
 
-void Grid::CreateNewContext(uint32 inherit_context)
+bool Grid::CreateNewContext(std::string name, int32 inherit_context)
 {
-	// Use the base context when the inheritance is invalid.
-	if (inherit_context >= _tile_contexts.size())
-		inherit_context = 0;
+	// Return false when the inheritance is invalid.
+	if (inherit_context < -1 || inherit_context >= (int32)_tile_contexts.size())
+		return false;
 
 	int context_id = _tile_contexts.size();
 	stringstream context;
@@ -170,27 +178,37 @@ void Grid::CreateNewContext(uint32 inherit_context)
 	// Make sure the context to be created is indeed the next one
 	_tile_contexts.resize(context_id + 1);
 
-	// set up the name of the context - TODO: Link better with custom names
-	_tile_contexts[context_id].name = context.str();
+	uint32 layers_num = _tile_contexts[0].layers.size();
 
-	uint32 layers_num = _tile_contexts[inherit_context].layers.size();
-
-	// Resize the context to have the same size as the base one
-	// The number of layers
-	_tile_contexts[context_id].layers.resize(layers_num);
-	// For each layer, set up the grid size
-	for (uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
-		// Type
-		_tile_contexts[context_id].layers[layer_id].layer_type = _tile_contexts[inherit_context].layers[layer_id].layer_type;
-		// Layer name
-		_tile_contexts[context_id].layers[layer_id].name = _tile_contexts[inherit_context].layers[layer_id].name;
-		// Height
-		_tile_contexts[context_id].layers[layer_id].tiles.resize(_height);
-		for (uint32 y = 0; y < _height; ++y) {
-			// and width
-			_tile_contexts[context_id].layers[layer_id].tiles[y].assign((size_t)_width, -1);
+	// Create an empty context when there is no inheritance
+	if (inherit_context == -1) {
+		// Resize the context to have the same size as the base one
+		// The number of layers
+		_tile_contexts[context_id].layers.resize(layers_num);
+		// For each layer, set up the grid size
+		for (uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
+			// Type
+			_tile_contexts[context_id].layers[layer_id].layer_type = _tile_contexts[0].layers[layer_id].layer_type;
+			// Layer name
+			_tile_contexts[context_id].layers[layer_id].name = _tile_contexts[0].layers[layer_id].name;
+			// Height
+			_tile_contexts[context_id].layers[layer_id].tiles.resize(_height);
+			for (uint32 y = 0; y < _height; ++y) {
+				// and width
+				_tile_contexts[context_id].layers[layer_id].tiles[y].assign((size_t)_width, -1);
+			}
 		}
 	}
+	else {
+		// Copy the context data from the parent one
+		_tile_contexts[context_id] = _tile_contexts[inherit_context];
+	}
+
+	// Set the context name and inheritance info after that
+	_tile_contexts[context_id].name = name;
+	_tile_contexts[context_id].inherit_from_context_id = inherit_context;
+
+	return true;
 } // Grid::CreateNewContext(...)
 
 bool Grid::LoadMap()
@@ -233,21 +251,54 @@ bool Grid::LoadMap()
 	tileset_names.clear();
 	tilesets.clear();
 	_tile_contexts.clear();
-	context_inherits.clear();
 
-	// Add a default context
-	_tile_contexts.resize(1);
-	_tile_contexts[0].name = tr("Base context").toStdString();
+	if (!read_data.DoesTableExist("contexts")) {
+		QMessageBox::warning(this, message_box_title,
+			QString(tr("No 'contexts' table found.")));
+		return false;
+	}
 
-	// Read the various map descriptor variables
-	uint32 num_contexts = read_data.ReadUInt("num_map_contexts");
 
-	// Read whether the other contexts inherit of the base one.
-	if (read_data.DoesTableExist("context_inherits"))
-		read_data.ReadUIntVector("context_inherits", context_inherits);
-	else
-		// Push at least one value, to make it be written on save.
-		context_inherits.push_back(0);
+	// read context data
+	read_data.OpenTable("contexts");
+	uint32 num_contexts = read_data.GetTableSize();
+	// There can't be more than 32 contexts
+	if (num_contexts > 32)
+		num_contexts = 32;
+
+	// There can't be more than 32 different contexts
+	for (uint32 context_id = 0; context_id < num_contexts; ++context_id) {
+		if (!read_data.DoesTableExist(context_id))
+			return false;
+
+		// opens contexts[context_id]
+		read_data.OpenTable(context_id);
+
+		// Create the corresponding context data
+		_tile_contexts.resize(context_id + 1);
+
+		std::string name = read_data.ReadString("name");
+
+		// Add the context name
+		_tile_contexts[context_id].name = name;
+
+		int32 inheritance = read_data.ReadInt("inherit_from");
+
+		// The base context can't inherit from another one.
+		if (context_id == 0)
+			inheritance = -1;
+
+		// One context can't inherit from itself or a context with a higher id.
+		if ((int32)context_id <= inheritance)
+			inheritance = -1;
+
+		_tile_contexts[context_id].inherit_from_context_id = inheritance;
+
+		// Closes contexts[context_id]
+		read_data.CloseTable();
+	}
+	// Closes contexts table
+	read_data.CloseTable();
 
 	_height = read_data.ReadUInt("num_tile_rows");
 	_width  = read_data.ReadUInt("num_tile_cols");
@@ -273,15 +324,8 @@ bool Grid::LoadMap()
 		}
 	}
 
-	// Base context is default and not saved in the map file
-	read_data.OpenTable("context_names");
-	uint32 table_size = read_data.GetTableSize();
-	for (uint32 i = 1; i <= table_size; i++)
-		context_names.append(QString(read_data.ReadString(i).c_str()));
-	read_data.CloseTable();
-
 	read_data.OpenTable("tileset_filenames");
-	table_size = read_data.GetTableSize();
+	uint32 table_size = read_data.GetTableSize();
 	for (uint32 i = 1; i <= table_size; i++)
 		tileset_names.append(QString(read_data.ReadString(i).c_str()));
 	read_data.CloseTable();
@@ -395,25 +439,22 @@ bool Grid::LoadMap()
 	// Load any existing map context data
 	for (uint32 ctxt = 1; ctxt < num_contexts; ++ctxt)
 	{
-		stringstream context;
-		context << "context_";
-		if (ctxt < 10)
-			context << "0";
-		context << ctxt;
+		// In case of inheritence, copy the parent context data
+		if (_tile_contexts[ctxt].inherit_from_context_id > -1
+				&& _tile_contexts[ctxt].inherit_from_context_id < (int32)ctxt) {
+			// First preserve the name and inheritance info
+			std::string name = _tile_contexts[ctxt].name;
+			int32 inherit_info = _tile_contexts[ctxt].inherit_from_context_id;
 
-		// Push a new base context copy
-		// Make sure the context to be created is indeed the next one
-		_tile_contexts.resize(ctxt + 1);
+			// then copy the data
+			_tile_contexts[ctxt] = _tile_contexts[_tile_contexts[ctxt].inherit_from_context_id];
 
-		// set up the name of the context
-		_tile_contexts[ctxt].name = context_names.at(ctxt).toStdString();
-
-		// Initialize this context by making a copy of the base map context first, as most contexts re-use many of the same tiles from the base context
-		// If non-inheriting context, start with an empty one.
-		if (context_inherits[ctxt - 1] == 1) {
-			_tile_contexts[ctxt] = _tile_contexts[0];
+			// and restore the info
+			_tile_contexts[ctxt].name = name;
+			_tile_contexts[ctxt].inherit_from_context_id = inherit_info;
 		}
 		else {
+			// If non-inheriting context, start with an empty one.
 			// Resize the context to have the same size as the base one
 			// The number of layers
 			_tile_contexts[ctxt].layers.resize(layers_num);
@@ -443,6 +484,13 @@ bool Grid::LoadMap()
 		// four entries in the context table were {0, 12, 26, 180}, this would
 		// set the lower layer tile at position (12, 26) to the tile index 180.
 		vector<int32> context_data;
+
+		stringstream context;
+		context << "context_";
+		if (ctxt < 10)
+			context << "0";
+		context << ctxt;
+
 		read_data.ReadIntVector(context.str(), context_data);
 		for (uint32 j = 0; j < context_data.size(); j += 4) {
 			int32 layer_id = context_data[j];
@@ -528,15 +576,29 @@ void Grid::SaveMap()
 	write_data.WriteString("map_image_filename", map_image_filename.toStdString());
 
 	write_data.InsertNewLine();
-	write_data.WriteComment("The table telling from which other contexts, the contexts (from number 1) inherit");
-	write_data.WriteComment("0 means empty, 1 means inherits from base context.");
-	write_data.WriteUIntVector("context_inherits", context_inherits);
-
-	write_data.InsertNewLine();
-	write_data.WriteComment("The number of contexts, rows, and columns that compose the map");
-	write_data.WriteInt("num_map_contexts", context_names.size());
+	write_data.WriteComment("The number of rows, and columns that compose the map");
 	write_data.WriteInt("num_tile_cols", _width);
 	write_data.WriteInt("num_tile_rows", _height);
+	write_data.InsertNewLine();
+
+	write_data.InsertNewLine();
+	write_data.WriteComment("The contexts names and inheritance definition");
+	write_data.WriteComment("Tells the context id the current context inherit from");
+	write_data.WriteComment("This means that the parent context will be used as a base, and the current");
+	write_data.WriteComment("context will only have its own differences from it.");
+	write_data.WriteComment("At least, the base context (id:0) can't a parent context, thus it should be equal to -1.");
+	write_data.WriteComment("Note that a context cannot inherit from itself or a context with a higher id");
+	write_data.WriteComment("since it would lead to nasty and useless loading use cases.");
+
+	write_data.BeginTable("contexts");
+	for (uint32 context_id = 0; context_id < _tile_contexts.size(); ++context_id) {
+
+		write_data.BeginTable(context_id);
+		write_data.WriteString("name", _tile_contexts[context_id].name);
+		write_data.WriteInt("inherit_from", _tile_contexts[context_id].inherit_from_context_id);
+		write_data.EndTable();
+	}
+	write_data.EndTable();
 	write_data.InsertNewLine();
 
 	write_data.WriteComment("The sound files used on this map.");
@@ -556,20 +618,6 @@ void Grid::SaveMap()
 		music_file = *qit;
 		write_data.WriteString(i, (music_file.prepend("mus/")).ascii());
 	} // iterate through music_files writing each element
-	write_data.EndTable();
-	write_data.InsertNewLine();
-
-	write_data.WriteComment("The names of the contexts used to improve Editor user-friendliness");
-	write_data.BeginTable("context_names");
-	i = 0;
-	// First entry is the default base context. Every map has it, so no need to save it.
-	QStringList::Iterator qit = context_names.begin();
-	qit++;
-	for (; qit != context_names.end(); ++qit)
-	{
-		i++;
-		write_data.WriteString(i, (*qit).ascii());
-	} // iterate through context_names writing each element
 	write_data.EndTable();
 	write_data.InsertNewLine();
 
@@ -711,21 +759,35 @@ void Grid::SaveMap()
 	write_data.EndTable(); // Layers
 	write_data.InsertNewLine();
 
-	write_data.WriteComment("All, if any, existing contexts follow.");
+	if (_tile_contexts.size() > 1)
+		write_data.WriteComment("Contexts data");
+
 	vector<int32> context_data;  // one vector of ints contains all the context info
 	// Iterate through all contexts of all layers.
-	for (int context_id = 1; context_id < static_cast<int>(_tile_contexts.size()); ++context_id)
+	for (uint32 context_id = 1; context_id < _tile_contexts.size(); ++context_id)
 	{
+		int32 context_inherit = _tile_contexts[context_id].inherit_from_context_id;
+
 		for (uint32 layer_id = 0; layer_id < _tile_contexts[context_id].layers.size(); ++layer_id) {
 			for (uint32 y = 0; y < _height; ++y)
 			{
 				for (uint32 x = 0; x < _width; ++x)
 				{
-					int32 base_tile_id = _tile_contexts[0].layers[layer_id].tiles[y][x];
 					int32 ctxt_tile_id = _tile_contexts[context_id].layers[layer_id].tiles[y][x];
-					// A different tile exists so record it
-					if (base_tile_id != ctxt_tile_id)
-					{
+					// Record when :
+					// - A different tile exists when inheriting of the parent context
+					if (context_inherit > -1 && context_inherit < (int32)context_id) {
+						int32 parent_tile_id = _tile_contexts[context_inherit].layers[layer_id].tiles[y][x];
+						if (parent_tile_id != ctxt_tile_id)
+						{
+							context_data.push_back(layer_id);
+							context_data.push_back(y);
+							context_data.push_back(x);
+							context_data.push_back(ctxt_tile_id);
+						}
+					}
+					// - When ctxt_tile_id is not empty and when there is no inheritance.
+					else if (context_inherit == -1 && ctxt_tile_id != -1) {
 						context_data.push_back(layer_id);
 						context_data.push_back(y);
 						context_data.push_back(x);

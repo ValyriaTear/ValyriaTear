@@ -271,27 +271,35 @@ ContextPropertiesDialog::ContextPropertiesDialog
 	connect(_ok_pbut,     SIGNAL(released()), this, SLOT(accept()));
 	connect(_cancel_pbut, SIGNAL(released()), this, SLOT(reject()));
 
+	_inherit_from_label = new QLabel("Inherit from", this);
+
 	// Set up the list of inheritable contexts
 	_context_tree = new QTreeWidget(this);
-	_context_tree->setColumnCount(1);
-	_context_tree->setHeaderLabels(QStringList("Inherit from context:"));
-	QList<QTreeWidgetItem*> contexts;
+	_context_tree->setColumnCount(2);
+	QStringList headers;
+	headers << "id" << "Name";
+	_context_tree->setHeaderLabels(headers);
 
 	// Get a reference to the Editor
 	Editor* editor = static_cast<Editor*>(parent);
 
 	// Loop through all files that are present in the tileset directory
-	QStringList context_names = editor->_ed_scrollview->_map->context_names;
+	QStringList context_names = editor->_ed_scrollview->_map->GetContextNames();
+
+	uint32 id = 0;
 	for (QStringList::Iterator qit = context_names.begin();
-	     qit != context_names.end(); ++qit)
-		contexts.append(new QTreeWidgetItem((QTreeWidget*)0,
-		                QStringList(*qit)));
-	_context_tree->insertTopLevelItems(0, contexts);
+			qit != context_names.end(); ++qit) {
+		QTreeWidgetItem *background = new QTreeWidgetItem(_context_tree);
+		background->setText(0, QString::number(id));
+		background->setText(1, *qit);
+		++id;
+	}
 
 	// Add all of the aforementioned widgets into a nice-looking grid layout
 	_dia_layout = new QGridLayout(this);
 	_dia_layout->addWidget(_name_label,   0, 0);
 	_dia_layout->addWidget(_name_ledit,   0, 1);
+	_dia_layout->addWidget(_inherit_from_label,   1, 0);
 	_dia_layout->addWidget(_context_tree, 1, 1, 5, -1);
 	_dia_layout->addWidget(_cancel_pbut,  6, 0);
 	_dia_layout->addWidget(_ok_pbut,      6, 1);
@@ -304,6 +312,7 @@ ContextPropertiesDialog::~ContextPropertiesDialog()
 	delete _name_ledit;
 	delete _cancel_pbut;
 	delete _ok_pbut;
+	delete _inherit_from_label;
 	delete _context_tree;
 	delete _dia_layout;
 } // ContextPropertiesDialog destructor

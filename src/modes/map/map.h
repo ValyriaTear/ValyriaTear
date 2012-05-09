@@ -202,9 +202,6 @@ public:
 
     bool IsCameraOnVirtualFocus();
 
-	uint8 GetNumMapContexts() const
-		{ return _num_map_contexts; }
-
 	/** \brief Gets the currently active map context
 	*** which is always equal to the context of the object pointed to by the _camera member,
 	*** or the base context when no camera has been set up.

@@ -467,15 +467,14 @@ bool MapMode::_Load() {
 		return false;
 	}
 
-	// Read the number of map contexts, the name of the map, and load the location graphic image
-	_num_map_contexts = _map_script.ReadUInt("num_map_contexts");
+	// Read the name of the map, and load the location graphic image
 	_map_name = MakeUnicodeString(_map_script.ReadString("map_name"));
 	std::string map_filename = _map_script.ReadString("map_image_filename");
 	if (!map_filename.empty() && !_map_image.Load(_map_script.ReadString("map_image_filename")))
 		PRINT_ERROR << "Failed to load location graphic image: " << _map_image.GetFilename() << endl;
 
 	// Instruct the supervisor classes to perform their portion of the load operation
-	if (!_tile_supervisor->Load(_map_script, this)) {
+	if (!_tile_supervisor->Load(_map_script)) {
 		PRINT_ERROR << "Failed to load the tile data." << endl;
 		return false;
 	}
