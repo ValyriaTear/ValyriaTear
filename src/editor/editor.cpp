@@ -374,7 +374,7 @@ void Editor::_FileNew() {
 			// _context_cbox->clear() doesn't work, it seg faults.
 			// I guess it can't have an empty combobox?
 			int count = _context_cbox->count();
-			_context_cbox->addItems(_ed_scrollview->_map->context_names);
+			_context_cbox->addItems(_ed_scrollview->_map->GetContextNames());
 			for (int i = 0; i < count; i++)
 				_context_cbox->removeItem(0);
 
@@ -501,7 +501,7 @@ void Editor::_FileOpen() {
 			// _context_cbox->clear() doesn't work, it seg faults.
 			// I guess it can't have an empty combobox?
 			int count = _context_cbox->count();
-			_context_cbox->addItems(_ed_scrollview->_map->context_names);
+			_context_cbox->addItems(_ed_scrollview->_map->GetContextNames());
 			for (int i = 0; i < count; i++)
 				_context_cbox->removeItem(0);
 
@@ -1021,7 +1021,7 @@ void Editor::_MapProperties() {
 
 
 void Editor::_MapAddContext() {
-	if (static_cast<uint32>(_ed_scrollview->_map->context_names.size()) >= MAX_CONTEXTS)
+	if (static_cast<uint32>(_ed_scrollview->_map->GetContextNames().size()) >= MAX_CONTEXTS)
 	{
 		_error_max_contexts->move(this->pos().x() + this->width()/2  - _error_max_contexts->width()/2,
 		                          this->pos().y() + this->height()/2 - _error_max_contexts->height()/2);
@@ -1037,29 +1037,33 @@ void Editor::_MapAddContext() {
 
 	if (props->exec() == QDialog::Accepted)
 	{
-		_ed_scrollview->_map->context_names << props->GetName();
-		QStringList context_names = _ed_scrollview->_map->context_names;
+		QStringList context_names = _ed_scrollview->_map->GetContextNames();
 
 		// Gets the index of the context to inherit from. Default is the
 		// base context, which is index 0. If no context is selected in the
 		// dialog, use the default, since a new context cannot be created without
 		// inheriting from another.
-		int inherit_context;
+		int32 inherit_context;
 		if (props->GetContextTree()->currentItem() == NULL)
-			inherit_context = 0;
+			inherit_context = -1;
 		else
-			inherit_context = context_names.indexOf(
-				props->GetContextTree()->currentItem()->text(0));
+			inherit_context = props->GetContextTree()->currentItem()->text(0).toInt();
 
 		// Perform the copy from one context to another.
-		_ed_scrollview->_map->CreateNewContext(inherit_context);
+		if (_ed_scrollview->_map->CreateNewContext(props->GetName().toStdString(),
+											   inherit_context))
+		{
+			// Add new context to context combobox.
+			_context_cbox->addItem(props->GetName());
 
-		// Add new context to context combobox.
-		_context_cbox->addItem(props->GetName());
+			context_names << props->GetName();
 
-		// Switch to newly created context.
-		_context_cbox->setCurrentIndex(context_names.size() - 1);
-		_ed_scrollview->_map->SetContext(context_names.size() - 1);
+			// Switch to newly created context.
+			_context_cbox->setCurrentIndex(context_names.size() - 1);
+			_ed_scrollview->_map->SetContext(context_names.size() - 1);
+		}
+		else
+			statusBar()->showMessage(tr("No new context created! Invalid inheritance."), 5000);
 	} // only if the user pressed OK
 	else
 		statusBar()->showMessage(tr("No new context created!"), 5000);

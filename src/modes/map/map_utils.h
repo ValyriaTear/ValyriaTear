@@ -114,6 +114,8 @@ enum MAP_CONTEXT {
 	MAP_CONTEXT_ALL   = 0xFFFFFFFF,
 };
 
+// Gives back the correct MAP_CONTEXT bitmask values corresponding to the given context id
+MAP_CONTEXT GetContextMaskFromConstextId(uint32 id);
 
 /** \name Map Zone Types
 *** \brief Identifier types for the various classes of map zones

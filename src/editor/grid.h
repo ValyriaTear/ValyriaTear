@@ -94,8 +94,23 @@ public:
 };
 
 struct Context {
+
+	Context():
+		inherit_from_context_id(-1)
+	{}
+
 	std::string name;
 	std::vector<Layer> layers;
+
+	// Tells the context id the current context inherit from
+	// This means that the parent context will be used as a base, and the current
+	// context will only have its own differences from it.
+	// At least, the base context can't a parent context, thus marking it as -1
+	// in that case.
+	// Note that a context cannot inherit from itself, and cannot inherit
+	// from a context with a higher id then its own (to avoid very complicated and useless
+	// use cases.
+	int32 inherit_from_context_id;
 };
 
 LAYER_TYPE getLayerType(const std::string& type);
@@ -139,6 +154,8 @@ public:
 	std::vector<std::vector<int32> >& GetSelectionLayer()
 	{ return _select_layer; }
 
+	QStringList GetContextNames();
+
 	// Fill the selection layer with the empty tile (-1) value.
 	void ClearSelectionLayer();
 
@@ -159,7 +176,7 @@ public:
 	/** \brief Creates a new context for each layer.
 	*** \param inherit_context The index of the context to inherit from.
 	**/
-	void CreateNewContext(uint32 inherit_context);
+	bool CreateNewContext(std::string name, int32 inherit_context);
 
 	/** \brief Loads a map from a Lua file when the user selects "Open Map"
 	***        from the "File" menu.
@@ -224,15 +241,6 @@ public:
 
 	//! \brief A list which contains a pointer to each sprite; using list because of its efficiency.
 	std::list<MapSprite*> sprites;
-
-	/** \brief The names of each individual context
-	*** \note Maximum size is 32 entries, the maximum amount of contexts that a
-	***       single map supports.
-	**/
-	QStringList context_names;
-
-	//! \brief The context inherit list. Tells whether the context inherits from the base one.
-	std::vector<uint32> context_inherits;
 
 	//! \brief A list storing the background music filenames.
 	QStringList music_files;

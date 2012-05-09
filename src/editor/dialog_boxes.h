@@ -219,6 +219,9 @@ private:
 	//! \brief A tree for showing all available contexts.
 	QTreeWidget* _context_tree;
 
+	//! \brief A label used to visually name the inherit context tree.
+	QLabel* _inherit_from_label;
+
 	//! \brief A label used to visually name the line edit.
 	QLabel* _name_label;
 	//! \brief A line edit for entering in the context's name.

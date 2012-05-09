@@ -60,13 +60,32 @@ LAYER_TYPE getLayerType(const std::string& type) {
 }
 
 
-bool TileSupervisor::Load(ReadScriptDescriptor& map_file, const MapMode* map_instance) {
+bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	// Load the map dimensions and do some basic sanity checks
 	_num_tile_on_y_axis = map_file.ReadInt("num_tile_rows");
 	_num_tile_on_x_axis = map_file.ReadInt("num_tile_cols");
 
-	vector<uint32> context_inherits;
-	map_file.ReadUIntVector("context_inherits", context_inherits);
+	vector<int32> context_inherits;
+	//map_file.ReadUIntVector("context_inherits", context_inherits);
+	map_file.OpenTable("contexts");
+	uint32 num_contexts = map_file.GetTableSize();
+	for (uint32 context_id = 0;  context_id < num_contexts; ++context_id) {
+		map_file.OpenTable(context_id);
+		int32 inheritance = map_file.ReadInt("inherit_from");
+
+		// The base context can't inherit from another one
+		if (context_id == 0)
+			inheritance = -1;
+
+		// A context can't inherit from a context with a higher id, or itself.
+		if ((int32)context_id <= inheritance || inheritance < -1)
+			inheritance = -1;
+
+		context_inherits.push_back(inheritance);
+
+		map_file.CloseTable();
+	}
+	map_file.CloseTable(); // contexts
 
 	// Load all of the tileset images that are used by this map
 
@@ -174,7 +193,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file, const MapMode* map_ins
 	// Create each additional context for the map by loading its table data
 
 	// Load the tile data for each additional map context
-	for (uint32 ctxt = 1; ctxt < map_instance->GetNumMapContexts(); ++ctxt) {
+	for (uint32 ctxt = 1; ctxt < num_contexts; ++ctxt) {
 		MAP_CONTEXT this_context = static_cast<MAP_CONTEXT>(1 << ctxt);
 		string context_name = "context_";
 		if (ctxt < 10) // precede single digit context names with a zero
@@ -183,8 +202,9 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file, const MapMode* map_ins
 
 		// Initialize this context by making a copy of the base map context first, as most contexts re-use many of the same tiles from the base context
 		// If non-inheriting context, start with empty map!
-		if (context_inherits[ctxt - 1] == 1) {
-			_tile_grid.insert(make_pair(this_context, _tile_grid[MAP_CONTEXT_01]));
+		if (context_inherits[ctxt] != -1) {
+			_tile_grid.insert(make_pair(this_context,
+										_tile_grid[GetContextMaskFromConstextId(context_inherits[ctxt])]));
 		}
 		else {
 			_tile_grid.insert(make_pair(this_context, Context()));

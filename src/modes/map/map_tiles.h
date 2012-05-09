@@ -72,10 +72,9 @@ public:
 
 	/** \brief Handles all operations on loading tilesets and tile images from the map data file
 	*** \param map_file A reference to the Lua file containing the map data
-	*** \param map_instance A pointer to the MapMode object which invoked this function
 	*** \note The map file should already be opened with no Lua tables open
 	**/
-	bool Load(hoa_script::ReadScriptDescriptor& map_file, const MapMode* map_instance);
+	bool Load(hoa_script::ReadScriptDescriptor& map_file);
 
 	//! \brief Updates all animated tile images
 	void Update();
