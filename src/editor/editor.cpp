@@ -52,7 +52,6 @@ Editor::Editor() : QMainWindow(),
 	// initialize viewing items
 	_grid_on = false;
 	_select_on = false;
-	_coord_type = 0;
 
 	// create the main widget and layout
 	_ed_splitter = new QSplitter(this);
@@ -141,15 +140,11 @@ void Editor::_ViewMenuSetup() {
 	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
 	{
 		_toggle_grid_action->setEnabled(true);
-		_coord_tile_action->setEnabled(true);
-		_coord_collision_action->setEnabled(true);
 		_view_textures_action->setEnabled(true);
 	} // map must exist in order to set view options
 	else
 	{
 		_toggle_grid_action->setEnabled(false);
-		_coord_tile_action->setEnabled(false);
-		_coord_collision_action->setEnabled(false);
 		_view_textures_action->setEnabled(false);
 	} // map does not exist, can't view it*/
 }
@@ -370,11 +365,9 @@ void Editor::_FileNew() {
 
 			_grid_on = false;
 			_textures_on = true;
-			_coord_type = 0;
 			if (_select_on)
 				_TileToggleSelect();
 			_ViewToggleGrid();
-			_ViewCoordTile();
 			_ViewTextures();
 
 			// Populate the context combobox
@@ -499,11 +492,9 @@ void Editor::_FileOpen() {
 
 			_grid_on = false;
 			_textures_on = true;
-			_coord_type = 0;
 			if (_select_on)
 				_TileToggleSelect();
 			_ViewToggleGrid();
-			_ViewCoordTile();
 			_ViewTextures();
 
 			// Populate the context combobox
@@ -634,21 +625,6 @@ void Editor::_ViewToggleGrid() {
 		_ed_scrollview->_map->SetGridOn(_grid_on);
 	} // map must exist in order to view things on it
 }
-
-
-void Editor::_ViewCoordTile() {
-	_coord_type = 0;
-	_coord_tile_action->setChecked(true);
-	_coord_collision_action->setChecked(false);
-}
-
-
-void Editor::_ViewCoordCollision() {
-	_coord_type = 1;
-	_coord_collision_action->setChecked(true);
-	_coord_tile_action->setChecked(false);
-}
-
 
 
 void Editor::_ViewTextures() {
@@ -1204,16 +1180,6 @@ void Editor::_CreateActions() {
 	_toggle_grid_action->setCheckable(true);
 	connect(_toggle_grid_action, SIGNAL(triggered()), this, SLOT(_ViewToggleGrid()));
 
-	_coord_tile_action = new QAction("Tile Coordinates", this);
-	_coord_tile_action->setStatusTip("Switch the coordinate display to tile coordinates");
-	_coord_tile_action->setCheckable(true);
-	connect(_coord_tile_action, SIGNAL(triggered()), this, SLOT(_ViewCoordTile()));
-
-	_coord_collision_action = new QAction("Collision Coordinates", this);
-	_coord_collision_action->setStatusTip("Switch the coordinate display to collision coordinates");
-	_coord_collision_action->setCheckable(true);
-	connect(_coord_collision_action, SIGNAL(triggered()), this, SLOT(_ViewCoordCollision()));
-
 	_view_textures_action = new QAction("&Texture sheets", this);
 	_view_textures_action->setShortcut(tr("Ctrl+T"));
 	_view_textures_action->setStatusTip("Cycles through the video engine's texture sheets");
@@ -1329,9 +1295,6 @@ void Editor::_CreateMenus() {
 	// view menu creation
 	_view_menu = menuBar()->addMenu("&View");
 	_view_menu->addAction(_toggle_grid_action);
-	_view_menu->addSeparator();
-	_view_menu->addAction(_coord_tile_action);
-	_view_menu->addAction(_coord_collision_action);
 	_view_menu->addSeparator();
 	_view_menu->addAction(_view_textures_action);
 	_view_menu->setTearOffEnabled(true);
@@ -1661,17 +1624,17 @@ void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt) {
 		} // switch on tile editing mode
 	} // mouse has moved to a new tile position
 
-	// Display mouse position in the format specified by _coord_type
+	// Display mouse position in tile and collision coordinates format
 	QString position;
-	if (editor->_coord_type == 0)
-		position = QString("x: %1  y: %2").arg(static_cast<double>(evt->x() / TILE_WIDTH), 0, 'f', 0).arg(
-			static_cast<double>(evt->y() / TILE_HEIGHT), 0, 'f', 0);
-	else if (editor->_coord_type == 1)
-		position = QString("x: %1  y: %2").arg(static_cast<double>(evt->x() * 2 / TILE_WIDTH), 0, 'f', 0).arg(
-			static_cast<double>(evt->y() * 2 / TILE_HEIGHT), 0, 'f', 0);
-	else
-		position = QString("x: %1  y: %2").arg(evt->x() / static_cast<float>(TILE_WIDTH), 0, 'f', 1).arg(
-			evt->y() / static_cast<float>(TILE_HEIGHT), 0, 'f', 1);
+	// Tile position
+	position = QString("Tiles: (x: %1  y: %2)").arg(static_cast<double>(evt->x() / TILE_WIDTH), 0, 'f', 0).arg(
+		static_cast<double>(evt->y() / TILE_HEIGHT), 0, 'f', 0);
+	// Collision coordinates
+	position.append(QString(" / Collision: (x: %1  y: %2)").arg(static_cast<double>(evt->x() * 2 / TILE_WIDTH), 0, 'f', 0).arg(
+		static_cast<double>(evt->y() * 2 / TILE_HEIGHT), 0, 'f', 0));
+	// Sprite coordinates
+	position.append(QString(" / Sprites: (x: %1  y: %2)").arg(evt->x() * 2 / static_cast<float>(TILE_WIDTH), 0, 'f', 1).arg(
+			evt->y() * 2 / static_cast<float>(TILE_HEIGHT), 0, 'f', 1));
 	editor->statusBar()->showMessage(position);
 
 	// Draw the changes.

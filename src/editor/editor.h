@@ -139,8 +139,6 @@ private slots:
 	//! \brief These slots process selection for their item in the View menu.
 	//{@
 	void _ViewToggleGrid();
-	void _ViewCoordTile();
-	void _ViewCoordCollision();
 	void _ViewTextures();
 	//@}
 
@@ -242,8 +240,6 @@ private:
 	QAction* _quit_action;
 
 	QAction* _toggle_grid_action;
-	QAction* _coord_tile_action;
-	QAction* _coord_collision_action;
 	QAction* _view_textures_action;
 
 	QAction* _undo_action;
@@ -298,9 +294,6 @@ private:
 
 	//! Textures toggle view switch.
 	bool _textures_on;
-
-	//! Coordinate display type (0 = tile, 1 = collision, 2 = classic)
-	int32 _coord_type;
 
 	//! The stack that contains the undo and redo operations.
 	QUndoStack* _undo_stack;
