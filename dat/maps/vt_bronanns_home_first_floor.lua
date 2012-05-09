@@ -407,7 +407,7 @@ end
 -- Create the different map zones triggering events
 function CreateZones()
 	-- N.B.: left, right, top, bottom
-	room_exit_zone = hoa_map.CameraZone(34, 37, 16, 17, hoa_map.MapMode.CONTEXT_02);
+	room_exit_zone = hoa_map.CameraZone(34, 37, 16, 19, hoa_map.MapMode.CONTEXT_02);
 	Map:AddZone(room_exit_zone);
 
 	-- Bronann's room / hall context change

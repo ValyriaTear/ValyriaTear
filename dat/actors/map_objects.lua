@@ -120,6 +120,22 @@ objects["Parchment"] = {
 	img_height = 1.31
 }
 
+objects["Rock1"] = {
+	animation_filename = "img/sprites/map/objects/rock1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.63,
+	img_half_width = 1.0,
+	img_height = 1.93
+}
+
+objects["Rock2"] = {
+	animation_filename = "img/sprites/map/objects/rock2.lua",
+	coll_half_width = 0.9,
+	coll_height = 1.78,
+	img_half_width = 0.9,
+	img_height = 3.56
+}
+
 objects["Table1"] = {
 	animation_filename = "img/sprites/map/objects/table1.lua",
 	coll_half_width = 2.95,
@@ -150,6 +166,38 @@ objects["Small Wooden Table"] = {
 	coll_height = 2.7,
 	img_half_width = 2.0,
 	img_height = 4.0
+}
+
+objects["Tree Big1"] = {
+	animation_filename = "img/sprites/map/objects/tree_big1.lua",
+	coll_half_width = 3.0,
+	coll_height = 4.0,
+	img_half_width = 3.0,
+	img_height = 8.0
+}
+
+objects["Tree Big2"] = {
+	animation_filename = "img/sprites/map/objects/tree_big2.lua",
+	coll_half_width = 2.0,
+	coll_height = 3.4,
+	img_half_width = 2.0,
+	img_height = 6.8
+}
+
+objects["Tree Small1"] = {
+	animation_filename = "img/sprites/map/objects/tree_small1.lua",
+	coll_half_width = 1.75,
+	coll_height = 2.43,
+	img_half_width = 1.75,
+	img_height = 4.87
+}
+
+objects["Tree Small2"] = {
+	animation_filename = "img/sprites/map/objects/tree_small2.lua",
+	coll_half_width = 3.0,
+	coll_height = 3.0,
+	img_half_width = 3.0,
+	img_height = 6.0
 }
 
 objects["Vase1"] = {
