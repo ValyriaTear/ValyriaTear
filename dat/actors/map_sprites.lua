@@ -91,8 +91,8 @@ sprites["Orlinn"] = {
 }
 
 -- NPCs
-sprites["Olivia"] = {
-	name = hoa_system.Translate("Olivia"),
+sprites["Girl1"] = {
+	name = hoa_system.Translate("Olivia"), -- default name
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
@@ -102,8 +102,8 @@ sprites["Olivia"] = {
 	standard_animations = "img/sprites/map/npcs/npc_girl01_walk.png"
 }
 
-sprites["Brymir"] = {
-	name = hoa_system.Translate("Brymir"),
+sprites["Old Woman1"] = {
+	name = hoa_system.Translate("Brymir"), -- default name
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
@@ -113,8 +113,8 @@ sprites["Brymir"] = {
 	standard_animations = "img/sprites/map/npcs/npc_old_woman01_walk.png"
 }
 
-sprites["Martha"] = {
-	name = hoa_system.Translate("Martha"),
+sprites["Woman1"] = {
+	name = hoa_system.Translate("Martha"), -- default name
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
@@ -124,8 +124,8 @@ sprites["Martha"] = {
 	standard_animations = "img/sprites/map/npcs/npc_woman01_walk.png"
 }
 
-sprites["Sophia"] = {
-	name = hoa_system.Translate("Sophia"),
+sprites["Woman2"] = {
+	name = hoa_system.Translate("Sophia"), -- default name
 	coll_half_width = 1.0,
 	coll_height = 2.0,
 	img_half_width = 1.0,
@@ -135,8 +135,8 @@ sprites["Sophia"] = {
 	standard_animations = "img/sprites/map/npcs/npc_woman02_walk.png"
 }
 
-sprites["Georges"] = {
-	name = hoa_system.Translate("Georges"),
+sprites["Man1"] = {
+	name = hoa_system.Translate("Georges"), -- default name
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
@@ -146,8 +146,8 @@ sprites["Georges"] = {
 	standard_animations = "img/sprites/map/npcs/npc_man01_walk.png"
 }
 
-sprites["Xandar"] = {
-	name = hoa_system.Translate("Xandar"),
+sprites["Man2"] = {
+	name = hoa_system.Translate("Xandar"), -- default name
 	coll_half_width = 0.95,
 	coll_height = 1.0,
 	img_half_width = 1.0,
@@ -181,16 +181,6 @@ sprites["Karlate"] = {
 	standard_animations = "img/sprites/map/soldier_npc01_walk.png"
 }
 
-sprites["Knight"] = {
-	name = hoa_system.Translate("Knight"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/knight_walk.png"
-}
 --]]
 
 enemies["slime"] = {
@@ -251,6 +241,44 @@ function _CreateSprite(Map, name, x, y, x_off, y_off)
 	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
 	sprite:SetXPosition(x, x_off);
 	sprite:SetYPosition(y, y_off);
+	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
+	sprite:SetCollHeight(sprites[name].coll_height);
+	sprite:SetImgHalfWidth(sprites[name].img_half_width);
+	sprite:SetImgHeight(sprites[name].img_height);
+	sprite:SetMovementSpeed(sprites[name].movement_speed);
+	sprite:SetDirection(dir);
+	sprite:LoadStandardAnimations(sprites[name].standard_animations);
+	if (sprites[name].running_animations) then
+		sprite:LoadRunningAnimations(sprites[name].running_animations);
+	end
+	if (sprites[name].face_portrait) then
+		sprite:LoadFacePortrait(sprites[name].face_portrait);
+	end
+
+		return sprite;
+end
+
+-- Permit to setup a custom name
+-- and reuse the npcs sprites more easily
+function _CreateNPCSprite(Map, name, npc_name, x, y)
+	if (sprites[name] == nil) then
+		print("Error: No object named: "..name.." found!!");
+		return nil;
+	end
+
+	if (Map == nil) then
+		print("Error: Function called with invalid Map object");
+		return nil;
+	end
+
+	dir = (2 ^ math.random(0, 3));
+
+	sprite = hoa_map.MapSprite();
+	sprite:SetName(npc_name);
+	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
+	sprite:SetXPosition(x, 0.5);
+	sprite:SetYPosition(y, 0.5);
 	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
 	sprite:SetCollHeight(sprites[name].coll_height);
 	sprite:SetImgHalfWidth(sprites[name].img_half_width);

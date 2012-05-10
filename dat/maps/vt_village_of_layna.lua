@@ -337,7 +337,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Olivia", 50, 55, 0.0, 0.0);
+	npc = _CreateNPCSprite(Map, "Girl1", "Olivia", 50, 55);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Olivia random move", npc, 8000, 2000);
 	event:AddEventLinkAtEnd("Olivia random move", 5000); -- Loop on itself
@@ -349,7 +349,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Brymir", 72, 64, 0.0, 0.0);
+	npc = _CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.WEST);
 	dialogue = hoa_map.SpriteDialogue();
@@ -358,7 +358,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Martha", 70, 64, 0.0, 0.0);
+	npc = _CreateNPCSprite(Map, "Woman1", "Martha", 70, 64);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.EAST);
 	dialogue = hoa_map.SpriteDialogue();
@@ -367,7 +367,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Sophia", 22, 38, 0.0, 0.0);
+	npc = _CreateNPCSprite(Map, "Woman2", "Sophia", 22, 38);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
@@ -376,7 +376,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Xandar", 116, 38, 0.0, 0.0);
+	npc = _CreateNPCSprite(Map, "Man2", "Xandar", 116, 38);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.WEST);
 	dialogue = hoa_map.SpriteDialogue();
@@ -385,7 +385,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Georges", 32, 76, 0.0, 0.0);
+	npc = _CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.WEST);
 	dialogue = hoa_map.SpriteDialogue();
