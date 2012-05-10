@@ -79,8 +79,9 @@ sprites["Vanica"] = {
 	face_portrait = "img/portraits/npcs/vanica.png"
 }
 
-sprites["Alexander"] = {
-	name = hoa_system.Translate("Alexander"),
+-- NPCs
+sprites["Man2"] = {
+	name = hoa_system.Translate("Alexander"), -- default name
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
@@ -90,8 +91,8 @@ sprites["Alexander"] = {
 	standard_animations = "img/sprites/map/man_npc02_walk.png"
 }
 
-sprites["Laine"] = {
-	name = hoa_system.Translate("Laine"),
+sprites["Man1"] = {
+	name = hoa_system.Translate("Laine"), -- default name
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
@@ -101,18 +102,7 @@ sprites["Laine"] = {
 	standard_animations = "img/sprites/map/man_npc01_walk.png"
 }
 
-sprites["Torl"] = {
-	name = hoa_system.Translate("Torl"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = VERY_FAST_SPEED,
-
-	standard_animations = "img/sprites/map/boy_npc01_walk.png"
-}
-
-sprites["Female Merchant"] = {
+sprites["Woman1"] = {
 	name = hoa_system.Translate("Female Merchant"),
 	coll_half_width = 0.95,
 	coll_height = 1.9,
@@ -123,7 +113,7 @@ sprites["Female Merchant"] = {
 	standard_animations = "img/sprites/map/woman_npc01_walk.png"
 }
 
-sprites["Livia"] = {
+sprites["Girl2"] = {
 	name = hoa_system.Translate("Livia"),
 	coll_half_width = 0.95,
 	coll_height = 1.9,
@@ -177,7 +167,6 @@ sprites["Rubble"] = {
 
 	standard_animations = "img/sprites/map/rocks.png"
 }
-
 
 enemies["slime"] = {
 	coll_half_width = 1.0,
@@ -237,6 +226,44 @@ function _CreateSprite(Map, name, x, y, x_off, y_off)
 	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
 	sprite:SetXPosition(x, x_off);
 	sprite:SetYPosition(y, y_off);
+	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
+	sprite:SetCollHeight(sprites[name].coll_height);
+	sprite:SetImgHalfWidth(sprites[name].img_half_width);
+	sprite:SetImgHeight(sprites[name].img_height);
+	sprite:SetMovementSpeed(sprites[name].movement_speed);
+	sprite:SetDirection(dir);
+	sprite:LoadStandardAnimations(sprites[name].standard_animations);
+	if (sprites[name].running_animations) then
+		sprite:LoadRunningAnimations(sprites[name].running_animations);
+	end
+	if (sprites[name].face_portrait) then
+		sprite:LoadFacePortrait(sprites[name].face_portrait);
+	end
+
+		return sprite;
+end
+
+-- Permit to setup a custom name
+-- and reuse the npcs sprites more easily
+function _CreateNPCSprite(Map, name, npc_name, x, y)
+	if (sprites[name] == nil) then
+		print("Error: No object named: "..name.." found!!");
+		return nil;
+	end
+
+	if (Map == nil) then
+		print("Error: Function called with invalid Map object");
+		return nil;
+	end
+
+	dir = (2 ^ math.random(0, 3));
+
+	sprite = hoa_map.MapSprite();
+	sprite:SetName(npc_name);
+	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
+	sprite:SetXPosition(x, 0.5);
+	sprite:SetYPosition(y, 0.5);
 	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
 	sprite:SetCollHeight(sprites[name].coll_height);
 	sprite:SetImgHalfWidth(sprites[name].img_half_width);
