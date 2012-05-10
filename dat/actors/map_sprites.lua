@@ -79,86 +79,85 @@ sprites["Phenor"] = {
 	standard_animations = "img/sprites/map/npcs/npc_soldier02_walk.png"
 }
 
+sprites["Orlinn"] = {
+	name = hoa_system.Translate("Orlinn"),
+	coll_half_width = 0.95,
+	coll_height = 1.9,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = NORMAL_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_boy01_walk.png"
+}
+
+-- NPCs
+sprites["Olivia"] = {
+	name = hoa_system.Translate("Olivia"),
+	coll_half_width = 0.95,
+	coll_height = 1.9,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_girl01_walk.png"
+}
+
+sprites["Brymir"] = {
+	name = hoa_system.Translate("Brymir"),
+	coll_half_width = 0.95,
+	coll_height = 1.9,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_old_woman01_walk.png"
+}
+
+sprites["Martha"] = {
+	name = hoa_system.Translate("Martha"),
+	coll_half_width = 0.95,
+	coll_height = 1.9,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_woman01_walk.png"
+}
+
+sprites["Sophia"] = {
+	name = hoa_system.Translate("Sophia"),
+	coll_half_width = 1.0,
+	coll_height = 2.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = NORMAL_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_woman02_walk.png"
+}
+
+sprites["Georges"] = {
+	name = hoa_system.Translate("Georges"),
+	coll_half_width = 0.95,
+	coll_height = 1.9,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_man01_walk.png"
+}
+
+sprites["Xandar"] = {
+	name = hoa_system.Translate("Xandar"),
+	coll_half_width = 0.95,
+	coll_height = 1.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_man02_walk.png"
+}
+
 --[[
-sprites["Kyle"] = {
-	name = hoa_system.Translate("Kyle"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/kyle_walk.png",
-	face_portrait = "img/portraits/kyle.png"
-}
-
-sprites["Captain"] = {
-	name = hoa_system.Translate("Captain"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/soldier_npc02_walk.png"
-}
-
-sprites["Marcus"] = {
-	name = hoa_system.Translate("Marcus"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = VERY_SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/marcus_walk.png",
-	face_portrait = "img/portraits/npcs/marcus.png"
-}
-
-sprites["Vanica"] = {
-	name = hoa_system.Translate("Vanica"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = VERY_SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/vanica_walk.png",
-	face_portrait = "img/portraits/npcs/vanica.png"
-}
-
-sprites["Alexander"] = {
-	name = hoa_system.Translate("Alexander"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/man_npc02_walk.png"
-}
-
-sprites["Laine"] = {
-	name = hoa_system.Translate("Laine"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/man_npc01_walk.png"
-}
-
-sprites["Torl"] = {
-	name = hoa_system.Translate("Torl"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = VERY_FAST_SPEED,
-
-	standard_animations = "img/sprites/map/boy_npc01_walk.png"
-}
 
 sprites["Female Merchant"] = {
 	name = hoa_system.Translate("Female Merchant"),
@@ -169,28 +168,6 @@ sprites["Female Merchant"] = {
 	movement_speed = SLOW_SPEED,
 
 	standard_animations = "img/sprites/map/woman_npc01_walk.png"
-}
-
-sprites["Livia"] = {
-	name = hoa_system.Translate("Livia"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/girl_npc02_walk.png"
-}
-
-sprites["Octavia"] = {
-	name = hoa_system.Translate("Octavia"),
-	coll_half_width = 1.0,
-	coll_height = 2.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
-
-	standard_animations = "img/sprites/map/woman_npc02_walk.png"
 }
 
 sprites["Karlate"] = {

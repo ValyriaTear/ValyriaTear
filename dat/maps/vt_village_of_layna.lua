@@ -265,11 +265,8 @@ layers[2][39] = { -1, -1, -1, -1, -1, -1, 40, 41, 20, 21, -1, -1, -1, -1, -1, -1
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
--- The hero starting position
-local hero_start_x = 12;
-local hero_start_y = 63;
-
 local bronann = {};
+local kalya = {};
 
 -- the main map loading code
 function Load(m)
@@ -287,6 +284,7 @@ function Load(m)
 	-- Set the camera focus on Bronann
 	Map:SetCamera(bronann);
 
+	CreateNPCs();
 	CreateObjects();
 
 
@@ -302,11 +300,99 @@ end
 
 -- Character creation
 function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", hero_start_x, hero_start_y, 0.0, 0.0);
+	bronann = _CreateSprite(Map, "Bronann", 12, 63, 0.0, 0.0);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
 	Map:AddGroundObject(bronann);
+end
+
+function CreateNPCs()
+	local npc = {}
+	local text = {}
+	local dialogue = {}
+	local event = {}
+
+	kalya = _CreateSprite(Map, "Kalya", 42, 18, 0.0, 0.0);
+	Map:AddGroundObject(kalya);
+	event = hoa_map.RandomMoveSpriteEvent("Kalya random move", kalya, 1000, 2000);
+	event:AddEventLinkAtEnd("Kalya random move", 2000); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Kalya random move");
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Please, leave me alone, Bronann...");
+	dialogue:AddLine(text, kalya);
+	DialogueManager:AddDialogue(dialogue);
+	kalya:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Orlinn", 40, 18, 0.0, 0.0);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Orlinn random move", npc, 4000, 2000);
+	event:AddEventLinkAtEnd("Orlinn random move", 3000); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Orlinn random move");
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Heya Bro! Wanna play with me?");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Olivia", 50, 55, 0.0, 0.0);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Olivia random move", npc, 8000, 2000);
+	event:AddEventLinkAtEnd("Olivia random move", 5000); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Olivia random move");
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Hi Bronann!");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Brymir", 72, 64, 0.0, 0.0);
+	Map:AddGroundObject(npc);
+	npc:SetDirection(hoa_map.MapMode.WEST);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Ahh sure! (gossip, gossip)");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Martha", 70, 64, 0.0, 0.0);
+	Map:AddGroundObject(npc);
+	npc:SetDirection(hoa_map.MapMode.EAST);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Did you hear that? (gossip, gossip)");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Sophia", 22, 38, 0.0, 0.0);
+	Map:AddGroundObject(npc);
+	npc:SetDirection(hoa_map.MapMode.SOUTH);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("You're too young to trade stuff with me!");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Xandar", 116, 38, 0.0, 0.0);
+	Map:AddGroundObject(npc);
+	npc:SetDirection(hoa_map.MapMode.WEST);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("You'd better not go there. The forest can be dangerous for an untrained kid.");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Georges", 32, 76, 0.0, 0.0);
+	Map:AddGroundObject(npc);
+	npc:SetDirection(hoa_map.MapMode.WEST);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
 end
 
 function CreateObjects()
