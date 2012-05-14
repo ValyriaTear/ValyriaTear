@@ -82,7 +82,9 @@ BootMode::BootMode() :
 	_welcome_window = new WelcomeWindow();
 
 	_version_text.SetStyle(TextStyle("text20"));
-	_version_text.SetText(UTranslate("Development Release"));
+	std::string date_string = " - ";
+	date_string.append(__DATE__);
+	_version_text.SetText(UTranslate("Development Release") + MakeUnicodeString(date_string));
 
 	ReadScriptDescriptor boot_script;
 	if (!boot_script.OpenFile("dat/config/boot.lua")) {
