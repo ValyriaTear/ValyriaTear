@@ -96,6 +96,9 @@ private:
 	//! \brief Loads preview data for the highlighted game
 	bool _PreviewGame(int);
 
+	//! \brief Clears out the data saves. Used especially when the data is invalid.
+	void _ClearSaveData();
+
 	//! \brief The MenuWindow for the backdrop
 	hoa_gui::MenuWindow _window;
 
