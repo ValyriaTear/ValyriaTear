@@ -403,6 +403,16 @@ bool SaveMode::_LoadGame(int id) {
 }
 
 
+void SaveMode::_ClearSaveData() {
+		_map_name_textbox.SetDisplayText(UTranslate("No valid data"));
+		_time_textbox.SetDisplayText(" ");
+		_drunes_textbox.SetDisplayText(" ");
+		for (uint32 i = 0; i < 4; ++i) {
+			_character_window[i].SetCharacter(NULL);
+		}
+}
+
+
 bool SaveMode::_PreviewGame(int id) {
 	ostringstream f;
 	f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
@@ -410,13 +420,13 @@ bool SaveMode::_PreviewGame(int id) {
 
 	ReadScriptDescriptor file, map_file;
 
-	if (file.OpenFile(filename, true) == false) {
-		_map_name_textbox.SetDisplayText("No Data");
-		_time_textbox.SetDisplayText(" ");
-		_drunes_textbox.SetDisplayText(" ");
-		for (uint32 i = 0; i < 4; i++) {
-			_character_window[i].SetCharacter(NULL);
-		}
+	if (!file.OpenFile(filename, true)) {
+		_ClearSaveData();
+		return false;
+	}
+
+	if (!file.DoesTableExist("save_game1")) {
+		_ClearSaveData();
 		return false;
 	}
 
@@ -432,16 +442,24 @@ bool SaveMode::_PreviewGame(int id) {
 	seconds = file.ReadInt("play_seconds");
 	drunes = file.ReadInt("drunes");
 
+	if (!file.DoesTableExist("characters")) {
+		_ClearSaveData();
+		return false;
+	}
 
 	file.OpenTable("characters");
 	vector<uint32> char_ids;
 	file.ReadUIntVector("order", char_ids);
 	GlobalCharacter* character[4];
 
-	for (uint32 i = 0; i < char_ids.size(); i++) {
+	// Loads only up to the first four slots (Visible battle characters)
+	for (uint32 i = 0; i < 4 && i < char_ids.size(); ++i) {
 		// Create a new GlobalCharacter object using the provided id
 		// This loads all of the character's "static" data, such as their name, etc.
 		character[i] = new GlobalCharacter(char_ids[i], false);
+
+		if (!file.DoesTableExist(char_ids[i]))
+			continue;
 
 		file.OpenTable(char_ids[i]);
 
@@ -470,9 +488,11 @@ bool SaveMode::_PreviewGame(int id) {
 
 	file.CloseFile();
 
-	// Load map file to get location name
-	if (!map_file.OpenFile(map_filename))
+	// Loads the map file to get location name
+	if (!map_file.OpenFile(map_filename)) {
+		_ClearSaveData();
 		return false;
+	}
 
 	// Determine the map's tablespacename and then open it. The tablespace is the name of the map file without
 	// file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
