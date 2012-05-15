@@ -546,35 +546,33 @@ bool ChangeDirectionSpriteEvent::_Update() {
 // -----------------------------------------------------------------------------
 
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id,
-										 int16 x_coord, int16 y_coord, bool run) :
+										 float x_coord, float y_coord, bool run) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite_id),
 	_relative_destination(false),
-	_source_x(-1),
-	_source_y(-1),
 	_destination_x(x_coord),
 	_destination_y(y_coord),
-	_last_x_position(0),
-	_last_y_position(0),
+	_last_x_position(0.0f),
+	_last_y_position(0.0f),
+	_current_node_x(0.0f),
+	_current_node_y(0.0f),
 	_current_node(0),
 	_run(run)
 {}
-
 
 
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-										 int16 x_coord, int16 y_coord, bool run) :
+										 float x_coord, float y_coord, bool run) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
 	_relative_destination(false),
-	_source_x(-1),
-	_source_y(-1),
 	_destination_x(x_coord),
 	_destination_y(y_coord),
-	_last_x_position(0),
-	_last_y_position(0),
+	_last_x_position(0.0f),
+	_last_y_position(0.0f),
+	_current_node_x(0.0f),
+	_current_node_y(0.0f),
 	_current_node(0),
 	_run(run)
 {}
-
 
 
 void PathMoveSpriteEvent::SetRelativeDestination(bool relative) {
@@ -588,8 +586,7 @@ void PathMoveSpriteEvent::SetRelativeDestination(bool relative) {
 }
 
 
-
-void PathMoveSpriteEvent::SetDestination(int16 x_coord, int16 y_coord, bool run) {
+void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run) {
 	if (MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "attempted illegal operation while event was active: " << GetEventID() << endl;
 		return;
@@ -602,44 +599,42 @@ void PathMoveSpriteEvent::SetDestination(int16 x_coord, int16 y_coord, bool run)
 }
 
 
-
 void PathMoveSpriteEvent::_Start() {
 	SpriteEvent::_Start();
 
 	_current_node = 0;
-	_last_x_position = _sprite->x_position;
-	_last_y_position = _sprite->y_position;
+	_last_x_position = _sprite->GetXPosition();
+	_last_y_position = _sprite->GetYPosition();
 	_sprite->is_running = _run;
 
-	// Set and check the source position
-	_source_x = _sprite->x_position;
-	_source_y = _sprite->y_position;
-	if (_source_x < 0 || _source_y < 0) {
-		// TODO: Also check if the source position is beyond the maximum row/col map boundaries
+	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(_sprite)) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "sprite position is invalid" << endl;
 		_path.clear();
 		return;
 	}
 
 	// Set and check the destination position
-	if (_relative_destination == false) {
-		_destination_node.tile_x = _destination_x;
-		_destination_node.tile_y = _destination_y;
-	}
-	else {// The tangle is here!!!
-		_destination_node.tile_x = _source_x + _destination_x;
-		_destination_node.tile_y = _source_y + _destination_y;
-	}
+	if (_relative_destination) {
+		// Add The integer part of the source node, but keep the destination offset untouched.
+		_destination_x = hoa_utils::GetFloatInteger(_destination_x) + hoa_utils::GetFloatInteger(_last_x_position) + hoa_utils::GetFloatFraction(_destination_x);
+		_destination_y = hoa_utils::GetFloatInteger(_destination_y) + hoa_utils::GetFloatInteger(_last_y_position) + hoa_utils::GetFloatFraction(_destination_y);
+ 	}
 
-	// TODO: check if destination node exceeds map boundaries
-	if (_destination_node.tile_y < 0 || _destination_node.tile_x < 0) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "invalid destination coordinates" << endl;
+	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(_destination_x, _destination_y)) {
+		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid destination coordinates" << endl;
 		_path.clear();
 		return;
 	}
 
+	_destination_node.tile_x = (int16)hoa_utils::GetFloatInteger(_destination_x);
+	_destination_node.tile_y = (int16)hoa_utils::GetFloatInteger(_destination_y);
+
 	_path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, _destination_node);
 	if (!_path.empty()) {
+		// Center the sprite next destination
+		_current_node_x = ((float)_path[_current_node].tile_x) + 0.5f;
+		_current_node_y = ((float)_path[_current_node].tile_y) + 0.5f;
+
 		_sprite->moving = true;
 		_SetSpriteDirection();
 	}
@@ -653,31 +648,50 @@ void PathMoveSpriteEvent::_Start() {
 
 bool PathMoveSpriteEvent::_Update() {
 	if (_path.empty() == true) {
-		PRINT_ERROR << "no path to destination" << endl;
+		PRINT_ERROR << "No path to destination (" << _destination_x << ", " << _destination_y << ") for sprite: "
+			<< _sprite->GetObjectID() << endl;
 		_sprite->moving = false;
 		_sprite->ReleaseControl(this);
 		return true;
 	}
 
-	// Check if the sprite has arrived at the position of the current node
-	if (_sprite->x_position == _path[_current_node].tile_x && _sprite->y_position == _path[_current_node].tile_y) {
+	float sprite_position_x = _sprite->GetXPosition();
+	float sprite_position_y = _sprite->GetYPosition();
+	float distance_moved = _sprite->CalculateDistanceMoved();
+
+	// Check whether the sprite has arrived at the position of the current node
+	if (hoa_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
+			&& hoa_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
 		++_current_node;
 
-		// When the current node index is at the end of the path, the event is finished
-		if (_current_node >= _path.size() - 1) {
-			_sprite->moving = false;
-			_sprite->ReleaseControl(this);
-			return true;
-		}
-		else {
+		// Don't take in account the last path node, since the destination node
+		// is more precise, hence the size() -1.
+		if (_current_node < _path.size() - 1) {
+			_current_node_x = ((float)_path[_current_node].tile_x) + 0.5f;
+			_current_node_y = ((float)_path[_current_node].tile_y) + 0.5f;
+
 			_SetSpriteDirection();
 		}
+		else {
+			_current_node_x = _destination_x;
+			_current_node_y = _destination_y;
+		}
+
+		_SetSpriteDirection();
 	}
 	// If the sprite has moved to a new position other than the next node, adjust its direction so it is trying to move to the next node
-	else if ((_sprite->x_position != _last_x_position) || (_sprite->y_position != _last_y_position)) {
-		_last_x_position = _sprite->x_position;
-		_last_y_position = _sprite->y_position;
+	else if ((_sprite->position.x != _last_x_position) || (_sprite->position.y != _last_y_position)) {
+		_last_x_position = _sprite->position.x;
+		_last_y_position = _sprite->position.y;
 		_SetSpriteDirection();
+	}
+
+	// End the path event
+	if (hoa_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
+		&& hoa_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
+		_sprite->moving = false;
+		_sprite->ReleaseControl(this);
+		return true;
 	}
 
 	return false;
@@ -688,17 +702,21 @@ bool PathMoveSpriteEvent::_Update() {
 void PathMoveSpriteEvent::_SetSpriteDirection() {
 	uint16 direction = 0;
 
-	if (_sprite->y_position > _path[_current_node].tile_y) { // Need to move north
+	float sprite_position_x = _sprite->GetXPosition();
+	float sprite_position_y = _sprite->GetYPosition();
+	float distance_moved = _sprite->CalculateDistanceMoved();
+
+	if (sprite_position_y - _current_node_y > distance_moved) {
 		direction |= NORTH;
 	}
-	else if (_sprite->y_position < _path[_current_node].tile_y) { // Need to move south
+	else if (sprite_position_y - _current_node_y < -distance_moved) {
 		direction |= SOUTH;
 	}
 
-	if (_sprite->x_position > _path[_current_node].tile_x) { // Need to move west
+	if (sprite_position_x - _current_node_x > distance_moved) {
 		direction |= WEST;
 	}
-	else if (_sprite->x_position < _path[_current_node].tile_x) { // // Need to move east
+	else if (sprite_position_x - _current_node_x < -distance_moved) {
 		direction |= EAST;
 	}
 
@@ -752,10 +770,6 @@ void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject*
 			if (destination_blocked == true) {
 				IF_PRINT_WARNING(MAP_DEBUG) << "path destination was blocked by a non-sprite map object" << endl;
 				_path.clear(); // This path is obviously not a correct one so we should trash it
-				_sprite->ReleaseControl(this);
-				MapMode::CurrentInstance()->GetEventSupervisor()->TerminateEvents(GetEventID());
-				// Note that we will retain the path (we don't clear() it), hoping that next time the object is moved
-
 			}
 			// Otherwise, try to find an alternative path around the object
 			else {

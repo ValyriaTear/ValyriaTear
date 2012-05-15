@@ -243,10 +243,6 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
--- The hero starting position
-local hero_start_x = 46;
-local hero_start_y = 11;
-
 -- The main character handlers
 local bronann = {};
 local bronanns_dad = {};
@@ -285,15 +281,14 @@ end
 -- Character creation
 function CreateCharacters()
 	-- default position and direction
-	bronann = _CreateSprite(Map, "Bronann", hero_start_x, hero_start_y, 0.5, 0.5);
+	bronann = _CreateSprite(Map, "Bronann", 46.5, 11.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_village") then
-		bronann:SetXPosition(39, 0.5);
-		bronann:SetYPosition(22, 0.5);
+		bronann:SetPosition(39.5, 22.5);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
 	end
 
@@ -305,7 +300,7 @@ function CreateNPCs()
 	local dialogue = {}
 	local text = {}
 
-	bronanns_dad = _CreateSprite(Map, "Carson", 33, 11, 0.5, 0.5);
+	bronanns_dad = _CreateSprite(Map, "Carson", 33.5, 11.5);
 	Map:AddGroundObject(bronanns_dad);
 
 	event = hoa_map.RandomMoveSpriteEvent("Dad random move", bronanns_dad, 2000, 2000);
@@ -323,29 +318,29 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	bronanns_dad:AddDialogueReference(dialogue);
 
-	bronanns_mother = _CreateSprite(Map, "Malta", 32, 17, 0.5, 0.5);
+	bronanns_mother = _CreateSprite(Map, "Malta", 32.5, 17.5);
 	bronanns_mother:SetNoCollision(true); -- Until the path finding for events is fixed. (Bug in resolve collision calls)
 	bronanns_mother:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(bronanns_mother);
 	UpdateMotherDialogue();
 
 	-- Make her walk in front of the table to prepare the lunch.
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle", bronanns_mother, 32, 20, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle", bronanns_mother, 33, 20, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother looks left");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks left", bronanns_mother, hoa_map.MapMode.WEST);
 	event:AddEventLinkAtEnd("Kitchen: Mother goes right", 2000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes right", bronanns_mother, 37, 20, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes right", bronanns_mother, 35, 20, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother looks down");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks down", bronanns_mother, hoa_map.MapMode.SOUTH);
 	event:AddEventLinkAtEnd("Kitchen: Mother goes middle 2", 2000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle 2", bronanns_mother, 32, 20, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle 2", bronanns_mother, 33, 20, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother goes up");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes up", bronanns_mother, 32, 16, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes up", bronanns_mother, 33, 18, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother looks left 2");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks left 2", bronanns_mother, hoa_map.MapMode.WEST);
@@ -428,37 +423,37 @@ end
 function CreateObjects()
 	object = {}
 
-	object = _CreateObject(Map, "Chair1", 48, 18, 0.0, 0.0);
+	object = _CreateObject(Map, "Chair1", 48, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Chair1_inverted", 40, 18, 0.0, 0.0);
+	object = _CreateObject(Map, "Chair1_inverted", 40, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Bench2", 44, 15, 0.0, 0.3);
+	object = _CreateObject(Map, "Bench2", 44, 15.3);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Table1", 44, 19, 0.0, 0.0);
+	object = _CreateObject(Map, "Table1", 44, 19);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Barrel1", 31, 14, 0.0, 0.0);
+	object = _CreateObject(Map, "Barrel1", 31, 14);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Vase1", 31, 16, 0.0, 0.0);
+	object = _CreateObject(Map, "Vase1", 31, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Flower Pot1", 48, 11, 0.5, 0.0);
+	object = _CreateObject(Map, "Flower Pot1", 48.5, 11);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Flower Pot1", 31, 9, 0.0, 0.0);
+	object = _CreateObject(Map, "Flower Pot1", 31, 9);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	--lights
-	object = _CreateObject(Map, "Left Window Light 2", 31, 15, 0.0, 0.0);
+	object = _CreateObject(Map, "Left Window Light 2", 31, 15);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Right Window Light 2", 49, 15, 0.0, 0.0);
+	object = _CreateObject(Map, "Right Window Light 2", 49, 15);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
@@ -474,10 +469,6 @@ function CreateEvents()
 
 	event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/vt_bronanns_home_first_floor.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
-
-	-- When Bronann tries to get out the first time, his mother tells him that he's got things to do.
-	mother_intervention_zone = hoa_map.CameraZone(38, 41, 22, 23, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(mother_intervention_zone);
 end
 
 function CreateZones()
@@ -491,18 +482,17 @@ end
 
 function CheckZones()
 	if (home_exit_zone:IsCameraEntering() == true) then
-		EventManager:StartEvent("to village");
+		-- Prevent Bronann from exiting until his mother talked to him
+		if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
+			Map:PushState(hoa_map.MapMode.STATE_SCENE);
+			EventManager:StartEvent("Start Quest1");
+		else
+			EventManager:StartEvent("to village");
+		end
 	end
 	if (to_bronnans_room_zone:IsCameraEntering() == true) then
 		EventManager:StartEvent("to Bronann's 1st floor");
 	end
-	if (mother_intervention_zone:IsCameraEntering() == true) then
-		if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
-			Map:PushState(hoa_map.MapMode.STATE_SCENE);
-			EventManager:StartEvent("Start Quest1");
-		end
-	end
-
 end
 
 

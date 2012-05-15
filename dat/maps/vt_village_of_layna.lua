@@ -300,7 +300,7 @@ end
 
 -- Character creation
 function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 12, 63, 0.0, 0.0);
+	bronann = _CreateSprite(Map, "Bronann", 12, 63);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -313,7 +313,7 @@ function CreateNPCs()
 	local dialogue = {}
 	local event = {}
 
-	kalya = _CreateSprite(Map, "Kalya", 42, 18, 0.0, 0.0);
+	kalya = _CreateSprite(Map, "Kalya", 42, 18);
 	Map:AddGroundObject(kalya);
 	event = hoa_map.RandomMoveSpriteEvent("Kalya random move", kalya, 1000, 2000);
 	event:AddEventLinkAtEnd("Kalya random move", 2000); -- Loop on itself
@@ -325,7 +325,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	kalya:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Orlinn", 40, 18, 0.0, 0.0);
+	npc = _CreateSprite(Map, "Orlinn", 40, 18);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Orlinn random move", npc, 4000, 2000);
 	event:AddEventLinkAtEnd("Orlinn random move", 3000); -- Loop on itself
@@ -398,45 +398,45 @@ end
 function CreateObjects()
 	local object = {}
 
-	object = _CreateObject(Map, "Tree Big2", 22, 78, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Big2", 22, 78);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 22, 16, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Small1", 22, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 9, 16, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Big1", 9, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 65, 18, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Big1", 65, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 74, 20, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Big2", 74, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 67, 32, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Big1", 67, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 80, 36, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Big2", 80, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 92, 22, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Small1", 92, 22);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 98, 24, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Big2", 98, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 79, 16, 0.0, 0.0);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Rock1", 3, 64, 0.0, 0.0);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 33, 12, 0.0, 0.0);
+	object = _CreateObject(Map, "Tree Small2", 79, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Rock2", 29, 16, 0.0, 0.0);
+	object = _CreateObject(Map, "Rock1", 3, 64);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 34, 0.0, 0.0);
+	object = _CreateObject(Map, "Rock1", 33, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 34, 0.0, 0.0);
+
+	object = _CreateObject(Map, "Rock2", 29, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 34, 0.0, 0.0);
+	object = _CreateObject(Map, "Rock2", 109, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 42, 0.0, 0.0);
+	object = _CreateObject(Map, "Rock2", 113, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 42, 0.0, 0.0);
+	object = _CreateObject(Map, "Rock2", 117, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 42, 0.0, 0.0);
+	object = _CreateObject(Map, "Rock2", 109, 42);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 117, 42);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 113, 42);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 end

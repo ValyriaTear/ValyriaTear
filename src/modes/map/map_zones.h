@@ -117,7 +117,7 @@ public:
 	*** checked as to whether or not it may be found in this zone, the floating point portion of its map coordinates are not taken
 	*** into account.
 	**/
-	bool IsInsideZone(uint16 pos_x, uint16 pos_y) const;
+	bool IsInsideZone(float pos_x, float pos_y) const;
 
 	//! \name Class member accessor methods
 	//@{
@@ -139,7 +139,7 @@ protected:
 	*** \param x A reference where to store the value of the x position
 	*** \param y A reference where to store the value of the x position
 	**/
-	void _RandomPosition(uint16& x, uint16& y);
+	void _RandomPosition(float& x, float& y);
 }; // class MapZone
 
 

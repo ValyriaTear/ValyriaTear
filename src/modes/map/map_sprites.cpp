@@ -76,28 +76,26 @@ void VirtualSprite::Update() {
 		return;
 
 	// Next sprite's position
-	float next_x_offset = x_offset;
-	float next_y_offset = y_offset;
+	float next_pos_x = GetXPosition();
+	float next_pos_y = GetYPosition();
 
 	float distance_moved = CalculateDistanceMoved();
 
 	// Move the sprite the appropriate distance in the appropriate Y and X direction
 	if (direction & (NORTH | MOVING_NORTHWEST | MOVING_NORTHEAST))
-		next_y_offset -= distance_moved;
+		next_pos_y -= distance_moved;
 	else if (direction & (SOUTH | MOVING_SOUTHWEST | MOVING_SOUTHEAST))
-		next_y_offset += distance_moved;
+		next_pos_y += distance_moved;
 	if (direction & (WEST | MOVING_NORTHWEST | MOVING_SOUTHWEST))
-		next_x_offset -= distance_moved;
+		next_pos_x -= distance_moved;
 	else if (direction & (EAST | MOVING_NORTHEAST | MOVING_SOUTHEAST))
-		next_x_offset += distance_moved;
+		next_pos_x += distance_moved;
 
 	MapObject* collision_object = NULL;
 	COLLISION_TYPE collision_type = NO_COLLISION;
 	collision_type = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(this,
-																						x_position,
-																						y_position,
-																						next_x_offset,
-																						next_y_offset,
+																						next_pos_x,
+																						next_pos_y,
 																						&collision_object);
 
 	// Don't stuck the player when it's auto-piloted and a NPC goes in the way,
@@ -108,9 +106,7 @@ void VirtualSprite::Update() {
 	}
 
 	if (collision_type == NO_COLLISION) {
-		x_offset = next_x_offset;
-		y_offset = next_y_offset;
-		CheckPositionOffsets();
+		SetPosition(next_pos_x, next_pos_y);
 		moved_position = true;
 	}
 	else {
@@ -601,8 +597,8 @@ void MapSprite::DrawDialog()
         if (_has_available_dialogue && _has_unseen_dialogue
 				&& map->IsShowGUI() && !map->IsCameraOnVirtualFocus()) {
 			Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
-			float icon_alpha = 1.0f - (fabs(ComputeXLocation() - map->GetCamera()->ComputeXLocation())
-				+ fabs(ComputeYLocation() - map->GetCamera()->ComputeYLocation())) / DIALOGUE_ICON_VISIBLE_RANGE;
+			float icon_alpha = 1.0f - (fabs(GetXPosition() - map->GetCamera()->GetXPosition())
+				+ fabs(GetYPosition() - map->GetCamera()->GetYPosition())) / DIALOGUE_ICON_VISIBLE_RANGE;
 
 			if (icon_alpha < 0.0f)
 				icon_alpha = 0.0f;
@@ -844,15 +840,20 @@ void EnemySprite::Update() {
 
 		// Set the sprite's direction so that it seeks to collide with the map camera's position
 		case HOSTILE:
+		{
 			// Holds the x and y deltas between the sprite and map camera coordinate pairs
 			float xdelta, ydelta;
+			VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
+			float camera_x = camera->GetXPosition();
+			float camera_y = camera->GetYPosition();
 			_time_elapsed += SystemManager->GetUpdateTime();
 
-			xdelta = ComputeXLocation() - MapMode::CurrentInstance()->GetCamera()->ComputeXLocation();
-			ydelta = ComputeYLocation() - MapMode::CurrentInstance()->GetCamera()->ComputeYLocation();
+			xdelta = GetXPosition() - camera_x;
+			ydelta = GetYPosition() - camera_y;
 
 			// If the sprite has moved outside of its zone and it should not, reverse the sprite's direction
-			if ( _zone != NULL && _zone->IsInsideZone(x_position, y_position) == false && _zone->IsRoamingRestrained() ) {
+			if ( _zone != NULL && _zone->IsInsideZone(GetXPosition(), GetYPosition()) == false
+					&& _zone->IsRoamingRestrained() ) {
 				// Make sure it wasn't already out (stuck on boundaries fix)
 				if( !_out_of_zone )
 				{
@@ -867,8 +868,9 @@ void EnemySprite::Update() {
 
 				// Enemies will only aggro if the camera is inside the zone, or the zone is non-restrictive
 				// The order of comparaisons here is important, the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
-				if ( MapMode::CurrentInstance()->AttackAllowed() && (_zone == NULL || ( fabs(xdelta) <= _aggro_range && fabs(ydelta) <= _aggro_range
-					 && (!_zone->IsRoamingRestrained() || _zone->IsInsideZone(MapMode::CurrentInstance()->GetCamera()->x_position, MapMode::CurrentInstance()->GetCamera()->y_position)) )) )
+				if ( MapMode::CurrentInstance()->AttackAllowed()
+						&& (_zone == NULL || ( fabs(xdelta) <= _aggro_range && fabs(ydelta) <= _aggro_range
+						&& (!_zone->IsRoamingRestrained() || _zone->IsInsideZone(camera_x, camera_y)) )) )
 				{
 					if (xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
 						SetDirection(SOUTH);
@@ -899,7 +901,7 @@ void EnemySprite::Update() {
 
 			MapSprite::Update();
 			break;
-
+		}
 		// Do nothing if the sprite is in the DEAD state, or any other state
 		case DEAD:
 		default:

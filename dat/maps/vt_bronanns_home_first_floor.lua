@@ -292,15 +292,14 @@ end
 
 -- Character creation
 function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 23, 17, 0.5, 0.5);
+	bronann = _CreateSprite(Map, "Bronann", 23.5, 17.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
-		bronann:SetXPosition(31, 0.5);
-		bronann:SetYPosition(17, 0.5);
+		bronann:SetPosition(31.5, 17.5);
 		bronann:SetDirection(hoa_map.MapMode.WEST);
 		bronann:SetContext(hoa_map.MapMode.CONTEXT_02);
 	end
@@ -312,56 +311,56 @@ function CreateObjects()
 	object = {}
 
 	-- Bronann's room
-	object = _CreateObject(Map, "Bed1", 20, 20, 0.0, 0.0);
+	object = _CreateObject(Map, "Bed1", 20, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 19, 22, 0.0, 0.0);
+	object = _CreateObject(Map, "Box1", 19, 22);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Chair1", 23, 26, 0.0, 0.0);
+	object = _CreateObject(Map, "Chair1", 23, 26);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Small Wooden Table", 20, 27, 0.0, 0.0);
+	object = _CreateObject(Map, "Small Wooden Table", 20, 27);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Left Window Light", 19, 21, 0.0, 0.0);
+	object = _CreateObject(Map, "Left Window Light", 19, 21);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Parent's room
-	object = _CreateObject(Map, "Big Bed1", 36, 30, 0.5, 0.0);
+	object = _CreateObject(Map, "Big Bed1", 36.5, 30.0);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Chair1_inverted", 36, 35, 0.0, 0.0);
+	object = _CreateObject(Map, "Chair1_inverted", 36, 35);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Locker", 36, 36, 0.0, 0.0);
+	object = _CreateObject(Map, "Locker", 36, 35.9);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Small Wooden Table", 38, 36, 0.0, 0.0);
+	object = _CreateObject(Map, "Small Wooden Table", 38, 36);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Paper and Feather", 38, 34, 0.0, 0.0);
+	object = _CreateObject(Map, "Paper and Feather", 38, 34);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Box1", 19, 33, 0.0, 0.0);
+	object = _CreateObject(Map, "Box1", 19, 33);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 19, 35, 0.0, 0.0);
+	object = _CreateObject(Map, "Box1", 19, 35);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 19, 37, 0.0, 0.0);
+	object = _CreateObject(Map, "Box1", 19, 37);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 23, 33, 0.0, 0.0);
-	object:SetContext(hoa_map.MapMode.CONTEXT_03);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Flower Pot1", 27, 33, 0.5, 0.0);
+	object = _CreateObject(Map, "Box1", 23, 33);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Right Window Light", 39, 33, 0.0, 0.0);
+	object = _CreateObject(Map, "Flower Pot1", 27, 33);
+	object:SetContext(hoa_map.MapMode.CONTEXT_03);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	object = _CreateObject(Map, "Right Window Light", 39, 33);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
@@ -412,14 +411,14 @@ function CreateZones()
 
 	-- Bronann's room / hall context change
 	bronanns_room_hall_zone = hoa_map.ContextZone(hoa_map.MapMode.CONTEXT_01, hoa_map.MapMode.CONTEXT_02);
-	bronanns_room_hall_zone:AddSection(28, 29, 16, 19, false); -- To context 2
-	bronanns_room_hall_zone:AddSection(26, 27, 16, 19, true); -- To context 1
+	bronanns_room_hall_zone:AddSection(28, 29, 16, 20, false); -- To context 2
+	bronanns_room_hall_zone:AddSection(26, 27, 16, 20, true); -- To context 1
 	Map:AddZone(bronanns_room_hall_zone);
 
 	-- Bronann's room / hall context change
 	bronanns_hall_parents_zone = hoa_map.ContextZone(hoa_map.MapMode.CONTEXT_02, hoa_map.MapMode.CONTEXT_03);
-	bronanns_hall_parents_zone:AddSection(28, 31, 20, 21, false); -- To context 3
-	bronanns_hall_parents_zone:AddSection(28, 31, 18, 19, true); -- To context 2
+	bronanns_hall_parents_zone:AddSection(28, 32, 20, 21, false); -- To context 3
+	bronanns_hall_parents_zone:AddSection(28, 32, 18, 19, true); -- To context 2
 	Map:AddZone(bronanns_hall_parents_zone);
 
 end

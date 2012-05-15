@@ -194,13 +194,13 @@ public:
 	void SetCamera(private_map::VirtualSprite* sprite)
 		{ _camera = sprite; }
 
-    void SetCamera(private_map::VirtualSprite* sprite, uint32 duration);
+	void SetCamera(private_map::VirtualSprite* sprite, uint32 duration);
 
-    void MoveVirtualFocus(uint16 loc_x, uint16 loc_y);
+	void MoveVirtualFocus(float loc_x, float loc_y);;
 
-    void MoveVirtualFocus(uint16 loc_x, uint16 loc_y, uint32 duration);
+	void MoveVirtualFocus(float loc_x, float loc_y, uint32 duration);
 
-    bool IsCameraOnVirtualFocus();
+	bool IsCameraOnVirtualFocus();
 
 	/** \brief Gets the currently active map context
 	*** which is always equal to the context of the object pointed to by the _camera member,
