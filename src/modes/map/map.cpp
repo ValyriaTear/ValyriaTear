@@ -775,6 +775,18 @@ void MapMode::_UpdateMapFrame() {
 } // void MapMode::_UpdateMapFrame()
 
 
+void MapMode::_DrawDebugGrid() {
+
+	float tiles_x = TILES_ON_X_AXIS / (SCREEN_GRID_X_LENGTH / 2);
+	float tiles_y = TILES_ON_Y_AXIS / (SCREEN_GRID_Y_LENGTH / 2);
+	// Collision grid
+	VideoManager->DrawGrid(_map_frame.tile_x_offset, _map_frame.tile_y_offset, tiles_x, tiles_y,
+						   Color(0.0f, 0.0f, 0.5f, 1.0f));
+	// Tile grid
+	VideoManager->DrawGrid(_map_frame.tile_x_offset, _map_frame.tile_y_offset, tiles_x * 2, tiles_y * 2,
+						   Color(0.5f, 0.0f, 0.0f, 1.0f));
+}
+
 
 void MapMode::_DrawMapLayers() {
 	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
@@ -790,6 +802,11 @@ void MapMode::_DrawMapLayers() {
 	_tile_supervisor->DrawLayers(&_map_frame, SKY_LAYER);
 
 	_object_supervisor->DrawSkyObjects();
+
+	if (VideoManager->DebugInfoOn()) {
+		_object_supervisor->DrawCollisionArea(&_map_frame);
+		_DrawDebugGrid();
+	}
 } // void MapMode::_DrawMapLayers()
 
 

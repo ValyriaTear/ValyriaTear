@@ -390,6 +390,9 @@ private:
 
 	//! \brief Draws the stamina bar, part of DrawGUI()
 	void _DrawStaminaBar(const hoa_video::Color &blending = hoa_video::Color::white);
+
+	//! \brief Draws the map layer tile and collision grid.
+	void _DrawDebugGrid();
 }; // class MapMode
 
 } // namespace hoa_map;
