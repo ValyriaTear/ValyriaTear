@@ -386,6 +386,9 @@ protected:
 	//@{
 	uint8 _saved_current_animation;
 	//@}
+
+	//! \brief Draws debug information, used for pathfinding mostly.
+	void _DrawDebugInfo();
 }; // class MapSprite : public VirtualSprite
 
 

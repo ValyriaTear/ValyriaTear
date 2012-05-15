@@ -585,18 +585,38 @@ void MapSprite::Update() {
 	was_moved = moved_position;
 } // void MapSprite::Update()
 
+void MapSprite::_DrawDebugInfo() {
+	// Draw collision rectangle if the debug view is on.
+	float x, y = 0.0f;
+	VideoManager->GetDrawPosition(x, y);
+	MapRectangle rect = GetCollisionRectangle(x, y);
+	VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.6f));
+
+	// Show a potential active path
+	if (control_event && control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
+		PathMoveSpriteEvent *path_event = (PathMoveSpriteEvent*)control_event;
+		if (path_event) {
+			std::vector<PathNode> path = path_event->GetPath();
+			MapMode *map = MapMode::CurrentInstance();
+			for (uint32 i = 0; i < path.size(); ++i) {
+				float x_pos = path[i].tile_x + 0.5f;
+				float y_pos = path[i].tile_y + 0.5f;
+				VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
+								y_pos - map->GetMapFrame().screen_edges.top);
+
+				VideoManager->DrawRectangle(0.2, 0.2f, Color(0.0f, 1.0f, 1.0f, 0.6f));
+			}
+		}
+	}
+}
+
 
 void MapSprite::Draw() {
 	if (MapObject::ShouldDraw()) {
 		_animations[_current_animation].Draw();
 
-		// Draw collision rectangle if the debug view is on.
-		if (VideoManager->DebugInfoOn()) {
-			float x, y = 0.0f;
-			VideoManager->GetDrawPosition(x, y);
-			MapRectangle rect = GetCollisionRectangle(x, y);
-			VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.6f));
-		}
+		if (VideoManager->DebugInfoOn())
+			_DrawDebugInfo();
 	}
 }
 
