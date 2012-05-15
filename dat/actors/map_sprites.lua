@@ -201,7 +201,7 @@ enemies["scorpion"] = {
 sprite = {}
 enemy = {}
 
-function _CreateSprite(Map, name, x, y, x_off, y_off)
+function _CreateSprite(Map, name, x, y)
 	if (sprites[name] == nil) then
 		print("Error: No object named: "..name.." found!!");
 		return nil;
@@ -212,20 +212,13 @@ function _CreateSprite(Map, name, x, y, x_off, y_off)
 		return nil;
 	end
 
-	if (x_off == nil) then
-		x_off = 0.5;
-	end
-	if (y_off == nil) then
-		y_off = 0.5;
-	end
 	dir = (2 ^ math.random(0, 3));
 
 	sprite = hoa_map.MapSprite();
 	sprite:SetName(sprites[name].name);
 	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
 	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
-	sprite:SetXPosition(x, x_off);
-	sprite:SetYPosition(y, y_off);
+	sprite:SetPosition(x, y);
 	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
 	sprite:SetCollHeight(sprites[name].coll_height);
 	sprite:SetImgHalfWidth(sprites[name].img_half_width);
@@ -262,8 +255,7 @@ function _CreateNPCSprite(Map, name, npc_name, x, y)
 	sprite:SetName(npc_name);
 	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
 	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
-	sprite:SetXPosition(x, 0.5);
-	sprite:SetYPosition(y, 0.5);
+	sprite:SetPosition(x, y);
 	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
 	sprite:SetCollHeight(sprites[name].coll_height);
 	sprite:SetImgHalfWidth(sprites[name].img_half_width);

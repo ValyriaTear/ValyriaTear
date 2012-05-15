@@ -49,10 +49,6 @@ namespace private_map {
 MapObject::MapObject() :
 	object_id(-1),
 	context(MAP_CONTEXT_01),
-	x_position(-1),
-	y_position(-1),
-	x_offset(0.0f),
-	y_offset(0.0f),
 	img_half_width(0.0f),
 	img_height(0.0f),
 	coll_half_width(0.0f),
@@ -90,10 +86,10 @@ bool MapObject::ShouldDraw() {
 	// change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
 	// However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
 	VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
-	rounded_x_offset = FloorToFloatMultiple(x_offset, x_pixel_length);
-	rounded_y_offset = FloorToFloatMultiple(y_offset, y_pixel_length);
-	x_pos = static_cast<float>(x_position) + rounded_x_offset;
-	y_pos = static_cast<float>(y_position) + rounded_y_offset;
+	rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(GetXPosition()), x_pixel_length);
+	rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(GetYPosition()), y_pixel_length);
+	x_pos = static_cast<float>(GetFloatInteger(GetXPosition())) + rounded_x_offset;
+	y_pos = static_cast<float>(GetFloatInteger(GetYPosition())) + rounded_y_offset;
 
 	// ---------- Move the drawing cursor to the appropriate coordinates for this sprite
 	VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
@@ -102,65 +98,34 @@ bool MapObject::ShouldDraw() {
 } // bool MapObject::ShouldDraw()
 
 
-
-void MapObject::CheckPositionOffsets() {
-	while (x_offset < 0.0f) {
-		x_position -= 1;
-		x_offset += 1.0f;
-	}
-	while (x_offset > 1.0f) {
-		x_position += 1;
-		x_offset -= 1.0f;
-	}
-	while (y_offset < 0.0f) {
-		y_position -= 1;
-		y_offset += 1.0f;
-	}
-	while (y_offset > 1.0f) {
-		y_position += 1;
-		y_offset -= 1.0f;
-	}
-}
-
-
-
 MapRectangle MapObject::GetCollisionRectangle() const {
-	float x_pos = ComputeXLocation();
-	float y_pos = ComputeYLocation();
-
 	MapRectangle rect;
-	rect.left = x_pos - coll_half_width;
-	rect.right = x_pos + coll_half_width;
-	rect.top = y_pos - coll_height;
-	rect.bottom = y_pos;
+	rect.left = position.x - coll_half_width;
+	rect.right = position.x + coll_half_width;
+	rect.top = position.y - coll_height;
+	rect.bottom = position.y;
 
 	return rect;
 }
 
 
-MapRectangle MapObject::GetCollisionRectangle(uint16 x, uint16 y,
-											  float offset_x, float offset_y) const {
-	float x_pos = static_cast<float>(x) + offset_x;
-	float y_pos = static_cast<float>(y) + offset_y;
-
+MapRectangle MapObject::GetCollisionRectangle(float x, float y) const {
 	MapRectangle rect;
-	rect.left = x_pos - coll_half_width;
-	rect.right = x_pos + coll_half_width;
-	rect.top = y_pos - coll_height;
-	rect.bottom = y_pos;
+	rect.left = x - coll_half_width;
+	rect.right = x + coll_half_width;
+	rect.top = y - coll_height;
+	rect.bottom = y;
 	return rect;
 }
+
 
 
 MapRectangle MapObject::GetImageRectangle() const {
-	float x_pos = ComputeXLocation();
-	float y_pos = ComputeYLocation();
-
 	MapRectangle rect;
-	rect.left = x_pos - img_half_width;
-	rect.right = x_pos + img_half_width;
-	rect.top = y_pos - img_height;
-	rect.bottom = y_pos;
+	rect.left = position.x - img_half_width;
+	rect.right = position.x + img_half_width;
+	rect.top = position.y - img_height;
+	rect.bottom = position.y;
 	return rect;
 }
 
@@ -230,13 +195,13 @@ void PhysicalObject::SetCurrentAnimation(uint32 animation_id) {
 
 
 // Save points
-SavePoint::SavePoint(uint16 x, uint16 y, MAP_CONTEXT map_context):
+SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
 	MapObject(),
 	_animations(0),
 	_save_active(false)
 {
-	x_position = x;
-	y_position = y;
+	position.x = x;
+	position.y = y;
 
 	_object_type = SAVE_TYPE;
 	context = map_context;
@@ -295,12 +260,12 @@ void SavePoint::SetActive(bool active) {
 
 
 // Halos
-Halo::Halo(const std::string& filename, uint16 x, uint16 y, const Color& color, MAP_CONTEXT map_context):
+Halo::Halo(const std::string& filename, float x, float y, const Color& color, MAP_CONTEXT map_context):
 	MapObject()
 {
 	_color = color;
-	x_position = x;
-	y_position = y;
+	position.x = x;
+	position.y = y;
 
 	_object_type = HALO_TYPE;
 	context = map_context;
@@ -445,8 +410,7 @@ ObjectSupervisor::ObjectSupervisor() :
 	_last_id(1000)
 {
 	_virtual_focus = new VirtualSprite();
-	_virtual_focus->SetXPosition(0, 0.0f);
-	_virtual_focus->SetYPosition(0, 0.0f);
+	_virtual_focus->SetPosition(0.0f, 0.0f);
 	_virtual_focus->movement_speed = NORMAL_SPEED;
 	_virtual_focus->SetNoCollision(true);
 	_virtual_focus->SetVisible(false);
@@ -456,16 +420,16 @@ ObjectSupervisor::ObjectSupervisor() :
 
 ObjectSupervisor::~ObjectSupervisor() {
 	// Delete all of the map objects
-	for (uint32 i = 0; i < _ground_objects.size(); i++) {
+	for (uint32 i = 0; i < _ground_objects.size(); ++i) {
 		delete(_ground_objects[i]);
 	}
 	for (uint32 i = 0; i < _save_points.size(); ++i) {
 		delete(_save_points[i]);
 	}
-	for (uint32 i = 0; i < _pass_objects.size(); i++) {
+	for (uint32 i = 0; i < _pass_objects.size();++i) {
 		delete(_pass_objects[i]);
 	}
-	for (uint32 i = 0; i < _sky_objects.size(); i++) {
+	for (uint32 i = 0; i < _sky_objects.size(); ++i) {
 		delete(_sky_objects[i]);
 	}
 	for (uint32 i = 0; i < _halos.size(); ++i) {
@@ -717,15 +681,15 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 	MapObject* closest_obj = valid_objects[0];
 
 	// Used to hold the full position coordinates of the sprite
-	float source_x = sprite->ComputeXLocation();
-	float source_y = sprite->ComputeYLocation();
+	float source_x = sprite->GetXPosition();
+	float source_y = sprite->GetYPosition();
 	// Holds the minimum distance found between the sprite and a valid object
-	float min_distance = fabs(source_x - closest_obj->ComputeXLocation()) +
-		fabs(source_y - closest_obj->ComputeYLocation());
+	float min_distance = fabs(source_x - closest_obj->GetXPosition()) +
+		fabs(source_y - closest_obj->GetYPosition());
 
 	for (uint32 i = 1; i < valid_objects.size(); i++) {
-		float dist = fabs(source_x - valid_objects[i]->ComputeXLocation()) +
-			fabs(source_y - valid_objects[i]->ComputeYLocation());
+		float dist = fabs(source_x - valid_objects[i]->GetXPosition()) +
+			fabs(source_y - valid_objects[i]->GetYPosition());
 		if (dist < min_distance) {
 			closest_obj = valid_objects[i];
 			min_distance = dist;
@@ -735,13 +699,28 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 } // MapObject* ObjectSupervisor::FindNearestObject(VirtualSprite* sprite, float search_distance)
 
 
-
 bool ObjectSupervisor::CheckObjectCollision(const MapRectangle& rect, const private_map::MapObject* const obj) {
 	// NOTE: We don't check if the argument is NULL here for performance reasons
 	MapRectangle obj_rect = obj->GetCollisionRectangle();
 	return MapRectangle::CheckIntersection(rect, obj_rect);
 }
 
+
+bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject* object) {
+	if (object == NULL) {
+		IF_PRINT_WARNING(MAP_DEBUG) << "NULL pointer passed into function argument" << endl;
+		return false;
+	}
+
+	MapRectangle rect = object->GetCollisionRectangle();
+
+	if (x >= rect.left && x <= rect.right) {
+		if (y <= rect.bottom && y >= rect.top) {
+			return true;
+		}
+	}
+	return false;
+}
 
 
 COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) const {
@@ -769,15 +748,14 @@ COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) cons
 
 
 COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
-												 uint16 x, uint16 y,
-												 float x_offset, float y_offset,
+												 float x_pos, float y_pos,
 												 MapObject** collision_object_ptr) {
 	// If the sprite has this property set it can not collide
 	if (!sprite || sprite->no_collision)
 		return NO_COLLISION;
 
 	// Get the collision rectangle at the given position
-	MapRectangle sprite_rect = sprite->GetCollisionRectangle(x, y, x_offset, y_offset);
+	MapRectangle sprite_rect = sprite->GetCollisionRectangle(x_pos, y_pos);
 
 	// Check if any part of the object's collision rectangle is outside of the map boundary
 	if (sprite_rect.left < 0.0f || sprite_rect.right >= static_cast<float>(_num_grid_x_axis) ||
@@ -831,32 +809,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 	}
 
 	return NO_COLLISION;
-} // bool ObjectSupervisor::DetectCollision(VirtualSprite* sprite, uint16 x, uint16 y, float x_offset, float y_offset, MapObject** collision_object_ptr)
-
-
-
-bool ObjectSupervisor::IsPositionOccupiedByObject(int16 x, int16 y, MapObject* object) {
-	if (object == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "NULL pointer passed into function argument" << endl;
-		return false;
-	}
-
-	uint16 tmp_x;
-	uint16 tmp_y;
-	float tmp_x_offset;
-	float tmp_y_offset;
-
-	object->GetXPosition(tmp_x, tmp_x_offset);
-	object->GetYPosition(tmp_y, tmp_y_offset);
-
-	if (x >= tmp_x - object->GetCollHalfWidth() && x <= tmp_x + object->GetCollHalfWidth()) {
-		if (y <= tmp_y + object->GetCollHeight() && y >= tmp_y) {
-			return true;
-		}
-	}
-	return false;
-}
-
+} // bool ObjectSupervisor::DetectCollision(VirtualSprite* sprite, float x, float y, MapObject** collision_object_ptr)
 
 
 bool ObjectSupervisor::AdjustSpriteAroundCollision(private_map::VirtualSprite* sprite,
@@ -905,7 +858,7 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 	std::vector<PathNode> path;
 
 	// The starting node of this path discovery
-	PathNode source_node(static_cast<int16>(sprite->x_position), static_cast<int16>(sprite->y_position));
+	PathNode source_node(static_cast<int16>(sprite->GetXPosition()), static_cast<int16>(sprite->GetYPosition()));
 
 	// Check that the source node is not the same as the destination node
 	if (source_node == dest) {
@@ -955,9 +908,9 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 			// Don't use 0.0f here for both since errors at the border between
 			// two positions may occure, especially when running.
 			COLLISION_TYPE collision_type = DetectCollision(sprite,
-															nodes[i].tile_x,
-															nodes[i].tile_y,
-															0.5f, 0.5f);
+															((float)nodes[i].tile_x) + 0.5f,
+															((float)nodes[i].tile_y) + 0.5f);
+
 			// Can't go through walls.
 			if (collision_type == WALL_COLLISION)
 				continue;
@@ -1036,6 +989,17 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 	return path;
 } // bool ObjectSupervisor::FindPath(const VirtualSprite* sprite, const PathNode& dest)
 
+
+bool ObjectSupervisor::IsWithinMapBounds(float x, float y) const {
+    return (x >= 0.0f && x < static_cast<float>(_num_grid_x_axis)
+            && y >= 0.0f && y < static_cast<float>(_num_grid_y_axis));
+}
+
+
+bool ObjectSupervisor::IsWithinMapBounds(VirtualSprite *sprite) const {
+    return sprite ? IsWithinMapBounds(sprite->GetXPosition(), sprite->GetYPosition())
+        : false;
+}
 
 
 bool ObjectSupervisor::_AlignSpriteWithCollision(VirtualSprite* sprite, uint16 direction, COLLISION_TYPE coll_type,
@@ -1159,7 +1123,7 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionCorner(VirtualSprite* sprite, C
 	if (horizontal_adjustment == true) {
 		// +1 is added since the cast throws away everything after the decimal and we want a ceiling integer
 		sprite_length = 1 + static_cast<uint16>(sprite_coll_rect.right - sprite_coll_rect.left);
-		start_point = sprite->x_position - ((3 * sprite_length) / 2);
+		start_point = (int16)sprite->GetXPosition() - ((3 * sprite_length) / 2);
 		end_point = start_point + (3 * sprite_length);
 
 		// Ensure that the line end points do not go outside of the map boundaries.
@@ -1169,7 +1133,7 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionCorner(VirtualSprite* sprite, C
 	else {
 		// +1 is added since the cast throws away everything after the decimal and we want a ceiling integer
 		sprite_length = 1 + static_cast<uint16>(sprite_coll_rect.bottom - sprite_coll_rect.top);
-		start_point = sprite->y_position - (2 * sprite_length);
+		start_point = (int16)sprite->GetYPosition() - (2 * sprite_length);
 		end_point = start_point + (3 * sprite_length);
 
 		// Ensure that the line end points do not go outside of the map boundaries.
@@ -1459,30 +1423,26 @@ bool ObjectSupervisor::_MoveSpriteAroundCollisionDiagonal(VirtualSprite* sprite,
 
 bool ObjectSupervisor::_ModifySpritePosition(VirtualSprite *sprite, uint16 direction, float distance) {
 
-	float next_x_offset = sprite->x_offset;
-	float next_y_offset = sprite->y_offset;
+	float next_pos_x = sprite->GetXPosition();
+	float next_pos_y = sprite->GetYPosition();
 
 	if (direction & (NORTH | MOVING_NORTHWEST | MOVING_NORTHEAST))
-		next_y_offset -= distance;
+		next_pos_y -= distance;
 	else if (direction & (SOUTH | MOVING_SOUTHWEST | MOVING_SOUTHEAST))
-		next_y_offset += distance;
+		next_pos_y += distance;
 	if (direction & (WEST | MOVING_NORTHWEST | MOVING_SOUTHWEST))
-		next_x_offset -= distance;
+		next_pos_x -= distance;
 	else if (direction & (EAST | MOVING_NORTHEAST | MOVING_SOUTHEAST))
-		next_x_offset += distance;
+		next_pos_y += distance;
 	else {
 		IF_PRINT_WARNING(MAP_DEBUG) << "invalid direction argument passed to this function: " << direction << endl;
 		return false;
 	}
 
 	// Check for a collision in the next position
-	if (DetectCollision(sprite, sprite->x_position,
-			sprite->y_position, next_x_offset, next_y_offset, NULL) == NO_COLLISION) {
+	if (DetectCollision(sprite, next_pos_x, next_pos_y, NULL) == NO_COLLISION) {
 		// updates the position
-		sprite->x_offset = next_x_offset;
-		sprite->y_offset = next_y_offset;
-		// Check the position offsets and state that the position has been changed
-		sprite->CheckPositionOffsets();
+		sprite->SetPosition(next_pos_x, next_pos_y);
 		sprite->moved_position = true;
 		return true;
 	}

@@ -91,15 +91,11 @@ public:
 	*** origin coordinates are used to determine where the object is on the map as well
 	*** as where the objects collision rectangle lies.
 	***
-	*** The position coordinates are described by an integer (position) and a float (offset).
 	*** The position coordinates point to the map grid tile that the object currently occupies
-	*** and may range from 0 to the number of columns or rows of grid tiles on the map. The
-	*** offset member will always range from 0.0f and 1.0f to indicate the exact position of
-	*** the object within that grid tile.
+	*** and may range from 0 to the number of columns or rows of grid tiles on the map.
 	**/
 	//@{
-	uint16 x_position, y_position;
-	float x_offset, y_offset;
+	MapPosition position;
 	//@}
 
 	/** \brief The half-width and height of the image, in map grid coordinates.
@@ -178,23 +174,6 @@ public:
 	*** of this class may choose to make use of it (or not).
 	**/
 	bool ShouldDraw();
-
-	//! \brief Rolls over the position coordinates if the offsets exceed below 0.0f or above 1.0f
-	void CheckPositionOffsets();
-
-	/** \brief Computes the full floating-point location coordinates of the object
-	*** \return The full x or y coordinate location of the object
-	***
-	*** Since an object's position is stored as an integer component and an offset component, this
-	*** method simply returns a single floating point value representing the full x and y positions
-	*** of the object in a single variable.
-	**/
-	//@{
-	float ComputeXLocation() const
-		{ return (static_cast<float>(x_position) + x_offset); }
-
-	float ComputeYLocation() const
-		{ return (static_cast<float>(y_position) + y_offset); }
 	//@}
 
 	//! \brief Retrieves the object type identifier
@@ -209,8 +188,7 @@ public:
 	*** \return rect A MapRectangle object storing the collision rectangle data
 	*** using the given position.
 	**/
-	MapRectangle GetCollisionRectangle(uint16 x, uint16 y,
-									   float offset_x = 0.5, float offset_y = 0.5) const;
+	MapRectangle GetCollisionRectangle(float x, float y) const;
 
 	/** \brief Returns the image rectangle for the current object
 	*** \param rect A MapRectangle object storing the image rectangle data
@@ -237,11 +215,14 @@ public:
 	void SetContext(MAP_CONTEXT ctxt)
 		{ context = ctxt; }
 
-	void SetXPosition(uint16 x, float offset)
-		{ x_position = x; x_offset = offset; }
+	void SetPosition(float x, float y)
+		{ position.x = x; position.y = y; }
 
-	void SetYPosition(uint16 y, float offset)
-		{ y_position = y; y_offset = offset; }
+	void SetXPosition(float x)
+		{ position.x = x; }
+
+	void SetYPosition(float y)
+		{ position.y = y; }
 
 	void SetImgHalfWidth(float width)
 		{ img_half_width = width; }
@@ -273,11 +254,14 @@ public:
 	MAP_CONTEXT GetContext() const
 		{ return context; }
 
-	void GetXPosition(uint16 &x, float &offset) const
-		{ x = x_position; offset = x_offset; }
+	MapPosition GetPosition() const
+		{ return position; }
 
-	void GetYPosition(uint16 &y, float &offset) const
-		{ y = y_position; offset = y_offset; }
+	float GetXPosition() const
+		{ return position.x; }
+
+	float GetYPosition() const
+		{ return position.y; }
 
 	float GetImgHalfWidth() const
 		{ return img_half_width; }
@@ -319,7 +303,7 @@ protected:
 **/
 struct MapObject_Ptr_Less {
 	bool operator()(const MapObject* a, const MapObject* b) {
-		return (a->y_position + a->y_offset) < (b->y_position + b->y_offset);
+		return (a->position.y) < (b->position.y);
 	}
 };
 
@@ -392,7 +376,7 @@ public:
 *** ***************************************************************************/
 class SavePoint : public MapObject {
 public:
-	SavePoint(uint16 x, uint16 y, MAP_CONTEXT map_context);
+	SavePoint(float x, float y, MAP_CONTEXT map_context);
 
 	~SavePoint()
 	{}
@@ -425,7 +409,7 @@ private:
 class Halo : public MapObject {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-	Halo(const std::string& filename, uint16 x, uint16 y,
+	Halo(const std::string& filename, float x, float y,
 		 const hoa_video::Color& color, MAP_CONTEXT map_context);
 
 	~Halo()
@@ -632,7 +616,7 @@ public:
 	***
 	*** \todo Take into account the object/sprite's collision property and also add a parameter for map context
 	**/
-	bool IsPositionOccupiedByObject(int16 x, int16 y, MapObject* object);
+	bool IsPositionOccupiedByObject(float x, float y, MapObject* object);
 
 	/** \brief Tells the collision type corresponding to an object type.
 	*** \param obj A pointer to the map object to check
@@ -644,8 +628,6 @@ public:
 	*** \param sprite A pointer to the map sprite to check
 	*** \param x The collision point on the x axis
 	*** \param y The collision point on the y axis
-	*** \param x_offset The collision point offset on the x axis
-	*** \param x_offset The collision point offset on the y axis
 	*** \param coll_obj A pointer to the MapObject that the sprite has collided with, if any
 	*** \return The type of collision detected, which may include NO_COLLISION
 	*** if none was detected
@@ -653,8 +635,7 @@ public:
 	*** This method is invoked by a map sprite who wishes to check for its own collision.
 	*** \See COLLISION_TYPE for more information.
 	**/
-	COLLISION_TYPE DetectCollision(VirtualSprite* sprite, uint16 x, uint16 y,
-								   float x_offset = 0.5, float y_offset = 0.5,
+	COLLISION_TYPE DetectCollision(VirtualSprite* sprite, float x, float y,
 								   MapObject** collision_object_ptr = NULL);
 
 	/** \brief Attempts to modify a sprite's position in response to an obstruction that it has collided with
@@ -693,6 +674,12 @@ public:
 	private_map::VirtualSprite* VirtualFocus() {
 	    return _virtual_focus;
 	}
+
+	//! \brief Tells whether the collision coords are valid.
+	bool IsWithinMapBounds(float x, float y) const;
+
+	//! \brief Tells whether the sprite has got valid collision coordinates.
+	bool IsWithinMapBounds(VirtualSprite *sprite) const;
 
 private:
 	//! \brief Returns the nearest save point. Used by FindNearestObject.

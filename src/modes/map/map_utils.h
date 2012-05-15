@@ -410,6 +410,22 @@ public:
 		{ return this->f_score > that.f_score; }
 }; // class PathNode
 
+struct MapVector {
+	MapVector() :
+		x(0.0f),
+		y(0.0f)
+	{}
+
+	float x;
+	float y;
+
+	float length() const
+	{ return sqrtf(x * x + y * y); }
+
+};
+
+typedef MapVector MapPosition;
+
 } // namespace private_map
 
 } // namespace hoa_map

@@ -65,11 +65,13 @@ void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint
 
 
 
-bool MapZone::IsInsideZone(uint16 pos_x, uint16 pos_y) const {
+bool MapZone::IsInsideZone(float pos_x, float pos_y) const {
+	uint16 x = (uint16)GetFloatInteger(pos_x);
+	uint16 y = (uint16)GetFloatInteger(pos_y);
 	// Verify each section of the zone and check if the position is within the section bounds.
 	for (vector<ZoneSection>::const_iterator i = _sections.begin(); i != _sections.end(); ++i) {
-		if (pos_x >= i->left_col && pos_x <= i->right_col &&
-			pos_y >= i->top_row && pos_y <= i->bottom_row)
+		if (x >= i->left_col && x <= i->right_col &&
+			y >= i->top_row && y <= i->bottom_row)
 		{
 			return true;
 		}
@@ -79,13 +81,13 @@ bool MapZone::IsInsideZone(uint16 pos_x, uint16 pos_y) const {
 
 
 
-void MapZone::_RandomPosition(uint16& x, uint16& y) {
+void MapZone::_RandomPosition(float& x, float& y) {
 	// Select a random ZoneSection
 	uint16 i = RandomBoundedInteger(0, _sections.size() - 1);
 
 	// Select a random x and y position inside that section
-	x = RandomBoundedInteger(_sections[i].left_col, _sections[i].right_col);
-	y = RandomBoundedInteger(_sections[i].top_row, _sections[i].bottom_row);
+	x = (float)RandomBoundedInteger(_sections[i].left_col, _sections[i].right_col);
+	y = (float)RandomBoundedInteger(_sections[i].top_row, _sections[i].bottom_row);
 }
 
 // -----------------------------------------------------------------------------
@@ -121,7 +123,8 @@ void CameraZone::Update() {
 		_camera_inside = false;
 	}
 	// Camera must share a context with the zone and be within its borders
-	else if ((_active_contexts & camera->GetContext()) && (IsInsideZone(camera->x_position, camera->y_position) == true)) {
+	else if ((_active_contexts & camera->GetContext())
+			&& (IsInsideZone(camera->GetXPosition(), camera->GetYPosition()))) {
 		_camera_inside = true;
 	}
 	else {
@@ -156,7 +159,8 @@ void ResidentZone::Update() {
 	// Examine all residents to see if they still reside in the zone. If not, move them to the exiting residents list
 	for (set<VirtualSprite*>::iterator i = _residents.begin(); i != _residents.end(); i++) {
 		// Make sure that the resident is still in a context shared by the zone and located within the zone boundaries
-		if ((((*i)->GetContext() & _active_contexts) == 0x0) || (IsInsideZone((*i)->x_position, (*i)->y_position) == false)) {
+		if ((((*i)->GetContext() & _active_contexts) == 0x0)
+				|| !IsInsideZone((*i)->GetXPosition(), (*i)->GetYPosition())) {
 			remove_list.push_back(*i);
 		}
 	}
@@ -182,7 +186,7 @@ void ResidentZone::AddPotentialResident(VirtualSprite* sprite) {
 
 	// Check that the sprite's context is compatible with this zone and is located within the zone boundaries
 	if (sprite->GetContext() & _active_contexts) {
-		if (IsInsideZone(sprite->x_position, sprite->y_position) == true) {
+		if (IsInsideZone(sprite->GetXPosition(), sprite->GetYPosition())) {
 			_entering_residents.insert(sprite);
 			_residents.insert(sprite);
 		}
@@ -372,7 +376,7 @@ void EnemyZone::Update() {
 		}
 	}
 
-	uint16 x, y; // Used to retain random position coordinates in the zone
+	float x, y; // Used to retain random position coordinates in the zone
 	int8 retries = SPAWN_RETRIES; // Number of times to try finding a valid spawning location
 	bool collision; // Holds the result of a collision detection check
 
@@ -388,13 +392,10 @@ void EnemyZone::Update() {
 	// If there is a collision, retry a different location
 	do {
 		spawning_zone->_RandomPosition(x, y);
-		_enemies[index]->SetXPosition(x, 0.0f);
-		_enemies[index]->SetYPosition(y, 0.0f);
+		_enemies[index]->SetPosition(x, y);
 		collision = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(_enemies[index],
-																					   _enemies[index]->x_position,
-																					   _enemies[index]->y_position,
-																					   _enemies[index]->x_offset,
-																					   _enemies[index]->y_offset,
+																					   _enemies[index]->GetXPosition(),
+																					   _enemies[index]->GetYPosition(),
 																					   NULL);
 	} while (collision && --retries > 0);
 
@@ -423,7 +424,6 @@ ContextZone::ContextZone(MAP_CONTEXT one, MAP_CONTEXT two) :
 {
 	if (_context_one == _context_two) {
 		PRINT_ERROR << "tried to create a ContextZone with two equal context values: " << _context_one << endl;
-		exit(1);
 	}
 }
 
@@ -477,11 +477,13 @@ void ContextZone::Update() {
 
 int16 ContextZone::_IsInsideZone(MapObject* object) {
 	// NOTE: argument is not NULL-checked here for performance reasons
+	uint16 x = (uint16)GetFloatInteger(object->GetXPosition());
+	uint16 y = (uint16)GetFloatInteger(object->GetYPosition());
 
 	// Check each section of the zone to see if the object is located within
 	for (uint16 i = 0; i < _sections.size(); i++) {
-		if (object->x_position >= _sections[i].left_col && object->x_position <= _sections[i].right_col &&
-			object->y_position >= _sections[i].top_row && object->y_position <= _sections[i].bottom_row)
+		if (x >= _sections[i].left_col && x <= _sections[i].right_col &&
+			y >= _sections[i].top_row && y <= _sections[i].bottom_row)
 		{
 			return i;
 		}

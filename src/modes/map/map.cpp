@@ -382,8 +382,8 @@ void MapMode::SetCamera(private_map::VirtualSprite* sprite, uint32 duration) {
     }
     else {
         if (duration > 0) {
-            _delta_x = _camera->ComputeXLocation() - sprite->ComputeXLocation();
-            _delta_y = _camera->ComputeYLocation() - sprite->ComputeYLocation();
+            _delta_x = _camera->GetXPosition() - sprite->GetXPosition();
+            _delta_y = _camera->GetYPosition() - sprite->GetYPosition();
             _camera_timer.Reset();
             _camera_timer.SetDuration(duration);
             _camera_timer.Run();
@@ -393,22 +393,20 @@ void MapMode::SetCamera(private_map::VirtualSprite* sprite, uint32 duration) {
 }
 
 
-
-void MapMode::MoveVirtualFocus(uint16 loc_x, uint16 loc_y) {
-    _object_supervisor->VirtualFocus()->SetXPosition(loc_x, 0.0f);
-    _object_supervisor->VirtualFocus()->SetYPosition(loc_y, 0.0f);
+void MapMode::MoveVirtualFocus(float loc_x, float loc_y) {
+    _object_supervisor->VirtualFocus()->SetPosition(loc_x, loc_y);
 }
 
 
 
-void MapMode::MoveVirtualFocus(uint16 loc_x, uint16 loc_y, uint32 duration) {
+void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32 duration) {
     if (_camera != _object_supervisor->VirtualFocus()) {
         IF_PRINT_WARNING(MAP_DEBUG) << "Attempt to move camera although on different sprite" << endl;
     }
     else {
         if (duration > 0) {
-            _delta_x = _object_supervisor->VirtualFocus()->ComputeXLocation() - static_cast<float>(loc_x);
-            _delta_y = _object_supervisor->VirtualFocus()->ComputeYLocation() - static_cast<float>(loc_y);
+            _delta_x = _object_supervisor->VirtualFocus()->GetXPosition() - static_cast<float>(loc_x);
+            _delta_y = _object_supervisor->VirtualFocus()->GetYPosition() - static_cast<float>(loc_y);
             _camera_timer.Reset();
             _camera_timer.SetDuration(duration);
             _camera_timer.Run();
@@ -604,7 +602,7 @@ void MapMode::_UpdateExplore() {
 				}
 			}
 			else if (obj->GetType() == SAVE_TYPE) {
-				SaveMode *save_mode = new SaveMode(true, obj->x_position, obj->y_position);
+				SaveMode *save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition());
 				ModeManager->Push(save_mode, false, false);
 			}
 		}
@@ -664,21 +662,20 @@ void MapMode::_UpdateMapFrame() {
 	// However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
 	VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
 
+	float path_x, path_y = 0.0f;
 	if (!_camera_timer.IsRunning()) {
-	    _camera->GetXPosition(current_x, current_offset_x);
-	    _camera->GetYPosition(current_y, current_offset_y);
+		path_x = _camera->GetXPosition();
+		path_y = _camera->GetYPosition();
 	}
 	else {
-	    // Calculate path
-	    float path_x = _camera->ComputeXLocation()+(1-_camera_timer.PercentComplete())*_delta_x;
-	    float path_y = _camera->ComputeYLocation()+(1-_camera_timer.PercentComplete())*_delta_y;
-
-	    current_x = GetFloatInteger(path_x);
-	    current_y = GetFloatInteger(path_y);
-
-	    current_offset_x = GetFloatFraction(path_x);
-	    current_offset_y = GetFloatFraction(path_y);
+		path_x = _camera->GetXPosition()+(1-_camera_timer.PercentComplete())*_delta_x;
+		path_y = _camera->GetYPosition()+(1-_camera_timer.PercentComplete())*_delta_y;
 	}
+
+	current_x = GetFloatInteger(path_x);
+	current_y = GetFloatInteger(path_y);
+	current_offset_x = GetFloatFraction(path_x);
+	current_offset_y = GetFloatFraction(path_y);
 
 	rounded_x_offset = FloorToFloatMultiple(current_offset_x, x_pixel_length);
 	rounded_y_offset = FloorToFloatMultiple(current_offset_y, y_pixel_length);
@@ -775,7 +772,7 @@ void MapMode::_UpdateMapFrame() {
 // 	else {
 // 		loops++;
 // 	}
-} // void MapMode::_CalculateMapFrame()
+} // void MapMode::_UpdateMapFrame()
 
 
 

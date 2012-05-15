@@ -624,7 +624,7 @@ public:
 	*** \param y_coord The Y coordinate to move the sprite to
 	*** \param run whether the character has to go there by walking or running
 	**/
-	PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id, int16 x_coord, int16 y_coord, bool run);
+	PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id, float x_coord, float y_coord, bool run);
 
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite to move
@@ -632,7 +632,7 @@ public:
 	*** \param y_coord The Y coordinate to move the sprite to
 	*** \param run whether the character has to go there by walking or running
 	**/
-	PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, int16 x_coord, int16 y_coord, bool run);
+	PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x_coord, float y_coord, bool run);
 
 	~PathMoveSpriteEvent()
 		{}
@@ -650,20 +650,20 @@ public:
 	*** \note Any previous existing paths are cleared when this function is called. If this function is called when
 	*** the event is active, no change will take place.
 	**/
-	void SetDestination(int16 x_coord, int16 y_coord, bool run);
+	void SetDestination(float x_coord, float y_coord, bool run);
 
 protected:
 	//! \brief When true, the destination coordinates are relative to the current position of the sprite. Otherwise the destination is absolute.
 	bool _relative_destination;
 
-	//! \brief Stores the source coordinates for the path movement (the sprite's position when the event is started).
-	int16 _source_x, _source_y;
-
 	//! \brief Stores the destination coordinates for the path movement. These may be either absolute or relative coordinates.
-	int16 _destination_x, _destination_y;
+	float _destination_x, _destination_y;
 
 	//! \brief Used to store the previous coordinates of the sprite during path movement, so as to set the proper direction of the sprite as it moves
-	uint16 _last_x_position, _last_y_position;
+	float _last_x_position, _last_y_position;
+
+	//! \brief Used to store the current node collision position (with offset)
+	float _current_node_x, _current_node_y;
 
 	//! \brief An index to the path vector containing the node that the sprite currently occupies
 	uint32 _current_node;
