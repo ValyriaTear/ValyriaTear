@@ -649,6 +649,9 @@ public:
 	**/
 	void SetDestination(float x_coord, float y_coord, bool run);
 
+	std::vector<PathNode> GetPath() const
+		{ return _path; }
+
 protected:
 	//! \brief When true, the destination coordinates are relative to the current position of the sprite. Otherwise the destination is absolute.
 	bool _relative_destination;
