@@ -641,11 +641,17 @@ public:
 	**/
 	void MakeScreenshot(const std::string& filename = "screenshot.jpg");
 
-	/** \brief toggles advanced information display for video engine, shows
-	 *         things like number of texture switches per frame, etc.
+	/** \brief toggles debug information display.
+	*** currently used for debugging game modes, and more especially the map mode.
 	 */
-	void ToggleAdvancedDisplay()
-		{ _advanced_display = !_advanced_display; }
+	void ToggleDebugInfo()
+		{ _debug_info = !_debug_info; }
+
+	/**
+	*** Tells whether the advanced (or debug) display should be drawn.
+	**/
+	bool DebugInfoOn()
+		{ return _debug_info; }
 
 	/** \brief sets the default cursor to the image in the given filename
 	* \param cursor_image_filename file containing the cursor image
@@ -664,7 +670,7 @@ public:
 	//! \brief Updates the FPS counter and draws the current average FPS to the screen.
 	void DrawFPS();
 
-	/** \brief toggles the FPS display (on by default)
+	/** \brief toggles the FPS display
 	 */
 	void ToggleFPS()
 		{ _fps_display = !_fps_display; }
@@ -729,11 +735,8 @@ private:
 	//! eight character name for temp files that increments every time you create a new one so they are always unique
 	char _next_temp_file[9];
 
-	//! advanced display flag. If true, info about the video engine is shown on screen
-	bool _advanced_display;
-
-	//! keep track of number of draw calls per frame
-	int32 _num_draw_calls;
+	//! Keeps whether debug info about the current game mode should be drawn.
+	bool _debug_info;
 
 	// Shaking effects
 

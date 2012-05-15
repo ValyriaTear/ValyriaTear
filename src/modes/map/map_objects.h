@@ -678,6 +678,9 @@ public:
 	//! \brief Tells whether the sprite has got valid collision coordinates.
 	bool IsWithinMapBounds(VirtualSprite *sprite) const;
 
+	//! \brief Draw the collision rectangles. Used for debugging purpose.
+	void DrawCollisionArea(const MapFrame* frame);
+
 private:
 	//! \brief Returns the nearest save point. Used by FindNearestObject.
 	private_map::MapObject* _FindNearestSavePoint(const VirtualSprite* sprite);

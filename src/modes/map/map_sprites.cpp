@@ -582,8 +582,17 @@ void MapSprite::Update() {
 
 
 void MapSprite::Draw() {
-	if (MapObject::ShouldDraw())
+	if (MapObject::ShouldDraw()) {
 		_animations[_current_animation].Draw();
+
+		// Draw collision rectangle if the debug view is on.
+		if (VideoManager->DebugInfoOn()) {
+			float x, y = 0.0f;
+			VideoManager->GetDrawPosition(x, y);
+			MapRectangle rect = GetCollisionRectangle(x, y);
+			VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.6f));
+		}
+	}
 }
 
 
@@ -915,7 +924,14 @@ void EnemySprite::Draw() {
 	// Otherwise, only draw it if it is not in the DEAD state
 	if (MapObject::ShouldDraw() == true && _state != DEAD) {
 		_animations[_current_animation].Draw(_color);
-		return;
+
+		// Draw collision rectangle if the debug view is on.
+		if (VideoManager->DebugInfoOn()) {
+			float x, y = 0.0f;
+			VideoManager->GetDrawPosition(x, y);
+			MapRectangle rect = GetCollisionRectangle(x, y);
+			VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(1.0f, 0.0f, 0.0f, 0.6f));
+		}
 	}
 }
 

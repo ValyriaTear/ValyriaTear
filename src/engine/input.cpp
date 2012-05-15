@@ -295,8 +295,8 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event) {
 			_any_key_press = false; // CTRL isn't "any key"! :)
 
 			if (key_event.keysym.sym == SDLK_a) {
-				// Toggle the display of advanced video engine information
-				VideoManager->ToggleAdvancedDisplay();
+				// Toggle the display of debug visual engine information
+				VideoManager->ToggleDebugInfo();
 			}
 			else if (key_event.keysym.sym == SDLK_f) {
 				// Toggle between full-screen and windowed mode

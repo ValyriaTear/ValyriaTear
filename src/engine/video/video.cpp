@@ -85,7 +85,7 @@ VideoEngine::VideoEngine() :
 	_temp_fullscreen = false;
 	_smooth_textures = true;
 
-	_advanced_display = false;
+	_debug_info = false;
 	_x_shake = 0;
 	_y_shake = 0;
 	_gamma_value = 1.0f;
