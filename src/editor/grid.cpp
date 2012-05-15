@@ -37,8 +37,6 @@ LAYER_TYPE getLayerType(const std::string& type)
 {
 	if (type == "ground")
 		return GROUND_LAYER;
-	else if (type == "fringe")
-		return FRINGE_LAYER;
 	else if (type == "sky")
 		return SKY_LAYER;
 
@@ -52,8 +50,6 @@ std::string getTypeFromLayer(const LAYER_TYPE& type) {
 	switch (type) {
 		case GROUND_LAYER:
 			return "ground";
-		case FRINGE_LAYER:
-			return "fringe";
 		case SKY_LAYER:
 			return "sky";
 		default:
@@ -100,27 +96,32 @@ Grid::Grid(QWidget* parent, const QString& name, uint32 width, uint32 height) :
 	_tile_contexts.resize(1);
 	_tile_contexts[0].name = tr("Base").toStdString();
 	// Create default base layers
-	_tile_contexts[0].layers.resize(3);
+	_tile_contexts[0].layers.resize(4);
 	// Add a default ground type and name to it
 	_tile_contexts[0].layers[0].layer_type = GROUND_LAYER;
 	_tile_contexts[0].layers[0].name = tr("Background").toStdString();
-	_tile_contexts[0].layers[1].layer_type = FRINGE_LAYER;
-	_tile_contexts[0].layers[1].name = tr("Fringe").toStdString();
-	_tile_contexts[0].layers[2].layer_type = SKY_LAYER;
-	_tile_contexts[0].layers[2].name = tr("Sky").toStdString();
+	_tile_contexts[0].layers[1].layer_type = GROUND_LAYER;
+	_tile_contexts[0].layers[1].name = tr("Background 2").toStdString();
+	_tile_contexts[0].layers[2].layer_type = GROUND_LAYER;
+	_tile_contexts[0].layers[2].name = tr("Background 3").toStdString();
+	_tile_contexts[0].layers[3].layer_type = SKY_LAYER;
+	_tile_contexts[0].layers[3].name = tr("Sky").toStdString();
 
 	// Set up its size, and fill it with empty values
 	_tile_contexts[0].layers[0].tiles.resize(_height);
 	_tile_contexts[0].layers[1].tiles.resize(_height);
 	_tile_contexts[0].layers[2].tiles.resize(_height);
+	_tile_contexts[0].layers[3].tiles.resize(_height);
 	for (uint32 y = 0; y < _height; ++y) {
 		_tile_contexts[0].layers[0].tiles[y].resize(_width);
 		_tile_contexts[0].layers[1].tiles[y].resize(_width);
 		_tile_contexts[0].layers[2].tiles[y].resize(_width);
+		_tile_contexts[0].layers[3].tiles[y].resize(_width);
 		for (uint32 x = 0; x < _width; ++x) {
 			_tile_contexts[0].layers[0].tiles[y][x] = -1;
 			_tile_contexts[0].layers[1].tiles[y][x] = -1;
 			_tile_contexts[0].layers[2].tiles[y][x] = -1;
+			_tile_contexts[0].layers[3].tiles[y][x] = -1;
 		}
 	}
 } // Grid constructor

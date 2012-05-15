@@ -52,8 +52,6 @@ TileSupervisor::~TileSupervisor() {
 LAYER_TYPE getLayerType(const std::string& type) {
 	if (type == "ground")
 		return GROUND_LAYER;
-	else if (type == "fringe")
-		return FRINGE_LAYER;
 	else if (type == "sky")
 		return SKY_LAYER;
 	return INVALID_LAYER;
