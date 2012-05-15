@@ -31,9 +31,8 @@ namespace private_map {
 //! \brief Layer types: Drawn before, along, or after the map objects according to their types.
 enum LAYER_TYPE {
 	GROUND_LAYER = 0,
-	FRINGE_LAYER = 1,
-	SKY_LAYER = 2,
-	INVALID_LAYER = 3
+	SKY_LAYER = 1,
+	INVALID_LAYER = 2
 };
 
 class Layer {

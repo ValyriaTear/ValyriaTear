@@ -34,11 +34,10 @@ enum LAYER_TYPE
 {
 	INVALID_LAYER = -1,
 	GROUND_LAYER  =  0,
-	FRINGE_LAYER  =  1,
-	SKY_LAYER     =  2,
-	SELECT_LAYER  =  3,
-	OBJECT_LAYER  =  4,
-	TOTAL_LAYER   =  5
+	SKY_LAYER     =  1,
+	SELECT_LAYER  =  2,
+	OBJECT_LAYER  =  3,
+	TOTAL_LAYER   =  4
 };
 
 //! \brief All types of objects that may be found in the object layer.

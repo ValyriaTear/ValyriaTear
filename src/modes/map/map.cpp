@@ -797,8 +797,6 @@ void MapMode::_DrawMapLayers() {
 	// Save points are engraved on the ground, and thus shouldn't be drawn after walls.
 	_object_supervisor->DrawSavePoints();
 
-	_tile_supervisor->DrawLayers(&_map_frame, FRINGE_LAYER);
-
 	_object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects
 	_object_supervisor->DrawPassObjects();
 	_object_supervisor->DrawGroundObjects(true); // Second draw pass of ground objects

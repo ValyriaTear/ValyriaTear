@@ -389,12 +389,16 @@ void Editor::_FileNew() {
 			background->setText(0, QString::number(0));
 			background->setText(1, tr("Background"));
 			background->setText(2, tr("ground"));
-			QTreeWidgetItem *fringe = new QTreeWidgetItem(_ed_layer_view);
-			fringe->setText(0, QString::number(1));
-			fringe->setText(1, tr("Fringe"));
-			fringe->setText(2, tr("fringe"));
+			QTreeWidgetItem *background2 = new QTreeWidgetItem(_ed_layer_view);
+			background2->setText(0, QString::number(1));
+			background2->setText(1, tr("Background 2"));
+			background2->setText(2, tr("ground"));
+			QTreeWidgetItem *background3 = new QTreeWidgetItem(_ed_layer_view);
+			background3->setText(0, QString::number(2));
+			background3->setText(1, tr("Background 3"));
+			background3->setText(2, tr("ground"));
 			QTreeWidgetItem *sky = new QTreeWidgetItem(_ed_layer_view);
-			sky->setText(0, QString::number(2));
+			sky->setText(0, QString::number(3));
 			sky->setText(1, tr("Sky"));
 			sky->setText(2, tr("sky"));
 
