@@ -66,10 +66,10 @@ public:
 	~ImageMemory();
 
 	//! \brief The width of the image data (in pixels)
-	int32 width;
+	uint32 width;
 
 	//! \brief The height of the image dat (in pixels)
-	int32 height;
+	uint32 height;
 
 	//! \brief Buffer of data, usually of size width * height * 4 (RGBA, 8 bits per component)
 	void* pixels;
@@ -121,18 +121,6 @@ public:
 	void CopyFromImage(BaseTexture* img);
 
 private:
-	/** \brief Loads raw image data from a PNG file and stores the data in the class members
-	*** \param file_name Filename of the PNG image to load
-	*** \return True if the PNG image was loaded successfully, false if it was not
-	**/
-	bool _LoadPngImage(const std::string& filename);
-
-	/** \brief Loads raw image data from a JPG file and stores the data in the class members
-	*** \param file_name Filename of the JPG image to load
-	*** \return True if the JPG image was loaded successfully, false if it was not
-	**/
-	bool _LoadJpgImage(const std::string& filename);
-
 	/** \brief Saves image data to a PNG file
 	*** \param filename Name of the file, without the extension
 	*** \return True if the process was carried out with no problem, false otherwise
@@ -174,9 +162,9 @@ class BaseTexture {
 public:
 	BaseTexture();
 
-	BaseTexture(int32 width_, int32 height_);
+	BaseTexture(uint32 width_, uint32 height_);
 
-	BaseTexture(TexSheet* texture_sheet_, int32 width_, int32 height_);
+	BaseTexture(TexSheet* texture_sheet_, uint32 width_, uint32 height_);
 
 	virtual ~BaseTexture();
 
@@ -186,7 +174,7 @@ public:
 	TexSheet* texture_sheet;
 
 	//! \brief The image's width and height as stored in the texture sheet, in pixels
-	int32 width, height;
+	uint32 width, height;
 
 	//! \brief The coordiates of where the image is located in the texture sheet (in pixels)
 	int32 x, y;

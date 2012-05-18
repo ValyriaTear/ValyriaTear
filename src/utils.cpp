@@ -22,6 +22,7 @@
 	#include <dirent.h>
 	#include <sys/types.h>
 	#include <pwd.h>
+	#include <unistd.h>
 #endif
 
 #include <fstream>

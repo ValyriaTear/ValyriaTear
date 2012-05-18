@@ -780,8 +780,9 @@ void VideoEngine::MakeScreenshot(const std::string& filename) {
 
 	// Vertically flip the image, then swap the flipped and original images
 	void* buffer_temp = malloc(buffer.width * buffer.height * 3);
-	for (int32 i=0; i < buffer.height; ++i) {
-		memcpy((uint8*)buffer_temp + i * buffer.width * 3, (uint8*)buffer.pixels + (buffer.height - i - 1) * buffer.width * 3, buffer.width * 3);
+	for (uint32 i = 0; i < buffer.height; ++i) {
+		memcpy((uint8*)buffer_temp + i * buffer.width * 3,
+               (uint8*)buffer.pixels + (buffer.height - i - 1) * buffer.width * 3, buffer.width * 3);
 	}
 	void* temp = buffer.pixels;
 	buffer.pixels = buffer_temp;

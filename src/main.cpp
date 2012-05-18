@@ -41,6 +41,8 @@
 	#include <unistd.h>
 #endif
 
+#include <SDL_image.h>
+
 using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
@@ -255,10 +257,9 @@ void InitializeEngine() throw (Exception) {
 
 	// Set the window icon
 	#ifdef _WIN32
-		SDL_WM_SetIcon(SDL_LoadBMP("img/logos/program_icon.bmp"), NULL);
+		SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.bmp"), NULL);
 	#else
-		// TODO: Later, add an icon here for non-Windows systems (which support more than 32x32 .bmp files)
-		SDL_WM_SetIcon(SDL_LoadBMP("img/logos/program_icon.bmp"), NULL);
+		SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
 	#endif
 
 	// Load all the settings from lua. This includes some engine configuration settings.
