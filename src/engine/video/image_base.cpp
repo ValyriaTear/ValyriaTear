@@ -16,6 +16,13 @@
 #include <cstdarg>
 #include <math.h>
 
+#include <png.h>
+extern "C" {
+	#include <jpeglib.h>
+}
+
+#include <SDL_image.h>
+
 #include "image_base.h"
 #include "video.h"
 
@@ -58,24 +65,47 @@ bool ImageMemory::LoadImage(const string& filename) {
 		pixels = NULL;
 	}
 
-	// Isolate the extension
-	size_t ext_position = filename.rfind('.');
+	SDL_Surface* temp_surf = NULL;
+	SDL_Surface* alpha_surf = NULL;
 
-	if (ext_position == string::npos) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "could not decipher file extension for filename: " << filename << endl;
+	if((temp_surf = IMG_Load(filename.c_str())) == NULL) {
+		PRINT_ERROR << "Couldn't load image file: " << filename << endl;
 		return false;
 	}
 
-	string extension = string(filename, ext_position, filename.length() - ext_position);
+	alpha_surf = SDL_DisplayFormatAlpha(temp_surf);
+	SDL_FreeSurface(temp_surf);
 
-	// NOTE: Only the .png and .jpg image file extensions are suppported atm.
-	if (extension == ".png")
-		return _LoadPngImage(filename);
-	else if (extension == ".jpg")
-		return _LoadJpgImage(filename);
+	// Now allocate the pixel values
+	width = alpha_surf->w;
+	height = alpha_surf->h;
+	pixels = malloc(width * height * 4);
+	rgb_format = false;
 
-	IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension << "\" for filename: " << filename << endl;
-	return false;
+	// convert the data so that it works in our format
+	uint8* img_pixel = NULL;
+	uint8* dst_pixel = NULL;
+
+	for (uint32 y = 0; y < height; ++y) {
+		for (uint32 x = 0; x < width; ++x) {
+			img_pixel = (uint8*)alpha_surf->pixels + y * alpha_surf->pitch + x * alpha_surf->format->BytesPerPixel;
+			dst_pixel = ((uint8*)pixels) + ((y * width) + x) * 4;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+			dst_pixel[0] = img_pixel[0];
+			dst_pixel[1] = img_pixel[1];
+			dst_pixel[2] = img_pixel[2];
+			dst_pixel[3] = img_pixel[3];
+#else
+			dst_pixel[2] = img_pixel[0];
+			dst_pixel[1] = img_pixel[1];
+			dst_pixel[0] = img_pixel[2];
+			dst_pixel[3] = img_pixel[3];
+#endif
+		}
+	}
+
+	SDL_FreeSurface(alpha_surf);
+	return true;
 }
 
 
@@ -143,7 +173,7 @@ void ImageMemory::RGBAToRGB() {
 	uint8* pixel_index = static_cast<uint8*>(pixels);
 	uint8* pixel_source = pixel_index;
 
-	for (int32 i = 0; i < height * width; i++, pixel_index += 4) {
+	for (uint32 i = 0; i < height * width; ++i, pixel_index += 4) {
 		int32 index = 3 * i;
 		pixel_source[index] = *pixel_index;
 		pixel_source[index + 1] = *(pixel_index + 1);
@@ -195,7 +225,7 @@ void ImageMemory::CopyFromImage(BaseTexture* img) {
 			return;
 		}
 
-		for (int32 i = 0; i < img->height; i++) {
+		for (uint32 i = 0; i < img->height; ++i) {
 			memcpy((uint8*)img_pixels + i * dst_bytes, (uint8*)pixels + i * src_bytes + src_offset, dst_bytes);
 		}
 
@@ -208,229 +238,6 @@ void ImageMemory::CopyFromImage(BaseTexture* img) {
 		pixels = img_pixels;
 	}
 }
-
-
-
-bool ImageMemory::_LoadPngImage(const string& filename) {
-	// open up the PNG
-	FILE* fp = fopen(filename.c_str(), "rb");
-
-	if (fp == NULL)
-		return false;
-
-	// check the signature to make sure it's a PNG
-	uint8 test_buffer[8];
-
-	fread(test_buffer, 1, 8, fp);
-	if (png_sig_cmp(test_buffer, 0, 8)) {
-		fclose(fp);
-		return false;
-	}
-
-	// load the actual PNG
-	png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
-
-	if (png_ptr == NULL) {
-		fclose(fp);
-		return false;
-	}
-
-	// get the info structure
-	png_infop info_ptr = png_create_info_struct(png_ptr);
-
-	if (info_ptr == NULL) {
-		png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
-		fclose(fp);
-		return false;
-	}
-
-	// error handling
-	if (setjmp(png_jmpbuf(png_ptr))) {
-		png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
-		fclose(fp);
-		return false;
-	}
-
-	// read the PNG
-	png_init_io(png_ptr, fp);
-	png_set_sig_bytes(png_ptr, 8);
-	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
-
-	// and get an array of pointers, one for each row of the PNG
-	uint8** row_pointers = png_get_rows(png_ptr, info_ptr);
-
-	// copy metadata
-	width = info_ptr->width;
-	height = info_ptr->height;
-	pixels = malloc(info_ptr->width * info_ptr->height * 4);
-
-	// check that we were able to allocate enough memory for the PNG
-	if (pixels == NULL) {
-		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-		fclose(fp);
-		PRINT_ERROR << "failed to malloc sufficient memory for .png file: " << filename << endl;
-		return false;
-	}
-
-	// convert the damn thing so that it works in our format
-	// this is mostly just byteswapping and adding extra data - we want everything in four channels
-	// for the moment, anyway
-	uint32 bpp = info_ptr->channels;
-	uint8* img_pixel = NULL;
-	uint8* dst_pixel = NULL;
-
-	if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE) {
-		// colours come from a palette - for this colour type, we have to look up the colour from the palette
-		png_color c;
-		for (uint32 y = 0; y < info_ptr->height; y++) {
-			for (uint32 x = 0; x < info_ptr->width; x++) {
-				img_pixel = row_pointers[y] + (x * bpp);
-				dst_pixel = ((uint8*)pixels) + ((y * info_ptr->width) + x) * 4;
-				c = info_ptr->palette[img_pixel[0]];
-
-				dst_pixel[0] = c.red;
-				dst_pixel[1] = c.green;
-				dst_pixel[2] = c.blue;
-				dst_pixel[3] = 0xFF;
-			}
-		}
-	}
-	else if (bpp == 1) {
-		for (uint32 y = 0; y < info_ptr->height; y++) {
-			for (uint32 x = 0; x < info_ptr->width; x++) {
-				img_pixel = row_pointers[y] + (x * bpp);
-				dst_pixel = ((uint8*)pixels) + ((y * info_ptr->width) + x) * 4;
-				dst_pixel[0] = img_pixel[0];
-				dst_pixel[1] = img_pixel[0];
-				dst_pixel[2] = img_pixel[0];
-				dst_pixel[3] = 0xFF;
-			}
-		}
-	}
-	else if (bpp == 3) {
-		for (uint32 y = 0; y < info_ptr->height; y++) {
-			for (uint32 x = 0; x < info_ptr->width; x++) {
-				img_pixel = row_pointers[y] + (x * bpp);
-				dst_pixel = ((uint8*)pixels) + ((y * info_ptr->width) + x) * 4;
-				dst_pixel[0] = img_pixel[0];
-				dst_pixel[1] = img_pixel[1];
-				dst_pixel[2] = img_pixel[2];
-				dst_pixel[3] = 0xFF;
-			}
-		}
-	}
-	else if (bpp == 4) {
-		for (uint32 y = 0; y < info_ptr->height; y++) {
-			for (uint32 x = 0; x < info_ptr->width; x++) {
-				img_pixel = row_pointers[y] + (x * bpp);
-				dst_pixel = ((uint8*)pixels) + ((y * info_ptr->width) + x) * 4;
-				dst_pixel[0] = img_pixel[0];
-				dst_pixel[1] = img_pixel[1];
-				dst_pixel[2] = img_pixel[2];
-				dst_pixel[3] = img_pixel[3];
-			}
-		}
-	}
-	else {
-		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-		fclose(fp);
-		PRINT_ERROR << "failed to load .png file (bytes per pixel not supported): " << filename << endl;
-		return false;
-	}
-
-	// clean everything up
-	png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-	fclose(fp);
-
-	rgb_format = false;
-	return true;
-} // bool ImageMemory::_LoadPngImage(const string& filename)
-
-
-
-bool ImageMemory::_LoadJpgImage(const string& filename) {
-	// open the file
-	FILE* fp;
-	uint8** buffer;
-
-	if ((fp = fopen(filename.c_str(), "rb")) == NULL)
-		return false;
-
-	// create the error-handing stuff and the main decompression object
-	jpeg_decompress_struct cinfo;
-	jpeg_error_mgr jerr;
-
-	cinfo.err = jpeg_std_error(&jerr);
-	jpeg_create_decompress(&cinfo);
-
-	// tell it where to read, and read the header
-	jpeg_stdio_src(&cinfo, fp);
-	jpeg_read_header(&cinfo, TRUE);
-
-	// here we go, here we go, here we go!
-	jpeg_start_decompress(&cinfo);
-
-	// how much space does each row take up?
-	JDIMENSION row_stride = cinfo.output_width * cinfo.output_components;
-
-	// let's get us some MEMORY - but we use the jpeg library to do it so that it comes out of that memory pool
-	buffer = (*cinfo.mem->alloc_sarray)((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
-
-	// metadata
-	width = cinfo.output_width;
-	height = cinfo.output_height;
-	pixels = malloc(cinfo.output_width * cinfo.output_height * 3);
-
-	// swizzle everything so it's in the format we want
-	uint32 bpp = cinfo.output_components;
-	uint8* img_pixel = NULL;
-	uint8* dst_pixel = NULL;
-
-	if (bpp == 3) {
-		for (uint32 y = 0; y < cinfo.output_height; y++) {
-			jpeg_read_scanlines(&cinfo, buffer, 1);
-
-			for(uint32 x = 0; x < cinfo.output_width; x++) {
-				img_pixel = buffer[0] + (x * bpp);
-				dst_pixel = ((uint8 *)pixels) + ((y * cinfo.output_width) + x) * 3;
-
-				dst_pixel[0] = img_pixel[0];
-				dst_pixel[1] = img_pixel[1];
-				dst_pixel[2] = img_pixel[2];
-			}
-		}
-	}
-	else if (bpp == 4) {
-		for (uint32 y = 0; y < cinfo.output_height; y++) {
-			jpeg_read_scanlines(&cinfo, buffer, 1);
-
-			for (uint32 x = 0; x < cinfo.output_width; x++) {
-				img_pixel = buffer[0] + (x * bpp);
-				dst_pixel = ((uint8 *)pixels) + ((y * cinfo.output_width) + x) * 3;
-
-				dst_pixel[0] = img_pixel[0];
-				dst_pixel[1] = img_pixel[1];
-				dst_pixel[2] = img_pixel[2];
-			}
-		}
-	}
-	else {
-		jpeg_finish_decompress(&cinfo);
-		jpeg_destroy_decompress(&cinfo);
-		fclose(fp);
-		PRINT_ERROR << "failed to load .jpg file (bytes per pixel not supported): " << filename << endl;
-		return false;
-	}
-
-	// clean up
-	jpeg_finish_decompress(&cinfo);
-	jpeg_destroy_decompress(&cinfo);
-
-	fclose(fp);
-	rgb_format = true;
-	return true;
-} // bool ImageMemory::_LoadJpgImage(const string& filename)
-
 
 
 bool ImageMemory::_SavePngImage(const std::string& filename) const {
@@ -484,7 +291,7 @@ bool ImageMemory::_SavePngImage(const std::string& filename) const {
 	// get the row array from our data
 	png_byte** row_pointers = new png_byte*[height];
 	int32 bytes_per_row = width * 4;
-	for (int32 i = 0; i < height; i++) {
+	for (uint32 i = 0; i < height; ++i) {
 		row_pointers[i] = (png_byte*)pixels + bytes_per_row * i;
 	}
 
@@ -553,6 +360,7 @@ bool ImageMemory::_SaveJpgImage(const std::string& filename) const {
 	jpeg_destroy_compress(&cinfo);
 
 	fclose(fp);
+
 	return true;
 } // bool ImageMemory::_SaveJpgImage(const std::string& file_name) const
 
@@ -576,7 +384,7 @@ BaseTexture::BaseTexture() :
 
 
 
-BaseTexture::BaseTexture(int32 width_, int32 height_) :
+BaseTexture::BaseTexture(uint32 width_, uint32 height_) :
 	texture_sheet(NULL),
 	width(width_),
 	height(height_),
@@ -592,7 +400,7 @@ BaseTexture::BaseTexture(int32 width_, int32 height_) :
 
 
 
-BaseTexture::BaseTexture(TexSheet* texture_sheet_, int32 width_, int32 height_) :
+BaseTexture::BaseTexture(TexSheet* texture_sheet_, uint32 width_, uint32 height_) :
 	texture_sheet(texture_sheet_),
 	width(width_),
 	height(height_),

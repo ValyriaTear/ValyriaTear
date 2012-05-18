@@ -20,6 +20,12 @@
 #include "engine/script/script_read.h"
 #include "engine/system.h"
 
+
+#include <png.h>
+extern "C" {
+	#include <jpeglib.h>
+}
+
 using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video::private_video;
@@ -682,9 +688,15 @@ void ImageDescriptor::_GetPngImageInfo(const std::string& filename, uint32& rows
 	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
 
 	// grab the relevant data...
+#if PNG_LIBPNG_VER_SONUM == 15
+    cols = png_get_image_width(png_ptr, info_ptr);
+    rows = png_get_image_height(png_ptr, info_ptr);
+    bpp = png_get_bit_depth(png_ptr, info_ptr) * 8;
+#else
 	cols = info_ptr->width;
 	rows = info_ptr->height;
 	bpp = info_ptr->channels * 8;
+#endif
 
 	// and clean up.
 	png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
@@ -809,7 +821,7 @@ bool ImageDescriptor::_LoadMultiImage(vector<StillImage>& images, const string &
 			else {
 				images.at(current_image)._filename = filename;
 
-				for (int32 i = 0; i < sub_image.height; i++) {
+				for (uint32 i = 0; i < sub_image.height; ++i) {
 					memcpy((uint8*)sub_image.pixels + 4 * sub_image.width * i, (uint8*)multi_image.pixels + (((x * multi_image.height / grid_rows) + i) *
 						multi_image.width + y * multi_image.width / grid_cols) * 4, 4 * sub_image.width);
 				}

@@ -47,11 +47,6 @@
 	#include <GL/glu.h>
 #endif
 
-#include <png.h>
-extern "C" {
-	#include <jpeglib.h>
-}
-
 #ifdef __APPLE__
 	#include <SDL_ttf/SDL_ttf.h>
 #else

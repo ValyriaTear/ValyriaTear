@@ -28,7 +28,7 @@ namespace private_video {
 // TexSheet class
 // -----------------------------------------------------------------------------
 
-TexSheet::TexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static) :
+TexSheet::TexSheet(uint32 sheet_width, uint32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static) :
 	width(sheet_width),
 	height(sheet_height),
 	tex_id(sheet_id),

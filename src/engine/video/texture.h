@@ -99,7 +99,7 @@ public:
 	*** \param sheet_type The type of texture data that the texture sheet should hold
 	*** \param sheet_static Whether the sheet should be labeled static or not
 	**/
-	TexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
+	TexSheet(uint32 sheet_width, uint32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
 
 	virtual ~TexSheet();
 
@@ -201,7 +201,7 @@ public:
 	// ---------- Public members
 
 	//! \brief The width and height of the texsheet
-	int32 width, height;
+	uint32 width, height;
 
 	//! \brief The interger that OpenGL uses to refer to this texture
 	GLuint tex_id;

@@ -534,7 +534,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet* sheet) {
 			rows = load_info.height / image.height;
 			cols = load_info.width / image.width;
 
-			for (int32 row = 0; row < image.height; row++) {
+			for (uint32 row = 0; row < image.height; ++row) {
 				memcpy((uint8*)image.pixels + 4 * image.width * row, (uint8*)load_info.pixels + (((x * load_info.height / rows) + row)
 					* load_info.width + y * load_info.width / cols) * 4, 4 * image.width);
 			}

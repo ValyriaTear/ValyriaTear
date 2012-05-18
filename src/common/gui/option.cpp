@@ -530,7 +530,7 @@ bool OptionBox::IsOptionEnabled(uint32 index) const {
 StillImage* OptionBox::GetEmbeddedImage(uint32 index) const {
 	if (index >= GetNumberOptions()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << endl;
-		return false;
+		return NULL;
 	}
 
 	return _options[index].image;
