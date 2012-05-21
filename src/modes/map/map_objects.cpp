@@ -856,14 +856,32 @@ bool ObjectSupervisor::AdjustSpriteAroundCollision(private_map::VirtualSprite* s
 } // bool ObjectSupervisor::AdjustSpriteAroundCollision(private_map::VirtualSprite* sprite, COLLISION_TYPE coll_type, MapObject* coll_obj);
 
 
-
-std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const PathNode& dest) {
+Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destination) {
 	// NOTE: Refer to the implementation of the A* algorithm to understand
 	// what all these lists and score values are for.
-	std::vector<PathNode> path;
+
+	// NOTE(bis): On the outer scope, we'll use float based positions,
+	// but we still use integer positions for path finding.
+	Path path;
+
+	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(sprite)) {
+		IF_PRINT_WARNING(MAP_DEBUG) << "Sprite position is invalid" << endl;
+		return path;
+	}
+
+	// Return when the destination is unreachable
+	if (DetectCollision(sprite, destination.x, destination.y) == WALL_COLLISION)
+		return path;
+
+	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(destination.x, destination.y)) {
+		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid destination coordinates" << endl;
+		return path;
+	}
 
 	// The starting node of this path discovery
 	PathNode source_node(static_cast<int16>(sprite->GetXPosition()), static_cast<int16>(sprite->GetYPosition()));
+	// The ending node.
+	PathNode dest(static_cast<int16>(destination.x), static_cast<int16>(destination.y));
 
 	// Check that the source node is not the same as the destination node
 	if (source_node == dest) {
@@ -886,6 +904,10 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 	int16 g_add;
 
 	open_list.push_back(source_node);
+
+	// We will try to keep the original offset all along.
+	float offset_x = GetFloatFraction(destination.x);
+	float offset_y = GetFloatFraction(destination.y);
 
 	while (open_list.empty() == false) {
 		sort(open_list.begin(), open_list.end());
@@ -913,8 +935,8 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 			// Don't use 0.0f here for both since errors at the border between
 			// two positions may occure, especially when running.
 			COLLISION_TYPE collision_type = DetectCollision(sprite,
-															((float)nodes[i].tile_x) + 0.5f,
-															((float)nodes[i].tile_y) + 0.5f);
+															((float)nodes[i].tile_x) + offset_x,
+															((float)nodes[i].tile_y) + offset_y);
 
 			// Can't go through walls.
 			if (collision_type == WALL_COLLISION)
@@ -975,8 +997,10 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 		return path;
 	}
 
-	// Add the destination node to the vector, retain its parent, and remove it from the closed list
-	path.push_back(best_node);
+	// Add the destination node to the vector.
+	path.push_back(destination);
+
+	// Retain the last node parent, and remove it from the closed list
 	int16 parent_x = best_node.parent_x;
 	int16 parent_y = best_node.parent_y;
 	closed_list.pop_back();
@@ -984,7 +1008,9 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 	// Go backwards through the closed list following the parent nodes to construct the path
 	for (vector<PathNode>::iterator iter = closed_list.end() - 1; iter != closed_list.begin(); --iter) {
 		if (iter->tile_y == parent_y && iter->tile_x == parent_x) {
-			path.push_back(*iter);
+			MapPosition next_pos(((float)iter->tile_x) + offset_x, ((float)iter->tile_y) + offset_y);
+			path.push_back(next_pos);
+
 			parent_x = iter->parent_x;
 			parent_y = iter->parent_y;
 		}
@@ -992,7 +1018,7 @@ std::vector<PathNode> ObjectSupervisor::FindPath(VirtualSprite* sprite, const Pa
 	std::reverse(path.begin(), path.end());
 
 	return path;
-} // bool ObjectSupervisor::FindPath(const VirtualSprite* sprite, const PathNode& dest)
+} // Path ObjectSupervisor::FindPath(const VirtualSprite* sprite, const MapPosition& destination)
 
 
 bool ObjectSupervisor::IsWithinMapBounds(float x, float y) const {
