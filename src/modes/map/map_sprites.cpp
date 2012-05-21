@@ -596,13 +596,12 @@ void MapSprite::_DrawDebugInfo() {
 	if (control_event && control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
 		PathMoveSpriteEvent *path_event = (PathMoveSpriteEvent*)control_event;
 		if (path_event) {
-			std::vector<PathNode> path = path_event->GetPath();
+			Path path = path_event->GetPath();
 			MapMode *map = MapMode::CurrentInstance();
 			for (uint32 i = 0; i < path.size(); ++i) {
-				float x_pos = path[i].tile_x + 0.5f;
-				float y_pos = path[i].tile_y + 0.5f;
-				VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
-								y_pos - map->GetMapFrame().screen_edges.top);
+				float x_pos = path[i].x - map->GetMapFrame().screen_edges.left;
+				float y_pos = path[i].y - map->GetMapFrame().screen_edges.top;
+				VideoManager->Move(x_pos, y_pos);
 
 				VideoManager->DrawRectangle(0.2, 0.2f, Color(0.0f, 1.0f, 1.0f, 0.6f));
 			}

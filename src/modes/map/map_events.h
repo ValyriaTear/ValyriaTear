@@ -652,7 +652,7 @@ public:
 	**/
 	void SetDestination(float x_coord, float y_coord, bool run);
 
-	std::vector<PathNode> GetPath() const
+	Path GetPath() const
 		{ return _path; }
 
 protected:
@@ -671,11 +671,8 @@ protected:
 	//! \brief An index to the path vector containing the node that the sprite currently occupies
 	uint32 _current_node;
 
-	//! \brief Holds the final destination coordinates for the path movement
-	PathNode _destination_node;
-
 	//! \brief Holds the path needed to traverse from source to destination
-	std::vector<PathNode> _path;
+	Path _path;
 
 	//! \brief Tells whether the sprite should use the walk or run animation
 	bool _run;

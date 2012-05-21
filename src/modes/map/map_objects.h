@@ -667,7 +667,7 @@ public:
 	***
 	*** \note If an error is detected or a path could not be found, the function will empty the path vector before returning
 	**/
-	std::vector<PathNode> FindPath(private_map::VirtualSprite* sprite, const private_map::PathNode& dest);
+	Path FindPath(private_map::VirtualSprite* sprite, const MapPosition& destination);
 
 	/** \brief Returns the pointer to the virtual focus.
 	**/

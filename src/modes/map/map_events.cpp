@@ -610,49 +610,35 @@ void PathMoveSpriteEvent::_Start() {
 	_last_y_position = _sprite->GetYPosition();
 	_sprite->is_running = _run;
 
-	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(_sprite)) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "sprite position is invalid" << endl;
-		_path.clear();
-		return;
-	}
-
 	// Set and check the destination position
 	if (_relative_destination) {
 		// Add The integer part of the source node, but keep the destination offset untouched.
-		_destination_x = hoa_utils::GetFloatInteger(_destination_x) + hoa_utils::GetFloatInteger(_last_x_position) + hoa_utils::GetFloatFraction(_destination_x);
-		_destination_y = hoa_utils::GetFloatInteger(_destination_y) + hoa_utils::GetFloatInteger(_last_y_position) + hoa_utils::GetFloatFraction(_destination_y);
- 	}
+		_destination_x = hoa_utils::GetFloatInteger(_destination_x)
+						+ hoa_utils::GetFloatInteger(_last_x_position) + hoa_utils::GetFloatFraction(_destination_x);
+		_destination_y = hoa_utils::GetFloatInteger(_destination_y)
+						+ hoa_utils::GetFloatInteger(_last_y_position) + hoa_utils::GetFloatFraction(_destination_y);
+	}
+	MapPosition dest(_destination_x, _destination_y);
 
-	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(_destination_x, _destination_y)) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid destination coordinates" << endl;
-		_path.clear();
+	_path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, dest);
+	if (_path.empty()) {
+		PRINT_ERROR << "No path to destination (" << _destination_x
+					<< ", " << _destination_y << ") for sprite: "
+					<< _sprite->GetObjectID() << endl;
 		return;
 	}
 
-	_destination_node.tile_x = (int16)hoa_utils::GetFloatInteger(_destination_x);
-	_destination_node.tile_y = (int16)hoa_utils::GetFloatInteger(_destination_y);
+	_current_node_x = _path[_current_node].x;
+	_current_node_y = _path[_current_node].y;
 
-	_path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, _destination_node);
-	if (!_path.empty()) {
-		// Center the sprite next destination
-		_current_node_x = ((float)_path[_current_node].tile_x) + 0.5f;
-		_current_node_y = ((float)_path[_current_node].tile_y) + 0.5f;
-
-		_sprite->moving = true;
-		_SetSpriteDirection();
-	}
-	else {
-		IF_PRINT_WARNING(MAP_DEBUG) << "failed to find a path for sprite with id: " << _sprite->GetObjectID() << endl;
-		_path.clear();
-	}
+	_sprite->moving = true;
 }
 
 
 
 bool PathMoveSpriteEvent::_Update() {
-	if (_path.empty() == true) {
-		PRINT_ERROR << "No path to destination (" << _destination_x << ", " << _destination_y << ") for sprite: "
-			<< _sprite->GetObjectID() << endl;
+	if (_path.empty()) {
+		// No path
 		_sprite->moving = false;
 		_sprite->ReleaseControl(this);
 		return true;
@@ -667,27 +653,18 @@ bool PathMoveSpriteEvent::_Update() {
 			&& hoa_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
 		++_current_node;
 
-		// Don't take in account the last path node, since the destination node
-		// is more precise, hence the size() -1.
-		if (_current_node < _path.size() - 1) {
-			_current_node_x = ((float)_path[_current_node].tile_x) + 0.5f;
-			_current_node_y = ((float)_path[_current_node].tile_y) + 0.5f;
-
-			_SetSpriteDirection();
+		if (_current_node < _path.size()) {
+			_current_node_x = _path[_current_node].x;
+			_current_node_y = _path[_current_node].y;
 		}
-		else {
-			_current_node_x = _destination_x;
-			_current_node_y = _destination_y;
-		}
-
-		_SetSpriteDirection();
 	}
 	// If the sprite has moved to a new position other than the next node, adjust its direction so it is trying to move to the next node
 	else if ((_sprite->position.x != _last_x_position) || (_sprite->position.y != _last_y_position)) {
 		_last_x_position = _sprite->position.x;
 		_last_y_position = _sprite->position.y;
-		_SetSpriteDirection();
 	}
+
+	_SetSpriteDirection();
 
 	// End the path event
 	if (hoa_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
@@ -764,7 +741,7 @@ void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject*
 	// If the code has reached this point, then we are dealing with an object collision
 
 	// Determine if the obstructing object is blocking the destination of this path
-	bool destination_blocked = MapMode::CurrentInstance()->GetObjectSupervisor()->IsPositionOccupiedByObject(_destination_node.tile_x, _destination_node.tile_y, coll_obj);
+	bool destination_blocked = MapMode::CurrentInstance()->GetObjectSupervisor()->IsPositionOccupiedByObject(_destination_x, _destination_y, coll_obj);
 
 	switch (coll_obj->GetObjectType()) {
 		case PHYSICAL_TYPE:

@@ -416,15 +416,21 @@ struct MapVector {
 		y(0.0f)
 	{}
 
-	float x;
-	float y;
+	MapVector(float x_, float y_) :
+		x(x_),
+		y(y_)
+	{}
 
 	float length() const
 	{ return sqrtf(x * x + y * y); }
 
+	float x;
+	float y;
 };
 
 typedef MapVector MapPosition;
+
+typedef std::vector<MapPosition> Path;
 
 } // namespace private_map
 
