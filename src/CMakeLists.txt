@@ -527,6 +527,7 @@ IF (EDITOR_SUPPORT)
         ${QT_QT3SUPPORT_LIBRARY} # for the Q3* headers.
         ${QT_QTOPENGL_LIBRARY}
         ${SDL_LIBRARY}
+        ${SDLIMAGE_LIBRARY}
         ${SDLTTF_LIBRARY}
         ${OPENGL_LIBRARIES}
         ${OPENAL_LIBRARY}
