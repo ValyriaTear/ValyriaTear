@@ -685,12 +685,6 @@ protected:
 
 	//! \brief Sets the correct direction for the sprite to move to the next node in the path
 	void _SetSpriteDirection();
-
-	/** \brief Determines an appropriate resolution when the sprite collides with an obstruction
-	*** \param coll_type The type of collision that has occurred
-	*** \param coll_obj A pointer to the MapObject that the sprite has collided with, if any
-	**/
-	void _ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj);
 }; // class PathMoveSpriteEvent : public SpriteEvent
 
 
@@ -734,12 +728,6 @@ protected:
 
 	//! \brief Returns true when the sprite has reached the destination
 	bool _Update();
-
-	/** \brief Tries to adjust the sprite's position around the collision. Will randomally change the sprite's direction if that fails.
-	*** \param coll_type The type of collision that has occurred
-	*** \param coll_obj A pointer to the MapObject that the sprite has collided with, if any
-	**/
-	void _ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj);
 }; // class RandomMoveSpriteEvent : public SpriteEvent
 
 
