@@ -318,29 +318,28 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	bronanns_dad:AddDialogueReference(dialogue);
 
-	bronanns_mother = _CreateSprite(Map, "Malta", 32.5, 17.5);
-	bronanns_mother:SetNoCollision(true); -- Until the path finding for events is fixed. (Bug in resolve collision calls)
+	bronanns_mother = _CreateSprite(Map, "Malta", 33.1, 17.5);
 	bronanns_mother:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(bronanns_mother);
 	UpdateMotherDialogue();
 
 	-- Make her walk in front of the table to prepare the lunch.
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle", bronanns_mother, 33, 20, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle", bronanns_mother, 33.1, 19.9, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother looks left");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks left", bronanns_mother, hoa_map.MapMode.WEST);
 	event:AddEventLinkAtEnd("Kitchen: Mother goes right", 2000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes right", bronanns_mother, 35, 20, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes right", bronanns_mother, 35, 19.9, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother looks down");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks down", bronanns_mother, hoa_map.MapMode.SOUTH);
 	event:AddEventLinkAtEnd("Kitchen: Mother goes middle 2", 2000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle 2", bronanns_mother, 33, 20, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle 2", bronanns_mother, 33.1, 19.9, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother goes up");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes up", bronanns_mother, 33, 18, false);
+	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes up", bronanns_mother, 33.1, 17.5, false);
 	event:AddEventLinkAtEnd("Kitchen: Mother looks left 2");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks left 2", bronanns_mother, hoa_map.MapMode.WEST);
@@ -379,7 +378,7 @@ function CreateNPCs()
 	event:AddEventLinkAtEnd("Mother moves near entrance1");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent("Mother moves near entrance1", bronanns_mother, 38, 17, false);
+	event = hoa_map.PathMoveSpriteEvent("Mother moves near entrance1", bronanns_mother, 38, 20, false);
 	event:AddEventLinkAtEnd("MotherLooksSouth2");
 	EventManager:RegisterEvent(event);
 

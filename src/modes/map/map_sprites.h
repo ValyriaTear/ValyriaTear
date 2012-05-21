@@ -167,11 +167,11 @@ public:
 	//@}
 
 protected:
-	/** \brief Determines an appropriate resolution when the sprite collides with an obstruction
-	*** \param coll_type The type of collision that has occurred
-	*** \param coll_obj A pointer to the MapObject that the sprite has collided with, if any
+	/** \brief Set the next sprite position, according to the current direction set.
+	*** This function aims at finding the next correct position for the given sprite,
+	*** and avoid the most possible to make it stop, except when walking against a wall.
 	**/
-	void _ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj);
+	void _SetNextPosition();
 
 	/** \brief Start a battle encounter with a given enemy
 	*** \param enemy The enemy sprite the character has collided with.

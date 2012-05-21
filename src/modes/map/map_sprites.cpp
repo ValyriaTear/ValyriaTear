@@ -75,10 +75,15 @@ void VirtualSprite::Update() {
 	if (!updatable || !moving)
 		return;
 
-	// Next sprite's position
+	_SetNextPosition();
+} // void VirtualSprite::Update()
+
+
+void VirtualSprite::_SetNextPosition() {
+
+	// Next sprite's position holders
 	float next_pos_x = GetXPosition();
 	float next_pos_y = GetYPosition();
-
 	float distance_moved = CalculateDistanceMoved();
 
 	// Move the sprite the appropriate distance in the appropriate Y and X direction
@@ -91,31 +96,154 @@ void VirtualSprite::Update() {
 	else if (direction & (EAST | MOVING_NORTHEAST | MOVING_SOUTHEAST))
 		next_pos_x += distance_moved;
 
+	// When not moving, do not check anything else.
+	if (next_pos_x == GetXPosition() && next_pos_y == GetYPosition())
+		return;
+
+	// We've got the next position, let's check whether the next position
+	// should be revised.
+
+	// Used to know whether we could fall back to a straight move
+	// in case of collision.
+	bool moving_diagonally = (direction & (MOVING_NORTHWEST | MOVING_NORTHEAST
+											| MOVING_SOUTHEAST | MOVING_SOUTHWEST));
+
+	// Handle collision with the first object encountered
 	MapObject* collision_object = NULL;
 	COLLISION_TYPE collision_type = NO_COLLISION;
-	collision_type = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(this,
-																						next_pos_x,
-																						next_pos_y,
-																						&collision_object);
-
-	// Don't stuck the player when it's auto-piloted and a NPC goes in the way,
-	// or a small wall corner is blocking, for instance.
-	if (this == MapMode::CurrentInstance()->GetCamera()
-		&& control_event && control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
-		collision_type = NO_COLLISION;
+	MapMode *map = MapMode::CurrentInstance();
+	ObjectSupervisor *object_supervisor = map->GetObjectSupervisor();
+	collision_type = object_supervisor->DetectCollision(this, next_pos_x,
+														next_pos_y,
+														&collision_object);
+	// Try to fall back to straight direction
+	if (moving_diagonally && collision_type != NO_COLLISION) {
+		// Try on x axis
+		if (object_supervisor->DetectCollision(this, position.x, next_pos_y, &collision_object) == NO_COLLISION) {
+			next_pos_x = position.x;
+			collision_type = NO_COLLISION;
+		} // and then on y axis
+		else if (object_supervisor->DetectCollision(this, next_pos_x, position.y, &collision_object) == NO_COLLISION) {
+			next_pos_y = position.y;
+			collision_type = NO_COLLISION;
+		}
 	}
 
-	if (collision_type == NO_COLLISION) {
-		SetPosition(next_pos_x, next_pos_y);
-		moved_position = true;
+	// Handles special collision handling first
+	if (control_event) {
+		switch (control_event->GetEventType()) {
+		// Don't stuck the player's character or a sprite being controlled by a prepared path.
+		// Plus, it's better not to change a path with encountered beings once started
+		// for simplification purpose.
+		case PATH_MOVE_SPRITE_EVENT:
+			collision_type = NO_COLLISION;
+			break;
+		// Change the direction whenever something blocking is in the way.
+		case RANDOM_MOVE_SPRITE_EVENT:
+			if (collision_type != NO_COLLISION) {
+				SetRandomDirection();
+				return;
+			}
+		default:
+			break;
+		}
 	}
-	else {
-		// The _ResolveCollision() call that follows may find an alternative
-		// position to move the sprite to.
-		_ResolveCollision(collision_type, collision_object);
-	}
-} // void VirtualSprite::Update()
 
+    // Try to handle wall and physical collisions after a failed straight or diagonal move
+    switch (collision_type) {
+	case NO_COLLISION:
+		default:
+		break;
+	case WALL_COLLISION:
+		// When the sprite is controlled by the camera, let the player handle the position correction.
+		if (this == map->GetCamera())
+			return;
+
+		// When being blocked and moving diagonally, the npc is stuck.
+		if (moving_diagonally)
+			return;
+
+		// When it's a true wall, try against the collision grid
+		if (!collision_object) {
+			// Try a random diagonal to avoid the wall in straight direction
+			if (direction & (NORTH | SOUTH))
+				direction |= RandomBoundedInteger(0,1) ? EAST : WEST;
+			else if (direction & (EAST | WEST))
+				direction |= RandomBoundedInteger(0,1) ? NORTH : SOUTH;
+				return;
+		}
+		// Physical and treasure objects are the only other matching "fake" walls
+		else {
+			// Try a diagonal to avoid the sprite in straight direction by comparing
+			// each one coords.
+			float diff_x = GetXPosition() - collision_object->GetXPosition();
+			float diff_y = GetYPosition() - collision_object->GetYPosition();
+				if (direction & (NORTH | SOUTH))
+					direction |= diff_x >= 0.0f ? EAST : WEST;
+				else if (direction & (EAST | WEST))
+					direction |= diff_y >= 0.0f ? SOUTH : NORTH;
+					return;
+			}
+			// Other cases shouldn't happen.
+		break;
+	case ENEMY_COLLISION:
+		// Check only whether the player has collided with a monster
+		if (this == map->GetCamera() &&
+				collision_object && collision_object->GetObjectType() == ENEMY_TYPE) {
+			EnemySprite* enemy = reinterpret_cast<EnemySprite*>(collision_object);
+
+			if (enemy && enemy->IsHostile() && map->AttackAllowed()) {
+				_StartBattleEncounter(enemy);
+				return;
+			}
+		}
+
+		break;
+	case CHARACTER_COLLISION:
+		// Check whether the sprite is tangled with another character, even without moving
+		// For instance, when colliding with a path follower npc.
+		// And let it through in that case.
+		if (object_supervisor->CheckObjectCollision(GetCollisionRectangle(), collision_object)) {
+			collision_type = NO_COLLISION;
+			break;
+		}
+
+		// When the sprite is controlled by the camera, let the player handle the position correction.
+		if (this == map->GetCamera())
+			return;
+
+		// Check whether an enemy has collided with the player
+		if (this->GetType() == ENEMY_TYPE && collision_object == map->GetCamera()) {
+			EnemySprite* enemy = reinterpret_cast<EnemySprite*>(this);
+
+			if (enemy && enemy->IsHostile() && map->AttackAllowed()) {
+				_StartBattleEncounter(enemy);
+				return;
+			}
+		}
+
+		// When being blocked and moving diagonally, the npc is stuck.
+		if (moving_diagonally)
+			return;
+
+		if (!collision_object) // Should never happen
+			return;
+
+		// Try a diagonal to avoid the sprite in straight direction by comparing
+		// each one coords.
+		float diff_x = GetXPosition() - collision_object->GetXPosition();
+		float diff_y = GetYPosition() - collision_object->GetYPosition();
+		if (direction & (NORTH | SOUTH))
+			direction |= diff_x >= 0.0f ? EAST : WEST;
+		else if (direction & (EAST | WEST))
+			direction |= diff_y >= 0.0f ? SOUTH : NORTH;
+			return;
+	}
+
+	// Make the sprite advance at the end
+	SetPosition(next_pos_x, next_pos_y);
+	moved_position = true;
+}
 
 
 void VirtualSprite::SetDirection(uint16 dir) {
@@ -257,48 +385,6 @@ void VirtualSprite::RestoreState() {
 	moving = _saved_moving;
 	MapMode::CurrentInstance()->GetEventSupervisor()->ResumeAllEvents(this);
 }
-
-
-
-void VirtualSprite::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj) {
-	// First check for the case where the player has collided with a hostile enemy sprite
-	if (coll_obj != NULL) {
-		EnemySprite* enemy = NULL;
-		if (this == MapMode::CurrentInstance()->GetCamera() && coll_obj->GetType() == ENEMY_TYPE) {
-			enemy = reinterpret_cast<EnemySprite*>(coll_obj);
-		}
-		else if (coll_obj == MapMode::CurrentInstance()->GetCamera() && this->GetType() == ENEMY_TYPE) {
-			enemy = reinterpret_cast<EnemySprite*>(this);
-		}
-
-		// If these two conditions are true, begin the battle
-		if (enemy != NULL && enemy->IsHostile() && MapMode::CurrentInstance()->AttackAllowed()) {
-			_StartBattleEncounter(enemy);
-			return;
-		}
-	}
-
-	// ---------- (2) Adjust the sprite's position if no event was controlling this sprite
-	// This sprite is assumed in this case to be controlled by the player since sprites don't move by themselves
-	if (control_event == NULL) {
-		MapMode::CurrentInstance()->GetObjectSupervisor()->AdjustSpriteAroundCollision(this, coll_type, coll_obj);
-		return;
-	}
-
-	// ---------- (3) Call the appropriate collision resolution function for the various control events
-	EVENT_TYPE event_type = control_event->GetEventType();
-	if (event_type == PATH_MOVE_SPRITE_EVENT) {
-		PathMoveSpriteEvent* path_event = dynamic_cast<PathMoveSpriteEvent*>(control_event);
-		path_event->_ResolveCollision(coll_type, coll_obj);
-	}
-	else if (event_type == RANDOM_MOVE_SPRITE_EVENT) {
-		RandomMoveSpriteEvent* random_event = dynamic_cast<RandomMoveSpriteEvent*>(control_event);
-		random_event->_ResolveCollision(coll_type, coll_obj);
-	}
-	else {
-		IF_PRINT_WARNING(MAP_DEBUG) << "collision occurred when sprite was controlled by a non-motion event" << endl;
-	}
-} // void VirtualSprite::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj)
 
 
 void VirtualSprite::_StartBattleEncounter(EnemySprite* enemy) {

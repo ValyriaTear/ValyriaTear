@@ -718,67 +718,6 @@ void PathMoveSpriteEvent::_SetSpriteDirection() {
 	_sprite->SetDirection(direction);
 }
 
-
-
-void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj) {
-	// Boundary and grid collisions should not occur on a pre-calculated path. If these conditions do occur,
-	// we terminate the path event immediately. The conditions may occur if, for some reason, the map's boundaries
-	// or collision grid are modified after the path is calculated
-	if (coll_type == WALL_COLLISION) {
-		if (MapMode::CurrentInstance()->GetObjectSupervisor()->AdjustSpriteAroundCollision(_sprite, coll_type, coll_obj) == false) {
-			IF_PRINT_WARNING(MAP_DEBUG) << "boundary or grid collision occurred on a pre-calculated path movement" << endl;
-		}
-		// Wait
-// 		_path.clear(); // This path is obviously not a correct one so we should trash it
-// 		_sprite->ReleaseControl(this);
-// 		MapMode::CurrentInstance()->GetEventSupervisor()->TerminateEvent(GetEventID());
-		return;
-	}
-
-	// If the code has reached this point, then we are dealing with an object collision
-
-	// Determine if the obstructing object is blocking the destination of this path
-	bool destination_blocked = MapMode::CurrentInstance()->GetObjectSupervisor()->IsPositionOccupiedByObject(_destination_x, _destination_y, coll_obj);
-
-	switch (coll_obj->GetObjectType()) {
-		case PHYSICAL_TYPE:
-		case TREASURE_TYPE:
-			// If the object is a static map object and blocking the destination, give up and terminate the event
-			if (destination_blocked == true) {
-				IF_PRINT_WARNING(MAP_DEBUG) << "path destination was blocked by a non-sprite map object" << endl;
-				_path.clear(); // This path is obviously not a correct one so we should trash it
-			}
-			// Otherwise, try to find an alternative path around the object
-			else {
-				// TEMP: try a movement adjustment to get around the object
-				MapMode::CurrentInstance()->GetObjectSupervisor()->AdjustSpriteAroundCollision(_sprite, coll_type, coll_obj);
-				// TODO: recalculate and find an alternative path around the object
-			}
-			break;
-
-		case VIRTUAL_TYPE:
-		case SPRITE_TYPE:
-		case ENEMY_TYPE:
-			if (destination_blocked == true) {
-				// Do nothing but wait for the obstructing sprite to move out of the way
-				return;
-
-				// TODO: maybe we should use a timer here to determine if a certain number of seconds have passed while waiting for the obstructiong
-				// sprite to move. If that timer expires and the destination is still blocked by the sprite, we could give up on reaching the
-				// destination and terminate the path event
-			}
-
-			else {
-				// TEMP: try a movement adjustment to get around the object
-				MapMode::CurrentInstance()->GetObjectSupervisor()->AdjustSpriteAroundCollision(_sprite, coll_type, coll_obj);
-			}
-			break;
-
-		default:
-			IF_PRINT_WARNING(MAP_DEBUG) << "collision object was of an unknown object type: " << coll_obj->GetObjectType() << endl;
-	}
-} // void PathMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj)
-
 // -----------------------------------------------------------------------------
 // ---------- RandomMoveSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
@@ -793,10 +732,8 @@ RandomMoveSpriteEvent::RandomMoveSpriteEvent(const std::string& event_id, Virtua
 {}
 
 
-
 RandomMoveSpriteEvent::~RandomMoveSpriteEvent()
 {}
-
 
 
 void RandomMoveSpriteEvent::_Start() {
@@ -804,7 +741,6 @@ void RandomMoveSpriteEvent::_Start() {
 	_sprite->SetRandomDirection();
 	_sprite->moving = true;
 }
-
 
 
 bool RandomMoveSpriteEvent::_Update() {
@@ -825,15 +761,6 @@ bool RandomMoveSpriteEvent::_Update() {
 	}
 
 	return false;
-}
-
-
-
-void RandomMoveSpriteEvent::_ResolveCollision(COLLISION_TYPE coll_type, MapObject* coll_obj) {
-	// Try to adjust the sprite's position around the collision. If that fails, change the sprite's direction
-	if (MapMode::CurrentInstance()->GetObjectSupervisor()->AdjustSpriteAroundCollision(_sprite, coll_type, coll_obj) == false) {
-		_sprite->SetRandomDirection();
-	}
 }
 
 // -----------------------------------------------------------------------------
