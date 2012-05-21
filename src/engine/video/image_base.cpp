@@ -74,7 +74,17 @@ bool ImageMemory::LoadImage(const string& filename) {
 	}
 
 	alpha_surf = SDL_DisplayFormatAlpha(temp_surf);
-	SDL_FreeSurface(temp_surf);
+
+	// Tells whether the alpha image will be used
+	bool alpha_format = true;
+	if(alpha_surf == NULL) {
+		// use the default image in that case
+		alpha_surf = temp_surf;
+		alpha_format = false;
+	}
+	else {
+		SDL_FreeSurface(temp_surf);
+	}
 
 	// Now allocate the pixel values
 	width = alpha_surf->w;
@@ -91,15 +101,31 @@ bool ImageMemory::LoadImage(const string& filename) {
 			img_pixel = (uint8*)alpha_surf->pixels + y * alpha_surf->pitch + x * alpha_surf->format->BytesPerPixel;
 			dst_pixel = ((uint8*)pixels) + ((y * width) + x) * 4;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-			dst_pixel[0] = img_pixel[0];
-			dst_pixel[1] = img_pixel[1];
-			dst_pixel[2] = img_pixel[2];
-			dst_pixel[3] = img_pixel[3];
+			if (alpha_format) {
+				dst_pixel[0] = img_pixel[0];
+				dst_pixel[1] = img_pixel[1];
+				dst_pixel[2] = img_pixel[2];
+				dst_pixel[3] = img_pixel[3];
+			}
+			else {
+				dst_pixel[2] = img_pixel[0];
+				dst_pixel[1] = img_pixel[1];
+				dst_pixel[0] = img_pixel[2];
+				dst_pixel[3] = img_pixel[3];
+			}
 #else
-			dst_pixel[2] = img_pixel[0];
-			dst_pixel[1] = img_pixel[1];
-			dst_pixel[0] = img_pixel[2];
-			dst_pixel[3] = img_pixel[3];
+			if (alpha_format) {
+				dst_pixel[2] = img_pixel[0];
+				dst_pixel[1] = img_pixel[1];
+				dst_pixel[0] = img_pixel[2];
+				dst_pixel[3] = img_pixel[3];
+			}
+			else {
+				dst_pixel[0] = img_pixel[0];
+				dst_pixel[1] = img_pixel[1];
+				dst_pixel[2] = img_pixel[2];
+				dst_pixel[3] = img_pixel[3];
+			}
 #endif
 		}
 	}
