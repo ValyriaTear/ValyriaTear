@@ -97,7 +97,7 @@ public:
 	MapEvent(const std::string& id, EVENT_TYPE type) :
 		_event_id(id), _event_type(type) {}
 
-	~MapEvent()
+	virtual ~MapEvent()
 		{}
 
 	const std::string& GetEventID() const
