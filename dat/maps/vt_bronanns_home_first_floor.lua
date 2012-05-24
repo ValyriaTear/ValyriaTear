@@ -343,6 +343,9 @@ function CreateObjects()
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
+	object = _CreateObject(Map, "Box1", 38, 38); -- Prevent from going south of the table.
+	object:SetContext(hoa_map.MapMode.CONTEXT_03);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Box1", 19, 33);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
