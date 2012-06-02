@@ -5,6 +5,7 @@
 		<Option title="Valyria Tear" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option extended_obj_names="1" />
 		<Build>
 			<Target title="Debug Win32">
 				<Option platforms="Windows;" />
@@ -48,6 +49,7 @@
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
+					<Add library="SDL_image" />
 					<Add directory="valyriatear-win32-depends\lib" />
 				</Linker>
 			</Target>
@@ -271,13 +273,13 @@
 		<Unit filename="src\engine\audio\audio_input.h" />
 		<Unit filename="src\engine\audio\audio_stream.cpp" />
 		<Unit filename="src\engine\audio\audio_stream.h" />
+		<Unit filename="src\engine\effect_supervisor.cpp" />
+		<Unit filename="src\engine\effect_supervisor.h" />
 		<Unit filename="src\engine\engine_bindings.cpp" />
 		<Unit filename="src\engine\input.cpp" />
 		<Unit filename="src\engine\input.h" />
 		<Unit filename="src\engine\mode_manager.cpp" />
 		<Unit filename="src\engine\mode_manager.h" />
-		<Unit filename="src\engine\effect_supervisor.cpp" />
-		<Unit filename="src\engine\effect_supervisor.h" />
 		<Unit filename="src\engine\script\script.cpp" />
 		<Unit filename="src\engine\script\script.h" />
 		<Unit filename="src\engine\script\script_modify.cpp" />
@@ -499,6 +501,15 @@
 			<code_completion />
 			<debugger />
 			<envvars />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
