@@ -42,6 +42,7 @@
 #endif
 
 #include <SDL_image.h>
+#include <time.h>
 
 using namespace std;
 using namespace hoa_utils;
