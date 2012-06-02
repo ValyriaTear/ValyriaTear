@@ -68,18 +68,14 @@ ShopMedia::ShopMedia() {
 	if (_drunes_icon.Load("img/icons/drunes.png") == false)
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load drunes icon image" << endl;
 
-	if (_star_icon.Load("img/menus/star.png") == false) {
+	if (_star_icon.Load("img/menus/star.png") == false)
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load star icon image" << endl;
-	}
 
 	if (_check_icon.Load("img/menus/green_check.png") == false)
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load check icon image" << endl;
 
 	if (_x_icon.Load("img/menus/red_x.png") == false)
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load x icon image" << endl;
-
-	if (_socket_icon.Load("img/menus/socket.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load socket icon image" << endl;
 
 	if (_socket_icon.Load("img/menus/socket.png") == false)
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load socket icon image" << endl;
@@ -110,19 +106,7 @@ ShopMedia::ShopMedia() {
 	if (sound_load_failures > 0) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load " << sound_load_failures << " sounds needed by shop mode" << endl;
 	}
-}
 
-
-
-ShopMedia::~ShopMedia() {
-	for (map<string, SoundDescriptor*>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
-		delete i->second;
-	_sounds.clear();
-}
-
-
-
-void ShopMedia::Initialize() {
 	_all_category_names.push_back(UTranslate("Items"));
 	_all_category_names.push_back(UTranslate("Weapons"));
 	_all_category_names.push_back(UTranslate("Head Armor"));
@@ -142,30 +126,33 @@ void ShopMedia::Initialize() {
 	_all_category_icons.pop_back();
 	_all_category_icons.pop_back();
 
-	// Determine which categories are used in this shop and populate the true containers with that data
-	uint8 deal_types = ShopMode::CurrentInstance()->GetDealTypes();
-	uint8 bit_x = 0x01; // Used to do a bit-by-bit analysis of the obj_types variable
-	for (uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
-		// Check if the type is available by doing a bit-wise comparison
-		if (deal_types & bit_x) {
-			_sale_category_names.push_back(_all_category_names[i]);
-			_sale_category_icons.push_back(_all_category_icons[i]);
-		}
-	}
+	// Initialize the character's prites images.
+	_InitializeCharacters();
+}
 
-	// If here is more than one category, add the text/icon for all wares
-	if (_sale_category_names.size() > 1) {
-		_sale_category_names.push_back(_all_category_names[8]);
-		_sale_category_icons.push_back(_all_category_icons[8]);
-	}
 
+
+ShopMedia::~ShopMedia() {
+	for (map<string, SoundDescriptor*>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
+		delete i->second;
+	_sounds.clear();
+}
+
+
+void ShopMedia::_InitializeCharacters() {
 	// Grab the sprite frames for all characters in the active party
-	vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
-	for (uint32 i = 0; i < characters->size(); i++) {
+	std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+	for (uint32 i = 0; i < characters->size(); ++i) {
+		GlobalCharacter *character = characters->at(i);
+
+		if (!character || character->GetStandardSpriteFrames()->empty()) {
+			_character_sprites.push_back(new StillImage());
+			continue;
+		}
+
 		_character_sprites.push_back(characters->at(i)->GetStandardSpriteFrames()->at(0));
 	}
 }
-
 
 
 ustring* ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type) {
@@ -207,7 +194,6 @@ ustring* ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type) {
 }
 
 
-
 StillImage* ShopMedia::GetCategoryIcon(GLOBAL_OBJECT object_type) {
 	uint32 index = 0;
 
@@ -245,7 +231,6 @@ StillImage* ShopMedia::GetCategoryIcon(GLOBAL_OBJECT object_type) {
 
 	return &(_all_category_icons[index]);
 }
-
 
 
 StillImage* ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity) {
@@ -323,12 +308,10 @@ StillImage* ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_IN
 }
 
 
-
 StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity) {
 	// TODO: implement this function once status effects are ready
 	return NULL;
 }
-
 
 
 SoundDescriptor* ShopMedia::GetSound(string identifier) {
@@ -979,7 +962,6 @@ void ShopObjectViewer::_DrawKeyItem() {
 ShopMode::ShopMode() :
 	_initialized(false),
 	_state(SHOP_STATE_ROOT),
-	_deal_types(0),
 	_buy_price_level(SHOP_PRICE_STANDARD),
 	_sell_price_level(SHOP_PRICE_STANDARD),
 	_total_costs(0),
@@ -1017,7 +999,7 @@ ShopMode::ShopMode() :
 	// (2) Create the list of shop actions
 	_action_options.SetOwner(&_top_window);
 	_action_options.SetPosition(80.0f, 90.0f);
-	_action_options.SetDimensions(640.0f, 30.0f, 4, 1, 4, 1);
+	_action_options.SetDimensions(640.0f, 30.0f, 3, 1, 3, 1);
 	_action_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
 	_action_options.SetTextStyle(TextStyle("title28"));
 	_action_options.SetSelectMode(VIDEO_SELECT_SINGLE);
@@ -1027,7 +1009,7 @@ ShopMode::ShopMode() :
 	vector<ustring> option_text;
 	option_text.push_back(UTranslate("Buy"));
 	option_text.push_back(UTranslate("Sell"));
-	option_text.push_back(UTranslate("Trade"));
+//	option_text.push_back(UTranslate("Trade"));
 	option_text.push_back(UTranslate("Confirm"));
 	_action_options.SetOptions(option_text);
 	_action_options.SetSelection(0);
@@ -1035,7 +1017,7 @@ ShopMode::ShopMode() :
 
 	_action_titles.push_back(TextImage(option_text[0], TextStyle("title28")));
 	_action_titles.push_back(TextImage(option_text[1], TextStyle("title28")));
-	_action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
+//	_action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
 	_action_titles.push_back(TextImage(option_text[3], TextStyle("title28")));
 	_action_titles.push_back(TextImage(UTranslate("Leave"), TextStyle("title28")));
 
@@ -1071,11 +1053,6 @@ ShopMode::ShopMode() :
 
 
 ShopMode::~ShopMode() {
-	for (uint32 i = 0; i < _created_objects.size(); i++) {
-		delete(_created_objects[i]);
-	}
-	_created_objects.clear();
-
 	delete _shop_media;
 	delete _object_viewer;
 	delete _root_interface;
@@ -1115,93 +1092,67 @@ void ShopMode::Initialize() {
 
 	_initialized = true;
 
-	// ---------- (1): Determine what types of objects the shop deals in based on the managed object list
-	for (uint32 i = 0; i < _created_objects.size(); i++) {
-		switch (_created_objects[i]->GetObjectType()) {
-			case GLOBAL_OBJECT_ITEM:
-				_deal_types |= DEALS_ITEMS;
-				break;
-			case GLOBAL_OBJECT_WEAPON:
-				_deal_types |= DEALS_WEAPONS;
-				break;
-			case GLOBAL_OBJECT_HEAD_ARMOR:
-				_deal_types |= DEALS_HEAD_ARMOR;
-				break;
-			case GLOBAL_OBJECT_TORSO_ARMOR:
-				_deal_types |= DEALS_TORSO_ARMOR;
-				break;
-			case GLOBAL_OBJECT_ARM_ARMOR:
-				_deal_types |= DEALS_ARM_ARMOR;
-				break;
-			case GLOBAL_OBJECT_LEG_ARMOR:
-				_deal_types |= DEALS_LEG_ARMOR;
-				break;
-			case GLOBAL_OBJECT_SHARD:
-				_deal_types |= DEALS_SHARDS;
-				break;
-			case GLOBAL_OBJECT_KEY_ITEM:
-				_deal_types |= DEALS_KEY_ITEMS;
-				break;
-			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << _created_objects[i]->GetObjectType() << endl;
-				break;
-		}
-	}
+	// Add objects from the player's inventory to the list of available to sell
+	_UpdateAvailableObjectsToSell();
+	_UpdateAvailableShopOptions();
 
-	// ---------- (2): Add objects from the player's inventory to the list of shop objects
-	map<uint32, GlobalObject*>* inventory = GlobalManager->GetInventory();
-	for (map<uint32, GlobalObject*>::iterator i = inventory->begin(); i != inventory->end(); i++) {
+	// Initialize pricing for all shop objects
+	for (std::map<uint32, ShopObject*>::iterator it = _available_buy.begin(); it != _available_buy.end(); ++it) {
+		it->second->SetPricing(_buy_price_level, _sell_price_level);
+	}
+	for (std::map<uint32, ShopObject*>::iterator it = _available_sell.begin(); it != _available_sell.end(); ++it) {
+		it->second->SetPricing(_buy_price_level, _sell_price_level);
+	}
+	_object_viewer->Initialize();
+
+	// Initialize all shop interfaces
+	_root_interface->Reinitialize();
+	_buy_interface->Reinitialize();
+	_sell_interface->Reinitialize();
+	_trade_interface->Reinitialize();
+	_confirm_interface->Reinitialize();
+	_leave_interface->Reinitialize();
+} // void ShopMode::Initialize()
+
+
+void ShopMode::_UpdateAvailableObjectsToSell() {
+	// Reinit the data
+	_available_sell.clear();
+
+	std::map<uint32, GlobalObject*>* inventory = GlobalManager->GetInventory();
+	for (std::map<uint32, GlobalObject*>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
 		// Check if the object already exists in the shop list and if so, set its ownership count
-		map<uint32, ShopObject>::iterator shop_obj_iter = _shop_objects.find(i->second->GetID());
-		if (shop_obj_iter != _shop_objects.end()) {
-			shop_obj_iter->second.IncrementOwnCount(i->second->GetCount());
+		std::map<uint32, ShopObject*>::iterator shop_obj_iter = _available_sell.find(it->second->GetID());
+		if (shop_obj_iter != _available_sell.end()) {
+			shop_obj_iter->second->IncrementOwnCount(it->second->GetCount());
 		}
 		// Otherwise, add the shop object to the list
 		else {
-			ShopObject new_shop_object(i->second, false);
-			new_shop_object.IncrementOwnCount(i->second->GetCount());
-			_shop_objects.insert(make_pair(i->second->GetID(), new_shop_object));
+			ShopObject *new_shop_object = new ShopObject(it->second);
+			new_shop_object->IncrementOwnCount(it->second->GetCount());
+			_available_sell.insert(make_pair(it->second->GetID(), new_shop_object));
 		}
 	}
+}
 
-	// ---------- (3): Initialize pricing for all shop objects
-	for (map<uint32, ShopObject>::iterator i = _shop_objects.begin(); i != _shop_objects.end(); i++) {
-		i->second.SetPricing(_buy_price_level, _sell_price_level);
-	}
 
-	// ---------- (4): Initialize multimedia data and viewer
-	_shop_media->Initialize();
-	_object_viewer->Initialize();
+void ShopMode::_UpdateAvailableShopOptions() {
 
-	// ---------- (5): Initialize all shop interfaces
-	_root_interface->Initialize();
-	_buy_interface->Initialize();
-	_sell_interface->Initialize();
-	_trade_interface->Initialize();
-	_confirm_interface->Initialize();
-	_leave_interface->Initialize();
-
-	_UpdateAvailableCategories();
-} // void ShopMode::Initialize()
-
-void ShopMode::_UpdateAvailableCategories() {
 	// Test the available categories
-	if (_buy_interface->GetBuyableItemsNumber() > 0)
+	if (_available_buy.size() > 0)
 		_action_options.EnableOption(0, true);
 	else
 		_action_options.EnableOption(0, false);
 
-	if (_sell_interface->GetSellableItemsNumber() > 0)
+	if (_available_sell.size() > 0)
 		_action_options.EnableOption(1, true);
 	else
 		_action_options.EnableOption(1, false);
 
 	// Nothing to do in this shop
 	if (!_action_options.IsOptionEnabled(0) && !_action_options.IsOptionEnabled(1)) {
-		// Disable the confirm option.
-		_action_options.EnableOption(2, false);
-		// Put the cursor on cancel.
-		_action_options.SetSelection(3);
+		// Put the cursor on confirm/cancel.
+		_action_options.SetSelection(2);
 	}
 	else if (!_action_options.IsOptionEnabled(0)) {
 		// Put the cursor on sell.
@@ -1251,10 +1202,10 @@ void ShopMode::Update() {
 			else if (_action_options.GetSelection() == 1) { // Sell
 				ChangeState(SHOP_STATE_SELL);
 			}
-			else if (_action_options.GetSelection() == 2) { // Trade
-				ChangeState(SHOP_STATE_TRADE);
-			}
-			else if (_action_options.GetSelection() == 3) { // Confirm
+//			else if (_action_options.GetSelection() == 2) { // Trade
+//				ChangeState(SHOP_STATE_TRADE);
+//			}
+			else if (_action_options.GetSelection() == 2) { // ConfirmInterface
 				ChangeState(SHOP_STATE_CONFIRM);
 			}
 		}
@@ -1302,7 +1253,7 @@ void ShopMode::Update() {
 void ShopMode::Draw() {
 	// Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
 	VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetScreenWidth()), 0.0f, static_cast<float>(VideoManager->GetScreenHeight()));
-	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 	VideoManager->Move(0.0f, 0.0f);
 	_screen_backdrop.Draw();
 
@@ -1331,14 +1282,14 @@ void ShopMode::Draw() {
 		case SHOP_STATE_SELL:
 			_action_titles[1].Draw();
 			break;
-		case SHOP_STATE_TRADE:
+//		case SHOP_STATE_TRADE:
+//			_action_titles[2].Draw();
+//			break;
+		case SHOP_STATE_CONFIRM:
 			_action_titles[2].Draw();
 			break;
-		case SHOP_STATE_CONFIRM:
-			_action_titles[3].Draw();
-			break;
 		case SHOP_STATE_LEAVE:
-			_action_titles[4].Draw();
+			_action_titles[3].Draw();
 			break;
 		default:
 			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << endl;
@@ -1514,8 +1465,8 @@ void ShopMode::CompleteTransaction() {
 		// When all owned instances of this object have been sold off, the object is automatically removed
 		// from the player's inventory. If the object is not sold in the shop, this means it must be removed
 		// from all shop object containers as the object data (GlobalObject pointer) is now invalid.
-		if ((i->second->GetOwnCount() == 0) && (i->second->IsSoldInShop() == false)) {
-			RemoveObject(id);
+		if (i->second->GetOwnCount() == 0) {
+			RemoveObjectToSell(id);
 		}
 	}
 	_sell_list.clear();
@@ -1535,8 +1486,9 @@ void ShopMode::CompleteTransaction() {
 	_confirm_interface->TransactionNotification();
 	_leave_interface->TransactionNotification();
 
-	// Update the available categories and place the cursor accordingly.
-	_UpdateAvailableCategories();
+	// Update the available shop options and place the cursor accordingly.
+	_UpdateAvailableObjectsToSell();
+	_UpdateAvailableShopOptions();
 } // void ShopMode::CompleteTransaction()
 
 
@@ -1648,50 +1600,44 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
 
 void ShopMode::AddObject(uint32 object_id, uint32 stock) {
 	if (IsInitialized() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << endl;
+		PRINT_WARNING << "function called after shop was already initialized" << endl;
 		return;
 	}
 
 	if (object_id == private_global::OBJECT_ID_INVALID || object_id >= private_global::OBJECT_ID_EXCEEDS) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to add object with invalid id: " << object_id << endl;
+		PRINT_WARNING << "attempted to add object with invalid id: " << object_id << endl;
 		return;
 	}
 
-	if (_shop_objects.find(object_id) != _shop_objects.end()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to add object that already existed: " << object_id << endl;
+	if (_available_buy.find(object_id) != _available_buy.end()) {
+		PRINT_WARNING << "attempted to add object that already existed: " << object_id << endl;
 		return;
 	}
 
 	GlobalObject* new_object = GlobalCreateNewObject(object_id, 1);
 	if (new_object != NULL)
 	{
-		_created_objects.push_back(new_object);
-		ShopObject new_shop_object(new_object, true);
-		new_shop_object.IncrementStockCount(stock);
-		_shop_objects.insert(make_pair(object_id, new_shop_object));
+		ShopObject *new_shop_object = new ShopObject(new_object);
+		new_shop_object->IncrementStockCount(stock);
+		_available_buy.insert(make_pair(object_id, new_shop_object));
 	}
 }
 
 
 
-void ShopMode::RemoveObject(uint32 object_id) {
-	map<uint32, ShopObject>::iterator shop_iter = _shop_objects.find(object_id);
-	if (shop_iter == _shop_objects.end()) {
+void ShopMode::RemoveObjectToSell(uint32 object_id) {
+	std::map<uint32, ShopObject*>::iterator shop_iter = _available_sell.find(object_id);
+	if (shop_iter == _available_sell.end()) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << endl;
 		return;
 	}
 
-	if (shop_iter->second.IsSoldInShop() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "tried to remove object that is sold in shop: " << object_id << endl;
-		return;
-	}
-
-	if (shop_iter->second.GetOwnCount() != 0) {
+	if (shop_iter->second->GetOwnCount() != 0) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: " << object_id << endl;
 		return;
 	}
 
-	_shop_objects.erase(shop_iter);
+	_available_sell.erase(shop_iter);
 }
 
 } // namespace hoa_shop

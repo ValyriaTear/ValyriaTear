@@ -132,7 +132,7 @@ RootInterface::RootInterface() {
 
 
 
-void RootInterface::Initialize() {
+void RootInterface::Reinitialize() {
 	// ---------- (1): Create the price level graphics
 	// Holds the number of stars to display that represent the price levels
 	int8 num_buy_stars = 0;
@@ -216,7 +216,7 @@ void RootInterface::Initialize() {
 		num_buy_stars--;
 		offset += 40.0f;
 	}
-
+/* FIXME: Readd this
 	// ---------- (2): Construct category name text and graphics and determine category draw coordinates
 	// Determine the number of names and icons of categories to load
 	uint32 number_categories = ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames()->size();
@@ -230,6 +230,7 @@ void RootInterface::Initialize() {
 	}
 
 	_category_draw_data.ComputeCoordinates(_category_icons.size());
+	*/
 } // void RootInterface::Initialize()
 
 
@@ -257,7 +258,7 @@ void RootInterface::Draw() {
 	_buy_price_rating.Draw();
 	VideoManager->MoveRelative(280.0f, 0.0f);
 	_sell_price_rating.Draw();
-
+/* FIXME: Readd this
 	// Middle window: below the pricing text/image draw the category icons and text in one or two rows
 	VideoManager->Move(_category_draw_data.first_row_x, _category_draw_data.first_row_y);
 	for (uint8 i = 0; i < _category_draw_data.first_row_num; i++) {
@@ -274,7 +275,7 @@ void RootInterface::Draw() {
 		_category_names[i +MAX_CATEGORY_ROW_SIZE].Draw();
 		VideoManager->MoveRelative(150.0f, 60.0f);
 	}
-
+*/
 	// Bottom window: draw the greeting text
 	_greeting_text.Draw();
 }

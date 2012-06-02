@@ -122,8 +122,8 @@ public:
 	virtual ~ShopInterface()
 		{}
 
-	//! \brief Performs any initialization that could not be done when the class was constructed
-	virtual void Initialize() = 0;
+	//! \brief Performs any (Re)initialization that could not be done when the class was constructed
+	virtual void Reinitialize() = 0;
 
 	//! \brief Invoked to notify when the shop state has changed and the interface has become active
 	virtual void MakeActive() = 0;
@@ -160,9 +160,8 @@ public:
 class ShopObject {
 public:
 	/** \param object A pointer to a valid GlobalObject instance that the shop object will represent
-	*** \param sold_by_shop True if this object is offered for sale by the shop
 	**/
-	ShopObject(hoa_global::GlobalObject* object, bool sold_by_shop);
+	ShopObject(hoa_global::GlobalObject* object);
 
 	~ShopObject()
 		{}
@@ -185,9 +184,6 @@ public:
 	//@{
 	hoa_global::GlobalObject* GetObject() const
 		{ return _object; }
-
-	bool IsSoldInShop() const
-		{ return _sold_in_shop; }
 
 	uint32 GetBuyPrice() const
 		{ return _buy_price; }
@@ -239,9 +235,6 @@ public:
 private:
 	//! \brief A pointer to the global object represented by this
 	hoa_global::GlobalObject* _object;
-
-	//! \brief Set to true if the player is able to buy this object from the shop
-	bool _sold_in_shop;
 
 	//! \brief The price that the player must pay to buy this object from the shop
 	uint32 _buy_price;

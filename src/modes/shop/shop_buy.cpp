@@ -51,6 +51,7 @@ namespace private_shop {
 BuyInterface::BuyInterface() :
 	_view_mode(SHOP_VIEW_MODE_INVALID),
 	_selected_object(NULL),
+	_buy_deal_types(0),
 	_current_category(0)
 {
 	_category_header.SetStyle(TextStyle("title24"));
@@ -83,7 +84,6 @@ BuyInterface::BuyInterface() :
 }
 
 
-
 BuyInterface::~BuyInterface() {
 	for (uint32 i = 0; i < _list_displays.size(); i++) {
 		delete _list_displays[i];
@@ -91,16 +91,91 @@ BuyInterface::~BuyInterface() {
 }
 
 
+void BuyInterface::_UpdateAvailableBuyDealTypes() {
+	_buy_deal_types = 0;
 
-void BuyInterface::Initialize() {
-	// Load all category names and icon images to be used
-	_number_categories = ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames()->size();
-
-	_category_names = *(ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames());
-	vector<StillImage>* icons = ShopMode::CurrentInstance()->Media()->GetSaleCategoryIcons();
-	for (uint32 i = 0; i < icons->size(); i++) {
-		_category_icons.push_back(&(icons->at(i)));
+	// Determine what types of objects the shop deals in based on the managed object list
+	std::map<uint32, ShopObject*>* buy_objects = ShopMode::CurrentInstance()->GetAvailableBuy();
+	for (std::map<uint32, ShopObject*>::iterator it = buy_objects->begin(); it != buy_objects->end(); ++it) {
+		hoa_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
+		switch (object_type) {
+			case GLOBAL_OBJECT_ITEM:
+				_buy_deal_types |= DEALS_ITEMS;
+				break;
+			case GLOBAL_OBJECT_WEAPON:
+				_buy_deal_types |= DEALS_WEAPONS;
+				break;
+			case GLOBAL_OBJECT_HEAD_ARMOR:
+				_buy_deal_types |= DEALS_HEAD_ARMOR;
+				break;
+			case GLOBAL_OBJECT_TORSO_ARMOR:
+				_buy_deal_types |= DEALS_TORSO_ARMOR;
+				break;
+			case GLOBAL_OBJECT_ARM_ARMOR:
+				_buy_deal_types |= DEALS_ARM_ARMOR;
+				break;
+			case GLOBAL_OBJECT_LEG_ARMOR:
+				_buy_deal_types |= DEALS_LEG_ARMOR;
+				break;
+			case GLOBAL_OBJECT_SHARD:
+				_buy_deal_types |= DEALS_SHARDS;
+				break;
+			case GLOBAL_OBJECT_KEY_ITEM:
+				_buy_deal_types |= DEALS_KEY_ITEMS;
+				break;
+			default:
+				IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << endl;
+				break;
+		}
 	}
+}
+
+
+void BuyInterface::_RefreshItemCategories() {
+	// Clear the data
+	_category_icons.clear();
+	_category_names.clear();
+	ShopMedia *shop_media = ShopMode::CurrentInstance()->Media();
+	std::vector<ustring>* all_category_names = shop_media->GetAllCategoryNames();
+	std::vector<StillImage>* all_category_icons = shop_media->GetAllCategoryIcons();
+
+	// Determine which categories are used in this shop and populate the true containers with that data
+	_UpdateAvailableBuyDealTypes();
+
+	uint8 bit_x = 0x01; // Used to do a bit-by-bit analysis of the obj_types variable
+	for (uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
+		// Check whether the type is available by doing a bit-wise comparison
+		if (_buy_deal_types & bit_x) {
+			_category_names.push_back(all_category_names->at(i));
+			_category_icons.push_back(&all_category_icons->at(i));
+		}
+	}
+
+	// If here is more than one category, add the text/icon for all wares
+	if (_category_names.size() > 1) {
+		_category_names.push_back(all_category_names->at(8));
+		_category_icons.push_back(&all_category_icons->at(8));
+	}
+
+	_number_categories = _category_names.size();
+
+	// FIXME: Grab the sprite frames for all characters in the active party
+/*	std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+	for (uint32 i = 0; i < characters->size(); ++i) {
+		GlobalCharacter *character = characters->at(i);
+
+		if (!character || character->GetStandardSpriteFrames()->empty()) {
+			_character_sprites.push_back(new StillImage());
+			continue;
+		}
+
+		_character_sprites.push_back(characters->at(i)->GetStandardSpriteFrames()->at(0));
+	}*/
+}
+
+
+void BuyInterface::Reinitialize() {
+	_RefreshItemCategories();
 
 	// Set the initial category to the last category that was added (this is usually "All Wares")
 	_current_category = _number_categories > 0 ? _number_categories - 1 : 0;
@@ -110,16 +185,14 @@ void BuyInterface::Initialize() {
 
 	// Prepare object data containers and determine category index mappings
 	// Containers of object data used to populate the display lists
-	vector<vector<ShopObject*> > object_data;
+	std::vector<std::vector<ShopObject*> > object_data;
 
 	for (uint32 i = 0; i < _number_categories; ++i) {
-		object_data.push_back(vector<ShopObject*>());
+		object_data.push_back(std::vector<ShopObject*>());
 	}
 
-	// Bit-vector that indicates what types of objects are sold in the shop
-	uint8 deal_types = ShopMode::CurrentInstance()->GetDealTypes();
 	// Holds the index to the _object_data vector where the container for a specific object type is located
-	vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
+	std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
 	// Used to set the appropriate data in the type_index vector
 	uint32 next_index = 0;
 	// Used to do a bit-by-bit analysis of the deal_types variable
@@ -133,7 +206,7 @@ void BuyInterface::Initialize() {
 	// location in object_data.
 	for (uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
 		// Check if the type is available by doing a bit-wise comparison
-		if (deal_types & bit_x) {
+		if (_buy_deal_types & bit_x) {
 			type_index[i] = next_index++;
 		}
 	}
@@ -142,51 +215,53 @@ void BuyInterface::Initialize() {
 	// Used to temporarily hold a pointer to a valid shop object
 	ShopObject* obj = NULL;
 	// Pointer to the container of all objects that are bought/sold/traded in the shop
-	map<uint32, ShopObject>* shop_objects = ShopMode::CurrentInstance()->GetShopObjects();
+	std::map<uint32, ShopObject*>* buy_objects = ShopMode::CurrentInstance()->GetAvailableBuy();
 
-	for (map<uint32, ShopObject>::iterator i = shop_objects->begin(); i != shop_objects->end(); i++) {
-		obj = &(i->second);
+	for (std::map<uint32, ShopObject*>::iterator it = buy_objects->begin(); it != buy_objects->end(); ++it) {
+		obj = it->second;
+		switch (obj->GetObject()->GetObjectType()) {
+			case GLOBAL_OBJECT_ITEM:
+				object_data[type_index[0]].push_back(obj);
+				break;
+			case GLOBAL_OBJECT_WEAPON:
+				object_data[type_index[1]].push_back(obj);
+				break;
+			case GLOBAL_OBJECT_HEAD_ARMOR:
+				object_data[type_index[2]].push_back(obj);
+				break;
+			case GLOBAL_OBJECT_TORSO_ARMOR:
+				object_data[type_index[3]].push_back(obj);
+				break;
+			case GLOBAL_OBJECT_ARM_ARMOR:
+				object_data[type_index[4]].push_back(obj);
+				break;
+			case GLOBAL_OBJECT_LEG_ARMOR:
+				object_data[type_index[5]].push_back(obj);
+				break;
+			case GLOBAL_OBJECT_SHARD:
+				object_data[type_index[6]].push_back(obj);
+				break;
+			case GLOBAL_OBJECT_KEY_ITEM:
+				object_data[type_index[7]].push_back(obj);
+				break;
+			default:
+				IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << endl;
+				break;
+		}
 
-		if (obj->IsSoldInShop() == true) {
-			switch (obj->GetObject()->GetObjectType()) {
-				case GLOBAL_OBJECT_ITEM:
-					object_data[type_index[0]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_WEAPON:
-					object_data[type_index[1]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_HEAD_ARMOR:
-					object_data[type_index[2]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_TORSO_ARMOR:
-					object_data[type_index[3]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_ARM_ARMOR:
-					object_data[type_index[4]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_LEG_ARMOR:
-					object_data[type_index[5]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_SHARD:
-					object_data[type_index[6]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_KEY_ITEM:
-					object_data[type_index[7]].push_back(obj);
-					break;
-				default:
-					IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << endl;
-					break;
-			}
-
-			// If there is an "All Wares" category, make sure the object gets added there as well
-			if (_number_categories > 1) {
-				object_data.back().push_back(obj);
-			}
+		// If there is an "All Wares" category, make sure the object gets added there as well
+		if (_number_categories > 1) {
+			object_data.back().push_back(obj);
 		}
 	}
 
-	// ---------- (4): Create the buy displays using the object data that is now ready
-	for (uint32 i = 0; i < object_data.size(); i++) {
+	// Create the buy displays using the object data that is now ready
+	for (uint32 i = 0; i < _list_displays.size(); ++i) {
+		delete _list_displays[i];
+	}
+	_list_displays.clear();
+
+	for (uint32 i = 0; i < object_data.size(); ++i) {
 		BuyListDisplay* new_list = new BuyListDisplay();
 		new_list->PopulateList(object_data[i]);
 		_list_displays.push_back(new_list);
@@ -200,6 +275,8 @@ void BuyInterface::Initialize() {
 
 
 void BuyInterface::MakeActive() {
+	Reinitialize();
+
 	// Buy counts may have be modified externally so a complete list refresh is necessary
 	for (uint32 i = 0; i < _list_displays.size(); i++)
 		_list_displays[i]->RefreshAllEntries();
@@ -406,9 +483,8 @@ void BuyInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 
 
 bool BuyInterface::_ChangeCategory(bool left_or_right) {
-	if (_number_categories == 1) {
+	if (_number_categories <= 1)
 		return false;
-	}
 
 	if (left_or_right == false) {
 		_current_category = (_current_category == 0) ? (_number_categories - 1) : (_current_category - 1);
@@ -433,7 +509,13 @@ bool BuyInterface::_ChangeCategory(bool left_or_right) {
 
 
 bool BuyInterface::_ChangeSelection(bool up_or_down) {
+	if (_current_category >= _list_displays.size())
+		return false;
+
 	BuyListDisplay* selected_list = _list_displays[_current_category];
+
+	if (!selected_list)
+		return false;
 
 	if (up_or_down == false)
 		selected_list->InputUp();
@@ -478,7 +560,8 @@ void BuyListDisplay::ReconstructList() {
 		// Add an option for each object property in the order of: price, stock, number owned, and amount to buy
 		_property_list.AddOption(MakeUnicodeString(NumberToString(obj->GetBuyPrice())));
 		_property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
-		_property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetOwnCount())));
+		uint32 own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
+		_property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
 		_property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetBuyCount())));
 	}
 

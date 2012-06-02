@@ -56,7 +56,7 @@ TradeInterface::~TradeInterface() {
 
 
 
-void TradeInterface::Initialize() {
+void TradeInterface::Reinitialize() {
 
 }
 

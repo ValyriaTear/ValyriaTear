@@ -41,9 +41,8 @@ namespace private_shop {
 // ***** ShopObject class methods
 // *****************************************************************************
 
-ShopObject::ShopObject(GlobalObject* object, bool sold_by_shop) :
+ShopObject::ShopObject(GlobalObject* object) :
 	_object(object),
-	_sold_in_shop(sold_by_shop),
 	_buy_price(0),
 	_sell_price(0),
 	_own_count(0),

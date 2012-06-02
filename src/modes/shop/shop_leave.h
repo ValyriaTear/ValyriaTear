@@ -73,7 +73,7 @@ public:
 	~LeaveInterface();
 
 	//! \brief Not used by this interface as all initialization is performed in the class constructor and MakeActive() method
-	void Initialize()
+	void Reinitialize()
 		{}
 
 	//! \brief Processes the buy/sell/trade lists and determines the counts and other information about each transaction

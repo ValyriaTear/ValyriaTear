@@ -51,6 +51,7 @@ namespace private_shop {
 SellInterface::SellInterface() :
 	_view_mode(SHOP_VIEW_MODE_INVALID),
 	_selected_object(NULL),
+	_sell_deal_types(0),
 	_current_category(0)
 {
 	_category_header.SetStyle(TextStyle("title24"));
@@ -91,40 +92,188 @@ SellInterface::~SellInterface() {
 }
 
 
+void SellInterface::_UpdateAvailableSellDealTypes() {
+	_sell_deal_types = 0;
 
-void SellInterface::Initialize() {
-	// Load all category names and icon images to be used
-	_number_categories = ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames()->size();
-
-	_category_names = *(ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames());
-	vector<StillImage>* icons = ShopMode::CurrentInstance()->Media()->GetSaleCategoryIcons();
-	for (uint32 i = 0; i < icons->size(); i++) {
-		_category_icons.push_back(&(icons->at(i)));
+	// Determine what types of objects the shop deals in based on the managed object list
+	std::map<uint32, ShopObject*>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
+	for (std::map<uint32, ShopObject*>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
+		hoa_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
+		switch (object_type) {
+			case GLOBAL_OBJECT_ITEM:
+				_sell_deal_types |= DEALS_ITEMS;
+				break;
+			case GLOBAL_OBJECT_WEAPON:
+				_sell_deal_types |= DEALS_WEAPONS;
+				break;
+			case GLOBAL_OBJECT_HEAD_ARMOR:
+				_sell_deal_types |= DEALS_HEAD_ARMOR;
+				break;
+			case GLOBAL_OBJECT_TORSO_ARMOR:
+				_sell_deal_types |= DEALS_TORSO_ARMOR;
+				break;
+			case GLOBAL_OBJECT_ARM_ARMOR:
+				_sell_deal_types |= DEALS_ARM_ARMOR;
+				break;
+			case GLOBAL_OBJECT_LEG_ARMOR:
+				_sell_deal_types |= DEALS_LEG_ARMOR;
+				break;
+			case GLOBAL_OBJECT_SHARD:
+				_sell_deal_types |= DEALS_SHARDS;
+				break;
+			case GLOBAL_OBJECT_KEY_ITEM:
+				// Key items can't be sold.
+				break;
+			default:
+				IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << endl;
+				break;
+		}
 	}
+}
 
-	// Determine if the shop deals in key items. Key items are not allowed to be sold so this must be taken into account
-	if (ShopMode::CurrentInstance()->GetDealTypes() & DEALS_KEY_ITEMS) {
-		// Reduce the number of categories and swap the last two entries in the names and icons containers.
-		// The last entry contains "All Wares" and the second to last contains "Key Items". After swapping
-		// these two categories, pop off the back to remove key item data.
-		_number_categories--;
-		if (_number_categories > 1) {
-			_category_names[_number_categories - 2] = _category_names[_number_categories - 1];
-			_category_names.pop_back();
-			_category_icons[_number_categories - 2] = _category_icons[_number_categories - 1];
-			_category_icons.pop_back();
+
+void SellInterface::_RefreshItemCategories() {
+	// Clear the data
+	_category_icons.clear();
+	_category_names.clear();
+	ShopMedia *shop_media = ShopMode::CurrentInstance()->Media();
+	std::vector<ustring>* all_category_names = shop_media->GetAllCategoryNames();
+	std::vector<StillImage>* all_category_icons = shop_media->GetAllCategoryIcons();
+
+	// Determine which categories are used in this shop and populate the true containers with that data
+	_UpdateAvailableSellDealTypes();
+
+	uint8 bit_x = 0x01; // Used to do a bit-by-bit analysis of the obj_types variable
+	for (uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
+		// Check whether the type is available by doing a bit-wise comparison
+		if (_sell_deal_types & bit_x) {
+			_category_names.push_back(all_category_names->at(i));
+			_category_icons.push_back(&all_category_icons->at(i));
 		}
 	}
 
-	// Create the sell displays and populate them with the object data
-	for (uint32 i = 0; i < _number_categories; i++) {
-		_list_displays.push_back(new SellListDisplay());
+	// If here is more than one category, add the text/icon for all wares
+	if (_category_names.size() > 1) {
+		_category_names.push_back(all_category_names->at(8));
+		_category_icons.push_back(&all_category_icons->at(8));
 	}
+
+	_number_categories = _category_names.size();
+
+	// Grab the sprite frames for all characters in the active party
+/*	std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+	for (uint32 i = 0; i < characters->size(); ++i) {
+		GlobalCharacter *character = characters->at(i);
+
+		if (!character || character->GetStandardSpriteFrames()->empty()) {
+			_character_sprites.push_back(new StillImage());
+			continue;
+		}
+
+		_character_sprites.push_back(characters->at(i)->GetStandardSpriteFrames()->at(0));
+	}*/
+}
+
+
+void SellInterface::_PopulateLists() {
+	// ---------- (1): Prepare object data containers and determine category index mappings
+	// Containers of object data used to populate the display lists
+	std::vector<std::vector<ShopObject*> > object_data;
+
+	for (uint32 i = 0; i < _number_categories; i++) {
+		object_data.push_back(std::vector<ShopObject*>());
+	}
+
+	// Holds the index to the object_data vector where the container for a specific object type is located
+	std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
+	// Used to set the appropriate data in the type_index vector
+	uint32 next_index = 0;
+	// Used to do a bit-by-bit analysis of the deal_types variable
+	uint8 bit_x = 0x01;
+
+	// This loop determines where each type of object should be placed in the object_data container. For example,
+	// if the available categories in the shop are items, weapons, shards, and all wares, the size of object_data
+	// will be four. When we go to add an object of one of these types into the object_data container, we need
+	// to know the correct index for each type of object. These indeces are stored in the type_index vector. The
+	// size of this vector is the number of object types, so it becomes simple to map each object type to its correct
+	// location in object_data.
+	for (uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
+		// Check if the type is available by doing a bit-wise comparison
+		if (_sell_deal_types & bit_x) {
+			type_index[i] = next_index++;
+		}
+	}
+
+	// ---------- (2): Populate the object_data containers
+	// Used to temporarily hold a pointer to a valid shop object
+	ShopObject* obj = NULL;
+	// Pointer to the container of all objects that are bought/sold/traded in the ship
+	std::map<uint32, ShopObject*>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
+
+	for (std::map<uint32, ShopObject*>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
+		obj = it->second;
+
+		if (obj && obj->GetOwnCount() > 0) {
+			switch (obj->GetObject()->GetObjectType()) {
+				case GLOBAL_OBJECT_ITEM:
+					object_data[type_index[0]].push_back(obj);
+					break;
+				case GLOBAL_OBJECT_WEAPON:
+					object_data[type_index[1]].push_back(obj);
+					break;
+				case GLOBAL_OBJECT_HEAD_ARMOR:
+					object_data[type_index[2]].push_back(obj);
+					break;
+				case GLOBAL_OBJECT_TORSO_ARMOR:
+					object_data[type_index[3]].push_back(obj);
+					break;
+				case GLOBAL_OBJECT_ARM_ARMOR:
+					object_data[type_index[4]].push_back(obj);
+					break;
+				case GLOBAL_OBJECT_LEG_ARMOR:
+					object_data[type_index[5]].push_back(obj);
+					break;
+				case GLOBAL_OBJECT_SHARD:
+					object_data[type_index[6]].push_back(obj);
+					break;
+				case GLOBAL_OBJECT_KEY_ITEM:
+					continue; // Key items are not permitted to be sold
+				default:
+					IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << endl;
+					break;
+			}
+
+			// If there is an "All Wares" category, make sure the object gets added there as well
+			if (_number_categories > 1) {
+				object_data.back().push_back(obj);
+			}
+		}
+	}
+
+	// ---------- (3): Create the sell displays using the object data that is now ready
+	for (uint32 i = 0; i < object_data.size(); i++) {
+		_list_displays[i]->PopulateList(object_data[i]);
+	}
+} // void SellInterface::_PopulateLists()
+
+
+void SellInterface::Reinitialize() {
+	_RefreshItemCategories();
+
+	// (Re)create the sell displays and populate them with the object data
+	for (uint32 i = 0; i < _list_displays.size(); ++i)
+		delete _list_displays[i];
+	_list_displays.clear();
+
+	for (uint32 i = 0; i < _number_categories; ++i)
+		_list_displays.push_back(new SellListDisplay());
+
 	_PopulateLists();
 
 	// Initialize other class members and states appropriately
 	// Set the initial category to the last category that was added (this is usually "All Wares")
 	_current_category = _number_categories > 0 ? _number_categories - 1 : 0;
+
 	// Initialize the category display with the initial category
 	if (_number_categories > 0) {
 		_category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
@@ -136,6 +285,8 @@ void SellInterface::Initialize() {
 
 
 void SellInterface::MakeActive() {
+	Reinitialize();
+
 	// Sell counts may have be modified externally so a complete list refresh is necessary
 	for (uint32 i = 0; i < _list_displays.size(); i++)
 		_list_displays[i]->RefreshAllEntries();
@@ -301,92 +452,6 @@ void SellInterface::Draw() {
 }
 
 
-
-void SellInterface::_PopulateLists() {
-	// ---------- (1): Prepare object data containers and determine category index mappings
-	// Containers of object data used to populate the display lists
-	vector<vector<ShopObject*> > object_data;
-
-	for (uint32 i = 0; i < _number_categories; i++) {
-		object_data.push_back(vector<ShopObject*>());
-	}
-
-	// Bit-vector that indicates what types of objects are sold in the shop
-	uint8 deal_types = ShopMode::CurrentInstance()->GetDealTypes();
-	// Holds the index to the object_data vector where the container for a specific object type is located
-	vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
-	// Used to set the appropriate data in the type_index vector
-	uint32 next_index = 0;
-	// Used to do a bit-by-bit analysis of the deal_types variable
-	uint8 bit_x = 0x01;
-
-	// This loop determines where each type of object should be placed in the object_data container. For example,
-	// if the available categories in the shop are items, weapons, shards, and all wares, the size of object_data
-	// will be four. When we go to add an object of one of these types into the object_data container, we need
-	// to know the correct index for each type of object. These indeces are stored in the type_index vector. The
-	// size of this vector is the number of object types, so it becomes simple to map each object type to its correct
-	// location in object_data.
-	for (uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
-		// Check if the type is available by doing a bit-wise comparison
-		if (deal_types & bit_x) {
-			type_index[i] = next_index++;
-		}
-	}
-
-	// ---------- (2): Populate the object_data containers
-	// Used to temporarily hold a pointer to a valid shop object
-	ShopObject* obj = NULL;
-	// Pointer to the container of all objects that are bought/sold/traded in the ship
-	map<uint32, ShopObject>* shop_objects = ShopMode::CurrentInstance()->GetShopObjects();
-
-	for (map<uint32, ShopObject>::iterator i = shop_objects->begin(); i != shop_objects->end(); i++) {
-		obj = &(i->second);
-
-		if (obj->GetOwnCount() > 0) {
-			switch (obj->GetObject()->GetObjectType()) {
-				case GLOBAL_OBJECT_ITEM:
-					object_data[type_index[0]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_WEAPON:
-					object_data[type_index[1]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_HEAD_ARMOR:
-					object_data[type_index[2]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_TORSO_ARMOR:
-					object_data[type_index[3]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_ARM_ARMOR:
-					object_data[type_index[4]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_LEG_ARMOR:
-					object_data[type_index[5]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_SHARD:
-					object_data[type_index[6]].push_back(obj);
-					break;
-				case GLOBAL_OBJECT_KEY_ITEM:
-					continue; // Key items are not permitted to be sold
-				default:
-					IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << endl;
-					break;
-			}
-
-			// If there is an "All Wares" category, make sure the object gets added there as well
-			if (_number_categories > 1) {
-				object_data.back().push_back(obj);
-			}
-		}
-	}
-
-	// ---------- (3): Create the sell displays using the object data that is now ready
-	for (uint32 i = 0; i < object_data.size(); i++) {
-		_list_displays[i]->PopulateList(object_data[i]);
-	}
-} // void SellInterface::_PopulateLists()
-
-
-
 void SellInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 	if (_view_mode == new_mode)
 		return;
@@ -422,11 +487,9 @@ void SellInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 }
 
 
-
 bool SellInterface::_ChangeCategory(bool left_or_right) {
-	if (_number_categories == 1) {
+	if (_number_categories <= 1)
 		return false;
-	}
 
 	if (left_or_right == false) {
 		_current_category = (_current_category == 0) ? (_number_categories -1) : (_current_category - 1);
@@ -451,7 +514,13 @@ bool SellInterface::_ChangeCategory(bool left_or_right) {
 
 
 bool SellInterface::_ChangeSelection(bool up_or_down) {
+	if (_current_category >= _list_displays.size())
+		return false;
+
 	SellListDisplay* selected_list = _list_displays[_current_category];
+
+	if (!selected_list)
+		return false;
 
 	if (up_or_down == false)
 		selected_list->InputUp();

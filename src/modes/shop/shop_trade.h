@@ -36,7 +36,7 @@ public:
 
 	~TradeInterface();
 
-	void Initialize();
+	void Reinitialize();
 
 	void MakeActive();
 
