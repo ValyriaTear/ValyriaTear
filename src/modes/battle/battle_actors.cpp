@@ -198,6 +198,8 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 		ChangeState(ACTOR_STATE_DYING);
 		return;
 	}
+	
+	ChangeSpriteAnimation("hurt");
 
 	// Apply a stun to the actor timer depending on the amount of damage dealt
 	float damage_percent = static_cast<float>(amount) / static_cast<float>(GetMaxHitPoints());
