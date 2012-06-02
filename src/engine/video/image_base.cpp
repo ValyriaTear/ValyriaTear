@@ -13,18 +13,18 @@
 *** \brief   Source file for image base classes
 *** ***************************************************************************/
 
-#include <cstdarg>
-#include <math.h>
+#include "image_base.h"
+#include "video.h"
 
 #include <png.h>
 extern "C" {
 	#include <jpeglib.h>
 }
 
-#include <SDL_image.h>
+#include <cstdarg>
+#include <math.h>
 
-#include "image_base.h"
-#include "video.h"
+#include <SDL_image.h>
 
 using namespace std;
 using namespace hoa_utils;
