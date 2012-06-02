@@ -50,15 +50,11 @@ public:
 
 	~SellInterface();
 
-	//! \brief Initializes the data conatiners and GUI objects to be used
-	void Initialize();
+	//! \brief (Re)initializes the data conatiners and GUI objects to be used
+	void Reinitialize();
 
 	//! \brief Sets the selected object for the ShopObjectViewer class
 	void MakeActive();
-
-	//! \brief Tells the number of sellable items.
-    uint32 GetSellableItemsNumber()
-        { return _list_displays.size(); }
 
 	//! \brief Completely reconstructs all display lists from the party's inventory
 	void TransactionNotification();
@@ -75,6 +71,9 @@ private:
 
 	//! \brief A pointer to the currently selected object in the active list display
 	ShopObject* _selected_object;
+
+	//! \brief A bit vector that represents the types of merchandise that the player can sell.
+	uint8 _sell_deal_types;
 
 	//! \brief Retains the number of object categories available to sell
 	uint32 _number_categories;
@@ -113,6 +112,16 @@ private:
 
 	//! \brief A single row option box containing the selected object's properties
 	hoa_gui::OptionBox _selected_properties;
+
+	/**
+	***  Update the available deal types. Called only in _RefreshItemCategories().
+	*/
+	void _UpdateAvailableSellDealTypes();
+
+	/**
+	*** Refresh the available item categories.
+	**/
+	void _RefreshItemCategories();
 
 	/** \brief Clears out all list displays and rebuilds them from scratch using the party's inventory
 	*** This operation needs to be performed when the interface is initialized and whenever a transaction

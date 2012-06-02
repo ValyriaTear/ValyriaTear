@@ -43,15 +43,11 @@ public:
 
 	~BuyInterface();
 
-	//! \brief Initializes the data conatiners and GUI objects to be used
-	void Initialize();
+	//! \brief (Re)initializes the data conatiners and GUI objects to be used
+	void Reinitialize();
 
 	//! \brief Sets the selected object for the ShopObjectViewer class
 	void MakeActive();
-
-//! \brief Tells the number of buyable items.
-	uint32 GetBuyableItemsNumber()
-		{ return _list_displays.size(); }
 
 	//! \brief Reconstructs all buy display lists and resets the current category
 	void TransactionNotification();
@@ -68,6 +64,9 @@ private:
 
 	//! \brief A pointer to the currently selected object in the active list display
 	ShopObject* _selected_object;
+
+	//! \brief A bit vector that represents the types of merchandise that the shop deals in (items, weapons, etc)
+	uint8 _buy_deal_types;
 
 	//! \brief Retains the number of object categories for sale
 	uint32 _number_categories;
@@ -104,6 +103,16 @@ private:
 
 	//! \brief A single row option box containing the selected object's properties
 	hoa_gui::OptionBox _selected_properties;
+
+	/**
+	***  Update the available deal types. Called only in _RefreshItemCategories().
+	*/
+	void _UpdateAvailableBuyDealTypes();
+
+	/**
+	*** Refresh the available item categories.
+	**/
+	void _RefreshItemCategories();
 
 	/** \brief Takes all necessary action for when the active view mode is to be altered
 	*** \param new_mode The new view mode to set

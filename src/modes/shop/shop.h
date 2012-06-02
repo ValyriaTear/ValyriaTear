@@ -56,25 +56,11 @@ public:
 
 	~ShopMedia();
 
-	/** \brief Finishes preparing media data for use
-	*** This function prepares any class members that could not be made ready in the constructor. This
-	*** may be the case, for example, where the contents of a data container are dependent on knowing
-	*** which object categories the shop deals in (which can not be known until shop mode is initialized
-	*** and all wares have been added to the shop).
-	**/
-	void Initialize();
-
 	std::vector<hoa_utils::ustring>* GetAllCategoryNames()
 		{ return &_all_category_names; }
 
 	std::vector<hoa_video::StillImage>* GetAllCategoryIcons()
 		{ return &_all_category_icons; }
-
-	std::vector<hoa_utils::ustring>* GetSaleCategoryNames()
-		{ return &_sale_category_names; }
-
-	std::vector<hoa_video::StillImage>* GetSaleCategoryIcons()
-		{ return &_sale_category_icons; }
 
 	hoa_video::StillImage* GetDrunesIcon()
 		{ return &_drunes_icon; }
@@ -144,12 +130,6 @@ private:
 	//! \brief Retains icon images for all possible object categories, including "all wares"
 	std::vector<hoa_video::StillImage> _all_category_icons;
 
-	//! \brief Retains text names only for those object categories sold by the shop
-	std::vector<hoa_utils::ustring> _sale_category_names;
-
-	//! \brief Retains icon images only for those object categories sold by the shop
-	std::vector<hoa_video::StillImage> _sale_category_icons;
-
 	//! \brief Image icon representing drunes (currency)
 	hoa_video::StillImage _drunes_icon;
 
@@ -179,6 +159,9 @@ private:
 
 	//! \brief A map of the sounds used in shop mode
 	std::map<std::string, hoa_audio::SoundDescriptor*> _sounds;
+
+	//! \brief Initialize the character's data to show
+	void _InitializeCharacters();
 }; // class ShopMedia
 
 
@@ -534,7 +517,7 @@ public:
 	*** an object that the shop sells to the player or trying to remove an object that still remains in the party's
 	*** inventory will result in a warning message and the object will not be removed.
 	**/
-	void RemoveObject(uint32 object_id);
+	void RemoveObjectToSell(uint32 object_id);
 
 	//! \name Class member access functions
 	//@{
@@ -550,21 +533,25 @@ public:
 	SHOP_PRICE_LEVEL GetSellPriceLevel() const
 		{ return _sell_price_level; }
 
-	uint8 GetDealTypes() const
-		{ return _deal_types; }
-
 	uint32 GetTotalCosts() const
 		{ return _total_costs; }
 
 	uint32 GetTotalSales() const
 		{ return _total_sales; }
 
-	std::map<uint32, private_shop::ShopObject>* GetShopObjects()
-		{ return &_shop_objects; }
+	//! Returns the available list of item for sale.
+	std::map<uint32, private_shop::ShopObject*>* GetAvailableBuy()
+		{ return &_available_buy; }
 
+	//! Returns the available list of item that can be sold by the character
+	std::map<uint32, private_shop::ShopObject*>* GetAvailableSell()
+		{ return &_available_sell; }
+
+	//!  Returns the list of items the player has currently reserved for acquisition.
 	std::map<uint32, private_shop::ShopObject*>* GetBuyList()
 		{ return &_buy_list; }
 
+	//! Returns the list of items the player is currently willing to sell.
 	std::map<uint32, private_shop::ShopObject*>* GetSellList()
 		{ return &_sell_list; }
 
@@ -579,8 +566,11 @@ public:
 	//@}
 
 private:
-    //! \brief update (enable, disable) the available categories (buy, sell, ...)
-    void _UpdateAvailableCategories();
+	//! \brief update (enable, disable) the available shop options (buy, sell, ...)
+	void _UpdateAvailableShopOptions();
+
+	//! \brief updates the available items the user can sell
+	void _UpdateAvailableObjectsToSell();
 
 	/** \brief A reference to the current instance of ShopMode
 	*** This is used by other shop clases to be able to refer to the shop that they exist in. This member
@@ -594,9 +584,6 @@ private:
 	//! \brief Keeps track of what windows are open to determine how to handle user input.
 	private_shop::SHOP_STATE _state;
 
-	//! \brief A bit vector that represents the types of merchandise that the shop deals in (items, weapons, etc)
-	uint8 _deal_types;
-
 	//! \brief The shop's price level of objects that the player buys from the shop
 	SHOP_PRICE_LEVEL _buy_price_level;
 
@@ -609,15 +596,11 @@ private:
 	//! \brief The total revenue that will be earned from all marked sales.
 	uint32 _total_sales;
 
-	/** \brief A container of objects that ShopMode created itself and need to be deleted when finished
-	*** These also happen to represent a list of all global objects that the shop may sell to the player
-	**/
-	std::vector<hoa_global::GlobalObject*> _created_objects;
-
-	/** \brief Holds all objects that can be bought, sold, or traded in the shop
+	/** \brief Holds all objects that can be bought, or sold in the shop
 	*** The integer key to this map is the global object ID represented by the ShopObject.
 	**/
-	std::map<uint32, private_shop::ShopObject> _shop_objects;
+	std::map<uint32, private_shop::ShopObject*> _available_buy;
+	std::map<uint32, private_shop::ShopObject*> _available_sell;
 
 	/** \brief Holds pointers to all objects that the player plans to purchase
 	*** The integer key to this map is the global object ID represented by the ShopObject.

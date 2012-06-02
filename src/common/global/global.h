@@ -282,7 +282,14 @@ public:
 	*** \return True if the object was found in the inventor, or false if it was not found
 	**/
 	bool IsObjectInInventory(uint32 id)
-		{ if (_inventory.find(id) != _inventory.end()) return true; else return false; }
+		{ return (_inventory.find(id) != _inventory.end()); }
+
+	/** \brief Gives how many of a given item is in the inventory
+	*** \param id The id of the object (item, weapon, armor, etc.) to check for
+	*** \return The number of the object found in the inventory
+	**/
+	uint32 HowManyObjectsInInventory(uint32 id)
+		{ return (_inventory.find(id) != _inventory.end()) ? _inventory.at(id)->GetCount() : 0; }
 	//@}
 
 	//! \name Event Group Methods
@@ -292,7 +299,7 @@ public:
 	*** \return True if the event group name was found, false if it was not
 	**/
 	bool DoesEventGroupExist(const std::string& group_name) const
-		{ if (_event_groups.find(group_name) != _event_groups.end()) return true; else return false; }
+		{ return (_event_groups.find(group_name) != _event_groups.end()); }
 
 	/** \brief Determines if an event of a given name exists within a given group
 	*** \param group_name The name of the event group where the event to check is contained

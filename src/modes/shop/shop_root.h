@@ -82,8 +82,8 @@ public:
 
 	~RootInterface() {}
 
-	//! \brief Initializes various textual and image data based on the shop properties
-	void Initialize();
+	//! \brief (Re)initializes various textual and image data based on the shop properties
+	void Reinitialize();
 
 	//! \brief No actions need to take place when this interface becomes activated
 	void MakeActive()

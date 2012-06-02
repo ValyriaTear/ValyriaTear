@@ -1,7 +1,7 @@
 -- Debug shop script
 function BootShopTest()
 	print("BootShopTest");
-    -- The shop window is still crash prone
+    -- The shop window might still be crash prone
 
     -- Those calls make the game crash
 	--GlobalManager:AddCharacter(1);
@@ -9,22 +9,22 @@ function BootShopTest()
 	--GlobalManager:AddCharacter(4);
 	--GlobalManager:AddCharacter(8);
 
-    -- The drunes displayed are flawed.
+	-- Initial character money
 	GlobalManager:AddDrunes(1842);
-    -- Those calls make the game crash
-	--GlobalManager:AddToInventory(1, 5);
-	--GlobalManager:AddToInventory(1001, 2);
-	--GlobalManager:AddToInventory(10001, 1);
+
+	-- Initial inventory
+	GlobalManager:AddToInventory(1, 5);
+	GlobalManager:AddToInventory(1001, 2);
+	GlobalManager:AddToInventory(10001, 1);
 
 	local shop = hoa_shop.ShopMode();
 
-    -- Adding only one item makes the game crash at item selection
 	--shop:AddObject(1, 12);
 	--shop:AddObject(1001, 5);
 	--shop:AddObject(10001, 2);
-	--shop:AddObject(10002, 4);
-	--shop:AddObject(10003, 12);
-	--shop:AddObject(20002, 1);
+	shop:AddObject(10002, 4);
+	shop:AddObject(10003, 12);
+	shop:AddObject(20002, 1);
 	--shop:AddObject(20003, 2);
 	--shop:AddObject(30001, 3);
 	--shop:AddObject(30002, 10);
