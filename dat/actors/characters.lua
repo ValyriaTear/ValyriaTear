@@ -21,6 +21,7 @@ characters[CLAUDIUS] = {
 		run = "img/sprites/battle/characters/claudius_run.lua",
 		attack = "img/sprites/battle/characters/claudius_attack.lua",
 		dodge = "img/sprites/battle/characters/claudius_dodge.lua",
+		hurt = "img/sprites/battle/characters/claudius_hurt.lua",
 		victory = "img/sprites/battle/characters/claudius_victory.lua",
 		dying = "img/sprites/battle/characters/claudius_dead.lua",
 		dead = "img/sprites/battle/characters/claudius_dead.lua",
