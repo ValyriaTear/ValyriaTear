@@ -1018,7 +1018,7 @@ ShopMode::ShopMode() :
 	_action_titles.push_back(TextImage(option_text[0], TextStyle("title28")));
 	_action_titles.push_back(TextImage(option_text[1], TextStyle("title28")));
 //	_action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
-	_action_titles.push_back(TextImage(option_text[3], TextStyle("title28")));
+	_action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
 	_action_titles.push_back(TextImage(UTranslate("Leave"), TextStyle("title28")));
 
 	// (3) Create the financial table text
