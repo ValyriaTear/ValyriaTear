@@ -145,12 +145,15 @@ void ShopMedia::_InitializeCharacters() {
 	for (uint32 i = 0; i < characters->size(); ++i) {
 		GlobalCharacter *character = characters->at(i);
 
-		if (!character || character->GetStandardSpriteFrames()->empty()) {
-			_character_sprites.push_back(new StillImage());
+		if (!character) {
+			_character_sprites.push_back(new AnimatedImage());
 			continue;
 		}
 
-		_character_sprites.push_back(characters->at(i)->GetStandardSpriteFrames()->at(0));
+		// Load a copy of the idle battle character sprite.
+		AnimatedImage anim = *character->RetrieveBattleAnimation("idle");
+		anim.SetDimensions(anim.GetWidth() / 2, anim.GetHeight() / 2);
+		_character_sprites.push_back(anim);
 	}
 }
 
@@ -409,6 +412,13 @@ void ShopObjectViewer::Initialize() {
 
 
 void ShopObjectViewer::Update() {
+	// Update active character animations.
+	std::vector<hoa_video::AnimatedImage>::iterator it = _character_sprites.begin();
+	for (; it != _character_sprites.end(); ++it) {
+		if (!(*it).IsGrayScale())
+			(*it).Update();
+	}
+
 	_description_text.Update();
 	_lore_text.Update();
 }

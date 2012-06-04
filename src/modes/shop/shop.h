@@ -86,7 +86,7 @@ public:
 	std::vector<hoa_video::StillImage>* GetStatusIcons()
 		{ return &_status_icons; }
 
-	std::vector<hoa_video::StillImage>* GetCharacterSprites()
+	std::vector<hoa_video::AnimatedImage>* GetCharacterSprites()
 		{ return &_character_sprites; }
 
 	/** \brief Retrieves the category name that represents the specified object type
@@ -155,7 +155,7 @@ private:
 	std::vector<hoa_video::StillImage> _status_icons;
 
 	//! \brief Retains sprite image frames for all characters in the active party
-	std::vector<hoa_video::StillImage> _character_sprites;
+	std::vector<hoa_video::AnimatedImage> _character_sprites;
 
 	//! \brief A map of the sounds used in shop mode
 	std::map<std::string, hoa_audio::SoundDescriptor*> _sounds;
@@ -285,7 +285,7 @@ private:
 	//! \name Data used for displaying character sprites and related status
 	//@{
 	//! \brief Sprite images of all characters currently in the party
-	std::vector<hoa_video::StillImage> _character_sprites;
+	std::vector<hoa_video::AnimatedImage> _character_sprites;
 
 	//! \brief For weapons and armor, icon image that represents when a character already has the object equipped
 	hoa_video::StillImage _equip_icon;

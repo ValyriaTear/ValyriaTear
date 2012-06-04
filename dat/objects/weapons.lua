@@ -44,7 +44,7 @@ weapons[10001] = {
 	metaphysical_attack = 0,
 	standard_price = 120,
 	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
-	slots = 0
+	slots = 1
 }
 
 weapons[10002] = {
@@ -55,7 +55,7 @@ weapons[10002] = {
 	metaphysical_attack = 0,
 	standard_price = 250,
 	usable_by = CLAUDIUS + MARK + DESTER + LUKAR,
-	slots = 0
+	slots = 1
 }
 
 weapons[10003] = {
@@ -69,3 +69,17 @@ weapons[10003] = {
 	slots = 1
 }
 
+-- -----------------------------------------------------------------------------
+-- IDs 11,001 - 11,500 are reserved for arbalests
+-- -----------------------------------------------------------------------------
+
+weapons[11001] = {
+	name = hoa_system.Translate("Arbalest"),
+	description = hoa_system.Translate("A standard wooden arbalest."),
+	icon = "img/icons/weapons/arbalest.png",
+	physical_attack = 45,
+	metaphysical_attack = 0,
+	standard_price = 1400,
+	usable_by = KALYA,
+	slots = 2
+}
