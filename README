@@ -22,15 +22,15 @@ dat/ img/ mus/ snd/ src/ txt/
 
 Library dependencies (you will need the following in order to compile and run the game):
 OpenGL and GLU
-libjpeg
-libpng
-SDL
-SDL_ttf
+libjpeg (6.2 to 8)
+libpng (1.2 to 1.5)
+SDL (1.2)
+SDL_ttf (1.2)
 OpenAL
 libogg
 libvorbis
 GNU Gettext
 lua 5.1.x
-Luabind (Provided as a static library)
-Boost headers (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
+Luabind (Provided as a static library) (0.8 atm, but 0.9 is known to work.)
+Boost headers (1.48) (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 Qt 4+ (only if you wish to compile the map editor)
