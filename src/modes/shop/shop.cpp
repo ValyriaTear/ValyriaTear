@@ -383,8 +383,8 @@ ShopObjectViewer::ShopObjectViewer() :
 	_meta_rating.SetStyle(TextStyle("text22"));
 	_socket_text.SetStyle(TextStyle("text22"));
 
-	// Size elemental and status icon containers to the total number of avaiable elementals/status effects
-	_elemental_icons.resize(GLOBAL_ELEMENTAL_TOTAL, StillImage());
+	// Size elemental and status icon containers to the total number of available elementals/status effects
+	_elemental_icons.resize(GLOBAL_ELEMENTAL_TOTAL, 0);
 	// TODO
 // 	_status_icons.resize(GLOBAL_STATUS_TOTAL, StillImage());
 }
@@ -394,15 +394,16 @@ ShopObjectViewer::ShopObjectViewer() :
 void ShopObjectViewer::Initialize() {
 	_description_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
 
-	_check_icon = *(ShopMode::CurrentInstance()->Media()->GetCheckIcon());
-	_x_icon = *(ShopMode::CurrentInstance()->Media()->GetXIcon());
-	_socket_icon = *(ShopMode::CurrentInstance()->Media()->GetSocketIcon());
-	_equip_icon = *(ShopMode::CurrentInstance()->Media()->GetEquipIcon());
+	_check_icon = ShopMode::CurrentInstance()->Media()->GetCheckIcon();
+	_x_icon = ShopMode::CurrentInstance()->Media()->GetXIcon();
+	_socket_icon = ShopMode::CurrentInstance()->Media()->GetSocketIcon();
+	_equip_icon = ShopMode::CurrentInstance()->Media()->GetEquipIcon();
 
-	uint32 number_character = ShopMode::CurrentInstance()->Media()->GetCharacterSprites()->size();
+	std::vector<hoa_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
+	uint32 number_character = animations->size();
 
-	for (uint32 i = 0; i < number_character; i++) {
-		_character_sprites.push_back(ShopMode::CurrentInstance()->Media()->GetCharacterSprites()->at(i));
+	for (uint32 i = 0; i < number_character; ++i) {
+		_character_sprites.push_back(&animations->at(i));
 		_character_equipped.push_back(false);
 		_phys_change_text.push_back(TextImage());
 		_meta_change_text.push_back(TextImage());
@@ -413,10 +414,10 @@ void ShopObjectViewer::Initialize() {
 
 void ShopObjectViewer::Update() {
 	// Update active character animations.
-	std::vector<hoa_video::AnimatedImage>::iterator it = _character_sprites.begin();
+	std::vector<hoa_video::AnimatedImage*>::iterator it = _character_sprites.begin();
 	for (; it != _character_sprites.end(); ++it) {
-		if (!(*it).IsGrayScale())
-			(*it).Update();
+		if (!(*it)->IsGrayScale())
+			(*it)->Update();
 	}
 
 	_description_text.Update();
@@ -628,7 +629,7 @@ void ShopObjectViewer::_SetEquipmentData() {
 	// that these two container members may contain stale data from previous objects. This is acceptable, however, as the stale data should
 	// never be drawn. The stale data is allowed to remain so that we do not waste time re-rendering text for which we will not display.
 	if (selected_weapon != NULL) {
-		for (uint32 i = 0; i < party->size(); i++) {
+		for (uint32 i = 0; i < party->size(); ++i) {
 			character = party->at(i);
 			equipped_weapon = character->GetWeaponEquipped();
 
@@ -638,12 +639,12 @@ void ShopObjectViewer::_SetEquipmentData() {
 			// Case 1: determine if the character can use the weapon and if not, move on to the next character
 			// Toggle grayscale mode appropriately to indicate whether or not the character can equip this
 			if (usable_status & (character->GetID())) {
-				if (_character_sprites[i].IsGrayScale() == true)
-					_character_sprites[i].DisableGrayScale();
+				if (_character_sprites[i]->IsGrayScale())
+					_character_sprites[i]->DisableGrayScale();
 			}
 			else {
-				if (_character_sprites[i].IsGrayScale() == false)
-					_character_sprites[i].EnableGrayScale();
+				if (!_character_sprites[i]->IsGrayScale())
+					_character_sprites[i]->EnableGrayScale();
 				continue;
 			}
 			// Case 2: if the player does not have any weapon equipped, the stat diff is equal to the selected weapon's ratings
@@ -669,7 +670,7 @@ void ShopObjectViewer::_SetEquipmentData() {
 		}
 	}
 	else { // (selected_armor != NULL)
-		for (uint32 i = 0; i < party->size(); i++) {
+		for (uint32 i = 0; i < party->size(); ++i) {
 			character = party->at(i);
 			equipped_armor = character->GetArmorEquipped().at(armor_index);
 
@@ -679,12 +680,12 @@ void ShopObjectViewer::_SetEquipmentData() {
 			// Case 1: determine if the character can use the armor and if not, move on to the next character
 			// Toggle grayscale mode appropriately to indicate whether or not the character can equip this
 			if (usable_status & (character->GetID())) {
-				if (_character_sprites[i].IsGrayScale() == true)
-					_character_sprites[i].DisableGrayScale();
+				if (_character_sprites[i]->IsGrayScale())
+					_character_sprites[i]->DisableGrayScale();
 			}
 			else {
-				if (_character_sprites[i].IsGrayScale() == false)
-					_character_sprites[i].EnableGrayScale();
+				if (!_character_sprites[i]->IsGrayScale())
+					_character_sprites[i]->EnableGrayScale();
 				continue;
 			}
 			// Case 2: if the player does not have any armor equipped, the stat diff is equal to the selected armor's ratings
@@ -816,9 +817,9 @@ void ShopObjectViewer::_SetElementalIcons(const map<GLOBAL_ELEMENTAL, GLOBAL_INT
 				break;
 		}
 
-		_elemental_icons[index] = *(ShopMode::CurrentInstance()->Media()->GetElementalIcon(i->first, i->second));
+		_elemental_icons[index] = ShopMode::CurrentInstance()->Media()->GetElementalIcon(i->first, i->second);
 		if (i->second == GLOBAL_INTENSITY_NEUTRAL) {
-			_elemental_icons[index].EnableGrayScale();
+			_elemental_icons[index]->EnableGrayScale();
 		}
 	}
 }
@@ -840,22 +841,22 @@ void ShopObjectViewer::_DrawItem() {
 	_field_use_header.Draw();
 	move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
 	VideoManager->MoveRelative(move_offset, 0.0f);
-	if (_map_usable == true) {
-		_check_icon.Draw();
+	if (_map_usable) {
+		_check_icon->Draw();
 	}
 	else {
-		_x_icon.Draw();
+		_x_icon->Draw();
 	}
 
 	VideoManager->MoveRelative(175.0f - move_offset, 0.0f);
 	_battle_use_header.Draw();
 	move_offset = _battle_use_header.GetWidth() + 5.0f;
 	VideoManager->MoveRelative(move_offset, 0.0f);
-	if (_battle_usable == true) {
-		_check_icon.Draw();
+	if (_battle_usable) {
+		_check_icon->Draw();
 	}
 	else {
-		_x_icon.Draw();
+		_x_icon->Draw();
 	}
 
 	VideoManager->MoveRelative(175.0f - move_offset, 0.0f);
@@ -883,19 +884,19 @@ void ShopObjectViewer::_DrawEquipment() {
 
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
 	VideoManager->MoveRelative(20.0f, 15.0f);
-	_socket_icon.Draw();
+	_socket_icon->Draw();
 	VideoManager->MoveRelative(20.0f, 0.0f);
 	_socket_text.Draw();
 
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
 	VideoManager->MoveRelative(50.0f, 55.0f);
-	for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL / 2; i++) {
-		_elemental_icons[i].Draw();
+	for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL / 2; ++i) {
+		_elemental_icons[i]->Draw();
 		VideoManager->MoveRelative(0.0f, -25.0f);
 	}
 	VideoManager->MoveRelative(40.0f, 100.0f);
 	for (uint32 i = GLOBAL_ELEMENTAL_TOTAL / 2; i < GLOBAL_ELEMENTAL_TOTAL; i++) {
-		_elemental_icons[i].Draw();
+		_elemental_icons[i]->Draw();
 		VideoManager->MoveRelative(0.0f, -25.0f);
 	}
 
@@ -929,16 +930,16 @@ void ShopObjectViewer::_DrawEquipment() {
 			break;
 		}
 
-		_character_sprites[i].Draw();
+		_character_sprites[i]->Draw();
 
 		// Case 1: Draw the equip icon below the character sprite
-		if (_character_equipped[i] == true) {
+		if (_character_equipped[i]) {
 			VideoManager->MoveRelative(0.0f, -78.0f);
-			_equip_icon.Draw();
+			_equip_icon->Draw();
 			VideoManager->MoveRelative(0.0f, 78.0f);
 		}
 		// Case 2: Draw the phys/meta change text below the sprite
-		else if (_character_sprites[i].IsGrayScale() == false) {
+		else if (!_character_sprites[i]->IsGrayScale()) {
 			VideoManager->MoveRelative(0.0f, -65.0f);
 			_phys_change_text[i].Draw();
 			VideoManager->MoveRelative(0.0f, -20.0f);
