@@ -249,7 +249,8 @@ private:
 	hoa_video::TextImage _field_use_header, _battle_use_header, _target_type_header;
 
 	//! \brief Image copies of a green check mark and a red x mark
-	hoa_video::StillImage _check_icon, _x_icon;
+	hoa_video::StillImage* _check_icon;
+	hoa_video::StillImage* _x_icon;
 
 	//! \brief Holds rendered text images of possible set of target types ("Self — Point", "Ally", "All Enemies", etc.)
 	std::vector<hoa_video::TextImage> _target_type_text;
@@ -270,25 +271,25 @@ private:
 	hoa_video::TextImage _phys_rating, _meta_rating;
 
 	//! \brief An icon image of a shard socket
-	hoa_video::StillImage _socket_icon;
+	hoa_video::StillImage* _socket_icon;
 
 	//! \brief Text indicating how many sockets the selected equipment has available
 	hoa_video::TextImage _socket_text;
 
 	//! \brief Icon images representing elemental effects and intensity properties of the selected object
-	std::vector<hoa_video::StillImage> _elemental_icons;
+	std::vector<hoa_video::StillImage*> _elemental_icons;
 
 	//! \brief Icon images representing status effects and intensity properties of the selected object
-	std::vector<hoa_video::StillImage> _status_icons;
+	std::vector<hoa_video::StillImage*> _status_icons;
 	//@}
 
 	//! \name Data used for displaying character sprites and related status
 	//@{
 	//! \brief Sprite images of all characters currently in the party
-	std::vector<hoa_video::AnimatedImage> _character_sprites;
+	std::vector<hoa_video::AnimatedImage*> _character_sprites;
 
 	//! \brief For weapons and armor, icon image that represents when a character already has the object equipped
-	hoa_video::StillImage _equip_icon;
+	hoa_video::StillImage* _equip_icon;
 
 	//! \brief For weapons and armor, this member is set to true for each character that has the object equipped
 	std::vector<bool> _character_equipped;
