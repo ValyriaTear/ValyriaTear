@@ -135,47 +135,49 @@ img/sprites/battle/characters/bronann_hurt.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_idle.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_run.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_victory.png	GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/bronann_attack.lua	GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/bronann_dead.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/bronann_dodge.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/bronann_hurt.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/bronann_idle.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/bronann_run.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/bronann_victory.lua	GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/bronann_attack.lua	GPLv2	Bertram
+img/sprites/battle/characters/bronann_dead.lua		GPLv2	Bertram
+img/sprites/battle/characters/bronann_dodge.lua		GPLv2	Bertram
+img/sprites/battle/characters/bronann_hurt.lua		GPLv2	Bertram
+img/sprites/battle/characters/bronann_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/bronann_run.lua		GPLv2	Bertram
+img/sprites/battle/characters/bronann_victory.lua	GPLv2	Bertram
 
 img/sprites/battle/characters/kalya_dead.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/kalya_dodge.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/kalya_idle.png		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/kalya_run.png		    GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/kalya_dead.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/kalya_idle.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/kalya_run.lua		    GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/kalya_run.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/kalya_dead.lua		GPLv2	Bertram
+img/sprites/battle/characters/kalya_dodge.lua		GPLv2	Bertram
+img/sprites/battle/characters/kalya_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/kalya_run.lua		GPLv2	Bertram
 
 img/sprites/battle/characters/sylve_dead.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/sylve_idle.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/sylve_run.png	    	GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/sylve_dead.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/sylve_idle.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/sylve_run.lua	    	GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/sylve_dead.lua		GPLv2	Bertram
+img/sprites/battle/characters/sylve_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/sylve_run.lua	    	GPLv2	Bertram
 
 img/sprites/battle/characters/thanis_attack.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_dead.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_idle.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_run.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_victory.png	GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/thanis_attack.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/thanis_dead.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/thanis_idle.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/thanis_run.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/thanis_victory.lua	GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/thanis_attack.lua		GPLv2	Bertram
+img/sprites/battle/characters/thanis_dead.lua		GPLv2	Bertram
+img/sprites/battle/characters/thanis_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/thanis_run.lua		GPLv2	Bertram
+img/sprites/battle/characters/thanis_victory.lua	GPLv2	Bertram
 
 img/sprites/battle/characters/others/soldier_attack.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/others/soldier_idle.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/others/soldier_run.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/others/soldier_victory.png	GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/others/soldier_attack.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/others/soldier_idle.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/others/soldier_run.lua		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/others/soldier_victory.lua	GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/others/soldier_attack.lua		GPLv2	Bertram
+img/sprites/battle/characters/others/soldier_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/others/soldier_run.lua		GPLv2	Bertram
+img/sprites/battle/characters/others/soldier_victory.lua	GPLv2	Bertram
 
 img/sprites/map/characters/bronann_frightened.png           GPLv2	Allacrost
 img/sprites/map/characters/bronann_herostance.png           GPLv2	Allacrost
@@ -211,56 +213,56 @@ img/sprites/map/npcs/npc_woman02_walk.png         GPLv2	Allacrost
 img/sprites/map/npcs/story/carson_walk.png        GPLv2	Allacrost
 img/sprites/map/npcs/story/malta_walk.png         GPLv2	Allacrost
 
-img/sprites/map/objects/barrel1.lua              GPLv2	Allacrost
-img/sprites/map/objects/barrel1.png              GPLv2	Allacrost
-img/sprites/map/objects/bed1.lua                 GPLv2	Allacrost
-img/sprites/map/objects/bed1.png                 GPLv2	Allacrost
-img/sprites/map/objects/bench1.lua        GPLv2	Allacrost
-img/sprites/map/objects/bench1.png        GPLv2	Allacrost
-img/sprites/map/objects/bench2.lua        GPLv2	Allacrost
-img/sprites/map/objects/bench2.png        GPLv2	Allacrost
-img/sprites/map/objects/box1.lua        GPLv2	Allacrost
-img/sprites/map/objects/box1.png        GPLv2	Allacrost
-img/sprites/map/objects/chair1.lua        GPLv2	Allacrost
-img/sprites/map/objects/chair1.png        GPLv2	Allacrost
-img/sprites/map/objects/chair1_inverted.lua        GPLv2	Allacrost
-img/sprites/map/objects/chair1_inverted.png        GPLv2	Allacrost
-img/sprites/map/objects/chair2.lua        GPLv2	Allacrost
-img/sprites/map/objects/chair2.png        GPLv2	Allacrost
-img/sprites/map/objects/clock1.lua        GPLv2	Allacrost
-img/sprites/map/objects/clock1.png        GPLv2	Allacrost
-img/sprites/map/objects/flower_pot1.lua        GPLv2	Allacrost
-img/sprites/map/objects/flower_pot1.png        GPLv2	Allacrost
-img/sprites/map/objects/flower_pot2.lua        GPLv2	Allacrost
-img/sprites/map/objects/flower_pot2.png        GPLv2	Allacrost
-img/sprites/map/objects/locker.lua        GPLv2	Allacrost
-img/sprites/map/objects/locker.png        GPLv2	Allacrost
-img/sprites/map/objects/paper_feather.lua        GPLv2	Allacrost
-img/sprites/map/objects/paper_feather.png        GPLv2	Allacrost
-img/sprites/map/objects/parchment.lua        GPLv2	Allacrost
-img/sprites/map/objects/parchment.png        GPLv2	Allacrost
-img/sprites/map/objects/rock1.lua        GPLv2	Allacrost
-img/sprites/map/objects/rock1.png        GPLv2	Allacrost
-img/sprites/map/objects/rock2.lua        GPLv2	Allacrost
-img/sprites/map/objects/rock2.png        GPLv2	Allacrost
-img/sprites/map/objects/table1.lua        GPLv2	Allacrost
-img/sprites/map/objects/table1.png        GPLv2	Allacrost
-img/sprites/map/objects/table2.lua        GPLv2	Allacrost
-img/sprites/map/objects/table2.png        GPLv2	Allacrost
-img/sprites/map/objects/tree_big1.lua        GPLv2	Allacrost
-img/sprites/map/objects/tree_big1.png        GPLv2	Allacrost
-img/sprites/map/objects/tree_big2.lua        GPLv2	Allacrost
-img/sprites/map/objects/tree_big2.png        GPLv2	Allacrost
-img/sprites/map/objects/tree_small1.lua        GPLv2	Allacrost
-img/sprites/map/objects/tree_small1.png        GPLv2	Allacrost
-img/sprites/map/objects/tree_small2.lua        GPLv2	Allacrost
-img/sprites/map/objects/tree_small2.png        GPLv2	Allacrost
-img/sprites/map/objects/vase1.lua        GPLv2	Allacrost
-img/sprites/map/objects/vase1.png        GPLv2	Allacrost
-img/sprites/map/objects/wooden_table_big.lua        GPLv2	Allacrost
-img/sprites/map/objects/wooden_table_big.png        GPLv2	Allacrost
-img/sprites/map/objects/wooden_table_small.lua        GPLv2	Allacrost
-img/sprites/map/objects/wooden_table_small.png        GPLv2	Allacrost
+img/sprites/map/objects/barrel1.lua             GPLv2	Bertram
+img/sprites/map/objects/barrel1.png             GPLv2	Allacrost
+img/sprites/map/objects/bed1.lua                GPLv2	Bertram
+img/sprites/map/objects/bed1.png                GPLv2	Allacrost
+img/sprites/map/objects/bench1.lua        	GPLv2	Bertram
+img/sprites/map/objects/bench1.png        	GPLv2	Allacrost
+img/sprites/map/objects/bench2.lua        	GPLv2	Bertram
+img/sprites/map/objects/bench2.png        	GPLv2	Allacrost
+img/sprites/map/objects/box1.lua        	GPLv2	Bertram
+img/sprites/map/objects/box1.png        	GPLv2	Allacrost
+img/sprites/map/objects/chair1.lua        	GPLv2	Bertram
+img/sprites/map/objects/chair1.png        	GPLv2	Allacrost
+img/sprites/map/objects/chair1_inverted.lua     GPLv2	Bertram
+img/sprites/map/objects/chair1_inverted.png     GPLv2	Allacrost
+img/sprites/map/objects/chair2.lua        	GPLv2	Bertram
+img/sprites/map/objects/chair2.png        	GPLv2	Allacrost
+img/sprites/map/objects/clock1.lua        	GPLv2	Bertram
+img/sprites/map/objects/clock1.png        	GPLv2	Allacrost
+img/sprites/map/objects/flower_pot1.lua         GPLv2	Bertram
+img/sprites/map/objects/flower_pot1.png         GPLv2	Allacrost
+img/sprites/map/objects/flower_pot2.lua         GPLv2	Bertram
+img/sprites/map/objects/flower_pot2.png         GPLv2	Allacrost
+img/sprites/map/objects/locker.lua        	GPLv2	Bertram
+img/sprites/map/objects/locker.png        	GPLv2	Allacrost
+img/sprites/map/objects/paper_feather.lua       GPLv2	Bertram
+img/sprites/map/objects/paper_feather.png       GPLv2	Allacrost
+img/sprites/map/objects/parchment.lua        	GPLv2	Bertram
+img/sprites/map/objects/parchment.png        	GPLv2	Allacrost
+img/sprites/map/objects/rock1.lua        	GPLv2	Bertram
+img/sprites/map/objects/rock1.png        	GPLv2	Allacrost
+img/sprites/map/objects/rock2.lua        	GPLv2	Bertram
+img/sprites/map/objects/rock2.png        	GPLv2	Allacrost
+img/sprites/map/objects/table1.lua        	GPLv2	Bertram
+img/sprites/map/objects/table1.png        	GPLv2	Allacrost
+img/sprites/map/objects/table2.lua        	GPLv2	Bertram
+img/sprites/map/objects/table2.png        	GPLv2	Allacrost
+img/sprites/map/objects/tree_big1.lua        	GPLv2	Bertram
+img/sprites/map/objects/tree_big1.png        	GPLv2	Allacrost
+img/sprites/map/objects/tree_big2.lua        	GPLv2	Bertram
+img/sprites/map/objects/tree_big2.png        	GPLv2	Allacrost
+img/sprites/map/objects/tree_small1.lua         GPLv2	Bertram
+img/sprites/map/objects/tree_small1.png         GPLv2	Allacrost
+img/sprites/map/objects/tree_small2.lua         GPLv2	Bertram
+img/sprites/map/objects/tree_small2.png         GPLv2	Allacrost
+img/sprites/map/objects/vase1.lua        	GPLv2	Bertram
+img/sprites/map/objects/vase1.png        	GPLv2	Allacrost
+img/sprites/map/objects/wooden_table_big.lua    GPLv2	Bertram
+img/sprites/map/objects/wooden_table_big.png    GPLv2	Allacrost
+img/sprites/map/objects/wooden_table_small.lua  GPLv2	Bertram
+img/sprites/map/objects/wooden_table_small.png  GPLv2	Allacrost
 
 img/tilesets/building_interior_objects_01.png       GPLv2   Allacrost + From Jetrel's mockups + Bertram
 img/tilesets/desert_house_tileset.png               GPLv2   From Jetrel's mockups + Bertram
