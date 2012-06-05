@@ -19,8 +19,9 @@ function BootBattleTest()
 	battle:AddEnemy(8);
 	battle:AddEnemy(9);
 	battle:AddEnemy(10);
+	battle:AddEnemy(11);
 	battle:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
-    battle:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+	--battle:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
 
 	ModeManager:Push(battle, false, false);
 end
