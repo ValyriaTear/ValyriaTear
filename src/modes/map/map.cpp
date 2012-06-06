@@ -78,9 +78,6 @@ MapMode::MapMode(string filename) :
 	_current_track(0),
 	_run_stamina(10000)
 {
-	// Remove potential previous ambient overlay effects
-	VideoManager->DisableFadeEffect();
-
 	mode_type = MODE_MANAGER_MAP_MODE;
 	_current_instance = this;
 
