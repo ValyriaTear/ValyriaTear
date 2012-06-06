@@ -492,7 +492,8 @@ void ImageDescriptor::_DrawOrientation() const {
 	float x_shake = VideoManager->_x_shake * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft()) / 1024.0f;
 	float y_shake = VideoManager->_y_shake * (current_context.coordinate_system.GetTop() - current_context.coordinate_system.GetBottom()) / 768.0f;
 
-	// TODO: I honestly have no idea what this is >_>
+	// Fix the image offset according to the current context alignement.
+	// Takes the image width/height and divides it by 2 (equal to * 0.5f) and applies the offset (left, right, center/top, bottom, center).
 	float x_align_offset = ((current_context.x_align + 1) * _width) * 0.5f * -current_context.coordinate_system.GetHorizontalDirection();
 	float y_align_offset = ((current_context.y_align + 1) * _height) * 0.5f * -current_context.coordinate_system.GetVerticalDirection();
 
