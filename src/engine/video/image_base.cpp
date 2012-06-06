@@ -127,6 +127,15 @@ bool ImageMemory::LoadImage(const string& filename) {
 				dst_pixel[3] = img_pixel[3];
 			}
 #endif
+			// GL_LINEAR white artifact removal
+			// Make the r,g,b values black to prevent OpenGL to make linear average with
+			// another color when smoothing.
+			// This is removing the white edges often seen on sprites.
+			if (dst_pixel[3] == 0) {
+				dst_pixel[0] = 0;
+				dst_pixel[1] = 0;
+				dst_pixel[2] = 0;
+			}
 		}
 	}
 
