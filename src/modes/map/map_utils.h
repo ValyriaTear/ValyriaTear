@@ -45,8 +45,7 @@ const uint16 HALF_TILES_ON_X_AXIS = TILES_ON_X_AXIS / 2;
 const uint16 HALF_TILES_ON_Y_AXIS = TILES_ON_Y_AXIS / 2;
 
 const uint16 GRID_LENGTH = 32; // Length of a grid element in pixels
-const uint16 TILE_LENGTH = 64; // Length of a tile in pixels
-const uint16 HALF_TILE_LENGTH = TILE_LENGTH / 2;
+const uint16 TILE_LENGTH = GRID_LENGTH * 2; // Length of a tile in pixels
 //@}
 
 
