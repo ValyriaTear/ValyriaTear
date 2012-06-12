@@ -135,6 +135,17 @@ sprites["Woman2"] = {
 	standard_animations = "img/sprites/map/npcs/npc_woman02_walk.png"
 }
 
+sprites["Woman3"] = {
+	name = hoa_system.Translate("Lilly"), -- default name
+	coll_half_width = 1.0,
+	coll_height = 2.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = NORMAL_SPEED,
+
+	standard_animations = "img/sprites/map/npcs/npc_woman03_walk.png"
+}
+
 sprites["Man1"] = {
 	name = hoa_system.Translate("Georges"), -- default name
 	coll_half_width = 0.95,
