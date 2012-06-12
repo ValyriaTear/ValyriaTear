@@ -38,84 +38,12 @@ VirtualSprite::VirtualSprite() :
 	moving(false),
 	is_selected(false),
 	sky_object(false),
-	face_portrait( NULL ),
-	//has_active_dialogue(true),
 	current_action(-1),
-	//forced_action(-1),
 	_saved(false)
-	//_current_dialogue(0),
-	//_show_dialogue_icon(true),
-	//_dialogue_icon_color(1.0f, 1.0f, 1.0f, 0.0f)
 {
 	//_object_type = VIRTUAL_SPRITE_OBJECT;
 	_selected_image.Load("img/icons/battle/character_selector.png", 1.5f, 1.5f);
 }
-
-
-
-VirtualSprite::~VirtualSprite() {
-	if (face_portrait != NULL) {
-		delete face_portrait;
-		face_portrait = NULL;
-	}
-
-	// Update the seen events for all dialogues
-	//for (uint32 i = 0; i < dialogues.size(); ++i) {
-	//	string event_name = "s" + NumberToString(object_id) + "_d" + NumberToString(dialogues.size() - 1);
-	//	MapMode::_current_map->_map_event_group->SetEvent(event_name, dialogues[i]->GetTimesSeen());
-	//	delete dialogues[i];
-	//}
-	//dialogues.clear();
-}
-
-
-
-/*void VirtualSprite::AddDialogue(MapDialogue* md) {
-	dialogues.push_back(md);
-	md->SetOwner(this);
-
-	// Look up the event for this dialogue to see whether it has already been read or not
-	string event_name = "s" + NumberToString(object_id) + "_d" + NumberToString(dialogues.size() - 1);
-	md->SetEventName(event_name);
-	GlobalEventGroup& event_group = *(MapMode::_loading_map->_map_event_group);
-
-	if (event_group.DoesEventExist(event_name) == false) {
-		event_group.AddNewEvent(event_name, 0);
-		seen_all_dialogue = false;
-	}
-	else {
-		md->SetTimesSeen(event_group.GetEvent(event_name));
-		if (md->HasAlreadySeen() == false)
-			seen_all_dialogue = false;
-	}
-}*/
-
-
-/*void VirtualSprite::UpdateSeenDialogue() {
-	// Check all dialogues for any which have not yet been read
-	for (uint32 i = 0; i < dialogues.size(); i++) {
-		if (dialogues[i]->HasAlreadySeen() == false) {
-			seen_all_dialogue = false;
-			return;
-		}
-	}
-
-	seen_all_dialogue = true;
-}*/
-
-
-
-/*void VirtualSprite::UpdateActiveDialogue() {
-	// Check all dialogues for any that are still active.
-	for (size_t i = 0; i < dialogues.size(); i++) {
-		if(dialogues[i]->IsActive()) {
-			has_active_dialogue = true;
-			return;
-		}
-	}
-	has_active_dialogue = false;
-}*/
-
 
 
 uint16 VirtualSprite::CalculateOppositeDirection(const uint16 direction) {
@@ -141,170 +69,13 @@ uint16 VirtualSprite::CalculateOppositeDirection(const uint16 direction) {
 
 
 void VirtualSprite::Update() {
-	//Update the alpha of the dialogue icon according to it's distance from the player to make it fade away
-	// const float DIALOGUE_ICON_VISIBLE_RANGE = 30.0f;
-	//float icon_alpha = 1.0f - (abs( ComputeXLocation() - MapMode::_current_map->_camera->ComputeXLocation()) + abs(ComputeYLocation() -
-	//	MapMode::_current_map->_camera->ComputeYLocation())) / DIALOGUE_ICON_VISIBLE_RANGE;
-	//if (icon_alpha < 0)
-	//	icon_alpha = 0;
-	//_dialogue_icon_color.SetAlpha(icon_alpha);
-	//MapMode::_current_map->_new_dialogue_icon.Update();
-
-	//if (!updatable) {
-	//	return;
-	//}
-
-	// If the sprite was not forced to do a certain action
-	/*if (forced_action < 0) {
-		// Execute the sprite's action and if it is finished, update the action counter
-		if (current_action >= 0) {
-			actions[current_action]->Execute();
-			if (actions[current_action]->IsFinishedReset()) {
-				current_action++;
-				if (static_cast<uint8>(current_action) >= actions.size())
-					current_action = 0;
-			}
-		}
-	}*/
-
-	if (moving) {
-		// Save the previous sprite's position temporarily
-		//float tmp_x = x_offset;
-		//float tmp_y = y_offset;
-
-		//float distance_moved = static_cast<float>(MapMode::_current_map->_time_elapsed) / movement_speed;
-		// Double the distance to move if the sprite is running
-		//if (is_running == true)
-		//	distance_moved *= 2.0f;
-		// If the movement is diagonal, decrease the lateral movement distance by sin(45 degress)
-		//if (direction & DIAGONAL_MOVEMENT)
-		//	distance_moved *= 0.707f;
-
-		// Move the sprite the appropriate distance in the appropriate Y direction
-		//if (direction & (NORTH | NORTHWEST | NORTHEAST))
-		//	y_offset -= distance_moved;
-		//else if (direction & (SOUTH | SOUTHWEST | SOUTHEAST))
-		//	y_offset += distance_moved;
-
-		// Determine if the sprite may move to this new Y position
-		/*if (MapMode::_current_map->_object_manager->DetectCollision(this)) {
-			// Determine if we can slide on an object
-			if( direction & (SOUTH | NORTH)) {
-				//Start from a sprite's size away and get closer testing collision each time
-				for( float i = 0; i < coll_half_width * 2; i += 0.1f ) {
-					x_offset = tmp_x - ( coll_half_width * 2 ) + i;
-					if (MapMode::_current_map->_object_manager->DetectCollision(this)) {
-						//Try the other way, can't go that way
-						x_offset = tmp_x + ( coll_half_width * 2 ) - i;
-						if (MapMode::_current_map->_object_manager->DetectCollision(this)) {
-							//Still can't slide, reset
-							x_offset = tmp_x;
-						}
-						else {
-							x_offset = tmp_x + distance_moved;
-							break;
-						}
-					}
-					else {
-						x_offset = tmp_x - distance_moved;
-						break;
-					}
-				}
-
-				// Roll-over X position offsets if necessary
-				while (x_offset < 0.0f) {
-					x_position -= 1;
-					x_offset += 1.0f;
-				}
-				while (x_offset > 1.0f) {
-					x_position += 1;
-					x_offset -= 1.0f;
-				}
-			}
-
-			y_offset = tmp_y;
-
-		}
-		else {
-			// Roll-over Y position offsets if necessary
-			while (y_offset < 0.0f) {
-				y_position -= 1;
-				y_offset += 1.0f;
-			}
-			while (y_offset > 1.0f) {
-				y_position += 1;
-				y_offset -= 1.0f;
-			}
-		}*/
-
-		// Move the sprite the appropriate distance in the appropriate X direction
-		//if (direction & (WEST | NORTHWEST | SOUTHWEST))
-		//	x_offset -= distance_moved;
-		//else if (direction & (EAST | NORTHEAST | SOUTHEAST))
-		//	x_offset += distance_moved;
-
-
-		// Determine if the sprite may move to this new X position
-		/*if (MapMode::_current_map->_object_manager->DetectCollision(this)) {
-			// Determine if we can slide on an object
-			if( direction & (WEST | EAST)) {
-				//Start from a sprite's size away and get closer testing collision each time
-				for( float i = 0; i < coll_height; i += 0.1f ) {
-					y_offset = tmp_y - coll_height + i;
-					if (MapMode::_current_map->_object_manager->DetectCollision(this)) {
-						//Try the other way, can't go that way
-						y_offset = tmp_y + coll_height - i;
-						if (MapMode::_current_map->_object_manager->DetectCollision(this)) {
-							//Still can't slide, reset
-							y_offset = tmp_y;
-						}
-						else {
-							y_offset = tmp_y + distance_moved;
-							break;
-						}
-					}
-					else {
-						y_offset = tmp_y - distance_moved;
-						break;
-					}
-				}
-
-				// Roll-over Y position offsets if necessary
-				while (y_offset < 0.0f) {
-					y_position -= 1;
-					y_offset += 1.0f;
-				}
-				while (y_offset > 1.0f) {
-					y_position += 1;
-					y_offset -= 1.0f;
-				}
-			}
-
-			x_offset = tmp_x;
-		}
-		else {
-			// Roll-over X position offsets if necessary
-			while (x_offset < 0.0f) {
-				x_position -= 1;
-				x_offset += 1.0f;
-			}
-			while (x_offset > 1.0f) {
-				x_position += 1;
-				x_offset -= 1.0f;
-			}
-		}*/
-	} // if (moving)
+	// STUB
 } // void VirtualSprite::Update()
 
 
 
 void VirtualSprite::Draw() {
-	/*if (HasDialogue()) {
-		if (IsShowingDialogueIcon() && MapMode::_IsShowingDialogueIcons() && seen_all_dialogue == false) {
-			VideoManager->MoveRelative(0, -GetImgHeight());
-			MapMode::_current_map->_new_dialogue_icon.Draw(_dialogue_icon_color);
-		}
-	}*/
+	// STUB
 }
 
 
@@ -348,18 +119,6 @@ void VirtualSprite::SetDirection(uint16 dir) {
 } // void VirtualSprite::SetDirection(uint16 dir)
 
 
-
-void VirtualSprite::SetFacePortrait(std::string pn) {
-	if (face_portrait != NULL) {
-		delete face_portrait;
-	}
-
-	face_portrait = new StillImage();
-	face_portrait->Load(pn);
-}
-
-
-
 void VirtualSprite::SaveState() {
 	_saved = true;
 
@@ -367,11 +126,7 @@ void VirtualSprite::SaveState() {
 	_saved_movement_speed = movement_speed;
 	_saved_moving = moving;
 	_saved_name = name;
-	//_saved_current_action = current_action;
-	// TEMP
-	//updatable = false;
 }
-
 
 
 bool VirtualSprite::LoadState() {
@@ -382,14 +137,9 @@ bool VirtualSprite::LoadState() {
 	 movement_speed = _saved_movement_speed;
 	 moving = _saved_moving;
 	 name = _saved_name;
-	 //current_action = _saved_current_action;
-
-	// TEMP
-	//updatable = true;
 
 	 return true;
 }
-
 
 
 void VirtualSprite::SetRandomDirection() {
@@ -436,18 +186,11 @@ MapSprite::MapSprite() :
 	walk_sound(-1),
 	current_animation(ANIM_STANDING_SOUTH)
 {
-	//_object_type = SPRITE_OBJECT;
-	VirtualSprite::face_portrait = 0;
 }
 
 
 // Free all allocated images and other data
 MapSprite::~MapSprite() {
-	if (face_portrait != NULL) {
-		delete face_portrait;
-		face_portrait = NULL;
-	}
-
 	// Free animations
 	for (vector<AnimatedImage>::iterator i = animations.begin(); i != animations.end(); ++i)
 		(*i).Clear();
@@ -643,28 +386,5 @@ void MapSprite::DrawSelection() {
 	if(is_selected)
 		_selected_image.Draw();
 }
-
-
-
-/*void MapSprite::SaveState() {
-	VirtualSprite::SaveState();
-
-	_saved_was_moving = was_moving;
-	_saved_walk_sound = walk_sound;
-	_saved_current_animation = current_animation;
-}*/
-
-
-
-/*bool MapSprite::LoadState() {
-	if (!VirtualSprite::LoadState())
-		return false;
-
-	was_moving = _saved_was_moving;
-	walk_sound = _saved_walk_sound;
-	current_animation = _saved_current_animation;
-
-	return true;
-}*/
 
 } // namespace hoa_editor

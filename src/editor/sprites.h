@@ -165,27 +165,12 @@ public:
 	//! \brief The name of the sprite, as seen by the player in the game.
 	hoa_utils::ustring name;
 
-	//! \brief A pointer to the face portrait of the sprite, as seen in dialogues and menus.
-	hoa_video::StillImage* face_portrait;
-
-	//! \brief Set to false if the sprite contains dialogue that has not been seen by the player
-	//bool seen_all_dialogue;
-
-	//! \brief True is sprite contains active dialogue.
-	//bool has_active_dialogue;
-
 	/** \brief An index to the actions vector, representing the current sprite action being performed.
 	*** A negative value indicates that the sprite is taking no action. If the sprite has no entries
 	*** in its actions vector, this member should remain negative, otherwise a segmentation fault
 	*** will occur.
 	**/
 	int8 current_action;
-
-	// TODO: change how forced action work
-	//int8 forced_action;
-
-	//! \brief A container for all of the actions this sprite performs.
-	//std::vector<SpriteAction*> actions;
 
 	/** \name Saved state attributes
 	*** These attributes are used to save and load the state of a VirtualSprite
@@ -197,24 +182,7 @@ public:
 	float _saved_movement_speed;
 	bool _saved_moving;
 	hoa_utils::ustring _saved_name;
-	//int8 _saved_current_action;
 	//@}
-
-	//! \brief This vector contains all the dialogues of the sprite
-	//std::vector<MapDialogue*> dialogues;
-
-	/** \brief An index to the dialogues vector, representing the current sprite dialogue to
-	*** display when talked to by the player. A negative value indicates that the sprite has no dialogue.
-	*** \note If the sprite has no entries in its dialogues vector, this member should remain negative,
-	*** otherwise a segmentation fault will occur.
-	**/
-	//int16 _current_dialogue;
-
-	//! \brief Indicates if the icon indicating that there is a dialogue available should be drawn or not.
-	//bool _show_dialogue_icon;
-
-	//! \brief Used to fade the dialogue icon according to distance
-	//hoa_video::Color _dialogue_icon_color;
 
 	/** \brief An identification number for the object as it is represented in the map file.
 	*** Player sprites are assigned object ids from 5000 and above. Technically this means that
@@ -306,7 +274,8 @@ public:
 
 	VirtualSprite();
 
-	~VirtualSprite();
+	virtual ~VirtualSprite()
+	{}
 
 	//! \brief Updates the virtual object's position if it is moving, otherwise does nothing.
 	virtual void Update();
@@ -351,47 +320,6 @@ public:
 	*** \return false if there was no saved state, true otherwise.
 	**/
 	virtual bool LoadState();
-
-	//! \brief Examines all dialogue owned by the sprite and sets the appropriate value of VirtualSprite#seen_all_dialogue
-	//void UpdateSeenDialogue();
-
-	//! \brief Examines all dialogue owned by the sprite and sets the appropriate value of VirtualSprite#has_active_dialogue
-	//void UpdateActiveDialogue();
-
-	/** \name Dialogue control methods
-	*** These methods are used to add and control which dialogue should the sprite speak.
-	**/
-	//@{
-	//void AddDialogue(MapDialogue* md);
-
-	//bool HasDialogue() const
-		//{ if(dialogues.size() > 0) return has_active_dialogue; else return false; }
-
-	//MapDialogue* GetCurrentDialogue() const
-		//{ return dialogues[_current_dialogue]; }
-
-	//void SetDialogue(const int16 dialogue)
-		//{ if (static_cast<uint16>(dialogue) >= dialogues.size()) return; else _current_dialogue = dialogue; }
-
-	//void NextDialogue()
-		//{ do { _current_dialogue++; if (static_cast<uint16>(_current_dialogue) >= dialogues.size()) _current_dialogue = 0; }
-		//	while (dialogues[_current_dialogue]->IsActive() == false); }
-
-	//int16 GetNumDialogues() const
-		//{ return dialogues.size(); }
-
-	//void ShowDialogueIcon(bool state)
-		//{ _show_dialogue_icon = state; }
-
-	//bool IsShowingDialogueIcon() const
-		//{ return _show_dialogue_icon; }
-	//@}
-
-	/** \brief Adds a new action for the sprite to process onto the end of the sprite's action list
-	*** \param act A pointer to the instantiated SpriteAction object to use
-	**/
-	//void AddAction(SpriteAction* act)
-		//{ act->SetSprite(this); actions.push_back(act); }
 
 	/** \brief This static class function returns the opposite direction of the direction given in parameter.
 	*** \note This is mostly used as an helper function to make sprites face each other.
