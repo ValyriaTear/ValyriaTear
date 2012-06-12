@@ -347,11 +347,6 @@ TilesetTable::~TilesetTable()
 } // TilesetTable destructor
 
 
-// TilesetTable::New(const QString& img_filename)
-// {
-// } // TilesetTable::New(...)
-
-
 bool TilesetTable::Load(const QString& set_name)
 {
 	if (Tileset::Load(set_name) == false)

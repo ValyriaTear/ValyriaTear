@@ -69,7 +69,7 @@ class Tileset
 public:
 	Tileset();
 
-	~Tileset();
+	virtual ~Tileset();
 
 	/** \brief Returns the filename of a tileset image given the tileset's name
 	*** \param tileset_name The name of the tileset (e.g. "mountain_village")
@@ -154,7 +154,6 @@ public:
 
 	//! \note Inherited methods from Tileset class that need to be overridden
 	//@{
-// 	bool New(const QString& img_filename);
 	bool Load(const QString& set_name);
 	//@}
 
