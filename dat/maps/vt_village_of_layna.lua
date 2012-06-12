@@ -304,6 +304,13 @@ function CreateCharacters()
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
+	
+	-- set up the position according to the previous map
+	if (GlobalManager:GetPreviousLocation() == "from_riverbed") then
+		bronann:SetPosition(30, 77);
+		bronann:SetDirection(hoa_map.MapMode.NORTH);
+	end
+
 	Map:AddGroundObject(bronann);
 end
 
@@ -449,12 +456,17 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to Bronann's home", "dat/maps/vt_bronanns_home.lua", "from_village");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.MapTransitionEvent("to Riverbed", "dat/maps/vt_layna_riverbed.lua", "from_village");
+	EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
 	-- N.B.: left, right, top, bottom
 	bronanns_home_entrance_zone = hoa_map.CameraZone(10, 13, 60, 61, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(bronanns_home_entrance_zone);
+	
+	to_riverbed_zone = hoa_map.CameraZone(20, 33, 78, 79, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_riverbed_zone);
 end
 
 function CheckZones()
@@ -463,6 +475,13 @@ function CheckZones()
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Bronann's home");
+	end
+
+	if (to_riverbed_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to Riverbed");
 	end
 end
 
