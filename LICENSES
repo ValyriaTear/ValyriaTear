@@ -179,6 +179,10 @@ img/sprites/battle/characters/others/soldier_idle.lua		GPLv2	Bertram
 img/sprites/battle/characters/others/soldier_run.lua		GPLv2	Bertram
 img/sprites/battle/characters/others/soldier_victory.lua	GPLv2	Bertram
 
+img/sprites/battle/enemies/red_slime.png					GPLv2   Allacrost (Roots)
+img/sprites/battle/enemies/thing.png						CC by SA 3.0 Jetrel (OGA)
+img/sprites/battle/enemies/yeti.png							CC by SA 3.0 Jetrel (OGA)
+
 img/sprites/map/characters/bronann_frightened.png           GPLv2	Allacrost
 img/sprites/map/characters/bronann_herostance.png           GPLv2	Allacrost
 img/sprites/map/characters/bronann_idle_guard_south.png     GPLv2	Allacrost
@@ -209,6 +213,7 @@ img/sprites/map/npcs/npc_soldier01_walk.png       GPLv2	Allacrost
 img/sprites/map/npcs/npc_soldier02_walk.png       GPLv2	Allacrost
 img/sprites/map/npcs/npc_woman01_walk.png         GPLv2	Allacrost
 img/sprites/map/npcs/npc_woman02_walk.png         GPLv2	Allacrost
+img/sprites/map/npcs/npc_woman03_walk.png         CC by SA 3.0 Jetrel (OGA) + Bertram's work.
 
 img/sprites/map/npcs/story/carson_walk.png        GPLv2	Allacrost
 img/sprites/map/npcs/story/malta_walk.png         GPLv2	Allacrost

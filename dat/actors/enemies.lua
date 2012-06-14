@@ -634,7 +634,7 @@ enemies[10] = {
 --------------------------------------------------------------------------------
 enemies[11] = {
 	name = hoa_system.Translate("Yeti"),
-	--stamina_icon = "img/icons/actors/enemies/stygian_lizard.png",
+	--stamina_icon = "img/icons/actors/enemies/yeti.png",
 	battle_sprites = "img/sprites/battle/enemies/yeti.png",
 	sprite_width = 128,
 	sprite_height = 128,
@@ -681,7 +681,7 @@ enemies[11] = {
 --------------------------------------------------------------------------------
 enemies[12] = {
 	name = hoa_system.Translate("Red Slime"),
-	--stamina_icon = "img/icons/actors/enemies/stygian_lizard.png",
+	--stamina_icon = "img/icons/actors/enemies/red_slime.png",
 	battle_sprites = "img/sprites/battle/enemies/red_slime.png",
 	sprite_width = 64,
 	sprite_height = 64,
@@ -719,6 +719,52 @@ enemies[12] = {
 	}
 }
 
+-- Traits -----------------------------------------------------------------------
+-- HSP: high HP, med SP
+-- ATK: med phys, zero meta
+-- DEF: med phys, low meta
+-- SPD: low agi, low eva
+-- XPD: med XP, high drunes
+--------------------------------------------------------------------------------
+enemies[12] = {
+	name = hoa_system.Translate("Thing"),
+	--stamina_icon = "img/icons/actors/enemies/thing.png",
+	battle_sprites = "img/sprites/battle/enemies/thing.png",
+	sprite_width = 64,
+	sprite_height = 64,
+
+	base_stats = {
+		hit_points = 124,
+		skill_points = 10,
+		strength = 15,
+		vigor = 0,
+		fortitude = 14,
+		protection = 4,
+		agility = 13,
+		evade = 2.0,
+		experience_points = 5,
+		drunes = 18
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Body"),
+			x_position = -13,
+			y_position = 80,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+		1004
+	},
+
+	drop_objects = {
+
+	}
+}
 
 -- Traits -----------------------------------------------------------------------
 -- HSP: vhigh HP, med SP
