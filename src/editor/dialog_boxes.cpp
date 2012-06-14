@@ -92,8 +92,8 @@ MapPropertiesDialog::MapPropertiesDialog
 		// Get a reference to the Editor
 		Editor* editor = static_cast<Editor*>(parent);
 
-		_height_sbox->setValue(editor->_ed_scrollview->_map->GetHeight());
-		_width_sbox->setValue(editor->_ed_scrollview->_map->GetWidth());
+		_height_sbox->setValue(editor->_ed_scrollarea->_map->GetHeight());
+		_width_sbox->setValue(editor->_ed_scrollarea->_map->GetWidth());
 	}
 
 	// Add all of the aforementioned widgets into a nice-looking grid layout
@@ -174,7 +174,7 @@ MusicDialog::MusicDialog(QWidget* parent, const QString& /*name*/)
 	Editor* editor = static_cast<Editor*> (parent);
 
 	// Add all files currently used by the map to the use list
-	QStringList used_music_files = editor->_ed_scrollview->_map->music_files;
+	QStringList used_music_files = editor->_ed_scrollarea->_map->music_files;
 	for (QStringList::Iterator qit = used_music_files.begin();
 	     qit != used_music_files.end(); ++qit)
 		_used_music_list->addItem(*qit);
@@ -284,7 +284,7 @@ ContextPropertiesDialog::ContextPropertiesDialog
 	Editor* editor = static_cast<Editor*>(parent);
 
 	// Loop through all files that are present in the tileset directory
-	QStringList context_names = editor->_ed_scrollview->_map->GetContextNames();
+	QStringList context_names = editor->_ed_scrollarea->_map->GetContextNames();
 
 	uint32 id = 0;
 	for (QStringList::Iterator qit = context_names.begin();

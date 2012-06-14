@@ -52,7 +52,7 @@ enum OBJECT_TYPE
 
 LAYER_TYPE& operator++(LAYER_TYPE& value, int dummy);
 
-class EditorScrollView;
+class EditorScrollArea;
 
 // A simplified struct used to pass everything but the tiles info
 struct LayerInfo {
@@ -244,8 +244,8 @@ public:
 	//! \brief A list storing the background music filenames.
 	QStringList music_files;
 
-	//! \brief Pointer to scrollview
-	EditorScrollView * _ed_scrollview;
+	//! \brief Pointer to scrollArea
+	EditorScrollArea* _ed_scrollarea;
 
 protected:
 	//! \brief Sets up the rendering context of the OpenGL portion of the editor.
