@@ -47,7 +47,7 @@ class MapPropertiesDialog: public QDialog
 
 	// Needed for accessing map properties.
 	friend class Editor;
-	friend class EditorScrollView;
+	friend class EditorScrollArea;
 
 public:
 	/** \param parent The widget from which this dialog was invoked.

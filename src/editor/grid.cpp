@@ -1089,10 +1089,10 @@ void Grid::paintGL()
 
 	// Setup drawing bounds so only visible tiles are drawn. These bounds are
 	// valid for all layers.
-	int num_tiles_width  = _ed_scrollview->visibleWidth() / TILE_WIDTH;
-	int num_tiles_height = _ed_scrollview->visibleHeight() / TILE_HEIGHT;
-	left_tile   = _ed_scrollview->horizontalScrollBar()->value() / TILE_WIDTH;
-	top_tile    = _ed_scrollview->verticalScrollBar()->value() / TILE_HEIGHT;
+	int num_tiles_width  = _ed_scrollarea->viewport()->width() / TILE_WIDTH;
+	int num_tiles_height = _ed_scrollarea->viewport()->height() / TILE_HEIGHT;
+	left_tile   = _ed_scrollarea->horizontalScrollBar()->value() / TILE_WIDTH;
+	top_tile    = _ed_scrollarea->verticalScrollBar()->value() / TILE_HEIGHT;
 	right_tile  = left_tile + num_tiles_width + 1;
 	bottom_tile = top_tile + num_tiles_height + 1;
 	right_tile  = (right_tile  < (int32)_width)  ? right_tile  : _width  - 1;

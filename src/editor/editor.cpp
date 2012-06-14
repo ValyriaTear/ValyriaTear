@@ -38,7 +38,7 @@ Editor::Editor() : QMainWindow(),
 	_undo_stack = new QUndoStack();
 
 	// set scollview to NULL because it's being checked inside _TilesEnableActions
-	_ed_scrollview = NULL;
+	_ed_scrollarea = NULL;
 
 	// create actions, menus, and toolbars
 	_CreateActions();
@@ -80,8 +80,8 @@ Editor::Editor() : QMainWindow(),
 
 
 Editor::~Editor() {
-	if (_ed_scrollview != NULL)
-		delete _ed_scrollview;
+	if (_ed_scrollarea != NULL)
+		delete _ed_scrollarea;
 
 	if (_ed_tabs != NULL)
 		delete _ed_tabs;
@@ -120,10 +120,10 @@ void Editor::closeEvent(QCloseEvent*)
 ///////////////////////////////////////////////////////////////////////////////
 
 void Editor::_FileMenuSetup() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
 		_save_as_action->setEnabled(true);
-		_save_action->setEnabled(_ed_scrollview->_map->GetChanged());
+		_save_action->setEnabled(_ed_scrollarea->_map->GetChanged());
 		_close_action->setEnabled(true);
 	} // map must exist in order to save or close it
 	else
@@ -137,7 +137,7 @@ void Editor::_FileMenuSetup() {
 
 
 void Editor::_ViewMenuSetup() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
 		_toggle_grid_action->setEnabled(true);
 		_view_textures_action->setEnabled(true);
@@ -152,7 +152,7 @@ void Editor::_ViewMenuSetup() {
 
 
 void Editor::_TilesEnableActions() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
 		_undo_action->setText("Undo " + _undo_stack->undoText());
 		_redo_action->setText("Redo " + _undo_stack->redoText());
@@ -182,7 +182,7 @@ void Editor::_TilesEnableActions() {
 
 void Editor::_TilesetMenuSetup() {
 	// TODO: temp fix for bug 161: don't edit tilesets if a map is open
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 		_edit_tileset_action->setEnabled(false);
 	else
 		_edit_tileset_action->setEnabled(true);
@@ -191,7 +191,7 @@ void Editor::_TilesetMenuSetup() {
 
 
 void Editor::_MapMenuSetup() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
 		_select_music_action->setEnabled(true);
 		_map_properties_action->setEnabled(true);
@@ -285,7 +285,7 @@ void Editor::SetupMainView() {
 	button->setDisabled(true);
 
 	// Left of the screen
-	_ed_splitter->addWidget(_ed_scrollview);
+	_ed_splitter->addWidget(_ed_scrollarea);
 
 	// right part
 	_ed_tileset_layer_splitter->addWidget(_ed_layer_view);
@@ -303,9 +303,9 @@ void Editor::_FileNew() {
 
 		if (new_map->exec() == QDialog::Accepted)
 		{
-			if (_ed_scrollview != NULL)
-				delete _ed_scrollview;
-			_ed_scrollview = new EditorScrollView(NULL, "map", new_map->GetWidth(), new_map->GetHeight());
+			if (_ed_scrollarea != NULL)
+				delete _ed_scrollarea;
+			_ed_scrollarea = new EditorScrollArea(NULL, new_map->GetWidth(), new_map->GetHeight());
 
 			SetupMainView();
 
@@ -343,14 +343,14 @@ void Editor::_FileNew() {
 							tr(mes.c_str()));
                     }
 					_ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
-					_ed_scrollview->_map->tilesets.push_back(a_tileset);
-					_ed_scrollview->_map->tileset_names.push_back(a_tileset->tileset_name);
+					_ed_scrollarea->_map->tilesets.push_back(a_tileset);
+					_ed_scrollarea->_map->tileset_names.push_back(a_tileset->tileset_name);
 				} // tileset must be checked
 			} // iterate through all possible tilesets
 			new_map_progress->setValue(checked_items);
 
-			_ed_scrollview->_map->SetInitialized(true);
-			_ed_scrollview->resize(new_map->GetWidth() * TILE_WIDTH, new_map->GetHeight() * TILE_HEIGHT);
+			_ed_scrollarea->_map->SetInitialized(true);
+			_ed_scrollarea->resize(new_map->GetWidth() * TILE_WIDTH, new_map->GetHeight() * TILE_HEIGHT);
 
 			// Set the splitters sizes
 			QList<int> sizes;
@@ -374,7 +374,7 @@ void Editor::_FileNew() {
 			// _context_cbox->clear() doesn't work, it seg faults.
 			// I guess it can't have an empty combobox?
 			int count = _context_cbox->count();
-			_context_cbox->addItems(_ed_scrollview->_map->GetContextNames());
+			_context_cbox->addItems(_ed_scrollarea->_map->GetContextNames());
 			for (int i = 0; i < count; i++)
 				_context_cbox->removeItem(0);
 
@@ -382,7 +382,7 @@ void Editor::_FileNew() {
 			_TilesEnableActions();
 
 			// Set default edit mode
-			_ed_scrollview->_layer_id = 0;
+			_ed_scrollarea->_layer_id = 0;
 
 			// Add default layers
 			QTreeWidgetItem *background = new QTreeWidgetItem(_ed_layer_view);
@@ -406,7 +406,7 @@ void Editor::_FileNew() {
 
 			_ed_layer_view->setCurrentItem(background); // layer 0
 
-			_ed_scrollview->_tile_mode  = PAINT_TILE;
+			_ed_scrollarea->_tile_mode  = PAINT_TILE;
 
 			_undo_stack->setClean();
 
@@ -434,19 +434,19 @@ void Editor::_FileOpen() {
 
 		if (!file_name.isEmpty())
 		{
-			if (_ed_scrollview != NULL)
-				delete _ed_scrollview;
-			_ed_scrollview = new EditorScrollView(NULL, "map", 0, 0);
+			if (_ed_scrollarea != NULL)
+				delete _ed_scrollarea;
+			_ed_scrollarea = new EditorScrollArea(NULL, 0, 0);
 
 			SetupMainView();
 
-			_ed_scrollview->_map->SetFileName(file_name);
-			_ed_scrollview->_map->LoadMap();
+			_ed_scrollarea->_map->SetFileName(file_name);
+			_ed_scrollarea->_map->LoadMap();
 
 			_UpdateLayersView();
 
 			// Count for the tileset names
-			int num_items = _ed_scrollview->_map->tileset_names.count();
+			int num_items = _ed_scrollarea->_map->tileset_names.count();
 			int progress_steps = 0;
 
 			// Used to show the progress of tilesets has been loaded.
@@ -460,8 +460,8 @@ void Editor::_FileOpen() {
 			                       this->pos().y() + this->height()/2 - new_map_progress->height()/2);
 			new_map_progress->show();
 
-			for (QStringList::ConstIterator it = _ed_scrollview->_map->tileset_names.begin();
-				it != _ed_scrollview->_map->tileset_names.end(); it++)
+			for (QStringList::ConstIterator it = _ed_scrollarea->_map->tileset_names.begin();
+				it != _ed_scrollarea->_map->tileset_names.end(); it++)
 			{
 				new_map_progress->setValue(progress_steps++);
 
@@ -475,13 +475,13 @@ void Editor::_FileOpen() {
                 }
 
 				_ed_tabs->addTab(a_tileset->table, *it);
-				_ed_scrollview->_map->tilesets.push_back(a_tileset);
+				_ed_scrollarea->_map->tilesets.push_back(a_tileset);
 			} // iterate through all tilesets in the map
 			new_map_progress->setValue(progress_steps);
 
-			_ed_scrollview->_map->SetInitialized(true);
-			_ed_scrollview->resize(_ed_scrollview->_map->GetWidth(),
-									_ed_scrollview->_map->GetHeight());
+			_ed_scrollarea->_map->SetInitialized(true);
+			_ed_scrollarea->resize(_ed_scrollarea->_map->GetWidth(),
+									_ed_scrollarea->_map->GetHeight());
 
 			// Set the splitters sizes
 			QList<int> sizes;
@@ -505,7 +505,7 @@ void Editor::_FileOpen() {
 			// _context_cbox->clear() doesn't work, it seg faults.
 			// I guess it can't have an empty combobox?
 			int count = _context_cbox->count();
-			_context_cbox->addItems(_ed_scrollview->_map->GetContextNames());
+			_context_cbox->addItems(_ed_scrollarea->_map->GetContextNames());
 			for (int i = 0; i < count; i++)
 				_context_cbox->removeItem(0);
 
@@ -513,8 +513,8 @@ void Editor::_FileOpen() {
 			_TilesEnableActions();
 
 			// Set default edit mode
-			_ed_scrollview->_layer_id = 0;
-			_ed_scrollview->_tile_mode  = PAINT_TILE;
+			_ed_scrollarea->_layer_id = 0;
+			_ed_scrollarea->_tile_mode  = PAINT_TILE;
 
 			// Hide and delete progress bar
 			new_map_progress->hide();
@@ -522,9 +522,9 @@ void Editor::_FileOpen() {
 
 			_undo_stack->setClean();
 			statusBar()->showMessage(QString(tr("Opened \'%1\'")).
-				arg(_ed_scrollview->_map->GetFileName()), 5000);
+				arg(_ed_scrollarea->_map->GetFileName()), 5000);
 
-			setWindowTitle(QString("Map Editor - ") + _ed_scrollview->_map->GetFileName());
+			setWindowTitle(QString("Map Editor - ") + _ed_scrollarea->_map->GetFileName());
 		} // file must exist in order to open it
 		else
 			statusBar()->showMessage(tr("No map created!"), 5000);
@@ -540,9 +540,9 @@ void Editor::_FileSaveAs() {
 
 	if (!file_name.isEmpty())
 	{
-		_ed_scrollview->_map->SetFileName(file_name);
+		_ed_scrollarea->_map->SetFileName(file_name);
 		_FileSave();
-		setWindowTitle(QString("Map Editor - ") + _ed_scrollview->_map->GetFileName());
+		setWindowTitle(QString("Map Editor - ") + _ed_scrollarea->_map->GetFileName());
 		return;
     } // make sure the file name is not blank
 
@@ -552,18 +552,18 @@ void Editor::_FileSaveAs() {
 
 
 void Editor::_FileSave() {
-	if (_ed_scrollview->_map->GetFileName().isEmpty() ||
-		_ed_scrollview->_map->GetFileName() == tr("Untitled"))
+	if (_ed_scrollarea->_map->GetFileName().isEmpty() ||
+		_ed_scrollarea->_map->GetFileName() == tr("Untitled"))
 	{
 		_FileSaveAs();
 		return;
 	} // gets a file name if it is blank
 
-	_ed_scrollview->_map->SaveMap();      // actually saves the map
+	_ed_scrollarea->_map->SaveMap();      // actually saves the map
 	_undo_stack->setClean();
-	setWindowTitle(QString("%1").arg(_ed_scrollview->_map->GetFileName()));
+	setWindowTitle(QString("%1").arg(_ed_scrollarea->_map->GetFileName()));
 	statusBar()->showMessage(QString(tr("Saved \'%1\' successfully!")).
-		arg(_ed_scrollview->_map->GetFileName()), 5000);
+		arg(_ed_scrollarea->_map->GetFileName()), 5000);
 }
 
 
@@ -572,10 +572,10 @@ void Editor::_FileClose() {
 	// Checks to see if the map is unsaved.
 	if (_EraseOK())
 	{
-		if (_ed_scrollview != NULL)
+		if (_ed_scrollarea != NULL)
 		{
-			delete _ed_scrollview;
-			_ed_scrollview = NULL;
+			delete _ed_scrollarea;
+			_ed_scrollarea = NULL;
 			_undo_stack->clear();
 
 			// Clear the context combobox
@@ -622,24 +622,24 @@ void Editor::_FileQuit() {
 
 
 void Editor::_ViewToggleGrid() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
 		_grid_on = !_grid_on;
 		_toggle_grid_action->setChecked(_grid_on);
-		_ed_scrollview->_map->SetGridOn(_grid_on);
+		_ed_scrollarea->_map->SetGridOn(_grid_on);
 	} // map must exist in order to view things on it
 }
 
 
 void Editor::_ViewTextures() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
 		_textures_on = !_textures_on;
 		if(_textures_on)
 		{
 			VideoManager->Textures()->DEBUG_NextTexSheet();
 		}
-		_ed_scrollview->_map->SetDebugTexturesOn(_textures_on);
+		_ed_scrollarea->_map->SetDebugTexturesOn(_textures_on);
 	} // map must exist in order to view things on it
 }
 
@@ -651,15 +651,15 @@ void Editor::_TileLayerFill() {
 
 	// put selected tile from tileset into tile array at correct position
 	int32 tileset_index = table->currentRow() * 16 + table->currentColumn();
-	int32 multiplier = _ed_scrollview->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+	int32 multiplier = _ed_scrollarea->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
 
 	if (multiplier == -1)
 	{
-		_ed_scrollview->_map->tileset_names.append(_ed_tabs->tabText(_ed_tabs->currentIndex()));
-		multiplier = _ed_scrollview->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+		_ed_scrollarea->_map->tileset_names.append(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+		multiplier = _ed_scrollarea->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
 	} // calculate index of current tileset
 
-	std::vector<std::vector<int32> >& current_layer = _ed_scrollview->GetCurrentLayer();
+	std::vector<std::vector<int32> >& current_layer = _ed_scrollarea->GetCurrentLayer();
 
 	// Record the information for undo/redo operations.
 	std::vector<int32> previous;
@@ -673,14 +673,14 @@ void Editor::_TileLayerFill() {
 			previous.push_back(current_layer[y][x]);
 
 			// Fill the layer
-			_ed_scrollview->_AutotileRandomize(multiplier, tileset_index);
+			_ed_scrollarea->_AutotileRandomize(multiplier, tileset_index);
 			current_layer[y][x] = tileset_index + multiplier * 256;
 			modified.push_back(tileset_index + multiplier * 256);
 		}
 	}
 
 	LayerCommand* fill_command = new LayerCommand(indeces, previous, modified,
-		_ed_scrollview->_layer_id, _ed_scrollview->_map->GetContext(), this,
+		_ed_scrollarea->_layer_id, _ed_scrollarea->_map->GetContext(), this,
 		"Fill Layer");
 	_undo_stack->push(fill_command);
 	indeces.clear();
@@ -688,15 +688,15 @@ void Editor::_TileLayerFill() {
 	modified.clear();
 
 	// Draw the changes.
-	_ed_scrollview->_map->SetChanged(true);
-	_ed_scrollview->_map->updateGL();
+	_ed_scrollarea->_map->SetChanged(true);
+	_ed_scrollarea->_map->updateGL();
 } // void Editor::_TileLayerFill()
 
 
 
 void Editor::_TileLayerClear() {
 	std::vector<std::vector<int32> >::iterator it;    // used to iterate over an entire layer
-	std::vector<std::vector<int32> >& current_layer = _ed_scrollview->GetCurrentLayer();
+	std::vector<std::vector<int32> >& current_layer = _ed_scrollarea->GetCurrentLayer();
 
 	// Record the information for undo/redo operations.
 	std::vector<std::vector<int32> > previous = current_layer;
@@ -710,7 +710,7 @@ void Editor::_TileLayerClear() {
 		*it = -1;
 
 	LayerCommand* clear_command = new LayerCommand(indeces, previous, modified,
-		_ed_scrollview->_layer_id, _ed_scrollview->_map->GetContext(), this,
+		_ed_scrollarea->_layer_id, _ed_scrollarea->_map->GetContext(), this,
 		"Clear Layer");
 	_undo_stack->push(clear_command);
 	indeces.clear();
@@ -718,65 +718,65 @@ void Editor::_TileLayerClear() {
 	modified.clear();
 */
 	// Draw the changes.
-	_ed_scrollview->_map->SetChanged(true);
-	_ed_scrollview->_map->updateGL();
+	_ed_scrollarea->_map->SetChanged(true);
+	_ed_scrollarea->_map->updateGL();
 }
 
 
 void Editor::_TileToggleSelect() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
 		_select_on = !_select_on;
 		_toggle_select_action->setChecked(_select_on);
-		_ed_scrollview->_map->SetSelectOn(_select_on);
+		_ed_scrollarea->_map->SetSelectOn(_select_on);
 	} // map must exist in order to view things on it
 }
 
 
 void Editor::_TileModePaint() {
-	if (_ed_scrollview != NULL)
+	if (_ed_scrollarea != NULL)
 	{
 		// Clear the selection layer.
-		if (_ed_scrollview->_moving == true && _select_on == true)
+		if (_ed_scrollarea->_moving == true && _select_on == true)
 		{
-			_ed_scrollview->_map->ClearSelectionLayer();
+			_ed_scrollarea->_map->ClearSelectionLayer();
 		} // clears when selected tiles were going to be moved but
 		  // user changed their mind in the midst of the move operation
 
-		_ed_scrollview->_tile_mode = PAINT_TILE;
-		_ed_scrollview->_moving = false;
+		_ed_scrollarea->_tile_mode = PAINT_TILE;
+		_ed_scrollarea->_moving = false;
 	} // scrollview must exist in order to switch modes
 }
 
 
 void Editor::_TileModeMove() {
-	if (_ed_scrollview != NULL)
+	if (_ed_scrollarea != NULL)
 	{
 		// Clear the selection layer.
-		if (_ed_scrollview->_moving == true && _select_on == true)
+		if (_ed_scrollarea->_moving == true && _select_on == true)
 		{
-			_ed_scrollview->_map->ClearSelectionLayer();
+			_ed_scrollarea->_map->ClearSelectionLayer();
 		} // clears when selected tiles were going to be moved but
 		  // user changed their mind in the midst of the move operation
 
-		_ed_scrollview->_tile_mode = MOVE_TILE;
-		_ed_scrollview->_moving = false;
+		_ed_scrollarea->_tile_mode = MOVE_TILE;
+		_ed_scrollarea->_moving = false;
 	} // scrollview must exist in order to switch modes
 }
 
 
 void Editor::_TileModeDelete() {
-	if (_ed_scrollview != NULL)
+	if (_ed_scrollarea != NULL)
 	{
 		// Clear the selection layer.
-		if (_ed_scrollview->_moving == true && _select_on == true)
+		if (_ed_scrollarea->_moving == true && _select_on == true)
 		{
-			_ed_scrollview->_map->ClearSelectionLayer();
+			_ed_scrollarea->_map->ClearSelectionLayer();
 		} // clears when selected tiles were going to be moved but
 		  // user changed their mind in the midst of the move operation
 
-		_ed_scrollview->_tile_mode = DELETE_TILE;
-		_ed_scrollview->_moving = false;
+		_ed_scrollarea->_tile_mode = DELETE_TILE;
+		_ed_scrollarea->_moving = false;
 	} // scrollview must exist in order to switch modes
 }
 
@@ -791,7 +791,7 @@ void Editor::_TilesetEdit() {
 
 
 void Editor::_MapSelectMusic() {
-	if (_ed_scrollview == NULL)
+	if (_ed_scrollarea == NULL)
 		return;
 
 	MusicDialog* music = new MusicDialog(this, "music_dialog");
@@ -805,15 +805,15 @@ void Editor::_MapSelectMusic() {
 		for (int i = 0; i < music_list->count(); i++)
 			music_names << music_list->item(i)->text();
 
-		_ed_scrollview->_map->music_files = music_names;
-		_ed_scrollview->_map->SetChanged(true);
+		_ed_scrollarea->_map->music_files = music_names;
+		_ed_scrollarea->_map->SetChanged(true);
 	} // only process results if user selected okay
 
 	delete music;
 }
 
 void Editor::_MapAddLayer() {
-	if (_ed_scrollview == NULL || _ed_scrollview->_map == NULL)
+	if (_ed_scrollarea == NULL || _ed_scrollarea->_map == NULL)
 		return;
 
 	LayerDialog *layer_dlg = new LayerDialog(this, "layer_dialog");
@@ -823,7 +823,7 @@ void Editor::_MapAddLayer() {
 		// TODO: Apply changes
 		LayerInfo layer_info = layer_dlg->_GetLayerInfo();
 
-		_ed_scrollview->_map->AddLayer(layer_info);
+		_ed_scrollarea->_map->AddLayer(layer_info);
 
 		_UpdateLayersView();
 
@@ -833,14 +833,14 @@ void Editor::_MapAddLayer() {
 }
 
 void Editor::_MapModifyLayer() {
-	if (_ed_scrollview == NULL)
+	if (_ed_scrollarea == NULL)
 		return;
 
 	// TODO
 }
 
 void Editor::_MapDeleteLayer() {
-	if (_ed_scrollview == NULL)
+	if (_ed_scrollarea == NULL)
 		return;
 
 	// TODO
@@ -853,18 +853,18 @@ void Editor::_MapProperties() {
 	if (props->exec() == QDialog::Accepted)
 	{/*
 #if !defined(WIN32)
-		if (_ed_scrollview->_map->GetWidth() < props->GetWidth())
+		if (_ed_scrollarea->_map->GetWidth() < props->GetWidth())
 		{
 			// User wants to make map wider so we must insert columns of tiles at the edge of the map.
 
-			int map_width     = _ed_scrollview->_map->GetWidth();
-			int map_height    = _ed_scrollview->_map->GetHeight();
+			int map_width     = _ed_scrollarea->_map->GetWidth();
+			int map_height    = _ed_scrollarea->_map->GetHeight();
 			int extra_columns = props->GetWidth() - map_width;
 
 			// Add in the extra columns one by one.
 			for (int col = extra_columns; col > 0; col--)
 			{
-				vector<int32>& lower_layer = _ed_scrollview->_map->GetLayer(GROUND_LAYER, _ed_scrollview->_map->GetContext());
+				vector<int32>& lower_layer = _ed_scrollarea->_map->GetLayer(GROUND_LAYER, _ed_scrollarea->_map->GetContext());
 				vector<int32>::iterator it = lower_layer.begin() + map_width;
 				for (int row = 0; row < map_height; row++)
 				{
@@ -872,7 +872,7 @@ void Editor::_MapProperties() {
 					it += map_width + 1;
 				} // iterate through the rows of the lower layer
 
-				vector<int32>& middle_layer = _ed_scrollview->_map->GetLayer(FRINGE_LAYER, _ed_scrollview->_map->GetContext());
+				vector<int32>& middle_layer = _ed_scrollarea->_map->GetLayer(FRINGE_LAYER, _ed_scrollarea->_map->GetContext());
 				it = middle_layer.begin() + map_width;
 				for (int row = 0; row < map_height; row++)
 				{
@@ -880,7 +880,7 @@ void Editor::_MapProperties() {
 					it += map_width + 1;
 				} // iterate through the rows of the middle layer
 
-				vector<int32>& upper_layer = _ed_scrollview->_map->GetLayer(SKY_LAYER, _ed_scrollview->_map->GetContext());
+				vector<int32>& upper_layer = _ed_scrollarea->_map->GetLayer(SKY_LAYER, _ed_scrollarea->_map->GetContext());
 				it = upper_layer.begin() + map_width;
 				for (int row = 0; row < map_height; row++)
 				{
@@ -889,21 +889,21 @@ void Editor::_MapProperties() {
 				} // iterate through the rows of the upper layer
 
 				map_width++;
-				_ed_scrollview->_map->SetWidth(map_width);
+				_ed_scrollarea->_map->SetWidth(map_width);
 			} // add in all the extra columns
 		} // insert columns
-		else if (_ed_scrollview->_map->GetWidth() > props->GetWidth())
+		else if (_ed_scrollarea->_map->GetWidth() > props->GetWidth())
 		{
 			// User wants to make map less wide so we must delete columns of tiles from the edge of the map.
 
-			int map_width     = _ed_scrollview->_map->GetWidth();
-			int map_height    = _ed_scrollview->_map->GetHeight();
+			int map_width     = _ed_scrollarea->_map->GetWidth();
+			int map_height    = _ed_scrollarea->_map->GetHeight();
 			int extra_columns = map_width - props->GetWidth();
 
 			// Delete all the extra columns one by one.
 			for (int col = extra_columns; col > 0; col--)
 			{
-				vector<int32>& lower_layer = _ed_scrollview->_map->GetLayer(GROUND_LAYER, _ed_scrollview->_map->GetContext());
+				vector<int32>& lower_layer = _ed_scrollarea->_map->GetLayer(GROUND_LAYER, _ed_scrollarea->_map->GetContext());
 				vector<int32>::iterator it = lower_layer.begin() + map_width - 1;
 				for (int row = 0; row < map_height; row++)
 				{
@@ -911,7 +911,7 @@ void Editor::_MapProperties() {
 					it += map_width - 1;
 				} // iterate through the rows of the lower layer
 
-				vector<int32>& middle_layer = _ed_scrollview->_map->GetLayer(FRINGE_LAYER, _ed_scrollview->_map->GetContext());
+				vector<int32>& middle_layer = _ed_scrollarea->_map->GetLayer(FRINGE_LAYER, _ed_scrollarea->_map->GetContext());
 				it = middle_layer.begin() + map_width - 1;
 				for (int row = 0; row < map_height; row++)
 				{
@@ -919,7 +919,7 @@ void Editor::_MapProperties() {
 					it += map_width - 1;
 				} // iterate through the rows of the middle layer
 
-				vector<int32>& upper_layer = _ed_scrollview->_map->GetLayer(SKY_LAYER, _ed_scrollview->_map->GetContext());
+				vector<int32>& upper_layer = _ed_scrollarea->_map->GetLayer(SKY_LAYER, _ed_scrollarea->_map->GetContext());
 				it = upper_layer.begin() + map_width - 1;
 				for (int row = 0; row < map_height; row++)
 				{
@@ -928,43 +928,43 @@ void Editor::_MapProperties() {
 				} // iterate through the rows of the upper layer
 
 				map_width--;
-				_ed_scrollview->_map->SetWidth(map_width);
+				_ed_scrollarea->_map->SetWidth(map_width);
 			} // delete all the extra columns
 		} // delete columns
 
-		if (_ed_scrollview->_map->GetHeight() < props->GetHeight())
+		if (_ed_scrollarea->_map->GetHeight() < props->GetHeight())
 		{
 			// User wants to make map taller so we must insert rows of tiles at the edge of the map.
 
-			int map_width = _ed_scrollview->_map->GetWidth();
-			int extra_rows = props->GetHeight() - _ed_scrollview->_map->GetHeight();
+			int map_width = _ed_scrollarea->_map->GetWidth();
+			int extra_rows = props->GetHeight() - _ed_scrollarea->_map->GetHeight();
 
-			vector<int32>& lower_layer  = _ed_scrollview->_map->GetLayer(GROUND_LAYER, _ed_scrollview->_map->GetContext());
-			vector<int32>& middle_layer = _ed_scrollview->_map->GetLayer(FRINGE_LAYER, _ed_scrollview->_map->GetContext());
-			vector<int32>& upper_layer  = _ed_scrollview->_map->GetLayer(SKY_LAYER, _ed_scrollview->_map->GetContext());
+			vector<int32>& lower_layer  = _ed_scrollarea->_map->GetLayer(GROUND_LAYER, _ed_scrollarea->_map->GetContext());
+			vector<int32>& middle_layer = _ed_scrollarea->_map->GetLayer(FRINGE_LAYER, _ed_scrollarea->_map->GetContext());
+			vector<int32>& upper_layer  = _ed_scrollarea->_map->GetLayer(SKY_LAYER, _ed_scrollarea->_map->GetContext());
 			lower_layer.insert( lower_layer.end(),  extra_rows * map_width, -1);
 			middle_layer.insert(middle_layer.end(), extra_rows * map_width, -1);
 			upper_layer.insert( upper_layer.end(),  extra_rows * map_width, -1);
 		} // add rows
-		else if (_ed_scrollview->_map->GetHeight() > props->GetHeight())
+		else if (_ed_scrollarea->_map->GetHeight() > props->GetHeight())
 		{
 			// User wants to make map less tall so we must delete rows of tiles from the edge of the map.
 
-			int map_width  = _ed_scrollview->_map->GetWidth();
-			int extra_rows = _ed_scrollview->_map->GetHeight() - props->GetHeight();
+			int map_width  = _ed_scrollarea->_map->GetWidth();
+			int extra_rows = _ed_scrollarea->_map->GetHeight() - props->GetHeight();
 
-			vector<int32>& lower_layer  = _ed_scrollview->_map->GetLayer(GROUND_LAYER, _ed_scrollview->_map->GetContext());
-			vector<int32>& middle_layer = _ed_scrollview->_map->GetLayer(FRINGE_LAYER, _ed_scrollview->_map->GetContext());
-			vector<int32>& upper_layer  = _ed_scrollview->_map->GetLayer(SKY_LAYER, _ed_scrollview->_map->GetContext());
+			vector<int32>& lower_layer  = _ed_scrollarea->_map->GetLayer(GROUND_LAYER, _ed_scrollarea->_map->GetContext());
+			vector<int32>& middle_layer = _ed_scrollarea->_map->GetLayer(FRINGE_LAYER, _ed_scrollarea->_map->GetContext());
+			vector<int32>& upper_layer  = _ed_scrollarea->_map->GetLayer(SKY_LAYER, _ed_scrollarea->_map->GetContext());
 			lower_layer.erase( lower_layer.end()  - extra_rows * map_width, lower_layer.end());
 			middle_layer.erase(middle_layer.end() - extra_rows * map_width, middle_layer.end());
 			upper_layer.erase( upper_layer.end()  - extra_rows * map_width, upper_layer.end());
 		} // delete rows
 
 		// Resize the map, QOpenGL and QScrollView widgets.
-		_ed_scrollview->_map->SetHeight(props->GetHeight());
-		_ed_scrollview->_map->resize(props->GetWidth() * TILE_WIDTH, props->GetHeight() * TILE_HEIGHT);
-		_ed_scrollview->resize(props->GetWidth() * TILE_WIDTH, props->GetHeight() * TILE_HEIGHT);
+		_ed_scrollarea->_map->SetHeight(props->GetHeight());
+		_ed_scrollarea->_map->resize(props->GetWidth() * TILE_WIDTH, props->GetHeight() * TILE_HEIGHT);
+		_ed_scrollarea->resize(props->GetWidth() * TILE_WIDTH, props->GetHeight() * TILE_HEIGHT);
 #endif
 
 
@@ -992,7 +992,7 @@ void Editor::_MapProperties() {
 					TilesetTable* a_tileset = new TilesetTable();
 					a_tileset->Load(tilesets->topLevelItem(i)->text(0));
 					_ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
-					_ed_scrollview->_map->tilesets.push_back(a_tileset);
+					_ed_scrollarea->_map->tilesets.push_back(a_tileset);
 				} // only add a tileset if it isn't already loaded
 			} // tileset must be checked in order to add it
 			else if (tilesets->topLevelItem(i)->checkState(0) == Qt::Unchecked &&
@@ -1025,7 +1025,7 @@ void Editor::_MapProperties() {
 
 
 void Editor::_MapAddContext() {
-	if (static_cast<uint32>(_ed_scrollview->_map->GetContextNames().size()) >= MAX_CONTEXTS)
+	if (static_cast<uint32>(_ed_scrollarea->_map->GetContextNames().size()) >= MAX_CONTEXTS)
 	{
 		_error_max_contexts->move(this->pos().x() + this->width()/2  - _error_max_contexts->width()/2,
 		                          this->pos().y() + this->height()/2 - _error_max_contexts->height()/2);
@@ -1041,7 +1041,7 @@ void Editor::_MapAddContext() {
 
 	if (props->exec() == QDialog::Accepted)
 	{
-		QStringList context_names = _ed_scrollview->_map->GetContextNames();
+		QStringList context_names = _ed_scrollarea->_map->GetContextNames();
 
 		// Gets the index of the context to inherit from. Default is the
 		// base context, which is index 0. If no context is selected in the
@@ -1054,7 +1054,7 @@ void Editor::_MapAddContext() {
 			inherit_context = props->GetContextTree()->currentItem()->text(0).toInt();
 
 		// Perform the copy from one context to another.
-		if (_ed_scrollview->_map->CreateNewContext(props->GetName().toStdString(),
+		if (_ed_scrollarea->_map->CreateNewContext(props->GetName().toStdString(),
 											   inherit_context))
 		{
 			// Add new context to context combobox.
@@ -1064,7 +1064,7 @@ void Editor::_MapAddContext() {
 
 			// Switch to newly created context.
 			_context_cbox->setCurrentIndex(context_names.size() - 1);
-			_ed_scrollview->_map->SetContext(context_names.size() - 1);
+			_ed_scrollarea->_map->SetContext(context_names.size() - 1);
 		}
 		else
 			statusBar()->showMessage(tr("No new context created! Invalid inheritance."), 5000);
@@ -1079,7 +1079,7 @@ void Editor::_MapAddContext() {
 void Editor::_UpdateLayersView()
 {
 	_ed_layer_view->clear();
-	std::vector<QTreeWidgetItem*> layer_names = _ed_scrollview->_map->getLayerNames();
+	std::vector<QTreeWidgetItem*> layer_names = _ed_scrollarea->_map->getLayerNames();
 	for (uint32 i = 0; i < layer_names.size(); ++i)
 	{
 		_ed_layer_view->addTopLevelItem(layer_names[i]);
@@ -1128,10 +1128,10 @@ void Editor::_HelpAboutQt() {
 
 
 void Editor::_SwitchMapContext(int context) {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
-		_ed_scrollview->_map->SetContext(context);
-		_ed_scrollview->_map->updateGL();
+		_ed_scrollarea->_map->SetContext(context);
+		_ed_scrollarea->_map->updateGL();
 	} // map must exist in order to change the context
 }
 
@@ -1140,8 +1140,8 @@ void Editor::_UpdateSelectedLayer(QTreeWidgetItem *item) {
 	// Turns back the layer's id into an uint.
 	uint32 layer_id = item->text(0).toUInt();
 
-	if (_ed_scrollview)
-		_ed_scrollview->_layer_id = layer_id;
+	if (_ed_scrollarea)
+		_ed_scrollarea->_layer_id = layer_id;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1380,9 +1380,9 @@ void Editor::_CreateToolbars() {
 
 
 bool Editor::_EraseOK() {
-	if (_ed_scrollview != NULL && _ed_scrollview->_map != NULL)
+	if (_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
 	{
-	    if (_ed_scrollview->_map->GetChanged())
+	    if (_ed_scrollarea->_map->GetChanged())
 		{
 			switch(QMessageBox::warning(this, "Unsaved File", "The document contains unsaved changes!\n"
 				"Do you want to save the changes before proceeding?", "&Save", "&Discard", "Cancel",
@@ -1412,8 +1412,8 @@ bool Editor::_EraseOK() {
 // EditorScrollView class -- public functions
 ///////////////////////////////////////////////////////////////////////////////
 
-EditorScrollView::EditorScrollView(QWidget* parent, const QString& name, int width, int height) :
-	Q3ScrollView(parent, (const char*)name.toStdString().c_str())
+EditorScrollArea::EditorScrollArea(QWidget* parent, int width, int height) :
+	QScrollArea(parent)
 {
 	// Set default editing modes.
 	_tile_mode  = PAINT_TILE;
@@ -1433,8 +1433,8 @@ EditorScrollView::EditorScrollView(QWidget* parent, const QString& name, int wid
 
 	// Create a new map.
 	_map = new Grid(viewport(), tr("Untitled"), width, height);
-	_map->_ed_scrollview = this;
-	addChild(_map);
+	_map->_ed_scrollarea = this;
+	setWidget(_map);
 
 	// Create menu actions related to the Context menu.
 	_insert_row_action = new QAction("Insert row", this);
@@ -1461,7 +1461,7 @@ EditorScrollView::EditorScrollView(QWidget* parent, const QString& name, int wid
 
 
 
-EditorScrollView::~EditorScrollView() {
+EditorScrollArea::~EditorScrollArea() {
 	delete _map;
 	delete _context_menu;
 
@@ -1471,7 +1471,7 @@ EditorScrollView::~EditorScrollView() {
 
 
 
-void EditorScrollView::Resize(int width, int height) {
+void EditorScrollArea::Resize(int width, int height) {
 	_map->resize(width * TILE_WIDTH, height * TILE_HEIGHT);
 	_map->SetHeight(height);
 	_map->SetWidth(width);
@@ -1479,7 +1479,7 @@ void EditorScrollView::Resize(int width, int height) {
 
 
 
-vector<vector<int32> >& EditorScrollView::GetCurrentLayer() {
+vector<vector<int32> >& EditorScrollArea::GetCurrentLayer() {
 	return _map->GetLayers(_map->GetContext())[_layer_id].tiles;
 }
 
@@ -1488,12 +1488,34 @@ vector<vector<int32> >& EditorScrollView::GetCurrentLayer() {
 // EditorScrollView class -- protected functions
 ///////////////////////////////////////////////////////////////////////////////
 
-void EditorScrollView::contentsMousePressEvent(QMouseEvent* evt) {
+bool EditorScrollArea::event(QEvent* evt)
+{
+	QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(evt);
+	if (mouse_event) {
+		switch (mouse_event->type()) {
+		default:
+			break;
+		case QEvent::MouseButtonPress:
+			return contentsMousePressEvent(mouse_event);
+			break;
+		case QEvent::MouseButtonRelease:
+			return contentsMouseReleaseEvent(mouse_event);
+			break;
+		case QEvent::MouseMove:
+			return contentsMouseMoveEvent(mouse_event);
+			break;
+		}
+	}
+
+    return QScrollArea::event(evt);
+}
+
+bool EditorScrollArea::contentsMousePressEvent(QMouseEvent* evt) {
 	// don't draw outside the map
 	if ((evt->y() / TILE_HEIGHT) >= static_cast<uint32>(_map->GetHeight()) ||
 		(evt->x() / TILE_WIDTH)  >= static_cast<uint32>(_map->GetWidth()) ||
 		evt->x() < 0 || evt->y() < 0)
-		return;
+		return true;
 
 	// get reference to Editor
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
@@ -1548,11 +1570,12 @@ void EditorScrollView::contentsMousePressEvent(QMouseEvent* evt) {
 
 	// Draw the changes.
 	_map->updateGL();
+	return true;
 } // void EditorScrollView::contentsMousePressEvent(QMouseEvent* evt)
 
 
 
-void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt) {
+bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt) {
 	// get reference to Editor
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
 
@@ -1562,7 +1585,7 @@ void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt) {
 		evt->x() < 0 || evt->y() < 0 )
 	{
 		editor->statusBar()->clearMessage();
-		return;
+		return true;
 	}
 
 	int32 index_x = evt->x() / TILE_WIDTH;
@@ -1647,11 +1670,12 @@ void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt) {
 
 	// Draw the changes.
 	_map->updateGL();
+	return true;
 } // void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt)
 
 
 
-void EditorScrollView::contentsMouseReleaseEvent(QMouseEvent *evt) {
+bool EditorScrollArea::contentsMouseReleaseEvent(QMouseEvent *evt) {
 	vector<int32>::iterator it;    // used to iterate over an entire layer
 
 	// get reference to Editor so we can access the undo stack
@@ -1796,11 +1820,12 @@ void EditorScrollView::contentsMouseReleaseEvent(QMouseEvent *evt) {
 
 	// Draw the changes.
 	_map->updateGL();
+	return true;
 } // void EditorScrollView::contentsMouseReleaseEvent(QMouseEvent *evt)
 
 
 
-void EditorScrollView::contentsContextMenuEvent(QContextMenuEvent *evt) {
+void EditorScrollArea::contentsContextMenuEvent(QContextMenuEvent *evt) {
 	// Don't popup a menu outside the map.
 	if ((evt->y() / TILE_HEIGHT) >= static_cast<uint32>(_map->GetHeight()) ||
 		(evt->x() / TILE_WIDTH)  >= static_cast<uint32>(_map->GetWidth()) ||
@@ -1815,7 +1840,7 @@ void EditorScrollView::contentsContextMenuEvent(QContextMenuEvent *evt) {
 
 
 
-void EditorScrollView::keyPressEvent(QKeyEvent *evt) {
+void EditorScrollArea::keyPressEvent(QKeyEvent *evt) {
 	if (evt->key() == Qt::Key_Delete)
 		for( std::list<MapSprite*>::iterator it=_map->sprites.begin(); it!=_map->sprites.end(); it++ )
 		if( (*it)->is_selected ) {
@@ -1829,25 +1854,25 @@ void EditorScrollView::keyPressEvent(QKeyEvent *evt) {
 // EditorScrollView class -- private slots
 ///////////////////////////////////////////////////////////////////////////////
 
-void EditorScrollView::_ContextInsertRow() {
+void EditorScrollArea::_ContextInsertRow() {
 	_map->InsertRow(_tile_index_y);
 }
 
 
 
-void EditorScrollView::_ContextInsertColumn() {
+void EditorScrollArea::_ContextInsertColumn() {
 	_map->InsertCol(_tile_index_x);
 }
 
 
 
-void EditorScrollView::_ContextDeleteRow() {
+void EditorScrollArea::_ContextDeleteRow() {
 	_map->DeleteRow(_tile_index_y);
 }
 
 
 
-void EditorScrollView::_ContextDeleteColumn() {
+void EditorScrollArea::_ContextDeleteColumn() {
 	_map->DeleteCol(_tile_index_x);
 }
 
@@ -1856,7 +1881,7 @@ void EditorScrollView::_ContextDeleteColumn() {
 // EditorScrollView class -- private functions
 ///////////////////////////////////////////////////////////////////////////////
 
-void EditorScrollView::_PaintTile(int32 index_x, int32 index_y) {
+void EditorScrollArea::_PaintTile(int32 index_x, int32 index_y) {
 	// get reference to current tileset
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
 	Q3Table* table = static_cast<Q3Table*> (editor->_ed_tabs->currentWidget());
@@ -1910,7 +1935,7 @@ void EditorScrollView::_PaintTile(int32 index_x, int32 index_y) {
 
 
 
-void EditorScrollView::_DeleteTile(int32 index_x, int32 index_y) {
+void EditorScrollArea::_DeleteTile(int32 index_x, int32 index_y) {
 	// Record information for undo/redo action.
 	_tile_indeces.push_back(QPoint(index_x, index_y));
 	_previous_tiles.push_back(GetCurrentLayer()[index_y][index_x]);
@@ -1922,7 +1947,7 @@ void EditorScrollView::_DeleteTile(int32 index_x, int32 index_y) {
 
 
 
-void EditorScrollView::_AutotileRandomize(int32& tileset_num, int32& tile_index) {
+void EditorScrollArea::_AutotileRandomize(int32& tileset_num, int32& tile_index) {
 	map<int, string>::iterator it = _map->tilesets[tileset_num]->
 		autotileability.find(tile_index);
 
@@ -1952,7 +1977,7 @@ void EditorScrollView::_AutotileRandomize(int32& tileset_num, int32& tile_index)
 
 
 
-void EditorScrollView::_AutotileTransitions(int32& tileset_num, int32& tile_index, const string tile_group) {
+void EditorScrollArea::_AutotileTransitions(int32& tileset_num, int32& tile_index, const string tile_group) {
 	/*
 	// These 2 vectors have a one-to-one correspondence. They should always
 	// contain 8 entries.
@@ -2151,7 +2176,7 @@ void EditorScrollView::_AutotileTransitions(int32& tileset_num, int32& tile_inde
 
 
 
-TRANSITION_PATTERN_TYPE EditorScrollView::_CheckForTransitionPattern(const string current_group,
+TRANSITION_PATTERN_TYPE EditorScrollArea::_CheckForTransitionPattern(const string current_group,
 	const vector<string>& surrounding_groups, string& border_group)
 {
 	// Assumes that surrounding_groups always has 8 entries. Well, it's an error if it doesn't,
@@ -2370,10 +2395,10 @@ LayerCommand::LayerCommand(std::vector<QPoint> indeces, std::vector<int32> previ
 void LayerCommand::undo() {
 
 	for (int32 i = 0; i < static_cast<int32>(_tile_indeces.size()); ++i) {
-		_editor->_ed_scrollview->_map->GetLayers(_context)[_edited_layer_id].tiles[_tile_indeces[i].y()][_tile_indeces[i].x()] = _previous_tiles[i];
+		_editor->_ed_scrollarea->_map->GetLayers(_context)[_edited_layer_id].tiles[_tile_indeces[i].y()][_tile_indeces[i].x()] = _previous_tiles[i];
 	}
 
-	_editor->_ed_scrollview->_map->updateGL();
+	_editor->_ed_scrollarea->_map->updateGL();
 }
 
 
@@ -2381,9 +2406,9 @@ void LayerCommand::undo() {
 void LayerCommand::redo() {
 
 	for (int32 i = 0; i < static_cast<int32>(_tile_indeces.size()); i++) {
-		_editor->_ed_scrollview->_map->GetLayers(_context)[_edited_layer_id].tiles[_tile_indeces[i].y()][_tile_indeces[i].x()] = _modified_tiles[i];
+		_editor->_ed_scrollarea->_map->GetLayers(_context)[_edited_layer_id].tiles[_tile_indeces[i].y()][_tile_indeces[i].x()] = _modified_tiles[i];
 	}
-	_editor->_ed_scrollview->_map->updateGL();
+	_editor->_ed_scrollarea->_map->updateGL();
 }
 
 } // namespace hoa_editor
