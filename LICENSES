@@ -44,7 +44,7 @@ dat/objects/leg_armor.lua       GPLv2 or later	Allacrost + Bertram
 dat/objects/weapons.lua         GPLv2 or later	Allacrost + Bertram
 
 dat/tilesets/building_interior_objects_01.lua   GPLv2 or later	Allacrost + Bertram
-dat/tilesets/desert_house_tileset.lua   GPLv2 or later	Allacrost + Bertram
+dat/tilesets/desert_house_tileset.lua           GPLv2 or later	Allacrost + Bertram
 dat/tilesets/harrvah_house_interior.lua         GPLv2 or later	Allacrost + Bertram
 dat/tilesets/mountain_landscape.lua             GPLv2 or later	Allacrost + Bertram
 dat/tilesets/mountain_house_interior.lua        GPLv2 or later	Allacrost + Bertram
@@ -268,6 +268,7 @@ img/tilesets/building_interior_objects_01.png       GPLv2   Allacrost + From Jet
 img/tilesets/desert_house_tileset.png               GPLv2   From Jetrel's mockups + Bertram
 img/tilesets/harrvah_house_interior.png             GPLv2   Allacrost + From Jetrel's mockups + Bertram
 img/tilesets/mountain_house_interior.png            GPLv2   Allacrost + From Jetrel's mockups + Bertram
+img/tilesets/mountain_house_exterior2.png           CC by SA 3.0 Allacrost + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/tilesets/mountain_landscape.png                 GPLv2   Allacrost + From Jetrel's mockups + Bertram
 img/tilesets/wood-tileset.png                       GPLv2   From Jetrel's mockups + Bertram
 img/tilesets/snow-tileset.png                       GPLv2   From Jetrel's mockups + Bertram
@@ -370,7 +371,6 @@ Files:
 ./img/tilesets/harrvah_house_exterior.png
 ./img/tilesets/desert_cave.png
 ./img/tilesets/castle_exterior_01.png
-./img/tilesets/mountain_house_exterior2.png
 
 ./img/sprites/battle/enemies/spider.png
 ./img/sprites/battle/enemies/skeleton.png
