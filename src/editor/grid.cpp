@@ -22,6 +22,8 @@
 #include "engine/script/script_write.h"
 #include "engine/script/script_read.h"
 
+#include <QScrollBar>
+
 using namespace hoa_script;
 using namespace hoa_map::private_map;
 using namespace hoa_video;

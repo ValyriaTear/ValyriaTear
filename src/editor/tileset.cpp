@@ -19,6 +19,8 @@
 #include "engine/script/script_read.h"
 #include "engine/script/script_write.h"
 
+#include <QHeaderView>
+
 using namespace std;
 using namespace hoa_video;
 using namespace hoa_script;
@@ -324,19 +326,30 @@ bool Tileset::Save()
 // TilesetTable class -- all functions
 ///////////////////////////////////////////////////////////////////////////////
 
+const uint32 num_rows = 16;
+const uint32 num_cols = 16;
+
 TilesetTable::TilesetTable() :
 	Tileset()
 {
 	// Set up the QT table
-	table = new Q3Table(16, 16);
-	table->setReadOnly(true);
+	table = new QTableWidget(num_rows, num_cols);
 	table->setShowGrid(false);
-	table->setSelectionMode(Q3Table::Multi);
-	table->setTopMargin(0);
-	table->setLeftMargin(0);
-	for (int32 i = 0; i < table->numRows(); i++)
+	table->setSelectionMode(QTableWidget::ContiguousSelection);
+	table->setEditTriggers(QTableWidget::NoEditTriggers);
+	table->setContentsMargins(0, 0, 0, 0);
+	table->setDragEnabled(false);
+	table->setAcceptDrops(false);
+	table->setHorizontalHeaderLabels(QStringList());
+	table->setVerticalHeaderLabels(QStringList());
+	table->verticalHeader()->hide();
+	table->verticalHeader()->setContentsMargins(0, 0, 0, 0);
+	table->horizontalHeader()->hide();
+	table->horizontalHeader()->setContentsMargins(0, 0, 0, 0);
+
+	for (uint32 i = 0; i < num_rows; ++i)
 		table->setRowHeight(i, TILE_HEIGHT);
-	for (int32 i = 0; i < table->numCols(); i++)
+	for (uint32 i = 0; i < num_cols; ++i)
 		table->setColumnWidth(i, TILE_WIDTH);
 } // TilesetTable constructor
 
@@ -353,7 +366,8 @@ bool TilesetTable::Load(const QString& set_name)
 		return false;
 
 	// Read in tiles and create table items.
-	// FIXME: this is one ugly hack. It loads each individual tile's image and
+	// Historical note:
+	// This was one ugly hack. It loads each individual tile's image and
 	// puts it into a table. But each tile's image only exists together with a
 	// bunch of other tiles in a tileset image. So we have to split them up.
 	// Qt has no built-in function to split a big image into little ones (as
@@ -370,22 +384,29 @@ bool TilesetTable::Load(const QString& set_name)
 	QRect rectangle;
 	QImage entire_tileset;
 	entire_tileset.load(CreateImageFilename(set_name), "png");
-	for (uint32 row = 0; row < 16; row++)
+	for (uint32 row = 0; row < num_rows; ++row)
 	{
-		for (uint32 col = 0; col < 16; col++)
+		for (uint32 col = 0; col < num_cols; ++col)
 		{
 			rectangle.setRect(col * TILE_WIDTH, row * TILE_HEIGHT, TILE_WIDTH,
 			                  TILE_HEIGHT);
 			QVariant variant = entire_tileset.copy(rectangle);
 			if (!variant.isNull())
 			{
-				QPixmap tile_pixmap = variant.value<QPixmap>();
-				table->setPixmap(row, col, tile_pixmap);
+				QTableWidgetItem *item = new QTableWidgetItem(QTableWidgetItem::UserType);
+				item->setData(Qt::DecorationRole, variant);
+				item->setFlags(item->flags() &~ Qt::ItemIsEditable);
+
+				table->setItem(row, col, item);
 			}
 			else
 				qDebug("Image loading error!");
 		} // iterate through the columns of the tileset
 	} // iterate through the rows of the tileset
+
+
+	// Select the top left item
+	table->setCurrentCell(0, 0);
 
 	return true;
 } // TilesetTable::Load(...)

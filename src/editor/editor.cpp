@@ -16,6 +16,8 @@
 #include "editor.h"
 #include "engine/script/script_read.h"
 
+#include <QTableWidgetItem>
+
 using namespace std;
 
 using namespace hoa_utils;
@@ -647,7 +649,7 @@ void Editor::_ViewTextures() {
 
 void Editor::_TileLayerFill() {
 	// get reference to current tileset
-	Q3Table* table = static_cast<Q3Table*> (_ed_tabs->currentWidget());
+	QTableWidget* table = static_cast<QTableWidget*> (_ed_tabs->currentWidget());
 
 	// put selected tile from tileset into tile array at correct position
 	int32 tileset_index = table->currentRow() * 16 + table->currentColumn();
@@ -1884,9 +1886,14 @@ void EditorScrollArea::_ContextDeleteColumn() {
 void EditorScrollArea::_PaintTile(int32 index_x, int32 index_y) {
 	// get reference to current tileset
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
-	Q3Table* table = static_cast<Q3Table*> (editor->_ed_tabs->currentWidget());
+	QTableWidget* table = static_cast<QTableWidget*> (editor->_ed_tabs->currentWidget());
 	QString tileset_name = editor->_ed_tabs->tabText(editor->_ed_tabs->currentIndex());
-	Q3TableSelection selection = table->selection(0);
+
+	// Detect the first selection range and use to paint an area
+	QList<QTableWidgetSelectionRange> selections = table->selectedRanges();
+	QTableWidgetSelectionRange selection;
+	if (selections.size() > 0)
+		selection = selections.at(0);
 
 	int32 multiplier = _map->tileset_names.indexOf(tileset_name);
 	if (multiplier == -1)
@@ -1895,14 +1902,14 @@ void EditorScrollArea::_PaintTile(int32 index_x, int32 index_y) {
 		multiplier = _map->tileset_names.indexOf(tileset_name);
 	} // calculate index of current tileset
 
-	if (selection.isActive() && (selection.numCols() * selection.numRows() > 1))
+	if (selections.size() > 0 && (selection.columnCount() * selection.rowCount() > 1))
 	{
 		// Draw tiles from tileset selection onto map, one tile at a time.
-		for (int32 i = 0; i < selection.numRows() && index_y + i < (int32)_map->GetHeight(); i++)
+		for (int32 i = 0; i < selection.rowCount() && index_y + i < (int32)_map->GetHeight(); i++)
 		{
-			for (int32 j = 0; j < selection.numCols() && index_x + j < (int32)_map->GetWidth(); j++)
+			for (int32 j = 0; j < selection.columnCount() && index_x + j < (int32)_map->GetWidth(); j++)
 			{
-				int32 tileset_index = (selection.topRow() + i) * 16 + (selection.leftCol() + j);
+				int32 tileset_index = (selection.topRow() + i) * 16 + (selection.leftColumn() + j);
 
 				// perform randomization for autotiles
 				_AutotileRandomize(multiplier, tileset_index);
