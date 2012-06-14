@@ -17,6 +17,7 @@
 #include "engine/script/script_read.h"
 
 #include <QTableWidgetItem>
+#include <QScrollBar>
 
 using namespace std;
 
@@ -1492,6 +1493,17 @@ vector<vector<int32> >& EditorScrollArea::GetCurrentLayer() {
 
 bool EditorScrollArea::event(QEvent* evt)
 {
+	// Recreate a mouse move event in case of simple hovering
+	if (evt->type() == QEvent::HoverMove) {
+	  QHoverEvent *hover_event = dynamic_cast<QHoverEvent*>(evt);
+	  QMouseEvent *mouse_event = new QMouseEvent(QEvent::MouseMove,
+												 hover_event->pos(),
+												 Qt::NoButton,
+												 Qt::MouseButtons(),
+												 Qt::KeyboardModifiers());
+		return contentsMouseMoveEvent(mouse_event);
+	}
+
 	QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(evt);
 	if (mouse_event) {
 		switch (mouse_event->type()) {
@@ -1513,20 +1525,24 @@ bool EditorScrollArea::event(QEvent* evt)
 }
 
 bool EditorScrollArea::contentsMousePressEvent(QMouseEvent* evt) {
-	// don't draw outside the map
-	if ((evt->y() / TILE_HEIGHT) >= static_cast<uint32>(_map->GetHeight()) ||
-		(evt->x() / TILE_WIDTH)  >= static_cast<uint32>(_map->GetWidth()) ||
-		evt->x() < 0 || evt->y() < 0)
-		return true;
-
 	// get reference to Editor
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
+
+	// Takes in account the current scrolling
+	int32 x = evt->x() + editor->_ed_scrollarea->horizontalScrollBar()->value();
+	int32 y = evt->y() + editor->_ed_scrollarea->verticalScrollBar()->value();
+
+	// don't draw outside the map
+	if ((y / TILE_HEIGHT) >= static_cast<uint32>(_map->GetHeight()) ||
+		(x / TILE_WIDTH)  >= static_cast<uint32>(_map->GetWidth()) ||
+		x < 0 || y < 0)
+		return true;
 
 	_map->SetChanged(true);
 
 	// record location of pressed tile
-	_tile_index_x = evt->x() / TILE_WIDTH;
-	_tile_index_y = evt->y() / TILE_HEIGHT;
+	_tile_index_x = x / TILE_WIDTH;
+	_tile_index_y = y / TILE_HEIGHT;
 
 	// record the location of the beginning of the selection rectangle
 	if (evt->button() == Qt::LeftButton && editor->_select_on == true &&
@@ -1581,17 +1597,21 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt) {
 	// get reference to Editor
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
 
+	// Takes in account the current scrolling
+	int32 x = evt->x() + editor->_ed_scrollarea->horizontalScrollBar()->value();
+	int32 y = evt->y() + editor->_ed_scrollarea->verticalScrollBar()->value();
+
 	// don't draw outside the map
-	if ((evt->y() / TILE_HEIGHT) >= static_cast<uint32>(_map->GetHeight()) ||
-		(evt->x() / TILE_WIDTH)  >= static_cast<uint32>(_map->GetWidth()) ||
-		evt->x() < 0 || evt->y() < 0 )
+	if ((y / TILE_HEIGHT) >= static_cast<uint32>(_map->GetHeight()) ||
+		(x / TILE_WIDTH)  >= static_cast<uint32>(_map->GetWidth()) ||
+		x < 0 || y < 0 )
 	{
 		editor->statusBar()->clearMessage();
 		return true;
 	}
 
-	int32 index_x = evt->x() / TILE_WIDTH;
-	int32 index_y = evt->y() / TILE_HEIGHT;
+	int32 index_x = x / TILE_WIDTH;
+	int32 index_y = y / TILE_HEIGHT;
 
 	if (index_x != _tile_index_x || index_y != _tile_index_y)  // user has moved onto another tile
 	{
@@ -1660,14 +1680,14 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt) {
 	// Display mouse position in tile and collision coordinates format
 	QString position;
 	// Tile position
-	position = QString("Tiles: (x: %1  y: %2)").arg(static_cast<double>(evt->x() / TILE_WIDTH), 0, 'f', 0).arg(
-		static_cast<double>(evt->y() / TILE_HEIGHT), 0, 'f', 0);
+	position = QString("Tiles: (x: %1  y: %2)").arg(static_cast<double>(x / TILE_WIDTH), 0, 'f', 0).arg(
+		static_cast<double>(y / TILE_HEIGHT), 0, 'f', 0);
 	// Collision coordinates
-	position.append(QString(" / Collision: (x: %1  y: %2)").arg(static_cast<double>(evt->x() * 2 / TILE_WIDTH), 0, 'f', 0).arg(
-		static_cast<double>(evt->y() * 2 / TILE_HEIGHT), 0, 'f', 0));
+	position.append(QString(" / Collision: (x: %1  y: %2)").arg(static_cast<double>(x * 2 / TILE_WIDTH), 0, 'f', 0).arg(
+		static_cast<double>(y * 2 / TILE_HEIGHT), 0, 'f', 0));
 	// Sprite coordinates
-	position.append(QString(" / Sprites: (x: %1  y: %2)").arg(evt->x() * 2 / static_cast<float>(TILE_WIDTH), 0, 'f', 1).arg(
-			evt->y() * 2 / static_cast<float>(TILE_HEIGHT), 0, 'f', 1));
+	position.append(QString(" / Sprites: (x: %1  y: %2)").arg(x * 2 / static_cast<float>(TILE_WIDTH), 0, 'f', 1).arg(
+			y * 2 / static_cast<float>(TILE_HEIGHT), 0, 'f', 1));
 	editor->statusBar()->showMessage(position);
 
 	// Draw the changes.
@@ -1682,6 +1702,10 @@ bool EditorScrollArea::contentsMouseReleaseEvent(QMouseEvent *evt) {
 
 	// get reference to Editor so we can access the undo stack
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
+
+	// Takes in account the current scrolling
+	int32 mouse_x = evt->x() + editor->_ed_scrollarea->horizontalScrollBar()->value();
+	int32 mouse_y = evt->y() + editor->_ed_scrollarea->verticalScrollBar()->value();
 
 	switch (_tile_mode)
 	{
@@ -1718,8 +1742,8 @@ bool EditorScrollArea::contentsMouseReleaseEvent(QMouseEvent *evt) {
 			if (_moving == true)
 			{
 				// record location of released tile
-				_tile_index_x = evt->x() / TILE_WIDTH;
-				_tile_index_y = evt->y() / TILE_HEIGHT;
+				_tile_index_x = mouse_x / TILE_WIDTH;
+				_tile_index_y = mouse_y / TILE_HEIGHT;
 				std::vector<std::vector<int32> >& layer = GetCurrentLayer();
 
 				if (editor->_select_on == false)
