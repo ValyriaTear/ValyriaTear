@@ -17,11 +17,9 @@
 #ifndef __TILESET_HEADER__
 #define __TILESET_HEADER__
 
-//#include <QHeaderView>
 #include <QImageReader>
 #include <QRect>
-#include <Q3Table>
-//#include <QTableWidgetItem>
+#include <QTableWidget>
 #include <QVariant>
 
 #include "defs.h"
@@ -158,7 +156,7 @@ public:
 	//@}
 
 	//! Reference to the table implementation of this tileset
-	Q3Table* table;
+	QTableWidget* table;
 }; // class TilesetTable : public Tileset
 
 } // namespace hoa_editor
