@@ -118,7 +118,6 @@ private slots:
 	void _TilesEnableActions();
 	void _TilesetMenuSetup();
 	void _MapMenuSetup();
-	void _ScriptMenuSetup();
 	//@}
 
 	//! \name File Menu Item Slots
@@ -171,11 +170,6 @@ private slots:
 	void _MapAddLayer();
 	void _MapModifyLayer();
 	void _MapDeleteLayer();
-
-	//! \name Script Menu Item Slots
-	//! \brief These slots handle the events for the Script menu
-	//{@
-	void _ScriptEditSkills();
 	//@}
 
 	//! \name Help Menu Item Slots
@@ -190,6 +184,9 @@ private slots:
 	void _SwitchMapContext(int context);
 	//! Switch to the new map layer using the Item selected
 	void _UpdateSelectedLayer(QTreeWidgetItem *item);
+
+	//! Toggle the current layer visibility
+	void _ToggleLayerVisibility();
 private:
 	//! Helper function to the constructor, creates actions for use by menus
 	//! and toolbars.
@@ -259,8 +256,6 @@ private:
 	QAction* _context_properties_action;
 	QAction* _map_properties_action;
 	QAction* _select_music_action;
-
-	QAction* _edit_skill_action;
 
 	QAction* _help_action;
 	QAction* _about_action;
