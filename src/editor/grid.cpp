@@ -379,9 +379,9 @@ bool Grid::LoadMap()
 		LAYER_TYPE layer_type = getLayerType(read_data.ReadString("type"));
 
 		if (layer_type == INVALID_LAYER) {
-			//QMessageBox::warning(this, message_box_title,
-			//QString(tr("Ignoring unexisting layer type: %i in file: %s"),
-			//		   (int32)layer_type, read_data.GetFilename().c_str()));
+			QMessageBox::warning(this, message_box_title,
+			QString(tr("Ignoring unexisting layer type: %i in file: %s").arg(
+					   (int32)layer_type).arg(read_data.GetFilename().c_str())));
 			read_data.CloseTable(); // layers[layer_id]
 			return false;
 		}
@@ -398,9 +398,9 @@ bool Grid::LoadMap()
 		for (uint32 y = 0; y < _height; ++y)
 		{
 			if (!read_data.DoesTableExist(y)) {
-				//QMessageBox::warning(this, message_box_title,
-				//QString(tr("Missing layers[%i][%i] in file: %s",
-				//		layer_id, y, read_data.GetFilename().c_str())));
+				QMessageBox::warning(this, message_box_title,
+				QString(tr("Missing layers[%i][%i] in file: %s")
+				.arg(layer_id).arg(y).arg(read_data.GetFilename().c_str())));
 				read_data.CloseTable(); // layers[layer_id]
 				return false;
 			}
@@ -411,9 +411,9 @@ bool Grid::LoadMap()
 			_tile_contexts[0].layers[layer_id].tiles.resize(y + 1);
 
 			if (vect.size() != _width) {
-				//QMessageBox::warning(this, message_box_title,
-				//QString(tr("Invalid line size of layers[%i][%i] in file: %s").arg(,
-				//		layer_id, y, read_data.GetFilename())));
+				QMessageBox::warning(this, message_box_title,
+				QString(tr("Invalid line size of layers[%i][%i] in file: %s")
+					.arg(layer_id).arg(y).arg(read_data.GetFilename().c_str())));
 				read_data.CloseTable(); // layers[layer_id]
 				return false;
 			}
@@ -1108,6 +1108,10 @@ void Grid::paintGL()
 	while (y <= bottom_tile)
 	{
 		for (uint32 layer_id = 0; layer_id < _tile_contexts[_context].layers.size(); ++layer_id) {
+			// Don't draw the layer if it's not visible
+			if (!_tile_contexts[_context].layers[layer_id].visible)
+			  continue;
+
 			layer_index = _tile_contexts[_context].layers[layer_id].tiles[y][x];
 			// Draw tile if one exists at this location
 			if (layer_index != -1)

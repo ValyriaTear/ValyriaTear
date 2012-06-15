@@ -69,9 +69,11 @@ public:
 	LAYER_TYPE layer_type;
 	// Represents the tile indeces: i.e: tiles[y][x] = tile_id at (x,y)
 	std::vector< std::vector<int32> > tiles;
+	// Tells whether the layer is currently visible.
+	bool visible;
 
 	Layer()
-	{ layer_type = GROUND_LAYER; }
+	{ layer_type = GROUND_LAYER; visible = true; }
 
 	// Resize a layer to the given map size
 	void Resize(uint32 width, uint height)

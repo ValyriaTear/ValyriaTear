@@ -209,12 +209,6 @@ void Editor::_MapMenuSetup() {
 }
 
 
-
-void Editor::_ScriptMenuSetup() {
-	_edit_skill_action->setEnabled(false);
-}
-
-
 void Editor::SetupMainView() {
 	if (_ed_tabs != NULL)
 		delete _ed_tabs;
@@ -285,7 +279,7 @@ void Editor::SetupMainView() {
 	button->setFixedSize(20, 20);
 	button->setToolTip(tr("Toggle visibility of the layer"));
 	_ed_layer_toolbar->addWidget(button);
-	button->setDisabled(true);
+	connect(button, SIGNAL(clicked(bool)), this, SLOT(_ToggleLayerVisibility()));
 
 	// Left of the screen
 	_ed_splitter->addWidget(_ed_scrollarea);
@@ -1092,25 +1086,10 @@ void Editor::_UpdateLayersView()
 
 }
 
-void Editor::_ScriptEditSkills() {
-	if (_skill_editor == NULL)
-	{
-		// create the skill editor window
-		_skill_editor = new SkillEditor(NULL, "skill_editor");
-		_skill_editor->resize(600,400);
-	}
-	_skill_editor->show();
-	//SkillEditor *skill_editor = new SkillEditor(this, "skill_editor");
-	//skill_editor->exec();
-	//delete skill_editor;
-}
-
-
 
 void Editor::_HelpHelp() {
 	QMessageBox::about(this, tr("Help"), tr("See http://allacrost.sourceforge.net/wiki/index.php/Code_Documentation#Map_Editor_Documentation for more details"));
 }
-
 
 
 void Editor::_HelpAbout() {
@@ -1123,11 +1102,9 @@ void Editor::_HelpAbout() {
 }
 
 
-
 void Editor::_HelpAboutQt() {
     QMessageBox::aboutQt(this, tr("Map Editor -- About Qt"));
 }
-
 
 
 void Editor::_SwitchMapContext(int context) {
@@ -1145,6 +1122,15 @@ void Editor::_UpdateSelectedLayer(QTreeWidgetItem *item) {
 
 	if (_ed_scrollarea)
 		_ed_scrollarea->_layer_id = layer_id;
+}
+
+
+void Editor::_ToggleLayerVisibility() {
+	Layer& layer = _ed_scrollarea->_map->GetLayers(_ed_scrollarea->_map->GetContext())[_ed_scrollarea->_layer_id];
+	layer.visible = !layer.visible;
+
+	// Show the change
+	_ed_scrollarea->_map->updateGL();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1268,11 +1254,6 @@ void Editor::_CreateActions() {
 	_map_properties_action->setStatusTip("Modify the properties of the map");
 	connect(_map_properties_action, SIGNAL(triggered()), this, SLOT(_MapProperties()));
 
-	// Create menu actions related to the Script menu
-	_edit_skill_action = new QAction("Edit S&kills", this);
-	_edit_skill_action->setStatusTip("Add/Edit skills");
-	connect(_edit_skill_action, SIGNAL(triggered()), this, SLOT(_ScriptEditSkills()));
-
 	// Create menu actions related to the Help menu
 	_help_action = new QAction("&Help", this);
 	_help_action->setShortcut(Qt::Key_F1);
@@ -1341,11 +1322,6 @@ void Editor::_CreateMenus() {
 	_map_menu->addSeparator();
 	_map_menu->addAction(_map_properties_action);
 	connect(_map_menu, SIGNAL(aboutToShow()), this, SLOT(_MapMenuSetup()));
-
-	// script menu creation -- Readd when scripting helpers are back.
-	//_script_menu = menuBar()->addMenu("&Script");
-	//_script_menu->addAction(_edit_skill_action);
-	//connect(_script_menu, SIGNAL(aboutToShow()), this, SLOT(_ScriptMenuSetup()));
 
 	// help menu creation
 	_help_menu = menuBar()->addMenu("&Help");
