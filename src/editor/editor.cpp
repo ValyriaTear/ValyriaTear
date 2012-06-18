@@ -223,14 +223,13 @@ void Editor::SetupMainView() {
 		SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
 		this, SLOT(_UpdateSelectedLayer(QTreeWidgetItem *)));
 
-	_ed_layer_view->setColumnCount(2);
+	_ed_layer_view->setColumnCount(3);
 
 	QStringList headers;
-	headers << "id" << tr("Layer") << tr("Type");
+	headers << "id" << tr(" ") << tr("Layer") << tr("Type");
 	_ed_layer_view->setHeaderLabels(headers);
 	// Hide the id column as we'll only use it internally
 	_ed_layer_view->setColumnHidden(0, true);
-
 
 	// The button toolbar
 	if (_ed_layer_toolbar != NULL)
@@ -382,24 +381,31 @@ void Editor::_FileNew() {
 			_ed_scrollarea->_layer_id = 0;
 
 			// Add default layers
+			QIcon icon(QString("img/misc/editor-tools/eye.png"));
 			QTreeWidgetItem *background = new QTreeWidgetItem(_ed_layer_view);
 			background->setText(0, QString::number(0));
-			background->setText(1, tr("Background"));
-			background->setText(2, tr("ground"));
+			background->setIcon(1, icon);
+			background->setText(2, tr("Background"));
+			background->setText(3, tr("ground"));
 			QTreeWidgetItem *background2 = new QTreeWidgetItem(_ed_layer_view);
 			background2->setText(0, QString::number(1));
-			background2->setText(1, tr("Background 2"));
-			background2->setText(2, tr("ground"));
+			background2->setIcon(1, icon);
+			background2->setText(2, tr("Background 2"));
+			background2->setText(3, tr("ground"));
 			QTreeWidgetItem *background3 = new QTreeWidgetItem(_ed_layer_view);
 			background3->setText(0, QString::number(2));
-			background3->setText(1, tr("Background 3"));
-			background3->setText(2, tr("ground"));
+			background3->setIcon(1, icon);
+			background3->setText(2, tr("Background 3"));
+			background3->setText(3, tr("ground"));
 			QTreeWidgetItem *sky = new QTreeWidgetItem(_ed_layer_view);
 			sky->setText(0, QString::number(3));
-			sky->setText(1, tr("Sky"));
-			sky->setText(2, tr("sky"));
+			sky->setIcon(1, icon);
+			sky->setText(2, tr("Sky"));
+			sky->setText(3, tr("sky"));
 
 			_ed_layer_view->adjustSize();
+			// Fix a bug in the width computation of the icon
+			_ed_layer_view->setColumnWidth(1, 20);
 
 			_ed_layer_view->setCurrentItem(background); // layer 0
 
@@ -1076,12 +1082,15 @@ void Editor::_MapAddContext() {
 void Editor::_UpdateLayersView()
 {
 	_ed_layer_view->clear();
-	std::vector<QTreeWidgetItem*> layer_names = _ed_scrollarea->_map->getLayerNames();
+	std::vector<QTreeWidgetItem*> layer_names = _ed_scrollarea->_map->getLayerItems();
 	for (uint32 i = 0; i < layer_names.size(); ++i)
 	{
 		_ed_layer_view->addTopLevelItem(layer_names[i]);
 	}
 	_ed_layer_view->adjustSize();
+	// Fix a bug in the width computation of the icon
+	_ed_layer_view->setColumnWidth(1, 20);
+
 	_ed_layer_view->setCurrentItem(layer_names[0]); // layer 0
 
 }
@@ -1117,6 +1126,9 @@ void Editor::_SwitchMapContext(int context) {
 
 
 void Editor::_UpdateSelectedLayer(QTreeWidgetItem *item) {
+	if (!item)
+		return;
+
 	// Turns back the layer's id into an uint.
 	uint32 layer_id = item->text(0).toUInt();
 
@@ -1131,6 +1143,12 @@ void Editor::_ToggleLayerVisibility() {
 
 	// Show the change
 	_ed_scrollarea->_map->updateGL();
+
+	// Update the item icon
+	if (layer.visible)
+		_ed_layer_view->currentItem()->setIcon(1, QIcon(QString("img/misc/editor-tools/eye.png")));
+	else
+		_ed_layer_view->currentItem()->setIcon(1, QIcon());
 }
 
 ///////////////////////////////////////////////////////////////////////////////

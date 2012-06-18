@@ -1025,7 +1025,7 @@ void Grid::DeleteCol(uint32 tile_index_x)
 */
 } // Grid::DeleteCol(...)
 
-std::vector<QTreeWidgetItem*> Grid::getLayerNames()
+std::vector<QTreeWidgetItem*> Grid::getLayerItems()
 {
 	std::vector<QTreeWidgetItem*> layers_names;
 	for (uint32 layer_id = 0; layer_id < _tile_contexts[0].layers.size(); ++layer_id)
@@ -1037,8 +1037,13 @@ std::vector<QTreeWidgetItem*> Grid::getLayerNames()
 			name = QString::number(layer_id);
 
 		item->setText(0, QString::number(layer_id));
-		item->setText(1, name);
-		item->setText(2, tr(getTypeFromLayer(_tile_contexts[0].layers[layer_id].layer_type).c_str()));
+
+		// Show the visible icon depending on the layer state
+		if (_tile_contexts[_context].layers[layer_id].visible)
+			item->setIcon(1, QIcon(QString("img/misc/editor-tools/eye.png")));
+
+		item->setText(2, name);
+		item->setText(3, tr(getTypeFromLayer(_tile_contexts[0].layers[layer_id].layer_type).c_str()));
 		layers_names.push_back(item);
 	}
 
