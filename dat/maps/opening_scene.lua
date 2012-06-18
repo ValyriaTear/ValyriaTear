@@ -1,23 +1,31 @@
+-- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --
 local ns = {}
 setmetatable(ns, {__index = _G})
 opening_scene = ns;
 setfenv(1, ns);
 
+-- A reference to the C++ MapMode object that was created with this file
+map = {}
+
 -- The map name and location graphic
 map_name = " "
 map_image_filename = ""
 
-context_inherits = {0}
-
--- Allacrost map editor begin. Do not edit this line. --
-
--- A reference to the C++ MapMode object that was created with this file
-map = {}
-
--- The number of contexts, rows, and columns that compose the map
-num_map_contexts = 1
+-- The number of rows, and columns that compose the map
 num_tile_cols = 200
 num_tile_rows = 24
+
+-- The contexts names and inheritance definition
+-- Tells the context id the current context inherit from
+-- This means that the parent context will be used as a base, and the current
+-- context will only have its own differences from it.
+-- At least, the base context (id:0) can't a parent context, thus it should be equal to -1.
+-- Note that a context cannot inherit from itself or a context with a higher id
+-- since it would lead to nasty and useless loading use cases.
+contexts = {}
+contexts[0] = {}
+contexts[0].name = "Base"
+contexts[0].inherit_from = -1
 
 -- The sound files used on this map.
 sound_filenames = {}
@@ -116,7 +124,7 @@ layers[0][22] = { 60, 60, 60, 59, 45, 9, 59, 45, 123, 41, 41, 58, 123, 60, 123, 
 layers[0][23] = { 59, 59, 45, 9, 58, 123, 123, 41, 9, 58, 123, 45, 58, 123, 45, 60, 123, 123, 59, 59, 58, 58, 9, 9, 41, 123, 58, 59, 59, 60, 59, 45, 58, 9, 45, 123, 123, 45, 41, 123, 123, 9, 45, 45, 9, 59, 9, 123, 59, 59, 58, 41, 41, 59, 41, 58, 58, 60, 9, 41, 58, 59, 58, 123, 59, 123, 123, 58, 41, 41, 58, 9, 41, 60, 45, 41, 58, 58, 41, 41, 41, 59, 45, 45, 45, 58, 60, 60, 41, 60, 123, 60, 45, 58, 60, 9, 45, 59, 59, 59, 123, 9, 59, 9, 123, 9, 45, 58, 59, 58, 59, 60, 41, 123, 9, 59, 58, 123, 45, 60, 59, 45, 58, 9, 60, 45, 9, 9, 9, 59, 59, 123, 60, 45, 123, 59, 58, 45, 9, 9, 123, 60, 123, 41, 59, 123, 60, 9, 60, 41, 123, 58, 58, 58, 58, 41, 60, 59, 45, 60, 45, 9, 59, 9, 58, 41, 9, 59, 60, 41, 123, 123, 59, 123, 41, 45, 123, 123, 58, 60, 9, 45, 123, 58, 60, 60, 45, 58, 45, 26, 27, 27, 27, 28, 60, 58, 59, 59, 58, 60 }
 
 layers[1] = {}
-layers[1]["type"] = "fringe";
+layers[1]["type"] = "ground";
 layers[1][0] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 250, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[1][1] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[1][2] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 235, -1, -1, -1, 203, -1, -1, -1, -1, -1, -1, -1, -1 }
@@ -142,8 +150,7 @@ layers[1][21] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[1][22] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 45, 45, 59, 59, 41, 59, -1, -1, -1, -1, -1, -1 }
 layers[1][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 123, 59, 60, 59, 9, 41, -1, -1, -1, -1, 254, 255 }
 
--- All, if any, existing contexts follow.
--- Allacrost map editor end. Do not edit this line. --
+-- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
 function Load(m)
 	Map = m;
@@ -187,7 +194,6 @@ function Load(m)
 
 		InitialCreateCharacters();
 		InitialCreateNPCs();
-		InitialCreateDialogue();
 		InitialCreateEvents();
 	else
 		-- Draw morning-time scene lighting
@@ -206,7 +212,7 @@ function Load(m)
 	-- This entire map is played out in scene state. As soon as the map is loaded, we start the chain of events.
 	Map:PushState(hoa_map.MapMode.STATE_SCENE);
 	Map:SetShowGUI(false);
-	EventManager:StartEvent(10);
+	EventManager:StartEvent("Start");
 end
 
 
@@ -227,25 +233,25 @@ function InitialCreateCharacters()
 	dester = {};
 	lukar = {};
 
-	claudius = ConstructSprite("Claudius", 1000, group_start_x, group_start_y, 0.5, 0.5);
+	claudius = _CreateSprite(Map, "Claudius", group_start_x + 0.5, group_start_y +0.5);
 	claudius:SetDirection(hoa_map.MapMode.EAST);
 	claudius:SetMovementSpeed(hoa_map.MapMode.SLOW_SPEED);
 	claudius:SetNoCollision(true);
 	Map:AddGroundObject(claudius);
 
-	mark = ConstructSprite("Karlate", 1001, group_start_x + 1, group_start_y + 3, 0.5, 0);
+	mark = _CreateSprite(Map, "Karlate", group_start_x + 1.5, group_start_y + 3);
 	mark:SetDirection(hoa_map.MapMode.EAST);
 	sprite:SetName(hoa_system.Translate("Mark"));
 	mark:SetNoCollision(true);
 	Map:AddGroundObject(mark);
 
-	dester = ConstructSprite("Karlate", 1002, group_start_x + 2, group_start_y - 2, 0.5, 0);
+	dester = _CreateSprite(Map, "Karlate", group_start_x + 2.5, group_start_y - 2);
 	dester:SetDirection(hoa_map.MapMode.EAST);
 	sprite:SetName(hoa_system.Translate("Dester"));
 	dester:SetNoCollision(true);
 	Map:AddGroundObject(dester);
 
-	lukar = ConstructSprite("Knight", 1003, group_start_x + 4, group_start_y, 0, 0);
+	lukar = _CreateSprite(Map, "Knight", group_start_x + 4, group_start_y);
 	lukar:SetDirection(hoa_map.MapMode.EAST);
 	sprite:SetName(hoa_system.Translate("Lukar"));
 	lukar:SetNoCollision(true);
@@ -253,331 +259,321 @@ function InitialCreateCharacters()
 end
 
 
--- Creates all non-playable character spirtes
+-- Creates all non-playable character sprites
 function InitialCreateNPCs()
-	local sprite;
-
 	-- TEMP: an invisible sprite used as a narrator
-	sprite = ConstructSprite("Karlate", 2500, -1, -1);
-	sprite:SetName("");
-	sprite:SetVisible(false);
-	Map:AddGroundObject(sprite);
+	narrator = _CreateSprite(Map, "Karlate", -1, -1);
+	narrator:SetName("");
+	narrator:SetVisible(false);
+	Map:AddGroundObject(narrator);
 
-	sprite = ConstructSprite("Captain", 2000, group_start_x + 8, group_start_y);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetName(hoa_system.Translate("Captain Bravis"));
+	captain = _CreateSprite(Map, "Captain", group_start_x + 8, group_start_y);
+	captain:SetDirection(hoa_map.MapMode.EAST);
+	captain:SetName(hoa_system.Translate("Captain Bravis"));
+	captain:SetNoCollision(true);
+	Map:AddGroundObject(captain);
+
+	npc01 = _CreateSprite(Map, "Karlate", group_start_x + 6, group_start_y - 3.5);
+	npc01:SetDirection(hoa_map.MapMode.EAST);
+	npc01:SetNoCollision(true);
+	Map:AddGroundObject(npc01);
+
+	npc02 = _CreateSprite(Map, "Karlate", group_start_x + 6.5, group_start_y + 2);
+	npc02:SetDirection(hoa_map.MapMode.EAST);
+	npc02:SetNoCollision(true);
+	Map:AddGroundObject(npc02);
+
+	npc03 = _CreateSprite(Map, "Karlate", group_start_x - 3, group_start_y - 3);
+	npc03:SetDirection(hoa_map.MapMode.EAST);
+	npc03:SetNoCollision(true);
+	Map:AddGroundObject(npc03);
+
+	npc04 = _CreateSprite(Map, "Karlate", group_start_x - 4, group_start_y + 5);
+	npc04:SetDirection(hoa_map.MapMode.EAST);
+	npc04:SetNoCollision(true);
+	Map:AddGroundObject(npc04);
+
+	npc05 = _CreateSprite(Map, "Karlate", group_start_x - 5, group_start_y - 1);
+	npc05:SetDirection(hoa_map.MapMode.EAST);
+	npc05:SetNoCollision(true);
+	Map:AddGroundObject(npc05);
+
+	npc06 = _CreateSprite(Map, "Karlate", group_start_x - 5, group_start_y - 5);
+	npc06:SetDirection(hoa_map.MapMode.EAST);
+	npc06:SetNoCollision(true);
+	Map:AddGroundObject(npc06);
+
+	npc07 = _CreateSprite(Map, "Karlate", group_start_x - 6, group_start_y + 2);
+	npc07:SetDirection(hoa_map.MapMode.EAST);
 	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
+	Map:AddGroundObject(npc07);
 
-	sprite = ConstructSprite("Karlate", 2001, group_start_x + 6, group_start_y - 4, 0, 0.5);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
+	npc08 = _CreateSprite(Map, "Karlate", group_start_x - 8, group_start_y - 4);
+	npc08:SetDirection(hoa_map.MapMode.EAST);
+	npc08:SetNoCollision(true);
+	Map:AddGroundObject(npc08);
 
-	sprite = ConstructSprite("Karlate", 2002, group_start_x + 6, group_start_y + 2, 0.5, 0);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-
-	sprite = ConstructSprite("Karlate", 2003, group_start_x - 3, group_start_y - 3);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-
-	sprite = ConstructSprite("Karlate", 2004, group_start_x - 4, group_start_y + 5, 0, 0);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-
-	sprite = ConstructSprite("Karlate", 2005, group_start_x - 5, group_start_y - 1);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-
-	sprite = ConstructSprite("Karlate", 2006, group_start_x - 5, group_start_y - 5);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-
-	sprite = ConstructSprite("Karlate", 2007, group_start_x - 6, group_start_y + 2);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-
-	sprite = ConstructSprite("Karlate", 2008, group_start_x - 8, group_start_y - 4);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-
-	sprite = ConstructSprite("Karlate", 2009, group_start_x - 9, group_start_y + 5);
-	sprite:SetDirection(hoa_map.MapMode.EAST);
-	sprite:SetNoCollision(true);
-	Map:AddGroundObject(sprite);
-end
-
-
--- Creates all dialogue that takes place through characters and events
-function InitialCreateDialogue()
-	local dialogue;
-	local text;
-
-	-- Introduction Dialogue
-	dialogue = hoa_map.SpriteDialogue(10);
-		dialogue:SetInputBlocked(true);
-		text = hoa_system.Translate("I watched my comrads in the pale light of the blue moon. The dark cloaks they wore for warmth only helped me to better distinguish them against the light sand for my untrained eyes.");
-		dialogue:AddLineTimed(text, 2500, 10000);
-		text = hoa_system.Translate("We are the Harrvah Knights, though powerful in our great city of stone, we're powerless in the might of the desert. The desert was the land of the Muabi tribe. Out here, a squad of troops such as us was no match for even a small group of Muabi.");
-		dialogue:AddLineTimed(text, 2500, 15000);
-		text = hoa_system.Translate("But I knew where we were headed: our water supply had been blocked, and such problems were very tricky to us, as we had built our city away from the water, because we simply could not tame the creatures there.");
-		dialogue:AddLineTimed(text, 2500, 10000);
-		text = hoa_system.Translate("Although the great sand storms that had swept through this no man's land for the past several days had finally vanished, the winds still howled throughout the desert...");
-		dialogue:AddLineTimed(text, 2500, 10000);
-	DialogueManager:AddDialogue(dialogue);
-
-	-- Captain's orders after troop movement
-	dialogue = hoa_map.SpriteDialogue(20);
-		text = hoa_system.Translate("Alright, listen up!");
-		dialogue:AddLine(text, 2000);
-	DialogueManager:AddDialogue(dialogue);
-
-	dialogue = hoa_map.SpriteDialogue(21);
-		text = hoa_system.Translate("Our scouts report that somewhere in this cave, the underground river vein that supplies our city has been blocked. Our mission is to remove the obstruction and restore the water supply.");
-		dialogue:AddLine(text, 2000);
-		text = hoa_system.Translate("I don't need to remind you all of how important this mission is. The great sand storms that have swept over this land for the past several days have prevented us from achieving this objective sooner, and our local reserves of water are nearly dry. If we fail to succeed here, our people will perish.");
-		dialogue:AddLine(text, 2000);
-		text = hoa_system.Translate("The passages in this cave are too narrow to move our entire unit through. We'll make our way through one squad at a time and re-assemble at the river bed.");
-		dialogue:AddLine(text, 2000);
-		text = hoa_system.Translate("Now form your squads and get moving. I'll see you all underground.");
-		dialogue:AddLine(text, 2000);
-	DialogueManager:AddDialogue(dialogue);
-
-	-- Character party after captain's orders
-	dialogue = hoa_map.SpriteDialogue(30);
-		text = hoa_system.Translate("Mark, Dester, Claudius. You're in my squad.");
-		dialogue:AddLine(text, 1003);
-	DialogueManager:AddDialogue(dialogue);
-	dialogue = hoa_map.SpriteDialogue(31);
-		text = hoa_system.Translate("The creatures that inhabit this cave are not friendly, so be on your guard at all times. Now let's get moving.");
-		dialogue:AddLine(text, 1003);
-	DialogueManager:AddDialogue(dialogue);
+	npc09 = _CreateSprite(Map, "Karlate", group_start_x - 9, group_start_y + 5);
+	npc09:SetDirection(hoa_map.MapMode.EAST);
+	npc09:SetNoCollision(true);
+	Map:AddGroundObject(npc09);
 end
 
 
 -- Creates all events and sets up the entire event sequence chain
 function InitialCreateEvents()
 	local event = {};
+	local dialogue = {};
+	local text = {};
 
 	-- Move all sprites away from the cave entrance
 	local march_distance = 280;
-	event = hoa_map.PathMoveSpriteEvent(10, 1000, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("Start", claudius, march_distance, 0, false);
 	event:SetRelativeDestination(true);
-	event:AddEventLinkAtStart(11);
-	event:AddEventLinkAtStart(12);
-	event:AddEventLinkAtStart(13);
-	event:AddEventLinkAtStart(14);
-	event:AddEventLinkAtStart(15);
-	event:AddEventLinkAtStart(16);
-	event:AddEventLinkAtStart(17);
-	event:AddEventLinkAtStart(18);
-	event:AddEventLinkAtStart(19);
-	event:AddEventLinkAtStart(20);
-	event:AddEventLinkAtStart(21);
-	event:AddEventLinkAtStart(22);
-	event:AddEventLinkAtStart(23);
-	event:AddEventLinkAtStart(50, 4000);
+	event:AddEventLinkAtStart("start_npc01");
+	event:AddEventLinkAtStart("start_npc02");
+	event:AddEventLinkAtStart("start_npc03");
+	event:AddEventLinkAtStart("start_npc04");
+	event:AddEventLinkAtStart("start_npc05");
+	event:AddEventLinkAtStart("start_npc06");
+	event:AddEventLinkAtStart("start_npc07");
+	event:AddEventLinkAtStart("start_npc08");
+	event:AddEventLinkAtStart("start_npc09");
+	event:AddEventLinkAtStart("start_captain");
+	event:AddEventLinkAtStart("start_lukar");
+	event:AddEventLinkAtStart("start_dester");
+	event:AddEventLinkAtStart("start_mark");
+	event:AddEventLinkAtStart("narrator's intro speech");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(11, 1001, march_distance, 0, false);
-	event:SetRelativeDestination(true);
-	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(12, 1002, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_lukar", lukar, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(13, 1003, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_dester", dester, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(14, 2000, march_distance, 0, false);
-	event:SetRelativeDestination(true);
-	event:AddEventLinkAtEnd(100, 250); -- The captain moves toward the head of the cave entrance as soon as the march ends
-	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(15, 2001, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_mark", mark, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(16, 2002, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_captain", captain, march_distance, 0, false);
+	event:SetRelativeDestination(true);
+	event:AddEventLinkAtEnd("set camera on captain", 250); -- The captain moves toward the head of the cave entrance as soon as the march ends
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("start_npc01", npc01, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(17, 2003, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_npc02", npc02, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(18, 2004, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_npc03", npc03, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(19, 2005, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_npc04", npc04, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(20, 2006, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_npc05", npc05, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(21, 2007, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_npc06", npc06, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(22, 2008, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_npc07", npc07, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(23, 2009, march_distance, 0, false);
+	event = hoa_map.PathMoveSpriteEvent("start_npc08", npc08, march_distance, 0, false);
+	event:SetRelativeDestination(true);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("start_npc09", npc09, march_distance, 0, false);
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
 
+	-- Introduction Dialogue
+	dialogue = hoa_map.SpriteDialogue();
+		dialogue:SetInputBlocked(true);
+		text = hoa_system.Translate("I watched my comrads in the pale light of the blue moon. The dark cloaks they wore for warmth only helped me to better distinguish them against the light sand for my untrained eyes.");
+		dialogue:AddLineTimed(text, narrator, 10000);
+		text = hoa_system.Translate("We are the Harrvah Knights, though powerful in our great city of stone, we're powerless in the might of the desert. The desert is the land of the Muabi tribe. Out here, a squad of troops such as us was no match for even a small group of Muabi.");
+		dialogue:AddLineTimed(text, narrator, 15000);
+		text = hoa_system.Translate("But I knew where we were headed: our water supply had been blocked, and such problems were very tricky to us, as we had built our city away from the water, because we simply could not tame the creatures there.");
+		dialogue:AddLineTimed(text, narrator, 10000);
+		text = hoa_system.Translate("Although the great sand storms that had swept through this no man's land for the past several days had finally vanished, the winds still howled throughout the desert...");
+		dialogue:AddLineTimed(text, narrator, 10000);
+	DialogueManager:AddDialogue(dialogue);
 	-- Begin the initial dialogue
-	event = hoa_map.DialogueEvent(50, 10);
+	event = hoa_map.DialogueEvent("narrator's intro speech", dialogue);
 	EventManager:RegisterEvent(event);
 
 	-- Move the captain forward to the cave entrance to give his speech to the troops
-	event = hoa_map.DialogueEvent(50, 10);
-	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(100, 2000, 1, 0);
-	event:AddEventLinkAtEnd(101);
-	event:AddEventLinkAtStart(102, 550);
-	event:AddEventLinkAtStart(103, 550);
-	event:AddEventLinkAtStart(104, 400);
-	event:AddEventLinkAtStart(105, 400);
-	event:AddEventLinkAtStart(106, 450);
-	event:AddEventLinkAtStart(107, 700);
-	event:AddEventLinkAtStart(108, 700);
-	event:AddEventLinkAtStart(109, 500);
-	event:AddEventLinkAtStart(110, 450);
-	event:AddEventLinkAtStart(111, 650);
-	event:AddEventLinkAtStart(112, 650);
-	event:AddEventLinkAtStart(113, 750);
-	event:AddEventLinkAtStart(114, 750);
+	event = hoa_map.ScriptedSpriteEvent("set camera on captain", captain, "Map_SetCamera", "");
+	event:AddEventLinkAtEnd("captain move up to entrance");
+	event:AddEventLinkAtStart("claudius random pose", 550);
+	event:AddEventLinkAtStart("lukar random pose", 550);
+	event:AddEventLinkAtStart("dester random pose", 400);
+	event:AddEventLinkAtStart("mark random pose", 400);
+	event:AddEventLinkAtStart("npc01 random pose", 450);
+	event:AddEventLinkAtStart("npc02 random pose", 700);
+	event:AddEventLinkAtStart("npc03 random pose", 700);
+	event:AddEventLinkAtStart("npc04 random pose", 500);
+	event:AddEventLinkAtStart("npc05 random pose", 450);
+	event:AddEventLinkAtStart("npc06 random pose", 650);
+	event:AddEventLinkAtStart("npc07 random pose", 650);
+	event:AddEventLinkAtStart("npc08 random pose", 750);
+	event:AddEventLinkAtStart("npc09 random pose", 750);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(101, 2000, 0, -6, false);
+	event = hoa_map.PathMoveSpriteEvent("captain move up to entrance", captain, 0.5, -6, false);
 	event:SetRelativeDestination(true);
-	event:AddEventLinkAtEnd(130);
+	event:AddEventLinkAtEnd("captain moves left below entrance");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(102, 1000, hoa_map.MapMode.SOUTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("claudius random pose", claudius, hoa_map.MapMode.SOUTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(103, 1001, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("lukar random pose", lukar, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(104, 1002, hoa_map.MapMode.EAST);
+	event = hoa_map.ChangeDirectionSpriteEvent("dester random pose", dester, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(105, 1003, hoa_map.MapMode.WEST);
+	event = hoa_map.ChangeDirectionSpriteEvent("mark random pose", mark, hoa_map.MapMode.WEST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(106, 2001, hoa_map.MapMode.SOUTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc01 random pose", npc01, hoa_map.MapMode.SOUTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(107, 2002, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc02 random pose", npc02, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(108, 2003, hoa_map.MapMode.WEST);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc03 random pose", npc03, hoa_map.MapMode.WEST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(109, 2004, hoa_map.MapMode.WEST);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc04 random pose", npc04, hoa_map.MapMode.WEST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(110, 2005, hoa_map.MapMode.SOUTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc05 random pose", npc05, hoa_map.MapMode.SOUTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(111, 2006, hoa_map.MapMode.WEST);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc06 random pose", npc06, hoa_map.MapMode.WEST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(112, 2007, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc07 random pose", npc07, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(113, 2008, hoa_map.MapMode.EAST);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc08 random pose", npc08, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(114, 2009, hoa_map.MapMode.EAST);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc09 random pose", npc09, hoa_map.MapMode.EAST);
+	EventManager:RegisterEvent(event);
+print ("3");
+	event = hoa_map.PathMoveSpriteEvent("captain moves left below entrance", captain, -10, -2, false);
+	event:SetRelativeDestination(true);
+	event:AddEventLinkAtEnd("captain looks south");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ChangeDirectionSpriteEvent("captain looks south", captain, hoa_map.MapMode.SOUTH);
+	event:AddEventLinkAtEnd("captain speech first sentence", 250);
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(130, 2000, -10, -2, false);
-	event:SetRelativeDestination(true);
-	event:AddEventLinkAtEnd(131);
-	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(131, 2000, hoa_map.MapMode.SOUTH);
-	event:AddEventLinkAtEnd(150, 250);
-	EventManager:RegisterEvent(event);
+	-- Captain's orders after troop movement
+	dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("Alright, listen up!");
+		dialogue:AddLine(text, captain);
+	DialogueManager:AddDialogue(dialogue);
 
 	-- Captain calls attention to troops, who all look north toward him
-	event = hoa_map.DialogueEvent(150, 20);
-	event:AddEventLinkAtEnd(151, 250);
-	event:AddEventLinkAtEnd(152, 350);
-	event:AddEventLinkAtEnd(153, 250);
-	event:AddEventLinkAtEnd(154, 450);
-	event:AddEventLinkAtEnd(155, 250);
-	event:AddEventLinkAtEnd(156, 150);
-	event:AddEventLinkAtEnd(157, 250);
-	event:AddEventLinkAtEnd(158, 450);
-	event:AddEventLinkAtEnd(159, 350);
-	event:AddEventLinkAtEnd(160, 550);
-	event:AddEventLinkAtEnd(161, 550);
-	event:AddEventLinkAtEnd(162, 150);
-	event:AddEventLinkAtEnd(163, 350);
-	event:AddEventLinkAtEnd(200, 1000);
+	event = hoa_map.DialogueEvent("captain speech first sentence", dialogue);
+	event:AddEventLinkAtEnd("claudius looks north", 250);
+	event:AddEventLinkAtEnd("lukar looks north", 350);
+	event:AddEventLinkAtEnd("dester looks captain", 250);
+	event:AddEventLinkAtEnd("mark looks north", 450);
+	event:AddEventLinkAtEnd("npc01 looks north", 250);
+	event:AddEventLinkAtEnd("npc02 looks north", 150);
+	event:AddEventLinkAtEnd("npc03 looks north", 250);
+	event:AddEventLinkAtEnd("npc04 looks north", 450);
+	event:AddEventLinkAtEnd("npc05 looks north", 350);
+	event:AddEventLinkAtEnd("npc06 looks north", 550);
+	event:AddEventLinkAtEnd("npc07 looks north", 550);
+	event:AddEventLinkAtEnd("npc08 looks north", 150);
+	event:AddEventLinkAtEnd("npc09 looks north", 350);
+	event:AddEventLinkAtEnd("captain gives orders", 1000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(151, 1000, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("claudius looks north", claudius, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(152, 1001, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("lukar looks north", lukar, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(153, 1002, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("dester looks north", dester, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(154, 1003, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("mark looks north", mark, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(155, 2001, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc01 looks north", npc01, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(156, 2002, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc02 looks north", npc02, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(157, 2003, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc03 looks north", npc03, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(158, 2004, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc04 looks north", npc04, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(159, 2005, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc05 looks north", npc05, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(160, 2006, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc06 looks north", npc06, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(161, 2007, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc07 looks north", npc07, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(162, 2008, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc08 looks north", npc08, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(163, 2009, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("npc09 looks north", npc09, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
 
 	-- Captain gives his orders
-	event = hoa_map.DialogueEvent(200, 21);
-	event:AddEventLinkAtEnd(250, 250);
+	dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("Our scouts report that somewhere in this cave, the underground river vein that supplies our city has been blocked. Our mission is to remove the obstruction and restore the water supply.");
+		dialogue:AddLine(text, captain);
+		text = hoa_system.Translate("I don't need to remind you all of how important this mission is. The great sand storms that have swept over this land for the past several days have prevented us from achieving this objective sooner, and our local reserves of water are nearly dry. If we fail to succeed here, our people will perish.");
+		dialogue:AddLine(text, captain);
+		text = hoa_system.Translate("The passages in this cave are too narrow to move our entire unit through. We'll make our way through one squad at a time and re-assemble at the river bed.");
+		dialogue:AddLine(text, captain);
+		text = hoa_system.Translate("Now form your squads and get moving. I'll see you all underground.");
+		dialogue:AddLine(text, captain);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("captain gives orders", dialogue);
+	event:AddEventLinkAtEnd("set camera on lukar", 250);
 	-- The soldiers start to walk at the end of the speech
-	event:AddEventLinkAtEnd(301, 30);
-	event:AddEventLinkAtEnd(302, 40);
-	event:AddEventLinkAtEnd(303, 80);
-	event:AddEventLinkAtEnd(304, 1000);
-	event:AddEventLinkAtEnd(305, 1600);
-	event:AddEventLinkAtEnd(306, 1900);
-	event:AddEventLinkAtEnd(307, 2100);
-	event:AddEventLinkAtEnd(308, 2600);
-	event:AddEventLinkAtEnd(309, 2600);
+	event:AddEventLinkAtEnd("npc01 goes into cave", 30);
+	event:AddEventLinkAtEnd("npc02 goes into cave", 40);
+	event:AddEventLinkAtEnd("npc03 goes into cave", 80);
+	event:AddEventLinkAtEnd("npc04 goes into cave", 1000);
+	event:AddEventLinkAtEnd("npc05 goes into cave", 1600);
+	event:AddEventLinkAtEnd("npc06 goes into cave", 1900);
+	event:AddEventLinkAtEnd("npc07 goes into cave", 2100);
+	event:AddEventLinkAtEnd("npc08 goes into cave", 2600);
+	event:AddEventLinkAtEnd("npc09 goes into cave", 2600);
 	EventManager:RegisterEvent(event);
 
 	-- Start dialogue between character party
-	event = hoa_map.ScriptedSpriteEvent(250, 1003, 1, 0);
-	event:AddEventLinkAtEnd(251);
+	event = hoa_map.ScriptedSpriteEvent("set camera on lukar", lukar, "Map_SetCamera", "");
+	event:AddEventLinkAtEnd("lukar looks west");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(251, 1003, hoa_map.MapMode.WEST);
-	event:AddEventLinkAtEnd(252, 500);
+	event = hoa_map.ChangeDirectionSpriteEvent("lukar looks west", lukar, hoa_map.MapMode.WEST);
+	event:AddEventLinkAtEnd("lukar raises the attention of his comrades", 500);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.DialogueEvent(252, 30);
-	event:AddEventLinkAtEnd(253, 500);
-	event:AddEventLinkAtEnd(254, 500);
-	event:AddEventLinkAtEnd(255, 500);
-	event:AddEventLinkAtEnd(256, 1000);
+
+	-- Character party after captain's orders
+	dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("Mark, Dester, Claudius. You're in my squad.");
+		dialogue:AddLine(text, lukar);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("lukar raises the attention of his comrades", dialogue);
+	event:AddEventLinkAtEnd("claudius looks at lukar", 500);
+	event:AddEventLinkAtEnd("dester looks at lukar", 500);
+	event:AddEventLinkAtEnd("mark looks at lukar", 500);
+	event:AddEventLinkAtEnd("lukar gives orders", 1000);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(253, 1000, hoa_map.MapMode.EAST);
+	event = hoa_map.ChangeDirectionSpriteEvent("claudius looks at lukar", claudius, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(254, 1001, hoa_map.MapMode.NORTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("dester looks at lukar", dester, hoa_map.MapMode.SOUTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ChangeDirectionSpriteEvent(255, 1002, hoa_map.MapMode.SOUTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("mark looks at lukar", mark, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.DialogueEvent(256, 31);
+
+	dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("The creatures that inhabit this cave are not friendly, so be on your guard at all times. Now let's get moving.");
+		dialogue:AddLine(text, lukar);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("lukar gives orders", dialogue);
 
 	-- The Hero's formation goes into the cave at the end of the talk
-	event:AddEventLinkAtEnd(323, 300);
-	event:AddEventLinkAtEnd(321, 300);
-	event:AddEventLinkAtEnd(322, 300);
-	event:AddEventLinkAtEnd(320, 300);
+	event:AddEventLinkAtEnd("claudius goes into cave", 300);
+	event:AddEventLinkAtEnd("lukar goes into cave", 300);
+	event:AddEventLinkAtEnd("dester goes into cave", 300);
+	event:AddEventLinkAtEnd("mark goes into cave", 300);
 
 	-- and the captain last
-	event:AddEventLinkAtEnd(300, 2300);
+	event:AddEventLinkAtEnd("captain goes into cave", 2800);
 
 	EventManager:RegisterEvent(event);
 
@@ -586,94 +582,95 @@ function InitialCreateEvents()
 	local cave_entrance_x = 371;
 	local cave_entrance_y = 5;
 	-- walk to the cave entrance
-	event = hoa_map.PathMoveSpriteEvent(301, 2001, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(311, 30);
+	event = hoa_map.PathMoveSpriteEvent("npc01 goes into cave", npc01, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc01 disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
 	-- disappear once in front of it
-	event = hoa_map.ScriptedSpriteEvent(311, 2001, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("npc01 disappears into the cave", npc01, "Disable_collision_visibility","");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(302, 2002, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(312, 30);
+	event = hoa_map.PathMoveSpriteEvent("npc02 goes into cave", npc02, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc02 disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(312, 2002, 2, 0);
-	EventManager:RegisterEvent(event);
-
-	event = hoa_map.PathMoveSpriteEvent(303, 2003, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(313, 30);
-	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(313, 2003, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("npc02 disappears into the cave", npc02, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(304, 2004, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(314, 30);
+	event = hoa_map.PathMoveSpriteEvent("npc03 goes into cave", npc03, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc03 disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(314, 2004, 2, 0);
-	EventManager:RegisterEvent(event);
-
-	event = hoa_map.PathMoveSpriteEvent(305, 2005, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(315, 30);
-	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(315, 2005, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("npc03 disappears into the cave", npc03, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(306, 2006, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(316, 30);
+	event = hoa_map.PathMoveSpriteEvent("npc04 goes into cave", npc04, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc04 disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(316, 2006, 2, 0);
-	EventManager:RegisterEvent(event);
-
-	event = hoa_map.PathMoveSpriteEvent(307, 2007, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(317, 30);
-	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(317, 2007, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("npc04 disappears into the cave", npc04, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(308, 2008, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(318, 30);
+	event = hoa_map.PathMoveSpriteEvent("npc05 goes into cave", npc05, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc05 disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(318, 2008, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("npc05 disappears into the cave", npc05, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent(309, 2009, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(319, 30);
+	event = hoa_map.PathMoveSpriteEvent("npc06 goes into cave", npc06, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc06 disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(319, 2009, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("npc06 disappears into the cave", npc06, "Disable_collision_visibility", "");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("npc07 goes into cave", npc07, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc07 disappears into the cave", 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("npc07 disappears into the cave", npc07, "Disable_collision_visibility", "");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("npc08 goes into cave", npc08, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc08 disappears into the cave", 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("npc08 disappears into the cave", npc08, "Disable_collision_visibility", "");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("npc09 goes into cave", npc09, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("npc09 disappears into the cave", 30);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("npc09 disappears into the cave", npc09, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
 
 	-- The captain also enters the cave.
-	event = hoa_map.PathMoveSpriteEvent(300, 2000, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(310, 30);
+	event = hoa_map.PathMoveSpriteEvent("captain goes into cave", captain, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("captain disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(310, 2000, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("captain disappears into the cave", captain, "Disable_collision_visibility", "");
 	-- After the captain leaves, we face to the next map.
-	event:AddEventLinkAtEnd(340, 500);
+	event:AddEventLinkAtEnd("intro fade out to cave map", 500);
 	EventManager:RegisterEvent(event);
 
 	-- Move character sprites toward cave entrance and transition to the cave map
-	event = hoa_map.PathMoveSpriteEvent(320, 1000, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(330, 30);
+	event = hoa_map.PathMoveSpriteEvent("claudius goes into cave", claudius, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("claudius disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(330, 1000, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("claudius disappears into the cave", claudius, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(321, 1001, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(331, 30);
+	event = hoa_map.PathMoveSpriteEvent("lukar goes into cave", lukar, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("lukar disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(331, 1001, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("lukar disappears into the cave", lukar, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(322, 1002, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(332, 30);
+	event = hoa_map.PathMoveSpriteEvent("dester goes into cave", dester, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("dester disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(332, 1002, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("dester disappears into the cave", dester, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent(323, 1003, cave_entrance_x, cave_entrance_y, false);
-	event:AddEventLinkAtEnd(333, 30);
+	event = hoa_map.PathMoveSpriteEvent("mark goes into cave", mark, cave_entrance_x, cave_entrance_y, false);
+	event:AddEventLinkAtEnd("mark disappears into the cave", 30);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedSpriteEvent(333, 1003, 2, 0);
+	event = hoa_map.ScriptedSpriteEvent("mark disappears into the cave", mark, "Disable_collision_visibility", "");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent(340, "dat/maps/river_access_cave.lua", "desert cave entrance");
+	event = hoa_map.MapTransitionEvent("intro fade out to cave map", "dat/maps/river_access_cave.lua", "desert cave entrance");
 	EventManager:RegisterEvent(event);
+print ("event done");
 end
 
 --------------------------------------------------------------------------------
@@ -687,25 +684,25 @@ function ReturnCreateCharacters()
 	dester = {};
 	lukar = {};
 
-	claudius = ConstructSprite("Claudius", 1000, group_start_x, group_start_y, 0.5, 0.5, false);
+	claudius = _CreateSprite("Claudius", 1000, group_start_x + 0.5, group_start_y + 0.5, false);
 	claudius:SetDirection(hoa_map.MapMode.WEST);
 	claudius:SetMovementSpeed(hoa_map.MapMode.SLOW_SPEED);
 	claudius:SetNoCollision(true);
 	Map:AddGroundObject(claudius);
 
-	mark = ConstructSprite("Karlate", 1001, group_start_x + 1, group_start_y + 3, 0.5, 0, false);
+	mark = _CreateSprite("Karlate", 1001, group_start_x + 1.5, group_start_y + 3, false);
 	mark:SetDirection(hoa_map.MapMode.WEST);
 	mark:SetName(hoa_system.Translate("Mark"));
 	mark:SetNoCollision(true);
 	Map:AddGroundObject(mark);
 
-	dester = ConstructSprite("Karlate", 1002, group_start_x + 2, group_start_y - 2, 0.5, 0, false);
+	dester = _CreateSprite("Karlate", 1002, group_start_x + 2.5, group_start_y - 2, false);
 	dester:SetDirection(hoa_map.MapMode.WEST);
 	dester:SetName(hoa_system.Translate("Dester"));
 	dester:SetNoCollision(true);
 	Map:AddGroundObject(dester);
 
-	lukar = ConstructSprite("Knight", 1003, group_start_x + 4, group_start_y, 0, 0, false);
+	lukar = _CreateSprite("Knight", 1003, group_start_x + 4, group_start_y, false);
 	lukar:SetDirection(hoa_map.MapMode.WEST);
 	lukar:SetName(hoa_system.Translate("Lukar"));
 	lukar:SetNoCollision(true);
@@ -717,59 +714,59 @@ end
 function ReturnCreateNPCs()
 	local sprite;
 
-	sprite = ConstructSprite("Captain", 2000, group_start_x + 8, group_start_y);
+	sprite = _CreateSprite("Captain", 2000, group_start_x + 8, group_start_y);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetName(hoa_system.Translate("Captain Bravis"));
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2001, group_start_x + 6, group_start_y - 4, 0, 0.5);
+	sprite = _CreateSprite("Karlate", 2001, group_start_x + 6, group_start_y - 3.5);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2002, group_start_x + 6, group_start_y + 2, 0.5, 0);
+	sprite = _CreateSprite("Karlate", 2002, group_start_x + 6.5, group_start_y + 2);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2003, group_start_x - 3, group_start_y - 3);
+	sprite = _CreateSprite("Karlate", 2003, group_start_x - 3, group_start_y - 3);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2004, group_start_x - 4, group_start_y + 5, 0, 0);
+	sprite = _CreateSprite("Karlate", 2004, group_start_x - 4, group_start_y + 5);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2005, group_start_x - 5, group_start_y - 1);
+	sprite = _CreateSprite("Karlate", 2005, group_start_x - 5, group_start_y - 1);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2006, group_start_x - 5, group_start_y - 5);
+	sprite = _CreateSprite("Karlate", 2006, group_start_x - 5, group_start_y - 5);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2007, group_start_x - 6, group_start_y + 2);
+	sprite = _CreateSprite("Karlate", 2007, group_start_x - 6, group_start_y + 2);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2008, group_start_x - 8, group_start_y - 4);
+	sprite = _CreateSprite("Karlate", 2008, group_start_x - 8, group_start_y - 4);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
-	sprite = ConstructSprite("Karlate", 2009, group_start_x - 9, group_start_y + 5);
+	sprite = _CreateSprite("Karlate", 2009, group_start_x - 9, group_start_y + 5);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetNoCollision(true);
 	Map:AddGroundObject(sprite);
 
 	-- This sprite is the scout that runs in from the left side of the screen
-	sprite = ConstructSprite("Karlate", 2010, 20, group_start_y);
+	sprite = _CreateSprite("Karlate", 2010, 20, group_start_y);
 	sprite:SetDirection(hoa_map.MapMode.WEST);
 	sprite:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
 	sprite:SetNoCollision(true);
@@ -1001,21 +998,29 @@ function ReturnCreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
-
--- Sprite function: Focus map camera on sprite
-map_functions[1] = function(sprite)
-	Map:SetCamera(sprite, 800);
+-- Map Custom functions
+if (map_functions == nil) then
+	map_functions = {}
 end
 
 
--- Sprite function: Disable collision and visibility on sprite
-map_functions[2] = function(sprite)
-	sprite:SetVisible(false);
-	sprite:SetNoCollision(true);
-end
+map_functions = {
 
--- Sprite function: Change movement speed of a sprite
-map_functions[3] = function(sprite)
-	sprite:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
-end
+	-- Sprite function: Focus map camera on sprite
+	Map_SetCamera = function(sprite)
+		Map:SetCamera(sprite, 800);
+	end,
+
+
+	-- Sprite function: Disable collision and visibility on sprite
+	Disable_collision_visibility = function(sprite)
+		sprite:SetVisible(false);
+		sprite:SetNoCollision(true);
+	end,
+
+	-- Sprite function: Change movement speed of a sprite
+	very_fast_speed = function(sprite)
+		sprite:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+	end
+}
 
