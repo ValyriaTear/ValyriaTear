@@ -156,12 +156,6 @@ function Update()
     else
         animation_timer:Finish();
     end
-
-		if (snow_started == false) then
-			Boot:GetParticleManager():AddParticleEffect("dat/effects/particles/snow.lua", 512.0, 384.0);
-			snow_started = true;
-		end
-	end
 end
 
 

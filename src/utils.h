@@ -123,6 +123,11 @@
 #define IF_PRINT_WARNING(var) if (var) std::cerr << "WARNING:" << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << ": "
 //@}
 
+//! \brief Different App full, shortnames, and directories
+#define APPFULLNAME "Hero of Allacrost"
+#define APPSHORTNAME "allacrost"
+#define APPUPCASEDIRNAME "Allacrost"
+
 /** \name Allacrost Integer Types
 *** \brief These are the integer types used throughout the Allacrost source code.
 *** These types are created by redefining the ANSI C types.

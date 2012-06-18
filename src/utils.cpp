@@ -802,7 +802,7 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 		TCHAR path[MAX_PATH];
 
 		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, path))) {
-			string user_path = string(path) + "/Allacrost/";
+			string user_path = string(path) + "/"APPUPCASEDIRNAME"/";
 			if (DoesFileExist(user_path) == false)
 				MakeDirectory(user_path);
 			return user_path;
@@ -813,9 +813,9 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 		if (pw) {
 			string path = "";
 			if (user_files)
-				path = string(pw->pw_dir) + "/Library/Application Support/Allacrost/";
+				path = string(pw->pw_dir) + "/Library/Application Support/"APPUPCASEDIRNAME"/";
 			else
-				path = string(pw->pw_dir) + "/Library/Preferences/Allacrost/";
+				path = string(pw->pw_dir) + "/Library/Preferences/"APPUPCASEDIRNAME"/";
 			if (DoesFileExist(path) == false)
 				MakeDirectory(path);
 			return path;
