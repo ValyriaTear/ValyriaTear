@@ -243,7 +243,6 @@ void Editor::SetupMainView() {
 	button->setToolTip(tr("Add Layer"));
 	connect(button, SIGNAL(clicked(bool)), this, SLOT(_MapAddLayer()));
 	_ed_layer_toolbar->addWidget(button);
-	button->setDisabled(true);
 
 	button = new QPushButton(QIcon(QString("img/misc/editor-tools/edit-rename.png")), QString(), _ed_layer_toolbar);
 	button->setContentsMargins(1,1,1,1);
