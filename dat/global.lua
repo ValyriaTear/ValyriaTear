@@ -6,9 +6,6 @@ DESTER    = 4;
 LUKAR     = 8;
 
 function NewGame()
-	-- Plays a special starting sound
-	AudioManager:PlaySound("snd/opening_sword_fall.wav");
-
 	-- Prepare the new game data
 	GlobalManager:AddCharacter(LUKAR);
 	GlobalManager:AddCharacter(DESTER);
@@ -23,9 +20,9 @@ function NewGame()
 	local location_name = "dat/maps/opening_scene.lua";
 	GlobalManager:SetLocation(location_name);
 
-	ModeManager:Pop(false, false);
 	local MM = hoa_map.MapMode(location_name);
-	ModeManager:Push(MM, true, true);
+	ModeManager:Pop(false, false);
+	ModeManager:Push(MM, false, true);
 end
 
 
