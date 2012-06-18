@@ -357,7 +357,6 @@ LayerDialog::LayerDialog(QWidget* parent, const QString& /*name*/)
 
 	// Add layer types
 	_type_cbox->addItem("ground");
-	_type_cbox->addItem("fringe");
 	_type_cbox->addItem("sky");
 
 	// Add all of the aforementioned widgets into a nice-looking grid layout
@@ -369,7 +368,7 @@ LayerDialog::LayerDialog(QWidget* parent, const QString& /*name*/)
 
 	_dialog_layout->addWidget(_cancel_pbut,    2, 0);
 	_dialog_layout->addWidget(_ok_pbut,        2, 1);
-} // MusicDialog constructor
+} // LayerDialog constructor
 
 
 LayerDialog::~LayerDialog()
@@ -382,7 +381,7 @@ LayerDialog::~LayerDialog()
 	delete _type_cbox;
 
 	delete _dialog_layout;
-} // MusicDialog destructor
+} // LayerDialog destructor
 
 
 // ********** Private slots **********
