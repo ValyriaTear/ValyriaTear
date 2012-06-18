@@ -219,9 +219,9 @@ public:
 	void DeleteCol(uint32 tile_index);
 	//@}
 
-	//! \brief List the layer names and types
+	//! \brief List the layer names, types, ...
 	// Be sure to set the parent of the items returned, and add them in the corresponding Qt widget.
-	std::vector<QTreeWidgetItem*> getLayerNames();
+	std::vector<QTreeWidgetItem*> getLayerItems();
 
 	//! \brief Gets the custom scripting data and stores it in an string buffer
 	void GetScriptingData();
