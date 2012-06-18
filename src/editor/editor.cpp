@@ -35,7 +35,8 @@ namespace hoa_editor {
 ///////////////////////////////////////////////////////////////////////////////
 
 Editor::Editor() : QMainWindow(),
-	_skill_editor(NULL)
+  _layer_up_button(0),
+  _layer_down_button(0)
 {
 	// create the undo stack
 	_undo_stack = new QUndoStack();
@@ -97,9 +98,6 @@ Editor::~Editor() {
 
 	delete _ed_tileset_layer_splitter;
 	delete _ed_splitter;
-
-	if (_skill_editor != NULL)
-		delete _skill_editor;
 
 	delete _undo_stack;
 
@@ -263,14 +261,18 @@ void Editor::SetupMainView() {
 	button->setFixedSize(20, 20);
 	button->setToolTip(tr("Move Layer Up"));
 	_ed_layer_toolbar->addWidget(button);
-	button->setDisabled(true);
+	connect(button, SIGNAL(clicked(bool)), this, SLOT(_MapMoveLayerUp()));
+	// Keep a reference to later set the button state.
+	_layer_up_button = button;
 
 	button = new QPushButton(QIcon(QString("img/misc/editor-tools/go-down.png")), QString(), _ed_layer_toolbar);
 	button->setContentsMargins(1,1,1,1);
 	button->setFixedSize(20, 20);
 	button->setToolTip(tr("Move Layer Down"));
 	_ed_layer_toolbar->addWidget(button);
-	button->setDisabled(true);
+	connect(button, SIGNAL(clicked(bool)), this, SLOT(_MapMoveLayerDown()));
+	// Keep a reference to later set the button state.
+	_layer_down_button = button;
 
 	button = new QPushButton(QIcon(QString("img/misc/editor-tools/eye.png")), QString(), _ed_layer_toolbar);
 	button->setContentsMargins(1,1,1,1);
@@ -848,6 +850,88 @@ void Editor::_MapDeleteLayer() {
 	// TODO
 }
 
+void Editor::_MapMoveLayerUp() {
+	if (_ed_scrollarea == NULL || _ed_scrollarea->_map == NULL || !_CanLayerMoveUp(_ed_layer_view->currentItem()))
+		return;
+
+	uint32 layer_id = _ed_layer_view->currentItem()->text(0).toUInt();
+	if (layer_id == 0)
+		return;
+
+	Grid *grid = _ed_scrollarea->_map;
+	std::vector<Layer>& layers = grid->GetLayers(grid->GetContext());
+	if (layers.size() < 2 || layer_id >= layers.size())
+		return;
+
+	// insert the layer before the previous one in the new vector
+	uint32 old_id = 0;
+	std::vector<Layer> new_layers;
+	std::vector<Layer>::iterator it = layers.begin();
+	for (; it != layers.end(); ++it) {
+		// Add the layer before the previous one, plus the previous one after that
+		if (old_id == layer_id - 1) {
+			new_layers.push_back(layers.at(layer_id));
+			new_layers.push_back(*it);
+		}
+		else if (old_id == layer_id) {
+			// The layer has already been added, so don't do anything here.
+		}
+		// Add other layers normally
+		else if (old_id != layer_id - 1) {
+			new_layers.push_back(*it);
+		}
+		++old_id;
+	}
+	// Once done, swap the layers
+	layers.swap(new_layers);
+
+	// Show the changes done.
+	_UpdateLayersView();
+	_ed_scrollarea->_map->updateGL();
+
+	// Set the layer selection to follow the current layer
+	_SetSelectedLayer(layer_id - 1);
+}
+
+void Editor::_MapMoveLayerDown() {
+	if (_ed_scrollarea == NULL || _ed_scrollarea->_map == NULL || !_CanLayerMoveDown(_ed_layer_view->currentItem()))
+		return;
+
+	uint32 layer_id = _ed_layer_view->currentItem()->text(0).toUInt();
+	Grid *grid = _ed_scrollarea->_map;
+	std::vector<Layer>& layers = grid->GetLayers(grid->GetContext());
+	if (layers.size() < 2 || layer_id >= layers.size() - 1)
+		return;
+
+	// insert the layer after the next one in the new vector
+	uint32 old_id = 0;
+	std::vector<Layer> new_layers;
+	std::vector<Layer>::iterator it = layers.begin();
+	for (; it != layers.end(); ++it) {
+		// Add the layer after the next one, plus the previous one after that
+		if (old_id == layer_id + 1) {
+			new_layers.push_back(*it);
+			new_layers.push_back(layers.at(layer_id));
+		}
+		else if (old_id == layer_id) {
+			// The layer has already been added, so don't do anything here.
+		}
+		// Add other layers normally
+		else if (old_id != layer_id + 1) {
+			new_layers.push_back(*it);
+		}
+		++old_id;
+	}
+	// Once done, swap the layers
+	layers.swap(new_layers);
+
+	// Show the changes done.
+	_UpdateLayersView();
+	_ed_scrollarea->_map->updateGL();
+
+	// Set the layer selection to follow the current layer
+	_SetSelectedLayer(layer_id + 1);
+}
 
 void Editor::_MapProperties() {
 	MapPropertiesDialog* props = new MapPropertiesDialog(this, "map_properties", true);
@@ -1123,6 +1207,38 @@ void Editor::_SwitchMapContext(int context) {
 	} // map must exist in order to change the context
 }
 
+bool Editor::_CanLayerMoveUp(QTreeWidgetItem *item) const {
+	if (!item)
+		return false;
+
+	QTreeWidgetItem* item_up = _ed_layer_view->itemAbove(item);
+
+	LAYER_TYPE ly_type_up = item_up ? getLayerType(item_up->text(3).toStdString()) : INVALID_LAYER;
+	LAYER_TYPE ly_type = getLayerType(item->text(3).toStdString());
+	return (ly_type == ly_type_up);
+}
+
+bool Editor::_CanLayerMoveDown(QTreeWidgetItem *item) const {
+	if (!item)
+		return false;
+
+	QTreeWidgetItem* item_down = _ed_layer_view->itemBelow(item);
+
+	LAYER_TYPE ly_type_down = item_down ? getLayerType(item_down->text(3).toStdString()) : INVALID_LAYER;
+	LAYER_TYPE ly_type = getLayerType(item->text(3).toStdString());
+	return (ly_type == ly_type_down);
+}
+
+void Editor::_SetSelectedLayer(uint32 layer_id) {
+	if (!_ed_layer_view)
+		return;
+
+	// Find the item with the given id.
+	QList<QTreeWidgetItem*> item_list = _ed_layer_view->findItems(QString::number(layer_id), Qt::MatchFixedString, 0);
+	// And set it, if existing
+	if (!item_list.isEmpty())
+		_ed_layer_view->setCurrentItem(item_list.first());
+}
 
 void Editor::_UpdateSelectedLayer(QTreeWidgetItem *item) {
 	if (!item)
@@ -1133,6 +1249,9 @@ void Editor::_UpdateSelectedLayer(QTreeWidgetItem *item) {
 
 	if (_ed_scrollarea)
 		_ed_scrollarea->_layer_id = layer_id;
+
+	_layer_up_button->setEnabled(_CanLayerMoveUp(item));
+	_layer_down_button->setEnabled(_CanLayerMoveDown(item));
 }
 
 

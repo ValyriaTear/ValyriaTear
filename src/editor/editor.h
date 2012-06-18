@@ -170,6 +170,8 @@ private slots:
 	void _MapAddLayer();
 	void _MapModifyLayer();
 	void _MapDeleteLayer();
+	void _MapMoveLayerUp();
+	void _MapMoveLayerDown();
 	//@}
 
 	//! \name Help Menu Item Slots
@@ -182,8 +184,16 @@ private slots:
 
 	//! This slot switches the map context to the designated one for editing.
 	void _SwitchMapContext(int context);
+
+	//! Tells whether a given layer can be moved up or down.
+	bool _CanLayerMoveUp(QTreeWidgetItem *item) const;
+	bool _CanLayerMoveDown(QTreeWidgetItem *item) const;
+
 	//! Switch to the new map layer using the Item selected
 	void _UpdateSelectedLayer(QTreeWidgetItem *item);
+
+	//! Select the layer id in the layer view.
+	void _SetSelectedLayer(uint32 layer_id);
 
 	//! Toggle the current layer visibility
 	void _ToggleLayerVisibility();
@@ -273,13 +283,15 @@ private:
 	// Used to add / modify / remove layers.
 	QToolBar *_ed_layer_toolbar;
 
+	//! The layer up/down buttons reference. Used to set their enabled state depending on the selected layer.
+	// Created and deleted by the layer view toolbar. Don't delete it.
+	QPushButton* _layer_up_button;
+	QPushButton* _layer_down_button;
+
 	//! Used as the main widget in the editor since it enables user-sizable sub-widgets.
 	QSplitter* _ed_splitter;
 
 	QSplitter* _ed_tileset_layer_splitter;
-
-	//! The skills editor window
-	SkillEditor *_skill_editor;
 
 	//! Grid toggle view switch.
 	bool _grid_on;
