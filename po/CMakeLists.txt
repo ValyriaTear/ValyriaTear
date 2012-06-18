@@ -24,7 +24,7 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
       GET_FILENAME_COMPONENT(_abs_PATH ${_absFile} PATH)
       GET_FILENAME_COMPONENT(_lang ${_absFile} NAME_WE)
       SET(_gmoFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo)
-      SET(_moFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo)
+      SET(_moFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/allacrost.mo)
 
       ADD_CUSTOM_COMMAND(
          OUTPUT ${_gmoFile}
@@ -34,11 +34,11 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
 
       # Create the LC_MESSAGES folders locally to easily test the mo files.
       ADD_CUSTOM_COMMAND(
-          OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
+          OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/allacrost.mo
           COMMAND rm -rf ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
           COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
           COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES
-          COMMAND cp ${_gmoFile} ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
+          COMMAND cp ${_gmoFile} ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/allacrost.mo
           DEPENDS ${_gmoFile}
       )
 
@@ -93,5 +93,5 @@ ENDFOREACH()
 
 ADD_CUSTOM_TARGET(update-po)
 
-VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS(valyriatear.pot ALL ${POFILES})
-VALYRIATEAR_GETTEXT_UPDATE_PO(valyriatear.pot "${languages}")
+VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS(allacrost.pot ALL ${POFILES})
+VALYRIATEAR_GETTEXT_UPDATE_PO(allacrost.pot "${languages}")
