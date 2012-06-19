@@ -679,11 +679,11 @@ function CreateNPCs()
 	-- Knight guiding through short-cut passage
 	sprite = _CreateSprite(Map, "Karlate", 149, 62);
 	sprite:SetDirection(hoa_map.MapMode.SOUTH);
-	dialogue = hoa_map.SpriteDialogue();
+	knight_first_dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("The river bed is just through this passage. Be careful, the walls are a little unstable.");
-		dialogue:AddLine(text, sprite);
-	DialogueManager:AddDialogue(dialogue);
-	sprite:AddDialogueReference(dialogue);
+		knight_first_dialogue:AddLine(text, sprite);
+	DialogueManager:AddDialogue(knight_first_dialogue);
+	sprite:AddDialogueReference(knight_first_dialogue);
 	Map:AddGroundObject(sprite);
 	knight_talk_sprite = sprite;
 
@@ -1174,7 +1174,7 @@ function CreateEvents()
 		event:AddEventLinkAtEnd("dialogue after collapsed passage");
 		EventManager:RegisterEvent(event);
         -- Dialogue after passage has collapsed
-        event = hoa_map.DialogueEvent("dialogue after collpased passage", 521);
+        event = hoa_map.DialogueEvent("dialogue after collapsed passage", 521);
 		event:AddEventLinkAtEnd("replace knight dialogue");
 		EventManager:RegisterEvent(event);
 		-- Change dialogue of sprite guide
@@ -1226,7 +1226,7 @@ function CreateEvents()
 		event:AddEventLinkAtEnd("move out of left wall");
 		EventManager:RegisterEvent(event);
 		-- Move sprite back outside of wall
-		event = hoa_map.PathMoveSpriteEvent("move out of left wall", claudius, 76, 6, true);
+		event = hoa_map.PathMoveSpriteEvent("move out of left wall", claudius, 76, 7, true);
 		event:AddEventLinkAtEnd("restore character state on left passage");
 		EventManager:RegisterEvent(event);
 		-- Make player sprite visible and restore collision detection
@@ -1255,10 +1255,6 @@ function CreateEvents()
 		EventManager:RegisterEvent(event);
 		-- Make sure player sprite is facing the captain
 		event = hoa_map.ChangeDirectionSpriteEvent("face the captain", claudius, hoa_map.MapMode.EAST);
-		event:AddEventLinkAtEnd("restore map state at riverbed");
-		EventManager:RegisterEvent(event);
-		-- Remove map scene state
-		event = hoa_map.ScriptedEvent("restore map state at riverbed", "restore_map_state", "");
 		event:AddEventLinkAtEnd("riverbed dialogue 1");
 		EventManager:RegisterEvent(event);
 		-- Begin dialogue among party characters
@@ -1267,7 +1263,7 @@ function CreateEvents()
 		EventManager:RegisterEvent(event);
 		-- Begin dialogue given from captain
 		event = hoa_map.DialogueEvent("riverbed dialogue 2", 541);
-		--event:AddEventLinkAtEnd(1000); -- unknown event.
+		event:AddEventLinkAtEnd("evil hiss sound");
 		event:AddEventLinkAtEnd("riverbed dialogue 3", 1000);
 		EventManager:RegisterEvent(event);
 		-- Begin dialogue preceeding boss battle encounter
@@ -1276,7 +1272,7 @@ function CreateEvents()
 		event:AddEventLinkAtEnd("start boss battle");
 		EventManager:RegisterEvent(event);
 		-- Boss battle
-		event = hoa_map.BattleEncounterEvent("start boos battle", 91);
+		event = hoa_map.BattleEncounterEvent("start boss battle", 91);
 		event:SetMusic("mus/The_Creature_Awakens.ogg");
 		event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
 		event:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
@@ -1465,7 +1461,7 @@ map_functions = {
 
 	-- Replace dialogue of the knight that guides the player to the right path after the passage collapse
 	replace_knight_dialogue = function()
-	    knight_talk_sprite:RemoveDialogueReference(30);
+	    knight_talk_sprite:RemoveDialogueReference(knight_first_dialogue);
 	    knight_talk_sprite:AddDialogueReference(31);
 	end,
 
@@ -1489,8 +1485,12 @@ map_functions = {
 	-- Move camera to talking karlate sprite
 	move_camera_knight2 = function()
 	    Map:SetCamera(knight_path_sprite, 500);
-	end
+	end,
 
+	-- Move camera to talking karlate sprite
+	evil_hiss_sound = function()
+	    AudioManager:PlaySound("snd/evil_hiss.ogg");
+	end
 }
 
 -- Helper function that swaps the context for all objects on the map to the context provided in the argument
