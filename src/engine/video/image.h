@@ -611,7 +611,7 @@ public:
 
 	//! \brief Retuns a pointer to the StillImage representing the current frame
 	StillImage* GetCurrentFrame() const
-		{ return const_cast<StillImage*>(&(_frames[_frame_index].image)); }
+		{ return GetFrame(_frame_index); }
 
 	//! \brief Returns the index number of the current frame in the animation.
 	uint32 GetCurrentFrameIndex() const
