@@ -37,10 +37,10 @@ contexts[0].name = "Base"
 contexts[0].inherit_from = -1
 contexts[1] = {}
 contexts[1].name = "Passage Collapsed"
-contexts[1].inherit_from = -1
+contexts[1].inherit_from = 0
 contexts[2] = {}
 contexts[2].name = "Water Unblocked"
-contexts[2].inherit_from = -1
+contexts[2].inherit_from = 0
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}

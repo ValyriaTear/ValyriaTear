@@ -450,7 +450,7 @@ function InitialCreateEvents()
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("npc09 random pose", npc09, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
-print ("3");
+
 	event = hoa_map.PathMoveSpriteEvent("captain moves left below entrance", captain, -10, -2, false);
 	event:SetRelativeDestination(true);
 	event:AddEventLinkAtEnd("captain looks south");
@@ -670,7 +670,6 @@ print ("3");
 
 	event = hoa_map.MapTransitionEvent("intro fade out to cave map", "dat/maps/river_access_cave.lua", "desert cave entrance");
 	EventManager:RegisterEvent(event);
-print ("event done");
 end
 
 --------------------------------------------------------------------------------
