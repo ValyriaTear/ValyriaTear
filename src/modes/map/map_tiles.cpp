@@ -196,9 +196,16 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 			context_name += "0";
 		context_name += NumberToString(ctxt);
 
+		// Check wether the context inhjeritance id is lower than the current one.
+		if (context_inherits[ctxt] >= (int32)ctxt) {
+			PRINT_WARNING << "Invalid context inheritance found for context id: " << ctxt
+			<< ". Permitted values goes from -1 (none) to " << ctxt - 1 << endl;
+			continue;
+		}
+
 		// Initialize this context by making a copy of the base map context first, as most contexts re-use many of the same tiles from the base context
 		// If non-inheriting context, start with empty map!
-		if (context_inherits[ctxt] != -1) {
+		if (context_inherits[ctxt] > -1) {
 			_tile_grid.insert(make_pair(this_context,
 										_tile_grid[GetContextMaskFromConstextId(context_inherits[ctxt])]));
 		}
@@ -227,11 +234,11 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 		// and third represent the row and column of the tile respectively, and the fourth value indicates which tile image should be used for this context.
 		// So if the first four entries in the context table were {0, 12, 26, 180}, this would set the lower layer tile at position (12, 26) to the tile
 		// index 180.
-		vector<int32> context_data;
+		std::vector<int32> context_data;
 		map_file.ReadIntVector(context_name, context_data);
 		if (context_data.size() % 4 != 0) {
-			IF_PRINT_WARNING(MAP_DEBUG) << "for context "
-				<< this_context << ", context data was not evenly divisible by four (incomplete context data)" << endl;
+			PRINT_WARNING <<  ", context data was not evenly divisible by four (incomplete context data)"
+				<< " in context: " << this_context << endl;
 			continue;
 		}
 
@@ -240,6 +247,14 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 			int32 y = context_data[j + 1];
 			int32 x = context_data[j + 2];
 			int32 tile_id = context_data[j + 3];
+
+			if (y >= _num_tile_on_y_axis ||
+					x >= _num_tile_on_x_axis ||
+					layer_id >= (int32)_tile_grid[this_context].size()) {
+				PRINT_WARNING << "Invalid context data found for context: " << this_context << ": layer id: " << layer_id
+					<< ", x: " << x << ", y: " << y << endl;
+				continue;
+			}
 
 			_tile_grid[this_context][layer_id].tiles[y][x] = tile_id;
 		}
