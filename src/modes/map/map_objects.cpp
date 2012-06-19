@@ -292,7 +292,7 @@ void Halo::Update() {
 
 
 void Halo::Draw() {
-	if (MapObject::ShouldDraw())
+	if (MapObject::ShouldDraw() && _animation.GetCurrentFrame())
 		VideoManager->DrawHalo(*_animation.GetCurrentFrame(), _color);
 }
 
