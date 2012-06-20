@@ -469,7 +469,7 @@ function InitialCreateEvents()
 	event = hoa_map.DialogueEvent("captain speech first sentence", dialogue);
 	event:AddEventLinkAtEnd("claudius looks north", 250);
 	event:AddEventLinkAtEnd("lukar looks north", 350);
-	event:AddEventLinkAtEnd("dester looks captain", 250);
+	event:AddEventLinkAtEnd("dester looks north", 250);
 	event:AddEventLinkAtEnd("mark looks north", 450);
 	event:AddEventLinkAtEnd("npc01 looks north", 250);
 	event:AddEventLinkAtEnd("npc02 looks north", 150);
@@ -947,7 +947,6 @@ function ReturnCreateEvents()
 	event:AddEventLinkAtStart("npc08 rush");
 	event:AddEventLinkAtStart("npc09 rush");
 	event:AddEventLinkAtStart("scout rush");
-	event:AddEventLinkAtEnd("transition to harrvah city");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.PathMoveSpriteEvent("dester rush", dester, -(total_march_distance + march_distance), 0, true);
 	event:SetRelativeDestination(true);
@@ -956,6 +955,7 @@ function ReturnCreateEvents()
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.PathMoveSpriteEvent("lukar rush", lukar, -(total_march_distance + march_distance), 0, true);
+	event:AddEventLinkAtEnd("transition to harrvah city");
 	event:SetRelativeDestination(true);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.PathMoveSpriteEvent("captain rush", captain, -(total_march_distance + march_distance), 0, true);
