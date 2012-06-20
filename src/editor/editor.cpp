@@ -1979,13 +1979,9 @@ void EditorScrollArea::contentsContextMenuEvent(QContextMenuEvent *evt) {
 
 
 void EditorScrollArea::keyPressEvent(QKeyEvent *evt) {
-	if (evt->key() == Qt::Key_Delete)
-		for( std::list<MapSprite*>::iterator it=_map->sprites.begin(); it!=_map->sprites.end(); it++ )
-		if( (*it)->is_selected ) {
-			_map->sprites.remove(*it);
-			break;	// break is needed for preventing iterator error
+	if (evt->key() == Qt::Key_Delete) {
+		// TODO: Handle object deletion
 	}
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////

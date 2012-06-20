@@ -25,7 +25,6 @@
 #include <QTreeWidgetItem>
 
 #include "tileset.h"
-#include "sprites.h"
 
 namespace hoa_editor {
 
@@ -239,9 +238,6 @@ public:
 
 	//! \brief A vector which contains a pointer to each tileset and the tiles it has loaded via LoadMultiImage.
 	std::vector<Tileset*> tilesets;
-
-	//! \brief A list which contains a pointer to each sprite; using list because of its efficiency.
-	std::list<MapSprite*> sprites;
 
 	//! \brief A list storing the background music filenames.
 	QStringList music_files;

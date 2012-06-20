@@ -14,8 +14,6 @@
  *          where tiles are painted, edited, etc.
  *****************************************************************************/
 
-#include <sstream>
-#include <iostream>
 #include "grid.h"
 #include "editor.h"
 
@@ -23,6 +21,9 @@
 #include "engine/script/script_read.h"
 
 #include <QScrollBar>
+
+#include <sstream>
+#include <iostream>
 
 using namespace hoa_script;
 using namespace hoa_map::private_map;
@@ -133,9 +134,6 @@ Grid::~Grid()
 {
 	for (vector<Tileset*>::iterator it = tilesets.begin();
 	     it != tilesets.end(); it++)
-		delete *it;
-	for (list<MapSprite*>::iterator it = sprites.begin();
-	     it != sprites.end(); it++)
 		delete *it;
 	VideoManager->SingletonDestroy();
 } // Grid destructor
@@ -1149,21 +1147,7 @@ void Grid::paintGL()
 	// Draw object layer if it is enabled for viewing
 	if (_ol_on)
 	{
-		for (std::list<MapSprite* >::iterator sprite = sprites.begin();
-		     sprite != sprites.end(); sprite++)
-		{
-			if ((*sprite) != NULL)
-				if ((*sprite)->GetContext() == static_cast<uint32>(_context))
-				{
-					VideoManager->Move((*sprite)->ComputeDrawXLocation() - 0.2f,
-					                   (*sprite)->ComputeDrawYLocation() + (*sprite)->img_height * 3/8 - 0.4f);
-					(*sprite)->DrawSelection();
-					VideoManager->Move((*sprite)->ComputeDrawXLocation(),
-					                   (*sprite)->ComputeDrawYLocation());
-					(*sprite)->Draw();
-					(*sprite)->Update();
-				} // a sprite exists to draw
-		} // iterate through object layer
+		// TODO: Readd object layer support in a simple way.
 	} // object layer must be viewable
 
 	// Draw selection rectangle if this mode is active
