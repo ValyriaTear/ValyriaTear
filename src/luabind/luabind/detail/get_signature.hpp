@@ -30,7 +30,7 @@
 #include <boost/config.hpp>
 #include <boost/preprocessor/repeat.hpp>
 #include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum.hpp> 
+#include <boost/preprocessor/repetition/enum.hpp>
 #include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 #include <boost/preprocessor/cat.hpp>
@@ -84,7 +84,7 @@ namespace luabind { namespace detail
 	inline std::string name_of_type(by_value<std::string>, lua_State*, int) { return "string"; }
 	inline std::string name_of_type(by_const_pointer<char>, lua_State*, int) { return "string"; }
 	inline std::string name_of_type(by_pointer<lua_State>, lua_State*, int) { return "lua_State*"; }
-	
+
 	template<class T>
 	struct type_name_unless_void
 	{
@@ -160,7 +160,8 @@ namespace luabind { namespace detail
 
 #endif // LUABIND_GET_SIGNATURE_HPP_INCLUDED
 
-#elif BOOST_PP_ITERATION_FLAGS() == 1
+#else
+#if BOOST_PP_ITERATION_FLAGS() == 1
 
 	// member functions
 	template<class T, class C BOOST_PP_COMMA_IF(BOOST_PP_ITERATION()) BOOST_PP_ENUM_PARAMS(BOOST_PP_ITERATION(), class A)>
@@ -211,6 +212,7 @@ namespace luabind { namespace detail
 		s += ")";
 	}
 
+#endif
 #endif
 
 #endif // LUABIND_NO_ERROR_CHECKING
