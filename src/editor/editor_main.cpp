@@ -20,7 +20,6 @@
 
 #include "editor.h"
 #include "engine/script/script.h"
-#include "common/global/global.h"
 
 #if defined(main) && !defined(_WIN32)
 	#undef main
@@ -67,10 +66,6 @@ int main(int argc, char **argv) {
 	QApplication app(argc, argv);
 	ScriptManager = ScriptEngine::SingletonCreate();
 	ScriptManager->SingletonInitialize();
-	GlobalManager = GameGlobal::SingletonCreate();
-	GlobalManager->SingletonInitialize();
-
-	hoa_defs::BindCommonCode();
 
 	Editor* editor = new Editor();
 	editor->setCaption("Map Editor");
