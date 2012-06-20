@@ -60,7 +60,6 @@ ScriptEngine::~ScriptEngine() {
 
 
 bool ScriptEngine::SingletonInitialize() {
-	// TODO: Open the user setting's file and apply those settings
 	return true;
 }
 

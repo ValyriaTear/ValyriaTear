@@ -227,6 +227,8 @@ void InitializeEngine() throw (Exception) {
 	GUIManager = GUISystem::SingletonCreate();
 	GlobalManager = GameGlobal::SingletonCreate();
 
+	// TODO: Open the user setting's file and apply those settings
+
 	if (VideoManager->SingletonInitialize() == false) {
 		throw Exception("ERROR: unable to initialize VideoManager", __FILE__, __LINE__, __FUNCTION__);
 	}
