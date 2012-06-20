@@ -42,8 +42,6 @@
 
 #include "dialog_boxes.h"
 #include "grid.h"
-#include "sprites.h"
-#include "skill_editor.h"
 #include "tileset_editor.h"
 
 //! \brief All editor code is contained within this namespace.

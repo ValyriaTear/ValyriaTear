@@ -272,19 +272,6 @@ luabind/luabind/wrapper_base.hpp
 
 # Files used by both the game and the editor
 SET(SRCS_COMMON
-common/global/global.cpp
-common/global/global.h
-common/global/global_actors.cpp
-common/global/global_actors.h
-common/global/global_effects.cpp
-common/global/global_effects.h
-common/global/global_objects.cpp
-common/global/global_objects.h
-common/global/global_skills.cpp
-common/global/global_skills.h
-common/global/global_utils.cpp
-common/global/global_utils.h
-common/common_bindings.cpp
 engine/effect_supervisor.h
 engine/effect_supervisor.cpp
 engine/mode_manager.h
@@ -338,8 +325,21 @@ defs.h
 
 SET(SRCS
 main.cpp
+common/common_bindings.cpp
 common/common.cpp
 common/dialogue.cpp
+common/global/global.cpp
+common/global/global.h
+common/global/global_actors.cpp
+common/global/global_actors.h
+common/global/global_effects.cpp
+common/global/global_effects.h
+common/global/global_objects.cpp
+common/global/global_objects.h
+common/global/global_skills.cpp
+common/global/global_skills.h
+common/global/global_utils.cpp
+common/global/global_utils.h
 common/gui/option.h
 common/gui/menu_window.cpp
 common/gui/menu_window.h
@@ -492,7 +492,6 @@ IF (EDITOR_SUPPORT)
     editor/dialog_boxes.h
     editor/editor.h
     editor/grid.h
-    editor/skill_editor.h
     editor/tileset_editor.h
     )
 
@@ -501,12 +500,9 @@ IF (EDITOR_SUPPORT)
     editor/editor.cpp
     editor/editor_main.cpp
     editor/grid.cpp
-    editor/sprites.h
-    editor/skill_editor.cpp
     editor/tileset.cpp
     editor/tileset.h
     editor/tileset_editor.cpp
-    editor/sprites.cpp
     )
 
     QT4_WRAP_CPP(EDITOR_QT_HEADERS_MOC ${EDITOR_QT_HEADERS})
