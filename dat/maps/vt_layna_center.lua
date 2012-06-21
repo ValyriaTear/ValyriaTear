@@ -3,7 +3,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-vt_village_of_layna = ns;
+vt_layna_center = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file
@@ -311,6 +311,12 @@ function CreateCharacters()
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
 	end
 
+	-- set up the position according to the previous map
+	if (GlobalManager:GetPreviousLocation() == "from_village_south") then
+		bronann:SetPosition(79, 77);
+		bronann:SetDirection(hoa_map.MapMode.NORTH);
+	end
+
 	Map:AddGroundObject(bronann);
 end
 
@@ -453,10 +459,13 @@ function CreateEvents()
 	local event = {};
 
     -- Triggered Events
-	event = hoa_map.MapTransitionEvent("to Bronann's home", "dat/maps/vt_bronanns_home.lua", "from_village");
+	event = hoa_map.MapTransitionEvent("to Bronann's home", "dat/maps/vt_bronanns_home.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Riverbed", "dat/maps/vt_layna_riverbed.lua", "from_village");
+	event = hoa_map.MapTransitionEvent("to Riverbed", "dat/maps/vt_layna_riverbed.lua", "from_village_center");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/vt_layna_south_entrance.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 end
 
@@ -467,6 +476,9 @@ function CreateZones()
 	
 	to_riverbed_zone = hoa_map.CameraZone(20, 33, 78, 79, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_riverbed_zone);
+
+	to_village_entrance_zone = hoa_map.CameraZone(60, 113, 78, 79, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_village_entrance_zone);
 end
 
 function CheckZones()
@@ -482,6 +494,13 @@ function CheckZones()
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Riverbed");
+	end
+
+	if (to_village_entrance_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to Village south entrance");
 	end
 end
 

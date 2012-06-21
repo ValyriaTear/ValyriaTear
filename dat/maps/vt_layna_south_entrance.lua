@@ -3,15 +3,15 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-vt_village_south_entrance = ns;
+vt_layna_south_entrance = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file
 map = {}
 
 -- The map name and location image
-map_name = ""
-map_image_filename = ""
+map_name = "Mountain Village of Layna"
+map_image_filename = "img/menus/locations/mountain_village.png"
 
 -- The number of rows, and columns that compose the map
 num_tile_cols = 32
@@ -35,6 +35,7 @@ sound_filenames = {}
 
 -- The music files used as background music on this map.
 music_filenames = {}
+music_filenames[1] = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -88,14 +89,14 @@ map_grid[36] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 map_grid[37] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 }
 map_grid[38] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 map_grid[39] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }
-map_grid[40] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 }
-map_grid[41] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 }
-map_grid[42] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
-map_grid[43] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
-map_grid[44] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
-map_grid[45] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
-map_grid[46] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
-map_grid[47] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 }
+map_grid[40] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 }
+map_grid[41] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 }
+map_grid[42] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+map_grid[43] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+map_grid[44] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+map_grid[45] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+map_grid[46] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 }
+map_grid[47] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 
 -- The tile layers. The numbers are indeces to the tile_mappings table.
 layers = {}
@@ -151,8 +152,8 @@ layers[1][17] = { 539, 540, 540, 639, 557, -1, -1, -1, -1, -1, -1, -1, -1, -1, -
 layers[1][18] = { 555, 638, 540, 541, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 608, 609 }
 layers[1][19] = { -1, 555, 556, 557, -1, -1, -1, -1, -1, -1, -1, 317, -1, -1, -1, -1, 1248, -1, -1, -1, -1, 1248, -1, -1, -1, -1, 286, -1, -1, -1, 512, 513 }
 layers[1][20] = { -1, -1, -1, 316, -1, 316, -1, 315, -1, -1, -1, 333, 398, 347, 398, 302, 1264, 523, 524, 524, 525, 1269, 302, 398, 347, 398, 302, -1, -1, -1, 528, 529 }
-layers[1][21] = { -1, 286, 364, 332, 364, 332, 364, 331, 364, 382, -1, -1, -1, -1, -1, -1, 523, 622, 554, 522, 623, 525, -1, -1, -1, -1, -1, -1, -1, -1, 544, 545 }
-layers[1][22] = { 379, 442, 380, 348, 380, 348, 380, 347, 380, 398, 443, -1, -1, -1, -1, 523, 622, 571, 572, 572, 573, 623, 525, -1, -1, -1, 286, -1, -1, -1, 427, 561 }
+layers[1][21] = { -1, 286, 364, 332, 364, 332, 364, 331, 364, 382, -1, 380, -1, -1, -1, -1, 523, 622, 554, 522, 623, 525, -1, -1, -1, -1, -1, -1, -1, -1, 544, 545 }
+layers[1][22] = { 379, 442, 380, 348, 380, 348, 380, 347, 380, 398, 443, -1, -1, -1, -1, 523, 622, 571, 572, 572, 573, 623, 525, -1, -1, -1, 380, -1, -1, -1, 427, 561 }
 layers[1][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 539, 571, 558, 527, 526, 559, 573, 541, -1, -1, -1, 302, 380, 398, 380, 398, 577 }
 
 layers[2] = {}
@@ -178,7 +179,7 @@ layers[2][16] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, 142, 143, -1, -1, -1, -1, 
 layers[2][17] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][18] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][19] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
-layers[2][20] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 429, -1, -1, -1, -1, -1 }
+layers[2][20] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 763, 763, 763, 763, -1, -1, -1, -1, -1, 429, -1, -1, -1, -1, -1 }
 layers[2][21] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 287, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 428, -1, -1, -1, -1, -1 }
 layers[2][22] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 303, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 560, -1 }
 layers[2][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 576, -1 }
@@ -205,7 +206,7 @@ layers[3][15] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[3][16] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1200, 1201, 1202, 1203, 1204, 1205, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[3][17] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1216, 1217, 1218, 1219, 1220, 1221, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[3][18] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 315, -1, -1, 1232, -1, -1, -1, -1, 1237, -1, -1, 316, -1, -1, -1, -1, -1, -1, -1 }
-layers[3][19] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 382, 331, 382, 286, 1248, 747, 747, 747, 747, 1253, 286, 382, 332, 382, 413, -1, -1, -1, -1, -1 }
+layers[3][19] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 317, 382, 331, 382, 286, 1248, 747, 747, 747, 747, 1253, 286, 382, 332, 382, 286, -1, -1, -1, -1, -1 }
 layers[3][20] = { -1, 410, -1, 316, -1, 316, -1, 315, -1, 366, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 412, -1, -1, -1, -1, -1 }
 layers[3][21] = { 363, 426, 364, 332, 364, 332, 364, 331, 364, 382, 427, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[3][22] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 286, 364, 382, 364, -1, -1 }
@@ -241,3 +242,149 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+local bronann = {};
+
+-- the main map loading code
+function Load(m)
+
+	Map = m;
+	ObjectManager = Map.object_supervisor;
+	DialogueManager = Map.dialogue_supervisor;
+	EventManager = Map.event_supervisor;
+	TreasureManager = Map.treasure_supervisor;
+	GlobalEvents = Map.map_event_group;
+
+	Map.unlimited_stamina = true;
+
+	CreateCharacters();
+	-- Set the camera focus on Bronann
+	Map:SetCamera(bronann);
+
+	CreateNPCs();
+	CreateObjects();
+
+
+	CreateEvents();
+	CreateZones();
+end
+
+function Update()
+	-- Check whether the character is in one of the zones
+	CheckZones();
+end
+
+
+-- Character creation
+function CreateCharacters()
+	bronann = _CreateSprite(Map, "Bronann", 32, 4);
+	bronann:SetDirection(hoa_map.MapMode.SOUTH);
+	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+	bronann:SetNoCollision(false);
+
+	-- set up the position according to the previous map
+	if (GlobalManager:GetPreviousLocation() == "from_riverbed") then
+		bronann:SetPosition(3, 34);
+		bronann:SetDirection(hoa_map.MapMode.EAST);
+	end
+
+	Map:AddGroundObject(bronann);
+end
+
+function CreateNPCs()
+	local npc = {}
+	local text = {}
+	local dialogue = {}
+	local event = {}
+
+end
+
+function CreateObjects()
+	local object = {}
+--[[
+	object = _CreateObject(Map, "Tree Big2", 22, 78);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 22, 16);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 9, 16);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 65, 18);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 74, 20);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 67, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 80, 36);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 92, 22);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 98, 24);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small2", 79, 16);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	object = _CreateObject(Map, "Rock1", 3, 64);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock1", 33, 12);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	object = _CreateObject(Map, "Rock2", 29, 16);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 109, 34);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 113, 34);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 117, 34);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 109, 42);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 117, 42);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Rock2", 113, 42);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+]]--
+end
+
+-- Creates all events and sets up the entire event sequence chain
+function CreateEvents()
+	local event = {};
+
+	-- Triggered Events
+	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/vt_layna_center.lua", "from_village_south");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to Village riverbed", "dat/maps/vt_layna_riverbed.lua", "from_village_south");
+	EventManager:RegisterEvent(event);
+end
+
+function CreateZones()
+	-- N.B.: left, right, top, bottom
+	village_center_zone = hoa_map.CameraZone(8, 62, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(village_center_zone);
+
+	to_village_riverbed_zone = hoa_map.CameraZone(0, 1, 26, 43, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_village_riverbed_zone);
+end
+
+function CheckZones()
+	if (village_center_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to Village center");
+	end
+
+	if (to_village_riverbed_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to Village riverbed");
+	end
+end
+
+
+-- Map Custom functions
+if (map_functions == nil) then
+	map_functions = {}
+end
+

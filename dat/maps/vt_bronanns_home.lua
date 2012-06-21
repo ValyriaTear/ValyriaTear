@@ -285,7 +285,7 @@ function CreateCharacters()
 	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
-	if (GlobalManager:GetPreviousLocation() == "from_village") then
+	if (GlobalManager:GetPreviousLocation() == "from_village_center") then
 		bronann:SetPosition(39.5, 22.5);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
 	end
@@ -461,7 +461,7 @@ function CreateEvents()
 	local event = {};
 
 	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to village", "dat/maps/vt_village_of_layna.lua", "from_bronanns_home");
+	event = hoa_map.MapTransitionEvent("to village", "dat/maps/vt_layna_center.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/vt_bronanns_home_first_floor.lua", "from_bronanns_home");
