@@ -163,6 +163,8 @@ public:
 	void SetHeight(uint32 height)      { _height    = height; _changed = true; }
 	void SetWidth(uint32 width)        { _width     = width;  _changed = true; }
 	void SetContext(uint32 context)    { _context   = context; }
+
+	//! Tells whether the map has been modified.
 	void SetChanged(bool value)        { _changed   = value; }
 
 	void SetInitialized(bool ready) { _initialized = ready; }
@@ -199,6 +201,12 @@ public:
 	*** of the same type.
 	**/
 	void AddLayer(const LayerInfo& layer_info);
+
+	/** \brief Delete a layer
+	***
+	*** \param layer_id the layer id to delete.
+	**/
+	void DeleteLayer(uint32 layer_id);
 
 	/** \name Context Modification Functions (Right-Click)
 	*** \brief Functions to insert or delete rows or columns of tiles from the

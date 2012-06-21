@@ -183,9 +183,10 @@ private slots:
 	//! This slot switches the map context to the designated one for editing.
 	void _SwitchMapContext(int context);
 
-	//! Tells whether a given layer can be moved up or down.
+	//! Tells whether a given layer can be moved up or down, or deleted.
 	bool _CanLayerMoveUp(QTreeWidgetItem *item) const;
 	bool _CanLayerMoveDown(QTreeWidgetItem *item) const;
+	bool _CanDeleteLayer(QTreeWidgetItem *item) const;
 
 	//! Switch to the new map layer using the Item selected
 	void _UpdateSelectedLayer(QTreeWidgetItem *item);
@@ -285,6 +286,8 @@ private:
 	// Created and deleted by the layer view toolbar. Don't delete it.
 	QPushButton* _layer_up_button;
 	QPushButton* _layer_down_button;
+	//! Delete layer button reference to prevent being able to delete the last ground layer
+	QPushButton* _delete_layer_button;
 
 	//! Used as the main widget in the editor since it enables user-sizable sub-widgets.
 	QSplitter* _ed_splitter;
