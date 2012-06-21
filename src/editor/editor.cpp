@@ -36,7 +36,8 @@ namespace hoa_editor {
 
 Editor::Editor() : QMainWindow(),
   _layer_up_button(0),
-  _layer_down_button(0)
+  _layer_down_button(0),
+  _delete_layer_button(0)
 {
 	// create the undo stack
 	_undo_stack = new QUndoStack();
@@ -253,8 +254,9 @@ void Editor::SetupMainView() {
 	button->setContentsMargins(1,1,1,1);
 	button->setFixedSize(20, 20);
 	button->setToolTip(tr("Delete Layer"));
+	connect(button, SIGNAL(clicked(bool)), this, SLOT(_MapDeleteLayer()));
 	_ed_layer_toolbar->addWidget(button);
-	button->setDisabled(true);
+	_delete_layer_button = button;
 
 	button = new QPushButton(QIcon(QString("img/misc/editor-tools/go-up.png")), QString(), _ed_layer_toolbar);
 	button->setContentsMargins(1,1,1,1);
@@ -824,12 +826,15 @@ void Editor::_MapAddLayer() {
 
 	if (layer_dlg->exec() == QDialog::Accepted)
 	{
-		// TODO: Apply changes
+		// Apply changes
 		LayerInfo layer_info = layer_dlg->_GetLayerInfo();
 
 		_ed_scrollarea->_map->AddLayer(layer_info);
 
 		_UpdateLayersView();
+
+		// The map has been changed
+		_ed_scrollarea->_map->SetChanged(true);
 
 	} // only process results if user selected okay
 
@@ -844,10 +849,42 @@ void Editor::_MapModifyLayer() {
 }
 
 void Editor::_MapDeleteLayer() {
-	if (_ed_scrollarea == NULL)
+	if (_ed_scrollarea == NULL || _ed_scrollarea->_map == NULL)
 		return;
 
-	// TODO
+	if (!_CanDeleteLayer(_ed_layer_view->currentItem()))
+		return;
+
+	uint32 layer_id = _ed_layer_view->currentItem()->text(0).toUInt();
+	Grid *grid = _ed_scrollarea->_map;
+	std::vector<Layer>& layers = grid->GetLayers(grid->GetContext());
+	if (layer_id >= layers.size())
+		return;
+
+	switch(QMessageBox::warning(this, tr("Delete layer"),
+			tr("Are you sure you want to delete this layer?"),
+			tr("&Yes"), tr("&No"), tr("&Cancel"),
+				0,		// Enter == button 0
+        		2))		// Escape == button 2
+	{
+		case 0: // Yes pressed.
+			// continue below
+			break;
+		default: // Cancel clicked or Escape pressed
+			// Cancel or no
+			return;
+	}
+
+		// Apply changes
+		_ed_scrollarea->_map->DeleteLayer(layer_id);
+
+		_UpdateLayersView();
+
+		// Select the previous layer when possible
+		_SetSelectedLayer(layer_id == 0 ? layer_id : layer_id - 1);
+
+		// The map has been changed
+		_ed_scrollarea->_map->SetChanged(true);
 }
 
 void Editor::_MapMoveLayerUp() {
@@ -891,6 +928,9 @@ void Editor::_MapMoveLayerUp() {
 
 	// Set the layer selection to follow the current layer
 	_SetSelectedLayer(layer_id - 1);
+
+	// The map has been changed
+	_ed_scrollarea->_map->SetChanged(true);
 }
 
 void Editor::_MapMoveLayerDown() {
@@ -931,6 +971,9 @@ void Editor::_MapMoveLayerDown() {
 
 	// Set the layer selection to follow the current layer
 	_SetSelectedLayer(layer_id + 1);
+
+	// The map has been changed
+	_ed_scrollarea->_map->SetChanged(true);
 }
 
 void Editor::_MapProperties() {
@@ -1229,6 +1272,35 @@ bool Editor::_CanLayerMoveDown(QTreeWidgetItem *item) const {
 	return (ly_type == ly_type_down);
 }
 
+bool Editor::_CanDeleteLayer(QTreeWidgetItem *item) const {
+	if (!item)
+		return false;
+
+	LAYER_TYPE layer_type = getLayerType(item->text(3).toStdString());
+
+	if (layer_type != GROUND_LAYER)
+		return true;
+
+	Grid* grid = _ed_scrollarea->_map;
+	if (!grid)
+		return false;
+
+	// Count the available ground layers
+	uint32 ground_layers_count = 0;
+	std::vector<Layer>& layers = grid->GetLayers(0);
+
+	for (uint32 i = 0; i < layers.size(); ++i)
+	{
+		if (layers[i].layer_type == GROUND_LAYER)
+			++ground_layers_count;
+	}
+
+	if (ground_layers_count > 1)
+		return true;
+
+	return false;
+}
+
 void Editor::_SetSelectedLayer(uint32 layer_id) {
 	if (!_ed_layer_view)
 		return;
@@ -1252,6 +1324,7 @@ void Editor::_UpdateSelectedLayer(QTreeWidgetItem *item) {
 
 	_layer_up_button->setEnabled(_CanLayerMoveUp(item));
 	_layer_down_button->setEnabled(_CanLayerMoveDown(item));
+	_delete_layer_button->setEnabled(_CanDeleteLayer(item));
 }
 
 

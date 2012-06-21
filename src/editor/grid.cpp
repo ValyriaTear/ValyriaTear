@@ -889,6 +889,25 @@ void Grid::AddLayer(const LayerInfo& layer_info)
 	}
 }
 
+void Grid::DeleteLayer(uint32 layer_id) {
+	if (layer_id >= _tile_contexts[0].layers.size())
+		return;
+
+	for (uint32 ctxt = 0; ctxt < _tile_contexts.size(); ++ctxt)
+	{
+		uint32 layer = 0;
+		std::vector<Layer>::iterator it = _tile_contexts[ctxt].layers.begin();
+		std::vector<Layer>::iterator it_end = _tile_contexts[ctxt].layers.end();
+		for (; it != it_end; ++it)
+		{
+			if (layer == layer_id) {
+				_tile_contexts[ctxt].layers.erase(it);
+				break;
+			}
+			++layer;
+		}
+	}
+}
 
 void Grid::InsertRow(uint32 tile_index_y)
 {

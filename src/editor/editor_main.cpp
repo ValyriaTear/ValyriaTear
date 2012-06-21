@@ -27,7 +27,6 @@
 
 using namespace std;
 
-using namespace hoa_global;
 using namespace hoa_script;
 
 using namespace hoa_editor;
