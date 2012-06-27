@@ -1405,7 +1405,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	}
 	else {
 		PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
-			<< " for enemy: " << _name.c_str() << ". Loading default one."<< endl;
+			<< " for enemy: " << MakeStandardString(_name) << ". Loading default one."<< endl;
 		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
 	}
 
