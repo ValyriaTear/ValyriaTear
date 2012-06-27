@@ -284,7 +284,7 @@ function CreateCharacters()
 	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
-	if (GlobalManager:GetPreviousLocation() == "from_riverbed") then
+	if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
 		bronann:SetPosition(3, 34);
 		bronann:SetDirection(hoa_map.MapMode.EAST);
 	end
@@ -354,7 +354,7 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/vt_layna_center.lua", "from_village_south");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Village riverbed", "dat/maps/vt_layna_riverbed.lua", "from_village_south");
+	event = hoa_map.MapTransitionEvent("to Village riverbank", "dat/maps/vt_layna_riverbank.lua", "from_village_south");
 	EventManager:RegisterEvent(event);
 end
 
@@ -363,8 +363,8 @@ function CreateZones()
 	village_center_zone = hoa_map.CameraZone(8, 62, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(village_center_zone);
 
-	to_village_riverbed_zone = hoa_map.CameraZone(0, 1, 26, 43, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_village_riverbed_zone);
+	to_village_riverbank_zone = hoa_map.CameraZone(0, 1, 26, 43, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_village_riverbank_zone);
 end
 
 function CheckZones()
@@ -375,11 +375,11 @@ function CheckZones()
 		EventManager:StartEvent("to Village center");
 	end
 
-	if (to_village_riverbed_zone:IsCameraEntering() == true) then
+	if (to_village_riverbank_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
-		EventManager:StartEvent("to Village riverbed");
+		EventManager:StartEvent("to Village riverbank");
 	end
 end
 
