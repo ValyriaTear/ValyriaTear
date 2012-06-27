@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
@@ -162,8 +162,8 @@ public:
 	static MapMode* CurrentInstance()
 		{ return _current_instance; }
 
-	const hoa_utils::ustring& GetMapName() const
-		{ return _map_name; }
+	const hoa_utils::ustring& GetMapHudName() const
+		{ return _map_hud_name; }
 
 	hoa_global::GlobalEventGroup* GetMapEventGroup() const
 		{ return _map_event_group; }
@@ -252,7 +252,10 @@ private:
 	std::string _map_tablespace;
 
 	//! \brief The name of the map, as it will be read by the player in the game.
-	hoa_utils::ustring _map_name;
+	hoa_utils::ustring _map_hud_name;
+
+	//! \brief The map sub-part hud name. Shown in every cases.
+	hoa_utils::ustring _map_hud_subname;
 
 	//! \brief A pointer to the object containing all of the event information for the map
 	hoa_global::GlobalEventGroup* _map_event_group;

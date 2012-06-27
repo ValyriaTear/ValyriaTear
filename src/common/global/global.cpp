@@ -79,6 +79,7 @@ GameGlobal::GameGlobal() :
 	_drunes(0),
 	_x_save_map_position(0),
 	_y_save_map_position(0),
+	_same_map_hud_name_as_previous(false),
 	_battle_setting(GLOBAL_BATTLE_INVALID) {
 	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << endl;
 }
@@ -691,11 +692,17 @@ uint32 GameGlobal::GetNumberEvents(const string& group_name) const {
 // GameGlobal class - Other Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-void GameGlobal::SetMap(const std::string& map_filename, const std::string& map_image_filename) {
+void GameGlobal::SetMap(const std::string& map_filename, const std::string& map_image_filename,
+						const hoa_utils::ustring& map_hud_name) {
 	_map_filename = map_filename;
 
-	if (_map_image.Load(map_image_filename) == false)
+	if (!_map_image.Load(map_image_filename))
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load map image: " << map_image_filename << endl;
+
+	// Updates the map hud names info.
+	_previous_map_hud_name = _map_hud_name;
+	_map_hud_name = map_hud_name;
+	_same_map_hud_name_as_previous = (MakeStandardString(_previous_map_hud_name) == MakeStandardString(_map_hud_name));
 }
 
 
