@@ -10,7 +10,8 @@ setfenv(1, ns);
 map = {}
 
 -- The map name and location image
-map_name = "Bronann's Home"
+map_name = ""
+map_subname = "Bronann's Home"
 map_image_filename = ""
 
 -- The number of rows, and columns that compose the map

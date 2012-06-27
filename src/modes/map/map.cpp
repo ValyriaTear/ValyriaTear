@@ -189,7 +189,7 @@ void MapMode::Reset() {
 	MapMode::_current_instance = this;
 
 	// Make the map location known globally to other code that may need to know this information
-	GlobalManager->SetMap(_map_filename, _map_image.GetFilename());
+	GlobalManager->SetMap(_map_filename, _map_image.GetFilename(), _map_hud_name);
 
 	if (_music.size() > _current_track && _music[_current_track].GetState() != AUDIO_STATE_PLAYING) {
 		_music[_current_track].Play();
@@ -463,7 +463,8 @@ bool MapMode::_Load() {
 	}
 
 	// Read the name of the map, and load the location graphic image
-	_map_name = MakeUnicodeString(_map_script.ReadString("map_name"));
+	_map_hud_name = MakeUnicodeString(_map_script.ReadString("map_name"));
+	_map_hud_subname = MakeUnicodeString(_map_script.ReadString("map_subname"));
 	std::string map_filename = _map_script.ReadString("map_image_filename");
 	if (!map_filename.empty() && !_map_image.Load(_map_script.ReadString("map_image_filename")))
 		PRINT_ERROR << "Failed to load location graphic image: " << _map_image.GetFilename() << endl;
@@ -559,7 +560,7 @@ bool MapMode::_Load() {
 void MapMode::_UpdateExplore() {
 	// First go to menu mode if the user requested it
 	if (InputManager->MenuPress()) {
-		MenuMode *MM = new MenuMode(_map_name, _map_image.GetFilename());
+		MenuMode *MM = new MenuMode(_map_hud_name, _map_image.GetFilename());
 		ModeManager->Push(MM);
 		return;
 	}
@@ -906,8 +907,8 @@ void MapMode::_DrawStaminaBar(const hoa_video::Color &blending) {
 }
 
 void MapMode::_DrawGUI() {
-	// ---------- (1) Draw the introductory location name and graphic if necessary
-	if (_intro_timer.IsFinished() == false) {
+	// Draw the introductory location name and graphic if necessary
+	if (!_intro_timer.IsFinished()) {
 		uint32 time = _intro_timer.GetTimeExpired();
 
 		Color blend(1.0f, 1.0f, 1.0f, 1.0f);
@@ -918,13 +919,25 @@ void MapMode::_DrawGUI() {
 			blend.SetAlpha(1.0f - static_cast<float>(time - 5000) / 2000.0f);
 		}
 
+		// Don't draw the map location again, when it is the same as the last map.
+		if (GlobalManager->ShouldDisplayHudNameOnMapIntro()) {
+			VideoManager->PushState();
+			VideoManager->SetStandardCoordSys();
+			VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+			VideoManager->Move(512.0f, 100.0f);
+			_map_image.Draw(blend);
+			VideoManager->MoveRelative(0.0f, -80.0f);
+			VideoManager->Text()->Draw(_map_hud_name, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
+			VideoManager->PopState();
+		}
+
+		// Show the map subname when there is one
 		VideoManager->PushState();
 		VideoManager->SetStandardCoordSys();
 		VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-		VideoManager->Move(512.0f, 100.0f);
-		_map_image.Draw(blend);
-		VideoManager->MoveRelative(0.0f, -80.0f);
-		VideoManager->Text()->Draw(_map_name, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
+		(GlobalManager->ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.empty()) ?
+			VideoManager->Move(512.0f, 170.0f) : VideoManager->Move(512.0f, 20.0f);
+		VideoManager->Text()->Draw(_map_hud_subname, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
 		VideoManager->PopState();
 
 		// Draw the unlimited stamina bar with a fade out
@@ -940,11 +953,11 @@ void MapMode::_DrawGUI() {
 		}
 	}
 
-	// ---------- (2) Draw the stamina bar in the lower right corner
+	// Draw the stamina bar in the lower right corner
 	if (!_unlimited_stamina && _intro_timer.IsFinished())
 		_DrawStaminaBar();
 
-	// ---------- (3) Draw the treasure menu if necessary
+	// Draw the treasure menu if necessary
 	if (_treasure_supervisor->IsActive())
 		_treasure_supervisor->Draw();
 } // void MapMode::_DrawGUI()

@@ -365,8 +365,10 @@ public:
 	/** \brief Sets the name and graphic for the current location
 	*** \param map_filename The string that contains the name of the current map.
 	*** \param map_image_filename The filename of the image that presents this map
+	*** \param map_hud_name The UTF16 map name shown at map intro time.
 	**/
-	void SetMap(const std::string& map_filename, const std::string& map_image_filename);
+	void SetMap(const std::string& map_filename, const std::string& map_image_filename,
+				const hoa_utils::ustring& map_hud_name);
 
 	/** \brief Sets the active Map filename (for game saves)
 	*** \param location_name The string that contains the name of the current map
@@ -384,6 +386,12 @@ public:
 
 	const std::string& GetPreviousLocation() const
 		{ return _previous_location; }
+
+	/** Get the previous map hud name shown at intro time.
+	*** Used to know whether the new hud name is the same in the map mode.
+	**/
+	bool ShouldDisplayHudNameOnMapIntro() const
+		{ return !_same_map_hud_name_as_previous; }
 
 	//! \brief Executes function NewGame() from global script
 	void NewGame()
@@ -527,6 +535,13 @@ private:
 
 	//! \brief The map location the character is com from. Used to make the new map know where to make the character appear.
 	std::string _previous_location;
+
+	/** \brief Stores the previous and current map names appearing on screen at intro time.
+	*** This is used to know whether we have to display it, as we won't when it's the same location name than the previous map.
+	**/
+	hoa_utils::ustring _previous_map_hud_name;
+	hoa_utils::ustring _map_hud_name;
+	bool _same_map_hud_name_as_previous;
 
 	//! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
 	GLOBAL_BATTLE_SETTING _battle_setting;

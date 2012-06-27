@@ -11,6 +11,7 @@ map = {}
 
 -- The map name and location image
 map_name = "Mountain Village of Layna"
+map_subname = "Riverbank"
 map_image_filename = "img/menus/locations/mountain_village.png"
 
 -- The number of rows, and columns that compose the map
