@@ -485,6 +485,11 @@ private:
 	std::list<private_battle::BattleActor*> _ready_queue;
 	//@}
 
+	/** \brief List used to draw character based on their y coordinate.
+	*** Sorted in the update() method.
+	**/
+	std::vector<private_battle::BattleActor*> _battle_sprites;
+
 	/** \brief The number of character swaps that the player may currently perform
 	*** The maximum number of swaps ever allowed is four, thus the value of this class member will always have the range [0, 4].
 	*** This member is also used to determine how many swap cards to draw on the battle screen.
@@ -496,6 +501,9 @@ private:
 	*** until the last die animation is done.
 	**/
 	bool _last_enemy_dying;
+
+	//! \brief the Stamina Icon general transluency. Used to make the characters's stamina icon disappear on wins.
+	float _stamina_icon_alpha;
 
 	////////////////////////////// PRIVATE METHODS ///////////////////////////////
 

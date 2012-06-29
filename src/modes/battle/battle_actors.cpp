@@ -402,16 +402,17 @@ void BattleActor::DrawIndicators() const {
 }
 
 
-void BattleActor::DrawStaminaIcon() const {
+void BattleActor::DrawStaminaIcon(const hoa_video::Color& color) const {
 	if (!IsAlive())
 		return;
 
 	VideoManager->Move(_x_stamina_location, _y_stamina_location);
 	// Make the stamina icon fade away when dying
 	if (_state == ACTOR_STATE_DYING)
-		_stamina_icon.Draw(Color(1.0f, 1.0f, 1.0f, 1.0f - _state_timer.PercentComplete()));
+		_stamina_icon.Draw(Color(color.GetRed(), color.GetGreen(),
+							color.GetBlue(), color.GetAlpha() - _state_timer.PercentComplete()));
 	else
-		_stamina_icon.Draw();
+		_stamina_icon.Draw(color);
 }
 
 
@@ -846,23 +847,9 @@ BattleEnemy::BattleEnemy(GlobalEnemy* enemy) :
 	}
 }
 
-
-
 BattleEnemy::~BattleEnemy() {
 	delete _global_actor;
 }
-
-
-
-// Compares the Y-coordinates of the actors, used for sorting the actors up-down when drawing
-bool BattleEnemy::operator<(const BattleEnemy & other) const {
-	// NOTE: this code is currently not working correctly
-	//if ((_y_location - ((*GetActor()).GetHeight())) > (other.GetYLocation() - (*(other.GetActor()).GetHeight())))
-	//	return true;
-	return false;
-}
-
-
 
 void BattleEnemy::ResetActor() {
 	BattleActor::ResetActor();
@@ -870,8 +857,6 @@ void BattleEnemy::ResetActor() {
 	vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 	sprite_frames[3].DisableGrayScale();
 }
-
-
 
 void BattleEnemy::ChangeState(ACTOR_STATE new_state) {
 	BattleActor::ChangeState(new_state);
