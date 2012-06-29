@@ -58,6 +58,7 @@ GameMode::~GameMode() {
 void GameMode::Update() {
 	uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
 
+	_script_supervisor.Update();
 	_effect_supervisor.Update(frame_time);
 	_particle_manager.Update(frame_time);
 }

@@ -69,6 +69,16 @@ void BindEngineCode() {
 	{
 	using namespace hoa_mode_manager;
 
+ 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+ 	[
+		class_<ScriptSupervisor>("ScriptSupervisor")
+			.def("AddScript", &ScriptSupervisor::AddScript)
+			.def("AddAnimation", &ScriptSupervisor::AddAnimation)
+			.def("AddImage", &ScriptSupervisor::AddImage)
+			.def("DrawImage", &ScriptSupervisor::DrawImage)
+			.def("DrawAnimation", &ScriptSupervisor::DrawAnimation)
+	];
+
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
 		class_<EffectSupervisor>("EffectSupervisor")
@@ -91,6 +101,7 @@ void BindEngineCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
 		class_<GameMode>("GameMode")
+			.def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
 			.def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
 			.def("GetParticleManager", &GameMode::GetParticleManager)
 	];

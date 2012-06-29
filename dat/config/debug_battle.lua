@@ -10,8 +10,8 @@ function BootBattleTest()
 	GlobalManager:AddCharacter(THANIS);
 	GlobalManager:AddToInventory(1, 5);
 
-	-- local claudius = GlobalManager:GetCharacter(1);
-	-- claudius:AddSkill(10001);
+	-- local bronann = GlobalManager:GetCharacter(1);
+	-- bronann:AddSkill(10001);
 
 	local battle = hoa_battle.BattleMode();
 	battle:AddEnemy(6);
@@ -21,8 +21,8 @@ function BootBattleTest()
 	battle:AddEnemy(10);
 	battle:AddEnemy(11);
 	battle:AddEnemy(12);
-	battle:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
-	--battle:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+	battle:GetScriptSupervisor():AddScript("dat/battles/desert_cave_battle_anim.lua");
+	--battle:GetScriptSupervisor():AddScript("dat/battles/tutorial_battle_dialogs.lua");
 
 	ModeManager:Push(battle, false, false);
 end

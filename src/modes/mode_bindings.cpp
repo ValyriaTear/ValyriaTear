@@ -531,7 +531,7 @@ void BindModeCode() {
 			.def(constructor<std::string, uint32>())
 			.def("SetMusic", &BattleEncounterEvent::SetMusic)
 			.def("SetBackground", &BattleEncounterEvent::SetBackground)
-			.def("AddBattleScript", &BattleEncounterEvent::AddBattleScript)
+			.def("AddScript", &BattleEncounterEvent::AddScript)
 			.def("AddEnemy", &BattleEncounterEvent::AddEnemy)
 	];
 
@@ -585,8 +585,6 @@ void BindModeCode() {
 		class_<BattleMode, hoa_mode_manager::GameMode>("BattleMode")
 			.def(constructor<>())
 			.def("AddEnemy", (void(BattleMode::*)(uint32)) &BattleMode::AddEnemy)
-			.def("SetBattleScripts", &BattleMode::SetBattleScripts)
-			.def("AddBattleScript", &BattleMode::AddBattleScript)
 			.def("RestartBattle", &BattleMode::RestartBattle)
 			.def("FreezeTimers", &BattleMode::FreezeTimers)
 			.def("UnFreezeTimers", &BattleMode::UnFreezeTimers)
@@ -617,10 +615,6 @@ void BindModeCode() {
 	[
 		class_<BattleMedia>("BattleMedia")
 			.def("SetBackgroundImage", &BattleMedia::SetBackgroundImage)
-			.def("AddCustomAnimation", &BattleMedia::AddCustomAnimation)
-			.def("AddCustomImage", &BattleMedia::AddCustomImage)
-			.def("DrawCustomImage", &BattleMedia::DrawCustomImage)
-			.def("DrawCustomAnimation", &BattleMedia::DrawCustomAnimation)
 			.def("SetBattleMusic", &BattleMedia::SetBattleMusic)
 	];
 

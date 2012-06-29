@@ -171,11 +171,6 @@ BattleMedia::~BattleMedia() {
 
 void BattleMedia::Update() {
 	attack_point_indicator.Update();
-
-	// Update custom animations
-	for (uint32 i = 0; i < _custom_battle_animations.size(); ++i) {
-	    _custom_battle_animations[i].Update();
-	}
 }
 
 
@@ -186,58 +181,11 @@ void BattleMedia::SetBackgroundImage(const string& filename) {
 }
 
 
-int32 BattleMedia::AddCustomAnimation(const std::string& filename) {
-	AnimatedImage anim;
-	if (!anim.LoadFromAnimationScript(filename)) {
-		PRINT_WARNING << "Custom animation file could not be loaded: " << filename << endl;
-		return -1;
-	}
-
-	_custom_battle_animations.push_back(anim);
-
-	int32 id = _custom_battle_animations.size() - 1;
-	return id;
-}
-
-
-void BattleMedia::DrawCustomAnimation(int32 id, float x, float y) {
-	if (id < 0 || id > static_cast<int32>(_custom_battle_animations.size()) - 1)
-		return;
-
-	VideoManager->Move(x, y);
-	_custom_battle_animations[id].Draw();
-}
-
-
-int32 BattleMedia::AddCustomImage(const std::string& filename, float width,
-									float height) {
-	StillImage img;
-	if (!img.Load(filename, width, height)) {
-		PRINT_WARNING << "Custom image file could not be loaded: " << filename << endl;
-		return -1;
-	}
-
-	_custom_battle_images.push_back(img);
-
-	int32 id = _custom_battle_images.size() - 1;
-	return id;
-}
-
-void BattleMedia::DrawCustomImage(int32 id, float x, float y, Color color) {
-	if (id < 0 || id > static_cast<int32>(_custom_battle_images.size()) - 1)
-		return;
-
-	VideoManager->Move(x, y);
-	_custom_battle_images[id].Draw(color);
-}
-
-
 void BattleMedia::SetBattleMusic(const string& filename) {
 	if (battle_music.LoadAudio(filename) == false) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load music file: " << filename << endl;
 	}
 }
-
 
 
 StillImage* BattleMedia::GetCharacterActionButton(uint32 index) {
@@ -248,7 +196,6 @@ StillImage* BattleMedia::GetCharacterActionButton(uint32 index) {
 
 	return &(character_action_buttons[index]);
 }
-
 
 
 StillImage* BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type) {
@@ -384,6 +331,9 @@ void BattleMode::Reset() {
 	}
 
 	UnFreezeTimers();
+
+	// Reset potential battle scripts
+	GetScriptSupervisor().Reset();
 }
 
 
@@ -391,6 +341,7 @@ void BattleMode::Reset() {
 void BattleMode::Update() {
 	// Update potential battle animations
 	_battle_media.Update();
+	GameMode::Update();
 
 	// Pause/quit requests take priority
 	if (InputManager->QuitPress()) {
@@ -401,9 +352,6 @@ void BattleMode::Update() {
 		ModeManager->Push(new PauseMode(false));
 		return;
 	}
-
-	for (uint32 i = 0; i < _update_functions.size(); ++i)
-		ReadScriptDescriptor::RunScriptObject(_update_functions[i]);
 
 	if (_dialogue_supervisor->IsDialogueActive() == true) {
 		_dialogue_supervisor->Update();
@@ -544,14 +492,13 @@ void BattleMode::Draw() {
 	_DrawBackgroundGraphics();
 	_DrawSprites();
 	_DrawForegroundGraphics();
-
-	for (uint32 i = 0; i < _draw_effects_functions.size(); ++i)
-		ReadScriptDescriptor::RunScriptObject(_draw_effects_functions[i]);
 }
 
 void BattleMode::DrawPostEffects() {
 	// Use custom display metrics
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+
+	GetScriptSupervisor().DrawPostEffects();
 
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
 		_sequence_supervisor->DrawPostEffects();
@@ -581,18 +528,6 @@ void BattleMode::AddEnemy(GlobalEnemy* new_enemy) {
 	_enemy_actors.push_back(new_battle_enemy);
 	_enemy_party.push_back(new_battle_enemy);
 }
-
-
-
-void BattleMode::AddBattleScript(const std::string& filename) {
-	if (_state != BATTLE_STATE_INVALID) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function was called when battle mode was already initialized" << endl;
-		return;
-	}
-
-	_script_filenames.push_back(filename);
-}
-
 
 
 void BattleMode::RestartBattle() {
@@ -896,30 +831,8 @@ void BattleMode::_Initialize() {
 		_enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
 	}
 
-	// Open every possible battle script files registered and process them.
-	for (uint32 i = 0; i < _script_filenames.size(); ++i) {
-		ReadScriptDescriptor battle_script;
-		if (!battle_script.OpenFile(_script_filenames[i]))
-			continue;
-
-		if (battle_script.OpenTablespace().empty()) {
-			PRINT_ERROR << "The battle script file: " << _script_filenames[i] << "has not set a correct namespace" << endl;
-			continue;
-		}
-
-		_update_functions.push_back(battle_script.ReadFunctionPointer("Update"));
-		_draw_background_functions.push_back(battle_script.ReadFunctionPointer("DrawBackground"));
-		_draw_foreground_functions.push_back(battle_script.ReadFunctionPointer("DrawForeground"));
-		_draw_effects_functions.push_back(battle_script.ReadFunctionPointer("DrawEffects"));
-
-		// Trigger the Initialize functions in the loading order.
-		ScriptObject init_function = battle_script.ReadFunctionPointer("Initialize");
-		if (init_function.is_valid())
-			ScriptCallFunction<void>(init_function, this);
-
-		battle_script.CloseTable(); // The tablespace
-		battle_script.CloseFile();
-	}
+	// Init the script component.
+	GetScriptSupervisor().Initialize(this);
 
 	ChangeState(BATTLE_STATE_INITIAL);
 } // void BattleMode::_Initialize()
@@ -1027,9 +940,7 @@ void BattleMode::_DrawBackgroundGraphics() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
-	// Handles custom scripted draw before sprites
-	for (uint32 i = 0; i < _draw_background_functions.size(); ++i)
-		ReadScriptDescriptor::RunScriptObject(_draw_background_functions[i]);
+	GetScriptSupervisor().DrawBackground();
 }
 
 
@@ -1037,8 +948,7 @@ void BattleMode::_DrawForegroundGraphics() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
-	for (uint32 i = 0; i < _draw_foreground_functions.size(); ++i)
-	    ReadScriptDescriptor::RunScriptObject(_draw_foreground_functions[i]);
+	GetScriptSupervisor().DrawForeground();
 }
 
 
@@ -1265,7 +1175,7 @@ TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM):
 	_BM(BM) {
 
 	_screen_capture = VideoManager->CaptureScreen();
-	_screen_capture.SetDimensions(1024.0f, 769.0f);
+	_screen_capture.SetDimensions(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
 }
 
 void TransitionToBattleMode::Update() {

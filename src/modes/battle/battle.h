@@ -70,31 +70,6 @@ public:
 	**/
 	void SetBackgroundImage(const std::string& filename);
 
-	/** \brief Loads a custom lua animation file for the battle, to be drawn through scripting
-	*** \param filename The filename of the new background image to load
-	*** \return id the id used to invoke the animation through scripted draw calls.
-	**/
-	int32 AddCustomAnimation(const std::string& filename);
-
-	/** \brief Draws a custom animation.
-	*** \param custom image id, obtained through AddCustomAnimation()
-	*** \param position screen position to draw at.
-	**/
-	void DrawCustomAnimation(int32 id, float x, float y);
-
-	/** \brief Loads a custom image for the battle, to be drawn through scripting
-	*** \param filename The filename of the new background image to load
-	*** \return id the id used to invoke the animation through scripted draw calls.
-	**/
-	int32 AddCustomImage(const std::string& filename, float width, float height);
-
-	/** \brief Draws a custom image .
-	*** \param custom image id, obtained through AddCustomImage()
-	*** \param position screen position to draw at.
-	*** \param color to blend the image at.
-	**/
-	void DrawCustomImage(int32 id, float x, float y, hoa_video::Color color = hoa_video::Color::white);
-
 	/** \brief Sets the battle music to use
 	*** \param filename The full filename of the music to play
 	**/
@@ -212,13 +187,6 @@ private:
 
 	//! \brief Contains the entire set of status effect icons
 	std::vector<hoa_video::StillImage> _status_icons;
-
-	//! \brief Contains a collection of custom loaded battle images, usable to be drawn through scripting.
-	std::vector<hoa_video::StillImage> _custom_battle_images;
-
-	//! \brief Contains a collection of custom loaded battle animation, usable to be drawn through scripting.
-	std::vector<hoa_video::AnimatedImage> _custom_battle_animations;
-
 }; // class BattleMedia
 
 } // namespace private_battle
@@ -268,19 +236,6 @@ public:
 	//! \brief This method calls different draw functions depending on the battle state.
 	void DrawPostEffects();
 	//@}
-
-	/** \brief Sets the name of the script to execute during the battle
-	*** \param filename The filename of the Lua script to load
-	***
-	*** This function should only be called once before the BattleMode class object is initialized (before Reset()
-	*** is called for the first time). Calling it after the battle has been initialized will have no effect and
-	*** print out a warning.
-	**/
-	void AddBattleScript(const std::string& filename);
-
-	//! \brief Copy all the battle script filenames at once.
-    void SetBattleScripts(const std::vector<std::string>& scripts)
-         { _script_filenames = scripts; }
 
 	/** \brief Adds a new active enemy to the battle field
 	*** \param new_enemy A copy of the GlobalEnemy object to add to the battle
@@ -400,37 +355,6 @@ private:
 
 	//! \brief A pointer to the BattleMedia object created to coincide with this instance of BattleMode
 	private_battle::BattleMedia _battle_media;
-
-	//! \name Battle script data
-	//@{
-	//! \brief The name of the Lua files used to script this battle
-	std::vector<std::string> _script_filenames;
-
-	/** \brief Script functions which assists with the BattleMode#Update method
-	*** Those functions execute any code that needs to be performed on an update call. An example of
-	*** one common operation is to detect certain conditions in battle and respond appropriately, such as
-	*** triggering a dialogue.
-	**/
-	std::vector<ScriptObject> _update_functions;
-
-	/** \brief Script functions which assists with the MapMode#DrawBackground method
-	*** Those functions execute any code that needs to be performed on a draw call. This allows us battle's to
-	*** utilize custom background effects.
-	**/
-	std::vector<ScriptObject> _draw_background_functions;
-
-	/** \brief Script functions which assists with the MapMode#DrawForeground method
-	*** Those functions execute any code that needs to be performed on a draw call. This allows us battle's to
-	*** utilize custom visual effects over the characters and enemies sprites.
-	**/
-	std::vector<ScriptObject> _draw_foreground_functions;
-
-	/** \brief Script functions which assists with the MapMode#DrawEffects methods
-	*** Those functions execute any code that needs to be performed on a draw call. This allows us battle's to
-	*** utilize custom light effects just below the gui.
-	**/
-	std::vector<ScriptObject> _draw_effects_functions;
-	//@}
 
 	//! \name Battle supervisor classes
 	//@{

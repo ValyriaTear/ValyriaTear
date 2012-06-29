@@ -372,7 +372,7 @@ public:
 	void AddEnemy(uint32 enemy_id)
 		{ _enemy_ids.push_back(enemy_id); }
 
-	void AddBattleScript(const std::string& filename)
+	void AddScript(const std::string& filename)
 		{ _battle_scripts.push_back(filename); }
 
 protected:
