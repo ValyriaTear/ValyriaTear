@@ -221,7 +221,7 @@ characters[SYLVE] = {
 	portrait = "img/portraits/sylve.png",
 	full_portrait = "img/portraits/sylve_full.png",
 	battle_portraits = "img/portraits/battle/sylve_damage.png",
-	--stamina_icon = "img/icons/actors/characters/sylve.png",
+	stamina_icon = "img/icons/actors/characters/sylve.png",
 
 	battle_animations = {
 		idle = "img/sprites/battle/characters/sylve_idle.lua",

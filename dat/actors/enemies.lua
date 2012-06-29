@@ -634,7 +634,7 @@ enemies[10] = {
 --------------------------------------------------------------------------------
 enemies[11] = {
 	name = hoa_system.Translate("Yeti"),
-	--stamina_icon = "img/icons/actors/enemies/yeti.png",
+	stamina_icon = "img/icons/actors/enemies/yeti.png",
 	battle_sprites = "img/sprites/battle/enemies/yeti.png",
 	sprite_width = 128,
 	sprite_height = 128,
@@ -681,7 +681,7 @@ enemies[11] = {
 --------------------------------------------------------------------------------
 enemies[12] = {
 	name = hoa_system.Translate("Red Slime"),
-	--stamina_icon = "img/icons/actors/enemies/red_slime.png",
+	stamina_icon = "img/icons/actors/enemies/red_slime.png",
 	battle_sprites = "img/sprites/battle/enemies/red_slime.png",
 	sprite_width = 64,
 	sprite_height = 64,
@@ -728,7 +728,7 @@ enemies[12] = {
 --------------------------------------------------------------------------------
 enemies[12] = {
 	name = hoa_system.Translate("Thing"),
-	--stamina_icon = "img/icons/actors/enemies/thing.png",
+	stamina_icon = "img/icons/actors/enemies/thing.png",
 	battle_sprites = "img/sprites/battle/enemies/thing.png",
 	sprite_width = 64,
 	sprite_height = 64,
