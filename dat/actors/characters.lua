@@ -113,8 +113,6 @@ characters[CLAUDIUS] = {
 	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
 } -- characters[CLAUDIUS]
 
-
-
 characters[MARK] = {
 	name = hoa_system.Translate("Mark"),
 
