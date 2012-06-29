@@ -233,7 +233,7 @@ characters[KALYA] = {
 	--support = "dat/skills/kalya_support.lua"
     },
 
-	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
+	skills = { [1] = 5, [4] = 10001, [12] = 20001 }
 } -- characters[KALYA]
 
 characters[SYLVE] = {
@@ -344,7 +344,7 @@ characters[SYLVE] = {
 	--support = "dat/skills/sylve_support.lua"
 	},
 
-	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
+	skills = { [1] = 6 }
 } -- characters[SYLVE]
 
 characters[THANIS] = {

@@ -40,7 +40,7 @@ end
 
 skills[1] = {
 	name = hoa_system.Translate("Sword Slash"),
-	description = hoa_system.Translate("A textbook manuever that deals an effective blow."),
+	description = hoa_system.Translate("A textbook manoeuver that deals an effective blow."),
 	sp_required = 0,
 	warmup_time = 2000,
 	cooldown_time = 200,
@@ -125,6 +125,52 @@ skills[4] = {
 		else
 			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
+		end
+	end
+}
+
+-- Kalya first attack
+skills[5] = {
+	name = hoa_system.Translate("Single Shot"),
+	description = hoa_system.Translate("A simple shot using an arbalest."),
+	sp_required = 0,
+	warmup_time = 2500,
+	cooldown_time = 200,
+	action_name = "attack",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+	BattleExecute = function(user, target)
+		target_actor = target:GetActor();
+
+		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+			AudioManager:PlaySound("snd/crossbow.ogg");
+		else
+			target_actor:RegisterMiss(true);
+			AudioManager:PlaySound("snd/crossbow_miss.ogg");
+		end
+	end
+}
+
+-- Sylve first attack
+skills[6] = {
+	name = hoa_system.Translate("Dagger Slash"),
+	description = hoa_system.Translate("A simple but efficient thief's dagger attack."),
+	sp_required = 0,
+	warmup_time = 1000,
+	cooldown_time = 200,
+	action_name = "attack",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+	BattleExecute = function(user, target)
+		target_actor = target:GetActor();
+
+		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+			AudioManager:PlaySound("snd/swordslice2.wav");
+		else
+			target_actor:RegisterMiss(true);
+			AudioManager:PlaySound("snd/missed_target.wav");
 		end
 	end
 }
