@@ -198,7 +198,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 		ChangeState(ACTOR_STATE_DYING);
 		return;
 	}
-	
+
 	ChangeSpriteAnimation("hurt");
 
 	// Apply a stun to the actor timer depending on the amount of damage dealt
@@ -518,6 +518,10 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 			break;
 		case ACTOR_STATE_ACTING:
 		{
+			_action->Initialize();
+			if (_action->IsScripted())
+				return;
+
 			// Trigger the action animation
 			std::string animation_name = _action->GetActionName().empty() ? "idle" : _action->GetActionName();
 			ChangeSpriteAnimation(animation_name);
@@ -556,88 +560,94 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 void BattleCharacter::Update(bool animation_only) {
 	BattleActor::Update(animation_only);
 
-	if (!_state_paused) {
-		_animation_timer.Update();
+	if (_state_paused)
+		return;
 
-		// Update the active sprite animation
-		_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Update();
+	_animation_timer.Update();
 
-		// Only set the origin when actor are in normal battle mode,
-		// Otherwise the battle sequence manager will take care of them.
-		if (BattleMode::CurrentInstance()->GetState() == BATTLE_STATE_NORMAL) {
-			_x_location = _x_origin;
-			_y_location = _y_origin;
-		}
+	// Update the active sprite animation
+	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Update();
 
-		if (_sprite_animation_alias == "idle") {
-			// no need to do anything
-		}
-		else if (_sprite_animation_alias == "run") {
-			// no need to do anything
-		}
-		else if (_sprite_animation_alias == "dying") {
-			// no need to do anything, the change state will handle it
-		}
-		else if (_sprite_animation_alias == "dead") {
-			// no need to do anything
-		}
-		else if (_sprite_animation_alias == "revive") {
-			// no need to do anything
-		}
-		else if (_sprite_animation_alias == "victory") {
-			// no need to do anything
-		}
-		// Makes the action listed below be set back to idle once done.
-		else if (_animation_timer.IsFinished()) {
-			ChangeSpriteAnimation("idle");
-		}
-		else if (_sprite_animation_alias == "attack") {
-			uint32 dist = _state_timer.GetDuration() > 0 ?
-				120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
-				0;
-			_x_location = _x_origin + dist;
-		}
-		else if (_sprite_animation_alias == "dodge") {
-			_x_location = _x_origin - 20.0f;
-		}
-
-		// Add a shake effect when the battle actor has received damages
-		if (_shake_timer.IsRunning()) {
-			_x_location = _x_origin + RandomFloat(-6.0f, 6.0f);
-		}
-
-		// Do no further update action if we are only supposed to update animations
-		if (animation_only)
+	// Update potential scripted Battle action without hardcoded logic in that case
+	if (_action &&
+		_action->IsScripted() && _state == ACTOR_STATE_ACTING) {
+		if (!_action->Update())
 			return;
-
-		// If the character has finished to execute its battle action,
-		if (_state == ACTOR_STATE_ACTING && _state_timer.IsFinished()) {
-			// Triggers here the skill or item action
-			// and set the actor to cool down mode.
-			if (!_action->Execute())
-				// Indicate the the skill execution failed to the user.
-				RegisterMiss();
-
-			// If it was an item action, show the item used.
-			if (_action->IsItemAction()) {
-				ItemAction *item_action = static_cast<ItemAction*>(_action);
-				_indicator_supervisor->AddItemIndicator(item_action->GetItem()->GetItem());
-			}
-
+		else
 			ChangeState(ACTOR_STATE_COOL_DOWN);
+	}
+
+	// Only set the origin when actor are in normal battle mode,
+	// Otherwise the battle sequence manager will take care of them.
+	if (BattleMode::CurrentInstance()->GetState() == BATTLE_STATE_NORMAL) {
+		_x_location = _x_origin;
+		_y_location = _y_origin;
+	}
+
+	if (_sprite_animation_alias == "idle") {
+		// no need to do anything
+	}
+	else if (_sprite_animation_alias == "run") {
+		// no need to do anything
+	}
+	else if (_sprite_animation_alias == "dying") {
+		// no need to do anything, the change state will handle it
+	}
+	else if (_sprite_animation_alias == "dead") {
+		// no need to do anything
+	}
+	else if (_sprite_animation_alias == "revive") {
+		// no need to do anything
+	}
+	else if (_sprite_animation_alias == "victory") {
+		// no need to do anything
+	}
+	// Makes the action listed below be set back to idle once done.
+	else if (_animation_timer.IsFinished()) {
+		ChangeSpriteAnimation("idle");
+	}
+	else if (_sprite_animation_alias == "attack") {
+		uint32 dist = _state_timer.GetDuration() > 0 ?
+			120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
+			0;
+		_x_location = _x_origin + dist;
+	}
+	else if (_sprite_animation_alias == "dodge") {
+		_x_location = _x_origin - 20.0f;
+	}
+
+	// Add a shake effect when the battle actor has received damages
+	if (_shake_timer.IsRunning()) {
+		_x_location = _x_origin + RandomFloat(-6.0f, 6.0f);
+	}
+
+	// Do no further update action if we are only supposed to update animations
+	if (animation_only)
+		return;
+
+	// If the character has finished to execute its battle action,
+	if (_state == ACTOR_STATE_ACTING && _state_timer.IsFinished()) {
+		// Triggers here the skill or item action
+		// and set the actor to cool down mode.
+		if (!_action->Execute())
+			// Indicate the the skill execution failed to the user.
+			RegisterMiss();
+
+		// If it was an item action, show the item used.
+		if (_action->IsItemAction()) {
+			ItemAction *item_action = static_cast<ItemAction*>(_action);
+			_indicator_supervisor->AddItemIndicator(item_action->GetItem()->GetItem());
 		}
+
+		ChangeState(ACTOR_STATE_COOL_DOWN);
 	}
 }
-
-
 
 void BattleCharacter::DrawSprite() {
 	BattleActor::DrawSprite();
 
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Draw();
 } // void BattleCharacter::DrawSprite()
-
-
 
 void BattleCharacter::ChangeSpriteAnimation(const std::string& alias) {
 	_sprite_animation_alias = alias;

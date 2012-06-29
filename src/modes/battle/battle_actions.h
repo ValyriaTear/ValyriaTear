@@ -60,6 +60,10 @@ public:
 	//! \brief Returns true if this action consumes an item
 	virtual bool IsItemAction() const = 0;
 
+	// Init the battle action member and possible scripts
+	virtual bool Initialize()
+	{ return true; }
+
 	/** \brief Executes the action.
 	*** \return True if the action executed fine, or false otherwise.
 	**/
@@ -67,6 +71,14 @@ public:
 
 	///! \brief Cancel a waiting action, and restore potential involved objects if necessary.
 	virtual void Cancel() = 0;
+
+	//! \brief Updates a skill process. Returns true when when the skill has finished
+	virtual bool Update()
+	{ return true; };
+
+	//! \brief Tells whether the battle action is handled through a script
+	virtual bool IsScripted() const
+	{ return false; }
 
 	//! \brief Returns the name of the action that the player would read
 	virtual hoa_utils::ustring GetName() const = 0;
@@ -127,12 +139,21 @@ public:
 	SkillAction(BattleActor* actor, BattleTarget target, hoa_global::GlobalSkill* skill);
 
 	bool IsItemAction() const
-		{ return false; }
+	{ return false; }
+
+	bool IsScripted() const
+	{ return _is_scripted; }
+
+	// Init the battle action member and possible scripts
+	bool Initialize();
 
 	bool Execute();
 
+	//! \brief calls the corresponding skill animation file #Update method, returning it result.
+	bool Update();
+
 	void Cancel()
-		{}
+	{}
 
 	hoa_utils::ustring GetName() const;
 
@@ -148,6 +169,18 @@ public:
 private:
 	//! \brief Pointer to the skill attached to this script (for skill events only)
 	hoa_global::GlobalSkill* _skill;
+
+	/** The functions of the possible attack animation skill.
+	*** When valid, the Update function should be called until the function returns true.
+	**/
+	ScriptObject _init_function;
+	ScriptObject _update_function;
+
+	//! \brief Tells whether the battle action animation is scripted.
+	bool _is_scripted;
+
+	//! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
+	void _InitAnimationScript();
 }; // class SkillAction : public BattleAction
 
 

@@ -13,5 +13,5 @@ animation = {
 	frame_width = 128.0,
 	frame_height = 128.0,
 	-- The frames duration in milliseconds
-	frames_duration = { 75, 75, 75, 75, 75, 75, 75, 75 }
+	frames_duration = { 75, 75, 75, 200, 40, 40, 75, 150 }
 }

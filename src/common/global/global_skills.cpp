@@ -23,7 +23,7 @@ using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_script;
-
+using namespace hoa_battle;
 
 namespace hoa_global {
 
@@ -167,6 +167,26 @@ GlobalSkill& GlobalSkill::operator=(const GlobalSkill& copy) {
 		_field_execute_function = new ScriptObject(*copy._field_execute_function);
 
 	return *this;
+}
+
+bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, private_battle::BattleTarget target) {
+	if (!_battle_execute_function) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to retrieve execution function" << endl;
+		return false;
+	}
+
+	try {
+		ScriptCallFunction<void>(*_battle_execute_function, user, target);
+	}
+	catch (luabind::error err) {
+		ScriptManager->HandleLuaError(err);
+		return false;
+	}
+	catch (luabind::cast_failed e) {
+		ScriptManager->HandleCastError(e);
+		return false;
+	}
+	return true;
 }
 
 } // namespace hoa_global

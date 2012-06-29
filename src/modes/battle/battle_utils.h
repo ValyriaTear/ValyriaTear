@@ -20,6 +20,7 @@
 #define __BATTLE_UTILS_HEADER__
 
 #include "engine/system.h"
+#include "common/global/global_objects.h"
 
 namespace hoa_battle {
 

@@ -23,6 +23,7 @@
 #include "global_utils.h"
 
 #include "engine/script/script.h"
+#include "modes/battle/battle_actors.h"
 
 namespace hoa_global {
 
@@ -84,7 +85,7 @@ public:
 	uint32 GetID() const
 		{ return _id; }
 
-	uint8 GetType() const
+	GLOBAL_SKILL GetType() const
 		{ return _type; }
 
 	uint32 GetSPRequired() const
@@ -107,6 +108,9 @@ public:
 	**/
 	const ScriptObject* GetBattleExecuteFunction() const
 		{ return _battle_execute_function; }
+
+	//! Execute the corresponding skill Battle function
+	bool ExecuteBattleFunction(hoa_battle::private_battle::BattleActor *user, hoa_battle::private_battle::BattleTarget target);
 
 	/** \brief Returns a pointer to the ScriptObject of the menu execution function
 	*** \note This function will return NULL if the skill is not executable in menus

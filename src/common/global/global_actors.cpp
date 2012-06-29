@@ -1239,6 +1239,15 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		}
 	}
 
+	// Read each skill table keys and store the corresponding script filename in memory.
+	keys_vect.clear();
+	char_script.ReadTableKeys("skill_scripts", keys_vect);
+	char_script.OpenTable("skill_scripts");
+	for (uint32 i = 0; i < keys_vect.size(); ++i) {
+		_skill_scripts[keys_vect[i]] = char_script.ReadString(keys_vect[i]);
+	}
+	char_script.CloseTable();
+
 	// Construct the character's initial skill set if necessary
 	if (initial) {
 		// The skills table contains key/value pairs. The key indicate the level required to learn the skill and the value is the skill's id
@@ -1306,15 +1315,40 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
 } // GlobalCharacter::GlobalCharacter(uint32 id, bool initial)
 
-
+std::string GlobalCharacter::GetSkillScript(GLOBAL_SKILL skill_type) {
+	switch (skill_type) {
+	case GLOBAL_SKILL_ATTACK:
+	{
+		std::map<std::string, std::string>::const_iterator it = _skill_scripts.find("attack");
+		if (it != _skill_scripts.end())
+			return it->second;
+		break;
+	}
+	case GLOBAL_SKILL_DEFEND:
+	{
+		std::map<std::string, std::string>::const_iterator it = _skill_scripts.find("defence");
+		if (it != _skill_scripts.end())
+			return it->second;
+		break;
+	}
+	case GLOBAL_SKILL_SUPPORT:
+	{
+		std::map<std::string, std::string>::const_iterator it = _skill_scripts.find("support");
+		if (it != _skill_scripts.end())
+			return it->second;
+		break;
+	}
+	default:
+		break;
+	}
+	return std::string();
+}
 
 bool GlobalCharacter::AddExperiencePoints(uint32 xp) {
 	_experience_points += xp;
 	_growth._CheckForGrowth();
 	return _growth.IsGrowthDetected();
 }
-
-
 
 void GlobalCharacter::AddSkill(uint32 skill_id) {
 	if (skill_id == 0) {
