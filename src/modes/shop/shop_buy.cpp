@@ -158,19 +158,6 @@ void BuyInterface::_RefreshItemCategories() {
 	}
 
 	_number_categories = _category_names.size();
-
-	// FIXME: Grab the sprite frames for all characters in the active party
-/*	std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
-	for (uint32 i = 0; i < characters->size(); ++i) {
-		GlobalCharacter *character = characters->at(i);
-
-		if (!character || character->GetStandardSpriteFrames()->empty()) {
-			_character_sprites.push_back(new StillImage());
-			continue;
-		}
-
-		_character_sprites.push_back(characters->at(i)->GetStandardSpriteFrames()->at(0));
-	}*/
 }
 
 
