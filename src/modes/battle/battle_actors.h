@@ -221,7 +221,7 @@ public:
 	void DrawIndicators() const;
 
 	//! \brief Draws the stamina icon
-	void DrawStaminaIcon() const;
+	void DrawStaminaIcon(const hoa_video::Color& color = hoa_video::Color::white) const;
 
 	/** \brief Sets the action that the actor should execute next
 	*** \param action A pointer to the action that the actor should execute

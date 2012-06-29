@@ -259,7 +259,8 @@ BattleMode::BattleMode() :
 	_dialogue_supervisor(NULL),
 	_finish_supervisor(NULL),
 	_current_number_swaps(0),
-	_last_enemy_dying(false)
+	_last_enemy_dying(false),
+	_stamina_icon_alpha(1.0f)
 {
 	IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << endl;
 
@@ -336,7 +337,10 @@ void BattleMode::Reset() {
 	GetScriptSupervisor().Reset();
 }
 
-
+bool CompareActorsYCoord(BattleActor* one, BattleActor* other) {
+    // Compares the Y-coordinates of the actors, used to sort the actors before draw calls
+    return (one->GetYLocation() > other->GetYLocation());
+}
 
 void BattleMode::Update() {
 	// Update potential battle animations
@@ -363,6 +367,18 @@ void BattleMode::Update() {
 			}
 		}
 	}
+
+	// Update all actors animations and y-sorting
+	_battle_sprites.clear();
+	for (uint32 i = 0; i < _character_actors.size(); i++) {
+		_character_actors[i]->Update();
+		_battle_sprites.push_back(_character_actors[i]);
+	}
+	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
+		_enemy_actors[i]->Update();
+		_battle_sprites.push_back(_enemy_actors[i]);
+	}
+	std::sort(_battle_sprites.begin(), _battle_sprites.end(), CompareActorsYCoord);
 
 	// If the battle is transitioning to/from a different mode, the sequence supervisor has control
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
@@ -431,6 +447,11 @@ void BattleMode::Update() {
 	// If the battle is in either finish state, the finish supervisor has control
 	else if ((_state == BATTLE_STATE_VICTORY) || (_state == BATTLE_STATE_DEFEAT)) {
 		_finish_supervisor->Update();
+
+		// Make the heroes stamina icons fade out
+		if (_stamina_icon_alpha > 0.0f)
+		    _stamina_icon_alpha -= (float)SystemManager->GetUpdateTime() / 800.0f;
+
 		return;
 	}
 
@@ -467,14 +488,6 @@ void BattleMode::Update() {
 				_ready_queue.pop_front();
 				break;
 		}
-	}
-
-	// Update all actors
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		_character_actors[i]->Update();
-	}
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		_enemy_actors[i]->Update();
 	}
 } // void BattleMode::Update()
 
@@ -989,22 +1002,13 @@ void BattleMode::_DrawSprites() {
 		// Else this target is invalid so don't draw anything
 	}
 
-	// TODO: Draw sprites in order based on their x and y coordinates on the screen (bottom to top, then left to right)
-	// Right now they are drawn randomly, which would look bad/inconsistent if the sprites overlapped during their actions
-
-	// Draw all character sprites
+	// Draw sprites in order based on their x and y coordinates on the screen (bottom to top)
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		_character_actors[i]->DrawSprite();
-	}
-
-	// Draw all enemy sprites
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		_enemy_actors[i]->DrawSprite();
-	}
+	for (uint32 i = 0; i < _battle_sprites.size(); ++i)
+		_battle_sprites[i]->DrawSprite();
 
 	// Draw the attack point selector graphic
-	if (draw_point_selection == true) {
+	if (draw_point_selection) {
 		uint32 point = target.GetPoint();
 
 		VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
@@ -1124,7 +1128,7 @@ void BattleMode::_DrawStaminaBar() {
         if (!_character_actors[i]->IsAlive())
             continue;
 
-        _character_actors[i]->DrawStaminaIcon();
+        _character_actors[i]->DrawStaminaIcon(Color(1.0f, 1.0f, 1.0f, _stamina_icon_alpha));
 
         if (!draw_icon_selection)
             continue;

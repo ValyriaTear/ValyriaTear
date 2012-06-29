@@ -79,14 +79,6 @@ void SequenceSupervisor::Update() {
 			_battle->ChangeState(BATTLE_STATE_NORMAL);
 			break;
 	}
-
-	// Update the animations of all actors
-	for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-		_battle->_character_actors[i]->Update(true);
-	}
-	for (uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
-		_battle->_enemy_actors[i]->Update(true);
-	}
 }
 
 
@@ -328,7 +320,7 @@ void SequenceSupervisor::_DrawGUI() {
 
 	// Determine the draw order of stamina icons for all living actors
 	// A container to hold all actors that should have their stamina icons drawn
-	vector<BattleActor*> live_actors;
+	std::vector<BattleActor*> live_actors;
 
 	for (uint32 i = 0; i < _battle->_character_actors.size(); i++) {
 		if (_battle->_character_actors[i]->IsAlive())
@@ -339,7 +331,7 @@ void SequenceSupervisor::_DrawGUI() {
 			live_actors.push_back(_battle->_enemy_actors[i]);
 	}
 
-	vector<float> draw_positions(live_actors.size(), 0.0f);
+	std::vector<float> draw_positions(live_actors.size(), 0.0f);
 	for (uint32 i = 0; i < live_actors.size(); i++) {
 		switch (live_actors[i]->GetState()) {
 			case ACTOR_STATE_IDLE:
@@ -352,22 +344,10 @@ void SequenceSupervisor::_DrawGUI() {
 		}
 	}
 
-	// TODO: sort the draw positions container
-
 	// Draw the stamina bar
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 	VideoManager->Move(STAMINA_BAR_POSITION_X + _gui_position_offset, STAMINA_BAR_POSITION_Y);
 	_battle->GetMedia().stamina_meter.Draw();
-
-	// Draw all stamina icons in order
-	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-	for (uint32 i = 0; i < live_actors.size(); i++) {
-		if (live_actors[i]->IsEnemy() == false)
-			VideoManager->Move(STAMINA_BAR_POSITION_X - 25.0f + _gui_position_offset, draw_positions[i]);
-		else
-			VideoManager->Move(STAMINA_BAR_POSITION_X + 25.0f + _gui_position_offset, draw_positions[i]);
-		live_actors[i]->GetStaminaIcon().Draw();
-	}
 } // void SequenceSupervisor::_DrawGUI()
 
 } // namespace private_battle
