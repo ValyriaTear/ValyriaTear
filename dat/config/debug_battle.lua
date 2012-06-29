@@ -9,6 +9,8 @@ function BootBattleTest()
 	GlobalManager:AddCharacter(SYLVE);
 	GlobalManager:AddCharacter(THANIS);
 	GlobalManager:AddToInventory(1, 5);
+	GlobalManager:AddToInventory(1003, 1);
+ 
 
 	-- local bronann = GlobalManager:GetCharacter(1);
 	-- bronann:AddSkill(10001);
