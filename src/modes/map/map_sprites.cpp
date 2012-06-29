@@ -412,7 +412,7 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite* enemy) {
 
 	std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
 	if (!enemy_battle_scripts.empty())
-		BM->SetBattleScripts(enemy_battle_scripts);
+		BM->GetScriptSupervisor().SetScripts(enemy_battle_scripts);
 
 	TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 

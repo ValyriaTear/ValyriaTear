@@ -18,6 +18,7 @@
 
 #include "effect_supervisor.h"
 #include "engine/video/particle_manager.h"
+#include "engine/script_supervisor.h"
 
 //! All calls to the mode management code are wrapped inside this namespace
 namespace hoa_mode_manager {
@@ -74,7 +75,7 @@ public:
 	GameMode();
 	//! \param mt The mode_type to set the new GameMode object to.
 	GameMode(uint8 mt);
-	//! Destructor is virutal, since the inherited class holds all the important data.
+
 	virtual ~GameMode();
 
 	//! Updates the state of the game mode.
@@ -106,7 +107,13 @@ public:
 	ParticleManager& GetParticleManager()
 		{ return _particle_manager; }
 
+	ScriptSupervisor& GetScriptSupervisor()
+		{ return _script_supervisor; }
+
 private:
+	//! \brief Handles all the custom scripted animation for the given mode.
+	ScriptSupervisor _script_supervisor;
+
 	//! \brief Handles the work around ambient effects for the given mode.
 	EffectSupervisor _effect_supervisor;
 

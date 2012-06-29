@@ -276,6 +276,8 @@ engine/effect_supervisor.h
 engine/effect_supervisor.cpp
 engine/mode_manager.h
 engine/mode_manager.cpp
+engine/script_supervisor.h
+engine/script_supervisor.cpp
 engine/system.cpp
 engine/system.h
 engine/video/video.h

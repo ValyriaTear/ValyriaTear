@@ -20,23 +20,24 @@ local fog_time_length = 8000;
 
 function Initialize(battle_instance)
 	Battle = battle_instance;
+	Script = Battle:GetScriptSupervisor();
 	-- Load the creatures animated background
-	anim_ids[0] = Battle:GetMedia():AddCustomAnimation("img/backdrops/battle/desert_cave/desert_cave_creatures.lua");
+	anim_ids[0] = Script:AddAnimation("img/backdrops/battle/desert_cave/desert_cave_creatures.lua");
 	-- Load small eyes animations
-	anim_ids[1] = Battle:GetMedia():AddCustomAnimation("img/backdrops/battle/desert_cave/desert_cave_eyes1.lua");
-	anim_ids[2] = Battle:GetMedia():AddCustomAnimation("img/backdrops/battle/desert_cave/desert_cave_eyes2.lua");
+	anim_ids[1] = Script:AddAnimation("img/backdrops/battle/desert_cave/desert_cave_eyes1.lua");
+	anim_ids[2] = Script:AddAnimation("img/backdrops/battle/desert_cave/desert_cave_eyes2.lua");
 	-- Load the water drop animation
-	anim_ids[3] = Battle:GetMedia():AddCustomAnimation("img/backdrops/battle/desert_cave/desert_cave_waterdrop.lua");
+	anim_ids[3] = Script:AddAnimation("img/backdrops/battle/desert_cave/desert_cave_waterdrop.lua");
 	-- Load the water underground river animation
-	anim_ids[4] = Battle:GetMedia():AddCustomAnimation("img/backdrops/battle/desert_cave/desert_cave_water.lua");
+	anim_ids[4] = Script:AddAnimation("img/backdrops/battle/desert_cave/desert_cave_water.lua");
 
 	-- Construct a timer used to display the fog with a custom alpha value and position
 	fog_timer = hoa_system.SystemTimer(fog_time_length, 0);
 	-- Load a fog image used later to be displayed dynamically on the battle ground
-	fog_id = Battle:GetMedia():AddCustomImage("img/ambient/fog.png", 320.0, 256.0);
+	fog_id = Script:AddImage("img/ambient/fog.png", 320.0, 256.0);
 
 	-- Load a rock displayed in the foreground
-	rock_id = Battle:GetMedia():AddCustomImage("img/backdrops/battle/rock.png", 54.0, 54.0);
+	rock_id = Script:AddImage("img/backdrops/battle/rock.png", 54.0, 54.0);
 end
 
 
@@ -72,30 +73,27 @@ end
 function DrawBackground()
 	-- Draw background main animations
 	-- Creatures
-	Battle:GetMedia():DrawCustomAnimation(anim_ids[0], 814.0, 769.0 - 9.0);
+	Script:DrawAnimation(anim_ids[0], 814.0, 769.0 - 9.0);
 	-- Eyes 1
-	Battle:GetMedia():DrawCustomAnimation(anim_ids[1], 28.0, 769.0 - 112.0);
+	Script:DrawAnimation(anim_ids[1], 28.0, 769.0 - 112.0);
 	-- Eyes 2
-	Battle:GetMedia():DrawCustomAnimation(anim_ids[2], 503.0, 769.0 - 21.0);
+	Script:DrawAnimation(anim_ids[2], 503.0, 769.0 - 21.0);
 	-- Water drop
-	Battle:GetMedia():DrawCustomAnimation(anim_ids[3], 200.0, 769.0 - 63.0);
+	Script:DrawAnimation(anim_ids[3], 200.0, 769.0 - 63.0);
 	-- Water
-	Battle:GetMedia():DrawCustomAnimation(anim_ids[4], 235.0, 769.0 - 110.0);
+	Script:DrawAnimation(anim_ids[4], 235.0, 769.0 - 110.0);
 
 	-- Draw a rock in the background
-	Battle:GetMedia():DrawCustomImage(rock_id, 800.0, 520.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+	Script:DrawImage(rock_id, 800.0, 520.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
 end
 
 
 function DrawForeground()
 	-- Draw the rock in the foreground
-	Battle:GetMedia():DrawCustomImage(rock_id, 300.0, 150.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
-end
+	Script:DrawImage(rock_id, 300.0, 150.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
 
-
-function DrawEffects()
 	-- Draw a random fog effect
-	Battle:GetMedia():DrawCustomImage(fog_id, fog_x_position,
-										fog_y_position,
-										hoa_video.Color(1.0, 1.0, 1.0, fog_alpha));
+	Script:DrawImage(fog_id, fog_x_position,
+						fog_y_position,
+						hoa_video.Color(1.0, 1.0, 1.0, fog_alpha));
 end

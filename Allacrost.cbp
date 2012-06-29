@@ -277,6 +277,8 @@
 		<Unit filename="src\engine\mode_manager.h" />
 		<Unit filename="src\engine\effect_supervisor.cpp" />
 		<Unit filename="src\engine\effect_supervisor.h" />
+		<Unit filename="src\engine\script_supervisor.cpp" />
+		<Unit filename="src\engine\script_supervisor.h" />
 		<Unit filename="src\engine\script\script.cpp" />
 		<Unit filename="src\engine\script\script.h" />
 		<Unit filename="src\engine\script\script_modify.cpp" />
