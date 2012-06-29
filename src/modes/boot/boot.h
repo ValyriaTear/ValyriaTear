@@ -114,25 +114,6 @@ public:
 	//! \brief Draws the contents and menus of boot mode depending on the current state
 	void DrawPostEffects();
 
-	/** \brief Add a boot image available for display at boot time.
-	*** \return the image id to be used later at draw time.
-	**/
-	int32 AddImage(const std::string& filename, float width, float height);
-
-	/** \brief Add a boot animation available for display at boot time.
-	*** \return the animation id to be used later at draw time.
-	**/
-	int32 AddAnimation(const std::string& filename);
-
-	//! \brief draw an image added through AddImage at the current cursor position.
-	void DrawImage(int32 id, hoa_video::Color color = hoa_video::Color::white);
-
-	//! \brief draw an animation added through Addanimation.
-	void DrawAnimation(int32 id, float x, float y);
-
-	//! \brief Used to permit changing a draw flag at boot time.
-	void SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag);
-
 	//! \brief Tells the boot state
 	BOOT_STATE GetState() const
 		{ return _boot_state; }
@@ -159,24 +140,6 @@ private:
 
 	//! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
 	std::vector<std::string> _po_files;
-
-	//! \brief Animations that will be used at the boot screen.
-	std::vector<hoa_video::AnimatedImage> _boot_animations;
-
-	//! \brief Images that will be used at the boot screen.
-	std::vector<hoa_video::StillImage> _boot_images;
-
-	//! \brief A pointer to the Reset() lua script function used to display the boot presentation.
-	ScriptObject _reset_function;
-
-	//! \brief A pointer to the Update() lua script function used to display the boot presentation.
-	ScriptObject _update_function;
-
-	//! \brief A pointer to the Draw() lua script function used to display the boot presentation.
-	ScriptObject _draw_function;
-
-	//! \brief A pointer to the DrawPosteffects() lua script function used to display the boot presentation.
-	ScriptObject _draw_post_effects_function;
 
 	//! \brief Rendered text of the release version number
 	hoa_video::TextImage _version_text;

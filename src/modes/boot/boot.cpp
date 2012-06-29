@@ -86,6 +86,7 @@ BootMode::BootMode() :
 	date_string.append(__DATE__);
 	_version_text.SetText(UTranslate("Development Release") + MakeUnicodeString(date_string));
 
+	// Test the existence and validity of the boot script.
 	ReadScriptDescriptor boot_script;
 	if (!boot_script.OpenFile("dat/config/boot.lua")) {
 		PRINT_ERROR << "Failed to load boot data file" << endl;
@@ -99,20 +100,12 @@ BootMode::BootMode() :
 		SystemManager->ExitGame();
 		return;
     }
-
-	// Trigger the Initialize functions in the loading order.
-	ScriptObject init_function = boot_script.ReadFunctionPointer("Initialize");
-	if (init_function.is_valid())
-		ScriptCallFunction<void>(init_function, this);
-
-	// Load other script functions object
-	_update_function = boot_script.ReadFunctionPointer("Update");
-	_draw_function = boot_script.ReadFunctionPointer("Draw");
-	_draw_post_effects_function = boot_script.ReadFunctionPointer("DrawPostEffects");
-	_reset_function = boot_script.ReadFunctionPointer("Reset");
-
 	boot_script.CloseTable(); // The namespace
 	boot_script.CloseFile();
+
+	// Trigger the Initialize functions in the scene script component
+	GetScriptSupervisor().AddScript("dat/config/boot.lua");
+	GetScriptSupervisor().Initialize(this);
 
 	_options_window.Create(300.0f, 550.0f);
 	_options_window.SetPosition(360.0f, 580.0f);
@@ -157,57 +150,6 @@ BootMode::~BootMode() {
 	_overwrite_function = NULL;
 }
 
-
-int32 BootMode::AddImage(const std::string& filename, float width, float height) {
-	StillImage img;
-	if (!img.Load(filename, width, height)) {
-		PRINT_WARNING << "Boot image file could not be loaded: " << filename << endl;
-		return -1;
-	}
-
-	_boot_images.push_back(img);
-
-	int32 id = _boot_images.size() - 1;
-	return id;
-}
-
-
-int32 BootMode::AddAnimation(const std::string& filename) {
-	AnimatedImage anim;
-	if (!anim.LoadFromAnimationScript(filename)) {
-		PRINT_WARNING << "Boot animation file could not be loaded: " << filename << endl;
-		return -1;
-	}
-
-	_boot_animations.push_back(anim);
-
-	int32 id = _boot_animations.size() - 1;
-	return id;
-}
-
-
-void BootMode::DrawImage(int32 id, Color color) {
-	if (id < 0 || id > static_cast<int32>(_boot_images.size()) - 1)
-		return;
-
-	_boot_images[id].Draw(color);
-}
-
-
-void BootMode::DrawAnimation(int32 id, float x, float y) {
-	if (id < 0 || id > static_cast<int32>(_boot_animations.size()) - 1)
-		return;
-
-	VideoManager->Move(x, y);
-	_boot_animations[id].Draw();
-}
-
-
-void BootMode::SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag) {
-	VideoManager->SetDrawFlags(draw_flag, 0);
-}
-
-
 void BootMode::Reset() {
 	// Set the coordinate system that BootMode uses
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
@@ -216,16 +158,13 @@ void BootMode::Reset() {
 	GlobalManager->ClearAllData(); // Resets the game universe to a NULL state
 	_current_instance = this;
 
-	ReadScriptDescriptor::RunScriptObject(_reset_function);
+	GetScriptSupervisor().Reset();
 }
 
 
 
 void BootMode::Update() {
 	_options_window.Update(SystemManager->GetUpdateTime());
-
-	// Update background animation
-	ReadScriptDescriptor::RunScriptObject(_update_function);
 
 	// Update the game mode generic members.
 	GameMode::Update();
@@ -428,7 +367,8 @@ void BootMode::Draw() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
-	ReadScriptDescriptor::RunScriptObject(_draw_function);
+	GetScriptSupervisor().DrawBackground();
+	GetScriptSupervisor().DrawForeground();
 	VideoManager->PopState();
 }
 
@@ -436,7 +376,9 @@ void BootMode::DrawPostEffects() {
 	VideoManager->PushState();
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
-	ReadScriptDescriptor::RunScriptObject(_draw_post_effects_function);
+
+	GetScriptSupervisor().DrawPostEffects();
+
 	if (_boot_state == BOOT_STATE_MENU) {
 		_options_window.Draw();
 

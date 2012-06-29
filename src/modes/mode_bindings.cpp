@@ -60,13 +60,8 @@ void BindModeCode() {
 	[
 		class_<BootMode, hoa_mode_manager::GameMode>("BootMode")
 			.def(constructor<>())
-			.def("AddImage", &BootMode::AddImage)
-			.def("AddAnimation", &BootMode::AddAnimation)
-			.def("DrawImage", &BootMode::DrawImage)
-			.def("DrawAnimation", &BootMode::DrawAnimation)
 			.def("GetState", &BootMode::GetState)
 			.def("ChangeState", &BootMode::ChangeState)
-			.def("SetDrawFlag", &BootMode::SetDrawFlag)
 
 			// Namespace constants
 			.enum_("constants") [

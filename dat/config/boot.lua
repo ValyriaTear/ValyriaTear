@@ -14,23 +14,24 @@ local animation_timer;
 -- Init all the needed variables
 function Initialize(boot_instance)
 	Boot = boot_instance;
+	Script = Boot:GetScriptSupervisor();
 
 	boot_state = Boot:GetState();
 
     -- Load the necessary files
-	bckgrnd_id = Boot:AddImage("img/backdrops/boot/background.png", 1024, 768);
-	logo_id = Boot:AddImage("img/logos/valyria_logo_black.png", 630, 318);
-	cloud_field_id = Boot:AddImage("img/backdrops/boot/cloudfield.png", 248, 120);
-	mist_id = Boot:AddImage("img/backdrops/boot/cloudy_mist.png", 1024, 768);
-	fog_id = Boot:AddImage("img/backdrops/boot/fog.png", 1024, 768);
-	crystal_id = Boot:AddImage("img/backdrops/boot/crystal.png", 140, 220);
-	crystal_shadow_id = Boot:AddImage("img/backdrops/boot/crystal_shadow.png", 192, 168);
-	satellite_id = Boot:AddImage("img/backdrops/boot/satellite.png", 34, 34);
-	satellite_shadow_id = Boot:AddImage("img/backdrops/boot/satellite_shadow.png", 48, 32);
-	flare_id = Boot:AddImage("img/backdrops/boot/flare.png", 256, 256);
-	menu_bar_id = Boot:AddImage("img/menus/battle_bottom_menu.png", 1024, 128);
+	bckgrnd_id = Script:AddImage("img/backdrops/boot/background.png", 1024, 768);
+	logo_id = Script:AddImage("img/logos/valyria_logo_black.png", 630, 318);
+	cloud_field_id = Script:AddImage("img/backdrops/boot/cloudfield.png", 248, 120);
+	mist_id = Script:AddImage("img/backdrops/boot/cloudy_mist.png", 1024, 768);
+	fog_id = Script:AddImage("img/backdrops/boot/fog.png", 1024, 768);
+	crystal_id = Script:AddImage("img/backdrops/boot/crystal.png", 140, 220);
+	crystal_shadow_id = Script:AddImage("img/backdrops/boot/crystal_shadow.png", 192, 168);
+	satellite_id = Script:AddImage("img/backdrops/boot/satellite.png", 34, 34);
+	satellite_shadow_id = Script:AddImage("img/backdrops/boot/satellite_shadow.png", 48, 32);
+	flare_id = Script:AddImage("img/backdrops/boot/flare.png", 256, 256);
+	menu_bar_id = Script:AddImage("img/menus/battle_bottom_menu.png", 1024, 128);
 
-	-- Init the timer
+	-- Init the timer	
 	animation_timer = hoa_system.SystemTimer(7000, 0);
 end
 
@@ -248,16 +249,16 @@ end
 function DrawCloudFieldLine(x_positions, y_position)
 
 	for _,v in pairs(x_positions) do
-		VideoManager:Move(v, y_position);
-		Boot:DrawImage(cloud_field_id, hoa_video.Color(1.0, 1.0, 1.0, 0.6 * bckgrnd_alpha));
+		Script:DrawImage(cloud_field_id,
+			v, y_position,
+			hoa_video.Color(1.0, 1.0, 1.0, 0.6 * bckgrnd_alpha));
 	end
 end
 
 
-function Draw()
+function DrawBackground()
 	-- The background image
-	VideoManager:Move(0.0, 769.0);
-	Boot:DrawImage(bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha));
+	Script:DrawImage(bckgrnd_id, 0.0, 769.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha));
 
 	-- The passing clouds
 	DrawCloudFieldLine(x_positions1, y_position1);
@@ -271,71 +272,86 @@ end
 
 function DrawPostEffects()
 	-- front mist + fog
-	VideoManager:Move(0.0, 769.0);
-	Boot:DrawImage(mist_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
-	Boot:DrawImage(fog_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.8));
+	Script:DrawImage(mist_id, 0.0, 769.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
+	Script:DrawImage(fog_id, 0.0, 769.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.8));
 
 	-- satellite behind
 	if (sat1_behind) then
-		VideoManager:Move(640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0) );
-		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+		Script:DrawImage(satellite_shadow_id,
+			640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0),
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
-		VideoManager:Move(448.0 + sat1_x_position, 400.0 + sat1_decay);
-		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+		Script:DrawImage(satellite_id,
+			448.0 + sat1_x_position, 400.0 + sat1_decay,
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat2_behind) then
-		VideoManager:Move(640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0) );
-		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+		Script:DrawImage(satellite_shadow_id,
+			640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0),
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
-		VideoManager:Move(448.0 + sat2_x_position, 400.0 + sat2_decay);
-		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+		Script:DrawImage(satellite_id,
+			448.0 + sat2_x_position, 400.0 + sat2_decay,
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat3_behind) then
-		VideoManager:Move(640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0) );
-		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+		Script:DrawImage(satellite_shadow_id,
+			640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0),
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
-		VideoManager:Move(448.0 + sat3_x_position, 400.0 + sat3_decay);
-		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+		Script:DrawImage(satellite_id,
+			448.0 + sat3_x_position, 400.0 + sat3_decay,
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 
 	-- Crystal
-	VideoManager:Move(498.0 + crystal_decay, 330.0);
-	Boot:DrawImage(crystal_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
-	VideoManager:Move(448.0, 400.0 + crystal_decay);
-	Boot:DrawImage(crystal_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
-	VideoManager:Move(384.0, 440.0 + crystal_decay);
-	Boot:DrawImage(flare_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
+	Script:DrawImage(crystal_shadow_id,
+		498.0 + crystal_decay, 330.0,
+		hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+
+	Script:DrawImage(crystal_id,
+		448.0, 400.0 + crystal_decay,
+		hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+
+	Script:DrawImage(flare_id,
+		384.0, 440.0 + crystal_decay,
+		hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
 
 	-- satellite in front
 	if (sat1_behind == false) then
-		VideoManager:Move(640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0) );
-		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+		Script:DrawImage(satellite_shadow_id,
+			640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0),
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
-		VideoManager:Move(448.0 + sat1_x_position, 400.0 + sat1_decay);
-		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+		Script:DrawImage(satellite_id,
+			448.0 + sat1_x_position, 400.0 + sat1_decay,
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat2_behind == false) then
-		VideoManager:Move(640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0) );
-		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+		Script:DrawImage(satellite_shadow_id,
+			640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0),
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
-		VideoManager:Move(448.0 + sat2_x_position, 400.0 + sat2_decay);
-		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+		Script:DrawImage(satellite_id,
+			448.0 + sat2_x_position, 400.0 + sat2_decay,
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat3_behind == false) then
-		VideoManager:Move(640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0) );
-		Boot:DrawImage(satellite_shadow_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
+		Script:DrawImage(satellite_shadow_id,
+			640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0),
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
-		VideoManager:Move(448.0 + sat3_x_position, 400.0 + sat3_decay);
-		Boot:DrawImage(satellite_id, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
+		Script:DrawImage(satellite_id,
+			448.0 + sat3_x_position, 400.0 + sat3_decay,
+			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 
 	-- A dark bar used to make the menu more visible
 	if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
-		VideoManager:Move(0.0, 128.0);
-		Boot:DrawImage(menu_bar_id, hoa_video.Color(1.0, 1.0, 1.0, menu_bar_alpha));
+		Script:DrawImage(menu_bar_id, 0.0, 128.0, hoa_video.Color(1.0, 1.0, 1.0, menu_bar_alpha));
 	end
 
 	-- Logo
 	VideoManager:Move(198.0, 750.0);
-	Boot:DrawImage(logo_id, hoa_video.Color(1.0, 1.0, 1.0, logo_alpha));
+	Script:DrawImage(logo_id, 198.0, 750.0, hoa_video.Color(1.0, 1.0, 1.0, logo_alpha));
 end
