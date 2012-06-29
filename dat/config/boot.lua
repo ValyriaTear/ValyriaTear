@@ -23,14 +23,15 @@ local animation_timer;
 -- Init all the needed variables
 function Initialize(boot_instance)
     Boot = boot_instance;
+    Script = Boot:GetScriptSupervisor();
 
     boot_state = Boot:GetState();
 
     -- Load the necessary files
-    bckgrnd_id = Boot:AddImage("img/backdrops/boot_screen00.jpg", 1024, 768);
-    logo_bckgrnd_id = Boot:AddImage("img/logos/main_logo_background.png", 666, 239);
-    logo_sword_id = Boot:AddImage("img/logos/main_logo_sword.png", 130, 282);
-    logo_text_id = Boot:AddImage("img/logos/main_logo_text.png", 666, 239);
+    bckgrnd_id = Script:AddImage("img/backdrops/boot_screen00.jpg", 1024, 768);
+    logo_bckgrnd_id = Script:AddImage("img/logos/main_logo_background.png", 666, 239);
+    logo_sword_id = Script:AddImage("img/logos/main_logo_sword.png", 130, 282);
+    logo_text_id = Script:AddImage("img/logos/main_logo_text.png", 666, 239);
 
     -- Init the timer
     animation_timer = hoa_system.SystemTimer(SEQUENCE_SEVEN, 0);
@@ -160,45 +161,44 @@ end
 
 
 function DrawMenuBackground()
-    Boot:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_LEFT);
-    Boot:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_TOP);
+    Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_LEFT);
+    Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_TOP);
     VideoManager:Move(0.0, 769.0);
-    Boot:DrawImage(bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     VideoManager:Move(179.0, 767.0);
-    Boot:DrawImage(logo_bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(logo_bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     VideoManager:Move(697.0, 719.0);
-    Boot:DrawImage(logo_sword_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(logo_sword_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     VideoManager:Move(179.0, 767.0);
-    Boot:DrawImage(logo_text_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(logo_text_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
 end
 
 
 function DrawAnimation()
-    Boot:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_CENTER);
-    Boot:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_CENTER);
+    Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_CENTER);
+    Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_CENTER);
     -- After one second of black, start fade in the logo
     if (animation_timer:GetTimeExpired() > SEQUENCE_TWO
             and animation_timer:GetTimeExpired() <= SEQUENCE_SIX) then
 
         -- Draw the logo
         VideoManager:Move(512.0, 385.0);
-        Boot:DrawImage(logo_bckgrnd_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
+        Script:DrawImage(logo_bckgrnd_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
         -- The sword
         VideoManager:Move(sword_x, sword_y);
         VideoManager:Rotate(rotation);
-        Boot:DrawImage(logo_sword_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
+        Script:DrawImage(logo_sword_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
         -- Text after the sword
         VideoManager:Move(512, 385.0);
-        Boot:DrawImage(logo_text_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
+        Script:DrawImage(logo_text_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
     elseif (animation_timer:GetTimeExpired() > SEQUENCE_SIX) then
         DrawMenuBackground()
     end
-
 end
 
 local menu_started = false;
 -- Draw the animation in progress
-function Draw()
+function DrawBackground()
     if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_INTRO) then
         -- Draw the starting animation
         DrawAnimation();
