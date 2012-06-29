@@ -72,17 +72,62 @@ SkillAction::SkillAction(BattleActor* actor, BattleTarget target, GlobalSkill* s
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "skill and target reference different target types" << endl;
 	if (skill->IsExecutableInBattle() == false)
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "skill is not executable in battle" << endl;
+
+	// Check for a custom skill animation script for the given character
+	_is_scripted = false;
+	std::string animation_script_file = _actor->GetGlobalActor()->GetSkillScript(_skill->GetType());
+
+	if (animation_script_file.empty())
+		return;
+
+	ReadScriptDescriptor anim_script;
+	if (!anim_script.OpenFile(animation_script_file)) {
+		anim_script.CloseFile();
+		return;
+	}
+
+	if (anim_script.OpenTablespace().empty()) {
+		PRINT_ERROR << "No namespace found in file: " << animation_script_file << std::endl;
+		anim_script.CloseFile();
+		return;
+	}
+
+	_init_function = anim_script.ReadFunctionPointer("Initialize");
+
+	if (!_init_function.is_valid()) {
+		anim_script.CloseFile();
+		return;
+	}
+
+	// Attempt to load a possible update function.
+	_update_function = anim_script.ReadFunctionPointer("Update");
+	_is_scripted = true;
+	anim_script.CloseFile();
 }
 
+void SkillAction::_InitAnimationScript() {
+	try {
+		ScriptCallFunction<void>(_init_function, _actor, _target, _skill);
+	}
+	catch (luabind::error err) {
+		ScriptManager->HandleLuaError(err);
+		// Fall back to hard-coded mode
+		_is_scripted = false;
+	}
+	catch (luabind::cast_failed e) {
+		ScriptManager->HandleCastError(e);
+		// Fall back to hard-coded mode
+		_is_scripted = false;
+	}
+}
 
-
-bool SkillAction::Execute() {
-	// (1): First check that the actor has sufficient XP to use the skill
+bool SkillAction::Initialize() {
+	// First check that the actor has sufficient XP to use the skill
 	if (_actor->GetSkillPoints() < _skill->GetSPRequired())
 		return false;
 
-	// (2): Ensure that the skill will affect a valid target
-	if (_target.IsValid() == false) {
+	// Ensure that the skill will affect a valid target
+	if (_target.IsValid()) {
 		// TEMP: party targets should always be valid and attack points never disappear, so only the actor needs to be changed
 // 		if (IsTargetPoint(_target.GetType()) == true)
 // 			_target.SelectNextPoint();
@@ -92,18 +137,17 @@ bool SkillAction::Execute() {
 		_target.SelectNextActor(_actor);
 	}
 
-	// (3): Retrieve and call the execution function of the script
-	const ScriptObject* script_function = _skill->GetBattleExecuteFunction();
-	if (script_function == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to retrieve execution function" << endl;
-		return false;
-	}
+	if (IsScripted())
+		_InitAnimationScript();
+	return true;
+}
 
-	try {
-		ScriptCallFunction<void>(*script_function, _actor, _target); }
-	catch (luabind::error err) {
-		ScriptManager->HandleLuaError(err);
-	}
+bool SkillAction::Execute() {
+	if (IsScripted())
+		return false;
+
+	if (!_skill->ExecuteBattleFunction(_actor, _target))
+		return false;
 
 // 	if (_target->GetType() == GLOBAL_TARGET_PARTY) {
 		// TODO: loop through _target.GetParty() and apply the function
@@ -132,7 +176,26 @@ bool SkillAction::Execute() {
 	return true;
 }
 
+bool SkillAction::Update() {
+	// When there is no update function, the animation is done.
+	if (!_update_function.is_valid())
+		return true;
 
+	try {
+		return ScriptCallFunction<bool>(_update_function);
+	}
+	catch (luabind::error err) {
+		ScriptManager->HandleLuaError(err);
+		return true;
+	}
+	catch (luabind::cast_failed e) {
+		ScriptManager->HandleCastError(e);
+		return true;
+	}
+
+	// Should never happen
+	return true;
+}
 
 ustring SkillAction::GetName() const {
 	if (_skill == NULL)

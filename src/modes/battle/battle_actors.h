@@ -24,11 +24,11 @@
 #include "defs.h"
 #include "utils.h"
 
-#include "common/global/global_skills.h"
 #include "common/global/global_actors.h"
 #include "common/global/global_effects.h"
 
 #include "battle_utils.h"
+#include "engine/video/text.h"
 
 namespace hoa_battle {
 

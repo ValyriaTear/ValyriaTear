@@ -381,6 +381,8 @@ void BindCommonCode() {
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
 	[
 		class_<GlobalSkill>("GlobalSkill")
+			.def("GetID", &GlobalSkill::GetID)
+			.def("ExecuteBattleFunction", &GlobalSkill::ExecuteBattleFunction)
 	];
 
 	} // End using global namespaces

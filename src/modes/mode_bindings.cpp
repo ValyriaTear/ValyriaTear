@@ -637,6 +637,12 @@ void BindModeCode() {
 			.def("TotalMetaphysicalDefense", &BattleActor::TotalMetaphysicalDefense)
 			.def("TotalEvadeRating", &BattleActor::TotalEvadeRating)
 			.def("SetStatePaused", &BattleActor::SetStatePaused)
+			.def("GetXOrigin", &BattleActor::GetXOrigin)
+			.def("GetYOrigin", &BattleActor::GetYOrigin)
+			.def("GetXLocation", &BattleActor::GetXLocation)
+			.def("GetYLocation", &BattleActor::GetYLocation)
+			.def("SetXLocation", &BattleActor::SetXLocation)
+			.def("SetYLocation", &BattleActor::SetYLocation)
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")

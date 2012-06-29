@@ -314,6 +314,10 @@ public:
 	//! \brief An alternative GetSkill call that takes a skill pointer as an argument
 	GlobalSkill* GetSkill(const GlobalSkill* skill) const;
 
+	//! \brief Tells the animation script used when triggering a skill type for the given actor.
+	virtual std::string GetSkillScript(GLOBAL_SKILL /*skill_type*/)
+		{ return std::string(); }
+
 	// TODO: elemental and status effects not yet available in game
 // 	std::vector<GlobalElementalEffect*>& GetElementalAttackBonuses()
 // 		{ return _elemental_attack_bonuses; }
@@ -837,6 +841,8 @@ public:
 
 	std::vector<GlobalSkill*>* GetSupportSkills()
 		{ return &_support_skills; }
+
+	std::string GetSkillScript(GLOBAL_SKILL skill_type);
 	//@}
 
 	// TEMP: image accessor functions
@@ -865,6 +871,9 @@ protected:
 	std::vector<GlobalSkill*> _defense_skills;
 	std::vector<GlobalSkill*> _support_skills;
 	//@}
+
+	//! \brief the script filename used to trigger a battle character animation when dealing with a particular skill.
+	std::map<std::string, std::string> _skill_scripts;
 
 	/** \brief A manager object for monitoring the character's growth
 	*** This object contains information such as what is required for the next level experience level to be reached,

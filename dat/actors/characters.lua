@@ -28,7 +28,9 @@ characters[CLAUDIUS] = {
 		revive = "img/sprites/battle/characters/claudius_idle.lua",
 		item = "img/sprites/battle/characters/claudius_idle.lua",
 		magic_prepare = "img/sprites/battle/characters/claudius_idle.lua",
-		magic_cast = "img/sprites/battle/characters/claudius_idle.lua"
+		magic_cast = "img/sprites/battle/characters/claudius_idle.lua",
+		jump_forward = "img/sprites/battle/characters/bronann_jump_forward.lua",
+		jump_backward = "img/sprites/battle/characters/bronann_jump_backward.lua"
 	},
 
 	initial_stats = {
@@ -108,6 +110,14 @@ characters[CLAUDIUS] = {
 			agility = 1.0,
 			evade = 0.0
 		}
+	},
+
+	-- Those scripts are called according to the skill family.
+	skill_scripts = {
+	    attack = "dat/skills/battle_animations/claudius_attack.lua"
+	    --defence = "dat/skills/claudius_defence.lua",
+	    --item = "dat/skills/claudius_item.lua",
+	    --support = "dat/skills/claudius_support.lua"
 	},
 
 	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
