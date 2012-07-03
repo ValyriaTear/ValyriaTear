@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.06.05
+Last update: 2012.07.03
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -9,7 +9,14 @@ Note: The licensing of the allacrost's files is assumed to be GPLv2 or later,
 as told on the allacrost web site:
 http://www.allacrost.org
 
-dat/global.lua                              GPLv2 or later	Bertram (Completely redone it.)
+art/Tile-Mapping-System.png                              CC by SA 3.0              Jetrel (OGA)
+art/kalya-high-idle.png                                  GPLv2                     Allacrost
+art/kalya-high-unarmed-idle.png                          GPLv2                     Allacrost + Bertram
+art/kalya-attack.xcf                                     GPLv2 or CC by SA 3.0     Allacrost (Frame 2), Bertram (Frames 1, 3 and 4)
+art/kalya-idle.xcf                                       CC by SA 3.0              Bertram
+art/legend-cliffs.png                                    CC by 3.0                 Daniel Cook (lostgarden.com)
+
+dat/global.lua                                           GPLv2 or later            Bertram (Completely redone it.)
 
 dat/actors/characters.lua             GPLv2 or later	Allacrost + Bertram
 dat/actors/enemies.lua                GPLv2 or later	Allacrost + Bertram (Merged from former files: enemies_set_01.lua + enemies_set_02.lua)
@@ -42,6 +49,10 @@ dat/objects/items.lua           GPLv2 or later	Allacrost + Bertram
 dat/objects/torso_armor.lua     GPLv2 or later	Allacrost + Bertram
 dat/objects/leg_armor.lua       GPLv2 or later	Allacrost + Bertram
 dat/objects/weapons.lua         GPLv2 or later	Allacrost + Bertram
+
+dat/skills/battle_animations/bronann_attack.lua	GPLv2 or later 	Bertram
+dat/skills/battle_animations/kalya_attack.lua	GPLv2 or later 	Bertram
+dat/skills/battle_animations/thanis_attack.lua	GPLv2 or later 	Bertram
 
 dat/tilesets/building_interior_objects_01.lua   GPLv2 or later	Allacrost + Bertram
 dat/tilesets/desert_house_tileset.lua           GPLv2 or later	Allacrost + Bertram
@@ -90,13 +101,24 @@ img/effects/flame8.png							GPLv2 or later	Roos
 img/effects/outlined_circle_small.png			GPLv2 or later	Roos
 
 img/icons/actors/characters/kalya.png           GPLv2   Allacrost (was Laila icon)
+img/icons/actors/characters/sylve.png          GPLv2   Allacrost (was Raphaela icon)
 img/icons/actors/characters/thanis.png          GPLv2   Allacrost (was Claudius icon)
+
+img/icons/actors/characters/red_slime.png          GPLv2   Allacrost (From red slime enemy)
+img/icons/actors/enemies/thing.png          CC by SA 3.0   From Jetrel (OGA) (From thing enemy)
+img/icons/actors/enemies/yeti.png          CC by SA 3.0   From Jetrel (OGA) (From yeti enemy)
 
 img/logos/valyria_logo_black.png				GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.bmp						GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.ico						GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
 
 img/misc/dialog_icon.lua                GPLv2	Bertram
+
+img/misc/editor-tools/document-new.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/edit-delete.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/eye.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/go-down.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/go-up.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
 
 img/misc/lights/left_window_light.png   GPLv2	Bertram
 img/misc/lights/right_window_light.png  GPLv2	Bertram
@@ -133,6 +155,8 @@ img/sprites/battle/characters/bronann_dead.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_dodge.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_hurt.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_idle.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/bronann_jump_backward.png	CC by SA 3.0	Jetrel (OGA) + Bertram
+img/sprites/battle/characters/bronann_jump_forward.png	CC by SA 3.0	Jetrel (OGA) + Bertram
 img/sprites/battle/characters/bronann_run.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_victory.png	GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_attack.lua	GPLv2	Bertram
@@ -140,13 +164,17 @@ img/sprites/battle/characters/bronann_dead.lua		GPLv2	Bertram
 img/sprites/battle/characters/bronann_dodge.lua		GPLv2	Bertram
 img/sprites/battle/characters/bronann_hurt.lua		GPLv2	Bertram
 img/sprites/battle/characters/bronann_idle.lua		GPLv2	Bertram
+img/sprites/battle/characters/bronann_jump_backward.lua	GPLv2	Bertram
+img/sprites/battle/characters/bronann_jump_forward.lua	GPLv2	Bertram
 img/sprites/battle/characters/bronann_run.lua		GPLv2	Bertram
 img/sprites/battle/characters/bronann_victory.lua	GPLv2	Bertram
 
+img/sprites/battle/characters/kalya_attack.png		GPLv2	Bertram (For frames 1, 3 and 4. Frame 2 is from Allacrost)
 img/sprites/battle/characters/kalya_dead.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/kalya_dodge.png		GPLv2	Allacrost + Bertram
-img/sprites/battle/characters/kalya_idle.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/kalya_idle.png		CC by SA 3.0	Bertram (Completely replaced former version)
 img/sprites/battle/characters/kalya_run.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/kalya_attack.lua		GPLv2	Bertram
 img/sprites/battle/characters/kalya_dead.lua		GPLv2	Bertram
 img/sprites/battle/characters/kalya_dodge.lua		GPLv2	Bertram
 img/sprites/battle/characters/kalya_idle.lua		GPLv2	Bertram
@@ -163,11 +191,13 @@ img/sprites/battle/characters/thanis_attack.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_dead.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_idle.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_run.png		GPLv2	Allacrost + Bertram
+img/sprites/battle/characters/thanis_run_left.png		GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_victory.png	GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/thanis_attack.lua		GPLv2	Bertram
 img/sprites/battle/characters/thanis_dead.lua		GPLv2	Bertram
 img/sprites/battle/characters/thanis_idle.lua		GPLv2	Bertram
 img/sprites/battle/characters/thanis_run.lua		GPLv2	Bertram
+img/sprites/battle/characters/thanis_run_left.lua		GPLv2	Bertram
 img/sprites/battle/characters/thanis_victory.lua	GPLv2	Bertram
 
 img/sprites/battle/characters/others/soldier_attack.png		GPLv2	Allacrost + Bertram
@@ -277,6 +307,7 @@ img/tilesets/harrvah_house_interior.png             GPLv2   Allacrost + From Jet
 img/tilesets/mountain_house_interior.png            GPLv2   Allacrost + From Jetrel's mockups + Bertram
 img/tilesets/mountain_house_exterior2.png           CC by SA 3.0 Allacrost + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/tilesets/mountain_landscape.png                 GPLv2   Allacrost + From Jetrel's mockups + Bertram
+img/tilesets/wood-tileset.png                       CC by SA 3.0   From ??? (OGA) + touch-ups from Bertram : TODO: Find from which tileset the water is coming.
 img/tilesets/wood-tileset.png                       CC by SA 3.0   From Jetrel's mockups + Bertram
 img/tilesets/snow-tileset.png                       CC by SA 3.0   From Jetrel's mockups + Bertram + snow tree and ground from Yd (OGA)
 
