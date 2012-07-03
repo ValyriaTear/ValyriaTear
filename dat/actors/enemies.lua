@@ -726,10 +726,57 @@ enemies[12] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
-enemies[12] = {
+enemies[13] = {
 	name = hoa_system.Translate("Thing"),
 	stamina_icon = "img/icons/actors/enemies/thing.png",
 	battle_sprites = "img/sprites/battle/enemies/thing.png",
+	sprite_width = 64,
+	sprite_height = 64,
+
+	base_stats = {
+		hit_points = 124,
+		skill_points = 10,
+		strength = 15,
+		vigor = 0,
+		fortitude = 14,
+		protection = 4,
+		agility = 13,
+		evade = 2.0,
+		experience_points = 5,
+		drunes = 18
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Body"),
+			x_position = -13,
+			y_position = 80,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+		1004
+	},
+
+	drop_objects = {
+
+	}
+}
+
+-- Traits -----------------------------------------------------------------------
+-- HSP: high HP, med SP
+-- ATK: med phys, zero meta
+-- DEF: med phys, low meta
+-- SPD: low agi, low eva
+-- XPD: med XP, high drunes
+--------------------------------------------------------------------------------
+enemies[14] = {
+	name = hoa_system.Translate("Mushroom Zombie"),
+	stamina_icon = "img/icons/actors/enemies/mushroom_zombie.png",
+	battle_sprites = "img/sprites/battle/enemies/mushroom_zombie.png",
 	sprite_width = 64,
 	sprite_height = 64,
 
