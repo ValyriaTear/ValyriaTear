@@ -319,7 +319,7 @@ function CreateCharacters()
 	end
 
 	-- set up the position according to the previous map
-	if (GlobalManager:GetPreviousLocation() == "from_laila_house_path") then
+	if (GlobalManager:GetPreviousLocation() == "from_kalya_house_path") then
 		bronann:SetPosition(3, 11);
 		bronann:SetDirection(hoa_map.MapMode.EAST);
 	end
@@ -475,7 +475,7 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/vt_layna_south_entrance.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Laila house path", "dat/maps/vt_laila_house_path.lua", "from_village_center");
+	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/vt_kalya_house_path.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 end
 
@@ -520,7 +520,7 @@ function CheckZones()
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
-		EventManager:StartEvent("to Laila house path");
+		EventManager:StartEvent("to Kalya house path");
 	end
 end
 
