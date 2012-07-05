@@ -209,7 +209,7 @@ void DialogueSupervisor::AddEnemySpeaker(uint32 id, BattleEnemy* enemy) {
 
 
 
-void DialogueSupervisor::AddCustomSpeaker(uint32 id, string name, string portrait) {
+void DialogueSupervisor::AddCustomSpeaker(uint32 id, const std::string& name, const std::string& portrait) {
 	if (_speakers.find(id) != _speakers.end()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "speaker already existed with requsted id: " << id << endl;
 		return;
@@ -217,10 +217,13 @@ void DialogueSupervisor::AddCustomSpeaker(uint32 id, string name, string portrai
 
 	BattleSpeaker new_speaker;
 	new_speaker.name = MakeUnicodeString(name);
-	if (portrait != "") {
-		if (new_speaker.portrait.Load(portrait) == false) {
+	if (!portrait.empty()) {
+		if (!new_speaker.portrait.Load(portrait)) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid image filename for new portrait: " << portrait << endl;
 		}
+		// Make sure the portrait doesn't go over the screen edge.
+		if (new_speaker.portrait.GetHeight() > 130.0f)
+		    new_speaker.portrait.SetHeightKeepRatio(130.0f);
 	}
 
 	_speakers[id] = new_speaker;
@@ -228,7 +231,7 @@ void DialogueSupervisor::AddCustomSpeaker(uint32 id, string name, string portrai
 
 
 
-void DialogueSupervisor::ChangeSpeakerName(uint32 id, string name) {
+void DialogueSupervisor::ChangeSpeakerName(uint32 id, const std::string& name) {
 	map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
 	if (speaker == _speakers.end()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << endl;
@@ -246,7 +249,7 @@ void DialogueSupervisor::ChangeSpeakerName(uint32 id, string name) {
 
 
 
-void DialogueSupervisor::ChangeSpeakerPortrait(uint32 id, string portrait) {
+void DialogueSupervisor::ChangeSpeakerPortrait(uint32 id, const std::string& portrait) {
 	map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
 	if (speaker == _speakers.end()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << endl;

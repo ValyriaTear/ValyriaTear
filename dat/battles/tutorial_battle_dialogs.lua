@@ -121,7 +121,7 @@ function Initialize(battle_instance)
 		text = hoa_system.Translate("Thank you sir, I'm prepared now.");
 		main_dialogue:AddLine(text, 1000, 27);
 		-- [Line 27] Final line of dialogue
-		text = hoa_system.Translate("Good. Now let us quickly dispatch of this minor threat.");
+		text = hoa_system.Translate("Good. Now let us quickly dispatch this minor threat.");
 		main_dialogue:AddLine(text, 1002);
 	DialogueManager:AddDialogue(main_dialogue);
 

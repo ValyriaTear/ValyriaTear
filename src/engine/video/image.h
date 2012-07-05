@@ -405,6 +405,16 @@ public:
 	void SetHeight(float height)
 		{ _height = height; }
 
+	/** \brief Sets width of the image while keeping height ratio.
+	*** \param height Width of the image
+	**/
+	void SetWidthKeepRatio(float width);
+
+	/** \brief Sets height of the image while keeping width ratio.
+	*** \param height Height of the image
+	**/
+	void SetHeightKeepRatio(float height);
+
 	/** \brief Sets the dimensions of the image for a desired coordinate system
 	*** \param width The width of the image
 	*** \param height The height of the image

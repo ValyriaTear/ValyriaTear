@@ -1157,6 +1157,16 @@ void StillImage::DisableGrayScale() {
 	_texture = _image_texture;
 } // void StillImage::DisableGrayScale()
 
+void StillImage::SetWidthKeepRatio(float width) {
+	float img_ratio = (_width > 0.0f ? width / _width : 0.0f);
+	SetDimensions(width, _height * img_ratio);
+}
+
+void StillImage::SetHeightKeepRatio(float height) {
+	float img_ratio = (_height > 0.0f ? height / _height : 0.0f);
+	SetDimensions(_width * img_ratio, height);
+}
+
 // -----------------------------------------------------------------------------
 // AnimatedImage class
 // -----------------------------------------------------------------------------

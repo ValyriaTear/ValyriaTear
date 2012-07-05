@@ -228,19 +228,19 @@ public:
 	***
 	*** Pass in an empty string to the arguments if you do not want the speaker to have a name or portrait image.
 	**/
-	void AddCustomSpeaker(uint32 id, std::string name, std::string portrait);
+	void AddCustomSpeaker(uint32 id, const std::string& name, const std::string& portrait);
 
 	/** \brief Changes the name for a speaker that was previously added
 	*** \param id The unique ID number for the speaker to change
 	*** \param name The text to change the speaker's name to
 	**/
-	void ChangeSpeakerName(uint32 id, std::string name);
+	void ChangeSpeakerName(uint32 id, const std::string& name);
 
 	/** \brief Changes the portrait image for a speaker that was previously added
 	*** \param id The unique ID number for the speaker to change
 	*** \param portrait The filename of the image to use as the speaker's portrait
 	**/
-	void ChangeSpeakerPortrait(uint32 id, std::string portrait);
+	void ChangeSpeakerPortrait(uint32 id, const std::string& portrait);
 
 	/** \brief Prepares the dialogue manager to begin processing a new dialogue
 	*** \param dialogue_id The id number of the dialogue to begin
