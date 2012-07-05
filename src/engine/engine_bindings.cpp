@@ -77,6 +77,7 @@ void BindEngineCode() {
 			.def("AddImage", &ScriptSupervisor::AddImage)
 			.def("DrawImage", &ScriptSupervisor::DrawImage)
 			.def("DrawAnimation", &ScriptSupervisor::DrawAnimation)
+			.def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
 	];
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
