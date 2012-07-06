@@ -126,10 +126,19 @@ int32 ScriptSupervisor::AddImage(const std::string& filename, float width,
 	return id;
 }
 
-void ScriptSupervisor::DrawImage(int32 id, float x, float y, Color color) {
+void ScriptSupervisor::DrawImage(int32 id, float x, float y, const Color& color) {
 	if (id < 0 || id > static_cast<int32>(_script_images.size()) - 1)
 		return;
 
 	VideoManager->Move(x, y);
+	_script_images[id].Draw(color);
+}
+
+void ScriptSupervisor::DrawRotatedImage(int32 id, float x, float y, const Color& color, float angle) {
+	if (id < 0 || id > static_cast<int32>(_script_images.size()) - 1)
+		return;
+
+	VideoManager->Move(x, y);
+	VideoManager->Rotate(angle);
 	_script_images[id].Draw(color);
 }

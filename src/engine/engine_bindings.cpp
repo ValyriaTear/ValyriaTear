@@ -76,6 +76,7 @@ void BindEngineCode() {
 			.def("AddAnimation", &ScriptSupervisor::AddAnimation)
 			.def("AddImage", &ScriptSupervisor::AddImage)
 			.def("DrawImage", &ScriptSupervisor::DrawImage)
+			.def("DrawRotatedImage", &ScriptSupervisor::DrawRotatedImage)
 			.def("DrawAnimation", &ScriptSupervisor::DrawAnimation)
 			.def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
 	];
