@@ -91,7 +91,10 @@ public:
 	*** \param position screen position to draw at.
 	*** \param color to blend the image at.
 	**/
-	void DrawImage(int32 id, float x, float y, hoa_video::Color color = hoa_video::Color::white);
+	void DrawImage(int32 id, float x, float y, const hoa_video::Color& color = hoa_video::Color::white);
+
+	//! \brief Same than @DrawImage but with a given rotation.
+	void DrawRotatedImage(int32 id, float x, float y, const hoa_video::Color& color, float angle);
 
 	//! \brief Used to permit changing a draw flag at boot time. Use with caution.
 	void SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag);
