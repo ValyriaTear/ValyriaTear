@@ -532,6 +532,13 @@ void BindModeCode() {
 
 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
+		class_<ShopEvent, MapEvent>("ShopEvent")
+			.def(constructor<std::string>())
+			.def("AddWare", &ShopEvent::AddWare)
+	];
+
+	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	[
 		class_<MapTreasure>("MapTreasure")
 			.def(constructor<>())
 			.def("AddDrunes", &MapTreasure::AddDrunes)
