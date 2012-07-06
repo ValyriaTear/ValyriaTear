@@ -275,6 +275,66 @@ end
 function CreateObjects()
 	local object = {}
 
+	-- right part trees
+	object = _CreateObject(Map, "Tree Big1", 62, 18);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 63, 21);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 61, 25);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 59, 29);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small2", 63, 28);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 62, 35);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 58, 30);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 63, 39);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 64, 43);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 59, 46);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	
+	-- trees in the middle
+	object = _CreateObject(Map, "Tree Small2", 45, 31);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 43, 28);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 41, 40);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	
+	object = _CreateObject(Map, "Rock1", 17, 13);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+
+	-- Left part
+	object = _CreateObject(Map, "Tree Small2", 10, 12);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 4, 17);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	
+	object = _CreateObject(Map, "Tree Big1", 19, 15);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 17, 19);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small2", 15, 17);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 11, 22);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 16, 23);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Small1", 12, 25);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 14, 28);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 12, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big2", 9, 35);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Tree Big1", 6, 31);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 end
 
