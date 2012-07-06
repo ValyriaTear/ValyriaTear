@@ -29,8 +29,8 @@ characters[CLAUDIUS] = {
 		item = "img/sprites/battle/characters/claudius_idle.lua",
 		magic_prepare = "img/sprites/battle/characters/claudius_idle.lua",
 		magic_cast = "img/sprites/battle/characters/claudius_idle.lua",
-		jump_forward = "img/sprites/battle/characters/bronann_jump_forward.lua",
-		jump_backward = "img/sprites/battle/characters/bronann_jump_backward.lua"
+		jump_forward = "img/sprites/battle/characters/claudius_jump_forward.lua",
+		jump_backward = "img/sprites/battle/characters/claudius_jump_backward.lua"
 	},
 
 	initial_stats = {
