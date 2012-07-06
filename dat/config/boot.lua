@@ -180,9 +180,7 @@ function DrawAnimation()
         -- Draw the logo
         Script:DrawImage(logo_bckgrnd_id, 512.0, 385.0, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
         -- The sword
-        --VideoManager:Move(); !! Before rotating. Don't erase rotation!!
-        VideoManager:Rotate(rotation);
-        Script:DrawImage(logo_sword_id, sword_x, sword_y, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
+        Script:DrawRotatedImage(logo_sword_id, sword_x, sword_y, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0), rotation);
         -- Text after the sword
         Script:DrawImage(logo_text_id, 512, 385.0, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
     elseif (animation_timer:GetTimeExpired() > SEQUENCE_SIX) then
