@@ -1275,7 +1275,7 @@ function CreateEvents()
 		event = hoa_map.BattleEncounterEvent("start boss battle", 91);
 		event:SetMusic("mus/The_Creature_Awakens.ogg");
 		event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
-		event:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+		event:AddScript("dat/battles/desert_cave_battle_anim.lua");
 		event:AddEventLinkAtEnd("switch to context 03");
 		EventManager:RegisterEvent(event);
 
