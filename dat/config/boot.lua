@@ -163,14 +163,10 @@ end
 function DrawMenuBackground()
     Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_LEFT);
     Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_TOP);
-    VideoManager:Move(0.0, 769.0);
-    Script:DrawImage(bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
-    VideoManager:Move(179.0, 767.0);
-    Script:DrawImage(logo_bckgrnd_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
-    VideoManager:Move(697.0, 719.0);
-    Script:DrawImage(logo_sword_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
-    VideoManager:Move(179.0, 767.0);
-    Script:DrawImage(logo_text_id, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(bckgrnd_id, 0.0, 769.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(logo_bckgrnd_id, 179.0, 767.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(logo_sword_id, 697.0, 719.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+    Script:DrawImage(logo_text_id, 179.0, 767.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
 end
 
 
@@ -182,15 +178,13 @@ function DrawAnimation()
             and animation_timer:GetTimeExpired() <= SEQUENCE_SIX) then
 
         -- Draw the logo
-        VideoManager:Move(512.0, 385.0);
-        Script:DrawImage(logo_bckgrnd_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
+        Script:DrawImage(logo_bckgrnd_id, 512.0, 385.0, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
         -- The sword
-        VideoManager:Move(sword_x, sword_y);
+        --VideoManager:Move(); !! Before rotating. Don't erase rotation!!
         VideoManager:Rotate(rotation);
-        Script:DrawImage(logo_sword_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
+        Script:DrawImage(logo_sword_id, sword_x, sword_y, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
         -- Text after the sword
-        VideoManager:Move(512, 385.0);
-        Script:DrawImage(logo_text_id, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
+        Script:DrawImage(logo_text_id, 512, 385.0, hoa_video.Color(logo_alpha, logo_alpha, logo_alpha, 1.0));
     elseif (animation_timer:GetTimeExpired() > SEQUENCE_SIX) then
         DrawMenuBackground()
     end
