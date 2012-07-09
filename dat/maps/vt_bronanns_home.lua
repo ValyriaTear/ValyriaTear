@@ -409,7 +409,7 @@ function CreateNPCs()
 	EventManager:RegisterEvent(event);
 
 	-- Set the opening dialogue as done
-	event = hoa_map.ScriptedEvent("SetQuest1DialogueDone", "MotherQuest1StartDialogueDone", "");
+	event = hoa_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1MotherStartDialogueDone", "");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.ScriptedSpriteEvent("SetCameraOnBronann", bronann, "Map_SetCamera", "");
@@ -481,7 +481,7 @@ end
 function CheckZones()
 	if (home_exit_zone:IsCameraEntering() == true) then
 		-- Prevent Bronann from exiting until his mother talked to him
-		if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
+		if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
 			Map:PushState(hoa_map.MapMode.STATE_SCENE);
 			EventManager:StartEvent("Start Quest1");
 		else
@@ -498,7 +498,7 @@ end
 function UpdateMotherDialogue()
 	bronanns_mother:ClearDialogueReferences();
 
-	if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
+	if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
 		-- Begining dialogue
 		local dialogue = hoa_map.SpriteDialogue();
 		local text = hoa_system.Translate("Hi Son, did you have a nightmare this night also?");
@@ -509,7 +509,7 @@ function UpdateMotherDialogue()
 		dialogue:AddLine(text, bronanns_mother);
 		DialogueManager:AddDialogue(dialogue);
 		bronanns_mother:AddDialogueReference(dialogue);
-	elseif (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == true) then
+	elseif (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == true) then
 		-- 1st quest dialogue
 		local dialogue = hoa_map.SpriteDialogue();
 		local text = hoa_system.Translate("Could you go and buy some barley meal for us three?");
@@ -538,9 +538,9 @@ map_functions = {
 		Map:PopState();
 	end,
 
-	MotherQuest1StartDialogueDone = function()
-		if (GlobalEvents:DoesEventExist("mother_quest1_start_dialogue_done") == false) then
-			GlobalEvents:AddNewEvent("mother_quest1_start_dialogue_done", 1);
+	Quest1MotherStartDialogueDone = function()
+		if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
+			GlobalEvents:AddNewEvent("quest1_mother_start_dialogue_done", 1);
 
 			UpdateMotherDialogue();
 		end

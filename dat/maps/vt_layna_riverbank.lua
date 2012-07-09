@@ -423,48 +423,20 @@ end
 
 function CreateObjects()
 	local object = {}
---[[
-	object = _CreateObject(Map, "Tree Big2", 22, 78);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 22, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 9, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 65, 18);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 74, 20);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 67, 32);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 80, 36);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 92, 22);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 98, 24);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 79, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Rock1", 3, 64);
+    -- trees around the house
+	object = _CreateObject(Map, "Tree Big2", 92, 10);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 33, 12);
+	object = _CreateObject(Map, "Tree Small1", 82, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Rock2", 29, 16);
+   	object = _CreateObject(Map, "Tree Big1", 75, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 34);
+    object = _CreateObject(Map, "Tree Big2", 72, 35);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 34);
+    object = _CreateObject(Map, "Tree Big1", 74, 48);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 34);
+    object = _CreateObject(Map, "Tree Big2", 76, 50);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 42);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 42);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 42);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-]]--
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -481,7 +453,7 @@ end
 
 function CreateZones()
 	-- N.B.: left, right, top, bottom
-	village_center_zone = hoa_map.CameraZone(95, 99, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	village_center_zone = hoa_map.CameraZone(89, 104, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(village_center_zone);
 
 	to_village_entrance_zone = hoa_map.CameraZone(118, 119, 10, 27, hoa_map.MapMode.CONTEXT_01);

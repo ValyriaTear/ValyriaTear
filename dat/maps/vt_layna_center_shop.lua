@@ -216,6 +216,9 @@ layers[3][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 -- The main character handlers
 local bronann = {};
 
+-- NPCs
+local flora = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -256,41 +259,16 @@ function CreateCharacters()
 end
 
 function CreateNPCs()
-	local event = {}
-	local dialogue = {}
-	local text = {}
-
 	npc = _CreateNPCSprite(Map, "Woman1", "Flora", 39, 20.6);
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(npc);
 
 	-- The npc is too far away from the Hero so we make an invisible doppelgänger
-	npc = _CreateNPCSprite(Map, "Woman1", "Flora", 39, 22);
-	Map:AddGroundObject(npc);
-	npc:SetVisible(false);
-	npc:SetNoCollision(true);
-	dialogue = hoa_map.SpriteDialogue();
-	local event_group = GlobalManager:GetEventGroup("dat_maps_vt_bronanns_home_lua");
-	if (event_group ~= nil and event_group:DoesEventExist("mother_quest1_start_dialogue_done") == true) then
-		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
-		dialogue:AddLine(text, npc);
-		text = hoa_system.Translate("Hi Flora! Do you have barley meal left?");
-		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Oh sorry, our 'great' poet came earlier and took the last ones.");
-		dialogue:AddLine(text, npc);
-		text = hoa_system.Translate("Times are becoming harder now, we've got less food than before...");
-		dialogue:AddLine(text, npc);
-		text = hoa_system.Translate("? ... It's the first time I see you in such a worry.");
-		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Nevermind... Don't worry for me. Just find him and he should give you some, ok?");
-		dialogue:AddLine(text, npc);
-	else
-		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
-		dialogue:AddLineEvent(text, npc, "layna: open shop");
-	end
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
-
+	flora = _CreateNPCSprite(Map, "Woman1", "Flora", 39, 22);
+	Map:AddGroundObject(flora);
+	flora:SetVisible(false);
+	flora:SetNoCollision(true);
+    _UpdateFloraDialogue();
 end
 
 function CreateObjects()
@@ -330,6 +308,9 @@ function CreateEvents()
 	event = hoa_map.ShopEvent("layna: open shop");
 	event:AddWare(1, 10);
 	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
+	EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -345,7 +326,51 @@ function CheckZones()
 	end
 end
 
+-- Custom inner map functions
+function _UpdateFloraDialogue()
+	local dialogue = {}
+	local text = {}
+
+    flora:ClearDialogueReferences();
+	dialogue = hoa_map.SpriteDialogue();
+	local bronanns_home_event_group = GlobalManager:GetEventGroup("dat_maps_vt_bronanns_home_lua");
+    -- Just repeat the last dialogue sentence, when the dialogue is already done.
+    if (GlobalEvents:DoesEventExist("quest1_flora_dialogue_done") == true) then
+        text = hoa_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
+		dialogue:AddLine(text, flora);
+	elseif (bronanns_home_event_group ~= nil and bronanns_home_event_group:DoesEventExist("quest1_mother_start_dialogue_done") == true) then
+		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
+		dialogue:AddLine(text, flora);
+		text = hoa_system.Translate("Hi Flora! Do you have some barley meal left?");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Oh sorry, our 'great' poet came earlier and took all of it.");
+		dialogue:AddLine(text, flora);
+		text = hoa_system.Translate("Times are becoming harder now, we've got less food than before...");
+		dialogue:AddLine(text, flora);
+		text = hoa_system.Translate("? ... It's the first time I see you in such a worry.");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Nevermind... Don't worry for me. Just find him and he should give you some, ok?");
+        -- Set the quest dialogue as seen by the player.
+		dialogue:AddLineEvent(text, flora, "SetQuest1DialogueDone");
+	else
+		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
+		dialogue:AddLineEvent(text, flora, "layna: open shop");
+	end
+	DialogueManager:AddDialogue(dialogue);
+	flora:AddDialogueReference(dialogue);
+end
+
 -- Map Custom functions
 if (map_functions == nil) then
 	map_functions = {}
 end
+
+map_functions = {
+
+	Quest1FloraDialogueDone = function()
+		if (GlobalEvents:DoesEventExist("quest1_flora_dialogue_done") == false) then
+			GlobalEvents:AddNewEvent("quest1_flora_dialogue_done", 1);
+            _UpdateFloraDialogue();
+		end
+	end
+}

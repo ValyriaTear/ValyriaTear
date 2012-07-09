@@ -245,6 +245,7 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
 local bronann = {};
+local orlinn = {};
 
 -- the main map loading code
 function Load(m)
@@ -293,57 +294,18 @@ function CreateCharacters()
 end
 
 function CreateNPCs()
-	local npc = {}
-	local text = {}
-	local dialogue = {}
-	local event = {}
-
+    orlinn = _CreateSprite(Map, "Orlinn", 29, 22);
+    orlinn:SetDirection(hoa_map.MapMode.EAST);
+    orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+	Map:AddGroundObject(orlinn);
+    _UpdateOrlinnState();
 end
 
 function CreateObjects()
 	local object = {}
---[[
-	object = _CreateObject(Map, "Tree Big2", 22, 78);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 22, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 9, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 65, 18);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 74, 20);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 67, 32);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 80, 36);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 92, 22);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 98, 24);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 79, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Rock1", 3, 64);
+	object = _CreateObject(Map, "Tree Big1", 42, 10);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 33, 12);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Rock2", 29, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 34);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 34);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 34);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 42);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 42);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 42);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-]]--
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -356,6 +318,18 @@ function CreateEvents()
 
 	event = hoa_map.MapTransitionEvent("to Village riverbank", "dat/maps/vt_layna_riverbank.lua", "from_village_south");
 	EventManager:RegisterEvent(event);
+
+    -- Orlinn events
+    event = hoa_map.ScriptedEvent("Quest1: Start Orlinn Hide n Seek2", "Quest1_Orlinn_Start_Hide_N_Seek2", "");
+    event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest1: Make Orlinn run", orlinn, 30, 2, true);
+    event:AddEventLinkAtEnd("Quest1: Make Orlinn disappear");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+    EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -383,9 +357,73 @@ function CheckZones()
 	end
 end
 
+-- Custom inner map functions
+
+function _UpdateOrlinnState()
+	local text = {}
+	local dialogue = {}
+	local event = {}
+
+    event = hoa_map.PathMoveSpriteEvent("Hide n Seek1: Orlinn goes right", orlinn, 31, 22, false);
+	event:AddEventLinkAtEnd("Hide n Seek1: Orlinn looks south");
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Hide n Seek1: Orlinn looks south", orlinn, hoa_map.MapMode.SOUTH);
+	event:AddEventLinkAtEnd("Hide n Seek1: Orlinn goes left", 800);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Hide n Seek1: Orlinn goes left", orlinn, 29, 22, false);
+	event:AddEventLinkAtEnd("Hide n Seek1: Orlinn goes right", 8000); -- finish the event loop.
+	EventManager:RegisterEvent(event);
+
+    local layna_center_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_center_lua");
+
+    if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
+        -- Orlinn shouldn't be here, so we make him invisible
+        orlinn:SetNoCollision(true);
+        orlinn:SetVisible(false);
+        return;
+	elseif (layna_center_event_group ~= nil and layna_center_event_group:DoesEventExist("quest1_orlinn_dialogue1_done") == true) then
+        -- Start the hide and seek 1 position when it has to happen
+        EventManager:StartEvent("Hide n Seek1: Orlinn goes right", 8000);
+
+        -- Set up the dialogue.
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("Yiek!!!");
+        dialogue:AddLineEvent(text, orlinn, "Quest1: Start Orlinn Hide n Seek2");
+        DialogueManager:AddDialogue(dialogue);
+        orlinn:AddDialogueReference(dialogue);
+        return;
+    end
+
+    -- Orlinn default behaviour
+    orlinn:SetNoCollision(true);
+    orlinn:SetVisible(false);
+end
+
 
 -- Map Custom functions
 if (map_functions == nil) then
 	map_functions = {}
 end
+
+map_functions = {
+
+    Quest1_Orlinn_Start_Hide_N_Seek2 = function()
+        orlinn:SetMoving(false); -- in case he's moving
+        orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+        orlinn:ClearDialogueReferences();
+		EventManager:TerminateAllEvents(orlinn);
+
+        -- Updates Orlinn's state
+        if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == false) then
+			GlobalEvents:AddNewEvent("quest1_orlinn_hide_n_seek1_done", 1);
+        end
+    end,
+
+    MakeInvisible = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetVisible(false);
+            sprite:SetNoCollision(true);
+        end
+    end
+}
 

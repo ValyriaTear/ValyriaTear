@@ -269,6 +269,10 @@ layers[2][39] = { -1, -1, -1, -1, -1, -1, 40, 41, 20, 21, -1, -1, -1, -1, -1, -1
 local bronann = {};
 local kalya = {};
 
+-- Main npcs
+local orlinn = {};
+local georges = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -305,7 +309,7 @@ function CreateCharacters()
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
-	
+
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
 		bronann:SetPosition(30, 77);
@@ -351,17 +355,10 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	kalya:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Orlinn", 40, 18);
-	Map:AddGroundObject(npc);
-	event = hoa_map.RandomMoveSpriteEvent("Orlinn random move", npc, 4000, 2000);
-	event:AddEventLinkAtEnd("Orlinn random move", 3000); -- Loop on itself
-	EventManager:RegisterEvent(event);
-	EventManager:StartEvent("Orlinn random move");
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Heya Bro! Wanna play with me?");
-	dialogue:AddLine(text, npc);
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
+	orlinn = _CreateSprite(Map, "Orlinn", 40, 18);
+	Map:AddGroundObject(orlinn);
+	-- Setup Orlinn's state and dialogue depending on the story current context
+    _UpdateOrlinnState();
 
 	npc = _CreateNPCSprite(Map, "Girl1", "Olivia", 50, 55);
 	Map:AddGroundObject(npc);
@@ -411,14 +408,11 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
-	Map:AddGroundObject(npc);
-	npc:SetDirection(hoa_map.MapMode.WEST);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
-	dialogue:AddLine(text, npc);
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
+	georges = _CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
+	Map:AddGroundObject(georges);
+	georges:SetDirection(hoa_map.MapMode.WEST);
+	_UpdateGeorgesDialogue(georges);
+
 end
 
 function CreateObjects()
@@ -486,13 +480,30 @@ function CreateEvents()
 
 	event = hoa_map.MapTransitionEvent("to Flora's Shop", "dat/maps/vt_layna_center_shop.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
+
+    -- Quest events
+    -- Georges
+    event = hoa_map.ScriptedEvent("Quest1: GeorgesDialogueDone", "Quest1GeorgesDialogueDone", "");
+	EventManager:RegisterEvent(event);
+
+    -- Orlinn
+    event = hoa_map.ScriptedEvent("Quest1: Make Orlinn run and hide", "Quest1OrlinnRunAndHide", "");
+    event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest1: Make Orlinn run", orlinn, 30, 79, true);
+    event:AddEventLinkAtEnd("Quest1: Make Orlinn disappear");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+    EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
 	-- N.B.: left, right, top, bottom
 	bronanns_home_entrance_zone = hoa_map.CameraZone(10, 13, 60, 61, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(bronanns_home_entrance_zone);
-	
+
 	to_riverbank_zone = hoa_map.CameraZone(20, 33, 78, 79, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_riverbank_zone);
 
@@ -527,7 +538,7 @@ function CheckZones()
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village south entrance");
 	end
-	
+
 	if (to_kalya_house_path_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
@@ -543,8 +554,140 @@ function CheckZones()
 	end
 end
 
+-- Inner custom functions
+
+-- Updates Georges dialogue depending on how far is the story going.
+function _UpdateGeorgesDialogue()
+	local text = {}
+	local dialogue = {}
+
+    georges:ClearDialogueReferences();
+	dialogue = hoa_map.SpriteDialogue();
+	local shop_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_center_shop_lua");
+    -- Once talked to him after the shop conversation, just put the end of the dialogue
+    if (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+        text = hoa_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("(Sigh...) Hmm, ok.");
+        dialogue:AddLine(text, bronann);
+	elseif (shop_event_group ~= nil and shop_event_group:DoesEventExist("quest1_flora_dialogue_done") == true) then
+        text = hoa_system.Translate("Hi Georges. Erm, I'm coming from the shop and I ...");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Can you hear this?");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Erm, ... Well, I don't hear anything special...");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("That's the point! Can't you hear the magnificient sound of nature, so invisible to our used hears.");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Huh, please Georges, I wouldn't like to run away like the last time...");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("... The incredible and amazing, I could even say, stunning feel in in the wind...");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Georges, I simply wanted to ask you whether you had some barley meal left!");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Ah I see, well unfortunately, I'm so much sad for the loss I just had, I can't tell you that with the right words.");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Huh?");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("(Sigh...) Hmm, ok.");
+        dialogue:AddLineEvent(text, bronann, "Quest1: GeorgesDialogueDone");
+    else
+        text = hoa_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
+        dialogue:AddLine(text, georges);
+    end
+	DialogueManager:AddDialogue(dialogue);
+	georges:AddDialogueReference(dialogue);
+
+end
+
+-- Updates Orlinn's dialogue and state depending on how far is the story going.
+function _UpdateOrlinnState()
+	local text = {};
+	local dialogue = {};
+    local event = {};
+
+    orlinn:ClearDialogueReferences();
+    -- Atm, no dialogue ref after hide and seek 1 dialogue.
+    if (GlobalEvents:DoesEventExist("quest1_orlinn_dialogue1_done") == true) then
+        -- At that time, Orlinn isn't in the village center anymore.
+        orlinn:SetVisible(false);
+        orlinn:SetNoCollision(true);
+        return;
+    end
+
+    dialogue = hoa_map.SpriteDialogue();
+    if (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+        text = hoa_system.Translate("Hi hi hi!!");
+        dialogue:AddLine(text, orlinn);
+        text = hoa_system.Translate("What makes you laugh, Orlinn?");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("You'll never find it!");
+        dialogue:AddLine(text, orlinn);
+        text = hoa_system.Translate("Huh? Wait! Are you talking about Georges' lost pen?");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Hi hi hi! Yes!");
+        dialogue:AddLine(text, orlinn);
+        text = hoa_system.Translate("Please tell me more! Have you found it?");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Maybe yes, maybe no!");
+        dialogue:AddLine(text, orlinn);
+        text = hoa_system.Translate("Oh no, please Orlinn, I need it!");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Sure, I'll help you but only if you can catch me!");
+        dialogue:AddLineEvent(text, orlinn, "Quest1: Make Orlinn run and hide");
+    else
+        text = hoa_system.Translate("Heya Bro! Wanna play with me?");
+        dialogue:AddLine(text, orlinn);
+    end
+	DialogueManager:AddDialogue(dialogue);
+	orlinn:AddDialogueReference(dialogue);
+
+    -- Default behaviour
+    event = hoa_map.RandomMoveSpriteEvent("Orlinn random move", orlinn, 4000, 2000);
+	event:AddEventLinkAtEnd("Orlinn random move", 3000); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Orlinn random move");
+end
+
 
 -- Map Custom functions
 if (map_functions == nil) then
 	map_functions = {}
 end
+
+map_functions = {
+
+	Quest1GeorgesDialogueDone = function()
+		if (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == false) then
+			GlobalEvents:AddNewEvent("quest1_georges_dialogue_done", 1);
+            -- Makes Orlinn aware that Bronann has talked to Georges.
+            _UpdateOrlinnState();
+            _UpdateGeorgesDialogue();
+		end
+	end,
+
+    Quest1OrlinnRunAndHide = function()
+        orlinn:SetMoving(false); -- in case he's moving
+        orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+        orlinn:ClearDialogueReferences();
+		EventManager:TerminateAllEvents(orlinn);
+
+        -- Updates Orlinn's state
+        if (GlobalEvents:DoesEventExist("quest1_orlinn_dialogue1_done") == false) then
+			GlobalEvents:AddNewEvent("quest1_orlinn_dialogue1_done", 1);
+        end
+    end,
+
+    MakeInvisible = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetVisible(false);
+            sprite:SetNoCollision(true);
+        end
+    end
+}
