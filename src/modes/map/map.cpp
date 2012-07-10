@@ -960,6 +960,26 @@ void MapMode::_DrawGUI() {
 	// Draw the treasure menu if necessary
 	if (_treasure_supervisor->IsActive())
 		_treasure_supervisor->Draw();
+
+	// Draw the debug info
+	if (!VideoManager->DebugInfoOn())
+		return;
+	// Camera map coordinates
+	VirtualSprite* cam = GetCamera();
+	if (!cam)
+		return;
+
+	VideoManager->PushState();
+	VideoManager->SetStandardCoordSys();
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
+
+	float x_pos = cam->GetXPosition();
+	float y_pos = cam->GetYPosition();
+	std::ostringstream coord_txt;
+	coord_txt << "Camera position: " << x_pos << ", " << y_pos;
+	VideoManager->Move(10.0f, 10.0f);
+	VideoManager->Text()->Draw(coord_txt.str(), TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+	VideoManager->PopState();
 } // void MapMode::_DrawGUI()
 
 } // namespace hoa_map
