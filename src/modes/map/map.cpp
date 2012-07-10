@@ -817,6 +817,7 @@ void MapMode::_DrawMapLayers() {
 
 	if (VideoManager->DebugInfoOn()) {
 		_object_supervisor->DrawCollisionArea(&_map_frame);
+		_object_supervisor->_DrawMapZones();
 		_DrawDebugGrid();
 	}
 } // void MapMode::_DrawMapLayers()

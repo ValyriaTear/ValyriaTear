@@ -128,6 +128,9 @@ public:
 		{ _active_contexts = contexts; }
 	//@}
 
+	//! \brief Draws the map zone on screen for debugging purpose
+	void Draw();
+
 protected:
 	//! \brief A bit mask used to determine on which contexts this zone is valid
 	MAP_CONTEXT _active_contexts;
@@ -140,6 +143,9 @@ protected:
 	*** \param y A reference where to store the value of the x position
 	**/
 	void _RandomPosition(float& x, float& y);
+
+	//! \brief Tells whether a section is on screen and place the drawing cursor in that case.
+	bool _ShouldDraw(const ZoneSection& section);
 }; // class MapZone
 
 

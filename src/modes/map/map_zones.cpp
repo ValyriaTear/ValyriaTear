@@ -38,15 +38,11 @@ MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 botto
 	AddSection(left_col, right_col, top_row, bottom_row);
 }
 
-
-
 MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts) :
 	_active_contexts(contexts)
 {
 	AddSection(left_col, right_col, top_row, bottom_row);
 }
-
-
 
 void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) {
 	if (left_col >= right_col) {
@@ -62,8 +58,6 @@ void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint
 	_sections.push_back(ZoneSection(left_col, right_col, top_row, bottom_row));
 }
 
-
-
 bool MapZone::IsInsideZone(float pos_x, float pos_y) const {
 	uint16 x = (uint16)GetFloatInteger(pos_x);
 	uint16 y = (uint16)GetFloatInteger(pos_y);
@@ -78,7 +72,15 @@ bool MapZone::IsInsideZone(float pos_x, float pos_y) const {
 	return false;
 }
 
-
+void MapZone::Draw() {
+	// Verify each section of the zone and check if the position is within the section bounds.
+	for (vector<ZoneSection>::const_iterator i = _sections.begin(); i != _sections.end(); ++i) {
+		if (_ShouldDraw(*i)) {
+			hoa_video::VideoManager->DrawRectangle(i->right_col - i->left_col, i->bottom_row - i->top_row,
+													hoa_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
+		}
+	}
+}
 
 void MapZone::_RandomPosition(float& x, float& y) {
 	// Select a random ZoneSection
@@ -87,6 +89,45 @@ void MapZone::_RandomPosition(float& x, float& y) {
 	// Select a random x and y position inside that section
 	x = (float)RandomBoundedInteger(_sections[i].left_col, _sections[i].right_col);
 	y = (float)RandomBoundedInteger(_sections[i].top_row, _sections[i].bottom_row);
+}
+
+bool MapZone::_ShouldDraw(const ZoneSection& section) {
+	MapMode *map = MapMode::CurrentInstance();
+	// If the context is not in one of the active context, don't display it.
+	if (!(_active_contexts & map->GetCurrentContext()))
+		return false;
+
+	MapRectangle rect;
+	rect.top = section.top_row;
+	rect.bottom = section.bottom_row;
+	rect.left = section.left_col;
+	rect.right = section.right_col;
+
+	// Determine if the sprite is off-screen and if so, don't draw it.
+	if (!MapRectangle::CheckIntersection(rect, map->GetMapFrame().screen_edges))
+		return false;
+
+	// Determine the center position coordinates for the camera
+	float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
+	float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
+	float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the object, rounded to perfectly align on a pixel boundary
+
+
+	// TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
+	// change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
+	// However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
+	x_pos = rect.left + (rect.right - rect.left) / 2;
+	y_pos = rect.top + (rect.bottom - rect.top);
+	hoa_video::VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
+	rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(x_pos), x_pixel_length);
+	rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(y_pos), y_pixel_length);
+	x_pos = static_cast<float>(GetFloatInteger(x_pos)) + rounded_x_offset;
+	y_pos = static_cast<float>(GetFloatInteger(y_pos)) + rounded_y_offset;
+
+	// Move the drawing cursor to the appropriate coordinates for this sprite
+	hoa_video::VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
+							y_pos - map->GetMapFrame().screen_edges.top);
+	return true;
 }
 
 // -----------------------------------------------------------------------------

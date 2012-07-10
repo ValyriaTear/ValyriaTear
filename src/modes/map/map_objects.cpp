@@ -538,13 +538,11 @@ void ObjectSupervisor::Update() {
 	// TODO: examine all sprites for movement and context change, then check all resident zones to see if the sprite has entered
 }
 
-
 void ObjectSupervisor::DrawSavePoints() {
 	for (uint32 i = 0; i < _save_points.size(); ++i) {
 		_save_points[i]->Draw();
 	}
 }
-
 
 void ObjectSupervisor::DrawGroundObjects(const bool second_pass) {
 	for (uint32 i = 0; i < _ground_objects.size(); i++) {
@@ -554,13 +552,11 @@ void ObjectSupervisor::DrawGroundObjects(const bool second_pass) {
 	}
 }
 
-
 void ObjectSupervisor::DrawPassObjects() {
 	for (uint32 i = 0; i < _pass_objects.size(); i++) {
 		_pass_objects[i]->Draw();
 	}
 }
-
 
 void ObjectSupervisor::DrawSkyObjects() {
 	for (uint32 i = 0; i < _sky_objects.size(); i++) {
@@ -568,12 +564,10 @@ void ObjectSupervisor::DrawSkyObjects() {
 	}
 }
 
-
 void ObjectSupervisor::DrawHalos() {
 	for (uint32 i = 0; i < _halos.size(); ++i)
 		_halos[i]->Draw();
 }
-
 
 void ObjectSupervisor::DrawDialogIcons() {
     MapSprite *mapSprite;
@@ -584,7 +578,6 @@ void ObjectSupervisor::DrawDialogIcons() {
 		}
 	}
 }
-
 
 void ObjectSupervisor::_UpdateSavePoints() {
 	VirtualSprite *sprite = MapMode::CurrentInstance()->GetCamera();
@@ -601,6 +594,10 @@ void ObjectSupervisor::_UpdateSavePoints() {
 	}
 }
 
+void ObjectSupervisor::_DrawMapZones() {
+	for (uint32 i = 0; i < _zones.size(); ++i)
+		_zones[i]->Draw();
+}
 
 MapObject* ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite* sprite) {
 	if (sprite == NULL)
@@ -621,7 +618,6 @@ MapObject* ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite* sprite) 
 	}
 	return NULL;
 }
-
 
 MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, float search_distance) {
 	// NOTE: We don't check if the argument is NULL here for performance reasons

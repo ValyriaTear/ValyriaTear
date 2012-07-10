@@ -670,6 +670,9 @@ private:
 	//! \brief Updates save points animation and active state.
 	void _UpdateSavePoints();
 
+	//! \brief Debug: Draws the map zones in orange
+	void _DrawMapZones();
+
 	/** \brief The number of rows and columns in the collision gride
 	*** The number of collision grid rows and columns is always equal to twice
 	*** that of the number of rows and columns of tiles (stored in the TileManager).
