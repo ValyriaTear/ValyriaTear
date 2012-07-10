@@ -357,6 +357,11 @@ layers[4][39] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 
 local bronann = {};
 local kalya = {};
+local orlinn = {};
+local orlinn_dialogue_npc = {};
+
+-- Needed event groups
+local layna_south_entrance_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_south_entrance_lua");
 
 -- the main map loading code
 function Load(m)
@@ -377,9 +382,11 @@ function Load(m)
 	CreateNPCs();
 	CreateObjects();
 
-
 	CreateEvents();
 	CreateZones();
+
+    -- Once everything is created, we set up Orlinn behaviour
+    _SetOrlinnState();
 end
 
 function Update()
@@ -395,10 +402,15 @@ function CreateCharacters()
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
 
-	-- set up the position according to the previous map
+	-- set up the position according to the previous map and location
 	if (GlobalManager:GetPreviousLocation() == "from_village_south") then
 		bronann:SetPosition(117, 18);
 		bronann:SetDirection(hoa_map.MapMode.WEST);
+	end
+
+	if (GlobalManager:GetPreviousLocation() == "from_secret_path") then
+		bronann:SetPosition(65, 4);
+		bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	end
 
 	Map:AddGroundObject(bronann);
@@ -419,10 +431,33 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
+    kalya = _CreateSprite(Map, "Kalya", 2, 2);
+	kalya:SetDirection(hoa_map.MapMode.SOUTH);
+	kalya:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+	kalya:SetNoCollision(true);
+    kalya:SetVisible(false);
+    Map:AddGroundObject(kalya);
+
+    orlinn = _CreateSprite(Map, "Orlinn", 82, 5);
+    orlinn:SetDirection(hoa_map.MapMode.SOUTH);
+    orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+	Map:AddGroundObject(orlinn);
+
+    -- Create an invisible doppelgänger to permit triggering dialogues when the kid is on the cliff.
+    orlinn_dialogue_npc = _CreateSprite(Map, "Orlinn", 82, 8);
+    orlinn_dialogue_npc:SetNoCollision(true);
+    orlinn_dialogue_npc:SetVisible(false);
+    Map:AddGroundObject(orlinn_dialogue_npc);
 end
 
 function CreateObjects()
 	local object = {}
+
+    object = _CreateObject(Map, "Tree Big2", 70, 6);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+    -- TODO: Turn it into an actual treasure box once the treasure object class is redone.
+    object = _CreateObject(Map, "Box1", 72, 5);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
     -- trees around the house
 	object = _CreateObject(Map, "Tree Big2", 92, 10);
@@ -442,13 +477,67 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function CreateEvents()
 	local event = {};
+    local dialogue = {};
+    local text = {};
 
-	-- Triggered Events
+	-- Map change Events
 	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/vt_layna_center.lua", "from_riverbank");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/vt_layna_south_entrance.lua", "from_riverbank");
 	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to secret path entrance", "dat/maps/vt_layna_center.lua", "from_secret_path");
+	EventManager:RegisterEvent(event);
+
+    -- Quest events - Hide and seek 2
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Wow! You found me!");
+	dialogue:AddLine(text, orlinn);
+    text = hoa_system.Translate("But I'm not done yet!");
+	dialogue:AddLine(text, orlinn);
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Quest1: Orlinn starts hide and seek3 speech", dialogue);
+	event:SetStopCameraMovement(true);
+    event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn run");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and seek2: Make Orlinn run", orlinn, 72, 2, true);
+    event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn disappear");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and seek2: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+    event:AddEventLinkAtEnd("Quest1: Hide and seek2: Bronann end speech");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("That kid is pretty quick. It's going to take all day long...");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Quest1: Hide and seek2: Bronann end speech", dialogue);
+	event:SetStopCameraMovement(true);
+    event:AddEventLinkAtEnd("Map:PopState()");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
+    EventManager:RegisterEvent(event);
+
+    -- Final hide and seek (3)
+    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn goes top-right", orlinn, 70, 42, false);
+	event:AddEventLinkAtEnd("Hide n Seek3: Orlinn looks south");
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks south", orlinn, hoa_map.MapMode.SOUTH);
+	event:AddEventLinkAtEnd("Hide n Seek3: Orlinn looks north", 800);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks north", orlinn, hoa_map.MapMode.NORTH);
+	event:AddEventLinkAtEnd("Hide n Seek3: Orlinn goes bottom-left", 800);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Hide n Seek3: Orlinn goes bottom-left", orlinn, 74, 43.8, false);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn goes top-right", 8000); -- finish the event loop.
+	EventManager:RegisterEvent(event);
+
 end
 
 function CreateZones()
@@ -458,6 +547,12 @@ function CreateZones()
 
 	to_village_entrance_zone = hoa_map.CameraZone(118, 119, 10, 27, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_village_entrance_zone);
+
+    to_secret_path_entrance_zone = hoa_map.CameraZone(60, 72, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(to_secret_path_entrance_zone);
+
+    orlinn_hide_n_seek2_zone = hoa_map.CameraZone(75, 80, 0, 7, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(orlinn_hide_n_seek2_zone);
 end
 
 function CheckZones()
@@ -474,10 +569,89 @@ function CheckZones()
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village south entrance");
 	end
+
+	if (to_secret_path_entrance_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to secret path entrance");
+	end
+
+    -- zone based story events
+    if (layna_south_entrance_event_group ~= nil and
+            layna_south_entrance_event_group:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
+        if (orlinn_hide_n_seek2_zone:IsCameraEntering() == true) then
+            -- Orlinn speaks and flee
+            Map:PushState(hoa_map.MapMode.STATE_SCENE);
+            orlinn:SetDirection(hoa_map.MapMode.WEST);
+            -- Updates the story state
+            if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == false) then
+                GlobalEvents:AddNewEvent("quest1_orlinn_hide_n_seek2_done", 1);
+            end
+            EventManager:StartEvent("Quest1: Orlinn starts hide and seek3 speech");
+        end
+    end
 end
 
+-- Custom inner map functions
+function _SetOrlinnState()
+	local text = {}
+	local dialogue = {}
+
+    orlinn_dialogue_npc:ClearDialogueReferences();
+    orlinn:ClearDialogueReferences();
+
+    if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == true) then
+        orlinn:SetPosition(74, 44);
+		orlinn:SetDirection(hoa_map.MapMode.WEST);
+
+        -- Final hide and seek dialogue
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("You'll never get me!");
+        dialogue:AddLine(text, orlinn);
+        text = hoa_system.Translate("Please no! Wait!");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Orlinn! Stop this!");
+        dialogue:AddLine(text, kalya);
+        DialogueManager:AddDialogue(dialogue);
+        orlinn:AddDialogueReference(dialogue);
+
+        EventManager:StartEvent("Quest1: Hide and Seek3: Orlinn goes top-right", 8000);
+        return;
+    elseif (layna_south_entrance_event_group ~= nil and
+            layna_south_entrance_event_group:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
+        -- Orlinn is on the cliff and is mocking Bronann.
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("Hi hi hi!");
+        dialogue:AddLine(text, orlinn_dialogue_npc);
+        text = hoa_system.Translate("Orlinn, how did you get there?");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("(Giggle) I won't tell you!");
+        dialogue:AddLine(text, orlinn_dialogue_npc);
+        DialogueManager:AddDialogue(dialogue);
+        orlinn_dialogue_npc:AddDialogueReference(dialogue);
+        return;
+    end
+
+    -- Orlinn default behaviour
+    orlinn:SetNoCollision(true);
+    orlinn:SetVisible(false);
+end
 
 -- Map Custom functions
 if (map_functions == nil) then
 	map_functions = {}
 end
+
+map_functions = {
+    Map_PopState = function()
+		Map:PopState();
+	end,
+
+    MakeInvisible = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetVisible(false);
+            sprite:SetNoCollision(true);
+        end
+    end
+}
