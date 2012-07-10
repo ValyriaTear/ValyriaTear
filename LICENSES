@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.07.03
+Last update: 2012.07.10
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -103,9 +103,10 @@ img/effects/flame7.png							GPLv2 or later	Roos
 img/effects/flame8.png							GPLv2 or later	Roos
 img/effects/outlined_circle_small.png			GPLv2 or later	Roos
 
-img/icons/actors/characters/kalya.png           GPLv2   Allacrost (was Laila icon)
-img/icons/actors/characters/sylve.png          GPLv2   Allacrost (was Raphaela icon)
-img/icons/actors/characters/thanis.png          GPLv2   Allacrost (was Claudius icon)
+img/icons/actors/characters/kalya.png            GPLv2               Allacrost (was Laila icon)
+img/icons/actors/characters/sylve.png            GPLv2               Allacrost (was Raphaela icon)
+img/icons/actors/characters/thanis.png           GPLv2               Allacrost (was Claudius icon)
+img/icons/actors/characters/bronann.png          CC by SA 3.0        Safir-Kreuz (Deviant Art)
 
 img/icons/actors/enemies/mushroom_zombie.png             CC by SA 3.0   Redshrike (OGA)
 img/icons/actors/characters/red_slime.png                GPLv2          Allacrost (From red slime enemy)
@@ -140,19 +141,21 @@ img/misc/save_point/save_point3.png    GPLv2	Bertram
 img/misc/save_point/save_point4.lua    GPLv2	Bertram
 img/misc/save_point/save_point4.png    GPLv2	Bertram
 
-img/portraits/battle/laila_damage.png           GPLv2   Allacrost (was Laila icon)
-img/portraits/battle/thanis_damage.png          GPLv2   Allacrost (was Claudius icon)
-img/portraits/battle/sylve_damage.png           GPLv2   Allacrost (was Raphaela icon)
+img/portraits/battle/laila_damage.png           GPLv2               Allacrost (was Laila icon)
+img/portraits/battle/thanis_damage.png          GPLv2               Allacrost (was Claudius icon)
+img/portraits/battle/sylve_damage.png           GPLv2               Allacrost (was Raphaela icon)
+img/portraits/battle/bronann_damage.png         CC by SA 3.0        Safir-Kreuz (Deviant Art)
 
-img/portraits/map/npcs/malta.png               GPLv2   Allacrost (was Vanica portrait)
-img/portraits/map/npcs/carson.png              GPLv2   Allacrost (was Marcus portrait)
+img/portraits/map/npcs/malta.png                GPLv2               Allacrost (was Vanica portrait)
+img/portraits/map/npcs/carson.png               GPLv2               Allacrost (was Marcus portrait)
 
-img/portraits/map/thanis.png          GPLv2   Allacrost (was Claudius portrait)
-img/portraits/menu/thanis_full.png   GPLv2   Allacrost (was Claudius large portrait)
-img/portraits/map/sylve.png           GPLv2   Allacrost (was Raphaela portrait)
-img/portraits/menu/sylve_full.png    GPLv2   Allacrost (was Raphaela large portrait)
-img/portraits/map/kalya.png           GPLv2   Allacrost (was Laila portrait)
-img/portraits/menu/kalya_full.png    GPLv2   Allacrost (was Laila large portrait)
+img/portraits/thanis.png                        GPLv2               Allacrost (was Claudius portrait)
+img/portraits/thanis_full.png                   GPLv2               Allacrost (was Claudius large portrait)
+img/portraits/sylve.png                         GPLv2               Allacrost (was Raphaela portrait)
+img/portraits/sylve_full.png                    GPLv2               Allacrost (was Raphaela large portrait)
+img/portraits/kalya.png                         GPLv2               Allacrost (was Laila portrait)
+img/portraits/kalya_full.png                    GPLv2               Allacrost (was Laila large portrait)
+img/portraits/bronann.png                       CC by SA 3.0        Safir-Kreuz (Deviant Art)
 
 img/sprites/battle/characters/bronann_attack.png	GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_dead.png		GPLv2	Allacrost + Bertram

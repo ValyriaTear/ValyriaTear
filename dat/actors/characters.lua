@@ -11,10 +11,10 @@ characters = {}
 
 characters[BRONANN] = {
 	name = hoa_system.Translate("Bronann"),
-	--portrait = "img/portraits/bronann.png",
+	portrait = "img/portraits/bronann.png",
 	--full_portrait = "img/portraits/bronann_full.png",
-	--battle_portraits = "img/portraits/battle/bronann_damage.png",
-	--stamina_icon = "img/icons/actors/characters/bronann.png",
+	battle_portraits = "img/portraits/battle/bronann_damage.png",
+	stamina_icon = "img/icons/actors/characters/bronann.png",
 
 	battle_animations = {
 		idle = "img/sprites/battle/characters/bronann_idle.lua",

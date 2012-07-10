@@ -15,8 +15,8 @@ sprites["Bronann"] = {
 	movement_speed = NORMAL_SPEED,
 
 	standard_animations = "img/sprites/map/characters/bronann_walk.png",
-	running_animations = "img/sprites/map/characters/bronann_run.png"
-	--face_portrait = "img/portraits/bronann.png"
+	running_animations = "img/sprites/map/characters/bronann_run.png",
+	face_portrait = "img/portraits/bronann.png"
 }
 
 sprites["Kalya"] = {
