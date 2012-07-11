@@ -505,6 +505,10 @@ function CreateEvents()
 
     event = hoa_map.ScriptedSpriteEvent("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
     EventManager:RegisterEvent(event);
+
+    -- Georges event
+    event = hoa_map.ScriptedEvent("Quest1: Georges whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
+    EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -580,17 +584,47 @@ function _UpdateGeorgesDialogue()
 	local dialogue = {}
 
     georges:ClearDialogueReferences();
-	dialogue = hoa_map.SpriteDialogue();
+
 	local shop_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_center_shop_lua");
-    -- Once talked to him after the shop conversation, just put the end of the dialogue
-    if (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+    local riverbank_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
+    if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == true) then
+        -- Quest 1 done as for Georges
+        -- Default behaviour
+    elseif (riverbank_event_group ~= nil
+            and riverbank_event_group:DoesEventExist("quest1_orlinn_hide_n_seek3_done") == true) then
+        -- Give the pen to Georges
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("Here it is, Georges.");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("You're the nicest of all, Bronnan. I well tell everyone how brave you...");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("(Sigh...) Georges!");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Ok ok. Just having a bit of spirit, here, young man.");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("In fact, the barley meal was for Lilly.");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("!! What?");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Don't thank me for that, it's my pleasure.");
+        dialogue:AddLineEvent(text, georges, "Quest1: Georges whom the barley meal was for");
+        DialogueManager:AddDialogue(dialogue);
+        georges:AddDialogueReference(dialogue);
+        return;
+    elseif (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+        -- Once talked to him after the shop conversation, just put the end of the dialogue
+        dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("(Sigh...) Hmm, ok.");
         dialogue:AddLine(text, bronann);
+        DialogueManager:AddDialogue(dialogue);
+        georges:AddDialogueReference(dialogue);
+        return;
 	elseif (shop_event_group ~= nil and shop_event_group:DoesEventExist("quest1_flora_dialogue_done") == true) then
+        dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Hi Georges. Erm, I'm coming from the shop and I ...");
         dialogue:AddLine(text, bronann);
         text = hoa_system.Translate("Can you hear this?");
@@ -615,13 +649,16 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("(Sigh...) Hmm, ok.");
         dialogue:AddLineEvent(text, bronann, "Quest1: GeorgesDialogueDone");
-    else
-        text = hoa_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
-        dialogue:AddLine(text, georges);
+        DialogueManager:AddDialogue(dialogue);
+        georges:AddDialogueReference(dialogue);
+        return;
     end
-	DialogueManager:AddDialogue(dialogue);
-	georges:AddDialogueReference(dialogue);
 
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
+    dialogue:AddLine(text, georges);
+    DialogueManager:AddDialogue(dialogue);
+    georges:AddDialogueReference(dialogue);
 end
 
 -- Updates Orlinn's dialogue and state depending on how far is the story going.
@@ -631,8 +668,28 @@ function _UpdateOrlinnState()
     local event = {};
 
     orlinn:ClearDialogueReferences();
-    -- Atm, no dialogue ref after hide and seek 1 dialogue.
-    if (GlobalEvents:DoesEventExist("quest1_orlinn_dialogue1_done") == true) then
+    local riverbank_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
+    if (riverbank_event_group ~= nil
+            and riverbank_event_group:DoesEventExist("quest1_orlinn_hide_n_seek3_done") == true) then
+        -- Bronann got Georges' pen, update orlinn dialogue
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("I promise I won't bother you again ...");
+        dialogue:AddLine(text, orlinn);
+        text = hoa_system.Translate("Don't worry for that, Orlinn, ok?");
+        dialogue:AddLine(text, bronann);
+        DialogueManager:AddDialogue(dialogue);
+        orlinn:AddDialogueReference(dialogue);
+
+        -- Update kalya's dialogue too
+        kalya:ClearDialogueReferences();
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("...");
+        dialogue:AddLine(text, kalya);
+        DialogueManager:AddDialogue(dialogue);
+        kalya:AddDialogueReference(dialogue);
+
+
+    elseif (GlobalEvents:DoesEventExist("quest1_orlinn_dialogue1_done") == true) then
         -- At that time, Orlinn isn't in the village center anymore.
         orlinn:SetVisible(false);
         orlinn:SetNoCollision(true);
@@ -699,6 +756,21 @@ map_functions = {
         -- Updates Orlinn's state
         if (GlobalEvents:DoesEventExist("quest1_orlinn_dialogue1_done") == false) then
 			GlobalEvents:AddNewEvent("quest1_orlinn_dialogue1_done", 1);
+        end
+    end,
+
+    Quest1GeorgesTellsBronannAboutLilly =  function()
+        if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == false) then
+			GlobalEvents:AddNewEvent("quest1_pen_given_done", 1);
+
+            -- Remove the pen key item from inventory
+            local ink_item_id = 4001;
+            if (GlobalManager:IsObjectInInventory(ink_item_id) == true) then
+                GlobalManager:RemoveFromInventory(ink_item_id);
+            end
+
+            -- Updates Georges dialogue
+            _UpdateGeorgesDialogue();
         end
     end,
 

@@ -308,4 +308,15 @@ items[1003] = {
 -- IDs 3,001 - 4,000 are reserved for attack items
 --------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
+-- IDs 4,001 - 5,000 are reserved for key items
+--------------------------------------------------------------------------------
 
+items[4001] = {
+	name = hoa_system.Translate("Pen"),
+	description = hoa_system.Translate("Georges' pen, presumably used to write poetry."),
+	icon = "img/icons/items/key_items/ink.png",
+	standard_price = 0,
+	use_warmup_time = 0,
+	cooldown_time = 0
+}

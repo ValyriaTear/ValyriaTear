@@ -104,6 +104,7 @@ void BindCommonCode() {
 			.def("SubtractDrunes", &GameGlobal::SubtractDrunes)
 			.def("AddToInventory", (void (GameGlobal::*)(uint32, uint32)) &GameGlobal::AddToInventory)
 			.def("RemoveFromInventory", (void (GameGlobal::*)(uint32)) &GameGlobal::RemoveFromInventory)
+			.def("IsObjectInInventory", &GameGlobal::IsObjectInInventory)
 			.def("IncrementObjectCount", &GameGlobal::IncrementObjectCount)
 			.def("DecrementObjectCount", &GameGlobal::DecrementObjectCount)
 			.def("DoesEventGroupExist", &GameGlobal::DoesEventGroupExist)
