@@ -1136,8 +1136,6 @@ void Editor::_MapProperties() {
 				// things. In this case we wouldn't want to remove the tileset name
 				// from the list in _map.
 		} // iterate through all possible tilesets
-
-		_ed_splitter->addWidget(_ed_tabs);
 	} // only if the user pressed OK
 	else
 		statusBar()->showMessage("Properties not modified!", 5000);
