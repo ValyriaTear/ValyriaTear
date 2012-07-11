@@ -299,6 +299,33 @@ public:
 		{ memcpy(&direction, _direction, sizeof(float) * 3); }
 	//@}
 
+	/**
+	*** Adds a new game mode owning the audio descriptor.
+	*** It is done to permit the engine to automatically free audio files
+	*** when the game mode is deleted.
+	*** This function won't add NULL reference and won't permit duplicate owners.
+	**/
+	void AddOwner(hoa_mode_manager::GameMode *gm);
+
+	/**
+	*** Adds multiple owners at once.
+	*** @see AddOwner()
+	**/
+	void AddOwners(std::list<hoa_mode_manager::GameMode*>& owners);
+
+	/**
+	*** Remove a game mode reference from the audio descriptor owners,
+	*** and checks whether the file data can be freed.
+	*** \returns whether the descriptor should be removed from the cache.
+	**/
+	bool RemoveOwner(hoa_mode_manager::GameMode *gm);
+
+	/**
+	*** Get the list of game mode claiming ownership over the audio descriptor.
+	**/
+	std::list<hoa_mode_manager::GameMode*>* GetOwners()
+	{ return &_owners; }
+
 	//! \brief Prints various properties about the audio data managed by this class
 	void DEBUG_PrintInfo();
 
@@ -348,6 +375,15 @@ protected:
 	float _velocity[3];
 	float _direction[3];
 	//@}
+
+    /** \brief The game modes loading the audio file.
+    *** On can usually free it whenever no owner is present for a given sound.
+    *** Note that sounds/musics are only freed when their owners are removed
+    *** and were the last in this list.
+    *** Musics and sounds that are never owned will have to be freed manually.
+    *** @see AddOwner(), RemoveOwner()
+    **/
+    std::list<hoa_mode_manager::GameMode*> _owners;
 
 	/** \brief Sets the local volume control for this particular audio piece
 	*** \param volume The volume level to set, ranging from [0.0f, 1.0f]

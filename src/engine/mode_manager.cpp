@@ -17,6 +17,7 @@
 #include "system.h"
 
 #include "engine/video/video.h"
+#include "engine/audio/audio.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ using namespace hoa_utils;
 using namespace hoa_system;
 using namespace hoa_boot;
 using namespace hoa_video;
+using namespace hoa_audio;
 
 template<> hoa_mode_manager::ModeEngine* Singleton<hoa_mode_manager::ModeEngine>::_singleton_reference = NULL;
 
@@ -52,6 +54,9 @@ GameMode::GameMode(uint8 mt) {
 
 GameMode::~GameMode() {
 	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode destructor invoked" << endl;
+
+	// Tells the audio manager that the mode is ending to permit freeing self-managed audio files.
+	AudioManager->RemoveOwner(this);
 }
 
 

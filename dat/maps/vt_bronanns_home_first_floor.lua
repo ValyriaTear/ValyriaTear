@@ -36,12 +36,9 @@ contexts[2] = {}
 contexts[2].name = "Parent's room"
 contexts[2].inherit_from = -1
 
--- The sound files used on this map.
-sound_filenames = {}
-
--- The music files used as background music on this map.
-music_filenames = {}
-music_filenames[1] = "mus/koertes-ccby-birdsongloop16s.ogg"
+-- The music file used as default background music on this map.
+-- Other musics will have to handled through scripting.
+music_filename = "mus/koertes-ccby-birdsongloop16s.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}

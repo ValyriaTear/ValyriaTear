@@ -75,7 +75,6 @@ MapMode::MapMode(string filename) :
 	_running_disabled(false),
 	_unlimited_stamina(false),
 	_show_gui(true),
-	_current_track(0),
 	_run_stamina(10000)
 {
 	mode_type = MODE_MANAGER_MAP_MODE;
@@ -157,14 +156,6 @@ MapMode::MapMode(string filename) :
 
 
 MapMode::~MapMode() {
-	for (uint32 i = 0; i < _music.size(); i++)
-		_music[i].FreeAudio();
-	_music.clear();
-
-	for (uint32 i = 0; i < _sounds.size(); i++)
-		_sounds[i].FreeAudio();
-	_sounds.clear();
-
 	for (uint32 i = 0; i < _enemies.size(); i++)
 		delete(_enemies[i]);
 	_enemies.clear();
@@ -191,9 +182,10 @@ void MapMode::Reset() {
 	// Make the map location known globally to other code that may need to know this information
 	GlobalManager->SetMap(_map_filename, _map_image.GetFilename(), _map_hud_name);
 
-	if (_music.size() > _current_track && _music[_current_track].GetState() != AUDIO_STATE_PLAYING) {
-		_music[_current_track].Play();
-	}
+	// Only replace a different previous music.
+	MusicDescriptor *music = AudioManager->RetrieveMusic(_music_filename);
+	if (music && music->GetState() != AUDIO_STATE_PLAYING)
+	    music->Play();
 
 	_intro_timer.Run();
 }
@@ -360,13 +352,11 @@ void MapMode::AddSavePoint(float x, float y, MAP_CONTEXT map_context) {
 	_object_supervisor->_save_points.push_back(save_point);
 }
 
-
 void MapMode::AddHalo(const std::string& filename, float x, float y,
 						const Color& color, MAP_CONTEXT map_context) {
 	Halo *halo = new Halo(filename, x, y, color, map_context);
 	_object_supervisor->_halos.push_back(halo);
 }
-
 
 bool MapMode::IsEnemyLoaded(uint32 id) const {
 	for (uint32 i = 0; i < _enemies.size(); i++) {
@@ -376,16 +366,6 @@ bool MapMode::IsEnemyLoaded(uint32 id) const {
 	}
 	return false;
 }
-
-
-
-void MapMode::PlayMusic(uint32 track_num) {
-	_music[_current_track].Stop();
-	_current_track = track_num;
-	_music[_current_track].Play();
-}
-
-
 
 void MapMode::SetCamera(private_map::VirtualSprite* sprite, uint32 duration) {
     if (_camera == sprite) {
@@ -403,12 +383,9 @@ void MapMode::SetCamera(private_map::VirtualSprite* sprite, uint32 duration) {
     }
 }
 
-
 void MapMode::MoveVirtualFocus(float loc_x, float loc_y) {
     _object_supervisor->VirtualFocus()->SetPosition(loc_x, loc_y);
 }
-
-
 
 void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32 duration) {
     if (_camera != _object_supervisor->VirtualFocus()) {
@@ -479,34 +456,21 @@ bool MapMode::_Load() {
 	if (!_object_supervisor->Load(_map_script))
 		return false;
 
-	// ---------- (3) Load map sounds and music
-	vector<string> sound_filenames;
-	_map_script.ReadStringVector("sound_filenames", sound_filenames);
+	// Load map default music
+	// NOTE: Other audio handling will be handled through scripting
+	_music_filename = _map_script.ReadString("music_filename");
+	if (!AudioManager->LoadMusic(_music_filename, this))
+		PRINT_WARNING << "Failed to load map music: " << _music_filename << endl;
 
-	for (uint32 i = 0; i < sound_filenames.size(); i++) {
-		_sounds.push_back(SoundDescriptor());
-		if (_sounds.back().LoadAudio(sound_filenames[i]) == false) {
-			PRINT_WARNING << "Failed to load map sound: " << sound_filenames[i] << endl;
-		}
-	}
 
-	vector<string> music_filenames;
-	_map_script.ReadStringVector("music_filenames", music_filenames);
-	_music.resize(music_filenames.size(), MusicDescriptor());
-	for (uint32 i = 0; i < music_filenames.size(); i++) {
-		if (_music[i].LoadAudio(music_filenames[i]) == false) {
-			PRINT_WARNING << "Failed to load map music: " << music_filenames[i] << endl;
-		}
-	}
-
-	// ---------- (4) Create and store all enemies that may appear on this map
-	vector<int32> enemy_ids;
+	// Create and store all enemies that may appear on this map
+	std::vector<int32> enemy_ids;
 	_map_script.ReadIntVector("enemy_ids", enemy_ids);
 	for (uint32 i = 0; i < enemy_ids.size(); i++) {
 		_enemies.push_back(new GlobalEnemy(enemy_ids[i]));
 	}
 
-	// ---------- (5) Call the map script's custom load function and get a reference to all other script function pointers
+	// Call the map script's custom load function and get a reference to all other script function pointers
 	ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
 	ScriptObject function = map_table["Load"];
 

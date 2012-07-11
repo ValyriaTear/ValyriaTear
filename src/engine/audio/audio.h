@@ -230,14 +230,16 @@ public:
 	**/
 	//@{
 	/** \brief Creates a new SoundDescriptor using the given filename and loads it into the audio cache
+	*** \param gm The game mode owning the audio descriptor to load.
 	*** \return True if the sound was loaded into the cache successfully
 	**/
-	bool LoadSound(const std::string& filename);
+	bool LoadSound(const std::string& filename, hoa_mode_manager::GameMode* gm = NULL);
 
 	/** \brief Creates a new MusicDescriptor using the given filename and loads it into the audio cache
+	*** \param gm The game mode owning the audio descriptor to load.
 	*** \return True if the music was loaded into the cache successfully
 	**/
-	bool LoadMusic(const std::string& filename);
+	bool LoadMusic(const std::string& filename, hoa_mode_manager::GameMode* gm = NULL);
 
 	//! \brief Plays a sound that is contained within the audio cache
 	void PlaySound(const std::string& filename);
@@ -272,6 +274,13 @@ public:
 	//! \return A pointer to the MusicDescriptor contained within the cache, or NULL if it could not be found
 	MusicDescriptor* RetrieveMusic(const std::string& filename);
 	//@}
+
+	/**
+	*** Tells the audio engine that a game mode ended.
+	*** Thus, permitting to check whether the audio descriptors owned by the mode can be freed
+	*** from memory.
+	**/
+	void RemoveOwner(hoa_mode_manager::GameMode* gm);
 
 	/** \name Error Detection and Processing methods
 	*** Code external to the audio engine should not need to make use of the following methods,

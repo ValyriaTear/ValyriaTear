@@ -151,11 +151,6 @@ public:
 	**/
 	bool IsEnemyLoaded(uint32 id) const;
 
-	void PlayMusic(uint32 track_num);
-
-	void PlayNewMusic(uint32 n)
-		{ _music.at(n).Play(); }
-
 	//! \brief Class member accessor functions
 	//@{
 	static MapMode* CurrentInstance()
@@ -324,9 +319,6 @@ private:
 	//! \brief When false, dialogue icons, stamina bar, and other GUI elements will not be drawn to the screen
 	bool _show_gui;
 
-	//! \brief Index of current music track to play
-	uint32 _current_track;
-
 	/** \brief A counter for the player's stamina
 	*** This value ranges from STAMINA_EMPTY to STAMINA_FULL. It takes twice as long to regenerate stamina as
 	*** it does to consume it when running.
@@ -360,18 +352,18 @@ private:
 	hoa_video::StillImage _stamina_bar_infinite_overlay;
 
 	// ----- Members : Containers -----
-
-	//! \brief The music that the map will need to make use of
-	std::vector<hoa_audio::MusicDescriptor> _music;
-
-	//! \brief The sounds that the map needs available to it
-	std::vector<hoa_audio::SoundDescriptor> _sounds;
-
 	/** \brief A container for the various foes which may appear on this map
 	*** These enemies are kept at their initial stats. When they are passed to battle mode,
 	*** a copy of each enemy is made and initialized there.
 	**/
 	std::vector<hoa_global::GlobalEnemy*> _enemies;
+
+	/**
+	*** Stores the first music filename loaded by the map.
+	*** Used to auto-play it at map startup.
+	*** NOTE: Other audio handling will have to be used through scripting.
+	**/
+	std::string _music_filename;
 
 	// ----- Methods -----
 

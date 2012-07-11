@@ -345,46 +345,62 @@ void AudioEngine::SetListenerVelocity(const float velocity[3]) {
 	memcpy(_listener_velocity, velocity, sizeof(float) * 3);
 }
 
-
-
 void AudioEngine::SetListenerOrientation(const float orientation[3]) {
 	alListenerfv(AL_ORIENTATION, orientation);
 	memcpy(_listener_orientation, orientation, sizeof(float) * 3);
 }
 
-
-
-bool AudioEngine::LoadSound(const std::string& filename) {
+bool AudioEngine::LoadSound(const std::string& filename, hoa_mode_manager::GameMode* gm) {
 	if (!DoesFileExist(filename))
 		return false;
 
 	SoundDescriptor* new_sound = new SoundDescriptor();
 
-	if (_LoadAudio(new_sound, filename) == false) {
+	// Add potential ownership of the sound descriptor
+	if (gm)
+		new_sound->AddOwner(gm);
+
+	if (!_LoadAudio(new_sound, filename)) {
 		delete new_sound;
+
+		// When the sound is used by multiple modes, simply add the ownership there.
+		std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
+		if (it != _audio_cache.end()) {
+			it->second.audio->AddOwner(gm);
+			return true;
+		}
+
 		return false;
 	}
 
 	return true;
 }
 
-
-
-bool AudioEngine::LoadMusic(const std::string& filename) {
+bool AudioEngine::LoadMusic(const std::string& filename, hoa_mode_manager::GameMode* gm) {
 	MusicDescriptor* new_music = new MusicDescriptor();
 
-	if (_LoadAudio(new_music, filename) == false) {
+	// Add potential ownership of the sound descriptor
+	if (gm)
+		new_music->AddOwner(gm);
+
+	if (!_LoadAudio(new_music, filename)) {
 		delete new_music;
+
+		// When the music is used by multiple modes, simply add the ownership there.
+		std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
+		if (it != _audio_cache.end()) {
+			it->second.audio->AddOwner(gm);
+			return true;
+		}
+
 		return false;
 	}
 
 	return true;
 }
 
-
-
 void AudioEngine::PlaySound(const std::string& filename) {
-	map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
+	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
 		if (LoadSound(filename) == false) {
@@ -400,10 +416,8 @@ void AudioEngine::PlaySound(const std::string& filename) {
 	element->second.last_update_time = SDL_GetTicks();
 }
 
-
-
 void AudioEngine::PlayMusic(const std::string& filename) {
-	map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
+	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
 		if (LoadMusic(filename) == false) {
@@ -419,10 +433,8 @@ void AudioEngine::PlayMusic(const std::string& filename) {
 	element->second.last_update_time = SDL_GetTicks();
 }
 
-
-
 void AudioEngine::StopSound(const std::string& filename) {
-	map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
+	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not stop audio because it was not contained in the cache: " << filename << endl;
@@ -433,10 +445,8 @@ void AudioEngine::StopSound(const std::string& filename) {
 	element->second.last_update_time = SDL_GetTicks();
 }
 
-
-
 void AudioEngine::PauseSound(const std::string& filename) {
-	map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
+	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not pause audio because it was not contained in the cache: " << filename << endl;
@@ -447,10 +457,8 @@ void AudioEngine::PauseSound(const std::string& filename) {
 	element->second.last_update_time = SDL_GetTicks();
 }
 
-
-
 void AudioEngine::ResumeSound(const std::string& filename) {
-	map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
+	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not resume audio because it was not contained in the cache: " << filename << endl;
@@ -461,10 +469,8 @@ void AudioEngine::ResumeSound(const std::string& filename) {
 	element->second.last_update_time = SDL_GetTicks();
 }
 
-
-
 SoundDescriptor* AudioEngine::RetrieveSound(const std::string& filename) {
-	map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
+	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
 		return NULL;
@@ -478,10 +484,8 @@ SoundDescriptor* AudioEngine::RetrieveSound(const std::string& filename) {
 	}
 }
 
-
-
 MusicDescriptor* AudioEngine::RetrieveMusic(const std::string& filename) {
-	map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
+	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
 		return NULL;
@@ -495,7 +499,20 @@ MusicDescriptor* AudioEngine::RetrieveMusic(const std::string& filename) {
 	}
 }
 
+void AudioEngine::RemoveOwner(hoa_mode_manager::GameMode* gm) {
+	if (!gm)
+		return;
 
+	// Tells all audio descriptor the owner can be removed.
+	std::map<std::string, AudioCacheElement>::iterator it = _audio_cache.begin();
+	for (; it != _audio_cache.end(); ++it) {
+		// If the audio buffers are erased, we can remove the descriptor from the cache.
+		if (it->second.audio->RemoveOwner(gm)) {
+			delete it->second.audio;
+			_audio_cache.erase(it);
+		}
+	}
+}
 
 const std::string AudioEngine::CreateALErrorString() {
 	switch (_al_error_code) {
@@ -516,8 +533,6 @@ const std::string AudioEngine::CreateALErrorString() {
 	}
 }
 
-
-
 const std::string AudioEngine::CreateALCErrorString() {
 	switch (_alc_error_code) {
 		case ALC_NO_ERROR:
@@ -536,8 +551,6 @@ const std::string AudioEngine::CreateALCErrorString() {
 			return ("Unknown ALC error code: " + NumberToString(_alc_error_code));
 	}
 }
-
-
 
 void AudioEngine::DEBUG_PrintInfo() {
 	const ALCchar* c;
@@ -574,8 +587,6 @@ void AudioEngine::DEBUG_PrintInfo() {
 	}
 }
 
-
-
 private_audio::AudioSource* AudioEngine::_AcquireAudioSource() {
 	// (1) Find and return the first source that does not have an owner
 	for (vector<AudioSource*>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
@@ -602,9 +613,13 @@ private_audio::AudioSource* AudioEngine::_AcquireAudioSource() {
 
 
 bool AudioEngine::_LoadAudio(AudioDescriptor* audio, const std::string& filename) {
-	if (_audio_cache.find(filename) != _audio_cache.end()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "audio was already contained within the cache: " << filename << endl;
-		return false;
+	std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
+	if (it != _audio_cache.end()) {
+		it->second.audio->AddOwners(*audio->GetOwners());
+		// Once the owners have been copied, we don't need the given descriptor anymore.
+		delete audio;
+		// Return a success since basically everything will keep on working as expected.
+		return true;
 	}
 
 	// (1) If the cache is not full, try loading the audio and adding it in

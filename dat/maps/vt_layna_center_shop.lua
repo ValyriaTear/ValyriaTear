@@ -31,12 +31,9 @@ contexts[0] = {}
 contexts[0].name = "Base"
 contexts[0].inherit_from = -1
 
--- The sound files used on this map.
-sound_filenames = {}
-
--- The music files used as background music on this map.
-music_filenames = {}
-music_filenames[1] = "mus/Caketown_1-OGA-mat-pablo.ogg"
+-- The music file used as default background music on this map.
+-- Other musics will have to handled through scripting.
+music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}

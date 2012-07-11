@@ -40,7 +40,7 @@ AudioBuffer::AudioBuffer() :
 	if (AudioManager->CheckALError()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL error detected before buffer generation: " << AudioManager->CreateALErrorString() << endl;
 	}
-	
+
 	alGenBuffers(1, &buffer);
 
 	if (AudioManager->CheckALError()) {
@@ -573,7 +573,54 @@ void AudioDescriptor::SetDirection(const float direction[3]) {
 	}
 }
 
+void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm) {
+	// Don't accept null references.
+	if (!gm)
+		return;
 
+	// Check for duplicate entries
+	std::list<hoa_mode_manager::GameMode*>::const_iterator it = _owners.begin();
+	for (; it != _owners.end(); ++it) {
+		if (*it == gm)
+			return;
+	}
+	// Add the new owner in the list
+	_owners.push_back(gm);
+}
+
+void AudioDescriptor::AddOwners(std::list<hoa_mode_manager::GameMode*>& owners) {
+	std::list<hoa_mode_manager::GameMode*>::const_iterator it = owners.begin();
+
+	for(; it != owners.end(); ++it) {
+		AddOwner(*it);
+	}
+}
+
+
+bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm) {
+	if (!gm)
+		return false;
+
+	// Don't deal with never owned audio descriptors.
+	if (_owners.empty())
+		return false;
+
+	// Check for duplicate entries
+	std::list<hoa_mode_manager::GameMode*>::iterator it = _owners.begin();
+	for (; it != _owners.end(); ++it) {
+		if (*it != gm)
+			continue;
+
+		// Remove the owner and check whether the sound can be freed
+		it = _owners.erase(it);
+
+		if (_owners.empty()) {
+			FreeAudio();
+			return true;
+		}
+	}
+	return false;
+}
 
 void AudioDescriptor::DEBUG_PrintInfo() {
 	cout << "*** Audio Descriptor Information ***" << endl;
@@ -645,13 +692,13 @@ void AudioDescriptor::_Update() {
 	// Only streaming audio that is playing requires periodic updates
 	if (_stream == NULL || _state != AUDIO_STATE_PLAYING)
 		return;
-	
+
 	ALint queued = 0;
 	alGetSourcei(_source->source, AL_BUFFERS_QUEUED, &queued);
 	if (AudioManager->CheckALError()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "getting queued sources failed: " << AudioManager->CreateALErrorString() << endl;
 	}
-	
+
 	// If there are no more buffers and the end of stream was reached, stop the sound
 	if (queued != 0 && _stream->GetEndOfStream()) {
 		_state = AUDIO_STATE_STOPPED;
@@ -663,7 +710,7 @@ void AudioDescriptor::_Update() {
 	if (AudioManager->CheckALError()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "getting processed sources failed: " << AudioManager->CreateALErrorString() << endl;
 	}
-	
+
 	// If any buffers have finished playing, attempt to refill them
 	if (buffers_processed > 0) {
 		ALuint buffer_finished;
@@ -683,7 +730,7 @@ void AudioDescriptor::_Update() {
 				IF_PRINT_WARNING(AUDIO_DEBUG) << "queueing a source failed: " << AudioManager->CreateALErrorString() << endl;
 			}
 		}
-		
+
 		// This ensures that if a streaming audio piece is stopped because the buffers ran out
 		// of audio data for the source to play, the audio will be automatically replayed again.
 		ALint state;
@@ -743,7 +790,7 @@ void AudioDescriptor::_SetSourceProperties() {
 	if (AudioManager->CheckALError()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "changing volume on a source failed: " << AudioManager->CreateALErrorString() << endl;
 	}
-	
+
 	// Set looping (source has looping disabled by default, so only need to check the true case)
 	if (_stream != NULL) {
 		_stream->SetLooping(_looping);
@@ -756,7 +803,7 @@ void AudioDescriptor::_SetSourceProperties() {
 			}
 		}
 	}
-	
+
 	//! \todo More properties need to be set here, such as source position, etc.
 }
 
@@ -794,7 +841,7 @@ void AudioDescriptor::_PrepareStreamingBuffers() {
 				alSourceQueueBuffers(_source->source, 1, &_buffer[i].buffer);
 		}
 	}
-	
+
 	if (AudioManager->CheckALError()) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to fill all buffers: " << AudioManager->CreateALErrorString() << endl;
 	}

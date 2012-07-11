@@ -92,7 +92,6 @@ void BindModeCode() {
 			.def_readwrite("running_disabled", &MapMode::_running_disabled)
 			.def_readwrite("run_stamina", &MapMode::_run_stamina)
 
-			.def("PlayMusic", &MapMode::PlayMusic)
 			.def("AddGroundObject", &MapMode::AddGroundObject, adopt(_2))
 			.def("AddPassObject", &MapMode::AddPassObject, adopt(_2))
 			.def("AddSkyObject", &MapMode::AddSkyObject, adopt(_2))
