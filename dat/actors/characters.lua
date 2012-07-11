@@ -45,10 +45,10 @@ characters[BRONANN] = {
 		protection = 6,
 		agility = 30,
 		evade = 5.0,
-		weapon = 10001,
-		head_armor = 20001,
+		weapon = 0,
+		head_armor = 0,
 		torso_armor = 30001,
-		arm_armor = 40001,
+		arm_armor = 0,
 		leg_armor = 50001
 	},
 
@@ -157,10 +157,10 @@ characters[KALYA] = {
 		protection = 6,
 		agility = 30,
 		evade = 5.0,
-		weapon = 10001,
+		weapon = 0,
 		head_armor = 20001,
-		torso_armor = 30001,
-		arm_armor = 40001,
+		torso_armor = 30002,
+		arm_armor = 0,
 		leg_armor = 50001
 	},
 
@@ -269,8 +269,8 @@ characters[SYLVE] = {
 		agility = 30,
 		evade = 5.0,
 		weapon = 10001,
-		head_armor = 20001,
-		torso_armor = 30001,
+		head_armor = 20011,
+		torso_armor = 30011,
 		arm_armor = 40001,
 		leg_armor = 50001
 	},
@@ -381,10 +381,10 @@ characters[THANIS] = {
 		agility = 46,
 		evade = 7.0,
 		weapon = 10003,
-		head_armor = 20003,
-		torso_armor = 30003,
+		head_armor = 20013,
+		torso_armor = 30013,
 		arm_armor = 40003,
-		leg_armor = 50002
+		leg_armor = 50012
 	},
 
 	attack_points = {

@@ -37,6 +37,16 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[20001] = {
+	name = hoa_system.Translate("Butterfly hair tong"),
+	description = hoa_system.Translate("An old and finely done piece of jewel."),
+	icon = "img/icons/armor/butterfly_hair_tong.png",
+	physical_defense = 3,
+	metaphysical_defense = 12,
+	standard_price = 450,
+	usable_by = KALYA
+}
+
+armor[20011] = {
 	name = hoa_system.Translate("Standard Helmet"),
 	description = hoa_system.Translate("Standard Karlate issued equipment. Battle worn but reliable head protection."),
 	icon = "img/icons/armor/karlate_helmet.png",
@@ -47,7 +57,7 @@ armor[20001] = {
 	slots = 0
 }
 
-armor[20002] = {
+armor[20012] = {
 	name = hoa_system.Translate("Cobalt Helm"),
 	description = hoa_system.Translate("A small helmet composed of a secret cobalt based alloy."),
 	icon = "img/icons/armor/cobalt_helm.png",
@@ -58,7 +68,7 @@ armor[20002] = {
 	slots = 0
 }
 
-armor[20003] = {
+armor[20013] = {
 	name = hoa_system.Translate("Crested Helmet"),
 	description = hoa_system.Translate("A sturdy helmet with a hinged face guard offering additional protection."),
 	icon = "img/icons/armor/crested_helmet.png",

@@ -37,6 +37,16 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[50001] = {
+	name = hoa_system.Translate("Leather boots"),
+	description = hoa_system.Translate("Simple but fairly good leather boots."),
+	icon = "img/icons/armor/leather_boots.png",
+	physical_defense = 1,
+	metaphysical_defense = 0,
+	standard_price = 30,
+	usable_by = BRONANN + KALYA + THANIS + SYLVE
+}
+
+armor[50011] = {
 	name = hoa_system.Translate("Standard Greaves"),
 	description = hoa_system.Translate("Standard equipment. Light metal alloy protects the legs while minimizing the negative impact on movement."),
 	icon = "img/icons/armor/standard_greaves.png",
@@ -47,7 +57,7 @@ armor[50001] = {
 	slots = 0
 }
 
-armor[50002] = {
+armor[50012] = {
 	name = hoa_system.Translate("Tempered Greaves"),
 	description = hoa_system.Translate("Standard greaves that have undergone an additional tempering process, increasing their durability and strength."),
 	icon = "img/icons/armor/tempered_greaves.png",
@@ -57,4 +67,3 @@ armor[50002] = {
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
 }
-

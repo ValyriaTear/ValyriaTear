@@ -37,6 +37,26 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[30001] = {
+	name = hoa_system.Translate("Rookie Tunic"),
+	description = hoa_system.Translate("A light soldier rookie tunic worn by new recruits. That one belonged to Bronann's father..."),
+	icon = "img/icons/armor/rookie_tunic.png",
+	physical_defense = 1,
+	metaphysical_defense = 0,
+	standard_price = 10,
+	usable_by = BRONANN
+}
+
+armor[30002] = {
+	name = hoa_system.Translate("Old Willow Dress"),
+	description = hoa_system.Translate("An old Willow dress Kalya likes to wear."),
+	icon = "img/icons/armor/willow_dress.png",
+	physical_defense = 1,
+	metaphysical_defense = 0,
+	standard_price = 10,
+	usable_by = KALYA
+}
+
+armor[30011] = {
 	name = hoa_system.Translate("Leather Chain Mail"),
 	description = hoa_system.Translate("A light chain mail woven into a tough leather cuirass."),
 	icon = "img/icons/armor/leather_chain_mail.png",
@@ -47,7 +67,7 @@ armor[30001] = {
 	slots = 0
 }
 
-armor[30002] = {
+armor[30012] = {
 	name = hoa_system.Translate("Karlate Breastplate"),
 	description = hoa_system.Translate("Standard Karlate issued equipment. Effectively protects the torso from most types of attack."),
 	icon = "img/icons/armor/karlate_breastplate.png",
@@ -58,7 +78,7 @@ armor[30002] = {
 	slots = 0
 }
 
-armor[30003] = {
+armor[30013] = {
 	name = hoa_system.Translate("Shouldered Breastplate"),
 	description = hoa_system.Translate("A breastplate with slightly thicker armor than is commonly found and additional shoulder guards."),
 	icon = "img/icons/armor/shouldered_breastplate.png",
@@ -68,4 +88,3 @@ armor[30003] = {
 	usable_by = BRONANN + THANIS,
 	slots = 0
 }
-
