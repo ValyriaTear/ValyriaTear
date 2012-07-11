@@ -18,7 +18,6 @@ map_subname = "Riverbank"
 num_tile_cols = 60
 num_tile_rows = 40
 
-
 -- The contexts names and inheritance definition
 -- Tells the context id the current context inherit from
 -- This means that the parent context will be used as a base, and the current
@@ -385,8 +384,9 @@ function Load(m)
 	CreateEvents();
 	CreateZones();
 
-    -- Once everything is created, we set up Orlinn behaviour
-    _SetOrlinnState();
+	-- Once everything is created, we set up Orlinn and Lilly behaviour
+	_SetOrlinnState();
+	_SetLillyState();
 end
 
 function Update()
@@ -423,30 +423,24 @@ function CreateNPCs()
 
 	lilly = _CreateNPCSprite(Map, "Woman3", "Lilly", 67, 40);
 	Map:AddGroundObject(lilly);
-	lilly :SetDirection(hoa_map.MapMode.WEST);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("What a nice day, isn't it?");
-	dialogue:AddLine(text, lilly);
-	DialogueManager:AddDialogue(dialogue);
-	lilly :AddDialogueReference(dialogue);
 
-    kalya = _CreateSprite(Map, "Kalya", 2, 2);
+	kalya = _CreateSprite(Map, "Kalya", 2, 2);
 	kalya:SetDirection(hoa_map.MapMode.SOUTH);
 	kalya:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	kalya:SetNoCollision(true);
-    kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
+	kalya:SetVisible(false);
+	Map:AddGroundObject(kalya);
 
-    orlinn = _CreateSprite(Map, "Orlinn", 82, 5);
-    orlinn:SetDirection(hoa_map.MapMode.SOUTH);
-    orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+	orlinn = _CreateSprite(Map, "Orlinn", 82, 5);
+	orlinn:SetDirection(hoa_map.MapMode.SOUTH);
+	orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
 	Map:AddGroundObject(orlinn);
 
-    -- Create an invisible doppelgänger to permit triggering dialogues when the kid is on the cliff.
-    orlinn_dialogue_npc = _CreateSprite(Map, "Orlinn", 82, 8);
-    orlinn_dialogue_npc:SetNoCollision(true);
-    orlinn_dialogue_npc:SetVisible(false);
-    Map:AddGroundObject(orlinn_dialogue_npc);
+	-- Create an invisible doppelgänger to permit triggering dialogues when the kid is on the cliff.
+	orlinn_dialogue_npc = _CreateSprite(Map, "Orlinn", 82, 8);
+	orlinn_dialogue_npc:SetNoCollision(true);
+	orlinn_dialogue_npc:SetVisible(false);
+	Map:AddGroundObject(orlinn_dialogue_npc);
 end
 
 function CreateObjects()
@@ -489,190 +483,230 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to secret path entrance", "dat/maps/vt_layna_center.lua", "from_secret_path");
 	EventManager:RegisterEvent(event);
 
-    -- Quest events - Hide and seek 2
-    dialogue = hoa_map.SpriteDialogue();
+	-- Quest events - Hide and seek 2
+	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Wow! You found me!");
 	dialogue:AddLine(text, orlinn);
-    text = hoa_system.Translate("But I'm not done yet!");
+	text = hoa_system.Translate("But I'm not done yet!");
 	dialogue:AddLine(text, orlinn);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Orlinn starts hide and seek3 speech", dialogue);
 	event:SetStopCameraMovement(true);
-    event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn run");
+	event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn run");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and seek2: Make Orlinn run", orlinn, 72, 2, true);
-    event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn disappear");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and seek2: Make Orlinn run", orlinn, 72, 2, true);
+	event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn disappear");
+	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and seek2: Make Orlinn disappear", orlinn, "MakeInvisible", "");
-    event:AddEventLinkAtEnd("Quest1: Hide and seek2: Bronann end speech");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and seek2: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+	event:AddEventLinkAtEnd("Quest1: Hide and seek2: Bronann end speech");
+	EventManager:RegisterEvent(event);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("That kid is pretty quick. It's going to take all day long...");
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("That kid is pretty quick. It's going to take all day long...");
 	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Hide and seek2: Bronann end speech", dialogue);
 	event:SetStopCameraMovement(true);
-    event:AddEventLinkAtEnd("Map:PopState()");
+	event:AddEventLinkAtEnd("Map:PopState()");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
+	EventManager:RegisterEvent(event);
 
-    -- Final hide and seek (3)
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn goes top-right", orlinn, 70, 42, false);
+	-- Final hide and seek (3)
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn goes top-right", orlinn, 70, 42, false);
 	event:AddEventLinkAtEnd("Hide n Seek3: Orlinn looks south");
 	EventManager:RegisterEvent(event);
-    event = hoa_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks south", orlinn, hoa_map.MapMode.SOUTH);
+	event = hoa_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks south", orlinn, hoa_map.MapMode.SOUTH);
 	event:AddEventLinkAtEnd("Hide n Seek3: Orlinn looks north", 800);
-    EventManager:RegisterEvent(event);
-    event = hoa_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks north", orlinn, hoa_map.MapMode.NORTH);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks north", orlinn, hoa_map.MapMode.NORTH);
 	event:AddEventLinkAtEnd("Hide n Seek3: Orlinn goes bottom-left", 800);
-    EventManager:RegisterEvent(event);
-    event = hoa_map.PathMoveSpriteEvent("Hide n Seek3: Orlinn goes bottom-left", orlinn, 74, 43.8, false);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Hide n Seek3: Orlinn goes bottom-left", orlinn, 74, 43.8, false);
 	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn goes top-right", 8000); -- finish the event loop.
 	EventManager:RegisterEvent(event);
 
-    -- Before Kalya's arrival
-    event = hoa_map.ScriptedEvent("Quest1: Hide and Seek3: Orlinn starts to go away", "Prepare_orlinn_kalya_scene", "");
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tries go to away");
-    EventManager:RegisterEvent(event);
+	-- Before Kalya's arrival
+	event = hoa_map.ScriptedEvent("Quest1: Hide and Seek3: Orlinn starts to go away", "Prepare_orlinn_kalya_scene", "");
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tries go to away");
+	EventManager:RegisterEvent(event);
 
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn tries go to away", orlinn, 76, 38, false);
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn tries go to away", orlinn, 76, 38, false);
 	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann follows him");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Bronann follows him", bronann, 76, 40, true);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann turns to Orlinn");
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Bronann follows him", bronann, 76, 40, true);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann turns to Orlinn");
 	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn turns to him");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Bronann turns to Orlinn", bronann, hoa_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-
-    event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to him", orlinn, hoa_map.MapMode.SOUTH);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann and kalya first speech");
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly turns to them");
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Bronann turns to Orlinn", bronann, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Lilly turns to them", lilly, hoa_map.MapMode.EAST);
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to him", orlinn, hoa_map.MapMode.SOUTH);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann and kalya first speech");
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly turns to them");
 	EventManager:RegisterEvent(event);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Please no! Wait!");
-    dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("Orlinn! Stop this!");
-    dialogue:AddLineEvent(text, kalya, "Quest1: Hide and Seek3: Kalya comes to Orlinn");
-    DialogueManager:AddDialogue(dialogue);
-
-    event = hoa_map.DialogueEvent("Quest1: Hide and Seek3: Bronann and kalya first speech", dialogue);
-	event:SetStopCameraMovement(true);
-    EventManager:RegisterEvent(event);
-
-    -- Kalya's arrival
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Kalya comes to Orlinn", kalya, 76, 36, false);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya's speech");
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn turns to Kalya");
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Lilly turns to them", lilly, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to Kalya", orlinn, hoa_map.MapMode.NORTH);
-	EventManager:RegisterEvent(event);
-
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Orlinn! How many times did I told you not to bother people around...");
-	dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("But sis' I...");
-	dialogue:AddLine(text, orlinn);
-    text = hoa_system.Translate("I don't want to hear you!! Now, come!");
-	dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("Don't blame him, Kalya. Actually, it was...");
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Please no! Wait!");
 	dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("I think I wasn't talking to you, was I?");
+	text = hoa_system.Translate("Orlinn! Stop this!");
+	dialogue:AddLineEvent(text, kalya, "Quest1: Hide and Seek3: Kalya comes to Orlinn");
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Quest1: Hide and Seek3: Bronann and kalya first speech", dialogue);
+	event:SetStopCameraMovement(true);
+	EventManager:RegisterEvent(event);
+
+	-- Kalya's arrival
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Kalya comes to Orlinn", kalya, 76, 36, false);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya's speech");
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn turns to Kalya");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to Kalya", orlinn, hoa_map.MapMode.NORTH);
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Orlinn! How many times did I told you not to bother people around...");
 	dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("Come Orlinn!");
+	text = hoa_system.Translate("But sis' I...");
+	dialogue:AddLine(text, orlinn);
+	text = hoa_system.Translate("I don't want to hear you!! Now, come!");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Don't blame him, Kalya. Actually, it was...");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("I think I wasn't talking to you, was I?");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Come Orlinn!");
 	dialogue:AddLine(text, kalya);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Hide and Seek3: Kalya's speech", dialogue);
 	event:SetStopCameraMovement(true);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya is going away.");
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away.", 2000);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya is going away.");
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away.", 2000);
 	EventManager:RegisterEvent(event);
 
-    -- Kalya and Orlinn going away
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Kalya is going away.", kalya, 95, 2, false);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya disappears.");
+	-- Kalya and Orlinn going away
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Kalya is going away.", kalya, 95, 2, false);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya disappears.");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and Seek3: Kalya disappears.", kalya, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
-
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn is going away.", orlinn, 76, 32, false);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn comes back to Bronann", 1000);
+	event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and Seek3: Kalya disappears.", kalya, "MakeInvisible", "");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn comes back to Bronann", orlinn, 76, 38, false);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was");
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn is going away.", orlinn, 76, 32, false);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn comes back to Bronann", 1000);
 	EventManager:RegisterEvent(event);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("I found that pen near the tree behind you. I just wanted to play ...");
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn comes back to Bronann", orlinn, 76, 38, false);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was");
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("I found that pen near the tree behind you. I just wanted to play ...");
 	dialogue:AddLine(text, orlinn);
-    text = hoa_system.Translate("Don't worry for that ...");
+	text = hoa_system.Translate("Don't worry for that ...");
 	dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("Take it, ... Thanks.");
+	text = hoa_system.Translate("Take it, ... Thanks.");
 	dialogue:AddLineEvent(text, orlinn, "Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was", dialogue);
 	event:SetStopCameraMovement(true);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann", "AddPenKeyItem", "");
-    EventManager:RegisterEvent(event);
-
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn is going away for real", orlinn, 95, 2, false);
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn disappears.");
+	event = hoa_map.ScriptedEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann", "AddPenKeyItem", "");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and Seek3: Orlinn disappears.", orlinn, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn is going away for real", orlinn, 95, 2, false);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn disappears.");
+	EventManager:RegisterEvent(event);
 
-    -- Lilly tells Bronann about Kalya
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Bronann?");
+	event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and Seek3: Orlinn disappears.", orlinn, "MakeInvisible", "");
+	EventManager:RegisterEvent(event);
+
+	-- Lilly tells Bronann about Kalya
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Bronann?");
 	dialogue:AddLineEvent(text, lilly, "Quest1: Hide and Seek3: Bronann turns to Lilly");
-    text = hoa_system.Translate("Er, yes?");
+	text = hoa_system.Translate("Er, yes?");
 	dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("Don't blame Kalya. She has been having a hard time along with her brother before living here, you know?");
+	text = hoa_system.Translate("Don't blame Kalya. She has been having a hard time along with her brother before living here, you know?");
 	dialogue:AddLine(text, lilly);
-    text = hoa_system.Translate("Well, anyway, she's been ignoring me since the first day I saw her...");
+	text = hoa_system.Translate("Well, anyway, she's been ignoring me since the first day I saw her...");
 	dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("Eh, you really know nothing about women, do you?");
+	text = hoa_system.Translate("Eh, you really know nothing about women, do you?");
 	dialogue:AddLine(text, lilly);
-    text = hoa_system.Translate("... Huh?");
+	text = hoa_system.Translate("... Huh?");
 	dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("Eh eh, don't worry about it. It will come in time.");
+	text = hoa_system.Translate("Eh eh, don't worry about it. It will come in time.");
 	dialogue:AddLine(text, lilly);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", dialogue);
 	event:SetStopCameraMovement(true);
-    event:AddEventLinkAtEnd("Map:PopState()");
-    event:AddEventLinkAtEnd("Quest1: Hide and Seek3: done");
+	event:AddEventLinkAtEnd("Map:PopState()");
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: done");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Bronann turns to Lilly", bronann, hoa_map.MapMode.WEST);
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Bronann turns to Lilly", bronann, hoa_map.MapMode.WEST);
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("Quest1: Hide and Seek3: done", "Set_Hide_And_Seek3_Done", "");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Quest1: Hide and Seek3: done", "Set_Hide_And_Seek3_Done", "");
+	EventManager:RegisterEvent(event);
+	
+	-- Lilly goes and bring back barley meal
+	event = hoa_map.ScriptedEvent("Quest1: Prepare Lilly for a walk", "Prepare_lilly_walk", "");
+	event:AddEventLinkAtEnd("Quest1: Lilly goes in her house");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Lilly goes in her house", lilly, 90, 60, false);
+	event:AddEventLinkAtEnd("Quest1: Lilly comes back");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Lilly comes back", lilly, 67, 40, false);
+	event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly turns to Bronann");
+	event:AddEventLinkAtEnd("Quest1: Barley Meal: Bronann turns to Lilly"); -- Making sure
+	event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the barley meal");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Lilly turns to Bronann", lilly, hoa_map.MapMode.EAST);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann turns to Lilly", bronann, hoa_map.MapMode.WEST);
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Here it is, Bronann.");
+	dialogue:AddLineEvent(text, lilly, "Quest1: Barley Meal: Lilly give the barley meal to bronann");
+	text = hoa_system.Translate("Thanks Lilly");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("We've having a shortage of food lately. And I've been taking ... special measures to make sure everyone has enough food.");
+	dialogue:AddLine(text, lilly);
+	text = hoa_system.Translate("Try to enjoy this day, Bronann.");
+	dialogue:AddLine(text, lilly);
+	text = hoa_system.Translate("Er, ok. Thanks again.");
+	dialogue:AddLineEvent(text, bronann, "Map:PopState()");
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the barley meal", dialogue);
+	event:SetStopCameraMovement(true);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("Quest1: Barley Meal: Lilly give the barley meal to bronann", "GiveBarleyMeal", "");
+	EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -729,12 +763,48 @@ function CheckZones()
 end
 
 -- Custom inner map functions
+function _SetLillyState()
+	lilly :SetDirection(hoa_map.MapMode.WEST);
+	local layna_center_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_center_lua");
+	if (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == true) then
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("You should go back home. Your mom must be waiting for you.");
+		dialogue:AddLine(text, lilly);
+		DialogueManager:AddDialogue(dialogue);
+		lilly :AddDialogueReference(dialogue);
+	elseif (layna_center_event_group:DoesEventExist("quest1_pen_given_done") == true) then
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("What a nice day, isn't it?");
+		dialogue:AddLine(text, lilly);
+		text = hoa_system.Translate("Yes, Lilly, but I've something I have to ask you.");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Sure, just ask.");
+		dialogue:AddLine(text, lilly);
+		text = hoa_system.Translate("Have you still got any barley meal for my parents and me? My mother asked me to get some and I...");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Unfortunately, I gave it all to Kalya...");
+		dialogue:AddLine(text, lilly);
+		text = hoa_system.Translate("What?!");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Ah ah! I wanted to see your reaction. I still have some. Let me go and bring it back to you.");
+		dialogue:AddLineEvent(text, lilly, "Quest1: Prepare Lilly for a walk");
+		DialogueManager:AddDialogue(dialogue);
+		lilly :AddDialogueReference(dialogue);
+	else
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("What a nice day, isn't it?");
+		dialogue:AddLine(text, lilly);
+		DialogueManager:AddDialogue(dialogue);
+		lilly :AddDialogueReference(dialogue);
+	end
+end
+
 function _SetOrlinnState()
 	local text = {}
 	local dialogue = {}
 
-    orlinn_dialogue_npc:ClearDialogueReferences();
-    orlinn:ClearDialogueReferences();
+	orlinn_dialogue_npc:ClearDialogueReferences();
+	orlinn:ClearDialogueReferences();
 
     if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek3_done") == true) then
         orlinn:SetNoCollision(true);
@@ -742,7 +812,7 @@ function _SetOrlinnState()
         return;
     elseif (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == true) then
         orlinn:SetPosition(74, 44);
-		orlinn:SetDirection(hoa_map.MapMode.WEST);
+	orlinn:SetDirection(hoa_map.MapMode.WEST);
 
         -- Final hide and seek dialogue
         dialogue = hoa_map.SpriteDialogue();
@@ -780,8 +850,8 @@ end
 
 map_functions = {
     Map_PopState = function()
-		Map:PopState();
-	end,
+        Map:PopState();
+    end,
 
     MakeInvisible = function(sprite)
         if (sprite ~= nil) then
@@ -802,11 +872,12 @@ map_functions = {
         orlinn:SetDirection(hoa_map.MapMode.NORTH);
         orlinn:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
         orlinn:ClearDialogueReferences();
-		EventManager:TerminateAllEvents(orlinn);
+        EventManager:TerminateAllEvents(orlinn);
     end,
 
     AddPenKeyItem = function()
         -- Add the pen key item when not already in inventory
+        -- TODO: Turn this into a treasure event once those are implemented
         local ink_item_id = 4001;
         if (GlobalManager:IsObjectInInventory(ink_item_id) == false) then
             GlobalManager:AddToInventory(ink_item_id, 1)
@@ -820,5 +891,26 @@ map_functions = {
 
         -- Also reset Lilly direction
         lilly:SetDirection(hoa_map.MapMode.WEST);
+    end,
+
+    Prepare_lilly_walk = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        -- Stop Lilly dialogue and prepare her for the next events
+        lilly:SetMoving(false); -- in case he's moving
+        lilly:ClearDialogueReferences();
+        EventManager:TerminateAllEvents(lilly);
+    end,
+
+    GiveBarleyMeal = function()
+        -- Add the barley meal key item when not already in inventory
+        -- TODO: Turn this into a treasure event once those are implemented
+        -- TODO: Add barley meal item
+        --local barley_meal_item_id = 4002;
+        --if (GlobalManager:IsObjectInInventory(barley_meal_item_id) == false) then
+        --    GlobalManager:AddToInventory(barley_meal_item_id, 1)
+        --end
+        if (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == false) then
+            GlobalEvents:AddNewEvent("quest1_barley_meal_done", 1);
+        end
     end
 }
