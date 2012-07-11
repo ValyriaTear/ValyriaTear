@@ -235,8 +235,9 @@ public:
 	//! \brief the scripting lines writtien after the map data.
 	std::string after_text;
 
-	//! \brief The map name presented to the player
+	//! \brief The map name and subname presented to the player
 	QString map_name;
+	QString map_subname;
 
 	//! \brief The map image filename used to represent the map.
 	QString map_image_filename;
@@ -247,8 +248,8 @@ public:
 	//! \brief A vector which contains a pointer to each tileset and the tiles it has loaded via LoadMultiImage.
 	std::vector<Tileset*> tilesets;
 
-	//! \brief A list storing the background music filenames.
-	QStringList music_files;
+	//! \brief The default background music filename, used at load time
+	QString music_filename;
 
 	//! \brief Pointer to scrollArea
 	EditorScrollArea* _ed_scrollarea;

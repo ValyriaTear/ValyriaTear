@@ -135,40 +135,21 @@ public:
 
 	//! \name Class member accessor functions
 	//@{
-	QListWidget* GetMusicList() const { return _used_music_list; }
+	QString GetMusicFile() const;
 	//@}
 
-private slots:
-	/** \brief Adds music to the used music list and removes it from the
-	***        available music list.
-	**/
-	void _AddMusic();
-
-	/** \brief Removes music from the used music list and adds it to the
-	***        available must list.
-	**/
-	void _RemoveMusic();
-
 private:
-	//! \brief A pushbutton for adding music to the map.
-	QPushButton* _add_pbut;
-	//! \brief A pushbutton for removing music from the map.
-	QPushButton* _remove_pbut;
 	//! \brief A pushbutton for finishing map music selection.
 	QPushButton* _ok_pbut;
 
 	//! \brief Label for listview showing available music to select from.
 	QLabel* _available_label;
-	//! \brief Label for listview showing music already in use by the map.
-	QLabel* _used_label;
 
 	//! \brief A layout to manage all the labels, buttons, and listviews.
 	QGridLayout* _dia_layout;
 
 	//! \brief A listview with all the remaining music files.
 	QListWidget* _available_music_list;
-	//! \brief A listview with all the already used music files.
-	QListWidget* _used_music_list;
 }; // class MusicDialog
 
 

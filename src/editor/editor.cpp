@@ -804,14 +804,7 @@ void Editor::_MapSelectMusic() {
 
 	if (music->exec() == QDialog::Accepted)
 	{
-		// Turn the items in the listwidget into a stringlist that the map
-		// will understand
-		QStringList  music_names;
-		QListWidget* music_list = music->GetMusicList();
-		for (int i = 0; i < music_list->count(); i++)
-			music_names << music_list->item(i)->text();
-
-		_ed_scrollarea->_map->music_files = music_names;
+		_ed_scrollarea->_map->music_filename = music->GetMusicFile();
 		_ed_scrollarea->_map->SetChanged(true);
 	} // only process results if user selected okay
 

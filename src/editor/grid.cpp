@@ -246,9 +246,10 @@ bool Grid::LoadMap()
 	// Load the map name and image
 	map_name = QString::fromStdString(read_data.ReadString("map_name"));
 	map_image_filename = QString::fromStdString(read_data.ReadString("map_image_filename"));
+	map_subname = QString::fromStdString(read_data.ReadString("map_subname"));
 
 	// Reset container data
-	music_files.clear();
+	music_filename.clear();
 	tileset_names.clear();
 	tilesets.clear();
 	_tile_contexts.clear();
@@ -258,7 +259,6 @@ bool Grid::LoadMap()
 			QString(tr("No 'contexts' table found.")));
 		return false;
 	}
-
 
 	// read context data
 	read_data.OpenTable("contexts");
@@ -331,21 +331,8 @@ bool Grid::LoadMap()
 		tileset_names.append(QString(read_data.ReadString(i).c_str()));
 	read_data.CloseTable();
 
-	// Load music
-	read_data.OpenTable("music_filenames");
-	table_size = read_data.GetTableSize();
-	// Remove first 4 characters in the string ("mus/")
-	for (uint32 i = 1; i <= table_size; i++)
-		music_files << QString(read_data.ReadString(i).c_str()).remove(0,4);
-	read_data.CloseTable();
-
-	if (read_data.IsErrorDetected())
-   	{
-		QMessageBox::warning(this, message_box_title,
-			QString("Data read failure occurred for string tables. Error messages:\n%1").
-			        arg(QString::fromStdString(read_data.GetErrorMessages())));
-		return false;
-	}
+	// Load default music filename
+	music_filename = QString::fromStdString(read_data.ReadString("music_filename"));
 
 	// Loading the tileset images using LoadMultiImage is done in editor.cpp in
 	// FileOpen via creation of the TilesetTable(s)
@@ -572,15 +559,15 @@ void Grid::SaveMap()
 	write_data.WriteLine("map = {}");
 
 	write_data.InsertNewLine();
-	write_data.WriteComment("The map name and location image");
+	write_data.WriteComment("The map name, subname and location image");
 	write_data.WriteString("map_name", map_name.toStdString());
 	write_data.WriteString("map_image_filename", map_image_filename.toStdString());
+	write_data.WriteString("map_subname", map_subname.toStdString());
 
 	write_data.InsertNewLine();
 	write_data.WriteComment("The number of rows, and columns that compose the map");
 	write_data.WriteInt("num_tile_cols", _width);
 	write_data.WriteInt("num_tile_rows", _height);
-	write_data.InsertNewLine();
 
 	write_data.InsertNewLine();
 	write_data.WriteComment("The contexts names and inheritance definition");
@@ -600,35 +587,20 @@ void Grid::SaveMap()
 		write_data.EndTable();
 	}
 	write_data.EndTable();
-	write_data.InsertNewLine();
 
-	write_data.WriteComment("The sound files used on this map.");
-	write_data.BeginTable("sound_filenames");
-	// TODO: currently sound_filenames table is not populated with sounds
-	write_data.EndTable();
 	write_data.InsertNewLine();
+	write_data.WriteComment("The music file used as default background music on this map.");
+	write_data.WriteComment("Other musics will have to handled through scripting.");
+	write_data.WriteString("music_filename", music_filename.ascii());
 
-	write_data.WriteComment("The music files used as background music on this map.");
-	write_data.BeginTable("music_filenames");
-	QString music_file;
-	int i = 0;
-	for (QStringList::Iterator qit = music_files.begin();
-	     qit != music_files.end(); ++qit)
-	{
-		i++;
-		music_file = *qit;
-		write_data.WriteString(i, (music_file.prepend("mus/")).ascii());
-	} // iterate through music_files writing each element
-	write_data.EndTable();
 	write_data.InsertNewLine();
-
 	write_data.WriteComment("The names of the tilesets used, with the path and file extension omitted");
 	write_data.BeginTable("tileset_filenames");
-	i = 0;
+	uint32 i = 0;
 	for (QStringList::Iterator qit = tileset_names.begin();
 	     qit != tileset_names.end(); ++qit)
 	{
-		i++;
+		++i;
 		write_data.WriteString(i, (*qit).ascii());
 	} // iterate through tileset_names writing each element
 	write_data.EndTable();
