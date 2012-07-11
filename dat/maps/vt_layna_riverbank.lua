@@ -359,7 +359,7 @@ local orlinn_dialogue_npc = {};
 local lilly = {};
 
 -- Needed event groups
-local layna_south_entrance_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_south_entrance_lua");
+local layna_south_entrance_event_group = {};
 
 -- the main map loading code
 function Load(m)
@@ -372,6 +372,8 @@ function Load(m)
 	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
+
+	layna_south_entrance_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_south_entrance_lua");
 
 	CreateCharacters();
 	-- Set the camera focus on Bronann
