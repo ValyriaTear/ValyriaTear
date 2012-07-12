@@ -58,7 +58,7 @@ MapMode* MapMode::_current_instance = NULL;
 // ********** MapMode Public Class Methods
 // ****************************************************************************
 
-MapMode::MapMode(string filename) :
+MapMode::MapMode(const std::string& filename) :
 	GameMode(),
 	_map_filename(filename),
 	_map_tablespace(""),

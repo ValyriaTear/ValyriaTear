@@ -13,14 +13,10 @@
 *** \brief   Source file for global game utility code
 *** ***************************************************************************/
 
-#include "defs.h"
-#include "utils.h"
+#include "global_utils.h"
+#include "global.h"
 
 #include "engine/system.h"
-
-#include "global.h"
-#include "global_objects.h"
-#include "global_utils.h"
 
 using namespace std;
 

@@ -16,10 +16,7 @@
 #ifndef __DIALOGUE_HEADER__
 #define __DIALOGUE_HEADER__
 
-#include "defs.h"
 #include "utils.h"
-
-#include "engine/video/video.h"
 
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
@@ -97,7 +94,7 @@ public:
 	***
 	*** Uses the default set of options for this line of text: proceed to next sequential line, no display timer.
 	**/
-	void AddLine(std::string text);
+	void AddLine(const std::string& text);
 
 	/** \brief Adds a new line of text to the dialogue
 	*** \param text The text to show on the screen
@@ -105,7 +102,7 @@ public:
 	***
 	*** No display timer is set for this version of AddText
 	**/
-	void AddLine(std::string text, int32 next_line);
+	void AddLine(const std::string& text, int32 next_line);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
@@ -113,7 +110,7 @@ public:
 	***
 	*** The dialogue will proceed to the next sequential line for this line of text.
 	**/
-	void AddLineTimed(std::string text, uint32 display_time);
+	void AddLineTimed(const std::string& text, uint32 display_time);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
@@ -122,21 +119,21 @@ public:
 	***
 	*** The dialogue will proceed to the next sequential line for this line of text.
 	**/
-	void AddLineTimed(std::string text, int32 next_line, uint32 display_time);
+	void AddLineTimed(const std::string& text, int32 next_line, uint32 display_time);
 
 	/** \brief Adds an option to the most recently added line of text
 	*** \param text The text for this particular option
 	*** \note The next line will be the next sequential line should this option be selected
 	*** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
 	**/
-	void AddOption(std::string text);
+	void AddOption(const std::string& text);
 
 	/** \brief Adds an option to the most recently added line of text
 	*** \param text The text for this particular option
 	*** \param next_line The index value of the next line of dialogue to display should this option be selected
 	*** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
 	**/
-	void AddOption(std::string text, int32 next_line);
+	void AddOption(const std::string& text, int32 next_line);
 
 	//! \brief Indicates if this dialogue has already been seen by the player.
 	bool HasAlreadySeen() const
@@ -252,13 +249,13 @@ public:
 	***
 	*** \note The next line to be read for this option will be the sequential next line of the dialogue
 	**/
-	virtual void AddOption(std::string text);
+	virtual void AddOption(const std::string& text);
 
 	/** \brief Adds a new option to the set of options
 	*** \param text The text for the new option
 	*** \param next_line An integer index of the next line of dialogue should this option be selected.
 	**/
-	virtual void AddOption(std::string text, int32 next_line);
+	virtual void AddOption(const std::string& text, int32 next_line);
 
 	//! \name Methods for retrieving properties of a specific line
 	//@{

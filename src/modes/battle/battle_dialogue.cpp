@@ -47,25 +47,25 @@ BattleDialogue::BattleDialogue(uint32 id) :
 
 
 
-void BattleDialogue::AddLine(string text, uint32 speaker) {
+void BattleDialogue::AddLine(const std::string& text, uint32 speaker) {
 	AddLineTimed(text, speaker, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER);
 }
 
 
 
-void BattleDialogue::AddLine(string text, uint32 speaker, int32 next_line) {
+void BattleDialogue::AddLine(const std::string& text, uint32 speaker, int32 next_line) {
 	AddLineTimed(text, speaker, next_line, COMMON_DIALOGUE_NO_TIMER);
 }
 
 
 
-void BattleDialogue::AddLineTimed(string text, uint32 speaker, uint32 display_time) {
+void BattleDialogue::AddLineTimed(const std::string& text, uint32 speaker, uint32 display_time) {
 	AddLineTimed(text, speaker, COMMON_DIALOGUE_NEXT_LINE, display_time);
 }
 
 
 
-void BattleDialogue::AddLineTimed(string text, uint32 speaker, int32 next_line, uint32 display_time) {
+void BattleDialogue::AddLineTimed(const std::string& text, uint32 speaker, int32 next_line, uint32 display_time) {
 	CommonDialogue::AddLineTimed(text, next_line, display_time);
 	_speakers.push_back(speaker);
 }

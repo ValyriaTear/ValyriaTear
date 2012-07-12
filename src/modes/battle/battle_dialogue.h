@@ -108,7 +108,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line, no display time
 	**/
-	void AddLine(std::string text, uint32 speaker);
+	void AddLine(const std::string& text, uint32 speaker);
 
 	/** \brief Adds a new line of text to the dialogue
 	*** \param text The text to show on the screen
@@ -118,7 +118,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - no display time
 	**/
-	void AddLine(std::string text, uint32 speaker, int32 next_line);
+	void AddLine(const std::string& text, uint32 speaker, int32 next_line);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
@@ -128,7 +128,7 @@ public:
 	*** The following line properties are set when using this call:
 	*** - proceed to next sequential line
 	**/
-	void AddLineTimed(std::string text, uint32 speaker, uint32 display_time);
+	void AddLineTimed(const std::string& text, uint32 speaker, uint32 display_time);
 
 	/** \brief Adds a new line of text to the dialogue that uses a display time
 	*** \param text The text to show on the screen
@@ -136,7 +136,7 @@ public:
 	*** \param next_line The line of dialogue which should follow this one
 	*** \param display_time The number of milliseconds that the line should be displayed for
 	**/
-	void AddLineTimed(std::string text, uint32 speaker, int32 next_line, uint32 display_time);
+	void AddLineTimed(const std::string& text, uint32 speaker, int32 next_line, uint32 display_time);
 
 	/** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
 	*** \return True if the validation was successful, false if any problems were discovered

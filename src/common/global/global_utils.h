@@ -19,10 +19,11 @@
 #ifndef __GLOBAL_UTILS_HEADER__
 #define __GLOBAL_UTILS_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 namespace hoa_global {
+
+class GlobalObject;
 
 namespace private_global {
 

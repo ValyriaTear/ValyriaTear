@@ -82,7 +82,7 @@ class MapMode : public hoa_mode_manager::GameMode {
 
 public:
 	//! \param filename The name of the Lua file that retains all data about the map to create
-	MapMode(std::string filename);
+	MapMode(const std::string& filename);
 
 	~MapMode();
 

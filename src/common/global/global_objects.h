@@ -21,6 +21,9 @@
 
 #include "global_utils.h"
 
+#include "engine/video/image.h"
+#include "engine/script/script.h"
+
 namespace hoa_global {
 
 /** ****************************************************************************

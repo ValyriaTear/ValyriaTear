@@ -668,12 +668,12 @@ void BindModeCode() {
 	[
 		luabind::class_<BattleDialogue, hoa_common::CommonDialogue>("BattleDialogue")
 			.def(luabind::constructor<uint32>())
-			.def("AddLine", (void(BattleDialogue::*)(std::string, uint32))&BattleDialogue::AddLine)
-			.def("AddLine", (void(BattleDialogue::*)(std::string, uint32, int32))&BattleDialogue::AddLine)
-			.def("AddLineTimed", (void(BattleDialogue::*)(std::string, uint32, uint32))&BattleDialogue::AddLineTimed)
-			.def("AddLineTimed", (void(BattleDialogue::*)(std::string, uint32, int32, uint32))&BattleDialogue::AddLineTimed)
-			.def("AddOption", (void(BattleDialogue::*)(std::string))&BattleDialogue::AddOption)
-			.def("AddOption", (void(BattleDialogue::*)(std::string, int32))&BattleDialogue::AddOption)
+			.def("AddLine", (void(BattleDialogue::*)(const std::string&, uint32))&BattleDialogue::AddLine)
+			.def("AddLine", (void(BattleDialogue::*)(const std::string&, uint32, int32))&BattleDialogue::AddLine)
+			.def("AddLineTimed", (void(BattleDialogue::*)(const std::string&, uint32, uint32))&BattleDialogue::AddLineTimed)
+			.def("AddLineTimed", (void(BattleDialogue::*)(const std::string&, uint32, int32, uint32))&BattleDialogue::AddLineTimed)
+			.def("AddOption", (void(BattleDialogue::*)(const std::string&))&BattleDialogue::AddOption)
+			.def("AddOption", (void(BattleDialogue::*)(const std::string&, int32))&BattleDialogue::AddOption)
 			.def("Validate", &BattleDialogue::Validate)
 			.def("SetHaltBattleAction", &BattleDialogue::SetHaltBattleAction)
 	];

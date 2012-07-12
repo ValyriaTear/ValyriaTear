@@ -665,7 +665,7 @@ private:
 	*** \param inv A reference to the inventory vector to store
 	*** \note The class type T must be a derived class of GlobalObject
 	**/
-	template <class T> void _SaveInventory(hoa_script::WriteScriptDescriptor& file, std::string name, std::vector<T*>& inv);
+	template <class T> void _SaveInventory(hoa_script::WriteScriptDescriptor& file, const std::string& name, std::vector<T*>& inv);
 
 	/** \brief A helper function to GameGlobal::SaveGame() that writes character data to the saved game file
 	*** \param file A reference to the open and valid file where to write the character data
@@ -686,7 +686,7 @@ private:
 	*** \param file A reference to the open and valid file from where to read the inventory list
 	*** \param category_name The name of the table in the file that should contain the inventory for a specific category
 	**/
-	void _LoadInventory(hoa_script::ReadScriptDescriptor& file, std::string category_name);
+	void _LoadInventory(hoa_script::ReadScriptDescriptor& file, const std::string& category_name);
 
 	/** \brief A helper function to GameGlobal::LoadGame() that loads a saved game character and adds it to the party
 	*** \param file A reference to the open and valid file from where to read the character from
@@ -744,7 +744,7 @@ template <class T> T* GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vec
 
 
 
-template <class T> void GameGlobal::_SaveInventory(hoa_script::WriteScriptDescriptor& file, std::string name, std::vector<T*>& inv) {
+template <class T> void GameGlobal::_SaveInventory(hoa_script::WriteScriptDescriptor& file, const std::string& name, std::vector<T*>& inv) {
 	if (file.IsFileOpen() == false) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed because the argument file was not open" << std::endl;
 		return;

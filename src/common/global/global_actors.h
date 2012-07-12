@@ -23,14 +23,33 @@
 #ifndef __GLOBAL_ACTORS_HEADER__
 #define __GLOBAL_ACTORS_HEADER__
 
-#include "engine/video/image.h"
-
 #include "global_utils.h"
+
+#include "engine/video/image.h"
 
 #include <map>
 #include <deque>
 
+/** \brief Namespace which contains all binding functions
+*** Contains the binding code which makes the C++ engine available to Lua
+*** This method should <b>only be called once</b>. It must be called after the
+*** ScriptEngine is initialized, otherwise the application will crash.
+**/
+namespace hoa_defs {
+void BindCommonCode();
+}
+
+namespace hoa_script {
+class ReadScriptDescriptor;
+}
+
 namespace hoa_global {
+
+class GlobalActor;
+class GlobalArmor;
+class GlobalCharacter;
+class GlobalSkill;
+class GlobalWeapon;
 
 /** ****************************************************************************
 *** \brief Represents the points of attack present on an actor

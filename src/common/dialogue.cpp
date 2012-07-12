@@ -13,15 +13,12 @@
 *** \brief   Source file for common dialogue code.
 *** ***************************************************************************/
 
-#include "utils.h"
-
-#include "engine/video/video.h"
+#include "dialogue.h"
 
 #include "common.h"
-#include "dialogue.h"
 #include "common/gui/gui.h"
 
-using namespace std;
+#include "engine/video/video.h"
 
 using namespace hoa_system;
 using namespace hoa_utils;
@@ -54,13 +51,13 @@ CommonDialogue::~CommonDialogue() {
 
 
 
-void CommonDialogue::AddLine(string text) {
+void CommonDialogue::AddLine(const std::string& text) {
 	AddLine(text, COMMON_DIALOGUE_NEXT_LINE);
 }
 
 
 
-void CommonDialogue::AddLine(string text, int32 next_line) {
+void CommonDialogue::AddLine(const std::string& text, int32 next_line) {
 	_line_count++;
 	_text.push_back(MakeUnicodeString(text));
 	_next_lines.push_back(next_line);
@@ -70,13 +67,13 @@ void CommonDialogue::AddLine(string text, int32 next_line) {
 
 
 
-void CommonDialogue::AddLineTimed(string text, uint32 display_time) {
+void CommonDialogue::AddLineTimed(const std::string& text, uint32 display_time) {
 	AddLineTimed(text, COMMON_DIALOGUE_NEXT_LINE, display_time);
 }
 
 
 
-void CommonDialogue::AddLineTimed(string text, int32 next_line, uint32 display_time) {
+void CommonDialogue::AddLineTimed(const std::string& text, int32 next_line, uint32 display_time) {
 	_line_count++;
 	_text.push_back(MakeUnicodeString(text));
 	_next_lines.push_back(next_line);
@@ -86,15 +83,15 @@ void CommonDialogue::AddLineTimed(string text, int32 next_line, uint32 display_t
 
 
 
-void CommonDialogue::AddOption(string text) {
+void CommonDialogue::AddOption(const std::string& text) {
 	AddOption(text, COMMON_DIALOGUE_NEXT_LINE);
 }
 
 
 
-void CommonDialogue::AddOption(string text, int32 next_line) {
+void CommonDialogue::AddOption(const std::string& text, int32 next_line) {
 	if (_line_count == 0) {
-		IF_PRINT_WARNING(COMMON_DEBUG) << "Attempted to add an option to a dialogue with no lines" << endl;
+		IF_PRINT_WARNING(COMMON_DEBUG) << "Attempted to add an option to a dialogue with no lines" << std::endl;
 		return;
 	}
 
@@ -112,14 +109,14 @@ void CommonDialogue::AddOption(string text, int32 next_line) {
 bool CommonDialogue::Validate() {
 	// Valid dialogues need to have at least one line
 	if (_line_count == 0) {
-		IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id << ": no lines" << endl;
+		IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id << ": no lines" << std::endl;
 		return false;
 	}
 
 	// Check that the dialogue has not been seen more times than it is allowed to be viewed
 	if ((_max_views != COMMON_DIALOGUE_INFINITE_VIEWS) && (_times_seen > static_cast<uint32>(_max_views))) {
 		IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-			<< ": discrepency in max/seen view counts" << endl;
+			<< ": discrepency in max/seen view counts" << std::endl;
 		return false;
 	}
 
@@ -127,7 +124,7 @@ bool CommonDialogue::Validate() {
 	for (uint32 i = 0; i < _line_count; i++) {
 		if ((_next_lines[i] >= 0) && (static_cast<uint32>(_next_lines[i]) >= _line_count)) {
 			IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-				<< ": next line referred to an invalid line index: " << _next_lines[i] << endl;
+				<< ": next line referred to an invalid line index: " << _next_lines[i] << std::endl;
 			return false;
 		}
 
@@ -135,7 +132,7 @@ bool CommonDialogue::Validate() {
 		if (_options[i] != 0) {
 			if (_options[i]->GetNumberOptions() == 0) {
 				IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-					<< ": line had options declared but no options defined" << endl;
+					<< ": line had options declared but no options defined" << std::endl;
 				return false;
 			}
 
@@ -143,7 +140,7 @@ bool CommonDialogue::Validate() {
 				int32 option_next_line = _options[i]->GetOptionNextLine(j);
 				if ((option_next_line >= 0) && (static_cast<uint32>(option_next_line) >= _line_count)) {
 					IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-						<< ": option's next line referred to an invalid line index: " << option_next_line << endl;
+						<< ": option's next line referred to an invalid line index: " << option_next_line << std::endl;
 					return false;
 				}
 			}
@@ -157,13 +154,13 @@ bool CommonDialogue::Validate() {
 // CommonDialogueOptions Functions
 ///////////////////////////////////////////////////////////////////////////////
 
-void CommonDialogueOptions::AddOption(string text) {
+void CommonDialogueOptions::AddOption(const std::string& text) {
 	AddOption(text, COMMON_DIALOGUE_NEXT_LINE);
 }
 
 
 
-void CommonDialogueOptions::AddOption(string text, int32 next_line) {
+void CommonDialogueOptions::AddOption(const std::string& text, int32 next_line) {
 	_text.push_back(MakeUnicodeString(text));
 	_next_lines.push_back(next_line);
 }
@@ -181,16 +178,16 @@ CommonDialogueWindow::CommonDialogueWindow() :
 	_portrait_image(NULL)
 {
 	if (_parchment_image.Load("img/menus/black_sleet_parch.png") == false)
-		PRINT_ERROR << "failed to load dialogue image: " << _parchment_image.GetFilename() << endl;
+		PRINT_ERROR << "failed to load dialogue image: " << _parchment_image.GetFilename() << std::endl;
 
 	if (_nameplate_image.Load("img/menus/dialogue_nameplate.png") == false)
-		PRINT_ERROR << "failed to load dialogue image: " << _nameplate_image.GetFilename() << endl;
+		PRINT_ERROR << "failed to load dialogue image: " << _nameplate_image.GetFilename() << std::endl;
 
 	if (_next_line_image.Load("img/menus/dialogue_cont_arrow.png") == false)
-		PRINT_ERROR << "failed to load dialogue image: " << _next_line_image.GetFilename() << endl;
+		PRINT_ERROR << "failed to load dialogue image: " << _next_line_image.GetFilename() << std::endl;
 
 	if (_last_line_image.Load("img/menus/dialogue_last_ind.png") == false)
-		PRINT_ERROR << "failed to load dialogue image: " << _last_line_image.GetFilename() << endl;
+		PRINT_ERROR << "failed to load dialogue image: " << _last_line_image.GetFilename() << std::endl;
 
 	VideoManager->PushState();
 	VideoManager->SetStandardCoordSys();
@@ -297,7 +294,7 @@ CommonDialogueSupervisor::CommonDialogueSupervisor() :
 
 CommonDialogueSupervisor::~CommonDialogueSupervisor() {
 	// Delete all dialogues
-	for (map<uint32, CommonDialogue*>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
+	for (std::map<uint32, CommonDialogue*>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
 		delete i->second;
 	}
 	_dialogues.clear();
@@ -307,17 +304,17 @@ CommonDialogueSupervisor::~CommonDialogueSupervisor() {
 
 void CommonDialogueSupervisor::AddDialogue(CommonDialogue* dialogue) {
 	if (dialogue == NULL) {
-		IF_PRINT_WARNING(COMMON_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(COMMON_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 
 	if (GetDialogue(dialogue->GetDialogueID()) != NULL) {
-		IF_PRINT_WARNING(COMMON_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << endl;
+		IF_PRINT_WARNING(COMMON_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << std::endl;
 		delete dialogue;
 		return;
 	}
 	else {
-		_dialogues.insert(make_pair(dialogue->GetDialogueID(), dialogue));
+		_dialogues.insert(std::make_pair(dialogue->GetDialogueID(), dialogue));
 	}
 }
 
@@ -328,12 +325,12 @@ void CommonDialogueSupervisor::BeginDialogue(uint32 dialogue_id) {
 	CommonDialogue* dialogue = GetDialogue(dialogue_id);
 
 	if (dialogue == NULL) {
-		IF_PRINT_WARNING(COMMON_DEBUG) << "could not begin dialogue because none existed for id# " << dialogue_id << endl;
+		IF_PRINT_WARNING(COMMON_DEBUG) << "could not begin dialogue because none existed for id# " << dialogue_id << std::endl;
 		return;
 	}
 
 	if (_current_dialogue != NULL) {
-		IF_PRINT_WARNING(COMMON_DEBUG) << "beginning a new dialogue while another dialogue is still active" << endl;
+		IF_PRINT_WARNING(COMMON_DEBUG) << "beginning a new dialogue while another dialogue is still active" << std::endl;
 	}
 
 	_line_counter = 0;
@@ -352,7 +349,7 @@ void CommonDialogueSupervisor::BeginDialogue(uint32 dialogue_id) {
 
 void CommonDialogueSupervisor::EndDialogue() {
 	if (_current_dialogue == NULL) {
-		IF_PRINT_WARNING(COMMON_DEBUG) << "tried to end a dialogue when none was active" << endl;
+		IF_PRINT_WARNING(COMMON_DEBUG) << "tried to end a dialogue when none was active" << std::endl;
 		return;
 	}
 
@@ -364,7 +361,7 @@ void CommonDialogueSupervisor::EndDialogue() {
 
 
 CommonDialogue* CommonDialogueSupervisor::GetDialogue(uint32 dialogue_id) {
-	map<uint32, CommonDialogue*>::iterator location = _dialogues.find(dialogue_id);
+	std::map<uint32, CommonDialogue*>::iterator location = _dialogues.find(dialogue_id);
 	if (location == _dialogues.end()) {
 		return NULL;
 	}

@@ -16,8 +16,6 @@
 #include "engine/system.h"
 #include "global.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 
 using namespace hoa_video;
@@ -37,22 +35,22 @@ bool GLOBAL_DEBUG = false;
 // GlobalEventGroup class
 ////////////////////////////////////////////////////////////////////////////////
 
-void GlobalEventGroup::AddNewEvent(const string& event_name, int32 event_value) {
+void GlobalEventGroup::AddNewEvent(const std::string& event_name, int32 event_value) {
 	if (DoesEventExist(event_name) == true) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "an event with the desired name \"" << event_name << "\" already existed in this group: "
-			<< _group_name << endl;
+			<< _group_name << std::endl;
 		return;
 	}
-	_events.insert(make_pair(event_name, event_value));
+	_events.insert(std::make_pair(event_name, event_value));
 }
 
 
 
-int32 GlobalEventGroup::GetEvent(const string& event_name) {
-	map<string, int32>::iterator event_iter = _events.find(event_name);
+int32 GlobalEventGroup::GetEvent(const std::string& event_name) {
+	std::map<std::string, int32>::iterator event_iter = _events.find(event_name);
 	if (event_iter == _events.end()) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "an event with the specified name \"" << event_name << "\" did not exist in this group: "
-			<< _group_name << endl;
+			<< _group_name << std::endl;
 		return GLOBAL_BAD_EVENT;
 	}
 	return event_iter->second;
@@ -60,11 +58,11 @@ int32 GlobalEventGroup::GetEvent(const string& event_name) {
 
 
 
-void GlobalEventGroup::SetEvent(const string& event_name, int32 event_value) {
-	map<string, int32>::iterator event_iter = _events.find(event_name);
+void GlobalEventGroup::SetEvent(const std::string& event_name, int32 event_value) {
+	std::map<std::string, int32>::iterator event_iter = _events.find(event_name);
 	if (event_iter == _events.end()) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the event with the specified name \"" << event_name << "\" did not exist in this group: "
-			<< _group_name << endl;
+			<< _group_name << std::endl;
 		return;
 	}
 	event_iter->second = event_value;
@@ -81,13 +79,13 @@ GameGlobal::GameGlobal() :
 	_y_save_map_position(0),
 	_same_map_hud_name_as_previous(false),
 	_battle_setting(GLOBAL_BATTLE_INVALID) {
-	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << endl;
+	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
 
 
 
 GameGlobal::~GameGlobal() {
-	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal destructor invoked" << endl;
+	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal destructor invoked" << std::endl;
 
 	ClearAllData();
 
@@ -209,8 +207,8 @@ bool GameGlobal::SingletonInitialize() {
 
 void GameGlobal::ClearAllData() {
 	// Delete all inventory objects
-	for (map<uint32, GlobalObject*>::iterator i = _inventory.begin(); i != _inventory.end(); i++) {
-		delete i->second;
+	for (std::map<uint32, GlobalObject*>::iterator it = _inventory.begin(); it != _inventory.end(); ++it) {
+		delete it->second;
 	}
 	_inventory.clear();
 	_inventory_items.clear();
@@ -223,16 +221,16 @@ void GameGlobal::ClearAllData() {
 	_inventory_key_items.clear();
 
 	// Delete all characters
-	for (map<uint32, GlobalCharacter*>::iterator i = _characters.begin(); i != _characters.end(); i++) {
-		delete i->second;
+	for (std::map<uint32, GlobalCharacter*>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
+		delete it->second;
 	}
 	_characters.clear();
 	_ordered_characters.clear();
 	_active_party.RemoveAllActors();
 
 	// Delete all event groups
-	for (map<string, GlobalEventGroup*>::iterator i = _event_groups.begin(); i != _event_groups.end(); i++) {
-		delete (i->second);
+	for (std::map<std::string, GlobalEventGroup*>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
+		delete (it->second);
 	}
 	_event_groups.clear();
 } // void GameGlobal::ClearAllData()
@@ -245,7 +243,7 @@ void GameGlobal::AddCharacter(uint32 id) {
 	std::map<uint32, GlobalCharacter*>::iterator it = _characters.find(id);
 	if (it != _characters.end()) {
 		if (it->second->IsEnabled()) {
-				IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << id << endl;
+				IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << id << std::endl;
 		        return;
 		}
 		else {
@@ -259,7 +257,7 @@ void GameGlobal::AddCharacter(uint32 id) {
 	// Add the character if not existing in the main character data
 	if (it == _characters.end()) {
 		ch = new GlobalCharacter(id);
-		_characters.insert(make_pair(id, ch));
+		_characters.insert(std::make_pair(id, ch));
 	}
 	else {
 		ch = it->second;
@@ -276,16 +274,16 @@ void GameGlobal::AddCharacter(uint32 id) {
 
 void GameGlobal::AddCharacter(GlobalCharacter* ch) {
 	if (ch == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << std::endl;
 		return;
 	}
 
 	if (_characters.find(ch->GetID()) != _characters.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << ch->GetID() << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << ch->GetID() << std::endl;
 		return;
 	}
 
-	_characters.insert(make_pair(ch->GetID(), ch));
+	_characters.insert(std::make_pair(ch->GetID(), ch));
 
 	// If the charactger is currently disabled, don't add it to the available characters.
 	if (!ch->IsEnabled())
@@ -303,16 +301,16 @@ void GameGlobal::AddCharacter(GlobalCharacter* ch) {
 void GameGlobal::RemoveCharacter(uint32 id, bool erase) {
 	std::map<uint32, GlobalCharacter*>::iterator it = _characters.find(id);
 	if (it == _characters.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove a character that did not exist: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove a character that did not exist: " << id << std::endl;
 		return;
 	}
 
 	// Disable the character
 	it->second->Enable(false);
 
-	for (vector<GlobalCharacter*>::iterator i = _ordered_characters.begin(); i != _ordered_characters.end(); i++) {
-		if ((*i)->GetID() == id) {
-			_ordered_characters.erase(i);
+	for (std::vector<GlobalCharacter*>::iterator it = _ordered_characters.begin(); it != _ordered_characters.end(); ++it) {
+		if ((*it)->GetID() == id) {
+			_ordered_characters.erase(it);
 			break;
 		}
 	}
@@ -332,7 +330,7 @@ void GameGlobal::RemoveCharacter(uint32 id, bool erase) {
 
 
 GlobalCharacter* GameGlobal::GetCharacter(uint32 id) {
-	map<uint32, GlobalCharacter*>::iterator ch = _characters.find(id);
+	std::map<uint32, GlobalCharacter*>::iterator ch = _characters.find(id);
 	if (ch == _characters.end())
 		return NULL;
 	else
@@ -343,15 +341,15 @@ GlobalCharacter* GameGlobal::GetCharacter(uint32 id) {
 void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index) {
 	// Deal with the ordered characters
 	if (first_index == second_index) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << std::endl;
 		return;
 	}
 	if (first_index >= _ordered_characters.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index argument exceeded current party size: " << first_index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index argument exceeded current party size: " << first_index << std::endl;
 		return;
 	}
 	if (second_index >= _ordered_characters.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "second_index argument exceeded current party size: " << second_index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "second_index argument exceeded current party size: " << second_index << std::endl;
 		return;
 	}
 
@@ -378,46 +376,46 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count) {
 	// Otherwise create a new object instance and add it to the inventory
 	if ((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
 		GlobalItem *new_obj = new GlobalItem(obj_id, obj_count);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_items.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
 		GlobalWeapon *new_obj = new GlobalWeapon(obj_id, obj_count);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_weapons.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
 		GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_head_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
 		GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_torso_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
 		GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_arm_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
 		GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_leg_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SHARD_ID)) {
 // 		GlobalShard *new_obj = new GlobalShard(obj_id, obj_count);
-// 		_inventory.insert(make_pair(obj_id, new_obj));
+// 		_inventory.insert(std::make_pair(obj_id, new_obj));
 // 		_inventory_shards.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
 // 		GlobalKeyItem *new_obj = new GlobalKeyItem(obj_id, obj_count);
-// 		_inventory.insert(make_pair(obj_id, new_obj));
+// 		_inventory.insert(std::make_pair(obj_id, new_obj));
 // 		_inventory_key_items.push_back(new_obj);
 	}
 	else {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
 	}
 } // void GameGlobal::AddToInventory(uint32 obj_id)
 
@@ -425,7 +423,7 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count) {
 
 void GameGlobal::AddToInventory(GlobalObject* object) {
 	if (object == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << std::endl;
 		return;
 	}
 
@@ -442,32 +440,32 @@ void GameGlobal::AddToInventory(GlobalObject* object) {
 	// Figure out which type of object this is, cast it to the correct type, and add it to the inventory
 	if ((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
 		GlobalItem *new_obj = dynamic_cast<GlobalItem*>(object);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_items.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
 		GlobalWeapon *new_obj = dynamic_cast<GlobalWeapon*>(object);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_weapons.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
 		GlobalArmor *new_obj = dynamic_cast<GlobalArmor*>(object);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_head_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
 		GlobalArmor *new_obj = dynamic_cast<GlobalArmor*>(object);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_torso_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
 		GlobalArmor *new_obj = dynamic_cast<GlobalArmor*>(object);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_arm_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
 		GlobalArmor *new_obj = dynamic_cast<GlobalArmor*>(object);
-		_inventory.insert(make_pair(obj_id, new_obj));
+		_inventory.insert(std::make_pair(obj_id, new_obj));
 		_inventory_leg_armor.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SHARD_ID)) {
@@ -481,7 +479,7 @@ void GameGlobal::AddToInventory(GlobalObject* object) {
 // 		_inventory_key_items.push_back(new_obj);
 	}
 	else {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
 		delete object;
 	}
 } // void GameGlobal::AddToInventory(GlobalObject* object)
@@ -490,45 +488,45 @@ void GameGlobal::AddToInventory(GlobalObject* object) {
 
 void GameGlobal::RemoveFromInventory(uint32 obj_id) {
 	if (_inventory.find(obj_id) == _inventory.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory that didn't exist with id: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory that didn't exist with id: " << obj_id << std::endl;
 		return;
 	}
 
 	// Use the id value to figure out what type of object it is, and remove it from the object vector
 	if ((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_items) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory items: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory items: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_weapons) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory weapons: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory weapons: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_head_armor) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory head armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory head armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_torso_armor) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory torso armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory torso armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_arm_armor) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory arm armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory arm armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_leg_armor) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory leg armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory leg armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SHARD_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_shards) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory shards: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory shards: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
 		if (_RemoveFromInventory(obj_id, _inventory_key_items) == false)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory key items: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory key items: " << obj_id << std::endl;
 	}
 	else {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory with an invalid id: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory with an invalid id: " << obj_id << std::endl;
 	}
 } // void GameGlobal::RemoveFromInventory(uint32 obj_id)
 
@@ -536,7 +534,7 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id) {
 
 GlobalObject* GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts) {
 	if (_inventory.find(obj_id) == _inventory.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
 		return NULL;
 	}
 
@@ -545,45 +543,45 @@ GlobalObject* GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts) 
 	if ((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_items, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_weapons, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory weapons: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory weapons: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_head_armor, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory head armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory head armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_torso_armor, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory torso armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory torso armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_arm_armor, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory arm armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory arm armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_leg_armor, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory leg armor: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory leg armor: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SHARD_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_shards, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory shards: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory shards: " << obj_id << std::endl;
 	}
 	else if ((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
 		return_object = _RetrieveFromInventory(obj_id, _inventory_key_items, all_counts);
 		if (return_object == NULL)
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory key items: " << obj_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory key items: " << obj_id << std::endl;
 	}
 	else {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory with an invalid id: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory with an invalid id: " << obj_id << std::endl;
 	}
 
 	return return_object;
@@ -594,7 +592,7 @@ GlobalObject* GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts) 
 void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count) {
 	// Do nothing if the item does not exist in the inventory
 	if (_inventory.find(obj_id) == _inventory.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to increment count for an object that was not present in the inventory: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to increment count for an object that was not present in the inventory: " << obj_id << std::endl;
 		return;
 	}
 
@@ -606,13 +604,13 @@ void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count) {
 void GameGlobal::DecrementObjectCount(uint32 obj_id, uint32 count) {
 	// Do nothing if the item does not exist in the inventory
 	if (_inventory.find(obj_id) == _inventory.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement count for an object that was not present in the inventory: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement count for an object that was not present in the inventory: " << obj_id << std::endl;
 		return;
 	}
 
 	// Print a warning if the amount to decrement by exceeds the object's current count
 	if (count > _inventory[obj_id]->GetCount()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "amount to decrement count by exceeded available count: " << obj_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "amount to decrement count by exceeded available count: " << obj_id << std::endl;
 	}
 
 	// Decrement the number of objects so long as the number to decrement by does not equal or exceed the count
@@ -627,12 +625,12 @@ void GameGlobal::DecrementObjectCount(uint32 obj_id, uint32 count) {
 // GameGlobal class - Event Group Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-bool GameGlobal::DoesEventExist(const string& group_name, const string& event_name) const {
-	map<string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
+bool GameGlobal::DoesEventExist(const std::string& group_name, const std::string& event_name) const {
+	std::map<std::string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
 	if (group_iter == _event_groups.end())
 		return false;
 
-	map<string, int32>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
+	std::map<std::string, int32>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
 	if (event_iter == group_iter->second->GetEvents().end())
 		return false;
 
@@ -641,23 +639,23 @@ bool GameGlobal::DoesEventExist(const string& group_name, const string& event_na
 
 
 
-void GameGlobal::AddNewEventGroup(const string& group_name) {
+void GameGlobal::AddNewEventGroup(const std::string& group_name) {
 	if (DoesEventGroupExist(group_name) == true) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed because there was already an event group that existed for "
-			<< "the requested group name: " << group_name << endl;
+			<< "the requested group name: " << group_name << std::endl;
 		return;
 	}
 
 	GlobalEventGroup* geg = new GlobalEventGroup(group_name);
-	_event_groups.insert(make_pair(group_name, geg));
+	_event_groups.insert(std::make_pair(group_name, geg));
 }
 
 
 
-GlobalEventGroup* GameGlobal::GetEventGroup(const string& group_name) const {
-	map<string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
+GlobalEventGroup* GameGlobal::GetEventGroup(const std::string& group_name) const {
+	std::map<std::string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
 	if (group_iter == _event_groups.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << std::endl;
 		return NULL;
 	}
 	return (group_iter->second);
@@ -665,12 +663,12 @@ GlobalEventGroup* GameGlobal::GetEventGroup(const string& group_name) const {
 
 
 
-int32 GameGlobal::GetEventValue(const string& group_name, const string& event_name) const {
-	map<string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
+int32 GameGlobal::GetEventValue(const std::string& group_name, const std::string& event_name) const {
+	std::map<std::string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
 	if (group_iter == _event_groups.end())
 		return GLOBAL_BAD_EVENT;
 
-	map<string, int32>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
+	std::map<std::string, int32>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
 	if (event_iter == group_iter->second->GetEvents().end())
 		return GLOBAL_BAD_EVENT;
 
@@ -679,10 +677,10 @@ int32 GameGlobal::GetEventValue(const string& group_name, const string& event_na
 
 
 
-uint32 GameGlobal::GetNumberEvents(const string& group_name) const {
-	map<string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
+uint32 GameGlobal::GetNumberEvents(const std::string& group_name) const {
+	std::map<std::string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
 	if (group_iter == _event_groups.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << std::endl;
 		return 0;
 	}
 	return group_iter->second->GetNumberEvents();
@@ -697,7 +695,7 @@ void GameGlobal::SetMap(const std::string& map_filename, const std::string& map_
 	_map_filename = map_filename;
 
 	if (!_map_image.Load(map_image_filename))
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load map image: " << map_image_filename << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load map image: " << map_image_filename << std::endl;
 
 	// Updates the map hud names info.
 	_previous_map_hud_name = _map_hud_name;
@@ -707,7 +705,7 @@ void GameGlobal::SetMap(const std::string& map_filename, const std::string& map_
 
 
 
-bool GameGlobal::SaveGame(const string& filename, uint32 slot_id, uint32 x_position, uint32 y_position) {
+bool GameGlobal::SaveGame(const std::string& filename, uint32 slot_id, uint32 x_position, uint32 y_position) {
 	WriteScriptDescriptor file;
 	if (file.OpenFile(filename) == false) {
 		return false;
@@ -768,8 +766,8 @@ bool GameGlobal::SaveGame(const string& filename, uint32 slot_id, uint32 x_posit
 	// ----- (6) Save event data
 	file.InsertNewLine();
 	file.WriteLine("event_groups = {");
-	for (map<string, GlobalEventGroup*>::iterator i = _event_groups.begin(); i != _event_groups.end(); i++) {
-		_SaveEvents(file, i->second);
+	for (std::map<std::string, GlobalEventGroup*>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
+		_SaveEvents(file, it->second);
 	}
 	file.WriteLine("}");
 
@@ -778,8 +776,8 @@ bool GameGlobal::SaveGame(const string& filename, uint32 slot_id, uint32 x_posit
 	// ----- (7) Report any errors detected from the previous write operations
 	if (file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while writing the save game file - they are listed below" << endl;
-			cerr << file.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while writing the save game file - they are listed below" << std::endl;
+			std::cerr << file.GetErrorMessages() << std::endl;
 			file.ClearErrors();
 		}
 	}
@@ -794,7 +792,7 @@ bool GameGlobal::SaveGame(const string& filename, uint32 slot_id, uint32 x_posit
 
 
 
-bool GameGlobal::LoadGame(const string& filename, uint32 slot_id) {
+bool GameGlobal::LoadGame(const std::string& filename, uint32 slot_id) {
 	ReadScriptDescriptor file;
 	if (file.OpenFile(filename, true) == false) {
 		return false;
@@ -832,7 +830,7 @@ bool GameGlobal::LoadGame(const string& filename, uint32 slot_id) {
 
 	// Load characters into the party in the correct order
 	file.OpenTable("characters");
-	vector<uint32> char_ids;
+	std::vector<uint32> char_ids;
 	file.ReadUIntVector("order", char_ids);
 	for (uint32 i = 0; i < char_ids.size(); i++) {
 		_LoadCharacter(file, char_ids[i]);
@@ -840,7 +838,7 @@ bool GameGlobal::LoadGame(const string& filename, uint32 slot_id) {
 	file.CloseTable();
 
 	// Load event data
-	vector<string> group_names;
+	std::vector<std::string> group_names;
 	file.OpenTable("event_groups");
 	file.ReadTableKeys(group_names);
 	for (uint32 i = 0; i < group_names.size(); i++)
@@ -850,8 +848,8 @@ bool GameGlobal::LoadGame(const string& filename, uint32 slot_id) {
 	// Report any errors detected from the previous read operations
 	if (file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << endl;
-			cerr << file.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << std::endl;
+			std::cerr << file.GetErrorMessages() << std::endl;
 			file.ClearErrors();
 		}
 	}
@@ -870,11 +868,11 @@ bool GameGlobal::LoadGame(const string& filename, uint32 slot_id) {
 
 void GameGlobal::_SaveCharacter(WriteScriptDescriptor& file, GlobalCharacter* character, bool last) {
 	if (file.IsFileOpen() == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
 		return;
 	}
 	if (character == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL character pointer argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL character pointer argument" << std::endl;
 		return;
 	}
 
@@ -938,7 +936,7 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor& file, GlobalCharacter* ch
 	file.WriteLine("\t\t},");
 
 	// ----- (3): Write out the character's skills
-	vector<GlobalSkill*>* skill_vector;
+	std::vector<GlobalSkill*>* skill_vector;
 
 	file.InsertNewLine();
 	file.WriteLine("\t\tattack_skills = {");
@@ -979,7 +977,7 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor& file, GlobalCharacter* ch
 	// ----- (4): Write out the character's growth data
 	GlobalCharacterGrowth* growth = character->GetGrowth();
 	if (growth->IsGrowthDetected()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "discovered unacknowledged character growth while saving game file" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "discovered unacknowledged character growth while saving game file" << std::endl;
 	}
 
 	file.InsertNewLine();
@@ -1076,12 +1074,12 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor& file, GlobalCharacter* ch
 	file.WriteLine("\n\t\t\t},");
 
 	file.WriteLine("\t\t\tskills_learned = { ");
-	for (vector<GlobalSkill*>::iterator i = growth->_skills_learned.begin(); i != growth->_skills_learned.end(); i++) {
-		if (i == growth->_skills_learned.begin())
+	for (std::vector<GlobalSkill*>::iterator it = growth->_skills_learned.begin(); it != growth->_skills_learned.end(); ++it) {
+		if (it == growth->_skills_learned.begin())
 			file.WriteLine("\t\t\t\t", false);
 		else
 			file.WriteLine(", ", false);
-		file.WriteLine(NumberToString((*i)->GetID()), false);
+		file.WriteLine(NumberToString((*it)->GetID()), false);
 	}
 	file.WriteLine("\n\t\t\t}");
 	file.WriteLine("\t\t}");
@@ -1096,35 +1094,35 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor& file, GlobalCharacter* ch
 
 void GameGlobal::_SaveEvents(WriteScriptDescriptor& file, GlobalEventGroup* event_group) {
 	if (file.IsFileOpen() == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
 		return;
 	}
 	if (event_group == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL event group pointer argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL event group pointer argument" << std::endl;
 		return;
 	}
 
 	file.WriteLine("\t" + event_group->GetGroupName() + " = {");
 
-	for (map<string, int32>::const_iterator i = event_group->GetEvents().begin(); i != event_group->GetEvents().end(); i++) {
-		if (i == event_group->GetEvents().begin())
+	for (std::map<std::string, int32>::const_iterator it = event_group->GetEvents().begin(); it != event_group->GetEvents().end(); ++it) {
+		if (it == event_group->GetEvents().begin())
 			file.WriteLine("\t\t", false);
 		else
 			file.WriteLine(", ", false);
-		file.WriteLine("[\"" + i->first + "\"] = " + NumberToString(i->second), false);
+		file.WriteLine("[\"" + it->first + "\"] = " + NumberToString(it->second), false);
 	}
 	file.WriteLine("\t},");
 }
 
 
 
-void GameGlobal::_LoadInventory(ReadScriptDescriptor& file, string category_name) {
+void GameGlobal::_LoadInventory(ReadScriptDescriptor& file, const std::string& category_name) {
 	if (file.IsFileOpen() == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
 		return;
 	}
 
-	vector<uint32> object_ids;
+	std::vector<uint32> object_ids;
 
 	// The table keys are the inventory object ID numbers. The value of each key is the count of that object
 	file.OpenTable(category_name);
@@ -1139,7 +1137,7 @@ void GameGlobal::_LoadInventory(ReadScriptDescriptor& file, string category_name
 
 void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	if (file.IsFileOpen() == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
 		return;
 	}
 
@@ -1206,7 +1204,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.CloseTable();
 
 	// ----- (4): Read the character's skills and pass those onto the character object
-	vector<uint32> skill_ids;
+	std::vector<uint32> skill_ids;
 
 	skill_ids.clear();
 	file.ReadUIntVector("attack_skills", skill_ids);
@@ -1228,7 +1226,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 
 	// ----- (5): Reset the character's growth from the saved data
 	GlobalCharacterGrowth* growth = character->GetGrowth();
-	vector<uint32> growth_keys;
+	std::vector<uint32> growth_keys;
 
 	file.OpenTable("growth");
 
@@ -1239,7 +1237,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("hit_points");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_hit_points_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
+		growth->_hit_points_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1247,7 +1245,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("skill_points");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_skill_points_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
+		growth->_skill_points_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1255,7 +1253,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("strength");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_strength_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
+		growth->_strength_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1263,7 +1261,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("vigor");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_vigor_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
+		growth->_vigor_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1271,7 +1269,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("fortitude");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_fortitude_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
+		growth->_fortitude_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1279,7 +1277,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("protection");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_protection_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
+		growth->_protection_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1287,7 +1285,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("agility");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_agility_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
+		growth->_agility_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1295,7 +1293,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 	file.OpenTable("evade");
 	file.ReadTableKeys(growth_keys);
 	for (uint32 i = 0; i < growth_keys.size(); i++) {
-		growth->_evade_periodic_growth.push_back(make_pair(growth_keys[i], file.ReadFloat(growth_keys[i])));
+		growth->_evade_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadFloat(growth_keys[i])));
 	}
 	file.CloseTable();
 
@@ -1313,16 +1311,16 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id) {
 
 
 
-void GameGlobal::_LoadEvents(ReadScriptDescriptor& file, const string& group_name) {
+void GameGlobal::_LoadEvents(ReadScriptDescriptor& file, const std::string& group_name) {
 	if (file.IsFileOpen() == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
 		return;
 	}
 
 	AddNewEventGroup(group_name);
 	GlobalEventGroup* new_group = GetEventGroup(group_name); // new_group is guaranteed not to be NULL
 
-	vector<string> event_names;
+	std::vector<std::string> event_names;
 
 	file.OpenTable(group_name);
 	file.ReadTableKeys(event_names);
