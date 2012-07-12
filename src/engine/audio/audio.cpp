@@ -510,6 +510,8 @@ void AudioEngine::RemoveOwner(hoa_mode_manager::GameMode* gm) {
 		if (it->second.audio->RemoveOwner(gm)) {
 			delete it->second.audio;
 			_audio_cache.erase(it);
+			// Make sure the iterator doesn't get flawed after erase.
+			it = _audio_cache.begin();
 		}
 	}
 }
