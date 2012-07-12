@@ -22,6 +22,11 @@
 #ifndef __AUDIO_DESCRIPTOR_HEADER__
 #define __AUDIO_DESCRIPTOR_HEADER__
 
+#include "utils.h"
+
+#include "audio_input.h"
+#include "audio_stream.h"
+
 #ifdef __MACH__
 	#include <OpenAL/al.h>
 	#include <OpenAL/alc.h>
@@ -30,11 +35,8 @@
 	#include "alc.h"
 #endif
 
-#include "defs.h"
-#include "utils.h"
-
-#include "audio_input.h"
-#include "audio_stream.h"
+#include <cstring>
+#include <list>
 
 namespace hoa_audio {
 

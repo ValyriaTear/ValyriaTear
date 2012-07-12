@@ -13,6 +13,8 @@
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
+#include "utils.h"
+
 // Headers included for directory manipulation. Windows has its own way of
 // dealing with directories, hence the need for conditional includes
 #ifdef _WIN32
@@ -25,14 +27,12 @@
 	#include <unistd.h>
 #endif
 
+#include <SDL/SDL.h>
 #include <fstream>
 #include <sys/stat.h>
 #include <iconv.h>
-
-#include "utils.h"
-#include <SDL/SDL.h>
-
-using namespace std;
+#include <cmath>
+#include <stdexcept>
 
 namespace hoa_utils {
 
@@ -92,7 +92,7 @@ float GetFloatInteger(float value) {
 
 
 float FloorToFloatMultiple (const float value, const float multiple) {
-	return multiple * floor(value / multiple);
+	return multiple * std::floor(value / multiple);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -263,17 +263,17 @@ Exception::~Exception() throw()
 
 
 
-string Exception::ToString() const throw() {
-    return string("EXCEPTION:" + _file + ":" + _function + ":" + NumberToString(_line) + ": " + _message);
+std::string Exception::ToString() const throw() {
+    return std::string("EXCEPTION:" + _file + ":" + _function + ":" + NumberToString(_line) + ": " + _message);
 }
 
 
-string Exception::GetMessage() const throw() {
+std::string Exception::GetMessage() const throw() {
     return _message;
 }
 
 
-string Exception::GetFile() const throw() {
+std::string Exception::GetFile() const throw() {
     return _file;
 }
 
@@ -283,7 +283,7 @@ int Exception::GetLine() const throw() {
 }
 
 
-string Exception::GetFunction() const throw() {
+std::string Exception::GetFunction() const throw() {
     return _function;
 }
 
@@ -292,7 +292,7 @@ string Exception::GetFunction() const throw() {
 ////////////////////////////////////////////////////////////////////////////////
 
 // Returns true if the given text is a number
-bool IsStringNumeric(const string& text) {
+bool IsStringNumeric(const std::string& text) {
 	if (text.empty())
 		return false;
 
@@ -394,7 +394,7 @@ bool UTF8ToUTF16(const char *source, uint16 *dest, size_t length) {
 }
 
 // Creates a ustring from a normal string
-ustring MakeUnicodeString(const string& text) {
+ustring MakeUnicodeString(const std::string& text) {
 	int32 length = static_cast<int32>(text.length() + 1);
 	uint16 *ubuff = new uint16[length + 1];
 	memset(ubuff, 0, 2*(length+1));
@@ -431,7 +431,7 @@ ustring MakeUnicodeString(const string& text) {
 
 
 // Creates a normal string from a ustring
-string MakeStandardString(const ustring& text) {
+std::string MakeStandardString(const ustring& text) {
 	int32 length = static_cast<int32>(text.length());
 
 	unsigned char *strbuff = new unsigned char[length+1];
@@ -446,7 +446,7 @@ string MakeStandardString(const ustring& text) {
 			strbuff[c] = static_cast<unsigned char>(curr_char);
 	}
 
-	string new_str(reinterpret_cast<char*>(strbuff));
+	std::string new_str(reinterpret_cast<char*>(strbuff));
 	delete [] strbuff;
 
 	return new_str;
@@ -481,7 +481,7 @@ int32 RandomBoundedInteger(int32 lower_bound, int32 upper_bound) {
 
 	range = upper_bound - lower_bound + 1;
 	if (range < 0) { // Oops, someone accidentally switched the lower/upper bound arguments
-		if (UTILS_DEBUG) cerr << "UTILS WARNING: Call to RandomNumber had bound arguments swapped." << endl;
+		IF_PRINT_WARNING(UTILS_DEBUG) << "UTILS WARNING: Call to RandomNumber had bound arguments swapped." << std::endl;
 		range = range * -1;
 	}
 
@@ -501,7 +501,7 @@ int32 GaussianRandomValue(int32 mean, float std_dev, bool positive_value) {
 
 	// Make sure that the standard deviation is positive
 	if (std_dev < 0) {
-		cerr << "UTILS WARNING: negative value for standard deviation argument in function GaussianValue" << endl;
+		std::cerr << "UTILS WARNING: negative value for standard deviation argument in function GaussianValue" << std::endl;
 		std_dev = -1.0f * std_dev;
 	}
 
@@ -573,8 +573,8 @@ bool MoveFile(const std::string& source_name, const std::string& destination_nam
 void CopyFile(const std::string& source, const std::string& destination) {
 	if (DoesFileExist(destination))
 		remove(destination.c_str());
-	ifstream src(source.c_str());
-	ofstream dst(destination.c_str());
+	std::ifstream src(source.c_str());
+	std::ofstream dst(destination.c_str());
 	dst << src.rdbuf();
 }
 
@@ -597,7 +597,7 @@ bool MakeDirectory(const std::string& dir_name) {
 	#endif
 
 	if (success == -1) {
-		cerr << "UTILS ERROR: could not create directory: " << dir_name.c_str() << endl;
+		std::cerr << "UTILS ERROR: could not create directory: " << dir_name.c_str() << std::endl;
 		return false;
 	}
 
@@ -626,7 +626,7 @@ bool CleanDirectory(const std::string& dir_name) {
 		if(app_path[app_path_len-1] == '\\')    // Remove the ending slash if one is there
 			app_path[app_path_len-1] = '\0';
 
-		string full_path = app_path;
+		std::string full_path = app_path;
 
 		if (dir_name[0] == '/' || dir_name[0] == '\\') {
 			full_path += dir_name;
@@ -659,17 +659,17 @@ bool CleanDirectory(const std::string& dir_name) {
 
 	parent_dir = opendir(dir_name.c_str());   // open the directory we want to clean
 	if (!parent_dir) {
-		cerr << "UTILS ERROR: failed to clean directory: " << dir_name << endl;
+		std::cerr << "UTILS ERROR: failed to clean directory: " << dir_name << std::endl;
 		return false;
 	}
 
-	string base_dir = dir_name;
+	std::string base_dir = dir_name;
 	if (base_dir[base_dir.length()-1] != '/')
 		base_dir += "/";
 
 	// Remove each file found in the parent directory
 	while ((dir_file = readdir(parent_dir))) {
-		string file_name = base_dir + dir_file->d_name;
+		std::string file_name = base_dir + dir_file->d_name;
 		remove(file_name.c_str());
 	}
 
@@ -696,16 +696,16 @@ bool RemoveDirectory(const std::string& dir_name) {
 	int32 success = rmdir(dir_name.c_str());
 
 	if (success == -1) {
-		cerr << "UTILS ERROR: could not delete directory: " << dir_name << endl;
+		std::cerr << "UTILS ERROR: could not delete directory: " << dir_name << std::endl;
 		return false;
 	}
 
 	return true;
 }
 
-vector<string> ListDirectory(const std::string& dir_name, const std::string& filter) {
+std::vector<std::string> ListDirectory(const std::string& dir_name, const std::string& filter) {
 	//create our vector
-	vector<string> directoryList;
+	std::vector<std::string> directoryList;
 
 	//Don't try to list if the directory does not exist
 	struct stat buf;
@@ -714,7 +714,7 @@ vector<string> ListDirectory(const std::string& dir_name, const std::string& fil
 		return directoryList;
 
 	//directory exists so lets list
-	#if defined _WIN32
+#if defined _WIN32
 	//Windows platform
 
 		// Get the current directory that the application resides in
@@ -727,7 +727,7 @@ vector<string> ListDirectory(const std::string& dir_name, const std::string& fil
 		if(app_path[app_path_len-1] == '\\')    // Remove the ending slash if one is there
 			app_path[app_path_len-1] = '\0';
 
-		string full_path = app_path;
+		std::string full_path = app_path;
 
 		if (dir_name[0] == '/' || dir_name[0] == '\\') {
 			full_path += dir_name;
@@ -749,34 +749,34 @@ vector<string> ListDirectory(const std::string& dir_name, const std::string& fil
 			   std::string fileName(file_found);
 				if(filter == "")
 					directoryList.push_back(file_found);
-				else if(fileName.find(filter) != string::npos)
+				else if(fileName.find(filter) != std::string::npos)
 					directoryList.push_back(file_found);
 			} while(FindNextFileA(hp, &info));
 		}
 		FindClose(hp);
-	#else
+#else
 	//Not Windows
 	DIR *dir;
 	struct dirent *dir_file;
 	dir = opendir(dir_name.c_str()); //open the directory for listing
 	if(!dir) {
-		cerr << "UTILS ERROR: Failed to list directory: " << dir_name << endl;
+		std::cerr << "UTILS ERROR: Failed to list directory: " << dir_name << std::endl;
 		return directoryList;
 	}
 
 	//List each file found in the directory as long as it end with .lua
 	while ((dir_file = readdir(dir))) {
-		string fileName = dir_file->d_name;
+		std::string fileName = dir_file->d_name;
 		//contains a .lua ending so put it in the directory
 		if(filter == "")
 			directoryList.push_back(dir_file->d_name);
-		else if(fileName.find(filter) != string::npos)
+		else if(fileName.find(filter) != std::string::npos)
 			directoryList.push_back(dir_file->d_name);
 	}
 
 	closedir(dir);
 
-	#endif
+#endif
 
 	return directoryList;
 }
@@ -802,7 +802,7 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 		TCHAR path[MAX_PATH];
 
 		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, path))) {
-			string user_path = string(path) + "/"APPUPCASEDIRNAME"/";
+			std::string user_path = std::string(path) + "/"APPUPCASEDIRNAME"/";
 			if (DoesFileExist(user_path) == false)
 				MakeDirectory(user_path);
 			return user_path;
@@ -811,11 +811,11 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 	#elif defined __MACH__
 		passwd *pw = getpwuid(getuid());
 		if (pw) {
-			string path = "";
+			std::string path = "";
 			if (user_files)
-				path = string(pw->pw_dir) + "/Library/Application Support/"APPUPCASEDIRNAME"/";
+				path = std::string(pw->pw_dir) + "/Library/Application Support/"APPUPCASEDIRNAME"/";
 			else
-				path = string(pw->pw_dir) + "/Library/Preferences/"APPUPCASEDIRNAME"/";
+				path = std::string(pw->pw_dir) + "/Library/Preferences/"APPUPCASEDIRNAME"/";
 			if (DoesFileExist(path) == false)
 				MakeDirectory(path);
 			return path;
@@ -824,7 +824,7 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 	#else // Linux, BSD, other POSIX systems
 		passwd *pw = getpwuid(getuid());
 		if (pw) {
-			string path = string(pw->pw_dir) + "/."APPSHORTNAME"/";
+			std::string path = std::string(pw->pw_dir) + "/."APPSHORTNAME"/";
 			if (DoesFileExist(path) == false)
 				MakeDirectory(path);
 			return path;
@@ -833,13 +833,13 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 
 	// Default path if a specific solution could not be found. Note that this path may
 	// not be writable by the user since it could be installed in administrator/root space
-	PRINT_WARNING << "could not idenfity user path, defaulting to system path" << endl;
+	PRINT_WARNING << "could not idenfity user path, defaulting to system path" << std::endl;
 	return "dat/";
 }
 
 const std::string GetUserProfilePath()
 {
-	string profile_path = GetUserDataPath(false) + "profiles/";
+	std::string profile_path = GetUserDataPath(false) + "profiles/";
 	if(!DoesFileExist(profile_path))
 		MakeDirectory(profile_path);
 
@@ -855,7 +855,7 @@ const std::string GetSettingsFilename() {
 	if (DoesFileExist(settings_file) == false) {
 		settings_file = "dat/config/settings.lua";
 		if (DoesFileExist(settings_file) == false) {
-			PRINT_WARNING << "settings.lua file not found." << endl;
+			PRINT_WARNING << "settings.lua file not found." << std::endl;
 		}
 	}
 

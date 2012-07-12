@@ -21,8 +21,6 @@
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
 
-#include "defs.h"
-
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -32,8 +30,6 @@
 
 #include "common/global/global.h"
 
-using namespace luabind;
-
 namespace hoa_defs {
 
 void BindEngineCode() {
@@ -41,9 +37,9 @@ void BindEngineCode() {
 	{
 	using namespace hoa_audio;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_audio")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_audio")
 	[
-		class_<AudioEngine>("GameAudio")
+		luabind::class_<AudioEngine>("GameAudio")
 			.def("PlaySound", &AudioEngine::PlaySound)
 			.def("PlayMusic", &AudioEngine::PlayMusic)
 	];
@@ -56,9 +52,9 @@ void BindEngineCode() {
 	{
 	using namespace hoa_input;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_input")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_input")
 	[
-		class_<InputEngine>("GameInput")
+		luabind::class_<InputEngine>("GameInput")
 	];
 
 	} // End using input namespaces
@@ -69,9 +65,9 @@ void BindEngineCode() {
 	{
 	using namespace hoa_mode_manager;
 
- 	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+ 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
  	[
-		class_<ScriptSupervisor>("ScriptSupervisor")
+		luabind::class_<ScriptSupervisor>("ScriptSupervisor")
 			.def("AddScript", &ScriptSupervisor::AddScript)
 			.def("AddAnimation", &ScriptSupervisor::AddAnimation)
 			.def("AddImage", &ScriptSupervisor::AddImage)
@@ -81,9 +77,9 @@ void BindEngineCode() {
 			.def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
-		class_<EffectSupervisor>("EffectSupervisor")
+		luabind::class_<EffectSupervisor>("EffectSupervisor")
 			.def("EnableLightingOverlay", &EffectSupervisor::EnableLightingOverlay)
 			.def("DisableLightingOverlay", &EffectSupervisor::DisableLightingOverlay)
 			.def("EnableAmbientOverlay", &EffectSupervisor::EnableAmbientOverlay)
@@ -93,27 +89,27 @@ void BindEngineCode() {
 			.def("DisableEffects", &EffectSupervisor::DisableEffects)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
-		class_<ParticleManager>("ParticleManager")
+		luabind::class_<ParticleManager>("ParticleManager")
 			.def("AddParticleEffect", &ParticleManager::AddParticleEffect)
 			.def("StopAll", &ParticleManager::StopAll)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
-		class_<GameMode>("GameMode")
+		luabind::class_<GameMode>("GameMode")
 			.def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
 			.def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
 			.def("GetParticleManager", &GameMode::GetParticleManager)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
-		class_<ModeEngine>("GameModeManager")
+		luabind::class_<ModeEngine>("GameModeManager")
 			// The adopt policy set on the GameMode pointer is permitting to avoid
 			// a memory corruption after the call time.
-			.def("Push", &ModeEngine::Push, adopt(_2))
+			.def("Push", &ModeEngine::Push, luabind::adopt(_2))
 			.def("Pop", &ModeEngine::Pop)
 			.def("PopAll", &ModeEngine::PopAll)
 			.def("GetTop", &ModeEngine::GetTop)
@@ -130,9 +126,9 @@ void BindEngineCode() {
 	{
 	using namespace hoa_script;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_script")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_script")
 	[
-		class_<ScriptEngine>("GameScript")
+		luabind::class_<ScriptEngine>("GameScript")
 	];
 
 	} // End using script namespaces
@@ -143,13 +139,13 @@ void BindEngineCode() {
 	{
 	using namespace hoa_system;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_system")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_system")
 	[
-		def("Translate", &hoa_system::Translate),
+		luabind::def("Translate", &hoa_system::Translate),
 
-		class_<SystemTimer>("SystemTimer")
-			.def(constructor<>())
-			.def(constructor<uint32, int32>())
+		luabind::class_<SystemTimer>("SystemTimer")
+			.def(luabind::constructor<>())
+			.def(luabind::constructor<uint32, int32>())
 			.def("Initialize", &SystemTimer::Initialize)
 			.def("EnableAutoUpdate", &SystemTimer::EnableAutoUpdate)
 			.def("EnableManualUpdate", &SystemTimer::EnableManualUpdate)
@@ -177,7 +173,7 @@ void BindEngineCode() {
 			.def("GetTimeExpired", &SystemTimer::GetTimeExpired)
 			.def("GetTimesCompleted", &SystemTimer::GetTimesCompleted),
 
-		class_<SystemEngine>("GameSystem")
+		luabind::class_<SystemEngine>("GameSystem")
 			.def("GetUpdateTime", &SystemEngine::GetUpdateTime)
 			.def("SetPlayTime", &SystemEngine::SetPlayTime)
 			.def("GetPlayHours", &SystemEngine::GetPlayHours)
@@ -197,12 +193,12 @@ void BindEngineCode() {
 	{
 	using namespace hoa_video;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_video")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_video")
 	[
-		class_<Color>("Color")
-			.def(constructor<float, float, float, float>()),
+		luabind::class_<Color>("Color")
+			.def(luabind::constructor<float, float, float, float>()),
 
-		class_<VideoEngine>("GameVideo")
+		luabind::class_<VideoEngine>("GameVideo")
 			.def("FadeScreen", &VideoEngine::FadeScreen)
 			.def("IsFading", &VideoEngine::IsFading)
 			.def("ShakeScreen", &VideoEngine::ShakeScreen)
@@ -214,26 +210,26 @@ void BindEngineCode() {
 			// Namespace constants
 			.enum_("constants") [
 				// Shake fall off types
-				value("VIDEO_FALLOFF_NONE", VIDEO_FALLOFF_NONE),
-				value("VIDEO_FALLOFF_EASE", VIDEO_FALLOFF_EASE),
-				value("VIDEO_FALLOFF_LINEAR", VIDEO_FALLOFF_LINEAR),
-				value("VIDEO_FALLOFF_GRADUAL", VIDEO_FALLOFF_GRADUAL),
-				value("VIDEO_FALLOFF_SUDDEN", VIDEO_FALLOFF_SUDDEN),
+				luabind::value("VIDEO_FALLOFF_NONE", VIDEO_FALLOFF_NONE),
+				luabind::value("VIDEO_FALLOFF_EASE", VIDEO_FALLOFF_EASE),
+				luabind::value("VIDEO_FALLOFF_LINEAR", VIDEO_FALLOFF_LINEAR),
+				luabind::value("VIDEO_FALLOFF_GRADUAL", VIDEO_FALLOFF_GRADUAL),
+				luabind::value("VIDEO_FALLOFF_SUDDEN", VIDEO_FALLOFF_SUDDEN),
 
 				// Video context drawing constants
-				value("VIDEO_X_LEFT", VIDEO_X_LEFT),
-				value("VIDEO_X_CENTER", VIDEO_X_CENTER),
-				value("VIDEO_X_RIGHT", VIDEO_X_RIGHT),
-				value("VIDEO_Y_TOP", VIDEO_Y_TOP),
-				value("VIDEO_Y_CENTER", VIDEO_Y_CENTER),
-				value("VIDEO_Y_BOTTOM", VIDEO_Y_BOTTOM),
-				value("VIDEO_X_FLIP", VIDEO_X_FLIP),
-				value("VIDEO_X_NOFLIP", VIDEO_X_NOFLIP),
-				value("VIDEO_Y_FLIP", VIDEO_Y_FLIP),
-				value("VIDEO_Y_NOFLIP", VIDEO_Y_NOFLIP),
-				value("VIDEO_NO_BLEND", VIDEO_NO_BLEND),
-				value("VIDEO_BLEND", VIDEO_BLEND),
-				value("VIDEO_BLEND_ADD", VIDEO_BLEND_ADD)
+				luabind::value("VIDEO_X_LEFT", VIDEO_X_LEFT),
+				luabind::value("VIDEO_X_CENTER", VIDEO_X_CENTER),
+				luabind::value("VIDEO_X_RIGHT", VIDEO_X_RIGHT),
+				luabind::value("VIDEO_Y_TOP", VIDEO_Y_TOP),
+				luabind::value("VIDEO_Y_CENTER", VIDEO_Y_CENTER),
+				luabind::value("VIDEO_Y_BOTTOM", VIDEO_Y_BOTTOM),
+				luabind::value("VIDEO_X_FLIP", VIDEO_X_FLIP),
+				luabind::value("VIDEO_X_NOFLIP", VIDEO_X_NOFLIP),
+				luabind::value("VIDEO_Y_FLIP", VIDEO_Y_FLIP),
+				luabind::value("VIDEO_Y_NOFLIP", VIDEO_Y_NOFLIP),
+				luabind::value("VIDEO_NO_BLEND", VIDEO_NO_BLEND),
+				luabind::value("VIDEO_BLEND", VIDEO_BLEND),
+				luabind::value("VIDEO_BLEND_ADD", VIDEO_BLEND_ADD)
 			]
 	];
 

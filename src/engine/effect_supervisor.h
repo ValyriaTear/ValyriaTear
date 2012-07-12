@@ -20,6 +20,8 @@
 #include "engine/video/color.h"
 #include "engine/video/image.h"
 
+#include <deque>
+
 namespace hoa_mode_manager {
 
 // Useful common info about ambient effects

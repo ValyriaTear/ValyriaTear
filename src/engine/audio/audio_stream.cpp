@@ -18,7 +18,10 @@
 *** ***************************************************************************/
 
 #include "audio_stream.h"
+
 #include "audio_input.h"
+
+#include <cstdlib>
 
 using namespace std;
 
@@ -62,7 +65,7 @@ uint32 AudioStream::FillBuffer(uint8* buffer, uint32 size) {
 		read_samples = (size - num_samples_read < remaining_data) ? size - num_samples_read : remaining_data;
 		num_samples_read += _audio_input->Read(buffer + num_samples_read * _audio_input->GetSampleSize(), read_samples, _end_of_stream);
 		_read_position += num_samples_read;
-		
+
 		// Detect early exit condition
 		if (_looping == false && _end_of_stream == true) {
 			return num_samples_read;

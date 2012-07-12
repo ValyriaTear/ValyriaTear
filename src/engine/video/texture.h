@@ -41,6 +41,8 @@
 #ifndef __TEXTURE_HEADER__
 #define __TEXTURE_HEADER__
 
+#include "utils.h"
+
 #ifdef _VS
 	#include <GL/glew.h>
 #endif
@@ -54,12 +56,16 @@
 	#include <GL/glu.h>
 #endif
 
-#include "defs.h"
-#include "utils.h"
+#include <set>
 
 namespace hoa_video {
 
+class ScreenRect;
+
 namespace private_video {
+
+class BaseTexture;
+class ImageMemory;
 
 //! \brief Used to indicate an invalid texture ID
 const GLuint INVALID_TEXTURE_ID = 0xFFFFFFFF;

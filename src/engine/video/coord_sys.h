@@ -18,6 +18,8 @@
 
 #include "utils.h"
 
+#include <cmath>
+
 namespace hoa_video {
 
 /** ****************************************************************************
@@ -63,10 +65,10 @@ public:
 		{ return _top; }
 
 	float GetWidth() const
-		{ return fabs(_left - _right); }
+		{ return std::fabs(_left - _right); }
 
 	float GetHeight() const
-		{ return fabs(_top - _bottom); }
+		{ return std::fabs(_top - _bottom); }
 	//@}
 
 	//! \brief Normalisation functions

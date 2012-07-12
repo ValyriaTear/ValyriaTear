@@ -27,6 +27,9 @@
 
 #include "global_utils.h"
 
+#include <map>
+#include <deque>
+
 namespace hoa_global {
 
 /** ****************************************************************************

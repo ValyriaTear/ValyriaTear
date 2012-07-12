@@ -19,6 +19,9 @@
 #ifndef __TEXT_HEADER__
 #define __TEXT_HEADER__
 
+#include "utils.h"
+#include "engine/video/image.h"
+
 // OpenGL includes
 #ifdef __APPLE__
 	#include <OpenGL/gl.h>
@@ -28,12 +31,11 @@
 	#include <GL/glu.h>
 #endif
 
-#include "utils.h"
-#include "engine/video/image.h"
-
 typedef struct _TTF_Font TTF_Font;
 
 namespace hoa_video {
+
+class TextSupervisor;
 
 //! \brief The singleton pointer for the instance of the text supervisor
 extern TextSupervisor* TextManager;

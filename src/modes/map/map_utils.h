@@ -18,6 +18,8 @@
 
 #include "utils.h"
 
+#include <cmath>
+
 namespace hoa_map {
 
 //! Determines whether the code in the hoa_map namespace should print debug statements or not.

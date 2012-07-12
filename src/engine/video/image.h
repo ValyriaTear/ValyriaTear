@@ -48,7 +48,13 @@
 
 #include "image_base.h"
 
+namespace hoa_mode_manager {
+class ParticleSystem;
+}
+
 namespace hoa_video {
+
+class StillImage;
 
 /** ****************************************************************************
 *** \brief An abstract base class for all public API image classes

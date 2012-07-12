@@ -27,6 +27,17 @@
 #ifndef __VIDEO_HEADER__
 #define __VIDEO_HEADER__
 
+#include "context.h"
+#include "color.h"
+#include "coord_sys.h"
+#include "fade.h"
+#include "image.h"
+#include "interpolator.h"
+#include "shake.h"
+#include "screen_rect.h"
+#include "texture_controller.h"
+#include "text.h"
+
 // required for Code::Blocks and VS
 #ifdef _WIN32
 	#include <windows.h> // needs to be included before gl.h
@@ -51,16 +62,8 @@
 	#include <SDL/SDL_ttf.h>
 #endif
 
-#include "context.h"
-#include "color.h"
-#include "coord_sys.h"
-#include "fade.h"
-#include "image.h"
-#include "interpolator.h"
-#include "shake.h"
-#include "screen_rect.h"
-#include "texture_controller.h"
-#include "text.h"
+#include <list>
+#include <stack>
 
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace hoa_video {

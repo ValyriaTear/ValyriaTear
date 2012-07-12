@@ -23,6 +23,11 @@
 #ifndef __AUDIO_HEADER__
 #define __AUDIO_HEADER__
 
+#include "utils.h"
+
+#include "audio_descriptor.h"
+#include "audio_effects.h"
+
 #ifdef __MACH__
 	#include <OpenAL/al.h>
 	#include <OpenAL/alc.h>
@@ -31,11 +36,7 @@
 	#include "alc.h"
 #endif
 
-#include "defs.h"
-#include "utils.h"
-
-#include "audio_descriptor.h"
-#include "audio_effects.h"
+#include <map>
 
 //! \brief All related audio engine code is wrapped within this namespace
 namespace hoa_audio {

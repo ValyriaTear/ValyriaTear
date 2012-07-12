@@ -50,20 +50,10 @@
 #ifndef __UTILS_HEADER__
 #define __UTILS_HEADER__
 
-#include <cstdlib>
-#include <cmath>
-#include <cstring> // For C string manipulation functions like strcmp
-
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <list>
-#include <map>
-#include <set>
-#include <stack>
-#include <stdexcept>
-#include <sstream>
 
 // We include SDL_config.h, which compensates for non ISO C99 compilers.
 // SDL_config.h defines the int??_t types for non ISO C99 compilers,
@@ -89,7 +79,6 @@
 	#define strcasecmp stricmp
 	#endif
 #endif
-
 
 /** \brief Forces the application to abort with an error
 *** \param message An error message string to report

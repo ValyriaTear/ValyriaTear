@@ -21,8 +21,6 @@
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
 
-#include "defs.h"
-
 // Common code headers
 #include "common/dialogue.h"
 #include "common/global/global_actors.h"
@@ -46,8 +44,6 @@
 #include "modes/menu/menu.h"
 #include "modes/shop/shop.h"
 
-using namespace luabind;
-
 namespace hoa_defs {
 
 void BindModeCode() {
@@ -56,18 +52,18 @@ void BindModeCode() {
 	using namespace hoa_boot;
 	using namespace hoa_boot::private_boot;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_boot")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_boot")
 	[
-		class_<BootMode, hoa_mode_manager::GameMode>("BootMode")
-			.def(constructor<>())
+		luabind::class_<BootMode, hoa_mode_manager::GameMode>("BootMode")
+			.def(luabind::constructor<>())
 			.def("GetState", &BootMode::GetState)
 			.def("ChangeState", &BootMode::ChangeState)
 
 			// Namespace constants
 			.enum_("constants") [
 				// Battle states
-				value("BOOT_STATE_INTRO", BOOT_STATE_INTRO),
-				value("BOOT_STATE_MENU", BOOT_STATE_MENU)
+				luabind::value("BOOT_STATE_INTRO", BOOT_STATE_INTRO),
+				luabind::value("BOOT_STATE_MENU", BOOT_STATE_MENU)
 			]
 	];
 	}
@@ -77,10 +73,10 @@ void BindModeCode() {
 	using namespace hoa_map;
 	using namespace hoa_map::private_map;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<MapMode, hoa_mode_manager::GameMode>("MapMode")
-			.def(constructor<const std::string&>())
+		luabind::class_<MapMode, hoa_mode_manager::GameMode>("MapMode")
+			.def(luabind::constructor<const std::string&>())
 			.def_readonly("object_supervisor", &MapMode::_object_supervisor)
 			.def_readonly("event_supervisor", &MapMode::_event_supervisor)
 			.def_readonly("dialogue_supervisor", &MapMode::_dialogue_supervisor)
@@ -92,10 +88,10 @@ void BindModeCode() {
 			.def_readwrite("running_disabled", &MapMode::_running_disabled)
 			.def_readwrite("run_stamina", &MapMode::_run_stamina)
 
-			.def("AddGroundObject", &MapMode::AddGroundObject, adopt(_2))
-			.def("AddPassObject", &MapMode::AddPassObject, adopt(_2))
-			.def("AddSkyObject", &MapMode::AddSkyObject, adopt(_2))
-			.def("AddZone", &MapMode::AddZone, adopt(_2))
+			.def("AddGroundObject", &MapMode::AddGroundObject, luabind::adopt(_2))
+			.def("AddPassObject", &MapMode::AddPassObject, luabind::adopt(_2))
+			.def("AddSkyObject", &MapMode::AddSkyObject, luabind::adopt(_2))
+			.def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
 			.def("AddSavePoint", &MapMode::AddSavePoint)
 			.def("AddHalo", &MapMode::AddHalo)
 			.def("SetCamera", (void(MapMode::*)(private_map::VirtualSprite*))&MapMode::SetCamera)
@@ -113,84 +109,84 @@ void BindModeCode() {
 			// Namespace constants
 			.enum_("constants") [
 				// Map states
-				value("STATE_EXPLORE", STATE_EXPLORE),
-				value("STATE_SCENE", STATE_SCENE),
-				value("STATE_DIALOGUE", STATE_DIALOGUE),
-				value("STATE_TREASURE", STATE_TREASURE),
+				luabind::value("STATE_EXPLORE", STATE_EXPLORE),
+				luabind::value("STATE_SCENE", STATE_SCENE),
+				luabind::value("STATE_DIALOGUE", STATE_DIALOGUE),
+				luabind::value("STATE_TREASURE", STATE_TREASURE),
 				// Map contexts
-				value("CONTEXT_NONE", MAP_CONTEXT_NONE),
-				value("CONTEXT_01", MAP_CONTEXT_01),
-				value("CONTEXT_02", MAP_CONTEXT_02),
-				value("CONTEXT_03", MAP_CONTEXT_03),
-				value("CONTEXT_04", MAP_CONTEXT_04),
-				value("CONTEXT_05", MAP_CONTEXT_05),
-				value("CONTEXT_06", MAP_CONTEXT_06),
-				value("CONTEXT_07", MAP_CONTEXT_07),
-				value("CONTEXT_08", MAP_CONTEXT_08),
-				value("CONTEXT_09", MAP_CONTEXT_09),
-				value("CONTEXT_10", MAP_CONTEXT_10),
-				value("CONTEXT_11", MAP_CONTEXT_11),
-				value("CONTEXT_12", MAP_CONTEXT_12),
-				value("CONTEXT_13", MAP_CONTEXT_13),
-				value("CONTEXT_14", MAP_CONTEXT_14),
-				value("CONTEXT_15", MAP_CONTEXT_15),
-				value("CONTEXT_16", MAP_CONTEXT_16),
-				value("CONTEXT_17", MAP_CONTEXT_17),
-				value("CONTEXT_18", MAP_CONTEXT_18),
-				value("CONTEXT_19", MAP_CONTEXT_19),
-				value("CONTEXT_20", MAP_CONTEXT_20),
-				value("CONTEXT_21", MAP_CONTEXT_21),
-				value("CONTEXT_22", MAP_CONTEXT_22),
-				value("CONTEXT_23", MAP_CONTEXT_23),
-				value("CONTEXT_24", MAP_CONTEXT_24),
-				value("CONTEXT_25", MAP_CONTEXT_25),
-				value("CONTEXT_26", MAP_CONTEXT_26),
-				value("CONTEXT_27", MAP_CONTEXT_27),
-				value("CONTEXT_28", MAP_CONTEXT_28),
-				value("CONTEXT_29", MAP_CONTEXT_29),
-				value("CONTEXT_30", MAP_CONTEXT_30),
-				value("CONTEXT_31", MAP_CONTEXT_31),
-				value("CONTEXT_32", MAP_CONTEXT_32),
-				value("CONTEXT_ALL", MAP_CONTEXT_ALL),
+				luabind::value("CONTEXT_NONE", MAP_CONTEXT_NONE),
+				luabind::value("CONTEXT_01", MAP_CONTEXT_01),
+				luabind::value("CONTEXT_02", MAP_CONTEXT_02),
+				luabind::value("CONTEXT_03", MAP_CONTEXT_03),
+				luabind::value("CONTEXT_04", MAP_CONTEXT_04),
+				luabind::value("CONTEXT_05", MAP_CONTEXT_05),
+				luabind::value("CONTEXT_06", MAP_CONTEXT_06),
+				luabind::value("CONTEXT_07", MAP_CONTEXT_07),
+				luabind::value("CONTEXT_08", MAP_CONTEXT_08),
+				luabind::value("CONTEXT_09", MAP_CONTEXT_09),
+				luabind::value("CONTEXT_10", MAP_CONTEXT_10),
+				luabind::value("CONTEXT_11", MAP_CONTEXT_11),
+				luabind::value("CONTEXT_12", MAP_CONTEXT_12),
+				luabind::value("CONTEXT_13", MAP_CONTEXT_13),
+				luabind::value("CONTEXT_14", MAP_CONTEXT_14),
+				luabind::value("CONTEXT_15", MAP_CONTEXT_15),
+				luabind::value("CONTEXT_16", MAP_CONTEXT_16),
+				luabind::value("CONTEXT_17", MAP_CONTEXT_17),
+				luabind::value("CONTEXT_18", MAP_CONTEXT_18),
+				luabind::value("CONTEXT_19", MAP_CONTEXT_19),
+				luabind::value("CONTEXT_20", MAP_CONTEXT_20),
+				luabind::value("CONTEXT_21", MAP_CONTEXT_21),
+				luabind::value("CONTEXT_22", MAP_CONTEXT_22),
+				luabind::value("CONTEXT_23", MAP_CONTEXT_23),
+				luabind::value("CONTEXT_24", MAP_CONTEXT_24),
+				luabind::value("CONTEXT_25", MAP_CONTEXT_25),
+				luabind::value("CONTEXT_26", MAP_CONTEXT_26),
+				luabind::value("CONTEXT_27", MAP_CONTEXT_27),
+				luabind::value("CONTEXT_28", MAP_CONTEXT_28),
+				luabind::value("CONTEXT_29", MAP_CONTEXT_29),
+				luabind::value("CONTEXT_30", MAP_CONTEXT_30),
+				luabind::value("CONTEXT_31", MAP_CONTEXT_31),
+				luabind::value("CONTEXT_32", MAP_CONTEXT_32),
+				luabind::value("CONTEXT_ALL", MAP_CONTEXT_ALL),
 				// Object types
-				value("PHYSICAL_TYPE", PHYSICAL_TYPE),
-				value("VIRTUAL_TYPE", VIRTUAL_TYPE),
-				value("SPRITE_TYPE", SPRITE_TYPE),
+				luabind::value("PHYSICAL_TYPE", PHYSICAL_TYPE),
+				luabind::value("VIRTUAL_TYPE", VIRTUAL_TYPE),
+				luabind::value("SPRITE_TYPE", SPRITE_TYPE),
 				// Sprite directions
-				value("NORTH", NORTH),
-				value("SOUTH", SOUTH),
-				value("EAST", EAST),
-				value("WEST", WEST),
-				value("NW_NORTH", NW_NORTH),
-				value("NW_WEST", NW_WEST),
-				value("NE_NORTH", NE_NORTH),
-				value("NE_EAST", NE_EAST),
-				value("SW_SOUTH", SW_SOUTH),
-				value("SW_WEST", SW_WEST),
-				value("SE_SOUTH", SE_SOUTH),
-				value("SE_EAST", SE_EAST),
+				luabind::value("NORTH", NORTH),
+				luabind::value("SOUTH", SOUTH),
+				luabind::value("EAST", EAST),
+				luabind::value("WEST", WEST),
+				luabind::value("NW_NORTH", NW_NORTH),
+				luabind::value("NW_WEST", NW_WEST),
+				luabind::value("NE_NORTH", NE_NORTH),
+				luabind::value("NE_EAST", NE_EAST),
+				luabind::value("SW_SOUTH", SW_SOUTH),
+				luabind::value("SW_WEST", SW_WEST),
+				luabind::value("SE_SOUTH", SE_SOUTH),
+				luabind::value("SE_EAST", SE_EAST),
 				// Sprite animations
-				value("ANIM_STANDING_SOUTH", ANIM_STANDING_SOUTH),
-				value("ANIM_STANDING_NORTH", ANIM_STANDING_NORTH),
-				value("ANIM_STANDING_WEST", ANIM_STANDING_WEST),
-				value("ANIM_STANDING_EAST", ANIM_STANDING_EAST),
-				value("ANIM_WALKING_SOUTH", ANIM_WALKING_SOUTH),
-				value("ANIM_WALKING_NORTH", ANIM_WALKING_NORTH),
-				value("ANIM_WALKING_WEST", ANIM_WALKING_WEST),
-				value("ANIM_WALKING_EAST", ANIM_WALKING_EAST),
-				value("ANIM_ATTACKING_EAST", ANIM_ATTACKING_EAST),
+				luabind::value("ANIM_STANDING_SOUTH", ANIM_STANDING_SOUTH),
+				luabind::value("ANIM_STANDING_NORTH", ANIM_STANDING_NORTH),
+				luabind::value("ANIM_STANDING_WEST", ANIM_STANDING_WEST),
+				luabind::value("ANIM_STANDING_EAST", ANIM_STANDING_EAST),
+				luabind::value("ANIM_WALKING_SOUTH", ANIM_WALKING_SOUTH),
+				luabind::value("ANIM_WALKING_NORTH", ANIM_WALKING_NORTH),
+				luabind::value("ANIM_WALKING_WEST", ANIM_WALKING_WEST),
+				luabind::value("ANIM_WALKING_EAST", ANIM_WALKING_EAST),
+				luabind::value("ANIM_ATTACKING_EAST", ANIM_ATTACKING_EAST),
 				// Sprite speeds
-				value("VERY_SLOW_SPEED", static_cast<uint32>(VERY_SLOW_SPEED)),
-				value("SLOW_SPEED", static_cast<uint32>(SLOW_SPEED)),
-				value("NORMAL_SPEED", static_cast<uint32>(NORMAL_SPEED)),
-				value("FAST_SPEED", static_cast<uint32>(FAST_SPEED)),
-				value("VERY_FAST_SPEED", static_cast<uint32>(VERY_FAST_SPEED))
+				luabind::value("VERY_SLOW_SPEED", static_cast<uint32>(VERY_SLOW_SPEED)),
+				luabind::value("SLOW_SPEED", static_cast<uint32>(SLOW_SPEED)),
+				luabind::value("NORMAL_SPEED", static_cast<uint32>(NORMAL_SPEED)),
+				luabind::value("FAST_SPEED", static_cast<uint32>(FAST_SPEED)),
+				luabind::value("VERY_FAST_SPEED", static_cast<uint32>(VERY_FAST_SPEED))
 			]
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<ObjectSupervisor>("ObjectSupervisor")
+		luabind::class_<ObjectSupervisor>("ObjectSupervisor")
 			.def_readonly("virtual_focus", &ObjectSupervisor::_virtual_focus)
 
 			.def("GenerateObjectID", &ObjectSupervisor::GenerateObjectID)
@@ -199,9 +195,9 @@ void BindModeCode() {
 			.def("GetObject", &ObjectSupervisor::GetObject)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<MapObject>("MapObject")
+		luabind::class_<MapObject>("MapObject")
 			.def("SetObjectID", &MapObject::SetObjectID)
 			.def("SetContext", &MapObject::SetContext)
 			.def("SetXPosition", &MapObject::SetXPosition)
@@ -229,10 +225,10 @@ void BindModeCode() {
 			.def("IsDrawOnSecondPass", &MapObject::IsDrawOnSecondPass)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<PhysicalObject, MapObject>("PhysicalObject")
-			.def(constructor<>())
+		luabind::class_<PhysicalObject, MapObject>("PhysicalObject")
+			.def(luabind::constructor<>())
 			.def("AddAnimation", (int32(PhysicalObject::*)(std::string))&PhysicalObject::AddAnimation)
 			.def("AddStillFrame", &PhysicalObject::AddStillFrame)
 			.def("SetCurrentAnimation", &PhysicalObject::SetCurrentAnimation)
@@ -240,17 +236,17 @@ void BindModeCode() {
 			.def("GetCurrentAnimation", &PhysicalObject::GetCurrentAnimation)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<TreasureObject, PhysicalObject>("TreasureObject")
-			.def(constructor<std::string, uint8, uint8, uint8>())
+		luabind::class_<TreasureObject, PhysicalObject>("TreasureObject")
+			.def(luabind::constructor<std::string, uint8, uint8, uint8>())
 			.def("GetTreasure", &TreasureObject::GetTreasure)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<VirtualSprite, MapObject>("VirtualSprite")
-			.def(constructor<>())
+		luabind::class_<VirtualSprite, MapObject>("VirtualSprite")
+			.def(luabind::constructor<>())
 			.def("SetMoving", &VirtualSprite::SetMoving)
 			.def("SetDirection", &VirtualSprite::SetDirection)
 			.def("SetMovementSpeed", &VirtualSprite::SetMovementSpeed)
@@ -259,10 +255,10 @@ void BindModeCode() {
 			.def("GetMovementSpeed", &VirtualSprite::GetMovementSpeed)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<MapSprite, VirtualSprite>("MapSprite")
-			.def(constructor<>())
+		luabind::class_<MapSprite, VirtualSprite>("MapSprite")
+			.def(luabind::constructor<>())
 			.def("SetName", &MapSprite::SetName)
 			.def("SetCurrentAnimation", &MapSprite::SetCurrentAnimation)
 			.def("GetCurrentAnimation", &MapSprite::GetCurrentAnimation)
@@ -277,11 +273,11 @@ void BindModeCode() {
 			.def("RemoveDialogueReference", (void(MapSprite::*)(SpriteDialogue*))&MapSprite::RemoveDialogueReference)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<EnemySprite, MapSprite>("EnemySprite")
-			.def(constructor<>())
-			.def(constructor<std::string>())
+		luabind::class_<EnemySprite, MapSprite>("EnemySprite")
+			.def(luabind::constructor<>())
+			.def(luabind::constructor<std::string>())
 			.def("Reset", &EnemySprite::Reset)
 			.def("NewEnemyParty", &EnemySprite::NewEnemyParty)
 			.def("AddEnemy", &EnemySprite::AddEnemy)
@@ -304,35 +300,35 @@ void BindModeCode() {
 			.def("ChangeStateHostile", &EnemySprite::ChangeStateHostile)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<MapZone>("MapZone")
-			.def(constructor<>())
-			.def(constructor<uint16, uint16, uint16, uint16>())
-			.def(constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
+		luabind::class_<MapZone>("MapZone")
+			.def(luabind::constructor<>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
 			.def("AddSection", &MapZone::AddSection)
 			.def("IsInsideZone", &MapZone::IsInsideZone)
 			.def("GetActiveContexts", &MapZone::GetActiveContexts)
 			.def("SetActiveContexts", &MapZone::SetActiveContexts)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<CameraZone, MapZone>("CameraZone")
-			.def(constructor<>())
-			.def(constructor<uint16, uint16, uint16, uint16>())
-			.def(constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
+		luabind::class_<CameraZone, MapZone>("CameraZone")
+			.def(luabind::constructor<>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
 			.def("IsCameraInside", &CameraZone::IsCameraInside)
 			.def("IsCameraEntering", &CameraZone::IsCameraEntering)
 			.def("IsCameraExiting", &CameraZone::IsCameraExiting)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<ResidentZone, MapZone>("ResidentZone")
-			.def(constructor<>())
-			.def(constructor<uint16, uint16, uint16, uint16>())
-			.def(constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
+		luabind::class_<ResidentZone, MapZone>("ResidentZone")
+			.def(luabind::constructor<>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
 			.def("IsResidentEntering", &ResidentZone::IsResidentEntering)
 			.def("IsResidentExiting", &ResidentZone::IsResidentExiting)
 			.def("IsSpriteResident", (bool(ResidentZone::*)(uint32)const)&ResidentZone::IsSpriteResident)
@@ -353,12 +349,12 @@ void BindModeCode() {
 
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<EnemyZone, MapZone>("EnemyZone")
-			.def(constructor<>())
-			.def(constructor<uint16, uint16, uint16, uint16>())
-			.def("AddEnemy", &EnemyZone::AddEnemy, adopt(_2))
+		luabind::class_<EnemyZone, MapZone>("EnemyZone")
+			.def(luabind::constructor<>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16>())
+			.def("AddEnemy", &EnemyZone::AddEnemy, luabind::adopt(_2))
 			.def("AddSpawnSection", &EnemyZone::AddSpawnSection)
 			.def("IsRoamingRestrained", &EnemyZone::IsRoamingRestrained)
 			.def("GetSpawnTime", &EnemyZone::GetSpawnTime)
@@ -366,28 +362,28 @@ void BindModeCode() {
 			.def("SetSpawnTime", &EnemyZone::SetSpawnTime)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<ContextZone, MapZone>("ContextZone")
-			.def(constructor<MAP_CONTEXT, MAP_CONTEXT>())
+		luabind::class_<ContextZone, MapZone>("ContextZone")
+			.def(luabind::constructor<MAP_CONTEXT, MAP_CONTEXT>())
 			.def("AddSection", (void(ContextZone::*)(uint16, uint16, uint16, uint16, bool))&ContextZone::AddSection)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<DialogueSupervisor>("DialogueSupervisor")
-			.def("AddDialogue", &DialogueSupervisor::AddDialogue, adopt(_2))
+		luabind::class_<DialogueSupervisor>("DialogueSupervisor")
+			.def("AddDialogue", &DialogueSupervisor::AddDialogue, luabind::adopt(_2))
 			.def("BeginDialogue", &DialogueSupervisor::BeginDialogue)
 			.def("EndDialogue", &DialogueSupervisor::EndDialogue)
 			.def("GetDialogue", &DialogueSupervisor::GetDialogue)
 			.def("GetCurrentDialogue", &DialogueSupervisor::GetCurrentDialogue)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<SpriteDialogue, hoa_common::CommonDialogue>("SpriteDialogue")
-			.def(constructor<uint32>())
-			.def(constructor<>())
+		luabind::class_<SpriteDialogue, hoa_common::CommonDialogue>("SpriteDialogue")
+			.def(luabind::constructor<uint32>())
+			.def(luabind::constructor<>())
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, uint32))&SpriteDialogue::AddLine)
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*))&SpriteDialogue::AddLine)
 
@@ -423,10 +419,10 @@ void BindModeCode() {
 			.def("SetRestoreState", &SpriteDialogue::SetRestoreState)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<EventSupervisor>("EventSupervisor")
-			.def("RegisterEvent", &EventSupervisor::RegisterEvent, adopt(_2))
+		luabind::class_<EventSupervisor>("EventSupervisor")
+			.def("RegisterEvent", &EventSupervisor::RegisterEvent, luabind::adopt(_2))
 			.def("StartEvent", (void(EventSupervisor::*)(const std::string&))&EventSupervisor::StartEvent)
 			.def("StartEvent", (void(EventSupervisor::*)(const std::string&, uint32))&EventSupervisor::StartEvent)
 			.def("StartEvent", (void(EventSupervisor::*)(MapEvent*))&EventSupervisor::StartEvent)
@@ -440,9 +436,9 @@ void BindModeCode() {
 			.def("GetEvent", &EventSupervisor::GetEvent)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<MapEvent>("MapEvent")
+		luabind::class_<MapEvent>("MapEvent")
 			.def("GetEventID", &MapEvent::GetEventID)
 			.def("AddEventLinkAtStart", (void(MapEvent::*)(const std::string&))&MapEvent::AddEventLinkAtStart)
 			.def("AddEventLinkAtStart", (void(MapEvent::*)(const std::string&, uint32))&MapEvent::AddEventLinkAtStart)
@@ -451,104 +447,104 @@ void BindModeCode() {
 	];
 
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<DialogueEvent, MapEvent>("DialogueEvent")
-			.def(constructor<std::string, uint32>())
-			.def(constructor<std::string, SpriteDialogue*>())
+		luabind::class_<DialogueEvent, MapEvent>("DialogueEvent")
+			.def(luabind::constructor<std::string, uint32>())
+			.def(luabind::constructor<std::string, SpriteDialogue*>())
 			.def("SetStopCameraMovement", &DialogueEvent::SetStopCameraMovement)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<SoundEvent, MapEvent>("SoundEvent")
-			.def(constructor<std::string, std::string>())
+		luabind::class_<SoundEvent, MapEvent>("SoundEvent")
+			.def(luabind::constructor<std::string, std::string>())
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<MapTransitionEvent, MapEvent>("MapTransitionEvent")
-			.def(constructor<std::string, std::string, std::string>())
+		luabind::class_<MapTransitionEvent, MapEvent>("MapTransitionEvent")
+			.def(luabind::constructor<std::string, std::string, std::string>())
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<ScriptedEvent, MapEvent>("ScriptedEvent")
-			.def(constructor<std::string, std::string, std::string>())
+		luabind::class_<ScriptedEvent, MapEvent>("ScriptedEvent")
+			.def(luabind::constructor<std::string, std::string, std::string>())
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<SpriteEvent, MapEvent>("SpriteEvent")
+		luabind::class_<SpriteEvent, MapEvent>("SpriteEvent")
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<ScriptedSpriteEvent, SpriteEvent>("ScriptedSpriteEvent")
-			.def(constructor<std::string, uint16, std::string, std::string>())
-			.def(constructor<std::string, VirtualSprite*, std::string, std::string>())
+		luabind::class_<ScriptedSpriteEvent, SpriteEvent>("ScriptedSpriteEvent")
+			.def(luabind::constructor<std::string, uint16, std::string, std::string>())
+			.def(luabind::constructor<std::string, VirtualSprite*, std::string, std::string>())
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<ChangeDirectionSpriteEvent, SpriteEvent>("ChangeDirectionSpriteEvent")
-			.def(constructor<std::string, uint16, uint16>())
-			.def(constructor<std::string, VirtualSprite*, uint16>())
+		luabind::class_<ChangeDirectionSpriteEvent, SpriteEvent>("ChangeDirectionSpriteEvent")
+			.def(luabind::constructor<std::string, uint16, uint16>())
+			.def(luabind::constructor<std::string, VirtualSprite*, uint16>())
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<PathMoveSpriteEvent, SpriteEvent>("PathMoveSpriteEvent")
-			.def(constructor<std::string, uint32, float, float, bool>())
-			.def(constructor<std::string, VirtualSprite*, float, float, bool>())
+		luabind::class_<PathMoveSpriteEvent, SpriteEvent>("PathMoveSpriteEvent")
+			.def(luabind::constructor<std::string, uint32, float, float, bool>())
+			.def(luabind::constructor<std::string, VirtualSprite*, float, float, bool>())
 			.def("SetRelativeDestination", &PathMoveSpriteEvent::SetRelativeDestination)
 			.def("SetDestination", &PathMoveSpriteEvent::SetDestination)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<RandomMoveSpriteEvent, SpriteEvent>("RandomMoveSpriteEvent")
-			.def(constructor<std::string, VirtualSprite*, uint32, uint32>())
+		luabind::class_<RandomMoveSpriteEvent, SpriteEvent>("RandomMoveSpriteEvent")
+			.def(luabind::constructor<std::string, VirtualSprite*, uint32, uint32>())
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<AnimateSpriteEvent, MapEvent>("AnimateSpriteEvent")
-			.def(constructor<std::string, VirtualSprite*>())
+		luabind::class_<AnimateSpriteEvent, MapEvent>("AnimateSpriteEvent")
+			.def(luabind::constructor<std::string, VirtualSprite*>())
 			.def("AddFrame", &AnimateSpriteEvent::AddFrame)
 			.def("SetLoopCount", &AnimateSpriteEvent::SetLoopCount)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<BattleEncounterEvent, MapEvent>("BattleEncounterEvent")
-			.def(constructor<std::string, uint32>())
+		luabind::class_<BattleEncounterEvent, MapEvent>("BattleEncounterEvent")
+			.def(luabind::constructor<std::string, uint32>())
 			.def("SetMusic", &BattleEncounterEvent::SetMusic)
 			.def("SetBackground", &BattleEncounterEvent::SetBackground)
 			.def("AddScript", &BattleEncounterEvent::AddScript)
 			.def("AddEnemy", &BattleEncounterEvent::AddEnemy)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<ShopEvent, MapEvent>("ShopEvent")
-			.def(constructor<std::string>())
+		luabind::class_<ShopEvent, MapEvent>("ShopEvent")
+			.def(luabind::constructor<std::string>())
 			.def("AddWare", &ShopEvent::AddWare)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<MapTreasure>("MapTreasure")
-			.def(constructor<>())
+		luabind::class_<MapTreasure>("MapTreasure")
+			.def(luabind::constructor<>())
 			.def("AddDrunes", &MapTreasure::AddDrunes)
 			.def("AddObject", &MapTreasure::AddObject)
 			.def("IsTaken", &MapTreasure::IsTaken)
 			.def("SetTaken", &MapTreasure::SetTaken)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		class_<TreasureSupervisor>("TreasureSupervisor")
+		luabind::class_<TreasureSupervisor>("TreasureSupervisor")
 			.def("Initialize", (void(TreasureSupervisor::*)(TreasureObject*))&TreasureSupervisor::Initialize)
 			.def("Initialize", (void(TreasureSupervisor::*)(MapTreasure*))&TreasureSupervisor::Initialize)
 	];
@@ -562,29 +558,29 @@ void BindModeCode() {
 	using namespace hoa_battle;
 	using namespace hoa_battle::private_battle;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		def("CalculateStandardEvasion", (bool(*)(BattleTarget*)) &CalculateStandardEvasion),
-		def("CalculateStandardEvasionAdder", (bool(*)(BattleTarget*, float)) &CalculateStandardEvasion),
-		def("CalculateStandardEvasionMultiplier", (bool(*)(BattleTarget*, float)) &CalculateStandardEvasionMultiplier),
-		def("CalculatePhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*)) &CalculatePhysicalDamage),
-		def("CalculatePhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculatePhysicalDamage),
-		def("CalculatePhysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32)) &CalculatePhysicalDamageAdder),
-		def("CalculatePhysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32, float)) &CalculatePhysicalDamageAdder),
-		def("CalculatePhysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculatePhysicalDamageMultiplier),
-		def("CalculatePhysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float, float)) &CalculatePhysicalDamageMultiplier),
-		def("CalculateMetaphysicalDamage", (uint32(*)(BattleActor*, BattleTarget*)) &CalculateMetaphysicalDamage),
-		def("CalculateMetaphysicalDamage", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculateMetaphysicalDamage),
-		def("CalculateMetaphysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32)) &CalculateMetaphysicalDamageAdder),
-		def("CalculateMetaphysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32, float)) &CalculateMetaphysicalDamageAdder),
-		def("CalculateMetaphysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculateMetaphysicalDamageMultiplier),
-		def("CalculateMetaphysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float, float)) &CalculateMetaphysicalDamageMultiplier)
+		luabind::def("CalculateStandardEvasion", (bool(*)(BattleTarget*)) &CalculateStandardEvasion),
+		luabind::def("CalculateStandardEvasionAdder", (bool(*)(BattleTarget*, float)) &CalculateStandardEvasion),
+		luabind::def("CalculateStandardEvasionMultiplier", (bool(*)(BattleTarget*, float)) &CalculateStandardEvasionMultiplier),
+		luabind::def("CalculatePhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*)) &CalculatePhysicalDamage),
+		luabind::def("CalculatePhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculatePhysicalDamage),
+		luabind::def("CalculatePhysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32)) &CalculatePhysicalDamageAdder),
+		luabind::def("CalculatePhysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32, float)) &CalculatePhysicalDamageAdder),
+		luabind::def("CalculatePhysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculatePhysicalDamageMultiplier),
+		luabind::def("CalculatePhysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float, float)) &CalculatePhysicalDamageMultiplier),
+		luabind::def("CalculateMetaphysicalDamage", (uint32(*)(BattleActor*, BattleTarget*)) &CalculateMetaphysicalDamage),
+		luabind::def("CalculateMetaphysicalDamage", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculateMetaphysicalDamage),
+		luabind::def("CalculateMetaphysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32)) &CalculateMetaphysicalDamageAdder),
+		luabind::def("CalculateMetaphysicalDamageAdder", (uint32(*)(BattleActor*, BattleTarget*, int32, float)) &CalculateMetaphysicalDamageAdder),
+		luabind::def("CalculateMetaphysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float)) &CalculateMetaphysicalDamageMultiplier),
+		luabind::def("CalculateMetaphysicalDamageMultiplier", (uint32(*)(BattleActor*, BattleTarget*, float, float)) &CalculateMetaphysicalDamageMultiplier)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleMode, hoa_mode_manager::GameMode>("BattleMode")
-			.def(constructor<>())
+		luabind::class_<BattleMode, hoa_mode_manager::GameMode>("BattleMode")
+			.def(luabind::constructor<>())
 			.def("AddEnemy", (void(BattleMode::*)(uint32)) &BattleMode::AddEnemy)
 			.def("RestartBattle", &BattleMode::RestartBattle)
 			.def("FreezeTimers", &BattleMode::FreezeTimers)
@@ -602,26 +598,26 @@ void BindModeCode() {
 			// Namespace constants
 			.enum_("constants") [
 				// Battle states
-				value("BATTLE_STATE_INITIAL", BATTLE_STATE_INITIAL),
-				value("BATTLE_STATE_NORMAL", BATTLE_STATE_NORMAL),
-				value("BATTLE_STATE_COMMAND", BATTLE_STATE_COMMAND),
-				value("BATTLE_STATE_EVENT", BATTLE_STATE_EVENT),
-				value("BATTLE_STATE_VICTORY", BATTLE_STATE_VICTORY),
-				value("BATTLE_STATE_DEFEAT", BATTLE_STATE_DEFEAT),
-				value("BATTLE_STATE_EXITING", BATTLE_STATE_EXITING)
+				luabind::value("BATTLE_STATE_INITIAL", BATTLE_STATE_INITIAL),
+				luabind::value("BATTLE_STATE_NORMAL", BATTLE_STATE_NORMAL),
+				luabind::value("BATTLE_STATE_COMMAND", BATTLE_STATE_COMMAND),
+				luabind::value("BATTLE_STATE_EVENT", BATTLE_STATE_EVENT),
+				luabind::value("BATTLE_STATE_VICTORY", BATTLE_STATE_VICTORY),
+				luabind::value("BATTLE_STATE_DEFEAT", BATTLE_STATE_DEFEAT),
+				luabind::value("BATTLE_STATE_EXITING", BATTLE_STATE_EXITING)
 			]
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleMedia>("BattleMedia")
+		luabind::class_<BattleMedia>("BattleMedia")
 			.def("SetBackgroundImage", &BattleMedia::SetBackgroundImage)
 			.def("SetBattleMusic", &BattleMedia::SetBattleMusic)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleActor, hoa_global::GlobalActor>("BattleActor")
+		luabind::class_<BattleActor, hoa_global::GlobalActor>("BattleActor")
 			.def("ChangeSpriteAnimation", &BattleActor::ChangeSpriteAnimation)
 			.def("RegisterDamage", (void(BattleActor::*)(uint32)) &BattleActor::RegisterDamage)
 			.def("RegisterDamage", (void(BattleActor::*)(uint32, BattleTarget*)) &BattleActor::RegisterDamage)
@@ -651,27 +647,27 @@ void BindModeCode() {
 			.def("SetYLocation", &BattleActor::SetYLocation)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleCharacter, BattleActor>("BattleCharacter")
+		luabind::class_<BattleCharacter, BattleActor>("BattleCharacter")
 			.def("ChangeSpriteAnimation", &BattleCharacter::ChangeSpriteAnimation)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleEnemy, BattleActor>("BattleEnemy")
+		luabind::class_<BattleEnemy, BattleActor>("BattleEnemy")
 			.def("ChangeSpriteAnimation", &BattleEnemy::ChangeSpriteAnimation)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<CommandSupervisor>("CommandSupervisor")
+		luabind::class_<CommandSupervisor>("CommandSupervisor")
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleDialogue, hoa_common::CommonDialogue>("BattleDialogue")
-			.def(constructor<uint32>())
+		luabind::class_<BattleDialogue, hoa_common::CommonDialogue>("BattleDialogue")
+			.def(luabind::constructor<uint32>())
 			.def("AddLine", (void(BattleDialogue::*)(std::string, uint32))&BattleDialogue::AddLine)
 			.def("AddLine", (void(BattleDialogue::*)(std::string, uint32, int32))&BattleDialogue::AddLine)
 			.def("AddLineTimed", (void(BattleDialogue::*)(std::string, uint32, uint32))&BattleDialogue::AddLineTimed)
@@ -682,10 +678,10 @@ void BindModeCode() {
 			.def("SetHaltBattleAction", &BattleDialogue::SetHaltBattleAction)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<DialogueSupervisor>("DialogueSupervisor")
-			.def("AddDialogue", &DialogueSupervisor::AddDialogue, adopt(_2))
+		luabind::class_<DialogueSupervisor>("DialogueSupervisor")
+			.def("AddDialogue", &DialogueSupervisor::AddDialogue, luabind::adopt(_2))
 			.def("AddCharacterSpeaker", &DialogueSupervisor::AddCharacterSpeaker)
 			.def("AddEnemySpeaker", &DialogueSupervisor::AddEnemySpeaker)
 			.def("AddCustomSpeaker", &DialogueSupervisor::AddCustomSpeaker)
@@ -699,9 +695,9 @@ void BindModeCode() {
 			.def("GetLineCounter", &DialogueSupervisor::GetLineCounter)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleTarget>("BattleTarget")
+		luabind::class_<BattleTarget>("BattleTarget")
 			.def("SetPointTarget", &BattleTarget::SetPointTarget)
 			.def("SetActorTarget", &BattleTarget::SetActorTarget)
 			.def("SetPartyTarget", &BattleTarget::SetPartyTarget)
@@ -714,9 +710,9 @@ void BindModeCode() {
 			.def("GetPartyActor", &BattleTarget::GetPartyActor)
 	];
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
-		class_<BattleStatusEffect, hoa_global::GlobalStatusEffect>("BattleStatusEffect")
+		luabind::class_<BattleStatusEffect, hoa_global::GlobalStatusEffect>("BattleStatusEffect")
 			.def("GetAffectedActor", &BattleStatusEffect::GetAffectedActor)
 			.def("GetTimer", &BattleStatusEffect::GetTimer)
 			.def("IsIntensityChanged", &BattleStatusEffect::IsIntensityChanged)
@@ -728,10 +724,10 @@ void BindModeCode() {
 	{
 	using namespace hoa_menu;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_menu")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_menu")
 	[
-		class_<MenuMode, hoa_mode_manager::GameMode>("MenuMode")
-			.def(constructor<hoa_utils::ustring, std::string>())
+		luabind::class_<MenuMode, hoa_mode_manager::GameMode>("MenuMode")
+			.def(luabind::constructor<hoa_utils::ustring, std::string>())
 	];
 
 	} // End using menu mode namespaces
@@ -741,10 +737,10 @@ void BindModeCode() {
 	{
 	using namespace hoa_shop;
 
-	module(hoa_script::ScriptManager->GetGlobalState(), "hoa_shop")
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_shop")
 	[
-		class_<ShopMode, hoa_mode_manager::GameMode>("ShopMode")
-			.def(constructor<>())
+		luabind::class_<ShopMode, hoa_mode_manager::GameMode>("ShopMode")
+			.def(luabind::constructor<>())
 			.def("AddObject", &ShopMode::AddObject)
 	];
 

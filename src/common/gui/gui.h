@@ -18,16 +18,26 @@
 #ifndef __GUI_HEADER__
 #define __GUI_HEADER__
 
-#include "defs.h"
-
 #include "engine/video/color.h"
 
+#include <map>
+
+namespace hoa_video {
+class StillImage;
+class VideoEngine;
+}
+
 namespace hoa_gui {
+
+class GUISystem;
+class MenuWindow;
 
 //! \brief The singleton pointer for the GUI manager
 extern GUISystem* GUIManager;
 
 namespace private_gui {
+
+class MenuSkin;
 
 //! \brief 50% alpha colors used for debug drawing of GUI element outlines
 //@{
