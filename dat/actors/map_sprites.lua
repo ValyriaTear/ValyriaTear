@@ -14,8 +14,8 @@ sprites["Bronann"] = {
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
 
-	standard_animations = "img/sprites/map/characters/bronann_walk.png",
-	running_animations = "img/sprites/map/characters/bronann_run.png",
+	standard_animations = "img/sprites/map/characters/bronann_walk_unarmed.png",
+	running_animations = "img/sprites/map/characters/bronann_run_unarmed.png",
 	face_portrait = "img/portraits/bronann.png"
 }
 
