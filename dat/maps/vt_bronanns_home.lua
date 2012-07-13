@@ -317,7 +317,7 @@ function CreateNPCs()
 	bronanns_mother = _CreateSprite(Map, "Malta", 33.1, 17.5);
 	bronanns_mother:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(bronanns_mother);
-	UpdateMotherDialogue();
+	_UpdateMotherDialogue();
 
 	-- Make her walk in front of the table to prepare the lunch.
 	event = hoa_map.PathMoveSpriteEvent("Kitchen: Mother goes middle", bronanns_mother, 33.1, 19.9, false);
@@ -464,6 +464,22 @@ function CreateEvents()
 
 	event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/vt_bronanns_home_first_floor.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
+
+    -- Quest events
+
+    -- End quest 1 (Barley meal retrieval) and prepare map for what's next.
+    event = hoa_map.ScriptedEvent("Quest1: end and transition to after-dinner", "Quest1Done", "");
+    event:AddEventLinkAtEnd("Fade out to after dinner");
+    EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("Fade out to after dinner", "FadeOutToAfterDinner", "CheckFadeInOrOut");
+    event:AddEventLinkAtEnd("Fade in to after dinner");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Fade in to after dinner", "FadeInToAfterDinner", "CheckFadeInOrOut");
+    event:AddEventLinkAtEnd("Quest2: Mother doesn't like the idea of Bronann exiting the village");
+	EventManager:RegisterEvent(event);
+
+    -- TODO: Add quest 2 start.
 end
 
 function CreateZones()
@@ -492,24 +508,46 @@ end
 
 
 -- Internal Custom functions
-function UpdateMotherDialogue()
+function _UpdateMotherDialogue()
 	bronanns_mother:ClearDialogueReferences();
 
-	if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
+    local riverbank_events = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
+    local story_events = GlobalManager:GetEventGroup("story");
+
+    if (story_events ~= nil and story_events:DoesEventExist("Quest1_done") == true) then
+		local dialogue = hoa_map.SpriteDialogue();
+		local text = hoa_system.Translate("So, what's next already?!");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Sorry, I can't remember at the moment. Drop by on next commits!");
+		dialogue:AddLine(text, bronanns_mother);
+		DialogueManager:AddDialogue(dialogue);
+		bronanns_mother:AddDialogueReference(dialogue);
+    elseif (riverbank_events ~= nil
+            and riverbank_events:DoesEventExist("quest1_barley_meal_done") == true) then
+        -- Got some barley meal, Mom!
 		-- Begining dialogue
 		local dialogue = hoa_map.SpriteDialogue();
-		local text = hoa_system.Translate("Hi Son, did you have a nightmare this night also?");
-		dialogue:AddLine(text, bronanns_mother);
-		text = hoa_system.Translate("Hi Mum, huh, how do you know...");
+		local text = hoa_system.Translate("Got it, Mom!");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Eh eh, have you already forgotten I'm your mother?");
-		dialogue:AddLine(text, bronanns_mother);
+		text = hoa_system.Translate("Perfect timing, let's have dinner.");
+		dialogue:AddLineEvent(text, bronanns_mother, "Quest1: end and transition to after-dinner");
 		DialogueManager:AddDialogue(dialogue);
 		bronanns_mother:AddDialogueReference(dialogue);
 	elseif (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == true) then
 		-- 1st quest dialogue
 		local dialogue = hoa_map.SpriteDialogue();
 		local text = hoa_system.Translate("Could you go and buy some barley meal for us three?");
+		dialogue:AddLine(text, bronanns_mother);
+		DialogueManager:AddDialogue(dialogue);
+		bronanns_mother:AddDialogueReference(dialogue);
+	elseif (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
+		-- Begining dialogue
+		local dialogue = hoa_map.SpriteDialogue();
+		local text = hoa_system.Translate("Hi Son, did you have a nightmare this night also?");
+		dialogue:AddLine(text, bronanns_mother);
+		text = hoa_system.Translate("Hi Mom, huh, how do you know...");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Eh eh, have you already forgotten I'm your mother?");
 		dialogue:AddLine(text, bronanns_mother);
 		DialogueManager:AddDialogue(dialogue);
 		bronanns_mother:AddDialogueReference(dialogue);
@@ -535,14 +573,6 @@ map_functions = {
 		Map:PopState();
 	end,
 
-	Quest1MotherStartDialogueDone = function()
-		if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
-			GlobalEvents:AddNewEvent("quest1_mother_start_dialogue_done", 1);
-
-			UpdateMotherDialogue();
-		end
-	end,
-
 	Map_SetCamera = function(sprite)
 		Map:SetCamera(sprite, 800);
 	end,
@@ -555,5 +585,56 @@ map_functions = {
 		EventManager:TerminateAllEvents(sprite);
 		sprite:SetMoving(false); -- in case she's moving
 		EventManager:StartEvent("Quest1: Mother looks south");
-	end
+	end,
+
+	Quest1MotherStartDialogueDone = function()
+		if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
+			GlobalEvents:AddNewEvent("quest1_mother_start_dialogue_done", 1);
+
+			_UpdateMotherDialogue();
+		end
+	end,
+
+    Quest1Done = function()
+        if (GlobalManager:DoesEventGroupExist("story") == false) then
+            GlobalManager:AddNewEventGroup("story");
+        end
+        local story_events = GlobalManager:GetEventGroup("story");
+        if (story_events ~= nil) then
+            if (story_events:DoesEventExist("Quest1_done") == false) then
+                story_events:AddNewEvent("Quest1_done", 1);
+            end
+        end
+    end,
+
+    FadeOutToAfterDinner = function()
+        -- Stop everyone
+        EventManager:TerminateAllEvents(bronanns_mother);
+		bronanns_mother:SetMoving(false);
+        EventManager:TerminateAllEvents(bronanns_dad);
+        bronanns_dad:SetMoving(false);
+
+        bronann:SetMoving(false);
+        -- Start scene
+        --Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        VideoManager:FadeScreen(hoa_video.Color(0.0, 0.0, 0.0, 1.0), 1000);
+    end,
+
+    CheckFadeInOrOut = function()
+        if (VideoManager:IsFading() == true) then
+            return false;
+        end
+        return true;
+    end,
+
+    FadeInToAfterDinner = function()
+        -- Place characters
+        bronann:SetPosition(41.5, 15.0);
+        bronanns_mother:SetPosition(40, 19);
+        bronanns_dad:SetPosition(48, 19);
+
+        -- TODO: Finish event chain
+        _UpdateMotherDialogue();
+        VideoManager:FadeIn(1000);
+    end
 }

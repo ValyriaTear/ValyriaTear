@@ -201,6 +201,7 @@ void BindEngineCode() {
 		luabind::class_<VideoEngine>("GameVideo")
 			.def("FadeScreen", &VideoEngine::FadeScreen)
 			.def("IsFading", &VideoEngine::IsFading)
+			.def("FadeIn", &VideoEngine::FadeIn)
 			.def("ShakeScreen", &VideoEngine::ShakeScreen)
 
 			// Draw cursor commands

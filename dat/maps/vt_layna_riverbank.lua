@@ -691,9 +691,9 @@ function CreateEvents()
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Here it is, Bronann.");
 	dialogue:AddLineEvent(text, lilly, "Quest1: Barley Meal: Lilly give the barley meal to bronann");
-	text = hoa_system.Translate("Thanks Lilly");
+	text = hoa_system.Translate("Thanks Lilly.");
 	dialogue:AddLine(text, bronann);
-	text = hoa_system.Translate("We've having a shortage of food lately. And I've been taking ... special measures to make sure everyone has enough food.");
+	text = hoa_system.Translate("We're having a shortage of food lately. And I've been taking ... special measures to make sure everyone has enough food.");
 	dialogue:AddLine(text, lilly);
 	text = hoa_system.Translate("Try to enjoy this day, Bronann.");
 	dialogue:AddLine(text, lilly);
@@ -764,7 +764,7 @@ end
 
 -- Custom inner map functions
 function _SetLillyState()
-	lilly :SetDirection(hoa_map.MapMode.WEST);
+	lilly:SetDirection(hoa_map.MapMode.WEST);
 	local layna_center_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_center_lua");
 	if (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
@@ -786,7 +786,7 @@ function _SetLillyState()
 		dialogue:AddLine(text, lilly);
 		text = hoa_system.Translate("What?!");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Ah ah! I wanted to see your reaction. I still have some. Let me go and bring it back to you.");
+		text = hoa_system.Translate("Ah ah! I just wanted to see your reaction. I still have some. Let me go and bring it back to you.");
 		dialogue:AddLineEvent(text, lilly, "Quest1: Prepare Lilly for a walk");
 		DialogueManager:AddDialogue(dialogue);
 		lilly :AddDialogueReference(dialogue);
