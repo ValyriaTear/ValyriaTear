@@ -45,11 +45,9 @@ public:
 
 	~MapTreasure();
 
-	/** \brief Adds a number of drunes to be the chest's contents
-	*** \note The overflow condition is not checked here: we just assume it will never occur
-	**/
-	void AddDrunes(uint32 amount)
-		{ _drunes += amount; }
+	//! \brief Sets the number of drunes present in the chest's contents.
+	void SetDrunes(uint32 amount)
+		{ _drunes = amount; }
 
 	/** \brief Adds an object to the contents of the MapTreasure
 	*** \param id The id of the GlobalObject to add

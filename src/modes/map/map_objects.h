@@ -468,12 +468,13 @@ public:
 	*** \param opening_animation_file The animation file used to display the treasure when it is opening.
 	*** \param open_animation_file The animation file used to display the treasure when it is open.
 	**/
-	TreasureObject(const std::string& treasure_name, MapTreasure* treasure,
-				const std::string& closed_animation_file, const std::string& opening_animation_file,
+	TreasureObject(const std::string& treasure_name,
+				const std::string& closed_animation_file,
+				const std::string& opening_animation_file,
 				const std::string& open_animation_file);
 
 	~TreasureObject()
-		{ }
+		{ delete _treasure; }
 
 	std::string GetTreasureName() const
 		{ return _treasure_name; }
@@ -490,6 +491,17 @@ public:
 	//! \brief Retrieves a pointer to the MapTreasure object holding the treasure.
 	MapTreasure* GetTreasure()
 		{ return _treasure; }
+
+	//! \brief Sets the number of drunes present in the chest's contents.
+	void SetDrunes(uint32 amount)
+	{ _treasure->SetDrunes(amount); }
+
+	/** \brief Adds an object to the contents of the TreasureObject
+	*** \param id The id of the GlobalObject to add
+	*** \param quantity The number of the object to add (default == 1)
+	*** \return True if the object was added succesfully
+	**/
+	bool AddObject(uint32 id, uint32 quantity = 1);;
 
 private:
 	/** \brief Stores the contents of the treasure which will be processed by the treasure supervisor

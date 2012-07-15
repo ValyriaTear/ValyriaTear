@@ -301,8 +301,9 @@ void Halo::Draw() {
 // ---------- TreasureObject Class Functions
 // ----------------------------------------------------------------------------
 
-TreasureObject::TreasureObject(const std::string& treasure_name, MapTreasure* treasure,
-				const std::string& closed_animation_file, const std::string& opening_animation_file,
+TreasureObject::TreasureObject(const std::string& treasure_name,
+				const std::string& closed_animation_file,
+				const std::string& opening_animation_file,
 				const std::string& open_animation_file) :
 	PhysicalObject()
 {
@@ -312,10 +313,7 @@ TreasureObject::TreasureObject(const std::string& treasure_name, MapTreasure* tr
 	if (treasure_name.empty())
 		PRINT_WARNING << "Empty treasure name found. The treasure won't function normally." << std::endl;
 
-	if (!treasure)
-		PRINT_ERROR << "Invalid treasure content!!" << endl;
-
-	_treasure = treasure;
+	_treasure = new hoa_map::private_map::MapTreasure();
 
 	// Dissect the frames and create the closed, opening, and open animations
 	hoa_video::AnimatedImage closed_anim, opening_anim, open_anim;
@@ -385,6 +383,12 @@ void TreasureObject::Update() {
 		SetCurrentAnimation(TREASURE_OPEN_ANIM);
 		MapMode::CurrentInstance()->GetTreasureSupervisor()->Initialize(this);
 	}
+}
+
+bool TreasureObject::AddObject(uint32 id, uint32 quantity) {
+	if (!_treasure)
+		return false;
+	return _treasure->AddObject(id, quantity);
 }
 
 // ----------------------------------------------------------------------------

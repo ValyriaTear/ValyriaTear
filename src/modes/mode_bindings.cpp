@@ -239,8 +239,9 @@ void BindModeCode() {
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		luabind::class_<TreasureObject, PhysicalObject>("TreasureObject")
-			.def(luabind::constructor<const std::string&, MapTreasure*, const std::string&, const std::string&, const std::string&>())
-			.def("GetTreasure", &TreasureObject::GetTreasure)
+			.def(luabind::constructor<const std::string&, const std::string&, const std::string&, const std::string&>())
+			.def("SetDrunes", &TreasureObject::SetDrunes)
+			.def("AddObject", &TreasureObject::AddObject)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -534,19 +535,8 @@ void BindModeCode() {
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		luabind::class_<MapTreasure>("MapTreasure")
-			.def(luabind::constructor<>())
-			.def("AddDrunes", &MapTreasure::AddDrunes)
-			.def("AddObject", &MapTreasure::AddObject)
-			.def("IsTaken", &MapTreasure::IsTaken)
-			.def("SetTaken", &MapTreasure::SetTaken)
-	];
-
-	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
-	[
 		luabind::class_<TreasureSupervisor>("TreasureSupervisor")
 			.def("Initialize", (void(TreasureSupervisor::*)(TreasureObject*))&TreasureSupervisor::Initialize)
-			.def("Initialize", (void(TreasureSupervisor::*)(MapTreasure*))&TreasureSupervisor::Initialize)
 	];
 
 	} // End using map mode namespaces

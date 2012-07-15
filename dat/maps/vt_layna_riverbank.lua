@@ -448,15 +448,9 @@ function CreateObjects()
 
     object = _CreateObject(Map, "Tree Big2", 70, 6);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-    -- TODO: Turn it into an actual treasure box once the treasure object class is redone.
-    --object = _CreateObject(Map, "Box1", 72, 5);
-	--if (object ~= nil) then Map:AddGroundObject(object) end;
 	
 	-- Add hill treasure chest
-	local treasure_content = hoa_map.MapTreasure();
-	treasure_content:AddObject(1, 1);
-	--treasure_content:AddDrunes(1);
-	local hill_chest = hoa_map.TreasureObject("riverbank_secret_hill_chest", treasure_content,
+	local hill_chest = hoa_map.TreasureObject("riverbank_secret_hill_chest",
 	    "img/sprites/map/treasures/chest1_closed.lua",
 	    "img/sprites/map/treasures/chest1_opening.lua",
 	    "img/sprites/map/treasures/chest1_open.lua");
@@ -464,6 +458,8 @@ function CreateObjects()
 	hill_chest:SetVisible(true);
 	hill_chest:SetImgHalfWidth(0.6);
 	hill_chest:SetImgHeight(1.0);
+	hill_chest:AddObject(1, 1);
+	--hill_chest:AddDrunes(1);
 	Map:AddGroundObject(hill_chest);
 
     -- trees around the house
