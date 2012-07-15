@@ -26,7 +26,6 @@
 #include "modes/map/map_objects.h"
 #include "modes/map/map_treasure.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_input;
 using namespace hoa_mode_manager;
@@ -49,21 +48,17 @@ MapTreasure::MapTreasure() :
 	_drunes(0)
 {}
 
-
-
 MapTreasure::~MapTreasure() {
 	for (uint32 i = 0; i < _objects_list.size(); i++) {
 		delete _objects_list[i];
 	}
 }
 
-
-
 bool MapTreasure::AddObject(uint32 id, uint32 quantity) {
 	hoa_global::GlobalObject* obj = GlobalCreateNewObject(id, quantity);
 
 	if (obj == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << std::endl;
 		return false;
 	}
 
@@ -129,40 +124,28 @@ TreasureSupervisor::TreasureSupervisor() :
 	_selection_name.SetStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
 
 	if (_drunes_icon.Load("img/icons/drunes.png") == false)
-		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load drunes icon for treasure menu" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load drunes icon for treasure menu" << std::endl;
 } // TreasureSupervisor::TreasureSupervisor()
-
-
 
 TreasureSupervisor::~TreasureSupervisor() {
 	_action_window.Destroy();
 	_list_window.Destroy();
 }
 
-
-
 void TreasureSupervisor::Initialize(TreasureObject* map_object) {
 	if (map_object == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
 		return;
 	}
 
 	Initialize(map_object->GetTreasure());
 }
 
-
-
 void TreasureSupervisor::Initialize(MapTreasure* treasure) {
-	if (treasure == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << endl;
+	if (!treasure) {
+		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
 		return;
 	}
-
-	if (_treasure != NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "_treasure member was not NULL when method was called" << endl;
-		return;
-	}
-
 	_treasure = treasure;
 	MapMode::CurrentInstance()->PushState(STATE_TREASURE);
 
@@ -199,23 +182,20 @@ void TreasureSupervisor::Initialize(MapTreasure* treasure) {
 	// Immediately add the drunes and objects to the player's inventory
 	GlobalManager->AddDrunes(_treasure->_drunes);
 
-	// The AddToInventory function will delete the pointer that it is given if that type of object
-	// already exists in the inventory. Because we still require all of the object pointers to remain in
-	// memory while the menu is being displayed, we check if an object exists in the inventory, increment
-	// the inventory count if it does, and keep a record that we must delete the object once the menu is closed
-	for (uint32 i = 0; i < _treasure->_objects_list.size(); i++) {
+	for (uint32 i = 0; i < _treasure->_objects_list.size(); ++i) {
 		GlobalObject* obj = _treasure->_objects_list[i];
-		if (GlobalManager->IsObjectInInventory(obj->GetID()) == false) {
-			GlobalManager->AddToInventory(_treasure->_objects_list[i]);
+		if (!obj)
+			continue;
+		if (!GlobalManager->IsObjectInInventory(obj->GetID())) {
+			// Pass a copy to the inventory, the treasure object will delete its content on destruction.
+			hoa_global::GlobalObject* obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
+			GlobalManager->AddToInventory(obj_copy);
 		}
 		else {
 			GlobalManager->IncrementObjectCount(obj->GetID(), obj->GetCount());
-			_objects_to_delete.push_back(obj);
 		}
 	}
 } // void TreasureSupervisor::Initialize(MapTreasure* treasure)
-
-
 
 void TreasureSupervisor::Update() {
 	_action_window.Update();
@@ -240,15 +220,13 @@ void TreasureSupervisor::Update() {
 	else if (_selection == DETAIL_SELECTED)
 		_UpdateDetail();
 	else
-		IF_PRINT_WARNING(MAP_DEBUG) << "unknown selection state: " << _selection << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "unknown selection state: " << _selection << std::endl;
 }
-
-
 
 void TreasureSupervisor::Draw() {
 	// We wait until the treasure is fully open before displaying any portions of the menu
 	VideoManager->PushState();
-
+	VideoManager->SetStandardCoordSys();
 	_action_window.Draw();
 	if (_selection != DETAIL_SELECTED) {
 		_action_options.Draw();
@@ -279,49 +257,31 @@ void TreasureSupervisor::Draw() {
 	VideoManager->PopState();
 } // void TreasureSupervisor::Draw()
 
-
-
 void TreasureSupervisor::Finish() {
-	for (uint32 i = 0; i < _objects_to_delete.size(); i++) {
-		delete _objects_to_delete[i];
-	}
-	_objects_to_delete.clear();
-
-	_treasure->_taken = true;
-	_treasure->_drunes = 0;
-	_treasure->_objects_list.clear();
-	_treasure = NULL;
+	_treasure->SetTaken(true);
+	_treasure = 0; // Forget about it once finished
 
 	_action_window.Hide();
 	_list_window.Hide();
 	_list_options.ClearOptions();
 
-	MapMode::CurrentInstance()->PopState();
+	if (MapMode::CurrentInstance()->CurrentState() == hoa_map::private_map::STATE_TREASURE)
+		MapMode::CurrentInstance()->PopState();
 }
-
-
 
 void TreasureSupervisor::_UpdateAction() {
 	if (InputManager->ConfirmPress()) {
-		if (_action_options.GetSelection() == 0) // "Take All" action
+		if (_action_options.GetSelection() == 0) // "Finish" lone action
 			Finish();
 		else
-			IF_PRINT_WARNING(MAP_DEBUG) << "unhandled action selection in OptionBox: " << _action_options.GetSelection() << endl;
+			IF_PRINT_WARNING(MAP_DEBUG) << "unhandled action selection in OptionBox: " << _action_options.GetSelection() << std::endl;
 	}
-
-	else if (InputManager->LeftPress())
-		_action_options.InputLeft();
-
-	else if (InputManager->RightPress())
-		_action_options.InputRight();
-
 	else if (InputManager->UpPress()) {
 		_selection = LIST_SELECTED;
 		_list_options.SetSelection(_list_options.GetNumberOptions() - 1);
 		_action_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 		_list_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 	}
-
 	else if (InputManager->DownPress()) {
 		_selection = LIST_SELECTED;
 		_list_options.SetSelection(0);
@@ -329,8 +289,6 @@ void TreasureSupervisor::_UpdateAction() {
 		_list_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 	}
 }
-
-
 
 void TreasureSupervisor::_UpdateList() {
 	if (InputManager->ConfirmPress()) {
@@ -383,8 +341,6 @@ void TreasureSupervisor::_UpdateList() {
 		}
 	}
 }
-
-
 
 void TreasureSupervisor::_UpdateDetail() {
 	if (InputManager->ConfirmPress() || InputManager->CancelPress()) {

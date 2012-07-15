@@ -449,8 +449,22 @@ function CreateObjects()
     object = _CreateObject(Map, "Tree Big2", 70, 6);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
     -- TODO: Turn it into an actual treasure box once the treasure object class is redone.
-    object = _CreateObject(Map, "Box1", 72, 5);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
+    --object = _CreateObject(Map, "Box1", 72, 5);
+	--if (object ~= nil) then Map:AddGroundObject(object) end;
+	
+	-- Add hill treasure chest
+	local treasure_content = hoa_map.MapTreasure();
+	treasure_content:AddObject(1, 1);
+	--treasure_content:AddDrunes(1);
+	local hill_chest = hoa_map.TreasureObject("riverbank_secret_hill_chest", treasure_content,
+	    "img/sprites/map/treasures/chest1_closed.lua",
+	    "img/sprites/map/treasures/chest1_opening.lua",
+	    "img/sprites/map/treasures/chest1_open.lua");
+	hill_chest:SetPosition(72, 5);
+	hill_chest:SetVisible(true);
+	hill_chest:SetImgHalfWidth(0.6);
+	hill_chest:SetImgHeight(1.0);
+	Map:AddGroundObject(hill_chest);
 
     -- trees around the house
 	object = _CreateObject(Map, "Tree Big2", 92, 10);
@@ -904,7 +918,7 @@ map_functions = {
     GiveBarleyMeal = function()
         -- Add the barley meal key item when not already in inventory
         -- TODO: Turn this into a treasure event once those are implemented
-        -- TODO: Add barley meal item
+        -- TODO: Add barley meal item sprite
         --local barley_meal_item_id = 4002;
         --if (GlobalManager:IsObjectInInventory(barley_meal_item_id) == false) then
         --    GlobalManager:AddToInventory(barley_meal_item_id, 1)

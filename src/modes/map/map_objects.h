@@ -462,21 +462,21 @@ class TreasureObject : public PhysicalObject {
 	};
 
 public:
-	/** \param image_file The name of the multi image file to load for the treasure
-	*** \param num_total_frames The total number of frame images in the multi image file
-	*** \param num_closed_frames The number of frames to use as the closed animation (default value == 1)
-	*** \param num_open_frames The number of frames to use as the open animation (default value == 1)
-	*** \note The opening animation will be created based on the total number of frames in the image file
-	*** subtracted by the number of closed and open frames. If this value is zero, then the opening animation
-	*** will simply be the same as the open animation
+	/** \param treasure_name The name of the treasure. Used to store and load the treasure state.
+	*** \param treasure The treasure object holding its content.
+	*** \param closed_animation_file The animation file used to display the treasure when it is closed.
+	*** \param opening_animation_file The animation file used to display the treasure when it is opening.
+	*** \param open_animation_file The animation file used to display the treasure when it is open.
 	**/
-	TreasureObject(std::string image_file, uint8 num_total_frames, uint8 num_closed_frames = 1, uint8 num_open_frames = 1);
+	TreasureObject(const std::string& treasure_name, MapTreasure* treasure,
+				const std::string& closed_animation_file, const std::string& opening_animation_file,
+				const std::string& open_animation_file);
 
 	~TreasureObject()
-		{}
+		{ }
 
-	std::string GetEventName() const
-		{ return ("treasure_" + hoa_utils::NumberToString(GetObjectID())); }
+	std::string GetTreasureName() const
+		{ return _treasure_name; }
 
 	//! \brief Loads the state of the chest from the global event corresponding to the current map
 	void LoadState();
@@ -487,13 +487,18 @@ public:
 	//! \brief Changes the current animation if it has finished looping
 	void Update();
 
-	//! \brief Retrieves a pointer to the MapTreasure object holding the treasure. Always guanateed to be non-NULL.
+	//! \brief Retrieves a pointer to the MapTreasure object holding the treasure.
 	MapTreasure* GetTreasure()
-		{ return &_treasure; }
+		{ return _treasure; }
 
 private:
-	//! \brief Stores the contents of the treasure which will be processed by the treasure supervisor
-	MapTreasure _treasure;
+	/** \brief Stores the contents of the treasure which will be processed by the treasure supervisor
+	*** Note that the treasur object will be deleted by luabind (as it is created in scripts)
+	**/
+	MapTreasure* _treasure;
+
+	//! \brief The treasure object name
+	std::string _treasure_name;
 }; // class TreasureObject : public PhysicalObject
 
 

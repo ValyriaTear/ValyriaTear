@@ -289,7 +289,6 @@ function Load(m)
 	CreateNPCs();
 	CreateObjects();
 
-
 	CreateEvents();
 	CreateZones();
 end

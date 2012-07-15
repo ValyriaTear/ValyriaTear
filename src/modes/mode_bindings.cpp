@@ -239,7 +239,7 @@ void BindModeCode() {
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		luabind::class_<TreasureObject, PhysicalObject>("TreasureObject")
-			.def(luabind::constructor<std::string, uint8, uint8, uint8>())
+			.def(luabind::constructor<const std::string&, MapTreasure*, const std::string&, const std::string&, const std::string&>())
 			.def("GetTreasure", &TreasureObject::GetTreasure)
 	];
 

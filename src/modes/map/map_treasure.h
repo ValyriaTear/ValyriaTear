@@ -148,19 +148,12 @@ public:
 	//! \brief Hides the window and adds the treasure's contents to the player's inventory
 	void Finish();
 
-	//! \brief Returns true if the treasure menu is active
-	bool IsActive() const
-		{ return (_treasure != NULL); }
-
 private:
 	//! \brief A pointer to the treasure object to display the contents of
 	MapTreasure* _treasure;
 
 	//! \brief The currently selected sub-window for processing user input
 	SELECTION _selection;
-
-	//! \brief A vector containing pointers to objects which should be deleted upon finishing with the current treasure
-	std::vector<hoa_global::GlobalObject*> _objects_to_delete;
 
 	//! \brief Contains options for viewing, using, or equipping inventory, or for exiting the menu
 	hoa_gui::MenuWindow _action_window;

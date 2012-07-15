@@ -301,105 +301,87 @@ void Halo::Draw() {
 // ---------- TreasureObject Class Functions
 // ----------------------------------------------------------------------------
 
-TreasureObject::TreasureObject(string image_file, uint8 num_total_frames, uint8 num_closed_frames, uint8 num_open_frames) :
+TreasureObject::TreasureObject(const std::string& treasure_name, MapTreasure* treasure,
+				const std::string& closed_animation_file, const std::string& opening_animation_file,
+				const std::string& open_animation_file) :
 	PhysicalObject()
 {
-	const uint32 DEFAULT_FRAME_TIME = 10; // The default number of milliseconds for frame animations
-
 	_object_type = TREASURE_TYPE;
 
-	std::vector<StillImage> frames;
+	_treasure_name = treasure_name;
+	if (treasure_name.empty())
+		PRINT_WARNING << "Empty treasure name found. The treasure won't function normally." << std::endl;
 
-	// (1) Load a the single row, multiple column multi image containing all of the treasure frames
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(frames, image_file, 1, num_total_frames) == false ) {
-		PRINT_ERROR << "failed to load image file: " << image_file << endl;
-		// TODO: throw exception
-		return;
-	}
+	if (!treasure)
+		PRINT_ERROR << "Invalid treasure content!!" << endl;
 
-	for (uint32 i = 0; i < frames.size(); i++)
-		MapMode::ScaleToMapCoords(frames[i]);
+	_treasure = treasure;
 
-	// (2) Now that we know the total number of frames in the image, make sure the frame count arguments make sense
-	if (num_open_frames == 0 || num_closed_frames == 0 || num_open_frames + num_closed_frames >= num_total_frames) {
-		PRINT_ERROR << "invalid treasure image for image file: " << image_file << endl;
-		// TODO: throw exception
-		return;
-	}
-
-	// (3) Dissect the frames and create the closed, opening, and open animations
+	// Dissect the frames and create the closed, opening, and open animations
 	hoa_video::AnimatedImage closed_anim, opening_anim, open_anim;
 
-	for (uint8 i = 0; i < num_closed_frames; i++) {
-		closed_anim.AddFrame(frames[i], DEFAULT_FRAME_TIME);
-	}
-	for (uint8 i = num_total_frames - num_open_frames; i < num_total_frames; i++) {
-		open_anim.AddFrame(frames[i], DEFAULT_FRAME_TIME);
-	}
+	closed_anim.LoadFromAnimationScript(closed_animation_file);
+	MapMode::ScaleToMapCoords(closed_anim);
+	opening_anim.LoadFromAnimationScript(opening_animation_file);
+	MapMode::ScaleToMapCoords(opening_anim);
+	open_anim.LoadFromAnimationScript(open_animation_file);
+	MapMode::ScaleToMapCoords(open_anim);
 
 	// Loop the opening animation only once
 	opening_anim.SetNumberLoops(0);
-
-	// If there are no additional frames for the opening animation, set the opening animation to be the open animation
-	if (num_total_frames - num_closed_frames - num_open_frames == 0) {
-		opening_anim = open_anim;
-	}
-	else {
-		for (uint8 i = num_closed_frames; i < num_total_frames - num_open_frames; i++) {
-			opening_anim.AddFrame(frames[i], DEFAULT_FRAME_TIME);
-		}
-	}
 
 	AddAnimation(closed_anim);
 	AddAnimation(opening_anim);
 	AddAnimation(open_anim);
 
 	// Set the collision rectangle according to the dimensions of the first frame
-	SetCollHalfWidth(frames.at(0).GetWidth() / 2.0f);
-	SetCollHeight(frames.at(0).GetHeight());
-} // TreasureObject::TreasureObject(string image_file, uint8 num_total_frames, uint8 num_closed_frames, uint8 num_open_frames)
+	SetCollHalfWidth(closed_anim.GetWidth() / 2.0f);
+	SetCollHeight(closed_anim.GetHeight());
 
-
+	LoadState();
+} // TreasureObject::TreasureObject()
 
 void TreasureObject::LoadState() {
-	string event_name = GetEventName();
+	if (!_treasure)
+		return;
 
-	// Check if the event corresponding to this treasure has already occurred
-	if (MapMode::CurrentInstance()->GetMapEventGroup()->DoesEventExist(event_name) == true) {
-		// If the event is non-zero, the treasure has already been opened
-		if (MapMode::CurrentInstance()->GetMapEventGroup()->GetEvent(event_name) != 0) {
-			SetCurrentAnimation(TREASURE_OPEN_ANIM);
-			_treasure.SetTaken(true);
-		}
+	// Check whether the event corresponding to this treasure has already occurred
+	if (!MapMode::CurrentInstance()->GetMapEventGroup()->DoesEventExist(_treasure_name))
+		return;
+
+	// If the event is non-zero, the treasure has already been opened
+	if (MapMode::CurrentInstance()->GetMapEventGroup()->GetEvent(_treasure_name) != 0) {
+		SetCurrentAnimation(TREASURE_OPEN_ANIM);
+		_treasure->SetTaken(true);
 	}
 }
 
-
-
 void TreasureObject::Open() {
-	if (_treasure.IsTaken() == true) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: " << object_id << endl;
+	if (!_treasure) {
+		PRINT_ERROR << "Can't open treasure with invalid treasure content." << std::endl;
+		return;
+	}
+
+	if (_treasure->IsTaken()) {
+		IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: " << object_id << std::endl;
 		return;
 	}
 
 	SetCurrentAnimation(TREASURE_OPENING_ANIM);
-	string event_name = GetEventName();
 
 	// Add an event to the map group indicating that the treasure has now been opened
-	if (MapMode::CurrentInstance()->GetMapEventGroup()->DoesEventExist(event_name) == true) {
-		MapMode::CurrentInstance()->GetMapEventGroup()->SetEvent(event_name, 1);
+	if (MapMode::CurrentInstance()->GetMapEventGroup()->DoesEventExist(_treasure_name)) {
+		MapMode::CurrentInstance()->GetMapEventGroup()->SetEvent(_treasure_name, 1);
 	}
 	else {
-		MapMode::CurrentInstance()->GetMapEventGroup()->AddNewEvent(event_name, 1);
+		MapMode::CurrentInstance()->GetMapEventGroup()->AddNewEvent(_treasure_name, 1);
 	}
 }
-
-
 
 void TreasureObject::Update() {
 	PhysicalObject::Update();
 
-	if ((current_animation == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished() == true)) {
+	if ((current_animation == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished())) {
 		SetCurrentAnimation(TREASURE_OPEN_ANIM);
 		MapMode::CurrentInstance()->GetTreasureSupervisor()->Initialize(this);
 	}

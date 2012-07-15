@@ -271,6 +271,10 @@ void MapMode::DrawPostEffects() {
 	if (CurrentState() == STATE_DIALOGUE) {
 		_dialogue_supervisor->Draw();
 	}
+
+	// Draw the treasure menu if necessary
+	if (CurrentState() == STATE_TREASURE)
+		_treasure_supervisor->Draw();
 }
 
 
@@ -921,10 +925,6 @@ void MapMode::_DrawGUI() {
 	// Draw the stamina bar in the lower right corner
 	if (!_unlimited_stamina && _intro_timer.IsFinished())
 		_DrawStaminaBar();
-
-	// Draw the treasure menu if necessary
-	if (_treasure_supervisor->IsActive())
-		_treasure_supervisor->Draw();
 
 	// Draw the debug info
 	if (!VideoManager->DebugInfoOn())
