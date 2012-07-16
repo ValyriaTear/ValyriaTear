@@ -73,7 +73,7 @@ bool MapTreasure::AddObject(uint32 id, uint32 quantity) {
 TreasureSupervisor::TreasureSupervisor() :
 	_treasure(NULL),
 	_selection(ACTION_SELECTED),
-	_window_title(UTranslate("Treasure Contents"), TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2)),
+	_window_title(UTranslate("You obtain"), TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2)),
 	_selection_name(),
 	_selection_icon(NULL)
 {

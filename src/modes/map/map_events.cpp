@@ -44,7 +44,7 @@ namespace private_map {
 
 
 // -----------------------------------------------------------------------------
-// ---------- DialogueEvent Class Methods
+// ---------- SpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 void SpriteEvent::_Start() {
     EventSupervisor *event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
@@ -822,6 +822,28 @@ bool AnimateSpriteEvent::_Update() {
 	return false;
 }
 
+// ---- TreasureEvent
+
+TreasureEvent::TreasureEvent(const std::string& event_id) :
+	MapEvent(event_id, TREASURE_EVENT)
+{
+	_treasure = new MapTreasure();
+}
+
+void TreasureEvent::_Start() {
+	MapMode::CurrentInstance()->GetTreasureSupervisor()->Initialize(_treasure);
+}
+
+bool TreasureEvent::_Update() {
+	// If the treasure supervisor has finished, we can proceed
+	if (MapMode::CurrentInstance()->CurrentState() != STATE_TREASURE)
+		return true;
+	return false;
+}
+
+bool TreasureEvent::AddObject(uint32 id, uint32 quantity) {
+	return _treasure->AddObject(id, quantity);
+}
 
 // -----------------------------------------------------------------------------
 // ---------- EventSupervisor Class Methods

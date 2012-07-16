@@ -221,7 +221,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	TreasureManager = Map.treasure_supervisor;
 	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;

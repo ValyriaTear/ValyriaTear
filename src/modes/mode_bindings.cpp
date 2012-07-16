@@ -535,8 +535,10 @@ void BindModeCode() {
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
-		luabind::class_<TreasureSupervisor>("TreasureSupervisor")
-			.def("Initialize", (void(TreasureSupervisor::*)(TreasureObject*))&TreasureSupervisor::Initialize)
+		luabind::class_<TreasureEvent, MapEvent>("TreasureEvent")
+			.def(luabind::constructor<std::string>())
+			.def("SetDrunes", &TreasureEvent::SetDrunes)
+			.def("AddObject", &TreasureEvent::AddObject)
 	];
 
 	} // End using map mode namespaces

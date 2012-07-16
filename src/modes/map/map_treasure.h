@@ -52,7 +52,7 @@ public:
 	/** \brief Adds an object to the contents of the MapTreasure
 	*** \param id The id of the GlobalObject to add
 	*** \param quantity The number of the object to add (default == 1)
-	*** \return True if the object was added succesfully
+	*** \return True if the object was added successfully
 	**/
 	bool AddObject(uint32 id, uint32 quantity = 1);
 

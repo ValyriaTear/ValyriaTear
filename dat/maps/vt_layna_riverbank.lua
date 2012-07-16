@@ -367,7 +367,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	TreasureManager = Map.treasure_supervisor;
 	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
@@ -453,7 +452,6 @@ function CreateObjects()
 	local hill_chest = _CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
 	if (hill_chest ~= nil) then
 		hill_chest:AddObject(1, 1);
-		--hill_chest:AddDrunes(1);
 		Map:AddGroundObject(hill_chest);
 	end
 
@@ -624,16 +622,18 @@ function CreateEvents()
 	text = hoa_system.Translate("Don't worry for that ...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Take it, ... Thanks.");
-	dialogue:AddLineEvent(text, orlinn, "Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
+	dialogue:AddLine(text, orlinn);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was", dialogue);
 	event:SetStopCameraMovement(true);
-	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
-	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.ScriptedEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann", "AddPenKeyItem", "");
+	event = hoa_map.TreasureEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
+	event:AddObject(4001, 1); -- The ink key item
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
+	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn is going away for real", orlinn, 95, 2, false);
@@ -878,15 +878,6 @@ map_functions = {
         orlinn:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
         orlinn:ClearDialogueReferences();
         EventManager:TerminateAllEvents(orlinn);
-    end,
-
-    AddPenKeyItem = function()
-        -- Add the pen key item when not already in inventory
-        -- TODO: Turn this into a treasure event once those are implemented
-        local ink_item_id = 4001;
-        if (GlobalManager:IsObjectInInventory(ink_item_id) == false) then
-            GlobalManager:AddToInventory(ink_item_id, 1)
-        end
     end,
 
     Set_Hide_And_Seek3_Done = function()

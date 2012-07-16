@@ -801,6 +801,47 @@ protected:
 	bool _Update();
 }; // class AnimateSpriteEvent : public SpriteEvent
 
+/** ****************************************************************************
+*** \brief An event permitting to trigger a treasure opening dialog with given content.
+***
+*** This event does basically the same as opening a treasure chest. @See TreasureObject.
+*** ***************************************************************************/
+class TreasureEvent : public MapEvent {
+public:
+	/** \param event_id The ID of this event
+	**/
+	TreasureEvent(const std::string& event_id);
+
+	~TreasureEvent()
+    { delete _treasure; }
+
+	MapTreasure* GetTreasure() const
+	{ return _treasure; }
+
+	//! \brief Sets the number of drunes present in the chest's contents.
+	void SetDrunes(uint32 amount)
+	{ _treasure->SetDrunes(amount); }
+
+	/** \brief Adds an object to the contents of the TreasureEvent
+	*** \param id The id of the GlobalObject to add
+	*** \param quantity The number of the object to add (default == 1)
+	*** \return True if the object was added successfully
+	**/
+	bool AddObject(uint32 id, uint32 quantity = 1);
+
+protected:
+	//! \brief A pointer to the treasure content, used by the TreasureSupervisor.
+	MapTreasure* _treasure;
+
+	/** \brief Starts a sprite event.
+	***
+	*** This method will open the treasure dialog with the treasure content set for this event.
+	**/
+	void _Start();
+
+	//! \brief Returns true once the treasure dialog is closed, and false otherwise.
+	bool _Update();
+}; // class TreasureEvent : public MapEvent
 
 /** ****************************************************************************
 *** \brief Manages, processes, and launches map events

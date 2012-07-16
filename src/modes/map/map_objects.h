@@ -499,14 +499,12 @@ public:
 	/** \brief Adds an object to the contents of the TreasureObject
 	*** \param id The id of the GlobalObject to add
 	*** \param quantity The number of the object to add (default == 1)
-	*** \return True if the object was added succesfully
+	*** \return True if the object was added successfully
 	**/
-	bool AddObject(uint32 id, uint32 quantity = 1);;
+	bool AddObject(uint32 id, uint32 quantity = 1);
 
 private:
-	/** \brief Stores the contents of the treasure which will be processed by the treasure supervisor
-	*** Note that the treasur object will be deleted by luabind (as it is created in scripts)
-	**/
+	//! \brief Stores the contents of the treasure which will be processed by the treasure supervisor
 	MapTreasure* _treasure;
 
 	//! \brief The treasure object name
