@@ -633,6 +633,9 @@ private:
 	//! \brief Contains data and functional definitions for map objects seen in game maps
 	hoa_script::ReadScriptDescriptor _map_objects_script;
 
+	//! \brief Contains data and functional definitions for map treasures seen in game maps
+	hoa_script::ReadScriptDescriptor _map_treasures_script;
+
 	//! \brief Contains data and functional definitions for scripted events in key game battles
 	hoa_script::ReadScriptDescriptor _battle_events_script;
 	//@}

@@ -450,30 +450,25 @@ function CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
 	-- Add hill treasure chest
-	local hill_chest = hoa_map.TreasureObject("riverbank_secret_hill_chest",
-	    "img/sprites/map/treasures/chest1_closed.lua",
-	    "img/sprites/map/treasures/chest1_opening.lua",
-	    "img/sprites/map/treasures/chest1_open.lua");
-	hill_chest:SetPosition(72, 5);
-	hill_chest:SetVisible(true);
-	hill_chest:SetImgHalfWidth(0.6);
-	hill_chest:SetImgHeight(1.0);
-	hill_chest:AddObject(1, 1);
-	--hill_chest:AddDrunes(1);
-	Map:AddGroundObject(hill_chest);
+	local hill_chest = _CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
+	if (hill_chest ~= nil) then
+		hill_chest:AddObject(1, 1);
+		--hill_chest:AddDrunes(1);
+		Map:AddGroundObject(hill_chest);
+	end
 
-    -- trees around the house
+	-- trees around the house
 	object = _CreateObject(Map, "Tree Big2", 92, 10);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Tree Small1", 82, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-   	object = _CreateObject(Map, "Tree Big1", 75, 20);
+	object = _CreateObject(Map, "Tree Big1", 75, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = _CreateObject(Map, "Tree Big2", 72, 35);
+	object = _CreateObject(Map, "Tree Big2", 72, 35);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = _CreateObject(Map, "Tree Big1", 74, 48);
+	object = _CreateObject(Map, "Tree Big1", 74, 48);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = _CreateObject(Map, "Tree Big2", 76, 50);
+	object = _CreateObject(Map, "Tree Big2", 76, 50);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
