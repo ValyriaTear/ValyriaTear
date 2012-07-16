@@ -755,14 +755,15 @@ function CheckZones()
     if (layna_south_entrance_event_group ~= nil and
             layna_south_entrance_event_group:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
         if (orlinn_hide_n_seek2_zone:IsCameraEntering() == true) then
-            -- Orlinn speaks and flee
-            Map:PushState(hoa_map.MapMode.STATE_SCENE);
-            orlinn:SetDirection(hoa_map.MapMode.WEST);
             -- Updates the story state
             if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == false) then
                 GlobalEvents:AddNewEvent("quest1_orlinn_hide_n_seek2_done", 1);
+
+                -- Orlinn speaks and flee
+                Map:PushState(hoa_map.MapMode.STATE_SCENE);
+                orlinn:SetDirection(hoa_map.MapMode.WEST);
+                EventManager:StartEvent("Quest1: Orlinn starts hide and seek3 speech");
             end
-            EventManager:StartEvent("Quest1: Orlinn starts hide and seek3 speech");
         end
     end
 end
