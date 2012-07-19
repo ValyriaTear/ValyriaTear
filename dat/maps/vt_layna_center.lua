@@ -270,6 +270,9 @@ local kalya = {};
 local orlinn = {};
 local georges = {};
 
+-- special objets
+local blocking_rock = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -462,6 +465,11 @@ function CreateObjects()
 	object = _CreateObject(Map, "Rock2", 113, 42);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
+	-- Create the special rock
+	blocking_rock = _CreateObject(Map, "Rock1", 7, 45);
+	Map:AddGroundObject(blocking_rock);
+	-- Set the rock state based on the story point
+	_UpdateBlockingRock();
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -575,6 +583,19 @@ function CheckZones()
 end
 
 -- Inner custom functions
+
+-- Make the rock blocks the secret passage as long as the kid hasn't been found once.
+function _UpdateBlockingRock()
+    local village_entrance_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_south_entrance_lua");
+    if (village_entrance_group ~= nil
+        and village_entrance_group:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
+        blocking_rock:SetNoCollision(true);
+        blocking_rock:SetVisible(false);
+    else
+        blocking_rock:SetNoCollision(false);
+        blocking_rock:SetVisible(true);
+    end
+end
 
 -- Updates Georges dialogue depending on how far is the story going.
 function _UpdateGeorgesDialogue()
