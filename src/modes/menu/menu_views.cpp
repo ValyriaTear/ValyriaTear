@@ -1353,7 +1353,7 @@ void EquipWindow::_UpdateEquipList() {
 		StillImage i;
 
 		GlobalWeapon *wpn = ch->GetWeaponEquipped();
-		i.Load(wpn ? wpn->GetIconImage().GetFilename() : "");
+		i.Load(wpn ? wpn->GetIconImage().GetFilename() : "img/icons/weapons/fist-human.png");
 		_equip_images.push_back(i);
 
 		GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
