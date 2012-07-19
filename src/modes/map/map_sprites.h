@@ -107,6 +107,15 @@ public:
 	**/
 	void SetRandomDirection();
 
+	/**
+	*** Make the sprite used the direction making it "look at" the given position or sprite.
+	**/
+	void LookAt(const MapPosition& pos);
+	void LookAt(float x, float y)
+	{ LookAt(MapPosition(x, y)); }
+	void LookAt(MapObject* object)
+	{ if (object) LookAt(object->GetPosition()); }
+
 	/** \brief Calculates the distance the sprite should move given its velocity (speed and direction)
 	*** \return A floating point value representing the distance moved
 	*** \note This method does not check if the "moving" member is true but does factor in the "is_running"

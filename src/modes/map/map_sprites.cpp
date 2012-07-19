@@ -314,7 +314,84 @@ void VirtualSprite::SetRandomDirection() {
 	}
 }
 
+void VirtualSprite::LookAt(const MapPosition& pos) {
 
+	// If the two positions are the same,
+	// don't update the direction since it's only a matter of keeping
+	// the previous one.
+	if (position.x == pos.x && position.y == pos.y)
+		return;
+
+	// First handle simple cases
+	if (IsFloatEqual(position.x, pos.x, 0.5f))
+	{
+		if (position.y > pos.y)
+			SetDirection(NORTH);
+		else
+			SetDirection(SOUTH);
+		 return;
+	}
+
+	if (IsFloatEqual(position.y, pos.y, 0.5f))
+	{
+		if (position.x > pos.x)
+			SetDirection(WEST);
+		 else
+			SetDirection(EAST);
+		 return;
+	}
+
+	// Now let's handle diagonal cases
+	// First, find the lower angle:
+	if (position.x < pos.x)
+	{
+		// Up-right direction
+		if (position.y > pos.y)
+		{
+			// Compute tan of the angle
+			if ((position.y - pos.y) / (pos.x - position.x) < 1)
+				// The angle is less than 45°, look to the right
+				SetDirection(EAST);
+			else
+				SetDirection(NORTH);
+			return;
+		}
+		else // Down-right
+		{
+			// Compute tan of the angle
+			if ((pos.y - position.y) / (pos.x - position.x) < 1)
+				// The angle is less than 45°, look to the right
+				SetDirection(EAST);
+			else
+				SetDirection(SOUTH);
+			return;
+		}
+	}
+	else
+	{
+		// Up-left direction
+		if (position.y > pos.y)
+		{
+			// Compute tan of the angle
+			if ((position.y - pos.y) / (position.x - pos.x) < 1)
+				// The angle is less than 45°, look to the left
+				SetDirection(WEST);
+			else
+				SetDirection(NORTH);
+			return;
+		}
+		else // Down-left
+		{
+			// Compute tan of the angle
+			if ((pos.y - position.y) / (position.x - pos.x) < 1)
+				// The angle is less than 45°, look to the left
+				SetDirection(WEST);
+			else
+				SetDirection(SOUTH);
+			return;
+		}
+	}
+}
 
 float VirtualSprite::CalculateDistanceMoved() {
 	float distance_moved = static_cast<float>(SystemManager->GetUpdateTime()) / movement_speed;

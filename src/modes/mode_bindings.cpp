@@ -254,6 +254,8 @@ void BindModeCode() {
 			.def("GetMoving", &VirtualSprite::GetMoving)
 			.def("GetDirection", &VirtualSprite::GetDirection)
 			.def("GetMovementSpeed", &VirtualSprite::GetMovementSpeed)
+			.def("LookAt", (void(VirtualSprite::*)(float, float))&VirtualSprite::LookAt)
+			.def("LookAt", (void(VirtualSprite::*)(MapObject*))&VirtualSprite::LookAt)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -491,6 +493,14 @@ void BindModeCode() {
 		luabind::class_<ChangeDirectionSpriteEvent, SpriteEvent>("ChangeDirectionSpriteEvent")
 			.def(luabind::constructor<std::string, uint16, uint16>())
 			.def(luabind::constructor<std::string, VirtualSprite*, uint16>())
+	];
+
+ 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+ 	[
+		luabind::class_<LookAtSpriteEvent, SpriteEvent>("LookAtSpriteEvent")
+			.def(luabind::constructor<std::string, uint16, uint16>())
+			.def(luabind::constructor<std::string, VirtualSprite*, VirtualSprite*>())
+			.def(luabind::constructor<std::string, VirtualSprite*, float, float>())
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

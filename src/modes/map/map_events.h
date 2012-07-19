@@ -600,6 +600,51 @@ protected:
 	bool _Update();
 }; // class ChangeDirectionSpriteEvent : public SpriteEvent
 
+/** ****************************************************************************
+*** \brief A simple event used to set the direction of a sprite to make it look
+*** at something or another sprite.
+***
+*** This event finishes immediately after it starts, as all that it performs is
+*** to set the direction of a sprite in a particular orientation.
+***
+*** \note The only directions you should set in the class constructor are: NORTH,
+*** SOUTH, EAST, and WEST. This event is used when a sprite is stationary, so
+*** the other types of directions (which also infer movement) are unnecessary.
+*** Using a direction other than these four will result in a warning being printed.
+*** ***************************************************************************/
+class LookAtSpriteEvent : public SpriteEvent {
+public:
+	/** \param event_id The ID of this event
+	*** \param sprite_id The ID of the sprite to change the direction of
+	*** \param second_sprite_id The ID of the sprite to make the first look at
+	**/
+	LookAtSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 second_sprite_id);
+
+	/** \param event_id The ID of this event
+	*** \param sprite A pointer to the sprite that this event will effect
+	*** \param sprite A pointer to the sprite to look at.
+	**/
+	LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* other_sprite);
+
+	/** \param event_id The ID of this event
+	*** \param sprite A pointer to the sprite that this event will effect
+	*** \param x, y map coodinates to look at.
+	**/
+    LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x, float y);
+
+	~LookAtSpriteEvent()
+	{}
+
+protected:
+	//! \brief Retains the position to look at when the event starts.
+	float _x, _y;
+
+	//! \brief Immediately changes the sprite's direction
+	void _Start();
+
+	//! \brief Always returns true immediately, terminating the event
+	bool _Update();
+}; // class LookAtSpriteEvent : public SpriteEvent
 
 /** ****************************************************************************
 *** \brief An event which moves a single sprite to a destination

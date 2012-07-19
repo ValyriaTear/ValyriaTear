@@ -257,7 +257,8 @@ enum EVENT_TYPE {
 	RANDOM_MOVE_SPRITE_EVENT        = 11,
 	ANIMATE_SPRITE_EVENT            = 12,
 	TREASURE_EVENT                  = 13,
-	TOTAL_EVENT                     = 14
+	LOOK_AT_SPRITE_EVENT            = 14,
+	TOTAL_EVENT                     = 15
 };
 
 

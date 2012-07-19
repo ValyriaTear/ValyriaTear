@@ -517,8 +517,6 @@ ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_
 		IF_PRINT_WARNING(MAP_DEBUG) << "non-standard direction specified: " << event_id << endl;
 }
 
-
-
 ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16 direction) :
 	SpriteEvent(event_id, CHANGE_DIRECTION_SPRITE_EVENT, sprite),
 	_direction(direction)
@@ -527,16 +525,60 @@ ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_
 		IF_PRINT_WARNING(MAP_DEBUG) << "non-standard direction specified: " << event_id << endl;
 }
 
-
-
 void ChangeDirectionSpriteEvent::_Start() {
 	SpriteEvent::_Start();
 	_sprite->SetDirection(_direction);
 }
 
-
-
 bool ChangeDirectionSpriteEvent::_Update() {
+	_sprite->ReleaseControl(this);
+	return true;
+}
+
+// ---------- LookAtSpriteEvent Class Methods
+
+LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 second_sprite_id) :
+	SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite_id)
+{
+	// Invalid position.
+	_x = _y = -1.0f;
+
+	VirtualSprite* other_sprite = MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(second_sprite_id);
+	if (other_sprite) {
+		_x = other_sprite->GetXPosition();
+		_y = other_sprite->GetYPosition();
+	}
+	else
+		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid second sprite id specified in event: " << event_id << endl;
+}
+
+LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* other_sprite) :
+	SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite)
+{
+	// Invalid position.
+	_x = _y = -1.0f;
+
+	if (other_sprite) {
+		_x = other_sprite->GetXPosition();
+		_y = other_sprite->GetYPosition();
+	}
+    else
+		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid other sprite specified in event: " << event_id << endl;
+}
+
+LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x, float y) :
+	SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite),
+	_x(x),
+	_y(y)
+{}
+
+void LookAtSpriteEvent::_Start() {
+	SpriteEvent::_Start();
+	if (_x >= 0.0f && _y >= 0.0f)
+		 _sprite->LookAt(_x, _y);
+}
+
+bool LookAtSpriteEvent::_Update() {
 	_sprite->ReleaseControl(this);
 	return true;
 }
