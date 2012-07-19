@@ -274,7 +274,7 @@ const uint32 MAX_DIALOGUE_OPTIONS = 5;
 
 
 //! \brief The number of milliseconds to take to fade out the map
-const uint32 MAP_FADE_OUT_TIME = 1000;
+const uint32 MAP_FADE_OUT_TIME = 800;
 
 
 //! \brief The standard number of milliseconds it takes for enemies to spawn in an enemy zone

@@ -34,6 +34,8 @@ namespace hoa_mode_manager {
 ModeEngine* ModeManager = NULL;
 bool MODE_MANAGER_DEBUG = false;
 
+const uint32 FADE_IN_OUT_TIME = 800;
+
 // ****************************************************************************
 // ***** GameMode class
 // ****************************************************************************
@@ -136,7 +138,7 @@ void ModeEngine::Pop(bool fade_out, bool fade_in) {
 
     if (fade_out) {
         // Start a fade out between the two game modes.
-        VideoManager->_StartTransitionFadeOut(Color::black, 1000);
+        VideoManager->_StartTransitionFadeOut(Color::black, FADE_IN_OUT_TIME);
         _fade_out = true;
         _fade_out_finished = false;
     }
@@ -162,7 +164,7 @@ void ModeEngine::Push(GameMode* gm, bool fade_out, bool fade_in) {
 	_fade_in = fade_in;
 
 	if (fade_out) {
-		VideoManager->_StartTransitionFadeOut(Color::black, 1000);
+		VideoManager->_StartTransitionFadeOut(Color::black, FADE_IN_OUT_TIME);
 		_fade_out = true;
 		_fade_out_finished = false;
 	}
@@ -253,7 +255,7 @@ void ModeEngine::Update() {
         _fade_out_finished = false;
 
 		// We can now fade in, or not
-        VideoManager->_TransitionalFadeIn(_fade_in ? 1000 : 0);
+        VideoManager->_TransitionalFadeIn(_fade_in ? FADE_IN_OUT_TIME : 0);
 
 		// Call the system manager and tell it that the active game mode changed so it can update timers accordingly
 		SystemManager->ExamineSystemTimers();
