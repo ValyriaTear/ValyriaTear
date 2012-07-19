@@ -519,10 +519,10 @@ end
 
 function CreateZones()
 	-- N.B.: left, right, top, bottom
-	bronanns_home_entrance_zone = hoa_map.CameraZone(10, 13, 60, 61, hoa_map.MapMode.CONTEXT_01);
+	bronanns_home_entrance_zone = hoa_map.CameraZone(10, 14, 60, 61, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(bronanns_home_entrance_zone);
 
-	to_riverbank_zone = hoa_map.CameraZone(20, 33, 78, 79, hoa_map.MapMode.CONTEXT_01);
+	to_riverbank_zone = hoa_map.CameraZone(19, 35, 78, 79, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_riverbank_zone);
 
 	to_village_entrance_zone = hoa_map.CameraZone(60, 113, 78, 79, hoa_map.MapMode.CONTEXT_01);
@@ -531,11 +531,11 @@ function CreateZones()
 	to_kalya_house_path_zone = hoa_map.CameraZone(0, 1, 8, 15, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_kalya_house_path_zone);
 
-	shop_entrance_zone = hoa_map.CameraZone(92, 95, 70, 71, hoa_map.MapMode.CONTEXT_01);
+	shop_entrance_zone = hoa_map.CameraZone(92, 96, 70, 71, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(shop_entrance_zone);
 
-    secret_path_zone = hoa_map.CameraZone(0, 1, 55, 61, hoa_map.MapMode.CONTEXT_01);
-    Map:AddZone(secret_path_zone);
+	secret_path_zone = hoa_map.CameraZone(0, 1, 55, 61, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(secret_path_zone);
 end
 
 function CheckZones()

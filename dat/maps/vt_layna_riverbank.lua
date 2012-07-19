@@ -730,17 +730,17 @@ end
 
 function CreateZones()
 	-- N.B.: left, right, top, bottom
-	village_center_zone = hoa_map.CameraZone(89, 104, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	village_center_zone = hoa_map.CameraZone(89, 105, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(village_center_zone);
 
 	to_village_entrance_zone = hoa_map.CameraZone(118, 119, 10, 27, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_village_entrance_zone);
 
-    to_secret_path_entrance_zone = hoa_map.CameraZone(60, 72, 0, 2, hoa_map.MapMode.CONTEXT_01);
-    Map:AddZone(to_secret_path_entrance_zone);
+	to_secret_path_entrance_zone = hoa_map.CameraZone(60, 72, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_secret_path_entrance_zone);
 
-    orlinn_hide_n_seek2_zone = hoa_map.CameraZone(75, 80, 0, 7, hoa_map.MapMode.CONTEXT_01);
-    Map:AddZone(orlinn_hide_n_seek2_zone);
+	orlinn_hide_n_seek2_zone = hoa_map.CameraZone(75, 80, 0, 7, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(orlinn_hide_n_seek2_zone);
 end
 
 function CheckZones()

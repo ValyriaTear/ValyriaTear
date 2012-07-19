@@ -452,7 +452,7 @@ function CreateZones()
 	village_center_zone = hoa_map.CameraZone(62, 63, 42, 47, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(village_center_zone);
 
-	kalya_house_exterior_zone = hoa_map.CameraZone(13, 56, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	kalya_house_exterior_zone = hoa_map.CameraZone(26, 56, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(kalya_house_exterior_zone);
 end
 
