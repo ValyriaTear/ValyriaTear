@@ -567,7 +567,7 @@ protected:
 *** but because a set direction operation is so common, it makes sense to create a
 *** specific event for it for convenience.
 ***
-*** \note The only directions you should set in the clas constructor are: NORTH,
+*** \note The only directions you should set in the class constructor are: NORTH,
 *** SOUTH, EAST, and WEST. This event is used when a sprite is stationary, so
 *** the other types of directions (which also infer movement) are unnecessary.
 *** Using a direction other than these four will result in a warning being printed.

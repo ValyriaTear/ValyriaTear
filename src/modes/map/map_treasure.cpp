@@ -232,8 +232,8 @@ void TreasureSupervisor::Draw() {
 		_action_options.Draw();
 	}
 	_list_window.Draw();
-	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-	VideoManager->Move(512.0f, 465.0f);
+	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
+	VideoManager->Move(152.0f, 495.0f);
 	_window_title.Draw();
 
 	if (_selection == DETAIL_SELECTED) {

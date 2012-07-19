@@ -9,6 +9,8 @@ Note: The licensing of the allacrost's files is assumed to be GPLv2 or later,
 as told on the allacrost web site:
 http://www.allacrost.org
 
+OGA stands for Open Game Art http://opengameart.org
+
 art/Tile-Mapping-System.png                              CC by SA 3.0              Jetrel (OGA)
 art/kalya-high-idle.png                                  GPLv2                     Allacrost
 art/kalya-high-unarmed-idle.png                          GPLv2                     Allacrost + Bertram
@@ -46,12 +48,13 @@ dat/maps/vt_layna_center.lua                GPLv2 or later      Allacrost + Bert
 dat/maps/vt_layna_riverbank.lua             GPLv2 or later      Bertram
 dat/maps/vt_kalya_south_entrance.lua        GPLv2 or later      Bertram
 
-dat/objects/arm_armor.lua       GPLv2 or later	Allacrost + Bertram
-dat/objects/head_armor.lua      GPLv2 or later	Allacrost + Bertram
-dat/objects/items.lua           GPLv2 or later	Allacrost + Bertram
-dat/objects/torso_armor.lua     GPLv2 or later	Allacrost + Bertram
-dat/objects/leg_armor.lua       GPLv2 or later	Allacrost + Bertram
-dat/objects/weapons.lua         GPLv2 or later	Allacrost + Bertram
+dat/objects/arm_armor.lua                   GPLv2 or later      Allacrost + Bertram
+dat/objects/head_armor.lua                  GPLv2 or later      Allacrost + Bertram
+dat/objects/items.lua                       GPLv2 or later      Allacrost + Bertram
+dat/objects/torso_armor.lua                 GPLv2 or later      Allacrost + Bertram
+dat/objects/leg_armor.lua                   GPLv2 or later      Allacrost + Bertram
+dat/objects/weapons.lua                     GPLv2 or later      Allacrost + Bertram
+dat/objects/key_items.lua                   GPLv2 or later      Bertram
 
 dat/skills/battle_animations/bronann_attack.lua	GPLv2 or later 	Bertram
 dat/skills/battle_animations/kalya_attack.lua	GPLv2 or later 	Bertram
@@ -113,9 +116,14 @@ img/icons/actors/characters/red_slime.png                GPLv2          Allacros
 img/icons/actors/enemies/thing.png                       CC by SA 3.0   From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                        CC by SA 3.0   From Jetrel (OGA) (From yeti enemy)
 
+img/icons/items/key_items/barley_meal_bag.png            CC by SA 3.0   From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
+
 img/logos/valyria_logo_black.png				GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.bmp						GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.ico						GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
+
+items/menus/key.png                                     CC by SA 3.0    Tempest in the Aether, Ryzom Core + Bertram small modifications
+items/menus/shard.png                                   CC by SA 3.0    Bertram
 
 img/misc/dialog_icon.lua                GPLv2	Bertram
 

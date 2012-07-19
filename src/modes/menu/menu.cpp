@@ -81,6 +81,26 @@ MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 		cerr << e.ToString() << endl;
 	}
 
+	// Load key items related resources.
+	if (!_key_item_symbol.Load("img/menus/key.png"))
+		PRINT_WARNING << "Couldn't load key item symbol." << std::endl;
+
+	_key_item_description.SetPosition(165, 600);
+	_key_item_description.SetDimensions(700.0f, 50.0f);
+	_key_item_description.SetTextStyle(TextStyle("text20"));
+	_key_item_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+	_key_item_description.SetDisplayText(UTranslate("This item is a key item and can be neither used nor sold."));
+
+	// Load shards related resources.
+	if (!_shard_symbol.Load("img/menus/shard.png"))
+		PRINT_WARNING << "Couldn't load shard symbol." << std::endl;
+
+	_shard_description.SetPosition(165, 600);
+	_shard_description.SetDimensions(700.0f, 50.0f);
+	_shard_description.SetTextStyle(TextStyle("text20"));
+	_shard_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+	_shard_description.SetDisplayText(UTranslate("This item is a crystal shard and can be associated with equipment."));
+
 	_current_window = WINDOW_INVENTORY;
 
 
@@ -755,14 +775,32 @@ void MenuMode::_DrawBottomMenu() {
 		if (_inventory_window._active_box == ITEM_ACTIVE_LIST) {
 			GlobalObject* obj = _inventory_window._item_objects[ _inventory_window._inventory_items.GetSelection() ];
 
-			VideoManager->SetDrawFlags(VIDEO_X_LEFT,VIDEO_Y_CENTER,0);
+			VideoManager->SetDrawFlags(VIDEO_X_LEFT,VIDEO_Y_CENTER, 0);
 
 			VideoManager->Move(100, 600);
 			obj->GetIconImage().Draw();
-			VideoManager->MoveRelative(65, 0);
+			VideoManager->MoveRelative(65, -15);
 			VideoManager->Text()->Draw(obj->GetName());
-			VideoManager->SetDrawFlags(VIDEO_X_LEFT,VIDEO_Y_BOTTOM,0);
+			VideoManager->SetDrawFlags(VIDEO_X_LEFT,VIDEO_Y_BOTTOM, 0);
 			_inventory_window._description.Draw();
+
+			if (obj->GetObjectType() == GLOBAL_OBJECT_KEY_ITEM) {
+				int32 key_pos_x = 100 + obj->GetIconImage().GetWidth() - _key_item_symbol.GetWidth() - 3;
+				int32 key_pos_y = 600 + obj->GetIconImage().GetHeight() - _key_item_symbol.GetHeight() - 3;
+				VideoManager->Move(key_pos_x, key_pos_y);
+				_key_item_symbol.Draw();
+				VideoManager->Move(185, 600);
+				_key_item_description.Draw();
+			}
+
+			if (obj->GetObjectType() == GLOBAL_OBJECT_SHARD) {
+				int32 shard_pos_x = 100 + obj->GetIconImage().GetWidth() - _shard_symbol.GetWidth() - 3;
+				int32 shard_pos_y = 600 + obj->GetIconImage().GetHeight() - _shard_symbol.GetHeight() - 3;
+				VideoManager->Move(shard_pos_x, shard_pos_y);
+				_shard_symbol.Draw();
+				VideoManager->Move(185, 600);
+				_shard_description.Draw();
+			}
 		} // if ITEM_ACTIVE_LIST
 	} // if SHOW_INVENTORY
 	else if (_current_menu_showing == SHOW_SKILLS ) {

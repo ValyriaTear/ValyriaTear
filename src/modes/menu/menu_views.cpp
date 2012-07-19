@@ -315,8 +315,17 @@ void InventoryWindow::Update() {
 
 		case ITEM_ACTIVE_LIST:
 		{
+			GlobalObject* obj = _item_objects[ _inventory_items.GetSelection() ];
+
 			// Activate the character select for application
 			if (event == VIDEO_OPTION_CONFIRM) {
+			    // Don't accept selecting key or shard items
+			    if (obj->GetObjectType() == GLOBAL_OBJECT_KEY_ITEM ||
+						obj->GetObjectType() == GLOBAL_OBJECT_SHARD) {
+					MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
+					break;
+				}
+
 				_active_box = ITEM_ACTIVE_CHAR;
 				_inventory_items.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
 				_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
@@ -330,7 +339,7 @@ void InventoryWindow::Update() {
 				MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
 			} // else if VIDEO_OPTION_CANCEL
 			else if ( event == VIDEO_OPTION_BOUNDS_UP || VIDEO_OPTION_BOUNDS_DOWN ) {
-				_description.SetDisplayText(_item_objects[ _inventory_items.GetSelection() ]->GetDescription());
+				_description.SetDisplayText(obj->GetDescription());
 			} // else if VIDEO_OPTION_BOUNDS_UP
 			break;
 		} // case ITEM_ACTIVE_LIST
@@ -1320,7 +1329,8 @@ void EquipWindow::_UpdateEquipList() {
 				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryArmArmor());
 				break;
 			case EQUIP_LEGGINGS:
-				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryLegArmor());				break;
+				equipment_list = reinterpret_cast<std::vector<GlobalObject*>*>(GlobalManager->GetInventoryLegArmor());
+				break;
 		} // switch
 
 		if (equipment_list != NULL)

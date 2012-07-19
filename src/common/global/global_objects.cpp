@@ -334,26 +334,25 @@ GlobalKeyItem::GlobalKeyItem(uint32 id, uint32 count) :
 		return;
 	}
 
-	// TODO: uncomment the code below when key item scripts are available
-// 	ReadScriptDescriptor& script_file = GlobalManager->GetKeyItemsScript();
-// 	if (script_file.DoesTableExist(_id) == false) {
-// 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for key item in definition file: " << _id << endl;
-// 		_InvalidateObject();
-// 		return;
-// 	}
-//
-// 	// Load the key item data from the script
-// 	script_file.OpenTable(_id);
-// 	_LoadObjectData(script_file);
-//
-// 	script_file.CloseTable();
-// 	if (script_file.IsErrorDetected()) {
-// 		if (GLOBAL_DEBUG) {
-// 			PRINT_WARNING << "one or more errors occurred while reading key item data - they are listed below" << endl;
-// 			cerr << script_file.GetErrorMessages() << endl;
-// 		}
-// 		_InvalidateObject();
-// 	}
+	ReadScriptDescriptor& script_file = GlobalManager->GetKeyItemsScript();
+	if (script_file.DoesTableExist(_id) == false) {
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for key item in definition file: " << _id << endl;
+		_InvalidateObject();
+		return;
+	}
+
+	// Load the item data from the script
+	script_file.OpenTable(_id);
+	_LoadObjectData(script_file);
+
+	script_file.CloseTable();
+	if (script_file.IsErrorDetected()) {
+		if (GLOBAL_DEBUG) {
+			PRINT_WARNING << "one or more errors occurred while reading key item data - they are listed below" << endl;
+			cerr << script_file.GetErrorMessages() << endl;
+		}
+		_InvalidateObject();
+	}
 } // void GlobalKeyItem::GlobalKeyItem(uint32 id, uint32 count = 1)
 
 } // namespace hoa_global

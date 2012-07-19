@@ -484,6 +484,9 @@ public:
 	hoa_script::ReadScriptDescriptor& GetItemsScript()
 		{ return _items_script; }
 
+	hoa_script::ReadScriptDescriptor& GetKeyItemsScript()
+		{ return _key_items_script; }
+
 	hoa_script::ReadScriptDescriptor& GetWeaponsScript()
 		{ return _weapons_script; }
 
@@ -593,6 +596,9 @@ private:
 
 	//! \brief Contains data definitions for all items
 	hoa_script::ReadScriptDescriptor _items_script;
+
+	//! \brief Contains data definitions for all key items
+	hoa_script::ReadScriptDescriptor _key_items_script;
 
 	//! \brief Contains data definitions for all weapons
 	hoa_script::ReadScriptDescriptor _weapons_script;

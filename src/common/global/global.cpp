@@ -95,6 +95,9 @@ GameGlobal::~GameGlobal() {
 	_items_script.CloseTable();
 	_items_script.CloseFile();
 
+	_key_items_script.CloseTable();
+	_key_items_script.CloseFile();
+
 	_weapons_script.CloseTable();
 	_weapons_script.CloseFile();
 
@@ -138,10 +141,13 @@ bool GameGlobal::SingletonInitialize() {
 		return false;
 	}
 
-	if (_items_script.OpenFile("dat/objects/items.lua") == false) {
+	if (!_items_script.OpenFile("dat/objects/items.lua"))
 		return false;
-	}
 	_items_script.OpenTable("items");
+
+	if (!_key_items_script.OpenFile("dat/objects/key_items.lua"))
+		return false;
+	_key_items_script.OpenTable("key_items");
 
 	if (_weapons_script.OpenFile("dat/objects/weapons.lua") == false) {
 		return false;
@@ -413,9 +419,9 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count) {
 // 		_inventory_shards.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
-// 		GlobalKeyItem *new_obj = new GlobalKeyItem(obj_id, obj_count);
-// 		_inventory.insert(std::make_pair(obj_id, new_obj));
-// 		_inventory_key_items.push_back(new_obj);
+		GlobalKeyItem *new_obj = new GlobalKeyItem(obj_id, obj_count);
+		_inventory.insert(std::make_pair(obj_id, new_obj));
+		_inventory_key_items.push_back(new_obj);
 	}
 	else {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
@@ -473,13 +479,13 @@ void GameGlobal::AddToInventory(GlobalObject* object) {
 	}
 	else if ((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SHARD_ID)) {
 // 		GlobalShard *new_obj = dynamic_cast<GlobalShard*>(object);
-// 		_inventory.insert(make_pair(obj_id, new_obj));
+// 		_inventory.insert(std::make_pair(obj_id, new_obj));
 // 		_inventory_shards.push_back(new_obj);
 	}
 	else if ((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
-// 		GlobalKeyItem *new_obj = dynamic_cast<GlobalKeyItem*>(object);
-// 		_inventory.insert(make_pair(obj_id, new_obj));
-// 		_inventory_key_items.push_back(new_obj);
+		GlobalKeyItem *new_obj = dynamic_cast<GlobalKeyItem*>(object);
+		_inventory.insert(std::make_pair(obj_id, new_obj));
+		_inventory_key_items.push_back(new_obj);
 	}
 	else {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;

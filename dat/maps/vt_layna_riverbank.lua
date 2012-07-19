@@ -631,7 +631,7 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.TreasureEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
-	event:AddObject(4001, 1); -- The ink key item
+	event:AddObject(70001, 1); -- The ink key item
 	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
 	event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
 	EventManager:RegisterEvent(event);
@@ -695,7 +695,24 @@ function CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Here it is, Bronann.");
-	dialogue:AddLineEvent(text, lilly, "Quest1: Barley Meal: Lilly give the barley meal to bronann");
+	dialogue:AddLine(text, lilly);
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the barley meal", dialogue);
+	event:SetStopCameraMovement(true);
+	event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly give the barley meal to bronann");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.TreasureEvent("Quest1: Barley Meal: Lilly give the barley meal to bronann");
+	event:AddEventLinkAtEnd("Quest1: Barley meal is given.");
+	event:AddObject(70002, 1); -- The barley meal key item
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("Quest1: Barley meal is given.", "GiveBarleyMeal", "");
+	event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the restrictions");
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Thanks Lilly.");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("We're having a shortage of food lately. And I've been taking ... special measures to make sure everyone has enough food.");
@@ -706,11 +723,8 @@ function CreateEvents()
 	dialogue:AddLineEvent(text, bronann, "Map:PopState()");
 	DialogueManager:AddDialogue(dialogue);
 
-	event = hoa_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the barley meal", dialogue);
+	event = hoa_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the restrictions", dialogue);
 	event:SetStopCameraMovement(true);
-	EventManager:RegisterEvent(event);
-
-	event = hoa_map.ScriptedEvent("Quest1: Barley Meal: Lilly give the barley meal to bronann", "GiveBarleyMeal", "");
 	EventManager:RegisterEvent(event);
 end
 
@@ -899,13 +913,6 @@ map_functions = {
     end,
 
     GiveBarleyMeal = function()
-        -- Add the barley meal key item when not already in inventory
-        -- TODO: Turn this into a treasure event once those are implemented
-        -- TODO: Add barley meal item sprite
-        --local barley_meal_item_id = 4002;
-        --if (GlobalManager:IsObjectInInventory(barley_meal_item_id) == false) then
-        --    GlobalManager:AddToInventory(barley_meal_item_id, 1)
-        --end
         if (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == false) then
             GlobalEvents:AddNewEvent("quest1_barley_meal_done", 1);
         end

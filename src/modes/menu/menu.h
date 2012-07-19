@@ -186,6 +186,16 @@ private:
 	**/
 	hoa_video::StillImage _saved_screen;
 
+	//! \brief The symbol indicating that the item is a key item.
+	hoa_video::StillImage _key_item_symbol;
+	//! \brief Test indicating that the item is a key item and cannot be used or sold.
+	hoa_gui::TextBox _key_item_description;
+
+	//! \brief The symbol indicating that the item is a crystal shard.
+	hoa_video::StillImage _shard_symbol;
+	//! \brief Test indicating that the item is a shard and can be associated with equipment.
+	hoa_gui::TextBox _shard_description;
+
 	/** \name Main Display Windows
 	*** \brief The various menu windows that are displayed in menu mode
 	**/
