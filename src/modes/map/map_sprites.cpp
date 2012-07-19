@@ -445,7 +445,7 @@ MapSprite::~MapSprite() {
 
 
 
-bool MapSprite::LoadStandardAnimations(std::string filename) {
+bool MapSprite::LoadStandardAnimations(const std::string& filename) {
 	// Prepare the four standing and four walking _animations
 	for (uint8 i = 0; i < 8; i++)
 		_animations.push_back(AnimatedImage());
@@ -499,7 +499,7 @@ bool MapSprite::LoadStandardAnimations(std::string filename) {
 
 
 
-bool MapSprite::LoadRunningAnimations(std::string filename) {
+bool MapSprite::LoadRunningAnimations(const std::string& filename) {
 	// Prepare to add the four running _animations
 	for (uint8 i = 0; i < 4; i++)
 		_animations.push_back(AnimatedImage());
@@ -548,7 +548,7 @@ bool MapSprite::LoadRunningAnimations(std::string filename) {
 
 
 
-bool MapSprite::LoadAttackAnimations(std::string filename) {
+bool MapSprite::LoadAttackAnimations(const std::string& filename) {
 	// Prepare the four standing and four walking _animations
 	for (uint8 i = 0; i < 8; i++)
 		_animations.push_back(AnimatedImage());
@@ -574,13 +574,13 @@ bool MapSprite::LoadAttackAnimations(std::string filename) {
 
 
 
-void MapSprite::LoadFacePortrait(std::string pn) {
+void MapSprite::LoadFacePortrait(const std::string& filename) {
 	if (_face_portrait != NULL) {
 		delete _face_portrait;
 	}
 
 	_face_portrait = new StillImage();
-	if (_face_portrait->Load(pn) == false) {
+	if (_face_portrait->Load(filename) == false) {
 		delete _face_portrait;
 		_face_portrait = NULL;
 		PRINT_ERROR << "failed to load face portrait" << endl;

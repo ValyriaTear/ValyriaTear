@@ -213,21 +213,21 @@ public:
 	*** \param filename The name of the image file holding the standard walking animations
 	*** \return False if there was a problem loading the sprite.
 	**/
-	bool LoadStandardAnimations(std::string filename);
+	bool LoadStandardAnimations(const std::string& filename);
 
 	/** \brief Loads the image containing the running animations for the sprite
 	*** \param filename The name of the image file
 	*** \return False if the animations were not created successfully.
 	**/
-	bool LoadRunningAnimations(std::string filename);
+	bool LoadRunningAnimations(const std::string& filename);
 
 	/** \brief Loads the image containing the attack animations for the sprite
 	*** \param filename The name of the image file
 	*** \return False if the animations were not created successfully.
 	**/
-	bool LoadAttackAnimations(std::string filename);
+	bool LoadAttackAnimations(const std::string& filename);
 
-	void LoadFacePortrait(std::string pn);
+	void LoadFacePortrait(const std::string& filename);
 
 	//! \brief Updates the sprite's position and state.
 	virtual void Update();
@@ -297,8 +297,8 @@ public:
 	**/
 	//@{
 	// TODO: needs to be a ustring
-	void SetName(std::string na)
-		{ _name = hoa_utils::MakeUnicodeString(na); }
+	void SetName(const std::string& name)
+		{ _name = hoa_utils::MakeUnicodeString(name); }
 
 	void SetCurrentAnimation(uint8 anim)
 		{ _current_animation = anim; }
