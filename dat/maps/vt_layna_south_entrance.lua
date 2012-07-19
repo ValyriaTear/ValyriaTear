@@ -290,11 +290,47 @@ function CreateCharacters()
 end
 
 function CreateNPCs()
-    orlinn = _CreateSprite(Map, "Orlinn", 29, 22);
-    orlinn:SetDirection(hoa_map.MapMode.EAST);
-    orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+	local npc = {}
+	local text = {}
+	local dialogue = {}
+	local event = {}
+
+	npc = _CreateNPCSprite(Map, "Girl1", "Olivia", 30, 8);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Olivia random move", npc, 8000, 2000);
+	event:AddEventLinkAtEnd("Olivia random move", 5000); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Olivia random move");
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Hi Bronann!");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateNPCSprite(Map, "Man2", "Herth", 45, 39);
+	Map:AddGroundObject(npc);
+	npc:SetDirection(hoa_map.MapMode.SOUTH);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Hi Bronann.");
+	dialogue:AddLine(text, npc);
+	text = hoa_system.Translate("Hi Herth. I see you've blocked the gate, why so?");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("Don't worry too much, I'm just preventing from strangers to sneak in at night.");
+	dialogue:AddLine(text, npc);
+	text = hoa_system.Translate("Some people have been reporting thefts in the villages around lately.");
+	dialogue:AddLine(text, npc);
+	text = hoa_system.Translate("Wow, do you think they would come here?");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("It's a possibility but don't worry too much, ok?");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	orlinn = _CreateSprite(Map, "Orlinn", 29, 22);
+	orlinn:SetDirection(hoa_map.MapMode.EAST);
+	orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
 	Map:AddGroundObject(orlinn);
-    _UpdateOrlinnState();
+	_UpdateOrlinnState();
 end
 
 function CreateObjects()

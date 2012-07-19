@@ -68,17 +68,6 @@ sprites["Malta"] = {
 	face_portrait = "img/portraits/npcs/malta.png"
 }
 
-sprites["Phenor"] = {
-	name = hoa_system.Translate("Phenor"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/npcs/npc_soldier02_walk.png"
-}
-
 sprites["Orlinn"] = {
 	name = hoa_system.Translate("Orlinn"),
 	coll_half_width = 0.95,
@@ -90,7 +79,11 @@ sprites["Orlinn"] = {
 	standard_animations = "img/sprites/map/npcs/npc_boy01_walk.png"
 }
 
+
+-- ----
 -- NPCs
+-- ----
+
 sprites["Girl1"] = {
 	name = hoa_system.Translate("Olivia"), -- default name
 	coll_half_width = 0.95,
@@ -168,32 +161,32 @@ sprites["Man2"] = {
 	standard_animations = "img/sprites/map/npcs/npc_man02_walk.png"
 }
 
---[[
-
-sprites["Female Merchant"] = {
-	name = hoa_system.Translate("Female Merchant"),
+sprites["Soldier"] = {
+	name = hoa_system.Translate("Soldier"),
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/woman_npc01_walk.png"
+	standard_animations = "img/sprites/map/npc_soldier01_walk.png"
 }
 
-sprites["Karlate"] = {
-	name = hoa_system.Translate("Karlate"),
+sprites["Lord"] = {
+	name = hoa_system.Translate("Lord"),
 	coll_half_width = 0.95,
 	coll_height = 1.9,
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/soldier_npc01_walk.png"
+	standard_animations = "img/sprites/map/npc_soldier02_walk.png"
 }
 
---]]
 
+-- ---------
+-- Enemies
+-- ---------
 enemies["slime"] = {
 	coll_half_width = 1.0,
 	coll_height = 2.0,

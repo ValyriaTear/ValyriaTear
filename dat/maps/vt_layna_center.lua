@@ -362,19 +362,7 @@ function CreateNPCs()
 	orlinn = _CreateSprite(Map, "Orlinn", 40, 18);
 	Map:AddGroundObject(orlinn);
 	-- Setup Orlinn's state and dialogue depending on the story current context
-    _UpdateOrlinnState();
-
-	npc = _CreateNPCSprite(Map, "Girl1", "Olivia", 50, 55);
-	Map:AddGroundObject(npc);
-	event = hoa_map.RandomMoveSpriteEvent("Olivia random move", npc, 8000, 2000);
-	event:AddEventLinkAtEnd("Olivia random move", 5000); -- Loop on itself
-	EventManager:RegisterEvent(event);
-	EventManager:StartEvent("Olivia random move");
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Hi Bronann!");
-	dialogue:AddLine(text, npc);
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
+	_UpdateOrlinnState();
 
 	npc = _CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
 	Map:AddGroundObject(npc);
@@ -399,15 +387,6 @@ function CreateNPCs()
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("You're too young to trade stuff with me!");
-	dialogue:AddLine(text, npc);
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
-
-	npc = _CreateNPCSprite(Map, "Man2", "Xandar", 116, 38);
-	Map:AddGroundObject(npc);
-	npc:SetDirection(hoa_map.MapMode.WEST);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("You'd better not go there. The forest can be dangerous for an untrained kid.");
 	dialogue:AddLine(text, npc);
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
@@ -475,8 +454,10 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function CreateEvents()
 	local event = {};
+	local text = {};
+	local dialogue = {};
 
-    -- Triggered Events
+	-- Triggered Events
 	event = hoa_map.MapTransitionEvent("to Bronann's home", "dat/maps/vt_bronanns_home.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
@@ -495,26 +476,57 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to secret cliff", "dat/maps/vt_layna_riverbank.lua", "from_secret_path");
 	EventManager:RegisterEvent(event);
 
-    -- Quest events
-    -- Georges
-    event = hoa_map.ScriptedEvent("Quest1: GeorgesDialogueDone", "Quest1GeorgesDialogueDone", "");
+	-- Generic events
+	event = hoa_map.ScriptedEvent("Map:PushState(SCENE)", "Map_SceneState", "");
 	EventManager:RegisterEvent(event);
 
-    -- Orlinn
-    event = hoa_map.ScriptedEvent("Quest1: Make Orlinn run and hide", "Quest1OrlinnRunAndHide", "");
-    event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
+	EventManager:RegisterEvent(event);
 
-    event = hoa_map.PathMoveSpriteEvent("Quest1: Make Orlinn run", orlinn, 30, 79, true);
-    event:AddEventLinkAtEnd("Quest1: Make Orlinn disappear");
-    EventManager:RegisterEvent(event);
+	-- Quest events
+	-- Georges
+	event = hoa_map.ScriptedEvent("Quest1: GeorgesDialogueDone", "Quest1GeorgesDialogueDone", "");
+	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
+	-- Orlinn
+	event = hoa_map.ScriptedEvent("Quest1: Make Orlinn run and hide", "Quest1OrlinnRunAndHide", "");
+	event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
+	EventManager:RegisterEvent(event);
 
-    -- Georges event
-    event = hoa_map.ScriptedEvent("Quest1: Georges whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Make Orlinn run", orlinn, 30, 79, true);
+	event:AddEventLinkAtEnd("Quest1: Make Orlinn disappear");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedSpriteEvent("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+	EventManager:RegisterEvent(event);
+
+	-- Georges event
+	event = hoa_map.ScriptedEvent("Quest1: Georges whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
+	EventManager:RegisterEvent(event);
+
+	-- Can't enter the forest so easily
+	dialogue = hoa_map.SpriteDialogue();
+
+	local story_events = GlobalManager:GetEventGroup("story");
+	if (story_events ~= nil and story_events:DoesEventExist("Quest1_done") == true) then
+	    text = hoa_system.Translate("Hmm, I can't go in there without being prepared... I need to go and find Flora. I hope she'll help me.");
+	    dialogue:AddLine(text, bronann);
+	else
+	    text = hoa_system.Translate("Hmm, I can't go in there, Mom asked me to get some barley meal...");
+	    dialogue:AddLine(text, bronann);
+	end
+	DialogueManager:AddDialogue(dialogue);
+
+	event = hoa_map.DialogueEvent("Quest2: Bronann can't enter the forest without a sword", dialogue);
+	event:AddEventLinkAtEnd("Map:PushState(SCENE)");
+	event:AddEventLinkAtEnd("Quest2: Bronann goes back from forest");
+	event:SetStopCameraMovement(true);
+	EventManager:RegisterEvent(event);
+
+	local
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes back from forest", bronann, 114, 37, false);
+	event:AddEventLinkAtEnd("Map:PopState()")
+	EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -536,6 +548,9 @@ function CreateZones()
 
 	secret_path_zone = hoa_map.CameraZone(0, 1, 55, 61, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(secret_path_zone);
+
+	to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_layna_forest_zone);
 end
 
 function CheckZones()
@@ -572,6 +587,11 @@ function CheckZones()
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to secret cliff");
+	end
+
+	if (to_layna_forest_zone:IsCameraEntering() == true) then
+		bronann:SetMoving(false);
+		EventManager:StartEvent("Quest2: Bronann can't enter the forest without a sword");
 	end
 
 	if (shop_entrance_zone:IsCameraEntering() == true) then
@@ -791,6 +811,14 @@ map_functions = {
             -- Updates Georges dialogue
             _UpdateGeorgesDialogue();
         end
+    end,
+
+    Map_SceneState = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+    end,
+
+    Map_PopState = function()
+        Map:PopState();
     end,
 
     MakeInvisible = function(sprite)
