@@ -293,6 +293,8 @@ function Load(m)
 
 	CreateEvents();
 	CreateZones();
+
+	_TriggerPotentialDialogueAfterFadeIn();
 end
 
 function Update()
@@ -484,6 +486,15 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	-- Quest events
+	-- Bronann wonders where he can find barley meal
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Hmm, I'll go to Flora's shop. I hope she'll help me...");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest1: Bronann wonders where he can find some barley meal", dialogue);
+	event:SetStopCameraMovement(true);
+	EventManager:RegisterEvent(event);
+
 	-- Georges
 	event = hoa_map.ScriptedEvent("Quest1: GeorgesDialogueDone", "Quest1GeorgesDialogueDone", "");
 	EventManager:RegisterEvent(event);
@@ -523,9 +534,28 @@ function CreateEvents()
 	event:SetStopCameraMovement(true);
 	EventManager:RegisterEvent(event);
 
-	local
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes back from forest", bronann, 114, 37, false);
+	local event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes back from forest", bronann, 114, 37, false);
 	event:AddEventLinkAtEnd("Map:PopState()")
+	EventManager:RegisterEvent(event);
+
+	-- Quest 2: Bronann wants to go to Flora's and buy a sword to go in the forest
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("Still, I'll go there, and prove them all that I can do it.");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Bronann wants to buy a sword from Flora", dialogue);
+	event:SetStopCameraMovement(true);
+	EventManager:RegisterEvent(event);
+
+	-- Quest 2: Bronann doesn't want to see his parents for the moment
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("No, I won't go there. I just can't talk to them at the moment...");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Bronann doesn't want to see his parents", dialogue);
+	event:SetStopCameraMovement(true);
 	EventManager:RegisterEvent(event);
 end
 
@@ -555,6 +585,13 @@ end
 
 function CheckZones()
 	if (bronanns_home_entrance_zone:IsCameraEntering() == true) then
+	   -- If Bronann has started the quest 2, he doesn't want to go back and see his parents.
+	    local story_events = GlobalManager:GetEventGroup("story");
+	    if (story_events ~= nil and
+                story_events:DoesEventExist("Quest2_started") == true) then
+                EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
+		return;
+            end
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
@@ -603,6 +640,19 @@ function CheckZones()
 end
 
 -- Inner custom functions
+function _TriggerPotentialDialogueAfterFadeIn()
+    local story_events = GlobalManager:GetEventGroup("story");
+    if (story_events ~= nil and
+            story_events:DoesEventExist("Quest2_started") == true) then
+        if (story_events:DoesEventExist("Quest2_wants_to_buy_sword_dialogue") == false) then
+            EventManager:StartEvent("Quest2: Bronann wants to buy a sword from Flora", 600);
+            story_events:AddNewEvent("Quest2_wants_to_buy_sword_dialogue", 1);
+        end
+    elseif (GlobalEvents:DoesEventExist("first_time_in_village_center") == false) then
+        EventManager:StartEvent("Quest1: Bronann wonders where he can find some barley meal", 600);
+        GlobalEvents:AddNewEvent("first_time_in_village_center", 1);
+    end
+end
 
 -- Make the rock blocks the secret passage as long as the kid hasn't been found once.
 function _UpdateBlockingRock()

@@ -243,7 +243,7 @@ layers[4][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 local bronann = {};
 local bronanns_dad = {};
 local bronanns_mother = {};
-
+local quest2_start_scene = {};
 
 -- the main map loading code
 function Load(m)
@@ -301,6 +301,7 @@ function CreateNPCs()
 	event = hoa_map.RandomMoveSpriteEvent("Dad random move", bronanns_dad, 2000, 2000);
 	event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
 	EventManager:RegisterEvent(event);
+
 	EventManager:StartEvent("Dad random move");
 
 	dialogue = hoa_map.SpriteDialogue();
@@ -451,11 +452,16 @@ function CreateObjects()
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	-- TODO: Turn the food and dishes into objects update their status.
+	_UpdateDishesAndFood();
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function CreateEvents()
 	local event = {};
+    local text = {};
+    local dialogue = {};
 
 	-- Triggered Events
 	event = hoa_map.MapTransitionEvent("to village", "dat/maps/vt_layna_center.lua", "from_bronanns_home");
@@ -464,10 +470,20 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/vt_bronanns_home_first_floor.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
 
+    -- Generic events
+    event = hoa_map.ScriptedEvent("Audio:PauseMusic()", "Audio_PauseMusic", "");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedEvent("Audio:ResumeMusic()", "Audio_ResumeMusic", "");
+    EventManager:RegisterEvent(event);
+
     -- Quest events
 
     -- End quest 1 (Barley meal retrieval) and prepare map for what's next.
     event = hoa_map.ScriptedEvent("Quest1: end and transition to after-dinner", "Quest1Done", "");
+    event:AddEventLinkAtEnd("Quest1: Terminate mother and father events");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Quest1: Terminate mother and father events", "TerminateMotherAndFatherEvents", "");
     event:AddEventLinkAtEnd("Fade out to after dinner");
     EventManager:RegisterEvent(event);
 
@@ -475,10 +491,103 @@ function CreateEvents()
     event:AddEventLinkAtEnd("Fade in to after dinner");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedEvent("Fade in to after dinner", "FadeInToAfterDinner", "CheckFadeInOrOut");
-    event:AddEventLinkAtEnd("Quest2: Mother doesn't like the idea of Bronann exiting the village");
+    event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 1");
+    event:AddEventLinkAtEnd("Quest2: Father looks west");
 	EventManager:RegisterEvent(event);
 
-    -- TODO: Add quest 2 start.
+    -- Quest 2 start: Bronann is told to not leave town
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Father looks west", bronanns_dad, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Thanks for helping me out with the dishes.");
+    dialogue:AddLine(text, bronanns_mother);
+    text = hoa_system.Translate("Say Mom, why is the village entrance blocked?");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("...");
+    dialogue:AddLine(text, bronanns_mother);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 1", dialogue)
+    -- Make a pause here
+    -- TODO: fade out the music once it's possible
+    event:AddEventLinkAtEnd("Quest2: Father looks south to think");
+    --event:AddEventLinkAtEnd("Audio:PauseMusic()");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Father looks south to think", bronanns_dad, hoa_map.MapMode.SOUTH);
+    event:AddEventLinkAtEnd("Quest2: Father looks at Bronann", 2000);
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.LookAtSpriteEvent("Quest2: Father looks at Bronann", bronanns_dad, bronann);
+    event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 2");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Bronann, I'd like you not to go outside today.");
+    dialogue:AddLine(text, bronanns_dad);
+    text = hoa_system.Translate("Huh?! Why? You told me I could go into the forest and...");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("Sorry, Son. It's maybe a bit early, but I'd like you to be careful.");
+    dialogue:AddLine(text, bronanns_dad);
+    text = hoa_system.Translate("There is something going on! And you won't tell me?");
+    dialogue:AddLine(text, bronann);
+    -- TODO: add bronann look animation here once the map sprite loading code and the animatesprite event are redone.
+    text = hoa_system.Translate("Both of you?");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 2", dialogue)
+    event:AddEventLinkAtEnd("Quest2: Mother looks at Bronann", 2000);
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Mother looks at Bronann", bronanns_mother, hoa_map.MapMode.NORTH);
+    event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 3");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Bronann, this time I want you to listen to your father very carefully. Please, my dear.");
+    dialogue:AddLine(text, bronanns_mother);
+    text = hoa_system.Translate("But Mom!");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("Bronann, please.");
+    dialogue:AddLine(text, bronanns_dad);
+    text = hoa_system.Translate("(Grumble) ... Crap!");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 3", dialogue);
+    event:AddEventLinkAtEnd("Quest2: Bronann runs out of the house");
+    EventManager:RegisterEvent(event);
+    -- Make Bronann leave house
+    event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann runs out of the house", bronann, 40, 24.5, true);
+    event:AddEventLinkAtEnd("Quest2: Bronann disappears after running out of the house");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Quest2: Bronann disappears after running out of the house", bronann, "MakeInvisible", "");
+    event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 4", 2000);
+    event:AddEventLinkAtEnd("Quest2: Mother looks at father", 1000);
+    event:AddEventLinkAtEnd("Quest2: SetCamera on mother", 1000);
+    event:AddEventLinkAtEnd("Quest2: Father looks at mother", 2000);
+    EventManager:RegisterEvent(event);
+
+    -- TODO: "Look at" doesn't work. Figure out why...
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Father looks at mother", bronanns_dad, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Mother looks at father", bronanns_mother, hoa_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("Quest2: SetCamera on mother", bronanns_mother, "Map_SetCamera", "");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Maybe we should tell him...");
+    dialogue:AddLine(text, bronanns_mother);
+    text = hoa_system.Translate("It's too early, Darling. We might be wrong.");
+    dialogue:AddLine(text, bronanns_dad);
+    text = hoa_system.Translate("I really hope we are...");
+    dialogue:AddLine(text, bronanns_dad);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 4", dialogue);
+    event:AddEventLinkAtEnd("Map_PopState");
+    event:AddEventLinkAtEnd("to village");
+    EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -488,10 +597,13 @@ function CreateZones()
 
 	to_bronnans_room_zone = hoa_map.CameraZone(44, 47, 8, 9, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_bronnans_room_zone);
+	
+	quest2_start_scene = false;
 end
 
 function CheckZones()
-	if (home_exit_zone:IsCameraEntering() == true) then
+	-- Don't check that zone when dealing with the quest 2 start scene.
+	if (quest2_start_scene == false and home_exit_zone:IsCameraEntering() == true) then
 		-- Prevent Bronann from exiting until his mother talked to him
 		if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
 			Map:PushState(hoa_map.MapMode.STATE_SCENE);
@@ -507,26 +619,24 @@ end
 
 
 -- Internal Custom functions
+function _UpdateDishesAndFood()
+        local story_events = GlobalManager:GetEventGroup("story");
+        if (story_events ~= nil and
+                story_events:DoesEventExist("Quest2_started") == true) then
+            -- TODO: Set objects status to invisible here.
+        end
+end
+
 function _UpdateMotherDialogue()
 	bronanns_mother:ClearDialogueReferences();
 
     local riverbank_events = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
-    local story_events = GlobalManager:GetEventGroup("story");
-
-    if (story_events ~= nil and story_events:DoesEventExist("Quest1_done") == true) then
-		local dialogue = hoa_map.SpriteDialogue();
-		local text = hoa_system.Translate("So, what's next already?!");
-		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Sorry, I can't remember at the moment. Drop by on next commits!");
-		dialogue:AddLine(text, bronanns_mother);
-		DialogueManager:AddDialogue(dialogue);
-		bronanns_mother:AddDialogueReference(dialogue);
-    elseif (riverbank_events ~= nil
+    if (riverbank_events ~= nil
             and riverbank_events:DoesEventExist("quest1_barley_meal_done") == true) then
         -- Got some barley meal, Mom!
 		-- Begining dialogue
 		local dialogue = hoa_map.SpriteDialogue();
-		local text = hoa_system.Translate("Got it, Mom!");
+		local text = hoa_system.Translate("Sigh... got it, Mom!");
 		dialogue:AddLine(text, bronann);
 		text = hoa_system.Translate("Perfect timing, let's have dinner.");
 		dialogue:AddLineEvent(text, bronanns_mother, "Quest1: end and transition to after-dinner");
@@ -576,6 +686,17 @@ map_functions = {
 		Map:SetCamera(sprite, 800);
 	end,
 
+    Audio_PauseMusic = function()
+        AudioManager:PauseAllMusic();
+    end,
+
+    MakeInvisible = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetVisible(false);
+            sprite:SetNoCollision(true);
+        end
+    end,
+
 	ClearDialogueReferences = function(sprite)
 		sprite:ClearDialogueReferences();
 	end,
@@ -606,16 +727,21 @@ map_functions = {
         end
     end,
 
-    FadeOutToAfterDinner = function()
+    TerminateMotherAndFatherEvents = function()
+        -- Start scene
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
         -- Stop everyone
-        EventManager:TerminateAllEvents(bronanns_mother);
-		bronanns_mother:SetMoving(false);
-        EventManager:TerminateAllEvents(bronanns_dad);
         bronanns_dad:SetMoving(false);
+        bronanns_dad:ClearDialogueReferences();
+        EventManager:TerminateAllEvents(bronanns_dad);
+        bronanns_mother:SetMoving(false);
+        bronanns_mother:ClearDialogueReferences();
+        EventManager:TerminateAllEvents(bronanns_mother);
 
         bronann:SetMoving(false);
-        -- Start scene
-        --Map:PushState(hoa_map.MapMode.STATE_SCENE);
+    end,
+
+    FadeOutToAfterDinner = function()
         VideoManager:FadeScreen(hoa_video.Color(0.0, 0.0, 0.0, 1.0), 1000);
     end,
 
@@ -629,11 +755,31 @@ map_functions = {
     FadeInToAfterDinner = function()
         -- Place characters
         bronann:SetPosition(41.5, 15.0);
-        bronanns_mother:SetPosition(40, 19);
-        bronanns_dad:SetPosition(48, 19);
+        bronann:SetDirection(hoa_map.MapMode.SOUTH);
 
-        -- TODO: Finish event chain
-        _UpdateMotherDialogue();
+        bronanns_mother:SetPosition(40, 19);
+        bronanns_mother:SetDirection(hoa_map.MapMode.EAST);
+        bronanns_dad:SetPosition(48, 19);
+        bronanns_dad:SetDirection(hoa_map.MapMode.WEST);
+
+        -- Remove the barley meal key item from inventory
+        local barley_meal_item_id = 70002;
+        if (GlobalManager:IsObjectInInventory(barley_meal_item_id) == true) then
+            GlobalManager:RemoveFromInventory(barley_meal_item_id);
+        end
+
+        -- Set the quest 2 as started
+        local story_events = GlobalManager:GetEventGroup("story");
+        if (story_events ~= nil and
+                story_events:DoesEventExist("Quest2_started") == false) then
+            story_events:AddNewEvent("Quest2_started", 1);
+        end
+        -- Make the food and dishes not appear anymore, once the dinner is done.
+        _UpdateDishesAndFood();
+
         VideoManager:FadeIn(1000);
+	
+	-- Flag used to disable the warp zone temporarily
+	quest2_start_scene = true;
     end
 }
