@@ -558,7 +558,7 @@ function CreateEvents()
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
 	dialogue:AddLine(text, bronann);
-	text = hoa_system.Translate("Still, I'll go there, and prove them all that I can do it.");
+	text = hoa_system.Translate("Still, I have go there, and figure out what they're trying to hide from me.");
 	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Bronann wants to see Flora for equipment", dialogue);

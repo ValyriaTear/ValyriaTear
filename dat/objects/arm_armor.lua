@@ -37,6 +37,17 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[40001] = {
+	name = hoa_system.Translate("Prismatic ring"),
+	description = hoa_system.Translate("A strange ring protecting from darkness."),
+	icon = "img/icons/armor/jewelry_ring_prismatic.png",
+	physical_defense = 2,
+	metaphysical_defense = 2,
+	standard_price = 180,
+	usable_by = BRONANN + KALYA + THANIS + SYLVE,
+	slots = 0
+}
+
+armor[40011] = {
 	name = hoa_system.Translate("Wooden Shield"),
 	description = hoa_system.Translate("Robust wooden oak protects from all but the heaviest of assaults."),
 	icon = "img/icons/armor/wooden_shield.png",
@@ -47,7 +58,7 @@ armor[40001] = {
 	slots = 0
 }
 
-armor[40002] = {
+armor[40012] = {
 	name = hoa_system.Translate("Metal Shield"),
 	description = hoa_system.Translate("A shield formed completely out of a light-weight but cheap metallic alloy."),
 	icon = "img/icons/armor/metal_shield.png",
@@ -58,7 +69,7 @@ armor[40002] = {
 	slots = 0
 }
 
-armor[40003] = {
+armor[40013] = {
 	name = hoa_system.Translate("Phoenix Shield"),
 	description = hoa_system.Translate("A tall steel shield with a mighty phoenix emblazoned on the front."),
 	icon = "img/icons/armor/phoenix_shield.png",

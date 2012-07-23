@@ -302,10 +302,18 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.ShopEvent("layna: open shop");
-	event:AddWare(1, 10);
+	event:AddWare(1, 10); -- minor potion
+	event:AddWare(30003, 1); -- tunic for Bronann
+	event:AddWare(30004, 1); -- leather cloak for Kalya
+	event:AddWare(40001, 3); -- leather cloak for Kalya
+	
 	EventManager:RegisterEvent(event);
 
+	-- Quest events
 	event = hoa_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
+	EventManager:RegisterEvent(event);
+	
+	event = hoa_map.ScriptedEvent("Quest2: Talked to Flora", "Quest2FloraDialogueDone", "");
 	EventManager:RegisterEvent(event);
 end
 
@@ -327,14 +335,34 @@ function _UpdateFloraDialogue()
 	local dialogue = {}
 	local text = {}
 
-    flora:ClearDialogueReferences();
-	dialogue = hoa_map.SpriteDialogue();
+	flora:ClearDialogueReferences();
 	local bronanns_home_event_group = GlobalManager:GetEventGroup("dat_maps_vt_bronanns_home_lua");
-    -- Just repeat the last dialogue sentence, when the dialogue is already done.
-    if (GlobalEvents:DoesEventExist("quest1_flora_dialogue_done") == true) then
-        text = hoa_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
+	local story_events = GlobalManager:GetEventGroup("story");
+
+	if (story_events ~= nil and story_events:DoesEventExist("Quest2_started") == true) then
+		-- The dialogue before the forest event
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("Hi Bronann! What can I do for you?");
 		dialogue:AddLine(text, flora);
+		text = hoa_system.Translate("Hi Flora! Err, could you lend me one of your training sword? I'd like to practise a bit.");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Ah ah! Sure, as soon as your father will stop lending his sword for you to practise with him. Are sure everything is alright?");
+		dialogue:AddLine(text, flora);
+		text = hoa_system.Translate("Err, nevermind...");
+		dialogue:AddLineEvent(text, bronann, "Quest2: Talked to Flora");
+		DialogueManager:AddDialogue(dialogue);
+		flora:AddDialogueReference(dialogue);
+		return;
+	elseif (GlobalEvents:DoesEventExist("quest1_flora_dialogue_done") == true) then
+		-- Just repeat the last dialogue sentence, when the dialogue is already done.
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
+		dialogue:AddLine(text, flora);
+		DialogueManager:AddDialogue(dialogue);
+		flora:AddDialogueReference(dialogue);
+		return;
 	elseif (bronanns_home_event_group ~= nil and bronanns_home_event_group:DoesEventExist("quest1_mother_start_dialogue_done") == true) then
+		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
 		dialogue:AddLine(text, flora);
 		text = hoa_system.Translate("Hi Flora! Do you have some barley meal left?");
@@ -346,12 +374,15 @@ function _UpdateFloraDialogue()
 		text = hoa_system.Translate("? ... It's the first time I see you in such a worry.");
 		dialogue:AddLine(text, bronann);
 		text = hoa_system.Translate("Nevermind... Don't worry for me. Just find him and he should give you some, ok?");
-        -- Set the quest dialogue as seen by the player.
+		-- Set the quest dialogue as seen by the player.
 		dialogue:AddLineEvent(text, flora, "SetQuest1DialogueDone");
-	else
-		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
-		dialogue:AddLineEvent(text, flora, "layna: open shop");
+		DialogueManager:AddDialogue(dialogue);
+		flora:AddDialogueReference(dialogue);
+		return;
 	end
+	--default behaviour
+	text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
+	dialogue:AddLineEvent(text, flora, "layna: open shop");
 	DialogueManager:AddDialogue(dialogue);
 	flora:AddDialogueReference(dialogue);
 end
@@ -367,6 +398,13 @@ map_functions = {
 		if (GlobalEvents:DoesEventExist("quest1_flora_dialogue_done") == false) then
 			GlobalEvents:AddNewEvent("quest1_flora_dialogue_done", 1);
             _UpdateFloraDialogue();
+		end
+	end,
+	
+	Quest2FloraDialogueDone = function()
+		local story_events = GlobalManager:GetEventGroup("story");
+		if (story_events ~= nil and story_events:DoesEventExist("Quest2_started") == false) then
+			story_events:AddNewEvent("Quest2_flora_dialogue_done", 1);
 		end
 	end
 }

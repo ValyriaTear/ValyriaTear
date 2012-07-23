@@ -42,7 +42,7 @@ armor[30001] = {
 	icon = "img/icons/armor/rookie_tunic.png",
 	physical_defense = 1,
 	metaphysical_defense = 0,
-	standard_price = 10,
+	standard_price = 0,
 	usable_by = BRONANN
 }
 
@@ -52,7 +52,27 @@ armor[30002] = {
 	icon = "img/icons/armor/willow_dress.png",
 	physical_defense = 1,
 	metaphysical_defense = 0,
-	standard_price = 10,
+	standard_price = 0,
+	usable_by = KALYA
+}
+
+armor[30003] = {
+	name = hoa_system.Translate("Tunic"),
+	description = hoa_system.Translate("An old light soldier tunic."),
+	icon = "img/icons/armor/green_tunic.png",
+	physical_defense = 2,
+	metaphysical_defense = 0,
+	standard_price = 60,
+	usable_by = BRONANN
+}
+
+armor[30004] = {
+	name = hoa_system.Translate("Leather cloak"),
+	description = hoa_system.Translate("A cloak worn by apprentices."),
+	icon = "img/icons/armor/cloak_leather_brown.png",
+	physical_defense = 2,
+	metaphysical_defense = 1,
+	standard_price = 80,
 	usable_by = KALYA
 }
 
