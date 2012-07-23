@@ -819,9 +819,10 @@ function _UpdateOrlinnState()
 	DialogueManager:AddDialogue(dialogue);
 	orlinn:AddDialogueReference(dialogue);
 
-    -- Default behaviour
-    event = hoa_map.RandomMoveSpriteEvent("Orlinn random move", orlinn, 4000, 2000);
-	event:AddEventLinkAtEnd("Orlinn random move", 4000); -- Loop on itself
+	-- Default behaviour
+	EventManager:TerminateAllEvents(orlinn);
+	event = hoa_map.RandomMoveSpriteEvent("Orlinn random move", orlinn, 4000, 2000);
+	event:AddEventLinkAtEnd("Orlinn random move", 3000); -- Loop on itself
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Orlinn random move");
 end
