@@ -389,6 +389,13 @@ function CreateNPCs()
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("You're too young to trade stuff with me!");
+	local south_entrance_events = GlobalManager:GetEventGroup("dat_maps_vt_layna_south_entrance_lua");
+	local riverbank_events = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
+	if (south_entrance_events ~= nil and south_entrance_events:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
+		if (riverbank_events == nil or riverbank_events:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == false) then
+			text = hoa_system.Translate("If you're running after Orlinn, I just saw him disappear near your house.");
+		end
+	end
 	dialogue:AddLine(text, npc);
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
@@ -520,7 +527,7 @@ function CreateEvents()
 
 	local story_events = GlobalManager:GetEventGroup("story");
 	if (story_events ~= nil and story_events:DoesEventExist("Quest1_done") == true) then
-	    text = hoa_system.Translate("Hmm, I can't go in there without being prepared... I need to go and find Flora. I hope she'll help me.");
+	    text = hoa_system.Translate("Hmm, I can't go in there without being prepared... I suppose I need to go and find Flora again.");
 	    dialogue:AddLine(text, bronann);
 	else
 	    text = hoa_system.Translate("Hmm, I can't go in there, Mom asked me to get some barley meal...");

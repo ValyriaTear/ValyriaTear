@@ -39,7 +39,7 @@ key_items[70001] = {
 
 key_items[70002] = {
 	name = hoa_system.Translate("Barley Meal"),
-	description = hoa_system.Translate("Basic yet good and cheap cereals."),
+	description = hoa_system.Translate("Basic yet good and cheap flour."),
 	icon = "img/icons/items/key_items/barley_meal_bag.png",
 	standard_price = 0
 }
