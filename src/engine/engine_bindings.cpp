@@ -42,6 +42,8 @@ void BindEngineCode() {
 		luabind::class_<AudioEngine>("GameAudio")
 			.def("PlaySound", &AudioEngine::PlaySound)
 			.def("PlayMusic", &AudioEngine::PlayMusic)
+			.def("PauseAllMusic", &AudioEngine::PauseAllMusic)
+			.def("ResumeAllMusic", &AudioEngine::ResumeAllMusic)
 	];
 
 	} // End using audio namespaces
