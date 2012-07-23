@@ -370,13 +370,19 @@ SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, uin
 		IF_PRINT_WARNING(MAP_DEBUG) << "sprite_id argument did not correspond to a known sprite object: " << event_id << endl;
 }
 
-
 SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite) :
 	MapEvent(event_id, event_type),
 	_sprite(sprite)
 {
 	if (sprite == NULL)
 		IF_PRINT_WARNING(MAP_DEBUG) << "NULL sprite object passed into constructor: " << event_id << endl;
+}
+
+void SpriteEvent::Terminate() {
+	// Frees the sprite from the event.
+	if (_sprite && _sprite->control_event == this) {
+		_sprite->ReleaseControl(this);
+	}
 }
 
 // -----------------------------------------------------------------------------
@@ -499,8 +505,8 @@ bool ScriptedSpriteEvent::_Update() {
 		finished = true;
 	}
 
-	if (finished == true) {
-		_sprite->ReleaseControl(this);
+	if (finished) {
+		SpriteEvent::Terminate();
 	}
 	return finished;
 }
@@ -531,7 +537,7 @@ void ChangeDirectionSpriteEvent::_Start() {
 }
 
 bool ChangeDirectionSpriteEvent::_Update() {
-	_sprite->ReleaseControl(this);
+	SpriteEvent::Terminate();
 	return true;
 }
 
@@ -579,7 +585,7 @@ void LookAtSpriteEvent::_Start() {
 }
 
 bool LookAtSpriteEvent::_Update() {
-	_sprite->ReleaseControl(this);
+	SpriteEvent::Terminate();
 	return true;
 }
 
@@ -601,7 +607,6 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, uint16 spr
 	_run(run)
 {}
 
-
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
 										 float x_coord, float y_coord, bool run) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
@@ -616,7 +621,6 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSpr
 	_run(run)
 {}
 
-
 void PathMoveSpriteEvent::SetRelativeDestination(bool relative) {
 	if (MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "attempted illegal operation while event was active: " << GetEventID() << endl;
@@ -626,7 +630,6 @@ void PathMoveSpriteEvent::SetRelativeDestination(bool relative) {
 	_relative_destination = relative;
 	_path.clear();
 }
-
 
 void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run) {
 	if (MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
@@ -639,7 +642,6 @@ void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run)
 	_path.clear();
 	_run = run;
 }
-
 
 void PathMoveSpriteEvent::_Start() {
 	SpriteEvent::_Start();
@@ -673,13 +675,10 @@ void PathMoveSpriteEvent::_Start() {
 	_sprite->moving = true;
 }
 
-
-
 bool PathMoveSpriteEvent::_Update() {
 	if (_path.empty()) {
 		// No path
-		_sprite->moving = false;
-		_sprite->ReleaseControl(this);
+		Terminate();
 		return true;
 	}
 
@@ -708,15 +707,17 @@ bool PathMoveSpriteEvent::_Update() {
 	// End the path event
 	if (hoa_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
 		&& hoa_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
-		_sprite->moving = false;
-		_sprite->ReleaseControl(this);
+		Terminate();
 		return true;
 	}
 
 	return false;
 }
 
-
+void PathMoveSpriteEvent::Terminate() {
+	_sprite->moving = false;
+	SpriteEvent::Terminate();
+}
 
 void PathMoveSpriteEvent::_SetSpriteDirection() {
 	uint16 direction = 0;
@@ -773,17 +774,14 @@ RandomMoveSpriteEvent::RandomMoveSpriteEvent(const std::string& event_id, Virtua
 	_direction_timer(0)
 {}
 
-
 RandomMoveSpriteEvent::~RandomMoveSpriteEvent()
 {}
-
 
 void RandomMoveSpriteEvent::_Start() {
 	SpriteEvent::_Start();
 	_sprite->SetRandomDirection();
 	_sprite->moving = true;
 }
-
 
 bool RandomMoveSpriteEvent::_Update() {
 	_direction_timer += SystemManager->GetUpdateTime();
@@ -797,12 +795,16 @@ bool RandomMoveSpriteEvent::_Update() {
 
 	if (_movement_timer >= _total_movement_time) {
 		_movement_timer = 0;
-		_sprite->moving = false;
-		_sprite->ReleaseControl(this);
+		Terminate();
 		return true;
 	}
 
 	return false;
+}
+
+void RandomMoveSpriteEvent::Terminate() {
+	_sprite->moving = false;
+	SpriteEvent::Terminate();
 }
 
 // -----------------------------------------------------------------------------
@@ -850,9 +852,7 @@ bool AnimateSpriteEvent::_Update() {
 			if (_number_loops >= 0) {
 				_loop_count++;
 				if (_loop_count > _number_loops) {
-					_loop_count = 0;
-					dynamic_cast<MapSprite*>(_sprite)->SetCustomAnimation(false);
-					_sprite->ReleaseControl(this);
+					Terminate();
 					return true;
 				 }
 			}
@@ -862,6 +862,12 @@ bool AnimateSpriteEvent::_Update() {
 	}
 
 	return false;
+}
+
+void AnimateSpriteEvent::Terminate() {
+	_loop_count = 0;
+	dynamic_cast<MapSprite*>(_sprite)->SetCustomAnimation(false);
+	SpriteEvent::Terminate();
 }
 
 // ---- TreasureEvent
@@ -903,8 +909,6 @@ EventSupervisor::~EventSupervisor() {
 	_all_events.clear();
 }
 
-
-
 void EventSupervisor::RegisterEvent(MapEvent* new_event) {
 	if (new_event == NULL) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << endl;
@@ -919,8 +923,6 @@ void EventSupervisor::RegisterEvent(MapEvent* new_event) {
 	_all_events.insert(make_pair(new_event->_event_id, new_event));
 }
 
-
-
 void EventSupervisor::StartEvent(const std::string& event_id) {
 	MapEvent* event = GetEvent(event_id);
 	if (event == NULL) {
@@ -930,7 +932,6 @@ void EventSupervisor::StartEvent(const std::string& event_id) {
 
 	StartEvent(event);
 }
-
 
 void EventSupervisor::StartEvent(const std::string& event_id, uint32 launch_time) {
 	MapEvent* event = GetEvent(event_id);
@@ -945,19 +946,6 @@ void EventSupervisor::StartEvent(const std::string& event_id, uint32 launch_time
 		_active_delayed_events.push_back(make_pair(static_cast<int32>(launch_time), event));
 }
 
-
-void EventSupervisor::StartEvent(MapEvent* event) {
-	if (event == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "NULL argument passed to function" << endl;
-		return;
-	}
-
-	_active_events.push_back(event);
-	event->_Start();
-	_ExamineEventLinks(event, true);
-}
-
-
 void EventSupervisor::StartEvent(MapEvent* event, uint32 launch_time) {
 	if (event == NULL) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "NULL argument passed to function" << endl;
@@ -970,8 +958,41 @@ void EventSupervisor::StartEvent(MapEvent* event, uint32 launch_time) {
 		_active_delayed_events.push_back(make_pair(static_cast<int32>(launch_time), event));
 }
 
+void EventSupervisor::StartEvent(MapEvent* event) {
+	if (!event) {
+		PRINT_WARNING << "NULL argument passed to function" << endl;
+		return;
+	}
+
+	// Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to start the event: " << event->GetEventID()
+			<< " within an update function. The StartEvent() call will be ignored. Fix your scripts!" << std::endl;
+		return;
+	}
+
+	for (std::list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
+		if ((*it) == event) {
+			PRINT_WARNING << "The event: " << event->GetEventID()
+				<< " is already active and can be active only once at a time. "
+				"The StartEvent() call will be ignored. Fix your script!" << std::endl;
+			return;
+		}
+	}
+
+	_active_events.push_back(event);
+	event->_Start();
+	_ExamineEventLinks(event, true);
+}
 
 void EventSupervisor::PauseEvents(const std::string& event_id) {
+    // Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to pause the event: " << event_id
+			<< " within an update function. The PauseEvents() call will be ignored. Fix your scripts!" << std::endl;
+		return;
+	}
+
 	// Search for active ones
 	for (list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
 		if ((*it)->_event_id == event_id) {
@@ -996,6 +1017,13 @@ void EventSupervisor::PauseAllEvents(VirtualSprite *sprite) {
 		return;
 	// Examine all potential active (now or later) events
 
+	// Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to pause all events for sprite: " << sprite->GetObjectID()
+			 << " within an update function. The PauseAllEvents() call will be ignored. Fix your script!" << std::endl;
+		return;
+	}
+
 	// Starting by active ones.
 	for (std::list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
 		SpriteEvent *event = dynamic_cast<SpriteEvent*>(*it);
@@ -1019,6 +1047,13 @@ void EventSupervisor::PauseAllEvents(VirtualSprite *sprite) {
 
 
 void EventSupervisor::ResumeEvents(const std::string& event_id) {
+	// Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to resume event: " << event_id
+			<< " within an update function. The ResumeEvents() call will be ignored. Fix your script!" << std::endl;
+		return;
+	}
+
 	for (std::list<MapEvent*>::iterator it = _paused_events.begin();
 			it != _paused_events.end(); ++it) {
 		if ((*it)->_event_id == event_id) {
@@ -1042,6 +1077,13 @@ void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite) {
 	if (!sprite)
 		return;
 	// Examine all potential active (now or later) events
+
+	// Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to resume all events for sprite: " << sprite->GetObjectID()
+			<< " within an update function. The TerminateAllEvents() call will be ignored. Fix your script!" << std::endl;
+		return;
+	}
 
 	// Starting by active ones.
 	for (std::list<MapEvent*>::iterator it = _paused_events.begin(); it != _paused_events.end(); ++it) {
@@ -1068,9 +1110,21 @@ void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite) {
 void EventSupervisor::TerminateEvents(const std::string& event_id, bool trigger_event_links) {
 	// Examine all potential active (now or later) events
 
+	// Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to terminate the event: " << event_id
+			<< " within an update function. The TerminateEvents() call will be ignored. Fix your script!" << std::endl;
+		return;
+	}
+
 	// Starting by active ones.
 	for (std::list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
 		if ((*it)->_event_id == event_id) {
+			SpriteEvent *sprite_event = dynamic_cast<SpriteEvent*>(*it);
+			// Terminated sprite events need to release their owned sprite.
+			if (sprite_event)
+				sprite_event->Terminate();
+
 			MapEvent* terminated_event = *it;
 			it = _active_events.erase(it);
 			// We examine the event links only after the event has been removed from the active list
@@ -1096,6 +1150,11 @@ void EventSupervisor::TerminateEvents(const std::string& event_id, bool trigger_
 	// And paused ones
 	for (std::list<MapEvent*>::iterator it = _paused_events.begin(); it != _paused_events.end(); ++it) {
 		if ((*it)->_event_id == event_id) {
+			SpriteEvent *sprite_event = dynamic_cast<SpriteEvent*>(*it);
+			// Paused sprite events need to release their owned sprite as they have been previously started.
+			if (sprite_event)
+				sprite_event->Terminate();
+
 			MapEvent* terminated_event = *it;
 			it = _paused_events.erase(it);
 			// We examine the event links only after the event has been removed from the list
@@ -1125,6 +1184,13 @@ void EventSupervisor::TerminateEvents(MapEvent *event, bool trigger_event_links)
 		return;
 	}
 
+	// Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to terminate the event: " << event->GetEventID()
+			<< " within an update function. The TerminateEvents() call will be ignored. Fix your script!" << std::endl;
+		return;
+	}
+
 	TerminateEvents(event->GetEventID(), trigger_event_links);
 }
 
@@ -1134,11 +1200,22 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite) {
 		return;
 	// Examine all potential active (now or later) events
 
+	// Never ever do that when updating events.
+	if (_is_updating) {
+		PRINT_WARNING << "Tried to terminate all events for sprite: " << sprite->GetObjectID()
+			<< " within an update function. The TerminateAllEvents() call will be ignored. Fix your script!" << std::endl;
+		return;
+	}
+
 	// Starting by active ones.
 	for (std::list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
 		SpriteEvent *event = dynamic_cast<SpriteEvent*>(*it);
-		if (event && event->GetSprite() == sprite)
+		if (event && event->GetSprite() == sprite) {
+			// Active events need to release their owned sprite upon termination.
+			event->Terminate();
+
 			it = _active_events.erase(it);
+		}
 	}
 
 	// Looking at incoming ones.
@@ -1153,8 +1230,12 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite) {
 	// And paused ones
 	for (std::list<MapEvent*>::iterator it = _paused_events.begin(); it != _paused_events.end(); ++it) {
 		SpriteEvent *event = dynamic_cast<SpriteEvent*>(*it);
-		if (event && event->GetSprite() == sprite)
+		if (event && event->GetSprite() == sprite) {
+			// Paused events have been started, so they might need to release their owned sprite.
+			event->Terminate();
+
 			it = _paused_events.erase(it);
+		}
 	}
 
 	for (std::list<std::pair<int32, MapEvent*> >::iterator it = _paused_delayed_events.begin();
@@ -1183,20 +1264,33 @@ void EventSupervisor::Update() {
 			++it;
 	}
 
+	// Store the events that ended within the update loop.
+	std::list<MapEvent*> finished_events;
+
+	// Make the engine aware that the event supervisor is entering the event update loop
+	_is_updating = true;
+
 	// Check for active events which have finished
 	for (list<MapEvent*>::iterator it = _active_events.begin(); it != _active_events.end();) {
 		if ((*it)->_Update() == true) {
-			MapEvent* finished_event = *it;
+			// Add it ot the finished events list
+			finished_events.push_back(*it);
+
+			// Remove the finished event from the active queue.
 			it = _active_events.erase(it);
-			// We examine the event links only after the event has been removed from the active list
-			_ExamineEventLinks(finished_event, false);
 		}
 		else
 			++it;
 	}
+
+	_is_updating = false;
+
+	// We examine the event links only after the events has been removed from the active list
+	// and the active list has finished parsing, to avoid a crash when adding a new event within the update loop.
+	for (list<MapEvent*>::iterator it = finished_events.begin(); it != finished_events.end(); ++it) {
+		_ExamineEventLinks(*it, false);
+	}
 }
-
-
 
 bool EventSupervisor::IsEventActive(const std::string& event_id) const {
 	for (list<MapEvent*>::const_iterator i = _active_events.begin(); i != _active_events.end(); i++) {

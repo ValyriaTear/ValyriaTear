@@ -479,10 +479,13 @@ public:
 	SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite);
 
 	~SpriteEvent()
-		{}
+	{}
 
 	VirtualSprite* GetSprite() const
-		{ return _sprite; }
+	{ return _sprite; }
+
+	//! \brief Frees the sprite from the control_event
+	virtual void Terminate();
 
 protected:
 	//! \brief A pointer to the map sprite that the event controls
@@ -697,6 +700,9 @@ public:
 	Path GetPath() const
 		{ return _path; }
 
+	//! \brief Stops and frees the sprite from the control_event
+	void Terminate();
+
 protected:
 	//! \brief When true, the destination coordinates are relative to the current position of the sprite. Otherwise the destination is absolute.
 	bool _relative_destination;
@@ -746,6 +752,9 @@ public:
 						  uint32 move_time = 10000, uint32 direction_time = 2000);
 
 	~RandomMoveSpriteEvent();
+
+	//! \brief Stops and frees the sprite from the control_event
+	void Terminate();
 
 protected:
 	/** \brief The amount of time (in milliseconds) to perform random movement before ending this action
@@ -808,6 +817,9 @@ public:
 	**/
 	void SetLoopCount(int32 count)
 		{ _loop_count = count; }
+
+	//! \brief Stops the custom animation and frees the sprite from the control_event
+	void Terminate();
 
 protected:
 	//! \brief Index to the current frame to display from the frames vector
@@ -914,7 +926,8 @@ protected:
 *** ***************************************************************************/
 class EventSupervisor {
 public:
-	EventSupervisor()
+	EventSupervisor():
+		_is_updating(false)
 		{}
 
 	~EventSupervisor();
@@ -1030,6 +1043,11 @@ private:
 	*** Those ones are put on hold by PauseAllEvents() and PauseEvents();
 	**/
 	std::list<std::pair<int32, MapEvent*> > _paused_delayed_events;
+
+	/** States whether the event supervisor is parsing the active events queue, thus any modifications
+	*** there on active events should be avoided.
+	**/
+	volatile bool _is_updating;
 
 	/** \brief A function that is called whenever an event starts or finishes to examine that event's links
 	*** \param parent_event The event that has just started or finished
