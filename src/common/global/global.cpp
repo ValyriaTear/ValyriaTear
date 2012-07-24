@@ -36,15 +36,13 @@ bool GLOBAL_DEBUG = false;
 ////////////////////////////////////////////////////////////////////////////////
 
 void GlobalEventGroup::AddNewEvent(const std::string& event_name, int32 event_value) {
-	if (DoesEventExist(event_name) == true) {
+	if (DoesEventExist(event_name)) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "an event with the desired name \"" << event_name << "\" already existed in this group: "
 			<< _group_name << std::endl;
 		return;
 	}
 	_events.insert(std::make_pair(event_name, event_value));
 }
-
-
 
 int32 GlobalEventGroup::GetEvent(const std::string& event_name) {
 	std::map<std::string, int32>::iterator event_iter = _events.find(event_name);
@@ -56,13 +54,10 @@ int32 GlobalEventGroup::GetEvent(const std::string& event_name) {
 	return event_iter->second;
 }
 
-
-
 void GlobalEventGroup::SetEvent(const std::string& event_name, int32 event_value) {
 	std::map<std::string, int32>::iterator event_iter = _events.find(event_name);
 	if (event_iter == _events.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the event with the specified name \"" << event_name << "\" did not exist in this group: "
-			<< _group_name << std::endl;
+		AddNewEvent(event_name, event_value);
 		return;
 	}
 	event_iter->second = event_value;
@@ -81,8 +76,6 @@ GameGlobal::GameGlobal() :
 	_battle_setting(GLOBAL_BATTLE_INVALID) {
 	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
-
-
 
 GameGlobal::~GameGlobal() {
 	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal destructor invoked" << std::endl;
@@ -132,8 +125,6 @@ GameGlobal::~GameGlobal() {
 	_battle_events_script.CloseTable();
 	_battle_events_script.CloseFile();
 } // GameGlobal::~GameGlobal()
-
-
 
 bool GameGlobal::SingletonInitialize() {
 	// Open up the persistent script files
@@ -211,8 +202,6 @@ bool GameGlobal::SingletonInitialize() {
 
 	return true;
 } // bool GameGlobal::SingletonInitialize()
-
-
 
 void GameGlobal::ClearAllData() {
 	// Delete all inventory objects
@@ -684,7 +673,19 @@ int32 GameGlobal::GetEventValue(const std::string& group_name, const std::string
 	return event_iter->second;
 }
 
+void GameGlobal::SetEventValue(const std::string& group_name, const std::string& event_name, int32 event_value) {
+	GlobalEventGroup* geg = 0;
+	std::map<std::string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);
+	if (group_iter == _event_groups.end()) {
+		geg = new GlobalEventGroup(group_name);
+		_event_groups.insert(std::make_pair(group_name, geg));
+	}
+	else {
+		geg = group_iter->second;
+	}
 
+	geg->SetEvent(event_name, event_value);
+}
 
 uint32 GameGlobal::GetNumberEvents(const std::string& group_name) const {
 	std::map<std::string, GlobalEventGroup*>::const_iterator group_iter = _event_groups.find(group_name);

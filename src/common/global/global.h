@@ -98,7 +98,7 @@ public:
 	/** \brief Sets the value for an existing event
 	*** \param event_name The name of the event whose value should be changed
 	*** \param event_value The value to set for the event
-	*** \note If the event by the given name is not found, a warning will be printed and no change will be made
+	*** \note If the event by the given name is not found, the event group will be created.
 	**/
 	void SetEvent(const std::string& event_name, int32 event_value);
 
@@ -335,6 +335,14 @@ public:
 	*** \return The value of the requested event, or GLOBAL_BAD_EVENT if the event was not found
 	**/
 	int32 GetEventValue(const std::string& group_name, const std::string& event_name) const;
+
+	/** \brief Set the value of an event inside of a specified group
+	*** \param group_name The name of the event group where the event is contained
+	*** \param event_name The name of the event whose value should be retrieved
+	*** \return The event value.
+	*** \note Events and event groups will be created when necessary.
+	**/
+	void SetEventValue(const std::string& group_name, const std::string& event_name, int32 event_value);
 
 	//! \brief Returns the number of event groups stored in the class
 	uint32 GetNumberEventGroups() const
