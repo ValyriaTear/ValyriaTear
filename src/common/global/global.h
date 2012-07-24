@@ -402,8 +402,7 @@ public:
 		{ return !_same_map_hud_name_as_previous; }
 
 	//! \brief Executes function NewGame() from global script
-	void NewGame()
-		{ _global_script.RunScriptFunction("NewGame"); }
+	void NewGame();
 
 	/** \brief Saves all global data to a saved game file
 	*** \param filename The filename of the saved game file where to write the data to

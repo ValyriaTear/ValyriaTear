@@ -231,6 +231,14 @@ void GameGlobal::ClearAllData() {
 		delete (it->second);
 	}
 	_event_groups.clear();
+
+	// Clear the save location
+	UnsetSaveLocation();
+
+	// Clear out the map previous location
+	_previous_location.clear();
+	_map_filename.clear();
+	_map_hud_name.clear();
 } // void GameGlobal::ClearAllData()
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -713,7 +721,11 @@ void GameGlobal::SetMap(const std::string& map_filename, const std::string& map_
 	_same_map_hud_name_as_previous = (MakeStandardString(_previous_map_hud_name) == MakeStandardString(_map_hud_name));
 }
 
-
+void GameGlobal::NewGame() {
+	// Make sure no debug data is in the way.
+	ClearAllData();
+	_global_script.RunScriptFunction("NewGame");
+}
 
 bool GameGlobal::SaveGame(const std::string& filename, uint32 slot_id, uint32 x_position, uint32 y_position) {
 	WriteScriptDescriptor file;
