@@ -574,6 +574,24 @@ function CreateEvents()
 	event = hoa_map.DialogueEvent("Quest2: Bronann doesn't want to see his parents", dialogue);
 	event:SetStopCameraMovement(true);
 	EventManager:RegisterEvent(event);
+	
+	-- Quest 2: The forest event
+	event = hoa_map.ScriptedEvent("Quest2: Forest event", "Map_SceneState", "");
+	event:AddEventLinkAtEnd("Quest2: Forest event - light", 1200);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("Quest2: Forest event - light", "BrightLightStart", "BrightLightUpdate");
+	event:AddEventLinkAtEnd("Quest2: Bronann wonders what was that", 500);
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Huh? What was that light?");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Bronann wonders what was that", dialogue);
+	event:SetStopCameraMovement(true);
+	event:AddEventLinkAtEnd("Map:PopState()");
+	EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -658,17 +676,26 @@ end
 
 -- Inner custom functions
 function _TriggerPotentialDialogueAfterFadeIn()
-    local story_events = GlobalManager:GetEventGroup("story");
-    if (story_events ~= nil and
-            story_events:DoesEventExist("Quest2_started") == true) then
-        if (story_events:DoesEventExist("Quest2_wants_to_buy_sword_dialogue") == false) then
-            EventManager:StartEvent("Quest2: Bronann wants to buy a sword from Flora", 600);
-            story_events:AddNewEvent("Quest2_wants_to_buy_sword_dialogue", 1);
-        end
-    elseif (GlobalEvents:DoesEventExist("first_time_in_village_center") == false) then
-        EventManager:StartEvent("Quest1: Bronann wonders where he can find some barley meal");
-        GlobalEvents:AddNewEvent("first_time_in_village_center", 1);
-    end
+	local story_events = GlobalManager:GetEventGroup("story");
+	-- Trigger the forest and Orlinn runaway event
+	if (story_events ~= nil and story_events:DoesEventExist("Quest2_flora_dialogue_done") == true) then
+		EventManager:StartEvent("Quest2: Forest event");
+		story_events:AddNewEvent("Quest2_forest_event_done", 1);
+		return;
+	end
+
+	if (story_events ~= nil and
+		story_events:DoesEventExist("Quest2_started") == true) then
+		if (story_events:DoesEventExist("Quest2_wants_to_buy_sword_dialogue") == false) then
+			EventManager:StartEvent("Quest2: Bronann wants to buy a sword from Flora");
+			story_events:AddNewEvent("Quest2_wants_to_buy_sword_dialogue", 1);
+			return;
+		end
+	elseif (GlobalEvents:DoesEventExist("first_time_in_village_center") == false) then
+		EventManager:StartEvent("Quest1: Bronann wonders where he can find some barley meal");
+		GlobalEvents:AddNewEvent("first_time_in_village_center", 1);
+		return;
+	end
 end
 
 -- Make the rock blocks the secret passage as long as the kid hasn't been found once.
@@ -837,6 +864,8 @@ function _UpdateOrlinnState()
 	EventManager:StartEvent("Orlinn random move");
 end
 
+-- Helps with the two step fade in the forest event
+local bright_light_time = {}
 
 -- Map Custom functions
 if (map_functions == nil) then
@@ -866,7 +895,7 @@ map_functions = {
         end
     end,
 
-    Quest1GeorgesTellsBronannAboutLilly =  function()
+    Quest1GeorgesTellsBronannAboutLilly = function()
         if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == false) then
 			GlobalEvents:AddNewEvent("quest1_pen_given_done", 1);
 
@@ -879,6 +908,28 @@ map_functions = {
             -- Updates Georges dialogue
             _UpdateGeorgesDialogue();
         end
+    end,
+
+    BrightLightStart = function()
+        bright_light_time = 0.0;
+	VideoManager:ShakeScreen(0.6, 6000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+    end,
+
+    BrightLightUpdate = function()
+        bright_light_time = bright_light_time + 2.5 * SystemManager:GetUpdateTime();
+
+        if (bright_light_time < 5000.0) then
+		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, bright_light_time / 5000.0));
+		return false;
+	end
+	
+	if (bright_light_time < 10000) then
+		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, ((10000.0 - bright_light_time) / 5000.0)));
+		return false;
+	end
+	
+	 -- end of the two-step fade in and out
+	return true;
     end,
 
     Map_SceneState = function()

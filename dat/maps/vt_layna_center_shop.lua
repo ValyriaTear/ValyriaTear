@@ -339,7 +339,9 @@ function _UpdateFloraDialogue()
 	local bronanns_home_event_group = GlobalManager:GetEventGroup("dat_maps_vt_bronanns_home_lua");
 	local story_events = GlobalManager:GetEventGroup("story");
 
-	if (story_events ~= nil and story_events:DoesEventExist("Quest2_started") == true) then
+	if (story_events ~= nil and story_events:DoesEventExist("Quest2_forest_event_done") == true) then
+		-- nothing special
+	elseif (story_events ~= nil and story_events:DoesEventExist("Quest2_started") == true) then
 		-- The dialogue before the forest event
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Hi Bronann! What can I do for you?");
@@ -381,6 +383,7 @@ function _UpdateFloraDialogue()
 		return;
 	end
 	--default behaviour
+	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
 	dialogue:AddLineEvent(text, flora, "layna: open shop");
 	DialogueManager:AddDialogue(dialogue);
@@ -403,7 +406,7 @@ map_functions = {
 	
 	Quest2FloraDialogueDone = function()
 		local story_events = GlobalManager:GetEventGroup("story");
-		if (story_events ~= nil and story_events:DoesEventExist("Quest2_started") == false) then
+		if (story_events ~= nil and story_events:DoesEventExist("Quest2_flora_dialogue_done") == false) then
 			story_events:AddNewEvent("Quest2_flora_dialogue_done", 1);
 		end
 	end
