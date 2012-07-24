@@ -413,7 +413,7 @@ function _UpdateOrlinnState()
         orlinn:SetNoCollision(true);
         orlinn:SetVisible(false);
         return;
-	elseif (layna_center_event_group ~= nil and layna_center_event_group:DoesEventExist("quest1_orlinn_dialogue1_done") == true) then
+	elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_center_lua", "quest1_orlinn_dialogue1_done") == true) then
         -- Start the hide and seek 1 position when it has to happen
         EventManager:StartEvent("Hide n Seek1: Orlinn goes right", 8000);
 
@@ -446,9 +446,7 @@ map_functions = {
 		EventManager:TerminateAllEvents(orlinn);
 
         -- Updates Orlinn's state
-        if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == false) then
-			GlobalEvents:AddNewEvent("quest1_orlinn_hide_n_seek1_done", 1);
-        end
+		GlobalEvents:SetEvent("quest1_orlinn_hide_n_seek1_done", 1);
     end,
 
     MakeInvisible = function(sprite)

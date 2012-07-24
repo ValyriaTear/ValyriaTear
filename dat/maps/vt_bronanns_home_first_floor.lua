@@ -444,8 +444,6 @@ map_functions = {
 	end,
 
 	OpeningDialogueDone = function()
-		if (GlobalEvents:DoesEventExist("opening_dialogue_done") == false) then
-			GlobalEvents:AddNewEvent("opening_dialogue_done", 1);
-		end
+		GlobalEvents:SetEvent("opening_dialogue_done", 1);
 	end
 }

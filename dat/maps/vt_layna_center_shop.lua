@@ -306,13 +306,13 @@ function CreateEvents()
 	event:AddWare(30003, 1); -- tunic for Bronann
 	event:AddWare(30004, 1); -- leather cloak for Kalya
 	event:AddWare(40001, 3); -- leather cloak for Kalya
-	
+
 	EventManager:RegisterEvent(event);
 
 	-- Quest events
 	event = hoa_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
 	EventManager:RegisterEvent(event);
-	
+
 	event = hoa_map.ScriptedEvent("Quest2: Talked to Flora", "Quest2FloraDialogueDone", "");
 	EventManager:RegisterEvent(event);
 end
@@ -336,19 +336,17 @@ function _UpdateFloraDialogue()
 	local text = {}
 
 	flora:ClearDialogueReferences();
-	local bronanns_home_event_group = GlobalManager:GetEventGroup("dat_maps_vt_bronanns_home_lua");
-	local story_events = GlobalManager:GetEventGroup("story");
 
-	if (story_events ~= nil and story_events:DoesEventExist("Quest2_forest_event_done") == true) then
+	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
 		-- nothing special
-	elseif (story_events ~= nil and story_events:DoesEventExist("Quest2_started") == true) then
+	elseif (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
 		-- The dialogue before the forest event
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Hi Bronann! What can I do for you?");
 		dialogue:AddLine(text, flora);
 		text = hoa_system.Translate("Hi Flora! Err, could you lend me one of your training sword? I'd like to practise a bit.");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Ah ah! Sure, as soon as your father will stop lending his sword for you to practise with him. Are sure everything is alright?");
+		text = hoa_system.Translate("Ah ah! Sure, as soon as your father will stop lending his sword for you to practise with him. Are you sure everything is alright?");
 		dialogue:AddLine(text, flora);
 		text = hoa_system.Translate("Err, nevermind...");
 		dialogue:AddLineEvent(text, bronann, "Quest2: Talked to Flora");
@@ -363,7 +361,7 @@ function _UpdateFloraDialogue()
 		DialogueManager:AddDialogue(dialogue);
 		flora:AddDialogueReference(dialogue);
 		return;
-	elseif (bronanns_home_event_group ~= nil and bronanns_home_event_group:DoesEventExist("quest1_mother_start_dialogue_done") == true) then
+	elseif (GlobalManager:DoesEventExist("dat_maps_vt_bronanns_home_lua", "quest1_mother_start_dialogue_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
 		dialogue:AddLine(text, flora);
@@ -398,16 +396,11 @@ end
 map_functions = {
 
 	Quest1FloraDialogueDone = function()
-		if (GlobalEvents:DoesEventExist("quest1_flora_dialogue_done") == false) then
-			GlobalEvents:AddNewEvent("quest1_flora_dialogue_done", 1);
-            _UpdateFloraDialogue();
-		end
+		GlobalEvents:SetEvent("quest1_flora_dialogue_done", 1);
+        _UpdateFloraDialogue();
 	end,
-	
+
 	Quest2FloraDialogueDone = function()
-		local story_events = GlobalManager:GetEventGroup("story");
-		if (story_events ~= nil and story_events:DoesEventExist("Quest2_flora_dialogue_done") == false) then
-			story_events:AddNewEvent("Quest2_flora_dialogue_done", 1);
-		end
+		GlobalManager:SetEventValue("story", "Quest2_flora_dialogue_done", 1);
 	end
 }

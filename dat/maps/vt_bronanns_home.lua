@@ -597,7 +597,7 @@ function CreateZones()
 
 	to_bronnans_room_zone = hoa_map.CameraZone(44, 47, 8, 9, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_bronnans_room_zone);
-	
+
 	quest2_start_scene = false;
 end
 
@@ -620,9 +620,7 @@ end
 
 -- Internal Custom functions
 function _UpdateDishesAndFood()
-        local story_events = GlobalManager:GetEventGroup("story");
-        if (story_events ~= nil and
-                story_events:DoesEventExist("Quest2_started") == true) then
+        if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
             -- TODO: Set objects status to invisible here.
         end
 end
@@ -630,9 +628,7 @@ end
 function _UpdateMotherDialogue()
 	bronanns_mother:ClearDialogueReferences();
 
-    local riverbank_events = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
-    if (riverbank_events ~= nil
-            and riverbank_events:DoesEventExist("quest1_barley_meal_done") == true) then
+    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == true) then
         -- Got some barley meal, Mom!
 		-- Begining dialogue
 		local dialogue = hoa_map.SpriteDialogue();
@@ -708,23 +704,12 @@ map_functions = {
 	end,
 
 	Quest1MotherStartDialogueDone = function()
-		if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
-			GlobalEvents:AddNewEvent("quest1_mother_start_dialogue_done", 1);
-
-			_UpdateMotherDialogue();
-		end
+		GlobalEvents:SetEvent("quest1_mother_start_dialogue_done", 1);
+        _UpdateMotherDialogue();
 	end,
 
     Quest1Done = function()
-        if (GlobalManager:DoesEventGroupExist("story") == false) then
-            GlobalManager:AddNewEventGroup("story");
-        end
-        local story_events = GlobalManager:GetEventGroup("story");
-        if (story_events ~= nil) then
-            if (story_events:DoesEventExist("Quest1_done") == false) then
-                story_events:AddNewEvent("Quest1_done", 1);
-            end
-        end
+        GlobalManager:SetEventValue("story", "Quest1_done", 1);
     end,
 
     TerminateMotherAndFatherEvents = function()
@@ -769,16 +754,12 @@ map_functions = {
         end
 
         -- Set the quest 2 as started
-        local story_events = GlobalManager:GetEventGroup("story");
-        if (story_events ~= nil and
-                story_events:DoesEventExist("Quest2_started") == false) then
-            story_events:AddNewEvent("Quest2_started", 1);
-        end
+        GlobalManager:SetEventValue("story", "Quest2_started", 1);
         -- Make the food and dishes not appear anymore, once the dinner is done.
         _UpdateDishesAndFood();
 
         VideoManager:FadeIn(1000);
-	
+
 	-- Flag used to disable the warp zone temporarily
 	quest2_start_scene = true;
     end

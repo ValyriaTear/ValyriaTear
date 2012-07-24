@@ -269,6 +269,8 @@ local kalya = {};
 -- Main npcs
 local orlinn = {};
 local georges = {};
+local carson = {};
+local herth = {};
 
 -- special objets
 local blocking_rock = {};
@@ -366,6 +368,18 @@ function CreateNPCs()
 	-- Setup Orlinn's state and dialogue depending on the story current context
 	_UpdateOrlinnState();
 
+	carson = _CreateSprite(Map, "Carson", 0, 0);
+	-- Default behaviour - not present on map.
+	carson:SetVisible(false);
+    carson:SetNoCollision(true);
+    Map:AddGroundObject(carson);
+
+    herth = _CreateNPCSprite(Map, "Man2", "Herth", 0, 0);
+    -- Default behaviour - not present on map.
+	herth:SetVisible(false);
+    herth:SetNoCollision(true);
+	Map:AddGroundObject(herth);
+
 	npc = _CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.WEST);
@@ -389,10 +403,8 @@ function CreateNPCs()
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("You're too young to trade stuff with me!");
-	local south_entrance_events = GlobalManager:GetEventGroup("dat_maps_vt_layna_south_entrance_lua");
-	local riverbank_events = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
-	if (south_entrance_events ~= nil and south_entrance_events:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
-		if (riverbank_events == nil or riverbank_events:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == false) then
+	if (GlobalManager:DoesEventExist("dat_maps_vt_layna_south_entrance_lua", "quest1_orlinn_hide_n_seek1_done") == true) then
+		if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek2_done") == false) then
 			text = hoa_system.Translate("If you're running after Orlinn, I just saw him disappear near your house.");
 		end
 	end
@@ -497,7 +509,7 @@ function CreateEvents()
 	event = hoa_map.ScriptedEvent("Quest1: Bronann wonders where he can find some barley meal", "Map_SceneState", "");
 	event:AddEventLinkAtEnd("Quest1: Bronann wants to see Flora for the barley meal", 1000);
 	EventManager:RegisterEvent(event);
-	
+
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Hmm, I'll go to Flora's shop. I hope she'll help me...");
 	dialogue:AddLine(text, bronann);
@@ -530,8 +542,7 @@ function CreateEvents()
 	-- Can't enter the forest so easily
 	dialogue = hoa_map.SpriteDialogue();
 
-	local story_events = GlobalManager:GetEventGroup("story");
-	if (story_events ~= nil and story_events:DoesEventExist("Quest1_done") == true) then
+	if (GlobalManager:DoesEventExist("story", "Quest1_done") == true) then
 	    text = hoa_system.Translate("Hmm, I can't go in there without being prepared... I suppose I need to go and find Flora again.");
 	    dialogue:AddLine(text, bronann);
 	else
@@ -554,7 +565,7 @@ function CreateEvents()
 	event = hoa_map.ScriptedEvent("Quest2: Bronann wants to buy a sword from Flora", "Map_SceneState", "");
 	event:AddEventLinkAtEnd("Quest2: Bronann wants to see Flora for equipment", 1000);
 	EventManager:RegisterEvent(event);
-	
+
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
 	dialogue:AddLine(text, bronann);
@@ -574,9 +585,9 @@ function CreateEvents()
 	event = hoa_map.DialogueEvent("Quest2: Bronann doesn't want to see his parents", dialogue);
 	event:SetStopCameraMovement(true);
 	EventManager:RegisterEvent(event);
-	
+
 	-- Quest 2: The forest event
-	event = hoa_map.ScriptedEvent("Quest2: Forest event", "Map_SceneState", "");
+	event = hoa_map.ScriptedEvent("Quest2: Forest event", "Prepare_forest_event", "");
 	event:AddEventLinkAtEnd("Quest2: Forest event - light", 1200);
 	EventManager:RegisterEvent(event);
 
@@ -587,11 +598,127 @@ function CreateEvents()
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Huh? What was that light?");
 	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("... Bronann! Wait!");
+	dialogue:AddLine(text, carson);
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Bronann wonders what was that", dialogue);
 	event:SetStopCameraMovement(true);
+	event:AddEventLinkAtEnd("Quest2: Carson moves to Bronann");
+    event:AddEventLinkAtEnd("Quest2: Bronann looks at his father");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest2: Carson moves to Bronann", carson, 89.0, 74.0, false);
+    event:AddEventLinkAtEnd("Quest2: Carson starts to talk to Bronann");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Bronann looks at his father", bronann, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Herth looks at Carson", herth, hoa_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Herth looks at Kalya", herth, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Herth", carson, hoa_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Kalya", carson, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Bronann", carson, hoa_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Kalya looks at Carson", kalya, hoa_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Kalya looks at Bronann", kalya, hoa_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("I suppose you just saw that light, right?");
+	dialogue:AddLine(text, carson);
+	text = hoa_system.Translate("... Hmmm...");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("Bronann, there is something I have to tell you. I've been preparing myself all my life for this. I mean your mother and I...");
+	dialogue:AddLine(text, carson);
+	text = hoa_system.Translate("They're coming!");
+	dialogue:AddLineEvent(text, herth, "Quest2: Carson looks at Herth");
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Carson starts to talk to Bronann", dialogue);
+	event:SetStopCameraMovement(true);
+	event:AddEventLinkAtEnd("Quest2: Herth moves to Carson");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest2: Herth moves to Carson", herth, 90.0, 76.0, false);
+    event:AddEventLinkAtEnd("Quest2: Herth looks at Carson");
+    event:AddEventLinkAtEnd("Quest2: Second part of talk");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Carson, they've passed the river. They shall be here in no time.");
+	dialogue:AddLine(text, herth);
+	text = hoa_system.Translate("...");
+	dialogue:AddLine(text, carson);
+	text = hoa_system.Translate("Huh? Hey, what's happening here?!");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("Bronann, I ...");
+	dialogue:AddLine(text, carson);
+	text = hoa_system.Translate("Father!");
+	dialogue:AddLineEvent(text, kalya, "Quest2: Herth looks at Kalya");
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Second part of talk", dialogue);
+	event:SetStopCameraMovement(true);
+	event:AddEventLinkAtEnd("Quest2: Kalya runs to her father");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya runs to her father", kalya, 88.0, 76.0, true);
+    event:AddEventLinkAtEnd("Quest2: Third part of talk");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Father! Orlinn has disappeared. I saw him taking the forest pathway!");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Kalya! You were supposed to keep an eye on him!");
+	dialogue:AddLine(text, herth);
+	text = hoa_system.Translate("I did, but he just slipped through my fingers at the very second that strange light appeared.");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as fast as possible.");
+	dialogue:AddLine(text, herth);
+	text = hoa_system.Translate("Gosh! But you might be hurt.");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("No, don't worry. We'll simply talk and they'll move on. You know what you have to do, right?");
+	dialogue:AddLine(text, herth);
+	text = hoa_system.Translate("Sure, but...");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Do as I say and it'll be alright.");
+	dialogue:AddLine(text, herth);
+	text = hoa_system.Translate("Sure, but...");
+	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Bronann");
+	text = hoa_system.Translate("Bronann, you should go with her.");
+	dialogue:AddLineEvent(text, carson, "Quest2: Kalya looks at Carson");
+	text = hoa_system.Translate("What?!?");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Huh?");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
+	dialogue:AddLineEvent(text, herth, "Quest2: Kalya looks at Bronann");
+	text = hoa_system.Translate("But he would just be a burden!");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Hey! I just can hear you, you know?");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("He won't slow you down, believe me, right Bronann?");
+	dialogue:AddLine(text, carson);
+	text = hoa_system.Translate("But Father!");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
+	dialogue:AddLine(text, herth);
+	text = hoa_system.Translate("Gahh... ok.");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Take this sword, you'll probably need it there to make your way through.");
+	dialogue:AddLine(text, carson);
+	text = hoa_system.Translate("Ah, thanks dad! I won't deceive you.");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Third part of talk", dialogue);
+	event:SetStopCameraMovement(true);
 	event:AddEventLinkAtEnd("Map:PopState()");
 	EventManager:RegisterEvent(event);
+
+
 end
 
 function CreateZones()
@@ -621,12 +748,10 @@ end
 function CheckZones()
 	if (bronanns_home_entrance_zone:IsCameraEntering() == true) then
 	   -- If Bronann has started the quest 2, he doesn't want to go back and see his parents.
-	    local story_events = GlobalManager:GetEventGroup("story");
-	    if (story_events ~= nil and
-                story_events:DoesEventExist("Quest2_started") == true) then
-                EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
-		return;
-            end
+	    if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
+            EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
+            return;
+        end
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
@@ -676,19 +801,17 @@ end
 
 -- Inner custom functions
 function _TriggerPotentialDialogueAfterFadeIn()
-	local story_events = GlobalManager:GetEventGroup("story");
 	-- Trigger the forest and Orlinn runaway event
-	if (story_events ~= nil and story_events:DoesEventExist("Quest2_flora_dialogue_done") == true) then
+	if (GlobalManager:DoesEventExist("story", "Quest2_flora_dialogue_done") == true) then
 		EventManager:StartEvent("Quest2: Forest event");
-		story_events:AddNewEvent("Quest2_forest_event_done", 1);
+		GlobalManager:SetEventValue("story", "Quest2_forest_event_done", 1);
 		return;
 	end
 
-	if (story_events ~= nil and
-		story_events:DoesEventExist("Quest2_started") == true) then
-		if (story_events:DoesEventExist("Quest2_wants_to_buy_sword_dialogue") == false) then
+	if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
+		if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false) then
 			EventManager:StartEvent("Quest2: Bronann wants to buy a sword from Flora");
-			story_events:AddNewEvent("Quest2_wants_to_buy_sword_dialogue", 1);
+			GlobalManager:SetEventValue("story", "Quest2_wants_to_buy_sword_dialogue", 1);
 			return;
 		end
 	elseif (GlobalEvents:DoesEventExist("first_time_in_village_center") == false) then
@@ -700,9 +823,7 @@ end
 
 -- Make the rock blocks the secret passage as long as the kid hasn't been found once.
 function _UpdateBlockingRock()
-    local village_entrance_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_south_entrance_lua");
-    if (village_entrance_group ~= nil
-        and village_entrance_group:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
+    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_south_entrance_lua", "quest1_orlinn_hide_n_seek1_done") == true) then
         blocking_rock:SetNoCollision(true);
         blocking_rock:SetVisible(false);
     else
@@ -718,13 +839,10 @@ function _UpdateGeorgesDialogue()
 
     georges:ClearDialogueReferences();
 
-	local shop_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_center_shop_lua");
-    local riverbank_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
     if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == true) then
         -- Quest 1 done as for Georges
         -- Default behaviour
-    elseif (riverbank_event_group ~= nil
-            and riverbank_event_group:DoesEventExist("quest1_orlinn_hide_n_seek3_done") == true) then
+    elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Here it is, Georges.");
@@ -756,7 +874,7 @@ function _UpdateGeorgesDialogue()
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
-	elseif (shop_event_group ~= nil and shop_event_group:DoesEventExist("quest1_flora_dialogue_done") == true) then
+	elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_center_shop_lua", "quest1_flora_dialogue_done") == true) then
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Hi Georges. Erm, I'm coming from the shop and I ...");
         dialogue:AddLine(text, bronann);
@@ -801,9 +919,7 @@ function _UpdateOrlinnState()
     local event = {};
 
     orlinn:ClearDialogueReferences();
-    local riverbank_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_riverbank_lua");
-    if (riverbank_event_group ~= nil
-            and riverbank_event_group:DoesEventExist("quest1_orlinn_hide_n_seek3_done") == true) then
+    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Bronann got Georges' pen, update orlinn dialogue
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("I promise I won't bother you again ...");
@@ -875,12 +991,10 @@ end
 map_functions = {
 
 	Quest1GeorgesDialogueDone = function()
-		if (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == false) then
-			GlobalEvents:AddNewEvent("quest1_georges_dialogue_done", 1);
-            -- Makes Orlinn aware that Bronann has talked to Georges.
-            _UpdateOrlinnState();
-            _UpdateGeorgesDialogue();
-		end
+        GlobalEvents:SetEvent("quest1_georges_dialogue_done", 1);
+        -- Makes Orlinn aware that Bronann has talked to Georges.
+        _UpdateOrlinnState();
+        _UpdateGeorgesDialogue();
 	end,
 
     Quest1OrlinnRunAndHide = function()
@@ -890,24 +1004,37 @@ map_functions = {
 		EventManager:TerminateAllEvents(orlinn);
 
         -- Updates Orlinn's state
-        if (GlobalEvents:DoesEventExist("quest1_orlinn_dialogue1_done") == false) then
-			GlobalEvents:AddNewEvent("quest1_orlinn_dialogue1_done", 1);
-        end
+		GlobalEvents:SetEvent("quest1_orlinn_dialogue1_done", 1);
     end,
 
     Quest1GeorgesTellsBronannAboutLilly = function()
-        if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == false) then
-			GlobalEvents:AddNewEvent("quest1_pen_given_done", 1);
+        GlobalEvents:SetEvent("quest1_pen_given_done", 1);
 
-            -- Remove the pen key item from inventory
-            local pen_item_id = 70001;
-            if (GlobalManager:IsObjectInInventory(pen_item_id) == true) then
-                GlobalManager:RemoveFromInventory(pen_item_id);
-            end
-
-            -- Updates Georges dialogue
-            _UpdateGeorgesDialogue();
+        -- Remove the pen key item from inventory
+        local pen_item_id = 70001;
+        if (GlobalManager:IsObjectInInventory(pen_item_id) == true) then
+            GlobalManager:RemoveFromInventory(pen_item_id);
         end
+
+        -- Updates Georges dialogue
+        _UpdateGeorgesDialogue();
+    end,
+
+    Prepare_forest_event = function()
+        -- Scene event
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        carson:SetPosition(70.0, 72.0);
+        carson:SetVisible(true);
+        carson:SetNoCollision(false);
+
+        herth:SetPosition(70.0, 77.0);
+        herth:SetVisible(true);
+        herth:SetNoCollision(false);
+
+        EventManager:TerminateAllEvents(kalya);
+        kalya:SetPosition(75.0, 68.0);
+        kalya:SetMoving(false);
+        kalya:ClearDialogueReferences();
     end,
 
     BrightLightStart = function()
@@ -922,12 +1049,12 @@ map_functions = {
 		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, bright_light_time / 5000.0));
 		return false;
 	end
-	
+
 	if (bright_light_time < 10000) then
 		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, ((10000.0 - bright_light_time) / 5000.0)));
 		return false;
 	end
-	
+
 	 -- end of the two-step fade in and out
 	return true;
     end,
