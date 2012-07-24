@@ -147,10 +147,6 @@ bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect& screen_rect) {
 
 
 void TexSheet::Smooth(bool flag) {
-	// In case of global smoothing, do nothing here
-	if (VideoManager->ShouldSmooth())
-		return;
-
 	// If setting has changed, set the appropriate filtering
 	if (smoothed != flag) {
 		smoothed = flag;

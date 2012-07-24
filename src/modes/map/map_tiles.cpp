@@ -97,15 +97,16 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 		string image_filename = "img/tilesets/" + tileset_filenames[i] + ".png";
 		tileset_images.push_back(vector<StillImage>(TILES_PER_TILESET));
 
-		// The map mode coordinate system used corresponds to a tile size of (2.0, 2.0)
-		for (uint32 j = 0; j < TILES_PER_TILESET; j++) {
-			tileset_images[i][j].SetDimensions(2.0f, 2.0f);
-		}
-
 		// Each tileset image is 512x512 pixels, yielding 16 * 16 (== 256) 32x32 pixel tiles each
 		if (!ImageDescriptor::LoadMultiImageFromElementGrid(tileset_images[i], image_filename, 16, 16)) {
 			PRINT_ERROR << "failed to load tileset image: " << image_filename << endl;
 			return false;
+		}
+
+		// The map mode coordinate system used corresponds to a tile size of (2.0, 2.0)
+		for (uint32 j = 0; j < TILES_PER_TILESET; j++) {
+			tileset_images[i][j].SetDimensions(2.0f, 2.0f);
+			tileset_images[i][j].Smooth(VideoManager->ShouldSmoothPixelArt());
 		}
 	}
 

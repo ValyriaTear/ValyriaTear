@@ -119,6 +119,10 @@ public:
 	virtual float GetHeight() const
 		{ return _height; }
 
+	//! \brief Set whether the image should be drawn smoothed.
+	void Smooth(bool smooth)
+	{ _smooth = smooth; }
+
 	//! \brief Returns true if the image is grayscale.
 	bool IsGrayScale() const
 		{ return _grayscale; }
@@ -263,6 +267,9 @@ protected:
 
 	//! \brief True if this image is grayscale.
 	bool _grayscale;
+
+	//! \brief Whether the image should be smoothed.
+	bool _smooth;
 
 	/** \brief Removes a reference to _texture, and frees or deletes it if it has no remaining references
 	***

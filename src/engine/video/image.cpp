@@ -47,7 +47,8 @@ ImageDescriptor::ImageDescriptor() :
 	_blend(false),
 	_unichrome_vertices(true),
 	_is_static(false),
-	_grayscale(false)
+	_grayscale(false),
+	_smooth(true)
 {
 	_color[0] = _color[1] = _color[2] = _color[3] = Color::white;
 }
@@ -81,7 +82,8 @@ ImageDescriptor::ImageDescriptor(const ImageDescriptor& copy) :
 	_blend(copy._blend),
 	_unichrome_vertices(copy._unichrome_vertices),
 	_is_static(copy._is_static),
-	_grayscale(copy._grayscale)
+	_grayscale(copy._grayscale),
+	_smooth(copy._smooth)
 {
 	_color[0] = copy._color[0];
 	_color[1] = copy._color[1];
@@ -110,6 +112,7 @@ ImageDescriptor& ImageDescriptor::operator=(const ImageDescriptor& copy) {
 	_unichrome_vertices = copy._unichrome_vertices;
 	_is_static = copy._is_static;
 	_grayscale = copy._grayscale;
+	_smooth = copy._smooth;
 	_color[0] = copy._color[0];
 	_color[1] = copy._color[1];
 	_color[2] = copy._color[2];
@@ -152,6 +155,7 @@ void ImageDescriptor::Clear() {
 	_unichrome_vertices = true;
 	_is_static = false;
 	_grayscale = false;
+	_smooth = true;
 }
 
 
@@ -592,7 +596,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 		// Enable texturing and bind texture
 		glEnable(GL_TEXTURE_2D);
 		TextureManager->_BindTexture(_texture->texture_sheet->tex_id);
-		_texture->texture_sheet->Smooth(_texture->smooth);
+		_texture->texture_sheet->Smooth(_smooth);
 
 		// Enable and setup the texture coordinate array
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);

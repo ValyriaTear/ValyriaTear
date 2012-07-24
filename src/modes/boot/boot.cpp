@@ -524,7 +524,7 @@ void BootMode::_SetupVideoOptionsMenu() {
 	// Left & right will change window mode as well as confirm
 	_video_options_menu.AddOption(UTranslate("Window mode:"), &BootMode::_OnToggleFullscreen, NULL, NULL, &BootMode::_OnToggleFullscreen, &BootMode::_OnToggleFullscreen);
 	_video_options_menu.AddOption(UTranslate("Brightness:"), NULL, NULL, NULL, &BootMode::_OnBrightnessLeft, &BootMode::_OnBrightnessRight);
-	_video_options_menu.AddOption(UTranslate("Image quality:"), &BootMode::_OnToggleImageSmoothed, NULL, NULL, &BootMode::_OnToggleImageSmoothed, &BootMode::_OnToggleImageSmoothed);
+	_video_options_menu.AddOption(UTranslate("Sprites rendering:"), &BootMode::_OnToggleImageSmoothed, NULL, NULL, &BootMode::_OnToggleImageSmoothed, &BootMode::_OnToggleImageSmoothed);
 
 	_video_options_menu.SetSelection(0);
 }
@@ -807,10 +807,10 @@ void BootMode::_RefreshVideoOptions() {
 	_video_options_menu.SetOptionText(2, UTranslate("Brightness: ") + MakeUnicodeString(NumberToString(VideoManager->GetGamma() * 50.0f + 0.5f) + " %"));
 
 	// Update the image quality text
-	if (VideoManager->ShouldSmooth())
-		_video_options_menu.SetOptionText(3, UTranslate("Image quality: ") + UTranslate("Smoothed"));
+	if (VideoManager->ShouldSmoothPixelArt())
+		_video_options_menu.SetOptionText(3, UTranslate("Sprites rendering: ") + UTranslate("Smoothed"));
 	else
-		_video_options_menu.SetOptionText(3, UTranslate("Image quality: ") + UTranslate("Normal"));
+		_video_options_menu.SetOptionText(3, UTranslate("Sprites rendering: ") + UTranslate("Normal"));
 }
 
 
@@ -973,7 +973,7 @@ void BootMode::_OnToggleFullscreen() {
 
 void BootMode::_OnToggleImageSmoothed() {
 	// Toggle smooth texturing
-	VideoManager->SetTextureSmoothed(!VideoManager->ShouldSmooth());
+	VideoManager->SetTextureSmoothed(!VideoManager->ShouldSmoothPixelArt());
 	VideoManager->ApplySettings();
 	_RefreshVideoOptions();
 	_has_modified_settings = true;
@@ -1496,7 +1496,7 @@ bool BootMode::_SaveSettingsFile(const std::string& filename) {
 	settings_lua.ModifyInt("video_settings.screen_resx", VideoManager->GetScreenWidth());
 	settings_lua.ModifyInt("video_settings.screen_resy", VideoManager->GetScreenHeight());
 	settings_lua.ModifyBool("video_settings.full_screen", VideoManager->IsFullscreen());
-	settings_lua.ModifyBool("video_settings.smooth_graphics", VideoManager->ShouldSmooth());
+	settings_lua.ModifyBool("video_settings.smooth_graphics", VideoManager->ShouldSmoothPixelArt());
 	//settings_lua.ModifyFloat("video_settings.brightness", VideoManager->GetGamma());
 
 	// audio

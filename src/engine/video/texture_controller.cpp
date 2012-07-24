@@ -280,7 +280,7 @@ GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height) {
 	}
 
 	// Set linear texture interpolation based on the smooth option.
-	GLenum filtering_type = VideoManager->ShouldSmooth() ? GL_LINEAR : GL_NEAREST;
+	GLenum filtering_type = VideoManager->ShouldSmoothPixelArt() ? GL_LINEAR : GL_NEAREST;
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering_type);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering_type);

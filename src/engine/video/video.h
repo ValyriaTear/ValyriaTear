@@ -299,8 +299,8 @@ public:
 	void SetTextureSmoothed(bool smooth)
 		{ _smooth_textures = smooth; }
 
-	//! \brief Returns true if textures should be smoothed (used for non natural screen resolutions)
-	bool ShouldSmooth()
+	//! \brief Returns true if pixel art textures should be smoothed (only used for map tiles at the moment)
+	bool ShouldSmoothPixelArt()
 		{ return _smooth_textures; }
 
 	//! \brief Returns a reference to the current coordinate system
