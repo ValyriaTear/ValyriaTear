@@ -408,7 +408,8 @@ void TileSupervisor::Update() {
 
 void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_type) {
 	MAP_CONTEXT context = MapMode::CurrentInstance()->GetCurrentContext();
-	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
+	// We'll use the top-left positions to render the tiles.
+	VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
 	std::map<MAP_CONTEXT, Context>::const_iterator it = _tile_grid.find(context);
 	if (it == _tile_grid.end())
@@ -421,7 +422,11 @@ void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_t
 		if (layer.layer_type != layer_type)
 			continue;
 
-		VideoManager->Move(frame->tile_x_offset, frame->tile_y_offset);
+		// We substract 0.5 horizontally and 1.0 vertically here
+		// because the video engine will display the map tiles using their
+		// top left coordinates to avoid a position computation flaw when specifying the tile
+		// coordinates from the bottom center point, as the engine does for everything else.
+		VideoManager->Move(frame->tile_x_offset - 1.0f, frame->tile_y_offset - 2.0f);
 
 		for (uint32 y = static_cast<uint32>(frame->tile_y_start);
 			y < static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis); ++y) {
@@ -436,6 +441,8 @@ void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_t
 			VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
 		} // y
 	} // layer_id
+	// Restore the previous draw flags
+	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
 
 } // namespace private_map
