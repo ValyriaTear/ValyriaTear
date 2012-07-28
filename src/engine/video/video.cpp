@@ -83,7 +83,7 @@ VideoEngine::VideoEngine() :
 	_temp_width = 0;
 	_temp_height = 0;
 	_temp_fullscreen = false;
-	_smooth_textures = true;
+	_smooth_pixel_art = true;
 
 	_debug_info = false;
 	_x_shake = 0;

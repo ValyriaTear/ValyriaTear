@@ -524,7 +524,7 @@ void BootMode::_SetupVideoOptionsMenu() {
 	// Left & right will change window mode as well as confirm
 	_video_options_menu.AddOption(UTranslate("Window mode:"), &BootMode::_OnToggleFullscreen, NULL, NULL, &BootMode::_OnToggleFullscreen, &BootMode::_OnToggleFullscreen);
 	_video_options_menu.AddOption(UTranslate("Brightness:"), NULL, NULL, NULL, &BootMode::_OnBrightnessLeft, &BootMode::_OnBrightnessRight);
-	_video_options_menu.AddOption(UTranslate("Sprites rendering:"), &BootMode::_OnToggleImageSmoothed, NULL, NULL, &BootMode::_OnToggleImageSmoothed, &BootMode::_OnToggleImageSmoothed);
+	_video_options_menu.AddOption(UTranslate("Map tiles: "), &BootMode::_OnTogglePixelArtSmoothed, NULL, NULL, &BootMode::_OnTogglePixelArtSmoothed, &BootMode::_OnTogglePixelArtSmoothed);
 
 	_video_options_menu.SetSelection(0);
 }
@@ -808,9 +808,9 @@ void BootMode::_RefreshVideoOptions() {
 
 	// Update the image quality text
 	if (VideoManager->ShouldSmoothPixelArt())
-		_video_options_menu.SetOptionText(3, UTranslate("Sprites rendering: ") + UTranslate("Smoothed"));
+		_video_options_menu.SetOptionText(3, UTranslate("Map tiles: ") + UTranslate("Smoothed"));
 	else
-		_video_options_menu.SetOptionText(3, UTranslate("Sprites rendering: ") + UTranslate("Normal"));
+		_video_options_menu.SetOptionText(3, UTranslate("Map tiles: ") + UTranslate("Normal"));
 }
 
 
@@ -971,9 +971,9 @@ void BootMode::_OnToggleFullscreen() {
 	_has_modified_settings = true;
 }
 
-void BootMode::_OnToggleImageSmoothed() {
+void BootMode::_OnTogglePixelArtSmoothed() {
 	// Toggle smooth texturing
-	VideoManager->SetTextureSmoothed(!VideoManager->ShouldSmoothPixelArt());
+	VideoManager->SetPixelArtSmoothed(!VideoManager->ShouldSmoothPixelArt());
 	VideoManager->ApplySettings();
 	_RefreshVideoOptions();
 	_has_modified_settings = true;
@@ -1385,8 +1385,8 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 
 	// Load video settings
 	settings.OpenTable("video_settings");
-	bool fullscreen = static_cast<bool>(settings.ReadBool("full_screen"));
-	VideoManager->SetTextureSmoothed(static_cast<bool>(settings.ReadBool("smooth_graphics")));
+	bool fullscreen = settings.ReadBool("full_screen");
+	VideoManager->SetPixelArtSmoothed(settings.ReadBool("smooth_graphics"));
 	int32 resx = static_cast<int32>(settings.ReadInt("screen_resx"));
 
 

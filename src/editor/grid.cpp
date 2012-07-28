@@ -1057,8 +1057,8 @@ void Grid::initializeGL()
 	VideoManager->FinalizeInitialization();
 	VideoManager->ToggleFPS();
 
-	// Don't use smooth texturing. This is making map making easier
-	VideoManager->SetTextureSmoothed(false);
+	// Don't use smooth map tiles. This is easing map making.
+	VideoManager->SetPixelArtSmoothed(false);
 } // Grid::initializeGL()
 
 

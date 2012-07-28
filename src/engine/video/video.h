@@ -296,12 +296,13 @@ public:
 	void ToggleFullscreen()
 		{ SetFullscreen(!_temp_fullscreen); }
 
-	void SetTextureSmoothed(bool smooth)
-		{ _smooth_textures = smooth; }
+	//! \brief Will make the pixel art related images smoothed (only used for map tiles at the moment)
+	void SetPixelArtSmoothed(bool smooth)
+		{ _smooth_pixel_art = smooth; }
 
 	//! \brief Returns true if pixel art textures should be smoothed (only used for map tiles at the moment)
 	bool ShouldSmoothPixelArt()
-		{ return _smooth_textures; }
+		{ return _smooth_pixel_art; }
 
 	//! \brief Returns a reference to the current coordinate system
 	const CoordSys& GetCoordSys() const
@@ -763,8 +764,8 @@ private:
 	//! holds the desired screen height. Not actually applied until ApplySettings() is called
 	int32 _temp_height;
 
-	//! \brief Tells whether the graphics should be smoothed.
-	bool _smooth_textures;
+	//! \brief Tells whether pixel art sprites should be smoothed.
+	bool _smooth_pixel_art;
 
 	//! image which is to be used as the cursor
 	StillImage _default_menu_cursor;
