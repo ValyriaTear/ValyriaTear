@@ -492,10 +492,6 @@ void ImageDescriptor::_RemoveTextureReference() {
 void ImageDescriptor::_DrawOrientation() const {
 	Context& current_context = VideoManager->_current_context;
 
-	// Calculate x and y draw offsets due to any screen shaking effects
-	float x_shake = VideoManager->_x_shake * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft()) / 1024.0f;
-	float y_shake = VideoManager->_y_shake * (current_context.coordinate_system.GetTop() - current_context.coordinate_system.GetBottom()) / 768.0f;
-
 	// Fix the image offset according to the current context alignement.
 	// Takes the image width/height and divides it by 2 (equal to * 0.5f) and applies the offset (left, right, center/top, bottom, center).
 	float x_align_offset = ((current_context.x_align + 1) * _width) * 0.5f * -current_context.coordinate_system.GetHorizontalDirection();
@@ -512,8 +508,14 @@ void ImageDescriptor::_DrawOrientation() const {
 	if (current_context.y_flip) {
 		y_off = _height;
 	}
-	x_off += x_shake;
-	y_off += y_shake;
+
+	if (VideoManager->_shake_forces.size() > 0) {
+		// Calculate x and y draw offsets due to any screen shaking effects
+		float x_shake = VideoManager->_x_shake * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft()) / VIDEO_STANDARD_RES_WIDTH;
+		float y_shake = VideoManager->_y_shake * (current_context.coordinate_system.GetTop() - current_context.coordinate_system.GetBottom()) / VIDEO_STANDARD_RES_HEIGHT;
+		x_off += x_shake;
+		y_off += y_shake;
+	}
 
 	VideoManager->MoveRelative(x_off * current_context.coordinate_system.GetHorizontalDirection(), y_off * current_context.coordinate_system.GetVerticalDirection());
 

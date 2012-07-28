@@ -408,12 +408,14 @@ void TileSupervisor::Update() {
 
 void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_type) {
 	MAP_CONTEXT context = MapMode::CurrentInstance()->GetCurrentContext();
-	// We'll use the top-left positions to render the tiles.
-	VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
 	std::map<MAP_CONTEXT, Context>::const_iterator it = _tile_grid.find(context);
 	if (it == _tile_grid.end())
 		return;
+
+	// We'll use the top-left positions to render the tiles.
+	VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
+
 	const Context& layers = it->second;
 
 	for (uint32 layer_id = 0; layer_id < layers.size(); ++layer_id) {
