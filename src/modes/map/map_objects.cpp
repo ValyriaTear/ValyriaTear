@@ -320,7 +320,8 @@ TreasureObject::TreasureObject(const std::string& treasure_name,
 
 	closed_anim.LoadFromAnimationScript(closed_animation_file);
 	MapMode::ScaleToMapCoords(closed_anim);
-	opening_anim.LoadFromAnimationScript(opening_animation_file);
+	if (!opening_animation_file.empty())
+		opening_anim.LoadFromAnimationScript(opening_animation_file);
 	MapMode::ScaleToMapCoords(opening_anim);
 	open_anim.LoadFromAnimationScript(open_animation_file);
 	MapMode::ScaleToMapCoords(open_anim);
