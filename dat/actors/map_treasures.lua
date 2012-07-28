@@ -1,5 +1,15 @@
 treasures = {}
 
+treasures["Vase1"] = {
+	closed_animation_filename = "img/sprites/map/objects/vase1.lua",
+	opening_animation_filename = "", -- no opening sequence
+	opened_animation_filename = "img/sprites/map/objects/vase1.lua",
+	coll_half_width = 0.75,
+	coll_height = 1.2,
+	img_half_width = 0.75,
+	img_height = 1.5
+}
+
 treasures["Wood_Chest1"] = {
 	closed_animation_filename = "img/sprites/map/treasures/chest1_closed.lua",
 	opening_animation_filename = "img/sprites/map/treasures/chest1_opening.lua",

@@ -48,6 +48,14 @@ objects["Box1"] = {
 	img_height = 2.37
 }
 
+objects["Cat1"] = {
+	animation_filename = "img/sprites/map/objects/cat1.lua",
+	coll_half_width = 0.95,
+	coll_height = 0.9,
+	img_half_width = 0.68,
+	img_height = 1.56
+}
+
 objects["Chair1"] = {
 	animation_filename = "img/sprites/map/objects/chair1.lua",
 	coll_half_width = 0.95,

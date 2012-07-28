@@ -411,6 +411,9 @@ function CreateNPCs()
 	dialogue:AddLine(text, npc);
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
+	-- Add her cat, Nekko
+	object = _CreateObject(Map, "Cat1", 24, 37.6);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	georges = _CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
 	Map:AddGroundObject(georges);
@@ -464,6 +467,21 @@ function CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Rock2", 113, 42);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	-- collision bug hidders
+	object = _CreateObject(Map, "Barrel1", 14, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Vase1", 15, 39);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Barrel1", 30, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	-- Treasure vase
+	local nekko_vase = _CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37);
+	if (nekko_vase ~= nil) then
+		nekko_vase:AddObject(11, 1);
+		Map:AddGroundObject(nekko_vase);
+	end
 
 	-- Create the special rock
 	blocking_rock = _CreateObject(Map, "Rock1", 7, 45);

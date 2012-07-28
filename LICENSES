@@ -274,6 +274,8 @@ img/sprites/map/objects/bench2.lua        	GPLv2	Bertram
 img/sprites/map/objects/bench2.png        	GPLv2	Allacrost
 img/sprites/map/objects/box1.lua        	GPLv2	Bertram
 img/sprites/map/objects/box1.png        	GPLv2	Allacrost
+img/sprites/map/objects/cat1.lua        	GPLv2	Bertram
+img/sprites/map/objects/cat1.png        	CC By SA 3.0	Strawheart (OGA)  http://mtsids.com/
 img/sprites/map/objects/chair1.lua        	GPLv2	Bertram
 img/sprites/map/objects/chair1.png        	GPLv2	Allacrost
 img/sprites/map/objects/chair1_inverted.lua     GPLv2	Bertram
