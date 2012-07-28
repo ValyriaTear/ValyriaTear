@@ -13,6 +13,16 @@ animation = {
 	frame_width = 64.0,
 	frame_height = 54.0,
 	-- The frames duration in milliseconds
-	frames_duration = { 2000, 100, 100, 100, 100,
-                        100, 100, 100, 100, 2000}
+    frames = {
+        [0] = { id = 0, duration = 2000 },
+        [1] = { id = 1, duration = 100 },
+        [2] = { id = 2, duration = 100 },
+        [3] = { id = 3, duration = 100 },
+        [4] = { id = 4, duration = 100 },
+        [5] = { id = 5, duration = 100 },
+        [6] = { id = 6, duration = 100 },
+        [7] = { id = 7, duration = 100 },
+        [8] = { id = 8, duration = 100 },
+        [9] = { id = 9, duration = 2000 }
+    }
 }

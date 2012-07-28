@@ -13,5 +13,7 @@ animation = {
 	frame_width = 128.0,
 	frame_height = 128.0,
 	-- The frames duration in milliseconds
-	frames_duration = { 600 }
+    frames = {
+        [0] = { id = 0, duration = 600 }
+    }
 }

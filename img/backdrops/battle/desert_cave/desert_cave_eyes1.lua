@@ -13,5 +13,8 @@ animation = {
 	frame_width = 28.0,
 	frame_height = 32.0,
 	-- The frames duration in milliseconds
-	frames_duration = { 4000, 3000 }
+    frames = {
+        [0] = { id = 0, duration = 4000 },
+        [1] = { id = 1, duration = 3000 }
+    }
 }

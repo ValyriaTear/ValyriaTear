@@ -1182,8 +1182,6 @@ AnimatedImage::AnimatedImage(const bool grayscale) {
 	_grayscale = grayscale;
 }
 
-
-
 AnimatedImage::AnimatedImage(float width, float height, bool grayscale) {
 	Clear();
 	_width = width;
@@ -1191,15 +1189,13 @@ AnimatedImage::AnimatedImage(float width, float height, bool grayscale) {
 	_grayscale = grayscale;
 }
 
-
-
 void AnimatedImage::Clear() {
 	ImageDescriptor::Clear();
 	_frame_index = 0;
 	_frame_counter = 0;
 	// clear all animation frame images
-	for (vector<AnimationFrame>::iterator i = _frames.begin(); i != _frames.end(); ++i)
-		(*i).image.Clear();
+	for (std::vector<AnimationFrame>::iterator it = _frames.begin(); it != _frames.end(); ++it)
+		(*it).image.Clear();
 	_frames.clear();
 	_number_loops = -1;
 	_loop_counter = 0;
@@ -1207,7 +1203,7 @@ void AnimatedImage::Clear() {
 	_animation_time = 0;
 }
 
-bool AnimatedImage::LoadFromAnimationScript(const string& filename) {
+bool AnimatedImage::LoadFromAnimationScript(const std::string& filename) {
 	hoa_script::ReadScriptDescriptor image_script;
 	if (!image_script.OpenFile(filename))
 		return false;
@@ -1220,6 +1216,7 @@ bool AnimatedImage::LoadFromAnimationScript(const string& filename) {
 	std::string image_filename = image_script.ReadString("image_filename");
 
 	if (!hoa_utils::DoesFileExist(image_filename)) {
+		PRINT_WARNING << "The image file doesn't exist: " << image_filename << std::endl;
 		image_script.CloseTable();
 		image_script.CloseFile();
 		return false;
@@ -1228,29 +1225,80 @@ bool AnimatedImage::LoadFromAnimationScript(const string& filename) {
 	uint32 rows = image_script.ReadUInt("rows");
 	uint32 columns = image_script.ReadUInt("columns");
 
-	float frame_width = image_script.ReadFloat("frame_width");
-	float frame_height = image_script.ReadFloat("frame_height");
-
-	if (frame_width > 0.0f && frame_height > 0.0f)
-		SetDimensions(frame_width, frame_height);
-
-	if (!image_script.DoesTableExist("frames_duration")) {
+	if (!image_script.DoesTableExist("frames")) {
 		image_script.CloseTable();
 		image_script.CloseFile();
+		PRINT_WARNING << "No frame duration table in file: " << filename << std::endl;
 		return false;
 	}
 
+	std::vector<StillImage> image_frames;
+	// Load the image data
+	if (!ImageDescriptor::LoadMultiImageFromElementGrid(image_frames, image_filename, rows, columns)) {
+		PRINT_WARNING << "Couldn't load elements from image file: " << image_filename
+					  << " (in file: " << filename << ")" << std::endl;
+		return false;
+	}
+
+	float frame_width = image_script.ReadFloat("frame_width");
+	float frame_height = image_script.ReadFloat("frame_height");
+
+	// Load requested dimensions
+	if (frame_width > 0.0f && frame_height > 0.0f) {
+		SetDimensions(frame_width, frame_height);
+	}
+	else if (IsFloatEqual(_width, 0.0f) && IsFloatEqual(_height, 0.0f)) {
+		// If the animation dimensions are not set, we're using the first frame size.
+		_width = image_frames.begin()->GetWidth();
+		_height = image_frames.begin()->GetHeight();
+	}
+
+	std::vector<uint32> frames_ids;
 	std::vector<uint32> frames_duration;
-	image_script.ReadUIntVector("frames_duration", frames_duration);
+
+	image_script.OpenTable("frames");
+	uint32 num_frames = image_script.GetTableSize();
+	for (uint32 frames_table_id = 0;  frames_table_id < num_frames; ++frames_table_id) {
+		image_script.OpenTable(frames_table_id);
+
+		int32 frame_id = image_script.ReadInt("id");
+		int32 frame_duration = image_script.ReadInt("duration");
+
+		if (frame_id < 0 || frame_duration < 0 || frame_id >= (int32)image_frames.size()) {
+			PRINT_WARNING << "Invalid frame (" << frames_table_id << ") in file: "
+						  << filename << std::endl;
+            PRINT_WARNING << "Request for frame id: " << frame_id << ", duration: "
+						  << frame_duration << " is not possible." << std::endl;
+			continue;
+		}
+
+		frames_ids.push_back((uint32)frame_id);
+		frames_duration.push_back((uint32)frame_duration);
+
+		image_script.CloseTable(); // frames[frame_table_id] table
+	}
+	image_script.CloseTable(); // frames table
 
 	image_script.CloseAllTables();
 	image_script.CloseFile();
 
-	// Check that the number of given frames is correct
-	if (frames_duration.size() != (rows * columns))
-		return false;
+	// Actually create the animation data
+	_frames.clear();
+	ResetAnimation();
+	for (uint32 i = 0; i < frames_ids.size(); ++i) {
+		_frames.push_back(AnimationFrame());
+		// Set the dimension of the requested frame
+		image_frames[frames_ids[i]].SetDimensions(_width, _height);
+		_frames.back().image = image_frames[frames_ids[i]];
+		_frames.back().frame_time = frames_duration[i];
 
-	return LoadFromFrameGrid(image_filename, frames_duration, rows, columns);
+		_animation_time += frames_duration[i];
+		if (frames_duration[i] == 0) {
+			PRINT_WARNING << "Added a frame time value of zero when loading file: " << filename << std::endl;
+		}
+	}
+
+	return true;
 }
 
 
