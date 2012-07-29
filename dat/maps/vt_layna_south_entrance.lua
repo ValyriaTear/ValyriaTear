@@ -308,22 +308,28 @@ function CreateNPCs()
 
 	npc = _CreateNPCSprite(Map, "Man2", "Herth", 45, 39);
 	Map:AddGroundObject(npc);
-	npc:SetDirection(hoa_map.MapMode.SOUTH);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Hi Bronann.");
-	dialogue:AddLine(text, npc);
-	text = hoa_system.Translate("Hi Herth. I see you've blocked the gate, why so?");
-	dialogue:AddLine(text, bronann);
-	text = hoa_system.Translate("Don't worry too much, I'm just preventing from strangers to sneak in at night.");
-	dialogue:AddLine(text, npc);
-	text = hoa_system.Translate("Some people have been reporting thefts in the villages around lately.");
-	dialogue:AddLine(text, npc);
-	text = hoa_system.Translate("Wow, do you think they would come here?");
-	dialogue:AddLine(text, bronann);
-	text = hoa_system.Translate("It's a possibility but don't worry too much, ok?");
-	dialogue:AddLine(text, npc);
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
+	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+		-- At that moment, Herth isn't there anymore.
+		npc:SetVisible(false);
+		npc:SetNoCollision(true);
+	else
+		npc:SetDirection(hoa_map.MapMode.SOUTH);
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("Hi Bronann.");
+		dialogue:AddLine(text, npc);
+		text = hoa_system.Translate("Hi Herth. I see you've blocked the gate, why so?");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("Don't worry too much, I'm just preventing from strangers to sneak in at night.");
+		dialogue:AddLine(text, npc);
+		text = hoa_system.Translate("Some people have been reporting thefts in the villages around lately.");
+		dialogue:AddLine(text, npc);
+		text = hoa_system.Translate("Wow, do you think they would come here?");
+		dialogue:AddLine(text, bronann);
+		text = hoa_system.Translate("It's a possibility but don't worry too much, ok?");
+		dialogue:AddLine(text, npc);
+		DialogueManager:AddDialogue(dialogue);
+		npc:AddDialogueReference(dialogue);
+	end
 
 	orlinn = _CreateSprite(Map, "Orlinn", 29, 22);
 	orlinn:SetDirection(hoa_map.MapMode.EAST);

@@ -366,7 +366,7 @@ function CreateNPCs()
 	orlinn = _CreateSprite(Map, "Orlinn", 40, 18);
 	Map:AddGroundObject(orlinn);
 	-- Setup Orlinn's state and dialogue depending on the story current context
-	_UpdateOrlinnState();
+	_UpdateOrlinnAndKalyaState();
 
 	carson = _CreateSprite(Map, "Carson", 0, 0);
 	-- Default behaviour - not present on map.
@@ -1050,12 +1050,22 @@ function _UpdateGeorgesDialogue()
 end
 
 -- Updates Orlinn's dialogue and state depending on how far is the story going.
-function _UpdateOrlinnState()
+function _UpdateOrlinnAndKalyaState()
 	local text = {};
 	local dialogue = {};
     local event = {};
 
     orlinn:ClearDialogueReferences();
+    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+        -- At that moment, Orlinn has disappeared and Kalya is now in Bronann's party.
+        orlinn:SetVisible(false);
+        orlinn:SetNoCollision(true);
+        kalya:SetVisible(false);
+        kalya:SetNoCollision(true);
+	EventManager:TerminateAllEvents(kalya);
+	kalya:SetMoving(false);
+        return;	
+    end
     if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Bronann got Georges' pen, update orlinn dialogue
         dialogue = hoa_map.SpriteDialogue();

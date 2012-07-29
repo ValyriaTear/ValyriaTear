@@ -301,7 +301,13 @@ function CreateNPCs()
 	event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
 	EventManager:RegisterEvent(event);
 
-	EventManager:StartEvent("Dad random move");
+	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+	    -- Carson isn't here anymore
+	    bronanns_dad:SetVisible(false);
+	    bronanns_dad:SetNoCollision(true);
+	else
+	    EventManager:StartEvent("Dad random move");
+	end
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Hey Son! Slept well? Err, where is that oil lamp already?");
@@ -672,6 +678,14 @@ end
 function _UpdateMotherDialogue()
 	bronanns_mother:ClearDialogueReferences();
 
+    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+		local dialogue = hoa_map.SpriteDialogue();
+		local text = hoa_system.Translate("Promise me you'll be careful, Bronann, ok?.");
+		dialogue:AddLine(text, bronanns_mother);
+		DialogueManager:AddDialogue(dialogue);
+		bronanns_mother:AddDialogueReference(dialogue);
+		return;
+    end
     if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == true) then
         -- Got some barley meal, Mom!
 		-- Begining dialogue
