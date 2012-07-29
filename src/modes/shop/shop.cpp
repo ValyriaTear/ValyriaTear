@@ -694,7 +694,7 @@ void ShopObjectViewer::_SetEquipmentData() {
 				meta_diff = static_cast<int32>(selected_armor->GetMetaphysicalDefense());
 			}
 			// Case 3: if the player already has this armor equipped, indicate thus and move on to the next character
-			if (selected_armor->GetID() == equipped_armor->GetID()) {
+			else if (selected_armor->GetID() == equipped_armor->GetID()) {
 				_character_equipped[i] = true;
 				continue;
 			}
