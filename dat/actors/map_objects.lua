@@ -280,6 +280,13 @@ objects["Vase1"] = {
 	img_height = 1.5
 }
 
+objects["Wooden Sword1"] = {
+	animation_filename = "img/sprites/map/objects/wooden_sword1.lua",
+	coll_half_width = 1.25,
+	coll_height = 1.31,
+	img_half_width = 1.25,
+	img_height = 1.31
+}
 
 -- "Ground" lights
 -- Those are special light effect that have to be applied before the sky layer

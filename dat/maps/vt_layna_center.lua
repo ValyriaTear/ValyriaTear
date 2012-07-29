@@ -488,6 +488,13 @@ function CreateObjects()
 	Map:AddGroundObject(blocking_rock);
 	-- Set the rock state based on the story point
 	_UpdateBlockingRock();
+	
+	-- Quest 2: Forest event
+	-- The wooden sword sprite
+	wooden_sword = _CreateObject(Map, "Wooden Sword1", 1, 1);
+	Map:AddGroundObject(wooden_sword);
+	wooden_sword:SetVisible(false);
+	wooden_sword:SetNoCollision(true);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -651,7 +658,7 @@ function CreateEvents()
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("... Hmmm...");
 	dialogue:AddLine(text, bronann);
-	text = hoa_system.Translate("Bronann, there is something I have to tell you. I've been preparing myself all my life for this. I mean your mother and I...");
+	text = hoa_system.Translate("Bronann, there is something I have to tell you. We've been afraid of that moment, I mean your mother and I...");
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("They're coming!");
 	dialogue:AddLineEvent(text, herth, "Quest2: Carson looks at Herth");
@@ -672,7 +679,7 @@ function CreateEvents()
 	text = hoa_system.Translate("...");
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("Huh? Hey, what's happening here?!");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEvent(text, bronann, "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("Bronann, I ...");
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("Father!");
@@ -683,13 +690,41 @@ function CreateEvents()
 	event:AddEventLinkAtEnd("Quest2: Kalya runs to her father");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya runs to her father", kalya, 88.0, 76.0, true);
-    event:AddEventLinkAtEnd("Quest2: Third part of talk");
-    EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya runs to her father", kalya, 88.0, 76.0, true);
+	event:AddEventLinkAtEnd("Quest2: Third part of talk");
+	EventManager:RegisterEvent(event);
 
-    dialogue = hoa_map.SpriteDialogue();
+	-- Small event chain making kalya go back and forth.
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth", kalya, 85.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Carson looks at Kalya");
+	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 2");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 2", kalya, 88.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 3");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 3", kalya, 85.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 4");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 4", kalya, 88.0, 76.0, false);
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("Quest2: Show the wooden sword item in front of carson", "Show_wooden_sword", "");
+	EventManager:RegisterEvent(event);
+	
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes and take the sword", bronann, 92.0, 73.0, false);
+	event:AddEventLinkAtEnd("Quest2: Hide the wooden sword item");
+	event:AddEventLinkAtEnd("Quest2: Add the wooden sword in inventory");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Quest2: Hide the wooden sword item", "Hide_wooden_sword", "");
+	EventManager:RegisterEvent(event);
+	
+	event = hoa_map.TreasureEvent("Quest2: Add the wooden sword in inventory");
+	event:AddObject(10001, 1); -- The wooden sword item
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Father! Orlinn has disappeared. I saw him taking the forest pathway!");
-	dialogue:AddLine(text, kalya);
+	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Herth");
 	text = hoa_system.Translate("Kalya! You were supposed to keep an eye on him!");
 	dialogue:AddLine(text, herth);
 	text = hoa_system.Translate("I did, but he just slipped through my fingers at the very second that strange light appeared.");
@@ -700,39 +735,40 @@ function CreateEvents()
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("No, don't worry. We'll simply talk and they'll move on. You know what you have to do, right?");
 	dialogue:AddLine(text, herth);
-	text = hoa_system.Translate("Sure, but...");
+	text = hoa_system.Translate("Herth, we both know It'll likely...");
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("Do as I say and it'll be alright.");
 	dialogue:AddLine(text, herth);
-	text = hoa_system.Translate("Sure, but...");
+	text = hoa_system.Translate("But...");
 	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("Bronann, you should go with her.");
 	dialogue:AddLineEvent(text, carson, "Quest2: Kalya looks at Carson");
 	text = hoa_system.Translate("What?!?");
-	dialogue:AddLine(text, kalya);
+	dialogue:AddLineEvent(text, kalya, "Quest2: Kalya looks at Herth");
+	-- TODO: Play Bronann's surprised animation once it's possible
 	text = hoa_system.Translate("Huh?");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
 	dialogue:AddLineEvent(text, herth, "Quest2: Kalya looks at Bronann");
 	text = hoa_system.Translate("But he would just be a burden!");
 	dialogue:AddLine(text, kalya);
-	text = hoa_system.Translate("Hey! I just can hear you, you know?");
+	-- TODO: Play the hero stance once it's possible.
+	text = hoa_system.Translate("Huh? Hey! But...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("He won't slow you down, believe me, right Bronann?");
-	dialogue:AddLine(text, carson);
+	dialogue:AddLineEvent(text, carson, "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("But Father!");
-	dialogue:AddLine(text, kalya);
-	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
-	dialogue:AddLine(text, herth);
+	dialogue:AddLineEvent(text, kalya, "Quest2: Kalya looks at Herth");
+	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's... It's an order.");
+	dialogue:AddLineEvent(text, herth, "Quest2: Kalya goes back and forth");
 	text = hoa_system.Translate("Gahh... ok.");
-	dialogue:AddLine(text, kalya);
-	text = hoa_system.Translate("Take this sword, you'll probably need it there to make your way through.");
-	dialogue:AddLine(text, carson);
+	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Bronann");
+	text = hoa_system.Translate("Bronann, take this sword, you'll probably need it there to make your way through.");
+	dialogue:AddLineEvent(text, carson, "Quest2: Show the wooden sword item in front of carson");
 	text = hoa_system.Translate("Ah, thanks dad! I won't deceive you.");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEvent(text, bronann, "Quest2: Bronann goes and take the sword");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Third part of talk", dialogue);
-	event:SetStopCameraMovement(true);
 	event:AddEventLinkAtEnd("Map:PopState()");
 	EventManager:RegisterEvent(event);
 
@@ -1041,11 +1077,11 @@ map_functions = {
     Prepare_forest_event = function()
         -- Scene event
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
-        carson:SetPosition(70.0, 72.0);
+        carson:SetPosition(75.0, 72.0);
         carson:SetVisible(true);
         carson:SetNoCollision(false);
 
-        herth:SetPosition(70.0, 77.0);
+        herth:SetPosition(75.0, 77.0);
         herth:SetVisible(true);
         herth:SetNoCollision(false);
 
@@ -1053,6 +1089,12 @@ map_functions = {
         kalya:SetPosition(75.0, 68.0);
         kalya:SetMoving(false);
         kalya:ClearDialogueReferences();
+	
+	-- hide Orlinn has he's into the forest
+	EventManager:TerminateAllEvents(orlinn);
+	orlinn:SetMoving(false);
+	orlinn:SetVisible(false);
+	orlinn:SetNoCollision(true);
     end,
 
     BrightLightStart = function()
@@ -1075,6 +1117,17 @@ map_functions = {
 
 	 -- end of the two-step fade in and out
 	return true;
+    end,
+
+    Show_wooden_sword = function()
+        wooden_sword:SetPosition(carson:GetXPosition() + 1.5, carson:GetYPosition() - 2.0);
+	wooden_sword:SetVisible(true);
+	wooden_sword:SetNoCollision(true);
+    end,
+
+    Hide_wooden_sword = function()
+	wooden_sword:SetVisible(false);
+	wooden_sword:SetNoCollision(true);
     end,
 
     Map_SceneState = function()

@@ -37,6 +37,17 @@ end
 -- -----------------------------------------------------------------------------
 
 weapons[10001] = {
+	name = hoa_system.Translate("Wooden Sword"),
+	description = hoa_system.Translate("A sword made of wood and a steel hilt, very good for practising."),
+	icon = "img/icons/weapons/woodensword.png",
+	physical_attack = 2,
+	metaphysical_attack = 0,
+	standard_price = 30,
+	usable_by = BRONANN + THANIS,
+	slots = 0
+}
+
+weapons[10011] = {
 	name = hoa_system.Translate("Karlate Sword"),
 	description = hoa_system.Translate("Standard Karlate issued equipment. A light weight iron sword suitable for most skirmishes."),
 	icon = "img/icons/weapons/karlate_sword.png",
@@ -44,7 +55,7 @@ weapons[10001] = {
 	metaphysical_attack = 0,
 	standard_price = 120,
 	usable_by = BRONANN + THANIS,
-	slots = 1
+	slots = 0
 }
 
 weapons[10002] = {
@@ -55,7 +66,7 @@ weapons[10002] = {
 	metaphysical_attack = 0,
 	standard_price = 250,
 	usable_by = BRONANN + THANIS,
-	slots = 1
+	slots = 0
 }
 
 weapons[10003] = {
@@ -77,9 +88,9 @@ weapons[11001] = {
 	name = hoa_system.Translate("Arbalest"),
 	description = hoa_system.Translate("A standard wooden arbalest."),
 	icon = "img/icons/weapons/arbalest.png",
-	physical_attack = 45,
+	physical_attack = 3,
 	metaphysical_attack = 0,
-	standard_price = 1400,
+	standard_price = 50,
 	usable_by = KALYA,
-	slots = 2
+	slots = 0
 }

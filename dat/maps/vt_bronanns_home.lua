@@ -514,7 +514,7 @@ function CreateEvents()
     dialogue = hoa_map.SpriteDialogue();
     text = hoa_system.Translate("Thanks for helping me out with the dishes.");
     dialogue:AddLine(text, bronanns_mother);
-    text = hoa_system.Translate("Say Mom, why is the village entrance blocked?");
+    text = hoa_system.Translate("Hmm, say Mom, why is the village entrance blocked?");
     dialogue:AddLine(text, bronann);
     text = hoa_system.Translate("...");
     dialogue:AddLine(text, bronanns_mother);
@@ -541,11 +541,15 @@ function CreateEvents()
     dialogue:AddLine(text, bronann);
     text = hoa_system.Translate("Sorry, Son. It's maybe a bit early, but I'd like you to be careful.");
     dialogue:AddLine(text, bronanns_dad);
-    text = hoa_system.Translate("There is something going on! And you won't tell me?");
+    text = hoa_system.Translate("Hey, wait! Every elders in the village are on nerves. There is something going on here! Won't you tell me?");
     dialogue:AddLine(text, bronann);
     -- TODO: add bronann look animation here once the map sprite loading code and the animatesprite event are redone.
-    text = hoa_system.Translate("Both of you?");
+    text = hoa_system.Translate("None of you?");
     dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("You really won't tell me?");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("... It's not that simple, Bronann. Believe me.");
+    dialogue:AddLine(text, bronanns_dad);
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 2", dialogue)
     event:AddEventLinkAtEnd("Quest2: Mother looks at Bronann", 2000);
