@@ -694,34 +694,6 @@ function CreateEvents()
 	event:AddEventLinkAtEnd("Quest2: Third part of talk");
 	EventManager:RegisterEvent(event);
 
-	-- Small event chain making kalya go back and forth.
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth", kalya, 85.0, 76.0, false);
-	event:AddEventLinkAtEnd("Quest2: Carson looks at Kalya");
-	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 2");
-	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 2", kalya, 88.0, 76.0, false);
-	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 3");
-	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 3", kalya, 85.0, 76.0, false);
-	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 4");
-	EventManager:RegisterEvent(event);
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 4", kalya, 88.0, 76.0, false);
-	EventManager:RegisterEvent(event);
-
-	event = hoa_map.ScriptedEvent("Quest2: Show the wooden sword item in front of carson", "Show_wooden_sword", "");
-	EventManager:RegisterEvent(event);
-	
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes and take the sword", bronann, 92.0, 73.0, false);
-	event:AddEventLinkAtEnd("Quest2: Hide the wooden sword item");
-	event:AddEventLinkAtEnd("Quest2: Add the wooden sword in inventory");
-	EventManager:RegisterEvent(event);
-	event = hoa_map.ScriptedEvent("Quest2: Hide the wooden sword item", "Hide_wooden_sword", "");
-	EventManager:RegisterEvent(event);
-	
-	event = hoa_map.TreasureEvent("Quest2: Add the wooden sword in inventory");
-	event:AddObject(10001, 1); -- The wooden sword item
-	EventManager:RegisterEvent(event);
-
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Father! Orlinn has disappeared. I saw him taking the forest pathway!");
 	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Herth");
@@ -731,7 +703,7 @@ function CreateEvents()
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as fast as possible.");
 	dialogue:AddLine(text, herth);
-	text = hoa_system.Translate("Gosh! But you might be hurt.");
+	text = hoa_system.Translate("Gosh! But you might be hurt!!");
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("No, don't worry. We'll simply talk and they'll move on. You know what you have to do, right?");
 	dialogue:AddLine(text, herth);
@@ -760,19 +732,124 @@ function CreateEvents()
 	text = hoa_system.Translate("But Father!");
 	dialogue:AddLineEvent(text, kalya, "Quest2: Kalya looks at Herth");
 	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's... It's an order.");
-	dialogue:AddLineEvent(text, herth, "Quest2: Kalya goes back and forth");
+	dialogue:AddLine(text, herth);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Third part of talk", dialogue);
+	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth");
+	EventManager:RegisterEvent(event);
+
+	-- Small event chain making kalya go back and forth.
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth", kalya, 85.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Carson looks at Kalya");
+	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 2");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 2", kalya, 88.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 3");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 3", kalya, 85.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 4");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya goes back and forth 4", kalya, 88.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Fourth part of talk");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("Quest2: Show the wooden sword item in front of carson", "Show_wooden_sword", "");
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Gahh... ok.");
 	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("Bronann, take this sword, you'll probably need it there to make your way through.");
 	dialogue:AddLineEvent(text, carson, "Quest2: Show the wooden sword item in front of carson");
-	text = hoa_system.Translate("Ah, thanks dad! I won't deceive you.");
-	dialogue:AddLineEvent(text, bronann, "Quest2: Bronann goes and take the sword");
+	text = hoa_system.Translate("What? But one minute ago you said...");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("I know, but everything has changed. I'll explain you once all that is finished, now go, my son.");
+	dialogue:AddLine(text, carson);
 	DialogueManager:AddDialogue(dialogue);
-	event = hoa_map.DialogueEvent("Quest2: Third part of talk", dialogue);
-	event:AddEventLinkAtEnd("Map:PopState()");
+	event = hoa_map.DialogueEvent("Quest2: Fourth part of talk", dialogue);
+	event:AddEventLinkAtEnd("Quest2: Bronann goes and take the sword");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes and take the sword", bronann, 92.0, 73.0, false);
+	event:AddEventLinkAtEnd("Quest2: Hide the wooden sword item");
+	event:AddEventLinkAtEnd("Quest2: Add the wooden sword in inventory");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Quest2: Hide the wooden sword item", "Hide_wooden_sword", "");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.TreasureEvent("Quest2: Add the wooden sword in inventory");
+	event:AddObject(10001, 1); -- The wooden sword item
+	event:AddEventLinkAtEnd("Quest2: Fifth part of talk");
+	EventManager:RegisterEvent(event);
 
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Thanks dad, we'll find him in no time.");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("We shall go now, ... Good luck, both of you.");
+	dialogue:AddLineEvent(text, herth, "Quest2: Herth looks at Kalya");
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Fifth part of talk", dialogue);
+	event:AddEventLinkAtEnd("Quest2: Herth leaves to south");
+	event:AddEventLinkAtEnd("Quest2: Carson starts to leave to south");
+	EventManager:RegisterEvent(event);
+	
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Herth leaves to south", herth, 96.0, 78.0, false);
+	event:AddEventLinkAtEnd("Quest2: Herth disappears");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("Quest2: Herth disappears", herth, "MakeInvisible", "");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Carson starts to leave to south", carson, 90.0, 76.0, false);
+	event:AddEventLinkAtEnd("Quest2: Carson talks to Bronann once last time");
+	event:AddEventLinkAtEnd("Quest2: Carson looks at Bronnan from south");
+	EventManager:RegisterEvent(event);
+	
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Bronnan from south", carson, hoa_map.MapMode.NORTH);
+	EventManager:RegisterEvent(event);
+	
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Good luck, Son.");
+	dialogue:AddLine(text, carson);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Carson talks to Bronann once last time", dialogue);
+	event:AddEventLinkAtEnd("Quest2: Carson leaves to south");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Carson leaves to south", carson, 94.0, 78.0, false);
+	event:AddEventLinkAtEnd("Quest2: Carson disappears");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("Quest2: Carson disappears", carson, "MakeInvisible", "");
+	event:AddEventLinkAtEnd("Quest2: End part of talk", 1000);
+	EventManager:RegisterEvent(event);
+
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Ok, we'll go together, but slow me down, and I'll make you regret it...");
+	dialogue:AddLine(text, kalya);
+	text = hoa_system.Translate("Don't worry, we'll find him, ok?");
+	dialogue:AddLine(text, bronann);
+	text = hoa_system.Translate("Ok ...");
+	dialogue:AddLine(text, kalya);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: End part of talk", dialogue);
+	event:AddEventLinkAtEnd("Quest2: Kalya joins Bronann's party");
+	EventManager:RegisterEvent(event);
+
+	-- TODO: Turns this into an actual join party event once functional
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya joins Bronann's party", kalya, bronann:GetXPosition(), bronann:GetYPosition(), false);
+	event:AddEventLinkAtEnd("Quest2: Kalya disappears");
+	event:AddEventLinkAtEnd("Quest2: Add Kalya to the party");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedSpriteEvent("Quest2: Kalya disappears", kalya, "MakeInvisible", "");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Quest2: Add Kalya to the party", "Add_kalya_to_party", "");
+	event:AddEventLinkAtEnd("Quest2: Kalya joins speech");
+	EventManager:RegisterEvent(event);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Kalya joins your party!");
+	dialogue:AddLine(text, kalya); --used for now to show her portrait
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Quest2: Kalya joins speech", dialogue);
+	event:AddEventLinkAtEnd("Map:PopState()");
+	EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -802,8 +879,9 @@ end
 function CheckZones()
 	if (bronanns_home_entrance_zone:IsCameraEntering() == true) then
 	   -- If Bronann has started the quest 2, he doesn't want to go back and see his parents.
-	    if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-            EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
+	    if (GlobalManager:DoesEventExist("story", "Quest2_started") == true
+			and GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
+		EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
             return;
         end
 		-- Stop the character as it may walk in diagonal, which is looking strange
@@ -842,7 +920,11 @@ function CheckZones()
 
 	if (to_layna_forest_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
-		EventManager:StartEvent("Quest2: Bronann can't enter the forest without a sword");
+		if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
+			EventManager:StartEvent("Quest2: Bronann can't enter the forest without a sword");
+		else
+			EventManager:StartEvent("to layna forest entrance");
+		end
 	end
 
 	if (shop_entrance_zone:IsCameraEntering() == true) then
@@ -856,7 +938,8 @@ end
 -- Inner custom functions
 function _TriggerPotentialDialogueAfterFadeIn()
 	-- Trigger the forest and Orlinn runaway event
-	if (GlobalManager:DoesEventExist("story", "Quest2_flora_dialogue_done") == true) then
+	if (GlobalManager:DoesEventExist("story", "Quest2_flora_dialogue_done") == true
+			and GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
 		EventManager:StartEvent("Quest2: Forest event");
 		GlobalManager:SetEventValue("story", "Quest2_forest_event_done", 1);
 		return;
@@ -1128,6 +1211,13 @@ map_functions = {
     Hide_wooden_sword = function()
 	wooden_sword:SetVisible(false);
 	wooden_sword:SetNoCollision(true);
+    end,
+
+    Add_kalya_to_party = function()
+        if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == false) then
+            GlobalManager:AddCharacter(KALYA);
+            GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
+	end
     end,
 
     Map_SceneState = function()
