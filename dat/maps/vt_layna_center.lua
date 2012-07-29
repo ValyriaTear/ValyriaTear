@@ -1140,7 +1140,7 @@ map_functions = {
 	Quest1GeorgesDialogueDone = function()
         GlobalEvents:SetEvent("quest1_georges_dialogue_done", 1);
         -- Makes Orlinn aware that Bronann has talked to Georges.
-        _UpdateOrlinnState();
+        _UpdateOrlinnAndKalyaState();
         _UpdateGeorgesDialogue();
 	end,
 
