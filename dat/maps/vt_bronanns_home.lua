@@ -452,7 +452,20 @@ function CreateObjects()
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	-- TODO: Turn the food and dishes into objects update their status.
+	-- Turn the food and dishes are objects to permit the update of their visible status.
+	plate_pile = _CreateObject(Map, "Plate Pile1", 31, 22);
+	if (plate_pile ~= nil) then Map:AddGroundObject(plate_pile) end;
+
+	salad = _CreateObject(Map, "Salad1", 31, 18);
+	if (salad ~= nil) then Map:AddGroundObject(salad) end;
+	green_pepper = _CreateObject(Map, "Green Pepper1", 31, 20);
+	if (green_pepper ~= nil) then Map:AddGroundObject(green_pepper) end;
+	bread = _CreateObject(Map, "Bread1", 31, 22);
+	if (bread ~= nil) then Map:AddGroundObject(bread) end;
+	sauce_pot = _CreateObject(Map, "Sauce Pot1", 33, 22);
+	if (sauce_pot ~= nil) then Map:AddGroundObject(sauce_pot) end;
+	knife = _CreateObject(Map, "Knife1", 35, 22);
+	if (knife ~= nil) then Map:AddGroundObject(knife) end;
 	_UpdateDishesAndFood();
 end
 
@@ -620,8 +633,36 @@ end
 -- Internal Custom functions
 function _UpdateDishesAndFood()
         if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-            -- TODO: Set objects status to invisible here.
-        end
+		-- Show the plate pile, hide the rest 
+		plate_pile:SetVisible(true);
+		plate_pile:SetNoCollision(false);
+
+		salad:SetVisible(false);
+		salad:SetNoCollision(true);
+		green_pepper:SetVisible(false);
+		green_pepper:SetNoCollision(true);
+		bread:SetVisible(false);
+		bread:SetNoCollision(true);
+		sauce_pot:SetVisible(false);
+		sauce_pot:SetNoCollision(true);
+		knife:SetVisible(false);
+		knife:SetNoCollision(true);
+	else
+		-- Show the food, hide the plate pile
+		plate_pile:SetVisible(false);
+		plate_pile:SetNoCollision(true);
+
+		salad:SetVisible(true);
+		salad:SetNoCollision(false);
+		green_pepper:SetVisible(true);
+		green_pepper:SetNoCollision(false);
+		bread:SetVisible(true);
+		bread:SetNoCollision(false);
+		sauce_pot:SetVisible(true);
+		sauce_pot:SetNoCollision(false);
+		knife:SetVisible(true);
+		knife:SetNoCollision(false);
+	end
 end
 
 function _UpdateMotherDialogue()

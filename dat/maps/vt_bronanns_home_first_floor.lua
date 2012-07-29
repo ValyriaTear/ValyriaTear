@@ -316,6 +316,13 @@ function CreateObjects()
 	object = _CreateObject(Map, "Small Wooden Table", 20, 27);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
+	object = _CreateObject(Map, "Candle1", 19, 25);
+	object:SetDrawOnSecondPass(true); -- Above the table
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Book1", 21, 25);
+	object:SetDrawOnSecondPass(true); -- Above any other ground object
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
 	object = _CreateObject(Map, "Left Window Light", 19, 21);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;

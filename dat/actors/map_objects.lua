@@ -48,6 +48,30 @@ objects["Box1"] = {
 	img_height = 2.37
 }
 
+objects["Book1"] = {
+	animation_filename = "img/sprites/map/objects/book1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Bread1"] = {
+	animation_filename = "img/sprites/map/objects/bread1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Candle1"] = {
+	animation_filename = "img/sprites/map/objects/candle1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
 objects["Cat1"] = {
 	animation_filename = "img/sprites/map/objects/cat1.lua",
 	coll_half_width = 0.95,
@@ -104,6 +128,22 @@ objects["Flower Pot2"] = {
 	img_height = 1.75
 }
 
+objects["Green Pepper1"] = {
+	animation_filename = "img/sprites/map/objects/green_pepper1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Knife1"] = {
+	animation_filename = "img/sprites/map/objects/knife1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
 objects["Locker"] = {
 	animation_filename = "img/sprites/map/objects/locker.lua",
 	coll_half_width = 0.75,
@@ -128,6 +168,14 @@ objects["Parchment"] = {
 	img_height = 1.31
 }
 
+objects["Plate Pile1"] = {
+	animation_filename = "img/sprites/map/objects/plate_pile1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
 objects["Rock1"] = {
 	animation_filename = "img/sprites/map/objects/rock1.lua",
 	coll_half_width = 1.0,
@@ -142,6 +190,14 @@ objects["Rock2"] = {
 	coll_height = 1.78,
 	img_half_width = 0.9,
 	img_height = 3.56
+}
+
+objects["Sauce Pot1"] = {
+	animation_filename = "img/sprites/map/objects/sauce_pot1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
 }
 
 objects["Table1"] = {
@@ -174,6 +230,14 @@ objects["Small Wooden Table"] = {
 	coll_height = 2.7,
 	img_half_width = 2.0,
 	img_height = 4.0
+}
+
+objects["Salad1"] = {
+	animation_filename = "img/sprites/map/objects/salad1.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.8,
+	img_half_width = 1.0,
+	img_height = 2.0
 }
 
 objects["Tree Big1"] = {
