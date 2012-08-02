@@ -368,6 +368,8 @@ void DialogueSupervisor::EndDialogue() {
 	}
 
 	for (set<MapSprite*>::iterator i = speakers.begin(); i != speakers.end(); i++) {
+		if (!(*i))
+			continue;
 		// Each sprite needs to know that this dialogue completed so that they can update their data accordingly
 		(*i)->UpdateDialogueStatus();
 
