@@ -987,6 +987,7 @@ void BattleEnemy::_DecideAction() {
 	if (_global_enemy->GetSkills().empty() == true) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "enemy had no usable skills" << endl;
 		ChangeState(ACTOR_STATE_IDLE);
+		return;
 	}
 
 	// TODO: this method is mostly temporary and makes no intelligent decisions about what action to
