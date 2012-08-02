@@ -715,11 +715,16 @@ function CreateEvents()
 	text = hoa_system.Translate("Try to enjoy this day, Bronann.");
 	dialogue:AddLine(text, lilly);
 	text = hoa_system.Translate("Er, ok. Thanks again.");
-	dialogue:AddLineEvent(text, bronann, "Map:PopState()");
+	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the restrictions", dialogue);
 	event:SetStopCameraMovement(true);
+	event:AddEventLinkAtEnd("Quest1: Reset Lilly dialogue");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.ScriptedEvent("Quest1: Reset Lilly dialogue", "Reset_lilly_dialogue", "");
+	event:AddEventLinkAtEnd("Map:PopState()");
 	EventManager:RegisterEvent(event);
 end
 
@@ -779,6 +784,7 @@ end
 -- Custom inner map functions
 function _SetLillyState()
 	lilly:SetDirection(hoa_map.MapMode.WEST);
+	lilly:ClearDialogueReferences();
 	if (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("You should go back home. Your mom must be waiting for you.");
@@ -904,5 +910,9 @@ map_functions = {
 
     GiveBarleyMeal = function()
         GlobalEvents:SetEvent("quest1_barley_meal_done", 1);
+    end,
+
+    Reset_lilly_dialogue = function()
+        _SetLillyState();
     end
 }
