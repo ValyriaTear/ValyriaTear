@@ -39,9 +39,7 @@ GlobalSkill::GlobalSkill(uint32 id) :
 	_sp_required(0),
 	_warmup_time(0),
 	_cooldown_time(0),
-	_target_type(GLOBAL_TARGET_INVALID),
-	_battle_execute_function(NULL),
-	_field_execute_function(NULL)
+	_target_type(GLOBAL_TARGET_INVALID)
 {
 	// A pointer to the skill script which will be used to load this skill
 	ReadScriptDescriptor *skill_script = NULL;
@@ -81,14 +79,8 @@ GlobalSkill::GlobalSkill(uint32 id) :
 	_action_name = skill_script->ReadString("action_name");
 	_target_type = static_cast<GLOBAL_TARGET>(skill_script->ReadInt("target_type"));
 
-	if (skill_script->DoesFunctionExist("BattleExecute")) {
-		_battle_execute_function = new ScriptObject();
-		*_battle_execute_function = skill_script->ReadFunctionPointer("BattleExecute");
-	}
-	if (skill_script->DoesFunctionExist("FieldExecute")) {
-		_field_execute_function = new ScriptObject();
-		*_field_execute_function = skill_script->ReadFunctionPointer("FieldExecute");
-	}
+	_battle_execute_function = skill_script->ReadFunctionPointer("BattleExecute");
+	_field_execute_function = skill_script->ReadFunctionPointer("FieldExecute");
 
 	skill_script->CloseTable();
 	if (skill_script->IsErrorDetected()) {
@@ -99,22 +91,6 @@ GlobalSkill::GlobalSkill(uint32 id) :
 		_id = 0; // Indicate that this skill is invalid
 	}
 } // GlobalSkill::GlobalSkill()
-
-
-
-GlobalSkill::~GlobalSkill() {
-	if (_battle_execute_function != NULL) {
-		delete _battle_execute_function;
-		_battle_execute_function = NULL;
-	}
-
-	if (_field_execute_function != NULL) {
-		delete _field_execute_function;
-		_field_execute_function = NULL;
-	}
-}
-
-
 
 GlobalSkill::GlobalSkill(const GlobalSkill& copy) {
 	_name = copy._name;
@@ -128,15 +104,8 @@ GlobalSkill::GlobalSkill(const GlobalSkill& copy) {
 	_target_type = copy._target_type;
 
 	// Make copies of valid ScriptObject function pointers
-	if (copy._battle_execute_function == NULL)
-		_battle_execute_function = NULL;
-	else
-		_battle_execute_function = new ScriptObject(*copy._battle_execute_function);
-
-	if (copy._field_execute_function == NULL)
-		_field_execute_function = NULL;
-	else
-		_field_execute_function = new ScriptObject(*copy._field_execute_function);
+	_battle_execute_function = copy._battle_execute_function;
+	_field_execute_function = copy._field_execute_function;
 }
 
 
@@ -156,27 +125,20 @@ GlobalSkill& GlobalSkill::operator=(const GlobalSkill& copy) {
 	_target_type = copy._target_type;
 
 	// Make copies of valid ScriptObject function pointers
-	if (copy._battle_execute_function == NULL)
-		_battle_execute_function = NULL;
-	else
-		_battle_execute_function = new ScriptObject(*copy._battle_execute_function);
-
-	if (copy._field_execute_function == NULL)
-		_field_execute_function = NULL;
-	else
-		_field_execute_function = new ScriptObject(*copy._field_execute_function);
+	_battle_execute_function = copy._battle_execute_function;
+	_field_execute_function = copy._field_execute_function;
 
 	return *this;
 }
 
 bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, private_battle::BattleTarget target) {
-	if (!_battle_execute_function) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to retrieve execution function" << endl;
+	if (!_battle_execute_function.is_valid()) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "Can't execute invalid battle script function." << endl;
 		return false;
 	}
 
 	try {
-		ScriptCallFunction<void>(*_battle_execute_function, user, target);
+		ScriptCallFunction<void>(_battle_execute_function, user, target);
 	}
 	catch (luabind::error err) {
 		ScriptManager->HandleLuaError(err);

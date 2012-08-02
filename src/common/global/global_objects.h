@@ -166,44 +166,45 @@ public:
 	**/
 	GlobalItem(uint32 id, uint32 count = 1);
 
-	~GlobalItem();
+	~GlobalItem()
+	{}
 
 	GlobalItem(const GlobalItem& copy);
 
 	GlobalItem& operator=(const GlobalItem& copy);
 
 	GLOBAL_OBJECT GetObjectType() const
-		{ return GLOBAL_OBJECT_ITEM; }
+	{ return GLOBAL_OBJECT_ITEM; }
 
 	//! \brief Returns true if the item can be used in battle
 	bool IsUsableInBattle()
-		{ return (_battle_use_function != NULL); }
+	{ return _battle_use_function.is_valid(); }
 
 	//! \brief Returns true if the item can be used in the field
 	bool IsUsableInField()
-		{ return (_field_use_function != NULL); }
+	{ return _field_use_function.is_valid(); }
 
 	//! \name Class Member Access Functions
 	//@{
 	GLOBAL_TARGET GetTargetType() const
-		{ return _target_type; }
+	{ return _target_type; }
 
 	/** \brief Returns a pointer to the ScriptObject of the battle use function
 	*** \note This function will return NULL if the skill is not usable in battle
 	**/
-	const ScriptObject* GetBattleUseFunction() const
-		{ return _battle_use_function; }
+	const ScriptObject& GetBattleUseFunction() const
+	{ return _battle_use_function; }
 
 	/** \brief Returns a pointer to the ScriptObject of the field use function
 	*** \note This function will return NULL if the skill is not usable in the field
 	**/
-	const ScriptObject* GetFieldUseFunction() const
-		{ return _field_use_function; }
+	const ScriptObject& GetFieldUseFunction() const
+	{ return _field_use_function; }
 
 	/** \brief Returns Warmup time needed before using this item in battles.
 	**/
 	uint32 GetWarmUpTime() const
-		{ return _warmup_time; }
+	{ return _warmup_time; }
 
 	/** \brief Returns Warmup time needed before using this item in battles.
 	**/
@@ -215,11 +216,11 @@ private:
 	//! \brief The type of target for the item
 	GLOBAL_TARGET _target_type;
 
-	//! \brief A pointer to the script function that performs the item's effect while in battle
-	ScriptObject* _battle_use_function;
+	//! \brief A reference to the script function that performs the item's effect while in battle
+	ScriptObject _battle_use_function;
 
-	//! \brief A pointer to the script function that performs the item's effect while in a menu
-	ScriptObject* _field_use_function;
+	//! \brief A reference to the script function that performs the item's effect while in a menu
+	ScriptObject _field_use_function;
 
 	//! \brief The warmup time in milliseconds needed before using this item in battles.
 	uint32 _warmup_time;

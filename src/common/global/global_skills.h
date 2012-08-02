@@ -54,7 +54,8 @@ public:
 	//! \param id The identification number of the skill to construct
 	GlobalSkill(uint32 id);
 
-	~GlobalSkill();
+	~GlobalSkill()
+	{}
 
 	GlobalSkill(const GlobalSkill& copy);
 
@@ -62,52 +63,52 @@ public:
 
 	//! \brief Returns true if the skill is properly initialized and ready to be used
 	bool IsValid() const
-		{ return (_id != 0); }
+	{ return (_id != 0); }
 
 	//! \brief Returns true if the skill can be executed in battles
 	bool IsExecutableInBattle() const
-		{ return (_battle_execute_function != NULL); }
+	{ return _battle_execute_function.is_valid(); }
 
 	//! \brief Returns true if the skill can be executed in menus
 	bool IsExecutableInField() const
-		{ return (_field_execute_function != NULL); }
+	{ return _field_execute_function.is_valid(); }
 
 	/** \name Class member access functions
 	*** \note No set functions are defined because the class members should only be intialized within Lua
 	**/
 	//@{
-	hoa_utils::ustring GetName() const
-		{ return _name; }
+	const hoa_utils::ustring& GetName() const
+	{ return _name; }
 
-	hoa_utils::ustring GetDescription() const
-		{ return _description; }
+	const hoa_utils::ustring& GetDescription() const
+	{ return _description; }
 
 	uint32 GetID() const
-		{ return _id; }
+	{ return _id; }
 
 	GLOBAL_SKILL GetType() const
-		{ return _type; }
+	{ return _type; }
 
 	uint32 GetSPRequired() const
-		{ return _sp_required; }
+	{ return _sp_required; }
 
 	uint32 GetWarmupTime() const
-		{ return _warmup_time; }
+	{ return _warmup_time; }
 
 	uint32 GetCooldownTime() const
-		{ return _cooldown_time; }
+	{ return _cooldown_time; }
 
-	std::string GetActionName() const
-		{ return _action_name; }
+	const std::string& GetActionName() const
+	{ return _action_name; }
 
 	GLOBAL_TARGET GetTargetType() const
-		{ return _target_type; }
+	{ return _target_type; }
 
 	/** \brief Returns a pointer to the ScriptObject of the battle execution function
 	*** \note This function will return NULL if the skill is not executable in battle
 	**/
-	const ScriptObject* GetBattleExecuteFunction() const
-		{ return _battle_execute_function; }
+	const ScriptObject& GetBattleExecuteFunction() const
+	{ return _battle_execute_function; }
 
 	//! Execute the corresponding skill Battle function
 	bool ExecuteBattleFunction(hoa_battle::private_battle::BattleActor *user, hoa_battle::private_battle::BattleTarget target);
@@ -115,8 +116,8 @@ public:
 	/** \brief Returns a pointer to the ScriptObject of the menu execution function
 	*** \note This function will return NULL if the skill is not executable in menus
 	**/
-	const ScriptObject* GetFieldExecuteFunction() const
-		{ return _field_execute_function; }
+	const ScriptObject& GetFieldExecuteFunction() const
+	{ return _field_execute_function; }
 	//@}
 
 private:
@@ -165,11 +166,11 @@ private:
 	**/
 	GLOBAL_TARGET _target_type;
 
-	//! \brief A pointer to the skill's execution function for battles
-	ScriptObject* _battle_execute_function;
+	//! \brief A reference to the skill's execution function for battles
+	ScriptObject _battle_execute_function;
 
-	//! \brief A pointer to the skill's execution function for menus
-	ScriptObject* _field_execute_function;
+	//! \brief A reference to the skill's execution function for menus
+	ScriptObject _field_execute_function;
 }; // class GlobalSkill
 
 } // namespace hoa_global

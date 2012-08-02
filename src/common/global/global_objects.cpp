@@ -51,8 +51,6 @@ void GlobalObject::_LoadObjectData(hoa_script::ReadScriptDescriptor& script) {
 GlobalItem::GlobalItem(uint32 id, uint32 count) :
 	GlobalObject(id, count),
 	_target_type(GLOBAL_TARGET_INVALID),
-	_battle_use_function(NULL),
-	_field_use_function(NULL),
 	_warmup_time(0),
 	_cooldown_time(0)
 {
@@ -76,15 +74,9 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
 	_target_type = static_cast<GLOBAL_TARGET>(script_file.ReadInt("target_type"));
 	_warmup_time = script_file.ReadUInt("warmup_time");
 	_cooldown_time = script_file.ReadUInt("cooldown_time");
-	if (script_file.DoesFunctionExist("BattleUse") == true) {
-		_battle_use_function = new ScriptObject();
-		*_battle_use_function = script_file.ReadFunctionPointer("BattleUse");
-	}
-	if (script_file.DoesFunctionExist("FieldUse") == true) {
-		_field_use_function = new ScriptObject();
-		*_field_use_function = script_file.ReadFunctionPointer("FieldUse");
-	}
 
+	_battle_use_function = script_file.ReadFunctionPointer("BattleUse");
+	_field_use_function = script_file.ReadFunctionPointer("FieldUse");
 
 	script_file.CloseTable();
 	if (script_file.IsErrorDetected()) {
@@ -96,21 +88,6 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
 	}
 } // void GlobalItem::GlobalItem(uint32 id, uint32 count = 1)
 
-
-
-GlobalItem::~GlobalItem() {
-	if (_battle_use_function != NULL) {
-		delete _battle_use_function;
-		_battle_use_function = NULL;
-	}
-	if (_field_use_function != NULL) {
-		delete _field_use_function;
-		_field_use_function = NULL;
-	}
-}
-
-
-
 GlobalItem::GlobalItem(const GlobalItem& copy) :
 	GlobalObject(copy)
 {
@@ -119,15 +96,8 @@ GlobalItem::GlobalItem(const GlobalItem& copy) :
 	_cooldown_time = copy._cooldown_time;
 
 	// Make copies of valid ScriptObject function pointers
-	if (copy._battle_use_function == NULL)
-		_battle_use_function = NULL;
-	else
-		_battle_use_function = new ScriptObject(*copy._battle_use_function);
-
-	if (copy._field_use_function == NULL)
-		_field_use_function = NULL;
-	else
-		_field_use_function = new ScriptObject(*copy._field_use_function);
+	_battle_use_function = copy._battle_use_function;
+	_field_use_function = copy._field_use_function;
 }
 
 
@@ -142,15 +112,8 @@ GlobalItem& GlobalItem::operator=(const GlobalItem& copy) {
 	_cooldown_time = copy._cooldown_time;
 
 	// Make copies of valid ScriptObject function pointers
-	if (copy._battle_use_function == NULL)
-		_battle_use_function = NULL;
-	else
-		_battle_use_function = new ScriptObject(*copy._battle_use_function);
-
-	if (copy._field_use_function == NULL)
-		_field_use_function = NULL;
-	else
-		_field_use_function = new ScriptObject(*copy._field_use_function);
+	_battle_use_function = copy._battle_use_function;
+	_field_use_function = copy._field_use_function;
 
 	return *this;
 }

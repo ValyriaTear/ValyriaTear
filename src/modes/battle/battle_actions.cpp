@@ -256,16 +256,20 @@ bool ItemAction::Execute() {
 	// Note that the battle item is already removed from the item list at that
 	// step.
 
-	const ScriptObject* script_function = _item->GetItem().GetBattleUseFunction();
+	const ScriptObject& script_function = _item->GetItem().GetBattleUseFunction();
 	bool ret = false;
-	if (script_function == NULL) {
+	if (!script_function.is_valid()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << endl;
 	}
 
 	try {
-		ret = ScriptCallFunction<bool>(*script_function, _actor, _target); }
+		ret = ScriptCallFunction<bool>(script_function, _actor, _target); }
 	catch (luabind::error err) {
 		ScriptManager->HandleLuaError(err);
+		ret = false;
+	}
+	catch (luabind::cast_failed e) {
+		ScriptManager->HandleCastError(e);
 		ret = false;
 	}
 
