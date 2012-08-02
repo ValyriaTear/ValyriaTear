@@ -127,7 +127,7 @@ bool SkillAction::Initialize() {
 		return false;
 
 	// Ensure that the skill will affect a valid target
-	if (_target.IsValid()) {
+	if (!_target.IsValid()) {
 		// TEMP: party targets should always be valid and attack points never disappear, so only the actor needs to be changed
 // 		if (IsTargetPoint(_target.GetType()) == true)
 // 			_target.SelectNextPoint();
