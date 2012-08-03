@@ -118,6 +118,11 @@ public:
 	**/
 	const ScriptObject& GetFieldExecuteFunction() const
 	{ return _field_execute_function; }
+
+	/** \brief Tells the animation script filename linked to the skill for the given character,
+	*** Or an empty value otherwise;
+	**/
+	std::string GetAnimationScript(uint32 character_id);
 	//@}
 
 private:
@@ -171,6 +176,9 @@ private:
 
 	//! \brief A reference to the skill's execution function for menus
 	ScriptObject _field_execute_function;
+
+	//! \brief map containing the animation scripts names linked to each characters id for the given skill.
+	std::map <uint32, std::string> _animation_scripts;
 }; // class GlobalSkill
 
 } // namespace hoa_global

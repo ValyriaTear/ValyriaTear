@@ -57,14 +57,14 @@ GlobalSkill::GlobalSkill(uint32 id) :
 		skill_script = &(GlobalManager->GetSupportSkillsScript());
 	}
 	else {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid id argument: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid id argument: " << id << std::endl;
 		_id = 0; // Indicate that this skill is invalid
 		return;
 	}
 
 	// Load the skill properties from the script
-	if (skill_script->DoesTableExist(_id) == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for skill in definition file: " << _id << endl;
+	if (!skill_script->DoesTableExist(_id)) {
+		PRINT_WARNING << "No valid data for skill in definition file: " << _id << std::endl;
 		_id = 0; // Indicate that this skill is invalid
 		return;
 	}
@@ -82,12 +82,23 @@ GlobalSkill::GlobalSkill(uint32 id) :
 	_battle_execute_function = skill_script->ReadFunctionPointer("BattleExecute");
 	_field_execute_function = skill_script->ReadFunctionPointer("FieldExecute");
 
-	skill_script->CloseTable();
-	if (skill_script->IsErrorDetected()) {
-		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading skill data - they are listed below" << endl;
-			cerr << skill_script->GetErrorMessages() << endl;
+	// Read all the battle animation scripts linked to this skill, if any
+	if (skill_script->DoesTableExist("animation_scripts")) {
+		std::vector<uint32> characters_ids;
+		_animation_scripts.clear();
+		skill_script->ReadTableKeys("animation_scripts", characters_ids);
+		skill_script->OpenTable("animation_scripts");
+		for (uint32 i = 0; i < characters_ids.size(); ++i) {
+			_animation_scripts[characters_ids[i]] = skill_script->ReadString(characters_ids[i]);
 		}
+		skill_script->CloseTable(); // animation_scripts table
+	}
+
+	skill_script->CloseTable(); // id.
+
+	if (skill_script->IsErrorDetected()) {
+		PRINT_WARNING << "One or more errors occurred while reading skill data - they are listed below:	"
+			<< std::endl << skill_script->GetErrorMessages() << endl;
 		_id = 0; // Indicate that this skill is invalid
 	}
 } // GlobalSkill::GlobalSkill()
@@ -106,6 +117,7 @@ GlobalSkill::GlobalSkill(const GlobalSkill& copy) {
 	// Make copies of valid ScriptObject function pointers
 	_battle_execute_function = copy._battle_execute_function;
 	_field_execute_function = copy._field_execute_function;
+	_animation_scripts = copy._animation_scripts;
 }
 
 
@@ -127,6 +139,7 @@ GlobalSkill& GlobalSkill::operator=(const GlobalSkill& copy) {
 	// Make copies of valid ScriptObject function pointers
 	_battle_execute_function = copy._battle_execute_function;
 	_field_execute_function = copy._field_execute_function;
+	_animation_scripts = copy._animation_scripts;
 
 	return *this;
 }
@@ -149,6 +162,15 @@ bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, priva
 		return false;
 	}
 	return true;
+}
+
+std::string GlobalSkill::GetAnimationScript(uint32 character_id) {
+	std::string script_file; // Empty by default
+
+	std::map<uint32, std::string>::const_iterator it = _animation_scripts.find(character_id);
+	if (it != _animation_scripts.end())
+		script_file = it->second;
+	return script_file;
 }
 
 } // namespace hoa_global

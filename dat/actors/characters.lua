@@ -113,14 +113,6 @@ characters[BRONANN] = {
 		}
 	},
 
-    -- Those scripts are called according to the skill family.
-    skill_scripts = {
-        attack = "dat/skills/battle_animations/bronann_attack.lua"
-        --defence = "dat/skills/bronann_defence.lua",
-        --item = "dat/skills/bronann_item.lua",
-        --support = "dat/skills/bronann_support.lua"
-    },
-
     skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4 }
 
 } -- characters[BRONANN]
@@ -225,14 +217,6 @@ characters[KALYA] = {
 		}
 	},
 
-	-- Those scripts are called according to the skill family.
-	skill_scripts = {
-	attack = "dat/skills/battle_animations/kalya_attack.lua"
-	--defence = "dat/skills/kalya_defence.lua",
-	--item = "dat/skills/kalya_item.lua",
-	--support = "dat/skills/kalya_support.lua"
-    },
-
 	skills = { [1] = 5, [4] = 10001, [12] = 20001 }
 } -- characters[KALYA]
 
@@ -336,14 +320,6 @@ characters[SYLVE] = {
 		}
 	},
 
-	-- Those scripts are called according to the skill family.
-	skill_scripts = {
-	--attack = "dat/skills/sylve_attack.lua"
-	--defence = "dat/skills/sylve_defence.lua",
-	--item = "dat/skills/sylve_item.lua",
-	--support = "dat/skills/sylve_support.lua"
-	},
-
 	skills = { [1] = 6 }
 } -- characters[SYLVE]
 
@@ -436,14 +412,6 @@ characters[THANIS] = {
 			agility = 1.0,
 			evade = 0.0
 		}
-	},
-
-	-- Those scripts are called according to the skill family.
-	skill_scripts = {
-	attack = "dat/skills/battle_animations/thanis_attack.lua"
-	--defence = "dat/skills/bronann_defence.lua",
-	--item = "dat/skills/bronann_item.lua",
-	--support = "dat/skills/bronann_support.lua"
 	},
 
 	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4, [17] = 20002 }

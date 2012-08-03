@@ -119,6 +119,8 @@ function Update()
         -- Triggers the damage once the arrow has reached the enemy
         if (damage_triggered == false) then
             skill:ExecuteBattleFunction(character, target);
+            -- Remove the skill points at the end of the third attack
+            character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
         end
         attack_step = 4

@@ -116,6 +116,8 @@ function Update()
         -- Triggers the damage in the middle of the attack animation
         if (damage_triggered == false and attack_time > 225.0) then
             skill:ExecuteBattleFunction(character, target);
+            -- Remove the skill points at the end of the third attack
+            character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
         end
 

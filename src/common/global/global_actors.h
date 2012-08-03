@@ -336,10 +336,6 @@ public:
 	//! \brief An alternative GetSkill call that takes a skill pointer as an argument
 	GlobalSkill* GetSkill(const GlobalSkill* skill) const;
 
-	//! \brief Tells the animation script used when triggering a skill type for the given actor.
-	virtual std::string GetSkillScript(GLOBAL_SKILL /*skill_type*/)
-		{ return std::string(); }
-
 	// TODO: elemental and status effects not yet available in game
 // 	std::vector<GlobalElementalEffect*>& GetElementalAttackBonuses()
 // 		{ return _elemental_attack_bonuses; }
@@ -863,8 +859,6 @@ public:
 
 	std::vector<GlobalSkill*>* GetSupportSkills()
 		{ return &_support_skills; }
-
-	std::string GetSkillScript(GLOBAL_SKILL skill_type);
 	//@}
 
 	// TEMP: image accessor functions

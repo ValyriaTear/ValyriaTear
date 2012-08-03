@@ -75,7 +75,7 @@ SkillAction::SkillAction(BattleActor* actor, BattleTarget target, GlobalSkill* s
 
 	// Check for a custom skill animation script for the given character
 	_is_scripted = false;
-	std::string animation_script_file = _actor->GetGlobalActor()->GetSkillScript(_skill->GetType());
+	std::string animation_script_file = skill->GetAnimationScript(_actor->GetID());
 
 	if (animation_script_file.empty())
 		return;

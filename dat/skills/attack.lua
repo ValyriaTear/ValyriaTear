@@ -57,7 +57,12 @@ skills[1] = {
 			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
-	end
+	end,
+
+	animation_scripts = {
+		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
+		[THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+	}
 }
 
 skills[2] = {
@@ -80,7 +85,12 @@ skills[2] = {
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
 
-	end
+	end,
+
+	animation_scripts = {
+		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
+		[THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+	}
 }
 
 skills[3] = {
@@ -104,7 +114,12 @@ skills[3] = {
 			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
-	end
+	end,
+
+	animation_scripts = {
+		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
+		[THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+	}
 }
 
 skills[4] = {
@@ -126,7 +141,12 @@ skills[4] = {
 			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/sword_swipe.wav");
 		end
-	end
+	end,
+
+	animation_scripts = {
+		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
+		[THANIS] = "dat/skills/battle_animations/thanis_blade_rush_attack.lua"
+	}
 }
 
 -- Kalya first attack
@@ -149,7 +169,11 @@ skills[5] = {
 			target_actor:RegisterMiss(true);
 			AudioManager:PlaySound("snd/crossbow_miss.ogg");
 		end
-	end
+	end,
+
+	animation_scripts = {
+		[KALYA] = "dat/skills/battle_animations/kalya_attack.lua"
+	}
 }
 
 -- Sylve first attack
