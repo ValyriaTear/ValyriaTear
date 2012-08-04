@@ -502,10 +502,12 @@ MapSprite::MapSprite() :
 	_face_portrait(0),
 	_has_running_animations(false),
 	_current_anim_direction(ANIM_SOUTH),
+	_current_custom_animation(0),
 	_next_dialogue(-1),
 	_has_available_dialogue(false),
 	_has_unseen_dialogue(false),
 	_custom_animation_on(false),
+	_custom_animation_time(0),
 	_saved_current_anim_direction(ANIM_SOUTH)
 {
 	MapObject::_object_type = SPRITE_TYPE;
@@ -679,6 +681,36 @@ bool MapSprite::LoadCustomAnimation(const std::string& animation_name, const std
 	return false;
 } // bool MapSprite::LoadCustomAnimations()
 
+void MapSprite::SetCustomAnimation(const std::string& animation_name, uint32 time) {
+	// If there is no key, there will be no custom animation to display
+	if (animation_name.empty()) {
+		_custom_animation_on = false;
+		return;
+	}
+
+	// Same if the key isn't found
+	std::map<std::string, AnimatedImage>::iterator it = _custom_animations.find(animation_name);
+	if (it == _custom_animations.end()) {
+		_custom_animation_on = false;
+		return;
+	}
+
+	AnimatedImage& animation = it->second;
+	animation.ResetAnimation();
+	if (time == 0) {
+		time = animation.GetAnimationLength();
+	}
+	// Still check the animation length
+	if (time == 0){
+		_custom_animation_on = false;
+		return;
+	}
+
+	_custom_animation_time = (int32)time;
+	_current_custom_animation = &animation;
+	_custom_animation_on = true;
+}
+
 void MapSprite::LoadFacePortrait(const std::string& filename) {
 	if (_face_portrait)
 		delete _face_portrait;
@@ -699,9 +731,18 @@ void MapSprite::Update() {
 	VirtualSprite::Update();
 
 	// if it's a custom animation, just display that and ignore everything else
-	if (_custom_animation_on) {
-		// TODO: Readd a more flexible custom animation support
-		//_animations[_current_animation].Update();
+	if (_custom_animation_on && _current_custom_animation) {
+		// Check whether the custom animation can be freed
+		if (_custom_animation_time <= 0) {
+			_custom_animation_on = false;
+			_current_custom_animation = 0;
+			_custom_animation_time = 0;
+		}
+		else {
+			_custom_animation_time -= SystemManager->GetUpdateTime();
+			_current_custom_animation->Update();
+		}
+
 		was_moved = moved_position;
 		return;
 	}
@@ -804,7 +845,10 @@ void MapSprite::_DrawDebugInfo() {
 
 void MapSprite::Draw() {
 	if (MapObject::ShouldDraw()) {
-		_animation->at(_current_anim_direction).Draw();
+		if (_custom_animation_on && _current_custom_animation)
+			_current_custom_animation->Draw();
+		else
+			_animation->at(_current_anim_direction).Draw();
 
 		if (VideoManager->DebugInfoOn())
 			_DrawDebugInfo();

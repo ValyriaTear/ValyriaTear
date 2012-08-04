@@ -591,9 +591,16 @@ function CreateEvents()
 	event:AddEventLinkAtEnd("Quest2: Bronann wants to see Flora for equipment", 1000);
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.AnimateSpriteEvent("Bronann is sad", bronann, "hero_stance", 2000);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.AnimateSpriteEvent("Bronann is frightnened", bronann, "frightened", 0);
+	EventManager:RegisterEvent(event);
+	event = hoa_map.AnimateSpriteEvent("Bronann searches", bronann, "searching", 0);
+	EventManager:RegisterEvent(event);
+	
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEvent(text, bronann, "Bronann is sad");
 	text = hoa_system.Translate("Still, I have go there, and figure out what they're trying to hide from me.");
 	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
@@ -618,6 +625,7 @@ function CreateEvents()
 
 	event = hoa_map.ScriptedEvent("Quest2: Forest event - light", "BrightLightStart", "BrightLightUpdate");
 	event:AddEventLinkAtEnd("Quest2: Bronann wonders what was that", 500);
+	event:AddEventLinkAtEnd("Bronann searches");
 	EventManager:RegisterEvent(event);
 
 	dialogue = hoa_map.SpriteDialogue();
@@ -717,14 +725,12 @@ function CreateEvents()
 	dialogue:AddLineEvent(text, carson, "Quest2: Kalya looks at Carson");
 	text = hoa_system.Translate("What?!?");
 	dialogue:AddLineEvent(text, kalya, "Quest2: Kalya looks at Herth");
-	-- TODO: Play Bronann's surprised animation once it's possible
 	text = hoa_system.Translate("Huh?");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEvent(text, bronann, "Bronann is frightnened");
 	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
 	dialogue:AddLineEvent(text, herth, "Quest2: Kalya looks at Bronann");
 	text = hoa_system.Translate("But he would just be a burden!");
-	dialogue:AddLine(text, kalya);
-	-- TODO: Play the hero stance once it's possible.
+	dialogue:AddLineEvent(text, kalya, "Bronann is sad");
 	text = hoa_system.Translate("Huh? Hey! But...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("He won't slow you down, believe me, right Bronann?");

@@ -801,60 +801,29 @@ public:
 	/** \param event_id The ID of this event
 	*** \param sprite A pointer to the sprite to move
 	**/
-	AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite);
+	AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+					   const std::string& animation_name, uint32 animation_time);
 
-	~AnimateSpriteEvent();
-
-	/** \brief Adds a new frame to the animation set
-	*** \param frame The index of the sprite's animations to display
-	*** \param time The amount of time, in milliseconds, to display this frame
-	**/
-	void AddFrame(uint16 frame, uint32 time)
-		{ _frames.push_back(frame); _frame_times.push_back(time); }
-
-	/** \brief Sets the loop
-	***
-	**/
-	void SetLoopCount(int32 count)
-		{ _loop_count = count; }
+	~AnimateSpriteEvent()
+	{}
 
 	//! \brief Stops the custom animation and frees the sprite from the control_event
 	void Terminate();
 
 protected:
-	//! \brief Index to the current frame to display from the frames vector
-	uint32 _current_frame;
+	//! The custom animation name
+	std::string _animation_name;
 
-	//! \brief Used to count down the display time of the current frame
-	uint32 _display_timer;
+	//! The custom animation time.
+	uint32 _animation_time;
 
-	//! \brief A counter for the number of animation loops that have been performed
-	int32 _loop_count;
+	//! A reference to the map sprite object
+	MapSprite* _map_sprite;
 
-	/** \brief The number of times to loop the display of the frame set before finishing
-	*** A value less than zero indicates to loop forever. Be careful with this,
-	*** because that means that the action would never arrive at the "finished"
-	*** state.
-	***
-	*** \note The default value of this member is zero, which indicates that the
-	*** animations will not be looped (they will run exactly once to completion).
-	**/
-	int32 _number_loops;
-
-	/** \brief Holds the sprite animations to display for this action
-	*** The values contained here are indeces to the sprite's animations vector
-	**/
-	std::vector<uint16> _frames;
-
-	/** \brief Indicates how long to display each frame
-	*** The size of this vector should be equal to the size of the frames vector
-	**/
-	std::vector<uint32> _frame_times;
-
-	//! \brief Calculates a path for the sprite to move to the destination
+	//! \brief Triggers the custom animation for the given time
 	void _Start();
 
-	//! \brief Returns true when the sprite has reached the destination
+	//! \brief Returns true when the sprite has finished to display a custom animation.
 	bool _Update();
 }; // class AnimateSpriteEvent : public SpriteEvent
 

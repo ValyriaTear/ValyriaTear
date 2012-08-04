@@ -348,9 +348,15 @@ public:
 	uint16 GetNumberDialogueReferences() const
 	{ return _dialogue_references.size(); }
 
-	//! \brief Set to true for a custom animation
-	void SetCustomAnimation(bool on_or_off)
-	{ _custom_animation_on = on_or_off; }
+	/** \brief Tells the sprite to use a custom animation
+	*** \param The animation name used as a key to find the custom animation declared in map_sprites.lua
+	*** You can set the animation key to empty to disable the custom animation.
+	*** \param The time to display the given animation or 0 for the default time.
+	**/
+	void SetCustomAnimation(const std::string& animaton_name, uint32 time);
+
+	bool IsAnimationCustom() const
+	{ return _custom_animation_on; }
 	//@}
 
 protected:
@@ -379,6 +385,9 @@ protected:
 	//! \brief A map containing all the custom animations, indexed by their name.
 	std::map<std::string, hoa_video::AnimatedImage> _custom_animations;
 
+	//! \brief The currently used custom animation.
+	hoa_video::AnimatedImage* _current_custom_animation;
+
 	//! \brief Contains the id values of all dialogues referenced by the sprite
 	std::vector<uint32> _dialogue_references;
 
@@ -397,6 +406,9 @@ protected:
 
 	//! \brief True if a custom animation is in use
 	bool _custom_animation_on;
+
+	//! \brief Tells how much time left the custom animation will have to be drawn
+	int32  _custom_animation_time;
 
 	/** \name Saved state attributes
 	*** These attributes are used to save and load the state of a VirtualSprite

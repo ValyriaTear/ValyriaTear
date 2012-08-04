@@ -517,9 +517,7 @@ void BindModeCode() {
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		luabind::class_<AnimateSpriteEvent, MapEvent>("AnimateSpriteEvent")
-			.def(luabind::constructor<std::string, VirtualSprite*>())
-			.def("AddFrame", &AnimateSpriteEvent::AddFrame)
-			.def("SetLoopCount", &AnimateSpriteEvent::SetLoopCount)
+			.def(luabind::constructor<const std::string&, VirtualSprite*, const std::string&, uint32>())
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

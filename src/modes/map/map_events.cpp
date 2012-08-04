@@ -811,63 +811,36 @@ void RandomMoveSpriteEvent::Terminate() {
 // ---------- AnimateSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-AnimateSpriteEvent::AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite) :
+AnimateSpriteEvent::AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+									   const std::string& animation_name, uint32 animation_time) :
 	SpriteEvent(event_id, ANIMATE_SPRITE_EVENT, sprite),
-	_current_frame(0),
-	_display_timer(0),
-	_loop_count(0),
-	_number_loops(0)
-{}
-
-
-
-AnimateSpriteEvent::~AnimateSpriteEvent()
-{}
-
-
+	_animation_name(animation_name),
+	_animation_time(animation_time)
+{
+	_map_sprite = dynamic_cast<MapSprite*>(_sprite);
+}
 
 void AnimateSpriteEvent::_Start() {
 	SpriteEvent::_Start();
-	_current_frame = 0;
-	_display_timer = 0;
-	_loop_count = 0;
-	dynamic_cast<MapSprite*>(_sprite)->SetCustomAnimation(true);
-	//dynamic_cast<MapSprite*>(_sprite)->SetCurrentAnimation(static_cast<uint8>(_frames[_current_frame]));
-	// TODO: Permit the display of custom animations.
+
+	if (_map_sprite)
+		_map_sprite->SetCustomAnimation(_animation_name, _animation_time);
 }
 
 
 
 bool AnimateSpriteEvent::_Update() {
-	_display_timer += SystemManager->GetUpdateTime();
-
-	if (_display_timer > _frame_times[_current_frame]) {
-		_display_timer = 0;
-		_current_frame++;
-
-		// Check if we are past the final frame to display in the loop
-		if (_current_frame >= _frames.size()) {
-			_current_frame = 0;
-
-			// If this animation is not infinitely looped, increment the loop counter
-			if (_number_loops >= 0) {
-				_loop_count++;
-				if (_loop_count > _number_loops) {
-					Terminate();
-					return true;
-				 }
-			}
-		}
-
-		//dynamic_cast<MapSprite*>(_sprite)->SetCurrentAnimation(static_cast<uint8>(_frames[_current_frame]));
+	if (!_map_sprite || !_map_sprite->IsAnimationCustom()) {
+		Terminate();
+		return true;
 	}
-
 	return false;
 }
 
 void AnimateSpriteEvent::Terminate() {
-	_loop_count = 0;
-	dynamic_cast<MapSprite*>(_sprite)->SetCustomAnimation(false);
+	_map_sprite = 0;
+	_animation_name.clear();
+	_animation_time = 0;
 	SpriteEvent::Terminate();
 }
 

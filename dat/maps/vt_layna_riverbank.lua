@@ -638,6 +638,9 @@ function CreateEvents()
 	event = hoa_map.ScriptedSpriteEvent("Quest1: Hide and Seek3: Orlinn disappears.", orlinn, "MakeInvisible", "");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.AnimateSpriteEvent("Quest1: Bronann is sad", bronann, "hero_stance", 2000);
+	EventManager:RegisterEvent(event);
+
 	-- Lilly tells Bronann about Kalya
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Bronann?");
@@ -645,7 +648,7 @@ function CreateEvents()
 	text = hoa_system.Translate("Er, yes?");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Don't blame Kalya. She has been having a hard time along with her brother before living here, you know?");
-	dialogue:AddLine(text, lilly);
+	dialogue:AddLineEvent(text, lilly, "Quest1: Bronann is sad");
 	text = hoa_system.Translate("Well, anyway, she's been ignoring me since the first day I saw her...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Eh, you really know nothing about women, do you?");
