@@ -306,7 +306,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateNPCSprite(Map, "Man2", "Herth", 45, 39);
+	npc = _CreateSprite(Map, "Herth", 45, 39);
 	Map:AddGroundObject(npc);
 	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
 		-- At that moment, Herth isn't there anymore.

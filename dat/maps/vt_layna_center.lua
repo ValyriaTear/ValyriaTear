@@ -371,13 +371,13 @@ function CreateNPCs()
 	carson = _CreateSprite(Map, "Carson", 0, 0);
 	-- Default behaviour - not present on map.
 	carson:SetVisible(false);
-    carson:SetNoCollision(true);
-    Map:AddGroundObject(carson);
+	carson:SetNoCollision(true);
+	Map:AddGroundObject(carson);
 
-    herth = _CreateNPCSprite(Map, "Man2", "Herth", 0, 0);
-    -- Default behaviour - not present on map.
+	herth = _CreateSprite(Map, "Herth", 0, 0);
+	-- Default behaviour - not present on map.
 	herth:SetVisible(false);
-    herth:SetNoCollision(true);
+	herth:SetNoCollision(true);
 	Map:AddGroundObject(herth);
 
 	npc = _CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);

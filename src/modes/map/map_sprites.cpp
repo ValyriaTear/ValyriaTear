@@ -499,172 +499,197 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite* enemy) {
 // ****************************************************************************
 
 MapSprite::MapSprite() :
-	_face_portrait(NULL),
+	_face_portrait(0),
 	_has_running_animations(false),
-	_current_animation(ANIM_STANDING_SOUTH),
+	_current_anim_direction(ANIM_SOUTH),
 	_next_dialogue(-1),
 	_has_available_dialogue(false),
 	_has_unseen_dialogue(false),
 	_custom_animation_on(false),
-	_saved_current_animation(0)
+	_saved_current_anim_direction(ANIM_SOUTH)
 {
 	MapObject::_object_type = SPRITE_TYPE;
+
+	// Points the current animation to the standing animation vector by default
+	_animation = &_standing_animations;
 }
-
-
 
 MapSprite::~MapSprite() {
-	if (_face_portrait != NULL) {
+	if (_face_portrait)
 		delete _face_portrait;
-		_face_portrait = NULL;
-	}
 }
 
+bool _LoadAnimations(std::vector<hoa_video::AnimatedImage>& animations, const std::string& filename) {
+	// Prepare to add the animations for each directions, if needed.
+	if (animations.empty()) {
+		for (uint8 i = 0; i < NUM_ANIM_DIRECTIONS; ++i)
+			animations.push_back(AnimatedImage());
+	}
 
+	hoa_script::ReadScriptDescriptor animations_script;
+	if (!animations_script.OpenFile(filename))
+		return false;
 
-bool MapSprite::LoadStandardAnimations(const std::string& filename) {
-	// Prepare the four standing and four walking _animations
-	for (uint8 i = 0; i < 8; i++)
-		_animations.push_back(AnimatedImage());
-
-	// Load the multi-image, containing 24 frames total
-	vector<StillImage> frames(24);
-	for (uint8 i = 0; i < 24; i++)
-		frames[i].SetDimensions(img_half_width * 2, img_height);
-
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(frames, filename, 4, 6) == false) {
+	if (!animations_script.DoesTableExist("sprite_animation")) {
+		PRINT_WARNING << "No 'sprite_animation' table in 4-direction animation script file: " << filename << std::endl;
+		animations_script.CloseFile();
 		return false;
 	}
 
-	// Add standing frames to _animations
-	_animations[ANIM_STANDING_SOUTH].AddFrame(frames[0], movement_speed);
-	_animations[ANIM_STANDING_NORTH].AddFrame(frames[6], movement_speed);
-	_animations[ANIM_STANDING_WEST].AddFrame(frames[12], movement_speed);
-	_animations[ANIM_STANDING_EAST].AddFrame(frames[18], movement_speed);
+	animations_script.OpenTable("sprite_animation");
 
-	// Add walking frames to _animations
-	_animations[ANIM_WALKING_SOUTH].AddFrame(frames[1], movement_speed);
-	_animations[ANIM_WALKING_SOUTH].AddFrame(frames[2], movement_speed);
-	_animations[ANIM_WALKING_SOUTH].AddFrame(frames[3], movement_speed);
-	_animations[ANIM_WALKING_SOUTH].AddFrame(frames[1], movement_speed);
-	_animations[ANIM_WALKING_SOUTH].AddFrame(frames[4], movement_speed);
-	_animations[ANIM_WALKING_SOUTH].AddFrame(frames[5], movement_speed);
+	std::string image_filename = animations_script.ReadString("image_filename");
 
-	_animations[ANIM_WALKING_NORTH].AddFrame(frames[7], movement_speed);
-	_animations[ANIM_WALKING_NORTH].AddFrame(frames[8], movement_speed);
-	_animations[ANIM_WALKING_NORTH].AddFrame(frames[9], movement_speed);
-	_animations[ANIM_WALKING_NORTH].AddFrame(frames[7], movement_speed);
-	_animations[ANIM_WALKING_NORTH].AddFrame(frames[10], movement_speed);
-	_animations[ANIM_WALKING_NORTH].AddFrame(frames[11], movement_speed);
+	if (!hoa_utils::DoesFileExist(image_filename)) {
+		PRINT_WARNING << "The image file doesn't exist: " << image_filename << std::endl;
+		animations_script.CloseTable();
+		animations_script.CloseFile();
+		return false;
+	}
+	uint32 rows = animations_script.ReadUInt("rows");
+	uint32 columns = animations_script.ReadUInt("columns");
 
-	_animations[ANIM_WALKING_WEST].AddFrame(frames[13], movement_speed);
-	_animations[ANIM_WALKING_WEST].AddFrame(frames[14], movement_speed);
-	_animations[ANIM_WALKING_WEST].AddFrame(frames[15], movement_speed);
-	_animations[ANIM_WALKING_WEST].AddFrame(frames[13], movement_speed);
-	_animations[ANIM_WALKING_WEST].AddFrame(frames[16], movement_speed);
-	_animations[ANIM_WALKING_WEST].AddFrame(frames[17], movement_speed);
+	if (!animations_script.DoesTableExist("frames")) {
+		animations_script.CloseAllTables();
+		animations_script.CloseFile();
+		PRINT_WARNING << "No frame table in file: " << filename << std::endl;
+		return false;
+	}
 
-	_animations[ANIM_WALKING_EAST].AddFrame(frames[19], movement_speed);
-	_animations[ANIM_WALKING_EAST].AddFrame(frames[20], movement_speed);
-	_animations[ANIM_WALKING_EAST].AddFrame(frames[21], movement_speed);
-	_animations[ANIM_WALKING_EAST].AddFrame(frames[19], movement_speed);
-	_animations[ANIM_WALKING_EAST].AddFrame(frames[22], movement_speed);
-	_animations[ANIM_WALKING_EAST].AddFrame(frames[23], movement_speed);
+	std::vector<StillImage> image_frames;
+	// Load the image data
+	if (!ImageDescriptor::LoadMultiImageFromElementGrid(image_frames, image_filename, rows, columns)) {
+		PRINT_WARNING << "Couldn't load elements from image file: " << image_filename
+					  << " (in file: " << filename << ")" << std::endl;
+		animations_script.CloseAllTables();
+		animations_script.CloseFile();
+		return false;
+	}
+
+	std::vector <uint32> frames_directions_ids;
+	animations_script.ReadTableKeys("frames", frames_directions_ids);
+
+	// open the frames table
+	animations_script.OpenTable("frames");
+
+	for (uint32 i = 0; i < frames_directions_ids.size(); ++i) {
+		if (frames_directions_ids[i] >= NUM_ANIM_DIRECTIONS) {
+			PRINT_WARNING << "Invalid direction id(" << frames_directions_ids[i]
+				<< ") in file: " << filename << std::endl;
+			continue;
+		}
+
+		uint32 anim_direction = frames_directions_ids[i];
+
+		// Opens frames[ANIM_DIRECTION]
+		animations_script.OpenTable(anim_direction);
+
+		// Loads the frames data
+		std::vector<uint32> frames_ids;
+		std::vector<uint32> frames_duration;
+
+		uint32 num_frames = animations_script.GetTableSize();
+		for (uint32 frames_table_id = 0;  frames_table_id < num_frames; ++frames_table_id) {
+			// Opens frames[ANIM_DIRECTION][frame_table_id]
+			animations_script.OpenTable(frames_table_id);
+
+			int32 frame_id = animations_script.ReadInt("id");
+			int32 frame_duration = animations_script.ReadInt("duration");
+
+			if (frame_id < 0 || frame_duration < 0 || frame_id >= (int32)image_frames.size()) {
+				PRINT_WARNING << "Invalid frame (" << frames_table_id << ") in file: "
+							  << filename << std::endl;
+				PRINT_WARNING << "Request for frame id: " << frame_id << ", duration: "
+							  << frame_duration << " is not possible." << std::endl;
+				continue;
+			}
+
+			frames_ids.push_back((uint32)frame_id);
+			frames_duration.push_back((uint32)frame_duration);
+
+			animations_script.CloseTable(); // frames[ANIM_DIRECTION][frame_table_id] table
+		}
+
+		// Actually create the animation data
+		animations[anim_direction].Clear();
+		animations[anim_direction].ResetAnimation();
+		for (uint32 j = 0; j < frames_ids.size(); ++j) {
+			// Set the dimension of the requested frame
+			animations[anim_direction].AddFrame(image_frames[frames_ids[j]], frames_duration[j]);
+		}
+
+		// Closes frames[ANIM_DIRECTION]
+		animations_script.CloseTable();
+
+	} // for each directions
+
+	// Close the 'frames' table and set the dimensions
+	animations_script.CloseTable();
+
+	float frame_width = animations_script.ReadFloat("frame_width");
+	float frame_height = animations_script.ReadFloat("frame_height");
+
+	// Load requested dimensions
+	for (uint8 i = 0; i < NUM_ANIM_DIRECTIONS; ++i) {
+		if (frame_width > 0.0f && frame_height > 0.0f) {
+			animations[i].SetDimensions(frame_width, frame_height);
+		}
+		else if (IsFloatEqual(animations[i].GetWidth(), 0.0f) && IsFloatEqual(animations[i].GetHeight(), 0.0f)) {
+			// If the animation dimensions are not set, we're using the first frame size.
+			animations[i].SetDimensions(image_frames.begin()->GetWidth(), image_frames.begin()->GetHeight());
+		}
+
+		// Rescale to fit the map mode coordinates system.
+		MapMode::ScaleToMapCoords(animations[i]);
+	}
+
+	animations_script.CloseTable(); // sprite_animation table
+	animations_script.CloseFile();
 
 	return true;
-} // bool MapSprite::LoadStandardAnimations(std::string filename)
+} // bool _LoadAnimations()
 
+bool MapSprite::LoadStandingAnimations(const std::string& filename) {
+	return _LoadAnimations(_standing_animations, filename);
+}
 
+bool MapSprite::LoadWalkingAnimations(const std::string& filename) {
+	return _LoadAnimations(_walking_animations, filename);
+}
 
 bool MapSprite::LoadRunningAnimations(const std::string& filename) {
-	// Prepare to add the four running _animations
-	for (uint8 i = 0; i < 4; i++)
-		_animations.push_back(AnimatedImage());
+	_has_running_animations = _LoadAnimations(_running_animations, filename);
 
-	// Load the multi-image, containing 24 frames total
-	vector<StillImage> frames(24);
-	for (uint8 i = 0; i < 24; i++)
-		frames[i].SetDimensions(img_half_width * 2, img_height);
-
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(frames, filename, 4, 6) == false) {
-		return false;
-	}
-
-	// Add walking frames to _animations
-	_animations[ANIM_RUNNING_SOUTH].AddFrame(frames[1], movement_speed);
-	_animations[ANIM_RUNNING_SOUTH].AddFrame(frames[2], movement_speed);
-	_animations[ANIM_RUNNING_SOUTH].AddFrame(frames[3], movement_speed);
-	_animations[ANIM_RUNNING_SOUTH].AddFrame(frames[1], movement_speed);
-	_animations[ANIM_RUNNING_SOUTH].AddFrame(frames[4], movement_speed);
-	_animations[ANIM_RUNNING_SOUTH].AddFrame(frames[5], movement_speed);
-
-	_animations[ANIM_RUNNING_NORTH].AddFrame(frames[7], movement_speed);
-	_animations[ANIM_RUNNING_NORTH].AddFrame(frames[8], movement_speed);
-	_animations[ANIM_RUNNING_NORTH].AddFrame(frames[9], movement_speed);
-	_animations[ANIM_RUNNING_NORTH].AddFrame(frames[7], movement_speed);
-	_animations[ANIM_RUNNING_NORTH].AddFrame(frames[10], movement_speed);
-	_animations[ANIM_RUNNING_NORTH].AddFrame(frames[11], movement_speed);
-
-	_animations[ANIM_RUNNING_WEST].AddFrame(frames[13], movement_speed);
-	_animations[ANIM_RUNNING_WEST].AddFrame(frames[14], movement_speed);
-	_animations[ANIM_RUNNING_WEST].AddFrame(frames[15], movement_speed);
-	_animations[ANIM_RUNNING_WEST].AddFrame(frames[13], movement_speed);
-	_animations[ANIM_RUNNING_WEST].AddFrame(frames[16], movement_speed);
-	_animations[ANIM_RUNNING_WEST].AddFrame(frames[17], movement_speed);
-
-	_animations[ANIM_RUNNING_EAST].AddFrame(frames[19], movement_speed);
-	_animations[ANIM_RUNNING_EAST].AddFrame(frames[20], movement_speed);
-	_animations[ANIM_RUNNING_EAST].AddFrame(frames[21], movement_speed);
-	_animations[ANIM_RUNNING_EAST].AddFrame(frames[19], movement_speed);
-	_animations[ANIM_RUNNING_EAST].AddFrame(frames[22], movement_speed);
-	_animations[ANIM_RUNNING_EAST].AddFrame(frames[23], movement_speed);
-
-	_has_running_animations = true;
-	return true;
-} // bool MapSprite::LoadRunningAnimations(std::string filename)
-
-
-
-bool MapSprite::LoadAttackAnimations(const std::string& filename) {
-	// Prepare the four standing and four walking _animations
-	for (uint8 i = 0; i < 8; i++)
-		_animations.push_back(AnimatedImage());
-
-	// Load the multi-image, containing 24 frames total
-	vector<StillImage> frames(5);
-	for (uint8 i = 0; i < 5; i++)
-		frames[i].SetDimensions(img_half_width * 4, img_height);
-
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(frames, filename, 1, 5) == false) {
-		return false;
-	}
-
-	// Add attack frames to _animations
-	_animations[ANIM_ATTACKING_EAST].AddFrame(frames[0], movement_speed);
-	_animations[ANIM_ATTACKING_EAST].AddFrame(frames[1], movement_speed);
-	_animations[ANIM_ATTACKING_EAST].AddFrame(frames[2], movement_speed);
-	_animations[ANIM_ATTACKING_EAST].AddFrame(frames[3], movement_speed);
-	_animations[ANIM_ATTACKING_EAST].AddFrame(frames[4], movement_speed);
-
-	return true;
-} // bool MapSprite::LoadAttackAnimations(std::string filename)
-
-
-
-void MapSprite::LoadFacePortrait(const std::string& filename) {
-	if (_face_portrait != NULL) {
-		delete _face_portrait;
-	}
-
-	_face_portrait = new StillImage();
-	if (_face_portrait->Load(filename) == false) {
-		delete _face_portrait;
-		_face_portrait = NULL;
-		PRINT_ERROR << "failed to load face portrait" << endl;
-	}
+	return _has_running_animations;
 }
 
+bool MapSprite::LoadCustomAnimation(const std::string& animation_name, const std::string& filename) {
+	if (_custom_animations.find(animation_name) != _custom_animations.end()) {
+		PRINT_WARNING << "The animation " << animation_name << " is already existing." << std::endl;
+		return false;
+	}
 
+	AnimatedImage animation;
+	if (animation.LoadFromAnimationScript(filename)) {
+		MapMode::ScaleToMapCoords(animation);
+		_custom_animations.insert(std::make_pair(animation_name, animation));
+		return true;
+	}
+
+	return false;
+} // bool MapSprite::LoadCustomAnimations()
+
+void MapSprite::LoadFacePortrait(const std::string& filename) {
+	if (_face_portrait)
+		delete _face_portrait;
+
+	_face_portrait = new StillImage();
+	if (!_face_portrait->Load(filename)) {
+		delete _face_portrait;
+		_face_portrait = 0;
+		PRINT_ERROR << "failed to load face portrait" << std::endl;
+	}
+}
 
 void MapSprite::Update() {
 	// Stores the last value of moved_position to determine when a change in sprite movement between calls to this function occurs
@@ -674,71 +699,81 @@ void MapSprite::Update() {
 	VirtualSprite::Update();
 
 	// if it's a custom animation, just display that and ignore everything else
-	if (_custom_animation_on == true) {
-		_animations[_current_animation].Update();
+	if (_custom_animation_on) {
+		// TODO: Readd a more flexible custom animation support
+		//_animations[_current_animation].Update();
+		was_moved = moved_position;
+		return;
 	}
+
+	// Save the previous animation state
+	uint8 last_anim_direction = _current_anim_direction;
+	std::vector<AnimatedImage>* last_animation = _animation;
+
 	// Set the sprite's animation to the standing still position if movement has just stopped
-	else if (moved_position == false) {
-		if (was_moved == true) {
-			// Set the current movement animation to zero progress
-			_animations[_current_animation].SetTimeProgress(0);
-		}
+	if (!moved_position) {
+		// Set the current movement animation to zero progress
+		if (was_moved)
+			_animation->at(_current_anim_direction).SetTimeProgress(0);
 
 		// Determine the correct standing frame to display
-		if (control_event == NULL || _state_saved == true) {
+		if (!control_event || _state_saved) {
+			_animation = &_standing_animations;
+
 			if (direction & FACING_NORTH) {
-				_current_animation = ANIM_STANDING_NORTH;
+				_current_anim_direction = ANIM_NORTH;
 			}
 			else if (direction & FACING_SOUTH) {
-				_current_animation = ANIM_STANDING_SOUTH;
+				_current_anim_direction = ANIM_SOUTH;
 			}
 			else if (direction & FACING_WEST) {
-				_current_animation = ANIM_STANDING_WEST;
+				_current_anim_direction = ANIM_WEST;
 			}
 			else if (direction & FACING_EAST) {
-				_current_animation = ANIM_STANDING_EAST;
+				_current_anim_direction = ANIM_EAST;
 			}
 			else {
-				PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << endl;
+				PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << std::endl;
 			}
 		}
 	}
 
-	else { // then (moved_position == true)
-		// Save the previous animation
-		uint8 last_animation = _current_animation;
-
+	else { // then (moved_position)
 		// Determine the correct animation to display
 		if (direction & FACING_NORTH) {
-			_current_animation = ANIM_WALKING_NORTH;
+			_current_anim_direction = ANIM_NORTH;
 		}
 		else if (direction & FACING_SOUTH) {
-			_current_animation = ANIM_WALKING_SOUTH;
+			_current_anim_direction = ANIM_SOUTH;
 		}
 		else if (direction & FACING_WEST) {
-			_current_animation = ANIM_WALKING_WEST;
+			_current_anim_direction = ANIM_WEST;
 		}
 		else if (direction & FACING_EAST) {
-			_current_animation = ANIM_WALKING_EAST;
+			_current_anim_direction = ANIM_EAST;
 		}
 		else {
-			PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << endl;
+			PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << std::endl;
 		}
 
 		// Increasing the animation index by four from the walking _animations leads to the running _animations
 		if (is_running && _has_running_animations) {
-			_current_animation += 4;
+			_animation = &_running_animations;
 		}
-
-		// If the direction of movement changed in mid-flight, update the animation timer on the
-		// new animated image to reflect the old, so the walking _animations do not appear to
-		// "start and stop" whenever the direction is changed.
-		if (_current_animation != last_animation) {
-			_animations[_current_animation].SetTimeProgress(_animations[last_animation].GetTimeProgress());
-			_animations[last_animation].SetTimeProgress(0);
+		else {
+			_animation = &_walking_animations;
 		}
-		_animations[_current_animation].Update();
 	}
+
+	// If the direction of movement changed in mid-flight, update the animation timer on the
+	// new animated image to reflect the old, so the walking _animations do not appear to
+	// "start and stop" whenever the direction is changed.
+	if (last_anim_direction != _current_anim_direction || last_animation != _animation) {
+		_animation->at(_current_anim_direction).SetTimeProgress(last_animation->at(last_anim_direction).GetTimeProgress());
+		last_animation->at(last_anim_direction).SetTimeProgress(0);
+	}
+
+	_animation->at(_current_anim_direction).Update();
 
 	was_moved = moved_position;
 } // void MapSprite::Update()
@@ -767,16 +802,14 @@ void MapSprite::_DrawDebugInfo() {
 	}
 }
 
-
 void MapSprite::Draw() {
 	if (MapObject::ShouldDraw()) {
-		_animations[_current_animation].Draw();
+		_animation->at(_current_anim_direction).Draw();
 
 		if (VideoManager->DebugInfoOn())
 			_DrawDebugInfo();
 	}
 }
-
 
 void MapSprite::DrawDialog()
 {
@@ -810,14 +843,10 @@ void MapSprite::AddDialogueReference(uint32 dialogue_id) {
 	// map is loading.
 }
 
-
-
 void MapSprite::ClearDialogueReferences() {
     _dialogue_references.clear();
     UpdateDialogueStatus();
 }
-
-
 
 void MapSprite::RemoveDialogueReference(uint32 dialogue_id) {
     // Remove all dialogues with the given reference (for the case, the same dialogue was add several times)
@@ -827,8 +856,6 @@ void MapSprite::RemoveDialogueReference(uint32 dialogue_id) {
     }
     UpdateDialogueStatus();
 }
-
-
 
 void MapSprite::InitiateDialogue() {
 	if (_dialogue_references.empty() == true) {
@@ -842,8 +869,6 @@ void MapSprite::InitiateDialogue() {
 	MapMode::CurrentInstance()->GetDialogueSupervisor()->BeginDialogue(_dialogue_references[_next_dialogue]);
 	IncrementNextDialogue();
 }
-
-
 
 void MapSprite::UpdateDialogueStatus() {
 	_has_available_dialogue = false;
@@ -869,8 +894,6 @@ void MapSprite::UpdateDialogueStatus() {
 	// TODO: if the sprite has available, unseen dialogue and the _next_dialogue pointer is pointing to a dialogue that is already seen, change it
 	// to point to the unseen available dialogue
 }
-
-
 
 void MapSprite::IncrementNextDialogue() {
 	// Handle the case where no dialogue is referenced by the sprite
@@ -900,9 +923,6 @@ void MapSprite::IncrementNextDialogue() {
 	}
 }
 
-
-
-
 void MapSprite::SetNextDialogue(uint16 next) {
 	// If a negative value is passed in, this means the user wants to disable
 	if (next >= _dialogue_references.size()) {
@@ -913,20 +933,16 @@ void MapSprite::SetNextDialogue(uint16 next) {
 	}
 }
 
-
-
 void MapSprite::SaveState() {
 	VirtualSprite::SaveState();
 
-	_saved_current_animation = _current_animation;
+	_saved_current_anim_direction = _current_anim_direction;
 }
-
-
 
 void MapSprite::RestoreState() {
 	VirtualSprite::RestoreState();
 
-	_current_animation = _saved_current_animation;
+	_current_anim_direction = _saved_current_anim_direction;
 }
 
 // *****************************************************************************
@@ -940,41 +956,33 @@ EnemySprite::EnemySprite() :
 	_time_dir_change(2500),
 	_time_to_spawn(3500)
 {
-	filename = "";
+	_filename = "";
 	MapObject::_object_type = ENEMY_TYPE;
 	moving = true;
 	Reset();
 }
 
-
-
-EnemySprite::EnemySprite(std::string file) :
+EnemySprite::EnemySprite(const std::string& file) :
 	_zone(NULL),
 	_color(1.0f, 1.0f, 1.0f, 0.0f),
 	_aggro_range(8.0f),
 	_time_dir_change(2500),
 	_time_to_spawn(3500)
 {
-	filename = file;
+	_filename = file;
 	MapObject::_object_type = ENEMY_TYPE;
 	moving = true;
 	Reset();
 }
-
-
 // Load in the appropriate images and other data for the sprite from a Lua file
 bool EnemySprite::Load() {
 	ReadScriptDescriptor sprite_script;
-	if (sprite_script.OpenFile(filename) == false) {
+	if (!sprite_script.OpenFile(_filename))
 		return false;
-	}
 
 	ScriptCallFunction<void>(sprite_script.GetLuaState(), "Load", this);
-	string sprite_sheet = sprite_script.ReadString("sprite_sheet");
-	return MapSprite::LoadStandardAnimations(sprite_sheet);
+	return true;
 }
-
-
 
 void EnemySprite::Reset() {
 	updatable = false;
@@ -1003,18 +1011,16 @@ void EnemySprite::AddEnemy(uint32 enemy_id) {
 	}
 }
 
-
+static std::vector<uint32> empty_enemy_party;
 
 const std::vector<uint32>& EnemySprite::RetrieveRandomParty() {
 	if (_enemy_parties.empty()) {
-		PRINT_ERROR << "call invoked when no enemy parties existed" << endl;
-		exit(1);
+		PRINT_ERROR << "No enemy parties exist and none can be created." << std::endl;
+		return empty_enemy_party;
 	}
 
 	return _enemy_parties[rand() % _enemy_parties.size()];
 }
-
-
 
 void EnemySprite::Update() {
 	switch (_state) {
@@ -1100,12 +1106,10 @@ void EnemySprite::Update() {
 	}
 } // void EnemySprite::Update()
 
-
-
 void EnemySprite::Draw() {
 	// Otherwise, only draw it if it is not in the DEAD state
 	if (MapObject::ShouldDraw() == true && _state != DEAD) {
-		_animations[_current_animation].Draw(_color);
+		_animation->at(_current_anim_direction).Draw(_color);
 
 		// Draw collision rectangle if the debug view is on.
 		if (VideoManager->DebugInfoOn()) {

@@ -1228,7 +1228,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string& filename) {
 	if (!image_script.DoesTableExist("frames")) {
 		image_script.CloseTable();
 		image_script.CloseFile();
-		PRINT_WARNING << "No frame duration table in file: " << filename << std::endl;
+		PRINT_WARNING << "No 'frames' table in file: " << filename << std::endl;
 		return false;
 	}
 
@@ -1286,13 +1286,9 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string& filename) {
 	_frames.clear();
 	ResetAnimation();
 	for (uint32 i = 0; i < frames_ids.size(); ++i) {
-		_frames.push_back(AnimationFrame());
 		// Set the dimension of the requested frame
 		image_frames[frames_ids[i]].SetDimensions(_width, _height);
-		_frames.back().image = image_frames[frames_ids[i]];
-		_frames.back().frame_time = frames_duration[i];
-
-		_animation_time += frames_duration[i];
+		AddFrame(image_frames[frames_ids[i]], frames_duration[i]);
 		if (frames_duration[i] == 0) {
 			PRINT_WARNING << "Added a frame time value of zero when loading file: " << filename << std::endl;
 		}
@@ -1325,12 +1321,8 @@ bool AnimatedImage::LoadFromFrameSize(const string& filename, const vector<uint3
 
 	// Add the loaded frame image and timing information
 	for (uint32 i = 0; i < image_frames.size() - trim; i++) {
-		_frames.push_back(AnimationFrame());
 		image_frames[i].SetDimensions(_width, _height);
-		_frames.back().image = image_frames[i];
-		_frames.back().frame_time = timings[i];
-
-		_animation_time += timings[i];
+		AddFrame(image_frames[i], timings[i]);
 		if (timings[i] == 0) {
 			IF_PRINT_WARNING(VIDEO_DEBUG) << "added a frame time value of zero when loading file: " << filename << endl;
 		}
@@ -1374,11 +1366,8 @@ bool AnimatedImage::LoadFromFrameGrid(const string& filename, const vector<uint3
 
 	// Add the loaded frame image and timing information
 	for (uint32 i = 0; i < frame_rows * frame_cols - trim; i++) {
-		_frames.push_back(AnimationFrame());
 		image_frames[i].SetDimensions(_width, _height);
-		_frames.back().image = image_frames[i];
-		_frames.back().frame_time = timings[i];
-		_animation_time += timings[i];
+		AddFrame(image_frames[i], timings[i]);
 		if (timings[i] == 0) {
 			IF_PRINT_WARNING(VIDEO_DEBUG) << "added zero frame time for an image frame when loading file: " << filename << endl;
 		}
@@ -1484,28 +1473,36 @@ void AnimatedImage::Update() {
 	}
 } // void AnimatedImage::Update()
 
-
-
-bool AnimatedImage::AddFrame(const string& frame, uint32 frame_time) {
+bool AnimatedImage::AddFrame(const std::string& frame, uint32 frame_time) {
 	StillImage img;
 	img.SetStatic(_is_static);
 	img.SetVertexColors(_color[0], _color[1], _color[2], _color[3]);
-	if (img.Load(frame, _width, _height) == false) {
+	if (!img.Load(frame, _width, _height)) {
 		return false;
 	}
+	if (frame_time == 0) {
+		PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
+			<< frame << endl;
+		return false;
+	}
+
 
 	AnimationFrame new_frame;
 	new_frame.frame_time = frame_time;
 	new_frame.image = img;
 	_frames.push_back(new_frame);
+	_animation_time += frame_time;
 	return true;
 }
 
-
-
 bool AnimatedImage::AddFrame(const StillImage& frame, uint32 frame_time) {
-	if (frame._image_texture == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "StillImage argument did not contain any image elements" << endl;
+	if (!frame._image_texture) {
+		PRINT_WARNING << "The StillImage argument did not contain any image elements" << endl;
+		return false;
+	}
+	if (frame_time == 0) {
+		PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
+			<< frame.GetFilename() << endl;
 		return false;
 	}
 
@@ -1514,10 +1511,9 @@ bool AnimatedImage::AddFrame(const StillImage& frame, uint32 frame_time) {
 	new_frame.frame_time = frame_time;
 
 	_frames.push_back(new_frame);
+	_animation_time += frame_time;
 	return true;
 }
-
-
 
 void AnimatedImage::SetWidth(float width) {
 	_width = width;
@@ -1526,8 +1522,6 @@ void AnimatedImage::SetWidth(float width) {
 		_frames[i].image.SetWidth(width);
 	}
 }
-
-
 
 void AnimatedImage::SetHeight(float height) {
 	_height = height;

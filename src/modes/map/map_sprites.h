@@ -64,7 +64,7 @@ public:
 	//! \brief The speed at which the sprite moves around the map.
 	float movement_speed;
 
-	/** \brief Set to true when the sprite is currently in motio.
+	/** \brief Set to true when the sprite is currently in motion.
 	*** This does not necessarily mean that the sprite actually is moving, but rather
 	*** that the sprite is <i>trying</i> to move in a certain direction.
 	**/
@@ -218,23 +218,30 @@ public:
 
 	// ---------- Public methods
 
-	/** \brief Loads the image containing the standard animations for the sprite
-	*** \param filename The name of the image file holding the standard walking animations
-	*** \return False if there was a problem loading the sprite.
+	/** \brief Loads the standing animations of the sprite for the four directions.
+	*** \param filename The name of the script animation file holding the standing animations
+	*** \return False if there was a problem loading the sprites.
 	**/
-	bool LoadStandardAnimations(const std::string& filename);
+	bool LoadStandingAnimations(const std::string& filename);
 
-	/** \brief Loads the image containing the running animations for the sprite
-	*** \param filename The name of the image file
-	*** \return False if the animations were not created successfully.
+	/** \brief Loads the walking animations of the sprite for the four directions.
+	*** \param filename The name of the script animation file holding the walking animations
+	*** \return False if there was a problem loading the sprites.
+	**/
+	bool LoadWalkingAnimations(const std::string& filename);
+
+	/** \brief Loads the running animations of the sprite for the four directions.
+	*** \param filename The name of the image file holding the walking animation
+	*** \return False if there was a problem loading the sprites.
 	**/
 	bool LoadRunningAnimations(const std::string& filename);
 
-	/** \brief Loads the image containing the attack animations for the sprite
-	*** \param filename The name of the image file
-	*** \return False if the animations were not created successfully.
+	/** \brief Loads the script containing the one-sided custom animation of the sprite.
+	*** \param animation_name The animation name of the custom animation.
+	*** \param filename The name of the image file holding the given custom animation (one direction only)
+	*** \return False if there was a problem loading the animation.
 	**/
-	bool LoadAttackAnimations(const std::string& filename);
+	bool LoadCustomAnimation(const std::string& animation_name, const std::string& filename);
 
 	void LoadFacePortrait(const std::string& filename);
 
@@ -305,45 +312,46 @@ public:
 	*** These functions are specifically written to enable Lua to access the members of this class.
 	**/
 	//@{
-	// TODO: needs to be a ustring
+	void SetName(const hoa_utils::ustring& name)
+	{ _name = name; }
+
 	void SetName(const std::string& name)
-		{ _name = hoa_utils::MakeUnicodeString(name); }
+	{ _name = hoa_utils::MakeUnicodeString(name); }
 
-	void SetCurrentAnimation(uint8 anim)
-		{ _current_animation = anim; }
+	void SetCurrentAnimationDirection(uint8 anim_direction)
+	{ _current_anim_direction = anim_direction; }
 
-	uint8 GetCurrentAnimation() const
-		{ return _current_animation; }
+	uint8 GetCurrentAnimationDirection() const
+	{ return _current_anim_direction; }
 
 	bool HasAvailableDialogue() const
-		{ return _has_available_dialogue; }
+	{ return _has_available_dialogue; }
 
 	bool HasUnseenDialogue() const
-		{ return _has_unseen_dialogue; }
+	{ return _has_unseen_dialogue; }
 
 	hoa_utils::ustring& GetName()
-		{ return _name; }
+	{ return _name; }
 
 	hoa_video::StillImage* GetFacePortrait() const
-		{ return _face_portrait; }
+	{ return _face_portrait; }
 
 	//! \brief Returns the next dialogue to reference (negative value returned if no dialogues are referenced)
 	int16 GetNextDialogue() const
-		{ return _next_dialogue; }
+	{ return _next_dialogue; }
 
 	//! \brief Gets the ID value of the dialogue that will be the next to be referenced by the sprite
 	uint32 GetNextDialogueID() const // TODO: check invalid indexing
-		{ return _dialogue_references[_next_dialogue]; }
+	{ return _dialogue_references[_next_dialogue]; }
 
 	//! \brief Returns the number of dialogues referenced by the sprite (including duplicates)
 	uint16 GetNumberDialogueReferences() const
-		{ return _dialogue_references.size(); }
+	{ return _dialogue_references.size(); }
 
 	//! \brief Set to true for a custom animation
 	void SetCustomAnimation(bool on_or_off)
-		{ _custom_animation_on = on_or_off; }
+	{ _custom_animation_on = on_or_off; }
 	//@}
-
 
 protected:
 	//! \brief The name of the sprite, as seen by the player in the game.
@@ -357,15 +365,19 @@ protected:
 	//! \brief Set to true if the sprite has running animations loaded
 	bool _has_running_animations;
 
-	//! \brief The index to the animations vector containing the current sprite image to display
-	uint8 _current_animation;
+	//! \brief The current sprite direction. (for animation)
+	uint8 _current_anim_direction;
 
-	/** \brief A vector containing all the sprite's various animations.
-	*** The first four entries in this vector are the walking animation frames.
-	*** They are ordered from index 0 to 3 as: down, up, left, right. Additional
-	*** animations may follow.
-	**/
-	std::vector<hoa_video::AnimatedImage> _animations;
+	//! \brief A map containing all four directions of the sprite's various animations.
+	std::vector<hoa_video::AnimatedImage> _standing_animations;
+	std::vector<hoa_video::AnimatedImage> _walking_animations;
+	std::vector<hoa_video::AnimatedImage> _running_animations;
+
+	//! \brief A pointer to the current standard animation vector
+	std::vector<hoa_video::AnimatedImage>* _animation;
+
+	//! \brief A map containing all the custom animations, indexed by their name.
+	std::map<std::string, hoa_video::AnimatedImage> _custom_animations;
 
 	//! \brief Contains the id values of all dialogues referenced by the sprite
 	std::vector<uint32> _dialogue_references;
@@ -390,7 +402,7 @@ protected:
 	*** These attributes are used to save and load the state of a VirtualSprite
 	**/
 	//@{
-	uint8 _saved_current_animation;
+	uint8 _saved_current_anim_direction;
 	//@}
 
 	//! \brief Draws debug information, used for pathfinding mostly.
@@ -423,14 +435,11 @@ private:
 	};
 
 public:
-
-	std::string filename;
-
 	//! \brief The default constructor which typically requires that the user make several additional calls to setup the sprite properties
 	EnemySprite();
 
 	//! \brief A constructor for when the enemy sprite is stored in the definition of a single file
-	EnemySprite(std::string file);
+	EnemySprite(const std::string& file);
 
 	//! \brief Loads the enemy's data from a file and returns true if it was successful
 	bool Load();
@@ -476,10 +485,10 @@ public:
 	uint32 GetTimeToSpawn() const
 		{ return _time_to_spawn; }
 
-	std::string GetBattleMusicTheme() const
+	const std::string& GetBattleMusicTheme() const
 		{ return _music_theme; }
 
-	std::string GetBattleBackground() const
+	const std::string& GetBattleBackground() const
 		{ return _bg_file; }
 
 	const std::vector<std::string>& GetBattleScripts() const
@@ -558,6 +567,10 @@ private:
 
 	//! \brief The filenames of the script to pass to the battle
 	std::vector<std::string> _script_files;
+
+	//! \brief The custom script filename
+	// TODO: Actually use it for animation and/or custom battle AI ??
+	std::string _filename;
 
 	/** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
 	*** The numbers contained within this member are ID numbers for the enemy.

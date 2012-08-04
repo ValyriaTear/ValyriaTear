@@ -832,7 +832,8 @@ void AnimateSpriteEvent::_Start() {
 	_display_timer = 0;
 	_loop_count = 0;
 	dynamic_cast<MapSprite*>(_sprite)->SetCustomAnimation(true);
-	dynamic_cast<MapSprite*>(_sprite)->SetCurrentAnimation(static_cast<uint8>(_frames[_current_frame]));
+	//dynamic_cast<MapSprite*>(_sprite)->SetCurrentAnimation(static_cast<uint8>(_frames[_current_frame]));
+	// TODO: Permit the display of custom animations.
 }
 
 
@@ -858,7 +859,7 @@ bool AnimateSpriteEvent::_Update() {
 			}
 		}
 
-		dynamic_cast<MapSprite*>(_sprite)->SetCurrentAnimation(static_cast<uint8>(_frames[_current_frame]));
+		//dynamic_cast<MapSprite*>(_sprite)->SetCurrentAnimation(static_cast<uint8>(_frames[_current_frame]));
 	}
 
 	return false;

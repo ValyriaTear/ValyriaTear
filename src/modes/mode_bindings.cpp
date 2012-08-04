@@ -166,15 +166,10 @@ void BindModeCode() {
 				luabind::value("SE_SOUTH", SE_SOUTH),
 				luabind::value("SE_EAST", SE_EAST),
 				// Sprite animations
-				luabind::value("ANIM_STANDING_SOUTH", ANIM_STANDING_SOUTH),
-				luabind::value("ANIM_STANDING_NORTH", ANIM_STANDING_NORTH),
-				luabind::value("ANIM_STANDING_WEST", ANIM_STANDING_WEST),
-				luabind::value("ANIM_STANDING_EAST", ANIM_STANDING_EAST),
-				luabind::value("ANIM_WALKING_SOUTH", ANIM_WALKING_SOUTH),
-				luabind::value("ANIM_WALKING_NORTH", ANIM_WALKING_NORTH),
-				luabind::value("ANIM_WALKING_WEST", ANIM_WALKING_WEST),
-				luabind::value("ANIM_WALKING_EAST", ANIM_WALKING_EAST),
-				luabind::value("ANIM_ATTACKING_EAST", ANIM_ATTACKING_EAST),
+				luabind::value("ANIM_SOUTH", ANIM_SOUTH),
+				luabind::value("ANIM_NORTH", ANIM_NORTH),
+				luabind::value("ANIM_WEST", ANIM_WEST),
+				luabind::value("ANIM_EAST", ANIM_EAST),
 				// Sprite speeds
 				luabind::value("VERY_SLOW_SPEED", static_cast<uint32>(VERY_SLOW_SPEED)),
 				luabind::value("SLOW_SPEED", static_cast<uint32>(SLOW_SPEED)),
@@ -262,13 +257,14 @@ void BindModeCode() {
 	[
 		luabind::class_<MapSprite, VirtualSprite>("MapSprite")
 			.def(luabind::constructor<>())
-			.def("SetName", &MapSprite::SetName)
-			.def("SetCurrentAnimation", &MapSprite::SetCurrentAnimation)
-			.def("GetCurrentAnimation", &MapSprite::GetCurrentAnimation)
+			.def("SetName", (void(MapSprite::*)(const std::string&))&MapSprite::SetName)
+			.def("SetCurrentAnimationDirection", &MapSprite::SetCurrentAnimationDirection)
+			.def("GetCurrentAnimationDirection", &MapSprite::GetCurrentAnimationDirection)
 			.def("LoadFacePortrait", &MapSprite::LoadFacePortrait)
-			.def("LoadStandardAnimations", &MapSprite::LoadStandardAnimations)
+			.def("LoadStandingAnimations", &MapSprite::LoadStandingAnimations)
+			.def("LoadWalkingAnimations", &MapSprite::LoadWalkingAnimations)
 			.def("LoadRunningAnimations", &MapSprite::LoadRunningAnimations)
-			.def("LoadAttackAnimations", &MapSprite::LoadAttackAnimations)
+			.def("LoadCustomAnimation", &MapSprite::LoadCustomAnimation)
 			.def("AddDialogueReference", (void(MapSprite::*)(uint32))&MapSprite::AddDialogueReference)
 			.def("AddDialogueReference", (void(MapSprite::*)(SpriteDialogue*))&MapSprite::AddDialogueReference)
 			.def("ClearDialogueReferences", &MapSprite::ClearDialogueReferences)

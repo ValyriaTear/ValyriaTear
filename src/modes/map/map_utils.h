@@ -210,24 +210,16 @@ const uint16 FACING_EAST = EAST | NE_EAST | SE_EAST;
 
 /** \name Map Sprite Animation Constants
 *** These constants are used to index the MapSprite#animations vector to display the correct
-*** animation. The first 8 entries in this vector always represent the same sets of animations
-*** for each map sprite. Not all sprites have running animations, so the next 4 entries in the
-*** sprite's animation vector are not necessarily running animations.
+*** animation depending on the given direction.
 **/
 //@{
-const uint32 ANIM_STANDING_SOUTH = 0;
-const uint32 ANIM_STANDING_NORTH = 1;
-const uint32 ANIM_STANDING_WEST  = 2;
-const uint32 ANIM_STANDING_EAST  = 3;
-const uint32 ANIM_WALKING_SOUTH  = 4;
-const uint32 ANIM_WALKING_NORTH  = 5;
-const uint32 ANIM_WALKING_WEST   = 6;
-const uint32 ANIM_WALKING_EAST   = 7;
-const uint32 ANIM_RUNNING_SOUTH  = 8;
-const uint32 ANIM_RUNNING_NORTH  = 9;
-const uint32 ANIM_RUNNING_WEST   = 10;
-const uint32 ANIM_RUNNING_EAST   = 11;
-const uint32 ANIM_ATTACKING_EAST = 12;
+enum ANIM_DIRECTIONS {
+	ANIM_SOUTH = 0,
+	ANIM_NORTH = 1,
+	ANIM_WEST  = 2,
+	ANIM_EAST  = 3,
+	NUM_ANIM_DIRECTIONS = 4
+};
 //@}
 
 

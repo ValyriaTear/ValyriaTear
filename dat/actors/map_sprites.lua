@@ -13,10 +13,21 @@ sprites["Bronann"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
+    face_portrait = "img/portraits/bronann.png",
 
-	standard_animations = "img/sprites/map/characters/bronann_walk_unarmed.png",
-	running_animations = "img/sprites/map/characters/bronann_run_unarmed.png",
-	face_portrait = "img/portraits/bronann.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/characters/bronann_idle_unarmed.lua",
+        walk = "img/sprites/map/characters/bronann_walk_unarmed.lua",
+        run = "img/sprites/map/characters/bronann_run_unarmed.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        hero_stance = "img/sprites/map/characters/bronann_hero_stance_unarmed.lua",
+        searching = "img/sprites/map/characters/bronann_searching_unarmed.lua",
+        frightened = "img/sprites/map/characters/bronann_frightened_unarmed.lua",
+    }
 }
 
 sprites["Kalya"] = {
@@ -26,10 +37,14 @@ sprites["Kalya"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
+	face_portrait = "img/portraits/kalya.png",
 
-	standard_animations = "img/sprites/map/characters/kalya_walk.png",
-	running_animations = "img/sprites/map/characters/kalya_run.png",
-	face_portrait = "img/portraits/kalya.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/characters/kalya_idle.lua",
+        walk = "img/sprites/map/characters/kalya_walk.lua",
+        run = "img/sprites/map/characters/kalya_run.lua"
+    }
 }
 
 sprites["Thanis"] = {
@@ -39,9 +54,15 @@ sprites["Thanis"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/thanis.png",
 
-	standard_animations = "img/sprites/map/thanis_walk.png",
-	face_portrait = "img/portraits/thanis.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/characters/thanis_idle.lua",
+        walk = "img/sprites/map/characters/thanis_walk.lua",
+        run = "img/sprites/map/characters/thanis_run.lua"
+    }
+
 }
 
 sprites["Carson"] = {
@@ -50,10 +71,14 @@ sprites["Carson"] = {
 	coll_height = 1.0,
 	img_half_width = 1.0,
 	img_height = 4.0,
-	movement_speed = VERY_SLOW_SPEED,
+	movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/npcs/carson.png",
 
-	standard_animations = "img/sprites/map/npcs/story/carson_walk.png",
-	face_portrait = "img/portraits/npcs/carson.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/story/carson_idle.lua",
+        walk = "img/sprites/map/npcs/story/carson_walk.lua"
+    }
 }
 
 sprites["Malta"] = {
@@ -63,9 +88,13 @@ sprites["Malta"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = VERY_SLOW_SPEED,
+    face_portrait = "img/portraits/npcs/malta.png",
 
-	standard_animations = "img/sprites/map/npcs/story/malta_walk.png",
-	face_portrait = "img/portraits/npcs/malta.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/story/malta_idle.lua",
+        walk = "img/sprites/map/npcs/story/malta_walk.lua"
+    }
 }
 
 sprites["Orlinn"] = {
@@ -76,9 +105,27 @@ sprites["Orlinn"] = {
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/npc_boy01_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/story/orlinn_idle.lua",
+        walk = "img/sprites/map/npcs/story/orlinn_walk.lua"
+    }
 }
 
+sprites["Herth"] = {
+	name = hoa_system.Translate("Herth"),
+	coll_half_width = 0.95,
+	coll_height = 1.0,
+	img_half_width = 1.0,
+	img_height = 4.0,
+	movement_speed = SLOW_SPEED,
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/story/herth_idle.lua",
+        walk = "img/sprites/map/npcs/story/herth_walk.lua"
+    }
+}
 
 -- ----
 -- NPCs
@@ -92,7 +139,11 @@ sprites["Girl1"] = {
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/npc_girl01_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_girl01_idle.lua",
+        walk = "img/sprites/map/npcs/npc_girl01_walk.lua"
+    }
 }
 
 sprites["Old Woman1"] = {
@@ -103,7 +154,11 @@ sprites["Old Woman1"] = {
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/npc_old_woman01_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_old_woman01_idle.lua",
+        walk = "img/sprites/map/npcs/npc_old_woman01_walk.lua"
+    }
 }
 
 sprites["Woman1"] = {
@@ -114,7 +169,11 @@ sprites["Woman1"] = {
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/npc_woman01_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_woman01_idle.lua",
+        walk = "img/sprites/map/npcs/npc_woman01_walk.lua"
+    }
 }
 
 sprites["Woman2"] = {
@@ -125,7 +184,11 @@ sprites["Woman2"] = {
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/npc_woman02_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_woman02_idle.lua",
+        walk = "img/sprites/map/npcs/npc_woman02_walk.lua"
+    }
 }
 
 sprites["Woman3"] = {
@@ -136,7 +199,11 @@ sprites["Woman3"] = {
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/npc_woman03_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_woman03_idle.lua",
+        walk = "img/sprites/map/npcs/npc_woman03_walk.lua"
+    }
 }
 
 sprites["Man1"] = {
@@ -147,18 +214,11 @@ sprites["Man1"] = {
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npcs/npc_man01_walk.png"
-}
-
-sprites["Man2"] = {
-	name = hoa_system.Translate("Xandar"), -- default name
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-	standard_animations = "img/sprites/map/npcs/npc_man02_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_man01_idle.lua",
+        walk = "img/sprites/map/npcs/npc_man01_walk.lua"
+    }
 }
 
 sprites["Soldier"] = {
@@ -169,7 +229,11 @@ sprites["Soldier"] = {
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npc_soldier01_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_soldier01_idle.lua",
+        walk = "img/sprites/map/npcs/npc_soldier01_walk.lua"
+    }
 }
 
 sprites["Lord"] = {
@@ -180,7 +244,11 @@ sprites["Lord"] = {
 	img_height = 4.0,
 	movement_speed = SLOW_SPEED,
 
-	standard_animations = "img/sprites/map/npc_soldier02_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_soldier02_idle.lua",
+        walk = "img/sprites/map/npcs/npc_soldier02_walk.lua"
+    }
 }
 
 
@@ -193,7 +261,11 @@ enemies["slime"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
-	standard_animations = "img/sprites/map/enemies/slime_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/slime_idle.lua",
+        walk = "img/sprites/map/enemies/slime_walk.lua"
+    }
 }
 
 
@@ -203,7 +275,11 @@ enemies["snake"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
-	standard_animations = "img/sprites/map/enemies/snake_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/snake_idle.lua",
+        walk = "img/sprites/map/enemies/snake_walk.lua"
+    }
 }
 
 
@@ -213,7 +289,11 @@ enemies["scorpion"] = {
 	img_half_width = 1.0,
 	img_height = 4.0,
 	movement_speed = NORMAL_SPEED,
-	standard_animations = "img/sprites/map/enemies/scorpion_walk.png"
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/scorpion_idle.lua",
+        walk = "img/sprites/map/enemies/scorpion_walk.lua"
+    }
 }
 
 
@@ -244,15 +324,23 @@ function _CreateSprite(Map, name, x, y)
 	sprite:SetImgHeight(sprites[name].img_height);
 	sprite:SetMovementSpeed(sprites[name].movement_speed);
 	sprite:SetDirection(dir);
-	sprite:LoadStandardAnimations(sprites[name].standard_animations);
-	if (sprites[name].running_animations) then
-		sprite:LoadRunningAnimations(sprites[name].running_animations);
-	end
 	if (sprites[name].face_portrait) then
 		sprite:LoadFacePortrait(sprites[name].face_portrait);
 	end
 
-		return sprite;
+	sprite:LoadStandingAnimations(sprites[name].standard_animations.idle);
+	sprite:LoadWalkingAnimations(sprites[name].standard_animations.walk);
+	if (sprites[name].standard_animations.run ~= nil) then
+        sprite:LoadRunningAnimations(sprites[name].standard_animations.run);
+	end
+	-- Load custom animations
+	if (sprites[name].custom_animations ~= nil) then
+		for name,file in pairs(sprites[name].custom_animations) do
+			sprite:LoadCustomAnimation(name, file);
+		end
+	end
+
+    return sprite;
 end
 
 -- Permit to setup a custom name
@@ -281,15 +369,23 @@ function _CreateNPCSprite(Map, name, npc_name, x, y)
 	sprite:SetImgHeight(sprites[name].img_height);
 	sprite:SetMovementSpeed(sprites[name].movement_speed);
 	sprite:SetDirection(dir);
-	sprite:LoadStandardAnimations(sprites[name].standard_animations);
-	if (sprites[name].running_animations) then
-		sprite:LoadRunningAnimations(sprites[name].running_animations);
-	end
 	if (sprites[name].face_portrait) then
 		sprite:LoadFacePortrait(sprites[name].face_portrait);
 	end
 
-		return sprite;
+	sprite:LoadStandingAnimations(sprites[name].standard_animations.idle);
+	sprite:LoadWalkingAnimations(sprites[name].standard_animations.walk);
+	if (sprites[name].standard_animations.run ~= nil) then
+        sprite:LoadRunningAnimations(sprites[name].standard_animations.run);
+	end
+	-- Load custom animations
+	if (sprites[name].custom_animations ~= nil) then
+		for name,file in pairs(sprites[name].custom_animations) do
+			sprite:LoadCustomAnimation(name, file);
+		end
+	end
+
+    return sprite;
 end
 
 
@@ -313,7 +409,9 @@ function _CreateEnemySprite(Map, name)
 	enemy:SetImgHalfWidth(enemies[name].img_half_width);
 	enemy:SetImgHeight(enemies[name].img_height);
 	enemy:SetMovementSpeed(enemies[name].movement_speed);
-	enemy:LoadStandardAnimations(enemies[name].standard_animations);
+
+	enemy:LoadStandingAnimations(enemies[name].standard_animations.idle);
+	enemy:LoadWalkingAnimations(enemies[name].standard_animations.walk);
 
 	return enemy;
 end
