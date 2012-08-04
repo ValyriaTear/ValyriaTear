@@ -283,6 +283,14 @@ function CreateCharacters()
 	if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
 		bronann:SetPosition(3, 34);
 		bronann:SetDirection(hoa_map.MapMode.EAST);
+
+	elseif (GlobalManager:GetPreviousLocation() == "from right house") then
+		bronann:SetPosition(48, 34);
+		bronann:SetDirection(hoa_map.MapMode.SOUTH);
+
+	elseif (GlobalManager:GetPreviousLocation() == "from left house") then
+		bronann:SetPosition(20, 34);
+		bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	end
 
 	Map:AddGroundObject(bronann);
@@ -356,6 +364,12 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to Village riverbank", "dat/maps/vt_layna_riverbank.lua", "from_village_south");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.MapTransitionEvent("to left house", "dat/maps/vt_layna_south_entrance_left_house.lua", "from_village_south");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to right house", "dat/maps/vt_layna_south_entrance_right_house.lua", "from_village_south");
+	EventManager:RegisterEvent(event);
+
     -- Orlinn events
     event = hoa_map.ScriptedEvent("Quest1: Start Orlinn Hide n Seek2", "Quest1_Orlinn_Start_Hide_N_Seek2", "");
     event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
@@ -376,6 +390,12 @@ function CreateZones()
 
 	to_village_riverbank_zone = hoa_map.CameraZone(0, 1, 26, 43, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_village_riverbank_zone);
+
+	to_left_house_zone = hoa_map.CameraZone(18, 22, 32, 33, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_left_house_zone);
+
+	to_right_house_zone = hoa_map.CameraZone(46, 50, 32, 33, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_right_house_zone);
 end
 
 function CheckZones()
@@ -391,6 +411,20 @@ function CheckZones()
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village riverbank");
+	end
+
+	if (to_left_house_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to left house");
+	end
+
+	if (to_right_house_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to right house");
 	end
 end
 

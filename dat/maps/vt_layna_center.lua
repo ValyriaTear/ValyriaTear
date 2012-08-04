@@ -342,6 +342,11 @@ function CreateCharacters()
 		bronann:SetDirection(hoa_map.MapMode.EAST);
 	end
 
+	if (GlobalManager:GetPreviousLocation() == "from sophia's house") then
+		bronann:SetPosition(22, 20);
+		bronann:SetDirection(hoa_map.MapMode.NORTH);
+	end
+
 	Map:AddGroundObject(bronann);
 end
 
@@ -517,6 +522,9 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to Flora's Shop", "dat/maps/vt_layna_center_shop.lua", "from_village_center");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to sophia house", "dat/maps/vt_layna_center_sophia_house.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to secret cliff", "dat/maps/vt_layna_riverbank.lua", "from_secret_path");
@@ -881,6 +889,9 @@ function CreateZones()
 
 	to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_layna_forest_zone);
+	
+	sophia_house_entrance_zone = hoa_map.CameraZone(20, 24, 21, 22, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(sophia_house_entrance_zone);
 end
 
 function CheckZones()
@@ -939,6 +950,13 @@ function CheckZones()
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Flora's Shop");
+	end
+
+	if (sophia_house_entrance_zone:IsCameraEntering() == true) then
+		-- Stop the character as it may walk in diagonal, which is looking strange
+		-- when entering
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to sophia house");
 	end
 end
 
