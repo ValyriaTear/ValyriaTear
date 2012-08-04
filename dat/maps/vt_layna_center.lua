@@ -589,6 +589,7 @@ function CreateEvents()
 	-- Quest 2: Bronann wants to go to Flora's and buy a sword to go in the forest
 	event = hoa_map.ScriptedEvent("Quest2: Bronann wants to buy a sword from Flora", "Map_SceneState", "");
 	event:AddEventLinkAtEnd("Quest2: Bronann wants to see Flora for equipment", 1000);
+	event:AddEventLinkAtEnd("Bronann is sad");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.AnimateSpriteEvent("Bronann is sad", bronann, "hero_stance", 2000);
@@ -600,7 +601,7 @@ function CreateEvents()
 	
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
-	dialogue:AddLineEvent(text, bronann, "Bronann is sad");
+	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Still, I have go there, and figure out what they're trying to hide from me.");
 	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
@@ -798,7 +799,7 @@ function CreateEvents()
 	event:AddEventLinkAtEnd("Quest2: Carson starts to leave to south");
 	EventManager:RegisterEvent(event);
 	
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Herth leaves to south", herth, 96.0, 78.0, false);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Herth leaves to south", herth, 92.0, 78.0, false);
 	event:AddEventLinkAtEnd("Quest2: Herth disappears");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent("Quest2: Herth disappears", herth, "MakeInvisible", "");
@@ -820,7 +821,7 @@ function CreateEvents()
 	event:AddEventLinkAtEnd("Quest2: Carson leaves to south");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Carson leaves to south", carson, 94.0, 78.0, false);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Carson leaves to south", carson, 92.0, 78.0, false);
 	event:AddEventLinkAtEnd("Quest2: Carson disappears");
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent("Quest2: Carson disappears", carson, "MakeInvisible", "");
@@ -840,7 +841,7 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	-- TODO: Turns this into an actual join party event once functional
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya joins Bronann's party", kalya, bronann:GetXPosition(), bronann:GetYPosition(), false);
+	event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya joins Bronann's party", kalya, 92.0, 73.0, false);
 	event:AddEventLinkAtEnd("Quest2: Kalya disappears");
 	event:AddEventLinkAtEnd("Quest2: Add Kalya to the party");
 	EventManager:RegisterEvent(event);

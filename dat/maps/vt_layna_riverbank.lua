@@ -674,21 +674,29 @@ function CreateEvents()
 	-- Lilly goes and bring back barley meal
 	event = hoa_map.ScriptedEvent("Quest1: Prepare Lilly for a walk", "Prepare_lilly_walk", "");
 	event:AddEventLinkAtEnd("Quest1: Lilly goes in her house");
+	event:AddEventLinkAtEnd("Quest1: Bronann moves to his wait place");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.PathMoveSpriteEvent("Quest1: Bronann moves to his wait place", bronann, 70, 40, false);
+	event:AddEventLinkAtEnd("Quest1: Barley Meal: Bronann stares at Lilly");
+	EventManager:RegisterEvent(event);
+	
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann stares at Lilly", bronann, hoa_map.MapMode.SOUTH);
+	EventManager:RegisterEvent(event);
+	
 	event = hoa_map.PathMoveSpriteEvent("Quest1: Lilly goes in her house", lilly, 90, 60, false);
 	event:AddEventLinkAtEnd("Quest1: Lilly comes back");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.PathMoveSpriteEvent("Quest1: Lilly comes back", lilly, 67, 40, false);
 	event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly turns to Bronann");
-	event:AddEventLinkAtEnd("Quest1: Barley Meal: Bronann turns to Lilly"); -- Making sure
+	event:AddEventLinkAtEnd("Quest1: Barley Meal: Bronann turns to Lilly");
 	event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the barley meal");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.LookAtSpriteEvent("Quest1: Barley Meal: Lilly turns to Bronann", lilly, bronann);
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Lilly turns to Bronann", lilly, hoa_map.MapMode.EAST);
 	EventManager:RegisterEvent(event);
-	event = hoa_map.LookAtSpriteEvent("Quest1: Barley Meal: Bronann turns to Lilly", bronann, lilly);
+	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann turns to Lilly", bronann, hoa_map.MapMode.WEST);
 	EventManager:RegisterEvent(event);
 
 	dialogue = hoa_map.SpriteDialogue();
