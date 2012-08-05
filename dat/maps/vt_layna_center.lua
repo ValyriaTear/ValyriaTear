@@ -890,7 +890,7 @@ function CreateZones()
 	to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_layna_forest_zone);
 	
-	sophia_house_entrance_zone = hoa_map.CameraZone(20, 24, 21, 22, hoa_map.MapMode.CONTEXT_01);
+	sophia_house_entrance_zone = hoa_map.CameraZone(21, 23, 21, 22, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(sophia_house_entrance_zone);
 end
 
