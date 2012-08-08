@@ -916,7 +916,6 @@ int32 VideoEngine::_ScreenCoordY(float y) {
 	return static_cast<int32>(percent * static_cast<float>(_screen_height));
 }
 
-
 void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color& color) {
 	GLfloat vert_coords[] =
 	{
@@ -940,8 +939,6 @@ void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopAttrib();
 }
-
-
 
 void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const Color& c) {
 	PushState();
@@ -976,8 +973,6 @@ void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const C
 	PopState();
 }
 
-
-
 void VideoEngine::DrawRectangle(float width, float height, const Color& color) {
 	_rectangle_image._width = width;
 	_rectangle_image._height = height;
@@ -986,15 +981,12 @@ void VideoEngine::DrawRectangle(float width, float height, const Color& color) {
 	_rectangle_image.Draw(color);
 }
 
-
-
 void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, float top, float width, const Color& color) {
 	DrawLine(left, bottom, right, bottom, width, color);
 	DrawLine(left, top, right, top, width, color);
 	DrawLine(left, bottom, left, top, width, color);
 	DrawLine(right, bottom, right, top, width, color);
 }
-
 
 void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color) {
 	//PushMatrix();
@@ -1004,64 +996,5 @@ void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color) {
 	_current_context.blend = old_blend_mode;
 	//PopMatrix();
 }
-
-
-
-// Disabled due the fact of leaving out the use of:
-// 1. direct gl calls for such operations
-// 2. FBOs as the gui would be affected, too.
-/*
-void VideoEngine::DrawLight(float radius, float x, float y, const Color &color) {
-	static const int NUM_SIDES = 32;
-
-	if (!extension_FBO)
-		return;
-	if (_uses_lights == false) {
-		if (VIDEO_DEBUG)
-			cerr << "VIDEO ERROR: called DrawLight() even though real lighting was not enabled!" << endl;
-	}
-
-	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, _light_overlay_fbo);
-	glViewport(0, 0, 1024, 1024);
-
-	PushMatrix();
-	Move(x, y);
-
-	glEnable(GL_BLEND);
-	glDisable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-	// generate a vertex array
-	GLfloat vertices[2+(2*NUM_SIDES)];
-	GLfloat colours[4+(4*NUM_SIDES)];
-	vertices[0] = 0.0f;
-	vertices[1] = 0.0f;
-	memset(colours, 0, sizeof(float)*(4+(4*NUM_SIDES)));
-	colours[0] = color.GetRed();
-	colours[1] = color.GetGreen();
-	colours[2] = color.GetBlue();
-	colours[3] = color.GetAlpha();
-	for (int i = 0; i < NUM_SIDES; i++)
-	{
-		float fraction = i / (float)(NUM_SIDES - 1);
-		float angle = fraction * M_PI * 2.0f;
-		vertices[2+(i*2)+0] = cosf(angle) * radius;
-		vertices[2+(i*2)+1] = sinf(angle) * radius;
-	}
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vertices);
-	glColorPointer(4, GL_FLOAT, 0, colours);
-
-	glDrawArrays(GL_TRIANGLE_FAN, 0, NUM_SIDES+1);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	PopMatrix();
-
-	eglBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
-	glViewport(0, 0, _screen_width, _screen_height);
-}*/
 
 }  // namespace hoa_video

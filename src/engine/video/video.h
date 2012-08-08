@@ -516,16 +516,6 @@ public:
 	 */
 	void DrawHalo(const ImageDescriptor &id, const Color &color = Color::white);
 
-	//TODO: review the DrawLight function.
-	/** \brief draws a real light at the given spot
-	 *
-	 *  \param radius light radius
-	 *  \param x      x coordinate of light
-	 *  \param y      y coordinate of light
-	 *  \param color  color of light
-	 */
-	//void DrawLight(float radius, float x, float y, const Color &color = Color::white);
-
 	//-- Fading ---------------------------------------------------------------
 
 	//! \brief call after all map images are drawn to apply a fade effect.

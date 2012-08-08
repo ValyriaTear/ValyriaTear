@@ -263,7 +263,7 @@ void MapMode::DrawPostEffects() {
 	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 	// Halos are additive blending made, so they should be applied
 	// as post-effects but before the GUI.
-	_object_supervisor->DrawHalos();
+	_object_supervisor->DrawLights();
 
 	// Draw the gui, unaffected by potential
 	// fading effects.
@@ -360,6 +360,20 @@ void MapMode::AddHalo(const std::string& filename, float x, float y,
 						const Color& color, MAP_CONTEXT map_context) {
 	Halo *halo = new Halo(filename, x, y, color, map_context);
 	_object_supervisor->_halos.push_back(halo);
+}
+
+void MapMode::AddLight(const std::string& main_flare_filename,
+                       const std::string& secondary_flare_filename,
+                       float x, float y,
+                       const Color& main_color,
+                       const Color& secondary_color,
+                       MAP_CONTEXT map_context) {
+    Light *light = new Light(main_flare_filename,
+                          secondary_flare_filename,
+                          x, y, main_color,
+                          secondary_color,
+                          map_context);
+    _object_supervisor->_lights.push_back(light);
 }
 
 bool MapMode::IsEnemyLoaded(uint32 id) const {

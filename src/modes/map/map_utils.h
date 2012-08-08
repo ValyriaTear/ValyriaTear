@@ -147,7 +147,8 @@ enum MAP_OBJECT_TYPE {
 	TREASURE_TYPE = 4,	/** This is a treasure, can obtain a treasure from it when exploring,
 						    but blocking for movement. */
 	SAVE_TYPE = 5,		//! This is a save point. The player can save while its character is in it.
-	HALO_TYPE = 6		//! This is a source of light, here for eye candy.
+	HALO_TYPE = 6,		//! This is a source of light, here for eye candy.
+	LIGHT_TYPE = 7		//! Another light type, but will change dynamically according to the map viewpoint.
 };
 
 

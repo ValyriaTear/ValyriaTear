@@ -94,6 +94,7 @@ void BindModeCode() {
 			.def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
 			.def("AddSavePoint", &MapMode::AddSavePoint)
 			.def("AddHalo", &MapMode::AddHalo)
+			.def("AddLight", &MapMode::AddLight)
 			.def("SetCamera", (void(MapMode::*)(private_map::VirtualSprite*))&MapMode::SetCamera)
 			.def("SetCamera", (void(MapMode::*)(private_map::VirtualSprite*, uint32))&MapMode::SetCamera)
 			.def("MoveVirtualFocus", (void(MapMode::*)(float, float))&MapMode::MoveVirtualFocus)

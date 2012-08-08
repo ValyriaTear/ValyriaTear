@@ -141,6 +141,14 @@ public:
 	void AddHalo(const std::string& filename, float x, float y, const hoa_video::Color& color,
 					hoa_map::private_map::MAP_CONTEXT map_context);
 
+    //! \brief Add a light source at the given coordinates.
+	void AddLight(const std::string& main_flare_filename,
+                  const std::string& secondary_flare_filename,
+                  float x, float y,
+                  const hoa_video::Color& main_color,
+                  const hoa_video::Color& secondary_color,
+                  hoa_map::private_map::MAP_CONTEXT map_context);
+
 	//! \brief Vectors containing the save points animations (when the character is in or not).
 	std::vector<hoa_video::AnimatedImage> active_save_point_animations;
 	std::vector<hoa_video::AnimatedImage> inactive_save_point_animations;

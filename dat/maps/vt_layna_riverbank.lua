@@ -463,6 +463,28 @@ function CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Tree Big2", 76, 50);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	-- Lights
+	-- big round windows light flares
+	Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
+		    "img/misc/lights/sun_flare_light_secondary.lua",
+	    94.0, 40.0,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	    hoa_map.MapMode.CONTEXT_01);
+	Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
+		    "img/misc/lights/sun_flare_light_secondary.lua",
+	    102.0, 40.0,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	    hoa_map.MapMode.CONTEXT_01);
+	-- Small door lights
+	Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
+		    "img/misc/lights/sun_flare_light_small_secondary.lua",
+	    98.0, 43.5,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	    hoa_map.MapMode.CONTEXT_01);
 end
 
 -- Creates all events and sets up the entire event sequence chain

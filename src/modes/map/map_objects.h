@@ -190,7 +190,7 @@ public:
 	/** \brief Returns the image rectangle for the current object
 	*** \param rect A MapRectangle object storing the image rectangle data
 	**/
-	MapRectangle GetImageRectangle() const;
+	virtual MapRectangle GetImageRectangle() const;
 
 	/** \brief Restores the saved state of the object
 	*** This state data is retained in the saved game file. When any map object is created and added
@@ -429,7 +429,70 @@ private:
 	hoa_video::Color _color;
 
 	//@}
-}; // class SavePoint : public MapObject
+}; // class Halo : public MapObject
+
+/** ****************************************************************************
+*** \brief Represents a source of light on the map, changing its orientation
+*** according to the camera view.
+*** ***************************************************************************/
+class Light : public MapObject {
+public:
+	//! \brief setup a halo on the map, using the given animation file.
+	Light(const std::string& main_flare_filename,
+		 const std::string& secondary_flare_filename,
+		 float x, float y,
+		 const hoa_video::Color& main_color, const hoa_video::Color& secondary_color,
+		 MAP_CONTEXT map_context);
+
+	~Light()
+	{}
+
+	//! \brief Updates the object's current animation and orientation
+	//! \note the actual image resources is handled by the main map object.
+	void Update();
+
+	//! \brief Draws the object to the screen, if it is visible.
+	//! \note the actual image resources is handled by the main map object.
+	void Draw();
+
+	/** \brief Returns the image rectangle for the current object
+	*** \param rect A MapRectangle object storing the image rectangle data
+	**/
+	MapRectangle GetImageRectangle() const;
+private:
+	//! Updates the angle and distance from the camera viewpoint
+	void _UpdateLightAngle();
+
+	//! \brief A reference to the current light animation.
+	hoa_video::AnimatedImage _main_animation;
+	hoa_video::AnimatedImage _secondary_animation;
+
+	//! The blending color of the light
+	hoa_video::Color _main_color;
+	hoa_video::Color _secondary_color;
+
+	//! The blending color with dynamic alpha, for better rendering
+	hoa_video::Color _main_color_alpha;
+	hoa_video::Color _secondary_color_alpha;
+
+	//! used to compute the flare lines equation.
+	float _a, _b;
+	//! Distance between the light and the camera viewpoint.
+	float _distance;
+
+	//! Random distance factor used to make the secondary flares appear at random places
+	float _distance_factor_1;
+	float _distance_factor_2;
+	float _distance_factor_3;
+	float _distance_factor_4;
+
+	/** \brief Used for optimization, keeps the last center position.
+	*** So that we update the distance and angle only when this position has changed.
+	**/
+	MapPosition _last_center_pos;
+
+	//@}
+}; // class Light : public MapObject
 
 
 /** ****************************************************************************
@@ -592,7 +655,7 @@ public:
 	void DrawGroundObjects(const bool second_pass);
 	void DrawPassObjects();
 	void DrawSkyObjects();
-	void DrawHalos();
+	void DrawLights();
 	void DrawDialogIcons();
 	//@}
 
@@ -743,9 +806,10 @@ private:
 	**/
 	std::vector<MapObject*> _sky_objects;
 
-	//! \brief A container for all of the map source of light, quite similar as the ground objects container.
-	//! \note Halos are not registered in _all_objects.
+	//! \brief Containers for all of the map source of light, quite similar as the ground objects container.
+	//! \note Halos and lights are not registered in _all_objects.
 	std::vector<Halo*> _halos;
+	std::vector<Light*> _lights;
 
 	//! \brief Container for all zones used in this map
 	std::vector<MapZone*> _zones;

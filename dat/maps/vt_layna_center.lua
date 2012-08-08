@@ -481,6 +481,42 @@ function CreateObjects()
 	object = _CreateObject(Map, "Barrel1", 30, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
+	-- Lights
+	-- big round windows light flares
+	Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
+		    "img/misc/lights/sun_flare_light_secondary.lua",
+	    74.0, 55.0,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	    hoa_map.MapMode.CONTEXT_01);
+
+	Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
+		    "img/misc/lights/sun_flare_light_secondary.lua",
+	    86.0, 67.0,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	    hoa_map.MapMode.CONTEXT_01);
+	Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
+		    "img/misc/lights/sun_flare_light_secondary.lua",
+	    22.0, 32.0,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	    hoa_map.MapMode.CONTEXT_01);
+
+	-- Small door lights
+	Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
+		    "img/misc/lights/sun_flare_light_small_secondary.lua",
+	    12.0, 57.5,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	  hoa_map.MapMode.CONTEXT_01);
+	Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
+		    "img/misc/lights/sun_flare_light_small_secondary.lua",
+	    94.0, 67.5,
+	    hoa_video.Color(1.0, 1.0, 1.0, 0.6),
+	    hoa_video.Color(1.0, 1.0, 0.85, 0.3),
+	    hoa_map.MapMode.CONTEXT_01);
+
 	-- Treasure vase
 	local nekko_vase = _CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37);
 	if (nekko_vase ~= nil) then

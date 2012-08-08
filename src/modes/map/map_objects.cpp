@@ -296,6 +296,152 @@ void Halo::Draw() {
 		VideoManager->DrawHalo(*_animation.GetCurrentFrame(), _color);
 }
 
+// Light objects
+Light::Light(const std::string& main_flare_filename,
+			const std::string& secondary_flare_filename,
+			float x, float y, const Color& main_color, const Color& secondary_color,
+			MAP_CONTEXT map_context):
+	MapObject()
+{
+	_main_color = main_color;
+	_secondary_color = secondary_color;
+
+	position.x = x;
+	position.y = y;
+
+	_object_type = LIGHT_TYPE;
+	context = map_context;
+	no_collision = true;
+
+	_a = _b = 0.0f;
+	_distance = 0.0f;
+
+	// For better eye-candy, randomize a bit the secondary flare distances.
+	_distance_factor_1 = RandomFloat(8.0f, 12.0f);
+	_distance_factor_2 = RandomFloat(17.0f, 23.0f);
+	_distance_factor_3 = RandomFloat(12.0f, 18.0f);
+	_distance_factor_4 = RandomFloat(5.0f, 9.0f);
+
+	if (_main_animation.LoadFromAnimationScript(main_flare_filename)) {
+		MapMode::ScaleToMapCoords(_main_animation);
+
+		// Setup the image collision for the display update
+		SetImgHalfWidth(_main_animation.GetWidth() / 3.0f);
+		SetImgHeight(_main_animation.GetHeight());
+	}
+	if (_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
+		MapMode::ScaleToMapCoords(_secondary_animation);
+	}
+}
+
+MapRectangle Light::GetImageRectangle() const {
+	MapRectangle rect;
+	rect.left = position.x - img_half_width;
+	rect.right = position.x + img_half_width;
+	// The y coord is also centered in that case
+	rect.top = position.y - (img_height / 2.0f);
+	rect.bottom = position.y + (img_height / 2.0f);
+	return rect;
+}
+
+void Light::_UpdateLightAngle() {
+	MapMode *mm = MapMode::CurrentInstance();
+	if (!mm)
+		return;
+	const MapFrame& frame = mm->GetMapFrame();
+
+	MapPosition center;
+	center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
+	center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
+
+	// Don't update the distance and angle data in that case.
+	if (center.x == _last_center_pos.x && center.y == _last_center_pos.y)
+		return;
+
+	_last_center_pos.x = center.x;
+	_last_center_pos.y = center.y;
+
+	_distance = (position.x - center.x) * (position.x - center.x);
+	_distance += (position.y - center.y) * (position.y - center.y);
+	_distance = sqrtf(_distance);
+
+	if (IsFloatEqual(position.x, center.x, 0.2f))
+		_a = 2.5f;
+	else
+		_a = (position.y - center.y) / (position.x - center.x);
+
+	// Prevent angles rough-edges
+	if (_a < 0.0f)
+		_a = -_a;
+	if  (_a > 2.5f)
+		_a = 2.5f;
+
+	_b = position.y - _a * position.x;
+
+	// Update the flare alpha depending on the distance
+	float distance = _distance / 5.0f;
+
+	if (distance < 0.0f)
+		distance = -distance;
+	if (distance < 1.0f)
+		distance = 1.0f;
+
+	_main_color_alpha = _main_color;
+	_main_color_alpha.SetAlpha(_main_color.GetAlpha() / distance);
+	_secondary_color_alpha = _secondary_color;
+	_secondary_color_alpha.SetAlpha(_secondary_color.GetAlpha() / distance);
+}
+
+void Light::Update() {
+	if (updatable) {
+		_main_animation.Update();
+		_secondary_animation.Update();
+		_UpdateLightAngle();
+	}
+}
+
+void Light::Draw() {
+	if (MapObject::ShouldDraw()
+		&& _main_animation.GetCurrentFrame()) {
+		MapMode *mm = MapMode::CurrentInstance();
+		if (!mm)
+			return;
+		const MapFrame& frame = mm->GetMapFrame();
+
+		VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+
+		VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), _main_color_alpha);
+
+		if (!_secondary_animation.GetCurrentFrame())
+			return;
+
+		float next_pos_x = position.x - _distance / _distance_factor_1;
+		float next_pos_y = _a * next_pos_x + _b;
+	    VideoManager->Move(next_pos_x - frame.screen_edges.left,
+					        next_pos_y - frame.screen_edges.top);
+		VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+		next_pos_x = position.x - _distance / _distance_factor_2;
+		next_pos_y = _a * next_pos_x + _b;
+		VideoManager->Move(next_pos_x - frame.screen_edges.left,
+					        next_pos_y - frame.screen_edges.top);
+		VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+		next_pos_x = position.x + _distance / _distance_factor_3;
+		next_pos_y = _a * next_pos_x + _b;
+		VideoManager->Move(next_pos_x - frame.screen_edges.left,
+					        next_pos_y - frame.screen_edges.top);
+		VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+		next_pos_x = position.x + _distance / _distance_factor_4;
+		next_pos_y = _a * next_pos_x + _b;
+		VideoManager->Move(next_pos_x - frame.screen_edges.left,
+					        next_pos_y - frame.screen_edges.top);
+		VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+		VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+	}
+}
 
 // ----------------------------------------------------------------------------
 // ---------- TreasureObject Class Functions
@@ -427,6 +573,9 @@ ObjectSupervisor::~ObjectSupervisor() {
 	for (uint32 i = 0; i < _halos.size(); ++i) {
 		delete(_halos[i]);
 	}
+	for (uint32 i = 0; i < _lights.size(); ++i) {
+		delete(_lights[i]);
+	}
 	delete(_virtual_focus);
 }
 
@@ -519,6 +668,8 @@ void ObjectSupervisor::Update() {
 		_sky_objects[i]->Update();
 	for (uint32 i = 0; i < _halos.size(); ++i)
 		_halos[i]->Update();
+	for (uint32 i = 0; i < _lights.size(); ++i)
+		_lights[i]->Update();
 	for (uint32 i = 0; i < _zones.size(); ++i)
 		_zones[i]->Update();
 
@@ -551,9 +702,11 @@ void ObjectSupervisor::DrawSkyObjects() {
 	}
 }
 
-void ObjectSupervisor::DrawHalos() {
+void ObjectSupervisor::DrawLights() {
 	for (uint32 i = 0; i < _halos.size(); ++i)
 		_halos[i]->Draw();
+	for (uint32 i = 0; i < _lights.size(); ++i)
+		_lights[i]->Draw();
 }
 
 void ObjectSupervisor::DrawDialogIcons() {
