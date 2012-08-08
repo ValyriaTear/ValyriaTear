@@ -412,8 +412,10 @@ void Light::Draw() {
 
 		VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), _main_color_alpha);
 
-		if (!_secondary_animation.GetCurrentFrame())
+		if (!_secondary_animation.GetCurrentFrame()) {
+			VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 			return;
+		}
 
 		float next_pos_x = position.x - _distance / _distance_factor_1;
 		float next_pos_y = _a * next_pos_x + _b;
