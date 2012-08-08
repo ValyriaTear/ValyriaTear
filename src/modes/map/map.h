@@ -212,19 +212,25 @@ public:
 	private_map::MAP_CONTEXT GetCurrentContext() const;
 
 	bool IsShowGUI() const
-		{ return _show_gui; }
+	{ return _show_gui; }
 
 	void SetShowGUI(bool state)
-		{ _show_gui = state; }
+	{ _show_gui = state; }
 
 	const hoa_video::AnimatedImage& GetDialogueIcon() const
-		{ return _dialogue_icon; }
+	{ return _dialogue_icon; }
 
 	const hoa_video::StillImage& GetMapImage() const
-		{ return _map_image; }
+	{ return _map_image; }
+
+	bool IsCameraXAxisInMapCorner() const
+	{ return _camera_x_in_map_corner; }
+
+	bool IsCameraYAxisInMapCorner() const
+	{ return _camera_y_in_map_corner; }
 
 	//! \brief Tells whether a battle can start
-    bool AttackAllowed();
+	bool AttackAllowed();
 
 	/**
 	 * \brief Since the map coords are non standard, this function
@@ -302,6 +308,13 @@ private:
 
 	//! \brief Retains information needed to correctly draw the next map frame
 	private_map::MapFrame _map_frame;
+
+	/** \brief Indicates whether we are in a map corner for one of the other axis,
+	*** thus disabling any sprite shifting parallax for this axis
+	*** since the map view won't move in that direction.
+	**/
+	bool _camera_x_in_map_corner;
+	bool _camera_y_in_map_corner;
 
 	//! \brief A pointer to the map sprite that the map camera will focus on
 	private_map::VirtualSprite* _camera;

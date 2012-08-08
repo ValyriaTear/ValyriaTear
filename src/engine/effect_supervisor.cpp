@@ -53,7 +53,8 @@ EffectSupervisor::EffectSupervisor()
 
 
 void EffectSupervisor::EnableAmbientOverlay(const string &filename,
-									   float x_speed, float y_speed) {
+											float x_speed, float y_speed,
+											bool parallax) {
 	// Note: The StillImage class handles clearing an image
 	// when loading another one.
 	_ambient_overlay_img.Clear();
@@ -64,6 +65,9 @@ void EffectSupervisor::EnableAmbientOverlay(const string &filename,
 		_info.overlay.x_speed = x_speed;
 		_info.overlay.y_speed = y_speed;
 		_info.overlay.active = true;
+		_info.overlay.x_parallax = 0.0f;
+		_info.overlay.y_parallax = 0.0f;
+		_info.overlay.is_parallax = parallax;
 	}
 }
 
@@ -200,6 +204,14 @@ void EffectSupervisor::_UpdateAmbientOverlay(uint32 frame_time) {
 	//static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
 	_info.overlay.x_shift += elapsed_ms / 1000 * _info.overlay.x_speed;
 	_info.overlay.y_shift += elapsed_ms / 1000 * _info.overlay.y_speed;
+
+	// Add the parallax values to the shifting and reset them for next update.
+	if (_info.overlay.is_parallax) {
+		_info.overlay.x_shift += _info.overlay.x_parallax;
+		_info.overlay.y_shift += _info.overlay.y_parallax;
+	}
+	_info.overlay.x_parallax = 0.0f;
+	_info.overlay.y_parallax = 0.0f;
 
 	float width = _ambient_overlay_img.GetWidth();
 	float height = _ambient_overlay_img.GetHeight();

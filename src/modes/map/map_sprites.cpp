@@ -240,6 +240,18 @@ void VirtualSprite::_SetNextPosition() {
 			return;
 	}
 
+	// Inform the overlay system of the parallax movement done if needed
+	if (this == map->GetCamera()) {
+		float x_parallax = !map->IsCameraXAxisInMapCorner() ?
+			(GetXPosition() - next_pos_x) / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
+			0.0f;
+		float y_parallax = !map->IsCameraYAxisInMapCorner() ?
+			(next_pos_y - GetYPosition()) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
+			0.0f;
+
+		map->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+	}
+
 	// Make the sprite advance at the end
 	SetPosition(next_pos_x, next_pos_y);
 	moved_position = true;

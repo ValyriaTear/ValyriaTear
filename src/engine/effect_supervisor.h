@@ -37,6 +37,11 @@ struct AmbientOverlayInfo {
 	float y_shift;
 	//! Tells whether the ambient effect is enabled
 	bool active;
+	//! The camera shifting since the last update
+	float x_parallax;
+	float y_parallax;
+	//! Set whether the parallax effect is active.
+	bool is_parallax;
 };
 
 struct AmbientLightInfo {
@@ -84,13 +89,20 @@ public:
 	void DisableLightingOverlay();
 
 	/** \brief Load and enable the textured ambient overlay
-	 * the speed x and y factor are used to make the overlay slide on the screen.
-	 */
-	void EnableAmbientOverlay(const std::string &filename, float x_speed, float y_speed);
+	*** the speed x and y factor are used to make the overlay slide on the screen.
+	*** \param parallax indicates whether the overlay shifing should counter the camera movement,
+	*** thus creating a parallax effect.
+	**/
+	void EnableAmbientOverlay(const std::string &filename,
+							  float x_speed, float y_speed,
+							  bool parallax = false);
 
-	/** \brief disables the textured ambient overlay
-	 */
+	//! \brief disables the textured ambient overlay
 	void DisableAmbientOverlay();
+
+	//! \brief Adds to the ovleray parallax values. Used by the map mode when the camera is moving.
+	void AddParallax(float x, float y)
+	{ _info.overlay.x_parallax += x; _info.overlay.y_parallax += y; }
 
 	/** \brief Enable the lightning overlay
 	 * \param id the lighning effect id (See the lightning effect lua script)

@@ -297,6 +297,9 @@ function Load(m)
 	CreateZones();
 
 	_TriggerPotentialDialogueAfterFadeIn();
+
+	-- Add clouds overlay
+	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 end
 
 function Update()

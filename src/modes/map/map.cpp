@@ -68,6 +68,8 @@ MapMode::MapMode(const std::string& filename) :
 	_event_supervisor(NULL),
 	_dialogue_supervisor(NULL),
 	_treasure_supervisor(NULL),
+	_camera_x_in_map_corner(false),
+	_camera_y_in_map_corner(false),
 	_camera(NULL),
 	_delta_x(0),
 	_delta_y(0),
@@ -643,6 +645,10 @@ void MapMode::_UpdateExplore() {
 
 
 void MapMode::_UpdateMapFrame() {
+	// Reinit map corner check members
+	_camera_x_in_map_corner = false;
+	_camera_y_in_map_corner = false;
+
 	// Determine the center position coordinates for the camera
 	float camera_x, camera_y; // Holds the final X, Y coordinates of the camera
 	float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
@@ -706,6 +712,7 @@ void MapMode::_UpdateMapFrame() {
 		_map_frame.tile_x_offset = 1.0f;
 		_map_frame.screen_edges.left = 0.0f;
 		_map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
+		_camera_x_in_map_corner = true;
 	}
 	// Camera exceeds the right boundary of the map
 	else if (_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
@@ -713,6 +720,7 @@ void MapMode::_UpdateMapFrame() {
 		_map_frame.tile_x_offset = 1.0f;
 		_map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
 		_map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
+		_camera_x_in_map_corner = true;
 	}
 
 	// Camera exceeds the top boundary of the map
@@ -721,6 +729,7 @@ void MapMode::_UpdateMapFrame() {
 		_map_frame.tile_y_offset = 2.0f;
 		_map_frame.screen_edges.top = 0.0f;
 		_map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
+		_camera_y_in_map_corner = true;
 	}
 	// Camera exceeds the bottom boundary of the map
 	else if (_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
@@ -728,6 +737,7 @@ void MapMode::_UpdateMapFrame() {
 		_map_frame.tile_y_offset = 2.0f;
 		_map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
 		_map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
+		_camera_y_in_map_corner = true;
 	}
 
 	// Determine the number of rows and columns of tiles that need to be drawn
