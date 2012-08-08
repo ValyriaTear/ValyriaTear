@@ -48,6 +48,7 @@
 
 #include "image_base.h"
 
+struct U;
 namespace hoa_mode_manager {
 class ParticleSystem;
 }
@@ -597,11 +598,14 @@ public:
 	/** \brief Called every frame to update the animation's current frame
 	*** This will automatically synchronize the animation according to the time passed
 	*** since the last call.
-	***
+	*** \param elapsed_time Used to force a certain amount of time, i.e: accelerate an animation.
+	*** The function will use actual elapsed time if equal to 0.
 	*** \note This method will do nothing if there are no frames contained in the animation,
 	*** or if the _loops_finished member is set to true.
 	**/
-	void Update();
+	void Update(uint32 elapsed_time);
+	void Update()
+	{ Update(0); }
 
 	/** \brief Adds an animation frame using the filename of the image to add.
 	*** \param frame The filename of the frame image to add.

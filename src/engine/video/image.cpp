@@ -1444,7 +1444,7 @@ void AnimatedImage::DisableGrayScale() {
 
 
 
-void AnimatedImage::Update() {
+void AnimatedImage::Update(uint32 elapsed_time) {
 	if (_frames.size() <= 1)
 		return;
 
@@ -1452,7 +1452,7 @@ void AnimatedImage::Update() {
 		return;
 
 	// Get the amount of milliseconds that have pass since the last display
-	uint32 ms_change = hoa_system::SystemManager->GetUpdateTime();
+	uint32 ms_change = (elapsed_time == 0) ? hoa_system::SystemManager->GetUpdateTime() : elapsed_time;
 	_frame_counter += ms_change;
 	// If the frame time has expired, update the frame index and counter.
 	while (_frame_counter >= _frames[_frame_index].frame_time) {

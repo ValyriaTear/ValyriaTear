@@ -826,7 +826,13 @@ void MapSprite::Update() {
 		last_animation->at(last_anim_direction).SetTimeProgress(0);
 	}
 
-	_animation->at(_current_anim_direction).Update();
+	// Take care of adapting the update time according to the sprite speed when walking or running
+	uint32 elapsed_time = 0;
+	if (_animation == &_walking_animations || (_has_running_animations && _animation == &_running_animations)) {
+		elapsed_time = (uint32)(((float)hoa_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / movement_speed);
+	}
+
+	_animation->at(_current_anim_direction).Update(elapsed_time);
 
 	was_moved = moved_position;
 } // void MapSprite::Update()
