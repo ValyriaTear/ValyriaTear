@@ -622,7 +622,7 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	-- Georges event
-	event = hoa_map.ScriptedEvent("Quest1: Georges whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
+	event = hoa_map.ScriptedEvent("Quest1: Georges tells whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
 	EventManager:RegisterEvent(event);
 
 	-- Can't enter the forest so easily
@@ -1054,9 +1054,19 @@ function _UpdateGeorgesDialogue()
 
     georges:ClearDialogueReferences();
 
-    if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == true) then
+    if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == true
+        and GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == false) then
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("In fact, the barley meal was for Lilly.");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("!! What?");
+        dialogue:AddLine(text, bronann);
+        text = hoa_system.Translate("Don't thank me for that, it's my pleasure.");
+        dialogue:AddLine(text, georges);
+        DialogueManager:AddDialogue(dialogue);
+        georges:AddDialogueReference(dialogue);
+	return;
         -- Quest 1 done as for Georges
-        -- Default behaviour
     elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
         dialogue = hoa_map.SpriteDialogue();
@@ -1073,7 +1083,7 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("!! What?");
         dialogue:AddLine(text, bronann);
         text = hoa_system.Translate("Don't thank me for that, it's my pleasure.");
-        dialogue:AddLineEvent(text, georges, "Quest1: Georges whom the barley meal was for");
+        dialogue:AddLineEvent(text, georges, "Quest1: Georges tells whom the barley meal was for");
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
@@ -1089,7 +1099,7 @@ function _UpdateGeorgesDialogue()
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
-	elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_center_shop_lua", "quest1_flora_dialogue_done") == true) then
+    elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_center_shop_lua", "quest1_flora_dialogue_done") == true) then
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Hi Georges. Erm, I'm coming from the shop and I ...");
         dialogue:AddLine(text, bronann);
