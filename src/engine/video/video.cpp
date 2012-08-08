@@ -734,7 +734,12 @@ StillImage VideoEngine::CaptureScreen() throw(Exception) {
 	return screen_image;
 }
 
-
+void VideoEngine::DrawText(const ustring& text, float x, float y, const Color &c) {
+	Move(x, y);
+	TextStyle text_style = Text()->GetDefaultStyle();
+	text_style.color = c;
+	Text()->Draw(text, text_style);
+}
 
 void VideoEngine::SetGamma(float value) {
 	_gamma_value = value;

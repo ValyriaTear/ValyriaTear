@@ -495,6 +495,16 @@ public:
 	TextSupervisor* Text()
 		{ return TextManager; }
 
+	/** \brief Helper to draw some text at the given position.
+	 *
+	 * \param x x coordinate to start grid at
+	 * \param y y coordinate to start grid at
+	 * \param c color of the text
+	 */
+	void DrawText(const std::string& text, float x, float y, const Color &c)
+	{ DrawText(hoa_utils::MakeUnicodeString(text), x, y, c); }
+	void DrawText(const hoa_utils::ustring& text, float x, float y, const Color &c);
+
 	/** \brief Returns a pointer to the TextureManager singleton object
 	*** This method allows the user to perform texture management operations. For example, to reload
 	*** all textures, the user may utilize this method like so:

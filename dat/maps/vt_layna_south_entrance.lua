@@ -266,6 +266,20 @@ function Load(m)
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+	
+	_HandleCredits();
+end
+
+-- Handle the display of the new game credits
+function _HandleCredits()
+    -- Handle small credits triggering
+    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+        -- Triggers the small credits display
+        GlobalManager:SetEventValue("game", "Start_Credits", 1);
+    end
+    if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
+        Map:GetScriptSupervisor():AddScript("dat/small_credits.lua");
+    end
 end
 
 function Update()

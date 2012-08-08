@@ -136,8 +136,8 @@ MapMode::MapMode(const std::string& filename) :
 	_camera_timer.Initialize(0, 1);
 
 	if (!_Load()) {
-	    PRINT_ERROR << "Couldn't load the map file: " << _map_filename << endl
-	        << "Returning to boot mode. You should report this error." << endl;
+	    PRINT_ERROR << "Couldn't load the map file: " << _map_filename << std::endl
+	        << "Returning to boot mode. You should report this error." << std::endl;
 	    BootMode *BM = new BootMode();
 	    ModeManager->PopAll();
 	    ModeManager->Push(BM);
@@ -148,17 +148,20 @@ MapMode::MapMode(const std::string& filename) :
 	_dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
 	ScaleToMapCoords(_dialogue_icon);
 
-	if (_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24) == false)
-		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar background image" << endl;
+	if (!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
+		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar background image" << std::endl;
 
-	if (_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24) == false)
-		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar infinite overlay image" << endl;
+	if (!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
+		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar infinite overlay image" << std::endl;
+
+	// Init the script component.
+	GetScriptSupervisor().Initialize(this);
 }
 
 
 
 MapMode::~MapMode() {
-	for (uint32 i = 0; i < _enemies.size(); i++)
+	for (uint32 i = 0; i < _enemies.size(); ++i)
 		delete(_enemies[i]);
 	_enemies.clear();
 
@@ -190,6 +193,9 @@ void MapMode::Reset() {
 	    music->Play();
 
 	_intro_timer.Run();
+
+	// Reset potential map scripts
+	GetScriptSupervisor().Reset();
 }
 
 
@@ -253,19 +259,36 @@ void MapMode::Update() {
 
 
 void MapMode::Draw() {
+	VideoManager->SetStandardCoordSys();
+	GetScriptSupervisor().DrawBackground();
+
+	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
+	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 	if (_draw_function.is_valid())
 		ScriptCallFunction<void>(_draw_function);
 	else
 		_DrawMapLayers();
 
+	VideoManager->SetStandardCoordSys();
+	GetScriptSupervisor().DrawForeground();
+
+	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
+	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 	_object_supervisor->DrawDialogIcons();
 }
 
 void MapMode::DrawPostEffects() {
 	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
+	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 	// Halos are additive blending made, so they should be applied
 	// as post-effects but before the GUI.
 	_object_supervisor->DrawLights();
+
+	VideoManager->SetStandardCoordSys();
+	GetScriptSupervisor().DrawPostEffects();
+
+	VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
+	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
 	// Draw the gui, unaffected by potential
 	// fading effects.
