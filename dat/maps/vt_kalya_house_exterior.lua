@@ -354,9 +354,20 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function CreateEvents()
 	local event = {};
+	local dialogue = {};
+	local text = {}
 
 	-- Triggered Events
 	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/vt_kalya_house_path.lua", "from_kalya_house_exterior");
+	EventManager:RegisterEvent(event);
+
+	-- Kalya house locked door event
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Hmm, The door is locked.");
+	dialogue:AddLine(text, bronann);
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("Bronann can't enter kalya house", dialogue);
+	event:SetStopCameraMovement(true);
 	EventManager:RegisterEvent(event);
 end
 
@@ -364,14 +375,20 @@ function CreateZones()
 	-- N.B.: left, right, top, bottom
 	kalya_house_path_zone = hoa_map.CameraZone(28, 58, 46, 47, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(kalya_house_path_zone);
+
+	kalya_house_entrance_zone = hoa_map.CameraZone(42, 46, 16, 17, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(kalya_house_entrance_zone);
 end
 
 function CheckZones()
 	if (kalya_house_path_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Kalya house path");
+	end
+	
+	if (kalya_house_entrance_zone:IsCameraEntering() == true) then
+		bronann:SetMoving(false);
+		EventManager:StartEvent("Bronann can't enter kalya house");
 	end
 end
 
