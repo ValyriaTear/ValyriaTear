@@ -441,7 +441,6 @@ function CreateNPCs()
 	Map:AddGroundObject(georges);
 	georges:SetDirection(hoa_map.MapMode.WEST);
 	_UpdateGeorgesDialogue(georges);
-
 end
 
 function CreateObjects()

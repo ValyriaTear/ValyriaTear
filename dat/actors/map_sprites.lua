@@ -251,6 +251,26 @@ sprites["Lord"] = {
     }
 }
 
+-- ---------
+-- Scening - Animals, ect ...
+-- ---------
+sprites["Chicken"] = {
+	name = hoa_system.Translate("Chicken"),
+	coll_half_width = 0.95,
+	coll_height = 0.8,
+	img_half_width = 1.0,
+	img_height = 2.0,
+	movement_speed = VERY_SLOW_SPEED,
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/scening/chicken_idle.lua",
+        walk = "img/sprites/map/scening/chicken_walk.lua"
+    }
+}
+
+
+
 
 -- ---------
 -- Enemies

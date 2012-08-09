@@ -353,6 +353,27 @@ function CreateNPCs()
 	dialogue:AddLine(text, npc);
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
+
+	npc = _CreateSprite(Map, "Chicken", 15, 34);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Chicken1 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Chicken1 random move");
+	
+	npc = _CreateSprite(Map, "Chicken", 17, 32);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Chicken2 random move", 1200);
+	
+	npc = _CreateSprite(Map, "Chicken", 21, 31);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Chicken3 random move", 2100);
 end
 
 function CreateObjects()
