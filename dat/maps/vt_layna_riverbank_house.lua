@@ -257,7 +257,7 @@ function CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Box1", 21, 26);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Chair1_inverted", 49, 20);
+	object = _CreateObject(Map, "Chair1_inverted", 39, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Small Wooden Table", 42, 21);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
