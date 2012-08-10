@@ -254,7 +254,7 @@ function CreateCharacters()
 end
 
 function CreateNPCs()
-	npc = _CreateNPCSprite(Map, "Woman1", "Flora", 39, 20.6);
+	npc = _CreateNPCSprite(Map, "Woman1", "Flora", 39, 20);
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(npc);
 
