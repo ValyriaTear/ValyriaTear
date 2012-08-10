@@ -1053,7 +1053,9 @@ function _UpdateGeorgesDialogue()
 
     georges:ClearDialogueReferences();
 
-    if (GlobalEvents:DoesEventExist("quest1_pen_given_done") == true
+    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == true) then
+	-- default behaviour once the barley meal is given
+    elseif (GlobalEvents:DoesEventExist("quest1_pen_given_done") == true
         and GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == false) then
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("In fact, the barley meal was for Lilly.");

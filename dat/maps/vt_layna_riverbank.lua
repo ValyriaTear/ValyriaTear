@@ -853,7 +853,14 @@ end
 function _SetLillyState()
 	lilly:SetDirection(hoa_map.MapMode.WEST);
 	lilly:ClearDialogueReferences();
-	if (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == true) then
+	if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == true) then
+		-- Once they can go into the forest
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("We're counting on you.");
+		dialogue:AddLine(text, lilly);
+		DialogueManager:AddDialogue(dialogue);
+		lilly :AddDialogueReference(dialogue);	  
+	elseif (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("You should go back home. Your mom must be waiting for you.");
 		dialogue:AddLine(text, lilly);
