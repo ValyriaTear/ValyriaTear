@@ -49,7 +49,7 @@ function Initialize(map_instance)
         },
         [4] = {
             header = hoa_system.Translate("Music"),
-            text = "Mathew Pablo"
+            text = "Mathew Pablo\nwww.matthewpablo.com"
         },
         [5] = {
             header = hoa_system.Translate("Programming & Scripting"),
