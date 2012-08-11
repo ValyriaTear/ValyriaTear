@@ -286,7 +286,10 @@ public:
 	//! \brief Updates all dialogue status members based on the status of all referenced dialogues
 	void UpdateDialogueStatus();
 
-	//! \brief Increments the next_dialogue member to index the proceeding dialogue
+	/** \brief Increments the next_dialogue member to index the proceeding dialogue
+	*** \note Change from Allacrost: Stay at the last dialogue when at this point.
+	*** (Don't go back to the first one as done previously).
+	**/
 	void IncrementNextDialogue();
 
 	/** \brief Sets the next dialogue member for the sprite

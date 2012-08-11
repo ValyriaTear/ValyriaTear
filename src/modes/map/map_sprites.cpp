@@ -967,12 +967,14 @@ void MapSprite::IncrementNextDialogue() {
 	int16 last_dialogue = _next_dialogue;
 
 	while (true) {
-		_next_dialogue++;
-		if (static_cast<uint16>(_next_dialogue) >= _dialogue_references.size())
-			_next_dialogue = 0;
+		++_next_dialogue;
+		if (static_cast<uint16>(_next_dialogue) >= _dialogue_references.size()) {
+			--_next_dialogue;
+			return;
+		}
 
 		SpriteDialogue* dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[_next_dialogue]);
-		if (dialogue != NULL && dialogue->IsAvailable() == true) {
+		if (dialogue && dialogue->IsAvailable()) {
 			return;
 		}
 		// If this case occurs, all dialogues are now unavailable

@@ -353,6 +353,12 @@ function CreateNPCs()
 		dialogue:AddLine(text, npc);
 		DialogueManager:AddDialogue(dialogue);
 		npc:AddDialogueReference(dialogue);
+		-- The second time, just repeat the sentence
+		dialogue = hoa_map.SpriteDialogue();
+		text = hoa_system.Translate("It's a possibility but don't worry too much, ok?");
+		dialogue:AddLine(text, npc);
+		DialogueManager:AddDialogue(dialogue);
+		npc:AddDialogueReference(dialogue);
 	end
 
 	orlinn = _CreateSprite(Map, "Orlinn", 29, 22);
