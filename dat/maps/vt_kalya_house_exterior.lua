@@ -274,6 +274,11 @@ function CreateCharacters()
 		bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	end
 
+	if (GlobalManager:GetPreviousLocation() == "from_kalya_house_path_small_passage") then
+		bronann:SetPosition(2, 20);
+		bronann:SetDirection(hoa_map.MapMode.EAST);
+	end
+
 	Map:AddGroundObject(bronann);
 end
 
@@ -348,7 +353,13 @@ function CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Tree Big1", 6, 31);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-
+	
+	-- Treasures!
+	local kalya_house_exterior_chest = _CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22);
+	if (kalya_house_exterior_chest ~= nil) then
+		kalya_house_exterior_chest:AddObject(1, 1);
+		Map:AddGroundObject(kalya_house_exterior_chest);
+	end
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -359,6 +370,9 @@ function CreateEvents()
 
 	-- Triggered Events
 	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/vt_kalya_house_path.lua", "from_kalya_house_exterior");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to kalya house path small passage", "dat/maps/vt_kalya_house_path.lua", "from_kalya_house_small_passage");
 	EventManager:RegisterEvent(event);
 
 	-- Kalya house locked door event
@@ -376,6 +390,9 @@ function CreateZones()
 	kalya_house_path_zone = hoa_map.CameraZone(28, 58, 46, 47, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(kalya_house_path_zone);
 
+	kalya_house_path_small_passage_zone = hoa_map.CameraZone(0, 1, 0, 33, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(kalya_house_path_small_passage_zone);
+
 	kalya_house_entrance_zone = hoa_map.CameraZone(42, 46, 16, 17, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(kalya_house_entrance_zone);
 end
@@ -389,6 +406,11 @@ function CheckZones()
 	if (kalya_house_entrance_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("Bronann can't enter kalya house");
+	end
+	
+	if (kalya_house_path_small_passage_zone:IsCameraEntering() == true) then
+		bronann:SetMoving(false);
+		EventManager:StartEvent("to kalya house path small passage");
 	end
 end
 
