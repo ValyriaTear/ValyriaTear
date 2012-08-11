@@ -261,13 +261,15 @@ function CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Small Wooden Table", 22, 25);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Left Window Light", 21, 23);
-	object:SetNoCollision(true);
-	object:SetDrawOnSecondPass(true); -- Above any other ground object
+	object = _CreateObject(Map, "Box1", 22, 27);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	object = _CreateObject(Map, "Paper and Feather", 22, 23);
+	object:SetDrawOnSecondPass(true); -- Above any other ground object
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	object = _CreateObject(Map, "Left Window Light", 21, 23);
+	object:SetNoCollision(true);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
