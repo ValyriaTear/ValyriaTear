@@ -245,7 +245,7 @@ layers[5][1] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 layers[5][2] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[5][3] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[5][4] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
-layers[5][5] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
+layers[5][5] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[5][6] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[5][7] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[5][8] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
@@ -360,21 +360,21 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Chicken", 19, 34);
+	npc = _CreateSprite(Map, "Chicken", 21, 36);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken1 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Chicken1 random move");
 	
-	npc = _CreateSprite(Map, "Chicken", 17, 32);
+	npc = _CreateSprite(Map, "Chicken", 19, 34);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Chicken2 random move", 1200);
 	
-	npc = _CreateSprite(Map, "Chicken", 21, 31);
+	npc = _CreateSprite(Map, "Chicken", 23, 33);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
@@ -480,7 +480,46 @@ function CreateObjects()
 	object = _CreateObject(Map, "Tree Small1", 55, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
+	-- Fence
+	object = _CreateObject(Map, "Fence1 l top left", 17, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 19, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 21, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 23, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 25, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 27, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 l top right", 29, 32);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
 
+	object = _CreateObject(Map, "Fence1 vertical", 17, 34);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 vertical", 17, 36);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	object = _CreateObject(Map, "Fence1 l bottom left", 17, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 19, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 21, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 23, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 25, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 horizontal", 27, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 l bottom right", 29, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 vertical", 29, 34);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = _CreateObject(Map, "Fence1 vertical", 29, 36);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	
 	object = _CreateObject(Map, "Bench1", 7, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Barrel1", 20, 24);

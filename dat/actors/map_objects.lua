@@ -112,6 +112,54 @@ objects["Clock1"] = {
 	img_height = 2.0
 }
 
+objects["Fence1 horizontal"] = {
+	animation_filename = "img/sprites/map/objects/fence1-horizontal.lua",
+	coll_half_width = 1.0,
+	coll_height = 1.2,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Fence1 vertical"] = {
+	animation_filename = "img/sprites/map/objects/fence1-vertical.lua",
+	coll_half_width = 0.6,
+	coll_height = 2.0,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Fence1 l top left"] = {
+	animation_filename = "img/sprites/map/objects/fence1-l-top-left.lua",
+	coll_half_width = 0.6,
+	coll_height = 1.2,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Fence1 l top right"] = {
+	animation_filename = "img/sprites/map/objects/fence1-l-top-right.lua",
+	coll_half_width = 0.6,
+	coll_height = 1.2,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Fence1 l bottom left"] = {
+	animation_filename = "img/sprites/map/objects/fence1-l-bottom-left.lua",
+	coll_half_width = 0.6,
+	coll_height = 1.2,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
+objects["Fence1 l bottom right"] = {
+	animation_filename = "img/sprites/map/objects/fence1-l-bottom-right.lua",
+	coll_half_width = 0.6,
+	coll_height = 1.2,
+	img_half_width = 1.0,
+	img_height = 2.0
+}
+
 objects["Flower Pot1"] = {
 	animation_filename = "img/sprites/map/objects/flower_pot1.lua",
 	coll_half_width = 0.59,
