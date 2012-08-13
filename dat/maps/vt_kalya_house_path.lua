@@ -524,6 +524,13 @@ function CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Barrel1", 20, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
+	
+	-- Secret treasure chest
+	local chest = _CreateTreasure(Map, "kalya_house_path_chest", "Wood_Chest1", 8, 8);
+	if (chest ~= nil) then
+		chest:AddObject(1001, 1);
+		Map:AddGroundObject(chest);
+	end
 end
 
 -- Creates all events and sets up the entire event sequence chain

@@ -309,8 +309,13 @@ function CreateObjects()
 	-- Bronann's room
 	object = _CreateObject(Map, "Bed1", 20, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 19, 22);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	local chest = _CreateTreasure(Map, "bronann_room_chest", "Wood_Chest1", 19, 22);
+	if (chest ~= nil) then
+		chest:SetDrunes(5);
+		Map:AddGroundObject(chest);
+	end
+
 	object = _CreateObject(Map, "Chair1", 23, 26);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = _CreateObject(Map, "Small Wooden Table", 20, 27);
