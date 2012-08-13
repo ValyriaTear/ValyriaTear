@@ -320,22 +320,22 @@ img/sprites/map/objects/wooden_table_small.png  GPLv2	Allacrost
 
 img/sprites/map/scening/chicken_spritesheet.png     CC-By-SA 3.0   Daniel Eddeland <-> Daneeklu (OGA)
 
-img/tilesets/ancient_ruins_interior.png             CC by SA 3.0   Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/ancient_ruins_exterior.png             CC by SA 3.0   Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/building_interior_objects_01.png       CC by SA 3.0   Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/desert_house_tileset.png               GPLv2          From Jetrel's mockups + Bertram
-img/tilesets/harrvah_house_interior.png             GPLv2          Allacrost + From Jetrel's mockups + Bertram
-img/tilesets/mountain_house_interior.png            GPLv2          Allacrost + From Jetrel's mockups + Bertram
-img/tilesets/mountain_house_exterior2.png           CC by SA 3.0   Allacrost + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/mountain_landscape.png                 GPLv2          Allacrost + From Jetrel's mockups + Bertram
-img/tilesets/village_exterior.png                   CC by SA 3.0   C. Nilsson for the top-left three flowers (OGA), Guido Bos (OGA) for the other flowers, Daniel Eddeland (OGA) for everything else, except for the vertical bridge that I (Bertram) made based upon his style.
-img/tilesets/water-tileset.png                      CC by SA 3.0   From ??? (OGA) + touch-ups from Bertram : TODO: Find from which tileset the water is coming.
-img/tilesets/wood-tileset.png                       CC by SA 3.0   From Jetrel's mockups + Bertram
-img/tilesets/snow-tileset.png                       CC by SA 3.0   From Jetrel's mockups + Bertram + snow tree and ground from Yd (OGA)
+img/tilesets/ancient_ruins_interior.png             CC by SA 3.0                Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/tilesets/ancient_ruins_exterior.png             CC by SA 3.0                Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/tilesets/building_interior_objects_01.png       CC by SA 3.0                Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/tilesets/desert_house_tileset.png               GPLv2                       From Jetrel's mockups + Bertram
+img/tilesets/harrvah_house_interior.png             GPLv2                       Allacrost + From Jetrel's mockups + Bertram
+img/tilesets/mountain_house_interior.png            GPLv2                       Allacrost + From Jetrel's mockups + Bertram
+img/tilesets/mountain_house_exterior2.png           CC by SA 3.0                Allacrost + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/tilesets/mountain_landscape.png                 GPLv2                       Allacrost + From Jetrel's mockups + Bertram
+img/tilesets/village_exterior.png                   CC by SA 3.0                C. Nilsson for the top-left three flowers (OGA), Guido Bos (OGA) for the other flowers, Daniel Eddeland (OGA) for everything else, except for the vertical bridge that I (Bertram) made based upon his style.
+img/tilesets/water_tileset.png                      CC by SA 3.0/GPLv2          From C. Nilsson for the water lilies with transparent background (OGA/CC by SA 3.0) + LPC Team for the water lights (OGA/CC by SA 3.0), Leonard Pabin (Len) GPLv2 for the stones, the water original tiles, and the water lili with a dark blue background + Bertram's small variations.
+img/tilesets/wood_tileset.png                       CC by SA 3.0                From Jetrel's mockups + Bertram
+img/tilesets/snow_tileset.png                       CC by SA 3.0                From Jetrel's mockups + Bertram + snow tree and ground from Yd (OGA)
 
-mus/Soliloquy_1-OGA-mat-pablo.ogg				CC by SA 3.0 or GPLv3	Mathew Pablo (OGA)
-mus/Caketown_1-OGA-mat-pablo.ogg				CC by SA 3.0 or GPLv3	Mathew Pablo (OGA)
-mus/koertes-ccby-birdsongloop16s.ogg            CC by SA 3.0            Koertes (OGA)
+mus/Soliloquy_1-OGA-mat-pablo.ogg                   CC by SA 3.0 or GPLv3       Mathew Pablo (OGA)
+mus/Caketown_1-OGA-mat-pablo.ogg                    CC by SA 3.0 or GPLv3       Mathew Pablo (OGA)
+mus/koertes-ccby-birdsongloop16s.ogg                CC by SA 3.0                Koertes (OGA)
 
 snd/thunder.wav:								Public domain (Relicense as CC0 if necessary)
 snd/lightning.wav:								Public domain (Relicense as CC0 if necessary)
