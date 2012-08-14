@@ -123,7 +123,7 @@ TreasureSupervisor::TreasureSupervisor() :
 
 	_selection_name.SetStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
 
-	if (_drunes_icon.Load("img/icons/drunes.png") == false)
+	if (!_drunes_icon.Load("img/icons/drunes.png"))
 		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load drunes icon for treasure menu" << std::endl;
 } // TreasureSupervisor::TreasureSupervisor()
 
@@ -276,7 +276,12 @@ void TreasureSupervisor::_UpdateAction() {
 		else
 			IF_PRINT_WARNING(MAP_DEBUG) << "unhandled action selection in OptionBox: " << _action_options.GetSelection() << std::endl;
 	}
-	else if (InputManager->UpPress()) {
+
+	// when there is no item, no need to update anything
+	if (_list_options.GetNumberOptions() == 0)
+		return;
+
+	if (InputManager->UpPress()) {
 		_selection = LIST_SELECTED;
 		_list_options.SetSelection(_list_options.GetNumberOptions() - 1);
 		_action_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
@@ -291,7 +296,12 @@ void TreasureSupervisor::_UpdateAction() {
 }
 
 void TreasureSupervisor::_UpdateList() {
-	if (InputManager->ConfirmPress()) {
+	if (InputManager->CancelPress() || _list_options.GetNumberOptions() == 0) {
+		_selection = ACTION_SELECTED;
+		_action_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+		_list_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+	}
+	else if (InputManager->ConfirmPress()) {
 		_selection = DETAIL_SELECTED;
 		_list_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
@@ -312,13 +322,6 @@ void TreasureSupervisor::_UpdateList() {
 			_detail_textbox.SetDisplayText(_treasure->_objects_list[list_selection]->GetDescription());
 		}
 	}
-
-	else if (InputManager->CancelPress()) {
-		_selection = ACTION_SELECTED;
-		_action_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-		_list_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-	}
-
 	else if (InputManager->UpPress()) {
 		if (_list_options.GetSelection() == 0) {
 			_selection = ACTION_SELECTED;
@@ -329,7 +332,6 @@ void TreasureSupervisor::_UpdateList() {
 			_list_options.InputUp();
 		}
 	}
-
 	else if (InputManager->DownPress()) {
 		if (static_cast<uint32>(_list_options.GetSelection()) == (_list_options.GetNumberOptions() - 1)) {
 			_selection = ACTION_SELECTED;
