@@ -544,7 +544,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 	};
 
 	// If no color array was passed, use the image's own vertex colors
-	if (draw_color == NULL)
+	if (!draw_color)
 		draw_color = _color;
 
 	// Set blending parameters
@@ -563,8 +563,11 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 		glDisable(GL_BLEND);
 	}
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(2, GL_FLOAT, 0, vert_coords);
+
 	// If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array for glDrawArrays()
-	if (_texture != NULL) {
+	if (_texture) {
 		// Set the texture coordinates
 		float s0, s1, t0, t1;
 
@@ -604,19 +607,20 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
 
-		if (_unichrome_vertices == true) {
+		if (_unichrome_vertices) {
 			glColor4fv((GLfloat*)draw_color[0].GetColors());
+			glDisableClientState(GL_COLOR_ARRAY);
 		}
 		else {
 			glEnableClientState(GL_COLOR_ARRAY);
 			glColorPointer(4, GL_FLOAT, 0, (GLfloat*)draw_color);
 		}
-	} // if (_texture != NULL)
-
-	// Otherwise there is no image texture, so we're drawing pure color on the vertices
+	} // if (_texture)
 	else {
+		// Otherwise there is no image texture, so we're drawing pure color on the vertices
+
 		// Use a single call to glColor for unichrome images, or a setup a gl color array for multiple colors
-		if (_unichrome_vertices == true) {
+		if (_unichrome_vertices) {
 			glColor4fv((GLfloat*)draw_color[0].GetColors());
 			glDisableClientState(GL_COLOR_ARRAY);
 		}
@@ -630,15 +634,21 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 	}
 
 	// Use a vertex array to draw all of the vertices
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vert_coords);
 	glDrawArrays(GL_QUADS, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
 
-	if (VideoManager->_current_context.blend || _blend == true)
+	if (_texture)
+	    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	if (glIsEnabled(GL_COLOR_ARRAY))
+		glDisableClientState(GL_COLOR_ARRAY);
+
+	if (VideoManager->_current_context.blend || _blend)
 		glDisable(GL_BLEND);
 
-	if (VideoManager->CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: " << VideoManager->CreateGLErrorString() << endl;
+	if (VideoManager->CheckGLError()) {
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: "
+			<< VideoManager->CreateGLErrorString() << std::endl;
 	}
 } // void ImageDescriptor::_DrawTexture(const Color* color_array) const
 
