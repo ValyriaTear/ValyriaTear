@@ -508,7 +508,7 @@ bool SaveMode::_PreviewGame(int id) {
 	map_file.CloseFile();
 
 
-	for (uint32 i = 0; i < 4; i++) {
+	for (uint32 i = 0; i < 4 && i < char_ids.size(); ++i) {
 		_character_window[i].SetCharacter(character[i]);
 	}
 
@@ -520,16 +520,14 @@ bool SaveMode::_PreviewGame(int id) {
 	time_text << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
 	time_text << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-	_time_textbox.SetDisplayText( time_text.str() );
+	_time_textbox.SetDisplayText(time_text.str());
 
 	std::ostringstream drunes_text;
 	drunes_text << "Drunes - " << drunes;
 
-	_drunes_textbox.SetDisplayText( drunes_text.str() );
+	_drunes_textbox.SetDisplayText(drunes_text.str());
 	return true;
 } // bool SaveMode::_PreviewGame(string& filename)
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
