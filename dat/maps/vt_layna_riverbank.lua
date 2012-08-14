@@ -428,6 +428,7 @@ function CreateCharacters()
 	if (GlobalManager:GetPreviousLocation() == "from_riverbank_house") then
 		bronann:SetPosition(98, 48);
 		bronann:SetDirection(hoa_map.MapMode.SOUTH);
+		AudioManager:PlaySound("snd/door_close.wav");
 	end
 
 	Map:AddGroundObject(bronann);
@@ -810,29 +811,22 @@ end
 
 function CheckZones()
 	if (village_center_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village center");
 	end
 
 	if (to_village_entrance_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village south entrance");
 	end
 
 	if (to_riverbank_house_entrance_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
+		AudioManager:PlaySound("snd/door_open2.wav");
 		EventManager:StartEvent("to Riverbank house");
 	end
 
 	if (to_secret_path_entrance_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to secret path entrance");
 	end

@@ -231,6 +231,9 @@ function Load(m)
 
 	CreateEvents();
 	CreateZones();
+
+	-- The only entrance close door sound
+	AudioManager:PlaySound("snd/door_close.wav");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -307,6 +310,7 @@ function CheckZones()
 	if (room_exit_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("exit floor");
+		AudioManager:PlaySound("snd/door_open2.wav");
 	end
 end
 

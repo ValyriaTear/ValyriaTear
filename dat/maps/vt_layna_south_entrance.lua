@@ -304,10 +304,12 @@ function CreateCharacters()
 	elseif (GlobalManager:GetPreviousLocation() == "from right house") then
 		bronann:SetPosition(48, 34);
 		bronann:SetDirection(hoa_map.MapMode.SOUTH);
+		AudioManager:PlaySound("snd/door_close.wav");
 
 	elseif (GlobalManager:GetPreviousLocation() == "from left house") then
 		bronann:SetPosition(20, 34);
 		bronann:SetDirection(hoa_map.MapMode.SOUTH);
+		AudioManager:PlaySound("snd/door_close.wav");
 	end
 
 	Map:AddGroundObject(bronann);
@@ -454,6 +456,7 @@ function CheckZones()
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
+		AudioManager:PlaySound("snd/door_open2.wav");
 		EventManager:StartEvent("to left house");
 	end
 
@@ -461,6 +464,7 @@ function CheckZones()
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
+		AudioManager:PlaySound("snd/door_open2.wav");
 		EventManager:StartEvent("to right house");
 	end
 end

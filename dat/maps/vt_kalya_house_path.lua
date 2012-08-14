@@ -331,6 +331,7 @@ function CreateCharacters()
 	if (GlobalManager:GetPreviousLocation() == "from grandma house") then
 		bronann:SetPosition(12, 6);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
+		AudioManager:PlaySound("snd/door_close.wav");
 	end
 
 	if (GlobalManager:GetPreviousLocation() == "from_kalya_house_small_passage") then
@@ -586,6 +587,7 @@ function CheckZones()
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to grandma house");
+		AudioManager:PlaySound("snd/door_open2.wav");
 	end
 
 	if (kalya_house_small_passage_zone:IsCameraEntering() == true) then

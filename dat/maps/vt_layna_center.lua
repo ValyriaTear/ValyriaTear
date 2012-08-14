@@ -342,15 +342,19 @@ function CreateCharacters()
 	elseif (GlobalManager:GetPreviousLocation() == "from_shop") then
 		bronann:SetPosition(94, 72);
 		bronann:SetDirection(hoa_map.MapMode.SOUTH);
+		AudioManager:PlaySound("snd/door_close.wav");
 	elseif (GlobalManager:GetPreviousLocation() == "from_secret_path") then
 		bronann:SetPosition(3, 60);
 		bronann:SetDirection(hoa_map.MapMode.EAST);
 	elseif (GlobalManager:GetPreviousLocation() == "from sophia's house") then
+		AudioManager:PlaySound("snd/door_close.wav");
 		bronann:SetPosition(22, 20);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
 	elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_entrance") then
 		bronann:SetPosition(115, 37);
 		bronann:SetDirection(hoa_map.MapMode.WEST);
+	elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
+		AudioManager:PlaySound("snd/door_close.wav");
 	end
 
 	Map:AddGroundObject(bronann);
@@ -1013,6 +1017,7 @@ function CheckZones()
 			return;
 		end
 		bronann:SetMoving(false);
+		AudioManager:PlaySound("snd/door_open2.wav");
 		EventManager:StartEvent("to Bronann's home");
 	elseif (to_riverbank_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
@@ -1037,10 +1042,12 @@ function CheckZones()
 		end
 	elseif (shop_entrance_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
+		AudioManager:PlaySound("snd/door_open2.wav");
 		EventManager:StartEvent("to Flora's Shop");
 	elseif (sophia_house_entrance_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to sophia house");
+		AudioManager:PlaySound("snd/door_open2.wav");
 	end
 end
 

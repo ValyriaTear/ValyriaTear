@@ -235,6 +235,9 @@ function Load(m)
 
 	CreateEvents();
 	CreateZones();
+	
+	-- The only entrance close door sound
+	AudioManager:PlaySound("snd/door_close.wav");
 end
 
 function Update()
@@ -326,6 +329,8 @@ function CheckZones()
 	if (shop_exit_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to village");
+		-- The only entrance close door sound
+		AudioManager:PlaySound("snd/door_open2.wav");
 	end
 end
 

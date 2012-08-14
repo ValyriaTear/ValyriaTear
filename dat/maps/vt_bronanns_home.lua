@@ -284,6 +284,7 @@ function CreateCharacters()
 	if (GlobalManager:GetPreviousLocation() == "from_village_center") then
 		bronann:SetPosition(39.5, 22.5);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
+		AudioManager:PlaySound("snd/door_close.wav");
 	end
 
 	Map:AddGroundObject(bronann);
@@ -634,6 +635,7 @@ function CheckZones()
 			EventManager:StartEvent("Start Quest1");
 		else
 			EventManager:StartEvent("to village");
+			AudioManager:PlaySound("snd/door_open2.wav");
 		end
 	end
 	if (to_bronnans_room_zone:IsCameraEntering() == true) then

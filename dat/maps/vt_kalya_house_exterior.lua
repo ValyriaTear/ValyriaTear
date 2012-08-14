@@ -407,6 +407,7 @@ function CheckZones()
 	if (kalya_house_entrance_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("Bronann can't enter kalya house");
+		AudioManager:PlaySound("snd/door_close.wav");
 	end
 	
 	if (kalya_house_path_small_passage_zone:IsCameraEntering() == true) then
