@@ -333,35 +333,24 @@ function CreateCharacters()
 	if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
 		bronann:SetPosition(30, 77);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
-	end
-
-	-- set up the position according to the previous map
-	if (GlobalManager:GetPreviousLocation() == "from_village_south") then
+	elseif (GlobalManager:GetPreviousLocation() == "from_village_south") then
 		bronann:SetPosition(79, 77);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
-	end
-
-	-- set up the position according to the previous map
-	if (GlobalManager:GetPreviousLocation() == "from_kalya_house_path") then
+	elseif (GlobalManager:GetPreviousLocation() == "from_kalya_house_path") then
 		bronann:SetPosition(3, 11);
 		bronann:SetDirection(hoa_map.MapMode.EAST);
-	end
-
-	-- set up the position according to the previous map
-	if (GlobalManager:GetPreviousLocation() == "from_shop") then
+	elseif (GlobalManager:GetPreviousLocation() == "from_shop") then
 		bronann:SetPosition(94, 72);
 		bronann:SetDirection(hoa_map.MapMode.SOUTH);
-	end
-
-	-- set up the position according to the previous map
-	if (GlobalManager:GetPreviousLocation() == "from_secret_path") then
+	elseif (GlobalManager:GetPreviousLocation() == "from_secret_path") then
 		bronann:SetPosition(3, 60);
 		bronann:SetDirection(hoa_map.MapMode.EAST);
-	end
-
-	if (GlobalManager:GetPreviousLocation() == "from sophia's house") then
+	elseif (GlobalManager:GetPreviousLocation() == "from sophia's house") then
 		bronann:SetPosition(22, 20);
 		bronann:SetDirection(hoa_map.MapMode.NORTH);
+	elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_entrance") then
+		bronann:SetPosition(115, 37);
+		bronann:SetDirection(hoa_map.MapMode.WEST);
 	end
 
 	Map:AddGroundObject(bronann);
@@ -580,6 +569,9 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to secret cliff", "dat/maps/vt_layna_riverbank.lua", "from_secret_path");
+	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest_entrance.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
 	-- Generic events
@@ -948,63 +940,49 @@ end
 
 function CheckZones()
 	if (bronanns_home_entrance_zone:IsCameraEntering() == true) then
-	   -- If Bronann has started the quest 2, he doesn't want to go back and see his parents.
-	    if (GlobalManager:DoesEventExist("story", "Quest2_started") == true
+		-- If Bronann has started the quest 2, he doesn't want to go back and see his parents.
+		if (GlobalManager:DoesEventExist("story", "Quest2_started") == true
 			and GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-		EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
-            return;
-        end
+			EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
+			return;
+		end
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Bronann's home");
-	end
-
-	if (to_riverbank_zone:IsCameraEntering() == true) then
+	elseif (to_riverbank_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Riverbank");
-	end
-
-	if (to_village_entrance_zone:IsCameraEntering() == true) then
+	elseif (to_village_entrance_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village south entrance");
-	end
-
-	if (to_kalya_house_path_zone:IsCameraEntering() == true) then
+	elseif (to_kalya_house_path_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Kalya house path");
-	end
-
-	if (secret_path_zone:IsCameraEntering() == true) then
+	elseif (secret_path_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to secret cliff");
-	end
-
-	if (to_layna_forest_zone:IsCameraEntering() == true) then
+	elseif (to_layna_forest_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
 			EventManager:StartEvent("Quest2: Bronann can't enter the forest without a sword");
 		else
 			EventManager:StartEvent("to layna forest entrance");
 		end
-	end
-
-	if (shop_entrance_zone:IsCameraEntering() == true) then
+	elseif (shop_entrance_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Flora's Shop");
-	end
-
-	if (sophia_house_entrance_zone:IsCameraEntering() == true) then
+	elseif (sophia_house_entrance_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering
 		bronann:SetMoving(false);
