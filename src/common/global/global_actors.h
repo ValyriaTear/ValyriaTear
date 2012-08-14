@@ -867,15 +867,9 @@ public:
 		{ return &_support_skills; }
 	//@}
 
-	// TEMP: image accessor functions
+	//! Image accessor functions
 	//@{
-	std::vector<hoa_video::StillImage>* GetStandardSpriteFrames()
-		{ return &_map_frames_standard; }
-
-	void AddBattleAnimation(const std::string & name, hoa_video::AnimatedImage anim)
-		{ _battle_animation[name] = anim; }
-
-	hoa_video::AnimatedImage* RetrieveBattleAnimation(const std::string & name);
+	hoa_video::AnimatedImage* RetrieveBattleAnimation(const std::string& name);
 
 	std::vector<hoa_video::StillImage>* GetBattlePortraits()
 		{ return &_battle_portraits; }
@@ -911,16 +905,9 @@ protected:
 	*** mode where the images are intended to be used.
 	**/
 	//@{
-	/** \brief The standard frame images for the character's map sprite.
-	*** This container holds the standard frames for the character's map sprite, which include standing and
-	*** walking frames. This set includes 24 frames in total, 6 each for the down, up, left, and right
-	*** orientations.
-	**/
-	std::vector<hoa_video::StillImage> _map_frames_standard;
-
 	/** \brief The character's standard map portrait image
 	*** The standard map portrait is ususally used in dialogues, but may also be used in other modes where
-	*** appropriate. The size of the map portrait is 200x200 pixels.
+	*** appropriate.
 	**/
 	hoa_video::StillImage _map_portrait_standard;
 
