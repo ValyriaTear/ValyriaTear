@@ -1314,6 +1314,7 @@ map_functions = {
     BrightLightStart = function()
         bright_light_time = 0.0;
 	VideoManager:ShakeScreen(0.6, 6000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+	AudioManager:PlaySound("snd/rumble.wav");
     end,
 
     BrightLightUpdate = function()
