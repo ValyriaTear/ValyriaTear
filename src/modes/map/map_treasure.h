@@ -180,6 +180,9 @@ private:
 	//! \brief Holds the icon image that represent drunes
 	hoa_video::StillImage _drunes_icon;
 
+	//! \brief The "Obtained" sound, played at opening.
+	hoa_audio::SoundDescriptor _obtain_snd;
+
 	// ---------- Private methods
 
 	//! \brief Processes user input when the action sub-window is selected
