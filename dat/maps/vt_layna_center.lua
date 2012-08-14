@@ -909,6 +909,72 @@ function CreateEvents()
 	event = hoa_map.DialogueEvent("Quest2: Kalya joins speech", dialogue);
 	event:AddEventLinkAtEnd("Map:PopState()");
 	EventManager:RegisterEvent(event);
+
+    -- Kalya explains Bronnan about dungeons and equipment,
+    event = hoa_map.ScriptedEvent("Quest2: Kalya's equipment and dungeons speech start", "Quest2_equip_speech_start", "");
+    event:AddEventLinkAtEnd("Quest2: Kalya walks off from Bronann");
+    event:AddEventLinkAtEnd("Quest2: Bronann goes in front of Kalya");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks east", kalya, hoa_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks west", bronann, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("Turn Kalya's collisions on", kalya, "Sprite_Collision_on", "");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya walks off from Bronann", kalya, 114, 37, false);
+    event:AddEventLinkAtEnd("Kalya looks east");
+    event:AddEventLinkAtEnd("Turn Kalya's collisions on");
+    event:AddEventLinkAtEnd("Quest2: Kalya's speech about equipment and dungeons.");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes in front of Kalya", bronann, 116, 37, false);
+    event:AddEventLinkAtEnd("Bronann looks west");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("By the way, did you ever prepare yourself for such things before?");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("Huh? Well, Orlinn doesn't disappear every day, you know?");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("I see ... Then there are two things very important you need to know:");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("First of all, before going there, you might need a better equipment. Tell me you'll go and see Flora, ok?");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("Ok.");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("And tell me you equipped your sword ... If you haven't, open your inventory, and select 'Equip', the rest is self-explanatory.");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("You mean, like, I need to push a key to open my bag??");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("Nevermind that, just do it.");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("The second thing is that the one in front of the battle line will lead the group in the forest. "..
+                                "I mean that the person on top of the battle formation will actually appear, the others will stay hidden.");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("Hmm, right, I'm not sure to get fully what you mean, but ...");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("Rrrr ... Bronann. Just listen.");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("Err, wow, ok!");
+    dialogue:AddLine(text, bronann);
+    text = hoa_system.Translate("That will be the case only in certain area. Here in the village, you'll be the one leading, or may you believe that ...");
+    dialogue:AddLine(text, kalya);
+    text = hoa_system.Translate("(Sigh) ... Ok.");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Quest2: Kalya's speech about equipment and dungeons.", dialogue);
+    event:AddEventLinkAtEnd("Quest2: Kalya re-joins Bronann after speech");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Quest2: Kalya re-joins Bronann after speech", kalya, 116, 37, false);
+    event:AddEventLinkAtEnd("Quest2: Kalya disappears after speech");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Quest2: Kalya disappears after speech", kalya, "MakeInvisible", "");
+    event:AddEventLinkAtEnd("Map:PopState()");
+    EventManager:RegisterEvent(event);
 end
 
 function CreateZones()
@@ -946,45 +1012,33 @@ function CheckZones()
 			EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
 			return;
 		end
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Bronann's home");
 	elseif (to_riverbank_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Riverbank");
 	elseif (to_village_entrance_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village south entrance");
 	elseif (to_kalya_house_path_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Kalya house path");
 	elseif (secret_path_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to secret cliff");
 	elseif (to_layna_forest_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
 			EventManager:StartEvent("Quest2: Bronann can't enter the forest without a sword");
+		elseif (GlobalManager:DoesEventExist("story", "Quest2_kalya_equip_n_dungeons_speech_done") == false) then
+			EventManager:StartEvent("Quest2: Kalya's equipment and dungeons speech start");
 		else
 			EventManager:StartEvent("to layna forest entrance");
 		end
 	elseif (shop_entrance_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Flora's Shop");
 	elseif (sophia_house_entrance_zone:IsCameraEntering() == true) then
-		-- Stop the character as it may walk in diagonal, which is looking strange
-		-- when entering
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to sophia house");
 	end
@@ -1273,28 +1327,48 @@ map_functions = {
 	if (bright_light_time < 10000) then
 		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, ((10000.0 - bright_light_time) / 5000.0)));
 		return false;
-	end
+        end
 
-	 -- end of the two-step fade in and out
-	return true;
+        -- end of the two-step fade in and out
+        return true;
     end,
 
     Show_wooden_sword = function()
         wooden_sword:SetPosition(carson:GetXPosition() + 1.5, carson:GetYPosition() - 2.0);
-	wooden_sword:SetVisible(true);
-	wooden_sword:SetNoCollision(true);
+        wooden_sword:SetVisible(true);
+        wooden_sword:SetNoCollision(true);
     end,
 
     Hide_wooden_sword = function()
-	wooden_sword:SetVisible(false);
-	wooden_sword:SetNoCollision(true);
+        wooden_sword:SetVisible(false);
+        wooden_sword:SetNoCollision(true);
     end,
 
     Add_kalya_to_party = function()
         if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == false) then
             GlobalManager:AddCharacter(KALYA);
             GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
-	end
+        end
+    end,
+
+    Quest2_equip_speech_start = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        bronann:SetMoving(false);
+        bronann:SetDirection(hoa_map.MapMode.WEST);
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
+        kalya:SetNoCollision(true);
+        kalya:SetDirection(hoa_map.MapMode.WEST);
+        kalya:SetVisible(true);
+        kalya:ClearDialogueReferences();
+
+        -- Set the event as done to prevent it to trigger again
+        GlobalManager:SetEventValue("story", "Quest2_kalya_equip_n_dungeons_speech_done", 1)
+    end,
+
+    Sprite_Collision_on = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetNoCollision(false);
+        end
     end,
 
     Map_SceneState = function()
