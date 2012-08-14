@@ -189,6 +189,7 @@ void BindModeCode() {
 			.def("GetNumberObjects", &ObjectSupervisor::GetNumberObjects)
 			.def("GetObjectByIndex", &ObjectSupervisor::GetObjectByIndex)
 			.def("GetObject", &ObjectSupervisor::GetObject)
+			.def("SetPartyMemberVisibleSprite", &ObjectSupervisor::SetPartyMemberVisibleSprite)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -266,6 +267,7 @@ void BindModeCode() {
 			.def("LoadWalkingAnimations", &MapSprite::LoadWalkingAnimations)
 			.def("LoadRunningAnimations", &MapSprite::LoadRunningAnimations)
 			.def("LoadCustomAnimation", &MapSprite::LoadCustomAnimation)
+			.def("ClearAnimations", &MapSprite::ClearAnimations)
 			.def("AddDialogueReference", (void(MapSprite::*)(uint32))&MapSprite::AddDialogueReference)
 			.def("AddDialogueReference", (void(MapSprite::*)(SpriteDialogue*))&MapSprite::AddDialogueReference)
 			.def("ClearDialogueReferences", &MapSprite::ClearDialogueReferences)

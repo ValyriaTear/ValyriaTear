@@ -547,7 +547,8 @@ bool TreasureObject::AddObject(uint32 id, uint32 quantity) {
 ObjectSupervisor::ObjectSupervisor() :
 	_num_grid_x_axis(0),
 	_num_grid_y_axis(0),
-	_last_id(1000)
+	_last_id(1000),
+	_visible_party_member(0)
 {
 	_virtual_focus = new VirtualSprite();
 	_virtual_focus->SetPosition(0.0f, 0.0f);
@@ -1121,18 +1122,45 @@ Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destin
 	return path;
 } // Path ObjectSupervisor::FindPath(const VirtualSprite* sprite, const MapPosition& destination)
 
+void ObjectSupervisor::ReloadVisiblePartyMember() {
+	// Don't do anything when there is no visible party member.
+	if (!_visible_party_member)
+		return;
+
+	// Get the front party member
+	GlobalActor* actor = GlobalManager->GetActiveParty()->GetActorAtIndex(0);
+	// TODO: Update only if the actor has changed
+	//if (actor && actor->GetMapSpriteName() != _visible_party_member->GetMapSpriteName())
+	if (actor) {
+		hoa_script::ReadScriptDescriptor& script = GlobalManager->GetMapSpriteScript();
+
+		ScriptObject function_ptr = script.ReadFunctionPointer("ReloadSprite");
+
+		if (!function_ptr.is_valid()) {
+			PRINT_WARNING << "Invalid 'ReloadSprite' function in the map sprite script file."
+				<< std::endl;
+			return;
+		}
+
+		try {
+			ScriptCallFunction<void>(function_ptr, _visible_party_member, actor->GetMapSpriteName());
+		} catch(luabind::error e) {
+			PRINT_ERROR << "Error while loading script function." << std::endl;
+			ScriptManager->HandleLuaError(e);
+			return;
+		}
+	}
+}
 
 bool ObjectSupervisor::IsWithinMapBounds(float x, float y) const {
     return (x >= 0.0f && x < static_cast<float>(_num_grid_x_axis)
             && y >= 0.0f && y < static_cast<float>(_num_grid_y_axis));
 }
 
-
 bool ObjectSupervisor::IsWithinMapBounds(VirtualSprite *sprite) const {
     return sprite ? IsWithinMapBounds(sprite->GetXPosition(), sprite->GetYPosition())
         : false;
 }
-
 
 void ObjectSupervisor::DrawCollisionArea(const MapFrame* frame) {
 	MAP_CONTEXT context_id = MapMode::CurrentInstance()->GetCurrentContext();

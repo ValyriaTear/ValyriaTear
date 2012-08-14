@@ -535,10 +535,11 @@ MapSprite::~MapSprite() {
 
 bool _LoadAnimations(std::vector<hoa_video::AnimatedImage>& animations, const std::string& filename) {
 	// Prepare to add the animations for each directions, if needed.
-	if (animations.empty()) {
-		for (uint8 i = 0; i < NUM_ANIM_DIRECTIONS; ++i)
-			animations.push_back(AnimatedImage());
-	}
+
+	// In case of reloading
+	animations.clear();
+	for (uint8 i = 0; i < NUM_ANIM_DIRECTIONS; ++i)
+		animations.push_back(AnimatedImage());
 
 	hoa_script::ReadScriptDescriptor animations_script;
 	if (!animations_script.OpenFile(filename))
@@ -662,6 +663,19 @@ bool _LoadAnimations(std::vector<hoa_video::AnimatedImage>& animations, const st
 
 	return true;
 } // bool _LoadAnimations()
+
+void MapSprite::ClearAnimations() {
+	_standing_animations.clear();
+	_walking_animations.clear();
+	_running_animations.clear();
+	_has_running_animations = false;
+
+	// Disable and clear the custom animations
+	_current_custom_animation = 0;
+	_custom_animation_on = false;
+	_custom_animation_time = 0;
+	_custom_animations.clear();
+}
 
 bool MapSprite::LoadStandingAnimations(const std::string& filename) {
 	return _LoadAnimations(_standing_animations, filename);

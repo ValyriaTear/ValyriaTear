@@ -7,6 +7,9 @@ SYLVE    = 8;
 function NewGame()
 	-- Prepare the new game data
 	GlobalManager:AddCharacter(BRONANN);
+	GlobalManager:AddCharacter(KALYA);
+	GlobalManager:AddCharacter(SYLVE);
+	GlobalManager:AddCharacter(THANIS);
 	GlobalManager:AddNewEventGroup("global_events"); -- this group stores the primary list of events completed in the game
 	GlobalManager:SetDrunes(0);
 

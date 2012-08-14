@@ -523,6 +523,9 @@ public:
 
 	hoa_script::ReadScriptDescriptor* GetBattleEventScript()
 		{ return &_battle_events_script; }
+
+	hoa_script::ReadScriptDescriptor& GetMapSpriteScript()
+		{ return _map_sprites_script; }
 	//@}
 
 private:

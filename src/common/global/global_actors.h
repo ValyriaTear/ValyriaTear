@@ -249,61 +249,64 @@ public:
 	**/
 	//@{
 	uint32 GetID() const
-		{ return _id; }
+	{ return _id; }
 
 	hoa_utils::ustring& GetName()
-		{ return _name; }
+	{ return _name; }
+
+	const std::string& GetMapSpriteName()
+	{ return _map_sprite_name; }
 
 	hoa_video::StillImage& GetPortrait()
-		{ return _portrait; }
+	{ return _portrait; }
 
 	hoa_video::StillImage& GetFullPortrait()
-		{ return _full_portrait; }
+	{ return _full_portrait; }
 
 	hoa_video::StillImage& GetStaminaIcon()
-		{ return _stamina_icon; }
+	{ return _stamina_icon; }
 
 	uint32 GetHitPoints() const
-		{ return _hit_points; }
+	{ return _hit_points; }
 
 	uint32 GetMaxHitPoints() const
-		{ return _max_hit_points; }
+	{ return _max_hit_points; }
 
 	uint32 GetSkillPoints() const
-		{ return _skill_points; }
+	{ return _skill_points; }
 
 	uint32 GetMaxSkillPoints() const
-		{ return _max_skill_points; }
+	{ return _max_skill_points; }
 
 	uint32 GetExperienceLevel() const
-		{ return _experience_level; }
+	{ return _experience_level; }
 
 	uint32 GetExperiencePoints() const
-		{ return _experience_points; }
+	{ return _experience_points; }
 
 	uint32 GetStrength() const
-		{ return _strength; }
+	{ return _strength; }
 
 	uint32 GetVigor() const
-		{ return _vigor; }
+	{ return _vigor; }
 
 	uint32 GetFortitude() const
-		{ return _fortitude; }
+	{ return _fortitude; }
 
 	uint32 GetProtection() const
-		{ return _protection; }
+	{ return _protection; }
 
 	uint32 GetAgility() const
-		{ return _agility; }
+	{ return _agility; }
 
 	float GetEvade() const
-		{ return _evade; }
+	{ return _evade; }
 
 	uint32 GetTotalPhysicalAttack() const
-		{ return _total_physical_attack; }
+	{ return _total_physical_attack; }
 
 	uint32 GetTotalMetaphysicalAttack() const
-		{ return _total_metaphysical_attack; }
+	{ return _total_metaphysical_attack; }
 
 	uint32 GetTotalPhysicalDefense(uint32 index) const;
 
@@ -454,6 +457,9 @@ protected:
 
 	//! \brief The name of the actor as it will be displayed on the screen
 	hoa_utils::ustring _name;
+
+	//! \brief Used to know the sprite linked to the character in map mode.
+	std::string _map_sprite_name;
 
 	//! \brief The character portrait
 	hoa_video::StillImage _portrait;

@@ -243,6 +243,9 @@ public:
 	**/
 	bool LoadCustomAnimation(const std::string& animation_name, const std::string& filename);
 
+	//! \brief Clear out all the sprite animation. Useful in case of reloading.
+	void ClearAnimations();
+
 	void LoadFacePortrait(const std::string& filename);
 
 	//! \brief Updates the sprite's position and state.

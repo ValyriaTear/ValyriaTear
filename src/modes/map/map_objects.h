@@ -728,9 +728,21 @@ public:
 
 	/** \brief Returns the pointer to the virtual focus.
 	**/
-	private_map::VirtualSprite* VirtualFocus() {
-	    return _virtual_focus;
-	}
+	private_map::VirtualSprite* VirtualFocus()
+	{ return _virtual_focus; }
+
+	/** Tells the object supervisor that the given sprite pointer
+	*** is the party member object.
+	*** This later permits to refresh the sprite shown based on the battle
+	*** formation front party member.
+	**/
+	void SetPartyMemberVisibleSprite(private_map::MapSprite *sprite)
+	{ _visible_party_member = sprite; }
+
+	/** Updates the party member sprite based on the first active party member
+	*** given by the global Manager.
+	**/
+	void ReloadVisiblePartyMember();
 
 	//! \brief Tells whether the collision coords are valid.
 	bool IsWithinMapBounds(float x, float y) const;
@@ -767,6 +779,13 @@ private:
 	*** things.
 	**/
 	private_map::VirtualSprite *_virtual_focus;
+
+	/** \brief The party member object is used to keep in memory the active member
+	*** seen on map. This is later useful in "dungeon" maps for instance, where
+	*** the party member in front of the battle formation is the one shown on map.
+	*** Do not create or delete it in the code, this is just a reference.
+	**/
+	private_map::MapSprite *_visible_party_member;
 
 	/** \brief A 2D vector indicating which grid element on the map sprites may be occupied by objects.
 	*** Each bit of each element in this grid corresponds to a context. So all together this entire grid

@@ -178,6 +178,7 @@ GlobalActor::~GlobalActor() {
 GlobalActor::GlobalActor(const GlobalActor& copy) {
 	_id = copy._id;
 	_name = copy._name;
+	_map_sprite_name = copy._map_sprite_name;
 	_portrait = copy._portrait;
 	_full_portrait = copy._full_portrait;
 	_stamina_icon = copy._stamina_icon;	_experience_level = copy._experience_level;
@@ -228,6 +229,7 @@ GlobalActor& GlobalActor::operator=(const GlobalActor& copy) {
 
 	_id = copy._id;
 	_name = copy._name;
+	_map_sprite_name = copy._map_sprite_name;
 	_portrait = copy._portrait;
 	_full_portrait = copy._full_portrait;
 	_stamina_icon = copy._stamina_icon;
@@ -1083,10 +1085,11 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	_enabled = true;
 
 	// Open the characters script file
-	string filename = "dat/actors/characters.lua";
+	std::string filename = "dat/actors/characters.lua";
 	ReadScriptDescriptor char_script;
-	if (char_script.OpenFile(filename) == false) {
-		PRINT_ERROR << "failed to open character data file: " << filename << endl;
+	if (!char_script.OpenFile(filename)) {
+		PRINT_ERROR << "failed to open character data file: "
+			<< filename << std::endl;
 		return;
 	}
 
@@ -1148,6 +1151,9 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		}
 	}
 
+	// Set up the map sprite name (untranslated) used as a string id to later link it with a map sprite.
+	_map_sprite_name = char_script.ReadString("map_sprite_name");
+
     // Read each battle_animations table keys and store the corresponding animation in memory.
     std::vector<std::string> keys_vect;
     char_script.ReadTableKeys("battle_animations", keys_vect);
@@ -1160,7 +1166,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     char_script.CloseTable();
 
 	// Construct the character from the initial stats if necessary
-	if (initial == true) {
+	if (initial) {
 		char_script.OpenTable("initial_stats");
 		_experience_level = char_script.ReadUInt("experience_level");
 		_experience_points = char_script.ReadUInt("experience_points");

@@ -211,7 +211,7 @@ layers[3][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
 -- the main character handler
-local bronann = {};
+local hero = {};
 
 -- the main map loading code
 function Load(m)
@@ -227,14 +227,18 @@ function Load(m)
 	CreateCharacters();
 	CreateObjects();
 
-	-- Set the camera focus on bronann
-	Map:SetCamera(bronann);
+	-- Set the camera focus on hero
+	Map:SetCamera(hero);
+	-- This is a dungeon map, we'll use the front battle member sprite as default sprite.
+	Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
 	CreateEvents();
 	CreateZones();
-	
+
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+
+	Map:AddSavePoint(27, 30, hoa_map.MapMode.CONTEXT_01);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -245,12 +249,25 @@ end
 
 -- Character creation
 function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 3, 30);
-	bronann:SetDirection(hoa_map.MapMode.EAST);
-	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
+	-- Default hero and position
+	hero = _CreateSprite(Map, "Bronann", 3, 30);
+	hero:SetDirection(hoa_map.MapMode.EAST);
+	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+	hero:SetNoCollision(false);
 
-	Map:AddGroundObject(bronann);
+	-- Load previous save point data
+	local x_position = GlobalManager:GetSaveLocationX();
+	local y_position = GlobalManager:GetSaveLocationY();
+	if (x_position ~= 0 and y_position ~= 0) then
+		-- Use the save point position, and clear the save position data for next maps
+		GlobalManager:UnsetSaveLocation();
+		-- Make the character look at us in that case
+		hero:SetDirection(hoa_map.MapMode.SOUTH);
+		hero:SetPosition(x_position, y_position);
+	end
+
+	Map:AddGroundObject(hero);
+
 end
 
 function CreateObjects()
@@ -284,7 +301,7 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function CheckZones()
 	if (forest_entrance_exit_zone:IsCameraEntering() == true) then
-		bronann:SetMoving(false);
+		hero:SetMoving(false);
 		EventManager:StartEvent("exit forest");
 	end
 end

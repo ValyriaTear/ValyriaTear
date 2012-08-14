@@ -196,6 +196,10 @@ void MapMode::Reset() {
 
 	// Reset potential map scripts
 	GetScriptSupervisor().Reset();
+
+	// If the sprite is based on the battle formation, we'd better refresh the data now.
+	// I.e: When going out of the menu mode.
+	_object_supervisor->ReloadVisiblePartyMember();
 }
 
 
