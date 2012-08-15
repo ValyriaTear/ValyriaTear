@@ -549,13 +549,9 @@ LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, uint16 sprite_
 	// Invalid position.
 	_x = _y = -1.0f;
 
-	VirtualSprite* other_sprite = MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(second_sprite_id);
-	if (other_sprite) {
-		_x = other_sprite->GetXPosition();
-		_y = other_sprite->GetYPosition();
-	}
-	else
-		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid second sprite id specified in event: " << event_id << endl;
+	_target_sprite = MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(second_sprite_id);
+	if (!_target_sprite)
+		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid second sprite id specified in event: " << event_id << std::endl;
 }
 
 LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* other_sprite) :
@@ -563,23 +559,28 @@ LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite*
 {
 	// Invalid position.
 	_x = _y = -1.0f;
+	_target_sprite = other_sprite;
 
-	if (other_sprite) {
-		_x = other_sprite->GetXPosition();
-		_y = other_sprite->GetYPosition();
-	}
-    else
-		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid other sprite specified in event: " << event_id << endl;
+	if (!_target_sprite)
+		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid other sprite specified in event: " << event_id << std::endl;
 }
 
 LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x, float y) :
 	SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite),
 	_x(x),
-	_y(y)
+	_y(y),
+	_target_sprite(0)
 {}
 
 void LookAtSpriteEvent::_Start() {
 	SpriteEvent::_Start();
+
+	// When there is a target sprite, use it.
+	if (_target_sprite) {
+		_x = _target_sprite->GetXPosition();
+		_y = _target_sprite->GetYPosition();
+	}
+
 	if (_x >= 0.0f && _y >= 0.0f)
 		 _sprite->LookAt(_x, _y);
 }

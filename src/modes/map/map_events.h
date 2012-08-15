@@ -642,6 +642,13 @@ protected:
 	//! \brief Retains the position to look at when the event starts.
 	float _x, _y;
 
+	/** \brief Retains the position to look at when the even starts.
+	*** \note The event will take the sprite coord only at _Start() call, since
+	*** the position may have changed between the event declaration (map load time)
+	*** and its start.
+	**/
+	VirtualSprite* _target_sprite;
+
 	//! \brief Immediately changes the sprite's direction
 	void _Start();
 
@@ -694,6 +701,8 @@ public:
 	*** \param run whether the character has to go there by walking or running
 	*** \note Any previous existing paths are cleared when this function is called. If this function is called when
 	*** the event is active, no change will take place.
+	*** This function is especially useful when trying to path move according to another NPC position, wichi may have
+	*** changed between the event declaration (at map load time) and the event actual start.
 	**/
 	void SetDestination(float x_coord, float y_coord, bool run);
 

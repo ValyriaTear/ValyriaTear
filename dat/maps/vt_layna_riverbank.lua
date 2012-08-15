@@ -746,7 +746,7 @@ function CreateEvents()
 	event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the barley meal");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Lilly turns to Bronann", lilly, hoa_map.MapMode.EAST);
+	event = hoa_map.LookAtSpriteEvent("Quest1: Barley Meal: Lilly turns to Bronann", lilly, bronann);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann turns to Lilly", bronann, hoa_map.MapMode.WEST);
 	EventManager:RegisterEvent(event);
