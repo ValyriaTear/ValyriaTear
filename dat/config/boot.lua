@@ -31,7 +31,7 @@ function Initialize(boot_instance)
 	flare_id = Script:AddImage("img/backdrops/boot/flare.png", 256, 256);
 	menu_bar_id = Script:AddImage("img/menus/battle_bottom_menu.png", 1024, 128);
 
-	-- Init the timer	
+	-- Init the timer
 	animation_timer = hoa_system.SystemTimer(7000, 0);
 end
 
@@ -224,7 +224,7 @@ function Update()
 
 	if (music_started == false) then
 		AudioManager:PlayMusic("mus/Soliloquy_1-OGA-mat-pablo.ogg");
-		menu_started = true;
+		music_started = true;
 	end
 
 	-- Update the menu bar alpha in menu mode.
