@@ -479,9 +479,9 @@ void BootMode::_SetupMainMenu() {
 	}
 
 	// Preload main sounds
-	AudioManager->LoadSound("snd/confirm.wav");
-	AudioManager->LoadSound("snd/cancel.wav");
-	AudioManager->LoadSound("snd/bump.wav");
+	AudioManager->LoadSound("snd/confirm.wav", this);
+	AudioManager->LoadSound("snd/cancel.wav", this);
+	AudioManager->LoadSound("snd/bump.wav", this);
 }
 
 
@@ -548,7 +548,7 @@ void BootMode::_SetupAudioOptionsMenu() {
 	_audio_options_menu.SetSelection(0);
 
 	// Preload test sound
-	AudioManager->LoadSound("snd/volume_test.wav");
+	AudioManager->LoadSound("snd/volume_test.wav", this);
 }
 
 

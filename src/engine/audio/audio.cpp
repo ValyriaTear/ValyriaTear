@@ -403,8 +403,13 @@ void AudioEngine::PlaySound(const std::string& filename) {
 	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
-		if (LoadSound(filename) == false) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "could not play sound from cache because the sound could not be loaded" << endl;
+		// Get the current game mode, so that the loading/freeing micro management
+		// is handled the most possible.
+		hoa_mode_manager::GameMode *gm = hoa_mode_manager::ModeManager->GetTop();
+		if (!LoadSound(filename, gm)) {
+			IF_PRINT_WARNING(AUDIO_DEBUG)
+			    << "could not play sound from cache because "
+			    "the sound could not be loaded" << std::endl;
 			return;
 		}
 		else {
@@ -420,8 +425,13 @@ void AudioEngine::PlayMusic(const std::string& filename) {
 	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
-		if (LoadMusic(filename) == false) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "could not play music from cache because the music could not be loaded" << endl;
+		// Get the current game mode, so that the loading/freeing micro management
+		// is handled the most possible.
+		hoa_mode_manager::GameMode *gm = hoa_mode_manager::ModeManager->GetTop();
+		if (!LoadMusic(filename, gm)) {
+			IF_PRINT_WARNING(AUDIO_DEBUG)
+			    << "could not play music from cache because "
+			    "the music could not be loaded" << std::endl;
 			return;
 		}
 		else {
