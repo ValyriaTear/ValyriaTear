@@ -515,12 +515,15 @@ void AudioEngine::RemoveOwner(hoa_mode_manager::GameMode* gm) {
 
 	// Tells all audio descriptor the owner can be removed.
 	std::map<std::string, AudioCacheElement>::iterator it = _audio_cache.begin();
-	for (; it != _audio_cache.end(); ++it) {
+	for (; it != _audio_cache.end();) {
 		// If the audio buffers are erased, we can remove the descriptor from the cache.
 		if (it->second.audio->RemoveOwner(gm)) {
 			delete it->second.audio;
 			// Make sure the iterator doesn't get flawed after erase.
 			_audio_cache.erase(it++);
+		}
+		else {
+			++it;
 		}
 	}
 }
