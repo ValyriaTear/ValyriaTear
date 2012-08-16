@@ -1129,9 +1129,8 @@ void ObjectSupervisor::ReloadVisiblePartyMember() {
 
 	// Get the front party member
 	GlobalActor* actor = GlobalManager->GetActiveParty()->GetActorAtIndex(0);
-	// TODO: Update only if the actor has changed
-	//if (actor && actor->GetMapSpriteName() != _visible_party_member->GetMapSpriteName())
-	if (actor) {
+	// Update only if the actor has changed
+	if (actor && actor->GetMapSpriteName() != _visible_party_member->GetSpriteName()) {
 		hoa_script::ReadScriptDescriptor& script = GlobalManager->GetMapSpriteScript();
 
 		ScriptObject function_ptr = script.ReadFunctionPointer("ReloadSprite");

@@ -273,6 +273,8 @@ void BindModeCode() {
 			.def("ClearDialogueReferences", &MapSprite::ClearDialogueReferences)
 			.def("RemoveDialogueReference", (void(MapSprite::*)(uint32))&MapSprite::RemoveDialogueReference)
 			.def("RemoveDialogueReference", (void(MapSprite::*)(SpriteDialogue*))&MapSprite::RemoveDialogueReference)
+			.def("SetSpriteName", &MapSprite::SetSpriteName)
+			.def("GetSpriteName", &MapSprite::GetSpriteName)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

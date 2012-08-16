@@ -335,6 +335,7 @@ function _CreateSprite(Map, name, x, y)
 
 	sprite = hoa_map.MapSprite();
 	sprite:SetName(sprites[name].name);
+	sprite:SetSpriteName(name); -- The catalog reference
 	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
 	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
 	sprite:SetPosition(x, y);
@@ -376,6 +377,7 @@ function ReloadSprite(sprite_ref, name)
 	end
 
 	sprite_ref:SetName(sprites[name].name);
+	sprite_ref:SetSpriteName(name); -- The catalog reference
 	sprite_ref:SetCollHalfWidth(sprites[name].coll_half_width);
 	sprite_ref:SetCollHeight(sprites[name].coll_height);
 	sprite_ref:SetImgHalfWidth(sprites[name].img_half_width);
@@ -415,6 +417,7 @@ function _CreateNPCSprite(Map, name, npc_name, x, y)
 
 	sprite = hoa_map.MapSprite();
 	sprite:SetName(npc_name);
+	sprite:SetSpriteName(name); -- The catalog reference
 	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
 	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
 	sprite:SetPosition(x, y);
@@ -457,6 +460,7 @@ function _CreateEnemySprite(Map, name)
 	end
 
 	enemy = hoa_map.EnemySprite();
+	enemy:SetSpriteName(name); -- The catalog reference
 	enemy:SetObjectID(Map.object_supervisor:GenerateObjectID());
 	enemy:SetContext(hoa_map.MapMode.CONTEXT_01);
 	enemy:SetCollHalfWidth(enemies[name].coll_half_width);

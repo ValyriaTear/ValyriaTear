@@ -363,6 +363,12 @@ public:
 
 	bool IsAnimationCustom() const
 	{ return _custom_animation_on; }
+
+	void SetSpriteName(const std::string& map_sprite_name)
+	{ _sprite_name = map_sprite_name; }
+
+	const std::string& GetSpriteName() const
+	{ return _sprite_name; }
 	//@}
 
 protected:
@@ -373,6 +379,11 @@ protected:
 	*** \note Not all sprites have portraits, in which case this member will be NULL
 	**/
 	hoa_video::StillImage* _face_portrait;
+
+	/** Keeps the map sprite reference name permitting, used to know whether a map sprite needs reloading
+	*** when the map sprite name has actually changed.
+	**/
+	std::string _sprite_name;
 
 	//! \brief Set to true if the sprite has running animations loaded
 	bool _has_running_animations;
