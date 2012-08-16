@@ -37,6 +37,7 @@
 #endif
 
 #include <map>
+#include <cstring>
 
 //! \brief All related audio engine code is wrapped within this namespace
 namespace hoa_audio {
@@ -177,30 +178,23 @@ public:
 	void SetListenerOrientation(const float orientation[3]);
 
 	void GetListenerPosition(float position[3]) const
-		{ memcpy(position, _listener_position, sizeof(float) * 3); }
+	{ memcpy(position, _listener_position, sizeof(float) * 3); }
 
 	void GetListenerVelocity(float velocity[3]) const
-		{ memcpy(velocity, _listener_velocity, sizeof(float) * 3); }
+	{ memcpy(velocity, _listener_velocity, sizeof(float) * 3); }
 
 	void GetListenerOrientation(float orientation[3]) const
-		{ memcpy(orientation, _listener_orientation, sizeof(float) * 3); }
+	{ memcpy(orientation, _listener_orientation, sizeof(float) * 3); }
 	//@}
 
 	//! \name Audio Effect Functions
 	//@{
-	/** \brief Fades a music or sound in as it plays
-	*** \param audio A reference to the music or sound to fade in
-	*** \param time The amount of time that the fade should last for, in seconds
+	/** \brief Fades in or out every audio entry of the given type.
+	*** \param time the time in ms to fade in/out.
 	**/
-	void FadeIn(AudioDescriptor& audio, float time)
-		{ _audio_effects.push_back(new private_audio::FadeInEffect(audio, time)); }
-
-	/** \brief Fades a music or sound out as it finisheds
-	*** \param audio A referenece to the music or sound to fade out
-	*** \param time The amount of time that the fade should last for, in seconds
-	**/
-	void FadeOut(AudioDescriptor& audio, float time)
-		{ _audio_effects.push_back(new private_audio::FadeOutEffect(audio, time)); }
+	void FadeOutAllMusic(float time = 1000.0f);
+	void FadeInAllMusic(float time = 1000.0f);
+	void FadeOutAllSounds(float time = 1000.0f);
 	//@}
 
 	/** \brief Plays a sound once with no looping
@@ -356,9 +350,6 @@ private:
 
 	//! \brief Contains all available audio sources
 	std::vector<private_audio::AudioSource*> _audio_sources;
-
-	//! \brief Holds all active audio effects
-	std::list<private_audio::AudioEffect*> _audio_effects;
 
 	/** \brief Lists of pointers to all audio descriptor objects which have been created by the user
 	*** These lists are kept so that when the global sound or music volume levels are changed, all

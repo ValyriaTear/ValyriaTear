@@ -189,8 +189,10 @@ void MapMode::Reset() {
 
 	// Only replace a different previous music.
 	MusicDescriptor *music = AudioManager->RetrieveMusic(_music_filename);
-	if (music && music->GetState() != AUDIO_STATE_PLAYING)
-	    music->Play();
+	if (music && music->GetState() != AUDIO_STATE_PLAYING) {
+		music->SetVolume(1.0f); // In case of previous effects.
+		music->Play();
+	}
 
 	_intro_timer.Run();
 

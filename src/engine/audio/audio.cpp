@@ -38,8 +38,6 @@ AudioEngine* AudioManager = NULL;
 bool AUDIO_DEBUG = false;
 bool AUDIO_ENABLE = true;
 
-
-
 AudioEngine::AudioEngine () :
 	_sound_volume(1.0f),
 	_music_volume(1.0f),
@@ -49,9 +47,6 @@ AudioEngine::AudioEngine () :
 	_active_music(NULL),
 	_max_cache_size(MAX_DEFAULT_AUDIO_SOURCES / 4)
 {}
-
-
-
 
 bool AudioEngine::SingletonInitialize() {
 	if (!AUDIO_ENABLE)
@@ -149,17 +144,9 @@ bool AudioEngine::SingletonInitialize() {
 	return true;
 } // bool AudioEngine::SingletonInitialize()
 
-
-
 AudioEngine::~AudioEngine() {
 	if (!AUDIO_ENABLE)
 		return;
-
-	// Delete any active audio effects
-	for (list<AudioEffect*>::iterator i = _audio_effects.begin(); i != _audio_effects.end(); i++) {
-		delete (*i);
-	}
-	_audio_effects.clear();
 
 	// Delete all entries in the sound cache
 	for (map<std::string, private_audio::AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); i++) {
@@ -175,12 +162,12 @@ AudioEngine::~AudioEngine() {
 
 	// We shouldn't have any descriptors registered now -- check that this is true
 	if (_registered_sounds.empty() == false) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << _registered_sounds.size() << " SoundDescriptor objects were still "
-			"registered when destructor was invoked" << endl;
+		PRINT_WARNING << _registered_sounds.size() << " SoundDescriptor objects were still "
+			"registered when destructor was invoked" << std::endl;
 	}
 	if (_registered_music.empty() == false) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << _registered_music.size() << " MusicDescriptor objects were still "
-			"registered when destructor was invoked" << endl;
+		PRINT_WARNING << _registered_music.size() << " MusicDescriptor objects were still "
+			"registered when destructor was invoked" << std::endl;
 	}
 
 	alcMakeContextCurrent(0);
@@ -188,34 +175,16 @@ AudioEngine::~AudioEngine() {
 	alcCloseDevice(_device);
 }
 
-
-
 void AudioEngine::Update() {
 	if (!AUDIO_ENABLE)
 		return;
 
 	for (vector<AudioSource*>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
-		if ((*i)->owner != NULL) {
+		if ((*i)->owner) {
 			(*i)->owner->_Update();
 		}
 	}
-
-	// Update all registered audio effects
-	for (list<AudioEffect*>::iterator i = _audio_effects.begin(); i != _audio_effects.end();) {
-		(*i)->Update();
-
-		// If the effect is finished, delete it
-		if ((*i)->active == false) {
-			delete (*i);
-			i = _audio_effects.erase(i);
-		}
-		else {
-			i++;
-		}
-	}
 }
-
-
 
 void AudioEngine::SetSoundVolume(float volume) {
 	if (volume < 0.0f) {
@@ -237,8 +206,6 @@ void AudioEngine::SetSoundVolume(float volume) {
 	}
 }
 
-
-
 void AudioEngine::SetMusicVolume(float volume) {
 	if (volume < 0.0f) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set music volume less than 0.0f: " << volume << endl;
@@ -259,16 +226,12 @@ void AudioEngine::SetMusicVolume(float volume) {
 	}
 }
 
-
-
 void AudioEngine::PauseAllSounds() {
 	for (list<SoundDescriptor*>::iterator i = _registered_sounds.begin();
 			i != _registered_sounds.end(); i++) {
 		(*i)->Pause();
 	}
 }
-
-
 
 void AudioEngine::ResumeAllSounds() {
 	for (list<SoundDescriptor*>::iterator i = _registered_sounds.begin();
@@ -277,16 +240,12 @@ void AudioEngine::ResumeAllSounds() {
 	}
 }
 
-
-
 void AudioEngine::StopAllSounds() {
 	for (list<SoundDescriptor*>::iterator i =_registered_sounds.begin();
 			i != _registered_sounds.end(); i++) {
 		(*i)->Stop();
 	}
 }
-
-
 
 void AudioEngine::RewindAllSounds() {
 	for (list<SoundDescriptor*>::iterator i = _registered_sounds.begin();
@@ -295,16 +254,12 @@ void AudioEngine::RewindAllSounds() {
 	}
 }
 
-
-
 void AudioEngine::PauseAllMusic() {
 	for (list<MusicDescriptor*>::iterator i = _registered_music.begin();
 			i != _registered_music.end(); i++) {
 		(*i)->Pause();
 	}
 }
-
-
 
 void AudioEngine::ResumeAllMusic() {
 	for (list<MusicDescriptor*>::iterator i = _registered_music.begin();
@@ -313,16 +268,12 @@ void AudioEngine::ResumeAllMusic() {
 	}
 }
 
-
-
 void AudioEngine::StopAllMusic() {
 	for (list<MusicDescriptor*>::iterator i = _registered_music.begin();
 			i != _registered_music.end(); i++) {
 		(*i)->Stop();
 	}
 }
-
-
 
 void AudioEngine::RewindAllMusic() {
 	for (list<MusicDescriptor*>::iterator i = _registered_music.begin();
@@ -331,14 +282,34 @@ void AudioEngine::RewindAllMusic() {
 	}
 }
 
+void AudioEngine::FadeOutAllMusic(float time) {
+	for (std::list<MusicDescriptor*>::iterator it = _registered_music.begin();
+			it != _registered_music.end(); ++it) {
+		if (*it)
+			(*it)->FadeOut(time);
+	}
+}
 
+void AudioEngine::FadeInAllMusic(float time) {
+	for (std::list<MusicDescriptor*>::iterator it = _registered_music.begin();
+			it != _registered_music.end(); ++it) {
+		if (*it)
+			(*it)->FadeIn(time);
+	}
+}
+
+void AudioEngine::FadeOutAllSounds(float time) {
+	for (std::list<SoundDescriptor*>::iterator it =_registered_sounds.begin();
+			it != _registered_sounds.end(); ++it) {
+		if (*it)
+			(*it)->FadeOut(time);
+	}
+}
 
 void AudioEngine::SetListenerPosition(const float position[3]) {
 	alListenerfv(AL_POSITION, position);
 	memcpy(_listener_position, position, sizeof(float) * 3);
 }
-
-
 
 void AudioEngine::SetListenerVelocity(const float velocity[3]) {
 	alListenerfv(AL_VELOCITY, velocity);
@@ -439,8 +410,12 @@ void AudioEngine::PlayMusic(const std::string& filename) {
 		}
 	}
 
-	element->second.audio->Play();
-	element->second.last_update_time = SDL_GetTicks();
+	// Special case: the music descriptor object must be taken back:
+	MusicDescriptor *music_audio = reinterpret_cast<MusicDescriptor*>(element->second.audio);
+	if (music_audio) {
+		music_audio->Play();
+		element->second.last_update_time = SDL_GetTicks();
+	}
 }
 
 void AudioEngine::StopSound(const std::string& filename) {

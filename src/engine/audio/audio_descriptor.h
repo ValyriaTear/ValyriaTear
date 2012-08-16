@@ -22,21 +22,12 @@
 #ifndef __AUDIO_DESCRIPTOR_HEADER__
 #define __AUDIO_DESCRIPTOR_HEADER__
 
-#include "utils.h"
-
 #include "audio_input.h"
 #include "audio_stream.h"
+#include "audio_effects.h"
 
-#ifdef __MACH__
-	#include <OpenAL/al.h>
-	#include <OpenAL/alc.h>
-#else
-	#include "al.h"
-	#include "alc.h"
-#endif
-
-#include <cstring>
 #include <list>
+#include <cstring>
 
 namespace hoa_audio {
 
@@ -216,12 +207,9 @@ public:
 	//! \brief Returns true if this audio represents a sound, false if the audio represents a music piece
 	virtual bool IsSound() const = 0;
 
-	/** \brief Returns the state of the audio,
-	*** \note This function does not simply return the _state member. If _state is set
-	*** to AUDIO_STATE_PLAYING, the source state is queried to assure that it is still
-	*** playing.
-	**/
-	AUDIO_STATE GetState();
+	//! \brief Returns the state of the audio.
+	AUDIO_STATE GetState()
+	{ return _state; }
 
 	/** \name Audio State Manipulation Functions
 	*** \brief Performs specified operation on the audio
@@ -242,7 +230,7 @@ public:
 	//@}
 
 	bool IsLooping() const
-		{ return _looping; }
+	{ return _looping; }
 
 	/** \brief Enables/disables looping for this audio
 	*** \param loop True to enable looping, false to disable it.
@@ -275,7 +263,7 @@ public:
 
 	//! \brief Returns the volume level for this audio
 	float GetVolume() const
-		{ return _volume; }
+	{ return _volume; }
 
 	/** \brief Sets the volume for this particular audio piece
 	*** \param volume The volume level to set, ranging from [0.0f, 1.0f]
@@ -292,13 +280,13 @@ public:
 	void SetDirection(const float direction[3]);
 
 	void GetPosition(float position[3]) const
-		{ memcpy(&position, _position, sizeof(float) * 3); }
+	{ memcpy(&position, _position, sizeof(float) * 3); }
 
 	void GetVelocity(float velocity[3]) const
-		{ memcpy(&velocity, _velocity, sizeof(float) * 3); }
+	{ memcpy(&velocity, _velocity, sizeof(float) * 3); }
 
 	void GetDirection(float direction[3]) const
-		{ memcpy(&direction, _direction, sizeof(float) * 3); }
+	{ memcpy(&direction, _direction, sizeof(float) * 3); }
 	//@}
 
 	/**
@@ -327,6 +315,21 @@ public:
 	**/
 	std::list<hoa_mode_manager::GameMode*>* GetOwners()
 	{ return &_owners; }
+
+	/** \brief Fades a music or sound in as it plays
+	*** \param audio A reference to the music or sound to fade in
+	*** \param time The amount of time that the fade should last for, in seconds
+	**/
+	void FadeIn(float time);
+
+	/** \brief Fades a music or sound out as it finisheds
+	*** \param audio A referenece to the music or sound to fade out
+	*** \param time The amount of time that the fade should last for, in seconds
+	**/
+	void FadeOut(float time);
+
+	//! \brief Remove effects.
+	void RemoveEffects();
 
 	//! \brief Prints various properties about the audio data managed by this class
 	void DEBUG_PrintInfo();
@@ -386,6 +389,9 @@ protected:
     *** @see AddOwner(), RemoveOwner()
     **/
     std::list<hoa_mode_manager::GameMode*> _owners;
+
+	//! \brief Holds all active audio effects for this descriptor
+	std::list<private_audio::AudioEffect*> _audio_effects;
 
 	/** \brief Sets the local volume control for this particular audio piece
 	*** \param volume The volume level to set, ranging from [0.0f, 1.0f]

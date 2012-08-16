@@ -50,8 +50,6 @@ AudioBuffer::AudioBuffer() :
 	}
 }
 
-
-
 AudioBuffer::~AudioBuffer() {
 	if (IsValid()) {
 		alDeleteBuffers(1, &buffer);
@@ -71,8 +69,6 @@ AudioSource::~AudioSource() {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL source was invalid upon destruction" << endl;
 	}
 }
-
-
 
 void AudioSource::Reset() {
 	owner = NULL;
@@ -122,8 +118,6 @@ AudioDescriptor::AudioDescriptor() :
 	_direction[2] = 0.0f;
 }
 
-
-
 AudioDescriptor::AudioDescriptor(const AudioDescriptor& copy) :
 	_state(AUDIO_STATE_UNLOADED),
 	_buffer(NULL),
@@ -151,7 +145,6 @@ AudioDescriptor::AudioDescriptor(const AudioDescriptor& copy) :
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "created a copy of an already initialized AudioDescriptor" << endl;
 	}
 }
-
 
 bool AudioDescriptor::LoadAudio(const string& filename, AUDIO_LOAD load_type, uint32 stream_buffer_size) {
 	if (!AUDIO_ENABLE)
@@ -278,9 +271,10 @@ bool AudioDescriptor::LoadAudio(const string& filename, AUDIO_LOAD load_type, ui
 	return true;
 } // bool AudioDescriptor::LoadAudio(const string& file_name, AUDIO_LOAD load_type, uint32 stream_buffer_size)
 
-
-
 void AudioDescriptor::FreeAudio() {
+    // First, remove any effects.
+    RemoveEffects();
+
 	if (_source != NULL)
 		Stop();
 
@@ -314,40 +308,16 @@ void AudioDescriptor::FreeAudio() {
 	}
 }
 
-
-
-AUDIO_STATE AudioDescriptor::GetState() {
-	// If the last set state was the playing state, we have to double check
-	// with the OpenAL source to make sure that the audio is still playing.
-	if (_state == AUDIO_STATE_PLAYING) {
-		// If the descriptor no longe
-		if (_source == NULL || _data == NULL) {
-			_state = AUDIO_STATE_STOPPED;
-		}
-		else {
-			ALint source_state;
-			alGetSourcei(_source->source, AL_SOURCE_STATE, &source_state);
-			if (AudioManager->CheckALError()) {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "getting the source's state failed: " << AudioManager->CreateALErrorString() << endl;
-			}
-			if (source_state != AL_PLAYING) {
-				_state = AUDIO_STATE_STOPPED;
-			}
-		}
-	}
-
-	return _state;
-}
-
-
-
 void AudioDescriptor::Play() {
 	if (!AUDIO_ENABLE)
 		return;
 
-	if (_source == NULL) {
+	if(_state == AUDIO_STATE_PLAYING)
+		return;
+
+	if (!_source) {
 		_AcquireSource();
-		if (_source == NULL) {
+		if (!_source) {
 			IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << endl;
 			return;
 		}
@@ -371,13 +341,11 @@ void AudioDescriptor::Play() {
 	_state = AUDIO_STATE_PLAYING;
 }
 
-
-
 void AudioDescriptor::Stop() {
 	if (_state == AUDIO_STATE_STOPPED || _state == AUDIO_STATE_UNLOADED)
 		return;
 
-	if (_source == NULL) {
+	if (!_source) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << endl;
 		return;
 	}
@@ -596,7 +564,6 @@ void AudioDescriptor::AddOwners(std::list<hoa_mode_manager::GameMode*>& owners) 
 	}
 }
 
-
 bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm) {
 	if (!gm)
 		return false;
@@ -607,9 +574,11 @@ bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm) {
 
 	// Check for duplicate entries
 	std::list<hoa_mode_manager::GameMode*>::iterator it = _owners.begin();
-	for (; it != _owners.end(); ++it) {
-		if (*it != gm)
+	for (; it != _owners.end();) {
+		if (*it != gm) {
+			++it;
 			continue;
+		}
 
 		// Remove the owner and check whether the sound can be freed
 		it = _owners.erase(it);
@@ -620,6 +589,24 @@ bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm) {
 		}
 	}
 	return false;
+}
+
+void AudioDescriptor::FadeIn(float time) {
+	_audio_effects.push_back(new private_audio::FadeInEffect(*this, time));
+}
+
+void AudioDescriptor::FadeOut(float time) {
+	_audio_effects.push_back(new private_audio::FadeOutEffect(*this, time));
+}
+
+void AudioDescriptor::RemoveEffects() {
+	// Delete any active audio effects for the given audio descriptor
+	for (std::list<AudioEffect*>::iterator it = _audio_effects.begin();
+			it != _audio_effects.end(); ++it) {
+		if (*it)
+		    delete (*it);
+	}
+	_audio_effects.clear();
 }
 
 void AudioDescriptor::DEBUG_PrintInfo() {
@@ -689,8 +676,43 @@ void AudioDescriptor::_SetVolumeControl(float volume) {
 
 
 void AudioDescriptor::_Update() {
-	// Only streaming audio that is playing requires periodic updates
-	if (_stream == NULL || _state != AUDIO_STATE_PLAYING)
+	// Don't update stopped audio descriptors
+	if (_state != AUDIO_STATE_PLAYING)
+		return;
+
+	// If the last set state was the playing state, we have to double check
+	// with the OpenAL source to make sure that the audio is still playing.
+	// If the descriptor no longer has a source, we can stop
+	if (!_source) {
+		_state = AUDIO_STATE_STOPPED;
+	}
+	else {
+		ALint source_state;
+		alGetSourcei(_source->source, AL_SOURCE_STATE, &source_state);
+		if (AudioManager->CheckALError()) {
+			IF_PRINT_WARNING(AUDIO_DEBUG) << "getting the source's state failed: " << AudioManager->CreateALErrorString() << endl;
+		}
+		if (source_state != AL_PLAYING) {
+			_state = AUDIO_STATE_STOPPED;
+		}
+	}
+
+	 // Update all registered audio effects
+	for (std::list<AudioEffect*>::iterator it = _audio_effects.begin(); it != _audio_effects.end();) {
+		(*it)->Update();
+
+		// If the effect is finished, delete it
+		if (!(*it)->active) {
+			delete (*it);
+			it = _audio_effects.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
+
+	// Only streaming audio that is being played requires periodic updates
+	if (!_stream)
 		return;
 
 	ALint queued = 0;
@@ -904,8 +926,6 @@ MusicDescriptor::MusicDescriptor() :
 	AudioManager->_registered_music.push_back(this);
 }
 
-
-
 MusicDescriptor::~MusicDescriptor() {
 	if (AudioManager->_active_music == this) {
 		AudioManager->_active_music = NULL;
@@ -920,43 +940,31 @@ MusicDescriptor::~MusicDescriptor() {
 	}
 }
 
-
-
 MusicDescriptor::MusicDescriptor(const MusicDescriptor& copy) :
 	AudioDescriptor(copy)
 {
 	AudioManager->_registered_music.push_back(this);
 }
 
-
-
 bool MusicDescriptor::LoadAudio(const std::string& filename, AUDIO_LOAD load_type, uint32 stream_buffer_size) {
 	return AudioDescriptor::LoadAudio(filename, load_type, stream_buffer_size);
 }
-
-
 
 void MusicDescriptor::Play() {
 	if (!AUDIO_ENABLE)
 		return;
 
 	if (AudioManager->_active_music == this) {
-		// This is slightly hacky, the real reason and when map mode returns to the top of the mode stack
-		// _data is null for some reason.  So when GetState is called the check for _data changes the _state to
-		// AUDIO_STATE_STOPPED, but the music is still playing.  This fixes that, but we should find the real reason.
-		if (AudioManager->_active_music->_state != AUDIO_STATE_PLAYING)
-			AudioManager->_active_music->_state = AUDIO_STATE_PLAYING;
-		return;
+		if (_state != AUDIO_STATE_PLAYING)
+			AudioDescriptor::Play();
 	}
-	else if (AudioManager->_active_music != NULL) {
-		AudioManager->_active_music->Stop();
+	else {
+		if (AudioManager->_active_music)
+		    AudioManager->_active_music->Stop();
+		AudioManager->_active_music = this;
+		Play(); // Recursive call now the music is the active one.
 	}
-
-	AudioManager->_active_music = this;
-	AudioDescriptor::Play();
 }
-
-
 
 void MusicDescriptor::SetVolume(float volume) {
 	AudioDescriptor::_SetVolumeControl(volume);

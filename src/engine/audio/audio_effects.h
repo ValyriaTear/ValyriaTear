@@ -2,7 +2,7 @@
 //            Copyright (C) 2004-2010 by The Allacrost Project
 //                         All Rights Reserved
 //
-// This code is licensed under the GNU GPL version 2. It is free software 
+// This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,17 +22,6 @@
 #ifndef __AUDIO_EFFECTS_HEADER__
 #define __AUDIO_EFFECTS_HEADER__
 
-#ifdef __MACH__
-	#include <OpenAL/al.h>
-	#include <OpenAL/alc.h>
-#else
-	#include "al.h"
-	#include "alc.h"
-#endif
-
-#include "defs.h"
-#include "utils.h"
-
 #include "audio_descriptor.h"
 
 namespace hoa_audio {
@@ -51,15 +40,18 @@ class AudioEffect {
 public:
 	AudioEffect() :
 		active(true) {}
-	
+
 	virtual ~AudioEffect()
-		{}
+	{}
 
 	//! \brief Set to true while an effect is active, and set to false when the effect is finished
 	bool active;
 
 	//! \brief Updates the effect and sets the active member to false when the effect is finished
 	virtual void Update() = 0;
+
+	//! \brief Get the audio descriptor concerned by the effect.
+	virtual AudioDescriptor& GetAudioDescriptor() const = 0;
 }; // class AudioEffect
 
 
@@ -81,10 +73,9 @@ public:
 	//! \brief Gradually increases the volume until the original volume level is restored
 	void Update();
 
+	AudioDescriptor& GetAudioDescriptor() const
+	{ return _audio; }
 private:
-	//! \brief The volume of the audio when the effect was registered
-	float _original_volume;
-
 	//! \brief The amount of time that the effect lasts for
 	float _effect_time;
 
@@ -111,6 +102,9 @@ public:
 
 	//! \brief Gradually decreases the volume until it reaches 0.0f
 	void Update();
+
+	AudioDescriptor& GetAudioDescriptor() const
+	{ return _audio; }
 
 private:
 	//! \brief The volume of the audio when the effect was registered

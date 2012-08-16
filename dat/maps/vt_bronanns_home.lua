@@ -479,8 +479,8 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function CreateEvents()
 	local event = {};
-    local text = {};
-    local dialogue = {};
+	local text = {};
+	local dialogue = {};
 
 	-- Triggered Events
 	event = hoa_map.MapTransitionEvent("to village", "dat/maps/vt_layna_center.lua", "from_bronanns_home");
@@ -489,11 +489,11 @@ function CreateEvents()
 	event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/vt_bronanns_home_first_floor.lua", "from_bronanns_home");
 	EventManager:RegisterEvent(event);
 
-    -- Generic events
-    event = hoa_map.ScriptedEvent("Audio:PauseMusic()", "Audio_PauseMusic", "");
-    EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedEvent("Audio:ResumeMusic()", "Audio_ResumeMusic", "");
-    EventManager:RegisterEvent(event);
+	-- Generic events
+	event = hoa_map.ScriptedEvent("Audio:FadeOutMusic()", "Audio_FadeOutMusic", "");
+	EventManager:RegisterEvent(event);
+	event = hoa_map.ScriptedEvent("Audio:ResumeMusic()", "Audio_ResumeMusic", "");
+	EventManager:RegisterEvent(event);
 
     -- Quest events
 
@@ -528,9 +528,8 @@ function CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 1", dialogue)
     -- Make a pause here
-    -- TODO: fade out the music once it's possible
     event:AddEventLinkAtEnd("Quest2: Father looks south to think");
-    --event:AddEventLinkAtEnd("Audio:PauseMusic()");
+    event:AddEventLinkAtEnd("Audio:FadeOutMusic()");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Father looks south to think", bronanns_dad, hoa_map.MapMode.SOUTH);
@@ -744,8 +743,8 @@ map_functions = {
 		Map:SetCamera(sprite, 800);
 	end,
 
-    Audio_PauseMusic = function()
-        AudioManager:PauseAllMusic();
+    Audio_FadeOutMusic = function()
+        AudioManager:FadeOutAllMusic(2000);
     end,
 
     MakeInvisible = function(sprite)
