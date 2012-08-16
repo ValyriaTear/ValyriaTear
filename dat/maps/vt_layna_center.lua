@@ -1188,11 +1188,12 @@ function _UpdateOrlinnAndKalyaState()
         -- At that moment, Orlinn has disappeared and Kalya is now in Bronann's party.
         orlinn:SetVisible(false);
         orlinn:SetNoCollision(true);
+        kalya:ClearDialogueReferences();
         kalya:SetVisible(false);
         kalya:SetNoCollision(true);
-	EventManager:TerminateAllEvents(kalya);
-	kalya:SetMoving(false);
-        return;	
+        EventManager:TerminateAllEvents(kalya);
+        kalya:SetMoving(false);
+        return;
     end
     if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Bronann got Georges' pen, update orlinn dialogue
@@ -1218,10 +1219,8 @@ function _UpdateOrlinnAndKalyaState()
         orlinn:SetVisible(false);
         orlinn:SetNoCollision(true);
         return;
-    end
-
-    dialogue = hoa_map.SpriteDialogue();
-    if (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+    elseif (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+        dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Hi hi hi!!");
         dialogue:AddLine(text, orlinn);
         text = hoa_system.Translate("What makes you laugh, Orlinn?");
@@ -1240,12 +1239,15 @@ function _UpdateOrlinnAndKalyaState()
         dialogue:AddLine(text, bronann);
         text = hoa_system.Translate("Sure, I'll help you but only if you can catch me!");
         dialogue:AddLineEvent(text, orlinn, "Quest1: Make Orlinn run and hide");
+        DialogueManager:AddDialogue(dialogue);
+        orlinn:AddDialogueReference(dialogue);
     else
+        dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Heya Bro! Wanna play with me?");
         dialogue:AddLine(text, orlinn);
+        DialogueManager:AddDialogue(dialogue);
+        orlinn:AddDialogueReference(dialogue);
     end
-	DialogueManager:AddDialogue(dialogue);
-	orlinn:AddDialogueReference(dialogue);
 
 	-- Default behaviour
 	EventManager:TerminateAllEvents(orlinn);
