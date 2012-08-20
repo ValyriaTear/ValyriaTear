@@ -1,1 +1,1 @@
-.. |version| replace:: 0.9
+.. |version| replace:: 0.9.1
