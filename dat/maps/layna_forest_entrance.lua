@@ -271,11 +271,59 @@ function CreateCharacters()
 end
 
 function CreateObjects()
-	object = {}
+	local object = {}
+	local npc = {}
 
 	object = _CreateObject(Map, "Box1", 23, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
+	npc = _CreateSprite(Map, "Butterfly", 42, 18);
+	npc:SetNoCollision(true);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly1 random move");
+
+	npc = _CreateSprite(Map, "Butterfly", 12, 30);
+	npc:SetNoCollision(true);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly2 random move", 2400);
+
+	npc = _CreateSprite(Map, "Butterfly", 50, 25);
+	npc:SetNoCollision(true);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly3 random move", 1050);
+
+	npc = _CreateSprite(Map, "Butterfly", 40, 30);
+	npc:SetNoCollision(true);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly4 random move", 3050);
+
+	npc = _CreateSprite(Map, "Squirrel", 18, 24);
+	npc:SetNoCollision(true);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Squirrel1 random move");
+
+	npc = _CreateSprite(Map, "Squirrel", 40, 14);
+	npc:SetNoCollision(true);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Squirrel2 random move", 1800);
 end
 
 

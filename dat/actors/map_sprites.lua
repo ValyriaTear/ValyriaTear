@@ -269,8 +269,35 @@ sprites["Chicken"] = {
     }
 }
 
+sprites["Butterfly"] = {
+	name = hoa_system.Translate("Butterfly"),
+	coll_half_width = 0.65,
+	coll_height = 0.7,
+	img_half_width = 1.0,
+	img_height = 2.0,
+	movement_speed = NORMAL_SPEED,
 
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/scening/butterfly_idle.lua",
+        walk = "img/sprites/map/scening/butterfly_walk.lua"
+    }
+}
 
+sprites["Squirrel"] = {
+	name = hoa_system.Translate("Squirrel"),
+	coll_half_width = 0.65,
+	coll_height = 0.8,
+	img_half_width = 1.0,
+	img_height = 2.0,
+	movement_speed = NORMAL_SPEED,
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/scening/squirrel_idle.lua",
+        walk = "img/sprites/map/scening/squirrel_walk.lua"
+    }
+}
 
 -- ---------
 -- Enemies
