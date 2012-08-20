@@ -446,8 +446,6 @@
 		<Unit filename="src\modes\battle\battle_utils.h" />
 		<Unit filename="src\modes\boot\boot.cpp" />
 		<Unit filename="src\modes\boot\boot.h" />
-		<Unit filename="src\modes\boot\boot_credits.cpp" />
-		<Unit filename="src\modes\boot\boot_credits.h" />
 		<Unit filename="src\modes\boot\boot_menu.cpp" />
 		<Unit filename="src\modes\boot\boot_menu.h" />
 		<Unit filename="src\modes\boot\boot_welcome.cpp" />

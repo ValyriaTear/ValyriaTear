@@ -398,8 +398,6 @@ modes/boot/boot.h
 modes/boot/boot.cpp
 modes/boot/boot_welcome.cpp
 modes/boot/boot_menu.h
-modes/boot/boot_credits.h
-modes/boot/boot_credits.cpp
 modes/boot/boot_welcome.h
 modes/boot/boot_menu.cpp
 modes/save/save_mode.h
