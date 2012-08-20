@@ -31,6 +31,10 @@ FadeInEffect::FadeInEffect(AudioDescriptor& audio, float time) :
 	_audio(audio)
 {
 	_audio.SetVolume(0.0f);
+	// If the sound is not playing, then start it.
+	// Note: Only audio descriptors being played are updated.
+	if (_audio.GetState() != AUDIO_STATE_PLAYING)
+		_audio.Play();
 }
 
 
@@ -38,10 +42,6 @@ FadeInEffect::FadeInEffect(AudioDescriptor& audio, float time) :
 void FadeInEffect::Update() {
 	if (!active)
 		return;
-
-	// If the sound is not playing, then start it.
-	if (_audio.GetState() != AUDIO_STATE_PLAYING)
-		_audio.Play();
 
 	// Stop right away when the effect is less than a usual cpu cycle
 	if (_effect_time <= 10.0f) {

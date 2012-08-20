@@ -1321,9 +1321,10 @@ map_functions = {
     end,
 
     BrightLightStart = function()
-        bright_light_time = 0.0;
+	bright_light_time = 0.0;
 	VideoManager:ShakeScreen(0.6, 6000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
 	AudioManager:PlaySound("snd/rumble.wav");
+	AudioManager:FadeOutAllMusic(2000);
     end,
 
     BrightLightUpdate = function()
@@ -1359,6 +1360,7 @@ map_functions = {
             GlobalManager:AddCharacter(KALYA);
             GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
         end
+        AudioManager:FadeInAllMusic(2000);
     end,
 
     Quest2_equip_speech_start = function()
