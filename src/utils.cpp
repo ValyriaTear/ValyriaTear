@@ -33,6 +33,7 @@
 #include <iconv.h>
 #include <cmath>
 #include <stdexcept>
+#include <algorithm>
 
 namespace hoa_utils {
 
@@ -93,6 +94,16 @@ float GetFloatInteger(float value) {
 
 float FloorToFloatMultiple (const float value, const float multiple) {
 	return multiple * std::floor(value / multiple);
+}
+
+std::string Upcase(std::string text) {
+	std::transform(text.begin(), text.end(), text.begin(), ::toupper);
+	return text;
+}
+
+std::string UpcaseFirst(std::string text) {
+	std::transform(text.begin(), ++text.begin(), text.begin(), ::toupper);
+	return text;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -218,8 +218,8 @@ float GetFloatInteger(float value);
 float FloorToFloatMultiple(const float value, const float multiple);
 
 
-//!	\brief Converts data to string
-/*! Thi function convers ata to string, if it has the sstring::operator<< implementated
+/** \brief Converts data to string
+ *  This function converts data to string, if it has the sstring::operator << implemented
  *  \param s String to be filled
  *  \param data Data to convert to string
  */
@@ -230,6 +230,12 @@ void DataToString(std::string &s, const T &data)
 	stream << data;
 	s = stream.str();
 }
+
+//! \brief Returns the uppercased version of a string
+std::string Upcase(std::string text);
+
+//! \brief Returns the string with the first letter uppercased.
+std::string UpcaseFirst(std::string text);
 
 
 /** ****************************************************************************

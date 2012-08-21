@@ -13,8 +13,7 @@
 *** \brief   Source file for boot mode interface.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <sstream>
+#include "modes/boot/boot.h"
 
 #include "engine/audio/audio.h"
 #include "engine/script/script_modify.h"
@@ -23,11 +22,10 @@
 
 #include "common/global/global.h"
 
-#include "modes/boot/boot.h"
-#include "modes/boot/boot_welcome.h"
-
 #include "modes/map/map.h"
 #include "modes/save/save_mode.h"
+
+#include "modes/mode_help_window.h"
 
 #ifdef DEBUG_MENU
 // Files below are used for boot mode to do a test launch of other modes
@@ -35,6 +33,9 @@
 #include "modes/menu/menu.h"
 #include "modes/shop/shop.h"
 #endif
+
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace hoa_utils;
@@ -78,8 +79,6 @@ BootMode::BootMode() :
 
 	IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << endl;
 	mode_type = MODE_MANAGER_BOOT_MODE;
-
-	_welcome_window = new WelcomeWindow();
 
 	_version_text.SetStyle(TextStyle("text20"));
 	std::string date_string = " - ";
@@ -137,8 +136,6 @@ BootMode::BootMode() :
 
 
 BootMode::~BootMode() {
-	delete _welcome_window;
-
 	_options_window.Destroy();
 	_SaveSettingsFile("");
 
@@ -187,17 +184,19 @@ void BootMode::Update() {
 		}
 	}
 
-	if (_welcome_window->IsActive())
+	HelpWindow *help_window = ModeManager->GetHelpWindow();
+	if (help_window && help_window->IsActive())
 	{
-		if (InputManager->AnyKeyPress())
+		// Any key, except F1
+		if (!InputManager->HelpPress() && InputManager->AnyKeyPress())
 		{
 			AudioManager->PlaySound("snd/confirm.wav");
-			_welcome_window->Hide();
-
-			// save the settings (automatically changes the welcome variable to 0
-			_has_modified_settings = true;
-			_SaveSettingsFile("");
+			help_window->Hide();
 		}
+
+		// save the settings (automatically changes the first_start variable to 0)
+		_has_modified_settings = true;
+		_SaveSettingsFile("");
 
 		return;
 	}
@@ -383,16 +382,13 @@ void BootMode::DrawPostEffects() {
 		_options_window.Draw();
 
 		// Test whether the welcome window should be shown once
-		static bool welcome_window_shown = false;
-		if (!welcome_window_shown) {
-			_ShowWelcomeWindow();
-			welcome_window_shown = true;
+		static bool help_window_shown = false;
+		if (!help_window_shown) {
+			_ShowHelpWindow();
+			help_window_shown = true;
 		}
 
-		// Decide whether to draw welcome window or the main menu
-		if (_welcome_window->IsActive())
-			_welcome_window->Draw();
-		else if (_active_menu != NULL)
+		if (_active_menu)
 			_active_menu->Draw();
 
 		VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -1250,7 +1246,7 @@ void BootMode::_OnPickLetter() {
 // ***** BootMode helper methods
 // ****************************************************************************
 
-void BootMode::_ShowWelcomeWindow() {
+void BootMode::_ShowHelpWindow() {
 	// Load the settings file for reading in the welcome variable
 	ReadScriptDescriptor settings_lua;
 	string file = GetSettingsFilename();
@@ -1259,8 +1255,8 @@ void BootMode::_ShowWelcomeWindow() {
 	}
 
 	settings_lua.OpenTable("settings");
-	if (settings_lua.ReadInt("welcome") == 1) {
-		_welcome_window->Show();
+	if (settings_lua.ReadInt("first_start") == 1) {
+		ModeManager->GetHelpWindow()->Show();
 	}
 	settings_lua.CloseTable();
 	settings_lua.CloseFile();
@@ -1478,7 +1474,7 @@ bool BootMode::_SaveSettingsFile(const std::string& filename) {
 	}
 
 	// Write the current settings into the .lua file
-	settings_lua.ModifyInt("settings.welcome", 0);
+	settings_lua.ModifyInt("settings.first_start", 0);
 
 	//Save language settings
 	settings_lua.ModifyString("settings.language", SystemManager->GetLanguage());

@@ -19,6 +19,8 @@
 #include "engine/video/video.h"
 #include "engine/audio/audio.h"
 
+#include "modes/mode_help_window.h"
+
 using namespace std;
 
 using namespace hoa_utils;
@@ -88,6 +90,9 @@ ModeEngine::ModeEngine() {
 	_state_change = false;
 	_fade_out = false;
 	_fade_out_finished = false;
+
+	// Initialized in Push()
+	_help_window = 0;
 }
 
 
@@ -105,6 +110,8 @@ ModeEngine::~ModeEngine() {
 		delete _push_stack.back();
 		_push_stack.pop_back();
 	}
+
+	delete _help_window;
 }
 
 
@@ -172,6 +179,11 @@ void ModeEngine::Push(GameMode* gm, bool fade_out, bool fade_in) {
 		_fade_out = false;
 		_fade_out_finished = true;
 	}
+
+	// We init the help window only at first game mode push, so give time to
+	// every game sub-engine to init properly.
+	if (!_help_window)
+		_help_window = new HelpWindow();
 }
 
 
@@ -289,6 +301,9 @@ void ModeEngine::DrawPostEffects() {
 		return;
 
 	_game_stack.back()->DrawPostEffects();
+
+	if (_help_window && _help_window->IsActive())
+	    _help_window->Draw();
 }
 
 

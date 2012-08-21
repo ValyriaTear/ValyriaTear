@@ -147,9 +147,6 @@ private:
 	//! \brief A simple menu window where the various options menus are displayed
 	hoa_gui::MenuWindow _options_window;
 
-	//! \brief A window used to display important information to the player
-	private_boot::WelcomeWindow* _welcome_window;
-
 	//! \brief Pointer to the currently active boot menu object
 	private_boot::BootMenu* _active_menu;
 
@@ -324,7 +321,7 @@ private:
 	// ---------- Helper methods not directly tied to any specific boot menu
 
 	//! \brief Tests whether the welcome window should be shown.
-	void _ShowWelcomeWindow();
+	void _ShowHelpWindow();
 
 	/** \brief Shows the message window to display text that its waiting for either a joystick or keyboard event
 	*** \param joystick True if the window should state its waiting for a joystick event, false for a keyboard event

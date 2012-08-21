@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -8,21 +9,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    boot_welcome.h
+*** \file    mode_help_window.h
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Bertram, yohann.ferreira@orange.fr
 *** \brief   Header file for the boot welcome window
 *** ***************************************************************************/
 
-#ifndef __BOOT_WELCOME__
-#define __BOOT_WELCOME__
+#ifndef __MODE_HELP_WINDOW__
+#define __MODE_HELP_WINDOW__
 
 #include "common/gui/menu_window.h"
 #include "engine/video/text.h"
 #include "common/gui/option.h"
 
-namespace hoa_boot {
-
-namespace private_boot {
+namespace hoa_mode_manager {
 
 /** ****************************************************************************
 *** \brief Displays vital information to the player upon starting the game
@@ -39,11 +39,11 @@ namespace private_boot {
 *** the default keys and purposes, and footer text informing the player where
 *** they can find more information.
 *** *****************************************************************************/
-class WelcomeWindow {
+class HelpWindow {
 public:
-	WelcomeWindow();
+	HelpWindow();
 
-	~WelcomeWindow();
+	~HelpWindow();
 
 	//! \brief Updates the state of the welcome window and processes user input
 	void Update();
@@ -82,10 +82,11 @@ private:
 
 	//! \brief Rendered text that tells the player how to move past the window
 	hoa_video::TextImage _text_continue;
-}; // class WelcomeWindow
 
-} // namespace private_boot
+	//! \brief Refresh the text shown according to the given game mode
+	void _RefreshText();
+}; // class HelpWindow
 
-} // namespace hoa_boot
+} // namespace hoa_mode_manager
 
-#endif // __BOOT_WELCOME__
+#endif // __MODE_HELP_WINDOW__

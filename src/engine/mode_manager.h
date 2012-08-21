@@ -23,6 +23,8 @@
 //! All calls to the mode management code are wrapped inside this namespace
 namespace hoa_mode_manager {
 
+class HelpWindow;
+
 //! The singleton pointer responsible for maintaining and updating the game mode state.
 extern ModeEngine* ModeManager;
 
@@ -178,6 +180,9 @@ private:
 	//! Tells whether the fade out has finished.
 	bool _fade_out_finished;
 
+	//! \brief A window showing help according to the current game mode.
+	HelpWindow *_help_window;
+
 public:
 	~ModeEngine();
 
@@ -237,6 +242,10 @@ public:
 
 	//! \brief Calls the DrawPostEffects() function on the active game mode.
 	void DrawPostEffects();
+
+	//! \brief give the help window pointer, permitting to use it anytime.
+	HelpWindow* GetHelpWindow()
+	{ return _help_window; }
 
 	//! \brief Prints the contents of the game_stack member to standard output.
 	void DEBUG_PrintStack();

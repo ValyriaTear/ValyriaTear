@@ -22,6 +22,7 @@
 
 #include "engine/audio/audio.h"
 #include "engine/system.h"
+#include "engine/mode_manager.h"
 
 using namespace std;
 using namespace hoa_utils;

@@ -17,6 +17,8 @@
 #include "engine/video/video.h"
 #include "engine/script/script_read.h"
 
+#include "modes/mode_help_window.h"
+
 #include "mode_manager.h"
 #include "system.h"
 
@@ -75,6 +77,7 @@ InputEngine::InputEngine() {
 
 	_pause_press          = false;
 	_quit_press           = false;
+	_help_press           = false;
 
 	_joyaxis_x_first      = true;
 	_joyaxis_y_first      = true;
@@ -179,7 +182,7 @@ bool InputEngine::RestoreDefaultJoyButtons()
 	_joystick.left_select  = static_cast<uint8>(settings_file.ReadInt("left_select"));
 	_joystick.right_select = static_cast<uint8>(settings_file.ReadInt("right_select"));
 	_joystick.pause        = static_cast<uint8>(settings_file.ReadInt("pause"));
-	_joystick.quit		   = static_cast<uint8>(settings_file.ReadInt("quit"));
+	_joystick.quit         = static_cast<uint8>(settings_file.ReadInt("quit"));
 	settings_file.CloseTable();
 	settings_file.CloseTable();
 
@@ -232,6 +235,7 @@ void InputEngine::EventHandler() {
 
 	_pause_press = false;
 	_quit_press = false;
+	_help_press = false;
 
 	// Loops until there are no remaining events to process
 	while (SDL_PollEvent(&event)) {
@@ -294,11 +298,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event) {
 
 			_any_key_press = false; // CTRL isn't "any key"! :)
 
-			if (key_event.keysym.sym == SDLK_a) {
-				// Toggle the display of debug visual engine information
-				VideoManager->ToggleDebugInfo();
-			}
-			else if (key_event.keysym.sym == SDLK_f) {
+			if (key_event.keysym.sym == SDLK_f) {
 				// Toggle between full-screen and windowed mode
 				VideoManager->ToggleFullscreen();
 				VideoManager->ApplySettings();
@@ -306,10 +306,6 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event) {
 			}
 			else if (key_event.keysym.sym == SDLK_q) {
 				_quit_press = true;
-			}
-			else if (key_event.keysym.sym == SDLK_r) {
-				VideoManager->ToggleFPS();
-				return;
 			}
 			else if (key_event.keysym.sym == SDLK_s) {
 				// Take a screenshot of the current game
@@ -325,11 +321,22 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event) {
 				VideoManager->MakeScreenshot(path);
 				return;
 			}
+#ifdef DEBUG_MENU
+			// Insert developers options here.
+			else if (key_event.keysym.sym == SDLK_r) {
+				VideoManager->ToggleFPS();
+				return;
+			}
+			else if (key_event.keysym.sym == SDLK_a) {
+				// Toggle the display of debug visual engine information
+				VideoManager->ToggleDebugInfo();
+			}
 			else if (key_event.keysym.sym == SDLK_t) {
 				// Display and cycle through the texture sheets
 				VideoManager->Textures()->DEBUG_NextTexSheet();
 				return;
 			}
+#endif
 
 			//return;
 		} // endif CTRL pressed
@@ -337,6 +344,14 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event) {
 		// Note: a switch-case statement won't work here because Key.up is not an
 		// integer value the compiler will whine and cry about it ;_;
 		if (key_event.keysym.sym == SDLK_ESCAPE) {
+			// Hide the help window if shown
+			HelpWindow *help_window = ModeManager->GetHelpWindow();
+			if (help_window && help_window->IsActive()) {
+				help_window->Hide();
+				return;
+			}
+
+			// Handle the normal events otherwise.
 			_quit_press = true;
 			return;
 		}
@@ -394,8 +409,19 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event) {
 			_pause_press = true;
 			return;
 		}
+		else if (key_event.keysym.sym == SDLK_F1) {
+			_help_press = true;
+			// Toggle the help window visibility
+			HelpWindow *help_window = ModeManager->GetHelpWindow();
+			if (!help_window)
+				return;
+			if (!help_window->IsActive())
+				help_window->Show();
+			else
+				help_window->Hide();
+			return;
+		}
 	}
-
 	else { // Key was released
 
 		_any_key_press = false;
@@ -590,7 +616,11 @@ void InputEngine::_JoystickEventHandler(SDL_Event& js_event) {
 
 
 // Sets a new key over an older one. If the same key is used elsewhere, the older one is removed
-void InputEngine::_SetNewKey(SDLKey & old_key, SDLKey new_key) {
+void InputEngine::_SetNewKey(SDLKey& old_key, SDLKey new_key) {
+	// Don't permit system keys (Quit and help)
+	if (new_key == SDLK_ESCAPE || new_key == SDLK_F1)
+		return;
+
 	if (_key.up == new_key) { // up key used already
 		_key.up = old_key;
 		old_key = new_key;

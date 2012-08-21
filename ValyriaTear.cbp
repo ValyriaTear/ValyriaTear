@@ -447,8 +447,6 @@
 		<Unit filename="src\modes\boot\boot.h" />
 		<Unit filename="src\modes\boot\boot_menu.cpp" />
 		<Unit filename="src\modes\boot\boot_menu.h" />
-		<Unit filename="src\modes\boot\boot_welcome.cpp" />
-		<Unit filename="src\modes\boot\boot_welcome.h" />
 		<Unit filename="src\modes\map\map.cpp" />
 		<Unit filename="src\modes\map\map.h" />
 		<Unit filename="src\modes\map\map_dialogue.cpp" />
@@ -472,6 +470,8 @@
 		<Unit filename="src\modes\menu\menu_views.cpp" />
 		<Unit filename="src\modes\menu\menu_views.h" />
 		<Unit filename="src\modes\mode_bindings.cpp" />
+		<Unit filename="src\modes\mode_help_window.cpp" />
+		<Unit filename="src\modes\mode_help_window.h" />
 		<Unit filename="src\modes\pause.cpp" />
 		<Unit filename="src\modes\pause.h" />
 		<Unit filename="src\modes\save\save_mode.cpp" />

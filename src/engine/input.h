@@ -64,6 +64,7 @@ class KeyState {
 public:
 	/** \name Generic key names
 	*** \brief Each member holds the actual keyboard key that corresponds to the named key event.
+	*** \note that SDLK_ESCAPE and SDLK_F1 are reserved for Quit, and Help.
 	**/
 	//@{
 	SDLKey up;
@@ -230,6 +231,7 @@ private:
 	bool _right_select_press;
 	bool _pause_press;
 	bool _quit_press;
+	bool _help_press;
 	//@}
 
 	/** \name  Input Release Members
@@ -284,7 +286,7 @@ private:
 public:
 	~InputEngine();
 
-	bool SingletonInitialize ();
+	bool SingletonInitialize();
 
 	//! \brief Initialize the joysticks with SDL, delayed because we need info from the lua settings file first.
 	void InitializeJoysticks();
@@ -403,6 +405,9 @@ public:
 
 	bool QuitPress() const
 		{ return _quit_press; }
+
+	bool HelpPress() const
+		{ return _help_press; }
 	//@}
 
 	/** \name Input release member access functions
@@ -445,37 +450,43 @@ public:
 	**/
 	//@{
 	std::string GetUpKeyName() const
-		{ return SDL_GetKeyName(_key.up); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.up)); }
 
 	std::string GetDownKeyName() const
-		{ return SDL_GetKeyName(_key.down); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.down)); }
 
 	std::string GetLeftKeyName() const
-		{ return SDL_GetKeyName(_key.left); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.left)); }
 
 	std::string GetRightKeyName() const
-		{ return SDL_GetKeyName(_key.right); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.right)); }
 
 	std::string GetConfirmKeyName() const
-		{ return SDL_GetKeyName(_key.confirm); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.confirm)); }
 
 	std::string GetCancelKeyName() const
-		{ return SDL_GetKeyName(_key.cancel); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.cancel)); }
 
 	std::string GetMenuKeyName() const
-		{ return SDL_GetKeyName(_key.menu); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.menu)); }
 
 	std::string GetSwapKeyName() const
-		{ return SDL_GetKeyName(_key.swap); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.swap)); }
 
 	std::string GetLeftSelectKeyName() const
-		{ return SDL_GetKeyName(_key.left_select); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.left_select)); }
 
 	std::string GetRightSelectKeyName() const
-		{ return SDL_GetKeyName(_key.right_select); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.right_select)); }
 
 	std::string GetPauseKeyName() const
-		{ return SDL_GetKeyName(_key.pause); }
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.pause)); }
+
+	std::string GetHelpKeyName() const
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(SDLK_F1)); }
+
+	std::string GetQuitKeyName() const
+	{ return hoa_utils::UpcaseFirst(SDL_GetKeyName(SDLK_ESCAPE)); }
 	//@}
 
 	/** \name Joystick axis access functions

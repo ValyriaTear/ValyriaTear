@@ -271,7 +271,6 @@ namespace hoa_boot {
 
 	namespace private_boot {
 		class BootMenu;
-		class WelcomeWindow;
 	}
 }
 

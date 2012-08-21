@@ -273,12 +273,6 @@ luabind/luabind/wrapper_base.hpp
 
 # Files used by both the game and the editor
 SET(SRCS_COMMON
-engine/effect_supervisor.h
-engine/effect_supervisor.cpp
-engine/mode_manager.h
-engine/mode_manager.cpp
-engine/script_supervisor.h
-engine/script_supervisor.cpp
 engine/system.cpp
 engine/system.h
 engine/video/video.h
@@ -305,16 +299,6 @@ engine/video/particle_effect.h
 engine/video/particle_effect.cpp
 engine/video/particle_system.h
 engine/video/particle_system.cpp
-engine/audio/audio.h
-engine/audio/audio.cpp
-engine/audio/audio_descriptor.h
-engine/audio/audio_descriptor.cpp
-engine/audio/audio_input.cpp
-engine/audio/audio_stream.h
-engine/audio/audio_stream.cpp
-engine/audio/audio_input.h
-engine/audio/audio_effects.h
-engine/audio/audio_effects.cpp
 engine/script/script.h
 engine/script/script.cpp
 engine/script/script_read.h
@@ -354,6 +338,22 @@ common/gui/gui.cpp
 common/dialogue.h
 common/common.h
 common/common_bindings.cpp
+engine/audio/audio.h
+engine/audio/audio.cpp
+engine/audio/audio_descriptor.h
+engine/audio/audio_descriptor.cpp
+engine/audio/audio_input.cpp
+engine/audio/audio_stream.h
+engine/audio/audio_stream.cpp
+engine/audio/audio_input.h
+engine/audio/audio_effects.h
+engine/audio/audio_effects.cpp
+engine/effect_supervisor.h
+engine/effect_supervisor.cpp
+engine/mode_manager.h
+engine/mode_manager.cpp
+engine/script_supervisor.h
+engine/script_supervisor.cpp
 main_options.h
 modes/pause.cpp
 modes/shop/shop_root.h
@@ -374,6 +374,8 @@ modes/shop/shop.h
 modes/shop/shop_sell.h
 modes/scene.h
 modes/mode_bindings.cpp
+modes/mode_help_window.h
+modes/mode_help_window.cpp
 modes/battle/battle_effects.cpp
 modes/battle/battle_sequence.h
 modes/battle/battle_actors.cpp
@@ -397,9 +399,7 @@ modes/battle/battle_sequence.cpp
 modes/scene.cpp
 modes/boot/boot.h
 modes/boot/boot.cpp
-modes/boot/boot_welcome.cpp
 modes/boot/boot_menu.h
-modes/boot/boot_welcome.h
 modes/boot/boot_menu.cpp
 modes/save/save_mode.h
 modes/save/save_mode.cpp
@@ -536,5 +536,5 @@ IF (EDITOR_SUPPORT)
     )
 
     INSTALL(TARGETS vt-editor RUNTIME DESTINATION ${PKG_BINDIR})
-    SET_TARGET_PROPERTIES(vt-editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DQT3_SUPPORT")
+    SET_TARGET_PROPERTIES(vt-editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DQT3_SUPPORT -DEDITOR_BUILD")
 ENDIF(EDITOR_SUPPORT)

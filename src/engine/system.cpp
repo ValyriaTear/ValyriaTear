@@ -14,6 +14,13 @@
 *** \brief  Source file for system code management
 *** ***************************************************************************/
 
+#include "engine/system.h"
+#include "engine/script/script.h"
+
+#ifndef EDITOR_BUILD
+#include "mode_manager.h"
+#endif
+
 #ifdef _WIN32
 	#include <direct.h>
 	#include <stdlib.h>          // defines _MAX_PATH constant
@@ -30,14 +37,9 @@
 // #include "gettext.h"
 #include <libintl.h>
 
-#include "engine/system.h"
-#include "engine/audio/audio.h"
-#include "engine/script/script.h"
-
 using namespace std;
 
 using namespace hoa_utils;
-using namespace hoa_audio;
 using namespace hoa_script;
 using namespace hoa_mode_manager;
 
@@ -387,8 +389,8 @@ void SystemEngine::UpdateTimers() {
 		(*i)->_AutoUpdate();
 }
 
-
-
+// Avoid a useless dependency on the mode manager for the editor build
+#ifndef EDITOR_BUILD
 void SystemEngine::ExamineSystemTimers() {
 	GameMode* active_mode = ModeManager->GetTop();
 	GameMode* timer_mode = NULL;
@@ -404,7 +406,7 @@ void SystemEngine::ExamineSystemTimers() {
 			(*i)->Pause();
 	}
 }
-
+#endif
 
 void SystemEngine::WaitForThread(Thread * thread) {
 #if (THREAD_TYPE == SDL_THREADS)

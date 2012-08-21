@@ -123,6 +123,7 @@ public:
 	QString tileset_name;
 
 	//! \brief Contains the StillImage tiles of the tileset, used in grid.cpp.
+	// FIXME Turn this into a QT object, so that one can remove the editor dependency upon the videomanager
 	std::vector<hoa_video::StillImage> tiles;
 
 	//! \brief Contains walkability information for each tile.
