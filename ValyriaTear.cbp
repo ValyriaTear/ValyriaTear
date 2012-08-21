@@ -350,7 +350,6 @@
 		<Unit filename="src\luabind\luabind\detail\enum_maker.hpp" />
 		<Unit filename="src\luabind\luabind\detail\format_signature.hpp" />
 		<Unit filename="src\luabind\luabind\detail\garbage_collector.hpp" />
-		<Unit filename="src\luabind\luabind\detail\get_signature.hpp" />
 		<Unit filename="src\luabind\luabind\detail\has_get_pointer.hpp" />
 		<Unit filename="src\luabind\luabind\detail\inheritance.hpp" />
 		<Unit filename="src\luabind\luabind\detail\instance_holder.hpp" />

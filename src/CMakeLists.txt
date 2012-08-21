@@ -231,7 +231,6 @@ luabind/luabind/detail/format_signature.hpp
 luabind/luabind/detail/constructor.hpp
 luabind/luabind/detail/object_call.hpp
 luabind/luabind/detail/inheritance.hpp
-luabind/luabind/detail/get_signature.hpp
 luabind/luabind/detail/decorate_type.hpp
 luabind/luabind/detail/primitives.hpp
 luabind/luabind/detail/convert_to_lua.hpp
