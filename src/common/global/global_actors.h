@@ -1155,6 +1155,11 @@ public:
 	**/
 	void AddHitPoints(uint32 hp);
 
+	/** \brief Adds a certain amount of skill points to all actors in the party
+	*** \param sp The number of skill points to add
+	**/
+	void AddSkillPoints(uint32 sp);
+
 	//! \name Class member accessor methods
 	//@{
 	bool IsAllowDuplicates() const

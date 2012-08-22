@@ -1766,8 +1766,6 @@ GlobalActor* GlobalParty::ReplaceActorByID(uint32 id, GlobalActor* new_actor) {
 	return removed_actor;
 }
 
-
-
 float GlobalParty::AverageExperienceLevel() const {
 	if (_actors.empty())
 		return 0.0f;
@@ -1778,11 +1776,15 @@ float GlobalParty::AverageExperienceLevel() const {
 	return (xp_level_sum / static_cast<float>(_actors.size()));
 }
 
-
-
 void GlobalParty::AddHitPoints(uint32 hp) {
 	for (vector<GlobalActor*>::iterator i = _actors.begin(); i != _actors.end(); i++) {
 		(*i)->AddHitPoints(hp);
+	}
+}
+
+void GlobalParty::AddSkillPoints(uint32 sp) {
+	for (vector<GlobalActor*>::iterator i = _actors.begin(); i != _actors.end(); i++) {
+		(*i)->AddSkillPoints(sp);
 	}
 }
 

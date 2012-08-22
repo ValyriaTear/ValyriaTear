@@ -331,6 +331,7 @@ void BindCommonCode() {
 	[
 		luabind::class_<GlobalParty>("GlobalParty")
 			.def("AddHitPoints", &GlobalParty::AddHitPoints)
+			.def("AddSkillPoints", &GlobalParty::AddSkillPoints)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")

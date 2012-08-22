@@ -534,7 +534,8 @@ map_functions = {
 
     heal_party = function()
 	-- Should be sufficient to heal anybody
-        GlobalManager:GetActiveParty():AddHitPoints(10000);
+	GlobalManager:GetActiveParty():AddHitPoints(10000);
+	GlobalManager:GetActiveParty():AddSkillPoints(10000);
 	AudioManager:PlaySound("snd/heal_spell.wav");
 	Map:GetParticleManager():AddParticleEffect("dat/effects/particles/heal_particle.lua", 512.0, 390.0);
     end
