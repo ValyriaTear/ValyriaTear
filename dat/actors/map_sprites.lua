@@ -475,7 +475,7 @@ end
 
 
 
-function _CreateEnemySprite(Map, name)
+function CreateEnemySprite(Map, name)
 	if (enemies[name] == nil) then
 		print("Error: No object named: "..name.." found!!");
 		return nil;

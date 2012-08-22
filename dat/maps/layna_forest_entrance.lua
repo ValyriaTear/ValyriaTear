@@ -223,18 +223,19 @@ function Load(m)
 	EventManager = Map.event_supervisor;
 	GlobalEvents = Map.map_event_group;
 
-	Map.unlimited_stamina = true;
+	Map.unlimited_stamina = false;
 
-	CreateCharacters();
-	CreateObjects();
+	_CreateCharacters();
+	_CreateObjects();
+	_CreateEnemies();
 
 	-- Set the camera focus on hero
 	Map:SetCamera(hero);
 	-- This is a dungeon map, we'll use the front battle member sprite as default sprite.
 	Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
@@ -245,11 +246,11 @@ end
 -- the map update function handles checks done on each game tick.
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 -- Character creation
-function CreateCharacters()
+function _CreateCharacters()
 	-- Default hero and position
 	hero = _CreateSprite(Map, "Bronann", 3, 30);
 	hero:SetDirection(hoa_map.MapMode.EAST);
@@ -271,7 +272,7 @@ function CreateCharacters()
 
 end
 
-function CreateObjects()
+function _CreateObjects()
 	local object = {}
 	local npc = {}
 
@@ -453,9 +454,32 @@ function CreateObjects()
 	Map:AddGroundObject(object);
 end
 
+function _CreateEnemies()
+	local enemy = {};
+	local roam_zone = {};
+
+	-- Hint: left, right, top, bottom
+	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
+
+	enemy = CreateEnemySprite(Map, "slime");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(2);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(3);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 	local dialogue = {};
 	local text = {};
@@ -467,20 +491,27 @@ function CreateEvents()
 end
 
 -- Create the different map zones triggering events
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(forest_entrance_exit_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
-function CheckZones()
+function _CheckZones()
 	if (forest_entrance_exit_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("exit forest");
 	end
 end
 
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+	enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+	enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
+	-- TODO: Add tutorial battle dialog with Kalya and Bronann
+	--enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+end
 
 -- Map Custom functions
 -- Used through scripted events
