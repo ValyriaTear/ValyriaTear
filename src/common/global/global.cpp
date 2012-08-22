@@ -241,6 +241,9 @@ void GameGlobal::ClearAllData() {
 	_previous_location.clear();
 	_map_filename.clear();
 	_map_hud_name.clear();
+
+	// Clear out the time played, in case of a new game
+	SystemManager->SetPlayTime(0, 0, 0);
 } // void GameGlobal::ClearAllData()
 
 ////////////////////////////////////////////////////////////////////////////////
