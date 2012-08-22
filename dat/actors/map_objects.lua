@@ -320,6 +320,14 @@ objects["Tree Small2"] = {
 	img_height = 6.0
 }
 
+objects["Tree Small3"] = {
+	animation_filename = "img/sprites/map/objects/tree_small3.lua",
+	coll_half_width = 2.0,
+	coll_height = 2.5,
+	img_half_width = 3.5,
+	img_height = 8.0
+}
+
 objects["Vase1"] = {
 	animation_filename = "img/sprites/map/objects/vase1.lua",
 	coll_half_width = 0.75,
