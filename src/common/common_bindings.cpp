@@ -96,6 +96,7 @@ void BindCommonCode() {
 			.def("AddCharacter", (void(GameGlobal::*)(uint32)) &GameGlobal::AddCharacter)
 			.def("RemoveCharacter", (void(GameGlobal::*)(uint32)) &GameGlobal::RemoveCharacter)
 			.def("GetCharacter", &GameGlobal::GetCharacter)
+			.def("GetActiveParty", &GameGlobal::GetActiveParty)
 			.def("GetDrunes", &GameGlobal::GetDrunes)
 			.def("SetDrunes", &GameGlobal::SetDrunes)
 			.def("AddDrunes", &GameGlobal::AddDrunes)
