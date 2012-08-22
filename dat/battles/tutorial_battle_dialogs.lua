@@ -16,13 +16,8 @@ function Initialize(battle_instance)
 	Battle = battle_instance;
 	stop_script = false;
 
-	if (GlobalManager:DoesEventGroupExist("global_events") == false) then
-		GlobalManager:AddNewEventGroup("global_events");
-	end
-
-	local event_group = GlobalManager:GetEventGroup("global_events");
-	if (event_group:DoesEventExist("first_battle") == false) then
-		event_group:AddNewEvent("first_battle", 1);
+	if (GlobalManager:DoesEventExist("story", "first_battle") == false) then
+		GlobalManager:SetEventValue("story", "first_battle", 1);
 		stop_script = false;
 	else
 		stop_script = true;
@@ -36,7 +31,6 @@ function Initialize(battle_instance)
 	-- Add all speakers for the dialogues to be added
 	-- TODO: all of these custom speaker calls should be replaced with calls to AddCharacterSpeaker() later
 	DialogueManager:AddCustomSpeaker(1000, "Bronann", "img/portraits/bronann.png");
-	DialogueManager:AddCustomSpeaker(1001, "Thanis", "img/portraits/thanis.png");
 	DialogueManager:AddCustomSpeaker(1002, "Kalya", "img/portraits/kalya.png");
 
 	local text;
@@ -44,23 +38,19 @@ function Initialize(battle_instance)
 	-- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
 	-- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
 	main_dialogue = hoa_battle.BattleDialogue(1);
-		text = hoa_system.Translate("Hey Bronann! Now don't go telling us that you forgot how to fight.");
-		main_dialogue:AddLine(text, 1001);
-		text = hoa_system.Translate("Please, shut it Thanis.");
-		main_dialogue:AddLine(text, 1002);
-		text = hoa_system.Translate("Bronann, is there anything you need to ask?");
+		text = hoa_system.Translate("Woah, I wouldn't have expected enemies so close from the village. Bronann, is there anything you need to ask about battles?");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("...");
 		main_dialogue:AddLine(text, 1000);
 		text = hoa_system.Translate("Ask about battle basics.");
-		main_dialogue:AddOption(text, 4);
+		main_dialogue:AddOption(text, 2);
 		text = hoa_system.Translate("Ask about issuing commands.");
-		main_dialogue:AddOption(text, 10);
+		main_dialogue:AddOption(text, 8);
 		text = hoa_system.Translate("Ask about status effects.");
-		main_dialogue:AddOption(text, 17);
-		text = hoa_system.Translate("Ask nothing.");
-		main_dialogue:AddOption(text, 23);
-		-- [Line 4] After selecting option: Ask about battle basics.
+		main_dialogue:AddOption(text, 15);
+		text = hoa_system.Translate("Ask nothing, I know how to fight.");
+		main_dialogue:AddOption(text, 21);
+		-- [Line 2] After selecting option: Ask about battle basics.
 		text = hoa_system.Translate("Er, I could use a refresher on the fundamentals of combat.");
 		main_dialogue:AddLine(text, 1000);
 		text = hoa_system.Translate("Every actor on the battle scene has a hit point (HP) and skill point (SP) gauge. Each character's HP and SP are displayed at the bottom of the screen. As enemies take damage in battle, their appearance will reflect that damage.");
@@ -72,8 +62,8 @@ function Initialize(battle_instance)
 		text = hoa_system.Translate("The stamina gauge on the right side of the screen determines when an actor may take an action. Once an actor's icon reaches the green command bar, they will begin preparing to execute their selected action. When they reach the top of the gauge, they will execute their action.");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("The lower right corner of the screen displays each character's selected action and target. When a command is being issued for a character, this area of the screen is replaced with the command menu.");
-		main_dialogue:AddLine(text, 1002, 24);
-		-- [Line 10] After selecting option: Ask about issuing commands.
+		main_dialogue:AddLine(text, 1002, 22);
+		-- [Line 8] After selecting option: Ask about issuing commands.
 		text = hoa_system.Translate("How do I select commands to execute?");
 		main_dialogue:AddLine(text, 1000);
 		text = hoa_system.Translate("Each character has three types of skills they may execute as an action: attack, defend, and support skills.");
@@ -87,8 +77,8 @@ function Initialize(battle_instance)
 		text = hoa_system.Translate("All actions affect only one type of target. The target type for each action is indicated by an icon in the command menu. Possible target types include an ally, enemy, or an entire party. There are also target types which affect an attack point, which is a specific part on the body of an actor.");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("Attack points have properties that make them susceptible to certain types of attacks or more resistant to others. For example, typically attacking the head of a target will deal more damage, but the attack is more likely to miss this small target.");
-		main_dialogue:AddLine(text, 1002, 24);
-		-- [Line 17] After selecting option: Ask about about status effects.
+		main_dialogue:AddLine(text, 1002, 22);
+		-- [Line 15] After selecting option: Ask about about status effects.
 		text = hoa_system.Translate("What do I need to know about status effects?");
 		main_dialogue:AddLine(text, 1000);
 		text = hoa_system.Translate("Status effects cause temporary changes in the state of the afflicted actor. These changes may be either beneficial or harmful to the their target. Positive status effects are indicated by an upward green arrow on the status icon, where as a negative status effect displays a downward red arrow on its icon.");
@@ -100,33 +90,33 @@ function Initialize(battle_instance)
 		text = hoa_system.Translate("Status effects naturally grow weaker in intensity and dissipate with time. You must continually reinforce status effects that you wish to remain active.");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("Finally, status effects disappear completely when a battle ends, so there is no need to remedy your characters from status effects after a battle has been won.");
-		main_dialogue:AddLine(text, 1002, 24);
-		-- [Line 23] After selection option: Ask nothing.
+		main_dialogue:AddLine(text, 1002, 22);
+		-- [Line 21] After selection option: Ask nothing.
 		text = hoa_system.Translate("Don't worry Kalya, I have not forgotten my training.");
-		main_dialogue:AddLine(text, 1000, 27);
-		-- [Line 24] Returning to the option selection after asking about a topic
+		main_dialogue:AddLine(text, 1000, 25);
+		-- [Line 22] Returning to the option selection after asking about a topic
 		text = hoa_system.Translate("Is there anything else you need to ask?");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("...");
 		main_dialogue:AddLine(text, 1000);
 		text = hoa_system.Translate("Ask about battle basics.");
-		main_dialogue:AddOption(text, 4);
+		main_dialogue:AddOption(text, 2);
 		text = hoa_system.Translate("Ask about issuing commands.");
-		main_dialogue:AddOption(text, 10);
+		main_dialogue:AddOption(text, 8);
 		text = hoa_system.Translate("Ask about status effects.");
-		main_dialogue:AddOption(text, 17);
+		main_dialogue:AddOption(text, 15);
 		text = hoa_system.Translate("Ask nothing.");
-		main_dialogue:AddOption(text, 26);
-		-- [Line 26] After selecting option: Ask nothing. (After a topic has already been asked).
+		main_dialogue:AddOption(text, 24);
+		-- [Line 24] After selecting option: Ask nothing. (After a topic has already been asked).
 		text = hoa_system.Translate("Thanks Kalya, I'm prepared now.");
-		main_dialogue:AddLine(text, 1000, 27);
-		-- [Line 27] Final line of dialogue
+		main_dialogue:AddLine(text, 1000, 25);
+		-- [Line 25] Final line of dialogue
 		text = hoa_system.Translate("Good. Now let us quickly dispatch this minor threat.");
 		main_dialogue:AddLine(text, 1002);
 	DialogueManager:AddDialogue(main_dialogue);
 
 	-- Construct a timer so we can start the dialogue a couple seconds after the battle begins
-	start_timer = hoa_system.SystemTimer(2000, 0);
+	start_timer = hoa_system.SystemTimer(1000, 0);
 end
 
 

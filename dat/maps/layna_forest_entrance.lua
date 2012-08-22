@@ -506,8 +506,8 @@ end
 function _SetBattleEnvironment(enemy)
 	enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
 	enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
-	-- TODO: Add tutorial battle dialog with Kalya and Bronann
-	--enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+	-- Add tutorial battle dialog with Kalya and Bronann
+	enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
 end
 
 -- Map Custom functions
