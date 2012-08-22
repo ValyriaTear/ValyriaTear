@@ -277,7 +277,7 @@ SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
 	MapMode *map_mode = MapMode::CurrentInstance();
 
 	// Preload the save active sound
-	AudioManager->LoadSound("snd/heal_spell.wav", map_mode);
+	AudioManager->LoadSound("snd/save_point_activated_dokashiteru_oga.wav", map_mode);
 
 	// The save point is going along with two particle objects used to show
 	// whether the player is in or out the save point
@@ -324,7 +324,7 @@ void SavePoint::SetActive(bool active) {
 
 		// Play a sound when the save point become active
 		if (!_save_active)
-			AudioManager->PlaySound("snd/heal_spell.wav");
+			AudioManager->PlaySound("snd/save_point_activated_dokashiteru_oga.wav");
 	}
 	else {
 		_animations = &MapMode::CurrentInstance()->inactive_save_point_animations;

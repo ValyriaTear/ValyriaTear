@@ -346,9 +346,10 @@ mus/koertes-ccby-birdsongloop16s.ogg                CC by SA 3.0                
 mus/Soliloquy_1-OGA-mat-pablo.ogg                   CC by SA 3.0 or GPLv3       Mathew Pablo (OGA)
 
 
-snd/thunder.wav:								Public domain (Relicense as CC0 if necessary)
-snd/lightning.wav:								Public domain (Relicense as CC0 if necessary)
-snd/new_game.wav:                               GPLv2 (Same sound than the opening_sword_fall.wav) file from Allacrost.
+snd/thunder.wav:                                    CC0 (Bertram)
+snd/lightning.wav:                                  CC0 (Bertram)
+snd/new_game.wav:                                   GPLv2 (Same sound than the opening_sword_fall.wav) file from Allacrost.
+snd/save_point_activated_dokashiteru_oga.wav        CC by 3.0, GPLv2, GPLv3     DoKashiteru (OGA)
 
 
 Allacrost files: (Each and every are assumed to be licensed under the GPLv2 conditions according to the original authors.)
