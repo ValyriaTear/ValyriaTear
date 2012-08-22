@@ -79,11 +79,11 @@ const uint32 SHOP_BATCH_COUNT = 10;
 //! \name Price multipliers
 //! \brief These values are multiplied by an object's standard price to get the price for the desired price level
 //@{
-const float BUY_PRICE_VERY_GOOD   = 1.2f;
-const float BUY_PRICE_GOOD        = 1.4f;
-const float BUY_PRICE_STANDARD    = 1.6f;
-const float BUY_PRICE_POOR        = 1.8f;
-const float BUY_PRICE_VERY_POOR   = 2.0f;
+const float BUY_PRICE_VERY_GOOD   = 0.8f;
+const float BUY_PRICE_GOOD        = 0.9f;
+const float BUY_PRICE_STANDARD    = 1.0f;
+const float BUY_PRICE_POOR        = 1.4f;
+const float BUY_PRICE_VERY_POOR   = 1.8f;
 
 const float SELL_PRICE_VERY_GOOD  = 0.9f;
 const float SELL_PRICE_GOOD       = 0.8f;
