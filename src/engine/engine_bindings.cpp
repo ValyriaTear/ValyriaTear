@@ -27,6 +27,7 @@
 #include "engine/script/script.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/particle_effect.h"
 
 #include "common/global/global.h"
 
@@ -95,8 +96,17 @@ void BindEngineCode() {
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
+		luabind::class_<ParticleEffect>("ParticleEffect")
+			.def("IsAlive", &ParticleEffect::IsAlive)
+			.def("Move", &ParticleEffect::Move)
+			.def("Stop", &ParticleEffect::Stop)
+	];
+
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+	[
 		luabind::class_<ParticleManager>("ParticleManager")
 			.def("AddParticleEffect", &ParticleManager::AddParticleEffect)
+			.def("RestartParticleEffect", &ParticleManager::RestartParticleEffect)
 			.def("StopAll", &ParticleManager::StopAll)
 	];
 

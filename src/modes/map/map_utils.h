@@ -140,15 +140,16 @@ const uint32 TILES_PER_TILESET = 256;
 
 //! \brief Used to identify the type of map object
 enum MAP_OBJECT_TYPE {
-	PHYSICAL_TYPE = 0,	//! This is a physical (visible) object, like a rock, a door, ect...
-	VIRTUAL_TYPE = 1,	//! This is used as another type of NPC sprite, but without interaction.
+	PHYSICAL_TYPE = 0,  //! This is a physical (visible) object, like a rock, a door, ect...
+	VIRTUAL_TYPE = 1,   //! This is used as another type of NPC sprite, but without interaction.
 	SPRITE_TYPE = 2,    //! This is a NPC sprite. Blocking for the hero, but not for the other sprites.
-	ENEMY_TYPE = 3,		//! This is an enemy sprite. Blocking the hero, and triggering a battle.
-	TREASURE_TYPE = 4,	/** This is a treasure, can obtain a treasure from it when exploring,
-						    but blocking for movement. */
-	SAVE_TYPE = 5,		//! This is a save point. The player can save while its character is in it.
-	HALO_TYPE = 6,		//! This is a source of light, here for eye candy.
-	LIGHT_TYPE = 7		//! Another light type, but will change dynamically according to the map viewpoint.
+	ENEMY_TYPE = 3,     //! This is an enemy sprite. Blocking the hero, and triggering a battle.
+	TREASURE_TYPE = 4,  /** This is a treasure, can obtain a treasure from it when exploring,
+                        but blocking for movement. */
+	SAVE_TYPE = 5,      //! This is a save point. The player can save while its character is in it.
+	HALO_TYPE = 6,      //! This is a source of light, here for eye candy.
+	LIGHT_TYPE = 7,     //! Another light type, but will change dynamically according to the map viewpoint.
+	PARTICLE_TYPE = 8   //! A particle object.
 };
 
 

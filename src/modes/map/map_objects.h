@@ -369,6 +369,31 @@ public:
 }; // class PhysicalObject : public MapObject
 
 /** ****************************************************************************
+*** \brief Represents particle object on the map
+*** ***************************************************************************/
+class ParticleObject : public MapObject {
+public:
+	ParticleObject(const std::string& filename, float x, float y, MAP_CONTEXT map_context);
+
+	~ParticleObject()
+	{}
+
+	//! \brief Updates the object's current animation.
+	//! \note the actual image resources is handled by the main map object.
+	void Update();
+
+	//! \brief Draws the object to the screen, if it is visible.
+	//! \note the actual image resources is handled by the main map object.
+	void Draw();
+
+private:
+	//! \brief A reference to the current map save animation.
+	hoa_mode_manager::ParticleEffect *_particle_effect;
+
+	//@}
+}; // class ParticleObject : public MapObject
+
+/** ****************************************************************************
 *** \brief Represents save point on the map
 *** ***************************************************************************/
 class SavePoint : public MapObject {
@@ -393,6 +418,11 @@ public:
 private:
 	//! \brief A reference to the current map save animation.
 	std::vector<hoa_video::AnimatedImage>* _animations;
+
+	//! \brief The corresponding particle object for active/inactive save points pointers
+	// Note that those pointers are managed by the object supervisor
+	ParticleObject *_active_particle_object;
+	ParticleObject *_inactive_particle_object;
 
 	//! \brief Tells whether the save has become active
 	bool _save_active;

@@ -290,28 +290,27 @@ public:
 	 *  \brief returns true if system is still alive
 	 * \return true if alive, false if dead
 	 */
-	bool IsAlive() const;
-
+	bool IsAlive() const
+	{ return _alive && _system_def->enabled; }
 
 	/*!
 	 *  \brief returns true if system has been stopped by a call to Stop()
 	 * \return true if stopped, false if still going
 	 */
-	bool IsStopped() const;
-
+	bool IsStopped() const
+	{ return _stopped; }
 
 	/*!
 	 *  \brief stops the system, i.e. makes it stop emitting new particles
 	 */
-	void Stop();
-
+	void Stop()
+	{ _stopped = true; }
 
 	/*!
 	 *  \brief returns how many particles are alive in this system
 	 * \return the number of particles in this system
 	 */
 	int32 GetNumParticles() const;
-
 
 	/*!
 	 *  \brief returns the number of seconds since this system was created

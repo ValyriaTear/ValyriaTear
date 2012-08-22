@@ -23,12 +23,6 @@
 #include "defs.h"
 #include "utils.h"
 
-//! \brief A particle effet ID is an int
-typedef int32 ParticleEffectID;
-
-//! \brief -1 represents an invalid effect
-const ParticleEffectID VIDEO_INVALID_EFFECT = -1;
-
 namespace hoa_mode_manager
 {
 
@@ -53,12 +47,18 @@ public:
 	 *  \brief creates a new instance of an effect at (x,y), given its definition file.
 	 *         The effect is added to the internal std::map, _effects, and is now
 	 *         included in calls to Draw() and Update()
-	 * \param def the new effect to add
+	 * \param filename the new effect filename to add
 	 * \param x x coordinate of where to add the effect
 	 * \param y y coordinate of where to add the effect
-	 * \return ID corresponding to the effect
+	 * \return The effect pointer
 	 */
-	ParticleEffectID AddParticleEffect(const std::string &filename, float x, float y);
+	ParticleEffect* AddParticleEffect(const std::string& filename, float x, float y);
+
+	/*!
+	 *  \brief Restart the given particle effect
+	 *  \return Whether the effect successfully restarted.
+	 */
+	bool RestartParticleEffect(ParticleEffect *effect);
 
 	/*!
 	 *  \brief draws all active effects
@@ -87,7 +87,16 @@ public:
 	 *  \brief returns the total number of particles among all active effects
 	 * \return number of particles in the effect
 	 */
-	int32 GetNumParticles();
+	int32 GetNumParticles()
+	{ return _num_particles; }
+
+	/** Create a particle effect without registering it to the particle manager.
+	*** It is useful managing a particle effect as a map object, for instance,
+	*** as one can control the drawing order.
+	*** \param filename The particle effect filename to load
+	*** \return ParticleEffect The particle effect object or NULL is invalid.
+	**/
+	static ParticleEffect* CreateEffect(const std::string& filename);
 
 private:
 	/*!
@@ -96,21 +105,11 @@ private:
 	void _Destroy();
 
 	/*!
-	 *  \brief Converts a particle effect id into a ParticleEffect pointer.
-	 *         The pointers that this function returns are valid only up until
-	 *         the next call to Update(), so they should never be stored. Just use
-	 *         them for the current frame and then throw them away.
-	 * \param id ID of the effect to get
-	 * \return the desired effect
-	 */
-	ParticleEffect *_GetEffect(ParticleEffectID id);
-
-	/*!
 	 *  \brief loads an effect definition from a particle file
 	 * \param filename file to load the effect from
 	 * \return handle to the effect
 	 */
-	ParticleEffectDef *_LoadEffect(const std::string &filename);
+	static ParticleEffectDef* _LoadEffect(const std::string& filename);
 
 	/*!
 	 *  \brief creates a new instance of an effect at (x,y), given its definition.
@@ -119,9 +118,9 @@ private:
 	 * \param def the new effect to add
 	 * \param x x coordinate of where to add the effect
 	 * \param y y coordinate of where to add the effect
-	 * \return ID corresponding to the effect
+	 * \return The effect pointer
 	 */
-	ParticleEffectID _AddEffect(const ParticleEffectDef *def, float x, float y);
+	ParticleEffect* _AddEffect(const ParticleEffectDef *def, float x, float y);
 
 	/*!
 	*  \brief Helper function to initialize a new ParticleEffect from its definition.
@@ -129,11 +128,11 @@ private:
 	* \param def definition used to create the effect
 	* \return the effect created with the specified definition
 	*/
-	ParticleEffect *_CreateEffect(const ParticleEffectDef *def);
+	static ParticleEffect *_CreateEffect(const ParticleEffectDef *def);
 
 	//! \brief Helper function used to read a color subtable.
-	hoa_video::Color _ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
-								std::string param_name);
+	static hoa_video::Color _ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
+								        const std::string& param_name);
 
 	/** \brief Shows graphical statistics useful for performance tweaking
 	*** This includes, for instance, the number of texture switches made during a frame.
@@ -141,7 +140,9 @@ private:
 	void _DEBUG_ShowParticleStats();
 
 	//! All the effects currently being managed.
-	std::vector<ParticleEffect *> _effects;
+	std::vector<ParticleEffect*> _all_effects;
+
+	std::vector<ParticleEffect*> _active_effects;
 
 	//! Total number of particles among all the active effects. This is updated
 	//! during each call to Update(), so that when GetNumParticles() is called,

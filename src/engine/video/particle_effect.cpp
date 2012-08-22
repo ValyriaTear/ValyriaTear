@@ -30,7 +30,6 @@ ParticleEffect::ParticleEffect()
 	_orientation = 0.0f;
 }
 
-
 bool ParticleEffect::_Draw()
 {
 	bool success = true;
@@ -38,7 +37,7 @@ bool ParticleEffect::_Draw()
 	// move to the effect's location
 	VideoManager->Move(_x, _y);
 
-	list<ParticleSystem *>::iterator iSystem = _systems.begin();
+	std::list<ParticleSystem *>::iterator iSystem = _systems.begin();
 
 	while(iSystem != _systems.end())
 	{
@@ -154,20 +153,20 @@ bool ParticleEffect::IsAlive()
 	return _alive;
 }
 
-
 void ParticleEffect::Stop(bool kill_immediate)
 {
 	if(kill_immediate)
 	{
 		// just set _alive to false, and the particle manager will remove it for us
 		_alive = false;
+		// TODO: Permit immediate kill without the particle manager
 	}
 	else
 	{
 		// if we're not killing immediately, then calling Stop() just means to stop emitting NEW
 		// particles, so go through each system and turn off its emitter
 
-		list<ParticleSystem *>::iterator iSystem = _systems.begin();
+		std::list<ParticleSystem *>::iterator iSystem = _systems.begin();
 
 		while(iSystem != _systems.end())
 		{
@@ -177,19 +176,16 @@ void ParticleEffect::Stop(bool kill_immediate)
 	}
 }
 
-
 int32 ParticleEffect::GetNumParticles() const
 {
 	return _num_particles;
 }
-
 
 void ParticleEffect::GetPosition(float &x, float &y) const
 {
 	x = _x;
 	y = _y;
 }
-
 
 float ParticleEffect::GetAge() const
 {

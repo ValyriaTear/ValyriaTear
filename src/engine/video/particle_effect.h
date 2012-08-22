@@ -34,21 +34,33 @@
 #ifndef __PARTICLE_EFFECT_HEADER__
 #define __PARTICLE_EFFECT_HEADER__
 
-#include "defs.h"
+#include "defs.h" // TODO: Get rid of this bad practice
 #include "utils.h"
+
+namespace hoa_map {
+    namespace private_map {
+        class ParticleObject;
+    }
+}
 
 namespace hoa_mode_manager
 {
 
 /*!***************************************************************************
  *  \brief particle effect definition, just consists of each of its subsystems'
- *         definitions. This is basically just a struct, except it has a
- *         function to load the structure from a particle file (.lua/.hoa)
+ *         definitions.
  *****************************************************************************/
 
 class ParticleEffectDef
 {
 public:
+
+	/** The effect size in pixels, used to know when to display it when it used as
+	*** a map object fir instance. It is used to compute the image rectangle.
+	*** \note Not used if equal to 0.
+	**/
+	float effect_collision_width;
+	float effect_collision_height;
 
 	//! list of system definitions
 	std::list<ParticleSystemDef *> _systems;
@@ -65,7 +77,6 @@ public:
 class ParticleEffect
 {
 public:
-
 	/*!
 	 *  \brief Constructor
 	 */
@@ -135,7 +146,6 @@ public:
 	 */
 	void Stop(bool kill_immediate = false);
 
-
 	/*!
 	 *  \brief return the number of active particles in this effect
 	 * \return number of particles in the system
@@ -148,7 +158,7 @@ public:
 	 * \param x parameter to store x value of system in
 	 * \param y parameter to store y value of system in
 	 */
-	void  GetPosition(float &x, float &y) const;
+	void GetPosition(float &x, float &y) const;
 
 
 	/*!
@@ -157,6 +167,12 @@ public:
 	 * \return age of the system
 	 */
 	float GetAge() const;
+
+	//! \brief Get the overall effect width/height in pixels.
+	float GetEffectWidth()
+	{ return _effect_def->effect_collision_width; }
+	float GetEffectHeight()
+	{ return _effect_def->effect_collision_height; }
 
 private:
 
@@ -189,7 +205,7 @@ private:
 
 	//! list of subsystems that make up the effect. (for example, a fire effect might consist
 	//! of a flame + smoke + embers)
-	std::list <ParticleSystem *> _systems;
+	std::list <ParticleSystem*> _systems;
 
 	//! position of the effect
 	float _x, _y;
@@ -210,6 +226,7 @@ private:
 	int32 _num_particles;
 
 	friend class hoa_mode_manager::ParticleManager;
+	friend class hoa_map::private_map::ParticleObject;
 
 }; // class ParticleEffect
 

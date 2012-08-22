@@ -67,7 +67,6 @@ bool ParticleSystem::Create(const ParticleSystemDef *sys_def)
 		_animation.AddFrame(sys_def->animation_frame_filenames[j], frame_time);
 	}
 
-// 	VideoManager->LoadImage(_animation);
 	return true;
 }
 
@@ -384,28 +383,6 @@ bool ParticleSystem::Draw()
 	return true;
 }
 
-
-//-----------------------------------------------------------------------------
-// IsAlive: returns whether the particle system has active particles or not
-//-----------------------------------------------------------------------------
-
-bool ParticleSystem::IsAlive() const
-{
-	return _alive && _system_def->enabled;
-}
-
-
-//-----------------------------------------------------------------------------
-// IsStopped: returns whether the system has been stopped due to a call to Stop(),
-//            meaning that it cannot emit any more particles
-//-----------------------------------------------------------------------------
-
-bool ParticleSystem::IsStopped() const
-{
-	return _stopped;
-}
-
-
 //-----------------------------------------------------------------------------
 // Update: updates particle positions and properties, and emits/kills particles
 //-----------------------------------------------------------------------------
@@ -504,17 +481,6 @@ void ParticleSystem::Destroy()
 	_particles.clear();
 	_particle_vertices.clear();
 }
-
-
-//-----------------------------------------------------------------------------
-// Stop: ceases particle emission
-//-----------------------------------------------------------------------------
-
-void ParticleSystem::Stop()
-{
-	_stopped = true;
-}
-
 
 //-----------------------------------------------------------------------------
 // _UpdateParticles: helper function to update the positions and properties
@@ -817,6 +783,9 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
 			float angle = RandomFloat(0.0f, UTILS_2PI);
 			_particles[i].x = emitter._radius * cosf(angle);
 			_particles[i].y = emitter._radius * sinf(angle);
+			// Apply offset
+			_particles[i].x += emitter._x;
+			_particles[i].y += emitter._y;
 			break;
 		}
 		case EMITTER_SHAPE_FILLED_CIRCLE:
@@ -833,8 +802,9 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
 				_particles[i].y = RandomFloat(-half_radius, half_radius);
 			} while(_particles[i].x * _particles[i].x +
 			        _particles[i].y * _particles[i].y > radius_squared);
-
-
+			// Apply offset
+			_particles[i].x += emitter._x;
+			_particles[i].y += emitter._y;
 			break;
 		}
 		case EMITTER_SHAPE_FILLED_RECTANGLE:

@@ -224,6 +224,12 @@ void BindModeCode() {
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
+		luabind::class_<ParticleObject, MapObject>("ParticleObject")
+			.def(luabind::constructor<const std::string&, float, float, MAP_CONTEXT>())
+	];
+
+	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+	[
 		luabind::class_<PhysicalObject, MapObject>("PhysicalObject")
 			.def(luabind::constructor<>())
 			.def("AddAnimation", (int32(PhysicalObject::*)(std::string))&PhysicalObject::AddAnimation)

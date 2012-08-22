@@ -7,79 +7,136 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <iostream>
-
-extern "C" {
-	#include <lua.h>
-	#include <lauxlib.h>
-	#include <lualib.h>
-}
+#include "engine/video/particle_manager.h"
 
 #include "engine/video/video.h"
 #include "engine/script/script_read.h"
 
-#include "engine/video/particle_manager.h"
 #include "engine/video/particle_effect.h"
 #include "engine/video/particle_system.h"
 #include "engine/video/particle_keyframe.h"
 
-using namespace std;
 using namespace hoa_script;
 using namespace hoa_video;
 
-namespace hoa_mode_manager
-{
+namespace hoa_mode_manager {
 
-ParticleEffectID ParticleManager::AddParticleEffect(const string &filename, float x, float y)
+// The static version, to handle outside the particle manager
+ParticleEffect* ParticleManager::CreateEffect(const std::string& filename) {
+	ParticleEffectDef *def = _LoadEffect(filename);
+
+	if (!def) {
+		PRINT_WARNING << "Failed to load particle definition file: "
+		    << filename << std::endl;
+		return 0;
+	}
+
+	ParticleEffect *effect = _CreateEffect(def);
+	if (!effect) {
+		PRINT_WARNING << "Failed to create particle effect from file: "
+		    << filename << std::endl;
+	}
+
+	return effect;
+}
+
+ParticleEffect* ParticleManager::AddParticleEffect(const std::string& filename, float x, float y)
 {
 	ParticleEffectDef *def = _LoadEffect(filename);
 
-	if(!def) {
-		PRINT_WARNING << "Failed to load particle definition file: " << filename << endl;
-		return VIDEO_INVALID_EFFECT;
+	if (!def) {
+		PRINT_WARNING << "Failed to load particle definition file: "
+		    << filename << std::endl;
+		return 0;
 	}
 
-	ParticleEffectID id = _AddEffect(def, x, y);
-	if(id == VIDEO_INVALID_EFFECT) {
-		PRINT_WARNING << "Failed to add effect to particle manager from: " << filename << endl;
+	ParticleEffect *effect = _AddEffect(def, x, y);
+	if (!effect) {
+		PRINT_WARNING << "Failed to add effect to particle manager from: "
+		    << filename << std::endl;
 	}
 
-	return id;
+	return effect;
 }
 
+bool ParticleManager::RestartParticleEffect(ParticleEffect *effect) {
+	if (!effect)
+		return false;
 
-ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file)
+	// Check whether the effect has been registered correctly
+	std::vector<ParticleEffect*>::const_iterator it = _all_effects.begin();
+	bool found = false;
+	for (; it != _all_effects.end(); ++it) {
+		if (effect == *it) {
+			found = true;
+			break;
+		}
+	}
+	if (!found)
+		return false;
+
+	// Actually restart the effect
+	effect->_alive = true;
+	effect->_age = 0.0f;
+
+	// Check whether the effect needs to be activated again
+	found = false;
+	it = _active_effects.begin();
+	for (; it != _active_effects.end(); ++it) {
+		if (effect == *it) {
+			found = true;
+			break;
+		}
+	}
+
+	if (!found)
+		_active_effects.push_back(effect);
+
+	return true;
+}
+
+ParticleEffectDef *ParticleManager::_LoadEffect(const std::string& particle_file)
 {
 	hoa_script::ReadScriptDescriptor particle_script;
 	if (!particle_script.OpenFile(particle_file)) {
 		PRINT_WARNING << "No script file: '"
-			<< particle_file << "' The corresponding particle effect won't work." << endl;
-		return NULL;
-	}
-
-	if (!particle_script.DoesTableExist("systems")) {
-		PRINT_WARNING << "Could not find the 'systems' array in particle effect " << particle_file << endl;
-		particle_script.CloseFile();
-		return NULL;
-	}
-
-	particle_script.OpenTable("systems");
-	uint32 system_size = particle_script.GetTableSize();
-	if(system_size < 1)
-	{
-		PRINT_WARNING << "No valid particle systems defined in the particle effect " << particle_file << endl;
-		particle_script.CloseTable();
-		particle_script.CloseFile();
+			<< particle_file << "' The corresponding particle effect won't work."
+			<< std::endl;
 		return NULL;
 	}
 
 	ParticleEffectDef *def = new ParticleEffectDef;
 
-	for(uint32 sys = 0; sys < system_size; ++sys)
+	// Read the particle image rectangle when existing
+	def->effect_collision_width = particle_script.ReadFloat("effect_collision_width");
+	def->effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+
+	if (!particle_script.DoesTableExist("systems")) {
+		PRINT_WARNING << "Could not find the 'systems' array in particle effect "
+			<< particle_file << std::endl;
+		particle_script.CloseFile();
+		delete def;
+		return NULL;
+	}
+
+	particle_script.OpenTable("systems");
+	uint32 system_size = particle_script.GetTableSize();
+	if (system_size < 1)
+	{
+		PRINT_WARNING << "No valid particle systems defined in the particle effect "
+			<< particle_file << std::endl;
+		particle_script.CloseTable();
+		particle_script.CloseFile();
+		delete def;
+		return NULL;
+	}
+
+	for (uint32 sys = 0; sys < system_size; ++sys)
 	{
 		// open the table for the sys'th system
 		if (!particle_script.DoesTableExist(sys)) {
-			PRINT_WARNING << "Could not find system #" << sys << " in particle effect " << particle_file << endl;
+			PRINT_WARNING << "Could not find system #" << sys
+				<< " in particle effect " << particle_file << std::endl;
 			delete def;
 			particle_script.CloseAllTables();
 			particle_script.CloseFile();
@@ -89,7 +146,8 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 
 		// open up the emitter table
 		if (!particle_script.DoesTableExist("emitter")) {
-			PRINT_WARNING << "Could not find 'emitter' the array in system #" << sys << " in particle effect " << particle_file << endl;
+			PRINT_WARNING << "Could not find 'emitter' the array in system #"
+				<< sys << " in particle effect " << particle_file << std::endl;
 			delete def;
 			particle_script.CloseAllTables();
 			particle_script.CloseFile();
@@ -109,16 +167,16 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 		sys_def->emitter._y_variation = particle_script.ReadFloat("y_variation");
 		sys_def->emitter._radius = particle_script.ReadFloat("radius");
 
-		string shape_string = particle_script.ReadString("shape");
-		if(!strcasecmp(shape_string.c_str(), "point"))
+		std::string shape_string = particle_script.ReadString("shape");
+		if (!strcasecmp(shape_string.c_str(), "point"))
 			sys_def->emitter._shape = EMITTER_SHAPE_POINT;
-		else if(!strcasecmp(shape_string.c_str(), "line"))
+		else if (!strcasecmp(shape_string.c_str(), "line"))
 			sys_def->emitter._shape = EMITTER_SHAPE_LINE;
-		else if(!strcasecmp(shape_string.c_str(), "circle outline"))
+		else if (!strcasecmp(shape_string.c_str(), "circle outline"))
 			sys_def->emitter._shape = EMITTER_SHAPE_CIRCLE;
-		else if(!strcasecmp(shape_string.c_str(), "circle"))
+		else if (!strcasecmp(shape_string.c_str(), "circle"))
 			sys_def->emitter._shape = EMITTER_SHAPE_FILLED_CIRCLE;
-		else if(!strcasecmp(shape_string.c_str(), "rectangle"))
+		else if (!strcasecmp(shape_string.c_str(), "rectangle"))
 			sys_def->emitter._shape = EMITTER_SHAPE_FILLED_RECTANGLE;
 
 		sys_def->emitter._omnidirectional = particle_script.ReadBool("omnidirectional");
@@ -130,20 +188,20 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 		sys_def->emitter._emission_rate = particle_script.ReadFloat("emission_rate");
 		sys_def->emitter._start_time = particle_script.ReadFloat("start_time");
 
-		string emitter_mode_string = particle_script.ReadString("emitter_mode");
-		if(!strcasecmp(emitter_mode_string.c_str(), "looping"))
+		std::string emitter_mode_string = particle_script.ReadString("emitter_mode");
+		if (!strcasecmp(emitter_mode_string.c_str(), "looping"))
 			sys_def->emitter._emitter_mode = EMITTER_MODE_LOOPING;
-		else if(!strcasecmp(emitter_mode_string.c_str(), "one shot"))
+		else if (!strcasecmp(emitter_mode_string.c_str(), "one shot"))
 			sys_def->emitter._emitter_mode = EMITTER_MODE_ONE_SHOT;
-		else if(!strcasecmp(emitter_mode_string.c_str(), "burst"))
+		else if (!strcasecmp(emitter_mode_string.c_str(), "burst"))
 			sys_def->emitter._emitter_mode = EMITTER_MODE_BURST;
 		else //.. if(!strcasecmp(emitter_mode_string.c_str(), "always"))
 			sys_def->emitter._emitter_mode = EMITTER_MODE_ALWAYS;
 
-		string spin_string = particle_script.ReadString("spin");
-		if(!strcasecmp(spin_string.c_str(), "random"))
+		std::string spin_string = particle_script.ReadString("spin");
+		if (!strcasecmp(spin_string.c_str(), "random"))
 			sys_def->emitter._spin = EMITTER_SPIN_RANDOM;
-		else if(!strcasecmp(spin_string.c_str(), "counterclockwise"))
+		else if (!strcasecmp(spin_string.c_str(), "counterclockwise"))
 			sys_def->emitter._spin = EMITTER_SPIN_COUNTERCLOCKWISE;
 		else //..if(!strcasecmp(spin_string.c_str(), "clockwise"))
 			sys_def->emitter._spin = EMITTER_SPIN_CLOCKWISE;
@@ -153,7 +211,8 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 
 		// open up the keyframes table
 		if (!particle_script.DoesTableExist("keyframes")) {
-			PRINT_WARNING << "Could not find the 'keyframes' array in system #" << sys << " in particle effect " << particle_file << endl;
+			PRINT_WARNING << "Could not find the 'keyframes' array in system #"
+				<< sys << " in particle effect " << particle_file << std::endl;
 			delete def;
 			particle_script.CloseAllTables();
 			particle_script.CloseFile();
@@ -164,7 +223,7 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 		uint32 num_keyframes = particle_script.GetTableSize();
 		sys_def->keyframes.resize(num_keyframes);
 
-		for(uint32 kf = 0; kf < num_keyframes; ++kf)
+		for (uint32 kf = 0; kf < num_keyframes; ++kf)
 		{
 			sys_def->keyframes[kf] = new ParticleKeyframe;
 
@@ -192,9 +251,10 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 		// open up the animation_frames table
 		particle_script.ReadStringVector("animation_frames", sys_def->animation_frame_filenames);
 
-		if(sys_def->animation_frame_filenames.size() < 1)
+		if (sys_def->animation_frame_filenames.size() < 1)
 		{
-			PRINT_WARNING << "No animation filenames found while opening particle effect " << particle_file << endl;
+			PRINT_WARNING << "No animation filenames found while opening particle effect "
+				<< particle_file << std::endl;
 			delete def;
 			particle_script.CloseAllTables();
 			particle_script.CloseFile();
@@ -211,7 +271,7 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 			if (!hoa_utils::DoesFileExist(*it)) {
 				PRINT_WARNING << "Could not find file: "
 					<< *it << " in system #" << sys << " in particle effect "
-					<< particle_file << endl;
+					<< particle_file << std::endl;
 				delete def;
 				particle_script.CloseAllTables();
 				particle_script.CloseFile();
@@ -219,9 +279,10 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 			}
 		}
 
-		if(sys_def->animation_frame_times.size() < 1)
+		if (sys_def->animation_frame_times.size() < 1)
 		{
-			PRINT_WARNING << "No animation frame times found while opening particle effect " << particle_file << endl;
+			PRINT_WARNING << "No animation frame times found while opening particle effect "
+				<< particle_file << std::endl;
 			delete def;
 			particle_script.CloseAllTables();
 			particle_script.CloseFile();
@@ -275,13 +336,13 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 		sys_def->smooth_animation = particle_script.ReadBool("smooth_animation");
 		sys_def->modify_stencil = particle_script.ReadBool("modify_stencil");
 
-		string stencil_op_string = particle_script.ReadString("stencil_op");
+		std::string stencil_op_string = particle_script.ReadString("stencil_op");
 
-		if(!strcasecmp(stencil_op_string.c_str(), "incr"))
+		if (!strcasecmp(stencil_op_string.c_str(), "incr"))
 			sys_def->stencil_op = VIDEO_STENCIL_OP_INCREASE;
-		else if(!strcasecmp(stencil_op_string.c_str(), "decr"))
+		else if (!strcasecmp(stencil_op_string.c_str(), "decr"))
 			sys_def->stencil_op = VIDEO_STENCIL_OP_DECREASE;
-		else if(!strcasecmp(stencil_op_string.c_str(), "zero"))
+		else if (!strcasecmp(stencil_op_string.c_str(), "zero"))
 			sys_def->stencil_op = VIDEO_STENCIL_OP_ZERO;
 		else //..if(!strcasecmp(stencil_op_string.c_str(), "one"))
 			sys_def->stencil_op = VIDEO_STENCIL_OP_ONE;
@@ -298,37 +359,33 @@ ParticleEffectDef *ParticleManager::_LoadEffect(const std::string &particle_file
 	return def;
 }
 
-
-ParticleEffectID ParticleManager::_AddEffect(const ParticleEffectDef *def, float x, float y)
+ParticleEffect* ParticleManager::_AddEffect(const ParticleEffectDef *def, float x, float y)
 {
-	if(!def)
-	{
+	if (!def) {
 		IF_PRINT_WARNING(VIDEO_DEBUG)
-			<< "AddEffect() failed because def was NULL!" << endl;
-		return VIDEO_INVALID_EFFECT;
+			<< "AddEffect() failed because def was NULL!" << std::endl;
+		return 0;
 	}
 
-	if(def->_systems.empty())
-	{
+	if (def->_systems.empty()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG)
-			<< "AddEffect() failed because def->_systems was empty!" << endl;
-		return VIDEO_INVALID_EFFECT;
+			<< "AddEffect() failed because def->_systems was empty!" << std::endl;
+		return 0;
 	}
 
 	ParticleEffect *effect = _CreateEffect(def);
-	if(!effect)
-	{
+	if (!effect) {
 		IF_PRINT_WARNING(VIDEO_DEBUG)
-			<< "Could not create particle effect!" << endl;
-		return VIDEO_INVALID_EFFECT;
+			<< "Could not create particle effect!" << std::endl;
+		return 0;
 	}
 
 	effect->Move(x, y);
-	_effects.push_back(effect);
+	_all_effects.push_back(effect);
+	_active_effects.push_back(effect);
 
-	return _effects.size() - 1;
+	return effect;
 };
-
 
 void ParticleManager::_DEBUG_ShowParticleStats() {
 	char text[50];
@@ -338,124 +395,103 @@ void ParticleManager::_DEBUG_ShowParticleStats() {
 	TextManager->Draw(text);
 }
 
-
 bool ParticleManager::Draw()
 {
 	VideoManager->PushState();
 	VideoManager->SetStandardCoordSys();
 	VideoManager->DisableScissoring();
 
-	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
+	std::vector<ParticleEffect*>::iterator it = _active_effects.begin();
 
 	glClearStencil(0);
 	glClear(GL_STENCIL_BUFFER_BIT);
 
 	bool success = true;
 
-	while(iEffect != _effects.end())
-	{
-		if(!(*iEffect)->_Draw())
+	while (it != _active_effects.end()) {
+		if(!(*it)->_Draw())
 		{
 			success = false;
 			IF_PRINT_WARNING(VIDEO_DEBUG)
-				<< "Effect failed to draw!" << endl;
+				<< "Effect failed to draw!" << std::endl;
 		}
-		++iEffect;
+		++it;
 	}
 
 	VideoManager->PopState();
 	return success;
 }
 
-
 bool ParticleManager::Update(int32 frame_time)
 {
 	float frame_time_seconds = static_cast<float>(frame_time) / 1000.0f;
 
-	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
+	std::vector<ParticleEffect*>::iterator it = _active_effects.begin();
 
 	bool success = true;
 
 	_num_particles = 0;
 
-	while(iEffect != _effects.end())
+	while (it != _active_effects.end())
 	{
-		if(!(*iEffect)->IsAlive())
+		if (!(*it)->IsAlive())
 		{
-			_effects.erase(iEffect++);
+			it = _active_effects.erase(it);
 		}
 		else
 		{
-			if(!(*iEffect)->_Update(frame_time_seconds))
+			if (!(*it)->_Update(frame_time_seconds))
 			{
 				success = false;
 				IF_PRINT_WARNING(VIDEO_DEBUG)
-					<< "Effect failed to update!" << endl;
+					<< "Effect failed to update!" << std::endl;
 			}
 
-			_num_particles += (*iEffect)->GetNumParticles();
-			++iEffect;
+			_num_particles += (*it)->GetNumParticles();
+			++it;
 		}
 	}
 
 	return success;
 }
 
-
 void ParticleManager::StopAll(bool kill_immediate)
 {
-	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
+	std::vector<ParticleEffect*>::iterator it = _active_effects.begin();
 
-	while(iEffect != _effects.end())
+	while (it != _active_effects.end())
 	{
-		(*iEffect)->Stop(kill_immediate);
-		++iEffect;
+		(*it)->Stop(kill_immediate);
+		++it;
 	}
 }
-
 
 void ParticleManager::_Destroy() {
-	std::vector<ParticleEffect *>::iterator iEffect = _effects.begin();
-
-	while(iEffect != _effects.end())
-	{
-		(*iEffect)->_Destroy();
-		delete (*iEffect);
-		++iEffect;
+    // Clear out every effects.
+	std::vector<ParticleEffect*>::iterator it = _all_effects.begin();
+	for (; it != _all_effects.end(); ++it) {
+		(*it)->_Destroy();
+		delete (*it);
 	}
+	_all_effects.clear();
+	// Clear the active effect pointer references
+	_active_effects.clear();
 
-	_effects.clear();
 }
-
-
-ParticleEffect *ParticleManager::_GetEffect(ParticleEffectID id) {
-	if (id > -1 && id < (int32)_effects.size())
-		return _effects[id];
-
-	return NULL;
-}
-
-
-int32 ParticleManager::GetNumParticles()
-{
-	return _num_particles;
-}
-
 
 // A helper function reading a lua subtable of 4 float values.
 Color ParticleManager::_ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
-						   std::string param_name) {
+						   const std::string& param_name) {
 	std::vector<float> float_vec;
 	particle_script.ReadFloatVector(param_name, float_vec);
 	if (float_vec.size() < 4) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid color read" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid color read" << std::endl;
 		return Color();
 	}
 	Color new_color(float_vec[0], float_vec[1], float_vec[2], float_vec[3]);
 
 	return new_color;
 }
-
 
 ParticleEffect *ParticleManager::_CreateEffect(const ParticleEffectDef *def)
 {
@@ -479,8 +515,8 @@ ParticleEffect *ParticleManager::_CreateEffect(const ParticleEffectDef *def)
 				sys->Destroy();
 				delete sys;
 
-				list<ParticleSystem *>::iterator iEffectSystem = effect->_systems.begin();
-				list<ParticleSystem *>::iterator iEffectEnd = effect->_systems.end();
+				std::list<ParticleSystem *>::iterator iEffectSystem = effect->_systems.begin();
+				std::list<ParticleSystem *>::iterator iEffectEnd = effect->_systems.end();
 
 				while(iEffectSystem != iEffectEnd)
 				{
@@ -490,7 +526,7 @@ ParticleEffect *ParticleManager::_CreateEffect(const ParticleEffectDef *def)
 				}
 
 				IF_PRINT_WARNING(VIDEO_DEBUG)
-					<< "sys->Create() returned false while trying to create effect!" << endl;
+					<< "sys->Create() returned false while trying to create effect!" << std::endl;
 				return NULL;
 
 			}

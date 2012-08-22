@@ -18,6 +18,7 @@
 #include "engine/audio/audio.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/particle_effect.h"
 
 #include "common/global/global.h"
 
@@ -198,6 +199,55 @@ void PhysicalObject::SetCurrentAnimation(uint32 animation_id) {
     }
 }
 
+// Particle object
+ParticleObject::ParticleObject(const std::string& filename, float x, float y,
+                               MAP_CONTEXT map_context):
+	MapObject()
+{
+	position.x = x;
+	position.y = y;
+
+	_object_type = PARTICLE_TYPE;
+	context = map_context;
+	no_collision = true;
+
+	_particle_effect = hoa_mode_manager::ParticleManager::CreateEffect(filename);
+
+	SetCollHalfWidth(_particle_effect->GetEffectWidth() / 2.0f / (GRID_LENGTH * 0.5f));
+	SetCollHeight(_particle_effect->GetEffectHeight() / (GRID_LENGTH * 0.5f));
+
+	// Setup the image collision for the display update
+	SetImgHalfWidth(_particle_effect->GetEffectWidth() / 2.0f / (GRID_LENGTH * 0.5f));
+	SetImgHeight(_particle_effect->GetEffectHeight() / (GRID_LENGTH * 0.5f));
+}
+
+void ParticleObject::Update() {
+	if (!_particle_effect)
+		return;
+
+	if (updatable) {
+        float frame_time_seconds = static_cast<float>(hoa_system::SystemManager->GetUpdateTime()) / 1000.0f;
+		_particle_effect->_Update(frame_time_seconds);
+	}
+}
+
+void ParticleObject::Draw() {
+	if (!_particle_effect)
+		return;
+
+	if (MapObject::ShouldDraw()) {
+	    float standard_pos_x, standard_pos_y;
+        VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
+		_particle_effect->Move(standard_pos_x, standard_pos_y);
+		_particle_effect->_Draw();
+
+		// Draw collision rectangle if the debug view is on.
+		if (VideoManager->DebugInfoOn()) {
+			MapRectangle rect = GetImageRectangle();
+			VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
+		}
+	}
+}
 
 // Save points
 SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
@@ -224,8 +274,25 @@ SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
 	SetImgHalfWidth(_animations->at(0).GetWidth() / 2.0f);
 	SetImgHeight(_animations->at(0).GetHeight());
 
+	MapMode *map_mode = MapMode::CurrentInstance();
+
 	// Preload the save active sound
-	AudioManager->LoadSound("snd/heal_spell.wav");
+	AudioManager->LoadSound("snd/heal_spell.wav", map_mode);
+
+	// The save point is going along with two particle objects used to show
+	// whether the player is in or out the save point
+	_active_particle_object = new ParticleObject("dat/effects/particles/active_save_point.lua",
+												 x, y, map_context);
+	_inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua",
+												   x, y, map_context);
+
+	_active_particle_object->SetObjectID(map_mode->GetObjectSupervisor()->GenerateObjectID());
+	_active_particle_object->SetVisible(false);
+	_inactive_particle_object->SetObjectID(map_mode->GetObjectSupervisor()->GenerateObjectID());
+
+	map_mode->AddGroundObject(_active_particle_object);
+	map_mode->AddGroundObject(_inactive_particle_object);
+
 }
 
 void SavePoint::Update() {
@@ -252,6 +319,8 @@ void SavePoint::Draw() {
 void SavePoint::SetActive(bool active) {
 	if (active) {
 		_animations = &MapMode::CurrentInstance()->active_save_point_animations;
+		_active_particle_object->SetVisible(true);
+		_inactive_particle_object->SetVisible(false);
 
 		// Play a sound when the save point become active
 		if (!_save_active)
@@ -259,6 +328,8 @@ void SavePoint::SetActive(bool active) {
 	}
 	else {
 		_animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
+		_active_particle_object->SetVisible(false);
+		_inactive_particle_object->SetVisible(true);
 	}
 	_save_active = active;
 }
