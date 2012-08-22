@@ -653,7 +653,7 @@ void ShopObjectViewer::_SetEquipmentData() {
 				meta_diff = static_cast<int32>(selected_weapon->GetMetaphysicalAttack());
 			}
 			// Case 3: if the player already has this weapon equipped, indicate thus and move on to the next character
-			if (selected_weapon->GetID() == equipped_weapon->GetID()) {
+			else if (selected_weapon->GetID() == equipped_weapon->GetID()) {
 				_character_equipped[i] = true;
 				continue;
 			}
