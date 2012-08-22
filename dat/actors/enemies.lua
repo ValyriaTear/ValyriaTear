@@ -60,7 +60,7 @@ enemies[1] = {
 		protection = 1, -- armor defense
 		agility = 20,
 		evade = 2.0,
-		experience_points = 5,
+		experience_points = 8,
 		drunes = 2
 	},
 
@@ -107,7 +107,7 @@ enemies[2] = {
 		protection = 4,
 		agility = 25,
 		evade = 2.0,
-		experience_points = 10,
+		experience_points = 14,
 		drunes = 5
 	},
 
