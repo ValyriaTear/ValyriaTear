@@ -181,7 +181,8 @@ private:
 	hoa_video::StillImage _drunes_icon;
 
 	//! \brief The "Obtained" sound, played at opening.
-	hoa_audio::SoundDescriptor _obtain_snd;
+	hoa_audio::SoundDescriptor _coins_snd;
+	hoa_audio::SoundDescriptor _items_snd;
 
 	// ---------- Private methods
 

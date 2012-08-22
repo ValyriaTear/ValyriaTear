@@ -126,8 +126,13 @@ TreasureSupervisor::TreasureSupervisor() :
 	if (!_drunes_icon.Load("img/icons/drunes.png"))
 		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load drunes icon for treasure menu" << std::endl;
 
-	if (!_obtain_snd.LoadAudio("snd/coins.wav"))
-		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the obtain sound for treasure menu" << std::endl;
+	if (!_coins_snd.LoadAudio("snd/coins.wav"))
+		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the obtain sound for Drunes treasures" << std::endl;
+	_coins_snd.AddOwner(MapMode::CurrentInstance());
+
+	if (!_items_snd.LoadAudio("snd/itempick2_michel_baradari_oga.wav"))
+		IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the obtain sound for Items treasures" << std::endl;
+	_items_snd.AddOwner(MapMode::CurrentInstance());
 } // TreasureSupervisor::TreasureSupervisor()
 
 TreasureSupervisor::~TreasureSupervisor() {
@@ -152,11 +157,13 @@ void TreasureSupervisor::Initialize(MapTreasure* treasure) {
 	_treasure = treasure;
 	MapMode::CurrentInstance()->PushState(STATE_TREASURE);
 
-	_obtain_snd.Play();
-
 	// Construct the object list, including any drunes that were contained within the treasure
 	if (_treasure->_drunes != 0) {
 		_list_options.AddOption(MakeUnicodeString("<img/icons/drunes.png>       Drunes<R>" + NumberToString(_treasure->_drunes)));
+		_coins_snd.Play();
+	}
+	else {
+		_items_snd.Play();
 	}
 
 	for (uint32 i = 0; i < _treasure->_objects_list.size(); i++) {
