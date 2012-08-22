@@ -421,48 +421,54 @@ public:
 	bool LoadGame(const std::string& filename, uint32 slot_id);
 
 	uint32 GetGameSlotId() const
-		{ return _game_slot_id; }
+	{ return _game_slot_id; }
 
 	//! \name Class Member Access Functions
 	//@{
 	void SetDrunes(uint32 amount)
-		{ _drunes = amount; }
+	{ _drunes = amount; }
 
 	void SetBattleSetting(GLOBAL_BATTLE_SETTING new_setting)
-		{ _battle_setting = new_setting; }
+	{ _battle_setting = new_setting; }
+
+	void SetMaxExperienceLevel(uint32 level)
+	{ _max_experience_level = level; }
+
+	uint32 GetMaxExperienceLevel() const
+	{ return _max_experience_level; }
 
 	uint32 GetDrunes() const
-		{ return _drunes; }
+	{ return _drunes; }
 
 	const std::string& GetMapFilename()
-		{ return _map_filename; }
+	{ return _map_filename; }
 
 	uint32 GetSaveLocationX()
-		{ return _x_save_map_position; }
+	{ return _x_save_map_position; }
 
 	uint32 GetSaveLocationY()
-		{ return _y_save_map_position; }
+	{ return _y_save_map_position; }
 
 	/** \brief Unset the save location once retreived at load time.
 	*** It should be done in the map code once the location has been set up.
 	**/
 	void UnsetSaveLocation()
-		{ _x_save_map_position = 0; _y_save_map_position = 0; }
+	{ _x_save_map_position = 0; _y_save_map_position = 0; }
 
 	hoa_video::StillImage& GetMapImage()
-		{ return _map_image; }
+	{ return _map_image; }
 
 	std::vector<GlobalCharacter*>* GetOrderedCharacters()
-		{ return &_ordered_characters; }
+	{ return &_ordered_characters; }
 
 	GLOBAL_BATTLE_SETTING GetBattleSetting() const
-		{ return _battle_setting; }
+	{ return _battle_setting; }
 
 	GlobalParty* GetActiveParty()
-		{ return &_active_party; }
+	{ return &_active_party; }
 
 	std::map<uint32, GlobalObject*>* GetInventory()
-		{ return &_inventory; }
+	{ return &_inventory; }
 
 	std::vector<GlobalItem*>* GetInventoryItems()
 		{ return &_inventory_items; }
@@ -536,6 +542,11 @@ private:
 
 	//! \brief The amount of financial resources (drunes) that the party currently has
 	uint32 _drunes;
+
+	/** \brief Set the max level that can be reached by a character
+	*** This equals 100 by default, @see Set/GetMaxExperienceLevel()
+	**/
+	uint32 _max_experience_level;
 
 	//! \brief The map filename the current party is on.
 	std::string _map_filename;

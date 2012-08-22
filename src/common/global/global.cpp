@@ -70,10 +70,12 @@ void GlobalEventGroup::SetEvent(const std::string& event_name, int32 event_value
 GameGlobal::GameGlobal() :
 	_game_slot_id(0),
 	_drunes(0),
+	_max_experience_level(100),
 	_x_save_map_position(0),
 	_y_save_map_position(0),
 	_same_map_hud_name_as_previous(false),
-	_battle_setting(GLOBAL_BATTLE_INVALID) {
+	_battle_setting(GLOBAL_BATTLE_INVALID)
+{
 	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
 

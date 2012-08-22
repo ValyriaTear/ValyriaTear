@@ -562,9 +562,19 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects() {
 		_level_xp_text[i].SetDisplaySpeed(30);
 		_level_xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
 		_level_xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
-		_level_xp_text[i].SetDisplayText(UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())) +
-			MakeUnicodeString("\n") + UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
-			- _characters[i]->GetExperiencePoints())));
+
+		// Don't show XP when the maximum level has been reached.
+		if (_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel()) {
+			_level_xp_text[i].SetDisplayText(UTranslate("Level (Max): ")
+				+ MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
+		}
+		else {
+			_level_xp_text[i].SetDisplayText(UTranslate("Level: ")
+				+ MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()))
+				+ MakeUnicodeString("\n") + UTranslate("XP: ")
+				+ MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
+				- _characters[i]->GetExperiencePoints())));
+		}
 
 		_skill_text[i].SetOwner(&_character_window[i]);
 		_skill_text[i].SetPosition(130.0f, 60.0f);
@@ -664,13 +674,19 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 
 	// ---------- (3): Add the XP amount to the characters appropriately
 	deque<BattleCharacter*>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-	for (uint32 i = 0; i < _number_characters; i++) {
+	// Tell whether the character can receive XP
+	bool level_maxed_out = false;
+	for (uint32 i = 0; i < _number_characters; ++i) {
 		// Don't add experience points to dead characters
 		if (battle_characters[i]->IsAlive() == false) {
 			continue;
 		}
 
-		if (_characters[i]->AddExperiencePoints(xp_to_add) == true) {
+		// Don't permit to earn XP when the maximum level has been reached.
+		if (battle_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
+			level_maxed_out = true;
+
+		if (!level_maxed_out && _characters[i]->AddExperiencePoints(xp_to_add) == true) {
 			do {
 				// Only add text for the stats that experienced growth
 				uint32 line = 0;
@@ -740,8 +756,19 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 		}
 
 		// TODO: check for new experience level
-		_level_xp_text[i].SetDisplayText(Translate("Level: ") + NumberToString(_characters[i]->GetExperienceLevel()) +
-			"\n" + Translate("XP: ") + NumberToString(_characters[i]->GetExperienceForNextLevel() - _characters[i]->GetExperiencePoints()));
+		std::string level_xp_text;
+		if (level_maxed_out) {
+			level_xp_text = Translate("Level (Max): ") + NumberToString(_characters[i]->GetExperienceLevel());
+		}
+		else {
+			level_xp_text = Translate("Level: ")
+				+ NumberToString(_characters[i]->GetExperienceLevel())
+				+ "\n" + Translate("XP: ")
+				+ NumberToString(_characters[i]->GetExperienceForNextLevel()
+				- _characters[i]->GetExperiencePoints());
+		}
+
+		_level_xp_text[i].SetDisplayText(level_xp_text);
 	}
 
 	_xp_earned -= xp_to_add;

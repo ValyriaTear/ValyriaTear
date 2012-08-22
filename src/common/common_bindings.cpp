@@ -101,6 +101,8 @@ void BindCommonCode() {
 			.def("SetDrunes", &GameGlobal::SetDrunes)
 			.def("AddDrunes", &GameGlobal::AddDrunes)
 			.def("SubtractDrunes", &GameGlobal::SubtractDrunes)
+			.def("GetMaxExperienceLevel", &GameGlobal::GetMaxExperienceLevel)
+			.def("SetMaxExperienceLevel", &GameGlobal::SetMaxExperienceLevel)
 			.def("AddToInventory", (void (GameGlobal::*)(uint32, uint32)) &GameGlobal::AddToInventory)
 			.def("RemoveFromInventory", (void (GameGlobal::*)(uint32)) &GameGlobal::RemoveFromInventory)
 			.def("IsObjectInInventory", &GameGlobal::IsObjectInInventory)

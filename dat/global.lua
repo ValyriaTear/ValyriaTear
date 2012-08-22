@@ -4,6 +4,10 @@ KALYA    = 2;
 THANIS   = 4;
 SYLVE    = 8;
 
+-- level cap
+-- Set to lvl 6 as there is only one dungeon.
+GlobalManager:SetMaxExperienceLevel(6);
+
 function NewGame()
 	-- Prepare the new game data
 	GlobalManager:AddCharacter(BRONANN);
