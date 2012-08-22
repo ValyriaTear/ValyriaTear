@@ -873,6 +873,11 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 		if (*i == sprite) // Don't allow the sprite itself to be considered in the search
 			continue;
 
+		// Don't allow particle object to get in the way
+		// as this prevents save points from functioning
+		if ((*i)->GetObjectType() == PARTICLE_TYPE)
+			continue;
+
 		// If the object and sprite do not exist in one of the same contexts,
 		// do not consider the object for the search
 		if (!((*i)->context & sprite->context))
