@@ -240,7 +240,7 @@ function Load(m)
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
-	Map:AddSavePoint(27, 30, hoa_map.MapMode.CONTEXT_01);
+	Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
 end
 
 -- the map update function handles checks done on each game tick.
