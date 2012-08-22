@@ -470,9 +470,6 @@ function _CreateEnemies()
 	enemy:NewEnemyParty();
 	enemy:AddEnemy(1);
 	enemy:AddEnemy(2);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(3);
 	roam_zone:AddEnemy(enemy, Map, 1);
 
 	Map:AddZone(roam_zone);

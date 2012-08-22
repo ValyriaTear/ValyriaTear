@@ -51,7 +51,8 @@ skills[1] = {
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+			-- Normal +0 attack
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 0), target);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
 			target_actor:RegisterMiss(true);

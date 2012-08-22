@@ -53,15 +53,15 @@ enemies[1] = {
 
 	base_stats = {
 		hit_points = 55,
-		skill_points = 10,
+		skill_points = 0,
 		strength = 15,
 		vigor = 0,
-		fortitude = 18,
-		protection = 10,
-		agility = 24,
+		fortitude = 4,  -- base defense
+		protection = 1, -- armor defense
+		agility = 20,
 		evade = 2.0,
 		experience_points = 5,
-		drunes = 10
+		drunes = 2
 	},
 
 	attack_points = {
@@ -99,16 +99,16 @@ enemies[2] = {
 	sprite_height = 64,
 
 	base_stats = {
-		hit_points = 125,
-		skill_points = 10,
-		strength = 15,
+		hit_points = 65,
+		skill_points = 0,
+		strength = 18,
 		vigor = 0,
-		fortitude = 11,
+		fortitude = 5,
 		protection = 4,
-		agility = 18,
+		agility = 25,
 		evade = 2.0,
-		experience_points = 6,
-		drunes = 12
+		experience_points = 10,
+		drunes = 5
 	},
 
 	attack_points = {
@@ -124,9 +124,9 @@ enemies[2] = {
 			name = hoa_system.Translate("Abdomen"),
 			x_position = 16,
 			y_position = 57,
-			fortitude_modifier = 0.0,
+			fortitude_modifier = 0.2,
 			protection_modifier = 0.0,
-			evade_modifier = 0.0
+			evade_modifier = -0.2
 		}
 	},
 
