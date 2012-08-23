@@ -251,7 +251,7 @@ function _HandleCredits()
         GlobalManager:SetEventValue("game", "Start_Credits", 1);
     end
     if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
-        Map:GetScriptSupervisor():AddScript("dat/small_credits.lua");
+        Map:GetScriptSupervisor():AddScript("dat/credits/episode1_credits.lua");
     end
 end
 

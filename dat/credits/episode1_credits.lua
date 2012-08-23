@@ -7,7 +7,7 @@
 
 local ns = {}
 setmetatable(ns, {__index = _G})
-small_credits = ns;
+episode1_credits = ns;
 setfenv(1, ns);
 
 local open_game_art_logo_id = 0;
