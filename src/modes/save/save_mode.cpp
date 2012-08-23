@@ -179,7 +179,7 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 	_window.Show();
 
 	// Load the first slot data
-	_PreviewGame( _file_list.GetSelection() );
+	_PreviewGame(_file_list.GetSelection());
 }
 
 
@@ -258,12 +258,12 @@ void SaveMode::Update() {
 
 			case SAVE_MODE_SAVE_COMPLETE: case SAVE_MODE_SAVE_FAILED:
 				_current_state = SAVE_MODE_SAVING;
-				_PreviewGame( _file_list.GetSelection() );
+				_PreviewGame(_file_list.GetSelection());
 				break;
 
 			case SAVE_MODE_LOADING:
 				if (_file_list.GetSelection() > -1) {
-					_LoadGame( _file_list.GetSelection() );
+					_LoadGame(_file_list.GetSelection());
 				}
 				else {
 					// Leave right away where there is nothing else
@@ -284,7 +284,7 @@ void SaveMode::Update() {
 
 			case SAVE_MODE_CONFIRMING_SAVE:
 				_current_state = SAVE_MODE_SAVING;
-				_PreviewGame( _file_list.GetSelection() );
+				_PreviewGame(_file_list.GetSelection());
 				break;
 		} // end switch (_current_state)
 	} // end if (InputManager->CancelPress())
@@ -294,7 +294,7 @@ void SaveMode::Update() {
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
 				_file_list.InputUp();
 				if (_file_list.GetSelection() > -1) {
-					_PreviewGame( _file_list.GetSelection() );
+					_PreviewGame(_file_list.GetSelection());
 				}
 				else {
 					_map_name_textbox.SetDisplayText(" ");
@@ -314,7 +314,7 @@ void SaveMode::Update() {
 			case SAVE_MODE_SAVING: case SAVE_MODE_LOADING:
 				_file_list.InputDown();
 				if (_file_list.GetSelection() > -1) {
-					_PreviewGame( _file_list.GetSelection() );
+					_PreviewGame(_file_list.GetSelection());
 				}
 				break;
 
@@ -421,6 +421,12 @@ bool SaveMode::_PreviewGame(int id) {
 	string filename = f.str();
 
 	ReadScriptDescriptor file, map_file;
+
+	// Check for the file existence, prevents a useless warning
+	if (!hoa_utils::DoesFileExist(filename)) {
+		_ClearSaveData();
+		return false;
+	}
 
 	if (!file.OpenFile(filename, true)) {
 		_ClearSaveData();
