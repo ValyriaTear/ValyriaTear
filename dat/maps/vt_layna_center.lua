@@ -286,15 +286,15 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
+	_CreateCharacters();
 	-- Set the camera focus on Bronann
 	Map:SetCamera(bronann);
 
-	CreateNPCs();
-	CreateObjects();
+	_CreateNPCs();
+	_CreateObjects();
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	_TriggerPotentialDialogueAfterFadeIn();
 
@@ -318,13 +318,13 @@ end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 
 -- Character creation
-function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 12, 63);
+function _CreateCharacters()
+	bronann = CreateSprite(Map, "Bronann", 12, 63);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -360,13 +360,13 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateNPCs()
+function _CreateNPCs()
 	local npc = {}
 	local text = {}
 	local dialogue = {}
 	local event = {}
 
-	kalya = _CreateSprite(Map, "Kalya", 42, 18);
+	kalya = CreateSprite(Map, "Kalya", 42, 18);
 	Map:AddGroundObject(kalya);
 	event = hoa_map.RandomMoveSpriteEvent("Kalya random move", kalya, 1000, 2000);
 	event:AddEventLinkAtEnd("Kalya random move", 2000); -- Loop on itself
@@ -378,24 +378,24 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	kalya:AddDialogueReference(dialogue);
 
-	orlinn = _CreateSprite(Map, "Orlinn", 40, 18);
+	orlinn = CreateSprite(Map, "Orlinn", 40, 18);
 	Map:AddGroundObject(orlinn);
 	-- Setup Orlinn's state and dialogue depending on the story current context
 	_UpdateOrlinnAndKalyaState();
 
-	carson = _CreateSprite(Map, "Carson", 0, 0);
+	carson = CreateSprite(Map, "Carson", 0, 0);
 	-- Default behaviour - not present on map.
 	carson:SetVisible(false);
 	carson:SetNoCollision(true);
 	Map:AddGroundObject(carson);
 
-	herth = _CreateSprite(Map, "Herth", 0, 0);
+	herth = CreateSprite(Map, "Herth", 0, 0);
 	-- Default behaviour - not present on map.
 	herth:SetVisible(false);
 	herth:SetNoCollision(true);
 	Map:AddGroundObject(herth);
 
-	npc = _CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
+	npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.WEST);
 	dialogue = hoa_map.SpriteDialogue();
@@ -404,7 +404,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateNPCSprite(Map, "Woman1", "Martha", 70, 64);
+	npc = CreateNPCSprite(Map, "Woman1", "Martha", 70, 64);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.EAST);
 	dialogue = hoa_map.SpriteDialogue();
@@ -413,7 +413,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateNPCSprite(Map, "Woman2", "Sophia", 22, 38);
+	npc = CreateNPCSprite(Map, "Woman2", "Sophia", 22, 38);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
@@ -427,67 +427,67 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 	-- Add her cat, Nekko
-	object = _CreateObject(Map, "Cat1", 24, 37.6);
+	object = CreateObject(Map, "Cat1", 24, 37.6);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	georges = _CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
+	georges = CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
 	Map:AddGroundObject(georges);
 	georges:SetDirection(hoa_map.MapMode.WEST);
 	_UpdateGeorgesDialogue(georges);
 end
 
-function CreateObjects()
+function _CreateObjects()
 	local object = {}
 
-	object = _CreateObject(Map, "Tree Big2", 22, 78);
+	object = CreateObject(Map, "Tree Big2", 22, 78);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 22, 16);
+	object = CreateObject(Map, "Tree Small1", 22, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 9, 16);
+	object = CreateObject(Map, "Tree Big1", 9, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 65, 18);
+	object = CreateObject(Map, "Tree Big1", 65, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 74, 20);
+	object = CreateObject(Map, "Tree Big2", 74, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 67, 32);
+	object = CreateObject(Map, "Tree Big1", 67, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 80, 36);
+	object = CreateObject(Map, "Tree Big2", 80, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 92, 22);
+	object = CreateObject(Map, "Tree Small1", 92, 22);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 98, 24);
+	object = CreateObject(Map, "Tree Big2", 98, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 79, 16);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Rock1", 3, 64);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 2, 62);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 33, 12);
+	object = CreateObject(Map, "Tree Small2", 79, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Rock2", 29, 16);
+	object = CreateObject(Map, "Rock1", 3, 64);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 34);
+	object = CreateObject(Map, "Rock2", 2, 62);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 34);
+	object = CreateObject(Map, "Rock1", 33, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 34);
+
+	object = CreateObject(Map, "Rock2", 29, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 109, 42);
+	object = CreateObject(Map, "Rock2", 109, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 117, 42);
+	object = CreateObject(Map, "Rock2", 113, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 113, 42);
+	object = CreateObject(Map, "Rock2", 117, 34);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = CreateObject(Map, "Rock2", 109, 42);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = CreateObject(Map, "Rock2", 117, 42);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = CreateObject(Map, "Rock2", 113, 42);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- collision bug hidders
-	object = _CreateObject(Map, "Barrel1", 14, 38);
+	object = CreateObject(Map, "Barrel1", 14, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Vase1", 15, 39);
+	object = CreateObject(Map, "Vase1", 15, 39);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Barrel1", 30, 38);
+	object = CreateObject(Map, "Barrel1", 30, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Lights
@@ -527,28 +527,28 @@ function CreateObjects()
 	    hoa_map.MapMode.CONTEXT_01);
 
 	-- Treasure vase
-	local nekko_vase = _CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37);
+	local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37);
 	if (nekko_vase ~= nil) then
 		nekko_vase:AddObject(11, 1);
 		Map:AddGroundObject(nekko_vase);
 	end
 
 	-- Create the special rock
-	blocking_rock = _CreateObject(Map, "Rock1", 7, 45);
+	blocking_rock = CreateObject(Map, "Rock1", 7, 45);
 	Map:AddGroundObject(blocking_rock);
 	-- Set the rock state based on the story point
 	_UpdateBlockingRock();
 	
 	-- Quest 2: Forest event
 	-- The wooden sword sprite
-	wooden_sword = _CreateObject(Map, "Wooden Sword1", 1, 1);
+	wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1);
 	Map:AddGroundObject(wooden_sword);
 	wooden_sword:SetVisible(false);
 	wooden_sword:SetNoCollision(true);
 end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 	local text = {};
 	local dialogue = {};
@@ -981,7 +981,7 @@ function CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	bronanns_home_entrance_zone = hoa_map.CameraZone(10, 14, 60, 61, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(bronanns_home_entrance_zone);
@@ -1008,7 +1008,7 @@ function CreateZones()
 	Map:AddZone(sophia_house_entrance_zone);
 end
 
-function CheckZones()
+function _CheckZones()
 	if (bronanns_home_entrance_zone:IsCameraEntering() == true) then
 		-- If Bronann has started the quest 2, he doesn't want to go back and see his parents.
 		if (GlobalManager:DoesEventExist("story", "Quest2_started") == true

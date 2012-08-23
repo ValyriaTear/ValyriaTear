@@ -347,7 +347,7 @@ enemies["scorpion"] = {
 sprite = {}
 enemy = {}
 
-function _CreateSprite(Map, name, x, y)
+function CreateSprite(Map, name, x, y)
 	if (sprites[name] == nil) then
 		print("Error: No object named: "..name.." found!!");
 		return nil;
@@ -429,7 +429,7 @@ end
 
 -- Permit to setup a custom name
 -- and reuse the npcs sprites more easily
-function _CreateNPCSprite(Map, name, npc_name, x, y)
+function CreateNPCSprite(Map, name, npc_name, x, y)
 	if (sprites[name] == nil) then
 		print("Error: No object named: "..name.." found!!");
 		return nil;

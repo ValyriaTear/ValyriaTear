@@ -381,7 +381,7 @@ objects["Right Window Light 2"] = {
 -- The helper function permitting to easily create a prepared map object
 object = {}
 
-function _CreateObject(Map, name, x, y)
+function CreateObject(Map, name, x, y)
 	if (objects[name] == nil) then
 		print("Error: No object named: "..name.." found!!");
 		return nil;

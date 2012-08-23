@@ -263,14 +263,14 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
-	CreateObjects();
+	_CreateCharacters();
+	_CreateObjects();
 
 	-- Set the camera focus on bronann
 	Map:SetCamera(bronann);
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	-- If not done, start the opening dialogue
 	if (GlobalEvents:DoesEventExist("opening_dialogue_done") == false) then
@@ -283,12 +283,12 @@ end
 -- the map update function handles checks done on each game tick.
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 -- Character creation
-function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 23.5, 17.5);
+function _CreateCharacters()
+	bronann = CreateSprite(Map, "Bronann", 23.5, 17.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -303,75 +303,75 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateObjects()
+function _CreateObjects()
 	object = {}
 
 	-- Bronann's room
-	object = _CreateObject(Map, "Bed1", 20, 20);
+	object = CreateObject(Map, "Bed1", 20, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	local chest = _CreateTreasure(Map, "bronann_room_chest", "Wood_Chest1", 19, 22);
+	local chest = CreateTreasure(Map, "bronann_room_chest", "Wood_Chest1", 19, 22);
 	if (chest ~= nil) then
 		chest:SetDrunes(5);
 		Map:AddGroundObject(chest);
 	end
 
-	object = _CreateObject(Map, "Chair1", 23, 26);
+	object = CreateObject(Map, "Chair1", 23, 26);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Small Wooden Table", 20, 27);
+	object = CreateObject(Map, "Small Wooden Table", 20, 27);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Candle1", 19, 25);
+	object = CreateObject(Map, "Candle1", 19, 25);
 	object:SetDrawOnSecondPass(true); -- Above the table
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Book1", 21, 25);
+	object = CreateObject(Map, "Book1", 21, 25);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Left Window Light", 19, 21);
+	object = CreateObject(Map, "Left Window Light", 19, 21);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Parent's room
-	object = _CreateObject(Map, "Big Bed1", 38.5, 30.0);
+	object = CreateObject(Map, "Big Bed1", 38.5, 30.0);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Chair1_inverted", 38, 35);
+	object = CreateObject(Map, "Chair1_inverted", 38, 35);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Locker", 38, 35.9);
+	object = CreateObject(Map, "Locker", 38, 35.9);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Small Wooden Table", 40, 36);
+	object = CreateObject(Map, "Small Wooden Table", 40, 36);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Paper and Feather", 40, 34);
+	object = CreateObject(Map, "Paper and Feather", 40, 34);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Box1", 40, 38); -- Prevent from going south of the table.
+	object = CreateObject(Map, "Box1", 40, 38); -- Prevent from going south of the table.
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 19, 33);
+	object = CreateObject(Map, "Box1", 19, 33);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 19, 35);
+	object = CreateObject(Map, "Box1", 19, 35);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 19, 37);
+	object = CreateObject(Map, "Box1", 19, 37);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 23, 33);
-	object:SetContext(hoa_map.MapMode.CONTEXT_03);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Flower Pot1", 27, 33);
+	object = CreateObject(Map, "Box1", 23, 33);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Right Window Light", 41, 33);
+	object = CreateObject(Map, "Flower Pot1", 27, 33);
+	object:SetContext(hoa_map.MapMode.CONTEXT_03);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	object = CreateObject(Map, "Right Window Light", 41, 33);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
@@ -380,7 +380,7 @@ end
 
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 	local dialogue = {};
 	local text = {};
@@ -407,15 +407,13 @@ function CreateEvents()
 	event = hoa_map.ScriptedEvent("opening3", "OpeningDialogueDone", "");
 	EventManager:RegisterEvent(event);
 
-
 	-- Triggered events
 	event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/vt_bronanns_home.lua", "From Bronann's first floor");
 	EventManager:RegisterEvent(event);
-
 end
 
 -- Create the different map zones triggering events
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	room_exit_zone = hoa_map.CameraZone(38, 39, 16, 19, hoa_map.MapMode.CONTEXT_02);
 	Map:AddZone(room_exit_zone);
@@ -435,7 +433,7 @@ function CreateZones()
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
-function CheckZones()
+function _CheckZones()
 	if (room_exit_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("exit floor");

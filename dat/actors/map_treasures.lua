@@ -23,7 +23,7 @@ treasures["Wood_Chest1"] = {
 -- The helper function permitting to easily create a prepared map object
 treasure = {}
 
-function _CreateTreasure(Map, save_name, name, x, y)
+function CreateTreasure(Map, save_name, name, x, y)
 	if (treasures[name] == nil) then
 		print("Error: No treasure named: "..name.." found!!");
 		return nil;

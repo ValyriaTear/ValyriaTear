@@ -224,14 +224,14 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
-	CreateObjects();
+	_CreateCharacters();
+	_CreateObjects();
 
 	-- Set the camera focus on bronann
 	Map:SetCamera(bronann);
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	-- The only entrance close door sound
 	AudioManager:PlaySound("snd/door_close.wav");
@@ -240,12 +240,12 @@ end
 -- the map update function handles checks done on each game tick.
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 -- Character creation
-function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 32, 45);
+function _CreateCharacters()
+	bronann = CreateSprite(Map, "Bronann", 32, 45);
 	bronann:SetDirection(hoa_map.MapMode.NORTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -253,56 +253,56 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateObjects()
+function _CreateObjects()
 	object = {}
 
 	-- Bronann's room
-	object = _CreateObject(Map, "Bed1", 42, 27);
+	object = CreateObject(Map, "Bed1", 42, 27);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 23, 18);
+	object = CreateObject(Map, "Box1", 23, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Chair1_inverted", 39, 20);
+	object = CreateObject(Map, "Chair1_inverted", 39, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Small Wooden Table", 42, 21);
+	object = CreateObject(Map, "Small Wooden Table", 42, 21);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Candle1", 43, 19);
+	object = CreateObject(Map, "Candle1", 43, 19);
 	object:SetDrawOnSecondPass(true); -- Above the table
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Left Window Light", 20, 38);
+	object = CreateObject(Map, "Left Window Light", 20, 38);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Clock1", 33, 13);
+	object = CreateObject(Map, "Clock1", 33, 13);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Table1", 39, 42);
+	object = CreateObject(Map, "Table1", 39, 42);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Chair1_inverted", 35, 41);
+	object = CreateObject(Map, "Chair1_inverted", 35, 41);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Chair1", 43, 40);
+	object = CreateObject(Map, "Chair1", 43, 40);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Bench2", 39, 38);
+	object = CreateObject(Map, "Bench2", 39, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
-	object = _CreateObject(Map, "Barrel1", 21, 36);
+	object = CreateObject(Map, "Barrel1", 21, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Barrel1", 22, 37);
+	object = CreateObject(Map, "Barrel1", 22, 37);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Barrel1", 21, 41);
+	object = CreateObject(Map, "Barrel1", 21, 41);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Barrel1", 23, 40);
+	object = CreateObject(Map, "Barrel1", 23, 40);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Barrel1", 25, 39);
+	object = CreateObject(Map, "Barrel1", 25, 39);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Box1", 21, 39);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Flower Pot1", 25, 16);
+	object = CreateObject(Map, "Box1", 21, 39);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Right Window Light", 44, 38);
+	object = CreateObject(Map, "Flower Pot1", 25, 16);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+
+	object = CreateObject(Map, "Right Window Light", 44, 38);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
@@ -310,7 +310,7 @@ end
 
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 	local dialogue = {};
 	local text = {};
@@ -322,14 +322,14 @@ function CreateEvents()
 end
 
 -- Create the different map zones triggering events
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	room_exit_zone = hoa_map.CameraZone(30, 34, 47, 48, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(room_exit_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
-function CheckZones()
+function _CheckZones()
 	if (room_exit_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("exit floor");

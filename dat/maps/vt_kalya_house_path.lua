@@ -281,15 +281,15 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
+	_CreateCharacters();
 	-- Set the camera focus on Bronann
 	Map:SetCamera(bronann);
 
-	CreateNPCs();
-	CreateObjects();
+	_CreateNPCs();
+	_CreateObjects();
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
@@ -311,14 +311,14 @@ end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 
 -- Character creation
-function CreateCharacters()
+function _CreateCharacters()
 	-- Default: From village center
-	bronann = _CreateSprite(Map, "Bronann", 61, 45);
+	bronann = CreateSprite(Map, "Bronann", 61, 45);
 	bronann:SetDirection(hoa_map.MapMode.WEST);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -342,13 +342,13 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateNPCs()
+function _CreateNPCs()
 	local npc = {}
 	local text = {}
 	local dialogue = {}
 	local event = {}
 
-	npc = _CreateNPCSprite(Map, "Old Woman1", "Brymir", 7, 25);
+	npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 7, 25);
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
@@ -361,21 +361,21 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Chicken", 21, 36);
+	npc = CreateSprite(Map, "Chicken", 21, 36);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken1 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Chicken1 random move");
 	
-	npc = _CreateSprite(Map, "Chicken", 19, 34);
+	npc = CreateSprite(Map, "Chicken", 19, 34);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Chicken2 random move", 1200);
 	
-	npc = _CreateSprite(Map, "Chicken", 23, 33);
+	npc = CreateSprite(Map, "Chicken", 23, 33);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
@@ -383,151 +383,151 @@ function CreateNPCs()
 	EventManager:StartEvent("Chicken3 random move", 2100);
 end
 
-function CreateObjects()
+function _CreateObjects()
 	local object = {}
 	
 	-- Left tree "wall"
-	object = _CreateObject(Map, "Tree Big1", 0, 44);
+	object = CreateObject(Map, "Tree Big1", 0, 44);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 42);
+	object = CreateObject(Map, "Rock1", 0, 42);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 0, 40);
+	object = CreateObject(Map, "Tree Small1", 0, 40);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 38);
+	object = CreateObject(Map, "Rock1", 0, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 0, 36);
+	object = CreateObject(Map, "Tree Small1", 0, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 34);
+	object = CreateObject(Map, "Rock1", 0, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 0, 32);
+	object = CreateObject(Map, "Tree Small1", 0, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 0, 30);
+	object = CreateObject(Map, "Tree Big1", 0, 30);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 28);
+	object = CreateObject(Map, "Rock1", 0, 28);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 0, 26);
+	object = CreateObject(Map, "Tree Small1", 0, 26);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 24);
+	object = CreateObject(Map, "Rock1", 0, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 0, 22);
+	object = CreateObject(Map, "Tree Big2", 0, 22);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 20);
+	object = CreateObject(Map, "Rock1", 0, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 0, 18);
+	object = CreateObject(Map, "Tree Small1", 0, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 16);
+	object = CreateObject(Map, "Rock1", 0, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 0, 14);
+	object = CreateObject(Map, "Tree Small1", 0, 14);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 12);
+	object = CreateObject(Map, "Rock1", 0, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock2", 0, 10);
+	object = CreateObject(Map, "Rock2", 0, 10);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 0, 7);
+	object = CreateObject(Map, "Rock1", 0, 7);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 0, 5);
+	object = CreateObject(Map, "Tree Small1", 0, 5);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 0, 3);
+	object = CreateObject(Map, "Tree Big1", 0, 3);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 15, 3);
+	object = CreateObject(Map, "Rock1", 15, 3);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 15.5, 1.5);
+	object = CreateObject(Map, "Rock1", 15.5, 1.5);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Right tree "Wall"
-	object = _CreateObject(Map, "Rock2", 63, 38);
+	object = CreateObject(Map, "Rock2", 63, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 63, 36);
+	object = CreateObject(Map, "Tree Small1", 63, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 63, 34);
+	object = CreateObject(Map, "Rock1", 63, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 63, 32);
+	object = CreateObject(Map, "Tree Small1", 63, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 63, 30);
+	object = CreateObject(Map, "Rock1", 63, 30);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 63.5, 28);
+	object = CreateObject(Map, "Tree Small2", 63.5, 28);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 63, 26);
+	object = CreateObject(Map, "Rock1", 63, 26);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 63, 24);
+	object = CreateObject(Map, "Tree Small1", 63, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 63, 22);
+	object = CreateObject(Map, "Rock1", 63, 22);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 63, 20);
+	object = CreateObject(Map, "Tree Small1", 63, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 63, 18);
+	object = CreateObject(Map, "Rock1", 63, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 64.5, 16);
+	object = CreateObject(Map, "Tree Small2", 64.5, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Rock1", 63, 12);
+	object = CreateObject(Map, "Rock1", 63, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 64, 10);
+	object = CreateObject(Map, "Tree Small2", 64, 10);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 63, 8);
+	object = CreateObject(Map, "Tree Small1", 63, 8);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 
 	-- Secret shortcut hiders
-	object = _CreateObject(Map, "Tree Big1", 38, 40);
+	object = CreateObject(Map, "Tree Big1", 38, 40);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 40, 42);
+	object = CreateObject(Map, "Tree Big1", 40, 42);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 42, 40);
+	object = CreateObject(Map, "Tree Big1", 42, 40);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Cliff hiders
-	object = _CreateObject(Map, "Tree Small1", 14, 30);
+	object = CreateObject(Map, "Tree Small1", 14, 30);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 55, 12);
+	object = CreateObject(Map, "Tree Small1", 55, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
 	-- Fence
-	object = _CreateObject(Map, "Fence1 l top left", 17, 32);
+	object = CreateObject(Map, "Fence1 l top left", 17, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 19, 32);
+	object = CreateObject(Map, "Fence1 horizontal", 19, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 21, 32);
+	object = CreateObject(Map, "Fence1 horizontal", 21, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 23, 32);
+	object = CreateObject(Map, "Fence1 horizontal", 23, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 25, 32);
+	object = CreateObject(Map, "Fence1 horizontal", 25, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 27, 32);
+	object = CreateObject(Map, "Fence1 horizontal", 27, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 l top right", 29, 32);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-
-	object = _CreateObject(Map, "Fence1 vertical", 17, 34);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 vertical", 17, 36);
+	object = CreateObject(Map, "Fence1 l top right", 29, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Fence1 l bottom left", 17, 38);
+	object = CreateObject(Map, "Fence1 vertical", 17, 34);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 19, 38);
+	object = CreateObject(Map, "Fence1 vertical", 17, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 21, 38);
+
+	object = CreateObject(Map, "Fence1 l bottom left", 17, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 23, 38);
+	object = CreateObject(Map, "Fence1 horizontal", 19, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 25, 38);
+	object = CreateObject(Map, "Fence1 horizontal", 21, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 horizontal", 27, 38);
+	object = CreateObject(Map, "Fence1 horizontal", 23, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 l bottom right", 29, 38);
+	object = CreateObject(Map, "Fence1 horizontal", 25, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 vertical", 29, 34);
+	object = CreateObject(Map, "Fence1 horizontal", 27, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Fence1 vertical", 29, 36);
+	object = CreateObject(Map, "Fence1 l bottom right", 29, 38);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = CreateObject(Map, "Fence1 vertical", 29, 34);
+	if (object ~= nil) then Map:AddGroundObject(object) end;
+	object = CreateObject(Map, "Fence1 vertical", 29, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
-	object = _CreateObject(Map, "Bench1", 7, 24);
+	object = CreateObject(Map, "Bench1", 7, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Barrel1", 20, 24);
+	object = CreateObject(Map, "Barrel1", 20, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
 	-- Secret treasure chest
-	local chest = _CreateTreasure(Map, "kalya_house_path_chest", "Wood_Chest1", 8, 8);
+	local chest = CreateTreasure(Map, "kalya_house_path_chest", "Wood_Chest1", 8, 8);
 	if (chest ~= nil) then
 		chest:AddObject(1001, 1);
 		Map:AddGroundObject(chest);
@@ -535,7 +535,7 @@ function CreateObjects()
 end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 
 	-- Triggered Events
@@ -552,7 +552,7 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	village_center_zone = hoa_map.CameraZone(62, 63, 42, 47, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(village_center_zone);
@@ -567,7 +567,7 @@ function CreateZones()
 	Map:AddZone(kalya_house_small_passage_zone);
 end
 
-function CheckZones()
+function _CheckZones()
 	if (village_center_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering

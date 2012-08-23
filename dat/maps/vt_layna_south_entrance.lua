@@ -255,15 +255,15 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
+	_CreateCharacters();
 	-- Set the camera focus on Bronann
 	Map:SetCamera(bronann);
 
-	CreateNPCs();
-	CreateObjects();
+	_CreateNPCs();
+	_CreateObjects();
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
@@ -285,13 +285,13 @@ end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 
 -- Character creation
-function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 32, 4);
+function _CreateCharacters()
+	bronann = CreateSprite(Map, "Bronann", 32, 4);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -315,13 +315,13 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateNPCs()
+function _CreateNPCs()
 	local npc = {}
 	local text = {}
 	local dialogue = {}
 	local event = {}
 
-	npc = _CreateNPCSprite(Map, "Girl1", "Olivia", 30, 8);
+	npc = CreateNPCSprite(Map, "Girl1", "Olivia", 30, 8);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Olivia random move", npc, 8000, 2000);
 	event:AddEventLinkAtEnd("Olivia random move", 5000); -- Loop on itself
@@ -333,7 +333,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Herth", 45, 39);
+	npc = CreateSprite(Map, "Herth", 45, 39);
 	Map:AddGroundObject(npc);
 	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
 		-- At that moment, Herth isn't there anymore.
@@ -364,17 +364,17 @@ function CreateNPCs()
 		npc:AddDialogueReference(dialogue);
 	end
 
-	orlinn = _CreateSprite(Map, "Orlinn", 29, 22);
+	orlinn = CreateSprite(Map, "Orlinn", 29, 22);
 	orlinn:SetDirection(hoa_map.MapMode.EAST);
 	orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
 	Map:AddGroundObject(orlinn);
 	_UpdateOrlinnState();
 end
 
-function CreateObjects()
+function _CreateObjects()
 	local object = {}
 
-	object = _CreateObject(Map, "Tree Big1", 42, 10);
+	object = CreateObject(Map, "Tree Big1", 42, 10);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Small door lights
@@ -393,7 +393,7 @@ function CreateObjects()
 end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 
 	-- Triggered Events
@@ -422,7 +422,7 @@ function CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	village_center_zone = hoa_map.CameraZone(8, 62, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(village_center_zone);
@@ -437,7 +437,7 @@ function CreateZones()
 	Map:AddZone(to_right_house_zone);
 end
 
-function CheckZones()
+function _CheckZones()
 	if (village_center_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering

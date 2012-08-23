@@ -226,15 +226,15 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
-	CreateNPCs();
-	CreateObjects();
+	_CreateCharacters();
+	_CreateNPCs();
+	_CreateObjects();
 
 	-- Set the camera focus on bronann
 	Map:SetCamera(bronann);
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 	
 	-- The only entrance close door sound
 	AudioManager:PlaySound("snd/door_close.wav");
@@ -242,13 +242,13 @@ end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 -- Character creation
-function CreateCharacters()
+function _CreateCharacters()
 	-- default position and direction
-	bronann = _CreateSprite(Map, "Bronann", 32.0, 27.0);
+	bronann = CreateSprite(Map, "Bronann", 32.0, 27.0);
 	bronann:SetDirection(hoa_map.MapMode.NORTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -256,47 +256,47 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateNPCs()
-	npc = _CreateNPCSprite(Map, "Woman1", "Flora", 39, 20);
+function _CreateNPCs()
+	npc = CreateNPCSprite(Map, "Woman1", "Flora", 39, 20);
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(npc);
 
 	-- The npc is too far away from the Hero so we make an invisible doppelgänger
-	flora = _CreateNPCSprite(Map, "Woman1", "Flora", 39, 22);
+	flora = CreateNPCSprite(Map, "Woman1", "Flora", 39, 22);
 	Map:AddGroundObject(flora);
 	flora:SetVisible(false);
 	flora:SetNoCollision(true);
     _UpdateFloraDialogue();
 end
 
-function CreateObjects()
+function _CreateObjects()
 	local object = {}
 
-	object = _CreateObject(Map, "Flower Pot1", 41, 20);
+	object = CreateObject(Map, "Flower Pot1", 41, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Flower Pot2", 35, 20);
+	object = CreateObject(Map, "Flower Pot2", 35, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 
-	object = _CreateObject(Map, "Table1", 27, 17);
+	object = CreateObject(Map, "Table1", 27, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Table1", 33, 17);
+	object = CreateObject(Map, "Table1", 33, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- lights
-	object = _CreateObject(Map, "Right Window Light 2", 41, 10);
+	object = CreateObject(Map, "Right Window Light 2", 41, 10);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Right Window Light 2", 41, 17);
+	object = CreateObject(Map, "Right Window Light 2", 41, 17);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 
 	-- Triggered Events
@@ -319,13 +319,13 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	shop_exit_zone = hoa_map.CameraZone(30, 34, 28, 29, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(shop_exit_zone);
 end
 
-function CheckZones()
+function _CheckZones()
 	if (shop_exit_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to village");

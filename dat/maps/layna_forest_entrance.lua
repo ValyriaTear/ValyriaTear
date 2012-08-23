@@ -252,7 +252,7 @@ end
 -- Character creation
 function _CreateCharacters()
 	-- Default hero and position
-	hero = _CreateSprite(Map, "Bronann", 3, 30);
+	hero = CreateSprite(Map, "Bronann", 3, 30);
 	hero:SetDirection(hoa_map.MapMode.EAST);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	hero:SetNoCollision(false);
@@ -277,8 +277,7 @@ function _CreateObjects()
 	local npc = {}
 	
 	-- Heal point
-	-- TODO: Add trigger point support
-	npc = _CreateSprite(Map, "Butterfly", 27, 23);
+	npc = CreateSprite(Map, "Butterfly", 27, 23);
 	npc:SetNoCollision(true);
 	npc:SetVisible(false);
 	Map:AddGroundObject(npc);
@@ -288,7 +287,7 @@ function _CreateObjects()
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
-	npc = _CreateSprite(Map, "Butterfly", 42, 18);
+	npc = CreateSprite(Map, "Butterfly", 42, 18);
 	npc:SetNoCollision(true);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
@@ -296,7 +295,7 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Butterfly1 random move");
 
-	npc = _CreateSprite(Map, "Butterfly", 12, 30);
+	npc = CreateSprite(Map, "Butterfly", 12, 30);
 	npc:SetNoCollision(true);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
@@ -304,7 +303,7 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Butterfly2 random move", 2400);
 
-	npc = _CreateSprite(Map, "Butterfly", 50, 25);
+	npc = CreateSprite(Map, "Butterfly", 50, 25);
 	npc:SetNoCollision(true);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
@@ -312,7 +311,7 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Butterfly3 random move", 1050);
 
-	npc = _CreateSprite(Map, "Butterfly", 40, 30);
+	npc = CreateSprite(Map, "Butterfly", 40, 30);
 	npc:SetNoCollision(true);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
@@ -320,7 +319,7 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Butterfly4 random move", 3050);
 
-	npc = _CreateSprite(Map, "Squirrel", 18, 24);
+	npc = CreateSprite(Map, "Squirrel", 18, 24);
 	npc:SetNoCollision(true);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
@@ -328,7 +327,7 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Squirrel1 random move");
 
-	npc = _CreateSprite(Map, "Squirrel", 40, 14);
+	npc = CreateSprite(Map, "Squirrel", 40, 14);
 	npc:SetNoCollision(true);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
@@ -336,133 +335,133 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Squirrel2 random move", 1800);
 
-	object = _CreateObject(Map, "Tree Small3", 23, 18);
+	object = CreateObject(Map, "Tree Small3", 23, 18);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 40, 14);
+	object = CreateObject(Map, "Tree Small3", 40, 14);
 	Map:AddGroundObject(object);
 
 	-- Forest entrance treasure chest
-	local chest1 = _CreateTreasure(Map, "forest_entrance_chest", "Wood_Chest1", 8, 3);
+	local chest1 = CreateTreasure(Map, "forest_entrance_chest", "Wood_Chest1", 8, 3);
 	if (chest1 ~= nil) then
 		chest1:SetDrunes(50);
 		Map:AddGroundObject(chest1);
 	end
 	-- Trees above the pathway
-	object = _CreateObject(Map, "Tree Small3", 3, 5);
+	object = CreateObject(Map, "Tree Small3", 3, 5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 8, 6);
+	object = CreateObject(Map, "Tree Small3", 8, 6);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 11, 2);
+	object = CreateObject(Map, "Tree Small3", 11, 2);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 15, 4.5);
+	object = CreateObject(Map, "Tree Small3", 15, 4.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 19, 6.2);
+	object = CreateObject(Map, "Tree Small3", 19, 6.2);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 23, 7.2);
+	object = CreateObject(Map, "Tree Small3", 23, 7.2);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 26, 4);
+	object = CreateObject(Map, "Tree Small3", 26, 4);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 30, 5);
+	object = CreateObject(Map, "Tree Small3", 30, 5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 34, 7);
+	object = CreateObject(Map, "Tree Small3", 34, 7);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 36, 8);
+	object = CreateObject(Map, "Tree Small3", 36, 8);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 39, 9);
+	object = CreateObject(Map, "Tree Small3", 39, 9);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 42, 7.5);
+	object = CreateObject(Map, "Tree Small3", 42, 7.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 45, 6);
+	object = CreateObject(Map, "Tree Small3", 45, 6);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 48, 10);
+	object = CreateObject(Map, "Tree Small3", 48, 10);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 47.5, 8);
+	object = CreateObject(Map, "Tree Small3", 47.5, 8);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 50, 12);
+	object = CreateObject(Map, "Tree Small3", 50, 12);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 54, 15);
+	object = CreateObject(Map, "Tree Small3", 54, 15);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 59, 17);
+	object = CreateObject(Map, "Tree Small3", 59, 17);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 62, 20);
+	object = CreateObject(Map, "Tree Small3", 62, 20);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 62, 12);
+	object = CreateObject(Map, "Tree Small3", 62, 12);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 54, 8);
+	object = CreateObject(Map, "Tree Small3", 54, 8);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 60, 4);
+	object = CreateObject(Map, "Tree Small3", 60, 4);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 55, 20);
+	object = CreateObject(Map, "Tree Small3", 55, 20);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 61, 26);
+	object = CreateObject(Map, "Tree Small3", 61, 26);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 45, 23);
+	object = CreateObject(Map, "Tree Small3", 45, 23);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 11, 20);
+	object = CreateObject(Map, "Tree Small3", 11, 20);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 2, 24);
+	object = CreateObject(Map, "Tree Small3", 2, 24);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 3, 14);
+	object = CreateObject(Map, "Tree Small3", 3, 14);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 7, 10);
+	object = CreateObject(Map, "Tree Small3", 7, 10);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 2, 8);
+	object = CreateObject(Map, "Tree Small3", 2, 8);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 4, 17);
+	object = CreateObject(Map, "Tree Small3", 4, 17);
 	Map:AddGroundObject(object);
 
 	-- Trees below the pathway
-	object = _CreateObject(Map, "Tree Small3", 2, 40);
+	object = CreateObject(Map, "Tree Small3", 2, 40);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 7, 38);
+	object = CreateObject(Map, "Tree Small3", 7, 38);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 9, 42);
+	object = CreateObject(Map, "Tree Small3", 9, 42);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 4, 47);
+	object = CreateObject(Map, "Tree Small3", 4, 47);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 12, 41);
+	object = CreateObject(Map, "Tree Small3", 12, 41);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 11, 45);
+	object = CreateObject(Map, "Tree Small3", 11, 45);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 14, 46);
+	object = CreateObject(Map, "Tree Small3", 14, 46);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 16.5, 48);
+	object = CreateObject(Map, "Tree Small3", 16.5, 48);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 19, 46.5);
+	object = CreateObject(Map, "Tree Small3", 19, 46.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 23, 48);
+	object = CreateObject(Map, "Tree Small3", 23, 48);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 26, 39);
+	object = CreateObject(Map, "Tree Small3", 26, 39);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 36, 43);
+	object = CreateObject(Map, "Tree Small3", 36, 43);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 27, 49);
+	object = CreateObject(Map, "Tree Small3", 27, 49);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 30.5, 51);
+	object = CreateObject(Map, "Tree Small3", 30.5, 51);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 33, 50);
+	object = CreateObject(Map, "Tree Small3", 33, 50);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 37, 48.5);
+	object = CreateObject(Map, "Tree Small3", 37, 48.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 40.5, 51);
+	object = CreateObject(Map, "Tree Small3", 40.5, 51);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 44, 50.5);
+	object = CreateObject(Map, "Tree Small3", 44, 50.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 47, 49.5);
+	object = CreateObject(Map, "Tree Small3", 47, 49.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 49.5, 48.5);
+	object = CreateObject(Map, "Tree Small3", 49.5, 48.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 52, 50);
+	object = CreateObject(Map, "Tree Small3", 52, 50);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 55, 48);
+	object = CreateObject(Map, "Tree Small3", 55, 48);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 58, 50.5);
+	object = CreateObject(Map, "Tree Small3", 58, 50.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 58, 47);
+	object = CreateObject(Map, "Tree Small3", 58, 47);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 62, 46.5);
+	object = CreateObject(Map, "Tree Small3", 62, 46.5);
 	Map:AddGroundObject(object);
-	object = _CreateObject(Map, "Tree Small3", 62, 49);
+	object = CreateObject(Map, "Tree Small3", 62, 49);
 	Map:AddGroundObject(object);
 end
 

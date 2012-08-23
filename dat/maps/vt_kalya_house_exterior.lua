@@ -226,16 +226,15 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
+	_CreateCharacters();
 	-- Set the camera focus on Bronann
 	Map:SetCamera(bronann);
 
-	CreateNPCs();
-	CreateObjects();
+	_CreateNPCs();
+	_CreateObjects();
 
-
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
@@ -257,14 +256,14 @@ end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 
 -- Character creation
-function CreateCharacters()
+function _CreateCharacters()
 	-- Default: From village center
-	bronann = _CreateSprite(Map, "Bronann", 48, 44);
+	bronann = CreateSprite(Map, "Bronann", 48, 44);
 	bronann:SetDirection(hoa_map.MapMode.NORTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -283,7 +282,7 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateNPCs()
+function _CreateNPCs()
 	local npc = {}
 	local text = {}
 	local dialogue = {}
@@ -291,72 +290,72 @@ function CreateNPCs()
 
 end
 
-function CreateObjects()
+function _CreateObjects()
 	local object = {}
 
 	-- right part trees
-	object = _CreateObject(Map, "Tree Big1", 62, 18);
+	object = CreateObject(Map, "Tree Big1", 62, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 63, 21);
+	object = CreateObject(Map, "Tree Big1", 63, 21);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 61, 25);
+	object = CreateObject(Map, "Tree Big1", 61, 25);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 59, 29);
+	object = CreateObject(Map, "Tree Big2", 59, 29);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 63, 28);
+	object = CreateObject(Map, "Tree Small2", 63, 28);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 62, 35);
+	object = CreateObject(Map, "Tree Big1", 62, 35);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 58, 30);
+	object = CreateObject(Map, "Tree Small1", 58, 30);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 63, 39);
+	object = CreateObject(Map, "Tree Big1", 63, 39);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 64, 43);
+	object = CreateObject(Map, "Tree Big1", 64, 43);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 59, 46);
+	object = CreateObject(Map, "Tree Big2", 59, 46);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
 	-- trees in the middle
-	object = _CreateObject(Map, "Tree Small2", 45, 31);
+	object = CreateObject(Map, "Tree Small2", 45, 31);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 43, 28);
+	object = CreateObject(Map, "Tree Small1", 43, 28);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 41, 40);
+	object = CreateObject(Map, "Tree Small1", 41, 40);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
-	object = _CreateObject(Map, "Rock1", 17, 13);
+	object = CreateObject(Map, "Rock1", 17, 13);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 
 	-- Left part
-	object = _CreateObject(Map, "Tree Small2", 10, 12);
+	object = CreateObject(Map, "Tree Small2", 10, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 4, 17);
+	object = CreateObject(Map, "Tree Small1", 4, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
-	object = _CreateObject(Map, "Tree Big1", 19, 15);
+	object = CreateObject(Map, "Tree Big1", 19, 15);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 17, 19);
+	object = CreateObject(Map, "Tree Big2", 17, 19);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small2", 15, 17);
+	object = CreateObject(Map, "Tree Small2", 15, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 11, 22);
+	object = CreateObject(Map, "Tree Small1", 11, 22);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 16, 23);
+	object = CreateObject(Map, "Tree Big1", 16, 23);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 12, 25);
+	object = CreateObject(Map, "Tree Small1", 12, 25);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 14, 28);
+	object = CreateObject(Map, "Tree Big2", 14, 28);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 12, 32);
+	object = CreateObject(Map, "Tree Big1", 12, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 9, 35);
+	object = CreateObject(Map, "Tree Big2", 9, 35);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 6, 31);
+	object = CreateObject(Map, "Tree Big1", 6, 31);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	
 	-- Treasures!
-	local kalya_house_exterior_chest = _CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22);
+	local kalya_house_exterior_chest = CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22);
 	if (kalya_house_exterior_chest ~= nil) then
 		kalya_house_exterior_chest:AddObject(1, 1);
 		Map:AddGroundObject(kalya_house_exterior_chest);
@@ -364,7 +363,7 @@ function CreateObjects()
 end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 	local dialogue = {};
 	local text = {}
@@ -386,7 +385,7 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	kalya_house_path_zone = hoa_map.CameraZone(28, 58, 46, 47, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(kalya_house_path_zone);
@@ -398,7 +397,7 @@ function CreateZones()
 	Map:AddZone(kalya_house_entrance_zone);
 end
 
-function CheckZones()
+function _CheckZones()
 	if (kalya_house_path_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Kalya house path");

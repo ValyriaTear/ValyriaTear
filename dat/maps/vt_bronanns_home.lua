@@ -255,27 +255,27 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
-	CreateNPCs();
-	CreateObjects();
+	_CreateCharacters();
+	_CreateNPCs();
+	_CreateObjects();
 
 	-- Set the camera focus on bronann
 	Map:SetCamera(bronann);
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 
 -- Character creation
-function CreateCharacters()
+function _CreateCharacters()
 	-- default position and direction
-	bronann = _CreateSprite(Map, "Bronann", 46.5, 11.5);
+	bronann = CreateSprite(Map, "Bronann", 46.5, 11.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -290,12 +290,12 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateNPCs()
+function _CreateNPCs()
 	local event = {}
 	local dialogue = {}
 	local text = {}
 
-	bronanns_dad = _CreateSprite(Map, "Carson", 33.5, 11.5);
+	bronanns_dad = CreateSprite(Map, "Carson", 33.5, 11.5);
 	Map:AddGroundObject(bronanns_dad);
 
 	event = hoa_map.RandomMoveSpriteEvent("Dad random move", bronanns_dad, 2000, 2000);
@@ -320,7 +320,7 @@ function CreateNPCs()
 	DialogueManager:AddDialogue(dialogue);
 	bronanns_dad:AddDialogueReference(dialogue);
 
-	bronanns_mother = _CreateSprite(Map, "Malta", 33.1, 17.5);
+	bronanns_mother = CreateSprite(Map, "Malta", 33.1, 17.5);
 	bronanns_mother:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(bronanns_mother);
 	_UpdateMotherDialogue();
@@ -417,67 +417,66 @@ function CreateNPCs()
 
 	event = hoa_map.ScriptedSpriteEvent("SetCameraOnBronann", bronann, "Map_SetCamera", "");
 	EventManager:RegisterEvent(event);
-
 end
 
 
-function CreateObjects()
+function _CreateObjects()
 	object = {}
 
-	object = _CreateObject(Map, "Chair1", 48, 18);
+	object = CreateObject(Map, "Chair1", 48, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Chair1_inverted", 40, 18);
+	object = CreateObject(Map, "Chair1_inverted", 40, 18);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Bench2", 44, 15.3);
+	object = CreateObject(Map, "Bench2", 44, 15.3);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Table1", 44, 19);
+	object = CreateObject(Map, "Table1", 44, 19);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Barrel1", 31, 14);
+	object = CreateObject(Map, "Barrel1", 31, 14);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Vase1", 31, 16);
+	object = CreateObject(Map, "Vase1", 31, 16);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Flower Pot1", 48.5, 11);
+	object = CreateObject(Map, "Flower Pot1", 48.5, 11);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Flower Pot1", 31, 9);
+	object = CreateObject(Map, "Flower Pot1", 31, 9);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	--lights
-	object = _CreateObject(Map, "Left Window Light 2", 31, 15);
+	object = CreateObject(Map, "Left Window Light 2", 31, 15);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Right Window Light 2", 49, 15);
+	object = CreateObject(Map, "Right Window Light 2", 49, 15);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	object:SetNoCollision(true);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Turn the food and dishes are objects to permit the update of their visible status.
-	plate_pile = _CreateObject(Map, "Plate Pile1", 31, 22);
+	plate_pile = CreateObject(Map, "Plate Pile1", 31, 22);
 	if (plate_pile ~= nil) then Map:AddGroundObject(plate_pile) end;
 
-	salad = _CreateObject(Map, "Salad1", 31, 18);
+	salad = CreateObject(Map, "Salad1", 31, 18);
 	if (salad ~= nil) then Map:AddGroundObject(salad) end;
-	green_pepper = _CreateObject(Map, "Green Pepper1", 31, 20);
+	green_pepper = CreateObject(Map, "Green Pepper1", 31, 20);
 	if (green_pepper ~= nil) then Map:AddGroundObject(green_pepper) end;
-	bread = _CreateObject(Map, "Bread1", 31, 22);
+	bread = CreateObject(Map, "Bread1", 31, 22);
 	if (bread ~= nil) then Map:AddGroundObject(bread) end;
-	sauce_pot = _CreateObject(Map, "Sauce Pot1", 33, 22);
+	sauce_pot = CreateObject(Map, "Sauce Pot1", 33, 22);
 	if (sauce_pot ~= nil) then Map:AddGroundObject(sauce_pot) end;
-	knife = _CreateObject(Map, "Knife1", 35, 22);
+	knife = CreateObject(Map, "Knife1", 35, 22);
 	if (knife ~= nil) then Map:AddGroundObject(knife) end;
 	_UpdateDishesAndFood();
 end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
 	local text = {};
 	local dialogue = {};
@@ -592,7 +591,6 @@ function CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Father looks at mother", 2000);
     EventManager:RegisterEvent(event);
 
-    -- TODO: "Look at" doesn't work. Figure out why...
     event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Father looks at mother", bronanns_dad, hoa_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
     event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Mother looks at father", bronanns_mother, hoa_map.MapMode.EAST);
@@ -614,7 +612,7 @@ function CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	home_exit_zone = hoa_map.CameraZone(38, 41, 24, 25, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(home_exit_zone);
@@ -625,7 +623,7 @@ function CreateZones()
 	quest2_start_scene = false;
 end
 
-function CheckZones()
+function _CheckZones()
 	-- Don't check that zone when dealing with the quest 2 start scene.
 	if (quest2_start_scene == false and home_exit_zone:IsCameraEntering() == true) then
 		-- Prevent Bronann from exiting until his mother talked to him

@@ -369,15 +369,15 @@ function Load(m)
 
 	Map.unlimited_stamina = true;
 
-	CreateCharacters();
+	_CreateCharacters();
 	-- Set the camera focus on Bronann
 	Map:SetCamera(bronann);
 
-	CreateNPCs();
-	CreateObjects();
+	_CreateNPCs();
+	_CreateObjects();
 
-	CreateEvents();
-	CreateZones();
+	_CreateEvents();
+	_CreateZones();
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
@@ -403,13 +403,13 @@ end
 
 function Update()
 	-- Check whether the character is in one of the zones
-	CheckZones();
+	_CheckZones();
 end
 
 
 -- Character creation
-function CreateCharacters()
-	bronann = _CreateSprite(Map, "Bronann", 97, 4);
+function _CreateCharacters()
+	bronann = CreateSprite(Map, "Bronann", 97, 4);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	bronann:SetNoCollision(false);
@@ -434,61 +434,61 @@ function CreateCharacters()
 	Map:AddGroundObject(bronann);
 end
 
-function CreateNPCs()
+function _CreateNPCs()
 	local text = {}
 	local dialogue = {}
 	local event = {}
 
-	lilly = _CreateNPCSprite(Map, "Woman3", "Lilly", 67, 40);
+	lilly = CreateNPCSprite(Map, "Woman3", "Lilly", 67, 40);
 	Map:AddGroundObject(lilly);
 
-	kalya = _CreateSprite(Map, "Kalya", 2, 2);
+	kalya = CreateSprite(Map, "Kalya", 2, 2);
 	kalya:SetDirection(hoa_map.MapMode.SOUTH);
 	kalya:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 	kalya:SetNoCollision(true);
 	kalya:SetVisible(false);
 	Map:AddGroundObject(kalya);
 
-	orlinn = _CreateSprite(Map, "Orlinn", 82, 5);
+	orlinn = CreateSprite(Map, "Orlinn", 82, 5);
 	orlinn:SetDirection(hoa_map.MapMode.SOUTH);
 	orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
 	Map:AddGroundObject(orlinn);
 
 	-- Create an invisible doppelgänger to permit triggering dialogues when the kid is on the cliff.
-	orlinn_dialogue_npc = _CreateSprite(Map, "Orlinn", 82, 8);
+	orlinn_dialogue_npc = CreateSprite(Map, "Orlinn", 82, 8);
 	orlinn_dialogue_npc:SetNoCollision(true);
 	orlinn_dialogue_npc:SetVisible(false);
 	Map:AddGroundObject(orlinn_dialogue_npc);
 end
 
-function CreateObjects()
+function _CreateObjects()
 	local object = {}
 
-	object = _CreateObject(Map, "Tree Big2", 70, 6);
+	object = CreateObject(Map, "Tree Big2", 70, 6);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Add hill treasure chest
-	local hill_chest = _CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
+	local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
 	if (hill_chest ~= nil) then
 		hill_chest:AddObject(1, 1);
 		Map:AddGroundObject(hill_chest);
 	end
 
 	-- trees around the house
-	object = _CreateObject(Map, "Tree Big2", 92, 10);
+	object = CreateObject(Map, "Tree Big2", 92, 10);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Small1", 82, 17);
+	object = CreateObject(Map, "Tree Small1", 82, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 75, 20);
+	object = CreateObject(Map, "Tree Big1", 75, 20);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 72, 35);
+	object = CreateObject(Map, "Tree Big2", 72, 35);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big1", 74, 48);
+	object = CreateObject(Map, "Tree Big1", 74, 48);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	object = _CreateObject(Map, "Tree Big2", 76, 50);
+	object = CreateObject(Map, "Tree Big2", 76, 50);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
-	object = _CreateObject(Map, "Barrel1", 56.3, 56.5);
+	object = CreateObject(Map, "Barrel1", 56.3, 56.5);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Lights
@@ -515,7 +515,7 @@ function CreateObjects()
 end
 
 -- Creates all events and sets up the entire event sequence chain
-function CreateEvents()
+function _CreateEvents()
 	local event = {};
     local dialogue = {};
     local text = {};
@@ -791,7 +791,7 @@ function CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
-function CreateZones()
+function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	village_center_zone = hoa_map.CameraZone(89, 105, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(village_center_zone);
@@ -809,7 +809,7 @@ function CreateZones()
 	Map:AddZone(orlinn_hide_n_seek2_zone);
 end
 
-function CheckZones()
+function _CheckZones()
 	if (village_center_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Village center");
