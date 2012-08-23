@@ -347,10 +347,11 @@ mus/Soliloquy_1-OGA-mat-pablo.ogg                   CC by SA 3.0 or GPLv3       
 
 
 snd/itempick2_michel_baradari_oga.wav               CC by 3.0                   Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
-snd/lightning.wav:                                  CC0 (Bertram)
-snd/new_game.wav:                                   GPLv2 (Same sound than the opening_sword_fall.wav) file from Allacrost.
+snd/lightning.wav                                   CC0 (Bertram)
+snd/new_game.wav                                    GPLv2 (Same sound than the opening_sword_fall.wav) file from Allacrost.
 snd/save_point_activated_dokashiteru_oga.wav        CC by 3.0, GPLv2, GPLv3     DoKashiteru (OGA)
-snd/thunder.wav:                                    CC0 (Bertram)
+snd/save_successful_nick_bowler_oga.wav             CC by 3.0                   Nick Bowler, added by draconx (OGA)
+snd/thunder.wav                                     CC0 (Bertram)
 
 
 Allacrost files: (Each and every are assumed to be licensed under the GPLv2 conditions according to the original authors.)
