@@ -39,7 +39,7 @@ end
 
 skills[10001] = {
 	name = hoa_system.Translate("Defensive Stance"),
-	description = hoa_system.Translate("Take a stance to better defend user against incoming attacks."),
+	description = hoa_system.Translate("Mind focus improving defence against incoming attacks."),
 	sp_required = 3,
 	warmup_time = 300,
 	cooldown_time = 0,
