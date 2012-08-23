@@ -278,6 +278,15 @@ function _CreateObjects()
 	
 	-- Heal point
 	-- TODO: Add trigger point support
+	npc = _CreateSprite(Map, "Butterfly", 27, 23);
+	npc:SetNoCollision(true);
+	npc:SetVisible(false);
+	Map:AddGroundObject(npc);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Your party feels better...");
+	dialogue:AddLineEvent(text, npc, "Forest entrance heal");
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
 
 	npc = _CreateSprite(Map, "Butterfly", 42, 18);
 	npc:SetNoCollision(true);
@@ -489,7 +498,7 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 	
 	-- Heal point
-	event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "");
+	event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
 	EventManager:RegisterEvent(event);
 end
 
@@ -498,10 +507,6 @@ function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(forest_entrance_exit_zone);
-
-	-- TODO: Turn this back to a trigger object
-	heal_zone = hoa_map.CameraZone(23, 30, 23, 24, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(heal_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -509,10 +514,6 @@ function _CheckZones()
 	if (forest_entrance_exit_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("exit forest");
-	end
-	
-	if (heal_zone:IsCameraEntering() == true) then
-		EventManager:StartEvent("Forest entrance heal");
 	end
 end
 
@@ -530,14 +531,27 @@ if (map_functions == nil) then
 	map_functions = {}
 end
 
+local heal_effect_time = 0;
+
 map_functions = {
 
     heal_party = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
 	-- Should be sufficient to heal anybody
 	GlobalManager:GetActiveParty():AddHitPoints(10000);
 	GlobalManager:GetActiveParty():AddSkillPoints(10000);
 	AudioManager:PlaySound("snd/heal_spell.wav");
 	Map:GetParticleManager():AddParticleEffect("dat/effects/particles/heal_particle.lua", 512.0, 390.0);
-    end
+	heal_effect_time = 0;
+    end,
 
+    heal_done = function()
+       heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
+       if (heal_effect_time > 2000) then
+	   Map:PopState();
+           return true;
+       end
+       return false;
+    end
 }
