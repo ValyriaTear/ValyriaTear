@@ -81,7 +81,6 @@ void BindModeCode() {
 			.def_readonly("event_supervisor", &MapMode::_event_supervisor)
 			.def_readonly("dialogue_supervisor", &MapMode::_dialogue_supervisor)
 			.def_readonly("treasure_supervisor", &MapMode::_treasure_supervisor)
-			.def_readonly("map_event_group", &MapMode::_map_event_group)
 
 			.def_readwrite("camera", &MapMode::_camera)
 			.def_readwrite("unlimited_stamina", &MapMode::_unlimited_stamina)
@@ -104,7 +103,6 @@ void BindModeCode() {
 			.def("IsShowGUI", &MapMode::IsShowGUI)
 			.def("PushState", &MapMode::PushState)
 			.def("PopState", &MapMode::PopState)
-			.def("GetMapEventGroup", &MapMode::GetMapEventGroup)
 			.def("DrawMapLayers", &MapMode::_DrawMapLayers)
 
 			// Namespace constants

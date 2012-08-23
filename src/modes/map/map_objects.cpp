@@ -569,12 +569,8 @@ void TreasureObject::LoadState() {
 	if (!_treasure)
 		return;
 
-	// Check whether the event corresponding to this treasure has already occurred
-	if (!MapMode::CurrentInstance()->GetMapEventGroup()->DoesEventExist(_treasure_name))
-		return;
-
-	// If the event is non-zero, the treasure has already been opened
-	if (MapMode::CurrentInstance()->GetMapEventGroup()->GetEvent(_treasure_name) != 0) {
+	// If the event exists, the treasure has already been opened
+	if (GlobalManager->DoesEventExist("treasures", _treasure_name)) {
 		SetCurrentAnimation(TREASURE_OPEN_ANIM);
 		_treasure->SetTaken(true);
 	}
@@ -593,13 +589,8 @@ void TreasureObject::Open() {
 
 	SetCurrentAnimation(TREASURE_OPENING_ANIM);
 
-	// Add an event to the map group indicating that the treasure has now been opened
-	if (MapMode::CurrentInstance()->GetMapEventGroup()->DoesEventExist(_treasure_name)) {
-		MapMode::CurrentInstance()->GetMapEventGroup()->SetEvent(_treasure_name, 1);
-	}
-	else {
-		MapMode::CurrentInstance()->GetMapEventGroup()->AddNewEvent(_treasure_name, 1);
-	}
+	// Add an event to the treasures group indicating that the treasure has now been opened
+	GlobalManager->SetEventValue("treasures", _treasure_name, 1);
 }
 
 void TreasureObject::Update() {

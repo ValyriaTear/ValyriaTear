@@ -251,7 +251,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
 
@@ -486,14 +485,12 @@ function _UpdateOrlinnState()
 	event:AddEventLinkAtEnd("Hide n Seek1: Orlinn goes right", 8000); -- finish the event loop.
 	EventManager:RegisterEvent(event);
 
-    local layna_center_event_group = GlobalManager:GetEventGroup("dat_maps_vt_layna_center_lua");
-
-    if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek1_done") == true) then
+    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn shouldn't be here, so we make him invisible
         orlinn:SetNoCollision(true);
         orlinn:SetVisible(false);
         return;
-	elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_center_lua", "quest1_orlinn_dialogue1_done") == true) then
+	elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
         -- Start the hide and seek 1 position when it has to happen
         EventManager:StartEvent("Hide n Seek1: Orlinn goes right", 8000);
 
@@ -526,7 +523,7 @@ map_functions = {
 		EventManager:TerminateAllEvents(orlinn);
 
         -- Updates Orlinn's state
-		GlobalEvents:SetEvent("quest1_orlinn_hide_n_seek1_done", 1);
+		GlobalManager:SetEventValue("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done", 1);
     end,
 
     MakeInvisible = function(sprite)

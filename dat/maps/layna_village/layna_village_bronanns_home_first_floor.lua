@@ -259,7 +259,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
 
@@ -273,7 +272,7 @@ function Load(m)
 	_CreateZones();
 
 	-- If not done, start the opening dialogue
-	if (GlobalEvents:DoesEventExist("opening_dialogue_done") == false) then
+	if (GlobalManager:DoesEventExist("story", "opening_dialogue_done") == false) then
 		Map:PushState(hoa_map.MapMode.STATE_SCENE);
 		EventManager:StartEvent("opening", 1000);
 	end
@@ -454,6 +453,6 @@ map_functions = {
 	end,
 
 	OpeningDialogueDone = function()
-		GlobalEvents:SetEvent("opening_dialogue_done", 1);
+		GlobalManager:SetEventValue("story", "opening_dialogue_done", 1);
 	end
 }

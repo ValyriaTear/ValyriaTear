@@ -282,7 +282,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
 
@@ -418,8 +417,8 @@ function _CreateNPCs()
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("You're too young to trade stuff with me!");
-	if (GlobalManager:DoesEventExist("dat_maps_vt_layna_south_entrance_lua", "quest1_orlinn_hide_n_seek1_done") == true) then
-		if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek2_done") == false) then
+	if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
+		if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
 			text = hoa_system.Translate("If you're running after Orlinn, I just saw him disappear near your house.");
 		end
 	end
@@ -1067,16 +1066,16 @@ function _TriggerPotentialDialogueAfterFadeIn()
 			GlobalManager:SetEventValue("story", "Quest2_wants_to_buy_sword_dialogue", 1);
 			return;
 		end
-	elseif (GlobalEvents:DoesEventExist("first_time_in_village_center") == false) then
+	elseif (GlobalManager:DoesEventExist("layna_center", "first_time_in_village_center") == false) then
 		EventManager:StartEvent("Quest1: Bronann wonders where he can find some barley meal");
-		GlobalEvents:AddNewEvent("first_time_in_village_center", 1);
+		GlobalManager:SetEventValue("layna_center", "first_time_in_village_center", 1);
 		return;
 	end
 end
 
 -- Make the rock blocks the secret passage as long as the kid hasn't been found once.
 function _UpdateBlockingRock()
-    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_south_entrance_lua", "quest1_orlinn_hide_n_seek1_done") == true) then
+    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         blocking_rock:SetNoCollision(true);
         blocking_rock:SetVisible(false);
     else
@@ -1092,10 +1091,10 @@ function _UpdateGeorgesDialogue()
 
     georges:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == true) then
+    if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
 	-- default behaviour once the barley meal is given
-    elseif (GlobalEvents:DoesEventExist("quest1_pen_given_done") == true
-        and GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == false) then
+    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true
+        and GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == false) then
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("In fact, the barley meal was for Lilly.");
         dialogue:AddLine(text, georges);
@@ -1107,7 +1106,7 @@ function _UpdateGeorgesDialogue()
         georges:AddDialogueReference(dialogue);
 	return;
         -- Quest 1 done as for Georges
-    elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek3_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Here it is, Georges.");
@@ -1127,7 +1126,7 @@ function _UpdateGeorgesDialogue()
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
-    elseif (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         -- Once talked to him after the shop conversation, just put the end of the dialogue
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
@@ -1139,7 +1138,7 @@ function _UpdateGeorgesDialogue()
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
-    elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_center_shop_lua", "quest1_flora_dialogue_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Hi Georges. Erm, I'm coming from the shop and I ...");
         dialogue:AddLine(text, bronann);
@@ -1195,7 +1194,7 @@ function _UpdateOrlinnAndKalyaState()
         kalya:SetMoving(false);
         return;
     end
-    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_orlinn_hide_n_seek3_done") == true) then
+    if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Bronann got Georges' pen, update orlinn dialogue
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("I promise I won't bother you again ...");
@@ -1214,12 +1213,12 @@ function _UpdateOrlinnAndKalyaState()
         kalya:AddDialogueReference(dialogue);
 
 
-    elseif (GlobalEvents:DoesEventExist("quest1_orlinn_dialogue1_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
         -- At that time, Orlinn isn't in the village center anymore.
         orlinn:SetVisible(false);
         orlinn:SetNoCollision(true);
         return;
-    elseif (GlobalEvents:DoesEventExist("quest1_georges_dialogue_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Hi hi hi!!");
         dialogue:AddLine(text, orlinn);
@@ -1268,7 +1267,7 @@ end
 map_functions = {
 
 	Quest1GeorgesDialogueDone = function()
-        GlobalEvents:SetEvent("quest1_georges_dialogue_done", 1);
+        GlobalManager:SetEventValue("layna_center", "quest1_georges_dialogue_done", 1);
         -- Makes Orlinn aware that Bronann has talked to Georges.
         _UpdateOrlinnAndKalyaState();
         _UpdateGeorgesDialogue();
@@ -1281,11 +1280,11 @@ map_functions = {
 		EventManager:TerminateAllEvents(orlinn);
 
         -- Updates Orlinn's state
-		GlobalEvents:SetEvent("quest1_orlinn_dialogue1_done", 1);
+		GlobalManager:SetEventValue("layna_center", "quest1_orlinn_dialogue1_done", 1);
     end,
 
     Quest1GeorgesTellsBronannAboutLilly = function()
-        GlobalEvents:SetEvent("quest1_pen_given_done", 1);
+        GlobalManager:SetEventValue("layna_center", "quest1_pen_given_done", 1);
 
         -- Remove the pen key item from inventory
         local pen_item_id = 70001;

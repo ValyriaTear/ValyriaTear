@@ -251,7 +251,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
 
@@ -627,7 +626,7 @@ function _CheckZones()
 	-- Don't check that zone when dealing with the quest 2 start scene.
 	if (quest2_start_scene == false and home_exit_zone:IsCameraEntering() == true) then
 		-- Prevent Bronann from exiting until his mother talked to him
-		if (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
+		if (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
 			Map:PushState(hoa_map.MapMode.STATE_SCENE);
 			EventManager:StartEvent("Start Quest1");
 		else
@@ -687,7 +686,7 @@ function _UpdateMotherDialogue()
 		bronanns_mother:AddDialogueReference(dialogue);
 		return;
     end
-    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_riverbank_lua", "quest1_barley_meal_done") == true) then
+    if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
         -- Got some barley meal, Mom!
 		-- Begining dialogue
 		local dialogue = hoa_map.SpriteDialogue();
@@ -697,14 +696,14 @@ function _UpdateMotherDialogue()
 		dialogue:AddLineEvent(text, bronanns_mother, "Quest1: end and transition to after-dinner");
 		DialogueManager:AddDialogue(dialogue);
 		bronanns_mother:AddDialogueReference(dialogue);
-	elseif (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == true) then
+	elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
 		-- 1st quest dialogue
 		local dialogue = hoa_map.SpriteDialogue();
 		local text = hoa_system.Translate("Could you go and buy some barley meal for us three?");
 		dialogue:AddLine(text, bronanns_mother);
 		DialogueManager:AddDialogue(dialogue);
 		bronanns_mother:AddDialogueReference(dialogue);
-	elseif (GlobalEvents:DoesEventExist("quest1_mother_start_dialogue_done") == false) then
+	elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
 		-- Begining dialogue
 		local dialogue = hoa_map.SpriteDialogue();
 		local text = hoa_system.Translate("Hi Son, did you have a nightmare this night also?");
@@ -763,7 +762,7 @@ map_functions = {
 	end,
 
 	Quest1MotherStartDialogueDone = function()
-		GlobalEvents:SetEvent("quest1_mother_start_dialogue_done", 1);
+		GlobalManager:SetEventValue("bronanns_home", "quest1_mother_start_dialogue_done", 1);
         _UpdateMotherDialogue();
 	end,
 

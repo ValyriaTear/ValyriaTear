@@ -222,7 +222,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
 
@@ -357,7 +356,7 @@ function _UpdateFloraDialogue()
 		DialogueManager:AddDialogue(dialogue);
 		flora:AddDialogueReference(dialogue);
 		return;
-	elseif (GlobalEvents:DoesEventExist("quest1_flora_dialogue_done") == true) then
+	elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
 		-- Just repeat the last dialogue sentence, when the dialogue is already done.
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
@@ -365,7 +364,7 @@ function _UpdateFloraDialogue()
 		DialogueManager:AddDialogue(dialogue);
 		flora:AddDialogueReference(dialogue);
 		return;
-	elseif (GlobalManager:DoesEventExist("dat_maps_vt_bronanns_home_lua", "quest1_mother_start_dialogue_done") == true) then
+	elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
 		dialogue:AddLine(text, flora);
@@ -400,7 +399,7 @@ end
 map_functions = {
 
 	Quest1FloraDialogueDone = function()
-		GlobalEvents:SetEvent("quest1_flora_dialogue_done", 1);
+		GlobalManager:SetEventValue("layna_center_shop", "quest1_flora_dialogue_done", 1);
         _UpdateFloraDialogue();
 	end,
 

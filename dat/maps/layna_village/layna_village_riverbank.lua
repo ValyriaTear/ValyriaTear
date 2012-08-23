@@ -365,7 +365,6 @@ function Load(m)
 	ObjectManager = Map.object_supervisor;
 	DialogueManager = Map.dialogue_supervisor;
 	EventManager = Map.event_supervisor;
-	GlobalEvents = Map.map_event_group;
 
 	Map.unlimited_stamina = true;
 
@@ -832,11 +831,11 @@ function _CheckZones()
 	end
 
     -- zone based story events
-    if (GlobalManager:DoesEventExist("dat_maps_vt_layna_south_entrance_lua", "quest1_orlinn_hide_n_seek1_done") == true) then
+    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         if (orlinn_hide_n_seek2_zone:IsCameraEntering() == true) then
             -- Updates the story state
-            if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == false) then
-                GlobalEvents:AddNewEvent("quest1_orlinn_hide_n_seek2_done", 1);
+            if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
+                GlobalManager:SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek2_done", 1);
 
                 -- Orlinn speaks and flee
                 Map:PushState(hoa_map.MapMode.STATE_SCENE);
@@ -858,13 +857,13 @@ function _SetLillyState()
 		dialogue:AddLine(text, lilly);
 		DialogueManager:AddDialogue(dialogue);
 		lilly :AddDialogueReference(dialogue);	  
-	elseif (GlobalEvents:DoesEventExist("quest1_barley_meal_done") == true) then
+	elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("You should go back home. Your mom must be waiting for you.");
 		dialogue:AddLine(text, lilly);
 		DialogueManager:AddDialogue(dialogue);
 		lilly :AddDialogueReference(dialogue);
-	elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_center_lua", "quest1_pen_given_done") == true) then
+	elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("What a nice day, isn't it?");
 		dialogue:AddLine(text, lilly);
@@ -898,11 +897,11 @@ function _SetOrlinnState()
 	orlinn_dialogue_npc:ClearDialogueReferences();
 	orlinn:ClearDialogueReferences();
 
-    if (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek3_done") == true) then
+    if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         orlinn:SetNoCollision(true);
         orlinn:SetVisible(false);
         return;
-    elseif (GlobalEvents:DoesEventExist("quest1_orlinn_hide_n_seek2_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == true) then
         orlinn:SetPosition(74, 44);
 	orlinn:SetDirection(hoa_map.MapMode.WEST);
 
@@ -915,7 +914,7 @@ function _SetOrlinnState()
 
         EventManager:StartEvent("Quest1: Hide and Seek3: Orlinn goes top-right", 8000);
         return;
-    elseif (GlobalManager:DoesEventExist("dat_maps_vt_layna_south_entrance_lua", "quest1_orlinn_hide_n_seek1_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn is on the cliff and is mocking Bronann.
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Hi hi hi!");
@@ -967,7 +966,7 @@ map_functions = {
     end,
 
     Set_Hide_And_Seek3_Done = function()
-        GlobalEvents:SetEvent("quest1_orlinn_hide_n_seek3_done", 1);
+        GlobalManager:SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek3_done", 1);
 
         -- Also reset Lilly direction
         lilly:SetDirection(hoa_map.MapMode.WEST);
@@ -982,7 +981,7 @@ map_functions = {
     end,
 
     GiveBarleyMeal = function()
-        GlobalEvents:SetEvent("quest1_barley_meal_done", 1);
+        GlobalManager:SetEventValue("story", "quest1_barley_meal_done", 1);
     end,
 
     Reset_lilly_dialogue = function()

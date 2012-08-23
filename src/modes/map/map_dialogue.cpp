@@ -351,12 +351,6 @@ void DialogueSupervisor::EndDialogue() {
 	}
 
 	_current_dialogue->IncrementTimesSeen();
-	if (MapMode::CurrentInstance()->GetMapEventGroup()->DoesEventExist(_current_dialogue->GetEventName()) == false) {
-		MapMode::CurrentInstance()->GetMapEventGroup()->AddNewEvent(_current_dialogue->GetEventName(), _current_dialogue->GetTimesSeen());
-	}
-	else {
-		MapMode::CurrentInstance()->GetMapEventGroup()->SetEvent(_current_dialogue->GetEventName(), _current_dialogue->GetTimesSeen());
-	}
 
 	// We only want to call the RestoreState function *once* for each speaker, so first we have to construct a list of pointers
 	// for all speakers without duplication (i.e. the case where a speaker spoke more than one line of dialogue).

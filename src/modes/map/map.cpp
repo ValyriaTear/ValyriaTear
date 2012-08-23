@@ -62,7 +62,6 @@ MapMode::MapMode(const std::string& filename) :
 	GameMode(),
 	_map_filename(filename),
 	_map_tablespace(""),
-	_map_event_group(NULL),
 	_tile_supervisor(NULL),
 	_object_supervisor(NULL),
 	_event_supervisor(NULL),
@@ -112,17 +111,6 @@ MapMode::MapMode(const std::string& filename) :
 
 	for (uint32 i = 0; i < inactive_save_point_animations.size(); ++i)
 		ScaleToMapCoords(inactive_save_point_animations[i]);
-
-	// Create the event group name by modifying the filename to consists only of alphanumeric characters and underscores
-	// This will make it a valid identifier name in Lua syntax
-	string event_group_name = _map_filename;
-	std::replace(event_group_name.begin(), event_group_name.end(), '/', '_');
-	std::replace(event_group_name.begin(), event_group_name.end(), '.', '_');
-
-	if (GlobalManager->DoesEventGroupExist(event_group_name) == false) {
-		GlobalManager->AddNewEventGroup(event_group_name);
-	}
-	_map_event_group = GlobalManager->GetEventGroup(event_group_name);
 
 	_tile_supervisor = new TileSupervisor();
 	_object_supervisor = new ObjectSupervisor();

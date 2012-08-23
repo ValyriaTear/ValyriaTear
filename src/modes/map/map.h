@@ -167,9 +167,6 @@ public:
 	const hoa_utils::ustring& GetMapHudName() const
 		{ return _map_hud_name; }
 
-	hoa_global::GlobalEventGroup* GetMapEventGroup() const
-		{ return _map_event_group; }
-
 	hoa_script::ReadScriptDescriptor& GetMapScript()
 		{ return _map_script; }
 
@@ -264,9 +261,6 @@ private:
 
 	//! \brief The map sub-part hud name. Shown in every cases.
 	hoa_utils::ustring _map_hud_subname;
-
-	//! \brief A pointer to the object containing all of the event information for the map
-	hoa_global::GlobalEventGroup* _map_event_group;
 
 	/** \brief The interface to the file which contains all the map's stored data and subroutines.
 	*** This class generally performs a large amount of communication with this script continuously.
