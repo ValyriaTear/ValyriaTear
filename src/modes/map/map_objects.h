@@ -375,8 +375,7 @@ class ParticleObject : public MapObject {
 public:
 	ParticleObject(const std::string& filename, float x, float y, MAP_CONTEXT map_context);
 
-	~ParticleObject()
-	{}
+	~ParticleObject();
 
 	//! \brief Updates the object's current animation.
 	//! \note the actual image resources is handled by the main map object.

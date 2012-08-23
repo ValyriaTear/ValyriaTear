@@ -221,6 +221,12 @@ ParticleObject::ParticleObject(const std::string& filename, float x, float y,
 	SetImgHeight(_particle_effect->GetEffectHeight() / (GRID_LENGTH * 0.5f));
 }
 
+ParticleObject::~ParticleObject() {
+	// We have to delete the particle effect since we don't register it
+	// to the ParticleManager.
+	delete _particle_effect;
+}
+
 void ParticleObject::Update() {
 	if (!_particle_effect)
 		return;
