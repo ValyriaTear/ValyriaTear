@@ -3,7 +3,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-vt_layna_center = ns;
+layna_village_center = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file
@@ -554,25 +554,25 @@ function _CreateEvents()
 	local dialogue = {};
 
 	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to Bronann's home", "dat/maps/vt_bronanns_home.lua", "from_village_center");
+	event = hoa_map.MapTransitionEvent("to Bronann's home", "dat/maps/layna_village/layna_village_bronanns_home.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Riverbank", "dat/maps/vt_layna_riverbank.lua", "from_village_center");
+	event = hoa_map.MapTransitionEvent("to Riverbank", "dat/maps/layna_village/layna_village_riverbank.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/vt_layna_south_entrance.lua", "from_village_center");
+	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/vt_kalya_house_path.lua", "from_village_center");
+	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Flora's Shop", "dat/maps/vt_layna_center_shop.lua", "from_village_center");
+	event = hoa_map.MapTransitionEvent("to Flora's Shop", "dat/maps/layna_village/layna_village_center_shop.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to sophia house", "dat/maps/vt_layna_center_sophia_house.lua", "from_village_center");
+	event = hoa_map.MapTransitionEvent("to sophia house", "dat/maps/layna_village/layna_village_center_sophia_house.lua", "from_village_center");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to secret cliff", "dat/maps/vt_layna_riverbank.lua", "from_secret_path");
+	event = hoa_map.MapTransitionEvent("to secret cliff", "dat/maps/layna_village/layna_village_riverbank.lua", "from_secret_path");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest_entrance.lua", "from_village_center");

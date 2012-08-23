@@ -14,9 +14,7 @@ function NewGame()
 	GlobalManager:AddNewEventGroup("global_events"); -- this group stores the primary list of events completed in the game
 	GlobalManager:SetDrunes(0);
 
-	local MM = hoa_map.MapMode("dat/maps/vt_bronanns_home_first_floor.lua");
-	--local MM = hoa_map.MapMode("dat/maps/vt_bronanns_home.lua");
-	--local MM = hoa_map.MapMode("dat/maps/vt_village_of_layna.lua");
+	local MM = hoa_map.MapMode("dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua");
 	ModeManager:Pop(false, false);
 	ModeManager:Push(MM, false, true);
 end

@@ -3,7 +3,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-vt_kalya_house_path = ns;
+layna_village_kalya_house_path = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file
@@ -539,16 +539,16 @@ function _CreateEvents()
 	local event = {};
 
 	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/vt_layna_center.lua", "from_kalya_house_path");
+	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua", "from_kalya_house_path");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Kalya house exterior", "dat/maps/vt_kalya_house_exterior.lua", "from_kalya_house_path");
+	event = hoa_map.MapTransitionEvent("to Kalya house exterior", "dat/maps/layna_village/layna_village_kalya_house_exterior.lua", "from_kalya_house_path");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to grandma house", "dat/maps/vt_kalya_house_path_small_house.lua", "from_kalya_house_path");
+	event = hoa_map.MapTransitionEvent("to grandma house", "dat/maps/layna_village/layna_village_kalya_house_path_small_house.lua", "from_kalya_house_path");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Kalya house small passage", "dat/maps/vt_kalya_house_exterior.lua", "from_kalya_house_path_small_passage");
+	event = hoa_map.MapTransitionEvent("to Kalya house small passage", "dat/maps/layna_village/layna_village_kalya_house_exterior.lua", "from_kalya_house_path_small_passage");
 	EventManager:RegisterEvent(event);
 end
 

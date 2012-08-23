@@ -1,6 +1,7 @@
 Licenses
 ========
 
+-- TODO: Check for missing files from that date
 Last update: 2012.07.10
 
 This file is listing all the files licenses from the point of the fork
@@ -43,12 +44,7 @@ dat/effects/particles/blue_firework.lua		GPLv2 or later	roos + Bertram modificat
 dat/effects/particles/explosion.lua			GPLv2 or later	roos + Bertram modifications
 dat/effects/particles/fire.lua				GPLv2 or later	roos + Bertram modifications
 
-dat/maps/vt_bronanns_home.lua               GPLv2 or later      Bertram
-dat/maps/vt_bronanns_home_first_floor.lua   GPLv2 or later      Bertram
-dat/maps/vt_kalya_house_path.lua            GPLv2 or later      Bertram
-dat/maps/vt_layna_center.lua                GPLv2 or later      Allacrost + Bertram
-dat/maps/vt_layna_riverbank.lua             GPLv2 or later      Bertram
-dat/maps/vt_kalya_south_entrance.lua        GPLv2 or later      Bertram
+dat/maps/*                                  GPLv2 or later      Bertram
 
 dat/objects/arm_armor.lua                   GPLv2 or later      Allacrost + Bertram
 dat/objects/head_armor.lua                  GPLv2 or later      Allacrost + Bertram

@@ -3,7 +3,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-vt_kalya_house_exterior = ns;
+layna_village_kalya_house_exterior = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file
@@ -369,10 +369,10 @@ function _CreateEvents()
 	local text = {}
 
 	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/vt_kalya_house_path.lua", "from_kalya_house_exterior");
+	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path.lua", "from_kalya_house_exterior");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to kalya house path small passage", "dat/maps/vt_kalya_house_path.lua", "from_kalya_house_small_passage");
+	event = hoa_map.MapTransitionEvent("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path.lua", "from_kalya_house_small_passage");
 	EventManager:RegisterEvent(event);
 
 	-- Kalya house locked door event

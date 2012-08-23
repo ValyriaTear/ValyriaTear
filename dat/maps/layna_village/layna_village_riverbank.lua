@@ -3,7 +3,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-vt_layna_riverbank = ns;
+layna_village_riverbank = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file
@@ -521,16 +521,16 @@ function _CreateEvents()
     local text = {};
 
 	-- Map change Events
-	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/vt_layna_center.lua", "from_riverbank");
+	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua", "from_riverbank");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/vt_layna_south_entrance.lua", "from_riverbank");
+	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance.lua", "from_riverbank");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Riverbank house", "dat/maps/vt_layna_riverbank_house.lua", "from_riverbank");
+	event = hoa_map.MapTransitionEvent("to Riverbank house", "dat/maps/layna_village/layna_village_riverbank_house.lua", "from_riverbank");
 	EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to secret path entrance", "dat/maps/vt_layna_center.lua", "from_secret_path");
+	event = hoa_map.MapTransitionEvent("to secret path entrance", "dat/maps/layna_village/layna_village_center.lua", "from_secret_path");
 	EventManager:RegisterEvent(event);
 
 	-- Quest events - Hide and seek 2
