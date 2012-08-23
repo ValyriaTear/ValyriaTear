@@ -1218,8 +1218,10 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string& filename) {
 	if (!image_script.OpenFile(filename))
 		return false;
 
-	if (!image_script.DoesTableExist("animation"))
+	if (!image_script.DoesTableExist("animation")) {
+		image_script.CloseFile();
 		return false;
+	}
 
 	image_script.OpenTable("animation");
 

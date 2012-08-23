@@ -420,13 +420,13 @@ bool SaveMode::_PreviewGame(int id) {
 	f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
 	string filename = f.str();
 
-	ReadScriptDescriptor file, map_file;
-
 	// Check for the file existence, prevents a useless warning
 	if (!hoa_utils::DoesFileExist(filename)) {
 		_ClearSaveData();
 		return false;
 	}
+
+	ReadScriptDescriptor file, map_file;
 
 	if (!file.OpenFile(filename, true)) {
 		_ClearSaveData();
@@ -434,6 +434,7 @@ bool SaveMode::_PreviewGame(int id) {
 	}
 
 	if (!file.DoesTableExist("save_game1")) {
+		file.CloseFile();
 		_ClearSaveData();
 		return false;
 	}
@@ -451,6 +452,7 @@ bool SaveMode::_PreviewGame(int id) {
 	drunes = file.ReadInt("drunes");
 
 	if (!file.DoesTableExist("characters")) {
+		file.CloseFile();
 		_ClearSaveData();
 		return false;
 	}
@@ -514,7 +516,6 @@ bool SaveMode::_PreviewGame(int id) {
 
 	map_file.CloseTable();
 	map_file.CloseFile();
-
 
 	for (uint32 i = 0; i < 4 && i < char_ids.size(); ++i) {
 		_character_window[i].SetCharacter(character[i]);

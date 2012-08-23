@@ -30,6 +30,7 @@ void ScriptSupervisor::Initialize(hoa_mode_manager::GameMode* gm) {
 		if (scene_script.OpenTablespace().empty()) {
 			PRINT_ERROR << "The scene script file: " << _script_filenames[i]
                 << "has not set a correct namespace" << std::endl;
+			scene_script.CloseFile();
 			continue;
 		}
 

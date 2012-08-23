@@ -255,6 +255,7 @@ bool Grid::LoadMap()
 	_tile_contexts.clear();
 
 	if (!read_data.DoesTableExist("contexts")) {
+		read_data.CloseFile();
 		QMessageBox::warning(this, message_box_title,
 			QString(tr("No 'contexts' table found.")));
 		return false;
@@ -269,8 +270,10 @@ bool Grid::LoadMap()
 
 	// There can't be more than 32 different contexts
 	for (uint32 context_id = 0; context_id < num_contexts; ++context_id) {
-		if (!read_data.DoesTableExist(context_id))
+		if (!read_data.DoesTableExist(context_id)) {
+			read_data.CloseFile();
 			return false;
+		}
 
 		// opens contexts[context_id]
 		read_data.OpenTable(context_id);
@@ -338,6 +341,7 @@ bool Grid::LoadMap()
 	// FileOpen via creation of the TilesetTable(s)
 
 	if (!read_data.DoesTableExist("layers")) {
+		read_data.CloseFile();
 		QMessageBox::warning(this, message_box_title,
 			QString(tr("No 'layers' table found.")));
 		return false;
@@ -386,7 +390,7 @@ bool Grid::LoadMap()
 				QMessageBox::warning(this, message_box_title,
 				QString(tr("Missing layers[%i][%i] in file: %s")
 				.arg(layer_id).arg(y).arg(read_data.GetFilename().c_str())));
-				read_data.CloseTable(); // layers[layer_id]
+				read_data.CloseFile();
 				return false;
 			}
 
