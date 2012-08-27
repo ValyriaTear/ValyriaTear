@@ -608,16 +608,16 @@ void BattleTarget::InvalidateTarget() {
 
 
 
-void BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
+bool BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 	InvalidateTarget();
 
 	if (user == NULL) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
-		return;
+		return false;
 	}
 	if ((type <= GLOBAL_TARGET_INVALID) || (type >= GLOBAL_TARGET_TOTAL)) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type argument: " << type << endl;
-		return;
+		return false;
 	}
 
 	// Determine what party the initial target will exist in
@@ -658,38 +658,40 @@ void BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 			break;
 		default:
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid type: " << type << endl;
-			return;
+			return false;
 	}
 
 	_type = type;
 
 	// If the target is not a party and not the user themselves, select the first valid actor
 	if ((_actor != NULL) && (_actor != user)) {
-		if (IsValid() == false) {
-			if (SelectNextActor(user, true, true) == false)
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "could not find an initial actor that was a valid target" << endl;
+		if (!IsValid()) {
+			if (!SelectNextActor(user, true, true)) {
+				IF_PRINT_WARNING(BATTLE_DEBUG)
+					<< "could not find an initial actor that was a valid target" << std::endl;
+				return false;
+			}
 		}
 	}
+	return true;
 }
 
-
-
-void BattleTarget::SetPointTarget(GLOBAL_TARGET type, uint32 attack_point, BattleActor* actor) {
+bool BattleTarget::SetPointTarget(GLOBAL_TARGET type, uint32 attack_point, BattleActor* actor) {
 	if (IsTargetPoint(type) == false) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid type argument: " << type << endl;
-		return;
+		return false;
 	}
 	if ((actor == NULL) && (_actor == NULL)) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set an attack point with no valid actor selected" << endl;
-		return;
+		return false;
 	}
 	else if ((actor == NULL) && (attack_point >= _actor->GetAttackPoints().size())) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << endl;
-		return;
+		return false;
 	}
 	else if ((_actor == NULL) && (attack_point >= actor->GetAttackPoints().size())) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << endl;
-		return;
+		return false;
 	}
 
 	_type = type;
@@ -697,70 +699,79 @@ void BattleTarget::SetPointTarget(GLOBAL_TARGET type, uint32 attack_point, Battl
 	if (actor != NULL)
 		_actor = actor;
 	_party = NULL;
+	return true;
 }
 
-
-
-void BattleTarget::SetActorTarget(GLOBAL_TARGET type, BattleActor* actor) {
-	if (IsTargetActor(type) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid type argument: " << type << endl;
-		return;
+bool BattleTarget::SetActorTarget(GLOBAL_TARGET type, BattleActor* actor) {
+	if (!IsTargetActor(type)) {
+		IF_PRINT_WARNING(BATTLE_DEBUG)
+			<< "function received invalid type argument: " << type << std::endl;
+		return false;
 	}
-	if (actor == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
-		return;
+	if (!actor) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument"
+			<< std::endl;
+		return false;
 	}
 
 	_type = type;
 	_point = 0;
 	_actor = actor;
 	_party = NULL;
+	return true;
 }
 
-
-
-void BattleTarget::SetPartyTarget(GLOBAL_TARGET type, deque<BattleActor*>* party) {
-	if (IsTargetParty(type) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid type argument: " << type << endl;
-		return;
+bool BattleTarget::SetPartyTarget(GLOBAL_TARGET type, deque<BattleActor*>* party) {
+	if (!IsTargetParty(type)) {
+		IF_PRINT_WARNING(BATTLE_DEBUG)
+			<< "function received invalid type argument: " << type << std::endl;
+		return false;
 	}
-	if (party == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
-		return;
+	if (!party) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument"
+			<< std::endl;
+		return false;
 	}
 
 	_type = type;
 	_point = 0;
 	_actor = NULL;
 	_party = party;
+	return true;
 }
 
 
 bool BattleTarget::IsValid(bool permit_dead_targets) {
-	if (IsTargetPoint(_type) == true) {
-		if (_actor == NULL)
+	// No dead enemies can be selected here.
+	if (IsTargetPoint(_type)) {
+		if (!_actor)
 			return false;
-		else if (_point >= _actor->GetAttackPoints().size())
+		bool enemy_actor = _actor->IsEnemy();
+
+		if (_point >= _actor->GetAttackPoints().size())
 			return false;
-		else if (_actor->IsAlive() == false)
-			return permit_dead_targets;
+		// We extra check the actor HP since the state might desynced on purpose.
+		else if (!_actor->IsAlive() || _actor->GetHitPoints() == 0)
+			return !enemy_actor && permit_dead_targets;
 		else if (_actor->GetState() == ACTOR_STATE_DYING)
-			return permit_dead_targets;
+			return !enemy_actor && permit_dead_targets;
 		else
 			return true;
 	}
 	else if (IsTargetActor(_type) == true) {
-		if (_actor == NULL)
+		if (!_actor)
 			return false;
-		else if (_actor->IsAlive() == false)
-			return permit_dead_targets;
+		bool enemy_actor = _actor->IsEnemy();
+
+		if (!_actor->IsAlive() || _actor->GetHitPoints() == 0)
+			return !enemy_actor && permit_dead_targets;
 		else if (_actor->GetState() == ACTOR_STATE_DYING)
-			return permit_dead_targets;
+			return !enemy_actor && permit_dead_targets;
 		else
 			return true;
 	}
-	else if (IsTargetParty(_type) == true) {
-		if (_party == NULL)
+	else if (IsTargetParty(_type)) {
+		if (!_party)
 			return false;
 		else
 			return true;
@@ -770,8 +781,6 @@ bool BattleTarget::IsValid(bool permit_dead_targets) {
 		return false;
 	}
 }
-
-
 
 bool BattleTarget::SelectNextPoint(BattleActor* user, bool direction, bool valid_criteria,
 									bool permit_dead_targets) {
@@ -818,16 +827,18 @@ bool BattleTarget::SelectNextPoint(BattleActor* user, bool direction, bool valid
 
 bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid_criteria,
 									bool permit_dead_targets) {
-	if (user == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+	if (!user) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument"
+			<< std::endl;
 		return false;
 	}
-	if ((IsTargetPoint(_type) == false) && (IsTargetActor(_type) == false)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << endl;
+	if ((!IsTargetPoint(_type)) && (!IsTargetActor(_type))) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type
+			<< std::endl;
 		return false;
 	}
-	if (_actor == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no valid actor target" << endl;
+	if (!_actor) {
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no valid actor target" << std::endl;
 		return false;
 	}
 

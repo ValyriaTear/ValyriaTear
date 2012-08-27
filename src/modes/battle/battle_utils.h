@@ -493,7 +493,7 @@ public:
 	*** actor (index 0). The initial actor will always be the first valid actor in their respective
 	*** party (index 0).
 	**/
-	void SetInitialTarget(BattleActor* user, hoa_global::GLOBAL_TARGET type);
+	bool SetInitialTarget(BattleActor* user, hoa_global::GLOBAL_TARGET type);
 
 	/** \brief Sets the target to a specific attack point on an actor
 	*** \param type The type of target to set, must be one of the point type targets
@@ -504,19 +504,19 @@ public:
 	*** actor argument is NULL, the _actor member should not be NULL when the function is called.
 	*** If both are NULL, calling this method will perform no changes.
 	**/
-	void SetPointTarget(hoa_global::GLOBAL_TARGET type, uint32 attack_point, BattleActor* actor = NULL);
+	bool SetPointTarget(hoa_global::GLOBAL_TARGET type, uint32 attack_point, BattleActor* actor = NULL);
 
 	/** \brief Sets the target to an actor
 	*** \param type The type of target to set, must be one of the actor type targets
 	*** \param actor A pointer to the actor to set for the target
 	**/
-	void SetActorTarget(hoa_global::GLOBAL_TARGET type, BattleActor* actor);
+	bool SetActorTarget(hoa_global::GLOBAL_TARGET type, BattleActor* actor);
 
 	/** \brief Sets the target to a party
 	*** \param type The type of target to set, must be one of the party type targets
 	*** \param actor A pointer to the party to set for the target
 	**/
-	void SetPartyTarget(hoa_global::GLOBAL_TARGET type, std::deque<BattleActor*>* party);
+	bool SetPartyTarget(hoa_global::GLOBAL_TARGET type, std::deque<BattleActor*>* party);
 
 	/** \brief Returns true if the target is valid
 	*** This method assumes that a valid target is one that is alive (non-zero HP). If the target type
@@ -528,6 +528,7 @@ public:
 	*** target is valid for their particular circumstances. For example, a revive item is only valid
 	*** to use on a dead actor. Other actions/items may have their own criteria for determining what
 	*** is a valid target.
+	*** \Note, we can't select dead enemies since it's not part of the enemy logic.
 	***
 	*** \param permit_dead_targets Tells whether dead or dying target are valid.
 	**/

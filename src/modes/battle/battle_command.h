@@ -480,7 +480,7 @@ private:
 		{ _character_settings.insert(std::make_pair(character, CharacterCommandSettings(character, _command_window))); }
 
 	//! \brief Initializes the _selected_target member with an initial target for the currently selected action
-	void _SetInitialTarget();
+	bool _SetInitialTarget();
 
 	/** \brief Changes the active command state and performs any necessary state transactions
 	*** \param new_state The state to change to
