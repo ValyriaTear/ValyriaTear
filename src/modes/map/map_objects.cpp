@@ -970,7 +970,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 												 float x_pos, float y_pos,
 												 MapObject** collision_object_ptr) {
 	// If the sprite has this property set it can not collide
-	if (!sprite || sprite->no_collision)
+	if (!sprite)
 		return NO_COLLISION;
 
 	// Get the collision rectangle at the given position
@@ -981,6 +981,11 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 		sprite_rect.top < 0.0f || sprite_rect.bottom >= static_cast<float>(_num_grid_y_axis)) {
 		return WALL_COLLISION;
 	}
+
+	// Check for the absence of collision checking after the map boundaries check,
+	// So that no collision beings won't get out of the map.
+	if (sprite->no_collision)
+		return NO_COLLISION;
 
 	// Check if the object's collision rectangel overlaps with any unwalkable elements on the collision grid
 	// Grid based collision is not done for objects in the sky layer
