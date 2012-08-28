@@ -1141,6 +1141,7 @@ void ShopMode::_UpdateAvailableObjectsToSell() {
 		else {
 			ShopObject *new_shop_object = new ShopObject(it->second);
 			new_shop_object->IncrementOwnCount(it->second->GetCount());
+			new_shop_object->SetPricing(GetBuyPriceLevel(), GetSellPriceLevel());
 			_available_sell.insert(make_pair(it->second->GetID(), new_shop_object));
 		}
 	}
@@ -1509,15 +1510,18 @@ void ShopMode::UpdateFinances(int32 costs_amount, int32 sales_amount) {
 	int32 updated_sales = _total_sales + sales_amount;
 
 	if (updated_costs < 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "updated amount causes costs to become negative: " << costs_amount << endl;
+		PRINT_WARNING << "updated amount causes costs to become negative: "
+			<< costs_amount << std::endl;
 		return;
 	}
 	if (updated_sales < 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "updated amount causes sales to become negative: " << sales_amount << endl;
+		PRINT_WARNING << "updated amount causes sales to become negative: "
+			<< sales_amount << std::endl;
 		return;
 	}
 	if ((static_cast<int32>(GlobalManager->GetDrunes()) + updated_sales - updated_costs) < 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "updated costs and sales values cause negative balance: " << costs_amount << ", " << sales_amount << endl;
+		PRINT_WARNING << "updated costs and sales values cause negative balance: "
+			<< costs_amount << ", " << sales_amount << std::endl;
 		return;
 	}
 

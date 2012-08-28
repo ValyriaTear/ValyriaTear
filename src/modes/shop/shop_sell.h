@@ -194,7 +194,7 @@ public:
 	*** the player only has 3 instances of the selected object in inventory, the function will increase
 	*** the quantity by 3 (not 8) and return true.
 	**/
-	bool ChangeSellQuantity(bool less_or_more, uint32 amount = 1);
+	bool ChangeSellQuantity(bool more, uint32 amount = 1);
 }; // class SellListDisplay : public ObjectListDisplay
 
 } // namespace private_shop

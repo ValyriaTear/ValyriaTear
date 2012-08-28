@@ -513,7 +513,7 @@ bool SellInterface::_ChangeCategory(bool left_or_right) {
 
 
 
-bool SellInterface::_ChangeSelection(bool up_or_down) {
+bool SellInterface::_ChangeSelection(bool down) {
 	if (_current_category >= _list_displays.size())
 		return false;
 
@@ -522,7 +522,7 @@ bool SellInterface::_ChangeSelection(bool up_or_down) {
 	if (!selected_list)
 		return false;
 
-	if (up_or_down == false)
+	if (!down)
 		selected_list->InputUp();
 	else
 		selected_list->InputDown();
@@ -593,10 +593,11 @@ void SellListDisplay::RefreshEntry(uint32 index) {
 
 
 
-bool SellListDisplay::ChangeSellQuantity(bool less_or_more, uint32 amount) {
+bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount) {
 	ShopObject* obj = GetSelectedObject();
-	if (obj == NULL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function could not perform operation because list was empty" << endl;
+	if (!obj) {
+		PRINT_WARNING << "function could not perform operation because list was empty"
+			<< std::endl;
 		return false;
 	}
 
@@ -604,7 +605,7 @@ bool SellListDisplay::ChangeSellQuantity(bool less_or_more, uint32 amount) {
 	// amount requested if there is an limitation such as shop stock or available funds
 	uint32 change_amount = amount;
 
-	if (less_or_more == false) {
+	if (!more) {
 		// Make sure that there is at least one more count to sell and that the player has enough funds to return it
 		if ((obj->GetSellCount() == 0) ||
 			(obj->GetSellPrice() > ShopMode::CurrentInstance()->GetTotalRemaining()))
@@ -632,19 +633,21 @@ bool SellListDisplay::ChangeSellQuantity(bool less_or_more, uint32 amount) {
 		RefreshEntry(GetCurrentSelection());
 		return true;
 	}
-	else {
+	else { // more
 		// Make sure that there is at least one more object available to sell in the player's inventory
 		if (obj->GetSellCount() >= obj->GetOwnCount()) {
 			return false;
 		}
 
-		// Determine if there's enough of the object in stock to sell. If not, sell as many left as possible
+		// Determine if there's enough of the object in stock to sell.
+		// If not, sell as many left as possible
 		if ((obj->GetOwnCount() - obj->GetSellCount()) < change_amount) {
 			change_amount = obj->GetOwnCount() - obj->GetSellCount();
 		}
 
 		obj->IncrementSellCount(change_amount);
-		ShopMode::CurrentInstance()->UpdateFinances(0, (obj->GetSellPrice() * change_amount));
+
+		ShopMode::CurrentInstance()->UpdateFinances(0, obj->GetSellPrice() * change_amount);
 		RefreshEntry(GetCurrentSelection());
 		return true;
 	}
