@@ -380,6 +380,12 @@ void BattleMode::Update() {
 	}
 	std::sort(_battle_sprites.begin(), _battle_sprites.end(), CompareActorsYCoord);
 
+	// Now checking standard battle conditions
+
+	// Check whether the last enemy is dying
+	if (_last_enemy_dying == false && _NumberValidEnemies() == 0)
+		_last_enemy_dying = true;
+
 	// If the battle is transitioning to/from a different mode, the sequence supervisor has control
 	if (_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
 		_sequence_supervisor->Update();
@@ -394,10 +400,6 @@ void BattleMode::Update() {
 		else if (_NumberEnemiesAlive() == 0) {
 			ChangeState(BATTLE_STATE_VICTORY);
 		}
-
-		// Check whether the last enemy is dying
-		if (_last_enemy_dying == false && _NumberValidEnemies() == 0)
-		    _last_enemy_dying = true;
 
 		// Holds a pointer to the character to select an action for
 		BattleCharacter* character_selection = NULL;
@@ -1029,14 +1031,15 @@ void BattleMode::_DrawGUI() {
 		_DrawIndicators();
 
 	if (_command_supervisor->GetState() != COMMAND_STATE_INVALID) {
-		if ((_dialogue_supervisor->IsDialogueActive() == true) && (_dialogue_supervisor->GetCurrentDialogue()->IsHaltBattleAction() == true)) {
+		if ((_dialogue_supervisor->IsDialogueActive()) &&
+				(_dialogue_supervisor->GetCurrentDialogue()->IsHaltBattleAction())) {
 			// Do not draw the command selection GUI if a dialogue is active that halts the battle action
 		}
-		else {
+		else if (!_last_enemy_dying) {
 			_command_supervisor->Draw();
 		}
 	}
-	if (_dialogue_supervisor->IsDialogueActive() == true) {
+	if (_dialogue_supervisor->IsDialogueActive()) {
 		_dialogue_supervisor->Draw();
 	}
 	if ((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {

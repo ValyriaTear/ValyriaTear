@@ -779,17 +779,32 @@ void CommandSupervisor::Draw() {
 
 void CommandSupervisor::NotifyActorDeath(BattleActor* actor) {
 	if (_state == COMMAND_STATE_INVALID) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when class was in invalid state" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG)
+			<< "function called when class was in invalid state" << std::endl;
 		return;
 	}
 
-	if (GetCommandCharacter() == actor) {
+	BattleCharacter *character = GetCommandCharacter();
+
+	// If the character currently selecting a command dies, we get out.
+	if (character == actor) {
 		_ChangeState(COMMAND_STATE_INVALID);
+		BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
 		return;
 	}
 
-	// TODO: update the selected target if the target is the actor who just deceased
-	// if (_selected_target.GetActor() == actor)
+	// Update the selected target if the target is the actor who just deceased
+	if (_selected_target.GetActor() == actor) {
+		BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+
+		// Try selecting the next actor and fall back to the previous command menu
+		// if not possible.
+		if (!_selected_target.SelectNextActor(actor)) {
+			if (character && (_state == COMMAND_STATE_ACTOR || _state == COMMAND_STATE_POINT))
+				_ChangeState(COMMAND_STATE_ACTION);
+			return;
+		}
+	}
 }
 
 
@@ -858,7 +873,7 @@ bool CommandSupervisor::_SetInitialTarget() {
 		if (!_selected_target.SetInitialTarget(user, target_type)) {
 			// No more target of that type, let's go back to the command state
 			_selected_target.InvalidateTarget();
-			_ChangeState(COMMAND_STATE_ACTION);
+			BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
 			return false;
 		}
 	}
@@ -869,7 +884,7 @@ bool CommandSupervisor::_SetInitialTarget() {
 		if (!_selected_target.SelectNextActor(user, permit_dead_targets)) {
 			// No more target of that type, let's go back to the command state
 			_selected_target.InvalidateTarget();
-			_ChangeState(COMMAND_STATE_ACTION);
+			BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
 			return false;
 		}
 	}
@@ -928,7 +943,7 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state) {
 		// Set the initial target if we're coming from the action selection state
 		if (_state == COMMAND_STATE_ACTION) {
 			if (!_SetInitialTarget()) {
-				_ChangeState(COMMAND_STATE_CATEGORY);
+				BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
 				return;
 			}
 		}
@@ -956,7 +971,7 @@ void CommandSupervisor::_UpdateCategory() {
 		// current character is in the command state. Under these circumstances, the player has to enter a command for this character before the battle
 		// is allowed to continue.
 		if ((GlobalManager->GetBattleSetting() == GLOBAL_BATTLE_WAIT) && (GetCommandCharacter()->GetState() == ACTOR_STATE_COMMAND)) {
-			// TODO: Play an approriate "invalid" type sound here
+			BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
 		}
 		else {
 			_ChangeState(COMMAND_STATE_INVALID);
