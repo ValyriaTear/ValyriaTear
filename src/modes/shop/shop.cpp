@@ -1107,10 +1107,7 @@ void ShopMode::Initialize() {
 	_UpdateAvailableObjectsToSell();
 	_UpdateAvailableShopOptions();
 
-	// Initialize pricing for all shop objects
-	for (std::map<uint32, ShopObject*>::iterator it = _available_buy.begin(); it != _available_buy.end(); ++it) {
-		it->second->SetPricing(_buy_price_level, _sell_price_level);
-	}
+	// Initialize pricing for all buy shop objects
 	for (std::map<uint32, ShopObject*>::iterator it = _available_sell.begin(); it != _available_sell.end(); ++it) {
 		it->second->SetPricing(_buy_price_level, _sell_price_level);
 	}
@@ -1132,6 +1129,14 @@ void ShopMode::_UpdateAvailableObjectsToSell() {
 
 	std::map<uint32, GlobalObject*>* inventory = GlobalManager->GetInventory();
 	for (std::map<uint32, GlobalObject*>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
+		// Don't consider 0 worth objects.
+		if (it->second->GetPrice() == 0)
+			continue;
+
+		// Don't show key items either.
+		if (it->second->GetObjectType() == GLOBAL_OBJECT_KEY_ITEM)
+			continue;
+
 		// Check if the object already exists in the shop list and if so, set its ownership count
 		std::map<uint32, ShopObject*>::iterator shop_obj_iter = _available_sell.find(it->second->GetID());
 		if (shop_obj_iter != _available_sell.end()) {

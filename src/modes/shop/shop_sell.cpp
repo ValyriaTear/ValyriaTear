@@ -213,7 +213,10 @@ void SellInterface::_PopulateLists() {
 	for (std::map<uint32, ShopObject*>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
 		obj = it->second;
 
-		if (obj && obj->GetOwnCount() > 0) {
+		if (!obj)
+			continue;
+
+		if (obj->GetOwnCount() > 0) {
 			switch (obj->GetObject()->GetObjectType()) {
 				case GLOBAL_OBJECT_ITEM:
 					object_data[type_index[0]].push_back(obj);
