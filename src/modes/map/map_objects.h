@@ -385,6 +385,12 @@ public:
 	//! \note the actual image resources is handled by the main map object.
 	void Draw();
 
+	//! \brief Start or restart the particle effect
+	void Stop();
+
+	//! \brief Stop the particle effect
+	bool Start();
+
 private:
 	//! \brief A reference to the current map save animation.
 	hoa_mode_manager::ParticleEffect *_particle_effect;

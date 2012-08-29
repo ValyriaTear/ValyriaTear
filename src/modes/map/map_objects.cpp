@@ -211,7 +211,9 @@ ParticleObject::ParticleObject(const std::string& filename, float x, float y,
 	context = map_context;
 	no_collision = true;
 
-	_particle_effect = hoa_mode_manager::ParticleManager::CreateEffect(filename);
+	_particle_effect = new hoa_mode_manager::ParticleEffect(filename);
+	if (!_particle_effect)
+	    return;
 
 	SetCollHalfWidth(_particle_effect->GetEffectWidth() / 2.0f / (GRID_LENGTH * 0.5f));
 	SetCollHeight(_particle_effect->GetEffectHeight() / (GRID_LENGTH * 0.5f));
@@ -227,13 +229,24 @@ ParticleObject::~ParticleObject() {
 	delete _particle_effect;
 }
 
+void ParticleObject::Stop() {
+	if (_particle_effect)
+		_particle_effect->Stop();
+}
+
+bool ParticleObject::Start() {
+	if (_particle_effect)
+		return _particle_effect->Start();
+	return false;
+}
+
 void ParticleObject::Update() {
 	if (!_particle_effect)
 		return;
 
 	if (updatable) {
         float frame_time_seconds = static_cast<float>(hoa_system::SystemManager->GetUpdateTime()) / 1000.0f;
-		_particle_effect->_Update(frame_time_seconds);
+		_particle_effect->Update(frame_time_seconds);
 	}
 }
 
@@ -243,12 +256,17 @@ void ParticleObject::Draw() {
 
 	if (MapObject::ShouldDraw()) {
 	    float standard_pos_x, standard_pos_y;
-        VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
-		_particle_effect->Move(standard_pos_x, standard_pos_y);
-		_particle_effect->_Draw();
+		VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
+		VideoManager->SetStandardCoordSys();
+		_particle_effect->Move(standard_pos_x / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH,
+								standard_pos_y / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT);
+		_particle_effect->Draw();
+		// Reset the map mode coord sys afterward.
+		VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
 		// Draw collision rectangle if the debug view is on.
 		if (VideoManager->DebugInfoOn()) {
+			VideoManager->Move(standard_pos_x, standard_pos_y);
 			MapRectangle rect = GetImageRectangle();
 			VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
 		}
@@ -292,8 +310,9 @@ SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
 	_inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua",
 												   x, y, map_context);
 
+	_active_particle_object->Stop();
+
 	_active_particle_object->SetObjectID(map_mode->GetObjectSupervisor()->GenerateObjectID());
-	_active_particle_object->SetVisible(false);
 	_inactive_particle_object->SetObjectID(map_mode->GetObjectSupervisor()->GenerateObjectID());
 
 	map_mode->AddGroundObject(_active_particle_object);
@@ -325,8 +344,8 @@ void SavePoint::Draw() {
 void SavePoint::SetActive(bool active) {
 	if (active) {
 		_animations = &MapMode::CurrentInstance()->active_save_point_animations;
-		_active_particle_object->SetVisible(true);
-		_inactive_particle_object->SetVisible(false);
+		_active_particle_object->Start();
+		_inactive_particle_object->Stop();
 
 		// Play a sound when the save point become active
 		if (!_save_active)
@@ -334,8 +353,8 @@ void SavePoint::SetActive(bool active) {
 	}
 	else {
 		_animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
-		_active_particle_object->SetVisible(false);
-		_inactive_particle_object->SetVisible(true);
+		_active_particle_object->Stop();
+		_inactive_particle_object->Start();
 	}
 	_save_active = active;
 }

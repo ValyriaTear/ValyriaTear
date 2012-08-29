@@ -20,65 +20,46 @@ using namespace hoa_video;
 namespace hoa_mode_manager
 {
 
-ParticleSystem::ParticleSystem()
-{
-	_system_def = NULL;
-	_max_particles = 0;
-	_num_particles = 0;
-	_age = 0.0f;
-	_last_update_time = 0.0f;
+bool ParticleSystem::_Create(ParticleSystemDef *sys_def) {
+	// Make sure the system def is valid before initializing.
+	if (!sys_def) {
+		_Destroy();
+		return false;
+	}
 
-	_alive = true;
-	_stopped = false;
-}
-
-
-//-----------------------------------------------------------------------------
-// Create: initializes the particle system from the definition
-//-----------------------------------------------------------------------------
-
-bool ParticleSystem::Create(const ParticleSystemDef *sys_def)
-{
+	// The pointer is set, yet it should never be deleted here.
 	_system_def = sys_def;
-	_max_particles = sys_def->max_particles;
 	_num_particles = 0;
 
-	_particles.resize(_max_particles);
-	_particle_vertices.resize(_max_particles * 4);
-	_particle_texcoords.resize(_max_particles * 4);
-	_particle_colors.resize(_max_particles * 4);
+	_particles.resize(_system_def->max_particles);
+	_particle_vertices.resize(_system_def->max_particles * 4);
+	_particle_texcoords.resize(_system_def->max_particles * 4);
+	_particle_colors.resize(_system_def->max_particles * 4);
 
 	_alive = true;
 	_stopped = false;
 	_age = 0.0f;
 
-	size_t num_frames = sys_def->animation_frame_filenames.size();
+	size_t num_frames = _system_def->animation_frame_filenames.size();
 
 	for(size_t j = 0; j < num_frames; ++j)
 	{
 		int32 frame_time;
-		if(j < sys_def->animation_frame_times.size())
-			frame_time = sys_def->animation_frame_times[j];
-		else if(sys_def->animation_frame_times.empty())
+		if(j < _system_def->animation_frame_times.size())
+			frame_time = _system_def->animation_frame_times[j];
+		else if(_system_def->animation_frame_times.empty())
 			frame_time = 0;
 		else
-			frame_time = sys_def->animation_frame_times.back();
+			frame_time = _system_def->animation_frame_times.back();
 
-		_animation.AddFrame(sys_def->animation_frame_filenames[j], frame_time);
+		_animation.AddFrame(_system_def->animation_frame_filenames[j], frame_time);
 	}
 
 	return true;
 }
 
-
-
-//-----------------------------------------------------------------------------
-// Draw: draws the particle system
-//-----------------------------------------------------------------------------
-
-bool ParticleSystem::Draw()
-{
-	if(!_system_def->enabled || _age < _system_def->emitter._start_time)
+bool ParticleSystem::Draw() {
+	if(!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time)
 		return true;
 
 	// set blending parameters
@@ -174,7 +155,8 @@ bool ParticleSystem::Draw()
 				if(_system_def->speed_scale_used)
 				{
 					// speed is magnitude of velocity
-					float speed = sqrtf(_particles[j].combined_velocity_x * _particles[j].combined_velocity_x + _particles[j].combined_velocity_y * _particles[j].combined_velocity_y);
+					float speed = sqrtf(_particles[j].combined_velocity_x * _particles[j].combined_velocity_x
+                                        + _particles[j].combined_velocity_y * _particles[j].combined_velocity_y);
 					float scale_factor = _system_def->speed_scale * speed;
 
 					if(scale_factor < _system_def->min_speed_scale)
@@ -320,12 +302,10 @@ bool ParticleSystem::Draw()
 		private_video::ImageTexture *img2 = id2->_image_texture;
 		TextureManager->_BindTexture(img2->texture_sheet->tex_id);
 
-
 		u1 = img2->u1;
 		u2 = img2->u2;
 		v1 = img2->v1;
 		v2 = img2->v2;
-
 
 		t = 0;
 		for(int32 j = 0; j < _num_particles; ++j)
@@ -350,8 +330,6 @@ bool ParticleSystem::Draw()
 			_particle_texcoords[t]._t1 = v2;
 			++t;
 		}
-
-
 
 		c = 0;
 		for(int32 j = 0; j < _num_particles; ++j)
@@ -389,7 +367,7 @@ bool ParticleSystem::Draw()
 
 bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
 {
-	if(!_system_def->enabled)
+	if(!_alive || !_system_def->enabled)
 		return true;
 
 	_age += frame_time;
@@ -423,8 +401,8 @@ bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
 
 			num_particles_to_emit = static_cast<int32>(time_high - time_low) - 1;
 
-			if(num_particles_to_emit + _num_particles > _max_particles)
-				num_particles_to_emit = _max_particles - _num_particles;
+			if(num_particles_to_emit + _num_particles > _system_def->max_particles)
+				num_particles_to_emit = _system_def->max_particles - _num_particles;
 		}
 		else
 		{
@@ -453,38 +431,26 @@ bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
 
 	// check if the system is dead
 	if(_num_particles == 0 && _stopped)
-	{
 		_alive = false;
-	}
 
 	_last_update_time = _age;
 	return true;
 }
 
-
-//-----------------------------------------------------------------------------
-// GetNumParticles: return the number of active particles
-//-----------------------------------------------------------------------------
-
-int32 ParticleSystem::GetNumParticles() const
+void ParticleSystem::_Destroy()
 {
-	return _num_particles;
-}
+	_num_particles = 0;
+	_age = 0.0f;
+	_last_update_time = 0.0f;
 
+	_alive = false;
+	_stopped = false;
 
-//-----------------------------------------------------------------------------
-// Destroy: destroys the system (when the effect is destroyed)
-//-----------------------------------------------------------------------------
-
-void ParticleSystem::Destroy()
-{
 	_particles.clear();
 	_particle_vertices.clear();
+	// Don't delete it, since it's handled by the ParticleEffectDef
+	_system_def = 0;
 }
-
-//-----------------------------------------------------------------------------
-// _UpdateParticles: helper function to update the positions and properties
-//-----------------------------------------------------------------------------
 
 void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 {
@@ -508,10 +474,10 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 				size_t k;
 				for(k = 0; k < num_keyframes; ++k)
 				{
-					if(_system_def->keyframes[k]->time > scaled_time)
+					if(_system_def->keyframes[k].time > scaled_time)
 					{
-						_particles[j].current_keyframe = _system_def->keyframes[k - 1];
-						_particles[j].next_keyframe    = _system_def->keyframes[k];
+						_particles[j].current_keyframe = &_system_def->keyframes[k - 1];
+						_particles[j].next_keyframe    = &_system_def->keyframes[k];
 						break;
 					}
 				}
@@ -520,7 +486,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 				// particle's time, then we are on the last one
 				if(k == num_keyframes)
 				{
-					_particles[j].current_keyframe = _system_def->keyframes[k - 1];
+					_particles[j].current_keyframe = &_system_def->keyframes[k - 1];
 					_particles[j].next_keyframe = NULL;
 
 					// set all of the keyframed properties to the value stored in the last
@@ -561,7 +527,6 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 			}
 		}
 
-
 		// if we aren't already at the last keyframe, interpolate to figure out the
 		// current keyframed properties
 		if(_particles[j].next_keyframe)
@@ -578,7 +543,6 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 			_particles[j].color[3]       = Lerp(a, _particles[j].current_keyframe->color[3] + _particles[j].current_color_variation[3], _particles[j].next_keyframe->color[3] + _particles[j].next_color_variation[3]);
 		}
 
-
 		_particles[j].rotation_angle += _particles[j].rotation_speed * _particles[j].rotation_direction * t;
 
 		float wind_velocity_x = _particles[j].wind_velocity_x;
@@ -590,8 +554,6 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 		if(_system_def->wave_motion_used && _particles[j].wave_half_amplitude > 0.0f)
 		{
 			// find the magnitude of the wave velocity
-// 			float half_amp = _particles[j].wave_half_amplitude; UNUSED VARIABLE
-// 			float wcoef = _particles[j].wave_length_coefficient; UNUSED VARIABLE
 			float wave_speed = _particles[j].wave_half_amplitude * sinf(_particles[j].wave_length_coefficient * _particles[j].time);
 
 			// now the wave velocity is just that wave speed times the particle's tangential vector
@@ -619,10 +581,8 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 		// radial acceleration: calculate unit vector from emitter center to this particle,
 		// and scale by the radial acceleration, if there is any
 
-
 		bool use_radial     = (_particles[j].radial_acceleration != 0.0f);
 		bool use_tangential = (_particles[j].tangential_acceleration != 0.0f);
-
 
 		if(use_radial || use_tangential)
 		{
@@ -641,7 +601,8 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 				attractor_to_particle_y = _particles[j].y - _system_def->emitter._center_y;
 			}
 
-			float distance = sqrtf(attractor_to_particle_x * attractor_to_particle_x + attractor_to_particle_y * attractor_to_particle_y);
+			float distance = sqrtf(attractor_to_particle_x * attractor_to_particle_x
+                                    + attractor_to_particle_y * attractor_to_particle_y);
 
 			if(distance != 0.0f)
 			{
@@ -679,7 +640,6 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 				_particles[j].velocity_y += tangent_y * _particles[j].tangential_acceleration * t;
 			}
 		}
-
 
 		// damp the velocity
 
@@ -719,7 +679,6 @@ void ParticleSystem::_KillParticles(int32 &num, const EffectParameters &params)
 			{
 				// kill the particle, i.e. move the particle at the end of the array to this
 				// particle's spot, and decrement _num_particles
-
 				if(j != _num_particles - 1)
 					_MoveParticle(_num_particles - 1, j);
 				--_num_particles;
@@ -824,28 +783,27 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
 	if(params.orientation != 0.0f)
 		RotatePoint(_particles[i].x, _particles[i].y, params.orientation);
 
-	_particles[i].color = _system_def->keyframes[0]->color;
+	_particles[i].color = _system_def->keyframes[0].color;
 
-	_particles[i].rotation_speed  = _system_def->keyframes[0]->rotation_speed;
+	_particles[i].rotation_speed  = _system_def->keyframes[0].rotation_speed;
 	_particles[i].time            = 0.0f;
-	_particles[i].size_x            = _system_def->keyframes[0]->size_x;
-	_particles[i].size_y            = _system_def->keyframes[0]->size_y;
+	_particles[i].size_x          = _system_def->keyframes[0].size_x;
+	_particles[i].size_y          = _system_def->keyframes[0].size_y;
 
 	if(_system_def->random_initial_angle)
 		_particles[i].rotation_angle = RandomFloat(0.0f, UTILS_2PI);
 	else
 		_particles[i].rotation_angle = 0.0f;
 
-	_particles[i].current_keyframe = _system_def->keyframes[0];
+	_particles[i].current_keyframe = &_system_def->keyframes[0];
 
 	if(_system_def->keyframes.size() > 1)
-		_particles[i].next_keyframe = _system_def->keyframes[1];
+		_particles[i].next_keyframe = &_system_def->keyframes[1];
 	else
 		_particles[i].next_keyframe = NULL;
 
 	float speed = _system_def->emitter._initial_speed;
 	speed += RandomFloat(-emitter._initial_speed_variation, emitter._initial_speed_variation);
-
 
 	if(_system_def->emitter._spin == EMITTER_SPIN_CLOCKWISE)
 	{
@@ -878,86 +836,106 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
 
 	// figure out property variations
 
-	_particles[i].current_size_variation_x  = RandomFloat(-_system_def->keyframes[0]->size_variation_x, _system_def->keyframes[0]->size_variation_x);
-	_particles[i].current_size_variation_y  = RandomFloat(-_system_def->keyframes[0]->size_variation_y, _system_def->keyframes[0]->size_variation_y);
+	_particles[i].current_size_variation_x  = RandomFloat(-_system_def->keyframes[0].size_variation_x,
+                                                          _system_def->keyframes[0].size_variation_x);
+	_particles[i].current_size_variation_y  = RandomFloat(-_system_def->keyframes[0].size_variation_y,
+                                                          _system_def->keyframes[0].size_variation_y);
 
-	for(int32 j = 0; j < 4; ++j)
-		_particles[i].current_color_variation[j] = RandomFloat(-_system_def->keyframes[0]->color_variation[j], _system_def->keyframes[0]->color_variation[j]);
+	for(int32 j = 0; j < 4; ++j) {
+		_particles[i].current_color_variation[j] = RandomFloat(-_system_def->keyframes[0].color_variation[j],
+                                                               _system_def->keyframes[0].color_variation[j]);
+	}
 
-	_particles[i].current_rotation_speed_variation = RandomFloat(-_system_def->keyframes[0]->rotation_speed_variation, _system_def->keyframes[0]->rotation_speed_variation);
+	_particles[i].current_rotation_speed_variation = RandomFloat(-_system_def->keyframes[0].rotation_speed_variation,
+                                                                 _system_def->keyframes[0].rotation_speed_variation);
 
 	if(_system_def->keyframes.size() > 1)
 	{
 		// figure out the next keyframe's variations
-		_particles[i].next_size_variation_x  = RandomFloat(-_system_def->keyframes[1]->size_variation_x, _system_def->keyframes[1]->size_variation_x);
-		_particles[i].next_size_variation_y  = RandomFloat(-_system_def->keyframes[1]->size_variation_y, _system_def->keyframes[1]->size_variation_y);
+		_particles[i].next_size_variation_x  = RandomFloat(-_system_def->keyframes[1].size_variation_x,
+                                                           _system_def->keyframes[1].size_variation_x);
+		_particles[i].next_size_variation_y  = RandomFloat(-_system_def->keyframes[1].size_variation_y,
+                                                           _system_def->keyframes[1].size_variation_y);
 
-		for(int32 j = 0; j < 4; ++j)
-			_particles[i].next_color_variation[j] = RandomFloat(-_system_def->keyframes[1]->color_variation[j], _system_def->keyframes[1]->color_variation[j]);
+		for(int32 j = 0; j < 4; ++j) {
+			_particles[i].next_color_variation[j] = RandomFloat(-_system_def->keyframes[1].color_variation[j],
+                                                                _system_def->keyframes[1].color_variation[j]);
+		}
 
-		_particles[i].next_rotation_speed_variation = RandomFloat(-_system_def->keyframes[1]->rotation_speed_variation, _system_def->keyframes[1]->rotation_speed_variation);
+		_particles[i].next_rotation_speed_variation = RandomFloat(-_system_def->keyframes[1].rotation_speed_variation,
+                                                                  _system_def->keyframes[1].rotation_speed_variation);
 	}
 	else
 	{
 		// if there's only 1 keyframe, then apply the variations now
-		for(int32 j = 0; j < 4; ++j)
-			_particles[i].color[j] += RandomFloat(-_particles[i].current_color_variation[j], _particles[i].current_color_variation[j]);
+		for(int32 j = 0; j < 4; ++j) {
+			_particles[i].color[j] += RandomFloat(-_particles[i].current_color_variation[j],
+                                                  _particles[i].current_color_variation[j]);
+		}
 
-		_particles[i].size_x += RandomFloat(-_particles[i].current_size_variation_x, _particles[i].current_size_variation_x);
-		_particles[i].size_y += RandomFloat(-_particles[i].current_size_variation_y, _particles[i].current_size_variation_y);
+		_particles[i].size_x += RandomFloat(-_particles[i].current_size_variation_x,
+                                      _particles[i].current_size_variation_x);
+		_particles[i].size_y += RandomFloat(-_particles[i].current_size_variation_y,
+                                            _particles[i].current_size_variation_y);
 
-		_particles[i].rotation_speed += RandomFloat(-_particles[i].current_rotation_speed_variation, _particles[i].current_rotation_speed_variation);
+		_particles[i].rotation_speed += RandomFloat(-_particles[i].current_rotation_speed_variation,
+                                                    _particles[i].current_rotation_speed_variation);
 	}
 
 	_particles[i].tangential_acceleration = _system_def->tangential_acceleration;
 	if(_system_def->tangential_acceleration_variation != 0.0f)
-		_particles[i].tangential_acceleration += RandomFloat(-_system_def->tangential_acceleration_variation, _system_def->tangential_acceleration_variation);
+		_particles[i].tangential_acceleration += RandomFloat(-_system_def->tangential_acceleration_variation,
+                                                             _system_def->tangential_acceleration_variation);
 
 	_particles[i].radial_acceleration = _system_def->radial_acceleration;
 	if(_system_def->radial_acceleration_variation != 0.0f)
-		_particles[i].radial_acceleration += RandomFloat(-_system_def->radial_acceleration_variation, _system_def->radial_acceleration_variation);
+		_particles[i].radial_acceleration += RandomFloat(-_system_def->radial_acceleration_variation,
+                                                         _system_def->radial_acceleration_variation);
 
 	_particles[i].acceleration_x = _system_def->acceleration_x;
 	if(_system_def->acceleration_variation_x != 0.0f)
-		_particles[i].acceleration_x += RandomFloat(-_system_def->acceleration_variation_x, _system_def->acceleration_variation_x);
+		_particles[i].acceleration_x += RandomFloat(-_system_def->acceleration_variation_x,
+                                                    _system_def->acceleration_variation_x);
 
 	_particles[i].acceleration_y = _system_def->acceleration_y;
 	if(_system_def->acceleration_variation_y != 0.0f)
-		_particles[i].acceleration_y += RandomFloat(-_system_def->acceleration_variation_y, _system_def->acceleration_variation_y);
+		_particles[i].acceleration_y += RandomFloat(-_system_def->acceleration_variation_y,
+                                                    _system_def->acceleration_variation_y);
 
 	_particles[i].wind_velocity_x = _system_def->wind_velocity_x;
 	if(_system_def->wind_velocity_variation_x != 0.0f)
-		_particles[i].wind_velocity_x += RandomFloat(-_system_def->wind_velocity_variation_x, _system_def->wind_velocity_variation_x);
+		_particles[i].wind_velocity_x += RandomFloat(-_system_def->wind_velocity_variation_x,
+                                                     _system_def->wind_velocity_variation_x);
 
 	_particles[i].wind_velocity_y = _system_def->wind_velocity_y;
 	if(_system_def->wind_velocity_variation_y != 0.0f)
-		_particles[i].wind_velocity_y += RandomFloat(-_system_def->wind_velocity_variation_y, _system_def->wind_velocity_variation_y);
+		_particles[i].wind_velocity_y += RandomFloat(-_system_def->wind_velocity_variation_y,
+                                                     _system_def->wind_velocity_variation_y);
 
 	_particles[i].damping = _system_def->damping;
 	if(_system_def->damping_variation != 0.0f)
-		_particles[i].damping += RandomFloat(-_system_def->damping_variation, _system_def->damping_variation);
+		_particles[i].damping += RandomFloat(-_system_def->damping_variation,
+                                             _system_def->damping_variation);
 
 	if(_system_def->wave_motion_used)
 	{
 		_particles[i].wave_length_coefficient = _system_def->wave_length;
 		if(_system_def->wave_length_variation != 0.0f)
-			_particles[i].wave_length_coefficient += RandomFloat(-_system_def->wave_length_variation, _system_def->wave_length_variation);
+			_particles[i].wave_length_coefficient += RandomFloat(-_system_def->wave_length_variation,
+                                                                 _system_def->wave_length_variation);
 
 		_particles[i].wave_length_coefficient = UTILS_2PI / _particles[i].wave_length_coefficient;
 
 		_particles[i].wave_half_amplitude = _system_def->wave_amplitude;
 		if(_system_def->wave_amplitude != 0.0f)
-			_particles[i].wave_half_amplitude += RandomFloat(-_system_def->wave_amplitude_variation, _system_def->wave_amplitude_variation);
+			_particles[i].wave_half_amplitude += RandomFloat(-_system_def->wave_amplitude_variation,
+                                                             _system_def->wave_amplitude_variation);
 		_particles[i].wave_half_amplitude *= 0.5f;
 	}
 
-	_particles[i].lifetime = _system_def->particle_lifetime + RandomFloat(-_system_def->particle_lifetime_variation, _system_def->particle_lifetime_variation);
-}
-
-
-float ParticleSystem::GetAge() const
-{
-	return _age;
+	_particles[i].lifetime = _system_def->particle_lifetime
+	                        + RandomFloat(-_system_def->particle_lifetime_variation,
+                                          _system_def->particle_lifetime_variation);
 }
 
 }  // namespace hoa_mode_manager

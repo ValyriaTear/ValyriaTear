@@ -97,16 +97,19 @@ void BindEngineCode() {
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
 		luabind::class_<ParticleEffect>("ParticleEffect")
+			.def(luabind::constructor<>())
+			.def(luabind::constructor<const std::string&>())
+			.def("LoadEffect", &ParticleEffect::LoadEffect)
 			.def("IsAlive", &ParticleEffect::IsAlive)
 			.def("Move", &ParticleEffect::Move)
 			.def("Stop", &ParticleEffect::Stop)
+			.def("Start", &ParticleEffect::Start)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
 	[
 		luabind::class_<ParticleManager>("ParticleManager")
 			.def("AddParticleEffect", &ParticleManager::AddParticleEffect)
-			.def("RestartParticleEffect", &ParticleManager::RestartParticleEffect)
 			.def("StopAll", &ParticleManager::StopAll)
 	];
 

@@ -39,17 +39,16 @@ class ParticleKeyframe
 {
 public:
 
-	ParticleKeyframe()
-	: size_x(0.0f),
-	  size_y(0.0f),
-	  color(0.0f, 0.0f, 0.0f, 0.0f),
-	  rotation_speed(0.0f),
-	  size_variation_x(0.0f),
-	  size_variation_y(0.0f),
-	  rotation_speed_variation(0.0f),
-	  color_variation(0.0f, 0.0f, 0.0f, 0.0f)
-	{
-	}
+	ParticleKeyframe():
+		size_x(0.0f),
+		size_y(0.0f),
+		color(0.0f, 0.0f, 0.0f, 0.0f),
+		rotation_speed(0.0f),
+		size_variation_x(0.0f),
+		size_variation_y(0.0f),
+		rotation_speed_variation(0.0f),
+		color_variation(0.0f, 0.0f, 0.0f, 0.0f)
+	{}
 
 	//! width and height scale. 1.0 means to use the normal height
 	float size_x;

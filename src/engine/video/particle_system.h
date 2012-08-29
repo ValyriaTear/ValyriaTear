@@ -62,19 +62,68 @@ enum VIDEO_STENCIL_OP {
 class EffectParameters
 {
 public:
+	EffectParameters():
+		orientation(0.0f),
+		attractor_x(0.0f),
+		attractor_y(0.0f)
+	{}
 
 	//! orientation of the effect, called with ParticleEffect::SetOrientation()
 	float orientation;
 
 	//! attraction point, particles gravitate towards this
-	float attractor_x, attractor_y;
+	float attractor_x;
+	float attractor_y;
 };
 
 
 class ParticleSystemDef
 {
 public:
+	ParticleSystemDef():
+		enabled(false),
+		blend_mode(0),
+		system_lifetime(0.0f),
+		particle_lifetime(0.0f),
+		particle_lifetime_variation(0.0f),
+		max_particles(0),
+		damping(0.0f),
+		damping_variation(0.0f),
+		acceleration_x(0.0f),
+		acceleration_y(0.0f),
+		acceleration_variation_x(0.0f),
+		acceleration_variation_y(0.0f),
+		wind_velocity_x(0.0f),
+		wind_velocity_y(0.0f),
+		wind_velocity_variation_x(0.0f),
+		wind_velocity_variation_y(0.0f),
+		wave_motion_used(false),
+		wave_length(0.0f),
+		wave_length_variation(0.0f),
+		wave_amplitude(0.0f),
+		wave_amplitude_variation(0.0f),
+		tangential_acceleration(0.0f),
+		tangential_acceleration_variation(0.0f),
+		radial_acceleration(0.0f),
+		radial_acceleration_variation(0.0f),
+		user_defined_attractor(false),
+		attractor_falloff(0.0f),
+		rotation_used(false),
+		rotate_to_velocity(false),
+		speed_scale_used(false),
+		speed_scale(0.0f),
+		min_speed_scale(0.0f),
+		max_speed_scale(0.0f),
+		smooth_animation(false),
+		modify_stencil(false),
+		stencil_op(VIDEO_STENCIL_OP_INVALID),
+		use_stencil(false),
+		scene_lighting(0.0f),
+		random_initial_angle(false)
+	{}
 
+	~ParticleSystemDef()
+	{}
 
 	//! Is this system supposed to be displayed
 	bool enabled;
@@ -85,7 +134,7 @@ public:
 
 	//! Array of keyframes, which specify how particle properties vary over time. This array must
 	//! contain at least 1 keyframe (in that case, the properties are all held constant)
-	std::vector <ParticleKeyframe *> keyframes;
+	std::vector<ParticleKeyframe> keyframes;
 
 	//! How to blend the particles: VIDEO_NO_BLEND, VIDEO_BLEND, or VIDEO_BLEND_ADD
 	//! For most effects, we want VIDEO_BLEND_ADD
@@ -131,7 +180,7 @@ public:
 	float wind_velocity_variation_y;
 
 	//! true if we should use wave motion for this system
-	bool  wave_motion_used;
+	bool wave_motion_used;
 
 	//! wavelength. For example a wavelength of 5 means that it takes 5 seconds to go from
 	//! one point on the sinusoidal curve to the next
@@ -180,26 +229,21 @@ public:
 	//! that is going 45 degrees northeast will be rotated 45 degrees clockwise
 	bool rotate_to_velocity;
 
-
 	//! true if speed scaling is used. Note that speed scaling can only be used if
 	//! rotate to velocity is also used.
 	bool speed_scale_used;
-
 
 	//! this number is multiplied by a particle's speed to come up with a scale of how much
 	//! to stretch a particle in its direction of motion
 	float speed_scale;
 
-
 	//! if you use speed_scale, this can cause particles to become extremely tiny at low speeds
 	//! this variable allows you to set a minimum bound on the scaling due to speed
 	float min_speed_scale;
 
-
 	//! if you use speed_scale, this can cause particles to become extremely large at high speeds
 	//! this variable allows you to set a maximum bound on the scaling due to speed
 	float max_speed_scale;
-
 
 	//! True if alpha blending should be used to create smooth transitions between animation
 	//! frames
@@ -213,14 +257,11 @@ public:
 	//! if modify stencil is true, then the operation to use when the alpha test passes
 	//! can either be VIDEO_STENCIL_OP_INCREASE, VIDEO_STENCIL_OP_ONE, VIDEO_STENCIL_OP_ZERO, or
 	//! VIDEO_STENCIL_OP_DECREASE. The stencil test we use is "equal to 1"
-
 	VIDEO_STENCIL_OP stencil_op;
-
 
 	//! if this is true, then we only draw in areas where the stencil buffer contains a 1.
 	//! Note that _use_stencil and _modify_stencil cannot both be 1 at the same time
 	bool use_stencil;
-
 
 	//! Value from 0 to 1.0f, tells how strongly to modulate the particle colors by the scene
 	//! lighting. If 0, then it's not weighted at all. If 1, then we multiply the particle color
@@ -228,18 +269,15 @@ public:
 	//! is somewhere between white and the scene lighting color, and modulate with that.
 	float scene_lighting;
 
-
 	//! true if particles' initial angle should be randomized. If false, then all particles
 	//! have an angle of zero when they spawn
 	bool random_initial_angle;
 
-
 	//! Array telling how long each animation should last for
-	std::vector <int32>       animation_frame_times;
-
+	std::vector<int32> animation_frame_times;
 
 	//! Array of filenames for each frame of animation
-	std::vector <std::string> animation_frame_filenames;
+	std::vector<std::string> animation_frame_filenames;
 
 }; // class ParticleSystemDef
 
@@ -248,28 +286,20 @@ public:
 class ParticleSystem
 {
 public:
-
 	/*!
 	 *  \brief Constructor
 	 */
-	ParticleSystem();
+	ParticleSystem(ParticleSystemDef* sys_def)
+	{ _Destroy(); _Create(sys_def); }
 
-
-	/*!
-	 *  \brief initializes this particle system as an instance of the
-	 *         type of particle system specified by the ParticleSystemDef
-	 * \param sys_def particle definition to base the system off of
-	 * \return success/failure
-	 */
-	bool Create(const ParticleSystemDef *sys_def);
-
+	~ParticleSystem()
+	{ _Destroy(); }
 
 	/*!
 	 *  \brief draws the system
 	 * \return success/failure
 	 */
 	bool Draw();
-
 
 	/*!
 	 *  \brief updates the system
@@ -278,13 +308,6 @@ public:
 	 * \return success/failure
 	 */
 	bool Update(float frame_time, const EffectParameters &params);
-
-
-	/*!
-	 *  \brief destroys the system
-	 */
-	void Destroy();
-
 
 	/*!
 	 *  \brief returns true if system is still alive
@@ -310,16 +333,29 @@ public:
 	 *  \brief returns how many particles are alive in this system
 	 * \return the number of particles in this system
 	 */
-	int32 GetNumParticles() const;
+	int32 GetNumParticles() const
+	{ return _num_particles; }
 
 	/*!
 	 *  \brief returns the number of seconds since this system was created
 	 * \return the age of the system
 	 */
-	float GetAge() const;
+	float GetAge() const
+	{ return _age; }
 
 private:
+	/*!
+	 *  \brief initializes this particle system as an instance of the
+	 *         type of particle system specified by the ParticleSystemDef
+	 * \param sys_def particle definition to base the system off of
+	 * \return success/failure
+	 */
+	bool _Create(ParticleSystemDef* sys_def);
 
+	/*!
+	 *  \brief destroys the system
+	 */
+	void _Destroy();
 
 	/*!
 	 *  \brief helper function to update properties of particles
@@ -327,7 +363,6 @@ private:
 	 * \param params the effect parameters to use for this update (orientation and attractor point)
 	 */
 	void _UpdateParticles(float t, const EffectParameters &params);
-
 
 	/*!
 	 *  \brief helper function to kill off any particles that have died
@@ -343,7 +378,6 @@ private:
 	 */
 	void _KillParticles(int32 &num_particles, const EffectParameters &params);
 
-
 	/*!
 	 *  \brief helper function that emits whatever particles still need to be
 	 *         emitted after calling _KillParticles
@@ -351,7 +385,6 @@ private:
 	 * \param params the effect parameters to use for this update (orientation and attractor point)
 	 */
 	void _EmitParticles(int32 num_particles, const EffectParameters &params);
-
 
 	/*!
 	 *  \brief helper function to move a particle from element src to element dest
@@ -362,7 +395,6 @@ private:
 	 */
 	void _MoveParticle(int32 src, int32 dest);
 
-
 	/*!
 	 *  \brief creates a new particle at element i in the particle array
 	 * \param i index of the particle to respawn
@@ -370,16 +402,14 @@ private:
 	 */
 	void _RespawnParticle(int32 i, const EffectParameters &params);
 
-
 	//! The system definition, contains information like the emitter properties, lifetime of
 	//! particles, particle keyframes, etc. Basically everything which isn't instance-specific
-	const ParticleSystemDef *_system_def;
+	//! Note that this pointer shouldn't be deleted by the particle system, since it's handled by
+	//! the corresponding ParticleEffectDef instance.
+	ParticleSystemDef *_system_def;
 
 	//! Animation for each particle. If it's non-animated, it just has 1 frame
 	hoa_video::AnimatedImage _animation;
-
-	//! Total number of particles that this system can have
-	int32 _max_particles;
 
 	//! Number of active particles in this system. (The size of the vectors may be larger, since
 	//! we might set a particle quota for the system which is higher than what's actually there.)
@@ -387,13 +417,13 @@ private:
 
 	//! The array of particle vertices. Note that this array contains FOUR vertices per particle.
 	//! This is used for rendering the particles with OpenGL
-	std::vector <ParticleVertex>   _particle_vertices;
-	std::vector <hoa_video::Color> _particle_colors;
-	std::vector <ParticleTexCoord> _particle_texcoords;
+	std::vector<ParticleVertex> _particle_vertices;
+	std::vector<hoa_video::Color> _particle_colors;
+	std::vector<ParticleTexCoord> _particle_texcoords;
 
 	//! This array holds everything except positions and colors. The reason we keep positions and
 	//! colors separate is so that they can be efficiently fed to OpenGL for rendering.
-	std::vector <Particle>     _particles;
+	std::vector<Particle> _particles;
 
 	//! if stopped is true, no new particles should be emitted
 	bool _stopped;

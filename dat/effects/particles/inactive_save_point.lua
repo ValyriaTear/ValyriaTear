@@ -11,22 +11,22 @@ systems[0] =
 {
 	emitter =
 	{
-		x = 0/32,
-		y = -64/32,
+		x = 0,
+		y = -64,
 		x2 = 0, --useless when using a circle shape
 		y2 = 0, --useless when using a circle shape
 		center_x = 0,  --useless when using a circle shape
 		center_y = 0,  --useless when using a circle shape
 		x_variation = 0,
 		y_variation = 0,
-		radius = 70/32,
+		radius = 70,
 		shape = 'circle outline',
 		omnidirectional = false,
 		orientation = -1.6, --up
 		outer_cone = 0.0,
 		inner_cone = 0,
-		initial_speed = 50/32, -- Change this when active
-		initial_speed_variation = 15/32,
+		initial_speed = 50, -- Change this when active
+		initial_speed_variation = 15,
 		emission_rate = 50, -- Change this when active save point
 		start_time = 0,
 		emitter_mode = 'looping',
@@ -36,24 +36,24 @@ systems[0] =
 	keyframes =
 	{
 		{  -- keyframe 1
-			size_x = 0.6/32,
-			size_y = 0.6/32,
+			size_x = 0.6,
+			size_y = 0.62,
 			color={0.5, 0.5, 1.0, 0.6},
-			rotation_speed = 0.0, -- 5
-			size_variation_x = 0.2/32,
-			size_variation_y = 0.2/32,
+			rotation_speed = 0.0,
+			size_variation_x = 0.2,
+			size_variation_y = 0.2,
 			rotation_speed_variation = 0.0,
 			color_variation = {0.3, 0.3, 0.0, 0.0},
 			time = 0.0
 		},
 
 		{  -- keyframe 2
-			size_x = 0.3/32,
-			size_y = 0.3/32,
+			size_x = 0.3,
+			size_y = 0.3,
 			color={0.5, 0.5, 1, 0.4},
 			rotation_speed = 0.0,
-			size_variation_x = 0.2/32,
-			size_variation_y = 0.2/32,
+			size_variation_x = 0.2,
+			size_variation_y = 0.2,
 			rotation_speed_variation = 0.0,
 			color_variation = {0.0, 0.0, 0.0, 0.0},
 			time = 1.0

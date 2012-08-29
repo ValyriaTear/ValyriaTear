@@ -92,6 +92,28 @@ enum EMITTER_MODE
 class ParticleEmitter
 {
 public:
+	ParticleEmitter():
+		_x(0.0f),
+		_y(0.0f),
+		_x2(0.0f),
+		_y2(0.0f),
+		_center_x(0.0f),
+		_center_y(0.0f),
+		_x_variation(0.0f),
+		_y_variation(0.0f),
+		_radius(0.0f),
+		_shape(EMITTER_SHAPE_INVALID),
+		_omnidirectional(false),
+		_orientation(0.0f),
+		_outer_cone(0.0f),
+		_inner_cone(0.0f),
+		_initial_speed(0.0f),
+		_initial_speed_variation(0.0f),
+		_emission_rate(0.0f),
+		_start_time(0.0f),
+		_emitter_mode(EMITTER_MODE_INVALID),
+		_spin(EMITTER_SPIN_INVALID)
+	{}
 
 	//! position of emitter, or in the case of line or rectangle emitters, this is
 	//! one point/corner of the emitter

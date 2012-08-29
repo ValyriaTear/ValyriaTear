@@ -39,6 +39,10 @@ namespace hoa_mode_manager
 class ParticleVertex
 {
 public:
+    ParticleVertex():
+		_x(0.0f),
+		_y(0.0f)
+	{}
 
 	//! position of 1 vertex of the particle's quad
 	float _x;
@@ -54,6 +58,10 @@ public:
 class ParticleTexCoord
 {
 public:
+    ParticleTexCoord():
+		_t0(0.0f),
+		_t1(0.0f)
+	{}
 
 	//! texture coordinates for 1 vertex of the particle's quad
 	float _t0;
@@ -69,18 +77,50 @@ public:
 class Particle
 {
 public:
+	Particle():
+		x(0.0f),
+		y(0.0f),
+		size_x(0.0f),
+		size_y(0.0f),
+		velocity_x(0.0f),
+		velocity_y(0.0f),
+		combined_velocity_x(0.0f),
+		combined_velocity_y(0.0f),
+		rotation_angle(0.0f),
+		rotation_speed(0.0f),
+		time(0.0f),
+		lifetime(0.0f),
+		wave_length_coefficient(0.0f),
+		wave_half_amplitude(0.0f),
+		acceleration_x(0.0f),
+		acceleration_y(0.0f),
+		tangential_acceleration(0.0f),
+		radial_acceleration(0.0f),
+		wind_velocity_x(0.0f),
+		wind_velocity_y(0.0f),
+		damping(0.0f),
+		rotation_direction(0.0f),
+		current_size_variation_x(0.0f),
+		current_size_variation_y(0.0f),
+		next_size_variation_x(0.0f),
+		next_size_variation_y(0.0f),
+		current_rotation_speed_variation(0.0f),
+		next_rotation_speed_variation(0.0f),
+		current_keyframe(NULL),
+		next_keyframe(NULL)
+	{}
 
 	//! position
-	float  x;
-	float  y;
+	float x;
+	float y;
 
 	//! size
-	float  size_x;
-	float  size_y;
+	float size_x;
+	float size_y;
 
 	//! velocity
-	float  velocity_x;
-	float  velocity_y;
+	float velocity_x;
+	float velocity_y;
 
 	//! store the combined velocity (particle + wind + wave) so we only have
 	//! to calculate it once
@@ -88,19 +128,19 @@ public:
 	float combined_velocity_y;
 
 	//! color
-	hoa_video::Color  color;
+	hoa_video::Color color;
 
 	//! current rotation angle
-	float  rotation_angle;
+	float rotation_angle;
 
 	//! rotation speed
-	float  rotation_speed;
+	float rotation_speed;
 
 	//! seconds since particle was spawned
-	float  time;
+	float time;
 
 	//! lifetime (when the particle is supposed to die)
-	float  lifetime;
+	float lifetime;
 
 	//! this is 2 * pi / wavelength. The reason we store this weird
 	//! number instead of the wavelength is because that's what we

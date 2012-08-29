@@ -37,6 +37,8 @@
 #include "defs.h" // TODO: Get rid of this bad practice
 #include "utils.h"
 
+#include "engine/video/particle_system.h"
+
 namespace hoa_map {
     namespace private_map {
         class ParticleObject;
@@ -54,6 +56,16 @@ namespace hoa_mode_manager
 class ParticleEffectDef
 {
 public:
+    ParticleEffectDef():
+		effect_collision_width(0.0f),
+		effect_collision_height(0.0f)
+	{}
+
+	void Clear() {
+		effect_collision_width = 0.0f;
+		effect_collision_height = 0.0f;
+		_systems.clear();
+	}
 
 	/** The effect size in pixels, used to know when to display it when it used as
 	*** a map object fir instance. It is used to compute the image rectangle.
@@ -63,7 +75,7 @@ public:
 	float effect_collision_height;
 
 	//! list of system definitions
-	std::list<ParticleSystemDef *> _systems;
+	std::vector<ParticleSystemDef> _systems;
 };
 
 
@@ -80,8 +92,19 @@ public:
 	/*!
 	 *  \brief Constructor
 	 */
-	ParticleEffect();
+	ParticleEffect()
+	{ _Destroy(); }
 
+	ParticleEffect(const std::string& effect_filename)
+	{ _Destroy(); LoadEffect(effect_filename); }
+
+	/** Create a particle effect without registering it to the particle manager.
+	*** It is useful managing a particle effect as a map object, for instance,
+	*** as one can control the drawing order.
+	*** \param filename The particle effect filename to load
+	*** \return whether the effect is valid.
+	**/
+	bool LoadEffect(const std::string& effect_filename);
 
 	/*!
 	 *  \brief moves the effect to the specified position on the screen,
@@ -93,14 +116,12 @@ public:
 	 */
 	void Move(float x, float y);
 
-
 	/*!
 	 *  \brief moves the effect dx and dy units relative to its current position
 	 * \param dx x offset to move to from current x position
 	 * \param dy y offset to move to from current y position
 	 */
 	void MoveRelative(float dx, float dy);
-
 
 	/*!
 	 *  \brief set the orientation of the effect (including all systems contained
@@ -111,8 +132,8 @@ public:
 	 *         frame with the angle the jet is facing.
 	 * \param angle rotation of particle system
 	 */
-	void SetOrientation(float angle);
-
+	void SetOrientation(float angle)
+	{ _orientation = angle; }
 
 	/*!
 	 *  \brief set the position of an "attractor point". Any particle systems which use
@@ -126,15 +147,14 @@ public:
 	 */
 	void SetAttractorPoint(float x, float y);
 
-
 	/*!
 	 *  \brief returns true if the system is alive, i.e. the number of active
 	 *         particles is more than zero. This is used by the particle manager
-	 *         so it knows when to destroy an effect.
+	 *         so it knows when to destroy an effect when registered to it.
 	 * \return true if system is alive, false if dead
 	 */
-	bool IsAlive();
-
+	bool IsAlive() const
+	{ return _alive; }
 
 	/*!
 	 *  \brief stops this effect
@@ -143,15 +163,23 @@ public:
 	 *                        it isn't true, then we stop the effect from emitting
 	 *                        new particles, and allow it to live until all the active
 	 *                        particles fizzle out.
+	 *  \note When registered in the particle Manager, the effect will be destroyed
+	 *        at its end of life.
 	 */
 	void Stop(bool kill_immediate = false);
+
+	/*!
+	 *  \brief starts this effect
+	 *  \return whether the effect was started.
+	 */
+	bool Start();
 
 	/*!
 	 *  \brief return the number of active particles in this effect
 	 * \return number of particles in the system
 	 */
-	int32 GetNumParticles() const;
-
+	int32 GetNumParticles() const
+	{ return _num_particles; }
 
 	/*!
 	 *  \brief return the position of the effect into x and y
@@ -160,52 +188,67 @@ public:
 	 */
 	void GetPosition(float &x, float &y) const;
 
-
 	/*!
 	 *  \brief return the age of the system, i.e. how many seconds it has been since
 	 *         it was created
 	 * \return age of the system
 	 */
-	float GetAge() const;
+	float GetAge() const
+	{ return _age; }
 
 	//! \brief Get the overall effect width/height in pixels.
-	float GetEffectWidth()
-	{ return _effect_def->effect_collision_width; }
-	float GetEffectHeight()
-	{ return _effect_def->effect_collision_height; }
+	float GetEffectWidth() const
+	{ return _effect_def.effect_collision_width; }
+	float GetEffectHeight() const
+	{ return _effect_def.effect_collision_height; }
 
-private:
+	bool IsLoaded() const
+	{ return _loaded; }
 
 	/*!
-	 *  \brief draws the effect. This is private so that only the ParticleManager class
-	 *         can draw effects.
+	 * \brief draws the effect.
 	 * \return success/failure
 	 */
-	bool _Draw();
-
+	bool Draw();
 
 	/*!
-	 *  \brief updates the effect. This is private so that only the ParticleManager class
-	 *         can update effects.
+	 * \brief updates the effect.
 	 * \param the new frame time
 	 * \return success/failure
 	 */
-	bool _Update(float frame_time);
-
-
+	bool Update(float frame_time);
+private:
 	/*!
-	 *  \brief destroys the effect. This is private so that only the ParticleManager class
+	 * \brief destroys the effect. This is private so that only the ParticleManager class
 	 *         can destroy effects.
 	 */
 	void _Destroy();
 
+	/*!
+	 * \brief loads an effect definition from a particle file
+	 * \param filename file to load the effect from
+	 * \return Whether the effect def is valid
+	 */
+	bool _LoadEffectDef(const std::string& filename);
 
-	//! pointer to the effect definition
-	const ParticleEffectDef *_effect_def;
+	/** Creates the effect based on the particle effect definition.
+	*** _LoadEffectDef() must be called before this one.
+	**/
+	bool _CreateEffect();
+
+	//! \brief Helper function used to read a color subtable.
+	hoa_video::Color _ReadColor(hoa_script::ReadScriptDescriptor& particle_script,
+								        const std::string& param_name);
+
+	//! The effect definition
+	ParticleEffectDef _effect_def;
 
 	//! list of subsystems that make up the effect. (for example, a fire effect might consist
 	//! of a flame + smoke + embers)
-	std::list <ParticleSystem*> _systems;
+	std::vector<ParticleSystem> _systems;
+
+	//! Tells whether the effect definition and systems arewere successfully loaded
+	bool _loaded;
 
 	//! position of the effect
 	float _x, _y;
@@ -224,10 +267,6 @@ private:
 
 	//! number of active particles (this is updated on each call to Update())
 	int32 _num_particles;
-
-	friend class hoa_mode_manager::ParticleManager;
-	friend class hoa_map::private_map::ParticleObject;
-
 }; // class ParticleEffect
 
 }  // namespace hoa_mode_manager
