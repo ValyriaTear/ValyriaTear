@@ -1064,20 +1064,25 @@ void BattleMode::_DrawBottomMenu() {
 		VideoManager->MoveRelative(4.0f, -4.0f);
 	}
 
-	// If the player is selecting a command for a particular character, draw that character's portrait
-	if (_command_supervisor->GetCommandCharacter() != NULL)
-		_command_supervisor->GetCommandCharacter()->DrawPortrait();
+	if (_state != BATTLE_STATE_DEFEAT && _state != BATTLE_STATE_VICTORY) {
+		// If the player is selecting a command for a particular character,
+		// draw that character's portrait
+		if (_command_supervisor->GetCommandCharacter())
+			_command_supervisor->GetCommandCharacter()->DrawPortrait();
 
-	// Draw the highlight images for the character that a command is being selected for (if any) and/or any characters
-	// that are in the "command" state. The latter indicates that these characters needs a command selected as soon as possible
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		if (_character_actors[i] == _command_supervisor->GetCommandCharacter()) {
-			VideoManager->Move(148.0f, 85.0f - (25.0f * i));
-			_battle_media.character_selected_highlight.Draw();
-		}
-		else if (_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
-			VideoManager->Move(148.0f, 85.0f - (25.0f * i));
-			_battle_media.character_command_highlight.Draw();
+		// Draw the highlight images for the character that a command
+		// is being selected for (if any) and/or any characters.
+		// that are in the "command" state. The latter indicates that
+		// these characters needs a command selected as soon as possible
+		for (uint32 i = 0; i < _character_actors.size(); ++i) {
+			if (_character_actors[i] == _command_supervisor->GetCommandCharacter()) {
+				VideoManager->Move(148.0f, 85.0f - (25.0f * i));
+				_battle_media.character_selected_highlight.Draw();
+			}
+			else if (_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
+				VideoManager->Move(148.0f, 85.0f - (25.0f * i));
+				_battle_media.character_command_highlight.Draw();
+			}
 		}
 	}
 
