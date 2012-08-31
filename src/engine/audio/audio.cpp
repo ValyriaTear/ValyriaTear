@@ -375,10 +375,9 @@ void AudioEngine::PlaySound(const std::string& filename) {
 	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
-		// Get the current game mode, so that the loading/freeing micro management
-		// is handled the most possible.
-		hoa_mode_manager::GameMode *gm = hoa_mode_manager::ModeManager->GetTop();
-		if (!LoadSound(filename, gm)) {
+		// Don't check the current game mode to prevent the sound unloading in certain cases.
+		// We'll let the audio cache handle it all atm.
+		if (!LoadSound(filename)) {
 			IF_PRINT_WARNING(AUDIO_DEBUG)
 			    << "could not play sound from cache because "
 			    "the sound could not be loaded" << std::endl;
