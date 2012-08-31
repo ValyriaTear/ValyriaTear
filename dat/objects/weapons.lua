@@ -88,6 +88,8 @@ weapons[11001] = {
 	name = hoa_system.Translate("Arbalest"),
 	description = hoa_system.Translate("A standard wooden arbalest."),
 	icon = "img/icons/weapons/arbalest.png",
+	-- The image displayed when kalya fires with her arbalest.
+	battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
 	physical_attack = 3,
 	metaphysical_attack = 0,
 	standard_price = 50,

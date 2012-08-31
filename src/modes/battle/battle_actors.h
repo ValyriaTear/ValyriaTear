@@ -279,56 +279,62 @@ public:
 	//! \name Class member access methods
 	//@{
 	ACTOR_STATE GetState() const
-		{ return _state; }
+	{ return _state; }
 
 	hoa_global::GlobalActor* GetGlobalActor()
-		{ return _global_actor; }
+	{ return _global_actor; }
+
+	void SetShowAmmo(bool show)
+	{ _show_ammo = show; }
+
+	void SetAmmoPosition(float x, float y)
+	{ _ammo_x = x; _ammo_y = y; }
 
 	BattleAction* GetAction()
-		{ return _action; }
+	{ return _action; }
 
 	bool IsActionSet() const
-		{ return (_action != NULL); }
+	{ return (_action != NULL); }
 
 	float GetXOrigin() const
-		{ return _x_origin; }
+	{ return _x_origin; }
 
 	float GetYOrigin() const
-		{ return _y_origin; }
+	{ return _y_origin; }
 
 	float GetXLocation() const
-		{ return _x_location; }
+	{ return _x_location; }
 
 	float GetYLocation() const
-		{ return _y_location; }
+	{ return _y_location; }
 
 	uint32 GetIdleStateTime() const
-		{ return _idle_state_time; }
+	{ return _idle_state_time; }
 
 	hoa_video::StillImage& GetStaminaIcon()
-		{ return _stamina_icon; }
+	{ return _stamina_icon; }
 
 	BattleTimer& GetStateTimer()
-		{ return _state_timer; }
+	{ return _state_timer; }
 
 	void SetXOrigin(float x_origin)
-		{ _x_origin = x_origin; }
+	{ _x_origin = x_origin; }
 
 	void SetYOrigin(float y_origin)
-		{ _y_origin = y_origin; }
+	{ _y_origin = y_origin; }
 
 	void SetXLocation(float x_location)
-		{ _x_location = x_location; }
+	{ _x_location = x_location; }
 
 	void SetYLocation(float y_location)
-		{ _y_location = y_location; }
+	{ _y_location = y_location; }
 
 	void SetStatePaused(bool paused)
-		{ _state_paused = paused; }
+	{ _state_paused = paused; }
 
 	//! \note If the actor is in the idle state, this will not affect the state timer
-	 void SetIdleStateTime(uint32 time)
-		{ _idle_state_time = time; }
+	void SetIdleStateTime(uint32 time)
+	{ _idle_state_time = time; }
 	//@}
 
 protected:
@@ -337,6 +343,16 @@ protected:
 
 	//! \brief A pointer to the global actor object which the battle actor represents
 	hoa_global::GlobalActor* _global_actor;
+
+	//! \brief The ammo image pointer. Do not delete it, it is handled by the GlobalActor
+	hoa_video::AnimatedImage *_ammo_image;
+
+	//! \brief Used to make the engine aware about whether the ammo image should be shown or not.
+	bool _show_ammo;
+
+	//! \brief the ammo image screen position used when showing it.
+	float _ammo_x;
+	float _ammo_y;
 
 	//! \brief A pointer to the action that the actor is preparing to perform or is currently performing
 	BattleAction* _action;

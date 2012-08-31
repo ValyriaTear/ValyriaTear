@@ -26,7 +26,7 @@ local attack_time = 0.0;
 
 local damage_triggered = false;
 
--- character, the BattleActor attacking (here Bronann)
+-- character, the BattleActor attacking (here Kalya)
 -- target, the BattleEnemy target
 -- The skill id used on target
 function Initialize(_character, _target, _skill)
@@ -41,22 +41,20 @@ function Initialize(_character, _target, _skill)
         return;
     end
 
-    -- TODO: Add a backend to handle kalya's ammo.
-    --character:SetAmmoImage("img/sprites/battle/characters/arrow.png", 38.0, 10.0);
+    -- Set the arrow starting position
+    arrow_pos_x = character:GetXLocation() + character:GetSpriteWidth() / 2.0;
+    arrow_pos_y = character:GetYLocation() + (character:GetSpriteHeight() / 2.0) + 5.0;
 
-    -- Get the current characters' positions
-    arrow_pos_x = character:GetXLocation();
-    arrow_pos_y = character:GetYLocation();
-
-    enemy_pos_x = target_actor:GetXLocation();
-    enemy_pos_y = target_actor:GetYLocation();
+    -- Make the arrow reach the enemy center
+    enemy_pos_x = target_actor:GetXLocation() + target_actor:GetSpriteWidth() / 2.0;
+    enemy_pos_y = target_actor:GetYLocation() + target_actor:GetSpriteHeight() / 2.0;
 
     attack_step = 0;
     attack_time = 0;
 
     damage_triggered = false;
 
-    distance_moved_x = SystemManager:GetUpdateTime() / hoa_map.MapMode.NORMAL_SPEED * 160.0;
+    distance_moved_x = SystemManager:GetUpdateTime() / hoa_map.MapMode.NORMAL_SPEED * 210.0;
     local y_diff = arrow_pos_y - enemy_pos_y;
     if (y_diff == 0.0) then
         a_coeff = 0.0;
@@ -85,6 +83,7 @@ function Update()
         if (attack_time > 750.0) then
             character:ChangeSpriteAnimation("idle")
             attack_step = 2;
+	    character:SetShowAmmo(true);
         end
     end
 
@@ -107,8 +106,7 @@ function Update()
             if arrow_pos_y > enemy_pos_y then arrow_pos_y = enemy_pos_y end
         end
 
-        -- TODO: Add a backend to handle kalya's ammo.
-        --character:SetAmmoPosition(arrow_pos_x, arrow_pos_y);
+        character:SetAmmoPosition(arrow_pos_x, arrow_pos_y);
 
         if (arrow_pos_x >= enemy_pos_x and arrow_pos_y == enemy_pos_y) then
             attack_step = 3;
@@ -122,6 +120,7 @@ function Update()
             -- Remove the skill points at the end of the third attack
             character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
+	    character:SetShowAmmo(false);
         end
         attack_step = 4
     end

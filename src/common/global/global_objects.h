@@ -251,30 +251,39 @@ public:
 	GlobalWeapon(uint32 id, uint32 count = 1);
 
 	~GlobalWeapon()
-		{}
+	{}
 
 	GLOBAL_OBJECT GetObjectType() const
-		{ return GLOBAL_OBJECT_WEAPON; }
+	{ return GLOBAL_OBJECT_WEAPON; }
 
 	//! \name Class Member Access Functions
 	//@{
 	uint32 GetPhysicalAttack() const
-		{ return _physical_attack; }
+	{ return _physical_attack; }
 
 	uint32 GetMetaphysicalAttack() const
-		{ return _metaphysical_attack; }
+	{ return _metaphysical_attack; }
 
 	uint32 GetUsableBy() const
-		{ return _usable_by; }
+	{ return _usable_by; }
 
 	const std::vector<GlobalShard*>& GetSockets() const
-		{ return _sockets; }
+	{ return _sockets; }
 
 	const std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& GetElementalEffects() const
-		{ return _elemental_effects; }
+	{ return _elemental_effects; }
+
+	hoa_video::AnimatedImage* GetAmmoImage()
+	{ return _has_ammo ? &_ammo_image : 0; }
 	//@}
 
 private:
+	//! \brief The battle image used to display the weapon ammo.
+	hoa_video::AnimatedImage _ammo_image;
+
+	//! \brief Tells whether the weapon uses ammo.
+	bool _has_ammo;
+
 	//! \brief The amount of physical damage that the weapon causes
 	uint32 _physical_attack;
 

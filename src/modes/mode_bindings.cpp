@@ -650,18 +650,26 @@ void BindModeCode() {
 			.def("GetYLocation", &BattleActor::GetYLocation)
 			.def("SetXLocation", &BattleActor::SetXLocation)
 			.def("SetYLocation", &BattleActor::SetYLocation)
+			.def("GetSpriteWidth", &BattleActor::GetSpriteWidth)
+			.def("GetSpriteHeight", &BattleActor::GetSpriteHeight)
+			.def("SetShowAmmo", &BattleActor::SetShowAmmo)
+			.def("SetAmmoPosition", &BattleActor::SetAmmoPosition)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
 		luabind::class_<BattleCharacter, BattleActor>("BattleCharacter")
 			.def("ChangeSpriteAnimation", &BattleCharacter::ChangeSpriteAnimation)
+			.def("GetSpriteWidth", &BattleCharacter::GetSpriteWidth)
+			.def("GetSpriteHeight", &BattleCharacter::GetSpriteHeight)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
 	[
 		luabind::class_<BattleEnemy, BattleActor>("BattleEnemy")
 			.def("ChangeSpriteAnimation", &BattleEnemy::ChangeSpriteAnimation)
+			.def("GetSpriteWidth", &BattleEnemy::GetSpriteWidth)
+			.def("GetSpriteHeight", &BattleEnemy::GetSpriteHeight)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")

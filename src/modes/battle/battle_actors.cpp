@@ -48,6 +48,10 @@ BattleActor::BattleActor(GlobalActor* actor) :
 	GlobalActor(*actor),
 	_state(ACTOR_STATE_INVALID),
 	_global_actor(actor),
+	_ammo_image(NULL),
+	_show_ammo(false),
+	_ammo_x(0.0f),
+	_ammo_y(0.0f),
 	_action(NULL),
 	_x_origin(0.0f),
 	_y_origin(0.0f),
@@ -67,6 +71,9 @@ BattleActor::BattleActor(GlobalActor* actor) :
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << endl;
 		return;
 	}
+
+	// Get the pointer of the ammo image. Do not delete it, as the Global Actor is handling it already.
+	_ammo_image = GetWeaponEquipped() ? GetWeaponEquipped()->GetAmmoImage() : NULL;
 
 	// TODO: I have concerns about the copy constructor for GlobalActor. Currently it creates a copy
 	// of every single attack point, weapon, armor, and skill. I wonder if perhaps we should only
@@ -393,6 +400,12 @@ void BattleActor::_UpdateStaminaIconPosition() {
 
 
 void BattleActor::DrawSprite() {
+	// Draw potential sprite ammo
+	if (_ammo_image && _show_ammo) {
+		VideoManager->Move(_ammo_x, _ammo_y);
+		_ammo_image->Draw();
+	}
+
 	VideoManager->Move(_x_location, _y_location);
 }
 
