@@ -31,6 +31,8 @@
 #include "particle.h"
 #include "particle_emitter.h"
 
+#include "engine/video/image.h"
+
 namespace hoa_mode_manager
 {
 

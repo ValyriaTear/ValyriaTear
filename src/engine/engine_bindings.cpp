@@ -100,6 +100,8 @@ void BindEngineCode() {
 			.def(luabind::constructor<>())
 			.def(luabind::constructor<const std::string&>())
 			.def("LoadEffect", &ParticleEffect::LoadEffect)
+			.def("Update", (bool (ParticleEffect::*)())&ParticleEffect::Update)
+			.def("Draw", &ParticleEffect::Draw)
 			.def("IsAlive", &ParticleEffect::IsAlive)
 			.def("Move", &ParticleEffect::Move)
 			.def("Stop", &ParticleEffect::Stop)

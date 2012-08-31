@@ -34,43 +34,6 @@ bool ParticleManager::AddParticleEffect(const std::string& effect_filename, floa
 
 	return true;
 }
-/*
-// TODO: This function is no-op. See whether we keep it or redo it.
-bool ParticleManager::RestartParticleEffect(ParticleEffect *effect) {
-	if (!effect)
-		return false;
-
-	// Check whether the effect has been registered correctly
-	std::vector<ParticleEffect*>::const_iterator it = _all_effects.begin();
-	bool found = false;
-	for (; it != _all_effects.end(); ++it) {
-		if (effect == *it) {
-			found = true;
-			break;
-		}
-	}
-	if (!found)
-		return false;
-
-	// Actually restart the effect
-	effect->_alive = true;
-	effect->_age = 0.0f;
-
-	// Check whether the effect needs to be activated again
-	found = false;
-	it = _active_effects.begin();
-	for (; it != _active_effects.end(); ++it) {
-		if (effect == *it) {
-			found = true;
-			break;
-		}
-	}
-
-	if (!found)
-		_active_effects.push_back(effect);
-
-	return true;
-}*/
 
 void ParticleManager::_DEBUG_ShowParticleStats() {
 	char text[50];

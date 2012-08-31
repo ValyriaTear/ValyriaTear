@@ -7,11 +7,12 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "engine/video/video.h"
-#include "engine/script/script_read.h"
-
 #include "engine/video/particle_effect.h"
 #include "engine/video/particle_system.h"
+
+#include "engine/system.h"
+#include "engine/video/video.h"
+#include "engine/script/script_read.h"
 
 using namespace hoa_script;
 using namespace hoa_video;
@@ -380,6 +381,10 @@ bool ParticleEffect::Draw()
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
 	return success;
+}
+
+bool ParticleEffect::Update() {
+	return Update(static_cast<float>(hoa_system::SystemManager->GetUpdateTime()) / 1000.0f);
 }
 
 bool ParticleEffect::Update(float frame_time)

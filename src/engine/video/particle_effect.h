@@ -217,6 +217,7 @@ public:
 	 * \return success/failure
 	 */
 	bool Update(float frame_time);
+	bool Update();
 private:
 	/*!
 	 * \brief destroys the effect. This is private so that only the ParticleManager class

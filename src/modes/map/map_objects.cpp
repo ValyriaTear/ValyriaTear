@@ -244,10 +244,8 @@ void ParticleObject::Update() {
 	if (!_particle_effect)
 		return;
 
-	if (updatable) {
-        float frame_time_seconds = static_cast<float>(hoa_system::SystemManager->GetUpdateTime()) / 1000.0f;
-		_particle_effect->Update(frame_time_seconds);
-	}
+	if (updatable)
+		_particle_effect->Update();
 }
 
 void ParticleObject::Draw() {

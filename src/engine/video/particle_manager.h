@@ -55,12 +55,6 @@ public:
 	bool AddParticleEffect(const std::string& effect_filename, float x, float y);
 
 	/*!
-	 *  \brief Restart the given particle effect
-	 *  \return Whether the effect successfully restarted.
-	 */ // FIXME: No-op. The restart function should be at the effect level,
-	//bool RestartParticleEffect(ParticleEffect *effect);
-
-	/*!
 	 *  \brief draws all active effects
 	 * \return success/failure
 	 */
