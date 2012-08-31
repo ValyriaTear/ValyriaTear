@@ -1108,7 +1108,7 @@ void ShopMode::Initialize() {
 	_UpdateAvailableShopOptions();
 
 	// Initialize pricing for all buy shop objects
-	for (std::map<uint32, ShopObject*>::iterator it = _available_sell.begin(); it != _available_sell.end(); ++it) {
+	for (std::map<uint32, ShopObject*>::iterator it = _available_buy.begin(); it != _available_buy.end(); ++it) {
 		it->second->SetPricing(_buy_price_level, _sell_price_level);
 	}
 	_object_viewer->Initialize();
