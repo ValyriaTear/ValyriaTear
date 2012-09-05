@@ -60,6 +60,16 @@ void BindEngineCode() {
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_input")
 	[
 		luabind::class_<InputEngine>("GameInput")
+			.def("GetUpKeyName", &InputEngine::GetUpKeyName)
+			.def("GetDownKeyName", &InputEngine::GetDownKeyName)
+			.def("GetLeftKeyName", &InputEngine::GetLeftKeyName)
+			.def("GetRightKeyName", &InputEngine::GetRightKeyName)
+			.def("GetConfirmKeyName", &InputEngine::GetConfirmKeyName)
+			.def("GetCancelKeyName", &InputEngine::GetCancelKeyName)
+			.def("GetMenuKeyName", &InputEngine::GetMenuKeyName)
+			.def("GetPauseKeyName", &InputEngine::GetPauseKeyName)
+			.def("GetHelpKeyName", &InputEngine::GetHelpKeyName)
+			.def("GetQuitKeyName", &InputEngine::GetQuitKeyName)
 	];
 
 	} // End using input namespaces
