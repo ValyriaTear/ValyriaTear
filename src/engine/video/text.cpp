@@ -181,7 +181,7 @@ bool TextTexture::Regenerate() {
 
 	TexSheet* sheet = TextureManager->_InsertImageInTexSheet(this, buffer, true);
 	if (sheet == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureManager::_InsertImageInTexSheet() returned NULL" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureManager::_InsertImageInTexSheet() returned NULL" << std::endl;
 		free(buffer.pixels);
 		buffer.pixels = NULL;
 		return false;
@@ -206,7 +206,7 @@ bool TextTexture::Reload() {
 		return false;
 
 	if (texture_sheet->CopyRect(x, y, buffer) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureSheet::CopyRect() failed" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureSheet::CopyRect() failed" << std::endl;
 		free(buffer.pixels);
 		buffer.pixels = NULL;
 		return false;
@@ -441,7 +441,7 @@ void TextImage::_Regenerate() {
 
 	FontProperties* fp = TextManager->GetFontProperties(_style.font);
 	if (TextManager->IsFontValid(_style.font) == false || fp == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid font or font properties" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid font or font properties" << std::endl;
 		return;
 	}
 
@@ -476,10 +476,10 @@ void TextImage::_Regenerate() {
 		}
 		// Otherwise, create a new TextTexture to be managed by the new element
 		else {
-// 			PRINT_DEBUG << **line_iter << endl;
+// 			PRINT_DEBUG << **line_iter << std::endl;
 			TextTexture* texture = new TextTexture(*line_iter, _style);
 			if (texture->Regenerate() == false) {
-				IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextTexture::_Regenerate() failed" << endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextTexture::_Regenerate() failed" << std::endl;
 			}
 			TextureManager->_RegisterTextTexture(texture);
 
@@ -534,12 +534,12 @@ TextSupervisor::~TextSupervisor() {
 
 bool TextSupervisor::SingletonInitialize() {
 	if (TTF_Init() < 0) {
-		PRINT_ERROR << "SDL_ttf initialization failed" << endl;
+		PRINT_ERROR << "SDL_ttf initialization failed" << std::endl;
 		return false;
 	}
 
 	if (LoadFont("img/fonts/junicode_regular.ttf", "debug_font", 16) == false) {
-		PRINT_ERROR << "could not load the debug font" << endl;
+		PRINT_ERROR << "could not load the debug font" << std::endl;
 		TTF_Quit();
 		return false;
 	}
@@ -553,19 +553,19 @@ bool TextSupervisor::LoadFont(const string& filename, const string& font_name, u
 {
 	// Make sure that the font name is not already taken
 	if (IsFontValid(font_name) == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "a font with the desired reference name already existed: " << font_name << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "a font with the desired reference name already existed: " << font_name << std::endl;
 		return false;
 	}
 
 	if (size == 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load a font of point size zero" << font_name << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load a font of point size zero" << font_name << std::endl;
 		return false;
 	}
 
 	// Attempt to load the font
 	TTF_Font* font = TTF_OpenFont(filename.c_str(), size);
 	if (font == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_OpenFont() failed to load the font file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_OpenFont() failed to load the font file: " << filename << std::endl;
 		return false;
 	}
 
@@ -587,7 +587,7 @@ bool TextSupervisor::LoadFont(const string& filename, const string& font_name, u
 
 void TextSupervisor::FreeFont(const std::string& font_name) {
 	if (_font_map.find(font_name) == _font_map.end()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << std::endl;
 		return;
 	}
 
@@ -598,7 +598,7 @@ void TextSupervisor::FreeFont(const std::string& font_name) {
 
 FontProperties* TextSupervisor::GetFontProperties(const std::string& font_name) {
 	if (IsFontValid(font_name) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << std::endl;
 		return NULL;
 	}
 
@@ -609,12 +609,12 @@ FontProperties* TextSupervisor::GetFontProperties(const std::string& font_name) 
 
 void TextSupervisor::Draw(const ustring& text, const TextStyle& style) {
 	if (text.empty()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "empty string was passed to function" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "empty string was passed to function" << std::endl;
 		return;
 	}
 
 	if (IsFontValid(style.font) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.font << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.font << std::endl;
 		return;
 	}
 
@@ -669,13 +669,13 @@ void TextSupervisor::Draw(const ustring& text, const TextStyle& style) {
 
 int32 TextSupervisor::CalculateTextWidth(const std::string& font_name, const hoa_utils::ustring& text) {
 	if (IsFontValid(font_name) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "font name argument was invalid: " << font_name << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "font name argument was invalid: " << font_name << std::endl;
 		return -1;
 	}
 
 	int32 width;
 	if (TTF_SizeUNICODE(_font_map[font_name]->ttf_font, text.c_str(), &width, NULL) == -1) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE failed with TTF error: " << TTF_GetError() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE failed with TTF error: " << TTF_GetError() << std::endl;
 		return -1;
 	}
 
@@ -686,13 +686,13 @@ int32 TextSupervisor::CalculateTextWidth(const std::string& font_name, const hoa
 
 int32 TextSupervisor::CalculateTextWidth(const std::string& font_name, const std::string& text) {
 	if (IsFontValid(font_name) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "font name argument was invalid: " << font_name << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "font name argument was invalid: " << font_name << std::endl;
 		return -1;
 	}
 
 	int32 width;
 	if (TTF_SizeText(_font_map[font_name]->ttf_font, text.c_str(), &width, NULL) == -1) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeText failed with TTF error: " << TTF_GetError() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeText failed with TTF error: " << TTF_GetError() << std::endl;
 		return -1;
 	}
 
@@ -729,7 +729,7 @@ Color TextSupervisor::_GetTextShadowColor(const TextStyle& style) const {
 			shadow_color = Color(1.0f - style.color[0], 1.0f - style.color[1], 1.0f - style.color[2], style.color[3] * 0.5f);
 			break;
 		default:
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown text shadow style: " << style.shadow_style << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown text shadow style: " << style.shadow_style << std::endl;
 			break;
 	}
 
@@ -740,7 +740,7 @@ Color TextSupervisor::_GetTextShadowColor(const TextStyle& style) const {
 
 void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 	if (fp == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was null" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was null" << std::endl;
 		return;
 	}
 
@@ -770,10 +770,10 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		// Attempt to create the initial SDL_Surface that contains the rendered glyph
 		initial = TTF_RenderGlyph_Blended(font, character, glyph_color);
 		if (initial == NULL) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed, resorting to fall back glyph: '?'" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed, resorting to fall back glyph: '?'" << std::endl;
 			initial = TTF_RenderGlyph_Blended(font, fall_back_glyph, glyph_color);
 			if (initial == NULL) {
-				IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed for fall back glyph, aborting glyph caching" << endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed for fall back glyph, aborting glyph caching" << std::endl;
 				return;
 			}
 		}
@@ -784,7 +784,7 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		intermediary = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
 		if (intermediary == NULL) {
 			SDL_FreeSurface(initial);
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
 			return;
 		}
 
@@ -792,7 +792,7 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		if (SDL_BlitSurface(initial, 0, intermediary, 0) < 0) {
 			SDL_FreeSurface(initial);
 			SDL_FreeSurface(intermediary);
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed" << std::endl;
 			return;
 		}
 
@@ -818,7 +818,7 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		if (VideoManager->CheckGLError()) {
 			SDL_FreeSurface(initial);
 			SDL_FreeSurface(intermediary);
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error was detected: " << VideoManager->CreateGLErrorString() << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error was detected: " << VideoManager->CreateGLErrorString() << std::endl;
 			return;
 		}
 
@@ -828,7 +828,7 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		if (TTF_GlyphMetrics(font, character, &minx, &maxx, &miny, &maxy, &advance) != 0) {
 			SDL_FreeSurface(initial);
 			SDL_FreeSurface(intermediary);
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_GlyphMetrics() failed" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_GlyphMetrics() failed" << std::endl;
 			return;
 		}
 
@@ -854,12 +854,12 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 
 void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* fp, Color text_color) {
 	if (*text == 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty string" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty string" << std::endl;
 		return;
 	}
 
 	if (fp == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, NULL font properties" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, NULL font properties" << std::endl;
 		return;
 	}
 
@@ -879,7 +879,7 @@ void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* f
 
 	int font_width, font_height;
 	if (TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
 		return;
 	}
 
@@ -921,7 +921,7 @@ void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* f
 
 		TextureManager->_BindTexture(glyph_info->texture);
 		if (VideoManager->CheckGLError()) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "OpenGL error detected: " << VideoManager->CreateGLErrorString() << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "OpenGL error detected: " << VideoManager->CreateGLErrorString() << std::endl;
 			return;
 		}
 
@@ -962,7 +962,7 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring& string, TextStyle& style, I
 	TTF_Font* font = fp->ttf_font;
 
 	if (font == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "font of TextStyle argument '" << style.font << "' was invalid" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "font of TextStyle argument '" << style.font << "' was invalid" << std::endl;
 		return false;
 	}
 
@@ -981,7 +981,7 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring& string, TextStyle& style, I
 	int32 line_start_x = 0;
 
 	if (TTF_SizeUNICODE(font, string.c_str(), &line_w, &line_h) == -1) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
 		return false;
 	}
 
@@ -1020,7 +1020,7 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring& string, TextStyle& style, I
 	uint8* intermed_buf = static_cast<uint8*>(calloc(line_w * line_h, 4));
 	intermediary = SDL_CreateRGBSurfaceFrom(intermed_buf, line_w, line_h, 32, line_w * 4, RMASK, GMASK, BMASK, AMASK);
 	if (intermediary == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurfaceFrom() failed" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurfaceFrom() failed" << std::endl;
 		return false;
 	}
 
@@ -1034,7 +1034,7 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring& string, TextStyle& style, I
 		// Render the glyph
 		initial = TTF_RenderGlyph_Blended(font, *char_ptr, white_color);
 		if (initial == NULL) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed" << std::endl;
 			return false;
 		}
 
@@ -1046,7 +1046,7 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring& string, TextStyle& style, I
 			SDL_FreeSurface(initial);
 			SDL_FreeSurface(intermediary);
 			free(intermed_buf);
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed, SDL error: " << SDL_GetError() << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed, SDL error: " << SDL_GetError() << std::endl;
 			return false;
 		}
 		SDL_FreeSurface(initial);

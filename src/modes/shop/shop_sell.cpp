@@ -125,7 +125,7 @@ void SellInterface::_UpdateAvailableSellDealTypes() {
 				// Key items can't be sold.
 				break;
 			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << std::endl;
 				break;
 		}
 	}
@@ -242,7 +242,7 @@ void SellInterface::_PopulateLists() {
 				case GLOBAL_OBJECT_KEY_ITEM:
 					continue; // Key items are not permitted to be sold
 				default:
-					IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << endl;
+					IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << std::endl;
 					break;
 			}
 
@@ -485,7 +485,7 @@ void SellInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 		_selected_properties.SetOptionText(3, MakeUnicodeString("×" + NumberToString(_selected_object->GetSellCount())));
 	}
 	else {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << std::endl;
 	}
 }
 
@@ -582,11 +582,11 @@ void SellListDisplay::ReconstructList() {
 
 void SellListDisplay::RefreshEntry(uint32 index) {
 	if (_objects.empty() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "no object data is available" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "no object data is available" << std::endl;
 		return;
 	}
 	if (index >= _objects.size()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of range: " << index << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of range: " << index << std::endl;
 		return;
 	}
 

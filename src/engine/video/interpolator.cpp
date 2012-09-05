@@ -48,7 +48,7 @@ Interpolator::Interpolator() :
 void Interpolator::Start(float a, float b, uint32 milliseconds) {
 	if (_ValidMethod() == false) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an invalid interpolation method was set" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an invalid interpolation method was set" << std::endl;
 		return;
 	}
 
@@ -67,14 +67,14 @@ void Interpolator::Start(float a, float b, uint32 milliseconds) {
 void Interpolator::SetMethod(InterpolationMethod method) {
 	if (_finished == false) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an interpolation was still in progress" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an interpolation was still in progress" << std::endl;
 		return;
 	}
 
 	_method = method;
 	if (_ValidMethod() == false) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was passed an invalid method argument" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was passed an invalid method argument" << std::endl;
 	}
 }
 
@@ -83,7 +83,7 @@ void Interpolator::SetMethod(InterpolationMethod method) {
 void Interpolator::Update(uint32 frame_time) {
 	if (_ValidMethod() == false) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an invalid method was set" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an invalid method was set" << std::endl;
 		return;
 	}
 
@@ -107,7 +107,7 @@ void Interpolator::Update(uint32 frame_time) {
 
 	if (progress > 1.0f) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " calculated a progress value greater than 1.0" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " calculated a progress value greater than 1.0" << std::endl;
 		progress = 1.0f;
 	}
 
@@ -133,7 +133,7 @@ void Interpolator::Update(uint32 frame_time) {
 			break;
 		default:
 			if (VIDEO_DEBUG)
-				cerr << "VIDEO WARNING: " << __FUNCTION__ << " the current method did not match any supported methods" << endl;
+				cerr << "VIDEO WARNING: " << __FUNCTION__ << " the current method did not match any supported methods" << std::endl;
 			return;
 	};
 

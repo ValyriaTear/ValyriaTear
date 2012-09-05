@@ -78,7 +78,7 @@ SHOP_OBJECT ShopObject::DetermineShopObjectType(GLOBAL_OBJECT global_type) {
 		case GLOBAL_OBJECT_INVALID:
 		case GLOBAL_OBJECT_TOTAL:
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "no conversion type existed for global object: " << global_type << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "no conversion type existed for global object: " << global_type << std::endl;
 			shop_type = SHOP_OBJECT_INVALID;
 			break;
 	}
@@ -115,7 +115,7 @@ void ShopObject::SetPricing(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_le
 			_buy_price *= BUY_PRICE_VERY_POOR;
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "unknown buy level: " << buy_level << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "unknown buy level: " << buy_level << std::endl;
 	}
 
 	switch (sell_level) {
@@ -135,7 +135,7 @@ void ShopObject::SetPricing(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_le
 			_sell_price *= SELL_PRICE_VERY_POOR;
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "unknown sell level: " << sell_level << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "unknown sell level: " << sell_level << std::endl;
 	}
 }
 
@@ -156,13 +156,13 @@ void ShopObject::IncrementStockCount(uint32 inc) {
 void ShopObject::IncrementBuyCount(uint32 inc) {
 	uint32 old_count = _buy_count;
 	if (inc == 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
 		return;
 	}
 
 	_buy_count += inc;
 	if (_stock_count < _buy_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "incremented buy count beyond the amount available in stock" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "incremented buy count beyond the amount available in stock" << std::endl;
 		_buy_count = old_count;
 		return;
 	}
@@ -176,13 +176,13 @@ void ShopObject::IncrementBuyCount(uint32 inc) {
 void ShopObject::IncrementSellCount(uint32 inc) {
 	uint32 old_count = _sell_count;
 	if (inc == 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
 		return;
 	}
 
 	_sell_count += inc;
 	if (_sell_count > _own_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "incremented sell count beyond the amount available to be sold" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "incremented sell count beyond the amount available to be sold" << std::endl;
 		_sell_count -= inc;
 		return;
 	}
@@ -195,14 +195,14 @@ void ShopObject::IncrementSellCount(uint32 inc) {
 
 void ShopObject::DecrementOwnCount(uint32 dec) {
 	if (dec > _own_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement own count below zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement own count below zero" << std::endl;
 		return;
 	}
 
 	_own_count -= dec;
 
 	if (_own_count < _sell_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "decremented own count below that of the sell count" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "decremented own count below that of the sell count" << std::endl;
 		_own_count += dec;
 	}
 }
@@ -211,14 +211,14 @@ void ShopObject::DecrementOwnCount(uint32 dec) {
 
 void ShopObject::DecrementStockCount(uint32 dec) {
 	if (dec > _stock_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement stock count below zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement stock count below zero" << std::endl;
 		return;
 	}
 
 	_stock_count -= dec;
 
 	if (_stock_count < _buy_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "decremented stock count below that of the buy count" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "decremented stock count below that of the buy count" << std::endl;
 		_stock_count += dec;
 	}
 }
@@ -227,12 +227,12 @@ void ShopObject::DecrementStockCount(uint32 dec) {
 
 void ShopObject::DecrementBuyCount(uint32 dec) {
 	if (dec == 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
 		return;
 	}
 
 	if (dec > _buy_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement buy count below zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement buy count below zero" << std::endl;
 		return;
 	}
 
@@ -246,12 +246,12 @@ void ShopObject::DecrementBuyCount(uint32 dec) {
 
 void ShopObject::DecrementSellCount(uint32 dec) {
 	if (dec == 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
 		return;
 	}
 
 	if (dec > _sell_count) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement sell count below zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement sell count below zero" << std::endl;
 		return;
 	}
 
@@ -354,7 +354,7 @@ void ObjectCategoryDisplay::ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 		_view_mode = new_mode;
 	}
 	else {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid/unknown view mode requested: " << new_mode << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid/unknown view mode requested: " << new_mode << std::endl;
 		return;
 	}
 }
@@ -384,7 +384,7 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject* shop_object) {
 
 void ObjectCategoryDisplay::ChangeCategory(ustring& name, const StillImage* icon) {
 	if (icon == NULL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL pointer argument" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL pointer argument" << std::endl;
 	}
 
 	_name_textbox.SetDisplayText(name);
@@ -456,7 +456,7 @@ ShopObject* ObjectListDisplay::GetSelectedObject() {
 		return NULL;
 
 	if (static_cast<uint32>(_identify_list.GetSelection()) >= _objects.size()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "current selection index exceeds available objects: " << _identify_list.GetSelection() << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "current selection index exceeds available objects: " << _identify_list.GetSelection() << std::endl;
 		return NULL;
 	}
 

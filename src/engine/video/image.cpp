@@ -60,7 +60,7 @@ ImageDescriptor::~ImageDescriptor() {
 	// If it didn't, the grayscale image might not have been properly dereferenced
 	// and/or removed from texture memory
 	if (_grayscale == true)
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was still enabled when destructor was invoked -- possible memory leak" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was still enabled when destructor was invoked -- possible memory leak" << std::endl;
 
 	// Remove the reference to the original, colored texture
 	if (_texture != NULL)
@@ -227,13 +227,13 @@ bool ImageDescriptor::LoadMultiImageFromElementSize(vector<StillImage>& images, 
 	}
 	catch (Exception e) {
 		if (VIDEO_DEBUG)
-			cerr << e.ToString() << endl;
+			cerr << e.ToString() << std::endl;
 		return false;
 	}
 
 	// Make sure that the element height and width divide evenly into the height and width of the multi image
 	if ((img_height % elem_height) != 0 || (img_width % elem_width) != 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "multi image size not evenly divisible by element size for multi image file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "multi image size not evenly divisible by element size for multi image file: " << filename << std::endl;
 		return false;
 	}
 
@@ -264,7 +264,7 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(vector<StillImage>& images, 
 		const uint32 grid_rows, const uint32 grid_cols)
 {
 	if (!DoesFileExist(filename)) {
-		PRINT_WARNING << "Multi-image file not found: " << filename << endl;
+		PRINT_WARNING << "Multi-image file not found: " << filename << std::endl;
 		return false;
 	}
 	// First retrieve the dimensions of the multi image (in pixels)
@@ -274,13 +274,13 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(vector<StillImage>& images, 
 	}
 	catch (Exception e) {
 		if (VIDEO_DEBUG)
-			cerr << e.ToString() << endl;
+			cerr << e.ToString() << std::endl;
 		return false;
 	}
 
 	// Make sure that the number of grid rows and columns divide evenly into the image size
 	if ((img_height % grid_rows) != 0 || (img_width % grid_cols) != 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "multi image size not evenly divisible by grid rows or columns for multi image file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "multi image size not evenly divisible by grid rows or columns for multi image file: " << filename << std::endl;
 		return false;
 	}
 
@@ -311,17 +311,17 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 {
 	// Check there are elements to store
 	if (images.empty()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument was empty when saving file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument was empty when saving file: " << filename << std::endl;
 		return false;
 	}
 
 	// Check if the number of images is compatible with the number of rows and columns
 	if (images.size() < grid_rows * grid_columns) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument did not contain enough images to save for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument did not contain enough images to save for file: " << filename << std::endl;
 		return false;
 	}
 	else if (images.size() > grid_rows * grid_columns) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument had a size greater than the number of images to save for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument had a size greater than the number of images to save for file: " << filename << std::endl;
 		// NOTE: no return false for this case because we have enough images to continue
 	}
 
@@ -330,11 +330,11 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 	float img_height = images[0]->_height;
 	for (uint32 i = 0; i < images.size(); i++) {
 		if (images[i] == NULL || images[i]->_image_texture == NULL) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL StillImage or ImageElement was present in images vector argument when saving file: " << filename << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
 			return false;
 		}
 		if (IsFloatEqual(images[i]->_width, img_width) == false || IsFloatEqual(images[i]->_height, img_height)) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "images contained in vector argument did not share the same dimensions" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "images contained in vector argument did not share the same dimensions" << std::endl;
 			return false;
 		}
 	}
@@ -343,7 +343,7 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 	bool is_png_image;
 	size_t ext_position = filename.rfind('.');
 	if (ext_position == string::npos) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to decipher file extension for filename: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to decipher file extension for filename: " << filename << std::endl;
 		return false;
 	}
 
@@ -354,7 +354,7 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 	else if (extension == ".jpg")
 		is_png_image = false;
 	else {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension << "\" for filename: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension << "\" for filename: " << filename << std::endl;
 		return false;
 	}
 
@@ -366,7 +366,7 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 	save.pixels = malloc(save.width * save.height * 4);
 
 	if (save.pixels == NULL) {
-		PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << endl;
+		PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
 		return false;
 	}
 
@@ -382,7 +382,7 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 	texture.pixels = malloc(texture.width * texture.height * 4);
 
 	if (texture.pixels == NULL) {
-		PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << endl;
+		PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
 		free(save.pixels);
 		return false;
 	}
@@ -410,7 +410,7 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 					texture.height = img->texture_sheet->height;
 					texture.pixels = realloc(texture.pixels, texture.width * texture.height * 4);
 					if (texture.pixels == NULL) {
-						PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << endl;
+						PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
 						free(save.pixels);
 						return false;
 					}
@@ -446,25 +446,25 @@ bool ImageDescriptor::SaveMultiImage(const vector<StillImage*>& images, const st
 
 
 void ImageDescriptor::DEBUG_PrintInfo() {
-	cout << "__ImageDescriptor Properties__" << endl;
-	cout << "* width:                " << _width << endl;
-	cout << "* height:               " << _height << endl;
-	cout << "* UV coordinates:        (" << _u1 << ", " << _v1 << "), (" << _u2 << ", " << _v2 << ")" << endl;
-	cout << "* colors, RGBA format:  " << endl;
-	cout << "  * TL                  " << _color[0].GetRed() << ", " << _color[0].GetGreen() << ", " << _color[0].GetBlue() << ", " << _color[0].GetAlpha() << endl;
-	cout << "  * TR                  " << _color[1].GetRed() << ", " << _color[1].GetGreen() << ", " << _color[1].GetBlue() << ", " << _color[1].GetAlpha() << endl;
-	cout << "  * BL                  " << _color[2].GetRed() << ", " << _color[2].GetGreen() << ", " << _color[2].GetBlue() << ", " << _color[2].GetAlpha() << endl;
-	cout << "  * BR:                 " << _color[3].GetRed() << ", " << _color[3].GetGreen() << ", " << _color[3].GetBlue() << ", " << _color[3].GetAlpha() << endl;
-	cout << "* static:               " << (_is_static ? "true" : "false") << endl;
-	cout << "* grayscale:            " << (_grayscale ? "true" : "false") << endl;
-	cout << endl;
+	cout << "__ImageDescriptor Properties__" << std::endl;
+	cout << "* width:                " << _width << std::endl;
+	cout << "* height:               " << _height << std::endl;
+	cout << "* UV coordinates:        (" << _u1 << ", " << _v1 << "), (" << _u2 << ", " << _v2 << ")" << std::endl;
+	cout << "* colors, RGBA format:  " << std::endl;
+	cout << "  * TL                  " << _color[0].GetRed() << ", " << _color[0].GetGreen() << ", " << _color[0].GetBlue() << ", " << _color[0].GetAlpha() << std::endl;
+	cout << "  * TR                  " << _color[1].GetRed() << ", " << _color[1].GetGreen() << ", " << _color[1].GetBlue() << ", " << _color[1].GetAlpha() << std::endl;
+	cout << "  * BL                  " << _color[2].GetRed() << ", " << _color[2].GetGreen() << ", " << _color[2].GetBlue() << ", " << _color[2].GetAlpha() << std::endl;
+	cout << "  * BR:                 " << _color[3].GetRed() << ", " << _color[3].GetGreen() << ", " << _color[3].GetBlue() << ", " << _color[3].GetAlpha() << std::endl;
+	cout << "* static:               " << (_is_static ? "true" : "false") << std::endl;
+	cout << "* grayscale:            " << (_grayscale ? "true" : "false") << std::endl;
+	cout << std::endl;
 }
 
 
 
 void ImageDescriptor::_RemoveTextureReference() {
 	if (_texture == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "_texture member was NULL upon method invocation" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "_texture member was NULL upon method invocation" << std::endl;
 		return;
 	}
 
@@ -791,7 +791,7 @@ bool ImageDescriptor::_LoadMultiImage(vector<StillImage>& images, const string &
 	ImageMemory sub_image;
 	if (need_load) {
 		if (multi_image.LoadImage(filename) == false) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to load multi image file: " << filename << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to load multi image file: " << filename << std::endl;
 			return false;
 		}
 
@@ -799,7 +799,7 @@ bool ImageDescriptor::_LoadMultiImage(vector<StillImage>& images, const string &
 		sub_image.height = multi_image.height / grid_rows;
 		sub_image.pixels = malloc(sub_image.width * sub_image.height * 4);
 		if (sub_image.pixels == NULL) {
-			PRINT_ERROR << "failed to malloc memory for multi image file: " << filename << endl;
+			PRINT_ERROR << "failed to malloc memory for multi image file: " << filename << std::endl;
 			free(multi_image.pixels);
 			multi_image.pixels = NULL;
 			return false;
@@ -819,7 +819,7 @@ bool ImageDescriptor::_LoadMultiImage(vector<StillImage>& images, const string &
 
 				if (img == NULL) {
 					IF_PRINT_WARNING(VIDEO_DEBUG) << "a NULL image was found in the TextureManager's _images container "
-						<< "-- aborting multi image load operation" << endl;
+						<< "-- aborting multi image load operation" << std::endl;
 
 					free(multi_image.pixels);
 					free(sub_image.pixels);
@@ -850,7 +850,7 @@ bool ImageDescriptor::_LoadMultiImage(vector<StillImage>& images, const string &
 
 				if (sheet == NULL) {
 					IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet failed -- " <<
-						"aborting multi image load operation" << endl;
+						"aborting multi image load operation" << std::endl;
 
 					free(multi_image.pixels);
 					free(sub_image.pixels);
@@ -941,7 +941,7 @@ bool StillImage::Load(const string& filename) {
 		_texture = _image_texture;
 
 		if (_image_texture == NULL) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a NULL image inside the TextureManager's image map: " << _filename << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a NULL image inside the TextureManager's image map: " << _filename << std::endl;
 			return false;
 		}
 
@@ -958,7 +958,7 @@ bool StillImage::Load(const string& filename) {
 	// 2. The image file needs to be loaded from disk
 	ImageMemory img_data;
 	if (img_data.LoadImage(_filename) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::LoadImage() failed for file: " << _filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::LoadImage() failed for file: " << _filename << std::endl;
 		return false;
 	}
 
@@ -969,7 +969,7 @@ bool StillImage::Load(const string& filename) {
 	_texture = _image_texture;
 
 	if (TextureManager->_InsertImageInTexSheet(_image_texture, img_data, _is_static) == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << std::endl;
 		delete _image_texture;
 		_image_texture = NULL;
 		_texture = NULL;
@@ -998,7 +998,7 @@ bool StillImage::Load(const string& filename) {
 	img_data.ConvertToGrayscale();
 	ImageTexture* gray_image = new ImageTexture(_filename, "<G>", img_data.width, img_data.height);
 	if (TextureManager->_InsertImageInTexSheet(gray_image, img_data, _is_static) == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << std::endl;
 
 		TextureManager->_UnregisterImageTexture(gray_image);
 		delete gray_image;
@@ -1060,7 +1060,7 @@ void StillImage::Draw(const Color& draw_color) const {
 
 bool StillImage::Save(const string& filename) const {
 	if (_image_texture == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to save an image that had no texture reference" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to save an image that had no texture reference" << std::endl;
 		return false;
 	}
 
@@ -1069,7 +1069,7 @@ bool StillImage::Save(const string& filename) const {
 	bool is_png_image;
 
 	if (ext_position == string::npos) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "could not decipher file extension for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "could not decipher file extension for file: " << filename << std::endl;
 		return false;
 	}
 
@@ -1080,7 +1080,7 @@ bool StillImage::Save(const string& filename) const {
 	else if (extension == ".jpg")
 		is_png_image = false;
 	else {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension \"" << extension << "\" for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension \"" << extension << "\" for file: " << filename << std::endl;
 		return false;
 	}
 
@@ -1093,7 +1093,7 @@ bool StillImage::Save(const string& filename) const {
 
 void StillImage::EnableGrayScale() {
 	if (_grayscale) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled" << std::endl;
 		return;
 	}
 
@@ -1124,7 +1124,7 @@ void StillImage::EnableGrayScale() {
 	ImageTexture* new_img = new ImageTexture(_filename, tags + "<G>", gray_img.width, gray_img.height);
 
 	if (TextureManager->_InsertImageInTexSheet(new_img, gray_img, _is_static) == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to insert new grayscale image into texture sheet" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to insert new grayscale image into texture sheet" << std::endl;
 		delete new_img;
 
 		if (gray_img.pixels) {
@@ -1148,7 +1148,7 @@ void StillImage::EnableGrayScale() {
 
 void StillImage::DisableGrayScale() {
 	if (_grayscale == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already disabled" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already disabled" << std::endl;
 		return;
 	}
 
@@ -1161,7 +1161,7 @@ void StillImage::DisableGrayScale() {
 
 	string search_key = _image_texture->filename + _image_texture->tags.substr(0, _image_texture->tags.length() - 3);
 	if ((_image_texture = TextureManager->_GetImageTexture(search_key)) == NULL) {
-		PRINT_WARNING << "non-grayscale version of image was not found in texture memory" << endl;
+		PRINT_WARNING << "non-grayscale version of image was not found in texture memory" << std::endl;
 		return;
 	}
 
@@ -1319,12 +1319,12 @@ bool AnimatedImage::LoadFromFrameSize(const string& filename, const vector<uint3
 	}
 
 	if (trim >= image_frames.size()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempt to trim away more frames than requested to load for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempt to trim away more frames than requested to load for file: " << filename << std::endl;
 		return false;
 	}
 
 	if (timings.size() < (image_frames.size() - trim)) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "not enough timing data to fill frames grid when loading file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "not enough timing data to fill frames grid when loading file: " << filename << std::endl;
 		return false;
 	}
 
@@ -1336,7 +1336,7 @@ bool AnimatedImage::LoadFromFrameSize(const string& filename, const vector<uint3
 		image_frames[i].SetDimensions(_width, _height);
 		AddFrame(image_frames[i], timings[i]);
 		if (timings[i] == 0) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "added a frame time value of zero when loading file: " << filename << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "added a frame time value of zero when loading file: " << filename << std::endl;
 		}
 	}
 
@@ -1347,12 +1347,12 @@ bool AnimatedImage::LoadFromFrameSize(const string& filename, const vector<uint3
 
 bool AnimatedImage::LoadFromFrameGrid(const string& filename, const vector<uint32>& timings, const uint32 frame_rows, const uint32 frame_cols, const uint32 trim) {
 	if (trim >= frame_rows * frame_cols) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempt to trim away more frames than requested to load for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempt to trim away more frames than requested to load for file: " << filename << std::endl;
 		return false;
 	}
 
 	if (timings.size() < (frame_rows * frame_cols - trim)) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "not enough timing data to fill frames grid when loading file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "not enough timing data to fill frames grid when loading file: " << filename << std::endl;
 		return false;
 	}
 
@@ -1381,7 +1381,7 @@ bool AnimatedImage::LoadFromFrameGrid(const string& filename, const vector<uint3
 		image_frames[i].SetDimensions(_width, _height);
 		AddFrame(image_frames[i], timings[i]);
 		if (timings[i] == 0) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "added zero frame time for an image frame when loading file: " << filename << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "added zero frame time for an image frame when loading file: " << filename << std::endl;
 		}
 	}
 
@@ -1392,7 +1392,7 @@ bool AnimatedImage::LoadFromFrameGrid(const string& filename, const vector<uint3
 
 void AnimatedImage::Draw() const {
 	if (_frames.empty()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << std::endl;
 		return;
 	}
 
@@ -1403,7 +1403,7 @@ void AnimatedImage::Draw() const {
 
 void AnimatedImage::Draw(const Color& draw_color) const {
 	if (_frames.empty()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << std::endl;
 		return;
 	}
 
@@ -1430,7 +1430,7 @@ bool AnimatedImage::Save(const std::string& filename, uint32 grid_rows, uint32 g
 
 void AnimatedImage::EnableGrayScale() {
 	if (_grayscale == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled when function was invoked" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled when function was invoked" << std::endl;
 		return;
 	}
 
@@ -1444,7 +1444,7 @@ void AnimatedImage::EnableGrayScale() {
 
 void AnimatedImage::DisableGrayScale() {
 	if (_grayscale == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already disabled when function was invoked" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already disabled when function was invoked" << std::endl;
 		return;
 	}
 
@@ -1494,7 +1494,7 @@ bool AnimatedImage::AddFrame(const std::string& frame, uint32 frame_time) {
 	}
 	if (frame_time == 0) {
 		PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
-			<< frame << endl;
+			<< frame << std::endl;
 		return false;
 	}
 
@@ -1509,12 +1509,12 @@ bool AnimatedImage::AddFrame(const std::string& frame, uint32 frame_time) {
 
 bool AnimatedImage::AddFrame(const StillImage& frame, uint32 frame_time) {
 	if (!frame._image_texture) {
-		PRINT_WARNING << "The StillImage argument did not contain any image elements" << endl;
+		PRINT_WARNING << "The StillImage argument did not contain any image elements" << std::endl;
 		return false;
 	}
 	if (frame_time == 0) {
 		PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
-			<< frame.GetFilename() << endl;
+			<< frame.GetFilename() << std::endl;
 		return false;
 	}
 
@@ -1689,7 +1689,7 @@ void CompositeImage::SetWidth(float width) {
 	// Case 3: We must set the width of each element appropriately. That is,
 	// scale its width relative to the width of the composite image
 	if (IsFloatEqual(_width, 0.0f) == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "internal width was 0.0f when trying to re-size multiple image elements" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "internal width was 0.0f when trying to re-size multiple image elements" << std::endl;
 		return;
 	}
 
@@ -1719,7 +1719,7 @@ void CompositeImage::SetHeight(float height) {
 	// Case 3: We must set the height of each element appropriately. That is,
 	// scale its height relative to the height of the composite image
 	if (IsFloatEqual(_height, 0.0f) == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "internal height was 0.0f when trying to re-size multiple image elements" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "internal height was 0.0f when trying to re-size multiple image elements" << std::endl;
 		return;
 	}
 
@@ -1754,7 +1754,7 @@ void CompositeImage::SetVertexColors(const Color &tl, const Color &tr, const Col
 
 void CompositeImage::AddImage(const StillImage& img, float x_offset, float y_offset, float u1, float v1, float u2, float v2) {
 	if (x_offset < 0.0f || y_offset < 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "negative x or y offset passed to function" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "negative x or y offset passed to function" << std::endl;
 		return;
 	}
 
@@ -1779,20 +1779,20 @@ void CompositeImage::AddImage(const StillImage& img, float x_offset, float y_off
 
 // void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32> >& indeces) {
 // 	if (tiles.empty() == true || indeces.empty() == true) {
-// 		IF_PRINT_WARNING(VIDEO_DEBUG) << "either the tiles or indeces vector function arguments were empty" << endl;
+// 		IF_PRINT_WARNING(VIDEO_DEBUG) << "either the tiles or indeces vector function arguments were empty" << std::endl;
 // 		return;
 // 	}
 //
 // 	for (uint32 i = 1; i < tiles.size(); i++) {
 // 		if (tiles[0]._width != tiles[i]._width || tiles[0]._height != tiles[i]._height) {
-// 			IF_PRINT_WARNING(VIDEO_DEBUG) << "images within the tiles argument had unequal dimensions" << endl;
+// 			IF_PRINT_WARNING(VIDEO_DEBUG) << "images within the tiles argument had unequal dimensions" << std::endl;
 // 			return;
 // 		}
 // 	}
 //
 // 	for (uint32 i = 1; i < indeces.size(); i++) {
 // 		if (indeces[0].size() != indeces[i].size()) {
-// 			IF_PRINT_WARNING(VIDEO_DEBUG) << "the row sizes in the indices 2D vector argument did not match" << endl;
+// 			IF_PRINT_WARNING(VIDEO_DEBUG) << "the row sizes in the indices 2D vector argument did not match" << std::endl;
 // 			return;
 // 		}
 // 	}

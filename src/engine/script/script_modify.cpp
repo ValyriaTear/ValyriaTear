@@ -31,7 +31,7 @@ ModifyScriptDescriptor::~ModifyScriptDescriptor() {
 	if (IsFileOpen()) {
 		if (SCRIPT_DEBUG)
 			cerr << "SCRIPT WARNING: ModifyScriptDescriptor destructor was called when file was still open: "
-				<< _filename << endl;
+				<< _filename << std::endl;
 		CloseFile();
 	}
 	
@@ -49,7 +49,7 @@ bool ModifyScriptDescriptor::OpenFile(const std::string& file_name) {
 	if (ScriptManager->IsFileOpen(file_name) == true) {
 		if (SCRIPT_DEBUG)
 			cerr << "SCRIPT WARNING: ModifyScriptDescriptor::OpenFile() attempted to open file that is already opened: "
-				<< file_name << endl;
+				<< file_name << std::endl;
 		return false;
 	}
 
@@ -63,7 +63,7 @@ bool ModifyScriptDescriptor::OpenFile(const std::string& file_name) {
 
 		// Attempt to load and execute the Lua file.
 		if (luaL_loadfile(_lstack, file_name.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
-			cerr << "SCRIPT ERROR: ModifyScriptDescriptor::OpenFile() could not open the file " << file_name << endl;
+			cerr << "SCRIPT ERROR: ModifyScriptDescriptor::OpenFile() could not open the file " << file_name << std::endl;
 			_access_mode = SCRIPT_CLOSED;
 			return false;
 		}
@@ -82,7 +82,7 @@ bool ModifyScriptDescriptor::OpenFile() {
 	if (_filename == "") {
 		if (SCRIPT_DEBUG)
 			cerr << "SCRIPT ERROR: ModifyScriptDescriptor::OpenFile(), could not open file "
-				<< "because of an invalid file name (empty string)." << endl;
+				<< "because of an invalid file name (empty string)." << std::endl;
 		return false;
 	}
 
@@ -95,14 +95,14 @@ void ModifyScriptDescriptor::CloseFile() {
 	if (IsFileOpen() == false) {
 		if (SCRIPT_DEBUG)
 			cerr << "SCRIPT ERROR: ModifyScriptDescriptor::CloseFile() could not close the "
-				<< "file because it was not open." << endl;
+				<< "file because it was not open." << std::endl;
 		return;
 	}
 
 	if (SCRIPT_DEBUG && IsErrorDetected()) {
 		cerr << "SCRIPT WARNING: In ModifyScriptDescriptor::CloseFile(), the file " << _filename
-			<< " had error messages remaining. They are as follows:" << endl;
-		cerr << _error_messages.str() << endl;
+			<< " had error messages remaining. They are as follows:" << std::endl;
+		cerr << _error_messages.str() << std::endl;
 	}
 
 	_lstack = NULL;
@@ -124,7 +124,7 @@ void ModifyScriptDescriptor::CommitChanges(bool leave_closed) {
 	if (file.OpenFile(temp_filename) == false) {
 		if (SCRIPT_DEBUG)
 			_error_messages << "* ModifyScriptDescriptor::CommitChanges() failed because it could not open "
-				<< "the file to write the modifications to" << endl;
+				<< "the file to write the modifications to" << std::endl;
 		return;
 	}
 
@@ -143,7 +143,7 @@ void ModifyScriptDescriptor::CommitChanges(bool leave_closed) {
 	
 	if (MoveFile(temp_filename, _filename) == false) {
 		_error_messages << "* ModifyScriptDescriptor::CommitChanges() failed because after writing the temporary file "
-			<< temp_filename << ", it could not be moved to overwrite the original filename " << _filename << endl;
+			<< temp_filename << ", it could not be moved to overwrite the original filename " << _filename << std::endl;
 	}
 
 	if (leave_closed == false)
@@ -168,7 +168,7 @@ void ModifyScriptDescriptor::_CommitTable(WriteScriptDescriptor& file, const lua
 
 		if (key_is_numeric && _open_tables_iterator == _open_tables.end())
 		{
-			cerr << "ModifyScriptDescriptor::_CommitTable: reached numeric key before writing out open tables" << endl;
+			cerr << "ModifyScriptDescriptor::_CommitTable: reached numeric key before writing out open tables" << std::endl;
 			return;
 		}
 		else if (!key_is_numeric && _open_tables_iterator != _open_tables.end())
@@ -251,7 +251,7 @@ void ModifyScriptDescriptor::_CommitTable(WriteScriptDescriptor& file, const lua
 						_error_messages << "key: " << num_key;
 					else
 						_error_messages << str_key;
-					_error_messages << ". It was not written to the modified file." << endl;
+					_error_messages << ". It was not written to the modified file." << std::endl;
 				}
 				break;
 		} // switch (luabind::type(*it))

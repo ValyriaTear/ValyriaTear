@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 	// current directory.
 	if (ifstream("./dat/config/settings.lua") == NULL) {
 		if (chdir(PKG_DATADIR) != 0) {
-			PRINT_ERROR << "failed to change directory to data location" << endl;
+			PRINT_ERROR << "failed to change directory to data location" << std::endl;
 		}
 	}
 #endif

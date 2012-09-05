@@ -63,12 +63,12 @@ string GetStatusName(GLOBAL_STATUS type) {
 			result = script_file.ReadString("name");
 		}
 		else {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained an entry but no name for status effect: " << type << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained an entry but no name for status effect: " << type << std::endl;
 		}
 		script_file.CloseTable();
 	}
 	else {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << type << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << type << std::endl;
 	}
 
 	if (result == "") {
@@ -107,7 +107,7 @@ bool GlobalStatusEffect::DecrementIntensity(uint8 amount) {
 
 	if (intensity_modified == true) {
 		if (_intensity < GLOBAL_INTENSITY_NEUTRAL) {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity below neutral level" << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity below neutral level" << std::endl;
 			_intensity = GLOBAL_INTENSITY_NEUTRAL;
 			if (_intensity == previous_intensity)
 				intensity_modified = false;

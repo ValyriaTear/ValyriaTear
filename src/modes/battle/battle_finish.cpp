@@ -187,7 +187,7 @@ void FinishDefeatAssistant::Update() {
 						_SetTooltipText();
 						break;
 					default:
-						IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid confirm option selection: " << _confirm_options.GetSelection() << endl;
+						IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid confirm option selection: " << _confirm_options.GetSelection() << std::endl;
 						break;
 				}
 			}
@@ -210,7 +210,7 @@ void FinishDefeatAssistant::Update() {
 			break;
 
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
 			break;
 	}
 } // void FinishDefeatAssistant::Update()
@@ -377,7 +377,7 @@ FinishVictoryAssistant::~FinishVictoryAssistant() {
 void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 	_retries_used = retries_used;
 	if (_retries_used >= MAX_BATTLE_ATTEMPTS) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid argument value: " << retries_used << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid argument value: " << retries_used << std::endl;
 		_retries_used = MAX_BATTLE_ATTEMPTS - 1;
 	}
 
@@ -480,7 +480,7 @@ void FinishVictoryAssistant::Update() {
 			break;
 
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
 			break;
 	}
 }
@@ -517,7 +517,7 @@ void FinishVictoryAssistant::_SetHeaderText() {
 		_header_total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
 	}
 }
 
@@ -886,7 +886,7 @@ FinishSupervisor::~FinishSupervisor() {
 
 void FinishSupervisor::Initialize(bool victory) {
 	if (_attempt_number >= MAX_BATTLE_ATTEMPTS) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "exceeded maximum allowed number of battle attempts" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "exceeded maximum allowed number of battle attempts" << std::endl;
 	}
 	else {
 		_attempt_number++;
@@ -946,7 +946,7 @@ void FinishSupervisor::Update() {
 					SystemManager->ExitGame();
 					break;
 				default:
-					IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid defeat option selected: " << _defeat_assistant.GetDefeatOption() << endl;
+					IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid defeat option selected: " << _defeat_assistant.GetDefeatOption() << std::endl;
 					break;
 			}
 		}

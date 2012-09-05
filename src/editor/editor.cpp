@@ -2304,51 +2304,51 @@ void EditorScrollArea::_AutotileTransitions(int32& tileset_num, int32& tile_inde
 			switch (pattern)
 			{
 				case NW_BORDER_PATTERN:
-					//cerr << "nw_border" << endl;
+					//cerr << "nw_border" << std::endl;
 					read_data.OpenTable(1);
 					break;
 				case N_BORDER_PATTERN:
-					//cerr << "n_border" << endl;
+					//cerr << "n_border" << std::endl;
 					read_data.OpenTable(2);
 					break;
 				case NE_BORDER_PATTERN:
-					//cerr << "ne_border" << endl;
+					//cerr << "ne_border" << std::endl;
 					read_data.OpenTable(3);
 					break;
 				case E_BORDER_PATTERN:
-					//cerr << "e_border" << endl;
+					//cerr << "e_border" << std::endl;
 					read_data.OpenTable(4);
 					break;
 				case SE_BORDER_PATTERN:
-					//cerr << "se_border" << endl;
+					//cerr << "se_border" << std::endl;
 					read_data.OpenTable(5);
 					break;
 				case S_BORDER_PATTERN:
-					//cerr << "s_border" << endl;
+					//cerr << "s_border" << std::endl;
 					read_data.OpenTable(6);
 					break;
 				case SW_BORDER_PATTERN:
-					//cerr << "sw_border" << endl;
+					//cerr << "sw_border" << std::endl;
 					read_data.OpenTable(7);
 					break;
 				case W_BORDER_PATTERN:
-					//cerr << "w_border" << endl;
+					//cerr << "w_border" << std::endl;
 					read_data.OpenTable(8);
 					break;
 				case NW_CORNER_PATTERN:
-					//cerr << "nw_corner" << endl;
+					//cerr << "nw_corner" << std::endl;
 					read_data.OpenTable(9);
 					break;
 				case NE_CORNER_PATTERN:
-					//cerr << "ne_corner" << endl;
+					//cerr << "ne_corner" << std::endl;
 					read_data.OpenTable(10);
 					break;
 				case SE_CORNER_PATTERN:
-					//cerr << "se_corner" << endl;
+					//cerr << "se_corner" << std::endl;
 					read_data.OpenTable(11);
 					break;
 				case SW_CORNER_PATTERN:
-					//cerr << "sw_corner" << endl;
+					//cerr << "sw_corner" << std::endl;
 					read_data.OpenTable(12);
 					break;
 				default: // should never get here

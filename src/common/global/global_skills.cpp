@@ -98,7 +98,7 @@ GlobalSkill::GlobalSkill(uint32 id) :
 
 	if (skill_script->IsErrorDetected()) {
 		PRINT_WARNING << "One or more errors occurred while reading skill data - they are listed below:	"
-			<< std::endl << skill_script->GetErrorMessages() << endl;
+			<< std::endl << skill_script->GetErrorMessages() << std::endl;
 		_id = 0; // Indicate that this skill is invalid
 	}
 } // GlobalSkill::GlobalSkill()
@@ -146,7 +146,7 @@ GlobalSkill& GlobalSkill::operator=(const GlobalSkill& copy) {
 
 bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, private_battle::BattleTarget target) {
 	if (!_battle_execute_function.is_valid()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "Can't execute invalid battle script function." << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "Can't execute invalid battle script function." << std::endl;
 		return false;
 	}
 

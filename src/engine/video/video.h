@@ -486,7 +486,7 @@ public:
 	/** \brief Returns a pointer to the GUIManager singleton object
 	*** This method allows the user to perform text operations. For example, to load a
 	*** font, the user may utilize this method like so:
-	*** `if (VideoManager->Text()->LoadFont(...) == true) { cout << "Success" << endl; }`
+	*** `if (VideoManager->Text()->LoadFont(...) == true) { cout << "Success" << std::endl; }`
 	***
 	*** \note See text.h for the public methods available from the TextSupervisor class
 	*** \note This function is guaranteed to return a valid pointer so long as the VideoEngine class
@@ -508,7 +508,7 @@ public:
 	/** \brief Returns a pointer to the TextureManager singleton object
 	*** This method allows the user to perform texture management operations. For example, to reload
 	*** all textures, the user may utilize this method like so:
-	*** `if (VideoManager->Textures()->ReloadTextures() == true) { cout << "Success" << endl; }`
+	*** `if (VideoManager->Textures()->ReloadTextures() == true) { cout << "Success" << std::endl; }`
 	***
 	*** \note See texture_controller.h for the public methods available from the GUISystem class
 	*** \note This function is guaranteed to return a valid pointer so long as the VideoEngine class

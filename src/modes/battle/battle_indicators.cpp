@@ -64,7 +64,7 @@ IndicatorElement::IndicatorElement(BattleActor* actor, INDICATOR_TYPE indicator_
 	_indicator_type(indicator_type)
 {
 	if (actor == NULL)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor argument" << std::endl;
 
     _x_force = RandomFloat(-20.0f, 20.0f);
 
@@ -78,7 +78,7 @@ IndicatorElement::IndicatorElement(BattleActor* actor, INDICATOR_TYPE indicator_
 
 void IndicatorElement::Start() {
 	if (_timer.IsInitial() == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "timer was not in initial state when started" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "timer was not in initial state when started" << std::endl;
 	}
 	_timer.Run();
 
@@ -229,7 +229,7 @@ IndicatorImage::IndicatorImage(BattleActor* actor, const string& filename,
 	IndicatorElement(actor, indicator_type)
 {
 	if (_image.Load(filename) == false)
-		PRINT_ERROR << "failed to load indicator image: " << filename << endl;
+		PRINT_ERROR << "failed to load indicator image: " << filename << std::endl;
 }
 
 
@@ -263,9 +263,9 @@ IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor,
 	_second_alpha_color(1.0f, 1.0f, 1.0f, 0.0f)
 {
 	if (_first_image.Load(first_filename) == false)
-		PRINT_ERROR << "failed to load first indicator image: " << first_filename << endl;
+		PRINT_ERROR << "failed to load first indicator image: " << first_filename << std::endl;
 	if (_second_image.Load(second_filename) == false)
-		PRINT_ERROR << "failed to load second indicator image: " << second_filename << endl;
+		PRINT_ERROR << "failed to load second indicator image: " << second_filename << std::endl;
 }
 
 
@@ -321,7 +321,7 @@ IndicatorSupervisor::IndicatorSupervisor(BattleActor* actor) :
 	_actor(actor)
 {
 	if (actor == NULL)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "contructor received NULL actor argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "contructor received NULL actor argument" << std::endl;
 }
 
 
@@ -381,7 +381,7 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount) {
 	const Color full_red(Color::red);
 
 	if (amount == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function was given a zero value argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function was given a zero value argument" << std::endl;
 		return;
 	}
 
@@ -425,7 +425,7 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points) {
 	const Color high_blue(0.0f, 0.15f, 1.0f, 1.0f);
 
 	if (amount == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function was given a zero value argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function was given a zero value argument" << std::endl;
 		return;
 	}
 

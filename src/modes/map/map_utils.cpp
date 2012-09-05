@@ -13,10 +13,7 @@
 *** \brief   Source file for map mode utility code
 *** *****************************************************************************/
 
-// Local map mode headers
 #include "map_utils.h"
-
-using namespace std;
 
 namespace hoa_map {
 
@@ -50,7 +47,8 @@ uint16 CalculateOppositeDirection(const uint16 direction) {
 		case SE_SOUTH:   return NW_NORTH;
 		case SE_EAST:    return NW_WEST;
 		default:
-			IF_PRINT_WARNING(MAP_DEBUG) << "invalid direction argument: " << direction << endl;
+			IF_PRINT_WARNING(MAP_DEBUG) << "invalid direction argument: "
+				<< direction << std::endl;
 			return SOUTH;
 	}
 }

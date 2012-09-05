@@ -74,7 +74,7 @@ const uint8 COMMON_DIALOGUE_LAST_INDICATOR = 2;
 *** - new_dialogue.AddText("Select from the options below.");
 *** - new_dialogue.AddOption("Return to beginning", 0);
 *** - new_dialogue.AddOption("End Dialogue");
-*** - if (new_dialogue.Validate() == false) cout << "Dialogue object is invalid" << endl;
+*** - if (new_dialogue.Validate() == false) cout << "Dialogue object is invalid" << std::endl;
 ***
 *** \note The interpretation of the display time member of the dialogue is subject to intrepretation
 *** by the code that is processing the dialogue. For example, the code may read this to mean that the

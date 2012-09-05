@@ -159,7 +159,7 @@ void OptionBox::Update(uint32 frame_time) {
 void OptionBox::Draw() {
 	// Do nothing if the option box is not properly initialized
 	if (!IsInitialized(_initialization_errors)) {
-		cout << "ERROR: Could not draw OptionBox" << endl;
+		cout << "ERROR: Could not draw OptionBox" << std::endl;
 		return;
 	}
 
@@ -296,17 +296,17 @@ void OptionBox::Draw() {
 
 void OptionBox::SetDimensions(float width, float height, uint8 num_cols, uint8 num_rows, uint8 cell_cols, uint8 cell_rows) {
 	if (num_rows == 0 || num_cols == 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "num_rows/num_cols argument was zero" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "num_rows/num_cols argument was zero" << std::endl;
 		return;
 	}
 
 	if (cell_rows == 0 || cell_cols == 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "cell_rows/cell_cols argument was zero" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "cell_rows/cell_cols argument was zero" << std::endl;
 		return;
 	}
 
 	if (num_rows < cell_rows || num_cols < cell_cols) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "num_rows/num_cols was less than cell_rows/cell_cols" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "num_rows/num_cols was less than cell_rows/cell_cols" << std::endl;
 		return;
 	}
 
@@ -330,7 +330,7 @@ void OptionBox::SetOptions(const vector<ustring>& option_text) {
 
 		if (_ConstructOption(str, option) == false) {
 			ClearOptions();
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "an option contained an invalid formatted string: " << MakeStandardString(*i) << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "an option contained an invalid formatted string: " << MakeStandardString(*i) << std::endl;
 			return;
 		}
 		_options.push_back(option);
@@ -348,7 +348,7 @@ void OptionBox::ClearOptions() {
 void OptionBox::AddOption() {
 	Option option;
 	if (_ConstructOption(ustring(), option) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to construct option using an empty string"  << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to construct option using an empty string"  << std::endl;
 		return;
 	}
 
@@ -360,7 +360,7 @@ void OptionBox::AddOption() {
 void OptionBox::AddOption(const hoa_utils::ustring& text) {
 	Option option;
 	if (_ConstructOption(text, option) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument contained an invalid formatted string: " << MakeStandardString(text) << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument contained an invalid formatted string: " << MakeStandardString(text) << std::endl;
 		return;
 	}
 
@@ -371,7 +371,7 @@ void OptionBox::AddOption(const hoa_utils::ustring& text) {
 
 void OptionBox::AddOptionElementText(uint32 option_index, const ustring& text) {
 	if (option_index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
 		return;
 	}
 
@@ -388,7 +388,7 @@ void OptionBox::AddOptionElementText(uint32 option_index, const ustring& text) {
 
 void OptionBox::AddOptionElementImage(uint32 option_index, string& image_filename) {
 	if (option_index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
 		return;
 	}
 
@@ -400,7 +400,7 @@ void OptionBox::AddOptionElementImage(uint32 option_index, string& image_filenam
 
 	this_option.image = new StillImage();
 	if (this_option.image->Load(image_filename) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to add image element because image file load failed" << image_filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to add image element because image file load failed" << image_filename << std::endl;
 		delete this_option.image;
 		this_option.image = NULL;
 		return;
@@ -413,11 +413,11 @@ void OptionBox::AddOptionElementImage(uint32 option_index, string& image_filenam
 
 void OptionBox::AddOptionElementImage(uint32 option_index, const StillImage* image) {
 	if (option_index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
 		return;
 	}
 	if (image == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "image argument was NULL" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "image argument was NULL" << std::endl;
 		return;
 	}
 
@@ -435,14 +435,14 @@ void OptionBox::AddOptionElementImage(uint32 option_index, const StillImage* ima
 
 void OptionBox::AddOptionElementAlignment(uint32 option_index, OptionElementType position_type) {
 	if (option_index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
 		return;
 	}
 	if ((position_type != VIDEO_OPTION_ELEMENT_LEFT_ALIGN) &&
 		(position_type != VIDEO_OPTION_ELEMENT_CENTER_ALIGN) &&
 		(position_type != VIDEO_OPTION_ELEMENT_RIGHT_ALIGN))
 	{
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid position_type argument" << position_type <<  endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid position_type argument" << position_type <<  std::endl;
 	}
 
 	Option& this_option = _options[option_index];
@@ -457,7 +457,7 @@ void OptionBox::AddOptionElementAlignment(uint32 option_index, OptionElementType
 
 void OptionBox::AddOptionElementPosition(uint32 option_index, uint32 position_length) {
 	if (option_index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
 		return;
 	}
 
@@ -473,7 +473,7 @@ void OptionBox::AddOptionElementPosition(uint32 option_index, uint32 position_le
 
 bool OptionBox::SetOptionText(uint32 index, const hoa_utils::ustring &text) {
 	if (index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << std::endl;
 		return false;
 	}
 
@@ -485,7 +485,7 @@ bool OptionBox::SetOptionText(uint32 index, const hoa_utils::ustring &text) {
 
 void OptionBox::SetSelection(uint32 index) {
 	if (index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << std::endl;
 		return;
 	}
 
@@ -508,7 +508,7 @@ void OptionBox::SetSelection(uint32 index) {
 
 void OptionBox::EnableOption(uint32 index, bool enable) {
 	if (index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << std::endl;
 		return;
 	}
 
@@ -519,7 +519,7 @@ void OptionBox::EnableOption(uint32 index, bool enable) {
 
 bool OptionBox::IsOptionEnabled(uint32 index) const {
 	if (index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << std::endl;
 		return false;
 	}
 
@@ -529,7 +529,7 @@ bool OptionBox::IsOptionEnabled(uint32 index) const {
 
 StillImage* OptionBox::GetEmbeddedImage(uint32 index) const {
 	if (index >= GetNumberOptions()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << std::endl;
 		return NULL;
 	}
 
@@ -543,34 +543,34 @@ bool OptionBox::IsInitialized(string& error_messages) {
 	error_messages.clear();
 
 	if (_width <= 0.0f)
-		s << "* Invalid width (" << _width << ")" << endl;
+		s << "* Invalid width (" << _width << ")" << std::endl;
 
 	if (_height <= 0.0f)
-		s << "* Invalid height (" << _height << ")" << endl;
+		s << "* Invalid height (" << _height << ")" << std::endl;
 
 	if (_number_rows <= 0)
-		s << "* Invalid number of rows (" << _number_rows << ")" << endl;
+		s << "* Invalid number of rows (" << _number_rows << ")" << std::endl;
 
 	if (_number_columns <= 0)
-		s << "* Invalid number of columns (" << _number_columns << ")" << endl;
+		s << "* Invalid number of columns (" << _number_columns << ")" << std::endl;
 
 	if (_cell_width <= 0.0f && _number_columns > 1)
-		s << "* Invalid horizontal spacing (" << _cell_width << ")" << endl;
+		s << "* Invalid horizontal spacing (" << _cell_width << ")" << std::endl;
 
 	if (_cell_height <= 0.0f && _number_rows > 1)
-		s << "* Invalid vertical spacing (" << _cell_height << ")" << endl;
+		s << "* Invalid vertical spacing (" << _cell_height << ")" << std::endl;
 
 	if (_option_xalign < VIDEO_X_LEFT || _option_xalign > VIDEO_X_RIGHT)
-		s << "* Invalid x align (" << _option_xalign << ")" << endl;
+		s << "* Invalid x align (" << _option_xalign << ")" << std::endl;
 
 	if (_option_yalign < VIDEO_Y_TOP || _option_yalign > VIDEO_Y_BOTTOM)
-		s << "* Invalid y align (" << _option_yalign << ")" << endl;
+		s << "* Invalid y align (" << _option_yalign << ")" << std::endl;
 
 	if (_text_style.font.empty())
-		s << "* Invalid font (none has been set)" << endl;
+		s << "* Invalid font (none has been set)" << std::endl;
 
 	if (_selection_mode <= VIDEO_SELECT_INVALID || _selection_mode >= VIDEO_SELECT_TOTAL)
-		s << "* Invalid selection mode (" << _selection_mode << ")" << endl;
+		s << "* Invalid selection mode (" << _selection_mode << ")" << std::endl;
 
 	error_messages = s.str();
 
@@ -589,7 +589,7 @@ bool OptionBox::IsInitialized(string& error_messages) {
 void OptionBox::InputConfirm() {
 	// Abort if an invalid option is selected
 	if (_selection < 0 || _selection >= static_cast<int32>(GetNumberOptions())) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an invalid (out of bounds) option was selected: " << _selection << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an invalid (out of bounds) option was selected: " << _selection << std::endl;
 		return;
 	}
 
@@ -739,7 +739,7 @@ void OptionBox::InputRight() {
 
 void OptionBox::SetTextStyle(const TextStyle& style) {
 	if (TextManager->GetFontProperties(style.font) == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.font << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.font << std::endl;
 		return;
 	}
 
@@ -751,7 +751,7 @@ void OptionBox::SetTextStyle(const TextStyle& style) {
 
 void OptionBox::SetCursorState(CursorState state) {
 	if (state <= VIDEO_CURSOR_STATE_INVALID || state >= VIDEO_CURSOR_STATE_TOTAL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid function argument : " << state << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid function argument : " << state << std::endl;
 		return;
 	}
 
@@ -796,7 +796,7 @@ bool OptionBox::_ConstructOption(const ustring& format_string, Option& op) {
 				// and close (>) plus stuff in the middle. So anything less than 3 characters is a problem.
 
 				IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because a tag opening was detected with an inadequate "
-					<< "number of remaining characters to construct a full tag: " << MakeStandardString(format_string) << endl;
+					<< "number of remaining characters to construct a full tag: " << MakeStandardString(format_string) << std::endl;
 				return false;
 			}
 
@@ -804,7 +804,7 @@ bool OptionBox::_ConstructOption(const ustring& format_string, Option& op) {
 
 			if (end_position == ustring::npos) { // Did not find the end of the tag
 				IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because a matching end tag could not be found for an open tag: "
-					<< MakeStandardString(format_string) << endl;
+					<< MakeStandardString(format_string) << std::endl;
 				return false;
 			}
 
@@ -830,13 +830,13 @@ bool OptionBox::_ConstructOption(const ustring& format_string, Option& op) {
 				else { // Then this must be an image tag
 					if (op.image != NULL) {
 						IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because two image tags were embedded within a single option"
-							<< MakeStandardString(format_string) << endl;
+							<< MakeStandardString(format_string) << std::endl;
 						return false;
 					}
 					op.image = new StillImage();
 					if (op.image->Load(tag_text) == false) {
 						IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because of an invalid image tag: "
-							<< MakeStandardString(format_string) << endl;
+							<< MakeStandardString(format_string) << std::endl;
 						return false;
 					}
 					new_element.type  = VIDEO_OPTION_ELEMENT_IMAGE;
@@ -1197,7 +1197,7 @@ void OptionBox::_DrawOption(const Option& op, const OptionCellBounds &bounds, fl
 			case VIDEO_OPTION_ELEMENT_TOTAL:
 			default:
 			{
-				IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid option element type was present" << endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid option element type was present" << std::endl;
 				break;
 			}
 		} // switch (op.elements[element].type)
@@ -1230,7 +1230,7 @@ void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float scroll_offset,
 	StillImage *default_cursor = VideoManager->GetDefaultCursor();
 
 	if (default_cursor == NULL)
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid (NULL) cursor image" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid (NULL) cursor image" << std::endl;
 
 	if (darken == false)
 		default_cursor->Draw();

@@ -42,12 +42,12 @@ GUIElement::GUIElement() :
 
 void GUIElement::SetDimensions(float w, float h) {
 	if (w <= 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid width argument: " << w << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid width argument: " << w << std::endl;
 		return;
 	}
 
 	if (h <= 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid height argument: " << h << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid height argument: " << h << std::endl;
 		return;
 	}
 
@@ -59,12 +59,12 @@ void GUIElement::SetDimensions(float w, float h) {
 
 void GUIElement::SetAlignment(int32 xalign, int32 yalign) {
 	if (_xalign != VIDEO_X_LEFT && _xalign != VIDEO_X_CENTER && _xalign != VIDEO_X_RIGHT) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid xalign value: " << xalign << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid xalign value: " << xalign << std::endl;
 		return;
 	}
 
 	if (_yalign != VIDEO_Y_TOP && _yalign != VIDEO_Y_CENTER && _yalign != VIDEO_Y_BOTTOM) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid yalign value: " << yalign << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid yalign value: " << yalign << std::endl;
 		return;
 	}
 
@@ -196,7 +196,7 @@ GUISystem::GUISystem() {
 GUISystem::~GUISystem() {
 	// Determine if any MenuWindows have not yet been deleted, and delete them if they exist
 	if (_menu_windows.empty() == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "there were undestroyed MenuWindows in GUISystem destructor" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "there were undestroyed MenuWindows in GUISystem destructor" << std::endl;
 		std::map<uint32, MenuWindow*> window_copies = _menu_windows;
 		for (std::map<uint32, MenuWindow*>::iterator i = window_copies.begin(); i != window_copies.end(); i++) {
 			i->second->Destroy();
@@ -258,7 +258,7 @@ bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string backg
 {
 	// ----- (1) Check that the skin_name is not already used by another skin
 	if (_menu_skins.find(skin_name) != _menu_skins.end()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " is already used by another skin" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " is already used by another skin" << std::endl;
 		return false;
 	}
 
@@ -297,7 +297,7 @@ bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string backg
 	// ----- (3) Load the background image, if one has been specified
 	if (background_image != "") {
 		if (new_skin.background.Load(background_image) == false) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "the background image file could not be loaded" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "the background image file could not be loaded" << std::endl;
 			_menu_skins.erase(skin_name);
 			return false;
 		}
@@ -315,7 +315,7 @@ bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string backg
 
 void GUISystem::SetDefaultMenuSkin(std::string& skin_name) {
 	if (_menu_skins.find(skin_name) == _menu_skins.end()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered" << std::endl;
 		return;
 	}
 
@@ -326,7 +326,7 @@ void GUISystem::SetDefaultMenuSkin(std::string& skin_name) {
 
 void GUISystem::DeleteMenuSkin(std::string& skin_name) {
 	if (_menu_skins.find(skin_name) == _menu_skins.end()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered" << std::endl;
 		return;
 	}
 
@@ -335,7 +335,7 @@ void GUISystem::DeleteMenuSkin(std::string& skin_name) {
 	map<uint32, MenuWindow*>::iterator i = _menu_windows.begin();
 	while (i != _menu_windows.end()) {
 		if (dead_skin == i->second->_skin) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "the MenuSkin \"" << skin_name << "\" was not deleted because a MenuWindow object was found to be using it" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "the MenuSkin \"" << skin_name << "\" was not deleted because a MenuWindow object was found to be using it" << std::endl;
 			return;
 		}
 		++i;
@@ -364,7 +364,7 @@ private_gui::MenuSkin* GUISystem::_GetMenuSkin(std::string& skin_name) {
 
 void GUISystem::_AddMenuWindow(MenuWindow* new_window) {
 	if (_menu_windows.find(new_window->_id) != _menu_windows.end()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because there already existed a window with the same ID" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because there already existed a window with the same ID" << std::endl;
 		return;
 	}
 	_menu_windows.insert(std::make_pair(new_window->_id, new_window));
@@ -379,7 +379,7 @@ void GUISystem::_RemoveMenuWindow(MenuWindow* old_window) {
 		_menu_windows.erase(i);
 	}
 	else {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "did not find a corresponding entry in the menu windows map" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "did not find a corresponding entry in the menu windows map" << std::endl;
 	}
 }
 

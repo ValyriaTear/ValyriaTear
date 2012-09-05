@@ -22,18 +22,16 @@
 #ifndef __BATTLE_HEADER__
 #define __BATTLE_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-#include "engine/audio/audio.h"
-#include "engine/mode_manager.h"
-#include "engine/script/script.h"
-#include "engine/system.h"
-#include "engine/video/video.h"
-
-#include "common/global/global.h"
-
 #include "battle_utils.h"
+
+#include "engine/audio/audio_descriptor.h"
+#include "engine/mode_manager.h"
+//#include "engine/script/script.h"
+//#include "engine/system.h"
+//#include "engine/video/video.h"
+
+#include "common/global/global_actors.h"
+
 
 namespace hoa_battle {
 

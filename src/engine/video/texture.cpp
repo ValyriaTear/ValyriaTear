@@ -51,7 +51,7 @@ TexSheet::~TexSheet() {
 
 bool TexSheet::Unload() {
 	if (loaded == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to unload an already unloaded texture sheet" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to unload an already unloaded texture sheet" << std::endl;
 		return false;
 	}
 
@@ -66,7 +66,7 @@ bool TexSheet::Unload() {
 bool TexSheet::Reload() {
 	if (loaded == true) {
 		if (VIDEO_DEBUG)
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load an already loaded texture sheet" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load an already loaded texture sheet" << std::endl;
 		return false;
 	}
 
@@ -74,7 +74,7 @@ bool TexSheet::Reload() {
 	GLuint id = TextureManager->_CreateBlankGLTexture(width, height);
 
 	if (id == INVALID_TEXTURE_ID) {
-		PRINT_ERROR << "call to TextureController::_CreateBlankGLTexture() failed" << endl;
+		PRINT_ERROR << "call to TextureController::_CreateBlankGLTexture() failed" << std::endl;
 		return false;
 	}
 
@@ -87,7 +87,7 @@ bool TexSheet::Reload() {
 
 	// Reload all of the images that belong to this texture
 	if (TextureManager->_ReloadImagesToSheet(this) == false) {
-		PRINT_ERROR << "call to TextureController::_ReloadImagesToSheet() failed" << endl;
+		PRINT_ERROR << "call to TextureController::_ReloadImagesToSheet() failed" << std::endl;
 		return false;
 	}
 
@@ -113,7 +113,7 @@ bool TexSheet::CopyRect(int32 x, int32 y, ImageMemory& data) {
 	);
 
 	if (VideoManager->CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << VideoManager->CreateGLErrorString() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << VideoManager->CreateGLErrorString() << std::endl;
 		return false;
 	}
 
@@ -137,7 +137,7 @@ bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect& screen_rect) {
 	);
 
 	if (VideoManager->CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << VideoManager->CreateGLErrorString() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << VideoManager->CreateGLErrorString() << std::endl;
 		return false;
 	}
 
@@ -192,7 +192,7 @@ void TexSheet::DEBUG_Draw() const {
 	glDrawArrays(GL_QUADS, 0, 4);
 
 	if (VideoManager->CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: " << VideoManager->CreateGLErrorString() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: " << VideoManager->CreateGLErrorString() << std::endl;
 	}
 } // void TexSheet::DEBUG_Draw() const
 
@@ -232,7 +232,7 @@ FixedTexSheet::FixedTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet
 
 FixedTexSheet::~FixedTexSheet() {
 	if (GetNumberTextures() != 0)
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << std::endl;
 
 	delete[] _blocks;
 }
@@ -245,7 +245,7 @@ bool FixedTexSheet::AddTexture(BaseTexture* img, ImageMemory& data) {
 
 	// Copy the pixel data for the texture over
 	if (CopyRect(img->x, img->y, data) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "VIDEO ERROR: CopyRect() failed in TexSheet::AddImage()!" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "VIDEO ERROR: CopyRect() failed in TexSheet::AddImage()!" << std::endl;
 		return false;
 	}
 
@@ -256,7 +256,7 @@ bool FixedTexSheet::AddTexture(BaseTexture* img, ImageMemory& data) {
 
 bool FixedTexSheet::InsertTexture(BaseTexture* img) {
 	if (img == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
 		return false;
 	}
 
@@ -294,7 +294,7 @@ bool FixedTexSheet::InsertTexture(BaseTexture* img) {
 
 void FixedTexSheet::RemoveTexture(BaseTexture *img) {
 	if (img == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
 		return;
 	}
 
@@ -302,7 +302,7 @@ void FixedTexSheet::RemoveTexture(BaseTexture *img) {
 
 	// Check to make sure the block is actually owned by this image
 	if (_blocks[block_index].image != img) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to remove a fixed block not owned by the image" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to remove a fixed block not owned by the image" << std::endl;
 		return;
 	}
 
@@ -314,7 +314,7 @@ void FixedTexSheet::RemoveTexture(BaseTexture *img) {
 
 void FixedTexSheet::FreeTexture(BaseTexture *img) {
 	if (img == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
 		return;
 	}
 
@@ -322,7 +322,7 @@ void FixedTexSheet::FreeTexture(BaseTexture *img) {
 
 	// Check to make sure the block is actually owned by this image
 	if (_blocks[block_index].image != img) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to remove a fixed block not owned by the image" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to remove a fixed block not owned by the image" << std::endl;
 		return;
 	}
 
@@ -334,7 +334,7 @@ void FixedTexSheet::FreeTexture(BaseTexture *img) {
 
 void FixedTexSheet::RestoreTexture(BaseTexture *img) {
 	if (img == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
 		return;
 	}
 
@@ -360,7 +360,7 @@ void FixedTexSheet::RestoreTexture(BaseTexture *img) {
 		now = now->next;
 	}
 
-	IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to restore, texture was not found in open list" << endl;
+	IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to restore, texture was not found in open list" << std::endl;
 }
 
 
@@ -435,7 +435,7 @@ VariableTexSheet::VariableTexSheet(int32 sheet_width, int32 sheet_height, GLuint
 
 VariableTexSheet::~VariableTexSheet() {
 	if (GetNumberTextures() != 0)
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << std::endl;
 
 	delete[] _blocks;
 }
@@ -448,7 +448,7 @@ bool VariableTexSheet::AddTexture(BaseTexture* img, ImageMemory& data) {
 
 	// Copy the pixel data for the texture over
 	if (CopyRect(img->x, img->y, data) == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "VIDEO ERROR: CopyRect() failed in TexSheet::AddImage()!" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "VIDEO ERROR: CopyRect() failed in TexSheet::AddImage()!" << std::endl;
 		return false;
 	}
 
@@ -459,7 +459,7 @@ bool VariableTexSheet::AddTexture(BaseTexture* img, ImageMemory& data) {
 
 bool VariableTexSheet::InsertTexture(BaseTexture* img) {
 	if (img == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
 		return false;
 	}
 
@@ -551,12 +551,12 @@ void VariableTexSheet::RemoveTexture(BaseTexture* img) {
 
 void VariableTexSheet::_SetBlockProperties(BaseTexture* tex, BaseTexture* new_tex, bool free) {
 	if (tex == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
 		return;
 	}
 
 	if (_textures.find(tex) == _textures.end()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture pointer argument was not contained within this texture sheet" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture pointer argument was not contained within this texture sheet" << std::endl;
 	}
 
 	// Calculate upper-left corner in blocks

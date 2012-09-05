@@ -66,25 +66,25 @@ namespace private_shop {
 
 ShopMedia::ShopMedia() {
 	if (_drunes_icon.Load("img/icons/drunes.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load drunes icon image" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load drunes icon image" << std::endl;
 
 	if (_star_icon.Load("img/menus/star.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load star icon image" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load star icon image" << std::endl;
 
 	if (_check_icon.Load("img/menus/green_check.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load check icon image" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load check icon image" << std::endl;
 
 	if (_x_icon.Load("img/menus/red_x.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load x icon image" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load x icon image" << std::endl;
 
 	if (_socket_icon.Load("img/menus/socket.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load socket icon image" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load socket icon image" << std::endl;
 
 	if (_equip_icon.Load("img/menus/equip.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load equip icon image" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load equip icon image" << std::endl;
 
 	if (ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 8, 9) == false) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load elemental icon images" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load elemental icon images" << std::endl;
 		return;
 	}
 
@@ -104,7 +104,7 @@ ShopMedia::ShopMedia() {
 		sound_load_failures++;
 
 	if (sound_load_failures > 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load " << sound_load_failures << " sounds needed by shop mode" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load " << sound_load_failures << " sounds needed by shop mode" << std::endl;
 	}
 
 	_all_category_names.push_back(UTranslate("Items"));
@@ -118,7 +118,7 @@ ShopMedia::ShopMedia() {
 	_all_category_names.push_back(UTranslate("All Wares"));
 
 	if (ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 4) == false) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load object category icon images" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load object category icon images" << std::endl;
 		return;
 	}
 	// The last three images in this multi image are blank, so they are removed
@@ -269,7 +269,7 @@ StillImage* ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_IN
 			row = 7;
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << element_type << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << element_type << std::endl;
 			return NULL;
 	}
 
@@ -303,7 +303,7 @@ StillImage* ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_IN
 			col = 8;
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid intensity level: " << intensity << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid intensity level: " << intensity << std::endl;
 			return NULL;
 	}
 
@@ -502,7 +502,7 @@ void ShopObjectViewer::SetSelectedObject(ShopObject* object) {
 			_SetDescriptionText();
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid object type: " << _object_type << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid object type: " << _object_type << std::endl;
 			break;
 	}
 
@@ -526,7 +526,7 @@ void ShopObjectViewer::ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 		_view_mode = new_mode;
 	}
 	else {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode passed in function argument: " << new_mode << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode passed in function argument: " << new_mode << std::endl;
 	}
 	_SetDescriptionText(); // Necessary because description text must change its owner window
 }
@@ -535,7 +535,7 @@ void ShopObjectViewer::ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 
 void ShopObjectViewer::_SetItemData() {
 	if (_object_type != SHOP_OBJECT_ITEM) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function invoked when selected object was not an item: " << _object_type << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function invoked when selected object was not an item: " << _object_type << std::endl;
 		return;
 	}
 
@@ -551,7 +551,7 @@ void ShopObjectViewer::_SetItemData() {
 	GLOBAL_TARGET target_type = item->GetTargetType();
 	_target_type_index = static_cast<uint32>(target_type);
 	if (_target_type_index >= _target_type_text.size()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/invalid target type, defaulting to 'Self': " << target_type << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/invalid target type, defaulting to 'Self': " << target_type << std::endl;
 		_target_type_index = 0;
 	}
 }
@@ -560,7 +560,7 @@ void ShopObjectViewer::_SetItemData() {
 
 void ShopObjectViewer::_SetEquipmentData() {
 	if (_object_type != SHOP_OBJECT_EQUIPMENT) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function invoked when selected object was not a piece of equipment: " << _object_type << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function invoked when selected object was not a piece of equipment: " << _object_type << std::endl;
 		return;
 	}
 
@@ -593,7 +593,7 @@ void ShopObjectViewer::_SetEquipmentData() {
 				armor_index = 3;
 				break;
 			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "object type was not armor: " << _selected_object->GetObject()->GetObjectType() << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "object type was not armor: " << _selected_object->GetObject()->GetObjectType() << std::endl;
 				return;
 		}
 	}
@@ -740,7 +740,7 @@ void ShopObjectViewer::_SetDescriptionText() {
 	}
 
 	else {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode was active: " << _view_mode << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode was active: " << _view_mode << std::endl;
 	}
 }
 
@@ -748,7 +748,7 @@ void ShopObjectViewer::_SetDescriptionText() {
 
 void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 meta_diff) {
 	if (index >= _character_sprites.size()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of bounds: " << index << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of bounds: " << index << std::endl;
 		return;
 	}
 
@@ -813,7 +813,7 @@ void ShopObjectViewer::_SetElementalIcons(const map<GLOBAL_ELEMENTAL, GLOBAL_INT
 				index = 7;
 				break;
 			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << i->first << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << i->first << std::endl;
 				break;
 		}
 
@@ -1057,7 +1057,7 @@ ShopMode::ShopMode() :
 		_screen_backdrop = VideoManager->CaptureScreen();
 	}
 	catch (Exception e) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << e.ToString() << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << e.ToString() << std::endl;
 	}
 } // ShopMode::ShopMode()
 
@@ -1097,7 +1097,7 @@ void ShopMode::Reset() {
 
 void ShopMode::Initialize() {
 	if (IsInitialized() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "shop was already initialized previously" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "shop was already initialized previously" << std::endl;
 		return;
 	}
 
@@ -1203,7 +1203,7 @@ void ShopMode::Update() {
 
 		if (InputManager->ConfirmPress()) {
 			if (_action_options.GetSelection() < 0 || _action_options.GetSelection() > 4) {
-				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
 				_action_options.SetSelection(0);
 				return;
 			}
@@ -1258,7 +1258,7 @@ void ShopMode::Update() {
 				_leave_interface->Update();
 				break;
 			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << ", reseting to root state" << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << ", reseting to root state" << std::endl;
 				_state = SHOP_STATE_ROOT;
 				break;
 		} // switch (_state)
@@ -1309,7 +1309,7 @@ void ShopMode::Draw() {
 			_action_titles[3].Draw();
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
 			break;
 	}
 
@@ -1339,7 +1339,7 @@ void ShopMode::Draw() {
 			_leave_interface->Draw();
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
 			break;
 	}
 } // void ShopMode::Draw()
@@ -1348,19 +1348,19 @@ void ShopMode::Draw() {
 
 void ShopMode::AddObjectToBuyList(ShopObject* object) {
 	if (object == NULL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
 		return;
 	}
 
 	if (object->GetBuyCount() == 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a buy count of zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a buy count of zero" << std::endl;
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
 	pair<map<uint32, ShopObject*>::iterator, bool> ret_val;
 	ret_val = _buy_list.insert(make_pair(object_id, object));
 	if (ret_val.second == false) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in buy list" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in buy list" << std::endl;
 	}
 }
 
@@ -1368,18 +1368,18 @@ void ShopMode::AddObjectToBuyList(ShopObject* object) {
 
 void ShopMode::RemoveObjectFromBuyList(ShopObject* object) {
 	if (object == NULL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
 		return;
 	}
 
 	if (object->GetBuyCount() > 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a buy count that was non-zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a buy count that was non-zero" << std::endl;
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
 	map<uint32, ShopObject*>::iterator object_entry = _buy_list.find(object_id);
 	if (object_entry == _buy_list.end()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the buy list" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the buy list" << std::endl;
 	}
 	else {
 		_buy_list.erase(object_entry);
@@ -1390,19 +1390,19 @@ void ShopMode::RemoveObjectFromBuyList(ShopObject* object) {
 
 void ShopMode::AddObjectToSellList(ShopObject* object) {
 	if (object == NULL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
 		return;
 	}
 
 	if (object->GetSellCount() == 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a sell count of zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a sell count of zero" << std::endl;
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
 	pair<map<uint32, ShopObject*>::iterator, bool> ret_val;
 	ret_val = _sell_list.insert(make_pair(object_id, object));
 	if (ret_val.second == false) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in sell list" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in sell list" << std::endl;
 	}
 }
 
@@ -1410,18 +1410,18 @@ void ShopMode::AddObjectToSellList(ShopObject* object) {
 
 void ShopMode::RemoveObjectFromSellList(ShopObject* object) {
 	if (object == NULL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
 		return;
 	}
 
 	if (object->GetSellCount() > 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a sell count that was non-zero" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a sell count that was non-zero" << std::endl;
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
 	map<uint32, ShopObject*>::iterator object_entry = _sell_list.find(object_id);
 	if (object_entry == _sell_list.end()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the sell list" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the sell list" << std::endl;
 	}
 	else {
 		_sell_list.erase(object_entry);
@@ -1543,7 +1543,7 @@ void ShopMode::UpdateFinances(int32 costs_amount, int32 sales_amount) {
 
 void ShopMode::ChangeState(SHOP_STATE new_state) {
 	if (_state == new_state) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "shop was already in the state to change to: " << _state << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "shop was already in the state to change to: " << _state << std::endl;
 		return;
 	}
 
@@ -1577,7 +1577,7 @@ void ShopMode::ChangeState(SHOP_STATE new_state) {
 			_leave_interface->MakeActive();
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
 			break;
 	}
 }
@@ -1586,7 +1586,7 @@ void ShopMode::ChangeState(SHOP_STATE new_state) {
 
 void ShopMode::SetShopName(ustring name) {
 	if (IsInitialized() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;
 		return;
 	}
 
@@ -1597,7 +1597,7 @@ void ShopMode::SetShopName(ustring name) {
 
 void ShopMode::SetGreetingText(ustring greeting) {
 	if (IsInitialized() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;
 		return;
 	}
 
@@ -1608,7 +1608,7 @@ void ShopMode::SetGreetingText(ustring greeting) {
 
 void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_level) {
 	if (IsInitialized() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;
 		return;
 	}
 
@@ -1620,17 +1620,17 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
 
 void ShopMode::AddObject(uint32 object_id, uint32 stock) {
 	if (IsInitialized() == true) {
-		PRINT_WARNING << "function called after shop was already initialized" << endl;
+		PRINT_WARNING << "function called after shop was already initialized" << std::endl;
 		return;
 	}
 
 	if (object_id == private_global::OBJECT_ID_INVALID || object_id >= private_global::OBJECT_ID_EXCEEDS) {
-		PRINT_WARNING << "attempted to add object with invalid id: " << object_id << endl;
+		PRINT_WARNING << "attempted to add object with invalid id: " << object_id << std::endl;
 		return;
 	}
 
 	if (_available_buy.find(object_id) != _available_buy.end()) {
-		PRINT_WARNING << "attempted to add object that already existed: " << object_id << endl;
+		PRINT_WARNING << "attempted to add object that already existed: " << object_id << std::endl;
 		return;
 	}
 
@@ -1648,12 +1648,12 @@ void ShopMode::AddObject(uint32 object_id, uint32 stock) {
 void ShopMode::RemoveObjectToSell(uint32 object_id) {
 	std::map<uint32, ShopObject*>::iterator shop_iter = _available_sell.find(object_id);
 	if (shop_iter == _available_sell.end()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << std::endl;
 		return;
 	}
 
 	if (shop_iter->second->GetOwnCount() != 0) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: " << object_id << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: " << object_id << std::endl;
 		return;
 	}
 

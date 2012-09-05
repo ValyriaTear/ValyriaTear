@@ -39,7 +39,7 @@ bool SCRIPT_DEBUG = false;
 //-----------------------------------------------------------------------------
 
 ScriptEngine::ScriptEngine() {
-	IF_PRINT_DEBUG(SCRIPT_DEBUG) << "ScriptEngine constructor invoked." << endl;
+	IF_PRINT_DEBUG(SCRIPT_DEBUG) << "ScriptEngine constructor invoked." << std::endl;
 
 	// Initialize Lua and LuaBind
 	_global_state = lua_open();
@@ -50,7 +50,7 @@ ScriptEngine::ScriptEngine() {
 
 
 ScriptEngine::~ScriptEngine() {
-	IF_PRINT_DEBUG(SCRIPT_DEBUG) << "ScriptEngine destructor invoked." << endl;
+	IF_PRINT_DEBUG(SCRIPT_DEBUG) << "ScriptEngine destructor invoked." << std::endl;
 
 	_open_files.clear();
 	lua_close(_global_state);
@@ -78,9 +78,9 @@ bool ScriptEngine::IsFileOpen(const std::string& filename) {
 
 void ScriptEngine::HandleLuaError(luabind::error& err) {
 	lua_State *state = err.state();
-	PRINT_ERROR << "a runtime Lua error has occured with the following error message:\n  " << endl;
+	PRINT_ERROR << "a runtime Lua error has occured with the following error message:\n  " << std::endl;
 	std::string k = lua_tostring(state, lua_gettop(state)) ;
-	cerr << k << endl;
+	cerr << k << std::endl;
 	lua_pop(state, 1);
 }
 
@@ -88,7 +88,7 @@ void ScriptEngine::HandleLuaError(luabind::error& err) {
 
 void ScriptEngine::HandleCastError(luabind::cast_failed& err) {
 	PRINT_ERROR << "the return value of a Lua function call could not be successfully converted "
-		<< "to the specified C++ type: " << err.what() << endl;
+		<< "to the specified C++ type: " << err.what() << std::endl;
 }
 
 

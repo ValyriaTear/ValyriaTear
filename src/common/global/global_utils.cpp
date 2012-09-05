@@ -124,7 +124,7 @@ GlobalObject* GlobalCreateNewObject(uint32 id, uint32 count) {
 	else if ((id > MAX_SHARD_ID) && (id <= MAX_KEY_ITEM_ID))
 		new_object = new GlobalKeyItem(id, count);
 	else
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid id argument: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid id argument: " << id << std::endl;
 
 	// If an object was created but its ID was set to NULL, this indicates that the object is invalid
 	if ((new_object != NULL) && (new_object->GetID() == 0)) {
@@ -145,7 +145,7 @@ bool IncrementIntensity(GLOBAL_INTENSITY& intensity, uint8 amount) {
 
 	// This check protects against overflow conditions
 	if (amount > (GLOBAL_INTENSITY_TOTAL * 2)) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to increment intensity by an excessive amount: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to increment intensity by an excessive amount: " << amount << std::endl;
 		if (intensity == GLOBAL_INTENSITY_POS_EXTREME) {
 			return false;
 		}
@@ -171,7 +171,7 @@ bool DecrementIntensity(GLOBAL_INTENSITY& intensity, uint8 amount) {
 
 	// This check protects against overflow conditions
 	if (amount > (GLOBAL_INTENSITY_TOTAL * 2)) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity by an excessive amount: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity by an excessive amount: " << amount << std::endl;
 		if (intensity == GLOBAL_INTENSITY_NEG_EXTREME) {
 			return false;
 		}

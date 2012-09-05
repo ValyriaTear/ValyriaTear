@@ -36,7 +36,7 @@ MenuWindow::MenuWindow() :
 bool MenuWindow::Create(string skin_name, float w, float h, int32 visible_flags, int32 shared_flags) {
 	_skin = GUIManager->_GetMenuSkin(skin_name);
 	if (_skin == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the requested menu skin was not found: " << skin_name << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the requested menu skin was not found: " << skin_name << std::endl;
 		return false;
 	}
 
@@ -48,7 +48,7 @@ bool MenuWindow::Create(string skin_name, float w, float h, int32 visible_flags,
 bool MenuWindow::Create(float w, float h, int32 visible_flags, int32 shared_flags) {
 	if (w <= 0 || h <= 0) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height argument was invalid: "
-			<< "(width = " << w << ", height = " << h << ")" << endl;
+			<< "(width = " << w << ", height = " << h << ")" << std::endl;
 		return false;
 	}
 
@@ -61,7 +61,7 @@ bool MenuWindow::Create(float w, float h, int32 visible_flags, int32 shared_flag
 		_skin = GUIManager->_GetDefaultMenuSkin();
 	}
 	if (_skin == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "a default menu skin was unavailable (no skins were loaded)" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "a default menu skin was unavailable (no skins were loaded)" << std::endl;
 		return false;
 	}
 
@@ -168,7 +168,7 @@ void MenuWindow::Update(uint32 frame_time) {
 
 void MenuWindow::Draw() {
 	if (_initialized == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the menu window was not initialized:\n" << _initialization_errors << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the menu window was not initialized:\n" << _initialization_errors << std::endl;
 		return;
 	}
 
@@ -204,7 +204,7 @@ void MenuWindow::Draw() {
 
 void MenuWindow::Show() {
 	if (_initialized == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the menu window was not initialized:\n" << _initialization_errors << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the menu window was not initialized:\n" << _initialization_errors << std::endl;
 		return;
 	}
 
@@ -224,7 +224,7 @@ void MenuWindow::Show() {
 
 void MenuWindow::Hide() {
 	if (_initialized == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the menu window was not initialized:\n" << _initialization_errors << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the menu window was not initialized:\n" << _initialization_errors << std::endl;
 		return;
 	}
 
@@ -248,27 +248,27 @@ bool MenuWindow::IsInitialized(string& errors) {
 
 	// Check width
 	if (_width <= 0.0f || _width > 1024.0f)
-		stream << "* Invalid width (" << _width << ")" << endl;
+		stream << "* Invalid width (" << _width << ")" << std::endl;
 
 	// Check height
 	if (_height <= 0.0f || _height > 768.0f)
-		stream << "* Invalid height (" << _height << ")" << endl;
+		stream << "* Invalid height (" << _height << ")" << std::endl;
 
 	// Check display mode
 	if (_display_mode <= VIDEO_MENU_INVALID || _display_mode >= VIDEO_MENU_TOTAL)
-		stream << "* Invalid display mode (" << _display_mode << ")" << endl;
+		stream << "* Invalid display mode (" << _display_mode << ")" << std::endl;
 
 	// Check state
 	if (_window_state <= VIDEO_MENU_STATE_INVALID || _window_state >= VIDEO_MENU_STATE_TOTAL)
-		stream << "* Invalid state (" << _window_state << ")" << endl;
+		stream << "* Invalid state (" << _window_state << ")" << std::endl;
 
 	// Check to see that a valid menu skin is being used
 	if (_skin == NULL)
-		stream << "* No menu skin is assigned" << endl;
+		stream << "* No menu skin is assigned" << std::endl;
 
 	// Check to see if the composite image composing the window is valid
 	if (_menu_image.GetWidth() == 0)
-		stream << "* Menu image is not valid" << endl;
+		stream << "* Menu image is not valid" << std::endl;
 
 	errors = stream.str();
 	if (errors.empty()) {
@@ -285,12 +285,12 @@ bool MenuWindow::IsInitialized(string& errors) {
 
 void MenuWindow::SetDimensions(float w, float h) {
 	if (w <= 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid width argument: " << w << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid width argument: " << w << std::endl;
 		return;
 	}
 
 	if (h <= 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid height argument: " << h << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid height argument: " << h << std::endl;
 		return;
 	}
 
@@ -304,7 +304,7 @@ void MenuWindow::SetDimensions(float w, float h) {
 void MenuWindow::SetMenuSkin(string& skin_name) {
 	MenuSkin* new_skin = GUIManager->_GetMenuSkin(skin_name);
 	if (new_skin == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin_name \"" << skin_name << "\" was invalid" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin_name \"" << skin_name << "\" was invalid" << std::endl;
 		return;
 	}
 
@@ -316,7 +316,7 @@ void MenuWindow::SetMenuSkin(string& skin_name) {
 
 void MenuWindow::SetDisplayMode(VIDEO_MENU_DISPLAY_MODE mode) {
 	if (mode <= VIDEO_MENU_INVALID || mode >= VIDEO_MENU_TOTAL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid mode argument passed to function: " << mode << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid mode argument passed to function: " << mode << std::endl;
 		return;
 	}
 
@@ -328,7 +328,7 @@ void MenuWindow::SetDisplayMode(VIDEO_MENU_DISPLAY_MODE mode) {
 
 bool MenuWindow::_RecreateImage() {
 	if (_skin == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "no menu skin set when function was invoked" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "no menu skin set when function was invoked" << std::endl;
 		return false;
 	}
 
@@ -351,12 +351,12 @@ bool MenuWindow::_RecreateImage() {
 	_inner_height = _height - vertical_border_size;
 
 	if (_inner_width < 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "_inner_width was computed as negative" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "_inner_width was computed as negative" << std::endl;
 		return false;
 	}
 
 	if (_inner_height < 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "_inner_height was computed as negative" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "_inner_height was computed as negative" << std::endl;
 		return false;
 	}
 

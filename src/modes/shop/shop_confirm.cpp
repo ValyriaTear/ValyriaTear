@@ -298,7 +298,7 @@ void ConfirmInterface::Update() {
 					return;
 				default:
 					IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in primary action options: "
-						<< _main_actions.GetSelection() << endl;
+						<< _main_actions.GetSelection() << std::endl;
 					return;
 			}
 		}
@@ -323,7 +323,7 @@ void ConfirmInterface::Update() {
 					return;
 				default:
 					IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in clear action options: "
-						<< _clear_actions.GetSelection() << endl;
+						<< _clear_actions.GetSelection() << std::endl;
 					return;
 			}
 		}
@@ -356,7 +356,7 @@ void ConfirmInterface::Update() {
 				return;
 			default:
 				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid transaction list was active: "
-					<< _active_list << endl;
+					<< _active_list << std::endl;
 				return;
 		}
 	}
@@ -369,7 +369,7 @@ void ConfirmInterface::Update() {
 	}
 
 	else {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid confirm state was active: " << _state << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid confirm state was active: " << _state << std::endl;
 		_state = CONFIRM_STATE_MAIN;
 	}
 } // void ConfirmInterface::Update()
@@ -449,7 +449,7 @@ void ConfirmInterface::Draw() {
 
 void ConfirmInterface::_ChangeState(CONFIRM_STATE new_state) {
 	if (_state == new_state) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "new state was the same as the current state: " << _state << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "new state was the same as the current state: " << _state << std::endl;
 		return;
 	}
 
@@ -493,7 +493,7 @@ void ConfirmInterface::_ChangeState(CONFIRM_STATE new_state) {
 				// TODO: implement once trade interface is complete
 				break;
 			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid transaction list was active: " << _active_list << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid transaction list was active: " << _active_list << std::endl;
 				break;
 		}
 		ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(selected_object);
@@ -525,7 +525,7 @@ void ConfirmInterface::_CycleActiveTransactionList() {
 		_properties_header.SetOptionText(3, UTranslate("Buy"));
 	}
 	else {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid transaction list was active: " << _active_list << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid transaction list was active: " << _active_list << std::endl;
 	}
 }
 

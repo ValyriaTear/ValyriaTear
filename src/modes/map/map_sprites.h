@@ -18,13 +18,6 @@
 #ifndef __MAP_SPRITES_HEADER__
 #define __MAP_SPRITES_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
-#include "engine/video/video.h"
-
-#include "modes/map/map_utils.h"
-#include "modes/map/map_objects.h"
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_zones.h"
 

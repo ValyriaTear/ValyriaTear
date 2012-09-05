@@ -23,8 +23,8 @@
 #include "common/global/global.h"
 
 #include "engine/video/particle_effect.h"
+#include "engine/audio/audio.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_script;
@@ -198,7 +198,7 @@ int32 PhysicalObject::AddAnimation(const std::string& animation_filename) {
 	AnimatedImage new_animation;
 	if (!new_animation.LoadFromAnimationScript(animation_filename)) {
 		PRINT_WARNING << "Could not add animation because the animation filename was invalid: "
-		    << animation_filename << endl;
+		    << animation_filename << std::endl;
 		return -1;
 	}
 	new_animation.SetDimensions(img_half_width * 2, img_height);
@@ -211,7 +211,7 @@ int32 PhysicalObject::AddStillFrame(const std::string& image_filename) {
 	AnimatedImage new_animation;
 	if (!new_animation.AddFrame(image_filename, 100000)) {
 		PRINT_WARNING << "Could not add a still frame because the image filename was invalid: "
-		    << image_filename << endl;
+		    << image_filename << std::endl;
 		return -1;
 	}
 	new_animation.SetDimensions(img_half_width * 2, img_height);
@@ -703,26 +703,26 @@ MapObject* ObjectSupervisor::GetObjectByIndex(uint32 index) {
 	}
 
 	uint32 counter = 0;
-	for (map<uint16, MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++) {
+	for (std::map<uint16, MapObject*>::iterator it = _all_objects.begin(); it != _all_objects.end(); ++it) {
 		if (counter == index)
-			return i->second;
+			return it->second;
 		else
-			counter++;
+			++counter;
 	}
 
-	IF_PRINT_WARNING(MAP_DEBUG) << "object not found after reaching end of set -- this should never happen" << endl;
+	IF_PRINT_WARNING(MAP_DEBUG) << "object not found after reaching end of set -- this should never happen" << std::endl;
 	return NULL;
 }
 
 
 
 MapObject* ObjectSupervisor::GetObject(uint32 object_id) {
-	map<uint16, MapObject*>::iterator i = _all_objects.find(object_id);
+	std::map<uint16, MapObject*>::iterator it = _all_objects.find(object_id);
 
-	if (i == _all_objects.end())
+	if (it == _all_objects.end())
 		return NULL;
 	else
-		return i->second;
+		return it->second;
 }
 
 
@@ -736,7 +736,7 @@ VirtualSprite* ObjectSupervisor::GetSprite(uint32 object_id) {
 
 	VirtualSprite* sprite = dynamic_cast<VirtualSprite*>(object);
 	if (sprite == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "could not cast map object to sprite type, object id: " << object_id << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "could not cast map object to sprite type, object id: " << object_id << std::endl;
 		return NULL;
 	}
 
@@ -755,7 +755,7 @@ void ObjectSupervisor::SortObjects() {
 
 bool ObjectSupervisor::Load(ReadScriptDescriptor& map_file) {
 	if (!map_file.DoesTableExist("map_grid")) {
-		PRINT_ERROR << "No map grid found in map file: " << map_file.GetFilename() << endl;
+		PRINT_ERROR << "No map grid found in map file: " << map_file.GetFilename() << std::endl;
 		return false;
 	}
 
@@ -763,7 +763,7 @@ bool ObjectSupervisor::Load(ReadScriptDescriptor& map_file) {
 	map_file.OpenTable("map_grid");
 	_num_grid_y_axis = map_file.GetTableSize();
 	for (uint16 y = 0; y < _num_grid_y_axis; ++y) {
-		_collision_grid.push_back(vector<uint32>());
+		_collision_grid.push_back(std::vector<uint32>());
 		map_file.ReadUIntVector(y, _collision_grid.back());
 	}
 	map_file.CloseTable();
@@ -897,37 +897,41 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 		search_area.right = search_area.right + search_distance;
 	}
 	else {
-		IF_PRINT_WARNING(MAP_DEBUG) << "sprite was set to invalid direction: " << sprite->direction << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "sprite was set to invalid direction: " << sprite->direction << std::endl;
 		return NULL;
 	}
 
 	// Go through all objects and determine which (if any) lie within the search area
-	vector<MapObject*> valid_objects; // A vector to hold objects which are inside the search area (either partially or fully)
-	vector<MapObject*>* search_vector = NULL; // A pointer to the vector of objects to search
 
-	// Only search the object layer that the sprite resides on. Note that we do not consider searching the pass layer.
+	// A vector to hold objects which are inside the search area (either partially or fully)
+	std::vector<MapObject*> valid_objects;
+	// A pointer to the vector of objects to search
+	std::vector<MapObject*>* search_vector = NULL;
+
+	// Only search the object layer that the sprite resides on.
+	// Note that we do not consider searching the pass layer.
 	if (sprite->sky_object)
 		search_vector = &_sky_objects;
 	else
 		search_vector = &_ground_objects;
 
-	for (vector<MapObject*>::iterator i = (*search_vector).begin(); i != (*search_vector).end(); i++) {
-		if (*i == sprite) // Don't allow the sprite itself to be considered in the search
+	for (std::vector<MapObject*>::iterator it = (*search_vector).begin(); it != (*search_vector).end(); ++it) {
+		if (*it == sprite) // Don't allow the sprite itself to be considered in the search
 			continue;
 
 		// Don't allow particle object to get in the way
 		// as this prevents save points from functioning
-		if ((*i)->GetObjectType() == PARTICLE_TYPE)
+		if ((*it)->GetObjectType() == PARTICLE_TYPE)
 			continue;
 
 		// If the object and sprite do not exist in one of the same contexts,
 		// do not consider the object for the search
-		if (!((*i)->context & sprite->context))
+		if (!((*it)->context & sprite->context))
 			continue;
 
-		MapRectangle object_rect = (*i)->GetCollisionRectangle();
+		MapRectangle object_rect = (*it)->GetCollisionRectangle();
 		if (MapRectangle::CheckIntersection(object_rect, search_area) == true)
-			valid_objects.push_back(*i);
+			valid_objects.push_back(*it);
 	} // for (map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
 
 	if (valid_objects.empty()) {
@@ -972,7 +976,7 @@ bool ObjectSupervisor::CheckObjectCollision(const MapRectangle& rect, const priv
 
 bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject* object) {
 	if (object == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "NULL pointer passed into function argument" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "NULL pointer passed into function argument" << std::endl;
 		return false;
 	}
 
@@ -1048,7 +1052,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 		}
 	}
 
-	vector<MapObject*>* objects = sprite->sky_object ?
+	std::vector<MapObject*>* objects = sprite->sky_object ?
 		&_sky_objects : &_ground_objects;
 
 	std::vector<hoa_map::private_map::MapObject*>::const_iterator it, it_end;
@@ -1090,7 +1094,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destin
 	Path path;
 
 	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(sprite)) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "Sprite position is invalid" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "Sprite position is invalid" << std::endl;
 		return path;
 	}
 
@@ -1099,7 +1103,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destin
 		return path;
 
 	if (!MapMode::CurrentInstance()->GetObjectSupervisor()->IsWithinMapBounds(destination.x, destination.y)) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid destination coordinates" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "Invalid destination coordinates" << std::endl;
 		return path;
 	}
 
@@ -1110,7 +1114,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destin
 
 	// Check that the source node is not the same as the destination node
 	if (source_node == dest) {
-		PRINT_ERROR << "source node coordinates are the same as the destination" << endl;
+		PRINT_ERROR << "source node coordinates are the same as the destination" << std::endl;
 		// return an empty path.
 		return path;
 	}
@@ -1191,7 +1195,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destin
 			nodes[i].g_score = best_node.g_score + g_add;
 
 			// ---------- (D): Check to see if the node is already on the open list and update it if necessary
-			vector<PathNode>::iterator iter = find(open_list.begin(), open_list.end(), nodes[i]);
+			std::vector<PathNode>::iterator iter = std::find(open_list.begin(), open_list.end(), nodes[i]);
 			if (iter != open_list.end()) {
 				// If its G is higher, it means that the path we are on is better, so switch the parent
 				if (iter->g_score > nodes[i].g_score) {
@@ -1218,7 +1222,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destin
 	} // while (open_list.empty() == false)
 
 	if (open_list.empty() == true) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "could not find path to destination" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "could not find path to destination" << std::endl;
 		return path;
 	}
 
@@ -1231,7 +1235,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite* sprite, const MapPosition& destin
 	closed_list.pop_back();
 
 	// Go backwards through the closed list following the parent nodes to construct the path
-	for (vector<PathNode>::iterator iter = closed_list.end() - 1; iter != closed_list.begin(); --iter) {
+	for (std::vector<PathNode>::iterator iter = closed_list.end() - 1; iter != closed_list.begin(); --iter) {
 		if (iter->tile_y == parent_y && iter->tile_x == parent_x) {
 			MapPosition next_pos(((float)iter->tile_x) + offset_x, ((float)iter->tile_y) + offset_y);
 			path.push_back(next_pos);

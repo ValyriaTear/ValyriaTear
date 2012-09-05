@@ -19,12 +19,13 @@
 #ifndef __MAP_TILES_HEADER__
 #define __MAP_TILES_HEADER__
 
-#include "defs.h"
-#include "utils.h"
+#include "modes/map/map_utils.h"
 
-#include "map_utils.h"
+#include "engine/script/script_read.h"
 
 namespace hoa_map {
+
+class MapMode;
 
 namespace private_map {
 

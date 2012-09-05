@@ -75,7 +75,7 @@ void SequenceSupervisor::Update() {
 			_UpdateExitingSequence();
 			break;
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "battle mode was not in a supported sequence state: " << _battle->_state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "battle mode was not in a supported sequence state: " << _battle->_state << std::endl;
 			_battle->ChangeState(BATTLE_STATE_NORMAL);
 			break;
 	}
@@ -209,7 +209,7 @@ void SequenceSupervisor::_UpdateInitialSequence() {
 	}
 	// If we're in at an unknown step, reset the counter and resume normal battle operation
 	else {
-		IF_PRINT_DEBUG(BATTLE_DEBUG) << "invalid sequence step counter: " << _sequence_step << endl;
+		IF_PRINT_DEBUG(BATTLE_DEBUG) << "invalid sequence step counter: " << _sequence_step << std::endl;
 		_sequence_step = 0;
 		BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_NORMAL);
 	}
@@ -270,7 +270,7 @@ void SequenceSupervisor::_UpdateExitingSequence() {
 	}
 	// If we're in at an unknown step, restart at sequence zero
 	else {
-		IF_PRINT_DEBUG(BATTLE_DEBUG) << "invalid sequence step counter: " << _sequence_step << endl;
+		IF_PRINT_DEBUG(BATTLE_DEBUG) << "invalid sequence step counter: " << _sequence_step << std::endl;
 		_sequence_step = 0;
 	}
 }

@@ -111,7 +111,7 @@ void SystemTimer::Initialize(uint32 duration, int32 number_loops) {
 
 void SystemTimer::EnableAutoUpdate(GameMode* owner) {
 	if (_auto_update == true) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer already had auto update enabled" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer already had auto update enabled" << std::endl;
 		return;
 	}
 
@@ -124,7 +124,7 @@ void SystemTimer::EnableAutoUpdate(GameMode* owner) {
 
 void SystemTimer::EnableManualUpdate() {
 	if (_auto_update == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer was already in manual update mode" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer was already in manual update mode" << std::endl;
 		return;
 	}
 
@@ -143,7 +143,7 @@ void SystemTimer::Update() {
 
 void SystemTimer::Update(uint32 time) {
 	if (_auto_update == true) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "update failed because timer is in automatic update mode" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "update failed because timer is in automatic update mode" << std::endl;
 		return;
 	}
 	if (IsRunning() == false) {
@@ -173,7 +173,7 @@ float SystemTimer::PercentComplete() const {
 
 void SystemTimer::SetDuration(uint32 duration) {
 	if (IsInitial() == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << std::endl;
 		return;
 	}
 
@@ -184,7 +184,7 @@ void SystemTimer::SetDuration(uint32 duration) {
 
 void SystemTimer::SetNumberLoops(int32 loops) {
 	if (IsInitial() == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << std::endl;
 		return;
 	}
 
@@ -195,7 +195,7 @@ void SystemTimer::SetNumberLoops(int32 loops) {
 
 void SystemTimer::SetModeOwner(hoa_mode_manager::GameMode* owner) {
 	if (IsInitial() == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << std::endl;
 		return;
 	}
 
@@ -206,7 +206,7 @@ void SystemTimer::SetModeOwner(hoa_mode_manager::GameMode* owner) {
 
 void SystemTimer::_AutoUpdate() {
 	if (_auto_update == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "tried to automatically update a timer that does not have auto updates enabled" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "tried to automatically update a timer that does not have auto updates enabled" << std::endl;
 		return;
 	}
 	if (IsRunning() == false) {
@@ -245,7 +245,7 @@ void SystemTimer::_UpdateTimer(uint32 time) {
 // -----------------------------------------------------------------------------
 
 SystemEngine::SystemEngine() {
-	IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << endl;
+	IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
 	_not_done = true;
 	SetLanguage("en@quot"); //Default language is English
@@ -254,7 +254,7 @@ SystemEngine::SystemEngine() {
 
 
 SystemEngine::~SystemEngine() {
-	IF_PRINT_DEBUG(SYSTEM_DEBUG) << "destructor invoked" << endl;
+	IF_PRINT_DEBUG(SYSTEM_DEBUG) << "destructor invoked" << std::endl;
 }
 
 
@@ -331,17 +331,17 @@ void SystemEngine::InitializeTimers() {
 
 void SystemEngine::AddAutoTimer(SystemTimer* timer) {
 	if (timer == NULL) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 	if (timer->IsAutoUpdate() == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer did not have auto update feature enabled" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer did not have auto update feature enabled" << std::endl;
 		return;
 	}
 
 // 	pair<set<SystemTimer*>::iterator, bool> return_value;
 	if (_auto_system_timers.insert(timer).second == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer already existed in auto system timer container" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer already existed in auto system timer container" << std::endl;
 	}
 }
 
@@ -349,15 +349,15 @@ void SystemEngine::AddAutoTimer(SystemTimer* timer) {
 
 void SystemEngine::RemoveAutoTimer(SystemTimer* timer) {
 	if (timer == NULL) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 	if (timer->IsAutoUpdate() == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer did not have auto update feature enabled" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer did not have auto update feature enabled" << std::endl;
 	}
 
 	if (_auto_system_timers.erase(timer) == 0) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer was not found in auto system timer container" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer was not found in auto system timer container" << std::endl;
 	}
 }
 

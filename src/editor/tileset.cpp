@@ -309,8 +309,8 @@ bool Tileset::Save()
 
 	if (write_data.IsErrorDetected() == true)
 	{
-		cerr << "Errors were detected when saving tileset file. The errors include: " << endl;
-		cerr << write_data.GetErrorMessages() << endl;
+		cerr << "Errors were detected when saving tileset file. The errors include: " << std::endl;
+		cerr << write_data.GetErrorMessages() << std::endl;
 		write_data.CloseFile();
 		return false;
 	} // errors were found

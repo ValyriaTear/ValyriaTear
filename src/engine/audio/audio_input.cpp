@@ -73,7 +73,7 @@ bool WavFile::Initialize() {
 	// Check that the initial chunk ID is "RIFF" -- 4 bytes
 	_file_input.read(buffer, 4);
 	if (buffer[0] != 'R' || buffer[1] != 'I' || buffer[2] != 'F' || buffer[3] != 'F') {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because initial chunk ID was not \"RIFF\"" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because initial chunk ID was not \"RIFF\"" << std::endl;
 		return false;
 	}
 
@@ -85,14 +85,14 @@ bool WavFile::Initialize() {
 	// Check format to be "WAVE" -- 4 bytes
 	_file_input.read(buffer, 4);
 	if (buffer[0] != 'W' || buffer[1] != 'A' || buffer[2] != 'V' || buffer[3] != 'E') {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because file format was not \"WAVE\"" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because file format was not \"WAVE\"" << std::endl;
 		return false;
 	}
 
 	// Check SubChunk ID to be "fmt " -- 4 bytes
 	_file_input.read(buffer, 4);
 	if (buffer[0] != 'f' || buffer[1] != 'm' || buffer[2] != 't' || buffer[3] != ' ') {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because initial subchunk ID was not \"fmt \"" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because initial subchunk ID was not \"fmt \"" << std::endl;
 		return false;
 	}
 
@@ -101,7 +101,7 @@ bool WavFile::Initialize() {
 	memcpy(&size, buffer, 4);
 	SWAP_U32_FROM_LITTLE(size);
 	if (size != 16) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because subchunk size was not equal to 16" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because subchunk size was not equal to 16" << std::endl;
 		return false;
 	}
 
@@ -111,7 +111,7 @@ bool WavFile::Initialize() {
 	memcpy(&size, buffer, 2);
 	SWAP_U32_FROM_LITTLE(size);
 	if (size != 1) { // PCM == 1
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because audio format was not PCM" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because audio format was not PCM" << std::endl;
 		return false;
 	}
 
@@ -120,7 +120,7 @@ bool WavFile::Initialize() {
 	memcpy(&_number_channels, buffer, 2);
 	SWAP_U16_FROM_LITTLE(_number_channels);
 	if (_number_channels != 1 && _number_channels != 2) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because number of channels was neither mono nor stereo" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because number of channels was neither mono nor stereo" << std::endl;
 		return false;
 	}
 
@@ -145,14 +145,14 @@ bool WavFile::Initialize() {
 	memcpy(&_bits_per_sample, buffer, 2);
 	SWAP_U16_FROM_LITTLE(_bits_per_sample);
 	if (_sample_size != (_number_channels * _bits_per_sample)/8) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because WAV file was internally inconsistent (block alignment should have been " << ((_number_channels * _bits_per_sample) / 8) << ", was " << _sample_size << ")" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because WAV file was internally inconsistent (block alignment should have been " << ((_number_channels * _bits_per_sample) / 8) << ", was " << _sample_size << ")" << std::endl;
 		return false;
 	}
 
 	// Check subchunk 2 ID (to be "data") -- 4 bytes
 	_file_input.read(buffer, 4);
 	if (buffer[0] != 'd' || buffer[1] != 'a' || buffer[2] != 't' || buffer[3] != 'a') {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because subchunk 2 ID was not \"data\"" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because subchunk 2 ID was not \"data\"" << std::endl;
 		return false;
 	}
 
@@ -173,7 +173,7 @@ void WavFile::Seek(uint32 sample_position) {
 	uint32 sample = sample_position * _sample_size;
 
 	if (sample >= _data_size) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because desired seek position exceeded the range of samples: " << sample << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because desired seek position exceeded the range of samples: " << sample << std::endl;
 		return;
 	}
 
@@ -227,7 +227,7 @@ bool OggFile::Initialize() {
 
 		if (ov_open_callbacks(file, &_vorbis_file, NULL, 0, callbacks) < 0) {
 			fclose(file);
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << endl;
+			IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
 			return false;
 		}
 
@@ -237,7 +237,7 @@ bool OggFile::Initialize() {
 
 		if (ov_open(file, &_vorbis_file, NULL, 0) < 0) {
 			fclose(file);
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << endl;
+			IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
 			return false;
 		}
 	#endif
@@ -257,7 +257,7 @@ bool OggFile::Initialize() {
 
 void OggFile::Seek(uint32 cursor) {
 	if (ov_seekable(&_vorbis_file) == 0) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because Ogg file was not seekable: " << _filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because Ogg file was not seekable: " << _filename << std::endl;
 		return;
 	}
 
@@ -304,13 +304,13 @@ uint32 OggFile::Read(uint8* buffer, uint32 size, bool& end) {
 		}
 		else if (num_bytes_read < 0) { // Indicates a read error occurred
 			if (num_bytes_read == OV_HOLE) {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "ov_read failed with return code: OV_HOLE" << endl;
+				IF_PRINT_WARNING(AUDIO_DEBUG) << "ov_read failed with return code: OV_HOLE" << std::endl;
 			}
 			else if (num_bytes_read == OV_EBADLINK) {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "ov_read failed with return code: OV_EBADLINK" << endl;
+				IF_PRINT_WARNING(AUDIO_DEBUG) << "ov_read failed with return code: OV_EBADLINK" << std::endl;
 			}
 			else {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "ov_read failed with return code: " << num_bytes_read << endl;
+				IF_PRINT_WARNING(AUDIO_DEBUG) << "ov_read failed with return code: " << num_bytes_read << std::endl;
 			}
 			break;
 		}
@@ -332,7 +332,7 @@ uint32 OggFile::Read(uint8* buffer, uint32 size, bool& end) {
 
 int OggFile::_FileSeekWrapper(FILE* file, ogg_int64_t off, int whence) {
 	if (file == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "file pointer was NULL in argument list" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "file pointer was NULL in argument list" << std::endl;
 		return -1;
 	}
 	else {
@@ -363,7 +363,7 @@ AudioMemory::AudioMemory(AudioInput* input) :
 	bool all_data_read = false;
 	input->Read(_audio_data, input->GetTotalNumberSamples(), all_data_read);
 	if (all_data_read == false) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to read entire audio data stream for file: " << _filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to read entire audio data stream for file: " << _filename << std::endl;
 	}
 }
 
@@ -420,7 +420,7 @@ AudioMemory::~AudioMemory() {
 void AudioMemory::Seek(uint32 sample_position) {
 	if (_data_position >= _total_number_samples) {
 		IF_PRINT_WARNING(AUDIO_DEBUG) << "attempted to seek postion beyond the maximum number of samples: "
-			<< sample_position << endl;
+			<< sample_position << std::endl;
 		return;
 	}
 

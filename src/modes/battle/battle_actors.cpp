@@ -68,7 +68,7 @@ BattleActor::BattleActor(GlobalActor* actor) :
 	_indicator_supervisor(new IndicatorSupervisor(this))
 {
 	if (actor == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << std::endl;
 		return;
 	}
 
@@ -117,7 +117,7 @@ void BattleActor::ResetActor() {
 
 void BattleActor::ChangeState(ACTOR_STATE new_state) {
 	if (_state == new_state) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor was already in new state: " << new_state << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor was already in new state: " << new_state << std::endl;
 		return;
 	}
 
@@ -134,7 +134,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state) {
 			break;
 		case ACTOR_STATE_WARM_UP:
 			if (_action == NULL) {
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << endl;
+				IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
 			}
 			else {
 				_state_timer.Initialize(_action->GetWarmUpTime());
@@ -143,7 +143,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state) {
 			break;
 		case ACTOR_STATE_READY:
 			if (_action == NULL) {
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << endl;
+				IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
 			}
 			else {
 				BattleMode::CurrentInstance()->NotifyActorReady(this);
@@ -155,7 +155,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state) {
 				// TODO: This case seems to occur when the action could not be executed (due to insufficient SP, etc).
 				// When this is the case, the action gets deleted and the actor would otherwise get stuck, because we
 				// dont have a cool-down time available to give it. This case needs to be handled better
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << endl;
+				IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
 				// TEMP: find a better solution than this temporary hack
 				ChangeState(ACTOR_STATE_IDLE);
 			}
@@ -188,12 +188,12 @@ void BattleActor::RegisterDamage(uint32 amount) {
 
 void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 	if (amount == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
 		RegisterMiss(true);
 		return;
 	}
 	if (_state == ACTOR_STATE_DYING || _state == ACTOR_STATE_DEAD) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state was dead" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state was dead" << std::endl;
 		RegisterMiss();
 		return;
 	}
@@ -230,7 +230,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 	if ((target != NULL) && (IsTargetPoint(target->GetType()) == true)) {
 		GlobalAttackPoint* damaged_point = _global_actor->GetAttackPoint(target->GetPoint());
 		if (damaged_point == NULL) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetPoint() << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetPoint() << std::endl;
 		}
 		else {
 			vector<pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
@@ -247,12 +247,12 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 
 void BattleActor::RegisterHealing(uint32 amount, bool hit_points) {
 	if (amount == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
 		RegisterMiss();
 		return;
 	}
 	if (_state == ACTOR_STATE_DYING || _state == ACTOR_STATE_DEAD) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state was dead" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state was dead" << std::endl;
 		RegisterMiss();
 		return;
 	}
@@ -267,12 +267,12 @@ void BattleActor::RegisterHealing(uint32 amount, bool hit_points) {
 
 void BattleActor::RegisterRevive(uint32 amount) {
 	if (amount == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
 		RegisterMiss();
 		return;
 	}
 	if (_state != ACTOR_STATE_DYING && _state != ACTOR_STATE_DEAD) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state wasn't dead" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state wasn't dead" << std::endl;
 		RegisterMiss();
 		return;
 	}
@@ -431,13 +431,13 @@ void BattleActor::DrawStaminaIcon(const hoa_video::Color& color) const {
 
 void BattleActor::SetAction(BattleAction* action) {
 	if (action == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 	if (_action != NULL) {
 		// Note: we do not display any warning if we are overwriting a previously set action in idle or command states. This is a valid operation in those states
 		if ((_state != ACTOR_STATE_IDLE) && (_state != ACTOR_STATE_COMMAND)) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "overwriting previously set action while in actor state: " << _state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "overwriting previously set action while in actor state: " << _state << std::endl;
 		}
 		delete _action;
 	}
@@ -756,7 +756,7 @@ void BattleCharacter::DrawStatus(uint32 order) {
 			y_offset = -75.0f;
 			break;
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid order argument: " << order << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid order argument: " << order << std::endl;
 			y_offset = 0.0f;
 	}
 
@@ -998,7 +998,7 @@ void BattleEnemy::DrawSprite() {
 
 void BattleEnemy::_DecideAction() {
 	if (_global_enemy->GetSkills().empty() == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "enemy had no usable skills" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "enemy had no usable skills" << std::endl;
 		ChangeState(ACTOR_STATE_IDLE);
 		return;
 	}
@@ -1033,7 +1033,7 @@ void BattleEnemy::_DecideAction() {
 	}
 
 	if (alive_characters.empty() == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters were alive when enemy was selecting a target" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters were alive when enemy was selecting a target" << std::endl;
 		ChangeState(ACTOR_STATE_IDLE);
 		return;
 	}

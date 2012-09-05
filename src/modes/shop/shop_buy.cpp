@@ -124,7 +124,7 @@ void BuyInterface::_UpdateAvailableBuyDealTypes() {
 				_buy_deal_types |= DEALS_KEY_ITEMS;
 				break;
 			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << std::endl;
 				break;
 		}
 	}
@@ -232,7 +232,7 @@ void BuyInterface::Reinitialize() {
 				object_data[type_index[7]].push_back(obj);
 				break;
 			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << endl;
+				IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << std::endl;
 				break;
 		}
 
@@ -463,7 +463,7 @@ void BuyInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode) {
 		_selected_properties.SetOptionText(3, MakeUnicodeString("×" + NumberToString(_selected_object->GetBuyCount())));
 	}
 	else {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << std::endl;
 	}
 }
 
@@ -562,11 +562,11 @@ void BuyListDisplay::ReconstructList() {
 
 void BuyListDisplay::RefreshEntry(uint32 index) {
 	if (_objects.empty() == true) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "no object data is available" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "no object data is available" << std::endl;
 		return;
 	}
 	if (index >= _objects.size()) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of range: " << index << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of range: " << index << std::endl;
 		return;
 	}
 
@@ -579,7 +579,7 @@ void BuyListDisplay::RefreshEntry(uint32 index) {
 bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount) {
 	ShopObject* obj = GetSelectedObject();
 	if (obj == NULL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "function could not perform operation because list was empty" << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "function could not perform operation because list was empty" << std::endl;
 		return false;
 	}
 

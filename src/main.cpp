@@ -120,8 +120,8 @@ bool LoadSettings()
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
-			<< "information from file: " << GetSettingsFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "information from file: " << GetSettingsFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -129,7 +129,7 @@ bool LoadSettings()
 	// TEMP: this is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
 	// In the future it should call a method of the input engine to disable the joysticks.
 	if (settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-		PRINT_DEBUG << "settings file specified to disable joystick input" << endl;
+		PRINT_DEBUG << "settings file specified to disable joystick input" << std::endl;
 		SDL_JoystickEventState(SDL_IGNORE);
 		SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 	}
@@ -168,8 +168,8 @@ bool LoadSettings()
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
-			<< "from file: " << GetSettingsFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "from file: " << GetSettingsFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -184,8 +184,8 @@ bool LoadSettings()
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
-			<< "information from file: " << GetSettingsFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "information from file: " << GetSettingsFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -199,8 +199,8 @@ bool LoadSettings()
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
-			<< "information from file: " << GetSettingsFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "information from file: " << GetSettingsFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -385,7 +385,7 @@ int main(int argc, char *argv[]) {
 		#ifdef WIN32
 		MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 		#else
-		cerr << e.ToString() << endl;
+		cerr << e.ToString() << std::endl;
 		#endif
 		return EXIT_FAILURE;
 	}
@@ -427,7 +427,7 @@ int main(int argc, char *argv[]) {
 		#ifdef WIN32
 		MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 		#else
-		cerr << e.ToString() << endl;
+		cerr << e.ToString() << std::endl;
 		#endif
 		return EXIT_FAILURE;
 	}

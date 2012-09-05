@@ -40,7 +40,7 @@ bool INPUT_DEBUG = false;
 
 // Initializes class members
 InputEngine::InputEngine() {
-	if (INPUT_DEBUG) cout << "INPUT: InputEngine constructor invoked" << endl;
+	if (INPUT_DEBUG) cout << "INPUT: InputEngine constructor invoked" << std::endl;
 	_any_key_press		    = false;
 	_any_key_release	    = false;
 	_last_axis_moved      = -1;
@@ -90,7 +90,7 @@ InputEngine::InputEngine() {
 
 
 InputEngine::~InputEngine() {
-	if (INPUT_DEBUG) cout << "INPUT: InputEngine destructor invoked" << endl;
+	if (INPUT_DEBUG) cout << "INPUT: InputEngine destructor invoked" << std::endl;
 
 	// If a joystick is open, close it before exiting
 	if (_joystick.js != NULL) {
@@ -103,7 +103,7 @@ InputEngine::~InputEngine() {
 bool InputEngine::SingletonInitialize() {
 	// Initialize the SDL joystick subsystem
 	if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0) {
-		cerr << "INPUT ERROR: failed to initailize the SDL joystick subsystem" << endl;
+		cerr << "INPUT ERROR: failed to initailize the SDL joystick subsystem" << std::endl;
 		return false;
 	}
 
@@ -134,7 +134,7 @@ bool InputEngine::RestoreDefaultKeys() {
 	string in_filename = GetSettingsFilename();
 	ReadScriptDescriptor settings_file;
 	if (!settings_file.OpenFile(in_filename)) {
-		cerr << "INPUT ERROR: failed to open data file for reading: " << in_filename << endl;
+		cerr << "INPUT ERROR: failed to open data file for reading: " << in_filename << std::endl;
 		return false;
 	}
 
@@ -168,7 +168,7 @@ bool InputEngine::RestoreDefaultJoyButtons()
 	string in_filename = GetSettingsFilename();
 	ReadScriptDescriptor settings_file;
 	if (settings_file.OpenFile(in_filename) == false) {
-		cerr << "INPUT ERROR: failed to open data file for reading: " << in_filename << endl;
+		cerr << "INPUT ERROR: failed to open data file for reading: " << in_filename << std::endl;
 		return false;
 	}
 

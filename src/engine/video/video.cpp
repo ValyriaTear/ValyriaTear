@@ -192,7 +192,7 @@ bool VideoEngine::SingletonInitialize() {
 		return true;
 
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
-		PRINT_ERROR << "SDL video initialization failed" << endl;
+		PRINT_ERROR << "SDL video initialization failed" << std::endl;
 		return false;
 	}
 
@@ -210,18 +210,18 @@ bool VideoEngine::FinalizeInitialization() {
 
 	// Initialize all sub-systems
 	if (TextureManager->SingletonInitialize() == false) {
-		PRINT_ERROR << "could not initialize texture manager" << endl;
+		PRINT_ERROR << "could not initialize texture manager" << std::endl;
 		return false;
 	}
 
 	if (TextManager->SingletonInitialize() == false) {
-		PRINT_ERROR << "could not initialize text manager" << endl;
+		PRINT_ERROR << "could not initialize text manager" << std::endl;
 		return false;
 	}
 
 	if (SetDefaultCursor("img/menus/cursor.png") == false) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: problem loading default menu cursor" << endl;
+			cerr << "VIDEO WARNING: problem loading default menu cursor" << std::endl;
 	}
 
 	// Prepare the screen for rendering
@@ -231,7 +231,7 @@ bool VideoEngine::FinalizeInitialization() {
 
 	// TEMP: this is a hack and should be removed when we can support procedural images
 	if (_rectangle_image.Load("") == false) {
-		PRINT_ERROR << "_rectangle_image could not be created" << endl;
+		PRINT_ERROR << "_rectangle_image could not be created" << std::endl;
 		return false;
 	}
 
@@ -273,7 +273,7 @@ void VideoEngine::SetInitialResolution(int32 width, int32 height) {
 
 void VideoEngine::SetTarget(VIDEO_TARGET target) {
 	if (target <= VIDEO_TARGET_INVALID || target >= VIDEO_TARGET_TOTAL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set video engine to an invalid target: " << target << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set video engine to an invalid target: " << target << std::endl;
 		return;
 	}
 
@@ -308,7 +308,7 @@ void VideoEngine::SetDrawFlags(int32 first_flag, ...) {
 		case VIDEO_BLEND_ADD: _current_context.blend = 2; break;
 
 		default:
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "Unknown flag in argument list: " << flag << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "Unknown flag in argument list: " << flag << std::endl;
 			break;
 		}
 		flag = va_arg(args, int32);
@@ -333,7 +333,7 @@ void VideoEngine::Clear(const Color &c) {
 	TextureManager->_debug_num_tex_switches = 0;
 
 	if (CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << std::endl;
 	}
 }
 
@@ -388,7 +388,7 @@ bool VideoEngine::ApplySettings() {
 	if (_target == VIDEO_TARGET_SDL_WINDOW) {
 		// Losing GL context, so unload images first
 		if (TextureManager && TextureManager->UnloadTextures() == false) {
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
 		}
 
 		int32 flags = SDL_OPENGL;
@@ -421,7 +421,7 @@ bool VideoEngine::ApplySettings() {
 			SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 
 			if (SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
-				IF_PRINT_WARNING(VIDEO_DEBUG) << "SDL_SetVideoMode() failed with error: " << SDL_GetError() << endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG) << "SDL_SetVideoMode() failed with error: " << SDL_GetError() << std::endl;
 
 				_temp_fullscreen = _fullscreen;
 				_temp_width = _screen_width;
@@ -465,11 +465,11 @@ bool VideoEngine::ApplySettings() {
 
 void VideoEngine::SetViewport(float left, float right, float bottom, float top) {
 	if (left > right) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "left argument was greater than right argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "left argument was greater than right argument" << std::endl;
 		return;
 	}
 	if (bottom > top) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "bottom argument was greater than top argument" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "bottom argument was greater than top argument" << std::endl;
 		return;
 	}
 
@@ -612,7 +612,7 @@ void VideoEngine::PushState() {
 void VideoEngine::PopState() {
 	// Restore the most recent context information and pop it from stack
 	if (_context_stack.empty()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "no video states were saved on the stack" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "no video states were saved on the stack" << std::endl;
 		return;
 	}
 
@@ -726,7 +726,7 @@ StillImage VideoEngine::CaptureScreen() throw(Exception) {
 	new_image->v2 = temp;
 
 	if (CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: " << CreateGLErrorString() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: " << CreateGLErrorString() << std::endl;
 	}
 
 	capture_id++;
@@ -745,11 +745,11 @@ void VideoEngine::SetGamma(float value) {
 
 	// Limit min/max gamma
 	if (_gamma_value > 2.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma over 2.0f" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma over 2.0f" << std::endl;
 		_gamma_value = 2.0f;
 	}
 	else if (_gamma_value < 0.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma below 0.0f" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma below 0.0f" << std::endl;
 		_gamma_value = 0.0f;
 	}
 
@@ -775,7 +775,7 @@ void VideoEngine::MakeScreenshot(const std::string& filename) {
 	glReadPixels(0, 0, buffer.width, buffer.height, GL_RGB, GL_UNSIGNED_BYTE, buffer.pixels);
 
 	if (CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << std::endl;
 
 		free(buffer.pixels);
 		buffer.pixels = NULL;
@@ -824,7 +824,7 @@ std::string VideoEngine::_CreateTempFilename(const std::string &extension)
 			if(digit==0)
 			{
 				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: _nextTempFile went past 'zzzzzzzz'" << endl;
+					cerr << "VIDEO ERROR: _nextTempFile went past 'zzzzzzzz'" << std::endl;
 				return file_name;
 			}
 
@@ -855,7 +855,7 @@ int32 VideoEngine::_ConvertYAlign(int32 y_align) {
 		case VIDEO_Y_TOP:
 			return 1;
 		default:
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << y_align << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << y_align << std::endl;
 			return 0;
 	}
 }
@@ -872,7 +872,7 @@ int32 VideoEngine::_ConvertXAlign(int32 x_align) {
 		case VIDEO_X_RIGHT:
 			return 1;
 		default:
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << x_align << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << x_align << std::endl;
 			return 0;
 	}
 }

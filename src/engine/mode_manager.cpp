@@ -43,7 +43,7 @@ const uint32 FADE_IN_OUT_TIME = 800;
 // ****************************************************************************
 
 GameMode::GameMode() {
-	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode constructor invoked" << endl;
+	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode constructor invoked" << std::endl;
 
 	// The value of this member should later be replaced by the child class
 	mode_type = MODE_MANAGER_DUMMY_MODE;
@@ -51,13 +51,13 @@ GameMode::GameMode() {
 
 
 GameMode::GameMode(uint8 mt) {
-	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode constructor invoked" << endl;
+	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode constructor invoked" << std::endl;
 	mode_type = mt;
 }
 
 
 GameMode::~GameMode() {
-	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode destructor invoked" << endl;
+	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: GameMode destructor invoked" << std::endl;
 
 	// Tells the audio manager that the mode is ending to permit freeing self-managed audio files.
 	AudioManager->RemoveOwner(this);
@@ -85,7 +85,7 @@ void GameMode::DrawEffects() {
 
 // This constructor must be defined for the singleton macro
 ModeEngine::ModeEngine() {
-	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: ModeEngine constructor invoked" << endl;
+	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: ModeEngine constructor invoked" << std::endl;
 	_pop_count = 0;
 	_state_change = false;
 	_fade_out = false;
@@ -98,7 +98,7 @@ ModeEngine::ModeEngine() {
 
 // The destructor frees all the modes still on the stack
 ModeEngine::~ModeEngine() {
-	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: ModeEngine destructor invoked" << endl;
+	if (MODE_MANAGER_DEBUG) cout << "MODE MANAGER: ModeEngine destructor invoked" << std::endl;
 	// Delete any game modes on the stack
 	while (_game_stack.size() != 0) {
 		delete _game_stack.back();
@@ -236,7 +236,7 @@ void ModeEngine::Update() {
 		// Pop however many game modes we need to from the top of the stack
 		while (_pop_count != 0) {
 			if (_game_stack.empty()) {
-				PRINT_WARNING << "Tried to pop off more game modes than were on the stack!" << endl;
+				PRINT_WARNING << "Tried to pop off more game modes than were on the stack!" << std::endl;
 				_pop_count = 0;
 				break; // Exit the loop
 			}
@@ -253,7 +253,7 @@ void ModeEngine::Update() {
 
 		// Make sure there is a game mode on the stack, otherwise we'll get a segementation fault.
 		if (_game_stack.empty()) {
-			PRINT_WARNING << "game stack is empty, exiting application" << endl;
+			PRINT_WARNING << "game stack is empty, exiting application" << std::endl;
 			SystemManager->ExitGame();
 		}
 
@@ -309,16 +309,16 @@ void ModeEngine::DrawPostEffects() {
 
 // Used for debugging purposes ONLY. Prints the contents of the game mode stack.
 void ModeEngine::DEBUG_PrintStack() {
-	cout << "MODE MANAGER DEBUG: Printing Game Stack" << endl;
+	cout << "MODE MANAGER DEBUG: Printing Game Stack" << std::endl;
 	if (_game_stack.size() == 0) {
-		cout << "***Game stack is empty!" << endl;
+		cout << "***Game stack is empty!" << std::endl;
 		return;
 	}
 
-	cout << "***top of stack***" << endl;
+	cout << "***top of stack***" << std::endl;
 	for (int32 i = static_cast<int32>(_game_stack.size()) - 1; i >= 0; i--)
-		cout << " index: " << i << " type: " << _game_stack[i]->mode_type << endl;
-	cout << "***bottom of stack***" << endl;
+		cout << " index: " << i << " type: " << _game_stack[i]->mode_type << std::endl;
+	cout << "***bottom of stack***" << std::endl;
 }
 
 } // namespace hoa_mode_manager

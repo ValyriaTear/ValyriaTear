@@ -77,7 +77,7 @@ BootMode::BootMode() :
 	// Remove potential previous ambient overlays
 	VideoManager->DisableFadeEffect();
 
-	IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << endl;
+	IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << std::endl;
 	mode_type = MODE_MANAGER_BOOT_MODE;
 
 	_version_text.SetStyle(TextStyle("text20"));
@@ -88,14 +88,14 @@ BootMode::BootMode() :
 	// Test the existence and validity of the boot script.
 	ReadScriptDescriptor boot_script;
 	if (!boot_script.OpenFile("dat/config/boot.lua")) {
-		PRINT_ERROR << "Failed to load boot data file" << endl;
+		PRINT_ERROR << "Failed to load boot data file" << std::endl;
 		SystemManager->ExitGame();
 		return;
 	}
 
 	// Open the boot table spacename
 	if (boot_script.OpenTablespace().empty()) {
-		PRINT_ERROR << "The boot script file has not set a correct tablespace" << endl;
+		PRINT_ERROR << "The boot script file has not set a correct tablespace" << std::endl;
 		SystemManager->ExitGame();
 		return;
     }
@@ -139,7 +139,7 @@ BootMode::~BootMode() {
 	_options_window.Destroy();
 	_SaveSettingsFile("");
 
-	if (BOOT_DEBUG) cout << "BOOT: BootMode destructor invoked." << endl;
+	if (BOOT_DEBUG) cout << "BOOT: BootMode destructor invoked." << std::endl;
 
 	_key_setting_function = NULL;
 	_joy_setting_function = NULL;
@@ -562,8 +562,8 @@ void BootMode::_SetupLanguageOptionsMenu() {
 	// Get the list of languages from the Lua file.
 	ReadScriptDescriptor read_data;
 	if (!read_data.OpenFile(_LANGUAGE_FILE)) {
-		PRINT_ERROR << "Failed to load language file: " << _LANGUAGE_FILE << endl;
-		PRINT_ERROR << "The language list will be empty." << endl;
+		PRINT_ERROR << "Failed to load language file: " << _LANGUAGE_FILE << std::endl;
+		PRINT_ERROR << "The language list will be empty." << std::endl;
 		return;
 	}
 
@@ -584,7 +584,7 @@ void BootMode::_SetupLanguageOptionsMenu() {
 
 	read_data.CloseTable();
 	if (read_data.IsErrorDetected())
-		PRINT_ERROR << "Error occurred while loading language list: " << read_data.GetErrorMessages() << endl;
+		PRINT_ERROR << "Error occurred while loading language list: " << read_data.GetErrorMessages() << std::endl;
 	read_data.CloseFile();
 }
 
@@ -1106,7 +1106,7 @@ void BootMode::_OnDeleteProfile() {
 void BootMode::_OnLoadFile() {
 	//get the file path
 	if (_load_profile_menu.GetSelection() < 0 || _load_profile_menu.GetSelection() >= (int32)_GetDirectoryListingUserProfilePath().size())
-		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << endl;
+		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << std::endl;
 	else {
 		//we took off the .lua extension so that end users wouldn't see it but we need to add it back now
 		const string& filename = GetUserProfilePath() + _GetDirectoryListingUserProfilePath().at(_load_profile_menu.GetSelection()) + ".lua";
@@ -1115,9 +1115,9 @@ void BootMode::_OnLoadFile() {
 		//load the file
 		if (BOOT_DEBUG) {
 			if (success)
-				cout << "BOOT: profile was successfully loaded " << filename << endl;
+				cout << "BOOT: profile was successfully loaded " << filename << std::endl;
 			else
-				cout << "BOOT ERROR: profile failed to load " << filename << endl;
+				cout << "BOOT ERROR: profile failed to load " << filename << std::endl;
 		}
 
 		//update all of the settings when loaded
@@ -1153,7 +1153,7 @@ void BootMode::_OnSaveFile() {
 
 void BootMode::_OnDeleteFile() {
 	if (_load_profile_menu.GetSelection() < 0 || _load_profile_menu.GetSelection() >= (int32)_GetDirectoryListingUserProfilePath().size())
-		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << endl;
+		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << std::endl;
 	else {
 		//get the file path
 		//we took off the .lua extension so that end users wouldn't see it but we need to add it back now
@@ -1163,9 +1163,9 @@ void BootMode::_OnDeleteFile() {
 
 		if (BOOT_DEBUG) {
 			if (success)
-				cout << "BOOT: profile was successfully deleted " << filename << endl;
+				cout << "BOOT: profile was successfully deleted " << filename << std::endl;
 			else
-				cout << "BOOT ERROR: failed to delete profile " << filename << endl;
+				cout << "BOOT ERROR: failed to delete profile " << filename << std::endl;
 		}
 
 		//Clear the option boxes on all the menus and reload them so we can get rid of the deleted profile
@@ -1251,7 +1251,7 @@ void BootMode::_ShowHelpWindow() {
 	ReadScriptDescriptor settings_lua;
 	string file = GetSettingsFilename();
 	if (!settings_lua.OpenFile(file)) {
-		PRINT_WARNING << "failed to load the boot settings file" << endl;
+		PRINT_WARNING << "failed to load the boot settings file" << std::endl;
 	}
 
 	settings_lua.OpenTable("settings");
@@ -1307,7 +1307,7 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 		return false;
 
 	if(BOOT_DEBUG)
-		cout << "BOOT: Opened file to load settings " << settings.GetFilename() << endl;
+		cout << "BOOT: Opened file to load settings " << settings.GetFilename() << std::endl;
 
 	settings.OpenTable("settings");
 
@@ -1339,8 +1339,8 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
-			<< "information from file: " << settings.GetFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "information from file: " << settings.GetFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -1348,7 +1348,7 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 	// TEMP: this is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
 	// In the future it should call a method of the input engine to disable the joysticks.
 	if (settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-		IF_PRINT_DEBUG(BOOT_DEBUG) << "settings file specified to disable joystick input" << endl;
+		IF_PRINT_DEBUG(BOOT_DEBUG) << "settings file specified to disable joystick input" << std::endl;
 		SDL_JoystickEventState(SDL_IGNORE);
 		SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 	}
@@ -1374,8 +1374,8 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
-			<< "from file: " << settings.GetFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "from file: " << settings.GetFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -1414,8 +1414,8 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
-			<< "information from file: " << settings.GetFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "information from file: " << settings.GetFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -1429,15 +1429,15 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 
 	if (settings.IsErrorDetected()) {
 		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
-			<< "information from file: " << settings.GetFilename() << endl;
-		cerr << settings.GetErrorMessages() << endl;
+			<< "information from file: " << settings.GetFilename() << std::endl;
+		cerr << settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
 	settings.CloseFile();
 
 	if(BOOT_DEBUG)
-		cout << "Profile closed " << settings.GetFilename() << endl;
+		cout << "Profile closed " << settings.GetFilename() << std::endl;
 
 
 	return true;
@@ -1469,7 +1469,7 @@ bool BootMode::_SaveSettingsFile(const std::string& filename) {
 
 	ModifyScriptDescriptor settings_lua;
 	if (!settings_lua.OpenFile(file)) {
-		cerr << "BOOT ERROR: failed to load the settings file!" << endl;
+		cerr << "BOOT ERROR: failed to load the settings file!" << std::endl;
 		return false;
 	}
 
@@ -1575,7 +1575,7 @@ void BootMode::_OverwriteProfile() {
 
 	//if we got past the save settings without throwing an exception then we succeeded
 	if (BOOT_DEBUG)
-		cout << "BOOT: profile successfully overwritten " << _GetDirectoryListingUserProfilePath().at(_save_profile_menu.GetSelection() - 1) << endl;
+		cout << "BOOT: profile successfully overwritten " << _GetDirectoryListingUserProfilePath().at(_save_profile_menu.GetSelection() - 1) << std::endl;
 }
 
 // ****************************************************************************

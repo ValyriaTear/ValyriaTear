@@ -51,11 +51,11 @@ bool CalculateStandardEvasion(BattleTarget* target) {
 
 bool CalculateStandardEvasionAdder(BattleTarget* target, float add_eva) {
 	if (target == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
 		return false;
 	}
 	if (IsTargetParty(target->GetType()) == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
 		return false;
 	}
 
@@ -67,7 +67,7 @@ bool CalculateStandardEvasionAdder(BattleTarget* target, float add_eva) {
 		evasion = target->GetActor()->TotalEvadeRating();
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
 		return false;
 	}
 
@@ -89,15 +89,15 @@ bool CalculateStandardEvasionAdder(BattleTarget* target, float add_eva) {
 
 bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_eva) {
 	if (target == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
 		return false;
 	}
 	if (IsTargetParty(target->GetType()) == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
 		return false;
 	}
 	if (mul_eva < 0.0f) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << std::endl;
 		mul_eva = fabs(mul_eva);
 	}
 
@@ -110,7 +110,7 @@ bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_eva) {
 		evasion = target->GetActor()->TotalEvadeRating();
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
 		return false;
 	}
 
@@ -150,19 +150,19 @@ uint32 CalculatePhysicalDamageAdder(BattleActor* attacker, BattleTarget* target,
 
 uint32 CalculatePhysicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev) {
 	if (attacker == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
 		return 0;
 	}
 	if (target == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
 		return 0;
 	}
 	if (IsTargetParty(target->GetType()) == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
 		return 0;
 	}
 	if (std_dev < 0.0f) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
 		std_dev = fabs(std_dev);
 	}
 
@@ -181,7 +181,7 @@ uint32 CalculatePhysicalDamageAdder(BattleActor* attacker, BattleTarget* target,
 		total_phys_def = target->GetActor()->TotalPhysicalDefense();
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
 		return 0;
 	}
 
@@ -215,23 +215,23 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor* attacker, BattleTarget* ta
 
 uint32 CalculatePhysicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_atk, float std_dev) {
 	if (attacker == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
 		return 0;
 	}
 	if (target == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
 		return 0;
 	}
 	if (IsTargetParty(target->GetType()) == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
 		return 0;
 	}
 	if (mul_atk < 0.0f) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
 		mul_atk = fabs(mul_atk);
 	}
 	if (std_dev < 0.0f) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
 		std_dev = fabs(std_dev);
 	}
 
@@ -252,7 +252,7 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor* attacker, BattleTarget* ta
 		total_phys_def = target->GetActor()->TotalPhysicalDefense();
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
 		return 0;
 	}
 
@@ -299,19 +299,19 @@ uint32 CalculateMetaphysicalDamageAdder(BattleActor* attacker, BattleTarget* tar
 
 uint32 CalculateMetaphysicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev) {
 	if (attacker == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
 		return 0;
 	}
 	if (target == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
 		return 0;
 	}
 	if (IsTargetParty(target->GetType()) == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
 		return 0;
 	}
 	if (std_dev < 0.0f) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
 		std_dev = fabs(std_dev);
 	}
 
@@ -331,7 +331,7 @@ uint32 CalculateMetaphysicalDamageAdder(BattleActor* attacker, BattleTarget* tar
 		total_meta_def = target->GetActor()->TotalMetaphysicalDefense();
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
 		return 0;
 	}
 
@@ -367,23 +367,23 @@ uint32 CalculateMetaphysicalDamageMultiplier(BattleActor* attacker, BattleTarget
 
 uint32 CalculateMetaphysicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_atk, float std_dev) {
 	if (attacker == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
 		return 0;
 	}
 	if (target == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
 		return 0;
 	}
 	if (IsTargetParty(target->GetType()) == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
 		return 0;
 	}
 	if (mul_atk < 0.0f) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
 		mul_atk = fabs(mul_atk);
 	}
 	if (std_dev < 0.0f) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
 		std_dev = fabs(std_dev);
 	}
 
@@ -403,7 +403,7 @@ uint32 CalculateMetaphysicalDamageMultiplier(BattleActor* attacker, BattleTarget
 		total_meta_def = target->GetActor()->TotalMetaphysicalDefense();
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
 		return 0;
 	}
 
@@ -462,7 +462,7 @@ void BattleTimer::Update() {
 
 void BattleTimer::Update(uint32 time) {
 	if (_auto_update == true) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "update failed because timer is in automatic update mode" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "update failed because timer is in automatic update mode" << std::endl;
 		return;
 	}
 	if (IsRunning() == false) {
@@ -511,7 +511,7 @@ void BattleTimer::ActivateMultiplier(bool activate, float multiplier) {
 
 	if (activate == true) {
 		if (multiplier < 0.0f) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to activate a negative multiplier factor: " << multiplier << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to activate a negative multiplier factor: " << multiplier << std::endl;
 			_multiplier_active = false;
 		}
 		else {
@@ -530,7 +530,7 @@ void BattleTimer::ActivateMultiplier(bool activate, float multiplier) {
 
 void BattleTimer::_AutoUpdate() {
 	if (_auto_update == false) {
-		IF_PRINT_WARNING(SYSTEM_DEBUG) << "tried to automatically update a timer that does not have auto updates enabled" << endl;
+		IF_PRINT_WARNING(SYSTEM_DEBUG) << "tried to automatically update a timer that does not have auto updates enabled" << std::endl;
 		return;
 	}
 	if (IsRunning() == false) {
@@ -612,11 +612,11 @@ bool BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 	InvalidateTarget();
 
 	if (user == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
 		return false;
 	}
 	if ((type <= GLOBAL_TARGET_INVALID) || (type >= GLOBAL_TARGET_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type argument: " << type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type argument: " << type << std::endl;
 		return false;
 	}
 
@@ -657,7 +657,7 @@ bool BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 			_party = target_party;
 			break;
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid type: " << type << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid type: " << type << std::endl;
 			return false;
 	}
 
@@ -678,19 +678,19 @@ bool BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 
 bool BattleTarget::SetPointTarget(GLOBAL_TARGET type, uint32 attack_point, BattleActor* actor) {
 	if (IsTargetPoint(type) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid type argument: " << type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid type argument: " << type << std::endl;
 		return false;
 	}
 	if ((actor == NULL) && (_actor == NULL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set an attack point with no valid actor selected" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set an attack point with no valid actor selected" << std::endl;
 		return false;
 	}
 	else if ((actor == NULL) && (attack_point >= _actor->GetAttackPoints().size())) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << std::endl;
 		return false;
 	}
 	else if ((_actor == NULL) && (attack_point >= actor->GetAttackPoints().size())) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << std::endl;
 		return false;
 	}
 
@@ -777,7 +777,7 @@ bool BattleTarget::IsValid(bool permit_dead_targets) {
 			return true;
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << std::endl;
 		return false;
 	}
 }
@@ -785,15 +785,15 @@ bool BattleTarget::IsValid(bool permit_dead_targets) {
 bool BattleTarget::SelectNextPoint(BattleActor* user, bool direction, bool valid_criteria,
 									bool permit_dead_targets) {
 	if (user == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
 		return false;
 	}
 	if (IsTargetPoint(_type) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << std::endl;
 		return false;
 	}
 	if (_actor == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no valid actor target" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no valid actor target" << std::endl;
 		return false;
 	}
 
@@ -862,13 +862,13 @@ bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid
 	}
 	else {
 		// This should never be reached because the target type was already determined to be a point or actor above
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << std::endl;
 		return false;
 	}
 
 	// ----- (2): Check the target party for early exit conditions
 	if (target_party->empty() == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor target's party was empty" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor target's party was empty" << std::endl;
 		return false;
 	}
 	if (target_party->size() == 1) {
@@ -884,7 +884,7 @@ bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid
 		}
 	}
 	if (original_target_index == 0xFFFFFFFF) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor target was not found in party" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor target was not found in party" << std::endl;
 		return false;
 	}
 
@@ -961,20 +961,20 @@ BattleItem::BattleItem(hoa_global::GlobalItem item) :
 	_battle_count(item.GetCount())
 {
 	if (item.GetID() == 0)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item argument" << std::endl;
 }
 
 
 BattleItem::~BattleItem() {
 	if (_battle_count != _item.GetCount())
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "actual count was not equal to available count upon destruction" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "actual count was not equal to available count upon destruction" << std::endl;
 }
 
 
 void BattleItem::IncrementBattleCount() {
 	++_battle_count;
 	if (_battle_count > _item.GetCount()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to increment available count above actual count: " << _battle_count << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to increment available count above actual count: " << _battle_count << std::endl;
 		--_battle_count;
 	}
 }
@@ -982,7 +982,7 @@ void BattleItem::IncrementBattleCount() {
 
 void BattleItem::DecrementBattleCount() {
 	if (_battle_count == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to decrement available count below zero" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to decrement available count below zero" << std::endl;
 		return;
 	}
 	--_battle_count;

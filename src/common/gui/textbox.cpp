@@ -81,7 +81,7 @@ void TextBox::Draw() {
 		return;
 
 	if (_initialized == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << std::endl;
 		return;
 	}
 
@@ -177,12 +177,12 @@ void TextBox::Draw() {
 
 void TextBox::SetDimensions(float w, float h) {
 	if (w <= 0.0f || w > 1024.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid width argument: " << w << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid width argument: " << w << std::endl;
 		return;
 	}
 
 	if (h <= 0.0f || h > 768.0f) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid height argument: " << h << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid height argument: " << h << std::endl;
 		return;
 	}
 
@@ -203,7 +203,7 @@ void TextBox::SetTextAlignment(int32 xalign, int32 yalign) {
 void TextBox::SetTextStyle(const TextStyle& style) {
 	_font_properties = TextManager->GetFontProperties(style.font);
 	if (_font_properties == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because it was passed an invalid font name: " << style.font << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because it was passed an invalid font name: " << style.font << std::endl;
 		return;
 	}
 
@@ -216,7 +216,7 @@ void TextBox::SetTextStyle(const TextStyle& style) {
 
 void TextBox::SetDisplayMode(const TEXT_DISPLAY_MODE &mode) {
 	if (mode < VIDEO_TEXT_INSTANT || mode >= VIDEO_TEXT_TOTAL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because of an invalid mode argument: " << mode << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because of an invalid mode argument: " << mode << std::endl;
 		return;
 	}
 
@@ -228,7 +228,7 @@ void TextBox::SetDisplayMode(const TEXT_DISPLAY_MODE &mode) {
 void TextBox::SetDisplaySpeed(float display_speed) {
 	if (display_speed <= 0.0f) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: TextBox::SetDisplaySpeed() failed due to an invalid display speed: " << display_speed << endl;
+			cerr << "VIDEO WARNING: TextBox::SetDisplaySpeed() failed due to an invalid display speed: " << display_speed << std::endl;
 		return;
 	}
 
@@ -245,7 +245,7 @@ void TextBox::SetDisplayText(const string &text) {
 
 void TextBox::SetDisplayText(const ustring& text) {
 	if (_initialized == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << std::endl;
 		return;
 	}
 
@@ -279,7 +279,7 @@ void TextBox::SetDisplayText(const ustring& text) {
 
 		default:
 			_end_time = 0;
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown display mode was active: " << _mode << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown display mode was active: " << _mode << std::endl;
 			break;
 	};
 
@@ -297,7 +297,7 @@ void TextBox::_ReformatText() {
 
 	// If font not set, return (leave _text vector empty)
 	if (!_font_properties) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "textbox font is invalid" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "textbox font is invalid" << std::endl;
 		return;
 	}
 
@@ -321,7 +321,7 @@ void TextBox::_ReformatText() {
 
 	if (text_height > _height) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to display text of height (" << text_height
-			<< ") in a window of lower height (" << _height << ")" << endl;
+			<< ") in a window of lower height (" << _height << ")" << std::endl;
 	}
 } // void TextBox::_ReformatText()
 
@@ -334,7 +334,7 @@ bool TextBox::IsInitialized(string& errors) {
 
 	// Check font
 	if (TextManager->IsFontValid(_text_style.font) == false)
-		stream << "* Invalid font: " << _text_style.font << endl;
+		stream << "* Invalid font: " << _text_style.font << std::endl;
 
 	errors = stream.str();
 
@@ -598,7 +598,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 		else {
 			// Invalid display mode: just render the text instantly
 			TextManager->Draw(_text[line]);
-			IF_PRINT_WARNING(VIDEO_DEBUG) << "an unknown/unsupported text display mode was active: " << _mode << endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG) << "an unknown/unsupported text display mode was active: " << _mode << std::endl;
 		}
 
 		// (3): Prepare to draw the next line and move the draw cursor appropriately

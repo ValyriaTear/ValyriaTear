@@ -88,7 +88,7 @@ bool BattleDialogue::Validate() {
 	for (set<uint32>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); i++) {
 		if (BattleMode::CurrentInstance()->GetDialogueSupervisor()->GetSpeaker(*i) == NULL) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-				<< ": dialogue referenced invalid speaker with id: " << *i << endl;
+				<< ": dialogue referenced invalid speaker with id: " << *i << std::endl;
 			return false;
 		}
 	}
@@ -126,7 +126,7 @@ DialogueSupervisor::~DialogueSupervisor() {
 
 void DialogueSupervisor::Update() {
 	if (_current_dialogue == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to update when no dialogue was active" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to update when no dialogue was active" << std::endl;
 		return;
 	}
 
@@ -140,7 +140,7 @@ void DialogueSupervisor::Update() {
 			_UpdateOptions();
 			break;
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "dialogue supervisor was in an unknown state: " << _state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "dialogue supervisor was in an unknown state: " << _state << std::endl;
 			_state = DIALOGUE_STATE_LINE;
 			break;
 	}
@@ -156,12 +156,12 @@ void DialogueSupervisor::Draw() {
 
 void DialogueSupervisor::AddDialogue(BattleDialogue* dialogue) {
 	if (dialogue == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 
 	if (GetDialogue(dialogue->GetDialogueID()) != NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << std::endl;
 		delete dialogue;
 		return;
 	}
@@ -174,11 +174,11 @@ void DialogueSupervisor::AddDialogue(BattleDialogue* dialogue) {
 
 void DialogueSupervisor::AddCharacterSpeaker(uint32 id, BattleCharacter* character) {
 	if (character == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL character argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL character argument" << std::endl;
 		return;
 	}
 	if (_speakers.find(id) != _speakers.end()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "speaker already existed with requsted id: " << id << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "speaker already existed with requsted id: " << id << std::endl;
 		return;
 	}
 
@@ -194,7 +194,7 @@ void DialogueSupervisor::AddCharacterSpeaker(uint32 id, BattleCharacter* charact
 
 void DialogueSupervisor::AddEnemySpeaker(uint32 id, BattleEnemy* enemy) {
 	if (_speakers.find(id) != _speakers.end()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "speaker already existed with requsted id: " << id << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "speaker already existed with requsted id: " << id << std::endl;
 		return;
 	}
 
@@ -208,7 +208,7 @@ void DialogueSupervisor::AddEnemySpeaker(uint32 id, BattleEnemy* enemy) {
 
 void DialogueSupervisor::AddCustomSpeaker(uint32 id, const std::string& name, const std::string& portrait) {
 	if (_speakers.find(id) != _speakers.end()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "speaker already existed with requsted id: " << id << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "speaker already existed with requsted id: " << id << std::endl;
 		return;
 	}
 
@@ -216,7 +216,7 @@ void DialogueSupervisor::AddCustomSpeaker(uint32 id, const std::string& name, co
 	new_speaker.name = MakeUnicodeString(name);
 	if (!portrait.empty()) {
 		if (!new_speaker.portrait.Load(portrait)) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid image filename for new portrait: " << portrait << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid image filename for new portrait: " << portrait << std::endl;
 		}
 		// Make sure the portrait doesn't go over the screen edge.
 		if (new_speaker.portrait.GetHeight() > 130.0f)
@@ -231,7 +231,7 @@ void DialogueSupervisor::AddCustomSpeaker(uint32 id, const std::string& name, co
 void DialogueSupervisor::ChangeSpeakerName(uint32 id, const std::string& name) {
 	map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
 	if (speaker == _speakers.end()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << std::endl;
 		return;
 	}
 
@@ -249,13 +249,13 @@ void DialogueSupervisor::ChangeSpeakerName(uint32 id, const std::string& name) {
 void DialogueSupervisor::ChangeSpeakerPortrait(uint32 id, const std::string& portrait) {
 	map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
 	if (speaker == _speakers.end()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << std::endl;
 		return;
 	}
 
 	if (portrait != "") {
 		if (speaker->second.portrait.Load(portrait) == false) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid image filename for new portrait: " << portrait << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid image filename for new portrait: " << portrait << std::endl;
 			return;
 		}
 	}
@@ -271,12 +271,12 @@ void DialogueSupervisor::BeginDialogue(uint32 dialogue_id) {
 	BattleDialogue* dialogue = GetDialogue(dialogue_id);
 
 	if (dialogue == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "could not begin dialogue because none existed for id# " << dialogue_id << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "could not begin dialogue because none existed for id# " << dialogue_id << std::endl;
 		return;
 	}
 
 	if (_current_dialogue != NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "beginning a new dialogue while another dialogue is still active" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "beginning a new dialogue while another dialogue is still active" << std::endl;
 	}
 
 	_line_counter = 0;
@@ -289,7 +289,7 @@ void DialogueSupervisor::BeginDialogue(uint32 dialogue_id) {
 
 void DialogueSupervisor::EndDialogue() {
 	if (_current_dialogue == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "tried to end a dialogue when none was active" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "tried to end a dialogue when none was active" << std::endl;
 		return;
 	}
 
@@ -303,7 +303,7 @@ void DialogueSupervisor::EndDialogue() {
 
 void DialogueSupervisor::ForceNextLine() {
 	if (_current_dialogue == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when no dialogue was active" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when no dialogue was active" << std::endl;
 		return;
 	}
 
@@ -432,7 +432,7 @@ void DialogueSupervisor::_BeginLine() {
 	BattleSpeaker* line_speaker = GetSpeaker(_current_dialogue->GetLineSpeaker(_line_counter));
 	if (line_speaker == NULL) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
-			<< " referenced a speaker that did not exist with id: " << _current_dialogue->GetLineSpeaker(_line_counter) << endl;
+			<< " referenced a speaker that did not exist with id: " << _current_dialogue->GetLineSpeaker(_line_counter) << std::endl;
 		_dialogue_window.GetNameText().SetText("");
 		_dialogue_window.SetPortraitImage(NULL);
 	}
@@ -458,7 +458,7 @@ void DialogueSupervisor::_EndLine() {
 		if (static_cast<uint32>(next_line) >= _current_dialogue->GetLineCount()) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
 				<< " tried to set dialogue to invalid line. Current/next line values: {" << _line_counter
-				<< ", " << next_line << "}" << endl;
+				<< ", " << next_line << "}" << std::endl;
 			next_line = COMMON_DIALOGUE_END;
 		}
 	}
@@ -475,7 +475,7 @@ void DialogueSupervisor::_EndLine() {
 	// --- Case 4: Unknown negative value. Warn and end dialogue
 	else {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
-			<< " unknown next line control value: " << next_line << endl;
+			<< " unknown next line control value: " << next_line << std::endl;
 		next_line = COMMON_DIALOGUE_END;
 	}
 

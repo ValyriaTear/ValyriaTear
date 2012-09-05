@@ -22,13 +22,11 @@
 #ifndef __MAP_EVENTS_HEADER__
 #define __MAP_EVENTS_HEADER__
 
-#include "defs.h"
-#include "utils.h"
+#include "modes/map/map_treasure.h"
+
+#include "engine/audio/audio_descriptor.h"
 
 #include "engine/script/script.h"
-
-#include "modes/map/map_utils.h"
-#include "modes/map/map_sprites.h"
 
 namespace hoa_map {
 
@@ -1006,21 +1004,21 @@ private:
 	std::map<std::string, MapEvent*> _all_events;
 
 	//! \brief A list of all events which have started but are not yet finished
-	std::list<MapEvent*> _active_events;
+	std::vector<MapEvent*> _active_events;
 
 	//! \brief A list of all events which have been paused
-	std::list<MapEvent*> _paused_events;
+	std::vector<MapEvent*> _paused_events;
 
 	/** \brief A list of all events that are waiting on their launch timers to expire before being started
 	*** The interger part of this std::pair is the countdown timer for this event to be launched
 	**/
-	std::list<std::pair<int32, MapEvent*> > _active_delayed_events;
+	std::vector<std::pair<int32, MapEvent*> > _active_delayed_events;
 
 	/** \brief A list of all events that are waiting on their launch timers to expire before being started
 	*** The interger part of this std::pair is the countdown timer for this event to be launched
 	*** Those ones are put on hold by PauseAllEvents() and PauseEvents();
 	**/
-	std::list<std::pair<int32, MapEvent*> > _paused_delayed_events;
+	std::vector<std::pair<int32, MapEvent*> > _paused_delayed_events;
 
 	/** States whether the event supervisor is parsing the active events queue, thus any modifications
 	*** there on active events should be avoided.

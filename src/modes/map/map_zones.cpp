@@ -13,15 +13,10 @@
 *** \brief   Source file for map mode zones.
 *** ***************************************************************************/
 
-#include "engine/system.h"
-
-// Local map mode headers
-#include "modes/map/map.h"
-#include "modes/map/map_objects.h"
-#include "modes/map/map_sprites.h"
 #include "modes/map/map_zones.h"
 
-using namespace std;
+#include "modes/map/map_sprites.h"
+
 using namespace hoa_utils;
 
 namespace hoa_map {
@@ -46,12 +41,12 @@ MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 botto
 
 void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) {
 	if (left_col >= right_col) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << std::endl;
 		return;
 	}
 
 	if (top_row >= bottom_row) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << std::endl;
 		return;
 	}
 
@@ -62,9 +57,9 @@ bool MapZone::IsInsideZone(float pos_x, float pos_y) const {
 	uint16 x = (uint16)GetFloatInteger(pos_x);
 	uint16 y = (uint16)GetFloatInteger(pos_y);
 	// Verify each section of the zone and check if the position is within the section bounds.
-	for (vector<ZoneSection>::const_iterator i = _sections.begin(); i != _sections.end(); ++i) {
-		if (x >= i->left_col && x <= i->right_col &&
-			y >= i->top_row && y <= i->bottom_row)
+	for (std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
+		if (x >= it->left_col && x <= it->right_col &&
+			y >= it->top_row && y <= it->bottom_row)
 		{
 			return true;
 		}
@@ -74,10 +69,11 @@ bool MapZone::IsInsideZone(float pos_x, float pos_y) const {
 
 void MapZone::Draw() {
 	// Verify each section of the zone and check if the position is within the section bounds.
-	for (vector<ZoneSection>::const_iterator i = _sections.begin(); i != _sections.end(); ++i) {
-		if (_ShouldDraw(*i)) {
-			hoa_video::VideoManager->DrawRectangle(i->right_col - i->left_col, i->bottom_row - i->top_row,
-													hoa_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
+	for (std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
+		if (_ShouldDraw(*it)) {
+			hoa_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
+												   it->bottom_row - it->top_row,
+												   hoa_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
 		}
 	}
 }
@@ -194,18 +190,18 @@ void ResidentZone::Update() {
 
 	// Holds a list of sprites that should be removed from the resident zone. This is necessary because we can't iterate through
 	// the resident list and erase former residents without messing up the set iteration.
-	vector<VirtualSprite*> remove_list;
+	std::vector<VirtualSprite*> remove_list;
 
 	// Examine all residents to see if they still reside in the zone. If not, move them to the exiting residents list
-	for (set<VirtualSprite*>::iterator i = _residents.begin(); i != _residents.end(); i++) {
+	for (std::set<VirtualSprite*>::iterator it = _residents.begin(); it != _residents.end(); ++it) {
 		// Make sure that the resident is still in a context shared by the zone and located within the zone boundaries
-		if ((((*i)->GetContext() & _active_contexts) == 0x0)
-				|| !IsInsideZone((*i)->GetXPosition(), (*i)->GetYPosition())) {
-			remove_list.push_back(*i);
+		if ((((*it)->GetContext() & _active_contexts) == 0x0)
+				|| !IsInsideZone((*it)->GetXPosition(), (*it)->GetYPosition())) {
+			remove_list.push_back(*it);
 		}
 	}
 
-	for (uint32 i = 0; i < remove_list.size(); i++) {
+	for (uint32 i = 0; i < remove_list.size(); ++i) {
 		_exiting_residents.insert(remove_list[i]);
 		_residents.erase(remove_list[i]);
 	}
@@ -215,7 +211,7 @@ void ResidentZone::Update() {
 
 void ResidentZone::AddPotentialResident(VirtualSprite* sprite) {
 	if (sprite == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 
@@ -235,20 +231,20 @@ void ResidentZone::AddPotentialResident(VirtualSprite* sprite) {
 
 
 
-VirtualSprite* ResidentZone::_GetSpriteInSet(const set<VirtualSprite*>& local_set, uint32 index) const {
+VirtualSprite* ResidentZone::_GetSpriteInSet(const std::set<VirtualSprite*>& local_set, uint32 index) const {
 	if (index >= local_set.size()) {
 		return NULL;
 	}
 
 	uint32 counter = 0;
-	for (set<VirtualSprite*>::const_iterator i = local_set.begin(); i != local_set.end(); i++) {
+	for (std::set<VirtualSprite*>::const_iterator it = local_set.begin(); it != local_set.end(); ++it) {
 		if (index == counter) {
-			return *i;
+			return *it;
 		}
-		counter++;
+		++counter;
 	}
 
-	IF_PRINT_WARNING(MAP_DEBUG) << "sprite not found after reaching end of set -- this should never happen" << endl;
+	IF_PRINT_WARNING(MAP_DEBUG) << "sprite not found after reaching end of set -- this should never happen" << std::endl;
 	return NULL;
 }
 
@@ -314,7 +310,7 @@ EnemyZone& EnemyZone::operator=(const EnemyZone& copy) {
 
 void EnemyZone::AddEnemy(EnemySprite* enemy, MapMode* map, uint8 count) {
 	if (count == 0) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << std::endl;
 		return;
 	}
 
@@ -340,12 +336,12 @@ void EnemyZone::AddEnemy(EnemySprite* enemy, MapMode* map, uint8 count) {
 
 void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) {
 	if (left_col >= right_col) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << std::endl;
 		return;
 	}
 
 	if (top_row >= bottom_row) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << std::endl;
 		return;
 	}
 
@@ -361,7 +357,7 @@ void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_ro
 	}
 
 	if (okay_to_add == false) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "could not add section as it did not fit inside any single roaming zone section" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "could not add section as it did not fit inside any single roaming zone section" << std::endl;
 		return;
 	}
 
@@ -378,7 +374,7 @@ void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_ro
 
 void EnemyZone::EnemyDead() {
 	if (_active_enemies == 0) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function called when no enemies were active" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "function called when no enemies were active" << std::endl;
 	}
 	else {
 		--_active_enemies;
@@ -463,26 +459,26 @@ ContextZone::ContextZone(MAP_CONTEXT one, MAP_CONTEXT two) :
 	_context_two(two)
 {
 	if (_context_one == _context_two) {
-		PRINT_ERROR << "tried to create a ContextZone with two equal context values: " << _context_one << endl;
+		PRINT_ERROR << "tried to create a ContextZone with two equal context values: " << _context_one << std::endl;
 	}
 }
 
 
 
 void ContextZone::AddSection(uint16 /*left_col*/, uint16 /*right_col*/, uint16 /*top_row*/, uint16 /*bottom_row*/) {
-	IF_PRINT_WARNING(MAP_DEBUG) << "this method is invalid for this class and should not be called: section will not be added" << endl;
+	IF_PRINT_WARNING(MAP_DEBUG) << "this method is invalid for this class and should not be called: section will not be added" << std::endl;
 }
 
 
 
 void ContextZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, bool context) {
 	if (left_col >= right_col) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << std::endl;
 		return;
 	}
 
 	if (top_row >= bottom_row) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << std::endl;
 		return;
 	}
 

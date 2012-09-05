@@ -16,10 +16,8 @@
 #ifndef __MAP_ZONES_HEADER__
 #define __MAP_ZONES_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
-#include "engine/system.h"
+#include "modes/map/map.h"
+#include "modes/map/map_objects.h"
 
 namespace hoa_map {
 

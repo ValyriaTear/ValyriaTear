@@ -63,7 +63,7 @@ bool AudioEngine::SingletonInitialize() {
 		const ALCchar* device_list = 0;
 		device_list = alcGetString(0, ALC_DEVICE_SPECIFIER); // Get list of all devices (terminated with two '0')
 		if (CheckALCError() == true) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to retrieve the list of available audio devices: " << CreateALCErrorString() << endl;
+			IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to retrieve the list of available audio devices: " << CreateALCErrorString() << std::endl;
 		}
 
 
@@ -73,7 +73,7 @@ bool AudioEngine::SingletonInitialize() {
 			// Open a temporary device for reading in its version number
 			ALCdevice* temp_device = alcOpenDevice(device_list);
 			if (CheckALCError() || temp_device == NULL) { // If we couldn't open the device, just move on to the next
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't open device for version checking: " << device_list << endl;
+				IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't open device for version checking: " << device_list << std::endl;
 				device_list += strlen(device_list) + 1;
 				continue;
 			}
@@ -81,7 +81,7 @@ bool AudioEngine::SingletonInitialize() {
 			// Create a temporary context for the device
 			ALCcontext *temp_context = alcCreateContext(temp_device, 0);
 			if (CheckALCError() || temp_context == NULL) { // If we couldn't create the context, move on to the next device
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't create a temporary context for device: " << device_list << endl;
+				IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't create a temporary context for device: " << device_list << std::endl;
 				alcCloseDevice(temp_device);
 				device_list += strlen(device_list) + 1;
 				continue;
@@ -109,14 +109,14 @@ bool AudioEngine::SingletonInitialize() {
 	// it will try opening the default device (= 0)
 	_device = alcOpenDevice(best_device);
 	if (CheckALCError() || _device == NULL) {
-		PRINT_ERROR << "failed to open an OpenAL audio device: " << CreateALCErrorString() << endl;
+		PRINT_ERROR << "failed to open an OpenAL audio device: " << CreateALCErrorString() << std::endl;
 		return false;
 	}
 
 	// Create an OpenAL context
 	_context = alcCreateContext(_device, NULL);
 	if (CheckALCError() || _context == NULL) {
-		PRINT_ERROR << "failed to create an OpenAL context: " << CreateALCErrorString()<< endl;
+		PRINT_ERROR << "failed to create an OpenAL context: " << CreateALCErrorString()<< std::endl;
 		alcCloseDevice(_device);
 		return false;
 	}
@@ -138,7 +138,7 @@ bool AudioEngine::SingletonInitialize() {
 	}
 
 	if (_max_sources == 0) {
-		PRINT_ERROR << "failed to create at least one OpenAL audio source" << endl;
+		PRINT_ERROR << "failed to create at least one OpenAL audio source" << std::endl;
 		return false;
 	}
 
@@ -189,11 +189,11 @@ void AudioEngine::Update() {
 
 void AudioEngine::SetSoundVolume(float volume) {
 	if (volume < 0.0f) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set sound volume less than 0.0f" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set sound volume less than 0.0f" << std::endl;
 		_sound_volume = 0.0f;
 	}
 	else if (volume > 1.0f) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set sound volume greater than 1.0f" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set sound volume greater than 1.0f" << std::endl;
 		_sound_volume = 1.0f;
 	}
 	else {
@@ -209,11 +209,11 @@ void AudioEngine::SetSoundVolume(float volume) {
 
 void AudioEngine::SetMusicVolume(float volume) {
 	if (volume < 0.0f) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set music volume less than 0.0f: " << volume << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set music volume less than 0.0f: " << volume << std::endl;
 		_music_volume = 0.0f;
 	}
 	else if (volume > 1.0f) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set music volume greater than 1.0f: " << volume << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set music volume greater than 1.0f: " << volume << std::endl;
 		_music_volume = 1.0f;
 	}
 	else {
@@ -422,7 +422,7 @@ void AudioEngine::StopSound(const std::string& filename) {
 	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not stop audio because it was not contained in the cache: " << filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not stop audio because it was not contained in the cache: " << filename << std::endl;
 		return;
 	}
 
@@ -434,7 +434,7 @@ void AudioEngine::PauseSound(const std::string& filename) {
 	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not pause audio because it was not contained in the cache: " << filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not pause audio because it was not contained in the cache: " << filename << std::endl;
 		return;
 	}
 
@@ -446,7 +446,7 @@ void AudioEngine::ResumeSound(const std::string& filename) {
 	std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
 	if (element == _audio_cache.end()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not resume audio because it was not contained in the cache: " << filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not resume audio because it was not contained in the cache: " << filename << std::endl;
 		return;
 	}
 
@@ -461,7 +461,7 @@ SoundDescriptor* AudioEngine::RetrieveSound(const std::string& filename) {
 		return NULL;
 	}
 	else if (element->second.audio->IsSound() == false) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve a sound for a music filename: " << filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve a sound for a music filename: " << filename << std::endl;
 		return NULL;
 	}
 	else {
@@ -476,7 +476,7 @@ MusicDescriptor* AudioEngine::RetrieveMusic(const std::string& filename) {
 		return NULL;
 	}
 	else if (element->second.audio->IsSound() == true) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve music for a sound filename: " << filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve music for a sound filename: " << filename << std::endl;
 		return NULL;
 	}
 	else {
@@ -544,18 +544,18 @@ const std::string AudioEngine::CreateALCErrorString() {
 void AudioEngine::DEBUG_PrintInfo() {
 	const ALCchar* c;
 
-	cout << "*** Audio Information ***" << endl;
+	cout << "*** Audio Information ***" << std::endl;
 
-	cout << "Maximum number of sources:   " << _max_sources << endl;
-	cout << "Maximum audio cache size:    " << _max_cache_size << endl;
-	cout << "Default audio device:        " << alcGetString(_device, ALC_DEFAULT_DEVICE_SPECIFIER) << endl;
-	cout << "OpenAL Version:              " << alGetString(AL_VERSION) << endl;
-	cout << "OpenAL Renderer:             " << alGetString(AL_RENDERER) << endl;
-	cout << "OpenAL Vendor:               " << alGetString(AL_VENDOR) << endl;
+	cout << "Maximum number of sources:   " << _max_sources << std::endl;
+	cout << "Maximum audio cache size:    " << _max_cache_size << std::endl;
+	cout << "Default audio device:        " << alcGetString(_device, ALC_DEFAULT_DEVICE_SPECIFIER) << std::endl;
+	cout << "OpenAL Version:              " << alGetString(AL_VERSION) << std::endl;
+	cout << "OpenAL Renderer:             " << alGetString(AL_RENDERER) << std::endl;
+	cout << "OpenAL Vendor:               " << alGetString(AL_VENDOR) << std::endl;
 
 	CheckALError();
 
-	cout << "Available OpenAL Extensions:" << endl;
+	cout << "Available OpenAL Extensions:" << std::endl;
 	c = alGetString(AL_EXTENSIONS);
 	bool new_extension = true;
 	while (c[0]) {
@@ -565,7 +565,7 @@ void AudioEngine::DEBUG_PrintInfo() {
 			continue;
 		}
 		else if (c[0] == ' ') {
-			cout << endl;
+			cout << std::endl;
 			new_extension = true;
 			c++;
 			continue;
@@ -614,7 +614,7 @@ bool AudioEngine::_LoadAudio(AudioDescriptor* audio, const std::string& filename
 	// (1) If the cache is not full, try loading the audio and adding it in
 	if (_audio_cache.size() < _max_cache_size) {
 		if (audio->LoadAudio(filename) == false) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << endl;
+			IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
 			return false;
 		}
 
@@ -632,7 +632,7 @@ bool AudioEngine::_LoadAudio(AudioDescriptor* audio, const std::string& filename
 	}
 
 	if (lru_element == _audio_cache.end()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to remove element from cache because no piece of audio was in the stopped state" << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to remove element from cache because no piece of audio was in the stopped state" << std::endl;
 		return false;
 	}
 
@@ -646,7 +646,7 @@ bool AudioEngine::_LoadAudio(AudioDescriptor* audio, const std::string& filename
 	_audio_cache.erase(lru_element);
 
 	if (audio->LoadAudio(filename) == false) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
 		return false;
 	}
 

@@ -15,26 +15,22 @@
 
 #include "modes/map/map.h"
 
-#include "engine/audio/audio.h"
-#include "engine/input.h"
-#include "engine/system.h"
-
-#include "common/global/global.h"
+#include "modes/map/map_dialogue.h"
+#include "modes/map/map_events.h"
+#include "modes/map/map_objects.h"
+#include "modes/map/map_sprites.h"
+#include "modes/map/map_tiles.h"
 
 #include "modes/menu/menu.h"
 #include "modes/pause.h"
 #include "modes/boot/boot.h"
 #include "modes/save/save_mode.h"
 
-#include "modes/map/map_dialogue.h"
-#include "modes/map/map_events.h"
-#include "modes/map/map_objects.h"
-#include "modes/map/map_sprites.h"
-#include "modes/map/map_tiles.h"
-#include "modes/map/map_treasure.h"
-#include "modes/map/map_zones.h"
+#include "engine/audio/audio.h"
+#include "engine/input.h"
 
-using namespace std;
+#include "common/global/global.h"
+
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_boot;
@@ -239,7 +235,8 @@ void MapMode::Update() {
 			_treasure_supervisor->Update();
 			break;
 		default:
-			IF_PRINT_WARNING(MAP_DEBUG) << "map was set in an unknown state: " << CurrentState() << endl;
+			IF_PRINT_WARNING(MAP_DEBUG) << "map was set in an unknown state: "
+				<< CurrentState() << std::endl;
 			ResetState();
 			break;
 	}
@@ -317,7 +314,9 @@ void MapMode::PushState(MAP_STATE state) {
 void MapMode::PopState() {
 	_state_stack.pop_back();
 	if (_state_stack.empty() == true) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "stack was empty after operation, reseting state stack" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG)
+			<< "stack was empty after operation, reseting state stack"
+			<< std::endl;
 		_state_stack.push_back(STATE_INVALID);
 	}
 }
@@ -326,7 +325,8 @@ void MapMode::PopState() {
 
 MAP_STATE MapMode::CurrentState() {
 	if (_state_stack.empty() == true) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "stack was empty, reseting state stack" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "stack was empty, reseting state stack"
+			<< std::endl;
 		_state_stack.push_back(STATE_INVALID);
 	}
 	return _state_stack.back();
@@ -336,37 +336,37 @@ MAP_STATE MapMode::CurrentState() {
 
 void MapMode::AddGroundObject(MapObject *obj) {
 	if (!obj) {
-		PRINT_WARNING << "Couldn't add NULL object." << endl;
+		PRINT_WARNING << "Couldn't add NULL object." << std::endl;
 		return;
 	}
 	_object_supervisor->_ground_objects.push_back(obj);
-	_object_supervisor->_all_objects.insert(make_pair(obj->object_id, obj));
+	_object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
 }
 
 
 void MapMode::AddPassObject(MapObject *obj) {
 	if (!obj) {
-		PRINT_WARNING << "Couldn't add NULL object." << endl;
+		PRINT_WARNING << "Couldn't add NULL object." << std::endl;
 		return;
 	}
 	_object_supervisor->_pass_objects.push_back(obj);
-	_object_supervisor->_all_objects.insert(make_pair(obj->object_id, obj));
+	_object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
 }
 
 
 void MapMode::AddSkyObject(MapObject *obj) {
 	if (!obj) {
-		PRINT_WARNING << "Couldn't add NULL object." << endl;
+		PRINT_WARNING << "Couldn't add NULL object." << std::endl;
 		return;
 	}
 	_object_supervisor->_sky_objects.push_back(obj);
-	_object_supervisor->_all_objects.insert(make_pair(obj->object_id, obj));
+	_object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
 }
 
 
 void MapMode::AddZone(MapZone *zone) {
 	if (!zone) {
-		PRINT_WARNING << "Couldn't add NULL zone." << endl;
+		PRINT_WARNING << "Couldn't add NULL zone." << std::endl;
 		return;
 	}
 	_object_supervisor->_zones.push_back(zone);
@@ -409,7 +409,8 @@ bool MapMode::IsEnemyLoaded(uint32 id) const {
 
 void MapMode::SetCamera(private_map::VirtualSprite* sprite, uint32 duration) {
     if (_camera == sprite) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "Camera was moved to the same sprite" << endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "Camera was moved to the same sprite"
+			<< std::endl;
     }
     else {
         if (duration > 0) {
@@ -429,7 +430,8 @@ void MapMode::MoveVirtualFocus(float loc_x, float loc_y) {
 
 void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32 duration) {
     if (_camera != _object_supervisor->VirtualFocus()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "Attempt to move camera although on different sprite" << endl;
+        IF_PRINT_WARNING(MAP_DEBUG)
+			<< "Attempt to move camera although on different sprite" << std::endl;
     }
     else {
         if (duration > 0) {
@@ -467,7 +469,8 @@ bool MapMode::AttackAllowed() {
 bool MapMode::_Load() {
 	// ---------- (1) Open map script file and read in the basic map properties and tile definitions
 	if (!_map_script.OpenFile(_map_filename)) {
-	    PRINT_ERROR << "Couldn't open map script file: " << _map_filename << endl;
+	    PRINT_ERROR << "Couldn't open map script file: "
+			<< _map_filename << std::endl;
 		return false;
 	}
 
@@ -475,7 +478,8 @@ bool MapMode::_Load() {
 	_map_tablespace = _map_script.OpenTablespace();
 
 	if (_map_tablespace.empty()) {
-		PRINT_ERROR << "Couldn't open map name space: " << _map_filename << endl;
+		PRINT_ERROR << "Couldn't open map name space: "
+			<< _map_filename << std::endl;
 		return false;
 	}
 
@@ -484,11 +488,12 @@ bool MapMode::_Load() {
 	_map_hud_subname = MakeUnicodeString(_map_script.ReadString("map_subname"));
 	std::string map_filename = _map_script.ReadString("map_image_filename");
 	if (!map_filename.empty() && !_map_image.Load(_map_script.ReadString("map_image_filename")))
-		PRINT_ERROR << "Failed to load location graphic image: " << _map_image.GetFilename() << endl;
+		PRINT_ERROR << "Failed to load location graphic image: "
+			<< _map_image.GetFilename() << std::endl;
 
 	// Instruct the supervisor classes to perform their portion of the load operation
 	if (!_tile_supervisor->Load(_map_script)) {
-		PRINT_ERROR << "Failed to load the tile data." << endl;
+		PRINT_ERROR << "Failed to load the tile data." << std::endl;
 		return false;
 	}
 
@@ -500,7 +505,7 @@ bool MapMode::_Load() {
 	// NOTE: Other audio handling will be handled through scripting
 	_music_filename = _map_script.ReadString("music_filename");
 	if (!AudioManager->LoadMusic(_music_filename, this))
-		PRINT_WARNING << "Failed to load map music: " << _music_filename << endl;
+		PRINT_WARNING << "Failed to load map music: " << _music_filename << std::endl;
 
 
 	// Create and store all enemies that may appear on this map
@@ -533,7 +538,8 @@ bool MapMode::_Load() {
 	}
 
 	if (!loading_succeeded) {
-		PRINT_ERROR << "Invalid map Load() function. The function wasn't called." << endl;
+		PRINT_ERROR << "Invalid map Load() function. The function wasn't called."
+			<< std::endl;
 		return false;
 	}
 
@@ -547,9 +553,10 @@ bool MapMode::_Load() {
 	// TODO: Need to figure out a new function appropriate for this code?
 	// TEMP: The line below is very bad to do, but is necessary for the UpdateDialogueStatus function to work correctly
 	_current_instance = this;
-	for (map<uint16, MapObject*>::iterator i = _object_supervisor->_all_objects.begin(); i != _object_supervisor->_all_objects.end(); i++) {
-		if (i->second->GetType() == SPRITE_TYPE) {
-			MapSprite* sprite = dynamic_cast<MapSprite*>(i->second);
+	for (std::map<uint16, MapObject*>::iterator it = _object_supervisor->_all_objects.begin();
+			it != _object_supervisor->_all_objects.end(); ++it) {
+		if (it->second->GetType() == SPRITE_TYPE) {
+			MapSprite* sprite = dynamic_cast<MapSprite*>(it->second);
 			sprite->UpdateDialogueStatus();
 		}
 	}

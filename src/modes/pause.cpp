@@ -90,7 +90,7 @@ void PauseMode::Reset() {
 		_screen_capture = VideoManager->CaptureScreen();
 	}
 	catch (Exception e) {
-		IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << endl;
+		IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
 	}
 
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
@@ -142,7 +142,7 @@ void PauseMode::Update() {
 					SystemManager->ExitGame();
 					break;
 				default:
-					IF_PRINT_WARNING(PAUSE_DEBUG) << "unknown quit option selected: " << _quit_options.GetSelection() << endl;
+					IF_PRINT_WARNING(PAUSE_DEBUG) << "unknown quit option selected: " << _quit_options.GetSelection() << std::endl;
 					break;
 			}
 			return;

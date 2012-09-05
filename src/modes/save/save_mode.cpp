@@ -203,7 +203,7 @@ void SaveMode::Reset() {
 		_screen_capture = VideoManager->CaptureScreen();
 	}
 	catch(Exception e) {
-		IF_PRINT_WARNING(SAVE_DEBUG) << e.ToString() << endl;
+		IF_PRINT_WARNING(SAVE_DEBUG) << e.ToString() << std::endl;
 	}
 
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
@@ -390,8 +390,8 @@ bool SaveMode::_LoadGame(int id) {
             MapMode *MM = new MapMode(GlobalManager->GetMapFilename());
             ModeManager->Push(MM, true, true);
         } catch (luabind::error e) {
-            PRINT_ERROR << "Map::_Load -- Error loading map " << GlobalManager->GetMapFilename() << ", returning to BootMode." << endl;
-            cerr << "Exception message:" << endl;
+            PRINT_ERROR << "Map::_Load -- Error loading map " << GlobalManager->GetMapFilename() << ", returning to BootMode." << std::endl;
+            cerr << "Exception message:" << std::endl;
             ScriptManager->HandleLuaError(e);
             ModeManager->Push(new BootMode(), true, true);
         }
@@ -399,7 +399,7 @@ bool SaveMode::_LoadGame(int id) {
 	}
 	else {
 		PRINT_ERROR << "BOOT: No saved game file exists, can not load game: "
-			<< filename << endl;
+			<< filename << std::endl;
 		return false;
 	}
 }
@@ -490,8 +490,8 @@ bool SaveMode::_PreviewGame(int id) {
 	// Report any errors detected from the previous read operations
 	if (file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << endl;
-			cerr << file.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << std::endl;
+			cerr << file.GetErrorMessages() << std::endl;
 			file.ClearErrors();
 		}
 	}

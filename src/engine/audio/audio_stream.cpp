@@ -38,7 +38,7 @@ AudioStream::AudioStream(AudioInput* input, bool loop) :
 	_end_of_stream(false)
 {
 	if (_audio_input == NULL) {
-		PRINT_ERROR << "input argument was NULL -- terminating program" << endl;
+		PRINT_ERROR << "input argument was NULL -- terminating program" << std::endl;
 		exit(1);
 	}
 
@@ -79,7 +79,7 @@ uint32 AudioStream::FillBuffer(uint8* buffer, uint32 size) {
 
 void AudioStream::Seek(uint32 sample) {
 	if (sample >= _audio_input->GetTotalNumberSamples()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to seek to position beyond sample range: " << sample << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to seek to position beyond sample range: " << sample << std::endl;
 	}
 	_audio_input->Seek(sample);
 	_read_position = sample;
@@ -91,7 +91,7 @@ void AudioStream::Seek(uint32 sample) {
 
 void AudioStream::SetLoopStart(uint32 sample) {
 	if (sample >= _audio_input->GetTotalNumberSamples()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set loop start point beyond sample range: " << sample << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set loop start point beyond sample range: " << sample << std::endl;
 		return;
 	}
 
@@ -102,7 +102,7 @@ void AudioStream::SetLoopStart(uint32 sample) {
 
 void AudioStream::SetLoopEnd(uint32 sample) {
 	if (sample >= _audio_input->GetTotalNumberSamples()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set loop end point beyond sample range: " << sample << endl;
+		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set loop end point beyond sample range: " << sample << std::endl;
 		return;
 	}
 

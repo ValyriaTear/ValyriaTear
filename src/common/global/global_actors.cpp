@@ -75,8 +75,8 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor& script) {
 
 	if (script.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << endl;
-			cerr << script.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << std::endl;
+			cerr << script.GetErrorMessages() << std::endl;
 		}
 		return false;
 	}
@@ -88,7 +88,7 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor& script) {
 
 void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor) {
 	if (_actor_owner == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << std::endl;
 		return;
 	}
 
@@ -114,7 +114,7 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
 
 void GlobalAttackPoint::CalculateTotalEvade() {
 	if (_actor_owner == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << std::endl;
 		return;
 	}
 
@@ -287,7 +287,7 @@ GlobalWeapon* GlobalActor::EquipWeapon(GlobalWeapon* weapon) {
 
 GlobalArmor* GlobalActor::EquipArmor(GlobalArmor* armor, uint32 index) {
 	if (index >= _armor_equipped.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
 		return armor;
 	}
 
@@ -296,7 +296,7 @@ GlobalArmor* GlobalActor::EquipArmor(GlobalArmor* armor, uint32 index) {
 
 	if (old_armor != NULL && armor != NULL) {
 		if (old_armor->GetObjectType() != armor->GetObjectType()) {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "old armor was replaced with a different type of armor" << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "old armor was replaced with a different type of armor" << std::endl;
 		}
 	}
 
@@ -308,7 +308,7 @@ GlobalArmor* GlobalActor::EquipArmor(GlobalArmor* armor, uint32 index) {
 
 uint32 GlobalActor::GetTotalPhysicalDefense(uint32 index) const {
 	if (index >= _attack_points.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
 		return 0;
 	}
 
@@ -319,7 +319,7 @@ uint32 GlobalActor::GetTotalPhysicalDefense(uint32 index) const {
 
 uint32 GlobalActor::GetTotalMetaphysicalDefense(uint32 index) const {
 	if (index >= _attack_points.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
 		return 0;
 	}
 
@@ -330,7 +330,7 @@ uint32 GlobalActor::GetTotalMetaphysicalDefense(uint32 index) const {
 
 float GlobalActor::GetTotalEvadeRating(uint32 index) const {
 	if (index >= _attack_points.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
 		return 0.0f;
 	}
 
@@ -341,7 +341,7 @@ float GlobalActor::GetTotalEvadeRating(uint32 index) const {
 
 GlobalArmor* GlobalActor::GetArmorEquipped(uint32 index) const {
 	if (index >= _armor_equipped.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
 		return NULL;
 	}
 
@@ -352,7 +352,7 @@ GlobalArmor* GlobalActor::GetArmorEquipped(uint32 index) const {
 
 GlobalAttackPoint* GlobalActor::GetAttackPoint(uint32 index) const {
 	if (index >= _attack_points.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
 		return NULL;
 	}
 
@@ -364,7 +364,7 @@ GlobalAttackPoint* GlobalActor::GetAttackPoint(uint32 index) const {
 GlobalSkill* GlobalActor::GetSkill(uint32 skill_id) const {
 	map<uint32, GlobalSkill*>::const_iterator skill_location = _skills.find(skill_id);
 	if (skill_location == _skills.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "actor did not have a skill with the requested skill_id: " << skill_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "actor did not have a skill with the requested skill_id: " << skill_id << std::endl;
 		return NULL;
 	}
 
@@ -375,7 +375,7 @@ GlobalSkill* GlobalActor::GetSkill(uint32 skill_id) const {
 
 GlobalSkill* GlobalActor::GetSkill(const GlobalSkill* skill) const {
 	if (skill == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL pointer argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL pointer argument" << std::endl;
 		return NULL;
 	}
 
@@ -386,7 +386,7 @@ GlobalSkill* GlobalActor::GetSkill(const GlobalSkill* skill) const {
 
 void GlobalActor::AddHitPoints(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _hit_points) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_hit_points = 0xFFFFFFFF;
 	}
 	else {
@@ -410,7 +410,7 @@ void GlobalActor::SubtractHitPoints(uint32 amount) {
 
 void GlobalActor::AddMaxHitPoints(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _max_hit_points) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_max_hit_points = 0xFFFFFFFF;
 	}
 	else {
@@ -422,7 +422,7 @@ void GlobalActor::AddMaxHitPoints(uint32 amount) {
 
 void GlobalActor::SubtractMaxHitPoints(uint32 amount) {
 	if (amount > _max_hit_points) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "argument value will cause max hit points to decrease to zero: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "argument value will cause max hit points to decrease to zero: " << amount << std::endl;
 		_max_hit_points = 0;
 		_hit_points = 0;
 	}
@@ -437,7 +437,7 @@ void GlobalActor::SubtractMaxHitPoints(uint32 amount) {
 
 void GlobalActor::AddSkillPoints(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _skill_points) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_skill_points = 0xFFFFFFFF;
 	}
 	else {
@@ -461,7 +461,7 @@ void GlobalActor::SubtractSkillPoints(uint32 amount) {
 
 void GlobalActor::AddMaxSkillPoints(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _max_skill_points) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_max_skill_points = 0xFFFFFFFF;
 	}
 	else {
@@ -473,7 +473,7 @@ void GlobalActor::AddMaxSkillPoints(uint32 amount) {
 
 void GlobalActor::SubtractMaxSkillPoints(uint32 amount) {
 	if (amount > _max_skill_points) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "argument value will cause max skill points to decrease to zero: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "argument value will cause max skill points to decrease to zero: " << amount << std::endl;
 		_max_skill_points = 0;
 		_skill_points = 0;
 	}
@@ -488,7 +488,7 @@ void GlobalActor::SubtractMaxSkillPoints(uint32 amount) {
 
 void GlobalActor::AddStrength(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _strength) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_strength = 0xFFFFFFFF;
 	}
 	else {
@@ -513,7 +513,7 @@ void GlobalActor::SubtractStrength(uint32 amount) {
 
 void GlobalActor::AddVigor(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _vigor) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_vigor = 0xFFFFFFFF;
 	}
 	else {
@@ -538,7 +538,7 @@ void GlobalActor::SubtractVigor(uint32 amount) {
 
 void GlobalActor::AddFortitude(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _fortitude) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_fortitude = 0xFFFFFFFF;
 	}
 	else {
@@ -563,7 +563,7 @@ void GlobalActor::SubtractFortitude(uint32 amount) {
 
 void GlobalActor::AddProtection(uint32 amount) {
 	if ((0xFFFFFFFF - amount) < _protection) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_protection = 0xFFFFFFFF;
 	}
 	else {
@@ -588,7 +588,7 @@ void GlobalActor::SubtractProtection(uint32 amount) {
 
 void GlobalActor::AddAgility(uint32 amount)  {
 	if ((0xFFFFFFFF - amount) < _agility) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
 		_agility = 0xFFFFFFFF;
 	}
 	else {
@@ -609,17 +609,17 @@ void GlobalActor::SubtractAgility(uint32 amount) {
 
 void GlobalActor::AddEvade(float amount) {
 	if (amount < 0.0f) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received negative argument value: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received negative argument value: " << amount << std::endl;
 		return;
 	}
 
 	float new_evade = _evade + amount;
 	if (new_evade < _evade) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "floating point overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "floating point overflow condition detected: " << amount << std::endl;
 		_evade = 1.0f;
 	}
 	else if (new_evade > 1.0f) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "evade rating increased above 1.0f: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "evade rating increased above 1.0f: " << amount << std::endl;
 		_evade = 1.0f;
 	}
 	else {
@@ -633,17 +633,17 @@ void GlobalActor::AddEvade(float amount) {
 
 void GlobalActor::SubtractEvade(float amount) {
 	if (amount > 0.0f) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received positive argument value: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received positive argument value: " << amount << std::endl;
 		return;
 	}
 
 	float new_evade = _evade + amount;
 	if (new_evade > _evade) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "floating point overflow condition detected: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "floating point overflow condition detected: " << amount << std::endl;
 		_evade = 0.0f;
 	}
 	else if (new_evade < 0.0f) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "evade rating decreased below 0.0f: " << amount << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "evade rating decreased below 0.0f: " << amount << std::endl;
 		_evade = 0.0f;
 	}
 	else {
@@ -718,7 +718,7 @@ GlobalCharacterGrowth::~GlobalCharacterGrowth() {
 
 void GlobalCharacterGrowth::AcknowledgeGrowth() {
 	if (_growth_detected == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function was invoked when there was no character growth detected" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function was invoked when there was no character growth detected" << std::endl;
 		return;
 	}
 
@@ -764,7 +764,7 @@ void GlobalCharacterGrowth::AcknowledgeGrowth() {
 		string filename = "dat/actors/characters.lua";
 		ReadScriptDescriptor character_script;
 		if (character_script.OpenFile(filename) == false) {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to open character data file: " << filename << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to open character data file: " << filename << std::endl;
 			return;
 		}
 
@@ -786,7 +786,7 @@ void GlobalCharacterGrowth::AcknowledgeGrowth() {
 		for (uint32 i = 0; i < _skills_learned.size(); i++) {
 			GlobalSkill* skill = _skills_learned[i];
 			if (_character_owner->_skills.find(skill->GetID()) != _character_owner->_skills.end()) {
-				IF_PRINT_WARNING(GLOBAL_DEBUG) << "character had already learned the skill with the id: " << skill->GetID() << endl;
+				IF_PRINT_WARNING(GLOBAL_DEBUG) << "character had already learned the skill with the id: " << skill->GetID() << std::endl;
 				delete _skills_learned[i];
 				continue;
 			}
@@ -804,7 +804,7 @@ void GlobalCharacterGrowth::AcknowledgeGrowth() {
 					_character_owner->_support_skills.push_back(skill);
 					break;
 				default:
-					IF_PRINT_WARNING(GLOBAL_DEBUG) << "newly learned skill had an unknown skill type: " << skill->GetType() << endl;
+					IF_PRINT_WARNING(GLOBAL_DEBUG) << "newly learned skill had an unknown skill type: " << skill->GetType() << std::endl;
 					break;
 			}
 		}
@@ -823,20 +823,20 @@ void GlobalCharacterGrowth::AcknowledgeGrowth() {
 
 void GlobalCharacterGrowth::_AddSkill(uint32 skill_id) {
 	if (skill_id == 0) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
 		return;
 	}
 	// Make sure we don't add a skill to learn more than once
 	for (vector<GlobalSkill*>::iterator i = _skills_learned.begin(); i != _skills_learned.end(); i++) {
 		if (skill_id == (*i)->GetID()) {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add was already present in the list of skills to learn: " << skill_id << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add was already present in the list of skills to learn: " << skill_id << std::endl;
 			return;
 		}
 	}
 
 	GlobalSkill* skill = new GlobalSkill(skill_id);
 	if (skill->IsValid() == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add failed to load: " << skill_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add failed to load: " << skill_id << std::endl;
 		delete skill;
 	}
 	else {
@@ -1105,7 +1105,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	}
 	else if (!portrait_filename.empty()) {
 		PRINT_WARNING << "Unavailable portrait image: " << portrait_filename
-			<< " for character: " << MakeStandardString(_name) << endl;
+			<< " for character: " << MakeStandardString(_name) << std::endl;
 	}
 
 	std::string full_portrait_filename = char_script.ReadString("full_portrait");
@@ -1114,7 +1114,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	}
 	else if (!full_portrait_filename.empty()) {
 		PRINT_WARNING << "Unavailable full portrait image: " << full_portrait_filename
-			<< " for character: " << MakeStandardString(_name) << endl;
+			<< " for character: " << MakeStandardString(_name) << std::endl;
 	}
 
 	std::string stamina_icon_filename = char_script.ReadString("stamina_icon");
@@ -1127,7 +1127,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		// Don't complain if no icon was provided on purpose
 		if (!stamina_icon_filename.empty()) {
 			PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
-				<< " for character: " << MakeStandardString(_name) << ". Loading default one."<< endl;
+				<< " for character: " << MakeStandardString(_name) << ". Loading default one."<< std::endl;
 		}
 	}
 
@@ -1216,8 +1216,8 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		char_script.CloseTable();
 		if (char_script.IsErrorDetected()) {
 			if (GLOBAL_DEBUG) {
-				PRINT_WARNING << "one or more errors occurred while reading initial data - they are listed below" << endl;
-				cerr << char_script.GetErrorMessages() << endl;
+				PRINT_WARNING << "one or more errors occurred while reading initial data - they are listed below" << std::endl;
+				cerr << char_script.GetErrorMessages() << std::endl;
 			}
 		}
 	} // if (initial == true)
@@ -1232,7 +1232,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		_attack_points.push_back(new GlobalAttackPoint(this));
 		char_script.OpenTable(i);
 		if (_attack_points[i]->LoadData(char_script) == false) {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to succesfully load data for attack point: " << i << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to succesfully load data for attack point: " << i << std::endl;
 		}
 		char_script.CloseTable();
 	}
@@ -1240,8 +1240,8 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
 	if (char_script.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading attack point data - they are listed below" << endl;
-			cerr << char_script.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while reading attack point data - they are listed below" << std::endl;
+			cerr << char_script.GetErrorMessages() << std::endl;
 		}
 	}
 
@@ -1270,8 +1270,8 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		char_script.CloseTable();
 		if (char_script.IsErrorDetected()) {
 			if (GLOBAL_DEBUG) {
-				PRINT_WARNING << "one or more errors occurred while reading skill data - they are listed below" << endl;
-				cerr << char_script.GetErrorMessages() << endl;
+				PRINT_WARNING << "one or more errors occurred while reading skill data - they are listed below" << std::endl;
+				cerr << char_script.GetErrorMessages() << std::endl;
 			}
 		}
 	} // if (initial)
@@ -1300,8 +1300,8 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	// Close the script file and calculate all rating totals
 	if (char_script.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading final data - they are listed below" << endl;
-			cerr << char_script.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while reading final data - they are listed below" << std::endl;
+			cerr << char_script.GetErrorMessages() << std::endl;
 		}
 	}
 	char_script.CloseFile();
@@ -1348,7 +1348,7 @@ void GlobalCharacter::AddSkill(uint32 skill_id) {
 			_support_skills.push_back(skill);
 			break;
 		default:
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "loaded a new skill with an unknown skill type: " << skill->GetType() << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "loaded a new skill with an unknown skill type: " << skill->GetType() << std::endl;
 			break;
 	}
 }
@@ -1378,12 +1378,12 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	string filename;
 
 	if (_id == 0)
-		PRINT_ERROR << "invalid id for loading enemy data: " << _id << endl;
+		PRINT_ERROR << "invalid id for loading enemy data: " << _id << std::endl;
 
 	// Open the script file and table that store the enemy data
 	ReadScriptDescriptor enemy_data;
 	if (!enemy_data.OpenFile("dat/actors/enemies.lua")) {
-		PRINT_ERROR << "failed to open enemy data file: " << filename << endl;
+		PRINT_ERROR << "failed to open enemy data file: " << filename << std::endl;
 		return;
 	}
 
@@ -1399,7 +1399,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	_battle_sprite_frames.assign(4, StillImage());
 	string sprite_filename = enemy_data.ReadString("battle_sprites");
 	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_sprite_frames, sprite_filename, 1, 4))
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load sprite frames for enemy: " << sprite_filename << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load sprite frames for enemy: " << sprite_filename << std::endl;
 
 	std::string stamina_icon_filename = enemy_data.ReadString("stamina_icon");
 	if (DoesFileExist(stamina_icon_filename)) {
@@ -1407,7 +1407,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	}
 	else {
 		PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
-			<< " for enemy: " << MakeStandardString(_name) << ". Loading default one."<< endl;
+			<< " for enemy: " << MakeStandardString(_name) << ". Loading default one."<< std::endl;
 		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
 	}
 
@@ -1438,7 +1438,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 		_attack_points.push_back(new GlobalAttackPoint(this));
 		enemy_data.OpenTable(i);
 		if (_attack_points.back()->LoadData(enemy_data) == false) {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load data for an attack point: " << i << endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load data for an attack point: " << i << std::endl;
 		}
 		enemy_data.CloseTable();
 	}
@@ -1466,8 +1466,8 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
 	if (enemy_data.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading the enemy data - they are listed below" << endl;
-			cerr << enemy_data.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while reading the enemy data - they are listed below" << std::endl;
+			cerr << enemy_data.GetErrorMessages() << std::endl;
 		}
 	}
 
@@ -1482,17 +1482,17 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
 void GlobalEnemy::AddSkill(uint32 skill_id) {
 	if (skill_id == 0) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
 		return;
 	}
 	if (_skills.find(skill_id) != _skills.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to add skill because the enemy already knew this skill: " << skill_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to add skill because the enemy already knew this skill: " << skill_id << std::endl;
 		return;
 	}
 
 	GlobalSkill* skill = new GlobalSkill(skill_id);
 	if (skill->IsValid() == false) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add failed to load: " << skill_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add failed to load: " << skill_id << std::endl;
 		delete skill;
 		return;
 	}
@@ -1505,7 +1505,7 @@ void GlobalEnemy::AddSkill(uint32 skill_id) {
 
 void GlobalEnemy::Initialize() {
 	if (_skills.empty() == false) { // Indicates that the enemy has already been initialized
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function was invoked for an already initialized enemy: " << _id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function was invoked for an already initialized enemy: " << _id << std::endl;
 		return;
 	}
 
@@ -1518,7 +1518,7 @@ void GlobalEnemy::Initialize() {
 	}
 
 	if (_skills.empty()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "no skills were added for the enemy: " << _id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "no skills were added for the enemy: " << _id << std::endl;
 	}
 
 	// ----- (3): Randomize the stats by using a guassian random variable
@@ -1560,7 +1560,7 @@ void GlobalEnemy::DetermineDroppedObjects(vector<GlobalObject*>& objects) {
 
 void GlobalParty::AddActor(GlobalActor* actor, int32 index) {
 	if (actor == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL actor argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL actor argument" << std::endl;
 		return;
 	}
 
@@ -1569,7 +1569,7 @@ void GlobalParty::AddActor(GlobalActor* actor, int32 index) {
 		for (uint32 i = 0; i < _actors.size(); i++) {
 			if (actor->GetID() == _actors[i]->GetID()) {
 				IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add an actor that was already in the party "
-					<< "when duplicates were not allowed: " << actor->GetID() << endl;
+					<< "when duplicates were not allowed: " << actor->GetID() << std::endl;
 				return;
 			}
 		}
@@ -1583,7 +1583,7 @@ void GlobalParty::AddActor(GlobalActor* actor, int32 index) {
 
 	// Check that the requested index does not exceed the size of the container
 	if (static_cast<uint32>(index) >= _actors.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded the current party size: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded the current party size: " << index << std::endl;
 		_actors.push_back(actor); // Add the actor to the end of the party instead
 		return;
 	}
@@ -1598,7 +1598,7 @@ void GlobalParty::AddActor(GlobalActor* actor, int32 index) {
 
 GlobalActor* GlobalParty::RemoveActorAtIndex(uint32 index) {
 	if (index >= _actors.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
 		return NULL;
 	}
 
@@ -1614,7 +1614,7 @@ GlobalActor* GlobalParty::RemoveActorAtIndex(uint32 index) {
 
 GlobalActor* GlobalParty::RemoveActorByID(uint32 id) {
 	if (_allow_duplicates) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to remove actor when duplicates were allowed in the party: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to remove actor when duplicates were allowed in the party: " << id << std::endl;
 		return NULL;
 	}
 
@@ -1628,7 +1628,7 @@ GlobalActor* GlobalParty::RemoveActorByID(uint32 id) {
 	}
 
 	if (removed_actor == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << std::endl;
 	}
 
 	return removed_actor;
@@ -1638,7 +1638,7 @@ GlobalActor* GlobalParty::RemoveActorByID(uint32 id) {
 
 GlobalActor* GlobalParty::GetActorAtIndex(uint32 index) const {
 	if (index >= _actors.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
 		return NULL;
 	}
 
@@ -1649,7 +1649,7 @@ GlobalActor* GlobalParty::GetActorAtIndex(uint32 index) const {
 
 GlobalActor* GlobalParty::GetActorByID(uint32 id) const {
 	if (_allow_duplicates) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to retrieve actor when duplicates were allowed in the party: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to retrieve actor when duplicates were allowed in the party: " << id << std::endl;
 		return NULL;
 	}
 
@@ -1659,7 +1659,7 @@ GlobalActor* GlobalParty::GetActorByID(uint32 id) const {
 		}
 	}
 
-	IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << endl;
+	IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << std::endl;
 	return NULL;
 }
 
@@ -1667,15 +1667,15 @@ GlobalActor* GlobalParty::GetActorByID(uint32 id) const {
 
 void GlobalParty::SwapActorsByIndex(uint32 first_index, uint32 second_index) {
 	if (first_index == second_index) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << std::endl;
 		return;
 	}
 	if (first_index >= _actors.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index argument exceeded current party size: " << first_index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index argument exceeded current party size: " << first_index << std::endl;
 		return;
 	}
 	if (second_index >= _actors.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "second_index argument exceeded current party size: " << second_index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "second_index argument exceeded current party size: " << second_index << std::endl;
 		return;
 	}
 
@@ -1688,11 +1688,11 @@ void GlobalParty::SwapActorsByIndex(uint32 first_index, uint32 second_index) {
 
 void GlobalParty::SwapActorsByID(uint32 first_id, uint32 second_id) {
 	if (first_id == second_id) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_id and second_id arguments had the same value: " << first_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_id and second_id arguments had the same value: " << first_id << std::endl;
 		return;
 	}
 	if (_allow_duplicates) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to swap actors when duplicates were allowed in the party: " << first_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to swap actors when duplicates were allowed in the party: " << first_id << std::endl;
 		return;
 	}
 
@@ -1708,11 +1708,11 @@ void GlobalParty::SwapActorsByID(uint32 first_id, uint32 second_id) {
 	}
 
 	if (first_position == _actors.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested first_id: " << first_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested first_id: " << first_id << std::endl;
 		return;
 	}
 	if (second_position == _actors.end()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested second_id: " << second_id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested second_id: " << second_id << std::endl;
 		return;
 	}
 
@@ -1725,11 +1725,11 @@ void GlobalParty::SwapActorsByID(uint32 first_id, uint32 second_id) {
 
 GlobalActor* GlobalParty::ReplaceActorByIndex(uint32 index, GlobalActor* new_actor) {
 	if (new_actor == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_actor argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_actor argument" << std::endl;
 		return NULL;
 	}
 	if (index >= _actors.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
 		return NULL;
 	}
 
@@ -1742,11 +1742,11 @@ GlobalActor* GlobalParty::ReplaceActorByIndex(uint32 index, GlobalActor* new_act
 
 GlobalActor* GlobalParty::ReplaceActorByID(uint32 id, GlobalActor* new_actor) {
 	if (_allow_duplicates) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace actor when duplicates were allowed in the party: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace actor when duplicates were allowed in the party: " << id << std::endl;
 		return NULL;
 	}
 	if (new_actor == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_actor argument" << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_actor argument" << std::endl;
 		return NULL;
 	}
 
@@ -1760,7 +1760,7 @@ GlobalActor* GlobalParty::ReplaceActorByID(uint32 id, GlobalActor* new_actor) {
 	}
 
 	if (removed_actor == NULL) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << std::endl;
 	}
 
 	return removed_actor;

@@ -100,7 +100,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter* character, M
 	_support_list.SetCursorOffset(-50.0f, 25.0f);
 
 	if (_character == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL character pointer" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL character pointer" << std::endl;
 		return;
 	}
 
@@ -209,7 +209,7 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget& target) {
 		case GLOBAL_TARGET_ALL_FOES:
 			break; // Party type targets are not retained
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
 			break;
 	}
 }
@@ -218,7 +218,7 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget& target) {
 
 void CharacterCommandSettings::SetLastSelfTarget(BattleTarget& target) {
 	if ((target.GetType() != GLOBAL_TARGET_SELF_POINT) && (target.GetType() != GLOBAL_TARGET_SELF)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
 		return;
 	}
 
@@ -230,7 +230,7 @@ void CharacterCommandSettings::SetLastSelfTarget(BattleTarget& target) {
 void CharacterCommandSettings::SetLastCharacterTarget(BattleTarget& target) {
 	if ((target.GetType() != GLOBAL_TARGET_ALLY_POINT) && (target.GetType() != GLOBAL_TARGET_ALLY)
 			&& (target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
 		return;
 	}
 
@@ -241,7 +241,7 @@ void CharacterCommandSettings::SetLastCharacterTarget(BattleTarget& target) {
 
 void CharacterCommandSettings::SetLastEnemyTarget(BattleTarget& target) {
 	if ((target.GetType() != GLOBAL_TARGET_FOE_POINT) && (target.GetType() != GLOBAL_TARGET_FOE)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
 		return;
 	}
 
@@ -276,7 +276,7 @@ ItemCommand::ItemCommand(MenuWindow& window) {
 	for (uint32 i = 0; i < all_items->size(); i++) {
 		if (all_items->at(i)->IsUsableInBattle() == true) {
 			if (all_items->at(i)->GetCount() == 0) {
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "discovered item in inventory with a zero count" << endl;
+				IF_PRINT_WARNING(BATTLE_DEBUG) << "discovered item in inventory with a zero count" << std::endl;
 			}
 
 			_items.push_back(BattleItem(GlobalItem(*all_items->at(i))));
@@ -319,7 +319,7 @@ void ItemCommand::ConstructList() {
 
 void ItemCommand::Initialize(uint32 item_index) {
 	if (item_index >= _items.size()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "item_index argument was out-of-range: " << item_index << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "item_index argument was out-of-range: " << item_index << std::endl;
 		return;
 	}
 
@@ -355,7 +355,7 @@ void ItemCommand::Initialize(uint32 item_index) {
 	// If this case is true there are no items in the list. This should not happen because the item
 	// command should not be used if no items exist
 	if ((next_item_index == 0xFFFFFFFF) && (prev_item_index == 0xFFFFFFFF)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no items were in the list" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no items were in the list" << std::endl;
 		return;
 	}
 	else if ((next_item_index - item_index) <= (item_index - prev_item_index)) {
@@ -380,7 +380,7 @@ BattleItem* ItemCommand::GetSelectedItem() {
 
 uint32 ItemCommand::GetItemIndex() const {
 	if (_item_list.GetSelection() < 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid selection in item list" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid selection in item list" << std::endl;
 		return 0xFFFFFFFF;
 	}
 
@@ -392,7 +392,7 @@ uint32 ItemCommand::GetItemIndex() const {
 	}
 
 	// Execution should never reach this line
-	IF_PRINT_WARNING(BATTLE_DEBUG) << "could not find index for item list selection: " << _item_list.GetSelection() << endl;
+	IF_PRINT_WARNING(BATTLE_DEBUG) << "could not find index for item list selection: " << _item_list.GetSelection() << std::endl;
 	return 0xFFFFFFFF;
 }
 
@@ -467,7 +467,7 @@ void ItemCommand::CommitChangesToInventory() {
 
 void ItemCommand::RefreshEntry(uint32 entry) {
 	if (entry >= _item_list.GetNumberOptions()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "entry argument was out-of-range: " << entry << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "entry argument was out-of-range: " << entry << std::endl;
 		return;
 	}
 
@@ -520,11 +520,11 @@ SkillCommand::SkillCommand(MenuWindow& window) :
 
 void SkillCommand::Initialize(vector<GlobalSkill*>* skills, OptionBox* skill_list) {
 	if (skills == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skills argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skills argument" << std::endl;
 		return;
 	}
 	if (skill_list == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skill_list argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skill_list argument" << std::endl;
 		return;
 	}
 
@@ -604,7 +604,7 @@ CommandSupervisor::CommandSupervisor() :
 	_skill_command(_command_window)
 {
 	if (_command_window.Create(512.0f, 128.0f) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to create menu window" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to create menu window" << std::endl;
 	}
 	_command_window.SetPosition(512.0f, 128.0f);
 	_command_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -612,13 +612,13 @@ CommandSupervisor::CommandSupervisor() :
 
 	_category_icons.resize(4, StillImage());
 	if (_category_icons[0].Load("img/icons/battle/attack.png") == false)
-		PRINT_ERROR << "failed to load category icon" << endl;
+		PRINT_ERROR << "failed to load category icon" << std::endl;
 	if (_category_icons[1].Load("img/icons/battle/defend.png") == false)
-		PRINT_ERROR << "failed to load category icon" << endl;
+		PRINT_ERROR << "failed to load category icon" << std::endl;
 	if (_category_icons[2].Load("img/icons/battle/support.png") == false)
-		PRINT_ERROR << "failed to load category icon" << endl;
+		PRINT_ERROR << "failed to load category icon" << std::endl;
 	if (_category_icons[3].Load("img/icons/battle/item.png") == false)
-		PRINT_ERROR << "failed to load category icon" << endl;
+		PRINT_ERROR << "failed to load category icon" << std::endl;
 
 	_category_text.resize(4, TextImage("", TextStyle("title22")));
 	_category_text[0].SetText(Translate("Attack"));
@@ -680,7 +680,7 @@ void CommandSupervisor::ConstructMenus() {
 
 void CommandSupervisor::Initialize(BattleCharacter* character) {
 	if (character == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function recieved NULL pointer argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function recieved NULL pointer argument" << std::endl;
 		_state = COMMAND_STATE_INVALID;
 		return;
 	}
@@ -718,7 +718,7 @@ void CommandSupervisor::Initialize(BattleCharacter* character) {
 			return;
 	}
 
-	IF_PRINT_WARNING(BATTLE_DEBUG) << "no options in category list were enabled" << endl;
+	IF_PRINT_WARNING(BATTLE_DEBUG) << "no options in category list were enabled" << std::endl;
 }
 
 
@@ -741,7 +741,7 @@ void CommandSupervisor::Update() {
 			_UpdateInformation();
 			break;
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << std::endl;
 			_ChangeState(COMMAND_STATE_CATEGORY);
 			return;
 	}
@@ -769,7 +769,7 @@ void CommandSupervisor::Draw() {
 			_DrawInformation();
 			break;
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << std::endl;
 			_ChangeState(COMMAND_STATE_CATEGORY);
 			return;
 	}
@@ -863,7 +863,7 @@ bool CommandSupervisor::_SetInitialTarget() {
 		_selected_target = _active_settings->GetLastEnemyTarget();
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no conditions met for invalid target type: " << target_type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no conditions met for invalid target type: " << target_type << std::endl;
 	}
 
 	bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
@@ -904,7 +904,7 @@ bool CommandSupervisor::_SetInitialTarget() {
 
 void CommandSupervisor::_ChangeState(COMMAND_STATE new_state) {
 	if (_state == new_state) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "class was already in state to change to: " << new_state << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "class was already in state to change to: " << new_state << std::endl;
 		return;
 	}
 
@@ -933,7 +933,7 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state) {
 					_item_command.Initialize(_active_settings->GetLastItem());
 					break;
 				default:
-					IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid category selection: " << _category_options.GetSelection() << endl;
+					IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid category selection: " << _category_options.GetSelection() << std::endl;
 					_category_options.SetSelection(0);
 					return;
 			}
@@ -1058,7 +1058,7 @@ void CommandSupervisor::_UpdateAction() {
 		}
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid category selection: " << _category_options.GetSelection() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid category selection: " << _category_options.GetSelection() << std::endl;
 		_state = COMMAND_STATE_CATEGORY;
 		_category_options.SetSelection(0);
 	}
@@ -1258,7 +1258,7 @@ void CommandSupervisor::_CreateActorTargetText() {
 		}
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _selected_target.GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _selected_target.GetType() << std::endl;
 	}
 
 	// TEMP: remove once _target_options box works properly
@@ -1312,7 +1312,7 @@ void CommandSupervisor::_CreateInformationText() {
 		info_text += UTranslate("Target Type: ") + MakeUnicodeString(GetTargetText(_selected_item->GetItem().GetTargetType())) + MakeUnicodeString("\n");
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown category selected: " << _category_options.GetSelection() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown category selected: " << _category_options.GetSelection() << std::endl;
 	}
 
 	_window_text.SetText(info_text);
@@ -1337,7 +1337,7 @@ void CommandSupervisor::_FinalizeCommand() {
 		_item_command.RefreshEntry(_item_command.GetItemIndex());
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "did not create action for character, unknown category selected: " << _category_options.GetSelection() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "did not create action for character, unknown category selected: " << _category_options.GetSelection() << std::endl;
 	}
 	character->SetAction(new_action);
 

@@ -93,7 +93,7 @@ bool EffectSupervisor::_LoadLightnings(const std::string &lightning_file) {
 	hoa_script::ReadScriptDescriptor lightning_script;
 	if (lightning_script.OpenFile(lightning_file) == false) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "No script file: '"
-			<< lightning_file << "' The lightning effects won't work." << endl;
+			<< lightning_file << "' The lightning effects won't work." << std::endl;
 		return false;
 	}
 
@@ -141,7 +141,7 @@ bool EffectSupervisor::_LoadLightnings(const std::string &lightning_file) {
 
 	if (_lightning_inner_info._lightning_data.empty()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "No lightning intensities read from: '"
-			<< lightning_file << "'. The effects won't work." << endl;
+			<< lightning_file << "'. The effects won't work." << std::endl;
 		return false;
 	}
 
@@ -184,7 +184,7 @@ void EffectSupervisor::EnableLightning(int16 id, bool loop) {
 	}
 	else {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid lightning effect requested: "
-		<< id << ", the effect won't be displayed." << endl;
+		<< id << ", the effect won't be displayed." << std::endl;
 		DisableLightning();
 	}
 }

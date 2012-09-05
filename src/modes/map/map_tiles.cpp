@@ -13,13 +13,12 @@
 *** \brief   Source file for map mode tile management.
 *** ***************************************************************************/
 
-#include "engine/script/script.h"
-#include "engine/video/video.h"
-
-#include "modes/map/map.h"
 #include "modes/map/map_tiles.h"
 
-using namespace std;
+#include "modes/map/map.h"
+
+#include "engine/video/video.h"
+
 using namespace hoa_utils;
 using namespace hoa_script;
 using namespace hoa_video;
@@ -61,7 +60,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	_num_tile_on_y_axis = map_file.ReadInt("num_tile_rows");
 	_num_tile_on_x_axis = map_file.ReadInt("num_tile_cols");
 
-	vector<int32> context_inherits;
+	std::vector<int32> context_inherits;
 	//map_file.ReadUIntVector("context_inherits", context_inherits);
 	map_file.OpenTable("contexts");
 	uint32 num_contexts = map_file.GetTableSize();
@@ -86,20 +85,20 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	// Load all of the tileset images that are used by this map
 
 	// Contains all of the tileset filenames used (string does not contain path information or file extensions)
-	vector<string> tileset_filenames;
+	std::vector<std::string> tileset_filenames;
 	// Temporarily retains all tile images loaded for each tileset. Each inner vector contains 256 StillImage objects
-	vector<vector<StillImage> > tileset_images;
+	std::vector<std::vector<StillImage> > tileset_images;
 
 	map_file.ReadStringVector("tileset_filenames", tileset_filenames);
 
 	for (uint32 i = 0; i < tileset_filenames.size(); i++) {
 		// Construct the image filename from the tileset filename and create a new vector to use in the LoadMultiImage call
-		string image_filename = "img/tilesets/" + tileset_filenames[i] + ".png";
-		tileset_images.push_back(vector<StillImage>(TILES_PER_TILESET));
+		std::string image_filename = "img/tilesets/" + tileset_filenames[i] + ".png";
+		tileset_images.push_back(std::vector<StillImage>(TILES_PER_TILESET));
 
 		// Each tileset image is 512x512 pixels, yielding 16 * 16 (== 256) 32x32 pixel tiles each
 		if (!ImageDescriptor::LoadMultiImageFromElementGrid(tileset_images[i], image_filename, 16, 16)) {
-			PRINT_ERROR << "failed to load tileset image: " << image_filename << endl;
+			PRINT_ERROR << "failed to load tileset image: " << image_filename << std::endl;
 			return false;
 		}
 
@@ -111,7 +110,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	}
 
 	if (!map_file.DoesTableExist("layers")) {
-		PRINT_ERROR << "No 'layers' table in the map file." << endl;
+		PRINT_ERROR << "No 'layers' table in the map file." << std::endl;
 		return false;
 	}
 
@@ -122,9 +121,9 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 
 	// Create the base context
 	_tile_grid.clear();
-	_tile_grid.insert(make_pair(MAP_CONTEXT_01, Context()));
+	_tile_grid.insert(std::make_pair(MAP_CONTEXT_01, Context()));
 
-	vector<int32> table_x_indeces; // Used to temporarily store a row of table indeces
+	std::vector<int32> table_x_indeces; // Used to temporarily store a row of table indeces
 
 	map_file.OpenTable("layers");
 
@@ -145,7 +144,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 
 		if (layer_type == INVALID_LAYER) {
 			PRINT_WARNING << "Ignoring unexisting layer type: " << layer_type
-				<< " in file: " << map_file.GetFilename() << endl;
+				<< " in file: " << map_file.GetFilename() << std::endl;
 			map_file.CloseTable(); // layers[i]
 			continue;
 		}
@@ -162,7 +161,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 			// Check to make sure tables are of the proper size
 			if (!map_file.DoesTableExist(y)) {
 				PRINT_ERROR << "the layers["<< layer_id <<"] table size was not equal to the number of tile rows specified by the map, "
-					" first missing row: " << y << endl;
+					" first missing row: " << y << std::endl;
 				return false;
 			}
 
@@ -171,7 +170,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 			// Check the number of columns
 			if (table_x_indeces.size() != _num_tile_on_x_axis){
 				PRINT_ERROR << "the layers[" << layer_id << "]["<< y << "] table size was not equal to the number of tile columns specified by the map, "
-				"should have " << _num_tile_on_x_axis << " values."<< endl;
+				"should have " << _num_tile_on_x_axis << " values."<< std::endl;
 				return false;
 			}
 
@@ -192,7 +191,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	// Load the tile data for each additional map context
 	for (uint32 ctxt = 1; ctxt < num_contexts; ++ctxt) {
 		MAP_CONTEXT this_context = static_cast<MAP_CONTEXT>(1 << ctxt);
-		string context_name = "context_";
+		std::string context_name = "context_";
 		if (ctxt < 10) // precede single digit context names with a zero
 			context_name += "0";
 		context_name += NumberToString(ctxt);
@@ -200,7 +199,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 		// Check wether the context inhjeritance id is lower than the current one.
 		if (context_inherits[ctxt] >= (int32)ctxt) {
 			PRINT_WARNING << "Invalid context inheritance found for context id: " << ctxt
-			<< ". Permitted values goes from -1 (none) to " << ctxt - 1 << endl;
+			<< ". Permitted values goes from -1 (none) to " << ctxt - 1 << std::endl;
 			continue;
 		}
 
@@ -239,7 +238,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 		map_file.ReadIntVector(context_name, context_data);
 		if (context_data.size() % 4 != 0) {
 			PRINT_WARNING <<  ", context data was not evenly divisible by four (incomplete context data)"
-				<< " in context: " << this_context << endl;
+				<< " in context: " << this_context << std::endl;
 			continue;
 		}
 
@@ -253,7 +252,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 					x >= _num_tile_on_x_axis ||
 					layer_id >= (int32)_tile_grid[this_context].size()) {
 				PRINT_WARNING << "Invalid context data found for context: " << this_context << ": layer id: " << layer_id
-					<< ", x: " << x << ", y: " << y << endl;
+					<< ", x: " << x << ", y: " << y << std::endl;
 				continue;
 			}
 
@@ -265,7 +264,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	// Determine which tiles in each tileset are referenced in this map
 
 	// Used to determine whether each tile is used by the map or not. An entry of -1 indicates that particular tile is not used
-	vector<int16> tile_references;
+	std::vector<int16> tile_references;
 	// Set size to be equal to the total number of tiles and initialize all entries to -1 (unreferenced)
 	tile_references.assign(tileset_filenames.size() * TILES_PER_TILESET, -1);
 
@@ -323,13 +322,13 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	// Used to access the tileset definition file
 	ReadScriptDescriptor tileset_script;
 	// Temporarily retains the animation data (every two elements corresponds to a pair of tile frame index and display time)
-	vector<uint32> animation_info;
+	std::vector<uint32> animation_info;
 	// Temporarily holds all animated tile images. The map key is the value of the tile index, before reference translation is done in the next step
-	map<uint32, AnimatedImage*> tile_animations;
+	std::map<uint32, AnimatedImage*> tile_animations;
 
 	for (uint32 i = 0; i < tileset_filenames.size(); i++) {
 		if (tileset_script.OpenFile("dat/tilesets/" + tileset_filenames[i] + ".lua") == false) {
-			PRINT_ERROR << "map failed to load because it could not open a tileset definition file: " << tileset_script.GetFilename() << endl;
+			PRINT_ERROR << "map failed to load because it could not open a tileset definition file: " << tileset_script.GetFilename() << std::endl;
 			exit(1);
 		}
 		tileset_script.OpenTable(tileset_filenames[i]);
@@ -356,7 +355,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 				for (uint32 k = 0; k < animation_info.size(); k += 2) {
 					new_animation->AddFrame(tileset_images[i][animation_info[k]], animation_info[k+1]);
 				}
-				tile_animations.insert(make_pair(first_frame_index, new_animation));
+				tile_animations.insert(std::make_pair(first_frame_index, new_animation));
 			}
 			tileset_script.CloseTable();
 		}
@@ -388,7 +387,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 	}
 
 	if (tile_animations.empty() == false) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "one or more tile animations that were created were not added into the map -- this is a memory leak" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "one or more tile animations that were created were not added into the map -- this is a memory leak" << std::endl;
 	}
 
 	// Remove all tileset images. Any tiles which were not added to _tile_images will no longer exist in memory

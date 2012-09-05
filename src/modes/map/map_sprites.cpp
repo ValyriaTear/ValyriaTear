@@ -15,23 +15,12 @@
 *** \brief   Source file for map mode sprites.
 *** ***************************************************************************/
 
-#include "utils.h"
-
-#include "engine/audio/audio.h"
-#include "engine/mode_manager.h"
-#include "engine/system.h"
-
-#include "common/global/global.h"
-
-#include "modes/map/map.h"
 #include "modes/map/map_sprites.h"
-#include "modes/map/map_objects.h"
-#include "modes/map/map_dialogue.h"
+
 #include "modes/map/map_events.h"
 
 #include "modes/battle/battle.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_mode_manager;
@@ -289,7 +278,7 @@ void VirtualSprite::SetDirection(uint16 dir) {
 			direction = SE_EAST;
 	}
 	else {
-		IF_PRINT_WARNING(MAP_DEBUG) << "attempted to set an invalid direction: " << dir << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "attempted to set an invalid direction: " << dir << std::endl;
 	}
 } // void VirtualSprite::SetDirection(uint16 dir)
 
@@ -322,7 +311,7 @@ void VirtualSprite::SetRandomDirection() {
 			SetDirection(MOVING_SOUTHWEST);
 			break;
 		default:
-			IF_PRINT_WARNING(MAP_DEBUG) << "invalid randomized direction was chosen" << endl;
+			IF_PRINT_WARNING(MAP_DEBUG) << "invalid randomized direction was chosen" << std::endl;
 	}
 }
 
@@ -422,13 +411,13 @@ float VirtualSprite::CalculateDistanceMoved() {
 
 void VirtualSprite::AcquireControl(SpriteEvent* event) {
 	if (event == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
 		return;
 	}
 
 	if (control_event != NULL) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "a new event is acquiring control when the previous event has not "
-			"released control over this sprite, object id: " << GetObjectID() << endl;
+			"released control over this sprite, object id: " << GetObjectID() << std::endl;
 	}
 	control_event = event;
 }
@@ -437,15 +426,15 @@ void VirtualSprite::AcquireControl(SpriteEvent* event) {
 
 void VirtualSprite::ReleaseControl(SpriteEvent* event) {
 	if (event == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
 		return;
 	}
 
 	if (control_event == NULL) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "no event had control over this sprite, object id: " << GetObjectID() << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "no event had control over this sprite, object id: " << GetObjectID() << std::endl;
 	}
 	else if (control_event != event) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "a different event has control of this sprite, object id: " << GetObjectID() << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "a different event has control of this sprite, object id: " << GetObjectID() << std::endl;
 	}
 	else {
 		control_event = NULL;
@@ -466,7 +455,7 @@ void VirtualSprite::SaveState() {
 
 void VirtualSprite::RestoreState() {
 	if (_state_saved == false)
-		IF_PRINT_WARNING(MAP_DEBUG) << "restoring state when no saved state was detected" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "restoring state when no saved state was detected" << std::endl;
 
 	_state_saved = false;
 	direction = _saved_direction;
@@ -481,15 +470,15 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite* enemy) {
 	// Start a map-to-battle transition animation sequence
 	BattleMode* BM = new BattleMode();
 
-	string battle_background = enemy->GetBattleBackground();
+	std::string battle_background = enemy->GetBattleBackground();
 	if (!battle_background.empty())
 		BM->GetMedia().SetBackgroundImage(battle_background);
 
-	string enemy_battle_music = enemy->GetBattleMusicTheme();
+	std::string enemy_battle_music = enemy->GetBattleMusicTheme();
 	if (!enemy_battle_music.empty())
 		BM->GetMedia().SetBattleMusic(enemy_battle_music);
 
-	const vector<uint32>& enemy_party = enemy->RetrieveRandomParty();
+	const std::vector<uint32>& enemy_party = enemy->RetrieveRandomParty();
 	for (uint32 i = 0; i < enemy_party.size(); ++i) {
 		BM->AddEnemy(enemy_party[i]);
 	}
@@ -937,7 +926,7 @@ void MapSprite::RemoveDialogueReference(uint32 dialogue_id) {
 
 void MapSprite::InitiateDialogue() {
 	if (_dialogue_references.empty() == true) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << object_id << " has no dialogue referenced" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << object_id << " has no dialogue referenced" << std::endl;
 		return;
 	}
 
@@ -955,7 +944,7 @@ void MapSprite::UpdateDialogueStatus() {
 	for (uint32 i = 0; i < _dialogue_references.size(); i++) {
 		SpriteDialogue* dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
 		if (dialogue == NULL) {
-			IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << object_id << " is referencing unknown dialogue: " << _dialogue_references[i] << endl;
+			IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << object_id << " is referencing unknown dialogue: " << _dialogue_references[i] << std::endl;
 			continue;
 		}
 
@@ -976,7 +965,7 @@ void MapSprite::UpdateDialogueStatus() {
 void MapSprite::IncrementNextDialogue() {
 	// Handle the case where no dialogue is referenced by the sprite
 	if (_next_dialogue < 0) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "function invoked when no dialogues were referenced by the sprite" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "function invoked when no dialogues were referenced by the sprite" << std::endl;
 		return;
 	}
 
@@ -995,7 +984,7 @@ void MapSprite::IncrementNextDialogue() {
 		}
 		// If this case occurs, all dialogues are now unavailable
 		else if (_next_dialogue == last_dialogue) {
-			IF_PRINT_WARNING(MAP_DEBUG) << "all referenced dialogues are now unavailable for this sprite" << endl;
+			IF_PRINT_WARNING(MAP_DEBUG) << "all referenced dialogues are now unavailable for this sprite" << std::endl;
 			_has_available_dialogue = false;
 			_has_unseen_dialogue = false;
 			return;
@@ -1006,7 +995,7 @@ void MapSprite::IncrementNextDialogue() {
 void MapSprite::SetNextDialogue(uint16 next) {
 	// If a negative value is passed in, this means the user wants to disable
 	if (next >= _dialogue_references.size()) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "tried to set _next_dialogue to an value that was invalid (exceeds maximum bounds): " << next << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "tried to set _next_dialogue to an value that was invalid (exceeds maximum bounds): " << next << std::endl;
 	}
 	else {
 		_next_dialogue = static_cast<int16>(next);
@@ -1077,7 +1066,7 @@ void EnemySprite::Reset() {
 
 void EnemySprite::AddEnemy(uint32 enemy_id) {
 	if (_enemy_parties.empty()) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "can not add new enemy when no parties have been declared" << endl;
+		IF_PRINT_WARNING(MAP_DEBUG) << "can not add new enemy when no parties have been declared" << std::endl;
 		return;
 	}
 
@@ -1086,7 +1075,7 @@ void EnemySprite::AddEnemy(uint32 enemy_id) {
 	// Make sure that the GlobalEnemy has already been created for this enemy_id
 	if (MAP_DEBUG) {
 		if (MapMode::CurrentInstance()->IsEnemyLoaded(enemy_id) == false) {
-			PRINT_WARNING << "enemy to add has id " << enemy_id << ", which does not exist in MapMode::_enemies" << endl;
+			PRINT_WARNING << "enemy to add has id " << enemy_id << ", which does not exist in MapMode::_enemies" << std::endl;
 		}
 	}
 }

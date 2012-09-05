@@ -57,15 +57,15 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 {
 	// --- (1): Check that the constructor arguments are valid
 	if ((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received an invalid type argument: " << type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received an invalid type argument: " << type << std::endl;
 		return;
 	}
 	if ((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received an invalid intensity argument: " << intensity << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received an invalid intensity argument: " << intensity << std::endl;
 		return;
 	}
 	if (actor == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor argument" << std::endl;
 		return;
 	}
 
@@ -73,7 +73,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 	uint32 table_id = static_cast<uint32>(type);
 	ReadScriptDescriptor& script_file = GlobalManager->GetStatusEffectsScript();
 	if (script_file.DoesTableExist(table_id) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
 		return;
 	}
 
@@ -89,7 +89,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 		(*_apply_function) = script_file.ReadFunctionPointer("Apply");
 	}
 	else {
-		PRINT_WARNING << "no Apply function found in Lua definition file for status: " << table_id << endl;
+		PRINT_WARNING << "no Apply function found in Lua definition file for status: " << table_id << std::endl;
 	}
 
 	if (script_file.DoesFunctionExist("Update")) {
@@ -97,7 +97,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 		(*_update_function) = script_file.ReadFunctionPointer("Update");
 	}
 	else {
-		PRINT_WARNING << "no Update function found in Lua definition file for status: " << table_id << endl;
+		PRINT_WARNING << "no Update function found in Lua definition file for status: " << table_id << std::endl;
 	}
 
 	if (script_file.DoesFunctionExist("Remove")) {
@@ -105,14 +105,14 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 		(*_remove_function) = script_file.ReadFunctionPointer("Remove");
 	}
 	else {
-		PRINT_WARNING << "no Remove function found in Lua definition file for status: " << table_id << endl;
+		PRINT_WARNING << "no Remove function found in Lua definition file for status: " << table_id << std::endl;
 	}
 	script_file.CloseTable();
 
 	if (script_file.IsErrorDetected()) {
 		if (BATTLE_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading status effect data - they are listed below" << endl;
-			cerr << script_file.GetErrorMessages() << endl;
+			PRINT_WARNING << "one or more errors occurred while reading status effect data - they are listed below" << std::endl;
+			cerr << script_file.GetErrorMessages() << std::endl;
 		}
 	}
 
@@ -141,7 +141,7 @@ BattleStatusEffect::~BattleStatusEffect() {
 
 void BattleStatusEffect::SetIntensity(hoa_global::GLOBAL_INTENSITY intensity) {
 	if ((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set status effect to invalid intensity: " << intensity << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set status effect to invalid intensity: " << intensity << std::endl;
 		return;
 	}
 
@@ -187,7 +187,7 @@ EffectsSupervisor::EffectsSupervisor(BattleActor* actor) :
 	_actor(actor)
 {
 	if (actor == NULL)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "contructor received NULL actor argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "contructor received NULL actor argument" << std::endl;
 }
 
 
@@ -289,7 +289,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 	GLOBAL_STATUS& new_status, GLOBAL_INTENSITY& new_intensity)
 {
 	if ((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;
 		return false;
 	}
 
@@ -302,7 +302,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 		increase_intensity = true;
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid intensity argument: " << intensity << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid intensity argument: " << intensity << std::endl;
 		return false;
 	}
 
@@ -404,7 +404,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 		return true;
 	}
 	else {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown/unhandled condition occured when trying to perform a status change, aborting operation" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown/unhandled condition occured when trying to perform a status change, aborting operation" << std::endl;
 	}
 
 	return false;
@@ -414,12 +414,12 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 
 void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity) {
 	if ((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;
 		return;
 	}
 
 	if ((intensity <= GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid intensity argument: " << intensity << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid intensity argument: " << intensity << std::endl;
 		return;
 	}
 
@@ -434,13 +434,13 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
 
 void EffectsSupervisor::_RemoveStatus(BattleStatusEffect* status_effect) {
 	if (status_effect == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL status_effect argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL status_effect argument" << std::endl;
 		return;
 	}
 
 	// Remove the status effect from the active effects list. If successful, call the remove function and then delete the status effect object
 	if (_active_status_effects.erase(status_effect->GetType()) == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to remove a status effect not present on the actor with type: " << status_effect->GetType() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to remove a status effect not present on the actor with type: " << status_effect->GetType() << std::endl;
 	}
 	else {
 		ScriptCallFunction<void>(*(status_effect->GetRemoveFunction()), status_effect);

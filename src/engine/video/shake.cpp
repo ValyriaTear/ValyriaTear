@@ -29,19 +29,19 @@ const uint32 VIDEO_TIME_BETWEEN_SHAKE_UPDATES = 50;
 void VideoEngine::ShakeScreen(float force, uint32 falloff_time, ShakeFalloff falloff_method) {
 	if (force < 0.0f) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was passed a negative force value" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was passed a negative force value" << std::endl;
 		return;
 	}
 
 	if (falloff_method <= VIDEO_FALLOFF_INVALID || falloff_method >= VIDEO_FALLOFF_TOTAL) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was passed an invalid falloff method" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was passed an invalid falloff method" << std::endl;
 		return;
 	}
 	
 	if (falloff_time == 0 && falloff_method != VIDEO_FALLOFF_NONE) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called with infinite falloff_time (0), but falloff_method was not VIDEO_FALLOFF_NONE" << endl;
+			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called with infinite falloff_time (0), but falloff_method was not VIDEO_FALLOFF_NONE" << std::endl;
 		return;
 	}
 		
@@ -80,7 +80,7 @@ void VideoEngine::ShakeScreen(float force, uint32 falloff_time, ShakeFalloff fal
 		
 		default:
 			if (VIDEO_DEBUG)
-				cerr << "VIDEO ERROR: falloff method passed to ShakeScreen() was not supported!" << endl;
+				cerr << "VIDEO ERROR: falloff method passed to ShakeScreen() was not supported!" << std::endl;
 			return;
 	};
 	

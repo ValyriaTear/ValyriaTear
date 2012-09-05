@@ -13,18 +13,17 @@
 *** \brief   Source file for map mode treasures.
 *** ***************************************************************************/
 
-#include "engine/input.h"
-#include "engine/mode_manager.h"
-#include "engine/system.h"
-#include "engine/video/video.h"
-
-#include "common/global/global.h"
-
-#include "modes/menu/menu.h"
+#include "modes/map/map_treasure.h"
 
 #include "modes/map/map.h"
 #include "modes/map/map_objects.h"
-#include "modes/map/map_treasure.h"
+
+#include "modes/menu/menu.h"
+
+#include "engine/input.h"
+#include "engine/video/video.h"
+
+#include "common/global/global.h"
 
 using namespace hoa_utils;
 using namespace hoa_input;

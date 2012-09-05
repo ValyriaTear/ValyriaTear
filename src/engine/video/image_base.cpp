@@ -50,7 +50,7 @@ ImageMemory::~ImageMemory() {
 // Winter Knight - I commented this out because it was causing double free
 // segfaults when ImageMemory objects were copied via copy constructor.
 	if (pixels != NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon object destruction" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon object destruction" << std::endl;
 //		free(pixels);
 //		pixels = NULL;
 	}
@@ -60,7 +60,7 @@ ImageMemory::~ImageMemory() {
 
 bool ImageMemory::LoadImage(const string& filename) {
 	if (pixels != NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon function invocation" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon function invocation" << std::endl;
 		free(pixels);
 		pixels = NULL;
 	}
@@ -69,7 +69,7 @@ bool ImageMemory::LoadImage(const string& filename) {
 	SDL_Surface* alpha_surf = NULL;
 
 	if((temp_surf = IMG_Load(filename.c_str())) == NULL) {
-		PRINT_ERROR << "Couldn't load image file: " << filename << endl;
+		PRINT_ERROR << "Couldn't load image file: " << filename << std::endl;
 		return false;
 	}
 
@@ -147,7 +147,7 @@ bool ImageMemory::LoadImage(const string& filename) {
 
 bool ImageMemory::SaveImage(const string& filename, bool png_image) {
 	if (pixels == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was NULL upon function invocation for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was NULL upon function invocation for file: " << filename << std::endl;
 		return false;
 	}
 
@@ -166,12 +166,12 @@ bool ImageMemory::SaveImage(const string& filename, bool png_image) {
 
 void ImageMemory::ConvertToGrayscale() {
 	if (width <= 0 || height <= 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height members were invalid (<= 0)" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height members were invalid (<= 0)" << std::endl;
 		return;
 	}
 
 	if (pixels == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << std::endl;
 		return;
 	}
 
@@ -191,17 +191,17 @@ void ImageMemory::ConvertToGrayscale() {
 
 void ImageMemory::RGBAToRGB() {
 	if (width <= 0 || height <= 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height members were invalid (<= 0)" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height members were invalid (<= 0)" << std::endl;
 		return;
 	}
 
 	if (pixels == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << std::endl;
 		return;
 	}
 
 	if (rgb_format == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "image data was said to already be in RGB format" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "image data was said to already be in RGB format" << std::endl;
 		return;
 	}
 
@@ -234,7 +234,7 @@ void ImageMemory::CopyFromTexture(TexSheet* texture) {
 	width = texture->width;
 	pixels = malloc(height * width * (rgb_format ? 3 : 4));
 	if (pixels == NULL) {
-		PRINT_ERROR << "failed to malloc enough memory to copy the texture" << endl;
+		PRINT_ERROR << "failed to malloc enough memory to copy the texture" << std::endl;
 	}
 
 	TextureManager->_BindTexture(texture->tex_id);
@@ -256,7 +256,7 @@ void ImageMemory::CopyFromImage(BaseTexture* img) {
 		uint32 src_offset = img->y * width * format_bytes + img->x * format_bytes;
 		void* img_pixels = malloc(img->width * img->height * format_bytes);
 		if (img_pixels == NULL) {
-			PRINT_ERROR << "failed to malloc enough memory to copy the image" << endl;
+			PRINT_ERROR << "failed to malloc enough memory to copy the image" << std::endl;
 			return;
 		}
 
@@ -280,20 +280,20 @@ bool ImageMemory::_SavePngImage(const std::string& filename) const {
 	FILE* fp = fopen(filename.c_str(), "wb");
 
 	if (fp == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
 		return false;
 	}
 
 	// aah, RGB data! We can only handle RGBA at the moment
 	if (rgb_format == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save RGB format image data as a RGBA format PNG image" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save RGB format image data as a RGBA format PNG image" << std::endl;
 	}
 
 	// grab a write structure
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
 
 	if (!png_ptr) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
 		fclose(fp);
 		return false;
 	}
@@ -302,7 +302,7 @@ bool ImageMemory::_SavePngImage(const std::string& filename) const {
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 
 	if (!info_ptr) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
 		png_destroy_write_struct(&png_ptr, NULL);
 		fclose(fp);
 		return false;
@@ -310,7 +310,7 @@ bool ImageMemory::_SavePngImage(const std::string& filename) const {
 
 	// prepare for error handling!
 	if (setjmp(png_jmpbuf(png_ptr))) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		fclose(fp);
 		return false;
@@ -351,13 +351,13 @@ bool ImageMemory::_SavePngImage(const std::string& filename) const {
 bool ImageMemory::_SaveJpgImage(const std::string& filename) const {
 	FILE* fp = fopen(filename.c_str(), "wb");
 	if (fp == NULL) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
 		return false;
 	}
 
 	// we don't support RGBA because JPEGs don't support alpha
 	if (rgb_format == false) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save non-RGB format pixel data as a RGB format JPG image" << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save non-RGB format pixel data as a RGB format JPG image" << std::endl;
 	}
 
 	// compression object and error handling
@@ -453,7 +453,7 @@ BaseTexture::BaseTexture(TexSheet* texture_sheet_, uint32 width_, uint32 height_
 
 BaseTexture::~BaseTexture() {
 	if (ref_count > 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "destructor invoked when the object had a reference count greater than zero: " << ref_count << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "destructor invoked when the object had a reference count greater than zero: " << ref_count << std::endl;
 	}
 }
 
@@ -463,7 +463,7 @@ bool BaseTexture::RemoveReference() {
 	ref_count--;
 
 	if (ref_count < 0) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture ref_count member is now negative: " << ref_count << endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG) << "texture ref_count member is now negative: " << ref_count << std::endl;
 		return true;
 	}
 	else if (ref_count == 0)
@@ -483,7 +483,7 @@ ImageTexture::ImageTexture(const string& filename_, const string& tags_, int32 w
 {
 	if (VIDEO_DEBUG) {
 		if (TextureManager->_IsImageTextureRegistered(filename + tags))
-			PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: " << filename << tags << endl;
+			PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: " << filename << tags << std::endl;
 	}
 
 	TextureManager->_RegisterImageTexture(this);
@@ -498,7 +498,7 @@ ImageTexture::ImageTexture(TexSheet* texture_sheet_, const string& filename_, co
 {
 	if (VIDEO_DEBUG) {
 		if (TextureManager->_IsImageTextureRegistered(filename + tags))
-			PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: " << filename << tags << endl;
+			PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: " << filename << tags << std::endl;
 	}
 
 	TextureManager->_RegisterImageTexture(this);

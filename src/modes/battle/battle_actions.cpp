@@ -48,9 +48,9 @@ BattleAction::BattleAction(BattleActor* actor, BattleTarget target) :
 	_target(target)
 {
 	if (actor == NULL)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor" << std::endl;
 	if (target.GetType() == GLOBAL_TARGET_INVALID)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid target" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid target" << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,16 +62,16 @@ SkillAction::SkillAction(BattleActor* actor, BattleTarget target, GlobalSkill* s
 	_skill(skill)
 {
 	if (skill == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL skill argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL skill argument" << std::endl;
 		return;
 	}
 
 	if (skill->GetTargetType() == GLOBAL_TARGET_INVALID)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid skill" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid skill" << std::endl;
 	if (skill->GetTargetType() != target.GetType())
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "skill and target reference different target types" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "skill and target reference different target types" << std::endl;
 	if (skill->IsExecutableInBattle() == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "skill is not executable in battle" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "skill is not executable in battle" << std::endl;
 
 	// Check for a custom skill animation script for the given character
 	_is_scripted = false;
@@ -238,16 +238,16 @@ ItemAction::ItemAction(BattleActor* source, BattleTarget target, BattleItem* ite
 	_action_canceled(false)
 {
 	if (item == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL item argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL item argument" << std::endl;
 		return;
 	}
 
 	if (item->GetItem().GetTargetType() == GLOBAL_TARGET_INVALID)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item" << std::endl;
 	if (item->GetItem().GetTargetType() != target.GetType())
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "item and target reference different target types" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "item and target reference different target types" << std::endl;
 	if (item->GetItem().IsUsableInBattle() == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "item is not usable in battle" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "item is not usable in battle" << std::endl;
 }
 
 
@@ -259,7 +259,7 @@ bool ItemAction::Execute() {
 	const ScriptObject& script_function = _item->GetItem().GetBattleUseFunction();
 	bool ret = false;
 	if (!script_function.is_valid()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
 	}
 
 	try {

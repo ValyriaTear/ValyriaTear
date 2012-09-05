@@ -355,7 +355,7 @@ void InventoryWindow::Update() {
 					GlobalItem *item = (GlobalItem*)GlobalManager->RetrieveFromInventory(obj->GetID());
 					const ScriptObject& script_function = item->GetFieldUseFunction();
 					if (!script_function.is_valid()) {
-						IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << endl;
+						IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
 					}
 					else {
 						if (IsTargetParty(item->GetTargetType()) == true) {
@@ -790,11 +790,11 @@ void SkillsWindow::Update() {
 				const ScriptObject& script_function = skill->GetFieldExecuteFunction();
 
 				if (!script_function.is_valid()) {
-					IF_PRINT_WARNING(MENU_DEBUG) << "selected skill may not be executed in menus" << endl;
+					IF_PRINT_WARNING(MENU_DEBUG) << "selected skill may not be executed in menus" << std::endl;
 					break;
 				}
 				if (skill->GetSPRequired() > instigator->GetSkillPoints()) {
-					IF_PRINT_WARNING(MENU_DEBUG) << "did not have enough skill points to execute skill " << endl;
+					IF_PRINT_WARNING(MENU_DEBUG) << "did not have enough skill points to execute skill " << std::endl;
 					break;
 				}
 				ScriptCallFunction<void>(script_function, target, instigator);
@@ -910,7 +910,7 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 		break;
 	default:
 		skill = NULL;
-		cerr << "MENU ERROR: Invalid skill type in SkillsWindow::_GetCurrentSkill()" << endl;
+		cerr << "MENU ERROR: Invalid skill type in SkillsWindow::_GetCurrentSkill()" << std::endl;
 		break;
 	}
 
@@ -1208,7 +1208,7 @@ void EquipWindow::Update() {
 						GlobalManager->AddToInventory(ch->EquipLegArmor(NULL));
 					break;
 					default:
-						PRINT_WARNING << "Unequip slot is invalid: " << _equip_select.GetSelection() << endl;
+						PRINT_WARNING << "Unequip slot is invalid: " << _equip_select.GetSelection() << std::endl;
 					break;
 				}
 			} // Equip/Unequip
@@ -1284,7 +1284,7 @@ void EquipWindow::Update() {
 				break;}
 
 			default:
-				PRINT_WARNING << "Equip slot value is invalid: " << _equip_select.GetSelection() << endl;
+				PRINT_WARNING << "Equip slot value is invalid: " << _equip_select.GetSelection() << std::endl;
 				break;
 			} // switch _equip_select.GetSelection()
 

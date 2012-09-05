@@ -35,7 +35,7 @@ namespace hoa_scene {
 bool SCENE_DEBUG = false;
 
 SceneMode::SceneMode() {
-	if (SCENE_DEBUG) cout << "SCENE: SceneMode constructor invoked" << endl;
+	if (SCENE_DEBUG) cout << "SCENE: SceneMode constructor invoked" << std::endl;
 	mode_type = MODE_MANAGER_SCENE_MODE;
 
 
@@ -48,7 +48,7 @@ SceneMode::SceneMode() {
 
 // The destructor frees up our scene image
 SceneMode::~SceneMode() {
-	if (SCENE_DEBUG) cout << "SCENE: SceneMode destructor invoked" << endl;
+	if (SCENE_DEBUG) cout << "SCENE: SceneMode destructor invoked" << std::endl;
   // VideoManager->FreeImage(scene);
 }
 

@@ -52,7 +52,7 @@ const uint8 MAX_CATEGORY_ROW_SIZE = 4;
 
 void CategoryDrawData::ComputeCoordinates(uint8 number_categories) {
 	if (number_categories > GLOBAL_OBJECT_TOTAL) {
-		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid argument value: " << number_categories << endl;
+		IF_PRINT_WARNING(SHOP_DEBUG) << "invalid argument value: " << number_categories << std::endl;
 		return;
 	}
 
@@ -156,7 +156,7 @@ void RootInterface::Reinitialize() {
 			num_buy_stars = 1;
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid buy level argument: " << ShopMode::CurrentInstance()->GetBuyPriceLevel() << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid buy level argument: " << ShopMode::CurrentInstance()->GetBuyPriceLevel() << std::endl;
 			break;
 	}
 
@@ -177,7 +177,7 @@ void RootInterface::Reinitialize() {
 			num_sell_stars = 1;
 			break;
 		default:
-			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid sell level argument: " << ShopMode::CurrentInstance()->GetSellPriceLevel() << endl;
+			IF_PRINT_WARNING(SHOP_DEBUG) << "invalid sell level argument: " << ShopMode::CurrentInstance()->GetSellPriceLevel() << std::endl;
 			break;
 	}
 

@@ -69,68 +69,68 @@ const char* DEFAULT_DEFEAT_MUSIC   = "mus/Intermission.ogg";
 
 BattleMedia::BattleMedia() {
 	if (!background_image.Load("img/backdrops/battle/desert_cave/desert_cave.png"))
-		PRINT_ERROR << "failed to load default background image" << endl;
+		PRINT_ERROR << "failed to load default background image" << std::endl;
 
 	if (stamina_icon_selected.Load("img/menus/stamina_icon_selected.png") == false)
-		PRINT_ERROR << "failed to load stamina icon selected image" << endl;
+		PRINT_ERROR << "failed to load stamina icon selected image" << std::endl;
 
 	attack_point_indicator.SetDimensions(16.0f, 16.0f);
 	if (attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png", vector<uint32>(4, 100), 1, 4) == false)
-		PRINT_ERROR << "failed to load attack point indicator." << endl;
+		PRINT_ERROR << "failed to load attack point indicator." << std::endl;
 
 	if (stamina_meter.Load("img/menus/stamina_bar.png") == false)
-		PRINT_ERROR << "failed to load time meter." << endl;
+		PRINT_ERROR << "failed to load time meter." << std::endl;
 
 	if (actor_selection_image.Load("img/icons/battle/character_selector.png") == false)
-		PRINT_ERROR << "unable to load player selector image" << endl;
+		PRINT_ERROR << "unable to load player selector image" << std::endl;
 
 	if (character_selected_highlight.Load("img/menus/battle_character_selection.png") == false)
-		PRINT_ERROR << "failed to load character selection highlight image" << endl;
+		PRINT_ERROR << "failed to load character selection highlight image" << std::endl;
 
 	if (character_command_highlight.Load("img/menus/battle_character_command.png") == false)
-		PRINT_ERROR << "failed to load character command highlight image" << endl;
+		PRINT_ERROR << "failed to load character command highlight image" << std::endl;
 
 	if (character_bar_covers.Load("img/menus/battle_character_bars.png") == false)
-		PRINT_ERROR << "failed to load character bars image" << endl;
+		PRINT_ERROR << "failed to load character bars image" << std::endl;
 
 	if (bottom_menu_image.Load("img/menus/battle_bottom_menu.png") == false)
-		PRINT_ERROR << "failed to load bottom menu image" << endl;
+		PRINT_ERROR << "failed to load bottom menu image" << std::endl;
 
 	if (swap_icon.Load("img/icons/battle/swap_icon.png") == false)
-		PRINT_ERROR << "failed to load swap icon" << endl;
+		PRINT_ERROR << "failed to load swap icon" << std::endl;
 
 	if (swap_card.Load("img/icons/battle/swap_card.png") == false)
-		PRINT_ERROR << "failed to load swap card" << endl;
+		PRINT_ERROR << "failed to load swap card" << std::endl;
 
 	if (ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "img/menus/battle_command_buttons.png", 2, 5) == false)
-		PRINT_ERROR << "failed to load character action buttons" << endl;
+		PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
 	if (ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "img/icons/effects/targets.png", 1, 8) == false)
-		PRINT_ERROR << "failed to load character action buttons" << endl;
+		PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
 	if (ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25) == false)
-		PRINT_ERROR << "failed to load status icon images" << endl;
+		PRINT_ERROR << "failed to load status icon images" << std::endl;
 
 	if (victory_music.LoadAudio(DEFAULT_VICTORY_MUSIC) == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load victory music file: " << DEFAULT_VICTORY_MUSIC << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load victory music file: " << DEFAULT_VICTORY_MUSIC << std::endl;
 
 	if (defeat_music.LoadAudio(DEFAULT_DEFEAT_MUSIC) == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
 	if (confirm_sound.LoadAudio("snd/confirm.wav") == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load confirm sound" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load confirm sound" << std::endl;
 
 	if (cancel_sound.LoadAudio("snd/cancel.wav") == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cancel sound" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cancel sound" << std::endl;
 
 	if (cursor_sound.LoadAudio("snd/confirm.wav") == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cursor sound" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cursor sound" << std::endl;
 
 	if (invalid_sound.LoadAudio("snd/cancel.wav") == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load invalid sound" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load invalid sound" << std::endl;
 
 	if (finish_sound.LoadAudio("snd/confirm.wav") == false)
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load finish sound" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load finish sound" << std::endl;
 
 	// Determine which status effects correspond to which icons and store the result in the _status_indices container
 	ReadScriptDescriptor& script_file = GlobalManager->GetStatusEffectsScript();
@@ -144,7 +144,7 @@ BattleMedia::BattleMedia() {
 		// Check for duplicate entries of the same status effect
 		if (_status_indeces.find(status) != _status_indeces.end()) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "duplicate entry found in file " << script_file.GetFilename() <<
-				" for status type: " << status_types[i] << endl;
+				" for status type: " << status_types[i] << std::endl;
 			continue;
 		}
 
@@ -154,7 +154,7 @@ BattleMedia::BattleMedia() {
 			_status_indeces.insert(pair<GLOBAL_STATUS, uint32>(status, icon_index));
 		}
 		else {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << std::endl;
 		}
 		script_file.CloseTable();
 	}
@@ -176,21 +176,21 @@ void BattleMedia::Update() {
 
 void BattleMedia::SetBackgroundImage(const string& filename) {
 	if (background_image.Load(filename) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load background image: " << filename << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load background image: " << filename << std::endl;
 	}
 }
 
 
 void BattleMedia::SetBattleMusic(const string& filename) {
 	if (battle_music.LoadAudio(filename) == false) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load music file: " << filename << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load music file: " << filename << std::endl;
 	}
 }
 
 
 StillImage* BattleMedia::GetCharacterActionButton(uint32 index) {
 	if (index >= character_action_buttons.size()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid index argument: " << index << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid index argument: " << index << std::endl;
 		return NULL;
 	}
 
@@ -218,7 +218,7 @@ StillImage* BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type
 		case GLOBAL_TARGET_ALL_FOES:
 			return &_target_type_icons[7];
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid target type argument: " << target_type << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid target type argument: " << target_type << std::endl;
 			return NULL;
 	}
 }
@@ -227,17 +227,17 @@ StillImage* BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type
 
 StillImage* BattleMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity) {
 	if ((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << type << std::endl;
 		return NULL;
 	}
 	if ((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << intensity << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << intensity << std::endl;
 		return NULL;
 	}
 
 	map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
 	if (status_entry == _status_indeces.end()) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no entry in the status icon index for status type: " << type << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no entry in the status icon index for status type: " << type << std::endl;
 		return NULL;
 	}
 
@@ -262,13 +262,13 @@ BattleMode::BattleMode() :
 	_last_enemy_dying(false),
 	_stamina_icon_alpha(1.0f)
 {
-	IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << endl;
+	IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << std::endl;
 
 	mode_type = MODE_MANAGER_BATTLE_MODE;
 
 	// Check that the global manager has a valid battle setting stored.
 	if ((GlobalManager->GetBattleSetting() <= GLOBAL_BATTLE_INVALID) || (GlobalManager->GetBattleSetting() >= GLOBAL_BATTLE_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "global manager had invalid battle setting active, changing setting to GLOBAL_BATTLE_WAIT" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "global manager had invalid battle setting active, changing setting to GLOBAL_BATTLE_WAIT" << std::endl;
 		GlobalManager->SetBattleSetting(GLOBAL_BATTLE_WAIT);
 	}
 
@@ -319,7 +319,7 @@ void BattleMode::Reset() {
 	// Load the default battle music track if no other music has been added
 	if (_battle_media.battle_music.GetState() == AUDIO_STATE_UNLOADED) {
 		if (_battle_media.battle_music.LoadAudio(DEFAULT_BATTLE_MUSIC) == false) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load default battle music: " << DEFAULT_BATTLE_MUSIC << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load default battle music: " << DEFAULT_BATTLE_MUSIC << std::endl;
 		}
 	}
 
@@ -530,11 +530,11 @@ void BattleMode::DrawPostEffects() {
 void BattleMode::AddEnemy(GlobalEnemy* new_enemy) {
 	// Don't add the enemy if it has an invalid ID or an experience level that is not zero
 	if (new_enemy->GetID() == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy with an invalid id: " << new_enemy->GetID() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy with an invalid id: " << new_enemy->GetID() << std::endl;
 		return;
 	}
 	if (new_enemy->GetExperienceLevel() != 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy that had already been initialized: " << new_enemy->GetID() << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy that had already been initialized: " << new_enemy->GetID() << std::endl;
 		return;
 	}
 
@@ -596,7 +596,7 @@ void BattleMode::UnFreezeTimers() {
 
 void BattleMode::ChangeState(BATTLE_STATE new_state) {
 	if (_state == new_state) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was already in the state to change to: " << _state << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was already in the state to change to: " << _state << std::endl;
 		return;
 	}
 
@@ -608,7 +608,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 			break;
 		case BATTLE_STATE_COMMAND:
 			if (_command_supervisor->GetCommandCharacter() == NULL) {
-				IF_PRINT_WARNING(BATTLE_DEBUG) << "no character was selected when changing battle to the command state" << endl;
+				IF_PRINT_WARNING(BATTLE_DEBUG) << "no character was selected when changing battle to the command state" << std::endl;
 				_state = BATTLE_STATE_NORMAL;
 			}
 			break;
@@ -638,7 +638,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 			_finish_supervisor->Initialize(false);
 			break;
 		default:
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "changed to invalid battle state: " << _state << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "changed to invalid battle state: " << _state << std::endl;
 			break;
 	}
 }
@@ -647,7 +647,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 
 bool BattleMode::OpenCommandMenu(BattleCharacter* character) {
 	if (character == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
 		return false;
 	}
 	if (_state == BATTLE_STATE_COMMAND) {
@@ -666,11 +666,11 @@ bool BattleMode::OpenCommandMenu(BattleCharacter* character) {
 
 void BattleMode::NotifyCommandCancel() {
 	if (_state != BATTLE_STATE_COMMAND) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was not in command state when function was called" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was not in command state when function was called" << std::endl;
 		return;
 	}
 	else if (_command_supervisor->GetCommandCharacter() != NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "command supervisor still had a character selected when function was called" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "command supervisor still had a character selected when function was called" << std::endl;
 		return;
 	}
 
@@ -681,7 +681,7 @@ void BattleMode::NotifyCommandCancel() {
 
 void BattleMode::NotifyCharacterCommandComplete(BattleCharacter* character) {
 	if (character == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 
@@ -702,7 +702,7 @@ void BattleMode::NotifyCharacterCommandComplete(BattleCharacter* character) {
 void BattleMode::NotifyActorReady(BattleActor* actor) {
 	for (list<BattleActor*>::iterator i = _ready_queue.begin(); i != _ready_queue.end(); i++) {
 		if (actor == (*i)) {
-			IF_PRINT_WARNING(BATTLE_DEBUG) << "actor was already present in the ready queue" << endl;
+			IF_PRINT_WARNING(BATTLE_DEBUG) << "actor was already present in the ready queue" << std::endl;
 			return;
 		}
 	}
@@ -714,7 +714,7 @@ void BattleMode::NotifyActorReady(BattleActor* actor) {
 
 void BattleMode::NotifyActorDeath(BattleActor* actor) {
 	if (actor == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
 		return;
 	}
 
@@ -733,7 +733,7 @@ void BattleMode::NotifyActorDeath(BattleActor* actor) {
 
 	// Determine if the battle should proceed to the victory or defeat state
 	if (IsBattleFinished())
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor death occurred after battle was finished" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "actor death occurred after battle was finished" << std::endl;
 }
 
 bool BattleMode::isOneCharacterDead() const {
@@ -756,7 +756,7 @@ void BattleMode::_Initialize() {
 	// (1): Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
 	GlobalParty* active_party = GlobalManager->GetActiveParty();
 	if (active_party->GetPartySize() == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters in the active party, exiting battle" << endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters in the active party, exiting battle" << std::endl;
 		ModeManager->Pop();
 		return;
 	}
