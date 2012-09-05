@@ -518,7 +518,7 @@ SkillCommand::SkillCommand(MenuWindow& window) :
 
 
 
-void SkillCommand::Initialize(vector<GlobalSkill*>* skills, OptionBox* skill_list) {
+void SkillCommand::Initialize(std::vector<GlobalSkill*>* skills, OptionBox* skill_list) {
 	if (skills == NULL) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skills argument" << std::endl;
 		return;

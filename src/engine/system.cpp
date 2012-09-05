@@ -34,10 +34,7 @@
 	#include <limits.h>
 #endif
 
-// #include "gettext.h"
 #include <libintl.h>
-
-using namespace std;
 
 using namespace hoa_utils;
 using namespace hoa_script;
@@ -50,16 +47,12 @@ namespace hoa_system {
 SystemEngine* SystemManager = NULL;
 bool SYSTEM_DEBUG = false;
 
-
-
-string Translate(const string& text) {
+std::string Translate(const std::string& text) {
 	// gettext is a C library so the gettext() function takes/returns a C-style char* string
-	return string(gettext(text.c_str()));
+	return std::string(gettext(text.c_str()));
 }
 
-
-
-ustring UTranslate(const string& text) {
+ustring UTranslate(const std::string& text) {
 	return MakeUnicodeString(Translate(text));
 }
 
@@ -385,7 +378,7 @@ void SystemEngine::UpdateTimers() {
 	}
 
 	// ----- (3): Update all SystemTimer objects
-	for (set<SystemTimer*>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++)
+	for (std::set<SystemTimer*>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++)
 		(*i)->_AutoUpdate();
 }
 
@@ -395,7 +388,7 @@ void SystemEngine::ExamineSystemTimers() {
 	GameMode* active_mode = ModeManager->GetTop();
 	GameMode* timer_mode = NULL;
 
-	for (set<SystemTimer*>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++) {
+	for (std::set<SystemTimer*>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++) {
 		timer_mode = (*i)->GetModeOwner();
 		if (timer_mode == NULL)
 			continue;

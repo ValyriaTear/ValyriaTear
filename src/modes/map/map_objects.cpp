@@ -932,7 +932,7 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 		MapRectangle object_rect = (*it)->GetCollisionRectangle();
 		if (MapRectangle::CheckIntersection(object_rect, search_area) == true)
 			valid_objects.push_back(*it);
-	} // for (map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
+	} // for (std::map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
 
 	if (valid_objects.empty()) {
 		// If no sprite was here, try searching a save point.

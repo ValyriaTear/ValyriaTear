@@ -22,8 +22,6 @@
 #include "mode_manager.h"
 #include "system.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_script;
@@ -40,7 +38,7 @@ bool INPUT_DEBUG = false;
 
 // Initializes class members
 InputEngine::InputEngine() {
-	if (INPUT_DEBUG) cout << "INPUT: InputEngine constructor invoked" << std::endl;
+	IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine constructor invoked" << std::endl;
 	_any_key_press		    = false;
 	_any_key_release	    = false;
 	_last_axis_moved      = -1;
@@ -90,7 +88,8 @@ InputEngine::InputEngine() {
 
 
 InputEngine::~InputEngine() {
-	if (INPUT_DEBUG) cout << "INPUT: InputEngine destructor invoked" << std::endl;
+	IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine destructor invoked"
+		<< std::endl;
 
 	// If a joystick is open, close it before exiting
 	if (_joystick.js != NULL) {
@@ -103,7 +102,8 @@ InputEngine::~InputEngine() {
 bool InputEngine::SingletonInitialize() {
 	// Initialize the SDL joystick subsystem
 	if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0) {
-		cerr << "INPUT ERROR: failed to initailize the SDL joystick subsystem" << std::endl;
+		PRINT_ERROR << "INPUT ERROR: failed to initailize the SDL joystick subsystem"
+			<< std::endl;
 		return false;
 	}
 
@@ -131,10 +131,11 @@ void InputEngine::InitializeJoysticks()
 // Loads the default key settings from the lua file and sets them back
 bool InputEngine::RestoreDefaultKeys() {
 	// Load the settings file
-	string in_filename = GetSettingsFilename();
+	std::string in_filename = GetSettingsFilename();
 	ReadScriptDescriptor settings_file;
 	if (!settings_file.OpenFile(in_filename)) {
-		cerr << "INPUT ERROR: failed to open data file for reading: " << in_filename << std::endl;
+		PRINT_ERROR << "INPUT ERROR: failed to open data file for reading: "
+			<< in_filename << std::endl;
 		return false;
 	}
 
@@ -165,10 +166,11 @@ bool InputEngine::RestoreDefaultKeys() {
 bool InputEngine::RestoreDefaultJoyButtons()
 {
 	// Load the settings file
-	string in_filename = GetSettingsFilename();
+	std::string in_filename = GetSettingsFilename();
 	ReadScriptDescriptor settings_file;
 	if (settings_file.OpenFile(in_filename) == false) {
-		cerr << "INPUT ERROR: failed to open data file for reading: " << in_filename << std::endl;
+		PRINT_ERROR << "INPUT ERROR: failed to open data file for reading: "
+			<< in_filename << std::endl;
 		return false;
 	}
 
@@ -310,7 +312,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event) {
 			else if (key_event.keysym.sym == SDLK_s) {
 				// Take a screenshot of the current game
 				static uint32 i = 1;
-				string path = "";
+				std::string path = "";
 				while (true)
 				{
 					path = hoa_utils::GetUserDataPath(true) + "screenshot_" + NumberToString<uint32>(i) + ".jpg";

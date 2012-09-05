@@ -434,7 +434,7 @@ void ObjectListDisplay::Clear() {
 
 
 
-void ObjectListDisplay::PopulateList(vector<ShopObject*>& objects) {
+void ObjectListDisplay::PopulateList(std::vector<ShopObject*>& objects) {
 	_objects = objects;
 	ReconstructList();
 }

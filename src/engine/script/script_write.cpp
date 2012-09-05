@@ -21,17 +21,15 @@
 #include "script.h"
 #include "script_write.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 
 namespace hoa_script {
 
 WriteScriptDescriptor::~WriteScriptDescriptor() {
 	if (IsFileOpen()) {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT WARNING: WriteScriptDescriptor destructor was called when file was still open: "
-				<< _filename << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT WARNING: WriteScriptDescriptor destructor was called when file was still open: "
+			<< _filename << std::endl;
 		CloseFile();
 	}
 
@@ -45,20 +43,20 @@ WriteScriptDescriptor::~WriteScriptDescriptor() {
 // File Access Functions
 //-----------------------------------------------------------------------------
 
-bool WriteScriptDescriptor::OpenFile(const string& file_name) {
+bool WriteScriptDescriptor::OpenFile(const std::string& file_name) {
 	if (ScriptManager->IsFileOpen(file_name) == true) {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT WARNING: WriteScriptDescriptor::OpenFile() attempted to open file that is already opened: "
-				<< file_name << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT WARNING: WriteScriptDescriptor::OpenFile() attempted to open file that is already opened: "
+			<< file_name << std::endl;
 		return false;
 	}
 
 	// In debug mode, first check if the file exists before overwriting it
 	if (SCRIPT_DEBUG) {
-		ifstream temp_file;
+		std::ifstream temp_file;
 		temp_file.open(file_name.c_str());
 		if (temp_file) {
-			cerr << "SCRIPT WARNING: In WriteScriptDescriptor::OpenFile(), the file to be opened "
+			PRINT_WARNING << "SCRIPT WARNING: In WriteScriptDescriptor::OpenFile(), the file to be opened "
 				<< "already exists and will be overwritten: " << file_name << std::endl;
 		}
 		temp_file.close();
@@ -66,7 +64,7 @@ bool WriteScriptDescriptor::OpenFile(const string& file_name) {
 
 	_outfile.open(file_name.c_str());
 	if (!_outfile) {
-		cerr << "SCRIPT ERROR: WriteScriptDescriptor::OpenFile() failed to open the file "
+		PRINT_ERROR << "SCRIPT ERROR: WriteScriptDescriptor::OpenFile() failed to open the file "
 			<< file_name << " for writing." << std::endl;
 		_access_mode = SCRIPT_CLOSED;
 		return false;
@@ -82,9 +80,9 @@ bool WriteScriptDescriptor::OpenFile(const string& file_name) {
 
 bool WriteScriptDescriptor::OpenFile() {
 	if (_filename == "") {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT ERROR: WriteScriptDescriptor::OpenFile() could not open file "
-				<< "because of an invalid file name (empty string)." << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT ERROR: WriteScriptDescriptor::OpenFile() could not open file "
+			<< "because of an invalid file name (empty string)." << std::endl;
 		return false;
 	}
 
@@ -95,16 +93,16 @@ bool WriteScriptDescriptor::OpenFile() {
 
 void WriteScriptDescriptor::CloseFile() {
 	if (IsFileOpen() == false) {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT ERROR: in WriteScriptDescriptor::CloseFile(), could not close the "
-				<< "file because it was not open." << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT ERROR: in WriteScriptDescriptor::CloseFile(), could not close the "
+			<< "file because it was not open." << std::endl;
 		return;
 	}
 
 	if (SCRIPT_DEBUG && IsErrorDetected()) {
-		cerr << "SCRIPT WARNING: In WriteScriptDescriptor::CloseFile(), the file " << _filename
-			<< " had error messages remaining. They are as follows:" << std::endl;
-		cerr << _error_messages.str() << std::endl;
+		PRINT_WARNING << "SCRIPT WARNING: In WriteScriptDescriptor::CloseFile(), the file " << _filename
+			<< " had error messages remaining. They are as follows:" << std::endl
+		    << _error_messages.str() << std::endl;
 	}
 
 	_outfile.close();
@@ -123,9 +121,9 @@ bool WriteScriptDescriptor::SaveFile() {
 	}
 
 	if (SCRIPT_DEBUG && IsErrorDetected()) {
-		cerr << "SCRIPT WARNING: In WriteScriptDescriptor::CloseFile(), the file " << _filename
-			<< " had error messages remaining. They are as follows:" << std::endl;
-		cerr << _error_messages.str() << std::endl;
+		PRINT_WARNING << "SCRIPT WARNING: In WriteScriptDescriptor::CloseFile(), the file " << _filename
+			<< " had error messages remaining. They are as follows:" << std::endl
+			<< _error_messages.str() << std::endl;
 	}
 
 	_outfile.flush();
@@ -142,7 +140,7 @@ void WriteScriptDescriptor::InsertNewLine() {
 
 
 
-void WriteScriptDescriptor::WriteComment(const string& comment) {
+void WriteScriptDescriptor::WriteComment(const std::string& comment) {
 	_outfile << "-- " << comment << std::endl;
 }
 
@@ -174,7 +172,7 @@ void WriteScriptDescriptor::EndCommentBlock() {
 
 
 
-void WriteScriptDescriptor::WriteLine(const string& comment, bool new_line) {
+void WriteScriptDescriptor::WriteLine(const std::string& comment, bool new_line) {
 	_outfile << comment;
 	if (new_line)
 		_outfile << std::endl;
@@ -186,7 +184,7 @@ void WriteScriptDescriptor::WriteLine(const string& comment, bool new_line) {
 
 // WriteBool can not use the _WriteData helper because true/false values must
 // be explicitly written to the file
-void WriteScriptDescriptor::WriteBool(const string& key, bool value) {
+void WriteScriptDescriptor::WriteBool(const std::string& key, bool value) {
 	if (_open_tables.size() == 0) {
 		_outfile << key << " = ";
 		if (value)
@@ -224,7 +222,7 @@ void WriteScriptDescriptor::WriteBool(const int32 key, bool value) {
 // WriteString can not use the _WriteData helper because it needs to do additional
 // checking and add quotation marks around its value.
 // TODO: Check for bad strings (ie, if it contains puncutation charcters like , or ])
-void WriteScriptDescriptor::WriteString(const string& key, const string& value) {
+void WriteScriptDescriptor::WriteString(const std::string& key, const std::string& value) {
 	if (_open_tables.size() == 0) {
 		_outfile << key << " = \"" << value << "\"" << std::endl;
 	}
@@ -236,7 +234,7 @@ void WriteScriptDescriptor::WriteString(const string& key, const string& value) 
 
 
 
-void WriteScriptDescriptor::WriteString(const int32 key, const string& value) {
+void WriteScriptDescriptor::WriteString(const int32 key, const std::string& value) {
 	if (_open_tables.empty()) {
 		_error_messages << "* WriteScriptDescriptor::WriteString() failed because there were no "
 			<< "tables open when attempting to write the key/value: [" << key << "] = " << value << std::endl;
@@ -250,13 +248,13 @@ void WriteScriptDescriptor::WriteString(const int32 key, const string& value) {
 // WriteUString can not use the _WriteData helper because it needs to do additional
 // checking and add quotation marks around its value.
 // TODO: Write strings with a call to the gettext library to retrieve translated strings
-void WriteScriptDescriptor::WriteUString(const string& key, const string& value) {
+void WriteScriptDescriptor::WriteUString(const std::string& key, const std::string& value) {
 	WriteString(key, value);
 }
 
 
 
-void WriteScriptDescriptor::WriteUString(const int32 key, const string& value) {
+void WriteScriptDescriptor::WriteUString(const int32 key, const std::string& value) {
 	WriteString(key, value);
 }
 
@@ -266,7 +264,7 @@ void WriteScriptDescriptor::WriteUString(const int32 key, const string& value) {
 
 // WriteBoolVector can not use the _WriteDataVector helper because true/false values must
 // be explicitly written to the file
-void WriteScriptDescriptor::WriteBoolVector(const string& key, std::vector<bool>& vect) {
+void WriteScriptDescriptor::WriteBoolVector(const std::string& key, std::vector<bool>& vect) {
 	if (vect.empty()) {
 		_error_messages << "* WriteScriptDescriptor::WriteBoolVector() failed because "
 			<< "the vector argument was empty for key name: " << key << std::endl;
@@ -322,7 +320,7 @@ void WriteScriptDescriptor::WriteBoolVector(const int32 key, std::vector<bool>& 
 // WriteString can not use the _WriteData helper because it needs to do additional
 // checking and add quotation marks around its value.
 // TODO: Check for bad strings (ie, if it contains puncutation charcters like , or ])
-void WriteScriptDescriptor::WriteStringVector(const string &key, std::vector<string>& vect) {
+void WriteScriptDescriptor::WriteStringVector(const std::string &key, std::vector<std::string>& vect) {
 	if (vect.empty()) {
 		_error_messages << "* WriteScriptDescriptor::WriteStringVector() failed because there were no "
 			<< "tables open when attempting for key name: " << key << std::endl;
@@ -346,7 +344,7 @@ void WriteScriptDescriptor::WriteStringVector(const string &key, std::vector<str
 
 
 
-void WriteScriptDescriptor::WriteStringVector(const int32 key, std::vector<string>& vect) {
+void WriteScriptDescriptor::WriteStringVector(const int32 key, std::vector<std::string>& vect) {
 	if (vect.empty()) {
 		_error_messages << "* WriteScriptDescriptor::WriteStringVector() failed because there were no "
 			<< "tables open when attempting for key name: " << key << std::endl;
@@ -373,17 +371,17 @@ void WriteScriptDescriptor::WriteStringVector(const int32 key, std::vector<strin
 // WriteUString can not use the _WriteData helper because it needs to do additional
 // checking and add quotation marks around its value.
 // TODO: Write strings with a call to the gettext library to retrieve translated strings
-void WriteScriptDescriptor::WriteUStringVector(const string& key, std::vector<string>& vect) {
+void WriteScriptDescriptor::WriteUStringVector(const std::string& key, std::vector<std::string>& vect) {
 	WriteStringVector(key, vect);
 }
 
 
 
-void WriteScriptDescriptor::WriteUStringVector(const int32 key, std::vector<string>& vect) {
+void WriteScriptDescriptor::WriteUStringVector(const int32 key, std::vector<std::string>& vect) {
 	WriteStringVector(key, vect);
 }
 
-void WriteScriptDescriptor::WriteNamespace(const string &ns)
+void WriteScriptDescriptor::WriteNamespace(const std::string& ns)
 {
 	_outfile << "local ns = {};" << std::endl;
 	_outfile << "setmetatable(ns, {__index = _G});" << std::endl;
@@ -395,7 +393,7 @@ void WriteScriptDescriptor::WriteNamespace(const string &ns)
 // Table Write Functions
 //-----------------------------------------------------------------------------
 
-void WriteScriptDescriptor::BeginTable(const string &key) {
+void WriteScriptDescriptor::BeginTable(const std::string& key) {
 	if (_open_tables.size() == 0) {
 		_outfile << key << " = {}" << std::endl;
 	}

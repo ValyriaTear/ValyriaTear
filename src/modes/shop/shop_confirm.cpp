@@ -156,7 +156,7 @@ void ConfirmInterface::MakeActive() {
 
 	_buy_count = 0;
 	_buy_unique = 0;
-	for (map<uint32, ShopObject*>::iterator i = buy_list->begin(); i != buy_list->end(); i++) {
+	for (std::map<uint32, ShopObject*>::iterator i = buy_list->begin(); i != buy_list->end(); i++) {
 		_buy_unique++;
 		_buy_count += i->second->GetBuyCount();
 		buy_vector.push_back(i->second);
@@ -164,7 +164,7 @@ void ConfirmInterface::MakeActive() {
 
 	_sell_count = 0;
 	_sell_unique = 0;
-	for (map<uint32, ShopObject*>::iterator i = sell_list->begin(); i != sell_list->end(); i++) {
+	for (std::map<uint32, ShopObject*>::iterator i = sell_list->begin(); i != sell_list->end(); i++) {
 		_sell_unique++;
 		_sell_count += i->second->GetSellCount();
 		sell_vector.push_back(i->second);
@@ -707,13 +707,13 @@ void ConfirmInterface::_LeaveInterface() {
 	map<uint32, ShopObject*>* sell_list = ShopMode::CurrentInstance()->GetSellList();
 
 	// Go through the lists and remove any entries that have had their counts set to zero
-	for (map<uint32, ShopObject*>::iterator i = buy_list->begin(); i != buy_list->end();) {
+	for (std::map<uint32, ShopObject*>::iterator i = buy_list->begin(); i != buy_list->end();) {
 		if (i->second->GetBuyCount() == 0)
 			buy_list->erase(i++);
 		else
 			i++;
 	}
-	for (map<uint32, ShopObject*>::iterator i = sell_list->begin(); i != sell_list->end();) {
+	for (std::map<uint32, ShopObject*>::iterator i = sell_list->begin(); i != sell_list->end();) {
 		if (i->second->GetSellCount() == 0)
 			sell_list->erase(i++);
 		else

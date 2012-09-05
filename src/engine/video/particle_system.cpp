@@ -13,7 +13,6 @@
 #include "particle_keyframe.h"
 #include "engine/video/video.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video;
 

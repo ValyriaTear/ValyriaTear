@@ -20,8 +20,6 @@
 #include "global_effects.h"
 #include "global_skills.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_script;
@@ -66,7 +64,7 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor& script) {
 		script.ReadTableKeys(table_keys);
 		for (uint32 i = 0; i < table_keys.size(); i++) {
 			float probability = script.ReadFloat(table_keys[i]);
-			_status_effects.push_back(make_pair(static_cast<GLOBAL_STATUS>(table_keys[i]), probability));
+			_status_effects.push_back(std::make_pair(static_cast<GLOBAL_STATUS>(table_keys[i]), probability));
 		}
 
 		script.CloseTable();
@@ -75,8 +73,9 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor& script) {
 
 	if (script.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << std::endl;
-			cerr << script.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below"
+			<< std::endl
+			<< script.GetErrorMessages() << std::endl;
 		}
 		return false;
 	}
@@ -167,7 +166,7 @@ GlobalActor::~GlobalActor() {
 	_armor_equipped.clear();
 
 	// Delete all skills
-	for (map<uint32, GlobalSkill*>::iterator i = _skills.begin(); i != _skills.end(); i++) {
+	for (std::map<uint32, GlobalSkill*>::iterator i = _skills.begin(); i != _skills.end(); i++) {
 		delete i->second;
 	}
 	_skills.clear();
@@ -216,8 +215,8 @@ GlobalActor::GlobalActor(const GlobalActor& copy) {
 	}
 
 	// Copy all skills
-	for (map<uint32, GlobalSkill*>::const_iterator i = copy._skills.begin(); i != copy._skills.end(); i++) {
-		_skills.insert(make_pair(i->first, new GlobalSkill(*(i->second))));
+	for (std::map<uint32, GlobalSkill*>::const_iterator i = copy._skills.begin(); i != copy._skills.end(); i++) {
+		_skills.insert(std::make_pair(i->first, new GlobalSkill(*(i->second))));
 	}
 }
 
@@ -268,8 +267,8 @@ GlobalActor& GlobalActor::operator=(const GlobalActor& copy) {
 	}
 
 	// Copy all skills
-	for (map<uint32, GlobalSkill*>::const_iterator i = copy._skills.begin(); i != copy._skills.end(); i++) {
-		_skills.insert(make_pair(i->first, new GlobalSkill(*(i->second))));
+	for (std::map<uint32, GlobalSkill*>::const_iterator i = copy._skills.begin(); i != copy._skills.end(); i++) {
+		_skills.insert(std::make_pair(i->first, new GlobalSkill(*(i->second))));
 	}
 	return *this;
 }
@@ -362,7 +361,7 @@ GlobalAttackPoint* GlobalActor::GetAttackPoint(uint32 index) const {
 
 
 GlobalSkill* GlobalActor::GetSkill(uint32 skill_id) const {
-	map<uint32, GlobalSkill*>::const_iterator skill_location = _skills.find(skill_id);
+	std::map<uint32, GlobalSkill*>::const_iterator skill_location = _skills.find(skill_id);
 	if (skill_location == _skills.end()) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "actor did not have a skill with the requested skill_id: " << skill_id << std::endl;
 		return NULL;
@@ -761,7 +760,7 @@ void GlobalCharacterGrowth::AcknowledgeGrowth() {
 		_experience_level_gained = false;
 		_DetermineNextLevelExperience();
 
-		string filename = "dat/actors/characters.lua";
+		std::string filename = "dat/actors/characters.lua";
 		ReadScriptDescriptor character_script;
 		if (character_script.OpenFile(filename) == false) {
 			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to open character data file: " << filename << std::endl;
@@ -792,7 +791,7 @@ void GlobalCharacterGrowth::AcknowledgeGrowth() {
 			}
 
 			// Insert the pointer to the new skill inside of the global skills map and the skill type vector
-			_character_owner->_skills.insert(make_pair(skill->GetID(), skill));
+			_character_owner->_skills.insert(std::make_pair(skill->GetID(), skill));
 			switch (skill->GetType()) {
 				case GLOBAL_SKILL_ATTACK:
 					_character_owner->_attack_skills.push_back(skill);
@@ -827,7 +826,7 @@ void GlobalCharacterGrowth::_AddSkill(uint32 skill_id) {
 		return;
 	}
 	// Make sure we don't add a skill to learn more than once
-	for (vector<GlobalSkill*>::iterator i = _skills_learned.begin(); i != _skills_learned.end(); i++) {
+	for (std::vector<GlobalSkill*>::iterator i = _skills_learned.begin(); i != _skills_learned.end(); i++) {
 		if (skill_id == (*i)->GetID()) {
 			IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add was already present in the list of skills to learn: " << skill_id << std::endl;
 			return;
@@ -1041,14 +1040,14 @@ void GlobalCharacterGrowth::_ConstructPeriodicGrowth() {
 	// TODO: Implement a gradual growth algorithm
 
 	// TEMP: all growth is done when the experience level is gained
-	_hit_points_periodic_growth.push_back(make_pair(_experience_for_next_level, _hit_points_growth));
-	_skill_points_periodic_growth.push_back(make_pair(_experience_for_next_level, _skill_points_growth));
-	_strength_periodic_growth.push_back(make_pair(_experience_for_next_level, _strength_growth));
-	_vigor_periodic_growth.push_back(make_pair(_experience_for_next_level, _vigor_growth));
-	_fortitude_periodic_growth.push_back(make_pair(_experience_for_next_level, _fortitude_growth));
-	_protection_periodic_growth.push_back(make_pair(_experience_for_next_level, _protection_growth));
-	_agility_periodic_growth.push_back(make_pair(_experience_for_next_level, _agility_growth));
-	_evade_periodic_growth.push_back(make_pair(_experience_for_next_level, _evade_growth));
+	_hit_points_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _hit_points_growth));
+	_skill_points_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _skill_points_growth));
+	_strength_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _strength_growth));
+	_vigor_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _vigor_growth));
+	_fortitude_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _fortitude_growth));
+	_protection_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _protection_growth));
+	_agility_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _agility_growth));
+	_evade_periodic_growth.push_back(std::make_pair(_experience_for_next_level, _evade_growth));
 
 	_hit_points_growth = 0;
 	_skill_points_growth = 0;
@@ -1216,8 +1215,9 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		char_script.CloseTable();
 		if (char_script.IsErrorDetected()) {
 			if (GLOBAL_DEBUG) {
-				PRINT_WARNING << "one or more errors occurred while reading initial data - they are listed below" << std::endl;
-				cerr << char_script.GetErrorMessages() << std::endl;
+				PRINT_WARNING << "one or more errors occurred while reading initial data - they are listed below"
+				<< std::endl
+				<< char_script.GetErrorMessages() << std::endl;
 			}
 		}
 	} // if (initial == true)
@@ -1232,7 +1232,8 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		_attack_points.push_back(new GlobalAttackPoint(this));
 		char_script.OpenTable(i);
 		if (_attack_points[i]->LoadData(char_script) == false) {
-			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to succesfully load data for attack point: " << i << std::endl;
+			IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to succesfully load data for attack point: "
+				<< i << std::endl;
 		}
 		char_script.CloseTable();
 	}
@@ -1240,21 +1241,21 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
 	if (char_script.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading attack point data - they are listed below" << std::endl;
-			cerr << char_script.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading attack point data - they are listed below"
+				<< std::endl << char_script.GetErrorMessages() << std::endl;
 		}
 	}
 
 	// Construct the character's initial skill set if necessary
 	if (initial) {
 		// The skills table contains key/value pairs. The key indicate the level required to learn the skill and the value is the skill's id
-		vector<uint32> skill_levels;
+		std::vector<uint32> skill_levels;
 		char_script.OpenTable("skills");
 		char_script.ReadTableKeys(skill_levels);
 
 		// We want to add the skills beginning with the first learned to the last. ReadTableKeys does not guarantee returing the keys in a sorted order,
 		// so sort the skills by level before checking each one.
-		sort(skill_levels.begin(), skill_levels.end());
+		std::sort(skill_levels.begin(), skill_levels.end());
 
 		// Only add the skills for which the experience level requirements are met
 		for (uint32 i = 0; i < skill_levels.size(); i++) {
@@ -1270,8 +1271,8 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 		char_script.CloseTable();
 		if (char_script.IsErrorDetected()) {
 			if (GLOBAL_DEBUG) {
-				PRINT_WARNING << "one or more errors occurred while reading skill data - they are listed below" << std::endl;
-				cerr << char_script.GetErrorMessages() << std::endl;
+				PRINT_WARNING << "one or more errors occurred while reading skill data - they are listed below"
+					<< std::endl << char_script.GetErrorMessages() << std::endl;
 			}
 		}
 	} // if (initial)
@@ -1300,8 +1301,8 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 	// Close the script file and calculate all rating totals
 	if (char_script.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading final data - they are listed below" << std::endl;
-			cerr << char_script.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading final data - they are listed below"
+				<< std::endl << char_script.GetErrorMessages() << std::endl;
 		}
 	}
 	char_script.CloseFile();
@@ -1336,7 +1337,7 @@ void GlobalCharacter::AddSkill(uint32 skill_id) {
 	}
 
 	// Insert the pointer to the new skill inside of the global skills map and the skill type vector
-	_skills.insert(make_pair(skill_id, skill));
+	_skills.insert(std::make_pair(skill_id, skill));
 	switch (skill->GetType()) {
 		case GLOBAL_SKILL_ATTACK:
 			_attack_skills.push_back(skill);
@@ -1374,8 +1375,8 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 	_id = id;
 
 	// Use the id member to determine the name of the data file that the enemy is defined in
-	string file_ext;
-	string filename;
+	std::string file_ext;
+	std::string filename;
 
 	if (_id == 0)
 		PRINT_ERROR << "invalid id for loading enemy data: " << _id << std::endl;
@@ -1397,7 +1398,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
 	// Attempt to load the MultiImage for the sprite's frames, which should contain one row and four columns of images
 	_battle_sprite_frames.assign(4, StillImage());
-	string sprite_filename = enemy_data.ReadString("battle_sprites");
+	std::string sprite_filename = enemy_data.ReadString("battle_sprites");
 	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_sprite_frames, sprite_filename, 1, 4))
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load sprite frames for enemy: " << sprite_filename << std::endl;
 
@@ -1466,8 +1467,8 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
 	if (enemy_data.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading the enemy data - they are listed below" << std::endl;
-			cerr << enemy_data.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading the enemy data - they are listed below"
+				<< std::endl << enemy_data.GetErrorMessages() << std::endl;
 		}
 	}
 
@@ -1498,7 +1499,7 @@ void GlobalEnemy::AddSkill(uint32 skill_id) {
 	}
 
 	// Insert the pointer to the new skill inside of the global skills map and the skill type vector
-	_skills.insert(make_pair(skill_id, skill));
+	_skills.insert(std::make_pair(skill_id, skill));
 }
 
 
@@ -1544,7 +1545,7 @@ void GlobalEnemy::Initialize() {
 
 
 
-void GlobalEnemy::DetermineDroppedObjects(vector<GlobalObject*>& objects) {
+void GlobalEnemy::DetermineDroppedObjects(std::vector<GlobalObject*>& objects) {
 	objects.clear();
 
 	for (uint32 i = 0; i < _dropped_objects.size(); i++) {
@@ -1588,7 +1589,7 @@ void GlobalParty::AddActor(GlobalActor* actor, int32 index) {
 		return;
 	}
 	else {
-		vector<GlobalActor*>::iterator position = _actors.begin();
+		std::vector<GlobalActor*>::iterator position = _actors.begin();
 		for (int32 i = 0; i < index; i++, position++);
 		_actors.insert(position, actor);
 	}
@@ -1598,12 +1599,13 @@ void GlobalParty::AddActor(GlobalActor* actor, int32 index) {
 
 GlobalActor* GlobalParty::RemoveActorAtIndex(uint32 index) {
 	if (index >= _actors.size()) {
-		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
+		IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: "
+			<< index << std::endl;
 		return NULL;
 	}
 
 	GlobalActor* removed_actor = _actors[index];
-	vector<GlobalActor*>::iterator position = _actors.begin();
+	std::vector<GlobalActor*>::iterator position = _actors.begin();
 	for (uint32 i = 0; i < index; i++, position++);
 	_actors.erase(position);
 
@@ -1619,7 +1621,7 @@ GlobalActor* GlobalParty::RemoveActorByID(uint32 id) {
 	}
 
 	GlobalActor* removed_actor = NULL;
-	for (vector<GlobalActor*>::iterator position = _actors.begin(); position != _actors.end(); position++) {
+	for (std::vector<GlobalActor*>::iterator position = _actors.begin(); position != _actors.end(); position++) {
 		if (id == (*position)->GetID()) {
 			removed_actor = *position;
 			_actors.erase(position);
@@ -1696,8 +1698,8 @@ void GlobalParty::SwapActorsByID(uint32 first_id, uint32 second_id) {
 		return;
 	}
 
-	vector<GlobalActor*>::iterator first_position;
-	vector<GlobalActor*>::iterator second_position;
+	std::vector<GlobalActor*>::iterator first_position;
+	std::vector<GlobalActor*>::iterator second_position;
 	for (first_position = _actors.begin(); first_position != _actors.end(); first_position++) {
 		if ((*first_position)->GetID() == first_id)
 			break;
@@ -1751,7 +1753,7 @@ GlobalActor* GlobalParty::ReplaceActorByID(uint32 id, GlobalActor* new_actor) {
 	}
 
 	GlobalActor* removed_actor = NULL;
-	for (vector<GlobalActor*>::iterator position = _actors.begin(); position != _actors.end(); position++) {
+	for (std::vector<GlobalActor*>::iterator position = _actors.begin(); position != _actors.end(); position++) {
 		if ((*position)->GetID() == id) {
 			removed_actor = *position;
 			*position = new_actor;
@@ -1777,13 +1779,13 @@ float GlobalParty::AverageExperienceLevel() const {
 }
 
 void GlobalParty::AddHitPoints(uint32 hp) {
-	for (vector<GlobalActor*>::iterator i = _actors.begin(); i != _actors.end(); i++) {
+	for (std::vector<GlobalActor*>::iterator i = _actors.begin(); i != _actors.end(); i++) {
 		(*i)->AddHitPoints(hp);
 	}
 }
 
 void GlobalParty::AddSkillPoints(uint32 sp) {
-	for (vector<GlobalActor*>::iterator i = _actors.begin(); i != _actors.end(); i++) {
+	for (std::vector<GlobalActor*>::iterator i = _actors.begin(); i != _actors.end(); i++) {
 		(*i)->AddSkillPoints(sp);
 	}
 }

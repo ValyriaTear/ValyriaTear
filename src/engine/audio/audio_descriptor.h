@@ -301,7 +301,7 @@ public:
 	*** Adds multiple owners at once.
 	*** @see AddOwner()
 	**/
-	void AddOwners(std::list<hoa_mode_manager::GameMode*>& owners);
+	void AddOwners(std::vector<hoa_mode_manager::GameMode*>& owners);
 
 	/**
 	*** Remove a game mode reference from the audio descriptor owners,
@@ -313,7 +313,7 @@ public:
 	/**
 	*** Get the list of game mode claiming ownership over the audio descriptor.
 	**/
-	std::list<hoa_mode_manager::GameMode*>* GetOwners()
+	std::vector<hoa_mode_manager::GameMode*>* GetOwners()
 	{ return &_owners; }
 
 	/** \brief Fades a music or sound in as it plays
@@ -388,10 +388,10 @@ protected:
     *** Musics and sounds that are never owned will have to be freed manually.
     *** @see AddOwner(), RemoveOwner()
     **/
-    std::list<hoa_mode_manager::GameMode*> _owners;
+    std::vector<hoa_mode_manager::GameMode*> _owners;
 
 	//! \brief Holds all active audio effects for this descriptor
-	std::list<private_audio::AudioEffect*> _audio_effects;
+	std::vector<private_audio::AudioEffect*> _audio_effects;
 
 	/** \brief Sets the local volume control for this particular audio piece
 	*** \param volume The volume level to set, ranging from [0.0f, 1.0f]

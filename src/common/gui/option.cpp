@@ -12,8 +12,6 @@
 #include "option.h"
 #include "engine/video/video.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_video::private_video;
@@ -159,7 +157,7 @@ void OptionBox::Update(uint32 frame_time) {
 void OptionBox::Draw() {
 	// Do nothing if the option box is not properly initialized
 	if (!IsInitialized(_initialization_errors)) {
-		cout << "ERROR: Could not draw OptionBox" << std::endl;
+		PRINT_ERROR << "ERROR: Could not draw OptionBox" << std::endl;
 		return;
 	}
 
@@ -322,9 +320,9 @@ void OptionBox::SetDimensions(float width, float height, uint8 num_cols, uint8 n
 
 
 
-void OptionBox::SetOptions(const vector<ustring>& option_text) {
+void OptionBox::SetOptions(const std::vector<ustring>& option_text) {
 	ClearOptions();
-	for (vector<ustring>::const_iterator i = option_text.begin(); i != option_text.end(); i++) {
+	for (std::vector<ustring>::const_iterator i = option_text.begin(); i != option_text.end(); i++) {
 		const ustring& str = *i;
 		Option option;
 
@@ -386,7 +384,7 @@ void OptionBox::AddOptionElementText(uint32 option_index, const ustring& text) {
 
 
 
-void OptionBox::AddOptionElementImage(uint32 option_index, string& image_filename) {
+void OptionBox::AddOptionElementImage(uint32 option_index, const std::string& image_filename) {
 	if (option_index >= GetNumberOptions()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
 		return;
@@ -538,8 +536,8 @@ StillImage* OptionBox::GetEmbeddedImage(uint32 index) const {
 
 
 
-bool OptionBox::IsInitialized(string& error_messages) {
-	ostringstream s;
+bool OptionBox::IsInitialized(std::string& error_messages) {
+	std::ostringstream s;
 	error_messages.clear();
 
 	if (_width <= 0.0f)
@@ -821,7 +819,7 @@ bool OptionBox::_ConstructOption(const ustring& format_string, Option& op) {
 			}
 			else { // The tag contains more than 1-character
 				// Extract the tag string
-				string tag_text = MakeStandardString(tmp.substr(1, end_position - 1));
+				std::string tag_text = MakeStandardString(tmp.substr(1, end_position - 1));
 
 				if (IsStringNumeric(tag_text)) { // Then this must be a positioning tag
 					new_element.type  = VIDEO_OPTION_ELEMENT_POSITION;

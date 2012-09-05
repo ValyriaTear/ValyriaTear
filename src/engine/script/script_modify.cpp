@@ -20,7 +20,6 @@
 #include "script_read.h"
 #include "script_write.h"
 
-using namespace std;
 using namespace luabind;
 
 using namespace hoa_utils;
@@ -29,12 +28,12 @@ namespace hoa_script {
 
 ModifyScriptDescriptor::~ModifyScriptDescriptor() {
 	if (IsFileOpen()) {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT WARNING: ModifyScriptDescriptor destructor was called when file was still open: "
-				<< _filename << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT WARNING: ModifyScriptDescriptor destructor was called when file was still open: "
+			<< _filename << std::endl;
 		CloseFile();
 	}
-	
+
 	_filename = "";
 	_access_mode = SCRIPT_CLOSED;
 	_error_messages.clear();
@@ -47,9 +46,9 @@ ModifyScriptDescriptor::~ModifyScriptDescriptor() {
 
 bool ModifyScriptDescriptor::OpenFile(const std::string& file_name) {
 	if (ScriptManager->IsFileOpen(file_name) == true) {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT WARNING: ModifyScriptDescriptor::OpenFile() attempted to open file that is already opened: "
-				<< file_name << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT WARNING: ModifyScriptDescriptor::OpenFile() attempted to open file that is already opened: "
+			<< file_name << std::endl;
 		return false;
 	}
 
@@ -63,7 +62,7 @@ bool ModifyScriptDescriptor::OpenFile(const std::string& file_name) {
 
 		// Attempt to load and execute the Lua file.
 		if (luaL_loadfile(_lstack, file_name.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
-			cerr << "SCRIPT ERROR: ModifyScriptDescriptor::OpenFile() could not open the file " << file_name << std::endl;
+			PRINT_ERROR << "SCRIPT ERROR: ModifyScriptDescriptor::OpenFile() could not open the file " << file_name << std::endl;
 			_access_mode = SCRIPT_CLOSED;
 			return false;
 		}
@@ -80,9 +79,9 @@ bool ModifyScriptDescriptor::OpenFile(const std::string& file_name) {
 
 bool ModifyScriptDescriptor::OpenFile() {
 	if (_filename == "") {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT ERROR: ModifyScriptDescriptor::OpenFile(), could not open file "
-				<< "because of an invalid file name (empty string)." << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT ERROR: ModifyScriptDescriptor::OpenFile(), could not open file "
+			<< "because of an invalid file name (empty string)." << std::endl;
 		return false;
 	}
 
@@ -93,16 +92,17 @@ bool ModifyScriptDescriptor::OpenFile() {
 
 void ModifyScriptDescriptor::CloseFile() {
 	if (IsFileOpen() == false) {
-		if (SCRIPT_DEBUG)
-			cerr << "SCRIPT ERROR: ModifyScriptDescriptor::CloseFile() could not close the "
-				<< "file because it was not open." << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "SCRIPT ERROR: ModifyScriptDescriptor::CloseFile() could not close the "
+			<< "file because it was not open." << std::endl;
 		return;
 	}
 
-	if (SCRIPT_DEBUG && IsErrorDetected()) {
-		cerr << "SCRIPT WARNING: In ModifyScriptDescriptor::CloseFile(), the file " << _filename
-			<< " had error messages remaining. They are as follows:" << std::endl;
-		cerr << _error_messages.str() << std::endl;
+	if (IsErrorDetected()) {
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<<"SCRIPT WARNING: In ModifyScriptDescriptor::CloseFile(), the file " << _filename
+			<< " had error messages remaining. They are as follows:" << std::endl
+			<< _error_messages.str() << std::endl;
 	}
 
 	_lstack = NULL;
@@ -119,7 +119,7 @@ void ModifyScriptDescriptor::CloseFile() {
 
 void ModifyScriptDescriptor::CommitChanges(bool leave_closed) {
 	WriteScriptDescriptor file; // The file to write the modified Lua state out to
-	string temp_filename = _filename.substr(0, _filename.find_last_of('.')) + "_TEMP" + _filename.substr(_filename.find_last_of('.'));
+	std::string temp_filename = _filename.substr(0, _filename.find_last_of('.')) + "_TEMP" + _filename.substr(_filename.find_last_of('.'));
 
 	if (file.OpenFile(temp_filename) == false) {
 		if (SCRIPT_DEBUG)
@@ -140,7 +140,7 @@ void ModifyScriptDescriptor::CommitChanges(bool leave_closed) {
 	CloseFile(); // Close this file as well as it is about to be over-written
 
 	// Now overwrite this file with the temporary file written, remove the temporary file, and re-open the new file
-	
+
 	if (MoveFile(temp_filename, _filename) == false) {
 		_error_messages << "* ModifyScriptDescriptor::CommitChanges() failed because after writing the temporary file "
 			<< temp_filename << ", it could not be moved to overwrite the original filename " << _filename << std::endl;
@@ -155,20 +155,20 @@ void ModifyScriptDescriptor::CommitChanges(bool leave_closed) {
 void ModifyScriptDescriptor::_CommitTable(WriteScriptDescriptor& file, const luabind::object& table) {
 	bool key_is_numeric;  // Set to true when a variable's key is not a string
 	int32 num_key = 0;    // Holds the current numeric key
-	string str_key = "";  // Holds the current string key
+	std::string str_key = "";  // Holds the current string key
 
 	for (luabind::iterator it(table), end; it != end; ++it) {
 		try {
 			num_key = object_cast<int32>(it.key());
 			key_is_numeric = true;
 		} catch (...) {
-			str_key = object_cast<string>(it.key());
+			str_key = object_cast<std::string>(it.key());
 			key_is_numeric = false;
 		}
 
 		if (key_is_numeric && _open_tables_iterator == _open_tables.end())
 		{
-			cerr << "ModifyScriptDescriptor::_CommitTable: reached numeric key before writing out open tables" << std::endl;
+			PRINT_ERROR << "ModifyScriptDescriptor::_CommitTable: reached numeric key before writing out open tables" << std::endl;
 			return;
 		}
 		else if (!key_is_numeric && _open_tables_iterator != _open_tables.end())
@@ -183,7 +183,7 @@ void ModifyScriptDescriptor::_CommitTable(WriteScriptDescriptor& file, const lua
 			}
 			continue;
 		}
-	
+
 		// Check for _G table and do not write it out, causes
 		// infinite recursion.
 		if (!key_is_numeric)
@@ -211,9 +211,9 @@ void ModifyScriptDescriptor::_CommitTable(WriteScriptDescriptor& file, const lua
 				break;
 			case LUA_TSTRING:
 				if (key_is_numeric)
-					file.WriteString(num_key, object_cast<string>(*it));
+					file.WriteString(num_key, object_cast<std::string>(*it));
 				else
-					file.WriteString(str_key, object_cast<string>(*it));
+					file.WriteString(str_key, object_cast<std::string>(*it));
 				break;
 			case LUA_TTABLE:
 				if (key_is_numeric)
@@ -246,7 +246,7 @@ void ModifyScriptDescriptor::_CommitTable(WriteScriptDescriptor& file, const lua
 					} else {
 						_error_messages << "unknown data type ";
 					}
-					
+
 					if (key_is_numeric)
 						_error_messages << "key: " << num_key;
 					else

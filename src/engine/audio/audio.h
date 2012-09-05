@@ -356,8 +356,8 @@ private:
 	*** sound and music objects will also have their volumes updated.
 	**/
 	//@{
-	std::list<SoundDescriptor*> _registered_sounds;
-	std::list<MusicDescriptor*> _registered_music;
+	std::vector<SoundDescriptor*> _registered_sounds;
+	std::vector<MusicDescriptor*> _registered_music;
 	//@}
 
 	/** \brief A LRU cache of audio which is managed internally by the audio engine

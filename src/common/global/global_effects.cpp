@@ -18,8 +18,6 @@
 
 #include "engine/system.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 
 using namespace hoa_script;
@@ -27,7 +25,7 @@ using namespace hoa_system;
 
 namespace hoa_global {
 
-string GetElementName(GLOBAL_ELEMENTAL type) {
+std::string GetElementName(GLOBAL_ELEMENTAL type) {
 	switch (type) {
 		case GLOBAL_ELEMENTAL_FIRE:
 			return Translate("Fire");
@@ -52,8 +50,8 @@ string GetElementName(GLOBAL_ELEMENTAL type) {
 
 
 
-string GetStatusName(GLOBAL_STATUS type) {
-	string result;
+std::string GetStatusName(GLOBAL_STATUS type) {
+	std::string result;
 	int32 table_id = static_cast<int32>(type);
 
 	ReadScriptDescriptor& script_file = GlobalManager->GetStatusEffectsScript();

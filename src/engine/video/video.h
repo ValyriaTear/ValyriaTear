@@ -749,7 +749,7 @@ private:
 	float _gamma_value;
 
 	//! current shake forces affecting screen
-	std::list<private_video::ShakeForce> _shake_forces;
+	std::deque<private_video::ShakeForce> _shake_forces;
 
 	// changing the video settings does not actually do anything until
 	// you call ApplySettings(). Up til that point, store them in temp

@@ -17,7 +17,6 @@
 
 #include "texture_controller.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video::private_video;
 
@@ -49,7 +48,7 @@ TextureController::~TextureController() {
 	}
 
 	IF_PRINT_DEBUG(VIDEO_DEBUG) << "Deleting all remaining texture sheets, a total of: " << _tex_sheets.size() << std::endl;
-	for (vector<TexSheet*>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); i++) {
+	for (std::vector<TexSheet*>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); i++) {
 		delete *i;
 	}
 }
@@ -96,7 +95,7 @@ bool TextureController::UnloadTextures() {
 	}
 
 	// Unload all texture sheets
-	vector<TexSheet*>::iterator i = _tex_sheets.begin();
+	std::vector<TexSheet*>::iterator i = _tex_sheets.begin();
 	while (i != _tex_sheets.end()) {
 		if (*i != NULL) {
 			if ((*i)->Unload() == false) {
@@ -113,12 +112,12 @@ bool TextureController::UnloadTextures() {
 	}
 
 	// Clear all font caches
-	map<string, FontProperties*>::iterator j = TextManager->_font_map.begin();
+	std::map<std::string, FontProperties*>::iterator j = TextManager->_font_map.begin();
 	while (j != TextManager->_font_map.end()) {
 		FontProperties *fp = j->second;
 
 		if (fp->glyph_cache) {
-			for (map<uint16, FontGlyph*>::iterator k = fp->glyph_cache->begin(); k != fp->glyph_cache->end(); k++) {
+			for (std::map<uint16, FontGlyph*>::iterator k = fp->glyph_cache->begin(); k != fp->glyph_cache->end(); k++) {
 				_DeleteTexture((*k).second->texture);
 				delete (*k).second;
 			}
@@ -136,7 +135,7 @@ bool TextureController::UnloadTextures() {
 
 bool TextureController::ReloadTextures() {
 	bool success = true;
-	vector<TexSheet*>::iterator i = _tex_sheets.begin();
+	std::vector<TexSheet*>::iterator i = _tex_sheets.begin();
 
 	while (i != _tex_sheets.end()) {
 		if (*i != NULL) {
@@ -324,15 +323,15 @@ void TextureController::_DeleteTexture(GLuint tex_id) {
 bool TextureController::_SaveTempTextures() {
 	bool success = true;
 
-	for (map<string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++) {
+	for (std::map<std::string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++) {
 		ImageTexture *image = i->second;
 
 		// Check that this is a temporary texture and if so, save it to disk as a .png file
-		if (image->tags.find("<T>") != string::npos) {
+		if (image->tags.find("<T>") != std::string::npos) {
 			IF_PRINT_DEBUG(VIDEO_DEBUG) << " saving temporary texture " << image->filename << std::endl;
 			ImageMemory buffer;
 			buffer.CopyFromImage(image);
-			string path = GetUserDataPath(true);
+			std::string path = GetUserDataPath(true);
 			if (buffer.SaveImage(path + image->filename + ".png", true) == false) {
 				success = false;
 				IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::SaveImage() failed" << std::endl;
@@ -390,7 +389,7 @@ void TextureController::_RemoveSheet(TexSheet* sheet) {
 		return;
 	}
 
-	vector<TexSheet*>::iterator i = _tex_sheets.begin();
+	std::vector<TexSheet*>::iterator i = _tex_sheets.begin();
 
 	while(i != _tex_sheets.end()) {
 		if (*i == sheet) {
@@ -476,10 +475,10 @@ TexSheet* TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
 
 bool TextureController::_ReloadImagesToSheet(TexSheet* sheet) {
 	// Delete images
-	std::map<string, pair<ImageMemory, ImageMemory> > multi_image_info;
+	std::map<std::string, std::pair<ImageMemory, ImageMemory> > multi_image_info;
 
 	bool success = true;
-	for (map<string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++) {
+	for (std::map<std::string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++) {
 		// Only operate on images which belong to the requested TexSheet
 		if (i->second->texture_sheet != sheet) {
 			continue;
@@ -512,7 +511,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet* sheet) {
 					continue;
 				}
 
-				multi_image_info[img->filename] = make_pair(load_info, image);
+				multi_image_info[img->filename] = std::make_pair(load_info, image);
 			}
 			else {
 				load_info = multi_image_info[img->filename].first;
@@ -579,9 +578,10 @@ bool TextureController::_ReloadImagesToSheet(TexSheet* sheet) {
 				load_info.pixels = NULL;
 			}
 		}
-	} // for (map<string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++)
+	} // for (std::map<string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++)
 
-	for (map<string, pair<ImageMemory, ImageMemory> >::iterator i = multi_image_info.begin(); i != multi_image_info.end(); ++i) {
+	for (std::map<std::string, std::pair<ImageMemory, ImageMemory> >::iterator i = multi_image_info.begin();
+			i != multi_image_info.end(); ++i) {
 		free(i->second.first.pixels);
 		i->second.first.pixels = NULL;
 		free(i->second.second.pixels);
@@ -589,7 +589,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet* sheet) {
 	}
 
 	// Regenerate all font textures
-	for (set<TextTexture*>::iterator i = _text_images.begin(); i != _text_images.end(); i++) {
+	for (std::set<TextTexture*>::iterator i = _text_images.begin(); i != _text_images.end(); i++) {
 		if ((*i)->texture_sheet == sheet) {
 			if ((*i)->Reload() == false) {
 				IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to reload a TextTexture" << std::endl;
@@ -609,7 +609,7 @@ void TextureController::_RegisterImageTexture(ImageTexture* img) {
 		return;
 	}
 
-	string nametag = img->filename + img->tags;
+	std::string nametag = img->filename + img->tags;
 	if (_IsImageTextureRegistered(nametag) == true) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "this ImageTexture was already registered: " << nametag << std::endl;
 		return;
@@ -626,7 +626,7 @@ void TextureController::_UnregisterImageTexture(ImageTexture* img) {
 		return;
 	}
 
-	string nametag = img->filename + img->tags;
+	std::string nametag = img->filename + img->tags;
 	std::map<std::string, private_video::ImageTexture*>::iterator img_iter = _images.find(nametag);
 	if (img_iter == _images.end()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "this ImageTexture was not registered: " << nametag << std::endl;

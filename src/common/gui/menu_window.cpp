@@ -12,7 +12,6 @@
 #include "engine/video/video.h"
 #include "menu_window.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_video::private_video;
@@ -33,7 +32,7 @@ MenuWindow::MenuWindow() :
 
 
 
-bool MenuWindow::Create(string skin_name, float w, float h, int32 visible_flags, int32 shared_flags) {
+bool MenuWindow::Create(const std::string& skin_name, float w, float h, int32 visible_flags, int32 shared_flags) {
 	_skin = GUIManager->_GetMenuSkin(skin_name);
 	if (_skin == NULL) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "the requested menu skin was not found: " << skin_name << std::endl;
@@ -242,9 +241,9 @@ void MenuWindow::Hide() {
 
 
 
-bool MenuWindow::IsInitialized(string& errors) {
+bool MenuWindow::IsInitialized(std::string& errors) {
 	errors.clear();
-	ostringstream stream;
+	std::ostringstream stream;
 
 	// Check width
 	if (_width <= 0.0f || _width > 1024.0f)
@@ -301,7 +300,7 @@ void MenuWindow::SetDimensions(float w, float h) {
 
 
 
-void MenuWindow::SetMenuSkin(string& skin_name) {
+void MenuWindow::SetMenuSkin(const std::string& skin_name) {
 	MenuSkin* new_skin = GUIManager->_GetMenuSkin(skin_name);
 	if (new_skin == NULL) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin_name \"" << skin_name << "\" was invalid" << std::endl;

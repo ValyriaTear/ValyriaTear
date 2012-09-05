@@ -12,7 +12,6 @@
 #include "common/gui/menu_window.h"
 #include "engine/video/video.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_video::private_video;
@@ -228,7 +227,8 @@ void TextBox::SetDisplayMode(const TEXT_DISPLAY_MODE &mode) {
 void TextBox::SetDisplaySpeed(float display_speed) {
 	if (display_speed <= 0.0f) {
 		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: TextBox::SetDisplaySpeed() failed due to an invalid display speed: " << display_speed << std::endl;
+			PRINT_ERROR << "VIDEO WARNING: TextBox::SetDisplaySpeed() failed due to an invalid display speed: "
+				<< display_speed << std::endl;
 		return;
 	}
 
@@ -237,7 +237,7 @@ void TextBox::SetDisplaySpeed(float display_speed) {
 
 
 
-void TextBox::SetDisplayText(const string &text) {
+void TextBox::SetDisplayText(const std::string &text) {
 	SetDisplayText(MakeUnicodeString(text));
 }
 
@@ -327,9 +327,9 @@ void TextBox::_ReformatText() {
 
 
 
-bool TextBox::IsInitialized(string& errors) {
+bool TextBox::IsInitialized(std::string& errors) {
 	errors.clear();
-	ostringstream stream;
+	std::ostringstream stream;
 
 
 	// Check font

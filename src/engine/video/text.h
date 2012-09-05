@@ -123,28 +123,28 @@ public:
 	TextStyle();
 
 	//! \brief Constructor requiring a font name only
-	TextStyle(std::string fnt);
+	TextStyle(const std::string& fnt);
 
 	//! \brief Constructor requiring a text color only
-	TextStyle(Color c);
+	TextStyle(const Color& c);
 
 	//! \brief Constructor requiring a shadow style only
 	TextStyle(TEXT_SHADOW_STYLE style);
 
 	//! \brief Constructor requiring a font name and text color
-	TextStyle(std::string fnt, Color c);
+	TextStyle(const std::string& fnt, const Color& c);
 
 	//! \brief Constructor requiring a font name and shadow style
-	TextStyle(std::string fnt, TEXT_SHADOW_STYLE style);
+	TextStyle(const std::string& fnt, TEXT_SHADOW_STYLE style);
 
 	//! \brief Constructor requiring a text color and shadow style
-	TextStyle(Color c, TEXT_SHADOW_STYLE style);
+	TextStyle(const Color& c, TEXT_SHADOW_STYLE style);
 
 	//! \brief Constructor requiring a font name, color, and shadow style
-	TextStyle(std::string fnt, Color c, TEXT_SHADOW_STYLE style);
+	TextStyle(const std::string& fnt, const Color& c, TEXT_SHADOW_STYLE style);
 
 	//! \brief Full constructor requiring initialization data arguments for all class members
-	TextStyle(std::string fnt, Color c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y);
+	TextStyle(const std::string& fnt, const Color& c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y);
 
 	// ---------- Public members
 
@@ -524,7 +524,7 @@ private:
 	*** This class assists the public Draw methods. This method is intended for drawing only
 	*** a single line of text in a single color (it does not account for shadows).
 	**/
-	void _DrawTextHelper(const uint16* const text, FontProperties* fp, Color text_color);
+	void _DrawTextHelper(const uint16* text, FontProperties* fp, Color text_color);
 
 	/** \brief Renders a unicode string with a given TextStyle to a pixel array
 	*** \param string The unicdoe string to render

@@ -21,7 +21,6 @@
 #include "script.h"
 #include "script_read.h"
 
-using namespace std;
 using namespace luabind;
 
 using namespace hoa_utils;
@@ -76,17 +75,17 @@ bool ScriptEngine::IsFileOpen(const std::string& filename) {
 
 
 
-void ScriptEngine::HandleLuaError(luabind::error& err) {
+void ScriptEngine::HandleLuaError(const luabind::error& err) {
 	lua_State *state = err.state();
 	PRINT_ERROR << "a runtime Lua error has occured with the following error message:\n  " << std::endl;
 	std::string k = lua_tostring(state, lua_gettop(state)) ;
-	cerr << k << std::endl;
+	PRINT_ERROR << k << std::endl;
 	lua_pop(state, 1);
 }
 
 
 
-void ScriptEngine::HandleCastError(luabind::cast_failed& err) {
+void ScriptEngine::HandleCastError(const luabind::cast_failed& err) {
 	PRINT_ERROR << "the return value of a Lua function call could not be successfully converted "
 		<< "to the specified C++ type: " << err.what() << std::endl;
 }
@@ -96,7 +95,7 @@ void ScriptEngine::HandleCastError(luabind::cast_failed& err) {
 void ScriptEngine::_AddOpenFile(ScriptDescriptor* sd) {
 	// NOTE: This function assumes that the file is not already open
 
-	_open_files.insert(make_pair(sd->_filename, sd));
+	_open_files.insert(std::make_pair(sd->_filename, sd));
 	// Add the lua_State to the list of opened lua states if it is not already present
 	if (sd->GetAccessMode() == SCRIPT_READ || sd->GetAccessMode() == SCRIPT_MODIFY) {
 		ReadScriptDescriptor* rsd = dynamic_cast<ReadScriptDescriptor*>(sd);

@@ -19,13 +19,9 @@
 #include <QTableWidgetItem>
 #include <QScrollBar>
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_script;
 using namespace hoa_video;
-
-
 
 namespace hoa_editor {
 
@@ -1658,7 +1654,7 @@ void EditorScrollArea::Resize(int width, int height) {
 
 
 
-vector<vector<int32> >& EditorScrollArea::GetCurrentLayer() {
+std::vector<std::vector<int32> >& EditorScrollArea::GetCurrentLayer() {
 	return _map->GetLayers(_map->GetContext())[_layer_id].tiles;
 }
 
@@ -1874,7 +1870,7 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt) {
 
 
 bool EditorScrollArea::contentsMouseReleaseEvent(QMouseEvent *evt) {
-	vector<int32>::iterator it;    // used to iterate over an entire layer
+	std::vector<int32>::iterator it;    // used to iterate over an entire layer
 
 	// get reference to Editor so we can access the undo stack
 	Editor* editor = static_cast<Editor*> (topLevelWidget());
@@ -2151,7 +2147,7 @@ void EditorScrollArea::_DeleteTile(int32 index_x, int32 index_y) {
 
 
 void EditorScrollArea::_AutotileRandomize(int32& tileset_num, int32& tile_index) {
-	map<int, string>::iterator it = _map->tilesets[tileset_num]->
+	std::map<int, std::string>::iterator it = _map->tilesets[tileset_num]->
 		autotileability.find(tile_index);
 
 	if (it != _map->tilesets[tileset_num]->autotileability.end())
@@ -2165,7 +2161,7 @@ void EditorScrollArea::_AutotileRandomize(int32& tileset_num, int32& tile_index)
 		read_data.OpenTable(it->second);
 		int32 random_index = RandomBoundedInteger(1, static_cast<int32>(read_data.GetTableSize()));
 		read_data.OpenTable(random_index);
-		string tileset_name = read_data.ReadString(1);
+		std::string tileset_name = read_data.ReadString(1);
 		tile_index = read_data.ReadInt(2);
 		read_data.CloseTable();
 		tileset_num = _map->tileset_names.indexOf(
@@ -2180,7 +2176,7 @@ void EditorScrollArea::_AutotileRandomize(int32& tileset_num, int32& tile_index)
 
 
 
-void EditorScrollArea::_AutotileTransitions(int32& tileset_num, int32& tile_index, const string tile_group) {
+void EditorScrollArea::_AutotileTransitions(int32& tileset_num, int32& tile_index, const std::string& tile_group) {
 	/*
 	// These 2 vectors have a one-to-one correspondence. They should always
 	// contain 8 entries.
@@ -2379,8 +2375,8 @@ void EditorScrollArea::_AutotileTransitions(int32& tileset_num, int32& tile_inde
 
 
 
-TRANSITION_PATTERN_TYPE EditorScrollArea::_CheckForTransitionPattern(const string current_group,
-	const vector<string>& surrounding_groups, string& border_group)
+TRANSITION_PATTERN_TYPE EditorScrollArea::_CheckForTransitionPattern(const std::string& current_group,
+	const std::vector<std::string>& surrounding_groups, std::string& border_group)
 {
 	// Assumes that surrounding_groups always has 8 entries. Well, it's an error if it doesn't,
 	// and technically should never happen.

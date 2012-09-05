@@ -303,7 +303,7 @@ public:
 	*** \param option_index The index of the option to append the image element to
 	*** \param filename The name of the image file to load for use in this option
 	**/
-	void AddOptionElementImage(uint32 option_index, std::string& image_filename);
+	void AddOptionElementImage(uint32 option_index, const std::string& image_filename);
 
 	/** \brief Appends an image element to an existing option
 	*** \param option_index The index of the option to append the image element to

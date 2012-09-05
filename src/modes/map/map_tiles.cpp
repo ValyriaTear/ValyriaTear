@@ -206,11 +206,11 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 		// Initialize this context by making a copy of the base map context first, as most contexts re-use many of the same tiles from the base context
 		// If non-inheriting context, start with empty map!
 		if (context_inherits[ctxt] > -1) {
-			_tile_grid.insert(make_pair(this_context,
+			_tile_grid.insert(std::make_pair(this_context,
 										_tile_grid[GetContextMaskFromConstextId(context_inherits[ctxt])]));
 		}
 		else {
-			_tile_grid.insert(make_pair(this_context, Context()));
+			_tile_grid.insert(std::make_pair(this_context, Context()));
 
 			// Resize the context to have the same size as the base one
 			// The number of layers

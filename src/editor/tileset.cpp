@@ -21,14 +21,11 @@
 
 #include <QHeaderView>
 
-using namespace std;
 using namespace hoa_video;
 using namespace hoa_script;
 
-
 namespace hoa_editor
 {
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Tileset class -- all functions
@@ -85,7 +82,7 @@ bool Tileset::New(const QString& img_filename, bool one_image)
 		tiles.clear();
 		tiles.resize(1);
 		tiles[0].SetDimensions(16.0f, 16.0f);
-		if (tiles[0].Load(string(img_filename.toAscii()), 16, 16) == false)
+		if (tiles[0].Load(std::string(img_filename.toAscii()), 16, 16) == false)
 		{
 			qDebug("Failed to load tileset image: %s",
 			       img_filename.toStdString().c_str());
@@ -99,7 +96,7 @@ bool Tileset::New(const QString& img_filename, bool one_image)
 		for (uint32 i = 0; i < 256; i++)
 			tiles[i].SetDimensions(1.0f, 1.0f);
 		if (ImageDescriptor::LoadMultiImageFromElementGrid(tiles,
-				string(img_filename.toAscii()), 16, 16) == false)
+				std::string(img_filename.toAscii()), 16, 16) == false)
 		{
 			qDebug("Failed to load tileset image: %s",
 			       img_filename.toStdString().c_str());
@@ -108,10 +105,10 @@ bool Tileset::New(const QString& img_filename, bool one_image)
 	}
 
 	// Initialize the rest of the tileset data
-	vector<int32> blank_entry(4, 0);
+	std::vector<int32> blank_entry(4, 0);
 	for (uint32 i = 0; i < 16; i++)
 		for (uint32 j = 0; j < 16; j++)
-			walkability.insert(make_pair(i * 16 + j, blank_entry));
+			walkability.insert(std::make_pair(i * 16 + j, blank_entry));
 
 	autotileability.clear();
 	_animated_tiles.clear();
@@ -141,7 +138,7 @@ bool Tileset::Load(const QString& set_name, bool one_image)
 		tiles.clear();
 		tiles.resize(1);
 		tiles[0].SetDimensions(16.0f, 16.0f);
-		if (tiles[0].Load(string(img_filename.toAscii()), 16, 16) == false)
+		if (tiles[0].Load(std::string(img_filename.toAscii()), 16, 16) == false)
 			return false;
 	}
 	else
@@ -151,25 +148,25 @@ bool Tileset::Load(const QString& set_name, bool one_image)
 		for (uint32 i = 0; i < 256; i++)
 			tiles[i].SetDimensions(1.0f, 1.0f);
 		if (ImageDescriptor::LoadMultiImageFromElementGrid(tiles,
-				string(img_filename.toAscii()), 16, 16) == false)
+				std::string(img_filename.toAscii()), 16, 16) == false)
 			return false;
 	}
 
 	// Set up for reading the tileset definition file.
 	ReadScriptDescriptor read_data;
-	if (read_data.OpenFile(string(dat_filename.toAscii()), true) == false)
+	if (read_data.OpenFile(std::string(dat_filename.toAscii()), true) == false)
 	{
 		_initialized = false;
 		return false;
 	}
 
-	read_data.OpenTable(string(tileset_name.toAscii()));
+	read_data.OpenTable(std::string(tileset_name.toAscii()));
 
 	// Read in autotiling information.
 	if (read_data.DoesTableExist("autotiling") == true)
 	{
 		// Contains the keys (indeces, if you will) of this table's entries
-		vector<int32> keys;
+		std::vector<int32> keys;
 		uint32 table_size = read_data.GetTableSize("autotiling");
 		read_data.OpenTable("autotiling");
 
@@ -182,7 +179,7 @@ bool Tileset::Load(const QString& set_name, bool one_image)
 	// Read in walkability information.
 	if (read_data.DoesTableExist("walkability") == true)
 	{
-		vector<int32> vect;  // used to read in vectors from the data file
+		std::vector<int32> vect;  // used to read in vectors from the data file
 		read_data.OpenTable("walkability");
 
 		for (int32 i = 0; i < 16; i++)
@@ -218,8 +215,8 @@ bool Tileset::Load(const QString& set_name, bool one_image)
 
 		for (uint32 i = 1; i <= table_size; i++)
 		{
-			_animated_tiles.push_back(vector<AnimatedTileData>());
-			vector<AnimatedTileData>& tiles = _animated_tiles.back();
+			_animated_tiles.push_back(std::vector<AnimatedTileData>());
+			std::vector<AnimatedTileData>& tiles = _animated_tiles.back();
 			// Calculate loop end: an animated tile is comprised of a tile id
 			// and a time, so the loop end is really half the table size.
 			uint32 tile_count = read_data.GetTableSize(i) / 2;
@@ -246,8 +243,8 @@ bool Tileset::Load(const QString& set_name, bool one_image)
 
 bool Tileset::Save()
 {
-	string dat_filename = string(CreateDataFilename(tileset_name).toAscii());
-	string img_filename = string(CreateImageFilename(tileset_name).toAscii());
+	std::string dat_filename = std::string(CreateDataFilename(tileset_name).toAscii());
+	std::string img_filename = std::string(CreateImageFilename(tileset_name).toAscii());
 	WriteScriptDescriptor write_data;
 
 	if (write_data.OpenFile(dat_filename) == false)
@@ -268,7 +265,7 @@ bool Tileset::Save()
 	if (autotileability.empty() == false)
 	{
 	 	write_data.BeginTable("autotiling");
-	 	for (map<int, string>::iterator it = autotileability.begin();
+	 	for (std::map<int, std::string>::iterator it = autotileability.begin();
 		     it != autotileability.end(); it++)
  			write_data.WriteString((*it).first, (*it).second);
  		write_data.EndTable();
@@ -293,7 +290,7 @@ bool Tileset::Save()
 	{
 		write_data.WriteComment("The animated tiles table has one row per animated tile, with each entry in a row indicating which tile in the tileset is the next part of the animation, followed by the time in ms that the tile will be displayed for.");
  		write_data.BeginTable("animated_tiles");
-		vector<uint32> vect;
+		std::vector<uint32> vect;
  		for (uint32 anim_tile = 0; anim_tile < _animated_tiles.size(); anim_tile++)
 		{
  			for (uint32 i = 0; i < _animated_tiles[anim_tile].size(); i++)
@@ -309,8 +306,8 @@ bool Tileset::Save()
 
 	if (write_data.IsErrorDetected() == true)
 	{
-		cerr << "Errors were detected when saving tileset file. The errors include: " << std::endl;
-		cerr << write_data.GetErrorMessages() << std::endl;
+		PRINT_ERROR << "Errors were detected when saving tileset file. The errors include: "
+			<< std::endl << write_data.GetErrorMessages() << std::endl;
 		write_data.CloseFile();
 		return false;
 	} // errors were found

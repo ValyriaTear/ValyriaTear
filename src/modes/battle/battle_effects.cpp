@@ -193,7 +193,7 @@ EffectsSupervisor::EffectsSupervisor(BattleActor* actor) :
 
 
 EffectsSupervisor::~EffectsSupervisor() {
-	for (map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++)
+	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++)
 		delete (i->second);
 	_active_status_effects.clear();
 }
@@ -205,7 +205,7 @@ void EffectsSupervisor::Update() {
 	// container. To avoid problems with container resizing, we use a seperate container to iterate through and process updates for all effects,
 	// to ensure that we don't get any bad iterator references and that we update each effect only once.
 	std::vector<BattleStatusEffect*> effects;
-	for (map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
+	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
 		effects.push_back(i->second);
 	}
 
@@ -239,7 +239,7 @@ void EffectsSupervisor::Update() {
 
 
 void EffectsSupervisor::Draw() {
-	for (map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
+	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
 		i->second->GetIconImage()->Draw();
 		VideoManager->MoveRelative(25.0f, 0.0f);
 	}
@@ -248,7 +248,7 @@ void EffectsSupervisor::Draw() {
 
 
 bool EffectsSupervisor::IsOppositeStatusActive(GLOBAL_STATUS status) {
-	for (map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
+	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
 		if (i->second->GetOppositeEffect() == status) {
 			return true;
 		}
@@ -259,10 +259,10 @@ bool EffectsSupervisor::IsOppositeStatusActive(GLOBAL_STATUS status) {
 
 
 
-void EffectsSupervisor::GetAllStatusEffects(vector<GLOBAL_STATUS>& all_status_effects) {
+void EffectsSupervisor::GetAllStatusEffects(std::vector<GLOBAL_STATUS>& all_status_effects) {
 	all_status_effects.empty();
 
-	for (map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
+	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
 		all_status_effects.push_back(i->first);
 	}
 }
@@ -274,7 +274,7 @@ void EffectsSupervisor::RemoveAllStatus() {
 
 	// Calls to _RemoveStatus() alter the _active_status_effects container. To avoid problems with iterating through the _active_status_effects map during
 	// the removal calls, we make a temporary copy of all the status effects and operate on that
-	for (map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
+	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
 		effects.push_back(i->second);
 	}
 
@@ -316,7 +316,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 	BattleStatusEffect* active_effect = NULL;
 
 	// Note: We should never run into the case where both the status and its opposite status are active simultaneously
-	for (map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
+	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
 		if (i->second->GetType() == status) {
 			status_active = true;
 			active_effect = i->second;
@@ -424,7 +424,7 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
 	}
 
 	BattleStatusEffect* new_effect = new BattleStatusEffect(status, intensity, _actor);
-	_active_status_effects.insert(make_pair(status, new_effect));
+	_active_status_effects.insert(std::make_pair(status, new_effect));
 
 	// Call the apply script function now that this new status is active on the actor
 	ScriptCallFunction<void>(*(new_effect->GetApplyFunction()), new_effect);

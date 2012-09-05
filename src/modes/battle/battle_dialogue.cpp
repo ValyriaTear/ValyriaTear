@@ -115,7 +115,7 @@ DialogueSupervisor::DialogueSupervisor() :
 
 DialogueSupervisor::~DialogueSupervisor() {
 	// Delete all dialogues
-	for (map<uint32, BattleDialogue*>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
+	for (std::map<uint32, BattleDialogue*>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
 		delete i->second;
 	}
 	_dialogues.clear();
@@ -166,7 +166,7 @@ void DialogueSupervisor::AddDialogue(BattleDialogue* dialogue) {
 		return;
 	}
 	else {
-		_dialogues.insert(make_pair(dialogue->GetDialogueID(), dialogue));
+		_dialogues.insert(std::make_pair(dialogue->GetDialogueID(), dialogue));
 	}
 }
 

@@ -903,7 +903,7 @@ void EventSupervisor::RegisterEvent(MapEvent* new_event) {
 		return;
 	}
 
-	_all_events.insert(make_pair(new_event->_event_id, new_event));
+	_all_events.insert(std::make_pair(new_event->_event_id, new_event));
 }
 
 void EventSupervisor::StartEvent(const std::string& event_id) {

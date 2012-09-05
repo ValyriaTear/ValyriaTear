@@ -364,7 +364,7 @@ FinishVictoryAssistant::~FinishVictoryAssistant() {
 	}
 
 	// Add all the objects that were dropped by enemies to the party's inventory
-	for (map<GlobalObject*, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+	for (std::map<GlobalObject*, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
 		GlobalManager->AddToInventory(i->first->GetID(), i->second);
 	}
 
@@ -434,7 +434,7 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 			}
 			else
 			{
-				_objects_dropped.insert(make_pair(objects[j], 1));
+				_objects_dropped.insert(std::make_pair(objects[j], 1));
 			}
 		}
 	}
@@ -590,7 +590,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects() {
 
 
 void FinishVictoryAssistant::_CreateObjectList() {
-	for (map<hoa_global::GlobalObject*, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+	for (std::map<hoa_global::GlobalObject*, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
 		GlobalObject* obj = i->first;
 		_object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
 			+ obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));

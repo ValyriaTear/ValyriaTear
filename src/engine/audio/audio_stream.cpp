@@ -23,8 +23,6 @@
 
 #include <cstdlib>
 
-using namespace std;
-
 namespace hoa_audio {
 
 namespace private_audio {

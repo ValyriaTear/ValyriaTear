@@ -981,7 +981,7 @@ void SkillsWindow::_UpdateSkillList() {
 	delete all_skills;
 }
 
-void SkillsWindow::_BuildMenuBattleSkillLists(vector<GlobalSkill *> *skill_list,
+void SkillsWindow::_BuildMenuBattleSkillLists(std::vector<GlobalSkill *> *skill_list,
 		vector<GlobalSkill *> *field, vector<GlobalSkill *> *battle, vector<GlobalSkill *> *all)
 {
 	vector<GlobalSkill *>::iterator i;

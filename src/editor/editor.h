@@ -391,8 +391,8 @@ private:
 	//! \param tile_group The autotileable group that the current tile belongs to.
 	//{@
 	void _AutotileRandomize(int32& tileset_num, int32& tile_index);
-	void _AutotileTransitions(int32& tileset_num, int32& tile_index, const std::string tile_group);
-	TRANSITION_PATTERN_TYPE _CheckForTransitionPattern(const std::string current_group,
+	void _AutotileTransitions(int32& tileset_num, int32& tile_index, const std::string& tile_group);
+	TRANSITION_PATTERN_TYPE _CheckForTransitionPattern(const std::string& current_group,
 		const std::vector<std::string>& surrounding_groups, std::string& border_group);
 	//@}
 

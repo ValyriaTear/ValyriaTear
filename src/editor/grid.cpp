@@ -132,7 +132,7 @@ Grid::Grid(QWidget* parent, const QString& name, uint32 width, uint32 height) :
 
 Grid::~Grid()
 {
-	for (vector<Tileset*>::iterator it = tilesets.begin();
+	for (std::vector<Tileset*>::iterator it = tilesets.begin();
 	     it != tilesets.end(); it++)
 		delete *it;
 	VideoManager->SingletonDestroy();
@@ -407,7 +407,7 @@ bool Grid::LoadMap()
 				return false;
 			}
 
-			for (vector<int32>::iterator it = vect.begin(); it != vect.end(); ++it)
+			for (std::vector<int32>::iterator it = vect.begin(); it != vect.end(); ++it)
 				_tile_contexts[0].layers[layer_id].tiles[y].push_back(*it);
 			vect.clear();
 		} // iterate through the rows of the layer

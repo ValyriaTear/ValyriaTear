@@ -23,8 +23,6 @@
 #include "audio_input.h"
 #include <SDL/SDL_endian.h>
 
-using namespace std;
-
 namespace hoa_audio {
 
 namespace private_audio {

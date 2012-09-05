@@ -133,7 +133,7 @@ ShopMedia::ShopMedia() {
 
 
 ShopMedia::~ShopMedia() {
-	for (map<string, SoundDescriptor*>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
+	for (std::map<string, SoundDescriptor*>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
 		delete i->second;
 	_sounds.clear();
 }
@@ -786,7 +786,7 @@ void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 meta_
 void ShopObjectViewer::_SetElementalIcons(const map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& elemental_effects) {
 	uint32 index = 0;
 
-	for (map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>::const_iterator i = elemental_effects.begin(); i != elemental_effects.end(); i++) {
+	for (std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>::const_iterator i = elemental_effects.begin(); i != elemental_effects.end(); i++) {
 		switch (i->first) {
 			case GLOBAL_ELEMENTAL_FIRE:
 				index = 0;
@@ -1147,7 +1147,7 @@ void ShopMode::_UpdateAvailableObjectsToSell() {
 			ShopObject *new_shop_object = new ShopObject(it->second);
 			new_shop_object->IncrementOwnCount(it->second->GetCount());
 			new_shop_object->SetPricing(GetBuyPriceLevel(), GetSellPriceLevel());
-			_available_sell.insert(make_pair(it->second->GetID(), new_shop_object));
+			_available_sell.insert(std::make_pair(it->second->GetID(), new_shop_object));
 		}
 	}
 }
@@ -1358,7 +1358,7 @@ void ShopMode::AddObjectToBuyList(ShopObject* object) {
 
 	uint32 object_id = object->GetObject()->GetID();
 	pair<map<uint32, ShopObject*>::iterator, bool> ret_val;
-	ret_val = _buy_list.insert(make_pair(object_id, object));
+	ret_val = _buy_list.insert(std::make_pair(object_id, object));
 	if (ret_val.second == false) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in buy list" << std::endl;
 	}
@@ -1400,7 +1400,7 @@ void ShopMode::AddObjectToSellList(ShopObject* object) {
 
 	uint32 object_id = object->GetObject()->GetID();
 	pair<map<uint32, ShopObject*>::iterator, bool> ret_val;
-	ret_val = _sell_list.insert(make_pair(object_id, object));
+	ret_val = _sell_list.insert(std::make_pair(object_id, object));
 	if (ret_val.second == false) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in sell list" << std::endl;
 	}
@@ -1431,9 +1431,9 @@ void ShopMode::RemoveObjectFromSellList(ShopObject* object) {
 
 
 void ShopMode::ClearOrder() {
-	for (map<uint32, ShopObject*>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++)
+	for (std::map<uint32, ShopObject*>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++)
 		i->second->ResetBuyCount();
-	for (map<uint32, ShopObject*>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++)
+	for (std::map<uint32, ShopObject*>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++)
 		i->second->ResetSellCount();
 
 	_buy_list.clear();
@@ -1451,7 +1451,7 @@ void ShopMode::CompleteTransaction() {
 	uint32 id = 0;
 
 	// Add all objects on the buy list to inventory and update shop object status
-	for (map<uint32, ShopObject*>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++) {
+	for (std::map<uint32, ShopObject*>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++) {
 		count = i->second->GetBuyCount();
 		id = i->second->GetObject()->GetID();
 
@@ -1468,7 +1468,7 @@ void ShopMode::CompleteTransaction() {
 	_buy_list.clear();
 
 	// Remove all objects on the sell list from the inventory and update shop object status
-	for (map<uint32, ShopObject*>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++) {
+	for (std::map<uint32, ShopObject*>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++) {
 		count = i->second->GetSellCount();
 		id = i->second->GetObject()->GetID();
 
@@ -1639,7 +1639,7 @@ void ShopMode::AddObject(uint32 object_id, uint32 stock) {
 	{
 		ShopObject *new_shop_object = new ShopObject(new_object);
 		new_shop_object->IncrementStockCount(stock);
-		_available_buy.insert(make_pair(object_id, new_shop_object));
+		_available_buy.insert(std::make_pair(object_id, new_shop_object));
 	}
 }
 

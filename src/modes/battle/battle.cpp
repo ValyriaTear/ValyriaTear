@@ -700,7 +700,7 @@ void BattleMode::NotifyCharacterCommandComplete(BattleCharacter* character) {
 
 
 void BattleMode::NotifyActorReady(BattleActor* actor) {
-	for (list<BattleActor*>::iterator i = _ready_queue.begin(); i != _ready_queue.end(); i++) {
+	for (std::list<BattleActor*>::iterator i = _ready_queue.begin(); i != _ready_queue.end(); i++) {
 		if (actor == (*i)) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "actor was already present in the ready queue" << std::endl;
 			return;

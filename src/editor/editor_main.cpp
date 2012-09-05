@@ -25,20 +25,15 @@
 	#undef main
 #endif
 
-using namespace std;
-
 using namespace hoa_script;
-
 using namespace hoa_editor;
-
-
 
 int main(int argc, char **argv) {
 #ifndef _WIN32
 #ifndef __MACH__
 	// Look for data files in DATADIR only if they are not available in the
 	// current directory.
-	if (ifstream("./dat/config/settings.lua") == NULL) {
+	if (std::ifstream("./dat/config/settings.lua") == NULL) {
 		if (chdir(PKG_DATADIR) != 0) {
 			PRINT_ERROR << "failed to change directory to data location" << std::endl;
 		}
@@ -47,7 +42,7 @@ int main(int argc, char **argv) {
 #endif
 
 #ifdef __MACH__
-	string path;
+	std::string path;
 	path = argv[0];
 	// remove the binary name
 	path.erase(path.find_last_of('/'));

@@ -175,7 +175,7 @@ public:
 	*** \return False and print an error message on failure. Otherwise return true upon success.
 	*** \note This function <b>must</b> be called before you attempt to draw the window.
 	**/
-	bool Create(std::string skin_name, float w, float h, int32 visible_flags = VIDEO_MENU_EDGE_ALL, int32 shared_flags = 0);
+	bool Create(const std::string& skin_name, float w, float h, int32 visible_flags = VIDEO_MENU_EDGE_ALL, int32 shared_flags = 0);
 
 	//! \note This version of the create function does not take a skin_name argument. It uses the default menu skin.
 	bool Create(float w, float h, int32 visible_flags = VIDEO_MENU_EDGE_ALL, int32 shared_flags = 0);
@@ -262,7 +262,7 @@ public:
 		{ _edge_shared_flags = flags; _RecreateImage(); }
 
 	//! \note This call is somewhat expensive since it has to recreate the menu window image.
-	void SetMenuSkin(std::string& skin_name);
+	void SetMenuSkin(const std::string& skin_name);
 
 	void SetDisplayMode(VIDEO_MENU_DISPLAY_MODE mode);
 	//@}

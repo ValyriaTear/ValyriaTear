@@ -20,7 +20,6 @@
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 
-using namespace std;
 using namespace hoa_video;
 
 namespace hoa_mode_manager {
@@ -52,7 +51,7 @@ EffectSupervisor::EffectSupervisor()
 }
 
 
-void EffectSupervisor::EnableAmbientOverlay(const string &filename,
+void EffectSupervisor::EnableAmbientOverlay(const std::string& filename,
 											float x_speed, float y_speed,
 											bool parallax) {
 	// Note: The StillImage class handles clearing an image

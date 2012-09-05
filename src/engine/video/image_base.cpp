@@ -26,7 +26,6 @@ extern "C" {
 
 #include <SDL_image.h>
 
-using namespace std;
 using namespace hoa_utils;
 
 namespace hoa_video {
@@ -58,7 +57,7 @@ ImageMemory::~ImageMemory() {
 
 
 
-bool ImageMemory::LoadImage(const string& filename) {
+bool ImageMemory::LoadImage(const std::string& filename) {
 	if (pixels != NULL) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon function invocation" << std::endl;
 		free(pixels);
@@ -145,7 +144,7 @@ bool ImageMemory::LoadImage(const string& filename) {
 
 
 
-bool ImageMemory::SaveImage(const string& filename, bool png_image) {
+bool ImageMemory::SaveImage(const std::string& filename, bool png_image) {
 	if (pixels == NULL) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was NULL upon function invocation for file: " << filename << std::endl;
 		return false;
@@ -476,7 +475,7 @@ bool BaseTexture::RemoveReference() {
 // ImageTexture class
 // -----------------------------------------------------------------------------
 
-ImageTexture::ImageTexture(const string& filename_, const string& tags_, int32 width_, int32 height_) :
+ImageTexture::ImageTexture(const std::string& filename_, const std::string& tags_, int32 width_, int32 height_) :
 	BaseTexture(width_, height_),
 	filename(filename_),
 	tags(tags_)
@@ -491,7 +490,7 @@ ImageTexture::ImageTexture(const string& filename_, const string& tags_, int32 w
 
 
 
-ImageTexture::ImageTexture(TexSheet* texture_sheet_, const string& filename_, const string& tags_, int32 width_, int32 height_) :
+ImageTexture::ImageTexture(TexSheet* texture_sheet_, const std::string& filename_, const std::string& tags_, int32 width_, int32 height_) :
 	BaseTexture(texture_sheet_, width_, height_),
 	filename(filename_),
 	tags(tags_)

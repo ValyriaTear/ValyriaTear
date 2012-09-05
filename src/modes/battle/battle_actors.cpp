@@ -234,7 +234,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 		}
 		else {
 			vector<pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
-			for (vector<pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); i++) {
+			for (std::vector<pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); i++) {
 				if (RandomFloat(0.0f, 100.0f) <= i->second) {
 					RegisterStatusChange(i->first, GLOBAL_INTENSITY_POS_LESSER);
 				}
@@ -865,7 +865,7 @@ BattleEnemy::BattleEnemy(GlobalEnemy* enemy) :
 	_sprite_animation_alias("idle"),
 	_sprite_alpha(1.0f)
 {
-	for (map<uint32, GlobalSkill*>::const_iterator i = (_global_enemy->GetSkills()).begin(); i != (_global_enemy->GetSkills()).end(); i++) {
+	for (std::map<uint32, GlobalSkill*>::const_iterator i = (_global_enemy->GetSkills()).begin(); i != (_global_enemy->GetSkills()).end(); i++) {
 		_enemy_skills.push_back(i->second);
 	}
 }

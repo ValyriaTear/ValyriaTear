@@ -23,7 +23,6 @@
 #include "audio.h"
 #include "audio_descriptor.h"
 
-using namespace std;
 using namespace hoa_audio::private_audio;
 
 namespace hoa_audio {
@@ -146,7 +145,7 @@ AudioDescriptor::AudioDescriptor(const AudioDescriptor& copy) :
 	}
 }
 
-bool AudioDescriptor::LoadAudio(const string& filename, AUDIO_LOAD load_type, uint32 stream_buffer_size) {
+bool AudioDescriptor::LoadAudio(const std::string& filename, AUDIO_LOAD load_type, uint32 stream_buffer_size) {
 	if (!AUDIO_ENABLE)
 		return true;
 
@@ -159,9 +158,8 @@ bool AudioDescriptor::LoadAudio(const string& filename, AUDIO_LOAD load_type, ui
 		return false;
 	}
 	// Convert the file extension to uppercase and use it to create the proper input type
-	string file_extension = filename.substr(filename.size() - 3, 3);
-	for (string::iterator i = file_extension.begin(); i != file_extension.end(); i++)
-		*i = toupper(*i);
+	std::string file_extension = filename.substr(filename.size() - 3, 3);
+	file_extension = hoa_utils::Upcase(file_extension);
 
 	// Based on the extension of the file, load properly one
 	if (file_extension.compare("WAV") == 0) {
@@ -547,7 +545,7 @@ void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm) {
 		return;
 
 	// Check for duplicate entries
-	std::list<hoa_mode_manager::GameMode*>::const_iterator it = _owners.begin();
+	std::vector<hoa_mode_manager::GameMode*>::const_iterator it = _owners.begin();
 	for (; it != _owners.end(); ++it) {
 		if (*it == gm)
 			return;
@@ -556,8 +554,8 @@ void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm) {
 	_owners.push_back(gm);
 }
 
-void AudioDescriptor::AddOwners(std::list<hoa_mode_manager::GameMode*>& owners) {
-	std::list<hoa_mode_manager::GameMode*>::const_iterator it = owners.begin();
+void AudioDescriptor::AddOwners(std::vector<hoa_mode_manager::GameMode*>& owners) {
+	std::vector<hoa_mode_manager::GameMode*>::const_iterator it = owners.begin();
 
 	for(; it != owners.end(); ++it) {
 		AddOwner(*it);
@@ -573,7 +571,7 @@ bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm) {
 		return false;
 
 	// Check for duplicate entries
-	std::list<hoa_mode_manager::GameMode*>::iterator it = _owners.begin();
+	std::vector<hoa_mode_manager::GameMode*>::iterator it = _owners.begin();
 	for (; it != _owners.end();) {
 		if (*it != gm) {
 			++it;
@@ -601,7 +599,7 @@ void AudioDescriptor::FadeOut(float time) {
 
 void AudioDescriptor::RemoveEffects() {
 	// Delete any active audio effects for the given audio descriptor
-	for (std::list<AudioEffect*>::iterator it = _audio_effects.begin();
+	for (std::vector<AudioEffect*>::iterator it = _audio_effects.begin();
 			it != _audio_effects.end(); ++it) {
 		if (*it)
 		    delete (*it);
@@ -610,7 +608,7 @@ void AudioDescriptor::RemoveEffects() {
 }
 
 void AudioDescriptor::DEBUG_PrintInfo() {
-	cout << "*** Audio Descriptor Information ***" << std::endl;
+	PRINT_WARNING << "*** Audio Descriptor Information ***" << std::endl;
 
 	if (_input == NULL) {
 		PRINT_WARNING << "no audio data loaded" << std::endl;
@@ -641,19 +639,19 @@ void AudioDescriptor::DEBUG_PrintInfo() {
 			break;
 	}
 
-	cout << "Filename:          " << _input->GetFilename() << std::endl;
-	cout << "Channels:          " << num_channels << std::endl;
-	cout << "Bits Per Sample:   " << bits_per_sample << std::endl;
-	cout << "Frequency:         " << _input->GetSamplesPerSecond() << std::endl;
-	cout << "Samples:           " << _input->GetTotalNumberSamples() << std::endl;
-	cout << "Time:              " << _input->GetPlayTime() << std::endl;
+	PRINT_WARNING << "Filename:          " << _input->GetFilename() << std::endl;
+	PRINT_WARNING << "Channels:          " << num_channels << std::endl;
+	PRINT_WARNING << "Bits Per Sample:   " << bits_per_sample << std::endl;
+	PRINT_WARNING << "Frequency:         " << _input->GetSamplesPerSecond() << std::endl;
+	PRINT_WARNING << "Samples:           " << _input->GetTotalNumberSamples() << std::endl;
+	PRINT_WARNING << "Time:              " << _input->GetPlayTime() << std::endl;
 
 	if (_stream != NULL) {
-		cout << "Audio load type:    streamed" << std::endl;
-		cout << "Stream buffer size (samples): " << _stream_buffer_size << std::endl;
+		PRINT_WARNING << "Audio load type:    streamed" << std::endl;
+		PRINT_WARNING << "Stream buffer size (samples): " << _stream_buffer_size << std::endl;
 	}
 	else {
-		cout << "Audio load type:    static" << std::endl;
+		PRINT_WARNING << "Audio load type:    static" << std::endl;
 	}
 } // void AudioDescriptor::DEBUG_PrintInfo()
 
@@ -698,7 +696,7 @@ void AudioDescriptor::_Update() {
 	}
 
 	 // Update all registered audio effects
-	for (std::list<AudioEffect*>::iterator it = _audio_effects.begin(); it != _audio_effects.end();) {
+	for (std::vector<AudioEffect*>::iterator it = _audio_effects.begin(); it != _audio_effects.end();) {
 		(*it)->Update();
 
 		// If the effect is finished, delete it
@@ -886,7 +884,7 @@ SoundDescriptor::SoundDescriptor() :
 
 
 SoundDescriptor::~SoundDescriptor() {
-	for (list<SoundDescriptor*>::iterator i = AudioManager->_registered_sounds.begin();
+	for (std::vector<SoundDescriptor*>::iterator i = AudioManager->_registered_sounds.begin();
 		i != AudioManager->_registered_sounds.end(); i++) {
 		if (*i == this) {
 			AudioManager->_registered_sounds.erase(i);
@@ -931,7 +929,7 @@ MusicDescriptor::~MusicDescriptor() {
 		AudioManager->_active_music = NULL;
 	}
 
-	for (list<MusicDescriptor*>::iterator i = AudioManager->_registered_music.begin();
+	for (std::vector<MusicDescriptor*>::iterator i = AudioManager->_registered_music.begin();
 		i != AudioManager->_registered_music.end(); i++) {
 		if (*i == this) {
 			AudioManager->_registered_music.erase(i);

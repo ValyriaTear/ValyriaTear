@@ -17,16 +17,12 @@
 
 #include "engine/script/script_read.h"
 
-using namespace std;
-
 using namespace hoa_utils;
-
 using namespace hoa_script;
 using namespace hoa_global;
 using namespace hoa_editor;
 
-
-SkillEditor::SkillEditor(QWidget *parent, const QString &name)
+SkillEditor::SkillEditor(QWidget *parent, const QString& name)
 : QWidget(parent, static_cast<const char *>(name))
 {
 	setCaption("Skill Editor");

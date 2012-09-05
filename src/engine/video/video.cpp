@@ -19,8 +19,6 @@
 
 #include "engine/system.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_video::private_video;
 
@@ -220,8 +218,8 @@ bool VideoEngine::FinalizeInitialization() {
 	}
 
 	if (SetDefaultCursor("img/menus/cursor.png") == false) {
-		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: problem loading default menu cursor" << std::endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< "VIDEO WARNING: problem loading default menu cursor" << std::endl;
 	}
 
 	// Prepare the screen for rendering
@@ -806,7 +804,7 @@ void VideoEngine::MakeScreenshot(const std::string& filename) {
 std::string VideoEngine::_CreateTempFilename(const std::string &extension)
 {
 	// figure out the temp filename to return
-	string file_name = "/tmp/"APPSHORTNAME;
+	std::string file_name = "/tmp/"APPSHORTNAME;
 	file_name += _next_temp_file;
 	file_name += extension;
 
@@ -823,8 +821,8 @@ std::string VideoEngine::_CreateTempFilename(const std::string &extension)
 		{
 			if(digit==0)
 			{
-				if(VIDEO_DEBUG)
-					cerr << "VIDEO ERROR: _nextTempFile went past 'zzzzzzzz'" << std::endl;
+				IF_PRINT_WARNING(VIDEO_DEBUG)
+					<< "VIDEO ERROR: _nextTempFile went past 'zzzzzzzz'" << std::endl;
 				return file_name;
 			}
 
@@ -952,7 +950,7 @@ void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const C
 	float x_max = _current_context.coordinate_system.GetRight();
 	float y_max = _current_context.coordinate_system.GetBottom();
 
-	vector<GLfloat> vertices;
+	std::vector<GLfloat> vertices;
 	int32 num_vertices = 0;
 	for (; x <= x_max; x += x_step) {
 		vertices.push_back(x);

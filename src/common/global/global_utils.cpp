@@ -18,17 +18,13 @@
 
 #include "engine/system.h"
 
-using namespace std;
-
 using namespace hoa_utils;
-
 using namespace hoa_system;
-
 using namespace hoa_global::private_global;
 
 namespace hoa_global {
 
-string GetTargetText(GLOBAL_TARGET target) {
+std::string GetTargetText(GLOBAL_TARGET target) {
 	switch (target) {
 		case GLOBAL_TARGET_SELF_POINT:
 			return Translate("Self — Point");

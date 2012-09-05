@@ -19,7 +19,6 @@
 #include "global_skills.h"
 #include "global.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_script;
@@ -153,11 +152,11 @@ bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, priva
 	try {
 		ScriptCallFunction<void>(_battle_execute_function, user, target);
 	}
-	catch (luabind::error err) {
+	catch (const luabind::error& err) {
 		ScriptManager->HandleLuaError(err);
 		return false;
 	}
-	catch (luabind::cast_failed e) {
+	catch (const luabind::cast_failed& e) {
 		ScriptManager->HandleCastError(e);
 		return false;
 	}

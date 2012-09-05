@@ -263,22 +263,28 @@ public:
 	**/
 	//@{
 	//! \brief Loads a background image with no background colors
-	bool LoadMenuSkin(std::string skin_name, std::string border_image, std::string background_image, bool make_default = false);
+	bool LoadMenuSkin(const std::string& skin_name, const std::string& border_image,
+					  const std::string& background_image, bool make_default = false);
 
 	//! \brief Loads a single background color with no background image
-	bool LoadMenuSkin(std::string skin_name, std::string border_image, hoa_video::Color background_color, bool make_default = false);
+	bool LoadMenuSkin(const std::string& skin_name, const std::string& border_image,
+					  const hoa_video::Color& background_color, bool make_default = false);
 
 	//! \brief Loads multiple multiple background colors with no background image
-	bool LoadMenuSkin(std::string skin_name, std::string border_image, hoa_video::Color top_left, hoa_video::Color top_right,
-		hoa_video::Color bottom_left, hoa_video::Color bottom_right, bool make_default = false);
+	bool LoadMenuSkin(const std::string& skin_name, const std::string& border_image,
+					  const hoa_video::Color& top_left, const hoa_video::Color& top_right,
+					  const hoa_video::Color& bottom_left, const hoa_video::Color& bottom_right, bool make_default = false);
 
 	//! \brief Loads a background image with a single background color
-	bool LoadMenuSkin(std::string skin_name, std::string border_image, std::string background_image,
-		hoa_video::Color background_color, bool make_default = false);
+	bool LoadMenuSkin(const std::string& skin_name, const std::string& border_image,
+					  const std::string& background_image,
+					  const hoa_video::Color& background_color, bool make_default = false);
 
 	//! \brief Loads a background image with multiple background colors
-	bool LoadMenuSkin(std::string skin_name, std::string border_image, std::string background_image,
-		hoa_video::Color top_left, hoa_video::Color top_right, hoa_video::Color bottom_left, hoa_video::Color bottom_right, bool make_default = false);
+	bool LoadMenuSkin(const std::string& skin_name, const std::string& border_image,
+					  const std::string& background_image,
+					  const hoa_video::Color& top_left, const hoa_video::Color& top_right,
+				      const hoa_video::Color& bottom_left, const hoa_video::Color& bottom_right, bool make_default = false);
 	//@}
 
 	/** \brief Deletes a menu skin that has been loaded
@@ -290,10 +296,10 @@ public:
 	*** and not delete the skin. Therefore, <b>before you call this function, you must delete any and all
 	*** MenuWindow objects which make use of this skin, or change the skin used by those objects</b>.
 	**/
-	void DeleteMenuSkin(std::string& skin_name);
+	void DeleteMenuSkin(const std::string& skin_name);
 
 	//! \brief Returns true if there is a menu skin avialable corresponding to the argument name
-	bool IsMenuSkinAvailable(std::string& skin_name) const;
+	bool IsMenuSkinAvailable(const std::string& skin_name) const;
 
 	/** \brief Sets the default menu skin to use from the set of pre-loaded skins
 	*** \param skin_name The name of the already loaded menu skin that should be made the default skin
@@ -302,7 +308,7 @@ public:
 	*** will occur.
 	*** \note This method will <b>not</b> change the skins of any active menu windows.
 	**/
-	void SetDefaultMenuSkin(std::string& skin_name);
+	void SetDefaultMenuSkin(const std::string& skin_name);
 
 	//! \brief Returns true if GUI elements should have outlines drawn over their boundaries
 	bool DEBUG_DrawOutlines() const
@@ -361,7 +367,7 @@ private:
 	*** \param skin_name The name of the menu skin to grab
 	*** \return A pointer to the MenuSkin, or NULL if the skin name was not found
 	**/
-	private_gui::MenuSkin* _GetMenuSkin(std::string& skin_name);
+	private_gui::MenuSkin* _GetMenuSkin(const std::string& skin_name);
 
 	//! \brief Returns a pointer to the default menu skin
 	private_gui::MenuSkin* _GetDefaultMenuSkin() const

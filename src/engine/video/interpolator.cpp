@@ -19,7 +19,6 @@
 
 #include "video.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video::private_video;
 
@@ -47,8 +46,8 @@ Interpolator::Interpolator() :
 
 void Interpolator::Start(float a, float b, uint32 milliseconds) {
 	if (_ValidMethod() == false) {
-		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an invalid interpolation method was set" << std::endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< " was called when an invalid interpolation method was set" << std::endl;
 		return;
 	}
 
@@ -66,15 +65,15 @@ void Interpolator::Start(float a, float b, uint32 milliseconds) {
 
 void Interpolator::SetMethod(InterpolationMethod method) {
 	if (_finished == false) {
-		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an interpolation was still in progress" << std::endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< " was called when an interpolation was still in progress" << std::endl;
 		return;
 	}
 
 	_method = method;
 	if (_ValidMethod() == false) {
-		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was passed an invalid method argument" << std::endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< " was passed an invalid method argument" << std::endl;
 	}
 }
 
@@ -82,8 +81,8 @@ void Interpolator::SetMethod(InterpolationMethod method) {
 
 void Interpolator::Update(uint32 frame_time) {
 	if (_ValidMethod() == false) {
-		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " was called when an invalid method was set" << std::endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< " was called when an invalid method was set" << std::endl;
 		return;
 	}
 
@@ -106,8 +105,8 @@ void Interpolator::Update(uint32 frame_time) {
 	}
 
 	if (progress > 1.0f) {
-		if (VIDEO_DEBUG)
-			cerr << "VIDEO WARNING: " << __FUNCTION__ << " calculated a progress value greater than 1.0" << std::endl;
+		IF_PRINT_WARNING(VIDEO_DEBUG)
+			<< " calculated a progress value greater than 1.0" << std::endl;
 		progress = 1.0f;
 	}
 
@@ -132,8 +131,8 @@ void Interpolator::Update(uint32 frame_time) {
 			// Nothing to do, just use progress value as it is
 			break;
 		default:
-			if (VIDEO_DEBUG)
-				cerr << "VIDEO WARNING: " << __FUNCTION__ << " the current method did not match any supported methods" << std::endl;
+			IF_PRINT_WARNING(VIDEO_DEBUG)
+				<< " the current method did not match any supported methods" << std::endl;
 			return;
 	};
 

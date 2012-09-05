@@ -19,7 +19,6 @@
 #include "script.h"
 #include "script_read.h"
 
-using namespace std;
 using namespace luabind;
 
 using namespace hoa_utils;
@@ -43,13 +42,13 @@ ReadScriptDescriptor::~ReadScriptDescriptor() {
 // File Access Functions
 //-----------------------------------------------------------------------------
 
-bool ReadScriptDescriptor::OpenFile(const string& filename) {
+bool ReadScriptDescriptor::OpenFile(const std::string& filename) {
 	return OpenFile(filename, false);
 }
 
 
 
-bool ReadScriptDescriptor::OpenFile(const string& filename, bool force_reload) {
+bool ReadScriptDescriptor::OpenFile(const std::string& filename, bool force_reload) {
 	// check for file existence
 	if (!DoesFileExist(filename)) {
 		PRINT_ERROR << "Attempted to open unavailable file: "
@@ -72,8 +71,8 @@ bool ReadScriptDescriptor::OpenFile(const string& filename, bool force_reload) {
 
 		// Attempt to load and execute the Lua file
 		if (luaL_loadfile(_lstack, filename.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
-			PRINT_ERROR << "could not open script file: " << filename << ", error message:" << std::endl;
-			cerr << lua_tostring(_lstack, private_script::STACK_TOP) << std::endl;
+			PRINT_ERROR << "could not open script file: " << filename << ", error message:" << std::endl
+				<< lua_tostring(_lstack, private_script::STACK_TOP) << std::endl;
 			_access_mode = SCRIPT_CLOSED;
 			return false;
 		}
@@ -106,8 +105,9 @@ void ReadScriptDescriptor::CloseFile() {
 
 	// Probably not needed. Script errors should be printed immediately.
 	if (IsErrorDetected()) {
-		IF_PRINT_WARNING(SCRIPT_DEBUG) << "the file " << _filename << " had the following error messages remaining:" << std::endl;
-		cerr << _error_messages.str() << std::endl;
+		IF_PRINT_WARNING(SCRIPT_DEBUG)
+			<< "the file " << _filename << " had the following error messages remaining:"
+			<< std::endl << _error_messages.str() << std::endl;
 	}
 
 	_lstack = NULL;
@@ -121,7 +121,7 @@ void ReadScriptDescriptor::CloseFile() {
 // Existence Checking Functions
 //-----------------------------------------------------------------------------
 
-bool ReadScriptDescriptor::_DoesDataExist(const string& key, int32 type) {
+bool ReadScriptDescriptor::_DoesDataExist(const std::string& key, int32 type) {
 	// Check whether the user is trying to read a global variable or one stored in a table
 	if (_open_tables.size() == 0) { // Variable is a global
 		lua_getglobal(_lstack, key.c_str());
@@ -225,7 +225,7 @@ bool ReadScriptDescriptor::_CheckDataType(int32 type, luabind::object& obj_check
 // Function Pointer Read Functions
 //-----------------------------------------------------------------------------
 
-object ReadScriptDescriptor::ReadFunctionPointer(const string& key) {
+object ReadScriptDescriptor::ReadFunctionPointer(const std::string& key) {
 	if (_open_tables.size() == 0) { // The function should be in the global space
 		lua_getglobal(_lstack, key.c_str());
 
@@ -288,7 +288,7 @@ object ReadScriptDescriptor::ReadFunctionPointer(int32 key) {
 // Table Operation Functions
 //-----------------------------------------------------------------------------
 
-void ReadScriptDescriptor::OpenTable(const string& table_name, bool use_global) {
+void ReadScriptDescriptor::OpenTable(const std::string& table_name, bool use_global) {
 	if (_open_tables.size() == 0 || use_global) { // Fetch the table from the global space
 		lua_getglobal(_lstack, table_name.c_str());
 		if (!lua_istable(_lstack, STACK_TOP)) {
@@ -382,7 +382,7 @@ void ReadScriptDescriptor::CloseAllTables() {
 
 
 
-uint32 ReadScriptDescriptor::GetTableSize(const string& table_name) {
+uint32 ReadScriptDescriptor::GetTableSize(const std::string& table_name) {
 	uint32 size = 0;
 
 	OpenTable(table_name);
@@ -501,59 +501,59 @@ bool ReadScriptDescriptor::RunScriptObject(const luabind::object& object) {
 void ReadScriptDescriptor::DEBUG_PrintLuaStack() {
 	int32 type; // a variable to temporarily hold the type of Lua data read
 
-	cout << "SCRIPT DEBUG: Printing script's lua stack:" << std::endl;
+	PRINT_WARNING << "SCRIPT DEBUG: Printing script's lua stack:" << std::endl;
 	for (int32 i = lua_gettop(_lstack); i > 0; i--) {  // Print each element starting from the top of the stack
 		type = lua_type(_lstack, i);
 		switch (type) {
 			case LUA_TNIL:
-				cout << "* " << i << "= NIL" << std::endl;
+				PRINT_WARNING << "* " << i << "= NIL" << std::endl;
 				break;
 			case LUA_TBOOLEAN:
-				cout << "* " << i << "= BOOLEAN: " << lua_toboolean(_lstack, i) << std::endl;
+				PRINT_WARNING << "* " << i << "= BOOLEAN: " << lua_toboolean(_lstack, i) << std::endl;
 				break;
 			case LUA_TNUMBER:
-				cout << "* " << i << "= NUMBER:  " << lua_tonumber(_lstack, i) << std::endl;
+				PRINT_WARNING << "* " << i << "= NUMBER:  " << lua_tonumber(_lstack, i) << std::endl;
 				break;
 			case LUA_TSTRING:
-				cout << "* " << i << "= STRING:  " << lua_tostring(_lstack, i) << std::endl;
+				PRINT_WARNING << "* " << i << "= STRING:  " << lua_tostring(_lstack, i) << std::endl;
 				break;
 			case LUA_TTABLE:
-				cout << "* " << i << "= TABLE" << std::endl;
+				PRINT_WARNING << "* " << i << "= TABLE" << std::endl;
 				break;
 			case LUA_TFUNCTION:
-				cout << "* " << i << "= FUNCTION" << std::endl;
+				PRINT_WARNING << "* " << i << "= FUNCTION" << std::endl;
 				break;
 			case LUA_TUSERDATA:
-				cout << "* " << i << "= USERDATA " << std::endl;
+				PRINT_WARNING << "* " << i << "= USERDATA " << std::endl;
 				break;
 			case LUA_TLIGHTUSERDATA:
-				cout << "* " << i << "= LIGHTUSERDATA " << std::endl;
+				PRINT_WARNING << "* " << i << "= LIGHTUSERDATA " << std::endl;
 				break;
 			case LUA_TTHREAD:
-				cout << "* " << i << "= THREAD " << std::endl;
+				PRINT_WARNING << "* " << i << "= THREAD " << std::endl;
 				break;
 			default:
-				cout << "* " << i << "= OTHER: " << lua_typename(_lstack, type) << std::endl;
+				PRINT_WARNING << "* " << i << "= OTHER: " << lua_typename(_lstack, type) << std::endl;
 				break;
 		}
 	}
-	cout << std::endl;
+	PRINT_WARNING << std::endl;
 } // void ReadScriptDescriptor::DEBUG_PrintLuaStack()
 
 
 
 void ReadScriptDescriptor::DEBUG_PrintGlobals() {
-	cout << "SCRIPT DEBUG: Printing script's global variables:" << std::endl;
+	PRINT_WARNING << "SCRIPT DEBUG: Printing script's global variables:" << std::endl;
 
 	object o(from_stack(_lstack, LUA_GLOBALSINDEX));
 	for (luabind::iterator it(o), end; it != end; ++it) {
-		cout << it.key() << " = " << (*it) << " ::: data type = " << type(*it) << std::endl;
+		PRINT_WARNING << it.key() << " = " << (*it) << " ::: data type = " << type(*it) << std::endl;
 		if (luabind::type(*it) == LUA_TTABLE) {
-			if (object_cast<string>(it.key()) != "_G")
+			if (object_cast<std::string>(it.key()) != "_G")
 				DEBUG_PrintTable(object(*it), 1);
 		}
 	}
-	cout << std::endl;
+	PRINT_WARNING << std::endl;
 }
 
 
@@ -562,8 +562,8 @@ void ReadScriptDescriptor::DEBUG_PrintTable(object table, int tab)
 	for (luabind::iterator it(table), end; it != end; ++it)
 	{
 		for (int i = 0; i < tab; ++i)
-			cout << '\t';
-		cout << it.key() << " = " << (*it) << " (Type: " << type(*it) << ")" << std::endl;
+			PRINT_WARNING << '\t';
+		PRINT_WARNING << it.key() << " = " << (*it) << " (Type: " << type(*it) << ")" << std::endl;
 		if (type(*it) == LUA_TTABLE)
 			DEBUG_PrintTable(object(*it), tab + 1);
 	}

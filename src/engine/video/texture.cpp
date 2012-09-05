@@ -17,7 +17,6 @@
 
 #include "texture.h"
 
-using namespace std;
 using namespace hoa_utils;
 
 namespace hoa_video {

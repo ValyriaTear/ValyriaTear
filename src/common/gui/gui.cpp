@@ -7,12 +7,11 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "engine/video/video.h"
 #include "gui.h"
 
+#include "engine/video/video.h"
 #include "common/gui/menu_window.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video;
 
@@ -219,7 +218,7 @@ bool GUISystem::SingletonInitialize() {
 
 
 
-bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, std::string background_image, bool make_default)
+bool GUISystem::LoadMenuSkin(const std::string& skin_name, const std::string& border_image, const std::string& background_image, bool make_default)
 {
 	return LoadMenuSkin(skin_name, border_image, background_image,
 		Color::clear, Color::clear, Color::clear, Color::clear, make_default);
@@ -227,7 +226,7 @@ bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, st
 
 
 
-bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, Color background_color, bool make_default)
+bool GUISystem::LoadMenuSkin(const std::string& skin_name, const std::string& border_image, const Color& background_color, bool make_default)
 {
 	return LoadMenuSkin(skin_name, border_image, "", background_color, background_color,
 		background_color, background_color, make_default);
@@ -235,8 +234,9 @@ bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, Co
 
 
 
-bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, Color top_left, Color top_right,
-	Color bottom_left, Color bottom_right, bool make_default)
+bool GUISystem::LoadMenuSkin(const std::string& skin_name, const std::string& border_image,
+							 const Color& top_left, const Color& top_right,
+							 const Color& bottom_left, const Color& bottom_right, bool make_default)
 {
 	return LoadMenuSkin(skin_name, border_image, "", top_left, top_right,
 		bottom_left, bottom_right, make_default);
@@ -244,8 +244,9 @@ bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, Co
 
 
 
-bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, std::string background_image,
-	Color background_color, bool make_default)
+bool GUISystem::LoadMenuSkin(const std::string& skin_name, const std::string& border_image,
+							 const std::string& background_image,
+							 const Color& background_color, bool make_default)
 {
 	return LoadMenuSkin(skin_name, border_image, background_image, background_color,
 		background_color, background_color, background_color, make_default);
@@ -253,8 +254,8 @@ bool GUISystem::LoadMenuSkin(std::string skin_name, std::string border_image, st
 
 
 
-bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string background_image,
-	Color top_left, Color top_right, Color bottom_left, Color bottom_right, bool make_default)
+bool GUISystem::LoadMenuSkin(const std::string& skin_name, const std::string& border_image, const std::string& background_image,
+	const Color& top_left, const Color& top_right, const Color& bottom_left, const Color& bottom_right, bool make_default)
 {
 	// ----- (1) Check that the skin_name is not already used by another skin
 	if (_menu_skins.find(skin_name) != _menu_skins.end()) {
@@ -262,7 +263,7 @@ bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string backg
 		return false;
 	}
 
-	_menu_skins.insert(make_pair(skin_name, MenuSkin()));
+	_menu_skins.insert(std::make_pair(skin_name, MenuSkin()));
 	MenuSkin& new_skin = _menu_skins[skin_name];
 
 	// ----- (2) Load the MultiImage containing the borders of the skin.
@@ -313,7 +314,7 @@ bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string backg
 
 
 
-void GUISystem::SetDefaultMenuSkin(std::string& skin_name) {
+void GUISystem::SetDefaultMenuSkin(const std::string& skin_name) {
 	if (_menu_skins.find(skin_name) == _menu_skins.end()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered" << std::endl;
 		return;
@@ -324,7 +325,7 @@ void GUISystem::SetDefaultMenuSkin(std::string& skin_name) {
 
 
 
-void GUISystem::DeleteMenuSkin(std::string& skin_name) {
+void GUISystem::DeleteMenuSkin(const std::string& skin_name) {
 	if (_menu_skins.find(skin_name) == _menu_skins.end()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered" << std::endl;
 		return;
@@ -332,7 +333,7 @@ void GUISystem::DeleteMenuSkin(std::string& skin_name) {
 
 	MenuSkin* dead_skin = &_menu_skins[skin_name];
 
-	map<uint32, MenuWindow*>::iterator i = _menu_windows.begin();
+	std::map<uint32, MenuWindow*>::iterator i = _menu_windows.begin();
 	while (i != _menu_windows.end()) {
 		if (dead_skin == i->second->_skin) {
 			IF_PRINT_WARNING(VIDEO_DEBUG) << "the MenuSkin \"" << skin_name << "\" was not deleted because a MenuWindow object was found to be using it" << std::endl;
@@ -344,7 +345,7 @@ void GUISystem::DeleteMenuSkin(std::string& skin_name) {
 	_menu_skins.erase(skin_name);
 }
 
-bool GUISystem::IsMenuSkinAvailable(std::string& skin_name) const {
+bool GUISystem::IsMenuSkinAvailable(const std::string& skin_name) const {
 	if (_menu_skins.find(skin_name) == _menu_skins.end()) {
 		return false;
 	}
@@ -353,7 +354,7 @@ bool GUISystem::IsMenuSkinAvailable(std::string& skin_name) const {
 	}
 }
 
-private_gui::MenuSkin* GUISystem::_GetMenuSkin(std::string& skin_name) {
+private_gui::MenuSkin* GUISystem::_GetMenuSkin(const std::string& skin_name) {
 	if (_menu_skins.find(skin_name) == _menu_skins.end())
 		return NULL;
 	else
@@ -373,10 +374,10 @@ void GUISystem::_AddMenuWindow(MenuWindow* new_window) {
 
 
 void GUISystem::_RemoveMenuWindow(MenuWindow* old_window) {
-	map<uint32, MenuWindow*>::iterator i = _menu_windows.find(old_window->_id);
+	std::map<uint32, MenuWindow*>::iterator it = _menu_windows.find(old_window->_id);
 
-	if (i != _menu_windows.end()) {
-		_menu_windows.erase(i);
+	if (it != _menu_windows.end()) {
+		_menu_windows.erase(it);
 	}
 	else {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "did not find a corresponding entry in the menu windows map" << std::endl;

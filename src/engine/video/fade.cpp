@@ -19,8 +19,6 @@
 #include "engine/mode_manager.h"
 #endif
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_mode_manager;
 
@@ -44,7 +42,7 @@ ScreenFader::ScreenFader() :
 
 
 
-void ScreenFader::BeginFade(const Color &final, uint32 time, bool transitional) {
+void ScreenFader::BeginFade(const Color& final, uint32 time, bool transitional) {
 	// If last fade is made by the system, don't permit to fade:
 	if (!transitional && _is_fading && _transitional_fading)
 		return;

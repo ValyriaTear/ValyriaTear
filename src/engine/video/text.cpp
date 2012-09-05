@@ -26,7 +26,6 @@
 
 #include "video.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video::private_video;
 
@@ -50,7 +49,7 @@ TextStyle::TextStyle() :
 
 
 
-TextStyle::TextStyle(string fnt) :
+TextStyle::TextStyle(const std::string& fnt) :
 	font(fnt),
 	color(VideoManager->Text()->GetDefaultStyle().color),
 	shadow_style(VideoManager->Text()->GetDefaultStyle().shadow_style),
@@ -60,7 +59,7 @@ TextStyle::TextStyle(string fnt) :
 
 
 
-TextStyle::TextStyle(Color c) :
+TextStyle::TextStyle(const Color& c) :
 	font(VideoManager->Text()->GetDefaultStyle().font),
 	color(c),
 	shadow_style(VideoManager->Text()->GetDefaultStyle().shadow_style),
@@ -80,7 +79,7 @@ TextStyle::TextStyle(TEXT_SHADOW_STYLE style) :
 
 
 
-TextStyle::TextStyle(string fnt, Color c) :
+TextStyle::TextStyle(const std::string& fnt, const Color& c) :
 	font(fnt),
 	color(c),
 	shadow_style(VideoManager->Text()->GetDefaultStyle().shadow_style),
@@ -90,7 +89,7 @@ TextStyle::TextStyle(string fnt, Color c) :
 
 
 
-TextStyle::TextStyle(string fnt, TEXT_SHADOW_STYLE style) :
+TextStyle::TextStyle(const std::string& fnt, TEXT_SHADOW_STYLE style) :
 	font(fnt),
 	color(VideoManager->Text()->GetDefaultStyle().color),
 	shadow_style(style),
@@ -100,7 +99,7 @@ TextStyle::TextStyle(string fnt, TEXT_SHADOW_STYLE style) :
 
 
 
-TextStyle::TextStyle(Color c, TEXT_SHADOW_STYLE style) :
+TextStyle::TextStyle(const Color& c, TEXT_SHADOW_STYLE style) :
 	font(VideoManager->Text()->GetDefaultStyle().font),
 	color(c),
 	shadow_style(style),
@@ -110,7 +109,7 @@ TextStyle::TextStyle(Color c, TEXT_SHADOW_STYLE style) :
 
 
 
-TextStyle::TextStyle(string fnt, Color c, TEXT_SHADOW_STYLE style) :
+TextStyle::TextStyle(const std::string& fnt, const Color& c, TEXT_SHADOW_STYLE style) :
 	font(fnt),
 	color(c),
 	shadow_style(style),
@@ -120,7 +119,7 @@ TextStyle::TextStyle(string fnt, Color c, TEXT_SHADOW_STYLE style) :
 
 
 
-TextStyle::TextStyle(string fnt, Color c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y) :
+TextStyle::TextStyle(const std::string& fnt, const Color& c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y) :
 	font(fnt),
 	color(c),
 	shadow_style(style),
@@ -339,7 +338,7 @@ TextImage::TextImage(const ustring& string, TextStyle style) :
 
 
 
-TextImage::TextImage(const string& string, TextStyle style) :
+TextImage::TextImage(const std::string& string, TextStyle style) :
 	ImageDescriptor(),
 	_string(MakeUnicodeString(string)),
 	_style(style)
@@ -467,7 +466,7 @@ void TextImage::_Regenerate() {
 	*text_iter = END_STRING;
 
 	// 2) Iterate through each line of text and render a TextTexture for each one
-	vector<uint16*>::iterator line_iter;
+	std::vector<uint16*>::iterator line_iter;
 	for (line_iter = line_array.begin(); line_iter != line_array.end(); ++line_iter) {
 		TextElement* new_element = new TextElement();
 		// If this line is only a newline character or is an empty string, create an empty TextElement object
@@ -511,7 +510,7 @@ TextSupervisor::TextSupervisor() :
 
 TextSupervisor::~TextSupervisor() {
 	// Remove all loaded fonts and cached glyphs, then shutdown the SDL_ttf library
-	for (map<string, FontProperties*>::iterator i = _font_map.begin(); i != _font_map.end(); i++) {
+	for (std::map<std::string, FontProperties*>::iterator i = _font_map.begin(); i != _font_map.end(); i++) {
 		FontProperties* fp = i->second;
 
 		if (fp->ttf_font)
@@ -549,7 +548,7 @@ bool TextSupervisor::SingletonInitialize() {
 
 
 
-bool TextSupervisor::LoadFont(const string& filename, const string& font_name, uint32 size)
+bool TextSupervisor::LoadFont(const std::string& filename, const std::string& font_name, uint32 size)
 {
 	// Make sure that the font name is not already taken
 	if (IsFontValid(font_name) == true) {
@@ -843,7 +842,7 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		glyph->max_y = static_cast<float>(initial->h + 1) / static_cast<float>(h);
 		glyph->advance = advance;
 
-		fp->glyph_cache->insert(pair<uint16, FontGlyph*>(character, glyph));
+		fp->glyph_cache->insert(std::pair<uint16, FontGlyph*>(character, glyph));
 
 		SDL_FreeSurface(initial);
 		SDL_FreeSurface(intermediary);
