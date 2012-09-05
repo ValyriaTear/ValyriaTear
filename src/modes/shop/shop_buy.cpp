@@ -30,8 +30,6 @@
 #include "shop.h"
 #include "shop_buy.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_input;

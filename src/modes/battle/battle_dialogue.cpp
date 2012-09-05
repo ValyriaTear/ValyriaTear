@@ -24,8 +24,6 @@
 #include "battle_actors.h"
 #include "battle_dialogue.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_input;
 using namespace hoa_video;
@@ -79,13 +77,13 @@ bool BattleDialogue::Validate() {
 	}
 
 	// Construct containers that hold all unique sprite and event ids for this dialogue
-	set<uint32> speaker_ids;
+	std::set<uint32> speaker_ids;
 	for (uint32 i = 0; i < _line_count; i++) {
 		speaker_ids.insert(_speakers[i]);
 	}
 
 	// Check that all sprites and events referrenced by the dialogue exist
-	for (set<uint32>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); i++) {
+	for (std::set<uint32>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); i++) {
 		if (BattleMode::CurrentInstance()->GetDialogueSupervisor()->GetSpeaker(*i) == NULL) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
 				<< ": dialogue referenced invalid speaker with id: " << *i << std::endl;
@@ -229,7 +227,7 @@ void DialogueSupervisor::AddCustomSpeaker(uint32 id, const std::string& name, co
 
 
 void DialogueSupervisor::ChangeSpeakerName(uint32 id, const std::string& name) {
-	map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
+	std::map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
 	if (speaker == _speakers.end()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << std::endl;
 		return;
@@ -247,7 +245,7 @@ void DialogueSupervisor::ChangeSpeakerName(uint32 id, const std::string& name) {
 
 
 void DialogueSupervisor::ChangeSpeakerPortrait(uint32 id, const std::string& portrait) {
-	map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
+	std::map<uint32, BattleSpeaker>::iterator speaker = _speakers.find(id);
 	if (speaker == _speakers.end()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "no speaker found with requested id: " << id << std::endl;
 		return;
@@ -313,7 +311,7 @@ void DialogueSupervisor::ForceNextLine() {
 
 
 BattleDialogue* DialogueSupervisor::GetDialogue(uint32 dialogue_id) {
-	map<uint32, BattleDialogue*>::iterator location = _dialogues.find(dialogue_id);
+	std::map<uint32, BattleDialogue*>::iterator location = _dialogues.find(dialogue_id);
 	if (location == _dialogues.end()) {
 		return NULL;
 	}
@@ -325,7 +323,7 @@ BattleDialogue* DialogueSupervisor::GetDialogue(uint32 dialogue_id) {
 
 
 BattleSpeaker* DialogueSupervisor::GetSpeaker(uint32 speaker_id) {
-	map<uint32, BattleSpeaker>::iterator i = _speakers.find(speaker_id);
+	std::map<uint32, BattleSpeaker>::iterator i = _speakers.find(speaker_id);
 	if (i != _speakers.end()) {
 		return &(i->second);
 	}

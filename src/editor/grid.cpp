@@ -28,7 +28,6 @@
 using namespace hoa_script;
 using namespace hoa_map::private_map;
 using namespace hoa_video;
-using namespace std;
 
 namespace hoa_editor {
 
@@ -169,7 +168,7 @@ bool Grid::CreateNewContext(std::string name, int32 inherit_context)
 		return false;
 
 	int context_id = _tile_contexts.size();
-	stringstream context;
+	std::stringstream context;
 	context << "context_";
 	if (context_id < 10)
 		context << "0";
@@ -217,13 +216,13 @@ bool Grid::LoadMap()
 	// File descriptor for the map data that is to be read
 	ReadScriptDescriptor read_data;
 	// Used to read in vectors from the file
-	vector<int32> vect;
+	std::vector<int32> vect;
 	// Used as the window title for any errors that are detected and to notify
 	// the user via a message box
 	QString message_box_title("Load File Error");
 
 	// Open the map file for reading
-	if (read_data.OpenFile(string(_file_name.toAscii()), true) == false)
+	if (read_data.OpenFile(std::string(_file_name.toAscii()), true) == false)
 	{
 		QMessageBox::warning(this, message_box_title,
 			QString("Could not open file %1 for reading.").arg(_file_name));
@@ -231,7 +230,7 @@ bool Grid::LoadMap()
 	}
 
 	// Check that the main table containing the map exists and open it
-	string main_map_table = string(_file_name.section('/', -1).
+	std::string main_map_table = std::string(_file_name.section('/', -1).
 	                               remove(".lua").toAscii());
 	if (read_data.DoesTableExist(main_map_table) == false)
 	{
@@ -475,9 +474,9 @@ bool Grid::LoadMap()
 		// which tile image should be used for this context. So if the first
 		// four entries in the context table were {0, 12, 26, 180}, this would
 		// set the lower layer tile at position (12, 26) to the tile index 180.
-		vector<int32> context_data;
+		std::vector<int32> context_data;
 
-		stringstream context;
+		std::stringstream context;
 		context << "context_";
 		if (ctxt < 10)
 			context << "0";
@@ -518,7 +517,7 @@ void Grid::GetScriptingData()
 	char buffer[BUFFER_SIZE];
 
 	// First, get the non-editor data (such as map scripting) from the file to save, so we don't clobber it.
-	file.open(_file_name.toAscii(), ifstream::in);
+	file.open(_file_name.toAscii(), std::ifstream::in);
 	if (file.is_open()) {
 		// Search for AFTER_TEXT_MARKER
 		while (!file.eof()) {
@@ -547,7 +546,7 @@ void Grid::SaveMap()
 {
 	WriteScriptDescriptor write_data;
 
-	if (write_data.OpenFile(string(_file_name.toAscii())) == false) {
+	if (write_data.OpenFile(std::string(_file_name.toAscii())) == false) {
 		QMessageBox::warning(this, "Saving File...", QString("ERROR: could not open %1 for writing!").arg(_file_name));
 		return;
 	}
@@ -555,7 +554,7 @@ void Grid::SaveMap()
 	write_data.WriteLine(BEFORE_TEXT_MARKER);
 	write_data.InsertNewLine();
 	write_data.WriteComment("Set the namespace according to the map name.");
-	string main_map_table = string(_file_name.section('/', -1).remove(".lua").toAscii());
+	std::string main_map_table = std::string(_file_name.section('/', -1).remove(".lua").toAscii());
 	write_data.WriteNamespace(main_map_table);
 
 	write_data.InsertNewLine();
@@ -758,7 +757,7 @@ void Grid::SaveMap()
 	if (_tile_contexts.size() > 1)
 		write_data.WriteComment("Contexts data");
 
-	vector<int32> context_data;  // one vector of ints contains all the context info
+	std::vector<int32> context_data;  // one vector of ints contains all the context info
 	// Iterate through all contexts of all layers.
 	for (uint32 context_id = 1; context_id < _tile_contexts.size(); ++context_id)
 	{
@@ -796,7 +795,7 @@ void Grid::SaveMap()
 
 		if (!context_data.empty())
 		{
-			stringstream context;
+			std::stringstream context;
 			context << "context_";
 			if (context_id < 10)
 				context << "0";
@@ -1089,7 +1088,7 @@ void Grid::paintGL()
 {
 	int32 x, y;                  // tile array loop index
 	int layer_index;
-	vector<int32>::iterator it;      // used to iterate through tile arrays
+	std::vector<int32>::iterator it;      // used to iterate through tile arrays
 	int tileset_index;               // index into the tileset_names vector
 	int tile_index;                  // ranges from 0-255
 	int left_tile;

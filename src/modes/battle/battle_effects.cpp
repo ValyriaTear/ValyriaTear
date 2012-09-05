@@ -24,10 +24,7 @@
 #include "modes/battle/battle_effects.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace std;
-
 using namespace hoa_utils;
-
 using namespace hoa_system;
 using namespace hoa_script;
 using namespace hoa_video;
@@ -111,8 +108,8 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 
 	if (script_file.IsErrorDetected()) {
 		if (BATTLE_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading status effect data - they are listed below" << std::endl;
-			cerr << script_file.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading status effect data - they are listed below"
+				<< std::endl << script_file.GetErrorMessages() << std::endl;
 		}
 	}
 
@@ -270,7 +267,7 @@ void EffectsSupervisor::GetAllStatusEffects(std::vector<GLOBAL_STATUS>& all_stat
 
 
 void EffectsSupervisor::RemoveAllStatus() {
-	vector<BattleStatusEffect*> effects;
+	std::vector<BattleStatusEffect*> effects;
 
 	// Calls to _RemoveStatus() alter the _active_status_effects container. To avoid problems with iterating through the _active_status_effects map during
 	// the removal calls, we make a temporary copy of all the status effects and operate on that

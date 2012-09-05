@@ -22,7 +22,6 @@
 
 #include "scene.h"
 
-using namespace std;
 using namespace hoa_mode_manager;
 using namespace hoa_input;
 using namespace hoa_system;
@@ -35,7 +34,7 @@ namespace hoa_scene {
 bool SCENE_DEBUG = false;
 
 SceneMode::SceneMode() {
-	if (SCENE_DEBUG) cout << "SCENE: SceneMode constructor invoked" << std::endl;
+	IF_PRINT_WARNING(SCENE_DEBUG) << "SCENE: SceneMode constructor invoked" << std::endl;
 	mode_type = MODE_MANAGER_SCENE_MODE;
 
 
@@ -48,7 +47,7 @@ SceneMode::SceneMode() {
 
 // The destructor frees up our scene image
 SceneMode::~SceneMode() {
-	if (SCENE_DEBUG) cout << "SCENE: SceneMode destructor invoked" << std::endl;
+	IF_PRINT_WARNING(SCENE_DEBUG) << "SCENE: SceneMode destructor invoked" << std::endl;
   // VideoManager->FreeImage(scene);
 }
 

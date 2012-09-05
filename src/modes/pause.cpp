@@ -20,7 +20,6 @@
 #include "modes/boot/boot.h"
 #include "modes/pause.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;

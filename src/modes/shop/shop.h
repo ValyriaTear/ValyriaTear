@@ -121,7 +121,7 @@ public:
 	*** \param identifier The string identifier for the sound to retrieve
 	*** \return A pointer to the SoundDescriptor, or NULL if no sound had the identifier name
 	**/
-	hoa_audio::SoundDescriptor* GetSound(std::string identifier);
+	hoa_audio::SoundDescriptor* GetSound(const std::string& identifier);
 
 private:
 	//! \brief Retains text names for all possible object categories, including "all wares"

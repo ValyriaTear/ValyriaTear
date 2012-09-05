@@ -23,13 +23,9 @@
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace std;
-
 using namespace hoa_utils;
-
 using namespace hoa_system;
 using namespace hoa_video;
-
 using namespace hoa_global;
 
 namespace hoa_battle {
@@ -203,7 +199,7 @@ bool IndicatorElement::_ComputeDrawAlpha() {
 // IndicatorText class
 ////////////////////////////////////////////////////////////////////////////////
 
-IndicatorText::IndicatorText(BattleActor* actor, string& text, TextStyle& style,
+IndicatorText::IndicatorText(BattleActor* actor, const std::string& text, const TextStyle& style,
 								INDICATOR_TYPE indicator_type) :
 	IndicatorElement(actor, indicator_type),
 	_text_image(text, style)
@@ -224,7 +220,7 @@ void IndicatorText::Draw() {
 // IndicatorImage class
 ////////////////////////////////////////////////////////////////////////////////
 
-IndicatorImage::IndicatorImage(BattleActor* actor, const string& filename,
+IndicatorImage::IndicatorImage(BattleActor* actor, const std::string& filename,
 								INDICATOR_TYPE indicator_type) :
 	IndicatorElement(actor, indicator_type)
 {
@@ -256,8 +252,8 @@ void IndicatorImage::Draw() {
 ////////////////////////////////////////////////////////////////////////////////
 
 IndicatorBlendedImage::IndicatorBlendedImage(BattleActor* actor,
-											 const string& first_filename,
-											 const string& second_filename,
+											 const std::string& first_filename,
+											 const std::string& second_filename,
 											 INDICATOR_TYPE indicator_type) :
 	IndicatorElement(actor, indicator_type),
 	_second_alpha_color(1.0f, 1.0f, 1.0f, 0.0f)
@@ -385,7 +381,7 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount) {
 		return;
 	}
 
-	string text = NumberToString(amount);
+	std::string text = NumberToString(amount);
 	TextStyle style;
 
 	float damage_percent = static_cast<float>(amount) / static_cast<float>(_actor->GetMaxHitPoints());
@@ -429,7 +425,7 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points) {
 		return;
 	}
 
-	string text = NumberToString(amount);
+	std::string text = NumberToString(amount);
 	TextStyle style;
 
 	// TODO: use different colors/shades of green for different degrees of damage. There's a
@@ -462,7 +458,7 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points) {
 
 
 void IndicatorSupervisor::AddMissIndicator() {
-	string text = Translate("Miss");
+	std::string text = Translate("Miss");
 	TextStyle style("text24", Color::white);
 	_wait_queue.push_back(new IndicatorText(_actor, text, style, MISS_INDICATOR));
 }

@@ -46,7 +46,6 @@
 #include <SDL_image.h>
 #include <time.h>
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
@@ -119,9 +118,9 @@ bool LoadSettings()
 	settings.CloseTable();
 
 	if (settings.IsErrorDetected()) {
-		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
-			<< "information from file: " << GetSettingsFilename() << std::endl;
-		cerr << settings.GetErrorMessages() << std::endl;
+		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
+			<< "information from file: " << GetSettingsFilename() << std::endl
+			<< settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -167,9 +166,9 @@ bool LoadSettings()
 	}
 
 	if (settings.IsErrorDetected()) {
-		cerr << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
-			<< "from file: " << GetSettingsFilename() << std::endl;
-		cerr << settings.GetErrorMessages() << std::endl;
+		PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
+			<< "from file: " << GetSettingsFilename() << std::endl
+			<< settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -183,9 +182,9 @@ bool LoadSettings()
 	settings.CloseTable();
 
 	if (settings.IsErrorDetected()) {
-		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
-			<< "information from file: " << GetSettingsFilename() << std::endl;
-		cerr << settings.GetErrorMessages() << std::endl;
+		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
+			<< "information from file: " << GetSettingsFilename() << std::endl
+			<< settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -198,9 +197,9 @@ bool LoadSettings()
 	settings.CloseAllTables();
 
 	if (settings.IsErrorDetected()) {
-		cerr << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
-			<< "information from file: " << GetSettingsFilename() << std::endl;
-		cerr << settings.GetErrorMessages() << std::endl;
+		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
+			<< "information from file: " << GetSettingsFilename() << std::endl
+			<< settings.GetErrorMessages() << std::endl;
 		return false;
 	}
 
@@ -360,7 +359,7 @@ int main(int argc, char *argv[]) {
 			chdir(path.c_str());
 		#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
 			// Look for data files in DATADIR only if they are not available in the current directory.
-			if (ifstream("dat/config/settings.lua") == NULL) {
+			if (std::ifstream("dat/config/settings.lua") == NULL) {
 				if (chdir(PKG_DATADIR) != 0) {
 					throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
 				}
@@ -381,11 +380,11 @@ int main(int argc, char *argv[]) {
 		// Function call below throws exceptions if any errors occur
 		InitializeEngine();
 
-	} catch (Exception& e) {
+	} catch (const Exception& e) {
 		#ifdef WIN32
 		MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 		#else
-		cerr << e.ToString() << std::endl;
+		std::cerr << e.ToString() << std::endl;
 		#endif
 		return EXIT_FAILURE;
 	}
@@ -423,11 +422,11 @@ int main(int argc, char *argv[]) {
 			ModeManager->Update();
 
 		} // while (SystemManager->NotDone())
-	} catch (Exception& e) {
+	} catch (const Exception& e) {
 		#ifdef WIN32
 		MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 		#else
-		cerr << e.ToString() << std::endl;
+		std::cerr << e.ToString() << std::endl;
 		#endif
 		return EXIT_FAILURE;
 	}

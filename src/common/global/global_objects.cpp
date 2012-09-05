@@ -19,12 +19,9 @@
 #include "engine/script/script.h"
 #include "engine/video/video.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_script;
 using namespace hoa_video;
-
 using namespace hoa_global::private_global;
 
 namespace hoa_global {
@@ -37,7 +34,7 @@ void GlobalObject::_LoadObjectData(hoa_script::ReadScriptDescriptor& script) {
 	_name = MakeUnicodeString(script.ReadString("name"));
 	_description = MakeUnicodeString(script.ReadString("description"));
 	_price = script.ReadUInt("standard_price");
-	string icon_file = script.ReadString("icon");
+	std::string icon_file = script.ReadString("icon");
 	if (_icon_image.Load(icon_file) == false) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load icon image for item: " << _id << std::endl;
 		_InvalidateObject();
@@ -81,8 +78,8 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
 	script_file.CloseTable();
 	if (script_file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading item data - they are listed below" << std::endl;
-			cerr << script_file.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading item data - they are listed below"
+				<< std::endl << script_file.GetErrorMessages() << std::endl;
 		}
 		_InvalidateObject();
 	}
@@ -127,14 +124,14 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 	_has_ammo(false)
 {
 	// Initialize all elemental effects as neutral
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_FIRE, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_WATER, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_VOLT, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_EARTH, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SLICING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SMASHING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_MAULING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_PIERCING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_FIRE, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_WATER, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_VOLT, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_EARTH, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SLICING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SMASHING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_MAULING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_PIERCING, GLOBAL_INTENSITY_NEUTRAL));
 
 	if ((_id <= MAX_ITEM_ID) || (_id > MAX_WEAPON_ID)) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << std::endl;
@@ -165,8 +162,8 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 	script_file.CloseTable();
 	if (script_file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading weapon data - they are listed below" << std::endl;
-			cerr << script_file.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading weapon data - they are listed below"
+				<< std::endl << script_file.GetErrorMessages() << std::endl;
 		}
 		_InvalidateObject();
 	}
@@ -180,14 +177,14 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
 	GlobalObject(id, count)
 {
 	// Initialize all elemental effects as neutral
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_FIRE, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_WATER, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_VOLT, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_EARTH, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SLICING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SMASHING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_MAULING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_PIERCING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_FIRE, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_WATER, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_VOLT, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_EARTH, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SLICING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SMASHING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_MAULING, GLOBAL_INTENSITY_NEUTRAL));
+	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_PIERCING, GLOBAL_INTENSITY_NEUTRAL));
 
 	if ((_id <= MAX_WEAPON_ID) || (_id > MAX_LEG_ARMOR_ID)) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << std::endl;
@@ -233,8 +230,8 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
 	script_file->CloseTable();
 	if (script_file->IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading armor data - they are listed below" << std::endl;
-			cerr << script_file->GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading armor data - they are listed below"
+				<< std::endl << script_file->GetErrorMessages() << std::endl;
 		}
 		_InvalidateObject();
 	}
@@ -317,8 +314,8 @@ GlobalKeyItem::GlobalKeyItem(uint32 id, uint32 count) :
 	script_file.CloseTable();
 	if (script_file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading key item data - they are listed below" << std::endl;
-			cerr << script_file.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading key item data - they are listed below"
+				<< std::endl << script_file.GetErrorMessages() << std::endl;
 		}
 		_InvalidateObject();
 	}

@@ -23,7 +23,6 @@
 
 #include "modes/menu/menu.h"
 
-using namespace std;
 using namespace hoa_menu::private_menu;
 using namespace hoa_utils;
 using namespace hoa_audio;
@@ -166,7 +165,7 @@ void InventoryWindow::_InitInventoryItems() {
 //Initalizes character select
 void InventoryWindow::_InitCharSelect() {
 	//character selection set up
-	vector<ustring> options;
+	std::vector<ustring> options;
 	uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
 
 	_char_select.SetPosition(72.0f, 109.0f);
@@ -199,7 +198,7 @@ void InventoryWindow::_InitCategory() {
 	_item_categories.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
 	_item_categories.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("All"));
 	options.push_back(UTranslate("Itm"));
 	options.push_back(UTranslate("Wpn"));
@@ -509,7 +508,7 @@ void StatusWindow::Activate(bool new_value) {
 
 void StatusWindow::_InitCharSelect() {
 	//character selection set up
-	vector<ustring> options;
+	std::vector<ustring> options;
 	uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
 
 	_char_select.SetPosition(72.0f, 109.0f);
@@ -685,7 +684,7 @@ void SkillsWindow::_InitSkillsList() {
 
 void SkillsWindow::_InitCharSelect() {
 	//character selection set up
-	vector<ustring> options;
+	std::vector<ustring> options;
 	uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
 
 	_char_select.SetPosition(72.0f, 109.0f);
@@ -720,7 +719,7 @@ void SkillsWindow::_InitSkillsCategories() {
 	_skills_categories.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 
 	// Create options
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("All"));
 	options.push_back(UTranslate("Field"));
 	options.push_back(UTranslate("Battle"));
@@ -878,7 +877,7 @@ void SkillsWindow::Update() {
 	if (_skills_list.GetNumberOptions() > 0 && _skills_list.GetSelection() >= 0 && static_cast<int32>(_skills_list.GetNumberOptions()) > _skills_list.GetSelection())
 	{
 		GlobalSkill *skill = _GetCurrentSkill();
-		string desc = MakeStandardString(skill->GetName()) + "\n\n" + MakeStandardString(skill->GetDescription());
+		std::string desc = MakeStandardString(skill->GetName()) + "\n\n" + MakeStandardString(skill->GetDescription());
 		_description.SetDisplayText(MakeUnicodeString(desc));
 	}
 
@@ -888,9 +887,9 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 {
 	GlobalCharacter* ch = dynamic_cast<GlobalCharacter*>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
 
-	vector<GlobalSkill *> *menu_skills = new vector<GlobalSkill *>();
-	vector<GlobalSkill *> *battle_skills = new vector<GlobalSkill *>();
-	vector<GlobalSkill *> *all_skills = new vector<GlobalSkill *>();
+	std::vector<GlobalSkill *> *menu_skills = new std::vector<GlobalSkill *>();
+	std::vector<GlobalSkill *> *battle_skills = new std::vector<GlobalSkill *>();
+	std::vector<GlobalSkill *> *all_skills = new std::vector<GlobalSkill *>();
 
 	_BuildMenuBattleSkillLists(ch->GetAttackSkills(), menu_skills, battle_skills, all_skills);
 	_BuildMenuBattleSkillLists(ch->GetDefenseSkills(), menu_skills, battle_skills, all_skills);
@@ -910,7 +909,7 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 		break;
 	default:
 		skill = NULL;
-		cerr << "MENU ERROR: Invalid skill type in SkillsWindow::_GetCurrentSkill()" << std::endl;
+		PRINT_ERROR << "MENU ERROR: Invalid skill type in SkillsWindow::_GetCurrentSkill()" << std::endl;
 		break;
 	}
 
@@ -921,18 +920,18 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 void SkillsWindow::_UpdateSkillList() {
 	GlobalCharacter* ch = dynamic_cast<GlobalCharacter*>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
 	assert(ch);
-	vector<ustring> options;
-	vector<ustring> cost_options;
+	std::vector<ustring> options;
+	std::vector<ustring> cost_options;
 
-	vector<GlobalSkill *> *menu_skills = new vector<GlobalSkill *>();
-	vector<GlobalSkill *> *battle_skills = new vector<GlobalSkill *>();
-	vector<GlobalSkill *> *all_skills = new vector<GlobalSkill *>();
+	std::vector<GlobalSkill *> *menu_skills = new std::vector<GlobalSkill *>();
+	std::vector<GlobalSkill *> *battle_skills = new std::vector<GlobalSkill *>();
+	std::vector<GlobalSkill *> *all_skills = new std::vector<GlobalSkill *>();
 
 	_BuildMenuBattleSkillLists(ch->GetAttackSkills(), menu_skills, battle_skills, all_skills);
 	_BuildMenuBattleSkillLists(ch->GetDefenseSkills(), menu_skills, battle_skills, all_skills);
 	_BuildMenuBattleSkillLists(ch->GetSupportSkills(), menu_skills, battle_skills, all_skills);
 
-	vector<GlobalSkill *>::iterator i;
+	std::vector<GlobalSkill *>::iterator i;
 
 	switch (_skills_categories.GetSelection()) {
 		case SKILL_ALL:
@@ -942,7 +941,7 @@ void SkillsWindow::_UpdateSkillList() {
 			for (i = all_skills->begin(); i != all_skills->end(); ++i)
 			{
 				options.push_back((*i)->GetName());
-				string cost = NumberToString((*i)->GetSPRequired()) + " SP";
+				std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
 				cost_options.push_back(MakeUnicodeString(cost));
 			}
 			break;
@@ -953,7 +952,7 @@ void SkillsWindow::_UpdateSkillList() {
 			for (i = battle_skills->begin(); i != battle_skills->end(); ++i)
 			{
 				options.push_back((*i)->GetName());
-				string cost = NumberToString((*i)->GetSPRequired()) + " SP";
+				std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
 				cost_options.push_back(MakeUnicodeString(cost));
 			}
 			break;
@@ -964,7 +963,7 @@ void SkillsWindow::_UpdateSkillList() {
 			for (i = menu_skills->begin(); i != menu_skills->end(); ++i)
 			{
 				options.push_back((*i)->GetName());
-				string cost = NumberToString((*i)->GetSPRequired()) + " SP";
+				std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
 				cost_options.push_back(MakeUnicodeString(cost));
 			}
 			break;
@@ -982,9 +981,9 @@ void SkillsWindow::_UpdateSkillList() {
 }
 
 void SkillsWindow::_BuildMenuBattleSkillLists(std::vector<GlobalSkill *> *skill_list,
-		vector<GlobalSkill *> *field, vector<GlobalSkill *> *battle, vector<GlobalSkill *> *all)
+		std::vector<GlobalSkill *> *field, std::vector<GlobalSkill *> *battle, std::vector<GlobalSkill *> *all)
 {
-	vector<GlobalSkill *>::iterator i;
+	std::vector<GlobalSkill *>::iterator i;
 	for (i = skill_list->begin(); i != skill_list->end(); ++i)
 	{
 		if ((*i)->IsExecutableInBattle())
@@ -1065,7 +1064,7 @@ void EquipWindow::_InitEquipmentList() {
 
 void EquipWindow::_InitCharSelect() {
 	//character selection set up
-	vector<ustring> options;
+	std::vector<ustring> options;
 	uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
 
 	_char_select.SetPosition(72.0f, 109.0f);

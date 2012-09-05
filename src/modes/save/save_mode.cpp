@@ -22,7 +22,6 @@
 #include "modes/boot/boot.h"
 #include "modes/map/map.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
@@ -238,9 +237,9 @@ void SaveMode::Update() {
 					// note: using int here, because uint8 will NOT work
 					// do not change unless you understand this and can test it properly!
 					int id = _file_list.GetSelection();
-					ostringstream f;
+					std::ostringstream f;
 					f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
-					string filename = f.str();
+					std::string filename = f.str();
 					// now, attempt to save the game.  If failure, we need to tell the user that!
 					if (GlobalManager->SaveGame(filename, (uint32)id, _x_position, _y_position)) {
 						_current_state = SAVE_MODE_SAVE_COMPLETE;
@@ -374,9 +373,9 @@ void SaveMode::DrawPostEffects() {
 }
 
 bool SaveMode::_LoadGame(int id) {
-	ostringstream f;
+	std::ostringstream f;
 	f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
-	string filename = f.str();
+	std::string filename = f.str();
 
 	if (DoesFileExist(filename)) {
 		_current_state = SAVE_MODE_FADING_OUT;
@@ -389,9 +388,10 @@ bool SaveMode::_LoadGame(int id) {
         try {
             MapMode *MM = new MapMode(GlobalManager->GetMapFilename());
             ModeManager->Push(MM, true, true);
-        } catch (luabind::error e) {
-            PRINT_ERROR << "Map::_Load -- Error loading map " << GlobalManager->GetMapFilename() << ", returning to BootMode." << std::endl;
-            cerr << "Exception message:" << std::endl;
+        } catch (const luabind::error& e) {
+            PRINT_ERROR << "Map::_Load -- Error loading map " << GlobalManager->GetMapFilename()
+				<< ", returning to BootMode." << std::endl
+				<< "Exception message:" << std::endl;
             ScriptManager->HandleLuaError(e);
             ModeManager->Push(new BootMode(), true, true);
         }
@@ -416,9 +416,9 @@ void SaveMode::_ClearSaveData() {
 
 
 bool SaveMode::_PreviewGame(int id) {
-	ostringstream f;
+	std::ostringstream f;
 	f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
-	string filename = f.str();
+	std::string filename = f.str();
 
 	// Check for the file existence, prevents a useless warning
 	if (!hoa_utils::DoesFileExist(filename)) {
@@ -458,7 +458,7 @@ bool SaveMode::_PreviewGame(int id) {
 	}
 
 	file.OpenTable("characters");
-	vector<uint32> char_ids;
+	std::vector<uint32> char_ids;
 	file.ReadUIntVector("order", char_ids);
 	GlobalCharacter* character[4];
 
@@ -490,8 +490,8 @@ bool SaveMode::_PreviewGame(int id) {
 	// Report any errors detected from the previous read operations
 	if (file.IsErrorDetected()) {
 		if (GLOBAL_DEBUG) {
-			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below" << std::endl;
-			cerr << file.GetErrorMessages() << std::endl;
+			PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below"
+				<< std::endl << file.GetErrorMessages() << std::endl;
 			file.ClearErrors();
 		}
 	}
@@ -508,7 +508,7 @@ bool SaveMode::_PreviewGame(int id) {
 	// file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
 	int32 period = map_filename.find(".");
 	int32 last_slash = map_filename.find_last_of("/");
-	string map_tablespace = map_filename.substr(last_slash + 1, period - (last_slash + 1));
+	std::string map_tablespace = map_filename.substr(last_slash + 1, period - (last_slash + 1));
 	map_file.OpenTable(map_tablespace);
 
 	// Read the name of the map

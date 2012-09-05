@@ -26,8 +26,6 @@
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
@@ -233,8 +231,8 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetPoint() << std::endl;
 		}
 		else {
-			vector<pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
-			for (std::vector<pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); i++) {
+			std::vector<std::pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
+			for (std::vector<std::pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); i++) {
 				if (RandomFloat(0.0f, 100.0f) <= i->second) {
 					RegisterStatusChange(i->first, GLOBAL_INTENSITY_POS_LESSER);
 				}
@@ -700,7 +698,7 @@ void BattleCharacter::DrawPortrait() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 	VideoManager->Move(48.0f, 9.0f);
 
-	vector<StillImage>& portrait_frames = *(_global_character->GetBattlePortraits());
+	std::vector<StillImage>& portrait_frames = *(_global_character->GetBattlePortraits());
 	float hp_percent =  static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
 	if (GetHitPoints() == GetMaxHitPoints()) {
@@ -877,7 +875,7 @@ BattleEnemy::~BattleEnemy() {
 void BattleEnemy::ResetActor() {
 	BattleActor::ResetActor();
 
-	vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
+	std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 	sprite_frames[3].DisableGrayScale();
 }
 
@@ -962,7 +960,7 @@ void BattleEnemy::Update(bool animation_only) {
 void BattleEnemy::DrawSprite() {
 	BattleActor::DrawSprite();
 
-	vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
+	std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 
 	// Dead enemies are gone from screen.
 	if (_state == ACTOR_STATE_DEAD)
@@ -1023,8 +1021,8 @@ void BattleEnemy::_DecideAction() {
 	// TEMP: select a random living character in the party for the target
 	BattleTarget target;
 
-	deque<BattleCharacter*> alive_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-	deque<BattleCharacter*>::iterator character_iterator = alive_characters.begin();
+	std::deque<BattleCharacter*> alive_characters = BattleMode::CurrentInstance()->GetCharacterActors();
+	std::deque<BattleCharacter*>::iterator character_iterator = alive_characters.begin();
 	while (character_iterator != alive_characters.end()) {
 		if ((*character_iterator)->IsAlive() == false)
 			character_iterator = alive_characters.erase(character_iterator);

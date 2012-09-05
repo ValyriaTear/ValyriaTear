@@ -40,7 +40,6 @@
 #include "shop_confirm.h"
 #include "shop_leave.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
@@ -133,7 +132,7 @@ ShopMedia::ShopMedia() {
 
 
 ShopMedia::~ShopMedia() {
-	for (std::map<string, SoundDescriptor*>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
+	for (std::map<std::string, SoundDescriptor*>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
 		delete i->second;
 	_sounds.clear();
 }
@@ -317,8 +316,8 @@ StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity)
 }
 
 
-SoundDescriptor* ShopMedia::GetSound(string identifier) {
-	map<string, SoundDescriptor*>::iterator sound = _sounds.find(identifier);
+SoundDescriptor* ShopMedia::GetSound(const std::string& identifier) {
+	std::map<std::string, SoundDescriptor*>::iterator sound = _sounds.find(identifier);
 	if (sound != _sounds.end()) {
 		return sound->second;
 	}
@@ -618,7 +617,7 @@ void ShopObjectViewer::_SetEquipmentData() {
 	}
 
 	// ---------- (3): For each character, determine if they already have the selection equipped or determine the change in pricing
-	vector<GlobalCharacter*>* party = GlobalManager->GetOrderedCharacters();
+	std::vector<GlobalCharacter*>* party = GlobalManager->GetOrderedCharacters();
 	GlobalCharacter* character = NULL;
 	GlobalWeapon* equipped_weapon = NULL;
 	GlobalArmor* equipped_armor = NULL;
@@ -783,7 +782,7 @@ void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 meta_
 
 
 
-void ShopObjectViewer::_SetElementalIcons(const map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& elemental_effects) {
+void ShopObjectViewer::_SetElementalIcons(const std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& elemental_effects) {
 	uint32 index = 0;
 
 	for (std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>::const_iterator i = elemental_effects.begin(); i != elemental_effects.end(); i++) {
@@ -826,7 +825,7 @@ void ShopObjectViewer::_SetElementalIcons(const map<GLOBAL_ELEMENTAL, GLOBAL_INT
 
 
 
-void ShopObjectViewer::_SetStatusIcons(const map<GLOBAL_STATUS, GLOBAL_INTENSITY>& status_effects) {
+void ShopObjectViewer::_SetStatusIcons(const std::map<GLOBAL_STATUS, GLOBAL_INTENSITY>& status_effects) {
 	// TODO: Implement this method when status effects are available.
 	// It should work very much the same way as _SetElementalIcons()
 }
@@ -1017,7 +1016,7 @@ ShopMode::ShopMode() :
 	_action_options.SetCursorOffset(-55.0f, 30.0f);
 	_action_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
 
-	vector<ustring> option_text;
+	std::vector<ustring> option_text;
 	option_text.push_back(UTranslate("Buy"));
 	option_text.push_back(UTranslate("Sell"));
 //	option_text.push_back(UTranslate("Trade"));
@@ -1357,7 +1356,7 @@ void ShopMode::AddObjectToBuyList(ShopObject* object) {
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
-	pair<map<uint32, ShopObject*>::iterator, bool> ret_val;
+	std::pair<std::map<uint32, ShopObject*>::iterator, bool> ret_val;
 	ret_val = _buy_list.insert(std::make_pair(object_id, object));
 	if (ret_val.second == false) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in buy list" << std::endl;
@@ -1377,7 +1376,7 @@ void ShopMode::RemoveObjectFromBuyList(ShopObject* object) {
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
-	map<uint32, ShopObject*>::iterator object_entry = _buy_list.find(object_id);
+	std::map<uint32, ShopObject*>::iterator object_entry = _buy_list.find(object_id);
 	if (object_entry == _buy_list.end()) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the buy list" << std::endl;
 	}
@@ -1399,7 +1398,7 @@ void ShopMode::AddObjectToSellList(ShopObject* object) {
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
-	pair<map<uint32, ShopObject*>::iterator, bool> ret_val;
+	std::pair<std::map<uint32, ShopObject*>::iterator, bool> ret_val;
 	ret_val = _sell_list.insert(std::make_pair(object_id, object));
 	if (ret_val.second == false) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in sell list" << std::endl;
@@ -1419,7 +1418,7 @@ void ShopMode::RemoveObjectFromSellList(ShopObject* object) {
 	}
 
 	uint32 object_id = object->GetObject()->GetID();
-	map<uint32, ShopObject*>::iterator object_entry = _sell_list.find(object_id);
+	std::map<uint32, ShopObject*>::iterator object_entry = _sell_list.find(object_id);
 	if (object_entry == _sell_list.end()) {
 		IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the sell list" << std::endl;
 	}

@@ -16,7 +16,6 @@
 #include "boot.h"
 #include "boot_menu.h"
 
-using namespace std;
 using namespace hoa_utils;
 using namespace hoa_video;
 

@@ -25,9 +25,6 @@
 #include "engine/mode_manager.h"
 #include "menu.h"
 
-
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
@@ -37,7 +34,6 @@ using namespace hoa_mode_manager;
 using namespace hoa_input;
 using namespace hoa_global;
 using namespace hoa_pause;
-
 using namespace hoa_menu::private_menu;
 
 namespace hoa_menu {
@@ -58,8 +54,8 @@ const uint32 win_width = 208;
 MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 	_message_window(NULL)
 {
-	if (MENU_DEBUG)
-		cout << "MENU: MenuMode constructor invoked." << std::endl;
+	IF_PRINT_WARNING(MENU_DEBUG)
+		<< "MENU: MenuMode constructor invoked." << std::endl;
 
 	_locale_name.SetPosition(win_start_x + 40, win_start_y + 457);
 	_locale_name.SetDimensions(500.0f, 50.0f);
@@ -77,8 +73,8 @@ MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 	try {
 		_saved_screen = VideoManager->CaptureScreen();
 	}
-	catch(Exception e) {
-		cerr << e.ToString() << std::endl;
+	catch(const Exception& e) {
+		PRINT_ERROR << e.ToString() << std::endl;
 	}
 
 	// Load key items related resources.
@@ -149,8 +145,8 @@ MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 	_menu_sounds["bump"].LoadAudio("snd/bump.wav");
 
 	if (_current_instance != NULL) {
-		if (MENU_DEBUG)
-			cerr << "MENU WARNING: attempting to create a new instance of MenuMode when one already seems to exist" << std::endl;
+		IF_PRINT_WARNING(MENU_DEBUG)
+			<< "MENU WARNING: attempting to create a new instance of MenuMode when one already seems to exist" << std::endl;
 	}
 	_current_instance = this;
 } // MenuMode::MenuMode()
@@ -158,8 +154,8 @@ MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
 
 
 MenuMode::~MenuMode() {
-	if (MENU_DEBUG)
-		cout << "MENU: MenuMode destructor invoked." << std::endl;
+	IF_PRINT_WARNING(MENU_DEBUG)
+		<< "MENU: MenuMode destructor invoked." << std::endl;
 
 	// Destroy all menu windows
 	_bottom_window.Destroy();
@@ -314,7 +310,7 @@ void MenuMode::Update() {
 				break;*/
 
 			default:
-				cerr << "MENU: ERROR: Invalid menu showing!" << std::endl;
+				PRINT_ERROR << "MENU: ERROR: Invalid menu showing!" << std::endl;
 				break;
 		} // switch (_current_menu_showing)
 		_GetNextActiveWindow();
@@ -476,7 +472,7 @@ void MenuMode::_HandleMainMenu() {
 			break;
 
 		default:
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleMainMenu()" << std::endl;
+			PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleMainMenu()" << std::endl;
 			break;
 	}
 } // void MenuMode::_HandleMainMenu()
@@ -501,7 +497,7 @@ void MenuMode::_HandleInventoryMenu() {
 			break;
 
 		default:
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleInventoryMenu()" << std::endl;
+			PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleInventoryMenu()" << std::endl;
 			break;
 	}
 }
@@ -526,7 +522,7 @@ void MenuMode::_SetupMainOptionBox() {
 	_main_options.SetDimensions(745.0f, 50.0f, MAIN_SIZE, 1, 5, 1);
 
 	// Generate the strings
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("Inventory"));
 	options.push_back(UTranslate("Skills"));
 	options.push_back(UTranslate("Equip"));
@@ -545,7 +541,7 @@ void MenuMode::_SetupInventoryOptionBox() {
 	_menu_inventory.SetDimensions(315.0f, 50.0f, INV_SIZE, 1, INV_SIZE, 1);
 
 	// Generate the strings
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("Use"));
 //	options.push_back(UTranslate("Sort"));
 	options.push_back(UTranslate("Back"));
@@ -562,7 +558,7 @@ void MenuMode::_SetupSkillsOptionBox() {
 	_menu_skills.SetDimensions(315.0f, 50.0f, SKILLS_SIZE, 1, SKILLS_SIZE, 1);
 
 	// Generate the strings
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("Use"));
 	options.push_back(UTranslate("Back"));
 
@@ -578,7 +574,7 @@ void MenuMode::_SetupStatusOptionBox() {
 	_menu_status.SetDimensions(315.0f, 50.0f, STATUS_SIZE, 1, STATUS_SIZE, 1);
 
 	// Generate the strings
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("View"));
 	options.push_back(UTranslate("Back"));
 
@@ -594,7 +590,7 @@ void MenuMode::_SetupOptionsOptionBox() {
 	_menu_options.SetDimensions(315.0f, 50.0f, OPTIONS_SIZE, 1, OPTIONS_SIZE, 1);
 
 	// Generate the strings
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("Edit"));
 	options.push_back(UTranslate("Save"));
 	options.push_back(UTranslate("Back"));
@@ -611,7 +607,7 @@ void MenuMode::_SetupFormationOptionBox() {
 	_menu_formation.SetDimensions(315.0f, 50.0f, FORMATION_SIZE, 1, FORMATION_SIZE, 1);
 
 	// Generate the strings
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("Switch"));
 	options.push_back(UTranslate("Back"));
 
@@ -626,7 +622,7 @@ void MenuMode::_SetupEquipOptionBox() {
 	_menu_equip.SetDimensions(315.0f, 50.0f, EQUIP_SIZE, 1, EQUIP_SIZE, 1);
 
 	// Generate the strings
-	vector<ustring> options;
+	std::vector<ustring> options;
 	options.push_back(UTranslate("Equip"));
 	options.push_back(UTranslate("Remove"));
 	options.push_back(UTranslate("Back"));
@@ -650,7 +646,7 @@ void MenuMode::_HandleSkillsMenu() {
 			break;
 
 		default:
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleSkillsMenu()" << std::endl;
+			PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleSkillsMenu()" << std::endl;
 			break;
 	}
 }
@@ -668,7 +664,7 @@ void MenuMode::_HandleStatusMenu() {
 			break;
 
 		default:
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleStatusMenu()" << std::endl;
+			PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleStatusMenu()" << std::endl;
 			break;
 	}
 }
@@ -678,12 +674,12 @@ void MenuMode::_HandleOptionsMenu() {
 	switch (_menu_options.GetSelection()) {
 		case OPTIONS_EDIT:
 			// TODO: Handle the Options - Edit command
-			cout << "MENU: Options - Edit command!" << std::endl;
+			PRINT_WARNING << "MENU: Options - Edit command!" << std::endl;
 			break;
 
 		case OPTIONS_SAVE:
 			// TODO: Handle the Options - Save command
-			cout << "MENU: Options - Save command!" << std::endl;
+			PRINT_WARNING << "MENU: Options - Save command!" << std::endl;
 			break;
 
 		case OPTIONS_BACK:
@@ -692,7 +688,7 @@ void MenuMode::_HandleOptionsMenu() {
 			break;
 
 		default:
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleOptionsMenu()" << std::endl;
+			PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleOptionsMenu()" << std::endl;
 			break;
 	}
 }
@@ -711,7 +707,7 @@ void MenuMode::_HandleFormationMenu() {
 			break;
 
 		default:
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleFormationMenu()" << std::endl;
+			PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleFormationMenu()" << std::endl;
 			break;
 	}
 }
@@ -733,7 +729,7 @@ void MenuMode::_HandleEquipMenu() {
 			break;
 
 		default:
-			cerr << "MENU ERROR: Invalid option in MenuMode::_HandleEquipMenu()" << std::endl;
+			PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleEquipMenu()" << std::endl;
 			break;
 	}
 }

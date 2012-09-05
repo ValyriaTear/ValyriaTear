@@ -25,14 +25,14 @@ namespace hoa_main {
 *** \param argv A pointer to the list of arguments
 *** \return False if the program should exit with a return code, or true if it should continue
 **/
-bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv);
+bool ParseProgramOptions(int32& return_code, int32 argc, char **argv);
 
 /** \brief Parses a secondary list of options provided to a primary program option
 *** \param vars The list of secondary options in single string format
 *** \param options A reference to a container of strings that should hold each seconary option
 *** \return False if there was an error while parsing the option list
 **/
-bool ParseSecondaryOptions(std::string vars, std::vector<std::string>& options);
+bool ParseSecondaryOptions(const std::string& vars, std::vector<std::string>& options);
 
 //! \brief Prints out the program usage for running the program.
 void PrintUsage();
@@ -56,6 +56,6 @@ bool ResetSettings();
 *** \param vars The name(s) of the debugging variable(s) to enable.
 *** \return False if a bad function argument was given, or true on success.
 **/
-bool EnableDebugging(std::string vars);
+bool EnableDebugging(const std::string& vars);
 
 } // namespace hoa_main

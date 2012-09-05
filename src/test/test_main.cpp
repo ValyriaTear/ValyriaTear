@@ -18,12 +18,11 @@
 #include <iostream>
 
 using namespace hoa_test;
-using namespace std;
 
-bool ExecuteTests(string tests) {
-	cout << "This option is not yet implemented." << std::endl;
+bool ExecuteTests(const std::string& tests) {
+	std::cout << "This option is not yet implemented." << std::endl;
 
-	cout << "Tests to execute: " << tests << std::endl;
+	std::cout << "Tests to execute: " << tests << std::endl;
 	return false;
 } // bool ExecuteTests(string tests)
 

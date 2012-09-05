@@ -27,10 +27,7 @@
 
 #include "modes/boot/boot.h"
 
-using namespace std;
-
 using namespace hoa_utils;
-
 using namespace hoa_audio;
 using namespace hoa_video;
 using namespace hoa_gui;
@@ -382,7 +379,7 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 	}
 
 	// ----- (1): Prepare all character data
-	deque<BattleCharacter*>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
+	std::deque<BattleCharacter*>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 	_number_characters = all_characters.size();
 
 	for (uint32 i = 0; i < _number_characters; ++i) {
@@ -405,10 +402,10 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 	}
 
 	// ----- (2): Collect the XP, drunes, and dropped objects for each defeated enemy
-	deque<BattleEnemy*>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
+	std::deque<BattleEnemy*>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
 	GlobalEnemy* enemy;
-	vector<GlobalObject*> objects;
-	map<GlobalObject*, int32>::iterator iter;
+	std::vector<GlobalObject*> objects;
+	std::map<GlobalObject*, int32>::iterator iter;
 
 	for (uint32 i = 0; i < all_enemies.size(); ++i)
 	{
@@ -605,9 +602,9 @@ void FinishVictoryAssistant::_CreateObjectList() {
 
 
 void FinishVictoryAssistant::_SetCharacterStatus() {
-	deque<BattleCharacter*>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
+	std::deque<BattleCharacter*>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 
-	for (deque<BattleCharacter*>::iterator i = battle_characters.begin(); i != battle_characters.end(); i++) {
+	for (std::deque<BattleCharacter*>::iterator i = battle_characters.begin(); i != battle_characters.end(); i++) {
 		GlobalCharacter* character = (*i)->GetGlobalCharacter();
 
 		// Put back the current HP / SP onto the global characters.
@@ -673,7 +670,7 @@ void FinishVictoryAssistant::_UpdateGrowth() {
 	}
 
 	// ---------- (3): Add the XP amount to the characters appropriately
-	deque<BattleCharacter*>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
+	std::deque<BattleCharacter*>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 	// Tell whether the character can receive XP
 	bool level_maxed_out = false;
 	for (uint32 i = 0; i < _number_characters; ++i) {

@@ -27,12 +27,8 @@
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace std;
-
 using namespace hoa_utils;
-
 using namespace hoa_system;
-
 using namespace hoa_global;
 
 namespace hoa_battle {
@@ -621,7 +617,7 @@ bool BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 	}
 
 	// Determine what party the initial target will exist in
-	deque<BattleActor*>* target_party;
+	std::deque<BattleActor*>* target_party;
 	if ((type == GLOBAL_TARGET_ALLY_POINT) || (type == GLOBAL_TARGET_ALLY) || (type == GLOBAL_TARGET_ALL_ALLIES)
 			|| (type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
 		if (user->IsEnemy() == false)
@@ -721,7 +717,7 @@ bool BattleTarget::SetActorTarget(GLOBAL_TARGET type, BattleActor* actor) {
 	return true;
 }
 
-bool BattleTarget::SetPartyTarget(GLOBAL_TARGET type, deque<BattleActor*>* party) {
+bool BattleTarget::SetPartyTarget(GLOBAL_TARGET type, std::deque<BattleActor*>* party) {
 	if (!IsTargetParty(type)) {
 		IF_PRINT_WARNING(BATTLE_DEBUG)
 			<< "function received invalid type argument: " << type << std::endl;
@@ -843,7 +839,7 @@ bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid
 	}
 
 	// ----- (1): Retrieve the proper party container that contains the actors we would like to select from
-	deque<BattleActor*>* target_party = NULL;
+	std::deque<BattleActor*>* target_party = NULL;
 	if ((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_SELF)) {
 		return false; // Self type targets do not have multiple actors to select from
 	}

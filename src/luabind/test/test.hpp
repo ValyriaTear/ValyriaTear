@@ -26,7 +26,7 @@
 #include <boost/preprocessor/cat.hpp>
 #include <luabind/error.hpp>
 
-extern "C" 
+extern "C"
 {
     #include "lua.h"
     #include "lauxlib.h"
@@ -74,7 +74,7 @@ template<class T>
 struct counted_type
 {
     static int count;
-    
+
     counted_type()
     {
         ++count;
@@ -102,7 +102,6 @@ int counted_type<T>::count = 0;
     }                                           \
     catch (luabind::error const& e)             \
     {                                           \
-		using namespace std;					\
 		if (std::strcmp(                        \
             lua_tostring(e.state(), -1)         \
           , (char const*)expected))             \

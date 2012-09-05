@@ -23,10 +23,7 @@
 #include "shop_utils.h"
 #include "shop.h"
 
-using namespace std;
-
 using namespace hoa_utils;
-
 using namespace hoa_system;
 using namespace hoa_video;
 using namespace hoa_gui;

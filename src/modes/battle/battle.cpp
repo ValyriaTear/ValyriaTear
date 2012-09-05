@@ -33,8 +33,6 @@
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
@@ -75,7 +73,8 @@ BattleMedia::BattleMedia() {
 		PRINT_ERROR << "failed to load stamina icon selected image" << std::endl;
 
 	attack_point_indicator.SetDimensions(16.0f, 16.0f);
-	if (attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png", vector<uint32>(4, 100), 1, 4) == false)
+	if (attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png",
+			std::vector<uint32>(4, 100), 1, 4) == false)
 		PRINT_ERROR << "failed to load attack point indicator." << std::endl;
 
 	if (stamina_meter.Load("img/menus/stamina_bar.png") == false)
@@ -135,7 +134,7 @@ BattleMedia::BattleMedia() {
 	// Determine which status effects correspond to which icons and store the result in the _status_indices container
 	ReadScriptDescriptor& script_file = GlobalManager->GetStatusEffectsScript();
 
-	vector<int32> status_types;
+	std::vector<int32> status_types;
 	script_file.ReadTableKeys(status_types);
 
 	for (uint32 i = 0; i < status_types.size(); i++) {
@@ -151,7 +150,7 @@ BattleMedia::BattleMedia() {
 		script_file.OpenTable(status_types[i]);
 		if (script_file.DoesIntExist("icon_index") == true) {
 			uint32 icon_index = script_file.ReadUInt("icon_index");
-			_status_indeces.insert(pair<GLOBAL_STATUS, uint32>(status, icon_index));
+			_status_indeces.insert(std::pair<GLOBAL_STATUS, uint32>(status, icon_index));
 		}
 		else {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << std::endl;
@@ -174,14 +173,14 @@ void BattleMedia::Update() {
 }
 
 
-void BattleMedia::SetBackgroundImage(const string& filename) {
+void BattleMedia::SetBackgroundImage(const std::string& filename) {
 	if (background_image.Load(filename) == false) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load background image: " << filename << std::endl;
 	}
 }
 
 
-void BattleMedia::SetBattleMusic(const string& filename) {
+void BattleMedia::SetBattleMusic(const std::string& filename) {
 	if (battle_music.LoadAudio(filename) == false) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load music file: " << filename << std::endl;
 	}
@@ -235,7 +234,7 @@ StillImage* BattleMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 		return NULL;
 	}
 
-	map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
+	std::map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
 	if (status_entry == _status_indeces.end()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "no entry in the status icon index for status type: " << type << std::endl;
 		return NULL;
@@ -992,7 +991,7 @@ void BattleMode::_DrawSprites() {
 			_battle_media.actor_selection_image.Draw();
 		}
 		else if (IsTargetParty(target.GetType()) == true) {
-			deque<BattleActor*>& party_target = *(target.GetParty());
+			std::deque<BattleActor*>& party_target = *(target.GetParty());
 			for (uint32 i = 0; i < party_target.size(); i++) {
 				VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
 				VideoManager->MoveRelative(0.0f, -20.0f);

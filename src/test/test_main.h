@@ -31,7 +31,7 @@ namespace hoa_test {
 *** and runs a custom game loop, subverting the primary game loop found in main.cpp. All test code is
 *** contained in the src/test directory.
 **/
-bool ExecuteTests(std::string& tests);
+bool ExecuteTests(const std::string& tests);
 
 } // namespace hoa_test
 

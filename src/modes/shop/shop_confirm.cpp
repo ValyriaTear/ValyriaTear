@@ -31,8 +31,6 @@
 #include "shop_sell.h"
 #include "shop_trade.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_input;
@@ -143,13 +141,13 @@ ConfirmInterface::~ConfirmInterface() {
 
 
 void ConfirmInterface::MakeActive() {
-	map<uint32, ShopObject*>* buy_list = ShopMode::CurrentInstance()->GetBuyList();
-	map<uint32, ShopObject*>* sell_list = ShopMode::CurrentInstance()->GetSellList();
+	std::map<uint32, ShopObject*>* buy_list = ShopMode::CurrentInstance()->GetBuyList();
+	std::map<uint32, ShopObject*>* sell_list = ShopMode::CurrentInstance()->GetSellList();
 	// TODO: Get a container of all trades
 
 	// Vector constructs required by the BuyListDisplay/SellListDisplay classes
-	vector<ShopObject*> buy_vector;
-	vector<ShopObject*> sell_vector;
+	std::vector<ShopObject*> buy_vector;
+	std::vector<ShopObject*> sell_vector;
 
 	buy_vector.reserve(buy_list->size());
 	sell_vector.reserve(sell_list->size());
@@ -703,8 +701,8 @@ void ConfirmInterface::_ClearOrder() {
 
 
 void ConfirmInterface::_LeaveInterface() {
-	map<uint32, ShopObject*>* buy_list = ShopMode::CurrentInstance()->GetBuyList();
-	map<uint32, ShopObject*>* sell_list = ShopMode::CurrentInstance()->GetSellList();
+	std::map<uint32, ShopObject*>* buy_list = ShopMode::CurrentInstance()->GetBuyList();
+	std::map<uint32, ShopObject*>* sell_list = ShopMode::CurrentInstance()->GetSellList();
 
 	// Go through the lists and remove any entries that have had their counts set to zero
 	for (std::map<uint32, ShopObject*>::iterator i = buy_list->begin(); i != buy_list->end();) {

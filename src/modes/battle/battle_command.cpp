@@ -24,8 +24,6 @@
 #include "modes/battle/battle_command.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace std;
-
 using namespace hoa_utils;
 
 using namespace hoa_audio;
@@ -105,7 +103,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter* character, M
 	}
 
 	// Construct the attack, defend, and support skill lists for the character
-	vector<GlobalSkill*>* skill_list = NULL;
+	std::vector<GlobalSkill*>* skill_list = NULL;
 
 	skill_list = _character->GetGlobalCharacter()->GetAttackSkills();
 	for (uint32 i = 0; i < skill_list->size(); i++) {
@@ -158,7 +156,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter* character, M
 void CharacterCommandSettings::RefreshLists() {
 	uint32 require_sp = 0xFFFFFFFF;
 	uint32 current_sp = _character->GetSkillPoints();
-	vector<GlobalSkill*>* skill_list = NULL;
+	std::vector<GlobalSkill*>* skill_list = NULL;
 
 	skill_list = _character->GetGlobalCharacter()->GetAttackSkills();
 	for (uint32 i = 0; i < skill_list->size(); i++) {
@@ -272,7 +270,7 @@ ItemCommand::ItemCommand(MenuWindow& window) {
 	_item_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 	_item_list.SetCursorOffset(-50.0f, 25.0f);
 
-	vector<GlobalItem*>* all_items = GlobalManager->GetInventoryItems();
+	std::vector<GlobalItem*>* all_items = GlobalManager->GetInventoryItems();
 	for (uint32 i = 0; i < all_items->size(); i++) {
 		if (all_items->at(i)->IsUsableInBattle() == true) {
 			if (all_items->at(i)->GetCount() == 0) {
@@ -626,7 +624,7 @@ CommandSupervisor::CommandSupervisor() :
 	_category_text[2].SetText(Translate("Support"));
 	_category_text[3].SetText(Translate("Item"));
 
-	vector<ustring> option_text;
+	std::vector<ustring> option_text;
 	option_text.push_back(MakeUnicodeString("<img/icons/battle/attack.png>\n") + UTranslate("Attack"));
 	option_text.push_back(MakeUnicodeString("<img/icons/battle/defend.png>\n") + UTranslate("Defend"));
 	option_text.push_back(MakeUnicodeString("<img/icons/battle/support.png>\n") + UTranslate("Support"));
@@ -671,7 +669,7 @@ CommandSupervisor::~CommandSupervisor() {
 void CommandSupervisor::ConstructMenus() {
 	_item_command.ConstructList();
 
-	deque<BattleCharacter*>& characters = BattleMode::CurrentInstance()->GetCharacterActors();
+	std::deque<BattleCharacter*>& characters = BattleMode::CurrentInstance()->GetCharacterActors();
 	for (uint32 i = 0; i < characters.size(); i++)
 		_CreateCharacterSettings(characters[i]);
 }

@@ -27,14 +27,13 @@
 
 #include "main_options.h"
 
-using namespace std;
 using namespace hoa_utils;
 
 namespace hoa_main {
 
 bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv) {
 	// Convert the argument list to a vector of strings for convenience
-	vector<string> options(argv, argv + argc);
+	std::vector<std::string> options(argv, argv + argc);
 	return_code = 0;
 
 	for (uint32 i = 1; i < options.size(); i++) {
@@ -49,7 +48,7 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv) {
 		}
 		else if (options[i] == "-d" || options[i] == "--debug") {
 			if ((i + 1) >= options.size()) {
-				cerr << "Option " << options[i] << " requires an argument." << std::endl;
+				std::cerr << "Option " << options[i] << " requires an argument." << std::endl;
 				PrintUsage();
 				return_code = 1;
 				return false;
@@ -88,7 +87,7 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv) {
 			return false;
 		}
 		else {
-			cerr << "Unrecognized option: " << options[i] << std::endl;
+			std::cerr << "Unrecognized option: " << options[i] << std::endl;
 			PrintUsage();
 			return_code = 1;
 			return false;
@@ -100,11 +99,11 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv) {
 
 
 
-bool ParseSecondaryOptions(string vars, vector<string>& options) {
+bool ParseSecondaryOptions(const std::string& vars, std::vector<std::string>& options) {
 	uint32 sbegin = 0;
 
 	if (vars.empty()) {
-		cerr << "ERROR: debug specifier string is empty" << std::endl;
+		std::cerr << "ERROR: debug specifier string is empty" << std::endl;
 		return false;
 	}
 
@@ -113,7 +112,7 @@ bool ParseSecondaryOptions(string vars, vector<string>& options) {
 	while (vars[sbegin] == ' ' || vars[sbegin] == '\t') {
 		sbegin++;
 		if (sbegin >= vars.size()) {
-			cerr << "ERROR: no white-space characters in debug specifier string" << std::endl;
+			std::cerr << "ERROR: no white-space characters in debug specifier string" << std::endl;
 			return false;
 		}
 	}
@@ -133,17 +132,18 @@ bool ParseSecondaryOptions(string vars, vector<string>& options) {
 
 // Prints out the usage options (arguments) for running the program (work in progress)
 void PrintUsage() {
-	cout << "usage: "APPSHORTNAME" [options]" << std::endl;
-	cout << "  --check/-c        :: checks all files for integrity" << std::endl;
-	cout << "  --debug/-d <args> :: enables debug statements in specifed sections of the" << std::endl;
-	cout << "                       program, where <args> can be:" << std::endl;
-	cout << "                       all, audio, battle, boot, data, global, input," << std::endl;
-	cout << "                       map, mode_manager, pause, quit, scene, system" << std::endl;
-	cout << "                       utils, video" << std::endl;
-	cout << "  --disable-audio   :: disables loading and playing audio" << std::endl;
-	cout << "  --help/-h         :: prints this help menu" << std::endl;
-	cout << "  --info/-i         :: prints information about the user's system" << std::endl;
-	cout << "  --reset/-r        :: resets game configuration to use default settings" << std::endl;
+	std::cout
+	<< "usage: "APPSHORTNAME" [options]" << std::endl
+	<< "  --check/-c        :: checks all files for integrity" << std::endl
+	<< "  --debug/-d <args> :: enables debug statements in specifed sections of the" << std::endl
+	<< "                       program, where <args> can be:" << std::endl
+	<< "                       all, audio, battle, boot, data, global, input," << std::endl
+	<< "                       map, mode_manager, pause, quit, scene, system" << std::endl
+	<< "                       utils, video" << std::endl
+	<< "  --disable-audio   :: disables loading and playing audio" << std::endl
+	<< "  --help/-h         :: prints this help menu" << std::endl
+	<< "  --info/-i         :: prints information about the user's system" << std::endl
+	<< "  --reset/-r        :: resets game configuration to use default settings" << std::endl;
 }
 
 
@@ -153,7 +153,7 @@ bool PrintSystemInformation() {
 
 	// Initialize SDL and its subsystems and make sure it shutdowns properly on exit
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0) {
-		cerr << "ERROR: Unable to initialize SDL: " << SDL_GetError() << std::endl;
+		std::cerr << "ERROR: Unable to initialize SDL: " << SDL_GetError() << std::endl;
 		return false;
 	}
 	atexit(SDL_Quit);
@@ -205,60 +205,60 @@ bool PrintSystemInformation() {
 
 	const SDL_VideoInfo *user_video;
 	user_video = SDL_GetVideoInfo(); // Get information about the user's video system
-	cout << "  Best available video mode" << std::endl;
-	cout << "    Creates hardware surfaces: ";
+	std::cout << "  Best available video mode" << std::endl
+	<< "    Creates hardware surfaces: ";
 	if (user_video->hw_available == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Has window manager available: ";
+		std::cout << "no\n";
+	std::cout << "    Has window manager available: ";
 	if (user_video->wm_available == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Hardware to hardware blits accelerated: ";
+		std::cout << "no\n";
+	std::cout << "    Hardware to hardware blits accelerated: ";
 	if (user_video->blit_hw == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Hardware to hardware colorkey blits accelerated: ";
+		std::cout << "no\n";
+	std::cout << "    Hardware to hardware colorkey blits accelerated: ";
 	if (user_video->blit_hw_CC == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Hardware to hardware alpha blits accelerated: ";
+		std::cout << "no\n";
+	std::cout << "    Hardware to hardware alpha blits accelerated: ";
 	if (user_video->blit_hw_A == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Software to hardware blits acceleerated: ";
+		std::cout << "no\n";
+	std::cout << "    Software to hardware blits acceleerated: ";
 	if (user_video->blit_sw == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Software to hardware colorkey blits accelerated: ";
+		std::cout << "no\n";
+	std::cout << "    Software to hardware colorkey blits accelerated: ";
 	if (user_video->blit_sw_CC == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Software to hardware alpha blits accelerated: ";
+		std::cout << "no\n";
+	std::cout << "    Software to hardware alpha blits accelerated: ";
 	if (user_video->blit_sw_A == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Color fills accelerated: ";
+		std::cout << "no\n";
+	std::cout << "    Color fills accelerated: ";
 	if (user_video->blit_fill == 1)
-		cout << "yes\n";
+		std::cout << "yes\n";
 	else
-		cout << "no\n";
-	cout << "    Total video memory: " << user_video->video_mem << " kilobytes" << std::endl;
-	// cout << "    Best pixel format: " << user_video->vfmt << std::endl;
+		std::cout << "no\n";
+	std::cout << "    Total video memory: " << user_video->video_mem << " kilobytes" << std::endl;
+	// std::cout << "    Best pixel format: " << user_video->vfmt << std::endl;
 
 	printf("\n===== Audio Information\n");
 
 	hoa_audio::AudioManager = hoa_audio::AudioEngine::SingletonCreate();
 	if (hoa_audio::AudioManager->SingletonInitialize() == false) {
-		cerr << "ERROR: unable to initialize the AudioManager" << std::endl;
+		std::cerr << "ERROR: unable to initialize the AudioManager" << std::endl;
 		return false;
 	}
 	else {
@@ -274,22 +274,22 @@ bool PrintSystemInformation() {
 
 
 bool ResetSettings() {
-	cout << "This option is not yet implemented." << std::endl;
+	std::cout << "This option is not yet implemented." << std::endl;
 	return false;
 } // bool ResetSettings()
 
 
 
 bool CheckFiles() {
-	cout << "This option is not yet implemented." << std::endl;
+	std::cout << "This option is not yet implemented." << std::endl;
 	return false;
 } // bool CheckFiles()
 
 
 
-bool EnableDebugging(string vars) {
+bool EnableDebugging(const std::string& vars) {
 	// A vector of all the debug arguments
-	vector<string> args;
+	std::vector<std::string> args;
 	ParseSecondaryOptions(vars, args);
 
 	// Enable all specified debug variables
@@ -365,7 +365,7 @@ bool EnableDebugging(string vars) {
 			hoa_video::VIDEO_DEBUG = true;
 		}
 		else {
-			cerr << "ERROR: invalid debug argument: " << args[i] << std::endl;
+			std::cerr << "ERROR: invalid debug argument: " << args[i] << std::endl;
 			return false;
 		}
 	} // for (uint32 i = 0; i < args.size(); i++)

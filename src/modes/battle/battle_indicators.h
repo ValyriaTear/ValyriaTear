@@ -165,7 +165,7 @@ public:
 	*** \param style The style to use to render the text image
 	*** \param indicator_type tells the indicator use in game.
 	**/
-	IndicatorText(BattleActor* actor, std::string& text, hoa_video::TextStyle& style,
+	IndicatorText(BattleActor* actor, const std::string& text, const hoa_video::TextStyle& style,
 					INDICATOR_TYPE indicator_type);
 
 	~IndicatorText()
