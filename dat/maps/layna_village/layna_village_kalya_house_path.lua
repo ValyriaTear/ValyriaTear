@@ -354,7 +354,7 @@ function _CreateNPCs()
 	text = hoa_system.Translate("Ah! It's nice to see your dear young face around Bronann. Tell a bit about you to an old grandma.");
 	dialogue:AddLine(text, npc);
 	text = hoa_system.Translate("Er... Sorry Grandma, I have to go! Maybe later?");
-	dialogue:AddLineEmote(text, bronann, "sweat drop");
+	dialogue:AddLineEmote(text, bronann, "exclamation");
 	text = hoa_system.Translate("Ah ah! You'll surely want to see this young lady living up there. Ah, youngs nowadays...");
 	dialogue:AddLine(text, npc);
 	DialogueManager:AddDialogue(dialogue);

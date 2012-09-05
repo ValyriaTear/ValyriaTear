@@ -545,15 +545,15 @@ function _CreateEvents()
     text = hoa_system.Translate("Bronann, I'd like you not to go outside today.");
     dialogue:AddLine(text, bronanns_dad);
     text = hoa_system.Translate("Huh?! Why? You told me I could go into the forest and...");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     text = hoa_system.Translate("Sorry, Son. It's maybe a bit early, but I'd like you to be careful.");
     dialogue:AddLine(text, bronanns_dad);
     text = hoa_system.Translate("Hey, wait! Every elders in the village are on nerves. There is something going on here! Won't you tell me?");
-    dialogue:AddLineEvent(text, bronann, "", "Quest2: Bronann looks at both parents");
+    dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Bronann looks at both parents", "interrogation");
     text = hoa_system.Translate("None of you?");
     dialogue:AddLine(text, bronann);
     text = hoa_system.Translate("You really won't tell me?");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     text = hoa_system.Translate("... It's not that simple, Bronann. Believe me.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
@@ -573,7 +573,7 @@ function _CreateEvents()
     text = hoa_system.Translate("Bronann, please.");
     dialogue:AddLine(text, bronanns_dad);
     text = hoa_system.Translate("(Grumble) ... Crap!");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 3", dialogue);
     event:AddEventLinkAtEnd("Quest2: Bronann runs out of the house");
@@ -709,7 +709,7 @@ function _UpdateMotherDialogue()
 		local text = hoa_system.Translate("Hi Son, did you have a nightmare this night also?");
 		dialogue:AddLine(text, bronanns_mother);
 		text = hoa_system.Translate("Hi Mom, huh, how do you know...");
-		dialogue:AddLineEmote(text, bronann, "sweat drop");
+		dialogue:AddLineEmote(text, bronann, "interrogation");
 		text = hoa_system.Translate("Eh eh, have you already forgotten I'm your mother?");
 		dialogue:AddLine(text, bronanns_mother);
 		DialogueManager:AddDialogue(dialogue);

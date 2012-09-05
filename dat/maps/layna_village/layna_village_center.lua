@@ -373,7 +373,7 @@ function _CreateNPCs()
 	EventManager:StartEvent("Kalya random move");
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Please, leave me alone, Bronann...");
-	dialogue:AddLine(text, kalya);
+	dialogue:AddLineEmote(text, kalya, "exclamation");
 	DialogueManager:AddDialogue(dialogue);
 	kalya:AddDialogueReference(dialogue);
 
@@ -624,10 +624,10 @@ function _CreateEvents()
 
 	if (GlobalManager:DoesEventExist("story", "Quest1_done") == true) then
 	    text = hoa_system.Translate("Hmm, I can't go in there without being prepared... I suppose I need to go and find Flora again.");
-	    dialogue:AddLine(text, bronann);
+	    dialogue:AddLineEmote(text, bronann, "thinking dots");
 	else
 	    text = hoa_system.Translate("Hmm, I can't go in there, Mom asked me to get some barley meal...");
-	    dialogue:AddLine(text, bronann);
+	    dialogue:AddLineEmote(text, bronann, "thinking dots");
 	end
 	DialogueManager:AddDialogue(dialogue);
 
@@ -656,9 +656,9 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "Exclamation");
 	text = hoa_system.Translate("Still, I have go there, and figure out what they're trying to hide from me.");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "thinking dots");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Bronann wants to see Flora for equipment", dialogue);
 	event:SetStopCameraMovement(true);
@@ -686,7 +686,7 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Huh? What was that light?");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "interrogation");
 	text = hoa_system.Translate("... Bronann! Wait!");
 	dialogue:AddLine(text, carson);
 	DialogueManager:AddDialogue(dialogue);
@@ -743,7 +743,7 @@ function _CreateEvents()
 	text = hoa_system.Translate("...");
 	dialogue:AddLineEmote(text, carson, "sweat drop");
 	text = hoa_system.Translate("Huh? Hey, what's happening here?!");
-	dialogue:AddLineEvent(text, bronann, "", "Quest2: Carson looks at Bronann");
+	dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Carson looks at Bronann", "exclamation");
 	text = hoa_system.Translate("Bronann, I ...");
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("Father!");
@@ -762,13 +762,13 @@ function _CreateEvents()
 	text = hoa_system.Translate("Father! Orlinn has disappeared. I saw him taking the forest pathway!");
 	dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Herth");
 	text = hoa_system.Translate("Kalya! You were supposed to keep an eye on him!");
-	dialogue:AddLine(text, herth);
+	dialogue:AddLineEmote(text, herth, "exclamation");
 	text = hoa_system.Translate("I did, but he just slipped through my fingers at the very second that strange light appeared.");
 	dialogue:AddLineEmote(text, kalya, "sweat drop");
 	text = hoa_system.Translate("Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as fast as possible.");
 	dialogue:AddLineEmote(text, herth, "thinking dots");
 	text = hoa_system.Translate("Gosh! But you might be hurt!!");
-	dialogue:AddLine(text, kalya);
+	dialogue:AddLineEmote(text, kalya, "exclamation");
 	text = hoa_system.Translate("No, don't worry. We'll simply talk and they'll move on. You know what you have to do, right?");
 	dialogue:AddLine(text, herth);
 	text = hoa_system.Translate("Herth, we both know It'll likely...");
@@ -780,7 +780,7 @@ function _CreateEvents()
 	text = hoa_system.Translate("Bronann, you should go with her.");
 	dialogue:AddLineEventEmote(text, carson, "", "Quest2: Kalya looks at Carson", "thinking dots");
 	text = hoa_system.Translate("What?!?");
-	dialogue:AddLineEvent(text, kalya, "", "Quest2: Kalya looks at Herth");
+	dialogue:AddLineEventEmote(text, kalya, "", "Quest2: Kalya looks at Herth", "exclamation");
 	text = hoa_system.Translate("Huh?");
 	dialogue:AddLineEvent(text, bronann, "","Bronann is frightnened");
 	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
@@ -788,7 +788,7 @@ function _CreateEvents()
 	text = hoa_system.Translate("But he would just be a burden!");
 	dialogue:AddLineEvent(text, kalya, "", "Bronann is sad");
 	text = hoa_system.Translate("Huh? Hey! But...");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "exclamation");
 	text = hoa_system.Translate("He won't slow you down, believe me, right Bronann?");
 	dialogue:AddLineEvent(text, carson, "", "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("But Father!");
@@ -824,7 +824,7 @@ function _CreateEvents()
 	text = hoa_system.Translate("Bronann, take this sword, you'll probably need it there to make your way through.");
 	dialogue:AddLineEvent(text, carson, "", "Quest2: Show the wooden sword item in front of carson");
 	text = hoa_system.Translate("What? But one minute ago you said...");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "exclamation");
 	text = hoa_system.Translate("I know, but everything has changed. I'll explain you once all that is finished, now go, my son.");
 	dialogue:AddLine(text, carson);
 	DialogueManager:AddDialogue(dialogue);
@@ -950,7 +950,7 @@ function _CreateEvents()
     text = hoa_system.Translate("And tell me you equipped your sword ... If you haven't, open your inventory, and select 'Equip', the rest is self-explanatory.");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("You mean, like, I need to push a key to open my bag??");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEmote(text, bronann, "interrogation");
     text = hoa_system.Translate("Nevermind that, just do it.");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("The second thing is that the one in front of the battle line will lead the group in the forest. "..

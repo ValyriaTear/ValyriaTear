@@ -15,7 +15,9 @@ end
 
 emotes = {
     ["sweat drop"] = "img/effects/emotes/sweat_drop.lua",
-    ["thinking dots"] = "img/effects/emotes/thinking_dots.lua"
+    ["thinking dots"] = "img/effects/emotes/thinking_dots.lua",
+    ["interrogation"] = "img/effects/emotes/interrogation.lua",
+    ["exclamation"] = "img/effects/emotes/exclamation.lua"
     --["cruciform popping veins"] = "img/effects/emotes/cruciform_veins.lua",
     --["dizzy spirals"] = "img/effects/emotes/dizzy_spirals.lua",
     --["sigh breath"] = "img/emotes/sigh_breath.lua",
