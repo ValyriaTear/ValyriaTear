@@ -12,158 +12,174 @@ http://www.allacrost.org
 
 OGA stands for Open Game Art http://opengameart.org
 
-art/Tile-Mapping-System.png                              CC by SA 3.0              Jetrel (OGA)
-art/day_night_cycle_gradient_casper_nilsson_oga.png      CC by SA 3.0              C.Nilsson (OGA)
-art/kalya-high-idle.png                                  GPLv2                     Allacrost
-art/kalya-high-unarmed-idle.png                          GPLv2                     Allacrost + Bertram
-art/kalya-attack.xcf                                     GPLv2 or CC by SA 3.0     Allacrost (Frame 2), Bertram (Frames 1, 3 and 4)
-art/kalya-idle.xcf                                       CC by SA 3.0              Bertram
-art/legend-cliffs.png                                    CC by 3.0                 Daniel Cook (lostgarden.com)
-art/map_locations_borders.xcf                            GPLv2                     Based on Allacrost Team work, adapted into a translucent XCF by Bertram.
+Files                                                            Licenses                 Authors and details
+--------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
+art/Tile-Mapping-System.png                                     CC by SA 3.0             Jetrel (OGA)
+art/day_night_cycle_gradient_casper_nilsson_oga.png             CC by SA 3.0             C.Nilsson (OGA)
+art/kalya-high-idle.png                                         GPLv2                    Allacrost
+art/kalya-high-unarmed-idle.png                                 GPLv2                    Allacrost + Bertram
+art/kalya-attack.xcf                                            GPLv2 or CC by SA 3.0    Allacrost (Frame 2), Bertram (Frames 1, 3 and 4)
+art/kalya-idle.xcf                                              CC by SA 3.0             Bertram
+art/legend-cliffs.png                                           CC by 3.0                Daniel Cook (lostgarden.com)
+art/map_locations_borders.xcf                                   GPLv2                    Based on Allacrost Team work, adapted into a translucent XCF by Bertram.
 
-dat/global.lua                                           GPLv2 or later            Bertram (Completely redone it.)
+dat/global.lua                                                  GPLv2 or later           Bertram (Completely redone it.)
 
-dat/actors/characters.lua             GPLv2 or later	Allacrost + Bertram
-dat/actors/enemies.lua                GPLv2 or later	Allacrost + Bertram (Merged from former files: enemies_set_01.lua + enemies_set_02.lua)
-dat/actors/map_objects.lua            GPLv2 or later	Bertram
-dat/actors/map_sprites.lua            GPLv2 or later	Allacrost + Bertram (Was map_sprites_stock.lua)
+dat/actors/characters.lua                                       GPLv2 or later           Allacrost + Bertram
+dat/actors/enemies.lua                                          GPLv2 or later           Allacrost + Bertram (Merged from former files: enemies_set_01.lua + enemies_set_02.lua)
+dat/actors/map_objects.lua                                      GPLv2 or later           Bertram
+dat/actors/map_sprites.lua                                      GPLv2 or later           Allacrost + Bertram (Was map_sprites_stock.lua)
 
-dat/battles/desert_cave_battle_anim.lua		GPLv2 or later	Bertram
-dat/battles/tutorial_battle_dialogs.lua		GPLv2 or later	Allacrost + Bertram
+dat/battles/desert_cave_battle_anim.lua                         GPLv2 or later           Bertram
+dat/battles/tutorial_battle_dialogs.lua                         GPLv2 or later           Allacrost + Bertram
 
-dat/config/debug_menu.lua					GPLv2 or later	Bertram (Completely redone it.)
-dat/config/debug_shop.lua					GPLv2 or later	Bertram (Completely redone it.)
-dat/config/debug_battle.lua					GPLv2 or later	Bertram (Completely redone it.)
-dat/config/boot.lua							GPLv2 or later	Bertram (Completely redone it.)
+dat/config/debug_menu.lua                                       GPLv2 or later           Bertram (Completely redone it.)
+dat/config/debug_shop.lua                                       GPLv2 or later           Bertram (Completely redone it.)
+dat/config/debug_battle.lua                                     GPLv2 or later           Bertram (Completely redone it.)
+dat/config/boot.lua                                             GPLv2 or later           Bertram (Completely redone it.)
 
-dat/effects/lightning.lua					GPLv2 or later	Bertram
+dat/effects/lightning.lua                                       GPLv2 or later           Bertram
+dat/effects/emotes.lua                                          GPLv2 or later           Bertram
 
-dat/effects/particles/rain.lua				GPLv2 or later	roos + Bertram modifications
-dat/effects/particles/snow.lua				GPLv2 or later	roos + Bertram modifications
-dat/effects/particles/blue_firework.lua		GPLv2 or later	roos + Bertram modifications
-dat/effects/particles/explosion.lua			GPLv2 or later	roos + Bertram modifications
-dat/effects/particles/fire.lua				GPLv2 or later	roos + Bertram modifications
+dat/effects/particles/rain.lua                                  GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/snow.lua                                  GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/blue_firework.lua                         GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/explosion.lua                             GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/fire.lua                                  GPLv2 or later           roos + Bertram modifications
 
-dat/maps/*                                  GPLv2 or later      Bertram
+dat/maps/*                                                      GPLv2 or later           Bertram
 
-dat/objects/arm_armor.lua                   GPLv2 or later      Allacrost + Bertram
-dat/objects/head_armor.lua                  GPLv2 or later      Allacrost + Bertram
-dat/objects/items.lua                       GPLv2 or later      Allacrost + Bertram
-dat/objects/torso_armor.lua                 GPLv2 or later      Allacrost + Bertram
-dat/objects/leg_armor.lua                   GPLv2 or later      Allacrost + Bertram
-dat/objects/weapons.lua                     GPLv2 or later      Allacrost + Bertram
-dat/objects/key_items.lua                   GPLv2 or later      Bertram
+dat/objects/arm_armor.lua                                       GPLv2 or later           Allacrost + Bertram
+dat/objects/head_armor.lua                                      GPLv2 or later           Allacrost + Bertram
+dat/objects/items.lua                                           GPLv2 or later           Allacrost + Bertram
+dat/objects/torso_armor.lua                                     GPLv2 or later           Allacrost + Bertram
+dat/objects/leg_armor.lua                                       GPLv2 or later           Allacrost + Bertram
+dat/objects/weapons.lua                                         GPLv2 or later           Allacrost + Bertram
+dat/objects/key_items.lua                                       GPLv2 or later           Bertram
 
-dat/skills/battle_animations/bronann_attack.lua	GPLv2 or later 	Bertram
-dat/skills/battle_animations/kalya_attack.lua	GPLv2 or later 	Bertram
-dat/skills/battle_animations/thanis_attack.lua	GPLv2 or later 	Bertram
+dat/skills/battle_animations/bronann_attack.lua                 GPLv2 or later           Bertram
+dat/skills/battle_animations/kalya_attack.lua                   GPLv2 or later           Bertram
+dat/skills/battle_animations/thanis_attack.lua                  GPLv2 or later           Bertram
 
-dat/tilesets/building_interior_objects_01.lua   GPLv2 or later	Allacrost + Bertram
-dat/tilesets/desert_house_tileset.lua           GPLv2 or later	Allacrost + Bertram
-dat/tilesets/harrvah_house_interior.lua         GPLv2 or later	Allacrost + Bertram
-dat/tilesets/mountain_landscape.lua             GPLv2 or later	Allacrost + Bertram
-dat/tilesets/mountain_house_interior.lua        GPLv2 or later	Allacrost + Bertram
-dat/tilesets/snow-tileset.lua                   GPLv2 or later	Bertram
-dat/tilesets/wood-tileset.lua                   GPLv2 or later	Bertram
+dat/tilesets/building_interior_objects_01.lua                   GPLv2 or later           Allacrost + Bertram
+dat/tilesets/desert_house_tileset.lua                           GPLv2 or later           Allacrost + Bertram
+dat/tilesets/harrvah_house_interior.lua                         GPLv2 or later           Allacrost + Bertram
+dat/tilesets/mountain_landscape.lua                             GPLv2 or later           Allacrost + Bertram
+dat/tilesets/mountain_house_interior.lua                        GPLv2 or later           Allacrost + Bertram
+dat/tilesets/snow-tileset.lua                                   GPLv2 or later           Bertram
+dat/tilesets/wood-tileset.lua                                   GPLv2 or later           Bertram
 
-img/ambient/fog.png:    			GPLv2 or later	Bertram
-img/ambient/sandstorm.png:			GPLv2 or later	The Mana World Team + Bertram
+img/ambient/fog.png                                             GPLv2 or later           Bertram
+img/ambient/sandstorm.png                                       GPLv2 or later           The Mana World Team + Bertram
 
-img/backdrops/battle/forest_background.png                      CC0     (Bertram) Based on free photos from: http://www.copyright-free-images.com/nature-landscapes-copyright-free-images/forest-copyright-free-images/forest-border.jpg.html 
-img/backdrops/battle/desert_cave/desert_cave.png                GPLv2   Allacrost + Bertram
-img/backdrops/battle/desert_cave/tpl_desert_cave_anim.png       GPLv2   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_eyes1.png          GPLv2   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_water.png          GPLv2   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_eyes2.png          GPLv2   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_waterdrop.png      GPLv2   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_creatures.png      GPLv2   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_eyes2.lua          GPLv2   Bertram
-img/backdrops/battle/desert_cave/desert_cave_water.lua          GPLv2   Bertram
-img/backdrops/battle/desert_cave/desert_cave_waterdrop.lua      GPLv2   Bertram
-img/backdrops/battle/desert_cave/desert_cave_eyes1.lua          GPLv2   Bertram
-img/backdrops/battle/desert_cave/desert_cave_creatures.lua      GPLv2   Bertram
+img/backdrops/battle/forest_background.png                      CC0                      (Bertram) Based on free photos from: http://www.copyright-free-images.com/nature-landscapes-copyright-free-images/forest-copyright-free-images/forest-border.jpg.html 
+img/backdrops/battle/desert_cave/desert_cave.png                GPLv2                    Allacrost + Bertram
+img/backdrops/battle/desert_cave/tpl_desert_cave_anim.png       GPLv2                    Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_eyes1.png          GPLv2                    Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_water.png          GPLv2                    Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_eyes2.png          GPLv2                    Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_waterdrop.png      GPLv2                    Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_creatures.png      GPLv2                    Allacrost + Bertram
+img/backdrops/battle/desert_cave/desert_cave_eyes2.lua          GPLv2                    Bertram
+img/backdrops/battle/desert_cave/desert_cave_water.lua          GPLv2                    Bertram
+img/backdrops/battle/desert_cave/desert_cave_waterdrop.lua      GPLv2                    Bertram
+img/backdrops/battle/desert_cave/desert_cave_eyes1.lua          GPLv2                    Bertram
+img/backdrops/battle/desert_cave/desert_cave_creatures.lua      GPLv2                    Bertram
 
-img/backgrops/boot/background.png				GPLv2			JAP (OGA)
-img/backgrops/boot/cloudfield.png				GPLv2			Bertram
-img/backgrops/boot/cloudymist.png				GPLv2			Bertram
-img/backgrops/boot/crystal.png				    GPLv2			Len (OGA) + Bertram
-img/backgrops/boot/crystal_shadow.png		    GPLv2			Bertram
-img/backgrops/boot/flare.png        		    GPLv2			Bertram
-img/backgrops/boot/fog.png        		        GPLv2			Bertram
-img/backgrops/boot/satellite.png   		        GPLv2			Len (OGA) + Bertram
-img/backgrops/boot/satellite_shadow.png         GPLv2			Bertram
+img/backgrops/boot/background.png                               GPLv2                    JAP (OGA)
+img/backgrops/boot/cloudfield.png                               GPLv2                    Bertram
+img/backgrops/boot/cloudymist.png                               GPLv2                    Bertram
+img/backgrops/boot/crystal.png                                  GPLv2                    Len (OGA) + Bertram
+img/backgrops/boot/crystal_shadow.png                           GPLv2                    Bertram
+img/backgrops/boot/flare.png                                    GPLv2                    Bertram
+img/backgrops/boot/fog.png                                      GPLv2                    Bertram
+img/backgrops/boot/satellite.png                                GPLv2                    Len (OGA) + Bertram
+img/backgrops/boot/satellite_shadow.png                         GPLv2                    Bertram
 
-img/effects/explosion.png						GPLv2 or later	Roos
-img/effects/fire.png							GPLv2 or later	Roos
-img/effects/flame1.png							GPLv2 or later	Roos
-img/effects/flame2.png							GPLv2 or later	Roos
-img/effects/flame3.png							GPLv2 or later	Roos
-img/effects/flame4.png							GPLv2 or later	Roos
-img/effects/flame5.png							GPLv2 or later	Roos
-img/effects/flame6.png							GPLv2 or later	Roos
-img/effects/flame7.png							GPLv2 or later	Roos
-img/effects/flame8.png							GPLv2 or later	Roos
-img/effects/outlined_circle_small.png			GPLv2 or later	Roos
+img/effects/explosion.png                                       GPLv2 or later           Roos
+img/effects/fire.png                                            GPLv2 or later           Roos
+img/effects/flame1.png                                          GPLv2 or later           Roos
+img/effects/flame2.png                                          GPLv2 or later           Roos
+img/effects/flame3.png                                          GPLv2 or later           Roos
+img/effects/flame4.png                                          GPLv2 or later           Roos
+img/effects/flame5.png                                          GPLv2 or later           Roos
+img/effects/flame6.png                                          GPLv2 or later           Roos
+img/effects/flame7.png                                          GPLv2 or later           Roos
+img/effects/flame8.png                                          GPLv2 or later           Roos
+img/effects/outlined_circle_small.png                           GPLv2 or later           Roos
 
-img/icons/actors/characters/kalya.png            GPLv2               Allacrost (was Laila icon)
-img/icons/actors/characters/sylve.png            GPLv2               Allacrost (was Raphaela icon)
-img/icons/actors/characters/thanis.png           GPLv2               Allacrost (was Claudius icon)
-img/icons/actors/characters/bronann.png          CC by SA 3.0        Safir-Kreuz (Deviant Art)
+img/effects/emotes/sweat_drop.lua                               GPLv2 or later           Bertram
+img/effects/emotes/sweat_drop.png                               CC by SA 3.0             Bertram
+img/effects/emotes/thinking_dots.lua                            GPLv2 or later           Bertram
+img/effects/emotes/thinking_dots.png                            CC by SA 3.0             Bertram
 
-img/icons/actors/enemies/mushroom_zombie.png             CC by SA 3.0   Redshrike (OGA)
-img/icons/actors/characters/red_slime.png                GPLv2          Allacrost (From red slime enemy)
-img/icons/actors/enemies/thing.png                       CC by SA 3.0   From Jetrel (OGA) (From thing enemy)
-img/icons/actors/enemies/yeti.png                        CC by SA 3.0   From Jetrel (OGA) (From yeti enemy)
+img/icons/actors/characters/kalya.png                           GPLv2                    Allacrost (was Laila icon)
+img/icons/actors/characters/sylve.png                           GPLv2                    Allacrost (was Raphaela icon)
+img/icons/actors/characters/thanis.png                          GPLv2                    Allacrost (was Claudius icon)
+img/icons/actors/characters/bronann.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
 
-img/icons/items/key_items/barley_meal_bag.png            CC by SA 3.0   From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
+img/icons/actors/enemies/mushroom_zombie.png                    CC by SA 3.0             Redshrike (OGA)
+img/icons/actors/characters/red_slime.png                       GPLv2                    Allacrost (From green slime enemy)
+img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
+img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
 
-img/logos/valyria_logo_black.png				GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
-img/logos/program_icon.bmp						GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
-img/logos/program_icon.ico						GPLv2	Bertram (using the scriptina font which is CC0, see DaFont.com)
+img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 
-items/menus/key.png                                     CC by SA 3.0    Tempest in the Aether, Ryzom Core + Bertram small modifications
-items/menus/shard.png                                   CC by SA 3.0    Bertram
-img/menus/locations/layna_forest.png                    CC by SA 3.0    Bertram
+img/logos/valyria_logo_black.png                                GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
+img/logos/program_icon.bmp                                      GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
+img/logos/program_icon.ico                                      GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
 
-img/misc/dialog_icon.lua                GPLv2	Bertram
+items/menus/key.png                                             CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
+items/menus/shard.png                                           CC by SA 3.0             Bertram
+img/menus/locations/layna_forest.png                            CC by SA 3.0             Bertram
 
-img/misc/editor-tools/document-new.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/edit-delete.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/eye.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/go-down.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/go-up.png	GPLv2	Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/dialog_icon.lua                                        GPLv2 or later           Bertram
 
-img/misc/lights/left_window_light.png   GPLv2	Bertram
-img/misc/lights/right_window_light.png  GPLv2	Bertram
-img/misc/lights/torch_light_mask.png    GPLv2	Bertram (Completely redone)
-img/misc/lights/left_window_light.lua   GPLv2	Bertram
-img/misc/lights/right_window_light.lua  GPLv2	Bertram
-img/misc/lights/torch_light_mask.lua    GPLv2	Bertram
+img/misc/editor-tools/document-new.png                          GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/edit-delete.png                           GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/eye.png                                   GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/go-down.png                               GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/go-up.png                                 GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
 
-img/misc/save_point/save_point1.lua    GPLv2	Bertram
-img/misc/save_point/save_point1.png    GPLv2	Bertram
-img/misc/save_point/save_point2.lua    GPLv2	Bertram
-img/misc/save_point/save_point2.png    GPLv2	Bertram
-img/misc/save_point/save_point3.lua    GPLv2	Bertram
-img/misc/save_point/save_point3.png    GPLv2	Bertram
-img/misc/save_point/save_point4.lua    GPLv2	Bertram
-img/misc/save_point/save_point4.png    GPLv2	Bertram
+img/misc/lights/left_window_light.png                           CC by SA 3.0             Bertram
+img/misc/lights/right_window_light.png                          CC by SA 3.0             Bertram
+img/misc/lights/torch_light_mask.png                            CC by SA 3.0             Bertram (Completely redone)
+img/misc/lights/left_window_light.lua                           GPLv2 or later           Bertram
+img/misc/lights/right_window_light.lua                          GPLv2 or later           Bertram
+img/misc/lights/torch_light_mask.lua                            GPLv2 or later           Bertram
+img/misc/lights/sun_flare_light.png                             GPLv2 or later           Based on a GIMP 2.8.0 resource file + Bertram modifications
+img/misc/lights/sun_flare_light_main.lua                        GPLv2 or later           Bertram
+img/misc/lights/sun_flare_light_secondary.lua                   GPLv2 or later           Bertram
+img/misc/lights/sun_flare_light_small_main.lua                  GPLv2 or later           Bertram
+img/misc/lights/sun_flare_light_small_secondary.lua             GPLv2 or later           Bertram
 
-img/portraits/battle/laila_damage.png           GPLv2               Allacrost (was Laila icon)
-img/portraits/battle/thanis_damage.png          GPLv2               Allacrost (was Claudius icon)
-img/portraits/battle/sylve_damage.png           GPLv2               Allacrost (was Raphaela icon)
-img/portraits/battle/bronann_damage.png         CC by SA 3.0        Safir-Kreuz (Deviant Art)
+img/misc/save_point/save_point1.lua                             GPLv2 or later           Bertram
+img/misc/save_point/save_point1.png                             CC by SA 3.0             Bertram
+img/misc/save_point/save_point2.lua                             GPLv2 or later           Bertram
+img/misc/save_point/save_point2.png                             CC by SA 3.0             Bertram
+img/misc/save_point/save_point3.lua                             GPLv2 or later           Bertram
+img/misc/save_point/save_point3.png                             CC by SA 3.0             Bertram
+img/misc/save_point/save_point4.lua                             GPLv2 or later           Bertram
+img/misc/save_point/save_point4.png                             CC by SA 3.0             Bertram
 
-img/portraits/map/npcs/malta.png                GPLv2               Allacrost (was Vanica portrait)
-img/portraits/map/npcs/carson.png               GPLv2               Allacrost (was Marcus portrait)
+img/portraits/battle/laila_damage.png                           GPLv2                    Allacrost (was Laila icon)
+img/portraits/battle/thanis_damage.png                          GPLv2                    Allacrost (was Claudius icon)
+img/portraits/battle/sylve_damage.png                           GPLv2                    Allacrost (was Raphaela icon)
+img/portraits/battle/bronann_damage.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
 
-img/portraits/thanis.png                        GPLv2               Allacrost (was Claudius portrait)
-img/portraits/thanis_full.png                   GPLv2               Allacrost (was Claudius large portrait)
-img/portraits/sylve.png                         GPLv2               Allacrost (was Raphaela portrait)
-img/portraits/sylve_full.png                    GPLv2               Allacrost (was Raphaela large portrait)
-img/portraits/kalya.png                         GPLv2               Allacrost (was Laila portrait)
-img/portraits/kalya_full.png                    GPLv2               Allacrost (was Laila large portrait)
-img/portraits/bronann.png                       CC by SA 3.0        Safir-Kreuz (Deviant Art)
+img/portraits/map/npcs/malta.png                                GPLv2                    Allacrost (was Vanica portrait)
+img/portraits/map/npcs/carson.png                               GPLv2                    Allacrost (was Marcus portrait)
+
+img/portraits/thanis.png                                        GPLv2                    Allacrost (was Claudius portrait)
+img/portraits/thanis_full.png                                   GPLv2                    Allacrost (was Claudius large portrait)
+img/portraits/sylve.png                                         GPLv2                    Allacrost (was Raphaela portrait)
+img/portraits/sylve_full.png                                    GPLv2                    Allacrost (was Raphaela large portrait)
+img/portraits/kalya.png                                         GPLv2                    Allacrost (was Laila portrait)
+img/portraits/kalya_full.png                                    GPLv2                    Allacrost (was Laila large portrait)
+img/portraits/bronann.png                                       CC by SA 3.0             Safir-Kreuz (Deviant Art)
+
+img/sprites/battle/ammo/wood_arrow.lua                          GPLv2 or later           Bertram
+img/sprites/battle/ammo/wood_arrow.png                          CC by 3.0                Ravenmore + Bertram modifications (http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20)
 
 img/sprites/battle/characters/bronann_attack.png	GPLv2	Allacrost + Bertram
 img/sprites/battle/characters/bronann_dead.png		GPLv2	Allacrost + Bertram
@@ -336,18 +352,18 @@ img/tilesets/water_tileset.png                      CC by SA 3.0/GPLv2          
 img/tilesets/wood_tileset.png                       CC by SA 3.0                From Jetrel's mockups + Bertram
 img/tilesets/snow_tileset.png                       CC by SA 3.0                From Jetrel's mockups + Bertram + snow tree and ground from Yd (OGA)
 
-mus/Caketown_1-OGA-mat-pablo.ogg                    CC by SA 3.0 or GPLv3       Mathew Pablo (OGA)
-mus/house_in_a_forest_loop_horrorpen_oga.ogg        CC by 3.0                   HorrorPen (OGA)
-mus/koertes-ccby-birdsongloop16s.ogg                CC by SA 3.0                Koertes (OGA)
-mus/Soliloquy_1-OGA-mat-pablo.ogg                   CC by SA 3.0 or GPLv3       Mathew Pablo (OGA)
+mus/Caketown_1-OGA-mat-pablo.ogg                                CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
+mus/house_in_a_forest_loop_horrorpen_oga.ogg                    CC by 3.0                HorrorPen (OGA)
+mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0             Koertes (OGA)
+mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
 
 
-snd/itempick2_michel_baradari_oga.wav               CC by 3.0                   Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
-snd/lightning.wav                                   CC0 (Bertram)
-snd/new_game.wav                                    GPLv2 (Same sound than the opening_sword_fall.wav) file from Allacrost.
-snd/save_point_activated_dokashiteru_oga.wav        CC by 3.0, GPLv2, GPLv3     DoKashiteru (OGA)
-snd/save_successful_nick_bowler_oga.wav             CC by 3.0                   Nick Bowler, added by draconx (OGA)
-snd/thunder.wav                                     CC0 (Bertram)
+snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
+snd/lightning.wav                                               CC0                      (Bertram)
+snd/new_game.wav                                                GPLv2                    (Same sound than the opening_sword_fall.wav) file from Allacrost.
+snd/save_point_activated_dokashiteru_oga.wav                    CC by 3.0, GPLv2, GPLv3  DoKashiteru (OGA)
+snd/save_successful_nick_bowler_oga.wav                         CC by 3.0                Nick Bowler, added by draconx (OGA)
+snd/thunder.wav                                                 CC0                      (Bertram)
 
 
 Allacrost files: (Each and every are assumed to be licensed under the GPLv2 conditions according to the original authors.)
