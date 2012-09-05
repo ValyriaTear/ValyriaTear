@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ***************************************************************************
 *** \file    mode_bindings.cpp
 *** \author  Daniel Steuernol, steu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Lua bindings for game mode code
 ***
 *** All bindings for the game mode code is contained within this file.
@@ -218,6 +220,7 @@ void BindModeCode() {
 			.def("IsVisible", &MapObject::IsVisible)
 			.def("IsNoCollision", &MapObject::IsNoCollision)
 			.def("IsDrawOnSecondPass", &MapObject::IsDrawOnSecondPass)
+			.def("Emote", &MapObject::Emote)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -230,7 +233,7 @@ void BindModeCode() {
 	[
 		luabind::class_<PhysicalObject, MapObject>("PhysicalObject")
 			.def(luabind::constructor<>())
-			.def("AddAnimation", (int32(PhysicalObject::*)(std::string))&PhysicalObject::AddAnimation)
+			.def("AddAnimation", (int32(PhysicalObject::*)(const std::string&))&PhysicalObject::AddAnimation)
 			.def("AddStillFrame", &PhysicalObject::AddStillFrame)
 			.def("SetCurrentAnimation", &PhysicalObject::SetCurrentAnimation)
 			.def("SetAnimationProgress", &PhysicalObject::SetAnimationProgress)
@@ -394,6 +397,7 @@ void BindModeCode() {
 			.def(luabind::constructor<>())
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, uint32))&SpriteDialogue::AddLine)
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*))&SpriteDialogue::AddLine)
+			.def("AddLineEmote", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, const std::string&))&SpriteDialogue::AddLineEmote)
 
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, uint32, int32))&SpriteDialogue::AddLine)
 			.def("AddLine", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32))&SpriteDialogue::AddLine)
@@ -404,17 +408,18 @@ void BindModeCode() {
 			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, uint32, int32, uint32))&SpriteDialogue::AddLineTimed)
 			.def("AddLineTimed", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, uint32))&SpriteDialogue::AddLineTimed)
 
-			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, const std::string&))&SpriteDialogue::AddLineEvent)
-			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, const std::string&, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, const std::string&, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEventEmote", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, const std::string&, const std::string&, const std::string&))&SpriteDialogue::AddLineEventEmote)
 
-			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, const std::string&))&SpriteDialogue::AddLineEvent)
-			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, const std::string&, const std::string&))&SpriteDialogue::AddLineEvent)
+			.def("AddLineEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, const std::string&, const std::string&))&SpriteDialogue::AddLineEvent)
 
-			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
-			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, uint32, const std::string&, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, uint32, const std::string&, const std::string&))&SpriteDialogue::AddLineTimedEvent)
 
-			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
-			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, uint32, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, uint32, int32, uint32, const std::string&, const std::string&, const std::string&))&SpriteDialogue::AddLineTimedEvent)
+			.def("AddLineTimedEvent", (void(SpriteDialogue::*)(const std::string&, VirtualSprite*, int32, uint32, const std::string&, const std::string&))&SpriteDialogue::AddLineTimedEvent)
 
 			.def("AddOption", (void(SpriteDialogue::*)(const std::string&))&SpriteDialogue::AddOption)
 			.def("AddOption", (void(SpriteDialogue::*)(const std::string&, int32))&SpriteDialogue::AddOption)

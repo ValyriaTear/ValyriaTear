@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    main.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   initialization code and main game loop.
 ***
 *** The code in this file is the first to execute when the game is started and
@@ -309,6 +311,9 @@ void InitializeEngine() throw (Exception) {
 	}
 
 	VideoManager->Text()->SetDefaultStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_BLACK, 1, -2));
+
+	// Loads potential emotes
+	GlobalManager->LoadEmotes("dat/effects/emotes.lua");
 
 	// Set the window title and icon name
 	SDL_WM_SetCaption(APPFULLNAME, APPFULLNAME);

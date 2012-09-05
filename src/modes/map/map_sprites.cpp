@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_sprites.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode sprites.
 *** ***************************************************************************/
 
@@ -62,22 +64,20 @@ VirtualSprite::VirtualSprite() :
 	MapObject::_object_type = VIRTUAL_TYPE;
 }
 
-
-
 VirtualSprite::~VirtualSprite()
 {}
 
-
-
 void VirtualSprite::Update() {
 	moved_position = false;
+
+	// Update potential emote animation
+	MapObject::_UpdateEmote();
 
 	if (!updatable || !moving)
 		return;
 
 	_SetNextPosition();
 } // void VirtualSprite::Update()
-
 
 void VirtualSprite::_SetNextPosition() {
 
@@ -881,6 +881,8 @@ void MapSprite::Draw() {
 			_current_custom_animation->Draw();
 		else
 			_animation->at(_current_anim_direction).Draw();
+
+		MapObject::_DrawEmote();
 
 		if (VideoManager->DebugInfoOn())
 			_DrawDebugInfo();

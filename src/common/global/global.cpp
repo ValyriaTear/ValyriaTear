@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,11 +11,13 @@
 /** ****************************************************************************
 *** \file    global.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for the global game manager
 *** ***************************************************************************/
 
-#include "engine/system.h"
 #include "global.h"
+#include "engine/system.h"
+#include "modes/map/map.h"
 
 using namespace hoa_utils;
 
@@ -888,6 +891,39 @@ bool GameGlobal::LoadGame(const std::string& filename, uint32 slot_id) {
 
 	return true;
 } // bool GameGlobal::LoadGame(string& filename)
+
+void GameGlobal::LoadEmotes(const std::string& emotes_filename) {
+	// First, clear the list in case of reloading
+	_emotes.clear();
+
+	hoa_script::ReadScriptDescriptor emotes_script;
+	if (!emotes_script.OpenFile(emotes_filename))
+		return;
+
+	if (!emotes_script.DoesTableExist("emotes")) {
+		emotes_script.CloseFile();
+		return;
+	}
+
+	std::vector<std::string> emotes_id;
+	emotes_script.ReadTableKeys("emotes", emotes_id);
+
+	// Read all the values
+	emotes_script.OpenTable("emotes");
+	for (uint32 i = 0; i < emotes_id.size(); ++i) {
+		std::string animation_file = emotes_script.ReadString(emotes_id[i]);
+		AnimatedImage anim;
+		if (anim.LoadFromAnimationScript(animation_file)) {
+			// NOTE: The map mode should one day be fixed to use the same coords
+			// than everything else, thus making possible to remove this
+			hoa_map::MapMode::ScaleToMapCoords(anim);
+
+			_emotes.insert(std::make_pair(emotes_id[i], anim));
+		}
+	}
+	emotes_script.CloseAllTables();
+	emotes_script.CloseFile();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Private Methods

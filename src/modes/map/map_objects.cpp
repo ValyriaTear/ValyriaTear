@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,22 +11,18 @@
 /** ****************************************************************************
 *** \file    map_objects.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode objects.
 *** ***************************************************************************/
 
-#include "utils.h"
+#include "modes/map/map_objects.h"
 
-#include "engine/audio/audio.h"
-#include "engine/system.h"
-#include "engine/video/video.h"
-#include "engine/video/particle_effect.h"
+#include "modes/map/map.h"
+#include "modes/map/map_sprites.h"
 
 #include "common/global/global.h"
 
-#include "modes/map/map.h"
-#include "modes/map/map_dialogue.h"
-#include "modes/map/map_objects.h"
-#include "modes/map/map_sprites.h"
+#include "engine/video/particle_effect.h"
 
 using namespace std;
 using namespace hoa_utils;
@@ -54,10 +51,10 @@ MapObject::MapObject() :
 	visible(true),
 	no_collision(false),
 	sky_object(false),
-	draw_on_second_pass(false)
+	draw_on_second_pass(false),
+	_emote_animation(0),
+	_emote_time(0)
 {}
-
-
 
 bool MapObject::ShouldDraw() {
 	if (!visible)
@@ -94,7 +91,6 @@ bool MapObject::ShouldDraw() {
 	return true;
 } // bool MapObject::ShouldDraw()
 
-
 MapRectangle MapObject::GetCollisionRectangle() const {
 	MapRectangle rect;
 	rect.left = position.x - coll_half_width;
@@ -105,7 +101,6 @@ MapRectangle MapObject::GetCollisionRectangle() const {
 	return rect;
 }
 
-
 MapRectangle MapObject::GetCollisionRectangle(float x, float y) const {
 	MapRectangle rect;
 	rect.left = x - coll_half_width;
@@ -115,8 +110,6 @@ MapRectangle MapObject::GetCollisionRectangle(float x, float y) const {
 	return rect;
 }
 
-
-
 MapRectangle MapObject::GetImageRectangle() const {
 	MapRectangle rect;
 	rect.left = position.x - img_half_width;
@@ -124,6 +117,48 @@ MapRectangle MapObject::GetImageRectangle() const {
 	rect.top = position.y - img_height;
 	rect.bottom = position.y;
 	return rect;
+}
+
+void MapObject::Emote(const std::string& emote_name) {
+	_emote_animation = GlobalManager->GetEmoteAnimation(emote_name);
+
+	if (!_emote_animation) {
+		PRINT_WARNING << "Invalid emote requested: " << emote_name << " for map object: "
+			<< GetObjectID() << std::endl;
+		return;
+	}
+
+	_emote_animation->ResetAnimation();
+	_emote_time = _emote_animation->GetAnimationLength();
+}
+
+void MapObject::_UpdateEmote() {
+	if (!_emote_animation)
+		return;
+
+	_emote_time -= SystemManager->GetUpdateTime();
+
+	// Once the animation has reached its end, we dereference it
+	if (_emote_time <= 0) {
+		_emote_animation = 0;
+		return;
+	}
+
+	// Otherwise, just update it
+	_emote_animation->Update();
+}
+
+void MapObject::_DrawEmote() {
+	if (_emote_animation) {
+		float x, y;
+		VideoManager->GetDrawPosition(x, y);
+		// Place the emote next to the hero head.
+		// TODO: Make the offset depend on the sprite direction and emote animation.
+		x = x + img_half_width / 2.0f;
+		y = y - img_height * 2.0f / 3.0f;
+		VideoManager->Move(x, y);
+		_emote_animation->Draw();
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -136,18 +171,14 @@ PhysicalObject::PhysicalObject() :
 	MapObject::_object_type = PHYSICAL_TYPE;
 }
 
-
-
 PhysicalObject::~PhysicalObject() {
 	animations.clear();
 }
-
 
 void PhysicalObject::Update() {
 	if (!animations.empty() && updatable)
 		animations[current_animation].Update();
 }
-
 
 void PhysicalObject::Draw() {
 	if (!animations.empty() && MapObject::ShouldDraw()) {
@@ -163,8 +194,7 @@ void PhysicalObject::Draw() {
 	}
 }
 
-
-int32 PhysicalObject::AddAnimation(std::string animation_filename) {
+int32 PhysicalObject::AddAnimation(const std::string& animation_filename) {
 	AnimatedImage new_animation;
 	if (!new_animation.LoadFromAnimationScript(animation_filename)) {
 		PRINT_WARNING << "Could not add animation because the animation filename was invalid: "
@@ -177,8 +207,7 @@ int32 PhysicalObject::AddAnimation(std::string animation_filename) {
 	return (int32)animations.size() - 1;
 }
 
-
-int32 PhysicalObject::AddStillFrame(std::string image_filename) {
+int32 PhysicalObject::AddStillFrame(const std::string& image_filename) {
 	AnimatedImage new_animation;
 	if (!new_animation.AddFrame(image_filename, 100000)) {
 		PRINT_WARNING << "Could not add a still frame because the image filename was invalid: "
@@ -190,7 +219,6 @@ int32 PhysicalObject::AddStillFrame(std::string image_filename) {
 	animations.push_back(new_animation);
 	return (int32)animations.size() - 1;
 }
-
 
 void PhysicalObject::SetCurrentAnimation(uint32 animation_id) {
     if (animation_id < animations.size()) {

@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the global game manager
 ***
 *** This file contains the GameGlobal class, which is used to manage all data
@@ -534,6 +536,17 @@ public:
 		{ return _map_sprites_script; }
 	//@}
 
+	//! \brief loads the emotes used for character feelings expression in the given lua file.
+	void LoadEmotes(const std::string& emotes_filename);
+
+	//! \brief Tells whether an emote id exists and is valid
+	bool DoesEmoteExist(const std::string& emote_id)
+	{ return (_emotes.count(emote_id)); }
+
+	//! \brief Get a pointer reference to the given emote animation. Don't delete it!
+	hoa_video::AnimatedImage* GetEmoteAnimation(const std::string& emote_id)
+	{ if (_emotes.find(emote_id) != _emotes.end()) return &_emotes.at(emote_id); else return 0; }
+
 private:
 	GameGlobal();
 
@@ -671,6 +684,9 @@ private:
 	*** The name of each GlobalEventGroup object serves as its key in this map data structure.
 	**/
 	std::map<std::string, GlobalEventGroup*> _event_groups;
+
+	//! \brief A map containing all the emote animations
+	std::map<std::string, hoa_video::AnimatedImage> _emotes;
 
 	// ----- Private methods
 

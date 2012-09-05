@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,18 +11,13 @@
 /** ****************************************************************************
 *** \file    map_objects.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode objects.
 *** *****************************************************************************/
 
 #ifndef __MAP_OBJECTS_HEADER__
 #define __MAP_OBJECTS_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
-#include "engine/video/video.h"
-
-#include "modes/map/map_utils.h"
 #include "modes/map/map_treasure.h"
 
 namespace hoa_map {
@@ -286,11 +282,31 @@ public:
 
 	MAP_OBJECT_TYPE GetType() const
 		{ return _object_type; }
+
+	/** \brief Play the corresponding emote animation set in the emotes.lua file
+	*** \see LoadEmotes() in the GameGlobal class.
+	**/
+	void Emote(const std::string& emote_name);
+
+	//! \brief Indicates whether the given map object is using an emote animation.
+	bool HasEmote() const
+	{ return (_emote_animation); }
 	//@}
 
 protected:
 	//! \brief This is used to identify the type of map object for inheriting classes.
 	MAP_OBJECT_TYPE _object_type;
+
+	//! \brief the emote animation to play
+	hoa_video::AnimatedImage *_emote_animation;
+	//! \brief the time the emote animatio will last in milliseconds,
+	int32 _emote_time;
+
+	//! \brief Takes care of updating the emote animation and state.
+	void _UpdateEmote();
+
+	//! \brief Takes care of drawing the emote animation.
+	void _DrawEmote();
 }; // class MapObject
 
 
@@ -347,24 +363,24 @@ public:
 	*** \param animation_filename The name of the animation file to use for the animation
 	*** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
 	**/
-	int32 AddAnimation(std::string animation_filename);
+	int32 AddAnimation(const std::string& animation_filename);
 
 	/** \brief Sets a new still animation using the image filename provided
 	*** \param image_filename The name of the image file to use for the animation
 	*** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
 	**/
-	int32 AddStillFrame(std::string image_filename);
+	int32 AddStillFrame(const std::string& image_filename);
 
 	void AddAnimation(hoa_video::AnimatedImage new_img)
-		{ animations.push_back(new_img); }
+	{ animations.push_back(new_img); }
 
 	void SetCurrentAnimation(uint32 animation_id);
 
 	void SetAnimationProgress(uint32 progress)
-		{ animations[current_animation].SetTimeProgress(progress); }
+	{ animations[current_animation].SetTimeProgress(progress); }
 
-		uint32 GetCurrentAnimation() const
-		{ return current_animation; }
+	uint32 GetCurrentAnimation() const
+	{ return current_animation; }
 	//@}
 }; // class PhysicalObject : public MapObject
 

@@ -275,7 +275,7 @@ end
 function _CreateObjects()
 	local object = {}
 	local npc = {}
-	
+
 	-- Heal point
 	npc = CreateSprite(Map, "Butterfly", 27, 23);
 	npc:SetNoCollision(true);
@@ -283,7 +283,7 @@ function _CreateObjects()
 	Map:AddGroundObject(npc);
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Your party feels better...");
-	dialogue:AddLineEvent(text, npc, "Forest entrance heal");
+	dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
 
@@ -495,7 +495,7 @@ function _CreateEvents()
 	-- Triggered events
 	event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center.lua", "from_layna_forest_entrance");
 	EventManager:RegisterEvent(event);
-	
+
 	-- Heal point
 	event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
 	EventManager:RegisterEvent(event);
@@ -535,21 +535,19 @@ local heal_effect_time = 0;
 map_functions = {
 
     heal_party = function()
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
-	-- Should be sufficient to heal anybody
-	GlobalManager:GetActiveParty():AddHitPoints(10000);
-	GlobalManager:GetActiveParty():AddSkillPoints(10000);
-	AudioManager:PlaySound("snd/heal_spell.wav");
-	Map:GetParticleManager():AddParticleEffect("dat/effects/particles/heal_particle.lua", 512.0, 390.0);
-	heal_effect_time = 0;
+        -- Should be sufficient to heal anybody
+        GlobalManager:GetActiveParty():AddHitPoints(10000);
+        GlobalManager:GetActiveParty():AddSkillPoints(10000);
+        AudioManager:PlaySound("snd/heal_spell.wav");
+        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/heal_particle.lua", 512.0, 390.0);
+        heal_effect_time = 0;
     end,
 
     heal_done = function()
        heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
        if (heal_effect_time > 2000) then
-	   Map:PopState();
-           return true;
+            return true;
        end
        return false;
     end

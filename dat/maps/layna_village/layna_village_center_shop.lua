@@ -234,7 +234,7 @@ function Load(m)
 
 	_CreateEvents();
 	_CreateZones();
-	
+
 	-- The only entrance close door sound
 	AudioManager:PlaySound("snd/door_close.wav");
 end
@@ -352,7 +352,7 @@ function _UpdateFloraDialogue()
 		text = hoa_system.Translate("Ah ah! Sure, as soon as your father will stop lending his sword for you to practise with him. Are you sure everything is alright?");
 		dialogue:AddLine(text, flora);
 		text = hoa_system.Translate("Err, nevermind...");
-		dialogue:AddLineEvent(text, bronann, "Quest2: Talked to Flora");
+		dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");
 		DialogueManager:AddDialogue(dialogue);
 		flora:AddDialogueReference(dialogue);
 		return;
@@ -378,7 +378,7 @@ function _UpdateFloraDialogue()
 		dialogue:AddLine(text, bronann);
 		text = hoa_system.Translate("Nevermind... Don't worry for me. Just find him and he should give you some, ok?");
 		-- Set the quest dialogue as seen by the player.
-		dialogue:AddLineEvent(text, flora, "SetQuest1DialogueDone");
+		dialogue:AddLineEvent(text, flora, "", "SetQuest1DialogueDone");
 		DialogueManager:AddDialogue(dialogue);
 		flora:AddDialogueReference(dialogue);
 		return;
@@ -386,7 +386,7 @@ function _UpdateFloraDialogue()
 	--default behaviour
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
-	dialogue:AddLineEvent(text, flora, "layna: open shop");
+	dialogue:AddLineEvent(text, flora, "", "layna: open shop");
 	DialogueManager:AddDialogue(dialogue);
 	flora:AddDialogueReference(dialogue);
 end

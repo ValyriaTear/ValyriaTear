@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_sprites.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode sprite code.
 *** *****************************************************************************/
 
@@ -369,6 +371,9 @@ public:
 
 	const std::string& GetSpriteName() const
 	{ return _sprite_name; }
+
+	//! \brief Triggers an emote effect on the map sprite to express its feelings
+	void Emote(const std::string& emote_name);
 	//@}
 
 protected:

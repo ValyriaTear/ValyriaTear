@@ -299,7 +299,7 @@ function Load(m)
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
-	
+
 	_HandleCredits();
 end
 
@@ -537,7 +537,7 @@ function _CreateObjects()
 	Map:AddGroundObject(blocking_rock);
 	-- Set the rock state based on the story point
 	_UpdateBlockingRock();
-	
+
 	-- Quest 2: Forest event
 	-- The wooden sword sprite
 	wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1);
@@ -592,7 +592,7 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Hmm, I'll go to Flora's shop. I hope she'll help me...");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "thinking dots");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest1: Bronann wants to see Flora for the barley meal", dialogue);
 	event:SetStopCameraMovement(true);
@@ -653,7 +653,7 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 	event = hoa_map.AnimateSpriteEvent("Bronann searches", bronann, "searching", 0);
 	EventManager:RegisterEvent(event);
-	
+
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
 	dialogue:AddLine(text, bronann);
@@ -725,7 +725,7 @@ function _CreateEvents()
 	text = hoa_system.Translate("Bronann, there is something I have to tell you. We've been afraid of that moment, I mean your mother and I...");
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("They're coming!");
-	dialogue:AddLineEvent(text, herth, "Quest2: Carson looks at Herth");
+	dialogue:AddLineEvent(text, herth, "", "Quest2: Carson looks at Herth");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Carson starts to talk to Bronann", dialogue);
 	event:SetStopCameraMovement(true);
@@ -741,13 +741,13 @@ function _CreateEvents()
 	text = hoa_system.Translate("Carson, they've passed the river. They shall be here in no time.");
 	dialogue:AddLine(text, herth);
 	text = hoa_system.Translate("...");
-	dialogue:AddLine(text, carson);
+	dialogue:AddLineEmote(text, carson, "sweat drop");
 	text = hoa_system.Translate("Huh? Hey, what's happening here?!");
-	dialogue:AddLineEvent(text, bronann, "Quest2: Carson looks at Bronann");
+	dialogue:AddLineEvent(text, bronann, "", "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("Bronann, I ...");
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("Father!");
-	dialogue:AddLineEvent(text, kalya, "Quest2: Herth looks at Kalya");
+	dialogue:AddLineEvent(text, kalya, "", "Quest2: Herth looks at Kalya");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Second part of talk", dialogue);
 	event:SetStopCameraMovement(true);
@@ -760,13 +760,13 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Father! Orlinn has disappeared. I saw him taking the forest pathway!");
-	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Herth");
+	dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Herth");
 	text = hoa_system.Translate("Kalya! You were supposed to keep an eye on him!");
 	dialogue:AddLine(text, herth);
 	text = hoa_system.Translate("I did, but he just slipped through my fingers at the very second that strange light appeared.");
-	dialogue:AddLine(text, kalya);
+	dialogue:AddLineEmote(text, kalya, "sweat drop");
 	text = hoa_system.Translate("Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as fast as possible.");
-	dialogue:AddLine(text, herth);
+	dialogue:AddLineEmote(text, herth, "thinking dots");
 	text = hoa_system.Translate("Gosh! But you might be hurt!!");
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("No, don't worry. We'll simply talk and they'll move on. You know what you have to do, right?");
@@ -776,25 +776,25 @@ function _CreateEvents()
 	text = hoa_system.Translate("Do as I say and it'll be alright.");
 	dialogue:AddLine(text, herth);
 	text = hoa_system.Translate("But...");
-	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Bronann");
+	dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("Bronann, you should go with her.");
-	dialogue:AddLineEvent(text, carson, "Quest2: Kalya looks at Carson");
+	dialogue:AddLineEventEmote(text, carson, "", "Quest2: Kalya looks at Carson", "thinking dots");
 	text = hoa_system.Translate("What?!?");
-	dialogue:AddLineEvent(text, kalya, "Quest2: Kalya looks at Herth");
+	dialogue:AddLineEvent(text, kalya, "", "Quest2: Kalya looks at Herth");
 	text = hoa_system.Translate("Huh?");
-	dialogue:AddLineEvent(text, bronann, "Bronann is frightnened");
+	dialogue:AddLineEvent(text, bronann, "","Bronann is frightnened");
 	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
-	dialogue:AddLineEvent(text, herth, "Quest2: Kalya looks at Bronann");
+	dialogue:AddLineEvent(text, herth, "", "Quest2: Kalya looks at Bronann");
 	text = hoa_system.Translate("But he would just be a burden!");
-	dialogue:AddLineEvent(text, kalya, "Bronann is sad");
+	dialogue:AddLineEvent(text, kalya, "", "Bronann is sad");
 	text = hoa_system.Translate("Huh? Hey! But...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("He won't slow you down, believe me, right Bronann?");
-	dialogue:AddLineEvent(text, carson, "Quest2: Carson looks at Bronann");
+	dialogue:AddLineEvent(text, carson, "", "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("But Father!");
-	dialogue:AddLineEvent(text, kalya, "Quest2: Kalya looks at Herth");
+	dialogue:AddLineEvent(text, kalya, "", "Quest2: Kalya looks at Herth");
 	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's... It's an order.");
-	dialogue:AddLine(text, herth);
+	dialogue:AddLineEmote(text, herth, "thinking dots");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Third part of talk", dialogue);
 	event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth");
@@ -820,9 +820,9 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Gahh... ok.");
-	dialogue:AddLineEvent(text, kalya, "Quest2: Carson looks at Bronann");
+	dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Bronann");
 	text = hoa_system.Translate("Bronann, take this sword, you'll probably need it there to make your way through.");
-	dialogue:AddLineEvent(text, carson, "Quest2: Show the wooden sword item in front of carson");
+	dialogue:AddLineEvent(text, carson, "", "Quest2: Show the wooden sword item in front of carson");
 	text = hoa_system.Translate("What? But one minute ago you said...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("I know, but everything has changed. I'll explain you once all that is finished, now go, my son.");
@@ -847,13 +847,13 @@ function _CreateEvents()
 	text = hoa_system.Translate("Thanks dad, we'll find him in no time.");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("We shall go now, ... Good luck, both of you.");
-	dialogue:AddLineEvent(text, herth, "Quest2: Herth looks at Kalya");
+	dialogue:AddLineEvent(text, herth, "", "Quest2: Herth looks at Kalya");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Fifth part of talk", dialogue);
 	event:AddEventLinkAtEnd("Quest2: Herth leaves to south");
 	event:AddEventLinkAtEnd("Quest2: Carson starts to leave to south");
 	EventManager:RegisterEvent(event);
-	
+
 	event = hoa_map.PathMoveSpriteEvent("Quest2: Herth leaves to south", herth, 92.0, 78.0, false);
 	event:AddEventLinkAtEnd("Quest2: Herth disappears");
 	EventManager:RegisterEvent(event);
@@ -864,10 +864,10 @@ function _CreateEvents()
 	event:AddEventLinkAtEnd("Quest2: Carson talks to Bronann once last time");
 	event:AddEventLinkAtEnd("Quest2: Carson looks at Bronnan from south");
 	EventManager:RegisterEvent(event);
-	
+
 	event = hoa_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Bronnan from south", carson, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
-	
+
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Good luck, Son.");
 	dialogue:AddLine(text, carson);
@@ -940,7 +940,7 @@ function _CreateEvents()
     text = hoa_system.Translate("By the way, did you ever prepare yourself for such things before?");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("Huh? Well, Orlinn doesn't disappear every day, you know?");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = hoa_system.Translate("I see ... Then there are two things very important you need to know:");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("First of all, before going there, you might need a better equipment. Tell me you'll go and see Flora, ok?");
@@ -961,7 +961,7 @@ function _CreateEvents()
     text = hoa_system.Translate("Rrrr ... Bronann. Just listen.");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("Err, wow, ok!");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = hoa_system.Translate("That will be the case only in certain area. Here in the village, you'll be the one leading, or may you believe that ...");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("(Sigh) ... Ok.");
@@ -1002,7 +1002,7 @@ function _CreateZones()
 
 	to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_layna_forest_zone);
-	
+
 	sophia_house_entrance_zone = hoa_map.CameraZone(21, 23, 21, 22, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(sophia_house_entrance_zone);
 end
@@ -1122,7 +1122,7 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("!! What?");
         dialogue:AddLine(text, bronann);
         text = hoa_system.Translate("Don't thank me for that, it's my pleasure.");
-        dialogue:AddLineEvent(text, georges, "Quest1: Georges tells whom the barley meal was for");
+        dialogue:AddLineEvent(text, georges, "", "Quest1: Georges tells whom the barley meal was for");
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
@@ -1163,7 +1163,7 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("(Sigh...) Hmm, ok.");
-        dialogue:AddLineEvent(text, bronann, "Quest1: GeorgesDialogueDone");
+        dialogue:AddLineEvent(text, bronann, "", "Quest1: GeorgesDialogueDone");
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
@@ -1237,7 +1237,7 @@ function _UpdateOrlinnAndKalyaState()
         text = hoa_system.Translate("Oh no, please Orlinn, I need it!");
         dialogue:AddLine(text, bronann);
         text = hoa_system.Translate("Sure, I'll help you but only if you can catch me!");
-        dialogue:AddLineEvent(text, orlinn, "Quest1: Make Orlinn run and hide");
+        dialogue:AddLineEvent(text, orlinn, "", "Quest1: Make Orlinn run and hide");
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
     else
@@ -1311,7 +1311,7 @@ map_functions = {
         kalya:SetPosition(75.0, 68.0);
         kalya:SetMoving(false);
         kalya:ClearDialogueReferences();
-	
+
 	-- hide Orlinn has he's into the forest
 	EventManager:TerminateAllEvents(orlinn);
 	orlinn:SetMoving(false);

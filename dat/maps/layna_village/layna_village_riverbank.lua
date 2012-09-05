@@ -382,7 +382,7 @@ function Load(m)
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
 	_HandleCredits();
-	
+
 	-- Once everything is created, we set up Orlinn and Lilly behaviour
 	_SetOrlinnState();
 	_SetLillyState();
@@ -609,7 +609,7 @@ function _CreateEvents()
 	text = hoa_system.Translate("Please no! Wait!");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Orlinn! Stop this!");
-	dialogue:AddLineEvent(text, kalya, "Quest1: Hide and Seek3: Kalya comes to Orlinn");
+	dialogue:AddLineEvent(text, kalya, "", "Quest1: Hide and Seek3: Kalya comes to Orlinn");
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Hide and Seek3: Bronann and kalya first speech", dialogue);
@@ -629,11 +629,11 @@ function _CreateEvents()
 	text = hoa_system.Translate("Orlinn! How many times did I told you not to bother people around...");
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("But sis' I...");
-	dialogue:AddLine(text, orlinn);
+	dialogue:AddLineEmote(text, orlinn, "sweat drop");
 	text = hoa_system.Translate("I don't want to hear you!! Now, come!");
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("Don't blame him, Kalya. Actually, it was...");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "sweat drop");
 	text = hoa_system.Translate("I think I wasn't talking to you, was I?");
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("Come Orlinn!");
@@ -664,7 +664,7 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("I found that pen near the tree behind you. I just wanted to play ...");
-	dialogue:AddLine(text, orlinn);
+	dialogue:AddLineEmote(text, orlinn, "sweat drop");
 	text = hoa_system.Translate("Don't worry for that ...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Take it, ... Thanks.");
@@ -695,17 +695,17 @@ function _CreateEvents()
 	-- Lilly tells Bronann about Kalya
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Bronann?");
-	dialogue:AddLineEvent(text, lilly, "Quest1: Hide and Seek3: Bronann turns to Lilly");
+	dialogue:AddLineEvent(text, lilly, "", "Quest1: Hide and Seek3: Bronann turns to Lilly");
 	text = hoa_system.Translate("Er, yes?");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Don't blame Kalya. She has been having a hard time along with her brother before living here, you know?");
-	dialogue:AddLineEvent(text, lilly, "Quest1: Bronann is sad");
+	dialogue:AddLineEvent(text, lilly, "", "Quest1: Bronann is sad");
 	text = hoa_system.Translate("Well, anyway, she's been ignoring me since the first day I saw her...");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Eh, you really know nothing about women, do you?");
 	dialogue:AddLine(text, lilly);
 	text = hoa_system.Translate("... Huh?");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "thinking dots");
 	text = hoa_system.Translate("Eh eh, don't worry about it. It will come in time.");
 	dialogue:AddLine(text, lilly);
 	DialogueManager:AddDialogue(dialogue);
@@ -731,10 +731,10 @@ function _CreateEvents()
 	event = hoa_map.PathMoveSpriteEvent("Quest1: Bronann moves to his wait place", bronann, 70, 40, false);
 	event:AddEventLinkAtEnd("Quest1: Barley Meal: Bronann stares at Lilly");
 	EventManager:RegisterEvent(event);
-	
+
 	event = hoa_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann stares at Lilly", bronann, hoa_map.MapMode.SOUTH);
 	EventManager:RegisterEvent(event);
-	
+
 	event = hoa_map.PathMoveSpriteEvent("Quest1: Lilly goes in her house", lilly, 90, 60, false);
 	event:AddEventLinkAtEnd("Quest1: Lilly comes back");
 	EventManager:RegisterEvent(event);
@@ -856,7 +856,7 @@ function _SetLillyState()
 		text = hoa_system.Translate("We're counting on you.");
 		dialogue:AddLine(text, lilly);
 		DialogueManager:AddDialogue(dialogue);
-		lilly :AddDialogueReference(dialogue);	  
+		lilly :AddDialogueReference(dialogue);
 	elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("You should go back home. Your mom must be waiting for you.");
@@ -876,9 +876,9 @@ function _SetLillyState()
 		text = hoa_system.Translate("Unfortunately, I gave it all to Kalya...");
 		dialogue:AddLine(text, lilly);
 		text = hoa_system.Translate("What?!");
-		dialogue:AddLine(text, bronann);
+		dialogue:AddLineEmote(text, bronann, "sweat drop");
 		text = hoa_system.Translate("Ah ah! I just wanted to see your reaction. I still have some. Let me go and bring it back to you.");
-		dialogue:AddLineEvent(text, lilly, "Quest1: Prepare Lilly for a walk");
+		dialogue:AddLineEvent(text, lilly, "", "Quest1: Prepare Lilly for a walk");
 		DialogueManager:AddDialogue(dialogue);
 		lilly :AddDialogueReference(dialogue);
 	else
@@ -908,7 +908,7 @@ function _SetOrlinnState()
         -- Final hide and seek dialogue
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("You'll never get me!");
-        dialogue:AddLineEvent(text, orlinn, "Quest1: Hide and Seek3: Orlinn starts to go away");
+        dialogue:AddLineEvent(text, orlinn, "", "Quest1: Hide and Seek3: Orlinn starts to go away");
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
 

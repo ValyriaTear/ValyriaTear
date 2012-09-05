@@ -313,7 +313,7 @@ function _CreateNPCs()
 	text = hoa_system.Translate("Hey Son! Slept well? Err, where is that oil lamp already?");
 	dialogue:AddLine(text, bronanns_dad);
 	text = hoa_system.Translate("Hi Dad! Er, I don't know, sorry.");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "thinking dots");
 	text = hoa_system.Translate("Nah, no problem, I'll find it.");
 	dialogue:AddLine(text, bronanns_dad);
 	DialogueManager:AddDialogue(dialogue);
@@ -391,7 +391,7 @@ function _CreateNPCs()
 	text = hoa_system.Translate("Now that you're *finally* up, could you go and buy some barley meal for us three?");
 	dialogue:AddLine(text, bronanns_mother);
 	text = hoa_system.Translate("Barley meal, err, again?");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "sweat drop");
 	text = hoa_system.Translate("Hmm, hmm, just go boy. You'll be free after that, ok?");
 	dialogue:AddLine(text, bronanns_mother);
 	text = hoa_system.Translate("Ok, right!");
@@ -520,9 +520,9 @@ function _CreateEvents()
     text = hoa_system.Translate("Thanks for helping me out with the dishes.");
     dialogue:AddLine(text, bronanns_mother);
     text = hoa_system.Translate("Hmm, say Mom, why is the village entrance blocked?");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = hoa_system.Translate("...");
-    dialogue:AddLine(text, bronanns_mother);
+    dialogue:AddLineEmote(text, bronanns_mother, "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 1", dialogue)
     -- Make a pause here
@@ -549,13 +549,13 @@ function _CreateEvents()
     text = hoa_system.Translate("Sorry, Son. It's maybe a bit early, but I'd like you to be careful.");
     dialogue:AddLine(text, bronanns_dad);
     text = hoa_system.Translate("Hey, wait! Every elders in the village are on nerves. There is something going on here! Won't you tell me?");
-    dialogue:AddLineEvent(text, bronann, "Quest2: Bronann looks at both parents");
+    dialogue:AddLineEvent(text, bronann, "", "Quest2: Bronann looks at both parents");
     text = hoa_system.Translate("None of you?");
     dialogue:AddLine(text, bronann);
     text = hoa_system.Translate("You really won't tell me?");
     dialogue:AddLine(text, bronann);
     text = hoa_system.Translate("... It's not that simple, Bronann. Believe me.");
-    dialogue:AddLine(text, bronanns_dad);
+    dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 2", dialogue)
     event:AddEventLinkAtEnd("Quest2: Mother looks at Bronann", 2000);
@@ -601,7 +601,7 @@ function _CreateEvents()
     text = hoa_system.Translate("Maybe we should tell him...");
     dialogue:AddLine(text, bronanns_mother);
     text = hoa_system.Translate("It's too early, Darling. We might be wrong.");
-    dialogue:AddLine(text, bronanns_dad);
+    dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
     text = hoa_system.Translate("I really hope we are...");
     dialogue:AddLine(text, bronanns_dad);
     DialogueManager:AddDialogue(dialogue);
@@ -643,7 +643,7 @@ end
 -- Internal Custom functions
 function _UpdateDishesAndFood()
         if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-		-- Show the plate pile, hide the rest 
+		-- Show the plate pile, hide the rest
 		plate_pile:SetVisible(true);
 		plate_pile:SetNoCollision(false);
 
@@ -693,7 +693,7 @@ function _UpdateMotherDialogue()
 		local text = hoa_system.Translate("Sigh... got it, Mom!");
 		dialogue:AddLine(text, bronann);
 		text = hoa_system.Translate("Perfect timing, let's have dinner.");
-		dialogue:AddLineEvent(text, bronanns_mother, "Quest1: end and transition to after-dinner");
+		dialogue:AddLineEvent(text, bronanns_mother, "", "Quest1: end and transition to after-dinner");
 		DialogueManager:AddDialogue(dialogue);
 		bronanns_mother:AddDialogueReference(dialogue);
 	elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
@@ -709,7 +709,7 @@ function _UpdateMotherDialogue()
 		local text = hoa_system.Translate("Hi Son, did you have a nightmare this night also?");
 		dialogue:AddLine(text, bronanns_mother);
 		text = hoa_system.Translate("Hi Mom, huh, how do you know...");
-		dialogue:AddLine(text, bronann);
+		dialogue:AddLineEmote(text, bronann, "sweat drop");
 		text = hoa_system.Translate("Eh eh, have you already forgotten I'm your mother?");
 		dialogue:AddLine(text, bronanns_mother);
 		DialogueManager:AddDialogue(dialogue);

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_treasure.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode treasures.
 *** *****************************************************************************/
 
@@ -21,6 +23,8 @@
 #include "common/gui/menu_window.h"
 #include "common/gui/option.h"
 #include "common/gui/textbox.h"
+
+#include "engine/audio/audio_descriptor.h"
 
 namespace hoa_map {
 

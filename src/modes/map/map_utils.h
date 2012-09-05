@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_utils.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode utility code
 *** *****************************************************************************/
 
@@ -261,6 +263,7 @@ enum DIALOGUE_STATE {
 	DIALOGUE_STATE_INACTIVE =  0, //!< Active when the dialogue window is in the process of displaying a line of text
 	DIALOGUE_STATE_LINE     =  1, //!< Active when the dialogue window is in the process of displaying a line of text
 	DIALOGUE_STATE_OPTION   =  2, //!< Active when player-selectable options are present in the dialogue window
+	DIALOGUE_STATE_EMOTE    =  3  //!< Active when the dialogue supervisor is waiting for an emote event to finish before drawing a line.
 };
 
 

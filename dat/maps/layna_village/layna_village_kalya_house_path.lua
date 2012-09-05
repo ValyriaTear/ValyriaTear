@@ -354,7 +354,7 @@ function _CreateNPCs()
 	text = hoa_system.Translate("Ah! It's nice to see your dear young face around Bronann. Tell a bit about you to an old grandma.");
 	dialogue:AddLine(text, npc);
 	text = hoa_system.Translate("Er... Sorry Grandma, I have to go! Maybe later?");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "sweat drop");
 	text = hoa_system.Translate("Ah ah! You'll surely want to see this young lady living up there. Ah, youngs nowadays...");
 	dialogue:AddLine(text, npc);
 	DialogueManager:AddDialogue(dialogue);
@@ -366,14 +366,14 @@ function _CreateNPCs()
 	event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Chicken1 random move");
-	
+
 	npc = CreateSprite(Map, "Chicken", 19, 34);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Chicken2 random move", 1200);
-	
+
 	npc = CreateSprite(Map, "Chicken", 23, 33);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
@@ -384,7 +384,7 @@ end
 
 function _CreateObjects()
 	local object = {}
-	
+
 	-- Left tree "wall"
 	object = CreateObject(Map, "Tree Big1", 0, 44);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
@@ -479,7 +479,7 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Tree Small1", 55, 12);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	-- Fence
 	object = CreateObject(Map, "Fence1 l top left", 17, 32);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
@@ -519,12 +519,12 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Fence1 vertical", 29, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	object = CreateObject(Map, "Bench1", 7, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Barrel1", 20, 24);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	-- Secret treasure chest
 	local chest = CreateTreasure(Map, "kalya_house_path_chest", "Wood_Chest1", 8, 8);
 	if (chest ~= nil) then
@@ -558,7 +558,7 @@ function _CreateZones()
 
 	kalya_house_exterior_zone = hoa_map.CameraZone(26, 56, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(kalya_house_exterior_zone);
-	
+
 	grandma_house_entrance_zone = hoa_map.CameraZone(11, 13, 7, 8, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(grandma_house_entrance_zone);
 
@@ -580,7 +580,7 @@ function _CheckZones()
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Kalya house exterior");
 	end
-	
+
 	if (grandma_house_entrance_zone:IsCameraEntering() == true) then
 		-- Stop the character as it may walk in diagonal, which is looking strange
 		-- when entering

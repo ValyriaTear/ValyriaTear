@@ -266,7 +266,7 @@ function Load(m)
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
-	
+
 	_HandleCredits();
 end
 
@@ -497,7 +497,7 @@ function _UpdateOrlinnState()
         -- Set up the dialogue.
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Yiek!!!");
-        dialogue:AddLineEvent(text, orlinn, "Quest1: Start Orlinn Hide n Seek2");
+        dialogue:AddLineEvent(text, orlinn, "", "Quest1: Start Orlinn Hide n Seek2");
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
         return;
