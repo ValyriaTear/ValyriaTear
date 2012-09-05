@@ -53,6 +53,8 @@ MapObject::MapObject() :
 	sky_object(false),
 	draw_on_second_pass(false),
 	_emote_animation(0),
+	_emote_offset_x(0.0f),
+	_emote_offset_y(0.0f),
 	_emote_time(0)
 {}
 
