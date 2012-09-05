@@ -911,7 +911,13 @@ void GameGlobal::LoadEmotes(const std::string& emotes_filename) {
 	// Read all the values
 	emotes_script.OpenTable("emotes");
 	for (uint32 i = 0; i < emotes_id.size(); ++i) {
-		std::string animation_file = emotes_script.ReadString(emotes_id[i]);
+
+		if (!emotes_script.DoesTableExist(emotes_id[i]))
+			continue;
+		emotes_script.OpenTable(emotes_id[i]);
+
+		std::string animation_file = emotes_script.ReadString("animation");
+
 		AnimatedImage anim;
 		if (anim.LoadFromAnimationScript(animation_file)) {
 			// NOTE: The map mode should one day be fixed to use the same coords
@@ -919,10 +925,49 @@ void GameGlobal::LoadEmotes(const std::string& emotes_filename) {
 			hoa_map::MapMode::ScaleToMapCoords(anim);
 
 			_emotes.insert(std::make_pair(emotes_id[i], anim));
+
+			// The vector containing the offsets
+			std::vector<std::pair<float, float> > emote_offsets;
+			emote_offsets.resize(hoa_map::private_map::NUM_ANIM_DIRECTIONS);
+
+			// For each directions
+			for (uint32 j = 0; j < hoa_map::private_map::NUM_ANIM_DIRECTIONS; ++j) {
+				emotes_script.OpenTable(j);
+
+				std::pair<float, float> offsets;
+				offsets.first = emotes_script.ReadFloat("x");
+				offsets.second = emotes_script.ReadFloat("y");
+
+				emote_offsets[j] = offsets;
+
+				emotes_script.CloseTable(); // direction table.
+			}
+
+			_emotes_offsets.insert(std::make_pair(emotes_id[i], emote_offsets));
 		}
+
+		emotes_script.CloseTable(); // emote_id[i]
 	}
 	emotes_script.CloseAllTables();
 	emotes_script.CloseFile();
+}
+
+void GameGlobal::GetEmoteOffset(float& x, float& y, const std::string& emote_id, hoa_map::private_map::ANIM_DIRECTIONS dir) {
+
+	x = 0.0f;
+	y = 0.0f;
+
+	if (dir < hoa_map::private_map::ANIM_SOUTH || dir >= hoa_map::private_map::NUM_ANIM_DIRECTIONS)
+		return;
+
+	std::map<std::string, std::vector<std::pair<float, float> > >::const_iterator it =
+		_emotes_offsets.find(emote_id);
+
+	if (it == _emotes_offsets.end())
+		return;
+
+	x = it->second[dir].first;
+	y = it->second[dir].second;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

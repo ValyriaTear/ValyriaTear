@@ -119,7 +119,7 @@ MapRectangle MapObject::GetImageRectangle() const {
 	return rect;
 }
 
-void MapObject::Emote(const std::string& emote_name) {
+void MapObject::Emote(const std::string& emote_name, hoa_map::private_map::ANIM_DIRECTIONS dir) {
 	_emote_animation = GlobalManager->GetEmoteAnimation(emote_name);
 
 	if (!_emote_animation) {
@@ -127,6 +127,12 @@ void MapObject::Emote(const std::string& emote_name) {
 			<< GetObjectID() << std::endl;
 		return;
 	}
+
+	// Make the offset depend on the sprite direction and emote animation.
+	GlobalManager->GetEmoteOffset(_emote_offset_x, _emote_offset_y, emote_name, dir);
+	// Scale the offsets for the map mode
+	_emote_offset_x = _emote_offset_x / (private_map::GRID_LENGTH / 2);
+	_emote_offset_y = _emote_offset_y / (private_map::GRID_LENGTH / 2);
 
 	_emote_animation->ResetAnimation();
 	_emote_time = _emote_animation->GetAnimationLength();
@@ -149,16 +155,17 @@ void MapObject::_UpdateEmote() {
 }
 
 void MapObject::_DrawEmote() {
-	if (_emote_animation) {
-		float x, y;
-		VideoManager->GetDrawPosition(x, y);
-		// Place the emote next to the hero head.
-		// TODO: Make the offset depend on the sprite direction and emote animation.
-		x = x + img_half_width / 2.0f;
-		y = y - img_height * 2.0f / 3.0f;
-		VideoManager->Move(x, y);
-		_emote_animation->Draw();
-	}
+	if (!_emote_animation)
+		return;
+
+	float x, y;
+	VideoManager->GetDrawPosition(x, y);
+	// Move the emote to the sprite head top, where the offset should applied from.
+	x = x + img_half_width + _emote_offset_x;
+	y = y - img_height + _emote_offset_y;
+
+	VideoManager->Move(x, y);
+	_emote_animation->Draw();
 }
 
 // ----------------------------------------------------------------------------

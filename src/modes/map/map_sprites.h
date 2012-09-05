@@ -364,9 +364,6 @@ public:
 
 	const std::string& GetSpriteName() const
 	{ return _sprite_name; }
-
-	//! \brief Triggers an emote effect on the map sprite to express its feelings
-	void Emote(const std::string& emote_name);
 	//@}
 
 protected:

@@ -34,6 +34,8 @@
 #include "global_skills.h"
 #include "global_utils.h"
 
+#include "modes/map/map_utils.h"
+
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace hoa_global {
 
@@ -539,6 +541,9 @@ public:
 	//! \brief loads the emotes used for character feelings expression in the given lua file.
 	void LoadEmotes(const std::string& emotes_filename);
 
+	//! \brief Set up the offsets for the given emote animation and sprite direction.
+	void GetEmoteOffset(float& x, float& y, const std::string& emote_id, hoa_map::private_map::ANIM_DIRECTIONS dir);
+
 	//! \brief Tells whether an emote id exists and is valid
 	bool DoesEmoteExist(const std::string& emote_id)
 	{ return (_emotes.count(emote_id)); }
@@ -687,6 +692,8 @@ private:
 
 	//! \brief A map containing all the emote animations
 	std::map<std::string, hoa_video::AnimatedImage> _emotes;
+	//! \brief The map continaing the four sprite direction offsets (x and y value).
+	std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
 
 	// ----- Private methods
 

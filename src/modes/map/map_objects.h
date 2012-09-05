@@ -286,7 +286,7 @@ public:
 	/** \brief Play the corresponding emote animation set in the emotes.lua file
 	*** \see LoadEmotes() in the GameGlobal class.
 	**/
-	void Emote(const std::string& emote_name);
+	void Emote(const std::string& emote_name, hoa_map::private_map::ANIM_DIRECTIONS dir = hoa_map::private_map::ANIM_SOUTH);
 
 	//! \brief Indicates whether the given map object is using an emote animation.
 	bool HasEmote() const
@@ -299,6 +299,11 @@ protected:
 
 	//! \brief the emote animation to play
 	hoa_video::AnimatedImage *_emote_animation;
+
+	//! \brief The emote animation drawing offset (depending on the map object direction)
+	float _emote_offset_x;
+	float _emote_offset_y;
+
 	//! \brief the time the emote animatio will last in milliseconds,
 	int32 _emote_time;
 

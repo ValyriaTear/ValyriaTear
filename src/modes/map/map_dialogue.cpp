@@ -455,9 +455,9 @@ void DialogueSupervisor::_BeginLine() {
    // Starts possible emote first.
 	std::string emote_event = _current_dialogue->GetLineEmote(_line_counter);
 	if (!emote_event.empty() && !_emote_triggered) {
-		MapObject* object = map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter));
-		if (object) {
-            object->Emote(emote_event);
+		MapSprite* sprite = dynamic_cast<MapSprite*>(map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter)));
+		if (sprite) {
+            sprite->Emote(emote_event, (hoa_map::private_map::ANIM_DIRECTIONS)sprite->GetCurrentAnimationDirection());
             _state = DIALOGUE_STATE_EMOTE;
             _emote_triggered = true;
             return;

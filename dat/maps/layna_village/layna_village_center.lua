@@ -656,7 +656,7 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
-	dialogue:AddLineEmote(text, bronann, "Exclamation");
+	dialogue:AddLineEmote(text, bronann, "exclamation");
 	text = hoa_system.Translate("Still, I have go there, and figure out what they're trying to hide from me.");
 	dialogue:AddLineEmote(text, bronann, "thinking dots");
 	DialogueManager:AddDialogue(dialogue);
