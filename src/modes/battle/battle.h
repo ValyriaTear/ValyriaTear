@@ -29,6 +29,7 @@
 
 #include "common/global/global_actors.h"
 
+#include <list>
 
 namespace hoa_battle {
 

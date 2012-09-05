@@ -62,7 +62,6 @@
 	#include <SDL/SDL_ttf.h>
 #endif
 
-#include <list>
 #include <stack>
 
 //! \brief All calls to the video engine are wrapped in this namespace.

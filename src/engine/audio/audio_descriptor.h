@@ -26,7 +26,6 @@
 #include "audio_stream.h"
 #include "audio_effects.h"
 
-#include <list>
 #include <cstring>
 
 namespace hoa_audio {
