@@ -10,15 +10,19 @@ See http://www.gnu.org/copyleft/gpl.html for details.
 
 Valyria Tear is an attempt at creating a small J-RPG using an upgraded HoA engine (See http://www.allacrost.org/).
 
-Install procedure:
+Linux compilation procedure:
 Once you've unpacked the tarball or checked it out of Git, just run 'cmake . && make ' from the top-level directory at the prompt.
 
 You'll then be able to play by typing: 'src/valyriatear'
 
-A Code::Blocks project file is also provided.
+Windows:
+A Code::Blocks project file is also provided when compiling under Windows.
+In that case, you might need the dependencies and headers files that can be downloaded at:
+https://github.com/Bertram25/ValyriaTear/downloads
+(Look for a valyriatear-win32-depends-YYYY.MM.DD.zip file)
 
-Directories included are:
-dat/ img/ mus/ snd/ src/ txt/
+Game directories included and used are:
+dat/ img/ mus/ snd/ src/ po/
 
 Library dependencies (you will need the following in order to compile and run the game):
 OpenGL and GLU
@@ -31,6 +35,6 @@ libogg
 libvorbis
 GNU Gettext
 lua 5.1.x
-Luabind (Provided as a static library) (0.8 atm, but 0.9 is known to work.)
-Boost headers (1.48) (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
+Luabind 0.9.1 (Provided as a static library)
+Boost headers (1.48 to 1.49) (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 Qt 4+ (only if you wish to compile the map editor)
