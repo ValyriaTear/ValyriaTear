@@ -602,9 +602,9 @@ bool LookAtSpriteEvent::_Update() {
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id,
 										 float x_coord, float y_coord, bool run) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite_id),
-	_relative_destination(false),
 	_destination_x(x_coord),
 	_destination_y(y_coord),
+	_target_sprite(NULL),
 	_last_x_position(0.0f),
 	_last_y_position(0.0f),
 	_current_node_x(0.0f),
@@ -616,9 +616,9 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, uint16 spr
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
 										 float x_coord, float y_coord, bool run) :
 	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
-	_relative_destination(false),
 	_destination_x(x_coord),
 	_destination_y(y_coord),
+	_target_sprite(NULL),
 	_last_x_position(0.0f),
 	_last_y_position(0.0f),
 	_current_node_x(0.0f),
@@ -627,16 +627,19 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSpr
 	_run(run)
 {}
 
-void PathMoveSpriteEvent::SetRelativeDestination(bool relative) {
-	if (MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "attempted illegal operation while event was active: "
-			<< GetEventID() << std::endl;
-		return;
-	}
-
-	_relative_destination = relative;
-	_path.clear();
-}
+PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+										 VirtualSprite* target_sprite, bool run) :
+	SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
+	_destination_x(-1.0f),
+	_destination_y(-1.0f),
+	_target_sprite(target_sprite),
+	_last_x_position(0.0f),
+	_last_y_position(0.0f),
+	_current_node_x(0.0f),
+	_current_node_y(0.0f),
+	_current_node(0),
+	_run(run)
+{}
 
 void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run) {
 	if (MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
@@ -647,6 +650,21 @@ void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run)
 
 	_destination_x = x_coord;
 	_destination_y = y_coord;
+	_target_sprite = NULL;
+	_path.clear();
+	_run = run;
+}
+
+void PathMoveSpriteEvent::SetDestination(VirtualSprite* target_sprite, bool run) {
+	if (MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
+		IF_PRINT_WARNING(MAP_DEBUG) << "attempted illegal operation while event was active: "
+			<< GetEventID() << std::endl;
+		return;
+	}
+
+	_destination_x = -1.0f;
+	_destination_y = -1.0f;
+	_target_sprite = target_sprite;
 	_path.clear();
 	_run = run;
 }
@@ -659,14 +677,13 @@ void PathMoveSpriteEvent::_Start() {
 	_last_y_position = _sprite->GetYPosition();
 	_sprite->is_running = _run;
 
-	// Set and check the destination position
-	if (_relative_destination) {
-		// Add The integer part of the source node, but keep the destination offset untouched.
-		_destination_x = hoa_utils::GetFloatInteger(_destination_x)
-						+ hoa_utils::GetFloatInteger(_last_x_position) + hoa_utils::GetFloatFraction(_destination_x);
-		_destination_y = hoa_utils::GetFloatInteger(_destination_y)
-						+ hoa_utils::GetFloatInteger(_last_y_position) + hoa_utils::GetFloatFraction(_destination_y);
+	// Only set the destination at start call since the target coord may have changed
+	// between the load time and the event actual start.
+	if (_target_sprite) {
+		_destination_x = _target_sprite->GetXPosition();
+		_destination_y = _target_sprite->GetYPosition();
 	}
+
 	MapPosition dest(_destination_x, _destination_y);
 
 	_path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, dest);

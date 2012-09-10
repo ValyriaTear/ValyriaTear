@@ -663,16 +663,14 @@ function _CreateEvents()
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya talks about the save point - part 4", dialogue);
     event:AddEventLinkAtEnd("second_hero:SetNoCollision(true)");
-    event:AddEventLinkAtEnd("set hero coord to move_back_to_hero_event call");
+    event:AddEventLinkAtEnd("Set Camera");
     EventManager:RegisterEvent(event);
 
-    -- TODO: Add support for path move event to VirtualSprite* target - obtaining the destination, only at start call and get rid of this hack.
-    event = hoa_map.ScriptedEvent("set hero coord to move_back_to_hero_event call", "update_move_to_hero_event_coord", "");
+    event = hoa_map.ScriptedSpriteEvent("Set Camera", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("2nd hero goes back to party");
     EventManager:RegisterEvent(event);
 
-    -- NOTE: The actual destination is set just before the actual start call
-    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("2nd hero goes back to party", kalya_sprite, 0, 0, false);
+    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("2nd hero goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("Map:Popstate()");
     move_back_to_hero_event:AddEventLinkAtEnd("end of save point event");
 	EventManager:RegisterEvent(move_back_to_hero_event);
@@ -760,10 +758,8 @@ map_functions = {
         move_next_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition() + 2.0, false);
     end,
 
-    update_move_to_hero_event_coord = function()
-        move_back_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition(), false);
-        -- Also set back the camera to the visible hero
-        Map:SetCamera(hero, 800);
+    SetCamera = function(sprite)
+        Map:SetCamera(sprite, 800);
     end,
 
     Sprite_Collision_on = function(sprite)

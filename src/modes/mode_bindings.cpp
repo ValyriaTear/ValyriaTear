@@ -520,8 +520,9 @@ void BindModeCode() {
 		luabind::class_<PathMoveSpriteEvent, SpriteEvent>("PathMoveSpriteEvent")
 			.def(luabind::constructor<std::string, uint32, float, float, bool>())
 			.def(luabind::constructor<std::string, VirtualSprite*, float, float, bool>())
-			.def("SetRelativeDestination", &PathMoveSpriteEvent::SetRelativeDestination)
-			.def("SetDestination", &PathMoveSpriteEvent::SetDestination)
+			.def(luabind::constructor<std::string, VirtualSprite*, VirtualSprite*, bool>())
+			.def("SetDestination", (void(PathMoveSpriteEvent::*)(float, float, bool))&PathMoveSpriteEvent::SetDestination)
+			.def("SetDestination", (void(PathMoveSpriteEvent::*)(VirtualSprite*, bool))&PathMoveSpriteEvent::SetDestination)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

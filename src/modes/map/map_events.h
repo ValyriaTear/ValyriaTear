@@ -684,18 +684,21 @@ public:
 	**/
 	PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x_coord, float y_coord, bool run);
 
-	~PathMoveSpriteEvent()
-		{}
-
-	/** \brief Used to toggle whether or not the destination provided in the constructor is relative or absolute
-	*** \note Any previous existing paths are cleared when this function is called. If this function is called when
-	*** the event is active, no change will take place.
+	/** \param event_id The ID of this event
+	*** \param sprite A pointer to the sprite to move
+	*** \param target_sprite The target sprite to move the sprite to
+	*** \param run whether the character has to go there by walking or running
 	**/
-	void SetRelativeDestination(bool relative);
+	PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* target_sprite, bool run);
+
+	~PathMoveSpriteEvent()
+	{}
 
 	/** \brief Used to change the destination coordinates after the class object has been constructed
 	*** \param x_coord The X coordinate to move the sprite to
 	*** \param y_coord The Y coordinate to move the sprite to
+	*** or:
+	*** \param target_sprite The target sprite to move the sprite to
 	*** \param run whether the character has to go there by walking or running
 	*** \note Any previous existing paths are cleared when this function is called. If this function is called when
 	*** the event is active, no change will take place.
@@ -703,19 +706,20 @@ public:
 	*** changed between the event declaration (at map load time) and the event actual start.
 	**/
 	void SetDestination(float x_coord, float y_coord, bool run);
+	void SetDestination(VirtualSprite* target_sprite, bool run);
 
 	Path GetPath() const
-		{ return _path; }
+	{ return _path; }
 
 	//! \brief Stops and frees the sprite from the control_event
 	void Terminate();
 
 protected:
-	//! \brief When true, the destination coordinates are relative to the current position of the sprite. Otherwise the destination is absolute.
-	bool _relative_destination;
-
 	//! \brief Stores the destination coordinates for the path movement. These may be either absolute or relative coordinates.
 	float _destination_x, _destination_y;
+
+	//! \brief The destination target, useful when willing to reach a moving point.
+	VirtualSprite* _target_sprite;
 
 	//! \brief Used to store the previous coordinates of the sprite during path movement, so as to set the proper direction of the sprite as it moves
 	float _last_x_position, _last_y_position;
