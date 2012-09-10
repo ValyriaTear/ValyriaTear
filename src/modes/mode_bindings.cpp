@@ -227,6 +227,8 @@ void BindModeCode() {
 	[
 		luabind::class_<ParticleObject, MapObject>("ParticleObject")
 			.def(luabind::constructor<const std::string&, float, float, MAP_CONTEXT>())
+			.def("Stop", &ParticleObject::Stop)
+			.def("Start", &ParticleObject::Start)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

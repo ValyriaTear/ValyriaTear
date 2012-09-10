@@ -186,9 +186,12 @@ void MapMode::Reset() {
 	// Reset potential map scripts
 	GetScriptSupervisor().Reset();
 
-	// If the sprite is based on the battle formation, we'd better refresh the data now.
+	// If the sprite is based on the battle formation, we'd better refresh the data now
+	// if the game in in the default mode.
+	// Still, we won't change the sprite in the middle of a scene for instance.
 	// I.e: When going out of the menu mode.
-	_object_supervisor->ReloadVisiblePartyMember();
+	if (CurrentState() == private_map::STATE_EXPLORE)
+		_object_supervisor->ReloadVisiblePartyMember();
 }
 
 

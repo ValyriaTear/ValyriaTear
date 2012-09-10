@@ -1279,7 +1279,7 @@ void ObjectSupervisor::ReloadVisiblePartyMember() {
 
 		try {
 			ScriptCallFunction<void>(function_ptr, _visible_party_member, actor->GetMapSpriteName());
-		} catch(luabind::error e) {
+		} catch(const luabind::error& e) {
 			PRINT_ERROR << "Error while loading script function." << std::endl;
 			ScriptManager->HandleLuaError(e);
 			return;

@@ -214,6 +214,12 @@ layers[3][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 -- the main character handler
 local hero = {};
 
+-- Forest dialogue secondary hero
+local kalya_sprite = nil;
+
+-- Name of the main sprite. Used to reload the good one at the end of the firt forest entrance event.
+local main_sprite_name = "";
+
 -- the main map loading code
 function Load(m)
 
@@ -240,7 +246,12 @@ function Load(m)
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
-	Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
+    -- Trigger the save point and spring speech event once
+    if (GlobalManager:DoesEventExist("story", "kalya_save_points_n_spring_speech_done") == false) then
+        hero:SetMoving(false);
+        hero:SetDirection(hoa_map.MapMode.EAST);
+        EventManager:StartEvent("Forest entrance dialogue", 800);
+    end
 end
 
 -- the map update function handles checks done on each game tick.
@@ -270,11 +281,32 @@ function _CreateCharacters()
 
 	Map:AddGroundObject(hero);
 
+    -- Create secondary character - Kalya
+    kalya_sprite = CreateSprite(Map, "Kalya",
+                            hero:GetXPosition(), hero:GetYPosition());
+
+    kalya_sprite:SetDirection(hoa_map.MapMode.EAST);
+    kalya_sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    kalya_sprite:SetNoCollision(true);
+    kalya_sprite:SetVisible(false);
+    Map:AddGroundObject(kalya_sprite);
 end
+
+-- The heal particle effect map object
+local heal_effect = {};
 
 function _CreateObjects()
 	local object = {}
 	local npc = {}
+
+	Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
+
+    -- Load the spring heal effect.
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
+                                            0, 0, hoa_map.MapMode.CONTEXT_01);
+	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect:Stop(); -- Don't run it until the character heals itself
+    Map:AddGroundObject(heal_effect);
 
 	-- Heal point
 	npc = CreateSprite(Map, "Butterfly", 27, 23);
@@ -486,6 +518,10 @@ function _CreateEnemies()
 	Map:AddZone(roam_zone);
 end
 
+-- Special event references which destinations must be updated just before being called.
+local move_next_to_hero_event = {}
+local move_back_to_hero_event = {}
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
 	local event = {};
@@ -498,6 +534,150 @@ function _CreateEvents()
 
 	-- Heal point
 	event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
+	EventManager:RegisterEvent(event);
+
+    -- Generic events
+    event = hoa_map.ScriptedEvent("Map:Popstate()", "Map_PopState", "");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("kalya:SetNoCollision(false)", kalya_sprite, "Sprite_Collision_on", "");
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("hero:SetNoCollision(false)", hero, "Sprite_Collision_on", "");
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("second_hero:SetNoCollision(true)", kalya_sprite, "Sprite_Collision_off", "");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Kalya looks at the save point", kalya_sprite, 19, 26);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Kalya looks at the spring", kalya_sprite, 27, 23);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Bronann looks at the save point", hero, 19, 26);
+	EventManager:RegisterEvent(event);
+
+    -- First time forest entrance dialogue about save points and the heal spring.
+	event = hoa_map.ScriptedEvent("Forest entrance dialogue", "forest_save_point_dialogue_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
+	EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at the save point");
+    move_next_to_hero_event:AddEventLinkAtEnd("Kalya is surprised before running to the save point");
+    move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetNoCollision(false)");
+    EventManager:RegisterEvent(move_next_to_hero_event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("What's that?!...");
+	dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya is surprised before running to the save point", dialogue);
+    event:AddEventLinkAtEnd("Kalya runs to the save point");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Kalya runs to the save point", kalya_sprite, 15, 26, true);
+    event:AddEventLinkAtEnd("Bronann runs to the save point");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Bronann runs to the save point", hero, 15, 28, true);
+    event:AddEventLinkAtEnd("Kalya starts to talk about the save point");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Can you also see this strange circle surrounded by light??");
+	dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "exclamation");
+    text = hoa_system.Translate("When I'm standing near you, I can!");
+    dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
+    text = hoa_system.Translate("Strange ... it sounds familiar to me. Like ... A safe place to be.");
+    dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at the save point", "");
+    text = hoa_system.Translate("I feel like I can go in there...");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Be careful, Kalya!");
+    dialogue:AddLineEmote(text, hero, "exclamation");
+    text = hoa_system.Translate("It is like... calling me.");
+    dialogue:AddLine(text, kalya_sprite);
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya starts to talk about the save point", dialogue);
+    event:AddEventLinkAtEnd("Kalya moves into the save point");
+    event:AddEventLinkAtEnd("Bronann looks at the save point");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Kalya moves into the save point", kalya_sprite, 19, 26, false);
+    event:AddEventLinkAtEnd("Kalya talks about the save point - part 2", 1000);
+	EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("See... It brings no harm.");
+	dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
+    text = hoa_system.Translate("Err... Are you sure?");
+    dialogue:AddLineEmote(text, hero, "sweat drop");
+    text = hoa_system.Translate("Sure! Do you trust me?");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("... I do trust you, Kalya.");
+    dialogue:AddLine(text, hero);
+    -- TODO: Add support for at least one parameter c-format replacement.
+    text = hoa_system.Translate("If so, then come and try for yourself. Push '")
+           ..InputManager:GetConfirmKeyName()
+           ..hoa_system.Translate("' and you'll feel safe, too.");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Ok, I... I'll do it.");
+    dialogue:AddLineEmote(text, hero, "sweat drop");
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya talks about the save point - part 2", dialogue);
+    event:AddEventLinkAtEnd("Kalya moves slightly right of the save point");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Kalya moves slightly right of the save point", kalya_sprite, 20, 26, false);
+    event:AddEventLinkAtEnd("Kalya talks about the save point - part 3", 1000);
+	EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Oh, I almost forgot, have you seen up here? There is a Layna spring! We can heal our wounds there.");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the spring", "", "exclamation");
+    text = hoa_system.Translate("Just stand in front of the goddess statue below the spring and push '")
+                                ..InputManager:GetConfirmKeyName()
+                                ..hoa_system.Translate("'.");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Ok, thanks.");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("... What are you waiting for? Come.");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "thinking dots");
+    text = hoa_system.Translate("Huh? Ok, I... I'm coming.");
+    dialogue:AddLineEmote(text, hero, "sweat drop");
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya talks about the save point - part 3", dialogue);
+    event:AddEventLinkAtEnd("Bronann moves into the save point");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Bronann moves into the save point", hero, 18, 26, false);
+    event:AddEventLinkAtEnd("Kalya talks about the save point - part 4", 1000);
+	EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("You're right. This place makes me feel good.");
+	dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
+	text = hoa_system.Translate("See? Now let's find my brother before he gets hurt.");
+	dialogue:AddLine(text, kalya_sprite);
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya talks about the save point - part 4", dialogue);
+    event:AddEventLinkAtEnd("second_hero:SetNoCollision(true)");
+    event:AddEventLinkAtEnd("set hero coord to move_back_to_hero_event call");
+    EventManager:RegisterEvent(event);
+
+    -- TODO: Add support for path move event to VirtualSprite* target - obtaining the destination, only at start call and get rid of this hack.
+    event = hoa_map.ScriptedEvent("set hero coord to move_back_to_hero_event call", "update_move_to_hero_event_coord", "");
+    event:AddEventLinkAtEnd("2nd hero goes back to party");
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("2nd hero goes back to party", kalya_sprite, 0, 0, false);
+    move_back_to_hero_event:AddEventLinkAtEnd("Map:Popstate()");
+    move_back_to_hero_event:AddEventLinkAtEnd("end of save point event");
+	EventManager:RegisterEvent(move_back_to_hero_event);
+
+    event = hoa_map.ScriptedEvent("end of save point event", "end_of_save_point_event", "");
 	EventManager:RegisterEvent(event);
 end
 
@@ -530,6 +710,7 @@ if (map_functions == nil) then
 	map_functions = {}
 end
 
+-- Effect time used when applying the heal light effect
 local heal_effect_time = 0;
 
 map_functions = {
@@ -540,15 +721,76 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         AudioManager:PlaySound("snd/heal_spell.wav");
-        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/heal_particle.lua", 512.0, 390.0);
+        heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        heal_effect:Start();
         heal_effect_time = 0;
     end,
 
     heal_done = function()
-       heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
-       if (heal_effect_time > 2000) then
-            return true;
-       end
-       return false;
+        heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
+
+        if (heal_effect_time < 300.0) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, heal_effect_time / 300.0 / 3.0 ));
+            return false;
+        end
+
+        if (heal_effect_time < 1000.0) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
+            return false;
+        end
+        return true;
+    end,
+
+    -- Kalya runs to the save point and tells Bronann about the spring.
+    forest_save_point_dialogue_start = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        ReloadSprite(hero, "Bronann");
+
+        kalya_sprite:SetVisible(true);
+        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        hero:SetNoCollision(false);
+        kalya_sprite:SetNoCollision(true);
+
+        Map:SetCamera(kalya_sprite, 800);
+
+        move_next_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition() + 2.0, false);
+    end,
+
+    update_move_to_hero_event_coord = function()
+        move_back_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition(), false);
+        -- Also set back the camera to the visible hero
+        Map:SetCamera(hero, 800);
+    end,
+
+    Sprite_Collision_on = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetNoCollision(false);
+        end
+    end,
+
+    Sprite_Collision_off = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetNoCollision(true);
+        end
+    end,
+
+    Map_PopState = function()
+        Map:PopState();
+    end,
+
+    end_of_save_point_event = function()
+        kalya_sprite:SetPosition(0, 0);
+        kalya_sprite:SetVisible(false);
+        kalya_sprite:SetNoCollision(true);
+
+        -- Reload the hero back to default
+        ReloadSprite(hero, main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "kalya_save_points_n_spring_speech_done", 1);
     end
 }
