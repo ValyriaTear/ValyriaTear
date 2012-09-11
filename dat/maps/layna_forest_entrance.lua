@@ -112,7 +112,7 @@ layers[0][9] = { 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 261, 262
 layers[0][10] = { 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 277, 278, 278, 278, 279, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289 }
 layers[0][11] = { 289, 289, 289, 289, 289, 289, 289, 289, 258, 259, 260, 293, 294, 294, 294, 295, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289 }
 layers[0][12] = { 289, 273, 289, 289, 289, 289, 289, 258, 275, 275, 275, 259, 259, 259, 259, 259, 260, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289, 289 }
-layers[0][13] = { 259, 259, 259, 259, 259, 259, 259, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 259, 259, 259, 259, 259, 259, 259, 260, 289, 289, 256, 257, 289, 289, 289 }
+layers[0][13] = { 259, 259, 259, 259, 259, 259, 259, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 259, 259, 259, 259, 259, 259, 259, 260, 289, 289, 289, 256, 289, 289, 289 }
 layers[0][14] = { 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 259, 259, 259, 259, 259, 259, 259 }
 layers[0][15] = { 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 291, 291, 291, 291, 291, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275, 275 }
 layers[0][16] = { 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 292, 289, 289, 289, 289, 289, 290, 291, 291, 291, 291, 291, 291, 291, 275, 275, 275, 275, 275, 275, 275, 275 }
@@ -276,6 +276,9 @@ function _CreateCharacters()
 		-- Make the character look at us in that case
 		hero:SetDirection(hoa_map.MapMode.SOUTH);
 		hero:SetPosition(x_position, y_position);
+	elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_NW") then
+		hero:SetDirection(hoa_map.MapMode.WEST);
+		hero:SetPosition(61.0, 32.0);
 	end
 
 	Map:AddGroundObject(hero);
@@ -533,6 +536,9 @@ function _CreateEvents()
 	event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center.lua", "from_layna_forest_entrance");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_entrance");
+	EventManager:RegisterEvent(event);
+
 	-- Heal point
 	event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
 	EventManager:RegisterEvent(event);
@@ -685,6 +691,9 @@ function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(forest_entrance_exit_zone);
+
+	to_forest_nw_zone = hoa_map.CameraZone(62, 64, 29, 35, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_nw_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -692,6 +701,9 @@ function _CheckZones()
 	if (forest_entrance_exit_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("exit forest");
+	elseif (to_forest_nw_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest NW");
 	end
 end
 
