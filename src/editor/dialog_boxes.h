@@ -28,7 +28,8 @@
 #include "editor.h"
 #include "grid.h"
 
-namespace hoa_editor {
+namespace hoa_editor
+{
 
 
 /** ***************************************************************************
@@ -42,66 +43,72 @@ namespace hoa_editor {
 *** **************************************************************************/
 class MapPropertiesDialog: public QDialog
 {
-	// Macro needed to use Qt's slots and signals.
-	Q_OBJECT
+    // Macro needed to use Qt's slots and signals.
+    Q_OBJECT
 
-	// Needed for accessing map properties.
-	friend class Editor;
-	friend class EditorScrollArea;
+    // Needed for accessing map properties.
+    friend class Editor;
+    friend class EditorScrollArea;
 
 public:
-	/** \param parent The widget from which this dialog was invoked.
-	*** \param name The name of this widget.
-	*** \param prop True when accessing an already loaded map's properties,
-	***             false otherwise.
-	***
-	*** This class is used in two instances. For presenting a dialog to the
-	*** user to (1) create a new map or (2) modify the properties of an already
-	*** existing map (such as height, width, or tilesets loaded in the bottom
-	*** portion of the editor). For case #1, the parameter prop is false, and
-	*** for case #2, it is true.
-	**/
-	MapPropertiesDialog(QWidget* parent, const QString& name, bool prop);
+    /** \param parent The widget from which this dialog was invoked.
+    *** \param name The name of this widget.
+    *** \param prop True when accessing an already loaded map's properties,
+    ***             false otherwise.
+    ***
+    *** This class is used in two instances. For presenting a dialog to the
+    *** user to (1) create a new map or (2) modify the properties of an already
+    *** existing map (such as height, width, or tilesets loaded in the bottom
+    *** portion of the editor). For case #1, the parameter prop is false, and
+    *** for case #2, it is true.
+    **/
+    MapPropertiesDialog(QWidget *parent, const QString &name, bool prop);
 
-	~MapPropertiesDialog();
+    ~MapPropertiesDialog();
 
-	//! \name Class member accessor functions
-	//@{
-	//! \brief Returns the map height from the height spinbox.
-	uint32 GetHeight() const { return _height_sbox->value(); }
-	//! \brief Returns the map width from the width spinbox.
-	uint32 GetWidth()  const { return  _width_sbox->value(); }
+    //! \name Class member accessor functions
+    //@{
+    //! \brief Returns the map height from the height spinbox.
+    uint32 GetHeight() const {
+        return _height_sbox->value();
+    }
+    //! \brief Returns the map width from the width spinbox.
+    uint32 GetWidth()  const {
+        return  _width_sbox->value();
+    }
 
-	QTreeWidget* GetTilesetTree() const { return _tileset_tree; }
-	//@}
+    QTreeWidget *GetTilesetTree() const {
+        return _tileset_tree;
+    }
+    //@}
 
 private slots:
-	/** \brief Enables or disables the OK push button of this dialog depending
-	***        on whether any tilesets are checked or not.
-	**/
-	void _EnableOKButton();
+    /** \brief Enables or disables the OK push button of this dialog depending
+    ***        on whether any tilesets are checked or not.
+    **/
+    void _EnableOKButton();
 
 private:
-	//! \brief A tree for showing all available tilesets.
-	QTreeWidget* _tileset_tree;
+    //! \brief A tree for showing all available tilesets.
+    QTreeWidget *_tileset_tree;
 
-	//! \brief A spinbox for specifying the map's height.
-	QSpinBox* _height_sbox;
-	//! \brief A spinbox for specifying the map's width.
-	QSpinBox* _width_sbox;
+    //! \brief A spinbox for specifying the map's height.
+    QSpinBox *_height_sbox;
+    //! \brief A spinbox for specifying the map's width.
+    QSpinBox *_width_sbox;
 
-	//! \brief A label used to visually name the height spinbox.
-	QLabel* _height_label;
-	//! \brief A label used to visually name the width spinbox.
-	QLabel* _width_label;
+    //! \brief A label used to visually name the height spinbox.
+    QLabel *_height_label;
+    //! \brief A label used to visually name the width spinbox.
+    QLabel *_width_label;
 
-	//! \brief A pushbutton for canceling the new map dialog.
-	QPushButton* _cancel_pbut;
-	//! \brief A pushbutton for okaying the new map dialog.
-	QPushButton* _ok_pbut;
+    //! \brief A pushbutton for canceling the new map dialog.
+    QPushButton *_cancel_pbut;
+    //! \brief A pushbutton for okaying the new map dialog.
+    QPushButton *_ok_pbut;
 
-	//! \brief A layout to manage all the labels, spinboxes, and listviews.
-	QGridLayout* _dia_layout;
+    //! \brief A layout to manage all the labels, spinboxes, and listviews.
+    QGridLayout *_dia_layout;
 }; // class MapPropertiesDialog: public QDialog
 
 
@@ -118,38 +125,38 @@ private:
 *** **************************************************************************/
 class MusicDialog: public QDialog
 {
-	// Macro needed to use Qt's slots and signals.
-	Q_OBJECT
+    // Macro needed to use Qt's slots and signals.
+    Q_OBJECT
 
-	// Needed for accessing map properties.
-	friend class Editor;
-	friend class EditorScrollView;
+    // Needed for accessing map properties.
+    friend class Editor;
+    friend class EditorScrollView;
 
 public:
-	/** \param parent The widget from which this dialog was invoked.
-	*** \param name The name of this widget.
-	**/
-	MusicDialog(QWidget* parent, const QString& name);
+    /** \param parent The widget from which this dialog was invoked.
+    *** \param name The name of this widget.
+    **/
+    MusicDialog(QWidget *parent, const QString &name);
 
-	~MusicDialog();
+    ~MusicDialog();
 
-	//! \name Class member accessor functions
-	//@{
-	QString GetMusicFile() const;
-	//@}
+    //! \name Class member accessor functions
+    //@{
+    QString GetMusicFile() const;
+    //@}
 
 private:
-	//! \brief A pushbutton for finishing map music selection.
-	QPushButton* _ok_pbut;
+    //! \brief A pushbutton for finishing map music selection.
+    QPushButton *_ok_pbut;
 
-	//! \brief Label for listview showing available music to select from.
-	QLabel* _available_label;
+    //! \brief Label for listview showing available music to select from.
+    QLabel *_available_label;
 
-	//! \brief A layout to manage all the labels, buttons, and listviews.
-	QGridLayout* _dia_layout;
+    //! \brief A layout to manage all the labels, buttons, and listviews.
+    QGridLayout *_dia_layout;
 
-	//! \brief A listview with all the remaining music files.
-	QListWidget* _available_music_list;
+    //! \brief A listview with all the remaining music files.
+    QListWidget *_available_music_list;
 }; // class MusicDialog
 
 
@@ -166,55 +173,59 @@ private:
 *** **************************************************************************/
 class ContextPropertiesDialog : public QDialog
 {
-	// Macro needed to use Qt's slots and signals.
-	Q_OBJECT
+    // Macro needed to use Qt's slots and signals.
+    Q_OBJECT
 
-	// Needed for accessing map properties.
-	friend class Editor;
-	friend class EditorScrollView;
+    // Needed for accessing map properties.
+    friend class Editor;
+    friend class EditorScrollView;
 
 public:
-	/** \param parent The widget from which this dialog was invoked.
-	*** \param name The name of this widget.
-	**/
-	ContextPropertiesDialog(QWidget* parent, const QString& name);
+    /** \param parent The widget from which this dialog was invoked.
+    *** \param name The name of this widget.
+    **/
+    ContextPropertiesDialog(QWidget *parent, const QString &name);
 
-	~ContextPropertiesDialog();
+    ~ContextPropertiesDialog();
 
-	//! \name Class member accessor functions
-	//@{
-	//! \brief Returns the context name entered into the line edit widget by
-	//         the user.
-	QString GetName() const { return _name_ledit->text(); }
+    //! \name Class member accessor functions
+    //@{
+    //! \brief Returns the context name entered into the line edit widget by
+    //         the user.
+    QString GetName() const {
+        return _name_ledit->text();
+    }
 
-	QTreeWidget* GetContextTree() const { return _context_tree; }
-	//@}
+    QTreeWidget *GetContextTree() const {
+        return _context_tree;
+    }
+    //@}
 
 private slots:
-	/** \brief Enables or disables the OK push button of this dialog depending
-	***        on whether the line edit is empty.
-	**/
-	void _EnableOKButton();
+    /** \brief Enables or disables the OK push button of this dialog depending
+    ***        on whether the line edit is empty.
+    **/
+    void _EnableOKButton();
 
 private:
-	//! \brief A tree for showing all available contexts.
-	QTreeWidget* _context_tree;
+    //! \brief A tree for showing all available contexts.
+    QTreeWidget *_context_tree;
 
-	//! \brief A label used to visually name the inherit context tree.
-	QLabel* _inherit_from_label;
+    //! \brief A label used to visually name the inherit context tree.
+    QLabel *_inherit_from_label;
 
-	//! \brief A label used to visually name the line edit.
-	QLabel* _name_label;
-	//! \brief A line edit for entering in the context's name.
-	QLineEdit* _name_ledit;
+    //! \brief A label used to visually name the line edit.
+    QLabel *_name_label;
+    //! \brief A line edit for entering in the context's name.
+    QLineEdit *_name_ledit;
 
-	//! \brief A pushbutton for canceling the context dialog.
-	QPushButton* _cancel_pbut;
-	//! \brief A pushbutton for okaying the context dialog.
-	QPushButton* _ok_pbut;
+    //! \brief A pushbutton for canceling the context dialog.
+    QPushButton *_cancel_pbut;
+    //! \brief A pushbutton for okaying the context dialog.
+    QPushButton *_ok_pbut;
 
-	//! \brief A layout to manage all the labels, buttons, and line edits.
-	QGridLayout* _dia_layout;
+    //! \brief A layout to manage all the labels, buttons, and line edits.
+    QGridLayout *_dia_layout;
 }; // class ContextPropertiesDialog : public QDialog
 
 
@@ -224,40 +235,40 @@ private:
 *** **************************************************************************/
 class LayerDialog: public QDialog
 {
-	// Macro needed to use Qt's slots and signals.
-	Q_OBJECT
+    // Macro needed to use Qt's slots and signals.
+    Q_OBJECT
 
-	// Needed for accessing map properties.
-	friend class Editor;
-	friend class EditorScrollView;
+    // Needed for accessing map properties.
+    friend class Editor;
+    friend class EditorScrollView;
 
 public:
-	/** \param parent The widget from which this dialog was invoked.
-	*** \param name The name of this widget.
-	**/
-	LayerDialog(QWidget* parent, const QString& name);
+    /** \param parent The widget from which this dialog was invoked.
+    *** \param name The name of this widget.
+    **/
+    LayerDialog(QWidget *parent, const QString &name);
 
-	~LayerDialog();
+    ~LayerDialog();
 
 private slots:
-	//! \brief Tells the layer info written in the dialog box
-	LayerInfo _GetLayerInfo();
+    //! \brief Tells the layer info written in the dialog box
+    LayerInfo _GetLayerInfo();
 
 private:
-	//! \brief A pushbutton for cancelling the action.
-	QPushButton* _cancel_pbut;
-	//! \brief A pushbutton for finishing the layer addition/modification.
-	QPushButton* _ok_pbut;
+    //! \brief A pushbutton for cancelling the action.
+    QPushButton *_cancel_pbut;
+    //! \brief A pushbutton for finishing the layer addition/modification.
+    QPushButton *_ok_pbut;
 
-	//! Layer position, name and type.
-	QLabel* _name_label;
-	QLabel* _type_label;
+    //! Layer position, name and type.
+    QLabel *_name_label;
+    QLabel *_type_label;
 
-	QLineEdit * _name_edit;
-	QComboBox *_type_cbox;
+    QLineEdit *_name_edit;
+    QComboBox *_type_cbox;
 
-	//! \brief A layout to manage all the labels, buttons, and listviews.
-	QGridLayout* _dialog_layout;
+    //! \brief A layout to manage all the labels, buttons, and listviews.
+    QGridLayout *_dialog_layout;
 
 }; // class MusicDialog
 

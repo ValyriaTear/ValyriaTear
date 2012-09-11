@@ -14,57 +14,58 @@
 *** ***************************************************************************/
 
 #ifdef __MACH__
-	#include <unistd.h>
-	#include <string>
+#include <unistd.h>
+#include <string>
 #endif
 
 #include "editor.h"
 #include "engine/script/script.h"
 
 #if defined(main) && !defined(_WIN32)
-	#undef main
+#undef main
 #endif
 
 using namespace hoa_script;
 using namespace hoa_editor;
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 #ifndef _WIN32
 #ifndef __MACH__
-	// Look for data files in DATADIR only if they are not available in the
-	// current directory.
-	if (std::ifstream("./dat/config/settings.lua") == NULL) {
-		if (chdir(PKG_DATADIR) != 0) {
-			PRINT_ERROR << "failed to change directory to data location" << std::endl;
-		}
-	}
+    // Look for data files in DATADIR only if they are not available in the
+    // current directory.
+    if(std::ifstream("./dat/config/settings.lua") == NULL) {
+        if(chdir(PKG_DATADIR) != 0) {
+            PRINT_ERROR << "failed to change directory to data location" << std::endl;
+        }
+    }
 #endif
 #endif
 
 #ifdef __MACH__
-	std::string path;
-	path = argv[0];
-	// remove the binary name
-	path.erase(path.find_last_of('/'));
-	// remove the MacOS directory
-	path.erase(path.find_last_of('/'));
-	// remove the Contents directory
-	path.erase(path.find_last_of('/'));
-	// remove the Editor.app directory
-	path.erase(path.find_last_of('/'));
-	// we are now in a common directory containing both the game and the Editor
-	path.append("/ValyriaTear.app/Contents/Resources/");
-	chdir(path.c_str());
+    std::string path;
+    path = argv[0];
+    // remove the binary name
+    path.erase(path.find_last_of('/'));
+    // remove the MacOS directory
+    path.erase(path.find_last_of('/'));
+    // remove the Contents directory
+    path.erase(path.find_last_of('/'));
+    // remove the Editor.app directory
+    path.erase(path.find_last_of('/'));
+    // we are now in a common directory containing both the game and the Editor
+    path.append("/ValyriaTear.app/Contents/Resources/");
+    chdir(path.c_str());
 #endif
 
-	QApplication app(argc, argv);
-	ScriptManager = ScriptEngine::SingletonCreate();
-	ScriptManager->SingletonInitialize();
+    QApplication app(argc, argv);
+    ScriptManager = ScriptEngine::SingletonCreate();
+    ScriptManager->SingletonInitialize();
 
-	Editor* editor = new Editor();
-	editor->setCaption("Map Editor");
-	app.setMainWidget(editor);
-	editor->show();
+    Editor *editor = new Editor();
+    editor->setCaption("Map Editor");
+    app.setMainWidget(editor);
+    editor->show();
 
-	return app.exec();
+    return app.exec();
 }

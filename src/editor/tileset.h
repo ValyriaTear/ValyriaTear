@@ -41,13 +41,12 @@ const unsigned int TILE_HEIGHT = 32;
 /** ***************************************************************************
 *** \brief Represents an animated tile
 *** **************************************************************************/
-struct AnimatedTileData
-{
-	//! \brief Index into tileset represents tile which will be part of the
-	//         animation sequence.
-	uint32 tile_id;
-	//! \brief Time in milliseconds to display this particular tile.
-	uint32 time;
+struct AnimatedTileData {
+    //! \brief Index into tileset represents tile which will be part of the
+    //         animation sequence.
+    uint32 tile_id;
+    //! \brief Time in milliseconds to display this particular tile.
+    uint32 time;
 };
 
 
@@ -65,79 +64,81 @@ struct AnimatedTileData
 class Tileset
 {
 public:
-	Tileset();
+    Tileset();
 
-	virtual ~Tileset();
+    virtual ~Tileset();
 
-	/** \brief Returns the filename of a tileset image given the tileset's name
-	*** \param tileset_name The name of the tileset (e.g. "mountain_village")
-	**/
-	static QString CreateImageFilename(const QString& tileset_name);
+    /** \brief Returns the filename of a tileset image given the tileset's name
+    *** \param tileset_name The name of the tileset (e.g. "mountain_village")
+    **/
+    static QString CreateImageFilename(const QString &tileset_name);
 
-	/** \brief Returns the filename of a tileset definition file given the
-	***        tileset's name
-	*** \param tileset_name The name of the tileset (e.g. "mountain_village")
-	**/
-	static QString CreateDataFilename(const QString& tileset_name);
+    /** \brief Returns the filename of a tileset definition file given the
+    ***        tileset's name
+    *** \param tileset_name The name of the tileset (e.g. "mountain_village")
+    **/
+    static QString CreateDataFilename(const QString &tileset_name);
 
-	/** \brief Returns the tileset name that corresponds to either an image or
-	***        data filename
-	*** \param filename The name of the file, which may or may not include the
-	***                 path
-	**/
-	static QString CreateTilesetName(const QString& filename);
+    /** \brief Returns the tileset name that corresponds to either an image or
+    ***        data filename
+    *** \param filename The name of the file, which may or may not include the
+    ***                 path
+    **/
+    static QString CreateTilesetName(const QString &filename);
 
-	//! \brief Class member accessor functions
-	//@{
-	bool IsInitialized() const { return _initialized; }
-	//@}
+    //! \brief Class member accessor functions
+    //@{
+    bool IsInitialized() const {
+        return _initialized;
+    }
+    //@}
 
-	/** \brief Creates a new tileset object using only a tileset image
-	*** \param img_filename The path + name of the image file to use for the
-	***                     tileset
-	*** \param one_image If true, the tiles vector will contain a single image
-	***                  for the entire tileset
-	*** \return True if the tileset image was loaded successfully
-	*** \note A tileset image is required to use this function, but nothing else
-	**/
-	virtual bool New(const QString& img_filename, bool one_image = false);
+    /** \brief Creates a new tileset object using only a tileset image
+    *** \param img_filename The path + name of the image file to use for the
+    ***                     tileset
+    *** \param one_image If true, the tiles vector will contain a single image
+    ***                  for the entire tileset
+    *** \return True if the tileset image was loaded successfully
+    *** \note A tileset image is required to use this function, but nothing else
+    **/
+    virtual bool New(const QString &img_filename, bool one_image = false);
 
-	/** \brief Loads the tileset definition file and stores its data in the
-	***        class containers
-	*** \param set_name The unique name that identifies the tileset (not a
-	***                 filename)
-	*** \param one_image If true, the tiles vector will contain a single image
-	***                  for the entire tileset
-	*** \return True if the tileset was loaded successfully
-	*** \note This function will clear the previously loaded contents when it
-	***       is called
-	**/
-	virtual bool Load(const QString& set_name, bool one_image = false);
+    /** \brief Loads the tileset definition file and stores its data in the
+    ***        class containers
+    *** \param set_name The unique name that identifies the tileset (not a
+    ***                 filename)
+    *** \param one_image If true, the tiles vector will contain a single image
+    ***                  for the entire tileset
+    *** \return True if the tileset was loaded successfully
+    *** \note This function will clear the previously loaded contents when it
+    ***       is called
+    **/
+    virtual bool Load(const QString &set_name, bool one_image = false);
 
-	/** \brief Saves the tileset data to its tileset definition file
-	*** \return True if the save operation was successful
-	**/
-	bool Save();
+    /** \brief Saves the tileset data to its tileset definition file
+    *** \return True if the save operation was successful
+    **/
+    bool Save();
 
-	//! \brief The name of the tileset this table is representing.
-	QString tileset_name;
+    //! \brief The name of the tileset this table is representing.
+    QString tileset_name;
 
-	//! \brief Contains the StillImage tiles of the tileset, used in grid.cpp.
-	// FIXME Turn this into a QT object, so that one can remove the editor dependency upon the videomanager
-	std::vector<hoa_video::StillImage> tiles;
+    //! \brief Contains the StillImage tiles of the tileset, used in grid.cpp.
+    // FIXME Turn this into a QT object, so that one can remove the editor dependency upon the videomanager
+    std::vector<hoa_video::StillImage> tiles;
 
-	//! \brief Contains walkability information for each tile.
-	std::map<int, std::vector<int32> > walkability;
+    //! \brief Contains walkability information for each tile.
+    std::map<int, std::vector<int32> > walkability;
 
-	//! \brief Contains autotiling information for any autotileable tile.
-	std::map<int, std::string> autotileability;
+    //! \brief Contains autotiling information for any autotileable tile.
+    std::map<int, std::string> autotileability;
 
 protected:
-	//! \brief True if the class is holding valid, loaded tileset data.
-	bool _initialized;
+    //! \brief True if the class is holding valid, loaded tileset data.
+    bool _initialized;
 
-	//! \brief Contains animated tile information for any animated tile.
-	std::vector<std::vector<AnimatedTileData> > _animated_tiles;
+    //! \brief Contains animated tile information for any animated tile.
+    std::vector<std::vector<AnimatedTileData> > _animated_tiles;
 }; // class Tileset
 
 
@@ -147,17 +148,17 @@ protected:
 class TilesetTable : public Tileset
 {
 public:
-	TilesetTable();
+    TilesetTable();
 
-	~TilesetTable();
+    ~TilesetTable();
 
-	//! \note Inherited methods from Tileset class that need to be overridden
-	//@{
-	bool Load(const QString& set_name);
-	//@}
+    //! \note Inherited methods from Tileset class that need to be overridden
+    //@{
+    bool Load(const QString &set_name);
+    //@}
 
-	//! Reference to the table implementation of this tileset
-	QTableWidget* table;
+    //! Reference to the table implementation of this tileset
+    QTableWidget *table;
 }; // class TilesetTable : public Tileset
 
 } // namespace hoa_editor
