@@ -293,7 +293,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 32, 4);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
@@ -337,7 +336,7 @@ function _CreateNPCs()
 	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
 		-- At that moment, Herth isn't there anymore.
 		npc:SetVisible(false);
-		npc:SetNoCollision(true);
+		npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	else
 		npc:SetDirection(hoa_map.MapMode.SOUTH);
 		dialogue = hoa_map.SpriteDialogue();
@@ -487,7 +486,7 @@ function _UpdateOrlinnState()
 
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn shouldn't be here, so we make him invisible
-        orlinn:SetNoCollision(true);
+        orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         orlinn:SetVisible(false);
         return;
 	elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
@@ -504,7 +503,7 @@ function _UpdateOrlinnState()
     end
 
     -- Orlinn default behaviour
-    orlinn:SetNoCollision(true);
+    orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
 end
 
@@ -529,7 +528,7 @@ map_functions = {
     MakeInvisible = function(sprite)
         if (sprite ~= nil) then
             sprite:SetVisible(false);
-            sprite:SetNoCollision(true);
+            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         end
     end
 }

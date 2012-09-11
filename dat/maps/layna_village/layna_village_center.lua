@@ -326,7 +326,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 12, 63);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
@@ -385,13 +384,13 @@ function _CreateNPCs()
 	carson = CreateSprite(Map, "Carson", 0, 0);
 	-- Default behaviour - not present on map.
 	carson:SetVisible(false);
-	carson:SetNoCollision(true);
+	carson:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	Map:AddGroundObject(carson);
 
 	herth = CreateSprite(Map, "Herth", 0, 0);
 	-- Default behaviour - not present on map.
 	herth:SetVisible(false);
-	herth:SetNoCollision(true);
+	herth:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	Map:AddGroundObject(herth);
 
 	npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
@@ -543,7 +542,7 @@ function _CreateObjects()
 	wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1);
 	Map:AddGroundObject(wooden_sword);
 	wooden_sword:SetVisible(false);
-	wooden_sword:SetNoCollision(true);
+	wooden_sword:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -1078,10 +1077,10 @@ end
 -- Make the rock blocks the secret passage as long as the kid hasn't been found once.
 function _UpdateBlockingRock()
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
-        blocking_rock:SetNoCollision(true);
+        blocking_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         blocking_rock:SetVisible(false);
     else
-        blocking_rock:SetNoCollision(false);
+        blocking_rock:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
         blocking_rock:SetVisible(true);
     end
 end
@@ -1188,10 +1187,10 @@ function _UpdateOrlinnAndKalyaState()
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- At that moment, Orlinn has disappeared and Kalya is now in Bronann's party.
         orlinn:SetVisible(false);
-        orlinn:SetNoCollision(true);
+        orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         kalya:ClearDialogueReferences();
         kalya:SetVisible(false);
-        kalya:SetNoCollision(true);
+        kalya:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         EventManager:TerminateAllEvents(kalya);
         kalya:SetMoving(false);
         return;
@@ -1218,7 +1217,7 @@ function _UpdateOrlinnAndKalyaState()
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
         -- At that time, Orlinn isn't in the village center anymore.
         orlinn:SetVisible(false);
-        orlinn:SetNoCollision(true);
+        orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = hoa_map.SpriteDialogue();
@@ -1303,11 +1302,11 @@ map_functions = {
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
         carson:SetPosition(75.0, 72.0);
         carson:SetVisible(true);
-        carson:SetNoCollision(false);
+        carson:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 
         herth:SetPosition(75.0, 77.0);
         herth:SetVisible(true);
-        herth:SetNoCollision(false);
+        herth:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 
         EventManager:TerminateAllEvents(kalya);
         kalya:SetPosition(75.0, 68.0);
@@ -1318,7 +1317,7 @@ map_functions = {
 	EventManager:TerminateAllEvents(orlinn);
 	orlinn:SetMoving(false);
 	orlinn:SetVisible(false);
-	orlinn:SetNoCollision(true);
+	orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     end,
 
     BrightLightStart = function()
@@ -1348,12 +1347,12 @@ map_functions = {
     Show_wooden_sword = function()
         wooden_sword:SetPosition(carson:GetXPosition() + 1.5, carson:GetYPosition() - 2.0);
         wooden_sword:SetVisible(true);
-        wooden_sword:SetNoCollision(true);
+        wooden_sword:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     end,
 
     Hide_wooden_sword = function()
         wooden_sword:SetVisible(false);
-        wooden_sword:SetNoCollision(true);
+        wooden_sword:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     end,
 
     Add_kalya_to_party = function()
@@ -1369,7 +1368,7 @@ map_functions = {
         bronann:SetMoving(false);
         bronann:SetDirection(hoa_map.MapMode.WEST);
         kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
-        kalya:SetNoCollision(true);
+        kalya:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         kalya:SetDirection(hoa_map.MapMode.WEST);
         kalya:SetVisible(true);
         kalya:ClearDialogueReferences();
@@ -1380,7 +1379,7 @@ map_functions = {
 
     Sprite_Collision_on = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetNoCollision(false);
+            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
         end
     end,
 
@@ -1395,7 +1394,7 @@ map_functions = {
     MakeInvisible = function(sprite)
         if (sprite ~= nil) then
             sprite:SetVisible(false);
-            sprite:SetNoCollision(true);
+            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         end
     end
 }

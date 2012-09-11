@@ -49,7 +49,7 @@ MapObject::MapObject() :
 	coll_height(0.0f),
 	updatable(true),
 	visible(true),
-	no_collision(false),
+	collision_mask(ALL_COLLISION),
 	sky_object(false),
 	draw_on_second_pass(false),
 	_emote_animation(0),
@@ -246,7 +246,7 @@ ParticleObject::ParticleObject(const std::string& filename, float x, float y,
 
 	_object_type = PARTICLE_TYPE;
 	context = map_context;
-	no_collision = true;
+	collision_mask = NO_COLLISION;
 
 	_particle_effect = new hoa_mode_manager::ParticleEffect(filename);
 	if (!_particle_effect)
@@ -319,7 +319,7 @@ SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
 
 	_object_type = SAVE_TYPE;
 	context = map_context;
-	no_collision = true;
+	collision_mask = NO_COLLISION;
 
 	_animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
 
@@ -405,7 +405,7 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color, MA
 
 	_object_type = HALO_TYPE;
 	context = map_context;
-	no_collision = true;
+	collision_mask = NO_COLLISION;
 
 	if (_animation.LoadFromAnimationScript(filename)) {
 	    MapMode::ScaleToMapCoords(_animation);
@@ -442,7 +442,7 @@ Light::Light(const std::string& main_flare_filename,
 
 	_object_type = LIGHT_TYPE;
 	context = map_context;
-	no_collision = true;
+	collision_mask = NO_COLLISION;
 
 	_a = _b = 0.0f;
 	_distance = 0.0f;
@@ -675,7 +675,7 @@ ObjectSupervisor::ObjectSupervisor() :
 	_virtual_focus = new VirtualSprite();
 	_virtual_focus->SetPosition(0.0f, 0.0f);
 	_virtual_focus->movement_speed = NORMAL_SPEED;
-	_virtual_focus->SetNoCollision(true);
+	_virtual_focus->SetCollisionMask(NO_COLLISION);
 	_virtual_focus->SetVisible(false);
 }
 
@@ -689,7 +689,7 @@ ObjectSupervisor::~ObjectSupervisor() {
 	for (uint32 i = 0; i < _save_points.size(); ++i) {
 		delete(_save_points[i]);
 	}
-	for (uint32 i = 0; i < _pass_objects.size();++i) {
+	for (uint32 i = 0; i < _pass_objects.size(); ++i) {
 		delete(_pass_objects[i]);
 	}
 	for (uint32 i = 0; i < _sky_objects.size(); ++i) {
@@ -1042,12 +1042,12 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 
 	// Check for the absence of collision checking after the map boundaries check,
 	// So that no collision beings won't get out of the map.
-	if (sprite->no_collision)
+	if (sprite->collision_mask == NO_COLLISION)
 		return NO_COLLISION;
 
 	// Check if the object's collision rectangel overlaps with any unwalkable elements on the collision grid
 	// Grid based collision is not done for objects in the sky layer
-	if (!sprite->sky_object) {
+	if (!sprite->sky_object && sprite->collision_mask & WALL_COLLISION) {
 		// Determine if the object's collision rectangle overlaps any unwalkable tiles
 		// Note that because the sprite's collision rectangle was previously determined to be within the map bounds,
 		// the map grid tile indeces referenced in this loop are all valid entries and do not need to be checked for out-of-bounds conditions
@@ -1068,7 +1068,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 	for (it = objects->begin(), it_end = objects->end(); it != it_end; ++it) {
 		MapObject *collision_object = *it;
 		// Check if the object exists and has the no_collision property enabled
-		if (!collision_object || collision_object->no_collision)
+		if (!collision_object || collision_object->collision_mask == NO_COLLISION)
 			continue;
 
 		// Object and sprite are the same
@@ -1087,7 +1087,14 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite* sprite,
 		// The two objects are colliding, return the potentially asked pointer to it.
 		if (collision_object_ptr != NULL)
 			*collision_object_ptr = collision_object;
-		return GetCollisionFromObjectType(collision_object);
+
+		// When the collision mask is taking in account the collision type
+		// we can return it. Otherwise, just ignore the sprite colliding.
+		COLLISION_TYPE collision = GetCollisionFromObjectType(collision_object);
+		if (sprite->collision_mask & collision)
+			return collision;
+		else
+			continue;
 	}
 
 	return NO_COLLISION;

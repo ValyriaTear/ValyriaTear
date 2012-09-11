@@ -486,7 +486,7 @@ public:
 	*** \note Make sure to populate this vector by adding at least one enemy!
 	**/
 	void NewEnemyParty()
-		{ _enemy_parties.push_back(std::vector<uint32>()); }
+	{ _enemy_parties.push_back(std::vector<uint32>()); }
 
 	/** \brief Adds an enemy with the specified ID to the last party in _enemy_parties
 	*** \param enemy_id The ID of the enemy to add
@@ -501,61 +501,61 @@ public:
 	//! \name Class Member Access Functions
 	//@{
 	float GetAggroRange() const
-		{ return _aggro_range; }
+	{ return _aggro_range; }
 
 	uint32 GetTimeToChange() const
-		{ return _time_dir_change; }
+	{ return _time_dir_change; }
 
 	uint32 GetTimeToSpawn() const
-		{ return _time_to_spawn; }
+	{ return _time_to_spawn; }
 
 	const std::string& GetBattleMusicTheme() const
-		{ return _music_theme; }
+	{ return _music_theme; }
 
 	const std::string& GetBattleBackground() const
-		{ return _bg_file; }
+	{ return _bg_file; }
 
 	const std::vector<std::string>& GetBattleScripts() const
-		{ return _script_files; }
+	{ return _script_files; }
 
 	bool IsDead() const
-		{ return _state == DEAD; }
+	{ return _state == DEAD; }
 
 	bool IsSpawning() const
-		{ return _state == SPAWNING; }
+	{ return _state == SPAWNING; }
 
 	bool IsHostile() const
-		{ return _state == HOSTILE; }
+	{ return _state == HOSTILE; }
 
 	void SetZone(EnemyZone* zone)
-		{ _zone = zone; }
+	{ _zone = zone; }
 
 	void SetAggroRange(float range)
-		{ _aggro_range = range; }
+	{ _aggro_range = range; }
 
 	void SetTimeToChange(uint32 time)
-		{ _time_dir_change = time; }
+	{ _time_dir_change = time; }
 
 	void SetTimeToSpawn(uint32 time)
-		{ _time_to_spawn = time; }
+	{ _time_to_spawn = time; }
 
 	void SetBattleMusicTheme(const std::string& music_theme)
-		{ _music_theme = music_theme; }
+	{ _music_theme = music_theme; }
 
 	void SetBattleBackground(const std::string& bg_file)
-		{ _bg_file = bg_file; }
+	{ _bg_file = bg_file; }
 
 	void AddBattleScript(const std::string& script_file)
-		{ _script_files.push_back(script_file); }
+	{ _script_files.push_back(script_file); }
 
 	void ChangeStateDead()
-		{ Reset(); if (_zone) _zone->EnemyDead(); }
+	{ Reset(); if (_zone) _zone->EnemyDead(); }
 
 	void ChangeStateSpawning()
-		{ updatable = true; _state = SPAWNING; no_collision = true; }
+	{ updatable = true; _state = SPAWNING; collision_mask = NO_COLLISION; }
 
 	void ChangeStateHostile()
-		{ updatable = true; _state = HOSTILE; no_collision = false; _color.SetAlpha(1.0); }
+	{ updatable = true; _state = HOSTILE; collision_mask = WALL_COLLISION | CHARACTER_COLLISION; _color.SetAlpha(1.0); }
 	//@}
 
 private:

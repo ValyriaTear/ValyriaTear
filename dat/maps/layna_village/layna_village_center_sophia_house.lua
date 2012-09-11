@@ -246,7 +246,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 28, 15);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	Map:AddGroundObject(bronann);
 end
@@ -263,7 +262,7 @@ function _CreateObjects()
 		chest:AddObject(1, 1);
 		Map:AddGroundObject(chest);
 	end
-	
+
 	object = CreateObject(Map, "Chair1_inverted", 31, 19);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Small Wooden Table", 34, 20);

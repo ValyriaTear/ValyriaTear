@@ -59,7 +59,7 @@ public:
 	MapObject();
 
 	virtual ~MapObject()
-		{}
+	{}
 
 	/** \brief An identification number for the object as it is represented in the map file.
 	*** Player sprites are assigned object IDs from 5000 and above. Technically this means that
@@ -122,8 +122,9 @@ public:
 	//! \brief When false, the Draw() function will do nothing (default == true).
 	bool visible;
 
-	//! \brief When true, the object will not be examined for collision detection (default == false).
-	bool no_collision;
+	//! \brief The collision mask indiacting what the object will collide with. (i.e.: walls + objects, nothing, ...)
+	//! \NOTE: COLLISION TYPE used as bitmask
+	uint32 collision_mask;
 
 	/** \brief When true, indicates that the object exists on the sky object layer (default == false).
 	*** This member is necessary for collision detection purposes. When a sprite needs to detect
@@ -194,7 +195,7 @@ public:
 	*** that the default implementation of this function does nothing.
 	**/
 	virtual void RestoreSaved()
-		{}
+	{}
 
 	/** \name Lua Access Functions
 	*** These functions are specifically written to enable Lua to access the members of this class.
@@ -203,85 +204,86 @@ public:
 	**/
 	//@{
 	void SetObjectID(int16 id = 0)
-		{ object_id = id; }
+	{ object_id = id; }
 
 	void SetContext(MAP_CONTEXT ctxt)
-		{ context = ctxt; }
+	{ context = ctxt; }
 
 	void SetPosition(float x, float y)
-		{ position.x = x; position.y = y; }
+	{ position.x = x; position.y = y; }
 
 	void SetXPosition(float x)
-		{ position.x = x; }
+	{ position.x = x; }
 
 	void SetYPosition(float y)
-		{ position.y = y; }
+	{ position.y = y; }
 
 	void SetImgHalfWidth(float width)
-		{ img_half_width = width; }
+	{ img_half_width = width; }
 
 	void SetImgHeight(float height)
-		{ img_height = height; }
+	{ img_height = height; }
 
 	void SetCollHalfWidth(float collision)
-		{ coll_half_width = collision; }
+	{ coll_half_width = collision; }
 
 	void SetCollHeight(float collision)
-		{ coll_height = collision; }
+	{ coll_height = collision; }
 
 	void SetUpdatable(bool update)
-		{ updatable = update; }
+	{ updatable = update; }
 
 	void SetVisible(bool vis)
-		{ visible = vis; }
+	{ visible = vis; }
 
-	void SetNoCollision(bool coll)
-		{ no_collision = coll; }
+	// Use a set of COLLISION_TYPE bitmask values
+	void SetCollisionMask(uint32 collision_types)
+	{ collision_mask = collision_types; }
 
 	void SetDrawOnSecondPass(bool pass)
-		{ draw_on_second_pass = pass; }
+	{ draw_on_second_pass = pass; }
 
 	int16 GetObjectID() const
-		{ return object_id; }
+	{ return object_id; }
 
 	MAP_CONTEXT GetContext() const
-		{ return context; }
+	{ return context; }
 
 	MapPosition GetPosition() const
-		{ return position; }
+	{ return position; }
 
 	float GetXPosition() const
-		{ return position.x; }
+	{ return position.x; }
 
 	float GetYPosition() const
-		{ return position.y; }
+	{ return position.y; }
 
 	float GetImgHalfWidth() const
-		{ return img_half_width; }
+	{ return img_half_width; }
 
 	float GetImgHeight() const
-		{ return img_height; }
+	{ return img_height; }
 
 	float GetCollHalfWidth() const
-		{ return coll_half_width; }
+	{ return coll_half_width; }
 
 	float GetCollHeight() const
-		{ return coll_height; }
+	{ return coll_height; }
 
 	bool IsUpdatable() const
-		{ return updatable; }
+	{ return updatable; }
 
 	bool IsVisible() const
-		{ return visible; }
+	{ return visible; }
 
-	bool IsNoCollision() const
-		{ return no_collision; }
+	uint32 GetCollisionMask() const
+	{ return collision_mask; }
 
 	bool IsDrawOnSecondPass() const
-		{ return draw_on_second_pass; }
+	{ return draw_on_second_pass; }
 
 	MAP_OBJECT_TYPE GetType() const
-		{ return _object_type; }
+	{ return _object_type; }
 
 	/** \brief Play the corresponding emote animation set in the emotes.lua file
 	*** \see LoadEmotes() in the GameGlobal class.

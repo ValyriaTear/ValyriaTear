@@ -266,7 +266,6 @@ function _CreateCharacters()
 	hero = CreateSprite(Map, "Bronann", 3, 30);
 	hero:SetDirection(hoa_map.MapMode.EAST);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	hero:SetNoCollision(false);
 
 	-- Load previous save point data
 	local x_position = GlobalManager:GetSaveLocationX();
@@ -287,7 +286,7 @@ function _CreateCharacters()
 
     kalya_sprite:SetDirection(hoa_map.MapMode.EAST);
     kalya_sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-    kalya_sprite:SetNoCollision(true);
+    kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
     Map:AddGroundObject(kalya_sprite);
 end
@@ -310,7 +309,7 @@ function _CreateObjects()
 
 	-- Heal point
 	npc = CreateSprite(Map, "Butterfly", 27, 23);
-	npc:SetNoCollision(true);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	npc:SetVisible(false);
 	Map:AddGroundObject(npc);
 	dialogue = hoa_map.SpriteDialogue();
@@ -320,7 +319,7 @@ function _CreateObjects()
 	npc:AddDialogueReference(dialogue);
 
 	npc = CreateSprite(Map, "Butterfly", 42, 18);
-	npc:SetNoCollision(true);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
@@ -328,7 +327,7 @@ function _CreateObjects()
 	EventManager:StartEvent("Butterfly1 random move");
 
 	npc = CreateSprite(Map, "Butterfly", 12, 30);
-	npc:SetNoCollision(true);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
@@ -336,7 +335,7 @@ function _CreateObjects()
 	EventManager:StartEvent("Butterfly2 random move", 2400);
 
 	npc = CreateSprite(Map, "Butterfly", 50, 25);
-	npc:SetNoCollision(true);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
@@ -344,7 +343,7 @@ function _CreateObjects()
 	EventManager:StartEvent("Butterfly3 random move", 1050);
 
 	npc = CreateSprite(Map, "Butterfly", 40, 30);
-	npc:SetNoCollision(true);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
@@ -352,7 +351,8 @@ function _CreateObjects()
 	EventManager:StartEvent("Butterfly4 random move", 3050);
 
 	npc = CreateSprite(Map, "Squirrel", 18, 24);
-	npc:SetNoCollision(true);
+    -- Squirrels don't collide with the npcs.
+	npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
@@ -360,7 +360,8 @@ function _CreateObjects()
 	EventManager:StartEvent("Squirrel1 random move");
 
 	npc = CreateSprite(Map, "Squirrel", 40, 14);
-	npc:SetNoCollision(true);
+    -- Squirrels don't collide with the npcs.
+	npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
 	Map:AddGroundObject(npc);
 	event = hoa_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
 	event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
@@ -540,11 +541,11 @@ function _CreateEvents()
     event = hoa_map.ScriptedEvent("Map:Popstate()", "Map_PopState", "");
 	EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("kalya:SetNoCollision(false)", kalya_sprite, "Sprite_Collision_on", "");
+    event = hoa_map.ScriptedSpriteEvent("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
 	EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("hero:SetNoCollision(false)", hero, "Sprite_Collision_on", "");
+    event = hoa_map.ScriptedSpriteEvent("hero:SetCollision(ALL)", hero, "Sprite_Collision_on", "");
 	EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("second_hero:SetNoCollision(true)", kalya_sprite, "Sprite_Collision_off", "");
+    event = hoa_map.ScriptedSpriteEvent("second_hero:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
 	EventManager:RegisterEvent(event);
 
     event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
@@ -567,7 +568,7 @@ function _CreateEvents()
     move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at the save point");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya is surprised before running to the save point");
-    move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetNoCollision(false)");
+    move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = hoa_map.SpriteDialogue();
@@ -662,7 +663,7 @@ function _CreateEvents()
 	dialogue:AddLine(text, kalya_sprite);
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya talks about the save point - part 4", dialogue);
-    event:AddEventLinkAtEnd("second_hero:SetNoCollision(true)");
+    event:AddEventLinkAtEnd("second_hero:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera");
     EventManager:RegisterEvent(event);
 
@@ -750,8 +751,8 @@ map_functions = {
 
         kalya_sprite:SetVisible(true);
         kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetNoCollision(false);
-        kalya_sprite:SetNoCollision(true);
+        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 
         Map:SetCamera(kalya_sprite, 800);
 
@@ -764,13 +765,13 @@ map_functions = {
 
     Sprite_Collision_on = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetNoCollision(false);
+            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
         end
     end,
 
     Sprite_Collision_off = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetNoCollision(true);
+            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         end
     end,
 
@@ -781,7 +782,7 @@ map_functions = {
     end_of_save_point_event = function()
         kalya_sprite:SetPosition(0, 0);
         kalya_sprite:SetVisible(false);
-        kalya_sprite:SetNoCollision(true);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 
         -- Reload the hero back to default
         ReloadSprite(hero, main_sprite_name);

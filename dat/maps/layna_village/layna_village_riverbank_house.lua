@@ -247,7 +247,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 32, 45);
 	bronann:SetDirection(hoa_map.MapMode.NORTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	Map:AddGroundObject(bronann);
 end
@@ -270,7 +269,7 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Left Window Light", 20, 38);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	object = CreateObject(Map, "Clock1", 33, 13);
@@ -284,7 +283,7 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Bench2", 39, 38);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	object = CreateObject(Map, "Barrel1", 21, 36);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Barrel1", 22, 37);
@@ -303,7 +302,7 @@ function _CreateObjects()
 
 	object = CreateObject(Map, "Right Window Light", 44, 38);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 

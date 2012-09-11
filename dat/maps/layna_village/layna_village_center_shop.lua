@@ -250,7 +250,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 32.0, 27.0);
 	bronann:SetDirection(hoa_map.MapMode.NORTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	Map:AddGroundObject(bronann);
 end
@@ -264,7 +263,7 @@ function _CreateNPCs()
 	flora = CreateNPCSprite(Map, "Woman1", "Flora", 39, 22);
 	Map:AddGroundObject(flora);
 	flora:SetVisible(false);
-	flora:SetNoCollision(true);
+	flora:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     _UpdateFloraDialogue();
 end
 
@@ -286,11 +285,11 @@ function _CreateObjects()
 	-- lights
 	object = CreateObject(Map, "Right Window Light 2", 41, 10);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Right Window Light 2", 41, 17);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 

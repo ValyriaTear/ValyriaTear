@@ -290,7 +290,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 23.5, 17.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
@@ -372,7 +371,7 @@ function _CreateObjects()
 
 	object = CreateObject(Map, "Right Window Light", 41, 33);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	object:SetContext(hoa_map.MapMode.CONTEXT_03);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end

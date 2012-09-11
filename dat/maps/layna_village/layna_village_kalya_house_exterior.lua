@@ -237,7 +237,7 @@ function Load(m)
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
-	
+
 	_HandleCredits();
 end
 
@@ -265,7 +265,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 48, 44);
 	bronann:SetDirection(hoa_map.MapMode.NORTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_kalya_house_interior") then
@@ -313,7 +312,7 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Tree Big2", 59, 46);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	-- trees in the middle
 	object = CreateObject(Map, "Tree Small2", 45, 31);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
@@ -321,7 +320,7 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Tree Small1", 41, 40);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	object = CreateObject(Map, "Rock1", 17, 13);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
@@ -331,7 +330,7 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Tree Small1", 4, 17);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	object = CreateObject(Map, "Tree Big1", 19, 15);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Tree Big2", 17, 19);
@@ -352,7 +351,7 @@ function _CreateObjects()
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 	object = CreateObject(Map, "Tree Big1", 6, 31);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
-	
+
 	-- Treasures!
 	local kalya_house_exterior_chest = CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22);
 	if (kalya_house_exterior_chest ~= nil) then
@@ -401,13 +400,13 @@ function _CheckZones()
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to Kalya house path");
 	end
-	
+
 	if (kalya_house_entrance_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("Bronann can't enter kalya house");
 		AudioManager:PlaySound("snd/door_close.wav");
 	end
-	
+
 	if (kalya_house_path_small_passage_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		EventManager:StartEvent("to kalya house path small passage");

@@ -277,7 +277,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 46.5, 11.5);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_village_center") then
@@ -304,7 +303,7 @@ function _CreateNPCs()
 	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
 	    -- Carson isn't here anymore
 	    bronanns_dad:SetVisible(false);
-	    bronanns_dad:SetNoCollision(true);
+	    bronanns_dad:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	else
 	    EventManager:StartEvent("Dad random move");
 	end
@@ -449,12 +448,12 @@ function _CreateObjects()
 	--lights
 	object = CreateObject(Map, "Left Window Light 2", 31, 15);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	object = CreateObject(Map, "Right Window Light 2", 49, 15);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
 	-- Turn the food and dishes are objects to permit the update of their visible status.
@@ -645,33 +644,33 @@ function _UpdateDishesAndFood()
         if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
 		-- Show the plate pile, hide the rest
 		plate_pile:SetVisible(true);
-		plate_pile:SetNoCollision(false);
+		plate_pile:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 
 		salad:SetVisible(false);
-		salad:SetNoCollision(true);
+		salad:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 		green_pepper:SetVisible(false);
-		green_pepper:SetNoCollision(true);
+		green_pepper:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 		bread:SetVisible(false);
-		bread:SetNoCollision(true);
+		bread:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 		sauce_pot:SetVisible(false);
-		sauce_pot:SetNoCollision(true);
+		sauce_pot:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 		knife:SetVisible(false);
-		knife:SetNoCollision(true);
+		knife:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	else
 		-- Show the food, hide the plate pile
 		plate_pile:SetVisible(false);
-		plate_pile:SetNoCollision(true);
+		plate_pile:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 
 		salad:SetVisible(true);
-		salad:SetNoCollision(false);
+		salad:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 		green_pepper:SetVisible(true);
-		green_pepper:SetNoCollision(false);
+		green_pepper:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 		bread:SetVisible(true);
-		bread:SetNoCollision(false);
+		bread:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 		sauce_pot:SetVisible(true);
-		sauce_pot:SetNoCollision(false);
+		sauce_pot:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 		knife:SetVisible(true);
-		knife:SetNoCollision(false);
+		knife:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
 	end
 end
 
@@ -747,7 +746,7 @@ map_functions = {
     MakeInvisible = function(sprite)
         if (sprite ~= nil) then
             sprite:SetVisible(false);
-            sprite:SetNoCollision(true);
+            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         end
     end,
 

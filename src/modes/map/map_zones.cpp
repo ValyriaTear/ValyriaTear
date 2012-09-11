@@ -417,7 +417,7 @@ void EnemyZone::Update() {
 	bool collision; // Holds the result of a collision detection check
 
 	// Select a random position inside the zone to place the spawning enemy
-	_enemies[index]->no_collision = false;
+	_enemies[index]->collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
 	MapZone* spawning_zone = NULL;
 	if (HasSeparateSpawnZone() == false) {
 		spawning_zone = this;
@@ -438,7 +438,7 @@ void EnemyZone::Update() {
 	// If we didn't find a suitable spawning location, reset the collision info
 	// on the enemy sprite and we will retry on the next call to this function
 	if (collision) {
-		_enemies[index]->no_collision = true;
+		_enemies[index]->collision_mask = NO_COLLISION;
 	}
 
 	// Otherwise, spawn the enemy and reset the spawn timer

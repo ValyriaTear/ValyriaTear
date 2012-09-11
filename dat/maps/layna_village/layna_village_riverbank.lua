@@ -411,7 +411,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 97, 4);
 	bronann:SetDirection(hoa_map.MapMode.SOUTH);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map and location
 	if (GlobalManager:GetPreviousLocation() == "from_village_south") then
@@ -444,7 +443,7 @@ function _CreateNPCs()
 	kalya = CreateSprite(Map, "Kalya", 2, 2);
 	kalya:SetDirection(hoa_map.MapMode.SOUTH);
 	kalya:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	kalya:SetNoCollision(true);
+	kalya:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	kalya:SetVisible(false);
 	Map:AddGroundObject(kalya);
 
@@ -455,7 +454,7 @@ function _CreateNPCs()
 
 	-- Create an invisible doppelgänger to permit triggering dialogues when the kid is on the cliff.
 	orlinn_dialogue_npc = CreateSprite(Map, "Orlinn", 82, 8);
-	orlinn_dialogue_npc:SetNoCollision(true);
+	orlinn_dialogue_npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	orlinn_dialogue_npc:SetVisible(false);
 	Map:AddGroundObject(orlinn_dialogue_npc);
 end
@@ -898,7 +897,7 @@ function _SetOrlinnState()
 	orlinn:ClearDialogueReferences();
 
     if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
-        orlinn:SetNoCollision(true);
+        orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         orlinn:SetVisible(false);
         return;
     elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == true) then
@@ -929,7 +928,7 @@ function _SetOrlinnState()
     end
 
     -- Orlinn default behaviour
-    orlinn:SetNoCollision(true);
+    orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
 end
 
@@ -946,7 +945,7 @@ map_functions = {
     MakeInvisible = function(sprite)
         if (sprite ~= nil) then
             sprite:SetVisible(false);
-            sprite:SetNoCollision(true);
+            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         end
     end,
 
@@ -954,7 +953,7 @@ map_functions = {
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
         -- Prepare Kalya
         kalya:SetPosition(78, 25);
-        kalya:SetNoCollision(false);
+        kalya:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
         kalya:SetVisible(true);
 
         -- Stop Orlinn event loop and prepare him for the next events

@@ -320,7 +320,6 @@ function _CreateCharacters()
 	bronann = CreateSprite(Map, "Bronann", 61, 45);
 	bronann:SetDirection(hoa_map.MapMode.WEST);
 	bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-	bronann:SetNoCollision(false);
 
 	-- set up the position according to the previous map
 	if (GlobalManager:GetPreviousLocation() == "from_kalya_house_exterior") then

@@ -227,14 +227,17 @@ enum ANIM_DIRECTIONS {
 //@}
 
 
-//! \brief Represents the various types of collisions which may occur for a sprite
+/** \brief Represents the various types of collisions which may occur for a sprite
+*** NOTE: Used as a bitmask.
+**/
 enum COLLISION_TYPE {
-	NO_COLLISION = 0,       //!< Indicates that no collision has occurred.
-	CHARACTER_COLLISION = 1,//!< Indicates that a collision happened with a character.
-	ENEMY_COLLISION = 2,    //!< Indicates that a collision happened with an enemy.
-	WALL_COLLISION = 3,     //! Indicates a collision with a wall. (Sky objects will have a wall collision on the map bounds)
-	COLLISION_TYPES = 4
+	NO_COLLISION =        0, //!< Indicates that no collision has occurred.
+	CHARACTER_COLLISION = 1, //!< Indicates that a collision with a character.
+	ENEMY_COLLISION =     2, //!< Indicates that a collision with an enemy.
+	WALL_COLLISION =      4, //! Indicates a collision with a wall. (Sky objects will have a wall collision on the map bounds)
+	COLLISION_TYPES =     4
 };
+const uint32 ALL_COLLISION = CHARACTER_COLLISION | ENEMY_COLLISION | WALL_COLLISION;
 
 
 //! \brief Identifiers for the similarly named classes of map events

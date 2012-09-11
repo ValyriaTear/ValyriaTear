@@ -1055,7 +1055,7 @@ bool EnemySprite::Load() {
 
 void EnemySprite::Reset() {
 	updatable = false;
-	no_collision = true;
+	collision_mask = NO_COLLISION;
 	_state = DEAD;
 	_time_elapsed = 0;
 	_color.SetAlpha(0.0f);

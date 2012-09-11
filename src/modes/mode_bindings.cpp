@@ -114,6 +114,12 @@ void BindModeCode() {
 				luabind::value("STATE_SCENE", STATE_SCENE),
 				luabind::value("STATE_DIALOGUE", STATE_DIALOGUE),
 				luabind::value("STATE_TREASURE", STATE_TREASURE),
+				// Map Collision types
+				luabind::value("NO_COLLISION", NO_COLLISION),
+				luabind::value("CHARACTER_COLLISION", CHARACTER_COLLISION),
+				luabind::value("ENEMY_COLLISION", ENEMY_COLLISION),
+				luabind::value("WALL_COLLISION", WALL_COLLISION),
+				luabind::value("ALL_COLLISION", ALL_COLLISION),
 				// Map contexts
 				luabind::value("CONTEXT_NONE", MAP_CONTEXT_NONE),
 				luabind::value("CONTEXT_01", MAP_CONTEXT_01),
@@ -206,7 +212,7 @@ void BindModeCode() {
 			.def("SetCollHeight", &MapObject::SetCollHeight)
 			.def("SetUpdatable", &MapObject::SetUpdatable)
 			.def("SetVisible", &MapObject::SetVisible)
-			.def("SetNoCollision", &MapObject::SetNoCollision)
+			.def("SetCollisionMask", &MapObject::SetCollisionMask)
 			.def("SetDrawOnSecondPass", &MapObject::SetDrawOnSecondPass)
 			.def("GetObjectID", &MapObject::GetObjectID)
 			.def("GetContext", &MapObject::GetContext)
@@ -218,7 +224,7 @@ void BindModeCode() {
 			.def("GetCollHeight", &MapObject::GetCollHeight)
 			.def("IsUpdatable", &MapObject::IsUpdatable)
 			.def("IsVisible", &MapObject::IsVisible)
-			.def("IsNoCollision", &MapObject::IsNoCollision)
+			.def("GetCollisionMask", &MapObject::GetCollisionMask)
 			.def("IsDrawOnSecondPass", &MapObject::IsDrawOnSecondPass)
 			.def("Emote", &MapObject::Emote)
 	];
