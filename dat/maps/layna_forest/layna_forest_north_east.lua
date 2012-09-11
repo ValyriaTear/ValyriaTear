@@ -10,8 +10,8 @@ setfenv(1, ns);
 map = {}
 
 -- The map name, subname and location image
-map_name = ""
-map_image_filename = ""
+map_name = "Layna Forest"
+map_image_filename = "img/menus/locations/layna_forest.png"
 map_subname = ""
 
 -- The number of rows, and columns that compose the map
@@ -32,7 +32,7 @@ contexts[0].inherit_from = -1
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = ""
+music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -351,3 +351,198 @@ layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+-- the main character handler
+local hero = {};
+
+-- the main map loading code
+function Load(m)
+
+	Map = m;
+	ObjectManager = Map.object_supervisor;
+	DialogueManager = Map.dialogue_supervisor;
+	EventManager = Map.event_supervisor;
+	GlobalEvents = Map.map_event_group;
+
+	Map.unlimited_stamina = false;
+
+	_CreateCharacters();
+	_CreateObjects();
+	--_CreateEnemies();
+
+	-- Set the camera focus on hero
+	Map:SetCamera(hero);
+	-- This is a dungeon map, we'll use the front battle member sprite as default sprite.
+	Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+
+	_CreateEvents();
+	_CreateZones();
+
+	-- Add clouds overlay
+	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+end
+
+-- the map update function handles checks done on each game tick.
+function Update()
+	-- Check whether the character is in one of the zones
+	_CheckZones();
+end
+
+-- Character creation
+function _CreateCharacters()
+	-- Default hero and position
+	hero = CreateSprite(Map, "Bronann", 3, 30);
+	hero:SetDirection(hoa_map.MapMode.EAST);
+	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+
+	Map:AddGroundObject(hero);
+end
+
+function _CreateObjects()
+	local object = {}
+	local npc = {}
+
+	--Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
+
+    -- Load the spring heal effect.
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
+                                            0, 0, hoa_map.MapMode.CONTEXT_01);
+	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect:Stop(); -- Don't run it until the character heals itself
+    Map:AddGroundObject(heal_effect);
+
+	-- Heal point
+	npc = CreateSprite(Map, "Butterfly", 27, 23);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	npc:SetVisible(false);
+	Map:AddGroundObject(npc);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Your party feels better...");
+	dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+	npc = CreateSprite(Map, "Butterfly", 42, 18);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly1 random move");
+
+	npc = CreateSprite(Map, "Butterfly", 12, 30);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly2 random move", 2400);
+
+	npc = CreateSprite(Map, "Butterfly", 50, 25);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly3 random move", 1050);
+
+	npc = CreateSprite(Map, "Butterfly", 40, 30);
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Butterfly4 random move", 3050);
+
+	npc = CreateSprite(Map, "Squirrel", 18, 24);
+    -- Squirrels don't collide with the npcs.
+	npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Squirrel1 random move");
+
+	npc = CreateSprite(Map, "Squirrel", 40, 14);
+    -- Squirrels don't collide with the npcs.
+	npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
+	Map:AddGroundObject(npc);
+	event = hoa_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
+	event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
+	EventManager:RegisterEvent(event);
+	EventManager:StartEvent("Squirrel2 random move", 1800);
+
+	-- Forest entrance treasure chest
+	--local chest1 = CreateTreasure(Map, "forest_entrance_chest", "Wood_Chest1", 8, 3);
+	--if (chest1 ~= nil) then
+	--	chest1:SetDrunes(50);
+	--	Map:AddGroundObject(chest1);
+	--end
+	-- Trees above the pathway
+	object = CreateObject(Map, "Tree Small3", 3, 5);
+	Map:AddGroundObject(object);
+
+end
+
+function _CreateEnemies()
+	local enemy = {};
+	local roam_zone = {};
+
+	-- Hint: left, right, top, bottom
+	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
+
+	enemy = CreateEnemySprite(Map, "slime");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(2);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+end
+
+-- Creates all events and sets up the entire event sequence chain
+function _CreateEvents()
+	local event = {};
+	local dialogue = {};
+	local text = {};
+
+end
+
+-- Create the different map zones triggering events
+function _CreateZones()
+	-- N.B.: left, right, top, bottom
+	--forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
+	--Map:AddZone(forest_entrance_exit_zone);
+end
+
+-- Check whether the active camera has entered a zone. To be called within Update()
+function _CheckZones()
+	--if (forest_entrance_exit_zone:IsCameraEntering() == true) then
+		--hero:SetMoving(false);
+		--EventManager:StartEvent("exit forest");
+	--end
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+	enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+	enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
+	-- Add tutorial battle dialog with Kalya and Bronann
+	enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+end
+
+-- Map Custom functions
+-- Used through scripted events
+if (map_functions == nil) then
+	map_functions = {}
+end
+
+map_functions = {
+
+}
+
