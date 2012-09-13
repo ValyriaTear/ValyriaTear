@@ -328,6 +328,30 @@ objects["Tree Small3"] = {
 	img_height = 8.0
 }
 
+objects["Tree Small4"] = {
+	animation_filename = "img/sprites/map/objects/tree_small4.lua",
+	coll_half_width = 2.0,
+	coll_height = 2.5,
+	img_half_width = 3.5,
+	img_height = 8.0
+}
+
+objects["Tree Small5"] = {
+	animation_filename = "img/sprites/map/objects/tree_small5.lua",
+	coll_half_width = 2.0,
+	coll_height = 2.5,
+	img_half_width = 3.5,
+	img_height = 8.0
+}
+
+objects["Tree Small6"] = {
+	animation_filename = "img/sprites/map/objects/tree_small6.lua",
+	coll_half_width = 2.0,
+	coll_height = 2.5,
+	img_half_width = 3.5,
+	img_height = 8.0
+}
+
 objects["Vase1"] = {
 	animation_filename = "img/sprites/map/objects/vase1.lua",
 	coll_half_width = 0.75,
