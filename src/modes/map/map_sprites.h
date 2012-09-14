@@ -25,6 +25,11 @@ namespace hoa_map {
 
 namespace private_map {
 
+//! \brief The standard number of milliseconds it takes for enemies
+//! to spawn in an enemy zone.
+const uint32 STANDARD_ENEMY_FIRST_SPAWN_TIME = 1000;
+const uint32 STANDARD_ENEMY_SPAWN_TIME = 5000;
+
 /** ****************************************************************************
 *** \brief A special type of sprite with no physical image
 ***
@@ -433,6 +438,27 @@ protected:
 	void _DrawDebugInfo();
 }; // class MapSprite : public VirtualSprite
 
+//! \brief Data used to load an place enemies on battle grounds
+struct BattleEnemyInfo {
+	BattleEnemyInfo():
+		enemy_id(0),
+		position_x(0.0f),
+		position_y(0.0f)
+	{}
+
+	BattleEnemyInfo(uint32 id, float x, float y):
+		enemy_id(id),
+		position_x(x),
+		position_y(y)
+	{}
+
+	//! \brief  The enemy id see in enemies.lua
+	uint32 enemy_id;
+
+	//! \brief The enemy position in the battle ground, in pixels.
+	float position_x;
+	float position_y;
+};
 
 /** ****************************************************************************
 *** \brief A mobile map object that induces a battle to occur if the player touches it
@@ -477,26 +503,25 @@ public:
 	//! \brief Draws the sprite frame in the appropriate position on the screen, if it is visible.
 	virtual void Draw();
 
-	// TODO: eventually I would like the ability for Lua to pass in a table of ints to the AddEnemyParty function, but because I'm not quite
-	// sure how to do that yet, I'm writing several smaller functions so we can just get this demo released.
-
-	// void AddEnemyParty(std::vector<uint32>& party);
-
 	/** \brief Adds a new empty vector to the _enemy_parties member
 	*** \note Make sure to populate this vector by adding at least one enemy!
 	**/
 	void NewEnemyParty()
-	{ _enemy_parties.push_back(std::vector<uint32>()); }
+	{ _enemy_parties.push_back(std::vector<BattleEnemyInfo>()); }
 
 	/** \brief Adds an enemy with the specified ID to the last party in _enemy_parties
 	*** \param enemy_id The ID of the enemy to add
+	*** \param position_x, position_y The enemy sprite position on the battle ground in pixels
 	*** \note MapMode should have already loaded a GlobalEnemy with this ID and retained it within the MapMode#_enemies member.
 	*** If this is not the case, this function will print a warning message.
 	**/
-	void AddEnemy(uint32 enemy_id);
+	void AddEnemy(uint32 enemy_id, float position_x, float position_y);
+	//! \brief A simpler function used to auto set default enemy position on the battle ground
+	void AddEnemy(uint32 enemy_id)
+	{ AddEnemy(enemy_id, 0.0f, 0.0f); }
 
 	//! \brief Returns a reference to a random party of enemies
-	const std::vector<uint32>& RetrieveRandomParty();
+	const std::vector<BattleEnemyInfo>& RetrieveRandomParty();
 
 	//! \name Class Member Access Functions
 	//@{
@@ -554,8 +579,7 @@ public:
 	void ChangeStateSpawning()
 	{ updatable = true; _state = SPAWNING; collision_mask = NO_COLLISION; }
 
-	void ChangeStateHostile()
-	{ updatable = true; _state = HOSTILE; collision_mask = WALL_COLLISION | CHARACTER_COLLISION; _color.SetAlpha(1.0); }
+	void ChangeStateHostile();
 	//@}
 
 private:
@@ -599,7 +623,7 @@ private:
 	/** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
 	*** The numbers contained within this member are ID numbers for the enemy.
 	**/
-	std::vector<std::vector<uint32> > _enemy_parties;
+	std::vector<std::vector<BattleEnemyInfo> > _enemy_parties;
 }; // class EnemySprite : public MapSprite
 
 } // namespace private_map

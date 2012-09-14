@@ -16,15 +16,14 @@ function BootBattleTest()
 	-- bronann:AddSkill(10001);
 
 	local battle = hoa_battle.BattleMode();
-	battle:AddEnemy(6);
-	battle:AddEnemy(7);
-	battle:AddEnemy(8);
-	battle:AddEnemy(9);
-	battle:AddEnemy(10);
-	battle:AddEnemy(11);
-	battle:AddEnemy(12);
+	battle:AddEnemy(6, 0, 0);
+	battle:AddEnemy(7, 0, 0);
+	battle:AddEnemy(8, 0, 0);
+	battle:AddEnemy(9, 0, 0);
+	battle:AddEnemy(10, 0, 0);
+	battle:AddEnemy(11, 0, 0);
+	battle:AddEnemy(12, 0, 0);
 	battle:GetScriptSupervisor():AddScript("dat/battles/desert_cave_battle_anim.lua");
-	battle:GetScriptSupervisor():AddScript("dat/battles/tutorial_battle_dialogs.lua");
 
 	ModeManager:Push(battle, false, false);
 end

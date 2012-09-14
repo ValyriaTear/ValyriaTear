@@ -228,22 +228,23 @@ bool JoinPartyEvent::_Update() {
 // ---------- BattleEncounterEvent Class Methods
 // -----------------------------------------------------------------------------
 
-BattleEncounterEvent::BattleEncounterEvent(const std::string& event_id, uint32 enemy_id) :
+BattleEncounterEvent::BattleEncounterEvent(const std::string& event_id) :
 	MapEvent(event_id, BATTLE_ENCOUNTER_EVENT),
 	_battle_music("mus/Confrontation.ogg"),
 	_battle_background("img/backdrops/battle/desert.png")
-{
-	_enemy_ids.push_back(enemy_id);
-}
+{}
 
+void BattleEncounterEvent::AddEnemy(uint32 enemy_id, float position_x, float position_y) {
+    _enemies.push_back(BattleEnemyInfo(enemy_id, position_x, position_y));
+}
 
 void BattleEncounterEvent::_Start() {
 	MapMode::CurrentInstance()->PushState(STATE_SCENE);
 
 	try {
 		BattleMode* BM = new BattleMode();
-		for (uint32 i = 0; i < _enemy_ids.size(); ++i)
-			BM->AddEnemy(_enemy_ids.at(i));
+		for (uint32 i = 0; i < _enemies.size(); ++i)
+			BM->AddEnemy(_enemies.at(i).enemy_id, _enemies.at(i).position_x, _enemies.at(i).position_y);
 
 		BM->GetMedia().SetBackgroundImage(_battle_background);
 		BM->GetMedia().SetBattleMusic(_battle_music);
@@ -253,7 +254,7 @@ void BattleEncounterEvent::_Start() {
 		TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 
 		ModeManager->Push(TM);
-	} catch (luabind::error e) {
+	} catch (const luabind::error& e) {
 		PRINT_ERROR << "Error while loading battle encounter event!"
 			<< std::endl;
 		ScriptManager->HandleLuaError(e);

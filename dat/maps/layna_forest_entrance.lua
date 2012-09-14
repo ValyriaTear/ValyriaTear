@@ -506,7 +506,7 @@ function _CreateEnemies()
 	local roam_zone = {};
 
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
+	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);

@@ -39,7 +39,7 @@ class ZoneSection {
 public:
 	ZoneSection(uint16 left, uint16 right, uint16 top, uint16 bottom) :
 		left_col(left), right_col(right), top_row(top), bottom_row(bottom)
-		{}
+	{}
 
 	//! \brief Collision grid columns for the top and bottom section of the area
 	uint16 left_col, right_col;
@@ -69,7 +69,7 @@ class MapZone {
 
 public:
 	MapZone() : _active_contexts(MAP_CONTEXT_NONE)
-		{}
+	{}
 
 	/** \brief Constructs a map zone that is initialized with a single zone section
 	*** \param left_col The left edge of the section to add
@@ -89,7 +89,7 @@ public:
 	MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts);
 
 	virtual ~MapZone()
-		{}
+	{}
 
 	/** \brief Adds a new zone section to the map zone
 	*** \param left_col The left edge of the section to add
@@ -120,14 +120,14 @@ public:
 	//! \name Class member accessor methods
 	//@{
 	MAP_CONTEXT GetActiveContexts() const
-		{ return _active_contexts; }
+	{ return _active_contexts; }
 
 	void SetActiveContexts(MAP_CONTEXT contexts)
-		{ _active_contexts = contexts; }
+	{ _active_contexts = contexts; }
 	//@}
 
 	//! \brief Draws the map zone on screen for debugging purpose
-	void Draw();
+	virtual void Draw();
 
 protected:
 	//! \brief A bit mask used to determine on which contexts this zone is valid
@@ -430,10 +430,11 @@ public:
 	*** \param top_row The top edge of the section to add
 	*** \param bottom_row The bottom edge of the section to add
 	**/
-	EnemyZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+	EnemyZone(uint16 left_col, uint16 right_col,
+			  uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts);
 
 	~EnemyZone()
-		{ if (_spawn_zone != NULL) delete _spawn_zone; }
+	{ if (_spawn_zone != NULL) delete _spawn_zone; }
 
 	EnemyZone(const EnemyZone& copy);
 
@@ -472,29 +473,45 @@ public:
 	//! \brief Gradually spawns enemy sprites in the zone
 	void Update();
 
+	//! \brief Draw the zone on screen for debugging purpose
+	void Draw();
+
 	//! \brief Returns true if this zone has seperate zones for roaming and spawning
 	bool HasSeparateSpawnZone() const
-		{ return (_spawn_zone != NULL); }
+	{ return (_spawn_zone != NULL); }
 
 	//! \name Class Member Access Functions
 	//@{
 	bool IsRoamingRestrained() const
-		{ return _roaming_restrained; }
+	{ return _roaming_restrained; }
+
+	//! \brief Tells whether the monster is allowed to get out of the spawning zone while chasing a character.
+	bool IsAgressionRestrainedtoRoamingZone() const
+	{ return _agression_roaming_restrained; }
 
 	uint32 GetSpawnTime() const
-		{ return _spawn_timer.GetDuration(); }
+	{ return _spawn_timer.GetDuration(); }
 
 	void SetRoamingRestrained(bool restrain)
-		{ _roaming_restrained = restrain; }
+	{ _roaming_restrained = restrain; }
+
+	//! \brief Sets whether the monster is allowed to get out of the spawning zone while chasing a character.
+	void SetAgressionRestrainedtoRoamingZone(bool restrain)
+	{ _agression_roaming_restrained = restrain; }
 
 	//! \note Calling this function will reset the elapsed spawn time
 	void SetSpawnTime(uint32 time)
-		{ _spawn_timer.Reset(); _spawn_timer.SetDuration(time); _spawn_timer.Run(); }
+	{ _spawn_timer.Reset(); _spawn_timer.SetDuration(time); _spawn_timer.Run(); }
 	//@}
 
 private:
-	//! \brief If true, enemies of this zone are not allowed to roam outside of the zone boundaries
+	//! \brief If true, enemies of this zone are not allowed
+	//! to roam outside of the zone boundaries
 	bool _roaming_restrained;
+
+	//! \brief If true, enemies of this zone are not allowed
+	//! to roam outside of the zone boundaries while chasing a character
+	bool _agression_roaming_restrained;
 
 	//! \brief The number of enemies that are currently not in the DEAD state
 	uint8 _active_enemies;

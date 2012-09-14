@@ -260,7 +260,6 @@ enum EVENT_TYPE {
 	TOTAL_EVENT                     = 15
 };
 
-
 //! \brief Defines the different states the dialogue can be in.
 enum DIALOGUE_STATE {
 	DIALOGUE_STATE_INACTIVE =  0, //!< Active when the dialogue window is in the process of displaying a line of text
@@ -269,22 +268,14 @@ enum DIALOGUE_STATE {
 	DIALOGUE_STATE_EMOTE    =  3  //!< Active when the dialogue supervisor is waiting for an emote event to finish before drawing a line.
 };
 
-
 //! \brief The maximum number of options that a line of dialogue can present to the player
 const uint32 MAX_DIALOGUE_OPTIONS = 5;
-
 
 //! \brief The number of milliseconds to take to fade out the map
 const uint32 MAP_FADE_OUT_TIME = 800;
 
-
-//! \brief The standard number of milliseconds it takes for enemies to spawn in an enemy zone
-const uint32 STANDARD_ENEMY_SPAWN_TIME = 3000;
-
-
 const uint32 STAMINA_EMPTY  = 0;
 const uint32 STAMINA_FULL   = 10000;
-
 
 /** \brief Returns the opposite facing direction of the direction given in parameter.
 *** \return A direction that faces opposite to the argument direction

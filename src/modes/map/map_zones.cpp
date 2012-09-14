@@ -255,40 +255,42 @@ VirtualSprite* ResidentZone::_GetSpriteInSet(const std::set<VirtualSprite*>& loc
 EnemyZone::EnemyZone() :
 	MapZone(),
 	_roaming_restrained(true),
+	_agression_roaming_restrained(false),
 	_active_enemies(0),
-	_spawn_timer(3000), // TEMP: use default spawn time constant,
+	_spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
 	_spawn_zone(NULL)
 {
 	_spawn_timer.Run();
 }
 
-
-
-EnemyZone::EnemyZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) :
-	MapZone(left_col, right_col, top_row, bottom_row),
+EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
+					 uint16 top_row, uint16 bottom_row,
+					 MAP_CONTEXT contexts):
+	MapZone(left_col, right_col, top_row, bottom_row, contexts),
 	_roaming_restrained(true),
+	_agression_roaming_restrained(false),
 	_active_enemies(0),
-	_spawn_timer(3000), // TEMP: use default spawn time constant,
+	_spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
 	_spawn_zone(NULL)
 {
 	_spawn_timer.Run();
 }
-
-
 
 EnemyZone::EnemyZone(const EnemyZone& copy) :
 	MapZone(copy)
 {
 	_roaming_restrained = copy._roaming_restrained;
+	_agression_roaming_restrained = copy._agression_roaming_restrained;
 	_active_enemies = copy._active_enemies;
 	_spawn_timer = copy._spawn_timer;
 	if (copy._spawn_zone == NULL)
 		_spawn_zone = NULL;
 	else
 		_spawn_zone = new MapZone(*(copy._spawn_zone));
+
+	_spawn_timer.Reset();
+	_spawn_timer.Run();
 }
-
-
 
 EnemyZone& EnemyZone::operator=(const EnemyZone& copy) {
 	if (this == &copy) // Handle self-assignment case
@@ -296,6 +298,7 @@ EnemyZone& EnemyZone::operator=(const EnemyZone& copy) {
 
 	MapZone::operator=(copy);
 	_roaming_restrained = copy._roaming_restrained;
+	_agression_roaming_restrained = copy._agression_roaming_restrained;
 	_active_enemies = copy._active_enemies;
 	_spawn_timer = copy._spawn_timer;
 	if (copy._spawn_zone == NULL)
@@ -303,36 +306,37 @@ EnemyZone& EnemyZone::operator=(const EnemyZone& copy) {
 	else
 		_spawn_zone = new MapZone(*(copy._spawn_zone));
 
+	_spawn_timer.Reset();
+	_spawn_timer.Run();
+
 	return *this;
 }
 
-
-
-void EnemyZone::AddEnemy(EnemySprite* enemy, MapMode* map, uint8 count) {
-	if (count == 0) {
+void EnemyZone::AddEnemy(EnemySprite* enemy, MapMode* map_instance, uint8 enemy_number) {
+	if (enemy_number == 0) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << std::endl;
 		return;
 	}
 
 	// Prepare the first enemy
 	enemy->SetZone(this);
-	map->AddGroundObject(enemy);
+	enemy->SetContext(GetActiveContexts());
+	map_instance->AddGroundObject(enemy);
 	_enemies.push_back(enemy);
 
 	// Create any additional copies of the enemy and add them as well
-	for (uint8 i = 1; i < count; i++) {
+	for (uint8 i = 1; i < enemy_number; ++i) {
 		EnemySprite* copy = new EnemySprite(*enemy);
-		copy->SetObjectID(map->GetObjectSupervisor()->GenerateObjectID());
+		copy->SetObjectID(map_instance->GetObjectSupervisor()->GenerateObjectID());
 		// Add a 10% random margin of error to make enemies look less synchronized
 		copy->SetTimeToChange(static_cast<uint32>(copy->GetTimeToChange() * (1 + RandomFloat() * 10)));
 		copy->Reset();
+		copy->SetContext(GetActiveContexts());
 
-		map->AddGroundObject(copy);
+		map_instance->AddGroundObject(copy);
 		_enemies.push_back(copy);
 	}
 }
-
-
 
 void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) {
 	if (left_col >= right_col) {
@@ -363,14 +367,12 @@ void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_ro
 
 	// Create the spawn zone if it does not exist and add the new section
 	if (_spawn_zone == NULL) {
-		_spawn_zone = new MapZone(left_col, right_col, top_row, bottom_row);
+		_spawn_zone = new MapZone(left_col, right_col, top_row, bottom_row, GetActiveContexts());
 	}
 	else {
 		_spawn_zone->AddSection(left_col, right_col, top_row, bottom_row);
 	}
 }
-
-
 
 void EnemyZone::EnemyDead() {
 	if (_active_enemies == 0) {
@@ -381,45 +383,47 @@ void EnemyZone::EnemyDead() {
 	}
 }
 
-
-
 void EnemyZone::Update() {
 	// When spawning an enemy in a random zone location, sometimes it is occupied by another
 	// object or that section is unwalkable. We try only a few different spawn locations before
 	// giving up and waiting for the next call to Update(). Otherwise this function could
 	// potentially take a noticable amount of time to complete
-	const int8 SPAWN_RETRIES = 5;
+	const int8 SPAWN_RETRIES = 50;
 
-	if (_enemies.empty() == true)
+	if (_enemies.empty())
+		return;
+
+	// Update the regeneration timer and return if the spawn time has not yet been reached
+	_spawn_timer.Update();
+	if (!_spawn_timer.IsFinished())
 		return;
 
 	// Spawn new enemies only if there is at least one enemy that is not active
 	if (_active_enemies >= _enemies.size())
 		return;
 
-	// Update the regeneration timer and return if the spawn time has not yet been reached
-	_spawn_timer.Update();
-	if (_spawn_timer.IsFinished() == false) {
-		return;
-	}
-
 	// Otherwise, select a DEAD enemy to spawn
 	uint32 index = 0;
-	for (uint32 i = 0; i < _enemies.size(); i++) {
-		if (_enemies[i]->IsDead() == true) {
+	for (uint32 i = 0; i < _enemies.size(); ++i) {
+		if (_enemies[i]->IsDead()) {
 			index = i;
 			break;
 		}
 	}
 
-	float x, y; // Used to retain random position coordinates in the zone
-	int8 retries = SPAWN_RETRIES; // Number of times to try finding a valid spawning location
-	bool collision; // Holds the result of a collision detection check
+
+	// Used to retain random position coordinates in the zone
+	float x = 0.0f;
+	float y = 0.0f;
+	// Number of times to try finding a valid spawning location
+	int8 retries = SPAWN_RETRIES;
+	// Holds the result of a collision detection check
+	uint32 collision = NO_COLLISION;
 
 	// Select a random position inside the zone to place the spawning enemy
 	_enemies[index]->collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
 	MapZone* spawning_zone = NULL;
-	if (HasSeparateSpawnZone() == false) {
+	if (!HasSeparateSpawnZone()) {
 		spawning_zone = this;
 	}
 	else {
@@ -433,22 +437,35 @@ void EnemyZone::Update() {
 																					   _enemies[index]->GetXPosition(),
 																					   _enemies[index]->GetYPosition(),
 																					   NULL);
-	} while (collision && --retries > 0);
-
-	// If we didn't find a suitable spawning location, reset the collision info
-	// on the enemy sprite and we will retry on the next call to this function
-	if (collision) {
-		_enemies[index]->collision_mask = NO_COLLISION;
-	}
+	} while (collision != NO_COLLISION && --retries > 0);
 
 	// Otherwise, spawn the enemy and reset the spawn timer
-	else {
+	if (collision == NO_COLLISION) {
+		// Set the correct timer duration to whether do a quick first spawn,
+		// or a longer standard spawn time from the second time.
+		_spawn_timer.SetDuration(_enemies[index]->GetTimeToSpawn());
 		_spawn_timer.Reset();
 		_spawn_timer.Run();
 		_enemies[index]->ChangeStateSpawning();
-		_active_enemies++;
+		++_active_enemies;
+	}
+	else {
+	    PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
+	        << " tries. Check the enemy zones of map:"
+			<< MapMode::CurrentInstance()->GetMapScript().GetFilename() << std::endl;
 	}
 } // void EnemyZone::Update()
+
+void EnemyZone::Draw() {
+	// Verify each section of the zone and check if the position is within the section bounds.
+	for (std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
+		if (_ShouldDraw(*it)) {
+			hoa_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
+												   it->bottom_row - it->top_row,
+												   hoa_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
+		}
+	}
+}
 
 // -----------------------------------------------------------------------------
 // ---------- ContextZone Class Functions

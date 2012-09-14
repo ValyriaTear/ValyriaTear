@@ -478,9 +478,11 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite* enemy) {
 	if (!enemy_battle_music.empty())
 		BM->GetMedia().SetBattleMusic(enemy_battle_music);
 
-	const std::vector<uint32>& enemy_party = enemy->RetrieveRandomParty();
+	const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
 	for (uint32 i = 0; i < enemy_party.size(); ++i) {
-		BM->AddEnemy(enemy_party[i]);
+		BM->AddEnemy(enemy_party[i].enemy_id,
+					 enemy_party[i].position_x,
+					 enemy_party[i].position_y);
 	}
 
 	std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
@@ -1023,7 +1025,7 @@ EnemySprite::EnemySprite() :
 	_color(1.0f, 1.0f, 1.0f, 0.0f),
 	_aggro_range(8.0f),
 	_time_dir_change(2500),
-	_time_to_spawn(3500)
+	_time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME)
 {
 	_filename = "";
 	MapObject::_object_type = ENEMY_TYPE;
@@ -1036,7 +1038,7 @@ EnemySprite::EnemySprite(const std::string& file) :
 	_color(1.0f, 1.0f, 1.0f, 0.0f),
 	_aggro_range(8.0f),
 	_time_dir_change(2500),
-	_time_to_spawn(2500)
+	_time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME)
 {
 	_filename = file;
 	MapObject::_object_type = ENEMY_TYPE;
@@ -1064,13 +1066,14 @@ void EnemySprite::Reset() {
 
 
 
-void EnemySprite::AddEnemy(uint32 enemy_id) {
+void EnemySprite::AddEnemy(uint32 enemy_id, float position_x, float position_y) {
 	if (_enemy_parties.empty()) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "can not add new enemy when no parties have been declared" << std::endl;
 		return;
 	}
 
-	_enemy_parties.back().push_back(enemy_id);
+	BattleEnemyInfo enemy_info(enemy_id, position_x, position_y);
+	_enemy_parties.back().push_back(enemy_info);
 
 	// Make sure that the GlobalEnemy has already been created for this enemy_id
 	if (MAP_DEBUG) {
@@ -1080,15 +1083,24 @@ void EnemySprite::AddEnemy(uint32 enemy_id) {
 	}
 }
 
-static std::vector<uint32> empty_enemy_party;
+static std::vector<BattleEnemyInfo> empty_enemy_party;
 
-const std::vector<uint32>& EnemySprite::RetrieveRandomParty() {
+const std::vector<BattleEnemyInfo>& EnemySprite::RetrieveRandomParty() {
 	if (_enemy_parties.empty()) {
 		PRINT_ERROR << "No enemy parties exist and none can be created." << std::endl;
 		return empty_enemy_party;
 	}
 
 	return _enemy_parties[rand() % _enemy_parties.size()];
+}
+
+void EnemySprite::ChangeStateHostile() {
+	updatable = true;
+	_state = HOSTILE;
+	collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+	_color.SetAlpha(1.0);
+	// The next spawn time will be longer than the first one.
+	_time_to_spawn = STANDARD_ENEMY_SPAWN_TIME;
 }
 
 void EnemySprite::Update() {
@@ -1107,22 +1119,34 @@ void EnemySprite::Update() {
 		// Set the sprite's direction so that it seeks to collide with the map camera's position
 		case HOSTILE:
 		{
+			_time_elapsed += SystemManager->GetUpdateTime();
+
 			// Holds the x and y deltas between the sprite and map camera coordinate pairs
 			float xdelta, ydelta;
 			VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
 			float camera_x = camera->GetXPosition();
 			float camera_y = camera->GetYPosition();
-			_time_elapsed += SystemManager->GetUpdateTime();
 
 			xdelta = GetXPosition() - camera_x;
 			ydelta = GetYPosition() - camera_y;
 
+			// Test whether the monster has spotted its target.
+			bool player_in_aggro_range = false;
+			if (fabs(xdelta) <= _aggro_range && fabs(ydelta) <= _aggro_range)
+				player_in_aggro_range = true;
+
+			// check whether the monster has the right to get out of the roaming zone
+			bool can_get_out_of_zone = false;
+			if (player_in_aggro_range && !_zone->IsAgressionRestrainedtoRoamingZone())
+				can_get_out_of_zone = true;
+			else if (!player_in_aggro_range && !_zone->IsRoamingRestrained())
+				can_get_out_of_zone = true;
+
 			// If the sprite has moved outside of its zone and it should not, reverse the sprite's direction
-			if ( _zone != NULL && _zone->IsInsideZone(GetXPosition(), GetYPosition()) == false
-					&& _zone->IsRoamingRestrained() ) {
-				// Make sure it wasn't already out (stuck on boundaries fix)
-				if( !_out_of_zone )
-				{
+			if (_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition())
+					&& !can_get_out_of_zone) {
+ 				// Make sure it wasn't already out (stuck on boundaries fix)
+				if (!_out_of_zone) {
 					SetDirection(CalculateOppositeDirection(GetDirection()));
 					// The sprite is now finding its way back into the zone
 					_out_of_zone = true;
@@ -1132,12 +1156,12 @@ void EnemySprite::Update() {
 			else {
 				_out_of_zone = false;
 
-				// Enemies will only aggro if the camera is inside the zone, or the zone is non-restrictive
-				// The order of comparaisons here is important, the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
-				if ( MapMode::CurrentInstance()->AttackAllowed()
-						&& (_zone == NULL || ( fabs(xdelta) <= _aggro_range && fabs(ydelta) <= _aggro_range
-						&& (!_zone->IsRoamingRestrained() || _zone->IsInsideZone(camera_x, camera_y)) )) )
-				{
+				// Enemies will only get aggressive if the camera is inside the zone, or the zone is non-restrictive
+				// The order of comparaisons here is important,
+				// the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
+				if (MapMode::CurrentInstance()->AttackAllowed()
+						&& (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y))))
+ 				{
 					if (xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
 						SetDirection(SOUTH);
 					else if (xdelta > -0.5 && xdelta < 0.5 && ydelta > 0)
@@ -1158,8 +1182,7 @@ void EnemySprite::Update() {
 				// If the sprite is not within the aggression range, pick a random direction to move
 				else {
 					if (_time_elapsed >= GetTimeToChange()) {
-						// TODO: needs comment
-						SetDirection(1 << hoa_utils::RandomBoundedInteger(0,11));
+						SetRandomDirection();
 						_time_elapsed = 0;
 					}
 				}

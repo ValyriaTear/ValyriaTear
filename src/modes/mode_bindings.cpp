@@ -299,7 +299,8 @@ void BindModeCode() {
 			.def(luabind::constructor<std::string>())
 			.def("Reset", &EnemySprite::Reset)
 			.def("NewEnemyParty", &EnemySprite::NewEnemyParty)
-			.def("AddEnemy", &EnemySprite::AddEnemy)
+			.def("AddEnemy", (void(EnemySprite::*)(uint32, float, float))&EnemySprite::AddEnemy)
+			.def("AddEnemy", (void(EnemySprite::*)(uint32))&EnemySprite::AddEnemy)
 			.def("GetAggroRange", &EnemySprite::GetAggroRange)
 			.def("GetTimeToChange", &EnemySprite::GetTimeToChange)
 			.def("GetTimeToSpawn", &EnemySprite::GetTimeToSpawn)
@@ -372,7 +373,7 @@ void BindModeCode() {
 	[
 		luabind::class_<EnemyZone, MapZone>("EnemyZone")
 			.def(luabind::constructor<>())
-			.def(luabind::constructor<uint16, uint16, uint16, uint16>())
+			.def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
 			.def("AddEnemy", &EnemyZone::AddEnemy, luabind::adopt(_2))
 			.def("AddSpawnSection", &EnemyZone::AddSpawnSection)
 			.def("IsRoamingRestrained", &EnemyZone::IsRoamingRestrained)
@@ -546,7 +547,7 @@ void BindModeCode() {
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
 	[
 		luabind::class_<BattleEncounterEvent, MapEvent>("BattleEncounterEvent")
-			.def(luabind::constructor<std::string, uint32>())
+			.def(luabind::constructor<std::string>())
 			.def("SetMusic", &BattleEncounterEvent::SetMusic)
 			.def("SetBackground", &BattleEncounterEvent::SetBackground)
 			.def("AddScript", &BattleEncounterEvent::AddScript)
@@ -600,7 +601,7 @@ void BindModeCode() {
 	[
 		luabind::class_<BattleMode, hoa_mode_manager::GameMode>("BattleMode")
 			.def(luabind::constructor<>())
-			.def("AddEnemy", (void(BattleMode::*)(uint32)) &BattleMode::AddEnemy)
+			.def("AddEnemy", (void(BattleMode::*)(uint32, float, float))&BattleMode::AddEnemy)
 			.def("RestartBattle", &BattleMode::RestartBattle)
 			.def("FreezeTimers", &BattleMode::FreezeTimers)
 			.def("UnFreezeTimers", &BattleMode::UnFreezeTimers)

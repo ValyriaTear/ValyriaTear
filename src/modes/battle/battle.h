@@ -235,22 +235,24 @@ public:
 
 	/** \brief Adds a new active enemy to the battle field
 	*** \param new_enemy A copy of the GlobalEnemy object to add to the battle
+	*** \param position_x, position_y The enemy sprite position on the battle ground in pixels
 	*** This method uses the GlobalEnemy copy constructor to create a copy of the enemy. The GlobalEnemy
 	*** passed as an argument should be in its default loaded state (that is, it should have an experience
 	*** level equal to zero).
 	**/
-	void AddEnemy(hoa_global::GlobalEnemy* new_enemy);
+	void AddEnemy(hoa_global::GlobalEnemy* new_enemy, float position_x, float position_y);
 
 	/** \brief Adds a new active enemy to the battle field
 	*** \param new_enemy_id The id number of the new enemy to add to the battle
+	*** \param position_x, position_y The enemy sprite position on the battle ground in pixels
 	*** This method works precisely the same was as the method which takes a GlobalEnemy argument,
 	*** only this version will construct the global enemy just using its id (meaning that it has
 	*** to open up the Lua file which defines the enemy). If the GlobalEnemy has already been
 	*** defined somewhere else, it is better to pass it in to the alternative definition of this
 	*** function.
 	**/
-	void AddEnemy(uint32 new_enemy_id)
-		{ AddEnemy(new hoa_global::GlobalEnemy(new_enemy_id)); }
+	void AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
+	{ AddEnemy(new hoa_global::GlobalEnemy(new_enemy_id), position_x, position_y); }
 
 	/** \brief Restores the battle to its initial state, allowing the player another attempt to achieve victory
 	***

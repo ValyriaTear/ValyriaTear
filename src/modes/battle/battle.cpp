@@ -526,19 +526,27 @@ void BattleMode::DrawPostEffects() {
 // BattleMode class -- secondary methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void BattleMode::AddEnemy(GlobalEnemy* new_enemy) {
+void BattleMode::AddEnemy(GlobalEnemy* new_enemy, float position_x, float position_y) {
 	// Don't add the enemy if it has an invalid ID or an experience level that is not zero
 	if (new_enemy->GetID() == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy with an invalid id: " << new_enemy->GetID() << std::endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy with an invalid id: "
+			<< new_enemy->GetID() << std::endl;
 		return;
 	}
 	if (new_enemy->GetExperienceLevel() != 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy that had already been initialized: " << new_enemy->GetID() << std::endl;
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy that had already been initialized: "
+			<< new_enemy->GetID() << std::endl;
 		return;
 	}
 
 	new_enemy->Initialize();
 	BattleEnemy* new_battle_enemy = new BattleEnemy(new_enemy);
+	// Set the battleground position
+	new_battle_enemy->SetXLocation(position_x);
+	new_battle_enemy->SetYLocation(position_y);
+	new_battle_enemy->SetXOrigin(position_x);
+	new_battle_enemy->SetYOrigin(position_y);
+
 	_enemy_actors.push_back(new_battle_enemy);
 	_enemy_party.push_back(new_battle_enemy);
 }
@@ -851,12 +859,11 @@ void BattleMode::_Initialize() {
 	ChangeState(BATTLE_STATE_INITIAL);
 } // void BattleMode::_Initialize()
 
-
-
 void BattleMode::_DetermineActorLocations() {
-	// Temporary static positions for enemies
-	const float TEMP_ENEMY_LOCATIONS[][2] = {
-		{ 515.0f, 768.0f - 600.0f }, // 768.0f - because of reverse Y-coordinate system
+	// Fallback positions for enemies when not set by scripts
+	const float DEFAULT_ENEMY_LOCATIONS[][2] = {
+	    // 768.0f - because of reverse Y-coordinate system
+		{ 515.0f, 768.0f - 600.0f },
 		{ 494.0f, 768.0f - 450.0f },
 		{ 560.0f, 768.0f - 550.0f },
 		{ 580.0f, 768.0f - 630.0f },
@@ -864,11 +871,13 @@ void BattleMode::_DetermineActorLocations() {
 		{ 655.0f, 768.0f - 494.0f },
 		{ 793.0f, 768.0f - 505.0f },
 		{ 730.0f, 768.0f - 600.0f }
-	};
+	}; // 8 positions are set [0-7]
+	const uint32 NUM_DEFAULT_LOCATIONS = 8;
 
 	float position_x, position_y;
 
-	// Determine the position of the first character in the party, who will be drawn at the top
+	// Determine the default position of the first character in the party,
+	// who will be drawn at the top
 	switch (_character_actors.size()) {
 		case 1:
 			position_x = 80.0f;
@@ -899,15 +908,25 @@ void BattleMode::_DetermineActorLocations() {
 		position_y -= 105.0f;
 	}
 
-	// TEMP: assign static locations to enemies
-	uint32 temp_pos = 0;
-	for (uint32 i = 0; i < _enemy_actors.size(); i++, temp_pos++) {
-		position_x = TEMP_ENEMY_LOCATIONS[temp_pos][0];
-		position_y = TEMP_ENEMY_LOCATIONS[temp_pos][1];
-		_enemy_actors[i]->SetXOrigin(position_x);
-		_enemy_actors[i]->SetYOrigin(position_y);
-		_enemy_actors[i]->SetXLocation(position_x);
-		_enemy_actors[i]->SetYLocation(position_y);
+	// Assign static locations to enemies
+	uint32 default_pos_id = 0;
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
+		// If no position was set for the enemy, pick a default one.
+		if (_enemy_actors[i]->GetXLocation() == 0.0f && _enemy_actors[i]->GetYLocation() == 0.0f) {
+			position_x = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][0];
+			position_y = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][1];
+			++default_pos_id;
+			// Add an artifical offset when cycling within the default positions.
+			// This will permit to still see all the enemies, even when there are more than 8 of them.
+			if (default_pos_id > NUM_DEFAULT_LOCATIONS - 1) {
+				position_x += default_pos_id * 3;
+				position_y -= default_pos_id * 3;
+			}
+			_enemy_actors[i]->SetXOrigin(position_x);
+			_enemy_actors[i]->SetYOrigin(position_y);
+			_enemy_actors[i]->SetXLocation(position_x);
+			_enemy_actors[i]->SetYLocation(position_y);
+		}
 	}
 } // void BattleMode::_DetermineActorLocations()
 

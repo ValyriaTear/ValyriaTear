@@ -32,6 +32,8 @@ namespace hoa_map {
 
 namespace private_map {
 
+struct BattleEnemyInfo;
+
 /** ****************************************************************************
 *** \brief A container class representing a link between two map events
 ***
@@ -356,26 +358,25 @@ class BattleEncounterEvent : public MapEvent {
 public:
 	/** \param event_id The ID of this event
 	**/
-	BattleEncounterEvent(const std::string& event_id, uint32 enemy_id);
+	BattleEncounterEvent(const std::string& event_id);
 
 	~BattleEncounterEvent()
-		{}
+	{}
 
 	void SetMusic(const std::string& filename)
-		{ _battle_music = filename; }
+	{ _battle_music = filename; }
 
 	void SetBackground(const std::string& filename)
-		{ _battle_background = filename; }
+	{ _battle_background = filename; }
 
-	void AddEnemy(uint32 enemy_id)
-		{ _enemy_ids.push_back(enemy_id); }
+	void AddEnemy(uint32 enemy_id, float position_x, float position_y);
 
 	void AddScript(const std::string& filename)
-		{ _battle_scripts.push_back(filename); }
+	{ _battle_scripts.push_back(filename); }
 
 protected:
 	//! \brief ID numbers for enemies to generate
-	std::vector<uint32> _enemy_ids;
+	std::vector<BattleEnemyInfo> _enemies;
 
 	//! \brief Filename for battle music
 	std::string _battle_music;

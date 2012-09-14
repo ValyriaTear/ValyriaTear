@@ -1005,7 +1005,7 @@ function _CreateEnemies()
 
     -- Enemy near chest 1
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(2, 10, 58, 63);
+	roam_zone = hoa_map.EnemyZone(2, 10, 58, 63, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
@@ -1022,7 +1022,7 @@ function _CreateEnemies()
 
     -- Enemy near chest 2
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(2, 10, 4, 14);
+	roam_zone = hoa_map.EnemyZone(2, 10, 4, 14, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
@@ -1039,7 +1039,7 @@ function _CreateEnemies()
 
     -- Enemy near chest 3 - Trap chest and zone
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(103, 126, 2, 40);
+	roam_zone = hoa_map.EnemyZone(103, 126, 2, 40, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
@@ -1055,7 +1055,7 @@ function _CreateEnemies()
 
     -- Wandering enemy
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(41, 72, 78, 95);
+	roam_zone = hoa_map.EnemyZone(41, 72, 78, 95, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
@@ -1071,7 +1071,7 @@ function _CreateEnemies()
 
     -- Wandering enemy
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(46, 65, 58, 76);
+	roam_zone = hoa_map.EnemyZone(46, 65, 58, 76, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
