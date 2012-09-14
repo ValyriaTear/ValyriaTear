@@ -303,10 +303,10 @@ sprites["Squirrel"] = {
 -- Enemies
 -- ---------
 enemies["slime"] = {
-	coll_half_width = 1.0,
-	coll_height = 2.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
+	coll_half_width = 0.6,
+	coll_height = 1.0,
+	img_half_width = 0.6,
+	img_height = 1.0,
 	movement_speed = NORMAL_SPEED,
     -- using special animation files.
     standard_animations = {

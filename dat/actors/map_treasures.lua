@@ -17,7 +17,7 @@ treasures["Wood_Chest1"] = {
 	coll_half_width = 0.6,
 	coll_height = 1.0,
 	img_half_width =1.0,
-	img_height = 1.0
+	img_height = 2.0
 }
 
 -- The helper function permitting to easily create a prepared map object
