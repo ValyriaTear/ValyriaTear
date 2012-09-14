@@ -125,10 +125,9 @@ bool LoadSettings()
 	}
 
 	settings.OpenTable("joystick_settings");
-	// TEMP: this is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
-	// In the future it should call a method of the input engine to disable the joysticks.
+	// This is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
+	// TODO; It should call a method of the input engine to disable the joysticks.
 	if (settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-		PRINT_DEBUG << "settings file specified to disable joystick input" << std::endl;
 		SDL_JoystickEventState(SDL_IGNORE);
 		SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 	}

@@ -1311,16 +1311,6 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 
 	settings.OpenTable("settings");
 
-	// Load language settings
-//	uint32 lang_code = static_cast<uint32>(settings.ReadInt("lang_code"));
-
-//	if (lang_code == 1) SystemManager->SetLanguage("en@quot");
-//	else if (lang_code == 2) SystemManager->SetLanguage("fr");
-//	else if (lang_code == 3) SystemManager->SetLanguage("pt_BR");
-//	else if (lang_code == 4) SystemManager->SetLanguage("es");
-//	else if (lang_code == 5) SystemManager->SetLanguage("de");
-//	else SystemManager->SetLanguage("en@quot");
-
 	SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
 
 	settings.OpenTable("key_settings");
@@ -1345,10 +1335,9 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 	}
 
 	settings.OpenTable("joystick_settings");
-	// TEMP: this is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
-	// In the future it should call a method of the input engine to disable the joysticks.
+	// This is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
+	// TODO; It should call a method of the input engine to disable the joysticks.
 	if (settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-		IF_PRINT_DEBUG(BOOT_DEBUG) << "settings file specified to disable joystick input" << std::endl;
 		SDL_JoystickEventState(SDL_IGNORE);
 		SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 	}
@@ -1476,14 +1465,6 @@ bool BootMode::_SaveSettingsFile(const std::string& filename) {
 
 	//Save language settings
 	settings_lua.ModifyString("settings.language", SystemManager->GetLanguage());
-//	std::string lang_name = SystemManager->GetLanguage();
-
-//	if (lang_name == "en@quot") settings_lua.ModifyInt("settings.lang_code", 1);
-//	else if (lang_name == "fr") settings_lua.ModifyInt("settings.lang_code", 2);
-//	else if (lang_name == "pt_br") settings_lua.ModifyInt("settings.lang_code", 3);
-//	else if (lang_name == "es") settings_lua.ModifyInt("settings.lang_code", 4);
-//	else if (lang_name == "de") settings_lua.ModifyInt("settings.lang_code", 5);
-//	else settings_lua.ModifyInt("settings.lang_code", 1);
 
 	// video
 	settings_lua.OpenTable("settings");
