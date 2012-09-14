@@ -432,9 +432,6 @@ public:
 	void SetDrunes(uint32 amount)
 	{ _drunes = amount; }
 
-	void SetBattleSetting(GLOBAL_BATTLE_SETTING new_setting)
-	{ _battle_setting = new_setting; }
-
 	void SetMaxExperienceLevel(uint32 level)
 	{ _max_experience_level = level; }
 
@@ -464,9 +461,6 @@ public:
 
 	std::vector<GlobalCharacter*>* GetOrderedCharacters()
 	{ return &_ordered_characters; }
-
-	GLOBAL_BATTLE_SETTING GetBattleSetting() const
-	{ return _battle_setting; }
 
 	GlobalParty* GetActiveParty()
 	{ return &_active_party; }
@@ -584,9 +578,6 @@ private:
 	hoa_utils::ustring _previous_map_hud_name;
 	hoa_utils::ustring _map_hud_name;
 	bool _same_map_hud_name_as_previous;
-
-	//! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
-	GLOBAL_BATTLE_SETTING _battle_setting;
 
 	/** \brief A map containing all characters that the player has discovered
 	*** This map contains all characters that the player has met with, regardless of whether or not they are in the active party.

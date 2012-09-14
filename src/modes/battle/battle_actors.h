@@ -207,12 +207,11 @@ public:
 	void ChangeSkillPoints(int32 amount);
 
 	/** \brief Updates the state of the actor
-	*** \param animations_only If true, animations will be updated but actor state will not. Default value is false
 	***
 	*** The optional boolean parameter is primarily used by battle sequences which desire to update the sprite graphics
 	*** but not any battle state.
 	**/
-	virtual void Update(bool animation_only = false);
+	virtual void Update();
 
 	//! \brief Draws the actor's current sprite animation frame
 	virtual void DrawSprite();
@@ -329,9 +328,6 @@ public:
 	void SetYLocation(float y_location)
 	{ _y_location = y_location; }
 
-	void SetStatePaused(bool paused)
-	{ _state_paused = paused; }
-
 	//! \note If the actor is in the idle state, this will not affect the state timer
 	void SetIdleStateTime(uint32 time)
 	{ _idle_state_time = time; }
@@ -365,13 +361,6 @@ protected:
 
 	//! \brief Set to true when the actor is in the ACTING state and the execution of the action is complete
 	bool _execution_finished;
-
-	/** \brief When set to true, the actor's state timer will not update and their animations will cease
-	*** This serves a different purpose than pausing/resuming the _state_timer directly, which the battle code
-	*** makes frequent use of. This is a more "long term" effect, primarily intended to aid status effects and
-	*** events in allowing an actor to be temporarily put out of action.
-	**/
-	bool _state_paused;
 
 	//! \brief The amount of time (in milliseconds) that the actor needs to wait to pass through the idle state
 	uint32 _idle_state_time;
@@ -449,7 +438,7 @@ public:
 		{ return (_state == ACTOR_STATE_IDLE) || (_state == ACTOR_STATE_COMMAND); }
 
 	//! \brief Updates the state of the character. Must be called every frame loop.
-	void Update(bool animation_only = false);
+	void Update();
 
 	//! \brief Draws the character's current sprite animation frame
 	void DrawSprite();
@@ -533,7 +522,7 @@ public:
 	**/
 	void ChangeSpriteAnimation(const std::string& alias);
 
-	void Update(bool animation_only = false);
+	void Update();
 
 	//! \brief Draws the damage blended enemy sprite image on to the battle field
 	void DrawSprite();

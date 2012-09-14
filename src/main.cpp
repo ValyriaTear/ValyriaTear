@@ -154,17 +154,6 @@ bool LoadSettings()
 
 	settings.CloseTable();
 
-	// battle_settings.timer_multiplier is also a hidden setting
-	if (settings.DoesTableExist("battle_settings")) {
-		settings.OpenTable("battle_settings");
-		// TEMP: I don't think that we should do this... - Roots
-// 		if (settings.DoesFloatExist("timer_multiplier"))
-// 			hoa_battle::timer_multiplier = static_cast<float>(settings.ReadFloat("timer_multiplier"));
-// 		if (settings.DoesBoolExist("wait"))
-// 			hoa_battle::wait = static_cast<bool>(settings.ReadBool("wait"));
-		settings.CloseTable();
-	}
-
 	if (settings.IsErrorDetected()) {
 		PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
 			<< "from file: " << GetSettingsFilename() << std::endl

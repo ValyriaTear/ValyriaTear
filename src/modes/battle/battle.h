@@ -39,6 +39,21 @@ extern bool BATTLE_DEBUG;
 //! \brief An internal namespace to be used only within the battle code. Don't use this namespace anywhere else!
 namespace private_battle {
 
+/** \name Battle setting type
+*** \brief Represents the play types of battle that the player may have to deal with
+**/
+enum BATTLE_TYPE {
+	BATTLE_TYPE_INVALID   = -1,
+	//! The battle will pause ("wait") while player selects commands
+	BATTLE_TYPE_WAIT      =  0,
+	//! Monsters will wait for characters to finish their command before attacking
+	//! but will move up until being ready anyway.
+	BATTLE_TYPE_SEMI_WAIT =  1,
+	//! The battle will continue progressing while player selects commands
+	BATTLE_TYPE_ACTIVE    =  2,
+	BATTLE_TYPE_TOTAL     =  3
+};
+
 /** ****************************************************************************
 *** \brief A companion class to BattleMode that holds various multimedia data
 ***
@@ -260,14 +275,12 @@ public:
 	**/
 	void RestartBattle();
 
-	//! \brief Pauses all timers used in any battle mode classes
-	void FreezeTimers();
-
-	//! \brief Unpauses all timers used in any battle mode classes
-	void UnFreezeTimers();
+	//! \brief Tells the battle actor class whether it should not update the state timer when in idle phase.
+	bool AreActorStatesPaused() const
+	{ return _actor_state_paused; }
 
 	private_battle::BATTLE_STATE GetState() const
-		{ return _state; }
+	{ return _state; }
 
 	/** \brief Changes the state of the battle and performs any initializations and updates needed
 	*** \param new_state The new state to change the battle to
@@ -285,15 +298,15 @@ public:
 
 	//! \brief Returns true if the battle has finished and entered either the victory or defeat state
 	bool IsBattleFinished() const
-		 { return ((_state == private_battle::BATTLE_STATE_VICTORY) || (_state == private_battle::BATTLE_STATE_DEFEAT)); }
+	 { return ((_state == private_battle::BATTLE_STATE_VICTORY) || (_state == private_battle::BATTLE_STATE_DEFEAT)); }
 
 	//! \brief Returns the number of character actors in the battle, both living and dead
 	uint32 GetNumberOfCharacters() const
-		{ return _character_actors.size(); }
+	{ return _character_actors.size(); }
 
 	//! \brief Returns the number of enemy actors in the battle, both living and dead
 	uint32 GetNumberOfEnemies() const
-		{ return _enemy_actors.size(); }
+	{ return _enemy_actors.size(); }
 
 	//! \brief Computes whether at least one battle character is dead.
 	bool isOneCharacterDead() const;
@@ -322,6 +335,16 @@ public:
 	**/
 	void NotifyActorDeath(private_battle::BattleActor* actor);
 	//@}
+
+	//! \brief Tells the battle type: Wait, semi-wait, active.
+	//! \see BATTLE_TYPE enum.
+	hoa_battle::private_battle::BATTLE_TYPE GetBattleType() const
+	{ return _battle_type; }
+
+	//! \brief Tells the battle type: Wait, semi-wait, active.
+	//! \see BATTLE_TYPE enum.
+	void SetBattleType(hoa_battle::private_battle::BATTLE_TYPE battle_type)
+	{ _battle_type = battle_type; }
 
 	//! \name Class member accessor methods
 	//@{
@@ -426,6 +449,12 @@ private:
 
 	//! \brief the Stamina Icon general transluency. Used to make the characters's stamina icon disappear on wins.
 	float _stamina_icon_alpha;
+
+	//! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
+	hoa_battle::private_battle::BATTLE_TYPE _battle_type;
+
+	//! \brief Tells whether the state of battle actors should be paused. Used in wait battle types.
+	bool _actor_state_paused;
 
 	////////////////////////////// PRIVATE METHODS ///////////////////////////////
 

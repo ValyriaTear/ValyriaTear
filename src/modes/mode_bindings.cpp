@@ -603,8 +603,7 @@ void BindModeCode() {
 			.def(luabind::constructor<>())
 			.def("AddEnemy", (void(BattleMode::*)(uint32, float, float))&BattleMode::AddEnemy)
 			.def("RestartBattle", &BattleMode::RestartBattle)
-			.def("FreezeTimers", &BattleMode::FreezeTimers)
-			.def("UnFreezeTimers", &BattleMode::UnFreezeTimers)
+			.def("AreActorStatesPaused", &BattleMode::AreActorStatesPaused)
 			.def("GetState", &BattleMode::GetState)
 			.def("ChangeState", &BattleMode::ChangeState)
 			.def("OpenCommandMenu", &BattleMode::OpenCommandMenu)
@@ -614,6 +613,8 @@ void BindModeCode() {
 			.def("GetMedia", &BattleMode::GetMedia)
 			.def("GetDialogueSupervisor", &BattleMode::GetDialogueSupervisor)
 			.def("GetCommandSupervisor", &BattleMode::GetCommandSupervisor)
+			.def("GetBattleType", &BattleMode::GetBattleType)
+			.def("SetBattleType", &BattleMode::SetBattleType)
 
 			// Namespace constants
 			.enum_("constants") [
@@ -624,7 +625,14 @@ void BindModeCode() {
 				luabind::value("BATTLE_STATE_EVENT", BATTLE_STATE_EVENT),
 				luabind::value("BATTLE_STATE_VICTORY", BATTLE_STATE_VICTORY),
 				luabind::value("BATTLE_STATE_DEFEAT", BATTLE_STATE_DEFEAT),
-				luabind::value("BATTLE_STATE_EXITING", BATTLE_STATE_EXITING)
+				luabind::value("BATTLE_STATE_EXITING", BATTLE_STATE_EXITING),
+
+				// Battle settings
+				luabind::value("BATTLE_TYPE_INVALID", BATTLE_TYPE_INVALID),
+				luabind::value("BATTLE_TYPE_WAIT", BATTLE_TYPE_WAIT),
+				luabind::value("BATTLE_TYPE_SEMI_WAIT", BATTLE_TYPE_SEMI_WAIT),
+				luabind::value("BATTLE_TYPE_ACTIVE", BATTLE_TYPE_ACTIVE),
+				luabind::value("BATTLE_TYPE_TOTAL", BATTLE_TYPE_TOTAL)
 			]
 	];
 
@@ -658,7 +666,6 @@ void BindModeCode() {
 			.def("TotalPhysicalDefense", &BattleActor::TotalPhysicalDefense)
 			.def("TotalMetaphysicalDefense", &BattleActor::TotalMetaphysicalDefense)
 			.def("TotalEvadeRating", &BattleActor::TotalEvadeRating)
-			.def("SetStatePaused", &BattleActor::SetStatePaused)
 			.def("GetXOrigin", &BattleActor::GetXOrigin)
 			.def("GetYOrigin", &BattleActor::GetYOrigin)
 			.def("GetXLocation", &BattleActor::GetXLocation)

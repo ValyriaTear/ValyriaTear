@@ -259,17 +259,13 @@ BattleMode::BattleMode() :
 	_finish_supervisor(NULL),
 	_current_number_swaps(0),
 	_last_enemy_dying(false),
-	_stamina_icon_alpha(1.0f)
+	_stamina_icon_alpha(1.0f),
+	_battle_type(BATTLE_TYPE_WAIT),
+	_actor_state_paused(false)
 {
 	IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << std::endl;
 
 	mode_type = MODE_MANAGER_BATTLE_MODE;
-
-	// Check that the global manager has a valid battle setting stored.
-	if ((GlobalManager->GetBattleSetting() <= GLOBAL_BATTLE_INVALID) || (GlobalManager->GetBattleSetting() >= GLOBAL_BATTLE_TOTAL)) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "global manager had invalid battle setting active, changing setting to GLOBAL_BATTLE_WAIT" << std::endl;
-		GlobalManager->SetBattleSetting(GLOBAL_BATTLE_WAIT);
-	}
 
 	_sequence_supervisor = new SequenceSupervisor(this);
 	_command_supervisor = new CommandSupervisor();
@@ -330,7 +326,8 @@ void BattleMode::Reset() {
 		_Initialize();
 	}
 
-	UnFreezeTimers();
+	// Potentially unpause actors
+	_actor_state_paused = false;
 
 	// Reset potential battle scripts
 	GetScriptSupervisor().Reset();
@@ -433,7 +430,7 @@ void BattleMode::Update() {
 			}
 		}
 
-		if (!_last_enemy_dying && character_selection != NULL) {
+		if (!_last_enemy_dying && character_selection) {
 			OpenCommandMenu(character_selection);
 		}
 	}
@@ -460,7 +457,8 @@ void BattleMode::Update() {
 	// command state to allow the player to enter a command for that character before resuming. We also want to make sure
 	// that the command menu is open whenever we find a character in the command state. If the command menu is not open, we
 	// forcibly open it and make the player choose a command for the character so that the battle may continue.
-	if (!_last_enemy_dying && GlobalManager->GetBattleSetting() == GLOBAL_BATTLE_WAIT) {
+	if (!_last_enemy_dying
+			&& (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_WAIT)) {
 		for (uint32 i = 0; i < _character_actors.size(); i++) {
 			if (_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
 				if (_state != BATTLE_STATE_COMMAND) {
@@ -573,34 +571,6 @@ void BattleMode::RestartBattle() {
 	ChangeState(BATTLE_STATE_INITIAL);
 }
 
-
-
-void BattleMode::FreezeTimers() {
-	// Pause character and enemy state timers
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		_character_actors[i]->GetStateTimer().Pause();
-	}
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		_enemy_actors[i]->GetStateTimer().Pause();
-	}
-}
-
-
-
-void BattleMode::UnFreezeTimers() {
-	// FIXME: Do not unpause timers for paralyzed actors
-
-	// Unpause character and enemy state timers
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		_character_actors[i]->GetStateTimer().Run();
-	}
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		_enemy_actors[i]->GetStateTimer().Run();
-	}
-}
-
-
-
 void BattleMode::ChangeState(BATTLE_STATE new_state) {
 	if (_state == new_state) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was already in the state to change to: " << _state << std::endl;
@@ -612,11 +582,18 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 		case BATTLE_STATE_INITIAL:
 			break;
 		case BATTLE_STATE_NORMAL:
+			// In case they were frozen because of a wait battle type
+			if (_battle_type == BATTLE_TYPE_WAIT)
+				_actor_state_paused = false;
 			break;
 		case BATTLE_STATE_COMMAND:
 			if (_command_supervisor->GetCommandCharacter() == NULL) {
 				IF_PRINT_WARNING(BATTLE_DEBUG) << "no character was selected when changing battle to the command state" << std::endl;
-				_state = BATTLE_STATE_NORMAL;
+				ChangeState(BATTLE_STATE_NORMAL);
+			}
+			// In case of a wait battle type, we need to pause the actions now
+			else if (_battle_type == BATTLE_TYPE_WAIT) {
+				_actor_state_paused = true;
 			}
 			break;
 		case BATTLE_STATE_EVENT:
@@ -825,16 +802,32 @@ void BattleMode::_Initialize() {
 	// (4): Adjust each actor's idle state time based on their agility proportion to the fastest actor
 	// If an actor's agility is half that of the actor with the highest agility, then they will have an
 	// idle state time that is twice that of the slowest actor.
+
+	// We also factor the idle time using the battle type setting
+	// ACTIVE BATTLE
+	float time_factor = 1.0f;
+	// WAIT battle type is always safe, since the character has got all the time
+	// he/she wants to think so we can dimish the idle time of character and jump
+	// right to the command status.
+	if (_battle_type == BATTLE_TYPE_WAIT)
+		time_factor = 3.0f;
+	// SEMI_WAIT battle type is a bit more dangerous as if the player is taking
+	// too much time to think, the enemies will have slightly more chances to hit.
+	// Yet, the semi wait battles are far simpler than active ones, so we
+	// can make them relatively faster.
+	else if (_battle_type == BATTLE_TYPE_SEMI_WAIT)
+		time_factor = 1.5f;
+
 	float proportion;
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
 		if (_character_actors[i]->IsAlive()) {
-			proportion = static_cast<float>(highest_agility) / static_cast<float>(_character_actors[i]->GetAgility());
+			proportion = static_cast<float>(highest_agility) / static_cast<float>(_character_actors[i]->GetAgility() * time_factor);
 			_character_actors[i]->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
 			_character_actors[i]->ChangeState(ACTOR_STATE_IDLE); // Needed to set up the stamina icon position.
 	    }
 	}
 	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		proportion = static_cast<float>(highest_agility) / static_cast<float>(_enemy_actors[i]->GetAgility());
+		proportion = static_cast<float>(highest_agility) / static_cast<float>(_enemy_actors[i]->GetAgility() * time_factor);
 		_enemy_actors[i]->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
 		_enemy_actors[i]->ChangeState(ACTOR_STATE_IDLE);
 	}

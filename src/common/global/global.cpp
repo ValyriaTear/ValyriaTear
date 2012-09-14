@@ -76,8 +76,7 @@ GameGlobal::GameGlobal() :
 	_max_experience_level(100),
 	_x_save_map_position(0),
 	_y_save_map_position(0),
-	_same_map_hud_name_as_previous(false),
-	_battle_setting(GLOBAL_BATTLE_INVALID)
+	_same_map_hud_name_as_previous(false)
 {
 	IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
@@ -744,10 +743,6 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32 slot_id, uint32 x_
 	// Write out namespace information
 	file.WriteNamespace("save_game1");
 
-	// Save play settings
-	file.InsertNewLine();
-	file.WriteInt("battle_setting", _battle_setting);
-
 	// Save simple play data
 	file.InsertNewLine();
 	file.WriteString("map_filename", _map_filename);
@@ -832,9 +827,6 @@ bool GameGlobal::LoadGame(const std::string& filename, uint32 slot_id) {
 
 	// open the namespace that the save game is encapsulated in.
 	file.OpenTable("save_game1");
-
-	// Load play settings
-	_battle_setting = static_cast<GLOBAL_BATTLE_SETTING>(file.ReadInt("battle_setting"));
 
 	// Load play data
 	_map_filename = file.ReadString("map_filename");

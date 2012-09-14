@@ -52,7 +52,6 @@ const uint32 MAX_KEY_ITEM_ID     = 80000;
 const uint32 OBJECT_ID_EXCEEDS   = 80001;
 //@}
 
-
 /** \name Skill ID Range Constants
 *** These constants set the maximum valid ID ranges for each skill category.
 *** The full valid range for each skill category ID is:
@@ -70,7 +69,6 @@ const uint32 MAX_SUPPORT_ID  = 30000;
 
 //! \brief A return value used for when a specified event name fails to be found
 const int32 GLOBAL_BAD_EVENT = 0xFFFFFFFF;
-
 
 /** \name Target Types
 *** \brief Enum values used for declaring the type of targets for items, skills, and actions.
@@ -100,7 +98,6 @@ enum GLOBAL_TARGET {
 	GLOBAL_TARGET_TOTAL          =  9
 };
 
-
 /** \name GlobalItem and GlobalSkill Usage Cases
 *** \brief Enum values used for identification of different game object types
 **/
@@ -111,7 +108,6 @@ enum GLOBAL_USE {
 	GLOBAL_USE_ALL     =  2, //!< Usable at any time and any location
 	GLOBAL_USE_TOTAL   =  3
 };
-
 
 /** \name Game Character IDs
 *** \brief Integers that are used for identification of characters
@@ -125,7 +121,6 @@ const uint32 GLOBAL_CHARACTER_INVALID     = 0x00000000;
 const uint32 GLOBAL_CHARACTER_ALL         = 0xFFFFFFFF;
 //@}
 
-
 /** \name Character Attack Point Positions
 *** \brief Integers that represent the index location of the four attack points and armor types for characters
 **/
@@ -136,10 +131,8 @@ const uint32 GLOBAL_POSITION_ARMS  = 2;
 const uint32 GLOBAL_POSITION_LEGS  = 3;
 //@}
 
-
 //! \brief The maximum number of characters that can be in the active party
 const uint32 GLOBAL_MAX_PARTY_SIZE = 4;
-
 
 /** \name GlobalObject Types
 *** \brief Used for identification of different game object types
@@ -157,7 +150,6 @@ enum GLOBAL_OBJECT {
 	GLOBAL_OBJECT_TOTAL       =  8
 };
 
-
 /** \name Elemental Effect Types
 *** \brief Used to identify the eight different types of elementals
 *** There are a total of four physical and four metaphysical elemental effects
@@ -174,7 +166,6 @@ enum GLOBAL_ELEMENTAL {
 	GLOBAL_ELEMENTAL_PIERCING   =  7,
 	GLOBAL_ELEMENTAL_TOTAL      =  8
 };
-
 
 /** \name Status Effect Types
 *** \brief Used to identify the various types of status effects
@@ -202,7 +193,6 @@ enum GLOBAL_STATUS {
 	GLOBAL_STATUS_TOTAL             = 18
 };
 
-
 /** \name Effect Intensity Levels
 *** \brief Used to reflect the potency of elemental and status effects
 *** There are nine valid intensity levels. Four negative, four positive, and one neutral.
@@ -222,7 +212,6 @@ enum GLOBAL_INTENSITY {
 	GLOBAL_INTENSITY_TOTAL         =  5
 };
 
-
 /** \name Skill Types
 *** \brief Enum values used to identify the type of a skill.
 **/
@@ -234,60 +223,41 @@ enum GLOBAL_SKILL {
 	GLOBAL_SKILL_TOTAL    =  3
 };
 
-
-/** \name Battle setting type
-*** \brief Represents the play types of battle that the player may choose between
-**/
-enum GLOBAL_BATTLE_SETTING {
-	GLOBAL_BATTLE_INVALID   = -1,
-	GLOBAL_BATTLE_WAIT      =  0, //!< Battles will pause ("wait") while player selects commands
-	GLOBAL_BATTLE_ACTIVE    =  1, //!< Battles will continue progressing while player selects commands
-	GLOBAL_BATTLE_TOTAL     =  2
-};
-
-
 /** \brief Retrieves a string representation for any GLOBAL_TARGET enum value
 *** \param target The target enum value to find the string for
 *** \return Translated text that describes the target
 **/
 std::string GetTargetText(GLOBAL_TARGET target);
 
-
 /** \brief Returns true if the target selects an attack point
 *** \param target The target enum value to analyze
 **/
 bool IsTargetPoint(GLOBAL_TARGET target);
-
 
 /** \brief Returns true if the target selects an actor
 *** \param target The target enum value to analyze
 **/
 bool IsTargetActor(GLOBAL_TARGET target);
 
-
 /** \brief Returns true if the target selects a party
 *** \param target The target enum value to analyze
 **/
 bool IsTargetParty(GLOBAL_TARGET target);
-
 
 /** \brief Returns true if the target selects the user
 *** \param target The target enum value to analyze
 **/
 bool IsTargetSelf(GLOBAL_TARGET target);
 
-
 /** \brief Returns true if the target selects an ally
 *** \param target The target enum value to analyze
 **/
 bool IsTargetAlly(GLOBAL_TARGET target);
 
-
 /** \brief Returns true if the target selects a foe
 *** \param target The target enum value to analyze
 **/
 bool IsTargetFoe(GLOBAL_TARGET target);
-
 
 /** \brief Creates a new GlobalObject and returns a pointer to it
 *** \param id The id value of the object to create
@@ -299,7 +269,6 @@ bool IsTargetFoe(GLOBAL_TARGET target);
 **/
 GlobalObject* GlobalCreateNewObject(uint32 id, uint32 count = 1);
 
-
 /** \brief Increments a GLOBAL_INTENSITY enumerated value
 *** \param intensity A reference to the intensity data to modify
 *** \param amount The number of levels to increase the intensity by (default == 1)
@@ -307,7 +276,6 @@ GlobalObject* GlobalCreateNewObject(uint32 id, uint32 count = 1);
 *** \note The intensity will not be allowed to increase beyond the valid intensity range
 **/
 bool IncrementIntensity(GLOBAL_INTENSITY& intensity, uint8 amount = 1);
-
 
 /** \brief Decrements a GLOBAL_INTENSITY enumerated value
 *** \param intensity A reference to the intensity data to modify

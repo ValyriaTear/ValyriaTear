@@ -56,7 +56,6 @@ BattleActor::BattleActor(GlobalActor* actor) :
 	_x_location(0.0f),
 	_y_location(0.0f),
 	_execution_finished(false),
-	_state_paused(false),
 	_idle_state_time(0),
 	_shake_timer(0),
 	_animation_timer(0),
@@ -309,8 +308,10 @@ void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY in
 }
 
 
-void BattleActor::Update(bool animation_only) {
-	if (!_state_paused && !animation_only)
+void BattleActor::Update() {
+	// Don't update the state timer when the battle tells is to pause
+	// when in idle state.
+	if (!BattleMode::CurrentInstance()->AreActorStatesPaused())
 		_state_timer.Update();
 
     // Ths shaking updates even in pause mode, so that the shaking
@@ -569,11 +570,8 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 
 
 
-void BattleCharacter::Update(bool animation_only) {
-	BattleActor::Update(animation_only);
-
-	if (_state_paused)
-		return;
+void BattleCharacter::Update() {
+	BattleActor::Update();
 
 	_animation_timer.Update();
 
@@ -632,10 +630,6 @@ void BattleCharacter::Update(bool animation_only) {
 	if (_shake_timer.IsRunning()) {
 		_x_location = _x_origin + RandomFloat(-6.0f, 6.0f);
 	}
-
-	// Do no further update action if we are only supposed to update animations
-	if (animation_only)
-		return;
 
 	// If the character has finished to execute its battle action,
 	if (_state == ACTOR_STATE_ACTING && _state_timer.IsFinished()) {
@@ -904,8 +898,8 @@ void BattleEnemy::ChangeSpriteAnimation(const std::string& alias)
 
 }
 
-void BattleEnemy::Update(bool animation_only) {
-	BattleActor::Update(animation_only);
+void BattleEnemy::Update() {
+	BattleActor::Update();
 
 	// Only set the origin when actor are in normal battle mode,
 	// Otherwise the battle sequence manager will take care of them.
@@ -914,34 +908,28 @@ void BattleEnemy::Update(bool animation_only) {
 		_y_location = _y_origin;
 	}
 
-	if (!_state_paused) {
-		// Note: that update part only handles attack actions
-		if (_state == ACTOR_STATE_ACTING) {
-			if (_state_timer.PercentComplete() <= 0.50f)
-				_x_location = _x_origin - TILE_SIZE * (2.0f * _state_timer.PercentComplete());
-			else
-				_x_location = _x_origin - TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
-		}
-		else if (_state == ACTOR_STATE_DYING) {
-			// Add a fade out effect
-			_sprite_alpha = 1.0f - _state_timer.PercentComplete();
-		}
-		// Reset the animations set below to idle once done
-		else if (_animation_timer.IsFinished()) {
-			ChangeSpriteAnimation("idle");
-		}
-		else if (_sprite_animation_alias == "dodge") {
-			_x_location = _x_origin + 20.0f;
-		}
-
-		// Add a shake effect when the battle actor has received damages
-		if (_shake_timer.IsRunning())
-			_x_location += RandomFloat(-2.0f, 2.0f);
+	// Note: that update part only handles attack actions
+	if (_state == ACTOR_STATE_ACTING) {
+		if (_state_timer.PercentComplete() <= 0.50f)
+			_x_location = _x_origin - TILE_SIZE * (2.0f * _state_timer.PercentComplete());
+		else
+			_x_location = _x_origin - TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
+	}
+	else if (_state == ACTOR_STATE_DYING) {
+		// Add a fade out effect
+		_sprite_alpha = 1.0f - _state_timer.PercentComplete();
+	}
+	// Reset the animations set below to idle once done
+	else if (_animation_timer.IsFinished()) {
+		ChangeSpriteAnimation("idle");
+	}
+	else if (_sprite_animation_alias == "dodge") {
+		_x_location = _x_origin + 20.0f;
 	}
 
-	// Do nothing in this function if only animations are to be updated
-	if (animation_only)
-		return;
+	// Add a shake effect when the battle actor has received damages
+	if (_shake_timer.IsRunning())
+		_x_location += RandomFloat(-2.0f, 2.0f);
 
 	if (_state == ACTOR_STATE_ACTING) {
 		if (!_execution_finished) {

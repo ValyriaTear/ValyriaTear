@@ -1,9 +1,6 @@
 function BootBattleTest()
 	print("BootBattleTest");
 
---	GlobalManager:SetBattleSetting(hoa_global.GameGlobal.GLOBAL_BATTLE_WAIT);
-	GlobalManager:SetBattleSetting(hoa_global.GameGlobal.GLOBAL_BATTLE_ACTIVE);
-
 	GlobalManager:AddCharacter(BRONANN);
 	GlobalManager:AddCharacter(KALYA);
 	GlobalManager:AddCharacter(SYLVE);
@@ -24,6 +21,11 @@ function BootBattleTest()
 	battle:AddEnemy(11, 0, 0);
 	battle:AddEnemy(12, 0, 0);
 	battle:GetScriptSupervisor():AddScript("dat/battles/desert_cave_battle_anim.lua");
+
+	-- Set the battle to wait, semi active or active
+	--battle:SetBattleType(hoa_battle.BattleMode.BATTLE_TYPE_WAIT);
+	--battle:SetBattleType(hoa_battle.BattleMode.BATTLE_TYPE_SEMI_WAIT);
+	battle:SetBattleType(hoa_battle.BattleMode.BATTLE_TYPE_ACTIVE);
 
 	ModeManager:Push(battle, false, false);
 end

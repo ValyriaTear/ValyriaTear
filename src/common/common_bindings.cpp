@@ -122,8 +122,6 @@ void BindCommonCode() {
 			.def("GetSaveLocationY", &GameGlobal::GetSaveLocationY)
 			.def("UnsetSaveLocation", &GameGlobal::UnsetSaveLocation)
 			.def("GetPreviousLocation", &GameGlobal::GetPreviousLocation)
-			.def("GetBattleSetting", &GameGlobal::GetBattleSetting)
-			.def("SetBattleSetting", &GameGlobal::SetBattleSetting)
 
 			// Namespace constants
 			.enum_("constants") [
@@ -155,11 +153,6 @@ void BindCommonCode() {
 				luabind::value("GLOBAL_SKILL_ATTACK", GLOBAL_SKILL_ATTACK),
 				luabind::value("GLOBAL_SKILL_DEFEND", GLOBAL_SKILL_DEFEND),
 				luabind::value("GLOBAL_SKILL_SUPPORT", GLOBAL_SKILL_SUPPORT),
-				// Battle settings
-				luabind::value("GLOBAL_BATTLE_INVALID", GLOBAL_BATTLE_INVALID),
-				luabind::value("GLOBAL_BATTLE_WAIT", GLOBAL_BATTLE_WAIT),
-				luabind::value("GLOBAL_BATTLE_ACTIVE", GLOBAL_BATTLE_ACTIVE),
-				luabind::value("GLOBAL_BATTLE_TOTAL", GLOBAL_BATTLE_TOTAL),
 				// Elemental type constants
 				luabind::value("GLOBAL_ELEMENTAL_FIRE", GLOBAL_ELEMENTAL_FIRE),
 				luabind::value("GLOBAL_ELEMENTAL_WATER", GLOBAL_ELEMENTAL_WATER),
