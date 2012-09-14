@@ -755,6 +755,7 @@ map_functions = {
     -- Kalya runs to the save point and tells Bronann about the spring.
     forest_save_point_dialogue_start = function()
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
         -- Keep a reference of the correct sprite for the event end.
         main_sprite_name = hero:GetSpriteName();
 
