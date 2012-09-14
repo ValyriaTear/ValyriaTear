@@ -41,13 +41,15 @@ MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 botto
 
 void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) {
 	if (left_col >= right_col) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << std::endl;
-		return;
+		uint16 temp = left_col;
+		left_col = right_col;
+		right_col = temp;
 	}
 
 	if (top_row >= bottom_row) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << std::endl;
-		return;
+		uint16 temp = bottom_row;
+		bottom_row = top_row;
+		top_row = temp;
 	}
 
 	_sections.push_back(ZoneSection(left_col, right_col, top_row, bottom_row));
@@ -340,13 +342,15 @@ void EnemyZone::AddEnemy(EnemySprite* enemy, MapMode* map_instance, uint8 enemy_
 
 void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) {
 	if (left_col >= right_col) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << std::endl;
-		return;
+		uint16 temp = left_col;
+		left_col = right_col;
+		right_col = temp;
 	}
 
 	if (top_row >= bottom_row) {
-		IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << std::endl;
-		return;
+		uint16 temp = bottom_row;
+		bottom_row = top_row;
+		top_row = temp;
 	}
 
 	// Make sure that this spawn section fits entirely inside one of the roaming sections
