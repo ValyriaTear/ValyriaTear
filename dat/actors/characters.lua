@@ -363,7 +363,7 @@ characters[THANIS] = {
 		weapon = 10003,
 		head_armor = 20013,
 		torso_armor = 30013,
-		arm_armor = 40003,
+		arm_armor = 40013,
 		leg_armor = 50012
 	},
 

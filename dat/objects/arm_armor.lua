@@ -80,7 +80,7 @@ armor[40013] = {
 	slots = 0
 }
 
-armor[40004] = {
+armor[40014] = {
 	name = hoa_system.Translate("Trident Shield"),
 	description = hoa_system.Translate("A large shield with enough fortitude to withstand waves of powerful attacks."),
 	icon = "img/icons/armor/trident_shield.png",
