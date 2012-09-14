@@ -116,9 +116,6 @@ enum MAP_CONTEXT {
 	MAP_CONTEXT_ALL   = 0xFFFFFFFF,
 };
 
-// Gives back the correct MAP_CONTEXT bitmask values corresponding to the given context id
-MAP_CONTEXT GetContextMaskFromConstextId(uint32 id);
-
 /** \name Map Zone Types
 *** \brief Identifier types for the various classes of map zones
 ***
@@ -135,10 +132,8 @@ enum ZONE_TYPE {
 	MAP_ZONE_TOTAL  = 6,
 };
 
-
 //! \brief The number of tiles that are found in a tileset image (512x512 pixel image containing 32x32 pixel tiles)
 const uint32 TILES_PER_TILESET = 256;
-
 
 //! \brief Used to identify the type of map object
 enum MAP_OBJECT_TYPE {
@@ -154,7 +149,6 @@ enum MAP_OBJECT_TYPE {
 	PARTICLE_TYPE = 8   //! A particle object.
 };
 
-
 /** \name Map Sprite Speeds
 *** \brief Common speeds for sprite movement.
 *** These values are the time (in milliseconds) that it takes a sprite to walk
@@ -167,7 +161,6 @@ const float NORMAL_SPEED     = 150.0f;
 const float FAST_SPEED       = 110.0f;
 const float VERY_FAST_SPEED  = 75.0f;
 //@}
-
 
 /** \name Sprite Direction Constants
 *** \brief Constants used for determining sprite directions
@@ -211,7 +204,6 @@ const uint16 FACING_WEST = WEST | NW_WEST | SW_WEST;
 const uint16 FACING_EAST = EAST | NE_EAST | SE_EAST;
 //@}
 
-
 /** \name Map Sprite Animation Constants
 *** These constants are used to index the MapSprite#animations vector to display the correct
 *** animation depending on the given direction.
@@ -226,7 +218,6 @@ enum ANIM_DIRECTIONS {
 };
 //@}
 
-
 /** \brief Represents the various types of collisions which may occur for a sprite
 *** NOTE: Used as a bitmask.
 **/
@@ -238,7 +229,6 @@ enum COLLISION_TYPE {
 	COLLISION_TYPES =     4
 };
 const uint32 ALL_COLLISION = CHARACTER_COLLISION | ENEMY_COLLISION | WALL_COLLISION;
-
 
 //! \brief Identifiers for the similarly named classes of map events
 enum EVENT_TYPE {
@@ -276,13 +266,6 @@ const uint32 MAP_FADE_OUT_TIME = 800;
 
 const uint32 STAMINA_EMPTY  = 0;
 const uint32 STAMINA_FULL   = 10000;
-
-/** \brief Returns the opposite facing direction of the direction given in parameter.
-*** \return A direction that faces opposite to the argument direction
-*** \note This is mostly used as an helper function to make sprites face each other in a conversation.
-**/
-uint16 CalculateOppositeDirection(const uint16 direction);
-
 
 /** ****************************************************************************
 *** \brief Represents a rectangular section of a map

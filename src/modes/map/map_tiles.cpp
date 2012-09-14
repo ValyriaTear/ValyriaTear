@@ -27,12 +27,85 @@ namespace hoa_map {
 
 namespace private_map {
 
+//! \brief  Gives back the correct MAP_CONTEXT bitmask values
+//! corresponding to the given context id.
+MAP_CONTEXT GetContextMaskFromContextId(uint32 id) {
+
+	switch (id) {
+		case 0:
+		return MAP_CONTEXT_01;
+		case 1:
+		return MAP_CONTEXT_02;
+		case 2:
+		return MAP_CONTEXT_03;
+		case 3:
+		return MAP_CONTEXT_04;
+		case 4:
+		return MAP_CONTEXT_05;
+		case 5:
+		return MAP_CONTEXT_06;
+		case 6:
+		return MAP_CONTEXT_07;
+		case 7:
+		return MAP_CONTEXT_08;
+		case 8:
+		return MAP_CONTEXT_09;
+		case 9:
+		return MAP_CONTEXT_10;
+		case 10:
+		return MAP_CONTEXT_11;
+		case 11:
+		return MAP_CONTEXT_12;
+		case 12:
+		return MAP_CONTEXT_13;
+		case 13:
+		return MAP_CONTEXT_14;
+		case 14:
+		return MAP_CONTEXT_15;
+		case 15:
+		return MAP_CONTEXT_16;
+		case 16:
+		return MAP_CONTEXT_17;
+		case 17:
+		return MAP_CONTEXT_18;
+		case 18:
+		return MAP_CONTEXT_19;
+		case 19:
+		return MAP_CONTEXT_20;
+		case 20:
+		return MAP_CONTEXT_21;
+		case 21:
+		return MAP_CONTEXT_22;
+		case 22:
+		return MAP_CONTEXT_23;
+		case 23:
+		return MAP_CONTEXT_24;
+		case 24:
+		return MAP_CONTEXT_25;
+		case 25:
+		return MAP_CONTEXT_26;
+		case 26:
+		return MAP_CONTEXT_27;
+		case 27:
+		return MAP_CONTEXT_28;
+		case 28:
+		return MAP_CONTEXT_29;
+		case 29:
+		return MAP_CONTEXT_30;
+		case 30:
+		return MAP_CONTEXT_31;
+		case 31:
+		return MAP_CONTEXT_32;
+	default:
+		break;
+	}
+	return MAP_CONTEXT_NONE;
+}
+
 TileSupervisor::TileSupervisor() :
 	_num_tile_on_x_axis(0),
 	_num_tile_on_y_axis(0)
 {}
-
-
 
 TileSupervisor::~TileSupervisor() {
 	// Delete all objects in _tile_images but *not* _animated_tile_images.
@@ -45,8 +118,7 @@ TileSupervisor::~TileSupervisor() {
 	_animated_tile_images.clear();
 }
 
-
-LAYER_TYPE getLayerType(const std::string& type) {
+static LAYER_TYPE getLayerType(const std::string& type) {
 	if (type == "ground")
 		return GROUND_LAYER;
 	else if (type == "sky")
@@ -207,7 +279,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor& map_file) {
 		// If non-inheriting context, start with empty map!
 		if (context_inherits[ctxt] > -1) {
 			_tile_grid.insert(std::make_pair(this_context,
-										_tile_grid[GetContextMaskFromConstextId(context_inherits[ctxt])]));
+										_tile_grid[GetContextMaskFromContextId(context_inherits[ctxt])]));
 		}
 		else {
 			_tile_grid.insert(std::make_pair(this_context, Context()));
