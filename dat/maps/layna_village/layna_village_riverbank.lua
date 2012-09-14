@@ -440,6 +440,9 @@ function _CreateNPCs()
 	lilly = CreateNPCSprite(Map, "Woman3", "Lilly", 67, 40);
 	Map:AddGroundObject(lilly);
 
+	object = CreateObject(Map, "Dog1", 66, 42);
+	Map:AddGroundObject(object);
+
 	kalya = CreateSprite(Map, "Kalya", 2, 2);
 	kalya:SetDirection(hoa_map.MapMode.SOUTH);
 	kalya:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
