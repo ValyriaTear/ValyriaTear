@@ -453,17 +453,6 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 
 
 void FinishVictoryAssistant::Update() {
-	// Update the Battle Character win animation
-	std::deque<BattleCharacter*>& all_characters =
-		BattleMode::CurrentInstance()->GetCharacterActors();
-	std::deque<BattleCharacter*>::iterator it, it_end;
-
-	for (it = all_characters.begin(), it_end = all_characters.end();
-			it != it_end; ++it) {
-		if ((*it)->IsAlive())
-			(*it)->GetGlobalCharacter()->RetrieveBattleAnimation("victory")->Update();
-	}
-
 	switch (_state) {
 		case FINISH_VICTORY_GROWTH:
 			_UpdateGrowth();
