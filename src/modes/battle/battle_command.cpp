@@ -866,20 +866,20 @@ bool CommandSupervisor::_SetInitialTarget() {
 
 	bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
 
-	// If the target type is invalid that means that there is no previous target so grab the initial target
-	if (_selected_target.GetType() == GLOBAL_TARGET_INVALID) {
-		if (!_selected_target.SetInitialTarget(user, target_type)) {
-			// No more target of that type, let's go back to the command state
-			_selected_target.InvalidateTarget();
-			BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
-			return false;
-		}
-	}
 	// Otherwise if the last target is no longer valid, select the next valid target
-	else if (!_selected_target.IsValid(permit_dead_targets)) {
+	if (!_selected_target.IsValid(permit_dead_targets)) {
 		// Party targets should always be valid and attack points on actors do not disappear, so only the actor
 		// must be invalid
 		if (!_selected_target.SelectNextActor(user, permit_dead_targets)) {
+			// No more target of that type, let's go back to the command state
+			// Invalidate the target so that one can get a completely new one
+			_selected_target.InvalidateTarget();
+		}
+	}
+
+	// If the target type is invalid that means that there is no previous target so grab the initial target
+	if (_selected_target.GetType() == GLOBAL_TARGET_INVALID) {
+		if (!_selected_target.SetInitialTarget(user, target_type)) {
 			// No more target of that type, let's go back to the command state
 			_selected_target.InvalidateTarget();
 			BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
