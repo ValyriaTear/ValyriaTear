@@ -362,7 +362,7 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Squirrel1 random move");
 
-	npc = CreateSprite(Map, "Squirrel", 40, 14);
+	npc = CreateSprite(Map, "Squirrel", 40, 16);
     -- Squirrels don't collide with the npcs.
 	npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
 	Map:AddGroundObject(npc);
