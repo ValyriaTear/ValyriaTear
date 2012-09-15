@@ -630,7 +630,7 @@ void BindModeCode() {
 				// Battle settings
 				luabind::value("BATTLE_TYPE_INVALID", BATTLE_TYPE_INVALID),
 				luabind::value("BATTLE_TYPE_WAIT", BATTLE_TYPE_WAIT),
-				luabind::value("BATTLE_TYPE_SEMI_WAIT", BATTLE_TYPE_SEMI_WAIT),
+				luabind::value("BATTLE_TYPE_SEMI_ACTIVE", BATTLE_TYPE_SEMI_ACTIVE),
 				luabind::value("BATTLE_TYPE_ACTIVE", BATTLE_TYPE_ACTIVE),
 				luabind::value("BATTLE_TYPE_TOTAL", BATTLE_TYPE_TOTAL)
 			]

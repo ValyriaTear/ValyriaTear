@@ -31,6 +31,7 @@
 
 #include <list>
 
+struct B;
 namespace hoa_battle {
 
 //! \brief Determines whether the code in the hoa_battle namespace should print debug statements or not.
@@ -48,11 +49,18 @@ enum BATTLE_TYPE {
 	BATTLE_TYPE_WAIT      =  0,
 	//! Monsters will wait for characters to finish their command before attacking
 	//! but will move up until being ready anyway.
-	BATTLE_TYPE_SEMI_WAIT =  1,
+	BATTLE_TYPE_SEMI_ACTIVE =  1,
 	//! The battle will continue progressing while player selects commands
 	BATTLE_TYPE_ACTIVE    =  2,
 	BATTLE_TYPE_TOTAL     =  3
 };
+
+//! Tells the battle speed factor used in wait battle modes.
+const float BATTLE_WAIT_FACTOR = 3.0f;
+//! Tells the battle speed factor used in semi-active battle modes.
+const float BATTLE_SEMI_ACTIVE_FACTOR = 1.5f;
+//! Tells the battle speed factor used in active battle modes.
+const float BATTLE_ACTIVE_FACTOR = 1.0f;
 
 /** ****************************************************************************
 *** \brief A companion class to BattleMode that holds various multimedia data

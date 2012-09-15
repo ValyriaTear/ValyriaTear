@@ -24,7 +24,7 @@ function BootBattleTest()
 
 	-- Set the battle to wait, semi active or active
 	--battle:SetBattleType(hoa_battle.BattleMode.BATTLE_TYPE_WAIT);
-	--battle:SetBattleType(hoa_battle.BattleMode.BATTLE_TYPE_SEMI_WAIT);
+	--battle:SetBattleType(hoa_battle.BattleMode.BATTLE_TYPE_SEMI_ACTIVE);
 	battle:SetBattleType(hoa_battle.BattleMode.BATTLE_TYPE_ACTIVE);
 
 	ModeManager:Push(battle, false, false);

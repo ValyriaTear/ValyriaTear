@@ -220,10 +220,12 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 	// Make the stun effect disappear faster depending on the battle type,
 	// to not advantage the attacker.
 	BattleMode* BM = BattleMode::CurrentInstance();
-	if (BM->GetBattleType() == BATTLE_TYPE_SEMI_WAIT)
-		stun_time /= 1.5f;
+	if (BM->GetBattleType() == BATTLE_TYPE_SEMI_ACTIVE)
+		stun_time /= BATTLE_SEMI_ACTIVE_FACTOR;
 	else if (BM->GetBattleType() == BATTLE_TYPE_WAIT)
-		stun_time /= 3;
+		stun_time /= BATTLE_WAIT_FACTOR;
+	else if (BM->GetBattleType() == BATTLE_TYPE_ACTIVE)
+		stun_time /= BATTLE_ACTIVE_FACTOR;
 
 	_state_timer.StunTimer(stun_time);
 	// Run a shake effect for the same time.

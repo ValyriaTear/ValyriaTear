@@ -458,7 +458,7 @@ void BattleMode::Update() {
 	// that the command menu is open whenever we find a character in the command state. If the command menu is not open, we
 	// forcibly open it and make the player choose a command for the character so that the battle may continue.
 	if (!_last_enemy_dying
-			&& (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_WAIT)) {
+			&& (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
 		for (uint32 i = 0; i < _character_actors.size(); i++) {
 			if (_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
 				if (_state != BATTLE_STATE_COMMAND) {
@@ -805,18 +805,18 @@ void BattleMode::_Initialize() {
 
 	// We also factor the idle time using the battle type setting
 	// ACTIVE BATTLE
-	float time_factor = 1.0f;
+	float time_factor = BATTLE_ACTIVE_FACTOR;
 	// WAIT battle type is always safe, since the character has got all the time
 	// he/she wants to think so we can dimish the idle time of character and jump
 	// right to the command status.
 	if (_battle_type == BATTLE_TYPE_WAIT)
-		time_factor = 3.0f;
-	// SEMI_WAIT battle type is a bit more dangerous as if the player is taking
+		time_factor = BATTLE_WAIT_FACTOR;
+	// SEMI_ACTIVE battle type is a bit more dangerous as if the player is taking
 	// too much time to think, the enemies will have slightly more chances to hit.
 	// Yet, the semi wait battles are far simpler than active ones, so we
 	// can make them relatively faster.
-	else if (_battle_type == BATTLE_TYPE_SEMI_WAIT)
-		time_factor = 1.5f;
+	else if (_battle_type == BATTLE_TYPE_SEMI_ACTIVE)
+		time_factor = BATTLE_SEMI_ACTIVE_FACTOR;
 
 	float proportion;
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
