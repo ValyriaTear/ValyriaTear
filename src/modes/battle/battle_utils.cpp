@@ -639,12 +639,12 @@ bool BattleTarget::SetInitialTarget(BattleActor* user, GLOBAL_TARGET type) {
 	switch (type) {
 		case GLOBAL_TARGET_SELF_POINT:
 		case GLOBAL_TARGET_SELF:
+		case GLOBAL_TARGET_ALLY_POINT:
+		case GLOBAL_TARGET_ALLY:
 			_actor = user;
 			break;
-		case GLOBAL_TARGET_ALLY_POINT:
-		case GLOBAL_TARGET_FOE_POINT:
-		case GLOBAL_TARGET_ALLY:
 		case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+		case GLOBAL_TARGET_FOE_POINT:
 		case GLOBAL_TARGET_FOE:
 			_actor = target_party->at(0);
 			break;
