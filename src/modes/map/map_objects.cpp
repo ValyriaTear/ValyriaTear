@@ -884,8 +884,9 @@ MapObject* ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite* sprite) 
 	return NULL;
 }
 
-MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, float search_distance) {
-	// NOTE: We don't check if the argument is NULL here for performance reasons
+MapObject* ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite* sprite, float search_distance) {
+	if (!sprite)
+		return 0;
 
 	// Using the sprite's direction, determine the boundaries of the search area to check for objects
 	MapRectangle search_area = sprite->GetCollisionRectangle();
@@ -937,6 +938,19 @@ MapObject* ObjectSupervisor::FindNearestObject(const VirtualSprite* sprite, floa
 		// do not consider the object for the search
 		if (!((*it)->context & sprite->context))
 			continue;
+
+		// If the object is a sprite without any dialogue, we can ignore it
+		if ((*it)->GetObjectType() == SPRITE_TYPE) {
+			MapSprite *sp = reinterpret_cast<MapSprite*>(*it);
+			if (!sp->HasAvailableDialogue())
+				continue;
+		}
+
+		if ((*it)->GetType() == TREASURE_TYPE) {
+			TreasureObject* treasure_object = reinterpret_cast<TreasureObject*>(*it);
+			if (treasure_object->GetTreasure()->IsTaken())
+				continue;
+		}
 
 		MapRectangle object_rect = (*it)->GetCollisionRectangle();
 		if (MapRectangle::CheckIntersection(object_rect, search_area) == true)

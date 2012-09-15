@@ -606,7 +606,7 @@ void MapMode::_UpdateExplore() {
 	// If the user requested a confirm event, check if there is a nearby object that the player may interact with
 	// Interactions are currently limited to dialogue with sprites and opening of treasures
 	if (InputManager->ConfirmPress()) {
-		MapObject* obj = _object_supervisor->FindNearestObject(_camera);
+		MapObject* obj = _object_supervisor->FindNearestInteractionObject(_camera);
 
 		if (obj != NULL) {
 			if (obj->GetType() == SPRITE_TYPE) {
@@ -622,7 +622,7 @@ void MapMode::_UpdateExplore() {
 			else if (obj->GetType() == TREASURE_TYPE) {
 				TreasureObject* treasure_object = reinterpret_cast<TreasureObject*>(obj);
 
-				if (treasure_object->GetTreasure()->IsTaken() == false) {
+				if (!treasure_object->GetTreasure()->IsTaken()) {
 				    _camera->moving = false;
 					treasure_object->Open();
 				}

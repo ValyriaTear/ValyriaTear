@@ -717,7 +717,7 @@ public:
 	void DrawDialogIcons();
 	//@}
 
-	/** \brief Finds the nearest map object within a certain distance of a sprite
+	/** \brief Finds the nearest interactable map object within a certain distance of a sprite
 	*** \param sprite The sprite who is trying to find its nearest object
 	*** \param search_distance The maximum distance to search for an object from the sprite (default == 3.0f)
 	*** \return A pointer to the nearest map object, or NULL if no such object was found.
@@ -730,7 +730,7 @@ public:
 	*** with any portion of this search area are put on a list of valid objects, and once this list has been fully
 	*** constructed the nearest of these objects will be returned.
 	**/
-	private_map::MapObject* FindNearestObject(const private_map::VirtualSprite* sprite, float search_distance = 3.0f);
+	private_map::MapObject* FindNearestInteractionObject(const private_map::VirtualSprite* sprite, float search_distance = 3.0f);
 
 	/** \brief Determines if a map object's collision rectangle intersects with a specified map area
 	*** \param rect A reference to the rectangular section of the map to do collision detection with
