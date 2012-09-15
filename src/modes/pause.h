@@ -88,6 +88,9 @@ private:
 
 	//! \brief The list of selectabled quit options presented to the user while the mode is in the quit state
 	hoa_gui::OptionBox _quit_options;
+
+	//! \brief Tells whether an option has been selected, thus preventing the quick triggering of another one.
+	bool _option_selected;
 }; // class PauseMode : public hoa_mode_manager::GameMode
 
 } // namespace hoa_pause

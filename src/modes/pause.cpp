@@ -47,7 +47,8 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
 	GameMode(),
 	_quit_state(quit_state),
 	_audio_paused(pause_audio),
-	_dim_color(0.35f, 0.35f, 0.35f, 1.0f) // A grayish opaque color
+	_dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
+	_option_selected(false)
 {
 	mode_type = MODE_MANAGER_PAUSE_MODE;
 
@@ -71,24 +72,20 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
 	_quit_options.SetSelection(QUIT_CANCEL);
 }
 
-
-
 PauseMode::~PauseMode() {
-	if (_audio_paused == true)
+	if (_audio_paused)
 		AudioManager->ResumeAudio();
 }
 
-
-
 void PauseMode::Reset() {
-	if (_audio_paused == true)
+	if (_audio_paused)
 		AudioManager->PauseAudio();
 
 	// Save a copy of the current screen to use as the backdrop
 	try {
 		_screen_capture = VideoManager->CaptureScreen();
 	}
-	catch (Exception e) {
+	catch (const Exception& e) {
 		IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
 	}
 
@@ -97,32 +94,35 @@ void PauseMode::Reset() {
 	VideoManager->DisableFadeEffect();
 }
 
-
-
 void PauseMode::Update() {
 	// Don't eat up 100% of the CPU time while in pause mode
 	SDL_Delay(50); // Puts the process to sleep for 50ms
 
-	if (_quit_state == false) {
-		if (InputManager->QuitPress() == true) {
+	// If an option has been selected, don't handle input until it has finished.
+	if (_option_selected)
+	    return;
+
+	if (!_quit_state) {
+		if (InputManager->QuitPress()) {
 			_quit_state = true;
 			return;
 		}
-		else if (InputManager->PausePress() == true) {
+		else if (InputManager->PausePress()) {
+			_option_selected = true;
 			ModeManager->Pop();
 			return;
 		}
 	}
-
 	else { // (_quit_state == true)
 		_quit_options.Update();
 
-		if (InputManager->QuitPress() == true) {
+		if (InputManager->QuitPress()) {
+			_option_selected = true;
 			ModeManager->Pop();
 			return;
 		}
-
-		else if (InputManager->ConfirmPress() == true) {
+		else if (InputManager->ConfirmPress()) {
+			_option_selected = true;
 			switch (_quit_options.GetSelection()) {
 				case QUIT_CANCEL:
 					ModeManager->Pop();
@@ -146,22 +146,19 @@ void PauseMode::Update() {
 			}
 			return;
 		}
-
-		else if (InputManager->CancelPress() == true) {
+		else if (InputManager->CancelPress()) {
+			_option_selected =true;
 			ModeManager->Pop();
 			return;
 		}
-
-		else if (InputManager->LeftPress() == true) {
+		else if (InputManager->LeftPress()) {
 			_quit_options.InputLeft();
 		}
-
-		else if (InputManager->RightPress() == true) {
+		else if (InputManager->RightPress()) {
 			_quit_options.InputRight();
 		}
 	}
 } // void PauseMode::Update()
-
 
 void PauseMode::DrawPostEffects() {
 	// Set the coordinate system for the background and draw
@@ -175,7 +172,7 @@ void PauseMode::DrawPostEffects() {
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 	VideoManager->Move(512.0f, 384.0f);
 
-	if (_quit_state == false) {
+	if (!_quit_state) {
 		_paused_text.Draw();
 	}
 	else {
