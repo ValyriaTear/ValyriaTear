@@ -271,30 +271,30 @@ void InitializeEngine() throw (Exception) {
 	GUIManager->DEBUG_EnableGUIOutlines(false);
 
 	// Load all standard font sets used across the game
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine_capitals.ttf", "title20", 20) == false) {
-		throw Exception("Failed to load libertine_capitals.ttf font at size 20", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title20", 18) == false) {
+		throw Exception("Failed to load libertine_capitals.ttf font at size 18", __FILE__, __LINE__, __FUNCTION__);
 	}
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine_capitals.ttf", "title22", 22) == false) {
-		throw Exception("Failed to load libertine_capitals.ttf font at size 22", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title22", 20) == false) {
+		throw Exception("Failed to load 'img/fonts/LinLibertine_aBS.ttf' font at size 20", __FILE__, __LINE__, __FUNCTION__);
 	}
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine_capitals.ttf", "title24", 24) == false) {
-		throw Exception("Failed to load libertine_capitals.ttf font at size 24", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title24", 22) == false) {
+		throw Exception("Failed to load 'img/fonts/LinLibertine_aBS.ttf' font at size 22", __FILE__, __LINE__, __FUNCTION__);
 	}
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine_capitals.ttf", "title28", 28) == false) {
-		throw Exception("Failed to load libertine_capitals.ttf font at size 28", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title28", 24) == false) {
+		throw Exception("Failed to load 'img/fonts/LinLibertine_aBS.ttf' font at size 24", __FILE__, __LINE__, __FUNCTION__);
 	}
 
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine.ttf", "text18", 18) == false) {
-		throw Exception("Failed to load libertine.ttf font at size 18", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text18", 16) == false) {
+		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 16", __FILE__, __LINE__, __FUNCTION__);
 	}
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine.ttf", "text20", 20) == false) {
-		throw Exception("Failed to load libertine.ttf font at size 20", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text20", 18) == false) {
+		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 18", __FILE__, __LINE__, __FUNCTION__);
 	}
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine.ttf", "text22", 22) == false) {
-		throw Exception("Failed to load libertine.ttf font at size 22", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text22", 20) == false) {
+		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 20", __FILE__, __LINE__, __FUNCTION__);
 	}
-	if (VideoManager->Text()->LoadFont("img/fonts/libertine.ttf", "text24", 24) == false) {
-		throw Exception("Failed to load libertine.ttf font at size 24", __FILE__, __LINE__, __FUNCTION__);
+	if (VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text24", 22) == false) {
+		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 22", __FILE__, __LINE__, __FUNCTION__);
 	}
 
 	VideoManager->Text()->SetDefaultStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_BLACK, 1, -2));

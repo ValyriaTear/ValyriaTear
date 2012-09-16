@@ -537,12 +537,6 @@ bool TextSupervisor::SingletonInitialize() {
 		return false;
 	}
 
-	if (LoadFont("img/fonts/junicode_regular.ttf", "debug_font", 16) == false) {
-		PRINT_ERROR << "could not load the debug font" << std::endl;
-		TTF_Quit();
-		return false;
-	}
-
 	return true;
 }
 

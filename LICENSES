@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.09.13
+Last update: 2012.09.16
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -123,6 +123,9 @@ img/effects/emotes/exclamation.lua                              GPLv2 or later  
 img/effects/emotes/exclamation.png                              CC by SA 3.0             Bertram
 img/effects/emotes/interrogation.lua                            GPLv2 or later           Bertram
 img/effects/emotes/interrogation.png                            CC by SA 3.0             Bertram
+
+img/fonts/LinBiolinum_RBah.ttf                                  OFL 1.1 / GPLv2          Philipp H. Poll - http://www.linuxlibertine.org
+img/fonts/LinLibertine_aBS.ttf                                  OFL 1.1 / GPLv2          Philipp H. Poll - http://www.linuxlibertine.org
 
 img/icons/actors/characters/kalya.png                           GPLv2                    Allacrost (was Laila icon)
 img/icons/actors/characters/sylve.png                           GPLv2                    Allacrost (was Raphaela icon)
@@ -501,13 +504,6 @@ Files:
 
 ./img/logos/mac_logo.icns
 ./img/logos/main_logo_sword.png
-
-./img/fonts (See the COPYING file in the same folder for those).
-./img/fonts/libertine.ttf
-./img/fonts/vtc_switchblade_romance.ttf
-./img/fonts/junicode_regular.ttf
-./img/fonts/tarnhalo.ttf
-./img/fonts/libertine_capitals.ttf
 
 ./img/misc/chest1.png
 ./img/misc/stamina_bar_infinite_overlay.png
