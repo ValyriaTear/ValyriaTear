@@ -333,8 +333,9 @@ void BattleMode::Reset() {
 	GetScriptSupervisor().Reset();
 }
 
-bool CompareActorsYCoord(BattleActor* one, BattleActor* other) {
-    // Compares the Y-coordinates of the actors, used to sort the actors before draw calls
+//! \brief Compares the Y-coordinates of the battle objects,
+//! It is used to sort them before draw calls.
+static bool CompareObjectsYCoord(BattleObject* one, BattleObject* other) {
     return (one->GetYLocation() > other->GetYLocation());
 }
 
@@ -365,16 +366,19 @@ void BattleMode::Update() {
 	}
 
 	// Update all actors animations and y-sorting
-	_battle_sprites.clear();
+	_battle_objects.clear();
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
 		_character_actors[i]->Update();
-		_battle_sprites.push_back(_character_actors[i]);
+		_battle_objects.push_back(_character_actors[i]);
+		// Add also potential ammo objects
+		if (_character_actors[i]->GetAmmo().IsAmmoShown())
+			_battle_objects.push_back(&(_character_actors[i]->GetAmmo()));
 	}
 	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
 		_enemy_actors[i]->Update();
-		_battle_sprites.push_back(_enemy_actors[i]);
+		_battle_objects.push_back(_enemy_actors[i]);
 	}
-	std::sort(_battle_sprites.begin(), _battle_sprites.end(), CompareActorsYCoord);
+	std::sort(_battle_objects.begin(), _battle_objects.end(), CompareObjectsYCoord);
 
 	// Now checking standard battle conditions
 
@@ -1017,8 +1021,8 @@ void BattleMode::_DrawSprites() {
 
 	// Draw sprites in order based on their x and y coordinates on the screen (bottom to top)
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-	for (uint32 i = 0; i < _battle_sprites.size(); ++i)
-		_battle_sprites[i]->DrawSprite();
+	for (uint32 i = 0; i < _battle_objects.size(); ++i)
+		_battle_objects[i]->DrawSprite();
 
 	// Draw the attack point selector graphic
 	if (draw_point_selection) {

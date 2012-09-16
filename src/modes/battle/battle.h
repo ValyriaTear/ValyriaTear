@@ -40,6 +40,8 @@ extern bool BATTLE_DEBUG;
 //! \brief An internal namespace to be used only within the battle code. Don't use this namespace anywhere else!
 namespace private_battle {
 
+class BattleObject;
+
 /** \name Battle setting type
 *** \brief Represents the play types of battle that the player may have to deal with
 **/
@@ -283,7 +285,8 @@ public:
 	**/
 	void RestartBattle();
 
-	//! \brief Tells the battle actor class whether it should not update the state timer when in idle phase.
+	//! \brief Tells the battle actor class whether
+	//! it should update the state timer.
 	bool AreActorStatesPaused() const
 	{ return _actor_state_paused; }
 
@@ -438,10 +441,10 @@ private:
 	std::list<private_battle::BattleActor*> _ready_queue;
 	//@}
 
-	/** \brief List used to draw character based on their y coordinate.
+	/** \brief Vector used to draw all battle objects based on their y coordinate.
 	*** Sorted in the update() method.
 	**/
-	std::vector<private_battle::BattleActor*> _battle_sprites;
+	std::vector<private_battle::BattleObject*> _battle_objects;
 
 	/** \brief The number of character swaps that the player may currently perform
 	*** The maximum number of swaps ever allowed is four, thus the value of this class member will always have the range [0, 4].
@@ -497,7 +500,7 @@ private:
 	**/
 	void _DrawBackgroundGraphics();
 
-	/** \brief Draws all character and enemy sprites as well as any sprite visuals
+	/** \brief Draws all characters, enemy sprites as well as any sprite visuals
 	*** In addition to the sprites themselves, this function draws special effects and indicators for the sprites.
 	*** For example, the actor selector image and any visible action effects like magic.
 	**/

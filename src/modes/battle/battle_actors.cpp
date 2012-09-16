@@ -38,23 +38,24 @@ namespace hoa_battle {
 
 namespace private_battle {
 
+void BattleAmmo::DrawSprite() {
+	// Draw potential sprite ammo
+	if (_shown) {
+		VideoManager->Move(GetXLocation(), GetYLocation());
+		_ammo_image.Draw();
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // BattleActor class
 ////////////////////////////////////////////////////////////////////////////////
 
 BattleActor::BattleActor(GlobalActor* actor) :
 	GlobalActor(*actor),
+	BattleObject(),
 	_state(ACTOR_STATE_INVALID),
 	_global_actor(actor),
-	_ammo_image(NULL),
-	_show_ammo(false),
-	_ammo_x(0.0f),
-	_ammo_y(0.0f),
 	_action(NULL),
-	_x_origin(0.0f),
-	_y_origin(0.0f),
-	_x_location(0.0f),
-	_y_location(0.0f),
 	_execution_finished(false),
 	_idle_state_time(0),
 	_shake_timer(0),
@@ -69,15 +70,16 @@ BattleActor::BattleActor(GlobalActor* actor) :
 		return;
 	}
 
-	// Get the pointer of the ammo image. Do not delete it, as the Global Actor is handling it already.
-	_ammo_image = GetWeaponEquipped() ? GetWeaponEquipped()->GetAmmoImage() : NULL;
+	// Load the potential the ammo image filename
+	std::string ammo_animation_file = GetWeaponEquipped() ?
+		GetWeaponEquipped()->GetAmmoImageFile() : std::string();
+	if (!ammo_animation_file.empty())
+		_ammo.LoadAmmoAnimatedImage(ammo_animation_file);
 
 	// TODO: I have concerns about the copy constructor for GlobalActor. Currently it creates a copy
 	// of every single attack point, weapon, armor, and skill. I wonder if perhaps we should only
 	// create a copy of the attack point
 }
-
-
 
 BattleActor::~BattleActor() {
 	// If the actor did not get a chance to execute their action, delete it
@@ -89,8 +91,6 @@ BattleActor::~BattleActor() {
 	delete _effects_supervisor;
 	delete _indicator_supervisor;
 }
-
-
 
 void BattleActor::ResetActor() {
 	_effects_supervisor->RemoveAllStatus();
@@ -109,8 +109,6 @@ void BattleActor::ResetActor() {
 	else
 		ChangeState(ACTOR_STATE_DEAD);
 }
-
-
 
 void BattleActor::ChangeState(ACTOR_STATE new_state) {
 	if (_state == new_state) {
@@ -175,13 +173,9 @@ void BattleActor::ChangeState(ACTOR_STATE new_state) {
 	}
 }
 
-
-
 void BattleActor::RegisterDamage(uint32 amount) {
 	RegisterDamage(amount, NULL);
 }
-
-
 
 void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 	if (amount == 0) {
@@ -250,8 +244,6 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 	}
 }
 
-
-
 void BattleActor::RegisterHealing(uint32 amount, bool hit_points) {
 	if (amount == 0) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
@@ -270,7 +262,6 @@ void BattleActor::RegisterHealing(uint32 amount, bool hit_points) {
     	AddSkillPoints(amount);
 	_indicator_supervisor->AddHealingIndicator(amount, hit_points);
 }
-
 
 void BattleActor::RegisterRevive(uint32 amount) {
 	if (amount == 0) {
@@ -293,15 +284,12 @@ void BattleActor::RegisterRevive(uint32 amount) {
 	ChangeState(ACTOR_STATE_REVIVE);
 }
 
-
 void BattleActor::RegisterMiss(bool was_attacked) {
 	_indicator_supervisor->AddMissIndicator();
 
 		if (was_attacked && !IsEnemy())
 			ChangeSpriteAnimation("dodge");
 }
-
-
 
 void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity) {
 	GLOBAL_STATUS old_status = GLOBAL_STATUS_INVALID;
@@ -317,16 +305,15 @@ void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY in
 	}
 }
 
-
 void BattleActor::Update() {
 	// Don't update the state timer when the battle tells is to pause
 	// when in idle state.
 	if (!BattleMode::CurrentInstance()->AreActorStatesPaused())
 		_state_timer.Update();
 
-    // Ths shaking updates even in pause mode, so that the shaking
-    // doesn't last indefinitely in that state.
-    _shake_timer.Update();
+	// Ths shaking updates even in pause mode, so that the shaking
+	// doesn't last indefinitely in that state.
+	_shake_timer.Update();
 
 	_UpdateStaminaIconPosition();
 
@@ -355,7 +342,6 @@ void BattleActor::Update() {
 		}
 	}
 }
-
 
 void BattleActor::_UpdateStaminaIconPosition() {
 	float x_pos = _x_stamina_location;
@@ -407,22 +393,9 @@ void BattleActor::_UpdateStaminaIconPosition() {
 	_y_stamina_location = y_pos;
 }
 
-
-void BattleActor::DrawSprite() {
-	// Draw potential sprite ammo
-	if (_ammo_image && _show_ammo) {
-		VideoManager->Move(_ammo_x, _ammo_y);
-		_ammo_image->Draw();
-	}
-
-	VideoManager->Move(_x_location, _y_location);
-}
-
-
 void BattleActor::DrawIndicators() const {
 	_indicator_supervisor->Draw();
 }
-
 
 void BattleActor::DrawStaminaIcon(const hoa_video::Color& color) const {
 	if (!IsAlive())
@@ -436,7 +409,6 @@ void BattleActor::DrawStaminaIcon(const hoa_video::Color& color) const {
 	else
 		_stamina_icon.Draw(color);
 }
-
 
 void BattleActor::SetAction(BattleAction* action) {
 	if (action == NULL) {
@@ -454,8 +426,6 @@ void BattleActor::SetAction(BattleAction* action) {
 	_action = action;
 }
 
-
-
 uint32 BattleActor::TotalPhysicalDefense() {
 	uint32 phys_defense = 0;
 
@@ -466,8 +436,6 @@ uint32 BattleActor::TotalPhysicalDefense() {
 	return phys_defense;
 }
 
-
-
 uint32 BattleActor::TotalMetaphysicalDefense() {
 	uint32 meta_defense = 0;
 
@@ -477,8 +445,6 @@ uint32 BattleActor::TotalMetaphysicalDefense() {
 
 	return meta_defense;
 }
-
-
 
 float BattleActor::TotalEvadeRating() {
 	float evade = 0.0f;
@@ -517,12 +483,9 @@ BattleCharacter::BattleCharacter(GlobalCharacter* character) :
 	_target_selection_text.SetText("");
 }
 
-
 void BattleCharacter::ResetActor() {
 	BattleActor::ResetActor();
 }
-
-
 
 void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 	BattleActor::ChangeState(new_state);
@@ -577,8 +540,6 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 	// this text display for every possible state change, but we do it anyway just to be safe and to not add unnecessary code complexity.
 	ChangeActionText();
 }
-
-
 
 void BattleCharacter::Update() {
 	BattleActor::Update();
@@ -660,8 +621,7 @@ void BattleCharacter::Update() {
 }
 
 void BattleCharacter::DrawSprite() {
-	BattleActor::DrawSprite();
-
+	VideoManager->Move(_x_location, _y_location);
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Draw();
 } // void BattleCharacter::DrawSprite()
 
@@ -674,8 +634,6 @@ void BattleCharacter::ChangeSpriteAnimation(const std::string& alias) {
 	_animation_timer.SetDuration(timer_length);
 	_animation_timer.Run();
 }
-
-
 
 void BattleCharacter::ChangeActionText() {
 	// If the character has no action selected to be used, clear both action and target text
@@ -695,8 +653,6 @@ void BattleCharacter::ChangeActionText() {
 		_target_selection_text.SetText(_action->GetTarget().GetName());
 	}
 }
-
-
 
 void BattleCharacter::DrawPortrait() {
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
@@ -732,8 +688,6 @@ void BattleCharacter::DrawPortrait() {
 		portrait_frames[4].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
 	}
 }
-
-
 
 void BattleCharacter::DrawStatus(uint32 order) {
 	// Used to determine where to draw the character's status
@@ -953,10 +907,8 @@ void BattleEnemy::Update() {
 	}
 }
 
-
-
 void BattleEnemy::DrawSprite() {
-	BattleActor::DrawSprite();
+	VideoManager->Move(_x_location, _y_location);
 
 	std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 
@@ -989,8 +941,6 @@ void BattleEnemy::DrawSprite() {
 		sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
 	}
 } // void BattleEnemy::DrawSprite()
-
-
 
 void BattleEnemy::_DecideAction() {
 	if (_global_enemy->GetSkills().empty() == true) {

@@ -120,8 +120,7 @@ GlobalItem& GlobalItem::operator=(const GlobalItem& copy) {
 ////////////////////////////////////////////////////////////////////////////////
 
 GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
-	GlobalObject(id, count),
-	_has_ammo(false)
+	GlobalObject(id, count)
 {
 	// Initialize all elemental effects as neutral
 	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_FIRE, GLOBAL_INTENSITY_NEUTRAL));
@@ -154,10 +153,8 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 	_metaphysical_attack = script_file.ReadUInt("metaphysical_attack");
 	_usable_by = script_file.ReadUInt("usable_by");
 
-	// Load the possible battle ammo animated image.
-	std::string ammo_file = script_file.ReadString("battle_ammo_animation_file");
-	if (!ammo_file.empty() && _ammo_image.LoadFromAnimationScript(ammo_file))
-		_has_ammo = true;
+	// Load the possible battle ammo animated image filename.
+	_ammo_image_file = script_file.ReadString("battle_ammo_animation_file");
 
 	script_file.CloseTable();
 	if (script_file.IsErrorDetected()) {

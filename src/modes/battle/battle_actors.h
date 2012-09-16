@@ -34,6 +34,103 @@ namespace hoa_battle {
 
 namespace private_battle {
 
+ /** ****************************************************************************
+*** \brief An abstract class for representing an object in the battle
+*** Used to properly draw objects based on their Y coordinate.
+**/
+class BattleObject {
+public:
+	BattleObject():
+		_x_origin(0.0f),
+		_y_origin(0.0f),
+		_x_location(0.0f),
+		_y_location(0.0f)
+	{}
+
+	float GetXOrigin() const
+	{ return _x_origin; }
+
+	float GetYOrigin() const
+	{ return _y_origin; }
+
+	float GetXLocation() const
+	{ return _x_location; }
+
+	float GetYLocation() const
+	{ return _y_location; }
+
+	void SetXOrigin(float x_origin)
+	{ _x_origin = x_origin; }
+
+	void SetYOrigin(float y_origin)
+	{ _y_origin = y_origin; }
+
+	void SetXLocation(float x_location)
+	{ _x_location = x_location; }
+
+	void SetYLocation(float y_location)
+	{ _y_location = y_location; }
+
+	virtual void DrawSprite()
+	{};
+
+protected:
+    //! \brief The "home" coordinates for the actor's default location on the battle field
+	float _x_origin, _y_origin;
+
+	//! \brief The x and y coordinates of the actor's current location on the battle field
+	float _x_location, _y_location;
+};
+
+//! \brief The battle ammo class is made to represent an ammo image on the battle ground.
+class BattleAmmo : public BattleObject {
+public:
+	BattleAmmo():
+		BattleObject(),
+		_flying_height(0),
+		_shown(false)
+	{}
+
+	BattleAmmo(const std::string& animation_filename, uint32 flying_height):
+		BattleObject(),
+		_flying_height(flying_height),
+		_shown(false)
+	{ LoadAmmoAnimatedImage(animation_filename); }
+
+	//! Draw the ammo on screen if it was set to be shown.
+	void DrawSprite();
+
+	void LoadAmmoAnimatedImage(const std::string& filename)
+	{ _ammo_image.Clear(); _ammo_image.LoadFromAnimationScript(filename); }
+
+	const hoa_video::AnimatedImage& GetAmmoImage() const
+	{ return _ammo_image; }
+
+	void SetFlyingHeight(uint32 height)
+	{ _flying_height = height; }
+
+	uint32 GetFlyingHeight() const
+	{ return _flying_height; }
+
+	void SetShowAmmo(bool show)
+	{ _shown = show; }
+
+	bool IsAmmoShown() const
+	{ return _shown; }
+
+protected:
+	//! The actual ammo graphics used when firing
+	hoa_video::AnimatedImage _ammo_image;
+	// TODO: Later add a shadow to the ammo, to show its height
+	//hoa_video::AnimatedImage _ammo_shadow_image;
+
+	//! The height of the ammo compared to the ground (at which height the ammo flies).
+	uint32 _flying_height;
+
+	//! Tells whether the ammo should be drawn on screen.
+	bool _shown;
+};
+
 /** ****************************************************************************
 *** \brief An abstract class for representing an actor in the battle
 ***
@@ -67,7 +164,7 @@ namespace private_battle {
 *** use an item, or perform some sort of skill. Each actor is responsible for the
 *** management of the action that they intend to take.
 *** ***************************************************************************/
-class BattleActor : public hoa_global::GlobalActor {
+class BattleActor : public hoa_global::GlobalActor, public BattleObject {
 public:
 	BattleActor(hoa_global::GlobalActor* actor);
 
@@ -78,15 +175,15 @@ public:
 
 	//! \brief Returns true as long as the actor is not in the "dead" state
 	bool IsAlive() const
-		{ return (_state != ACTOR_STATE_DEAD); }
+	{ return (_state != ACTOR_STATE_DEAD); }
 
 	//! \brief Returns true if the actor can still fight.
 	bool IsValid() const
-		{ return (_state != ACTOR_STATE_DYING && IsAlive()); }
+	{ return (_state != ACTOR_STATE_DYING && IsAlive()); }
 
 	//! \brief Empty method. Required because this is a pure virtual method of GlobalActor
 	void AddSkill(uint32 /*skill_id*/)
-		{}
+	{}
 
 	/** \brief Restores an actor to the initial state it was in when the battle began
 	***
@@ -118,7 +215,7 @@ public:
 	*** and there is an issue with using Luabind on pure virtual functions.
 	**/
 	virtual void ChangeSpriteAnimation(const std::string& /*alias*/)
-		{}
+	{}
 
 	/** \brief Deals damage to the actor by reducing its hit points by a certain amount
 	*** \param amount The number of hit points to decrease on the actor
@@ -213,9 +310,6 @@ public:
 	**/
 	virtual void Update();
 
-	//! \brief Draws the actor's current sprite animation frame
-	virtual void DrawSprite();
-
 	//! \brief Draws all active indicator text and graphics for the actor
 	void DrawIndicators() const;
 
@@ -236,34 +330,34 @@ public:
 	//! \brief Resets actor stats to their original values
 	//@{
 	void ResetHitPoints()
-		{ SetHitPoints(_global_actor->GetHitPoints()); }
+	{ SetHitPoints(_global_actor->GetHitPoints()); }
 
 	void ResetMaxHitPoints()
-		{ SetMaxHitPoints(_global_actor->GetMaxHitPoints()); }
+	{ SetMaxHitPoints(_global_actor->GetMaxHitPoints()); }
 
 	void ResetSkillPoints()
-		{ SetSkillPoints(_global_actor->GetSkillPoints()); }
+	{ SetSkillPoints(_global_actor->GetSkillPoints()); }
 
 	void ResetMaxSkillPoints()
-		{ SetMaxSkillPoints(_global_actor->GetMaxSkillPoints()); }
+	{ SetMaxSkillPoints(_global_actor->GetMaxSkillPoints()); }
 
 	void ResetStrength()
-		{ SetStrength(_global_actor->GetStrength()); }
+	{ SetStrength(_global_actor->GetStrength()); }
 
 	void ResetVigor()
-		{ SetVigor(_global_actor->GetVigor()); }
+	{ SetVigor(_global_actor->GetVigor()); }
 
 	void ResetFortitude()
-		{ SetFortitude(_global_actor->GetFortitude()); }
+	{ SetFortitude(_global_actor->GetFortitude()); }
 
 	void ResetProtection()
-		{ SetProtection(_global_actor->GetProtection()); }
+	{ SetProtection(_global_actor->GetProtection()); }
 
 	void ResetAgility()
-		{ SetAgility(_global_actor->GetAgility()); }
+	{ SetAgility(_global_actor->GetAgility()); }
 
 	void ResetEvade()
-		{ SetEvade(_global_actor->GetEvade()); }
+	{ SetEvade(_global_actor->GetEvade()); }
 	//@}
 
 	//! \brief Returns the average defense/evasion totals of all of the actor's attack points
@@ -284,28 +378,19 @@ public:
 	{ return _global_actor; }
 
 	void SetShowAmmo(bool show)
-	{ _show_ammo = show; }
+	{ _ammo.SetShowAmmo(show); }
 
 	void SetAmmoPosition(float x, float y)
-	{ _ammo_x = x; _ammo_y = y; }
+	{ _ammo.SetXLocation(x); _ammo.SetYLocation(y); }
+
+	BattleAmmo& GetAmmo()
+	{ return _ammo; }
 
 	BattleAction* GetAction()
 	{ return _action; }
 
 	bool IsActionSet() const
 	{ return (_action != NULL); }
-
-	float GetXOrigin() const
-	{ return _x_origin; }
-
-	float GetYOrigin() const
-	{ return _y_origin; }
-
-	float GetXLocation() const
-	{ return _x_location; }
-
-	float GetYLocation() const
-	{ return _y_location; }
 
 	uint32 GetIdleStateTime() const
 	{ return _idle_state_time; }
@@ -315,18 +400,6 @@ public:
 
 	BattleTimer& GetStateTimer()
 	{ return _state_timer; }
-
-	void SetXOrigin(float x_origin)
-	{ _x_origin = x_origin; }
-
-	void SetYOrigin(float y_origin)
-	{ _y_origin = y_origin; }
-
-	void SetXLocation(float x_location)
-	{ _x_location = x_location; }
-
-	void SetYLocation(float y_location)
-	{ _y_location = y_location; }
 
 	//! \note If the actor is in the idle state, this will not affect the state timer
 	void SetIdleStateTime(uint32 time)
@@ -340,24 +413,11 @@ protected:
 	//! \brief A pointer to the global actor object which the battle actor represents
 	hoa_global::GlobalActor* _global_actor;
 
-	//! \brief The ammo image pointer. Do not delete it, it is handled by the GlobalActor
-	hoa_video::AnimatedImage *_ammo_image;
-
-	//! \brief Used to make the engine aware about whether the ammo image should be shown or not.
-	bool _show_ammo;
-
-	//! \brief the ammo image screen position used when showing it.
-	float _ammo_x;
-	float _ammo_y;
+	//! \brief The ammo object. Use when the actor weapon uses ammo.
+	BattleAmmo _ammo;
 
 	//! \brief A pointer to the action that the actor is preparing to perform or is currently performing
 	BattleAction* _action;
-
-	//! \brief The "home" coordinates for the actor's default location on the battle field
-	float _x_origin, _y_origin;
-
-	//! \brief The x and y coordinates of the actor's current location on the battle field
-	float _x_location, _y_location;
 
 	//! \brief Set to true when the actor is in the ACTING state and the execution of the action is complete
 	bool _execution_finished;
@@ -407,17 +467,17 @@ public:
 	{}
 
 	bool IsEnemy() const
-		{ return false; }
+	{ return false; }
 
 	void ResetActor();
 
 	void ChangeState(ACTOR_STATE new_state);
 
 	float GetSpriteWidth() const
-		{ return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetWidth(); }
+	{ return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetWidth(); }
 
 	float GetSpriteHeight() const
-		{ return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetHeight(); }
+	{ return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetHeight(); }
 
 	/** \brief Changes the battle character's current sprite animation image
 	*** \param alias The alias text used to identify the animation to change
@@ -435,7 +495,7 @@ public:
 
 	//! \brief Returns true if the player may select a command for the character to execute
 	bool CanSelectCommand() const
-		{ return (_state == ACTOR_STATE_IDLE) || (_state == ACTOR_STATE_COMMAND); }
+	{ return (_state == ACTOR_STATE_IDLE) || (_state == ACTOR_STATE_COMMAND); }
 
 	//! \brief Updates the state of the character. Must be called every frame loop.
 	void Update();
@@ -452,10 +512,10 @@ public:
 	void DrawStatus(uint32 order);
 
 	hoa_global::GlobalCharacter* GetGlobalCharacter()
-		{ return _global_character; }
+	{ return _global_character; }
 
 	const std::string& GetSpriteAnimationAlias() const
-		{ return _sprite_animation_alias; }
+	{ return _sprite_animation_alias; }
 
 protected:
 	//! \brief A pointer to the global character object which the battle character represents
@@ -496,17 +556,17 @@ public:
 	~BattleEnemy();
 
 	bool IsEnemy() const
-		{ return true; }
+	{ return true; }
 
 	void ResetActor();
 
 	void ChangeState(ACTOR_STATE new_state);
 
 	float GetSpriteWidth() const
-		{ return _global_enemy->GetBattleSpriteFrames()->at(0).GetWidth(); }
+	{ return _global_enemy->GetBattleSpriteFrames()->at(0).GetWidth(); }
 
 	float GetSpriteHeight() const
-		{ return _global_enemy->GetBattleSpriteFrames()->at(0).GetHeight(); }
+	{ return _global_enemy->GetBattleSpriteFrames()->at(0).GetHeight(); }
 
 	/** \brief Changes the battle enemy's current sprite animation image
 	*** \param alias The alias text used to identify the animation to change
@@ -528,10 +588,7 @@ public:
 	void DrawSprite();
 
 	hoa_global::GlobalEnemy* GetGlobalEnemy()
-		{ return _global_enemy; }
-
-	//! \brief Compares the Y-coordinates of the actors, used for sorting the actors up-down when drawing
-	bool operator<(const BattleEnemy & other) const;
+	{ return _global_enemy; }
 
 protected:
 	//! \brief A pointer to the global enemy object which the battle enemy represents

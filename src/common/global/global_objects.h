@@ -273,16 +273,13 @@ public:
 	const std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& GetElementalEffects() const
 	{ return _elemental_effects; }
 
-	hoa_video::AnimatedImage* GetAmmoImage()
-	{ return _has_ammo ? &_ammo_image : 0; }
+	const std::string& GetAmmoImageFile() const
+	{ return _ammo_image_file; }
 	//@}
 
 private:
-	//! \brief The battle image used to display the weapon ammo.
-	hoa_video::AnimatedImage _ammo_image;
-
-	//! \brief Tells whether the weapon uses ammo.
-	bool _has_ammo;
+	//! \brief The battle image animation file used to display the weapon ammo.
+	std::string _ammo_image_file;
 
 	//! \brief The amount of physical damage that the weapon causes
 	uint32 _physical_attack;
