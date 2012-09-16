@@ -382,28 +382,45 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount) {
 	}
 
 	std::string text = NumberToString(amount);
+
 	TextStyle style;
 
 	float damage_percent = static_cast<float>(amount) / static_cast<float>(_actor->GetMaxHitPoints());
 	if (damage_percent < 0.10f) {
-		style.font = "text24";
 		style.color = low_red;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 	else if (damage_percent < 0.20f) {
-		style.font = "text24";
 		style.color = mid_red;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 	else if (damage_percent < 0.30f) {
-		style.font = "text24";
 		style.color = high_red;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
 	}
 	else { // (damage_percent >= 0.30f)
-		style.font = "text24";
 		style.color = full_red;
 		style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+	}
+
+	// Set the text size depending on the amount of pure damage.
+	if (amount < 50) {
+		style.font = "text24"; // text24
+	}
+	else if (amount < 100) {
+		style.font = "text24.2";
+	}
+	else if (amount < 250) {
+		style.font = "text26";
+	}
+	else if (amount < 500) {
+		style.font = "text28";
+	}
+	else if (amount < 1000) {
+		style.font = "text36";
+	}
+	else {
+		style.font = "text48";
 	}
 
 	_wait_queue.push_back(new IndicatorText(_actor, text, style, DAMAGE_INDICATOR));
@@ -428,8 +445,7 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points) {
 	std::string text = NumberToString(amount);
 	TextStyle style;
 
-	// TODO: use different colors/shades of green for different degrees of damage. There's a
-	// bug in rendering colored text that needs to be addressed first.
+	// Use different colors/shades of green/blue for different degrees of healing
 	float healing_percent = static_cast<float>(amount / _actor->GetMaxHitPoints());
 	if (healing_percent < 0.10f) {
 		style.font = "text24";
