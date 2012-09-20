@@ -96,7 +96,7 @@ TreasureSupervisor::TreasureSupervisor() :
 	_action_options.SetSelectMode(VIDEO_SELECT_SINGLE);
 	_action_options.SetCursorOffset(-50.0f, -25.0f);
 	_action_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
-	_action_options.AddOption(UTranslate("Finished"));
+	_action_options.AddOption(UTranslate("Ok"));
 	_action_options.SetSelection(0);
 	_action_options.SetOwner(&_action_window);
 
