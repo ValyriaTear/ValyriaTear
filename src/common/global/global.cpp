@@ -125,9 +125,6 @@ GameGlobal::~GameGlobal() {
 	_map_sprites_script.CloseFile();
 	_map_objects_script.CloseFile();
 	_map_treasures_script.CloseFile();
-
-	_battle_events_script.CloseTable();
-	_battle_events_script.CloseFile();
 } // GameGlobal::~GameGlobal()
 
 bool GameGlobal::SingletonInitialize() {
@@ -197,12 +194,6 @@ bool GameGlobal::SingletonInitialize() {
 
 	if (!_map_treasures_script.OpenFile("dat/actors/map_treasures.lua"))
 		return false;
-
-
-	if (_battle_events_script.OpenFile("dat/battle_events.lua") == false) {
-		return false;
-	}
-	_battle_events_script.OpenTable("battle_events");
 
 	return true;
 } // bool GameGlobal::SingletonInitialize()

@@ -525,9 +525,6 @@ public:
 	hoa_script::ReadScriptDescriptor& GetStatusEffectsScript()
 		{ return _status_effects_script; }
 
-	hoa_script::ReadScriptDescriptor* GetBattleEventScript()
-		{ return &_battle_events_script; }
-
 	hoa_script::ReadScriptDescriptor& GetMapSpriteScript()
 		{ return _map_sprites_script; }
 	//@}
@@ -671,9 +668,6 @@ private:
 
 	//! \brief Contains data and functional definitions for map treasures seen in game maps
 	hoa_script::ReadScriptDescriptor _map_treasures_script;
-
-	//! \brief Contains data and functional definitions for scripted events in key game battles
-	hoa_script::ReadScriptDescriptor _battle_events_script;
 	//@}
 
 	/** \brief The container which stores all of the groups of events that have occured in the game

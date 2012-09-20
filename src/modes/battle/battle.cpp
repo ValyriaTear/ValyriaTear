@@ -607,9 +607,6 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 				_actor_state_paused = true;
 			}
 			break;
-		case BATTLE_STATE_EVENT:
-			// TODO
-			break;
 		case BATTLE_STATE_VICTORY:
 			// Official victory:
 			// Cancel all character actions to free possible involved objects

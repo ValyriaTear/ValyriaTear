@@ -79,11 +79,10 @@ enum BATTLE_STATE {
 	BATTLE_STATE_INITIAL   =  0, //!< Character sprites are running in from off-screen to their battle positions
 	BATTLE_STATE_NORMAL    =  1, //!< Normal state where player is watching actions play out and waiting for a turn
 	BATTLE_STATE_COMMAND   =  2, //!< Player is choosing a command for a character
-	BATTLE_STATE_EVENT     =  3, //!< A scripted event is taking place, suspending all standard action
-	BATTLE_STATE_VICTORY   =  4, //!< Battle has ended with the characters victorious
-	BATTLE_STATE_DEFEAT    =  5, //!< Battle has ended with the characters defeated
-	BATTLE_STATE_EXITING   =  6, //!< Player has closed battle windows and battle mode is fading out
-	BATTLE_STATE_TOTAL     =  7
+	BATTLE_STATE_VICTORY   =  3, //!< Battle has ended with the characters victorious
+	BATTLE_STATE_DEFEAT    =  4, //!< Battle has ended with the characters defeated
+	BATTLE_STATE_EXITING   =  5, //!< Player has closed battle windows and battle mode is fading out
+	BATTLE_STATE_TOTAL     =  6
 };
 
 
