@@ -196,6 +196,74 @@ bool LoadSettings()
 	return true;
 } // bool LoadSettings()
 
+//! Loads all the fonts available in the game.
+//! And sets a default one
+//! The function will exit the game if no valid font were loaded
+//! or if the default font is invalid.
+static void LoadFonts(const std::string& font_script_filename) {
+	hoa_script::ReadScriptDescriptor font_script;
+
+	//Checking the file existence and validity.
+	if (!font_script.OpenFile(font_script_filename)) {
+		PRINT_ERROR << "Couldn't open font file: " << font_script_filename
+			 << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
+	if (!font_script.DoesTableExist("fonts")) {
+		PRINT_ERROR << "No 'fonts' table in file: " << font_script_filename
+			<< std::endl;
+		font_script.CloseFile();
+		exit(EXIT_FAILURE);
+	}
+
+	std::string font_default = font_script.ReadString("font_default");
+	if (font_default.empty()) {
+		PRINT_ERROR << "No default font defined in: " << font_script_filename
+			<< std::endl;
+		font_script.CloseFile();
+		exit(EXIT_FAILURE);
+	}
+
+	std::vector<std::string> style_names;
+	font_script.ReadTableKeys("fonts", style_names);
+	if (style_names.empty()) {
+		PRINT_ERROR << "No text styles defined in the 'fonts' table of file: "
+			<< font_script_filename << std::endl;
+		font_script.CloseFile();
+		exit(EXIT_FAILURE);
+	}
+
+	font_script.OpenTable("fonts");
+	for (uint32 i = 0; i < style_names.size(); ++i) {
+		font_script.OpenTable(style_names[i]); // Text style
+
+		std::string font_file = font_script.ReadString("font");
+		uint32 font_size = font_script.ReadInt("size");
+
+		if (!VideoManager->Text()->LoadFont(font_file, style_names[i], font_size)) {
+			// Check whether the default font is invalid
+			if (font_default == style_names[i]) {
+				font_script.CloseAllTables();
+				font_script.CloseFile();
+				PRINT_ERROR << "The default font '" << font_default
+					<< "' couldn't be loaded in file: " << font_script_filename
+					<< std::endl;
+				exit(EXIT_FAILURE);
+				return; // Superfluous but for readability.
+			}
+		}
+
+		font_script.CloseTable(); // Text style
+	}
+	font_script.CloseTable(); // fonts
+
+	font_script.CloseFile();
+
+	// Setup the default font
+	VideoManager->Text()->SetDefaultStyle(TextStyle(font_default, Color::white,
+													VIDEO_TEXT_SHADOW_BLACK, 1, -2));
+}
 
 /** \brief Initializes all engine components and makes other preparations for the game to start
 *** \return True if the game engine was initialized successfully, false if an unrecoverable error occured
@@ -270,48 +338,8 @@ void InitializeEngine() throw (Exception) {
 	// NOTE: This function call should have its argument set to false for release builds
 	GUIManager->DEBUG_EnableGUIOutlines(false);
 
-	// Load all standard font sets used across the game
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title20", 18))
-		throw Exception("Failed to load libertine_capitals.ttf font at size 18", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title22", 20))
-		throw Exception("Failed to load 'img/fonts/LinLibertine_aBS.ttf' font at size 20", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title24", 22))
-		throw Exception("Failed to load 'img/fonts/LinLibertine_aBS.ttf' font at size 22", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinLibertine_aBS.ttf", "title28", 24))
-		throw Exception("Failed to load 'img/fonts/LinLibertine_aBS.ttf' font at size 24", __FILE__, __LINE__, __FUNCTION__);
-
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text18", 16))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 16", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text20", 18))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 18", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text22", 20))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 20", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text24", 22))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 22", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text24.2", 24))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 24", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text26", 26))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 26", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text28", 28))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 28", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text36", 36))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 36", __FILE__, __LINE__, __FUNCTION__);
-
-	if (!VideoManager->Text()->LoadFont("img/fonts/LinBiolinum_RBah.ttf", "text48", 48))
-		throw Exception("Failed to load 'img/fonts/LinBiolinum_RBah.ttf' font at size 48", __FILE__, __LINE__, __FUNCTION__);
-
-	VideoManager->Text()->SetDefaultStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_BLACK, 1, -2));
+	// Loads all game fonts
+	LoadFonts("dat/config/fonts.lua");
 
 	// Loads potential emotes
 	GlobalManager->LoadEmotes("dat/effects/emotes.lua");
