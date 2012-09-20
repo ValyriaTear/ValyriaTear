@@ -220,6 +220,9 @@ public:
 	**/
 	void CommitChangesToInventory();
 
+	//! \brief Reset the item list content, used at battle restart
+	void ResetItemList();
+
 	//! \brief Retuns the number of items that will be displayed in the list
 	uint32 GetNumberListOptions() const
 		{ return _item_list.GetNumberOptions(); }
@@ -389,16 +392,20 @@ public:
 	//! \name Class member accessor methods
 	//@{
 	COMMAND_STATE GetState() const
-		{ return _state; }
+	{ return _state; }
 
 	BattleTarget GetSelectedTarget() const
-		{ return _selected_target; }
+	{ return _selected_target; }
 
 	/** \brief Apply battle items count on inventory items.
 	*** This will have to be called upon victory.
 	**/
 	void CommitChangesToInventory()
-		{ _item_command.CommitChangesToInventory(); }
+	{ _item_command.CommitChangesToInventory(); }
+
+	//! \brief Reset the item list content, used at battle restart
+	void ResetItemList()
+	{ _item_command.ResetItemList(); }
 	//@}
 
 private:

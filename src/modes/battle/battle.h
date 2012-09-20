@@ -31,7 +31,6 @@
 
 #include <list>
 
-struct B;
 namespace hoa_battle {
 
 //! \brief Determines whether the code in the hoa_battle namespace should print debug statements or not.

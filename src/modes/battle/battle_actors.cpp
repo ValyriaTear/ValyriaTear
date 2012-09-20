@@ -104,6 +104,9 @@ void BattleActor::ResetActor() {
 	ResetAgility();
 	ResetEvade();
 
+	// Invalidate the actor state to force the reinit of the idle or dead state
+	_state = ACTOR_STATE_INVALID;
+
 	if (GetHitPoints() > 0)
 		ChangeState(ACTOR_STATE_IDLE);
 	else

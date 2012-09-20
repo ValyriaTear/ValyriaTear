@@ -306,31 +306,43 @@ BattleMode::~BattleMode() {
 void BattleMode::Reset() {
 	_current_instance = this;
 
-	// Disable potential previous overlay effects
-	VideoManager->DisableFadeEffect();
-
 	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
 	// Load the default battle music track if no other music has been added
 	if (_battle_media.battle_music.GetState() == AUDIO_STATE_UNLOADED) {
-		if (_battle_media.battle_music.LoadAudio(DEFAULT_BATTLE_MUSIC) == false) {
+		if (!_battle_media.battle_music.LoadAudio(DEFAULT_BATTLE_MUSIC)) {
 			IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load default battle music: " << DEFAULT_BATTLE_MUSIC << std::endl;
 		}
 	}
 
-	_battle_media.battle_music.Play();
-
-	_last_enemy_dying = false;
-
-	if (_state == BATTLE_STATE_INVALID) {
+	if (_state == BATTLE_STATE_INVALID)
 		_Initialize();
-	}
-
-	// Potentially unpause actors
-	_actor_state_paused = false;
 
 	// Reset potential battle scripts
 	GetScriptSupervisor().Reset();
+}
+
+void BattleMode::RestartBattle() {
+
+	// Reset potential battle scripts
+	GetScriptSupervisor().Reset();
+
+	// Reset the state of all characters and enemies
+	for (uint32 i = 0; i < _character_actors.size(); ++i)
+		_character_actors[i]->ResetActor();
+
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i)
+		_enemy_actors[i]->ResetActor();
+
+	// Reset battle inventory and available actions
+	_command_supervisor->ResetItemList();
+	_command_supervisor->ConstructMenus();
+
+
+	_battle_media.battle_music.Rewind();
+	_battle_media.battle_music.Play();
+
+	ChangeState(BATTLE_STATE_INITIAL);
 }
 
 //! \brief Compares the Y-coordinates of the battle objects,
@@ -450,9 +462,14 @@ void BattleMode::Update() {
 	else if ((_state == BATTLE_STATE_VICTORY) || (_state == BATTLE_STATE_DEFEAT)) {
 		_finish_supervisor->Update();
 
-		// Make the heroes stamina icons fade out
-		if (_stamina_icon_alpha > 0.0f)
-		    _stamina_icon_alpha -= (float)SystemManager->GetUpdateTime() / 800.0f;
+		// Make the heroes and/or enemies stamina icons fade out
+		if (_stamina_icon_alpha > 0.0f) {
+			_stamina_icon_alpha -= (float)SystemManager->GetUpdateTime() / 800.0f;
+
+			// Also use it to create a fade to red effect on defeats
+			if (_state == BATTLE_STATE_DEFEAT)
+				GetEffectSupervisor().EnableLightingOverlay(Color(0.2f, 0.0f, 0.0f, (1.0f - _stamina_icon_alpha) * 0.6f));
+		}
 
 		return;
 	}
@@ -553,28 +570,6 @@ void BattleMode::AddEnemy(GlobalEnemy* new_enemy, float position_x, float positi
 	_enemy_party.push_back(new_battle_enemy);
 }
 
-
-void BattleMode::RestartBattle() {
-	// Disable potential previous light effects
-	VideoManager->DisableFadeEffect();
-
-	// Reset the state of all characters and enemies
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		_character_actors[i]->ResetActor();
-	}
-
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		_enemy_actors[i]->ResetActor();
-	}
-
-	_battle_media.battle_music.Rewind();
-	_battle_media.battle_music.Play();
-
-	_last_enemy_dying = false;
-
-	ChangeState(BATTLE_STATE_INITIAL);
-}
-
 void BattleMode::ChangeState(BATTLE_STATE new_state) {
 	if (_state == new_state) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was already in the state to change to: " << _state << std::endl;
@@ -584,6 +579,18 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 	_state = new_state;
 	switch (_state) {
 		case BATTLE_STATE_INITIAL:
+			// Reset logic flags
+			_last_enemy_dying = false;
+			_actor_state_paused = false;
+			// Reset the stamina icons alpha
+			_stamina_icon_alpha = 1.0f;
+			// Start the music
+			_battle_media.battle_music.FadeIn(1000);
+
+			// Disable potential previous light effects
+			VideoManager->DisableFadeEffect();
+			GetEffectSupervisor().DisableEffects();
+
 			break;
 		case BATTLE_STATE_NORMAL:
 			// In case they were frozen because of a wait battle type
@@ -615,14 +622,13 @@ void BattleMode::ChangeState(BATTLE_STATE new_state) {
 			// Remove the items used in battle from inventory.
 			_command_supervisor->CommitChangesToInventory();
 
+			_battle_media.victory_music.Rewind();
 			_battle_media.victory_music.Play();
 			_finish_supervisor->Initialize(true);
 			break;
 		case BATTLE_STATE_DEFEAT:
-			//Apply scene lighting if the battle has finished badly
-			GetEffectSupervisor().EnableLightingOverlay(Color(1.0f, 0.0f, 0.0f, 0.4f));
-
-			_battle_media.defeat_music.Play();
+			_battle_media.defeat_music.Rewind();
+			_battle_media.defeat_music.FadeIn(1000);
 			_finish_supervisor->Initialize(false);
 			break;
 		default:
@@ -1147,33 +1153,33 @@ void BattleMode::_DrawStaminaBar() {
 	// Draw all stamina icons in order along with the selector graphic
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
-    for (uint32 i = 0; i < _character_actors.size(); ++i) {
-        if (!_character_actors[i]->IsAlive())
-            continue;
+	for (uint32 i = 0; i < _character_actors.size(); ++i) {
+		if (!_character_actors[i]->IsAlive())
+			continue;
 
-        _character_actors[i]->DrawStaminaIcon(Color(1.0f, 1.0f, 1.0f, _stamina_icon_alpha));
+		_character_actors[i]->DrawStaminaIcon(Color(1.0f, 1.0f, 1.0f, _stamina_icon_alpha));
 
-        if (!draw_icon_selection)
-            continue;
+		if (!draw_icon_selection)
+			continue;
 
-        // Draw selections
-        if ((is_party_selected && !is_party_enemy) || _character_actors[i] == selected_actor)
-            _battle_media.stamina_icon_selected.Draw();
-    }
+		// Draw selections
+		if ((is_party_selected && !is_party_enemy) || _character_actors[i] == selected_actor)
+			_battle_media.stamina_icon_selected.Draw();
+	}
 
-    for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
-        if (!_enemy_actors[i]->IsAlive())
-            continue;
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
+		if (!_enemy_actors[i]->IsAlive())
+			continue;
 
-        _enemy_actors[i]->DrawStaminaIcon();
+		_enemy_actors[i]->DrawStaminaIcon(Color(1.0f, 1.0f, 1.0f, _stamina_icon_alpha));
 
-        if (!draw_icon_selection)
-            continue;
+		if (!draw_icon_selection)
+			continue;
 
-        // Draw selections
-        if ((is_party_selected && is_party_enemy) || _enemy_actors[i] == selected_actor)
-            _battle_media.stamina_icon_selected.Draw();
-    }
+		// Draw selections
+		if ((is_party_selected && is_party_enemy) || _enemy_actors[i] == selected_actor)
+			_battle_media.stamina_icon_selected.Draw();
+	}
 } // void BattleMode::_DrawStaminaBar()
 
 

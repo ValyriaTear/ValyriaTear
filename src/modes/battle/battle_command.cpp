@@ -270,6 +270,11 @@ ItemCommand::ItemCommand(MenuWindow& window) {
 	_item_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 	_item_list.SetCursorOffset(-50.0f, 25.0f);
 
+    ResetItemList();
+}
+
+void ItemCommand::ResetItemList() {
+    _items.clear();
 	std::vector<GlobalItem*>* all_items = GlobalManager->GetInventoryItems();
 	for (uint32 i = 0; i < all_items->size(); i++) {
 		if (all_items->at(i)->IsUsableInBattle() == true) {

@@ -68,8 +68,7 @@ const float SPOILS_WINDOW_HEIGHT   = 220.0f;
 ////////////////////////////////////////////////////////////////////////////////
 
 FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE& state) :
-	_state(state),
-	_retries_left(0)
+	_state(state)
 {
 	_options_window.Create(TOP_WINDOW_WIDTH, TOP_WINDOW_HEIGHT, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
 	_options_window.SetPosition(TOP_WINDOW_XPOS, TOP_WINDOW_YPOS);
@@ -83,7 +82,7 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE& state) :
 
 	_options.SetOwner(&_options_window);
 	_options.SetPosition(TOP_WINDOW_WIDTH / 2, TOP_WINDOW_HEIGHT / 2 + 4.0f);
-	_options.SetDimensions(480.0f, 50.0f, 4, 1, 4, 1);
+	_options.SetDimensions(480.0f, 50.0f, 2, 1, 2, 1);
 	_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
 	_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 	_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -91,9 +90,7 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE& state) :
 	_options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
 	_options.SetCursorOffset(-60.0f, 25.0f);
 	_options.AddOption(UTranslate("Retry"));
-	_options.AddOption(UTranslate("Restart"));
-	_options.AddOption(UTranslate("Return"));
-	_options.AddOption(UTranslate("Retire"));
+	_options.AddOption(UTranslate("End"));
 	_options.SetSelection(0);
 
 	_confirm_options.SetOwner(&_options_window);
@@ -117,9 +114,6 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE& state) :
 	_tooltip.SetDisplaySpeed(30);
 	_tooltip.SetTextStyle(TextStyle("text20", Color::white));
 	_tooltip.SetDisplayMode(VIDEO_TEXT_INSTANT);
-
-	// TEMP: disabled because feature is not yet available
-	_options.EnableOption(DEFEAT_OPTION_RESTART, false);
 }
 
 
@@ -131,13 +125,7 @@ FinishDefeatAssistant::~FinishDefeatAssistant() {
 
 
 
-void FinishDefeatAssistant::Initialize(uint32 retries_left) {
-	_retries_left = retries_left;
-
-	if (_retries_left == 0) {
-		_options.EnableOption(DEFEAT_OPTION_RETRY, false);
-	}
-
+void FinishDefeatAssistant::Initialize() {
 	_SetTooltipText();
 
 	_options_window.Show();
@@ -149,13 +137,19 @@ void FinishDefeatAssistant::Initialize(uint32 retries_left) {
 void FinishDefeatAssistant::Update() {
 	switch (_state) {
 		case FINISH_DEFEAT_SELECT:
+			_options.Update();
 			if (InputManager->ConfirmPress()) {
-				if (_options.IsOptionEnabled(_options.GetSelection()) == false) {
+				if (!_options.IsOptionEnabled(_options.GetSelection())) {
 					AudioManager->PlaySound("snd/cancel.wav");
 				}
 				else {
 					_state = FINISH_DEFEAT_CONFIRM;
-					_confirm_options.SetSelection(1); // Set default confirm option to "No"
+					// Set default confirm option to "No"
+					if (_options.GetSelection() == (int32)DEFEAT_OPTION_END)
+					    _confirm_options.SetSelection(1);
+					else
+						_confirm_options.SetSelection(0);
+
 					_SetTooltipText();
 				}
 			}
@@ -172,6 +166,7 @@ void FinishDefeatAssistant::Update() {
 			break;
 
 		case FINISH_DEFEAT_CONFIRM:
+			_confirm_options.Update();
 			if (InputManager->ConfirmPress()) {
 				switch (_confirm_options.GetSelection()) {
 					case 0: // "Yes"
@@ -184,7 +179,9 @@ void FinishDefeatAssistant::Update() {
 						_SetTooltipText();
 						break;
 					default:
-						IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid confirm option selection: " << _confirm_options.GetSelection() << std::endl;
+						IF_PRINT_WARNING(BATTLE_DEBUG)
+							<< "invalid confirm option selection: "
+							<< _confirm_options.GetSelection() << std::endl;
 						break;
 				}
 			}
@@ -236,16 +233,12 @@ void FinishDefeatAssistant::_SetTooltipText() {
 	if ((_state == FINISH_ANNOUNCE_RESULT) || (_state == FINISH_DEFEAT_SELECT)) {
 		switch (_options.GetSelection()) {
 			case DEFEAT_OPTION_RETRY:
-				_tooltip.SetDisplayText(Translate("Start over from the beginning of this battle.\nAttempts Remaining: ") + NumberToString(_retries_left));
+				_tooltip.SetDisplayText(Translate("Start over from the beginning of this battle."));
 				break;
-			case DEFEAT_OPTION_RESTART:
-				_tooltip.SetDisplayText(UTranslate("Load the game from the last save game point."));
+			case DEFEAT_OPTION_END:
+				_tooltip.SetDisplayText(UTranslate("Exit to main menu."));
 				break;
-			case DEFEAT_OPTION_RETURN:
-				_tooltip.SetDisplayText(UTranslate("Returns the game to the main boot menu."));
-				break;
-			case DEFEAT_OPTION_RETIRE:
-				_tooltip.SetDisplayText(UTranslate("Exit the game."));
+			default:
 				break;
 		}
 	}
@@ -254,14 +247,10 @@ void FinishDefeatAssistant::_SetTooltipText() {
 			case DEFEAT_OPTION_RETRY:
 				_tooltip.SetDisplayText(UTranslate("Confirm: retry battle."));
 				break;
-			case DEFEAT_OPTION_RESTART:
-				_tooltip.SetDisplayText(UTranslate("Confirm: restart from last save."));
-				break;
-			case DEFEAT_OPTION_RETURN:
+			case DEFEAT_OPTION_END:
 				_tooltip.SetDisplayText(UTranslate("Confirm: return to main menu."));
 				break;
-			case DEFEAT_OPTION_RETIRE:
-				_tooltip.SetDisplayText(UTranslate("Confirm: exit game."));
+			default:
 				break;
 		}
 	}
@@ -273,7 +262,6 @@ void FinishDefeatAssistant::_SetTooltipText() {
 
 FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
 	_state(state),
-	_retries_used(0),
 	_number_characters(0),
 	_xp_earned(0),
 	_drunes_dropped(0),
@@ -371,13 +359,7 @@ FinishVictoryAssistant::~FinishVictoryAssistant() {
 
 
 
-void FinishVictoryAssistant::Initialize(uint32 retries_used) {
-	_retries_used = retries_used;
-	if (_retries_used >= MAX_BATTLE_ATTEMPTS) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid argument value: " << retries_used << std::endl;
-		_retries_used = MAX_BATTLE_ATTEMPTS - 1;
-	}
-
+void FinishVictoryAssistant::Initialize() {
 	// ----- (1): Prepare all character data
 	std::deque<BattleCharacter*>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 	_number_characters = all_characters.size();
@@ -438,12 +420,6 @@ void FinishVictoryAssistant::Initialize(uint32 retries_used) {
 
 	// ----- (3): Divide up the XP and drunes earnings by the number of players (both living and dead) and apply the penalty for any battle retries
 	_xp_earned /= _number_characters;
-
-	if (_retries_used > 0) {
-		float penalty = 1.0f - (retries_used / MAX_BATTLE_ATTEMPTS);
-		_xp_earned = static_cast<uint32>(_xp_earned * penalty);
-		_drunes_dropped = static_cast<uint32>(_drunes_dropped * penalty);
-	}
 
 	_CreateCharacterGUIObjects();
 	_CreateObjectList();
@@ -848,12 +824,11 @@ void FinishVictoryAssistant::_DrawSpoils() {
 
 FinishSupervisor::FinishSupervisor() :
 	_state(FINISH_INVALID),
-	_attempt_number(0),
 	_battle_victory(false),
 	_defeat_assistant(_state),
 	_victory_assistant(_state)
 {
-	_outcome_text.SetPosition(400.0f, 700.0f);
+	_outcome_text.SetPosition(400.0f, 720.0f);
 	_outcome_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 	_outcome_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 	_outcome_text.SetDimensions(400.0f, 50.0f);
@@ -862,32 +837,17 @@ FinishSupervisor::FinishSupervisor() :
 	_outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }
 
-
-
-FinishSupervisor::~FinishSupervisor() {
-
-}
-
-
-
 void FinishSupervisor::Initialize(bool victory) {
-	if (_attempt_number >= MAX_BATTLE_ATTEMPTS) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "exceeded maximum allowed number of battle attempts" << std::endl;
-	}
-	else {
-		_attempt_number++;
-	}
-
 	_battle_victory = victory;
 	_state = FINISH_ANNOUNCE_RESULT;
 
-	if (_battle_victory == true) {
-		_victory_assistant.Initialize(_attempt_number - 1);
+	if (_battle_victory) {
+		_victory_assistant.Initialize();
 		_outcome_text.SetDisplayText(UTranslate("The heroes were victorious!"));
 	}
 	else {
-		_defeat_assistant.Initialize(MAX_BATTLE_ATTEMPTS - _attempt_number);
-		_outcome_text.SetDisplayText(UTranslate("But the heroes fell in battle..."));
+		_defeat_assistant.Initialize();
+		_outcome_text.SetDisplayText(UTranslate("The heroes fell in battle..."));
 	}
 }
 
@@ -921,18 +881,14 @@ void FinishSupervisor::Update() {
 				case DEFEAT_OPTION_RETRY:
 					BattleMode::CurrentInstance()->RestartBattle();
 					break;
-				case DEFEAT_OPTION_RESTART:
-					// TODO: Load last saved game
-					break;
-				case DEFEAT_OPTION_RETURN:
+				case DEFEAT_OPTION_END:
 					ModeManager->PopAll();
-					ModeManager->Push(new hoa_boot::BootMode(), true, true);
-					break;
-				case DEFEAT_OPTION_RETIRE:
-					SystemManager->ExitGame();
+					ModeManager->Push(new hoa_boot::BootMode(), false, true);
 					break;
 				default:
-					IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid defeat option selected: " << _defeat_assistant.GetDefeatOption() << std::endl;
+					IF_PRINT_WARNING(BATTLE_DEBUG)
+						<< "invalid defeat option selected: "
+						<< _defeat_assistant.GetDefeatOption() << std::endl;
 					break;
 			}
 		}

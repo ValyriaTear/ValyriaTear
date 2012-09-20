@@ -38,42 +38,15 @@ enum FINISH_STATE {
 	FINISH_VICTORY_GROWTH  = 4, //!< XP earned is displayed and gradually awarded to characters
 	FINISH_VICTORY_SPOILS  = 5, //!< Drunes and objects dropped are displayed and gradually awarded to party
 	FINISH_END             = 6, //!< Short sequence of hiding finish GUI objects
-
-// 	//! Announces that the player is victorious and notes any characters who have gained an experience level
-// 	FINISH_WIN_ANNOUNCE = 0,
-// 	//! Initial display of character stats
-// 	FINISH_WIN_SHOW_GROWTH = 1,
-// 	//! Performs countdown of XP (adding it to chars) and triggers level ups
-// 	FINISH_WIN_COUNTDOWN_GROWTH = 2,
-// 	//! All XP has been added (or should be added instantly), shows final stats
-// 	FINISH_WIN_RESOLVE_GROWTH = 3,
-// 	//! Display of any skills learned
-// 	FINISH_WIN_SHOW_SKILLS = 4,
-// 	//! Reports all drunes earned and dropped items obtained
-// 	FINISH_WIN_SHOW_SPOILS = 5,
-// 	//! Adds $ earned to party's pot
-// 	FINISH_WIN_COUNTDOWN_SPOILS = 6,
-// 	//! All money and items have been added
-// 	FINISH_WIN_RESOLVE_SPOILS = 7,
-// 	//! We've gone through all the states of the FinishWindow in Win form
-// 	FINISH_WIN_COMPLETE = 8,
-// 	//! Announces that the player has lost and queries the player for an action
-// 	FINISH_LOSE_ANNOUNCE = 9,
-// 	//! Used to double-confirm when the player selects to quit the game or return to the main menu
-// 	FINISH_LOSE_CONFIRM = 10,
-// 	FINISH_TOTAL = 11
 };
 
 //! \brief The set of defeat options that the player can select
 //@{
+//! Retry the battle
 const uint32 DEFEAT_OPTION_RETRY     = 0;
-const uint32 DEFEAT_OPTION_RESTART   = 1;
-const uint32 DEFEAT_OPTION_RETURN    = 2;
-const uint32 DEFEAT_OPTION_RETIRE    = 3;
+//! End game and return to boot menu
+const uint32 DEFEAT_OPTION_END    = 1;
 //@}
-
-//! \brief The maximum number of times that the player can try to win the battle
-const uint32 MAX_BATTLE_ATTEMPTS     = 3;
 
 /** ****************************************************************************
 *** \brief Represents a collection of GUI objects drawn when the player loses the battle
@@ -93,7 +66,7 @@ public:
 
 	~FinishDefeatAssistant();
 
-	void Initialize(uint32 retries_left);
+	void Initialize();
 
 	//! \brief Processes user input and updates the GUI controls
 	void Update();
@@ -108,9 +81,6 @@ public:
 private:
 	//! \brief A reference to where the state of the finish GUI menus is maintained
 	FINISH_STATE& _state;
-
-	//! \brief The number of chances the player has left to retry the battle
-	uint32 _retries_left;
 
 	//! \brief The window that the defeat message and options are displayed upon
 	hoa_gui::MenuWindow _options_window;
@@ -150,10 +120,8 @@ public:
 
 	~FinishVictoryAssistant();
 
-	/** \brief Instructs the class to prepare itself for future updating and drawing
-	*** \param retries_used The number of retries that the player used before the battle was won
-	**/
-	void Initialize(uint32 retries_used);
+	//! \brief Instructs the class to prepare itself for future updating and drawing
+	void Initialize();
 
 	//! \brief Updates the state of the victory displays
 	void Update();
@@ -164,9 +132,6 @@ public:
 private:
 	//! \brief A reference to where the state of the finish GUI menus is maintained
 	FINISH_STATE& _state;
-
-	//! \brief The number of retries the player used before achieving this victory
-	uint32 _retries_used;
 
 	//! \brief The total number of characters in the victorious party, living or dead
 	uint32 _number_characters;
@@ -262,7 +227,8 @@ class FinishSupervisor {
 public:
 	FinishSupervisor();
 
-	~FinishSupervisor();
+	~FinishSupervisor()
+	{}
 
 	/** \brief Un-hides the window display and creates the window contents
 	*** \param victory Set to true if the player's party was victorious in battle; false if he/she was defeated
@@ -281,9 +247,6 @@ public:
 private:
 	//! \brief Maintains state information to determine how to process user input and what to draw to the screen
 	FINISH_STATE _state;
-
-	//! \brief Tracks how many attempts the player has made thus far to win this battle
-	uint32 _attempt_number;
 
 	//! \brief Boolean used to determine if the battle was victorious for the player (true) or if the player was defeated (false)
 	bool _battle_victory;
