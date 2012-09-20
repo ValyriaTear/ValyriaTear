@@ -145,14 +145,14 @@ function DrawPostEffects()
         text_alpha = 0.0;
     end
 
-    VideoManager:DrawText(credit_map[credit_id].header, 880.0, 612.0, hoa_video.Color(1.0, 0.8, 0.7, 1.0 * text_alpha));
-    VideoManager:DrawText(credit_map[credit_id].text, 880.0, 648.0, hoa_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
+    VideoManager:DrawText(credit_map[credit_id].header, 870.0, 612.0, hoa_video.Color(1.0, 0.8, 0.7, 1.0 * text_alpha));
+    VideoManager:DrawText(credit_map[credit_id].text, 870.0, 648.0, hoa_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
 
     -- Custom images in honor of those who helped :)
     if (credit_id == 0) then
-        Script:DrawImage(allacrost_logo_id, 880.0, 720.0, hoa_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
+        Script:DrawImage(allacrost_logo_id, 870.0, 720.0, hoa_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
     elseif (credit_id == 3) then
-        Script:DrawImage(open_game_art_logo_id, 700.0, 710.0, hoa_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
+        Script:DrawImage(open_game_art_logo_id, 690.0, 710.0, hoa_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
     end
 
 end
