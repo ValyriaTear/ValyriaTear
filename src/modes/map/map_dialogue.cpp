@@ -430,6 +430,7 @@ void DialogueSupervisor::_UpdateLine() {
 }
 
 void DialogueSupervisor::_UpdateOptions() {
+	_dialogue_window.GetDisplayOptionBox().Update();
 	if (InputManager->ConfirmPress()) {
 		_dialogue_window.GetDisplayOptionBox().InputConfirm();
 		_EndLine();
