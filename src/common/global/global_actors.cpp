@@ -118,7 +118,7 @@ void GlobalAttackPoint::CalculateTotalEvade() {
 	}
 
 	// Calculate evade ratings from owning actor's base evade stat and the evade modifier
-	if (_fortitude_modifier <= -1.0f) // If the modifier is less than or equal to -100%, set the total evade to zero
+	if (_evade_modifier <= -1.0f) // If the modifier is less than or equal to -100%, set the total evade to zero
 		_total_evade_rating = 0.0f;
 	else
 		_total_evade_rating = _actor_owner->GetEvade() + (_actor_owner->GetEvade() * _evade_modifier);
