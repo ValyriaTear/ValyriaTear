@@ -59,16 +59,10 @@ IndicatorElement::IndicatorElement(BattleActor* actor, INDICATOR_TYPE indicator_
 	_y_absolute_position(0.0f),
 	_indicator_type(indicator_type)
 {
-	if (actor == NULL)
+	_x_force = RandomFloat(-20.0f, 20.0f);
+
+	if (!_actor)
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor argument" << std::endl;
-
-    _x_force = RandomFloat(-20.0f, 20.0f);
-
-    // Setup a default aboslute position
-    if (_actor) {
-        _x_absolute_position = _actor->GetXLocation();
-        _y_absolute_position = _actor->GetYLocation();
-    }
 }
 
 
@@ -80,13 +74,38 @@ void IndicatorElement::Start() {
 
 	// Reinit the indicator push
 	_x_force = RandomFloat(-20.0f, 20.0f);
+	_x_absolute_position = 0.0f;
 	_x_position = 0.0f;
 	_y_force = INITIAL_FORCE;
+	_y_absolute_position = 0.0f;
 	_y_position = 0.0f;
-	// Reset a default aboslute position
-	if (_actor) {
-		_x_absolute_position = _actor->GetXLocation();
-		_y_absolute_position = _actor->GetYLocation();
+
+	if (!_actor)
+		return;
+
+	// Only set the absolute position at start, so that the animation
+	// becomes independent from the actor, in case of shaking, moving, etc...
+	switch (_indicator_type) {
+		case MISS_INDICATOR:
+			_x_absolute_position = _actor->GetXLocation();
+			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 2);
+			break;
+		case ITEM_INDICATOR:
+			_x_absolute_position = _actor->GetXLocation();
+			_y_absolute_position = _actor->GetYLocation() + _actor->GetSpriteHeight();
+			break;
+		case NEGATIVE_STATUS_EFFECT_INDICATOR:
+			_x_absolute_position = _actor->GetXLocation();
+			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
+			break;
+		case POSITIVE_STATUS_EFFECT_INDICATOR:
+			_x_absolute_position = _actor->GetXLocation();
+			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
+			break;
+		default:
+			_x_absolute_position = _actor->GetXLocation();
+			_y_absolute_position = _actor->GetYLocation();
+			break;
 	}
 }
 
@@ -145,30 +164,20 @@ void IndicatorElement::_UpdateDrawPosition() {
 		break;
 
 		case MISS_INDICATOR:
-			_x_absolute_position = _actor->GetXLocation();
-			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 2);
-
 			if (_actor->IsEnemy())
 				_x_position += 5.0f / 1000 * elapsed_ms;
 			else
 				_x_position -= 5.0f / 1000 * elapsed_ms;
 			break;
 		case ITEM_INDICATOR:
-			_y_absolute_position = _actor->GetYLocation() + _actor->GetSpriteHeight();
 			_y_position -= 5.0f / 1000 * elapsed_ms;
 			break;
 		case NEGATIVE_STATUS_EFFECT_INDICATOR:
-			_x_absolute_position = _actor->GetXLocation();
-			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
-
 			_y_position -= 5.0f / 1000 * elapsed_ms;
 			break;
 		default:
 		case HEALING_INDICATOR:
 		case POSITIVE_STATUS_EFFECT_INDICATOR:
-			_x_absolute_position = _actor->GetXLocation();
-			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
-
 			_y_position += 5.0f / 1000 * elapsed_ms;
 			break;
 	}
