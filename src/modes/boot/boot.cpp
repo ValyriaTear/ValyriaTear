@@ -484,7 +484,7 @@ void BootMode::_SetupMainMenu() {
 void BootMode::_SetupOptionsMenu() {
 	_options_menu.ClearOptions();
 	_options_menu.SetPosition(512.0f, 300.0f);
-	_options_menu.SetDimensions(300.0f, 600.0f, 1, 6, 1, 6);
+	_options_menu.SetDimensions(300.0f, 600.0f, 1, 5, 1, 5);
 	_options_menu.SetTextStyle(TextStyle("title22"));
 	_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 	_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -498,7 +498,8 @@ void BootMode::_SetupOptionsMenu() {
 	_options_menu.AddOption(UTranslate("Language"), &BootMode::_OnLanguageOptions);
 	_options_menu.AddOption(UTranslate("Key Settings"), &BootMode::_OnKeySettings);
 	_options_menu.AddOption(UTranslate("Joystick Settings"), &BootMode::_OnJoySettings);
-	_options_menu.AddOption(UTranslate("Profiles"), &BootMode::_OnProfiles);
+	// TODO: Remove it completely or rework it in a better way if not really needed
+	//_options_menu.AddOption(UTranslate("Profiles"), &BootMode::_OnProfiles);
 
 	_options_menu.SetSelection(0);
 }
