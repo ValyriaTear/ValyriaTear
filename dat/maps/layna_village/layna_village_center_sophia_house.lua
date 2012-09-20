@@ -270,7 +270,7 @@ function _CreateObjects()
 
 
 	object = CreateObject(Map, "Left Window Light", 21, 21);
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
@@ -279,7 +279,7 @@ function _CreateObjects()
 
 	object = CreateObject(Map, "Right Window Light", 35, 21);
 	object:SetDrawOnSecondPass(true); -- Above any other ground object
-	object:SetNoCollision(true);
+	object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
