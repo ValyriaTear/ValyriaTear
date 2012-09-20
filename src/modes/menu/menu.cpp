@@ -844,63 +844,65 @@ void MenuMode::_DrawBottomMenu() {
 
 		VideoManager->MoveRelative(0, 20);
 		GlobalWeapon *wpn = ch->GetWeaponEquipped();
-		VideoManager->Text()->Draw(UTranslate("PHYS ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetPhysicalAttack() : 0)));
+		VideoManager->Text()->Draw(UTranslate("ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetPhysicalAttack() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
 		GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetPhysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
 		GlobalArmor *torso_armor = ch->GetTorsoArmorEquipped();
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetPhysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
 		GlobalArmor *arm_armor = ch->GetArmArmorEquipped();
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetPhysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
 		GlobalArmor *leg_armor = ch->GetLegArmorEquipped();
-		VideoManager->Text()->Draw(UTranslate("PHYS DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetPhysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetPhysicalDefense() : 0)));
 
 		VideoManager->Move(550, 577);
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetMetaphysicalAttack() : 0)));
+		VideoManager->Text()->Draw(UTranslate("M.ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetMetaphysicalAttack() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetMetaphysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetMetaphysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetMetaphysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetMetaphysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetMetaphysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetMetaphysicalDefense() : 0)));
 
 		VideoManager->MoveRelative(0, 20);
-		VideoManager->Text()->Draw(UTranslate("META DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetMetaphysicalDefense() : 0)));
+		VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetMetaphysicalDefense() : 0)));
 		VideoManager->SetDrawFlags(VIDEO_X_CENTER,VIDEO_Y_BOTTOM,0);
 
-
+		// Show the selected equipment stats (and diff with the current one.)
 		if (_equip_window._active_box == EQUIP_ACTIVE_LIST) {
-			VideoManager->Move(755, 577);
+			ustring equipment_name;
+			uint32 physical_attribute = 0;
+			uint32 magical_attribute = 0;
+
+			uint32 current_phys_attribute = 0;
+			uint32 current_mag_attribute = 0;
 
 			switch (_equip_window._equip_select.GetSelection()) {
 				case EQUIP_WEAPON:
 				{
 					GlobalWeapon* weapon = GlobalManager->GetInventoryWeapons()->at(_equip_window._equip_list.GetSelection());
 
-					VideoManager->Text()->Draw(weapon->GetName());
-					VideoManager->MoveRelative(0, 20);
+					equipment_name = weapon->GetName();
+					physical_attribute = weapon->GetPhysicalAttack();
+					magical_attribute = weapon->GetMetaphysicalAttack();
 
-					VideoManager->Text()->Draw(UTranslate("PHYS ATK:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(weapon->GetPhysicalAttack())));
-					VideoManager->MoveRelative(0, 20);
-
-					VideoManager->Text()->Draw(UTranslate("META ATK:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(weapon->GetMetaphysicalAttack())));
-					VideoManager->MoveRelative(0, 20);
+					GlobalWeapon *current_wpn = ch->GetWeaponEquipped();
+					if (current_wpn) {
+						current_phys_attribute = current_wpn->GetPhysicalAttack();
+						current_mag_attribute = current_wpn->GetMetaphysicalAttack();
+					}
 
 					break;
 				} // case EQUIP_WEAPON
@@ -908,18 +910,15 @@ void MenuMode::_DrawBottomMenu() {
 				{
 					GlobalArmor* armor = GlobalManager->GetInventoryHeadArmor()->at(_equip_window._equip_list.GetSelection());
 
-					VideoManager->Text()->Draw(armor->GetName());
-					VideoManager->MoveRelative(0, 20);
+					equipment_name = armor->GetName();
+					physical_attribute = armor->GetPhysicalDefense();
+					magical_attribute = armor->GetMetaphysicalDefense();
 
-					VideoManager->Text()->Draw(UTranslate("PHYS DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetPhysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
-
-					VideoManager->Text()->Draw(UTranslate("META DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetMetaphysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
+					GlobalArmor *current_armor = ch->GetHeadArmorEquipped();
+					if (current_armor) {
+						current_phys_attribute = current_armor->GetPhysicalDefense();
+						current_mag_attribute = current_armor->GetMetaphysicalDefense();
+					}
 
 					break;
 				} // case EQUIP_HEADGEAR
@@ -927,63 +926,112 @@ void MenuMode::_DrawBottomMenu() {
 				{
 					GlobalArmor* armor = GlobalManager->GetInventoryTorsoArmor()->at(_equip_window._equip_list.GetSelection());
 
-					VideoManager->Text()->Draw(armor->GetName());
-					VideoManager->MoveRelative(0, 20);
+					equipment_name = armor->GetName();
+					physical_attribute = armor->GetPhysicalDefense();
+					magical_attribute = armor->GetMetaphysicalDefense();
 
-					VideoManager->Text()->Draw(UTranslate("PHYS DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetPhysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
-
-					VideoManager->Text()->Draw(UTranslate("META DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetMetaphysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
-
+					GlobalArmor *current_armor = ch->GetTorsoArmorEquipped();
+					if (current_armor) {
+						current_phys_attribute = current_armor->GetPhysicalDefense();
+						current_mag_attribute = current_armor->GetMetaphysicalDefense();
+					}
 					break;
 				} // case EQUIP_BODYARMOR
 				case EQUIP_OFFHAND:
 				{
 					GlobalArmor* armor = GlobalManager->GetInventoryArmArmor()->at(_equip_window._equip_list.GetSelection());
 
-					VideoManager->Text()->Draw(armor->GetName());
-					VideoManager->MoveRelative(0, 20);
+					equipment_name = armor->GetName();
+					physical_attribute = armor->GetPhysicalDefense();
+					magical_attribute = armor->GetMetaphysicalDefense();
 
-					VideoManager->Text()->Draw(UTranslate("PHYS DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetPhysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
-
-					VideoManager->Text()->Draw(UTranslate("META DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetMetaphysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
-
+					GlobalArmor *current_armor = ch->GetArmArmorEquipped();
+					if (current_armor) {
+						current_phys_attribute = current_armor->GetPhysicalDefense();
+						current_mag_attribute = current_armor->GetMetaphysicalDefense();
+					}
 					break;
 				} // case EQUIP_OFFHAND
 				case EQUIP_LEGGINGS:
 				{
 					GlobalArmor* armor = GlobalManager->GetInventoryLegArmor()->at(_equip_window._equip_list.GetSelection());
 
-					VideoManager->Text()->Draw(armor->GetName());
-					VideoManager->MoveRelative(0, 20);
+					equipment_name = armor->GetName();
+					physical_attribute = armor->GetPhysicalDefense();
+					magical_attribute = armor->GetMetaphysicalDefense();
 
-					VideoManager->Text()->Draw(UTranslate("PHYS DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetPhysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
-
-					VideoManager->Text()->Draw(UTranslate("META DEF:"));
-					VideoManager->MoveRelative(0, 20);
-					VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(armor->GetMetaphysicalDefense())));
-					VideoManager->MoveRelative(0, 20);
-
+					GlobalArmor *current_armor = ch->GetLegArmorEquipped();
+					if (current_armor) {
+						current_phys_attribute = current_armor->GetPhysicalDefense();
+						current_mag_attribute = current_armor->GetMetaphysicalDefense();
+					}
 					break;
 				} // case EQUIP_LEGGINGS
 
 				default:
 					break;
 			} // switch
+
+			// Display the info
+			VideoManager->Move(755, 577);
+			VideoManager->Text()->Draw(equipment_name);
+			VideoManager->MoveRelative(0, 20);
+
+			if (_equip_window._equip_select.GetSelection() == EQUIP_WEAPON)
+				VideoManager->Text()->Draw(UTranslate("ATK:"));
+			else
+				VideoManager->Text()->Draw(UTranslate("DEF:"));
+			VideoManager->MoveRelative(0, 20);
+			VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(physical_attribute)));
+
+			if (current_phys_attribute > 0 && physical_attribute - current_phys_attribute != 0) {
+				std::string sign_start;
+				Color text_color;
+				if ((int32)(physical_attribute - current_phys_attribute) > 0) {
+					sign_start = "+";
+					text_color = Color::green;
+				}
+				else {
+					sign_start = "";
+					text_color = Color::red;
+				}
+
+				ustring diff_stat = MakeUnicodeString(sign_start)
+					+ MakeUnicodeString(NumberToString(physical_attribute - current_phys_attribute));
+				VideoManager->MoveRelative(60, 0);
+				VideoManager->Text()->Draw(diff_stat, TextStyle("text22", text_color));
+				VideoManager->MoveRelative(-60, 0);
+			}
+			VideoManager->MoveRelative(0, 20);
+
+			if (_equip_window._equip_select.GetSelection() == EQUIP_WEAPON)
+				VideoManager->Text()->Draw(UTranslate("M.ATK:"));
+			else
+				VideoManager->Text()->Draw(UTranslate("M.DEF:"));
+			VideoManager->MoveRelative(0, 20);
+			VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(magical_attribute)));
+
+			if (current_mag_attribute > 0 && magical_attribute - current_mag_attribute != 0) {
+				std::string sign_start;
+				Color text_color;
+				if ((int32)(magical_attribute - current_mag_attribute) > 0) {
+					sign_start = "+";
+					text_color = Color::green;
+				}
+				else {
+					sign_start = "";
+					text_color = Color::red;
+				}
+
+				ustring diff_stat = MakeUnicodeString(sign_start)
+					+ MakeUnicodeString(NumberToString(magical_attribute - current_mag_attribute));
+				VideoManager->MoveRelative(60, 0);
+				VideoManager->Text()->Draw(diff_stat, TextStyle("text22", text_color));
+				VideoManager->MoveRelative(-60, 0);
+			}
+
+			VideoManager->MoveRelative(0, 20);
+
 		} // if EQUIP_ACTIVE_LIST
 	} // if SHOW_EQUIP
 	else {

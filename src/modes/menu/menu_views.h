@@ -427,6 +427,10 @@ private:
 	//! Replacement selector
 	hoa_gui::OptionBox _equip_list;
 
+	//! \brief the items actual index in the replacor list
+	//! Since not all the items are displayed in this list.
+	std::vector<uint32> _equip_list_inv_index;
+
 	//! Flag to specify the active option box
 	uint32 _active_box;
 

@@ -1220,15 +1220,19 @@ void EquipWindow::Update() {
 		}
 		break;
 
-	//Choose replacement
+	// Choose replacement when equipping
 	case EQUIP_ACTIVE_LIST:
 		if (event == VIDEO_OPTION_CONFIRM) {
 			GlobalCharacter* ch = dynamic_cast<GlobalCharacter*>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
-			uint32 id_num;
+			// Equipment global Id.
+			uint32 id_num = 0;
+			// Get the actual inventory index.
+			uint32 inventory_id = _equip_list_inv_index[_equip_list.GetSelection()];
 
 			switch ( _equip_select.GetSelection() ) {
 			case EQUIP_WEAPON:
-			{	GlobalWeapon* wpn = GlobalManager->GetInventoryWeapons()->at(_equip_list.GetSelection());
+			{
+				GlobalWeapon* wpn = GlobalManager->GetInventoryWeapons()->at(inventory_id);
 				if (wpn->GetUsableBy() & ch->GetID()) {
 					id_num = wpn->GetID();
 					GlobalManager->AddToInventory(ch->EquipWeapon((GlobalWeapon*)GlobalManager->RetrieveFromInventory(id_num)));
@@ -1236,10 +1240,12 @@ void EquipWindow::Update() {
 				else {
 					MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
 				}
-				break;}
+				break;
+			}
 
 			case EQUIP_HEADGEAR:
-			{	GlobalArmor* hlm = GlobalManager->GetInventoryHeadArmor()->at(_equip_list.GetSelection());
+			{
+				GlobalArmor* hlm = GlobalManager->GetInventoryHeadArmor()->at(inventory_id);
 				if (hlm->GetUsableBy() & ch->GetID()) {
 					id_num = hlm->GetID();
 					GlobalManager->AddToInventory(ch->EquipHeadArmor((GlobalArmor*)GlobalManager->RetrieveFromInventory(id_num)));
@@ -1247,10 +1253,12 @@ void EquipWindow::Update() {
 				else {
 					MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
 				}
-				break;}
+				break;
+			}
 
 			case EQUIP_BODYARMOR:
-			{	GlobalArmor* arm = GlobalManager->GetInventoryTorsoArmor()->at(_equip_list.GetSelection());
+			{
+				GlobalArmor* arm = GlobalManager->GetInventoryTorsoArmor()->at(inventory_id);
 				if (arm->GetUsableBy() & ch->GetID()) {
 					id_num = arm->GetID();
 					GlobalManager->AddToInventory(ch->EquipTorsoArmor((GlobalArmor*)GlobalManager->RetrieveFromInventory(id_num)));
@@ -1261,7 +1269,8 @@ void EquipWindow::Update() {
 				break;}
 
 			case EQUIP_OFFHAND:
-			{	GlobalArmor* shld = GlobalManager->GetInventoryArmArmor()->at(_equip_list.GetSelection());
+			{
+				GlobalArmor* shld = GlobalManager->GetInventoryArmArmor()->at(inventory_id);
 				if (shld->GetUsableBy() & ch->GetID()) {
 					id_num = shld->GetID();
 					GlobalManager->AddToInventory(ch->EquipArmArmor((GlobalArmor*)GlobalManager->RetrieveFromInventory(id_num)));
@@ -1269,10 +1278,12 @@ void EquipWindow::Update() {
 				else {
 					MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
 				}
-				break;}
+				break;
+			}
 
 			case EQUIP_LEGGINGS:
-			{	GlobalArmor* lgs = GlobalManager->GetInventoryLegArmor()->at(_equip_list.GetSelection());
+			{
+				GlobalArmor* lgs = GlobalManager->GetInventoryLegArmor()->at(inventory_id);
 				if (lgs->GetUsableBy() & ch->GetID()) {
 					id_num = lgs->GetID();
 					GlobalManager->AddToInventory(ch->EquipLegArmor((GlobalArmor*)GlobalManager->RetrieveFromInventory(id_num)));
@@ -1280,10 +1291,12 @@ void EquipWindow::Update() {
 				else {
 					MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
 				}
-				break;}
+				break;
+			}
 
 			default:
-				PRINT_WARNING << "Equip slot value is invalid: " << _equip_select.GetSelection() << std::endl;
+				PRINT_WARNING << "Equip slot value is invalid: "
+					<< inventory_id << std::endl;
 				break;
 			} // switch _equip_select.GetSelection()
 
@@ -1335,12 +1348,31 @@ void EquipWindow::_UpdateEquipList() {
 		if (equipment_list != NULL)
 			gearsize = equipment_list->size();
 
+		// Clear the replacer ids
+		_equip_list_inv_index.clear();
 		// Add the options
 		for (uint32 j = 0; j < gearsize; j++) {
+			uint32 usability_bitmask = 0;
+			if (_equip_select.GetSelection() == EQUIP_WEAPON) {
+				GlobalWeapon *selected_weapon = dynamic_cast<GlobalWeapon*>(equipment_list->at(j));
+				usability_bitmask = selected_weapon->GetUsableBy();
+			}
+			else {
+				GlobalArmor *selected_armor = dynamic_cast<GlobalArmor*>(equipment_list->at(j));
+				usability_bitmask = selected_armor->GetUsableBy();
+			}
+
+			// If the character can't equip the item, don't show it.
+			if (_equip && !(usability_bitmask & ch->GetID()))
+				continue;
+
 			options.push_back(MakeUnicodeString("<") +
 				MakeUnicodeString(equipment_list->at(j)->GetIconImage().GetFilename()) +
 				MakeUnicodeString("><70>") +
 				equipment_list->at(j)->GetName());
+
+			// Add the actual inventory index
+			_equip_list_inv_index.push_back(j);
 		}
 
 		_equip_list.SetOptions(options);
