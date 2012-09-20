@@ -893,7 +893,7 @@ void BootMode::_OnQuit() {
 #ifdef DEBUG_MENU
 void BootMode::_DEBUG_OnBattle() {
 	ReadScriptDescriptor read_data;
-	read_data.RunScriptFunction("dat/config/debug_battle.lua",
+	read_data.RunScriptFunction("dat/debug/debug_battle.lua",
 								"BootBattleTest", true);
 }
 
@@ -901,7 +901,7 @@ void BootMode::_DEBUG_OnBattle() {
 
 void BootMode::_DEBUG_OnMenu() {
 	ReadScriptDescriptor read_data;
-	read_data.RunScriptFunction("dat/config/debug_menu.lua",
+	read_data.RunScriptFunction("dat/debug/debug_menu.lua",
 								"BootMenuTest", true);
 }
 
@@ -909,7 +909,7 @@ void BootMode::_DEBUG_OnMenu() {
 
 void BootMode::_DEBUG_OnShop() {
 	ReadScriptDescriptor read_data;
-	read_data.RunScriptFunction("dat/config/debug_shop.lua",
+	read_data.RunScriptFunction("dat/debug/debug_shop.lua",
 								"BootShopTest", true);
 }
 #endif // #ifdef DEBUG_MENU
