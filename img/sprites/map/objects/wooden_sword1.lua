@@ -10,8 +10,8 @@ animation = {
 	rows = 1,
 	columns = 1,
 	-- set the image dimensions on the map (in pixels)
-	frame_width = 40,
-	frame_height = 21,
+	frame_width = 21,
+	frame_height = 40,
 	-- The frames duration in milliseconds
     frames = {
         [0] = { id = 0, duration = 100000 }

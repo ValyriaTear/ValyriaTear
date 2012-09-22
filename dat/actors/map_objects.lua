@@ -370,10 +370,10 @@ objects["Vase1"] = {
 
 objects["Wooden Sword1"] = {
 	animation_filename = "img/sprites/map/objects/wooden_sword1.lua",
-	coll_half_width = 1.25,
-	coll_height = 1.31,
-	img_half_width = 1.25,
-	img_height = 1.31
+	coll_half_width = 0.65,
+	coll_height = 2.5,
+	img_half_width = 0.65,
+	img_height = 2.5
 }
 
 -- "Ground" lights
