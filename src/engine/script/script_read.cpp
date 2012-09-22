@@ -98,14 +98,15 @@ bool ReadScriptDescriptor::OpenFile() {
 
 
 void ReadScriptDescriptor::CloseFile() {
-	if (IsFileOpen() == false) {
-		IF_PRINT_WARNING(SCRIPT_DEBUG) << "could not close the file because it was not open." << std::endl;
+	if (!IsFileOpen()) {
+		PRINT_WARNING << "Could not close the file: " << _filename
+			<< " because it was not open." << std::endl;
 		return;
 	}
 
 	// Probably not needed. Script errors should be printed immediately.
 	if (IsErrorDetected()) {
-		IF_PRINT_WARNING(SCRIPT_DEBUG)
+		PRINT_WARNING
 			<< "the file " << _filename << " had the following error messages remaining:"
 			<< std::endl << _error_messages.str() << std::endl;
 	}
@@ -468,11 +469,17 @@ bool ReadScriptDescriptor::RunScriptFunction(const std::string& function_name) {
 
 	try {
 	    ScriptCallFunction<void>(GetLuaState(), function_name.c_str());
-	} catch(luabind::error e) {
+	}
+	catch(const luabind::error& e) {
 		PRINT_ERROR << "Error while loading :" << function_name << std::endl;
 		ScriptManager->HandleLuaError(e);
 		return false;
 	}
+	catch (const luabind::cast_failed& e) {
+		PRINT_ERROR << "Error while loading :" << function_name << std::endl;
+		ScriptManager->HandleCastError(e);
+	}
+
 	return true;
 }
 
@@ -486,10 +493,15 @@ bool ReadScriptDescriptor::RunScriptObject(const luabind::object& object) {
 
 	try {
 	    ScriptCallFunction<void>(object);
-	} catch(luabind::error e) {
+	}
+	catch(const luabind::error& e) {
 		PRINT_ERROR << "Error while loading script object." << std::endl;
 		ScriptManager->HandleLuaError(e);
 		return false;
+	}
+	catch (const luabind::cast_failed& e) {
+		PRINT_ERROR << "Error while loading script object." << std::endl;
+		ScriptManager->HandleCastError(e);
 	}
 	return true;
 }

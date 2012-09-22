@@ -65,9 +65,9 @@ bool ScriptEngine::SingletonInitialize() {
 
 
 bool ScriptEngine::IsFileOpen(const std::string& filename) {
-	return false; // TEMP: working on resolving the issue with files being opened multiple times
-
 	if (_open_files.find(filename) != _open_files.end()) {
+		PRINT_WARNING << "The script file: " << filename << " was already open."
+			<< std::endl;
 		return true;
 	}
 	return false;
