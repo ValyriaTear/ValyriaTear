@@ -108,6 +108,10 @@ private:
 	**/
 	std::map<MAP_CONTEXT, Context > _tile_grid;
 
+	//! \brief keeps a reference to the current context data for speed optimizations purpose
+	Context *_ctxt_layers;
+	MAP_CONTEXT _current_context;
+
 	//! \brief Contains the image objects for all map tiles, both still and animated.
 	std::vector<hoa_video::ImageDescriptor*> _tile_images;
 

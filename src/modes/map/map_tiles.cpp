@@ -104,7 +104,9 @@ MAP_CONTEXT GetContextMaskFromContextId(uint32 id) {
 
 TileSupervisor::TileSupervisor() :
 	_num_tile_on_x_axis(0),
-	_num_tile_on_y_axis(0)
+	_num_tile_on_y_axis(0),
+	_ctxt_layers(0),
+	_current_context(MAP_CONTEXT_NONE)
 {}
 
 TileSupervisor::~TileSupervisor() {
@@ -474,24 +476,35 @@ void TileSupervisor::Update() {
 	for (uint32 i = 0; i < _animated_tile_images.size(); i++) {
 		_animated_tile_images[i]->Update();
 	}
+
+	// When the context changes, reset the layers pointer
+	// TODO: Only do that when the camera is changed or when the camera changes context.
+	MAP_CONTEXT context = MapMode::CurrentInstance()->GetCurrentContext();
+	if (_current_context != context) {
+		std::map<MAP_CONTEXT, Context>::iterator it = _tile_grid.find(context);
+		if (it != _tile_grid.end())
+			_ctxt_layers = &it->second;
+		else
+			_ctxt_layers = 0;
+		_current_context = context;
+	}
 }
 
 
 void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_type) {
-	MAP_CONTEXT context = MapMode::CurrentInstance()->GetCurrentContext();
-
-	std::map<MAP_CONTEXT, Context>::const_iterator it = _tile_grid.find(context);
-	if (it == _tile_grid.end())
+	if (!_ctxt_layers)
 		return;
 
 	// We'll use the top-left positions to render the tiles.
 	VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
-	const Context& layers = it->second;
+	// Map frame ends
+	uint32 y_end = static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis);
+	uint32 x_end = static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis);
 
-	for (uint32 layer_id = 0; layer_id < layers.size(); ++layer_id) {
+	for (uint32 layer_id = 0; layer_id < _ctxt_layers->size(); ++layer_id) {
 
-		const Layer& layer = layers[layer_id];
+		const Layer& layer = _ctxt_layers->at(layer_id);
 		if (layer.layer_type != layer_type)
 			continue;
 
@@ -501,10 +514,8 @@ void TileSupervisor::DrawLayers(const MapFrame* frame, const LAYER_TYPE& layer_t
 		// coordinates from the bottom center point, as the engine does for everything else.
 		VideoManager->Move(frame->tile_x_offset - 1.0f, frame->tile_y_offset - 2.0f);
 
-		for (uint32 y = static_cast<uint32>(frame->tile_y_start);
-			y < static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis); ++y) {
-			for (uint32 x = static_cast<uint32>(frame->tile_x_start);
-					x < static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis); ++x) {
+		for (uint32 y = static_cast<uint32>(frame->tile_y_start); y < y_end; ++y) {
+			for (uint32 x = static_cast<uint32>(frame->tile_x_start); x < x_end; ++x) {
 				// Draw a tile image if it exists at this location
 				if (layer.tiles[y][x] >= 0)
 					_tile_images[ layer.tiles[y][x] ]->Draw();
