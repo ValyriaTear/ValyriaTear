@@ -537,7 +537,7 @@ function _CreateEvents()
 	-- Quest events - Hide and seek 2
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Wow! You found me!");
-	dialogue:AddLine(text, orlinn);
+	dialogue:AddLineEmote(text, orlinn, "exclamation");
 	text = hoa_system.Translate("But I'm not done yet!");
 	dialogue:AddLine(text, orlinn);
 	DialogueManager:AddDialogue(dialogue);
@@ -557,7 +557,7 @@ function _CreateEvents()
 
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("That kid is pretty quick. It's going to take all day long...");
-	dialogue:AddLine(text, bronann);
+	dialogue:AddLineEmote(text, bronann, "sweat drop");
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Hide and seek2: Bronann end speech", dialogue);
@@ -707,7 +707,7 @@ function _CreateEvents()
 	text = hoa_system.Translate("Eh, you really know nothing about women, do you?");
 	dialogue:AddLine(text, lilly);
 	text = hoa_system.Translate("... Huh?");
-	dialogue:AddLineEmote(text, bronann, "thinking dots");
+	dialogue:AddLineEmote(text, bronann, "interrogation");
 	text = hoa_system.Translate("Eh eh, don't worry about it. It will come in time.");
 	dialogue:AddLine(text, lilly);
 	DialogueManager:AddDialogue(dialogue);

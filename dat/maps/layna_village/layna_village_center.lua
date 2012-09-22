@@ -1100,7 +1100,7 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("In fact, the barley meal was for Lilly.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("!! What?");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "exclamation");
         text = hoa_system.Translate("Don't thank me for that, it's my pleasure.");
         dialogue:AddLine(text, georges);
         DialogueManager:AddDialogue(dialogue);
@@ -1121,7 +1121,7 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("In fact, the barley meal was for Lilly.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("!! What?");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "exclamation");
         text = hoa_system.Translate("Don't thank me for that, it's my pleasure.");
         dialogue:AddLineEvent(text, georges, "", "Quest1: Georges tells whom the barley meal was for");
         DialogueManager:AddDialogue(dialogue);
@@ -1146,7 +1146,7 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("Can you hear this?");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Erm, ... Well, I don't hear anything special...");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "interrogation");
         text = hoa_system.Translate("That's the point! Can't you hear the magnificient sound of nature, so invisible to our used hears.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Huh, please Georges, I wouldn't like to run away like the last time...");
@@ -1154,11 +1154,11 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("... The incredible and amazing, I could even say, stunning feel in in the wind...");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Georges, I simply wanted to ask you whether you had some barley meal left!");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "sweat drop");
         text = hoa_system.Translate("Ah I see, well unfortunately, I'm so much sad for the loss I just had, I can't tell you that with the right words.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Huh?");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "interrogation");
         text = hoa_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
@@ -1224,11 +1224,11 @@ function _UpdateOrlinnAndKalyaState()
         text = hoa_system.Translate("Hi hi hi!!");
         dialogue:AddLine(text, orlinn);
         text = hoa_system.Translate("What makes you laugh, Orlinn?");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "interrogation");
         text = hoa_system.Translate("You'll never find it!");
         dialogue:AddLine(text, orlinn);
         text = hoa_system.Translate("Huh? Wait! Are you talking about Georges' lost pen?");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "exclamation");
         text = hoa_system.Translate("Hi hi hi! Yes!");
         dialogue:AddLine(text, orlinn);
         text = hoa_system.Translate("Please tell me more! Have you found it?");
@@ -1236,7 +1236,7 @@ function _UpdateOrlinnAndKalyaState()
         text = hoa_system.Translate("Maybe yes, maybe no!");
         dialogue:AddLine(text, orlinn);
         text = hoa_system.Translate("Oh no, please Orlinn, I need it!");
-        dialogue:AddLine(text, bronann);
+        dialogue:AddLineEmote(text, bronann, "sweat drop");
         text = hoa_system.Translate("Sure, I'll help you but only if you can catch me!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Make Orlinn run and hide");
         DialogueManager:AddDialogue(dialogue);
