@@ -177,16 +177,16 @@ void TexSheet::DEBUG_Draw() const {
 	};
 
 	// Enable texturing and bind the texture
-	glDisable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
+	VideoManager->DisableBlending();
+	VideoManager->EnableTexture2D();
 	TextureManager->_BindTexture(tex_id);
 
 	// Enable and setup the texture coordinate array
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	VideoManager->EnableTextureCoordArray();
 	glTexCoordPointer(2, GL_FLOAT, 0, texture_coords);
 
 	// Use a vertex array to draw all of the vertices
-	glEnableClientState(GL_VERTEX_ARRAY);
+	VideoManager->EnableVertexArray();
 	glVertexPointer(2, GL_FLOAT, 0, vertex_coords);
 	glDrawArrays(GL_QUADS, 0, 4);
 

@@ -861,16 +861,14 @@ void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* f
 	}
 
 	glBlendFunc(GL_ONE, GL_ONE);
-	glEnable(GL_BLEND);
+	VideoManager->EnableBlending();
 
 	CoordSys& cs = VideoManager->_current_context.coordinate_system;
 
 	_CacheGlyphs(text, fp);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.1f);
+	VideoManager->EnableTexture2D();
 
 	glPushMatrix();
 
@@ -888,8 +886,8 @@ void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* f
 	float modulation = VideoManager->_screen_fader.GetFadeModulation();
 	Color final_color = text_color * modulation;
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	VideoManager->EnableVertexArray();
+	VideoManager->EnableTextureCoordArray();
 
 	GLint vertices[8];
 	GLfloat tex_coords[8];
@@ -945,11 +943,7 @@ void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* f
 		xpos += glyph_info->advance;
 	} // for (const uint16* glyph = text; *glyph != 0; glyph++)
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glPopMatrix();
-
-	glDisable(GL_ALPHA_TEST);
 } // void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* fp, Color color)
 
 

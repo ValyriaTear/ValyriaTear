@@ -548,21 +548,21 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 
 	// Set blending parameters
 	if (VideoManager->_current_context.blend) {
-		glEnable(GL_BLEND);
+		VideoManager->EnableBlending();
 		if (VideoManager->_current_context.blend == 1)
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
 		else
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE); // Additive blending
 	}
 	else if (_blend) {
-		glEnable(GL_BLEND);
+		VideoManager->EnableBlending();
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
 	}
 	else {
-		glDisable(GL_BLEND);
+		VideoManager->DisableBlending();
 	}
 
-	glEnableClientState(GL_VERTEX_ARRAY);
+	VideoManager->EnableVertexArray();
 	glVertexPointer(2, GL_FLOAT, 0, vert_coords);
 
 	// If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array for glDrawArrays()
@@ -598,20 +598,20 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 		};
 
 		// Enable texturing and bind texture
-		glEnable(GL_TEXTURE_2D);
+		VideoManager->EnableTexture2D();
 		TextureManager->_BindTexture(_texture->texture_sheet->tex_id);
 		_texture->texture_sheet->Smooth(_smooth);
 
 		// Enable and setup the texture coordinate array
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		VideoManager->EnableTextureCoordArray();
 		glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
 
 		if (_unichrome_vertices) {
 			glColor4fv((GLfloat*)draw_color[0].GetColors());
-			glDisableClientState(GL_COLOR_ARRAY);
+			VideoManager->DisableColorArray();
 		}
 		else {
-			glEnableClientState(GL_COLOR_ARRAY);
+			VideoManager->EnableColorArray();
 			glColorPointer(4, GL_FLOAT, 0, (GLfloat*)draw_color);
 		}
 	} // if (_texture)
@@ -621,29 +621,19 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 		// Use a single call to glColor for unichrome images, or a setup a gl color array for multiple colors
 		if (_unichrome_vertices) {
 			glColor4fv((GLfloat*)draw_color[0].GetColors());
-			glDisableClientState(GL_COLOR_ARRAY);
+			VideoManager->DisableColorArray();
 		}
 		else {
-			glEnableClientState(GL_COLOR_ARRAY);
+			VideoManager->EnableColorArray();
 			glColorPointer(4, GL_FLOAT, 0, (GLfloat*)draw_color);
 		}
 
 		// Disable texturing as we're using pure colour
-		glDisable(GL_TEXTURE_2D);
+		VideoManager->DisableTexture2D();
 	}
 
 	// Use a vertex array to draw all of the vertices
 	glDrawArrays(GL_QUADS, 0, 4);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	if (_texture)
-	    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	if (glIsEnabled(GL_COLOR_ARRAY))
-		glDisableClientState(GL_COLOR_ARRAY);
-
-	if (VideoManager->_current_context.blend || _blend)
-		glDisable(GL_BLEND);
 
 	if (VideoManager->CheckGLError()) {
 		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: "

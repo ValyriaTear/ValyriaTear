@@ -68,39 +68,46 @@ void RotatePoint(float& x, float& y, float angle) {
 // VideoEngine class
 //-----------------------------------------------------------------------------
 
-VideoEngine::VideoEngine() :
+VideoEngine::VideoEngine():
+	_fps_display(false),
+	_fps_sum(0),
+	_current_sample(0),
+	_number_samples(0),
+	_gl_error_code(GL_NO_ERROR),
+	_gl_blend_is_active(false),
+	_gl_texture_2d_is_active(false),
+	_gl_alpha_test_is_active(false),
+	_gl_stencil_test_is_active(false),
+	_gl_scissor_test_is_active(false),
+	_gl_vertex_array_is_activated(false),
+	_gl_color_array_is_activated(false),
+	_gl_texture_coord_array_is_activated(false),
+	_target(VIDEO_TARGET_SDL_WINDOW),
+	_screen_width(0),
+	_screen_height(0),
+	_fullscreen(false),
+	_x_cursor(0),
+	_y_cursor(0),
+	_debug_info(false),
+	_x_shake(0),
+	_y_shake(0),
+	_gamma_value(1.0f),
+	_temp_fullscreen(false),
+	_temp_width(0),
+	_temp_height(0),
+	_smooth_pixel_art(true),
 	_initialized(false)
 {
-	_target = VIDEO_TARGET_SDL_WINDOW;
-	_x_cursor = 0;
-	_y_cursor = 0;
-	_screen_width = 0;
-	_screen_height = 0;
-	_fullscreen = false;
-	_temp_width = 0;
-	_temp_height = 0;
-	_temp_fullscreen = false;
-	_smooth_pixel_art = true;
-
-	_debug_info = false;
-	_x_shake = 0;
-	_y_shake = 0;
-	_gamma_value = 1.0f;
-	_gl_error_code = GL_NO_ERROR;
-
-	_fps_sum = 0;
-	_fps_display = false;
-	_current_sample = 0;
-	_number_samples = 0;
-
 	_current_context.blend = 0;
 	_current_context.x_align = -1;
 	_current_context.y_align = -1;
 	_current_context.x_flip = 0;
 	_current_context.y_flip = 0;
-	_current_context.coordinate_system = CoordSys(0.0f, 1023.0f, 0.0f, 767.0f);
+	_current_context.coordinate_system = CoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH,
+												  0.0f, VIDEO_STANDARD_RES_HEIGHT);
 	_current_context.viewport = ScreenRect(0, 0, 100, 100);
-	_current_context.scissor_rectangle = ScreenRect(0, 0, 1023, 767);
+	_current_context.scissor_rectangle = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH,
+													VIDEO_STANDARD_RES_HEIGHT);
 	_current_context.scissoring_enabled = false;
 
 	strcpy(_next_temp_file, "00000000");
@@ -506,21 +513,119 @@ void VideoEngine::SetCoordSys(const CoordSys& coordinate_system) {
 	glTranslatef(0.375, 0.375, 0);
 }
 
-
-
 void VideoEngine::EnableScissoring() {
 	_current_context.scissoring_enabled = true;
-	glEnable(GL_SCISSOR_TEST);
+	if (!_gl_scissor_test_is_active) {
+		glEnable(GL_SCISSOR_TEST);
+		_gl_scissor_test_is_active = true;
+	}
 }
-
-
 
 void VideoEngine::DisableScissoring() {
 	_current_context.scissoring_enabled = false;
-	glDisable(GL_SCISSOR_TEST);
+	if (_gl_scissor_test_is_active) {
+		glDisable(GL_SCISSOR_TEST);
+		_gl_scissor_test_is_active = false;
+	}
 }
 
+void VideoEngine::EnableAlphaTest() {
+	if (!_gl_alpha_test_is_active) {
+		glEnable(GL_ALPHA_TEST);
+		_gl_alpha_test_is_active = true;
+	}
+}
 
+void VideoEngine::DisableAlphaTest() {
+	if (_gl_alpha_test_is_active) {
+		glDisable(GL_ALPHA_TEST);
+		_gl_alpha_test_is_active = false;
+	}
+}
+
+void VideoEngine::EnableBlending() {
+	if (!_gl_blend_is_active) {
+		glEnable(GL_BLEND);
+		_gl_blend_is_active = true;
+	}
+}
+
+void VideoEngine::DisableBlending() {
+	if (_gl_blend_is_active) {
+		glDisable(GL_BLEND);
+		_gl_blend_is_active = false;
+	}
+}
+
+void VideoEngine::EnableStencilTest() {
+	if (!_gl_stencil_test_is_active) {
+		glEnable(GL_STENCIL_TEST);
+		_gl_stencil_test_is_active = true;
+	}
+}
+
+void VideoEngine::DisableStencilTest() {
+	if (_gl_stencil_test_is_active) {
+		glDisable(GL_STENCIL_TEST);
+		_gl_stencil_test_is_active = false;
+	}
+}
+
+void VideoEngine::EnableTexture2D() {
+	if (!_gl_texture_2d_is_active) {
+		glEnable(GL_TEXTURE_2D);
+		_gl_texture_2d_is_active = true;
+	}
+}
+
+void VideoEngine::DisableTexture2D() {
+	if (_gl_texture_2d_is_active) {
+		glDisable(GL_TEXTURE_2D);
+		_gl_texture_2d_is_active = false;
+	}
+}
+
+void VideoEngine::EnableColorArray() {
+	if (!_gl_color_array_is_activated) {
+		glEnableClientState(GL_COLOR_ARRAY);
+		_gl_color_array_is_activated = true;
+	}
+}
+
+void VideoEngine::DisableColorArray() {
+	if (_gl_color_array_is_activated) {
+		glDisableClientState(GL_COLOR_ARRAY);
+		_gl_color_array_is_activated = false;
+	}
+}
+
+void VideoEngine::EnableVertexArray() {
+	if (!_gl_vertex_array_is_activated) {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		_gl_vertex_array_is_activated = true;
+	}
+}
+
+void VideoEngine::DisableVertexArray() {
+	if (_gl_vertex_array_is_activated) {
+		glDisableClientState(GL_VERTEX_ARRAY);
+		_gl_vertex_array_is_activated = false;
+	}
+}
+
+void VideoEngine::EnableTextureCoordArray() {
+	if (!_gl_texture_coord_array_is_activated) {
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		_gl_texture_coord_array_is_activated = true;
+	}
+}
+
+void VideoEngine::DisableTextureCoordArray() {
+	if (_gl_texture_coord_array_is_activated) {
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		_gl_texture_coord_array_is_activated = false;
+	}
+}
 
 void VideoEngine::SetScissorRect(float left, float right, float bottom, float top) {
 	_current_context.scissor_rectangle = CalculateScreenRect(left, right, bottom, top);
@@ -924,22 +1029,21 @@ void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, 
 		x1, y1,
 		x2, y2
 	};
-	glEnable(GL_BLEND);
-	glDisable(GL_TEXTURE_2D);
+	EnableBlending();
+	DisableTexture2D();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
 	glPushAttrib(GL_LINE_WIDTH);
 
 	float pixel_width, pixel_height;
 	GetPixelSize(pixel_width, pixel_height);
 	glLineWidth(width * pixel_height);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	EnableVertexArray();
+	DisableColorArray();
+	DisableTextureCoordArray();
 	glColor4fv((GLfloat*)color.GetColors());
 	glVertexPointer(2, GL_FLOAT, 0, vert_coords);
 	glDrawArrays(GL_LINES, 0, 2);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glPopAttrib();
+	glPopAttrib(); // GL_LINE_WIDTH
 }
 
 void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const Color& c) {
@@ -967,10 +1071,9 @@ void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const C
 		num_vertices += 2;
 	}
 	glColor4fv(&c[0]);
-	glEnableClientState(GL_VERTEX_ARRAY);
+	EnableVertexArray();
 	glVertexPointer(2, GL_FLOAT, 0, &(vertices[0]));
 	glDrawArrays(GL_LINES, 0, num_vertices);
-	glDisableClientState(GL_VERTEX_ARRAY);
 
 	PopState();
 }

@@ -376,8 +376,8 @@ bool ParticleEffect::Draw()
 		++iSystem;
 	}
 
-	glDisable(GL_STENCIL_TEST);
-	glDisable(GL_ALPHA_TEST);
+	VideoManager->DisableAlphaTest();
+	VideoManager->DisableStencilTest();
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
 	return success;

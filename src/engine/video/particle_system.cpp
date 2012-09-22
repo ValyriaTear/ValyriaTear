@@ -64,11 +64,11 @@ bool ParticleSystem::Draw() {
 	// set blending parameters
 	if(_system_def->blend_mode == VIDEO_NO_BLEND)
 	{
-		glDisable(GL_BLEND);
+		VideoManager->DisableBlending();
 	}
 	else
 	{
-		glEnable(GL_BLEND);
+		VideoManager->EnableBlending();
 
 		if(_system_def->blend_mode == VIDEO_BLEND)
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -79,14 +79,14 @@ bool ParticleSystem::Draw() {
 
 	if(_system_def->use_stencil)
 	{
-		glEnable(GL_STENCIL_TEST);
+		VideoManager->EnableStencilTest();
 		glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	}
 	else if(_system_def->modify_stencil)
 	{
-		glEnable(GL_STENCIL_TEST);
+		VideoManager->EnableStencilTest();
 
 		if(_system_def->stencil_op == VIDEO_STENCIL_OP_INCREASE)
 			glStencilOp(GL_INCR, GL_KEEP, GL_KEEP);
@@ -98,19 +98,19 @@ bool ParticleSystem::Draw() {
 			glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
 
 		glStencilFunc(GL_NEVER, 1, 0xFFFFFFFF);
-		glEnable(GL_ALPHA_TEST);
+		VideoManager->EnableAlphaTest();
 		glAlphaFunc(GL_GREATER, 0.00f);
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
 	}
 	else
 	{
-		glDisable(GL_STENCIL_TEST);
-		glDisable(GL_ALPHA_TEST);
+		VideoManager->DisableStencilTest();
+		VideoManager->DisableAlphaTest();
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	}
 
-	glEnable(GL_TEXTURE_2D);
+	VideoManager->EnableTexture2D();
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -279,21 +279,17 @@ bool ParticleSystem::Draw() {
 		++t;
 	}
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	VideoManager->EnableVertexArray();
+	VideoManager->EnableColorArray();
+	VideoManager->EnableTextureCoordArray();
 	glVertexPointer   (2, GL_FLOAT, 0, &_particle_vertices[0]);
 	glColorPointer    (4, GL_FLOAT, 0, &_particle_colors[0]);
 	glTexCoordPointer (2, GL_FLOAT, 0, &_particle_texcoords[0]);
 
 	glDrawArrays(GL_QUADS, 0, _num_particles * 4);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-
 	if(_system_def->smooth_animation)
 	{
-		glEnableClientState(GL_VERTEX_ARRAY);
-
 		int findex = _animation.GetCurrentFrameIndex();
 		findex = (findex + 1) % _animation.GetNumFrames();
 
@@ -351,10 +347,6 @@ bool ParticleSystem::Draw() {
 		glTexCoordPointer (2, GL_FLOAT, 0, &_particle_texcoords[0]);
 
 		glDrawArrays(GL_QUADS, 0, _num_particles * 4);
-
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
 	return true;

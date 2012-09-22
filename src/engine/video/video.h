@@ -352,6 +352,22 @@ public:
 	**/
 	void SetCoordSys(const CoordSys& coordinate_system);
 
+	//! Perform the OpenGL corresponding calls, but only if necessary.
+	void EnableAlphaTest();
+	void DisableAlphaTest();
+	void EnableBlending();
+	void DisableBlending();
+	void EnableStencilTest();
+	void DisableStencilTest();
+	void EnableTexture2D();
+	void DisableTexture2D();
+	void EnableColorArray();
+	void DisableColorArray();
+	void EnableVertexArray();
+	void DisableVertexArray();
+	void EnableTextureCoordArray();
+	void DisableTextureCoordArray();
+
 	/** \brief Enables the scissoring effect in the video engine
 	*** Scisorring is where you can specify a rectangle of the screen which is affected
 	*** by rendering operations (and hence, specify what area is not affected). Make sure
@@ -365,11 +381,11 @@ public:
 
 	//! \brief Returns true if scissoring is enabled, or false if it is not
 	bool IsScissoringEnabled()
-		{ return _current_context.scissoring_enabled; }
+	{ return _current_context.scissoring_enabled; }
 
 	//! \brief Retrieves the current scissoring rectangle
 	ScreenRect GetScissorRect()
-		{ return _current_context.scissor_rectangle; }
+	{ return _current_context.scissor_rectangle; }
 
 	/** \brief Sets the rectangle area to use for scissorring
 	*** \param left Coordinate for left side of scissoring rectangle
@@ -708,6 +724,24 @@ private:
 
 	//! \brief Holds the most recently fetched OpenGL error code
 	GLenum _gl_error_code;
+
+	//! \brief those members are used to activate/deactivate the GL state only when needed.
+	//! \brief Holds whether the GL_BLEND state is activated. Used to optimize the drawing logic
+	bool _gl_blend_is_active;
+	//! \brief Holds whether the GL_TEXTURE_2D state is activated. Used to optimize the drawing logic
+	bool _gl_texture_2d_is_active;
+	//! \brief Holds whether the GL_ALPHA_TEST state is activated. Used to optimize the drawing logic
+	bool _gl_alpha_test_is_active;
+	//! \brief Holds whether the GL_STENCIL_STATE state is activated. Used to optimize the drawing logic
+	bool _gl_stencil_test_is_active;
+	//! \brief Holds whether the GL_SCISSOR_TEST state is activated. Used to optimize the drawing logic
+	bool _gl_scissor_test_is_active;
+	//! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
+	bool _gl_vertex_array_is_activated;
+	//! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
+	bool _gl_color_array_is_activated;
+	//! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
+	bool _gl_texture_coord_array_is_activated;
 
 	//! \brief The type of window target that the video manager will operate on (SDL window or QT widget)
 	VIDEO_TARGET _target;
