@@ -394,23 +394,18 @@ function _CreateCharacters()
 	hero = CreateSprite(Map, "Bronann", 3, 86);
 	hero:SetDirection(hoa_map.MapMode.EAST);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+
+    if (GlobalManager:GetPreviousLocation() == "from_layna_forest_NE") then
+        hero:SetPosition(124, 42);
+        hero:SetDirection(hoa_map.MapMode.WEST);
+    end
+
 	Map:AddGroundObject(hero);
 end
 
 function _CreateObjects()
 	local object = {}
 	local npc = {}
-
-	-- Heal point
-	npc = CreateSprite(Map, "Butterfly", 47, 23);
-	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	npc:SetVisible(false);
-	Map:AddGroundObject(npc);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Your party feels better...");
-	dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
 
 	npc = CreateSprite(Map, "Butterfly", 42, 38);
 	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
@@ -1111,6 +1106,9 @@ function _CreateEvents()
 	event = hoa_map.MapTransitionEvent("to forest entrance", "dat/maps/layna_forest_entrance.lua", "from_layna_forest_NW");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east.lua", "from_layna_forest_NW");
+	EventManager:RegisterEvent(event);
+
 end
 
 -- Create the different map zones triggering events
@@ -1118,6 +1116,9 @@ function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	to_forest_entrance_zone = hoa_map.CameraZone(0, 1, 80, 90, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_entrance_zone);
+
+	to_forest_NE_zone = hoa_map.CameraZone(126, 128, 40, 45, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_NE_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -1125,6 +1126,10 @@ function _CheckZones()
 	if (to_forest_entrance_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest entrance");
+	end
+	if (to_forest_NE_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest NE");
 	end
 end
 
