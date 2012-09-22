@@ -517,8 +517,8 @@ TextSupervisor::~TextSupervisor() {
 			TTF_CloseFont(fp->ttf_font);
 
 		if (fp->glyph_cache) {
-			for (std::map<uint16, FontGlyph*>::iterator j = fp->glyph_cache->begin(); j != fp->glyph_cache->end(); j++) {
-				delete (*j).second;
+			for (std::vector<FontGlyph*>::iterator j = fp->glyph_cache->begin(); j != fp->glyph_cache->end(); ++j) {
+				delete *j;
 			}
 			delete fp->glyph_cache;
 		}
@@ -571,7 +571,7 @@ bool TextSupervisor::LoadFont(const std::string& filename, const std::string& fo
 	fp->descent = TTF_FontDescent(font);
 
 	// Create the glyph cache for the font and add it to the font map
-	fp->glyph_cache = new std::map<uint16, FontGlyph*>;
+	fp->glyph_cache = new std::vector<FontGlyph*>;
 	_font_map[font_name] = fp;
 	return true;
 } // bool TextSupervisor::LoadFont(...)
@@ -756,8 +756,12 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		// A reference for legibility
 		const uint16& character = *character_ptr;
 
-		// Check if glyph already cached. If so, move on to the next character
-		if (fp->glyph_cache->find(character) != fp->glyph_cache->end())
+		// Update the glyph cache when needed
+		if (character >= fp->glyph_cache->size())
+			fp->glyph_cache->resize(character + 1, 0);
+
+		// Check if the glyph is already cached. If so, move on to the next character
+		if (fp->glyph_cache->at(character) != 0)
 			continue;
 
 		// Attempt to create the initial SDL_Surface that contains the rendered glyph
@@ -836,7 +840,7 @@ void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp) {
 		glyph->max_y = static_cast<float>(initial->h + 1) / static_cast<float>(h);
 		glyph->advance = advance;
 
-		fp->glyph_cache->insert(std::pair<uint16, FontGlyph*>(character, glyph));
+		(*fp->glyph_cache)[character] = glyph;
 
 		SDL_FreeSurface(initial);
 		SDL_FreeSurface(intermediary);
@@ -894,7 +898,7 @@ void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* f
 
 	// Iterate through each character in the string and render the character glyphs one at a time
 	int xpos = 0;
-	for (const uint16* glyph = text; *glyph != 0; glyph++) {
+	for (const uint16* glyph = text; *glyph != 0; ++glyph) {
 		FontGlyph* glyph_info = (*fp->glyph_cache)[*glyph];
 
 		int x_hi = glyph_info->width;

@@ -105,7 +105,7 @@ public:
 	TTF_Font* ttf_font;
 
 	//! \brief A pointer to a cache which holds all of the glyphs used in this font.
-	std::map<uint16, FontGlyph*>* glyph_cache;
+	std::vector<FontGlyph*>* glyph_cache;
 }; // class FontProperties
 
 

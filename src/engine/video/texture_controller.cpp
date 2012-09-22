@@ -117,9 +117,11 @@ bool TextureController::UnloadTextures() {
 		FontProperties *fp = j->second;
 
 		if (fp->glyph_cache) {
-			for (std::map<uint16, FontGlyph*>::iterator k = fp->glyph_cache->begin(); k != fp->glyph_cache->end(); k++) {
-				_DeleteTexture((*k).second->texture);
-				delete (*k).second;
+			for (std::vector<FontGlyph*>::iterator k = fp->glyph_cache->begin();
+					k != fp->glyph_cache->end(); ++k) {
+				if (*k)
+					_DeleteTexture((*k)->texture);
+				delete *k;
 			}
 
 			fp->glyph_cache->clear();
