@@ -107,12 +107,12 @@ void SkillAction::_InitAnimationScript() {
 	try {
 		ScriptCallFunction<void>(_init_function, _actor, _target, _skill);
 	}
-	catch (luabind::error err) {
+	catch (const luabind::error& err) {
 		ScriptManager->HandleLuaError(err);
 		// Fall back to hard-coded mode
 		_is_scripted = false;
 	}
-	catch (luabind::cast_failed e) {
+	catch (const luabind::cast_failed& e) {
 		ScriptManager->HandleCastError(e);
 		// Fall back to hard-coded mode
 		_is_scripted = false;
@@ -182,11 +182,11 @@ bool SkillAction::Update() {
 	try {
 		return ScriptCallFunction<bool>(_update_function);
 	}
-	catch (luabind::error err) {
+	catch (const luabind::error& err) {
 		ScriptManager->HandleLuaError(err);
 		return true;
 	}
-	catch (luabind::cast_failed e) {
+	catch (const luabind::cast_failed& e) {
 		ScriptManager->HandleCastError(e);
 		return true;
 	}
@@ -262,11 +262,11 @@ bool ItemAction::Execute() {
 
 	try {
 		ret = ScriptCallFunction<bool>(script_function, _actor, _target); }
-	catch (luabind::error err) {
+	catch (const luabind::error& err) {
 		ScriptManager->HandleLuaError(err);
 		ret = false;
 	}
-	catch (luabind::cast_failed e) {
+	catch (const luabind::cast_failed& e) {
 		ScriptManager->HandleCastError(e);
 		ret = false;
 	}
