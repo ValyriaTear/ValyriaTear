@@ -160,14 +160,41 @@ AudioEngine::~AudioEngine() {
 	}
 	_audio_sources.clear();
 
-	// We shouldn't have any descriptors registered now -- check that this is true
-	if (_registered_sounds.empty() == false) {
+	// We shouldn't have any descriptors registered left,
+	// except when some scripts have created its own descriptors and didn't free them.
+	// So, let's do that now.
+	if (!_registered_sounds.empty()) {
 		PRINT_WARNING << _registered_sounds.size() << " SoundDescriptor objects were still "
-			"registered when destructor was invoked" << std::endl;
+			"registered when the destructor was invoked, "
+			"the objects will be freed now." << std::endl;
+
+		for (std::vector<SoundDescriptor*>::iterator it = _registered_sounds.begin();
+				it != _registered_sounds.end();) {
+			std::string filename = (*it)->GetFilename();
+			if (!filename.empty()) {
+				PRINT_WARNING << "This sound file was never unloaded: "
+					<< filename << std::endl;
+			}
+
+			delete *it;
+			it = _registered_sounds.erase(it);
+		}
 	}
-	if (_registered_music.empty() == false) {
+	if (!_registered_music.empty()) {
 		PRINT_WARNING << _registered_music.size() << " MusicDescriptor objects were still "
-			"registered when destructor was invoked" << std::endl;
+			"registered when the destructor was invoked, "
+			"the objects will be freed now." << std::endl;
+		for (std::vector<MusicDescriptor*>::iterator it = _registered_music.begin();
+				it != _registered_music.end();) {
+			std::string filename = (*it)->GetFilename();
+			if (!filename.empty()) {
+				PRINT_WARNING << "This music file was never unloaded: "
+					<< filename << std::endl;
+			}
+
+			delete *it;
+			it = _registered_music.erase(it);
+		}
 	}
 
 	alcMakeContextCurrent(0);
