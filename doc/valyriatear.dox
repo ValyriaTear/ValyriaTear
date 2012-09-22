@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
-PROJECT_NAME           = "Hero of Allacrost"
+PROJECT_NAME           = "Valyria Tear"
 PROJECT_NUMBER         = 
 OUTPUT_DIRECTORY       = .
 CREATE_SUBDIRS         = YES
