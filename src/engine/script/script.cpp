@@ -65,11 +65,9 @@ bool ScriptEngine::SingletonInitialize() {
 
 
 bool ScriptEngine::IsFileOpen(const std::string& filename) {
-	if (_open_files.find(filename) != _open_files.end()) {
-		PRINT_WARNING << "The script file: " << filename << " was already open."
-			<< std::endl;
+	if (_open_files.find(filename) != _open_files.end())
 		return true;
-	}
+
 	return false;
 }
 
@@ -94,7 +92,6 @@ void ScriptEngine::HandleCastError(const luabind::cast_failed& err) {
 
 void ScriptEngine::_AddOpenFile(ScriptDescriptor* sd) {
 	// NOTE: This function assumes that the file is not already open
-
 	_open_files.insert(std::make_pair(sd->_filename, sd));
 	// Add the lua_State to the list of opened lua states if it is not already present
 	if (sd->GetAccessMode() == SCRIPT_READ || sd->GetAccessMode() == SCRIPT_MODIFY) {

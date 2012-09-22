@@ -113,12 +113,6 @@ public:
 	**/
 	private_map::MAP_STATE CurrentState();
 
-	/** \brief Opens the map tablespace of the map script
-	*** \param use_global Has the same effect as in ReadScriptDescriptor#OpenTable
-	**/
-	void OpenMapTablespace(bool use_global = false)
-		{ _map_script.OpenTable(_map_tablespace, use_global); }
-
 	//! \brief Adds a new object to the ground object layer
 	void AddGroundObject(private_map::MapObject *obj);
 
@@ -164,8 +158,19 @@ public:
 	const hoa_utils::ustring& GetMapHudName() const
 		{ return _map_hud_name; }
 
+	// Note: The map script is only valid while in loading the map file.
+	// The file is closed afterward to permit the save menu to open it, for instance.
 	hoa_script::ReadScriptDescriptor& GetMapScript()
-		{ return _map_script; }
+	{ return _map_script; }
+
+	/** \brief Opens the map tablespace of the map script
+	*** \param use_global Has the same effect as in ReadScriptDescriptor#OpenTable
+	**/
+	void OpenMapTablespace(bool use_global = false)
+	{ _map_script.OpenTable(_map_tablespace, use_global); }
+
+	const std::string& GetMapFilename() const
+	{ return _map_filename; }
 
 	private_map::TileSupervisor* GetTileSupervisor() const
 		{ return _tile_supervisor; }

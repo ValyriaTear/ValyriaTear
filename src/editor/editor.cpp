@@ -2126,7 +2126,7 @@ void EditorScrollArea::_AutotileRandomize(int32 &tileset_num, int32 &tile_index)
     if(it != _map->tilesets[tileset_num]->autotileability.end()) {
         // Set up for opening autotiling.lua.
         ReadScriptDescriptor read_data;
-        if(read_data.OpenFile("dat/tilesets/autotiling.lua", true) == false)
+        if(read_data.OpenFile("dat/tilesets/autotiling.lua") == false)
             QMessageBox::warning(this, "Loading File...",
                                  QString("ERROR: could not open dat/tilesets/autotiling.lua for reading!"));
 

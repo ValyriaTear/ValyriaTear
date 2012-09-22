@@ -279,12 +279,14 @@ ScriptedEvent::ScriptedEvent(const std::string& event_id,
 		_start_function = new ScriptObject();
 		*_start_function = map_script.ReadFunctionPointer(start_function);
 	}
+
 	if (!update_function.empty()) {
 		_update_function = new ScriptObject();
 		*_update_function = map_script.ReadFunctionPointer(update_function);
 	}
-	map_script.CloseTable();
-	map_script.CloseTable();
+
+	map_script.CloseTable(); // map_functions
+	map_script.CloseTable(); // tablespace
 }
 
 
@@ -403,12 +405,14 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string& event_id, uint16 spr
 		_start_function = new ScriptObject();
 		*_start_function = map_script.ReadFunctionPointer(start_function);
 	}
+
 	if (!update_function.empty()) {
 		_update_function = new ScriptObject();
 		*_update_function = map_script.ReadFunctionPointer(update_function);
 	}
-	map_script.CloseTable();
-	map_script.CloseTable();
+
+	map_script.CloseTable(); // map_functions
+	map_script.CloseTable(); // tablespace
 }
 
 
@@ -427,12 +431,14 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string& event_id, VirtualSpr
 		_start_function = new ScriptObject();
 		*_start_function = map_script.ReadFunctionPointer(start_function);
 	}
+
 	if (!update_function.empty()) {
 		_update_function = new ScriptObject();
 		*_update_function = map_script.ReadFunctionPointer(update_function);
 	}
-	map_script.CloseTable();
-	map_script.CloseTable();
+
+	map_script.CloseTable(); // map_functions
+	map_script.CloseTable(); // tablespace
 }
 
 

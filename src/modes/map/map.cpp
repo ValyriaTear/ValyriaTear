@@ -154,8 +154,6 @@ MapMode::~MapMode() {
 	delete(_event_supervisor);
 	delete(_dialogue_supervisor);
 	delete(_treasure_supervisor);
-
-	_map_script.CloseFile();
 }
 
 
@@ -527,11 +525,11 @@ bool MapMode::_Load() {
 		try {
 		    ScriptCallFunction<void>(function, this);
 		}
-		catch (luabind::error e) {
+		catch (const luabind::error& e) {
 			ScriptManager->HandleLuaError(e);
 			loading_succeeded = false;
 		}
-		catch (luabind::cast_failed e) {
+		catch (const luabind::cast_failed& e) {
 			ScriptManager->HandleCastError(e);
 			loading_succeeded = false;
 		}
@@ -543,6 +541,8 @@ bool MapMode::_Load() {
 	if (!loading_succeeded) {
 		PRINT_ERROR << "Invalid map Load() function. The function wasn't called."
 			<< std::endl;
+		_map_script.CloseAllTables();
+		_map_script.CloseFile();
 		return false;
 	}
 
@@ -565,6 +565,7 @@ bool MapMode::_Load() {
 	}
 
 	_map_script.CloseAllTables();
+	_map_script.CloseFile(); // Free the map file once everyhting is loaded
 
 	return true;
 } // bool MapMode::_Load()

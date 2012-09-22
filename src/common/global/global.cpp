@@ -810,9 +810,8 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32 slot_id, uint32 x_
 
 bool GameGlobal::LoadGame(const std::string& filename, uint32 slot_id) {
 	ReadScriptDescriptor file;
-	if (file.OpenFile(filename, true) == false) {
+	if (!file.OpenFile(filename))
 		return false;
-	}
 
 	ClearAllData();
 

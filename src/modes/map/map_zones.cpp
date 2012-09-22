@@ -456,7 +456,7 @@ void EnemyZone::Update() {
 	else {
 	    PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
 	        << " tries. Check the enemy zones of map:"
-			<< MapMode::CurrentInstance()->GetMapScript().GetFilename() << std::endl;
+			<< MapMode::CurrentInstance()->GetMapFilename() << std::endl;
 	}
 } // void EnemyZone::Update()
 

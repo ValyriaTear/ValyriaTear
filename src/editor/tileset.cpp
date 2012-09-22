@@ -146,7 +146,7 @@ bool Tileset::Load(const QString &set_name, bool one_image)
 
     // Set up for reading the tileset definition file.
     ReadScriptDescriptor read_data;
-    if(read_data.OpenFile(std::string(dat_filename.toAscii()), true) == false) {
+    if(!read_data.OpenFile(std::string(dat_filename.toAscii()))) {
         _initialized = false;
         return false;
     }

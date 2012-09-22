@@ -43,12 +43,6 @@ ReadScriptDescriptor::~ReadScriptDescriptor() {
 //-----------------------------------------------------------------------------
 
 bool ReadScriptDescriptor::OpenFile(const std::string& filename) {
-	return OpenFile(filename, false);
-}
-
-
-
-bool ReadScriptDescriptor::OpenFile(const std::string& filename, bool force_reload) {
 	// check for file existence
 	if (!DoesFileExist(filename)) {
 		PRINT_ERROR << "Attempted to open unavailable file: "
@@ -63,7 +57,7 @@ bool ReadScriptDescriptor::OpenFile(const std::string& filename, bool force_relo
 	}
 
 	// Check if this file was opened previously.
-	if ((force_reload) || (_lstack = ScriptManager->_CheckForPreviousLuaState(filename)) == NULL) {
+	if ((_lstack = ScriptManager->_CheckForPreviousLuaState(filename)) == NULL) {
 		// Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
 		// stack and we have to be sure there is enough space there.
 		lua_checkstack(ScriptManager->GetGlobalState(), 1);
@@ -80,7 +74,9 @@ bool ReadScriptDescriptor::OpenFile(const std::string& filename, bool force_relo
 
 	_filename = filename;
 	_access_mode = SCRIPT_READ;
+	// If the file is already open, we don't add it twice.
 	ScriptManager->_AddOpenFile(this);
+
 	return true;
 } // bool ReadScriptDescriptor::OpenFile(string file_name, bool force_reload)
 

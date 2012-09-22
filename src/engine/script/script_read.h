@@ -73,13 +73,12 @@ public:
 
 	virtual ~ReadScriptDescriptor();
 
-	/** \name File Access Functions
+	/** \name File Access Functions.
 	*** \note These are derived from ScriptDescriptor, refer to the comments for these
 	*** methods in the header file for that class.
 	**/
 	//@{
 	virtual bool OpenFile(const std::string& file_name);
-	virtual bool OpenFile(const std::string& file_name, bool force_reload);
 	virtual bool OpenFile();
 	virtual void CloseFile();
 	//@}

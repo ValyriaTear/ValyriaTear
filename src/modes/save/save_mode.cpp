@@ -201,7 +201,7 @@ void SaveMode::Reset() {
 	try {
 		_screen_capture = VideoManager->CaptureScreen();
 	}
-	catch(Exception e) {
+	catch(const Exception& e) {
 		IF_PRINT_WARNING(SAVE_DEBUG) << e.ToString() << std::endl;
 	}
 
@@ -426,9 +426,9 @@ bool SaveMode::_PreviewGame(int id) {
 		return false;
 	}
 
-	ReadScriptDescriptor file, map_file;
+	ReadScriptDescriptor file;
 
-	if (!file.OpenFile(filename, true)) {
+	if (!file.OpenFile(filename)) {
 		_ClearSaveData();
 		return false;
 	}
@@ -498,6 +498,7 @@ bool SaveMode::_PreviewGame(int id) {
 
 	file.CloseFile();
 
+	ReadScriptDescriptor map_file;
 	// Loads the map file to get location name
 	if (!map_file.OpenFile(map_filename)) {
 		_ClearSaveData();
