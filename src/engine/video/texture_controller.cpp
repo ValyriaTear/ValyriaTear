@@ -113,7 +113,7 @@ bool TextureController::UnloadTextures() {
 
 	// Clear all font caches
 	std::map<std::string, FontProperties*>::iterator j = TextManager->_font_map.begin();
-	std::map<std::string, FontProperties*>::iterator j_end = TextManager->_font_map.end();
+	std::map<std::string, FontProperties*>::const_iterator j_end = TextManager->_font_map.end();
 	while (j != j_end) {
 		std::vector<FontGlyph*>* glyph_cache = j->second->glyph_cache;
 
