@@ -336,10 +336,6 @@ void VideoEngine::Clear(const Color &c) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	TextureManager->_debug_num_tex_switches = 0;
-
-	if (CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << std::endl;
-	}
 }
 
 
@@ -778,9 +774,6 @@ StillImage VideoEngine::CaptureScreen() throw(Exception) {
 
 	StillImage screen_image;
 
-	// TEMP: temporary resolution until capture screen bug is fixed
-// 	return screen_image;
-
 	// Retrieve width/height of the viewport. viewport_dimensions[2] is the width, [3] is the height
 	GLint viewport_dimensions[4];
 	glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
@@ -828,11 +821,7 @@ StillImage VideoEngine::CaptureScreen() throw(Exception) {
 	new_image->v1 = new_image->v2;
 	new_image->v2 = temp;
 
-	if (CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: " << CreateGLErrorString() << std::endl;
-	}
-
-	capture_id++;
+	++capture_id;
 	return screen_image;
 }
 

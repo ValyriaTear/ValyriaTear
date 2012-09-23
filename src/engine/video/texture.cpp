@@ -189,10 +189,6 @@ void TexSheet::DEBUG_Draw() const {
 	VideoManager->EnableVertexArray();
 	glVertexPointer(2, GL_FLOAT, 0, vertex_coords);
 	glDrawArrays(GL_QUADS, 0, 4);
-
-	if (VideoManager->CheckGLError() == true) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: " << VideoManager->CreateGLErrorString() << std::endl;
-	}
 } // void TexSheet::DEBUG_Draw() const
 
 // -----------------------------------------------------------------------------

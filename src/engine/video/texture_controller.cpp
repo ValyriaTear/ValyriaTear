@@ -269,7 +269,7 @@ GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height) {
 		return INVALID_TEXTURE_ID;
 	}
 
-	_BindTexture(tex_id); // NOTE: this call makes another call to VideoManager->CheckGLError()
+	_BindTexture(tex_id);
 
 	// If the binding was successful, initialize the texture with glTexImage2D()
 	if (VideoManager->GetGLError() == GL_NO_ERROR) {
@@ -302,11 +302,7 @@ void TextureController::_BindTexture(GLuint tex_id) {
 
 	_last_tex_id = tex_id;
 	glBindTexture(GL_TEXTURE_2D, tex_id);
-	_debug_num_tex_switches++;
-
-	if (VideoManager->CheckGLError()) {
-		PRINT_WARNING << "an OpenGL error was detected: " << VideoManager->CreateGLErrorString() << std::endl;
-	}
+	++_debug_num_tex_switches;
 }
 
 
@@ -316,10 +312,6 @@ void TextureController::_DeleteTexture(GLuint tex_id) {
 
 	if (_last_tex_id == tex_id)
 		_last_tex_id = INVALID_TEXTURE_ID;
-
-	if (VideoManager->CheckGLError()) {
-		PRINT_WARNING << "an OpenGL error was detected: " << VideoManager->CreateGLErrorString() << std::endl;
-	}
 }
 
 

@@ -634,11 +634,6 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const {
 
 	// Use a vertex array to draw all of the vertices
 	glDrawArrays(GL_QUADS, 0, 4);
-
-	if (VideoManager->CheckGLError()) {
-		IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occurred: "
-			<< VideoManager->CreateGLErrorString() << std::endl;
-	}
 } // void ImageDescriptor::_DrawTexture(const Color* color_array) const
 
 
