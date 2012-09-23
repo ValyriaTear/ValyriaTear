@@ -113,21 +113,23 @@ bool TextureController::UnloadTextures() {
 
 	// Clear all font caches
 	std::map<std::string, FontProperties*>::iterator j = TextManager->_font_map.begin();
-	while (j != TextManager->_font_map.end()) {
-		FontProperties *fp = j->second;
+	std::map<std::string, FontProperties*>::iterator j_end = TextManager->_font_map.end();
+	while (j != j_end) {
+		std::vector<FontGlyph*>* glyph_cache = j->second->glyph_cache;
 
-		if (fp->glyph_cache) {
-			for (std::vector<FontGlyph*>::iterator k = fp->glyph_cache->begin();
-					k != fp->glyph_cache->end(); ++k) {
+		if (glyph_cache) {
+			std::vector<hoa_video::FontGlyph*>::iterator it_end = glyph_cache->end();
+			for (std::vector<FontGlyph*>::iterator k = glyph_cache->begin();
+					k != it_end; ++k) {
 				if (*k)
 					_DeleteTexture((*k)->texture);
 				delete *k;
 			}
 
-			fp->glyph_cache->clear();
+			glyph_cache->clear();
 		}
 
-		j++;
+		++j;
 	}
 
 	return success;

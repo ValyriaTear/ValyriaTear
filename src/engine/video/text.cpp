@@ -517,7 +517,8 @@ TextSupervisor::~TextSupervisor() {
 			TTF_CloseFont(fp->ttf_font);
 
 		if (fp->glyph_cache) {
-			for (std::vector<FontGlyph*>::iterator j = fp->glyph_cache->begin(); j != fp->glyph_cache->end(); ++j) {
+			std::vector<hoa_video::FontGlyph*>::iterator it_end = fp->glyph_cache->end();
+			for (std::vector<FontGlyph*>::iterator j = fp->glyph_cache->begin(); j != it_end; ++j) {
 				delete *j;
 			}
 			delete fp->glyph_cache;
