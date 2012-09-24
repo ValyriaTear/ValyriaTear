@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.09.20
+Last update: 2012.09.24
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -277,6 +277,7 @@ img/sprites/map/enemies/naga_walk.png                           GPLv2           
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2                    Allacrost
 img/sprites/map/enemies/slime_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/snake_walk.png                          GPLv2                    Allacrost
+img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2                    The Mana World
 
 img/sprites/map/npcs/mak_hound.png                              GPLv2                    Allacrost
 img/sprites/map/npcs/mak_hound_mounted.png                      GPLv2                    Allacrost
@@ -386,6 +387,7 @@ mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0    
 mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
 
 
+snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0, GPLv2 or 3 IFartInUrGeneralDirection from freesound.org
 snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
 snd/lightning.wav                                               CC0                      (Bertram)
 snd/new_game.wav                                                GPLv2                    (Same sound than the opening_sword_fall.wav) file from Allacrost.

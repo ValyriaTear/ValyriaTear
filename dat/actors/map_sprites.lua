@@ -302,7 +302,7 @@ sprites["Squirrel"] = {
 -- ---------
 -- Enemies
 -- ---------
-enemies["slime"] = {
+sprites["slime"] = {
 	coll_half_width = 0.6,
 	coll_height = 1.0,
 	img_half_width = 0.6,
@@ -316,7 +316,7 @@ enemies["slime"] = {
 }
 
 
-enemies["snake"] = {
+sprites["snake"] = {
 	coll_half_width = 1.0,
 	coll_height = 2.0,
 	img_half_width = 1.0,
@@ -330,7 +330,7 @@ enemies["snake"] = {
 }
 
 
-enemies["scorpion"] = {
+sprites["scorpion"] = {
 	coll_half_width = 1.0,
 	coll_height = 2.0,
 	img_half_width = 1.0,
@@ -340,6 +340,21 @@ enemies["scorpion"] = {
     standard_animations = {
         idle = "img/sprites/map/enemies/scorpion_idle.lua",
         walk = "img/sprites/map/enemies/scorpion_walk.lua"
+    }
+}
+
+sprites["Wolf"] = {
+	name = hoa_system.Translate("Wolf"),
+	coll_half_width = 1.5,
+	coll_height = 3.0,
+	img_half_width = 1.5,
+	img_height = 3.0,
+	movement_speed = NORMAL_SPEED,
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/wolf_idle.lua",
+        walk = "img/sprites/map/enemies/wolf_walk.lua"
     }
 }
 
@@ -476,7 +491,7 @@ end
 
 
 function CreateEnemySprite(Map, name)
-	if (enemies[name] == nil) then
+	if (sprites[name] == nil) then
 		print("Error: No object named: "..name.." found!!");
 		return nil;
 	end
@@ -490,14 +505,14 @@ function CreateEnemySprite(Map, name)
 	enemy:SetSpriteName(name); -- The catalog reference
 	enemy:SetObjectID(Map.object_supervisor:GenerateObjectID());
 	enemy:SetContext(hoa_map.MapMode.CONTEXT_01);
-	enemy:SetCollHalfWidth(enemies[name].coll_half_width);
-	enemy:SetCollHeight(enemies[name].coll_height);
-	enemy:SetImgHalfWidth(enemies[name].img_half_width);
-	enemy:SetImgHeight(enemies[name].img_height);
-	enemy:SetMovementSpeed(enemies[name].movement_speed);
+	enemy:SetCollHalfWidth(sprites[name].coll_half_width);
+	enemy:SetCollHeight(sprites[name].coll_height);
+	enemy:SetImgHalfWidth(sprites[name].img_half_width);
+	enemy:SetImgHeight(sprites[name].img_height);
+	enemy:SetMovementSpeed(sprites[name].movement_speed);
 
-	enemy:LoadStandingAnimations(enemies[name].standard_animations.idle);
-	enemy:LoadWalkingAnimations(enemies[name].standard_animations.walk);
+	enemy:LoadStandingAnimations(sprites[name].standard_animations.idle);
+	enemy:LoadWalkingAnimations(sprites[name].standard_animations.walk);
 
 	return enemy;
 end

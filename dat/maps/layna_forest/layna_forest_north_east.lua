@@ -398,9 +398,20 @@ function _CreateCharacters()
 	Map:AddGroundObject(hero);
 end
 
+-- The boss map sprite 
+local wolf = {};
+
 function _CreateObjects()
 	local object = {}
 	local npc = {}
+	
+	-- The boss map sprite
+	wolf = CreateSprite(Map, "Wolf", 104, 3); -- pre place it at the right place.
+	wolf:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	wolf:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+	wolf:SetVisible(false);
+	wolf:SetDirection(hoa_map.MapMode.SOUTH);
+	Map:AddGroundObject(wolf);
 
 	npc = CreateSprite(Map, "Butterfly", 42, 18);
 	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
@@ -657,29 +668,29 @@ function _CreateObjects()
         { "Tree Small3", 125, 96 },
 
         -- going down - left side
-	{ "Tree Small3", 107, 20 },
-	{ "Tree Small4", 110, 23 },
-	{ "Tree Small3", 109, 25 },
-	{ "Tree Small5", 111, 28 },
-	{ "Tree Small3", 110, 31 },
-	{ "Tree Small6", 109, 34 },
-	{ "Tree Small3", 108, 36 },
-	{ "Tree Small4", 110, 39 },
-	{ "Tree Small3", 109, 42 },
-	{ "Tree Small4", 111, 45 },
-	{ "Tree Small3", 110, 47 },
-	{ "Tree Small5", 109, 50 },
-	{ "Tree Small3", 110, 53 },
-	{ "Tree Small4", 111, 56 },
-	{ "Tree Small3", 109, 59 },
-	{ "Tree Small4", 110, 62 },
-	{ "Tree Small3", 109, 65 },
-	{ "Tree Small4", 110, 67 },
-	{ "Tree Small3", 109, 70 },
-	{ "Tree Small4", 107, 73 },
-	{ "Tree Small3", 106, 76 },
-	{ "Tree Small4", 104, 79 },
-	{ "Tree Small3", 102, 80 },
+        { "Tree Small3", 107, 20 },
+        { "Tree Small4", 110, 23 },
+        { "Tree Small3", 109, 25 },
+        { "Tree Small5", 111, 28 },
+        { "Tree Small3", 110, 31 },
+        { "Tree Small6", 109, 34 },
+        { "Tree Small3", 108, 36 },
+        { "Tree Small4", 110, 39 },
+        { "Tree Small3", 109, 42 },
+        { "Tree Small4", 111, 45 },
+        { "Tree Small3", 110, 47 },
+        { "Tree Small5", 109, 50 },
+        { "Tree Small3", 110, 53 },
+        { "Tree Small4", 111, 56 },
+        { "Tree Small3", 109, 59 },
+        { "Tree Small4", 110, 62 },
+        { "Tree Small3", 109, 65 },
+        { "Tree Small4", 110, 67 },
+        { "Tree Small3", 109, 70 },
+        { "Tree Small4", 107, 73 },
+        { "Tree Small3", 106, 76 },
+        { "Tree Small4", 104, 79 },
+        { "Tree Small3", 102, 80 },
 
 
         -- going left - bottom side
@@ -716,20 +727,20 @@ function _CreateObjects()
         { "Tree Small3", 80, 94 },
         { "Tree Small4", 78, 95 },
 
-	-- going left - top side
-	{ "Tree Small3", 98, 82 },
-	{ "Tree Small3", 94, 81 },
-	{ "Tree Small4", 90, 82.5 },
-	{ "Tree Small3", 86, 83 },
-	{ "Tree Small5", 82, 82 },
-	{ "Tree Small3", 78, 84 },
-	{ "Tree Small6", 74, 85 },
-	
-	-- going down - top side
-	{ "Tree Small4", 70, 87 },
-	{ "Tree Small3", 68, 90 },
-	{ "Tree Small3", 67, 93 },
-	{ "Tree Small5", 66, 96 }
+        -- going left - top side
+        { "Tree Small3", 98, 82 },
+        { "Tree Small3", 94, 81 },
+        { "Tree Small4", 90, 82.5 },
+        { "Tree Small3", 86, 83 },
+        { "Tree Small5", 82, 82 },
+        { "Tree Small3", 78, 84 },
+        { "Tree Small6", 74, 85 },
+
+        -- going down - top side
+        { "Tree Small4", 70, 87 },
+        { "Tree Small3", 68, 90 },
+        { "Tree Small3", 67, 93 },
+        { "Tree Small5", 66, 96 }
 
     }
 
@@ -769,8 +780,44 @@ function _CreateEvents()
 	local dialogue = {};
 	local text = {};
 
+    -- Map events
     event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_NE");
 	EventManager:RegisterEvent(event);
+
+    -- generic events
+    event = hoa_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
+    EventManager:RegisterEvent(event);
+
+    -- Boss fight scene
+    event = hoa_map.ScriptedEvent("boss fight scene", "start_boss_fight_scene", "");
+    event:AddEventLinkAtEnd("boss fight pre-dialogue");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("What's that?!...");
+	dialogue:AddLineEmote(text, hero, "exclamation");
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("boss fight pre-dialogue", dialogue);
+    event:AddEventLinkAtEnd("Wolf runs toward the hero");
+    EventManager:RegisterEvent(event);
+    
+    event = hoa_map.PathMoveSpriteEvent("Wolf runs toward the hero", wolf, hero, true);
+    event:AddEventLinkAtEnd("First Wolf battle");
+    EventManager:RegisterEvent(event);
+    
+    event = hoa_map.BattleEncounterEvent("First Wolf battle");
+    event:SetMusic("mus/The_Creature_Awakens.ogg");
+    event:SetBackground("img/backdrops/battle/forest_background.png");
+    -- TODO: Add scening script
+    -- event:AddScript("");
+    event:AddEnemy(1, 0, 0); -- TODO: Add the wolf once the sprite is done.
+    event:AddEventLinkAtEnd("Make the wolf disappear");
+    event:AddEventLinkAtEnd("Map:PopState()");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Make the wolf disappear", "make_wolf_invisible", "");
+    EventManager:RegisterEvent(event);
+
 end
 
 -- Create the different map zones triggering events
@@ -778,6 +825,16 @@ function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	to_forest_NW_zone = hoa_map.CameraZone(0, 1, 86, 90, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_NW_zone);
+
+	to_forest_SE_zone = hoa_map.CameraZone(69, 75, 95, 96, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_SE_zone);
+
+    -- Fade out music zone - used to set a dramatic area
+    music_fade_out_zone = hoa_map.CameraZone(48, 50, 8, 17, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(music_fade_out_zone);
+
+    boss_fight1_zone = hoa_map.CameraZone(103, 105, 4, 18, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(boss_fight1_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -785,7 +842,21 @@ function _CheckZones()
 	if (to_forest_NW_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest NW");
-	end
+	elseif (to_forest_SE_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest SE");
+	elseif (music_fade_out_zone:IsCameraEntering() == true) then
+        -- fade out the music when the first boss fight hasn't been done yet.
+        if (GlobalManager:DoesEventExist("story", "layna_forest_boss_fight1") == false) then
+            AudioManager:FadeOutAllMusic(2000);
+        end
+	elseif (boss_fight1_zone:IsCameraEntering() == true) then
+        -- fade out the music when the first boss fight hasn't been done yet.
+        if (GlobalManager:DoesEventExist("story", "layna_forest_boss_fight1") == false) then
+            --GlobalManager:SetEventValue("story", "layna_forest_boss_fight1", 1);
+            EventManager:StartEvent("boss fight scene");
+        end
+    end
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -803,6 +874,24 @@ if (map_functions == nil) then
 end
 
 map_functions = {
+
+    Map_PopState = function()
+        Map:PopState();
+    end,
+
+    start_boss_fight_scene = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        hero:SetDirection(hoa_map.MapMode.NORTH);
+        -- Play the wolf growling sound
+        AudioManager:PlaySound("snd/growl1_IFartInUrGeneralDirection_freesound.wav");
+	wolf:SetVisible(true);
+    end,
+    
+    make_wolf_invisible = function()
+        wolf:SetVisible(false);
+	wolf:SetPosition(104, 3);
+    end
 
 }
 
