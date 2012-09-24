@@ -1060,6 +1060,7 @@ void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const C
 		num_vertices += 2;
 	}
 	glColor4fv(&c[0]);
+	DisableTexture2D();
 	EnableVertexArray();
 	glVertexPointer(2, GL_FLOAT, 0, &(vertices[0]));
 	glDrawArrays(GL_LINES, 0, num_vertices);
