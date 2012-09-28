@@ -1403,12 +1403,15 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load sprite frames for enemy: " << sprite_filename << std::endl;
 
 	std::string stamina_icon_filename = enemy_data.ReadString("stamina_icon");
-	if (DoesFileExist(stamina_icon_filename)) {
-		_stamina_icon.Load(stamina_icon_filename, 45.0f, 45.0f);
+	if (!stamina_icon_filename.empty()) {
+		if (!_stamina_icon.Load(stamina_icon_filename, 45.0f, 45.0f)) {
+			PRINT_WARNING << "Invalid stamina icon image: " << stamina_icon_filename
+				<< " for enemy: " << MakeStandardString(_name) << ". Loading default one."<< std::endl;
+
+			_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
+		}
 	}
 	else {
-		PRINT_WARNING << "Unavailable stamina icon image: " << stamina_icon_filename
-			<< " for enemy: " << MakeStandardString(_name) << ". Loading default one."<< std::endl;
 		_stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
 	}
 
