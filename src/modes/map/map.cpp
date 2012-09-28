@@ -580,10 +580,10 @@ void MapMode::_UpdateExplore() {
 		return;
 	}
 
-	// Update the running state of the camera object. Check if the player wishes to continue running and if so,
+	// Update the running state of the camera object. Check if the character is running and if so,
 	// update the stamina value if the operation is permitted
 	_camera->is_running = false;
-	if (_running_disabled == false && InputManager->CancelState() == true &&
+	if (_camera->moved_position && !_running_disabled && InputManager->CancelState() &&
 		(InputManager->UpState() || InputManager->DownState() || InputManager->LeftState() || InputManager->RightState()))
 	{
 		if (_unlimited_stamina) {
