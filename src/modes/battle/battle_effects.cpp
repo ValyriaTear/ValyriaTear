@@ -166,14 +166,14 @@ bool BattleStatusEffect::DecrementIntensity(uint8 amount) {
 
 
 void BattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only) {
-	if (reset_timer_only == true) {
-		_timer.Reset();
-		_timer.Run();
-	}
-	else {
-		_intensity_changed = true;
-		_icon_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(_type, _intensity);
-	}
+	_timer.Reset();
+	_timer.Run();
+
+	if (reset_timer_only)
+		return;
+
+	_intensity_changed = true;
+	_icon_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(_type, _intensity);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
