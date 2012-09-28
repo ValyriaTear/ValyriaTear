@@ -1,6 +1,9 @@
 Copyright (c) 2003–2012, Philipp H. Poll (www.linuxlibertine.org | gillian at linuxlibertine.org),
 with Reserved Font Name "Linux Libertine" and "Biolinum".
 
+Copyright (c) 2011, wmk69 (wmk69@o2.pl),
+with Reserved Font Names 'Berenika Oblique'.
+
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
 http://scripts.sil.org/OFL

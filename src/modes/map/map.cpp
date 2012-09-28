@@ -114,7 +114,7 @@ MapMode::MapMode(const std::string& filename) :
 	_dialogue_supervisor = new DialogueSupervisor();
 	_treasure_supervisor = new TreasureSupervisor();
 
-	_intro_timer.Initialize(7000, 0);
+	_intro_timer.Initialize(4000, 0);
 	_intro_timer.EnableAutoUpdate(this);
 
 	_camera_timer.Initialize(0, 1);
@@ -936,11 +936,11 @@ void MapMode::_DrawGUI() {
 		uint32 time = _intro_timer.GetTimeExpired();
 
 		Color blend(1.0f, 1.0f, 1.0f, 1.0f);
-		if (time < 2000) { // Fade in
-			blend.SetAlpha((static_cast<float>(time) / 2000.0f));
+		if (time < 1000) { // Fade in
+			blend.SetAlpha((static_cast<float>(time) / 1000.0f));
 		}
-		else if (time > 5000) { // Fade out
-			blend.SetAlpha(1.0f - static_cast<float>(time - 5000) / 2000.0f);
+		else if (time > 2000) { // Fade out
+			blend.SetAlpha(1.0f - static_cast<float>(time - 2000) / 1000.0f);
 		}
 
 		// Don't draw the map location again, when it is the same as the last map.
@@ -950,8 +950,9 @@ void MapMode::_DrawGUI() {
 			VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 			VideoManager->Move(512.0f, 100.0f);
 			_map_image.Draw(blend);
-			VideoManager->MoveRelative(0.0f, -80.0f);
-			VideoManager->Text()->Draw(_map_hud_name, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
+			float shifting = (((float)time) - 2000.0f) / 100.0f;
+			VideoManager->MoveRelative(0.0f + shifting, -80.0f);
+			VideoManager->Text()->Draw(_map_hud_name, TextStyle("map_title", blend, VIDEO_TEXT_SHADOW_DARK));
 			VideoManager->PopState();
 		}
 
@@ -968,7 +969,7 @@ void MapMode::_DrawGUI() {
 		if (_unlimited_stamina) {
 			_DrawStaminaBar(blend);
 		}
-		else if (time < 2000) {
+		else if (time < 1000) {
 			// Draw the normal bar fade in only (no fade out)
 			_DrawStaminaBar(blend);
 		}

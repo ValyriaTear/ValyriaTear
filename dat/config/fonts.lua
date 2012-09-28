@@ -21,7 +21,10 @@ fonts = {
     ["text26"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 26},
     ["text28"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 28},
     ["text36"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 36},
-    ["text48"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 48}
+    ["text48"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 48},
+
+     -- Map title font
+    ["map_title"] = {font = "img/fonts/Berenika-Oblique.ttf", size = 30}
 }
 
 -- The font is white with a black shadow anyway.
