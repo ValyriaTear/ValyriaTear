@@ -139,6 +139,58 @@ enemies[2] = {
 	}
 }
 
+-- Layna forest first boss
+enemies[3] = {
+	name = hoa_system.Translate("White Wolf"),
+	stamina_icon = "img/icons/actors/enemies/white_wolf.png",
+	battle_sprites = "img/sprites/battle/enemies/white_wolf.png",
+	sprite_width = 268,
+	sprite_height = 196,
+
+
+	base_stats = {
+		hit_points = 320,
+		skill_points = 10,
+		experience_points = 120,
+		strength = 27,
+		vigor = 14,
+		fortitude = 10,
+		protection = 6,
+		agility = 40,
+		evade = 4.0,
+		drunes = 100
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Head"),
+			x_position = -108,
+			y_position = 156,
+			fortitude_modifier = -0.2,
+			protection_modifier = 0,
+			evade_modifier = 0.2
+		},
+		[2] = {
+			name = hoa_system.Translate("Body"),
+			x_position = 0,
+			y_position = 120,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+	1004
+	},
+
+	drop_objects = {
+	{ 1, 1.0 }, -- Minor Healing Potion x2
+	{ 1, 1.0 }
+	}
+}
+
+
 -- Traits -----------------------------------------------------------------------
 -- HSP: med HP, low SP
 -- ATK: med phys, zero meta
@@ -146,7 +198,7 @@ enemies[2] = {
 -- SPD: med agi, low eva
 -- XPD: low XP, med drunes
 --------------------------------------------------------------------------------
-enemies[3] = {
+enemies[4] = {
 	name = hoa_system.Translate("Snake"),
 	stamina_icon = "img/icons/actors/enemies/snake.png",
 	battle_sprites = "img/sprites/battle/enemies/snake.png",
@@ -210,7 +262,7 @@ enemies[3] = {
 -- SPD: med agi, med eva
 -- XPD: low XP, med drunes
 --------------------------------------------------------------------------------
-enemies[4] = {
+enemies[5] = {
 	name = hoa_system.Translate("Rat"),
 	stamina_icon = "img/icons/actors/enemies/rat.png",
 	battle_sprites = "img/sprites/battle/enemies/rat.png",
@@ -265,7 +317,7 @@ enemies[4] = {
 -- SPD: high agi, med eva
 -- XPD: med XP, low drunes
 --------------------------------------------------------------------------------
-enemies[5] = {
+enemies[6] = {
 	name = hoa_system.Translate("Scorpion"),
 	stamina_icon = "img/icons/actors/enemies/scorpion.png",
 	battle_sprites = "img/sprites/battle/enemies/scorpion.png",
@@ -330,7 +382,7 @@ enemies[5] = {
 -- SPD: high agi, med eva
 -- XPD: low XP, low drunes
 --------------------------------------------------------------------------------
-enemies[6] = {
+enemies[7] = {
 	name = hoa_system.Translate("Bat"),
 	stamina_icon = "img/icons/actors/enemies/bat.png",
 	battle_sprites = "img/sprites/battle/enemies/bat.png",
@@ -387,7 +439,7 @@ enemies[6] = {
 -- SPD: ??? agi, ??? eva
 -- XPD: ??? XP, ??? drunes
 --------------------------------------------------------------------------------
-enemies[7] = {
+enemies[8] = {
 	name = hoa_system.Translate("Dune Crawler"),
 	stamina_icon = "img/icons/actors/enemies/dune_crawler.png",
 	battle_sprites = "img/sprites/battle/enemies/dune_crawler.png",
@@ -442,7 +494,7 @@ enemies[7] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, med drunes
 --------------------------------------------------------------------------------
-enemies[8] = {
+enemies[9] = {
 	name = hoa_system.Translate("Skeleton"),
 	stamina_icon = "img/icons/actors/enemies/skeleton.png",
 	battle_sprites = "img/sprites/battle/enemies/skeleton.png",
@@ -506,7 +558,7 @@ enemies[8] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
-enemies[9] = {
+enemies[10] = {
 	name = hoa_system.Translate("Stygian Lizard"),
 	stamina_icon = "img/icons/actors/enemies/stygian_lizard.png",
 	battle_sprites = "img/sprites/battle/enemies/stygian_lizard.png",
@@ -569,7 +621,7 @@ enemies[9] = {
 -- SPD: med agi, med eva
 -- XPD: med XP, med drunes
 --------------------------------------------------------------------------------
-enemies[10] = {
+enemies[11] = {
 	name = hoa_system.Translate("Demonic Essence"),
 	stamina_icon = "img/icons/actors/enemies/demonic_essence.png",
 	battle_sprites = "img/sprites/battle/enemies/demonic_essence.png",
@@ -632,7 +684,7 @@ enemies[10] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
-enemies[11] = {
+enemies[12] = {
 	name = hoa_system.Translate("Yeti"),
 	stamina_icon = "img/icons/actors/enemies/yeti.png",
 	battle_sprites = "img/sprites/battle/enemies/yeti.png",
@@ -679,7 +731,7 @@ enemies[11] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
-enemies[12] = {
+enemies[13] = {
 	name = hoa_system.Translate("Red Slime"),
 	stamina_icon = "img/icons/actors/enemies/red_slime.png",
 	battle_sprites = "img/sprites/battle/enemies/red_slime.png",
@@ -726,7 +778,7 @@ enemies[12] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
-enemies[13] = {
+enemies[14] = {
 	name = hoa_system.Translate("Thing"),
 	stamina_icon = "img/icons/actors/enemies/thing.png",
 	battle_sprites = "img/sprites/battle/enemies/thing.png",
@@ -773,7 +825,7 @@ enemies[13] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
-enemies[14] = {
+enemies[15] = {
 	name = hoa_system.Translate("Mushroom Zombie"),
 	stamina_icon = "img/icons/actors/enemies/mushroom_zombie.png",
 	battle_sprites = "img/sprites/battle/enemies/mushroom_zombie.png",
