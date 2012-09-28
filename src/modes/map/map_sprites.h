@@ -421,6 +421,9 @@ protected:
 	//! \brief True if at least one dialogue referenced by this sprite has not yet been viewed -and- is available to be viewed
 	bool _has_unseen_dialogue;
 
+	//! \brief true if the sprite is talking with the camera.
+	bool _dialogue_started;
+
 	//! \brief True if a custom animation is in use
 	bool _custom_animation_on;
 

@@ -534,6 +534,7 @@ MapSprite::MapSprite() :
 	_next_dialogue(-1),
 	_has_available_dialogue(false),
 	_has_unseen_dialogue(false),
+	_dialogue_started(false),
 	_custom_animation_on(false),
 	_custom_animation_time(0),
 	_saved_current_anim_direction(ANIM_SOUTH)
@@ -910,21 +911,22 @@ void MapSprite::DrawDialog()
     // Update the alpha of the dialogue icon according to it's distance from the player sprite
 	const float DIALOGUE_ICON_VISIBLE_RANGE = 10.0f;
 
-    if (MapObject::ShouldDraw()) {
-		MapMode *map = MapMode::CurrentInstance();
-        if (_has_available_dialogue && _has_unseen_dialogue
-				&& map->IsShowGUI() && !map->IsCameraOnVirtualFocus()) {
-			Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
-			float icon_alpha = 1.0f - (fabs(GetXPosition() - map->GetCamera()->GetXPosition())
-				+ fabs(GetYPosition() - map->GetCamera()->GetYPosition())) / DIALOGUE_ICON_VISIBLE_RANGE;
+	if (!MapObject::ShouldDraw())
+		return;
 
-			if (icon_alpha < 0.0f)
-				icon_alpha = 0.0f;
-			icon_color.SetAlpha(icon_alpha);
+	MapMode *map_mode = MapMode::CurrentInstance();
+	if (_has_available_dialogue && _has_unseen_dialogue && !_dialogue_started
+			&& map_mode->IsShowGUI() && !map_mode->IsCameraOnVirtualFocus()) {
+		Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
+		float icon_alpha = 1.0f - (fabs(GetXPosition() - map_mode->GetCamera()->GetXPosition())
+			+ fabs(GetYPosition() - map_mode->GetCamera()->GetYPosition())) / DIALOGUE_ICON_VISIBLE_RANGE;
 
-			VideoManager->MoveRelative(0, -GetImgHeight());
-			map->GetDialogueIcon().Draw(icon_color);
-        }
+		if (icon_alpha < 0.0f)
+			icon_alpha = 0.0f;
+		icon_color.SetAlpha(icon_alpha);
+
+		VideoManager->MoveRelative(0, -GetImgHeight());
+		map_mode->GetDialogueIcon().Draw(icon_color);
 	}
 }
 
@@ -952,13 +954,14 @@ void MapSprite::RemoveDialogueReference(uint32 dialogue_id) {
 }
 
 void MapSprite::InitiateDialogue() {
-	if (_dialogue_references.empty() == true) {
+	if (_dialogue_references.empty()) {
 		IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << object_id << " has no dialogue referenced" << std::endl;
 		return;
 	}
 
 	SaveState();
 	moving = false;
+	_dialogue_started = true;
 	SetDirection(CalculateOppositeDirection(MapMode::CurrentInstance()->GetCamera()->GetDirection()));
 	MapMode::CurrentInstance()->GetDialogueSupervisor()->BeginDialogue(_dialogue_references[_next_dialogue]);
 	IncrementNextDialogue();
@@ -1014,6 +1017,7 @@ void MapSprite::IncrementNextDialogue() {
 			IF_PRINT_WARNING(MAP_DEBUG) << "all referenced dialogues are now unavailable for this sprite" << std::endl;
 			_has_available_dialogue = false;
 			_has_unseen_dialogue = false;
+			_dialogue_started = false;
 			return;
 		}
 	}
