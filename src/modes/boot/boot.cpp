@@ -57,6 +57,8 @@ bool BOOT_DEBUG = false;
 
 BootMode* BootMode::_current_instance = NULL;
 
+const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
+
 // ****************************************************************************
 // ***** BootMode public methods
 // ****************************************************************************
@@ -68,7 +70,6 @@ BootMode::BootMode() :
 	_key_setting_function(NULL),
 	_joy_setting_function(NULL),
 	_joy_axis_setting_function(NULL),
-	_overwrite_function(NULL),
 	_message_window(ustring(), 210.0f, 35.0f),
 	_file_name_alert(ustring(),300.0f,35.0f),
 	_file_name_window(ustring(),150.0f,35.0f)
@@ -119,11 +120,6 @@ BootMode::BootMode() :
 	_SetupKeySettingsMenu();
 	_SetupJoySettingsMenu();
 	_SetupResolutionMenu();
-	_SetupProfileMenu();
-	_SetupLoadProfileMenu();
-	_SetupSaveProfileMenu();
-	_SetupDeleteProfileMenu();
-	_SetupUserInputMenu();
 	_active_menu = &_main_menu;
 
 	// make sure message window is not visible
@@ -144,7 +140,6 @@ BootMode::~BootMode() {
 	_key_setting_function = NULL;
 	_joy_setting_function = NULL;
 	_joy_axis_setting_function = NULL;
-	_overwrite_function = NULL;
 }
 
 void BootMode::Reset() {
@@ -258,23 +253,6 @@ void BootMode::Update() {
 		return;
 	}
 
-	if(_overwrite_function != NULL)
-	{
-		if(InputManager->ConfirmPress())
-		{
-			(this->*_overwrite_function)();
-			_overwrite_function = NULL;
-			_file_name_alert.Hide();
-		}
-		else if(InputManager->CancelPress())
-		{
-			_overwrite_function = NULL;
-			_file_name_alert.Hide();
-		}
-		//dont want to execute the confirm command on my menu selection for a second time!
-		return;
-	}
-
 	_active_menu->Update();
 
 	// Only quit when we are at the main menu level
@@ -337,23 +315,7 @@ void BootMode::Update() {
 		else if (_active_menu == &_resolution_menu) {
 			_active_menu = &_video_options_menu;
 		}
-		else if (_active_menu == &_profiles_menu) {
-			_active_menu = &_options_menu;
-		}
-		else if (_active_menu == &_load_profile_menu){
-			_active_menu = &_profiles_menu;
-		}
-		else if (_active_menu == &_save_profile_menu){
-			_active_menu = &_profiles_menu;
-		}
-		else if (_active_menu == &_delete_profile_menu){
-			_active_menu = &_profiles_menu;
-		}
-		else if(_active_menu == &_user_input_menu) {
-			_file_name_window.Hide();
-			_file_name_alert.Hide();
-			_active_menu = &_save_profile_menu;
-		}
+
 		// Play cancel sound
 		AudioManager->PlaySound("snd/cancel.wav");
 	}
@@ -433,9 +395,6 @@ void BootMode::_ReloadTranslatableMenus() {
     _SetupKeySettingsMenu();
     _SetupJoySettingsMenu();
     _SetupResolutionMenu();
-    _SetupProfileMenu();
-    _SetupSaveProfileMenu();
-    _SetupUserInputMenu();
 }
 
 
@@ -498,8 +457,6 @@ void BootMode::_SetupOptionsMenu() {
 	_options_menu.AddOption(UTranslate("Language"), &BootMode::_OnLanguageOptions);
 	_options_menu.AddOption(UTranslate("Key Settings"), &BootMode::_OnKeySettings);
 	_options_menu.AddOption(UTranslate("Joystick Settings"), &BootMode::_OnJoySettings);
-	// TODO: Remove it completely or rework it in a better way if not really needed
-	//_options_menu.AddOption(UTranslate("Profiles"), &BootMode::_OnProfiles);
 
 	_options_menu.SetSelection(0);
 }
@@ -630,6 +587,8 @@ void BootMode::_SetupJoySettingsMenu() {
 	_joy_settings_menu.SetSkipDisabled(true);
 
 	ustring dummy;
+	// TODO: Add missing joystick options in the GUI
+//	_joy_settings_menu.AddOption(dummy, &BootMode::_ToggleJoystickEnabled);
 	_joy_settings_menu.AddOption(dummy, &BootMode::_RedefineXAxisJoy);
 	_joy_settings_menu.AddOption(dummy, &BootMode::_RedefineYAxisJoy);
 //	_joy_settings_menu.AddOption(dummy, &BootMode::_RedefineThresholdJoy);
@@ -672,121 +631,6 @@ void BootMode::_SetupResolutionMenu() {
 	else if(VideoManager->GetScreenWidth() == 1280)
 		_resolution_menu.SetSelection(3);
 }
-
-
-void BootMode::_SetupProfileMenu() {
-	_profiles_menu.ClearOptions();
-	_profiles_menu.SetPosition(512.0f, 300.0f);
-	_profiles_menu.SetDimensions(300.0f, 300.0f, 1, 3, 1, 3);
-	_profiles_menu.SetTextStyle(TextStyle("title22"));
-	_profiles_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_profiles_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_profiles_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-	_profiles_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-	_profiles_menu.SetCursorOffset(-50.0f, 28.0f);
-	_profiles_menu.SetSkipDisabled(true);
-
-	_profiles_menu.AddOption(UTranslate("Save"), &BootMode::_OnSaveProfile);
-	_profiles_menu.AddOption(UTranslate("Load"), &BootMode::_OnLoadProfile);
-	_profiles_menu.AddOption(UTranslate("Delete"), &BootMode::_OnDeleteProfile);
-}
-
-
-void BootMode::_SetupLoadProfileMenu() {
-	_load_profile_menu.SetPosition(512.0f, 300.0f);
-	_load_profile_menu.SetTextStyle(TextStyle("title22"));
-	_load_profile_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_load_profile_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_load_profile_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-	_load_profile_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-	_load_profile_menu.SetCursorOffset(-50.0f, 28.0f);
-	_load_profile_menu.SetSkipDisabled(true);
-
-	_AddProfileOptions(&_load_profile_menu);
-}
-
-
-void BootMode::_SetupSaveProfileMenu() {
-	_save_profile_menu.ClearOptions();
-	_save_profile_menu.SetPosition(512.0f, 300.0f);
-	_save_profile_menu.SetTextStyle(TextStyle("title22"));
-	_save_profile_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_save_profile_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_save_profile_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-	_save_profile_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-	_save_profile_menu.SetCursorOffset(-50.0f, 28.0f);
-	_save_profile_menu.SetSkipDisabled(true);
-
-	//this option is selected when user wants to create a new file
-	_save_profile_menu.AddOption(UTranslate("New Profile"), &BootMode::_OnSaveFile);
-
-	_AddProfileOptions(&_save_profile_menu);
-}
-
-
-void BootMode::_SetupDeleteProfileMenu() {
-	_delete_profile_menu.SetPosition(512.0f, 300.0f);
-	_delete_profile_menu.SetTextStyle(TextStyle("title22"));
-	_delete_profile_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_delete_profile_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_delete_profile_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-	_delete_profile_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-	_delete_profile_menu.SetCursorOffset(-50.0f, 28.0f);
-	_delete_profile_menu.SetSkipDisabled(true);
-
-	_AddProfileOptions(&_delete_profile_menu);
-}
-
-
-void BootMode::_SetupUserInputMenu() {
-	_user_input_menu.ClearOptions();
-	_user_input_menu.SetPosition(275.0f, 475.0f);
-	_user_input_menu.SetDimensions(400.0f, 300.0f, 7, 4, 7, 4);
-	_user_input_menu.SetTextStyle(TextStyle("title22"));
-	_user_input_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-	_user_input_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_user_input_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
-	_user_input_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-	_user_input_menu.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-	_user_input_menu.SetCursorOffset(-50.0f, 28.0f);
-	_user_input_menu.SetSkipDisabled(true);
-
-
-	//add in the letters :)
-	_user_input_menu.AddOption(MakeUnicodeString("a"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("b"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("c"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("d"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("e"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("f"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("g"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("h"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("i"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("j"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("k"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("l"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("m"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("n"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("o"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("p"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("q"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("r"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("s"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("t"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("u"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("v"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("w"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("x"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("y"), &BootMode::_OnPickLetter);
-	_user_input_menu.AddOption(MakeUnicodeString("z"), &BootMode::_OnPickLetter);
-
-	//backspace to delete characters
-	_user_input_menu.AddOption(UTranslate("back"), &BootMode::_OnPickLetter);
-
-	//end to confirm the name
-	_user_input_menu.AddOption(UTranslate("end"), &BootMode::_OnPickLetter);
-}
-
 
 void BootMode::_RefreshVideoOptions() {
 	// Update resolution text
@@ -847,16 +691,6 @@ void BootMode::_RefreshJoySettings() {
 	_joy_settings_menu.SetOptionText(i++, UTranslate("Left Select: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetLeftSelectJoy())));
 	_joy_settings_menu.SetOptionText(i++, UTranslate("Right Select: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetRightSelectJoy())));
 	_joy_settings_menu.SetOptionText(i++, UTranslate("Pause: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetPauseJoy())));
-}
-
-
-
-void BootMode::_RefreshSaveAndLoadProfiles() {
-	//match the text with the directory listing :0
-	for (uint32 i = 0; i < _GetDirectoryListingUserProfilePath().size(); i++) {
-		_load_profile_menu.SetOptionText(i,MakeUnicodeString(_GetDirectoryListingUserProfilePath().at(i)));
-		_delete_profile_menu.SetOptionText(i,MakeUnicodeString(_GetDirectoryListingUserProfilePath().at(i)));
-	}
 }
 
 // ****************************************************************************
@@ -951,14 +785,6 @@ void BootMode::_OnJoySettings() {
 	_active_menu = &_joy_settings_menu;
 	_RefreshJoySettings();
 }
-
-
-
-void BootMode::_OnProfiles() {
-	_active_menu = &_profiles_menu;
-}
-
-
 
 void BootMode::_OnToggleFullscreen() {
 	// Toggle fullscreen / windowed
@@ -1085,164 +911,6 @@ void BootMode::_OnRestoreDefaultJoyButtons() {
 	_has_modified_settings = true;
 }
 
-
-
-void BootMode::_OnLoadProfile() {
-	_active_menu = &_load_profile_menu;
-}
-
-
-
-void BootMode::_OnSaveProfile() {
-	_active_menu = &_save_profile_menu;
-
-}
-
-
-void BootMode::_OnDeleteProfile() {
-	_active_menu = &_delete_profile_menu;
-}
-
-
-void BootMode::_OnLoadFile() {
-	//get the file path
-	if (_load_profile_menu.GetSelection() < 0 || _load_profile_menu.GetSelection() >= (int32)_GetDirectoryListingUserProfilePath().size())
-		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << std::endl;
-	else {
-		//we took off the .lua extension so that end users wouldn't see it but we need to add it back now
-		const std::string& filename = GetUserProfilePath() + _GetDirectoryListingUserProfilePath().at(_load_profile_menu.GetSelection()) + ".lua";
-		bool success = _LoadSettingsFile(filename);
-
-		//load the file
-		if (BOOT_DEBUG) {
-			if (success)
-				PRINT_WARNING << "BOOT: profile was successfully loaded " << filename << std::endl;
-			else
-				PRINT_ERROR << "BOOT ERROR: profile failed to load " << filename << std::endl;
-		}
-
-		//update all of the settings when loaded
-		_RefreshKeySettings();
-		_RefreshJoySettings();
-		_RefreshVideoOptions();
-		_RefreshAudioOptions();
-	}
-}
-
-
-void BootMode::_OnSaveFile() {
-	//if new profile was selected go to the user input menu
-	if (_save_profile_menu.GetSelection() == 0) {
-		_active_menu = &_user_input_menu;
-
-		//show the alert windows before we switch
-		_file_name_alert.SetPosition(275.0f, 575.0f);
-		_file_name_alert.SetText(UTranslate("Please enter a name for your new profile"));
-		_file_name_alert.Show();
-
-		_file_name_window.SetPosition(275.0f, 150.0f);
-		_file_name_window.Show();
-	}
-	else {
-		_file_name_alert.SetPosition(360.0f, 115.0f);
-		_file_name_alert.SetText(UTranslate("Overwrite? Confirm/Cancel"));
-		_file_name_alert.Show();
-		_overwrite_function = &BootMode::_OverwriteProfile;
-	}
-}
-
-
-void BootMode::_OnDeleteFile() {
-	if (_load_profile_menu.GetSelection() < 0 || _load_profile_menu.GetSelection() >= (int32)_GetDirectoryListingUserProfilePath().size())
-		PRINT_ERROR << "selection was out of range: " << _load_profile_menu.GetSelection() << " try another one " << std::endl;
-	else {
-		//get the file path
-		//we took off the .lua extension so that end users wouldn't see it but we need to add it back now
-		const std::string& filename = GetUserProfilePath() + _GetDirectoryListingUserProfilePath().at(_load_profile_menu.GetSelection()) + ".lua";
-
-		bool success = DeleteFile(filename);
-
-		if (BOOT_DEBUG) {
-			if (success)
-				PRINT_WARNING << "BOOT: profile was successfully deleted " << filename << std::endl;
-			else
-				PRINT_ERROR << "BOOT ERROR: failed to delete profile " << filename << std::endl;
-		}
-
-		//Clear the option boxes on all the menus and reload them so we can get rid of the deleted profile
-		_save_profile_menu.ClearOptions();
-		_delete_profile_menu.ClearOptions();
-		_load_profile_menu.ClearOptions();
-
-		//reload the menus
-		_SetupSaveProfileMenu();
-		_SetupDeleteProfileMenu();
-		_SetupLoadProfileMenu();
-	}
-}
-
-
-void BootMode::_OnPickLetter() {
-	//the letters from the table
-	char letters[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-
-	if(_user_input_menu.GetSelection() == END) {
-		//end, so save the file
-
-		//add the .lua extension
-		_current_filename += ".lua";
-
-		//lets save this mofo :) and then add the option to save_profile menu and the load-profile menu
-		_has_modified_settings = true;
-
-		if(_SaveSettingsFile(_current_filename))
-		{
-			if(BOOT_DEBUG)
-				PRINT_WARNING << "BOOT: profile successfully saved." << std::endl;
-		}
-		else
-			PRINT_ERROR << "BOOT ERROR: profile could not be saved." << std::endl;
-
-
-		//take off the .lua extension so the end user doesnt see it
-		_current_filename.erase(_current_filename.size() - 4);
-		_save_profile_menu.AddOption(MakeUnicodeString(_current_filename), &BootMode::_OnSaveFile);
-		_load_profile_menu.AddOption(MakeUnicodeString(_current_filename), &BootMode::_OnLoadFile);
-		_delete_profile_menu.AddOption(MakeUnicodeString(_current_filename), &BootMode::_OnDeleteFile);
-
-		//make sure we reset the current _current_filename string
-		_current_filename = "";
-
-		//also make sure we hide the alert windows if they havent selected new profile
-		_file_name_alert.Hide();
-		_file_name_window.Hide();
-
-		//update the profile menus
-		_RefreshSaveAndLoadProfiles();
-
-		//since we ended we have to go back to the save profile menu
-		_active_menu = &_save_profile_menu;
-
-	}
-	else if(_user_input_menu.GetSelection() == BACK) {
-		//take off the last letter
-		//we subtract 1 because char arrays AKA strings start at position 0
-
-		//make sure we dont try to erase letters that are not there
-		if(_current_filename != "")
-			_current_filename.erase(_current_filename.length()-1);
-	}
-	else {
-		//add letter to the _current_filename the _current_filename can be no longer than 19 characters
-		if(_current_filename.length() != MAX_NAME)
-			_current_filename += letters[_user_input_menu.GetSelection()];
-		else if(BOOT_DEBUG)
-			PRINT_WARNING << "BOOT ERROR: _current_filename cannot be longer than 19 characters" << std::endl;
-	}
-
-	_file_name_window.SetText(MakeUnicodeString(_current_filename));
-} // void BootMode::_OnPickLetter()
-
 // ****************************************************************************
 // ***** BootMode helper methods
 // ****************************************************************************
@@ -1304,7 +972,7 @@ void BootMode::_ChangeResolution(int32 width, int32 height) {
 bool BootMode::_LoadSettingsFile(const std::string& filename) {
 	ReadScriptDescriptor settings;
 
-	if (settings.OpenFile(filename) == false)
+	if (!settings.OpenFile(filename))
 		return false;
 
 	IF_PRINT_WARNING(BOOT_DEBUG)
@@ -1332,6 +1000,7 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
 			<< "information from file: " << settings.GetFilename() << std::endl
 			<< settings.GetErrorMessages() << std::endl;
+			settings.CloseFile();
 		return false;
 	}
 
@@ -1366,6 +1035,7 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 		PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
 			<< "from file: " << settings.GetFilename() << std::endl
 			<< settings.GetErrorMessages() << std::endl;
+			settings.CloseFile();
 		return false;
 	}
 
@@ -1406,6 +1076,7 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
 			<< "information from file: " << settings.GetFilename() << std::endl
 			<< settings.GetErrorMessages() << std::endl;
+			settings.CloseFile();
 		return false;
 	}
 
@@ -1421,12 +1092,13 @@ bool BootMode::_LoadSettingsFile(const std::string& filename) {
 		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
 			<< "information from file: " << settings.GetFilename() << std::endl
 			<< settings.GetErrorMessages() << std::endl;
+			settings.CloseFile();
 		return false;
 	}
 
 	settings.CloseFile();
 
-	IF_PRINT_WARNING(BOOT_DEBUG) << "Profile closed " << settings.GetFilename() << std::endl;
+	IF_PRINT_WARNING(BOOT_DEBUG) << "Settings closed " << settings.GetFilename() << std::endl;
 
 	return true;
 } // bool BootMode::_LoadSettingsFile(const std::string& filename)
@@ -1443,13 +1115,13 @@ bool BootMode::_SaveSettingsFile(const std::string& filename) {
 	std::string fileTemp = "";
 
 	// Load the settings file for reading in the original data
-	fileTemp = GetUserProfilePath() + "settings.lua";
+	fileTemp = GetUserDataPath(false) + "/settings.lua";
 
 
 	if(filename == "")
 		file = fileTemp;
 	else
-		file = GetUserProfilePath() + filename;
+		file = GetUserDataPath(false) + "/" + filename;
 
 	//copy the default file so we have an already set up lua file and then we can modify its settings
 	if (!DoesFileExist(file))
@@ -1509,56 +1181,6 @@ bool BootMode::_SaveSettingsFile(const std::string& filename) {
 
 	return true;
 } // bool BootMode::_SaveSettingsFile(const std::string& filename)
-
-
-
-std::vector<std::string> BootMode::_GetDirectoryListingUserProfilePath() {
-
-	//get the entire directory listing for user data path
-	std::vector<std::string> directory_listing = ListDirectory(GetUserProfilePath(), ".lua");
-
-	if (directory_listing.empty()) {
-		return directory_listing;
-	}
-	else {
-		//as stated earlier this is for personalized profiles only
-		directory_listing.erase(std::find(directory_listing.begin(), directory_listing.end(), "settings.lua"));
-
-		//we also need to take off the .lua extension so end users do not see it
-		for(uint32 i = 0; i < directory_listing.size(); i++)
-			directory_listing.at(i).erase(directory_listing.at(i).size() - 4);
-
-		return directory_listing;
-	}
-}
-void BootMode::_AddProfileOptions(private_boot::BootMenu* menu)
-{
-	//setup the dimensions according to how many profiles we have available
-	std::vector<std::string> profile_vector = _GetDirectoryListingUserProfilePath();
-	menu->SetDimensions(300.0f, 200.0f, 1, profile_vector.size() + 1, 1,
-						profile_vector.size() + 1);
-
-	//add the options in for each file
-	for (uint32 i = 0; i < profile_vector.size(); i++) {
-		//this menu is for personalized profiles only do not include the default profile "restore defaults" already exists
-		std::string filename = profile_vector.at(i);
-		menu->AddOption(MakeUnicodeString(filename.c_str()), &BootMode::_OnLoadFile);
-	}
-}
-
-
-
-void BootMode::_OverwriteProfile() {
-	_has_modified_settings = true;
-
-	//we subtract 1 to take into account the "new profile" option
-	_SaveSettingsFile(_GetDirectoryListingUserProfilePath().at(_save_profile_menu.GetSelection() - 1) + ".lua");
-
-	//if we got past the save settings without throwing an exception then we succeeded
-	IF_PRINT_WARNING(BOOT_DEBUG)
-		<< "BOOT: profile successfully overwritten "
-		<< _GetDirectoryListingUserProfilePath().at(_save_profile_menu.GetSelection() - 1) << std::endl;
-}
 
 // ****************************************************************************
 // ***** BootMode input configuration methods

@@ -848,26 +848,12 @@ const std::string GetUserDataPath(bool /*user_files*/) {
 	return "dat/";
 }
 
-const std::string GetUserProfilePath()
-{
-	std::string profile_path = GetUserDataPath(false) + "profiles/";
-	if(!DoesFileExist(profile_path))
-		MakeDirectory(profile_path);
-
-	return profile_path;
-}
-
-
-
 const std::string GetSettingsFilename() {
-	std::string settings_file;
-
-	settings_file = GetUserProfilePath() + "settings.lua";
-	if (DoesFileExist(settings_file) == false) {
+	std::string settings_file = GetUserDataPath(false) + "/settings.lua";
+	if (!DoesFileExist(settings_file)) {
 		settings_file = "dat/config/settings.lua";
-		if (DoesFileExist(settings_file) == false) {
+		if (!DoesFileExist(settings_file))
 			PRINT_WARNING << "settings.lua file not found." << std::endl;
-		}
 	}
 
 	return settings_file;

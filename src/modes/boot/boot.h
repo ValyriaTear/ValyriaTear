@@ -42,20 +42,11 @@ extern bool BOOT_DEBUG;
 //! \brief An internal namespace to be used only within the boot code. Don't use this namespace anywhere else!
 namespace private_boot {
 
-const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
-
-//! \brief ???
+//! \brief Key changing management enum.
 enum WAIT_FOR {
 	WAIT_KEY,
 	WAIT_JOY_BUTTON,
 	WAIT_JOY_AXIS
-};
-
-//! \brief ???
-enum PICK_LETTER {
-	END = 27,
-	BACK = 26,
-	MAX_NAME = 19,
 };
 
 } // namespace private_boot
@@ -135,9 +126,6 @@ private:
 	//! \brief Set to true when the player has made modification to any application settings
 	bool _has_modified_settings;
 
-	//! \brief Filename for profiles, this has to be global right now to work this will be fixed in the boot.cpp revision
-	std::string _current_filename;
-
 	//! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
 	std::vector<std::string> _po_files;
 
@@ -170,11 +158,6 @@ private:
 	private_boot::BootMenu _language_options_menu;
 	private_boot::BootMenu _key_settings_menu;
 	private_boot::BootMenu _joy_settings_menu;
-	private_boot::BootMenu _user_input_menu;
-	private_boot::BootMenu _profiles_menu;
-	private_boot::BootMenu _load_profile_menu;
-	private_boot::BootMenu _save_profile_menu;
-	private_boot::BootMenu _delete_profile_menu;
 	//@}
 
 	//! \brief A pointer to the function to call when a key has been pressed when we're waiting for one
@@ -185,11 +168,6 @@ private:
 
 	//! \brief A pointer to the function to call when a joyystick axis has been moved when we're waiting for one
 	void (BootMode::*_joy_axis_setting_function)(int8 axis);
-
-	//! \brief The function to call when we want to overwrite
-	//! \todo I don't understand this function pointer. Is it necessary?
-	//! \note The function pointer can point to an profile overwrite function according to the code.
-	void (BootMode::*_overwrite_function) ();
 
 	//! \brief Window display message for "select a key"
 	hoa_menu::MessageWindow _message_window;
@@ -221,11 +199,6 @@ private:
 	void _SetupKeySettingsMenu();
 	void _SetupJoySettingsMenu();
 	void _SetupResolutionMenu();
-	void _SetupProfileMenu();
-	void _SetupLoadProfileMenu();
-	void _SetupSaveProfileMenu();
-	void _SetupDeleteProfileMenu();
-	void _SetupUserInputMenu();
 	//@}
 
 	//! \brief Refreshes the option text displays on various option menus
@@ -234,7 +207,6 @@ private:
 	void _RefreshAudioOptions();
 	void _RefreshKeySettings();
 	void _RefreshJoySettings();
-	void _RefreshSaveAndLoadProfiles();
 	//@}
 
 	// ---------- Handler methods for boot menus
@@ -260,7 +232,6 @@ private:
 	void _OnLanguageOptions();
 	void _OnKeySettings();
 	void _OnJoySettings();
-	void _OnProfiles();
 	//@}
 
 	//! \brief Handler methods for the video options menu
@@ -299,25 +270,6 @@ private:
 	void _OnRestoreDefaultJoyButtons();
 	//@}
 
-	//! \brief Handler methods for the profiles options menu
-	//@{
-	void _OnLoadProfile();
-	void _OnSaveProfile();
-	void _OnDeleteProfile();
-	//@}
-
-	//! \brief Handler methods for the specific profile sub-options menus
-	//@{
-	//! \brief Loads the settings file specified by the user
-	void _OnLoadFile();
-	//! \brief Asks user for filename and then saves the settings to a .lua file
-	void _OnSaveFile();
-	//! \brief Deletes the profile
-	void _OnDeleteFile();
-	//! \brief Adds a letter to the currently selected filename
-	void _OnPickLetter();
-	//@}
-
 	// ---------- Helper methods not directly tied to any specific boot menu
 
 	//! \brief Tests whether the welcome window should be shown.
@@ -352,19 +304,6 @@ private:
 	*** \return true if file could be saved, false otherwise
 	**/
 	bool _SaveSettingsFile(const std::string& filename);
-
-	/** \brief Returns the directory listing for the user data path
-	*** \return A vector listing all the files in the directory not including the default
-	*** settings.lua file, this is meant for personalized profiles only
-	**/
-	std::vector<std::string> _GetDirectoryListingUserProfilePath();
-
-	/** /brief Adds in the profiles as options under whichever menu you pass in
-	**/
-	void _AddProfileOptions(private_boot::BootMenu* menu);
-
-	//! \brief Overwrites the selected profile Lua file
-	void _OverwriteProfile();
 
 	// ---------- Input configuration methods
 
