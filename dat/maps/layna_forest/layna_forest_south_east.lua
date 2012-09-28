@@ -368,7 +368,7 @@ function Load(m)
 
 	_CreateCharacters();
 	_CreateObjects();
-	--_CreateEnemies();
+	_CreateEnemies();
 
 	-- Set the camera focus on hero
 	Map:SetCamera(hero);
@@ -390,9 +390,9 @@ end
 
 -- Character creation
 function _CreateCharacters()
-	-- Default hero and position
-	hero = CreateSprite(Map, "Bronann", 3, 30);
-	hero:SetDirection(hoa_map.MapMode.EAST);
+	-- Default hero and position - from forest North East
+	hero = CreateSprite(Map, "Bronann", 40, 4);
+	hero:SetDirection(hoa_map.MapMode.SOUTH);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
 	Map:AddGroundObject(hero);
@@ -401,26 +401,6 @@ end
 function _CreateObjects()
 	local object = {}
 	local npc = {}
-
-	--Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
-
-    -- Load the spring heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
-                                            0, 0, hoa_map.MapMode.CONTEXT_01);
-	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
-
-	-- Heal point
-	npc = CreateSprite(Map, "Butterfly", 27, 23);
-	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	npc:SetVisible(false);
-	Map:AddGroundObject(npc);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Your party feels better...");
-	dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
 
 	npc = CreateSprite(Map, "Butterfly", 42, 18);
 	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
@@ -472,15 +452,304 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 	EventManager:StartEvent("Squirrel2 random move", 1800);
 
-	-- Forest entrance treasure chest
-	--local chest1 = CreateTreasure(Map, "forest_entrance_chest", "Wood_Chest1", 8, 3);
-	--if (chest1 ~= nil) then
-	--	chest1:SetDrunes(50);
-	--	Map:AddGroundObject(chest1);
-	--end
-	-- Trees above the pathway
-	object = CreateObject(Map, "Tree Small3", 3, 5);
-	Map:AddGroundObject(object);
+	-- Treasures
+	local chest1 = CreateTreasure(Map, "layna_forest_SE_chest1", "Wood_Chest1", 63.7, 30);
+	if (chest1 ~= nil) then
+		chest1:AddObject(40001, 1); -- Prismatic ring
+		Map:AddGroundObject(chest1);
+	end
+
+    -- Trees array
+    local map_trees = {
+        --  right entrance upper side -left
+        { "Tree Small3", 34, 3 },
+        { "Tree Small3", 35, 6 },
+        { "Tree Small5", 35, 9 },
+        { "Tree Small3", 36, 12 },
+        { "Tree Small4", 38, 15 },
+        { "Tree Small3", 41, 18 },
+        { "Tree Small6", 43, 20 },
+        { "Tree Small5", 44, 22 },
+        { "Tree Small3", 46, 24 },
+        { "Tree Small4", 49, 27 },
+        { "Tree Small3", 50, 30 },
+        { "Tree Small5", 54, 32 },
+        { "Tree Small3", 59, 31 },
+        { "Tree Small4", 63, 28 },
+        { "Tree Small3", 69, 27 },
+        { "Tree Small4", 69.5, 30 },
+        { "Tree Small5", 64, 32 },
+        { "Tree Small4", 73, 26 },
+        { "Tree Small3", 76, 24 },
+        { "Tree Small6", 78, 21 },
+        { "Tree Small3", 81, 22 },
+        { "Tree Small6", 84, 21.2 },
+        { "Tree Small5", 87, 20 },
+        { "Tree Small4", 89, 19 },
+        { "Tree Small3", 92, 18 },
+        { "Tree Small4", 95, 17.5 },
+        { "Tree Small5", 97, 16 },
+        { "Tree Small6", 100, 17 },
+        { "Tree Small5", 102, 18 },
+        { "Tree Small5", 105, 16.5 },
+        { "Tree Small3", 108, 17.1 },
+        { "Tree Small4", 110, 16 },
+        { "Tree Small4", 112, 14 },
+        { "Tree Small5", 114, 13 },
+        { "Tree Small6", 116, 10 },
+        { "Tree Small3", 118, 11 },
+
+        -- right
+        { "Tree Small4", 43, 2 },
+        { "Tree Small3", 45, 5 },
+        { "Tree Small5", 46, 8 },
+        { "Tree Small3", 49, 2 },
+        { "Tree Small4", 49, 10 },
+        { "Tree Small5", 49, 14 },
+        { "Tree Small6", 52, 13 },
+        { "Tree Small4", 54, 18 },
+        { "Tree Small3", 55, 16 },
+        { "Tree Small4", 56, 1 },
+        { "Tree Small3", 58, 19 },
+        { "Tree Small6", 56, 10.2 },
+        { "Tree Small4", 53, 4 },
+        { "Tree Small3", 62, 16 },
+        { "Tree Small5", 62.4, 20 },
+        { "Tree Small3", 61, 5 },
+        { "Tree Small3", 65, 1 },
+        { "Tree Small5", 67, 9 },
+        { "Tree Small3", 70, 3 },
+        { "Tree Small4", 73, 5 },
+        { "Tree Small3", 72, 11 },
+        { "Tree Small5", 71.5, 15 },
+        { "Tree Small3", 76, 8 },
+        { "Tree Small6", 78, 1 },
+        { "Tree Small3", 65, 17 },
+        { "Tree Small4", 82, 11.1 },
+        { "Tree Small3", 83, 1 },
+        { "Tree Small5", 87, 2 },
+        { "Tree Small3", 91, 10 },
+        { "Tree Small6", 92, 1 },
+        { "Tree Small3", 95, 4 },
+        { "Tree Small4", 100, 2 },
+        { "Tree Small3", 102, 12 },
+        { "Tree Small5", 104, 1 },
+        { "Tree Small3", 108, 7 },
+        { "Tree Small6", 111, 2 },
+        { "Tree Small3", 115, 1 },
+        { "Tree Small5", 121, 2 },
+        { "Tree Small3", 125, 1 },
+        { "Tree Small4", 126, 4 },
+        { "Tree Small3", 117, 13.1 },
+        { "Tree Small5", 118, 18.9 },
+        { "Tree Small3", 98, 19 },
+        { "Tree Small6", 88, 21 },
+        { "Tree Small3", 82, 23 },
+        { "Tree Small5", 77, 30 },
+        { "Tree Small4", 56, 33 },
+
+        -- going left
+        { "Tree Small3", 121, 42 },
+        { "Tree Small4", 117, 39 },
+        { "Tree Small5", 115, 37 },
+        { "Tree Small3", 110, 43 },
+        { "Tree Small6", 111, 35 },
+        { "Tree Small3", 107, 33 },
+        { "Tree Small5", 103, 34 },
+        { "Tree Small4", 116, 24 },
+        { "Tree Small3", 113, 28.1 },
+        { "Tree Small4", 105, 22 },
+        { "Tree Small5", 98, 25 },
+        { "Tree Small6", 94, 20 },
+        { "Tree Small3", 99, 31 },
+        { "Tree Small4", 94, 30 },
+        { "Tree Small5", 90, 30.5 },
+        { "Tree Small3", 86, 28 },
+        { "Tree Small4", 82, 29 },
+
+        -- After path break bottom part
+        { "Tree Small3", 68, 33 },
+        { "Tree Small6", 82, 35 },
+        { "Tree Small6", 76, 36 },
+        { "Tree Small6", 72, 35.1 },
+        { "Tree Small5", 80, 38 },
+        { "Tree Small5", 83, 41 },
+        { "Tree Small5", 86, 42 },
+        { "Tree Small3", 90, 45 },
+        { "Tree Small4", 93, 48 },
+        { "Tree Small5", 96, 51 },
+        { "Tree Small6", 94, 54 },
+        { "Tree Small5", 95, 57 },
+        { "Tree Small6", 96, 60 },
+        { "Tree Small5", 97, 63 },
+        { "Tree Small4", 98, 66 },
+        { "Tree Small3", 97, 69 },
+        { "Tree Small4", 94, 72 },
+        { "Tree Small3", 96, 75 },
+        { "Tree Small5", 95, 78 },
+        { "Tree Small6", 96, 81 },
+        { "Tree Small3", 99, 82 },
+
+        -- Going left
+        { "Tree Small3", 95, 84 },
+        { "Tree Small4", 91, 86 },
+        { "Tree Small3", 89, 87 },
+        { "Tree Small5", 89, 91 },
+        { "Tree Small3", 83, 91.2 },
+        { "Tree Small4", 85, 85 },
+        { "Tree Small4", 82, 87 },
+        { "Tree Small3", 78, 86 },
+        { "Tree Small5", 75, 84 },
+        { "Tree Small3", 70, 85 },
+        { "Tree Small5", 65, 86 },
+        { "Tree Small3", 64, 90 },
+        { "Tree Small4", 60, 83 },
+        { "Tree Small4", 55, 85.1 },
+        { "Tree Small5", 50, 84 },
+        { "Tree Small3", 46, 86 },
+        { "Tree Small5", 41, 85 },
+        { "Tree Small3", 36, 87 },
+        { "Tree Small6", 39, 92 },
+        { "Tree Small3", 31, 84 },
+        { "Tree Small5", 30, 91 },
+        { "Tree Small3", 30, 80 },
+        { "Tree Small5", 29, 86 },
+        { "Tree Small3", 25, 81 },
+        { "Tree Small4", 22, 78 },
+        { "Tree Small3", 21, 74 },
+        { "Tree Small6", 16, 72 },
+        { "Tree Small3", 17, 68 },
+        { "Tree Small6", 18, 64 },
+        { "Tree Small3", 17, 60 },
+        { "Tree Small5", 15, 57 },
+        { "Tree Small3", 12, 53 },
+        { "Tree Small6", 11, 57.2 },
+        { "Tree Small3", 8, 50 },
+        { "Tree Small4", 4, 48 },
+        { "Tree Small3", 2, 47 },
+
+        -- in the way
+        { "Tree Small3", 95, 37 },
+        { "Tree Small4", 103, 47 },
+        { "Tree Small5", 120, 48 },
+        { "Tree Small6", 116, 54 },
+        { "Tree Small5", 101, 56 },
+        { "Tree Small4", 108, 61 },
+        { "Tree Small3", 104, 65 },
+        { "Tree Small4", 110, 68 },
+        { "Tree Small5", 120, 69 },
+        { "Tree Small6", 118, 75 },
+        { "Tree Small5", 104, 74 },
+        { "Tree Small4", 113, 82 },
+        { "Tree Small3", 118, 89.5 },
+        { "Tree Small3", 107, 93 },
+        { "Tree Small4", 88, 78 },
+        { "Tree Small5", 122, 56 },
+        { "Tree Small6", 74, 87 },
+        { "Tree Small5", 4, 52 },
+        { "Tree Small4", 8, 80 },
+        { "Tree Small3", 9, 70 },
+        { "Tree Small3", 22, 67.5 },
+        { "Tree Small4", 30, 72 },
+        { "Tree Small3", 36, 77 },
+        { "Tree Small4", 17, 55 },
+        { "Tree Small3", 20, 61 },
+        { "Tree Small5", 20, 71 },
+        { "Tree Small5", 19.5, 76 },
+        { "Tree Small3", 25, 84 },
+
+        -- map right border tree wall
+        { "Tree Small3", 127, 7 },
+        { "Tree Small4", 126, 10 },
+        { "Tree Small5", 128, 13 },
+        { "Tree Small6", 129, 15 },
+        { "Tree Small5", 126, 18 },
+        { "Tree Small4", 125, 20 },
+        { "Tree Small3", 124, 23 },
+        { "Tree Small4", 125, 25 },
+        { "Tree Small5", 126, 30 },
+        { "Tree Small5", 124, 34 },
+        { "Tree Small6", 125, 38 },
+        { "Tree Small5", 123, 40 },
+        { "Tree Small6", 126, 42 },
+        { "Tree Small5", 124, 44 },
+        { "Tree Small4", 126, 4 },
+        { "Tree Small3", 126, 47 },
+        { "Tree Small6", 125, 50 },
+        { "Tree Small3", 127, 53 },
+        { "Tree Small4", 126, 57 },
+        { "Tree Small3", 125, 60 },
+        { "Tree Small5", 128, 63 },
+        { "Tree Small3", 127, 66 },
+        { "Tree Small4", 125, 69.2 },
+        { "Tree Small3", 126, 72 },
+        { "Tree Small6", 127, 75 },
+        { "Tree Small3", 128, 78 },
+        { "Tree Small5", 129, 80 },
+        { "Tree Small3", 126, 83 },
+        { "Tree Small4", 125, 86 },
+        { "Tree Small6", 124, 89 },
+        { "Tree Small5", 123, 92 },
+        { "Tree Small3", 121, 95 },
+        { "Tree Small5", 119, 98 },
+        { "Tree Small4", 127, 89.2 },
+        { "Tree Small3", 126, 93 },
+        { "Tree Small6", 127, 96 },
+        { "Tree Small5", 124, 95.5 },
+
+
+        -- map border bottom
+        { "Tree Small4", 115, 97 },
+        { "Tree Small5", 110, 98 },
+        { "Tree Small4", 105, 99 },
+        { "Tree Small3", 99, 96 },
+        { "Tree Small6", 94, 97 },
+        { "Tree Small4", 91, 99 },
+        { "Tree Small5", 86, 98 },
+        { "Tree Small4", 81, 97 },
+        { "Tree Small4", 75, 96 },
+        { "Tree Small4", 70, 94 },
+        { "Tree Small3", 66, 97 },
+        { "Tree Small6", 61, 96 },
+        { "Tree Small3", 56, 98 },
+        { "Tree Small5", 51, 97 },
+        { "Tree Small3", 47, 96 },
+        { "Tree Small4", 42, 98 },
+        { "Tree Small3", 36, 99 },
+        { "Tree Small5", 32, 98 },
+        { "Tree Small3", 26, 97 },
+        { "Tree Small6", 22, 95 },
+        { "Tree Small3", 16, 94 },
+        { "Tree Small4", 14, 92 },
+        { "Tree Small3", 8, 91 },
+        { "Tree Small5", 4, 89 },
+        { "Tree Small3", 1, 88 },
+        { "Tree Small6", 4, 92 },
+        { "Tree Small3", 0, 91 },
+        { "Tree Small5", 2, 95 },
+        { "Tree Small3", 9, 93 },
+        { "Tree Small4", 12, 95.2 },
+        { "Tree Small3", 18, 97 },
+        { "Tree Small5", 8, 98 },
+        { "Tree Small6", 4.5, 96 },
+        { "Tree Small3", 20, 100 },
+
+        -- left wall
+        { "Tree Small3", 0, 82 },
+        { "Tree Small4", 2, 79 },
+        { "Tree Small3", 0, 76 },
+        { "Tree Small5", -1, 73 },
+        { "Tree Small3", -2, 70 },
+        { "Tree Small6", 2, 68 },
+        { "Tree Small3", 1, 64 }
+    }
+
+	-- Loads the trees according to the array
+    for my_index, my_array in pairs(map_trees) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        Map:AddGroundObject(object);
+	end
 
 end
 
@@ -489,7 +758,56 @@ function _CreateEnemies()
 	local roam_zone = {};
 
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
+
+    -- top right
+	roam_zone = hoa_map.EnemyZone(77, 123, 2, 5, hoa_map.MapMode.CONTEXT_01);
+
+	enemy = CreateEnemySprite(Map, "slime");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(2);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+
+	roam_zone = hoa_map.EnemyZone(106, 121, 18, 25, hoa_map.MapMode.CONTEXT_01);
+
+	enemy = CreateEnemySprite(Map, "slime");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(2);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+
+    -- wide passage
+    roam_zone = hoa_map.EnemyZone(97, 118, 40, 89, hoa_map.MapMode.CONTEXT_01);
+
+	enemy = CreateEnemySprite(Map, "slime");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(2);
+	roam_zone:AddEnemy(enemy, Map, 2);
+
+	Map:AddZone(roam_zone);
+
+    -- near the exit
+	roam_zone = hoa_map.EnemyZone(12, 14, 77, 79, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
@@ -507,25 +825,35 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local dialogue = {};
+	local event = {};	local dialogue = {};
 	local text = {};
+
+    -- Map events
+    event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east.lua", "from forest SE")
+    EventManager:RegisterEvent(event);
 
 end
 
 -- Create the different map zones triggering events
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
-	--forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
-	--Map:AddZone(forest_entrance_exit_zone);
+	to_forest_NE_zone = hoa_map.CameraZone(36, 41, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_NE_zone);
+
+	to_forest_SW_zone = hoa_map.CameraZone(0, 2, 52, 56, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_SW_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-	--if (forest_entrance_exit_zone:IsCameraEntering() == true) then
-		--hero:SetMoving(false);
-		--EventManager:StartEvent("exit forest");
-	--end
+	if (to_forest_NE_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest NE");
+	elseif (to_forest_SW_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+        -- TODO
+		EventManager:StartEvent("to forest SW");
+    end
 end
 
 -- Sets common battle environment settings for enemy sprites

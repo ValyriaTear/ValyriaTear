@@ -368,7 +368,7 @@ function Load(m)
 
 	_CreateCharacters();
 	_CreateObjects();
-	--_CreateEnemies();
+	_CreateEnemies();
 
 	-- Set the camera focus on hero
 	Map:SetCamera(hero);
@@ -393,18 +393,23 @@ function _CreateCharacters()
 	-- Default hero and position (From forest NW)
 	hero = CreateSprite(Map, "Bronann", 3, 88);
 	hero:SetDirection(hoa_map.MapMode.EAST);
+    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
-	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    if (GlobalManager:GetPreviousLocation() == "from forest SE") then
+        hero:SetPosition(71, 94);
+        hero:SetDirection(hoa_map.MapMode.NORTH);
+    end
+
 	Map:AddGroundObject(hero);
 end
 
--- The boss map sprite 
+-- The boss map sprite
 local wolf = {};
 
 function _CreateObjects()
 	local object = {}
 	local npc = {}
-	
+
 	-- The boss map sprite
 	wolf = CreateSprite(Map, "Wolf", 104, 3); -- pre place it at the right place.
 	wolf:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
@@ -464,11 +469,11 @@ function _CreateObjects()
 	EventManager:StartEvent("Squirrel2 random move", 1800);
 
 	-- Forest entrance treasure chest
-	--local chest1 = CreateTreasure(Map, "forest_entrance_chest", "Wood_Chest1", 8, 3);
-	--if (chest1 ~= nil) then
-	--	chest1:SetDrunes(50);
-	--	Map:AddGroundObject(chest1);
-	--end
+	local chest1 = CreateTreasure(Map, "layna_forest_NE_chest1", "Wood_Chest1", 4, 55);
+	if (chest1 ~= nil) then
+		chest1:AddObject(1, 1);
+		Map:AddGroundObject(chest1);
+	end
 
     -- Trees array
     local map_trees = {
@@ -744,7 +749,7 @@ function _CreateObjects()
 
     }
 
-	-- Loads the trees according the array
+	-- Loads the trees according to the array
     for my_index, my_array in pairs(map_trees) do
         --print(my_array[1], my_array[2], my_array[3]);
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
@@ -757,8 +762,10 @@ function _CreateEnemies()
 	local enemy = {};
 	local roam_zone = {};
 
+    -- Treasure zone
+
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
+	roam_zone = hoa_map.EnemyZone(5, 10, 8, 47, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
@@ -766,8 +773,28 @@ function _CreateEnemies()
 	enemy:AddEnemy(1);
 	enemy:AddEnemy(1);
 	enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
 	enemy:NewEnemyParty();
 	enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
+	enemy:AddEnemy(2);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+
+    -- after fight zone
+    roam_zone = hoa_map.EnemyZone(112, 120, 34, 80, hoa_map.MapMode.CONTEXT_01);
+
+	enemy = CreateEnemySprite(Map, "slime");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
 	enemy:AddEnemy(2);
 	roam_zone:AddEnemy(enemy, Map, 1);
 
@@ -784,6 +811,9 @@ function _CreateEvents()
     event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_NE");
 	EventManager:RegisterEvent(event);
 
+    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_forest_NE");
+	EventManager:RegisterEvent(event);
+
     -- generic events
     event = hoa_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
     EventManager:RegisterEvent(event);
@@ -798,24 +828,38 @@ function _CreateEvents()
 	dialogue:AddLineEmote(text, hero, "exclamation");
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("boss fight pre-dialogue", dialogue);
+    event:AddEventLinkAtEnd("The hero looks at wolf");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.LookAtSpriteEvent("The hero looks at wolf", hero, wolf);
     event:AddEventLinkAtEnd("Wolf runs toward the hero");
     EventManager:RegisterEvent(event);
-    
+
     event = hoa_map.PathMoveSpriteEvent("Wolf runs toward the hero", wolf, hero, true);
     event:AddEventLinkAtEnd("First Wolf battle");
     EventManager:RegisterEvent(event);
-    
+
     event = hoa_map.BattleEncounterEvent("First Wolf battle");
     event:SetMusic("mus/The_Creature_Awakens.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
-    -- TODO: Add scening script
+    -- TODO: Add custom AI battle script
     -- event:AddScript("");
-    event:AddEnemy(1, 0, 0); -- TODO: Add the wolf once the sprite is done.
+    event:AddEnemy(3, 0, 0);
     event:AddEventLinkAtEnd("Make the wolf disappear");
-    event:AddEventLinkAtEnd("Map:PopState()");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.ScriptedEvent("Make the wolf disappear", "make_wolf_invisible", "");
+    event:AddEventLinkAtEnd("boss fight post-dialogue");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Woah, it was quite nasty fight. Why on earth was an arctic north white wolf lurking in the forest?");
+	dialogue:AddLineEmote(text, hero, "sweat drop");
+	text = hoa_system.Translate("He just flew away. I'm almost sure we'll meet it again. We'd better be well prepared, then...");
+	dialogue:AddLineEmote(text, hero, "thinking dots");
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("boss fight post-dialogue", dialogue);
+    event:AddEventLinkAtEnd("Map:PopState()");
     EventManager:RegisterEvent(event);
 
 end
@@ -853,7 +897,7 @@ function _CheckZones()
 	elseif (boss_fight1_zone:IsCameraEntering() == true) then
         -- fade out the music when the first boss fight hasn't been done yet.
         if (GlobalManager:DoesEventExist("story", "layna_forest_boss_fight1") == false) then
-            --GlobalManager:SetEventValue("story", "layna_forest_boss_fight1", 1);
+            GlobalManager:SetEventValue("story", "layna_forest_boss_fight1", 1);
             EventManager:StartEvent("boss fight scene");
         end
     end
@@ -882,16 +926,14 @@ map_functions = {
     start_boss_fight_scene = function()
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
-        hero:SetDirection(hoa_map.MapMode.NORTH);
         -- Play the wolf growling sound
         AudioManager:PlaySound("snd/growl1_IFartInUrGeneralDirection_freesound.wav");
-	wolf:SetVisible(true);
+        wolf:SetVisible(true);
     end,
-    
+
     make_wolf_invisible = function()
         wolf:SetVisible(false);
-	wolf:SetPosition(104, 3);
+        wolf:SetPosition(104, 3);
     end
-
 }
 
