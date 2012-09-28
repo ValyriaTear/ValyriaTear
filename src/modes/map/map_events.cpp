@@ -239,8 +239,6 @@ void BattleEncounterEvent::AddEnemy(uint32 enemy_id, float position_x, float pos
 }
 
 void BattleEncounterEvent::_Start() {
-	MapMode::CurrentInstance()->PushState(STATE_SCENE);
-
 	try {
 		BattleMode* BM = new BattleMode();
 		for (uint32 i = 0; i < _enemies.size(); ++i)
@@ -254,10 +252,16 @@ void BattleEncounterEvent::_Start() {
 		TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 
 		ModeManager->Push(TM);
-	} catch (const luabind::error& e) {
+	}
+	catch (const luabind::error& e) {
 		PRINT_ERROR << "Error while loading battle encounter event!"
 			<< std::endl;
 		ScriptManager->HandleLuaError(e);
+	}
+	catch (const luabind::cast_failed& e) {
+		PRINT_ERROR << "Error while loading battle encounter event!"
+			<< std::endl;
+		ScriptManager->HandleCastError(e);
 	}
 }
 
