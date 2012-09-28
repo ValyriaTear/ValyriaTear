@@ -98,6 +98,7 @@ void IndicatorElement::Start() {
 			_x_absolute_position = _actor->GetXLocation();
 			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
 			break;
+		case HEALING_INDICATOR:
 		case POSITIVE_STATUS_EFFECT_INDICATOR:
 			_x_absolute_position = _actor->GetXLocation();
 			_y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
