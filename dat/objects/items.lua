@@ -147,7 +147,7 @@ items[4] = {
 -- Moon juices : Skill points
 function battle_skill_potion(target, skill_points)
 		if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
-			target:RegisterHealing(hit_points, false);
+			target:RegisterHealing(skill_points, false);
 			AudioManager:PlaySound("snd/potion_drink.wav");
 			return true;
 		else
