@@ -434,9 +434,9 @@ void BootMode::_SetupMainMenu() {
 	}
 
 	// Preload main sounds
-	AudioManager->LoadSound("snd/confirm.wav", this);
-	AudioManager->LoadSound("snd/cancel.wav", this);
-	AudioManager->LoadSound("snd/bump.wav", this);
+	AudioManager->LoadSound("snd/confirm.wav");
+	AudioManager->LoadSound("snd/cancel.wav");
+	AudioManager->LoadSound("snd/bump.wav");
 }
 
 
