@@ -228,7 +228,7 @@ object ReadScriptDescriptor::ReadFunctionPointer(const std::string& key) {
 
 		luabind::object o(from_stack(_lstack, STACK_TOP));
 
-		if (!o) {
+		if (!o.is_valid()) {
 			IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because it was unable to access the function "
 				<< "for the global key: " << key << std::endl;
 			return luabind::object();
