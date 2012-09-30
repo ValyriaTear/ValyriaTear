@@ -250,9 +250,26 @@ items[13] = {
 -- IDs 1,001 - 2,000 are reserved for status potions
 --------------------------------------------------------------------------------
 
+decrement_negative_effects = function(target_actor, intensity)
+    if (target_actor:IsAlive() == true) then
+        -- decrement all the basic negative effects, or put positive effects depending on the intensity
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE, intensity);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE, intensity);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE, intensity);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE, intensity);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE, intensity);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE, intensity);
+	AudioManager:PlaySound("snd/potion_drink.wav");
+	return true;
+    else
+        target_actor:RegisterMiss(false);
+	return false;
+    end
+end
+
 items[1001] = {
 	name = hoa_system.Translate("Minor Elixir"),
-	description = hoa_system.Translate("Reduces ailing status effects by a limited degree."),
+	description = hoa_system.Translate("Improve the character status when it is sane or reduces ailing status effects by a limited degree."),
 	icon = "img/icons/items/potion_red_small.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 160,
@@ -261,8 +278,13 @@ items[1001] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		-- TODO: decrement any active negative status effects
-		AudioManager:PlaySound("snd/potion_drink.wav");
+		-- Decrement all base stats active negative status effects slightly
+		return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+	end,
+	
+	FieldUse = function(target)
+		-- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
+	        -- which are valid only in battles.
 		return false;
 	end
 }
@@ -279,8 +301,8 @@ items[1003] = {
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
 		if (target_actor:GetHitPoints() > 0) then
-			-- TODO: decrement any active negative status effects when alive
-			return false;
+			-- Decrement any active negative base stats status effects when alive
+			return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
 		else
 			-- When dead, revive the character
 			target_actor:RegisterRevive(1);
@@ -290,7 +312,8 @@ items[1003] = {
 
 	FieldUse = function(target)
 		if (target:GetHitPoints() > 0) then
-			-- TODO: decrement any active negative status effects when alive
+		-- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
+	        -- which are valid only in battles.
 			return false;
 		else
 			-- When dead, revive the character

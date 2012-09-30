@@ -87,7 +87,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
 		end
 
 		actor:SetStrength(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
@@ -133,7 +133,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
 		end
 
 		actor:SetStrength(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
@@ -179,7 +179,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
 		end
 
 		actor:SetVigor(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
@@ -225,7 +225,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
 		end
 
 		actor:SetVigor(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
@@ -271,7 +271,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
 		end
 
 		actor:SetFortitude(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
@@ -317,7 +317,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
 		end
 
 		actor:SetFortitude(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
@@ -363,7 +363,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
 		end
 
 		actor:SetProtection(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
@@ -409,7 +409,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
 		end
 
 		actor:SetProtection(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
@@ -456,7 +456,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 
 		actor:SetStrength(base_value * attribute_modifier);
 		-- TODO: Need to modify actor's idle state wait time accordingly here
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
@@ -503,7 +503,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 
 		actor:SetAgility(base_value * attribute_modifier);
 		-- TODO: Need to modify actor's idle state wait time accordingly here
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
@@ -530,7 +530,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
 		actor = effect:GetAffectedActor();
 		intensity = effect:GetIntensity();
 
-		actor:ResetEvae();
+		actor:ResetEvade();
 		base_value = actor:GetEvade();
 		attribute_modifier = 1;
 
@@ -552,7 +552,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
 		-- pose a problem though, and its probably very unlikely that any actor would have an evade rating
 		-- high enough to cause this condition.
 		actor:SetEvade(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
@@ -598,7 +598,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
 		end
 
 		actor:SetEvade(base_value * attribute_modifier);
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = {
@@ -617,7 +617,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = {
 
 	Remove = function(effect)
 		-- TODO
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN] = {
@@ -636,7 +636,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN] = {
 
 	Remove = function(effect)
 		-- TODO
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = {
@@ -655,7 +655,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = {
 
 	Remove = function(effect)
 		-- TODO
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN] = {
@@ -674,7 +674,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN] = {
 
 	Remove = function(effect)
 		-- TODO
-	end,
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
@@ -684,7 +684,10 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_INVALID,
 
 	Apply = function(effect)
-		effect:GetAffectedActor():SetStatePaused(true);
+		-- TODO: Implement paralysis
+		battle_actor = effect:GetAffectedActor();
+		--battle_actor:RegisterParalysis();
+		print("Paralysis not implemented yet!!");
 	end,
 
 	Update = function(effect)
@@ -692,8 +695,10 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 	end,
 
 	Remove = function(effect)
-		effect:GetAffectedActor():SetStatePaused(false);
-	end,
+		-- TODO: Implement paralysis
+		battle_actor = effect:GetAffectedActor();
+		--battle_actor:UnregisterParalysis();
+	end
 }
 
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STASIS] = {
@@ -712,6 +717,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STASIS] = {
 
 	Remove = function(effect)
 		-- TODO
-	end,
+	end
 }
 
