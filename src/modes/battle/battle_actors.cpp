@@ -58,7 +58,8 @@ BattleActor::BattleActor(GlobalActor* actor) :
 	_action(NULL),
 	_execution_finished(false),
 	_idle_state_time(0),
-	_shake_timer(0),
+	_hurt_timer(0),
+	_is_stunned(false),
 	_animation_timer(0),
 	_x_stamina_location(0.0f),
 	_y_stamina_location(0.0f),
@@ -204,31 +205,29 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget* target) {
 
 	// Apply a stun to the actor timer depending on the amount of damage dealt
 	float damage_percent = static_cast<float>(amount) / static_cast<float>(GetMaxHitPoints());
-	uint32 stun_time = 0;
+	uint32 hurt_time = 0;
 	if (damage_percent < 0.10f)
-		stun_time = 250;
+		hurt_time = 250;
 	else if (damage_percent < 0.25f)
-		stun_time = 500;
+		hurt_time = 500;
 	else if (damage_percent < 0.50f)
-		stun_time = 750;
+		hurt_time = 750;
 	else // (damage_percent >= 0.50f)
-		stun_time = 1000;
+		hurt_time = 1000;
 
 	// Make the stun effect disappear faster depending on the battle type,
 	// to not advantage the attacker.
 	BattleMode* BM = BattleMode::CurrentInstance();
 	if (BM->GetBattleType() == BATTLE_TYPE_SEMI_ACTIVE)
-		stun_time /= BATTLE_SEMI_ACTIVE_FACTOR;
+		hurt_time /= BATTLE_SEMI_ACTIVE_FACTOR;
 	else if (BM->GetBattleType() == BATTLE_TYPE_WAIT)
-		stun_time /= BATTLE_WAIT_FACTOR;
+		hurt_time /= BATTLE_WAIT_FACTOR;
 	else if (BM->GetBattleType() == BATTLE_TYPE_ACTIVE)
-		stun_time /= BATTLE_ACTIVE_FACTOR;
+		hurt_time /= BATTLE_ACTIVE_FACTOR;
 
-	_state_timer.StunTimer(stun_time);
 	// Run a shake effect for the same time.
-	_shake_timer.Initialize(stun_time);
-	_shake_timer.Run();
-
+	_hurt_timer.Initialize(hurt_time);
+	_hurt_timer.Run();
 
 	// If the damage dealt was to a point target type, check for and apply any status effects triggered by this point hit
 	if ((target != NULL) && (IsTargetPoint(target->GetType()) == true)) {
@@ -311,16 +310,25 @@ void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY in
 void BattleActor::Update() {
 	// Don't update the state timer when the battle tells is to pause
 	// when in idle state.
-	if (!BattleMode::CurrentInstance()->AreActorStatesPaused())
-		_state_timer.Update();
+	// Also don't elapse the status effect time when paused.
+	if (!BattleMode::CurrentInstance()->AreActorStatesPaused()) {
+		// Don't update the state_timer if the character is hurt.
+		if (!_hurt_timer.IsRunning()) {
+
+			// Check the stun effect when in idle state.
+			if (_state != ACTOR_STATE_IDLE || !_is_stunned)
+				_state_timer.Update();
+		}
+
+		_effects_supervisor->Update();
+	}
 
 	// Ths shaking updates even in pause mode, so that the shaking
 	// doesn't last indefinitely in that state.
-	_shake_timer.Update();
+	_hurt_timer.Update();
 
 	_UpdateStaminaIconPosition();
 
-	_effects_supervisor->Update();
 	_indicator_supervisor->Update();
 
 	if (_state_timer.IsFinished() == true) {
@@ -388,9 +396,8 @@ void BattleActor::_UpdateStaminaIconPosition() {
 	}
 
 	// Add a shake effect when the battle actor has received damages
-	if (_shake_timer.IsRunning()) {
+	if (_hurt_timer.IsRunning())
 		x_pos += RandomFloat(-4.0f, 4.0f);
-	}
 
 	_x_stamina_location = x_pos;
 	_y_stamina_location = y_pos;
@@ -601,9 +608,8 @@ void BattleCharacter::Update() {
 	}
 
 	// Add a shake effect when the battle actor has received damages
-	if (_shake_timer.IsRunning()) {
+	if (_hurt_timer.IsRunning())
 		_x_location = _x_origin + RandomFloat(-6.0f, 6.0f);
-	}
 
 	// If the character has finished to execute its battle action,
 	if (_state == ACTOR_STATE_ACTING && _state_timer.IsFinished()) {
@@ -626,6 +632,11 @@ void BattleCharacter::Update() {
 void BattleCharacter::DrawSprite() {
 	VideoManager->Move(_x_location, _y_location);
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Draw();
+
+	if (_is_stunned && _state == ACTOR_STATE_IDLE) {
+		VideoManager->MoveRelative(0, GetSpriteHeight());
+		BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
+	}
 } // void BattleCharacter::DrawSprite()
 
 void BattleCharacter::ChangeSpriteAnimation(const std::string& alias) {
@@ -895,7 +906,7 @@ void BattleEnemy::Update() {
 	}
 
 	// Add a shake effect when the battle actor has received damages
-	if (_shake_timer.IsRunning())
+	if (_hurt_timer.IsRunning())
 		_x_location += RandomFloat(-2.0f, 2.0f);
 
 	if (_state == ACTOR_STATE_ACTING) {
@@ -911,16 +922,14 @@ void BattleEnemy::Update() {
 }
 
 void BattleEnemy::DrawSprite() {
-	VideoManager->Move(_x_location, _y_location);
-
-	std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
-
 	// Dead enemies are gone from screen.
 	if (_state == ACTOR_STATE_DEAD)
 		return;
 
+	std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
 	float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
+	VideoManager->Move(_x_location, _y_location);
 	// Alpha will range from 1.0 to 0.0 in the following calculations
 	if (_state == ACTOR_STATE_DYING) {
 		sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
@@ -942,6 +951,11 @@ void BattleEnemy::DrawSprite() {
 		sprite_frames[2].Draw();
 		float alpha = 1.0f - (hp_percent * 3.0f);
 		sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+	}
+
+	if (_is_stunned && _state == ACTOR_STATE_IDLE) {
+		VideoManager->MoveRelative(0, GetSpriteHeight());
+		BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
 	}
 } // void BattleEnemy::DrawSprite()
 

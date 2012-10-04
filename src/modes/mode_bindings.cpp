@@ -652,6 +652,7 @@ void BindModeCode() {
 			.def("RegisterRevive", &BattleActor::RegisterRevive)
 			.def("RegisterMiss", &BattleActor::RegisterMiss)
 			.def("RegisterStatusChange", &BattleActor::RegisterStatusChange)
+			.def("SetStunned", &BattleActor::SetStunned)
 			.def("ResetHitPoints", &BattleActor::ResetHitPoints)
 			.def("ResetMaxHitPoints", &BattleActor::ResetMaxHitPoints)
 			.def("ResetSkillPoints", &BattleActor::ResetSkillPoints)

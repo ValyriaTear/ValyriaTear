@@ -157,6 +157,10 @@ BattleMedia::BattleMedia() {
 		}
 		script_file.CloseTable();
 	}
+
+	// Load the stunned icon
+	if (!_stunned_icon.Load("img/icons/effects/zzz.png"))
+		IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
 }
 
 

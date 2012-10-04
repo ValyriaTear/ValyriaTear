@@ -303,6 +303,11 @@ public:
 	**/
 	void ChangeSkillPoints(int32 amount);
 
+	//! \brief Stuns the BattleActor, preventing its state timer to update.
+	//! \param stun Whether the actor should be stunned.
+	void SetStunned(bool stun)
+	{  _is_stunned = stun; }
+
 	/** \brief Updates the state of the actor
 	***
 	*** The optional boolean parameter is primarily used by battle sequences which desire to update the sprite graphics
@@ -398,7 +403,7 @@ public:
 	hoa_video::StillImage& GetStaminaIcon()
 	{ return _stamina_icon; }
 
-	BattleTimer& GetStateTimer()
+	hoa_system::SystemTimer& GetStateTimer()
 	{ return _state_timer; }
 
 	//! \note If the actor is in the idle state, this will not affect the state timer
@@ -426,17 +431,16 @@ protected:
 	uint32 _idle_state_time;
 
 	//! \brief A timer used as the character progresses through the standard series of actor states
-	BattleTimer _state_timer;
+	hoa_system::SystemTimer _state_timer;
 
-	//! \brief A timer telling the time the character will be visually shaking.
-	hoa_system::SystemTimer _shake_timer;
+	//! \brief A timer telling the time the character is hurt, making it visually shaking.
+	hoa_system::SystemTimer _hurt_timer;
+
+	//! \brief Tells whether the actor is stunned, preventing its idle state time to update.
+	bool _is_stunned;
 
 	//! \brief Used to assist in the animation of actors as they move on the battlefield
 	hoa_system::SystemTimer _animation_timer;
-
-	// TODO: add later for effects such as "petrify"
-//	//! \brief When set to true, the actor essentially has immunity and can not be targeted by attacks
-//	bool _not_targetable;
 
 	//! \brief The x and y coordinates of the actor's current stamina icon on the stamina bar.
 	float _x_stamina_location, _y_stamina_location;

@@ -96,20 +96,29 @@ skills[2] = {
 
 skills[3] = {
 	name = hoa_system.Translate("Stun Strike"),
-	description = hoa_system.Translate("A blow which targets vital areas and temporarily stun its target."),
+	description = hoa_system.Translate("A blow which temporarily stun its target."),
 	sp_required = 5,
 	warmup_time = 1200,
 	cooldown_time = 0,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasionAdder(target, 5.5) == false) then
+			-- Calculate chance for paralysis effect and activate it
+			local attack_point = target_actor:GetAttackPoint(target:GetPoint());
+			local chance_modifier = (user:GetTotalMetaphysicalAttack() - attack_point:GetTotalMetaphysicalDefense()) * 3.0;
+			local chance = (hoa_utils.RandomFloat() * 100.0);
+			if (chance <= (50.0 + chance_modifier)) then
+			    target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+			else
+			    target_actor:RegisterMiss(true);
+			end
+
+			-- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamage(user, target));
-			-- TODO: Calculate chance for paralysis effect and activate it
-			target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
 			target_actor:RegisterMiss(true);

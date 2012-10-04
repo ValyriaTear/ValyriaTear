@@ -428,6 +428,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 		end
 	end,
 
+	-- Note: This modifies the actor's idle state wait time accordingly.
 	Remove = function(effect)
 		effect:GetAffectedActor():ResetAgility();
 	end,
@@ -454,8 +455,8 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
 		end
 
-		actor:SetStrength(base_value * attribute_modifier);
-		-- TODO: Need to modify actor's idle state wait time accordingly here
+		-- Note: This modifies the actor's idle state wait time accordingly.
+		actor:SetAgility(base_value * attribute_modifier);
 	end
 }
 
@@ -475,10 +476,12 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 		end
 	end,
 
+	-- Note: This modifies the actor's idle state wait time accordingly.
 	Remove = function(effect)
 		effect:GetAffectedActor():ResetAgility();
 	end,
 
+	-- Note: This modifies the actor's idle state wait time accordingly.
 	ModifyAttribute = function(effect)
 		actor = effect:GetAffectedActor();
 		intensity = effect:GetIntensity();
@@ -502,7 +505,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 		end
 
 		actor:SetAgility(base_value * attribute_modifier);
-		-- TODO: Need to modify actor's idle state wait time accordingly here
 	end
 }
 
@@ -684,10 +686,8 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_INVALID,
 
 	Apply = function(effect)
-		-- TODO: Implement paralysis
 		battle_actor = effect:GetAffectedActor();
-		--battle_actor:RegisterParalysis();
-		print("Paralysis not implemented yet!!");
+		battle_actor:SetStunned(true);
 	end,
 
 	Update = function(effect)
@@ -695,9 +695,8 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 	end,
 
 	Remove = function(effect)
-		-- TODO: Implement paralysis
 		battle_actor = effect:GetAffectedActor();
-		--battle_actor:UnregisterParalysis();
+		battle_actor:SetStunned(false);
 	end
 }
 

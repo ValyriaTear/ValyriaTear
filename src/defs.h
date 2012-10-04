@@ -237,7 +237,6 @@ namespace hoa_battle {
 		class SkillAction;
 		class ItemAction;
 
-		class BattleTimer;
 		class BattleTarget;
 		class BattleItem;
 

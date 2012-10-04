@@ -114,6 +114,9 @@ public:
 	**/
 	hoa_video::StillImage* GetStatusIcon(hoa_global::GLOBAL_STATUS type, hoa_global::GLOBAL_INTENSITY intensity);
 
+	const hoa_video::StillImage& GetStunnedIcon()
+	{ return _stunned_icon; }
+
 	// ---------- Public members
 
 	//! \brief The static background image to be used for the battle
@@ -207,6 +210,9 @@ private:
 
 	//! \brief Contains the entire set of status effect icons
 	std::vector<hoa_video::StillImage> _status_icons;
+
+	//! \brief An icon displayed above the character's head when it is stunned.
+	hoa_video::StillImage _stunned_icon;
 }; // class BattleMedia
 
 } // namespace private_battle

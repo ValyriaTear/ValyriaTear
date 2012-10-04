@@ -360,40 +360,41 @@ public:
 	**/
 	//@{
 	void SetExperienceLevel(uint32 xp_level)
-		{ _experience_level = xp_level; }
+	{ _experience_level = xp_level; }
 
 	void SetExperiencePoints(uint32 xp_points)
-		{ _experience_points = xp_points; }
+	{ _experience_points = xp_points; }
 
 	void SetHitPoints(uint32 hp)
-		{ if (hp > _max_hit_points) _hit_points = _max_hit_points; else _hit_points = hp; }
+	{ if (hp > _max_hit_points) _hit_points = _max_hit_points; else _hit_points = hp; }
 
 	void SetMaxHitPoints(uint32 hp)
-		{ _max_hit_points = hp; if (_hit_points > _max_hit_points) _hit_points = _max_hit_points; }
+	{ _max_hit_points = hp; if (_hit_points > _max_hit_points) _hit_points = _max_hit_points; }
 
 	void SetSkillPoints(uint32 sp)
-		{ if (sp > _max_skill_points) _skill_points = _max_skill_points; else _skill_points = sp; }
+	{ if (sp > _max_skill_points) _skill_points = _max_skill_points; else _skill_points = sp; }
 
 	void SetMaxSkillPoints(uint32 sp)
-		{ _max_skill_points = sp; if (_skill_points > _max_skill_points) _skill_points = _max_skill_points; }
+	{ _max_skill_points = sp; if (_skill_points > _max_skill_points) _skill_points = _max_skill_points; }
 
 	void SetStrength(uint32 st)
-		{ _strength = st; _CalculateAttackRatings(); }
+	{ _strength = st; _CalculateAttackRatings(); }
 
 	void SetVigor(uint32 vi)
-		{ _vigor = vi; _CalculateAttackRatings(); }
+	{ _vigor = vi; _CalculateAttackRatings(); }
 
 	void SetFortitude(uint32 fo)
-		{ _fortitude = fo; _CalculateDefenseRatings(); }
+	{ _fortitude = fo; _CalculateDefenseRatings(); }
 
 	void SetProtection(uint32 pr)
-		{ _protection = pr; _CalculateDefenseRatings(); }
+	{ _protection = pr; _CalculateDefenseRatings(); }
 
-	void SetAgility(uint32 ag)
-		{ _agility = ag; }
+	//! Made virtual to permit Battle Actors to recompute the idle state time.
+	virtual void SetAgility(uint32 ag)
+	{ _agility = ag; }
 
 	void SetEvade(float ev)
-		{ _evade = ev; _CalculateEvadeRatings(); }
+	{ _evade = ev; _CalculateEvadeRatings(); }
 	//@}
 
 	/** \name Class member add and subtract functions
