@@ -362,6 +362,9 @@ public:
 	void SetBattleType(hoa_battle::private_battle::BATTLE_TYPE battle_type)
 	{ _battle_type = battle_type; }
 
+	float GetBattleTypeTimeFactor() const
+	{ return _battle_type_time_factor; }
+
 	//! \name Class member accessor methods
 	//@{
 	std::deque<private_battle::BattleCharacter*>& GetCharacterActors()
