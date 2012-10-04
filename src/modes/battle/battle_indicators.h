@@ -97,6 +97,18 @@ public:
 
 	const hoa_system::SystemTimer& GetTimer() const
 		{ return _timer; }
+
+	float GetXOrigin() const
+	{ return _x_absolute_position; }
+
+	float GetYOrigin() const
+	{ return _y_absolute_position; }
+
+	void SetXOrigin(float x)
+	{ _x_absolute_position = x; }
+
+	void SetYOrigin(float y)
+	{ _y_absolute_position = y; }
 	//@}
 
 protected:
@@ -374,6 +386,11 @@ private:
 
 	//! \brief A FIFO queue container of all elements that have begun and are going through their display sequence
 	std::deque<IndicatorElement*> _active_queue;
+
+	//! Check the waiting queue and fix potential overlaps depending on the element position and type.
+	//! \param element the Indicator Element which is about to be added.
+	//! \return whether there were overlappiong elements whose positions were fixed.
+	bool _FixPotentialIndicatorOverlapping(IndicatorElement *element);
 }; // class IndicatorSupervisor
 
 } // namespace private_battle

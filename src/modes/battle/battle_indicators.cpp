@@ -345,7 +345,9 @@ IndicatorSupervisor::~IndicatorSupervisor() {
 	_active_queue.clear();
 }
 
-
+static bool IndicatorCompare(IndicatorElement *one, IndicatorElement *another) {
+	return (one->GetXOrigin() > another->GetXOrigin());
+}
 
 void IndicatorSupervisor::Update() {
 	// Update all active elements
@@ -364,16 +366,46 @@ void IndicatorSupervisor::Update() {
 		}
 	}
 
-	// TODO: determine if there is enough space to insert the next element
+	bool must_sort = false;
+	while (!_wait_queue.empty()) {
 
-	if (_wait_queue.empty() == false && (_active_queue.empty() || _active_queue.back()->HasStarted())) {
+		// Update the element position if it is overlapping another one.
+		_wait_queue.front()->Start(); // Setup the indcator's coords
+		while (_FixPotentialIndicatorOverlapping(_wait_queue.front()))
+		{}
+
 		_active_queue.push_back(_wait_queue.front());
-		_active_queue.back()->Start();
 		_wait_queue.pop_front();
+		must_sort = true;
 	}
+
+	// Sort the indicator display in that case
+	if (must_sort)
+		std::sort(_active_queue.begin(), _active_queue.end(), IndicatorCompare);
 }
 
+bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement *element) {
+	if (!element)
+		return false; // No overlapping
 
+	IndicatorElement* overlapped_element = 0;
+
+	// Get potential overlapped indicators
+	for (std::deque<IndicatorElement*>::iterator it = _active_queue.begin(),
+			it_end = _active_queue.end(); it != it_end; ++it) {
+		if ((*it)->GetXOrigin() == element->GetXOrigin()) {
+			overlapped_element = *it;
+			break;
+		}
+	}
+
+	if (!overlapped_element)
+		return false; // No overlapping
+
+	// Move the next indicator a bit.
+	element->SetXOrigin(element->GetXOrigin() + 15.0f);
+	return true;
+}
 
 void IndicatorSupervisor::Draw() {
 	for (uint32 i = 0; i < _active_queue.size(); i++) {
