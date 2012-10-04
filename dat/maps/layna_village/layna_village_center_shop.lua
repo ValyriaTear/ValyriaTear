@@ -302,10 +302,12 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.ShopEvent("layna: open shop");
-	event:AddWare(1, 10); -- minor potion
-	event:AddWare(30003, 1); -- tunic for Bronann
-	event:AddWare(30004, 1); -- leather cloak for Kalya
-	event:AddWare(40001, 3); -- leather cloak for Kalya
+	event:AddObject(1, 10); -- minor potion
+	event:AddObject(30003, 1); -- tunic for Bronann
+	event:AddObject(30004, 1); -- leather cloak for Kalya
+	event:AddObject(40001, 3); -- leather cloak for Kalya
+	event:SetPriceLevels(hoa_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
+				hoa_shop.ShopMode.SHOP_PRICE_STANDARD);
 
 	EventManager:RegisterEvent(event);
 

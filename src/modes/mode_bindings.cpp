@@ -558,7 +558,8 @@ void BindModeCode() {
 	[
 		luabind::class_<ShopEvent, MapEvent>("ShopEvent")
 			.def(luabind::constructor<std::string>())
-			.def("AddWare", &ShopEvent::AddWare)
+			.def("AddObject", &ShopEvent::AddObject)
+			.def("SetPriceLevels", &ShopEvent::SetPriceLevels)
 	];
 
 	luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -778,6 +779,16 @@ void BindModeCode() {
 		luabind::class_<ShopMode, hoa_mode_manager::GameMode>("ShopMode")
 			.def(luabind::constructor<>())
 			.def("AddObject", &ShopMode::AddObject)
+			.def("SetPriceLevels", &ShopMode::SetPriceLevels)
+
+			.enum_("constants") [
+				// Price levels
+				luabind::value("SHOP_PRICE_VERY_GOOD", SHOP_PRICE_VERY_GOOD),
+				luabind::value("SHOP_PRICE_GOOD", SHOP_PRICE_GOOD),
+				luabind::value("SHOP_PRICE_STANDARD", SHOP_PRICE_STANDARD),
+				luabind::value("SHOP_PRICE_POOR", SHOP_PRICE_POOR),
+				luabind::value("SHOP_PRICE_VERY_POOR", SHOP_PRICE_VERY_POOR)
+			]
 	];
 
 	} // End using shop mode namespaces

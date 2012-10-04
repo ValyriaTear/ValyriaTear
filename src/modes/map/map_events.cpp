@@ -89,34 +89,13 @@ bool DialogueEvent::_Update() {
 // ---------- ShopEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ShopEvent::ShopEvent(const std::string& event_id) :
-	MapEvent(event_id, SHOP_EVENT)
-{}
-
-
-
-ShopEvent::~ShopEvent()
-{}
-
-
-void ShopEvent::AddWare(uint32 object_id, uint32 stock) {
-	_wares.insert(std::make_pair(object_id, stock));
-}
-
-
-
 void ShopEvent::_Start() {
 	ShopMode* shop = new ShopMode();
-	for (std::set<std::pair<uint32, uint32> >::iterator i = _wares.begin(); i != _wares.end(); i++) {
+	for (std::set<std::pair<uint32, uint32> >::iterator i = _objects.begin(); i != _objects.end(); ++i)
 		shop->AddObject((*i).first, (*i).second);
-	}
+
+	shop->SetPriceLevels(_buy_level, _sell_level);
 	ModeManager->Push(shop);
-}
-
-
-
-bool ShopEvent::_Update() {
-	return true;
 }
 
 // -----------------------------------------------------------------------------

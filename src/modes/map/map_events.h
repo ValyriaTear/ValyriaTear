@@ -23,6 +23,7 @@
 #define __MAP_EVENTS_HEADER__
 
 #include "modes/map/map_treasure.h"
+#include "modes/shop/shop_utils.h"
 
 #include "engine/audio/audio_descriptor.h"
 
@@ -218,27 +219,45 @@ protected:
 class ShopEvent : public MapEvent {
 public:
 	//! \param event_id The ID of this event
-	ShopEvent(const std::string& event_id);
+	ShopEvent(const std::string& event_id):
+	    MapEvent(event_id, SHOP_EVENT),
+	    _buy_level(hoa_shop::SHOP_PRICE_STANDARD),
+	    _sell_level(hoa_shop::SHOP_PRICE_STANDARD)
+	{}
 
-	~ShopEvent();
+	~ShopEvent()
+	{}
 
-	/** \brief Adds a ware to the list of objects for sale
+	/** \brief Adds an object to the list of objects for sale
 	*** \param object_id The ID of the GlobalObject to make available for purchase
 	*** \param stock The amount of the object to make available for purchase
 	*** \note All wares must be added before the _Start() method is called to ensure
 	*** that the wares actually appear in shop mode.
 	**/
-	void AddWare(uint32 object_id, uint32 stock);
+	void AddObject(uint32 object_id, uint32 stock)
+	{ _objects.insert(std::make_pair(object_id, stock)); }
+
+	//! \brief Set the shop quality levels which will handle pricing variations.
+	void SetPriceLevels(hoa_shop::SHOP_PRICE_LEVEL buy_level,
+						hoa_shop::SHOP_PRICE_LEVEL sell_level) {
+		_buy_level = buy_level;
+		_sell_level = sell_level;
+	}
 
 protected:
 	//! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
-	std::set<std::pair<uint32, uint32> > _wares;
+	std::set<std::pair<uint32, uint32> > _objects;
+
+	//! \brief The Shop quality levels. The more the level is, the worse it is for the player.
+	hoa_shop::SHOP_PRICE_LEVEL _buy_level;
+	hoa_shop::SHOP_PRICE_LEVEL _sell_level;
 
 	//! \brief Creates an instance of ShopMode and pushes it to the game mode stack
 	void _Start();
 
 	//! \brief Performs no operation (returns true)
-	bool _Update();
+	bool _Update()
+	{ return true; }
 }; // class ShopEvent : public MapEvent
 
 
