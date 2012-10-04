@@ -264,8 +264,10 @@ BattleMode::BattleMode() :
 	_current_number_swaps(0),
 	_last_enemy_dying(false),
 	_stamina_icon_alpha(1.0f),
+	_actor_state_paused(false),
 	_battle_type(BATTLE_TYPE_WAIT),
-	_actor_state_paused(false)
+	_highest_agility(0),
+	_battle_type_time_factor(BATTLE_ACTIVE_FACTOR)
 {
 	IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << std::endl;
 
@@ -748,7 +750,7 @@ void BattleMode::_Initialize() {
 	// Unset a possible last enemy dying sequence.
 	_last_enemy_dying = false;
 
-	// (1): Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
+	// Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
 	GlobalParty* active_party = GlobalManager->GetActiveParty();
 	if (active_party->GetPartySize() == 0) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters in the active party, exiting battle" << std::endl;
@@ -767,79 +769,55 @@ void BattleMode::_Initialize() {
 	}
 	_command_supervisor->ConstructMenus();
 
-	// (2): Determine the origin position for all characters and enemies
+	// Determine the origin position for all characters and enemies
 	_DetermineActorLocations();
 
-	// (3): Find the actor with the highext agility rating
-	uint32 highest_agility = 0;
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
-		if (_character_actors[i]->GetAgility() > highest_agility)
-			highest_agility = _character_actors[i]->GetAgility();
-	}
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		if (_enemy_actors[i]->GetAgility() > highest_agility)
-			highest_agility = _enemy_actors[i]->GetAgility();
+	// Find the actor with the highext agility rating
+	_highest_agility = 0;
+	for (uint32 i = 0; i < _character_actors.size(); ++i) {
+		if (_character_actors[i]->GetAgility() > _highest_agility)
+			_highest_agility = _character_actors[i]->GetAgility();
 	}
 
-	// Andy: Once every game loop, the SystemManager's timers are updated
-	// However, in between calls, battle mode is constructed. As part
-	// of battle mode's construction, each actor is given a wait timer
-	// that is triggered on initialization. But the moving of the stamina
-	// portrait uses the update time from SystemManager.  Therefore, the
-	// amount of time since SystemManager last updated is greater than
-	// the amount of time that has expired on the actors' wait timers
-	// during the first orund of battle mode.  This gives the portrait an
-	// extra boost, so once the wait time expires for an actor, his portrait
-	// is past the designated stopping point
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
+		if (_enemy_actors[i]->GetAgility() > _highest_agility)
+			_highest_agility = _enemy_actors[i]->GetAgility();
+	}
 
-	// <--      time       -->
-	// A----------X-----------B
-	// If the SystemManager has its timers updated at A and B, and battle mode is
-	// constructed and initialized at X, you can see the amount of time between
-	// X and B (how much time passed on the wait timers in round 1) is significantly
-	// smaller than the time between A and B.  Hence the extra boost to the stamina
-	// portrait's location
+	if (_highest_agility == 0) {
+	    _highest_agility = 1; // Prevent potential segfault.
+	    PRINT_WARNING << "The highest agility found was 0" << std::endl;
+	}
 
-	// FIX ME This will not work in the future (i.e. paralysis)...realized this
-	// after writing all the above crap
-	// CD: Had to move this to before timers are initalized, otherwise this call will give
-	// our timers a little extra nudge with regards to time elapsed, thus making the portraits
-	// stop before they reach they yellow/orange line
-	// TODO: This should be fixed once battles have a little smoother start (characters run in from
-	// off screen to their positions, and stamina icons do not move until they are ready in their
-	// battle positions). Once that feature is available, remove this call.
-	SystemManager->UpdateTimers();
-
-	// (4): Adjust each actor's idle state time based on their agility proportion to the fastest actor
+	// Adjust each actor's idle state time based on their agility proportion to the fastest actor
 	// If an actor's agility is half that of the actor with the highest agility, then they will have an
 	// idle state time that is twice that of the slowest actor.
 
 	// We also factor the idle time using the battle type setting
 	// ACTIVE BATTLE
-	float time_factor = BATTLE_ACTIVE_FACTOR;
+	_battle_type_time_factor = BATTLE_ACTIVE_FACTOR;
 	// WAIT battle type is always safe, since the character has got all the time
 	// he/she wants to think so we can dimish the idle time of character and jump
 	// right to the command status.
 	if (_battle_type == BATTLE_TYPE_WAIT)
-		time_factor = BATTLE_WAIT_FACTOR;
+		_battle_type_time_factor = BATTLE_WAIT_FACTOR;
 	// SEMI_ACTIVE battle type is a bit more dangerous as if the player is taking
 	// too much time to think, the enemies will have slightly more chances to hit.
 	// Yet, the semi wait battles are far simpler than active ones, so we
 	// can make them relatively faster.
 	else if (_battle_type == BATTLE_TYPE_SEMI_ACTIVE)
-		time_factor = BATTLE_SEMI_ACTIVE_FACTOR;
+		_battle_type_time_factor = BATTLE_SEMI_ACTIVE_FACTOR;
 
-	float proportion;
 	for (uint32 i = 0; i < _character_actors.size(); i++) {
 		if (_character_actors[i]->IsAlive()) {
-			proportion = static_cast<float>(highest_agility) / static_cast<float>(_character_actors[i]->GetAgility() * time_factor);
-			_character_actors[i]->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
-			_character_actors[i]->ChangeState(ACTOR_STATE_IDLE); // Needed to set up the stamina icon position.
+			SetActorIdleStateTime(_character_actors[i]);
+
+			// Needed to set up the stamina icon position.
+			_character_actors[i]->ChangeState(ACTOR_STATE_IDLE);
 	    }
 	}
 	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
-		proportion = static_cast<float>(highest_agility) / static_cast<float>(_enemy_actors[i]->GetAgility() * time_factor);
-		_enemy_actors[i]->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
+		SetActorIdleStateTime(_enemy_actors[i]);
 		_enemy_actors[i]->ChangeState(ACTOR_STATE_IDLE);
 	}
 
@@ -862,6 +840,19 @@ void BattleMode::_Initialize() {
 
 	ChangeState(BATTLE_STATE_INITIAL);
 } // void BattleMode::_Initialize()
+
+void BattleMode::SetActorIdleStateTime(BattleActor *actor) {
+	if (!actor || actor->GetAgility() == 0)
+		return;
+
+	if (_highest_agility == 0 || _battle_type_time_factor == 0.0f)
+		return;
+
+	float proportion = static_cast<float>(_highest_agility)
+		/ static_cast<float>(actor->GetAgility() * _battle_type_time_factor);
+
+	actor->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
+}
 
 void BattleMode::_DetermineActorLocations() {
 	// Fallback positions for enemies when not set by scripts

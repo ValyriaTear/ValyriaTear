@@ -381,6 +381,11 @@ public:
 
 	private_battle::DialogueSupervisor* GetDialogueSupervisor()
 		{ return _dialogue_supervisor; }
+
+	//! \brief Sets or updates the battle actor idle state time to reflect its current agility.
+	//! \note the _highest_agility and _battle_type_time_factor members must be set before calling
+	//! this method.
+	void SetActorIdleStateTime(private_battle::BattleActor *actor);
 	//@}
 
 private:
@@ -466,11 +471,17 @@ private:
 	//! \brief the Stamina Icon general transluency. Used to make the characters's stamina icon disappear on wins.
 	float _stamina_icon_alpha;
 
+	//! \brief Tells whether the state of battle actors should be paused. Used in wait battle types.
+	bool _actor_state_paused;
+
 	//! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
 	hoa_battle::private_battle::BATTLE_TYPE _battle_type;
 
-	//! \brief Tells whether the state of battle actors should be paused. Used in wait battle types.
-	bool _actor_state_paused;
+	//! \brief Setup at battle start, and used to factorize the battle actors speed in battle.
+	uint32 _highest_agility;
+
+	//! \brief the battle type time factor, speeding the battle actors depending on the battle type.
+	float _battle_type_time_factor;
 
 	////////////////////////////// PRIVATE METHODS ///////////////////////////////
 

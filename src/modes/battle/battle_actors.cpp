@@ -436,6 +436,11 @@ void BattleActor::SetAction(BattleAction* action) {
 	_action = action;
 }
 
+void BattleActor::SetAgility(uint32 agility) {
+	GlobalActor::SetAgility(agility);
+	BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
+}
+
 uint32 BattleActor::TotalPhysicalDefense() {
 	uint32 phys_defense = 0;
 

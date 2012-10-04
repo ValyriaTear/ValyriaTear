@@ -662,6 +662,7 @@ void BindModeCode() {
 			.def("ResetFortitude", &BattleActor::ResetFortitude)
 			.def("ResetProtection", &BattleActor::ResetProtection)
 			.def("ResetAgility", &BattleActor::ResetAgility)
+			.def("SetAgility", &BattleActor::SetAgility)
 			.def("ResetEvade", &BattleActor::ResetEvade)
 			.def("TotalPhysicalDefense", &BattleActor::TotalPhysicalDefense)
 			.def("TotalMetaphysicalDefense", &BattleActor::TotalMetaphysicalDefense)
