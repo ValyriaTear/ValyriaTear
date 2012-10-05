@@ -58,11 +58,11 @@ public:
 		_id(id), _count(count), _price(0) {}
 
 	virtual ~GlobalObject()
-		{}
+	{}
 
 	//! \brief Returns true if the object is properly initialized and ready to be used
 	bool IsValid() const
-		{ return (_id != 0); }
+	{ return (_id != 0); }
 
 	/** \brief Purely virtual function used to distinguish between object types
 	*** \return A value that represents the type of object
@@ -73,7 +73,7 @@ public:
 	*** \param count The count increment value (default value == 1)
 	**/
 	void IncrementCount(uint32 count = 1)
-		{ _count += count; }
+	{ _count += count; }
 
 	/** \brief Decrements the number of objects represented by this class
 	*** \param count The count decrement value (default value == 1)
@@ -81,33 +81,36 @@ public:
 	*** responsiblity to check if the count becomes zero, and to destroy the object if it is appropriate to do so.
 	**/
 	void DecrementCount(uint32 count = 1)
-		{ if (count > _count) _count = 0; else _count -= count; }
+	{ if (count > _count) _count = 0; else _count -= count; }
 
 	//! \name Class Member Access Functions
 	//@{
 	uint32 GetID() const
-		{ return _id; }
+	{ return _id; }
 
 	const hoa_utils::ustring& GetName() const
-		{ return _name; }
+	{ return _name; }
 
 	const hoa_utils::ustring& GetDescription() const
-		{ return _description; }
-
-	const hoa_utils::ustring& GetLore() const
-		{ return _lore; }
+	{ return _description; }
 
 	void SetCount(uint32 count)
-		{ _count = count; }
+	{ _count = count; }
 
 	uint32 GetCount() const
-		{ return _count; }
+	{ return _count; }
 
 	uint32 GetPrice() const
-		{ return _price; }
+	{ return _price; }
 
 	const hoa_video::StillImage& GetIconImage() const
-		{ return _icon_image; }
+	{ return _icon_image; }
+
+	const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& GetElementalEffects() const
+	{ return _elemental_effects; }
+
+	const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& GetStatusEffects() const
+	{ return _status_effects; }
 	//@}
 
 protected:
@@ -122,9 +125,6 @@ protected:
 	//! \brief A short description of the item to display on the screen
 	hoa_utils::ustring _description;
 
-	//! \brief A detailed description of the object's history, culture, and how it fits into the game world
-	hoa_utils::ustring _lore;
-
 	//! \brief Retains how many occurences of the object are represented by this class object instance
 	uint32 _count;
 
@@ -134,19 +134,35 @@ protected:
 	//! \brief A loaded icon image of the object at its original size of 60x60 pixels
 	hoa_video::StillImage _icon_image;
 
+	/** \brief Container that holds the intensity of each type of elemental effect of the object
+	*** Elements with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no elemental bonus
+	**/
+	std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> > _elemental_effects;
+
+	/** \brief Container that holds the intensity of each type of status effect of the object
+	*** Effects with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no status effect bonus
+	**/
+	std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> > _status_effects;
+
 	//! \brief Causes the object to become invalid due to a loading error or other significant issue
 	void _InvalidateObject()
-		{ _id = 0; }
+	{ _id = 0; }
 
 	/** \brief Reads object data from an open script file
 	*** \param script A reference to a script file that has been opened and prepared
 	***
-	*** This method does not do any of its own error case checking. Only dervied classes may call this
+	*** This method does not do any of its own error case checking. Only derived classes may call this
 	*** protected function and they are expected to have the script file successfully opened and the correct
 	*** table context prepared. This function will do nothing more but read the expected key/values of
 	*** the open table in the script file and return.
 	**/
 	void _LoadObjectData(hoa_script::ReadScriptDescriptor& script);
+
+	//! \brief Loads elemental effects data
+	void _LoadElementalEffects(hoa_script::ReadScriptDescriptor& script);
+
+	//! \brief Loads status effects data
+	void _LoadStatusEffects(hoa_script::ReadScriptDescriptor& script);
 }; // class GlobalObject
 
 
@@ -267,11 +283,8 @@ public:
 	uint32 GetUsableBy() const
 	{ return _usable_by; }
 
-	const std::vector<GlobalShard*>& GetSockets() const
-	{ return _sockets; }
-
-	const std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& GetElementalEffects() const
-	{ return _elemental_effects; }
+	const std::vector<GlobalShard*>& GetShardSlots() const
+	{ return _shard_slots; }
 
 	const std::string& GetAmmoImageFile() const
 	{ return _ammo_image_file; }
@@ -292,20 +305,12 @@ private:
 	**/
 	uint32 _usable_by;
 
-	/** \brief Sockets which may be used to place shards on the weapon
-	*** Weapons may have no sockets, so it is not uncommon for the size of this vector to be zero.
-	*** When a socket is available but empty (has no attached shard), the pointer at that index
+	/** \brief Shard slots which may be used to place shards on the weapon
+	*** Weapons may have no slots, so it is not uncommon for the size of this vector to be zero.
+	*** When shard slots are available but empty (has no attached shard), the pointer at that index
 	*** will be NULL.
 	**/
-	std::vector<GlobalShard*> _sockets;
-
-	/** \brief Container that holds the intensity of each type of elemental effect of the weapon
-	*** Elements with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no elemental bonus
-	**/
-	std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> _elemental_effects;
-
-	// TODO: Add status effects to weapons
-	// std::map<GLOBAL_STATUS, GLOBAL_INTENSITY> _status_effects;
+	std::vector<GlobalShard*> _shard_slots;
 }; // class GlobalWeapon : public GlobalObject
 
 
@@ -330,25 +335,22 @@ public:
 	GlobalArmor(uint32 id, uint32 count = 1);
 
 	~GlobalArmor()
-		{}
+	{}
 
 	//! \brief Returns the approriate armor type (head, torso, arm, leg) depending on the object ID
 	GLOBAL_OBJECT GetObjectType() const;
 
 	uint32 GetPhysicalDefense() const
-		{ return _physical_defense; }
+	{ return _physical_defense; }
 
 	uint32 GetMetaphysicalDefense() const
-		{ return _metaphysical_defense; }
+	{ return _metaphysical_defense; }
 
 	uint32 GetUsableBy() const
-		{ return _usable_by; }
+	{ return _usable_by; }
 
-	const std::vector<GlobalShard*>& GetSockets() const
-		{ return _sockets; }
-
-	const std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& GetElementalEffects() const
-		{ return _elemental_effects; }
+	const std::vector<GlobalShard*>& GetShardSlots() const
+	{ return _shard_slots; }
 
 private:
 	//! \brief The amount of physical defense that the armor provides
@@ -367,15 +369,7 @@ private:
 	*** When a socket is available but empty (has no attached shard), the pointer at that index
 	*** will be NULL.
 	**/
-	std::vector<GlobalShard*> _sockets;
-
-	/** \brief Container that holds the intensity of each type of elemental effect of the armor
-	*** Elements with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no elemental bonus
-	**/
-	std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> _elemental_effects;
-
-	// TODO: Add status effects to weapons
-	// std::map<GLOBAL_STATUS, GLOBAL_INTENSITY> _status_effects;
+	std::vector<GlobalShard*> _shard_slots;
 }; // class GlobalArmor : public GlobalObject
 
 

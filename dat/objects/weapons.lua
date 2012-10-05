@@ -80,6 +80,26 @@ weapons[10003] = {
 	slots = 1
 }
 
+weapons[10004] = {
+	name = hoa_system.Translate("Paladin's Sword"),
+	description = hoa_system.Translate("A mythical weapon blessed with a magical fire."),
+	icon = "img/icons/weapons/paladin-sword.png",
+	physical_attack = 90,
+	metaphysical_attack = 30,
+	standard_price = 30800,
+	usable_by = BRONANN + THANIS,
+	slots = 3,
+
+	elemental_effects = {
+		[hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+	},
+
+	status_effects = {
+		[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+		[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+	}
+}
+
 -- -----------------------------------------------------------------------------
 -- IDs 11,001 - 11,500 are reserved for arbalests
 -- -----------------------------------------------------------------------------

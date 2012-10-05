@@ -69,18 +69,18 @@ public:
 		_type(type), _intensity(intensity) {}
 
 	~GlobalElementalEffect()
-		{}
+	{}
 
 	//! \brief Class Member Access Functions
 	//@{
 	GLOBAL_ELEMENTAL GetType() const
-		{ return _type; }
+	{ return _type; }
 
 	GLOBAL_INTENSITY GetIntensity() const
-		{ return _intensity; }
+	{ return _intensity; }
 
 	void SetIntensity(GLOBAL_INTENSITY intensity)
-		{ _intensity = intensity; }
+	{ _intensity = intensity; }
 	//@}
 
 	/** \brief Increments the elemental effect's intensity
@@ -122,18 +122,18 @@ public:
 		_type(type), _intensity(intensity) {}
 
 	virtual ~GlobalStatusEffect()
-		{}
+	{}
 
 	//! \brief Class Member Access Functions
 	//@{
 	GLOBAL_STATUS GetType() const
-		{ return _type; }
+	{ return _type; }
 
 	GLOBAL_INTENSITY GetIntensity() const
-		{ return _intensity; }
+	{ return _intensity; }
 
 	virtual void SetIntensity(GLOBAL_INTENSITY intensity)
-		{ _intensity = intensity; }
+	{ _intensity = intensity; }
 	//@}
 
 	/** \brief Increments the status effect intensity by a positive amount

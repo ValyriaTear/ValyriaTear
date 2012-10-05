@@ -22,6 +22,7 @@ function BootShopTest()
 	shop:AddObject(10001, 2);
 	shop:AddObject(10002, 4);
 	shop:AddObject(10003, 12);
+	shop:AddObject(10004, 1);
 	shop:AddObject(11001, 5);
 	shop:AddObject(20002, 1);
 	shop:AddObject(20003, 2);

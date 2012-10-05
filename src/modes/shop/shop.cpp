@@ -76,16 +76,17 @@ ShopMedia::ShopMedia() {
 	if (_x_icon.Load("img/menus/red_x.png") == false)
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load x icon image" << std::endl;
 
-	if (_socket_icon.Load("img/menus/socket.png") == false)
-		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load socket icon image" << std::endl;
+	if (!_shard_slot_icon.Load("img/menus/shard_slot.png"))
+		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load shard slot icon image" << std::endl;
 
 	if (_equip_icon.Load("img/menus/equip.png") == false)
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load equip icon image" << std::endl;
 
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 8, 9) == false) {
+	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 8, 9))
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load elemental icon images" << std::endl;
-		return;
-	}
+
+	if (!ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
+		PRINT_ERROR << "failed to load status icon images" << std::endl;
 
 	_sounds["confirm"] = new SoundDescriptor();
 	_sounds["cancel"] = new SoundDescriptor();
@@ -116,14 +117,40 @@ ShopMedia::ShopMedia() {
 	_all_category_names.push_back(UTranslate("Key Items"));
 	_all_category_names.push_back(UTranslate("All Wares"));
 
-	if (ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 4) == false) {
+	if (!ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 4))
 		IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load object category icon images" << std::endl;
-		return;
-	}
+
 	// The last three images in this multi image are blank, so they are removed
 	_all_category_icons.pop_back();
 	_all_category_icons.pop_back();
 	_all_category_icons.pop_back();
+
+	// Determine which status effects correspond to which icons and store the result in the _status_indices container
+	hoa_script::ReadScriptDescriptor& script_file = GlobalManager->GetStatusEffectsScript();
+
+	std::vector<int32> status_types;
+	script_file.ReadTableKeys(status_types);
+
+	for (uint32 i = 0; i < status_types.size(); ++i) {
+		GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(status_types[i]);
+
+		// Check for duplicate entries of the same status effect
+		if (_status_indeces.find(status) != _status_indeces.end()) {
+			IF_PRINT_WARNING(SHOP_DEBUG) << "duplicate entry found in file " << script_file.GetFilename() <<
+				" for status type: " << status_types[i] << std::endl;
+			continue;
+		}
+
+		script_file.OpenTable(status_types[i]);
+		if (script_file.DoesIntExist("icon_index") == true) {
+			uint32 icon_index = script_file.ReadUInt("icon_index");
+			_status_indeces.insert(std::pair<GLOBAL_STATUS, uint32>(status, icon_index));
+		}
+		else {
+			IF_PRINT_WARNING(SHOP_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << std::endl;
+		}
+		script_file.CloseTable();
+	}
 
 	// Initialize the character's prites images.
 	_InitializeCharacters();
@@ -309,12 +336,27 @@ StillImage* ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_IN
 	return &(_elemental_icons[(row * NUMBER_INTENSTIY_LEVELS) + col]);
 }
 
+StillImage* ShopMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity) {
+	if ((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
+		PRINT_WARNING << "type argument was invalid: " << type << std::endl;
+		return NULL;
+	}
+	if ((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
+		PRINT_WARNING << "type argument was invalid: " << intensity << std::endl;
+		return NULL;
+	}
 
-StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity) {
-	// TODO: implement this function once status effects are ready
-	return NULL;
+	std::map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
+	if (status_entry == _status_indeces.end()) {
+		PRINT_WARNING << "no entry in the status icon index for status type: " << type << std::endl;
+		return NULL;
+	}
+
+	const uint32 IMAGE_ROWS = 5;
+	uint32 status_index = status_entry->second;
+	uint32 intensity_index = static_cast<uint32>(intensity);
+	return &(_status_icons[(status_index * IMAGE_ROWS) + intensity_index]);
 }
-
 
 SoundDescriptor* ShopMedia::GetSound(const std::string& identifier) {
 	std::map<std::string, SoundDescriptor*>::iterator sound = _sounds.find(identifier);
@@ -348,14 +390,6 @@ ShopObjectViewer::ShopObjectViewer() :
 	_description_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 	_SetDescriptionText(); // Will set the position and dimensions of _description_text
 
-	_lore_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-	_lore_text.SetPosition(25.0f, 100.0f);
-	_lore_text.SetDimensions(760.0f, 80.0f);
-	_lore_text.SetTextStyle(TextStyle("text20"));
-	_lore_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
-	_lore_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-	_lore_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-
 	_field_use_header.SetStyle(TextStyle("text22"));
 	_field_use_header.SetText(UTranslate("Field Use:"));
 	_battle_use_header.SetStyle(TextStyle("text22"));
@@ -380,12 +414,7 @@ ShopObjectViewer::ShopObjectViewer() :
 
 	_phys_rating.SetStyle(TextStyle("text22"));
 	_meta_rating.SetStyle(TextStyle("text22"));
-	_socket_text.SetStyle(TextStyle("text22"));
-
-	// Size elemental and status icon containers to the total number of available elementals/status effects
-	_elemental_icons.resize(GLOBAL_ELEMENTAL_TOTAL, 0);
-	// TODO
-// 	_status_icons.resize(GLOBAL_STATUS_TOTAL, StillImage());
+	_shard_slot_text.SetStyle(TextStyle("text22"));
 }
 
 
@@ -395,7 +424,7 @@ void ShopObjectViewer::Initialize() {
 
 	_check_icon = ShopMode::CurrentInstance()->Media()->GetCheckIcon();
 	_x_icon = ShopMode::CurrentInstance()->Media()->GetXIcon();
-	_socket_icon = ShopMode::CurrentInstance()->Media()->GetSocketIcon();
+	_shard_slot_icon = ShopMode::CurrentInstance()->Media()->GetShardSlotIcon();
 	_equip_icon = ShopMode::CurrentInstance()->Media()->GetEquipIcon();
 
 	std::vector<hoa_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
@@ -420,7 +449,6 @@ void ShopObjectViewer::Update() {
 	}
 
 	_description_text.Update();
-	_lore_text.Update();
 }
 
 
@@ -467,7 +495,6 @@ void ShopObjectViewer::Draw() {
 	// In the info view mode, description text and lore text is always drawn near the bottom of the middle window
 	if (_view_mode == SHOP_VIEW_MODE_INFO) {
 		_description_text.Draw();
-		_lore_text.Draw();
 	}
 }
 
@@ -599,21 +626,19 @@ void ShopObjectViewer::_SetEquipmentData() {
 
 	// ---------- (2): Determine equipment's rating, socket, elemental effects, and status effects to report
 
-	if (selected_weapon != NULL) {
+	if (selected_weapon) {
 		_phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
 		_meta_rating.SetText(NumberToString(selected_weapon->GetMetaphysicalAttack()));
-		_socket_text.SetText("x" + NumberToString(selected_weapon->GetSockets().size()));
+		_shard_slot_text.SetText("x" + NumberToString(selected_weapon->GetShardSlots().size()));
 		_SetElementalIcons(selected_weapon->GetElementalEffects());
-		// TODO
-		//_SetStatusIcons(selected_weapon->GetStatusEffects());
+		_SetStatusIcons(selected_weapon->GetStatusEffects());
 	}
-	else if (selected_armor != NULL) {
+	else if (selected_armor) {
 		_phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
 		_meta_rating.SetText(NumberToString(selected_armor->GetMetaphysicalDefense()));
-		_socket_text.SetText("x" + NumberToString(selected_armor->GetSockets().size()));
+		_shard_slot_text.SetText("x" + NumberToString(selected_armor->GetShardSlots().size()));
 		_SetElementalIcons(selected_armor->GetElementalEffects());
-		// TODO
-		//_SetStatusIcons(selected_weapon->GetStatusEffects());
+		_SetStatusIcons(selected_armor->GetStatusEffects());
 	}
 
 	// ---------- (3): For each character, determine if they already have the selection equipped or determine the change in pricing
@@ -780,57 +805,23 @@ void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 meta_
 	}
 }
 
-
-
-void ShopObjectViewer::_SetElementalIcons(const std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>& elemental_effects) {
-	uint32 index = 0;
-
-	for (std::map<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>::const_iterator i = elemental_effects.begin(); i != elemental_effects.end(); i++) {
-		switch (i->first) {
-			case GLOBAL_ELEMENTAL_FIRE:
-				index = 0;
-				break;
-			case GLOBAL_ELEMENTAL_WATER:
-				index = 1;
-				break;
-			case GLOBAL_ELEMENTAL_VOLT:
-				index = 2;
-				break;
-			case GLOBAL_ELEMENTAL_EARTH:
-				index = 3;
-				break;
-			case GLOBAL_ELEMENTAL_SLICING:
-				index = 4;
-				break;
-			case GLOBAL_ELEMENTAL_SMASHING:
-				index = 5;
-				break;
-			case GLOBAL_ELEMENTAL_MAULING:
-				index = 6;
-				break;
-			case GLOBAL_ELEMENTAL_PIERCING:
-				index = 7;
-				break;
-			default:
-				IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << i->first << std::endl;
-				break;
-		}
-
-		_elemental_icons[index] = ShopMode::CurrentInstance()->Media()->GetElementalIcon(i->first, i->second);
-		if (i->second == GLOBAL_INTENSITY_NEUTRAL) {
-			_elemental_icons[index]->EnableGrayScale();
-		}
+void ShopObjectViewer::_SetElementalIcons(const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& elemental_effects) {
+	_elemental_icons.clear();
+	for (std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
+			it != elemental_effects.end(); ++it) {
+		if (it->second != GLOBAL_INTENSITY_NEUTRAL)
+			_elemental_icons.push_back(ShopMode::CurrentInstance()->Media()->GetElementalIcon(it->first, it->second));
 	}
 }
 
-
-
-void ShopObjectViewer::_SetStatusIcons(const std::map<GLOBAL_STATUS, GLOBAL_INTENSITY>& status_effects) {
-	// TODO: Implement this method when status effects are available.
-	// It should work very much the same way as _SetElementalIcons()
+void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects) {
+	_status_icons.clear();
+	for (std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >::const_iterator it = status_effects.begin();
+			it != status_effects.end(); ++it) {
+		if (it->second != GLOBAL_INTENSITY_NEUTRAL)
+			_status_icons.push_back(ShopMode::CurrentInstance()->Media()->GetStatusIcon(it->first, it->second));
+	}
 }
-
-
 
 void ShopObjectViewer::_DrawItem() {
 	float move_offset = 0.0f; // Used to save image widths in determining relative movement
@@ -879,43 +870,54 @@ void ShopObjectViewer::_DrawEquipment() {
 	VideoManager->MoveRelative(90.0f, 30.0f);
 	_phys_rating.Draw();
 	VideoManager->MoveRelative(0.0f, -30.0f);
-		_meta_rating.Draw();
+	_meta_rating.Draw();
 
 	VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
 	VideoManager->MoveRelative(20.0f, 15.0f);
-	_socket_icon->Draw();
-	VideoManager->MoveRelative(20.0f, 0.0f);
-	_socket_text.Draw();
+	_shard_slot_icon->Draw();
+	VideoManager->MoveRelative(30.0f, 0.0f);
+	_shard_slot_text.Draw();
 
 	VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
-	VideoManager->MoveRelative(50.0f, 55.0f);
-	for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL / 2; ++i) {
+	VideoManager->MoveRelative(40.0f, 55.0f);
+
+	// Draw up to two columns of 4 elemental effects icons
+	uint32 element_size = _elemental_icons.size();
+	for (uint32 i = 0; i < 4 && i < element_size; ++i) {
 		_elemental_icons[i]->Draw();
 		VideoManager->MoveRelative(0.0f, -25.0f);
 	}
-	VideoManager->MoveRelative(40.0f, 100.0f);
-	for (uint32 i = GLOBAL_ELEMENTAL_TOTAL / 2; i < GLOBAL_ELEMENTAL_TOTAL; i++) {
-		_elemental_icons[i]->Draw();
-		VideoManager->MoveRelative(0.0f, -25.0f);
+	VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 4 ? 4 : element_size));
+
+	// Draw a second column when there are many elemental effects.
+	if (element_size > 4) {
+		for (uint32 i = 4; i < 8 && i < element_size; ++i) {
+			_elemental_icons[i]->Draw();
+			VideoManager->MoveRelative(0.0f, -25.0f);
+		}
+
+		VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 8 ? 8 : element_size - 4));
 	}
 
-	// TODO: Draw two columns of status icons
-	VideoManager->MoveRelative(80.0f, 0.0f); // TEMP: remove once commented code block below is added
-// 		VideoManager->MoveRelative(40.0f, 100.0f);
-// 		for (uint32 i = 0; i < 4; i++) {
-// 			_status_icons[i].Draw();
-// 			VideoManager->MoveRelative(0.0f, -25.0f);
-// 		}
-// 		VideoManager->MoveRelative(40.0f, 100.0f);
-// 		for (uint32 i = 4; i < 8; i++) {
-// 			_status_icons[i].Draw();
-// 			VideoManager->MoveRelative(0.0f, -25.0f);
-// 		}
+	// Draw up to two columns of 4 status effects icons
+	element_size = _status_icons.size();
+	for (uint32 i = 0; i < 4 && i < element_size; ++i) {
+		_status_icons[i]->Draw();
+		VideoManager->MoveRelative(0.0f, -25.0f);
+	}
+	VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 4 ? 4 : element_size));
+	if (element_size > 4) {
+		for (uint32 i = 4; i < 8 && i < element_size; ++i) {
+			_status_icons[i]->Draw();
+			VideoManager->MoveRelative(0.0f, -25.0f);
+		}
+		VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 8 ? 8 : element_size - 4));
+	}
 
 	VideoManager->SetDrawFlags(VIDEO_Y_TOP, 0);
 	if (_view_mode == SHOP_VIEW_MODE_LIST) {
 		// In list view mode, draw the sprites to the right of the icons
-		VideoManager->MoveRelative(60.0f, 115.0f);
+		VideoManager->MoveRelative(60.0f, 15.0f);
 	}
 	else { // (_view_mode == SHOP_VIEW_MODE_INFO)
 		// In info view mode, draw the spites centered on the screen in a row below the other equipment data

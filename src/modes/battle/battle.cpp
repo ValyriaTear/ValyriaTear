@@ -244,9 +244,10 @@ StillImage* BattleMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 		return NULL;
 	}
 
+	const uint32 IMAGE_ROWS = 5;
 	uint32 status_index = status_entry->second;
 	uint32 intensity_index = static_cast<uint32>(intensity);
-	return &(_status_icons[(status_index * 5) + intensity_index]); // TODO: use an appropriate constant instead of the "5" value here
+	return &(_status_icons[(status_index * IMAGE_ROWS) + intensity_index]);
 }
 
 } // namespace private_battle

@@ -74,8 +74,8 @@ public:
 	hoa_video::StillImage* GetXIcon()
 		{ return &_x_icon; }
 
-	hoa_video::StillImage* GetSocketIcon()
-		{ return &_socket_icon; }
+	hoa_video::StillImage* GetShardSlotIcon()
+		{ return &_shard_slot_icon; }
 
 	hoa_video::StillImage* GetEquipIcon()
 		{ return &_equip_icon; }
@@ -124,6 +124,12 @@ public:
 	hoa_audio::SoundDescriptor* GetSound(const std::string& identifier);
 
 private:
+	/** \brief Container used to find the appropriate row index for each status type
+	*** Status icons for all types of status are all contained within a single image. This container is used to
+	*** quickly determine which row of icons in that image corresponds to each status type.
+	**/
+	std::map<hoa_global::GLOBAL_STATUS, uint32> _status_indeces;
+
 	//! \brief Retains text names for all possible object categories, including "all wares"
 	std::vector<hoa_utils::ustring> _all_category_names;
 
@@ -142,8 +148,8 @@ private:
 	//! \brief Image icon of a red x
 	hoa_video::StillImage _x_icon;
 
-	//! \brief Image icon representing open sockets available on weapons and armor
-	hoa_video::StillImage _socket_icon;
+	//! \brief Image icon representing open shard slots available on weapons and armors
+	hoa_video::StillImage _shard_slot_icon;
 
 	//! \brief Image icon that represents when a character has a weapon or armor equipped
 	hoa_video::StillImage _equip_icon;
@@ -238,9 +244,6 @@ private:
 
 	//! \brief A summary description of the object to display
 	hoa_gui::TextBox _description_text;
-
-	//! \brief A more detailed "lore" description about the object's origins and connections with the world
-	hoa_gui::TextBox _lore_text;
 	//@}
 
 	//! \name Data used only for item object types
@@ -270,11 +273,11 @@ private:
 	//! \brief A rendering of the physical and metaphysical attack/defense ratings
 	hoa_video::TextImage _phys_rating, _meta_rating;
 
-	//! \brief An icon image of a shard socket
-	hoa_video::StillImage* _socket_icon;
+	//! \brief An icon image of a shard slot
+	hoa_video::StillImage* _shard_slot_icon;
 
-	//! \brief Text indicating how many sockets the selected equipment has available
-	hoa_video::TextImage _socket_text;
+	//! \brief Text indicating how many shards the selected equipment can support
+	hoa_video::TextImage _shard_slot_text;
 
 	//! \brief Icon images representing elemental effects and intensity properties of the selected object
 	std::vector<hoa_video::StillImage*> _elemental_icons;
@@ -330,7 +333,7 @@ private:
 	*** The format of the parameter comes from the global object code, as object classes return a const std::map reference
 	*** of this type to indicate their elemental effects.
 	**/
-	void _SetElementalIcons(const std::map<hoa_global::GLOBAL_ELEMENTAL, hoa_global::GLOBAL_INTENSITY>& elemental_effects);
+	void _SetElementalIcons(const std::vector<std::pair<hoa_global::GLOBAL_ELEMENTAL, hoa_global::GLOBAL_INTENSITY> >& elemental_effects);
 
 	/** \brief Sets all statusicons to the proper image when given a container
 	*** \param status_effects A const reference to a map of status effect types and their associated intensities
@@ -339,7 +342,7 @@ private:
 	*** The format of the parameter comes from the global object code, as object classes return a const std::map reference
 	*** of this type to indicate their status effects.
 	**/
-	void _SetStatusIcons(const std::map<hoa_global::GLOBAL_STATUS, hoa_global::GLOBAL_INTENSITY>& status_effects);
+	void _SetStatusIcons(const std::vector<std::pair<hoa_global::GLOBAL_STATUS, hoa_global::GLOBAL_INTENSITY> >& status_effects);
 
 	//! \brief Helper function that draws information specific to items
 	void _DrawItem();

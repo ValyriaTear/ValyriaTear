@@ -41,6 +41,63 @@ void GlobalObject::_LoadObjectData(hoa_script::ReadScriptDescriptor& script) {
 	}
 }
 
+void GlobalObject::_LoadElementalEffects(hoa_script::ReadScriptDescriptor& script) {
+	if (!script.DoesTableExist("elemental_effects"))
+		return;
+
+	std::vector<int32> elemental_effects;
+	script.ReadTableKeys("elemental_effects", elemental_effects);
+
+	if (elemental_effects.empty())
+		return;
+
+	script.OpenTable("elemental_effects");
+
+	for (uint32 i = 0; i < elemental_effects.size(); ++i) {
+
+		int32 key = elemental_effects[i];
+		if (key <= GLOBAL_ELEMENTAL_INVALID || key >= GLOBAL_ELEMENTAL_TOTAL)
+			continue;
+
+		int32 intensity = script.ReadInt(key);
+		if (intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL)
+			continue;
+
+		_elemental_effects.push_back(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>((GLOBAL_ELEMENTAL)key, (GLOBAL_INTENSITY)intensity));
+	}
+
+	script.CloseTable(); // elemental_effects
+}
+
+void GlobalObject::_LoadStatusEffects(hoa_script::ReadScriptDescriptor& script) {
+	if (!script.DoesTableExist("status_effects"))
+		return;
+
+	std::vector<int32> status_effects;
+	script.ReadTableKeys("status_effects", status_effects);
+
+	if (status_effects.empty())
+		return;
+
+	script.OpenTable("status_effects");
+
+	for (uint32 i = 0; i < status_effects.size(); ++i) {
+
+		int32 key = status_effects[i];
+		if (key <= GLOBAL_STATUS_INVALID || key >= GLOBAL_STATUS_TOTAL)
+			continue;
+
+		int32 intensity = script.ReadInt(key);
+		// Note: The intensity of a status effect can only be positive
+		if (intensity < GLOBAL_INTENSITY_NEUTRAL || intensity >= GLOBAL_INTENSITY_TOTAL)
+			continue;
+
+		_status_effects.push_back(std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY>((GLOBAL_STATUS)key, (GLOBAL_INTENSITY)intensity));
+	}
+
+	script.CloseTable(); // status_effects
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalItem class
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,16 +179,6 @@ GlobalItem& GlobalItem::operator=(const GlobalItem& copy) {
 GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 	GlobalObject(id, count)
 {
-	// Initialize all elemental effects as neutral
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_FIRE, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_WATER, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_VOLT, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_EARTH, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SLICING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SMASHING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_MAULING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_PIERCING, GLOBAL_INTENSITY_NEUTRAL));
-
 	if ((_id <= MAX_ITEM_ID) || (_id > MAX_WEAPON_ID)) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << std::endl;
 		_InvalidateObject();
@@ -149,9 +196,16 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 	script_file.OpenTable(_id);
 	_LoadObjectData(script_file);
 
+	_LoadElementalEffects(script_file);
+	_LoadStatusEffects(script_file);
+
 	_physical_attack = script_file.ReadUInt("physical_attack");
 	_metaphysical_attack = script_file.ReadUInt("metaphysical_attack");
 	_usable_by = script_file.ReadUInt("usable_by");
+
+	uint32 shards_number = script_file.ReadUInt("slots");
+	_shard_slots.resize(shards_number, NULL);
+	// TODO: Load equipped shards data
 
 	// Load the possible battle ammo animated image filename.
 	_ammo_image_file = script_file.ReadString("battle_ammo_animation_file");
@@ -173,16 +227,6 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
 	GlobalObject(id, count)
 {
-	// Initialize all elemental effects as neutral
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_FIRE, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_WATER, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_VOLT, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_EARTH, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SLICING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_SMASHING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_MAULING, GLOBAL_INTENSITY_NEUTRAL));
-	_elemental_effects.insert(std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY>(GLOBAL_ELEMENTAL_PIERCING, GLOBAL_INTENSITY_NEUTRAL));
-
 	if ((_id <= MAX_WEAPON_ID) || (_id > MAX_LEG_ARMOR_ID)) {
 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << std::endl;
 		_InvalidateObject();
@@ -220,9 +264,16 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
 	script_file->OpenTable(_id);
 	_LoadObjectData(*script_file);
 
+	_LoadElementalEffects(*script_file);
+	_LoadStatusEffects(*script_file);
+
 	_physical_defense = script_file->ReadUInt("physical_defense");
 	_metaphysical_defense = script_file->ReadUInt("metaphysical_defense");
 	_usable_by = script_file->ReadUInt("usable_by");
+
+	uint32 shards_number = script_file->ReadUInt("slots");
+	_shard_slots.resize(shards_number, NULL);
+	// TODO: Load equipped shards data
 
 	script_file->CloseTable();
 	if (script_file->IsErrorDetected()) {
