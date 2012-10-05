@@ -182,10 +182,11 @@ private:
 class OggFile : public AudioInput {
 public:
 	OggFile(const std::string& file_name) :
-		AudioInput(), _read_buffer_position(0), _read_buffer_size(0) { _filename = file_name; }
+		AudioInput(), _read_buffer_position(0), _read_buffer_size(0),
+		_initialized(false)
+	{ _filename = file_name; }
 
-	~OggFile()
-		{ ov_clear(&_vorbis_file); }
+	~OggFile();
 
 	//! \brief Inherited functions from AudioInput class
 	//@{
@@ -208,6 +209,10 @@ private:
 
 	//! \brief Size of available data on the buffer (for the emporal buffer).
 	uint16 _read_buffer_size;
+
+	//! \brief Tells whether the ogg/vorbis structures are successfully allocated.
+	//! It is used to know whether they can be deallocated.
+	bool _initialized;
 
 	/** \brief A wrapper function for file seek operations
 	*** \param ffile A pointer to the FILE struct which represents the input stream
@@ -239,7 +244,7 @@ public:
 	*** fill that memory with the audio data read from the input argument
 	**/
 	AudioMemory(AudioInput* input);
-	
+
 	AudioMemory(const AudioMemory& audio_memory);
 	AudioMemory& operator=(const AudioMemory& other_audio_memory);
 

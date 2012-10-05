@@ -208,7 +208,16 @@ uint32 WavFile::Read(uint8* buffer, uint32 size, bool& end) {
 // OggFile class methods
 ////////////////////////////////////////////////////////////////////////////////
 
+OggFile::~OggFile() {
+	if (_initialized) {
+		ov_clear(&_vorbis_file);
+		_initialized = false;
+	}
+}
+
 bool OggFile::Initialize() {
+	_initialized = false;
+
 	// Windows requires a special loading method in order load ogg files
 	// properly when dynamically linking vorbis libs. The workaround is
 	// to use the ov_open_callbacks function
@@ -248,6 +257,7 @@ bool OggFile::Initialize() {
 	_sample_size = _number_channels * _bits_per_sample / 8;
 	_data_size = _total_number_samples * _sample_size;
 
+	_initialized = true;
 	return true;
 } // bool OggFile::Initialize()
 
