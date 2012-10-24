@@ -391,8 +391,8 @@ end
 -- Character creation
 function _CreateCharacters()
 	-- Default hero and position
-	hero = CreateSprite(Map, "Bronann", 3, 30);
-	hero:SetDirection(hoa_map.MapMode.EAST);
+	hero = CreateSprite(Map, "Bronann", 124, 85);
+	hero:SetDirection(hoa_map.MapMode.WEST);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
 	Map:AddGroundObject(hero);
@@ -401,26 +401,6 @@ end
 function _CreateObjects()
 	local object = {}
 	local npc = {}
-
-	--Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
-
-    -- Load the spring heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
-                                            0, 0, hoa_map.MapMode.CONTEXT_01);
-	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
-
-	-- Heal point
-	npc = CreateSprite(Map, "Butterfly", 27, 23);
-	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	npc:SetVisible(false);
-	Map:AddGroundObject(npc);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Your party feels better...");
-	dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
 
 	npc = CreateSprite(Map, "Butterfly", 42, 18);
 	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
@@ -478,9 +458,157 @@ function _CreateObjects()
 	--	chest1:SetDrunes(50);
 	--	Map:AddGroundObject(chest1);
 	--end
-	-- Trees above the pathway
-	object = CreateObject(Map, "Tree Small3", 3, 5);
-	Map:AddGroundObject(object);
+	
+   -- Trees array
+    local map_trees = {
+        --  right entrance upper side
+        { "Tree Small3", 126, 82 },
+        { "Tree Small3", 121, 81 },
+	{ "Tree Small3", 117, 80 },
+	{ "Tree Small3", 114, 78.2 },
+	{ "Tree Small3", 110, 81 },
+	{ "Tree Small3", 113, 75.8 },
+	{ "Tree Small3", 108, 75 },
+	{ "Tree Small3", 103.5, 76 },
+	{ "Tree Small3", 100, 74 },
+	{ "Tree Small3", 95, 73 },
+	{ "Tree Small3", 90, 70 },
+	{ "Tree Small3", 89, 67 },
+	{ "Tree Small3", 85, 66 },
+	{ "Tree Small3", 87.2, 70.2 },
+	{ "Tree Small3", 81, 63 },
+	{ "Tree Small3", 78, 61 },
+	{ "Tree Small3", 75, 59 },
+	{ "Tree Small3", 70, 60 },
+	{ "Tree Small3", 65, 61 },
+	{ "Tree Small3", 67, 65 },
+	{ "Tree Small3", 65, 57 },
+	{ "Tree Small3", 62, 56 },
+	{ "Tree Small3", 57, 55.5 },
+	{ "Tree Small3", 56, 54 },
+	{ "Tree Small3", 51, 55 },
+	{ "Tree Small3", 47, 56 },
+	{ "Tree Small3", 46, 53 },
+	{ "Tree Small3", 43, 57 },
+	{ "Tree Small3", 39, 59 },
+	
+	-- bottom side
+	{ "Tree Small3", 127, 93 },
+	{ "Tree Small3", 124, 92 },
+	{ "Tree Small3", 121, 94 },
+	{ "Tree Small3", 125, 96 },
+	{ "Tree Small3", 119, 97 },
+	{ "Tree Small3", 114, 93 },
+	{ "Tree Small3", 111, 92.2 },
+	{ "Tree Small3", 107, 94 },
+	{ "Tree Small3", 103, 96 },
+	{ "Tree Small3", 99, 97 },
+	{ "Tree Small3", 95, 93 },
+	{ "Tree Small3", 91, 94.2 },
+	{ "Tree Small3", 87, 92.2 },
+	{ "Tree Small3", 83, 97 },
+	{ "Tree Small3", 79, 96 },
+	{ "Tree Small3", 94, 96 },
+	{ "Tree Small3", 87, 95 },
+	{ "Tree Small3", 115, 95 },
+	{ "Tree Small3", 73, 93 },
+	{ "Tree Small3", 63, 92 },
+	{ "Tree Small3", 75, 95 },
+	{ "Tree Small3", 56, 92 },
+	{ "Tree Small3", 53, 93 },
+	{ "Tree Small3", 50, 95 },
+	{ "Tree Small3", 60, 97 },
+	{ "Tree Small3", 48, 96 },
+	{ "Tree Small3", 44, 95 },
+	{ "Tree Small3", 40, 94 },
+	{ "Tree Small3", 31, 90 },
+	{ "Tree Small3", 22, 93 },
+	{ "Tree Small3", 18, 95 },
+	{ "Tree Small3", 14, 96 },
+	{ "Tree Small3", 10, 94 },
+	{ "Tree Small3", 6, 97 },
+	{ "Tree Small3", 2, 99 },
+	
+	-- then left side
+	{ "Tree Small3", 40, 62 },
+	{ "Tree Small3", 39, 65 },
+	{ "Tree Small3", 34, 67 },
+	{ "Tree Small3", 33, 70 },
+	{ "Tree Small3", 29, 72 },
+	{ "Tree Small3", 25, 70.2 },
+	{ "Tree Small3", 15, 71 },
+	{ "Tree Small3", 14, 65 },
+	
+	-- all in the way
+	{ "Tree Small3", 49, 62 },
+	{ "Tree Small3", 60, 91 },
+	{ "Tree Small3", 63, 89 },
+	{ "Tree Small3", 68, 93.2 },
+	{ "Tree Small3", 79, 92 },
+	{ "Tree Small3", 73, 91 },
+	{ "Tree Small3", 114, 85 },
+	{ "Tree Small3", 91, 92 },
+	{ "Tree Small3", 90.8, 83 },
+	{ "Tree Small3", 87, 82 },
+	{ "Tree Small3", 74, 74 },
+	{ "Tree Small3", 64, 71 },
+	{ "Tree Small3", 102, 83 },
+	{ "Tree Small3", 108, 92 },
+	{ "Tree Small3", 67, 77 },
+	{ "Tree Small3", 21, 68 },
+	{ "Tree Small3", 17, 67 },
+	{ "Tree Small3", 36, 91 },
+	{ "Tree Small3", 26, 92 },
+	{ "Tree Small3", 19, 87 },
+	{ "Tree Small3", 32, 80 },
+	{ "Tree Small3", 26, 78 },
+	{ "Tree Small3", 39, 81 },
+	
+	-- left map border
+	{ "Tree Small3", 0, 93 },
+	{ "Tree Small3", -1, 89 },
+	{ "Tree Small3", 1, 84 },
+	{ "Tree Small3", 0, 79 },
+	{ "Tree Small3", -2, 75 },
+	{ "Tree Small3", 0, 69 },
+	{ "Tree Small3", 1, 64 },
+	{ "Tree Small3", 0, 58 },
+	{ "Tree Small3", -1, 53 },
+	{ "Tree Small3", 0, 48 },
+	{ "Tree Small3", -2, 44 },
+	{ "Tree Small3", 1, 39 },
+	{ "Tree Small3", 0, 34 },
+	{ "Tree Small3", -1, 29 },
+	{ "Tree Small3", 0, 24 },
+	{ "Tree Small3", -2, 20 },
+	{ "Tree Small3", -1, 16 },
+	{ "Tree Small3", 0, 11 },
+	{ "Tree Small3", 1, 7 },
+	{ "Tree Small3", 2, 2 },
+	
+	-- uper map border
+	{ "Tree Small3", 5, 4 },
+	{ "Tree Small3", 9, 3 },
+	{ "Tree Small3", 13, 2 },
+	{ "Tree Small3", 17, 1 },
+	{ "Tree Small3", 21, 3 },
+	{ "Tree Small3", 25, 4 },
+	{ "Tree Small3", 29, 5 },
+	{ "Tree Small3", 34, 4.2 },
+	{ "Tree Small3", 38, 2 },
+	{ "Tree Small3", 42, 1 },
+	{ "Tree Small3", 46, 3 },
+	{ "Tree Small3", 50, 2 },
+	
+	-- right part of path
+    }
+
+    -- Loads the trees according to the array
+    for my_index, my_array in pairs(map_trees) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        Map:AddGroundObject(object);
+    end
 
 end
 
@@ -489,17 +617,17 @@ function _CreateEnemies()
 	local roam_zone = {};
 
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
+	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39, hoa_map.MapMode.CONTEXT_01);
 
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
 	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
+	enemy:AddEnemy(1, 0, 0);
+	enemy:AddEnemy(1, 0, 0);
+	enemy:AddEnemy(1, 0, 0);
 	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
+	enemy:AddEnemy(1, 0, 0);
+	enemy:AddEnemy(2, 0, 0);
 	roam_zone:AddEnemy(enemy, Map, 1);
 
 	Map:AddZone(roam_zone);
@@ -511,21 +639,26 @@ function _CreateEvents()
 	local dialogue = {};
 	local text = {};
 
+	event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua", "from forest SW");
+	EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
-	--forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
-	--Map:AddZone(forest_entrance_exit_zone);
+	to_forest_SE_zone = hoa_map.CameraZone(126, 128, 82, 87, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_SE_zone);
+	
+	to_forest_NW_zone = hoa_map.CameraZone(113, 117, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_NW_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-	--if (forest_entrance_exit_zone:IsCameraEntering() == true) then
-		--hero:SetMoving(false);
-		--EventManager:StartEvent("exit forest");
-	--end
+	if (to_forest_SE_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest SE");
+	end
 end
 
 -- Sets common battle environment settings for enemy sprites

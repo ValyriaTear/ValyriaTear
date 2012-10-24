@@ -395,6 +395,11 @@ function _CreateCharacters()
 	hero:SetDirection(hoa_map.MapMode.SOUTH);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
+	if (GlobalManager:GetPreviousLocation() == "from forest SW") then
+		hero:SetDirection(hoa_map.MapMode.EAST);
+		hero:SetPosition(4, 54);
+	end
+
 	Map:AddGroundObject(hero);
 end
 
@@ -749,7 +754,7 @@ function _CreateObjects()
         --print(my_array[1], my_array[2], my_array[3]);
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
         Map:AddGroundObject(object);
-	end
+    end
 
 end
 
@@ -832,6 +837,8 @@ function _CreateEvents()
     event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
+    event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west.lua", "from forest SE")
+    EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
@@ -851,7 +858,6 @@ function _CheckZones()
 		EventManager:StartEvent("to forest NE");
 	elseif (to_forest_SW_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
-        -- TODO
 		EventManager:StartEvent("to forest SW");
     end
 end
