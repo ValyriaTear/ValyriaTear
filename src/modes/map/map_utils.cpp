@@ -15,20 +15,23 @@
 
 #include "map_utils.h"
 
-namespace hoa_map {
+namespace hoa_map
+{
 
 bool MAP_DEBUG = false;
 
-namespace private_map {
+namespace private_map
+{
 
-bool MapRectangle::CheckIntersection(const MapRectangle& first, const MapRectangle& second) {
-	if ((first.left > second.right) ||
-		(first.right < second.left) ||
-		(first.top > second.bottom) ||
-		(first.bottom < second.top))
-		return false;
-	else
-		return true;
+bool MapRectangle::CheckIntersection(const MapRectangle &first, const MapRectangle &second)
+{
+    if((first.left > second.right) ||
+            (first.right < second.left) ||
+            (first.top > second.bottom) ||
+            (first.bottom < second.top))
+        return false;
+    else
+        return true;
 }
 
 } // namespace private_map

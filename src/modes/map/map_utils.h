@@ -22,12 +22,14 @@
 
 #include <cmath>
 
-namespace hoa_map {
+namespace hoa_map
+{
 
 //! Determines whether the code in the hoa_map namespace should print debug statements or not.
 extern bool MAP_DEBUG;
 
-namespace private_map {
+namespace private_map
+{
 
 /** \name Screen Coordiante System Constants
 *** \brief Represents the size of the visible screen in map tiles and the collision grid
@@ -58,12 +60,12 @@ const uint16 TILE_LENGTH = GRID_LENGTH * 2; // Length of a tile in pixels
 **/
 //@{
 enum MAP_STATE {
-	STATE_INVALID          = 0,
-	STATE_EXPLORE          = 1, //!< Standard state, player has control to move about the map
-	STATE_SCENE            = 2, //!< Like the explore state but player has no control (input is ignored)
-	STATE_DIALOGUE         = 3, //!< When a dialogue is active
-	STATE_TREASURE         = 4, //!< Active when a treasure has been procured by the player
-	STATE_TOTAL            = 5
+    STATE_INVALID          = 0,
+    STATE_EXPLORE          = 1, //!< Standard state, player has control to move about the map
+    STATE_SCENE            = 2, //!< Like the explore state but player has no control (input is ignored)
+    STATE_DIALOGUE         = 3, //!< When a dialogue is active
+    STATE_TREASURE         = 4, //!< Active when a treasure has been procured by the player
+    STATE_TOTAL            = 5
 };
 //@}
 
@@ -80,40 +82,40 @@ enum MAP_STATE {
 *** no conflict exists in the Lua environment.
 **/
 enum MAP_CONTEXT {
-	MAP_CONTEXT_NONE  = 0x00000000,
-	MAP_CONTEXT_01    = 0x00000001, // Also known as the base context
-	MAP_CONTEXT_02    = 0x00000002,
-	MAP_CONTEXT_03    = 0x00000004,
-	MAP_CONTEXT_04    = 0x00000008,
-	MAP_CONTEXT_05    = 0x00000010,
-	MAP_CONTEXT_06    = 0x00000020,
-	MAP_CONTEXT_07    = 0x00000040,
-	MAP_CONTEXT_08    = 0x00000080,
-	MAP_CONTEXT_09    = 0x00000100,
-	MAP_CONTEXT_10    = 0x00000200,
-	MAP_CONTEXT_11    = 0x00000400,
-	MAP_CONTEXT_12    = 0x00000800,
-	MAP_CONTEXT_13    = 0x00001000,
-	MAP_CONTEXT_14    = 0x00002000,
-	MAP_CONTEXT_15    = 0x00004000,
-	MAP_CONTEXT_16    = 0x00008000,
-	MAP_CONTEXT_17    = 0x00010000,
-	MAP_CONTEXT_18    = 0x00020000,
-	MAP_CONTEXT_19    = 0x00040000,
-	MAP_CONTEXT_20    = 0x00080000,
-	MAP_CONTEXT_21    = 0x00100000,
-	MAP_CONTEXT_22    = 0x00200000,
-	MAP_CONTEXT_23    = 0x00400000,
-	MAP_CONTEXT_24    = 0x00800000,
-	MAP_CONTEXT_25    = 0x01000000,
-	MAP_CONTEXT_26    = 0x02000000,
-	MAP_CONTEXT_27    = 0x04000000,
-	MAP_CONTEXT_28    = 0x08000000,
-	MAP_CONTEXT_29    = 0x10000000,
-	MAP_CONTEXT_30    = 0x20000000,
-	MAP_CONTEXT_31    = 0x40000000,
-	MAP_CONTEXT_32    = 0x80000000,
-	MAP_CONTEXT_ALL   = 0xFFFFFFFF,
+    MAP_CONTEXT_NONE  = 0x00000000,
+    MAP_CONTEXT_01    = 0x00000001, // Also known as the base context
+    MAP_CONTEXT_02    = 0x00000002,
+    MAP_CONTEXT_03    = 0x00000004,
+    MAP_CONTEXT_04    = 0x00000008,
+    MAP_CONTEXT_05    = 0x00000010,
+    MAP_CONTEXT_06    = 0x00000020,
+    MAP_CONTEXT_07    = 0x00000040,
+    MAP_CONTEXT_08    = 0x00000080,
+    MAP_CONTEXT_09    = 0x00000100,
+    MAP_CONTEXT_10    = 0x00000200,
+    MAP_CONTEXT_11    = 0x00000400,
+    MAP_CONTEXT_12    = 0x00000800,
+    MAP_CONTEXT_13    = 0x00001000,
+    MAP_CONTEXT_14    = 0x00002000,
+    MAP_CONTEXT_15    = 0x00004000,
+    MAP_CONTEXT_16    = 0x00008000,
+    MAP_CONTEXT_17    = 0x00010000,
+    MAP_CONTEXT_18    = 0x00020000,
+    MAP_CONTEXT_19    = 0x00040000,
+    MAP_CONTEXT_20    = 0x00080000,
+    MAP_CONTEXT_21    = 0x00100000,
+    MAP_CONTEXT_22    = 0x00200000,
+    MAP_CONTEXT_23    = 0x00400000,
+    MAP_CONTEXT_24    = 0x00800000,
+    MAP_CONTEXT_25    = 0x01000000,
+    MAP_CONTEXT_26    = 0x02000000,
+    MAP_CONTEXT_27    = 0x04000000,
+    MAP_CONTEXT_28    = 0x08000000,
+    MAP_CONTEXT_29    = 0x10000000,
+    MAP_CONTEXT_30    = 0x20000000,
+    MAP_CONTEXT_31    = 0x40000000,
+    MAP_CONTEXT_32    = 0x80000000,
+    MAP_CONTEXT_ALL   = 0xFFFFFFFF,
 };
 
 /** \name Map Zone Types
@@ -123,13 +125,13 @@ enum MAP_CONTEXT {
 *** is necessary and either add them to the zone classes or remove this enum.
 **/
 enum ZONE_TYPE {
-	ZONE_INVALID    = 0,
-	ZONE_MAP        = 1,
-	ZONE_CAMERA     = 2,
-	ZONE_RESIDENT   = 3,
-	ZONE_ENEMY      = 4,
-	ZONE_CONTEXT    = 5,
-	MAP_ZONE_TOTAL  = 6,
+    ZONE_INVALID    = 0,
+    ZONE_MAP        = 1,
+    ZONE_CAMERA     = 2,
+    ZONE_RESIDENT   = 3,
+    ZONE_ENEMY      = 4,
+    ZONE_CONTEXT    = 5,
+    MAP_ZONE_TOTAL  = 6,
 };
 
 //! \brief The number of tiles that are found in a tileset image (512x512 pixel image containing 32x32 pixel tiles)
@@ -137,16 +139,16 @@ const uint32 TILES_PER_TILESET = 256;
 
 //! \brief Used to identify the type of map object
 enum MAP_OBJECT_TYPE {
-	PHYSICAL_TYPE = 0,  //! This is a physical (visible) object, like a rock, a door, ect...
-	VIRTUAL_TYPE = 1,   //! This is used as another type of NPC sprite, but without interaction.
-	SPRITE_TYPE = 2,    //! This is a NPC sprite. Blocking for the hero, but not for the other sprites.
-	ENEMY_TYPE = 3,     //! This is an enemy sprite. Blocking the hero, and triggering a battle.
-	TREASURE_TYPE = 4,  /** This is a treasure, can obtain a treasure from it when exploring,
+    PHYSICAL_TYPE = 0,  //! This is a physical (visible) object, like a rock, a door, ect...
+    VIRTUAL_TYPE = 1,   //! This is used as another type of NPC sprite, but without interaction.
+    SPRITE_TYPE = 2,    //! This is a NPC sprite. Blocking for the hero, but not for the other sprites.
+    ENEMY_TYPE = 3,     //! This is an enemy sprite. Blocking the hero, and triggering a battle.
+    TREASURE_TYPE = 4,  /** This is a treasure, can obtain a treasure from it when exploring,
                         but blocking for movement. */
-	SAVE_TYPE = 5,      //! This is a save point. The player can save while its character is in it.
-	HALO_TYPE = 6,      //! This is a source of light, here for eye candy.
-	LIGHT_TYPE = 7,     //! Another light type, but will change dynamically according to the map viewpoint.
-	PARTICLE_TYPE = 8   //! A particle object.
+    SAVE_TYPE = 5,      //! This is a save point. The player can save while its character is in it.
+    HALO_TYPE = 6,      //! This is a source of light, here for eye candy.
+    LIGHT_TYPE = 7,     //! Another light type, but will change dynamically according to the map viewpoint.
+    PARTICLE_TYPE = 8   //! A particle object.
 };
 
 /** \name Map Sprite Speeds
@@ -210,11 +212,11 @@ const uint16 FACING_EAST = EAST | NE_EAST | SE_EAST;
 **/
 //@{
 enum ANIM_DIRECTIONS {
-	ANIM_SOUTH = 0,
-	ANIM_NORTH = 1,
-	ANIM_WEST  = 2,
-	ANIM_EAST  = 3,
-	NUM_ANIM_DIRECTIONS = 4
+    ANIM_SOUTH = 0,
+    ANIM_NORTH = 1,
+    ANIM_WEST  = 2,
+    ANIM_EAST  = 3,
+    NUM_ANIM_DIRECTIONS = 4
 };
 //@}
 
@@ -222,40 +224,40 @@ enum ANIM_DIRECTIONS {
 *** NOTE: Used as a bitmask.
 **/
 enum COLLISION_TYPE {
-	NO_COLLISION =        0, //!< Indicates that no collision has occurred.
-	CHARACTER_COLLISION = 1, //!< Indicates that a collision with a character.
-	ENEMY_COLLISION =     2, //!< Indicates that a collision with an enemy.
-	WALL_COLLISION =      4, //! Indicates a collision with a wall. (Sky objects will have a wall collision on the map bounds)
-	COLLISION_TYPES =     4
+    NO_COLLISION =        0, //!< Indicates that no collision has occurred.
+    CHARACTER_COLLISION = 1, //!< Indicates that a collision with a character.
+    ENEMY_COLLISION =     2, //!< Indicates that a collision with an enemy.
+    WALL_COLLISION =      4, //! Indicates a collision with a wall. (Sky objects will have a wall collision on the map bounds)
+    COLLISION_TYPES =     4
 };
 const uint32 ALL_COLLISION = CHARACTER_COLLISION | ENEMY_COLLISION | WALL_COLLISION;
 
 //! \brief Identifiers for the similarly named classes of map events
 enum EVENT_TYPE {
-	INVALID_EVENT                   = 0,
-	DIALOGUE_EVENT                  = 1,
-	SHOP_EVENT                      = 2,
-	SOUND_EVENT                     = 3,
-	MAP_TRANSITION_EVENT            = 4,
-	JOIN_PARTY_EVENT                = 5,
-	BATTLE_ENCOUNTER_EVENT          = 6,
-	SCRIPTED_EVENT                  = 7,
-	SCRIPTED_SPRITE_EVENT           = 8,
-	CHANGE_DIRECTION_SPRITE_EVENT   = 9,
-	PATH_MOVE_SPRITE_EVENT          = 10,
-	RANDOM_MOVE_SPRITE_EVENT        = 11,
-	ANIMATE_SPRITE_EVENT            = 12,
-	TREASURE_EVENT                  = 13,
-	LOOK_AT_SPRITE_EVENT            = 14,
-	TOTAL_EVENT                     = 15
+    INVALID_EVENT                   = 0,
+    DIALOGUE_EVENT                  = 1,
+    SHOP_EVENT                      = 2,
+    SOUND_EVENT                     = 3,
+    MAP_TRANSITION_EVENT            = 4,
+    JOIN_PARTY_EVENT                = 5,
+    BATTLE_ENCOUNTER_EVENT          = 6,
+    SCRIPTED_EVENT                  = 7,
+    SCRIPTED_SPRITE_EVENT           = 8,
+    CHANGE_DIRECTION_SPRITE_EVENT   = 9,
+    PATH_MOVE_SPRITE_EVENT          = 10,
+    RANDOM_MOVE_SPRITE_EVENT        = 11,
+    ANIMATE_SPRITE_EVENT            = 12,
+    TREASURE_EVENT                  = 13,
+    LOOK_AT_SPRITE_EVENT            = 14,
+    TOTAL_EVENT                     = 15
 };
 
 //! \brief Defines the different states the dialogue can be in.
 enum DIALOGUE_STATE {
-	DIALOGUE_STATE_INACTIVE =  0, //!< Active when the dialogue window is in the process of displaying a line of text
-	DIALOGUE_STATE_LINE     =  1, //!< Active when the dialogue window is in the process of displaying a line of text
-	DIALOGUE_STATE_OPTION   =  2, //!< Active when player-selectable options are present in the dialogue window
-	DIALOGUE_STATE_EMOTE    =  3  //!< Active when the dialogue supervisor is waiting for an emote event to finish before drawing a line.
+    DIALOGUE_STATE_INACTIVE =  0, //!< Active when the dialogue window is in the process of displaying a line of text
+    DIALOGUE_STATE_LINE     =  1, //!< Active when the dialogue window is in the process of displaying a line of text
+    DIALOGUE_STATE_OPTION   =  2, //!< Active when player-selectable options are present in the dialogue window
+    DIALOGUE_STATE_EMOTE    =  3  //!< Active when the dialogue supervisor is waiting for an emote event to finish before drawing a line.
 };
 
 //! \brief The maximum number of options that a line of dialogue can present to the player
@@ -275,29 +277,30 @@ const uint32 STAMINA_FULL   = 10000;
 *** detection, determining objects that are within a certain radius of one
 *** another, etc.
 *** ***************************************************************************/
-class MapRectangle {
+class MapRectangle
+{
 public:
-	MapRectangle() :
-		left(0.0f), right(0.0f), top(0.0f), bottom(0.0f)
-		{}
+    MapRectangle() :
+        left(0.0f), right(0.0f), top(0.0f), bottom(0.0f)
+    {}
 
-	MapRectangle(float l, float r, float t, float b) :
-		left(l), right(r), top(t), bottom(b)
-		{}
+    MapRectangle(float l, float r, float t, float b) :
+        left(l), right(r), top(t), bottom(b)
+    {}
 
-	//! \brief The four edges of the rectangle's area
-	float left, right, top, bottom;
+    //! \brief The four edges of the rectangle's area
+    float left, right, top, bottom;
 
-	/** \brief Determines if two rectangle objects intersect with one another
-	*** \param first A reference to the first rectangle object
-	*** \param second A reference to the second rectangle object
-	*** \return True if the two rectangles intersect at any location
-	***
-	*** This function assumes that the rectangle objects hold map collision grid
-	*** coordinates, where the top of the rectangle is a smaller number than the
-	*** bottom of the rectangle and the left is a smaller number than the right.
-	**/
-	static bool CheckIntersection(const MapRectangle& first, const MapRectangle& second);
+    /** \brief Determines if two rectangle objects intersect with one another
+    *** \param first A reference to the first rectangle object
+    *** \param second A reference to the second rectangle object
+    *** \return True if the two rectangles intersect at any location
+    ***
+    *** This function assumes that the rectangle objects hold map collision grid
+    *** coordinates, where the top of the rectangle is a smaller number than the
+    *** bottom of the rectangle and the left is a smaller number than the right.
+    **/
+    static bool CheckIntersection(const MapRectangle &first, const MapRectangle &second);
 }; // class MapRectangle
 
 
@@ -313,24 +316,25 @@ public:
 *** information about the map. It should be the only instance of this class that is
 *** needed.
 *** ***************************************************************************/
-class MapFrame {
+class MapFrame
+{
 public:
-	//! \brief The x and y indeces of the starting tile to draw (the top-left tile).
-	int16 tile_x_start, tile_y_start;
+    //! \brief The x and y indeces of the starting tile to draw (the top-left tile).
+    int16 tile_x_start, tile_y_start;
 
-	//! \brief The x and y position screen coordinates to start drawing tiles from.
-	float tile_x_offset, tile_y_offset;
+    //! \brief The x and y position screen coordinates to start drawing tiles from.
+    float tile_x_offset, tile_y_offset;
 
-	//! \brief The number of tiles to draw on the x and y axes on the screen.
-	uint8 num_draw_x_axis, num_draw_y_axis;
+    //! \brief The number of tiles to draw on the x and y axes on the screen.
+    uint8 num_draw_x_axis, num_draw_y_axis;
 
-	/** \brief The position coordinates of the screen edges.
-	*** These members are in terms of the map grid 16x16 pixel coordinates that map objects use.
-	*** The presense of these coordinates make it easier for map objects to figure out whether or
-	*** not they should be drawn on the screen. Note that these are <b>not</b> used as drawing
-	*** cursor positions, but rather are map grid coordinates indicating where the screen edges lie.
-	**/
-	MapRectangle screen_edges;
+    /** \brief The position coordinates of the screen edges.
+    *** These members are in terms of the map grid 16x16 pixel coordinates that map objects use.
+    *** The presense of these coordinates make it easier for map objects to figure out whether or
+    *** not they should be drawn on the screen. Note that these are <b>not</b> used as drawing
+    *** cursor positions, but rather are map grid coordinates indicating where the screen edges lie.
+    **/
+    MapRectangle screen_edges;
 }; // class MapFrame
 
 
@@ -342,66 +346,71 @@ public:
 *** employed is A* and thus many members of this class are particular to the
 *** implementation of that algorithm.
 *** ***************************************************************************/
-class PathNode {
+class PathNode
+{
 public:
-	/** \brief The grid coordinates for this node
-	*** These coordinates correspond to the collision grid, where each element
-	*** is a 16x16 pixel space on the map.
-	**/
-	int16 tile_x, tile_y;
+    /** \brief The grid coordinates for this node
+    *** These coordinates correspond to the collision grid, where each element
+    *** is a 16x16 pixel space on the map.
+    **/
+    int16 tile_x, tile_y;
 
-	//! \name Path Scoring Members
-	//@{
-	//! \brief The total score for this node (f = g + h).
-	int16 f_score;
+    //! \name Path Scoring Members
+    //@{
+    //! \brief The total score for this node (f = g + h).
+    int16 f_score;
 
-	//! \brief The score for this node relative to the source.
-	int16 g_score;
+    //! \brief The score for this node relative to the source.
+    int16 g_score;
 
-	//! \brief The Manhattan distance from this node to the destination.
-	int16 h_score;
-	//@}
+    //! \brief The Manhattan distance from this node to the destination.
+    int16 h_score;
+    //@}
 
-	//! \brief The grid coordinates for the parent of this node
-	int16 parent_x, parent_y;
+    //! \brief The grid coordinates for the parent of this node
+    int16 parent_x, parent_y;
 
-	// ---------- Methods
+    // ---------- Methods
 
-	PathNode() : tile_x(-1), tile_y(-1), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
-		{}
+    PathNode() : tile_x(-1), tile_y(-1), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
+    {}
 
-	PathNode(int16 x_, int16 y_) : tile_x(x_), tile_y(y_), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
-		{}
+    PathNode(int16 x_, int16 y_) : tile_x(x_), tile_y(y_), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
+    {}
 
-	//! \brief Overloaded comparison operator, only checks that the tile_x and tile_y members are equal
-	bool operator==(const PathNode& that) const
-		{ return ((this->tile_x == that.tile_x) && (this->tile_y == that.tile_y)); }
+    //! \brief Overloaded comparison operator, only checks that the tile_x and tile_y members are equal
+    bool operator==(const PathNode &that) const {
+        return ((this->tile_x == that.tile_x) && (this->tile_y == that.tile_y));
+    }
 
-	//! \brief Overloaded comparison operator, only checks that the tile_x or tile_y members are unequal
-	bool operator!=(const PathNode& that) const
-		{ return ((this->tile_x != that.tile_x) || (this->tile_y != that.tile_y)); }
+    //! \brief Overloaded comparison operator, only checks that the tile_x or tile_y members are unequal
+    bool operator!=(const PathNode &that) const {
+        return ((this->tile_x != that.tile_x) || (this->tile_y != that.tile_y));
+    }
 
-	//! \brief Overloaded comparison operator only used for path finding, compares the two f_scores
-	bool operator<(const PathNode& that) const
-		{ return this->f_score > that.f_score; }
+    //! \brief Overloaded comparison operator only used for path finding, compares the two f_scores
+    bool operator<(const PathNode &that) const {
+        return this->f_score > that.f_score;
+    }
 }; // class PathNode
 
 struct MapVector {
-	MapVector() :
-		x(0.0f),
-		y(0.0f)
-	{}
+    MapVector() :
+        x(0.0f),
+        y(0.0f)
+    {}
 
-	MapVector(float x_, float y_) :
-		x(x_),
-		y(y_)
-	{}
+    MapVector(float x_, float y_) :
+        x(x_),
+        y(y_)
+    {}
 
-	float length() const
-	{ return sqrtf(x * x + y * y); }
+    float length() const {
+        return sqrtf(x * x + y * y);
+    }
 
-	float x;
-	float y;
+    float x;
+    float y;
 };
 
 typedef MapVector MapPosition;

@@ -26,9 +26,11 @@
 
 #include "engine/audio/audio_descriptor.h"
 
-namespace hoa_map {
+namespace hoa_map
+{
 
-namespace private_map {
+namespace private_map
+{
 
 /** ****************************************************************************
 *** \brief A container class for treasures procured by the player
@@ -41,43 +43,47 @@ namespace private_map {
 *** if a treasure was taken in the past (by a previous visit to the map or from the
 *** saved game file).
 *** ***************************************************************************/
-class MapTreasure {
-	friend class TreasureSupervisor;
+class MapTreasure
+{
+    friend class TreasureSupervisor;
 
 public:
-	MapTreasure();
+    MapTreasure();
 
-	~MapTreasure();
+    ~MapTreasure();
 
-	//! \brief Sets the number of drunes present in the chest's contents.
-	void SetDrunes(uint32 amount)
-		{ _drunes = amount; }
+    //! \brief Sets the number of drunes present in the chest's contents.
+    void SetDrunes(uint32 amount) {
+        _drunes = amount;
+    }
 
-	/** \brief Adds an object to the contents of the MapTreasure
-	*** \param id The id of the GlobalObject to add
-	*** \param quantity The number of the object to add (default == 1)
-	*** \return True if the object was added successfully
-	**/
-	bool AddObject(uint32 id, uint32 quantity = 1);
+    /** \brief Adds an object to the contents of the MapTreasure
+    *** \param id The id of the GlobalObject to add
+    *** \param quantity The number of the object to add (default == 1)
+    *** \return True if the object was added successfully
+    **/
+    bool AddObject(uint32 id, uint32 quantity = 1);
 
-	//! \name Class member access methods
-	//@{
-	bool IsTaken() const
-		{ return _taken; }
+    //! \name Class member access methods
+    //@{
+    bool IsTaken() const {
+        return _taken;
+    }
 
-	void SetTaken(bool taken)
-		{ _taken = taken; }
-	//@}
+    void SetTaken(bool taken) {
+        _taken = taken;
+    }
+    //@}
 
 private:
-	//! \brief Set to true when the contents of the treasure have been added to the player's inventory
-	bool _taken;
+    //! \brief Set to true when the contents of the treasure have been added to the player's inventory
+    bool _taken;
 
-	//! \brief The number of drunes contained in the chest
-	uint32 _drunes;
+    //! \brief The number of drunes contained in the chest
+    uint32 _drunes;
 
-	//! \brief The list of objects given to the player upon opening the treasure
-	std::vector<hoa_global::GlobalObject*> _objects_list;
+    //! \brief The list of objects given to the player upon opening the treasure
+    std::vector<hoa_global::GlobalObject *> _objects_list;
 }; // class MapTreasure : public PhysicalObject
 
 
@@ -115,89 +121,90 @@ private:
 *** and could be placed over them when it was visible? I think this would be much more visually
 *** pleasing than the current implementation.
 *** **************************************************************************************/
-class TreasureSupervisor {
+class TreasureSupervisor
+{
 public:
-	//! \brief The possible sub-windows that are selected, used for determining how to process user input
-	enum SELECTION {
-		ACTION_SELECTED = 0, //!< the list of actions a user may take in the treasure menu
-		LIST_SELECTED = 1,   //!< active when the user is browsing the list of treasures
-		DETAIL_SELECTED = 2  //!< set when the user is viewing details about a particular treasure
-	};
+    //! \brief The possible sub-windows that are selected, used for determining how to process user input
+    enum SELECTION {
+        ACTION_SELECTED = 0, //!< the list of actions a user may take in the treasure menu
+        LIST_SELECTED = 1,   //!< active when the user is browsing the list of treasures
+        DETAIL_SELECTED = 2  //!< set when the user is viewing details about a particular treasure
+    };
 
-	TreasureSupervisor();
+    TreasureSupervisor();
 
-	~TreasureSupervisor();
+    ~TreasureSupervisor();
 
-	/** \brief Displays the menu window and initializes it to display the contents of a new treasure
-	*** \param map_object A pointer to the object on the map holding the treasure to procure
-	**/
-	void Initialize(TreasureObject* map_object);
+    /** \brief Displays the menu window and initializes it to display the contents of a new treasure
+    *** \param map_object A pointer to the object on the map holding the treasure to procure
+    **/
+    void Initialize(TreasureObject *map_object);
 
-	/** \brief Displays the menu window and initializes it to display the contents of a new treasure
-	*** \param treasure A pointer to the treasure to display the contents of
-	**/
-	void Initialize(MapTreasure* treasure);
+    /** \brief Displays the menu window and initializes it to display the contents of a new treasure
+    *** \param treasure A pointer to the treasure to display the contents of
+    **/
+    void Initialize(MapTreasure *treasure);
 
-	//! \brief Processes input events from the user and updates the showing/hiding progress of the window
-	void Update();
+    //! \brief Processes input events from the user and updates the showing/hiding progress of the window
+    void Update();
 
-	/** \brief Draws the window to the screen
-	*** \note If the Initialize method has not been called with a valid treasure pointer beforehand, this
-	*** method will print a warning and it will not draw anything to the screen.
-	**/
-	void Draw();
+    /** \brief Draws the window to the screen
+    *** \note If the Initialize method has not been called with a valid treasure pointer beforehand, this
+    *** method will print a warning and it will not draw anything to the screen.
+    **/
+    void Draw();
 
-	//! \brief Hides the window and adds the treasure's contents to the player's inventory
-	void Finish();
+    //! \brief Hides the window and adds the treasure's contents to the player's inventory
+    void Finish();
 
 private:
-	//! \brief A pointer to the treasure object to display the contents of
-	MapTreasure* _treasure;
+    //! \brief A pointer to the treasure object to display the contents of
+    MapTreasure *_treasure;
 
-	//! \brief The currently selected sub-window for processing user input
-	SELECTION _selection;
+    //! \brief The currently selected sub-window for processing user input
+    SELECTION _selection;
 
-	//! \brief Contains options for viewing, using, or equipping inventory, or for exiting the menu
-	hoa_gui::MenuWindow _action_window;
+    //! \brief Contains options for viewing, using, or equipping inventory, or for exiting the menu
+    hoa_gui::MenuWindow _action_window;
 
-	//! \brief Lists all of the drunes and inventory objects contained in the treasure
-	hoa_gui::MenuWindow _list_window;
+    //! \brief Lists all of the drunes and inventory objects contained in the treasure
+    hoa_gui::MenuWindow _list_window;
 
-	//! \brief The available actions that a user can currently take. Displayed in the _action_window.
-	hoa_gui::OptionBox _action_options;
+    //! \brief The available actions that a user can currently take. Displayed in the _action_window.
+    hoa_gui::OptionBox _action_options;
 
-	//! \brief The name + quantity of all drunes and inventory objects earned. Displayed in the _list_window
-	hoa_gui::OptionBox _list_options;
+    //! \brief The name + quantity of all drunes and inventory objects earned. Displayed in the _list_window
+    hoa_gui::OptionBox _list_options;
 
-	//! \brief A textbox that displays the detailed description about a selected treasure
-	hoa_gui::TextBox _detail_textbox;
+    //! \brief A textbox that displays the detailed description about a selected treasure
+    hoa_gui::TextBox _detail_textbox;
 
-	//! \brief A rendering of the name for the treasure window
-	hoa_video::TextImage _window_title;
+    //! \brief A rendering of the name for the treasure window
+    hoa_video::TextImage _window_title;
 
-	//! \brief The name of the selected list item
-	hoa_video::TextImage _selection_name;
+    //! \brief The name of the selected list item
+    hoa_video::TextImage _selection_name;
 
-	//! \brief A pointer to the image of the selected list item
-	hoa_video::StillImage* _selection_icon;
+    //! \brief A pointer to the image of the selected list item
+    hoa_video::StillImage *_selection_icon;
 
-	//! \brief Holds the icon image that represent drunes
-	hoa_video::StillImage _drunes_icon;
+    //! \brief Holds the icon image that represent drunes
+    hoa_video::StillImage _drunes_icon;
 
-	//! \brief The "Obtained" sound, played at opening.
-	hoa_audio::SoundDescriptor _coins_snd;
-	hoa_audio::SoundDescriptor _items_snd;
+    //! \brief The "Obtained" sound, played at opening.
+    hoa_audio::SoundDescriptor _coins_snd;
+    hoa_audio::SoundDescriptor _items_snd;
 
-	// ---------- Private methods
+    // ---------- Private methods
 
-	//! \brief Processes user input when the action sub-window is selected
-	void _UpdateAction();
+    //! \brief Processes user input when the action sub-window is selected
+    void _UpdateAction();
 
-	//! \brief Processes user input when the list sub-window is selected
-	void _UpdateList();
+    //! \brief Processes user input when the list sub-window is selected
+    void _UpdateList();
 
-	//! \brief Processes user input when the detailed view of a treasure object is selected
-	void _UpdateDetail();
+    //! \brief Processes user input when the detailed view of a treasure object is selected
+    void _UpdateDetail();
 }; // class TreasureSupervisor
 
 } // namespace private_map
