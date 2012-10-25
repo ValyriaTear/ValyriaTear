@@ -25,67 +25,71 @@
 
 using namespace hoa_audio::private_audio;
 
-namespace hoa_audio {
+namespace hoa_audio
+{
 
-namespace private_audio {
+namespace private_audio
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 // AudioBuffer class methods
 ////////////////////////////////////////////////////////////////////////////////
 
 AudioBuffer::AudioBuffer() :
-	buffer(0)
+    buffer(0)
 {
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL error detected before buffer generation: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL error detected before buffer generation: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	alGenBuffers(1, &buffer);
+    alGenBuffers(1, &buffer);
 
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL error detected after buffer generation: "
-			<< AudioManager->CreateALErrorString() << std::endl;
-		buffer = 0;
-	}
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL error detected after buffer generation: "
+                                      << AudioManager->CreateALErrorString() << std::endl;
+        buffer = 0;
+    }
 }
 
-AudioBuffer::~AudioBuffer() {
-	if (IsValid()) {
-		alDeleteBuffers(1, &buffer);
-	}
+AudioBuffer::~AudioBuffer()
+{
+    if(IsValid()) {
+        alDeleteBuffers(1, &buffer);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // AudioSource class methods
 ////////////////////////////////////////////////////////////////////////////////
 
-AudioSource::~AudioSource() {
-	if (IsValid()) {
-		alSourceStop(source);
-		alDeleteSources(1, &source);
-	}
-	else {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL source was invalid upon destruction" << std::endl;
-	}
+AudioSource::~AudioSource()
+{
+    if(IsValid()) {
+        alSourceStop(source);
+        alDeleteSources(1, &source);
+    } else {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL source was invalid upon destruction" << std::endl;
+    }
 }
 
-void AudioSource::Reset() {
-	owner = NULL;
+void AudioSource::Reset()
+{
+    owner = NULL;
 
-	if (IsValid() == false) {
-		return;
-	}
+    if(IsValid() == false) {
+        return;
+    }
 
-	alSourcei(source, AL_LOOPING, AL_FALSE);
-	alSourcef(source, AL_GAIN, 1.0f);
-	alSourcei(source, AL_SAMPLE_OFFSET, 0);		// This line will cause AL_INVALID_ENUM error in linux/Solaris. It is normal.
-	alSourcei(source, AL_BUFFER, 0);
+    alSourcei(source, AL_LOOPING, AL_FALSE);
+    alSourcef(source, AL_GAIN, 1.0f);
+    alSourcei(source, AL_SAMPLE_OFFSET, 0);		// This line will cause AL_INVALID_ENUM error in linux/Solaris. It is normal.
+    alSourcei(source, AL_BUFFER, 0);
 
-	if (AudioManager->CheckALError()) {
-		#ifdef WIN32
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "resetting source failed: " << AudioManager->CreateALErrorString() << std::endl;
-		#endif
-	}
+    if(AudioManager->CheckALError()) {
+#ifdef WIN32
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "resetting source failed: " << AudioManager->CreateALErrorString() << std::endl;
+#endif
+    }
 }
 
 } // namespace private_audio
@@ -95,780 +99,793 @@ void AudioSource::Reset() {
 ////////////////////////////////////////////////////////////////////////////////
 
 AudioDescriptor::AudioDescriptor() :
-	_state(AUDIO_STATE_UNLOADED),
-	_buffer(NULL),
-	_source(NULL),
-	_input(NULL),
-	_stream(NULL),
-	_data(NULL),
-	_looping(false),
-	_offset(0),
-	_volume(1.0f),
-	_stream_buffer_size(0)
+    _state(AUDIO_STATE_UNLOADED),
+    _buffer(NULL),
+    _source(NULL),
+    _input(NULL),
+    _stream(NULL),
+    _data(NULL),
+    _looping(false),
+    _offset(0),
+    _volume(1.0f),
+    _stream_buffer_size(0)
 {
-	_position[0] = 0.0f;
-	_position[1] = 0.0f;
-	_position[2] = 0.0f;
-	_velocity[0] = 0.0f;
-	_velocity[1] = 0.0f;
-	_velocity[2] = 0.0f;
-	_direction[0] = 0.0f;
-	_direction[1] = 0.0f;
-	_direction[2] = 0.0f;
+    _position[0] = 0.0f;
+    _position[1] = 0.0f;
+    _position[2] = 0.0f;
+    _velocity[0] = 0.0f;
+    _velocity[1] = 0.0f;
+    _velocity[2] = 0.0f;
+    _direction[0] = 0.0f;
+    _direction[1] = 0.0f;
+    _direction[2] = 0.0f;
 }
 
-AudioDescriptor::AudioDescriptor(const AudioDescriptor& copy) :
-	_state(AUDIO_STATE_UNLOADED),
-	_buffer(NULL),
-	_source(NULL),
-	_input(NULL),
-	_stream(NULL),
-	_data(NULL),
-	_looping(copy._looping),
-	_offset(0),
-	_volume(copy._volume),
-	_stream_buffer_size(0)
+AudioDescriptor::AudioDescriptor(const AudioDescriptor &copy) :
+    _state(AUDIO_STATE_UNLOADED),
+    _buffer(NULL),
+    _source(NULL),
+    _input(NULL),
+    _stream(NULL),
+    _data(NULL),
+    _looping(copy._looping),
+    _offset(0),
+    _volume(copy._volume),
+    _stream_buffer_size(0)
 {
-	_position[0] = 0.0f;
-	_position[1] = 0.0f;
-	_position[2] = 0.0f;
-	_velocity[0] = 0.0f;
-	_velocity[1] = 0.0f;
-	_velocity[2] = 0.0f;
-	_direction[0] = 0.0f;
-	_direction[1] = 0.0f;
-	_direction[2] = 0.0f;
+    _position[0] = 0.0f;
+    _position[1] = 0.0f;
+    _position[2] = 0.0f;
+    _velocity[0] = 0.0f;
+    _velocity[1] = 0.0f;
+    _velocity[2] = 0.0f;
+    _direction[0] = 0.0f;
+    _direction[1] = 0.0f;
+    _direction[2] = 0.0f;
 
-	// If the copy is not in the unloaded state, print a warning
-	if (copy._state != AUDIO_STATE_UNLOADED) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "created a copy of an already initialized AudioDescriptor" << std::endl;
-	}
+    // If the copy is not in the unloaded state, print a warning
+    if(copy._state != AUDIO_STATE_UNLOADED) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "created a copy of an already initialized AudioDescriptor" << std::endl;
+    }
 }
 
-bool AudioDescriptor::LoadAudio(const std::string& filename, AUDIO_LOAD load_type, uint32 stream_buffer_size) {
-	if (!AUDIO_ENABLE)
-		return true;
+bool AudioDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_type, uint32 stream_buffer_size)
+{
+    if(!AUDIO_ENABLE)
+        return true;
 
-	// Clean out any audio resources being used before trying to set new ones
-	FreeAudio();
+    // Clean out any audio resources being used before trying to set new ones
+    FreeAudio();
 
-	// Load the input file for the audio
-	if (filename.size() <= 3) { // Name of file is at least 3 letters (so the extension is in there)
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "file name argument is too short: " << filename << std::endl;
-		return false;
-	}
-	// Convert the file extension to uppercase and use it to create the proper input type
-	std::string file_extension = filename.substr(filename.size() - 3, 3);
-	file_extension = hoa_utils::Upcase(file_extension);
+    // Load the input file for the audio
+    if(filename.size() <= 3) {  // Name of file is at least 3 letters (so the extension is in there)
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "file name argument is too short: " << filename << std::endl;
+        return false;
+    }
+    // Convert the file extension to uppercase and use it to create the proper input type
+    std::string file_extension = filename.substr(filename.size() - 3, 3);
+    file_extension = hoa_utils::Upcase(file_extension);
 
-	// Based on the extension of the file, load properly one
-	if (file_extension.compare("WAV") == 0) {
-		_input = new WavFile(filename);
-	}
-	else if (file_extension.compare("OGG") == 0) {
-		_input = new OggFile(filename);
-	}
-	else {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed due to unsupported input file extension: " << file_extension << std::endl;
-		return false;
-	}
+    // Based on the extension of the file, load properly one
+    if(file_extension.compare("WAV") == 0) {
+        _input = new WavFile(filename);
+    } else if(file_extension.compare("OGG") == 0) {
+        _input = new OggFile(filename);
+    } else {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "failed due to unsupported input file extension: " << file_extension << std::endl;
+        return false;
+    }
 
-	if (_input->Initialize() == false) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to load and initialize audio file: " << filename << std::endl;
-		return false;
-	}
+    if(_input->Initialize() == false) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to load and initialize audio file: " << filename << std::endl;
+        return false;
+    }
 
-	// Retreive audio data properties from the newly initialized input
-	if (_input->GetBitsPerSample() == 8) {
-		if (_input->GetNumberChannels() == 1) {
-			_format = AL_FORMAT_MONO8;
-		}
-		else {
-			_format = AL_FORMAT_STEREO8;
-		}
-	}
-	else { // 16 bits per sample
-		if (_input->GetNumberChannels() == 1) {
-			_format = AL_FORMAT_MONO16;
-		}
-		else {
-			_format = AL_FORMAT_STEREO16;
-		}
-	}
+    // Retreive audio data properties from the newly initialized input
+    if(_input->GetBitsPerSample() == 8) {
+        if(_input->GetNumberChannels() == 1) {
+            _format = AL_FORMAT_MONO8;
+        } else {
+            _format = AL_FORMAT_STEREO8;
+        }
+    } else { // 16 bits per sample
+        if(_input->GetNumberChannels() == 1) {
+            _format = AL_FORMAT_MONO16;
+        } else {
+            _format = AL_FORMAT_STEREO16;
+        }
+    }
 
-	// Load the audio data depending upon the load type requested
-	if (load_type == AUDIO_LOAD_STATIC) {
-		// For static sounds just 1 buffer is needed. We create it as an array here, so that
-		// later we can delete it with a call of delete[], similar to the streaming cases
-		_buffer = new AudioBuffer[1];
+    // Load the audio data depending upon the load type requested
+    if(load_type == AUDIO_LOAD_STATIC) {
+        // For static sounds just 1 buffer is needed. We create it as an array here, so that
+        // later we can delete it with a call of delete[], similar to the streaming cases
+        _buffer = new AudioBuffer[1];
 
-		// Create space in memory for the audio data to be read and passed to the OpenAL buffer
-		_data = new uint8[_input->GetDataSize()];
-		bool all_data_read = false;
-		if (_input->Read(_data, _input->GetTotalNumberSamples(), all_data_read) != _input->GetTotalNumberSamples()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to read entire audio data stream for file: " << filename << std::endl;
-			return false;
-		}
+        // Create space in memory for the audio data to be read and passed to the OpenAL buffer
+        _data = new uint8[_input->GetDataSize()];
+        bool all_data_read = false;
+        if(_input->Read(_data, _input->GetTotalNumberSamples(), all_data_read) != _input->GetTotalNumberSamples()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to read entire audio data stream for file: " << filename << std::endl;
+            return false;
+        }
 
-		// Pass the buffer data to the OpenAL buffer
-		_buffer->FillBuffer(_data, _format, _input->GetDataSize(), _input->GetSamplesPerSecond());
-		delete[] _data;
-		_data = NULL;
+        // Pass the buffer data to the OpenAL buffer
+        _buffer->FillBuffer(_data, _format, _input->GetDataSize(), _input->GetSamplesPerSecond());
+        delete[] _data;
+        _data = NULL;
 
-		// Attempt to acquire a source for the new audio to use
-		_AcquireSource();
-		if (_source == NULL) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
-		}
-	} // if (load_type == AUDIO_LOAD_STATIC)
+        // Attempt to acquire a source for the new audio to use
+        _AcquireSource();
+        if(_source == NULL) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
+        }
+    } // if (load_type == AUDIO_LOAD_STATIC)
 
-	// Stream the audio from the file data
-	else if (load_type == AUDIO_LOAD_STREAM_FILE) {
-		_buffer = new AudioBuffer[NUMBER_STREAMING_BUFFERS]; // For streaming we need to use multiple buffers
-		_stream = new AudioStream(_input, _looping);
-		_stream_buffer_size = stream_buffer_size;
+    // Stream the audio from the file data
+    else if(load_type == AUDIO_LOAD_STREAM_FILE) {
+        _buffer = new AudioBuffer[NUMBER_STREAMING_BUFFERS]; // For streaming we need to use multiple buffers
+        _stream = new AudioStream(_input, _looping);
+        _stream_buffer_size = stream_buffer_size;
 
-		_data = new uint8[_stream_buffer_size * _input->GetSampleSize()];
+        _data = new uint8[_stream_buffer_size * _input->GetSampleSize()];
 
-		// Attempt to acquire a source for the new audio to use
-		_AcquireSource();
-		if (_source == NULL) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
-		}
-	} // else if (load_type == AUDIO_LOAD_STREAM_FILE)
+        // Attempt to acquire a source for the new audio to use
+        _AcquireSource();
+        if(_source == NULL) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
+        }
+    } // else if (load_type == AUDIO_LOAD_STREAM_FILE)
 
-	// Allocate memory for the audio data to remain in and stream it from that location
-	else if (load_type == AUDIO_LOAD_STREAM_MEMORY) {
-		_buffer = new AudioBuffer[NUMBER_STREAMING_BUFFERS]; // For streaming we need to use multiple buffers
-		_stream = new AudioStream(_input, _looping);
-		_stream_buffer_size = stream_buffer_size;
+    // Allocate memory for the audio data to remain in and stream it from that location
+    else if(load_type == AUDIO_LOAD_STREAM_MEMORY) {
+        _buffer = new AudioBuffer[NUMBER_STREAMING_BUFFERS]; // For streaming we need to use multiple buffers
+        _stream = new AudioStream(_input, _looping);
+        _stream_buffer_size = stream_buffer_size;
 
-		_data = new uint8[_stream_buffer_size * _input->GetSampleSize()];
+        _data = new uint8[_stream_buffer_size * _input->GetSampleSize()];
 
-		// We need to replace the _input member with a AudioMemory class object
-		AudioInput* temp_input = _input;
-		_input = new AudioMemory(temp_input);
-		delete temp_input;
+        // We need to replace the _input member with a AudioMemory class object
+        AudioInput *temp_input = _input;
+        _input = new AudioMemory(temp_input);
+        delete temp_input;
 
-		// Attempt to acquire a source for the new audio to use
-		_AcquireSource();
-		if (_source == NULL) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
-		}
-	} // else if (load_type == AUDIO_LOAD_STREAM_MEMORY) {
+        // Attempt to acquire a source for the new audio to use
+        _AcquireSource();
+        if(_source == NULL) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
+        }
+    } // else if (load_type == AUDIO_LOAD_STREAM_MEMORY) {
 
-	else {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "unknown load_type argument passed: " << load_type << std::endl;
-		return false;
-	}
+    else {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "unknown load_type argument passed: " << load_type << std::endl;
+        return false;
+    }
 
-	if (AudioManager->CheckALError())
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL generated the following error: " << AudioManager->CreateALErrorString() << std::endl;
+    if(AudioManager->CheckALError())
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL generated the following error: " << AudioManager->CreateALErrorString() << std::endl;
 
-	_state = AUDIO_STATE_STOPPED;
-	return true;
+    _state = AUDIO_STATE_STOPPED;
+    return true;
 } // bool AudioDescriptor::LoadAudio(const string& file_name, AUDIO_LOAD load_type, uint32 stream_buffer_size)
 
-void AudioDescriptor::FreeAudio() {
+void AudioDescriptor::FreeAudio()
+{
     // First, remove any effects.
     RemoveEffects();
 
-	if (_source != NULL)
-		Stop();
+    if(_source != NULL)
+        Stop();
 
-	_state = AUDIO_STATE_UNLOADED;
-	_offset = 0;
+    _state = AUDIO_STATE_UNLOADED;
+    _offset = 0;
 
-	// If the source is still attached to a sound, reset to the default parameters the source
-	if (_source != NULL) {
-		_source->Reset();
-		_source = NULL;
-	}
+    // If the source is still attached to a sound, reset to the default parameters the source
+    if(_source != NULL) {
+        _source->Reset();
+        _source = NULL;
+    }
 
-	if (_buffer != NULL) {
-		delete[] _buffer;
-		_buffer = NULL;
-	}
+    if(_buffer != NULL) {
+        delete[] _buffer;
+        _buffer = NULL;
+    }
 
-	if (_input != NULL) {
-		delete _input;
-		_input = NULL;
-	}
+    if(_input != NULL) {
+        delete _input;
+        _input = NULL;
+    }
 
-	if (_stream != NULL) {
-		delete _stream;
-		_stream = NULL;
-	}
+    if(_stream != NULL) {
+        delete _stream;
+        _stream = NULL;
+    }
 
-	if (_data != NULL) {
-		delete[] _data;
-		_data = NULL;
-	}
+    if(_data != NULL) {
+        delete[] _data;
+        _data = NULL;
+    }
 }
 
-void AudioDescriptor::Play() {
-	if (!AUDIO_ENABLE)
-		return;
+void AudioDescriptor::Play()
+{
+    if(!AUDIO_ENABLE)
+        return;
 
-	if(_state == AUDIO_STATE_PLAYING)
-		return;
+    if(_state == AUDIO_STATE_PLAYING)
+        return;
 
-	if (!_source) {
-		_AcquireSource();
-		if (!_source) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
-			return;
-		}
-		_SetSourceProperties();
-	}
+    if(!_source) {
+        _AcquireSource();
+        if(!_source) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
+            return;
+        }
+        _SetSourceProperties();
+    }
 
-	if (_stream && _stream->GetEndOfStream()) {
-		_stream->Seek(_offset);
-		_PrepareStreamingBuffers();
-	}
+    if(_stream && _stream->GetEndOfStream()) {
+        _stream->Seek(_offset);
+        _PrepareStreamingBuffers();
+    }
 
-	// Temp: Checks if there is already an AL error in the buffer. If it is, print error and clear buffer.
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "audio error occured some time before playing source: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    // Temp: Checks if there is already an AL error in the buffer. If it is, print error and clear buffer.
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "audio error occured some time before playing source: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	alSourcePlay(_source->source);
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "playing the source failed: " << AudioManager->CreateALErrorString() << std::endl;
-	}
-	_state = AUDIO_STATE_PLAYING;
+    alSourcePlay(_source->source);
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "playing the source failed: " << AudioManager->CreateALErrorString() << std::endl;
+    }
+    _state = AUDIO_STATE_PLAYING;
 }
 
-void AudioDescriptor::Stop() {
-	if (_state == AUDIO_STATE_STOPPED || _state == AUDIO_STATE_UNLOADED)
-		return;
+void AudioDescriptor::Stop()
+{
+    if(_state == AUDIO_STATE_STOPPED || _state == AUDIO_STATE_UNLOADED)
+        return;
 
-	if (!_source) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
-		return;
-	}
+    if(!_source) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
+        return;
+    }
 
-	// Temp: Checks if there is already an AL error in the buffer. If it is, print error and clear buffer.
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "audio error occured some time before stopping source: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    // Temp: Checks if there is already an AL error in the buffer. If it is, print error and clear buffer.
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "audio error occured some time before stopping source: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	alSourceStop(_source->source);
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "stopping the source failed: " << AudioManager->CreateALErrorString() << std::endl;
-	}
-	_state = AUDIO_STATE_STOPPED;
-}
-
-
-
-void AudioDescriptor::Pause() {
-	if (_state == AUDIO_STATE_PAUSED || _state == AUDIO_STATE_UNLOADED)
-		return;
-
-	if (_source == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
-		return;
-	}
-
-	alSourcePause(_source->source);
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "pausing the source failed: " << AudioManager->CreateALErrorString() << std::endl;
-	}
-	_state = AUDIO_STATE_PAUSED;
+    alSourceStop(_source->source);
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "stopping the source failed: " << AudioManager->CreateALErrorString() << std::endl;
+    }
+    _state = AUDIO_STATE_STOPPED;
 }
 
 
 
-void AudioDescriptor::Resume() {
-	if (_state != AUDIO_STATE_PAUSED)
-		return;
+void AudioDescriptor::Pause()
+{
+    if(_state == AUDIO_STATE_PAUSED || _state == AUDIO_STATE_UNLOADED)
+        return;
 
-	Play();
+    if(_source == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
+        return;
+    }
+
+    alSourcePause(_source->source);
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "pausing the source failed: " << AudioManager->CreateALErrorString() << std::endl;
+    }
+    _state = AUDIO_STATE_PAUSED;
 }
 
 
 
-void AudioDescriptor::Rewind() {
-	if (_source == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
-		return;
-	}
+void AudioDescriptor::Resume()
+{
+    if(_state != AUDIO_STATE_PAUSED)
+        return;
 
-	alSourceRewind(_source->source);
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "rewinding the source failed: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    Play();
 }
 
 
 
-void AudioDescriptor::SetLooping(bool loop) {
-	if (_looping == loop)
-		return;
+void AudioDescriptor::Rewind()
+{
+    if(_source == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
+        return;
+    }
 
-	_looping = loop;
-	if (_stream != NULL) {
-		_stream->SetLooping(_looping);
-	}
-	else if (_source != NULL) {
-		if (_looping)
-			alSourcei(_source->source, AL_LOOPING, AL_TRUE);
-		else
-			alSourcei(_source->source, AL_LOOPING, AL_FALSE);
-	}
+    alSourceRewind(_source->source);
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "rewinding the source failed: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 }
 
 
 
-void AudioDescriptor::SetLoopStart(uint32 loop_start) {
-	if (_stream == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "the audio data was not loaded with streaming properties, this operation is not permitted" << std::endl;
-		return;
-	}
-	_stream->SetLoopStart(loop_start);
+void AudioDescriptor::SetLooping(bool loop)
+{
+    if(_looping == loop)
+        return;
+
+    _looping = loop;
+    if(_stream != NULL) {
+        _stream->SetLooping(_looping);
+    } else if(_source != NULL) {
+        if(_looping)
+            alSourcei(_source->source, AL_LOOPING, AL_TRUE);
+        else
+            alSourcei(_source->source, AL_LOOPING, AL_FALSE);
+    }
 }
 
 
 
-void AudioDescriptor::SetLoopEnd(uint32 loop_end) {
-	if (_stream == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "the audio data was not loaded with streaming properties, this operation is not permitted" << std::endl;
-		return;
-	}
-	_stream->SetLoopEnd(loop_end);
+void AudioDescriptor::SetLoopStart(uint32 loop_start)
+{
+    if(_stream == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "the audio data was not loaded with streaming properties, this operation is not permitted" << std::endl;
+        return;
+    }
+    _stream->SetLoopStart(loop_start);
 }
 
 
 
-void AudioDescriptor::SeekSample(uint32 sample) {
-	if (sample >= _input->GetTotalNumberSamples()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because requested seek time fell outside the valid range of samples: " << sample << std::endl;
-		return;
-	}
-
-	_offset = sample;
-
-	if (_stream) {
-		_stream->Seek(_offset);
-		_PrepareStreamingBuffers();
-	}
-	else if (_source != NULL) {
-		alSourcei(_source->source, AL_SAMPLE_OFFSET, _offset);
-		if (AudioManager->CheckALError()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
-		}
-	}
+void AudioDescriptor::SetLoopEnd(uint32 loop_end)
+{
+    if(_stream == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "the audio data was not loaded with streaming properties, this operation is not permitted" << std::endl;
+        return;
+    }
+    _stream->SetLoopEnd(loop_end);
 }
 
 
 
-void AudioDescriptor::SeekSecond(float second) {
-	if (second < 0.0f) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "function received invalid argument that was less than 0.0f: " << second << std::endl;
-		return;
-	}
+void AudioDescriptor::SeekSample(uint32 sample)
+{
+    if(sample >= _input->GetTotalNumberSamples()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because requested seek time fell outside the valid range of samples: " << sample << std::endl;
+        return;
+    }
 
-	uint32 pos = static_cast<uint32>(second * _input->GetSamplesPerSecond());
-	if (pos >= _input->GetTotalNumberSamples()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because requested seek time fell outside the valid range of samples: " << pos << std::endl;
-		return;
-	}
+    _offset = sample;
 
-	_offset = pos;
-	if (_stream) {
-		_stream->Seek(_offset);
-		_PrepareStreamingBuffers();
-	}
-	else if (_source != NULL) {
-		alSourcei(_source->source, AL_SEC_OFFSET, _offset);
-		if (AudioManager->CheckALError()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
-		}
-	}
+    if(_stream) {
+        _stream->Seek(_offset);
+        _PrepareStreamingBuffers();
+    } else if(_source != NULL) {
+        alSourcei(_source->source, AL_SAMPLE_OFFSET, _offset);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+    }
 }
 
 
 
-void AudioDescriptor::SetPosition(const float position[3]) {
-	if (_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
-		return;
-	}
+void AudioDescriptor::SeekSecond(float second)
+{
+    if(second < 0.0f) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "function received invalid argument that was less than 0.0f: " << second << std::endl;
+        return;
+    }
 
-	memcpy(_position, position, sizeof(float) * 3);
-	if (_source != NULL) {
-		alSourcefv(_source->source, AL_POSITION, _position);
-		if (AudioManager->CheckALError()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's position failed: " << AudioManager->CreateALErrorString() << std::endl;
-		}
-	}
+    uint32 pos = static_cast<uint32>(second * _input->GetSamplesPerSecond());
+    if(pos >= _input->GetTotalNumberSamples()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because requested seek time fell outside the valid range of samples: " << pos << std::endl;
+        return;
+    }
+
+    _offset = pos;
+    if(_stream) {
+        _stream->Seek(_offset);
+        _PrepareStreamingBuffers();
+    } else if(_source != NULL) {
+        alSourcei(_source->source, AL_SEC_OFFSET, _offset);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+    }
 }
 
 
 
-void AudioDescriptor::SetVelocity(const float velocity[3]) {
-	if (_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
-		return;
-	}
+void AudioDescriptor::SetPosition(const float position[3])
+{
+    if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
+        return;
+    }
 
-	memcpy(_velocity, velocity, sizeof(float) * 3);
-	if (_source != NULL) {
-		alSourcefv(_source->source, AL_VELOCITY, _position);
-		if (AudioManager->CheckALError()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's velocity failed: " << AudioManager->CreateALErrorString() << std::endl;
-		}
-	}
+    memcpy(_position, position, sizeof(float) * 3);
+    if(_source != NULL) {
+        alSourcefv(_source->source, AL_POSITION, _position);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's position failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+    }
 }
 
 
 
-void AudioDescriptor::SetDirection(const float direction[3]) {
-	if (_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
-		return;
-	}
+void AudioDescriptor::SetVelocity(const float velocity[3])
+{
+    if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
+        return;
+    }
 
-	memcpy(_direction, direction, sizeof(float) * 3);
-	if (_source != NULL) {
-		alSourcefv(_source->source, AL_DIRECTION, _direction);
-		if (AudioManager->CheckALError()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's direction failed: " << AudioManager->CreateALErrorString() << std::endl;
-		}
-	}
+    memcpy(_velocity, velocity, sizeof(float) * 3);
+    if(_source != NULL) {
+        alSourcefv(_source->source, AL_VELOCITY, _position);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's velocity failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+    }
 }
 
-void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm) {
-	// Don't accept null references.
-	if (!gm)
-		return;
 
-	// Check for duplicate entries
-	std::vector<hoa_mode_manager::GameMode*>::const_iterator it = _owners.begin();
-	for (; it != _owners.end(); ++it) {
-		if (*it == gm)
-			return;
-	}
-	// Add the new owner in the list
-	_owners.push_back(gm);
+
+void AudioDescriptor::SetDirection(const float direction[3])
+{
+    if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
+        return;
+    }
+
+    memcpy(_direction, direction, sizeof(float) * 3);
+    if(_source != NULL) {
+        alSourcefv(_source->source, AL_DIRECTION, _direction);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's direction failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+    }
 }
 
-void AudioDescriptor::AddOwners(std::vector<hoa_mode_manager::GameMode*>& owners) {
-	std::vector<hoa_mode_manager::GameMode*>::const_iterator it = owners.begin();
+void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm)
+{
+    // Don't accept null references.
+    if(!gm)
+        return;
 
-	for(; it != owners.end(); ++it) {
-		AddOwner(*it);
-	}
+    // Check for duplicate entries
+    std::vector<hoa_mode_manager::GameMode *>::const_iterator it = _owners.begin();
+    for(; it != _owners.end(); ++it) {
+        if(*it == gm)
+            return;
+    }
+    // Add the new owner in the list
+    _owners.push_back(gm);
 }
 
-bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm) {
-	if (!gm)
-		return false;
+void AudioDescriptor::AddOwners(std::vector<hoa_mode_manager::GameMode *>& owners)
+{
+    std::vector<hoa_mode_manager::GameMode *>::const_iterator it = owners.begin();
 
-	// Don't deal with never owned audio descriptors.
-	if (_owners.empty())
-		return false;
-
-	// Check for duplicate entries
-	std::vector<hoa_mode_manager::GameMode*>::iterator it = _owners.begin();
-	for (; it != _owners.end();) {
-		if (*it != gm) {
-			++it;
-			continue;
-		}
-
-		// Remove the owner and check whether the sound can be freed
-		it = _owners.erase(it);
-
-		if (_owners.empty()) {
-			FreeAudio();
-			return true;
-		}
-	}
-	return false;
+    for(; it != owners.end(); ++it) {
+        AddOwner(*it);
+    }
 }
 
-void AudioDescriptor::FadeIn(float time) {
-	_audio_effects.push_back(new private_audio::FadeInEffect(*this, time));
+bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm)
+{
+    if(!gm)
+        return false;
+
+    // Don't deal with never owned audio descriptors.
+    if(_owners.empty())
+        return false;
+
+    // Check for duplicate entries
+    std::vector<hoa_mode_manager::GameMode *>::iterator it = _owners.begin();
+    for(; it != _owners.end();) {
+        if(*it != gm) {
+            ++it;
+            continue;
+        }
+
+        // Remove the owner and check whether the sound can be freed
+        it = _owners.erase(it);
+
+        if(_owners.empty()) {
+            FreeAudio();
+            return true;
+        }
+    }
+    return false;
 }
 
-void AudioDescriptor::FadeOut(float time) {
-	_audio_effects.push_back(new private_audio::FadeOutEffect(*this, time));
+void AudioDescriptor::FadeIn(float time)
+{
+    _audio_effects.push_back(new private_audio::FadeInEffect(*this, time));
 }
 
-void AudioDescriptor::RemoveEffects() {
-	// Delete any active audio effects for the given audio descriptor
-	for (std::vector<AudioEffect*>::iterator it = _audio_effects.begin();
-			it != _audio_effects.end(); ++it) {
-		if (*it)
-		    delete (*it);
-	}
-	_audio_effects.clear();
+void AudioDescriptor::FadeOut(float time)
+{
+    _audio_effects.push_back(new private_audio::FadeOutEffect(*this, time));
 }
 
-void AudioDescriptor::DEBUG_PrintInfo() {
-	PRINT_WARNING << "*** Audio Descriptor Information ***" << std::endl;
+void AudioDescriptor::RemoveEffects()
+{
+    // Delete any active audio effects for the given audio descriptor
+    for(std::vector<AudioEffect *>::iterator it = _audio_effects.begin();
+            it != _audio_effects.end(); ++it) {
+        if(*it)
+            delete(*it);
+    }
+    _audio_effects.clear();
+}
 
-	if (_input == NULL) {
-		PRINT_WARNING << "no audio data loaded" << std::endl;
-		return;
-	}
+void AudioDescriptor::DEBUG_PrintInfo()
+{
+    PRINT_WARNING << "*** Audio Descriptor Information ***" << std::endl;
 
-	uint16 num_channels = 0;
-	uint16 bits_per_sample = 0;
-	switch (_format) {
-		case AL_FORMAT_MONO8:
-			num_channels = 1;
-			bits_per_sample = 8;
-			break;
-		case AL_FORMAT_MONO16:
-			num_channels = 1;
-			bits_per_sample = 16;
-			break;
-		case AL_FORMAT_STEREO8:
-			num_channels = 1;
-			bits_per_sample = 8;
-			break;
-		case AL_FORMAT_STEREO16:
-			num_channels = 2;
-			bits_per_sample = 16;
-			break;
-		default:
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "unknown audio format: " << _format << std::endl;
-			break;
-	}
+    if(_input == NULL) {
+        PRINT_WARNING << "no audio data loaded" << std::endl;
+        return;
+    }
 
-	PRINT_WARNING << "Filename:          " << _input->GetFilename() << std::endl;
-	PRINT_WARNING << "Channels:          " << num_channels << std::endl;
-	PRINT_WARNING << "Bits Per Sample:   " << bits_per_sample << std::endl;
-	PRINT_WARNING << "Frequency:         " << _input->GetSamplesPerSecond() << std::endl;
-	PRINT_WARNING << "Samples:           " << _input->GetTotalNumberSamples() << std::endl;
-	PRINT_WARNING << "Time:              " << _input->GetPlayTime() << std::endl;
+    uint16 num_channels = 0;
+    uint16 bits_per_sample = 0;
+    switch(_format) {
+    case AL_FORMAT_MONO8:
+        num_channels = 1;
+        bits_per_sample = 8;
+        break;
+    case AL_FORMAT_MONO16:
+        num_channels = 1;
+        bits_per_sample = 16;
+        break;
+    case AL_FORMAT_STEREO8:
+        num_channels = 1;
+        bits_per_sample = 8;
+        break;
+    case AL_FORMAT_STEREO16:
+        num_channels = 2;
+        bits_per_sample = 16;
+        break;
+    default:
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "unknown audio format: " << _format << std::endl;
+        break;
+    }
 
-	if (_stream != NULL) {
-		PRINT_WARNING << "Audio load type:    streamed" << std::endl;
-		PRINT_WARNING << "Stream buffer size (samples): " << _stream_buffer_size << std::endl;
-	}
-	else {
-		PRINT_WARNING << "Audio load type:    static" << std::endl;
-	}
+    PRINT_WARNING << "Filename:          " << _input->GetFilename() << std::endl;
+    PRINT_WARNING << "Channels:          " << num_channels << std::endl;
+    PRINT_WARNING << "Bits Per Sample:   " << bits_per_sample << std::endl;
+    PRINT_WARNING << "Frequency:         " << _input->GetSamplesPerSecond() << std::endl;
+    PRINT_WARNING << "Samples:           " << _input->GetTotalNumberSamples() << std::endl;
+    PRINT_WARNING << "Time:              " << _input->GetPlayTime() << std::endl;
+
+    if(_stream != NULL) {
+        PRINT_WARNING << "Audio load type:    streamed" << std::endl;
+        PRINT_WARNING << "Stream buffer size (samples): " << _stream_buffer_size << std::endl;
+    } else {
+        PRINT_WARNING << "Audio load type:    static" << std::endl;
+    }
 } // void AudioDescriptor::DEBUG_PrintInfo()
 
 
 
-void AudioDescriptor::_SetVolumeControl(float volume) {
-	if (volume < 0.0f) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set volume less than 0.0f" << std::endl;
-		_volume = 0.0f;
-	}
-	else if (volume > 1.0f) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set volume greater than 1.0f" << std::endl;
-		_volume = 1.0f;
-	}
-	else {
-		_volume = volume;
-	}
+void AudioDescriptor::_SetVolumeControl(float volume)
+{
+    if(volume < 0.0f) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set volume less than 0.0f" << std::endl;
+        _volume = 0.0f;
+    } else if(volume > 1.0f) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set volume greater than 1.0f" << std::endl;
+        _volume = 1.0f;
+    } else {
+        _volume = volume;
+    }
 }
 
 
 
-void AudioDescriptor::_Update() {
-	// Don't update stopped audio descriptors
-	if (_state != AUDIO_STATE_PLAYING)
-		return;
+void AudioDescriptor::_Update()
+{
+    // Don't update stopped audio descriptors
+    if(_state != AUDIO_STATE_PLAYING)
+        return;
 
-	// If the last set state was the playing state, we have to double check
-	// with the OpenAL source to make sure that the audio is still playing.
-	// If the descriptor no longer has a source, we can stop
-	if (!_source) {
-		_state = AUDIO_STATE_STOPPED;
-	}
-	else {
-		ALint source_state;
-		alGetSourcei(_source->source, AL_SOURCE_STATE, &source_state);
-		if (AudioManager->CheckALError()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "getting the source's state failed: " << AudioManager->CreateALErrorString() << std::endl;
-		}
-		if (source_state != AL_PLAYING) {
-			_state = AUDIO_STATE_STOPPED;
-		}
-	}
+    // If the last set state was the playing state, we have to double check
+    // with the OpenAL source to make sure that the audio is still playing.
+    // If the descriptor no longer has a source, we can stop
+    if(!_source) {
+        _state = AUDIO_STATE_STOPPED;
+    } else {
+        ALint source_state;
+        alGetSourcei(_source->source, AL_SOURCE_STATE, &source_state);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "getting the source's state failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+        if(source_state != AL_PLAYING) {
+            _state = AUDIO_STATE_STOPPED;
+        }
+    }
 
-	 // Update all registered audio effects
-	for (std::vector<AudioEffect*>::iterator it = _audio_effects.begin(); it != _audio_effects.end();) {
-		(*it)->Update();
+    // Update all registered audio effects
+    for(std::vector<AudioEffect *>::iterator it = _audio_effects.begin(); it != _audio_effects.end();) {
+        (*it)->Update();
 
-		// If the effect is finished, delete it
-		if (!(*it)->active) {
-			delete (*it);
-			it = _audio_effects.erase(it);
-		}
-		else {
-			++it;
-		}
-	}
+        // If the effect is finished, delete it
+        if(!(*it)->active) {
+            delete(*it);
+            it = _audio_effects.erase(it);
+        } else {
+            ++it;
+        }
+    }
 
-	// Only streaming audio that is being played requires periodic updates
-	if (!_stream)
-		return;
+    // Only streaming audio that is being played requires periodic updates
+    if(!_stream)
+        return;
 
-	ALint queued = 0;
-	alGetSourcei(_source->source, AL_BUFFERS_QUEUED, &queued);
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "getting queued sources failed: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    ALint queued = 0;
+    alGetSourcei(_source->source, AL_BUFFERS_QUEUED, &queued);
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "getting queued sources failed: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	// If there are no more buffers and the end of stream was reached, stop the sound
-	if (queued != 0 && _stream->GetEndOfStream()) {
-		_state = AUDIO_STATE_STOPPED;
-		return;
-	}
+    // If there are no more buffers and the end of stream was reached, stop the sound
+    if(queued != 0 && _stream->GetEndOfStream()) {
+        _state = AUDIO_STATE_STOPPED;
+        return;
+    }
 
-	ALint buffers_processed = 0;
-	alGetSourcei(_source->source, AL_BUFFERS_PROCESSED, &buffers_processed);
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "getting processed sources failed: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    ALint buffers_processed = 0;
+    alGetSourcei(_source->source, AL_BUFFERS_PROCESSED, &buffers_processed);
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "getting processed sources failed: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	// If any buffers have finished playing, attempt to refill them
-	if (buffers_processed > 0) {
-		ALuint buffer_finished;
-		alSourceUnqueueBuffers(_source->source, 1, &buffer_finished);
-		if (AudioManager->CheckALError()) {
-			IF_PRINT_WARNING(AUDIO_DEBUG) << "unqueuing a source failed: " << AudioManager->CreateALErrorString() << std::endl;
-		}
+    // If any buffers have finished playing, attempt to refill them
+    if(buffers_processed > 0) {
+        ALuint buffer_finished;
+        alSourceUnqueueBuffers(_source->source, 1, &buffer_finished);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "unqueuing a source failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
 
-		uint32 size = _stream->FillBuffer(_data, _stream_buffer_size);
-		if (size > 0) { // Make sure that there is data available to fill
-			alBufferData(buffer_finished, _format, _data, size * _input->GetSampleSize(), _input->GetSamplesPerSecond());
-			if (AudioManager->CheckALError()) {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "buffering data failed: " << AudioManager->CreateALErrorString() << std::endl;
-			}
-			alSourceQueueBuffers(_source->source, 1, &buffer_finished);
-			if (AudioManager->CheckALError()) {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "queueing a source failed: " << AudioManager->CreateALErrorString() << std::endl;
-			}
-		}
+        uint32 size = _stream->FillBuffer(_data, _stream_buffer_size);
+        if(size > 0) {  // Make sure that there is data available to fill
+            alBufferData(buffer_finished, _format, _data, size * _input->GetSampleSize(), _input->GetSamplesPerSecond());
+            if(AudioManager->CheckALError()) {
+                IF_PRINT_WARNING(AUDIO_DEBUG) << "buffering data failed: " << AudioManager->CreateALErrorString() << std::endl;
+            }
+            alSourceQueueBuffers(_source->source, 1, &buffer_finished);
+            if(AudioManager->CheckALError()) {
+                IF_PRINT_WARNING(AUDIO_DEBUG) << "queueing a source failed: " << AudioManager->CreateALErrorString() << std::endl;
+            }
+        }
 
-		// This ensures that if a streaming audio piece is stopped because the buffers ran out
-		// of audio data for the source to play, the audio will be automatically replayed again.
-		ALint state;
-		alGetSourcei(_source->source, AL_SOURCE_STATE, &state);
-		if (state != AL_PLAYING) {
-			alSourcePlay(_source->source);
-			if (AudioManager->CheckALError()) {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "playing a source failed: " << AudioManager->CreateALErrorString() << std::endl;
-			}
-		}
-	}
+        // This ensures that if a streaming audio piece is stopped because the buffers ran out
+        // of audio data for the source to play, the audio will be automatically replayed again.
+        ALint state;
+        alGetSourcei(_source->source, AL_SOURCE_STATE, &state);
+        if(state != AL_PLAYING) {
+            alSourcePlay(_source->source);
+            if(AudioManager->CheckALError()) {
+                IF_PRINT_WARNING(AUDIO_DEBUG) << "playing a source failed: " << AudioManager->CreateALErrorString() << std::endl;
+            }
+        }
+    }
 } // void AudioDescriptor::_Update()
 
 
 
-void AudioDescriptor::_AcquireSource() {
-	if (_source != NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when object already had a source acquired" << std::endl;
-		return;
-	}
+void AudioDescriptor::_AcquireSource()
+{
+    if(_source != NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when object already had a source acquired" << std::endl;
+        return;
+    }
 
-	if (_buffer == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when object did not have an audio buffer attached" << std::endl;
-		return;
-	}
+    if(_buffer == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when object did not have an audio buffer attached" << std::endl;
+        return;
+    }
 
-	_source = AudioManager->_AcquireAudioSource();
-	if (_source == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << _input->GetFilename() << std::endl;
-		return;
-	}
+    _source = AudioManager->_AcquireAudioSource();
+    if(_source == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << _input->GetFilename() << std::endl;
+        return;
+    }
 
-	_source->owner = this;
-	_SetSourceProperties();
-	if (_stream == NULL)
-		alSourcei(_source->source, AL_BUFFER, _buffer->buffer);
-	else
-		_PrepareStreamingBuffers();
+    _source->owner = this;
+    _SetSourceProperties();
+    if(_stream == NULL)
+        alSourcei(_source->source, AL_BUFFER, _buffer->buffer);
+    else
+        _PrepareStreamingBuffers();
 }
 
 
 
-void AudioDescriptor::_SetSourceProperties() {
-	if (_source == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when class did not have access to an audio source" << std::endl;
-		return;
-	}
+void AudioDescriptor::_SetSourceProperties()
+{
+    if(_source == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when class did not have access to an audio source" << std::endl;
+        return;
+    }
 
-	// Set volume (gain)
-	float volume_multiplier = 0.0f;
-	if (IsSound())
-		volume_multiplier = AudioManager->GetSoundVolume();
-	else
-		volume_multiplier = AudioManager->GetMusicVolume();
+    // Set volume (gain)
+    float volume_multiplier = 0.0f;
+    if(IsSound())
+        volume_multiplier = AudioManager->GetSoundVolume();
+    else
+        volume_multiplier = AudioManager->GetMusicVolume();
 
-	alSourcef(_source->source, AL_GAIN, _volume * volume_multiplier);
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "changing volume on a source failed: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    alSourcef(_source->source, AL_GAIN, _volume * volume_multiplier);
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "changing volume on a source failed: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	// Set looping (source has looping disabled by default, so only need to check the true case)
-	if (_stream != NULL) {
-		_stream->SetLooping(_looping);
-	}
-	else if (_source != NULL) {
-		if (_looping) {
-			alSourcei(_source->source, AL_LOOPING, AL_TRUE);
-			if (AudioManager->CheckALError()) {
-				IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source to loop failed: " << AudioManager->CreateALErrorString() << std::endl;
-			}
-		}
-	}
+    // Set looping (source has looping disabled by default, so only need to check the true case)
+    if(_stream != NULL) {
+        _stream->SetLooping(_looping);
+    } else if(_source != NULL) {
+        if(_looping) {
+            alSourcei(_source->source, AL_LOOPING, AL_TRUE);
+            if(AudioManager->CheckALError()) {
+                IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source to loop failed: " << AudioManager->CreateALErrorString() << std::endl;
+            }
+        }
+    }
 
-	//! \todo More properties need to be set here, such as source position, etc.
+    //! \todo More properties need to be set here, such as source position, etc.
 }
 
 
 
-void AudioDescriptor::_PrepareStreamingBuffers() {
-	if (_stream == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "_stream pointer was NULL, meaning this function should never have been called" << std::endl;
-		return;
-	}
+void AudioDescriptor::_PrepareStreamingBuffers()
+{
+    if(_stream == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "_stream pointer was NULL, meaning this function should never have been called" << std::endl;
+        return;
+    }
 
-	if (_source == NULL) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because no source was available for this object to utilize" << std::endl;
-		return;
-	}
+    if(_source == NULL) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because no source was available for this object to utilize" << std::endl;
+        return;
+    }
 
-	bool was_playing = false;
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL error detected: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    bool was_playing = false;
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "OpenAL error detected: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	// Stop the audio if it is playing and detatch the buffer from the source
-	if (_state == AUDIO_STATE_PLAYING) {
-		was_playing = true;
-		Stop();
-	}
-	alSourcei(_source->source, AL_BUFFER, 0);
+    // Stop the audio if it is playing and detatch the buffer from the source
+    if(_state == AUDIO_STATE_PLAYING) {
+        was_playing = true;
+        Stop();
+    }
+    alSourcei(_source->source, AL_BUFFER, 0);
 
-	// Fill each buffer with audio data
-	for (uint32 i = 0; i < NUMBER_STREAMING_BUFFERS; i++) {
-		uint32 read = _stream->FillBuffer(_data, _stream_buffer_size);
-		if (read > 0) {
-			_buffer[i].FillBuffer(_data, _format, read * _input->GetSampleSize(), _input->GetSamplesPerSecond());
-			if (_source != NULL)
-				alSourceQueueBuffers(_source->source, 1, &_buffer[i].buffer);
-		}
-	}
+    // Fill each buffer with audio data
+    for(uint32 i = 0; i < NUMBER_STREAMING_BUFFERS; i++) {
+        uint32 read = _stream->FillBuffer(_data, _stream_buffer_size);
+        if(read > 0) {
+            _buffer[i].FillBuffer(_data, _format, read * _input->GetSampleSize(), _input->GetSamplesPerSecond());
+            if(_source != NULL)
+                alSourceQueueBuffers(_source->source, 1, &_buffer[i].buffer);
+        }
+    }
 
-	if (AudioManager->CheckALError()) {
-		IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to fill all buffers: " << AudioManager->CreateALErrorString() << std::endl;
-	}
+    if(AudioManager->CheckALError()) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to fill all buffers: " << AudioManager->CreateALErrorString() << std::endl;
+    }
 
-	if (was_playing) {
-		Play();
-	}
+    if(was_playing) {
+        Play();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -876,41 +893,43 @@ void AudioDescriptor::_PrepareStreamingBuffers() {
 ////////////////////////////////////////////////////////////////////////////////
 
 SoundDescriptor::SoundDescriptor() :
-	AudioDescriptor()
+    AudioDescriptor()
 {
-	AudioManager->_registered_sounds.push_back(this);
+    AudioManager->_registered_sounds.push_back(this);
 }
 
 
 
-SoundDescriptor::~SoundDescriptor() {
-	for (std::vector<SoundDescriptor*>::iterator i = AudioManager->_registered_sounds.begin();
-		i != AudioManager->_registered_sounds.end(); i++) {
-		if (*i == this) {
-			AudioManager->_registered_sounds.erase(i);
-			return;
-		}
-	}
-}
-
-
-
-SoundDescriptor::SoundDescriptor(const SoundDescriptor& copy) :
-	AudioDescriptor(copy)
+SoundDescriptor::~SoundDescriptor()
 {
-	AudioManager->_registered_sounds.push_back(this);
+    for(std::vector<SoundDescriptor *>::iterator i = AudioManager->_registered_sounds.begin();
+            i != AudioManager->_registered_sounds.end(); i++) {
+        if(*i == this) {
+            AudioManager->_registered_sounds.erase(i);
+            return;
+        }
+    }
 }
 
 
 
-void SoundDescriptor::SetVolume(float volume) {
-	AudioDescriptor::_SetVolumeControl(volume);
+SoundDescriptor::SoundDescriptor(const SoundDescriptor &copy) :
+    AudioDescriptor(copy)
+{
+    AudioManager->_registered_sounds.push_back(this);
+}
 
-	float sound_volume = _volume * AudioManager->GetSoundVolume();
 
-	if (_source) {
-		alSourcef(_source->source, AL_GAIN, sound_volume);
-	}
+
+void SoundDescriptor::SetVolume(float volume)
+{
+    AudioDescriptor::_SetVolumeControl(volume);
+
+    float sound_volume = _volume * AudioManager->GetSoundVolume();
+
+    if(_source) {
+        alSourcef(_source->source, AL_GAIN, sound_volume);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -918,60 +937,63 @@ void SoundDescriptor::SetVolume(float volume) {
 ////////////////////////////////////////////////////////////////////////////////
 
 MusicDescriptor::MusicDescriptor() :
-	AudioDescriptor()
+    AudioDescriptor()
 {
-	_looping = true;
-	AudioManager->_registered_music.push_back(this);
+    _looping = true;
+    AudioManager->_registered_music.push_back(this);
 }
 
-MusicDescriptor::~MusicDescriptor() {
-	if (AudioManager->_active_music == this) {
-		AudioManager->_active_music = NULL;
-	}
-
-	for (std::vector<MusicDescriptor*>::iterator i = AudioManager->_registered_music.begin();
-		i != AudioManager->_registered_music.end(); i++) {
-		if (*i == this) {
-			AudioManager->_registered_music.erase(i);
-			return;
-		}
-	}
-}
-
-MusicDescriptor::MusicDescriptor(const MusicDescriptor& copy) :
-	AudioDescriptor(copy)
+MusicDescriptor::~MusicDescriptor()
 {
-	AudioManager->_registered_music.push_back(this);
+    if(AudioManager->_active_music == this) {
+        AudioManager->_active_music = NULL;
+    }
+
+    for(std::vector<MusicDescriptor *>::iterator i = AudioManager->_registered_music.begin();
+            i != AudioManager->_registered_music.end(); i++) {
+        if(*i == this) {
+            AudioManager->_registered_music.erase(i);
+            return;
+        }
+    }
 }
 
-bool MusicDescriptor::LoadAudio(const std::string& filename, AUDIO_LOAD load_type, uint32 stream_buffer_size) {
-	return AudioDescriptor::LoadAudio(filename, load_type, stream_buffer_size);
+MusicDescriptor::MusicDescriptor(const MusicDescriptor &copy) :
+    AudioDescriptor(copy)
+{
+    AudioManager->_registered_music.push_back(this);
 }
 
-void MusicDescriptor::Play() {
-	if (!AUDIO_ENABLE)
-		return;
-
-	if (AudioManager->_active_music == this) {
-		if (_state != AUDIO_STATE_PLAYING)
-			AudioDescriptor::Play();
-	}
-	else {
-		if (AudioManager->_active_music)
-		    AudioManager->_active_music->Stop();
-		AudioManager->_active_music = this;
-		Play(); // Recursive call now the music is the active one.
-	}
+bool MusicDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_type, uint32 stream_buffer_size)
+{
+    return AudioDescriptor::LoadAudio(filename, load_type, stream_buffer_size);
 }
 
-void MusicDescriptor::SetVolume(float volume) {
-	AudioDescriptor::_SetVolumeControl(volume);
+void MusicDescriptor::Play()
+{
+    if(!AUDIO_ENABLE)
+        return;
 
-	float music_volume = _volume * AudioManager->GetMusicVolume();
+    if(AudioManager->_active_music == this) {
+        if(_state != AUDIO_STATE_PLAYING)
+            AudioDescriptor::Play();
+    } else {
+        if(AudioManager->_active_music)
+            AudioManager->_active_music->Stop();
+        AudioManager->_active_music = this;
+        Play(); // Recursive call now the music is the active one.
+    }
+}
 
-	if (_source) {
-		alSourcef(_source->source, AL_GAIN, (ALfloat)music_volume);
-	}
+void MusicDescriptor::SetVolume(float volume)
+{
+    AudioDescriptor::_SetVolumeControl(volume);
+
+    float music_volume = _volume * AudioManager->GetMusicVolume();
+
+    if(_source) {
+        alSourcef(_source->source, AL_GAIN, (ALfloat)music_volume);
+    }
 }
 
 } // namespace hoa_audio

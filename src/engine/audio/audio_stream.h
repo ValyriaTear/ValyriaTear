@@ -20,11 +20,11 @@
 #define __AUDIO_STREAM_HEADER__
 
 #ifdef __MACH__
-	#include <OpenAL/al.h>
-	#include <OpenAL/alc.h>
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
 #else
-	#include "al.h"
-	#include "alc.h"
+#include "al.h"
+#include "alc.h"
 #endif
 
 #include "defs.h"
@@ -32,9 +32,11 @@
 
 #include "audio_input.h"
 
-namespace hoa_audio {
+namespace hoa_audio
+{
 
-namespace private_audio {
+namespace private_audio
+{
 
 /** ****************************************************************************
 *** \brief Handles streaming audio from input data sources
@@ -53,72 +55,77 @@ namespace private_audio {
 *** then loop section C infinitely. We may also want to be able to apply audio
 *** effects to the different streaming portions.
 *** ***************************************************************************/
-class AudioStream {
+class AudioStream
+{
 public:
-	/** \brief Class constructor which initializes the audio stream
-	*** \param input A pointer to the AudioInput object which will manage the input data
-	*** \param loop If true, enables looping for the audio stream
-	**/
-	AudioStream (AudioInput* input, bool loop);
+    /** \brief Class constructor which initializes the audio stream
+    *** \param input A pointer to the AudioInput object which will manage the input data
+    *** \param loop If true, enables looping for the audio stream
+    **/
+    AudioStream(AudioInput *input, bool loop);
 
-	~AudioStream()
-		{}
+    ~AudioStream()
+    {}
 
-	/** \brief Fills a buffer with data read from the stream
-	*** \param buffer A pointer to the buffer where the data will be loaded to
-	*** \param size The total number of samples to read
-	*** \return The number of samples which were read, which may be different from size
-	**/
-	uint32 FillBuffer(uint8* buffer, uint32 size);
+    /** \brief Fills a buffer with data read from the stream
+    *** \param buffer A pointer to the buffer where the data will be loaded to
+    *** \param size The total number of samples to read
+    *** \return The number of samples which were read, which may be different from size
+    **/
+    uint32 FillBuffer(uint8 *buffer, uint32 size);
 
-	/** \brief Seeks the audio stream to the specified sample
-	*** \param sample The sample number to seek the stream to
-	*** \note This will also automatically invoke the Seek method on the AudioInput object
-	**/
-	void Seek(uint32 sample);
+    /** \brief Seeks the audio stream to the specified sample
+    *** \param sample The sample number to seek the stream to
+    *** \note This will also automatically invoke the Seek method on the AudioInput object
+    **/
+    void Seek(uint32 sample);
 
-	//! \brief Returns true if the audio stream is looping
-	bool IsLooping() const
-		{ return _looping; }
+    //! \brief Returns true if the audio stream is looping
+    bool IsLooping() const {
+        return _looping;
+    }
 
-	/** \brief Enables/disables looping for this stream
-	*** \param loop True to enable looping, false to disable it.
-	**/
-	void SetLooping(bool loop)
-		{ _looping = loop; if (loop) _end_of_stream = false; }
+    /** \brief Enables/disables looping for this stream
+    *** \param loop True to enable looping, false to disable it.
+    **/
+    void SetLooping(bool loop) {
+        _looping = loop;
+        if(loop) _end_of_stream = false;
+    }
 
-	/** \brief Sets the sample to serve as the start position for looping
-	*** \param sample The sample number to be the new starting position
-	**/
-	void SetLoopStart(uint32 sample);
+    /** \brief Sets the sample to serve as the start position for looping
+    *** \param sample The sample number to be the new starting position
+    **/
+    void SetLoopStart(uint32 sample);
 
-	/** \brief Sets the sample to serve as the end position for looping
-	*** \param sample The sample number to be the new ending position
-	**/
-	void SetLoopEnd(uint32 sample);
+    /** \brief Sets the sample to serve as the end position for looping
+    *** \param sample The sample number to be the new ending position
+    **/
+    void SetLoopEnd(uint32 sample);
 
-	//! \brief Returns true if the stream has finished playing
-	bool GetEndOfStream() const
-		{ return _end_of_stream; }
+    //! \brief Returns true if the stream has finished playing
+    bool GetEndOfStream() const {
+        return _end_of_stream;
+    }
 
 private:
-	//! \brief Pointer to an AudioInput object that holds the audio data
-	AudioInput* _audio_input;
+    //! \brief Pointer to an AudioInput object that holds the audio data
+    AudioInput *_audio_input;
 
-	//! \brief Set to true when the stream should loop
-	bool _looping;
+    //! \brief Set to true when the stream should loop
+    bool _looping;
 
-	//! \brief The sample that represents the start position of the loop
-	uint32 _loop_start_position;
+    //! \brief The sample that represents the start position of the loop
+    uint32 _loop_start_position;
 
-	//! \brief The sample that represents the end position of the loop
-	uint32 _loop_end_position;
+    //! \brief The sample that represents the end position of the loop
+    uint32 _loop_end_position;
 
-	//! \brief The sample position from where the next read operation will be performed
-	uint32 _read_position;
+    //! \brief The sample position from where the next read operation will be performed
+    uint32 _read_position;
 
-	//! \brief True if the end of the stream was reached, false otherwise
-	bool _end_of_stream;
+    //! \brief True if the end of the stream was reached, false otherwise
+    bool _end_of_stream;
 }; // class AudioStream
 
 } // namespace private_audio

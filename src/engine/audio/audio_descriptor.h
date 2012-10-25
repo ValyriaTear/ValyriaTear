@@ -28,31 +28,33 @@
 
 #include <cstring>
 
-namespace hoa_audio {
+namespace hoa_audio
+{
 
 //! \brief The set of states that AudioDescriptor class objects may be in
 enum AUDIO_STATE {
-	//! Audio data is not loaded
-	AUDIO_STATE_UNLOADED   = 0,
-	//! Audio is loaded, but is stopped
-	AUDIO_STATE_STOPPED    = 1,
-	//! Audio is loaded and is presently playing
-	AUDIO_STATE_PLAYING    = 2,
-	//! Audio is loaded and was playing, but is now paused
-	AUDIO_STATE_PAUSED     = 3
+    //! Audio data is not loaded
+    AUDIO_STATE_UNLOADED   = 0,
+    //! Audio is loaded, but is stopped
+    AUDIO_STATE_STOPPED    = 1,
+    //! Audio is loaded and is presently playing
+    AUDIO_STATE_PLAYING    = 2,
+    //! Audio is loaded and was playing, but is now paused
+    AUDIO_STATE_PAUSED     = 3
 };
 
 //! \brief The possible ways for that a piece of audio data may be loaded
 enum AUDIO_LOAD {
-	//! \brief Load audio statically by placing the entire contents of the audio into a single OpenAL buffer
-	AUDIO_LOAD_STATIC         = 0,
-	//! \brief Stream the audio data from a file into a pair of OpenAL buffers
-	AUDIO_LOAD_STREAM_FILE    = 1,
-	//! \brief Stream the audio data from memory into a pair of OpenAL buffers
-	AUDIO_LOAD_STREAM_MEMORY  = 2
+    //! \brief Load audio statically by placing the entire contents of the audio into a single OpenAL buffer
+    AUDIO_LOAD_STATIC         = 0,
+    //! \brief Stream the audio data from a file into a pair of OpenAL buffers
+    AUDIO_LOAD_STREAM_FILE    = 1,
+    //! \brief Stream the audio data from memory into a pair of OpenAL buffers
+    AUDIO_LOAD_STREAM_MEMORY  = 2
 };
 
-namespace private_audio {
+namespace private_audio
+{
 
 //! \brief The default buffer size (in bytes) for streaming buffers
 const uint32 DEFAULT_BUFFER_SIZE = 8192;
@@ -67,29 +69,32 @@ const uint32 NUMBER_STREAMING_BUFFERS = 4;
 *** Buffers must be attached to an OpenAL source in order to play. OpenAL
 *** suppports an infinte number of buffers (as long as there is enough memory).
 *** ***************************************************************************/
-class AudioBuffer {
-	friend class AudioEngine;
+class AudioBuffer
+{
+    friend class AudioEngine;
 
 public:
-	AudioBuffer();
+    AudioBuffer();
 
-	~AudioBuffer();
+    ~AudioBuffer();
 
-	/** \brief Fills an OpenAL buffer with raw audio data
-	*** \param data A pointer to the raw data to fill the buffer with
-	*** \param format The format of the buffer data (mono/stereo, 8/16 bits per sample)
-	*** \param size The size of the data in number of bytes
-	*** \param frequency The audio frequency of the data in samples per second
-	**/
-	void FillBuffer(uint8* data, ALenum format, uint32 size, uint32 frequency)
-		{ alBufferData(buffer, format, data, size, frequency); }
+    /** \brief Fills an OpenAL buffer with raw audio data
+    *** \param data A pointer to the raw data to fill the buffer with
+    *** \param format The format of the buffer data (mono/stereo, 8/16 bits per sample)
+    *** \param size The size of the data in number of bytes
+    *** \param frequency The audio frequency of the data in samples per second
+    **/
+    void FillBuffer(uint8 *data, ALenum format, uint32 size, uint32 frequency) {
+        alBufferData(buffer, format, data, size, frequency);
+    }
 
-	//! \brief Returns true if this class object holds a reference to a valid OpenAL buffer
-	bool IsValid() const
-		{ return (alIsBuffer(buffer) == AL_TRUE); }
+    //! \brief Returns true if this class object holds a reference to a valid OpenAL buffer
+    bool IsValid() const {
+        return (alIsBuffer(buffer) == AL_TRUE);
+    }
 
-	//! \brief The ID of the OpenAL buffer
-	ALuint buffer;
+    //! \brief The ID of the OpenAL buffer
+    ALuint buffer;
 }; // class AudioBuffer
 
 
@@ -129,26 +134,28 @@ public:
 *** created by AudioEngine are guaranteed to have a valid OpenAL source contained
 *** by the object.
 *** ***************************************************************************/
-class AudioSource {
+class AudioSource
+{
 public:
-	//! \param al_source A valid OpenAL source that has been generated
-	AudioSource(ALuint al_source) :
-		source(al_source), owner(NULL) {}
+    //! \param al_source A valid OpenAL source that has been generated
+    AudioSource(ALuint al_source) :
+        source(al_source), owner(NULL) {}
 
-	~AudioSource();
+    ~AudioSource();
 
-	//! \brief Returns true if this class object holds a reference to a valid OpenAL source
-	bool IsValid() const
-		{ return (alIsSource(source) == AL_TRUE); }
+    //! \brief Returns true if this class object holds a reference to a valid OpenAL source
+    bool IsValid() const {
+        return (alIsSource(source) == AL_TRUE);
+    }
 
-	//! \brief Resets the default properties of the OpenAL sources and removes the owner
-	void Reset();
+    //! \brief Resets the default properties of the OpenAL sources and removes the owner
+    void Reset();
 
-	//! \brief The ID of the OpenAL source
-	ALuint source;
+    //! \brief The ID of the OpenAL source
+    ALuint source;
 
-	//! \brief Pointer to the descriptor associated to this source.
-	AudioDescriptor* owner;
+    //! \brief Pointer to the descriptor associated to this source.
+    AudioDescriptor *owner;
 }; // class AudioSource
 
 } // namespace private_audio
@@ -172,213 +179,224 @@ public:
 *** \todo This class either needs to have its copy assignment operator defined
 *** or it should be made private.
 *** ***************************************************************************/
-class AudioDescriptor {
-	friend class AudioEngine;
+class AudioDescriptor
+{
+    friend class AudioEngine;
 
 public:
-	AudioDescriptor();
+    AudioDescriptor();
 
-	virtual ~AudioDescriptor()
-		{ FreeAudio(); }
+    virtual ~AudioDescriptor() {
+        FreeAudio();
+    }
 
-	AudioDescriptor(const AudioDescriptor& copy);
+    AudioDescriptor(const AudioDescriptor &copy);
 
-	/** \brief Loads a new piece of audio data from a file
-	*** \param filename The name of the file that contains the new audio data (should have a .wav or .ogg file extension)
-	*** \param load_type The type of loading to perform (default == AUDIO_LOAD_STATIC)
-	*** \param stream_buffer_size If the loading type is streaming, the buffer size to use (default == DEFAULT_BUFFER_SIZE)
-	*** \return True if the audio was succesfully loaded, false if there was an error
-	***
-	*** The action taken by this function depends on the load type selected. For static sounds, a single OpenAL buffer is
-	*** filled. For streaming, the file/memory is prepared.
-	**/
-	virtual bool LoadAudio(const std::string& filename, AUDIO_LOAD load_type = AUDIO_LOAD_STATIC, uint32 stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
+    /** \brief Loads a new piece of audio data from a file
+    *** \param filename The name of the file that contains the new audio data (should have a .wav or .ogg file extension)
+    *** \param load_type The type of loading to perform (default == AUDIO_LOAD_STATIC)
+    *** \param stream_buffer_size If the loading type is streaming, the buffer size to use (default == DEFAULT_BUFFER_SIZE)
+    *** \return True if the audio was succesfully loaded, false if there was an error
+    ***
+    *** The action taken by this function depends on the load type selected. For static sounds, a single OpenAL buffer is
+    *** filled. For streaming, the file/memory is prepared.
+    **/
+    virtual bool LoadAudio(const std::string &filename, AUDIO_LOAD load_type = AUDIO_LOAD_STATIC, uint32 stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
 
-	/** \brief Frees all data resources and resets class parameters
-	***
-	*** It resets the _state and _offset class members, as well as deleting _data, _stream, _input, _buffer, and resets _source.
-	**/
-	void FreeAudio();
+    /** \brief Frees all data resources and resets class parameters
+    ***
+    *** It resets the _state and _offset class members, as well as deleting _data, _stream, _input, _buffer, and resets _source.
+    **/
+    void FreeAudio();
 
-	const std::string GetFilename() const
-		{ if (_input == NULL) return ""; else return _input->GetFilename(); }
+    const std::string GetFilename() const {
+        if(_input == NULL) return "";
+        else return _input->GetFilename();
+    }
 
-	//! \brief Returns true if this audio represents a sound, false if the audio represents a music piece
-	virtual bool IsSound() const = 0;
+    //! \brief Returns true if this audio represents a sound, false if the audio represents a music piece
+    virtual bool IsSound() const = 0;
 
-	//! \brief Returns the state of the audio.
-	AUDIO_STATE GetState()
-	{ return _state; }
+    //! \brief Returns the state of the audio.
+    AUDIO_STATE GetState() {
+        return _state;
+    }
 
-	/** \name Audio State Manipulation Functions
-	*** \brief Performs specified operation on the audio
-	***
-	*** These functions will only take effect when the audio is in the state(s) specified below:
-	*** - PlayAudio()     <==>   all states but the playing state
-	*** - PauseAudio()    <==>   playing state
-	*** - ResumeAudio()   <==>   paused state
-	*** - StopAudio()     <==>   all states but the stopped state
-	*** - RewindAudio()   <==>   all states
-	**/
-	//@{
-	virtual void Play();
-	virtual void Stop();
-	virtual void Pause();
-	virtual void Resume();
-	void Rewind();
-	//@}
+    /** \name Audio State Manipulation Functions
+    *** \brief Performs specified operation on the audio
+    ***
+    *** These functions will only take effect when the audio is in the state(s) specified below:
+    *** - PlayAudio()     <==>   all states but the playing state
+    *** - PauseAudio()    <==>   playing state
+    *** - ResumeAudio()   <==>   paused state
+    *** - StopAudio()     <==>   all states but the stopped state
+    *** - RewindAudio()   <==>   all states
+    **/
+    //@{
+    virtual void Play();
+    virtual void Stop();
+    virtual void Pause();
+    virtual void Resume();
+    void Rewind();
+    //@}
 
-	bool IsLooping() const
-	{ return _looping; }
+    bool IsLooping() const {
+        return _looping;
+    }
 
-	/** \brief Enables/disables looping for this audio
-	*** \param loop True to enable looping, false to disable it.
-	**/
-	void SetLooping(bool loop);
+    /** \brief Enables/disables looping for this audio
+    *** \param loop True to enable looping, false to disable it.
+    **/
+    void SetLooping(bool loop);
 
-	/** \brief Sets the starting loop point, used for customized looping
-	*** \param loop_start The sample position for the start loop point
-	*** \note This function is only valid if the audio has been loaded with streaming support
-	**/
-	void SetLoopStart(uint32 loop_start);
+    /** \brief Sets the starting loop point, used for customized looping
+    *** \param loop_start The sample position for the start loop point
+    *** \note This function is only valid if the audio has been loaded with streaming support
+    **/
+    void SetLoopStart(uint32 loop_start);
 
-	/** \brief Sets the ending loop point, used for customized looping
-	*** \param loop_start The sample position for the end loop point
-	*** \note This function is only valid if the audio has been loaded with streaming support
-	**/
-	void SetLoopEnd(uint32 loop_end);
+    /** \brief Sets the ending loop point, used for customized looping
+    *** \param loop_start The sample position for the end loop point
+    *** \note This function is only valid if the audio has been loaded with streaming support
+    **/
+    void SetLoopEnd(uint32 loop_end);
 
-	/** \brief Seeks to the requested sample position
-	*** \param sample The sample position to seek to
-	**/
-	void SeekSample(uint32 sample);
+    /** \brief Seeks to the requested sample position
+    *** \param sample The sample position to seek to
+    **/
+    void SeekSample(uint32 sample);
 
-	/** \brief Seeks to the requested playback time
-	*** \param second The time to seek to, in seconds (e.g. 4.5f == 4.5 second mark)
-	*** \note The position is aligned with a proper sample position, so the seek is not fully
-	*** accurate.
-	**/
-	void SeekSecond(float second);
+    /** \brief Seeks to the requested playback time
+    *** \param second The time to seek to, in seconds (e.g. 4.5f == 4.5 second mark)
+    *** \note The position is aligned with a proper sample position, so the seek is not fully
+    *** accurate.
+    **/
+    void SeekSecond(float second);
 
-	//! \brief Returns the volume level for this audio
-	float GetVolume() const
-	{ return _volume; }
+    //! \brief Returns the volume level for this audio
+    float GetVolume() const {
+        return _volume;
+    }
 
-	/** \brief Sets the volume for this particular audio piece
-	*** \param volume The volume level to set, ranging from [0.0f, 1.0f]
-	**/
-	virtual void SetVolume(float volume) = 0;
+    /** \brief Sets the volume for this particular audio piece
+    *** \param volume The volume level to set, ranging from [0.0f, 1.0f]
+    **/
+    virtual void SetVolume(float volume) = 0;
 
-	/** \name Functions for 3D Spatial Audio
-	*** These functions manipulate and retrieve the 3d properties of the audio. Note that only audio which
-	*** are mono channel will be affected by these methods. Stereo channel audio will see no difference.
-	**/
-	//@{
-	void SetPosition(const float position[3]);
-	void SetVelocity(const float velocity[3]);
-	void SetDirection(const float direction[3]);
+    /** \name Functions for 3D Spatial Audio
+    *** These functions manipulate and retrieve the 3d properties of the audio. Note that only audio which
+    *** are mono channel will be affected by these methods. Stereo channel audio will see no difference.
+    **/
+    //@{
+    void SetPosition(const float position[3]);
+    void SetVelocity(const float velocity[3]);
+    void SetDirection(const float direction[3]);
 
-	void GetPosition(float position[3]) const
-	{ memcpy(&position, _position, sizeof(float) * 3); }
+    void GetPosition(float position[3]) const {
+        memcpy(&position, _position, sizeof(float) * 3);
+    }
 
-	void GetVelocity(float velocity[3]) const
-	{ memcpy(&velocity, _velocity, sizeof(float) * 3); }
+    void GetVelocity(float velocity[3]) const {
+        memcpy(&velocity, _velocity, sizeof(float) * 3);
+    }
 
-	void GetDirection(float direction[3]) const
-	{ memcpy(&direction, _direction, sizeof(float) * 3); }
-	//@}
+    void GetDirection(float direction[3]) const {
+        memcpy(&direction, _direction, sizeof(float) * 3);
+    }
+    //@}
 
-	/**
-	*** Adds a new game mode owning the audio descriptor.
-	*** It is done to permit the engine to automatically free audio files
-	*** when the game mode is deleted.
-	*** This function won't add NULL reference and won't permit duplicate owners.
-	**/
-	void AddOwner(hoa_mode_manager::GameMode *gm);
+    /**
+    *** Adds a new game mode owning the audio descriptor.
+    *** It is done to permit the engine to automatically free audio files
+    *** when the game mode is deleted.
+    *** This function won't add NULL reference and won't permit duplicate owners.
+    **/
+    void AddOwner(hoa_mode_manager::GameMode *gm);
 
-	/**
-	*** Adds multiple owners at once.
-	*** @see AddOwner()
-	**/
-	void AddOwners(std::vector<hoa_mode_manager::GameMode*>& owners);
+    /**
+    *** Adds multiple owners at once.
+    *** @see AddOwner()
+    **/
+    void AddOwners(std::vector<hoa_mode_manager::GameMode *>& owners);
 
-	/**
-	*** Remove a game mode reference from the audio descriptor owners,
-	*** and checks whether the file data can be freed.
-	*** \returns whether the descriptor should be removed from the cache.
-	**/
-	bool RemoveOwner(hoa_mode_manager::GameMode *gm);
+    /**
+    *** Remove a game mode reference from the audio descriptor owners,
+    *** and checks whether the file data can be freed.
+    *** \returns whether the descriptor should be removed from the cache.
+    **/
+    bool RemoveOwner(hoa_mode_manager::GameMode *gm);
 
-	/**
-	*** Get the list of game mode claiming ownership over the audio descriptor.
-	**/
-	std::vector<hoa_mode_manager::GameMode*>* GetOwners()
-	{ return &_owners; }
+    /**
+    *** Get the list of game mode claiming ownership over the audio descriptor.
+    **/
+    std::vector<hoa_mode_manager::GameMode *>* GetOwners() {
+        return &_owners;
+    }
 
-	/** \brief Fades a music or sound in as it plays
-	*** \param audio A reference to the music or sound to fade in
-	*** \param time The amount of time that the fade should last for, in seconds
-	**/
-	void FadeIn(float time);
+    /** \brief Fades a music or sound in as it plays
+    *** \param audio A reference to the music or sound to fade in
+    *** \param time The amount of time that the fade should last for, in seconds
+    **/
+    void FadeIn(float time);
 
-	/** \brief Fades a music or sound out as it finisheds
-	*** \param audio A referenece to the music or sound to fade out
-	*** \param time The amount of time that the fade should last for, in seconds
-	**/
-	void FadeOut(float time);
+    /** \brief Fades a music or sound out as it finisheds
+    *** \param audio A referenece to the music or sound to fade out
+    *** \param time The amount of time that the fade should last for, in seconds
+    **/
+    void FadeOut(float time);
 
-	//! \brief Remove effects.
-	void RemoveEffects();
+    //! \brief Remove effects.
+    void RemoveEffects();
 
-	//! \brief Prints various properties about the audio data managed by this class
-	void DEBUG_PrintInfo();
+    //! \brief Prints various properties about the audio data managed by this class
+    void DEBUG_PrintInfo();
 
 protected:
-	//! \brief The current state of the audio (playing, stopped, etc.)
-	AUDIO_STATE _state;
+    //! \brief The current state of the audio (playing, stopped, etc.)
+    AUDIO_STATE _state;
 
-	//! \brief A pointer to the buffer(s) being used by the audio (1 buffer for static sounds, 2 for streamed ones)
-	private_audio::AudioBuffer* _buffer;
+    //! \brief A pointer to the buffer(s) being used by the audio (1 buffer for static sounds, 2 for streamed ones)
+    private_audio::AudioBuffer *_buffer;
 
-	//! \brief A pointer to the source object being used by the audio
-	private_audio::AudioSource* _source;
+    //! \brief A pointer to the source object being used by the audio
+    private_audio::AudioSource *_source;
 
-	//! \brief A pointer to the input object that manages the data
-	private_audio::AudioInput* _input;
+    //! \brief A pointer to the input object that manages the data
+    private_audio::AudioInput *_input;
 
-	//! \brief A pointer to the stream object (set to NULL if the audio was loaded statically)
-	private_audio::AudioStream* _stream;
+    //! \brief A pointer to the stream object (set to NULL if the audio was loaded statically)
+    private_audio::AudioStream *_stream;
 
-	//! \brief A pointer to where the data is streamed to
-	uint8* _data;
+    //! \brief A pointer to where the data is streamed to
+    uint8 *_data;
 
-	//! \brief The format of the audio (mono/stereo, 8/16 bits per second).
-	ALenum _format;
+    //! \brief The format of the audio (mono/stereo, 8/16 bits per second).
+    ALenum _format;
 
-	//! \brief Flag for indicating if the audio should loop or not
-	bool _looping;
+    //! \brief Flag for indicating if the audio should loop or not
+    bool _looping;
 
-	//! \brief The audio position that was last seeked, in samples.
-	uint32 _offset;
+    //! \brief The audio position that was last seeked, in samples.
+    uint32 _offset;
 
-	/** \brief The volume of the audio, ranging from 0.0f to 1.0f
-	*** This isn't actually the true volume of the audio, but rather the modulation
-	*** value of the global sound or music volume level. For example, if this object
-	*** represented a sound and the volume was set to 0.75f, and the global sound
-	*** volume in AudioEngine was 0.80f, the true volume would be (0.75 * 0.8 = 0.6).
-	*** By default this member is set to 1.0f.
-	**/
-	float _volume;
+    /** \brief The volume of the audio, ranging from 0.0f to 1.0f
+    *** This isn't actually the true volume of the audio, but rather the modulation
+    *** value of the global sound or music volume level. For example, if this object
+    *** represented a sound and the volume was set to 0.75f, and the global sound
+    *** volume in AudioEngine was 0.80f, the true volume would be (0.75 * 0.8 = 0.6).
+    *** By default this member is set to 1.0f.
+    **/
+    float _volume;
 
-	//! \brief Size of the streaming buffer, if the audio was loaded for streaming
-	uint32 _stream_buffer_size;
+    //! \brief Size of the streaming buffer, if the audio was loaded for streaming
+    uint32 _stream_buffer_size;
 
-	//! \brief The 3D orientation properties of the audio
-	//@{
-	float _position[3];
-	float _velocity[3];
-	float _direction[3];
-	//@}
+    //! \brief The 3D orientation properties of the audio
+    //@{
+    float _position[3];
+    float _velocity[3];
+    float _direction[3];
+    //@}
 
     /** \brief The game modes loading the audio file.
     *** On can usually free it whenever no owner is present for a given sound.
@@ -387,45 +405,45 @@ protected:
     *** Musics and sounds that are never owned will have to be freed manually.
     *** @see AddOwner(), RemoveOwner()
     **/
-    std::vector<hoa_mode_manager::GameMode*> _owners;
+    std::vector<hoa_mode_manager::GameMode *> _owners;
 
-	//! \brief Holds all active audio effects for this descriptor
-	std::vector<private_audio::AudioEffect*> _audio_effects;
+    //! \brief Holds all active audio effects for this descriptor
+    std::vector<private_audio::AudioEffect *> _audio_effects;
 
-	/** \brief Sets the local volume control for this particular audio piece
-	*** \param volume The volume level to set, ranging from [0.0f, 1.0f]
-	*** This should be thought of as a helper function to the SetVolume methods
-	*** for the derived classes, which modulate the volume level of the sound/music
-	*** by the global sound and music volume controls in the AudioEngine class.
-	**/
-	void _SetVolumeControl(float volume);
+    /** \brief Sets the local volume control for this particular audio piece
+    *** \param volume The volume level to set, ranging from [0.0f, 1.0f]
+    *** This should be thought of as a helper function to the SetVolume methods
+    *** for the derived classes, which modulate the volume level of the sound/music
+    *** by the global sound and music volume controls in the AudioEngine class.
+    **/
+    void _SetVolumeControl(float volume);
 
 private:
-	/** \brief Updates the audio during playback
-	*** This function is only useful for streaming audio that is currently in the play state. If either of these two
-	*** conditions are not met, the function will return since it has nothing to do.
-	**/
-	void _Update();
+    /** \brief Updates the audio during playback
+    *** This function is only useful for streaming audio that is currently in the play state. If either of these two
+    *** conditions are not met, the function will return since it has nothing to do.
+    **/
+    void _Update();
 
-	/** \brief Acquires an audio source for playback
-	*** This function is called whenever an audio piece is loaded and whenever the Play operation is specified on
-	*** the audio, but the audio currently does not have a source. It is not guaranteed that the source acquisition
-	*** will be successful, as all other sources may be occupied by other audio.
-	**/
-	void _AcquireSource();
+    /** \brief Acquires an audio source for playback
+    *** This function is called whenever an audio piece is loaded and whenever the Play operation is specified on
+    *** the audio, but the audio currently does not have a source. It is not guaranteed that the source acquisition
+    *** will be successful, as all other sources may be occupied by other audio.
+    **/
+    void _AcquireSource();
 
-	/** \brief Sets all of the relevant properties for the OpenAL source
-	*** This function should be called whenever a new source is allocated for the audio to use.
-	*** It sets all of the necessary properties for the OpenAL source, such as the volume (gain),
-	*** enables looping if requested, etc.
-	**/
-	void _SetSourceProperties();
+    /** \brief Sets all of the relevant properties for the OpenAL source
+    *** This function should be called whenever a new source is allocated for the audio to use.
+    *** It sets all of the necessary properties for the OpenAL source, such as the volume (gain),
+    *** enables looping if requested, etc.
+    **/
+    void _SetSourceProperties();
 
-	/** \brief Prepares streaming buffers when a new source is acquired or after a seeking operation.
-	*** This is a special case, since the already queued buffers must be unqueued, and the new
-	*** ones must be refilled. This function should only be called for streaming audio.
-	**/
-	void _PrepareStreamingBuffers();
+    /** \brief Prepares streaming buffers when a new source is acquired or after a seeking operation.
+    *** This is a special case, since the already queued buffers must be unqueued, and the new
+    *** ones must be refilled. This function should only be called for streaming audio.
+    **/
+    void _PrepareStreamingBuffers();
 }; // class AudioDescriptor
 
 
@@ -434,23 +452,25 @@ private:
 ***
 *** Sounds are almost always in the .wav file format.
 *** ***************************************************************************/
-class SoundDescriptor : public AudioDescriptor {
+class SoundDescriptor : public AudioDescriptor
+{
 public:
-	SoundDescriptor();
+    SoundDescriptor();
 
-	~SoundDescriptor();
+    ~SoundDescriptor();
 
-	SoundDescriptor(const SoundDescriptor& copy);
+    SoundDescriptor(const SoundDescriptor &copy);
 
-	bool IsSound() const
-		{ return true; }
+    bool IsSound() const {
+        return true;
+    }
 
-	/** \brief Sets the volume of the sound
-	*** \param volume The volume to set the sound, value between [0.0, 1.0]
-	*** This value will be modulated by the global sound volume found in the
-	*** AudioEngine class.
-	**/
-	void SetVolume(float volume);
+    /** \brief Sets the volume of the sound
+    *** \param volume The volume to set the sound, value between [0.0, 1.0]
+    *** This value will be modulated by the global sound volume found in the
+    *** AudioEngine class.
+    **/
+    void SetVolume(float volume);
 }; // class SoundDescriptor : public AudioDescriptor
 
 
@@ -461,32 +481,34 @@ public:
 ***
 *** \note Looping is enabled for music by default
 *** ***************************************************************************/
-class MusicDescriptor : public AudioDescriptor {
+class MusicDescriptor : public AudioDescriptor
+{
 public:
-	MusicDescriptor();
+    MusicDescriptor();
 
-	~MusicDescriptor();
+    ~MusicDescriptor();
 
-	MusicDescriptor(const MusicDescriptor& copy);
+    MusicDescriptor(const MusicDescriptor &copy);
 
-	bool LoadAudio(const std::string& filename, AUDIO_LOAD load_type = AUDIO_LOAD_STREAM_FILE, uint32 stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
+    bool LoadAudio(const std::string &filename, AUDIO_LOAD load_type = AUDIO_LOAD_STREAM_FILE, uint32 stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
 
-	bool IsSound() const
-		{ return false; }
+    bool IsSound() const {
+        return false;
+    }
 
-	/** \brief Sets the volume of the music
-	*** \param volume The volume to set the music, value between [0.0, 1.0]
-	*** This value will be modulated by the global music volume found in the
-	*** AudioEngine class.
-	**/
-	void SetVolume(float volume);
+    /** \brief Sets the volume of the music
+    *** \param volume The volume to set the music, value between [0.0, 1.0]
+    *** This value will be modulated by the global music volume found in the
+    *** AudioEngine class.
+    **/
+    void SetVolume(float volume);
 
-	/** \brief Plays the selected music, after stopping the previous playing music
-	*** No two pieces of music are allowed to play simultaneously, meaning that
-	*** calling this method on one music also effectively calls stop on another
-	*** piece of music that was playing when the call was made
-	**/
-	void Play();
+    /** \brief Plays the selected music, after stopping the previous playing music
+    *** No two pieces of music are allowed to play simultaneously, meaning that
+    *** calling this method on one music also effectively calls stop on another
+    *** piece of music that was playing when the call was made
+    **/
+    void Play();
 }; // class MusicDescriptor : public AudioDescriptor
 
 } // namespace hoa_audio

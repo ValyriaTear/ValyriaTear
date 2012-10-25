@@ -24,9 +24,11 @@
 
 #include "audio_descriptor.h"
 
-namespace hoa_audio {
+namespace hoa_audio
+{
 
-namespace private_audio {
+namespace private_audio
+{
 
 /** ****************************************************************************
 *** \brief An abstract base class for all audio effects to be derived from
@@ -36,22 +38,23 @@ namespace private_audio {
 *** the same container. Most effects will only operate upon a single piece of
 *** audio, but some effects may operate across multiple audio descriptors.
 *** ***************************************************************************/
-class AudioEffect {
+class AudioEffect
+{
 public:
-	AudioEffect() :
-		active(true) {}
+    AudioEffect() :
+        active(true) {}
 
-	virtual ~AudioEffect()
-	{}
+    virtual ~AudioEffect()
+    {}
 
-	//! \brief Set to true while an effect is active, and set to false when the effect is finished
-	bool active;
+    //! \brief Set to true while an effect is active, and set to false when the effect is finished
+    bool active;
 
-	//! \brief Updates the effect and sets the active member to false when the effect is finished
-	virtual void Update() = 0;
+    //! \brief Updates the effect and sets the active member to false when the effect is finished
+    virtual void Update() = 0;
 
-	//! \brief Get the audio descriptor concerned by the effect.
-	virtual AudioDescriptor& GetAudioDescriptor() const = 0;
+    //! \brief Get the audio descriptor concerned by the effect.
+    virtual AudioDescriptor &GetAudioDescriptor() const = 0;
 }; // class AudioEffect
 
 
@@ -62,25 +65,27 @@ public:
 *** being created, and will gradually restore the volume to its original level
 *** over time.
 *** ***************************************************************************/
-class FadeInEffect : public AudioEffect {
+class FadeInEffect : public AudioEffect
+{
 public:
-	/** \brief Constructor for the fade in effect.
-	*** \param audio A reference to the AudioDescriptor of the audio to fade
-	*** \param time The amount of time that the effect will take, in seconds
-	**/
-	FadeInEffect(AudioDescriptor& audio, float time);
+    /** \brief Constructor for the fade in effect.
+    *** \param audio A reference to the AudioDescriptor of the audio to fade
+    *** \param time The amount of time that the effect will take, in seconds
+    **/
+    FadeInEffect(AudioDescriptor &audio, float time);
 
-	//! \brief Gradually increases the volume until the original volume level is restored
-	void Update();
+    //! \brief Gradually increases the volume until the original volume level is restored
+    void Update();
 
-	AudioDescriptor& GetAudioDescriptor() const
-	{ return _audio; }
+    AudioDescriptor &GetAudioDescriptor() const {
+        return _audio;
+    }
 private:
-	//! \brief The amount of time that the effect lasts for
-	float _effect_time;
+    //! \brief The amount of time that the effect lasts for
+    float _effect_time;
 
-	//! \brief A reference to the audio to process the effect upon
-	AudioDescriptor& _audio;
+    //! \brief A reference to the audio to process the effect upon
+    AudioDescriptor &_audio;
 }; // class FadeInEffect : public AudioEffect {
 
 
@@ -92,29 +97,31 @@ private:
 *** has finished. The original volume of the audio is restored after it has
 *** stopped playing
 *** ***************************************************************************/
-class FadeOutEffect : public AudioEffect {
+class FadeOutEffect : public AudioEffect
+{
 public:
-	/** \brief Constructor for the fade out effect.
-	*** \param audio A reference to the AudioDescriptor of the audio to fade
-	*** \param time The amount of time that the effect will take, in seconds
-	**/
-	FadeOutEffect(AudioDescriptor& audio, float time);
+    /** \brief Constructor for the fade out effect.
+    *** \param audio A reference to the AudioDescriptor of the audio to fade
+    *** \param time The amount of time that the effect will take, in seconds
+    **/
+    FadeOutEffect(AudioDescriptor &audio, float time);
 
-	//! \brief Gradually decreases the volume until it reaches 0.0f
-	void Update();
+    //! \brief Gradually decreases the volume until it reaches 0.0f
+    void Update();
 
-	AudioDescriptor& GetAudioDescriptor() const
-	{ return _audio; }
+    AudioDescriptor &GetAudioDescriptor() const {
+        return _audio;
+    }
 
 private:
-	//! \brief The volume of the audio when the effect was registered
-	float _original_volume;
+    //! \brief The volume of the audio when the effect was registered
+    float _original_volume;
 
-	//! \brief The amount of time that the effect lasts for
-	float _effect_time;
+    //! \brief The amount of time that the effect lasts for
+    float _effect_time;
 
-	//! \brief A reference to the audio to process the effect upon
-	AudioDescriptor& _audio;
+    //! \brief A reference to the audio to process the effect upon
+    AudioDescriptor &_audio;
 }; // class FadeOutEffect : public AudioEffect {
 
 } // namespace private_audio
