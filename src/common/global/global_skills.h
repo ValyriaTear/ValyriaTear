@@ -98,6 +98,9 @@ public:
 	uint32 GetCooldownTime() const
 	{ return _cooldown_time; }
 
+	const std::string& GetWarmupActionName() const
+	{ return _warmup_action_name; }
+
 	const std::string& GetActionName() const
 	{ return _action_name; }
 
@@ -159,6 +162,11 @@ private:
 	*** It is acceptable for this member to be zero.
 	**/
 	uint32 _cooldown_time;
+
+	/** \brief The animation name played at warmup time, if any.
+	*** If none is given, the idle animation will be played.
+	**/
+	std::string _warmup_action_name;
 
 	/** \brief The animation name played before dealing the battle_execute_function.
 	*** When a character is ready to attack, it will first play an attack animation for instance

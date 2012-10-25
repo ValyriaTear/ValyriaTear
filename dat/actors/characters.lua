@@ -28,8 +28,8 @@ characters[BRONANN] = {
 		dead = "img/sprites/battle/characters/bronann_dead.lua",
 		revive = "img/sprites/battle/characters/bronann_idle.lua",
 		item = "img/sprites/battle/characters/bronann_idle.lua",
-		magic_prepare = "img/sprites/battle/characters/bronann_idle.lua",
-		magic_cast = "img/sprites/battle/characters/bronann_idle.lua",
+		magic_prepare = "img/sprites/battle/characters/bronann_magic_prepare.lua",
+		magic_cast = "img/sprites/battle/characters/bronann_magic_cast.lua",
 		jump_forward = "img/sprites/battle/characters/bronann_jump_forward.lua",
 		jump_backward = "img/sprites/battle/characters/bronann_jump_backward.lua"
 
@@ -131,13 +131,14 @@ characters[KALYA] = {
 		run = "img/sprites/battle/characters/kalya_run.lua",
 		attack = "img/sprites/battle/characters/kalya_attack.lua",
 		dodge = "img/sprites/battle/characters/kalya_dodge.lua",
-		victory = "img/sprites/battle/characters/kalya_idle.lua",
-		dying = "img/sprites/battle/characters/kalya_dead.lua",
+		victory = "img/sprites/battle/characters/kalya_victory.lua",
+		hurt = "img/sprites/battle/characters/kalya_hurt.lua",
+		dying = "img/sprites/battle/characters/kalya_hurt.lua",
 		dead = "img/sprites/battle/characters/kalya_dead.lua",
 		revive = "img/sprites/battle/characters/kalya_idle.lua",
 		item = "img/sprites/battle/characters/kalya_idle.lua",
-		magic_prepare = "img/sprites/battle/characters/kalya_idle.lua",
-		magic_cast = "img/sprites/battle/characters/kalya_idle.lua"
+		magic_prepare = "img/sprites/battle/characters/kalya_magic_prepare.lua",
+		magic_cast = "img/sprites/battle/characters/kalya_magic_cast.lua"
 	},
 
 	initial_stats = {
@@ -418,7 +419,7 @@ characters[THANIS] = {
 		}
 	},
 
-	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4, [17] = 20002 }
+	skills = { [1] = 1, [3] = 2, [4] = 10001, [8] = 3, [12] = 20001, [15] = 4, [17] = 7 }
 } -- characters[THANIS]
 
 --[[

@@ -75,6 +75,7 @@ GlobalSkill::GlobalSkill(uint32 id) :
 	_sp_required = skill_script->ReadUInt("sp_required");
 	_warmup_time = skill_script->ReadUInt("warmup_time");
 	_cooldown_time = skill_script->ReadUInt("cooldown_time");
+	_warmup_action_name = skill_script->ReadString("warmup_action_name");
 	_action_name = skill_script->ReadString("action_name");
 	_target_type = static_cast<GLOBAL_TARGET>(skill_script->ReadInt("target_type"));
 

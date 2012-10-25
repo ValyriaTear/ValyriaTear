@@ -518,12 +518,17 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state) {
 			// enters this state. This is done within the BattleMode::Update() method
 			break;
 		case ACTOR_STATE_WARM_UP:
+		{
 			// BattleActor::Update() changes to the warm up state if the actor has an action set when the idle time is expired. However for characters, we do not
 			// want to proceed forward in this case if the player is currently setting a different action for that same character. Instead we place the character
 			// in the command state and wait until the player exits the command menu before moving on to the warm up state.
 			if (BattleMode::CurrentInstance()->GetCommandSupervisor()->GetCommandCharacter() == this)
 				ChangeState(ACTOR_STATE_COMMAND);
+
+			std::string animation_name = _action->GetWarmupActionName().empty() ? "idle" : _action->GetWarmupActionName();
+			ChangeSpriteAnimation(animation_name);
 			break;
+		}
 		case ACTOR_STATE_ACTING:
 		{
 			_action->Initialize();
@@ -605,9 +610,15 @@ void BattleCharacter::Update() {
 	else if (_sprite_animation_alias == "victory") {
 		// no need to do anything
 	}
+	else if (_sprite_animation_alias == "magic_prepare") {
+		// no need to do anything
+	}
 	// Makes the action listed below be set back to idle once done.
 	else if (_animation_timer.IsFinished()) {
-		ChangeSpriteAnimation("idle");
+		if (_sprite_animation_alias == "hurt" || _sprite_animation_alias == "dodge")
+			ChangeSpriteAnimation(_before_attack_sprite_animation);
+		else
+			ChangeSpriteAnimation("idle");
 	}
 	else if (_sprite_animation_alias == "attack") {
 		uint32 dist = _state_timer.GetDuration() > 0 ?
@@ -652,6 +663,11 @@ void BattleCharacter::DrawSprite() {
 } // void BattleCharacter::DrawSprite()
 
 void BattleCharacter::ChangeSpriteAnimation(const std::string& alias) {
+	// Retains the previous animation when being hurt or dodging.
+	if ((alias == "hurt" || alias == "dodge")
+			&& (_sprite_animation_alias != "hurt" && _sprite_animation_alias != "dodge"))
+		_before_attack_sprite_animation = _sprite_animation_alias;
+
 	_sprite_animation_alias = alias;
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->ResetAnimation();
 	uint32 timer_length = _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetAnimationLength();

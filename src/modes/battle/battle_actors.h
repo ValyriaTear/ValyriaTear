@@ -569,6 +569,10 @@ protected:
 	//! \brief Contains the identifier text of the current sprite animation
 	std::string _sprite_animation_alias;
 
+	//! \brief The animation name before being attacked,
+	//! used to return to it after the hurt or dodge animation.
+	std::string _before_attack_sprite_animation;
+
 	//! \brief Rendered text of the character's name
 	hoa_video::TextImage _name_text;
 

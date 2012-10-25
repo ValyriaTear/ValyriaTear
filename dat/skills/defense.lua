@@ -43,7 +43,7 @@ skills[10001] = {
 	sp_required = 3,
 	warmup_time = 300,
 	cooldown_time = 0,
-	--warmup_action_name = "magic_prepare",
+	warmup_action_name = "magic_prepare",
 	action_name = "magic_cast",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
 
@@ -66,7 +66,7 @@ skills[10002] = {
 	sp_required = 2,
 	warmup_time = 1500,
 	cooldown_time = 200,
-	--warmup_action_name = "magic_prepare",
+	warmup_action_name = "magic_prepare",
 	action_name = "magic_cast",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
 

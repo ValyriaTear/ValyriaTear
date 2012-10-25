@@ -221,7 +221,7 @@ skills[7] = {
 	sp_required = 7,
 	warmup_time = 4000,
 	cooldown_time = 750,
-	--warmup_action_name = "magic_prepare",
+	warmup_action_name = "magic_prepare",
 	action_name = "magic_cast",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
 

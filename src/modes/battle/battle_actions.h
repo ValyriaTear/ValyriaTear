@@ -89,6 +89,9 @@ public:
 	//! \brief Returns the number of milliseconds that the owner actor must wait in the cool down state
 	virtual uint32 GetCoolDownTime() const = 0;
 
+	//! \brief Returns the character action name played before at warmup time.
+	virtual std::string GetWarmupActionName() const = 0;
+
 	//! \brief Returns the character action name played before executing the scripted function.
 	virtual std::string GetActionName() const = 0;
 
@@ -161,6 +164,8 @@ public:
 
 	uint32 GetCoolDownTime() const;
 
+	std::string GetWarmupActionName() const;
+
 	std::string GetActionName() const;
 
 	hoa_global::GlobalSkill* GetSkill()
@@ -212,11 +217,14 @@ public:
 
 	uint32 GetCoolDownTime() const;
 
+	std::string GetWarmupActionName() const
+	{ return "idle"; }
+
 	std::string GetActionName() const
-		{ return "idle"; }
+	{ return "item"; }
 
 	BattleItem* GetItem()
-		{ return _item; }
+	{ return _item; }
 
 private:
 	//! \brief Pointer to the item attached to this script
