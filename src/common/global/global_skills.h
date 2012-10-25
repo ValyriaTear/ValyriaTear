@@ -25,7 +25,8 @@
 #include "engine/script/script.h"
 #include "modes/battle/battle_actors.h"
 
-namespace hoa_global {
+namespace hoa_global
+{
 
 /** ****************************************************************************
 *** \brief Represents skills that are used in the game by both characters and enemies
@@ -49,144 +50,160 @@ namespace hoa_global {
 *** name, type of target, and the amount of time it takes an actor to "warmup" to use
 *** the skill or "cooldown" after the skill execution is finished.
 *** ***************************************************************************/
-class GlobalSkill {
+class GlobalSkill
+{
 public:
-	//! \param id The identification number of the skill to construct
-	GlobalSkill(uint32 id);
+    //! \param id The identification number of the skill to construct
+    GlobalSkill(uint32 id);
 
-	~GlobalSkill()
-	{}
+    ~GlobalSkill()
+    {}
 
-	GlobalSkill(const GlobalSkill& copy);
+    GlobalSkill(const GlobalSkill &copy);
 
-	GlobalSkill& operator=(const GlobalSkill& copy);
+    GlobalSkill &operator=(const GlobalSkill &copy);
 
-	//! \brief Returns true if the skill is properly initialized and ready to be used
-	bool IsValid() const
-	{ return (_id != 0); }
+    //! \brief Returns true if the skill is properly initialized and ready to be used
+    bool IsValid() const {
+        return (_id != 0);
+    }
 
-	//! \brief Returns true if the skill can be executed in battles
-	bool IsExecutableInBattle() const
-	{ return _battle_execute_function.is_valid(); }
+    //! \brief Returns true if the skill can be executed in battles
+    bool IsExecutableInBattle() const {
+        return _battle_execute_function.is_valid();
+    }
 
-	//! \brief Returns true if the skill can be executed in menus
-	bool IsExecutableInField() const
-	{ return _field_execute_function.is_valid(); }
+    //! \brief Returns true if the skill can be executed in menus
+    bool IsExecutableInField() const {
+        return _field_execute_function.is_valid();
+    }
 
-	/** \name Class member access functions
-	*** \note No set functions are defined because the class members should only be intialized within Lua
-	**/
-	//@{
-	const hoa_utils::ustring& GetName() const
-	{ return _name; }
+    /** \name Class member access functions
+    *** \note No set functions are defined because the class members should only be intialized within Lua
+    **/
+    //@{
+    const hoa_utils::ustring &GetName() const {
+        return _name;
+    }
 
-	const hoa_utils::ustring& GetDescription() const
-	{ return _description; }
+    const hoa_utils::ustring &GetDescription() const {
+        return _description;
+    }
 
-	uint32 GetID() const
-	{ return _id; }
+    uint32 GetID() const {
+        return _id;
+    }
 
-	GLOBAL_SKILL GetType() const
-	{ return _type; }
+    GLOBAL_SKILL GetType() const {
+        return _type;
+    }
 
-	uint32 GetSPRequired() const
-	{ return _sp_required; }
+    uint32 GetSPRequired() const {
+        return _sp_required;
+    }
 
-	uint32 GetWarmupTime() const
-	{ return _warmup_time; }
+    uint32 GetWarmupTime() const {
+        return _warmup_time;
+    }
 
-	uint32 GetCooldownTime() const
-	{ return _cooldown_time; }
+    uint32 GetCooldownTime() const {
+        return _cooldown_time;
+    }
 
-	const std::string& GetWarmupActionName() const
-	{ return _warmup_action_name; }
+    const std::string &GetWarmupActionName() const {
+        return _warmup_action_name;
+    }
 
-	const std::string& GetActionName() const
-	{ return _action_name; }
+    const std::string &GetActionName() const {
+        return _action_name;
+    }
 
-	GLOBAL_TARGET GetTargetType() const
-	{ return _target_type; }
+    GLOBAL_TARGET GetTargetType() const {
+        return _target_type;
+    }
 
-	/** \brief Returns a pointer to the ScriptObject of the battle execution function
-	*** \note This function will return NULL if the skill is not executable in battle
-	**/
-	const ScriptObject& GetBattleExecuteFunction() const
-	{ return _battle_execute_function; }
+    /** \brief Returns a pointer to the ScriptObject of the battle execution function
+    *** \note This function will return NULL if the skill is not executable in battle
+    **/
+    const ScriptObject &GetBattleExecuteFunction() const {
+        return _battle_execute_function;
+    }
 
-	//! Execute the corresponding skill Battle function
-	bool ExecuteBattleFunction(hoa_battle::private_battle::BattleActor *user, hoa_battle::private_battle::BattleTarget target);
+    //! Execute the corresponding skill Battle function
+    bool ExecuteBattleFunction(hoa_battle::private_battle::BattleActor *user, hoa_battle::private_battle::BattleTarget target);
 
-	/** \brief Returns a pointer to the ScriptObject of the menu execution function
-	*** \note This function will return NULL if the skill is not executable in menus
-	**/
-	const ScriptObject& GetFieldExecuteFunction() const
-	{ return _field_execute_function; }
+    /** \brief Returns a pointer to the ScriptObject of the menu execution function
+    *** \note This function will return NULL if the skill is not executable in menus
+    **/
+    const ScriptObject &GetFieldExecuteFunction() const {
+        return _field_execute_function;
+    }
 
-	/** \brief Tells the animation script filename linked to the skill for the given character,
-	*** Or an empty value otherwise;
-	**/
-	std::string GetAnimationScript(uint32 character_id);
-	//@}
+    /** \brief Tells the animation script filename linked to the skill for the given character,
+    *** Or an empty value otherwise;
+    **/
+    std::string GetAnimationScript(uint32 character_id);
+    //@}
 
 private:
-	//! \brief The unique identifier number of the skill.
-	uint32 _id;
+    //! \brief The unique identifier number of the skill.
+    uint32 _id;
 
-	//! \brief The name of the skill as it will be displayed on the screen.
-	hoa_utils::ustring _name;
+    //! \brief The name of the skill as it will be displayed on the screen.
+    hoa_utils::ustring _name;
 
-	/** \brief A short description of what the skill does when executed
-	*** \note Not all defined skills have a description. For example, skills used only by enemies are
-	*** typically missing a description
-	**/
-	hoa_utils::ustring _description;
+    /** \brief A short description of what the skill does when executed
+    *** \note Not all defined skills have a description. For example, skills used only by enemies are
+    *** typically missing a description
+    **/
+    hoa_utils::ustring _description;
 
-	//! \brief The type identifier for the skill
-	GLOBAL_SKILL _type;
+    //! \brief The type identifier for the skill
+    GLOBAL_SKILL _type;
 
-	/** \brief The amount of skill points (SP) that the skill requires to be used
-	*** Zero is a valid value for this member and means that no skill points are required to use the
-	*** skill. Skills with this property are known as "innate skills".
-	**/
-	uint32 _sp_required;
+    /** \brief The amount of skill points (SP) that the skill requires to be used
+    *** Zero is a valid value for this member and means that no skill points are required to use the
+    *** skill. Skills with this property are known as "innate skills".
+    **/
+    uint32 _sp_required;
 
-	/** \brief The amount of time (in milliseconds) that must expire before a skill can be used after it is selected
-	*** When a character or enemy has selected to use the skill in a battle, this value instructs how
-	*** much time must pass before the skill may be executed. It is acceptable for this member to be zero.
-	**/
-	uint32 _warmup_time;
+    /** \brief The amount of time (in milliseconds) that must expire before a skill can be used after it is selected
+    *** When a character or enemy has selected to use the skill in a battle, this value instructs how
+    *** much time must pass before the skill may be executed. It is acceptable for this member to be zero.
+    **/
+    uint32 _warmup_time;
 
-	/** \brief The amount of time (in milliseconds) that must expire after a skill hase been used
-	*** After a character or enemy uses a skill, this value instructs how much time must pass before
-	*** the actor who executed the skill can recover and begin recharging their battle stamina bar.
-	*** It is acceptable for this member to be zero.
-	**/
-	uint32 _cooldown_time;
+    /** \brief The amount of time (in milliseconds) that must expire after a skill hase been used
+    *** After a character or enemy uses a skill, this value instructs how much time must pass before
+    *** the actor who executed the skill can recover and begin recharging their battle stamina bar.
+    *** It is acceptable for this member to be zero.
+    **/
+    uint32 _cooldown_time;
 
-	/** \brief The animation name played at warmup time, if any.
-	*** If none is given, the idle animation will be played.
-	**/
-	std::string _warmup_action_name;
+    /** \brief The animation name played at warmup time, if any.
+    *** If none is given, the idle animation will be played.
+    **/
+    std::string _warmup_action_name;
 
-	/** \brief The animation name played before dealing the battle_execute_function.
-	*** When a character is ready to attack, it will first play an attack animation for instance
-	*** before delaing damage.
-	**/
-	std::string _action_name;
+    /** \brief The animation name played before dealing the battle_execute_function.
+    *** When a character is ready to attack, it will first play an attack animation for instance
+    *** before delaing damage.
+    **/
+    std::string _action_name;
 
-	/** \brief The type of target for the skill
-	*** Target types include attack points, actors, and parties. This enum type is defined in global_actors.h
-	**/
-	GLOBAL_TARGET _target_type;
+    /** \brief The type of target for the skill
+    *** Target types include attack points, actors, and parties. This enum type is defined in global_actors.h
+    **/
+    GLOBAL_TARGET _target_type;
 
-	//! \brief A reference to the skill's execution function for battles
-	ScriptObject _battle_execute_function;
+    //! \brief A reference to the skill's execution function for battles
+    ScriptObject _battle_execute_function;
 
-	//! \brief A reference to the skill's execution function for menus
-	ScriptObject _field_execute_function;
+    //! \brief A reference to the skill's execution function for menus
+    ScriptObject _field_execute_function;
 
-	//! \brief map containing the animation scripts names linked to each characters id for the given skill.
-	std::map <uint32, std::string> _animation_scripts;
+    //! \brief map containing the animation scripts names linked to each characters id for the given skill.
+    std::map <uint32, std::string> _animation_scripts;
 }; // class GlobalSkill
 
 } // namespace hoa_global

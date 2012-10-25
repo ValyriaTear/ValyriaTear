@@ -26,7 +26,8 @@
 
 #include "global_utils.h"
 
-namespace hoa_global {
+namespace hoa_global
+{
 
 /** \brief Retrieves a string representation for any GLOBAL_ELEMENTAL enum value
 *** \param type The elemental enum value to find the string for
@@ -60,47 +61,51 @@ std::string GetStatusName(GLOBAL_STATUS type);
 *** \todo Explain any differences between how physical versus metaphyiscal elements
 *** function in the game once that decision has been reached.
 *** ***************************************************************************/
-class GlobalElementalEffect {
+class GlobalElementalEffect
+{
 public:
-	/** \param type The elemental type that this class object should represent
-	*** \param intensity The intensity of the elemental (default value == GLOBAL_INTENSITY_NEUTRAL)
-	**/
-	GlobalElementalEffect(GLOBAL_ELEMENTAL type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
-		_type(type), _intensity(intensity) {}
+    /** \param type The elemental type that this class object should represent
+    *** \param intensity The intensity of the elemental (default value == GLOBAL_INTENSITY_NEUTRAL)
+    **/
+    GlobalElementalEffect(GLOBAL_ELEMENTAL type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
+        _type(type), _intensity(intensity) {}
 
-	~GlobalElementalEffect()
-	{}
+    ~GlobalElementalEffect()
+    {}
 
-	//! \brief Class Member Access Functions
-	//@{
-	GLOBAL_ELEMENTAL GetType() const
-	{ return _type; }
+    //! \brief Class Member Access Functions
+    //@{
+    GLOBAL_ELEMENTAL GetType() const {
+        return _type;
+    }
 
-	GLOBAL_INTENSITY GetIntensity() const
-	{ return _intensity; }
+    GLOBAL_INTENSITY GetIntensity() const {
+        return _intensity;
+    }
 
-	void SetIntensity(GLOBAL_INTENSITY intensity)
-	{ _intensity = intensity; }
-	//@}
+    void SetIntensity(GLOBAL_INTENSITY intensity) {
+        _intensity = intensity;
+    }
+    //@}
 
-	/** \brief Increments the elemental effect's intensity
-	*** \param amount The number of levels to increase the intensity by (default = 1)
-	*** \note The intensity will not be allowed to increase beyond the valid intensity range
-	**/
-	void IncrementIntensity(uint8 amount = 1);
+    /** \brief Increments the elemental effect's intensity
+    *** \param amount The number of levels to increase the intensity by (default = 1)
+    *** \note The intensity will not be allowed to increase beyond the valid intensity range
+    **/
+    void IncrementIntensity(uint8 amount = 1);
 
-	/** \brief Decrements the elemental effect's intensity
-	*** \param amount The number of levels to decrease the intensity by (default = 1)
-	*** \note The intensity will not be allowed to decrease beyond the valid intensity range
-	**/
-	void DecrementIntensity(uint8 amount = 1);
+    /** \brief Decrements the elemental effect's intensity
+    *** \param amount The number of levels to decrease the intensity by (default = 1)
+    *** \note The intensity will not be allowed to decrease beyond the valid intensity range
+    **/
+    void DecrementIntensity(uint8 amount = 1);
 
 protected:
-	//! \brief The type of elemental that the object represents
-	GLOBAL_ELEMENTAL _type;
+    //! \brief The type of elemental that the object represents
+    GLOBAL_ELEMENTAL _type;
 
-	//! \brief The intensity level of this elemental effect
-	GLOBAL_INTENSITY _intensity;
+    //! \brief The intensity level of this elemental effect
+    GLOBAL_INTENSITY _intensity;
 }; // class GlobalElementalEffect
 
 
@@ -113,49 +118,53 @@ protected:
 *** to decrease below the neutral level or to increase above the maximum positive level.
 *** Status effects are only active on characters and enemies while they are in battle.
 *** ***************************************************************************/
-class GlobalStatusEffect {
+class GlobalStatusEffect
+{
 public:
-	/** \param type The status type that this class object should represent
-	*** \param intensity The intensity of the status (default value == GLOBAL_INTENSITY_NEUTRAL)
-	**/
-	GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
-		_type(type), _intensity(intensity) {}
+    /** \param type The status type that this class object should represent
+    *** \param intensity The intensity of the status (default value == GLOBAL_INTENSITY_NEUTRAL)
+    **/
+    GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
+        _type(type), _intensity(intensity) {}
 
-	virtual ~GlobalStatusEffect()
-	{}
+    virtual ~GlobalStatusEffect()
+    {}
 
-	//! \brief Class Member Access Functions
-	//@{
-	GLOBAL_STATUS GetType() const
-	{ return _type; }
+    //! \brief Class Member Access Functions
+    //@{
+    GLOBAL_STATUS GetType() const {
+        return _type;
+    }
 
-	GLOBAL_INTENSITY GetIntensity() const
-	{ return _intensity; }
+    GLOBAL_INTENSITY GetIntensity() const {
+        return _intensity;
+    }
 
-	virtual void SetIntensity(GLOBAL_INTENSITY intensity)
-	{ _intensity = intensity; }
-	//@}
+    virtual void SetIntensity(GLOBAL_INTENSITY intensity) {
+        _intensity = intensity;
+    }
+    //@}
 
-	/** \brief Increments the status effect intensity by a positive amount
-	*** \param amount The number of intensity levels to increase the status effect by
-	*** \return True if the intensity level was modified
-	*** \note Intensity will not be incremented beyond the maximum valid intensity value
-	**/
-	virtual bool IncrementIntensity(uint8 amount);
+    /** \brief Increments the status effect intensity by a positive amount
+    *** \param amount The number of intensity levels to increase the status effect by
+    *** \return True if the intensity level was modified
+    *** \note Intensity will not be incremented beyond the maximum valid intensity value
+    **/
+    virtual bool IncrementIntensity(uint8 amount);
 
-	/** \brief Decrements the status effect intensity by a negative amount
-	*** \param amount The number of intensity levels to decrement the status effect by
-	*** \return True if the intensity level was modified
-	*** \note Intensity will not be decremented below GLOBAL_INTENSITY_NEUTRAL
-	**/
-	virtual bool DecrementIntensity(uint8 amount);
+    /** \brief Decrements the status effect intensity by a negative amount
+    *** \param amount The number of intensity levels to decrement the status effect by
+    *** \return True if the intensity level was modified
+    *** \note Intensity will not be decremented below GLOBAL_INTENSITY_NEUTRAL
+    **/
+    virtual bool DecrementIntensity(uint8 amount);
 
 protected:
-	//! \brief The type of status that the object represents
-	GLOBAL_STATUS _type;
+    //! \brief The type of status that the object represents
+    GLOBAL_STATUS _type;
 
-	//! \brief The intensity level of this status effect
-	GLOBAL_INTENSITY _intensity;
+    //! \brief The intensity level of this status effect
+    GLOBAL_INTENSITY _intensity;
 }; // class GlobalStatusEffect
 
 } // namespace hoa_global
