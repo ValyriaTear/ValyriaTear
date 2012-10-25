@@ -231,9 +231,9 @@ skills[7] = {
 			-- TODO: Add fire elemental damage type.
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 0), target);
 			-- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
-			--local Battle = ModeManager:GetTop();
-			--Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",
-					--target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+			local Battle = ModeManager:GetTop();
+			Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",
+					target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
 			--AudioManager:PlaySound("snd/fire_burst.wav");
 		else
 			target_actor:RegisterMiss(true);

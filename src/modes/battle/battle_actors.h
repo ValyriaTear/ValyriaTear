@@ -29,12 +29,13 @@
 
 #include "battle_utils.h"
 #include "engine/video/text.h"
+#include "engine/video/particle_effect.h"
 
 namespace hoa_battle {
 
 namespace private_battle {
 
- /** ****************************************************************************
+/** ****************************************************************************
 *** \brief An abstract class for representing an object in the battle
 *** Used to properly draw objects based on their Y coordinate.
 **/
@@ -80,6 +81,31 @@ protected:
 
 	//! \brief The x and y coordinates of the actor's current location on the battle field
 	float _x_location, _y_location;
+};
+
+//! \brief A class representing particle effects used as battle objects:
+//! spell effects, attack effects, ...
+class BattleParticleEffect : public BattleObject {
+public:
+	BattleParticleEffect(const std::string& effect_filename);
+
+	//! Used to be drawn at the right time by the battle mode.
+	void DrawSprite();
+
+	//! Permits to start the effect.
+	bool Start()
+	{ return _effect.Start(); }
+
+	//! \Tells whether the effect is still alive.
+	bool IsAlive() const
+	{ return _effect.IsAlive(); }
+
+	void Update()
+	{ _effect.Update(); }
+
+protected:
+	//! The particle effect class used internally
+	hoa_mode_manager::ParticleEffect _effect;
 };
 
 //! \brief The battle ammo class is made to represent an ammo image on the battle ground.

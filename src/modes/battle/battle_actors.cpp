@@ -39,6 +39,28 @@ namespace hoa_battle {
 
 namespace private_battle {
 
+// Battle Particle effect class
+BattleParticleEffect::BattleParticleEffect(const std::string& effect_filename):
+	BattleObject()
+{
+	if (!_effect.LoadEffect(effect_filename))
+		PRINT_WARNING << "Invalid battle particle effect file requested: "
+			<< effect_filename << std::endl;
+}
+
+void BattleParticleEffect::DrawSprite() {
+	if (!_effect.IsAlive())
+		return;
+
+	// TODO: Make the battle mode use standard coordinates
+	// And remove that workaround
+	VideoManager->SetStandardCoordSys();
+	_effect.Move(GetXLocation(), VIDEO_STANDARD_RES_HEIGHT - GetYLocation());
+	_effect.Draw();
+	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+}
+
+// BattleAmmo class
 void BattleAmmo::DrawSprite() {
 	// Draw potential sprite ammo
 	if (_shown) {

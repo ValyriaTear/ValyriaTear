@@ -40,6 +40,7 @@ extern bool BATTLE_DEBUG;
 namespace private_battle {
 
 class BattleObject;
+class BattleParticleEffect;
 
 /** \name Battle setting type
 *** \brief Represents the play types of battle that the player may have to deal with
@@ -389,6 +390,15 @@ public:
 	//! \note the _highest_agility and _battle_type_time_factor members must be set before calling
 	//! this method.
 	void SetActorIdleStateTime(private_battle::BattleActor *actor);
+
+	//! \brief Triggers a battle particle effect at the given location.
+	//! We do not use the particle manager here as we're considering the particle effect
+	//! as a battle object which has to be drawn along other battle others sorted by the Y coordinate.
+	//!
+	//! \param The effect filename is the particle effect definition file.
+	//! \param x the x coordinates of the particle effect in pixels.
+	//! \param y the y coordinates of the particle effect in pixels.
+	void TriggerBattleParticleEffect(const std::string& effect_filename, uint32 x, uint32 y);
 	//@}
 
 private:
@@ -444,6 +454,12 @@ private:
 	*** it may point to either the character or enemy party.
 	**/
 	std::deque<private_battle::BattleActor*> _enemy_party;
+
+	/** \brief The particle effects container.
+	*** It will permit to draw particle effect in the right order, and will get rid of the dead particle effects,
+	*** at update time.
+	**/
+	std::vector<private_battle::BattleParticleEffect*> _battle_particle_effects;
 
 	/** \brief A FIFO queue of all actors that are ready to perform an action
 	*** When an actor has completed the wait time for their warm-up state, they enter the ready state and are

@@ -54,6 +54,9 @@ skills[10001] = {
 		target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
                                           hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
                                           effect_duration);
+		local Battle = ModeManager:GetTop();
+		Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance.lua",
+				target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
 	end
 }
 
@@ -72,9 +75,9 @@ skills[10002] = {
 		local hit_points = (user:GetVigor() * 3) +  hoa_utils.RandomBoundedInteger(0, 15);
         target_actor:RegisterHealing(hit_points, true);
 		AudioManager:PlaySound("snd/heal_spell.wav");
-		--local Battle = ModeManager:GetTop();
-		--Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
-		--		target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+		local Battle = ModeManager:GetTop();
+		Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
+				target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
 	end,
 
 	FieldExecute = function(target, instigator)

@@ -616,6 +616,7 @@ void BindModeCode() {
 			.def("GetCommandSupervisor", &BattleMode::GetCommandSupervisor)
 			.def("GetBattleType", &BattleMode::GetBattleType)
 			.def("SetBattleType", &BattleMode::SetBattleType)
+			.def("TriggerBattleParticleEffect", &BattleMode::TriggerBattleParticleEffect)
 
 			// Namespace constants
 			.enum_("constants") [

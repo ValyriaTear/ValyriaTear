@@ -386,17 +386,31 @@ void BattleMode::Update() {
 
 	// Update all actors animations and y-sorting
 	_battle_objects.clear();
-	for (uint32 i = 0; i < _character_actors.size(); i++) {
+	for (uint32 i = 0; i < _character_actors.size(); ++i) {
 		_character_actors[i]->Update();
 		_battle_objects.push_back(_character_actors[i]);
 		// Add also potential ammo objects
 		if (_character_actors[i]->GetAmmo().IsAmmoShown())
 			_battle_objects.push_back(&(_character_actors[i]->GetAmmo()));
 	}
-	for (uint32 i = 0; i < _enemy_actors.size(); i++) {
+	for (uint32 i = 0; i < _enemy_actors.size(); ++i) {
 		_enemy_actors[i]->Update();
 		_battle_objects.push_back(_enemy_actors[i]);
 	}
+
+	// Add particle effects
+	for (std::vector<BattleParticleEffect*>::iterator it = _battle_particle_effects.begin();
+			it != _battle_particle_effects.end();) {
+		if ((*it)->IsAlive()) {
+			(*it)->Update();
+			_battle_objects.push_back(*it);
+			++it;
+		}
+		else {
+			it = _battle_particle_effects.erase(it);
+		}
+	}
+
 	std::sort(_battle_objects.begin(), _battle_objects.end(), CompareObjectsYCoord);
 
 	// Now checking standard battle conditions
@@ -853,6 +867,17 @@ void BattleMode::SetActorIdleStateTime(BattleActor *actor) {
 		/ static_cast<float>(actor->GetAgility() * _battle_type_time_factor);
 
 	actor->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
+}
+
+void BattleMode::TriggerBattleParticleEffect(const std::string& effect_filename, uint32 x, uint32 y) {
+	BattleParticleEffect *effect = new BattleParticleEffect(effect_filename);
+
+	effect->SetXLocation(x);
+	effect->SetYLocation(y);
+
+	effect->Start();
+
+	_battle_particle_effects.push_back(effect);
 }
 
 void BattleMode::_DetermineActorLocations() {

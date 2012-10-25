@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.09.26
+Last update: 2012.10.24
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -49,8 +49,13 @@ dat/effects/emotes.lua                                          GPLv2 or later  
 dat/effects/particles/rain.lua                                  GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/snow.lua                                  GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/blue_firework.lua                         GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/defensive_stance.lua                      GPLv2 or later           Bertram
 dat/effects/particles/explosion.lua                             GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/fire.lua                                  GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/fire_spell.lua                            GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/heal_particle.lua                         GPLv2 or later           Bertram
+dat/effects/particles/wave_spell.lua                            GPLv2 or later           Bertram
+
 
 dat/maps/*                                                      GPLv2 or later           Bertram
 
@@ -116,6 +121,9 @@ img/effects/flame6.png                                          GPLv2 or later  
 img/effects/flame7.png                                          GPLv2 or later           Roos
 img/effects/flame8.png                                          GPLv2 or later           Roos
 img/effects/outlined_circle_small.png                           GPLv2 or later           Roos
+img/effects/right_arrow.png                                     CC by 3.0                hc (OGA) http://opengameart.org/content/lens-flares-and-particles
+img/effects/shield.png                                          GPLv2                    Allacrost
+
 
 img/effects/emotes/sweat_drop.lua                               GPLv2 or later           Bertram
 img/effects/emotes/sweat_drop.png                               CC by SA 3.0             Bertram
