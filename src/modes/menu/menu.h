@@ -35,23 +35,25 @@
 #include "menu_views.h"
 
 //! \brief All calls to menu mode are wrapped in this namespace.
-namespace hoa_menu {
+namespace hoa_menu
+{
 
 //! \brief Determines whether the code in the hoa_menu namespace should print debug statements or not.
 extern bool MENU_DEBUG;
 
 //! \brief An internal namespace to be used only within the menu code. Don't use this namespace anywhere else!
-namespace private_menu {
+namespace private_menu
+{
 
 //! \brief The different item categories
 enum MAIN_CATEGORY {
-	MAIN_INVENTORY      = 0,
-	MAIN_SKILLS         = 1,
-	MAIN_EQUIP          = 2,
-	MAIN_STATUS         = 3,
+    MAIN_INVENTORY      = 0,
+    MAIN_SKILLS         = 1,
+    MAIN_EQUIP          = 2,
+    MAIN_STATUS         = 3,
 //	MAIN_OPTIONS        = 3;
-	MAIN_FORMATION      = 4,
-	MAIN_SIZE           = 5
+    MAIN_FORMATION      = 4,
+    MAIN_SIZE           = 5
 };
 
 //! \name Inventory Menu Options Constants
@@ -137,153 +139,155 @@ const uint32 WINDOW_FORMATION      = 5;
 *** \note MenuMode does not play its own music, but rather it continues playing
 *** music from the previous GameMode that created it.
 *** ***************************************************************************/
-class MenuMode : public hoa_mode_manager::GameMode {
-	friend class private_menu::CharacterWindow;
-	friend class private_menu::InventoryWindow;
-	friend class private_menu::StatusWindow;
-	friend class private_menu::SkillsWindow;
-	friend class private_menu::EquipWindow;
-	friend class private_menu::FormationWindow;
+class MenuMode : public hoa_mode_manager::GameMode
+{
+    friend class private_menu::CharacterWindow;
+    friend class private_menu::InventoryWindow;
+    friend class private_menu::StatusWindow;
+    friend class private_menu::SkillsWindow;
+    friend class private_menu::EquipWindow;
+    friend class private_menu::FormationWindow;
 
 public:
-	/** \param location_name The name of the current map that will be displayed on the menu screen.
-	*** \param locale_image The filename for the location image that is displayed in the menus.
-	**/
-	MenuMode(hoa_utils::ustring locale_name, std::string locale_image);
+    /** \param location_name The name of the current map that will be displayed on the menu screen.
+    *** \param locale_image The filename for the location image that is displayed in the menus.
+    **/
+    MenuMode(hoa_utils::ustring locale_name, std::string locale_image);
 
-	~MenuMode();
+    ~MenuMode();
 
-	//! \brief Returns a pointer to the active instance of menu mode
-	static MenuMode* CurrentInstance()
-		{ return _current_instance; }
+    //! \brief Returns a pointer to the active instance of menu mode
+    static MenuMode *CurrentInstance() {
+        return _current_instance;
+    }
 
-	//! \brief Resets the menu mode back to its default setup.
-	void Reset();
+    //! \brief Resets the menu mode back to its default setup.
+    void Reset();
 
-	//! \brief Updates the menu. Calls Update() on active window if there is one
-	void Update();
+    //! \brief Updates the menu. Calls Update() on active window if there is one
+    void Update();
 
-	//! \brief Draws the menu. Calls Draw() on active window if there is one.
-	void Draw();
+    //! \brief Draws the menu. Calls Draw() on active window if there is one.
+    void Draw();
 
-	//! \brief (Re)Loads the characters windows based on the characters' positions in the party.
-	void ReloadCharacterWindows();
+    //! \brief (Re)Loads the characters windows based on the characters' positions in the party.
+    void ReloadCharacterWindows();
 
 private:
-	//! \brief A static pointer to the last instantiated MenuMode object
-	static MenuMode* _current_instance;
+    //! \brief A static pointer to the last instantiated MenuMode object
+    static MenuMode *_current_instance;
 
-	//! \brief Text image which displays the name of the location in the game where MenuMode was invoked
-	hoa_gui::TextBox _locale_name;
+    //! \brief Text image which displays the name of the location in the game where MenuMode was invoked
+    hoa_gui::TextBox _locale_name;
 
-	/** \brief The graphic that represents the current map that the player is exploring
-	*** This image is set using the string in the MenuMode constructor
-	**/
-	hoa_video::StillImage _locale_graphic;
+    /** \brief The graphic that represents the current map that the player is exploring
+    *** This image is set using the string in the MenuMode constructor
+    **/
+    hoa_video::StillImage _locale_graphic;
 
-	/** \brief Retains a snap-shot of the screen just prior to when menu mode was entered
-	*** This image is perpetually drawn as the background while in menu mode
-	**/
-	hoa_video::StillImage _saved_screen;
+    /** \brief Retains a snap-shot of the screen just prior to when menu mode was entered
+    *** This image is perpetually drawn as the background while in menu mode
+    **/
+    hoa_video::StillImage _saved_screen;
 
-	//! \brief The symbol indicating that the item is a key item.
-	hoa_video::StillImage _key_item_symbol;
-	//! \brief Test indicating that the item is a key item and cannot be used or sold.
-	hoa_gui::TextBox _key_item_description;
+    //! \brief The symbol indicating that the item is a key item.
+    hoa_video::StillImage _key_item_symbol;
+    //! \brief Test indicating that the item is a key item and cannot be used or sold.
+    hoa_gui::TextBox _key_item_description;
 
-	//! \brief The symbol indicating that the item is a crystal shard.
-	hoa_video::StillImage _shard_symbol;
-	//! \brief Test indicating that the item is a shard and can be associated with equipment.
-	hoa_gui::TextBox _shard_description;
+    //! \brief The symbol indicating that the item is a crystal shard.
+    hoa_video::StillImage _shard_symbol;
+    //! \brief Test indicating that the item is a shard and can be associated with equipment.
+    hoa_gui::TextBox _shard_description;
 
-	/** \name Main Display Windows
-	*** \brief The various menu windows that are displayed in menu mode
-	**/
-	//@{
-	hoa_gui::MenuWindow _bottom_window;
-	hoa_gui::MenuWindow _main_options_window;
+    /** \name Main Display Windows
+    *** \brief The various menu windows that are displayed in menu mode
+    **/
+    //@{
+    hoa_gui::MenuWindow _bottom_window;
+    hoa_gui::MenuWindow _main_options_window;
 
-	private_menu::CharacterWindow _character_window0;
-	private_menu::CharacterWindow _character_window1;
-	private_menu::CharacterWindow _character_window2;
-	private_menu::CharacterWindow _character_window3;
-	private_menu::InventoryWindow _inventory_window;
-	private_menu::StatusWindow _status_window;
-	private_menu::SkillsWindow _skills_window;
-	private_menu::EquipWindow _equip_window;
-	private_menu::FormationWindow _formation_window;
-	MessageWindow *_message_window;
+    private_menu::CharacterWindow _character_window0;
+    private_menu::CharacterWindow _character_window1;
+    private_menu::CharacterWindow _character_window2;
+    private_menu::CharacterWindow _character_window3;
+    private_menu::InventoryWindow _inventory_window;
+    private_menu::StatusWindow _status_window;
+    private_menu::SkillsWindow _skills_window;
+    private_menu::EquipWindow _equip_window;
+    private_menu::FormationWindow _formation_window;
+    MessageWindow *_message_window;
 
-	/** \brief The currently active window
-	 **/
-	hoa_gui::MenuWindow *_active_window;
-	//@}
+    /** \brief The currently active window
+     **/
+    hoa_gui::MenuWindow *_active_window;
+    //@}
 
-	//! \brief A map of the sounds used while in MenuMode
-	std::map<std::string, hoa_audio::SoundDescriptor> _menu_sounds;
+    //! \brief A map of the sounds used while in MenuMode
+    std::map<std::string, hoa_audio::SoundDescriptor> _menu_sounds;
 
-	//! The selected item/skill/equipment
-	uint32 _item_selected;
+    //! The selected item/skill/equipment
+    uint32 _item_selected;
 
-	//! The current option box to display
-	uint32 _current_menu_showing;
+    //! The current option box to display
+    uint32 _current_menu_showing;
 
-	//! The current window being drawn
-	uint32 _current_window;
+    //! The current window being drawn
+    uint32 _current_window;
 
-	//! A pointer to the current options menu
-	hoa_gui::OptionBox *_current_menu;
+    //! A pointer to the current options menu
+    hoa_gui::OptionBox *_current_menu;
 
-	//! The top level options in boot mode
-	hoa_gui::OptionBox _main_options;
+    //! The top level options in boot mode
+    hoa_gui::OptionBox _main_options;
 
-	//! \name Option boxes that are used in the various menu windows
-	//@{
-	hoa_gui::OptionBox _menu_inventory;
-	hoa_gui::OptionBox _menu_skills;
-	hoa_gui::OptionBox _menu_status;
-	hoa_gui::OptionBox _menu_options;
-	hoa_gui::OptionBox _menu_equip;
-	hoa_gui::OptionBox _menu_formation;
-	//@}
+    //! \name Option boxes that are used in the various menu windows
+    //@{
+    hoa_gui::OptionBox _menu_inventory;
+    hoa_gui::OptionBox _menu_skills;
+    hoa_gui::OptionBox _menu_status;
+    hoa_gui::OptionBox _menu_options;
+    hoa_gui::OptionBox _menu_equip;
+    hoa_gui::OptionBox _menu_formation;
+    //@}
 
-	//! \brief Functions that initialize the numerous option boxes
-	//@{
-	void _SetupOptionBoxCommonSettings(hoa_gui::OptionBox *ob);
-	void _SetupMainOptionBox();
-	void _SetupInventoryOptionBox();
-	void _SetupSkillsOptionBox();
-	void _SetupStatusOptionBox();
-	void _SetupOptionsOptionBox();
-	void _SetupFormationOptionBox();
-	void _SetupEquipOptionBox();
-	//@}
+    //! \brief Functions that initialize the numerous option boxes
+    //@{
+    void _SetupOptionBoxCommonSettings(hoa_gui::OptionBox *ob);
+    void _SetupMainOptionBox();
+    void _SetupInventoryOptionBox();
+    void _SetupSkillsOptionBox();
+    void _SetupStatusOptionBox();
+    void _SetupOptionsOptionBox();
+    void _SetupFormationOptionBox();
+    void _SetupEquipOptionBox();
+    //@}
 
-	/** \name Menu Handle Functions
-	*** \brief Handler functions to deal with events for all the different menus
-	**/
-	//@{
-	void _HandleMainMenu();
-	void _HandleInventoryMenu();
-	void _HandleSkillsMenu();
-	void _HandleStatusMenu();
-	void _HandleOptionsMenu();
-	void _HandleFormationMenu();
-	void _HandleEquipMenu();
-	//@}
+    /** \name Menu Handle Functions
+    *** \brief Handler functions to deal with events for all the different menus
+    **/
+    //@{
+    void _HandleMainMenu();
+    void _HandleInventoryMenu();
+    void _HandleSkillsMenu();
+    void _HandleStatusMenu();
+    void _HandleOptionsMenu();
+    void _HandleFormationMenu();
+    void _HandleEquipMenu();
+    //@}
 
-	/** \name Active Window Functions
-	*** \brief Handles finding the next active window
-	**/
-	//@{
-	void _GetNextActiveWindow();
-	//@}
+    /** \name Active Window Functions
+    *** \brief Handles finding the next active window
+    **/
+    //@{
+    void _GetNextActiveWindow();
+    //@}
 
-	//! \brief Draws the bottom part of the menu mode.
-	void _DrawBottomMenu();
+    //! \brief Draws the bottom part of the menu mode.
+    void _DrawBottomMenu();
 
-	//! \brief Draws the 'Name' and 'Qty' tags for the item list.
-	void _DrawItemListHeader();
+    //! \brief Draws the 'Name' and 'Qty' tags for the item list.
+    void _DrawItemListHeader();
 
 }; // class MenuMode : public hoa_mode_manager::GameMode
 
