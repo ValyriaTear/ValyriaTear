@@ -21,7 +21,8 @@
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
 
-namespace hoa_common {
+namespace hoa_common
+{
 
 //! \name Constants used among common dialogue classes
 //@{
@@ -82,149 +83,169 @@ const uint8 COMMON_DIALOGUE_LAST_INDICATOR = 2;
 *** must be displayed for that amount of time and that the player can not force the dialogue to move
 *** faster.
 *** ***************************************************************************/
-class CommonDialogue {
+class CommonDialogue
+{
 public:
-	//! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within the same gamemode context
-	CommonDialogue(uint32 id);
+    //! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within the same gamemode context
+    CommonDialogue(uint32 id);
 
-	~CommonDialogue();
+    ~CommonDialogue();
 
-	/** \brief Adds a new line of text to the dialogue
-	*** \param text The text to show on the screen
-	***
-	*** Uses the default set of options for this line of text: proceed to next sequential line, no display timer.
-	**/
-	void AddLine(const std::string& text);
+    /** \brief Adds a new line of text to the dialogue
+    *** \param text The text to show on the screen
+    ***
+    *** Uses the default set of options for this line of text: proceed to next sequential line, no display timer.
+    **/
+    void AddLine(const std::string &text);
 
-	/** \brief Adds a new line of text to the dialogue
-	*** \param text The text to show on the screen
-	*** \param next_line The line of dialogue which should follow this one
-	***
-	*** No display timer is set for this version of AddText
-	**/
-	void AddLine(const std::string& text, int32 next_line);
+    /** \brief Adds a new line of text to the dialogue
+    *** \param text The text to show on the screen
+    *** \param next_line The line of dialogue which should follow this one
+    ***
+    *** No display timer is set for this version of AddText
+    **/
+    void AddLine(const std::string &text, int32 next_line);
 
-	/** \brief Adds a new line of text to the dialogue that uses a display time
-	*** \param text The text to show on the screen
-	*** \param display_time The number of milliseconds that the line should be displayed for
-	***
-	*** The dialogue will proceed to the next sequential line for this line of text.
-	**/
-	void AddLineTimed(const std::string& text, uint32 display_time);
+    /** \brief Adds a new line of text to the dialogue that uses a display time
+    *** \param text The text to show on the screen
+    *** \param display_time The number of milliseconds that the line should be displayed for
+    ***
+    *** The dialogue will proceed to the next sequential line for this line of text.
+    **/
+    void AddLineTimed(const std::string &text, uint32 display_time);
 
-	/** \brief Adds a new line of text to the dialogue that uses a display time
-	*** \param text The text to show on the screen
-	*** \param next_line The line of dialogue which should follow this one
-	*** \param display_time The number of milliseconds that the line should be displayed for
-	***
-	*** The dialogue will proceed to the next sequential line for this line of text.
-	**/
-	void AddLineTimed(const std::string& text, int32 next_line, uint32 display_time);
+    /** \brief Adds a new line of text to the dialogue that uses a display time
+    *** \param text The text to show on the screen
+    *** \param next_line The line of dialogue which should follow this one
+    *** \param display_time The number of milliseconds that the line should be displayed for
+    ***
+    *** The dialogue will proceed to the next sequential line for this line of text.
+    **/
+    void AddLineTimed(const std::string &text, int32 next_line, uint32 display_time);
 
-	/** \brief Adds an option to the most recently added line of text
-	*** \param text The text for this particular option
-	*** \note The next line will be the next sequential line should this option be selected
-	*** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
-	**/
-	void AddOption(const std::string& text);
+    /** \brief Adds an option to the most recently added line of text
+    *** \param text The text for this particular option
+    *** \note The next line will be the next sequential line should this option be selected
+    *** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
+    **/
+    void AddOption(const std::string &text);
 
-	/** \brief Adds an option to the most recently added line of text
-	*** \param text The text for this particular option
-	*** \param next_line The index value of the next line of dialogue to display should this option be selected
-	*** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
-	**/
-	void AddOption(const std::string& text, int32 next_line);
+    /** \brief Adds an option to the most recently added line of text
+    *** \param text The text for this particular option
+    *** \param next_line The index value of the next line of dialogue to display should this option be selected
+    *** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
+    **/
+    void AddOption(const std::string &text, int32 next_line);
 
-	//! \brief Indicates if this dialogue has already been seen by the player.
-	bool HasAlreadySeen() const
-		{ return (_times_seen != 0); }
+    //! \brief Indicates if this dialogue has already been seen by the player.
+    bool HasAlreadySeen() const {
+        return (_times_seen != 0);
+    }
 
-	//! \brief Return true if this dialogue is available to be viewed (_times_seen is still less than _max_views)
-	bool IsAvailable() const
-		{ if (_max_views == COMMON_DIALOGUE_INFINITE_VIEWS) return true; else return (static_cast<int32>(_times_seen) < _max_views); }
+    //! \brief Return true if this dialogue is available to be viewed (_times_seen is still less than _max_views)
+    bool IsAvailable() const {
+        if(_max_views == COMMON_DIALOGUE_INFINITE_VIEWS) return true;
+        else return (static_cast<int32>(_times_seen) < _max_views);
+    }
 
-	/** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
-	*** \return True if the validation was successful, false if any problems were discovered
-	***
-	*** This function should be called after adding all the lines, options, and settings to a dialogue but before the dialogue is
-	*** actually used. It checks that all data is valid and warns of potentially dangerous data, such as referring to a line index
-	*** that doesn't exist. Any issues that raise concern will cause the function to return false. Additionally if debugging is enabled,
-	*** messages will be printed to the console providing details about any bad data discovered.
-	**/
-	bool Validate();
+    /** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
+    *** \return True if the validation was successful, false if any problems were discovered
+    ***
+    *** This function should be called after adding all the lines, options, and settings to a dialogue but before the dialogue is
+    *** actually used. It checks that all data is valid and warns of potentially dangerous data, such as referring to a line index
+    *** that doesn't exist. Any issues that raise concern will cause the function to return false. Additionally if debugging is enabled,
+    *** messages will be printed to the console providing details about any bad data discovered.
+    **/
+    bool Validate();
 
-	//! \name Methods for retrieving properties of a specific line
-	//@{
-	//! \brief Returns the text of the line specified
-	hoa_utils::ustring GetLineText(uint32 line) const
-		{ if (line >= _line_count) return hoa_utils::ustring(); else return _text[line]; }
+    //! \name Methods for retrieving properties of a specific line
+    //@{
+    //! \brief Returns the text of the line specified
+    hoa_utils::ustring GetLineText(uint32 line) const {
+        if(line >= _line_count) return hoa_utils::ustring();
+        else return _text[line];
+    }
 
-	//! \brief Returns the line index that follows the line specified
-	int32 GetLineNextLine(uint32 line) const
-		{ if (line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE; else return _next_lines[line]; }
+    //! \brief Returns the line index that follows the line specified
+    int32 GetLineNextLine(uint32 line) const {
+        if(line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE;
+        else return _next_lines[line];
+    }
 
-	//! \brief Returns the display time of the line specified
-	int32 GetLineDisplayTime(uint32 line) const
-		{ if (line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE; else return _display_times[line]; }
+    //! \brief Returns the display time of the line specified
+    int32 GetLineDisplayTime(uint32 line) const {
+        if(line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE;
+        else return _display_times[line];
+    }
 
-	//! \brief Returns the options container of the line specified
-	CommonDialogueOptions* GetLineOptions(uint32 line) const
-		{ if (line >= _line_count) return NULL; else return _options[line]; }
-	//@}
+    //! \brief Returns the options container of the line specified
+    CommonDialogueOptions *GetLineOptions(uint32 line) const {
+        if(line >= _line_count) return NULL;
+        else return _options[line];
+    }
+    //@}
 
-	//! \name Class Member Access Functions
-	//@{
-	uint32 GetDialogueID() const
-		{ return _dialogue_id; }
+    //! \name Class Member Access Functions
+    //@{
+    uint32 GetDialogueID() const {
+        return _dialogue_id;
+    }
 
-	int32 GetTimesSeen() const
-		{ return _times_seen; }
+    int32 GetTimesSeen() const {
+        return _times_seen;
+    }
 
-	int32 GetMaxViews() const
-		{ return _max_views; }
+    int32 GetMaxViews() const {
+        return _max_views;
+    }
 
-	uint32 GetLineCount() const
-		{ return _line_count; }
+    uint32 GetLineCount() const {
+        return _line_count;
+    }
 
-	void ResetTimesSeen()
-		{ _times_seen = 0; }
+    void ResetTimesSeen() {
+        _times_seen = 0;
+    }
 
-	void SetTimesSeen(uint32 times)
-		{ _times_seen = times; }
+    void SetTimesSeen(uint32 times) {
+        _times_seen = times;
+    }
 
-	void IncrementTimesSeen()
-		{ _times_seen++; }
+    void IncrementTimesSeen() {
+        _times_seen++;
+    }
 
-	void SetMaxViews(int32 views)
-		{ _max_views = views; }
-	//@}
+    void SetMaxViews(int32 views) {
+        _max_views = views;
+    }
+    //@}
 
 protected:
-	//! \brief A unique identification number that represents this dialogue
-	uint32 _dialogue_id;
+    //! \brief A unique identification number that represents this dialogue
+    uint32 _dialogue_id;
 
-	//! \brief Counts the number of time a player has seen this dialogue.
-	uint32 _times_seen;
+    //! \brief Counts the number of time a player has seen this dialogue.
+    uint32 _times_seen;
 
-	//! \brief Declares the max number of times that this dialogue can be viewed (negative value indicates no limit)
-	int32 _max_views;
+    //! \brief Declares the max number of times that this dialogue can be viewed (negative value indicates no limit)
+    int32 _max_views;
 
-	//! \brief Stores the amount of lines in the dialogue.
-	uint32 _line_count;
+    //! \brief Stores the amount of lines in the dialogue.
+    uint32 _line_count;
 
-	//! \brief The text of the conversation, split up into multiple lines
-	std::vector<hoa_utils::ustring> _text;
+    //! \brief The text of the conversation, split up into multiple lines
+    std::vector<hoa_utils::ustring> _text;
 
-	/** \brief Holds indeces pointing to which line should follow each line of text
-	*** \note When a line contains options, the value stored in this container for that line is never used
-	**/
-	std::vector<int32> _next_lines;
+    /** \brief Holds indeces pointing to which line should follow each line of text
+    *** \note When a line contains options, the value stored in this container for that line is never used
+    **/
+    std::vector<int32> _next_lines;
 
-	//! \brief The display time for each line in the dialogue
-	std::vector<int32> _display_times;
+    //! \brief The display time for each line in the dialogue
+    std::vector<int32> _display_times;
 
-	//! \brief A set of dialogue options indexed according to the line of dialogue that they belong to
-	std::vector<CommonDialogueOptions*> _options;
+    //! \brief A set of dialogue options indexed according to the line of dialogue that they belong to
+    std::vector<CommonDialogueOptions *> _options;
 }; // class CommonDialogue
 
 
@@ -236,48 +257,54 @@ protected:
 *** that will follow. Objects of this class are stored and managed by the CommonDialogue class
 *** to allow options to occur duing a dialogue.
 *** **************************************************************************************/
-class CommonDialogueOptions {
+class CommonDialogueOptions
+{
 public:
-	CommonDialogueOptions()
-		{}
+    CommonDialogueOptions()
+    {}
 
-	virtual ~CommonDialogueOptions()
-		{}
+    virtual ~CommonDialogueOptions()
+    {}
 
-	/** \brief Adds a new option to the set of options
-	*** \param text The text for the new option
-	***
-	*** \note The next line to be read for this option will be the sequential next line of the dialogue
-	**/
-	virtual void AddOption(const std::string& text);
+    /** \brief Adds a new option to the set of options
+    *** \param text The text for the new option
+    ***
+    *** \note The next line to be read for this option will be the sequential next line of the dialogue
+    **/
+    virtual void AddOption(const std::string &text);
 
-	/** \brief Adds a new option to the set of options
-	*** \param text The text for the new option
-	*** \param next_line An integer index of the next line of dialogue should this option be selected.
-	**/
-	virtual void AddOption(const std::string& text, int32 next_line);
+    /** \brief Adds a new option to the set of options
+    *** \param text The text for the new option
+    *** \param next_line An integer index of the next line of dialogue should this option be selected.
+    **/
+    virtual void AddOption(const std::string &text, int32 next_line);
 
-	//! \name Methods for retrieving properties of a specific line
-	//@{
-	//! \brief Returns the text of the option specified
-	hoa_utils::ustring GetOptionText(uint32 option) const
-		{ if (option >= GetNumberOptions()) return hoa_utils::ustring(); else return _text[option]; }
+    //! \name Methods for retrieving properties of a specific line
+    //@{
+    //! \brief Returns the text of the option specified
+    hoa_utils::ustring GetOptionText(uint32 option) const {
+        if(option >= GetNumberOptions()) return hoa_utils::ustring();
+        else return _text[option];
+    }
 
-	//! \brief Returns the line index that follows the line when the given option is selected
-	int32 GetOptionNextLine(uint32 option) const
-		{ if (option >= GetNumberOptions()) return COMMON_DIALOGUE_BAD_VALUE; else return _next_lines[option]; }
-	//@}
+    //! \brief Returns the line index that follows the line when the given option is selected
+    int32 GetOptionNextLine(uint32 option) const {
+        if(option >= GetNumberOptions()) return COMMON_DIALOGUE_BAD_VALUE;
+        else return _next_lines[option];
+    }
+    //@}
 
-	//! \brief Returns the number of options stored by this class
-	uint32 GetNumberOptions() const
-		{ return _text.size(); }
+    //! \brief Returns the number of options stored by this class
+    uint32 GetNumberOptions() const {
+        return _text.size();
+    }
 
 protected:
-	//! \brief Contains the text of each option
-	std::vector<hoa_utils::ustring> _text;
+    //! \brief Contains the text of each option
+    std::vector<hoa_utils::ustring> _text;
 
-	//! \brief A index containing the next line of dialogue that should follow each option
-	std::vector<int32> _next_lines;
+    //! \brief A index containing the next line of dialogue that should follow each option
+    std::vector<int32> _next_lines;
 }; // class CommonDialogueOptions
 
 
@@ -302,85 +329,92 @@ protected:
 *** likely need some options that adjust the drawing code for cases where we do not use a name or
 *** portrait.
 *** ***************************************************************************/
-class CommonDialogueWindow {
+class CommonDialogueWindow
+{
 public:
-	CommonDialogueWindow();
+    CommonDialogueWindow();
 
-	~CommonDialogueWindow()
-		{}
+    ~CommonDialogueWindow()
+    {}
 
-	/** \brief Sets the draw position for the window
-	*** \param pos_x The x coordinate for the center of the window
-	*** \param pos_y The y coordinate for the bottom of the window
-	***
-	*** These positions take effect in a 1024x768 coordinate system and a a (VIDEO_X_LEFT, VIDEO_Y_BOTTOM) draw alignment|
-	*** This function should always be called once when setting up the dialogue window before the first draw call is made.
-	**/
-	void SetPosition(float pos_x, float pos_y);
+    /** \brief Sets the draw position for the window
+    *** \param pos_x The x coordinate for the center of the window
+    *** \param pos_y The y coordinate for the bottom of the window
+    ***
+    *** These positions take effect in a 1024x768 coordinate system and a a (VIDEO_X_LEFT, VIDEO_Y_BOTTOM) draw alignment|
+    *** This function should always be called once when setting up the dialogue window before the first draw call is made.
+    **/
+    void SetPosition(float pos_x, float pos_y);
 
-	//! \brief Clears all text from the window
-	void Clear();
+    //! \brief Clears all text from the window
+    void Clear();
 
-	//! \brief Draws the dialogue window and all other visuals
-	void Draw();
+    //! \brief Draws the dialogue window and all other visuals
+    void Draw();
 
-	//! \name Class member access methods
-	//@{
-	hoa_gui::TextBox& GetDisplayTextBox()
-		{ return _display_textbox; }
+    //! \name Class member access methods
+    //@{
+    hoa_gui::TextBox &GetDisplayTextBox() {
+        return _display_textbox;
+    }
 
-	hoa_gui::OptionBox& GetDisplayOptionBox()
-		{ return _display_optionbox; }
+    hoa_gui::OptionBox &GetDisplayOptionBox() {
+        return _display_optionbox;
+    }
 
-	hoa_video::TextImage& GetNameText()
-		{ return _name_text; }
+    hoa_video::TextImage &GetNameText() {
+        return _name_text;
+    }
 
-	hoa_video::StillImage* GetPortraitImage() const
-		{ return _portrait_image; }
+    hoa_video::StillImage *GetPortraitImage() const {
+        return _portrait_image;
+    }
 
-	void SetPortraitImage(hoa_video::StillImage* image)
-		{ _portrait_image = image; }
+    void SetPortraitImage(hoa_video::StillImage *image) {
+        _portrait_image = image;
+    }
 
-	void SetIndicator(uint8 type)
-		{ _indicator_symbol = type; }
-	//@}
+    void SetIndicator(uint8 type) {
+        _indicator_symbol = type;
+    }
+    //@}
 
 private:
-	//! \brief Stores the draw coordinates for the bottom center of the dialogue window
-	float _pos_x, _pos_y;
+    //! \brief Stores the draw coordinates for the bottom center of the dialogue window
+    float _pos_x, _pos_y;
 
-	//! \brief A parchment paper image embedded within the dialogue window
-	hoa_video::StillImage _parchment_image;
+    //! \brief A parchment paper image embedded within the dialogue window
+    hoa_video::StillImage _parchment_image;
 
-	//! \brief The nameplate image used along with the dialogue box image
-	hoa_video::StillImage _nameplate_image;
+    //! \brief The nameplate image used along with the dialogue box image
+    hoa_video::StillImage _nameplate_image;
 
-	//! \brief The image indicating following dialogue lines
-	hoa_video::StillImage _next_line_image;
+    //! \brief The image indicating following dialogue lines
+    hoa_video::StillImage _next_line_image;
 
-	//! \brief The image indicating the last line of a dialogue
-	hoa_video::StillImage _last_line_image;
+    //! \brief The image indicating the last line of a dialogue
+    hoa_video::StillImage _last_line_image;
 
-	//! \brief The indicator symbol to use (arrow, end_of_dialogue_symbol, or none)
-	uint8 _indicator_symbol;
+    //! \brief The indicator symbol to use (arrow, end_of_dialogue_symbol, or none)
+    uint8 _indicator_symbol;
 
-	//! \brief The counter for the blinking indicators
-	uint16 _blink_time;
+    //! \brief The counter for the blinking indicators
+    uint16 _blink_time;
 
-	//! \brief The status of the blinking indicators
-	bool _blink_state;
+    //! \brief The status of the blinking indicators
+    bool _blink_state;
 
-	//! \brief The textbox used for rendering the dialogue text
-	hoa_gui::TextBox _display_textbox;
+    //! \brief The textbox used for rendering the dialogue text
+    hoa_gui::TextBox _display_textbox;
 
-	//! \brief The option box used for rendering dialogue options where applicable
-	hoa_gui::OptionBox _display_optionbox;
+    //! \brief The option box used for rendering dialogue options where applicable
+    hoa_gui::OptionBox _display_optionbox;
 
-	//! \brief Holds the name of the speaker
-	hoa_video::TextImage _name_text;
+    //! \brief Holds the name of the speaker
+    hoa_video::TextImage _name_text;
 
-	//! \brief A pointer to a portrait image to display alongside the text. A NULL value will display no portrait
-	hoa_video::StillImage* _portrait_image;
+    //! \brief A pointer to a portrait image to display alongside the text. A NULL value will display no portrait
+    hoa_video::StillImage *_portrait_image;
 }; // class CommonDialogueWindow
 
 
@@ -399,73 +433,78 @@ private:
 *** This is perfectly acceptable, although the creator of such classes would be wise to try
 *** and follow the structure and API laid out in this base class as closely as is reasonable.
 *** ***************************************************************************/
-class CommonDialogueSupervisor {
+class CommonDialogueSupervisor
+{
 public:
-	CommonDialogueSupervisor();
+    CommonDialogueSupervisor();
 
-	~CommonDialogueSupervisor();
+    ~CommonDialogueSupervisor();
 
-	//! \brief Processes user input and updates the state of the dialogue
-	virtual void Update() = 0;
+    //! \brief Processes user input and updates the state of the dialogue
+    virtual void Update() = 0;
 
-	//! \brief Draws the dialogue window, text, portraits, and other visuals to the screen
-	virtual void Draw() = 0;
+    //! \brief Draws the dialogue window, text, portraits, and other visuals to the screen
+    virtual void Draw() = 0;
 
-	/** \brief Adds a new dialogue to be managed by the supervisor
-	*** \param dialogue Pointer to a CommonDialogue object that was created with the new operator
-	***
-	*** The dialogue to add must have a unique dialogue ID that is not already stored by this class
-	*** instance. If a dialogue is found with the same ID, the dialogue will not be added and the
-	*** dialogue object will be deleted from memory. All dialogues that are successfully added will
-	*** be later deleted when this class' destructor is invoked, so make sure you only pass in objects
-	*** that were created with the "new" operator.
-	**/
-	virtual void AddDialogue(CommonDialogue* dialogue);
+    /** \brief Adds a new dialogue to be managed by the supervisor
+    *** \param dialogue Pointer to a CommonDialogue object that was created with the new operator
+    ***
+    *** The dialogue to add must have a unique dialogue ID that is not already stored by this class
+    *** instance. If a dialogue is found with the same ID, the dialogue will not be added and the
+    *** dialogue object will be deleted from memory. All dialogues that are successfully added will
+    *** be later deleted when this class' destructor is invoked, so make sure you only pass in objects
+    *** that were created with the "new" operator.
+    **/
+    virtual void AddDialogue(CommonDialogue *dialogue);
 
-	/** \brief Prepares the dialogue manager to begin processing a new dialogue
-	*** \param dialogue_id The id number of the dialogue to begin
-	**/
-	virtual void BeginDialogue(uint32 dialogue_id);
+    /** \brief Prepares the dialogue manager to begin processing a new dialogue
+    *** \param dialogue_id The id number of the dialogue to begin
+    **/
+    virtual void BeginDialogue(uint32 dialogue_id);
 
-	//! \brief Immediately ends any dialogue that is taking place
-	virtual void EndDialogue();
+    //! \brief Immediately ends any dialogue that is taking place
+    virtual void EndDialogue();
 
-	/** \brief Returns a pointer to the CommonDialogue with the requested ID value
-	*** \param dialogue_id The identification number of the dialogue to retrieve
-	*** \return A pointer to the dialogue requested, or NULL if no such dialogue was found
-	**/
-	CommonDialogue* GetDialogue(uint32 dialogue_id);
+    /** \brief Returns a pointer to the CommonDialogue with the requested ID value
+    *** \param dialogue_id The identification number of the dialogue to retrieve
+    *** \return A pointer to the dialogue requested, or NULL if no such dialogue was found
+    **/
+    CommonDialogue *GetDialogue(uint32 dialogue_id);
 
-	//! \name Class member access functions
-	//@{
-	CommonDialogue* GetCurrentDialogue() const
-		{ return _current_dialogue; }
+    //! \name Class member access functions
+    //@{
+    CommonDialogue *GetCurrentDialogue() const {
+        return _current_dialogue;
+    }
 
-	CommonDialogueOptions* GetCurrentOptions() const
-		{ return _current_options; }
+    CommonDialogueOptions *GetCurrentOptions() const {
+        return _current_options;
+    }
 
-	hoa_system::SystemTimer& GetLineTimer()
-		{ return _line_timer; }
+    hoa_system::SystemTimer &GetLineTimer() {
+        return _line_timer;
+    }
 
-	uint32 GetLineCounter() const
-		{ return _line_counter; }
-	//@}
+    uint32 GetLineCounter() const {
+        return _line_counter;
+    }
+    //@}
 
 protected:
-	//! \brief Contains all dialogues managed by this class instance in a std::map structure. The dialogue ID is the map key
-	std::map<uint32, CommonDialogue*> _dialogues;
+    //! \brief Contains all dialogues managed by this class instance in a std::map structure. The dialogue ID is the map key
+    std::map<uint32, CommonDialogue *> _dialogues;
 
-	//! \brief A pointer to the current piece of dialogue that is active
-	CommonDialogue* _current_dialogue;
+    //! \brief A pointer to the current piece of dialogue that is active
+    CommonDialogue *_current_dialogue;
 
-	//! \brief A pointer to the current set of options for the active dialogue line
-	CommonDialogueOptions* _current_options;
+    //! \brief A pointer to the current set of options for the active dialogue line
+    CommonDialogueOptions *_current_options;
 
-	//! \brief A timer that employed for dialogues which have a display time limit
-	hoa_system::SystemTimer _line_timer;
+    //! \brief A timer that employed for dialogues which have a display time limit
+    hoa_system::SystemTimer _line_timer;
 
-	//! \brief Keeps track of which line is active for the current dialogue
-	uint32 _line_counter;
+    //! \brief Keeps track of which line is active for the current dialogue
+    uint32 _line_counter;
 }; // class CommonDialogueSupervisor
 
 } // namespace hoa_common
