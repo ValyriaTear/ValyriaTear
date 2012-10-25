@@ -650,8 +650,9 @@ protected:
 	float _sprite_alpha;
 
 	/** \brief Decides what action that the enemy should execute and the target
-	*** \todo This function is extremely rudimentary right now. Later, it should be given a more complete
-	*** AI decision making algorithm
+	*** This function is used as a fallback when no AI script is set for the given enemy.
+	*** \todo More complete AI decision making algorithms should be supported
+	*** through lua scripts.
 	**/
 	void _DecideAction();
 }; // class BattleEnemy

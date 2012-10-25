@@ -881,7 +881,6 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state) {
 	switch (_state) {
 		case ACTOR_STATE_COMMAND:
 			_DecideAction();
-			ChangeState(ACTOR_STATE_WARM_UP);
 			break;
 		case ACTOR_STATE_ACTING:
 			_state_timer.Initialize(400); // Default monster action time
@@ -983,68 +982,125 @@ void BattleEnemy::DrawSprite() {
 	}
 } // void BattleEnemy::DrawSprite()
 
+// TODO: No party target will work, this will have to be addressed eventually.
+// The use of a skill on dead enemies is not supported either.
 void BattleEnemy::_DecideAction() {
-	if (_global_enemy->GetSkills().empty() == true) {
+	if (_global_enemy->GetSkills().empty()) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "enemy had no usable skills" << std::endl;
 		ChangeState(ACTOR_STATE_IDLE);
 		return;
 	}
 
-	// TODO: this method is mostly temporary and makes no intelligent decisions about what action to
-	// take or on what target to select. Currently this method does the following.
-	//
-	// (1): select a random skill from the list that the enemy can execute
-	// (2): select a random character that is not in the dead state to target
-	// (3): select a random attack point on the selected character target
-	//
-	// Therefore, only skills that target attack points on enemies are valid. No party or actor targets
-	// will work. Obviously these needs will be addressed eventually.
-
-	// TEMP: select a random skill to use
-	uint32 skill_index = 0;
-	if (_enemy_skills.size() > 1) {
-		skill_index = RandomBoundedInteger(0, _enemy_skills.size() - 1);
-	}
-	GlobalSkill* skill = _enemy_skills[skill_index];
-
-	// TEMP: select a random living character in the party for the target
-	BattleTarget target;
-
-	std::deque<BattleCharacter*> alive_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-	std::deque<BattleCharacter*>::iterator character_iterator = alive_characters.begin();
-	while (character_iterator != alive_characters.end()) {
-		if ((*character_iterator)->IsAlive() == false)
-			character_iterator = alive_characters.erase(character_iterator);
+	// Obtain the living characters
+	std::deque<BattleActor*> alive_characters = BattleMode::CurrentInstance()->GetCharacterParty();
+	std::deque<BattleActor*>::iterator actor_iterator = alive_characters.begin();
+	while (actor_iterator != alive_characters.end()) {
+		if (!(*actor_iterator)->IsAlive())
+			actor_iterator = alive_characters.erase(actor_iterator);
 		else
-			character_iterator++;
+			++actor_iterator;
 	}
-
-	if (alive_characters.empty() == true) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters were alive when enemy was selecting a target" << std::endl;
+	if (alive_characters.empty()) {
 		ChangeState(ACTOR_STATE_IDLE);
 		return;
 	}
 
-	uint32 point_target = 0;
+	// and the living enemies
+	std::deque<BattleActor*> alive_enemies = BattleMode::CurrentInstance()->GetEnemyParty();
+	actor_iterator = alive_enemies.begin();
+	while (actor_iterator != alive_enemies.end()) {
+		if (!(*actor_iterator)->IsAlive())
+			actor_iterator = alive_enemies.erase(actor_iterator);
+		else
+			++actor_iterator;
+	}
+
+	if (alive_enemies.empty()) {
+		// it means that the enemy actually thinking now is already dead.
+		PRINT_WARNING << "An enemy was deciding an action while being dead." << std::endl;
+		ChangeState(ACTOR_STATE_IDLE);
+		return;
+	}
+
+	// Targeting members
+	BattleTarget target;
 	BattleActor* actor_target = NULL;
 
-	// TEMP: select a random living character
-	if (alive_characters.size() == 1)
-		actor_target = alive_characters[0];
-	else
-		actor_target = alive_characters[RandomBoundedInteger(0, alive_characters.size() - 1)];
+	// Select a random skill to use
+	uint32 skill_index = 0;
+	if (_enemy_skills.size() > 1)
+		skill_index = RandomBoundedInteger(0, _enemy_skills.size() - 1);
+	GlobalSkill* skill = _enemy_skills[skill_index];
 
-	// TEMP: select a random attack point on the target character
-	uint32 num_points = actor_target->GetAttackPoints().size();
-	if (num_points == 1)
-		point_target = 0;
-	else
-		point_target = RandomBoundedInteger(0, num_points - 1);
+	// Select the target
+	GLOBAL_TARGET target_type = skill->GetTargetType();
+	switch (target_type) {
+		case GLOBAL_TARGET_FOE_POINT:
+		case GLOBAL_TARGET_FOE:
+			// Select a random living character
+			if (alive_characters.size() == 1)
+				actor_target = alive_characters[0];
+			else
+				actor_target = alive_characters[RandomBoundedInteger(0, alive_characters.size() - 1)];
+			break;
+		case GLOBAL_TARGET_SELF_POINT:
+		case GLOBAL_TARGET_SELF:
+			actor_target = this;
+			break;
+		case GLOBAL_TARGET_ALLY_POINT:
+		case GLOBAL_TARGET_ALLY:
+		case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+			// Select a random living enemy, selecting a dead enemy ally is unsupported at the moment.
+			if (alive_enemies.size() == 1)
+				actor_target = alive_enemies[0];
+			else
+				actor_target = alive_enemies[RandomBoundedInteger(0, alive_enemies.size() - 1)];
+			break;
+		case GLOBAL_TARGET_ALL_FOES: // TODO: Add support for this
+		case GLOBAL_TARGET_ALL_ALLIES: // TODO: Add support for this
+		default:
+			PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
+			ChangeState(ACTOR_STATE_IDLE);
+			return;
+			break;
+	}
 
-	// TEMP: Should not statically assign to target a foe point. Examine the selected skill's target type
-	target.SetPointTarget(GLOBAL_TARGET_FOE_POINT, point_target, actor_target);
+    // Potentially select the target point and finsh targeting
+    switch (target_type) {
+		case GLOBAL_TARGET_SELF_POINT:
+		case GLOBAL_TARGET_FOE_POINT:
+		case GLOBAL_TARGET_ALLY_POINT:
+		{
+			// Select a random attack point on the target
+			uint32 num_points = actor_target->GetAttackPoints().size();
+			uint32 point_target = 0;
+			if (num_points == 1)
+				point_target = 0;
+			else
+				point_target = RandomBoundedInteger(0, num_points - 1);
+
+			target.SetPointTarget(target_type, point_target, actor_target);
+			break;
+		}
+
+		case GLOBAL_TARGET_FOE:
+		case GLOBAL_TARGET_SELF:
+		case GLOBAL_TARGET_ALLY:
+		case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+			target.SetActorTarget(target_type, actor_target);
+			break;
+
+		case GLOBAL_TARGET_ALL_FOES: // TODO: Add support for this
+		case GLOBAL_TARGET_ALL_ALLIES: // TODO: Add support for this
+		default:
+			PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
+			ChangeState(ACTOR_STATE_IDLE);
+			return;
+			break;
+	}
 
 	SetAction(new SkillAction(this, target, skill));
+	ChangeState(ACTOR_STATE_WARM_UP);
 }
 
 } // namespace private_battle

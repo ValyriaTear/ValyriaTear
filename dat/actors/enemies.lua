@@ -606,7 +606,8 @@ enemies[10] = {
 	},
 
 	skills = {
-		1004
+		1004, -- Normal attack
+		7     -- Fire burst
 	},
 
 	drop_objects = {
@@ -669,7 +670,8 @@ enemies[11] = {
 	},
 
 	skills = {
-		1004
+		1004, -- Normal attack
+		10002 -- First Aid
 	},
 
 	drop_objects = {
