@@ -25,9 +25,11 @@
 
 #include "shop_utils.h"
 
-namespace hoa_shop {
+namespace hoa_shop
+{
 
-namespace private_shop {
+namespace private_shop
+{
 
 /** ****************************************************************************
 *** \brief Manages the shop when it is in sell mode and enables the player to sell their inventory
@@ -44,116 +46,117 @@ namespace private_shop {
 *** particular case would most certainly cause shop mode to crash upon entering the sell
 *** interface.
 *** ***************************************************************************/
-class SellInterface : public ShopInterface {
+class SellInterface : public ShopInterface
+{
 public:
-	SellInterface();
+    SellInterface();
 
-	~SellInterface();
+    ~SellInterface();
 
-	//! \brief (Re)initializes the data conatiners and GUI objects to be used
-	void Reinitialize();
+    //! \brief (Re)initializes the data conatiners and GUI objects to be used
+    void Reinitialize();
 
-	//! \brief Sets the selected object for the ShopObjectViewer class
-	void MakeActive();
+    //! \brief Sets the selected object for the ShopObjectViewer class
+    void MakeActive();
 
-	//! \brief Completely reconstructs all display lists from the party's inventory
-	void TransactionNotification();
+    //! \brief Completely reconstructs all display lists from the party's inventory
+    void TransactionNotification();
 
-	//! \brief Processes user input and sends appropriate commands to helper class objects
-	void Update();
+    //! \brief Processes user input and sends appropriate commands to helper class objects
+    void Update();
 
-	//! \brief Draws the GUI elements to the screen
-	void Draw();
+    //! \brief Draws the GUI elements to the screen
+    void Draw();
 
 private:
-	//! \brief Stores the active view state of the sell interface
-	SHOP_VIEW_MODE _view_mode;
+    //! \brief Stores the active view state of the sell interface
+    SHOP_VIEW_MODE _view_mode;
 
-	//! \brief A pointer to the currently selected object in the active list display
-	ShopObject* _selected_object;
+    //! \brief A pointer to the currently selected object in the active list display
+    ShopObject *_selected_object;
 
-	//! \brief A bit vector that represents the types of merchandise that the player can sell.
-	uint8 _sell_deal_types;
+    //! \brief A bit vector that represents the types of merchandise that the player can sell.
+    uint8 _sell_deal_types;
 
-	//! \brief Retains the number of object categories available to sell
-	uint32 _number_categories;
+    //! \brief Retains the number of object categories available to sell
+    uint32 _number_categories;
 
-	//! \brief Serves as an index to the following containers: _object_data, _category_names, _category_icons, and _list_displays
-	uint32 _current_category;
+    //! \brief Serves as an index to the following containers: _object_data, _category_names, _category_icons, and _list_displays
+    uint32 _current_category;
 
-	//! \brief Header text for the category field
-	hoa_video::TextImage _category_header;
+    //! \brief Header text for the category field
+    hoa_video::TextImage _category_header;
 
-	//! \brief Header text for the name field
-	hoa_video::TextImage _name_header;
+    //! \brief Header text for the name field
+    hoa_video::TextImage _name_header;
 
-	//! \brief Header text for the list of object properties (refer to the SellListDisplay class)
-	hoa_gui::OptionBox _properties_header;
+    //! \brief Header text for the list of object properties (refer to the SellListDisplay class)
+    hoa_gui::OptionBox _properties_header;
 
-	//! \brief String representations of all category names that may
-	std::vector<hoa_utils::ustring> _category_names;
+    //! \brief String representations of all category names that may
+    std::vector<hoa_utils::ustring> _category_names;
 
-	//! \brief A pointer to icon images
-	std::vector<hoa_video::StillImage*> _category_icons;
+    //! \brief A pointer to icon images
+    std::vector<hoa_video::StillImage *> _category_icons;
 
-	//! \brief Display manager for the current category of objects selected
-	ObjectCategoryDisplay _category_display;
+    //! \brief Display manager for the current category of objects selected
+    ObjectCategoryDisplay _category_display;
 
-	/** \brief Class objects used to display the object data to the player
-	*** The size and contents of this container mimic that which is found in the _object_data container.
-	**/
-	std::vector<SellListDisplay*> _list_displays;
+    /** \brief Class objects used to display the object data to the player
+    *** The size and contents of this container mimic that which is found in the _object_data container.
+    **/
+    std::vector<SellListDisplay *> _list_displays;
 
-	//! \brief A copy of the selected object's icon, scaled to 1/4 size
-	hoa_video::StillImage _selected_icon;
+    //! \brief A copy of the selected object's icon, scaled to 1/4 size
+    hoa_video::StillImage _selected_icon;
 
-	//! \brief Text image of the selected object's name
-	hoa_video::TextImage _selected_name;
+    //! \brief Text image of the selected object's name
+    hoa_video::TextImage _selected_name;
 
-	//! \brief A single row option box containing the selected object's properties
-	hoa_gui::OptionBox _selected_properties;
+    //! \brief A single row option box containing the selected object's properties
+    hoa_gui::OptionBox _selected_properties;
 
-	/**
-	***  Update the available deal types. Called only in _RefreshItemCategories().
-	*/
-	void _UpdateAvailableSellDealTypes();
+    /**
+    ***  Update the available deal types. Called only in _RefreshItemCategories().
+    */
+    void _UpdateAvailableSellDealTypes();
 
-	/**
-	*** Refresh the available item categories.
-	**/
-	void _RefreshItemCategories();
+    /**
+    *** Refresh the available item categories.
+    **/
+    void _RefreshItemCategories();
 
-	/** \brief Clears out all list displays and rebuilds them from scratch using the party's inventory
-	*** This operation needs to be performed when the interface is initialized and whenever a transaction
-	*** occurs. The latter case is necessary because in a transaction, the player may have bought new
-	*** objects which should be made available to sell immediately, or the player may have sold off all
-	*** counts of objects that they already had and thus these objects should not appear on the sell list
-	*** anymore.
-	**/
-	void _PopulateLists();
+    /** \brief Clears out all list displays and rebuilds them from scratch using the party's inventory
+    *** This operation needs to be performed when the interface is initialized and whenever a transaction
+    *** occurs. The latter case is necessary because in a transaction, the player may have bought new
+    *** objects which should be made available to sell immediately, or the player may have sold off all
+    *** counts of objects that they already had and thus these objects should not appear on the sell list
+    *** anymore.
+    **/
+    void _PopulateLists();
 
-	/** \brief Takes all necessary action for when the active view mode is to be altered
-	*** \param new_mode The new view mode to set
-	**/
-	void _ChangeViewMode(SHOP_VIEW_MODE new_mode);
+    /** \brief Takes all necessary action for when the active view mode is to be altered
+    *** \param new_mode The new view mode to set
+    **/
+    void _ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
-	/** \brief Changes the current category and object list that is being displayed
-	*** \param left_or_right False to move the category to the left, or true for the right
-	*** \return True if the _selected_object member has changed
-	**/
-	bool _ChangeCategory(bool left_or_right);
+    /** \brief Changes the current category and object list that is being displayed
+    *** \param left_or_right False to move the category to the left, or true for the right
+    *** \return True if the _selected_object member has changed
+    **/
+    bool _ChangeCategory(bool left_or_right);
 
-	/** \brief Changes the current selection in the object list
-	*** \param up_or_down False to move the selection cursor up, or true to move it down
-	*** \return True if the _selected_object member has changed
-	**/
-	bool _ChangeSelection(bool up_or_down);
+    /** \brief Changes the current selection in the object list
+    *** \param up_or_down False to move the selection cursor up, or true to move it down
+    *** \return True if the _selected_object member has changed
+    **/
+    bool _ChangeSelection(bool up_or_down);
 
-	/** \brief Refreshes the text in the _selected_properties OptionBox
-	*** This method only needs to be called when the properties (likely quantity) change
-	*** in the "info" view mode. Calling it while in "list" view is wasted effort
-	**/
-	void _RefreshSelectedProperties();
+    /** \brief Refreshes the text in the _selected_properties OptionBox
+    *** This method only needs to be called when the properties (likely quantity) change
+    *** in the "info" view mode. Calling it while in "list" view is wasted effort
+    **/
+    void _RefreshSelectedProperties();
 }; // class SellInterface : public ShopInterface
 
 
@@ -165,36 +168,37 @@ private:
 *** requested sell quantity. Only sell quantity requires regular refreshing based upon
 *** the player's actions while the sell interface is active.
 *** ***************************************************************************/
-class SellListDisplay : public ObjectListDisplay {
+class SellListDisplay : public ObjectListDisplay
+{
 public:
-	SellListDisplay()
-		{}
+    SellListDisplay()
+    {}
 
-	~SellListDisplay()
-		{}
+    ~SellListDisplay()
+    {}
 
-	//! \brief Reconstructs all option box entries from the object data
-	void ReconstructList();
+    //! \brief Reconstructs all option box entries from the object data
+    void ReconstructList();
 
-	/** \brief Will refresh the displayed sell count property for a single list entry
-	*** \param index The index of the object data to reconstruct
-	***
-	*** The reason that only sell quantity is refreshed is that no other property data needs to be
-	*** updated while in the sell interface. All other data remains static and require updating
-	*** only after a shop transaction is completed.
-	**/
-	void RefreshEntry(uint32 index);
+    /** \brief Will refresh the displayed sell count property for a single list entry
+    *** \param index The index of the object data to reconstruct
+    ***
+    *** The reason that only sell quantity is refreshed is that no other property data needs to be
+    *** updated while in the sell interface. All other data remains static and require updating
+    *** only after a shop transaction is completed.
+    **/
+    void RefreshEntry(uint32 index);
 
-	/** \brief Changes the sell count of the selected object, refreshes the list entry, and updates financial totals
-	*** \param less_or_more False to decrease the quantity, true to increase it
-	*** \param amount The amount to decrease/increase the quantity by (default value == 1)
-	*** \return False if no quantity change could take place, true if a quantity change did occur
-	*** \note Even if the function returns true, there is no guarantee that the requested amount
-	*** was fully met. For example, if the function is asked to increase the sell quantity by 8 but
-	*** the player only has 3 instances of the selected object in inventory, the function will increase
-	*** the quantity by 3 (not 8) and return true.
-	**/
-	bool ChangeSellQuantity(bool more, uint32 amount = 1);
+    /** \brief Changes the sell count of the selected object, refreshes the list entry, and updates financial totals
+    *** \param less_or_more False to decrease the quantity, true to increase it
+    *** \param amount The amount to decrease/increase the quantity by (default value == 1)
+    *** \return False if no quantity change could take place, true if a quantity change did occur
+    *** \note Even if the function returns true, there is no guarantee that the requested amount
+    *** was fully met. For example, if the function is asked to increase the sell quantity by 8 but
+    *** the player only has 3 instances of the selected object in inventory, the function will increase
+    *** the quantity by 3 (not 8) and return true.
+    **/
+    bool ChangeSellQuantity(bool more, uint32 amount = 1);
 }; // class SellListDisplay : public ObjectListDisplay
 
 } // namespace private_shop

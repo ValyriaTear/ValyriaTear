@@ -21,33 +21,36 @@
 
 #include "shop_utils.h"
 
-namespace hoa_shop {
+namespace hoa_shop
+{
 
-namespace private_shop {
+namespace private_shop
+{
 
 /** ****************************************************************************
 *** \brief Manages the shop where the player is allowed to trade current equipment on their characters
 ***
 *** \todo This interface remains incomplete and will be finished at a later time.
 *** ***************************************************************************/
-class TradeInterface : public ShopInterface {
+class TradeInterface : public ShopInterface
+{
 public:
-	TradeInterface();
+    TradeInterface();
 
-	~TradeInterface();
+    ~TradeInterface();
 
-	void Reinitialize();
+    void Reinitialize();
 
-	void MakeActive();
+    void MakeActive();
 
-	void TransactionNotification();
+    void TransactionNotification();
 
-	void Update();
+    void Update();
 
-	void Draw();
+    void Draw();
 
-	//! \brief Temporary text image stating that this interface is unavailable
-	hoa_video::TextImage TEMP_feature_unavailable;
+    //! \brief Temporary text image stating that this interface is unavailable
+    hoa_video::TextImage TEMP_feature_unavailable;
 }; // class TradeInterface : public ShopInterface
 
 } // namespace private_shop

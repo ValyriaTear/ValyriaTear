@@ -21,9 +21,11 @@
 
 #include "shop_utils.h"
 
-namespace hoa_shop {
+namespace hoa_shop
+{
 
-namespace private_shop {
+namespace private_shop
+{
 
 /** ****************************************************************************
 *** \brief Assists the RootInterface in proper draw orientation of object category icons and text
@@ -35,20 +37,21 @@ namespace private_shop {
 *** depending on whether one or two rows are to be drawn. The x draw position of the category icons and text is
 *** also variable depending on the number of categories to be drawn in that row.
 *** ***************************************************************************/
-class CategoryDrawData {
+class CategoryDrawData
+{
 public:
-	/** \brief Determines the appropriate values to set for each class member
-	*** \param number_categories The total number of object categories to draw. Valid range: 1-8
-	**/
-	void ComputeCoordinates(uint8 number_categories);
+    /** \brief Determines the appropriate values to set for each class member
+    *** \param number_categories The total number of object categories to draw. Valid range: 1-8
+    **/
+    void ComputeCoordinates(uint8 number_categories);
 
-	/** \brief The number of object categories in the first and second rows
-	*** \note The first row may have 1-4 categories and the second row may have 0-4 categories
-	**/
-	uint8 first_row_num, second_row_num;
+    /** \brief The number of object categories in the first and second rows
+    *** \note The first row may have 1-4 categories and the second row may have 0-4 categories
+    **/
+    uint8 first_row_num, second_row_num;
 
-	//! \brief Starting draw positions for the first and second rows of object categories
-	float first_row_x, first_row_y, second_row_x, second_row_y;
+    //! \brief Starting draw positions for the first and second rows of object categories
+    float first_row_x, first_row_y, second_row_x, second_row_y;
 }; // class CategoryDrawData
 
 
@@ -76,64 +79,65 @@ public:
 *** Finally, the bottom window contains nothing more than a short message or greeting from the
 *** shop keeper.
 *** ***************************************************************************/
-class RootInterface : public ShopInterface {
+class RootInterface : public ShopInterface
+{
 public:
-	RootInterface();
+    RootInterface();
 
-	~RootInterface() {}
+    ~RootInterface() {}
 
-	//! \brief (Re)initializes various textual and image data based on the shop properties
-	void Reinitialize();
+    //! \brief (Re)initializes various textual and image data based on the shop properties
+    void Reinitialize();
 
-	//! \brief No actions need to take place when this interface becomes activated
-	void MakeActive()
-		{}
+    //! \brief No actions need to take place when this interface becomes activated
+    void MakeActive()
+    {}
 
-	//! \brief No actions need to take place when a transaction occurs
-	void TransactionNotification()
-		{}
+    //! \brief No actions need to take place when a transaction occurs
+    void TransactionNotification()
+    {}
 
-	//! \brief Updates the state of GUI objects and may also process user input
-	void Update();
+    //! \brief Updates the state of GUI objects and may also process user input
+    void Update();
 
-	//! \brief Draws the root window and, if shop mode is in the correct state, the greeting window
-	void Draw();
+    //! \brief Draws the root window and, if shop mode is in the correct state, the greeting window
+    void Draw();
 
-	/** \brief Create's the shop name's text
-	*** \param name The name of the shop
-	**/
-	void SetShopName(hoa_utils::ustring name);
+    /** \brief Create's the shop name's text
+    *** \param name The name of the shop
+    **/
+    void SetShopName(hoa_utils::ustring name);
 
-	/** \brief Creates the shop keeper's greeting message text
-	*** \param greeting The textual greeting
-	**/
-	void SetGreetingText(hoa_utils::ustring greeting);
+    /** \brief Creates the shop keeper's greeting message text
+    *** \param greeting The textual greeting
+    **/
+    void SetGreetingText(hoa_utils::ustring greeting);
 
 private:
-	//! \brief The rendered text image of the shop name
-	hoa_video::TextImage _shop_name;
+    //! \brief The rendered text image of the shop name
+    hoa_video::TextImage _shop_name;
 
-	//! \brief Text for displaying price levels
-	hoa_video::TextImage _buy_price_text, _sell_price_text;
+    //! \brief Text for displaying price levels
+    hoa_video::TextImage _buy_price_text, _sell_price_text;
 
-	//! \brief A composite image for the star rating of the buy and sell price levels
-	hoa_video::CompositeImage _buy_price_rating, _sell_price_rating;
+    //! \brief A composite image for the star rating of the buy and sell price levels
+    hoa_video::CompositeImage _buy_price_rating, _sell_price_rating;
 
-	/** \brief Container for the text object representing each object category's name
-	*** Categories which the shop does not deal in will have their text rendered in grayscale
-	**/
-	std::vector<hoa_video::TextImage> _category_names;
+    /** \brief Container for the text object representing each object category's name
+    *** Categories which the shop does not deal in will have their text rendered in grayscale
+    **/
+    std::vector<hoa_video::TextImage> _category_names;
 
-	/** \brief Container for icon images that represent each object category
-	*** Categories which the shop does not deal in will have their icon rendered in grayscale
-	**/
-	std::vector<hoa_video::StillImage> _category_icons;
+    /** \brief Container for icon images that represent each object category
+    *** Categories which the shop does not deal in will have their icon rendered in grayscale
+    **/
+    std::vector<hoa_video::StillImage> _category_icons;
 
-	//! \brief A textbox displaying a short greeting or message from the shop keeper
-	hoa_gui::TextBox _greeting_text;
+    //! \brief A textbox displaying a short greeting or message from the shop keeper
+    hoa_gui::TextBox _greeting_text;
 
-	//! \brief A container holding the correct draw coordinates and information for object categories
-	CategoryDrawData _category_draw_data;
+    //! \brief A container holding the correct draw coordinates and information for object categories
+    CategoryDrawData _category_draw_data;
 }; // class RootInterface : public ShopInterface
 
 } // namespace private_shop

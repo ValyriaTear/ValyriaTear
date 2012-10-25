@@ -33,56 +33,65 @@ using namespace hoa_system;
 using namespace hoa_video;
 using namespace hoa_global;
 
-namespace hoa_shop {
+namespace hoa_shop
+{
 
-namespace private_shop {
+namespace private_shop
+{
 
 // *****************************************************************************
 // ***** TradeInterface class methods
 // *****************************************************************************
 
-TradeInterface::TradeInterface() {
-	TEMP_feature_unavailable.SetStyle(TextStyle("text24"));
-	TEMP_feature_unavailable.SetText(UTranslate("This feature is not yet available."));
+TradeInterface::TradeInterface()
+{
+    TEMP_feature_unavailable.SetStyle(TextStyle("text24"));
+    TEMP_feature_unavailable.SetText(UTranslate("This feature is not yet available."));
 }
 
 
 
-TradeInterface::~TradeInterface() {
-
-}
-
-
-
-void TradeInterface::Reinitialize() {
-
-}
-
-
-
-void TradeInterface::MakeActive() {
+TradeInterface::~TradeInterface()
+{
 
 }
 
 
 
-void TradeInterface::TransactionNotification() {
+void TradeInterface::Reinitialize()
+{
 
 }
 
 
 
-void TradeInterface::Update() {
-	if (InputManager->ConfirmPress() || InputManager->CancelPress()) {
-		ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
-	}
+void TradeInterface::MakeActive()
+{
+
 }
 
 
 
-void TradeInterface::Draw() {
-	VideoManager->Move(512.0f, 405.0f);
-	TEMP_feature_unavailable.Draw();
+void TradeInterface::TransactionNotification()
+{
+
+}
+
+
+
+void TradeInterface::Update()
+{
+    if(InputManager->ConfirmPress() || InputManager->CancelPress()) {
+        ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
+    }
+}
+
+
+
+void TradeInterface::Draw()
+{
+    VideoManager->Move(512.0f, 405.0f);
+    TEMP_feature_unavailable.Draw();
 }
 
 } // namespace private_shop
