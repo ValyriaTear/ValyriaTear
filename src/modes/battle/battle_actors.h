@@ -262,6 +262,8 @@ public:
 	/** \brief Causes a change in a character's status
 	*** \param status The type of status to change
 	*** \param intensity The intensity of the change
+	*** \param duration A potential duration time (in milliseconds) used to setup custom effect lengths.
+	*** A fall back value is used otherwise.
 	***
 	*** This is the single method for registering a change in status for an actor. It can be used to add
 	*** a new status, remove an existing status, or change the intensity level of an existing status. A
@@ -289,7 +291,14 @@ public:
 	*** If the desired effect does yield a change in status, this function will prepare an indicator image
 	*** to be displayed representing the change in status.
 	**/
-	void RegisterStatusChange(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity);
+	void RegisterStatusChange(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity,
+							  uint32 duration = 0);
+
+	/** Returns the reference of the indicators supervisor.
+	*** It is sometimes used by the effect supervisor to trigger status effects and elemental effects display.
+	**/
+	IndicatorSupervisor* GetIndicatorSupervisor()
+	{ return _indicator_supervisor; }
 
 	/** \brief Increases or decreases the current skill points of the actor
 	*** \param amount The number of skill points to increase or decrease

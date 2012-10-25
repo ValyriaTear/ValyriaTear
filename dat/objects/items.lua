@@ -253,12 +253,12 @@ items[13] = {
 decrement_negative_effects = function(target_actor, intensity)
     if (target_actor:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE, intensity);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE, intensity);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE, intensity);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE, intensity);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE, intensity);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE, intensity);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE, intensity, 30000);
 	AudioManager:PlaySound("snd/potion_drink.wav");
 	return true;
     else

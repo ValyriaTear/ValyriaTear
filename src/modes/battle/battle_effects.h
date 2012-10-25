@@ -56,8 +56,10 @@ public:
 	/** \param type The status type that this class object should represent
 	*** \param intensity The intensity of the status
 	*** \param actor A pointer to the actor affected by the status
+	*** \param duration The effect duration, a default value is used when none is given.
 	**/
-	BattleStatusEffect(hoa_global::GLOBAL_STATUS type, hoa_global::GLOBAL_INTENSITY intensity, BattleActor* actor);
+	BattleStatusEffect(hoa_global::GLOBAL_STATUS type, hoa_global::GLOBAL_INTENSITY intensity, BattleActor* actor,
+					   uint32 duration = 0);
 
 	~BattleStatusEffect();
 
@@ -80,38 +82,38 @@ public:
 	void SetIntensity(hoa_global::GLOBAL_INTENSITY intensity);
 
 	const std::string& GetName() const
-		{ return _name; }
+	{ return _name; }
 
 	uint32 GetIconIndex() const
-		{ return _icon_index; }
+	{ return _icon_index; }
 
 	hoa_global::GLOBAL_STATUS GetOppositeEffect() const
-		{ return _opposite_effect; }
+	{ return _opposite_effect; }
 
 	BattleActor* GetAffectedActor() const
-		{ return _affected_actor; }
+	{ return _affected_actor; }
 
 	ScriptObject* GetApplyFunction() const
-		{ return _apply_function; }
+	{ return _apply_function; }
 
 	ScriptObject* GetUpdateFunction() const
-		{ return _update_function; }
+	{ return _update_function; }
 
 	ScriptObject* GetRemoveFunction() const
-		{ return _remove_function; }
+	{ return _remove_function; }
 
 	//! \note Returns a pointer instead of a reference so that Lua functions can access the timer
 	hoa_system::SystemTimer* GetTimer()
-		{ return &_timer; }
+	{ return &_timer; }
 
 	hoa_video::StillImage* GetIconImage() const
-		{ return _icon_image; }
+	{ return _icon_image; }
 
-	bool IsIntensityChanged() const
-		{ return _intensity_changed; }
+	bool HasIntensityChanged() const
+	{ return _intensity_changed; }
 
 	void ResetIntensityChanged()
-		{ _intensity_changed = false; }
+	{ _intensity_changed = false; }
 	//@}
 
 private:
@@ -187,20 +189,15 @@ public:
 	void Draw();
 
 	/** \brief Returns true if the requested status is active on the managed actor
-	*** \param status The type of status to check for
+	*** \param status The type of status effect to check for
 	**/
 	bool IsStatusActive(hoa_global::GLOBAL_STATUS status)
-		{ return (_active_status_effects.find(status) != _active_status_effects.end()); }
+	{ return (_status_effects[status] != NULL); }
 
 	/** \brief Reurns true if the opposite status to that of the argument is active
 	*** \param status The type of opposite status to check for
 	**/
 	bool IsOppositeStatusActive(hoa_global::GLOBAL_STATUS status);
-
-	/** \brief Populates the argument vector with all status effects that are active on the actor
-	*** \param all_status_effects A reference to the data vector to populate
-	**/
-	void GetAllStatusEffects(std::vector<hoa_global::GLOBAL_STATUS>& all_status_effects);
 
 	/** \brief Immediately removes all active status effects from the actor
 	*** \note This function is typically used in the case of an actor's death. Because it returns no value, indicator icons
@@ -213,10 +210,7 @@ public:
 	/** \brief Changes the intensity level of a status effect
 	*** \param status The status effect type to change
 	*** \param intensity The amount of intensity to increase or decrease the status effect by
-	*** \param old_status A reference to hold the previous status type as a result of this operation
-	*** \param old_intensity A reference to hold the previous intensity of the previous status
-	*** \param new_status A reference to the new status as a result of the change
-	*** \param new_intensity A reference to new intensity fo the new status
+	*** \param duration A potential custom effect duration (in milliseconds)
 	*** \return True if a change in status took place
 	***
 	*** Primary function for performing status changes on an actor. Depending upon the current state of the actor and
@@ -226,22 +220,10 @@ public:
 	*** accordingly. So, for example, a single call to this function could remove an old effect -and- add a new effect, if
 	*** the effect to be added has an opposite effect that is currently active.
 	***
-	*** \note The old/new status/intensity arguments are used to store additional return values, so don't pass references to
-	*** variables that have data you wish to retain. If the function returns false, the value of these members is meaningless
-	*** and should be disregarded.
-	***
 	*** \note To be absolutely certain that a particular status effect is removed from the actor regardless of its current
 	*** intensity, use the value GLOBAL_INTENSITY_NEG_EXTREME for the intensity argument.
-	***
-	*** \note This function only changes the state of the status and does <i>not</i> display any visual or other indicator
-	*** to the player that the status was modified. Typically you should invoke BattleActor::RegisterStatusChange(...)
-	*** when you want to change the status of the actor. That method will call this one as well as activating the proper
-	*** indicator based on the return values from this function
 	**/
-	bool ChangeStatus(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity,
-		hoa_global::GLOBAL_STATUS& previous_status, hoa_global::GLOBAL_INTENSITY& previous_intensity,
-		hoa_global::GLOBAL_STATUS& new_status, hoa_global::GLOBAL_INTENSITY& new_intensity
-	);
+	bool ChangeStatus(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity, uint32 duration = 0);
 
 private:
 	//! \brief A pointer to the actor that this class supervises effects for
@@ -249,20 +231,25 @@ private:
 
 	// TODO: support for elemental effects may be added here at a later time
 //	//! \brief Contains all active element effects
-// 	std::map<hoa_global::GLOBAL_ELEMENTAL, BattleElementEffect*> _element_effects;
+// 	std::vector<BattleElementEffect*> _element_effects;
+//hoa_global::GLOBAL_ELEMENTAL_TOTAL <-- Reserve this
 
-	//! \brief Contains all active status effects
-	std::map<hoa_global::GLOBAL_STATUS, BattleStatusEffect*> _active_status_effects;
+	//! \brief Contains all possible status effects.
+	//! The vector is initialized with the size of all possible status effects slots.
+	//! Inactive status effect are NULL pointers.
+	std::vector<BattleStatusEffect*> _status_effects;
 
 	/** \brief Creates a new status effect and applies it to the actor
 	*** \param status The type of the status to create
 	*** \param intensity The intensity level that the effect should be initialized at
+	*** \param duration The potential custom effect duration in milliseconds.
 	***
 	*** \note This method does not check if the requested status effect already exists or not in the map of active effects.
 	*** Do not call this method unless you are certain that the given status is not already active on the actor, otherwise
 	*** memory leaks and other problems may arise.
 	**/
-	void _CreateNewStatus(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity);
+	void _CreateNewStatus(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity,
+						  uint32 duration = 0);
 
 	/** \brief Removes an existing status effect from the actor
 	*** \param status_effect A pointer to the status effect to be removed

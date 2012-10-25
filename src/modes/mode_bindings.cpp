@@ -752,7 +752,7 @@ void BindModeCode() {
 		luabind::class_<BattleStatusEffect, hoa_global::GlobalStatusEffect>("BattleStatusEffect")
 			.def("GetAffectedActor", &BattleStatusEffect::GetAffectedActor)
 			.def("GetTimer", &BattleStatusEffect::GetTimer)
-			.def("IsIntensityChanged", &BattleStatusEffect::IsIntensityChanged)
+			.def("HasIntensityChanged", &BattleStatusEffect::HasIntensityChanged)
 	];
 
 	} // End using battle mode namespaces

@@ -43,11 +43,43 @@ skills[10001] = {
 	sp_required = 3,
 	warmup_time = 300,
 	cooldown_time = 0,
+	--warmup_action_name = "magic_prepare",
+	action_name = "magic_cast",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
-		target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+        local effect_duration = user:GetProtection() * 2000;
+        if (effect_duration < 10000) then effect_duration = 10000 end
+		target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
+                                          hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+                                          effect_duration);
+	end
+}
+
+skills[10002] = {
+	name = hoa_system.Translate("First Aid"),
+	description = hoa_system.Translate("Performs basic medical assistance, healing the target by a minor degree."),
+	sp_required = 2,
+	warmup_time = 1500,
+	cooldown_time = 200,
+	--warmup_action_name = "magic_prepare",
+	action_name = "magic_cast",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+	BattleExecute = function(user, target)
+		target_actor = target:GetActor();
+		local hit_points = (user:GetVigor() * 3) +  hoa_utils.RandomBoundedInteger(0, 15);
+        target_actor:RegisterHealing(hit_points, true);
+		AudioManager:PlaySound("snd/heal_spell.wav");
+		--local Battle = ModeManager:GetTop();
+		--Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
+		--		target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+	end,
+
+	FieldExecute = function(target, instigator)
+		target:AddHitPoints((instigator:GetVigor() * 5) + hoa_utils.RandomBoundedInteger(0, 30));
+		AudioManager:PlaySound("snd/heal_spell.wav");
 	end
 }
 

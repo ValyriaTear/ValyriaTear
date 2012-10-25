@@ -22,6 +22,7 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_effects.h"
+#include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
 using namespace hoa_utils;
@@ -39,9 +40,8 @@ namespace private_battle {
 // BattleStatusEffect class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, BattleActor* actor) :
+BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, BattleActor* actor, uint32 duration) :
 	GlobalStatusEffect(type, intensity),
-	_name(""),
 	_icon_index(0),
 	_opposite_effect(GLOBAL_STATUS_INVALID),
 	_apply_function(NULL),
@@ -66,7 +66,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 		return;
 	}
 
-	// --- (2): Make sure that a table entry exists for this status element
+	// Make sure that a table entry exists for this status element
 	uint32 table_id = static_cast<uint32>(type);
 	ReadScriptDescriptor& script_file = GlobalManager->GetStatusEffectsScript();
 	if (script_file.DoesTableExist(table_id) == false) {
@@ -74,10 +74,15 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 		return;
 	}
 
-	// --- (3): Read in the status effect's property data
+	// Read in the status effect's property data
 	script_file.OpenTable(table_id);
 	_name = script_file.ReadString("name");
-	_timer.SetDuration(script_file.ReadUInt("duration"));
+
+    // Read the fall back duration when none is given.
+	if (duration == 0)
+		duration = script_file.ReadUInt("default_duration");
+	_timer.SetDuration(duration);
+
 	_icon_index = script_file.ReadUInt("icon_index");
 	_opposite_effect = static_cast<GLOBAL_STATUS>(script_file.ReadInt("opposite_effect"));
 
@@ -183,107 +188,82 @@ void BattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only) {
 EffectsSupervisor::EffectsSupervisor(BattleActor* actor) :
 	_actor(actor)
 {
-	if (actor == NULL)
+	// Reserve space for potential status effects,
+	_status_effects.resize(GLOBAL_STATUS_TOTAL, NULL);
+
+	if (!actor)
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "contructor received NULL actor argument" << std::endl;
 }
 
-
-
 EffectsSupervisor::~EffectsSupervisor() {
-	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++)
-		delete (i->second);
-	_active_status_effects.clear();
+	for (std::vector<BattleStatusEffect*>::iterator it = _status_effects.begin();
+			it != _status_effects.end(); ++it) {
+		delete (*it);
+	}
+	_status_effects.clear();
 }
 
-
-
 void EffectsSupervisor::Update() {
-	// As a result of what is done in this update loop, sometimes effects will be removed and this changes the state of the _active_status_effects
-	// container. To avoid problems with container resizing, we use a seperate container to iterate through and process updates for all effects,
-	// to ensure that we don't get any bad iterator references and that we update each effect only once.
-	std::vector<BattleStatusEffect*> effects;
-	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
-		effects.push_back(i->second);
-	}
-
 	// Update the timers and state for all active status effects
-	for (uint32 i = 0; i < effects.size(); i++) {
+	for (uint32 i = 0; i < _status_effects.size(); ++i) {
+		if (!_status_effects.at(i))
+			continue;
+
 		bool effect_removed = false;
 
-		effects[i]->GetTimer()->Update();
+		hoa_system::SystemTimer *effect_timer = _status_effects[i]->GetTimer();
+
+		// Update the effect time while taking in account the battle speed
+		effect_timer->Update(SystemManager->GetUpdateTime() * BattleMode::CurrentInstance()->GetBattleTypeTimeFactor());
 
 		// Decrease the intensity of the status by one level when its timer expires. This may result in
 		// the status effect being removed from the actor if its intensity changes to the neutral level.
-		if (effects[i]->GetTimer()->IsFinished() == true) {
+		if (effect_timer->IsFinished()) {
 			// If the intensity of the effect is at its weakest, the call that follows will remove the effect from the actor
-			effect_removed = (effects[i]->GetIntensity() == GLOBAL_INTENSITY_POS_LESSER);
+			effect_removed = (_status_effects[i]->GetIntensity() == GLOBAL_INTENSITY_POS_LESSER);
 
-			// Note that we register the status change on the actor instead of directly calling ChangeStatus() here.
-			// We do this because the actor's indicator supervisor needs to be informed of intensity changes so that it
-			// may display the appropriate status change information to the user. The call to BattleActor::RegisterStatusChange()
-			// will in turn make a call to EffectsSupervisor::ChangeStatus().
-			_actor->RegisterStatusChange(effects[i]->GetType(), GLOBAL_INTENSITY_NEG_LESSER);
+			// As the effect is fading, we divide the effect duration time per 2, with at least 1 second of duration.
+			// This is done to give more a fading out style onto the effect and not to advantage/disadvantage the target
+			// too much.
+			uint32 duration = effect_timer->GetDuration() / 2;
+			effect_timer->SetDuration(duration < 1000 ? 1000 : duration);
+
+			ChangeStatus(_status_effects[i]->GetType(), GLOBAL_INTENSITY_NEG_LESSER, duration);
 		}
 
 		// Update the effect according to the script function
-		if (effect_removed == false) {
-			ScriptCallFunction<void>(*(effects[i]->GetUpdateFunction()), effects[i]);
-			effects[i]->ResetIntensityChanged();
+		if (!effect_removed) {
+			ScriptCallFunction<void>(*(_status_effects[i]->GetUpdateFunction()), _status_effects[i]);
+			_status_effects[i]->ResetIntensityChanged();
 		}
 	}
 }
 
-
-
 void EffectsSupervisor::Draw() {
-	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
-		i->second->GetIconImage()->Draw();
+	for (std::vector<BattleStatusEffect*>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
+		(*it)->GetIconImage()->Draw();
 		VideoManager->MoveRelative(25.0f, 0.0f);
 	}
 }
 
-
-
 bool EffectsSupervisor::IsOppositeStatusActive(GLOBAL_STATUS status) {
-	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
-		if (i->second->GetOppositeEffect() == status) {
+	for (std::vector<BattleStatusEffect*>::iterator it =_status_effects.begin(); it != _status_effects.end(); ++it) {
+		if ((*it)->GetOppositeEffect() == status)
 			return true;
-		}
 	}
 
 	return false;
 }
 
-
-
-void EffectsSupervisor::GetAllStatusEffects(std::vector<GLOBAL_STATUS>& all_status_effects) {
-	all_status_effects.empty();
-
-	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
-		all_status_effects.push_back(i->first);
-	}
-}
-
-
-
 void EffectsSupervisor::RemoveAllStatus() {
-	std::vector<BattleStatusEffect*> effects;
-
-	// Calls to _RemoveStatus() alter the _active_status_effects container. To avoid problems with iterating through the _active_status_effects map during
-	// the removal calls, we make a temporary copy of all the status effects and operate on that
-	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
-		effects.push_back(i->second);
-	}
-
-	for (uint32 i = 0; i < effects.size(); i++) {
-		_RemoveStatus(effects[i]);
+	for (uint32 i = 0; i < _status_effects.size(); ++i) {
+		_RemoveStatus(_status_effects[i]);
 	}
 }
 
 
 
-bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, GLOBAL_STATUS& previous_status, GLOBAL_INTENSITY& previous_intensity,
-	GLOBAL_STATUS& new_status, GLOBAL_INTENSITY& new_intensity)
+bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
 {
 	if ((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;
@@ -313,18 +293,27 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 	BattleStatusEffect* active_effect = NULL;
 
 	// Note: We should never run into the case where both the status and its opposite status are active simultaneously
-	for (std::map<GLOBAL_STATUS, BattleStatusEffect*>::iterator i = _active_status_effects.begin(); i != _active_status_effects.end(); i++) {
-		if (i->second->GetType() == status) {
+	for (std::vector<BattleStatusEffect*>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
+		if (!(*it))
+			continue;
+
+		if ((*it)->GetType() == status) {
 			status_active = true;
-			active_effect = i->second;
+			active_effect = *it;
 			break;
 		}
-		else if (i->second->GetOppositeEffect() == status) {
+		else if ((*it)->GetOppositeEffect() == status) {
 			opposite_status_active = true;
-			active_effect = i->second;
+			active_effect = *it;
 			break;
 		}
 	}
+
+	// variables used to determine the intensity change of the effect.
+	GLOBAL_STATUS previous_status = GLOBAL_STATUS_INVALID;
+	GLOBAL_STATUS new_status = GLOBAL_STATUS_INVALID;
+	GLOBAL_INTENSITY previous_intensity = GLOBAL_INTENSITY_INVALID;
+	GLOBAL_INTENSITY new_intensity = GLOBAL_INTENSITY_INVALID;
 
 	// Set the previous status and intensity return values to match the active effect, if one was found to exist
 	if (active_effect == NULL) {
@@ -350,6 +339,8 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 				_RemoveStatus(active_effect);
 				active_effect = NULL;
 			}
+
+			_actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
 			return true;
 		}
 
@@ -365,14 +356,17 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 		// Note: it is possible that the intensity won't increment if the status is already at its highest intensity level.
 		// We still want to act like a status change did occur though, as we want the player to see that the action that caused the change
 		// did achieve a result (and it actually does, since this condition causes the status effect's timer to get reset).
+		_actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
 		return true;
 	}
 	// Case 3: Increase the intensity of an effect that was not active and had no active opposite effect
 	else if ((increase_intensity == true) && (status_active == false) && (opposite_status_active == false)) {
-		_CreateNewStatus(status, intensity);
+		_CreateNewStatus(status, intensity, duration);
 
 		new_status = status;
 		new_intensity = intensity;
+
+		_actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
 		return true;
 	}
 	// Case 4: Increase the intensity of an effect when its opposing effect is currently active
@@ -395,9 +389,10 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 			new_status = status;
 			DecrementIntensity(new_intensity, static_cast<int8>(previous_intensity));
 			_RemoveStatus(active_effect);
-			_CreateNewStatus(new_status, new_intensity);
+			_CreateNewStatus(new_status, new_intensity, duration);
 		}
 
+		_actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
 		return true;
 	}
 	else {
@@ -407,9 +402,8 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 	return false;
 } // bool EffectsSupervisor::ChangeStatus( ... )
 
-
-
-void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity) {
+void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
+										 uint32 duration) {
 	if ((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
 		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;
 		return;
@@ -420,8 +414,13 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
 		return;
 	}
 
-	BattleStatusEffect* new_effect = new BattleStatusEffect(status, intensity, _actor);
-	_active_status_effects.insert(std::make_pair(status, new_effect));
+	// First, delete the potential former one.
+	if (_status_effects[status])
+		_RemoveStatus(_status_effects[status]);
+
+	BattleStatusEffect* new_effect = new BattleStatusEffect(status, intensity, _actor, duration);
+	_status_effects[status] = new_effect;
+
 
 	// Call the apply script function now that this new status is active on the actor
 	ScriptCallFunction<void>(*(new_effect->GetApplyFunction()), new_effect);
@@ -430,19 +429,17 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
 
 
 void EffectsSupervisor::_RemoveStatus(BattleStatusEffect* status_effect) {
-	if (status_effect == NULL) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL status_effect argument" << std::endl;
+	if (!status_effect)
 		return;
-	}
 
-	// Remove the status effect from the active effects list. If successful, call the remove function and then delete the status effect object
-	if (_active_status_effects.erase(status_effect->GetType()) == 0) {
-		IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to remove a status effect not present on the actor with type: " << status_effect->GetType() << std::endl;
-	}
-	else {
+	// Remove the status effect from the active effects list if it registered there.
+	GLOBAL_STATUS effect_type = status_effect->GetType();
+	if (_status_effects[effect_type] && _status_effects[effect_type] == status_effect) {
 		ScriptCallFunction<void>(*(status_effect->GetRemoveFunction()), status_effect);
-		delete status_effect;
+		_status_effects[effect_type] = 0;
 	}
+	// But delete the effect anyway.
+	delete status_effect;
 }
 
 } // namespace private_battle

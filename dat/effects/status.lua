@@ -31,7 +31,7 @@
 -- effect:GetTimer() - returns the BattleTimer object for the effect
 -- effect:GetAffectedActor() - returns the BattleActor object that the effect is active on
 -- effect:GetIntensity() - returns the current intensity of the active effect
--- effect:IsIntensityChanged() - returns true if the intensity level has undergone a recent change
+-- effect:HasIntensityChanged() - returns true if the intensity level has undergone a recent change
 --
 -- NOTE: Unlike elemental effects, status effects only ever have intensity levels that are
 -- neutral or in the positive range of values, never the negative range. You should not concern
@@ -55,7 +55,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE].ModifyAttribute(effect);
 		end
 	end,
@@ -101,7 +101,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER].ModifyAttribute(effect);
 		end
 	end,
@@ -147,7 +147,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE].ModifyAttribute(effect);
 		end
 	end,
@@ -193,7 +193,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER].ModifyAttribute(effect);
 		end
 	end,
@@ -239,7 +239,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE].ModifyAttribute(effect);
 		end
 	end,
@@ -285,7 +285,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER].ModifyAttribute(effect);
 		end
 	end,
@@ -331,7 +331,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE].ModifyAttribute(effect);
 		end
 	end,
@@ -377,7 +377,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER].ModifyAttribute(effect);
 		end
 	end,
@@ -423,7 +423,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE].ModifyAttribute(effect);
 		end
 	end,
@@ -471,7 +471,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER].ModifyAttribute(effect);
 		end
 	end,
@@ -519,7 +519,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE].ModifyAttribute(effect);
 		end
 	end,
@@ -568,7 +568,7 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
 	end,
 
 	Update = function(effect)
-		if (effect:IsIntensityChanged() == true) then
+		if (effect:HasIntensityChanged() == true) then
 			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER].ModifyAttribute(effect);
 		end
 	end,

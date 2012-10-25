@@ -112,7 +112,12 @@ skills[3] = {
 			local chance_modifier = (user:GetTotalMetaphysicalAttack() - attack_point:GetTotalMetaphysicalDefense()) * 3.0;
 			local chance = (hoa_utils.RandomFloat() * 100.0);
 			if (chance <= (50.0 + chance_modifier)) then
-			    target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+                -- Compute an effect duration time based on the characters' stats
+                local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
+                if (effect_duration < 5000) then effect_duration = 5000; end
+			    target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
+                                                  hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+                                                  effect_duration);
 			else
 			    target_actor:RegisterMiss(true);
 			end
@@ -209,6 +214,33 @@ skills[6] = {
 	end
 }
 
+-- Attack spells
+skills[7] = {
+	name = hoa_system.Translate("Fire burst"),
+	description = hoa_system.Translate("Makes a small fire burns an enemy."),
+	sp_required = 7,
+	warmup_time = 4000,
+	cooldown_time = 750,
+	--warmup_action_name = "magic_prepare",
+	action_name = "magic_cast",
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+	BattleExecute = function(user, target)
+		target_actor = target:GetActor();
+		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+			-- TODO: Add fire elemental damage type.
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 0), target);
+			-- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
+			--local Battle = ModeManager:GetTop();
+			--Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",
+					--target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+			--AudioManager:PlaySound("snd/fire_burst.wav");
+		else
+			target_actor:RegisterMiss(true);
+		end
+	end,
+}
+
 --------------------------------------------------------------------------------
 -- IDs 1,001 - 10,000 are reserved for enemy attack skills
 --------------------------------------------------------------------------------
@@ -288,4 +320,3 @@ skills[1004] = {
 		end
 	end
 }
-

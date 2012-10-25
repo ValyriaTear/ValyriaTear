@@ -15,16 +15,17 @@
 *** \brief   Source file for actors present in battles.
 *** ***************************************************************************/
 
-#include "engine/input.h"
-#include "engine/script/script.h"
+#include "modes/battle/battle_actors.h"
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
-#include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_command.h"
 #include "modes/battle/battle_effects.h"
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
+
+#include "engine/input.h"
+#include "engine/script/script.h"
 
 using namespace hoa_utils;
 using namespace hoa_audio;
@@ -283,22 +284,12 @@ void BattleActor::RegisterRevive(uint32 amount) {
 void BattleActor::RegisterMiss(bool was_attacked) {
 	_indicator_supervisor->AddMissIndicator();
 
-		if (was_attacked && !IsEnemy())
-			ChangeSpriteAnimation("dodge");
+	if (was_attacked && !IsEnemy())
+		ChangeSpriteAnimation("dodge");
 }
 
-void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity) {
-	GLOBAL_STATUS old_status = GLOBAL_STATUS_INVALID;
-	GLOBAL_STATUS new_status = GLOBAL_STATUS_INVALID;
-	GLOBAL_INTENSITY old_intensity = GLOBAL_INTENSITY_INVALID;
-	GLOBAL_INTENSITY new_intensity = GLOBAL_INTENSITY_INVALID;
-
-	bool status_change_occurred = _effects_supervisor->ChangeStatus(status, intensity, old_status, old_intensity, new_status, new_intensity);
-
-	// If a status change indeed occurred, add the appropriate indicator to display the change to the player
-	if (status_change_occurred == true) {
-		_indicator_supervisor->AddStatusIndicator(old_status, old_intensity, new_status, new_intensity);
-	}
+void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration) {
+	_effects_supervisor->ChangeStatus(status, intensity, duration);
 }
 
 void BattleActor::Update() {
