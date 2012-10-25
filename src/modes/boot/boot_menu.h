@@ -19,9 +19,11 @@
 #include "common/gui/option.h"
 #include "common/gui/menu_window.h"
 
-namespace hoa_boot {
+namespace hoa_boot
+{
 
-namespace private_boot {
+namespace private_boot
+{
 
 /** ****************************************************************************
 *** \brief Used for the construction and operation of all boot mode menus
@@ -42,50 +44,51 @@ namespace private_boot {
 *** the function pointer containers appropriately. Use only the methods specific to this class
 *** to add or remove options.
 *** ***************************************************************************/
-class BootMenu : public hoa_gui::OptionBox {
+class BootMenu : public hoa_gui::OptionBox
+{
 public:
-	BootMenu()
-		{}
+    BootMenu()
+    {}
 
-	~BootMenu()
-		{}
+    ~BootMenu()
+    {}
 
-	/** \brief Adds a new option to the menu with the desired function pointers attached
-	*** \param text A text representing the new option
-	*** \param *up_function BootMode handler function for up input events
-	*** \param *down_function BootMode handler function for down input events
-	*** \param *confirm_function BootMode handler function for confirm input events
-	*** \param *left_function BootMode handler function for left input events
-	*** \param *right_function BootMode handler function for right input events
-	**/
-	void AddOption(const hoa_utils::ustring & text, void (BootMode::*confirm_function)() = NULL,
-		void (BootMode::*up_function)() = NULL,   void (BootMode::*down_function)() = NULL,
-		void (BootMode::*left_function)() = NULL, void (BootMode::*right_function)() = NULL);
+    /** \brief Adds a new option to the menu with the desired function pointers attached
+    *** \param text A text representing the new option
+    *** \param *up_function BootMode handler function for up input events
+    *** \param *down_function BootMode handler function for down input events
+    *** \param *confirm_function BootMode handler function for confirm input events
+    *** \param *left_function BootMode handler function for left input events
+    *** \param *right_function BootMode handler function for right input events
+    **/
+    void AddOption(const hoa_utils::ustring &text, void (BootMode::*confirm_function)() = NULL,
+                   void (BootMode::*up_function)() = NULL,   void (BootMode::*down_function)() = NULL,
+                   void (BootMode::*left_function)() = NULL, void (BootMode::*right_function)() = NULL);
 
-	//! \brief
-	//@{
-	void InputConfirm();
-	void InputUp();
-	void InputDown();
-	void InputLeft();
-	void InputRight();
-	//@}
+    //! \brief
+    //@{
+    void InputConfirm();
+    void InputUp();
+    void InputDown();
+    void InputLeft();
+    void InputRight();
+    //@}
 
 private:
-	//! \brief Confirm input handlers for all options in the menu
-	std::vector<void (BootMode::*)()> _confirm_handlers;
+    //! \brief Confirm input handlers for all options in the menu
+    std::vector<void (BootMode:: *)()> _confirm_handlers;
 
-	//! \brief Up input handlers for all options in the menu
-	std::vector<void (BootMode::*)()> _up_handlers;
+    //! \brief Up input handlers for all options in the menu
+    std::vector<void (BootMode:: *)()> _up_handlers;
 
-	//! \brief Down input handlers for all options in the menu
-	std::vector<void (BootMode::*)()> _down_handlers;
+    //! \brief Down input handlers for all options in the menu
+    std::vector<void (BootMode:: *)()> _down_handlers;
 
-	//! \brief Left input handlers for all options in the menu
-	std::vector<void (BootMode::*)()> _left_handlers;
+    //! \brief Left input handlers for all options in the menu
+    std::vector<void (BootMode:: *)()> _left_handlers;
 
-	//! \brief Right input handlers for all options in the menu
-	std::vector<void (BootMode::*)()> _right_handlers;
+    //! \brief Right input handlers for all options in the menu
+    std::vector<void (BootMode:: *)()> _right_handlers;
 }; // class BootMenu : public hoa_video::OptionBox
 
 } // namespace private_boot

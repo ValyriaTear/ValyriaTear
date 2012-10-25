@@ -28,25 +28,27 @@
 #include "boot_menu.h"
 
 //! \brief All calls to boot mode are wrapped in this namespace.
-namespace hoa_boot {
+namespace hoa_boot
+{
 
 //! \brief Various states that boot mode may be in
 enum BOOT_STATE {
-	BOOT_STATE_INTRO   = 0,
-	BOOT_STATE_MENU    = 1
+    BOOT_STATE_INTRO   = 0,
+    BOOT_STATE_MENU    = 1
 };
 
 //! \brief Determines whether the code in the hoa_boot namespace should print debug statements or not.
 extern bool BOOT_DEBUG;
 
 //! \brief An internal namespace to be used only within the boot code. Don't use this namespace anywhere else!
-namespace private_boot {
+namespace private_boot
+{
 
 //! \brief Key changing management enum.
 enum WAIT_FOR {
-	WAIT_KEY,
-	WAIT_JOY_BUTTON,
-	WAIT_JOY_AXIS
+    WAIT_KEY,
+    WAIT_JOY_BUTTON,
+    WAIT_JOY_AXIS
 };
 
 } // namespace private_boot
@@ -83,303 +85,307 @@ enum WAIT_FOR {
 *** to somewhere in src/common and appropriately renamed, or BootMode should implement
 *** its own version of this class and not include "menu_views.h" anywhere
 *** ***************************************************************************/
-class BootMode : public hoa_mode_manager::GameMode {
+class BootMode : public hoa_mode_manager::GameMode
+{
 public:
-	BootMode();
+    BootMode();
 
-	~BootMode();
+    ~BootMode();
 
-	//! \brief Returns a pointer to the active instance of boot mode
-	static BootMode* CurrentInstance()
-		{ return _current_instance; }
+    //! \brief Returns a pointer to the active instance of boot mode
+    static BootMode *CurrentInstance() {
+        return _current_instance;
+    }
 
-	//! \brief Resets appropriate class members. Called whenever BootMode is made the active game mode.
-	void Reset();
+    //! \brief Resets appropriate class members. Called whenever BootMode is made the active game mode.
+    void Reset();
 
-	//! \brief Handles user input and updates the boot menu
-	void Update();
+    //! \brief Handles user input and updates the boot menu
+    void Update();
 
-	//! \brief Draws the boot menu background depending on the current state
-	void Draw();
+    //! \brief Draws the boot menu background depending on the current state
+    void Draw();
 
-	//! \brief Draws the contents and menus of boot mode depending on the current state
-	void DrawPostEffects();
+    //! \brief Draws the contents and menus of boot mode depending on the current state
+    void DrawPostEffects();
 
-	//! \brief Tells the boot state
-	BOOT_STATE GetState() const
-		{ return _boot_state; }
+    //! \brief Tells the boot state
+    BOOT_STATE GetState() const {
+        return _boot_state;
+    }
 
-	//! \brief Sets the boot state
-	void ChangeState(BOOT_STATE boot_state)
-		{ _boot_state = boot_state; }
+    //! \brief Sets the boot state
+    void ChangeState(BOOT_STATE boot_state) {
+        _boot_state = boot_state;
+    }
 
 private:
-	//! \brief The boot state used to know whether the menu has to be displayed.
+    //! \brief The boot state used to know whether the menu has to be displayed.
     BOOT_STATE _boot_state;
 
-	//! \brief A pointer to the most recently active instance of boot mode
-	static BootMode* _current_instance;
+    //! \brief A pointer to the most recently active instance of boot mode
+    static BootMode *_current_instance;
 
-	//! \brief True when the boot mode is in exitting state.
-	bool _exiting_to_new_game;
+    //! \brief True when the boot mode is in exitting state.
+    bool _exiting_to_new_game;
 
-	//! \brief Set to true when the player has made modification to any application settings
-	bool _has_modified_settings;
+    //! \brief Set to true when the player has made modification to any application settings
+    bool _has_modified_settings;
 
-	//! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
-	std::vector<std::string> _po_files;
+    //! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
+    std::vector<std::string> _po_files;
 
-	//! \brief Rendered text of the release version number
-	hoa_video::TextImage _version_text;
+    //! \brief Rendered text of the release version number
+    hoa_video::TextImage _version_text;
 
-	//! \brief A simple menu window where the various options menus are displayed
-	hoa_gui::MenuWindow _options_window;
+    //! \brief A simple menu window where the various options menus are displayed
+    hoa_gui::MenuWindow _options_window;
 
-	//! \brief Pointer to the currently active boot menu object
-	private_boot::BootMenu* _active_menu;
+    //! \brief Pointer to the currently active boot menu object
+    private_boot::BootMenu *_active_menu;
 
-	/** \name Various menus available in boot mode
-	*** The name of the menu objects is rather self explanatory. There are a number of methods in
-	*** BootMode that are used by these menus.
-	***
-	*** -# Setup methods used to initialize the properties of these menus
-	*** -# Refresh methods used to refresh the menu option text to reflect current state information
-	*** -# Handler methods used as callback functions when input on the menus occur
-	***
-	*** Some of these methods are exclusive to their respective menus while others are not. Some
-	*** of these menus do not have all of these types of methods available for them.
-	**/
-	//@{
-	private_boot::BootMenu _main_menu;
-	private_boot::BootMenu _options_menu;
-	private_boot::BootMenu _video_options_menu;
-	private_boot::BootMenu _resolution_menu;
-	private_boot::BootMenu _audio_options_menu;
-	private_boot::BootMenu _language_options_menu;
-	private_boot::BootMenu _key_settings_menu;
-	private_boot::BootMenu _joy_settings_menu;
-	//@}
+    /** \name Various menus available in boot mode
+    *** The name of the menu objects is rather self explanatory. There are a number of methods in
+    *** BootMode that are used by these menus.
+    ***
+    *** -# Setup methods used to initialize the properties of these menus
+    *** -# Refresh methods used to refresh the menu option text to reflect current state information
+    *** -# Handler methods used as callback functions when input on the menus occur
+    ***
+    *** Some of these methods are exclusive to their respective menus while others are not. Some
+    *** of these menus do not have all of these types of methods available for them.
+    **/
+    //@{
+    private_boot::BootMenu _main_menu;
+    private_boot::BootMenu _options_menu;
+    private_boot::BootMenu _video_options_menu;
+    private_boot::BootMenu _resolution_menu;
+    private_boot::BootMenu _audio_options_menu;
+    private_boot::BootMenu _language_options_menu;
+    private_boot::BootMenu _key_settings_menu;
+    private_boot::BootMenu _joy_settings_menu;
+    //@}
 
-	//! \brief A pointer to the function to call when a key has been pressed when we're waiting for one
-	void (BootMode::*_key_setting_function)(const SDLKey &);
+    //! \brief A pointer to the function to call when a key has been pressed when we're waiting for one
+    void (BootMode::*_key_setting_function)(const SDLKey &);
 
-	//! \brief A pointer to the function to call when a joystick button has been pressed when we're waiting for one
-	void (BootMode::*_joy_setting_function)(uint8 button);
+    //! \brief A pointer to the function to call when a joystick button has been pressed when we're waiting for one
+    void (BootMode::*_joy_setting_function)(uint8 button);
 
-	//! \brief A pointer to the function to call when a joyystick axis has been moved when we're waiting for one
-	void (BootMode::*_joy_axis_setting_function)(int8 axis);
+    //! \brief A pointer to the function to call when a joyystick axis has been moved when we're waiting for one
+    void (BootMode::*_joy_axis_setting_function)(int8 axis);
 
-	//! \brief Window display message for "select a key"
-	hoa_menu::MessageWindow _message_window;
+    //! \brief Window display message for "select a key"
+    hoa_menu::MessageWindow _message_window;
 
-	//! \brief Window display message for "please type a file name"
-	hoa_menu::MessageWindow _file_name_alert;
+    //! \brief Window display message for "please type a file name"
+    hoa_menu::MessageWindow _file_name_alert;
 
-	//! \brief Window displays of the actual filename being typed
-	hoa_menu::MessageWindow _file_name_window;
+    //! \brief Window displays of the actual filename being typed
+    hoa_menu::MessageWindow _file_name_window;
 
-	// ---------- Setup and refresh methods for boot menus
+    // ---------- Setup and refresh methods for boot menus
 
-	//! \brief Returns whether at least one save is available to be loaded.
-	bool _SavesAvailable(int32 maxId = 6);
+    //! \brief Returns whether at least one save is available to be loaded.
+    bool _SavesAvailable(int32 maxId = 6);
 
-	/** \brief Reloads all the menus to refresh their translated text.
-	*** This is to be used only by the language menu.
-	*** \Note Only menus with translatable texts are reloaded.
-	**/
-	void _ReloadTranslatableMenus();
+    /** \brief Reloads all the menus to refresh their translated text.
+    *** This is to be used only by the language menu.
+    *** \Note Only menus with translatable texts are reloaded.
+    **/
+    void _ReloadTranslatableMenus();
 
-	//! \brief Setup functions for the various boot menus
-	//@{
-	void _SetupMainMenu();
-	void _SetupOptionsMenu();
-	void _SetupVideoOptionsMenu();
-	void _SetupAudioOptionsMenu();
-	void _SetupLanguageOptionsMenu();
-	void _SetupKeySettingsMenu();
-	void _SetupJoySettingsMenu();
-	void _SetupResolutionMenu();
-	//@}
+    //! \brief Setup functions for the various boot menus
+    //@{
+    void _SetupMainMenu();
+    void _SetupOptionsMenu();
+    void _SetupVideoOptionsMenu();
+    void _SetupAudioOptionsMenu();
+    void _SetupLanguageOptionsMenu();
+    void _SetupKeySettingsMenu();
+    void _SetupJoySettingsMenu();
+    void _SetupResolutionMenu();
+    //@}
 
-	//! \brief Refreshes the option text displays on various option menus
-	//@{
-	void _RefreshVideoOptions();
-	void _RefreshAudioOptions();
-	void _RefreshKeySettings();
-	void _RefreshJoySettings();
-	//@}
+    //! \brief Refreshes the option text displays on various option menus
+    //@{
+    void _RefreshVideoOptions();
+    void _RefreshAudioOptions();
+    void _RefreshKeySettings();
+    void _RefreshJoySettings();
+    //@}
 
-	// ---------- Handler methods for boot menus
+    // ---------- Handler methods for boot menus
 
-	//! \brief Handler methods for the main menu
-	//@{
-	void _OnNewGame();
-	void _OnLoadGame();
-	void _OnOptions();
-	void _OnQuit();
+    //! \brief Handler methods for the main menu
+    //@{
+    void _OnNewGame();
+    void _OnLoadGame();
+    void _OnOptions();
+    void _OnQuit();
 
 #ifdef DEBUG_MENU
-	void _DEBUG_OnBattle();
-	void _DEBUG_OnMenu();
-	void _DEBUG_OnShop();
+    void _DEBUG_OnBattle();
+    void _DEBUG_OnMenu();
+    void _DEBUG_OnShop();
 #endif
-	//@}
+    //@}
 
-	//! \brief Handler methods for the primary options menu
-	//@{
-	void _OnVideoOptions();
-	void _OnAudioOptions();
-	void _OnLanguageOptions();
-	void _OnKeySettings();
-	void _OnJoySettings();
-	//@}
+    //! \brief Handler methods for the primary options menu
+    //@{
+    void _OnVideoOptions();
+    void _OnAudioOptions();
+    void _OnLanguageOptions();
+    void _OnKeySettings();
+    void _OnJoySettings();
+    //@}
 
-	//! \brief Handler methods for the video options menu
-	//@{
-	void _OnToggleFullscreen();
-	void _OnTogglePixelArtSmoothed();
-	void _OnResolution();
-	void _OnResolution640x480();
-	void _OnResolution800x600();
-	void _OnResolution1024x768();
-	void _OnResolution1280x1024();
-	void _OnBrightnessLeft();
-	void _OnBrightnessRight();
-	//@}
+    //! \brief Handler methods for the video options menu
+    //@{
+    void _OnToggleFullscreen();
+    void _OnTogglePixelArtSmoothed();
+    void _OnResolution();
+    void _OnResolution640x480();
+    void _OnResolution800x600();
+    void _OnResolution1024x768();
+    void _OnResolution1280x1024();
+    void _OnBrightnessLeft();
+    void _OnBrightnessRight();
+    //@}
 
-	//! \brief Handler methods for the audio options menu
-	//@{
-	void _OnSoundLeft();
-	void _OnSoundRight();
-	void _OnMusicLeft();
-	void _OnMusicRight();
-	//@}
+    //! \brief Handler methods for the audio options menu
+    //@{
+    void _OnSoundLeft();
+    void _OnSoundRight();
+    void _OnMusicLeft();
+    void _OnMusicRight();
+    //@}
 
-	//! \brief Handler methods for the language options menu
-	//@{
-	void _OnLanguageSelect();
-	//@}
+    //! \brief Handler methods for the language options menu
+    //@{
+    void _OnLanguageSelect();
+    //@}
 
-	//! \brief Handler methods for the key settings options menu
-	//@{
-	void _OnRestoreDefaultKeys();
-	//@}
+    //! \brief Handler methods for the key settings options menu
+    //@{
+    void _OnRestoreDefaultKeys();
+    //@}
 
-	//! \brief Handler methods for the joystick settings options menu
-	//@{
-	void _OnRestoreDefaultJoyButtons();
-	//@}
+    //! \brief Handler methods for the joystick settings options menu
+    //@{
+    void _OnRestoreDefaultJoyButtons();
+    //@}
 
-	// ---------- Helper methods not directly tied to any specific boot menu
+    // ---------- Helper methods not directly tied to any specific boot menu
 
-	//! \brief Tests whether the welcome window should be shown.
-	void _ShowHelpWindow();
+    //! \brief Tests whether the welcome window should be shown.
+    void _ShowHelpWindow();
 
-	/** \brief Shows the message window to display text that its waiting for either a joystick or keyboard event
-	*** \param joystick True if the window should state its waiting for a joystick event, false for a keyboard event
-	**/
-	void _ShowMessageWindow(bool joystick);
+    /** \brief Shows the message window to display text that its waiting for either a joystick or keyboard event
+    *** \param joystick True if the window should state its waiting for a joystick event, false for a keyboard event
+    **/
+    void _ShowMessageWindow(bool joystick);
 
-	/** \brief Shows the message window to display text that its waiting for either a keybpard, joystick button, or joystick axis event
-	*** \param wait The type of event the message box should state its waiting for
-	**/
-	void _ShowMessageWindow(private_boot::WAIT_FOR wait);
+    /** \brief Shows the message window to display text that its waiting for either a keybpard, joystick button, or joystick axis event
+    *** \param wait The type of event the message box should state its waiting for
+    **/
+    void _ShowMessageWindow(private_boot::WAIT_FOR wait);
 
-	/** \brief Changes the screen resolution, applies the new settings, and refreshes the video options
-	*** \param width The width of the new resolution in pixels
-	*** \param height The height of the new resolution in pixels
-	**/
-	void _ChangeResolution(int32 width, int32 height);
+    /** \brief Changes the screen resolution, applies the new settings, and refreshes the video options
+    *** \param width The width of the new resolution in pixels
+    *** \param height The height of the new resolution in pixels
+    **/
+    void _ChangeResolution(int32 width, int32 height);
 
-	/** \brief Saves the settings to a file specified by the user
-	*** \param filename the name of the file for the settings to be loaded from if a blank string
-	*** is passed the default "settings.lua" will be used
-	*** \return true if file could be loaded, false otherwise
-	**/
-	bool _LoadSettingsFile(const std::string& filename);
+    /** \brief Saves the settings to a file specified by the user
+    *** \param filename the name of the file for the settings to be loaded from if a blank string
+    *** is passed the default "settings.lua" will be used
+    *** \return true if file could be loaded, false otherwise
+    **/
+    bool _LoadSettingsFile(const std::string &filename);
 
-	/** \brief Saves the settings to a file specified by the user
-	*** \param filename the name of the file for the settings to be saved to, if a blank string is
-	*** passed the default "settings.lua" will be used
-	*** \return true if file could be saved, false otherwise
-	**/
-	bool _SaveSettingsFile(const std::string& filename);
+    /** \brief Saves the settings to a file specified by the user
+    *** \param filename the name of the file for the settings to be saved to, if a blank string is
+    *** passed the default "settings.lua" will be used
+    *** \return true if file could be saved, false otherwise
+    **/
+    bool _SaveSettingsFile(const std::string &filename);
 
-	// ---------- Input configuration methods
+    // ---------- Input configuration methods
 
-	/** \brief Waits indefinitely until the player presses any key
-	*** \return The SDL key symbol of the key which was pressed
-	**/
-	SDLKey _WaitKeyPress();
+    /** \brief Waits indefinitely until the player presses any key
+    *** \return The SDL key symbol of the key which was pressed
+    **/
+    SDLKey _WaitKeyPress();
 
-	/** \brief Waits indefinitely until the player presses any joystick button
-	*** \return The SDL integer ID of the joystick button which was pressed
-	**/
-	uint8 _WaitJoyPress();
+    /** \brief Waits indefinitely until the player presses any joystick button
+    *** \return The SDL integer ID of the joystick button which was pressed
+    **/
+    uint8 _WaitJoyPress();
 
-	//! \brief Redefines a key command to be mapped to another key
-	//@{
-	void _RedefineUpKey();
-	void _RedefineDownKey();
-	void _RedefineLeftKey();
-	void _RedefineRightKey();
-	void _RedefineConfirmKey();
-	void _RedefineCancelKey();
-	void _RedefineMenuKey();
-	void _RedefineSwapKey();
-	void _RedefineLeftSelectKey();
-	void _RedefineRightSelectKey();
-	void _RedefinePauseKey();
-	//@}
+    //! \brief Redefines a key command to be mapped to another key
+    //@{
+    void _RedefineUpKey();
+    void _RedefineDownKey();
+    void _RedefineLeftKey();
+    void _RedefineRightKey();
+    void _RedefineConfirmKey();
+    void _RedefineCancelKey();
+    void _RedefineMenuKey();
+    void _RedefineSwapKey();
+    void _RedefineLeftSelectKey();
+    void _RedefineRightSelectKey();
+    void _RedefinePauseKey();
+    //@}
 
-	/** \brief Wrapper functions to the InputManager used by the redefine key methods
-	*** \note This was stated to be necessary because on Windows, having the _Redefine*Key() function
-	*** pointers directly access the InputManager caused heap corruption.
-	**/
-	//@{
-	void _SetUpKey(const SDLKey &key);
-	void _SetDownKey(const SDLKey &key);
-	void _SetLeftKey(const SDLKey &key);
-	void _SetRightKey(const SDLKey &key);
-	void _SetConfirmKey(const SDLKey &key);
-	void _SetCancelKey(const SDLKey &key);
-	void _SetMenuKey(const SDLKey &key);
-	void _SetSwapKey(const SDLKey &key);
-	void _SetLeftSelectKey(const SDLKey &key);
-	void _SetRightSelectKey(const SDLKey &key);
-	void _SetPauseKey(const SDLKey &key);
-	//@}
+    /** \brief Wrapper functions to the InputManager used by the redefine key methods
+    *** \note This was stated to be necessary because on Windows, having the _Redefine*Key() function
+    *** pointers directly access the InputManager caused heap corruption.
+    **/
+    //@{
+    void _SetUpKey(const SDLKey &key);
+    void _SetDownKey(const SDLKey &key);
+    void _SetLeftKey(const SDLKey &key);
+    void _SetRightKey(const SDLKey &key);
+    void _SetConfirmKey(const SDLKey &key);
+    void _SetCancelKey(const SDLKey &key);
+    void _SetMenuKey(const SDLKey &key);
+    void _SetSwapKey(const SDLKey &key);
+    void _SetLeftSelectKey(const SDLKey &key);
+    void _SetRightSelectKey(const SDLKey &key);
+    void _SetPauseKey(const SDLKey &key);
+    //@}
 
-	//! \brief Redefines a joystick command to be mapped to another axis/button
-	//@{
-	void _RedefineXAxisJoy();
-	void _RedefineYAxisJoy();
-	void _RedefineThresholdJoy();
-	void _RedefineConfirmJoy();
-	void _RedefineCancelJoy();
-	void _RedefineMenuJoy();
-	void _RedefineSwapJoy();
-	void _RedefineLeftSelectJoy();
-	void _RedefineRightSelectJoy();
-	void _RedefinePauseJoy();
-	void _RedefineQuitJoy();
-	//@}
+    //! \brief Redefines a joystick command to be mapped to another axis/button
+    //@{
+    void _RedefineXAxisJoy();
+    void _RedefineYAxisJoy();
+    void _RedefineThresholdJoy();
+    void _RedefineConfirmJoy();
+    void _RedefineCancelJoy();
+    void _RedefineMenuJoy();
+    void _RedefineSwapJoy();
+    void _RedefineLeftSelectJoy();
+    void _RedefineRightSelectJoy();
+    void _RedefinePauseJoy();
+    void _RedefineQuitJoy();
+    //@}
 
-	/** \brief Wrapper functions to the InputManager used by the redefine joy methods
-	*** \note This was stated to be necessary because on Windows, having the _Redefine*Joy() function
-	*** pointers directly access the InputManager caused heap corruption.
-	**/
-	//@{
-	void _SetXAxisJoy(int8 axis);
-	void _SetYAxisJoy(int8 axis);
-	void _SetConfirmJoy(uint8 button);
-	void _SetCancelJoy(uint8 button);
-	void _SetMenuJoy(uint8 button);
-	void _SetSwapJoy(uint8 button);
-	void _SetLeftSelectJoy(uint8 button);
-	void _SetRightSelectJoy(uint8 button);
-	void _SetPauseJoy(uint8 button);
-	//@}
+    /** \brief Wrapper functions to the InputManager used by the redefine joy methods
+    *** \note This was stated to be necessary because on Windows, having the _Redefine*Joy() function
+    *** pointers directly access the InputManager caused heap corruption.
+    **/
+    //@{
+    void _SetXAxisJoy(int8 axis);
+    void _SetYAxisJoy(int8 axis);
+    void _SetConfirmJoy(uint8 button);
+    void _SetCancelJoy(uint8 button);
+    void _SetMenuJoy(uint8 button);
+    void _SetSwapJoy(uint8 button);
+    void _SetLeftSelectJoy(uint8 button);
+    void _SetRightSelectJoy(uint8 button);
+    void _SetPauseJoy(uint8 button);
+    //@}
 }; // class BootMode : public hoa_mode_manager::GameMode
 
 } // namespace hoa_boot
