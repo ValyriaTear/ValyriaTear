@@ -241,8 +241,10 @@ void EffectsSupervisor::Update() {
 
 void EffectsSupervisor::Draw() {
 	for (std::vector<BattleStatusEffect*>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
-		(*it)->GetIconImage()->Draw();
-		VideoManager->MoveRelative(25.0f, 0.0f);
+		if (*it) {
+			(*it)->GetIconImage()->Draw();
+			VideoManager->MoveRelative(25.0f, 0.0f);
+		}
 	}
 }
 
