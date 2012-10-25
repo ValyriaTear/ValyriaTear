@@ -29,7 +29,8 @@ using namespace hoa_input;
 using namespace hoa_system;
 using namespace hoa_boot;
 
-namespace hoa_pause {
+namespace hoa_pause
+{
 
 bool PAUSE_DEBUG = false;
 
@@ -44,140 +45,136 @@ const uint8 QUIT_CANCEL    = 2;
 //@}
 
 PauseMode::PauseMode(bool quit_state, bool pause_audio) :
-	GameMode(),
-	_quit_state(quit_state),
-	_audio_paused(pause_audio),
-	_dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
-	_option_selected(false)
+    GameMode(),
+    _quit_state(quit_state),
+    _audio_paused(pause_audio),
+    _dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
+    _option_selected(false)
 {
-	mode_type = MODE_MANAGER_PAUSE_MODE;
+    mode_type = MODE_MANAGER_PAUSE_MODE;
 
-	// Render the paused string in white text
-	_paused_text.SetStyle(TextStyle("title28", Color::white, VIDEO_TEXT_SHADOW_BLACK));
-	_paused_text.SetText(UTranslate("Paused"));
+    // Render the paused string in white text
+    _paused_text.SetStyle(TextStyle("title28", Color::white, VIDEO_TEXT_SHADOW_BLACK));
+    _paused_text.SetText(UTranslate("Paused"));
 
-	// Initialize the quit options box
-	_quit_options.SetPosition(512.0f, 384.0f);
-	_quit_options.SetDimensions(750.0f, 50.0f, 3, 1, 3, 1);
-	_quit_options.SetTextStyle(TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_BLACK));
+    // Initialize the quit options box
+    _quit_options.SetPosition(512.0f, 384.0f);
+    _quit_options.SetDimensions(750.0f, 50.0f, 3, 1, 3, 1);
+    _quit_options.SetTextStyle(TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_BLACK));
 
-	_quit_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_quit_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-	_quit_options.SetSelectMode(VIDEO_SELECT_SINGLE);
-	_quit_options.SetCursorOffset(-58.0f, 18.0f);
+    _quit_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _quit_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _quit_options.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _quit_options.SetCursorOffset(-58.0f, 18.0f);
 
-	_quit_options.AddOption(UTranslate("Quit Game"));
-	_quit_options.AddOption(UTranslate("Quit to Main Menu"));
-	_quit_options.AddOption(UTranslate("Cancel"));
-	_quit_options.SetSelection(QUIT_CANCEL);
+    _quit_options.AddOption(UTranslate("Quit Game"));
+    _quit_options.AddOption(UTranslate("Quit to Main Menu"));
+    _quit_options.AddOption(UTranslate("Cancel"));
+    _quit_options.SetSelection(QUIT_CANCEL);
 }
 
-PauseMode::~PauseMode() {
-	if (_audio_paused)
-		AudioManager->ResumeAudio();
+PauseMode::~PauseMode()
+{
+    if(_audio_paused)
+        AudioManager->ResumeAudio();
 }
 
-void PauseMode::Reset() {
-	if (_audio_paused)
-		AudioManager->PauseAudio();
+void PauseMode::Reset()
+{
+    if(_audio_paused)
+        AudioManager->PauseAudio();
 
-	// Save a copy of the current screen to use as the backdrop
-	try {
-		_screen_capture = VideoManager->CaptureScreen();
-	}
-	catch (const Exception& e) {
-		IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
-	}
+    // Save a copy of the current screen to use as the backdrop
+    try {
+        _screen_capture = VideoManager->CaptureScreen();
+    } catch(const Exception &e) {
+        IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
+    }
 
-	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
-	VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-	VideoManager->DisableFadeEffect();
+    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
+    VideoManager->DisableFadeEffect();
 }
 
-void PauseMode::Update() {
-	// Don't eat up 100% of the CPU time while in pause mode
-	SDL_Delay(50); // Puts the process to sleep for 50ms
+void PauseMode::Update()
+{
+    // Don't eat up 100% of the CPU time while in pause mode
+    SDL_Delay(50); // Puts the process to sleep for 50ms
 
-	// If an option has been selected, don't handle input until it has finished.
-	if (_option_selected)
-	    return;
+    // If an option has been selected, don't handle input until it has finished.
+    if(_option_selected)
+        return;
 
-	if (!_quit_state) {
-		if (InputManager->QuitPress()) {
-			_quit_state = true;
-			return;
-		}
-		else if (InputManager->PausePress()) {
-			_option_selected = true;
-			ModeManager->Pop();
-			return;
-		}
-	}
-	else { // (_quit_state == true)
-		_quit_options.Update();
+    if(!_quit_state) {
+        if(InputManager->QuitPress()) {
+            _quit_state = true;
+            return;
+        } else if(InputManager->PausePress()) {
+            _option_selected = true;
+            ModeManager->Pop();
+            return;
+        }
+    } else { // (_quit_state == true)
+        _quit_options.Update();
 
-		if (InputManager->QuitPress()) {
-			_option_selected = true;
-			ModeManager->Pop();
-			return;
-		}
-		else if (InputManager->ConfirmPress()) {
-			_option_selected = true;
-			switch (_quit_options.GetSelection()) {
-				case QUIT_CANCEL:
-					ModeManager->Pop();
-					break;
-				case QUIT_TO_BOOT:
-					// Disable potential previous effects
-					VideoManager->DisableFadeEffect();
-					ModeManager->PopAll();
+        if(InputManager->QuitPress()) {
+            _option_selected = true;
+            ModeManager->Pop();
+            return;
+        } else if(InputManager->ConfirmPress()) {
+            _option_selected = true;
+            switch(_quit_options.GetSelection()) {
+            case QUIT_CANCEL:
+                ModeManager->Pop();
+                break;
+            case QUIT_TO_BOOT:
+                // Disable potential previous effects
+                VideoManager->DisableFadeEffect();
+                ModeManager->PopAll();
 
-					// This will permit the fade system to start updating again.
-					mode_type = MODE_MANAGER_DUMMY_MODE;
+                // This will permit the fade system to start updating again.
+                mode_type = MODE_MANAGER_DUMMY_MODE;
 
-					ModeManager->Push(new BootMode(), true, true);
-					break;
-				case QUIT_GAME:
-					SystemManager->ExitGame();
-					break;
-				default:
-					IF_PRINT_WARNING(PAUSE_DEBUG) << "unknown quit option selected: " << _quit_options.GetSelection() << std::endl;
-					break;
-			}
-			return;
-		}
-		else if (InputManager->CancelPress()) {
-			_option_selected =true;
-			ModeManager->Pop();
-			return;
-		}
-		else if (InputManager->LeftPress()) {
-			_quit_options.InputLeft();
-		}
-		else if (InputManager->RightPress()) {
-			_quit_options.InputRight();
-		}
-	}
+                ModeManager->Push(new BootMode(), true, true);
+                break;
+            case QUIT_GAME:
+                SystemManager->ExitGame();
+                break;
+            default:
+                IF_PRINT_WARNING(PAUSE_DEBUG) << "unknown quit option selected: " << _quit_options.GetSelection() << std::endl;
+                break;
+            }
+            return;
+        } else if(InputManager->CancelPress()) {
+            _option_selected = true;
+            ModeManager->Pop();
+            return;
+        } else if(InputManager->LeftPress()) {
+            _quit_options.InputLeft();
+        } else if(InputManager->RightPress()) {
+            _quit_options.InputRight();
+        }
+    }
 } // void PauseMode::Update()
 
-void PauseMode::DrawPostEffects() {
-	// Set the coordinate system for the background and draw
-	VideoManager->SetCoordSys(0.0f, _screen_capture.GetWidth(), 0.0f, _screen_capture.GetHeight());
-	VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-	VideoManager->Move(0.0f, 0.0f);
-	_screen_capture.Draw(_dim_color);
+void PauseMode::DrawPostEffects()
+{
+    // Set the coordinate system for the background and draw
+    VideoManager->SetCoordSys(0.0f, _screen_capture.GetWidth(), 0.0f, _screen_capture.GetHeight());
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+    VideoManager->Move(0.0f, 0.0f);
+    _screen_capture.Draw(_dim_color);
 
-	// Re-set the coordinate system for everything else
-	VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
-	VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-	VideoManager->Move(512.0f, 384.0f);
+    // Re-set the coordinate system for everything else
+    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+    VideoManager->Move(512.0f, 384.0f);
 
-	if (!_quit_state) {
-		_paused_text.Draw();
-	}
-	else {
-		_quit_options.Draw();
-	}
+    if(!_quit_state) {
+        _paused_text.Draw();
+    } else {
+        _quit_options.Draw();
+    }
 }
 
 } // namespace hoa_pause

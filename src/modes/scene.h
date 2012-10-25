@@ -31,13 +31,15 @@
 #include "engine/mode_manager.h"
 
 //! All calls to scene mode are wrapped in this namespace.
-namespace hoa_scene {
+namespace hoa_scene
+{
 
 //! Determines whether the code in the hoa_scene namespace should print debug statements or not.
 extern bool SCENE_DEBUG;
 
 //! An internal namespace to be used only within the scene code. Don't use this namespace anywhere else!
-namespace private_scene {
+namespace private_scene
+{
 
 //! How many milliseconds must pass before the user can exit the scene
 const uint32 MIN_SCENE_UPDATES = 750;
@@ -53,22 +55,23 @@ const uint32 MIN_SCENE_UPDATES = 750;
  * the user does not accidentally skip the scene and can take the time to
  * appreciate the art.
  *****************************************************************************/
-class SceneMode : public hoa_mode_manager::GameMode {
+class SceneMode : public hoa_mode_manager::GameMode
+{
 private:
-	//! Retains the number of milliseconds that have elapsed since this mode was initialized
-	uint32 _scene_timer;
+    //! Retains the number of milliseconds that have elapsed since this mode was initialized
+    uint32 _scene_timer;
 
-	//hoa_video::StillImage scene;
+    //hoa_video::StillImage scene;
 public:
-  SceneMode();
-  ~SceneMode();
+    SceneMode();
+    ~SceneMode();
 
-	//! Resets appropriate class members. Called whenever SceneMode is made the active game mode.
-	void Reset();
-	//! Updates the game state by the amount of time that has elapsed
-  void Update();
-	//! Draws the next frame to be displayed on the screen
-  void Draw();
+    //! Resets appropriate class members. Called whenever SceneMode is made the active game mode.
+    void Reset();
+    //! Updates the game state by the amount of time that has elapsed
+    void Update();
+    //! Draws the next frame to be displayed on the screen
+    void Draw();
 }; // class SceneMode
 
 } // namespace hoa_scene
