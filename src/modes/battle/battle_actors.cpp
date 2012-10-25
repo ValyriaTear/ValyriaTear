@@ -99,10 +99,6 @@ BattleActor::BattleActor(GlobalActor* actor) :
 		GetWeaponEquipped()->GetAmmoImageFile() : std::string();
 	if (!ammo_animation_file.empty())
 		_ammo.LoadAmmoAnimatedImage(ammo_animation_file);
-
-	// TODO: I have concerns about the copy constructor for GlobalActor. Currently it creates a copy
-	// of every single attack point, weapon, armor, and skill. I wonder if perhaps we should only
-	// create a copy of the attack point
 }
 
 BattleActor::~BattleActor() {
@@ -322,8 +318,8 @@ void BattleActor::Update() {
 		// Don't update the state_timer if the character is hurt.
 		if (!_hurt_timer.IsRunning()) {
 
-			// Check the stun effect when in idle state.
-			if ((_state != ACTOR_STATE_IDLE && _state != ACTOR_STATE_WARM_UP) || !_is_stunned)
+		// Check the stun effect only when in idle, warm up or cool down state
+		if (!_is_stunned || (_state != ACTOR_STATE_IDLE && _state != ACTOR_STATE_WARM_UP && _state != ACTOR_STATE_COOL_DOWN))
 				_state_timer.Update();
 		}
 
@@ -656,7 +652,7 @@ void BattleCharacter::DrawSprite() {
 	VideoManager->Move(_x_location, _y_location);
 	_global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Draw();
 
-	if (_is_stunned && _state == ACTOR_STATE_IDLE) {
+	if (_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
 		VideoManager->MoveRelative(0, GetSpriteHeight());
 		BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
 	}
@@ -888,7 +884,7 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state) {
 			ChangeState(ACTOR_STATE_WARM_UP);
 			break;
 		case ACTOR_STATE_ACTING:
-			_state_timer.Initialize(400); // TEMP: default value
+			_state_timer.Initialize(400); // Default monster action time
 			_state_timer.Run();
 			break;
 		default:
@@ -899,9 +895,9 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state) {
 void BattleEnemy::ChangeSpriteAnimation(const std::string& alias)
 {
 	_sprite_animation_alias = alias;
-	_animation_timer.Initialize(400); // TEMP: default monster action time
+	// Default value used to create to left shifting
+	_animation_timer.Initialize(400);
 	_animation_timer.Run();
-
 }
 
 void BattleEnemy::Update() {
@@ -981,7 +977,7 @@ void BattleEnemy::DrawSprite() {
 		sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
 	}
 
-	if (_is_stunned && _state == ACTOR_STATE_IDLE) {
+	if (_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
 		VideoManager->MoveRelative(0, GetSpriteHeight());
 		BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
 	}
