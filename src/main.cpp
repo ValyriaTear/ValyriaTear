@@ -40,7 +40,7 @@
 #include "main_options.h"
 
 #ifdef __MACH__
-	#include <unistd.h>
+#include <unistd.h>
 #endif
 
 #include <SDL_image.h>
@@ -70,23 +70,24 @@ using namespace hoa_map;
 *** destructor will also invoke the BattleMode destructor (as well as the destructors of any
 *** other game modes that exist).
 **/
-void QuitApp() {
-	// NOTE: Even if the singleton objects do not exist when this function is called, invoking the
-	// static Destroy() singleton function will do no harm (it checks that the object exists before deleting it).
+void QuitApp()
+{
+    // NOTE: Even if the singleton objects do not exist when this function is called, invoking the
+    // static Destroy() singleton function will do no harm (it checks that the object exists before deleting it).
 
-	// Delete the mode manager first so that all game modes free their resources
-	ModeEngine::SingletonDestroy();
+    // Delete the mode manager first so that all game modes free their resources
+    ModeEngine::SingletonDestroy();
 
-	// Delete the global manager second to remove all object references corresponding to other engine subsystems
-	GameGlobal::SingletonDestroy();
+    // Delete the global manager second to remove all object references corresponding to other engine subsystems
+    GameGlobal::SingletonDestroy();
 
-	// Delete all of the reamining independent engine components
-	GUISystem::SingletonDestroy();
-	AudioEngine::SingletonDestroy();
-	InputEngine::SingletonDestroy();
-	ScriptEngine::SingletonDestroy();
-	SystemEngine::SingletonDestroy();
-	VideoEngine::SingletonDestroy();
+    // Delete all of the reamining independent engine components
+    GUISystem::SingletonDestroy();
+    AudioEngine::SingletonDestroy();
+    InputEngine::SingletonDestroy();
+    ScriptEngine::SingletonDestroy();
+    SystemEngine::SingletonDestroy();
+    VideoEngine::SingletonDestroy();
 } // void QuitApp()
 
 /** \brief Reads in all of the saved game settings and sets values in the according game manager classes
@@ -94,372 +95,375 @@ void QuitApp() {
 **/
 bool LoadSettings()
 {
-	ReadScriptDescriptor settings;
-	if (settings.OpenFile(GetSettingsFilename()) == false)
-		return false;
+    ReadScriptDescriptor settings;
+    if(settings.OpenFile(GetSettingsFilename()) == false)
+        return false;
 
-	settings.OpenTable("settings");
+    settings.OpenTable("settings");
 
-	// Load language settings
-	SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
+    // Load language settings
+    SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
 
-	settings.OpenTable("key_settings");
-	InputManager->SetUpKey(static_cast<SDLKey>(settings.ReadInt("up")));
-	InputManager->SetDownKey(static_cast<SDLKey>(settings.ReadInt("down")));
-	InputManager->SetLeftKey(static_cast<SDLKey>(settings.ReadInt("left")));
-	InputManager->SetRightKey(static_cast<SDLKey>(settings.ReadInt("right")));
-	InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
-	InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
-	InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
-	InputManager->SetSwapKey(static_cast<SDLKey>(settings.ReadInt("swap")));
-	InputManager->SetLeftSelectKey(static_cast<SDLKey>(settings.ReadInt("left_select")));
-	InputManager->SetRightSelectKey(static_cast<SDLKey>(settings.ReadInt("right_select")));
-	InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
-	settings.CloseTable();
+    settings.OpenTable("key_settings");
+    InputManager->SetUpKey(static_cast<SDLKey>(settings.ReadInt("up")));
+    InputManager->SetDownKey(static_cast<SDLKey>(settings.ReadInt("down")));
+    InputManager->SetLeftKey(static_cast<SDLKey>(settings.ReadInt("left")));
+    InputManager->SetRightKey(static_cast<SDLKey>(settings.ReadInt("right")));
+    InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
+    InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
+    InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
+    InputManager->SetSwapKey(static_cast<SDLKey>(settings.ReadInt("swap")));
+    InputManager->SetLeftSelectKey(static_cast<SDLKey>(settings.ReadInt("left_select")));
+    InputManager->SetRightSelectKey(static_cast<SDLKey>(settings.ReadInt("right_select")));
+    InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
+    settings.CloseTable();
 
-	if (settings.IsErrorDetected()) {
-		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
-			<< "information from file: " << GetSettingsFilename() << std::endl
-			<< settings.GetErrorMessages() << std::endl;
-		return false;
-	}
+    if(settings.IsErrorDetected()) {
+        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
+                    << "information from file: " << GetSettingsFilename() << std::endl
+                    << settings.GetErrorMessages() << std::endl;
+        return false;
+    }
 
-	settings.OpenTable("joystick_settings");
-	// This is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
-	// TODO; It should call a method of the input engine to disable the joysticks.
-	if (settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-		SDL_JoystickEventState(SDL_IGNORE);
-		SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-	}
-	InputManager->SetJoyIndex(static_cast<int32>(settings.ReadInt("index")));
-	InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
-	InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
-	InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
-	InputManager->SetSwapJoy(static_cast<uint8>(settings.ReadInt("swap")));
-	InputManager->SetLeftSelectJoy(static_cast<uint8>(settings.ReadInt("left_select")));
-	InputManager->SetRightSelectJoy(static_cast<uint8>(settings.ReadInt("right_select")));
-	InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
+    settings.OpenTable("joystick_settings");
+    // This is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
+    // TODO; It should call a method of the input engine to disable the joysticks.
+    if(settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
+        SDL_JoystickEventState(SDL_IGNORE);
+        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+    }
+    InputManager->SetJoyIndex(static_cast<int32>(settings.ReadInt("index")));
+    InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
+    InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
+    InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
+    InputManager->SetSwapJoy(static_cast<uint8>(settings.ReadInt("swap")));
+    InputManager->SetLeftSelectJoy(static_cast<uint8>(settings.ReadInt("left_select")));
+    InputManager->SetRightSelectJoy(static_cast<uint8>(settings.ReadInt("right_select")));
+    InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
 
-	InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
-	if (settings.DoesIntExist("x_axis"))
-		InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
-	if (settings.DoesIntExist("y_axis"))
-		InputManager->SetYAxisJoy(static_cast<int8>(settings.ReadInt("y_axis")));
+    InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
+    if(settings.DoesIntExist("x_axis"))
+        InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
+    if(settings.DoesIntExist("y_axis"))
+        InputManager->SetYAxisJoy(static_cast<int8>(settings.ReadInt("y_axis")));
 
-	// WinterKnight: These are hidden settings. You can change them by editing settings.lua,
-	// but they are not available in the options menu at this time.
-	if (settings.DoesIntExist("threshold"))
-		InputManager->SetThresholdJoy(static_cast<uint16>(settings.ReadInt("threshold")));
+    // WinterKnight: These are hidden settings. You can change them by editing settings.lua,
+    // but they are not available in the options menu at this time.
+    if(settings.DoesIntExist("threshold"))
+        InputManager->SetThresholdJoy(static_cast<uint16>(settings.ReadInt("threshold")));
 
-	settings.CloseTable();
+    settings.CloseTable();
 
-	if (settings.IsErrorDetected()) {
-		PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
-			<< "from file: " << GetSettingsFilename() << std::endl
-			<< settings.GetErrorMessages() << std::endl;
-		return false;
-	}
+    if(settings.IsErrorDetected()) {
+        PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
+                    << "from file: " << GetSettingsFilename() << std::endl
+                    << settings.GetErrorMessages() << std::endl;
+        return false;
+    }
 
-	// Load video settings
-	settings.OpenTable("video_settings");
-	bool fullscreen = settings.ReadBool("full_screen");
-	int32 resx = settings.ReadInt("screen_resx");
-	int32 resy = settings.ReadInt("screen_resy");
-	VideoManager->SetInitialResolution(resx, resy);
-	VideoManager->SetFullscreen(fullscreen);
-	settings.CloseTable();
+    // Load video settings
+    settings.OpenTable("video_settings");
+    bool fullscreen = settings.ReadBool("full_screen");
+    int32 resx = settings.ReadInt("screen_resx");
+    int32 resy = settings.ReadInt("screen_resy");
+    VideoManager->SetInitialResolution(resx, resy);
+    VideoManager->SetFullscreen(fullscreen);
+    settings.CloseTable();
 
-	if (settings.IsErrorDetected()) {
-		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
-			<< "information from file: " << GetSettingsFilename() << std::endl
-			<< settings.GetErrorMessages() << std::endl;
-		return false;
-	}
+    if(settings.IsErrorDetected()) {
+        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
+                    << "information from file: " << GetSettingsFilename() << std::endl
+                    << settings.GetErrorMessages() << std::endl;
+        return false;
+    }
 
-	// Load Audio settings
-	if (AUDIO_ENABLE) {
-		settings.OpenTable("audio_settings");
-		AudioManager->SetMusicVolume(static_cast<float>(settings.ReadFloat("music_vol")));
-		AudioManager->SetSoundVolume(static_cast<float>(settings.ReadFloat("sound_vol")));
-	}
-	settings.CloseAllTables();
+    // Load Audio settings
+    if(AUDIO_ENABLE) {
+        settings.OpenTable("audio_settings");
+        AudioManager->SetMusicVolume(static_cast<float>(settings.ReadFloat("music_vol")));
+        AudioManager->SetSoundVolume(static_cast<float>(settings.ReadFloat("sound_vol")));
+    }
+    settings.CloseAllTables();
 
-	if (settings.IsErrorDetected()) {
-		PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
-			<< "information from file: " << GetSettingsFilename() << std::endl
-			<< settings.GetErrorMessages() << std::endl;
-		return false;
-	}
+    if(settings.IsErrorDetected()) {
+        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
+                    << "information from file: " << GetSettingsFilename() << std::endl
+                    << settings.GetErrorMessages() << std::endl;
+        return false;
+    }
 
-	settings.CloseFile();
+    settings.CloseFile();
 
-	return true;
+    return true;
 } // bool LoadSettings()
 
 //! Loads all the fonts available in the game.
 //! And sets a default one
 //! The function will exit the game if no valid font were loaded
 //! or if the default font is invalid.
-static void LoadFonts(const std::string& font_script_filename) {
-	hoa_script::ReadScriptDescriptor font_script;
+static void LoadFonts(const std::string &font_script_filename)
+{
+    hoa_script::ReadScriptDescriptor font_script;
 
-	//Checking the file existence and validity.
-	if (!font_script.OpenFile(font_script_filename)) {
-		PRINT_ERROR << "Couldn't open font file: " << font_script_filename
-			 << std::endl;
-		exit(EXIT_FAILURE);
-	}
+    //Checking the file existence and validity.
+    if(!font_script.OpenFile(font_script_filename)) {
+        PRINT_ERROR << "Couldn't open font file: " << font_script_filename
+                    << std::endl;
+        exit(EXIT_FAILURE);
+    }
 
-	if (!font_script.DoesTableExist("fonts")) {
-		PRINT_ERROR << "No 'fonts' table in file: " << font_script_filename
-			<< std::endl;
-		font_script.CloseFile();
-		exit(EXIT_FAILURE);
-	}
+    if(!font_script.DoesTableExist("fonts")) {
+        PRINT_ERROR << "No 'fonts' table in file: " << font_script_filename
+                    << std::endl;
+        font_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
 
-	std::string font_default = font_script.ReadString("font_default");
-	if (font_default.empty()) {
-		PRINT_ERROR << "No default font defined in: " << font_script_filename
-			<< std::endl;
-		font_script.CloseFile();
-		exit(EXIT_FAILURE);
-	}
+    std::string font_default = font_script.ReadString("font_default");
+    if(font_default.empty()) {
+        PRINT_ERROR << "No default font defined in: " << font_script_filename
+                    << std::endl;
+        font_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
 
-	std::vector<std::string> style_names;
-	font_script.ReadTableKeys("fonts", style_names);
-	if (style_names.empty()) {
-		PRINT_ERROR << "No text styles defined in the 'fonts' table of file: "
-			<< font_script_filename << std::endl;
-		font_script.CloseFile();
-		exit(EXIT_FAILURE);
-	}
+    std::vector<std::string> style_names;
+    font_script.ReadTableKeys("fonts", style_names);
+    if(style_names.empty()) {
+        PRINT_ERROR << "No text styles defined in the 'fonts' table of file: "
+                    << font_script_filename << std::endl;
+        font_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
 
-	font_script.OpenTable("fonts");
-	for (uint32 i = 0; i < style_names.size(); ++i) {
-		font_script.OpenTable(style_names[i]); // Text style
+    font_script.OpenTable("fonts");
+    for(uint32 i = 0; i < style_names.size(); ++i) {
+        font_script.OpenTable(style_names[i]); // Text style
 
-		std::string font_file = font_script.ReadString("font");
-		uint32 font_size = font_script.ReadInt("size");
+        std::string font_file = font_script.ReadString("font");
+        uint32 font_size = font_script.ReadInt("size");
 
-		if (!VideoManager->Text()->LoadFont(font_file, style_names[i], font_size)) {
-			// Check whether the default font is invalid
-			if (font_default == style_names[i]) {
-				font_script.CloseAllTables();
-				font_script.CloseFile();
-				PRINT_ERROR << "The default font '" << font_default
-					<< "' couldn't be loaded in file: " << font_script_filename
-					<< std::endl;
-				exit(EXIT_FAILURE);
-				return; // Superfluous but for readability.
-			}
-		}
+        if(!VideoManager->Text()->LoadFont(font_file, style_names[i], font_size)) {
+            // Check whether the default font is invalid
+            if(font_default == style_names[i]) {
+                font_script.CloseAllTables();
+                font_script.CloseFile();
+                PRINT_ERROR << "The default font '" << font_default
+                            << "' couldn't be loaded in file: " << font_script_filename
+                            << std::endl;
+                exit(EXIT_FAILURE);
+                return; // Superfluous but for readability.
+            }
+        }
 
-		font_script.CloseTable(); // Text style
-	}
-	font_script.CloseTable(); // fonts
+        font_script.CloseTable(); // Text style
+    }
+    font_script.CloseTable(); // fonts
 
-	font_script.CloseFile();
+    font_script.CloseFile();
 
-	// Setup the default font
-	VideoManager->Text()->SetDefaultStyle(TextStyle(font_default, Color::white,
-													VIDEO_TEXT_SHADOW_BLACK, 1, -2));
+    // Setup the default font
+    VideoManager->Text()->SetDefaultStyle(TextStyle(font_default, Color::white,
+                                          VIDEO_TEXT_SHADOW_BLACK, 1, -2));
 }
 
 /** \brief Initializes all engine components and makes other preparations for the game to start
 *** \return True if the game engine was initialized successfully, false if an unrecoverable error occured
 **/
-void InitializeEngine() throw (Exception) {
-	// Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
-	if (SDL_Init(SDL_INIT_TIMER) != 0) {
-		throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
-	}
+void InitializeEngine() throw(Exception)
+{
+    // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
+    if(SDL_Init(SDL_INIT_TIMER) != 0) {
+        throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
+    }
 
-	// Create and initialize singleton class managers
-	AudioManager = AudioEngine::SingletonCreate();
-	InputManager = InputEngine::SingletonCreate();
-	ScriptManager = ScriptEngine::SingletonCreate();
-	VideoManager = VideoEngine::SingletonCreate();
-	SystemManager = SystemEngine::SingletonCreate();
-	ModeManager = ModeEngine::SingletonCreate();
-	GUIManager = GUISystem::SingletonCreate();
-	GlobalManager = GameGlobal::SingletonCreate();
+    // Create and initialize singleton class managers
+    AudioManager = AudioEngine::SingletonCreate();
+    InputManager = InputEngine::SingletonCreate();
+    ScriptManager = ScriptEngine::SingletonCreate();
+    VideoManager = VideoEngine::SingletonCreate();
+    SystemManager = SystemEngine::SingletonCreate();
+    ModeManager = ModeEngine::SingletonCreate();
+    GUIManager = GUISystem::SingletonCreate();
+    GlobalManager = GameGlobal::SingletonCreate();
 
-	// TODO: Open the user setting's file and apply those settings
+    // TODO: Open the user setting's file and apply those settings
 
-	if (VideoManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize VideoManager", __FILE__, __LINE__, __FUNCTION__);
-	}
+    if(VideoManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize VideoManager", __FILE__, __LINE__, __FUNCTION__);
+    }
 
-	if (AudioManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize AudioManager", __FILE__, __LINE__, __FUNCTION__);
-	}
+    if(AudioManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize AudioManager", __FILE__, __LINE__, __FUNCTION__);
+    }
 
-	if (ScriptManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize ScriptManager", __FILE__, __LINE__, __FUNCTION__);
-	}
+    if(ScriptManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize ScriptManager", __FILE__, __LINE__, __FUNCTION__);
+    }
 
-	hoa_defs::BindEngineCode();
-	hoa_defs::BindCommonCode();
-	hoa_defs::BindModeCode();
+    hoa_defs::BindEngineCode();
+    hoa_defs::BindCommonCode();
+    hoa_defs::BindModeCode();
 
-	if (SystemManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize SystemManager", __FILE__, __LINE__, __FUNCTION__);
-	}
-	if (InputManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize InputManager", __FILE__, __LINE__, __FUNCTION__);
-	}
-	if (ModeManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize ModeManager", __FILE__, __LINE__, __FUNCTION__);
-	}
-	if (GlobalManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize GlobalManager", __FILE__, __LINE__, __FUNCTION__);
-	}
+    if(SystemManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize SystemManager", __FILE__, __LINE__, __FUNCTION__);
+    }
+    if(InputManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize InputManager", __FILE__, __LINE__, __FUNCTION__);
+    }
+    if(ModeManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize ModeManager", __FILE__, __LINE__, __FUNCTION__);
+    }
+    if(GlobalManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize GlobalManager", __FILE__, __LINE__, __FUNCTION__);
+    }
 
-	// Set the window icon
-	#ifdef _WIN32
-		SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.bmp"), NULL);
-	#else
-		SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
-	#endif
+    // Set the window icon
+#ifdef _WIN32
+    SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.bmp"), NULL);
+#else
+    SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
+#endif
 
-	// Load all the settings from lua. This includes some engine configuration settings.
-	if (LoadSettings() == false)
-		throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
+    // Load all the settings from lua. This includes some engine configuration settings.
+    if(LoadSettings() == false)
+        throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
 
-	// Apply engine configuration settings with delayed initialization calls to the managers
-	InputManager->InitializeJoysticks();
-	if (VideoManager->ApplySettings() == false)
-		throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
-	if (VideoManager->FinalizeInitialization() == false)
-		throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
-	if (GUIManager->LoadMenuSkin("black_sleet", "img/menus/black_sleet_skin.png", "img/menus/black_sleet_texture.png") == false) {
-		throw Exception("Failed to load the 'Black Sleet' MenuSkin images.", __FILE__, __LINE__, __FUNCTION__);
-	}
-	// NOTE: This function call should have its argument set to false for release builds
-	GUIManager->DEBUG_EnableGUIOutlines(false);
+    // Apply engine configuration settings with delayed initialization calls to the managers
+    InputManager->InitializeJoysticks();
+    if(VideoManager->ApplySettings() == false)
+        throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
+    if(VideoManager->FinalizeInitialization() == false)
+        throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
+    if(GUIManager->LoadMenuSkin("black_sleet", "img/menus/black_sleet_skin.png", "img/menus/black_sleet_texture.png") == false) {
+        throw Exception("Failed to load the 'Black Sleet' MenuSkin images.", __FILE__, __LINE__, __FUNCTION__);
+    }
+    // NOTE: This function call should have its argument set to false for release builds
+    GUIManager->DEBUG_EnableGUIOutlines(false);
 
-	// Loads all game fonts
-	LoadFonts("dat/config/fonts.lua");
+    // Loads all game fonts
+    LoadFonts("dat/config/fonts.lua");
 
-	// Loads potential emotes
-	GlobalManager->LoadEmotes("dat/effects/emotes.lua");
+    // Loads potential emotes
+    GlobalManager->LoadEmotes("dat/effects/emotes.lua");
 
-	// Set the window title and icon name
-	SDL_WM_SetCaption(APPFULLNAME, APPFULLNAME);
+    // Set the window title and icon name
+    SDL_WM_SetCaption(APPFULLNAME, APPFULLNAME);
 
-	// Hide the mouse cursor since we don't use or acknowledge mouse input from the user
-	SDL_ShowCursor(SDL_DISABLE);
+    // Hide the mouse cursor since we don't use or acknowledge mouse input from the user
+    SDL_ShowCursor(SDL_DISABLE);
 
-	// Enabled for multilingual keyboard support
-	SDL_EnableUNICODE(1);
+    // Enabled for multilingual keyboard support
+    SDL_EnableUNICODE(1);
 
-	// Ignore the events that we don't care about so they never appear in the event queue
-	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
-	SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
-	SDL_EventState(SDL_MOUSEBUTTONUP, SDL_IGNORE);
-	SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
-	SDL_EventState(SDL_VIDEOEXPOSE, SDL_IGNORE);
-	SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
+    // Ignore the events that we don't care about so they never appear in the event queue
+    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+    SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
+    SDL_EventState(SDL_MOUSEBUTTONUP, SDL_IGNORE);
+    SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
+    SDL_EventState(SDL_VIDEOEXPOSE, SDL_IGNORE);
+    SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
 
-	if (GUIManager->SingletonInitialize() == false) {
-		throw Exception("ERROR: unable to initialize GUIManager", __FILE__, __LINE__, __FUNCTION__);
-	}
+    if(GUIManager->SingletonInitialize() == false) {
+        throw Exception("ERROR: unable to initialize GUIManager", __FILE__, __LINE__, __FUNCTION__);
+    }
 
-	SystemManager->InitializeTimers();
+    SystemManager->InitializeTimers();
 } // void InitializeEngine()
 
 
 // Every great game begins with a single function :)
-int main(int argc, char *argv[]) {
-	// When the program exits, the QuitApp() function will be called first, followed by SDL_Quit()
-	atexit(SDL_Quit);
-	atexit(QuitApp);
+int main(int argc, char *argv[])
+{
+    // When the program exits, the QuitApp() function will be called first, followed by SDL_Quit()
+    atexit(SDL_Quit);
+    atexit(QuitApp);
 
-	try {
-		// Change to the directory where the game data is stored
-		#ifdef __MACH__
-			string path;
-			path = argv[0];
-			// Remove the binary name
-			path.erase(path.find_last_of('/'));
-			// Remove the MacOS directory
-			path.erase(path.find_last_of('/'));
-			// Now the program should be in app/Contents
-			path.append ("/Resources/");
-			chdir(path.c_str());
-		#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
-			// Look for data files in DATADIR only if they are not available in the current directory.
-			if (std::ifstream("dat/config/settings.lua") == NULL) {
-				if (chdir(PKG_DATADIR) != 0) {
-					throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
-				}
-			}
-		#endif
+    try {
+        // Change to the directory where the game data is stored
+#ifdef __MACH__
+        string path;
+        path = argv[0];
+        // Remove the binary name
+        path.erase(path.find_last_of('/'));
+        // Remove the MacOS directory
+        path.erase(path.find_last_of('/'));
+        // Now the program should be in app/Contents
+        path.append("/Resources/");
+        chdir(path.c_str());
+#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
+        // Look for data files in DATADIR only if they are not available in the current directory.
+        if(std::ifstream("dat/config/settings.lua") == NULL) {
+            if(chdir(PKG_DATADIR) != 0) {
+                throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
+            }
+        }
+#endif
 
-		// Initialize the random number generator (note: 'unsigned int' is a required usage in this case)
-		srand(static_cast<unsigned int>(time(NULL)));
+        // Initialize the random number generator (note: 'unsigned int' is a required usage in this case)
+        srand(static_cast<unsigned int>(time(NULL)));
 
-		// This variable will be set by the ParseProgramOptions function
-		int32 return_code = EXIT_FAILURE;
+        // This variable will be set by the ParseProgramOptions function
+        int32 return_code = EXIT_FAILURE;
 
-		// Parse command lines and exit out of the game if needed
-		if (hoa_main::ParseProgramOptions(return_code, static_cast<int32>(argc), argv) == false) {
-			return static_cast<int>(return_code);
-		}
+        // Parse command lines and exit out of the game if needed
+        if(hoa_main::ParseProgramOptions(return_code, static_cast<int32>(argc), argv) == false) {
+            return static_cast<int>(return_code);
+        }
 
-		// Function call below throws exceptions if any errors occur
-		InitializeEngine();
+        // Function call below throws exceptions if any errors occur
+        InitializeEngine();
 
-	} catch (const Exception& e) {
-		#ifdef WIN32
-		MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
-		#else
-		std::cerr << e.ToString() << std::endl;
-		#endif
-		return EXIT_FAILURE;
-	}
+    } catch(const Exception &e) {
+#ifdef WIN32
+        MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+#else
+        std::cerr << e.ToString() << std::endl;
+#endif
+        return EXIT_FAILURE;
+    }
 
-	ModeManager->Push(new BootMode(), false, true);
+    ModeManager->Push(new BootMode(), false, true);
 
-	try {
-		// This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
-		while (SystemManager->NotDone()) {
-		    // Update only every 10 milliseconds.
-		    SDL_Delay(10);
+    try {
+        // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
+        while(SystemManager->NotDone()) {
+            // Update only every 10 milliseconds.
+            SDL_Delay(10);
 
-			// 1) Render the scene
-			VideoManager->Clear();
-			ModeManager->Draw();
-			VideoManager->Draw();
-			ModeManager->DrawEffects();
-			ModeManager->DrawPostEffects();
-			// Swap the buffers once the draw operations are done.
-			SDL_GL_SwapBuffers();
+            // 1) Render the scene
+            VideoManager->Clear();
+            ModeManager->Draw();
+            VideoManager->Draw();
+            ModeManager->DrawEffects();
+            ModeManager->DrawPostEffects();
+            // Swap the buffers once the draw operations are done.
+            SDL_GL_SwapBuffers();
 
-			// Update timers for correct time-based movement operation
-			SystemManager->UpdateTimers();
+            // Update timers for correct time-based movement operation
+            SystemManager->UpdateTimers();
 
-			// Process all new events
-			InputManager->EventHandler();
+            // Process all new events
+            InputManager->EventHandler();
 
-			// Update video
-			VideoManager->Update();
+            // Update video
+            VideoManager->Update();
 
-			// Update any streaming audio sources
-			AudioManager->Update();
+            // Update any streaming audio sources
+            AudioManager->Update();
 
-			// Update the game status
-			ModeManager->Update();
+            // Update the game status
+            ModeManager->Update();
 
-		} // while (SystemManager->NotDone())
-	} catch (const Exception& e) {
-		#ifdef WIN32
-		MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
-		#else
-		std::cerr << e.ToString() << std::endl;
-		#endif
-		return EXIT_FAILURE;
-	}
+        } // while (SystemManager->NotDone())
+    } catch(const Exception &e) {
+#ifdef WIN32
+        MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+#else
+        std::cerr << e.ToString() << std::endl;
+#endif
+        return EXIT_FAILURE;
+    }
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 } // int main(int argc, char *argv[])

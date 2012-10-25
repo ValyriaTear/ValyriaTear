@@ -39,124 +39,132 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Audio declarations, see src/engine/audio/
-namespace hoa_audio {
-	extern bool AUDIO_DEBUG;
-	class AudioEngine;
+namespace hoa_audio
+{
+extern bool AUDIO_DEBUG;
+class AudioEngine;
 
-	class AudioDescriptor;
-	class MusicDescriptor;
-	class SoundDescriptor;
+class AudioDescriptor;
+class MusicDescriptor;
+class SoundDescriptor;
 
-	namespace private_audio {
-		class AudioCacheElement;
+namespace private_audio
+{
+class AudioCacheElement;
 
-		class AudioBuffer;
-		class AudioSource;
-		class AudioStream;
+class AudioBuffer;
+class AudioSource;
+class AudioStream;
 
-		class AudioInput;
-		class WavFile;
-		class OggFile;
-		class AudioMemory;
+class AudioInput;
+class WavFile;
+class OggFile;
+class AudioMemory;
 
-		class AudioEffect;
-		class FadeInEffect;
-		class FadeOutEffect;
-	}
+class AudioEffect;
+class FadeInEffect;
+class FadeOutEffect;
+}
 }
 
 // Video declarations, see src/engine/video/
-namespace hoa_video {
-	extern bool VIDEO_DEBUG;
-	class VideoEngine;
+namespace hoa_video
+{
+extern bool VIDEO_DEBUG;
+class VideoEngine;
 
-	class Color;
-	class CoordSys;
-	class ScreenRect;
+class Color;
+class CoordSys;
+class ScreenRect;
 
-	class FixedImageNode;
-	class VariableImageNode;
+class FixedImageNode;
+class VariableImageNode;
 
-	class ImageDescriptor;
-	class StillImage;
-	class AnimatedImage;
-	class CompositeImage;
+class ImageDescriptor;
+class StillImage;
+class AnimatedImage;
+class CompositeImage;
 
-	class TextureController;
+class TextureController;
 
-	class TextSupervisor;
-	class FontGlyph;
-	class FontProperties;
-	class TextImage;
+class TextSupervisor;
+class FontGlyph;
+class FontProperties;
+class TextImage;
 
-	class Interpolator;
+class Interpolator;
 
-	namespace private_video {
-		class Context;
+namespace private_video
+{
+class Context;
 
-		class TexSheet;
-		class FixedTexSheet;
-		class VariableTexSheet;
-		class FixedTexNode;
-		class VariableTexNode;
+class TexSheet;
+class FixedTexSheet;
+class VariableTexSheet;
+class FixedTexNode;
+class VariableTexNode;
 
-		class ImageMemory;
+class ImageMemory;
 
-		class BaseTexture;
-		class ImageTexture;
-		class TextTexture;
-		class TextElement;
-		class AnimationFrame;
-		class ImageElement;
+class BaseTexture;
+class ImageTexture;
+class TextTexture;
+class TextElement;
+class AnimationFrame;
+class ImageElement;
 
-		class ScreenFader;
-		class ShakeForce;
-	}
+class ScreenFader;
+class ShakeForce;
+}
 }
 
 // Script declarations, see src/engine/script/
-namespace hoa_script {
-	extern bool SCRIPT_DEBUG;
-	class ScriptEngine;
+namespace hoa_script
+{
+extern bool SCRIPT_DEBUG;
+class ScriptEngine;
 
-	class ScriptDescriptor;
-	class ReadScriptDescriptor;
-	class WriteScriptDescriptor;
-	class ModifyScriptDescriptor;
+class ScriptDescriptor;
+class ReadScriptDescriptor;
+class WriteScriptDescriptor;
+class ModifyScriptDescriptor;
 }
 
 // Mode manager declarations, see src/engine/
-namespace hoa_mode_manager {
-	extern bool MODE_MANAGER_DEBUG;
-	class ModeEngine;
+namespace hoa_mode_manager
+{
+extern bool MODE_MANAGER_DEBUG;
+class ModeEngine;
 
-	class GameMode;
+class GameMode;
 
-	class ParticleEffect;
-	class ParticleEffectDef;
-	class ParticleEmitter;
-	class EffectParameters;
+class ParticleEffect;
+class ParticleEffectDef;
+class ParticleEmitter;
+class EffectParameters;
 
-	class ParticleManager;
-	class ParticleSystem;
-	class ParticleSystemDef;
-	class Particle;
-	class ParticleVertex;
-	class ParticleTexCoord;
-	class ParticleKeyframe;
+class ParticleManager;
+class ParticleSystem;
+class ParticleSystemDef;
+class Particle;
+class ParticleVertex;
+class ParticleTexCoord;
+class ParticleKeyframe;
 }
 
 // Input declarations, see src/engine/
-namespace hoa_input {
-	extern bool INPUT_DEBUG;
-	class InputEngine;
+namespace hoa_input
+{
+extern bool INPUT_DEBUG;
+class InputEngine;
 }
 
 // Settings declarations, see src/engine/
-namespace hoa_system {
-	extern bool SYSTEM_DEBUG;
-	class SystemEngine;
-	class Timer;
+namespace hoa_system
+{
+extern bool SYSTEM_DEBUG;
+class SystemEngine;
+class Timer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -164,55 +172,59 @@ namespace hoa_system {
 ////////////////////////////////////////////////////////////////////////////////
 
 // Common declarations, see src/common
-namespace hoa_common {
-	extern bool COMMON_DEBUG;
-	class CommonDialogue;
-	class CommonDialogueOptions;
-	class CommonDialogueWindow;
-	class CommonDialogueSupervisor;
+namespace hoa_common
+{
+extern bool COMMON_DEBUG;
+class CommonDialogue;
+class CommonDialogueOptions;
+class CommonDialogueWindow;
+class CommonDialogueSupervisor;
 }
 
 // Global declarations, see src/common/global/
-namespace hoa_global {
-	extern bool GLOBAL_DEBUG;
-	class GameGlobal;
-	class GlobalEventGroup;
+namespace hoa_global
+{
+extern bool GLOBAL_DEBUG;
+class GameGlobal;
+class GlobalEventGroup;
 
-	class GlobalObject;
-	class GlobalItem;
-	class GlobalWeapon;
-	class GlobalArmor;
-	class GlobalShard;
-	class GlobalKeyItem;
+class GlobalObject;
+class GlobalItem;
+class GlobalWeapon;
+class GlobalArmor;
+class GlobalShard;
+class GlobalKeyItem;
 
-	class GlobalStatusEffect;
-	class GlobalElementalEffect;
-	class GlobalSkill;
+class GlobalStatusEffect;
+class GlobalElementalEffect;
+class GlobalSkill;
 
-	class GlobalAttackPoint;
-	class GlobalActor;
-	class GlobalCharacter;
-	class GlobalCharacterGrowth;
-	class GlobalEnemy;
-	class GlobalParty;
+class GlobalAttackPoint;
+class GlobalActor;
+class GlobalCharacter;
+class GlobalCharacterGrowth;
+class GlobalEnemy;
+class GlobalParty;
 }
 
 // GUI declarations, see src/common/gui
-namespace hoa_gui {
-	class GUISystem;
-	class MenuWindow;
-	class TextBox;
-	class OptionBox;
+namespace hoa_gui
+{
+class GUISystem;
+class MenuWindow;
+class TextBox;
+class OptionBox;
 
-	namespace private_gui {
-		class GUIElement;
-		class GUIControl;
-		class MenuSkin;
+namespace private_gui
+{
+class GUIElement;
+class GUIControl;
+class MenuSkin;
 
-		class Option;
-		class OptionElement;
-		class OptionCellBounds;
-	}
+class Option;
+class OptionElement;
+class OptionCellBounds;
+}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -220,157 +232,168 @@ namespace hoa_gui {
 ////////////////////////////////////////////////////////////////////////////////
 
 // Battle mode declarations, see src/modes/battle/
-namespace hoa_battle {
-	extern bool BATTLE_DEBUG;
-	class BattleMode;
+namespace hoa_battle
+{
+extern bool BATTLE_DEBUG;
+class BattleMode;
 
-	namespace private_battle {
-		class BattleMedia;
+namespace private_battle
+{
+class BattleMedia;
 
-		class SequenceSupervisor;
+class SequenceSupervisor;
 
-		class BattleActor;
-		class BattleCharacter;
-		class BattleEnemy;
+class BattleActor;
+class BattleCharacter;
+class BattleEnemy;
 
-		class BattleAction;
-		class SkillAction;
-		class ItemAction;
+class BattleAction;
+class SkillAction;
+class ItemAction;
 
-		class BattleTarget;
-		class BattleItem;
+class BattleTarget;
+class BattleItem;
 
-		class BattleSpeaker;
-		class BattleDialogue;
-		class DialogueSupervisor;
+class BattleSpeaker;
+class BattleDialogue;
+class DialogueSupervisor;
 
-		class BattleStatusEffect;
-		class EffectsSupervisor;
+class BattleStatusEffect;
+class EffectsSupervisor;
 
-		class IndicatorElement;
-		class IndicatorText;
-		class IndicatorImage;
-		class IndicatorSupervisor;
+class IndicatorElement;
+class IndicatorText;
+class IndicatorImage;
+class IndicatorSupervisor;
 
-		class ItemCommand;
-		class SkillCommand;
-		class CharacterCommand;
-		class CommandSupervisor;
+class ItemCommand;
+class SkillCommand;
+class CharacterCommand;
+class CommandSupervisor;
 
-		class FinishDefeatAssistant;
-		class FinishVictoryAssistant;
-		class FinishSupervisor;
-	}
+class FinishDefeatAssistant;
+class FinishVictoryAssistant;
+class FinishSupervisor;
+}
 }
 
 // Boot mode declarations, see src/modes/boot/
-namespace hoa_boot {
-	extern bool BOOT_DEBUG;
-	class BootMode;
+namespace hoa_boot
+{
+extern bool BOOT_DEBUG;
+class BootMode;
 
-	namespace private_boot {
-		class BootMenu;
-	}
+namespace private_boot
+{
+class BootMenu;
+}
 }
 
 // Map mode declarations, see src/modes/map/
-namespace hoa_map {
-	extern bool MAP_DEBUG;
-	class MapMode;
+namespace hoa_map
+{
+extern bool MAP_DEBUG;
+class MapMode;
 
-	namespace private_map {
-		class TileSupervisor;
-		class MapTile;
+namespace private_map
+{
+class TileSupervisor;
+class MapTile;
 
-		class MapRectangle;
-		class MapFrame;
-		class PathNode;
+class MapRectangle;
+class MapFrame;
+class PathNode;
 
-		class ObjectSupervisor;
-		class MapObject;
-		class PhysicalObject;
-		class TreasureObject;
+class ObjectSupervisor;
+class MapObject;
+class PhysicalObject;
+class TreasureObject;
 
-		class VirtualSprite;
-		class MapSprite;
-		class EnemySprite;
+class VirtualSprite;
+class MapSprite;
+class EnemySprite;
 
-		class DialogueSupervisor;
-		class SpriteDialogue;
-		class MapDialogueOptions;
+class DialogueSupervisor;
+class SpriteDialogue;
+class MapDialogueOptions;
 
-		class EventSupervisor;
-		class MapEvent;
-		class DialogueEvent;
-		class ScriptedEvent;
-		class ShopEvent;
-		class SoundEvent;
-		class MapTransitionEvent;
-		class JoinPartyEvent;
-		class BattleEncounterEvent;
-		class SpriteEvent;
-		class ScriptedSpriteEvent;
-		class ChangeDirectionSpriteEvent;
-		class PathMoveSpriteEvent;
-		class RandomMoveSpriteEvent;
-		class AnimateSpriteEvent;
+class EventSupervisor;
+class MapEvent;
+class DialogueEvent;
+class ScriptedEvent;
+class ShopEvent;
+class SoundEvent;
+class MapTransitionEvent;
+class JoinPartyEvent;
+class BattleEncounterEvent;
+class SpriteEvent;
+class ScriptedSpriteEvent;
+class ChangeDirectionSpriteEvent;
+class PathMoveSpriteEvent;
+class RandomMoveSpriteEvent;
+class AnimateSpriteEvent;
 
-		class TreasureSupervisor;
-		class MapTreasure;
+class TreasureSupervisor;
+class MapTreasure;
 
-		class ZoneSection;
-		class MapZone;
-		class ResidentZone;
-		class EnemyZone;
-		class ContextZone;
-	}
+class ZoneSection;
+class MapZone;
+class ResidentZone;
+class EnemyZone;
+class ContextZone;
+}
 }
 
 // Menu mode declarations, see src/modes/menu/
-namespace hoa_menu {
-	extern bool MENU_DEBUG;
-	class MenuMode;
+namespace hoa_menu
+{
+extern bool MENU_DEBUG;
+class MenuMode;
 }
 
 // Pause mode declarations, see src/modes/
-namespace hoa_pause {
-	extern bool PAUSE_DEBUG;
-	class PauseMode;
+namespace hoa_pause
+{
+extern bool PAUSE_DEBUG;
+class PauseMode;
 }
 
 // Scene mode declarations, see src/modes/
-namespace hoa_scene {
-	extern bool SCENE_DEBUG;
-	class SceneMode;
+namespace hoa_scene
+{
+extern bool SCENE_DEBUG;
+class SceneMode;
 }
 
 // Shop mode declarations, see src/modes/shop/
-namespace hoa_shop {
-	extern bool SHOP_DEBUG;
-	class ShopMode;
+namespace hoa_shop
+{
+extern bool SHOP_DEBUG;
+class ShopMode;
 
-	namespace private_shop {
-		class ShopMedia;
-		class ShopInterface;
-		class ShopObject;
-		class ShopObjectViewer;
-		class ObjectListDisplay;
+namespace private_shop
+{
+class ShopMedia;
+class ShopInterface;
+class ShopObject;
+class ShopObjectViewer;
+class ObjectListDisplay;
 
-		class RootInterface;
-		class CategoryDrawData;
+class RootInterface;
+class CategoryDrawData;
 
-		class BuyInterface;
-		class BuyListDisplay;
+class BuyInterface;
+class BuyListDisplay;
 
-		class SellInterface;
-		class SellListDisplay;
+class SellInterface;
+class SellListDisplay;
 
-		class TradeInterface;
+class TradeInterface;
 
-		class ConfirmInterface;
+class ConfirmInterface;
 
-		class LeaveInterface;
-	}
+class LeaveInterface;
+}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -378,11 +401,12 @@ namespace hoa_shop {
 ////////////////////////////////////////////////////////////////////////////////
 
 // Utils declarations, see src/utils.h
-namespace hoa_utils {
-	extern bool UTILS_DEBUG;
-	class ustring;
-	class Exception;
-	extern float RandomFloat();
+namespace hoa_utils
+{
+extern bool UTILS_DEBUG;
+class ustring;
+class Exception;
+extern float RandomFloat();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -390,7 +414,8 @@ namespace hoa_utils {
 ////////////////////////////////////////////////////////////////////////////////
 
 //! \brief Namespace which contains all binding functions
-namespace hoa_defs {
+namespace hoa_defs
+{
 
 /** \brief Contains the binding code which makes the C++ engine available to Lua
 *** This method should <b>only be called once</b>. It must be called after the

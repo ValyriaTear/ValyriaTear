@@ -60,24 +60,24 @@
 // and defines HAVE_STDINT_H for compliant compilers
 #include <SDL/SDL_config.h>
 #ifdef HAVE_STDINT_H
-	#include <stdint.h> // Using the C header, because the C++ header, <cstdint> is only available in ISO C++0x
+#include <stdint.h> // Using the C header, because the C++ header, <cstdint> is only available in ISO C++0x
 #endif
 
 #ifdef __MACH__
-	#include <OpenAL/al.h>
-	#include <OpenAL/alc.h>
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
 #else
-	#include "al.h"
-	#include "alc.h"
+#include "al.h"
+#include "alc.h"
 #endif
 
 #ifdef _WIN32
-	// Even though the game is platform independent, OpenGL on Windows requires windows.h to be included
-	#include <windows.h>
-	// Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
-	#ifndef strcasecmp
-	#define strcasecmp stricmp
-	#endif
+// Even though the game is platform independent, OpenGL on Windows requires windows.h to be included
+#include <windows.h>
+// Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
+#ifndef strcasecmp
+#define strcasecmp stricmp
+#endif
 #endif
 
 /** \brief Forces the application to abort with an error
@@ -134,7 +134,8 @@ typedef uint8_t   uint8;
 //@}
 
 //! Contains utility code used across the entire source code
-namespace hoa_utils {
+namespace hoa_utils
+{
 
 //! Determines whether the code in the hoa_utils namespace should print debug statements or not.
 extern bool UTILS_DEBUG;
@@ -226,9 +227,9 @@ float FloorToFloatMultiple(const float value, const float multiple);
 template<class T>
 void DataToString(std::string &s, const T &data)
 {
-	std::ostringstream stream;
-	stream << data;
-	s = stream.str();
+    std::ostringstream stream;
+    stream << data;
+    s = stream.str();
 }
 
 //! \brief Returns the uppercased version of a string
@@ -265,53 +266,63 @@ std::string UpcaseFirst(std::string text);
 ***
 *** \note This class does not use wchar_t because it has poor compatibility.
 *** ***************************************************************************/
-class ustring {
+class ustring
+{
 public:
-	ustring();
+    ustring();
 
-	ustring(const uint16*);
+    ustring(const uint16 *);
 
-	static const size_t npos;
+    static const size_t npos;
 
-	void clear()
-		{ _str.clear(); _str.push_back(0); }
+    void clear() {
+        _str.clear();
+        _str.push_back(0);
+    }
 
-	bool empty() const
-		{ return _str.size() <= 1; }
+    bool empty() const {
+        return _str.size() <= 1;
+    }
 
-	size_t length() const
-		// We assume that there is always a null terminating character, hence the -1 subtracted from the size
-		{ return _str.size() - 1; }
+    size_t length() const
+    // We assume that there is always a null terminating character, hence the -1 subtracted from the size
+    {
+        return _str.size() - 1;
+    }
 
-	size_t size() const
-		{ return length(); }
+    size_t size() const {
+        return length();
+    }
 
-	const uint16* c_str() const
-		{ return &_str[0]; }
+    const uint16 *c_str() const {
+        return &_str[0];
+    }
 
-	size_t find(uint16 c, size_t pos = 0) const;
+    size_t find(uint16 c, size_t pos = 0) const;
 
-	size_t find(const ustring &s, size_t pos = 0) const;
+    size_t find(const ustring &s, size_t pos = 0) const;
 
-	ustring substr(size_t pos = 0, size_t n = npos) const;
+    ustring substr(size_t pos = 0, size_t n = npos) const;
 
-	ustring operator + (const ustring& s);
+    ustring operator + (const ustring &s);
 
-	ustring & operator += (uint16 c);
+    ustring &operator += (uint16 c);
 
-	ustring & operator += (const ustring& s);
+    ustring &operator += (const ustring &s);
 
-	ustring & operator = (const ustring& s);
+    ustring &operator = (const ustring &s);
 
-	uint16 & operator [] (size_t pos)
-		{ return _str[pos]; }
+    uint16 &operator [](size_t pos) {
+        return _str[pos];
+    }
 
-	const uint16 & operator [] (size_t pos) const
-		{ return _str[pos]; }
+    const uint16 &operator [](size_t pos) const {
+        return _str[pos];
+    }
 
 private:
-	//! \brief The structure containing the unicode string data.
-	std::vector<uint16> _str;
+    //! \brief The structure containing the unicode string data.
+    std::vector<uint16> _str;
 }; // class ustring
 
 /** ****************************************************************************
@@ -333,7 +344,7 @@ public:
     *** \param line Line of the file the exception was thrown
     *** \param function Function the exception was thrown
     */
-    Exception(const std::string & message, const std::string & file="", const int line=-1, const std::string & function="") throw();
+    Exception(const std::string &message, const std::string &file = "", const int line = -1, const std::string &function = "") throw();
 
     //! \brief The destructor
     virtual ~Exception() throw();
@@ -397,54 +408,54 @@ private:
 *** name inside the hoa_audio namespace. Therefore you do not need to call the SingletonGetReference()
 *** function when this object is made available.
 *** ***************************************************************************/
-template<typename T> class Singleton {
+template<typename T> class Singleton
+{
 protected:
-	//! \brief A reference to the singleton class instance itself
-	static T* _singleton_reference;
+    //! \brief A reference to the singleton class instance itself
+    static T *_singleton_reference;
 
-	Singleton()
-		{}
+    Singleton()
+    {}
 
-	virtual ~Singleton()
-		{}
+    virtual ~Singleton()
+    {}
 
 public:
-	//! \brief Creates and returns an instance of the singleton class
-	static T* SingletonCreate() {
-		if (_singleton_reference == NULL) {
-			_singleton_reference = new T();
-		}
-		else {
-			if (UTILS_DEBUG)
-				std::cerr << "UTILS WARNING: Singleton::SingletonCreate() was invoked when the class object was already instantiated" << std::endl;
-		}
-		return _singleton_reference;
-	}
+    //! \brief Creates and returns an instance of the singleton class
+    static T *SingletonCreate() {
+        if(_singleton_reference == NULL) {
+            _singleton_reference = new T();
+        } else {
+            if(UTILS_DEBUG)
+                std::cerr << "UTILS WARNING: Singleton::SingletonCreate() was invoked when the class object was already instantiated" << std::endl;
+        }
+        return _singleton_reference;
+    }
 
-	//! \brief Destroys the singleton class instance
-	static void SingletonDestroy() {
-		if (_singleton_reference != NULL) {
-			delete _singleton_reference;
-		}
-		else {
-			if (UTILS_DEBUG)
-				std::cerr << "UTILS WARNING: Singleton::SingletonDestroy() was invoked when the class object was not instantiated" << std::endl;
-		}
-		_singleton_reference = NULL;
-	}
+    //! \brief Destroys the singleton class instance
+    static void SingletonDestroy() {
+        if(_singleton_reference != NULL) {
+            delete _singleton_reference;
+        } else {
+            if(UTILS_DEBUG)
+                std::cerr << "UTILS WARNING: Singleton::SingletonDestroy() was invoked when the class object was not instantiated" << std::endl;
+        }
+        _singleton_reference = NULL;
+    }
 
-	//! \brief Returns a pointer to the singleton class instance (or NULL if the class is not instantiated)
-	static const T* SingletonGetReference()
-		{ return _singleton_reference; }
+    //! \brief Returns a pointer to the singleton class instance (or NULL if the class is not instantiated)
+    static const T *SingletonGetReference() {
+        return _singleton_reference;
+    }
 
-	/** \brief A method for the inheriting class to implement, which initializes the class
-	*** \return True if initialization was successful, false if it was not
-	**/
-	virtual bool SingletonInitialize() = 0;
+    /** \brief A method for the inheriting class to implement, which initializes the class
+    *** \return True if initialization was successful, false if it was not
+    **/
+    virtual bool SingletonInitialize() = 0;
 
 private:
-	Singleton(const Singleton &s);
-	Singleton& operator=(const Singleton &s);
+    Singleton(const Singleton &s);
+    Singleton &operator=(const Singleton &s);
 }; // template<typename T> class Singleton
 
 
@@ -458,9 +469,9 @@ private:
 template <typename T>
 std::string NumberToString(const T t)
 {
-	std::ostringstream text("");
-	text << static_cast<int32>(t);
-	return text.str();
+    std::ostringstream text("");
+    text << static_cast<int32>(t);
+    return text.str();
 }
 
 /** \brief Determines if a string is a valid numeric string
@@ -471,7 +482,7 @@ std::string NumberToString(const T t)
 *** string element and strings including a single decimal point.
 *** Examples of valid numeric strings are: "50", ".2350", "-252.5"
 **/
-bool IsStringNumeric(const std::string& text);
+bool IsStringNumeric(const std::string &text);
 
 bool UTF16ToUTF8(const uint16 *source, char *dest, size_t length);
 /** \brief Converts from UTF8 to UTF16 using iconv
@@ -495,7 +506,7 @@ bool UTF8ToUTF16(const char *source, uint16 *dest, size_t length);
 *** as unicode characters are the only characters allowed to be displayed. This
 *** function serves primarily for debugging and diagnostic purposes.
 **/
-hoa_utils::ustring MakeUnicodeString(const std::string& text);
+hoa_utils::ustring MakeUnicodeString(const std::string &text);
 
 /** \brief Creates an starndard string from a ustring
 *** \param text The ustring to create the equivalent standard string for
@@ -505,7 +516,7 @@ hoa_utils::ustring MakeUnicodeString(const std::string& text);
 *** Standard strings are used for resource loading (of images, sounds, etc.) so
 *** this may come in use if a ustring contains file information.
 **/
-std::string MakeStandardString(const hoa_utils::ustring& text);
+std::string MakeStandardString(const hoa_utils::ustring &text);
 //@}
 
 
@@ -514,8 +525,10 @@ std::string MakeStandardString(const hoa_utils::ustring& text);
 *** \return The number of elements in the array
 **/
 template <typename T, size_t N>
-size_t NumberElementsArray(T (&)[N])
-	{ return N; }
+size_t NumberElementsArray(T( &)[N])
+{
+    return N;
+}
 
 //! \name Random Variable Genreator Fucntions
 //@{
@@ -586,16 +599,17 @@ bool Probability(uint32 chance);
 *** will cause a compilation error.
 **/
 template <typename T>
-void InsertionSort(std::vector<T>& swap_vec) {
-	int32 i, j;
-	T value;
-	for (i = 1; i < swap_vec.size(); i++) {
-		value = swap_vec[i];
-		for (j = i - 1; j >= 0 && swap_vec[j] > value; j--) {
-			swap_vec[j+1] = swap_vec[j];
-		}
-		swap_vec[j+1] = value;
-	}
+void InsertionSort(std::vector<T>& swap_vec)
+{
+    int32 i, j;
+    T value;
+    for(i = 1; i < swap_vec.size(); i++) {
+        value = swap_vec[i];
+        for(j = i - 1; j >= 0 && swap_vec[j] > value; j--) {
+            swap_vec[j + 1] = swap_vec[j];
+        }
+        swap_vec[j + 1] = value;
+    }
 } // void InsertionSort(std::vector<T>& swap_vec)
 //@}
 
@@ -605,7 +619,7 @@ void InsertionSort(std::vector<T>& swap_vec) {
 *** \param file_name The name of the file to check (e.g. "dat/saved_game.lua")
 *** \return True if the file was found, or false if it was not found.
 **/
-bool DoesFileExist(const std::string& file_name);
+bool DoesFileExist(const std::string &file_name);
 
 /** \brief Moves a file from one location to another
 *** \param source_name The name of the file that is to be moved
@@ -617,43 +631,43 @@ bool DoesFileExist(const std::string& file_name);
 *** it will be overwritten without warning or indication. Be careful when using this
 *** function! (Had to be modified for Win32 to explicitly delete the file)
 **/
-bool MoveFile(const std::string& source_name, const std::string& destination_name);
+bool MoveFile(const std::string &source_name, const std::string &destination_name);
 
 /** \brief same as move, but leaves the source file and there is no return value
  **/
-void CopyFile(const std::string& source, const std::string& destination);
+void CopyFile(const std::string &source, const std::string &destination);
 
 /** \brief Removes all files present in a directory
 *** \param dir_name The name of the directory to clean (e.g. "img/screnshots")
 *** \return True upon success, false upon failure
 **/
-bool CleanDirectory(const std::string& dir_name);
+bool CleanDirectory(const std::string &dir_name);
 
 /** \brief Creates a directory relative to the path of the running application
 *** \param dir_name The name of the directory to create (e.g. "img/screnshots")
 *** \return True upon success, false upon failure
 **/
-bool MakeDirectory(const std::string& dir_name);
+bool MakeDirectory(const std::string &dir_name);
 
 /** \brief Deletes a directory, as well as any files the directory may contain
 *** \param dir_name The name of the directory to remove (e.g. "img/screnshots")
 *** \return True upon success, false upon failure
 **/
-bool RemoveDirectory(const std::string& dir_name);
+bool RemoveDirectory(const std::string &dir_name);
 
 /** \brief Lists the contents of a directory
 *** \param dir_name The name of the directory to list (e.g. "img/screenshots")
 *** \param filter A string to filter the results (e.g if the string was ".lua" only files containing ".lua" in the filename will be 		***	displayed),an  empty string  value of "" can be passed if you wish to display everything with no filter.
 *** \return A vector with the directory listing , a blank vector if the directory doesnt exist
 **/
-std::vector<std::string> ListDirectory(const std::string& dir_name, const std::string& filter);
+std::vector<std::string> ListDirectory(const std::string &dir_name, const std::string &filter);
 //@}
 
 /** \brief Deletes a specified file
 *** \param filename The name of the file to be deleted
 *** \return true on success false on failure
 **/
-bool DeleteFile(const std::string& filename);
+bool DeleteFile(const std::string &filename);
 
 //! \name User directory and settings paths
 //@{
