@@ -29,9 +29,11 @@
 
 #include "common/global/global.h"
 
-namespace hoa_battle {
+namespace hoa_battle
+{
 
-namespace private_battle {
+namespace private_battle
+{
 
 /** ****************************************************************************
 *** \brief Representation of a single action to be executed in battle
@@ -50,82 +52,88 @@ namespace private_battle {
 *** actor has chosen to use the action but has not yet used it. The cool down state
 *** occurs immediately after the actor finishes the action an
 *** ***************************************************************************/
-class BattleAction {
+class BattleAction
+{
 public:
-	BattleAction(BattleActor* user, BattleTarget target);
+    BattleAction(BattleActor *user, BattleTarget target);
 
-	virtual ~BattleAction()
-		{}
+    virtual ~BattleAction()
+    {}
 
-	//! \brief Returns true if this action consumes an item
-	virtual bool IsItemAction() const = 0;
+    //! \brief Returns true if this action consumes an item
+    virtual bool IsItemAction() const = 0;
 
-	// Init the battle action member and possible scripts
-	virtual bool Initialize()
-	{ return true; }
+    // Init the battle action member and possible scripts
+    virtual bool Initialize() {
+        return true;
+    }
 
-	/** \brief Executes the action.
-	*** \return True if the action executed fine, or false otherwise.
-	**/
-	virtual bool Execute() = 0;
+    /** \brief Executes the action.
+    *** \return True if the action executed fine, or false otherwise.
+    **/
+    virtual bool Execute() = 0;
 
-	///! \brief Cancel a waiting action, and restore potential involved objects if necessary.
-	virtual void Cancel() = 0;
+    ///! \brief Cancel a waiting action, and restore potential involved objects if necessary.
+    virtual void Cancel() = 0;
 
-	//! \brief Updates a skill process. Returns true when when the skill has finished
-	virtual bool Update()
-	{ return true; };
+    //! \brief Updates a skill process. Returns true when when the skill has finished
+    virtual bool Update() {
+        return true;
+    };
 
-	//! \brief Tells whether the battle action is handled through a script
-	virtual bool IsScripted() const
-	{ return false; }
+    //! \brief Tells whether the battle action is handled through a script
+    virtual bool IsScripted() const {
+        return false;
+    }
 
-	//! \brief Returns the name of the action that the player would read
-	virtual hoa_utils::ustring GetName() const = 0;
+    //! \brief Returns the name of the action that the player would read
+    virtual hoa_utils::ustring GetName() const = 0;
 
-	//! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
-	virtual uint32 GetWarmUpTime() const = 0;
+    //! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
+    virtual uint32 GetWarmUpTime() const = 0;
 
-	//! \brief Returns the number of milliseconds that the owner actor must wait in the cool down state
-	virtual uint32 GetCoolDownTime() const = 0;
+    //! \brief Returns the number of milliseconds that the owner actor must wait in the cool down state
+    virtual uint32 GetCoolDownTime() const = 0;
 
-	//! \brief Returns the character action name played before at warmup time.
-	virtual std::string GetWarmupActionName() const = 0;
+    //! \brief Returns the character action name played before at warmup time.
+    virtual std::string GetWarmupActionName() const = 0;
 
-	//! \brief Returns the character action name played before executing the scripted function.
-	virtual std::string GetActionName() const = 0;
+    //! \brief Returns the character action name played before executing the scripted function.
+    virtual std::string GetActionName() const = 0;
 
-	//! \name Class member access functions
-	//@{
-	BattleActor* GetActor()
-		{ return _actor; }
+    //! \name Class member access functions
+    //@{
+    BattleActor *GetActor() {
+        return _actor;
+    }
 
-	BattleTarget& GetTarget()
-		{ return _target; }
-	//@}
+    BattleTarget &GetTarget() {
+        return _target;
+    }
+    //@}
 
 protected:
-	//! \brief The rendered text for the name of the action
+    //! \brief The rendered text for the name of the action
 // 	hoa_video::TextImage _action_name;
 
-	//! \brief The actor who will be executing the action
-	BattleActor* _actor;
+    //! \brief The actor who will be executing the action
+    BattleActor *_actor;
 
-	//! \brief The target of the action which may be an attack point, actor, or entire party
-	BattleTarget _target;
+    //! \brief The target of the action which may be an attack point, actor, or entire party
+    BattleTarget _target;
 
-	/** \brief Makes sure that the target is valid and selects a new target if it is not
-	*** This method is necessary because there is a period of time between when the desired target
-	*** is selected and when the action actually gets executed by the owning actor. Within that time
-	*** period the target may have become invalid due death or some other reason. This method will
-	*** search for the next available target of the same type and modify the _target member so that
-	*** it points to a valid target.
-	***
-	*** \note Certain skills may have different criteria for determining target validity. For example,
-	*** a revive skill or item would be useless if no allies were in the dead state. For this reason,
-	*** inheriting classes may wish to expand upon this function to check for these types of specific
-	*** conditions.
-	**/
+    /** \brief Makes sure that the target is valid and selects a new target if it is not
+    *** This method is necessary because there is a period of time between when the desired target
+    *** is selected and when the action actually gets executed by the owning actor. Within that time
+    *** period the target may have become invalid due death or some other reason. This method will
+    *** search for the next available target of the same type and modify the _target member so that
+    *** it points to a valid target.
+    ***
+    *** \note Certain skills may have different criteria for determining target validity. For example,
+    *** a revive skill or item would be useless if no allies were in the dead state. For this reason,
+    *** inheriting classes may wish to expand upon this function to check for these types of specific
+    *** conditions.
+    **/
 // 	virtual void _VerifyValidTarget();
 }; // class BattleAction
 
@@ -137,55 +145,59 @@ protected:
 *** actor. When the action is finished, any SP required to use the skill is
 *** subtracted from the source actor.
 *** ***************************************************************************/
-class SkillAction : public BattleAction {
+class SkillAction : public BattleAction
+{
 public:
-	SkillAction(BattleActor* actor, BattleTarget target, hoa_global::GlobalSkill* skill);
+    SkillAction(BattleActor *actor, BattleTarget target, hoa_global::GlobalSkill *skill);
 
-	bool IsItemAction() const
-	{ return false; }
+    bool IsItemAction() const {
+        return false;
+    }
 
-	bool IsScripted() const
-	{ return _is_scripted; }
+    bool IsScripted() const {
+        return _is_scripted;
+    }
 
-	// Init the battle action member and possible scripts
-	bool Initialize();
+    // Init the battle action member and possible scripts
+    bool Initialize();
 
-	bool Execute();
+    bool Execute();
 
-	//! \brief calls the corresponding skill animation file #Update method, returning it result.
-	bool Update();
+    //! \brief calls the corresponding skill animation file #Update method, returning it result.
+    bool Update();
 
-	void Cancel()
-	{}
+    void Cancel()
+    {}
 
-	hoa_utils::ustring GetName() const;
+    hoa_utils::ustring GetName() const;
 
-	uint32 GetWarmUpTime() const;
+    uint32 GetWarmUpTime() const;
 
-	uint32 GetCoolDownTime() const;
+    uint32 GetCoolDownTime() const;
 
-	std::string GetWarmupActionName() const;
+    std::string GetWarmupActionName() const;
 
-	std::string GetActionName() const;
+    std::string GetActionName() const;
 
-	hoa_global::GlobalSkill* GetSkill()
-		{ return _skill; }
+    hoa_global::GlobalSkill *GetSkill() {
+        return _skill;
+    }
 
 private:
-	//! \brief Pointer to the skill attached to this script (for skill events only)
-	hoa_global::GlobalSkill* _skill;
+    //! \brief Pointer to the skill attached to this script (for skill events only)
+    hoa_global::GlobalSkill *_skill;
 
-	/** The functions of the possible attack animation skill.
-	*** When valid, the Update function should be called until the function returns true.
-	**/
-	ScriptObject _init_function;
-	ScriptObject _update_function;
+    /** The functions of the possible attack animation skill.
+    *** When valid, the Update function should be called until the function returns true.
+    **/
+    ScriptObject _init_function;
+    ScriptObject _update_function;
 
-	//! \brief Tells whether the battle action animation is scripted.
-	bool _is_scripted;
+    //! \brief Tells whether the battle action animation is scripted.
+    bool _is_scripted;
 
-	//! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
-	void _InitAnimationScript();
+    //! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
+    void _InitAnimationScript();
 }; // class SkillAction : public BattleAction
 
 
@@ -199,39 +211,44 @@ private:
 *** the battle ended, or other circumstances), then the item's count is
 *** incremented back to its original value since it was not used.
 *** ***************************************************************************/
-class ItemAction : public BattleAction {
+class ItemAction : public BattleAction
+{
 public:
-	ItemAction(BattleActor* source, BattleTarget target, BattleItem* item);
+    ItemAction(BattleActor *source, BattleTarget target, BattleItem *item);
 
-	bool IsItemAction() const
-		{ return true; }
+    bool IsItemAction() const {
+        return true;
+    }
 
-	bool Execute();
+    bool Execute();
 
-	///! \brief Cancel a waiting action, putting back the item in available battle items.
-	void Cancel();
+    ///! \brief Cancel a waiting action, putting back the item in available battle items.
+    void Cancel();
 
-	hoa_utils::ustring GetName() const;
+    hoa_utils::ustring GetName() const;
 
-	uint32 GetWarmUpTime() const;
+    uint32 GetWarmUpTime() const;
 
-	uint32 GetCoolDownTime() const;
+    uint32 GetCoolDownTime() const;
 
-	std::string GetWarmupActionName() const
-	{ return "idle"; }
+    std::string GetWarmupActionName() const {
+        return "idle";
+    }
 
-	std::string GetActionName() const
-	{ return "item"; }
+    std::string GetActionName() const {
+        return "item";
+    }
 
-	BattleItem* GetItem()
-	{ return _item; }
+    BattleItem *GetItem() {
+        return _item;
+    }
 
 private:
-	//! \brief Pointer to the item attached to this script
-	BattleItem* _item;
+    //! \brief Pointer to the item attached to this script
+    BattleItem *_item;
 
-	//! \brief Tells whether the action has already been canceled.
-	bool _action_canceled;
+    //! \brief Tells whether the action has already been canceled.
+    bool _action_canceled;
 }; // class ItemAction : public BattleAction
 
 } // namespace private_battle
