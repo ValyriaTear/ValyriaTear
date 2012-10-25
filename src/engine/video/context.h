@@ -20,9 +20,11 @@
 #include "coord_sys.h"
 #include "screen_rect.h"
 
-namespace hoa_video {
+namespace hoa_video
+{
 
-namespace private_video {
+namespace private_video
+{
 
 /** ****************************************************************************
 *** \brief Retains the current graphics context.
@@ -38,28 +40,29 @@ namespace private_video {
 *** \note Transformations are actually handled separately by the OpenGL
 *** transformation stack
 *** ***************************************************************************/
-class Context {
+class Context
+{
 public:
-	//! \brief Flag to indicate whether normal alpha blending is to take place.
-	int8 blend;
+    //! \brief Flag to indicate whether normal alpha blending is to take place.
+    int8 blend;
 
-	//! \brief Draw alignment flags to determine where an element is drawn relative to the cursor.
-	int8 x_align, y_align;
+    //! \brief Draw alignment flags to determine where an element is drawn relative to the cursor.
+    int8 x_align, y_align;
 
-	//! \brief Draw flip flags to determine if an element should be drawn flipped across an axis.
-	int8 x_flip, y_flip;
+    //! \brief Draw flip flags to determine if an element should be drawn flipped across an axis.
+    int8 x_flip, y_flip;
 
-	//! \brief The coordinate system being used by this context.
-	CoordSys coordinate_system;
+    //! \brief The coordinate system being used by this context.
+    CoordSys coordinate_system;
 
-	//! \brief Defines the screen subset to draw the graphics into.
-	ScreenRect viewport;
+    //! \brief Defines the screen subset to draw the graphics into.
+    ScreenRect viewport;
 
-	//! \brief A rectangle to define which portions of the viewport should be cut away when drawing.
-	ScreenRect scissor_rectangle;
+    //! \brief A rectangle to define which portions of the viewport should be cut away when drawing.
+    ScreenRect scissor_rectangle;
 
-	//! \brief Used to enable or disable the scissoring rectangle.
-	bool scissoring_enabled;
+    //! \brief Used to enable or disable the scissoring rectangle.
+    bool scissoring_enabled;
 }; // class Context
 
 } // namespace private_video

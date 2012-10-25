@@ -39,39 +39,39 @@ class ParticleKeyframe
 {
 public:
 
-	ParticleKeyframe():
-		size_x(0.0f),
-		size_y(0.0f),
-		color(0.0f, 0.0f, 0.0f, 0.0f),
-		rotation_speed(0.0f),
-		size_variation_x(0.0f),
-		size_variation_y(0.0f),
-		rotation_speed_variation(0.0f),
-		color_variation(0.0f, 0.0f, 0.0f, 0.0f)
-	{}
+    ParticleKeyframe():
+        size_x(0.0f),
+        size_y(0.0f),
+        color(0.0f, 0.0f, 0.0f, 0.0f),
+        rotation_speed(0.0f),
+        size_variation_x(0.0f),
+        size_variation_y(0.0f),
+        rotation_speed_variation(0.0f),
+        color_variation(0.0f, 0.0f, 0.0f, 0.0f)
+    {}
 
-	//! width and height scale. 1.0 means to use the normal height
-	float size_x;
-	float size_y;
+    //! width and height scale. 1.0 means to use the normal height
+    float size_x;
+    float size_y;
 
-	//! color (includes alpha)
-	hoa_video::Color color;
+    //! color (includes alpha)
+    hoa_video::Color color;
 
-	//! rotation speed, radians per second clockwise
-	float rotation_speed;
+    //! rotation speed, radians per second clockwise
+    float rotation_speed;
 
-	//! random variation added to size
-	float size_variation_x;
-	float size_variation_y;
+    //! random variation added to size
+    float size_variation_x;
+    float size_variation_y;
 
-	//! random variation added to rotation speed
-	float rotation_speed_variation;
+    //! random variation added to rotation speed
+    float rotation_speed_variation;
 
-	//! random variation added to color (each channel contains
-	//! the variation for that channel)
-	hoa_video::Color color_variation;
+    //! random variation added to color (each channel contains
+    //! the variation for that channel)
+    hoa_video::Color color_variation;
 
-	float time;
+    float time;
 };
 
 }  // namespace hoa_mode_manager

@@ -35,75 +35,77 @@ class ParticleManager
 {
 public:
 
-	/*!
-	 *  \brief Constructor
-	 */
-	ParticleManager() {}
+    /*!
+     *  \brief Constructor
+     */
+    ParticleManager() {}
 
-	~ParticleManager()
-		{ _Destroy(); }
+    ~ParticleManager() {
+        _Destroy();
+    }
 
-	/*!
-	 *  \brief Takes control of the effect and moves it at (x,y).
-	 *         The effect is added to the internal std::map, _effects, and is now
-	 *         included in calls to Draw() and Update()
-	 * \param effect the particle effect to register to the particle manager
-	 * \param x x coordinate of where to add the effect
-	 * \param y y coordinate of where to add the effect
-	 * \return whether the effect was added
-	 */
-	bool AddParticleEffect(const std::string& effect_filename, float x, float y);
+    /*!
+     *  \brief Takes control of the effect and moves it at (x,y).
+     *         The effect is added to the internal std::map, _effects, and is now
+     *         included in calls to Draw() and Update()
+     * \param effect the particle effect to register to the particle manager
+     * \param x x coordinate of where to add the effect
+     * \param y y coordinate of where to add the effect
+     * \return whether the effect was added
+     */
+    bool AddParticleEffect(const std::string &effect_filename, float x, float y);
 
-	/*!
-	 *  \brief draws all active effects
-	 * \return success/failure
-	 */
-	bool Draw();
+    /*!
+     *  \brief draws all active effects
+     * \return success/failure
+     */
+    bool Draw();
 
-	/*!
-	 *  \brief updates all active effects
-	 * \param the new time
-	 * \return success/failure
-	 */
-	bool Update(int32 frame_time);
+    /*!
+     *  \brief updates all active effects
+     * \param the new time
+     * \return success/failure
+     */
+    bool Update(int32 frame_time);
 
-	/*!
-	 *  \brief stops all registered effects
-	 *
-	 *  \param kill_immediate If this is true, the effects are immediately killed. If
-	 *                        it isn't true, then we stop the effects from emitting
-	 *                        new particles, and allow them to live until all the active
-	 *                        particles fizzle out.
-	 */
-	void StopAll(bool kill_immediate = false);
+    /*!
+     *  \brief stops all registered effects
+     *
+     *  \param kill_immediate If this is true, the effects are immediately killed. If
+     *                        it isn't true, then we stop the effects from emitting
+     *                        new particles, and allow them to live until all the active
+     *                        particles fizzle out.
+     */
+    void StopAll(bool kill_immediate = false);
 
-	/*!
-	 *  \brief returns the total number of particles among all active registered effects
-	 * \return number of particles in the effect
-	 */
-	int32 GetNumParticles()
-	{ return _num_particles; }
+    /*!
+     *  \brief returns the total number of particles among all active registered effects
+     * \return number of particles in the effect
+     */
+    int32 GetNumParticles() {
+        return _num_particles;
+    }
 
 private:
-	/*!
-	 *  \brief destroys the system. Called by VideoEngine's destructor
-	 */
-	void _Destroy();
+    /*!
+     *  \brief destroys the system. Called by VideoEngine's destructor
+     */
+    void _Destroy();
 
-	/** \brief Shows graphical statistics useful for performance tweaking
-	*** This includes, for instance, the number of texture switches made during a frame.
-	**/
-	void _DEBUG_ShowParticleStats();
+    /** \brief Shows graphical statistics useful for performance tweaking
+    *** This includes, for instance, the number of texture switches made during a frame.
+    **/
+    void _DEBUG_ShowParticleStats();
 
-	//! All the effects currently being managed.
-	std::vector<ParticleEffect*> _all_effects;
+    //! All the effects currently being managed.
+    std::vector<ParticleEffect *> _all_effects;
 
-	std::vector<ParticleEffect*> _active_effects;
+    std::vector<ParticleEffect *> _active_effects;
 
-	//! Total number of particles among all the active effects. This is updated
-	//! during each call to Update(), so that when GetNumParticles() is called,
-	//! we can just return this value instead of having to calculate it
-	int32 _num_particles;
+    //! Total number of particles among all the active effects. This is updated
+    //! during each call to Update(), so that when GetNumParticles() is called,
+    //! we can just return this value instead of having to calculate it
+    int32 _num_particles;
 };
 
 }  // namespace hoa_mode_manager

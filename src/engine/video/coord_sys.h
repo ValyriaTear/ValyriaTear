@@ -20,7 +20,8 @@
 
 #include <cmath>
 
-namespace hoa_video {
+namespace hoa_video
+{
 
 /** ****************************************************************************
 *** \brief Determines the drawing coordinates
@@ -32,64 +33,79 @@ namespace hoa_video {
 *** \note The default coordinate system is (0, 1024, 0, 768), which is the same
 *** as the game's default 1024x768 resolution.
 *** ***************************************************************************/
-class CoordSys {
+class CoordSys
+{
 public:
-	CoordSys()
-		{}
+    CoordSys()
+    {}
 
-	CoordSys(float left, float right, float bottom, float top)
-		{
-			_left = left; _right = right; _bottom = bottom; _top = top;
-			if (_right > _left) _horizontal_direction = 1.0f; else _horizontal_direction = -1.0f;
-			if (_top > _bottom) _vertical_direction = 1.0f; else _vertical_direction = -1.0f;
-		}
+    CoordSys(float left, float right, float bottom, float top) {
+        _left = left;
+        _right = right;
+        _bottom = bottom;
+        _top = top;
+        if(_right > _left) _horizontal_direction = 1.0f;
+        else _horizontal_direction = -1.0f;
+        if(_top > _bottom) _vertical_direction = 1.0f;
+        else _vertical_direction = -1.0f;
+    }
 
-	//! \brief Class member access functions
-	//@{
-	float GetVerticalDirection() const
-		{ return _vertical_direction; }
+    //! \brief Class member access functions
+    //@{
+    float GetVerticalDirection() const {
+        return _vertical_direction;
+    }
 
-	float GetHorizontalDirection() const
-		{ return _horizontal_direction; }
+    float GetHorizontalDirection() const {
+        return _horizontal_direction;
+    }
 
-	float GetLeft() const
-		{ return _left; }
+    float GetLeft() const {
+        return _left;
+    }
 
-	float GetRight() const
-		{ return _right; }
+    float GetRight() const {
+        return _right;
+    }
 
-	float GetBottom() const
-		{ return _bottom; }
+    float GetBottom() const {
+        return _bottom;
+    }
 
-	float GetTop() const
-		{ return _top; }
+    float GetTop() const {
+        return _top;
+    }
 
-	float GetWidth() const
-		{ return std::fabs(_left - _right); }
+    float GetWidth() const {
+        return std::fabs(_left - _right);
+    }
 
-	float GetHeight() const
-		{ return std::fabs(_top - _bottom); }
-	//@}
+    float GetHeight() const {
+        return std::fabs(_top - _bottom);
+    }
+    //@}
 
-	//! \brief Normalisation functions
-	//@{
-	void ConvertNormalisedToLocal(float& localX, float& localY, float normalisedX, float normalisedY) const
-		{ localX = _left + normalisedX * (_right - _left);
-		  localY = _bottom + normalisedY * (_top - _bottom); }
-	void ConvertLocalToNormalised(float& normalisedX, float& normalisedY, float localX, float localY) const
-		{ normalisedX = (_left - localX) / (_right - _left);
-		  normalisedY = (_bottom - localY) / (_top - _bottom); }
-	//@}
+    //! \brief Normalisation functions
+    //@{
+    void ConvertNormalisedToLocal(float &localX, float &localY, float normalisedX, float normalisedY) const {
+        localX = _left + normalisedX * (_right - _left);
+        localY = _bottom + normalisedY * (_top - _bottom);
+    }
+    void ConvertLocalToNormalised(float &normalisedX, float &normalisedY, float localX, float localY) const {
+        normalisedX = (_left - localX) / (_right - _left);
+        normalisedY = (_bottom - localY) / (_top - _bottom);
+    }
+    //@}
 
 private:
-	//! \brief If the y-coordinates increase from bottom to top, this is 1.0f. Otherwise it is -1.0f.
-	float _vertical_direction;
+    //! \brief If the y-coordinates increase from bottom to top, this is 1.0f. Otherwise it is -1.0f.
+    float _vertical_direction;
 
-	//! \brief If the y-coordinates increase from left to right, this is 1.0f. Otherwise it is -1.0f.
-	float _horizontal_direction;
+    //! \brief If the y-coordinates increase from left to right, this is 1.0f. Otherwise it is -1.0f.
+    float _horizontal_direction;
 
-	//! \brief The values of the four sides of the screen that determine the drawing coordinates.
-	float _left, _right, _bottom, _top;
+    //! \brief The values of the four sides of the screen that determine the drawing coordinates.
+    float _left, _right, _bottom, _top;
 }; // class CoordSys
 
 } // namespace hoa_video
