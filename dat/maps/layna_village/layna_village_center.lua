@@ -271,6 +271,7 @@ local orlinn = {};
 local georges = {};
 local carson = {};
 local herth = {};
+local olivia = {}; -- Olivia npc, guarding the forest entrance
 
 -- special objets
 local blocking_rock = {};
@@ -432,6 +433,51 @@ function _CreateNPCs()
 	Map:AddGroundObject(georges);
 	georges:SetDirection(hoa_map.MapMode.WEST);
 	_UpdateGeorgesDialogue(georges);
+
+    -- Olivia, guardian of the forest access
+    olivia = CreateNPCSprite(Map, "Girl1", "Olivia", 115, 34);
+    olivia:SetDirection(hoa_map.MapMode.SOUTH);
+	Map:AddGroundObject(olivia);
+    -- Don't grant access to the forest so easily
+    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
+        if (GlobalManager:DoesEventExist("story", "Quest2_started") == false) then
+            dialogue = hoa_map.SpriteDialogue();
+            text = hoa_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
+            dialogue:AddLineEmote(text, olivia, "exclamation");
+            text = hoa_system.Translate("Aww... Ok.");
+            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
+            DialogueManager:AddDialogue(dialogue);
+            olivia:AddDialogueReference(dialogue);
+
+        elseif (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false) then
+            dialogue = hoa_map.SpriteDialogue();
+            text = hoa_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword..");
+            dialogue:AddLineEmote(text, olivia, "exclamation");
+            text = hoa_system.Translate("Aww... Ok.");
+            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
+            text = hoa_system.Translate("(Hmm, I should maybe get a sword, then.)");
+            dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
+            DialogueManager:AddDialogue(dialogue);
+            olivia:AddDialogueReference(dialogue);
+        end
+    else
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("Good luck Bronann.");
+        dialogue:AddLine(text, olivia);
+        DialogueManager:AddDialogue(dialogue);
+        olivia:AddDialogueReference(dialogue);
+    end
+
+    -- Special event triggered when Bronann hasn't go the right to enter the forest yet.
+    event = hoa_map.DialogueEvent("Bronann can't enter the forest so easily", dialogue);
+	event:SetStopCameraMovement(true);
+	EventManager:RegisterEvent(event);
+
+    -- Needed look at events
+    event = hoa_map.LookAtSpriteEvent("Bronann looks at Olivia", bronann, olivia);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks south", bronann, hoa_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
 end
 
 function _CreateObjects()
@@ -616,28 +662,6 @@ function _CreateEvents()
 
 	-- Georges event
 	event = hoa_map.ScriptedEvent("Quest1: Georges tells whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
-	EventManager:RegisterEvent(event);
-
-	-- Can't enter the forest so easily
-	dialogue = hoa_map.SpriteDialogue();
-
-	if (GlobalManager:DoesEventExist("story", "Quest1_done") == true) then
-	    text = hoa_system.Translate("Hmm, I can't go in there without being prepared... I suppose I need to go and find Flora again.");
-	    dialogue:AddLineEmote(text, bronann, "thinking dots");
-	else
-	    text = hoa_system.Translate("Hmm, I can't go in there, Mom asked me to get some barley meal...");
-	    dialogue:AddLineEmote(text, bronann, "thinking dots");
-	end
-	DialogueManager:AddDialogue(dialogue);
-
-	event = hoa_map.DialogueEvent("Quest2: Bronann can't enter the forest without a sword", dialogue);
-	event:AddEventLinkAtEnd("Map:PushState(SCENE)");
-	event:AddEventLinkAtEnd("Quest2: Bronann goes back from forest");
-	event:SetStopCameraMovement(true);
-	EventManager:RegisterEvent(event);
-
-	event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann goes back from forest", bronann, 114, 37, false);
-	event:AddEventLinkAtEnd("Map:PopState()")
 	EventManager:RegisterEvent(event);
 
 	-- Quest 2: Bronann wants to go to Flora's and buy a sword to go in the forest
@@ -1034,7 +1058,7 @@ function _CheckZones()
 	elseif (to_layna_forest_zone:IsCameraEntering() == true) then
 		bronann:SetMoving(false);
 		if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-			EventManager:StartEvent("Quest2: Bronann can't enter the forest without a sword");
+			EventManager:StartEvent("Bronann can't enter the forest so easily");
 		elseif (GlobalManager:DoesEventExist("story", "Quest2_kalya_equip_n_dungeons_speech_done") == false) then
 			EventManager:StartEvent("Quest2: Kalya's equipment and dungeons speech start");
 		else

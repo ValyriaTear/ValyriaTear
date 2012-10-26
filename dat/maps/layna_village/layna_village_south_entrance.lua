@@ -319,18 +319,6 @@ function _CreateNPCs()
 	local dialogue = {}
 	local event = {}
 
-	npc = CreateNPCSprite(Map, "Girl1", "Olivia", 30, 8);
-	Map:AddGroundObject(npc);
-	event = hoa_map.RandomMoveSpriteEvent("Olivia random move", npc, 8000, 2000);
-	event:AddEventLinkAtEnd("Olivia random move", 5000); -- Loop on itself
-	EventManager:RegisterEvent(event);
-	EventManager:StartEvent("Olivia random move");
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Hi Bronann!");
-	dialogue:AddLine(text, npc);
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
-
 	npc = CreateSprite(Map, "Herth", 45, 39);
 	Map:AddGroundObject(npc);
 	if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
