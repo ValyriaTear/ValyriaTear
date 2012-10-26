@@ -458,12 +458,12 @@ function _CreateObjects()
 	--	chest1:SetDrunes(50);
 	--	Map:AddGroundObject(chest1);
 	--end
-	
-   -- Trees array
+
+    -- Trees array
     local map_trees = {
-        --  right entrance upper side
-        { "Tree Small3", 126, 82 },
-        { "Tree Small3", 121, 81 },
+    --  right entrance upper side
+    { "Tree Small3", 126, 82 },
+    { "Tree Small3", 121, 81 },
 	{ "Tree Small3", 117, 80 },
 	{ "Tree Small3", 114, 78.2 },
 	{ "Tree Small3", 110, 81 },
@@ -491,7 +491,7 @@ function _CreateObjects()
 	{ "Tree Small3", 46, 53 },
 	{ "Tree Small3", 43, 57 },
 	{ "Tree Small3", 39, 59 },
-	
+
 	-- bottom side
 	{ "Tree Small3", 127, 93 },
 	{ "Tree Small3", 124, 92 },
@@ -528,7 +528,7 @@ function _CreateObjects()
 	{ "Tree Small3", 10, 94 },
 	{ "Tree Small3", 6, 97 },
 	{ "Tree Small3", 2, 99 },
-	
+
 	-- then left side
 	{ "Tree Small3", 40, 62 },
 	{ "Tree Small3", 39, 65 },
@@ -538,7 +538,7 @@ function _CreateObjects()
 	{ "Tree Small3", 25, 70.2 },
 	{ "Tree Small3", 15, 71 },
 	{ "Tree Small3", 14, 65 },
-	
+
 	-- all in the way
 	{ "Tree Small3", 49, 62 },
 	{ "Tree Small3", 60, 91 },
@@ -563,7 +563,7 @@ function _CreateObjects()
 	{ "Tree Small3", 32, 80 },
 	{ "Tree Small3", 26, 78 },
 	{ "Tree Small3", 39, 81 },
-	
+
 	-- left map border
 	{ "Tree Small3", 0, 93 },
 	{ "Tree Small3", -1, 89 },
@@ -585,7 +585,7 @@ function _CreateObjects()
 	{ "Tree Small3", 0, 11 },
 	{ "Tree Small3", 1, 7 },
 	{ "Tree Small3", 2, 2 },
-	
+
 	-- uper map border
 	{ "Tree Small3", 5, 4 },
 	{ "Tree Small3", 9, 3 },
@@ -599,8 +599,36 @@ function _CreateObjects()
 	{ "Tree Small3", 42, 1 },
 	{ "Tree Small3", 46, 3 },
 	{ "Tree Small3", 50, 2 },
-	
+
 	-- right part of path
+    { "Tree Small3", 13, 61 },
+    { "Tree Small3", 14, 58 },
+    { "Tree Small3", 13, 55 },
+    { "Tree Small3", 15, 52 },
+    { "Tree Small3", 16, 50 },
+    { "Tree Small3", 19, 48 },
+    { "Tree Small3", 22, 47 },
+    { "Tree Small3", 25, 44 },
+    { "Tree Small3", 27, 42 },
+    { "Tree Small3", 29, 39 },
+    { "Tree Small3", 28, 35 },
+    { "Tree Small3", 29, 31 },
+    { "Tree Small3", 30, 28 },
+    { "Tree Small3", 32, 24 },
+    { "Tree Small3", 36, 23 },
+    { "Tree Small3", 40, 24.2 },
+    { "Tree Small3", 45, 25 },
+    { "Tree Small3", 50, 26 },
+    { "Tree Small3", 54, 23 },
+    { "Tree Small3", 57, 20 },
+    { "Tree Small3", 58, 17 },
+    { "Tree Small3", 59, 14 },
+    { "Tree Small3", 60, 11 },
+    { "Tree Small3", 59, 8 },
+    { "Tree Small3", 60, 5 },
+    { "Tree Small3", 59, 2 }
+
+
     }
 
     -- Loads the trees according to the array
@@ -648,7 +676,7 @@ function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	to_forest_SE_zone = hoa_map.CameraZone(126, 128, 82, 87, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_SE_zone);
-	
+
 	to_forest_NW_zone = hoa_map.CameraZone(113, 117, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_NW_zone);
 end
