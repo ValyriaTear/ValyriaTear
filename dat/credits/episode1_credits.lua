@@ -41,7 +41,7 @@ function Initialize(map_instance)
         },
         [2] = {
             header = hoa_system.Translate("Episode I - Main Graphics"),
-            text = "Daniel Cook\nSafir-Kreuz\nJetrel"
+            text = "Daniel Cook\nSafir-Kreuz\nJetrel\nZabin\nRamtam"
         },
         [3] = {
             header = hoa_system.Translate("Episode I - Additional Graphics"),
