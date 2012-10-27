@@ -398,7 +398,11 @@ function _CreateCharacters()
     if (GlobalManager:GetPreviousLocation() == "from_layna_forest_NE") then
         hero:SetPosition(124, 42);
         hero:SetDirection(hoa_map.MapMode.WEST);
+    elseif (GlobalManager:GetPreviousLocation() == "from forest SW") then
+        hero:SetPosition(116, 94);
+        hero:SetDirection(hoa_map.MapMode.NORTH);
     end
+
 
 	Map:AddGroundObject(hero);
 end
@@ -1109,6 +1113,8 @@ function _CreateEvents()
 	event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east.lua", "from_layna_forest_NW");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west.lua", "from_layna_forest_NW");
+	EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
@@ -1119,6 +1125,9 @@ function _CreateZones()
 
 	to_forest_NE_zone = hoa_map.CameraZone(126, 128, 40, 45, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_NE_zone);
+
+	to_forest_SW_zone = hoa_map.CameraZone(114, 118, 95, 97, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_SW_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -1126,10 +1135,12 @@ function _CheckZones()
 	if (to_forest_entrance_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest entrance");
-	end
-	if (to_forest_NE_zone:IsCameraEntering() == true) then
+	elseif (to_forest_NE_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest NE");
+	elseif (to_forest_SW_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest SW");
 	end
 end
 

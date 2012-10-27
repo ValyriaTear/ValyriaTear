@@ -395,6 +395,11 @@ function _CreateCharacters()
 	hero:SetDirection(hoa_map.MapMode.WEST);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
+    if (GlobalManager:GetPreviousLocation() == "from_layna_forest_NW") then
+        hero:SetPosition(54, 4); -- 52, 57, 0, 2
+        hero:SetDirection(hoa_map.MapMode.SOUTH);
+    end
+
 	Map:AddGroundObject(hero);
 end
 
@@ -669,6 +674,9 @@ function _CreateEvents()
 
 	event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua", "from forest SW");
 	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from forest SW");
+	EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
@@ -677,7 +685,7 @@ function _CreateZones()
 	to_forest_SE_zone = hoa_map.CameraZone(126, 128, 82, 87, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_SE_zone);
 
-	to_forest_NW_zone = hoa_map.CameraZone(113, 117, 0, 2, hoa_map.MapMode.CONTEXT_01);
+	to_forest_NW_zone = hoa_map.CameraZone(52, 57, 0, 2, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_NW_zone);
 end
 
@@ -686,6 +694,11 @@ function _CheckZones()
 	if (to_forest_SE_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest SE");
+	end
+
+	if (to_forest_NW_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest NW");
 	end
 end
 
@@ -706,4 +719,3 @@ end
 map_functions = {
 
 }
-
