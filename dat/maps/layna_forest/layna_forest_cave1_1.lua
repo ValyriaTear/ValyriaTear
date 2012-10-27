@@ -10,8 +10,8 @@ setfenv(1, ns);
 map = {}
 
 -- The map name, subname and location image
-map_name = ""
-map_image_filename = ""
+map_name = "Layna Forest Cave"
+map_image_filename = "img/menus/locations/desert_cave.png"
 map_subname = ""
 
 -- The number of rows, and columns that compose the map
@@ -32,7 +32,7 @@ contexts[0].inherit_from = -1
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = ""
+music_filename = "mus/Cave2.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -355,3 +355,113 @@ layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+-- the main character handler
+local hero = {};
+
+-- the main map loading code
+function Load(m)
+
+	Map = m;
+	ObjectManager = Map.object_supervisor;
+	DialogueManager = Map.dialogue_supervisor;
+	EventManager = Map.event_supervisor;
+	GlobalEvents = Map.map_event_group;
+
+	Map.unlimited_stamina = false;
+
+	_CreateCharacters();
+--	_CreateObjects();
+--	_CreateEnemies();
+
+	-- Set the camera focus on hero
+	Map:SetCamera(hero);
+	-- This is a dungeon map, we'll use the front battle member sprite as default sprite.
+	Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+
+	_CreateEvents();
+	_CreateZones();
+
+	-- Add clouds overlay
+	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 0.0, 0.0, false);
+end
+
+-- the map update function handles checks done on each game tick.
+function Update()
+	-- Check whether the character is in one of the zones
+	_CheckZones();
+end
+
+-- Character creation
+function _CreateCharacters()
+	-- Default hero and position
+	hero = CreateSprite(Map, "Bronann", 116, 92);
+	hero:SetDirection(hoa_map.MapMode.NORTH);
+	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+
+	Map:AddGroundObject(hero);
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+	enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+	enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+	-- Add the background and foreground animations
+	enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+end
+
+function _CreateEnemies()
+	local enemy = {};
+	local roam_zone = {};
+
+	-- Hint: left, right, top, bottom
+	roam_zone = hoa_map.EnemyZone(2, 10, 58, 75, hoa_map.MapMode.CONTEXT_01);
+
+	enemy = CreateEnemySprite(Map, "slime");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(1);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(1);
+	enemy:AddEnemy(2);
+	roam_zone:AddEnemy(enemy, Map, 1);
+	Map:AddZone(roam_zone);
+end
+
+-- Creates all events and sets up the entire event sequence chain
+function _CreateEvents()
+	local event = {};
+	local dialogue = {};
+	local text = {};
+
+	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_cave_entrance");
+	EventManager:RegisterEvent(event);
+end
+
+-- Create the different map zones triggering events
+function _CreateZones()
+	-- N.B.: left, right, top, bottom
+	to_forest_NW_zone = hoa_map.CameraZone(114, 118, 95, 97, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_forest_NW_zone);
+
+end
+
+-- Check whether the active camera has entered a zone. To be called within Update()
+function _CheckZones()
+	if (to_forest_NW_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to forest NW");
+	end
+end
+
+-- Map Custom functions
+-- Used through scripted events
+if (map_functions == nil) then
+	map_functions = {}
+end
+
+map_functions = {
+
+}
