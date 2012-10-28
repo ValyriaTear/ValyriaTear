@@ -1000,6 +1000,63 @@ function _CreateObjects()
 	Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Small3", 116, 50.1);
 	Map:AddGroundObject(object);
+
+        -- Trees array
+        local map_trees = {
+        --  bottom-right entrance right side
+        { "Tree Small3", 121, 96 },
+        { "Tree Small4", 125, 95 },
+        { "Tree Small3", 127, 91 },
+        { "Tree Small6", 124, 88 },
+        { "Tree Small3", 121, 84 },
+        { "Tree Small6", 120, 80 },
+	{ "Tree Small3", 126, 85 },
+	{ "Tree Small3", 125, 81 },
+	{ "Tree Small4", 118, 77 },
+	{ "Tree Small3", 123, 74 },
+	{ "Tree Small5", 126, 72 },
+	{ "Tree Small3", 118, 71 },
+	{ "Tree Small4", 120, 69 },
+	{ "Tree Small3", 114, 63 },
+	{ "Tree Small6", 117, 61 },
+	{ "Tree Small5", 121, 59 },
+	{ "Tree Small3", 125, 57 },
+	{ "Tree Small4", 114, 56 },
+	{ "Tree Small3", 126, 65 },
+	{ "Tree Small5", 124, 60 },
+	
+	{ "Tree Small3", 83, 51 },
+	{ "Tree Small4", 88, 52 },
+	{ "Tree Small5", 90, 53 },
+	{ "Tree Small6", 94, 52 },
+	{ "Tree Small3", 99, 51 },
+	{ "Tree Small6", 105, 50 },
+	{ "Tree Small6", 78, 50 },
+	{ "Tree Small3", 74, 47 },
+	{ "Tree Small5", 69, 45 },
+	{ "Tree Small5", 65, 44 },
+	{ "Tree Small3", 64, 41 },
+	{ "Tree Small4", 68, 39 },
+	{ "Tree Small5", 59, 40 },
+	
+	{ "Tree Small3", 56, 35 },
+	{ "Tree Small4", 49, 37 },
+	{ "Tree Small5", 44, 38 },
+	{ "Tree Small3", 52, 32 },
+	{ "Tree Small6", 47, 30 },
+	{ "Tree Small5", 42, 28 },
+	{ "Tree Small3", 99, 54 },
+	{ "Tree Small4", 107, 56 },
+	{ "Tree Small3", 61, 36 },
+	{ "Tree Small3", 40, 31 }
+	}
+
+	-- Loads the trees according to the array
+	for my_index, my_array in pairs(map_trees) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        Map:AddGroundObject(object);
+	end
 end
 
 function _CreateEnemies()
@@ -1133,7 +1190,7 @@ function _CreateZones()
 	to_forest_NE_zone = hoa_map.CameraZone(126, 128, 40, 45, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_NE_zone);
 
-	to_forest_SW_zone = hoa_map.CameraZone(114, 118, 95, 97, hoa_map.MapMode.CONTEXT_01);
+	to_forest_SW_zone = hoa_map.CameraZone(111, 119, 95, 97, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_SW_zone);
 
 	to_cave_entrance_zone = hoa_map.CameraZone(74, 78, 36, 38, hoa_map.MapMode.CONTEXT_01);
