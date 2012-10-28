@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.10.26
+Last update: 2012.10.28
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -145,6 +145,7 @@ img/icons/actors/characters/bronann.png                         CC by SA 3.0    
 
 img/icons/actors/enemies/mushroom_zombie.png                    CC by SA 3.0             Redshrike (OGA)
 img/icons/actors/characters/red_slime.png                       GPLv2                    Allacrost (From green slime enemy)
+img/icons/actors/enemies/green_snake.png                        GPLv2                    Allacrost (From snake enemy)
 img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
 img/icons/actors/enemies/white_wolf.png                         CC by SA 3.0, GPLv2      Icon from Bertram, based on a derivative from http://opengameart.org/content/the-wolf
@@ -266,6 +267,7 @@ img/sprites/battle/characters/others/soldier_idle.lua           GPLv2           
 img/sprites/battle/characters/others/soldier_run.lua            GPLv2                    Bertram
 img/sprites/battle/characters/others/soldier_victory.lua        GPLv2                    Bertram
 
+img/sprites/battle/enemies/green_snake.png                      GPLv2                    Allacrost (From snake enemy)
 img/sprites/battle/enemies/mushroom_zombie.png                  CC by SA 3.0             Redshrike (OGA)
 img/sprites/battle/enemies/red_slime.png                        GPLv2                    Allacrost (Roots)
 img/sprites/battle/enemies/thing.png                            CC by SA 3.0             Jetrel (OGA)

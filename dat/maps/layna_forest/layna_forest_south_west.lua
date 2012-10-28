@@ -368,7 +368,7 @@ function Load(m)
 
 	_CreateCharacters();
 	_CreateObjects();
-	--_CreateEnemies();
+	_CreateEnemies();
 
 	-- Set the camera focus on hero
 	Map:SetCamera(hero);
@@ -648,8 +648,23 @@ function _CreateEnemies()
 	local roam_zone = {};
 
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39, hoa_map.MapMode.CONTEXT_01);
+	roam_zone = hoa_map.EnemyZone(40, 52, 67, 87, hoa_map.MapMode.CONTEXT_01);
 
+	enemy = CreateEnemySprite(Map, "snake");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(4, 0, 0);
+	enemy:AddEnemy(2, 0, 0);
+	enemy:AddEnemy(1, 0, 0);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(4, 0, 0);
+	enemy:AddEnemy(2, 0, 0);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+
+
+	roam_zone = hoa_map.EnemyZone(77, 84, 71, 87, hoa_map.MapMode.CONTEXT_01);
 	enemy = CreateEnemySprite(Map, "slime");
 	_SetBattleEnvironment(enemy);
 	enemy:NewEnemyParty();
@@ -657,7 +672,39 @@ function _CreateEnemies()
 	enemy:AddEnemy(1, 0, 0);
 	enemy:AddEnemy(1, 0, 0);
 	enemy:NewEnemyParty();
+	enemy:AddEnemy(2, 0, 0);
 	enemy:AddEnemy(1, 0, 0);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+	
+	-- Hint: left, right, top, bottom
+	roam_zone = hoa_map.EnemyZone(2, 11, 66, 87, hoa_map.MapMode.CONTEXT_01);
+
+	enemy = CreateEnemySprite(Map, "snake");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(4, 0, 0);
+	enemy:AddEnemy(2, 0, 0);
+	enemy:AddEnemy(1, 0, 0);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(4, 0, 0);
+	enemy:AddEnemy(2, 0, 0);
+	roam_zone:AddEnemy(enemy, Map, 1);
+
+	Map:AddZone(roam_zone);
+	
+	-- Hint: left, right, top, bottom
+	roam_zone = hoa_map.EnemyZone(5, 25, 5, 37, hoa_map.MapMode.CONTEXT_01);
+
+	enemy = CreateEnemySprite(Map, "snake");
+	_SetBattleEnvironment(enemy);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(4, 0, 0);
+	enemy:AddEnemy(2, 0, 0);
+	enemy:AddEnemy(1, 0, 0);
+	enemy:NewEnemyParty();
+	enemy:AddEnemy(4, 0, 0);
 	enemy:AddEnemy(2, 0, 0);
 	roam_zone:AddEnemy(enemy, Map, 1);
 

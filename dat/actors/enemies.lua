@@ -200,22 +200,22 @@ enemies[3] = {
 --------------------------------------------------------------------------------
 enemies[4] = {
 	name = hoa_system.Translate("Snake"),
-	stamina_icon = "img/icons/actors/enemies/snake.png",
-	battle_sprites = "img/sprites/battle/enemies/snake.png",
+	stamina_icon = "img/icons/actors/enemies/green_snake.png",
+	battle_sprites = "img/sprites/battle/enemies/green_snake.png",
 	sprite_width = 128,
 	sprite_height = 64,
 
 	base_stats = {
-		hit_points = 128,
-		skill_points = 10,
-		strength = 14,
+		hit_points = 85,
+		skill_points = 0,
+		strength = 22,
 		vigor = 0,
-		fortitude = 9,
-		protection = 4,
-		agility = 15,
-		evade = 2.0,
-		experience_points = 7,
-		drunes = 14
+		fortitude = 6,
+		protection = 5,
+		agility = 30,
+		evade = 6.0,
+		experience_points = 20,
+		drunes = 12
 	},
 
 	attack_points = {
@@ -247,11 +247,12 @@ enemies[4] = {
 	},
 
 	skills = {
-		1003
+		1003 -- Normal attack
 	},
 
 	drop_objects = {
-		{ 1, 0.10 } -- Minor Healing Potion
+		{ 1, 0.10 }, -- Minor Healing Potion
+		{ 11, 0.10 }, -- Minor Moon Juice Potion
 	}
 }
 
