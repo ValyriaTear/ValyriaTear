@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.10.28
+Last update: 2012.10.29
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -336,6 +336,8 @@ img/sprites/map/objects/flower_pot1.lua                         GPLv2           
 img/sprites/map/objects/flower_pot1.png                         GPLv2                    Allacrost
 img/sprites/map/objects/flower_pot2.lua                         GPLv2                    Bertram
 img/sprites/map/objects/flower_pot2.png                         GPLv2                    Allacrost
+img/sprites/map/objects/grass_clump1.lua                        GPLv2                    Bertram
+img/sprites/map/objects/grass_clump1.png                        CC by SA 3.0             Len + Zabin (OGA) From the mountain_landscape tileset.
 img/sprites/map/objects/locker.lua                              GPLv2                    Bertram
 img/sprites/map/objects/locker.png                              GPLv2                    Allacrost
 img/sprites/map/objects/paper_feather.lua                       GPLv2                    Bertram

@@ -355,6 +355,12 @@ layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 -- the main character handler
 local hero = {};
 
+-- Forest dialogue secondary hero
+local kalya_sprite = nil;
+
+-- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
+local main_sprite_name = "";
+
 -- the main map loading code
 function Load(m)
 
@@ -380,6 +386,13 @@ function Load(m)
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+
+        -- Trigger the save point and spring speech event once
+    if (GlobalManager:DoesEventExist("story", "kalya_speech_about_snakes_done") == false) then
+        hero:SetMoving(false);
+        hero:SetDirection(hoa_map.MapMode.WEST);
+        EventManager:StartEvent("Forest entrance dialogue about snakes", 200);
+    end
 end
 
 -- the map update function handles checks done on each game tick.
@@ -396,11 +409,21 @@ function _CreateCharacters()
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
     if (GlobalManager:GetPreviousLocation() == "from_layna_forest_NW") then
-        hero:SetPosition(54, 4); -- 52, 57, 0, 2
+        hero:SetPosition(54, 4);
         hero:SetDirection(hoa_map.MapMode.SOUTH);
     end
 
 	Map:AddGroundObject(hero);
+
+    -- Create secondary character for the scene about snakes - Kalya
+    kalya_sprite = CreateSprite(Map, "Kalya",
+                                hero:GetXPosition(), hero:GetYPosition());
+
+    kalya_sprite:SetDirection(hoa_map.MapMode.WEST);
+    kalya_sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    kalya_sprite:SetVisible(false);
+    Map:AddGroundObject(kalya_sprite);
 end
 
 function _CreateObjects()
@@ -641,6 +664,145 @@ function _CreateObjects()
         Map:AddGroundObject(object);
     end
 
+	-- grass array
+	local map_grass = {
+        -- the grass, hiding a bit the snakes
+        { "Grass Clump1", 99, 85 },
+        { "Grass Clump1", 101, 86 },
+        { "Grass Clump1", 107, 84 },
+        { "Grass Clump1", 85, 73 },
+        { "Grass Clump1", 77, 71 },
+        { "Grass Clump1", 80, 74 },
+        { "Grass Clump1", 68, 78 },
+        { "Grass Clump1", 70, 80 },
+        { "Grass Clump1", 68, 82 },
+        { "Grass Clump1", 70, 70 },
+        { "Grass Clump1", 68, 68 },
+        { "Grass Clump1", 73, 71 },
+        { "Grass Clump1", 63, 72 },
+
+        -- near first snake
+        { "Grass Clump1", 41, 69 },
+        { "Grass Clump1", 43, 70 },
+        { "Grass Clump1", 36, 69.5 },
+        { "Grass Clump1", 45, 69 },
+        { "Grass Clump1", 47, 70 },
+        { "Grass Clump1", 41, 72 },
+        { "Grass Clump1", 43.5, 71 },
+        { "Grass Clump1", 45, 73 },
+        { "Grass Clump1", 49, 72 },
+        { "Grass Clump1", 42, 75 },
+        { "Grass Clump1", 44, 77 },
+        { "Grass Clump1", 46, 76 },
+        { "Grass Clump1", 48, 74 },
+        { "Grass Clump1", 35, 72.5 },
+        { "Grass Clump1", 41, 78 },
+        { "Grass Clump1", 43, 79 },
+        { "Grass Clump1", 47, 78.2 },
+        { "Grass Clump1", 42, 81.4 },
+        { "Grass Clump1", 45, 80 },
+        { "Grass Clump1", 46, 82 },
+        { "Grass Clump1", 48, 81.2 },
+        { "Grass Clump1", 51, 80.2 },
+        { "Grass Clump1", 50, 76.2 },
+        { "Grass Clump1", 40, 83 },
+        { "Grass Clump1", 39.5, 86 },
+        { "Grass Clump1", 46.5, 84 },
+        { "Grass Clump1", 52, 82 },
+        { "Grass Clump1", 54, 84 },
+        { "Grass Clump1", 43, 85 },
+        { "Grass Clump1", 49, 86 },
+
+        -- near second snake
+        { "Grass Clump1", 23, 81 },
+        { "Grass Clump1", 11, 80 },
+        { "Grass Clump1", 6.5, 82 },
+        { "Grass Clump1", 3, 75 },
+        { "Grass Clump1", 4, 70 },
+        { "Grass Clump1", 49, 67 },
+        { "Grass Clump1", 9, 72 },
+        { "Grass Clump1", 6, 77 },
+        { "Grass Clump1", 10, 83 },
+        { "Grass Clump1", 5, 86 },
+        { "Grass Clump1", 7.5, 79 },
+        { "Grass Clump1", 12, 85 },
+        { "Grass Clump1", 5.5, 88 },
+        { "Grass Clump1", 11.5, 76 },
+        { "Grass Clump1", 8, 67 },
+        { "Grass Clump1", 9, 86.2 },
+        { "Grass Clump1", 4, 73 },
+        { "Grass Clump1", 9.2, 74 },
+        { "Grass Clump1", 8.5, 69 },
+        { "Grass Clump1", 14, 73 },
+        { "Grass Clump1", 15, 78 },
+        { "Grass Clump1", 18, 75 },
+
+        -- near third snake
+        { "Grass Clump1", 5, 55 },
+        { "Grass Clump1", 6, 49 },
+        { "Grass Clump1", 3, 47 },
+        { "Grass Clump1", 11, 41 },
+        { "Grass Clump1", 7, 37 },
+        { "Grass Clump1", 9, 35 },
+        { "Grass Clump1", 12, 37 },
+        { "Grass Clump1", 14, 35 },
+        { "Grass Clump1", 16, 37.2 },
+        { "Grass Clump1", 19, 36 },
+        { "Grass Clump1", 20, 35 },
+        { "Grass Clump1", 19, 37 },
+        { "Grass Clump1", 3, 31 },
+        { "Grass Clump1", 5, 33 },
+        { "Grass Clump1", 8, 31 },
+        { "Grass Clump1", 9, 33 },
+        { "Grass Clump1", 12, 31 },
+        { "Grass Clump1", 13, 33 },
+        { "Grass Clump1", 16, 31 },
+        { "Grass Clump1", 17, 33 },
+        { "Grass Clump1", 20, 31 },
+        { "Grass Clump1", 3, 29 },
+        { "Grass Clump1", 4, 27 },
+        { "Grass Clump1", 7, 29 },
+        { "Grass Clump1", 9, 27 },
+        { "Grass Clump1", 12, 29 },
+        { "Grass Clump1", 14, 27.5 },
+        { "Grass Clump1", 17, 28.5 },
+        { "Grass Clump1", 19, 27 },
+        { "Grass Clump1", 20, 29 },
+
+        -- near fourth snake
+        { "Grass Clump1", 8, 23.5 },
+        { "Grass Clump1", 13, 20 },
+        { "Grass Clump1", 18, 17 },
+        { "Grass Clump1", 15, 14 },
+        { "Grass Clump1", 10, 12 },
+        { "Grass Clump1", 12, 8 },
+        { "Grass Clump1", 18, 6 },
+        { "Grass Clump1", 22, 8 },
+        { "Grass Clump1", 6, 7 },
+        { "Grass Clump1", 17, 10 },
+        { "Grass Clump1", 8, 16 },
+        { "Grass Clump1", 5, 18 },
+        { "Grass Clump1", 25, 11 },
+        { "Grass Clump1", 18, 22 },
+
+        -- up to the next map
+        { "Grass Clump1", 34, 12 },
+        { "Grass Clump1", 38, 8 },
+        { "Grass Clump1", 42, 14 },
+        { "Grass Clump1", 46, 10 },
+        { "Grass Clump1", 51, 13 },
+        { "Grass Clump1", 53, 6 },
+        { "Grass Clump1", 49, 4 },
+
+
+    }
+    -- Loads the trees according to the array
+    for my_index, my_array in pairs(map_grass) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        Map:AddGroundObject(object);
+    end
 end
 
 function _CreateEnemies()
@@ -677,7 +839,7 @@ function _CreateEnemies()
 	roam_zone:AddEnemy(enemy, Map, 1);
 
 	Map:AddZone(roam_zone);
-	
+
 	-- Hint: left, right, top, bottom
 	roam_zone = hoa_map.EnemyZone(2, 11, 66, 87, hoa_map.MapMode.CONTEXT_01);
 
@@ -693,7 +855,7 @@ function _CreateEnemies()
 	roam_zone:AddEnemy(enemy, Map, 1);
 
 	Map:AddZone(roam_zone);
-	
+
 	-- Hint: left, right, top, bottom
 	roam_zone = hoa_map.EnemyZone(5, 25, 5, 37, hoa_map.MapMode.CONTEXT_01);
 
@@ -711,6 +873,10 @@ function _CreateEnemies()
 	Map:AddZone(roam_zone);
 end
 
+-- Special event references which destinations must be updated just before being called.
+local move_next_to_hero_event = {}
+local move_back_to_hero_event = {}
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
 	local event = {};
@@ -721,6 +887,49 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from forest SW");
+	EventManager:RegisterEvent(event);
+
+    -- Dialogue events
+    event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+	EventManager:RegisterEvent(event);
+
+    -- First time forest entrance dialogue about save points and the heal spring.
+	event = hoa_map.ScriptedEvent("Forest entrance dialogue about snakes", "forest_dialogue_about_snakes_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
+	EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event:AddEventLinkAtEnd("Kalya Tells about snakes");
+    move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
+    EventManager:RegisterEvent(move_next_to_hero_event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Woa, wait!");
+	dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
+	text = hoa_system.Translate("Look at that grass. The snakes like it very much. Beware of them, their venom can send you to sleep.");
+	dialogue:AddLine(text, kalya_sprite);
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya Tells about snakes", dialogue);
+    event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
+    event:AddEventLinkAtEnd("Set Camera back to Bronann");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Set Camera back to Bronann", hero, "SetCamera", "");
+    event:AddEventLinkAtEnd("kalya goes back to party");
+    EventManager:RegisterEvent(event);
+
+    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event:AddEventLinkAtEnd("end of dialogue about snakes");
+    EventManager:RegisterEvent(move_back_to_hero_event);
+
+    event = hoa_map.ScriptedEvent("end of dialogue about snakes", "end_of_dialogue_about_snakes", "");
 	EventManager:RegisterEvent(event);
 end
 
@@ -762,5 +971,54 @@ if (map_functions == nil) then
 end
 
 map_functions = {
+
+    -- Kalya tells Bronann about the snakes - start event.
+    forest_dialogue_about_snakes_start = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        ReloadSprite(hero, "Bronann");
+
+        kalya_sprite:SetVisible(true);
+        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        Map:SetCamera(kalya_sprite, 800);
+
+        move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+    end,
+
+    SetCamera = function(sprite)
+        Map:SetCamera(sprite, 800);
+    end,
+
+    Sprite_Collision_on = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        end
+    end,
+
+    Sprite_Collision_off = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        end
+    end,
+
+    end_of_dialogue_about_snakes = function()
+        Map:PopState();
+        kalya_sprite:SetPosition(0, 0);
+        kalya_sprite:SetVisible(false);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        ReloadSprite(hero, main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "kalya_speech_about_snakes_done", 1);
+    end
 
 }

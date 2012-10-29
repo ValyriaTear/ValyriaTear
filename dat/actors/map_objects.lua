@@ -184,6 +184,14 @@ objects["Flower Pot2"] = {
 	img_height = 1.75
 }
 
+objects["Grass Clump1"] = {
+	animation_filename = "img/sprites/map/objects/grass_clump1.lua",
+	coll_half_width = 2.2,
+	coll_height = 1.2,
+	img_half_width = 2.5,
+	img_height = 3.0
+}
+
 objects["Green Pepper1"] = {
 	animation_filename = "img/sprites/map/objects/green_pepper1.lua",
 	coll_half_width = 1.0,
