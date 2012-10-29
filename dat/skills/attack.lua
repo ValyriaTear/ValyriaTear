@@ -28,11 +28,30 @@
 -- sprites.
 ------------------------------------------------------------------------------]]
 
+-- common functions
+function trigger_potential_stun(user, target)
+    local target_actor = target:GetActor();
+    local attack_point = target_actor:GetAttackPoint(target:GetPoint());
+    local chance_modifier = (user:GetTotalMetaphysicalAttack() - attack_point:GetTotalMetaphysicalDefense()) * 3.0;
+    local chance = (hoa_utils.RandomFloat() * 100.0);
+    --print( chance.. "/".. 50.0 + chance_modifier);
+    if (chance > (50.0 + chance_modifier)) then
+        target_actor:RegisterMiss(true);
+        return;
+    end
+
+    -- Compute an effect duration time based on the characters' stats
+    local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
+    if (effect_duration < 15000) then effect_duration = 15000; end
+    target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
+                                      hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+                                      effect_duration);
+end
+
 -- All attack skills definitions are stored in this table
 if (skills == nil) then
 	skills = {}
 end
-
 
 --------------------------------------------------------------------------------
 -- IDs 1 - 1,000 are reserved for character attack skills
@@ -108,19 +127,7 @@ skills[3] = {
 
 		if (hoa_battle.CalculateStandardEvasionAdder(target, 5.5) == false) then
 			-- Calculate chance for paralysis effect and activate it
-			local attack_point = target_actor:GetAttackPoint(target:GetPoint());
-			local chance_modifier = (user:GetTotalMetaphysicalAttack() - attack_point:GetTotalMetaphysicalDefense()) * 3.0;
-			local chance = (hoa_utils.RandomFloat() * 100.0);
-			if (chance <= (50.0 + chance_modifier)) then
-                -- Compute an effect duration time based on the characters' stats
-                local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
-                if (effect_duration < 5000) then effect_duration = 5000; end
-			    target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
-                                                  hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
-                                                  effect_duration);
-			else
-			    target_actor:RegisterMiss(true);
-			end
+			trigger_potential_stun(user, target);
 
 			-- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamage(user, target));
@@ -150,6 +157,10 @@ skills[4] = {
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
+            target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
+                                          hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
+                                          effect_duration);
+
 			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
 			AudioManager:PlaySound("snd/swordslice2.wav");
 		else
@@ -303,6 +314,56 @@ skills[1003] = {
 }
 
 skills[1004] = {
+	name = "Snake Stun Bite",
+	sp_required = 1,
+	warmup_time = 900,
+	cooldown_time = 0,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+	BattleExecute = function(user, target)
+		target_actor = target:GetActor();
+
+		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+            -- Calculate chance for paralysis effect and activate it
+			trigger_potential_stun(user, target);
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
+			AudioManager:PlaySound("snd/snake_attack.wav");
+		else
+			target_actor:RegisterMiss(true);
+		end
+	end
+}
+
+skills[1005] = {
+	name = "Snake Dampening Bite",
+	sp_required = 1,
+	warmup_time = 900,
+	cooldown_time = 0,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+	BattleExecute = function(user, target)
+		target_actor = target:GetActor();
+
+		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+            target_actor = target:GetActor();
+            local effect_duration = user:GetProtection() * 2000;
+            if (effect_duration < 15000) then effect_duration = 15000 end
+            target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
+                                              hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
+                                              effect_duration);
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
+			AudioManager:PlaySound("snd/snake_attack.wav");
+		else
+			target_actor:RegisterMiss(true);
+		end
+	end
+}
+
+skills[1006] = {
 	name = "Skeleton Sword Attack",
 	sp_required = 0,
 	warmup_time = 1400,

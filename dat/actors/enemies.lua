@@ -181,7 +181,7 @@ enemies[3] = {
 	},
 
 	skills = {
-	1004
+        1006
 	},
 
 	drop_objects = {
@@ -206,15 +206,15 @@ enemies[4] = {
 	sprite_height = 64,
 
 	base_stats = {
-		hit_points = 85,
-		skill_points = 0,
+		hit_points = 125,
+		skill_points = 10,
 		strength = 22,
-		vigor = 0,
-		fortitude = 6,
+		vigor = 20,
+		fortitude = 8,
 		protection = 5,
 		agility = 30,
 		evade = 6.0,
-		experience_points = 20,
+		experience_points = 25,
 		drunes = 12
 	},
 
@@ -247,7 +247,9 @@ enemies[4] = {
 	},
 
 	skills = {
-		1003 -- Normal attack
+		1003, -- Normal attack
+        1004, -- Stun bite
+        1005  -- Dampening bite (Agility lowering attack)
 	},
 
 	drop_objects = {
@@ -303,7 +305,7 @@ enemies[5] = {
 	},
 
 	skills = {
-		1004
+		1006
 	},
 
 	drop_objects = {
@@ -544,7 +546,7 @@ enemies[9] = {
 	},
 
 	skills = {
-		1004
+		1006
 	},
 
 	drop_objects = {
@@ -607,7 +609,7 @@ enemies[10] = {
 	},
 
 	skills = {
-		1004, -- Normal attack
+		1006, -- Normal attack
 		7     -- Fire burst
 	},
 
@@ -671,7 +673,7 @@ enemies[11] = {
 	},
 
 	skills = {
-		1004, -- Normal attack
+		1006, -- Normal attack
 		10002 -- First Aid
 	},
 
@@ -719,7 +721,7 @@ enemies[12] = {
 	},
 
 	skills = {
-		1004
+		1006
 	},
 
 	drop_objects = {
@@ -766,7 +768,7 @@ enemies[13] = {
 	},
 
 	skills = {
-		1004
+		1006
 	},
 
 	drop_objects = {
@@ -813,7 +815,7 @@ enemies[14] = {
 	},
 
 	skills = {
-		1004
+		1006
 	},
 
 	drop_objects = {
@@ -860,7 +862,7 @@ enemies[15] = {
 	},
 
 	skills = {
-		1004
+		1006
 	},
 
 	drop_objects = {
