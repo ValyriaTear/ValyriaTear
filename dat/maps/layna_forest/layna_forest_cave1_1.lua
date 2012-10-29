@@ -359,6 +359,9 @@ layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 -- the main character handler
 local hero = {};
 
+-- Used as halo around the player
+local light_halo = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -382,14 +385,38 @@ function Load(m)
 	_CreateEvents();
 	_CreateZones();
 
-	-- Add clouds overlay
-	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 0.0, 0.0, false);
+	-- Add a mediumly dark lightning overlay
+	Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.0, 0.7));
+    -- Add the background and foreground animations
+    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_cave_1_1_background_anim.lua");
+
+    -- Add a halo, following the player to help him see what's near.
+    light_halo = hoa_map.PhysicalObject();
+	light_halo:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	light_halo:SetContext(hero:GetContext());
+	light_halo:SetPosition(hero:GetXPosition() + 1.0, hero:GetYPosition() + 5.0);
+	light_halo:SetCollHalfWidth(7.875);
+	light_halo:SetCollHeight(15.68);
+	light_halo:SetImgHalfWidth(7.875);
+	light_halo:SetImgHeight(15.68);
+	light_halo:AddAnimation("img/misc/lights/torch_light_mask.lua");
+    light_halo:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    light_halo:SetDrawOnSecondPass(true); -- Above any other ground object
+    Map:AddGroundObject(light_halo);
+
+    -- Add a halo showing the cave entrance
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 116, 109,
+                hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+
 end
 
 -- the map update function handles checks done on each game tick.
 function Update()
 	-- Check whether the character is in one of the zones
 	_CheckZones();
+
+    -- Updates the halo position
+    light_halo:SetPosition(hero:GetXPosition() + 1.0, hero:GetYPosition() + 5.0);
 end
 
 -- Character creation

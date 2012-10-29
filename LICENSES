@@ -82,6 +82,8 @@ dat/tilesets/wood-tileset.lua                                   GPLv2 or later  
 img/ambient/fog.png                                             GPLv2 or later           Bertram
 img/ambient/sandstorm.png                                       GPLv2 or later           The Mana World Team + Bertram
 
+img/backdrops/cave_background.png                               CC0                      Ecrivain (OGA)
+
 img/backdrops/battle/forest_background.png                      CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA)
 img/backdrops/battle/forest_background_evening.png              CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA)
 img/backdrops/battle/desert_cave/desert_cave.png                GPLv2                    Allacrost + Bertram
