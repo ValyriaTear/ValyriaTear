@@ -492,6 +492,27 @@ function _CreateObjects()
 	object = CreateObject(Map, "Barrel1", 56.3, 56.5);
 	if (object ~= nil) then Map:AddGroundObject(object) end;
 
+	-- grass array, used to hide defects
+	local map_grass = {
+	{ "Grass Clump1", 111, 7 },
+	{ "Grass Clump1", 108, 6 },
+	{ "Grass Clump1", 64, 15 },
+	{ "Grass Clump1", 62, 13 },
+	{ "Grass Clump1", 61, 6.2 },
+	{ "Grass Clump1", 65, 7 },
+	{ "Grass Clump1", 68, 10 },
+	{ "Grass Clump1", 72, 8.2 },
+	{ "Grass Clump1", 76, 8 },
+	}
+
+	-- Loads the trees according to the array
+	for my_index, my_array in pairs(map_grass) do
+	    --print(my_array[1], my_array[2], my_array[3]);
+	    object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+	    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	    Map:AddGroundObject(object);
+	end
+
 	-- Lights
 	-- big round windows light flares
 	Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
