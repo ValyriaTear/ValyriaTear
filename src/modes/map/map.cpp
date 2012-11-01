@@ -342,7 +342,15 @@ MAP_STATE MapMode::CurrentState()
     return _state_stack.back();
 }
 
-
+void MapMode::AddFlatGroundObject(MapObject *obj)
+{
+    if(!obj) {
+        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        return;
+    }
+    _object_supervisor->_flat_ground_objects.push_back(obj);
+    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+}
 
 void MapMode::AddGroundObject(MapObject *obj)
 {
@@ -839,6 +847,7 @@ void MapMode::_DrawMapLayers()
     // Save points are engraved on the ground, and thus shouldn't be drawn after walls.
     _object_supervisor->DrawSavePoints();
 
+    _object_supervisor->DrawFlatGroundObjects();
     _object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects
     _object_supervisor->DrawPassObjects();
     _object_supervisor->DrawGroundObjects(true); // Second draw pass of ground objects

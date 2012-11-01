@@ -645,10 +645,10 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     SetCollHalfWidth(closed_anim.GetWidth() / 2.0f);
     SetCollHeight(closed_anim.GetHeight());
 
-    LoadState();
+    _LoadState();
 } // TreasureObject::TreasureObject()
 
-void TreasureObject::LoadState()
+void TreasureObject::_LoadState()
 {
     if(!_treasure)
         return;
@@ -709,6 +709,102 @@ void TreasureObject::AddEvent(const std::string& event_id)
 }
 
 // ----------------------------------------------------------------------------
+// ---------- TriggerObject Class Functions
+// ----------------------------------------------------------------------------
+
+TriggerObject::TriggerObject(const std::string &trigger_name,
+                             const std::string &off_animation_file,
+                             const std::string &on_animation_file,
+                             const std::string& off_event_id,
+                             const std::string& on_event_id) :
+    PhysicalObject(),
+    _trigger_state(false)
+{
+    _object_type = TRIGGER_TYPE;
+
+    _trigger_name = trigger_name;
+
+    _off_event = off_event_id;
+    _on_event = on_event_id;
+
+    // Dissect the frames and create the closed, opening, and open animations
+    hoa_video::AnimatedImage off_anim, on_anim;
+
+    off_anim.LoadFromAnimationScript(off_animation_file);
+    MapMode::ScaleToMapCoords(off_anim);
+    on_anim.LoadFromAnimationScript(on_animation_file);
+    MapMode::ScaleToMapCoords(on_anim);
+
+    AddAnimation(off_anim);
+    AddAnimation(on_anim);
+
+    // Set a default collision area making the trigger respond when the character
+    // is rather having his/her two feet on it.
+    SetCollHalfWidth(off_anim.GetWidth() / 4.0f);
+    SetCollHeight(off_anim.GetHeight() * 2.0f / 3.0f);
+    SetImgHalfWidth(off_anim.GetWidth() / 2.0f);
+    SetImgHeight(off_anim.GetHeight());
+
+    _LoadState();
+} // TreasureObject::TreasureObject()
+
+void TriggerObject::Update() {
+    PhysicalObject::Update();
+
+    // TODO: Permits other behaviour
+    if (_trigger_state)
+        return;
+
+    MapMode *map_mode = MapMode::CurrentInstance();
+    if (!map_mode->IsCameraOnVirtualFocus()
+            && MapRectangle::CheckIntersection(map_mode->GetCamera()->GetCollisionRectangle(), GetCollisionRectangle())) {
+        // This might need to be removed after thorough test
+        map_mode->GetCamera()->SetMoving(false);
+
+        SetState(true);
+    }
+
+}
+
+void TriggerObject::_LoadState()
+{
+    if(_trigger_name.empty())
+        return;
+
+    // If the event value is equal to 1, the trigger has been triggered.
+    if(GlobalManager->GetEventValue("triggers", _trigger_name) == 1) {
+        SetCurrentAnimation(TRIGGER_ON_ANIM);
+        _trigger_state = true;
+    }
+    else {
+        SetCurrentAnimation(TRIGGER_OFF_ANIM);
+        _trigger_state = false;
+    }
+}
+
+void TriggerObject::SetState(bool state)
+{
+    if (_trigger_state == state)
+        return;
+
+    _trigger_state = state;
+
+    // If the event exists, the treasure has already been opened
+    if(_trigger_state) {
+        SetCurrentAnimation(TRIGGER_ON_ANIM);
+        if (!_on_event.empty())
+            MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_on_event);
+        GlobalManager->SetEventValue("triggers", _trigger_name, 1);
+    }
+    else {
+        SetCurrentAnimation(TRIGGER_OFF_ANIM);
+        if (!_off_event.empty())
+            MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_off_event);
+        GlobalManager->SetEventValue("triggers", _trigger_name, 0);
+    }
+}
+
+// ----------------------------------------------------------------------------
 // ---------- ObjectSupervisor Class Functions
 // ----------------------------------------------------------------------------
 
@@ -730,6 +826,9 @@ ObjectSupervisor::ObjectSupervisor() :
 ObjectSupervisor::~ObjectSupervisor()
 {
     // Delete all of the map objects
+    for(uint32 i = 0; i < _flat_ground_objects.size(); ++i) {
+        delete(_flat_ground_objects[i]);
+    }
     for(uint32 i = 0; i < _ground_objects.size(); ++i) {
         delete(_ground_objects[i]);
     }
@@ -806,6 +905,7 @@ VirtualSprite *ObjectSupervisor::GetSprite(uint32 object_id)
 
 void ObjectSupervisor::SortObjects()
 {
+    std::sort(_flat_ground_objects.begin(), _flat_ground_objects.end(), MapObject_Ptr_Less());
     std::sort(_ground_objects.begin(), _ground_objects.end(), MapObject_Ptr_Less());
     std::sort(_pass_objects.begin(), _pass_objects.end(), MapObject_Ptr_Less());
     std::sort(_sky_objects.begin(), _sky_objects.end(), MapObject_Ptr_Less());
@@ -836,6 +936,8 @@ bool ObjectSupervisor::Load(ReadScriptDescriptor &map_file)
 
 void ObjectSupervisor::Update()
 {
+    for(uint32 i = 0; i < _flat_ground_objects.size(); ++i)
+        _flat_ground_objects[i]->Update();
     for(uint32 i = 0; i < _ground_objects.size(); ++i)
         _ground_objects[i]->Update();
     // Update save point animation and activeness.
@@ -858,6 +960,13 @@ void ObjectSupervisor::DrawSavePoints()
 {
     for(uint32 i = 0; i < _save_points.size(); ++i) {
         _save_points[i]->Draw();
+    }
+}
+
+void ObjectSupervisor::DrawFlatGroundObjects()
+{
+    for(uint32 i = 0; i < _flat_ground_objects.size(); ++i) {
+        _flat_ground_objects[i]->Draw();
     }
 }
 

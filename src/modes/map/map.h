@@ -116,6 +116,9 @@ public:
     **/
     private_map::MAP_STATE CurrentState();
 
+    //! \brief Adds a new object to the layer before ground object layer
+    void AddFlatGroundObject(private_map::MapObject *obj);
+
     //! \brief Adds a new object to the ground object layer
     void AddGroundObject(private_map::MapObject *obj);
 

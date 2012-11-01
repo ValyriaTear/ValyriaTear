@@ -644,9 +644,6 @@ public:
         return _treasure_name;
     }
 
-    //! \brief Loads the state of the chest from the global event corresponding to the current map
-    void LoadState();
-
     //! \brief Opens the treasure, which changes the active animation and initializes the treasure supervisor when the opening animation finishes.
     void Open();
 
@@ -684,8 +681,69 @@ private:
 
     //! \brief Events triggered at the start of the treasure event.
     std::vector<std::string> _events;
+
+    //! \brief Loads the state of the chest from the global event corresponding to the current map
+    void _LoadState();
 }; // class TreasureObject : public PhysicalObject
 
+// Trigger zone object
+//! Represents a flat object that can be visually triggered when "talking" or stepping on it.
+//! The object will then trigger an event.
+class TriggerObject : public PhysicalObject
+{
+    //! \brief Constants representing the three types of animations for the treasure
+    enum {
+        TRIGGER_OFF_ANIM  = 0,
+        TRIGGER_ON_ANIM = 1
+    };
+
+public:
+    /** \param trigger_name The name of the trigger. Used to store and load the trigger state.
+    *** \param off_animation_file The animation file used to display the treasure when it is closed.
+    *** \param on_animation_file The animation file used to display the treasure when it is open.
+    *** \param off_event_id The event id to call when setting the trigger to off.
+    *** \param on_event_id The event id to call when setting the trigger to on.
+    **/
+    TriggerObject(const std::string &trigger_name, const std::string &off_animation_file,
+                   const std::string &on_animation_file, const std::string& off_event_id,
+                   const std::string& on_event_id);
+
+    ~TriggerObject()
+    {}
+
+    //! \brief Changes the current animation if the character collides with the trigger.
+    void Update();
+
+    std::string GetTriggerName() const
+    { return _trigger_name; }
+
+    //! \brief Triggers the object from off to on, or the contrary, calling the on or off event.
+    //! true == triggered/on.
+    void SetState(bool state = true);
+
+    bool GetState() const
+    { return _trigger_state; }
+
+    void ToggleState()
+    { SetState(!_trigger_state); }
+
+private:
+    //! \brief The treasure object name
+    std::string _trigger_name;
+
+    //! The trigger state (false == off)
+    bool _trigger_state;
+
+    //! \brief Event triggered when the trigger is set to on.
+    std::string _on_event;
+
+    //! \brief Event triggered when the trigger is set to off.
+    std::string _off_event;
+
+    //! \brief Loads the state of the trigger from the global event corresponding to the current map
+    //! It doesn't call the on/off events since this should be dealt with the trigger states at map load time.
+    void _LoadState();
+}; // class TreasureObject : public PhysicalObject
 
 /** ****************************************************************************
 *** \brief A helper class to MapMode responsible for management of all object and sprite data
@@ -767,6 +825,7 @@ public:
     **/
     //@{
     void DrawSavePoints();
+    void DrawFlatGroundObjects();
     void DrawGroundObjects(const bool second_pass);
     void DrawPassObjects();
     void DrawSkyObjects();
@@ -917,6 +976,11 @@ private:
     *** sprite's unique identifier integer is used as the map key.
     **/
     std::map<uint16, MapObject *> _all_objects;
+
+    /** \brief A container for all of the map objects located on the ground layer, and being flat.
+    *** See this layer as a pre ground object layer
+    **/
+    std::vector<MapObject *> _flat_ground_objects;
 
     /** \brief A container for all of the map objects located on the ground layer.
     *** The ground object layer is where most objects and sprites exist in a typical map.

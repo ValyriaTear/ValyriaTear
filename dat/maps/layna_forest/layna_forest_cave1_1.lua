@@ -431,6 +431,10 @@ function _CreateCharacters()
 end
 
 function _CreateObjects()
+	local object = {};
+	local npc = {};
+	local event = {}
+
 	Map:AddSavePoint(50, 6, hoa_map.MapMode.CONTEXT_01);
 
 	-- Load the spring heal effect.
@@ -450,7 +454,46 @@ function _CreateObjects()
 	dialogue:AddLineEvent(text, npc, "Cave heal", "");
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);
-  
+	
+	-- The triggers
+
+	--near entrance
+	trigger = hoa_map.TriggerObject("layna_cave_entrance_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove entrance rock");
+	trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	trigger:SetPosition(113, 90);
+	Map:AddFlatGroundObject(trigger);
+
+	entrance_trigger_rock = CreateObject(Map, "Rock1", 115, 79);
+	if (trigger:GetState() == true) then
+	    map_functions.make_entrance_rock_invisible();
+	end
+	Map:AddGroundObject(entrance_trigger_rock);
+	
+	event = hoa_map.ScriptedEvent("Remove entrance rock", "make_entrance_rock_invisible", "");
+	EventManager:RegisterEvent(event);
+
+	-- 2nd trigger
+	trigger = hoa_map.TriggerObject("layna_cave_entrance_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove 2nd rock");
+	trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	trigger:SetPosition(11, 88);
+	Map:AddFlatGroundObject(trigger);
+
+	second_trigger_rock = CreateObject(Map, "Rock1", 95, 58);
+	if (trigger:GetState() == true) then
+	    map_functions.make_2nd_rock_invisible();
+	end
+	Map:AddGroundObject(second_trigger_rock);
+	
+	event = hoa_map.ScriptedEvent("Remove 2nd rock", "make_2nd_rock_invisible", "");
+	EventManager:RegisterEvent(event);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -548,5 +591,20 @@ map_functions = {
         return true;
     end,
 
+    make_entrance_rock_invisible = function()
+        entrance_trigger_rock:SetVisible(false);
+        entrance_trigger_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    end,
+    make_2nd_rock_invisible = function()
+        second_trigger_rock:SetVisible(false);
+        second_trigger_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    end,
+
+    make_visible = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetVisible(true);
+            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        end
+    end,
 
 }

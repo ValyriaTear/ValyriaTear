@@ -148,7 +148,8 @@ enum MAP_OBJECT_TYPE {
     SAVE_TYPE = 5,      //! This is a save point. The player can save while its character is in it.
     HALO_TYPE = 6,      //! This is a source of light, here for eye candy.
     LIGHT_TYPE = 7,     //! Another light type, but will change dynamically according to the map viewpoint.
-    PARTICLE_TYPE = 8   //! A particle object.
+    PARTICLE_TYPE = 8,  //! A particle object.
+    TRIGGER_TYPE = 9    //! A trigger object.
 };
 
 /** \name Map Sprite Speeds

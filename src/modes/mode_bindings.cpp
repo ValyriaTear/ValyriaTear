@@ -91,6 +91,7 @@ void BindModeCode()
             .def_readwrite("running_disabled", &MapMode::_running_disabled)
             .def_readwrite("run_stamina", &MapMode::_run_stamina)
 
+            .def("AddFlatGroundObject", &MapMode::AddFlatGroundObject, luabind::adopt(_2))
             .def("AddGroundObject", &MapMode::AddGroundObject, luabind::adopt(_2))
             .def("AddPassObject", &MapMode::AddPassObject, luabind::adopt(_2))
             .def("AddSkyObject", &MapMode::AddSkyObject, luabind::adopt(_2))
@@ -258,6 +259,15 @@ void BindModeCode()
             .def("SetDrunes", &TreasureObject::SetDrunes)
             .def("AddObject", &TreasureObject::AddObject)
             .def("AddEvent", &TreasureObject::AddEvent)
+        ];
+
+        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+        [
+            luabind::class_<TriggerObject, PhysicalObject>("TriggerObject")
+            .def(luabind::constructor<const std::string &, const std::string &, const std::string &, const std::string &, const std::string &>())
+            .def("SetState", &TriggerObject::SetState)
+            .def("GetState", &TriggerObject::GetState)
+            .def("GetTriggerName", &TriggerObject::GetTriggerName)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
