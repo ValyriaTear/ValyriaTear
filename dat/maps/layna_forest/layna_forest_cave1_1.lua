@@ -103,8 +103,8 @@ map_grid[52] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 map_grid[53] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 map_grid[54] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 map_grid[55] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-map_grid[56] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1 }
-map_grid[57] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 }
+map_grid[56] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1 }
+map_grid[57] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 }
 map_grid[58] = { 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1 }
 map_grid[59] = { 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1 }
 map_grid[60] = { 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 }
@@ -281,7 +281,7 @@ layers[2][24] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[2][25] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][26] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][27] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
-layers[2][28] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 80, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
+layers[2][28] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][29] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][30] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[2][31] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
@@ -477,7 +477,7 @@ function _CreateObjects()
 	EventManager:RegisterEvent(event);
 
 	-- 2nd trigger
-	trigger = hoa_map.TriggerObject("layna_cave_entrance_trigger",
+	trigger = hoa_map.TriggerObject("layna_cave_2nd_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -494,6 +494,120 @@ function _CreateObjects()
 	
 	event = hoa_map.ScriptedEvent("Remove 2nd rock", "make_2nd_rock_invisible", "");
 	EventManager:RegisterEvent(event);
+
+    -- 3rd trigger
+    trigger = hoa_map.TriggerObject("layna_cave_3rd_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove 3rd rock");
+    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    trigger:SetPosition(39, 55);
+    Map:AddFlatGroundObject(trigger);
+
+    third_trigger_rock = CreateObject(Map, "Rock1", 15, 36);
+    if (trigger:GetState() == true) then
+        map_functions.make_3rd_rock_invisible();
+    end
+    Map:AddGroundObject(third_trigger_rock);
+
+    event = hoa_map.ScriptedEvent("Remove 3rd rock", "make_3rd_rock_invisible", "");
+    EventManager:RegisterEvent(event);
+
+    -- 4th trigger
+    trigger = hoa_map.TriggerObject("layna_cave_4th_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove 4th rock");
+    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    trigger:SetPosition(62, 26);
+    Map:AddFlatGroundObject(trigger);
+
+    fourth_trigger_rock = CreateObject(Map, "Rock1", 45, 11);
+    if (trigger:GetState() == true) then
+        map_functions.make_4th_rock_invisible();
+    end
+    Map:AddGroundObject(fourth_trigger_rock);
+
+    event = hoa_map.ScriptedEvent("Remove 4th rock", "make_4th_rock_invisible", "");
+    EventManager:RegisterEvent(event);
+
+    -- 5th trigger
+    trigger = hoa_map.TriggerObject("layna_cave_5th_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove 5th rock");
+    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    trigger:SetPosition(9, 6);
+    Map:AddFlatGroundObject(trigger);
+
+    fifth_trigger_rock = CreateObject(Map, "Rock1", 77, 33);
+    if (trigger:GetState() == true) then
+        map_functions.make_5th_rock_invisible();
+    end
+    Map:AddGroundObject(fifth_trigger_rock);
+
+    event = hoa_map.ScriptedEvent("Remove 5th rock", "make_5th_rock_invisible", "");
+    EventManager:RegisterEvent(event);
+
+    -- 6th trigger
+    trigger = hoa_map.TriggerObject("layna_cave_6th_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove 6th rock");
+    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    trigger:SetPosition(114, 28);
+    Map:AddFlatGroundObject(trigger);
+
+    sixth_trigger_rock = CreateObject(Map, "Rock1", 115, 43);
+    if (trigger:GetState() == true) then
+        map_functions.make_6th_rock_invisible();
+    end
+    Map:AddGroundObject(sixth_trigger_rock);
+
+    event = hoa_map.ScriptedEvent("Remove 6th rock", "make_6th_rock_invisible", "");
+    EventManager:RegisterEvent(event);
+
+    -- 7th trigger
+    trigger = hoa_map.TriggerObject("layna_cave_7th_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove 7th rock");
+    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    trigger:SetPosition(4, 26);
+    Map:AddFlatGroundObject(trigger);
+
+    seventh_trigger_rock = CreateObject(Map, "Rock1", 115, 47);
+    if (trigger:GetState() == true) then
+        map_functions.make_7th_rock_invisible();
+    end
+    Map:AddGroundObject(seventh_trigger_rock);
+
+    event = hoa_map.ScriptedEvent("Remove 7th rock", "make_7th_rock_invisible", "");
+    EventManager:RegisterEvent(event);
+
+    -- 8th trigger
+    trigger = hoa_map.TriggerObject("layna_cave_8th_trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "",
+                             "Remove 8th rock");
+    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    trigger:SetPosition(115, 53);
+    Map:AddFlatGroundObject(trigger);
+
+    eighth_trigger_rock = CreateObject(Map, "Rock1", 93, 14);
+    if (trigger:GetState() == true) then
+        map_functions.make_8th_rock_invisible();
+    end
+    Map:AddGroundObject(eighth_trigger_rock);
+
+    event = hoa_map.ScriptedEvent("Remove 8th rock", "make_8th_rock_invisible", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -554,6 +668,13 @@ function _CheckZones()
 	end
 end
 
+function _MakeRockInvisible(object)
+    object:SetVisible(false);
+    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    AudioManager:PlaySound("snd/cave-in.ogg");
+    VideoManager:ShakeScreen(0.6, 1000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+end
+
 -- Map Custom functions
 -- Used through scripted events
 if (map_functions == nil) then
@@ -592,12 +713,28 @@ map_functions = {
     end,
 
     make_entrance_rock_invisible = function()
-        entrance_trigger_rock:SetVisible(false);
-        entrance_trigger_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        _MakeRockInvisible(entrance_trigger_rock);
     end,
     make_2nd_rock_invisible = function()
-        second_trigger_rock:SetVisible(false);
-        second_trigger_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        _MakeRockInvisible(second_trigger_rock);
+    end,
+    make_3rd_rock_invisible = function()
+        _MakeRockInvisible(third_trigger_rock);
+    end,
+    make_4th_rock_invisible = function()
+        _MakeRockInvisible(fourth_trigger_rock);
+    end,
+    make_5th_rock_invisible = function()
+        _MakeRockInvisible(fifth_trigger_rock);
+    end,
+    make_6th_rock_invisible = function()
+        _MakeRockInvisible(sixth_trigger_rock);
+    end,
+    make_7th_rock_invisible = function()
+        _MakeRockInvisible(seventh_trigger_rock);
+    end,
+    make_8th_rock_invisible = function()
+        _MakeRockInvisible(eighth_trigger_rock);
     end,
 
     make_visible = function(sprite)
