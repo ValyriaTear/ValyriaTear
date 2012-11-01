@@ -107,6 +107,7 @@ void BindModeCode()
             .def("IsShowGUI", &MapMode::IsShowGUI)
             .def("PushState", &MapMode::PushState)
             .def("PopState", &MapMode::PopState)
+            .def("CurrentState", &MapMode::CurrentState)
             .def("DrawMapLayers", &MapMode::_DrawMapLayers)
 
             // Namespace constants
