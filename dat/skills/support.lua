@@ -75,4 +75,18 @@ skills[20001] = {
 -- IDs 21,001 - 30,000 are reserved for enemy support skills
 --------------------------------------------------------------------------------
 
+skills[21001] = {
+	name = hoa_system.Translate("Slime Spawn"),
+	description = hoa_system.Translate("Creates a slime."),
+	sp_required = 0,
+	warmup_time = 1400,
+	cooldown_time = 750,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
 
+	BattleExecute = function(user, target)
+		local x_position = 200.0 + (hoa_utils.RandomFloat() * 450.0)
+		local y_position = 200.0 + (hoa_utils.RandomFloat() * 300.0)
+		local Battle = ModeManager:GetTop();
+		Battle:AddEnemy(1, x_position, y_position);
+	end
+}

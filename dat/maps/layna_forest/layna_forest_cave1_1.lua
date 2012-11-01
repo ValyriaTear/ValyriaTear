@@ -376,7 +376,7 @@ function Load(m)
 
 	_CreateCharacters();
 	_CreateObjects();
---	_CreateEnemies();
+	_CreateEnemies();
 
 	-- Set the camera focus on hero
 	Map:SetCamera(hero);
@@ -426,6 +426,17 @@ function _CreateCharacters()
 	hero = CreateSprite(Map, "Bronann", 116, 92);
 	hero:SetDirection(hoa_map.MapMode.NORTH);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+
+    -- Load previous save point data
+    local x_position = GlobalManager:GetSaveLocationX();
+    local y_position = GlobalManager:GetSaveLocationY();
+    if (x_position ~= 0 and y_position ~= 0) then
+        -- Use the save point position, and clear the save position data for next maps
+        GlobalManager:UnsetSaveLocation();
+        -- Make the character look at us in that case
+        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetPosition(x_position, y_position);
+    end
 
 	Map:AddGroundObject(hero);
 end
@@ -623,17 +634,13 @@ function _CreateEnemies()
 	local roam_zone = {};
 
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(2, 10, 58, 75, hoa_map.MapMode.CONTEXT_01);
+	roam_zone = hoa_map.EnemyZone(8, 10, 6, 6, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "slime");
+	enemy = CreateEnemySprite(Map, "big slime");
 	_SetBattleEnvironment(enemy);
+    enemy:SetBattleMusicTheme("mus/The_Creature_Awakens.ogg"); -- set the boss music for that one
 	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
+	enemy:AddEnemy(5, 812.0, 350.0);
 	roam_zone:AddEnemy(enemy, Map, 1);
 	Map:AddZone(roam_zone);
 end

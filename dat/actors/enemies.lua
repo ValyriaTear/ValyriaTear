@@ -258,46 +258,31 @@ enemies[4] = {
 	}
 }
 
--- Traits -----------------------------------------------------------------------
--- HSP: med HP, low SP
--- ATK: med phys, zero meta
--- DEF: med phys, low meta
--- SPD: med agi, med eva
--- XPD: low XP, med drunes
---------------------------------------------------------------------------------
 enemies[5] = {
-	name = hoa_system.Translate("Rat"),
-	stamina_icon = "img/icons/actors/enemies/rat.png",
-	battle_sprites = "img/sprites/battle/enemies/rat.png",
-	sprite_width = 64,
-	sprite_height = 64,
+	name = hoa_system.Translate("Mother Slime"),
+	stamina_icon = "img/icons/actors/enemies/big_slime.png",
+	battle_sprites = "img/sprites/battle/enemies/big_slime.png",
+	sprite_width = 128,
+	sprite_height = 128,
 
 	base_stats = {
-		hit_points = 90,
-		skill_points = 5,
-		strength = 12,
-		vigor = 0,
-		fortitude = 14,
-		protection = 4,
-		agility = 13,
+		hit_points = 455,
+		skill_points = 0,
+		strength = 35,
+		vigor = 10,
+		fortitude = 10,  -- base defense
+		protection = 10, 
+		agility = 28,
 		evade = 2.0,
-		experience_points = 5,
-		drunes = 18
+		experience_points = 60,
+		drunes = 80
 	},
 
 	attack_points = {
 		[1] = {
-			name = hoa_system.Translate("Head"),
-			x_position = -24,
-			y_position = 50,
-			fortitude_modifier = 0.0,
-			protection_modifier = 0.0,
-			evade_modifier = 0.0
-		},
-		[2] = {
-			name = hoa_system.Translate("Chest"),
-			x_position = -8,
-			y_position = 25,
+			name = hoa_system.Translate("Body"),
+			x_position = 5,
+			y_position = 34,
 			fortitude_modifier = 0.0,
 			protection_modifier = 0.0,
 			evade_modifier = 0.0
@@ -305,11 +290,12 @@ enemies[5] = {
 	},
 
 	skills = {
-		1006
+		1001,
+		21001
 	},
 
 	drop_objects = {
-		{ 1, 0.15 } -- Minor Healing Potion
+
 	}
 }
 
@@ -867,6 +853,61 @@ enemies[15] = {
 
 	drop_objects = {
 
+	}
+}
+
+-- Traits -----------------------------------------------------------------------
+-- HSP: med HP, low SP
+-- ATK: med phys, zero meta
+-- DEF: med phys, low meta
+-- SPD: med agi, med eva
+-- XPD: low XP, med drunes
+--------------------------------------------------------------------------------
+enemies[16] = {
+	name = hoa_system.Translate("Rat"),
+	stamina_icon = "img/icons/actors/enemies/rat.png",
+	battle_sprites = "img/sprites/battle/enemies/rat.png",
+	sprite_width = 64,
+	sprite_height = 64,
+
+	base_stats = {
+		hit_points = 90,
+		skill_points = 5,
+		strength = 12,
+		vigor = 0,
+		fortitude = 14,
+		protection = 4,
+		agility = 13,
+		evade = 2.0,
+		experience_points = 5,
+		drunes = 18
+	},
+
+	attack_points = {
+		[1] = {
+			name = hoa_system.Translate("Head"),
+			x_position = -24,
+			y_position = 50,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		},
+		[2] = {
+			name = hoa_system.Translate("Chest"),
+			x_position = -8,
+			y_position = 25,
+			fortitude_modifier = 0.0,
+			protection_modifier = 0.0,
+			evade_modifier = 0.0
+		}
+	},
+
+	skills = {
+		1006
+	},
+
+	drop_objects = {
+		{ 1, 0.15 } -- Minor Healing Potion
 	}
 }
 

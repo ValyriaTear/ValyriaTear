@@ -604,6 +604,12 @@ void BattleMode::AddEnemy(GlobalEnemy *new_enemy, float position_x, float positi
 
     _enemy_actors.push_back(new_battle_enemy);
     _enemy_party.push_back(new_battle_enemy);
+
+    // If the battle has already begun, let's finish the initialization.
+    if (GetState() != BATTLE_STATE_INVALID) {
+        SetActorIdleStateTime(new_battle_enemy);
+        new_battle_enemy->ChangeState(ACTOR_STATE_IDLE);
+    }
 }
 
 void BattleMode::ChangeState(BATTLE_STATE new_state)
