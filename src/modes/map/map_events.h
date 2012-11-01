@@ -925,9 +925,17 @@ public:
     **/
     bool AddObject(uint32 id, uint32 quantity = 1);
 
+    /** \brief Adds an event triggered at start of the treasure event.
+    *** \param event_id The id of the event to add
+    **/
+    void AddEvent(const std::string& event_id);
+
 protected:
     //! \brief A pointer to the treasure content, used by the TreasureSupervisor.
     MapTreasure *_treasure;
+
+    //! \brief Events triggered at the start of the treasure event.
+    std::vector<std::string> _events;
 
     /** \brief Starts a sprite event.
     ***

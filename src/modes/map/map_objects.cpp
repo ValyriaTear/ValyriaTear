@@ -19,6 +19,7 @@
 
 #include "modes/map/map.h"
 #include "modes/map/map_sprites.h"
+#include "modes/map/map_events.h"
 
 #include "common/global/global.h"
 
@@ -683,6 +684,13 @@ void TreasureObject::Update()
 
     if((current_animation == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished())) {
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
+
+        // Trigger potential events on opening
+        if (_events.size() > 0) {
+            for (uint32 i = 0; i < _events.size(); ++i) {
+                MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_events[i]);
+            }
+        }
         MapMode::CurrentInstance()->GetTreasureSupervisor()->Initialize(this);
     }
 }
@@ -692,6 +700,12 @@ bool TreasureObject::AddObject(uint32 id, uint32 quantity)
     if(!_treasure)
         return false;
     return _treasure->AddObject(id, quantity);
+}
+
+void TreasureObject::AddEvent(const std::string& event_id)
+{
+    if (!event_id.empty())
+        _events.push_back(event_id);
 }
 
 // ----------------------------------------------------------------------------

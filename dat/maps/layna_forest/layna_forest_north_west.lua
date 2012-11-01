@@ -504,14 +504,26 @@ function _CreateObjects()
 		chest2:AddObject(1, 1); -- small potion
 		Map:AddGroundObject(chest2);
 	end
+	
+	event = hoa_map.BattleEncounterEvent("Monster trap in chest");
+	event:SetMusic("mus/Battle_Jazz.ogg");
+	event:SetBackground("img/backdrops/battle/forest_background.png");
+	event:AddScript("dat/battles/tutorial_battle_dialogs.lua");
+	event:AddEnemy(2, 0, 0);
+	event:AddEnemy(2, 0, 0);
+	event:AddEnemy(2, 0, 0);
+	event:AddEnemy(2, 0, 0);
+	EventManager:RegisterEvent(event);
 	local chest3 = CreateTreasure(Map, "layna_forest_nw_chest3", "Wood_Chest1", 26, 42);
 	if (chest3 ~= nil) then
 		chest3:AddObject(40001, 1); -- prismatic ring
+		chest3:AddEvent("Monster trap in chest");
 		Map:AddGroundObject(chest3);
 	end
+
 	local chest4 = CreateTreasure(Map, "layna_forest_nw_chest4", "Wood_Chest1", 122, 5);
 	if (chest4 ~= nil) then
-        -- Empty chest, it's a trap!
+		-- Empty chest, just to bother the player
 		Map:AddGroundObject(chest4);
 	end
 

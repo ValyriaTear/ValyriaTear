@@ -257,6 +257,7 @@ void BindModeCode()
             .def(luabind::constructor<const std::string &, const std::string &, const std::string &, const std::string &>())
             .def("SetDrunes", &TreasureObject::SetDrunes)
             .def("AddObject", &TreasureObject::AddObject)
+            .def("AddEvent", &TreasureObject::AddEvent)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -571,6 +572,7 @@ void BindModeCode()
             .def(luabind::constructor<std::string>())
             .def("SetDrunes", &TreasureEvent::SetDrunes)
             .def("AddObject", &TreasureEvent::AddObject)
+            .def("AddEvent", &TreasureEvent::AddEvent)
         ];
 
     } // End using map mode namespaces

@@ -905,6 +905,12 @@ TreasureEvent::TreasureEvent(const std::string &event_id) :
 
 void TreasureEvent::_Start()
 {
+    if (_events.size() > 0) {
+        for (uint32 i = 0; i < _events.size(); ++i) {
+            MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_events[i]);
+        }
+    }
+
     MapMode::CurrentInstance()->GetTreasureSupervisor()->Initialize(_treasure);
 }
 
@@ -919,6 +925,12 @@ bool TreasureEvent::_Update()
 bool TreasureEvent::AddObject(uint32 id, uint32 quantity)
 {
     return _treasure->AddObject(id, quantity);
+}
+
+void TreasureEvent::AddEvent(const std::string& event_id)
+{
+    if (!event_id.empty())
+        _events.push_back(event_id);
 }
 
 // -----------------------------------------------------------------------------
