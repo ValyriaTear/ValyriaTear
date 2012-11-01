@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.10.29
+Last update: 2012.11.01
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -79,6 +79,7 @@ dat/tilesets/mountain_house_interior.lua                        GPLv2 or later  
 dat/tilesets/snow-tileset.lua                                   GPLv2 or later           Bertram
 dat/tilesets/wood-tileset.lua                                   GPLv2 or later           Bertram
 
+img/ambient/dark.png                                            CC0                      Bertram
 img/ambient/fog.png                                             GPLv2 or later           Bertram
 img/ambient/sandstorm.png                                       GPLv2 or later           The Mana World Team + Bertram
 
