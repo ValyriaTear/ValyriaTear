@@ -348,15 +348,15 @@ void InventoryWindow::Update()
                 // Returns an item object, already removed from inventory.
                 // Don't forget to readd the item if not used, or to delete the pointer.
                 GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(obj->GetID());
-                const ScriptObject &script_function = item->GetFieldUseFunction();
-                if(!script_function.is_valid()) {
+                ScriptObject *script_function = item->GetFieldUseFunction();
+                if(!script_function || !script_function->is_valid()) {
                     IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
                 } else {
                     if(IsTargetParty(item->GetTargetType()) == true) {
                         GlobalParty *ch_party = GlobalManager->GetActiveParty();
 
                         // If the item use failed, we readd it to inventory.
-                        if(!ScriptCallFunction<bool>(script_function, ch_party))
+                        if(!ScriptCallFunction<bool>(*script_function, ch_party))
                             GlobalManager->AddToInventory(item);
                         else // delete the item instance when succeeded.
                             delete item;
@@ -365,7 +365,7 @@ void InventoryWindow::Update()
                         GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
 
                         // If the item use failed, we readd it to inventory.
-                        if(!ScriptCallFunction<bool>(script_function, ch))
+                        if(!ScriptCallFunction<bool>(*script_function, ch))
                             GlobalManager->AddToInventory(item);
                         else // delete the item instance when succeeded.
                             delete item;
@@ -774,9 +774,9 @@ void SkillsWindow::Update()
             GlobalCharacter *target = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
             GlobalCharacter *instigator = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
 
-            const ScriptObject &script_function = skill->GetFieldExecuteFunction();
+            ScriptObject *script_function = skill->GetFieldExecuteFunction();
 
-            if(!script_function.is_valid()) {
+            if(!script_function || !script_function->is_valid()) {
                 IF_PRINT_WARNING(MENU_DEBUG) << "selected skill may not be executed in menus" << std::endl;
                 break;
             }
@@ -784,7 +784,7 @@ void SkillsWindow::Update()
                 IF_PRINT_WARNING(MENU_DEBUG) << "did not have enough skill points to execute skill " << std::endl;
                 break;
             }
-            ScriptCallFunction<void>(script_function, target, instigator);
+            ScriptCallFunction<void>(*script_function, target, instigator);
             instigator->SubtractSkillPoints(skill->GetSPRequired());
             MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
         } else if(event == VIDEO_OPTION_CANCEL) {

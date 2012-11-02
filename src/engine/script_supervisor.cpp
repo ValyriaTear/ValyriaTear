@@ -35,16 +35,39 @@ void ScriptSupervisor::Initialize(hoa_mode_manager::GameMode *gm)
             continue;
         }
 
-        _reset_functions.push_back(scene_script.ReadFunctionPointer("Reset"));
-        _update_functions.push_back(scene_script.ReadFunctionPointer("Update"));
-        _draw_background_functions.push_back(scene_script.ReadFunctionPointer("DrawBackground"));
-        _draw_foreground_functions.push_back(scene_script.ReadFunctionPointer("DrawForeground"));
-        _draw_post_effects_functions.push_back(scene_script.ReadFunctionPointer("DrawPostEffects"));
+        ScriptObject *script_function = new ScriptObject();
+        *script_function = scene_script.ReadFunctionPointer("Reset");
+        if (script_function->is_valid())
+            _reset_functions.push_back(script_function);
+
+        script_function = new ScriptObject();
+        *script_function = scene_script.ReadFunctionPointer("Update");
+        if (script_function->is_valid())
+            _update_functions.push_back(script_function);
+
+        script_function = new ScriptObject();
+        *script_function = scene_script.ReadFunctionPointer("DrawBackground");
+        if (script_function->is_valid())
+            _draw_background_functions.push_back(script_function);
+
+        script_function = new ScriptObject();
+        *script_function = scene_script.ReadFunctionPointer("DrawForeground");
+        if (script_function->is_valid())
+            _draw_foreground_functions.push_back(script_function);
+
+        script_function = new ScriptObject();
+        *script_function = scene_script.ReadFunctionPointer("DrawPostEffects");
+        if (script_function->is_valid())
+            _draw_post_effects_functions.push_back(script_function);
 
         // Trigger the Initialize functions in the loading order.
-        ScriptObject init_function = scene_script.ReadFunctionPointer("Initialize");
-        if(init_function.is_valid() && gm)
-            ScriptCallFunction<void>(init_function, gm);
+        // We're using a pointer to avoid auto-deleting the object since it's done by luabind's garbage collector.
+        // We're also allocating memory to store the temporary data returned by the ReadFunctionPointer()
+        // function and avoid a memory corruption.
+        ScriptObject * init_function = new ScriptObject();
+        *init_function = scene_script.ReadFunctionPointer("Initialize");
+        if(init_function->is_valid() && gm)
+            ScriptCallFunction<void>(*init_function, gm);
         else
             PRINT_ERROR << "Couldn't initialize the scene component" << std::endl; // Should never happen
 
@@ -62,7 +85,7 @@ void ScriptSupervisor::Reset()
 {
     // Updates custom scripts
     for(uint32 i = 0; i < _reset_functions.size(); ++i)
-        ReadScriptDescriptor::RunScriptObject(_reset_functions[i]);
+        ReadScriptDescriptor::RunScriptObject(*_reset_functions[i]);
 }
 
 void ScriptSupervisor::Update()
@@ -73,7 +96,7 @@ void ScriptSupervisor::Update()
 
     // Updates custom scripts
     for(uint32 i = 0; i < _update_functions.size(); ++i)
-        ReadScriptDescriptor::RunScriptObject(_update_functions[i]);
+        ReadScriptDescriptor::RunScriptObject(*_update_functions[i]);
 }
 
 
@@ -81,20 +104,20 @@ void ScriptSupervisor::DrawBackground()
 {
     // Handles custom scripted draw before sprites
     for(uint32 i = 0; i < _draw_background_functions.size(); ++i)
-        ReadScriptDescriptor::RunScriptObject(_draw_background_functions[i]);
+        ReadScriptDescriptor::RunScriptObject(*_draw_background_functions[i]);
 }
 
 
 void ScriptSupervisor::DrawForeground()
 {
     for(uint32 i = 0; i < _draw_foreground_functions.size(); ++i)
-        ReadScriptDescriptor::RunScriptObject(_draw_foreground_functions[i]);
+        ReadScriptDescriptor::RunScriptObject(*_draw_foreground_functions[i]);
 }
 
 void ScriptSupervisor::DrawPostEffects()
 {
     for(uint32 i = 0; i < _draw_post_effects_functions.size(); ++i)
-        ReadScriptDescriptor::RunScriptObject(_draw_post_effects_functions[i]);
+        ReadScriptDescriptor::RunScriptObject(*_draw_post_effects_functions[i]);
 }
 
 int32 ScriptSupervisor::AddAnimation(const std::string &filename)

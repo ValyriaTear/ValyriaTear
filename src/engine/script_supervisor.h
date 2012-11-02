@@ -115,36 +115,41 @@ private:
     //! \brief The name of the Lua files used to script this mode
     std::vector<std::string> _script_filenames;
 
+    // IMPORTANT: We're using a pointer to avoid auto-deleting the object since it's done by luabind's garbage collector.
+    // We're also allocating memory to store the temporary data returned by the ReadFunctionPointer()
+    // function and avoid a memory corruption.
+    // Do not delete the ScriptObject pointers
+
     /** \brief Script functions which assists with the #Reset method
     *** Those functions execute any code that needs to be performed on a reset call. An example of
     *** one common operation is to reset the scene state when coming back to a given mode from another.
     **/
-    std::vector<ScriptObject> _reset_functions;
+    std::vector<ScriptObject*> _reset_functions;
 
     /** \brief Script functions which assists with the #Update method
     *** Those functions execute any code that needs to be performed on an update call. An example of
     *** one common operation is to detect certain conditions and respond appropriately, such as
     *** triggering a dialogue.
     **/
-    std::vector<ScriptObject> _update_functions;
+    std::vector<ScriptObject*> _update_functions;
 
     /** \brief Script functions which assists with the #DrawBackground method
     *** Those functions execute any code that needs to be performed on a draw call.
     *** This permits custom background effects.
     **/
-    std::vector<ScriptObject> _draw_background_functions;
+    std::vector<ScriptObject*> _draw_background_functions;
 
     /** \brief Script functions which assists with the #DrawForeground method
     *** Those functions execute any code that needs to be performed on a draw call.
     *** This permits custom visual effects over the characters and enemies sprites.
     **/
-    std::vector<ScriptObject> _draw_foreground_functions;
+    std::vector<ScriptObject*> _draw_foreground_functions;
 
     /** \brief Script functions which assists with the #DrawEffects methods
     *** Those functions execute any code that needs to be performed on a draw call.
     *** This permits custom effects just below the gui.
     **/
-    std::vector<ScriptObject> _draw_post_effects_functions;
+    std::vector<ScriptObject*> _draw_post_effects_functions;
 };
 
 #endif

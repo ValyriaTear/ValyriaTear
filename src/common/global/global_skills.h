@@ -69,14 +69,12 @@ public:
     }
 
     //! \brief Returns true if the skill can be executed in battles
-    bool IsExecutableInBattle() const {
-        return _battle_execute_function.is_valid();
-    }
+    bool IsExecutableInBattle() const
+    { return (_battle_execute_function && _battle_execute_function->is_valid()); }
 
     //! \brief Returns true if the skill can be executed in menus
-    bool IsExecutableInField() const {
-        return _field_execute_function.is_valid();
-    }
+    bool IsExecutableInField() const
+    { return (_field_execute_function && _field_execute_function->is_valid()); }
 
     /** \name Class member access functions
     *** \note No set functions are defined because the class members should only be intialized within Lua
@@ -125,9 +123,8 @@ public:
     /** \brief Returns a pointer to the ScriptObject of the battle execution function
     *** \note This function will return NULL if the skill is not executable in battle
     **/
-    const ScriptObject &GetBattleExecuteFunction() const {
-        return _battle_execute_function;
-    }
+    ScriptObject* GetBattleExecuteFunction() const
+    { return _battle_execute_function; }
 
     //! Execute the corresponding skill Battle function
     bool ExecuteBattleFunction(hoa_battle::private_battle::BattleActor *user, hoa_battle::private_battle::BattleTarget target);
@@ -135,9 +132,8 @@ public:
     /** \brief Returns a pointer to the ScriptObject of the menu execution function
     *** \note This function will return NULL if the skill is not executable in menus
     **/
-    const ScriptObject &GetFieldExecuteFunction() const {
-        return _field_execute_function;
-    }
+    ScriptObject* GetFieldExecuteFunction() const
+    { return _field_execute_function; }
 
     /** \brief Tells the animation script filename linked to the skill for the given character,
     *** Or an empty value otherwise;
@@ -196,11 +192,13 @@ private:
     **/
     GLOBAL_TARGET _target_type;
 
-    //! \brief A reference to the skill's execution function for battles
-    ScriptObject _battle_execute_function;
+    //! \brief A pointer to the skill's execution function for battles
+    //! Do not delete it. Luabind's garbage collector will handle it.
+    ScriptObject *_battle_execute_function;
 
-    //! \brief A reference to the skill's execution function for menus
-    ScriptObject _field_execute_function;
+    //! \brief A pointer to the skill's execution function for menus
+    //! Do not delete it. Luabind's garbage collector will handle it.
+    ScriptObject *_field_execute_function;
 
     //! \brief map containing the animation scripts names linked to each characters id for the given skill.
     std::map <uint32, std::string> _animation_scripts;

@@ -301,6 +301,10 @@ public:
     *** if the function is embedded in a table.
     *** \return A luabind::object class object, which can be used to call the function. It effectively
     *** serves as a function pointer.
+    *** \note IMPORTANT: Even when luabind object are returned a plain variables, they must be copied in
+    *** a pointer member to avoid deletion, and that pointer must have allocated ots own memory space (using new ScriptObject())
+    *** to store the data since the luabind garbage collector might make the application
+    *** crash when closing the stack because of corrupted memory.
     **/
     //@{
     luabind::object ReadFunctionPointer(const std::string &key);

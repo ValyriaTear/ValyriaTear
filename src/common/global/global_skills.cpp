@@ -77,8 +77,10 @@ GlobalSkill::GlobalSkill(uint32 id) :
     _action_name = skill_script->ReadString("action_name");
     _target_type = static_cast<GLOBAL_TARGET>(skill_script->ReadInt("target_type"));
 
-    _battle_execute_function = skill_script->ReadFunctionPointer("BattleExecute");
-    _field_execute_function = skill_script->ReadFunctionPointer("FieldExecute");
+    _battle_execute_function = new ScriptObject();
+    *_battle_execute_function = skill_script->ReadFunctionPointer("BattleExecute");
+    _field_execute_function = new ScriptObject();
+    *_field_execute_function = skill_script->ReadFunctionPointer("FieldExecute");
 
     // Read all the battle animation scripts linked to this skill, if any
     if(skill_script->DoesTableExist("animation_scripts")) {
@@ -146,13 +148,13 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
 
 bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, private_battle::BattleTarget target)
 {
-    if(!_battle_execute_function.is_valid()) {
+    if(!_battle_execute_function->is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Can't execute invalid battle script function." << std::endl;
         return false;
     }
 
     try {
-        ScriptCallFunction<void>(_battle_execute_function, user, target);
+        ScriptCallFunction<void>(*_battle_execute_function, user, target);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         return false;
