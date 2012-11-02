@@ -157,6 +157,8 @@ skills[4] = {
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
+            local effect_duration = user:GetVigor() * 2000;
+            if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
                                           hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
                                           effect_duration);
@@ -348,7 +350,7 @@ skills[1005] = {
 
 		if (hoa_battle.CalculateStandardEvasion(target) == false) then
             target_actor = target:GetActor();
-            local effect_duration = user:GetProtection() * 2000;
+            local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
                                               hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
