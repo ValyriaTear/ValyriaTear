@@ -42,7 +42,7 @@ weapons[10001] = {
 	icon = "img/icons/weapons/woodensword.png",
 	physical_attack = 2,
 	metaphysical_attack = 0,
-	standard_price = 30,
+	standard_price = 0,
 	usable_by = BRONANN + THANIS,
 	slots = 0
 }
