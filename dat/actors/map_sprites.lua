@@ -302,6 +302,21 @@ sprites["Squirrel"] = {
 -- ---------
 -- Enemies
 -- ---------
+sprites["bat"] = {
+    name = hoa_system.Translate("Bat"),
+    coll_half_width = 1.0,
+    coll_height = 2.0,
+    img_half_width = 1.0,
+    img_height = 2.0,
+    movement_speed = NORMAL_SPEED,
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/bat_idle.lua",
+        walk = "img/sprites/map/enemies/bat_walk.lua"
+    }
+}
+
 sprites["slime"] = {
 	coll_half_width = 0.6,
 	coll_height = 1.0,
@@ -316,7 +331,7 @@ sprites["slime"] = {
 }
 
 sprites["big slime"] = {
-	name = hoa_system.Translate("Mother Slime"),
+	name = hoa_system.Translate("Slime Mother"),
 	coll_half_width = 1.5,
 	coll_height = 3.0,
 	img_half_width = 1.5,

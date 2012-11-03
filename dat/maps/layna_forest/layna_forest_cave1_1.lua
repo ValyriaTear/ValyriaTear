@@ -633,6 +633,7 @@ function _CreateEnemies()
 	local enemy = {};
 	local roam_zone = {};
 
+    -- Extra boss near the save point (Can be beaten several times)
 	-- Hint: left, right, top, bottom
 	roam_zone = hoa_map.EnemyZone(8, 10, 6, 6, hoa_map.MapMode.CONTEXT_01);
 
@@ -643,6 +644,42 @@ function _CreateEnemies()
 	enemy:AddEnemy(5, 812.0, 350.0);
 	roam_zone:AddEnemy(enemy, Map, 1);
 	Map:AddZone(roam_zone);
+
+    -- A bat spawn point
+    -- Hint: left, right, top, bottom
+    roam_zone = hoa_map.EnemyZone(7, 38, 25, 27, hoa_map.MapMode.CONTEXT_01);
+
+    enemy = CreateEnemySprite(Map, "bat");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
+
+    -- A bat spawn point
+    -- Hint: left, right, top, bottom
+    roam_zone = hoa_map.EnemyZone(97, 115, 38, 40, hoa_map.MapMode.CONTEXT_01);
+
+    enemy = CreateEnemySprite(Map, "bat");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
+    
+    -- A bat spawn point
+    -- Hint: left, right, top, bottom
+    roam_zone = hoa_map.EnemyZone(51, 81, 58, 61, hoa_map.MapMode.CONTEXT_01);
+
+    enemy = CreateEnemySprite(Map, "bat");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain

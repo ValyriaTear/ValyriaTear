@@ -259,7 +259,7 @@ enemies[4] = {
 }
 
 enemies[5] = {
-	name = hoa_system.Translate("Mother Slime"),
+	name = hoa_system.Translate("Slime Mother"),
 	stamina_icon = "img/icons/actors/enemies/big_slime.png",
 	battle_sprites = "img/sprites/battle/enemies/big_slime.png",
 	sprite_width = 128,
@@ -300,13 +300,70 @@ enemies[5] = {
 }
 
 -- Traits -----------------------------------------------------------------------
+-- HSP: med HP, low SP
+-- ATK: low phys, zero meta
+-- DEF: low phys, low meta
+-- SPD: high agi, med eva
+-- XPD: low XP, low drunes
+--------------------------------------------------------------------------------
+enemies[6] = {
+    name = hoa_system.Translate("Bat"),
+    stamina_icon = "img/icons/actors/enemies/bat.png",
+    battle_sprites = "img/sprites/battle/enemies/bat.png",
+    sprite_width = 64,
+    sprite_height = 128,
+
+    base_stats = {
+        hit_points = 130,
+        skill_points = 10,
+        strength = 22,
+        vigor = 20,
+        fortitude = 10,
+        protection = 8,
+        agility = 35,
+        evade = 6.0,
+        experience_points = 30,
+        drunes = 15
+    },
+
+    attack_points = {
+        [1] = {
+            name = hoa_system.Translate("Torso"),
+            x_position = 0,
+            y_position = 95,
+            fortitude_modifier = 0.2,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [2] = {
+            name = hoa_system.Translate("Wing"),
+            x_position = -40,
+            y_position = 90,
+            fortitude_modifier = -0.5,
+            protection_modifier = 0.0,
+            evade_modifier = 0.4,
+            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 25.0 }
+        },
+    },
+
+    skills = {
+        1002 -- TEMP: Uses spider bite attack until we have appropriate bat skill
+    },
+
+    drop_objects = {
+        { 1, 0.15 },  -- Minor Healing Potion
+        { 11, 0.15 } -- Minor Moon Juice
+    }
+}
+
+-- Traits -----------------------------------------------------------------------
 -- HSP: low HP, low SP
 -- ATK: med phys, zero meta
 -- DEF: med phys, low meta
 -- SPD: high agi, med eva
 -- XPD: med XP, low drunes
 --------------------------------------------------------------------------------
-enemies[6] = {
+enemies[7] = {
 	name = hoa_system.Translate("Scorpion"),
 	stamina_icon = "img/icons/actors/enemies/scorpion.png",
 	battle_sprites = "img/sprites/battle/enemies/scorpion.png",
@@ -360,63 +417,6 @@ enemies[6] = {
 
 	drop_objects = {
 		{ 1, 0.15 }, -- Minor Healing Potion
-		{ 11, 0.15 } -- Minor Moon Juice
-	}
-}
-
--- Traits -----------------------------------------------------------------------
--- HSP: med HP, low SP
--- ATK: low phys, zero meta
--- DEF: low phys, low meta
--- SPD: high agi, med eva
--- XPD: low XP, low drunes
---------------------------------------------------------------------------------
-enemies[7] = {
-	name = hoa_system.Translate("Bat"),
-	stamina_icon = "img/icons/actors/enemies/bat.png",
-	battle_sprites = "img/sprites/battle/enemies/bat.png",
-	sprite_width = 64,
-	sprite_height = 128,
-
-	base_stats = {
-		hit_points = 85,
-		skill_points = 6,
-		strength = 10,
-		vigor = 0,
-		fortitude = 10,
-		protection = 3,
-		agility = 30,
-		evade = 18.0,
-		experience_points = 8,
-		drunes = 12
-	},
-
-	attack_points = {
-		[1] = {
-			name = hoa_system.Translate("Torso"),
-			x_position = 0,
-			y_position = 95,
-			fortitude_modifier = 0.2,
-			protection_modifier = 0.0,
-			evade_modifier = 0.0
-		},
-		[2] = {
-			name = hoa_system.Translate("Wing"),
-			x_position = -40,
-			y_position = 90,
-			fortitude_modifier = -0.5,
-			protection_modifier = 0.0,
-			evade_modifier = 0.4,
-			status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 25.0 }
-		},
-	},
-
-	skills = {
-		1002 -- TEMP: Uses spider bite attack until we have appropriate bat skill
-	},
-
-	drop_objects = {
-		{ 1, 0.15 },  -- Minor Healing Potion
 		{ 11, 0.15 } -- Minor Moon Juice
 	}
 }
