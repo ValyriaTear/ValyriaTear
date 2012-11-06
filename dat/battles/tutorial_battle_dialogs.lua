@@ -38,7 +38,7 @@ function Initialize(battle_instance)
 	-- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
 	-- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
 	main_dialogue = hoa_battle.BattleDialogue(1);
-		text = hoa_system.Translate("Woah, I wouldn't have expected enemies so close from the village. Bronann, is there anything you need to ask about battles?");
+		text = hoa_system.Translate("Woah, I wouldn't have expected enemies so close to the village. Bronann, is there anything that you need to ask about battles?");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("...");
 		main_dialogue:AddLine(text, 1000);
@@ -48,18 +48,18 @@ function Initialize(battle_instance)
 		main_dialogue:AddOption(text, 8);
 		text = hoa_system.Translate("Ask about status effects.");
 		main_dialogue:AddOption(text, 15);
-		text = hoa_system.Translate("Ask nothing, I know how to fight.");
+		text = hoa_system.Translate("Ask nothing. I know how to fight.");
 		main_dialogue:AddOption(text, 21);
 		-- [Line 2] After selecting option: Ask about battle basics.
 		text = hoa_system.Translate("Er, I could use a refresher on the fundamentals of combat.");
 		main_dialogue:AddLine(text, 1000);
-		text = hoa_system.Translate("Every actor on the battle scene has a hit point (HP) and skill point (SP) gauge. Each character's HP and SP are displayed at the bottom of the screen. As enemies take damage in battle, their appearance will reflect that damage.");
+		text = hoa_system.Translate("Every actor on the battle screen has a hit point (HP) and skill point (SP) gauge. Each character's HP and SP are displayed at the bottom of the screen. As enemies take damage in battle, their appearance will reflect that damage.");
 		main_dialogue:AddLine(text, 1002);
-		text = hoa_system.Translate("When an actor's HP reaches zero they become incapacitated. Victory in battle is obtained by reducing the HP of all enemies to zero.");
+		text = hoa_system.Translate("When an actor's HP reaches zero, they become incapacitated. Victory in battle is obtained by reducing the HP of all enemies to zero.");
 		main_dialogue:AddLine(text, 1002);
-		text = hoa_system.Translate("Every action taken in battle requires SP before it is able to be used. The most basic of actions do not require SP to be able to be used. Using an item consumes no SP.");
+		text = hoa_system.Translate("Every action taken in battle requires some amount of SP before it is able to be used. Most basic actions consume no SP. Using an item also consumes no SP.");
 		main_dialogue:AddLine(text, 1002);
-		text = hoa_system.Translate("The stamina gauge on the right side of the screen determines when an actor may take an action. Once an actor's icon reaches the green command bar, they will begin preparing to execute their selected action. When they reach the top of the gauge, they will execute their action.");
+		text = hoa_system.Translate("The stamina gauge on the right side of the screen determines when an actor may take an action. Once an actor's icon reaches the green command bar, they will begin preparing to execute their selected action. When they reach the top of the gauge, they will execute that action.");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("The lower right corner of the screen displays each character's selected action and target. When a command is being issued for a character, this area of the screen is replaced with the command menu.");
 		main_dialogue:AddLine(text, 1002, 22);
@@ -70,7 +70,7 @@ function Initialize(battle_instance)
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("Battle actions requires a certain amount of time to prepare to use as well as time to recover from after using. These periods are known as the warm up time and cool down periods. In general, the more powerful the skill the longer these periods will be.");
 		main_dialogue:AddLine(text, 1002);
-		text = hoa_system.Translate("At the bottom of the screen a directional button is shown for each character that you may select a command for. You can set or change the action and/or target issued to a character whenever these buttons are visible.");
+		text = hoa_system.Translate("At the bottom of the screen, a directional button is shown for each character that you may select a command for. You can set or change the action and/or target issued to a character whenever these buttons are visible.");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("Once the character's icon reaches the green command bar on the stamina gauge, they will begin preparing to execute any action they have set. If a character does not have a command set when their icon reaches the green command bar, the battle will stop until a command is issued for that character.");
 		main_dialogue:AddLine(text, 1002);
@@ -81,7 +81,7 @@ function Initialize(battle_instance)
 		-- [Line 15] After selecting option: Ask about about status effects.
 		text = hoa_system.Translate("What do I need to know about status effects?");
 		main_dialogue:AddLine(text, 1000);
-		text = hoa_system.Translate("Status effects cause temporary changes in the state of the afflicted actor. These changes may be either beneficial or harmful to the their target. Positive status effects are indicated by an upward green arrow on the status icon, where as a negative status effect displays a downward red arrow on its icon.");
+		text = hoa_system.Translate("Status effects cause temporary changes in the state of the afflicted actor. These changes may be either beneficial or harmful to the their target. Positive status effects are indicated by an upward green arrow on the status icon, whereas a negative status effect displays a downward red arrow on its icon.");
 		main_dialogue:AddLine(text, 1002);
 		text = hoa_system.Translate("There are a total of four intensity levels for each status effect. As an example, if you target an actor that is already inflicted with a negative reduction in strength with a skill that reduces strength, the intensity of the status will be increased.");
 		main_dialogue:AddLine(text, 1002);
