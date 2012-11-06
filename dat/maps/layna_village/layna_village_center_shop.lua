@@ -348,9 +348,9 @@ function _UpdateFloraDialogue()
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Hi Bronann! What can I do for you?");
 		dialogue:AddLine(text, flora);
-		text = hoa_system.Translate("Hi Flora! Err, could you lend me one of your training sword? I'd like to practise a bit.");
+		text = hoa_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practise a bit.");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Ah ah! Sure, as soon as your father will stop lending his sword for you to practise with him. Are you sure everything is alright?");
+		text = hoa_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practise with him. Are you sure everything is alright?");
 		dialogue:AddLine(text, flora);
 		text = hoa_system.Translate("Err, nevermind...");
 		dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");
@@ -371,13 +371,13 @@ function _UpdateFloraDialogue()
 		dialogue:AddLine(text, flora);
 		text = hoa_system.Translate("Hi Flora! Do you have some barley meal left?");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Oh sorry, our 'great' poet came earlier and took all of it.");
+		text = hoa_system.Translate("Oh sorry, our 'great' poet came earlier and took all the rest of it.");
 		dialogue:AddLine(text, flora);
-		text = hoa_system.Translate("Times are becoming harder now, we've got less food than before...");
+		text = hoa_system.Translate("Times are becoming harder now. We've got less food than before...");
 		dialogue:AddLine(text, flora);
-		text = hoa_system.Translate("? ... It's the first time I see you in such a worry.");
+		text = hoa_system.Translate("? ... This is the first time that I've see you wear such a worrisome expression.");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Nevermind... Don't worry for me. Just find him and he should give you some, ok?");
+		text = hoa_system.Translate("Nevermind... Don't worry about me. Just find him and he should give you some, ok?");
 		-- Set the quest dialogue as seen by the player.
 		dialogue:AddLineEvent(text, flora, "", "SetQuest1DialogueDone");
 		DialogueManager:AddDialogue(dialogue);

@@ -38,7 +38,7 @@ end
 
 armor[40001] = {
 	name = hoa_system.Translate("Prismatic ring"),
-	description = hoa_system.Translate("A strange ring protecting from darkness."),
+	description = hoa_system.Translate("A strange ring that protects the wearer from darkness."),
 	icon = "img/icons/armor/jewelry_ring_prismatic.png",
 	physical_defense = 4,
 	metaphysical_defense = 3,

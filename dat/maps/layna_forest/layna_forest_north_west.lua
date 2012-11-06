@@ -1284,7 +1284,7 @@ function _CreateEvents()
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Orlinn, stop it RIGHT NOW!!");
 	dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-	text = hoa_system.Translate("I can't Sis'. I can feel it... calling me...");
+	text = hoa_system.Translate("I can't sis. I can feel it... calling me...");
 	dialogue:AddLine(text, orlinn);
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Kalya tries to discuss with Orlinn", dialogue);

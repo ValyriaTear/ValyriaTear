@@ -350,11 +350,11 @@ function _CreateNPCs()
 	Map:AddGroundObject(npc);
 	npc:SetDirection(hoa_map.MapMode.SOUTH);
 	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Ah! It's nice to see your dear young face around Bronann. Tell a bit about you to an old grandma.");
+	text = hoa_system.Translate("Ah! It's nice to see your dear young face around, Bronann. Come and chat with an old grandma.");
 	dialogue:AddLine(text, npc);
-	text = hoa_system.Translate("Er... Sorry Grandma, I have to go! Maybe later?");
+	text = hoa_system.Translate("Er... Sorry grandma, I have to go! Maybe later?");
 	dialogue:AddLineEmote(text, bronann, "exclamation");
-	text = hoa_system.Translate("Ah ah! You'll surely want to see this young lady living up there. Ah, youngs nowadays...");
+	text = hoa_system.Translate("Ah! You'll surely want to see te young lady living up there. Ah, youngins nowadays...");
 	dialogue:AddLine(text, npc);
 	DialogueManager:AddDialogue(dialogue);
 	npc:AddDialogueReference(dialogue);

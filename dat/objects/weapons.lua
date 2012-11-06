@@ -38,7 +38,7 @@ end
 
 weapons[10001] = {
 	name = hoa_system.Translate("Wooden Sword"),
-	description = hoa_system.Translate("A sword made of wood and a steel hilt, very good for practising."),
+	description = hoa_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
 	icon = "img/icons/weapons/woodensword.png",
 	physical_attack = 2,
 	metaphysical_attack = 0,
