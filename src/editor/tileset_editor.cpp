@@ -25,7 +25,10 @@ namespace hoa_editor
 ////////// TilesetDisplay class
 ////////////////////////////////////////////////////////////////////////////////
 
-TilesetDisplay::TilesetDisplay()
+TilesetDisplay::TilesetDisplay():
+    _last_x(-1),
+    _last_y(-1),
+    _is_adding_collision(false)
 {
     tileset = new Tileset();
     // Red color with 50% transparency
@@ -113,34 +116,97 @@ void TilesetDisplay::resizeGL(int /*w*/, int /*h*/)
     VideoManager->ApplySettings();
 }
 
-
-
 void TilesetDisplay::mousePressEvent(QMouseEvent *evt)
 {
+    if (evt->button() == Qt::LeftButton) {
+        // Keeps in memory whether the user is adding or removing red squares
+        // when doing a mouse drag.
+        _is_adding_collision = !_GetTileCollisionValue(evt);
+
+        mouseMoveEvent(evt);
+    }
+}
+
+void TilesetDisplay::mouseReleaseEvent(QMouseEvent *evt)
+{
+    if (evt->button() == Qt::LeftButton) {
+        // Reset the last position to permit drawing again
+        _last_x = -1;
+        _last_y = -1;
+    }
+}
+
+void TilesetDisplay::mouseMoveEvent(QMouseEvent *evt)
+{
+    // Don't deal with the event if the left button isn't included.
+    if (evt->buttons() ^= Qt::LeftButton)
+        return;
+
     // Don't process clicks outside of the tileset image
     if((evt->x() < 0) || (evt->y() < 0) || evt->x() >= 512 || evt->y() >= 512)
         return;
 
-    if(tileset->IsInitialized()) {
-        // Determine which tile the user clicked
-        int32 tile_x, tile_y;
-        tile_x = evt->x() / 32;
-        tile_y = evt->y() / 32;
+    // Prevent spamming the mouse move event.
+    if (_last_x == (evt->x() / 16) && _last_y == (evt->y() / 16))
+        return;
 
-        // Now determine which quadrant of that tile was clicked, and change it's walkability status
-        if(((evt->x() % 32) < 16) && ((evt->y() % 32) < 16)) {  // Upper left quadrant (index 0)
-            tileset->walkability[tile_y * 16 + tile_x][0] = (tileset->walkability[tile_y * 16 + tile_x][0] ? 0 : 1);
-        } else if(((evt->x() % 32) >= 16) && ((evt->y() % 32) < 16)) { // Upper right quadrant (index 1)
-            tileset->walkability[tile_y * 16 + tile_x][1] = (tileset->walkability[tile_y * 16 + tile_x][1] ? 0 : 1);
-        } else if(((evt->x() % 32) < 16) && ((evt->y() % 32) >= 16)) { // Lower left quadrant (index 2)
-            tileset->walkability[tile_y * 16 + tile_x][2] = (tileset->walkability[tile_y * 16 + tile_x][2] ? 0 : 1);
-        } else if(((evt->x() % 32) >= 16) && ((evt->y() % 32) >= 16)) { // Lower right quadrant (index 3)
-            tileset->walkability[tile_y * 16 + tile_x][3] = (tileset->walkability[tile_y * 16 + tile_x][3] ? 0 : 1);
-        }
-    }
+    _last_x = evt->x() / 16;
+    _last_y = evt->y() / 16;
+
+    _UpdateTiles(evt);
 
     updateGL();
 } // contentsMousePressEvent(...)
+
+void TilesetDisplay::_UpdateTiles(QMouseEvent *evt)
+{
+    if (!tileset->IsInitialized())
+        return;
+
+    // Determine which tile the user clicked
+    int32 tile_x = evt->x() / 32;
+    int32 x_offset = evt->x() % 32;
+    int32 tile_y = evt->y() / 32;
+    int32 y_offset = evt->y() % 32;
+
+    int32 tile_index = 0;
+
+    // Now determine which quadrant of that tile was clicked, and change it's walkability status
+    if((x_offset < 16) && (y_offset < 16))  // Upper left quadrant (index 0)
+        tile_index = 0;
+    else if((x_offset >= 16) && (y_offset < 16)) // Upper right quadrant (index 1)
+        tile_index = 1;
+    else if((x_offset < 16) && (y_offset >= 16)) // Lower left quadrant (index 2)
+        tile_index = 2;
+    else if((x_offset >= 16) && (y_offset >= 16)) // Lower right quadrant (index 3)
+        tile_index = 3;
+
+    tileset->walkability[tile_y * 16 + tile_x][tile_index] = _is_adding_collision;
+}
+
+bool TilesetDisplay::_GetTileCollisionValue(QMouseEvent *evt)
+{
+    if (!tileset->IsInitialized())
+        return false;
+
+    // Determine which tile the user clicked
+    int32 tile_x = evt->x() / 32;
+    int32 x_offset = evt->x() % 32;
+    int32 tile_y = evt->y() / 32;
+    int32 y_offset = evt->y() % 32;
+
+    if((x_offset < 16) && (y_offset < 16)) // Upper left quadrant (index 0)
+        return tileset->walkability[tile_y * 16 + tile_x][0];
+    else if((x_offset >= 16) && (y_offset < 16)) // Upper right quadrant (index 1)
+        return tileset->walkability[tile_y * 16 + tile_x][1];
+    else if((x_offset < 16) && (y_offset >= 16)) // Lower left quadrant (index 2)
+        return tileset->walkability[tile_y * 16 + tile_x][2];
+    else if((x_offset >= 16) && (y_offset >= 16)) // Lower right quadrant (index 3)
+        return tileset->walkability[tile_y * 16 + tile_x][3];
+
+    // Should not happen
+    return false;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////// TilesetEditor class
