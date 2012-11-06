@@ -451,11 +451,11 @@ function _CreateNPCs()
 
         elseif (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false) then
             dialogue = hoa_map.SpriteDialogue();
-            text = hoa_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword..");
+            text = hoa_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword...");
             dialogue:AddLineEmote(text, olivia, "exclamation");
             text = hoa_system.Translate("Aww... Ok.");
             dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-            text = hoa_system.Translate("(Hmm, I should maybe get a sword, then.)");
+            text = hoa_system.Translate("(Hmm, maybe I should get a sword then.)");
             dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
             DialogueManager:AddDialogue(dialogue);
             olivia:AddDialogueReference(dialogue);
@@ -678,9 +678,9 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Why everybody doesn't want to tell me what's going on!!");
+	text = hoa_system.Translate("Why doesn't anyone want to tell me what's going on!!");
 	dialogue:AddLineEmote(text, bronann, "exclamation");
-	text = hoa_system.Translate("Still, I have go there, and figure out what they're trying to hide from me.");
+	text = hoa_system.Translate("Still, I have go there and figure out what they're trying to hide from me.");
 	dialogue:AddLineEmote(text, bronann, "thinking dots");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Bronann wants to see Flora for equipment", dialogue);
@@ -745,7 +745,7 @@ function _CreateEvents()
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("... Hmmm...");
 	dialogue:AddLine(text, bronann);
-	text = hoa_system.Translate("Bronann, there is something I have to tell you. We've been afraid of that moment, I mean your mother and I...");
+	text = hoa_system.Translate("Bronann, there is something that I have to tell you. We've been fearing for this moment. I mean your mother and I...");
 	dialogue:AddLine(text, carson);
 	text = hoa_system.Translate("They're coming!");
 	dialogue:AddLineEvent(text, herth, "", "Quest2: Carson looks at Herth");
@@ -790,11 +790,11 @@ function _CreateEvents()
 	dialogue:AddLineEmote(text, kalya, "sweat drop");
 	text = hoa_system.Translate("Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as fast as possible.");
 	dialogue:AddLineEmote(text, herth, "thinking dots");
-	text = hoa_system.Translate("Gosh! But you might be hurt!!");
+	text = hoa_system.Translate("But you might get hurt!");
 	dialogue:AddLineEmote(text, kalya, "exclamation");
-	text = hoa_system.Translate("No, don't worry. We'll simply talk and they'll move on. You know what you have to do, right?");
+	text = hoa_system.Translate("No, don't worry. We'll simply talk to them and they'll move on. You know what you have to do, right?");
 	dialogue:AddLine(text, herth);
-	text = hoa_system.Translate("Herth, we both know It'll likely...");
+	text = hoa_system.Translate("Herth, we both know it'll likely...");
 	dialogue:AddLine(text, kalya);
 	text = hoa_system.Translate("Do as I say and it'll be alright.");
 	dialogue:AddLine(text, herth);
@@ -812,11 +812,11 @@ function _CreateEvents()
 	dialogue:AddLineEvent(text, kalya, "", "Bronann is sad");
 	text = hoa_system.Translate("Huh? Hey! But...");
 	dialogue:AddLineEmote(text, bronann, "exclamation");
-	text = hoa_system.Translate("He won't slow you down, believe me, right Bronann?");
+	text = hoa_system.Translate("He won't slow you down, believe me. Right, Bronann?");
 	dialogue:AddLineEvent(text, carson, "", "Quest2: Carson looks at Bronann");
-	text = hoa_system.Translate("But Father!");
+	text = hoa_system.Translate("But father!");
 	dialogue:AddLineEvent(text, kalya, "", "Quest2: Kalya looks at Herth");
-	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's... It's an order.");
+	text = hoa_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's... it's an order.");
 	dialogue:AddLineEmote(text, herth, "thinking dots");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Third part of talk", dialogue);
@@ -844,11 +844,11 @@ function _CreateEvents()
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Gahh... ok.");
 	dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Bronann");
-	text = hoa_system.Translate("Bronann, take this sword, you'll probably need it there to make your way through.");
+	text = hoa_system.Translate("Bronann, take this sword. You'll probably need it to make your way through there.");
 	dialogue:AddLineEvent(text, carson, "", "Quest2: Show the wooden sword item in front of carson");
 	text = hoa_system.Translate("What? But one minute ago you said...");
 	dialogue:AddLineEmote(text, bronann, "exclamation");
-	text = hoa_system.Translate("I know, but everything has changed. I'll explain you once all that is finished, now go, my son.");
+	text = hoa_system.Translate("I know, but everything has changed. I'll explain it to you once it is all finished. Now go, my son.");
 	dialogue:AddLine(text, carson);
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Fourth part of talk", dialogue);
@@ -869,7 +869,7 @@ function _CreateEvents()
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Thanks dad, we'll find him in no time.");
 	dialogue:AddLine(text, bronann);
-	text = hoa_system.Translate("We shall go now, ... Good luck, both of you.");
+	text = hoa_system.Translate("We shall go now... Good luck, both of you.");
 	dialogue:AddLineEvent(text, herth, "", "Quest2: Herth looks at Kalya");
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Fifth part of talk", dialogue);
@@ -892,7 +892,7 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Good luck, Son.");
+	text = hoa_system.Translate("Good luck, son.");
 	dialogue:AddLine(text, carson);
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Quest2: Carson talks to Bronann once last time", dialogue);
@@ -907,9 +907,9 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Ok, we'll go together, but slow me down, and I'll make you regret it...");
+	text = hoa_system.Translate("Ok, we'll go together. But slow me down and I'll make you regret it...");
 	dialogue:AddLine(text, kalya);
-	text = hoa_system.Translate("Don't worry, we'll find him, ok?");
+	text = hoa_system.Translate("Don't worry, we'll find him. Ok?");
 	dialogue:AddLine(text, bronann);
 	text = hoa_system.Translate("Ok ...");
 	dialogue:AddLine(text, kalya);
@@ -960,34 +960,34 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("By the way, did you ever prepare yourself for such things before?");
+    text = hoa_system.Translate("By the way, did you ever prepare yourself for something like this before?");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("Huh? Well, Orlinn doesn't disappear every day, you know?");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    text = hoa_system.Translate("I see ... Then there are two things very important you need to know:");
+    text = hoa_system.Translate("I see... Then there are two very important things that you need to know:");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("First of all, before going there, you might need a better equipment. Tell me you'll go and see Flora, ok?");
+    text = hoa_system.Translate("First of all before going there, you might need a better equipment. Go and see Flora first, ok?");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("Ok.");
     dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("And tell me you equipped your sword ... If you haven't, open your inventory by pressing the menu key (")
+    text = hoa_system.Translate("And tell me that you equipped your sword ... If you haven't, open your inventory by pressing the menu key (")
            .. InputManager:GetMenuKeyName()
-           .. hoa_system.Translate("), and select 'Equip', then you'll be able to select your sword and add it as your main weapon, ok?");
+           .. hoa_system.Translate("), and select 'Equip'. Then you'll be able to select your sword and add it as your main weapon, ok?");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("You mean, like, I need to push a key to open my bag??");
+    text = hoa_system.Translate("You mean, like, I need to push a key to open my bag?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
     text = hoa_system.Translate("Nevermind that, just do it.");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("The second thing is that the one in front of the battle line will lead the group in the forest. "..
-                                "I mean that the person on top of the battle formation will actually appear, the others will stay hidden.");
+    text = hoa_system.Translate("The second thing is that the person in front of the battle line will lead the group in the forest. "..
+                                "By that I mean that the person on the top of the battle formation will actually appear, while the others will stay hidden.");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("Hmm, right, I'm not sure to get fully what you mean, but ...");
+    text = hoa_system.Translate("Hmm, right. I'm not sure that I fully get what you mean, but...");
     dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("Rrrr ... Bronann. Just listen.");
+    text = hoa_system.Translate("Rrrr... Bronann. Just listen.");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("Err, wow, ok!");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
-    text = hoa_system.Translate("That will be the case only in certain area. Here in the village, you'll be the one leading, or may you believe that ...");
+    text = hoa_system.Translate("That will be the case only in certain areas. Here in the village, you'll be the one leading, or at least you may believe that ...");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("(Sigh) ... Ok.");
     dialogue:AddLine(text, bronann);
@@ -1121,11 +1121,11 @@ function _UpdateGeorgesDialogue()
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true
         and GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == false) then
         dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("In fact, the barley meal was for Lilly.");
+        text = hoa_system.Translate("Actually, the barley meal was for Lilly.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("!! What?");
         dialogue:AddLineEmote(text, bronann, "exclamation");
-        text = hoa_system.Translate("Don't thank me for that, it's my pleasure.");
+        text = hoa_system.Translate("Don't thank me for that. It's my pleasure.");
         dialogue:AddLine(text, georges);
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
@@ -1136,13 +1136,13 @@ function _UpdateGeorgesDialogue()
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("Here it is, Georges.");
         dialogue:AddLine(text, bronann);
-        text = hoa_system.Translate("You're the nicest of all, Bronnan. I well tell everyone how brave you...");
+        text = hoa_system.Translate("You're the nicest person I know, Bronnan. I well tell everyone how brave you...");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("(Sigh...) Georges!");
         dialogue:AddLine(text, bronann);
-        text = hoa_system.Translate("Ok ok. Just having a bit of spirit, here, young man.");
+        text = hoa_system.Translate("Ok ok. Just having a bit of spirit, young man.");
         dialogue:AddLine(text, georges);
-        text = hoa_system.Translate("In fact, the barley meal was for Lilly.");
+        text = hoa_system.Translate("Actually, the barley meal was for Lilly.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("!! What?");
         dialogue:AddLineEmote(text, bronann, "exclamation");
@@ -1171,15 +1171,15 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Erm, ... Well, I don't hear anything special...");
         dialogue:AddLineEmote(text, bronann, "interrogation");
-        text = hoa_system.Translate("That's the point! Can't you hear the magnificient sound of nature, so invisible to our used hears.");
+        text = hoa_system.Translate("That's the point! Can't you hear the magnificient sound of nature, so invisible to our adapted ears?");
         dialogue:AddLine(text, georges);
-        text = hoa_system.Translate("Huh, please Georges, I wouldn't like to run away like the last time...");
+        text = hoa_system.Translate("Huh, please Georges. I do not want to run away like the last time...");
         dialogue:AddLine(text, bronann);
-        text = hoa_system.Translate("... The incredible and amazing, I could even say, stunning feel in in the wind...");
+        text = hoa_system.Translate("... The incredible and amazing. I could even say, the stunning feel of it in the wind...");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Georges, I simply wanted to ask you whether you had some barley meal left!");
         dialogue:AddLineEmote(text, bronann, "sweat drop");
-        text = hoa_system.Translate("Ah I see, well unfortunately, I'm so much sad for the loss I just had, I can't tell you that with the right words.");
+        text = hoa_system.Translate("Ah, I see. Well unfortunately, I'm so sad about a recent loss that, I can't find the right words with which to tell you.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Huh?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
@@ -1224,7 +1224,7 @@ function _UpdateOrlinnAndKalyaState()
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("I promise I won't bother you again ...");
         dialogue:AddLine(text, orlinn);
-        text = hoa_system.Translate("Don't worry for that, Orlinn, ok?");
+        text = hoa_system.Translate("Don't worry about that, Orlinn. Ok?");
         dialogue:AddLine(text, bronann);
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
@@ -1245,29 +1245,29 @@ function _UpdateOrlinnAndKalyaState()
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Hi hi hi!!");
+        text = hoa_system.Translate("Hee hee hee!");
         dialogue:AddLine(text, orlinn);
-        text = hoa_system.Translate("What makes you laugh, Orlinn?");
+        text = hoa_system.Translate("What are you laughing about, Orlinn?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = hoa_system.Translate("You'll never find it!");
         dialogue:AddLine(text, orlinn);
         text = hoa_system.Translate("Huh? Wait! Are you talking about Georges' lost pen?");
         dialogue:AddLineEmote(text, bronann, "exclamation");
-        text = hoa_system.Translate("Hi hi hi! Yes!");
+        text = hoa_system.Translate("Hee hee hee! Yes!");
         dialogue:AddLine(text, orlinn);
-        text = hoa_system.Translate("Please tell me more! Have you found it?");
+        text = hoa_system.Translate("Please tell me! Have you found it?");
         dialogue:AddLine(text, bronann);
         text = hoa_system.Translate("Maybe yes, maybe no!");
         dialogue:AddLine(text, orlinn);
-        text = hoa_system.Translate("Oh no, please Orlinn, I need it!");
+        text = hoa_system.Translate("Oh no, please Orlinn! I need it!");
         dialogue:AddLineEmote(text, bronann, "sweat drop");
-        text = hoa_system.Translate("Sure, I'll help you but only if you can catch me!");
+        text = hoa_system.Translate("Sure, I'll help you. But only if you can catch me!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Make Orlinn run and hide");
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
     else
         dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Heya Bro! Wanna play with me?");
+        text = hoa_system.Translate("Heya bro! Wanna play with me?");
         dialogue:AddLine(text, orlinn);
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);

@@ -332,19 +332,19 @@ function _CreateNPCs()
 		dialogue:AddLine(text, npc);
 		text = hoa_system.Translate("Hi Herth. I see you've blocked the gate, why so?");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("Don't worry too much, I'm just preventing from strangers to sneak in at night.");
+		text = hoa_system.Translate("Don't worry too much. I'm just preventing strangers from being able to sneak in at night.");
 		dialogue:AddLine(text, npc);
-		text = hoa_system.Translate("Some people have been reporting thefts in the villages around lately.");
+		text = hoa_system.Translate("There have been some reports of theft in the villages nearby recently.");
 		dialogue:AddLine(text, npc);
-		text = hoa_system.Translate("Wow, do you think they would come here?");
+		text = hoa_system.Translate("Wow, do you think that they would come here?");
 		dialogue:AddLine(text, bronann);
-		text = hoa_system.Translate("It's a possibility but don't worry too much, ok?");
+		text = hoa_system.Translate("It's a possibility. But don't worry too much, ok?");
 		dialogue:AddLine(text, npc);
 		DialogueManager:AddDialogue(dialogue);
 		npc:AddDialogueReference(dialogue);
 		-- The second time, just repeat the sentence
 		dialogue = hoa_map.SpriteDialogue();
-		text = hoa_system.Translate("It's a possibility but don't worry too much, ok?");
+		text = hoa_system.Translate("It's a possibility. But don't worry too much, ok?");
 		dialogue:AddLine(text, npc);
 		DialogueManager:AddDialogue(dialogue);
 		npc:AddDialogueReference(dialogue);

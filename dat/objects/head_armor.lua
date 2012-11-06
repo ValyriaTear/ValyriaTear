@@ -38,7 +38,7 @@ end
 
 armor[20001] = {
 	name = hoa_system.Translate("Butterfly hair tong"),
-	description = hoa_system.Translate("An old and finely done piece of jewel."),
+	description = hoa_system.Translate("An old and finely done piece of jewelery."),
 	icon = "img/icons/armor/butterfly_hair_tong.png",
 	physical_defense = 3,
 	metaphysical_defense = 12,

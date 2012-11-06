@@ -207,7 +207,7 @@ skills[5] = {
 -- Sylve first attack
 skills[6] = {
 	name = hoa_system.Translate("Dagger Slash"),
-	description = hoa_system.Translate("A simple but efficient thief's dagger attack."),
+	description = hoa_system.Translate("A simple but efficient dagger attack."),
 	sp_required = 0,
 	warmup_time = 1000,
 	cooldown_time = 200,
@@ -230,7 +230,7 @@ skills[6] = {
 -- Attack spells
 skills[7] = {
 	name = hoa_system.Translate("Fire burst"),
-	description = hoa_system.Translate("Makes a small fire burns an enemy."),
+	description = hoa_system.Translate("Creates a small fire that burns an enemy."),
 	sp_required = 7,
 	warmup_time = 4000,
 	cooldown_time = 750,

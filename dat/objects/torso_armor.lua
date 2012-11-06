@@ -38,7 +38,7 @@ end
 
 armor[30001] = {
 	name = hoa_system.Translate("Rookie Tunic"),
-	description = hoa_system.Translate("A light soldier rookie tunic worn by new recruits. That one belonged to Bronann's father..."),
+	description = hoa_system.Translate("A light tunic worn by new soldier recruits. This one belonged to Bronann's father..."),
 	icon = "img/icons/armor/rookie_tunic.png",
 	physical_defense = 1,
 	metaphysical_defense = 0,
@@ -48,7 +48,7 @@ armor[30001] = {
 
 armor[30002] = {
 	name = hoa_system.Translate("Old Willow Dress"),
-	description = hoa_system.Translate("An old Willow dress Kalya likes to wear."),
+	description = hoa_system.Translate("An old willow dress that Kalya likes to wear."),
 	icon = "img/icons/armor/willow_dress.png",
 	physical_defense = 1,
 	metaphysical_defense = 0,

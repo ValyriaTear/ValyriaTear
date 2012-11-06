@@ -825,7 +825,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("What's that?!...");
+	text = hoa_system.Translate("What's that?!");
 	dialogue:AddLineEmote(text, hero, "exclamation");
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("boss fight pre-dialogue", dialogue);
@@ -854,9 +854,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Woah, it was quite nasty fight. Why on earth was an arctic north white wolf lurking in the forest?");
+	text = hoa_system.Translate("Woah, that was quite a nasty fight. Why on earth was an arctic north white wolf lurking in the forest?");
 	dialogue:AddLineEmote(text, hero, "sweat drop");
-	text = hoa_system.Translate("He just flew away. I'm almost sure we'll meet it again. We'd better be well prepared, then...");
+	text = hoa_system.Translate("He just ran away. I'm almost sure we'll meet it again. We'd better be well prepared, then.");
 	dialogue:AddLineEmote(text, hero, "thinking dots");
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("boss fight post-dialogue", dialogue);

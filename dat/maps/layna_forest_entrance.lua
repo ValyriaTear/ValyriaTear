@@ -594,7 +594,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("What's that?!...");
+	text = hoa_system.Translate("What's that?!");
 	dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya is surprised before running to the save point", dialogue);
@@ -609,17 +609,17 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Can you also see this strange circle surrounded by light??");
+	text = hoa_system.Translate("Can you also see this strange circle surrounded by light?");
 	dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "exclamation");
-    text = hoa_system.Translate("When I'm standing near you, I can!");
+    text = hoa_system.Translate("When I'm standing near you, I can.");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
-    text = hoa_system.Translate("Strange ... it sounds familiar to me. Like ... A safe place to be.");
+    text = hoa_system.Translate("Strange... it sounds familiar to me. Like... A safe place to be.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at the save point", "");
     text = hoa_system.Translate("I feel like I can go in there...");
     dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("Be careful, Kalya!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = hoa_system.Translate("It is like... calling me.");
+    text = hoa_system.Translate("It is like... it's calling me.");
     dialogue:AddLine(text, kalya_sprite);
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya starts to talk about the save point", dialogue);

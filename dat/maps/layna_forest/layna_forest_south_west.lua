@@ -911,7 +911,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Woa, wait!");
+	text = hoa_system.Translate("Woah, wait!");
 	dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
 	text = hoa_system.Translate("Look at that grass. The snakes like it very much. Beware of them, their venom can send you to sleep.");
 	dialogue:AddLine(text, kalya_sprite);

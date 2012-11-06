@@ -375,7 +375,7 @@ function _CreateEvents()
 
 	-- Kalya house locked door event
 	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Hmm, The door is locked.");
+	text = hoa_system.Translate("Hmm, the door is locked.");
 	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
 	event = hoa_map.DialogueEvent("Bronann can't enter kalya house", dialogue);
