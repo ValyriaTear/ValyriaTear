@@ -394,6 +394,8 @@ void BindModeCode()
             .def("GetSpawnTime", &EnemyZone::GetSpawnTime)
             .def("SetRoamingRestrained", &EnemyZone::SetRoamingRestrained)
             .def("SetSpawnTime", &EnemyZone::SetSpawnTime)
+            .def("SetSpawnsLeft", &EnemyZone::SetSpawnsLeft)
+            .def("GetSpawnsLeft", &EnemyZone::GetSpawnsLeft)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

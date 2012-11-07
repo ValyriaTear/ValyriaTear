@@ -541,6 +541,14 @@ public:
         _spawn_timer.SetDuration(time);
         _spawn_timer.Run();
     }
+
+    //! Set the number of times an enemy can spawn in this enemy zone.
+    void SetSpawnsLeft(int32 spawns)
+    { _spawns_left = spawns; }
+
+    //! Set the number of times left an enemy can spawn in this enemy zone.
+    int32 GetSpawnsLeft() const
+    { return _spawns_left; }
     //@}
 
 private:
@@ -554,6 +562,12 @@ private:
 
     //! \brief The number of enemies that are currently not in the DEAD state
     uint8 _active_enemies;
+
+    //! \brief The number of times an enemy can (re)spawn in this enemy zone.
+    //! By default, this value is equal to -1 meaning an infinite amount of time.
+    //! This permits to set special spawn points where enemies can only be seen once,
+    //! for special bosses or puzzles.
+    int32 _spawns_left;
 
     //! \brief Used for the respawning of enemies within the zone
     hoa_system::SystemTimer _spawn_timer;
