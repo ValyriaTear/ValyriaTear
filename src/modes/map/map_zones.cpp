@@ -276,6 +276,8 @@ EnemyZone::EnemyZone() :
     _dead_timer.Finish();
 }
 
+
+
 EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
                      uint16 top_row, uint16 bottom_row,
                      MAP_CONTEXT contexts):
@@ -290,6 +292,8 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
     _dead_timer.Finish();
 }
+
+
 
 EnemyZone::EnemyZone(const EnemyZone &copy) :
     MapZone(copy)
@@ -308,6 +312,8 @@ EnemyZone::EnemyZone(const EnemyZone &copy) :
     _dead_timer.Finish();
     _spawn_timer.Reset();
 }
+
+
 
 EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
 {
@@ -331,6 +337,8 @@ EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
 
     return *this;
 }
+
+
 
 void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_number)
 {
@@ -358,6 +366,8 @@ void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_
         _enemies.push_back(copy);
     }
 }
+
+
 
 void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {
@@ -396,6 +406,8 @@ void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_ro
     }
 }
 
+
+
 void EnemyZone::EnemyDead()
 {
     if(_active_enemies == 0) {
@@ -405,6 +417,8 @@ void EnemyZone::EnemyDead()
     }
 }
 
+
+
 void EnemyZone::Update()
 {
     // When spawning an enemy in a random zone location, sometimes it is occupied by another
@@ -413,7 +427,7 @@ void EnemyZone::Update()
     // potentially take a noticable amount of time to complete
     const int8 SPAWN_RETRIES = 50;
 
-    if(_enemies.empty())
+    if (_enemies.empty())
         return;
 
     // Update timers
@@ -430,64 +444,70 @@ void EnemyZone::Update()
         return;
     }
 
-    if (_dead_timer.IsFinished() == true) {
-        // Select a dead enemy to spawn
-        uint32 index = 0;
-        for(uint32 i = 0; i < _enemies.size(); ++i) {
-            if (_enemies[i]->IsDead()) {
-                index = i;
-                break;
-            }
-        }
-
-        // Used to retain random position coordinates in the zone
-        float x = 0.0f;
-        float y = 0.0f;
-        // Number of times to try finding a valid spawning location
-        int8 retries = SPAWN_RETRIES;
-        // Holds the result of a collision detection check
-        uint32 collision = NO_COLLISION;
-
-        // Select a random position inside the zone to place the spawning enemy
-        _enemies[index]->collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
-        MapZone *spawning_zone = NULL;
-        if (!HasSeparateSpawnZone()) {
-            spawning_zone = this;
-        } else {
-            spawning_zone = _spawn_zone;
-        }
-        // If there is a collision, retry a different location
-        do {
-            spawning_zone->_RandomPosition(x, y);
-            _enemies[index]->SetPosition(x, y);
-            collision = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(_enemies[index],
-                        _enemies[index]->GetXPosition(),
-                        _enemies[index]->GetYPosition(),
-                        NULL);
-        } while (collision != NO_COLLISION && --retries > 0);
-
-        // Otherwise, spawn the enemy and reset the spawn timer
-        if (collision == NO_COLLISION) {
-            // Set the correct timer duration to whether do a quick first spawn,
-            // or a longer standard spawn time from the second time.
-            _dead_timer.Reset();
-            _spawn_timer.SetDuration(_enemies[index]->GetTimeToSpawn());
-            _spawn_timer.Reset();
-            _spawn_timer.Run();
-            _enemies[index]->ChangeStateSpawning();
-            ++_active_enemies;
-        } else {
-            PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
-                          << " tries. Check the enemy zones of map:"
-                          << MapMode::CurrentInstance()->GetMapFilename() << std::endl;
-        }
-    } // if (_dead_timer.IsFinished() == true) {
     // If there are dead enemies, no enemies are respawning, and the dead timer is not active, begin the dead timer
-    else if (_dead_timer.IsRunning() == false) {
-        _dead_timer.Reset();
+    if (_dead_timer.IsInitial() == true) {
         _dead_timer.Run();
+        return;
+    }
+    // If the dead timer hasn't completed, there's nothing left to do
+    else if (_dead_timer.IsFinished() == false) {
+        return;
+    }
+
+    // When the dead timer completes, spawn in a new enemy
+    // Select a dead enemy to spawn
+    uint32 index = 0;
+    for(uint32 i = 0; i < _enemies.size(); ++i) {
+        if (_enemies[i]->IsDead()) {
+            index = i;
+            break;
+        }
+    }
+
+    // Used to retain random position coordinates in the zone
+    float x = 0.0f;
+    float y = 0.0f;
+    // Number of times to try finding a valid spawning location
+    int8 retries = SPAWN_RETRIES;
+    // Holds the result of a collision detection check
+    uint32 collision = NO_COLLISION;
+
+    // Select a random position inside the zone to place the spawning enemy
+    _enemies[index]->collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+    MapZone *spawning_zone = NULL;
+    if (!HasSeparateSpawnZone()) {
+        spawning_zone = this;
+    } else {
+        spawning_zone = _spawn_zone;
+    }
+    // If there is a collision, retry a different location
+    do {
+        spawning_zone->_RandomPosition(x, y);
+        _enemies[index]->SetPosition(x, y);
+        collision = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(_enemies[index],
+                    _enemies[index]->GetXPosition(),
+                    _enemies[index]->GetYPosition(),
+                    NULL);
+    } while (collision != NO_COLLISION && --retries > 0);
+
+    // Otherwise, spawn the enemy and reset the spawn timer
+    if (collision == NO_COLLISION) {
+        // Set the correct timer duration to whether do a quick first spawn,
+        // or a longer standard spawn time from the second time.
+        _dead_timer.Reset();
+        _spawn_timer.SetDuration(_enemies[index]->GetTimeToSpawn());
+        _spawn_timer.Reset();
+        _spawn_timer.Run();
+        _enemies[index]->ChangeStateSpawning();
+        ++_active_enemies;
+    } else {
+        PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
+                      << " tries. Check the enemy zones of map:"
+                      << MapMode::CurrentInstance()->GetMapFilename() << std::endl;
     }
 } // void EnemyZone::Update()
+
+
 
 void EnemyZone::Draw()
 {
