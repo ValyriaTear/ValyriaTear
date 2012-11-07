@@ -224,8 +224,16 @@ void VirtualSprite::_SetNextPosition()
             EnemySprite *enemy = reinterpret_cast<EnemySprite *>(collision_object);
 
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                _StartBattleEncounter(enemy);
-                return;
+                 // Check if the map is exiting. If so, we don't want to start a battle
+                 // NOTE: This case may need to be addressed in the future as it just checks if
+                 // the current state is "scene", which may be used in more cases than just exiting a map
+                 if (MapMode::CurrentInstance()->CurrentState() == STATE_SCENE) {
+                     return;
+                 }
+                 else {
+                     _StartBattleEncounter(enemy);
+                     return;
+                 }
             }
         }
 
@@ -248,8 +256,16 @@ void VirtualSprite::_SetNextPosition()
             EnemySprite *enemy = reinterpret_cast<EnemySprite *>(this);
 
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                _StartBattleEncounter(enemy);
-                return;
+                 // Check if the map is exiting. If so, we don't want to start a battle
+                 // NOTE: This case may need to be addressed in the future as it just checks if
+                 // the current state is "scene", which may be used in more cases than just exiting a map
+                 if (MapMode::CurrentInstance()->CurrentState() == STATE_SCENE) {
+                     return;
+                 }
+                 else {
+                     _StartBattleEncounter(enemy);
+                     return;
+                 }
             }
         }
 
@@ -1080,6 +1096,8 @@ EnemySprite::EnemySprite() :
     Reset();
 }
 
+
+
 EnemySprite::EnemySprite(const std::string &file) :
     _zone(NULL),
     _color(1.0f, 1.0f, 1.0f, 0.0f),
@@ -1092,6 +1110,8 @@ EnemySprite::EnemySprite(const std::string &file) :
     moving = true;
     Reset();
 }
+
+
 // Load in the appropriate images and other data for the sprite from a Lua file
 bool EnemySprite::Load()
 {
@@ -1102,6 +1122,8 @@ bool EnemySprite::Load()
     ScriptCallFunction<void>(sprite_script.GetLuaState(), "Load", this);
     return true;
 }
+
+
 
 void EnemySprite::Reset()
 {
@@ -1133,7 +1155,11 @@ void EnemySprite::AddEnemy(uint32 enemy_id, float position_x, float position_y)
     }
 }
 
+
+
 static std::vector<BattleEnemyInfo> empty_enemy_party;
+
+
 
 const std::vector<BattleEnemyInfo>& EnemySprite::RetrieveRandomParty()
 {
@@ -1145,6 +1171,8 @@ const std::vector<BattleEnemyInfo>& EnemySprite::RetrieveRandomParty()
     return _enemy_parties[rand() % _enemy_parties.size()];
 }
 
+
+
 void EnemySprite::ChangeStateHostile()
 {
     updatable = true;
@@ -1154,6 +1182,8 @@ void EnemySprite::ChangeStateHostile()
     // The next spawn time will be longer than the first one.
     _time_to_spawn = STANDARD_ENEMY_SPAWN_TIME;
 }
+
+
 
 void EnemySprite::Update()
 {
@@ -1248,14 +1278,16 @@ void EnemySprite::Update()
     }
 } // void EnemySprite::Update()
 
+
+
 void EnemySprite::Draw()
 {
     // Otherwise, only draw it if it is not in the DEAD state
-    if(MapObject::ShouldDraw() == true && _state != DEAD) {
+    if (MapObject::ShouldDraw() == true && _state != DEAD) {
         _animation->at(_current_anim_direction).Draw(_color);
 
         // Draw collision rectangle if the debug view is on.
-        if(VideoManager->DebugInfoOn()) {
+        if (VideoManager->DebugInfoOn()) {
             float x, y = 0.0f;
             VideoManager->GetDrawPosition(x, y);
             MapRectangle rect = GetCollisionRectangle(x, y);
