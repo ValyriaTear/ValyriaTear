@@ -108,6 +108,13 @@ public:
         _info.overlay.y_parallax += y;
     }
 
+    //! \brief Gets the camera pixel movement from last update
+    //! Useful to simulate parallax effects at the scripting level.
+    float GetCameraXMovement() const
+    { return _info.overlay.x_parallax; }
+    float GetCameraYMovement() const
+    { return _info.overlay.y_parallax; }
+
     /** \brief Enable the lightning overlay
      * \param id the lighning effect id (See the lightning effect lua script)
      * \param loop Whether the effect should be looped.
