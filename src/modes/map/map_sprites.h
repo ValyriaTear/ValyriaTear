@@ -27,10 +27,15 @@ namespace hoa_map
 namespace private_map
 {
 
-//! \brief The standard number of milliseconds it takes for enemies
-//! to spawn in an enemy zone.
+//! Standard time values for spawning enemies on a map. All values are in number of milliseconds.
+//@{
+//! \brief The time to spawn an enemy when the player first enters a map
 const uint32 STANDARD_ENEMY_FIRST_SPAWN_TIME = 1000;
+//! \brief The standard amount of time it takes an enemy to change state from "spawning" to "hostile"
 const uint32 STANDARD_ENEMY_SPAWN_TIME = 5000;
+//! \brief The duration that an enemy stays in the dead state after it has been defeated
+const uint32 STANDARD_ENEMY_DEAD_TIME = 5000;
+//@}
 
 /** ****************************************************************************
 *** \brief A special type of sprite with no physical image

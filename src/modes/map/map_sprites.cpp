@@ -541,8 +541,9 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
 
     TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 
-    // Make the enemy disappear, after creating the transition mode.
-    enemy->ChangeStateDead();
+    // Make all enemy sprites disappear after creating the transition mode so that the player
+    // can't be cornerned and forced into multiple battles in succession.
+    MapMode::CurrentInstance()->GetObjectSupervisor()->SetAllEnemyStatesToDead();
 
     ModeManager->Push(TM);
 }
