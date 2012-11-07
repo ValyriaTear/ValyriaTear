@@ -310,16 +310,17 @@ function _CreateObjects()
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
 
-	-- Heal point
-	npc = CreateSprite(Map, "Butterfly", 27, 23);
-	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	npc:SetVisible(false);
-	Map:AddGroundObject(npc);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Your party feels better...");
-	dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
+    -- Heal point
+    npc = CreateSprite(Map, "Butterfly", 27, 23);
+    npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    npc:SetVisible(false);
+    npc:SetName(""); -- Unset the speaker name
+    Map:AddGroundObject(npc);
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Your party feels better...");
+    dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
+    DialogueManager:AddDialogue(dialogue);
+    npc:AddDialogueReference(dialogue);
 
 	npc = CreateSprite(Map, "Butterfly", 42, 18);
 	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
