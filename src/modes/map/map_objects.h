@@ -920,6 +920,13 @@ public:
     **/
     void ReloadVisiblePartyMember();
 
+    /** \brief Changes the state of every registered enemy sprite to 'dead'
+    *** Typically used just before a battle begins so that when the player returns to the map, they
+    *** are not swarmed by nearby enemies and quickly forced into another battle. This applies to enemies
+    *** on all object layers and in any context. Exercise caution when invoking this method.
+    **/
+    void SetAllEnemyStatesToDead();
+
     //! \brief Tells whether the collision coords are valid.
     bool IsWithinMapBounds(float x, float y) const;
 

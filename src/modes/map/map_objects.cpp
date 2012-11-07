@@ -1491,6 +1491,16 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
     }
 }
 
+void ObjectSupervisor::SetAllEnemyStatesToDead()
+{
+    for(std::map<uint16, MapObject *>::iterator i = _all_objects.begin(); i != _all_objects.end(); ++i) {
+        if (i->second->GetObjectType() == ENEMY_TYPE) {
+            EnemySprite* enemy = dynamic_cast<EnemySprite*>(i->second);
+            enemy->ChangeStateDead();
+        }
+    }
+}
+
 bool ObjectSupervisor::IsWithinMapBounds(float x, float y) const
 {
     return (x >= 0.0f && x < static_cast<float>(_num_grid_x_axis)

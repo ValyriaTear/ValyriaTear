@@ -558,6 +558,9 @@ private:
     //! \brief Used for the respawning of enemies within the zone
     hoa_system::SystemTimer _spawn_timer;
 
+    //! \brief Used to keep track of the amount of time to wait before re-spawning a dead enemy
+    hoa_system::SystemTimer _dead_timer;
+
     //! \brief An optional zone which specifies where enemies may spawn
     MapZone *_spawn_zone;
 
