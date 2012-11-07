@@ -1091,7 +1091,6 @@ EnemySprite::EnemySprite() :
     _time_dir_change(2500),
     _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME)
 {
-    _filename = "";
     MapObject::_object_type = ENEMY_TYPE;
     moving = true;
     Reset();
@@ -1120,7 +1119,20 @@ bool EnemySprite::Load()
     if(!sprite_script.OpenFile(_filename))
         return false;
 
-    ScriptCallFunction<void>(sprite_script.GetLuaState(), "Load", this);
+    try {
+        ScriptCallFunction<void>(sprite_script.GetLuaState(), "Load", this);
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading Load() function from:"
+                    << sprite_script.GetFilename() << std::endl;
+        ScriptManager->HandleLuaError(e);
+        return false;
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading Load() function from:"
+                    << sprite_script.GetFilename() << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
+
+    sprite_script.CloseFile();
     return true;
 }
 
