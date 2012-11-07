@@ -271,7 +271,7 @@ enemies[5] = {
 		strength = 35,
 		vigor = 10,
 		fortitude = 10,  -- base defense
-		protection = 10, 
+		protection = 10,
 		agility = 28,
 		evade = 2.0,
 		experience_points = 60,
@@ -347,7 +347,7 @@ enemies[6] = {
     },
 
     skills = {
-        1002 -- TEMP: Uses spider bite attack until we have appropriate bat skill
+        1007  -- HP drain
     },
 
     drop_objects = {

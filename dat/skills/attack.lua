@@ -383,3 +383,24 @@ skills[1006] = {
 		end
 	end
 }
+
+skills[1007] = {
+   name = "Bat HP Drain",
+   sp_required = 0,
+   warmup_time = 900,
+   cooldown_time = 0,
+   target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+   BattleExecute = function(user, target)
+       target_actor = target:GetActor();
+
+       if (hoa_battle.CalculateStandardEvasion(target) == false) then
+           local hp_drain = hoa_battle.CalculatePhysicalDamageAdder(user, target, 14);
+           target_actor:RegisterDamage(hp_drain, target);
+           user:RegisterHealing(hp_drain, true);
+           AudioManager:PlaySound("snd/spider_attack.wav");
+       else
+           target_actor:RegisterMiss(true);
+       end
+   end
+}
