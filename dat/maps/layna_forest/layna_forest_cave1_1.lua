@@ -449,16 +449,17 @@ function _CreateObjects()
 	heal_effect:Stop(); -- Don't run it until the character heals itself
 	Map:AddGroundObject(heal_effect);
 
-	-- Heal point
-	npc = CreateSprite(Map, "Butterfly", 35, 7);
-	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	npc:SetVisible(false);
-	Map:AddGroundObject(npc);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Your party feels better...");
-	dialogue:AddLineEvent(text, npc, "Cave heal", "");
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
+    -- Heal point
+    npc = CreateSprite(Map, "Butterfly", 35, 7);
+    npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    npc:SetVisible(false);
+    npc:SetName(""); -- Unset the speaker name
+    Map:AddGroundObject(npc);
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Your party feels better...");
+    dialogue:AddLineEvent(text, npc, "Cave heal", "");
+    DialogueManager:AddDialogue(dialogue);
+    npc:AddDialogueReference(dialogue);
 
 	-- The triggers
 
