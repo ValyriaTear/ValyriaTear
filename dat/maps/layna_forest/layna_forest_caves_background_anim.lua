@@ -2,27 +2,26 @@
 
 local ns = {}
 setmetatable(ns, {__index = _G})
-layna_forest_cave_1_1_background_anim = ns;
+layna_forest_caves_background_anim = ns;
 setfenv(1, ns);
 
--- Animation members
-local rock_id = -1;
+-- Animated image members
 local fog_id = -1;
-local animation_id = -1;
+local background_id = -1;
 
--- Fog related members
+-- Other fog related members
 local fog_x_position = 300.0;
-local fog_origin_x_position = 300.0;
 local fog_y_position = 500.0;
 local fog_alpha = 0.0;
 local fog_timer;
 local fog_time_length = 8000;
 
-function Initialize(battle_instance)
-	Battle = battle_instance;
-	Script = Battle:GetScriptSupervisor();
+function Initialize(map_instance)
+	Map = map_instance;
+	Script = Map:GetScriptSupervisor();
+    Effects = Map:GetEffectSupervisor();
 	-- Load the creatures animated background
-	animation_id = Script:AddImage("img/backdrops/cave_background.png", 1024.0, 768.0);
+	background_id = Script:AddImage("img/backdrops/cave_background.png", 1024.0, 768.0);
 
 	-- Construct a timer used to display the fog with a custom alpha value and position
 	fog_timer = hoa_system.SystemTimer(fog_time_length, 0);
@@ -43,14 +42,20 @@ function Update()
 		fog_timer:Initialize(fog_time_length, 0);
 		fog_timer:Run();
 		-- Make the fog appear at random position
-		fog_x_position = math.random(100.0, 700.0);
-		fog_y_position = math.random(200.0, 550.0);
-		fog_origin_x_position = fog_x_position;
+		fog_x_position = math.random(300.0, 600.0);
+		fog_y_position = math.random(300.0, 450.0);
 		fog_alpha = 0.0;
 	end
 	fog_timer:Update();
 	-- update fog position and alpha
-	fog_x_position = fog_origin_x_position - (100 * fog_timer:PercentComplete());
+    -- Apply a small shifting
+	fog_x_position = fog_x_position - (0.5 * fog_timer:PercentComplete());
+
+    -- Apply parallax (the camera movement)
+    fog_x_position = fog_x_position + Effects:GetCameraXMovement();
+    -- Inverted y coords
+    fog_y_position = fog_y_position - Effects:GetCameraYMovement();
+
 	if (fog_timer:PercentComplete() <= 0.5) then
 		-- fade in
 		fog_alpha = fog_timer:PercentComplete() * 0.3 / 0.5;
@@ -63,7 +68,7 @@ end
 
 function DrawBackground()
 	-- Draw background animation
-	Script:DrawImage(animation_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+	Script:DrawImage(background_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
 
 end
 
@@ -71,6 +76,6 @@ end
 function DrawForeground()
 	-- Draw a random fog effect
 	Script:DrawImage(fog_id, fog_x_position,
-						fog_y_position,
-						hoa_video.Color(1.0, 1.0, 1.0, fog_alpha));
+                     fog_y_position,
+					 hoa_video.Color(1.0, 1.0, 1.0, fog_alpha));
 end

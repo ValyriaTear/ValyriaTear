@@ -10,8 +10,8 @@ setfenv(1, ns);
 map = {}
 
 -- The map name, subname and location image
-map_name = ""
-map_image_filename = ""
+map_name = "Layna Forest Cave"
+map_image_filename = "img/menus/locations/desert_cave.png"
 map_subname = ""
 
 -- The number of rows, and columns that compose the map
@@ -32,7 +32,7 @@ contexts[0].inherit_from = -1
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = ""
+music_filename = "mus/Cave2.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -355,3 +355,222 @@ layers[3][47] = { 668, 669, 670, 671, 668, 669, 670, 671, 668, 669, 670, 671, 66
 
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+-- the main character handler
+local hero = {};
+
+-- the main map loading code
+function Load(m)
+
+	Map = m;
+	ObjectManager = Map.object_supervisor;
+	DialogueManager = Map.dialogue_supervisor;
+	EventManager = Map.event_supervisor;
+	GlobalEvents = Map.map_event_group;
+
+	Map.unlimited_stamina = false;
+
+	_CreateCharacters();
+	_CreateObjects();
+	_CreateEnemies();
+
+	-- Set the camera focus on hero
+	Map:SetCamera(hero);
+	-- This is a dungeon map, we'll use the front battle member sprite as default sprite.
+	Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+
+	_CreateEvents();
+	_CreateZones();
+
+	-- Add a mediumly dark overlay
+	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+	-- Add the background and foreground animations
+	Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
+end
+
+-- the map update function handles checks done on each game tick.
+function Update()
+	-- Check whether the character is in one of the zones
+	_CheckZones();
+end
+
+-- Character creation
+function _CreateCharacters()
+	-- Default hero and position
+	hero = CreateSprite(Map, "Bronann", 3, 15);
+	hero:SetDirection(hoa_map.MapMode.EAST);
+	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+
+	Map:AddGroundObject(hero);
+end
+
+-- Special object blocking the exit
+local blocking_rock = {};
+
+function _CreateObjects()
+	local object = {};
+	local npc = {};
+	local event = {}
+
+	-- Add a halo showing the cave entrances
+	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 113, 109,
+		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 0, 18,
+		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+
+    -- Add different halo light, representing holes of light coming from the ceiling
+	Map:AddHalo("img/misc/lights/right_ray_light.lua", 23, 17,
+		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+	Map:AddHalo("img/misc/lights/right_ray_light.lua", 15, 50,
+		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+	Map:AddHalo("img/misc/lights/right_ray_light.lua", 37, 84,
+		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+
+    -- Create the stone sign telling what to do to pass the test...
+    object = CreateObject(Map, "Stone Sign1", 22, 10);
+    Map:AddGroundObject(object);
+    -- Create an invisible sprite, used to handle the dialogue
+	npc = CreateSprite(Map, "Butterfly", 22, 11);
+    npc:SetName("Stone sign");
+	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	npc:SetVisible(false);
+	Map:AddGroundObject(npc);
+	dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Only the last one standing shall pass...");
+	dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+	npc:AddDialogueReference(dialogue);
+
+    -- Decorations
+    object = CreateObject(Map, "Rock1", 107, 96);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Rock1", 117, 96);
+    Map:AddGroundObject(object);
+
+    -- The blocking rock
+    blocking_rock = CreateObject(Map, "Rock3", 112, 96);
+    Map:AddGroundObject(blocking_rock);
+end
+
+-- Creates all events and sets up the entire event sequence chain
+function _CreateEvents()
+	local event = {};
+	local dialogue = {};
+	local text = {};
+
+	event = hoa_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
+	EventManager:RegisterEvent(event);
+end
+
+-- local members used to know whether the monsters have been defeated.
+local monster1_defeated = false;
+local monster2_defeated = false;
+local monster3_defeated = false;
+local monster4_defeated = false;
+local monsters_defeated = false;
+
+function _CreateEnemies()
+	local enemy = {};
+	local roam_zone = {};
+
+    if (GlobalManager:DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
+        monsters_defeated = true;
+    end
+
+    -- Monsters that can only be beaten once
+	-- Hint: left, right, top, bottom
+	roam_zone1 = hoa_map.EnemyZone(26, 30, 43, 50, hoa_map.MapMode.CONTEXT_01);
+    if (monsters_defeated == false) then
+        enemy = CreateEnemySprite(Map, "slime");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(1);
+        roam_zone1:AddEnemy(enemy, Map, 1);
+        roam_zone1:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    end
+	Map:AddZone(roam_zone1);
+
+	-- Hint: left, right, top, bottom
+	roam_zone2 = hoa_map.EnemyZone(35, 43, 13, 20, hoa_map.MapMode.CONTEXT_01);
+    if (monsters_defeated == false) then
+        enemy = CreateEnemySprite(Map, "slime");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(1);
+        roam_zone2:AddEnemy(enemy, Map, 1);
+        roam_zone2:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    end
+	Map:AddZone(roam_zone2);
+
+    -- TODO: Add the other two monster zone
+end
+
+-- check whether all the monsters dies, to open the door
+function _CheckMonstersStates()
+    if (monster1_defeated == false and roam_zone1:GetSpawnsLeft() == 0) then
+        monster1_defeated = true;
+    end
+
+    if (monster2_defeated == false and roam_zone2:GetSpawnsLeft() == 0) then
+        monster2_defeated = true;
+    end
+
+    -- Open the door when every monster is defeated, and set the event has done.
+    if (monster1_defeated and monster2_defeated
+        and monster3_defeated and monster4_defeated) then
+        monsters_defeated = true;
+
+        blocking_rock:SetCollisionMask(hoa_map.MapMode.NOCOLLISION);
+        blocking_rock:SetVisible(false);
+        AudioManager:PlaySound("snd/cave-in.ogg");
+        VideoManager:ShakeScreen(0.6, 1000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+
+        GlobalManager:SetEventValue("story", "layna_forest_cave2_monsters_defeated", 1);
+    end
+
+end
+
+-- Create the different map zones triggering events
+function _CreateZones()
+	-- N.B.: left, right, top, bottom
+	to_cave_1_1_zone = hoa_map.CameraZone(0, 1, 11, 16, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_cave_1_1_zone);
+
+	to_cave_exit_zone = hoa_map.CameraZone(108, 116, 95, 96, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_cave_exit_zone);
+end
+
+-- Check whether the active camera has entered a zone. To be called within Update()
+function _CheckZones()
+	if (to_cave_1_1_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to cave 1-1");
+    end
+
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+	enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+	enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+	-- Add the background and foreground animations
+	enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+end
+
+-- Map Custom functions
+-- Used through scripted events
+if (map_functions == nil) then
+	map_functions = {}
+end
+
+map_functions = {
+
+}
