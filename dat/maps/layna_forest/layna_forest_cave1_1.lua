@@ -360,9 +360,6 @@ layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 -- the main character handler
 local hero = {};
 
--- Used as halo around the player
-local light_halo = {};
-
 -- the main map loading code
 function Load(m)
 
@@ -389,26 +386,7 @@ function Load(m)
 	-- Add a mediumly dark overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 	-- Add the background and foreground animations
-	Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_cave_1_1_background_anim.lua");
-
-	-- Add a halo, following the player to help him see what's near.
-	light_halo = hoa_map.PhysicalObject();
-	light_halo:SetObjectID(Map.object_supervisor:GenerateObjectID());
-	light_halo:SetContext(hero:GetContext());
-	light_halo:SetPosition(hero:GetXPosition() + 1.0, hero:GetYPosition() + 5.0);
-	light_halo:SetCollHalfWidth(7.875);
-	light_halo:SetCollHeight(15.68);
-	light_halo:SetImgHalfWidth(7.875);
-	light_halo:SetImgHeight(15.68);
-	light_halo:AddAnimation("img/misc/lights/torch_light_mask.lua");
-	light_halo:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	light_halo:SetDrawOnSecondPass(true); -- Above any other ground object
-	Map:AddSkyObject(light_halo);
-
-	-- Add a halo showing the cave entrance
-	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 116, 109,
-		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
-
+	Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -416,8 +394,8 @@ function Update()
 	-- Check whether the character is in one of the zones
 	_CheckZones();
 
-	-- Updates the halo position
-	light_halo:SetPosition(hero:GetXPosition() + 1.0, hero:GetYPosition() + 5.0);
+    -- Check whether the slime mother boss has been defeated,
+    _CheckSlimeMotherState();
 end
 
 -- Character creation
@@ -436,15 +414,31 @@ function _CreateCharacters()
         -- Make the character look at us in that case
         hero:SetDirection(hoa_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
+    elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
+        hero:SetDirection(hoa_map.MapMode.WEST);
+        hero:SetPosition(125.0, 9.0);
     end
 
 	Map:AddGroundObject(hero);
 end
 
+-- Keeps in memory whether objects are being loaded.
+-- Useful to prevent the trigger_on functions from shaking the screen or playing the tremor sound.
+local _loading_objects = true;
+
 function _CreateObjects()
 	local object = {};
 	local npc = {};
 	local event = {}
+
+	-- Add a halo showing the cave entrance
+	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 116, 109,
+		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+
+	-- Add a halo showing the next cave entrance
+	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 132, 14,
+		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+
 
 	Map:AddSavePoint(50, 6, hoa_map.MapMode.CONTEXT_01);
 
@@ -455,17 +449,18 @@ function _CreateObjects()
 	heal_effect:Stop(); -- Don't run it until the character heals itself
 	Map:AddGroundObject(heal_effect);
 
-	-- Heal point
-	npc = CreateSprite(Map, "Butterfly", 35, 7);
-	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	npc:SetVisible(false);
-	Map:AddGroundObject(npc);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Your party feels better...");
-	dialogue:AddLineEvent(text, npc, "Cave heal", "");
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
-	
+    -- Heal point
+    npc = CreateSprite(Map, "Butterfly", 35, 7);
+    npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    npc:SetVisible(false);
+    npc:SetName(""); -- Unset the speaker name
+    Map:AddGroundObject(npc);
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Your party feels better...");
+    dialogue:AddLineEvent(text, npc, "Cave heal", "");
+    DialogueManager:AddDialogue(dialogue);
+    npc:AddDialogueReference(dialogue);
+
 	-- The triggers
 
 	--near entrance
@@ -483,7 +478,7 @@ function _CreateObjects()
 	    map_functions.make_entrance_rock_invisible();
 	end
 	Map:AddGroundObject(entrance_trigger_rock);
-	
+
 	event = hoa_map.ScriptedEvent("Remove entrance rock", "make_entrance_rock_invisible", "");
 	EventManager:RegisterEvent(event);
 
@@ -502,7 +497,7 @@ function _CreateObjects()
 	    map_functions.make_2nd_rock_invisible();
 	end
 	Map:AddGroundObject(second_trigger_rock);
-	
+
 	event = hoa_map.ScriptedEvent("Remove 2nd rock", "make_2nd_rock_invisible", "");
 	EventManager:RegisterEvent(event);
 
@@ -619,6 +614,10 @@ function _CreateObjects()
 
     event = hoa_map.ScriptedEvent("Remove 8th rock", "make_8th_rock_invisible", "");
     EventManager:RegisterEvent(event);
+
+    -- Tells the other functions the objects are now loaded.
+    -- This will permit to trigger the tremor shaking and sound again
+    _loading_objects = false;
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -629,21 +628,42 @@ function _SetBattleEnvironment(enemy)
 	enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
 end
 
+-- A special roam zone used to make the slime mother spawn only once.
+local slime_mother_roam_zone = {};
+-- A local variable making quicker the test on whether the slime mother boss is defeated
+local slime_mother_defeated = false;
+
+function _CheckSlimeMotherState()
+    -- Tells the game that the slime mother was defeated
+    -- TODO: This will have to be improved by adding battle event support in the slime mother
+    if (slime_mother_defeated == false and slime_mother_roam_zone:GetSpawnsLeft() == 0) then
+        if (GlobalManager:DoesEventExist("story", "layna_forest_slime_mother_defeated") == false) then
+            GlobalManager:SetEventValue("story", "layna_forest_slime_mother_defeated", 1);
+            slime_mother_defeated = true;
+        end
+    end
+end
+
 function _CreateEnemies()
 	local enemy = {};
 	local roam_zone = {};
 
-    -- Extra boss near the save point (Can be beaten several times)
+    -- Extra boss near the save point - Can only be beaten once.
 	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(8, 10, 6, 6, hoa_map.MapMode.CONTEXT_01);
+	slime_mother_roam_zone = hoa_map.EnemyZone(8, 10, 6, 6, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "big slime");
-	_SetBattleEnvironment(enemy);
-    enemy:SetBattleMusicTheme("mus/The_Creature_Awakens.ogg"); -- set the boss music for that one
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(5, 812.0, 350.0);
-	roam_zone:AddEnemy(enemy, Map, 1);
-	Map:AddZone(roam_zone);
+    if (GlobalManager:DoesEventExist("story", "layna_forest_slime_mother_defeated")) then
+        slime_mother_defeated = true;
+    else
+        enemy = CreateEnemySprite(Map, "big slime");
+        _SetBattleEnvironment(enemy);
+        enemy:SetBattleMusicTheme("mus/The_Creature_Awakens.ogg"); -- set the boss music for that one
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(5, 812.0, 350.0);
+        slime_mother_roam_zone:AddEnemy(enemy, Map, 1);
+        slime_mother_roam_zone:SetSpawnsLeft(1); -- The Slime Mother boss shall spawn only one time.
+    end
+	Map:AddZone(slime_mother_roam_zone);
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
@@ -668,7 +688,7 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
-    
+
     -- A bat spawn point
     -- Hint: left, right, top, bottom
     roam_zone = hoa_map.EnemyZone(51, 81, 58, 61, hoa_map.MapMode.CONTEXT_01);
@@ -691,6 +711,9 @@ function _CreateEvents()
 	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_cave_entrance");
 	EventManager:RegisterEvent(event);
 
+	event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from_layna_cave_entrance");
+	EventManager:RegisterEvent(event);
+
 	-- Heal point
 	event = hoa_map.ScriptedEvent("Cave heal", "heal_party", "heal_done");
 	EventManager:RegisterEvent(event);
@@ -702,6 +725,8 @@ function _CreateZones()
 	to_forest_NW_zone = hoa_map.CameraZone(114, 118, 95, 97, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_NW_zone);
 
+	to_cave_1_2_zone = hoa_map.CameraZone(126, 128, 3, 13, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_cave_1_2_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -709,14 +734,20 @@ function _CheckZones()
 	if (to_forest_NW_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest NW");
-	end
+	elseif (to_cave_1_2_zone:IsCameraEntering()) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to cave 1-2");
+    end
 end
 
 function _MakeRockInvisible(object)
     object:SetVisible(false);
     object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-    AudioManager:PlaySound("snd/cave-in.ogg");
-    VideoManager:ShakeScreen(0.6, 1000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+    -- Only triggers the sound and shaking if the triggers states are not being loaded.
+    if (_loading_objects == false) then
+        AudioManager:PlaySound("snd/cave-in.ogg");
+        VideoManager:ShakeScreen(0.6, 1000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+    end
 end
 
 -- Map Custom functions

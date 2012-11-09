@@ -104,6 +104,8 @@ void BindEngineCode()
             .def("EnableLightning", &EffectSupervisor::EnableLightning)
             .def("DisableLightning", &EffectSupervisor::DisableLightning)
             .def("DisableEffects", &EffectSupervisor::DisableEffects)
+            .def("GetCameraXMovement", &EffectSupervisor::GetCameraXMovement)
+            .def("GetCameraYMovement", &EffectSupervisor::GetCameraYMovement)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")

@@ -268,6 +268,7 @@ EnemyZone::EnemyZone() :
     _roaming_restrained(true),
     _agression_roaming_restrained(false),
     _active_enemies(0),
+    _spawns_left(-1), // Inifite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _dead_timer(STANDARD_ENEMY_DEAD_TIME),
     _spawn_zone(NULL)
@@ -285,6 +286,7 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     _roaming_restrained(true),
     _agression_roaming_restrained(false),
     _active_enemies(0),
+    _spawns_left(-1), // Inifite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _dead_timer(STANDARD_ENEMY_DEAD_TIME),
     _spawn_zone(NULL)
@@ -300,6 +302,7 @@ EnemyZone::EnemyZone(const EnemyZone &copy) :
 {
     _roaming_restrained = copy._roaming_restrained;
     _agression_roaming_restrained = copy._agression_roaming_restrained;
+    _spawns_left = copy._spawns_left;
     _active_enemies = copy._active_enemies;
     _spawn_timer = copy._spawn_timer;
     _dead_timer = copy._dead_timer;
@@ -323,6 +326,7 @@ EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
     MapZone::operator=(copy);
     _roaming_restrained = copy._roaming_restrained;
     _agression_roaming_restrained = copy._agression_roaming_restrained;
+    _spawns_left = copy._spawns_left;
     _active_enemies = copy._active_enemies;
     _spawn_timer = copy._spawn_timer;
     _dead_timer = copy._dead_timer;
@@ -427,6 +431,10 @@ void EnemyZone::Update()
     // potentially take a noticable amount of time to complete
     const int8 SPAWN_RETRIES = 50;
 
+    // Test whether a respawn is still permitted
+    if (_spawns_left == 0)
+        return;
+
     if (_enemies.empty())
         return;
 
@@ -500,6 +508,10 @@ void EnemyZone::Update()
         _spawn_timer.Run();
         _enemies[index]->ChangeStateSpawning();
         ++_active_enemies;
+
+        // Indicates that a spawn was used.
+        if (_spawns_left > 0)
+            --_spawns_left;
     } else {
         PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
                       << " tries. Check the enemy zones of map:"

@@ -256,12 +256,28 @@ objects["Rock2"] = {
 	img_height = 3.56
 }
 
+objects["Rock3"] = {
+   animation_filename = "img/sprites/map/objects/rock3.lua",
+   coll_half_width = 4.0,
+   coll_height = 6.0,
+   img_half_width = 4.0,
+   img_height = 6.0
+}
+
 objects["Sauce Pot1"] = {
 	animation_filename = "img/sprites/map/objects/sauce_pot1.lua",
 	coll_half_width = 1.0,
 	coll_height = 1.8,
 	img_half_width = 1.0,
 	img_height = 2.0
+}
+
+objects["Stone Sign1"] = {
+   animation_filename = "img/sprites/map/objects/stone_sign1.lua",
+   coll_half_width = 1.03,
+   coll_height = 2.18,
+   img_half_width = 1.03,
+   img_height = 2.18
 }
 
 objects["Table1"] = {

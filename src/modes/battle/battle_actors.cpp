@@ -324,16 +324,21 @@ void BattleActor::Update()
     // Don't update the state timer when the battle tells is to pause
     // when in idle state.
     // Also don't elapse the status effect time when paused.
-    if(!BattleMode::CurrentInstance()->AreActorStatesPaused()) {
+    if (!BattleMode::CurrentInstance()->AreActorStatesPaused()) {
         // Don't update the state_timer if the character is hurt.
-        if(!_hurt_timer.IsRunning()) {
+        if (!_hurt_timer.IsRunning()) {
 
             // Check the stun effect only when in idle, warm up or cool down state
-            if(!_is_stunned || (_state != ACTOR_STATE_IDLE && _state != ACTOR_STATE_WARM_UP && _state != ACTOR_STATE_COOL_DOWN))
+            if (!_is_stunned || (_state != ACTOR_STATE_IDLE && _state != ACTOR_STATE_WARM_UP && _state != ACTOR_STATE_COOL_DOWN))
                 _state_timer.Update();
         }
 
         _effects_supervisor->Update();
+    }
+    else if (_state == ACTOR_STATE_DYING) {
+        // Permits the actor to die even in pause mode,
+        // so that the sprite fade out is properly done.
+        _state_timer.Update();
     }
 
     // Ths shaking updates even in pause mode, so that the shaking
@@ -344,20 +349,20 @@ void BattleActor::Update()
 
     _indicator_supervisor->Update();
 
-    if(_state_timer.IsFinished() == true) {
-        if(_state == ACTOR_STATE_IDLE) {
+    if (_state_timer.IsFinished() == true) {
+        if (_state == ACTOR_STATE_IDLE) {
             // If an action is already set for the actor, skip the command state and immediately begin the warm up state
-            if(_action == NULL)
+            if (_action == NULL)
                 ChangeState(ACTOR_STATE_COMMAND);
             else
                 ChangeState(ACTOR_STATE_WARM_UP);
-        } else if(_state == ACTOR_STATE_WARM_UP) {
+        } else if (_state == ACTOR_STATE_WARM_UP) {
             ChangeState(ACTOR_STATE_READY);
-        } else if(_state == ACTOR_STATE_COOL_DOWN) {
+        } else if (_state == ACTOR_STATE_COOL_DOWN) {
             ChangeState(ACTOR_STATE_IDLE);
-        } else if(_state == ACTOR_STATE_DYING) {
+        } else if (_state == ACTOR_STATE_DYING) {
             ChangeState(ACTOR_STATE_DEAD);
-        } else if(_state == ACTOR_STATE_REVIVE) {
+        } else if (_state == ACTOR_STATE_REVIVE) {
             ChangeState(ACTOR_STATE_IDLE);
         }
     }
