@@ -160,8 +160,12 @@ img/logos/valyria_logo_black.png                                GPLv2 or later  
 img/logos/program_icon.bmp                                      GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.ico                                      GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
 
-items/menus/key.png                                             CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
-items/menus/shard.png                                           CC by SA 3.0             Bertram
+img/items/menus/key.png                                         CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
+img/items/menus/shard.png                                       CC by SA 3.0             Bertram
+
+img/menus/black_sleet_skin.png                                  CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
+img/menus/black_sleet_texture.png                               CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications
+
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 
 img/misc/dialog_icon.lua                                        GPLv2 or later           Bertram
