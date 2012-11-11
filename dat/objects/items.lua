@@ -79,11 +79,11 @@ items[1] = {
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
-		return battle_healing_potion(target_actor, 40);
+		return battle_healing_potion(target_actor, 60);
 	end,
 
 	FieldUse = function(target)
-		return field_healing_potion(target, 45);
+		return field_healing_potion(target, 75);
 	end
 }
 
