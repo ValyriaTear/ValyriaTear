@@ -64,14 +64,14 @@ skills[1] = {
 	warmup_time = 1200,
 	cooldown_time = 200,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
 		if (hoa_battle.CalculateStandardEvasion(target) == false) then
 			-- Normal +0 attack
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 0), target);
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamage(user, target), target);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -87,18 +87,18 @@ skills[1] = {
 
 skills[2] = {
 	name = hoa_system.Translate("Forward Thrust"),
-	description = hoa_system.Translate("A more powerful blow than the standard sword slash, but also less likely to hit its intended target."),
+	description = hoa_system.Translate("A quicker and more powerful blow than the standard sword slash."),
 	sp_required = 2,
-	warmup_time = 500,
-	cooldown_time = 0,
+	warmup_time = 800,
+	cooldown_time = 200,
 	action_name = "attack",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasionAdder(target, 5.0) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 0, 0.5), target);
+		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageMultiplier(user, target, 1.75), target);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -185,7 +185,7 @@ skills[5] = {
 	warmup_time = 2500,
 	cooldown_time = 200,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
@@ -353,7 +353,7 @@ skills[1005] = {
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
-                                              hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
+                                              hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
                                               effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
