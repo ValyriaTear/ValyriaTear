@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.11.07
+Last update: 2012.11.08
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -14,6 +14,7 @@ dA stands for: Deviant Art - http://deviantart.com
 
 Files                                                            Licenses                 Authors and details
 --------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
+art/bronann_by_safir_kreuz-CCbySA3.0.png                        CC by SA 3.0             Safir-Kreuz (dA)
 art/Tile-Mapping-System.png                                     CC by SA 3.0             Jetrel (OGA)
 art/day_night_cycle_gradient_casper_nilsson_oga.png             CC by SA 3.0             C.Nilsson (OGA)
 art/forest_tree_small.xcf                                       CC by SA 3.0             Original tree from Jetrel (OGA) + Variations from Bertram
@@ -127,7 +128,6 @@ img/effects/outlined_circle_small.png                           GPLv2 or later  
 img/effects/right_arrow.png                                     CC by 3.0                hc (OGA) http://opengameart.org/content/lens-flares-and-particles
 img/effects/shield.png                                          GPLv2                    Allacrost
 
-
 img/effects/emotes/sweat_drop.lua                               GPLv2 or later           Bertram
 img/effects/emotes/sweat_drop.png                               CC by SA 3.0             Bertram
 img/effects/emotes/thinking_dots.lua                            GPLv2 or later           Bertram
@@ -160,8 +160,11 @@ img/logos/valyria_logo_black.png                                GPLv2 or later  
 img/logos/program_icon.bmp                                      GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.ico                                      GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
 
-items/menus/key.png                                             CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
-items/menus/shard.png                                           CC by SA 3.0             Bertram
+img/menus/key.png                                               CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
+img/menus/shard.png                                             CC by SA 3.0             Bertram
+img/menus/black_sleet_skin.png                                  CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
+img/menus/black_sleet_texture.png                               CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications
+
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 
 img/misc/dialog_icon.lua                                        GPLv2 or later           Bertram
