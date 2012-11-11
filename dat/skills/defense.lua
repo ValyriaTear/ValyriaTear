@@ -39,20 +39,20 @@ end
 
 skills[10001] = {
 	name = hoa_system.Translate("Defensive Stance"),
-	description = hoa_system.Translate("Mind focus improving defence against incoming attacks."),
+	description = hoa_system.Translate("Increases an ally's physical defense by a slight degree."),
 	sp_required = 3,
 	warmup_time = 300,
 	cooldown_time = 0,
 	warmup_action_name = "magic_prepare",
 	action_name = "magic_cast",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
         local effect_duration = user:GetProtection() * 2000;
         if (effect_duration < 10000) then effect_duration = 10000 end
 		target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
-                                          hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+                                          hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                           effect_duration);
 		local Battle = ModeManager:GetTop();
 		Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance.lua",
