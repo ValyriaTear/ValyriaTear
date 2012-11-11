@@ -61,7 +61,7 @@ enemies[1] = {
 		agility = 20,
 		evade = 2.0,
 		experience_points = 8,
-		drunes = 2
+		drunes = 6
 	},
 
 	attack_points = {
@@ -108,7 +108,7 @@ enemies[2] = {
 		agility = 25,
 		evade = 2.0,
 		experience_points = 14,
-		drunes = 5
+		drunes = 8
 	},
 
 	attack_points = {
@@ -149,7 +149,7 @@ enemies[3] = {
 
 
 	base_stats = {
-		hit_points = 320,
+		hit_points = 120,
 		skill_points = 10,
 		experience_points = 120,
 		strength = 27,
@@ -206,7 +206,7 @@ enemies[4] = {
 	sprite_height = 64,
 
 	base_stats = {
-		hit_points = 125,
+		hit_points = 80,
 		skill_points = 10,
 		strength = 22,
 		vigor = 20,
