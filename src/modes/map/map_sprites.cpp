@@ -1112,31 +1112,6 @@ EnemySprite::EnemySprite(const std::string &file) :
 }
 
 
-// Load in the appropriate images and other data for the sprite from a Lua file
-bool EnemySprite::Load()
-{
-    ReadScriptDescriptor sprite_script;
-    if(!sprite_script.OpenFile(_filename))
-        return false;
-
-    try {
-        ScriptCallFunction<void>(sprite_script.GetLuaState(), "Load", this);
-    } catch(const luabind::error &e) {
-        PRINT_ERROR << "Error while loading Load() function from:"
-                    << sprite_script.GetFilename() << std::endl;
-        ScriptManager->HandleLuaError(e);
-        return false;
-    } catch(const luabind::cast_failed &e) {
-        PRINT_ERROR << "Error while loading Load() function from:"
-                    << sprite_script.GetFilename() << std::endl;
-        ScriptManager->HandleCastError(e);
-    }
-
-    sprite_script.CloseFile();
-    return true;
-}
-
-
 
 void EnemySprite::Reset()
 {
@@ -1159,20 +1134,11 @@ void EnemySprite::AddEnemy(uint32 enemy_id, float position_x, float position_y)
 
     BattleEnemyInfo enemy_info(enemy_id, position_x, position_y);
     _enemy_parties.back().push_back(enemy_info);
-
-    // Make sure that the GlobalEnemy has already been created for this enemy_id
-    if(MAP_DEBUG) {
-        if(MapMode::CurrentInstance()->IsEnemyLoaded(enemy_id) == false) {
-            PRINT_WARNING << "enemy to add has id " << enemy_id << ", which does not exist in MapMode::_enemies" << std::endl;
-        }
-    }
 }
 
 
-
+// Static empty enemy party used to prevent temporary reference returns.
 static std::vector<BattleEnemyInfo> empty_enemy_party;
-
-
 
 const std::vector<BattleEnemyInfo>& EnemySprite::RetrieveRandomParty()
 {

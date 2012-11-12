@@ -150,12 +150,6 @@ public:
     std::vector<hoa_video::AnimatedImage> active_save_point_animations;
     std::vector<hoa_video::AnimatedImage> inactive_save_point_animations;
 
-    /** \brief Checks if a GlobalEnemy with the specified id is already loaded in the MapMode#_enemies container
-    *** \param id The id of the enemy to find
-    *** \return True if the enemy is loaded
-    **/
-    bool IsEnemyLoaded(uint32 id) const;
-
     //! \brief Class member accessor functions
     //@{
     static MapMode *CurrentInstance() {

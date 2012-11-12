@@ -147,10 +147,6 @@ MapMode::MapMode(const std::string &filename) :
 
 MapMode::~MapMode()
 {
-    for(uint32 i = 0; i < _enemies.size(); ++i)
-        delete(_enemies[i]);
-    _enemies.clear();
-
     delete(_tile_supervisor);
     delete(_object_supervisor);
     delete(_event_supervisor);
@@ -423,15 +419,7 @@ void MapMode::AddLight(const std::string &main_flare_filename,
     _object_supervisor->_lights.push_back(light);
 }
 
-bool MapMode::IsEnemyLoaded(uint32 id) const
-{
-    for(uint32 i = 0; i < _enemies.size(); i++) {
-        if(_enemies[i]->GetID() == id) {
-            return true;
-        }
-    }
-    return false;
-}
+
 
 void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
 {
@@ -537,14 +525,6 @@ bool MapMode::_Load()
     _music_filename = _map_script.ReadString("music_filename");
     if(!AudioManager->LoadMusic(_music_filename, this))
         PRINT_WARNING << "Failed to load map music: " << _music_filename << std::endl;
-
-
-    // Create and store all enemies that may appear on this map
-    std::vector<int32> enemy_ids;
-    _map_script.ReadIntVector("enemy_ids", enemy_ids);
-    for(uint32 i = 0; i < enemy_ids.size(); i++) {
-        _enemies.push_back(new GlobalEnemy(enemy_ids[i]));
-    }
 
     // Call the map script's custom load function and get a reference to all other script function pointers
     // We use a newly allocated pointer to avoid a memory corruption due to luabind's garbage collector.

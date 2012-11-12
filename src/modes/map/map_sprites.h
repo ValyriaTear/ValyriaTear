@@ -528,9 +528,6 @@ public:
     //! \brief A constructor for when the enemy sprite is stored in the definition of a single file
     EnemySprite(const std::string &file);
 
-    //! \brief Loads the enemy's data from a file and returns true if it was successful
-    bool Load();
-
     //! \brief Resets various members of the class so that the enemy is dead, invisible, and does not produce a collision
     void Reset();
 
