@@ -798,9 +798,9 @@ void GlobalCharacterGrowth::AcknowledgeGrowth()
             ScriptCallFunction<void>(character_script.GetLuaState(), "DetermineGrowth", _character_owner);
             _ConstructPeriodicGrowth();
             _CheckForGrowth();
-        } catch(luabind::error e) {
+        } catch(const luabind::error& e) {
             ScriptManager->HandleLuaError(e);
-        } catch(luabind::cast_failed e) {
+        } catch(const luabind::cast_failed& e) {
             ScriptManager->HandleCastError(e);
         }
 
