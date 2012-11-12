@@ -444,11 +444,11 @@ public:
 
     //! \brief Returns the average defense/evasion totals of all of the actor's attack points
     //@{
-    uint32 TotalPhysicalDefense();
+    uint32 GetAverageDefense();
 
-    uint32 TotalMetaphysicalDefense();
+    uint32 GetAverageMagicalDefense();
 
-    float TotalEvadeRating();
+    float GetAverageEvadeRating();
     //@}
 
     //! \name Class member access methods
