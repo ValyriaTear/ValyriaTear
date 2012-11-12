@@ -48,23 +48,27 @@ class BattleParticleEffect;
 *** \brief Represents the play types of battle that the player may have to deal with
 **/
 enum BATTLE_TYPE {
-    BATTLE_TYPE_INVALID   = -1,
-    //! The battle will pause ("wait") while player selects commands
-    BATTLE_TYPE_WAIT      =  0,
-    //! Monsters will wait for characters to finish their command before attacking
-    //! but will move up until being ready anyway.
-    BATTLE_TYPE_SEMI_ACTIVE =  1,
-    //! The battle will continue progressing while player selects commands
-    BATTLE_TYPE_ACTIVE    =  2,
-    BATTLE_TYPE_TOTAL     =  3
+    BATTLE_TYPE_INVALID       = -1,
+    //! Battle action will pause while the player is selecting commands
+    BATTLE_TYPE_WAIT          =  0,
+    //! Battle action will pause only when one or more characters is in the ACTOR_STATE_COMMAND state
+    BATTLE_TYPE_WAIT_COMMAND  =  1,
+    //! Battle action does not pause at any time during a battle, except for scripted events
+    BATTLE_TYPE_ACTIVE        =  2,
+    BATTLE_TYPE_TOTAL         =  3
 };
 
-//! Tells the battle speed factor used in wait battle modes.
-const float BATTLE_WAIT_FACTOR = 3.0f;
-//! Tells the battle speed factor used in semi-active battle modes.
-const float BATTLE_SEMI_ACTIVE_FACTOR = 1.5f;
-//! Tells the battle speed factor used in active battle modes.
-const float BATTLE_ACTIVE_FACTOR = 1.0f;
+/** \brief Factors which adjust the speed of all actors for the various battle types
+*** This adjustment is necessary because a single speed will not work well for the various types,
+*** as the player needs more time to select an action in the active type, where the battle action
+*** never pauses, and less time in the wait type, where the battle will always pause when the
+*** player is selecting an action.
+**/
+//@{
+const float BATTLE_WAIT_FACTOR          = 3.0f;
+const float BATTLE_WAIT_COMMAND_FACTOR  = 1.5f;
+const float BATTLE_ACTIVE_FACTOR        = 1.0f;
+//@}
 
 /** ****************************************************************************
 *** \brief A companion class to BattleMode that holds various multimedia data
@@ -303,6 +307,10 @@ public:
     //! it should update the state timer.
     bool AreActorStatesPaused() const {
         return _actor_state_paused;
+    }
+
+    void SetActorStatePaused(bool state) {
+        _actor_state_paused = state;
     }
 
     private_battle::BATTLE_STATE GetState() const {

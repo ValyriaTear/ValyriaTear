@@ -531,6 +531,10 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
 
     switch(_state) {
     case ACTOR_STATE_COMMAND:
+        // In the battle types, the battle action should pause whenever a character enters the command state
+        if(BattleMode::CurrentInstance()->GetBattleType() == BATTLE_TYPE_WAIT_COMMAND) {
+            BattleMode::CurrentInstance()->SetActorStatePaused(true);
+        }
         // When the "wait" setting is active in battle mode we want the command menu to be brought up for the character as soon as we can when the character
         // enters this state. This is done within the BattleMode::Update() method
         break;
