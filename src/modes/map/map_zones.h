@@ -549,6 +549,10 @@ public:
     //! Set the number of times left an enemy can spawn in this enemy zone.
     int32 GetSpawnsLeft() const
     { return _spawns_left; }
+
+    //! Decrease enemy spawns left to do. Should be triggered upon enemy death.
+    void DecreaseSpawnsLeft()
+    { if (_spawns_left > 0) --_spawns_left; }
     //@}
 
 private:

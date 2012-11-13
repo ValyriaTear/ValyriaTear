@@ -541,6 +541,11 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
 
     TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
 
+    // Indicates to the potential enemy zone that this spawn is dead.
+    EnemyZone *zone = enemy->GetEnemyZone();
+    if (zone)
+        zone->DecreaseSpawnsLeft();
+
     // Make all enemy sprites disappear after creating the transition mode so that the player
     // can't be cornerned and forced into multiple battles in succession.
     MapMode::CurrentInstance()->GetObjectSupervisor()->SetAllEnemyStatesToDead();

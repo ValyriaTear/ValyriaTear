@@ -601,6 +601,10 @@ public:
         _zone = zone;
     }
 
+    EnemyZone* GetEnemyZone() {
+        return _zone;
+    }
+
     void SetAggroRange(float range) {
         _aggro_range = range;
     }
