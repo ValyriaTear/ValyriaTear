@@ -409,6 +409,9 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from forest SW") then
 		hero:SetDirection(hoa_map.MapMode.EAST);
 		hero:SetPosition(4, 54);
+    elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
+		hero:SetDirection(hoa_map.MapMode.SOUTH);
+		hero:SetPosition(4, 54); -- TODO
 	end
 
 	Map:AddGroundObject(hero);

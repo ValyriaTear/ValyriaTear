@@ -392,6 +392,9 @@ end
 function Update()
 	-- Check whether the character is in one of the zones
 	_CheckZones();
+
+    -- Check whether the monsters have been defeated
+    _CheckMonstersStates();
 end
 
 -- Character creation
@@ -400,6 +403,11 @@ function _CreateCharacters()
 	hero = CreateSprite(Map, "Bronann", 3, 15);
 	hero:SetDirection(hoa_map.MapMode.EAST);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+
+    if (GlobalManager:GetPreviousLocation() == "from forest SE") then
+		hero:SetDirection(hoa_map.MapMode.NORTH);
+		hero:SetPosition(112, 94);
+	end
 
 	Map:AddGroundObject(hero);
 end
@@ -411,6 +419,13 @@ function _CreateObjects()
 	local object = {};
 	local npc = {};
 	local event = {}
+
+    -- Treasure chest, accessible later from the next cave.
+    local chest1 = CreateTreasure(Map, "layna_forest_cave1_2_chest", "Wood_Chest1", 116, 38);
+	if (chest1 ~= nil) then
+		chest1:SetDrunes(50);
+		Map:AddGroundObject(chest1);
+	end
 
 	-- Add a halo showing the cave entrances
 	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 113, 109,
@@ -450,6 +465,12 @@ function _CreateObjects()
     -- The blocking rock
     blocking_rock = CreateObject(Map, "Rock3", 112, 96);
     Map:AddGroundObject(blocking_rock);
+
+    -- Remove the block if all enemies have already been defeated
+    if (GlobalManager:DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
+        blocking_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        blocking_rock:SetVisible(false);
+    end
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -460,6 +481,17 @@ function _CreateEvents()
 
 	event = hoa_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
 	EventManager:RegisterEvent(event);
+
+	event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_cave_1_2");
+	EventManager:RegisterEvent(event);
+
+    -- Dialogue when all the enemies are dead.
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("... Something heavy seems to have fallen nearby.");
+	dialogue:AddLineEmote(text, hero, "exclamation");
+	DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Hero dialogue during tremor", dialogue);
+    EventManager:RegisterEvent(event);
 end
 
 -- local members used to know whether the monsters have been defeated.
@@ -510,7 +542,35 @@ function _CreateEnemies()
     end
 	Map:AddZone(roam_zone2);
 
-    -- TODO: Add the other two monster zone
+	roam_zone3 = hoa_map.EnemyZone(61, 67, 40, 48, hoa_map.MapMode.CONTEXT_01);
+    if (monsters_defeated == false) then
+        enemy = CreateEnemySprite(Map, "slime");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(1);
+        roam_zone3:AddEnemy(enemy, Map, 1);
+        roam_zone3:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    end
+	Map:AddZone(roam_zone3);
+
+	roam_zone4 = hoa_map.EnemyZone(89, 123, 82, 90, hoa_map.MapMode.CONTEXT_01);
+    if (monsters_defeated == false) then
+        enemy = CreateEnemySprite(Map, "bat");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(6);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(6);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(1);
+        roam_zone4:AddEnemy(enemy, Map, 1);
+        roam_zone4:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    end
+	Map:AddZone(roam_zone4);
 end
 
 -- check whether all the monsters dies, to open the door
@@ -523,15 +583,28 @@ function _CheckMonstersStates()
         monster2_defeated = true;
     end
 
+    if (monster3_defeated == false and roam_zone3:GetSpawnsLeft() == 0) then
+        monster3_defeated = true;
+    end
+
+    if (monster4_defeated == false and roam_zone4:GetSpawnsLeft() == 0) then
+        monster4_defeated = true;
+    end
+
     -- Open the door when every monster is defeated, and set the event has done.
-    if (monster1_defeated and monster2_defeated
-        and monster3_defeated and monster4_defeated) then
+    if (monsters_defeated == false
+            and monster1_defeated and monster2_defeated
+            and monster3_defeated and monster4_defeated) then
         monsters_defeated = true;
 
-        blocking_rock:SetCollisionMask(hoa_map.MapMode.NOCOLLISION);
+        blocking_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         blocking_rock:SetVisible(false);
         AudioManager:PlaySound("snd/cave-in.ogg");
         VideoManager:ShakeScreen(0.6, 1000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+
+        hero:SetMoving(false);
+        -- Trigger the dialogue event about the shaking...
+        EventManager:StartEvent("Hero dialogue during tremor");
 
         GlobalManager:SetEventValue("story", "layna_forest_cave2_monsters_defeated", 1);
     end
@@ -553,8 +626,10 @@ function _CheckZones()
 	if (to_cave_1_1_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to cave 1-1");
+    elseif (to_cave_exit_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		--EventManager:StartEvent("to south east exit"); -- Enable this once the forest map is ok
     end
-
 end
 
 -- Sets common battle environment settings for enemy sprites
