@@ -85,9 +85,10 @@ void QuitApp()
     GUISystem::SingletonDestroy();
     AudioEngine::SingletonDestroy();
     InputEngine::SingletonDestroy();
-    ScriptEngine::SingletonDestroy();
     SystemEngine::SingletonDestroy();
     VideoEngine::SingletonDestroy();
+    // Do it last since all luabind objects must be freed before closing the lua state.
+    ScriptEngine::SingletonDestroy();
 } // void QuitApp()
 
 /** \brief Reads in all of the saved game settings and sets values in the according game manager classes
