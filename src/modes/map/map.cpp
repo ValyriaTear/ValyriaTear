@@ -212,8 +212,8 @@ void MapMode::Update()
     _dialogue_icon.Update();
 
     // Call the map script's update function
-    if(_update_function->is_valid())
-        ScriptCallFunction<void>(*_update_function);
+    if(_update_function.is_valid())
+        ScriptCallFunction<void>(_update_function);
 
     // Update all animated tile images
     _tile_supervisor->Update();
@@ -259,8 +259,8 @@ void MapMode::Draw()
 
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    if(_draw_function->is_valid())
-        ScriptCallFunction<void>(*_draw_function);
+    if(_draw_function.is_valid())
+        ScriptCallFunction<void>(_draw_function);
     else
         _DrawMapLayers();
 
@@ -527,15 +527,13 @@ bool MapMode::_Load()
         PRINT_WARNING << "Failed to load map music: " << _music_filename << std::endl;
 
     // Call the map script's custom load function and get a reference to all other script function pointers
-    // We use a newly allocated pointer to avoid a memory corruption due to luabind's garbage collector.
-    ScriptObject *map_table = new ScriptObject(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
-    ScriptObject *function = new ScriptObject();
-    *function = (*map_table)["Load"];
+    ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
+    ScriptObject function = map_table["Load"];
 
     bool loading_succeeded = true;
-    if(function->is_valid()) {
+    if(function.is_valid()) {
         try {
-            ScriptCallFunction<void>(*function, this);
+            ScriptCallFunction<void>(function, this);
         } catch(const luabind::error &e) {
             ScriptManager->HandleLuaError(e);
             loading_succeeded = false;
@@ -555,10 +553,8 @@ bool MapMode::_Load()
         return false;
     }
 
-    _update_function = new ScriptObject();
-    *_update_function = _map_script.ReadFunctionPointer("Update");
-    _draw_function = new ScriptObject();
-    *_draw_function = _map_script.ReadFunctionPointer("Draw");
+    _update_function = _map_script.ReadFunctionPointer("Update");
+    _draw_function = _map_script.ReadFunctionPointer("Draw");
 
     // ---------- (6) Prepare all sprites with dialogue
     // This is done at this stage because the map script's load function creates the sprite and dialogue objects. Only after

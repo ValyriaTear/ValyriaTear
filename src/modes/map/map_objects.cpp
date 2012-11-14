@@ -1471,18 +1471,16 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
     if(actor && actor->GetMapSpriteName() != _visible_party_member->GetSpriteName()) {
         hoa_script::ReadScriptDescriptor &script = GlobalManager->GetMapSpriteScript();
 
-        // Do not delete that pointer, it will be handled by luabind's garbage collector.
-        ScriptObject *function_ptr = new ScriptObject();
-        *function_ptr = script.ReadFunctionPointer("ReloadSprite");
+        ScriptObject function_ptr = script.ReadFunctionPointer("ReloadSprite");
 
-        if(!function_ptr->is_valid()) {
+        if(!function_ptr.is_valid()) {
             PRINT_WARNING << "Invalid 'ReloadSprite' function in the map sprite script file."
                           << std::endl;
             return;
         }
 
         try {
-            ScriptCallFunction<void>(*function_ptr, _visible_party_member, actor->GetMapSpriteName());
+            ScriptCallFunction<void>(function_ptr, _visible_party_member, actor->GetMapSpriteName());
         } catch(const luabind::error &e) {
             PRINT_ERROR << "Error while loading script function." << std::endl;
             ScriptManager->HandleLuaError(e);

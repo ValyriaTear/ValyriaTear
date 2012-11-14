@@ -311,16 +311,14 @@ private:
     *** This function implements any custom update code that the specific map needs to be performed.
     *** The most common operation that this script function performs is to check for trigger conditions
     *** that cause map events to occur
-    *** Do not delete it. Luabind's garbage collector will handle it.
     **/
-    ScriptObject *_update_function;
+    ScriptObject _update_function;
 
     /** \brief Script function which assists with the MapMode#Draw method
     *** This function allows for drawing of custom map visuals. Usually this includes lighting or
     *** other visual effects for the map environment.
-    *** Do not delete it. Luabind's garbage collector will handle it.
     **/
-    ScriptObject *_draw_function;
+    ScriptObject _draw_function;
 
     // ----- Members : Properties and State -----
 

@@ -189,10 +189,9 @@ private:
 
     /** The functions of the possible attack animation skill.
     *** When valid, the Update function should be called until the function returns true.
-    //! Do not delete them. Luabind's garbage collector will handle it.
     **/
-    ScriptObject *_init_function;
-    ScriptObject *_update_function;
+    ScriptObject _init_function;
+    ScriptObject _update_function;
 
     //! \brief Tells whether the battle action animation is scripted.
     bool _is_scripted;
