@@ -5,7 +5,7 @@
 -- language.
 languages = {}
 languages[1] = { "English", "en@quot" }
-languages[2] = { "Français", "fr" }
+languages[2] = { "Deutsch", "de" }
+languages[3] = { "Français", "fr" }
 --languages[3] = { "Português do Brasil", "pt_BR" }
 --languages[4] = { "Español", "es" }
---languages[5] = { "Deutsch", "de" }
