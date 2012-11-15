@@ -260,7 +260,6 @@ void WriteScriptDescriptor::WriteString(const int32 key, const std::string &valu
 
 // WriteUString can not use the _WriteData helper because it needs to do additional
 // checking and add quotation marks around its value.
-// TODO: Write strings with a call to the gettext library to retrieve translated strings
 void WriteScriptDescriptor::WriteUString(const std::string &key, const std::string &value)
 {
     WriteString(key, value);
@@ -387,7 +386,6 @@ void WriteScriptDescriptor::WriteStringVector(const int32 key, std::vector<std::
 
 // WriteUString can not use the _WriteData helper because it needs to do additional
 // checking and add quotation marks around its value.
-// TODO: Write strings with a call to the gettext library to retrieve translated strings
 void WriteScriptDescriptor::WriteUStringVector(const std::string &key, std::vector<std::string>& vect)
 {
     WriteStringVector(key, vect);

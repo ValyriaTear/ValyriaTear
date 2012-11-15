@@ -158,7 +158,12 @@ class GameGlobal : public hoa_utils::Singleton<GameGlobal>
 public:
     ~GameGlobal();
 
-    bool SingletonInitialize();
+    bool SingletonInitialize()
+    { return _LoadGlobalScripts(); }
+
+    //! Reloads the persistent scripts. Used when changing the language for instance.
+    bool ReloadGlobalScripts()
+    { _CloseGlobalScripts(); return _LoadGlobalScripts(); }
 
     /** \brief Deletes all data stored within the GameGlobal class object
     *** This function is meant to be called when the user quits the current game instance
@@ -795,6 +800,12 @@ private:
     *** \param group_name The name of the event group to load
     **/
     void _LoadEvents(hoa_script::ReadScriptDescriptor &file, const std::string &group_name);
+
+    //! Loads every persistent scripts, used at the global initialization time.
+    bool _LoadGlobalScripts();
+
+    //! Unloads every persistent scripts by closing their files.
+    void _CloseGlobalScripts();
 }; // class GameGlobal : public hoa_utils::Singleton<GameGlobal>
 
 //-----------------------------------------------------------------------------

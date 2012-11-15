@@ -288,8 +288,6 @@ void InitializeEngine() throw(Exception)
     GUIManager = GUISystem::SingletonCreate();
     GlobalManager = GameGlobal::SingletonCreate();
 
-    // TODO: Open the user setting's file and apply those settings
-
     if(VideoManager->SingletonInitialize() == false) {
         throw Exception("ERROR: unable to initialize VideoManager", __FILE__, __LINE__, __FUNCTION__);
     }
@@ -314,9 +312,6 @@ void InitializeEngine() throw(Exception)
     }
     if(ModeManager->SingletonInitialize() == false) {
         throw Exception("ERROR: unable to initialize ModeManager", __FILE__, __LINE__, __FUNCTION__);
-    }
-    if(GlobalManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize GlobalManager", __FILE__, __LINE__, __FUNCTION__);
     }
 
     // Set the window icon
@@ -368,6 +363,12 @@ void InitializeEngine() throw(Exception)
     if(GUIManager->SingletonInitialize() == false) {
         throw Exception("ERROR: unable to initialize GUIManager", __FILE__, __LINE__, __FUNCTION__);
     }
+
+    // This loads the game global script, once everything is ready,
+    // and will permit to load skills, items and other translatable strings
+    // using the correct settings language.
+    if(!GlobalManager->SingletonInitialize())
+        throw Exception("ERROR: unable to initialize GlobalManager", __FILE__, __LINE__, __FUNCTION__);
 
     SystemManager->InitializeTimers();
 } // void InitializeEngine()

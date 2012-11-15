@@ -303,7 +303,7 @@ void Reinitl10n()
 }
 
 
-void SystemEngine::SetLanguage(std::string lang)
+void SystemEngine::SetLanguage(const std::string& lang)
 {
     Reinitl10n();
 
