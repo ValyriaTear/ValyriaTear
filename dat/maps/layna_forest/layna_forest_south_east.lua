@@ -396,6 +396,7 @@ function _CreateCharacters()
 	hero = CreateSprite(Map, "Bronann", 40, 4);
 	hero:SetDirection(hoa_map.MapMode.SOUTH);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    hero:SetCollisionMask(hoa_map.MapMode.NO_COLLISION); -- DEV
 
     -- Load previous save point data
     local x_position = GlobalManager:GetSaveLocationX();
@@ -411,7 +412,7 @@ function _CreateCharacters()
 		hero:SetPosition(4, 54);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
 		hero:SetDirection(hoa_map.MapMode.SOUTH);
-		hero:SetPosition(4, 54); -- TODO
+		hero:SetPosition(15, 43);
 	end
 
 	Map:AddGroundObject(hero);
@@ -784,7 +785,56 @@ function _CreateObjects()
         { "Tree Small5", -1, 73 },
         { "Tree Small3", -2, 70 },
         { "Tree Small6", 2, 68 },
-        { "Tree Small3", 1, 64 }
+        { "Tree Small3", 1, 64 },
+
+        -- Starting inner part
+        { "Tree Small4", 4, 43 },
+        { "Tree Small3", 7, 41 },
+        { "Tree Small6", 11, 40 },
+        { "Tree Small3", 12, 36 },
+        { "Tree Small4", 16, 32 },
+        { "Tree Small5", 19, 29 },
+        { "Tree Small3", 22, 26 },
+        { "Tree Small5", 21, 22 },
+        { "Tree Small3", 25, 19 },
+        { "Tree Small6", 22, 16 },
+        { "Tree Small3", 24, 14 },
+        { "Tree Small4", 25, 11 },
+        { "Tree Small4", 27, 8 },
+        { "Tree Small4", 30, 5 },
+        { "Tree Little4", 16, 35 },
+        { "Tree Tiny2", 14, 38 },
+
+        -- Left part - final passage
+        { "Tree Small3", 0, 32 },
+        { "Tree Small5", 2, 29 },
+        { "Tree Small3", -1, 26 },
+        { "Tree Small6", 1, 23 },
+        { "Tree Small4", 2, 20 },
+        { "Tree Small3", 3, 17 },
+        { "Tree Small3", -1, 15 },
+        { "Tree Small4", 1, 12 },
+        { "Tree Small4", 0, 9 },
+        { "Tree Small4", 1, 7 },
+        { "Tree Small4", 0, 4 },
+        { "Tree Small4", -1, 1 },
+
+        -- Upper part of final passage
+        { "Tree Small4", 6, 3 },
+        { "Tree Small4", 9, 1 },
+        { "Tree Small4", 16, 3 },
+        { "Tree Small4", 19, 2 },
+        { "Tree Small4", 21, 1 },
+        { "Tree Small4", 24, 2 },
+        { "Tree Little3", 9, 5 },
+        { "Tree Tiny3", 20, 4 },
+        { "Tree Small4", 16, 8 },
+        { "Tree Small4", 7, 11 },
+        { "Tree Little3", 6, 15.2 },
+        { "Tree Little3", 20, 10 },
+        { "Tree Tiny1", 9, 20.2 },
+        { "Tree Little2", 18, 15.4 },
+        { "Tree Small5", 6, 24 },
     }
 
 	-- Loads the trees according to the array
