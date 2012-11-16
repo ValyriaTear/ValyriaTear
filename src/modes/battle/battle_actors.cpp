@@ -460,7 +460,7 @@ void BattleActor::SetAgility(uint32 agility)
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 }
 
-uint32 BattleActor::TotalPhysicalDefense()
+uint32 BattleActor::GetAverageDefense()
 {
     uint32 phys_defense = 0;
 
@@ -471,7 +471,7 @@ uint32 BattleActor::TotalPhysicalDefense()
     return phys_defense;
 }
 
-uint32 BattleActor::TotalMetaphysicalDefense()
+uint32 BattleActor::GetAverageMagicalDefense()
 {
     uint32 meta_defense = 0;
 
@@ -482,7 +482,7 @@ uint32 BattleActor::TotalMetaphysicalDefense()
     return meta_defense;
 }
 
-float BattleActor::TotalEvadeRating()
+float BattleActor::GetAverageEvadeRating()
 {
     float evade = 0.0f;
 

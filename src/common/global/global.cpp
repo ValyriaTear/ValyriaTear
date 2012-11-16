@@ -91,6 +91,10 @@ GameGlobal::~GameGlobal()
 
     ClearAllData();
 
+    _CloseGlobalScripts();
+} // GameGlobal::~GameGlobal()
+
+void GameGlobal::_CloseGlobalScripts() {
     // Close all persistent script files
     _global_script.CloseFile();
 
@@ -130,9 +134,9 @@ GameGlobal::~GameGlobal()
     _map_sprites_script.CloseFile();
     _map_objects_script.CloseFile();
     _map_treasures_script.CloseFile();
-} // GameGlobal::~GameGlobal()
+}
 
-bool GameGlobal::SingletonInitialize()
+bool GameGlobal::_LoadGlobalScripts()
 {
     // Open up the persistent script files
     if(_global_script.OpenFile("dat/global.lua") == false) {
@@ -202,7 +206,7 @@ bool GameGlobal::SingletonInitialize()
         return false;
 
     return true;
-} // bool GameGlobal::SingletonInitialize()
+}
 
 void GameGlobal::ClearAllData()
 {

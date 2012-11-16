@@ -147,10 +147,6 @@ MapMode::MapMode(const std::string &filename) :
 
 MapMode::~MapMode()
 {
-    for(uint32 i = 0; i < _enemies.size(); ++i)
-        delete(_enemies[i]);
-    _enemies.clear();
-
     delete(_tile_supervisor);
     delete(_object_supervisor);
     delete(_event_supervisor);
@@ -216,8 +212,8 @@ void MapMode::Update()
     _dialogue_icon.Update();
 
     // Call the map script's update function
-    if(_update_function->is_valid())
-        ScriptCallFunction<void>(*_update_function);
+    if(_update_function.is_valid())
+        ScriptCallFunction<void>(_update_function);
 
     // Update all animated tile images
     _tile_supervisor->Update();
@@ -263,8 +259,8 @@ void MapMode::Draw()
 
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    if(_draw_function->is_valid())
-        ScriptCallFunction<void>(*_draw_function);
+    if(_draw_function.is_valid())
+        ScriptCallFunction<void>(_draw_function);
     else
         _DrawMapLayers();
 
@@ -423,15 +419,7 @@ void MapMode::AddLight(const std::string &main_flare_filename,
     _object_supervisor->_lights.push_back(light);
 }
 
-bool MapMode::IsEnemyLoaded(uint32 id) const
-{
-    for(uint32 i = 0; i < _enemies.size(); i++) {
-        if(_enemies[i]->GetID() == id) {
-            return true;
-        }
-    }
-    return false;
-}
+
 
 void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
 {
@@ -538,24 +526,14 @@ bool MapMode::_Load()
     if(!AudioManager->LoadMusic(_music_filename, this))
         PRINT_WARNING << "Failed to load map music: " << _music_filename << std::endl;
 
-
-    // Create and store all enemies that may appear on this map
-    std::vector<int32> enemy_ids;
-    _map_script.ReadIntVector("enemy_ids", enemy_ids);
-    for(uint32 i = 0; i < enemy_ids.size(); i++) {
-        _enemies.push_back(new GlobalEnemy(enemy_ids[i]));
-    }
-
     // Call the map script's custom load function and get a reference to all other script function pointers
-    // We use a newly allocated pointer to avoid a memory corruption due to luabind's garbage collector.
-    ScriptObject *map_table = new ScriptObject(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
-    ScriptObject *function = new ScriptObject();
-    *function = (*map_table)["Load"];
+    ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
+    ScriptObject function = map_table["Load"];
 
     bool loading_succeeded = true;
-    if(function->is_valid()) {
+    if(function.is_valid()) {
         try {
-            ScriptCallFunction<void>(*function, this);
+            ScriptCallFunction<void>(function, this);
         } catch(const luabind::error &e) {
             ScriptManager->HandleLuaError(e);
             loading_succeeded = false;
@@ -575,10 +553,8 @@ bool MapMode::_Load()
         return false;
     }
 
-    _update_function = new ScriptObject();
-    *_update_function = _map_script.ReadFunctionPointer("Update");
-    _draw_function = new ScriptObject();
-    *_draw_function = _map_script.ReadFunctionPointer("Draw");
+    _update_function = _map_script.ReadFunctionPointer("Update");
+    _draw_function = _map_script.ReadFunctionPointer("Draw");
 
     // ---------- (6) Prepare all sprites with dialogue
     // This is done at this stage because the map script's load function creates the sprite and dialogue objects. Only after

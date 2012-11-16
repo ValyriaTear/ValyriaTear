@@ -508,10 +508,6 @@ void EnemyZone::Update()
         _spawn_timer.Run();
         _enemies[index]->ChangeStateSpawning();
         ++_active_enemies;
-
-        // Indicates that a spawn was used.
-        if (_spawns_left > 0)
-            --_spawns_left;
     } else {
         PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
                       << " tries. Check the enemy zones of map:"

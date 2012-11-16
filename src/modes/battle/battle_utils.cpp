@@ -63,7 +63,7 @@ bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
     if(IsTargetPoint(target->GetType()) == true) {
         evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
     } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->TotalEvadeRating();
+        evasion = target->GetActor()->GetAverageEvadeRating();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return false;
@@ -105,7 +105,7 @@ bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
     if(IsTargetPoint(target->GetType()) == true) {
         evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
     } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->TotalEvadeRating();
+        evasion = target->GetActor()->GetAverageEvadeRating();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return false;
@@ -178,7 +178,7 @@ uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target,
     if(IsTargetPoint(target->GetType()) == true) {
         total_phys_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalPhysicalDefense();
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_phys_def = target->GetActor()->TotalPhysicalDefense();
+        total_phys_def = target->GetActor()->GetAverageDefense();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;
@@ -249,7 +249,7 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
     if(IsTargetPoint(target->GetType()) == true) {
         total_phys_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalPhysicalDefense();
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_phys_def = target->GetActor()->TotalPhysicalDefense();
+        total_phys_def = target->GetActor()->GetAverageDefense();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;
@@ -330,7 +330,7 @@ uint32 CalculateMetaphysicalDamageAdder(BattleActor *attacker, BattleTarget *tar
     if(IsTargetPoint(target->GetType()) == true) {
         total_meta_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMetaphysicalDefense();
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_meta_def = target->GetActor()->TotalMetaphysicalDefense();
+        total_meta_def = target->GetActor()->GetAverageMagicalDefense();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;
@@ -402,7 +402,7 @@ uint32 CalculateMetaphysicalDamageMultiplier(BattleActor *attacker, BattleTarget
     if(IsTargetPoint(target->GetType()) == true) {
         total_meta_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMetaphysicalDefense();
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_meta_def = target->GetActor()->TotalMetaphysicalDefense();
+        total_meta_def = target->GetActor()->GetAverageMagicalDefense();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;

@@ -92,17 +92,15 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
         return;
     }
 
-    _init_function = new ScriptObject();
-    *_init_function = anim_script.ReadFunctionPointer("Initialize");
+    _init_function = anim_script.ReadFunctionPointer("Initialize");
 
-    if(!_init_function->is_valid()) {
+    if(!_init_function.is_valid()) {
         anim_script.CloseFile();
         return;
     }
 
     // Attempt to load a possible update function.
-    _update_function = new ScriptObject();
-    *_update_function = anim_script.ReadFunctionPointer("Update");
+    _update_function = anim_script.ReadFunctionPointer("Update");
     _is_scripted = true;
     anim_script.CloseFile();
 }
@@ -110,7 +108,7 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
 void SkillAction::_InitAnimationScript()
 {
     try {
-        ScriptCallFunction<void>(*_init_function, _actor, _target, _skill);
+        ScriptCallFunction<void>(_init_function, _actor, _target, _skill);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         // Fall back to hard-coded mode
@@ -182,11 +180,11 @@ bool SkillAction::Execute()
 bool SkillAction::Update()
 {
     // When there is no update function, the animation is done.
-    if(!_update_function->is_valid())
+    if(!_update_function.is_valid())
         return true;
 
     try {
-        return ScriptCallFunction<bool>(*_update_function);
+        return ScriptCallFunction<bool>(_update_function);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         return true;
@@ -268,14 +266,14 @@ bool ItemAction::Execute()
     // Note that the battle item is already removed from the item list at that
     // step.
 
-    ScriptObject *script_function = _item->GetItem().GetBattleUseFunction();
+    const ScriptObject &script_function = _item->GetItem().GetBattleUseFunction();
     bool ret = false;
-    if(!script_function || !script_function->is_valid()) {
+    if(!script_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
     }
 
     try {
-        ret = ScriptCallFunction<bool>(*script_function, _actor, _target);
+        ret = ScriptCallFunction<bool>(script_function, _actor, _target);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         ret = false;

@@ -133,10 +133,8 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
     _warmup_time = script_file.ReadUInt("warmup_time");
     _cooldown_time = script_file.ReadUInt("cooldown_time");
 
-    _battle_use_function = new ScriptObject();
-    *_battle_use_function = script_file.ReadFunctionPointer("BattleUse");
-    _field_use_function = new ScriptObject();
-    *_field_use_function = script_file.ReadFunctionPointer("FieldUse");
+    _battle_use_function = script_file.ReadFunctionPointer("BattleUse");
+    _field_use_function = script_file.ReadFunctionPointer("FieldUse");
 
     script_file.CloseTable();
     if(script_file.IsErrorDetected()) {

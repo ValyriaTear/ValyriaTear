@@ -164,9 +164,8 @@ public:
         _filename = file_name;
     }
 
-    ~WavFile() {
-        if(_file_input) _file_input.close();
-    }
+    ~WavFile()
+    { if (_file_input.is_open()) _file_input.close(); }
 
     //! \brief Inherited functions from AudioInput class
     //@{

@@ -100,8 +100,9 @@ Editor::~Editor()
 
     delete _undo_stack;
 
-    ScriptEngine::SingletonDestroy();
     VideoEngine::SingletonDestroy();
+    // Do it last since all luabind objects must be freed before closing the lua state.
+    ScriptEngine::SingletonDestroy();
 }
 
 

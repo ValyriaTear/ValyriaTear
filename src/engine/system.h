@@ -430,14 +430,14 @@ public:
     /** \brief Used to determine what language the game is running in.
     *** \return The language that the game is running in.
     **/
-    std::string GetLanguage() const {
+    const std::string& GetLanguage() const {
         return _language;
     }
 
     /** \brief Sets the language that the game should use.
     *** \param lang A two-character string representing the language to execute the game in
     **/
-    void SetLanguage(std::string lang);
+    void SetLanguage(const std::string& lang);
 
     /** \brief Determines whether the user is done with the game.
     *** \return False if the user would like to exit the game.

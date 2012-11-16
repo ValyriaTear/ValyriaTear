@@ -910,6 +910,9 @@ void BootMode::_OnLanguageSelect()
 
     // Reload all the translatable text in the boot menus.
     _ReloadTranslatableMenus();
+
+    // Reloads the global scripts to update their inner translatable strings
+    GlobalManager->ReloadGlobalScripts();
 }
 
 

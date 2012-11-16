@@ -150,12 +150,6 @@ public:
     std::vector<hoa_video::AnimatedImage> active_save_point_animations;
     std::vector<hoa_video::AnimatedImage> inactive_save_point_animations;
 
-    /** \brief Checks if a GlobalEnemy with the specified id is already loaded in the MapMode#_enemies container
-    *** \param id The id of the enemy to find
-    *** \return True if the enemy is loaded
-    **/
-    bool IsEnemyLoaded(uint32 id) const;
-
     //! \brief Class member accessor functions
     //@{
     static MapMode *CurrentInstance() {
@@ -317,16 +311,14 @@ private:
     *** This function implements any custom update code that the specific map needs to be performed.
     *** The most common operation that this script function performs is to check for trigger conditions
     *** that cause map events to occur
-    *** Do not delete it. Luabind's garbage collector will handle it.
     **/
-    ScriptObject *_update_function;
+    ScriptObject _update_function;
 
     /** \brief Script function which assists with the MapMode#Draw method
     *** This function allows for drawing of custom map visuals. Usually this includes lighting or
     *** other visual effects for the map environment.
-    *** Do not delete it. Luabind's garbage collector will handle it.
     **/
-    ScriptObject *_draw_function;
+    ScriptObject _draw_function;
 
     // ----- Members : Properties and State -----
 

@@ -211,12 +211,14 @@ public:
     }
 
     //! \brief Returns true if the item can be used in battle
-    bool IsUsableInBattle()
-    { return (_battle_use_function && _battle_use_function->is_valid()); }
+    bool IsUsableInBattle() {
+        return _battle_use_function.is_valid();
+    }
 
     //! \brief Returns true if the item can be used in the field
-    bool IsUsableInField()
-    { return (_field_use_function && _field_use_function->is_valid()); }
+    bool IsUsableInField() {
+        return _field_use_function.is_valid();
+    }
 
     //! \name Class Member Access Functions
     //@{
@@ -227,14 +229,16 @@ public:
     /** \brief Returns a pointer to the ScriptObject of the battle use function
     *** \note This function will return NULL if the skill is not usable in battle
     **/
-    ScriptObject* GetBattleUseFunction() const
-    { return _battle_use_function; }
+    const ScriptObject &GetBattleUseFunction() const {
+        return _battle_use_function;
+    }
 
     /** \brief Returns a pointer to the ScriptObject of the field use function
     *** \note This function will return NULL if the skill is not usable in the field
     **/
-    ScriptObject* GetFieldUseFunction() const
-    { return _field_use_function; }
+    const ScriptObject &GetFieldUseFunction() const {
+        return _field_use_function;
+    }
 
     /** \brief Returns Warmup time needed before using this item in battles.
     **/
@@ -253,13 +257,11 @@ private:
     //! \brief The type of target for the item
     GLOBAL_TARGET _target_type;
 
-    //! \brief A pointer to the script function that performs the item's effect while in battle
-    //! Do not delete it. Luabind's garbage collector will handle it.
-    ScriptObject *_battle_use_function;
+    //! \brief A reference to the script function that performs the item's effect while in battle
+    ScriptObject _battle_use_function;
 
-    //! \brief A pointer to the script function that performs the item's effect while in a menu
-    //! Do not delete it. Luabind's garbage collector will handle it.
-    ScriptObject *_field_use_function;
+    //! \brief A reference to the script function that performs the item's effect while in a menu
+    ScriptObject _field_use_function;
 
     //! \brief The warmup time in milliseconds needed before using this item in battles.
     uint32 _warmup_time;
