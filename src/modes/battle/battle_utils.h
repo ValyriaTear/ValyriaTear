@@ -92,7 +92,7 @@ enum BATTLE_STATE {
 enum ACTOR_STATE {
     ACTOR_STATE_INVALID       = -1,
     ACTOR_STATE_IDLE          =  0, //!< Actor is recovering stamina so they can execute another action
-    ACTOR_STATE_COMMAND       =  1, //!< Actor is finished with the idle state but has not yet selected an action to execute
+    ACTOR_STATE_COMMAND       =  1, //!< Actor is finished with the idle state and needs to select an action to execute
     ACTOR_STATE_WARM_UP       =  2, //!< Actor has selected an action and is preparing to execute it
     ACTOR_STATE_READY         =  3, //!< Actor is prepared to execute action and is waiting their turn to act
     ACTOR_STATE_ACTING        =  4, //!< Actor is in the process of executing their selected action
