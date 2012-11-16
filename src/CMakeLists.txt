@@ -14,7 +14,7 @@ FIND_PACKAGE(Boost 1.48.0 REQUIRED)
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
     # Help getting compilation warnings
-    SET(CMAKE_CXX_FLAGS "-Wall -Wextra")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
     IF (WIN32)
         # This includes enough debug information to get something useful
         # from Dr. Mingw while keeping binary size down. Almost useless
