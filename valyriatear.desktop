@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Version=1.0
+Name=Valyria Tear
+Comment=A 2D RPG
+Exec=valyriatear
+StartupNotify=false
+Terminal=false
+Type=Application
+Icon=valyriatear
+Categories=Game;RolePlaying;
