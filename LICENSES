@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.11.08
+Last update: 2012.11.15
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -334,6 +334,14 @@ img/sprites/map/objects/bench2.lua                              GPLv2           
 img/sprites/map/objects/bench2.png                              GPLv2                    Allacrost
 img/sprites/map/objects/box1.lua                                GPLv2                    Bertram
 img/sprites/map/objects/box1.png                                GPLv2                    Allacrost
+img/sprites/map/objects/bush1.lua                               GPLv2                    Bertram
+img/sprites/map/objects/bush1.png                               CC by SA 3.0             Zabin (OGA)
+img/sprites/map/objects/bush2.lua                               GPLv2                    Bertram
+img/sprites/map/objects/bush2.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/bush3.lua                               GPLv2                    Bertram
+img/sprites/map/objects/bush3.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/bush4.lua                               GPLv2                    Bertram
+img/sprites/map/objects/bush4.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/cat1.lua                                GPLv2                    Bertram
 img/sprites/map/objects/cat1.png                                CC By SA 3.0             Strawheart (OGA)  http://mtsids.com/
 img/sprites/map/objects/chair1.lua                              GPLv2                    Bertram
@@ -366,7 +374,6 @@ img/sprites/map/objects/rock3.lua                               GPLv2           
 img/sprites/map/objects/rock3.png                               CC by 3.0                Daniel Cook
 img/sprites/map/objects/stone_sign1.lua                         GPLv2                    Bertram
 img/sprites/map/objects/stone_sign1.png                         CC by 3.0                Daniel Cook + Small edit from Bertram
-
 img/sprites/map/objects/table1.lua                              GPLv2                    Bertram
 img/sprites/map/objects/table1.png                              GPLv2                    Allacrost
 img/sprites/map/objects/table2.lua                              GPLv2                    Bertram
@@ -375,6 +382,14 @@ img/sprites/map/objects/tree_big1.lua                           GPLv2           
 img/sprites/map/objects/tree_big1.png                           GPLv2                    Allacrost
 img/sprites/map/objects/tree_big2.lua                           GPLv2                    Bertram
 img/sprites/map/objects/tree_big2.png                           GPLv2                    Allacrost
+img/sprites/map/objects/tree_little1.lua                        GPLv2                    Bertram
+img/sprites/map/objects/tree_little1.png                        CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_little2.lua                        GPLv2                    Bertram
+img/sprites/map/objects/tree_little2.png                        CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_little3.lua                        GPLv2                    Bertram
+img/sprites/map/objects/tree_little3.png                        CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_little4.lua                        GPLv2                    Bertram
+img/sprites/map/objects/tree_little4.png                        CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/tree_small1.lua                         GPLv2                    Bertram
 img/sprites/map/objects/tree_small1.png                         GPLv2                    Allacrost
 img/sprites/map/objects/tree_small2.lua                         GPLv2                    Bertram
@@ -387,6 +402,14 @@ img/sprites/map/objects/tree_small5.lua                         GPLv2           
 img/sprites/map/objects/tree_small5.png                         CC by 3.0                Jetrel (OGA) + Variation from Bertram
 img/sprites/map/objects/tree_small6.lua                         GPLv2                    Bertram
 img/sprites/map/objects/tree_small6.png                         CC by 3.0                Jetrel (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_tiny1.lua                          GPLv2                    Bertram
+img/sprites/map/objects/tree_tiny1.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_tiny2.lua                          GPLv2                    Bertram
+img/sprites/map/objects/tree_tiny2.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_tiny3.lua                          GPLv2                    Bertram
+img/sprites/map/objects/tree_tiny3.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_tiny4.lua                          GPLv2                    Bertram
+img/sprites/map/objects/tree_tiny4.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/vase1.lua                               GPLv2                    Bertram
 img/sprites/map/objects/vase1.png                               GPLv2                    Allacrost
 img/sprites/map/objects/wooden_table_big.lua                    GPLv2                    Bertram

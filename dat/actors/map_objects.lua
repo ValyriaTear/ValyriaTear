@@ -64,6 +64,38 @@ objects["Bread1"] = {
 	img_height = 2.0
 }
 
+objects["Bush1"] = {
+	animation_filename = "img/sprites/map/objects/bush1.lua",
+	coll_half_width = 1.9,
+	coll_height = 3.8,
+	img_half_width = 2.0,
+	img_height = 4.0
+}
+
+objects["Bush2"] = {
+	animation_filename = "img/sprites/map/objects/bush2.lua",
+	coll_half_width = 1.9,
+	coll_height = 3.8,
+	img_half_width = 2.0,
+	img_height = 4.0
+}
+
+objects["Bush3"] = {
+	animation_filename = "img/sprites/map/objects/bush3.lua",
+	coll_half_width = 1.9,
+	coll_height = 3.8,
+	img_half_width = 2.0,
+	img_height = 4.0
+}
+
+objects["Bush4"] = {
+	animation_filename = "img/sprites/map/objects/bush4.lua",
+	coll_half_width = 1.9,
+	coll_height = 3.8,
+	img_half_width = 2.0,
+	img_height = 4.0
+}
+
 objects["Candle1"] = {
 	animation_filename = "img/sprites/map/objects/candle1.lua",
 	coll_half_width = 1.0,
@@ -336,6 +368,38 @@ objects["Tree Big2"] = {
 	img_height = 6.8
 }
 
+objects["Tree Little1"] = {
+	animation_filename = "img/sprites/map/objects/tree_little1.lua",
+	coll_half_width = 1.5,
+	coll_height = 2.8,
+	img_half_width = 2.0,
+	img_height = 6.0
+}
+
+objects["Tree Little2"] = {
+	animation_filename = "img/sprites/map/objects/tree_little2.lua",
+	coll_half_width = 1.5,
+	coll_height = 2.8,
+	img_half_width = 2.0,
+	img_height = 6.0
+}
+
+objects["Tree Little3"] = {
+	animation_filename = "img/sprites/map/objects/tree_little3.lua",
+	coll_half_width = 1.5,
+	coll_height = 2.8,
+	img_half_width = 2.0,
+	img_height = 6.0
+}
+
+objects["Tree Little4"] = {
+	animation_filename = "img/sprites/map/objects/tree_little4.lua",
+	coll_half_width = 1.5,
+	coll_height = 2.8,
+	img_half_width = 2.0,
+	img_height = 6.0
+}
+
 objects["Tree Small1"] = {
 	animation_filename = "img/sprites/map/objects/tree_small1.lua",
 	coll_half_width = 1.75,
@@ -382,6 +446,38 @@ objects["Tree Small6"] = {
 	coll_height = 2.5,
 	img_half_width = 3.5,
 	img_height = 8.0
+}
+
+objects["Tree Tiny1"] = {
+	animation_filename = "img/sprites/map/objects/tree_tiny1.lua",
+	coll_half_width = 1.6,
+	coll_height = 1.7,
+	img_half_width = 2.0,
+	img_height = 4.0
+}
+
+objects["Tree Tiny2"] = {
+	animation_filename = "img/sprites/map/objects/tree_tiny2.lua",
+	coll_half_width = 1.6,
+	coll_height = 1.7,
+	img_half_width = 2.0,
+	img_height = 4.0
+}
+
+objects["Tree Tiny3"] = {
+	animation_filename = "img/sprites/map/objects/tree_tiny3.lua",
+	coll_half_width = 1.6,
+	coll_height = 1.7,
+	img_half_width = 2.0,
+	img_height = 4.0
+}
+
+objects["Tree Tiny4"] = {
+	animation_filename = "img/sprites/map/objects/tree_tiny4.lua",
+	coll_half_width = 1.6,
+	coll_height = 1.7,
+	img_half_width = 2.0,
+	img_height = 4.0
 }
 
 objects["Vase1"] = {
