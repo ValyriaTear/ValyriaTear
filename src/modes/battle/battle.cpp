@@ -277,7 +277,7 @@ BattleMode::BattleMode() :
     _actor_state_paused(false),
     _battle_type(BATTLE_TYPE_WAIT),
     _highest_agility(0),
-    _battle_type_time_factor(BATTLE_ACTIVE_FACTOR)
+    _battle_type_time_factor(BATTLE_WAIT_FACTOR)
 {
     IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << std::endl;
 
@@ -508,12 +508,10 @@ void BattleMode::Update()
         return;
     }
 
-    // If the battle is running in the "wait" setting, we need to pause the battle whenever any character reaches the
-    // command state to allow the player to enter a command for that character before resuming. We also want to make sure
-    // that the command menu is open whenever we find a character in the command state. If the command menu is not open, we
-    // forcibly open it and make the player choose a command for the character so that the battle may continue.
-    if(!_last_enemy_dying
-            && (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
+    // If the battle is running in the "wait" setting and a character reaches the command state, we want to open the
+    // command menu for that character. The battle will be paused until the player enters a command for all characters
+    // that are in command state.
+    if(!_last_enemy_dying && (_battle_type == BATTLE_TYPE_WAIT)) {
         for(uint32 i = 0; i < _character_actors.size(); i++) {
             if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
                 if(_state != BATTLE_STATE_COMMAND) {
@@ -634,22 +632,17 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         // Disable potential previous light effects
         VideoManager->DisableFadeEffect();
         GetEffectSupervisor().DisableEffects();
-
         break;
     case BATTLE_STATE_NORMAL:
-        // In case they were frozen because of a wait battle type
-        if(_battle_type == BATTLE_TYPE_WAIT)
-            _actor_state_paused = false;
+        // Resote the battle action in case they were paused
+        _actor_state_paused = false;
         break;
     case BATTLE_STATE_COMMAND:
         if(_command_supervisor->GetCommandCharacter() == NULL) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no character was selected when changing battle to the command state" << std::endl;
             ChangeState(BATTLE_STATE_NORMAL);
         }
-        // In case of a wait battle type, we need to pause the actions now
-        else if(_battle_type == BATTLE_TYPE_WAIT) {
-            _actor_state_paused = true;
-        }
+        // Note: For wait type battles, the action is only paused when a battle character enters the command state
         break;
     case BATTLE_STATE_VICTORY:
         // Official victory:
@@ -845,7 +838,7 @@ void BattleMode::_Initialize()
     // right to the command status.
     if(_battle_type == BATTLE_TYPE_WAIT)
         _battle_type_time_factor = BATTLE_WAIT_FACTOR;
-    // SEMI_ACTIVE battle type is a bit more dangerous as if the player is taking
+    // SENI_ACTIVE battle type is a bit more dangerous as if the player is taking
     // too much time to think, the enemies will have slightly more chances to hit.
     // Yet, the semi wait battles are far simpler than active ones, so we
     // can make them relatively faster.
