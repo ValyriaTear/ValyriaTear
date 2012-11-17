@@ -857,8 +857,11 @@ void SkillsWindow::Update()
 
     if(_skills_list.GetNumberOptions() > 0 && _skills_list.GetSelection() >= 0 && static_cast<int32>(_skills_list.GetNumberOptions()) > _skills_list.GetSelection()) {
         GlobalSkill *skill = _GetCurrentSkill();
-        std::string desc = MakeStandardString(skill->GetName()) + "\n\n" + MakeStandardString(skill->GetDescription());
-        _description.SetDisplayText(MakeUnicodeString(desc));
+
+        hoa_utils::ustring description = skill->GetName();
+        description += MakeUnicodeString("\n\n");
+        description += skill->GetDescription();
+        _description.SetDisplayText(description);
     }
 
 } // void SkillsWindow::Update()

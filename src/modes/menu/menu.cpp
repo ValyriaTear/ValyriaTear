@@ -1056,8 +1056,8 @@ void MenuMode::_DrawBottomMenu()
         os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
         os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-        std::string time = std::string("Time: ") + os_time.str();
-        VideoManager->Text()->Draw(MakeUnicodeString(time));
+        hoa_utils::ustring time_ustr = UTranslate("Time: ") + MakeUnicodeString(os_time.str());
+        VideoManager->Text()->Draw(time_ustr);
 
         // Display the current funds that the party has
         VideoManager->MoveRelative(0, 30);
