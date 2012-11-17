@@ -2448,7 +2448,8 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_center.lua:981
 msgid ""
 "The second thing is that the person in front of the battle line will lead "
-"the group in the forest. "
+"the group in the forest. By that I mean that the person on the top of the "
+"battle formation will actually appear, while the others will stay hidden."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center.lua:984

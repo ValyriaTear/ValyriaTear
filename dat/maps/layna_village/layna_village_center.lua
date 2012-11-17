@@ -978,8 +978,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "interrogation");
     text = hoa_system.Translate("Nevermind that, just do it.");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("The second thing is that the person in front of the battle line will lead the group in the forest. "..
-                                "By that I mean that the person on the top of the battle formation will actually appear, while the others will stay hidden.");
+    text = hoa_system.Translate("The second thing is that the person in front of the battle line will lead the group in the forest. By that I mean that the person on the top of the battle formation will actually appear, while the others will stay hidden.");
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("Hmm, right. I'm not sure that I fully get what you mean, but...");
     dialogue:AddLine(text, bronann);
