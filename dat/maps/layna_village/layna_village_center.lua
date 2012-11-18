@@ -440,16 +440,8 @@ function _CreateNPCs()
 	Map:AddGroundObject(olivia);
     -- Don't grant access to the forest so easily
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-        if (GlobalManager:DoesEventExist("story", "Quest2_started") == false) then
-            dialogue = hoa_map.SpriteDialogue();
-            text = hoa_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
-            dialogue:AddLineEmote(text, olivia, "exclamation");
-            text = hoa_system.Translate("Aww... Ok.");
-            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-            DialogueManager:AddDialogue(dialogue);
-            olivia:AddDialogueReference(dialogue);
-
-        elseif (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false) then
+        if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false
+            and GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
             dialogue = hoa_map.SpriteDialogue();
             text = hoa_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword...");
             dialogue:AddLineEmote(text, olivia, "exclamation");
@@ -457,6 +449,14 @@ function _CreateNPCs()
             dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
             text = hoa_system.Translate("(Hmm, maybe I should get a sword then.)");
             dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
+            DialogueManager:AddDialogue(dialogue);
+            olivia:AddDialogueReference(dialogue);
+        else
+            dialogue = hoa_map.SpriteDialogue();
+            text = hoa_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
+            dialogue:AddLineEmote(text, olivia, "exclamation");
+            text = hoa_system.Translate("Aww... Ok.");
+            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
             DialogueManager:AddDialogue(dialogue);
             olivia:AddDialogueReference(dialogue);
         end
