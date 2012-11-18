@@ -906,7 +906,8 @@ void MenuMode::_DrawBottomMenu()
 
             switch(_equip_window._equip_select.GetSelection()) {
             case EQUIP_WEAPON: {
-                GlobalWeapon *weapon = GlobalManager->GetInventoryWeapons()->at(_equip_window._equip_list.GetSelection());
+                int32 selection = _equip_window._equip_list.GetSelection();
+                GlobalWeapon *weapon = GlobalManager->GetInventoryWeapons()->at(_equip_window._equip_list_inv_index.at(selection));
 
                 equipment_name = weapon->GetName();
                 physical_attribute = weapon->GetPhysicalAttack();
@@ -921,7 +922,8 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_WEAPON
             case EQUIP_HEADGEAR: {
-                GlobalArmor *armor = GlobalManager->GetInventoryHeadArmor()->at(_equip_window._equip_list.GetSelection());
+                int32 selection = _equip_window._equip_list.GetSelection();
+                GlobalArmor *armor = GlobalManager->GetInventoryHeadArmor()->at(_equip_window._equip_list_inv_index.at(selection));
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -936,7 +938,8 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_HEADGEAR
             case EQUIP_BODYARMOR: {
-                GlobalArmor *armor = GlobalManager->GetInventoryTorsoArmor()->at(_equip_window._equip_list.GetSelection());
+                int32 selection = _equip_window._equip_list.GetSelection();
+                GlobalArmor *armor = GlobalManager->GetInventoryTorsoArmor()->at(_equip_window._equip_list_inv_index.at(selection));
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -950,7 +953,8 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_BODYARMOR
             case EQUIP_OFFHAND: {
-                GlobalArmor *armor = GlobalManager->GetInventoryArmArmor()->at(_equip_window._equip_list.GetSelection());
+                int32 selection = _equip_window._equip_list.GetSelection();
+                GlobalArmor *armor = GlobalManager->GetInventoryArmArmor()->at(_equip_window._equip_list_inv_index.at(selection));
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -964,7 +968,8 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_OFFHAND
             case EQUIP_LEGGINGS: {
-                GlobalArmor *armor = GlobalManager->GetInventoryLegArmor()->at(_equip_window._equip_list.GetSelection());
+                int32 selection = _equip_window._equip_list.GetSelection();
+                GlobalArmor *armor = GlobalManager->GetInventoryLegArmor()->at(_equip_window._equip_list_inv_index.at(selection));
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -987,17 +992,17 @@ void MenuMode::_DrawBottomMenu()
             VideoManager->Text()->Draw(equipment_name);
             VideoManager->MoveRelative(0, 20);
 
-            if(_equip_window._equip_select.GetSelection() == EQUIP_WEAPON)
+            if (_equip_window._equip_select.GetSelection() == EQUIP_WEAPON)
                 VideoManager->Text()->Draw(UTranslate("ATK:"));
             else
                 VideoManager->Text()->Draw(UTranslate("DEF:"));
             VideoManager->MoveRelative(0, 20);
             VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(physical_attribute)));
 
-            if(current_phys_attribute > 0 && physical_attribute - current_phys_attribute != 0) {
+            if (physical_attribute - current_phys_attribute != 0) {
                 std::string sign_start;
                 Color text_color;
-                if((int32)(physical_attribute - current_phys_attribute) > 0) {
+                if ((int32)(physical_attribute - current_phys_attribute) > 0) {
                     sign_start = "+";
                     text_color = Color::green;
                 } else {
@@ -1013,17 +1018,17 @@ void MenuMode::_DrawBottomMenu()
             }
             VideoManager->MoveRelative(0, 20);
 
-            if(_equip_window._equip_select.GetSelection() == EQUIP_WEAPON)
+            if (_equip_window._equip_select.GetSelection() == EQUIP_WEAPON)
                 VideoManager->Text()->Draw(UTranslate("M.ATK:"));
             else
                 VideoManager->Text()->Draw(UTranslate("M.DEF:"));
             VideoManager->MoveRelative(0, 20);
             VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(magical_attribute)));
 
-            if(current_mag_attribute > 0 && magical_attribute - current_mag_attribute != 0) {
+            if (magical_attribute - current_mag_attribute != 0) {
                 std::string sign_start;
                 Color text_color;
-                if((int32)(magical_attribute - current_mag_attribute) > 0) {
+                if ((int32)(magical_attribute - current_mag_attribute) > 0) {
                     sign_start = "+";
                     text_color = Color::green;
                 } else {
@@ -1077,3 +1082,4 @@ void MenuMode::_DrawItemListHeader()
 { }
 
 } // namespace hoa_menu
+
