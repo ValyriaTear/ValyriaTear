@@ -149,7 +149,7 @@ enemies[3] = {
 
 
 	base_stats = {
-		hit_points = 120,
+		hit_points = 160,
 		skill_points = 10,
 		experience_points = 120,
 		strength = 27,
@@ -272,7 +272,7 @@ enemies[5] = {
 		vigor = 10,
 		fortitude = 10,  -- base defense
 		protection = 10,
-		agility = 28,
+		agility = 18,
 		evade = 2.0,
 		experience_points = 60,
 		drunes = 80
@@ -314,7 +314,7 @@ enemies[6] = {
     sprite_height = 128,
 
     base_stats = {
-        hit_points = 130,
+        hit_points = 75,
         skill_points = 10,
         strength = 22,
         vigor = 20,
