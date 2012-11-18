@@ -906,8 +906,7 @@ void MenuMode::_DrawBottomMenu()
 
             switch(_equip_window._equip_select.GetSelection()) {
             case EQUIP_WEAPON: {
-                int32 selection = _equip_window._equip_list.GetSelection();
-                GlobalWeapon *weapon = GlobalManager->GetInventoryWeapons()->at(_equip_window._equip_list_inv_index.at(selection));
+                GlobalWeapon *weapon = GlobalManager->GetInventoryWeapons()->at(_equip_window._equip_list.GetSelection());
 
                 equipment_name = weapon->GetName();
                 physical_attribute = weapon->GetPhysicalAttack();
@@ -922,8 +921,7 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_WEAPON
             case EQUIP_HEADGEAR: {
-                int32 selection = _equip_window._equip_list.GetSelection();
-                GlobalArmor *armor = GlobalManager->GetInventoryHeadArmor()->at(_equip_window._equip_list_inv_index.at(selection));
+                GlobalArmor *armor = GlobalManager->GetInventoryHeadArmor()->at(_equip_window._equip_list.GetSelection());
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -938,8 +936,7 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_HEADGEAR
             case EQUIP_BODYARMOR: {
-                int32 selection = _equip_window._equip_list.GetSelection();
-                GlobalArmor *armor = GlobalManager->GetInventoryTorsoArmor()->at(_equip_window._equip_list_inv_index.at(selection));
+                GlobalArmor *armor = GlobalManager->GetInventoryTorsoArmor()->at(_equip_window._equip_list.GetSelection());
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -953,8 +950,7 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_BODYARMOR
             case EQUIP_OFFHAND: {
-                int32 selection = _equip_window._equip_list.GetSelection();
-                GlobalArmor *armor = GlobalManager->GetInventoryArmArmor()->at(_equip_window._equip_list_inv_index.at(selection));
+                GlobalArmor *armor = GlobalManager->GetInventoryArmArmor()->at(_equip_window._equip_list.GetSelection());
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -968,8 +964,7 @@ void MenuMode::_DrawBottomMenu()
                 break;
             } // case EQUIP_OFFHAND
             case EQUIP_LEGGINGS: {
-                int32 selection = _equip_window._equip_list.GetSelection();
-                GlobalArmor *armor = GlobalManager->GetInventoryLegArmor()->at(_equip_window._equip_list_inv_index.at(selection));
+                GlobalArmor *armor = GlobalManager->GetInventoryLegArmor()->at(_equip_window._equip_list.GetSelection());
 
                 equipment_name = armor->GetName();
                 physical_attribute = armor->GetPhysicalDefense();
@@ -999,7 +994,7 @@ void MenuMode::_DrawBottomMenu()
             VideoManager->MoveRelative(0, 20);
             VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(physical_attribute)));
 
-            if(physical_attribute - current_phys_attribute != 0) {
+            if(current_phys_attribute > 0 && physical_attribute - current_phys_attribute != 0) {
                 std::string sign_start;
                 Color text_color;
                 if((int32)(physical_attribute - current_phys_attribute) > 0) {
@@ -1025,7 +1020,7 @@ void MenuMode::_DrawBottomMenu()
             VideoManager->MoveRelative(0, 20);
             VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(magical_attribute)));
 
-            if( magical_attribute - current_mag_attribute != 0) {
+            if(current_mag_attribute > 0 && magical_attribute - current_mag_attribute != 0) {
                 std::string sign_start;
                 Color text_color;
                 if((int32)(magical_attribute - current_mag_attribute) > 0) {
@@ -1061,8 +1056,8 @@ void MenuMode::_DrawBottomMenu()
         os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
         os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-        std::string time = std::string("Time: ") + os_time.str();
-        VideoManager->Text()->Draw(MakeUnicodeString(time));
+        hoa_utils::ustring time_ustr = UTranslate("Time: ") + MakeUnicodeString(os_time.str());
+        VideoManager->Text()->Draw(time_ustr);
 
         // Display the current funds that the party has
         VideoManager->MoveRelative(0, 30);
