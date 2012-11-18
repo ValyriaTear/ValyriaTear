@@ -60,3 +60,7 @@ doc/SOURCE/html/*
 
 # files created by qmake
 *.cxx
+
+#valyriatear win32 depends
+valyriatear-win32-depends
+valyriatear-win32-depends/*
