@@ -61,6 +61,13 @@ doc/SOURCE/html/*
 # files created by qmake
 *.cxx
 
+
+#map editor
+Map_Editor.layout
+
+#debug / runtime folders
+ValyriaTear-Debug
+
 #valyriatear win32 depends
 valyriatear-win32-depends
 valyriatear-win32-depends/*
