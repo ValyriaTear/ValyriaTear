@@ -420,6 +420,7 @@ void BattleMode::Update()
             _battle_objects.push_back(*it);
             ++it;
         } else {
+            delete (*it);
             it = _battle_particle_effects.erase(it);
         }
     }
