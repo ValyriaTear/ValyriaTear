@@ -870,24 +870,24 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 {
     GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
 
-    std::vector<GlobalSkill *> *menu_skills = new std::vector<GlobalSkill *>();
-    std::vector<GlobalSkill *> *battle_skills = new std::vector<GlobalSkill *>();
-    std::vector<GlobalSkill *> *all_skills = new std::vector<GlobalSkill *>();
+    std::vector<GlobalSkill *> menu_skills;
+    std::vector<GlobalSkill *> battle_skills;
+    std::vector<GlobalSkill *> all_skills;
 
-    _BuildMenuBattleSkillLists(ch->GetAttackSkills(), menu_skills, battle_skills, all_skills);
-    _BuildMenuBattleSkillLists(ch->GetDefenseSkills(), menu_skills, battle_skills, all_skills);
-    _BuildMenuBattleSkillLists(ch->GetSupportSkills(), menu_skills, battle_skills, all_skills);
+    _BuildMenuBattleSkillLists(ch->GetAttackSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetDefenseSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetSupportSkills(), &menu_skills, &battle_skills, &all_skills);
 
     GlobalSkill *skill;
     switch(_skills_categories.GetSelection()) {
     case SKILL_ALL:
-        skill = all_skills->at(_skills_list.GetSelection());
+        skill = all_skills.at(_skills_list.GetSelection());
         break;
     case SKILL_BATTLE:
-        skill = battle_skills->at(_skills_list.GetSelection());
+        skill = battle_skills.at(_skills_list.GetSelection());
         break;
     case SKILL_FIELD:
-        skill = menu_skills->at(_skills_list.GetSelection());
+        skill = menu_skills.at(_skills_list.GetSelection());
         break;
     default:
         skill = NULL;
@@ -906,13 +906,13 @@ void SkillsWindow::_UpdateSkillList()
     std::vector<ustring> options;
     std::vector<ustring> cost_options;
 
-    std::vector<GlobalSkill *> *menu_skills = new std::vector<GlobalSkill *>();
-    std::vector<GlobalSkill *> *battle_skills = new std::vector<GlobalSkill *>();
-    std::vector<GlobalSkill *> *all_skills = new std::vector<GlobalSkill *>();
+    std::vector<GlobalSkill *> menu_skills;
+    std::vector<GlobalSkill *> battle_skills;
+    std::vector<GlobalSkill *> all_skills;
 
-    _BuildMenuBattleSkillLists(ch->GetAttackSkills(), menu_skills, battle_skills, all_skills);
-    _BuildMenuBattleSkillLists(ch->GetDefenseSkills(), menu_skills, battle_skills, all_skills);
-    _BuildMenuBattleSkillLists(ch->GetSupportSkills(), menu_skills, battle_skills, all_skills);
+    _BuildMenuBattleSkillLists(ch->GetAttackSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetDefenseSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetSupportSkills(), &menu_skills, &battle_skills, &all_skills);
 
     std::vector<GlobalSkill *>::iterator i;
 
@@ -921,7 +921,7 @@ void SkillsWindow::_UpdateSkillList()
 // 			_skills_list.SetSize(1, all_skills->size());
 // 			_skill_cost_list.SetSize(1, all_skills->size());
 
-        for(i = all_skills->begin(); i != all_skills->end(); ++i) {
+        for(i = all_skills.begin(); i != all_skills.end(); ++i) {
             options.push_back((*i)->GetName());
             std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
             cost_options.push_back(MakeUnicodeString(cost));
@@ -931,7 +931,7 @@ void SkillsWindow::_UpdateSkillList()
 // 			_skills_list.SetSize(1,battle_skills->size());
 // 			_skill_cost_list.SetSize(1, battle_skills->size());
 
-        for(i = battle_skills->begin(); i != battle_skills->end(); ++i) {
+        for(i = battle_skills.begin(); i != battle_skills.end(); ++i) {
             options.push_back((*i)->GetName());
             std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
             cost_options.push_back(MakeUnicodeString(cost));
@@ -941,7 +941,7 @@ void SkillsWindow::_UpdateSkillList()
 // 			_skills_list.SetSize(1, menu_skills->size());
 // 			_skill_cost_list.SetSize(1, menu_skills->size());
 
-        for(i = menu_skills->begin(); i != menu_skills->end(); ++i) {
+        for(i = menu_skills.begin(); i != menu_skills.end(); ++i) {
             options.push_back((*i)->GetName());
             std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
             cost_options.push_back(MakeUnicodeString(cost));
@@ -955,9 +955,6 @@ void SkillsWindow::_UpdateSkillList()
     _skills_list.SetOptions(options);
     _skill_cost_list.SetOptions(cost_options);
 
-    delete menu_skills;
-    delete battle_skills;
-    delete all_skills;
 }
 
 void SkillsWindow::_BuildMenuBattleSkillLists(std::vector<GlobalSkill *> *skill_list,
