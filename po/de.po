@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 17:19+0100\n"
-"PO-Revision-Date: 2012-11-15 22:15+0100\n"
+"POT-Creation-Date: 2012-11-16 00:36+0100\n"
+"PO-Revision-Date: 2012-11-20 14:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -96,283 +96,11 @@ msgstr "Alle Feinde"
 msgid "Invalid Target"
 msgstr "Ungültiges Ziel"
 
-#: ../src/modes/mode_help_window.cpp:115
-#, c-format
-msgid "Press '%s' anytime to show/hide help."
-msgstr "Drücke '% s' um Hilfe ein- oder auszublenden."
-
-#: ../src/modes/mode_help_window.cpp:124
-msgid "Welcome to Valyria Tear"
-msgstr "Valyria Tear"
-
-#: ../src/modes/mode_help_window.cpp:130 ../src/modes/mode_help_window.cpp:166
-#: ../src/modes/mode_help_window.cpp:218
-msgid "Command"
-msgstr "Befehl"
-
-#: ../src/modes/mode_help_window.cpp:131 ../src/modes/mode_help_window.cpp:167
-msgid "Current Key"
-msgstr "Aktuelle Taste"
-
-#: ../src/modes/mode_help_window.cpp:132 ../src/modes/mode_help_window.cpp:168
-msgid "Purpose"
-msgstr "Zweck"
-
-#: ../src/modes/mode_help_window.cpp:140 ../src/modes/mode_help_window.cpp:176
-#: ../src/modes/mode_help_window.cpp:235
-msgid "Left"
-msgstr "Links"
-
-#: ../src/modes/mode_help_window.cpp:142
-msgid "Move menu cursor to the left"
-msgstr "Menüzeiger nach links bewegen"
-
-#: ../src/modes/mode_help_window.cpp:143 ../src/modes/mode_help_window.cpp:179
-#: ../src/modes/mode_help_window.cpp:238
-msgid "Right"
-msgstr "Rechts"
-
-#: ../src/modes/mode_help_window.cpp:145
-msgid "Move menu cursor to the right"
-msgstr "Menüzeiger nach rechts bewegen"
-
-#: ../src/modes/mode_help_window.cpp:146 ../src/modes/mode_help_window.cpp:188
-#: ../src/modes/mode_help_window.cpp:241 ../src/modes/boot/boot.cpp:663
-#: ../src/modes/shop/shop.cpp:1032
-msgid "Confirm"
-msgstr "Bestätigen"
-
-#: ../src/modes/mode_help_window.cpp:148
-msgid "Confirm a menu command"
-msgstr "Menübefehl bestätigen"
-
-#: ../src/modes/mode_help_window.cpp:149 ../src/modes/mode_help_window.cpp:191
-#: ../src/modes/mode_help_window.cpp:244 ../src/modes/pause.cpp:72
-#: ../src/modes/boot/boot.cpp:664 ../src/modes/save/save_mode.cpp:137
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: ../src/modes/mode_help_window.cpp:151
-msgid "Cancel a menu command"
-msgstr "Menübefehl abbrechen"
-
-#: ../src/modes/mode_help_window.cpp:152 ../src/modes/mode_help_window.cpp:200
-#: ../src/modes/mode_help_window.cpp:262 ../src/modes/boot/boot.cpp:407
-msgid "Quit"
-msgstr "Verlassen"
-
-#: ../src/modes/mode_help_window.cpp:154 ../src/modes/mode_help_window.cpp:264
-msgid "Quit the application"
-msgstr "Spiel verlassen"
-
-#: ../src/modes/mode_help_window.cpp:158
-msgid ""
-"Shop mode\n"
-"\n"
-"Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
-"Then go into the Confirm mode to complete the transaction."
-msgstr ""
-"Handelsmodus\n"
-"\n"
-"Benutze Links/Rechts-Tasten um Gegenstände hinzuzufügen oder zu entfernen.\n"
-"Benutze Bestätigen um die Transaktion abzuschließen."
-
-#: ../src/modes/mode_help_window.cpp:178
-msgid "Remove an item from the buy/sell list"
-msgstr "Gegenstand aus der Liste entfernen."
-
-#: ../src/modes/mode_help_window.cpp:181
-msgid "Add an item to the buy/sell list."
-msgstr "Gegenstand zur Liste hinzufügen."
-
-#: ../src/modes/mode_help_window.cpp:182 ../src/modes/mode_help_window.cpp:229
-msgid "Up"
-msgstr "Hoch"
-
-#: ../src/modes/mode_help_window.cpp:184
-msgid "Move up in the item list."
-msgstr "In der Liste raufbewegen."
-
-#: ../src/modes/mode_help_window.cpp:185 ../src/modes/mode_help_window.cpp:232
-msgid "Down"
-msgstr "Runter"
-
-#: ../src/modes/mode_help_window.cpp:187
-msgid "Move down in the item list."
-msgstr "In der Liste runterbewegen"
-
-#: ../src/modes/mode_help_window.cpp:190
-msgid "Show details or confirm a transaction"
-msgstr "Bestätige Transaktion oder zeige Details"
-
-#: ../src/modes/mode_help_window.cpp:193
-msgid ""
-"Get out the Buy/Sell/Confirm mode,\n"
-"or quit the shop."
-msgstr ""
-"Verlasse Kauf/Verkauf/Bestatigungs-Bereich,\n"
-"oder verlasse den Laden."
-
-#: ../src/modes/mode_help_window.cpp:197 ../src/modes/mode_help_window.cpp:259
-#: ../src/modes/boot/boot.cpp:669
-msgid "Pause"
-msgstr "Pause"
-
-#: ../src/modes/mode_help_window.cpp:199 ../src/modes/mode_help_window.cpp:261
-msgid "Pauses the game"
-msgstr "Spiel unterbrechen"
-
-#: ../src/modes/mode_help_window.cpp:202
-msgid "Close this window / Show the system menu"
-msgstr "Aktuelles Fenster schließen / System menü anzeigen"
-
-#: ../src/modes/mode_help_window.cpp:208
-msgid "The table below lists the default game controls.\n"
-msgstr "Die unten stehende Tabelle zeigt die Standardtastenbelegung.\n"
-
-#: ../src/modes/mode_help_window.cpp:209
-msgid ""
-"The control mappings can be changed in the options menu on the next screen."
-msgstr ""
-"Die Tastenbelegung kann auf dem nächsten Bildschirm bei den Einstellungen "
-"geändert werden."
-
-#: ../src/modes/mode_help_window.cpp:219
-msgid "Default Key"
-msgstr "Standard"
-
-#: ../src/modes/mode_help_window.cpp:220
-msgid "General Purpose"
-msgstr "Allgemein"
-
-#: ../src/modes/mode_help_window.cpp:230
-msgid "Up Arrow"
-msgstr "Pfeiltaste hoch"
-
-#: ../src/modes/mode_help_window.cpp:231
-msgid "Move position or cursor upwards"
-msgstr "Nach oben bewegen"
-
-#: ../src/modes/mode_help_window.cpp:233
-msgid "Down Arrow"
-msgstr "Pfeiltaste runter"
-
-#: ../src/modes/mode_help_window.cpp:234
-msgid "Move position or cursor downwards"
-msgstr "Nach unten bewegen"
-
-#: ../src/modes/mode_help_window.cpp:236
-msgid "Left Arrow"
-msgstr "Pfeiltaste links"
-
-#: ../src/modes/mode_help_window.cpp:237
-msgid "Move position or cursor to the left"
-msgstr "Nach links bewegen"
-
-#: ../src/modes/mode_help_window.cpp:239
-msgid "Right Arrow"
-msgstr "Pfeiltaste rechts"
-
-#: ../src/modes/mode_help_window.cpp:240
-msgid "Move position or cursor to the right"
-msgstr "Nach rechts bewegen"
-
-#: ../src/modes/mode_help_window.cpp:242
-msgid "F"
-msgstr "F"
-
-#: ../src/modes/mode_help_window.cpp:243
-msgid "Confirm an action or menu command"
-msgstr "Aktion oder Menübefehl bestätigen"
-
-#: ../src/modes/mode_help_window.cpp:245
-msgid "D"
-msgstr "D"
-
-#: ../src/modes/mode_help_window.cpp:246
-msgid "Cancel an action or menu command"
-msgstr "Aktion oder Menübefehl abbrechen"
-
-#: ../src/modes/mode_help_window.cpp:247 ../src/modes/boot/boot.cpp:402
-#: ../src/modes/boot/boot.cpp:665
-msgid "Menu"
-msgstr "Menü"
-
-#: ../src/modes/mode_help_window.cpp:248
-msgid "S"
-msgstr "S"
-
-#: ../src/modes/mode_help_window.cpp:249
-msgid "Display the character menu"
-msgstr "Charakter Menü anzeigen"
-
-#: ../src/modes/mode_help_window.cpp:250 ../src/modes/boot/boot.cpp:666
-msgid "Swap"
-msgstr "Tauschen"
-
-#: ../src/modes/mode_help_window.cpp:251
-msgid "A"
-msgstr "A"
-
-#: ../src/modes/mode_help_window.cpp:252
-msgid "Swaps active menu or character"
-msgstr "Wechsle aktives Menü oder Charakter"
-
-#: ../src/modes/mode_help_window.cpp:253 ../src/modes/boot/boot.cpp:667
-msgid "Left Select"
-msgstr "Auswahl links"
-
-#: ../src/modes/mode_help_window.cpp:254
-msgid "W"
-msgstr "W"
-
-#: ../src/modes/mode_help_window.cpp:255
-msgid "Select multiple or backward page scroll"
-msgstr "Mehrfachauswahl oder Seite zurück"
-
-#: ../src/modes/mode_help_window.cpp:256 ../src/modes/boot/boot.cpp:668
-msgid "Right Select"
-msgstr "Auswahl rechts"
-
-#: ../src/modes/mode_help_window.cpp:257
-msgid "E"
-msgstr "E"
-
-#: ../src/modes/mode_help_window.cpp:258
-msgid "Select multiple or forward page scroll"
-msgstr "Mehrfachauswahl oder Seite vor"
-
-#: ../src/modes/mode_help_window.cpp:260
-msgid "Spacebar"
-msgstr "Leertaste"
-
-#: ../src/modes/mode_help_window.cpp:263
-msgid "Esc"
-msgstr "Esc"
-
-#: ../src/modes/mode_help_window.cpp:267
-msgid ""
-"There are additional commands available which can be found in the MANUAL "
-"file."
-msgstr "Weitere Befehle sind im Handbuch gelistet."
-
-#: ../src/modes/pause.cpp:58
-msgid "Paused"
-msgstr "Angehalten"
-
-#: ../src/modes/pause.cpp:70
-msgid "Quit Game"
-msgstr "Spiel beenden"
-
-#: ../src/modes/pause.cpp:71
-msgid "Quit to Main Menu"
-msgstr "Zum Hauptmenü"
-
-#: ../src/modes/battle/battle_actions.cpp:309
+#: ../src/modes/battle/battle_actions.cpp:307
 msgid "Use: [error]"
 msgstr "Verwende: [error]"
 
-#: ../src/modes/battle/battle_actions.cpp:311
+#: ../src/modes/battle/battle_actions.cpp:309
 msgid "Use: "
 msgstr "Verwende: "
 
@@ -588,9 +316,19 @@ msgstr "Optionen"
 msgid "Battle"
 msgstr "Kampf"
 
+#: ../src/modes/boot/boot.cpp:402 ../src/modes/boot/boot.cpp:665
+#: ../src/modes/mode_help_window.cpp:247
+msgid "Menu"
+msgstr "Menü"
+
 #: ../src/modes/boot/boot.cpp:403
 msgid "Shop"
 msgstr "Händler"
+
+#: ../src/modes/boot/boot.cpp:407 ../src/modes/mode_help_window.cpp:152
+#: ../src/modes/mode_help_window.cpp:200 ../src/modes/mode_help_window.cpp:262
+msgid "Quit"
+msgstr "Verlassen"
 
 #: ../src/modes/boot/boot.cpp:437
 msgid "Video"
@@ -729,6 +467,35 @@ msgstr "Nach links"
 msgid "Move Right"
 msgstr "Nach rechts"
 
+#: ../src/modes/boot/boot.cpp:663 ../src/modes/mode_help_window.cpp:146
+#: ../src/modes/mode_help_window.cpp:188 ../src/modes/mode_help_window.cpp:241
+#: ../src/modes/shop/shop.cpp:1032
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: ../src/modes/boot/boot.cpp:664 ../src/modes/mode_help_window.cpp:149
+#: ../src/modes/mode_help_window.cpp:191 ../src/modes/mode_help_window.cpp:244
+#: ../src/modes/pause.cpp:72 ../src/modes/save/save_mode.cpp:137
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ../src/modes/boot/boot.cpp:666 ../src/modes/mode_help_window.cpp:250
+msgid "Swap"
+msgstr "Tauschen"
+
+#: ../src/modes/boot/boot.cpp:667 ../src/modes/mode_help_window.cpp:253
+msgid "Left Select"
+msgstr "Auswahl links"
+
+#: ../src/modes/boot/boot.cpp:668 ../src/modes/mode_help_window.cpp:256
+msgid "Right Select"
+msgstr "Auswahl rechts"
+
+#: ../src/modes/boot/boot.cpp:669 ../src/modes/mode_help_window.cpp:197
+#: ../src/modes/mode_help_window.cpp:259
+msgid "Pause"
+msgstr "Pause"
+
 #: ../src/modes/boot/boot.cpp:677
 msgid "X Axis"
 msgstr "X Achse"
@@ -765,15 +532,15 @@ msgstr "Auswahl rechts: Taste"
 msgid "Pause: Button"
 msgstr "Pause: Taste"
 
-#: ../src/modes/boot/boot.cpp:969
+#: ../src/modes/boot/boot.cpp:972
 msgid "Please press a new joystick button."
 msgstr "Bitte einen Joystick-Knopf drücken."
 
-#: ../src/modes/boot/boot.cpp:971
+#: ../src/modes/boot/boot.cpp:974
 msgid "Please press a new key."
 msgstr "Bitte eine Taste drücken."
 
-#: ../src/modes/boot/boot.cpp:973
+#: ../src/modes/boot/boot.cpp:976
 msgid "Please move an axis."
 msgstr "Bitte eine Joystick-Achse bewegen."
 
@@ -815,7 +582,7 @@ msgstr "Inventar"
 
 #: ../src/modes/menu/menu.cpp:531
 msgid "Skills"
-msgstr "Fähigkeiten"
+msgstr "Fertigkeiten"
 
 #: ../src/modes/menu/menu.cpp:532 ../src/modes/menu/menu.cpp:636
 msgid "Equip"
@@ -831,7 +598,7 @@ msgstr "Formation"
 
 #: ../src/modes/menu/menu.cpp:550 ../src/modes/menu/menu.cpp:568
 msgid "Use"
-msgstr "Verwenden"
+msgstr "Benutzen"
 
 #: ../src/modes/menu/menu.cpp:552 ../src/modes/menu/menu.cpp:569
 #: ../src/modes/menu/menu.cpp:586 ../src/modes/menu/menu.cpp:604
@@ -841,7 +608,7 @@ msgstr "Zurück"
 
 #: ../src/modes/menu/menu.cpp:585
 msgid "View"
-msgstr "Ansicht"
+msgstr "Inspizieren"
 
 #: ../src/modes/menu/menu.cpp:602
 msgid "Edit"
@@ -998,7 +765,7 @@ msgstr "Waf"
 
 #: ../src/modes/menu/menu_views.cpp:215
 msgid "Hlm"
-msgstr "Hlm"
+msgstr "Kop"
 
 #: ../src/modes/menu/menu_views.cpp:216
 msgid "Tor"
@@ -1055,7 +822,7 @@ msgstr "Keine Kopfrüstung"
 
 #: ../src/modes/menu/menu_views.cpp:1369
 msgid "No torso armor"
-msgstr "Keine Rumpfrüstung"
+msgstr "Keine Körperrüstung"
 
 #: ../src/modes/menu/menu_views.cpp:1370
 msgid "No arm armor"
@@ -1071,19 +838,252 @@ msgstr "Waffen"
 
 #: ../src/modes/menu/menu_views.cpp:1397 ../src/modes/menu/menu_views.cpp:1417
 msgid "Headgear"
-msgstr "Helme"
+msgstr "Kopf"
 
 #: ../src/modes/menu/menu_views.cpp:1400 ../src/modes/menu/menu_views.cpp:1419
 msgid "Body Armor"
-msgstr "Körperrüstung"
+msgstr "Körper"
 
 #: ../src/modes/menu/menu_views.cpp:1403 ../src/modes/menu/menu_views.cpp:1421
 msgid "Offhand"
-msgstr "Stegreif"
+msgstr "Arme"
 
 #: ../src/modes/menu/menu_views.cpp:1406 ../src/modes/menu/menu_views.cpp:1423
 msgid "Leggings"
-msgstr "Gamaschen"
+msgstr "Beine"
+
+#: ../src/modes/mode_help_window.cpp:115
+#, c-format
+msgid "Press '%s' anytime to show/hide help."
+msgstr "Drücke '% s' um Hilfe ein- oder auszublenden."
+
+#: ../src/modes/mode_help_window.cpp:124
+msgid "Welcome to Valyria Tear"
+msgstr "Valyria Tear"
+
+#: ../src/modes/mode_help_window.cpp:130 ../src/modes/mode_help_window.cpp:166
+#: ../src/modes/mode_help_window.cpp:218
+msgid "Command"
+msgstr "Befehl"
+
+#: ../src/modes/mode_help_window.cpp:131 ../src/modes/mode_help_window.cpp:167
+msgid "Current Key"
+msgstr "Aktuelle Taste"
+
+#: ../src/modes/mode_help_window.cpp:132 ../src/modes/mode_help_window.cpp:168
+msgid "Purpose"
+msgstr "Zweck"
+
+#: ../src/modes/mode_help_window.cpp:140 ../src/modes/mode_help_window.cpp:176
+#: ../src/modes/mode_help_window.cpp:235
+msgid "Left"
+msgstr "Links"
+
+#: ../src/modes/mode_help_window.cpp:142
+msgid "Move menu cursor to the left"
+msgstr "Menüzeiger nach links bewegen"
+
+#: ../src/modes/mode_help_window.cpp:143 ../src/modes/mode_help_window.cpp:179
+#: ../src/modes/mode_help_window.cpp:238
+msgid "Right"
+msgstr "Rechts"
+
+#: ../src/modes/mode_help_window.cpp:145
+msgid "Move menu cursor to the right"
+msgstr "Menüzeiger nach rechts bewegen"
+
+#: ../src/modes/mode_help_window.cpp:148
+msgid "Confirm a menu command"
+msgstr "Menübefehl bestätigen"
+
+#: ../src/modes/mode_help_window.cpp:151
+msgid "Cancel a menu command"
+msgstr "Menübefehl abbrechen"
+
+#: ../src/modes/mode_help_window.cpp:154 ../src/modes/mode_help_window.cpp:264
+msgid "Quit the application"
+msgstr "Spiel verlassen"
+
+#: ../src/modes/mode_help_window.cpp:158
+msgid ""
+"Shop mode\n"
+"\n"
+"Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+"Then go into the Confirm mode to complete the transaction."
+msgstr ""
+"Handelsmodus\n"
+"\n"
+"Benutze Links/Rechts-Tasten um Gegenstände hinzuzufügen oder zu entfernen.\n"
+"Benutze Bestätigen um die Transaktion abzuschließen."
+
+#: ../src/modes/mode_help_window.cpp:178
+msgid "Remove an item from the buy/sell list"
+msgstr "Gegenstand aus der Liste entfernen."
+
+#: ../src/modes/mode_help_window.cpp:181
+msgid "Add an item to the buy/sell list."
+msgstr "Gegenstand zur Liste hinzufügen."
+
+#: ../src/modes/mode_help_window.cpp:182 ../src/modes/mode_help_window.cpp:229
+msgid "Up"
+msgstr "Hoch"
+
+#: ../src/modes/mode_help_window.cpp:184
+msgid "Move up in the item list."
+msgstr "In der Liste raufbewegen."
+
+#: ../src/modes/mode_help_window.cpp:185 ../src/modes/mode_help_window.cpp:232
+msgid "Down"
+msgstr "Runter"
+
+#: ../src/modes/mode_help_window.cpp:187
+msgid "Move down in the item list."
+msgstr "In der Liste runterbewegen"
+
+#: ../src/modes/mode_help_window.cpp:190
+msgid "Show details or confirm a transaction"
+msgstr "Bestätige Transaktion oder zeige Details"
+
+#: ../src/modes/mode_help_window.cpp:193
+msgid ""
+"Get out the Buy/Sell/Confirm mode,\n"
+"or quit the shop."
+msgstr ""
+"Verlasse Kauf/Verkauf/Bestatigungs-Bereich,\n"
+"oder verlasse den Laden."
+
+#: ../src/modes/mode_help_window.cpp:199 ../src/modes/mode_help_window.cpp:261
+msgid "Pauses the game"
+msgstr "Spiel unterbrechen"
+
+#: ../src/modes/mode_help_window.cpp:202
+msgid "Close this window / Show the system menu"
+msgstr "Aktuelles Fenster schließen / System menü anzeigen"
+
+#: ../src/modes/mode_help_window.cpp:208
+msgid "The table below lists the default game controls.\n"
+msgstr "Die unten stehende Tabelle zeigt die Standardtastenbelegung.\n"
+
+#: ../src/modes/mode_help_window.cpp:209
+msgid ""
+"The control mappings can be changed in the options menu on the next screen."
+msgstr ""
+"Die Tastenbelegung kann auf dem nächsten Bildschirm bei den Einstellungen "
+"geändert werden."
+
+#: ../src/modes/mode_help_window.cpp:219
+msgid "Default Key"
+msgstr "Standard"
+
+#: ../src/modes/mode_help_window.cpp:220
+msgid "General Purpose"
+msgstr "Allgemein"
+
+#: ../src/modes/mode_help_window.cpp:230
+msgid "Up Arrow"
+msgstr "Pfeiltaste hoch"
+
+#: ../src/modes/mode_help_window.cpp:231
+msgid "Move position or cursor upwards"
+msgstr "Nach oben bewegen"
+
+#: ../src/modes/mode_help_window.cpp:233
+msgid "Down Arrow"
+msgstr "Pfeiltaste runter"
+
+#: ../src/modes/mode_help_window.cpp:234
+msgid "Move position or cursor downwards"
+msgstr "Nach unten bewegen"
+
+#: ../src/modes/mode_help_window.cpp:236
+msgid "Left Arrow"
+msgstr "Pfeiltaste links"
+
+#: ../src/modes/mode_help_window.cpp:237
+msgid "Move position or cursor to the left"
+msgstr "Nach links bewegen"
+
+#: ../src/modes/mode_help_window.cpp:239
+msgid "Right Arrow"
+msgstr "Pfeiltaste rechts"
+
+#: ../src/modes/mode_help_window.cpp:240
+msgid "Move position or cursor to the right"
+msgstr "Nach rechts bewegen"
+
+#: ../src/modes/mode_help_window.cpp:242
+msgid "F"
+msgstr "F"
+
+#: ../src/modes/mode_help_window.cpp:243
+msgid "Confirm an action or menu command"
+msgstr "Aktion oder Menübefehl bestätigen"
+
+#: ../src/modes/mode_help_window.cpp:245
+msgid "D"
+msgstr "D"
+
+#: ../src/modes/mode_help_window.cpp:246
+msgid "Cancel an action or menu command"
+msgstr "Aktion oder Menübefehl abbrechen"
+
+#: ../src/modes/mode_help_window.cpp:248
+msgid "S"
+msgstr "S"
+
+#: ../src/modes/mode_help_window.cpp:249
+msgid "Display the character menu"
+msgstr "Charakter Menü anzeigen"
+
+#: ../src/modes/mode_help_window.cpp:251
+msgid "A"
+msgstr "A"
+
+#: ../src/modes/mode_help_window.cpp:252
+msgid "Swaps active menu or character"
+msgstr "Wechsle aktives Menü oder Charakter"
+
+#: ../src/modes/mode_help_window.cpp:254
+msgid "W"
+msgstr "W"
+
+#: ../src/modes/mode_help_window.cpp:255
+msgid "Select multiple or backward page scroll"
+msgstr "Mehrfachauswahl oder Seite zurück"
+
+#: ../src/modes/mode_help_window.cpp:257
+msgid "E"
+msgstr "E"
+
+#: ../src/modes/mode_help_window.cpp:258
+msgid "Select multiple or forward page scroll"
+msgstr "Mehrfachauswahl oder Seite vor"
+
+#: ../src/modes/mode_help_window.cpp:260
+msgid "Spacebar"
+msgstr "Leertaste"
+
+#: ../src/modes/mode_help_window.cpp:263
+msgid "Esc"
+msgstr "Esc"
+
+#: ../src/modes/mode_help_window.cpp:267
+msgid ""
+"There are additional commands available which can be found in the MANUAL "
+"file."
+msgstr "Weitere Befehle sind im Handbuch gelistet."
+
+#: ../src/modes/pause.cpp:58
+msgid "Paused"
+msgstr "Angehalten"
+
+#: ../src/modes/pause.cpp:70
+msgid "Quit Game"
+msgstr "Spiel beenden"
+
+#: ../src/modes/pause.cpp:71
+msgid "Quit to Main Menu"
+msgstr "Zum Hauptmenü"
 
 #: ../src/modes/save/save_mode.cpp:89
 msgid "Save Game"
@@ -1133,6 +1133,104 @@ msgstr ""
 msgid "No valid data"
 msgstr "Speicherpunkt ungültig"
 
+#: ../src/modes/shop/shop_buy.cpp:58 ../src/modes/shop/shop_sell.cpp:58
+msgid "Category"
+msgstr "Kategorie"
+
+#: ../src/modes/shop/shop_buy.cpp:61 ../src/modes/shop/shop_confirm.cpp:79
+#: ../src/modes/shop/shop_leave.cpp:80 ../src/modes/shop/shop_sell.cpp:61
+msgid "Name"
+msgstr "Name"
+
+#: ../src/modes/shop/shop_buy.cpp:67 ../src/modes/shop/shop_confirm.cpp:87
+#: ../src/modes/shop/shop_leave.cpp:88 ../src/modes/shop/shop_sell.cpp:67
+msgid "Price"
+msgstr "Preis"
+
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_confirm.cpp:88
+#: ../src/modes/shop/shop_leave.cpp:89 ../src/modes/shop/shop_sell.cpp:68
+msgid "Stock"
+msgstr "Lager"
+
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_confirm.cpp:89
+#: ../src/modes/shop/shop_leave.cpp:90 ../src/modes/shop/shop_sell.cpp:69
+msgid "Own"
+msgstr "Eigene"
+
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_confirm.cpp:189
+#: ../src/modes/shop/shop_confirm.cpp:209
+#: ../src/modes/shop/shop_confirm.cpp:511 ../src/modes/shop/shop.cpp:1029
+#: ../src/modes/shop/shop_leave.cpp:172 ../src/modes/shop/shop_leave.cpp:189
+#: ../src/modes/shop/shop_leave.cpp:430
+msgid "Buy"
+msgstr "Kaufen"
+
+#: ../src/modes/shop/shop_confirm.cpp:67 ../src/modes/shop/shop_leave.cpp:68
+msgid "Purchases"
+msgstr "Einkäufe"
+
+#: ../src/modes/shop/shop_confirm.cpp:71 ../src/modes/shop/shop_leave.cpp:72
+msgid "Sales"
+msgstr "Verkäufe"
+
+#: ../src/modes/shop/shop_confirm.cpp:75 ../src/modes/shop/shop_leave.cpp:76
+msgid "Trades"
+msgstr "Tauschgeschäfte"
+
+#: ../src/modes/shop/shop_confirm.cpp:93 ../src/modes/shop/shop_leave.cpp:94
+msgid "No marked transactions."
+msgstr "Keine aktiven Transaktionen."
+
+#: ../src/modes/shop/shop_confirm.cpp:99
+msgid "There are no marked purchases, sales, or trades."
+msgstr "Keine aktiven Einkäufe, Verkäufe oder Tauschgeschäfte."
+
+#: ../src/modes/shop/shop_confirm.cpp:102
+msgid "Will that be all?"
+msgstr "Ist das alles?"
+
+#: ../src/modes/shop/shop_confirm.cpp:111
+msgid "Modify Order"
+msgstr "Ändern"
+
+#: ../src/modes/shop/shop_confirm.cpp:112
+msgid "Clear Order"
+msgstr "Stornieren"
+
+#: ../src/modes/shop/shop_confirm.cpp:113
+msgid "Complete Transaction"
+msgstr "Bestätigen"
+
+#: ../src/modes/shop/shop_confirm.cpp:117
+msgid "This will remove all marked purchases, sales, and trades. Are you sure?"
+msgstr ""
+"Dadurch werden alle aktiven Einkäufe, Verkäufe und Tauschgeschäfte entfernt. "
+"Bist du sicher?"
+
+#: ../src/modes/shop/shop_confirm.cpp:196
+#: ../src/modes/shop/shop_confirm.cpp:502 ../src/modes/shop/shop.cpp:1030
+#: ../src/modes/shop/shop_leave.cpp:178 ../src/modes/shop/shop_leave.cpp:421
+#: ../src/modes/shop/shop_sell.cpp:70
+msgid "Sell"
+msgstr "Verkaufen"
+
+#: ../src/modes/shop/shop_confirm.cpp:648
+#: ../src/modes/shop/shop_confirm.cpp:656
+#: ../src/modes/shop/shop_confirm.cpp:664 ../src/modes/shop/shop_leave.cpp:192
+#: ../src/modes/shop/shop_leave.cpp:194 ../src/modes/shop/shop_leave.cpp:196
+msgid " count"
+msgstr " insg."
+
+#: ../src/modes/shop/shop_confirm.cpp:649
+#: ../src/modes/shop/shop_confirm.cpp:657 ../src/modes/shop/shop_leave.cpp:193
+#: ../src/modes/shop/shop_leave.cpp:195
+msgid " unique"
+msgstr " untersch."
+
+#: ../src/modes/shop/shop_confirm.cpp:665 ../src/modes/shop/shop_leave.cpp:197
+msgid " characters"
+msgstr " Charaktere"
+
 #: ../src/modes/shop/shop.cpp:113
 msgid "Items"
 msgstr "Gegenstände"
@@ -1163,7 +1261,7 @@ msgstr "Schlüsselgegenstände"
 
 #: ../src/modes/shop/shop.cpp:121
 msgid "All Wares"
-msgstr "Alle waren"
+msgstr "Alle Waren"
 
 #: ../src/modes/shop/shop.cpp:402
 msgid "Field Use:"
@@ -1185,20 +1283,6 @@ msgstr "Phys:"
 msgid "Meta:"
 msgstr "Meta:"
 
-#: ../src/modes/shop/shop.cpp:1029 ../src/modes/shop/shop_buy.cpp:70
-#: ../src/modes/shop/shop_confirm.cpp:189
-#: ../src/modes/shop/shop_confirm.cpp:209
-#: ../src/modes/shop/shop_confirm.cpp:511 ../src/modes/shop/shop_leave.cpp:172
-#: ../src/modes/shop/shop_leave.cpp:189 ../src/modes/shop/shop_leave.cpp:430
-msgid "Buy"
-msgstr "Kaufen"
-
-#: ../src/modes/shop/shop.cpp:1030 ../src/modes/shop/shop_confirm.cpp:196
-#: ../src/modes/shop/shop_confirm.cpp:502 ../src/modes/shop/shop_leave.cpp:178
-#: ../src/modes/shop/shop_leave.cpp:421 ../src/modes/shop/shop_sell.cpp:70
-msgid "Sell"
-msgstr "Verkaufen"
-
 #: ../src/modes/shop/shop.cpp:1041
 msgid "Leave"
 msgstr "Verlassen"
@@ -1218,89 +1302,6 @@ msgstr "Verkäufe: +"
 #: ../src/modes/shop/shop.cpp:1551
 msgid "Total: "
 msgstr "Total: "
-
-#: ../src/modes/shop/shop_buy.cpp:58 ../src/modes/shop/shop_sell.cpp:58
-msgid "Category"
-msgstr "Kategorie"
-
-#: ../src/modes/shop/shop_buy.cpp:61 ../src/modes/shop/shop_confirm.cpp:79
-#: ../src/modes/shop/shop_leave.cpp:80 ../src/modes/shop/shop_sell.cpp:61
-msgid "Name"
-msgstr "Name"
-
-#: ../src/modes/shop/shop_buy.cpp:67 ../src/modes/shop/shop_confirm.cpp:87
-#: ../src/modes/shop/shop_leave.cpp:88 ../src/modes/shop/shop_sell.cpp:67
-msgid "Price"
-msgstr "Preis"
-
-#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_confirm.cpp:88
-#: ../src/modes/shop/shop_leave.cpp:89 ../src/modes/shop/shop_sell.cpp:68
-msgid "Stock"
-msgstr "Lager"
-
-#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_confirm.cpp:89
-#: ../src/modes/shop/shop_leave.cpp:90 ../src/modes/shop/shop_sell.cpp:69
-msgid "Own"
-msgstr "Eigene"
-
-#: ../src/modes/shop/shop_confirm.cpp:67 ../src/modes/shop/shop_leave.cpp:68
-msgid "Purchases"
-msgstr "Einkäufe"
-
-#: ../src/modes/shop/shop_confirm.cpp:71 ../src/modes/shop/shop_leave.cpp:72
-msgid "Sales"
-msgstr "Verkäufe"
-
-#: ../src/modes/shop/shop_confirm.cpp:75 ../src/modes/shop/shop_leave.cpp:76
-msgid "Trades"
-msgstr "Tauschgeschäfte"
-
-#: ../src/modes/shop/shop_confirm.cpp:93 ../src/modes/shop/shop_leave.cpp:94
-msgid "No marked transactions."
-msgstr "Keine aktiven Transaktionen."
-
-#: ../src/modes/shop/shop_confirm.cpp:99
-msgid "There are no marked purchases, sales, or trades."
-msgstr "Keine aktiven Einkäufe, Verkäufe oder Tauschgeschäfte."
-
-#: ../src/modes/shop/shop_confirm.cpp:102
-msgid "Will that be all?"
-msgstr "Ist das alles?"
-
-#: ../src/modes/shop/shop_confirm.cpp:111
-msgid "Modify Order"
-msgstr "Bestellung ändern"
-
-#: ../src/modes/shop/shop_confirm.cpp:112
-msgid "Clear Order"
-msgstr "Bestellung stornieren"
-
-#: ../src/modes/shop/shop_confirm.cpp:113
-msgid "Complete Transaction"
-msgstr "Transaktion abschließen"
-
-#: ../src/modes/shop/shop_confirm.cpp:117
-msgid "This will remove all marked purchases, sales, and trades. Are you sure?"
-msgstr ""
-"Dadurch werden alle aktiven Einkäufe, Verkäufe und Tauschgeschäfte entfernt. "
-"Bist du sicher?"
-
-#: ../src/modes/shop/shop_confirm.cpp:648
-#: ../src/modes/shop/shop_confirm.cpp:656
-#: ../src/modes/shop/shop_confirm.cpp:664 ../src/modes/shop/shop_leave.cpp:192
-#: ../src/modes/shop/shop_leave.cpp:194 ../src/modes/shop/shop_leave.cpp:196
-msgid " count"
-msgstr " zahl"
-
-#: ../src/modes/shop/shop_confirm.cpp:649
-#: ../src/modes/shop/shop_confirm.cpp:657 ../src/modes/shop/shop_leave.cpp:193
-#: ../src/modes/shop/shop_leave.cpp:195
-msgid " unique"
-msgstr " unterschiedliche Geg."
-
-#: ../src/modes/shop/shop_confirm.cpp:665 ../src/modes/shop/shop_leave.cpp:197
-msgid " characters"
-msgstr " Charaktere"
 
 #: ../src/modes/shop/shop_leave.cpp:100
 msgid "Your order is not yet final. Are you sure you want to leave the shop?"
@@ -1957,7 +1958,7 @@ msgstr "Starre"
 
 #: ../dat/maps/layna_forest_entrance.lua:320
 #: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:459
-#: ../dat/maps/layna_forest/layna_forest_south_east.lua:441
+#: ../dat/maps/layna_forest/layna_forest_south_east.lua:444
 msgid "Your party feels better..."
 msgstr "Deine Gruppe fühlt sich besser..."
 
@@ -2057,9 +2058,13 @@ msgstr ""
 "Siehst du? Jetzt sollten wir los, und meinen Bruder finden bevor ihm noch "
 "etwas zustößt."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:439
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:454
 msgid "Only the last one standing shall pass..."
 msgstr "Nur wer überlebt darf passieren..."
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:490
+msgid "... Something heavy seems to have fallen nearby."
+msgstr "... Etwas schweres fiel in der Nähe runter."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east.lua:857
 msgid ""
@@ -2109,6 +2114,18 @@ msgid ""
 msgstr ""
 "Achte auf das Grass. Schlangen halten sich gerne darin auf. Sieh dich vor "
 "ihnen vor, ihr Gift wirkt stark einschläfernd."
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua:388
+msgid ""
+"That nightmare again... This time, I still feel dizzy even after getting "
+"up..."
+msgstr ""
+"Wieder dieser Albtraum... Diesmal fühle ich mich sogar nach dem Aufstehen "
+"noch benommen..."
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua:390
+msgid "I'd better be going and forget about it as fast as possible..."
+msgstr "Ich geh besser los und denke nicht mehr daran..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:312
 msgid "Hey son! Slept well? Err, where did I leave that oil lamp?"
@@ -2251,18 +2268,6 @@ msgstr "Äh-äh? Ich bin deine Mutter, schon vergessen?"
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:722
 msgid "Don't venture too far, I'll need your help quite soon!"
 msgstr "Gehe nicht zu weit raus, ich brauche deine Hilfe recht bald!"
-
-#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua:388
-msgid ""
-"That nightmare again... This time, I still feel dizzy even after getting "
-"up..."
-msgstr ""
-"Wieder dieser Albtraum... Diesmal fühle ich mich sogar nach dem Aufstehen "
-"immer noch schwindlig..."
-
-#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua:390
-msgid "I'd better be going and forget about it as fast as possible..."
-msgstr "Ich geh besser los und vergesse es so schnell wie möglich..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:375
 msgid "Please, leave me alone, Bronann..."
@@ -3352,7 +3357,7 @@ msgstr ""
 
 #: ../dat/objects/torso_armor.lua:102
 msgid "Shouldered Breastplate"
-msgstr "Brustplatte mit Schulterstücken"
+msgstr "Brustplatte mit Schulterst."
 
 #: ../dat/objects/torso_armor.lua:103
 msgid ""
@@ -3427,19 +3432,17 @@ msgstr "Schwerthieb"
 
 #: ../dat/skills/attack.lua:62
 msgid "A textbook manoeuver that deals an effective blow."
-msgstr "Ein effektiver Angriff wie aus dem Lehrbuch."
+msgstr "Ein effektiver Angriff frei nach Lehrbuch."
 
 #: ../dat/skills/attack.lua:89
 msgid "Forward Thrust"
 msgstr "Vorwärtsschub"
 
 #: ../dat/skills/attack.lua:90
-msgid ""
-"A more powerful blow than the standard sword slash, but also less likely to "
-"hit its intended target."
+msgid "A quicker and more powerful blow than the standard sword slash."
 msgstr ""
-"Stärker als ein einfacher Schwerthieb, hat jedoch eine geringere "
-"Treffergenauigkeit."
+"Ein schnellerer und stärkerer Angriff verglichen mit dem einfachen "
+"Schwerthieb."
 
 #: ../dat/skills/attack.lua:117
 msgid "Stun Strike"
@@ -3489,9 +3492,8 @@ msgid "Defensive Stance"
 msgstr "Verteidigungshaltung"
 
 #: ../dat/skills/defense.lua:42
-msgid "Mind focus improving defence against incoming attacks."
-msgstr ""
-"Nehme eine Haltung ein, die besser gegen eingehende Angriffe zu schützt."
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr "Erhöht die physische Verteidigung des Ziels in geringem Maße."
 
 #: ../dat/skills/defense.lua:64
 msgid "First Aid"
@@ -3519,6 +3521,10 @@ msgstr "Schleimruf"
 #: ../dat/skills/support.lua:80
 msgid "Creates a slime."
 msgstr "Erzeugt einen Schleim."
+
+#~ msgid "Mind focus improving defence against incoming attacks."
+#~ msgstr ""
+#~ "Nehme eine Haltung ein, die besser gegen eingehende Angriffe zu schützt."
 
 #~ msgid "Restart"
 #~ msgstr "Neustarten"
