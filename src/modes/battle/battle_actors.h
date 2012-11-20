@@ -50,6 +50,8 @@ public:
         _x_location(0.0f),
         _y_location(0.0f)
     {}
+    virtual ~BattleObject()
+    {}
 
     float GetXOrigin() const {
         return _x_origin;
