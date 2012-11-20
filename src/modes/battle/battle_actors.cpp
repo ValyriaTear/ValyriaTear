@@ -531,8 +531,8 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
 
     switch(_state) {
     case ACTOR_STATE_COMMAND:
-        // In the battle types, the battle action should pause whenever a character enters the command state
-        if(BattleMode::CurrentInstance()->GetBattleType() == BATTLE_TYPE_WAIT_COMMAND) {
+        // The battle action should pause whenever a character enters the command state in the WAIT battle type
+        if(BattleMode::CurrentInstance()->GetBattleType() == BATTLE_TYPE_WAIT) {
             BattleMode::CurrentInstance()->SetActorStatePaused(true);
         }
         break;

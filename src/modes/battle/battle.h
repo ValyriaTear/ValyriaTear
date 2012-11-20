@@ -49,10 +49,10 @@ class BattleParticleEffect;
 **/
 enum BATTLE_TYPE {
     BATTLE_TYPE_INVALID       = -1,
-    //! Battle action will pause while the player is selecting commands
-    BATTLE_TYPE_WAIT          =  0,
     //! Battle action will pause only when one or more characters is in the ACTOR_STATE_COMMAND state
-    BATTLE_TYPE_WAIT_COMMAND  =  1,
+    BATTLE_TYPE_WAIT          =  0,
+    //! TODO This battle type needs a description. It is currently not implemented.
+    BATTLE_TYPE_SEMI_ACTIVE   =  1,
     //! Battle action does not pause at any time during a battle, except for scripted events
     BATTLE_TYPE_ACTIVE        =  2,
     BATTLE_TYPE_TOTAL         =  3
@@ -66,7 +66,7 @@ enum BATTLE_TYPE {
 **/
 //@{
 const float BATTLE_WAIT_FACTOR          = 3.0f;
-const float BATTLE_WAIT_COMMAND_FACTOR  = 1.5f;
+const float BATTLE_SEMI_ACTIVE_FACTOR   = 1.5f;
 const float BATTLE_ACTIVE_FACTOR        = 1.0f;
 //@}
 
