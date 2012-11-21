@@ -57,6 +57,13 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
    ADD_CUSTOM_TARGET(
       update-pot
       COMMAND xgettext --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --from-code=UTF-8
+      COMMAND bash create_map_names_translatable_strings.sh
+      COMMAND xgettext --directory=. -j --output=${_potFile} -d valyriatear --keyword=Translate --from-code=UTF-8  map_names_tr.lua
+
+      # The pot file is ready - We can remove the temp files
+      COMMAND rm -f translatable-files
+      COMMAND rm -f map_names_files
+      COMMAND rm -f map_names_tr.lua
       )
 
    ADD_CUSTOM_TARGET(
@@ -65,6 +72,9 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       COMMAND grep 'Translate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
       COMMAND grep 'UTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
       COMMAND grep 'Translate\(' -Irl ../dat | sort >> translatable-files
+      # Add map names and subnames to the translatable strings
+      COMMAND grep 'map_name =' -Irl ../dat/maps --include=*.lua | sort > map_names_files
+      COMMAND grep 'map_subname =' -Irl  ../dat/maps --include=*.lua | sort >> map_names_files
       )
 
    FOREACH(_lang ${_languages})
