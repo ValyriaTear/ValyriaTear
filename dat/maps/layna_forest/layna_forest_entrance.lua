@@ -516,6 +516,22 @@ function _CreateObjects()
 	Map:AddGroundObject(object);
 	object = CreateObject(Map, "Tree Small5", 62, 49);
 	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Little2", 15, 8);
+	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Tiny4", 29, 37);
+	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Little3", 16, 40.2);
+	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Little1", 9, 12);
+	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Tiny3", 58, 22);
+	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Little1", 58, 9);
+	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Tiny3", 28, 8.5);
+	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Little3", 11, 44);
+	Map:AddGroundObject(object);
 end
 
 function _CreateEnemies()
