@@ -508,10 +508,12 @@ void BattleMode::Update()
         return;
     }
 
-    // If the battle is running in the "wait" setting and a character reaches the command state, we want to open the
-    // command menu for that character. The battle will be paused until the player enters a command for all characters
+    // If the battle is running in the "wait" setting and a character reaches the command state,
+    // we want to open the command menu for that character.
+    // The battle will be paused until the player enters a command for all characters
     // that are in command state.
-    if(!_last_enemy_dying && (_battle_type == BATTLE_TYPE_WAIT)) {
+    if(!_last_enemy_dying
+        && (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
         for(uint32 i = 0; i < _character_actors.size(); i++) {
             if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
                 if(_state != BATTLE_STATE_COMMAND) {
@@ -634,7 +636,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         GetEffectSupervisor().DisableEffects();
         break;
     case BATTLE_STATE_NORMAL:
-        // Resote the battle action in case they were paused
+        // Restart the battle actors in case they were paused
         _actor_state_paused = false;
         break;
     case BATTLE_STATE_COMMAND:
@@ -642,7 +644,6 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no character was selected when changing battle to the command state" << std::endl;
             ChangeState(BATTLE_STATE_NORMAL);
         }
-        // Note: For wait type battles, the action is only paused when a battle character enters the command state
         break;
     case BATTLE_STATE_VICTORY:
         // Official victory:
@@ -838,7 +839,7 @@ void BattleMode::_Initialize()
     // right to the command status.
     if(_battle_type == BATTLE_TYPE_WAIT)
         _battle_type_time_factor = BATTLE_WAIT_FACTOR;
-    // SENI_ACTIVE battle type is a bit more dangerous as if the player is taking
+    // SEMI_ACTIVE battle type is a bit more dangerous as if the player is taking
     // too much time to think, the enemies will have slightly more chances to hit.
     // Yet, the semi wait battles are far simpler than active ones, so we
     // can make them relatively faster.

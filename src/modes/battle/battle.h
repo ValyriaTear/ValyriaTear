@@ -51,7 +51,8 @@ enum BATTLE_TYPE {
     BATTLE_TYPE_INVALID       = -1,
     //! Battle action will pause only when one or more characters is in the ACTOR_STATE_COMMAND state
     BATTLE_TYPE_WAIT          =  0,
-    //! TODO This battle type needs a description. It is currently not implemented.
+    //! Monsters will wait for characters to finish their command before attacking
+    //! but will move up until being ready anyway.
     BATTLE_TYPE_SEMI_ACTIVE   =  1,
     //! Battle action does not pause at any time during a battle, except for scripted events
     BATTLE_TYPE_ACTIVE        =  2,
