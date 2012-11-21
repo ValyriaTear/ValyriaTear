@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-21 02:10+0100\n"
-"PO-Revision-Date: 2012-11-21 02:14+0100\n"
+"POT-Creation-Date: 2012-11-21 02:36+0100\n"
+"PO-Revision-Date: 2012-11-21 02:37+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -737,17 +737,17 @@ msgstr "Temps : "
 msgid "Drunes: "
 msgstr "Drunes : "
 
-#: ../src/modes/menu/menu_views.cpp:104 ../src/modes/save/save_mode.cpp:609
+#: ../src/modes/menu/menu_views.cpp:104 ../src/modes/save/save_mode.cpp:615
 msgid "Lv: "
 msgstr "Nv : "
 
 #: ../src/modes/menu/menu_views.cpp:108 ../src/modes/menu/menu_views.cpp:575
-#: ../src/modes/save/save_mode.cpp:613
+#: ../src/modes/save/save_mode.cpp:619
 msgid "HP: "
 msgstr "PV : "
 
 #: ../src/modes/menu/menu_views.cpp:113 ../src/modes/menu/menu_views.cpp:579
-#: ../src/modes/save/save_mode.cpp:618
+#: ../src/modes/save/save_mode.cpp:624
 msgid "SP: "
 msgstr "PM : "
 
@@ -1131,9 +1131,17 @@ msgid ""
 "Save FAILED!"
 msgstr "Impossible de sauvegarder !!"
 
-#: ../src/modes/save/save_mode.cpp:414
+#: ../src/modes/save/save_mode.cpp:419
 msgid "No valid data"
 msgstr "Pas de données valides"
+
+#: ../src/modes/save/save_mode.cpp:552
+msgid "Time - "
+msgstr "Temps - "
+
+#: ../src/modes/save/save_mode.cpp:559
+msgid "Drunes - "
+msgstr "Drunes - "
 
 #: ../src/modes/shop/shop_buy.cpp:58 ../src/modes/shop/shop_sell.cpp:58
 msgid "Category"
