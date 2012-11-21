@@ -543,7 +543,7 @@ void MenuMode::_SetupInventoryOptionBox()
 {
     // Setup the option box
     _SetupOptionBoxCommonSettings(&_menu_inventory);
-    _menu_inventory.SetDimensions(315.0f, 50.0f, INV_SIZE, 1, INV_SIZE, 1);
+    _menu_inventory.SetDimensions(415.0f, 50.0f, INV_SIZE, 1, INV_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
@@ -561,7 +561,7 @@ void MenuMode::_SetupSkillsOptionBox()
 {
     // Setup the option box
     _SetupOptionBoxCommonSettings(&_menu_skills);
-    _menu_skills.SetDimensions(315.0f, 50.0f, SKILLS_SIZE, 1, SKILLS_SIZE, 1);
+    _menu_skills.SetDimensions(415.0f, 50.0f, SKILLS_SIZE, 1, SKILLS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
@@ -578,7 +578,7 @@ void MenuMode::_SetupStatusOptionBox()
 {
     // Setup the status option box
     _SetupOptionBoxCommonSettings(&_menu_status);
-    _menu_status.SetDimensions(315.0f, 50.0f, STATUS_SIZE, 1, STATUS_SIZE, 1);
+    _menu_status.SetDimensions(415.0f, 50.0f, STATUS_SIZE, 1, STATUS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
@@ -595,7 +595,7 @@ void MenuMode::_SetupOptionsOptionBox()
 {
     // Setup the options option box
     _SetupOptionBoxCommonSettings(&_menu_options);
-    _menu_options.SetDimensions(315.0f, 50.0f, OPTIONS_SIZE, 1, OPTIONS_SIZE, 1);
+    _menu_options.SetDimensions(465.0f, 50.0f, OPTIONS_SIZE, 1, OPTIONS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
@@ -613,7 +613,7 @@ void MenuMode::_SetupFormationOptionBox()
 {
     // setup the save options box
     _SetupOptionBoxCommonSettings(&_menu_formation);
-    _menu_formation.SetDimensions(315.0f, 50.0f, FORMATION_SIZE, 1, FORMATION_SIZE, 1);
+    _menu_formation.SetDimensions(415.0f, 50.0f, FORMATION_SIZE, 1, FORMATION_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
@@ -629,7 +629,7 @@ void MenuMode::_SetupEquipOptionBox()
 {
     // Setup the status option box
     _SetupOptionBoxCommonSettings(&_menu_equip);
-    _menu_equip.SetDimensions(315.0f, 50.0f, EQUIP_SIZE, 1, EQUIP_SIZE, 1);
+    _menu_equip.SetDimensions(465.0f, 50.0f, EQUIP_SIZE, 1, EQUIP_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
