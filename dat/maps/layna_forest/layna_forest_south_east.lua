@@ -411,7 +411,7 @@ function _CreateCharacters()
 		hero:SetPosition(4, 54);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
 		hero:SetDirection(hoa_map.MapMode.SOUTH);
-		hero:SetPosition(15, 43);
+		hero:SetPosition(13, 41);
 	end
 
 	Map:AddGroundObject(hero);
@@ -740,7 +740,6 @@ function _CreateObjects()
         { "Tree Small6", 127, 96 },
         { "Tree Small5", 124, 95.5 },
 
-
         -- map border bottom
         { "Tree Small4", 115, 97 },
         { "Tree Small5", 110, 98 },
@@ -834,6 +833,97 @@ function _CreateObjects()
         { "Tree Tiny1", 9, 20.2 },
         { "Tree Little2", 18, 15.4 },
         { "Tree Small5", 6, 24 },
+
+        -- Working on inner part of map
+        { "Barrel1", 13, 41 }, -- Symbolizes the cave exit for now
+        { "Barrel1", 66, 70 }, -- Symbolizes the next cave entrance for now
+        { "Barrel1", 32, 17 }, -- Symbolizes the wolf cave entrance.
+        { "Tree Little1", 17, 39 },
+        { "Tree Tiny1", 19, 52 },
+        { "Tree Small5", 21, 49 },
+        { "Tree Little2", 28, 46 },
+        { "Tree Tiny1", 23, 51 },
+        { "Tree Small3", 24, 45 },
+        { "Tree Small6", 26, 49.5 },
+        { "Tree Small4", 16, 50 },
+        { "Tree Small4", 28, 41 },
+        { "Tree Tiny4", 31, 42 },
+        { "Tree Little4", 21.5, 30 },
+        { "Tree Small3", 30, 38 },
+        { "Tree Small4", 32, 35 },
+        { "Tree Small4", 28, 32 },
+        { "Tree Small4", 33, 29 },
+        { "Tree Small3", 30, 10 },
+        { "Tree Tiny3", 28, 12 },
+        { "Tree Little1", 32.3, 11 },
+        { "Tree Little3", 28, 18 },
+        { "Tree Little2", 36, 19 },
+        { "Tree Tiny1", 38, 17 },
+
+        -- Right inner part (with trees here and there and hills)
+        { "Tree Small3", 35, 31 },
+        { "Tree Small3", 40, 34 },
+        { "Tree Small5", 41, 45 },
+        { "Tree Little2", 36, 36 },
+        { "Tree Tiny2", 44, 39 },
+        { "Tree Small3", 57, 39 },
+        { "Tree Small6", 63, 42 },
+        { "Tree Small3", 43, 49 },
+        { "Tree Small4", 33, 53 },
+        { "Tree Small3", 32, 62 },
+        { "Tree Small4", 52, 56 },
+        { "Tree Small3", 55, 45 },
+        { "Tree Small6", 72, 48 },
+        { "Tree Small3", 83, 53 },
+        { "Tree Small5", 71, 59 },
+        { "Tree Small3", 77, 64 },
+        { "Tree Little3", 51, 86 },
+        { "Tree Small3", 76, 74 },
+        { "Tree Small4", 53, 68 },
+        { "Tree Small3", 41, 65 },
+        { "Tree Little1", 46, 25 },
+        { "Tree Tiny4", 53, 34 },
+        { "Tree Little4", 35, 45 },
+        { "Tree Little2", 61, 33 },
+        { "Tree Little1", 45, 28 },
+        { "Tree Tiny2", 39, 20 },
+        { "Tree Little3", 53, 26 },
+        { "Tree Tiny3", 49, 43 },
+        { "Tree Tiny4", 60, 47 },
+        { "Tree Tiny1", 71, 40 },
+        { "Tree Little1", 68, 35 },
+        { "Tree Tiny4", 88, 37 },
+        { "Tree Little1", 73, 37 },
+        { "Tree Small3", 78, 41.4 },
+        { "Tree Little4", 82, 45 },
+        { "Tree Tiny1", 89, 47 },
+        { "Tree Small5", 89, 55 },
+        { "Tree Little4", 91, 57.2 },
+        { "Tree Small3", 85, 60 },
+        { "Tree Tiny3", 86, 69 },
+        { "Tree Little1", 81, 75 },
+        { "Tree Small3", 92, 64 },
+        { "Tree Little3", 91, 79.2 },
+        { "Tree Tiny1", 91, 71.5 },
+        { "Tree Tiny3", 80, 80 },
+        { "Tree Small3", 66, 79 },
+        { "Tree Small3", 88, 68 },
+        { "Tree Small4", 72, 79.2 },
+        { "Tree Tiny3", 62, 78 },
+        { "Tree Little3", 91, 39 },
+        { "Tree Tiny2", 56, 78 },
+        { "Tree Small6", 52, 77 },
+        { "Tree Small4", 64, 64 },
+        { "Tree Small6", 44, 81 },
+        { "Tree Little1", 37, 79 },
+        { "Tree Little2", 25, 71 },
+        { "Tree Little4", 24, 61.2 },
+        { "Tree Little2", 26.5, 54 },
+        { "Tree Tiny3", 35, 64 },
+        { "Tree Tiny2", 46, 52 },
+        { "Tree Little1", 40, 55 },
+        { "Tree Little3", 64, 52 },
+        { "Tree Little4", 57, 58 },
     }
 
 	-- Loads the trees according to the array
