@@ -502,14 +502,6 @@ bool MapMode::_Load()
         return false;
     }
 
-    // Read the name of the map, and load the location graphic image
-    _map_hud_name = MakeUnicodeString(_map_script.ReadString("map_name"));
-    _map_hud_subname = MakeUnicodeString(_map_script.ReadString("map_subname"));
-    std::string map_filename = _map_script.ReadString("map_image_filename");
-    if(!map_filename.empty() && !_map_image.Load(_map_script.ReadString("map_image_filename")))
-        PRINT_ERROR << "Failed to load location graphic image: "
-                    << _map_image.GetFilename() << std::endl;
-
     // Instruct the supervisor classes to perform their portion of the load operation
     if(!_tile_supervisor->Load(_map_script)) {
         PRINT_ERROR << "Failed to load the tile data." << std::endl;
@@ -519,6 +511,19 @@ bool MapMode::_Load()
     // NOTE: The object supervisor will complain itself about the error.
     if(!_object_supervisor->Load(_map_script))
         return false;
+
+    // Loads the map image and translated location names.
+    // Test for empty strings to never trigger the default gettext msg string
+    // which contains translation info.
+    std::string map_hud_name = _map_script.ReadString("map_name");
+    _map_hud_name = map_hud_name.empty() ? ustring() : UTranslate(map_hud_name);
+    std::string map_hud_subname = _map_script.ReadString("map_subname");
+    _map_hud_subname = map_hud_subname.empty() ? ustring() : UTranslate(map_hud_subname);
+
+    std::string map_image_filename = _map_script.ReadString("map_image_filename");
+    if(!map_image_filename.empty() && !_map_image.Load(map_image_filename))
+        PRINT_ERROR << "Failed to load location graphic image: "
+                    << map_image_filename << std::endl;
 
     // Load map default music
     // NOTE: Other audio handling will be handled through scripting
