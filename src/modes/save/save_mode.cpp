@@ -153,7 +153,7 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 
     // Initialize the save preview text boxes
     _map_name_textbox.SetPosition(600.0f, 215.0f);
-    _map_name_textbox.SetDimensions(250.0f, 26.0f);
+    _map_name_textbox.SetDimensions(300.0f, 26.0f);
     _map_name_textbox.SetTextStyle(TextStyle("title22"));
     _map_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _map_name_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -357,6 +357,11 @@ void SaveMode::DrawPostEffects()
             }
         }
         _file_list.Draw();
+
+        VideoManager->Move(420.0f, 130.0f);
+        if (!_location_image.GetFilename().empty())
+            _location_image.Draw(Color(1.0f, 1.0f, 1.0f, 0.4f));
+
         _map_name_textbox.Draw();
         _time_textbox.Draw();
         _drunes_textbox.Draw();
@@ -414,9 +419,9 @@ void SaveMode::_ClearSaveData()
     _map_name_textbox.SetDisplayText(UTranslate("No valid data"));
     _time_textbox.SetDisplayText(" ");
     _drunes_textbox.SetDisplayText(" ");
-    for(uint32 i = 0; i < 4; ++i) {
+    _location_image.Clear();
+    for (uint32 i = 0; i < 4; ++i)
         _character_window[i].SetCharacter(NULL);
-    }
 }
 
 
@@ -449,13 +454,45 @@ bool SaveMode::_PreviewGame(int id)
     file.OpenTable("save_game1");
 
     std::string map_filename = file.ReadString("map_filename");
+    // Tests the map file and gets the untransalted map hud name from it.
+    ReadScriptDescriptor map_file;
+    if(!map_file.OpenFile(map_filename)) {
+        _ClearSaveData();
+        return false;
+    }
 
-    // using ints to store temp data to populate text boxes
-    int hours, minutes, seconds, drunes;
-    hours = file.ReadInt("play_hours");
-    minutes = file.ReadInt("play_minutes");
-    seconds = file.ReadInt("play_seconds");
-    drunes = file.ReadInt("drunes");
+    // Determine the map's tablespacename and then open it. The tablespace is the name of the map file without
+    // file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
+    int32 period = map_filename.find(".");
+    int32 last_slash = map_filename.find_last_of("/");
+    std::string map_tablespace = map_filename.substr(last_slash + 1, period - (last_slash + 1));
+    map_file.OpenTable(map_tablespace);
+
+    // Read the in-game location of the save
+    std::string map_hud_name = map_file.ReadString("map_name");
+    // FIXME: Prevents a crash in TextBox::SetDisplayText which cannot handle empty strings atm.
+    if (map_hud_name.empty())
+        map_hud_name = " ";
+    _map_name_textbox.SetDisplayText(UTranslate(map_hud_name));
+
+    // Loads the potential location image
+    std::string map_image_filename = map_file.ReadString("map_image_filename");
+    if (map_image_filename.empty()) {
+        _location_image.Clear();
+    }
+    else {
+        if (_location_image.Load(map_image_filename))
+            _location_image.SetWidthKeepRatio(340.0f);
+    }
+
+    map_file.CloseTable();
+    map_file.CloseFile();
+
+    // Used to store temp data to populate text boxes
+    int32 hours = file.ReadInt("play_hours");
+    int32 minutes = file.ReadInt("play_minutes");
+    int32 seconds = file.ReadInt("play_seconds");
+    int32 drunes = file.ReadInt("drunes");
 
     if(!file.DoesTableExist("characters")) {
         file.CloseFile();
@@ -492,7 +529,6 @@ bool SaveMode::_PreviewGame(int id)
     }
     file.CloseTable();
 
-
     // Report any errors detected from the previous read operations
     if(file.IsErrorDetected()) {
         if(GLOBAL_DEBUG) {
@@ -504,44 +540,26 @@ bool SaveMode::_PreviewGame(int id)
 
     file.CloseFile();
 
-    ReadScriptDescriptor map_file;
-    // Loads the map file to get location name
-    if(!map_file.OpenFile(map_filename)) {
-        _ClearSaveData();
-        return false;
-    }
-
-    // Determine the map's tablespacename and then open it. The tablespace is the name of the map file without
-    // file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
-    int32 period = map_filename.find(".");
-    int32 last_slash = map_filename.find_last_of("/");
-    std::string map_tablespace = map_filename.substr(last_slash + 1, period - (last_slash + 1));
-    map_file.OpenTable(map_tablespace);
-
-    // Read the name of the map
-    ustring map_name = MakeUnicodeString(map_file.ReadString("map_name"));
-
-    map_file.CloseTable();
-    map_file.CloseFile();
-
     for(uint32 i = 0; i < 4 && i < char_ids.size(); ++i) {
         _character_window[i].SetCharacter(character[i]);
     }
 
-    _map_name_textbox.SetDisplayText(map_name);
-
     std::ostringstream time_text;
-    time_text << "Time - ";
     time_text << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
     time_text << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
     time_text << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-    _time_textbox.SetDisplayText(time_text.str());
+    hoa_utils::ustring time_ustr = UTranslate("Time - ");
+    time_ustr += MakeUnicodeString(time_text.str());
+    _time_textbox.SetDisplayText(time_ustr);
 
-    std::ostringstream drunes_text;
-    drunes_text << "Drunes - " << drunes;
+    std::ostringstream drunes_amount;
+    drunes_amount << drunes;
 
-    _drunes_textbox.SetDisplayText(drunes_text.str());
+    hoa_utils::ustring drunes_ustr = UTranslate("Drunes - ");
+    drunes_ustr += MakeUnicodeString(drunes_amount.str());
+
+    _drunes_textbox.SetDisplayText(drunes_ustr);
     return true;
 } // bool SaveMode::_PreviewGame(string& filename)
 
@@ -549,18 +567,6 @@ bool SaveMode::_PreviewGame(int id)
 ////////////////////////////////////////////////////////////////////////////////
 // SmallCharacterWindow Class
 ////////////////////////////////////////////////////////////////////////////////
-
-SmallCharacterWindow::SmallCharacterWindow() : _character(NULL)
-{
-}
-
-
-
-SmallCharacterWindow::~SmallCharacterWindow()
-{
-}
-
-
 
 void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
 {

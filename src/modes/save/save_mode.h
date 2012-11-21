@@ -48,9 +48,12 @@ private:
     hoa_video::StillImage _portrait;
 
 public:
-    SmallCharacterWindow();
+    SmallCharacterWindow():
+        _character(NULL)
+    {}
 
-    ~SmallCharacterWindow();
+    ~SmallCharacterWindow()
+    {}
 
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
@@ -140,6 +143,7 @@ private:
     hoa_gui::TextBox _map_name_textbox;
     hoa_gui::TextBox _time_textbox;
     hoa_gui::TextBox _drunes_textbox;
+    hoa_video::StillImage _location_image;
 
     //! \brief Used to know whether a save position has to be saved.
     uint32 _x_position, _y_position;
