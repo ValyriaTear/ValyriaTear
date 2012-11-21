@@ -396,7 +396,6 @@ function _CreateCharacters()
 	hero = CreateSprite(Map, "Bronann", 40, 4);
 	hero:SetDirection(hoa_map.MapMode.SOUTH);
 	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-    hero:SetCollisionMask(hoa_map.MapMode.NO_COLLISION); -- DEV
 
     -- Load previous save point data
     local x_position = GlobalManager:GetSaveLocationX();
