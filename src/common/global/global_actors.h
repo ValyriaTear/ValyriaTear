@@ -663,15 +663,15 @@ protected:
 *** of this class is to manage and monitor the character's growth stats. It provide
 *** an interface for external code to determine when and what growth occurs in a
 *** character's stats. Growth may occur whenever a character gains additional experience
-*** points. Growth does occur even when the character has not reached a new experience
-*** level, as gradual growth is allowed in stats over time with a
-*** larger spike in growth after achieving a new experience level.
+*** points. Growth can occur even when the character has not reached a new experience
+*** level, as gradual growth is allowed in stats over time with a larger spike in growth
+*** after achieving a new experience level.
 ***
 *** The advised procedure for determining and processing character growth is as follows.
 *** -# If the return value of GlobalCharacter::AddExperiencePoints is true, growth
 ***    has occured and should be processed.
 *** -# Call GlobalCharacter::GetGrowth() to retrieve a pointer to this object
-*** -# Call IsExperienceLevel() to determine whether the type growth is a new
+*** -# Call IsExperienceLevelGained() to determine whether the type growth is a new
 ***    experience level, or simply gradual growth.
 *** -# If the growth type is gradual, call the various Growth() methods and
 ***    report any non-zero values to the player. Then call AcknoledgeGrowth()
@@ -766,9 +766,6 @@ private:
     //! \brief The experience points required to reach the next experience level
     uint32 _experience_for_next_level;
 
-    //! \brief The experience points that were required to reach the previous experience level
-    uint32 _experience_for_last_level;
-
     /** \brief The amount of growth that should be added to each of the character's stats
     *** These members are incremented by the _UpdateGrowth() function, which detects when a character
     *** has enough experience points to meet a growth requirement. They are all cleared to zero after
@@ -843,13 +840,6 @@ private:
     *** empty when this function is called.
     **/
     void _ConstructPeriodicGrowth();
-
-    /** \brief An algorithm that computes how many experience points are needed to reach the next level
-    *** This algorithm is a function of the current experience level and the experience points that
-    *** were required to reach the current level. This function modifies the _experience_for_next_level
-    *** and _experience_for_last_level members.
-    **/
-    void _DetermineNextLevelExperience();
 }; // class GlobalCharacterGrowth
 
 
@@ -923,6 +913,10 @@ public:
 
     //! \name Public Member Access Functions
     //@{
+    void SetExperienceForNextLevel(uint32 xp) {
+        _growth._experience_for_next_level += xp;
+    }
+
     uint32 GetExperienceForNextLevel() const {
         return _growth._experience_for_next_level;
     }
