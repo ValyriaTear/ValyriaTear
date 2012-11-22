@@ -1072,7 +1072,6 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
 
     file.InsertNewLine();
     file.WriteLine("\t\tgrowth = {");
-    file.WriteLine("\t\t\texperience_for_last_level = " + NumberToString(growth->_experience_for_last_level) + ",");
     file.WriteLine("\t\t\texperience_for_next_level = " + NumberToString(growth->_experience_for_next_level) + ",");
 
     file.WriteLine("\t\t\thit_points = { ");
@@ -1323,7 +1322,6 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
 
     file.OpenTable("growth");
 
-    growth->_experience_for_last_level = file.ReadUInt("experience_for_last_level");
     growth->_experience_for_next_level = file.ReadUInt("experience_for_next_level");
 
     growth_keys.clear();

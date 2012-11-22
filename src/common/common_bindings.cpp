@@ -318,6 +318,7 @@ void BindCommonCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
         [
             luabind::class_<GlobalCharacter, GlobalActor>("GlobalCharacter")
+            .def("SetExperienceForNextLevel", &GlobalCharacter::SetExperienceForNextLevel)
             .def("GetGrowth", &GlobalCharacter::GetGrowth)
             .def("AddSkill", &GlobalCharacter::AddSkill)
         ];

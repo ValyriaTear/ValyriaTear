@@ -721,7 +721,6 @@ GlobalCharacterGrowth::GlobalCharacterGrowth(GlobalCharacter *owner) :
     _experience_level_gained(false),
     _growth_detected(false),
     _experience_for_next_level(0),
-    _experience_for_last_level(0),
     _hit_points_growth(0),
     _skill_points_growth(0),
     _strength_growth(0),
@@ -790,7 +789,6 @@ void GlobalCharacterGrowth::AcknowledgeGrowth()
 
         _character_owner->_experience_level += 1;
         _experience_level_gained = false;
-        _DetermineNextLevelExperience();
 
         std::string filename = "dat/actors/characters.lua";
         ReadScriptDescriptor character_script;
@@ -1083,21 +1081,6 @@ void GlobalCharacterGrowth::_ConstructPeriodicGrowth()
     _evade_growth = 0.0f;
 }
 
-
-
-void GlobalCharacterGrowth::_DetermineNextLevelExperience()
-{
-    uint32 base_xp = 0;
-    uint32 new_xp = 0;
-
-    // TODO: implement a real algorithm for determining the next experience goal
-    base_xp = _character_owner->GetExperienceLevel() * 40;
-    new_xp = GaussianRandomValue(base_xp, base_xp / 10.0f);
-
-    _experience_for_last_level = _experience_for_next_level;
-    _experience_for_next_level = _experience_for_last_level + new_xp;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalCharacter class
 ////////////////////////////////////////////////////////////////////////////////
@@ -1304,10 +1287,6 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
     // Determine the character's initial growth if necessary
     if(initial) {
-        // Initialize the experience level milestones
-        _growth._experience_for_last_level = _experience_points;
-        _growth._experience_for_next_level = _experience_points;
-        _growth._DetermineNextLevelExperience();
         try {
             ScriptCallFunction<void>(char_script.GetLuaState(), "DetermineGrowth", this);
             _growth._ConstructPeriodicGrowth();
@@ -1333,12 +1312,16 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
 } // GlobalCharacter::GlobalCharacter(uint32 id, bool initial)
 
+
+
 bool GlobalCharacter::AddExperiencePoints(uint32 xp)
 {
     _experience_points += xp;
     _growth._CheckForGrowth();
     return _growth.IsGrowthDetected();
 }
+
+
 
 void GlobalCharacter::AddSkill(uint32 skill_id)
 {
