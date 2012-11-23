@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-16 00:36+0100\n"
-"PO-Revision-Date: 2012-11-20 14:45+0100\n"
+"POT-Creation-Date: 2012-11-21 02:36+0100\n"
+"PO-Revision-Date: 2012-11-21 12:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -713,37 +713,41 @@ msgstr "M.ATK: "
 msgid "M.DEF: "
 msgstr "M.DEF: "
 
-#: ../src/modes/menu/menu.cpp:991
+#: ../src/modes/menu/menu.cpp:996
 msgid "ATK:"
 msgstr "ATK:"
 
-#: ../src/modes/menu/menu.cpp:993
+#: ../src/modes/menu/menu.cpp:998
 msgid "DEF:"
 msgstr "DEF:"
 
-#: ../src/modes/menu/menu.cpp:1017
+#: ../src/modes/menu/menu.cpp:1022
 msgid "M.ATK:"
 msgstr "M.ATK:"
 
-#: ../src/modes/menu/menu.cpp:1019
+#: ../src/modes/menu/menu.cpp:1024
 msgid "M.DEF:"
 msgstr "M.DEF:"
 
 #: ../src/modes/menu/menu.cpp:1064
+msgid "Time: "
+msgstr "Zeit: "
+
+#: ../src/modes/menu/menu.cpp:1069
 msgid "Drunes: "
 msgstr "Runen: "
 
-#: ../src/modes/menu/menu_views.cpp:104 ../src/modes/save/save_mode.cpp:609
+#: ../src/modes/menu/menu_views.cpp:104 ../src/modes/save/save_mode.cpp:615
 msgid "Lv: "
 msgstr "Lv: "
 
 #: ../src/modes/menu/menu_views.cpp:108 ../src/modes/menu/menu_views.cpp:575
-#: ../src/modes/save/save_mode.cpp:613
+#: ../src/modes/save/save_mode.cpp:619
 msgid "HP: "
 msgstr "HP: "
 
 #: ../src/modes/menu/menu_views.cpp:113 ../src/modes/menu/menu_views.cpp:579
-#: ../src/modes/save/save_mode.cpp:618
+#: ../src/modes/save/save_mode.cpp:624
 msgid "SP: "
 msgstr "SP: "
 
@@ -1129,9 +1133,17 @@ msgstr ""
 "Speichern nicht möglich!\n"
 "Speichervorgang fehlgeschlagen!"
 
-#: ../src/modes/save/save_mode.cpp:414
+#: ../src/modes/save/save_mode.cpp:419
 msgid "No valid data"
 msgstr "Speicherpunkt ungültig"
+
+#: ../src/modes/save/save_mode.cpp:552
+msgid "Time - "
+msgstr "Zeit - "
+
+#: ../src/modes/save/save_mode.cpp:559
+msgid "Drunes - "
+msgstr "Runen - "
 
 #: ../src/modes/shop/shop_buy.cpp:58 ../src/modes/shop/shop_sell.cpp:58
 msgid "Category"
@@ -1619,7 +1631,7 @@ msgstr ""
 #: ../dat/battles/tutorial_battle_dialogs.lua:100
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:523
 #: ../dat/maps/layna_village/layna_village_center.lua:766
-#: ../dat/maps/layna_village/layna_village_center.lua:1235
+#: ../dat/maps/layna_village/layna_village_center.lua:1234
 msgid "..."
 msgstr "..."
 
@@ -1652,10 +1664,10 @@ msgid ""
 "gauge. Each character's HP and SP are displayed at the bottom of the screen. "
 "As enemies take damage in battle, their appearance will reflect that damage."
 msgstr ""
-"Jeder Kampfteilnemer hat eine Lebenspunkte (HP) und Fertigkeitspunkte (SP) "
-"Anzeige.Die HP und SP der Mitstreiter werden im unteren Teil des Bildschirms "
-"angezeigt. Der erlittene Schaden beeinflusst das äußere Erscheinungsbild des "
-"Gegners."
+"Jeder Kampfteilnemer hat eine Lebenspunkte- (HP) und "
+"Fertigkeitspunkteanzeige (SP). Die HP und SP der Mitstreiter werden im "
+"unteren Teil des Bildschirms angezeigt. Der erlittene Schaden beeinflusst "
+"das äußere Erscheinungsbild."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:58
 msgid ""
@@ -1956,107 +1968,11 @@ msgstr "Lähmung"
 msgid "Stasis"
 msgstr "Starre"
 
-#: ../dat/maps/layna_forest_entrance.lua:320
 #: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:459
-#: ../dat/maps/layna_forest/layna_forest_south_east.lua:444
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:320
+#: ../dat/maps/layna_forest/layna_forest_south_east.lua:445
 msgid "Your party feels better..."
 msgstr "Deine Gruppe fühlt sich besser..."
-
-#: ../dat/maps/layna_forest_entrance.lua:598
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:828
-msgid "What's that?!"
-msgstr "Was ist das?!"
-
-#: ../dat/maps/layna_forest_entrance.lua:613
-msgid "Can you also see this strange circle surrounded by light?"
-msgstr "Kannst du auch diesen seltsamen von Licht umgebenen Kreis sehen?"
-
-#: ../dat/maps/layna_forest_entrance.lua:615
-msgid "When I'm standing near you, I can."
-msgstr "Wenn ich mich zu dir stelle, ja."
-
-#: ../dat/maps/layna_forest_entrance.lua:617
-msgid "Strange... it sounds familiar to me. Like... A safe place to be."
-msgstr "Seltsam... es fühlt sich vertraut an. Wie... ein sicherer Ort."
-
-#: ../dat/maps/layna_forest_entrance.lua:619
-msgid "I feel like I can go in there..."
-msgstr "Ich denke ich kann es betreten..."
-
-#: ../dat/maps/layna_forest_entrance.lua:621
-msgid "Be careful, Kalya!"
-msgstr "Sei vorsichtig, Kalya!"
-
-#: ../dat/maps/layna_forest_entrance.lua:623
-msgid "It is like... it's calling me."
-msgstr "Es ist als... würde es mich rufen."
-
-#: ../dat/maps/layna_forest_entrance.lua:636
-msgid "See... It brings no harm."
-msgstr "Siehst du... Es ist ungefährlich."
-
-#: ../dat/maps/layna_forest_entrance.lua:638
-msgid "Err... Are you sure?"
-msgstr "Äh... Bist du sicher?"
-
-#: ../dat/maps/layna_forest_entrance.lua:640
-msgid "Sure! Do you trust me?"
-msgstr "Ja! Vertraust du mir?"
-
-#: ../dat/maps/layna_forest_entrance.lua:642
-msgid "... I do trust you, Kalya."
-msgstr "... Ich vertraue dir, Kalya."
-
-#: ../dat/maps/layna_forest_entrance.lua:645
-msgid "If so, then come and try for yourself. Push '"
-msgstr "Wenn das so ist, dann komm und probiere es selbst aus. Drücke '"
-
-#: ../dat/maps/layna_forest_entrance.lua:647
-msgid "' and you'll feel safe, too."
-msgstr "' und du wirst dich geborgen fühlen."
-
-#: ../dat/maps/layna_forest_entrance.lua:649
-msgid "Ok, I... I'll do it."
-msgstr "Okay, Ich... Ich mach es."
-
-#: ../dat/maps/layna_forest_entrance.lua:661
-msgid ""
-"Oh, I almost forgot, have you seen up here? There is a Layna spring! We can "
-"heal our wounds there."
-msgstr ""
-"Ach ja, fast vergessen, siehst du das da? Dort is eine Layna Quelle! Wir "
-"können unsere Verletzungen dort heilen."
-
-#: ../dat/maps/layna_forest_entrance.lua:663
-msgid "Just stand in front of the goddess statue below the spring and push '"
-msgstr ""
-"Stelle dich einfach vor die Statue der Göttin an der Quelle und drücke '"
-
-#: ../dat/maps/layna_forest_entrance.lua:665
-msgid "'."
-msgstr "'."
-
-#: ../dat/maps/layna_forest_entrance.lua:667
-msgid "Ok, thanks."
-msgstr "Okay, danke."
-
-#: ../dat/maps/layna_forest_entrance.lua:669
-msgid "... What are you waiting for? Come."
-msgstr "... Worauf wartest du noch? Gehen wir."
-
-#: ../dat/maps/layna_forest_entrance.lua:671
-msgid "Huh? Ok, I... I'm coming."
-msgstr "Hä? Okay, ich... ich komme."
-
-#: ../dat/maps/layna_forest_entrance.lua:683
-msgid "You're right. This place makes me feel good."
-msgstr "Du hast recht. Ich verspüre ein angenehmes Gefühl hier."
-
-#: ../dat/maps/layna_forest_entrance.lua:685
-msgid "See? Now let's find my brother before he gets hurt."
-msgstr ""
-"Siehst du? Jetzt sollten wir los, und meinen Bruder finden bevor ihm noch "
-"etwas zustößt."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:454
 msgid "Only the last one standing shall pass..."
@@ -2065,6 +1981,102 @@ msgstr "Nur wer überlebt darf passieren..."
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:490
 msgid "... Something heavy seems to have fallen nearby."
 msgstr "... Etwas schweres fiel in der Nähe runter."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:598
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:828
+msgid "What's that?!"
+msgstr "Was ist das?!"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:613
+msgid "Can you also see this strange circle surrounded by light?"
+msgstr "Kannst du auch diesen seltsamen von Licht umgebenen Kreis sehen?"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:615
+msgid "When I'm standing near you, I can."
+msgstr "Wenn ich mich zu dir stelle, ja."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:617
+msgid "Strange... it sounds familiar to me. Like... A safe place to be."
+msgstr "Seltsam... es fühlt sich vertraut an. Wie... ein sicherer Ort."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:619
+msgid "I feel like I can go in there..."
+msgstr "Ich denke ich kann es betreten..."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:621
+msgid "Be careful, Kalya!"
+msgstr "Sei vorsichtig, Kalya!"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:623
+msgid "It is like... it's calling me."
+msgstr "Es ist als... würde es mich rufen."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:636
+msgid "See... It brings no harm."
+msgstr "Siehst du... Es ist ungefährlich."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:638
+msgid "Err... Are you sure?"
+msgstr "Äh... Bist du sicher?"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:640
+msgid "Sure! Do you trust me?"
+msgstr "Ja! Vertraust du mir?"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:642
+msgid "... I do trust you, Kalya."
+msgstr "... Ich vertraue dir, Kalya."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:645
+msgid "If so, then come and try for yourself. Push '"
+msgstr "Wenn das so ist, dann komm und probiere es selbst aus. Drücke '"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:647
+msgid "' and you'll feel safe, too."
+msgstr "' und du wirst dich geborgen fühlen."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:649
+msgid "Ok, I... I'll do it."
+msgstr "Okay, Ich... Ich mach es."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:661
+msgid ""
+"Oh, I almost forgot, have you seen up here? There is a Layna spring! We can "
+"heal our wounds there."
+msgstr ""
+"Ach ja, fast vergessen, siehst du das da? Dort is eine Layna Quelle! Wir "
+"können unsere Verletzungen dort heilen."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:663
+msgid "Just stand in front of the goddess statue below the spring and push '"
+msgstr ""
+"Stelle dich einfach vor die Statue der Göttin an der Quelle und drücke '"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:665
+msgid "'."
+msgstr "'."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:667
+msgid "Ok, thanks."
+msgstr "Okay, danke."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:669
+msgid "... What are you waiting for? Come."
+msgstr "... Worauf wartest du noch? Gehen wir."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:671
+msgid "Huh? Ok, I... I'm coming."
+msgstr "Hä? Okay, ich... ich komme."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:683
+msgid "You're right. This place makes me feel good."
+msgstr "Du hast recht. Ich verspüre ein angenehmes Gefühl hier."
+
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:685
+msgid "See? Now let's find my brother before he gets hurt."
+msgstr ""
+"Siehst du? Jetzt sollten wir los und meinen Bruder finden, bevor ihm noch "
+"etwas zustößt."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east.lua:857
 msgid ""
@@ -2251,7 +2263,7 @@ msgstr "Perfektes Timing, lass uns zu Abend essen."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:704
 msgid "Could you go and buy some barley meal for us three?"
-msgstr "Konntest du losgehen und etwas Gerstemehl für uns drei kaufen?"
+msgstr "Könntest du losgehen und etwas Gerstemehl für uns drei kaufen?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:711
 msgid "Hi son, did you also have a nightmare last night?"
@@ -2267,7 +2279,7 @@ msgstr "Äh-äh? Ich bin deine Mutter, schon vergessen?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:722
 msgid "Don't venture too far, I'll need your help quite soon!"
-msgstr "Gehe nicht zu weit raus, ich brauche deine Hilfe recht bald!"
+msgstr "Geh nicht zu weit raus, ich brauche  in Kürze deine Hilfe!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:375
 msgid "Please, leave me alone, Bronann..."
@@ -2292,18 +2304,7 @@ msgstr ""
 "Falls du hinter Orlinn her bist, ich sah ihn gerade in der Nähe deines "
 "Hauses verschwinden."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:445
-msgid ""
-"Bronann! Sorry, you know you can't access the forest without permission."
-msgstr ""
-"Bronann! Tut mir leid, du kannst den Wald nicht ohne Erlaubnis betreten."
-
-#: ../dat/maps/layna_village/layna_village_center.lua:447
-#: ../dat/maps/layna_village/layna_village_center.lua:456
-msgid "Aww... Ok."
-msgstr "Aww... Okay."
-
-#: ../dat/maps/layna_village/layna_village_center.lua:454
+#: ../dat/maps/layna_village/layna_village_center.lua:446
 msgid ""
 "Bronann! Sorry, you can't access the forest without permission. You don't "
 "even have a sword..."
@@ -2311,9 +2312,20 @@ msgstr ""
 "Bronann! Tut mir leid, du kannst den Wald nicht ohne Erlaubnis betreten. Du "
 "hast nicht mal ein Schwert..."
 
+#: ../dat/maps/layna_village/layna_village_center.lua:448
 #: ../dat/maps/layna_village/layna_village_center.lua:458
+msgid "Aww... Ok."
+msgstr "Aww... Okay."
+
+#: ../dat/maps/layna_village/layna_village_center.lua:450
 msgid "(Hmm, maybe I should get a sword then.)"
 msgstr "(Hmm, vielleicht sollte ich mir ein Schwert besorgen.)"
+
+#: ../dat/maps/layna_village/layna_village_center.lua:456
+msgid ""
+"Bronann! Sorry, you know you can't access the forest without permission."
+msgstr ""
+"Bronann! Tut mir leid, du kannst den Wald nicht ohne Erlaubnis betreten."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:465
 msgid "Good luck Bronann."
@@ -2322,7 +2334,7 @@ msgstr "Viel Glück Bronann."
 #: ../dat/maps/layna_village/layna_village_center.lua:639
 msgid "Hmm, I'll go to Flora's shop. I hope she'll help me..."
 msgstr ""
-"Hmm, Ich geh mal los zu Floras Laden. Ich hoffe, dass sie mir weiterhelfen "
+"Hmm, Ich geh mal los zu Flora's Laden. Ich hoffe, dass sie mir weiterhelfen "
 "kann..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:681
@@ -2352,7 +2364,7 @@ msgstr "... Bronann! Warte!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:744
 msgid "I suppose you just saw that light, right?"
-msgstr "Ich nehme an du hast das Licht gerade gesehen, richtig?"
+msgstr "Ich nehme an, du hast das Licht gerade gesehen, richtig?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:746
 msgid "... Hmmm..."
@@ -2372,7 +2384,7 @@ msgstr "Sie kommen!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:764
 msgid "Carson, they've passed the river. They shall be here in no time."
-msgstr "Carson, sie haben den Fluss überquert. Sie werden in kürze hier sein."
+msgstr "Carson, sie haben den Fluss überquert. Sie werden in Kürze hier sein."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:768
 msgid "Huh? Hey, what's happening here?!"
@@ -2443,7 +2455,7 @@ msgid "What?!?"
 msgstr "Was?!?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:807
-#: ../dat/maps/layna_village/layna_village_center.lua:1184
+#: ../dat/maps/layna_village/layna_village_center.lua:1183
 msgid "Huh?"
 msgstr "Hä?"
 
@@ -2592,21 +2604,21 @@ msgstr ""
 "anführen. Damit meine ich, dass die Person, welche die Formation anführt, zu "
 "sehen ist, während die anderen verborgen bleiben."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:984
+#: ../dat/maps/layna_village/layna_village_center.lua:983
 msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
 msgstr ""
 "Hmm, gut. Ich bin nicht sicher, dass ich komplett verstehe was du meinst, "
 "aber..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:986
+#: ../dat/maps/layna_village/layna_village_center.lua:985
 msgid "Rrrr... Bronann. Just listen."
 msgstr "Rrrr... Bronann. Konzentrier dich."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:988
+#: ../dat/maps/layna_village/layna_village_center.lua:987
 msgid "Err, wow, ok!"
 msgstr "Äh, wow, okay!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:990
+#: ../dat/maps/layna_village/layna_village_center.lua:989
 msgid ""
 "That will be the case only in certain areas. Here in the village, you'll be "
 "the one leading, or at least you may believe that ..."
@@ -2614,29 +2626,29 @@ msgstr ""
 "Dies wird nur in bestimmten Gebieten der Fall sein. Hier im Dorf, bist du "
 "der Führende. Oder du glaubst zumindest, dass du es bist..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:992
+#: ../dat/maps/layna_village/layna_village_center.lua:991
 msgid "(Sigh) ... Ok."
 msgstr "(Seufz)  ... Okay."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1124
-#: ../dat/maps/layna_village/layna_village_center.lua:1145
+#: ../dat/maps/layna_village/layna_village_center.lua:1123
+#: ../dat/maps/layna_village/layna_village_center.lua:1144
 msgid "Actually, the barley meal was for Lilly."
 msgstr "Eigentlich war das Gerstemehl für Lilly."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1126
-#: ../dat/maps/layna_village/layna_village_center.lua:1147
+#: ../dat/maps/layna_village/layna_village_center.lua:1125
+#: ../dat/maps/layna_village/layna_village_center.lua:1146
 msgid "!! What?"
 msgstr "!! Was?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1128
+#: ../dat/maps/layna_village/layna_village_center.lua:1127
 msgid "Don't thank me for that. It's my pleasure."
 msgstr "Du must mir nich danken. Es ist mir eine Freude."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1137
+#: ../dat/maps/layna_village/layna_village_center.lua:1136
 msgid "Here it is, Georges."
 msgstr "Hier ist er, Georges."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1139
+#: ../dat/maps/layna_village/layna_village_center.lua:1138
 msgid ""
 "You're the nicest person I know, Bronnan. I well tell everyone how brave "
 "you..."
@@ -2644,22 +2656,22 @@ msgstr ""
 "Du bist die netteste Person die ich kenne, Bronann. Ich erzähle jederman wie "
 "mutig du..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1141
+#: ../dat/maps/layna_village/layna_village_center.lua:1140
 msgid "(Sigh...) Georges!"
 msgstr "(Seufz...) Georges!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1143
+#: ../dat/maps/layna_village/layna_village_center.lua:1142
 msgid "Ok ok. Just having a bit of spirit, young man."
 msgstr ""
 "Okay okay. Ich wollte doch nur meine Begeisterung zum Ausdruck bringen, "
 "junger Mann."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1149
+#: ../dat/maps/layna_village/layna_village_center.lua:1148
 msgid "Don't thank me for that, it's my pleasure."
 msgstr "Nicht doch, es war mir ein Vergnügen."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1157
-#: ../dat/maps/layna_village/layna_village_center.lua:1186
+#: ../dat/maps/layna_village/layna_village_center.lua:1156
+#: ../dat/maps/layna_village/layna_village_center.lua:1185
 msgid ""
 "You see, I lost my beloved pen. Was it near a tree or next to the waving "
 "child of the mountain snow?"
@@ -2667,29 +2679,29 @@ msgstr ""
 "Mir ist mein geliebter Stift abhanden gekommen. War es in der Nähe eines "
 "Baumes oder nahe des wogenden Gebirgsschneekindes?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1159
-#: ../dat/maps/layna_village/layna_village_center.lua:1188
+#: ../dat/maps/layna_village/layna_village_center.lua:1158
+#: ../dat/maps/layna_village/layna_village_center.lua:1187
 msgid "Shall you find it, I would be entrustfully obliged to you!"
 msgstr "Ich wäre dir zutiefst verpflichtet, soltest du ihn finden!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1161
-#: ../dat/maps/layna_village/layna_village_center.lua:1190
+#: ../dat/maps/layna_village/layna_village_center.lua:1160
+#: ../dat/maps/layna_village/layna_village_center.lua:1189
 msgid "(Sigh...) Hmm, ok."
 msgstr "(Seufz...) Hmm, okay."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1168
+#: ../dat/maps/layna_village/layna_village_center.lua:1167
 msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
 msgstr "Hallo Georges. Äh, ich komme aus dem Laden und ich..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1170
+#: ../dat/maps/layna_village/layna_village_center.lua:1169
 msgid "Can you hear this?"
 msgstr "Hörst du das?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1172
+#: ../dat/maps/layna_village/layna_village_center.lua:1171
 msgid "Erm, ... Well, I don't hear anything special..."
 msgstr "Hä, ... Nun, ich kann nichts besonderes hören..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1174
+#: ../dat/maps/layna_village/layna_village_center.lua:1173
 msgid ""
 "That's the point! Can't you hear the magnificient sound of nature, so "
 "invisible to our adapted ears?"
@@ -2697,11 +2709,11 @@ msgstr ""
 "Das ist der Punkt! Du kannst den herrlichen Klang der Natur nicht hören, so "
 "unhörbar für unsere daran gewöhnten Ohren?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1176
+#: ../dat/maps/layna_village/layna_village_center.lua:1175
 msgid "Huh, please Georges. I do not want to run away like the last time..."
 msgstr "Hä, bitte Georges. Ich werde nicht weglaufen wie das letzte Mal..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1178
+#: ../dat/maps/layna_village/layna_village_center.lua:1177
 msgid ""
 "... The incredible and amazing. I could even say, the stunning feel of it in "
 "the wind..."
@@ -2709,14 +2721,14 @@ msgstr ""
 "... Das unglaubliche und erstaunliche, man könnte sogar sagen, "
 "atemberaubende Gefühl im Wind..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1180
+#: ../dat/maps/layna_village/layna_village_center.lua:1179
 msgid ""
 "Georges, I simply wanted to ask you whether you had some barley meal left!"
 msgstr ""
 "Georges, ich wollte dich einfach nur fragen, ob du etwas Gerstemehl übrig "
 "hast!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1182
+#: ../dat/maps/layna_village/layna_village_center.lua:1181
 msgid ""
 "Ah, I see. Well unfortunately, I'm so sad about a recent loss that, I can't "
 "find the right words with which to tell you."
@@ -2724,7 +2736,7 @@ msgstr ""
 "Ach, ich verstehe. Nun, leider bin ich so voller Trauer über meinen "
 "kürzlichen Verlust, dass mir die richtigen Worte fehlen."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1198
+#: ../dat/maps/layna_village/layna_village_center.lua:1197
 msgid ""
 "Ah, the river is so beautiful at this time of the year. I feel like writing "
 "some poetry..."
@@ -2732,52 +2744,52 @@ msgstr ""
 "Ach, der Fluss ist so schön zu dieser Jahreszeit. Mir ist danach, ein "
 "Gedicht zu schreiben..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1225
+#: ../dat/maps/layna_village/layna_village_center.lua:1224
 msgid "I promise I won't bother you again ..."
 msgstr "Ich verspreche, dass ich dich nicht wieder belästigen werde..."
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1227
+#: ../dat/maps/layna_village/layna_village_center.lua:1226
 msgid "Don't worry about that, Orlinn. Ok?"
 msgstr "Mach dir keine Sorgen, Orlinn. Okay?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1248
+#: ../dat/maps/layna_village/layna_village_center.lua:1247
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:943
 msgid "Hee hee hee!"
 msgstr "Hi hi hi!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1250
+#: ../dat/maps/layna_village/layna_village_center.lua:1249
 msgid "What are you laughing about, Orlinn?"
 msgstr "Was is so lustig, Orlinn?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1252
+#: ../dat/maps/layna_village/layna_village_center.lua:1251
 msgid "You'll never find it!"
 msgstr "Ihr werdet ihn niemals finden!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1254
+#: ../dat/maps/layna_village/layna_village_center.lua:1253
 msgid "Huh? Wait! Are you talking about Georges' lost pen?"
 msgstr "Hä? Warte! Sprichst du über Georges verlorengegangenen Stift?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1256
+#: ../dat/maps/layna_village/layna_village_center.lua:1255
 msgid "Hee hee hee! Yes!"
 msgstr "Hi hi hi! Ja!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1258
+#: ../dat/maps/layna_village/layna_village_center.lua:1257
 msgid "Please tell me! Have you found it?"
 msgstr "Nun sag schon! Hast du ihn gefunden?"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1260
+#: ../dat/maps/layna_village/layna_village_center.lua:1259
 msgid "Maybe yes, maybe no!"
 msgstr "Vielleicht ja, vielleicht nein!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1262
+#: ../dat/maps/layna_village/layna_village_center.lua:1261
 msgid "Oh no, please Orlinn! I need it!"
 msgstr "Oh nein, Orlinn bitte! Ich brauche ihn!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1264
+#: ../dat/maps/layna_village/layna_village_center.lua:1263
 msgid "Sure, I'll help you. But only if you can catch me!"
 msgstr "Sicher, Ich helfe dir. Aber nur wenn du mich fangen kannst!"
 
-#: ../dat/maps/layna_village/layna_village_center.lua:1270
+#: ../dat/maps/layna_village/layna_village_center.lua:1269
 msgid "Heya bro! Wanna play with me?"
 msgstr "Hey Bro! Willst du mit mir spielen?"
 
@@ -3521,6 +3533,61 @@ msgstr "Schleimruf"
 #: ../dat/skills/support.lua:80
 msgid "Creates a slime."
 msgstr "Erzeugt einen Schleim."
+
+#: map_names_tr.lua:2 map_names_tr.lua:6 map_names_tr.lua:81
+#: map_names_tr.lua:85
+msgid "Layna Forest Cave"
+msgstr "Layna Waldhöhle"
+
+#: map_names_tr.lua:10 map_names_tr.lua:14 map_names_tr.lua:18
+#: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:89
+#: map_names_tr.lua:93 map_names_tr.lua:97 map_names_tr.lua:101
+#: map_names_tr.lua:105
+msgid "Layna Forest"
+msgstr "Layna Wald"
+
+#: map_names_tr.lua:12 map_names_tr.lua:91
+msgid "Forest entrance"
+msgstr "Waldeingang"
+
+#: map_names_tr.lua:30
+msgid " "
+msgstr " "
+
+#: map_names_tr.lua:35 map_names_tr.lua:111
+msgid "Bronann's home"
+msgstr "Bronann's Haus"
+
+#: map_names_tr.lua:37 map_names_tr.lua:41 map_names_tr.lua:45
+#: map_names_tr.lua:49 map_names_tr.lua:53 map_names_tr.lua:57
+#: map_names_tr.lua:61 map_names_tr.lua:65 map_names_tr.lua:69
+#: map_names_tr.lua:73 map_names_tr.lua:77 map_names_tr.lua:113
+#: map_names_tr.lua:117 map_names_tr.lua:121 map_names_tr.lua:125
+#: map_names_tr.lua:129 map_names_tr.lua:133 map_names_tr.lua:137
+#: map_names_tr.lua:141 map_names_tr.lua:145 map_names_tr.lua:149
+#: map_names_tr.lua:153
+msgid "Mountain Village of Layna"
+msgstr "Bergdorf Layna"
+
+#: map_names_tr.lua:39 map_names_tr.lua:115
+msgid "Village center"
+msgstr "Dorfzentrum"
+
+#: map_names_tr.lua:43 map_names_tr.lua:119
+msgid "Flora's Boutique"
+msgstr "Flora's Laden"
+
+#: map_names_tr.lua:63 map_names_tr.lua:139
+msgid "Lilly's house"
+msgstr "Lilly's Haus"
+
+#: map_names_tr.lua:67 map_names_tr.lua:143
+msgid "Riverbank"
+msgstr "Flussufer"
+
+#: map_names_tr.lua:75 map_names_tr.lua:151
+msgid "Village entrance"
+msgstr "Dorfeingang"
 
 #~ msgid "Mind focus improving defence against incoming attacks."
 #~ msgstr ""
