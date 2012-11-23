@@ -377,12 +377,6 @@ function _CreateObjects()
 	object = CreateObject(Map, "Tree Small3", 40, 14);
 	Map:AddGroundObject(object);
 
-	-- Forest entrance treasure chest
-	local chest1 = CreateTreasure(Map, "forest_entrance_chest", "Wood_Chest1", 8, 3);
-	if (chest1 ~= nil) then
-		chest1:SetDrunes(50);
-		Map:AddGroundObject(chest1);
-	end
 	-- Trees above the pathway
 	object = CreateObject(Map, "Tree Big1", 4, 41);
 	Map:AddGroundObject(object);
