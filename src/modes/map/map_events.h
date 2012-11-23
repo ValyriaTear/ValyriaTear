@@ -309,16 +309,17 @@ public:
     **/
     SoundEvent(const std::string &event_id, const std::string &sound_filename);
 
-    ~SoundEvent();
+    ~SoundEvent()
+    { _sound.Stop(); }
 
     //! \brief Accessor which allows the properties of the sound to be customized
-    hoa_audio::SoundDescriptor &GetSound() {
-        return _sound;
-    }
+    hoa_audio::SoundDescriptor &GetSound()
+    { return _sound; }
 
 protected:
     //! \brief Begins playback of the sound
-    void _Start();
+    void _Start()
+    { _sound.Play(); }
 
     //! \brief Returns true when the sound has finished playing, or finished looping
     bool _Update();

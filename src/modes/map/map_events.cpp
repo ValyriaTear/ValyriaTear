@@ -112,31 +112,18 @@ SoundEvent::SoundEvent(const std::string &event_id, const std::string &sound_fil
     MapEvent(event_id, SOUND_EVENT)
 {
     if(_sound.LoadAudio(sound_filename) == false) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load sound event: "
-                                    << sound_filename << std::endl;
+        PRINT_WARNING << "failed to load sound event: "
+            << sound_filename << std::endl;
     }
-}
-
-
-
-SoundEvent::~SoundEvent()
-{
-    _sound.Stop();
-}
-
-
-
-void SoundEvent::_Start()
-{
-    _sound.Play();
 }
 
 
 
 bool SoundEvent::_Update()
 {
-    if(_sound.GetState() == AUDIO_STATE_STOPPED) {
-        // TODO: is it necessary to reset the loop counter and other properties here before returning?
+    if(_sound.GetState() == AUDIO_STATE_STOPPED ||
+            _sound.GetState() == AUDIO_STATE_UNLOADED ||
+            _sound.GetState() == AUDIO_STATE_PAUSED) {
         return true;
     }
 
