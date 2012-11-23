@@ -359,6 +359,12 @@ layers[3][47] = { 668, 669, 670, 671, 668, 669, 670, 671, 668, 669, 670, 671, 66
 -- the main character handler
 local hero = {};
 
+-- Forest dialogue secondary hero
+local kalya_sprite = nil;
+
+-- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
+local main_sprite_name = "";
+
 -- the main map loading code
 function Load(m)
 
@@ -386,6 +392,9 @@ function Load(m)
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 	-- Add the background and foreground animations
 	Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
+
+    -- The script file which will handle the display of the stone sign image.
+    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_cave1_2_stone_sign_image.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -410,10 +419,23 @@ function _CreateCharacters()
 	end
 
 	Map:AddGroundObject(hero);
+
+    -- Create secondary character for dialogue at map entrance
+    kalya_sprite = CreateSprite(Map, "Kalya",
+                                hero:GetXPosition(), hero:GetYPosition());
+
+    kalya_sprite:SetDirection(hoa_map.MapMode.NORTH);
+    kalya_sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    kalya_sprite:SetVisible(false);
+    Map:AddGroundObject(kalya_sprite);
 end
 
 -- Special object blocking the exit
 local blocking_rock = {};
+
+-- Special NPC used a sign
+local stone_sign = {};
 
 function _CreateObjects()
 	local object = {};
@@ -445,16 +467,13 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Sign1", 22, 10);
     Map:AddGroundObject(object);
     -- Create an invisible sprite, used to handle the dialogue
-	npc = CreateSprite(Map, "Butterfly", 22, 11);
-    npc:SetName("Stone sign");
-	npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-	npc:SetVisible(false);
-	Map:AddGroundObject(npc);
-	dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Only the last one standing shall pass...");
-	dialogue:AddLine(text, npc);
-	DialogueManager:AddDialogue(dialogue);
-	npc:AddDialogueReference(dialogue);
+	stone_sign = CreateSprite(Map, "Butterfly", 22, 11);
+    stone_sign:SetName("Stone sign");
+	stone_sign:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	stone_sign:SetVisible(false);
+	Map:AddGroundObject(stone_sign);
+
+    _UpdateStoneSignDialogue();
 
     -- Decorations
     object = CreateObject(Map, "Rock1", 107, 96);
@@ -473,17 +492,100 @@ function _CreateObjects()
     end
 end
 
+function _UpdateStoneSignDialogue()
+    local dialogue = {};
+    local text = {};
+
+    stone_sign:ClearDialogueReferences();
+
+    if (GlobalManager:DoesEventExist("story", "kalya_stone_sign_dialogue_done")) then
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("Only the last one standing shall pass ...");
+        dialogue:AddLine(text, stone_sign);
+        DialogueManager:AddDialogue(dialogue);
+        stone_sign:AddDialogueReference(dialogue);
+    else
+        -- Start the stone sign dialogue event
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("...");
+        dialogue:AddLineEvent(text, hero, "", "Start dialogue about stone sign");
+        DialogueManager:AddDialogue(dialogue);
+        stone_sign:AddDialogueReference(dialogue);
+    end
+end
+
+-- Special event references which destinations must be updated just before being called.
+local move_next_to_hero_event = {}
+local move_back_to_hero_event = {}
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
 	local event = {};
 	local dialogue = {};
 	local text = {};
 
+    -- Map transition events
 	event = hoa_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_cave_1_2");
 	EventManager:RegisterEvent(event);
+
+    -- Generic events
+    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, hoa_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, hoa_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    EventManager:RegisterEvent(event);
+
+    -- Dialogue
+    event = hoa_map.ScriptedEvent("Start dialogue about stone sign", "stone_sign_dialogue_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
+    move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
+    move_next_to_hero_event:AddEventLinkAtEnd("Display the stone sign image");
+    EventManager:RegisterEvent(move_next_to_hero_event);
+
+    event = hoa_map.ScriptedEvent("Display the stone sign image", "stone_sign_image_start", "stone_sign_image_update")
+    event:AddEventLinkAtEnd("Kalya reads the scripture");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("'Only the last one standing shall pass.' ...");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "", "Bronann looks at Kalya", "thinking dots");
+    text = hoa_system.Translate("You are able to decipher this writing, Kalya?");
+    dialogue:AddLineEmote(text, hero, "thinking dots");
+    text = hoa_system.Translate("Somehow... I don't know why, but yes ...");
+    dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Bronann looks north");
+    text = hoa_system.Translate("Still, I don't know what it means, though.");
+    dialogue:AddLineEmote(text, hero, "thinking dots");
+    text = hoa_system.Translate("Let's look around. We might find out.");
+    dialogue:AddLine(text, kalya_sprite);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya reads the scripture", dialogue);
+    event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
+    event:AddEventLinkAtEnd("kalya goes back to party");
+    EventManager:RegisterEvent(event);
+
+    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event:AddEventLinkAtEnd("end of stone sign dialogue");
+    EventManager:RegisterEvent(move_back_to_hero_event);
+
+    event = hoa_map.ScriptedEvent("end of stone sign dialogue", "end_of_stone_sign_dialogue", "");
+    event:AddEventLinkAtEnd("Bronann looks north");
+    EventManager:RegisterEvent(event);
+
 
     -- Dialogue when all the enemies are dead.
     dialogue = hoa_map.SpriteDialogue();
@@ -628,7 +730,7 @@ function _CheckZones()
 		EventManager:StartEvent("to cave 1-1");
     elseif (to_cave_exit_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
-		--EventManager:StartEvent("to south east exit"); -- Enable this once the forest map is ok
+		EventManager:StartEvent("to south east exit");
     end
 end
 
@@ -647,5 +749,61 @@ if (map_functions == nil) then
 end
 
 map_functions = {
+    Sprite_Collision_on = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        end
+    end,
 
+    Sprite_Collision_off = function(sprite)
+        if (sprite ~= nil) then
+            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        end
+    end,
+
+    -- Kalya and Bronann read the engraved text
+    stone_sign_dialogue_start = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        ReloadSprite(hero, "Bronann");
+
+        kalya_sprite:SetVisible(true);
+        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        hero:SetDirection(hoa_map.MapMode.NORTH);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+    end,
+
+    stone_sign_image_start = function()
+        -- Trigger the display of the image.
+        GlobalManager:SetEventValue("story", "layna_forest_cave1_2_show_sign_image", 1)
+    end,
+
+    -- Returns true when the image has finished to display.
+    stone_sign_image_update = function()
+        if (GlobalManager:GetEventValue("story", "layna_forest_cave1_2_show_sign_image") == 0) then
+            return true;
+        end
+        return false;
+    end,
+
+    end_of_stone_sign_dialogue = function()
+        Map:PopState();
+        kalya_sprite:SetPosition(0, 0);
+        kalya_sprite:SetVisible(false);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        ReloadSprite(hero, main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "kalya_stone_sign_dialogue_done", 1);
+        _UpdateStoneSignDialogue();
+    end
 }
