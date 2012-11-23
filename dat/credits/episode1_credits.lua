@@ -56,10 +56,14 @@ function Initialize(map_instance)
             text = "Bertram"
         },
         [6] = {
+            header = hoa_system.Translate("Additional programming\nand scripting"),
+            text = "Roots\nIkarusDowned\nCoderGreen"
+        },
+        [7] = {
             header = "",
             text = hoa_system.Translate("To Lilou and Léo...")
         },
-        [7] = {
+        [8] = {
             header = "",
             text = hoa_system.Translate("Thanks to everyone\nwho made this possible!!")
         }
@@ -145,7 +149,7 @@ function DrawPostEffects()
         text_alpha = 0.0;
     end
 
-    VideoManager:DrawText(credit_map[credit_id].header, 870.0, 612.0, hoa_video.Color(1.0, 0.8, 0.7, 1.0 * text_alpha));
+    VideoManager:DrawText(credit_map[credit_id].header, 870.0, 600.0, hoa_video.Color(1.0, 0.8, 0.7, 1.0 * text_alpha));
     VideoManager:DrawText(credit_map[credit_id].text, 870.0, 648.0, hoa_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
 
     -- Custom images in honor of those who helped :)
