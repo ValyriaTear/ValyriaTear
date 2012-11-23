@@ -703,6 +703,20 @@ void MapMode::_UpdateMapFrame()
     } else {
         path_x = _camera->GetXPosition() + (1 - _camera_timer.PercentComplete()) * _delta_x;
         path_y = _camera->GetYPosition() + (1 - _camera_timer.PercentComplete()) * _delta_y;
+
+        // Inform the effect supervisor about camera movement.
+        float duration = (float)_camera_timer.GetDuration();
+        float time_elapsed = (float)SystemManager->GetUpdateTime();
+        float x_parallax = !IsCameraXAxisInMapCorner() ?
+                           _delta_x * time_elapsed / duration
+                           / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
+                           0.0f;
+        float y_parallax = !IsCameraYAxisInMapCorner() ?
+                           _delta_y * time_elapsed / duration
+                           / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
+                           0.0f;
+
+        GetEffectSupervisor().AddParallax(x_parallax, -y_parallax);
     }
 
     current_x = GetFloatInteger(path_x);
