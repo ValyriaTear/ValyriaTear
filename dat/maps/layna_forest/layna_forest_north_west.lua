@@ -418,7 +418,7 @@ function _CreateCharacters()
     end
 
 	Map:AddGroundObject(hero);
-	
+
 	orlinn = CreateSprite(Map, "Orlinn", 76, 40);
 	orlinn:SetDirection(hoa_map.MapMode.NORTH);
 	orlinn:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
@@ -427,7 +427,7 @@ function _CreateCharacters()
 		orlinn:SetVisible(false);
 	end
 	Map:AddGroundObject(orlinn);
-	
+
     -- Create secondary character for the scene with Orlinn
     kalya_sprite = CreateSprite(Map, "Kalya",
                                 hero:GetXPosition(), hero:GetYPosition());
@@ -504,7 +504,7 @@ function _CreateObjects()
 		chest2:AddObject(1, 1); -- small potion
 		Map:AddGroundObject(chest2);
 	end
-	
+
 	event = hoa_map.BattleEncounterEvent("Monster trap in chest");
 	event:SetMusic("mus/Battle_Jazz.ogg");
 	event:SetBackground("img/backdrops/battle/forest_background.png");
@@ -989,10 +989,6 @@ function _CreateObjects()
 	Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Small3", 61, 16);
 	Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 66, 15);
-	Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 71, 17);
-	Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Small4", 80, 8);
 	Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Small4", 75, 19);
@@ -1064,7 +1060,7 @@ function _CreateObjects()
 	{ "Tree Small4", 114, 56 },
 	{ "Tree Small3", 126, 65 },
 	{ "Tree Small5", 124, 60 },
-	
+
 	{ "Tree Small3", 83, 51 },
 	{ "Tree Small4", 88, 52 },
 	{ "Tree Small5", 90, 53 },
@@ -1078,7 +1074,7 @@ function _CreateObjects()
 	{ "Tree Small3", 64, 41 },
 	{ "Tree Small4", 68, 39 },
 	{ "Tree Small5", 59, 40 },
-	
+
 	{ "Tree Small3", 56, 35 },
 	{ "Tree Small4", 49, 37 },
 	{ "Tree Small5", 44, 38 },
@@ -1089,7 +1085,7 @@ function _CreateObjects()
 	{ "Tree Small4", 107, 56 },
 	{ "Tree Small3", 61, 36 },
 	{ "Tree Small3", 40, 31 },
-	
+
 	{ "Tree Small1", 86, 35 },
 	{ "Tree Big1", 77, 31 }
 	}
@@ -1100,7 +1096,20 @@ function _CreateObjects()
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
         Map:AddGroundObject(object);
 	end
-	
+
+    -- Shortcut trees
+    if (GlobalManager:DoesEventExist("story", "layna_forest_trees_shorcut_open") == false) then
+        object = CreateObject(Map, "Tree Small5", 66, 15);
+        Map:AddGroundObject(object);
+        object = CreateObject(Map, "Tree Small3", 71, 17);
+        Map:AddGroundObject(object);
+    else -- If the event happened
+        object = CreateObject(Map, "Tree Small3 Tilting", 73, 17);
+        Map:AddGroundObject(object);
+        object = CreateObject(Map, "Tree Small5 Fallen", 70, 16.5);
+        Map:AddGroundObject(object);
+    end
+
 	-- grass array
 	local map_grass = {
 	{ "Grass Clump1", 76, 38 },
@@ -1242,7 +1251,7 @@ function _CreateEvents()
 
 	event = hoa_map.MapTransitionEvent("to cave entrance", "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_forest_NW");
 	EventManager:RegisterEvent(event);
-	
+
 	-- dialogue events
 	event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
 	EventManager:RegisterEvent(event);
@@ -1254,7 +1263,7 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 	event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
 	EventManager:RegisterEvent(event);
-	
+
 	-- First time forest entrance dialogue about save points and the heal spring.
 	event = hoa_map.ScriptedEvent("Start - Kalya sees Orlinn", "layna_forest_kalya_sees_orlinn_start", "");
 	event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
@@ -1265,7 +1274,7 @@ function _CreateEvents()
 	move_next_to_hero_event:AddEventLinkAtEnd("Kalya calls Orlinn");
 	move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
 	EventManager:RegisterEvent(move_next_to_hero_event);
-	
+
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("Orlinn!");
 	dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Orlinn", "", "exclamation");
@@ -1274,7 +1283,7 @@ function _CreateEvents()
 	event:AddEventLinkAtEnd("Kalya runs above cave entrance");
 	event:AddEventLinkAtEnd("Bronann runs above cave entrance next to Kalya");
 	EventManager:RegisterEvent(event);
-	
+
 	event = hoa_map.PathMoveSpriteEvent("Kalya runs above cave entrance", kalya_sprite, 80, 33, true);
 	EventManager:RegisterEvent(event);
 	event = hoa_map.PathMoveSpriteEvent("Bronann runs above cave entrance next to Kalya", hero, 82, 33, true);
@@ -1326,6 +1335,21 @@ function _CreateEvents()
 
 	event = hoa_map.ScriptedEvent("end of dialogue with Orlinn", "end_of_dialogue_with_orlinn", "");
 	EventManager:RegisterEvent(event);
+
+    -- Dialogue: the hero sees the tree shortcut
+    event = hoa_map.ScriptedEvent("Show tree shortcut", "show_trees_shortcut", "");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("Set Camera back to Hero", hero, "SetCamera2", "");
+	EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("Great! The tremor has just opened a path.");
+	dialogue:AddLineEventEmote(text, hero, "Show tree shortcut", "", "exclamation");
+	text = hoa_system.Translate("We can easily return to the village from there.");
+	dialogue:AddLineEvent(text, hero, "Set Camera back to Hero", "");
+	DialogueManager:AddDialogue(dialogue);
+	event = hoa_map.DialogueEvent("The Hero sees the created shortcut", dialogue);
+	EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
@@ -1342,7 +1366,7 @@ function _CreateZones()
 
 	to_cave_entrance_zone = hoa_map.CameraZone(74, 78, 36, 38, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_cave_entrance_zone);
-	
+
 	orlinn_scene_zone = hoa_map.CameraZone(81, 83, 18, 28, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(orlinn_scene_zone);
 end
@@ -1362,11 +1386,17 @@ function _CheckZones()
 		hero:SetMoving(false);
 		EventManager:StartEvent("to cave entrance");
 	elseif (orlinn_scene_zone:IsCameraEntering() == true) then
-		if (GlobalManager:DoesEventExist("story", "layna_forest_kalya sees_orlinn") == false
-			and Map:CurrentState() ~= hoa_map.MapMode.STATE_SCENE) then
-		    hero:SetMoving(false);
-		    EventManager:StartEvent("Start - Kalya sees Orlinn");
-		end
+        if (Map:CurrentState() ~= hoa_map.MapMode.STATE_SCENE) then
+            if (GlobalManager:DoesEventExist("story", "layna_forest_kalya sees_orlinn") == false) then
+                hero:SetMoving(false);
+                EventManager:StartEvent("Start - Kalya sees Orlinn");
+            elseif (GlobalManager:DoesEventExist("story", "layna_forest_trees_shorcut_open") == true
+                    and GlobalManager:DoesEventExist("story", "layna_forest_trees_shortcut_seen") == false) then
+                hero:SetMoving(false);
+                EventManager:StartEvent("The Hero sees the created shortcut");
+                GlobalManager:SetEventValue("story", "layna_forest_trees_shortcut_seen", 1);
+            end
+        end
 	end
 end
 
@@ -1442,7 +1472,16 @@ map_functions = {
         if (sprite ~= nil) then
             sprite:SetVisible(false);
         end
-    end
+    end,
 
+    show_trees_shortcut = function()
+        -- Focus the camera on the shortcut
+        Map:MoveVirtualFocus(64, 16);
+        Map:SetCamera(ObjectManager.virtual_focus, 2500);
+    end,
+
+    SetCamera2 = function(sprite)
+        Map:SetCamera(sprite, 2500);
+    end,
 }
 
