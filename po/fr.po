@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-21 02:36+0100\n"
-"PO-Revision-Date: 2012-11-21 02:37+0100\n"
+"PO-Revision-Date: 2012-11-23 20:13+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1839,11 +1839,15 @@ msgstr "Histoire"
 
 #: ../dat/credits/episode1_credits.lua:43
 msgid "Episode I - Main Graphics"
-msgstr "Episode I- Graphismes principaux"
+msgstr ""
+"Episode I\n"
+"Graphismes principaux"
 
 #: ../dat/credits/episode1_credits.lua:47
 msgid "Episode I - Additional Graphics"
-msgstr "Episode I - Graphismes additionnels"
+msgstr ""
+"Episode I\n"
+"Graphismes additionnels"
 
 #: ../dat/credits/episode1_credits.lua:51
 msgid "Music"
@@ -2000,7 +2004,7 @@ msgstr "... Je te fais confiance, Kalya."
 
 #: ../dat/maps/layna_forest/layna_forest_entrance.lua:645
 msgid "If so, then come and try for yourself. Push '"
-msgstr "Dans ce cas, viens et essaie toi-même. Appuie sur '"
+msgstr "Dans ce cas, viens et essaie par toi-même. Appuie sur '"
 
 #: ../dat/maps/layna_forest/layna_forest_entrance.lua:647
 msgid "' and you'll feel safe, too."
@@ -2170,11 +2174,11 @@ msgid ""
 "something going on here! Why won't you tell me?"
 msgstr ""
 "Hé, attendez ! Tous les aînés du villages sont sur les nerfs. Il se passe "
-"quelque-chose ! Vous allez me le dire ?"
+"quelque-chose ! N'allez-vous pas me le dire ?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:555
 msgid "None of you?"
-msgstr "Aucun de vous ?"
+msgstr "Ni l'un ni l'autre ?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:557
 msgid "You really won't tell me?"
@@ -2182,15 +2186,15 @@ msgstr "Vous ne me le direz vraiment pas ?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:559
 msgid "... It's not that simple, Bronann. Believe me."
-msgstr "... Ce n'est pas sisimple, Bronann. Crois-moi."
+msgstr "... Ce n'est pas si simple, Bronann. Crois-moi."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:571
 msgid ""
 "Bronann, this time I want you to listen to your father very carefully. "
 "Please, my dear."
 msgstr ""
-"Bronann, cette fois je veux que tu écoutes bien ton père cette fois. S'il te "
-"plaît, mon chéri."
+"Bronann, cette fois je veux que tu écoutes bien ton père. S'il te plaît, mon "
+"chéri."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:573
 msgid "But mom!"
@@ -2214,7 +2218,7 @@ msgstr "C'est trop tôt, Chéri. Nous pourrions avoir tort."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:607
 msgid "I really hope we are..."
-msgstr "Je l'espère sincèrement ..."
+msgstr "Je l'espère sincèrement, en tout cas ..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:685
 msgid "Promise me you'll be careful, Bronann, ok?."
@@ -2274,8 +2278,8 @@ msgid ""
 "Bronann! Sorry, you can't access the forest without permission. You don't "
 "even have a sword..."
 msgstr ""
-"Bronann ! Désolé, tu ne pas aller dans la forêt sans permission. Tu n'as "
-"même pas d'épée..."
+"Bronann ! Désolé, tu ne dois pas aller dans la forêt sans permission. Tu "
+"n'as même pas d'épée..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:448
 #: ../dat/maps/layna_village/layna_village_center.lua:458
@@ -2290,7 +2294,8 @@ msgstr "(Hmm, peut-être devrais-je trouver une épée dans ce cas.)"
 msgid ""
 "Bronann! Sorry, you know you can't access the forest without permission."
 msgstr ""
-"Bronann ! Désolé, tu sais que tu ne pas aller dans la forêt sans permission."
+"Bronann ! Désolé, tu sais que tu ne dois pas aller dans la forêt sans "
+"permission."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:465
 msgid "Good luck Bronann."
@@ -2369,14 +2374,14 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center.lua:787
 msgid "Kalya! You were supposed to keep an eye on him!"
-msgstr "Kalya ! Tu étais supposé garder un oeil sur lui !"
+msgstr "Kalya ! Tu étais supposée garder un œil sur lui !"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:789
 msgid ""
 "I did, but he just slipped through my fingers at the very second that "
 "strange light appeared."
 msgstr ""
-"Je l'ai fais, mais il m'a glissé entre les doigts à la seconde où il a vu "
+"Je l'ai fait, mais il m'a glissé entre les doigts à la seconde où il a vu "
 "cette étrange lumière apparaître."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:791
@@ -2430,7 +2435,7 @@ msgstr "Carson a raison, Kalya. Bronann ira avec toi."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:811
 msgid "But he would just be a burden!"
-msgstr "Mais il sera juste un fardeau"
+msgstr "Mais il sera juste un fardeau !"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:813
 msgid "Huh? Hey! But..."
@@ -2459,8 +2464,8 @@ msgid ""
 "Bronann, take this sword. You'll probably need it to make your way through "
 "there."
 msgstr ""
-"Bronann, prend cette épée, tu en auras probablement besoin pour te frayer un "
-"passage."
+"Bronann, prends cette épée, tu en auras probablement besoin pour te frayer "
+"un passage."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:849
 msgid "What? But one minute ago you said..."
@@ -2765,7 +2770,7 @@ msgid ""
 "practise a bit."
 msgstr ""
 "Salut Flora ! Heu, pourrais-tu me prêter l'une de tes épées d'entraînement ? "
-"J'aurais aimer pratiquer un peu..."
+"J'aurais aimé pratiquer un peu..."
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:353
 msgid ""
@@ -2777,7 +2782,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:355
 msgid "Err, nevermind..."
-msgstr "Heu, rien ..."
+msgstr "Heu, oui ne t'inquiète pas ..."
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:363
 msgid "Just find our *poet* and he should give you some barley meal, ok?"
@@ -2848,7 +2853,7 @@ msgstr "Wouah ! Tu m'as trouvé !"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:562
 msgid "But I'm not done yet!"
-msgstr "But je n'en ai pas encore fini !"
+msgstr "Mais je n'en ai pas encore fini !"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:580
 msgid "That kid is pretty quick. This is going to take all day..."
@@ -2880,7 +2885,7 @@ msgstr "Ne lui en veut pas, Kalya. En fait, c'était ..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:660
 msgid "I don't think I was talking to you, now was I?"
-msgstr "Il me semble que je t'adressais pas la parole, n'est-ce pas ?"
+msgstr "Il me semble que je ne t'adressais pas la parole, n'est-ce pas ?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:662
 msgid "Come Orlinn!"
@@ -2898,7 +2903,7 @@ msgstr "Ne t'inquiète pas pour cela ..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:693
 msgid "Take it... Thanks."
-msgstr "Prend-le, ... Merci."
+msgstr "Tiens ... Merci."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:720
 msgid "Bronann?"
@@ -2965,7 +2970,7 @@ msgstr "Nous comptons sur toi."
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:885
 msgid "You should go back home. Your mom must be waiting for you."
 msgstr ""
-"Tu devrais retourner à la maison. Ta maman doit être en train de t'attendre."
+"Tu devrais retourner chez toi. Ta maman doit être en train de t'attendre."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:891
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:909
@@ -3387,7 +3392,7 @@ msgstr "Coup d'épée"
 
 #: ../dat/skills/attack.lua:62
 msgid "A textbook manoeuver that deals an effective blow."
-msgstr "Un coup classique provoquant des dégâts plus importants."
+msgstr "Un coup classique provoquant d'amples dégâts."
 
 #: ../dat/skills/attack.lua:89
 msgid "Forward Thrust"
@@ -3474,7 +3479,7 @@ msgstr "Créé un blob."
 #: map_names_tr.lua:2 map_names_tr.lua:6 map_names_tr.lua:81
 #: map_names_tr.lua:85
 msgid "Layna Forest Cave"
-msgstr "Grotte de la forêt de Layna"
+msgstr "Grottes de Layna"
 
 #: map_names_tr.lua:10 map_names_tr.lua:14 map_names_tr.lua:18
 #: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:89
@@ -3485,7 +3490,7 @@ msgstr "Forêt de Layna"
 
 #: map_names_tr.lua:12 map_names_tr.lua:91
 msgid "Forest entrance"
-msgstr "Orée de la forêt"
+msgstr "Orée de forêt"
 
 #: map_names_tr.lua:30
 msgid " "
@@ -3520,7 +3525,7 @@ msgstr "Maison de Lilly"
 
 #: map_names_tr.lua:67 map_names_tr.lua:143
 msgid "Riverbank"
-msgstr "Bord de la rivière"
+msgstr "Bord de rivière"
 
 #: map_names_tr.lua:75 map_names_tr.lua:151
 msgid "Village entrance"
