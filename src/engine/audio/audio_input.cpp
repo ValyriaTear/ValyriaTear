@@ -237,6 +237,9 @@ bool OggFile::Initialize()
 
     FILE *file = fopen(_filename.c_str(), "rb");
 
+    if (!file)
+        return false;
+
     if(ov_open_callbacks(file, &_vorbis_file, NULL, 0, callbacks) < 0) {
         fclose(file);
         IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
@@ -246,6 +249,9 @@ bool OggFile::Initialize()
 #else
     // File loading code for non Win32 platforms.  Much simpler.
     FILE *file = fopen(_filename.c_str(), "rb");
+
+    if (!file)
+        return false;
 
     if(ov_open(file, &_vorbis_file, NULL, 0) < 0) {
         fclose(file);
