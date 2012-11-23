@@ -424,6 +424,14 @@ objects["Tree Small3"] = {
 	img_height = 8.0
 }
 
+objects["Tree Small3 Tilting"] = {
+	animation_filename = "img/sprites/map/objects/tree_small3_tilting.lua",
+	coll_half_width = 2.0,
+	coll_height = 2.5,
+	img_half_width = 3.46,
+	img_height = 8.25
+}
+
 objects["Tree Small4"] = {
 	animation_filename = "img/sprites/map/objects/tree_small4.lua",
 	coll_half_width = 2.0,
@@ -438,6 +446,14 @@ objects["Tree Small5"] = {
 	coll_height = 2.5,
 	img_half_width = 3.5,
 	img_height = 8.0
+}
+
+objects["Tree Small5 Fallen"] = {
+	animation_filename = "img/sprites/map/objects/tree_small5_fallen.lua",
+	coll_half_width = 4.0,
+	coll_height = 3.5,
+	img_half_width = 4.03,
+	img_height = 7.0
 }
 
 objects["Tree Small6"] = {

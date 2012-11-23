@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.11.15
+Last update: 2012.11.23
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -402,6 +402,10 @@ img/sprites/map/objects/tree_small5.lua                         GPLv2           
 img/sprites/map/objects/tree_small5.png                         CC by 3.0                Jetrel (OGA) + Variation from Bertram
 img/sprites/map/objects/tree_small6.lua                         GPLv2                    Bertram
 img/sprites/map/objects/tree_small6.png                         CC by 3.0                Jetrel (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_small3_tilting.lua                 GPLv2                    Bertram
+img/sprites/map/objects/tree_small3_tilting.png                 CC by 3.0                Jetrel (OGA) + Variation from Bertram
+img/sprites/map/objects/tree_small5_fallen.lua                  GPLv2                    Bertram
+img/sprites/map/objects/tree_small5_fallen.png                  CC by 3.0                Jetrel (OGA) + Variation from Bertram
 img/sprites/map/objects/tree_tiny1.lua                          GPLv2                    Bertram
 img/sprites/map/objects/tree_tiny1.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/tree_tiny2.lua                          GPLv2                    Bertram
