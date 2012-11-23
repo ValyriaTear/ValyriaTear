@@ -411,7 +411,7 @@ function _CreateCharacters()
 		hero:SetPosition(4, 54);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
 		hero:SetDirection(hoa_map.MapMode.SOUTH);
-		hero:SetPosition(13, 41);
+		hero:SetPosition(13, 43);
 	end
 
 	Map:AddGroundObject(hero);
@@ -500,6 +500,13 @@ function _CreateObjects()
 	local chest1 = CreateTreasure(Map, "layna_forest_SE_chest1", "Wood_Chest1", 63.7, 30);
 	if (chest1 ~= nil) then
 		chest1:AddObject(40001, 1); -- Prismatic ring
+		Map:AddGroundObject(chest1);
+	end
+
+	chest1 = CreateTreasure(Map, "layna_forest_SE_chest2", "Wood_Chest1", 88, 80);
+	if (chest1 ~= nil) then
+		chest1:AddObject(11, 2); -- Small Moon juice potion x 2
+        chest1:SetDrunes(15);
 		Map:AddGroundObject(chest1);
 	end
 
@@ -1017,6 +1024,15 @@ function _CreateEvents()
     event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
+    event = hoa_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from forest SE")
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave.lua", "from forest SE")
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.MapTransitionEvent("to cave 2_1", "dat/maps/layna_forest/layna_forest_cave2_1.lua", "from forest SE")
+    EventManager:RegisterEvent(event);
+
     -- Heal point
     event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
@@ -1030,6 +1046,15 @@ function _CreateZones()
 
 	to_forest_SW_zone = hoa_map.CameraZone(0, 2, 52, 56, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(to_forest_SW_zone);
+
+	to_cave1_2_zone = hoa_map.CameraZone(11, 15, 40, 41, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_cave1_2_zone);
+
+	to_cave2_1_zone = hoa_map.CameraZone(64, 68, 69, 70, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_cave2_1_zone);
+
+	to_wolf_cave_zone = hoa_map.CameraZone(30, 34, 16, 17, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_wolf_cave_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -1040,6 +1065,15 @@ function _CheckZones()
 	elseif (to_forest_SW_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest SW");
+	elseif (to_cave1_2_zone:IsCameraEntering() == true) then
+		hero:SetMoving(false);
+		EventManager:StartEvent("to cave 1_2");
+	elseif (to_wolf_cave_zone:IsCameraEntering() == true) then
+		--hero:SetMoving(false);
+		--EventManager:StartEvent("to wolf cave");
+	elseif (to_cave2_1_zone:IsCameraEntering() == true) then
+		--hero:SetMoving(false);
+		--EventManager:StartEvent("to cave 2_1");
     end
 end
 
