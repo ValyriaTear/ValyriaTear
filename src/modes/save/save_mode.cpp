@@ -229,7 +229,7 @@ void SaveMode::Update()
     _confirm_save_optionbox.Update();
 
     // Otherwise, it's time to start handling events.
-    else if(InputManager->ConfirmPress()) {
+    if(InputManager->ConfirmPress()) {
         switch(_current_state) {
         case SAVE_MODE_SAVING:
             if(_file_list.GetSelection() > -1) {
