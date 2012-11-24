@@ -470,9 +470,6 @@ bool SaveMode::_PreviewGame(int id)
 
     // Read the in-game location of the save
     std::string map_hud_name = map_file.ReadString("map_name");
-    // FIXME: Prevents a crash in TextBox::SetDisplayText which cannot handle empty strings atm.
-    if (map_hud_name.empty())
-        map_hud_name = " ";
     _map_name_textbox.SetDisplayText(UTranslate(map_hud_name));
 
     // Loads the potential location image
