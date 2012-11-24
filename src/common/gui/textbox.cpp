@@ -299,7 +299,9 @@ void TextBox::_ReformatText()
 {
     // (1): Go through the text ustring and determine where the newline characters can be found, examining one line at a time and adding it to the _text vector.
     size_t newline_pos;
+    size_t startline_pos = 0;
     ustring temp_str = _text_save;
+    const size_t temp_length = temp_str.length();
     _text.clear();
     _num_chars = 0;
 
@@ -310,21 +312,21 @@ void TextBox::_ReformatText()
         return;
     }
 
-    while(true) {
-        newline_pos = temp_str.find(NEWLINE_CHARACTER);
-
+    while(startline_pos < temp_length)
+    {
+        newline_pos = temp_str.find(NEWLINE_CHARACTER,startline_pos);
         // If the end of the string has been reached, add the new line and exit
         if(newline_pos == ustring::npos) {
-            _AddLine(temp_str);
+            _AddLine(temp_str.substr(startline_pos, temp_length-startline_pos));
             break;
         }
         // Otherwise, add the new line segment and proceed to find the next
         else {
-            _AddLine(temp_str.substr(0, newline_pos));
-            temp_str = temp_str.substr(newline_pos + 1, temp_str.length() - newline_pos);
+            _AddLine(temp_str.substr(startline_pos,temp_length-newline_pos));
+            startline_pos = newline_pos + 1;
+
         }
     }
-
     // (2): Calculate the height of the text and check it against the height of the textbox.
     int32 text_height = CalculateTextHeight();
 
