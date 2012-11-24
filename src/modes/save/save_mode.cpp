@@ -220,12 +220,14 @@ void SaveMode::Update()
         return;
     }
 
-    _file_list.Update();
-
     // Screen is in the process of fading out, in order to load a game
     if(_current_state == SAVE_MODE_FADING_OUT) {
         return;
     }
+
+    _file_list.Update();
+    _confirm_save_optionbox.Update();
+
     // Otherwise, it's time to start handling events.
     else if(InputManager->ConfirmPress()) {
         switch(_current_state) {
