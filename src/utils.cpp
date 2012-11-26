@@ -432,14 +432,13 @@ bool UTF8ToUTF16(const char *source, uint16 *dest, size_t length)
 ustring MakeUnicodeString(const std::string &text)
 {
     int32 length = static_cast<int32>(text.length() + 1);
-    uint16 *ubuff = new uint16[length + 1];
-    memset(ubuff, 0, 2 * (length + 1));
-    uint16 *utf16String = ubuff;
+    std::vector<uint16> ubuff(length+1,0);
+    uint16 *utf16String = &ubuff[0];
 
-    if(UTF8ToUTF16(text.c_str(), ubuff, length)) {
+    if(UTF8ToUTF16(text.c_str(), &ubuff[0], length)) {
         // Skip the "Byte Order Mark" from the UTF16 specification
         if(utf16String[0] == UTF_16_BOM_STD ||  utf16String[0] == UTF_16_BOM_REV) {
-            utf16String = ubuff + 1;
+            utf16String = &ubuff[0] + 1;
         }
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -459,8 +458,6 @@ ustring MakeUnicodeString(const std::string &text)
     }
 
     ustring new_ustr(utf16String);
-    delete[] ubuff;
-
     return new_ustr;
 } // ustring MakeUnicodeString(const string& text)
 
@@ -470,8 +467,7 @@ std::string MakeStandardString(const ustring &text)
 {
     int32 length = static_cast<int32>(text.length());
 
-    unsigned char *strbuff = new unsigned char[length + 1];
-    strbuff[length] = '\0';
+    std::vector<unsigned char> strbuff(length+1,'\0');
 
     for(int32 c = 0; c < length; ++c) {
         uint16 curr_char = text[c];
@@ -482,8 +478,7 @@ std::string MakeStandardString(const ustring &text)
             strbuff[c] = static_cast<unsigned char>(curr_char);
     }
 
-    std::string new_str(reinterpret_cast<char *>(strbuff));
-    delete [] strbuff;
+    std::string new_str(strbuff.begin(),strbuff.end());
 
     return new_str;
 } // string MakeStandardString(const ustring& text)
