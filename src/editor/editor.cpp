@@ -1782,7 +1782,7 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt)
         _tile_index_x = index_x;
         _tile_index_y = index_y;
 
-        if(evt->state() == Qt::LeftButton && editor->_select_on == true &&
+        if(evt->buttons() == Qt::LeftButton && editor->_select_on == true &&
                 _moving == false) {
             // Calculate the actual selection rectangle here, otherwise it's just
             // like selecting individual tiles...
@@ -1811,7 +1811,7 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt)
 
         switch(_tile_mode) {
         case PAINT_TILE: { // continue painting tiles
-            if(evt->state() == Qt::LeftButton && editor->_select_on == false)
+            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false)
                 _PaintTile(_tile_index_x, _tile_index_y);
 
             break;
@@ -1822,7 +1822,7 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt)
         } // edit mode MOVE_TILE
 
         case DELETE_TILE: { // continue deleting tiles
-            if(evt->state() == Qt::LeftButton && editor->_select_on == false)
+            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false)
                 _DeleteTile(_tile_index_x, _tile_index_y);
 
             break;
