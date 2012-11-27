@@ -63,8 +63,8 @@ int main(int argc, char **argv)
     ScriptManager->SingletonInitialize();
 
     Editor *editor = new Editor();
-    editor->setCaption("Map Editor");
-    app.setMainWidget(editor);
+    editor->setWindowTitle("Map Editor");
+    //app.setMainWidget(editor); // Now useless according to the Qt 4.8.3 documentation.
     editor->show();
 
     return app.exec();

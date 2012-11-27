@@ -774,7 +774,7 @@ void Editor::_TileModeDelete()
 
 void Editor::_TilesetEdit()
 {
-    TilesetEditor *tileset_editor = new TilesetEditor(this, "tileset_editor", true);
+    TilesetEditor *tileset_editor = new TilesetEditor(this);
 
     tileset_editor->exec();
 

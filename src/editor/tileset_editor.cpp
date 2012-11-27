@@ -212,16 +212,16 @@ bool TilesetDisplay::_GetTileCollisionValue(QMouseEvent *evt)
 ////////// TilesetEditor class
 ////////////////////////////////////////////////////////////////////////////////
 
-TilesetEditor::TilesetEditor(QWidget *parent, const QString &name, bool /*prop*/)
-    : QDialog(parent, (const char *)name)
+TilesetEditor::TilesetEditor(QWidget *parent)
+    : QDialog(parent)
 {
-    setCaption("Tileset Editor");
+    setWindowTitle(tr("Tileset Editor"));
 
     // Create GUI Items
-    _new_pbut = new QPushButton("New", this);
-    _open_pbut = new QPushButton("Open", this);
-    _save_pbut = new QPushButton("Save", this);
-    _exit_pbut = new QPushButton("Exit", this);
+    _new_pbut = new QPushButton(tr("New"), this);
+    _open_pbut = new QPushButton(tr("Open"), this);
+    _save_pbut = new QPushButton(tr("Save"), this);
+    _exit_pbut = new QPushButton(tr("Exit"), this);
     _exit_pbut->setDefault(true);
 
     // Create the window

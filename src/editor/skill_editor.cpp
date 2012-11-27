@@ -22,10 +22,10 @@ using namespace hoa_script;
 using namespace hoa_global;
 using namespace hoa_editor;
 
-SkillEditor::SkillEditor(QWidget *parent, const QString &name)
-    : QWidget(parent, static_cast<const char *>(name))
+SkillEditor::SkillEditor(QWidget *parent, const QString &/*name*/)
+    : QWidget(parent)
 {
-    setCaption("Skill Editor");
+    setWindowTitle("Skill Editor");
 
     _current_skill_index[GLOBAL_SKILL_ATTACK] = -1;
     _current_skill_index[GLOBAL_SKILL_DEFEND] = -1;

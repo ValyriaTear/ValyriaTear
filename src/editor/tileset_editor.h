@@ -114,9 +114,7 @@ public:
     //! \brief A constructor for the TilesetEditor class.This class is used to modify the tileset
     //! \definition files through an interface.
     //! \param parent The widget from which this dialog was invoked.
-    //! \param name The name of this widget.
-    //! \param prop True when accessing an already loaded map's properties, false otherwise.
-    TilesetEditor(QWidget *parent, const QString &name, bool prop);
+    TilesetEditor(QWidget *parent);
     ~TilesetEditor();
 
 private slots:
