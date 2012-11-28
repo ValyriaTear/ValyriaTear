@@ -268,6 +268,95 @@ static void LoadFonts(const std::string &font_script_filename)
                                           VIDEO_TEXT_SHADOW_BLACK, 1, -2));
 }
 
+//! Loads the default window GUI theme for the game.
+//! TODO: Make this changeable from the boot menu
+//! and handle keeping the them in memory through config
+static void LoadGUIThemes(const std::string& theme_script_filename)
+{
+    hoa_script::ReadScriptDescriptor theme_script;
+
+    // Checking the file existence and validity.
+    if(!theme_script.OpenFile(theme_script_filename)) {
+        PRINT_ERROR << "Couldn't open theme file: " << theme_script_filename
+                    << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if(!theme_script.DoesTableExist("themes")) {
+        PRINT_ERROR << "No 'themes' table in file: " << theme_script_filename
+                    << std::endl;
+        theme_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
+    std::string default_theme = theme_script.ReadString("default_theme");
+    if (default_theme.empty()) {
+        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
+                    << std::endl;
+        theme_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
+    std::vector<std::string> theme_names;
+    theme_script.ReadTableKeys("themes", theme_names);
+    if (theme_names.empty()) {
+        PRINT_ERROR << "No themes defined in the 'themes' table of file: "
+                    << theme_script_filename << std::endl;
+        theme_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
+    theme_script.OpenTable("themes");
+
+    bool default_theme_found = false;
+
+    for(uint32 i = 0; i < theme_names.size(); ++i) {
+        theme_script.OpenTable(theme_names[i]); // Theme name
+
+        std::string win_border_file = theme_script.ReadString("win_border_file");
+        std::string win_background_file = theme_script.ReadString("win_background_file");
+        std::string cursor_file = theme_script.ReadString("cursor_file");
+
+        if(!GUIManager->LoadMenuSkin(theme_names[i], win_border_file, win_background_file)) {
+            // Check whether the default font is invalid
+            if(default_theme == theme_names[i]) {
+                theme_script.CloseAllTables();
+                theme_script.CloseFile();
+                PRINT_ERROR << "The default theme '" << default_theme
+                            << "' couldn't be loaded in file: '" << theme_script_filename
+                            << "'. Exitting." << std::endl;
+                exit(EXIT_FAILURE);
+                return; // Superfluous but for readability.
+            }
+        }
+
+        if(default_theme == theme_names[i]) {
+            default_theme_found = true;
+            if(!VideoManager->SetDefaultCursor(cursor_file)) {
+                theme_script.CloseAllTables();
+                theme_script.CloseFile();
+                PRINT_ERROR << "Couldn't load the GUI cursor file: '" << cursor_file
+                    << "'. Exitting." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        theme_script.CloseTable(); // Theme name
+    }
+
+    theme_script.CloseFile();
+
+    if (!default_theme_found) {
+        PRINT_ERROR << "Couldn't find the default theme: '" << default_theme
+            << "' in file: '" << theme_script_filename << "'. Exitting." << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    // Activate the default theme
+    // TODO: Obtain it from config
+    GUIManager->SetDefaultMenuSkin(default_theme);
+}
+
 /** \brief Initializes all engine components and makes other preparations for the game to start
 *** \return True if the game engine was initialized successfully, false if an unrecoverable error occured
 **/
@@ -331,9 +420,10 @@ void InitializeEngine() throw(Exception)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
     if(VideoManager->FinalizeInitialization() == false)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
-    if(GUIManager->LoadMenuSkin("black_sleet", "img/menus/black_sleet_skin.png", "img/menus/black_sleet_texture.png") == false) {
-        throw Exception("Failed to load the 'Black Sleet' MenuSkin images.", __FILE__, __LINE__, __FUNCTION__);
-    }
+
+    // Loads the default GUI skin
+    LoadGUIThemes("dat/config/themes.lua");
+
     // NOTE: This function call should have its argument set to false for release builds
     GUIManager->DEBUG_EnableGUIOutlines(false);
 

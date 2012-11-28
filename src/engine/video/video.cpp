@@ -229,11 +229,6 @@ bool VideoEngine::FinalizeInitialization()
         return false;
     }
 
-    if(SetDefaultCursor("img/menus/cursor.png") == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
-                << "VIDEO WARNING: problem loading default menu cursor" << std::endl;
-    }
-
     // Prepare the screen for rendering
     Clear();
     Draw();

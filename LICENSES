@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.11.23
+Last update: 2012.11.28
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -36,10 +36,12 @@ dat/actors/map_sprites.lua                                      GPLv2 or later  
 dat/battles/desert_cave_battle_anim.lua                         GPLv2 or later           Bertram
 dat/battles/tutorial_battle_dialogs.lua                         GPLv2 or later           Allacrost + Bertram
 
+dat/config/boot.lua                                             GPLv2 or later           Bertram (Completely redone it.)
 dat/config/debug_menu.lua                                       GPLv2 or later           Bertram (Completely redone it.)
 dat/config/debug_shop.lua                                       GPLv2 or later           Bertram (Completely redone it.)
 dat/config/debug_battle.lua                                     GPLv2 or later           Bertram (Completely redone it.)
-dat/config/boot.lua                                             GPLv2 or later           Bertram (Completely redone it.)
+dat/config/fonts.lua                                            GPLv2 or later           Bertram
+dat/config/themes.lua                                           GPLv2 or later           Bertram
 
 dat/credits/old_credits.lua                                     GPLv2                    Allacrost
 dat/credits/episode1_credits.lua                                GPLv2                    Bertram
@@ -56,7 +58,6 @@ dat/effects/particles/fire.lua                                  GPLv2 or later  
 dat/effects/particles/fire_spell.lua                            GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/heal_particle.lua                         GPLv2 or later           Bertram
 dat/effects/particles/wave_spell.lua                            GPLv2 or later           Bertram
-
 
 dat/maps/*                                                      GPLv2 or later           Bertram
 
@@ -162,8 +163,16 @@ img/logos/program_icon.ico                                      GPLv2 or later  
 
 img/menus/key.png                                               CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
 img/menus/shard.png                                             CC by SA 3.0             Bertram
-img/menus/black_sleet_skin.png                                  CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
-img/menus/black_sleet_texture.png                               CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications
+img/menus/themes/royal_silk/win_border.png                      CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
+img/menus/themes/royal_silk/win_background.png                  CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications
+img/menus/themes/royal_silk/cursor.png                          CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
+img/menus/themes/black_sleet/black_sleet_skin.png               GPLv2                    Allacrost
+img/menus/themes/black_sleet/black_sleet_texture.png            GPLv2                    Allacrost
+img/menus/themes/black_sleet/cursor.png                         GPLv2                    Allacrost
+
+Seulement dans ValyriaTear-2012.11.28-orig/img/menus: black_sleet_skin.png
+Seulement dans ValyriaTear-2012.11.28-orig/img/menus: black_sleet_texture.png
+Seulement dans ValyriaTear-2012.11.28-orig/img/menus: cursor.png
 
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 
@@ -606,12 +615,8 @@ Files:
 ./img/menus/scroll_arrows.png
 ./img/menus/equip.png
 ./img/menus/battle_character_command.png
-./img/menus/black_sleet_texture.png
-./img/menus/socket.png
 ./img/menus/battle_character_selection.png
 ./img/menus/dialogue_nameplate.png
-./img/menus/cursor.png
-./img/menus/black_sleet_skin.png
 ./img/menus/stamina_icon.png
 ./img/menus/dialogue_box.png
 ./img/menus/dialogue_last_ind.png
