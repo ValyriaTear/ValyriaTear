@@ -404,11 +404,8 @@ void InitializeEngine() throw(Exception)
     }
 
     // Set the window icon
-#ifdef _WIN32
-    SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.bmp"), NULL);
-#else
+    // NOTE: Seems to be working only under WinXP for now.
     SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
-#endif
 
     // Load all the settings from lua. This includes some engine configuration settings.
     if(LoadSettings() == false)
