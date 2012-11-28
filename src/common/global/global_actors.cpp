@@ -20,6 +20,8 @@
 #include "global_effects.h"
 #include "global_skills.h"
 
+#include "engine/audio/audio.h"
+
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_script;
@@ -783,6 +785,9 @@ void GlobalCharacterGrowth::AcknowledgeGrowth()
 
     // If a new experience level has been gained, we must retrieve the growth data for the new experience level
     if(_experience_level_gained) {
+        // Play the level up sound
+        hoa_audio::AudioManager->PlaySound("snd/levelup.wav");
+
         _character_owner->_experience_level += 1;
         _experience_level_gained = false;
         _DetermineNextLevelExperience();
