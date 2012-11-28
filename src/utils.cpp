@@ -467,7 +467,8 @@ std::string MakeStandardString(const ustring &text)
 {
     int32 length = static_cast<int32>(text.length());
 
-    std::vector<unsigned char> strbuff(length+1,'\0');
+    unsigned char *strbuff = new unsigned char[length + 1];
+    strbuff[length] = '\0';
 
     for(int32 c = 0; c < length; ++c) {
         uint16 curr_char = text[c];
@@ -478,7 +479,8 @@ std::string MakeStandardString(const ustring &text)
             strbuff[c] = static_cast<unsigned char>(curr_char);
     }
 
-    std::string new_str(strbuff.begin(),strbuff.end());
+    std::string new_str(reinterpret_cast<char *>(strbuff));
+    delete [] strbuff;
 
     return new_str;
 } // string MakeStandardString(const ustring& text)
