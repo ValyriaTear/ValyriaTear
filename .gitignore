@@ -71,3 +71,7 @@ ValyriaTear-Debug
 #valyriatear win32 depends
 valyriatear-win32-depends
 valyriatear-win32-depends/*
+
+#files modified during runtime
+stderr.txt
+stdout.txt
