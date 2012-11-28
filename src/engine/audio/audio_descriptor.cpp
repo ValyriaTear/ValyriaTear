@@ -919,8 +919,6 @@ SoundDescriptor::SoundDescriptor(const SoundDescriptor &copy) :
     AudioManager->_registered_sounds.push_back(this);
 }
 
-
-
 void SoundDescriptor::SetVolume(float volume)
 {
     AudioDescriptor::_SetVolumeControl(volume);
@@ -930,6 +928,17 @@ void SoundDescriptor::SetVolume(float volume)
     if(_source) {
         alSourcef(_source->source, AL_GAIN, sound_volume);
     }
+}
+
+void SoundDescriptor::Play()
+{
+    if(!AUDIO_ENABLE)
+        return;
+
+    if(_state == AUDIO_STATE_PLAYING)
+        Stop();
+
+    AudioDescriptor::Play();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

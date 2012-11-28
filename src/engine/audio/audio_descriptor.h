@@ -471,6 +471,9 @@ public:
     *** AudioEngine class.
     **/
     void SetVolume(float volume);
+
+    //! \brief Plays or restart the currently played sound.
+    void Play();
 }; // class SoundDescriptor : public AudioDescriptor
 
 
