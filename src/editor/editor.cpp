@@ -69,7 +69,7 @@ Editor::Editor() : QMainWindow(),
     _ed_tileset_layer_splitter->setOrientation(Qt::Vertical);
 
     // set the window icon
-    setWindowIcon(QIcon("img/logos/program_icon.ico"));
+    setWindowIcon(QIcon("img/logos/program_icon.png"));
 
     // create error message for exceeding maximum number of contexts
     _error_max_contexts = new QErrorMessage(this);
