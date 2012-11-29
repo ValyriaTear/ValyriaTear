@@ -465,10 +465,8 @@ ustring MakeUnicodeString(const std::string &text)
 // Creates a normal string from a ustring
 std::string MakeStandardString(const ustring &text)
 {
-    int32 length = static_cast<int32>(text.length());
-
-    unsigned char *strbuff = new unsigned char[length + 1];
-    strbuff[length] = '\0';
+    const int32 length = static_cast<int32>(text.length());
+    std::vector<unsigned char> strbuff(length+1,'\0');
 
     for(int32 c = 0; c < length; ++c) {
         uint16 curr_char = text[c];
@@ -479,10 +477,7 @@ std::string MakeStandardString(const ustring &text)
             strbuff[c] = static_cast<unsigned char>(curr_char);
     }
 
-    std::string new_str(reinterpret_cast<char *>(strbuff));
-    delete [] strbuff;
-
-    return new_str;
+    return std::string(reinterpret_cast<char *>(&strbuff[0]));
 } // string MakeStandardString(const ustring& text)
 
 ////////////////////////////////////////////////////////////////////////////////
