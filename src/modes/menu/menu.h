@@ -49,19 +49,20 @@ namespace private_menu
 enum MAIN_CATEGORY {
     MAIN_INVENTORY      = 0,
     MAIN_SKILLS         = 1,
-    MAIN_EQUIP          = 2,
-    MAIN_STATUS         = 3,
+    MAIN_STATUS         = 2,
 //	MAIN_OPTIONS        = 3;
-    MAIN_FORMATION      = 4,
-    MAIN_SIZE           = 5
+    MAIN_FORMATION      = 3,
+    MAIN_SIZE           = 4
 };
 
 //! \name Inventory Menu Options Constants
 //@{
 const uint32 INV_USE    = 0;
 // const uint32 INV_SORT   = 1;
-const uint32 INV_BACK   = 1;
-const uint32 INV_SIZE   = 2;
+const uint32 INV_EQUIP  = 1;
+const uint32 INV_REMOVE = 2;
+const uint32 INV_BACK   = 3;
+const uint32 INV_SIZE   = 4;
 //@}
 
 //! \name Skills Menu Options Constants
@@ -73,10 +74,8 @@ const uint32 SKILLS_SIZE    = 2;
 
 //! \name Equipment Menu Options Constants
 //@{
-const uint32 EQUIP_EQUIP   = 0;
-const uint32 EQUIP_REMOVE  = 1;
-const uint32 EQUIP_BACK    = 2;
-const uint32 EQUIP_SIZE    = 3;
+const uint32 EQUIP_BACK    = 0;
+const uint32 EQUIP_SIZE    = 1;
 //@}
 
 //! \name Status Menu Options Constants
@@ -107,11 +106,11 @@ const uint32 OPTIONS_SIZE    = 3;
 const uint32 SHOW_MAIN          = 0;
 const uint32 SHOW_INVENTORY     = 1;
 const uint32 SHOW_SKILLS        = 2;
-const uint32 SHOW_EQUIP         = 3;
-const uint32 SHOW_STATUS        = 4;
+const uint32 SHOW_STATUS        = 3;
 //const uint32 SHOW_OPTIONS       = 5;
-const uint32 SHOW_FORMATION     = 5;
-const uint32 SHOW_EXIT          = 6;
+const uint32 SHOW_FORMATION     = 4;
+const uint32 SHOW_EXIT          = 5;
+const uint32 SHOW_EQUIP         = 6;
 //@}
 
 /** \name MenuMode Active Window Flags
