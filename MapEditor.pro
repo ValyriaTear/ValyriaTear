@@ -1,8 +1,14 @@
+# Set the resource app icon
+# -- Windows
+RC_FILE = ./icon.rc
+# -- Mac
+ICON = ./img/logos/mac_logo.icns
+
 # Needed for the QGLWidget
 QT += opengl core gui
 
 # normal include path
-INCLUDEPATH += ../src
+INCLUDEPATH += ./src
 # Dependencies include paths
 # Don't forget to copy the unzipped dependencies folder there: 'valyriatear-win32-depends'
 INCLUDEPATH += ./valyriatear-win32-depends/include
