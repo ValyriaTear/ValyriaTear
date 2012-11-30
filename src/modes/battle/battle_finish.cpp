@@ -514,25 +514,35 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
             _growth_list[i].AddOption();
         }
 
-        _level_xp_text[i].SetOwner(&_character_window[i]);
-        _level_xp_text[i].SetPosition(130.0f, 110.0f);
-        _level_xp_text[i].SetDimensions(200.0f, 40.0f);
-        _level_xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-        _level_xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _level_xp_text[i].SetDisplaySpeed(30);
-        _level_xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
-        _level_xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
+        _level_text[i].SetOwner(&_character_window[i]);
+        _level_text[i].SetPosition(130.0f, 110.0f);
+        _level_text[i].SetDimensions(200.0f, 40.0f);
+        _level_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+        _level_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+        _level_text[i].SetDisplaySpeed(30);
+        _level_text[i].SetTextStyle(TextStyle("text20", Color::white));
+        _level_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
+
+        _xp_text[i].SetOwner(&_character_window[i]);
+        _xp_text[i].SetPosition(130.0f, 90.0f);
+        _xp_text[i].SetDimensions(200.0f, 40.0f);
+        _xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+        _xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+        _xp_text[i].SetDisplaySpeed(30);
+        _xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
+        _xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
         // Don't show XP when the maximum level has been reached.
         if(_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel()) {
-            _level_xp_text[i].SetDisplayText(UTranslate("Level (Max): ")
+            _level_text[i].SetDisplayText(UTranslate("Level (Max): ")
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
+            _xp_text[i].SetDisplayText(" ");
         } else {
-            _level_xp_text[i].SetDisplayText(UTranslate("Level: ")
-                                             + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()))
-                                             + MakeUnicodeString("\n") + UTranslate("XP: ")
-                                             + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
-                                                     - _characters[i]->GetExperiencePoints())));
+            _level_text[i].SetDisplayText(UTranslate("Level: ")
+                                             + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
+            _xp_text[i].SetDisplayText(UTranslate("XP: ")
+                                       + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
+                                            - _characters[i]->GetExperiencePoints())));
         }
 
         _skill_text[i].SetOwner(&_character_window[i]);
@@ -717,19 +727,18 @@ void FinishVictoryAssistant::_UpdateGrowth()
             }
         }
 
-        // TODO: check for new experience level
-        std::string level_xp_text;
+        ustring level_text;
+        ustring xp_text;
         if(level_maxed_out) {
-            level_xp_text = Translate("Level (Max): ") + NumberToString(_characters[i]->GetExperienceLevel());
+            level_text = UTranslate("Level (Max): ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
         } else {
-            level_xp_text = Translate("Level: ")
-                            + NumberToString(_characters[i]->GetExperienceLevel())
-                            + "\n" + Translate("XP: ")
-                            + NumberToString(_characters[i]->GetExperienceForNextLevel()
-                                             - _characters[i]->GetExperiencePoints());
+            level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
+            xp_text = UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
+                                             - _characters[i]->GetExperiencePoints()));
         }
 
-        _level_xp_text[i].SetDisplayText(level_xp_text);
+        _level_text[i].SetDisplayText(level_text);
+        _xp_text[i].SetDisplayText(xp_text);
     }
 
     _xp_earned -= xp_to_add;
@@ -807,7 +816,8 @@ void FinishVictoryAssistant::_DrawGrowth(uint32 index)
     VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f, (CHAR_WINDOW_YPOS - 15.0f) - (CHAR_WINDOW_HEIGHT * index));
     _character_portraits[index].Draw();
 
-    _level_xp_text[index].Draw();
+    _level_text[index].Draw();
+    _xp_text[index].Draw();
     _growth_list[index].Draw();
     _skill_text[index].Draw();
 }

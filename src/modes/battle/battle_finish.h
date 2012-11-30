@@ -183,7 +183,8 @@ private:
     hoa_gui::OptionBox _growth_list[4];
 
     //! \brief Holds the experience level and XP points remaining for each character
-    hoa_gui::TextBox _level_xp_text[4];
+    hoa_gui::TextBox _level_text[4];
+    hoa_gui::TextBox _xp_text[4];
 
     //! \brief Holds the text indicating new skills that each character has learned
     hoa_gui::TextBox _skill_text[4];
