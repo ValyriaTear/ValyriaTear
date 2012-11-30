@@ -250,7 +250,13 @@ void MenuMode::Update()
         // If in main menu, return to previous Mode, else return to main menu.
         if(_current_menu_showing == SHOW_MAIN) {
             ModeManager->Pop();
-        } else {
+        } else if(_current_menu_showing == SHOW_EQUIP )
+        {
+            _current_menu_showing = SHOW_INVENTORY;
+            _current_menu = &_menu_inventory;
+            _current_menu->Update();
+        }else{
+
             _current_menu_showing = SHOW_MAIN;
             _current_menu = &_main_options;
             _current_menu->Update();
@@ -351,6 +357,13 @@ void MenuMode::Draw()
         draw_window = _current_menu->GetSelection() + 1;
     } else {
         draw_window = _current_menu_showing;
+        if(draw_window == SHOW_INVENTORY)
+        {
+            if((uint32)_menu_inventory.GetSelection() == INV_EQUIP || (uint32)_menu_inventory.GetSelection() == INV_REMOVE)
+                draw_window = SHOW_EQUIP;
+            else
+                PRINT_ERROR << "MENU ERROR: Invalid _menu_inventory selection in MenuMode::Draw()" << std::endl;
+        }
     }
 
     // Draw the chosen window
@@ -467,11 +480,6 @@ void MenuMode::_HandleMainMenu()
         _current_menu = &_menu_status;
         break;
 
-    case MAIN_EQUIP:
-        _current_menu_showing = SHOW_EQUIP;
-        _current_menu = &_menu_equip;
-        break;
-
     default:
         PRINT_ERROR << "MENU ERROR: Invalid option in MenuMode::_HandleMainMenu()" << std::endl;
         break;
@@ -492,7 +500,16 @@ void MenuMode::_HandleInventoryMenu()
         			// TODO: Handle the sort inventory comand
         			cout << "MENU: Inventory sort command!" << std::endl;
         			break;*/
-
+    case INV_EQUIP:
+        _current_menu_showing = SHOW_EQUIP;
+        _current_menu = &_menu_equip;
+        _equip_window.Activate(true, true);
+        break;
+    case INV_REMOVE:
+        _current_menu_showing = SHOW_EQUIP;
+        _current_menu = &_menu_equip;
+        _equip_window.Activate(true, false);
+        break;
     case INV_BACK:
         _current_menu_showing = SHOW_MAIN;
         _current_menu = &_main_options;
@@ -523,13 +540,12 @@ void MenuMode::_SetupMainOptionBox()
 {
     // Setup the main options box
     _SetupOptionBoxCommonSettings(&_main_options);
-    _main_options.SetDimensions(745.0f, 50.0f, MAIN_SIZE, 1, 5, 1);
+    _main_options.SetDimensions(745.0f, 50.0f, MAIN_SIZE, 1, MAIN_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
     options.push_back(UTranslate("Inventory"));
     options.push_back(UTranslate("Skills"));
-    options.push_back(UTranslate("Equip"));
     options.push_back(UTranslate("Status"));
     options.push_back(UTranslate("Formation"));
 
@@ -547,7 +563,9 @@ void MenuMode::_SetupInventoryOptionBox()
 
     // Generate the strings
     std::vector<ustring> options;
-    options.push_back(UTranslate("Use"));
+    options.push_back(UTranslate("Items"));
+    options.push_back(UTranslate("Equip"));
+    options.push_back(UTranslate("Remove"));
 //	options.push_back(UTranslate("Sort"));
     options.push_back(UTranslate("Back"));
 
@@ -629,17 +647,15 @@ void MenuMode::_SetupEquipOptionBox()
 {
     // Setup the status option box
     _SetupOptionBoxCommonSettings(&_menu_equip);
-    _menu_equip.SetDimensions(465.0f, 50.0f, EQUIP_SIZE, 1, EQUIP_SIZE, 1);
+    _menu_equip.SetDimensions(100.0f, 50.0f, EQUIP_SIZE, 1, EQUIP_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
-    options.push_back(UTranslate("Equip"));
-    options.push_back(UTranslate("Remove"));
     options.push_back(UTranslate("Back"));
 
     // Add strings and set default selection.
     _menu_equip.SetOptions(options);
-    _menu_equip.SetSelection(EQUIP_EQUIP);
+    _menu_equip.SetSelection(EQUIP_BACK);
 
 }
 
@@ -730,17 +746,10 @@ void MenuMode::_HandleFormationMenu()
 void MenuMode::_HandleEquipMenu()
 {
     switch(_menu_equip.GetSelection()) {
-    case EQUIP_EQUIP:
-        _equip_window.Activate(true, true);
-        break;
-
-    case EQUIP_REMOVE:
-        _equip_window.Activate(true, false);
-        break;
 
     case EQUIP_BACK:
-        _current_menu_showing = SHOW_MAIN;
-        _current_menu = &_main_options;
+        _current_menu_showing = SHOW_INVENTORY;
+        _current_menu = &_menu_inventory;
         break;
 
     default:
