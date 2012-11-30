@@ -48,13 +48,6 @@ CharacterWindow::CharacterWindow() : _char_id(GLOBAL_CHARACTER_INVALID)
 }
 
 
-
-CharacterWindow::~CharacterWindow()
-{
-}
-
-
-
 void CharacterWindow::SetCharacter(GlobalCharacter *character)
 {
     _char_id = character->GetID();
@@ -100,21 +93,21 @@ void CharacterWindow::Draw()
     VideoManager->Text()->Draw(character->GetName(), TextStyle("title22"));
 
     // Level
-    VideoManager->MoveRelative(0, 20);
+    VideoManager->MoveRelative(0, 19);
     VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(character->GetExperienceLevel())), TextStyle("text20"));
 
     // HP
-    VideoManager->MoveRelative(0, 20);
+    VideoManager->MoveRelative(0, 19);
     VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(character->GetHitPoints()) +
                                " / " + NumberToString(character->GetMaxHitPoints())), TextStyle("text20"));
 
     // SP
-    VideoManager->MoveRelative(0, 20);
+    VideoManager->MoveRelative(0, 19);
     VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(character->GetSkillPoints()) +
                                " / " + NumberToString(character->GetMaxSkillPoints())), TextStyle("text20"));
 
     // XP to level up
-    VideoManager->MoveRelative(0, 20);
+    VideoManager->MoveRelative(0, 19);
     VideoManager->Text()->Draw(UTranslate("XP to Next: ") +
                                MakeUnicodeString(NumberToString(character->GetExperienceForNextLevel() - character->GetExperiencePoints())), TextStyle("text20"));
 
@@ -143,10 +136,6 @@ InventoryWindow::InventoryWindow() : _active_box(ITEM_ACTIVE_NONE)
     _description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
 } // void InventoryWindow::InventoryWindow
-
-InventoryWindow::~InventoryWindow()
-{
-}
 
 //Initializes the list of items
 void InventoryWindow::_InitInventoryItems()

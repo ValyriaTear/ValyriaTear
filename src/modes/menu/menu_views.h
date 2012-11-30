@@ -126,7 +126,8 @@ private:
 public:
     CharacterWindow();
 
-    ~CharacterWindow();
+    ~CharacterWindow()
+    {}
 
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
@@ -153,7 +154,8 @@ class InventoryWindow : public hoa_gui::MenuWindow
 public:
     InventoryWindow();
 
-    ~InventoryWindow();
+    ~InventoryWindow()
+    {}
 
     /** \brief Toggles the inventory window being in the active context for the player
     *** \param new_status Activates the inventory window when true, de-activates it when false
