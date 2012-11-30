@@ -413,6 +413,9 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
 		hero:SetDirection(hoa_map.MapMode.SOUTH);
 		hero:SetPosition(14, 42);
+    elseif (GlobalManager:GetPreviousLocation() == "from_layna_wolf_cave") then
+		hero:SetDirection(hoa_map.MapMode.SOUTH);
+		hero:SetPosition(32, 21);
 	end
 
 	Map:AddGroundObject(hero);
@@ -1102,8 +1105,8 @@ function _CheckZones()
 		hero:SetMoving(false);
 		EventManager:StartEvent("to cave 1_2");
 	elseif (to_wolf_cave_zone:IsCameraEntering() == true) then
-		--hero:SetMoving(false);
-		--EventManager:StartEvent("to wolf cave");
+		hero:SetMoving(false);
+		EventManager:StartEvent("to wolf cave");
 	elseif (to_cave2_1_zone:IsCameraEntering() == true) then
 		--hero:SetMoving(false);
 		--EventManager:StartEvent("to cave 2_1");
