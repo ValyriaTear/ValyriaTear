@@ -341,17 +341,6 @@ public:
 
     // ---------- Coordinate system and viewport methods
 
-    /** \brief Sets the viewport (the area of the screen that gets drawn)
-    *** \param left Left border of screen
-    *** \param right Right border of screen
-    *** \param top Top border of screen
-    *** \param bottom Bottom border of screen
-    ***
-    *** The arguments are percentages from 0.0f to 100.0f. The default viewport is
-    *** (0, 100, 0, 100), which covers the entire screen.
-    **/
-    void SetViewport(float left, float right, float bottom, float top);
-
     /** \brief Sets the coordinate system to use.
     *** \param left The coordinate for the left border of screen
     *** \param right The coordinate for the right border of screen

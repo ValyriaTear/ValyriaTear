@@ -358,7 +358,8 @@ void VideoEngine::Clear()
 
 void VideoEngine::Clear(const Color &c)
 {
-    SetViewport(0.0f, 100.0f, 0.0f, 100.0f);
+    _current_context.viewport = ScreenRect(0, 0, _screen_width, _screen_height);
+    glViewport(0, 0, _screen_width, _screen_height);
     glClearColor(c[0], c[1], c[2], c[3]);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -506,37 +507,6 @@ bool VideoEngine::ApplySettings()
 // VideoEngine class - Coordinate system and viewport methods
 //-----------------------------------------------------------------------------
 
-void VideoEngine::SetViewport(float left, float right, float bottom, float top)
-{
-    if(left > right) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "left argument was greater than right argument" << std::endl;
-        return;
-    }
-    if(bottom > top) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "bottom argument was greater than top argument" << std::endl;
-        return;
-    }
-
-    int32 l = static_cast<int32>(left * _screen_width * .01f);
-    int32 b = static_cast<int32>(bottom * _screen_height * .01f);
-    int32 r = static_cast<int32>(right * _screen_width * .01f);
-    int32 t = static_cast<int32>(top * _screen_height * .01f);
-
-    if(l < 0)
-        l = 0;
-    if(b < 0)
-        b = 0;
-    if(r > _screen_width)
-        r = _screen_width;
-    if(t > _screen_height)
-        t = _screen_height;
-
-    _current_context.viewport = ScreenRect(l, b, r - l + 1, t - b + 1);
-    glViewport(l, b, r - l + 1, t - b + 1);
-}
-
-
-
 void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 {
     _current_context.coordinate_system = coordinate_system;
@@ -550,7 +520,8 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
     glLoadIdentity();
     // This small translation is supposed to help with pixel-perfect 2D rendering in OpenGL.
     // Reference: http://www.opengl.org/resources/faq/technical/transformations.htm#tran0030
-    glTranslatef(0.375, 0.375, 0);
+    // Changed to 32/1024 or 24/768 since it's the size of one pixel for the map mode.
+    glTranslatef(0.03125, 0.03125, 0);
 }
 
 void VideoEngine::EnableScissoring()
