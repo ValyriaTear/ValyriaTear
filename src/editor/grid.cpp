@@ -72,7 +72,7 @@ LAYER_TYPE &operator++(LAYER_TYPE &value, int /*dummy*/)
 
 
 Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
-    QGLWidget(parent, (const char *) name),
+    QGLWidget(parent),
     _file_name(name),
     _height(height),
     _width(width),
@@ -587,7 +587,7 @@ void Grid::SaveMap()
     write_data.InsertNewLine();
     write_data.WriteComment("The music file used as default background music on this map.");
     write_data.WriteComment("Other musics will have to handled through scripting.");
-    write_data.WriteString("music_filename", music_filename.ascii());
+    write_data.WriteString("music_filename", music_filename.toAscii().data());
 
     write_data.InsertNewLine();
     write_data.WriteComment("The names of the tilesets used, with the path and file extension omitted");
@@ -596,7 +596,7 @@ void Grid::SaveMap()
     for(QStringList::Iterator qit = tileset_names.begin();
             qit != tileset_names.end(); ++qit) {
         ++i;
-        write_data.WriteString(i, (*qit).ascii());
+        write_data.WriteString(i, (*qit).toAscii().data());
     } // iterate through tileset_names writing each element
     write_data.EndTable();
     write_data.InsertNewLine();

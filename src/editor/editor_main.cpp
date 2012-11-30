@@ -21,7 +21,10 @@
 #include "editor.h"
 #include "engine/script/script.h"
 
-#if defined(main) && !defined(_WIN32)
+// Used to permit compilation as qmake will create a makefile requiring qMain
+// as the main app function, and the aliasing of main prevents this to work
+// with Qt 4.8.3.
+#if defined(main)
 #undef main
 #endif
 
