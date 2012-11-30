@@ -614,7 +614,7 @@ SkillsWindow::SkillsWindow() :
     _InitSkillsCategories();
 
     _description.SetOwner(this);
-    _description.SetPosition(30.0f, 525.0f);
+    _description.SetPosition(30.0f, 465.0f);
     _description.SetDimensions(800.0f, 80.0f);
     _description.SetDisplaySpeed(30);
     _description.SetDisplayMode(VIDEO_TEXT_INSTANT);
