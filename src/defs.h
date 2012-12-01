@@ -270,6 +270,7 @@ class SkillCommand;
 class CharacterCommand;
 class CommandSupervisor;
 
+class CharacterGrowth;
 class FinishDefeatAssistant;
 class FinishVictoryAssistant;
 class FinishSupervisor;

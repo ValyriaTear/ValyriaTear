@@ -672,7 +672,7 @@ protected:
 *** always occur after achieving a new experience level.
 ***
 *** The advised procedure for processing character growth is as follows.
-*** -# Call AddExperiencePoints() to give the character additional XP. 
+*** -# Call AddExperiencePoints() to give the character additional XP.
 *** -# If this method returns false, no further action is needed. Otherwise, growth has occurred and needs to be processed.
 *** -# Call ReachedNewExperienceLevel() to determine whether the type growth is gradual or due to a
 ***    new experience level being reached.
@@ -684,10 +684,10 @@ protected:
 *** \note When an experience level is gained, after the call to AcknowledgeGrowth()
 *** there may be new growth available (because the character gained multiple
 *** experience levels or met the requirements for additional gradual growth for
-*** the new experience level to gain). Thus, you should strongly consider calling
-*** the IsGrowthDetected() method after AcknowledgeGrowth() to report any further
-*** character growth that occured after the character reached a new level.
-*** 
+*** the new experience level to gain). It is recommended practice to call AcknowledgeGrowth()
+*** continuously until the fuction returns a false value, which indicates that no additional
+*** growth is available.
+***
 *** \note When adding a large number of experience points to a character (at the end of a
 *** battle for instance), it is advisable to add those points gradually over many calls in a
 *** short period of time rather than all at once. Not only is it more aesthetically appealing to
@@ -700,6 +700,12 @@ protected:
 *** ***************************************************************************/
 class GlobalCharacter : public GlobalActor
 {
+    friend void hoa_defs::BindCommonCode();
+    // TODO: investigate whether we can replace declaring the entire GameGlobal class as a friend with declaring
+    // the GameGlobal::_SaveCharacter and GameGlobal::_LoadCharacter methods instead.
+    friend class GameGlobal;
+//     friend void GameGlobal::_SaveCharacter(hoa_script::WriteScriptDescriptor &file, GlobalCharacter *character, bool last);
+//     friend void GameGlobal::_LoadCharacter(hoa_script::ReadScriptDescriptor &file, uint32 id);
 public:
     /** \brief Constructs a new character from its definition in a script file
     *** \param id The integer ID of the character to create
@@ -751,7 +757,7 @@ public:
     *** \param skill_id The ID number of the skill to add
     *** \note This function is bound to Lua and used whenever a character gains a level.
     ***
-    *** The difference between this method and AddSkill() is that the skill added is also copied to the 
+    *** The difference between this method and AddSkill() is that the skill added is also copied to the
     *** _new_skills_learned container. This allows external code to easily know what skill or skills have
     *** been added to the character.
     **/
@@ -761,8 +767,11 @@ public:
     bool ReachedNewExperienceLevel() const
         { return _experience_for_next_level <= 0; }
 
+    //! \brief Returns true if the character has outstanding growth that has not been acknowledged
+    bool HasUnacknowledgedGrowth() const;
+
     /** \brief Adds any growth that has occured by modifying the character's stats
-    /** \return True if additional growth is detected and requires another AcknowledgeGrowth() call.
+    *** \return True if additional growth is detected and requires another AcknowledgeGrowth() call.
     ***
     *** If an experience level is gained, this function will open up the script file that contains
     *** the character's definition and get new growth stats for the next experience level. Often this
@@ -974,14 +983,14 @@ private:
     std::deque<std::pair<uint32, float> > _evade_periodic_growth;
     //@}
 
-    /** \brief Contains pointers to all skills that were learned by achieving the current experience level 
+    /** \brief Contains pointers to all skills that were learned by achieving the current experience level
     ***
     *** This container will not contain skills learned if the character was constructed using their initial stats.
     *** The skills listed within this container have already been added to the character's active usable skill set.
     *** This container is cleared and reset after every level up. The most common use for this container is for
     *** external code to be able to show the player what skills have been learned upon their character reaching a
     *** new experience level.
-    *** 
+    ***
     *** \note The pointers in this container are copies of the pointers contained within the _skills container. No
     *** memory management needs to be performed by this vector.
     ***
