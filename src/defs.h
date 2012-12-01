@@ -202,7 +202,6 @@ class GlobalSkill;
 class GlobalAttackPoint;
 class GlobalActor;
 class GlobalCharacter;
-class GlobalCharacterGrowth;
 class GlobalEnemy;
 class GlobalParty;
 }
