@@ -1037,8 +1037,39 @@ hoa_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::st
 
 
 
-bool GlobalCharacter::AcknowledgeGrowth()
-{
+bool GlobalCharacter::HasUnacknowledgedGrowth() const {
+    if (ReachedNewExperienceLevel() == true) {
+        return true;
+    }
+
+    if(_hit_points_growth != 0)
+        return true;
+    if(_skill_points_growth != 0)
+        return true;
+    if(_strength_growth != 0)
+        return true;
+    if(_vigor_growth != 0)
+        return true;
+    if(_fortitude_growth != 0)
+        return true;
+    if(_protection_growth != 0)
+        return true;
+    if(_agility_growth != 0)
+        return true;
+    if(IsFloatEqual(_evade_growth, 0.0f) == false)
+        return true;
+
+    return false;
+}
+
+
+
+bool GlobalCharacter::AcknowledgeGrowth() {
+    if (HasUnacknowledgedGrowth() == false) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function called when no unacknowledged growth was available" << std::endl;
+        return false;
+    }
+
     // Add all growth stats to the character actor
     if(_hit_points_growth != 0) {
         AddMaxHitPoints(_hit_points_growth);
@@ -1124,56 +1155,56 @@ bool GlobalCharacter::_CheckForGrowth()
 
     // ----- (2): If there is no growth detected, check all periodic growth containers
     if (_hit_points_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _hit_points_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_hit_points_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
     }
 
     if (_skill_points_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _skill_points_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_skill_points_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
     }
 
     if (_strength_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _strength_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_strength_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
     }
 
     if (_vigor_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _vigor_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_vigor_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
     }
 
     if (_fortitude_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _fortitude_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_fortitude_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
     }
 
     if (_protection_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _protection_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_protection_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
     }
 
     if (_agility_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _agility_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_agility_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
     }
 
     if (_evade_periodic_growth.empty() == false) {
-        if (_experience_for_next_level <= _evade_periodic_growth.front().first) {
+        if (_experience_for_next_level <= static_cast<int32>(_evade_periodic_growth.front().first)) {
             _ProcessPeriodicGrowth();
             return true;
         }
@@ -1223,7 +1254,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
     // Otherwise if no level was gained, process each growth container to deal out any growth that has been earned
     else {
         while (_hit_points_periodic_growth.begin() != _hit_points_periodic_growth.end()) {
-            if (_experience_for_next_level <= _hit_points_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_hit_points_periodic_growth.begin()->first)) {
                 _hit_points_growth += _hit_points_periodic_growth.begin()->second;
                 _hit_points_periodic_growth.pop_front();
             }
@@ -1233,7 +1264,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
         }
 
         while (_skill_points_periodic_growth.begin() != _skill_points_periodic_growth.end()) {
-            if (_experience_for_next_level <= _skill_points_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_skill_points_periodic_growth.begin()->first)) {
                 _skill_points_growth += _skill_points_periodic_growth.begin()->second;
                 _skill_points_periodic_growth.pop_front();
             }
@@ -1243,7 +1274,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
         }
 
         while (_strength_periodic_growth.begin() != _strength_periodic_growth.end()) {
-            if (_experience_for_next_level <= _strength_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_strength_periodic_growth.begin()->first)) {
                 _strength_growth += _strength_periodic_growth.begin()->second;
                 _strength_periodic_growth.pop_front();
             }
@@ -1253,7 +1284,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
         }
 
         while (_vigor_periodic_growth.begin() != _vigor_periodic_growth.end()) {
-            if (_experience_for_next_level <= _vigor_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_vigor_periodic_growth.begin()->first)) {
                 _vigor_growth += _vigor_periodic_growth.begin()->second;
                 _vigor_periodic_growth.pop_front();
             }
@@ -1263,7 +1294,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
         }
 
         while (_fortitude_periodic_growth.begin() != _fortitude_periodic_growth.end()) {
-            if (_experience_for_next_level <= _fortitude_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_fortitude_periodic_growth.begin()->first)) {
                 _fortitude_growth += _fortitude_periodic_growth.begin()->second;
                 _fortitude_periodic_growth.pop_front();
             }
@@ -1273,7 +1304,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
         }
 
         while (_protection_periodic_growth.begin() != _protection_periodic_growth.end()) {
-            if (_experience_for_next_level <= _protection_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_protection_periodic_growth.begin()->first)) {
                 _protection_growth += _protection_periodic_growth.begin()->second;
                 _protection_periodic_growth.pop_front();
             }
@@ -1283,7 +1314,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
         }
 
         while (_agility_periodic_growth.begin() != _agility_periodic_growth.end()) {
-            if (_experience_for_next_level <= _agility_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_agility_periodic_growth.begin()->first)) {
                 _agility_growth += _agility_periodic_growth.begin()->second;
                 _agility_periodic_growth.pop_front();
             }
@@ -1293,7 +1324,7 @@ void GlobalCharacter::_ProcessPeriodicGrowth() {
         }
 
         while (_evade_periodic_growth.begin() != _evade_periodic_growth.end()) {
-            if (_experience_for_next_level <= _evade_periodic_growth.begin()->first) {
+            if (_experience_for_next_level <= static_cast<int32>(_evade_periodic_growth.begin()->first)) {
                 _evade_growth += _evade_periodic_growth.begin()->second;
                 _evade_periodic_growth.pop_front();
             }
