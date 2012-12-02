@@ -456,7 +456,7 @@ void FinishVictoryAssistant::Initialize()
         }
     }
 
-    // ----- (3): Divide up the XP and drunes earnings by the number of players (both living and dead) and apply the penalty for any battle retries
+    // ----- (3): Divide up the XP earnings by the number of players (both living and dead) and apply the penalty for any battle retries
     _xp_earned /= _number_characters;
 
     _CreateCharacterGUIObjects();
@@ -581,8 +581,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
             _level_text[i].SetDisplayText(UTranslate("Level: ")
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
             _xp_text[i].SetDisplayText(UTranslate("XP: ")
-                                       + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
-                                            - _characters[i]->GetExperiencePoints())));
+                                       + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel())));
         }
 
         _skill_text[i].SetOwner(&_character_window[i]);
@@ -771,9 +770,16 @@ void FinishVictoryAssistant::_UpdateGrowth()
         if(level_maxed_out) {
             level_text = UTranslate("Level (Max): ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
         } else {
+<<<<<<< HEAD
             level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
             xp_text = UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
                                              - _characters[i]->GetExperiencePoints()));
+=======
+            level_xp_text = Translate("Level: ")
+                            + NumberToString(_characters[i]->GetExperienceLevel())
+                            + "\n" + Translate("XP: ")
+                            + NumberToString(_characters[i]->GetExperienceForNextLevel());
+>>>>>>> a3448f2... Fixed issues where battle and menu modes did not display XP to next level properly
         }
 
         _level_text[i].SetDisplayText(level_text);
