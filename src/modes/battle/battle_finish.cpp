@@ -88,8 +88,28 @@ CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
 
 
 void CharacterGrowth::UpdateGrowthData() {
-    do {
-        if (_character->ReachedNewExperienceLevel() == true) {
+    bool remaining_growth = true;
+    bool level_gained = false;
+
+    // The logic required to update this data can be a bit tricky. We have to retrieve all of the stat growth
+    // prior to calling AcknowledgeGrowth() because that call will reset the stat data. However, the list of
+    // new skills learned is not available until after calling AcknowledgeGrowth to process the new level gained
+    // (if any). And of course multiple AcknowledgeGrowth() calls may have to be made. The structure of the loop
+    // below addresses all of these cases.
+    while (remaining_growth == true) {
+        hit_points += _character->GetHitPointsGrowth();
+        skill_points += _character->GetSkillPointsGrowth();
+        strength += _character->GetStrengthGrowth();
+        vigor += _character->GetVigorGrowth();
+        fortitude += _character->GetFortitudeGrowth();
+        protection += _character->GetProtectionGrowth();
+        agility += _character->GetAgilityGrowth();
+        evade += _character->GetEvadeGrowth();
+
+        level_gained = _character->ReachedNewExperienceLevel();
+        remaining_growth = _character->AcknowledgeGrowth();
+
+        if (level_gained == true) {
             _experience_levels_gained++;
 
             // New skills are only found in growth data when the character has reached a new level
@@ -100,16 +120,7 @@ void CharacterGrowth::UpdateGrowthData() {
                 skills_learned.push_back(skills->at(i));
             }
         }
-
-        hit_points += _character->GetHitPointsGrowth();
-        skill_points += _character->GetSkillPointsGrowth();
-        strength += _character->GetStrengthGrowth();
-        vigor += _character->GetVigorGrowth();
-        fortitude += _character->GetFortitudeGrowth();
-        protection += _character->GetProtectionGrowth();
-        agility += _character->GetAgilityGrowth();
-        evade += _character->GetEvadeGrowth();
-    } while (_character->AcknowledgeGrowth() == true);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
