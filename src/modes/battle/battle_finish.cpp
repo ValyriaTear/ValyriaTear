@@ -456,7 +456,7 @@ void FinishVictoryAssistant::Initialize()
         }
     }
 
-    // ----- (3): Divide up the XP and drunes earnings by the number of players (both living and dead) and apply the penalty for any battle retries
+    // ----- (3): Divide up the XP earnings by the number of players (both living and dead) and apply the penalty for any battle retries
     _xp_earned /= _number_characters;
 
     _CreateCharacterGUIObjects();
@@ -572,7 +572,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()))
                                              + MakeUnicodeString("\n") + UTranslate("XP: ")
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
-                                                     - _characters[i]->GetExperiencePoints())));
+                                               )));
         }
 
         _skill_text[i].SetOwner(&_character_window[i]);
@@ -764,8 +764,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
             level_xp_text = Translate("Level: ")
                             + NumberToString(_characters[i]->GetExperienceLevel())
                             + "\n" + Translate("XP: ")
-                            + NumberToString(_characters[i]->GetExperienceForNextLevel()
-                                             - _characters[i]->GetExperiencePoints());
+                            + NumberToString(_characters[i]->GetExperienceForNextLevel());
         }
 
         _level_xp_text[i].SetDisplayText(level_xp_text);
