@@ -853,10 +853,10 @@ function DetermineNewSkillsLearned(character)
         return;
     end
 
-    new_skills = character_table["skills"][new_level]
+    new_skills = character_table["skills"][new_level];
 
     -- Case 1: no new skills are learned
-    if (type(new_skills) == nil) then
+    if (type(new_skills) == "nil") then
         return;
     -- Case 2: one new skill is learned
     elseif (type(new_skills) == "number") then
