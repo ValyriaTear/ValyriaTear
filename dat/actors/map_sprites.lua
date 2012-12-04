@@ -372,8 +372,8 @@ sprites["scorpion"] = {
     }
 }
 
-sprites["Wolf"] = {
-	name = hoa_system.Translate("Wolf"),
+sprites["Fenrir"] = {
+	name = hoa_system.Translate("Fenrir"),
 	coll_half_width = 1.5,
 	coll_height = 3.0,
 	img_half_width = 1.5,
@@ -382,8 +382,8 @@ sprites["Wolf"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/wolf_idle.lua",
-        walk = "img/sprites/map/enemies/wolf_walk.lua"
+        idle = "img/sprites/map/enemies/fenrir_idle.lua",
+        walk = "img/sprites/map/enemies/fenrir_walk.lua"
     }
 }
 

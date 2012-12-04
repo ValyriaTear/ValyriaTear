@@ -412,7 +412,7 @@ function _CreateObjects()
 	local npc = {}
 
 	-- The boss map sprite
-	wolf = CreateSprite(Map, "Wolf", 104, 3); -- pre place it at the right place.
+	wolf = CreateSprite(Map, "Fenrir", 104, 3); -- pre place it at the right place.
 	wolf:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 	wolf:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
 	wolf:SetVisible(false);
@@ -854,10 +854,12 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Woah, that was quite a nasty fight. Why on earth was an arctic north white wolf lurking in the forest?");
+	text = hoa_system.Translate("Woah, that was quite a nasty fight. Why on earth was an arctic north fenrir lurking in the forest? I thought such animals were part of the myths.");
 	dialogue:AddLineEmote(text, hero, "sweat drop");
 	text = hoa_system.Translate("He just ran away. I'm almost sure we'll meet it again. We'd better be well prepared, then.");
 	dialogue:AddLineEmote(text, hero, "thinking dots");
+	text = hoa_system.Translate("I''ll try not to think about what it could have done to Orlinn ... Let's find him quickly.");
+	dialogue:AddLine(text, hero);
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("boss fight post-dialogue", dialogue);
     event:AddEventLinkAtEnd("Map:PopState()");

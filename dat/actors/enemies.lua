@@ -141,9 +141,9 @@ enemies[2] = {
 
 -- Layna forest first boss
 enemies[3] = {
-	name = hoa_system.Translate("White Wolf"),
-	stamina_icon = "img/icons/actors/enemies/white_wolf.png",
-	battle_sprites = "img/sprites/battle/enemies/white_wolf.png",
+	name = hoa_system.Translate("Fenrir"),
+	stamina_icon = "img/icons/actors/enemies/fenrir.png",
+	battle_sprites = "img/sprites/battle/enemies/fenrir_normal.png",
 	sprite_width = 268,
 	sprite_height = 196,
 
