@@ -361,8 +361,6 @@ void MenuMode::Draw()
         {
             if((uint32)_menu_inventory.GetSelection() == INV_EQUIP || (uint32)_menu_inventory.GetSelection() == INV_REMOVE)
                 draw_window = SHOW_EQUIP;
-            else
-                PRINT_ERROR << "MENU ERROR: Invalid _menu_inventory selection in MenuMode::Draw()" << std::endl;
         }
     }
 
