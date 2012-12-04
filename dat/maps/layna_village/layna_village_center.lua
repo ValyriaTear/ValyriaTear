@@ -438,40 +438,7 @@ function _CreateNPCs()
     olivia = CreateNPCSprite(Map, "Girl1", "Olivia", 115, 34);
     olivia:SetDirection(hoa_map.MapMode.SOUTH);
 	Map:AddGroundObject(olivia);
-    -- Don't grant access to the forest so easily
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-        if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false
-            and GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-            dialogue = hoa_map.SpriteDialogue();
-            text = hoa_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword...");
-            dialogue:AddLineEmote(text, olivia, "exclamation");
-            text = hoa_system.Translate("Aww... Ok.");
-            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-            text = hoa_system.Translate("(Hmm, maybe I should get a sword then.)");
-            dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
-            DialogueManager:AddDialogue(dialogue);
-            olivia:AddDialogueReference(dialogue);
-        else
-            dialogue = hoa_map.SpriteDialogue();
-            text = hoa_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
-            dialogue:AddLineEmote(text, olivia, "exclamation");
-            text = hoa_system.Translate("Aww... Ok.");
-            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-            DialogueManager:AddDialogue(dialogue);
-            olivia:AddDialogueReference(dialogue);
-        end
-    else
-        dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Good luck Bronann.");
-        dialogue:AddLine(text, olivia);
-        DialogueManager:AddDialogue(dialogue);
-        olivia:AddDialogueReference(dialogue);
-    end
-
-    -- Special event triggered when Bronann hasn't go the right to enter the forest yet.
-    event = hoa_map.DialogueEvent("Bronann can't enter the forest so easily", dialogue);
-	event:SetStopCameraMovement(true);
-	EventManager:RegisterEvent(event);
+    _UpdateOliviaDialogue();
 
     -- Needed look at events
     event = hoa_map.LookAtSpriteEvent("Bronann looks at Olivia", bronann, olivia);
@@ -1108,6 +1075,47 @@ function _UpdateBlockingRock()
     end
 end
 
+-- Updates Olivia dialogues according to the story events
+function _UpdateOliviaDialogue()
+    olivia:ClearDialogueReferences();
+
+    -- Don't grant access to the forest so easily
+    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
+        if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false
+            and GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
+            dialogue = hoa_map.SpriteDialogue();
+            text = hoa_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword...");
+            dialogue:AddLineEmote(text, olivia, "exclamation");
+            text = hoa_system.Translate("Aww... Ok.");
+            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
+            text = hoa_system.Translate("(Hmm, maybe I should get a sword then.)");
+            dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
+            DialogueManager:AddDialogue(dialogue);
+            olivia:AddDialogueReference(dialogue);
+        else
+            dialogue = hoa_map.SpriteDialogue();
+            text = hoa_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
+            dialogue:AddLineEmote(text, olivia, "exclamation");
+            text = hoa_system.Translate("Aww... Ok.");
+            dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
+            DialogueManager:AddDialogue(dialogue);
+            olivia:AddDialogueReference(dialogue);
+        end
+    else
+        dialogue = hoa_map.SpriteDialogue();
+        text = hoa_system.Translate("Good luck Bronann.");
+        dialogue:AddLine(text, olivia);
+        DialogueManager:AddDialogue(dialogue);
+        olivia:AddDialogueReference(dialogue);
+    end
+
+    -- Special event triggered when Bronann hasn't go the right to enter the forest yet.
+    -- Shouldn't trigger once access is granted.
+    event = hoa_map.DialogueEvent("Bronann can't enter the forest so easily", dialogue);
+	event:SetStopCameraMovement(true);
+	EventManager:RegisterEvent(event);
+end
+
 -- Updates Georges dialogue depending on how far is the story going.
 function _UpdateGeorgesDialogue()
 	local text = {}
@@ -1300,6 +1308,7 @@ map_functions = {
     Quest1OrlinnRunAndHide = function()
         orlinn:SetMoving(false); -- in case he's moving
         orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+        orlinn:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
         orlinn:ClearDialogueReferences();
 		EventManager:TerminateAllEvents(orlinn);
 
@@ -1384,6 +1393,9 @@ map_functions = {
             GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
         end
         AudioManager:FadeInAllMusic(2000);
+
+        -- Now, the event is done, update Olivia's dialogue as access to the forest is granted
+        _UpdateOliviaDialogue();
     end,
 
     Quest2_equip_speech_start = function()
