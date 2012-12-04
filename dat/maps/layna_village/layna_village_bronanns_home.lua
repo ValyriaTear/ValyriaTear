@@ -540,9 +540,6 @@ function _CreateEvents()
     event = hoa_map.AnimateSpriteEvent("Quest2: Bronann looks at both parents", bronann, "searching", 1000);
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.AnimateSpriteEvent("Quest2: Bronann is frustrated", bronann, "hero_stance", 1000);
-    EventManager:RegisterEvent(event);
-
     dialogue = hoa_map.SpriteDialogue();
     text = hoa_system.Translate("Bronann, I'd like you to not go outside today.");
     dialogue:AddLine(text, bronanns_dad);
@@ -575,11 +572,16 @@ function _CreateEvents()
     text = hoa_system.Translate("Bronann, please.");
     dialogue:AddLine(text, bronanns_dad);
     text = hoa_system.Translate("(grumble)... Crap!");
-    dialogue:AddLineEventEmote(text, bronann, "Quest2: Bronann is frustrated", "", "exclamation");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 3", dialogue);
+    event:AddEventLinkAtEnd("Quest2: Bronann is frustrated");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.AnimateSpriteEvent("Quest2: Bronann is frustrated", bronann, "hero_stance", 1000);
     event:AddEventLinkAtEnd("Quest2: Bronann runs out of the house");
     EventManager:RegisterEvent(event);
+
     -- Make Bronann leave house
     event = hoa_map.PathMoveSpriteEvent("Quest2: Bronann runs out of the house", bronann, 40, 24.5, true);
     event:AddEventLinkAtEnd("Quest2: Bronann disappears after running out of the house");
