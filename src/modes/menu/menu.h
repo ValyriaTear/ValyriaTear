@@ -11,6 +11,7 @@
 *** \file    menu.h
 *** \author  Daniel Steuernol steu@allacrost.org
 *** \author  Andy Gardner chopperdave@allacrost.org
+*** \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
 *** \brief   Header file for menu mode interface.
 ***
 *** This code handles the game event processing and frame drawing when the user
@@ -23,6 +24,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "utils.h"
 #include "defs.h"
@@ -38,6 +40,7 @@
 namespace hoa_menu
 {
 
+class MenuMode;
 //! \brief Determines whether the code in the hoa_menu namespace should print debug statements or not.
 extern bool MENU_DEBUG;
 
@@ -45,85 +48,234 @@ extern bool MENU_DEBUG;
 namespace private_menu
 {
 
-//! \brief The different item categories
-enum MAIN_CATEGORY {
-    MAIN_INVENTORY      = 0,
-    MAIN_SKILLS         = 1,
-    MAIN_STATUS         = 2,
-//	MAIN_OPTIONS        = 3;
-    MAIN_FORMATION      = 3,
-    MAIN_SIZE           = 4
+/**
+*** \brief Defines a single menu state, which includes the currently viewing parameters and transition states
+***
+*** Each time we have a menu transition, we have a new visual layout, and selectable parameters
+*** that we can choose from. Essentially, a single menu is made up of:
+*** 1) The currently available options
+*** 2) The Menu we entered this weindow from
+*** 3) The Menu we wish to transition to when an option is selected
+***   OR
+*** 4) The "Active Mode" for the current menu itself
+***
+*** The AbstractMenuState handles most of the logic dealing with transitioning and updating the states
+*** It is up to the programmer to create the actual state itself and define its transition and
+*** rendering information
+**/
+
+class AbstractMenuState {
+public:
+    //! \brief base constructor
+    //! \param state_name The individual name of the state that we are currently in. Mostly for debugging
+    //! \param menu_mode Pointer to the active menu mode that we associate this state with (currently only one)
+    AbstractMenuState(const char* state_name,MenuMode* menu_mode):
+        _state_name(state_name),
+        _menu_mode(menu_mode),
+        _from_state(NULL)
+    {}
+    virtual ~AbstractMenuState(){}
+
+    //! \brief used when the MenuMode is activated.
+    //! \note While we provide a default "do nothing" Reset(), each child type should have its own Reset implementation
+    virtual void Reset(){};
+
+    //! \brief handles the drawing of the state
+    void Draw();
+
+    //! \brief handles updating the state
+    void Update();
+
+    /**
+    *** \brief based on the selection (pased in via the OptionBox selection returns the next state to transition to
+    *** \param selection selection state indicator
+    *** \return either a valid AbstractMenuState pointer to the next valid transition state, or NULL
+    *** \note NULL actions do not lead to a crash, but the assumption is that the state has some state-specific
+    *** actions, such as activitaing a MenuView that take place
+    **/
+    virtual AbstractMenuState* GetTransitionState(uint32 selection)=0;
+
+    //! \brief returns the name of the state
+    const char* GetStateName() { return _state_name;}
+
+    //! \brief returns a pointer to the OptionsBox associated with this state
+    hoa_gui::OptionBox* GetOptions() { return &_options;}
+
+    /**
+    *** \brief returns the current active state
+    *** \note this can return NULL if the state wasn't entered via a proper transition.
+    *** by default the menu state is NULL on initialization and must be set
+    *** to a valid state via the SetMenuState() function
+    **/
+    static AbstractMenuState* GetMenuState() { return _current_menu_state;}
+    //! \brief sets the active state.
+    //! \note This will over-ride the current state without calling _OnEntry()
+    static void SetMenuState(AbstractMenuState* state) { _current_menu_state = state;}
+
+protected:
+    //! \brief default bottom menu drawing
+    void _DrawBottomMenu();
+    //! \brief action that takes place when we exit this state via a "cancel" input
+    void _OnCancel();
+    //! \brief handles any state preperation that needs to be done upon entry to this state
+    //! \param the state that we are transitioning from
+    virtual void _OnEntry(AbstractMenuState *from_state);
+    //! \brief returns the default selection to use when we first load the menu after MenuMode is at the top of stack
+    virtual uint32 _GetDefaultSelection() { return 0;}
+    //! \brief handles updating the state when it is claimed as "active"
+    virtual void _ActiveWindowUpdate(){}
+    //! \brief returns wether or not the state is active
+    virtual bool _IsActive() { return false;}
+    //! \brief instance-specific drawing code goes in here. the default is to simply do nothing
+    virtual void _OnDraw(){}
+
+    // current menu state being processed
+    static AbstractMenuState* _current_menu_state;
+
+    // Options associated with this state
+    hoa_gui::OptionBox _options;
+    // state-specific name
+    const char *_state_name;
+    // a pointer to the active MenuMode
+    MenuMode* _menu_mode;
+    // a pointer to the state we should return to on a "cancel" press.
+    AbstractMenuState *_from_state;
+
 };
 
-//! \name Inventory Menu Options Constants
-//@{
-const uint32 INV_USE    = 0;
-// const uint32 INV_SORT   = 1;
-const uint32 INV_EQUIP  = 1;
-const uint32 INV_REMOVE = 2;
-const uint32 INV_BACK   = 3;
-const uint32 INV_SIZE   = 4;
-//@}
-
-//! \name Skills Menu Options Constants
-//@{
-const uint32 SKILLS_USE     = 0;
-const uint32 SKILLS_BACK    = 1;
-const uint32 SKILLS_SIZE    = 2;
-//@}
-
-//! \name Equipment Menu Options Constants
-//@{
-const uint32 EQUIP_BACK    = 0;
-const uint32 EQUIP_SIZE    = 1;
-//@}
-
-//! \name Status Menu Options Constants
-//@{
-const uint32 STATUS_VIEW    = 0;
-const uint32 STATUS_BACK    = 1;
-const uint32 STATUS_SIZE    = 2;
-//@}
-
-//! \name Formation Menu Options Constants
-//@{
-const uint32 FORMATION_SWITCH  = 0;
-const uint32 FORMATION_BACK    = 1;
-const uint32 FORMATION_SIZE    = 2;
-//@}
-
-//! \name Options Menu Options Constants
-//@{
-const uint32 OPTIONS_EDIT    = 0;
-const uint32 OPTIONS_SAVE    = 1;
-const uint32 OPTIONS_BACK    = 2;
-const uint32 OPTIONS_SIZE    = 3;
-//@}
-
-//! \name MenuMode OptionBox Show Flags
-//! \brief Constants used to determine which option box is currently showing.
-//@{
-const uint32 SHOW_MAIN          = 0;
-const uint32 SHOW_INVENTORY     = 1;
-const uint32 SHOW_SKILLS        = 2;
-const uint32 SHOW_STATUS        = 3;
-//const uint32 SHOW_OPTIONS       = 5;
-const uint32 SHOW_FORMATION     = 4;
-const uint32 SHOW_EXIT          = 5;
-const uint32 SHOW_EQUIP         = 6;
-//@}
-
-/** \name MenuMode Active Window Flags
-*** \brief Constants used to determine which window is currently showing.
+/**
+*** \brief Main Menu state. This is the entry point into the menu
+***
+*** The main menu has no "active" state
 **/
-//@{
-const uint32 WINDOW_INVENTORY      = 1;
-const uint32 WINDOW_SKILLS         = 2;
-const uint32 WINDOW_STATUS         = 3;
-const uint32 WINDOW_EQUIP          = 4;
-const uint32 WINDOW_FORMATION      = 5;
-//@}
+class MainMenuState : virtual public AbstractMenuState {
+public:
+    //! \brief possible transition states from the main menu
+    enum MAIN_CATEGORY {
+        MAIN_OPTIONS_INVENTORY,
+        MAIN_OPTIONS_SKILLS,
+        MAIN_OPTIONS_STATUS,
+        MAIN_OPTIONS_FORMATION,
+        MAIN_OPTIONS_SIZE
+    };
 
+    MainMenuState(MenuMode* menu_mode);
+    ~MainMenuState(){};
+    void Reset();
+    AbstractMenuState* GetTransitionState(uint32 selection);
+
+protected:
+    void _OnDraw();
+};
+
+/**
+*** \brief Formation state. This state allows players to change their character position
+**/
+class FormationState : virtual public AbstractMenuState {
+public:
+    //! \brief transition states for formation state
+    enum FORMATION_CATEGORY {
+        FORMATION_OPTIONS_SWITCH,
+        FORMATION_OPTIONS_BACK,
+        FORMATION_OPTIONS_SIZE
+    };
+    FormationState(MenuMode* menu_mode);
+    ~FormationState(){}
+    void Reset();
+    AbstractMenuState* GetTransitionState(uint32 selection);
+
+
+protected:
+
+    void _OnDraw();
+    void _ActiveWindowUpdate();
+    bool _IsActive();
+};
+/**
+*** \brief Inventory State. Handles user interactions for item use and equiping
+**/
+class InventoryState : virtual public AbstractMenuState {
+public:
+    //! \brief the possible inventory options
+    enum INVENTORY_CATEGORY {
+        INV_OPTIONS_USE,
+        INV_OPTIONS_EQUIP,
+        INV_OPTIONS_REMOVE,
+        INV_OPTIONS_BACK,
+        INV_OPTIONS_SIZE
+    };
+    InventoryState(MenuMode* menu_mode);
+    ~InventoryState(){}
+    void Reset();
+    AbstractMenuState* GetTransitionState(uint32 selection);
+protected:
+    void _DrawBottomMenu();
+    void _OnDraw();
+    void _ActiveWindowUpdate();
+    bool _IsActive();
+};
+
+/**
+*** \brief Status state. shows the user the character status information
+**/
+class StatusState : virtual public AbstractMenuState {
+public:
+    enum STATUS_CATEGORY {
+        STATUS_OPTIONS_VIEW,
+        STATUS_OPTIONS_BACK,
+        STATUS_OPTIONS_SIZE
+    };
+     StatusState(MenuMode* menu_mode);
+     ~StatusState(){}
+    void Reset();
+    AbstractMenuState* GetTransitionState(uint32 selection);
+protected:
+    void _OnDraw();
+    void _ActiveWindowUpdate();
+    bool _IsActive();
+
+};
+/**
+*** \brief Skills state. Allows user to view their skills and use them
+**/
+class SkillsState : virtual public AbstractMenuState {
+public:
+    enum SKILLS_CATEGORY {
+        SKILLS_OPTIONS_USE,
+        SKILLS_OPTIONS_BACK,
+        SKILLS_OPTIONS_SIZE
+
+    };
+    SkillsState(MenuMode* menu_mode);
+    ~SkillsState(){}
+    void Reset();
+    AbstractMenuState* GetTransitionState(uint32 selection);
+protected:
+    void _DrawBottomMenu();
+    void _OnDraw();
+    void _ActiveWindowUpdate();
+    bool _IsActive();
+};
+/**
+*** \brief Equip / Remove state. Allows players to modify the character equipment
+**/
+class EquipState : virtual public AbstractMenuState {
+public:
+    enum EQUIP_CATEGORY {
+        EQUIP_OPTIONS_BACK,
+        EQUIP_OPTIONS_SIZE
+    };
+    EquipState(MenuMode* menu_mode);
+    ~EquipState(){}
+    void Reset();
+    AbstractMenuState* GetTransitionState(uint32 selection);
+protected:
+    void _DrawBottomMenu();
+    void _OnDraw();
+    void _OnEntry(AbstractMenuState *from_state);
+    void _ActiveWindowUpdate();
+    bool _IsActive();
+};
 } // namespace private_menu
 
 /** ****************************************************************************
@@ -147,6 +299,13 @@ class MenuMode : public hoa_mode_manager::GameMode
     friend class private_menu::EquipWindow;
     friend class private_menu::FormationWindow;
 
+    friend class private_menu::AbstractMenuState;
+    friend class private_menu::MainMenuState;
+    friend class private_menu::FormationState;
+    friend class private_menu::InventoryState;
+    friend class private_menu::StatusState;
+    friend class private_menu::SkillsState;
+    friend class private_menu::EquipState;
 public:
     /** \param location_name The name of the current map that will be displayed on the menu screen.
     *** \param locale_image The filename for the location image that is displayed in the menus.
@@ -205,7 +364,19 @@ private:
     //@{
     hoa_gui::MenuWindow _bottom_window;
     hoa_gui::MenuWindow _main_options_window;
+    //@}
 
+    /** \name currently available states
+    *** using the menu mode is done through these states
+    **/
+    //@{
+    private_menu::MainMenuState _main_menu_state;
+    private_menu::FormationState _formation_state;
+    private_menu::InventoryState _inventory_state;
+    private_menu::StatusState _status_state;
+    private_menu::SkillsState _skills_state;
+    private_menu::EquipState _equip_state;
+    //@}
     private_menu::CharacterWindow _character_window0;
     private_menu::CharacterWindow _character_window1;
     private_menu::CharacterWindow _character_window2;
@@ -217,28 +388,8 @@ private:
     private_menu::FormationWindow _formation_window;
     MessageWindow *_message_window;
 
-    /** \brief The currently active window
-     **/
-    hoa_gui::MenuWindow *_active_window;
-    //@}
-
     //! \brief A map of the sounds used while in MenuMode
     std::map<std::string, hoa_audio::SoundDescriptor> _menu_sounds;
-
-    //! The selected item/skill/equipment
-    uint32 _item_selected;
-
-    //! The current option box to display
-    uint32 _current_menu_showing;
-
-    //! The current window being drawn
-    uint32 _current_window;
-
-    //! A pointer to the current options menu
-    hoa_gui::OptionBox *_current_menu;
-
-    //! The top level options in boot mode
-    hoa_gui::OptionBox _main_options;
 
     //! \name Option boxes that are used in the various menu windows
     //@{
@@ -249,41 +400,6 @@ private:
     hoa_gui::OptionBox _menu_equip;
     hoa_gui::OptionBox _menu_formation;
     //@}
-
-    //! \brief Functions that initialize the numerous option boxes
-    //@{
-    void _SetupOptionBoxCommonSettings(hoa_gui::OptionBox *ob);
-    void _SetupMainOptionBox();
-    void _SetupInventoryOptionBox();
-    void _SetupSkillsOptionBox();
-    void _SetupStatusOptionBox();
-    void _SetupOptionsOptionBox();
-    void _SetupFormationOptionBox();
-    void _SetupEquipOptionBox();
-    //@}
-
-    /** \name Menu Handle Functions
-    *** \brief Handler functions to deal with events for all the different menus
-    **/
-    //@{
-    void _HandleMainMenu();
-    void _HandleInventoryMenu();
-    void _HandleSkillsMenu();
-    void _HandleStatusMenu();
-    void _HandleOptionsMenu();
-    void _HandleFormationMenu();
-    void _HandleEquipMenu();
-    //@}
-
-    /** \name Active Window Functions
-    *** \brief Handles finding the next active window
-    **/
-    //@{
-    void _GetNextActiveWindow();
-    //@}
-
-    //! \brief Draws the bottom part of the menu mode.
-    void _DrawBottomMenu();
 
     //! \brief Draws the 'Name' and 'Qty' tags for the item list.
     void _DrawItemListHeader();
