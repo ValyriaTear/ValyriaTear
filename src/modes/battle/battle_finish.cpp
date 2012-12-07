@@ -90,7 +90,8 @@ CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
 void CharacterGrowth::UpdateGrowthData() {
     do {
         if (_character->ReachedNewExperienceLevel() == true) {
-            _experience_levels_gained++;
+            ++_experience_levels_gained;
+            AudioManager->PlaySound("snd/levelup.wav");
 
             // New skills are only found in growth data when the character has reached a new level
             // Note that the character's new skills learned container will be cleared upon the next
