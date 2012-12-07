@@ -47,8 +47,65 @@ enum FINISH_STATE {
 //! Retry the battle
 const uint32 DEFEAT_OPTION_RETRY     = 0;
 //! End game and return to boot menu
-const uint32 DEFEAT_OPTION_END    = 1;
+const uint32 DEFEAT_OPTION_END       = 1;
 //@}
+
+
+/** ****************************************************************************
+*** \brief A container class for managing all of a character's growth information
+***
+*** Each character that participated in the battle will have an instance of this
+*** object dedicated to it. This class is used to retain all of the growth in
+*** stats and skills learned. The reason this class is needed is because when a
+*** character gains a level, their internal growth data is reset, so we need to
+*** retain this information until battle mode exits.
+***
+*** \note The public stats and skills members are kept public for convenience.
+*** However, you should not change the values of these members as their data
+*** is updated and managed intenerally.
+*** ***************************************************************************/
+class CharacterGrowth
+{
+public:
+    //! \param ch A pointer to the character that this growth information represents
+    CharacterGrowth(hoa_global::GlobalCharacter* ch);
+
+    ~CharacterGrowth()
+        {}
+
+    //! \brief Holds the accumulated growth for all stats
+    //@{
+    uint32 hit_points;
+    uint32 skill_points;
+    uint32 strength;
+    uint32 vigor;
+    uint32 fortitude;
+    uint32 protection;
+    uint32 agility;
+    float evade;
+    //@}
+
+    //! \brief A vector holding valid object pointers to all skills that have been learned
+    std::vector<hoa_global::GlobalSkill*> skills_learned;
+
+    /** \brief Updates all class members with the latest growth from the character
+    ***
+    *** The best way to use this function is to call it after experience points have been added
+    *** to the character. If GlobalCharacter::AddExperiencePoints() returns true (indicating growth),
+    *** then call this method to handle all of the growth data. This method will make all necessary
+    *** calls to GlobalCharacter::AcknowledgeGrowth() and handle corner cases such as multiple experience
+    *** levels being gained.
+    **/
+    void UpdateGrowthData();
+
+private:
+    //! \brief A valid object pointer to the character that the growth in this class represents
+    hoa_global::GlobalCharacter* _character;
+
+    //! \brief A counter that reflects the number of experience levels that the character has gained (0 for no levels gained)
+    uint32 _experience_levels_gained;
+}; // class CharacterGrowth
+
 
 /** ****************************************************************************
 *** \brief Represents a collection of GUI objects drawn when the player loses the battle
@@ -112,7 +169,7 @@ private:
 *** This class presents the user with the results of the battle. More specifically,
 *** the following events are accomplished
 ***
-*** -#) Display experience points gained and any change in stats for each character
+*** -#) Display experience points gained and any growth acquired for each character
 *** -#) Display the number of drunes earned and the type and quantity of any objects recovered
 ***
 *** If the player lost the battle one or more times before they achieved victory, their XP and
@@ -156,8 +213,8 @@ private:
     //! \brief Pointers to all characters who took part in the battle
     std::vector<hoa_global::GlobalCharacter *> _characters;
 
-    //! \brief The growth members for all members of the _characters table
-    std::vector<hoa_global::GlobalCharacterGrowth *> _character_growths;
+    //! \brief The growth data container objects for each corresponding character in _characters
+    std::vector<CharacterGrowth> _character_growths;
 
     //! \brief Holds portrait images for each character portraits
     hoa_video::StillImage _character_portraits[4];
