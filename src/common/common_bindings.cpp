@@ -303,23 +303,18 @@ void BindCommonCode()
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
         [
-            luabind::class_<GlobalCharacterGrowth>("GlobalCharacterGrowth")
-            .def_readwrite("_hit_points_growth", &GlobalCharacterGrowth::_hit_points_growth)
-            .def_readwrite("_skill_points_growth", &GlobalCharacterGrowth::_skill_points_growth)
-            .def_readwrite("_strength_growth", &GlobalCharacterGrowth::_strength_growth)
-            .def_readwrite("_vigor_growth", &GlobalCharacterGrowth::_vigor_growth)
-            .def_readwrite("_fortitude_growth", &GlobalCharacterGrowth::_fortitude_growth)
-            .def_readwrite("_protection_growth", &GlobalCharacterGrowth::_protection_growth)
-            .def_readwrite("_agility_growth", &GlobalCharacterGrowth::_agility_growth)
-            .def_readwrite("_evade_growth", &GlobalCharacterGrowth::_evade_growth)
-            .def("_AddSkill", &GlobalCharacterGrowth::_AddSkill)
-        ];
-
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
-        [
             luabind::class_<GlobalCharacter, GlobalActor>("GlobalCharacter")
-            .def("GetGrowth", &GlobalCharacter::GetGrowth)
+            .def_readwrite("_hit_points_growth", &GlobalCharacter::_hit_points_growth)
+            .def_readwrite("_skill_points_growth", &GlobalCharacter::_skill_points_growth)
+            .def_readwrite("_strength_growth", &GlobalCharacter::_strength_growth)
+            .def_readwrite("_vigor_growth", &GlobalCharacter::_vigor_growth)
+            .def_readwrite("_fortitude_growth", &GlobalCharacter::_fortitude_growth)
+            .def_readwrite("_protection_growth", &GlobalCharacter::_protection_growth)
+            .def_readwrite("_agility_growth", &GlobalCharacter::_agility_growth)
+            .def_readwrite("_evade_growth", &GlobalCharacter::_evade_growth)
+            .def("AddExperienceForNextLevel", &GlobalCharacter::AddExperienceForNextLevel)
             .def("AddSkill", &GlobalCharacter::AddSkill)
+            .def("AddNewSkillLearned", &GlobalCharacter::AddNewSkillLearned)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")

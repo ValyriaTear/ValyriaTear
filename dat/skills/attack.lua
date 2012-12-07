@@ -397,7 +397,10 @@ skills[1007] = {
        if (hoa_battle.CalculateStandardEvasion(target) == false) then
            local hp_drain = hoa_battle.CalculatePhysicalDamageAdder(user, target, 14);
            target_actor:RegisterDamage(hp_drain, target);
-           user:RegisterHealing(hp_drain, true);
+           -- If the damage dealt was 1, don't recover any HP from the attack
+           if (hp_drain > 1) then
+               user:RegisterHealing(hp_drain / 2, true);
+           end
            AudioManager:PlaySound("snd/spider_attack.wav");
        else
            target_actor:RegisterMiss(true);
