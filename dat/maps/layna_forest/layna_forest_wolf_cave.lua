@@ -283,23 +283,87 @@ function _CreateCharacters()
     Map:AddGroundObject(kalya_sprite);
 end
 
+-- a necklace obtained by kalya and triggering the seconde fight against the fenrir.
+local necklace = {};
+local necklace_npc = {};
+local light_tilt = {};
+
+local wolf = {};
+
 function _CreateObjects()
 	local object = {};
 	local npc = {};
-	local event = {}
+	local event = {};
 
 	-- Add a halo showing the cave entrances
 	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 59,
 		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
 
     -- Add different halo light, representing holes of light coming from the ceiling
-	Map:AddHalo("img/misc/lights/right_ray_light.lua", 23, 17,
+	Map:AddHalo("img/misc/lights/right_ray_light.lua", 28, 17,
 		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+
+    -- Add the wolfpain necklace, triggering the second battle with the fenrir
+    -- As this object is special, we're not using the object catalogue to only load that one once.
+    necklace = hoa_map.PhysicalObject();
+	necklace:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	necklace:SetContext(hoa_map.MapMode.CONTEXT_01);
+	necklace:SetPosition(30, 9);
+	necklace:SetCollHalfWidth(0.5);
+	necklace:SetCollHeight(1.0);
+	necklace:SetImgHalfWidth(0.5);
+	necklace:SetImgHeight(1.0);
+	necklace:AddAnimation("dat/maps/layna_forest/wolfpain_necklace.lua");
+    Map:AddGroundObject(necklace);
+
+    -- Adds a light tilting to catch the player attention
+    light_tilt = hoa_map.PhysicalObject();
+	light_tilt:SetObjectID(Map.object_supervisor:GenerateObjectID());
+	light_tilt:SetContext(hoa_map.MapMode.CONTEXT_01);
+    light_tilt:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	light_tilt:SetPosition(30, 9.1);
+	light_tilt:SetCollHalfWidth(0.5);
+	light_tilt:SetCollHeight(1.0);
+	light_tilt:SetImgHalfWidth(0.5);
+	light_tilt:SetImgHeight(1.0);
+	light_tilt:AddAnimation("img/misc/lights/light_reverb.lua");
+    Map:AddGroundObject(light_tilt);
+
+    -- Adds an associated npc to permit the dialogue to trigger
+    necklace_npc = CreateSprite(Map, "Butterfly", 30, 9.2);
+    necklace_npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    necklace_npc:SetVisible(false);
+    necklace_npc:SetName(""); -- Unset the speaker name
+    Map:AddGroundObject(necklace_npc);
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("(Bronann looks on the ground ...)");
+    dialogue:AddLineEvent(text, necklace_npc, "", "wolfpain necklace dialogue start");
+    DialogueManager:AddDialogue(dialogue);
+    necklace_npc:AddDialogueReference(dialogue);
+
+    -- Place all the jewel related object out of reach when the event is already done.
+    if (GlobalManager:DoesEventExist("story", "wolfpain_necklace_obtained") == true) then
+        necklace_npc:SetPosition(0, 0);
+
+        light_tilt:SetVisible(false);
+        necklace:SetVisible(false);
+        necklace:SetPosition(0, 0);
+    end
+
+    -- The boss map sprite
+	wolf = CreateSprite(Map, "Fenrir", 0, 0); -- pre place it at the right place.
+	wolf:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+	wolf:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+	wolf:SetVisible(false);
+	wolf:SetDirection(hoa_map.MapMode.NORTH);
+	Map:AddGroundObject(wolf);
 end
 
 -- Special event references which destinations must be updated just before being called.
 local move_next_to_hero_event = {}
 local move_back_to_hero_event = {}
+local move_next_to_hero_event2 = {}
+local move_back_to_hero_event2 = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -319,7 +383,13 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
     event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, hoa_map.MapMode.NORTH);
 	EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya_sprite, hoa_map.MapMode.WEST);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya_sprite, hoa_map.MapMode.SOUTH);
+	EventManager:RegisterEvent(event);
     event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
+	EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks south", hero, hoa_map.MapMode.SOUTH);
 	EventManager:RegisterEvent(event);
     event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
 	EventManager:RegisterEvent(event);
@@ -360,6 +430,99 @@ function _CreateEvents()
 
     event = hoa_map.ScriptedEvent("end of cave entrance dialogue", "end_of_cave_entrance_dialogue", "");
 	EventManager:RegisterEvent(event);
+
+    -- Wolfpain necklace dialogue
+    event = hoa_map.ScriptedEvent("wolfpain necklace dialogue start", "wolfpain_necklace_dialogue_start", "");
+    event:AddEventLinkAtEnd("necklace event: Kalya moves next to Bronann", 50);
+	EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    move_next_to_hero_event2 = hoa_map.PathMoveSpriteEvent("necklace event: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event2:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
+    move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks west");
+    move_next_to_hero_event2:AddEventLinkAtEnd("Kalya Tells about the necklace");
+    EventManager:RegisterEvent(move_next_to_hero_event2);
+
+    event = hoa_map.ScriptedEvent("make fenrir appear and necklace disappear", "wolf_appear_n_necklace_disappear", "");
+	EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("make fenrir come", wolf, 30, 17, false);
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+	text = hoa_system.Translate("What a lovely necklace! I'll take it.");
+	dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
+	text = hoa_system.Translate("Kalya ... We're in the middle of a cave and you're only thinking about wearing jewels.");
+	dialogue:AddLine(text, hero);
+	text = hoa_system.Translate("It suits me better than it would for you, don't be jealous.");
+	dialogue:AddLineEvent(text, kalya_sprite, "make fenrir appear and necklace disappear", "make fenrir come");
+	text = hoa_system.Translate("Kalya! You'd better be careful!");
+	dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "sweat drop");
+	text = hoa_system.Translate("Don't even start, this one is all mine.");
+	dialogue:AddLine(text, kalya_sprite);
+	text = hoa_system.Translate("Not the necklace, the Fenrir!");
+	dialogue:AddLineEmote(text, hero, "exclamation");
+	text = hoa_system.Translate("You can't be serious, we would have heard it come.");
+	dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Kalya looks south");
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya Tells about the necklace", dialogue);
+    event:AddEventLinkAtEnd("The Fenrir growls");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.SoundEvent("The Fenrir growls", "snd/growl1_IFartInUrGeneralDirection_freesound.wav");
+    event:AddEventLinkAtEnd("Kalya realizes for the Fenrir");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Ah well, finally you were serious, weren't you?");
+    dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya realizes for the Fenrir", dialogue);
+    event:AddEventLinkAtEnd("The Fenrir runs toward the hero");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("The Fenrir runs toward the hero", wolf, hero, true);
+    event:AddEventLinkAtEnd("Second Fenrir battle");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.BattleEncounterEvent("Second Fenrir battle");
+    event:SetMusic("mus/The_Creature_Awakens.ogg");
+    event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    -- TODO: Add custom AI battle script
+    event:AddEnemy(7, 0, 0);
+    event:AddEventLinkAtEnd("Make the fenrir disappear");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Make the fenrir disappear", "make_wolf_invisible", "");
+    event:AddEventLinkAtEnd("Get the wolfpain necklace");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.TreasureEvent("Get the wolfpain necklace");
+    event:AddObject(70003, 1); -- The wolfpain key item
+    event:AddEventLinkAtEnd("Kalya talks after the battle");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("It flew again. I'm glad we survived. Let's get out of here before he comes back.");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Kalya talks after the battle", dialogue);
+    event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
+    event:AddEventLinkAtEnd("Set Camera back to Bronann");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Set Camera back to Bronann", hero, "SetCamera", "");
+    event:AddEventLinkAtEnd("end of necklace dialogue");
+    event:AddEventLinkAtEnd("necklace event: kalya goes back to party");
+    EventManager:RegisterEvent(event);
+
+    move_back_to_hero_event2 = hoa_map.PathMoveSpriteEvent("necklace event: kalya goes back to party", kalya_sprite, hero, false);
+    EventManager:RegisterEvent(move_back_to_hero_event2);
+
+    event = hoa_map.ScriptedEvent("end of necklace dialogue", "end_of_necklace_dialogue", "");
+    EventManager:RegisterEvent(event);
+
 end
 
 -- Create the different map zones triggering events
@@ -406,7 +569,7 @@ map_functions = {
         end
     end,
 
-    -- Kalya tells Bronann about the snakes - start event.
+    -- cave entrance - start event.
     cave_entrance_dialogue_start = function()
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
@@ -438,5 +601,59 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "kalya_speech_in_wolf_cave", 1);
+    end,
+
+    -- Kalya takes the wolfpain necklace - start event.
+    wolfpain_necklace_dialogue_start = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        ReloadSprite(hero, "Bronann");
+
+        kalya_sprite:SetVisible(true);
+        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        Map:SetCamera(kalya_sprite, 800);
+
+        move_next_to_hero_event2:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+    end,
+
+    wolf_appear_n_necklace_disappear = function()
+        -- Make the necklace disappear
+        necklace:SetVisible(false);
+        necklace:SetPosition(0, 0);
+        -- Prevents the event to start again
+        necklace_npc:SetPosition(0, 0);
+        light_tilt:SetVisible(false);
+
+        -- Place the wolf
+        wolf:SetVisible(true);
+        wolf:SetPosition(27, 26);
+        wolf:SetDirection(hoa_map.MapMode.NORTH);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "wolfpain_necklace_obtained", 1);
+    end,
+
+    make_wolf_invisible = function()
+        wolf:SetVisible(false);
+        wolf:SetPosition(0, 0);
+    end,
+
+    end_of_necklace_dialogue = function()
+        kalya_sprite:SetPosition(0, 0);
+        kalya_sprite:SetVisible(false);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        ReloadSprite(hero, main_sprite_name);
+        hero:SetDirection(hoa_map.MapMode.NORTH);
+
+        Map:PopState();
     end
 }

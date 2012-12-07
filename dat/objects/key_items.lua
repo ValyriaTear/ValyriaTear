@@ -43,3 +43,10 @@ key_items[70002] = {
 	icon = "img/icons/items/key_items/barley_meal_bag.png",
 	standard_price = 0
 }
+
+key_items[70003] = {
+    name = hoa_system.Translate("Wolfpain Necklace"),
+    description = hoa_system.Translate("A strange necklace with unknown powers."),
+    icon = "img/icons/items/key_items/necklace_wolfpain.png",
+    standard_price = 0
+}

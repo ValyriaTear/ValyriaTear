@@ -25,6 +25,8 @@ art/kalya-idle.xcf                                              CC by SA 3.0    
 art/legend-cliffs.png                                           CC by 3.0                Daniel Cook (lostgarden.com)
 art/map_locations_borders.xcf                                   GPLv2                    Based on Allacrost Team work, adapted into a translucent XCF by Bertram.
 art/white wolf.xcf                                              CC by SA 3.0, GPLv2      Bertram, based on two sources: http://opengameart.org/content/the-wolf, and: http://opengameart.org/content/gray-wolf from Buch (OGA)
+art/fenrir_patrick_thompson_ccbysa30.xcf                        CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
+art/item_template.png                                           CC by SA 3.0             Bertram
 
 dat/global.lua                                                  GPLv2 or later           Bertram (Completely redone it.)
 
@@ -59,7 +61,8 @@ dat/effects/particles/fire_spell.lua                            GPLv2 or later  
 dat/effects/particles/heal_particle.lua                         GPLv2 or later           Bertram
 dat/effects/particles/wave_spell.lua                            GPLv2 or later           Bertram
 
-dat/maps/*                                                      GPLv2 or later           Bertram
+dat/maps/*.lua                                                  GPLv2 or later           Bertram
+dat/maps/layna_forest/wolfpain_necklace.png                     CC by SA 3.0             Bertram - adapted from Scrittl's work (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
 
 dat/objects/arm_armor.lua                                       GPLv2 or later           Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2 or later           Allacrost + Bertram
@@ -153,9 +156,10 @@ img/icons/actors/characters/red_slime.png                       GPLv2           
 img/icons/actors/enemies/green_snake.png                        GPLv2                    Allacrost (From snake enemy)
 img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
-img/icons/actors/enemies/fenrir.png                             CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration)
+img/icons/actors/enemies/fenrir.png                             CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
 
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
+img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
 
 img/logos/valyria_logo_black.png                                GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.bmp                                      GPLv2 or later           Bertram (using the scriptina font which is CC0, see DaFont.com)
@@ -288,8 +292,8 @@ img/sprites/battle/enemies/red_slime.png                        GPLv2           
 img/sprites/battle/enemies/thing.png                            CC by SA 3.0             Jetrel (OGA)
 img/sprites/battle/enemies/yeti.png                             CC by SA 3.0             Jetrel (OGA)
 img/sprites/battle/enemies/white_wolf.png                       CC by SA 3.0, GPLv2      Bertram, based on two sources: http://opengameart.org/content/the-wolf, and: http://opengameart.org/content/gray-wolf from Buch (OGA)
-img/sprites/battle/enemies/fenrir_normal.png                    CC by SA 3.0             Patrick Thompson (PK Illustration)
-img/sprites/battle/enemies/fenrir_final.png                     CC by SA 3.0             Patrick Thompson (PK Illustration)
+img/sprites/battle/enemies/fenrir_normal.png                    CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
+img/sprites/battle/enemies/fenrir_final.png                     CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
 
 img/sprites/map/characters/bronann_frightened.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_herostance.png               GPLv2                    Allacrost
@@ -313,6 +317,9 @@ img/sprites/map/enemies/scorpion_walk.png                       GPLv2           
 img/sprites/map/enemies/slime_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/snake_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2                    The Mana World
+img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2                    Bertram - adapted from the wolf spritesheet
+img/sprites/map/enemies/fenrir_idle.lua                         GPLv2                    Bertram
+img/sprites/map/enemies/fenrir_walk.lua                         GPLv2                    Bertram
 
 img/sprites/map/npcs/mak_hound.png                              GPLv2                    Allacrost
 img/sprites/map/npcs/mak_hound_mounted.png                      GPLv2                    Allacrost
