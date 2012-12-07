@@ -770,16 +770,8 @@ void FinishVictoryAssistant::_UpdateGrowth()
         if(level_maxed_out) {
             level_text = UTranslate("Level (Max): ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
         } else {
-<<<<<<< HEAD
             level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
-            xp_text = UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()
-                                             - _characters[i]->GetExperiencePoints()));
-=======
-            level_xp_text = Translate("Level: ")
-                            + NumberToString(_characters[i]->GetExperienceLevel())
-                            + "\n" + Translate("XP: ")
-                            + NumberToString(_characters[i]->GetExperienceForNextLevel());
->>>>>>> a3448f2... Fixed issues where battle and menu modes did not display XP to next level properly
+            xp_text = UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
         }
 
         _level_text[i].SetDisplayText(level_text);
