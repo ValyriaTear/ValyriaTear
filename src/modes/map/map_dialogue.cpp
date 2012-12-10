@@ -465,6 +465,7 @@ void DialogueSupervisor::_UpdateLine()
 
 void DialogueSupervisor::_UpdateOptions()
 {
+    _dialogue_window.GetDisplayTextBox().Update();
     _dialogue_window.GetDisplayOptionBox().Update();
     if(InputManager->ConfirmPress()) {
         _dialogue_window.GetDisplayOptionBox().InputConfirm();
@@ -520,14 +521,6 @@ void DialogueSupervisor::_BeginLine()
     _dialogue_window.Clear();
     _dialogue_window.GetDisplayTextBox().SetDisplayText(_current_dialogue->GetLineText(_line_counter));
 
-    if(_current_options != NULL) {
-        for(uint32 i = 0; i < _current_options->GetNumberOptions(); i++) {
-            _dialogue_window.GetDisplayOptionBox().AddOption(_current_options->GetOptionText(i));
-        }
-
-        _dialogue_window.GetDisplayOptionBox().SetSelection(0);
-    }
-
     MapObject *object = map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter));
     if(object == NULL) {
         IF_PRINT_WARNING(MAP_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
@@ -541,6 +534,14 @@ void DialogueSupervisor::_BeginLine()
         MapSprite *speaker = dynamic_cast<MapSprite *>(object);
         _dialogue_window.GetNameText().SetText(speaker->GetName());
         _dialogue_window.SetPortraitImage(speaker->GetFacePortrait());
+    }
+
+    if(_current_options) {
+        for(uint32 i = 0; i < _current_options->GetNumberOptions(); ++i)
+            _dialogue_window.GetDisplayOptionBox().AddOption(_current_options->GetOptionText(i));
+
+        _dialogue_window.GetDisplayOptionBox().SetSelection(0);
+        _state = DIALOGUE_STATE_OPTION;
     }
 }
 
