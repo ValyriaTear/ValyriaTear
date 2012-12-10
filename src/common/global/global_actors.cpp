@@ -1019,10 +1019,10 @@ void GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
     std::map<uint32, GlobalSkill *>::iterator skill = _skills.find(skill_id);
     if(skill == _skills.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed because the new skill was not added successfully: " << skill_id << std::endl;
+        return;
     }
-    else {
-        _new_skills_learned.push_back(skill->second);
-    }
+
+    _new_skills_learned.push_back(skill->second);
 }
 
 
