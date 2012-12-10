@@ -290,6 +290,9 @@ local light_tilt = {};
 
 local wolf = {};
 
+-- The heal particle effect map object
+local heal_effect = {};
+
 function _CreateObjects()
 	local object = {};
 	local npc = {};
@@ -357,6 +360,39 @@ function _CreateObjects()
 	wolf:SetVisible(false);
 	wolf:SetDirection(hoa_map.MapMode.NORTH);
 	Map:AddGroundObject(wolf);
+
+
+    -- Drink at the fountain
+    npc = CreateSprite(Map, "Butterfly", 53, 12);
+    npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    npc:SetVisible(false);
+    npc:SetName(""); -- Unset the speaker name
+    Map:AddGroundObject(npc);
+    -- Add the dialogue options on the fountain
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("This water looks weird. Shall we drink it anyway?");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("...");
+    dialogue:AddLine(text, npc);
+    text = hoa_system.Translate("Yes, I'm so thirsty.");
+    dialogue:AddOption(text, 2);
+    text = hoa_system.Translate("No way, we'd get sick.");
+    dialogue:AddOption(text, 3);
+    -- [Line 2] Drink it
+    text = hoa_system.Translate("The party drinks the water and feels... still right?");
+    dialogue:AddLineEvent(text, npc, 4, "", "Fountain heal"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
+    -- [Line 3] Won't drink it
+    text = hoa_system.Translate("The party won't drink it.");
+    dialogue:AddLine(text, npc);
+	DialogueManager:AddDialogue(dialogue);
+    npc:AddDialogueReference(dialogue);
+
+    -- Load the spring heal effect.
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_sp_particle.lua",
+                                            0, 0, hoa_map.MapMode.CONTEXT_01);
+	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect:Stop(); -- Don't run it until the character heals itself
+    Map:AddGroundObject(heal_effect);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -376,6 +412,10 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 
 	event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_wolf_cave");
+	EventManager:RegisterEvent(event);
+
+    -- SP Heal event on fountain
+	event = hoa_map.ScriptedEvent("Fountain heal", "heal_party_sp", "heal_done");
 	EventManager:RegisterEvent(event);
 
     -- Dialogue events
@@ -546,6 +586,9 @@ function _CheckZones()
     end
 end
 
+-- Effect time used when applying the heal light effect
+local heal_effect_time = 0;
+
 -- Map Custom functions
 -- Used through scripted events
 if (map_functions == nil) then
@@ -567,6 +610,31 @@ map_functions = {
         if (sprite ~= nil) then
             sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
         end
+    end,
+
+    heal_party_sp = function()
+        hero:SetMoving(false);
+        -- Should be sufficient to heal anybody's SP
+        GlobalManager:GetActiveParty():AddSkillPoints(10000);
+        AudioManager:PlaySound("snd/heal_spell.wav");
+        heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        heal_effect:Start();
+        heal_effect_time = 0;
+    end,
+
+    heal_done = function()
+        heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
+
+        if (heal_effect_time < 300.0) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 1.0, 0.0, heal_effect_time / 300.0 / 3.0 ));
+            return false;
+        end
+
+        if (heal_effect_time < 1000.0) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 1.0, 0.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
+            return false;
+        end
+        return true;
     end,
 
     -- cave entrance - start event.
