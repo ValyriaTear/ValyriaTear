@@ -41,15 +41,15 @@ function Initialize(map_instance)
         },
         [2] = {
             header = hoa_system.Translate("Episode I - Main Graphics"),
-            text = "Daniel Cook\nSafir-Kreuz\nJetrel\nZabin\nRamtam"
+            text = "Daniel Cook\nZabin\nSafir-Kreuz\nJetrel"
         },
         [3] = {
             header = hoa_system.Translate("Episode I - Additional Graphics"),
-            text = "Open Game Art\nand many others"
+            text = "Open Game Art\nRamtam\n(vectorgurl.com)\nPatrick Thompson\n(pkillustration.com)\nand many others"
         },
         [4] = {
             header = hoa_system.Translate("Music"),
-            text = "Mathew Pablo\nwww.matthewpablo.com\nKoertes (OGA)\nHorrorPen (OGA)"
+            text = "Mathew Pablo\n(matthewpablo.com)\nKoertes (OGA)\nHorrorPen (OGA)"
         },
         [5] = {
             header = hoa_system.Translate("Programming, Scripting, Maps"),
@@ -60,10 +60,14 @@ function Initialize(map_instance)
             text = "Roots\nIkarusDowned\nCoderGreen"
         },
         [7] = {
+            header = hoa_system.Translate("Translations"),
+            text = "NaN (DE)\nBioHazardX (IT)\nBertram (FR)"
+        },
+        [8] = {
             header = "",
             text = hoa_system.Translate("To Lilou and Léo...")
         },
-        [8] = {
+        [9] = {
             header = "",
             text = hoa_system.Translate("Thanks to everyone\nwho made this possible!!")
         }
