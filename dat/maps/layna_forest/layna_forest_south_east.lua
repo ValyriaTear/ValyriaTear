@@ -416,7 +416,10 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_wolf_cave") then
 		hero:SetDirection(hoa_map.MapMode.SOUTH);
 		hero:SetPosition(32, 21);
-	end
+    elseif (GlobalManager:GetPreviousLocation() == "from layna forest cave 2") then
+        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetPosition(66, 72);
+    end
 
 	Map:AddGroundObject(hero);
 end
@@ -1066,7 +1069,7 @@ function _CreateEvents()
     event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 2_1", "dat/maps/layna_forest/layna_forest_cave2_1.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
     -- Heal point
@@ -1108,8 +1111,8 @@ function _CheckZones()
 		hero:SetMoving(false);
 		EventManager:StartEvent("to wolf cave");
 	elseif (to_cave2_1_zone:IsCameraEntering() == true) then
-		--hero:SetMoving(false);
-		--EventManager:StartEvent("to cave 2_1");
+		hero:SetMoving(false);
+		EventManager:StartEvent("to cave 2");
     end
 end
 
