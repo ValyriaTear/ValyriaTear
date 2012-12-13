@@ -397,10 +397,10 @@ function _CreateCharacters()
     hero:SetDirection(hoa_map.MapMode.NORTH);
     hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
-    --if (GlobalManager:GetPreviousLocation() == "from_layna_forest_SE") then
-    --    hero:SetDirection(hoa_map.MapMode.NORTH);
-    --    hero:SetPosition(125.0, 9.0);
-    --end
+    if (GlobalManager:GetPreviousLocation() == "from layna forest crystal") then
+        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetPosition(69, 4);
+    end
 
     Map:AddGroundObject(hero);
 end
