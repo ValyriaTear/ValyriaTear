@@ -101,17 +101,6 @@ public:
     //! \brief returns a pointer to the OptionsBox associated with this state
     hoa_gui::OptionBox* GetOptions() { return &_options;}
 
-    /**
-    *** \brief returns the current active state
-    *** \note this can return NULL if the state wasn't entered via a proper transition.
-    *** by default the menu state is NULL on initialization and must be set
-    *** to a valid state via the SetMenuState() function
-    **/
-    static AbstractMenuState* GetMenuState() { return _current_menu_state;}
-    //! \brief sets the active state.
-    //! \note This will over-ride the current state without calling _OnEntry()
-    static void SetMenuState(AbstractMenuState* state) { _current_menu_state = state;}
-
 protected:
     //! \brief default bottom menu drawing
     void _DrawBottomMenu();
@@ -129,9 +118,6 @@ protected:
     virtual bool _IsActive() { return false;}
     //! \brief instance-specific drawing code goes in here. the default is to simply do nothing
     virtual void _OnDraw(){}
-
-    // current menu state being processed
-    static AbstractMenuState* _current_menu_state;
 
     // Options associated with this state
     hoa_gui::OptionBox _options;
@@ -402,6 +388,10 @@ private:
     private_menu::SkillsState _skills_state;
     private_menu::EquipState _equip_state;
     //@}
+
+    //! \brief currently viewing state
+    private_menu::AbstractMenuState *_current_menu_state;
+
     private_menu::CharacterWindow _character_window0;
     private_menu::CharacterWindow _character_window1;
     private_menu::CharacterWindow _character_window2;
