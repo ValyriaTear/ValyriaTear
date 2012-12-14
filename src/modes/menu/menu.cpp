@@ -69,7 +69,7 @@ void AbstractMenuState::Update()
     if(InputManager->CancelPress())
     {
         _menu_mode->_menu_sounds["cancel"].Play();
-        if(GetMenuState() == &(_menu_mode->_main_menu_state))
+        if(_menu_mode->_current_menu_state == &(_menu_mode->_main_menu_state))
             ModeManager->Pop();
         // do instance specific cancel logic
         _OnCancel();
@@ -113,14 +113,14 @@ void AbstractMenuState::Update()
         else if(next_state != NULL && next_state != this)
         {
             // change the static current menu state
-            _current_menu_state = next_state;
+            _menu_mode->_current_menu_state = next_state;
             // run entry-specific code
-            _current_menu_state->_OnEntry(this);
+            _menu_mode->_current_menu_state->_OnEntry(this);
 
         }
     }
     // update the options for the currently active state
-    _current_menu_state->GetOptions()->Update();
+    _menu_mode->_current_menu_state->GetOptions()->Update();
 
 
 }
@@ -195,7 +195,7 @@ void AbstractMenuState::_OnCancel()
 {
     // as long as the calling state is valid and not equal to this, simply switch back to it
     if(_from_state && _from_state != this)
-        _current_menu_state = _from_state;
+        _menu_mode->_current_menu_state = _from_state;
 
 }
 
@@ -833,7 +833,6 @@ void EquipState::_DrawBottomMenu()
 bool MENU_DEBUG = false;
 
 MenuMode *MenuMode::_current_instance = NULL;
-AbstractMenuState *AbstractMenuState::_current_menu_state = NULL;
 
 // Window size helpers
 const uint32 win_start_x = (1024 - 800) / 2 - 40;
@@ -928,8 +927,7 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _formation_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _formation_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
-
-    AbstractMenuState::SetMenuState(&_main_menu_state);
+    _current_menu_state = &_main_menu_state;
 
     // Load menu sounds
     _menu_sounds["confirm"] = SoundDescriptor();
@@ -1008,7 +1006,8 @@ void MenuMode::Reset()
     _equip_state.Reset();
 
     // set initial state to main menu
-    AbstractMenuState::SetMenuState(&_main_menu_state);
+    _current_menu_state = &_main_menu_state;
+
 } // void MenuMode::Reset()
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1034,7 +1033,8 @@ void MenuMode::Update()
         }
         return;
     }
-    AbstractMenuState::GetMenuState()->Update();
+
+    _current_menu_state->Update();
 
 
 } // void MenuMode::Update()
@@ -1045,7 +1045,7 @@ void MenuMode::Update()
 void MenuMode::Draw()
 {
 
-    AbstractMenuState::GetMenuState()->Draw();
+    _current_menu_state->Draw();
     _character_window0.Draw();
     _character_window1.Draw();
     _character_window2.Draw();
