@@ -150,6 +150,7 @@ public:
 class InventoryWindow : public hoa_gui::MenuWindow
 {
     friend class hoa_menu::MenuMode;
+    friend class InventoryState;
 
 public:
     InventoryWindow();
@@ -300,7 +301,7 @@ public:
 class SkillsWindow : public hoa_gui::MenuWindow
 {
     friend class hoa_menu::MenuMode;
-
+    friend class SkillsState;
 public:
     SkillsWindow();
 
@@ -396,7 +397,8 @@ private:
 class EquipWindow : public hoa_gui::MenuWindow
 {
     friend class hoa_menu::MenuMode;
-
+    friend class InventoryState;
+    friend class EquipState;
 public:
     EquipWindow();
     ~EquipWindow();
