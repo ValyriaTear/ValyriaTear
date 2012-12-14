@@ -119,7 +119,8 @@ protected:
     void _OnCancel();
     //! \brief handles any state preperation that needs to be done upon entry to this state
     //! \param the state that we are transitioning from
-    virtual void _OnEntry(AbstractMenuState *from_state);
+    //  this was simple enough to allow for inlining
+    virtual void _OnEntry(AbstractMenuState *from_state) { _from_state = from_state; }
     //! \brief returns the default selection to use when we first load the menu after MenuMode is at the top of stack
     virtual uint32 _GetDefaultSelection() { return 0;}
     //! \brief handles updating the state when it is claimed as "active"
@@ -159,7 +160,11 @@ public:
         MAIN_OPTIONS_SIZE
     };
 
-    MainMenuState(MenuMode* menu_mode);
+    //! \brief Main Menu State constructor
+    MainMenuState(MenuMode* menu_mode):
+        AbstractMenuState("Main Menu",menu_mode)
+    {}
+
     ~MainMenuState(){};
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
@@ -179,7 +184,10 @@ public:
         FORMATION_OPTIONS_BACK,
         FORMATION_OPTIONS_SIZE
     };
-    FormationState(MenuMode* menu_mode);
+
+    FormationState(MenuMode* menu_mode):
+        AbstractMenuState("Formation Menu",menu_mode)
+    {}
     ~FormationState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
@@ -204,7 +212,10 @@ public:
         INV_OPTIONS_BACK,
         INV_OPTIONS_SIZE
     };
-    InventoryState(MenuMode* menu_mode);
+    //! \brief InventoryState state constructor
+    InventoryState(MenuMode* menu_mode):
+        AbstractMenuState("Inventory State",menu_mode)
+    {}
     ~InventoryState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
@@ -225,8 +236,13 @@ public:
         STATUS_OPTIONS_BACK,
         STATUS_OPTIONS_SIZE
     };
-     StatusState(MenuMode* menu_mode);
-     ~StatusState(){}
+
+    //! \brief Status state constructor
+    StatusState(MenuMode* menu_mode):
+        AbstractMenuState("Status State",menu_mode)
+    {}
+
+    ~StatusState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
 protected:
@@ -246,7 +262,12 @@ public:
         SKILLS_OPTIONS_SIZE
 
     };
-    SkillsState(MenuMode* menu_mode);
+
+    //! \brief Skills state constructor
+    SkillsState(MenuMode* menu_mode):
+        AbstractMenuState("Skills State",menu_mode)
+    {}
+
     ~SkillsState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
@@ -265,7 +286,11 @@ public:
         EQUIP_OPTIONS_BACK,
         EQUIP_OPTIONS_SIZE
     };
-    EquipState(MenuMode* menu_mode);
+
+    //! Equip state constructor
+    EquipState(MenuMode* menu_mode):
+        AbstractMenuState("Equip State",menu_mode)
+    {}
     ~EquipState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
@@ -310,7 +335,7 @@ public:
     /** \param location_name The name of the current map that will be displayed on the menu screen.
     *** \param locale_image The filename for the location image that is displayed in the menus.
     **/
-    MenuMode(hoa_utils::ustring locale_name, std::string locale_image);
+    MenuMode(const hoa_utils::ustring &locale_name, const std::string &locale_image);
 
     ~MenuMode();
 

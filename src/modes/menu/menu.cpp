@@ -95,7 +95,7 @@ void AbstractMenuState::Update()
     }
     // return the event type from the option
     int32 event = _options.GetEvent();
-    // update the current option box for this state, thus clearing the even flag
+    // update the current option box for this state, thus clearing the event flag
     // if we don't do this, then upon return we enter right back into the state we wanted
     // to return from
     _options.Update();
@@ -127,7 +127,7 @@ void AbstractMenuState::Update()
 
 void AbstractMenuState::Draw()
 {
-
+    static const Color grayed(0.35f, 0.35f, 0.35f, 1.0f);
     // Draw the saved screen background
     // For that, set the system coordinates to the size of the window (same with the save-screen)
     int32 width = VideoManager->GetScreenWidth();
@@ -135,7 +135,7 @@ void AbstractMenuState::Draw()
     VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    Color grayed(0.35f, 0.35f, 0.35f, 1.0f);
+
     VideoManager->Move(0.0f, 0.0f);
     _menu_mode->_saved_screen.Draw();
 
@@ -155,6 +155,9 @@ void AbstractMenuState::Draw()
 
 void AbstractMenuState::_DrawBottomMenu()
 {
+    //TODO: hoa_utils::ustring should be able to take const modifiers in its operators....
+    static hoa_utils::ustring time_ustr_base = UTranslate("Time: ");
+    static hoa_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -172,12 +175,12 @@ void AbstractMenuState::_DrawBottomMenu()
     os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
     os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-    hoa_utils::ustring time_ustr = UTranslate("Time: ") + MakeUnicodeString(os_time.str());
+    hoa_utils::ustring time_ustr =  time_ustr_base + MakeUnicodeString(os_time.str());
     VideoManager->Text()->Draw(time_ustr);
 
     // Display the current funds that the party has
     VideoManager->MoveRelative(0, 30);
-    VideoManager->Text()->Draw(UTranslate("Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
+    VideoManager->Text()->Draw( drunes_ustr_base + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 
     if(!_menu_mode->_locale_graphic.GetFilename().empty()) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
@@ -186,12 +189,7 @@ void AbstractMenuState::_DrawBottomMenu()
         _menu_mode->_locale_graphic.Draw();
     }
 }
-void AbstractMenuState::_OnEntry(AbstractMenuState *from_state)
-{
-    // set the calling state
-    _from_state = from_state;
 
-}
 
 void AbstractMenuState::_OnCancel()
 {
@@ -201,11 +199,6 @@ void AbstractMenuState::_OnCancel()
 
 }
 
-//! \brief Main Menu State constructor
-MainMenuState::MainMenuState(MenuMode* menu_mode):
-    AbstractMenuState("Main Menu",menu_mode)
-{
-}
 
 void MainMenuState::Reset()
 {
@@ -276,14 +269,14 @@ void MainMenuState::_OnDraw()
 
 }
 
-//! \brief Formation State constructor
-FormationState::FormationState(MenuMode* menu_mode) :
-    AbstractMenuState("Formation Menu",menu_mode)
+void FormationState::_ActiveWindowUpdate()
 {
+    _menu_mode->_formation_window.Update();
 }
-
-void FormationState::_ActiveWindowUpdate(){_menu_mode->_formation_window.Update();}
-bool FormationState::_IsActive(){ return _menu_mode->_formation_window.IsActive();}
+bool FormationState::_IsActive()
+{
+    return _menu_mode->_formation_window.IsActive();
+}
 
 void FormationState::Reset()
 {
@@ -323,9 +316,6 @@ void FormationState::_OnDraw()
 
 }
 
-InventoryState::InventoryState(MenuMode* mode):
-    AbstractMenuState("Inventory State",mode)
-{}
 void InventoryState::Reset()
 {
     // Setup the option box
@@ -362,8 +352,16 @@ AbstractMenuState* InventoryState::GetTransitionState(uint32 selection)
     };
     return NULL;
 }
-void InventoryState::_ActiveWindowUpdate(){_menu_mode->_inventory_window.Update();}
-bool InventoryState::_IsActive(){ return _menu_mode->_inventory_window.IsActive();}
+
+void InventoryState::_ActiveWindowUpdate()
+{
+    _menu_mode->_inventory_window.Update();
+}
+
+bool InventoryState::_IsActive()
+{
+    return _menu_mode->_inventory_window.IsActive();
+}
 
 void InventoryState::_OnDraw()
 {
@@ -429,15 +427,15 @@ void InventoryState::_DrawBottomMenu()
     } // if ITEM_ACTIVE_LIST
 }
 
-//! \brief Status state constructor
-StatusState::StatusState(MenuMode* mode):
-    AbstractMenuState("Status State",mode)
-{
 
+void StatusState::_ActiveWindowUpdate()
+{
+    _menu_mode->_status_window.Update();
 }
 
-void StatusState::_ActiveWindowUpdate(){_menu_mode->_status_window.Update();}
-bool StatusState::_IsActive(){ return _menu_mode->_status_window.IsActive();}
+bool StatusState::_IsActive(){
+    return _menu_mode->_status_window.IsActive();
+}
 
 void StatusState::Reset()
 {
@@ -478,15 +476,15 @@ void StatusState::_OnDraw()
 
 }
 
-//! \brief Skills state constructor
-SkillsState::SkillsState(MenuMode *mode):
-    AbstractMenuState("Skills State",mode)
+void SkillsState::_ActiveWindowUpdate()
 {
-
+    _menu_mode->_skills_window.Update();
 }
 
-void SkillsState::_ActiveWindowUpdate(){_menu_mode->_skills_window.Update();}
-bool SkillsState::_IsActive(){ return _menu_mode->_skills_window.IsActive();}
+bool SkillsState::_IsActive()
+{
+    return _menu_mode->_skills_window.IsActive();
+}
 
 void SkillsState::Reset()
 {
@@ -537,15 +535,14 @@ void SkillsState::_DrawBottomMenu()
     _menu_mode->_skills_window._description.Draw();
 }
 
-//! Equip state constructor
-EquipState::EquipState(MenuMode* mode):
-    AbstractMenuState("Equip State",mode)
+void EquipState::_ActiveWindowUpdate()
 {
-
+    _menu_mode->_equip_window.Update();
 }
-
-void EquipState::_ActiveWindowUpdate(){_menu_mode->_equip_window.Update();}
-bool EquipState::_IsActive(){ return _menu_mode->_equip_window.IsActive();}
+bool EquipState::_IsActive()
+{
+    return _menu_mode->_equip_window.IsActive();
+}
 
 void EquipState::Reset()
 {
@@ -591,11 +588,8 @@ void EquipState::_OnEntry(AbstractMenuState *from_state)
 
 void EquipState::_OnDraw()
 {
-
-
     _DrawBottomMenu();
     _menu_mode->_equip_window.Draw();
-
 }
 
 void EquipState::_DrawBottomMenu()
@@ -834,9 +828,7 @@ void EquipState::_DrawBottomMenu()
     } // if EQUIP_ACTIVE_LIST
 }
 
-
 }
-
 
 bool MENU_DEBUG = false;
 
@@ -852,7 +844,7 @@ const uint32 win_width = 208;
 // MenuMode class -- Initialization and Destruction Code
 ////////////////////////////////////////////////////////////////////////////////
 
-MenuMode::MenuMode(ustring locale_name, std::string locale_image) :
+MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) :
     _main_menu_state(this),
     _formation_state(this),
     _inventory_state(this),
