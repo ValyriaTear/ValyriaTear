@@ -73,7 +73,7 @@ items[1] = {
 	description = hoa_system.Translate("Restores a small amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_small.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 60,
+	standard_price = 30,
 	warmup_time = 1000,
 	cooldown_time = 700,
 
