@@ -270,11 +270,11 @@ enemies[5] = {
 		skill_points = 0,
 		strength = 35,
 		vigor = 10,
-		fortitude = 10,  -- base defense
+		fortitude = 10,
 		protection = 10,
 		agility = 18,
 		evade = 2.0,
-		experience_points = 60,
+		experience_points = 80,
 		drunes = 80
 	},
 

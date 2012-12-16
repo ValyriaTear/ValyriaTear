@@ -268,7 +268,7 @@ characters[KALYA] = {
         }
     },
 
-	skills = { [1] = 5, [4] = 10001, [12] = 20001 }
+	skills = { [1] = 5, [4] = 10001, [7] = 10002, [12] = 20001 }
 } -- characters[KALYA]
 
 characters[SYLVE] = {

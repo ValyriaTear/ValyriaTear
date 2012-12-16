@@ -116,7 +116,7 @@ skills[2] = {
 skills[3] = {
 	name = hoa_system.Translate("Stun Strike"),
 	description = hoa_system.Translate("A blow which temporarily stun its target."),
-	sp_required = 5,
+	sp_required = 4,
 	warmup_time = 1200,
 	cooldown_time = 0,
 	action_name = "attack",
@@ -357,7 +357,7 @@ skills[1005] = {
                                               effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
+			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
 			AudioManager:PlaySound("snd/snake_attack.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -395,7 +395,7 @@ skills[1007] = {
        target_actor = target:GetActor();
 
        if (hoa_battle.CalculateStandardEvasion(target) == false) then
-           local hp_drain = hoa_battle.CalculatePhysicalDamageAdder(user, target, 14);
+           local hp_drain = hoa_battle.CalculatePhysicalDamageAdder(user, target, 8);
            target_actor:RegisterDamage(hp_drain, target);
            -- If the damage dealt was 1, don't recover any HP from the attack
            if (hp_drain > 1) then
