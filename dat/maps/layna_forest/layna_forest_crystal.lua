@@ -686,9 +686,23 @@ function _CreateEvents()
     event = hoa_map.MapTransitionEvent("to forest cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua", "from layna forest crystal");
     EventManager:RegisterEvent(event);
 
-	-- Heal point
-	event = hoa_map.ScriptedEvent("heal point", "heal_party", "heal_done");
-	EventManager:RegisterEvent(event);
+    -- Heal point
+    event = hoa_map.ScriptedEvent("heal point", "heal_party", "heal_done");
+    EventManager:RegisterEvent(event);
+
+    -- Wolf final fight
+    event = hoa_map.BattleEncounterEvent("Fenrir Battle");
+    event:SetMusic("mus/The_Creature_Awakens.ogg");
+    event:SetBackground("img/backdrops/battle/forest_background.png");
+    -- TODO: Add custom AI battle script
+    -- event:AddScript("");
+    event:AddEnemy(8, 0, 0);
+    event:AddEventLinkAtEnd("Make the wolf disappear");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Make the wolf disappear", "make_wolf_invisible", "");
+    --event:AddEventLinkAtEnd("boss fight post-dialogue");
+    EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
@@ -706,6 +720,11 @@ function _CheckZones()
     if (to_forest_cave2_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to forest cave 2");
+    elseif (wolf_battle_zone:IsCameraEntering() == true) then
+        if (GlobalManager:DoesEventExist("story", "Fenrir beaten") == false) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("Fenrir Battle");
+        end
     end
 end
 
@@ -744,6 +763,13 @@ map_functions = {
             return false;
         end
         return true;
+    end,
+
+    make_wolf_invisible = function()
+        wolf:SetVisible(false);
+        wolf:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        GlobalManager:SetEventValue("story", "Fenrir beaten", 1);
     end
 
 }
