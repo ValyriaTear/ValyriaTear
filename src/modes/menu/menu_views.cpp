@@ -11,6 +11,7 @@
  * \file    menu_views.cpp
  * \author  Daniel Steuernol steu@allacrost.org
  * \author  Andy Gardner chopperdave@allacrost.org
+ * \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
  * \brief   Source file for various menu views.
  *****************************************************************************/
 
@@ -454,11 +455,11 @@ void InventoryWindow::Draw()
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// StatusWindow Class
+// PartyWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusWindow::StatusWindow() :
-    _char_select_active(false)
+PartyWindow::PartyWindow() :
+    _char_select_active(FORM_ACTIVE_NONE)
 {
     // Get party size for iteration
     uint32 partysize = GlobalManager->GetActiveParty()->GetPartySize();
@@ -473,27 +474,29 @@ StatusWindow::StatusWindow() :
 
     // Init char select option box
     _InitCharSelect();
-} // StatusWindow::StatusWindow()
+} // PartyWindow::PartyWindow()
 
 
 
-StatusWindow::~StatusWindow()
+PartyWindow::~PartyWindow()
 {
 
 }
 
 // Activate/deactivate window
-void StatusWindow::Activate(bool new_value)
+void PartyWindow::Activate(bool new_value)
 {
-    _char_select_active = new_value;
-
-    if(_char_select_active)
+    if(new_value) {
+        _char_select_active = FORM_ACTIVE_CHAR;
         _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-    else
+    } else {
+        _char_select_active = FORM_ACTIVE_NONE;
         _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+        _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    }
 }
 
-void StatusWindow::_InitCharSelect()
+void PartyWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
@@ -507,6 +510,14 @@ void StatusWindow::_InitCharSelect()
     _char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
+    _second_char_select.SetPosition(72.0f, 109.0f);
+    _second_char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
+    _second_char_select.SetCursorOffset(-50.0f, -6.0f);
+    _second_char_select.SetTextStyle(TextStyle("text20"));
+    _second_char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _second_char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+    _second_char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+
     // Use blank string so cursor can point somewhere
     for(uint32 i = 0; i < size; i++) {
         options.push_back(MakeUnicodeString(" "));
@@ -515,32 +526,88 @@ void StatusWindow::_InitCharSelect()
     _char_select.SetOptions(options);
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+
+    _second_char_select.SetOptions(options);
+    _second_char_select.SetSelection(0);
+    _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 }
 
 // Updates the status window
-void StatusWindow::Update()
+void PartyWindow::Update()
 {
-    // check input values
-    if(InputManager->UpPress()) {
-        _char_select.InputUp();
-    } else if(InputManager->DownPress()) {
-        _char_select.InputDown();
+    // Points to the active option box
+    OptionBox *active_option = NULL;
+    //choose correct menu
+    switch(_char_select_active) {
+    case FORM_ACTIVE_CHAR:
+        active_option = &_char_select;
+        break;
+    case FORM_ACTIVE_SECOND:
+        active_option = &_second_char_select;
+        break;
+    }
+
+    // Handle the appropriate input events
+    if(InputManager->ConfirmPress()) {
+        active_option->InputConfirm();
     } else if(InputManager->CancelPress()) {
-        _char_select.InputCancel();
+        active_option->InputCancel();
+    } else if(InputManager->LeftPress()) {
+        active_option->InputLeft();
+    } else if(InputManager->RightPress()) {
+        active_option->InputRight();
+    } else if(InputManager->UpPress()) {
+        active_option->InputUp();
+    } else if(InputManager->DownPress()) {
+        active_option->InputDown();
     }
 
-    if(_char_select.GetEvent() == VIDEO_OPTION_CANCEL) {
-        Activate(false);
-        MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
-    }
+    uint32 event = active_option->GetEvent();
+    active_option->Update();
+
+    switch(_char_select_active) {
+    case FORM_ACTIVE_CHAR:
+        if(event == VIDEO_OPTION_CONFIRM) {
+            _char_select_active = FORM_ACTIVE_SECOND;
+            _char_select.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
+            _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+            MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
+        } else if(event == VIDEO_OPTION_CANCEL) {
+            Activate(false);
+            MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
+        }
+        break;
+
+    case FORM_ACTIVE_SECOND:
+        if(event == VIDEO_OPTION_CONFIRM) {
+            // Switch Characters
+            GlobalManager->SwapCharactersByIndex(_char_select.GetSelection(), _second_char_select.GetSelection());
+            std::swap(_full_portraits[_char_select.GetSelection()],_full_portraits[_second_char_select.GetSelection()]);
+
+            // Update the character's view
+            MenuMode::CurrentInstance()->ReloadCharacterWindows();
+
+            _char_select_active = FORM_ACTIVE_CHAR;
+            _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+            _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+        } else if(event == VIDEO_OPTION_CANCEL) {
+            _char_select_active = FORM_ACTIVE_CHAR;
+            _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+            _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+            MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
+        }
+        break;
+    } // switch
     _char_select.Update();
-} // void StatusWindow::Update()
+} // void PartyWindow::Update()
 
 
-// Draws the status window
-void StatusWindow::Draw()
+// Draws the party window
+void PartyWindow::Draw()
 {
     MenuWindow::Draw();
+    _char_select.Draw();
+    _second_char_select.Draw();
 
     GlobalCharacter *ch =  dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
 
@@ -597,8 +664,8 @@ void StatusWindow::Draw()
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
-    _char_select.Draw();
-} // void StatusWindow::Draw()
+
+} // void PartyWindow::Draw()
 
 ////////////////////////////////////////////////////////////////////////////////
 // SkillsWindow Class
@@ -1420,147 +1487,6 @@ void EquipWindow::Draw()
     }
 
 } // void EquipWindow::Draw()
-
-
-FormationWindow::FormationWindow() : _active_box(FORM_ACTIVE_NONE)
-{
-    _InitCharSelect();
-}
-
-
-FormationWindow::~FormationWindow()
-{
-}
-
-
-void FormationWindow::_InitCharSelect()
-{
-    //character selection set up
-    std::vector<ustring> options;
-    uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
-
-    _char_select.SetPosition(72.0f, 109.0f);
-    _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
-    _char_select.SetCursorOffset(-50.0f, -6.0f);
-    _char_select.SetTextStyle(TextStyle("text20"));
-    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
-    _char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-
-    _second_char_select.SetPosition(72.0f, 109.0f);
-    _second_char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
-    _second_char_select.SetCursorOffset(-50.0f, -6.0f);
-    _second_char_select.SetTextStyle(TextStyle("text20"));
-    _second_char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
-    _second_char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _second_char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-
-
-    // Use blank string so cursor can point somewhere
-    for(uint32 i = 0; i < size; i++) {
-        options.push_back(MakeUnicodeString(" "));
-    }
-
-    _char_select.SetOptions(options);
-    _char_select.SetSelection(0);
-    _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-
-    _second_char_select.SetOptions(options);
-    _second_char_select.SetSelection(0);
-    _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-
-}
-
-
-void FormationWindow::Update()
-{
-    // Points to the active option box
-    OptionBox *active_option = NULL;
-
-    //choose correct menu
-    switch(_active_box) {
-    case FORM_ACTIVE_CHAR:
-        active_option = &_char_select;
-        break;
-    case FORM_ACTIVE_SECOND:
-        active_option = &_second_char_select;
-        break;
-    }
-
-    // Handle the appropriate input events
-    if(InputManager->ConfirmPress()) {
-        active_option->InputConfirm();
-    } else if(InputManager->CancelPress()) {
-        active_option->InputCancel();
-    } else if(InputManager->LeftPress()) {
-        active_option->InputLeft();
-    } else if(InputManager->RightPress()) {
-        active_option->InputRight();
-    } else if(InputManager->UpPress()) {
-        active_option->InputUp();
-    } else if(InputManager->DownPress()) {
-        active_option->InputDown();
-    }
-
-    uint32 event = active_option->GetEvent();
-    active_option->Update();
-
-    switch(_active_box) {
-    case FORM_ACTIVE_CHAR:
-        if(event == VIDEO_OPTION_CONFIRM) {
-            _active_box = FORM_ACTIVE_SECOND;
-            _char_select.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
-            _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-            MenuMode::CurrentInstance()->_menu_sounds["confirm"].Play();
-        } else if(event == VIDEO_OPTION_CANCEL) {
-            Activate(false);
-            MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
-        }
-        break;
-
-    case FORM_ACTIVE_SECOND:
-        if(event == VIDEO_OPTION_CONFIRM) {
-            // Switch Characters
-            GlobalManager->SwapCharactersByIndex(_char_select.GetSelection(), _second_char_select.GetSelection());
-
-            // Update the character's view
-            MenuMode::CurrentInstance()->ReloadCharacterWindows();
-
-            _active_box = FORM_ACTIVE_CHAR;
-            _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-            _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-        } else if(event == VIDEO_OPTION_CANCEL) {
-            _active_box = FORM_ACTIVE_CHAR;
-            _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-            _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-            MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
-        }
-        break;
-    } // switch
-    _char_select.Update();
-}
-
-
-void FormationWindow::Draw()
-{
-    MenuWindow::Draw();
-    _char_select.Draw();
-    _second_char_select.Draw();
-}
-
-
-void FormationWindow::Activate(bool new_status)
-{
-    if(new_status) {
-        _active_box = FORM_ACTIVE_CHAR;
-        _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-    } else {
-        _active_box = FORM_ACTIVE_NONE;
-        _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-        _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-    }
-}
-
 
 } // namespace private_menu
 

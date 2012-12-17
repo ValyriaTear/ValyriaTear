@@ -142,7 +142,6 @@ public:
         MAIN_OPTIONS_INVENTORY,
         MAIN_OPTIONS_SKILLS,
         MAIN_OPTIONS_STATUS,
-        MAIN_OPTIONS_FORMATION,
         MAIN_OPTIONS_SIZE
     };
 
@@ -159,32 +158,6 @@ protected:
     void _OnDraw();
 };
 
-/**
-*** \brief Formation state. This state allows players to change their character position
-**/
-class FormationState : virtual public AbstractMenuState {
-public:
-    //! \brief transition states for formation state
-    enum FORMATION_CATEGORY {
-        FORMATION_OPTIONS_SWITCH,
-        FORMATION_OPTIONS_BACK,
-        FORMATION_OPTIONS_SIZE
-    };
-
-    FormationState(MenuMode* menu_mode):
-        AbstractMenuState("Formation Menu",menu_mode)
-    {}
-    ~FormationState(){}
-    void Reset();
-    AbstractMenuState* GetTransitionState(uint32 selection);
-
-
-protected:
-
-    void _OnDraw();
-    void _ActiveWindowUpdate();
-    bool _IsActive();
-};
 /**
 *** \brief Inventory State. Handles user interactions for item use and equiping
 **/
@@ -213,22 +186,23 @@ protected:
 };
 
 /**
-*** \brief Status state. shows the user the character status information
+*** \brief Party state. shows the user the character status information. Allows
+*** switching of formation
 **/
-class StatusState : virtual public AbstractMenuState {
+class PartyState : virtual public AbstractMenuState {
 public:
-    enum STATUS_CATEGORY {
-        STATUS_OPTIONS_VIEW,
-        STATUS_OPTIONS_BACK,
-        STATUS_OPTIONS_SIZE
+    enum PARTY_CATEGORY {
+        PARTY_OPTIONS_VIEW_ALTER,
+        PARTY_OPTIONS_BACK,
+        PARTY_OPTIONS_SIZE
     };
 
-    //! \brief Status state constructor
-    StatusState(MenuMode* menu_mode):
-        AbstractMenuState("Status State",menu_mode)
+    //! \brief Party state constructor
+    PartyState(MenuMode* menu_mode):
+        AbstractMenuState("Party State",menu_mode)
     {}
 
-    ~StatusState(){}
+    ~PartyState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
 protected:
@@ -305,16 +279,14 @@ class MenuMode : public hoa_mode_manager::GameMode
 {
     friend class private_menu::CharacterWindow;
     friend class private_menu::InventoryWindow;
-    friend class private_menu::StatusWindow;
+    friend class private_menu::PartyWindow;
     friend class private_menu::SkillsWindow;
     friend class private_menu::EquipWindow;
-    friend class private_menu::FormationWindow;
 
     friend class private_menu::AbstractMenuState;
     friend class private_menu::MainMenuState;
-    friend class private_menu::FormationState;
     friend class private_menu::InventoryState;
-    friend class private_menu::StatusState;
+    friend class private_menu::PartyState;
     friend class private_menu::SkillsState;
     friend class private_menu::EquipState;
 public:
@@ -382,9 +354,8 @@ private:
     **/
     //@{
     private_menu::MainMenuState _main_menu_state;
-    private_menu::FormationState _formation_state;
     private_menu::InventoryState _inventory_state;
-    private_menu::StatusState _status_state;
+    private_menu::PartyState _party_state;
     private_menu::SkillsState _skills_state;
     private_menu::EquipState _equip_state;
     //@}
@@ -397,10 +368,9 @@ private:
     private_menu::CharacterWindow _character_window2;
     private_menu::CharacterWindow _character_window3;
     private_menu::InventoryWindow _inventory_window;
-    private_menu::StatusWindow _status_window;
+    private_menu::PartyWindow _party_window;
     private_menu::SkillsWindow _skills_window;
     private_menu::EquipWindow _equip_window;
-    private_menu::FormationWindow _formation_window;
     MessageWindow *_message_window;
 
     //! \brief A map of the sounds used while in MenuMode
