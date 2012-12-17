@@ -210,8 +210,7 @@ void MainMenuState::Reset()
     std::vector<ustring> options;
     options.push_back(UTranslate("Inventory"));
     options.push_back(UTranslate("Skills"));
-    options.push_back(UTranslate("Status"));
-    options.push_back(UTranslate("Formation"));
+    options.push_back(UTranslate("Party"));
 
     // Add strings and set default selection.
     _options.SetOptions(options);
@@ -229,10 +228,7 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
             return &(_menu_mode->_skills_state);
             break;
         case MAIN_OPTIONS_STATUS:
-            return &(_menu_mode->_status_state);
-            break;
-        case MAIN_OPTIONS_FORMATION:
-            return &(_menu_mode->_formation_state);
+            return &(_menu_mode->_party_state);
             break;
         default:
             PRINT_ERROR << "MENU ERROR: Invalid option in " << GetStateName() << "::GetTransitionState" << std::endl;
@@ -253,66 +249,16 @@ void MainMenuState::_OnDraw()
         _menu_mode->_inventory_window.Draw();
         break;
 
-    case MAIN_OPTIONS_STATUS:
-        _menu_mode->_status_window.Draw();
-        break;
-
     case MAIN_OPTIONS_SKILLS:
         _menu_mode->_skills_window.Draw();
         break;
-    case MAIN_OPTIONS_FORMATION:
+
+    case MAIN_OPTIONS_STATUS:
     default:
-        _menu_mode->_formation_window.Draw();
+        _menu_mode->_party_window.Draw();
         break;
 
     } // switch draw_window
-
-}
-
-void FormationState::_ActiveWindowUpdate()
-{
-    _menu_mode->_formation_window.Update();
-}
-bool FormationState::_IsActive()
-{
-    return _menu_mode->_formation_window.IsActive();
-}
-
-void FormationState::Reset()
-{
-    // setup the save options box
-    SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(415.0f, 50.0f, FORMATION_OPTIONS_SIZE, 1, FORMATION_OPTIONS_SIZE, 1);
-
-    // Generate the strings
-    std::vector<ustring> options;
-    options.push_back(UTranslate("Switch"));
-    options.push_back(UTranslate("Back"));
-
-    // Add strings and set default selection.
-    _options.SetOptions(options);
-    _options.SetSelection(FORMATION_OPTIONS_SWITCH);
-}
-AbstractMenuState* FormationState::GetTransitionState(uint32 selection)
-{
-    switch(selection)
-    {
-        case FORMATION_OPTIONS_BACK:
-            return &(_menu_mode->_main_menu_state);
-            break;
-        case FORMATION_OPTIONS_SWITCH:
-            _menu_mode->_formation_window.Activate(true);
-        default:
-            break;
-
-    };
-    return NULL;
-}
-void FormationState::_OnDraw()
-{
-
-    AbstractMenuState::_DrawBottomMenu();
-    _menu_mode->_formation_window.Draw();
 
 }
 
@@ -428,39 +374,39 @@ void InventoryState::_DrawBottomMenu()
 }
 
 
-void StatusState::_ActiveWindowUpdate()
+void PartyState::_ActiveWindowUpdate()
 {
-    _menu_mode->_status_window.Update();
+    _menu_mode->_party_window.Update();
 }
 
-bool StatusState::_IsActive(){
-    return _menu_mode->_status_window.IsActive();
+bool PartyState::_IsActive(){
+    return _menu_mode->_party_window.IsActive();
 }
 
-void StatusState::Reset()
+void PartyState::Reset()
 {
     // Setup the status option box
     SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(415.0f, 50.0f, STATUS_OPTIONS_SIZE, 1, STATUS_OPTIONS_SIZE, 1);
+    _options.SetDimensions(415.0f, 50.0f, PARTY_OPTIONS_SIZE, 1, PARTY_OPTIONS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
-    options.push_back(UTranslate("View"));
+    options.push_back(UTranslate("View/Reorder"));
     options.push_back(UTranslate("Back"));
 
     // Add strings and set default selection.
     _options.SetOptions(options);
-    _options.SetSelection(STATUS_OPTIONS_VIEW);
+    _options.SetSelection(PARTY_OPTIONS_VIEW_ALTER);
 }
 
-AbstractMenuState* StatusState::GetTransitionState(uint32 selection)
+AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
 {
     switch(selection)
     {
-        case STATUS_OPTIONS_BACK:
+        case PARTY_OPTIONS_BACK:
             return &(_menu_mode->_main_menu_state);
-        case STATUS_OPTIONS_VIEW:
-            _menu_mode->_status_window.Activate(true);
+        case PARTY_OPTIONS_VIEW_ALTER:
+            _menu_mode->_party_window.Activate(true);
             break;
         default:
             break;
@@ -468,11 +414,11 @@ AbstractMenuState* StatusState::GetTransitionState(uint32 selection)
     return NULL;
 }
 
-void StatusState::_OnDraw()
+void PartyState::_OnDraw()
 {
 
     AbstractMenuState::_DrawBottomMenu();
-    _menu_mode->_status_window.Draw();
+    _menu_mode->_party_window.Draw();
 
 }
 
@@ -845,9 +791,8 @@ const uint32 win_width = 208;
 
 MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) :
     _main_menu_state(this),
-    _formation_state(this),
     _inventory_state(this),
-    _status_state(this),
+    _party_state(this),
     _skills_state(this),
     _equip_state(this),
     _message_window(NULL)
@@ -907,9 +852,9 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _main_options_window.Create(static_cast<float>(win_width * 4 + 16), 60, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
     _main_options_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y - 50));
 
-    // Set up the status window
-    _status_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
-    _status_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+    // Set up the party window
+    _party_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
+    _party_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
     //Set up the skills window
     _skills_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
@@ -922,10 +867,6 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     // Set up the inventory window
     _inventory_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _inventory_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
-
-    // Set up the formation window
-    _formation_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
-    _formation_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
     _current_menu_state = &_main_menu_state;
 
@@ -958,11 +899,10 @@ MenuMode::~MenuMode()
     _character_window2.Destroy();
     _character_window3.Destroy();
     _inventory_window.Destroy();
-    _status_window.Destroy();
+    _party_window.Destroy();
     _skills_window.Destroy();
     _main_options_window.Destroy();
     _equip_window.Destroy();
-    _formation_window.Destroy();
 
     // Free sounds
     _menu_sounds["confirm"].FreeAudio();
@@ -990,18 +930,16 @@ void MenuMode::Reset()
     _character_window2.Show();
     _character_window3.Show();
     _inventory_window.Show();
-    _status_window.Show();
+    _party_window.Show();
     _skills_window.Show();
     _equip_window.Show();
-    _formation_window.Show();
 
     _inventory_window.Activate(false);
 
     // Reset states
     _main_menu_state.Reset();
-    _formation_state.Reset();
     _inventory_state.Reset();
-    _status_state.Reset();
+    _party_state.Reset();
     _skills_state.Reset();
     _equip_state.Reset();
 

@@ -11,6 +11,7 @@
 *** \file    menu_views.h
 *** \author  Daniel Steuernol steu@allacrost.org
 *** \author  Andy Gardner chopperdave@allacrost.org
+*** \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
 *** \brief   Header file for various menu views.
 ***
 *** This code handles the different menu windows that the user will see while the
@@ -91,7 +92,7 @@ enum EQUIP_ACTIVE_OPTION {
     EQUIP_ACTIVE_SIZE = 4
 };
 
-//! \brief The different option boxes that can be active for equipment
+//! \brief The different option boxes that can be active for party formation
 enum FORM_ACTIVE_OPTION {
     FORM_ACTIVE_NONE = 0,
     FORM_ACTIVE_CHAR = 1,
@@ -235,22 +236,28 @@ private:
 
 
 /** ****************************************************************************
-*** \brief Represents the Status window, displaying all the information about the character.
+*** \brief Represents the Party window, displaying all the information about the character.
 ***
 *** This window display all the attributes of the character.
 *** You can scroll through them all as well, to view all the different characters.
+*** You can also reorder the position of characters
 *** ***************************************************************************/
-class StatusWindow : public hoa_gui::MenuWindow
+class PartyWindow : public hoa_gui::MenuWindow
 {
+    friend class hoa_menu::MenuMode;
 private:
+
     //! char portraits
     std::vector<hoa_video::StillImage> _full_portraits;
 
     //! if the window is active or not
-    bool _char_select_active;
+    uint32 _char_select_active;
 
     //! character selection option box
     hoa_gui::OptionBox _char_select;
+
+    //! The character select option box once first character has been selected
+    hoa_gui::OptionBox _second_char_select;
 
     /*!
     * \brief initialize character selection option box
@@ -259,8 +266,8 @@ private:
 
 public:
 
-    StatusWindow();
-    ~StatusWindow();
+    PartyWindow();
+    ~PartyWindow();
 
     /*!
     * \brief render this window to the screen
@@ -287,7 +294,7 @@ public:
     */
     void Activate(bool new_value);
 
-}; // class StatusWindow : public hoa_video::MenuWindow
+}; // class PartyWindow : public hoa_video::MenuWindow
 
 
 
@@ -473,54 +480,6 @@ private:
     void _UpdateEquipList();
 
 }; // class EquipWindow : public hoa_video::MenuWindow
-
-
-
-/** ****************************************************************************
-*** \brief Represents the Formation window, allowing the party to change order.
-***
-*** This window changes party order.
-*** ***************************************************************************/
-class FormationWindow : public hoa_gui::MenuWindow
-{
-    friend class hoa_menu::MenuMode;
-
-public:
-    FormationWindow();
-    ~FormationWindow();
-    void Update();
-    void Draw();
-
-    /*!
-    * \brief Activates the window
-    * \param new_value true to activate window, false to deactivate window
-    */
-    void Activate(bool new_status);
-
-    /*!
-    * \brief Checks to see if the skills window is active
-    * \return true if the window is active, false if it's not
-    */
-    bool IsActive() {
-        return _active_box;
-    }
-
-private:
-    //! Flag to specify the active option box
-    uint32 _active_box;
-
-    //! The character select option box
-    hoa_gui::OptionBox _char_select;
-
-    //! The character select option box once first character has been selected
-    hoa_gui::OptionBox _second_char_select;
-
-    /*!
-    * \brief initialize character selection option box
-    */
-    void _InitCharSelect();
-
-}; // class FormationWindow : public hoa_video::MenuWindow
 
 /*!
 * \brief Converts a vector of GlobalItem*, etc. to a vector of GlobalObjects*
