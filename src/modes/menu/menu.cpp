@@ -227,7 +227,7 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
         case MAIN_OPTIONS_SKILLS:
             return &(_menu_mode->_skills_state);
             break;
-        case MAIN_OPTIONS_STATUS:
+        case MAIN_OPTIONS_PARTY:
             return &(_menu_mode->_party_state);
             break;
         default:
@@ -253,7 +253,7 @@ void MainMenuState::_OnDraw()
         _menu_mode->_skills_window.Draw();
         break;
 
-    case MAIN_OPTIONS_STATUS:
+    case MAIN_OPTIONS_PARTY:
     default:
         _menu_mode->_party_window.Draw();
         break;

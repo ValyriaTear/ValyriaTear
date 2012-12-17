@@ -476,13 +476,6 @@ PartyWindow::PartyWindow() :
     _InitCharSelect();
 } // PartyWindow::PartyWindow()
 
-
-
-PartyWindow::~PartyWindow()
-{
-
-}
-
 // Activate/deactivate window
 void PartyWindow::Activate(bool new_value)
 {

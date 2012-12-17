@@ -267,7 +267,9 @@ private:
 public:
 
     PartyWindow();
-    ~PartyWindow();
+
+    ~PartyWindow()
+    {}
 
     /*!
     * \brief render this window to the screen

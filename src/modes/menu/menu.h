@@ -141,7 +141,7 @@ public:
     enum MAIN_CATEGORY {
         MAIN_OPTIONS_INVENTORY,
         MAIN_OPTIONS_SKILLS,
-        MAIN_OPTIONS_STATUS,
+        MAIN_OPTIONS_PARTY,
         MAIN_OPTIONS_SIZE
     };
 
