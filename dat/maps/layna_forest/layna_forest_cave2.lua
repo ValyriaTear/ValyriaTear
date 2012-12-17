@@ -640,7 +640,7 @@ function _CheckZones()
         EventManager:StartEvent("to forest SE");
     elseif (to_forest_crystal_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        --EventManager:StartEvent("to forest crystal");
+        EventManager:StartEvent("to forest crystal");
     elseif (to_1_1_zone:IsCameraEntering()) then
         hero:SetMoving(false);
         EventManager:StartEvent("to 1-1");
