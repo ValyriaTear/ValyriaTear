@@ -312,6 +312,8 @@ public:
 
     ustring &operator = (const ustring &s);
 
+    bool operator == (const ustring &s);
+
     uint16 &operator [](size_t pos) {
         return _str[pos];
     }

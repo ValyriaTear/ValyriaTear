@@ -257,6 +257,10 @@ void TextBox::SetDisplayText(const ustring &text)
         return;
     }
 
+    // If the text hasn't changed, don't recompute the textbox.
+    if (_text_save == text)
+        return;
+
     _text_save = text;
     _ReformatText();
 

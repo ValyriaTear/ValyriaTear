@@ -236,6 +236,20 @@ ustring &ustring::operator = (const ustring &s)
     return *this;
 } // ustring & ustring::operator = (const ustring &s)
 
+// Compare two substrings
+bool ustring::operator == (const ustring &s)
+{
+    size_t len = length();
+    if (s.length() != len)
+        return false;
+
+    for(size_t j = 0; j < len; ++j) {
+        if (_str[j] != s[j] )
+            return false;
+    }
+
+    return true;
+} // bool ustring::operator == (const ustring &s)
 
 // Finds a character within a string, starting at pos. If nothing is found, npos is returned
 size_t ustring::find(uint16 c, size_t pos) const
