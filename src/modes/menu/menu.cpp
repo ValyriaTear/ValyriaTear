@@ -56,6 +56,23 @@ static void SetupOptionBoxCommonSettings(OptionBox *ob)
     ob->SetCursorOffset(-52.0f, -20.0f);
 }
 
+AbstractMenuState::AbstractMenuState(const char* state_name, MenuMode* menu_mode):
+    _state_name(state_name),
+    _menu_mode(menu_mode),
+    _from_state(NULL)
+{
+    // Init the controls parameters.
+    _time_text.SetTextStyle(TextStyle("text22"));
+    _time_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _time_text.SetDimensions(200.0f, 30.0f);
+    _time_text.SetPosition(110.0f, 620.0f);
+
+    _drunes_text.SetTextStyle(TextStyle("text22"));
+    _drunes_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _drunes_text.SetDimensions(200.0f, 30.0f);
+    _drunes_text.SetPosition(110.0f, 650.0f);
+}
+
 void AbstractMenuState::Update()
 {
     // if the current state is set to active, to an active update instead and return
@@ -122,7 +139,19 @@ void AbstractMenuState::Update()
     // update the options for the currently active state
     _menu_mode->_current_menu_state->GetOptions()->Update();
 
+    std::ostringstream os_time;
+    uint8 hours = SystemManager->GetPlayHours();
+    uint8 minutes = SystemManager->GetPlayMinutes();
+    uint8 seconds = SystemManager->GetPlaySeconds();
+    os_time << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
+    os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
+    os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
+    // TODO: hoa_utils::ustring should be able to take const modifiers in its operators....
+    static hoa_utils::ustring time_ustr_base = UTranslate("Time: ");
+    static hoa_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
+    _time_text.SetDisplayText(time_ustr_base + MakeUnicodeString(os_time.str()));
+    _drunes_text.SetDisplayText(drunes_ustr_base + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 }
 
 void AbstractMenuState::Draw()
@@ -155,9 +184,6 @@ void AbstractMenuState::Draw()
 
 void AbstractMenuState::_DrawBottomMenu()
 {
-    //TODO: hoa_utils::ustring should be able to take const modifiers in its operators....
-    static hoa_utils::ustring time_ustr_base = UTranslate("Time: ");
-    static hoa_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -166,21 +192,10 @@ void AbstractMenuState::_DrawBottomMenu()
     _menu_mode->_locale_name.Draw();
 
     // Draw Played Time
-    VideoManager->MoveRelative(-40, 60);
-    std::ostringstream os_time;
-    uint8 hours = SystemManager->GetPlayHours();
-    uint8 minutes = SystemManager->GetPlayMinutes();
-    uint8 seconds = SystemManager->GetPlaySeconds();
-    os_time << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
-    os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
-    os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
-
-    hoa_utils::ustring time_ustr =  time_ustr_base + MakeUnicodeString(os_time.str());
-    VideoManager->Text()->Draw(time_ustr);
+    _time_text.Draw();
 
     // Display the current funds that the party has
-    VideoManager->MoveRelative(0, 30);
-    VideoManager->Text()->Draw( drunes_ustr_base + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
+    _drunes_text.Draw();
 
     if(!_menu_mode->_locale_graphic.GetFilename().empty()) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
@@ -196,7 +211,6 @@ void AbstractMenuState::_OnCancel()
     // as long as the calling state is valid and not equal to this, simply switch back to it
     if(_from_state && _from_state != this)
         _menu_mode->_current_menu_state = _from_state;
-
 }
 
 

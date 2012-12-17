@@ -69,12 +69,10 @@ public:
     //! \brief base constructor
     //! \param state_name The individual name of the state that we are currently in. Mostly for debugging
     //! \param menu_mode Pointer to the active menu mode that we associate this state with (currently only one)
-    AbstractMenuState(const char* state_name,MenuMode* menu_mode):
-        _state_name(state_name),
-        _menu_mode(menu_mode),
-        _from_state(NULL)
+    AbstractMenuState(const char* state_name, MenuMode* menu_mode);
+
+    virtual ~AbstractMenuState()
     {}
-    virtual ~AbstractMenuState(){}
 
     //! \brief used when the MenuMode is activated.
     //! \note While we provide a default "do nothing" Reset(), each child type should have its own Reset implementation
@@ -128,6 +126,9 @@ protected:
     // a pointer to the state we should return to on a "cancel" press.
     AbstractMenuState *_from_state;
 
+    // The default text (time and drunes) display on the bottom part.
+    hoa_gui::TextBox _time_text;
+    hoa_gui::TextBox _drunes_text;
 };
 
 /**
