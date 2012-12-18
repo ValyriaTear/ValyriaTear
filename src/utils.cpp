@@ -237,7 +237,7 @@ ustring &ustring::operator = (const ustring &s)
 } // ustring & ustring::operator = (const ustring &s)
 
 // Compare two substrings
-bool ustring::operator == (const ustring &s)
+bool ustring::operator == (const ustring &s) const
 {
     size_t len = length();
     if (s.length() != len)
