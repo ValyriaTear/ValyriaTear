@@ -65,6 +65,7 @@ void TextBox::ClearText()
     _finished = true;
     _text.clear();
     _num_chars = 0;
+    _text_save.clear();
 }
 
 
