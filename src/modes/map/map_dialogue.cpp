@@ -486,7 +486,7 @@ void DialogueSupervisor::_BeginLine()
     // Starts possible events at new line.
     MapMode *map_mode = MapMode::CurrentInstance();
     std::string line_event = _current_dialogue->GetLineBeginEvent(_line_counter);
-    if(!line_event.empty()) {
+    if(!line_event.empty() && !map_mode->GetEventSupervisor()->IsEventActive(line_event)) {
         map_mode->GetEventSupervisor()->StartEvent(line_event);
     }
 
