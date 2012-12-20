@@ -318,8 +318,8 @@ void EffectSupervisor::DrawEffects()
         VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
         float width = _ambient_overlay_img.GetWidth();
         float height = _ambient_overlay_img.GetHeight();
-        for(float x = _info.overlay.x_shift; x <= 1024.0f; x = x + width) {
-            for(float y = _info.overlay.y_shift; y <= 768.0f; y = y + height) {
+        for(float x = _info.overlay.x_shift; x <= VIDEO_STANDARD_RES_WIDTH; x = x + width) {
+            for(float y = _info.overlay.y_shift; y <= VIDEO_STANDARD_RES_HEIGHT; y = y + height) {
                 VideoManager->Move(x, y);
                 _ambient_overlay_img.Draw();
             }
@@ -331,7 +331,8 @@ void EffectSupervisor::DrawEffects()
     if(_info.light.active) {
         VideoManager->PushState();
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
+        // We use a margin to avoid making the shake effects show unlit parts
+        VideoManager->SetCoordSys(0.1f, 0.9f, 0.1f, 0.9f);
         VideoManager->Move(0.0f, 0.0f);
         _light_overlay_img.Draw();
         VideoManager->PopState();
