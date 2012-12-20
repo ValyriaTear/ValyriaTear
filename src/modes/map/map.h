@@ -259,6 +259,14 @@ public:
                           img.GetHeight() / (private_map::GRID_LENGTH / 2));
     }
 
+    //! \brief Returns in standard screen coordinates (1024x768),
+    //! the x position of a tile position on the X axis.
+    float GetScreenXCoordinate(float tile_position_x) const;
+
+    //! \brief Returns in standard screen coordinates (1024x768),
+    //! the x position of a tile position on the Y axis.
+    float GetScreenYCoordinate(float tile_position_y) const;
+
     //@}
 
 private:

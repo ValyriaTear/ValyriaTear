@@ -480,6 +480,18 @@ bool MapMode::AttackAllowed()
     return (CurrentState() != STATE_DIALOGUE && CurrentState() != STATE_TREASURE && !IsCameraOnVirtualFocus());
 }
 
+float MapMode::GetScreenXCoordinate(float tile_position_x) const
+{
+    return (tile_position_x - _map_frame.screen_edges.left)
+        * VIDEO_STANDARD_RES_WIDTH / SCREEN_GRID_X_LENGTH;
+}
+
+float MapMode::GetScreenYCoordinate(float tile_position_y) const
+{
+    return (tile_position_y - _map_frame.screen_edges.top)
+        * VIDEO_STANDARD_RES_HEIGHT / SCREEN_GRID_Y_LENGTH;
+}
+
 // ****************************************************************************
 // ********** MapMode Private Class Methods
 // ****************************************************************************

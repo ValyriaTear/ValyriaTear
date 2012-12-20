@@ -109,6 +109,8 @@ void BindModeCode()
             .def("PushState", &MapMode::PushState)
             .def("PopState", &MapMode::PopState)
             .def("CurrentState", &MapMode::CurrentState)
+            .def("GetScreenXCoordinate", &MapMode::GetScreenXCoordinate)
+            .def("GetScreenYCoordinate", &MapMode::GetScreenYCoordinate)
             .def("DrawMapLayers", &MapMode::_DrawMapLayers)
 
             // Namespace constants
