@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.12.07
+Last update: 2012.12.19
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -27,6 +27,9 @@ art/map_locations_borders.xcf                                   GPLv2           
 art/white wolf.xcf                                              CC by SA 3.0, GPLv2      Bertram, based on two sources: http://opengameart.org/content/the-wolf, and: http://opengameart.org/content/gray-wolf from Buch (OGA)
 art/fenrir_patrick_thompson_ccbysa30.xcf                        CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
 art/item_template.png                                           CC by SA 3.0             Bertram
+art/lightning1.xcf                                              CC by SA 3.0             Bertram
+art/lightning2.xcf                                              CC by SA 3.0             Bertram
+art/lightning3.xcf                                              CC by SA 3.0             Bertram
 
 dat/global.lua                                                  GPLv2 or later           Bertram (Completely redone it.)
 
@@ -54,6 +57,7 @@ dat/effects/emotes.lua                                          GPLv2 or later  
 dat/effects/particles/rain.lua                                  GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/snow.lua                                  GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/blue_firework.lua                         GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/crystal_appearance.lua                    GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/defensive_stance.lua                      GPLv2 or later           Bertram
 dat/effects/particles/explosion.lua                             GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/fire.lua                                  GPLv2 or later           roos + Bertram modifications
@@ -62,7 +66,15 @@ dat/effects/particles/heal_particle.lua                         GPLv2 or later  
 dat/effects/particles/wave_spell.lua                            GPLv2 or later           Bertram
 
 dat/maps/*.lua                                                  GPLv2 or later           Bertram
+
 dat/maps/layna_forest/wolfpain_necklace.png                     CC by SA 3.0             Bertram - adapted from Scrittl's work (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
+
+dat/maps/layna_forest/crystal_appearance/blue_lightning1.png    CC by SA 3.0             Bertram
+dat/maps/layna_forest/crystal_appearance/blue_lightning2.png    CC by SA 3.0             Bertram
+dat/maps/layna_forest/crystal_appearance/blue_lightning3.png    CC by SA 3.0             Bertram
+dat/maps/layna_forest/crystal_appearance/crystal_shadow.png     CC by SA 3.0             Len + Bertram modifications
+dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua        GPLv2 Bertram
+dat/maps/layna_forest/crystal_appearance/vortex.png             CC by SA 3.0             Bertram
 
 dat/objects/arm_armor.lua                                       GPLv2 or later           Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2 or later           Allacrost + Bertram
