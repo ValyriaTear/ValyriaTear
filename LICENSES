@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.12.19
+Last update: 2012.12.21
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -309,6 +309,7 @@ img/sprites/battle/enemies/fenrir_final.png                     CC by SA 3.0    
 
 img/sprites/map/characters/bronann_frightened.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_herostance.png               GPLv2                    Allacrost
+img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
 img/sprites/map/characters/bronann_idle_guard_south.png         GPLv2                    Allacrost
 img/sprites/map/characters/bronann_idle_guard_west.png          GPLv2                    Allacrost
 img/sprites/map/characters/bronann_run.png                      GPLv2                    Allacrost
@@ -333,6 +334,9 @@ img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2           
 img/sprites/map/enemies/fenrir_idle.lua                         GPLv2                    Bertram
 img/sprites/map/enemies/fenrir_walk.lua                         GPLv2                    Bertram
 
+img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
+img/sprites/map/npcs/crystal_idle.lua                           GPLv2                    Bertram
+img/sprites/map/npcs/crystal_spritesheet.png                    CC by SA 3.0             Len + Modifications by Bertram
 img/sprites/map/npcs/mak_hound.png                              GPLv2                    Allacrost
 img/sprites/map/npcs/mak_hound_mounted.png                      GPLv2                    Allacrost
 img/sprites/map/npcs/mak_hound_saddle.png                       GPLv2                    Allacrost

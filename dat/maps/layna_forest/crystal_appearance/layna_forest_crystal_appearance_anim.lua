@@ -15,6 +15,7 @@ local lightning1_id = 0;
 local lightning2_id = 0;
 local lightning3_id = 0;
 local vortex_id = 0;
+local vortex_effect = {};
 
 local display_time = 0;
 
@@ -30,6 +31,15 @@ local lightning8_triggered = false;
 local lightning9_triggered = false;
 
 local tremor_triggered = false;
+local crystal_music_triggered = false;
+
+-- The position of the crystal object, all the effects are drawn around it.
+local crystal_position_x = 41.0;
+local crystal_position_y = 44.0;
+
+-- The actual screen position of the effects
+local pos_x = 0.0;
+local pos_y = 0.0;
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -44,6 +54,16 @@ function Initialize(map_instance)
     lightning3_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/blue_lightning3.png", 171.0, 400.0);
 
     vortex_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/vortex.png", 386.0, 207.0);
+
+    -- Load the spring heal effect.
+    vortex_effect = hoa_map.ParticleObject("dat/effects/particles/crystal_appearance.lua",
+                                            crystal_position_x, crystal_position_y, hoa_map.MapMode.CONTEXT_01);
+	vortex_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    vortex_effect:Stop(); -- Don't run it until the whole animation starts
+    Map:AddSkyObject(vortex_effect);
+
+    -- Preload the crystal music
+    AudioManager:LoadMusic("mus/Soliloquy_1-OGA-mat-pablo.ogg", Map);
 
     display_time = 0;
 end
@@ -65,25 +85,32 @@ function Update()
     lightning_time = lightning_time + time_expired;
 
     -- Start the timer
-    if (display_time > 15000) then
+    if (display_time > 17000) then
         display_time = 0;
         -- Disable the event at the end of it
         GlobalManager:SetEventValue("story", "layna_forest_crystal_appearance", 0);
+        return;
     end
 
     if (tremor_triggered == false and display_time >= 2000) then
         -- Trigger a tremor
-        VideoManager:ShakeScreen(0.6, 13000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        VideoManager:ShakeScreen(10.0, 13000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
         AudioManager:PlaySound("snd/rumble.wav");
 
-        -- Fade out the "music"
-        AudioManager:FadeOutAllMusic(2000);
-
         -- trigger also the particle effect
-        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/crystal_appearance.lua", 512.0, 282.0);
+        vortex_effect:Start();
 
         tremor_triggered = true;
     end
+    if (crystal_music_triggered == false and display_time >= 5000) then
+        AudioManager:PlayMusic("mus/Soliloquy_1-OGA-mat-pablo.ogg");
+
+        crystal_music_triggered = true;
+    end
+
+    -- Update the effects position
+    pos_x = Map:GetScreenXCoordinate(crystal_position_x);
+    pos_y = Map:GetScreenYCoordinate(crystal_position_y);
 
 end
 
@@ -91,7 +118,7 @@ end
 function _DrawLightnings()
     -- trigger the lightnings
     if (lightning_time >= 2000 and lightning_time <= 2300) then
-        Script:DrawImage(lightning1_id, 470, 282.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning1_id, pos_x - 42.0, pos_y - 2.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning1_triggered == false) then
             lightning1_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
@@ -99,7 +126,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 3000 and lightning_time <= 3300) then
-        Script:DrawImage(lightning2_id, 550, 282.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning2_id, pos_x + 38.0, pos_y - 2.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning2_triggered == false) then
             lightning2_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
@@ -107,7 +134,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 3500 and lightning_time <= 3800) then
-        Script:DrawImage(lightning3_id, 500, 280.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning3_id, pos_x - 12.0, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning3_triggered == false) then
             lightning3_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
@@ -115,7 +142,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 4000 and lightning_time <= 4300) then
-        Script:DrawImage(lightning2_id, 490, 278.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning2_id, pos_x - 22.0, pos_y - 6.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning4_triggered == false) then
             lightning4_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
@@ -123,7 +150,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 4200 and lightning_time <= 4500) then
-        Script:DrawImage(lightning1_id, 570, 284.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning1_id, pos_x + 58.0, pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning5_triggered == false) then
             lightning5_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
@@ -131,7 +158,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 4400 and lightning_time <= 4700) then
-        Script:DrawImage(lightning3_id, 400, 280.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning3_id, pos_x - 112.0, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning6_triggered == false) then
             lightning6_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
@@ -139,7 +166,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 4800 and lightning_time <= 5200) then
-        Script:DrawImage(lightning2_id, 520, 278.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning2_id, pos_x + 8.0, pos_y - 6.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning7_triggered == false) then
             lightning7_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
@@ -147,7 +174,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 5000 and lightning_time <= 5300) then
-        Script:DrawImage(lightning1_id, 480, 280.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning1_id, pos_x - 32.0, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning8_triggered == false) then
             lightning8_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
@@ -155,7 +182,7 @@ function _DrawLightnings()
     end
 
     if (lightning_time >= 5200 and lightning_time <= 5400) then
-        Script:DrawImage(lightning2_id, 530, 284.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning2_id, pos_x + 18.0, pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning9_triggered == false) then
             lightning9_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
@@ -207,18 +234,18 @@ function DrawPostEffects()
     if (display_time >= 4000 and display_time <= 5000) then
 		vortex_alpha = 0.2 * (display_time - 4000) / (5000 - 4000);
         crystal_alpha = (display_time - 4000) / (5000 - 4000);
-        Script:DrawImage(vortex_id, 532, 384.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
-        Script:DrawImage(crystal_shadow_id, 512, 280.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
+        Script:DrawImage(vortex_id, pos_x + 20.0, pos_y + 100.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
+        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
     elseif (display_time > 5000 and display_time <= 6500) then
         vortex_alpha = 0.2;
         crystal_alpha = 1.0;
-        Script:DrawImage(vortex_id, 532, 384.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
-        Script:DrawImage(crystal_shadow_id, 512, 280.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
+        Script:DrawImage(vortex_id, pos_x + 20.0, pos_y + 100.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
+        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
     elseif (display_time > 6500 and display_time <= 10600) then
         vortex_alpha = 0.2 - 0.2 * (display_time - 6500) / (10600 - 6500);
         crystal_alpha = 1.0 - (display_time - 6500) / (10600 - 6500);
-        Script:DrawImage(vortex_id, 532, 384.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
-        Script:DrawImage(crystal_shadow_id, 512, 280.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
+        Script:DrawImage(vortex_id, pos_x + 20.0, pos_y + 100.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
+        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
     elseif (vortex_alpha > 0.0 and display_time > 10600) then
         vortex_alpha = 0.0;
         crystal_alpha = 0.0;
@@ -233,10 +260,10 @@ function DrawPostEffects()
     elseif (display_time > 8500 and display_time <= 11000) then
         flash_alpha = 1.0;
         Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, flash_alpha));
-    elseif (display_time > 11000 and display_time <= 15000) then
-        flash_alpha = 1.0 - (display_time - 11000) / (15000 - 11000);
+    elseif (display_time > 11000 and display_time <= 17000) then
+        flash_alpha = 1.0 - (display_time - 11000) / (17000 - 11000);
         Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, flash_alpha));
-    elseif (flash_alpha > -1.0 and display_time > 15000) then
+    elseif (flash_alpha > -1.0 and display_time > 17000) then
         flash_alpha = -1.0;
         Map:GetEffectSupervisor():DisableLightingOverlay();
         Map:GetParticleManager():StopAll(false);

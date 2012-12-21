@@ -1,0 +1,68 @@
+------------------------------------------------------------------------------[[
+-- Filename: to_be_continued_anim.lua
+--
+-- Description: Display the "To be continued..." text in front of a black background
+------------------------------------------------------------------------------]]
+
+local ns = {}
+setmetatable(ns, {__index = _G})
+to_be_continued_anim = ns;
+setfenv(1, ns);
+
+local dark_overlay_id = -1;
+
+local to_be_continued_text = {};
+
+function Initialize(map_instance)
+    Map = map_instance;
+
+    Script = Map:GetScriptSupervisor();
+    Effects = Map:GetEffectSupervisor();
+
+    dark_overlay_id = Script:AddImage("img/ambient/dark.png", 1024.0, 768.0);
+
+    display_time = 0;
+
+    to_be_continued_text = hoa_system.Translate("To be continued...");
+end
+
+function Update()
+    -- Only show the image if requested by the events
+    if (GlobalManager:DoesEventExist("game", "to_be_continued") == false) then
+        return;
+    end
+
+    if (GlobalManager:GetEventValue("game", "to_be_continued") == 0) then
+        return;
+    end
+
+    local time_expired = SystemManager:GetUpdateTime();
+
+    -- Handle the timer
+    display_time = display_time + time_expired;
+
+
+end
+
+function DrawPostEffects()
+    -- Only show the image if requested by the events
+    if (GlobalManager:DoesEventExist("game", "to_be_continued") == false) then
+        return;
+    end
+
+    if (GlobalManager:GetEventValue("game", "to_be_continued") == 0) then
+        return;
+    end
+
+    -- Apply a dark overlay first.
+    local overlay_alpha = 1.0;
+    if (display_time >= 0 and display_time <= 2500) then
+        overlay_alpha = 1.0 * (display_time / 2500);
+    end
+    Script:DrawImage(dark_overlay_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+    Script:DrawImage(dark_overlay_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+    Script:DrawImage(dark_overlay_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+
+    VideoManager:DrawText(to_be_continued_text, 412.0, 348.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+
+end

@@ -27,6 +27,7 @@ sprites["Bronann"] = {
         hero_stance = "img/sprites/map/characters/bronann_hero_stance_unarmed.lua",
         searching = "img/sprites/map/characters/bronann_searching_unarmed.lua",
         frightened = "img/sprites/map/characters/bronann_frightened_unarmed.lua",
+        hurt = "img/sprites/map/characters/bronann_hurt_unarmed.lua"
     }
 }
 
@@ -218,6 +219,23 @@ sprites["Man1"] = {
     standard_animations = {
         idle = "img/sprites/map/npcs/npc_man01_idle.lua",
         walk = "img/sprites/map/npcs/npc_man01_walk.lua"
+    }
+}
+
+-- Used as a NPC to get portrait support
+sprites["Crystal"] = {
+    name = hoa_system.Translate("Crystal"), -- default name
+    coll_half_width = 0.95,
+    coll_height = 1.9,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
+    face_portrait = "img/backdrops/boot/crystal.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/crystal_idle.lua",
+        walk = "img/sprites/map/npcs/crystal_idle.lua"
     }
 }
 
