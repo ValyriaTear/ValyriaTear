@@ -84,7 +84,7 @@ BootMode::BootMode() :
     _version_text.SetStyle(TextStyle("text20"));
     std::string date_string = " - ";
     date_string.append(__DATE__);
-    _version_text.SetText(UTranslate("Development Release") + MakeUnicodeString(date_string));
+    _version_text.SetText(UTranslate("Half-Episode I Release Candidate 1") + MakeUnicodeString(date_string));
 
     // Test the existence and validity of the boot script.
     ReadScriptDescriptor boot_script;
