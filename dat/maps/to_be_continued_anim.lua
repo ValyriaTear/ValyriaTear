@@ -19,7 +19,7 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
 
-    dark_overlay_id = Script:AddImage("img/ambient/dark.png", 1024.0, 768.0);
+    dark_overlay_id = Script:AddImage("img/ambient/black.png", 1024.0, 768.0);
 
     display_time = 0;
 
@@ -57,12 +57,10 @@ function DrawPostEffects()
     -- Apply a dark overlay first.
     local overlay_alpha = 1.0;
     if (display_time >= 0 and display_time <= 2500) then
-        overlay_alpha = 1.0 * (display_time / 2500);
+        overlay_alpha = display_time / 2500;
     end
     Script:DrawImage(dark_overlay_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
-    Script:DrawImage(dark_overlay_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
-    Script:DrawImage(dark_overlay_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
 
-    VideoManager:DrawText(to_be_continued_text, 412.0, 348.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+    VideoManager:DrawText(to_be_continued_text, 612.0, 448.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
 
 end
