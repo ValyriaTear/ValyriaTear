@@ -334,34 +334,112 @@ void InventoryWindow::Update()
         // Use the item on the chosen character
         if(event == VIDEO_OPTION_CONFIRM) {
             GlobalObject *obj = _item_objects[ _inventory_items.GetSelection() ];
-            if(obj->GetObjectType() == GLOBAL_OBJECT_ITEM) {
-                // Returns an item object, already removed from inventory.
-                // Don't forget to readd the item if not used, or to delete the pointer.
-                GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(obj->GetID());
-                const ScriptObject &script_function = item->GetFieldUseFunction();
-                if(!script_function.is_valid()) {
-                    IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
-                } else {
-                    if(IsTargetParty(item->GetTargetType()) == true) {
-                        GlobalParty *ch_party = GlobalManager->GetActiveParty();
 
-                        // If the item use failed, we readd it to inventory.
-                        if(!ScriptCallFunction<bool>(script_function, ch_party))
-                            GlobalManager->AddToInventory(item);
-                        else // delete the item instance when succeeded.
-                            delete item;
-                    } // if GLOBAL_TARGET_PARTY
-                    else { // Use on a single character only
-                        GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+            //values used for equipment selection
+            bool is_equipable = false;
+            GlobalArmor *selected_armor = NULL;
+            GlobalWeapon *selected_weapon = NULL;
+            GLOBAL_OBJECT obj_type = obj->GetObjectType();
+            GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+            switch(obj_type)
+            {
+                case GLOBAL_OBJECT_ITEM:
+                {
+                    // Returns an item object, already removed from inventory.
+                    // Don't forget to readd the item if not used, or to delete the pointer.
+                    GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(obj->GetID());
+                    const ScriptObject &script_function = item->GetFieldUseFunction();
+                    if(!script_function.is_valid()) {
+                        IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
+                    } else {
+                        if(IsTargetParty(item->GetTargetType()) == true) {
+                            GlobalParty *ch_party = GlobalManager->GetActiveParty();
 
-                        // If the item use failed, we readd it to inventory.
-                        if(!ScriptCallFunction<bool>(script_function, ch))
-                            GlobalManager->AddToInventory(item);
-                        else // delete the item instance when succeeded.
-                            delete item;
+                            // If the item use failed, we readd it to inventory.
+                            if(!ScriptCallFunction<bool>(script_function, ch_party))
+                                GlobalManager->AddToInventory(item);
+                            else // delete the item instance when succeeded.
+                                delete item;
+                        } // if GLOBAL_TARGET_PARTY
+                        else { // Use on a single character only
+
+
+                            // If the item use failed, we readd it to inventory.
+                            if(!ScriptCallFunction<bool>(script_function, ch))
+                                GlobalManager->AddToInventory(item);
+                            else // delete the item instance when succeeded.
+                                delete item;
+                        }
                     }
+                    break;
+                } // if GLOBAL_OBJECT_ITEM
+                case GLOBAL_OBJECT_WEAPON:
+                {
+                    //get the item from the inventory list. this also removes the item from the list
+                    selected_weapon = dynamic_cast<GlobalWeapon *>(GlobalManager->RetrieveFromInventory(obj->GetID()));
+                    uint32 usability_bitmask = selected_weapon->GetUsableBy();
+                    is_equipable = usability_bitmask & ch->GetID();
+                    break;
                 }
-            } // if GLOBAL_OBJECT_ITEM
+                case GLOBAL_OBJECT_HEAD_ARMOR:
+                case GLOBAL_OBJECT_TORSO_ARMOR:
+                case GLOBAL_OBJECT_ARM_ARMOR:
+                case GLOBAL_OBJECT_LEG_ARMOR:
+                {
+                    //get the item from the inventory list. this also removes the item from the list
+                    selected_armor = dynamic_cast<GlobalArmor *>(GlobalManager->RetrieveFromInventory(obj->GetID()));
+                    uint32 usability_bitmask = selected_armor->GetUsableBy();
+                    is_equipable = usability_bitmask & ch->GetID();
+                    break;
+                }
+
+                default:
+                    break;
+            }
+            //if we can equip this and it is armor
+            if(is_equipable && selected_armor)
+            {
+                //do swap of armor based on object type (aka armor type)
+                switch(obj_type)
+                {
+                    case GLOBAL_OBJECT_HEAD_ARMOR:
+                        selected_armor = ch->EquipHeadArmor(selected_armor);
+                        break;
+                    case GLOBAL_OBJECT_TORSO_ARMOR:
+                        selected_armor = ch->EquipTorsoArmor(selected_armor);
+                        break;
+                    case GLOBAL_OBJECT_ARM_ARMOR:
+                        selected_armor = ch->EquipArmArmor(selected_armor);
+                        break;
+                    case GLOBAL_OBJECT_LEG_ARMOR:
+                        selected_armor = ch->EquipLegArmor(selected_armor);
+                    default:
+                        break;
+                }
+                //add the old armor back to the inventory
+                GlobalManager->AddToInventory(selected_armor);
+
+            }
+            //if we can equuip and it is a weapon
+            else if(is_equipable && selected_weapon)
+            {
+                //get the old weapon by swapping the selected_weapon for the current one
+                selected_weapon = ch->EquipWeapon(selected_weapon);
+                //add the old weapon back into the inventory
+                GlobalManager->AddToInventory(selected_weapon);
+
+            }
+            //if we cannot equip
+            else
+            {
+                //return the weapon to inventory
+                if(selected_weapon)
+                    GlobalManager->AddToInventory(selected_weapon);
+                if(selected_armor)
+                    GlobalManager->AddToInventory(selected_armor);
+                MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
+            }
+
         } // if VIDEO_OPTION_CONFIRM
         // Return to item selection
         else if(event == VIDEO_OPTION_CANCEL) {
