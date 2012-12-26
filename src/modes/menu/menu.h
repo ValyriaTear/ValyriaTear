@@ -116,6 +116,8 @@ protected:
     virtual bool _IsActive() { return false;}
     //! \brief instance-specific drawing code goes in here. the default is to simply do nothing
     virtual void _OnDraw(){}
+    //! \brief handles drawing the generalized equipment information
+    void _DrawEquipmentInfo(hoa_global::GlobalCharacter* character);
 
     // Options associated with this state
     hoa_gui::OptionBox _options;
@@ -180,6 +182,7 @@ public:
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
 protected:
+    void _DrawItemDescription(hoa_global::GlobalObject &obj,hoa_video::StillImage& item_image,hoa_gui::TextBox& description);
     void _DrawBottomMenu();
     void _OnDraw();
     void _ActiveWindowUpdate();
@@ -255,6 +258,8 @@ public:
     ~EquipState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
+    //handles drawing the bottom window info for equipment
+    static void DrawEquipmentInfo(hoa_utils::ustring& equipment_name,bool is_weapon = false, uint32 physical_attribute=0, uint32 magical_attribute=0, uint32 current_phys_attribute=0,uint32 current_mag_attribute=0);
 protected:
     void _DrawBottomMenu();
     void _OnDraw();
