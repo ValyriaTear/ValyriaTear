@@ -69,15 +69,15 @@ int main()
 	register_any_converter<const char*>();
 	register_any_converter<std::string>();
 
-	lua_State* L = lua_open();
-#if LUA_VERSION_NUM >= 501 
+	lua_State* L = luaL_newstate();
+#if LUA_VERSION_NUM >= 501
 	luaL_openlibs(L);
 #else
 	lua_baselibopen(L);
 #endif
 
 	using namespace luabind;
-	
+
 	open(L);
 	module(L)
 	[
