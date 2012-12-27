@@ -858,7 +858,7 @@ function _CreateEvents()
 	dialogue:AddLineEmote(text, hero, "sweat drop");
 	text = hoa_system.Translate("He just ran away. I'm almost sure we'll meet it again. We'd better be well prepared, then.");
 	dialogue:AddLineEmote(text, hero, "thinking dots");
-	text = hoa_system.Translate("I''ll try not to think about what it could have done to Orlinn ... Let's find him quickly.");
+	text = hoa_system.Translate("I'll try not to think about what it could have done to Orlinn ... Let's find him quickly.");
 	dialogue:AddLine(text, hero);
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("boss fight post-dialogue", dialogue);
