@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.12.21
+Last update: 2012.12.27
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -68,6 +68,7 @@ dat/effects/particles/wave_spell.lua                            GPLv2 or later  
 dat/maps/*.lua                                                  GPLv2 or later           Bertram
 
 dat/maps/layna_forest/wolfpain_necklace.png                     CC by SA 3.0             Bertram - adapted from Scrittl's work (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
+dat/maps/layna_forest/stone_sign.png                            CC by SA 3.0             Lilou (Valyria Tear)
 
 dat/maps/layna_forest/crystal_appearance/blue_lightning1.png    CC by SA 3.0             Bertram
 dat/maps/layna_forest/crystal_appearance/blue_lightning2.png    CC by SA 3.0             Bertram

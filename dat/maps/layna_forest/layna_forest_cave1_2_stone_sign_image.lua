@@ -17,8 +17,7 @@ function Initialize(map_instance)
     Map = map_instance;
 
     Script = Map:GetScriptSupervisor();
-    -- FIXME: Replace the image by the actual one.
-    stone_sign_id = Script:AddImage("dat/maps/layna_forest/stone_sign_dummy.png", 256.0, 256.0);
+    stone_sign_id = Script:AddImage("dat/maps/layna_forest/stone_sign.png", 512.0, 256.0);
 end
 
 function Update()
