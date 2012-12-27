@@ -210,6 +210,9 @@ private:
     //! Vector of GlobalObjects that corresponds to _inventory_items
     std::vector< hoa_global::GlobalObject * > _item_objects;
 
+    //! holds previous category. we were looking at
+    ITEM_CATEGORY _previous_category;
+
     /*!
     * \brief Updates the item text in the inventory items
     */
@@ -231,6 +234,7 @@ private:
     void _InitCategory();
 
     template <class T> std::vector<hoa_global::GlobalObject *> _GetItemVector(std::vector<T *>* inv);
+
 }; // class InventoryWindow : public hoa_video::MenuWindow
 
 
