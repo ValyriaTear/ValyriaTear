@@ -370,6 +370,17 @@ public:
     **/
     bool IsInitialized(std::string &error_messages);
 
+    /**
+    *** \brief resets the viewing selection to the top-most option.
+    *** this essentially forces the draw top and draw left to be set to zero
+    *** \note This call must be called INDEPENDENTLY of ClearOptions() or SetOptions(), etc.
+    *** because every frame, it is possible that we "reset" the actual options via a ClearOptions() / SetOptions() call,
+    *** but we don't want to reset the VIEWABLE option number. for example, scrolling options boxes must keep
+    *** the top-most / left-most row / column across frames since the # of options (probably) hasn't change
+    *** but you would probably want to reset to the top most option if the options in their entirety changed
+    **/
+    void ResetViewableOption();
+
     /** \name Input Processing Methods
     *** \brief Processes the input commands for moving the cursor, selecting options, etcetra
     **/

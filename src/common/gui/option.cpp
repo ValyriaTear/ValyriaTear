@@ -346,7 +346,11 @@ void OptionBox::ClearOptions()
     _options.clear();
 }
 
-
+void OptionBox::ResetViewableOption()
+{
+    _draw_top_row = 0;
+    _draw_left_column = 0;
+}
 
 void OptionBox::AddOption()
 {
