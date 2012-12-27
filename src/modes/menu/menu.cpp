@@ -261,6 +261,7 @@ void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *characte
     VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetMetaphysicalDefense() : 0)));
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
+
 void AbstractMenuState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
@@ -426,7 +427,10 @@ void InventoryState::_OnDraw()
     }
 
 }
-void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,hoa_video::StillImage &item_image,hoa_gui::TextBox &description)
+
+void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,
+                                          hoa_video::StillImage &item_image,
+                                          hoa_gui::TextBox &description)
 {
     int32 key_pos_x = 100 + obj.GetIconImage().GetWidth() - item_image.GetWidth() - 3;
     int32 key_pos_y = 600 + obj.GetIconImage().GetHeight() - item_image.GetHeight() - 3;
@@ -435,6 +439,7 @@ void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,hoa_vide
     VideoManager->Move(185, 600);
     description.Draw();
 }
+
 void InventoryState::_DrawBottomMenu()
 {
 
@@ -477,7 +482,8 @@ void InventoryState::_DrawBottomMenu()
     else if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_CHAR)
     {
         //character is selected, check the obj_type for equipable items
-        GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_menu_mode->_inventory_window._char_select.GetSelection()));
+        uint32 actor_index = _menu_mode->_inventory_window._char_select.GetSelection();
+        GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(actor_index));
 
         bool is_equipable_armor = false;
         bool is_equipable_weapon = false;
@@ -546,7 +552,10 @@ void InventoryState::_DrawBottomMenu()
                 current_mag_attribute = current_armor->GetMetaphysicalDefense();
             }
             //draw the equipment info as armor
-            EquipState::DrawEquipmentInfo(equipment_name,false,physical_attribute,magical_attribute,current_phys_attribute,current_mag_attribute);
+            EquipState::DrawEquipmentInfo(equipment_name,
+                                          false,
+                                          physical_attribute, magical_attribute,
+                                          current_phys_attribute, current_mag_attribute);
         }
         else if(is_equipable_weapon && selected_weapon)
         {
@@ -563,13 +572,16 @@ void InventoryState::_DrawBottomMenu()
                 current_mag_attribute = current_weapon->GetMetaphysicalAttack();
             }
             //draw the equipment info as a weapon
-            EquipState::DrawEquipmentInfo(equipment_name,true,physical_attribute,magical_attribute,current_phys_attribute,current_mag_attribute);
+            EquipState::DrawEquipmentInfo(equipment_name, true,
+                                          physical_attribute, magical_attribute,
+                                          current_phys_attribute, current_mag_attribute);
 
         }
         else
         {
             //otherwise print a message
-            const static ustring cannot_equip = MakeUnicodeString("This character cannot equip this item");    //If more flexibility is needed down the road, load this from script
+            // NOTE: If more flexibility is needed down the road, load this from script
+            const static ustring cannot_equip = MakeUnicodeString("This character cannot equip this item");
             VideoManager->Move(185, 600);
             VideoManager->Text()->Draw(cannot_equip);
         }
@@ -582,7 +594,8 @@ void PartyState::_ActiveWindowUpdate()
     _menu_mode->_party_window.Update();
 }
 
-bool PartyState::_IsActive(){
+bool PartyState::_IsActive()
+{
     return _menu_mode->_party_window.IsActive();
 }
 
@@ -688,6 +701,7 @@ void EquipState::_ActiveWindowUpdate()
 {
     _menu_mode->_equip_window.Update();
 }
+
 bool EquipState::_IsActive()
 {
     return _menu_mode->_equip_window.IsActive();
@@ -707,6 +721,7 @@ void EquipState::Reset()
     _options.SetOptions(options);
     _options.SetSelection(EQUIP_OPTIONS_BACK);
 }
+
 AbstractMenuState* EquipState::GetTransitionState(uint32 selection)
 {
     switch(selection)
@@ -740,6 +755,7 @@ void EquipState::_OnDraw()
     _DrawBottomMenu();
     _menu_mode->_equip_window.Draw();
 }
+
 void EquipState::DrawEquipmentInfo(const ustring &equipment_name,
                                    bool is_weapon, uint32 physical_attribute,
                                    uint32 magical_attribute, uint32 current_phys_attribute,
@@ -803,6 +819,7 @@ void EquipState::DrawEquipmentInfo(const ustring &equipment_name,
 
     VideoManager->MoveRelative(0, 20);
 }
+
 void EquipState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
@@ -909,7 +926,7 @@ void EquipState::_DrawBottomMenu()
     } // if EQUIP_ACTIVE_LIST
 }
 
-}
+} // namespace private_menu
 
 bool MENU_DEBUG = false;
 
@@ -1109,7 +1126,6 @@ void MenuMode::Update()
 
     _current_menu_state->Update();
 
-
 } // void MenuMode::Update()
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1117,7 +1133,6 @@ void MenuMode::Update()
 ////////////////////////////////////////////////////////////////////////////////
 void MenuMode::Draw()
 {
-
     _current_menu_state->Draw();
     _character_window0.Draw();
     _character_window1.Draw();
@@ -1168,10 +1183,4 @@ void MenuMode::ReloadCharacterWindows()
     _character_window3.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 334));
 }
 
-
-
-void MenuMode::_DrawItemListHeader()
-{ }
-
 } // namespace hoa_menu
-
