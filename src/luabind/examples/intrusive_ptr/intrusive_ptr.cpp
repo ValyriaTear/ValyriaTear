@@ -107,11 +107,11 @@ namespace luabind
 struct A
 {
 	A()
-	: cnt(0) 
+	: cnt(0)
 	{}
 
 	~A() { std::cout << "free memory\n"; }
-	
+
 	int cnt;
 };
 
@@ -140,11 +140,11 @@ boost::intrusive_ptr<A> factory()
 
 int main()
 {
-	lua_State* L = lua_open();
+	lua_State* L = luaL_newstate();
 	lua_baselibopen(L);
 
 	luabind::open(L);
-	
+
 	using namespace luabind;
 
 	module(L)

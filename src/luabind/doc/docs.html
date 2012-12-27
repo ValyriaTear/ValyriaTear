@@ -40,7 +40,7 @@ dt { /* used in FAQ */
 
 dl {
   margin-left: 0.5em ;
-  margin-right: 10em 
+  margin-right: 10em
 }
 
 h3 {
@@ -299,7 +299,7 @@ a:visited
 }
 
 h3 {
-  text-transform: uppercase 
+  text-transform: uppercase
 }
 
 </style>
@@ -2020,7 +2020,7 @@ int main()
 {
     try
     {
-        lua_state L = lua_open();
+        lua_state L = luaL_newstate();
         /* ... */
     }
     catch(luabind::error&amp; e)

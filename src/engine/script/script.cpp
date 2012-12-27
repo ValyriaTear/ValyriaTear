@@ -43,7 +43,7 @@ ScriptEngine::ScriptEngine()
     IF_PRINT_DEBUG(SCRIPT_DEBUG) << "ScriptEngine constructor invoked." << std::endl;
 
     // Initialize Lua and LuaBind
-    _global_state = lua_open();
+    _global_state = luaL_newstate();
     luaL_openlibs(_global_state);
     luabind::open(_global_state);
 }

@@ -1,4 +1,4 @@
-#include <boost/cregex.hpp> 
+#include <boost/cregex.hpp>
 
 extern "C"
 {
@@ -44,15 +44,15 @@ void wrap_regex(lua_State* L)
 
 int main()
 {
-	lua_State* L = lua_open();
+	lua_State* L = luaL_newstate();
 	lua_baselibopen(L);
 	lua_strlibopen(L);
 	luabind::open(L);
-	
+
 	wrap_regex(L);
-	
+
 	lua_dofile(L, "regex.lua");
-	
+
 	lua_close(L);
 }
 
