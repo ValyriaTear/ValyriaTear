@@ -64,10 +64,14 @@ function Initialize(map_instance)
             text = "NaN (DE)\nBioHazardX (IT)\nBertram (FR)"
         },
         [8] = {
+            header = hoa_system.Translate("Tester Team"),
+            text = "Shirish\nSahaondra\nKyara"
+        },
+        [9] = {
             header = "",
             text = hoa_system.Translate("To Lilou and Léo...")
         },
-        [9] = {
+        [10] = {
             header = "",
             text = hoa_system.Translate("Thanks to everyone\nwho made this possible!!")
         }
