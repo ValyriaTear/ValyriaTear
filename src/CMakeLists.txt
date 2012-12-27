@@ -468,7 +468,32 @@ TARGET_LINK_LIBRARIES(valyriatear
     ${LIBINTL_LIBRARIES}
     ${EXTRA_LIBRARIES})
 
-INSTALL(TARGETS valyriatear RUNTIME DESTINATION ${PKG_BINDIR})
+INSTALL(TARGETS valyriatear RUNTIME DESTINATION ${PKG_DATADIR})
+
+# Create an run script in $PKG_BINDIR when installing on UNICES
+IF (UNIX)
+      # The script filename
+      SET (SCRIPT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/valyriatear_run_script.sh)
+      ADD_CUSTOM_TARGET(
+          valyriatear-script
+          # Creates or recreates an empty script file.
+          COMMAND echo "#!/bin/sh" > ${SCRIPT_FILE}
+          COMMAND echo "cd ${PKG_DATADIR}" >> ${SCRIPT_FILE}
+          COMMAND echo "./valyriatear" >> ${SCRIPT_FILE}
+          VERBATIM
+      )
+      ADD_DEPENDENCIES(valyriatear valyriatear-script)
+      INSTALL(PROGRAMS ${SCRIPT_FILE} DESTINATION ${PKG_BINDIR} RENAME valyriatear)
+
+      # uninstall target
+      ADD_CUSTOM_TARGET(
+          uninstall-valyriatear
+          COMMAND rm -rf ${PKG_DATADIR}
+          COMMAND rm -f "${PKG_BINDIR}/valyriatear"
+          VERBATIM
+      )
+ENDIF()
+
 
 IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     # we expect the SMCgtxt package to be present on Solaris;
@@ -535,6 +560,30 @@ IF (EDITOR_SUPPORT)
         ${EXTRA_LIBRARIES}
     )
 
-    INSTALL(TARGETS vt-editor RUNTIME DESTINATION ${PKG_BINDIR})
+    INSTALL(TARGETS vt-editor RUNTIME DESTINATION ${PKG_DATADIR})
     SET_TARGET_PROPERTIES(vt-editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DQT3_SUPPORT -DEDITOR_BUILD")
+
+    # Create an run script in $PKG_BINDIR when installing on UNICES
+    IF (UNIX)
+        # The script filename
+        SET (EDITOR_SCRIPT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vt-editor_run_script.sh)
+        ADD_CUSTOM_TARGET(
+            vt-editor-script
+            # Creates or recreates an empty script file.
+            COMMAND echo "#!/bin/sh" > ${EDITOR_SCRIPT_FILE}
+            COMMAND echo "cd ${PKG_DATADIR}" >> ${EDITOR_SCRIPT_FILE}
+            COMMAND echo "./vt-editor" >> ${EDITOR_SCRIPT_FILE}
+            VERBATIM
+        )
+        ADD_DEPENDENCIES(valyriatear vt-editor-script)
+        INSTALL(PROGRAMS ${EDITOR_SCRIPT_FILE} DESTINATION ${PKG_BINDIR} RENAME vt-editor)
+
+        # uninstall target
+        ADD_CUSTOM_TARGET(
+            uninstall-vt-editor
+            COMMAND rm -f "${PKG_BINDIR}/vt-editor"
+            COMMAND rm -f "${PKG_DATADIR}/vt-editor"
+            VERBATIM
+        )
+    ENDIF()
 ENDIF(EDITOR_SUPPORT)

@@ -42,7 +42,7 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
           DEPENDS ${_gmoFile}
       )
 
-      INSTALL(FILES ${_gmoFile} DESTINATION share/locale/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+      INSTALL(FILES ${_gmoFile} DESTINATION ${PKG_DATADIR}/po/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
       SET(_gmoFiles ${_gmoFiles} ${_gmoFile})
       SET(_moFiles ${_moFiles} ${_moFile})
 
