@@ -150,7 +150,7 @@ public:
 
     //! \brief Main Menu State constructor
     MainMenuState(MenuMode* menu_mode):
-        AbstractMenuState("Main Menu",menu_mode)
+        AbstractMenuState("Main Menu", menu_mode)
     {}
 
     ~MainMenuState(){};
@@ -182,7 +182,9 @@ public:
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
 protected:
-    void _DrawItemDescription(hoa_global::GlobalObject &obj,hoa_video::StillImage &item_image,hoa_gui::TextBox  &description);
+    void _DrawItemDescription(hoa_global::GlobalObject &obj,
+                              hoa_video::StillImage &item_image,
+                              hoa_gui::TextBox &description);
     void _DrawBottomMenu();
     void _OnDraw();
     void _ActiveWindowUpdate();
@@ -203,7 +205,7 @@ public:
 
     //! \brief Party state constructor
     PartyState(MenuMode* menu_mode):
-        AbstractMenuState("Party State",menu_mode)
+        AbstractMenuState("Party State", menu_mode)
     {}
 
     ~PartyState(){}
@@ -229,7 +231,7 @@ public:
 
     //! \brief Skills state constructor
     SkillsState(MenuMode* menu_mode):
-        AbstractMenuState("Skills State",menu_mode)
+        AbstractMenuState("Skills State", menu_mode)
     {}
 
     ~SkillsState(){}
@@ -253,15 +255,15 @@ public:
 
     //! Equip state constructor
     EquipState(MenuMode* menu_mode):
-        AbstractMenuState("Equip State",menu_mode)
+        AbstractMenuState("Equip State", menu_mode)
     {}
     ~EquipState(){}
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
     //handles drawing the bottom window info for equipment
     static void DrawEquipmentInfo(const hoa_utils::ustring &equipment_name, bool is_weapon = false,
-                                  uint32 physical_attribute=0, uint32 magical_attribute=0,
-                                  uint32 current_phys_attribute=0, uint32 current_mag_attribute=0);
+                                  uint32 physical_attribute = 0, uint32 magical_attribute = 0,
+                                  uint32 current_phys_attribute = 0, uint32 current_mag_attribute = 0);
 protected:
     void _DrawBottomMenu();
     void _OnDraw();
@@ -395,7 +397,8 @@ private:
     //@}
 
     //! \brief Draws the 'Name' and 'Qty' tags for the item list.
-    void _DrawItemListHeader();
+    void _DrawItemListHeader()
+    {}
 
 }; // class MenuMode : public hoa_mode_manager::GameMode
 
