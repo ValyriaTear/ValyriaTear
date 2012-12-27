@@ -181,7 +181,8 @@ void AbstractMenuState::Draw()
     // Draw currently active options box
     _options.Draw();
 }
-void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter* character)
+
+void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *character)
 {
 
     VideoManager->Text()->Draw(UTranslate("STR: ") + MakeUnicodeString(NumberToString(character->GetStrength())));
@@ -425,7 +426,7 @@ void InventoryState::_OnDraw()
     }
 
 }
-void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,hoa_video::StillImage& item_image,hoa_gui::TextBox& description)
+void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,hoa_video::StillImage &item_image,hoa_gui::TextBox &description)
 {
     int32 key_pos_x = 100 + obj.GetIconImage().GetWidth() - item_image.GetWidth() - 3;
     int32 key_pos_y = 600 + obj.GetIconImage().GetHeight() - item_image.GetHeight() - 3;
@@ -439,8 +440,13 @@ void InventoryState::_DrawBottomMenu()
 
     _menu_mode->_bottom_window.Draw();
 
+    //if we are out of items, the bottom view should show nothing
+    if(_menu_mode->_inventory_window._item_objects.size() == 0)
+        return;
+
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(150, 580);
+
     GlobalObject *obj = _menu_mode->_inventory_window._item_objects[ _menu_mode->_inventory_window._inventory_items.GetSelection() ];
     const GLOBAL_OBJECT obj_type = obj->GetObjectType();
     if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_LIST) {
@@ -563,7 +569,7 @@ void InventoryState::_DrawBottomMenu()
         else
         {
             //otherwise print a message
-            static ustring cannot_equip = MakeUnicodeString("This character cannot equip this item");    //load this from script?
+            const static ustring cannot_equip = MakeUnicodeString("This character cannot equip this item");    //If more flexibility is needed down the road, load this from script
             VideoManager->Move(185, 600);
             VideoManager->Text()->Draw(cannot_equip);
         }
@@ -734,7 +740,10 @@ void EquipState::_OnDraw()
     _DrawBottomMenu();
     _menu_mode->_equip_window.Draw();
 }
-void EquipState::DrawEquipmentInfo(ustring& equipment_name,bool is_weapon,uint32 physical_attribute, uint32 magical_attribute, uint32 current_phys_attribute,uint32 current_mag_attribute)
+void EquipState::DrawEquipmentInfo(const ustring &equipment_name,
+                                   bool is_weapon, uint32 physical_attribute,
+                                   uint32 magical_attribute, uint32 current_phys_attribute,
+                                   uint32 current_mag_attribute)
 {
     // Display the info
     VideoManager->Move(755, 577);
