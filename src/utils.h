@@ -659,7 +659,8 @@ bool RemoveDirectory(const std::string &dir_name);
 
 /** \brief Lists the contents of a directory
 *** \param dir_name The name of the directory to list (e.g. "img/screenshots")
-*** \param filter A string to filter the results (e.g if the string was ".lua" only files containing ".lua" in the filename will be 		***	displayed),an  empty string  value of "" can be passed if you wish to display everything with no filter.
+*** \param filter A string to filter the results (e.g if the string was ".lua" only files containing ".lua" in the filename will be
+*** displayed), an empty string value of "" can be passed if you wish to display everything with no filter.
 *** \return A vector with the directory listing , a blank vector if the directory doesnt exist
 **/
 std::vector<std::string> ListDirectory(const std::string &dir_name, const std::string &filter);
