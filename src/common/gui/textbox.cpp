@@ -28,7 +28,12 @@ TextBox::TextBox() :
     _num_chars(0),
     _finished(false),
     _current_time(0),
-    _mode(VIDEO_TEXT_INSTANT)
+    _end_time(0),
+    _font_properties(NULL),
+    _mode(VIDEO_TEXT_INSTANT),
+    _text_height(0.0f),
+    _text_xpos(0.0f),
+    _text_ypos(0.0f)
 {
     _initialized = false;
 }
@@ -42,7 +47,12 @@ TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY
     _num_chars(0),
     _finished(false),
     _current_time(0),
-    _mode(mode)
+    _end_time(0),
+    _font_properties(NULL),
+    _mode(mode),
+    _text_height(0.0f),
+    _text_xpos(0.0f),
+    _text_ypos(0.0f)
 {
     _width = width;
     _height = height;
@@ -50,14 +60,6 @@ TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY
     SetPosition(x, y);
     _initialized = false;
 }
-
-
-
-TextBox::~TextBox()
-{
-    // Does nothing since TextBox doesn't allocate any memory
-}
-
 
 
 void TextBox::ClearText()
@@ -94,82 +96,30 @@ void TextBox::Draw()
     if(_owner && _owner->GetState() == VIDEO_MENU_STATE_HIDDEN)
         return;
 
-    // Take the following steps to draw the text:
-    //  (1): Save the video engine's context and enable appropriate draw settings
-    //  (2): Determine the coordinates of the textbox rectangle to draw
-    //  (3): Create a ScreenRect for the textbox area and apply scissoring if its enabled
-    //  (4): Determine the text draw position from the alignment flags
-    //  (5): Draw each line of text to the screen
-    //  (6): Restore the original video engine context
     VideoManager->PushState();
 
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
 
-    // Stores the positions of the four sides of the rectangle
-    float left   = 0.0f;
-    float right  = _width;
-    float bottom = 0.0f;
-    float top    = _height;
-
-    CalculateAlignedRect(left, right, bottom, top);
-
-    // Create a screen rectangle for the position and apply any scissoring
-    int32 x, y, w, h;
-
-    x = static_cast<int32>(left < right ? left : right);
-    y = static_cast<int32>(top < bottom ? top : bottom);
-    w = static_cast<int32>(right - left);
-    h = static_cast<int32>(top - bottom);
-
-    if(w < 0)
-        w = -w;
-    if(h < 0)
-        h = -h;
-
-    ScreenRect rect(x, y, w, h);
-
-    // TODO: this block of code (scissoring for textboxes) does not work properly
     /*
+    // TODO: this block of code (scissoring for textboxes) does not work properly
+
     if (_owner) {
     	rect.Intersect(_owner->GetScissorRect());
     }
     rect.Intersect(VideoManager->GetScissorRect());
     VideoManager->EnableScissoring(_owner || VideoManager->IsScissoringEnabled());
     if (VideoManager->IsScissoringEnabled()) {
-    	VideoManager->SetScissorRect(rect);
+    	VideoManager->SetScissorRect(_scissor_rect);
     }
     */
 
-    // Holds the height of the text to be drawn
-    float text_height = static_cast<float>(CalculateTextHeight());
-    // Holds the x and y position where the text should be drawn
-    float text_xpos, text_ypos;
-
-    // Determine the vertical position of the text based on the alignment
-    if(_text_yalign == VIDEO_Y_TOP) {
-        text_ypos = top;
-    } else if(_text_yalign == VIDEO_Y_CENTER) {
-        text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - text_height) * 0.5f);
-    } else { // (_yalign == VIDEO_Y_BOTTOM)
-        text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - text_height));
-    }
-
-    // Determine the horizontal position of the text based on the alignment
-    if(_text_xalign == VIDEO_X_LEFT) {
-        text_xpos = left;
-    } else if(_text_xalign == VIDEO_X_CENTER) {
-        text_xpos = (left + right) * 0.5f; // TODO: Is this logic right? It doesn't seem so...
-    } else { // (_text_xalign == VIDEO_X_RIGHT)
-        text_xpos = right;
-    }
-
     // Set the draw cursor, draw flags, and draw the text
-    VideoManager->Move(0.0f, text_ypos);
+    VideoManager->Move(0.0f, _text_ypos);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    _DrawTextLines(text_xpos, text_ypos, rect);
+    _DrawTextLines(_text_xpos, _text_ypos, _scissor_rect);
 
-    if(GUIManager->DEBUG_DrawOutlines() == true)
-        _DEBUG_DrawOutline(text_ypos);
+    if(GUIManager->DEBUG_DrawOutlines())
+        _DEBUG_DrawOutline(_text_ypos);
 
     VideoManager->PopState();
 } // void TextBox::Draw()
@@ -199,6 +149,7 @@ void TextBox::SetTextAlignment(int32 xalign, int32 yalign)
 {
     _text_xalign = xalign;
     _text_yalign = yalign;
+    _ReformatText();
 }
 
 
@@ -332,12 +283,59 @@ void TextBox::_ReformatText()
 
         }
     }
-    // (2): Calculate the height of the text and check it against the height of the textbox.
-    int32 text_height = CalculateTextHeight();
 
-    if(text_height > _height) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to display text of height (" << text_height
+    // Update the scissor cache
+    // Stores the positions of the four sides of the rectangle
+    float left   = 0.0f;
+    float right  = _width;
+    float bottom = 0.0f;
+    float top    = _height;
+
+    VideoManager->PushState();
+
+    VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
+    CalculateAlignedRect(left, right, bottom, top);
+    VideoManager->PopState();
+
+    // Create a screen rectangle for the position and apply any scissoring
+    int32 x, y, w, h;
+
+    x = static_cast<int32>(left < right ? left : right);
+    y = static_cast<int32>(top < bottom ? top : bottom);
+    w = static_cast<int32>(right - left);
+    h = static_cast<int32>(top - bottom);
+
+    if(w < 0)
+        w = -w;
+    if(h < 0)
+        h = -h;
+
+    _scissor_rect.Set(x, y, w, h);
+
+    // Update the text height
+    _text_height = static_cast<float>(CalculateTextHeight());
+    // Calculate the height of the text and check it against the height of the textbox.
+    if(_text_height > _height) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to display text of height (" << _text_height
                                       << ") in a window of lower height (" << _height << ")" << std::endl;
+    }
+
+    // Determine the vertical position of the text based on the alignment
+    if(_text_yalign == VIDEO_Y_TOP) {
+        _text_ypos = top;
+    } else if(_text_yalign == VIDEO_Y_CENTER) {
+        _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height) * 0.5f);
+    } else { // (_yalign == VIDEO_Y_BOTTOM)
+        _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height));
+    }
+
+    // Determine the horizontal position of the text based on the alignment
+    if(_text_xalign == VIDEO_X_LEFT) {
+        _text_xpos = left;
+    } else if(_text_xalign == VIDEO_X_CENTER) {
+        _text_xpos = (left + right) * 0.5f; // * 0.5 equals /2.
+    } else { // (_text_xalign == VIDEO_X_RIGHT)
+        _text_xpos = right;
     }
 } // void TextBox::_ReformatText()
 
@@ -455,11 +453,6 @@ bool TextBox::_IsBreakableChar(uint16 character)
 void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect)
 {
     int32 num_chars_drawn = 0;
-// 	// A quick
-// 	TEXT_DISPLAY_MODE mode = _mode;
-//
-// 	if (_finished)
-// 		mode = VIDEO_TEXT_INSTANT;
 
     // Calculate the fraction of the text to display
     float percent_complete;
@@ -483,7 +476,6 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         if(_finished || _mode == VIDEO_TEXT_INSTANT) {
             TextManager->Draw(_text[line], _text_style);
         }
-
         else if(_mode == VIDEO_TEXT_CHAR) {
             // Determine which character is currently being rendered
             int32 cur_char = static_cast<int32>(percent_complete * _num_chars);
