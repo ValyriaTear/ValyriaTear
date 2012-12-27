@@ -17,6 +17,8 @@ src/allacrost
 src/allacrost-editor
 src/valyriatear
 src/vt-editor
+src/valyriatear_run_script.sh
+src/vt-editor_run_script.sh
 gmon.out
 
 # files created during Windows build
