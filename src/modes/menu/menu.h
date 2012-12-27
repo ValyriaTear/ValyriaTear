@@ -182,7 +182,7 @@ public:
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
 protected:
-    void _DrawItemDescription(hoa_global::GlobalObject &obj,hoa_video::StillImage& item_image,hoa_gui::TextBox& description);
+    void _DrawItemDescription(hoa_global::GlobalObject &obj,hoa_video::StillImage &item_image,hoa_gui::TextBox  &description);
     void _DrawBottomMenu();
     void _OnDraw();
     void _ActiveWindowUpdate();
@@ -259,7 +259,9 @@ public:
     void Reset();
     AbstractMenuState* GetTransitionState(uint32 selection);
     //handles drawing the bottom window info for equipment
-    static void DrawEquipmentInfo(hoa_utils::ustring& equipment_name,bool is_weapon = false, uint32 physical_attribute=0, uint32 magical_attribute=0, uint32 current_phys_attribute=0,uint32 current_mag_attribute=0);
+    static void DrawEquipmentInfo(const hoa_utils::ustring &equipment_name, bool is_weapon = false,
+                                  uint32 physical_attribute=0, uint32 magical_attribute=0,
+                                  uint32 current_phys_attribute=0, uint32 current_mag_attribute=0);
 protected:
     void _DrawBottomMenu();
     void _OnDraw();
