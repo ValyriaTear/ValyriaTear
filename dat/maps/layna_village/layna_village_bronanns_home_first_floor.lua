@@ -277,6 +277,8 @@ function Load(m)
 		EventManager:StartEvent("opening", 1000);
 	end
 
+    -- Permits the display of basic game commands
+    Map:GetScriptSupervisor():AddScript("dat/help/in_game_move_and_interact_anim.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -432,10 +434,13 @@ end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-	if (room_exit_zone:IsCameraEntering() == true) then
-		bronann:SetMoving(false);
-		EventManager:StartEvent("exit floor");
-	end
+    if (room_exit_zone:IsCameraEntering() == true) then
+        bronann:SetMoving(false);
+        EventManager:StartEvent("exit floor");
+
+        -- Disable the game commands display
+        GlobalManager:SetEventValue("game", "show_move_interact_info", 0);
+    end
 end
 
 
@@ -447,11 +452,14 @@ end
 
 map_functions = {
 
-	Map_PopState = function()
-		Map:PopState();
-	end,
+    Map_PopState = function()
+        Map:PopState();
+    end,
 
-	OpeningDialogueDone = function()
-		GlobalManager:SetEventValue("story", "opening_dialogue_done", 1);
-	end
+    OpeningDialogueDone = function()
+        GlobalManager:SetEventValue("story", "opening_dialogue_done", 1);
+
+        -- Trigger the basic commands so that player knows what to do.
+        GlobalManager:SetEventValue("game", "show_move_interact_info", 1);
+    end
 }
