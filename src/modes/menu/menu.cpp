@@ -139,6 +139,11 @@ void AbstractMenuState::Update()
     // update the options for the currently active state
     _menu_mode->_current_menu_state->GetOptions()->Update();
 
+    UpdateTimeAndDrunes();
+}
+
+void AbstractMenuState::UpdateTimeAndDrunes()
+{
     std::ostringstream os_time;
     uint8 hours = SystemManager->GetPlayHours();
     uint8 minutes = SystemManager->GetPlayMinutes();
@@ -592,6 +597,7 @@ void InventoryState::_DrawBottomMenu()
 void PartyState::_ActiveWindowUpdate()
 {
     _menu_mode->_party_window.Update();
+    UpdateTimeAndDrunes();
 }
 
 bool PartyState::_IsActive()

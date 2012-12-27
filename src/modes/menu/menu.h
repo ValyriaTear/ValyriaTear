@@ -84,6 +84,9 @@ public:
     //! \brief handles updating the state
     void Update();
 
+    //! \brief Updates the time and drunes text
+    void UpdateTimeAndDrunes();
+
     /**
     *** \brief based on the selection (pased in via the OptionBox selection returns the next state to transition to
     *** \param selection selection state indicator
