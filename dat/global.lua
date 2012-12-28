@@ -13,7 +13,7 @@ function NewGame()
 	GlobalManager:AddCharacter(BRONANN);
 	GlobalManager:SetDrunes(0);
 
-	local MM = hoa_map.MapMode("dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua");
+    local MM = hoa_map.MapMode("dat/maps/introduction.lua");
 	ModeManager:Pop(false, false);
 	ModeManager:Push(MM, false, true);
 end
