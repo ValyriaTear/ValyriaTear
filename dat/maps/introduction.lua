@@ -3,7 +3,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-introduction1 = ns;
+introduction = ns;
 setfenv(1, ns);
 
 -- A reference to the C++ MapMode object that was created with this file

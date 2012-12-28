@@ -252,6 +252,10 @@ context_02 = { 0, 8, 20, 596, 0, 8, 21, 597, 0, 9, 14, 594, 0, 9, 15, 579, 0, 9,
 -- the main character handler
 local bronann = {};
 
+-- opening objects
+local bronann_in_bed = {};
+local bed = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -274,7 +278,15 @@ function Load(m)
 	-- If not done, start the opening dialogue
 	if (GlobalManager:DoesEventExist("story", "opening_dialogue_done") == false) then
 		Map:PushState(hoa_map.MapMode.STATE_SCENE);
-		EventManager:StartEvent("opening", 1000);
+		EventManager:StartEvent("opening", 10000);
+        bronann_in_bed:SetVisible(true);
+        bed:SetVisible(false);
+        bronann:SetVisible(false);
+    else
+        -- The event is done, spawn bronann and the bed normally
+        bronann_in_bed:SetVisible(false);
+        bed:SetVisible(true);
+        bronann:SetVisible(true);
 	end
 
     -- Permits the display of basic game commands
@@ -301,14 +313,27 @@ function _CreateCharacters()
 	end
 
 	Map:AddGroundObject(bronann);
+
+    -- Add Bronann in bed wake up animation
+    bronann_in_bed = hoa_map.PhysicalObject();
+    bronann_in_bed:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    bronann_in_bed:SetContext(hoa_map.MapMode.CONTEXT_01);
+    bronann_in_bed:SetPosition(20, 20);
+    bronann_in_bed:SetCollHalfWidth(1.75);
+    bronann_in_bed:SetCollHeight(5.50);
+    bronann_in_bed:SetImgHalfWidth(1.75);
+    bronann_in_bed:SetImgHeight(5.68);
+    bronann_in_bed:AddAnimation("img/sprites/map/characters/bronann_bed_animation.lua");
+
+    Map:AddGroundObject(bronann_in_bed);
 end
 
 function _CreateObjects()
 	object = {}
 
 	-- Bronann's room
-	object = CreateObject(Map, "Bed1", 20, 20);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
+	bed = CreateObject(Map, "Bed1", 20, 20);
+	if (bed ~= nil) then Map:AddGroundObject(bed) end;
 
 	local chest = CreateTreasure(Map, "bronann_room_chest", "Wood_Chest1", 19, 22);
 	if (chest ~= nil) then
@@ -385,6 +410,11 @@ function _CreateEvents()
 	local dialogue = {};
 	local text = {};
 
+    -- fade out after the bed animation
+    event = hoa_map.ScriptedEvent("opening", "begin_fade_out", "fade_out_update");
+    event:AddEventLinkAtEnd("opening_dialogue");
+    EventManager:RegisterEvent(event);
+
 	-- Bronann's opening dialogue
 	dialogue = hoa_map.SpriteDialogue();
 	text = hoa_system.Translate("That nightmare again... This time, I still feel dizzy even after getting up...");
@@ -394,7 +424,7 @@ function _CreateEvents()
 	DialogueManager:AddDialogue(dialogue);
 
 	-- Bronann's opening dialogue event
-	event = hoa_map.DialogueEvent("opening", dialogue);
+	event = hoa_map.DialogueEvent("opening_dialogue", dialogue);
 	event:AddEventLinkAtEnd("opening2");
 	EventManager:RegisterEvent(event);
 
@@ -444,6 +474,9 @@ function _CheckZones()
 end
 
 
+local fade_effect_time = 0;
+local fade_set = false;
+
 -- Map Custom functions
 -- Used through scripted events
 if (map_functions == nil) then
@@ -454,6 +487,41 @@ map_functions = {
 
     Map_PopState = function()
         Map:PopState();
+    end,
+
+    begin_fade_out = function()
+        fade_effect_time = 0.0;
+        fade_set = false;
+    end,
+
+    fade_out_update = function()
+        fade_effect_time = fade_effect_time + SystemManager:GetUpdateTime();
+
+        if (fade_effect_time < 1000.0) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.0, fade_effect_time / 1000.0));
+            return false;
+        end
+
+        if (fade_effect_time >= 1000.0 and fade_effect_time < 2000.0) then
+            -- Once the fade out is done, move the character to its new place.
+            if (fade_set == false) then
+                bronann:SetVisible(true);
+                bed:SetVisible(true);
+                bronann_in_bed:SetVisible(false);
+                -- play a sound of clothes, meaning Bronann get dressed
+                AudioManager:PlaySound("snd/cloth_sound.wav");
+                fade_set = true;
+            end
+            return false;
+        end
+
+        if (fade_effect_time >= 2000.0 and fade_effect_time < 3000.0) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.0, ((3000.0 - fade_effect_time) / 1000.0)));
+            return false;
+        end
+
+        Map:GetEffectSupervisor():DisableLightingOverlay();
+        return true;
     end,
 
     OpeningDialogueDone = function()

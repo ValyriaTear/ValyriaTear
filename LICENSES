@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.12.27
+Last update: 2012.12.28
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -15,6 +15,7 @@ dA stands for: Deviant Art - http://deviantart.com
 Files                                                            Licenses                 Authors and details
 --------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
 art/bronann_by_safir_kreuz-CCbySA3.0.png                        CC by SA 3.0             Safir-Kreuz (dA)
+art/bronann_bed_animation.xcf                                   CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head + Bertram for the animation.
 art/Tile-Mapping-System.png                                     CC by SA 3.0             Jetrel (OGA)
 art/day_night_cycle_gradient_casper_nilsson_oga.png             CC by SA 3.0             C.Nilsson (OGA)
 art/forest_tree_small.xcf                                       CC by SA 3.0             Original tree from Jetrel (OGA) + Variations from Bertram
@@ -308,6 +309,8 @@ img/sprites/battle/enemies/white_wolf.png                       CC by SA 3.0, GP
 img/sprites/battle/enemies/fenrir_normal.png                    CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
 img/sprites/battle/enemies/fenrir_final.png                     CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
 
+img/sprites/map/characters/bronann_bed_animation.lua            GPLv2                    Bertram
+img/sprites/map/characters/bronann_bed_animation.png            CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head, Bertram for the frames.
 img/sprites/map/characters/bronann_frightened.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_herostance.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
@@ -485,6 +488,7 @@ mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0    
 mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
 
 
+snd/cloth_sound.wav                                             CC by SA 3.0, GPLv2 or 3 artisticdude (OGA)
 snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0, GPLv2 or 3 IFartInUrGeneralDirection from freesound.org
 snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
 snd/levelup.wav                                                 CC0                      (qubodup) OGA
