@@ -168,8 +168,8 @@ void TextBox::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     _DrawTextLines(text_xpos, text_ypos, rect);
 
-    if(GUIManager->DEBUG_DrawOutlines() == true)
-        _DEBUG_DrawOutline(text_ypos);
+    if(GUIManager->DEBUG_DrawOutlines())
+        _DEBUG_DrawOutline();
 
     VideoManager->PopState();
 } // void TextBox::Draw()
@@ -630,7 +630,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
 
 
-void TextBox::_DEBUG_DrawOutline(float text_y)
+void TextBox::_DEBUG_DrawOutline()
 {
     // Stores the positions of the four sides of the rectangle
     float left   = 0.0f;
@@ -647,7 +647,7 @@ void TextBox::_DEBUG_DrawOutline(float text_y)
     // Draw the inner boundaries for each line of text
     uint32 possible_lines = _height / _font_properties->line_skip;
     float line_height = _font_properties->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
-    float line_offset = text_y;
+    float line_offset = top;
 
     for(uint32 i = 1; i <= possible_lines; ++i) {
         line_offset += line_height;

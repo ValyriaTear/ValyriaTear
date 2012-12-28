@@ -274,11 +274,10 @@ private:
     void _ReformatText();
 
     /** \brief Draws an outline of the element boundaries
-    *** \param text_ypos The y position corresponding to the top of the first line of text
     *** \note This function also draws an outline for each line of text in addition to the textbox
     *** as a whole.
     **/
-    void _DEBUG_DrawOutline(float text_ypos);
+    void _DEBUG_DrawOutline();
 
 }; // class TextBox : public GUIControl
 

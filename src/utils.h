@@ -521,7 +521,6 @@ hoa_utils::ustring MakeUnicodeString(const std::string &text);
 std::string MakeStandardString(const hoa_utils::ustring &text);
 //@}
 
-
 /** \brief A template function that returns the number of elements in an array
 *** \param array The array of elements
 *** \return The number of elements in the array
