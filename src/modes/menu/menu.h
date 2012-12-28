@@ -69,7 +69,7 @@ public:
     //! \brief base constructor
     //! \param state_name The individual name of the state that we are currently in. Mostly for debugging
     //! \param menu_mode Pointer to the active menu mode that we associate this state with (currently only one)
-    AbstractMenuState(const char* state_name, MenuMode* menu_mode);
+    AbstractMenuState(const char *state_name, MenuMode* menu_mode);
 
     virtual ~AbstractMenuState()
     {}
@@ -94,13 +94,13 @@ public:
     *** \note NULL actions do not lead to a crash, but the assumption is that the state has some state-specific
     *** actions, such as activitaing a MenuView that take place
     **/
-    virtual AbstractMenuState* GetTransitionState(uint32 selection)=0;
+    virtual AbstractMenuState *GetTransitionState(uint32 selection)=0;
 
     //! \brief returns the name of the state
-    const char* GetStateName() { return _state_name;}
+    const char *GetStateName() { return _state_name;}
 
     //! \brief returns a pointer to the OptionsBox associated with this state
-    hoa_gui::OptionBox* GetOptions() { return &_options;}
+    hoa_gui::OptionBox *GetOptions() { return &_options;}
 
 protected:
     //! \brief default bottom menu drawing
@@ -117,17 +117,19 @@ protected:
     virtual void _ActiveWindowUpdate(){}
     //! \brief returns wether or not the state is active
     virtual bool _IsActive() { return false;}
-    //! \brief instance-specific drawing code goes in here. the default is to simply do nothing
-    virtual void _OnDraw(){}
+    //! \brief instance-specific main window drawing code goes in here. the default is to simply draws nothing
+    virtual void _OnDrawMainWindow(){}
     //! \brief handles drawing the generalized equipment information
-    void _DrawEquipmentInfo(hoa_global::GlobalCharacter* character);
+    void _DrawEquipmentInfo(hoa_global::GlobalCharacter *character);
+    //! \brief draws the side window. Default draws the character windows
+    virtual void _OnDrawSideWindow();
 
     // Options associated with this state
     hoa_gui::OptionBox _options;
     // state-specific name
     const char *_state_name;
     // a pointer to the active MenuMode
-    MenuMode* _menu_mode;
+    MenuMode *_menu_mode;
     // a pointer to the state we should return to on a "cancel" press.
     AbstractMenuState *_from_state;
 
@@ -148,20 +150,22 @@ public:
         MAIN_OPTIONS_INVENTORY,
         MAIN_OPTIONS_SKILLS,
         MAIN_OPTIONS_PARTY,
+        MAIN_OPTIONS_QUESTS,
         MAIN_OPTIONS_SIZE
     };
 
     //! \brief Main Menu State constructor
-    MainMenuState(MenuMode* menu_mode):
+    MainMenuState(MenuMode *menu_mode):
         AbstractMenuState("Main Menu", menu_mode)
     {}
 
     ~MainMenuState(){};
     void Reset();
-    AbstractMenuState* GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32 selection);
 
 protected:
-    void _OnDraw();
+    void _OnDrawMainWindow();
+    void _OnDrawSideWindow();
 };
 
 /**
@@ -178,18 +182,18 @@ public:
         INV_OPTIONS_SIZE
     };
     //! \brief InventoryState state constructor
-    InventoryState(MenuMode* menu_mode):
-        AbstractMenuState("Inventory State",menu_mode)
+    InventoryState(MenuMode *menu_mode):
+        AbstractMenuState("Inventory State", menu_mode)
     {}
     ~InventoryState(){}
     void Reset();
-    AbstractMenuState* GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32 selection);
 protected:
     void _DrawItemDescription(hoa_global::GlobalObject &obj,
                               hoa_video::StillImage &item_image,
                               hoa_gui::TextBox &description);
     void _DrawBottomMenu();
-    void _OnDraw();
+    void _OnDrawMainWindow();
     void _ActiveWindowUpdate();
     bool _IsActive();
 };
@@ -213,13 +217,15 @@ public:
 
     ~PartyState(){}
     void Reset();
-    AbstractMenuState* GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32 selection);
 protected:
-    void _OnDraw();
+    void _DrawBottomMenu();
+    void _OnDrawMainWindow();
     void _ActiveWindowUpdate();
     bool _IsActive();
 
 };
+
 /**
 *** \brief Skills state. Allows user to view their skills and use them
 **/
@@ -233,19 +239,20 @@ public:
     };
 
     //! \brief Skills state constructor
-    SkillsState(MenuMode* menu_mode):
+    SkillsState(MenuMode *menu_mode):
         AbstractMenuState("Skills State", menu_mode)
     {}
 
     ~SkillsState(){}
     void Reset();
-    AbstractMenuState* GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32 selection);
 protected:
     void _DrawBottomMenu();
-    void _OnDraw();
+    void _OnDrawMainWindow();
     void _ActiveWindowUpdate();
     bool _IsActive();
 };
+
 /**
 *** \brief Equip / Remove state. Allows players to modify the character equipment
 **/
@@ -257,7 +264,7 @@ public:
     };
 
     //! Equip state constructor
-    EquipState(MenuMode* menu_mode):
+    EquipState(MenuMode *menu_mode):
         AbstractMenuState("Equip State", menu_mode)
     {}
     ~EquipState(){}
@@ -269,10 +276,40 @@ public:
                                   uint32 current_phys_attribute = 0, uint32 current_mag_attribute = 0);
 protected:
     void _DrawBottomMenu();
-    void _OnDraw();
+    void _OnDrawMainWindow();
     void _OnEntry(AbstractMenuState *from_state);
     void _ActiveWindowUpdate();
     bool _IsActive();
+};
+
+
+/**
+*** \brief Quest Log state. Allows users to view their active and finished quests
+**/
+class QuestState : virtual public AbstractMenuState {
+public:
+    enum QUEST_CATEGORY {
+            QUEST_OPTIONS_VIEW,
+            QUEST_OPTIONS_BACK,
+            QUEST_OPTIONS_SIZE
+    };
+
+    //! \brief Quest state constructor
+    QuestState(MenuMode *menu_mode):
+        AbstractMenuState("Quest State", menu_mode)
+    {}
+
+    ~QuestState(){}
+
+    void Reset();
+    AbstractMenuState *GetTransitionState(uint32 selection);
+protected:
+    void _OnDrawMainWindow();
+    void _OnDrawSideWindow();
+    void _DrawBottomMenu();
+    void _ActiveWindowUpdate();
+    bool _IsActive();
+    void _OnEntry(AbstractMenuState *from_state);
 };
 } // namespace private_menu
 
@@ -295,6 +332,8 @@ class MenuMode : public hoa_mode_manager::GameMode
     friend class private_menu::PartyWindow;
     friend class private_menu::SkillsWindow;
     friend class private_menu::EquipWindow;
+    friend class private_menu::QuestListWindow;
+    friend class private_menu::QuestWindow;
 
     friend class private_menu::AbstractMenuState;
     friend class private_menu::MainMenuState;
@@ -302,6 +341,7 @@ class MenuMode : public hoa_mode_manager::GameMode
     friend class private_menu::PartyState;
     friend class private_menu::SkillsState;
     friend class private_menu::EquipState;
+    friend class private_menu::QuestState;
 public:
     /** \param location_name The name of the current map that will be displayed on the menu screen.
     *** \param locale_image The filename for the location image that is displayed in the menus.
@@ -354,6 +394,9 @@ private:
     //! \brief Test indicating that the item is a shard and can be associated with equipment.
     hoa_gui::TextBox _shard_description;
 
+    //! \brief shared "help" information text box. can be used to display a short helpful message to the player
+    hoa_gui::TextBox _help_information;
+
     /** \name Main Display Windows
     *** \brief The various menu windows that are displayed in menu mode
     **/
@@ -371,6 +414,7 @@ private:
     private_menu::PartyState _party_state;
     private_menu::SkillsState _skills_state;
     private_menu::EquipState _equip_state;
+    private_menu::QuestState _quests_state;
     //@}
 
     //! \brief currently viewing state
@@ -381,9 +425,12 @@ private:
     private_menu::CharacterWindow _character_window2;
     private_menu::CharacterWindow _character_window3;
     private_menu::InventoryWindow _inventory_window;
+    private_menu::QuestListWindow _quest_list_window;
     private_menu::PartyWindow _party_window;
     private_menu::SkillsWindow _skills_window;
     private_menu::EquipWindow _equip_window;
+    private_menu::QuestWindow _quest_window;
+
     MessageWindow *_message_window;
 
     //! \brief A map of the sounds used while in MenuMode

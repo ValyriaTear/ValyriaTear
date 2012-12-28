@@ -22,6 +22,7 @@
 #ifndef __MENU_VIEWS__
 #define __MENU_VIEWS__
 
+#include "common/global/global.h"
 #include "common/gui/textbox.h"
 
 #include "common/gui/menu_window.h"
@@ -107,6 +108,8 @@ enum CONFIRM_RESULT {
     CONFIRM_RESULT_NOTHING = 2,
     CONFIRM_RESULT_CANCEL = 3,
 };
+
+
 
 /** ****************************************************************************
 *** \brief Represents an individual character window
@@ -233,7 +236,7 @@ private:
     */
     void _InitCategory();
 
-    template <class T> std::vector<hoa_global::GlobalObject *> _GetItemVector(std::vector<T *>* inv);
+    template <class T> std::vector<hoa_global::GlobalObject *> _GetItemVector(std::vector<T *> *inv);
 
 }; // class InventoryWindow : public hoa_video::MenuWindow
 
@@ -287,10 +290,10 @@ public:
     void Update();
 
     /*!
-    * \brief Check if status window is active
-    * \return true if the window is active, false if it's not
+    * \brief Get status window active state
+    * \return the char select value when active, or zero if inactive
     */
-    inline bool IsActive() {
+    inline uint32 GetActiveState() {
         return _char_select_active;
     }
 
@@ -486,6 +489,111 @@ private:
     void _UpdateEquipList();
 
 }; // class EquipWindow : public hoa_video::MenuWindow
+
+/**
+*** \brief Represents the quest log list window on the left side
+*** this holds the options box "list" that players can cycle through to look at
+*** their quests (in Quest Window)
+**/
+
+class QuestListWindow : public hoa_gui::MenuWindow {
+    friend class hoa_menu::MenuMode;
+    friend class QuestState;
+    friend class QuestWindow;
+public:
+    QuestListWindow();
+    ~QuestListWindow(){};
+
+    /*!
+    * \brief Draws window
+    * \return success/failure
+    */
+    void Draw();
+
+    /*!
+    * \brief Performs updates
+    */
+    void Update();
+
+    /*!
+    * \brief Result of whether or not this window is active
+    * \return true if this window is active
+    */
+    bool IsActive()
+    {
+        return _active_box;
+    }
+
+    /*!
+    * \brief switch the active state of this window, and do any associated work
+    * \param activate or deactivate
+    */
+    void Activate(bool new_state);
+
+
+private:
+
+    //! \brief the selectable list of quests
+    hoa_gui::OptionBox _quests_list;
+
+    //! \brief list to quest key index. each index represents the _quest_list selection
+    //! This should be updated on every call the keep synchronized with _quests_list
+    std::vector<std::string> _quest_keys;
+
+    //! \brief indicates whether _quests_list is active or not
+    bool _active_box;
+
+    //! \brief updates the side window quest list based on the current quest log entries
+    void _UpdateQuestList();
+
+    //! \brief determines if the quest is completed based on the given event name
+    bool _IsCompleted(const std::string& complete_event_group, const std::string& complete_event_name) const
+    {
+        return hoa_global::GlobalManager->DoesEventExist(complete_event_group,complete_event_name);
+    }
+};
+/**
+*** \brief Represents the quest log main window
+*** players can view their active quests as well as completed quests when this window is viewing
+**/
+
+class QuestWindow : public hoa_gui::MenuWindow {
+
+    friend class hoa_menu::MenuMode;
+    friend class QuestState;
+
+public:
+
+    QuestWindow();
+    ~QuestWindow(){}
+    /*!
+    * \brief Draws window
+    * \return success/failure
+    */
+    void Draw();
+
+    /*!
+    * \brief Performs updates
+    */
+    void Update();
+
+    /*!
+    * \brief sets the viewing quest key information for the quest. we use this to query the text description
+    */
+    void SetViewingQuestKey(const std::string &quest_key)
+    {
+        _viewing_quest_key = quest_key;
+    }
+
+private:
+    //! \brief the currently viewing quest key. this is set by the Quest List Window through the
+    //! SetViewingQuestKey() function
+    std::string _viewing_quest_key;
+
+    //! \brief sets the display text to be rendered, based on their quest key that is set
+    hoa_gui::TextBox _quest_description;
+
+};
 
 /*!
 * \brief Converts a vector of GlobalItem*, etc. to a vector of GlobalObjects*
