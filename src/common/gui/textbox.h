@@ -23,7 +23,6 @@
 #include "gui.h"
 #include "engine/system.h"
 #include "engine/video/text.h"
-#include "engine/video/screen_rect.h"
 
 namespace hoa_gui
 {
@@ -78,8 +77,7 @@ public:
 
     TextBox(float x, float y, float width, float height, const TEXT_DISPLAY_MODE &mode = VIDEO_TEXT_INSTANT);
 
-    ~TextBox()
-    {}
+    ~TextBox();
 
     //! \brief Removes all text from the text box
     void ClearText();
@@ -248,16 +246,6 @@ private:
 
     //! \brief The unedited text for reformatting
     hoa_utils::ustring _text_save;
-
-    //! \brief Cache data for textbox drawing
-    //! Recomputed in ReformatText()
-    // The textBox text scissoring screen rectangle.
-    hoa_video::ScreenRect _scissor_rect;
-    // Holds the height of the text to be drawn
-    float _text_height;
-    // Holds the actual x and y position where the text should be drawn
-    float _text_xpos;
-    float _text_ypos;
 
     /** \brief Returns true if the given unicode character can be interrupted for a word wrap.
     *** \param character The character you wish to check.
