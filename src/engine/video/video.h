@@ -724,7 +724,9 @@ private:
     VideoEngine();
 
     //-- System fades. Only usable by the mode manager
+    // and the MapTransition MapEvent.
     friend class hoa_mode_manager::ModeEngine;
+    friend class hoa_map::private_map::MapTransitionEvent;
     void _StartTransitionFadeOut(const Color &final, uint32 time) {
         _screen_fader.StartTransitionFadeOut(final, time);
     }

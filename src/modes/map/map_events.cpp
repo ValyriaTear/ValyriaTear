@@ -149,10 +149,8 @@ void MapTransitionEvent::_Start()
 {
     MapMode::CurrentInstance()->PushState(STATE_SCENE);
 
-    VideoManager->FadeScreen(Color::black, MAP_FADE_OUT_TIME);
+    VideoManager->_StartTransitionFadeOut(Color::black, MAP_FADE_OUT_TIME);
     _done = false;
-
-    // TODO: fade out the map music
 }
 
 
