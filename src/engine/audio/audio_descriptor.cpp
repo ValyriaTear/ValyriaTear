@@ -613,6 +613,15 @@ void AudioDescriptor::FadeOut(float time)
     _audio_effects.push_back(new private_audio::FadeOutEffect(*this, time));
 }
 
+bool AudioDescriptor::IsFadingOut()
+{
+    for (uint32 i = 0; i < _audio_effects.size(); ++i) {
+        if (_audio_effects[i]->effect_type == AUDIO_EFFECT_FADE_OUT)
+            return true;
+    }
+    return false;
+}
+
 void AudioDescriptor::RemoveEffects()
 {
     // Delete any active audio effects for the given audio descriptor
