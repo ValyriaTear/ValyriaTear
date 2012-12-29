@@ -288,6 +288,10 @@ public:
 
     //! \return A pointer to the MusicDescriptor contained within the cache, or NULL if it could not be found
     MusicDescriptor *RetrieveMusic(const std::string &filename);
+
+    //! \returns A pointer of the active music descriptor (the one playing or ready to be played.)
+    MusicDescriptor* GetActiveMusic()
+    { return _active_music; }
     //@}
 
     /**
