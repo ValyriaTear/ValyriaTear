@@ -27,6 +27,12 @@
 namespace hoa_audio
 {
 
+enum AUDIO_EFFECT {
+    AUDIO_EFFECT_NONE = 0,
+    AUDIO_EFFECT_FADE_IN = 1,
+    AUDIO_EFFECT_FADE_OUT = 2
+};
+
 namespace private_audio
 {
 
@@ -42,7 +48,9 @@ class AudioEffect
 {
 public:
     AudioEffect() :
-        active(true) {}
+        active(true),
+        effect_type(AUDIO_EFFECT_NONE)
+        {}
 
     virtual ~AudioEffect()
     {}
@@ -55,6 +63,9 @@ public:
 
     //! \brief Get the audio descriptor concerned by the effect.
     virtual AudioDescriptor &GetAudioDescriptor() const = 0;
+
+    //! The audio effect type
+    AUDIO_EFFECT effect_type;
 }; // class AudioEffect
 
 

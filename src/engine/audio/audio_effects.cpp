@@ -32,6 +32,8 @@ FadeInEffect::FadeInEffect(AudioDescriptor &audio, float time) :
     _effect_time(time),
     _audio(audio)
 {
+    effect_type = AUDIO_EFFECT_FADE_IN;
+
     _audio.SetVolume(0.0f);
     // If the sound is not playing, then start it.
     // Note: Only audio descriptors being played are updated.
@@ -77,7 +79,9 @@ FadeOutEffect::FadeOutEffect(AudioDescriptor &audio, float time) :
     _original_volume(audio.GetVolume()),
     _effect_time(time),
     _audio(audio)
-{}
+{
+    effect_type = AUDIO_EFFECT_FADE_OUT;
+}
 
 
 

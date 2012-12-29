@@ -345,6 +345,9 @@ public:
     **/
     void FadeOut(float time);
 
+    //! Tells whether the audio descriptor is fading out.
+    bool IsFadingOut();
+
     //! \brief Remove effects.
     void RemoveEffects();
 
