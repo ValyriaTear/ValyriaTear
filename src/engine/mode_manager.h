@@ -105,6 +105,10 @@ public:
     **/
     virtual void Reset() = 0;
 
+    //! \brief Called when a game mode is made inactive
+    virtual void Deactivate()
+    {}
+
     EffectSupervisor &GetEffectSupervisor() {
         return _effect_supervisor;
     }

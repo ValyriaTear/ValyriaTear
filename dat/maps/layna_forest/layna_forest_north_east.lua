@@ -863,8 +863,11 @@ function _CreateEvents()
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("boss fight post-dialogue", dialogue);
     event:AddEventLinkAtEnd("Map:PopState()");
+    event:AddEventLinkAtEnd("Restart music");
     EventManager:RegisterEvent(event);
 
+    event = hoa_map.ScriptedEvent("Restart music", "restart_music", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
@@ -937,6 +940,10 @@ map_functions = {
     make_wolf_invisible = function()
         wolf:SetVisible(false);
         wolf:SetPosition(104, 3);
+    end,
+
+    restart_music = function()
+        AudioManager:FadeInAllMusic(2000);
     end
 }
 

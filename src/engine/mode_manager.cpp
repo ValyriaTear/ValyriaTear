@@ -265,11 +265,15 @@ void ModeEngine::Update()
 
         // Push any new game modes onto the true game stack.
         while(_push_stack.size() != 0) {
+            // Tell the previous game mode about being deactivated.
+            if(!_game_stack.empty() && _game_stack.back())
+                _game_stack.back()->Deactivate();
+
             _game_stack.push_back(_push_stack.back());
             _push_stack.pop_back();
         }
 
-        // Make sure there is a game mode on the stack, otherwise we'll get a segementation fault.
+        // Make sure there is a game mode on the stack, otherwise we'll get a segmentation fault.
         if(_game_stack.empty()) {
             PRINT_WARNING << "game stack is empty, exiting application" << std::endl;
             SystemManager->ExitGame();

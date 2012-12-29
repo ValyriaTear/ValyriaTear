@@ -32,6 +32,8 @@
 
 #include "map_utils.h"
 
+#include "engine/audio/audio_descriptor.h"
+
 //! All calls to map mode are wrapped in this namespace.
 namespace hoa_map
 {
@@ -88,6 +90,10 @@ public:
 
     //! \brief Resets appropriate class members. Called whenever the MapMode object is made the active game mode.
     void Reset();
+
+    //! \brief Called when a map mode is deactivated.
+    //!  Note that this is called twice when doing a battle transition.
+    void Deactivate();
 
     //! \brief Updates the game and calls various sub-update functions depending on the current state of map mode.
     void Update();
@@ -277,6 +283,11 @@ private:
     **/
     static MapMode *_current_instance;
 
+    //! Tells whether the mode is activated. It is true by calling Reset(),
+    //! and false when calling Deactivate(). This member exists to prevent
+    //! the triggering of deactivate more than once.
+    bool _activated;
+
     //! \brief The name of the Lua file that represents the map
     std::string _map_filename;
 
@@ -409,6 +420,7 @@ private:
     *** NOTE: Other audio handling will have to be used through scripting.
     **/
     std::string _music_filename;
+    hoa_audio::AUDIO_STATE _audio_state;
 
     // ----- Methods -----
 
