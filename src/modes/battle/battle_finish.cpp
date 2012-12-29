@@ -375,7 +375,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
 
     _object_header_text.SetOwner(&_spoils_window);
     _object_header_text.SetPosition(SPOILS_WINDOW_WIDTH / 2 - 50.0f, SPOILS_WINDOW_HEIGHT - 10.0f);
-    _object_header_text.SetDimensions(200.0f, 40.0f);
+    _object_header_text.SetDimensions(350.0f, 40.0f);
     _object_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_header_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_header_text.SetDisplaySpeed(30);
