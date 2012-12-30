@@ -187,7 +187,7 @@ void MapMode::Reset()
     MusicDescriptor *active_music = AudioManager->GetActiveMusic();
     // Stop the current music if it's not the right one.
     if (active_music && music != active_music)
-        active_music->Stop();
+        active_music->FadeOut(500);
 
     if(music && music->GetState() != _audio_state) {
         if (_audio_state == AUDIO_STATE_PLAYING) {
