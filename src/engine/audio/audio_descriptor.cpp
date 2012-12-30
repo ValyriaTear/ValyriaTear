@@ -1058,13 +1058,15 @@ void MusicDescriptor::Play()
         return;
 
     if(AudioManager->_active_music == this) {
-        if(_state != AUDIO_STATE_PLAYING)
+        if(_state != AUDIO_STATE_PLAYING && _state != AUDIO_STATE_FADE_IN)
             AudioDescriptor::Play();
+            FadeIn(500);
     } else {
         if(AudioManager->_active_music)
-            AudioManager->_active_music->Stop();
+            AudioManager->_active_music->FadeOut(500);
         AudioManager->_active_music = this;
-        Play(); // Recursive call now the music is the active one.
+        AudioDescriptor::Play();
+        FadeIn(500);
     }
 }
 
