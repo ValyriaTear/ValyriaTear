@@ -165,12 +165,6 @@ void MapMode::Deactivate()
     _music_filename = active_music ? active_music->GetFilename() : std::string();
     _audio_state = active_music ? active_music->GetState() : AUDIO_STATE_UNLOADED;
 
-    // If the music is fade out, do as if it was stopped as it is the desired effect
-    if (active_music && active_music->IsFadingOut()) {
-        active_music->RemoveEffects();
-        _audio_state = AUDIO_STATE_STOPPED;
-    }
-
     _activated = false;
 }
 

@@ -40,7 +40,11 @@ enum AUDIO_STATE {
     //! Audio is loaded and is presently playing
     AUDIO_STATE_PLAYING    = 2,
     //! Audio is loaded and was playing, but is now paused
-    AUDIO_STATE_PAUSED     = 3
+    AUDIO_STATE_PAUSED     = 3,
+    //! Audio is fading out
+    AUDIO_STATE_FADE_OUT   = 4,
+    //! Audio is fading in
+    AUDIO_STATE_FADE_IN    = 5,
 };
 
 //! \brief The possible ways for that a piece of audio data may be loaded
@@ -391,6 +395,12 @@ protected:
     **/
     float _volume;
 
+    //! \brief Keeps in memory the fade out or in time.
+    float _fade_effect_time;
+
+    //! \brief The volume of the audio when the fade effect was registered
+    float _original_volume;
+
     //! \brief Size of the streaming buffer, if the audio was loaded for streaming
     uint32 _stream_buffer_size;
 
@@ -427,6 +437,9 @@ private:
     *** conditions are not met, the function will return since it has nothing to do.
     **/
     void _Update();
+
+    //! \brief Handles the fading states volumes update.
+    void _HandleFadeStates();
 
     /** \brief Acquires an audio source for playback
     *** This function is called whenever an audio piece is loaded and whenever the Play operation is specified on
