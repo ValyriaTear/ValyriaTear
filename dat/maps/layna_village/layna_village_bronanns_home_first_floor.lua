@@ -282,6 +282,10 @@ function Load(m)
         bronann_in_bed:SetVisible(true);
         bed:SetVisible(false);
         bronann:SetVisible(false);
+
+        -- Also, reset the crystal appearance value to prevent triggering the event when reaching
+        -- the crystal map:
+        GlobalManager:SetEventValue("story", "layna_forest_crystal_appearance", 0);
     else
         -- The event is done, spawn bronann and the bed normally
         bronann_in_bed:SetVisible(false);
@@ -437,9 +441,9 @@ function _CreateEvents()
 	event = hoa_map.ScriptedEvent("opening3", "OpeningDialogueDone", "");
 	EventManager:RegisterEvent(event);
 
-	-- Triggered events
-	event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home.lua", "From Bronann's first floor");
-	EventManager:RegisterEvent(event);
+    -- Triggered events
+    event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home.lua", "From Bronann's first floor");
+    EventManager:RegisterEvent(event);
 end
 
 -- Create the different map zones triggering events
