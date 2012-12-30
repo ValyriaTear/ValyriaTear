@@ -22,6 +22,7 @@
 
 #include "audio.h"
 #include "audio_descriptor.h"
+#include "engine/system.h"
 
 using namespace hoa_audio::private_audio;
 
@@ -108,6 +109,8 @@ AudioDescriptor::AudioDescriptor() :
     _looping(false),
     _offset(0),
     _volume(1.0f),
+    _fade_effect_time(0.0f),
+    _original_volume(0.0f),
     _stream_buffer_size(0)
 {
     _position[0] = 0.0f;
@@ -131,6 +134,8 @@ AudioDescriptor::AudioDescriptor(const AudioDescriptor &copy) :
     _looping(copy._looping),
     _offset(0),
     _volume(copy._volume),
+    _fade_effect_time(copy._fade_effect_time),
+    _original_volume(copy._original_volume),
     _stream_buffer_size(0)
 {
     _position[0] = 0.0f;
@@ -605,21 +610,29 @@ bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm)
 
 void AudioDescriptor::FadeIn(float time)
 {
-    _audio_effects.push_back(new private_audio::FadeInEffect(*this, time));
+    // If the sound is not playing, then start it.
+    // Note: Only audio descriptors being played are updated.
+    if(_state != AUDIO_STATE_PLAYING)
+        Play();
+
+    if (GetVolume() >= 1.0f)
+        return;
+
+    _state = AUDIO_STATE_FADE_IN;
+    _fade_effect_time = time;
 }
 
 void AudioDescriptor::FadeOut(float time)
 {
-    _audio_effects.push_back(new private_audio::FadeOutEffect(*this, time));
-}
+    _original_volume = GetVolume();
 
-bool AudioDescriptor::IsFadingOut()
-{
-    for (uint32 i = 0; i < _audio_effects.size(); ++i) {
-        if (_audio_effects[i]->effect_type == AUDIO_EFFECT_FADE_OUT)
-            return true;
+    if (_original_volume <= 0.0f) {
+        Stop();
+        return;
     }
-    return false;
+
+    _fade_effect_time = time;
+    _state = AUDIO_STATE_FADE_OUT;
 }
 
 void AudioDescriptor::RemoveEffects()
@@ -701,7 +714,7 @@ void AudioDescriptor::_SetVolumeControl(float volume)
 void AudioDescriptor::_Update()
 {
     // Don't update stopped audio descriptors
-    if(_state != AUDIO_STATE_PLAYING)
+    if(_state != AUDIO_STATE_PLAYING && _state != AUDIO_STATE_FADE_IN && _state != AUDIO_STATE_FADE_OUT)
         return;
 
     // If the last set state was the playing state, we have to double check
@@ -719,6 +732,9 @@ void AudioDescriptor::_Update()
             _state = AUDIO_STATE_STOPPED;
         }
     }
+
+    // Handle the fade in/out states
+    _HandleFadeStates();
 
     // Update all registered audio effects
     for(std::vector<AudioEffect *>::iterator it = _audio_effects.begin(); it != _audio_effects.end();) {
@@ -789,6 +805,55 @@ void AudioDescriptor::_Update()
 } // void AudioDescriptor::_Update()
 
 
+void AudioDescriptor::_HandleFadeStates()
+{
+    if (_state == AUDIO_STATE_FADE_OUT) {
+        // Hande when the effect time is very quick
+        if( _fade_effect_time <= 10.0f) {
+            Stop();
+            SetVolume(0.0f);
+            return;
+        }
+
+        float time_elapsed = (float)hoa_system::SystemManager->GetUpdateTime();
+        float new_volume = GetVolume() - (_original_volume - (_original_volume - (time_elapsed / _fade_effect_time)));
+
+        // Stop the audio, and terminate the effect if the volume drops to 0.0f or below
+        if(new_volume <= 0.0f) {
+            Stop();
+            SetVolume(0.0f);
+            return;
+        }
+        // Otherwise, update the volume for the audio
+        else {
+            SetVolume(new_volume);
+            return;
+        }
+    }
+    else if (_state == AUDIO_STATE_FADE_IN) {
+        // Stop right away when the effect is less than a usual cpu cycle
+        if(_fade_effect_time <= 10.0f) {
+            SetVolume(1.0f);
+            _state = AUDIO_STATE_PLAYING;
+            return;
+        }
+
+        float time_elapsed = (float)hoa_system::SystemManager->GetUpdateTime();
+        float new_volume = GetVolume() + (time_elapsed / _fade_effect_time);
+
+
+        // If the volume has reached the maximum, mark the effect as over
+        if(new_volume >= 1.0f) {
+            SetVolume(1.0f);
+            _state = AUDIO_STATE_PLAYING;
+            return;
+        }
+        // Otherwise, update the volume for the audio
+        else {
+            SetVolume(new_volume);
+        }
+    }
+}
 
 void AudioDescriptor::_AcquireSource()
 {
