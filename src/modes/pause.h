@@ -79,6 +79,9 @@ private:
     //! \brief Set to true if the audio should be resumed when this mode finishes
     bool _audio_paused;
 
+    //! \brief The original music volume. Used to restore it when quitting the pause mode.
+    float _music_volume;
+
     //! \brief A screen capture of the last frame rendered on the screen before PauseMode was invoked
     hoa_video::StillImage _screen_capture;
 

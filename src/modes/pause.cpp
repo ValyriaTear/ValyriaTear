@@ -48,6 +48,7 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
     GameMode(),
     _quit_state(quit_state),
     _audio_paused(pause_audio),
+    _music_volume(1.0f),
     _dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
     _option_selected(false)
 {
@@ -77,12 +78,30 @@ PauseMode::~PauseMode()
 {
     if(_audio_paused)
         AudioManager->ResumeAudio();
+    else {
+        MusicDescriptor *active_music = AudioManager->GetActiveMusic();
+        if (!active_music)
+            return;
+        else
+            active_music->SetVolume(_music_volume);
+    }
 }
 
 void PauseMode::Reset()
 {
     if(_audio_paused)
         AudioManager->PauseAudio();
+    else {
+        MusicDescriptor *active_music = AudioManager->GetActiveMusic();
+        if (active_music) {
+            _music_volume = active_music->GetVolume();
+            if (active_music->GetVolume() > 0.3f)
+                active_music->SetVolume(0.3f);
+        }
+        else {
+            _music_volume = 0.0f;
+        }
+    }
 
     // Save a copy of the current screen to use as the backdrop
     try {
