@@ -15,6 +15,7 @@ local move_down_text = {};
 local action_title_text = {};
 local confirm_text = {};
 local cancel_text = {};
+local menu_text = {};
 local game_title_text = {};
 local pause_text = {};
 local quit_text = {};
@@ -52,6 +53,7 @@ function Initialize(map_instance)
     action_title_text = hoa_system.Translate("Possible actions:");
     confirm_text = hoa_system.Translate("Confirm / Open / Talk: ") .. hoa_system.Translate(InputManager:GetConfirmKeyName());
     cancel_text = hoa_system.Translate("Run / Cancel: ") .. hoa_system.Translate(InputManager:GetCancelKeyName());
+    menu_text = hoa_system.Translate("Party Menu: ") .. hoa_system.Translate(InputManager:GetMenuKeyName());
 
     game_title_text = hoa_system.Translate("Game commands:");
     pause_text = hoa_system.Translate("Pause Menu: ") .. hoa_system.Translate(InputManager:GetPauseKeyName());
@@ -100,16 +102,17 @@ function DrawPostEffects()
 
     VideoManager:DrawText(action_title_text, 142.0, 308.0, hoa_video.Color(1.0, 1.0, 0.4, text_alpha));
 
-    VideoManager:DrawText(game_title_text, 142.0, 428.0, hoa_video.Color(0.6, 0.4, 0.0, text_alpha));
+    VideoManager:DrawText(game_title_text, 142.0, 458.0, hoa_video.Color(0.6, 0.4, 0.0, text_alpha));
 
     -- Align the commands on the left for other languages...
     Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_LEFT);
     VideoManager:DrawText(confirm_text, 32.0, 338.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
     VideoManager:DrawText(cancel_text, 32.0, 368.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(menu_text, 32.0, 398.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
 
-    VideoManager:DrawText(pause_text, 32.0, 458.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
-    VideoManager:DrawText(quit_text, 32.0, 488.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(pause_text, 32.0, 488.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(quit_text, 32.0, 518.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
 
-    VideoManager:DrawText(help_text, 32.0, 528.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(help_text, 32.0, 558.0, hoa_video.Color(1.0, 1.0, 1.0, text_alpha));
 
 end
