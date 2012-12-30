@@ -55,7 +55,7 @@ int32 GlobalEventGroup::GetEvent(const std::string &event_name)
     if(event_iter == _events.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "an event with the specified name \"" << event_name << "\" did not exist in this group: "
                                        << _group_name << std::endl;
-        return GLOBAL_BAD_EVENT;
+        return 0;
     }
     return event_iter->second;
 }
@@ -662,11 +662,11 @@ int32 GameGlobal::GetEventValue(const std::string &group_name, const std::string
 {
     std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
     if(group_iter == _event_groups.end())
-        return GLOBAL_BAD_EVENT;
+        return 0;
 
     std::map<std::string, int32>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
     if(event_iter == group_iter->second->GetEvents().end())
-        return GLOBAL_BAD_EVENT;
+        return 0;
 
     return event_iter->second;
 }

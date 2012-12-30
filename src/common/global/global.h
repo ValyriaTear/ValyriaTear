@@ -98,14 +98,14 @@ public:
 
     /** \brief Retrieves the value of a specific event in the group
     *** \param event_name The name of the event to retrieve
-    *** \return The value of the event, or GLOBAL_BAD_EVENT if there is no event corresponding to
+    *** \return The value of the event, or 0 if there is no event corresponding to
     *** the requested event named
     **/
     int32 GetEvent(const std::string &event_name);
 
     /** \brief Sets the value for an existing event
     *** \param event_name The name of the event whose value should be changed
-    *** \param event_value The value to set for the event
+    *** \param event_value The value to set for the event.
     *** \note If the event by the given name is not found, the event group will be created.
     **/
     void SetEvent(const std::string &event_name, int32 event_value);
@@ -354,7 +354,7 @@ public:
     /** \brief Returns the value of an event inside of a specified group
     *** \param group_name The name of the event group where the event is contained
     *** \param event_name The name of the event whose value should be retrieved
-    *** \return The value of the requested event, or GLOBAL_BAD_EVENT if the event was not found
+    *** \return The value of the requested event, or 0 if the event was not found
     **/
     int32 GetEventValue(const std::string &group_name, const std::string &event_name) const;
 

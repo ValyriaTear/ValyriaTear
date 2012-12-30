@@ -69,9 +69,6 @@ const uint32 MAX_SUPPORT_ID  = 30000;
 
 } // namespace private_global
 
-//! \brief A return value used for when a specified event name fails to be found
-const int32 GLOBAL_BAD_EVENT = 0xFFFFFFFF;
-
 /** \name Target Types
 *** \brief Enum values used for declaring the type of targets for items, skills, and actions.
 ***
