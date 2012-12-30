@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-27 18:03+0100\n"
-"PO-Revision-Date: 2012-12-27 18:17+0100\n"
+"PO-Revision-Date: 2012-12-30 15:01+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1647,7 +1647,7 @@ msgstr "Ne rien demander. Je sais me battre."
 #: ../dat/battles/tutorial_battle_dialogs.lua:54
 msgid "Er, I could use a refresher on the fundamentals of combat."
 msgstr ""
-"Heu, Cela ne me déragerait pas d'avoir un bon rafraîchissement de la base."
+"Heu, Cela ne me dérangerait pas d'avoir un bon rafraîchissement des bases."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:56
 msgid ""
@@ -1656,17 +1656,17 @@ msgid ""
 "As enemies take damage in battle, their appearance will reflect that damage."
 msgstr ""
 "Chaque participant au combat possède une barre de points de vie (PV) et des "
-"points de magie (PM). Leur PV et PM sont indiqués au bas de l'écran. Quant "
-"aux enemies, les dégâts qu'ils subissent se voient à leur apparence."
+"points de magie (PM). Ses PV et PM sont indiqués au bas de l'écran. Quant "
+"aux ennemis, les dégâts qu'ils subissent se voient à leur apparence."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:58
 msgid ""
 "When an actor's HP reaches zero, they become incapacitated. Victory in "
 "battle is obtained by reducing the HP of all enemies to zero."
 msgstr ""
-"Quand les PV d'un personnage atteignent zéro, ils tombent en coma. La "
-"victoire en combat est habituellement obtenue en réduisant tous les PV des "
-"enemies à zéro."
+"Quand les PV d'un personnage atteignent zéro, il tombe en coma. La victoire "
+"en combat est habituellement obtenue en réduisant tous les PV des ennemis à "
+"zéro."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:60
 msgid ""
@@ -1674,7 +1674,7 @@ msgid ""
 "be used. Most basic actions consume no SP. Using an item also consumes no SP."
 msgstr ""
 "Chaque action en combat requiert un certain de nombre de PM avant de pouvoir "
-"être utilisé. Les actions simples, quant à elles, ne consomment pas de PM. "
+"être utilisée. Les actions simples, quant à elles, ne consomment pas de PM. "
 "Utiliser un objet ne requiert également pas de PM."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:62
@@ -1684,9 +1684,9 @@ msgid ""
 "will begin preparing to execute their selected action. When they reach the "
 "top of the gauge, they will execute that action."
 msgstr ""
-"La barre de d'endurance sur la partie droite de l'écran détermine quand un "
+"La barre d'endurance sur la partie droite de l'écran détermine quand un "
 "personnage a la possibilité d'effectuer une action. Une fois que l'icône du "
-"personnage a atteint le trait vert, il pourra commencer à se préparer pour "
+"personnage à atteint le trait vert, il pourra commencer à se préparer pour "
 "effectuer son action. Lorsqu'il atteint le sommet de la barre, le personnage "
 "effectuera son action."
 
@@ -1696,9 +1696,9 @@ msgid ""
 "action and target. When a command is being issued for a character, this area "
 "of the screen is replaced with the command menu."
 msgstr ""
-"La partie en bas à droite de l'écran indique l'action et la cible "
-"sélectionnées par le personnage lorsqu'une action a été sélectionnée pour "
-"l'un de ces derniers."
+"La partie en bas à droite de l'écran indique l'action et la cible choisie "
+"par le personnage lorsqu'une action a été sélectionnée pour l'un de ces "
+"derniers."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:67
 msgid "How do I select commands to execute?"
@@ -1720,9 +1720,9 @@ msgid ""
 "longer these periods will be."
 msgstr ""
 "Les actions en combat nécessitent un certain temps de préparation avant "
-"utilisation, ainsi qu'un certain temps pour se reprendre après celle-ci. Ces "
-"périodes sont connues sous les noms de temps de préparation et temps de "
-"reprise. En général, plus l'attaque est puissante, plus ces temps sont longs."
+"utilisation, ainsi qu'un certain temps après celle-ci. Ces périodes sont "
+"connues sous les noms de temps de préparation et temps de reprise. En "
+"général, plus l'attaque est puissante, plus ces temps sont longs."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:73
 msgid ""
@@ -1730,7 +1730,11 @@ msgid ""
 "character that you may select a command for. You can set or change the "
 "action and/or target issued to a character whenever these buttons are "
 "visible."
-msgstr "Au bas de l'écran, des boutons "
+msgstr ""
+"Au bas de l'écran, des boutons directionnels sont indiqués pour chaque "
+"personnage auquel une action peut être choisie. Tu peux sélectionner une "
+"action ou en changer tant que ces boutons sont visibles pour le personnage "
+"donné."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:75
 msgid ""
@@ -1754,8 +1758,8 @@ msgid ""
 msgstr ""
 "Toutes les actions n'affectent qu'un type de cible. Le type de cible pour "
 "chaque action est indiqué par un icône dans le menu de commande. Les types "
-"de cible possibles sont alliés, ou enemies, et peuvent pointer sur un point "
-"d'attaque, une personnage au complet ou toute une équipe de personnage."
+"de cible possibles sont 'alliés', ou 'enmemis', et peuvent pointer sur un "
+"point d'attaque, une personnage au complet ou toute une équipe de personnage."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:79
 msgid ""
@@ -1771,7 +1775,7 @@ msgstr ""
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:82
 msgid "What do I need to know about status effects?"
-msgstr "qu'ai-je besoin de savoir sur les effets de statut ?"
+msgstr "Qu'ai-je besoin de savoir sur les effets de statut ?"
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:84
 msgid ""
@@ -1781,7 +1785,7 @@ msgid ""
 "icon, whereas a negative status effect displays a downward red arrow on its "
 "icon."
 msgstr ""
-"Les effets de statut implique des changements positifs ou négatifs dans "
+"Les effets de statut impliquent des changements positifs ou négatifs dans "
 "l'état de leur victime. Les effets positifs sont affichés avec une flèche "
 "montante et les négatifs avec une flèche descendante."
 
@@ -1813,7 +1817,7 @@ msgid ""
 "Status effects naturally grow weaker in intensity and dissipate with time. "
 "You must continually reinforce status effects that you wish to remain active."
 msgstr ""
-"Les effets de status seront actifs durant un temps déterminé par les "
+"Les effets de statut seront actifs durant un temps déterminé par les "
 "capacités du personnes et se dissiperont avec le temps."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:92
@@ -1834,7 +1838,7 @@ msgstr "Y a-t-il autre chose ?"
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:108
 msgid "Ask nothing."
-msgstr "...Rien."
+msgstr "... Rien."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:111
 msgid "Thanks Kalya, I'm prepared now."
@@ -2263,7 +2267,7 @@ msgid ""
 "He just ran away. I'm almost sure we'll meet it again. We'd better be well "
 "prepared, then."
 msgstr ""
-"Il vient de s'enfuir. Je sis presque sûr que nous le rencontrerons à "
+"Il vient de s'enfuir. Je suis presque sûre que nous le rencontrerons à "
 "nouveau. Nous ferions mieux d'être bien préparés, dans ce cas."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east.lua:861
