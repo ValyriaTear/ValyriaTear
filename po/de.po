@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-27 18:03+0100\n"
-"PO-Revision-Date: 2012-12-29 01:55+0100\n"
+"PO-Revision-Date: 2012-12-30 17:18+0100\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -119,22 +119,22 @@ msgstr "Fertigkeit<R>Typ SP"
 #: ../src/modes/battle/battle_command.cpp:646
 #: ../src/modes/battle/battle_command.cpp:652
 msgid "Attack"
-msgstr "Angreifen"
+msgstr "Angriff"
 
 #: ../src/modes/battle/battle_command.cpp:647
 #: ../src/modes/battle/battle_command.cpp:653
 msgid "Defend"
-msgstr "Verteidigen"
+msgstr "Verteid"
 
 #: ../src/modes/battle/battle_command.cpp:648
 #: ../src/modes/battle/battle_command.cpp:654
 msgid "Support"
-msgstr "Unterstützen"
+msgstr "Unterst"
 
 #: ../src/modes/battle/battle_command.cpp:649
 #: ../src/modes/battle/battle_command.cpp:655
 msgid "Item"
-msgstr "Gegenstand"
+msgstr "Gegenst"
 
 #: ../src/modes/battle/battle_command.cpp:1257
 msgid "Select Target"
@@ -626,12 +626,12 @@ msgstr "Kopf"
 #: ../dat/actors/enemies.lua:331 ../dat/actors/enemies.lua:684
 #: ../dat/actors/enemies.lua:804
 msgid "Torso"
-msgstr "Körper"
+msgstr "Torso"
 
 #: ../src/modes/menu/menu.cpp:224 ../src/modes/menu/menu_views.cpp:209
 #: ../dat/actors/enemies.lua:1397 ../dat/actors/enemies.lua:1463
 msgid "Arm"
-msgstr "Arm"
+msgstr "Arme"
 
 #: ../src/modes/menu/menu.cpp:227 ../dat/actors/characters.lua:83
 #: ../dat/actors/characters.lua:213 ../dat/actors/characters.lua:342
@@ -682,7 +682,7 @@ msgstr "Ausrüsten"
 
 #: ../src/modes/menu/menu.cpp:374
 msgid "Remove"
-msgstr "Entfernen"
+msgstr "Ablegen"
 
 #: ../src/modes/menu/menu.cpp:375 ../src/modes/menu/menu.cpp:617
 #: ../src/modes/menu/menu.cpp:666 ../src/modes/menu/menu.cpp:724
@@ -810,19 +810,19 @@ msgstr "Keine Waffe"
 
 #: ../src/modes/menu/menu_views.cpp:1516
 msgid "No head armor"
-msgstr "Keine Kopfrüstung"
+msgstr "Nichts ausgerüstet"
 
 #: ../src/modes/menu/menu_views.cpp:1517
 msgid "No torso armor"
-msgstr "Keine Körperrüstung"
+msgstr "Nichts ausgerüstet"
 
 #: ../src/modes/menu/menu_views.cpp:1518
 msgid "No arm armor"
-msgstr "Keine Armrüstung"
+msgstr "Nichts ausgerüstet"
 
 #: ../src/modes/menu/menu_views.cpp:1519
 msgid "No leg armor"
-msgstr "Keine Beinrüstung"
+msgstr "Nichts ausgerüstet"
 
 #: ../src/modes/menu/menu_views.cpp:1542 ../src/modes/shop/shop.cpp:114
 msgid "Weapons"
@@ -834,7 +834,7 @@ msgstr "Kopf"
 
 #: ../src/modes/menu/menu_views.cpp:1548 ../src/modes/menu/menu_views.cpp:1567
 msgid "Body Armor"
-msgstr "Körper"
+msgstr "Torso"
 
 #: ../src/modes/menu/menu_views.cpp:1551 ../src/modes/menu/menu_views.cpp:1569
 msgid "Offhand"
@@ -1644,7 +1644,7 @@ msgstr "Frage über Statuseffekte."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:51
 msgid "Ask nothing. I know how to fight."
-msgstr "Frage nichts. Ich weiß wie man kämpft."
+msgstr "Ich weiß wie man kämpft."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:54
 msgid "Er, I could use a refresher on the fundamentals of combat."
@@ -2946,8 +2946,8 @@ msgid ""
 "You see, I lost my beloved pen. Was it near a tree or next to the waving "
 "child of the mountain snow?"
 msgstr ""
-"Mir ist mein geliebter Stift abhanden gekommen. War es in der Nähe eines "
-"Baumes oder nahe des wogenden Gebirgsschneekindes?"
+"Mir ist mein geliebter Stift abhanden gekommen. War es an den Wurzeln des "
+"grünen Schattenspenders oder nahe des wogenden Gebirgsschneekindes?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1166
 #: ../dat/maps/layna_village/layna_village_center.lua:1195
@@ -2976,12 +2976,12 @@ msgid ""
 "That's the point! Can't you hear the magnificient sound of nature, so "
 "invisible to our adapted ears?"
 msgstr ""
-"Das ist der Punkt! Du kannst den herrlichen Klang der Natur nicht hören, so "
-"unhörbar für unsere daran gewöhnten Ohren?"
+"Das ist der Punkt! Kannst du den herrlichen Klang der Natur nicht hören? "
+"Sind wir so sehr abgestumpft?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1183
 msgid "Huh, please Georges. I do not want to run away like the last time..."
-msgstr "Hä, bitte Georges. Ich werde nicht weglaufen wie das letzte Mal..."
+msgstr "Hä, bitte Georges. Ich werde nicht weggehen wie das letzte Mal..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1185
 msgid ""
@@ -2989,7 +2989,7 @@ msgid ""
 "the wind..."
 msgstr ""
 "... Das unglaubliche und erstaunliche, man könnte sogar sagen, "
-"atemberaubende Gefühl im Wind..."
+"atemberaubende Gefühl vom Winde getragen..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1187
 msgid ""
@@ -3080,8 +3080,8 @@ msgid ""
 "Ah! Sure, as soon as your father will stop lending his sword to you to "
 "practise with him. Are you sure everything is alright?"
 msgstr ""
-"Ach! Sicher, sobald dein Vater aufhört dir sein Schwert zu leihen um mit ihm "
-"zu üben. Alles in Ordnung bei dir?"
+"Ach! Was ist mit dem Schwert deines Vaters, das ihr zum Üben benutzt. Alles "
+"in Ordnung bei dir?"
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:355
 msgid "Err, nevermind..."
@@ -3138,7 +3138,7 @@ msgid ""
 "with an old grandma."
 msgstr ""
 "Ach! Es ist schön dein liebes junges Gesicht zu sehen, Bronann. Komm und "
-"plausche ein wenig mit deiner Grossmutter."
+"plaudere ein wenig mit deiner Grossmutter."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path.lua:355
 msgid "Er... Sorry grandma, I have to go! Maybe later?"
@@ -3150,7 +3150,7 @@ msgid ""
 "nowadays..."
 msgstr ""
 "Ach! Sicherlich möchtest du zu der jungen Dame, die weiter oben lebt. Ach, "
-"die Jugend heutzutage..."
+"die Jugend..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:560
 msgid "Wow! You found me!"
