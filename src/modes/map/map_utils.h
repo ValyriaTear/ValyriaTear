@@ -161,6 +161,8 @@ enum MAP_OBJECT_TYPE {
 const float VERY_SLOW_SPEED  = 225.0f;
 const float SLOW_SPEED       = 190.0f;
 const float NORMAL_SPEED     = 150.0f;
+// Slightly higher than the normal speed, but less than a running character.
+const float ENEMY_SPEED      = 130.0f;
 const float FAST_SPEED       = 110.0f;
 const float VERY_FAST_SPEED  = 75.0f;
 //@}

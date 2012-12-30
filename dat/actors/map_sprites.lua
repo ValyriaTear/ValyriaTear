@@ -6,6 +6,8 @@ local SLOW_SPEED = hoa_map.MapMode.SLOW_SPEED;
 local VERY_SLOW_SPEED = hoa_map.MapMode.VERY_SLOW_SPEED;
 local VERY_FAST_SPEED = hoa_map.MapMode.VERY_FAST_SPEED;
 
+local ENEMY_SPEED = hoa_map.MapMode.ENEMY_SPEED;
+
 sprites["Bronann"] = {
 	name = hoa_system.Translate("Bronann"),
 	coll_half_width = 0.95,
@@ -326,7 +328,7 @@ sprites["bat"] = {
     coll_height = 2.0,
     img_half_width = 1.0,
     img_height = 2.0,
-    movement_speed = NORMAL_SPEED,
+    movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -340,7 +342,7 @@ sprites["slime"] = {
 	coll_height = 1.0,
 	img_half_width = 0.6,
 	img_height = 1.0,
-	movement_speed = NORMAL_SPEED,
+	movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/enemies/slime_idle.lua",
@@ -354,7 +356,7 @@ sprites["big slime"] = {
 	coll_height = 3.0,
 	img_half_width = 1.5,
 	img_height = 3.0,
-	movement_speed = NORMAL_SPEED,
+	movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -368,7 +370,7 @@ sprites["snake"] = {
 	coll_height = 2.0,
 	img_half_width = 1.0,
 	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+	movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/enemies/snake_idle.lua",
@@ -382,7 +384,7 @@ sprites["scorpion"] = {
 	coll_height = 2.0,
 	img_half_width = 1.0,
 	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+	movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/enemies/scorpion_idle.lua",
@@ -396,7 +398,7 @@ sprites["Fenrir"] = {
 	coll_height = 3.0,
 	img_half_width = 1.5,
 	img_height = 3.0,
-	movement_speed = NORMAL_SPEED,
+	movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
     standard_animations = {
