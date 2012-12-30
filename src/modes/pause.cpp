@@ -65,7 +65,7 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
     _quit_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _quit_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _quit_options.SetSelectMode(VIDEO_SELECT_SINGLE);
-    _quit_options.SetCursorOffset(-58.0f, 18.0f);
+    _quit_options.SetCursorOffset(-58.0f, -18.0f);
 
     _quit_options.AddOption(UTranslate("Quit Game"));
     _quit_options.AddOption(UTranslate("Quit to Main Menu"));
@@ -91,7 +91,9 @@ void PauseMode::Reset()
         IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
     }
 
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    _screen_capture.SetWidthKeepRatio(VIDEO_STANDARD_RES_WIDTH);
+
+    VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
     VideoManager->DisableFadeEffect();
 }
@@ -160,13 +162,10 @@ void PauseMode::Update()
 void PauseMode::DrawPostEffects()
 {
     // Set the coordinate system for the background and draw
-    VideoManager->SetCoordSys(0.0f, _screen_capture.GetWidth(), 0.0f, _screen_capture.GetHeight());
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(0.0f, 0.0f);
+    VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT);
     _screen_capture.Draw(_dim_color);
 
-    // Re-set the coordinate system for everything else
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
     VideoManager->Move(512.0f, 384.0f);
 
