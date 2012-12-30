@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-27 18:03+0100\n"
-"PO-Revision-Date: 2012-12-30 15:01+0100\n"
+"PO-Revision-Date: 2012-12-30 22:50+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -722,8 +722,7 @@ msgstr "L'objet est un objet clé et ne peut être ni utilisé ni vendu."
 #: ../src/modes/menu/menu.cpp:999
 msgid "This item is a crystal shard and can be associated with equipment."
 msgstr ""
-"Cet object est un fragment de cristal et peut être associé à votre "
-"équipement."
+"Cet objet est un fragment de cristal et peut être associé à votre équipement."
 
 #: ../src/modes/menu/menu_views.cpp:98 ../src/modes/save/save_mode.cpp:614
 msgid "Lv: "
@@ -963,7 +962,8 @@ msgstr "Le tableau ci-dessous liste les touches utilisées par défaut.\n"
 msgid ""
 "The control mappings can be changed in the options menu on the next screen."
 msgstr ""
-"Les touches peuvent être changées dans le menu d'option dans l'écran suivant."
+"Les touches peuvent être changées dans le menu d'options dans l'écran "
+"suivant."
 
 #: ../src/modes/mode_help_window.cpp:219
 msgid "Default Key"
@@ -2784,7 +2784,7 @@ msgstr "Kalya a rejoint votre équipe."
 msgid ""
 "By the way, did you ever prepare yourself for something like this before?"
 msgstr ""
-"D'ailleurs, t'es tu jamais préparé pour quelque-chose comme ça auparavant ?"
+"D'ailleurs, t'es-tu jamais préparé pour quelque-chose comme ça auparavant ?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:932
 msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
@@ -3046,7 +3046,7 @@ msgstr "S'il te plaît, dis-moi en plus ! L'as-tu trouvé ?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1267
 msgid "Maybe yes, maybe no!"
-msgstr "Peu-être que oui, peut-être que non !"
+msgstr "Peut-être que oui, peut-être que non !"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1269
 msgid "Oh no, please Orlinn! I need it!"
