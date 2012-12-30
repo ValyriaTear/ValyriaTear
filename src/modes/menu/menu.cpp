@@ -365,7 +365,7 @@ void InventoryState::Reset()
 {
     // Setup the option box
     SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(415.0f, 50.0f, INV_OPTIONS_SIZE, 1, INV_OPTIONS_SIZE, 1);
+    _options.SetDimensions(555.0f, 50.0f, INV_OPTIONS_SIZE, 1, INV_OPTIONS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
