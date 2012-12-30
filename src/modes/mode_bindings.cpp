@@ -187,6 +187,7 @@ void BindModeCode()
                 luabind::value("VERY_SLOW_SPEED", static_cast<uint32>(VERY_SLOW_SPEED)),
                 luabind::value("SLOW_SPEED", static_cast<uint32>(SLOW_SPEED)),
                 luabind::value("NORMAL_SPEED", static_cast<uint32>(NORMAL_SPEED)),
+                luabind::value("ENEMY_SPEED", static_cast<uint32>(ENEMY_SPEED)),
                 luabind::value("FAST_SPEED", static_cast<uint32>(FAST_SPEED)),
                 luabind::value("VERY_FAST_SPEED", static_cast<uint32>(VERY_FAST_SPEED))
             ]
