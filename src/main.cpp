@@ -268,6 +268,50 @@ static void LoadFonts(const std::string &font_script_filename)
                                           VIDEO_TEXT_SHADOW_BLACK, 1, -2));
 }
 
+//! Loads the quest entries into the GlobalManager
+static void LoadQuests(const std::string& quests_script_filename)
+{
+    hoa_script::ReadScriptDescriptor quests_script;
+    if(!quests_script.OpenFile(quests_script_filename)) {
+        PRINT_ERROR << "Couldn't open quests file: " << quests_script_filename
+                    << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    if(!quests_script.DoesTableExist("quests")) {
+        PRINT_ERROR << "No 'quests' table in file: " << quests_script_filename
+                    << std::endl;
+        quests_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
+    std::vector<std::string> quest_ids;
+    quests_script.ReadTableKeys("quests", quest_ids);
+    if(quest_ids.empty()) {
+        PRINT_ERROR << "No quests defined in the 'quests' table of file: "
+                    << quests_script_filename << std::endl;
+        quests_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
+    quests_script.OpenTable("quests");
+    for(uint32 i = 0; i < quest_ids.size(); ++i)
+    {
+        std::vector<std::string> quest_info;
+        quests_script.ReadStringVector(quest_ids[i], quest_info);
+        if(!GlobalManager->LoadQuest(quest_ids[i], UTranslate(quest_info[0]), UTranslate(quest_info[1])))
+        {
+           PRINT_ERROR << "duplicate quests defined in the 'quests' table of file: "
+                    << quests_script_filename << std::endl;
+            quests_script.CloseFile();
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    quests_script.CloseTable();
+
+    quests_script.CloseFile();
+}
+
 //! Loads the default window GUI theme for the game.
 //! TODO: Make this changeable from the boot menu
 //! and handle keeping the them in memory through config
@@ -426,6 +470,9 @@ void InitializeEngine() throw(Exception)
 
     // Loads all game fonts
     LoadFonts("dat/config/fonts.lua");
+
+    // Load quests
+    LoadQuests("dat/config/quests.lua");
 
     // Loads potential emotes
     GlobalManager->LoadEmotes("dat/effects/emotes.lua");

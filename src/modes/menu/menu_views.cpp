@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"
@@ -1579,6 +1580,215 @@ void EquipWindow::Draw()
     }
 
 } // void EquipWindow::Draw()
+
+////////////////////////////////////////////////////////////////////////////////
+// QuestListWindow Class
+////////////////////////////////////////////////////////////////////////////////
+QuestListWindow::QuestListWindow() :
+    _active_box(false)
+{
+    _quests_list.SetPosition(92.0f, 145.0f);
+    _quests_list.SetDimensions(330.0f, 375.0f, 1, 255, 1, 8);
+    _quests_list.SetCursorOffset(-55.0f, -15.0f);
+    _quests_list.SetTextStyle(TextStyle("text20"));
+    _quests_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
+    _quests_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+    _quests_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    //enable viewing of grey options
+    _quests_list.SetSkipDisabled(false);
+}
+
+void QuestListWindow::Draw()
+{
+    //draw the menu area
+    MenuWindow::Draw();
+
+    //defensive update of the list, just in case we added a quest log before viewing this window
+    if(_quests_list.GetNumberOptions() != GlobalManager->GetNumberQuestLogEntries())
+        _UpdateQuestList();
+
+    //draw the quest log list
+    _quests_list.Draw();
+
+
+}
+
+void QuestListWindow::Update()
+{
+    //if empty, exit out immediatly
+    if(GlobalManager->GetNumberQuestLogEntries() == 0)
+    {
+        MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
+        _active_box = false;
+        return;
+    }
+
+    // quest log is fairly simple. it only responds
+    // to up / down and cancel
+    if(InputManager->CancelPress()) {
+        _quests_list.InputCancel();
+    } else if(InputManager->UpPress()) {
+        _quests_list.InputUp();
+    } else if(InputManager->DownPress()) {
+        _quests_list.InputDown();
+    }
+
+    uint32 event = _quests_list.GetEvent();
+    // cancel and exit
+    if(event == VIDEO_OPTION_CANCEL) {
+        _active_box = false;
+        _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+        MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
+    }
+    //standard upate of quest list
+    _UpdateQuestList();
+
+
+}
+
+/**
+*** \brief sorts the quest log keys based on the actual quest entry number, putting the highest value at the top of the list
+**/
+
+static inline bool sort_by_number_reverse(const std::string &quest_key_1, const std::string &quest_key_2)
+{
+    return (GlobalManager->GetQuestLogEntry(quest_key_1)->_quest_log_number > GlobalManager->GetQuestLogEntry(quest_key_2)->_quest_log_number);
+}
+
+void QuestListWindow::_UpdateQuestList()
+{
+    //yes, this should be const. OptionsBox doesn't take const ustring vectors so we have trouble with that
+    //right now
+    static ustring spacing = MakeUnicodeString("<20>");
+    static ustring exclamation_file = MakeUnicodeString("<img/effects/emotes/exclamation.png>") + spacing;
+    if(GlobalManager->GetNumberQuestLogEntries() == 0)
+    {
+        //set the QuestWindow key to "NULL", which is actually ""
+        MenuMode::CurrentInstance()->_quest_window.SetViewingQuestKey("");
+        return;
+    }
+
+    //get the cursor selection
+    int32 selection = _quests_list.GetSelection();
+
+    //load the global quest log
+    std::vector<ustring> options;
+    //a vector of option indicies that are completed and should be "grey"
+    std::vector<uint32> completed_quests;
+    std::vector<std::string> quest_keys = GlobalManager->GetQuestLogKeys();
+    //reorder by sorting via the entry number
+    std::sort(quest_keys.begin(),quest_keys.end(),sort_by_number_reverse);
+
+    for(uint32 i = 0; i < quest_keys.size(); ++i)
+    {
+        QuestLogEntry *entry = GlobalManager->GetQuestLogEntry(quest_keys[i]);
+        if(entry == NULL)
+        {
+            PRINT_WARNING << "no entry found for quest: "
+                            << quest_keys[i] << std::endl;
+            continue;
+        }
+
+        ustring *title = GlobalManager->GetQuestTitle(entry->_string_id);
+        if(title == NULL)
+        {
+            PRINT_WARNING << "no title found for quest id: "
+                            << quest_keys[i] << std::endl;
+        }
+
+        //set the selected item to read, but ONLY IF we are active in this window
+        if(i == (uint32)selection && MenuMode::CurrentInstance()->_quest_list_window.IsActive())
+            entry->_is_read = true;
+
+        //check if entry has been viewed. if not, add the exclamation png to it
+        if(entry->_is_read)
+            options.push_back(spacing + *title);
+        else
+            options.push_back(exclamation_file + *title);
+
+        //chechk if this is a completed quest
+        if(_IsCompleted(entry->_complete_event_group, entry->_complete_event_name))
+            completed_quests.push_back(i);
+    }
+
+    //update the quest list box
+    _quests_list.SetOptions(options);
+    //sets the quest list to grey for completed quests
+    for(uint32 i = 0; i < completed_quests.size(); ++i)
+        _quests_list.EnableOption(completed_quests[i],false);
+
+    //update the list box
+    _quests_list.Update(SystemManager->GetUpdateTime());
+
+    //set the QuestWindow quest key value to the selected quest
+    MenuMode::CurrentInstance()->_quest_window.SetViewingQuestKey(quest_keys[selection]);
+
+}
+
+void QuestListWindow::Activate(bool new_state)
+{
+    if(new_state)
+    {
+        _quests_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+        _quests_list.ResetViewableOption();
+        _quests_list.SetSelection(0);
+    }
+    else
+    {
+        _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    }
+    _active_box = new_state;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// QuestWindow Class
+////////////////////////////////////////////////////////////////////////////////
+
+QuestWindow::QuestWindow()
+{
+    //_quest_description.SetOwner(this);
+    _quest_description.SetPosition(445, 130);
+    _quest_description.SetDimensions(455, 400);
+    _quest_description.SetDisplaySpeed(30);
+    _quest_description.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _quest_description.SetTextStyle(TextStyle("text20"));
+    _quest_description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+
+
+}
+
+void QuestWindow::Draw()
+{
+
+    MenuWindow::Draw();
+    Update();
+    if(MenuMode::CurrentInstance()->_quest_list_window.IsActive())
+        _quest_description.Draw();
+
+}
+
+void QuestWindow::Update()
+{
+    MenuWindow::Update();
+    //check to see if the key is blank or if the quest doesn't exist. if so, draw an empty space
+    if(_viewing_quest_key.empty() || GlobalManager->DoesQuestLogEntryExist(_viewing_quest_key) == false)
+        _quest_description.ClearText();
+    //otherwise, put the text description for the quest in
+    else
+    {
+        _quest_description.ClearText();
+        ustring *description = GlobalManager->GetQuestDescription(GlobalManager->GetQuestLogEntry(_viewing_quest_key)->_string_id);
+        if(description == NULL)
+        {
+            PRINT_WARNING << "no description found for quest id: "
+                            << GlobalManager->GetQuestLogEntry(_viewing_quest_key)->_string_id << std::endl;
+            return;
+        }
+        _quest_description.SetDisplayText(*description);
+    }
+
+}
 
 } // namespace private_menu
 

@@ -56,7 +56,7 @@ static void SetupOptionBoxCommonSettings(OptionBox *ob)
     ob->SetCursorOffset(-52.0f, -20.0f);
 }
 
-AbstractMenuState::AbstractMenuState(const char* state_name, MenuMode* menu_mode):
+AbstractMenuState::AbstractMenuState(const char *state_name, MenuMode *menu_mode):
     _state_name(state_name),
     _menu_mode(menu_mode),
     _from_state(NULL)
@@ -119,7 +119,7 @@ void AbstractMenuState::Update()
 
     if(event == VIDEO_OPTION_CONFIRM) {
         uint32 selection = _options.GetSelection();
-        AbstractMenuState* next_state = GetTransitionState(selection);
+        AbstractMenuState *next_state = GetTransitionState(selection);
         // if the next state is the state we came from, it is similar to "cancel"
         if(next_state == _from_state)
         {
@@ -181,10 +181,22 @@ void AbstractMenuState::Draw()
     VideoManager->Move(0.0f, 0.0f);
 
     _menu_mode->_main_options_window.Draw();
-    // do instance specific rendering
-    _OnDraw();
+
+    // do instance specific main window rendering
+    _OnDrawMainWindow();
+    // do instance specific side window rendering
+    _OnDrawSideWindow();
     // Draw currently active options box
     _options.Draw();
+
+}
+
+void AbstractMenuState::_OnDrawSideWindow()
+{
+    _menu_mode->_character_window0.Draw();
+    _menu_mode->_character_window1.Draw();
+    _menu_mode->_character_window2.Draw();
+    _menu_mode->_character_window3.Draw();
 }
 
 void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *character)
@@ -310,6 +322,7 @@ void MainMenuState::Reset()
     options.push_back(UTranslate("Inventory"));
     options.push_back(UTranslate("Skills"));
     options.push_back(UTranslate("Party"));
+    options.push_back(UTranslate("Quests"));
 
     // Add strings and set default selection.
     _options.SetOptions(options);
@@ -329,6 +342,9 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
         case MAIN_OPTIONS_PARTY:
             return &(_menu_mode->_party_state);
             break;
+        case MAIN_OPTIONS_QUESTS:
+            return &(_menu_mode->_quests_state);
+            break;
         default:
             PRINT_ERROR << "MENU ERROR: Invalid option in " << GetStateName() << "::GetTransitionState" << std::endl;
             break;
@@ -337,30 +353,48 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
     return NULL;
 }
 
-void MainMenuState::_OnDraw()
+void MainMenuState::_OnDrawMainWindow()
 {
 
     uint32 draw_window = _options.GetSelection();
-    AbstractMenuState::_DrawBottomMenu();
+
     // Draw the chosen window
     switch(draw_window) {
-    case MAIN_OPTIONS_INVENTORY:
-        _menu_mode->_inventory_window.Draw();
-        break;
-
-    case MAIN_OPTIONS_SKILLS:
-        _menu_mode->_skills_window.Draw();
-        break;
-
-    case MAIN_OPTIONS_PARTY:
-    default:
-        _menu_mode->_party_window.Draw();
-        break;
-
+        case MAIN_OPTIONS_INVENTORY: {
+            AbstractMenuState::_DrawBottomMenu();
+            _menu_mode->_inventory_window.Draw();
+            break;
+        }
+        case MAIN_OPTIONS_SKILLS: {
+            AbstractMenuState::_DrawBottomMenu();
+            _menu_mode->_skills_window.Draw();
+            break;
+        }
+        case MAIN_OPTIONS_QUESTS: {
+            static const ustring quest_view_message = MakeUnicodeString("Select to view Quest Log");
+            _menu_mode->_bottom_window.Draw();
+            _menu_mode->_help_information.SetDisplayText(quest_view_message);
+            _menu_mode->_help_information.Draw();
+            _menu_mode->_quest_window.Draw();
+            break;
+        }
+        case MAIN_OPTIONS_PARTY:
+        default: {
+            AbstractMenuState::_DrawBottomMenu();
+            _menu_mode->_party_window.Draw();
+            break;
+        }
     } // switch draw_window
 
 }
 
+void MainMenuState::_OnDrawSideWindow()
+{
+    if(_options.GetSelection() == MAIN_OPTIONS_QUESTS)
+        _menu_mode->_quest_list_window.Draw();
+    else
+        AbstractMenuState::_OnDrawSideWindow();
+}
 void InventoryState::Reset()
 {
     // Setup the option box
@@ -408,7 +442,7 @@ bool InventoryState::_IsActive()
     return _menu_mode->_inventory_window.IsActive();
 }
 
-void InventoryState::_OnDraw()
+void InventoryState::_OnDrawMainWindow()
 {
 
     uint32 draw_window = _options.GetSelection();
@@ -427,8 +461,6 @@ void InventoryState::_OnDraw()
         default:
             _menu_mode->_inventory_window.Draw();
             break;
-
-
     }
 
 }
@@ -447,15 +479,22 @@ void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,
 
 void InventoryState::_DrawBottomMenu()
 {
-
+    static const ustring inventory_help_message = MakeUnicodeString("Select an item to Equip or Use");
     _menu_mode->_bottom_window.Draw();
 
-    //if we are out of items, the bottom view should show nothing
-    if(_menu_mode->_inventory_window._item_objects.size() == 0)
-        return;
+
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(150, 580);
+
+    if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_CATEGORY)
+    {
+        _menu_mode->_help_information.SetDisplayText(inventory_help_message);
+        _menu_mode->_help_information.Draw();
+    }
+     //if we are out of items, the bottom view should do no work
+    if(GlobalManager->GetInventory()->size() == 0 || _menu_mode->_inventory_window._item_objects.size() == 0)
+        return;
 
     GlobalObject *obj = _menu_mode->_inventory_window._item_objects[ _menu_mode->_inventory_window._inventory_items.GetSelection() ];
     const GLOBAL_OBJECT obj_type = obj->GetObjectType();
@@ -474,14 +513,17 @@ void InventoryState::_DrawBottomMenu()
         switch(obj_type)
         {
             case GLOBAL_OBJECT_KEY_ITEM:
-                _DrawItemDescription(*obj,_menu_mode->_key_item_symbol,_menu_mode->_key_item_description);
+                _DrawItemDescription(*obj, _menu_mode->_key_item_symbol, _menu_mode->_key_item_description);
                 break;
             case GLOBAL_OBJECT_SHARD:
-                _DrawItemDescription(*obj,_menu_mode->_shard_symbol,_menu_mode->_shard_description);
+                _DrawItemDescription(*obj, _menu_mode->_shard_symbol, _menu_mode->_shard_description);
                 break;
             default:
                 break;
         };
+
+        //Draw help text
+
 
     }
     else if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_CHAR)
@@ -587,8 +629,9 @@ void InventoryState::_DrawBottomMenu()
             //otherwise print a message
             // NOTE: If more flexibility is needed down the road, load this from script
             const static ustring cannot_equip = MakeUnicodeString("This character cannot equip this item");
-            VideoManager->Move(185, 600);
-            VideoManager->Text()->Draw(cannot_equip);
+            _menu_mode->_help_information.SetDisplayText(cannot_equip);
+            _menu_mode->_help_information.Draw();
+
         }
     }
 }
@@ -602,7 +645,7 @@ void PartyState::_ActiveWindowUpdate()
 
 bool PartyState::_IsActive()
 {
-    return _menu_mode->_party_window.IsActive();
+    return _menu_mode->_party_window.GetActiveState();
 }
 
 void PartyState::Reset()
@@ -636,10 +679,34 @@ AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
     return NULL;
 }
 
-void PartyState::_OnDraw()
+void PartyState::_DrawBottomMenu()
+{
+    static const ustring change_position_message = MakeUnicodeString("Select a character to change position with");
+    static const ustring change_formation_mesage = MakeUnicodeString("Select a character to change formation");
+    static const ustring general_help_message = MakeUnicodeString("View character Information.\nSelect a character to change formation");
+
+    _menu_mode->_bottom_window.Draw();
+
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+    VideoManager->Move(150, 580);
+
+    //show a helpfull message
+    if(_IsActive())
+    {
+        if(_menu_mode->_party_window.GetActiveState() == FORM_ACTIVE_SECOND)
+            _menu_mode->_help_information.SetDisplayText(change_position_message);
+        else
+            _menu_mode->_help_information.SetDisplayText(change_formation_mesage);
+    }
+    else
+        _menu_mode->_help_information.SetDisplayText(general_help_message);
+
+    _menu_mode->_help_information.Draw();
+}
+void PartyState::_OnDrawMainWindow()
 {
 
-    AbstractMenuState::_DrawBottomMenu();
+    _DrawBottomMenu();
     _menu_mode->_party_window.Draw();
 
 }
@@ -687,7 +754,7 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32 selection)
     return NULL;
 }
 
-void SkillsState::_OnDraw()
+void SkillsState::_OnDrawMainWindow()
 {
 
     _DrawBottomMenu();
@@ -748,15 +815,15 @@ void EquipState::_OnEntry(AbstractMenuState *from_state)
     {
         // if its from the inventory EQUIP selection, activate the window with the equip flag set to true
         if(_from_state->GetOptions()->GetSelection() == InventoryState::INV_OPTIONS_EQUIP)
-            _menu_mode->_equip_window.Activate(true,true);
+            _menu_mode->_equip_window.Activate(true, true);
         // otherwise, it was frmo the REMOVE selection, activate the window with the equip flag set to false
         else
-            _menu_mode->_equip_window.Activate(true,false);
+            _menu_mode->_equip_window.Activate(true, false);
     }
 
 }
 
-void EquipState::_OnDraw()
+void EquipState::_OnDrawMainWindow()
 {
     _DrawBottomMenu();
     _menu_mode->_equip_window.Draw();
@@ -925,11 +992,85 @@ void EquipState::_DrawBottomMenu()
         default:
             break;
         } // switch
-        DrawEquipmentInfo(equipment_name,_menu_mode->_equip_window._equip_select.GetSelection() == EQUIP_WEAPON,
-                          physical_attribute,magical_attribute,current_phys_attribute,current_mag_attribute);
+        DrawEquipmentInfo(equipment_name, _menu_mode->_equip_window._equip_select.GetSelection() == EQUIP_WEAPON,
+                          physical_attribute, magical_attribute, current_phys_attribute, current_mag_attribute);
 
 
     } // if EQUIP_ACTIVE_LIST
+}
+
+AbstractMenuState *QuestState::GetTransitionState(uint32 selection)
+{
+    switch(selection)
+    {
+        case QUEST_OPTIONS_BACK:
+            return &(_menu_mode->_main_menu_state);
+            break;
+        case QUEST_OPTIONS_VIEW:
+            _menu_mode->_quest_list_window.Activate(true);
+            break;
+        default:
+            break;
+
+    }
+    return NULL;
+}
+
+void QuestState::Reset()
+{
+    // Setup the status option box
+    SetupOptionBoxCommonSettings(&_options);
+    _options.SetDimensions(415.0f, 50.0f, QUEST_OPTIONS_SIZE, 1, QUEST_OPTIONS_SIZE, 1);
+
+    // Generate the strings
+    std::vector<ustring> options;
+    options.push_back(UTranslate("View"));
+    options.push_back(UTranslate("Back"));
+
+    // Add strings and set default selection.
+    _options.SetOptions(options);
+    _options.SetSelection(QUEST_OPTIONS_BACK);
+}
+
+void QuestState::_ActiveWindowUpdate()
+{
+    _menu_mode->_quest_window.Update();
+    _menu_mode->_quest_list_window.Update();
+}
+
+bool QuestState::_IsActive()
+{
+    return _menu_mode->_quest_list_window.IsActive();
+}
+
+void QuestState::_OnDrawMainWindow()
+{
+    _DrawBottomMenu();
+    _menu_mode->_quest_window.Draw();
+
+}
+
+void QuestState::_OnDrawSideWindow()
+{
+    _menu_mode->_quest_list_window.Draw();
+
+}
+
+void QuestState::_OnEntry(AbstractMenuState *from_state)
+{
+    AbstractMenuState::_OnEntry(from_state);
+    //automatically go into the quest list window
+    _menu_mode->_quest_list_window.Activate(true);
+
+    //set the option cursor to view
+    _options.SetSelection(QUEST_OPTIONS_VIEW);
+    _options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+
+}
+
+void QuestState::_DrawBottomMenu()
+{
+    _menu_mode->_bottom_window.Draw();
 }
 
 } // namespace private_menu
@@ -953,6 +1094,7 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _party_state(this),
     _skills_state(this),
     _equip_state(this),
+    _quests_state(this),
     _message_window(NULL)
 
 {
@@ -998,6 +1140,12 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _shard_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _shard_description.SetDisplayText(UTranslate("This item is a crystal shard and can be associated with equipment."));
 
+    _help_information.SetPosition(250, 570);
+    _help_information.SetDimensions(500, 80);
+    _help_information.SetTextStyle(TextStyle("text20"));
+    _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _help_information.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
     //////////// Setup the menu windows
     // The character windows
@@ -1025,6 +1173,14 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     // Set up the inventory window
     _inventory_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _inventory_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
+    //set up the quest window
+    _quest_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
+    _quest_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
+    //set up the quest list window
+    _quest_list_window.Create(360,448, VIDEO_MENU_EDGE_ALL, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
+    _quest_list_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
     _current_menu_state = &_main_menu_state;
 
@@ -1057,10 +1213,12 @@ MenuMode::~MenuMode()
     _character_window2.Destroy();
     _character_window3.Destroy();
     _inventory_window.Destroy();
+    _quest_list_window.Destroy();
     _party_window.Destroy();
     _skills_window.Destroy();
     _main_options_window.Destroy();
     _equip_window.Destroy();
+    _quest_window.Destroy();
 
     // Free sounds
     _menu_sounds["confirm"].FreeAudio();
@@ -1088,9 +1246,11 @@ void MenuMode::Reset()
     _character_window2.Show();
     _character_window3.Show();
     _inventory_window.Show();
+    _quest_list_window.Show();
     _party_window.Show();
     _skills_window.Show();
     _equip_window.Show();
+    _quest_window.Show();
 
     _inventory_window.Activate(false);
 
@@ -1100,6 +1260,7 @@ void MenuMode::Reset()
     _party_state.Reset();
     _skills_state.Reset();
     _equip_state.Reset();
+    _quests_state.Reset();
 
     // set initial state to main menu
     _current_menu_state = &_main_menu_state;
@@ -1140,10 +1301,6 @@ void MenuMode::Update()
 void MenuMode::Draw()
 {
     _current_menu_state->Draw();
-    _character_window0.Draw();
-    _character_window1.Draw();
-    _character_window2.Draw();
-    _character_window3.Draw();
 
     if(_message_window != NULL)
         _message_window->Draw();
