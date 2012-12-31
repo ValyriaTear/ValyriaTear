@@ -935,8 +935,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("First of all before going there, you might need a better equipment. Go and see Flora first, ok?");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("Ok.");
-    dialogue:AddLine(text, bronann);
     text = hoa_system.Translate("And tell me that you equipped your sword ... If you haven't, open your inventory by pressing the menu key (")
            .. InputManager:GetMenuKeyName()
            .. hoa_system.Translate("), and select 'Equip'. Then you'll be able to select your sword and add it as your main weapon, ok?");
@@ -951,12 +949,8 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = hoa_system.Translate("Rrrr... Bronann. Just listen.");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("Err, wow, ok!");
-    dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = hoa_system.Translate("That will be the case only in certain areas. Here in the village, you'll be the one leading, or at least you may believe that ...");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("(Sigh) ... Ok.");
-    dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Quest2: Kalya's speech about equipment and dungeons.", dialogue);
     event:AddEventLinkAtEnd("Quest2: Kalya re-joins Bronann after speech");
@@ -1086,7 +1080,7 @@ function _UpdateOliviaDialogue()
             dialogue = hoa_map.SpriteDialogue();
             text = hoa_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword...");
             dialogue:AddLineEmote(text, olivia, "exclamation");
-            text = hoa_system.Translate("Aww... Ok.");
+            text = hoa_system.Translate("Aww...");
             dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
             text = hoa_system.Translate("(Hmm, maybe I should get a sword then.)");
             dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
@@ -1096,7 +1090,7 @@ function _UpdateOliviaDialogue()
             dialogue = hoa_map.SpriteDialogue();
             text = hoa_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
             dialogue:AddLineEmote(text, olivia, "exclamation");
-            text = hoa_system.Translate("Aww... Ok.");
+            text = hoa_system.Translate("Aww...");
             dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
             DialogueManager:AddDialogue(dialogue);
             olivia:AddDialogueReference(dialogue);
@@ -1165,7 +1159,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
         dialogue:AddLine(text, georges);
-        text = hoa_system.Translate("(Sigh...) Hmm, ok.");
+        text = hoa_system.Translate("(Sigh...) Hmm, fine.");
         dialogue:AddLine(text, bronann);
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
@@ -1194,7 +1188,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
         dialogue:AddLine(text, georges);
-        text = hoa_system.Translate("(Sigh...) Hmm, ok.");
+        text = hoa_system.Translate("(Sigh...) Hmm, fine.");
         dialogue:AddLineEvent(text, bronann, "", "Quest1: GeorgesDialogueDone");
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
