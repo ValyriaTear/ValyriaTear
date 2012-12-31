@@ -799,8 +799,6 @@ function _CreateEvents()
 	dialogue:AddLine(text, lilly);
 	text = hoa_system.Translate("Try to enjoy this day, Bronann.");
 	dialogue:AddLine(text, lilly);
-	text = hoa_system.Translate("Er, ok. Thanks again.");
-	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the restrictions", dialogue);

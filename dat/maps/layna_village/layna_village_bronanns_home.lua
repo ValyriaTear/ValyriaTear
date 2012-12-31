@@ -393,8 +393,6 @@ function _CreateNPCs()
 	dialogue:AddLineEmote(text, bronann, "sweat drop");
 	text = hoa_system.Translate("Hmph, just go, boy. You'll be free after that, ok?");
 	dialogue:AddLine(text, bronanns_mother);
-	text = hoa_system.Translate("Ok, right!");
-	dialogue:AddLine(text, bronann);
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Mother quest1 dialogue", dialogue);

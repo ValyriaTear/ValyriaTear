@@ -678,7 +678,7 @@ function _CreateEvents()
     dialogue:AddLine(text, hero);
     text = hoa_system.Translate("... What are you waiting for? Come.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "thinking dots");
-    text = hoa_system.Translate("Huh? Ok, I... I'm coming.");
+    text = hoa_system.Translate("Huh? I... I'm coming.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
 	DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya talks about the save point - part 3", dialogue);
