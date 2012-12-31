@@ -55,6 +55,8 @@ local lightning7_id = 0;
 local lightning8_id = 0;
 local lightning9_id = 0;
 
+local vortex_angle = 0.0;
+
 local tremor_triggered = false;
 local crystal_music_triggered = false;
 
@@ -78,7 +80,7 @@ function Initialize(map_instance)
     lightning2_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/blue_lightning2.png", 118.0, 400.0);
     lightning3_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/blue_lightning3.png", 171.0, 400.0);
 
-    vortex_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/vortex.png", 386.0, 207.0);
+    vortex_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/vortex.png", 430.0, 210.0);
 
     -- Load the spring heal effect.
     vortex_effect = hoa_map.ParticleObject("dat/effects/particles/crystal_appearance.lua",
@@ -139,6 +141,8 @@ function Update()
     -- Update the effects position
     pos_x = Map:GetScreenXCoordinate(crystal_position_x);
     pos_y = Map:GetScreenYCoordinate(crystal_position_y);
+
+    vortex_angle = vortex_angle - (time_expired / 20.0);
 end
 
 -- Get a x and y position around the crystal
@@ -297,23 +301,31 @@ function DrawPostEffects()
     end
 
     -- Then show the vortex
-    -- TODO: Show the vortex particle effect.
     local vortex_alpha = 0.0;
     local crystal_alpha = 0.0;
     if (display_time >= 4000 and display_time <= 5000) then
-		vortex_alpha = 0.2 * (display_time - 4000) / (5000 - 4000);
+        vortex_alpha = 0.2 * (display_time - 4000) / (5000 - 4000);
         crystal_alpha = (display_time - 4000) / (5000 - 4000);
-        Script:DrawImage(vortex_id, pos_x + 20.0, pos_y + 100.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_CENTER);
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_CENTER);
+        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha), vortex_angle);
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_BOTTOM);
         Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
     elseif (display_time > 5000 and display_time <= 6500) then
         vortex_alpha = 0.2;
         crystal_alpha = 1.0;
-        Script:DrawImage(vortex_id, pos_x + 20.0, pos_y + 100.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_CENTER);
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_CENTER);
+        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha), vortex_angle);
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_BOTTOM);
         Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
     elseif (display_time > 6500 and display_time <= 10600) then
         vortex_alpha = 0.2 - 0.2 * (display_time - 6500) / (10600 - 6500);
         crystal_alpha = 1.0 - (display_time - 6500) / (10600 - 6500);
-        Script:DrawImage(vortex_id, pos_x + 20.0, pos_y + 100.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha));
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_CENTER);
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_CENTER);
+        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, hoa_video.Color(1.0, 1.0, 1.0, vortex_alpha), vortex_angle);
+        Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_BOTTOM);
         Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, crystal_alpha));
     elseif (vortex_alpha > 0.0 and display_time > 10600) then
         vortex_alpha = 0.0;
