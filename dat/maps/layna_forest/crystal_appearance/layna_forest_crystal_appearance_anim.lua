@@ -30,6 +30,31 @@ local lightning7_triggered = false;
 local lightning8_triggered = false;
 local lightning9_triggered = false;
 
+local lightning2_pos_x = 0.0;
+local lightning2_pos_y = 0.0;
+local lightning3_pos_x = 0.0;
+local lightning3_pos_y = 0.0;
+local lightning4_pos_x = 0.0;
+local lightning4_pos_y = 0.0;
+local lightning5_pos_x = 0.0;
+local lightning5_pos_y = 0.0;
+local lightning6_pos_x = 0.0;
+local lightning6_pos_y = 0.0;
+local lightning7_pos_x = 0.0;
+local lightning7_pos_y = 0.0;
+local lightning8_pos_x = 0.0;
+local lightning8_pos_y = 0.0;
+local lightning9_pos_x = 0.0;
+local lightning9_pos_y = 0.0;
+
+-- random ids for the last lightnings
+local lightning4_id = 0;
+local lightning5_id = 0;
+local lightning6_id = 0;
+local lightning7_id = 0;
+local lightning8_id = 0;
+local lightning9_id = 0;
+
 local tremor_triggered = false;
 local crystal_music_triggered = false;
 
@@ -66,6 +91,9 @@ function Initialize(map_instance)
     AudioManager:LoadMusic("mus/Soliloquy_1-OGA-mat-pablo.ogg", Map);
 
     display_time = 0;
+
+    -- Init the random seed
+    math.randomseed(os.time());
 end
 
 function Update()
@@ -111,82 +139,123 @@ function Update()
     -- Update the effects position
     pos_x = Map:GetScreenXCoordinate(crystal_position_x);
     pos_y = Map:GetScreenYCoordinate(crystal_position_y);
+end
 
+-- Get a x and y position around the crystal
+function _GetRandomLightningXPlacement()
+    return pos_x + (math.random() * 170.0) - 112.0;
+end
+
+function _GetRandomLightningYPlacement()
+    return pos_y + (math.random() * 100.0) - 50.0;
+end
+
+function _GetRandomLightningId()
+    local lightning_chosen_id = math.random(1, 3);
+    if (lightning_chosen_id == 1) then
+        return lightning1_id;
+    elseif (lightning_chosen_id == 2) then
+        return lightning2_id;
+    end
+    return lightning3_id;
 end
 
 -- Draw the lightning effects
 function _DrawLightnings()
     -- trigger the lightnings
+    -- The first one is always placed at the same place.
     if (lightning_time >= 2000 and lightning_time <= 2300) then
-        Script:DrawImage(lightning1_id, pos_x - 42.0, pos_y - 2.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning1_triggered == false) then
             lightning1_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
         end
+        Script:DrawImage(lightning1_id, pos_x + 42.0, pos_y - 2.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 3000 and lightning_time <= 3300) then
-        Script:DrawImage(lightning2_id, pos_x + 38.0, pos_y - 2.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning2_triggered == false) then
             lightning2_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
+            lightning2_pos_x = _GetRandomLightningXPlacement();
+            lightning2_pos_y = _GetRandomLightningYPlacement();
         end
+        Script:DrawImage(lightning2_id, lightning2_pos_x, lightning2_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 3500 and lightning_time <= 3800) then
-        Script:DrawImage(lightning3_id, pos_x - 12.0, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning3_triggered == false) then
             lightning3_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
+            lightning3_pos_x = _GetRandomLightningXPlacement();
+            lightning3_pos_y = _GetRandomLightningYPlacement();
         end
+        Script:DrawImage(lightning3_id, lightning3_pos_x, lightning3_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 4000 and lightning_time <= 4300) then
-        Script:DrawImage(lightning2_id, pos_x - 22.0, pos_y - 6.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning4_triggered == false) then
             lightning4_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
+            lightning4_pos_x = _GetRandomLightningXPlacement();
+            lightning4_pos_y = _GetRandomLightningYPlacement();
+            lightning4_id = _GetRandomLightningId();
         end
+        Script:DrawImage(lightning4_id, lightning4_pos_x, lightning4_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 4200 and lightning_time <= 4500) then
-        Script:DrawImage(lightning1_id, pos_x + 58.0, pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning5_triggered == false) then
             lightning5_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
+            lightning5_pos_x = _GetRandomLightningXPlacement();
+            lightning5_pos_y = _GetRandomLightningYPlacement();
+            lightning5_id = _GetRandomLightningId();
         end
+        Script:DrawImage(lightning5_id, lightning5_pos_x, lightning5_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 4400 and lightning_time <= 4700) then
-        Script:DrawImage(lightning3_id, pos_x - 112.0, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning6_triggered == false) then
             lightning6_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
+            lightning6_pos_x = _GetRandomLightningXPlacement();
+            lightning6_pos_y = _GetRandomLightningYPlacement();
+            lightning6_id = _GetRandomLightningId();
         end
+        Script:DrawImage(lightning6_id, lightning6_pos_x, lightning6_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 4800 and lightning_time <= 5200) then
-        Script:DrawImage(lightning2_id, pos_x + 8.0, pos_y - 6.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning7_triggered == false) then
             lightning7_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
+            lightning7_pos_x = _GetRandomLightningXPlacement();
+            lightning7_pos_y = _GetRandomLightningYPlacement();
+            lightning7_id = _GetRandomLightningId();
         end
+        Script:DrawImage(lightning7_id, lightning7_pos_x, lightning7_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 5000 and lightning_time <= 5300) then
-        Script:DrawImage(lightning1_id, pos_x - 32.0, pos_y - 4.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning8_triggered == false) then
             lightning8_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
+            lightning8_pos_x = _GetRandomLightningXPlacement();
+            lightning8_pos_y = _GetRandomLightningYPlacement();
+            lightning8_id = _GetRandomLightningId();
         end
+        Script:DrawImage(lightning8_id, lightning8_pos_x, lightning8_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 
     if (lightning_time >= 5200 and lightning_time <= 5400) then
-        Script:DrawImage(lightning2_id, pos_x + 18.0, pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
         if (lightning9_triggered == false) then
             lightning9_triggered = true;
             AudioManager:PlaySound("snd/thunder.wav");
+            lightning9_pos_x = _GetRandomLightningXPlacement();
+            lightning9_pos_y = _GetRandomLightningYPlacement();
+            lightning9_id = _GetRandomLightningId();
         end
+        Script:DrawImage(lightning9_id, lightning9_pos_x, lightning9_pos_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
     elseif (lightning_time > 5400) then
         -- loop the last lightnings until the effect is gone
         lightning_time = 4000;
