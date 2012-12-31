@@ -80,7 +80,8 @@ GameGlobal::GameGlobal() :
     _max_experience_level(100),
     _x_save_map_position(0),
     _y_save_map_position(0),
-    _same_map_hud_name_as_previous(false)
+    _same_map_hud_name_as_previous(false),
+    _quest_log_count(0)
 {
     IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
@@ -237,6 +238,11 @@ void GameGlobal::ClearAllData()
         delete(it->second);
     }
     _event_groups.clear();
+
+    //clear the quest log
+    for(std::map<std::string,QuestLogEntry *>::iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
+        delete itr->second;
+    _quest_log_entries.clear();
 
     // Clear the save location
     UnsetSaveLocation();
@@ -782,10 +788,16 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
         _SaveEvents(file, it->second);
     }
     file.WriteLine("}");
-
     file.InsertNewLine();
 
-    // ----- (7) Report any errors detected from the previous write operations
+    // ------ (7) Save quest log
+    file.WriteLine("quest_log = {");
+    for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
+        _SaveQuests(file, itr->second);
+    file.WriteLine("}");
+    file.InsertNewLine();
+
+    // ----- (8) Report any errors detected from the previous write operations
     if(file.IsErrorDetected()) {
         if(GLOBAL_DEBUG) {
             PRINT_WARNING << "one or more errors occurred while writing the save game file - they are listed below" << std::endl;
@@ -852,6 +864,14 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     file.ReadTableKeys(group_names);
     for(uint32 i = 0; i < group_names.size(); i++)
         _LoadEvents(file, group_names[i]);
+    file.CloseTable();
+
+    // Load the quest log data
+    std::vector<std::string> quest_keys;
+    file.OpenTable("quest_log");
+    file.ReadTableKeys(quest_keys);
+    for(uint32 i = 0; i < quest_keys.size(); ++i)
+        _LoadQuests(file, quest_keys[i]);
     file.CloseTable();
 
     // Report any errors detected from the previous read operations
@@ -1203,9 +1223,40 @@ void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *even
         file.WriteLine("[\"" + it->first + "\"] = " + NumberToString(it->second), false);
     }
     file.WriteLine("\t},");
+
 }
 
+void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry)
+{
+    if(file.IsFileOpen() == false)
+    {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
+        return;
+    }
 
+    if(quest_log_entry == NULL)
+    {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "_SaveQuests function received a NULL quest log entry pointer argument" << std::endl;
+        return;
+    }
+
+    //start writting
+    file.WriteLine("\t" + quest_log_entry->_quest_log_entry_key + " = {", false);
+    //write the completion event group
+    file.WriteLine("\"" + quest_log_entry->_complete_event_group + "\", ", false);
+    //write the completion event
+    file.WriteLine("\"" + quest_log_entry->_complete_event_name + "\", ", false);
+    //write the quest string id
+    file.WriteLine("\"" + quest_log_entry->_string_id + "\", ", false);
+    //write the quest log number. this is written as a string because loading needs a uniform type of data in the array
+    file.WriteLine("\"" + NumberToString(quest_log_entry->_quest_log_number) + "\", ", false);
+    //write the "false" or "true" string if this entry has been read or not
+    const std::string is_read(quest_log_entry->_is_read ? "true" : "false");
+    file.WriteLine("\"" + is_read + "\"", false);
+    //end writing
+    file.WriteLine("},");
+
+}
 
 void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &category_name)
 {
@@ -1427,6 +1478,42 @@ void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &grou
         new_group->AddNewEvent(event_names[i], file.ReadInt(event_names[i]));
     }
     file.CloseTable();
+}
+
+void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &quest_key)
+{
+    if(file.IsFileOpen() == false) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
+        return;
+    }
+    std::vector<std::string> quest_info;
+    //read the 4 entries into a new quest entry
+    file.ReadStringVector(quest_key, quest_info);
+    if(quest_info.size() != 5)
+    {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "save file has malformed quest log entries" << std::endl;
+        return;
+    }
+
+    //constant values for loading
+    const std::string& complete_event_group = quest_info[0];
+    const std::string& complete_event_name = quest_info[1];
+    const std::string& string_id = quest_info[2];
+    //conversion of the log number from string int. We need to do thing because ReadStringVector assumes that
+    //all items are the same type.
+    uint32 quest_log_number = ::atoi(quest_info[3].c_str());
+    //conversion from string to bool for is_read flag
+    bool is_read = quest_info[4].compare("true") == 0;
+
+    if(!_AddQuestLogEntry(quest_key, complete_event_group, complete_event_name, string_id, quest_log_number, is_read))
+    {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "save file has duplicate quest log key entries" << std::endl;
+        return;
+    }
+    //update the quest log count value if the current number is greater
+    if(_quest_log_count < quest_log_number)
+        _quest_log_count = quest_log_number;
+
 }
 
 } // namespace hoa_global

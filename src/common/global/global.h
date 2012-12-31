@@ -137,6 +137,76 @@ private:
     std::map<std::string, int32> _events;
 }; // class GlobalEventGroup
 
+/** ****************************************************************************
+*** \brief An Entry for the quest log
+***
+*** Similar to Event Groups, QuestLogEntry is a string to multiple-string
+*** relationship. Due to lookup speed being a concern, each quest log entry
+*** is its own object, with the namespace of the Quest being the key
+***
+*** A Quest Entry is defined more formally as a Quest name and a "tuple" of
+*** the mother dependency event, the completion event, the displaying log entry
+*** name and finally the description string
+***
+*** There should be no need for this to be created outside of the global
+*** manager, as the setting and toggling of quests will be done from the game
+*** manager and through scrip entries
+*** ***************************************************************************/
+
+struct QuestLogEntry
+{
+public:
+    //! ctor to create the QuestLogEntry. the key, event states and description
+    //! cannot be changed
+    //! \param quest_log_entry_key unique key to this quest log entry
+    //! \param complete_event_group group for the completion event
+    //! \param complete_event_name name of the completion event
+    //! \param string id for quest entry in config/quest.lua quest table
+    //! \param the quest log counter, indicating the order in which the quest was added
+    //! \param set whether or not the log entry is read or not. Defaults to false. this flag is manipulated by
+    //!     the game internals as opposed to the scripting side
+    QuestLogEntry(const std::string &quest_log_entry_key,
+                  const std::string &complete_event_group,
+                  const std::string &complete_event_name,
+                  const std::string &string_id,
+                  uint32 quest_number,
+                  bool is_read = false ):
+        _quest_log_entry_key(quest_log_entry_key),
+        _complete_event_group(complete_event_group),
+        _complete_event_name(complete_event_name),
+        _string_id(string_id),
+        _quest_log_number(quest_number),
+        _is_read(is_read)
+    {
+    }
+
+    //! the key of the quest this entry pertains to. access to this log
+    //! entry should be done via this key. This is different from
+    //! the display name, in that there could be multiple quests
+    //! which occur at different times, but are ultimately the same
+    //! display name and description. an example would be a re-occuring
+    //! "find my lost dog!" series of quests, where the same NPC periodically
+    //! looses his dog and the hero must go find it (with scaling level of difficulty).
+    //! The visual entry could be "Spot is lost!" a few times in a row, but
+    //! the quest itself is different: find_spot_1, find_spot_2, etc
+    const std::string _quest_log_entry_key;
+
+    //! the completion event group
+    const std::string _complete_event_group;
+
+    //! the completion event.
+    const std::string _complete_event_name;
+
+    //! the string id for the title and description of this quest
+    const std::string _string_id;
+
+    //! the quest log number for this quest
+    const uint32 _quest_log_number;
+
+    //! flag to indicate whether or not this entry has been read
+    bool _is_read;
+
+};
 
 /** ****************************************************************************
 *** \brief Retains all the state information about the active game
@@ -376,6 +446,110 @@ public:
     *** \return The number of events in the group, or zero if no such group name existed
     **/
     uint32 GetNumberEvents(const std::string &group_name) const;
+    //@}
+
+    //! \name Quest Log Entry methods
+    //@{
+    /** \brief checks to see if the quest entry exists
+    *** \param quest_key the quest log entry key we are looking for
+    *** \return true if the quest log entry exists for this key
+    **/
+    bool DoesQuestLogEntryExist(const std::string &quest_key) const
+    {
+        return _quest_log_entries.find(quest_key) != _quest_log_entries.end();
+    }
+
+    /** \brief returns a const pointer to a quest log entry for the given key
+    *** this function will return NULL if the key is not found, so be careful. use
+    *** the DoesQuestLogEntryExist() function to test existance
+    *** \param quest_key the quest log entry key we are looking for
+    *** \return pointer to the quest log entry. returns NULL if no quest log entry found
+    **/
+    QuestLogEntry *GetQuestLogEntry(const std::string &quest_key)
+    {
+        if(!DoesQuestLogEntryExist(quest_key))
+            return NULL;
+        return _quest_log_entries.find(quest_key)->second;  //this is NOT a hack. because this is a const function,
+                                                            //you cannot use std::map's [] operator, as it allows modification.
+                                                            //this is indeed the correct way to access the value since find returns
+                                                            //a const_iterator
+    }
+
+    /** \brief adds a new quest log entry into the quest log entries table
+    *** \param quest_log_entry_key unique key to this quest log entry
+    *** \param complete_event_group group of the completion event
+    *** \param complete_event_name name of the completion event
+    *** \param the string id into quests table for this quest
+    *** \return true if the entry was added. false if the entry already exists
+    **/
+    bool AddQuestLogEntry(const std::string &quest_key,
+                    const std::string &complete_event_group,
+                    const std::string &complete_event_name,
+                    const std::string &string_id )
+    {
+        return _AddQuestLogEntry(quest_key, complete_event_group, complete_event_name, string_id, _quest_log_count++);
+    }
+
+    /** \brief gets the number of quest log entries
+    *** \return number of log entries
+    **/
+    uint32 GetNumberQuestLogEntries() const
+    {
+        return _quest_log_entries.size();
+    }
+
+    /** \brief get a list of all the quest log entry keys
+    *** \return a vector of quest log entry key strings
+    **/
+    std::vector<std::string> GetQuestLogKeys() const
+    {
+        std::vector<std::string> keys;
+        for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
+            keys.push_back(itr->first);
+        return keys;
+    }
+
+    /** \brief loads a quest entry from the quest table into the Global Manager
+    *** each quest is added via its unique string_id
+    *** the description and title are held seperately (mostly to reduce object bloat)
+    *** \param string_id the unique string id
+    *** \param title the display title
+    *** \param description the description
+    *** \return true if the quest was loaded
+    **/
+
+    bool LoadQuest(const std::string &string_id, const hoa_utils::ustring &title, const hoa_utils::ustring &description)
+    {
+        if(_quest_titles.find(string_id) != _quest_titles.end() || _quest_descriptions.find(string_id) != _quest_descriptions.end())
+            return false;
+        _quest_titles[string_id] = title;
+        _quest_descriptions[string_id] = description;
+        return true;
+    }
+
+    /** \brief gets a pointer to the description for the quest string id,
+    *** \param string_id the quest id
+    *** \return pointer to the description if the quest_id exists. otherwise, NULL
+    **/
+    hoa_utils::ustring *GetQuestDescription(const std::string &string_id)
+    {
+        std::map<std::string, hoa_utils::ustring>::iterator itr = _quest_descriptions.find(string_id);
+        if(itr == _quest_descriptions.end())
+            return NULL;
+        return &(itr->second);
+    }
+
+    /** \brief gets a pointer to the title of the quest string id
+    *** \param string_id the quest id
+    *** \return pointer to the title if the quest_id exists. otherwise, NULL
+    **/
+    hoa_utils::ustring *GetQuestTitle(const std::string &string_id)
+    {
+        std::map<std::string, hoa_utils::ustring>::iterator itr = _quest_titles.find(string_id);
+        if(itr == _quest_titles.end())
+            return NULL;
+        return &(itr->second);
+    }
     //@}
 
     //! \note The overflow condition is not checked here: we just assume it will never occur
@@ -738,10 +912,27 @@ private:
     **/
     std::map<std::string, GlobalEventGroup *> _event_groups;
 
+    /** \brief The container which stores the quest log entries in the game. the quest log key
+    *** acts as the key for this quest
+    *** \note due to a limitation with OptionBoxes, we can only currently only support 255
+    *** entries. Please be careful about this limitation
+    **/
+    std::map<std::string, QuestLogEntry *> _quest_log_entries;
+
+    /** \brief counter that is updated as quest log entries are added. we use this to
+    *** order the quest logs from recent (high number) to older (low number)
+    **/
+    uint32 _quest_log_count;
+
     //! \brief A map containing all the emote animations
     std::map<std::string, hoa_video::AnimatedImage> _emotes;
     //! \brief The map continaing the four sprite direction offsets (x and y value).
     std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
+
+    //! \brief a map of the quest stirng ids to their descriptions
+    std::map<std::string, hoa_utils::ustring> _quest_descriptions;
+    //! \brief a map of the quest string ids to their titles
+    std::map<std::string, hoa_utils::ustring> _quest_titles;
 
     // ----- Private methods
 
@@ -783,6 +974,40 @@ private:
     **/
     void _SaveEvents(hoa_script::WriteScriptDescriptor &file, GlobalEventGroup *event_group);
 
+    /** \brief adds a new quest log entry into the quest log entries table. also updates the quest log number
+    *** \param quest_log_entry_key unique key to this quest log entry
+    *** \param parent_event_name the name of the parent event that needs to occur for this event to show
+    *** \param complete_event_group group of the completion event
+    *** \param complete_event_name name of the completion event
+    *** \param string_id for the quest
+    *** \param the quest entry's log number
+    *** \param flag to indicate if this entry is read or not. default is false
+    *** \return true if the entry was added. false if the entry already exists
+    **/
+    bool _AddQuestLogEntry(const std::string &quest_key,
+                    const std::string &complete_event_group,
+                    const std::string &complete_event_name,
+                    const std::string &string_id,
+                    uint32 quest_log_number,
+                    bool is_read = false)
+    {
+        if(DoesQuestLogEntryExist(quest_key))
+            return false;
+        _quest_log_entries[quest_key] = new QuestLogEntry(quest_key,
+                                                          complete_event_group,
+                                                          complete_event_name,
+                                                          string_id,
+                                                          quest_log_number,
+                                                          is_read);
+        return true;
+    }
+
+    /** \brief Helper function that saves the Quest Log entries. this is called from SaveGame()
+    *** \param file Reference to open and valid file set for writting the data
+    *** \param the quest log entry we wish to write
+    **/
+    void _SaveQuests(hoa_script::WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry);
+
     /** \brief A helper function to GameGlobal::LoadGame() that restores the contents of the inventory from a saved game file
     *** \param file A reference to the open and valid file from where to read the inventory list
     *** \param category_name The name of the table in the file that should contain the inventory for a specific category
@@ -800,6 +1025,13 @@ private:
     *** \param group_name The name of the event group to load
     **/
     void _LoadEvents(hoa_script::ReadScriptDescriptor &file, const std::string &group_name);
+
+    /** \brief Helper function called by LoadGame() that loads each quest into the quest entry table based on the quest_entry_keys
+    *** in the save game file
+    *** \param file Reference to open and valid file set for reading the data
+    *** \param reference to the quest entry key
+    **/
+    void _LoadQuests(hoa_script::ReadScriptDescriptor &file, const std::string &quest_key);
 
     //! Loads every persistent scripts, used at the global initialization time.
     bool _LoadGlobalScripts();
