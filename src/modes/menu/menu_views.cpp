@@ -1695,6 +1695,7 @@ void QuestListWindow::_UpdateQuestList()
         {
             PRINT_WARNING << "no title found for quest id: "
                             << quest_keys[i] << std::endl;
+            continue;
         }
 
         //set the selected item to read, but ONLY IF we are active in this window
