@@ -371,7 +371,7 @@ void MainMenuState::_OnDrawMainWindow()
             break;
         }
         case MAIN_OPTIONS_QUESTS: {
-            static const ustring quest_view_message = MakeUnicodeString("Select to view Quest Log");
+            static const ustring quest_view_message = UTranslate("Select to view Quest Log.");
             _menu_mode->_bottom_window.Draw();
             _menu_mode->_help_information.SetDisplayText(quest_view_message);
             _menu_mode->_help_information.Draw();
@@ -479,7 +479,7 @@ void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,
 
 void InventoryState::_DrawBottomMenu()
 {
-    static const ustring inventory_help_message = MakeUnicodeString("Select an item to Equip or Use");
+    static const ustring inventory_help_message = UTranslate("Select an item to Equip or Use.");
     _menu_mode->_bottom_window.Draw();
 
 
@@ -628,7 +628,7 @@ void InventoryState::_DrawBottomMenu()
         {
             //otherwise print a message
             // NOTE: If more flexibility is needed down the road, load this from script
-            const static ustring cannot_equip = MakeUnicodeString("This character cannot equip this item");
+            const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
             _menu_mode->_help_information.SetDisplayText(cannot_equip);
             _menu_mode->_help_information.Draw();
 
@@ -681,9 +681,9 @@ AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
 
 void PartyState::_DrawBottomMenu()
 {
-    static const ustring change_position_message = MakeUnicodeString("Select a character to change position with");
-    static const ustring change_formation_mesage = MakeUnicodeString("Select a character to change formation");
-    static const ustring general_help_message = MakeUnicodeString("View character Information.\nSelect a character to change formation");
+    static const ustring change_position_message = UTranslate("Select a character to change position with.");
+    static const ustring change_formation_mesage = UTranslate("Select a character to change formation.");
+    static const ustring general_help_message = UTranslate("View character Information.\nSelect a character to change formation.");
 
     _menu_mode->_bottom_window.Draw();
 
