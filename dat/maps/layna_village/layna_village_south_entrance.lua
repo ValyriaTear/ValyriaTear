@@ -483,7 +483,9 @@ function _UpdateOrlinnState()
 
         -- Set up the dialogue.
         dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Yiek!!!");
+        text = hoa_system.Translate("Yiek!!! Hey, you scared me.");
+        dialogue:AddLineEmote(text, orlinn, "exclamation");
+        text = hoa_system.Translate("But You'll never find me hiding on top of the cliffs!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Start Orlinn Hide n Seek2");
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
