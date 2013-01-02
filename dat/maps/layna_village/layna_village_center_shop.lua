@@ -362,6 +362,8 @@ function _UpdateFloraDialogue()
 		dialogue = hoa_map.SpriteDialogue();
 		text = hoa_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
 		dialogue:AddLine(text, flora);
+        text = hoa_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
+        dialogue:AddLine(text, flora);
 		DialogueManager:AddDialogue(dialogue);
 		flora:AddDialogueReference(dialogue);
 		return;
@@ -378,6 +380,8 @@ function _UpdateFloraDialogue()
 		text = hoa_system.Translate("? ... This is the first time that I've see you wear such a worrisome expression.");
 		dialogue:AddLine(text, bronann);
 		text = hoa_system.Translate("Nevermind... Don't worry about me. Just find him and he should give you some, ok?");
+        dialogue:AddLine(text, flora);
+        text = hoa_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
 		-- Set the quest dialogue as seen by the player.
 		dialogue:AddLineEvent(text, flora, "", "SetQuest1DialogueDone");
 		DialogueManager:AddDialogue(dialogue);

@@ -561,6 +561,10 @@ function _CreateEvents()
 	dialogue:AddLineEmote(text, orlinn, "exclamation");
 	text = hoa_system.Translate("But I'm not done yet!");
 	dialogue:AddLine(text, orlinn);
+    text = hoa_system.Translate("You'll never find me hiding behind the...");
+    dialogue:AddLine(text, orlinn);
+    text = hoa_system.Translate("Hey, why would I telling you my hiding spots?!");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
 	DialogueManager:AddDialogue(dialogue);
 
 	event = hoa_map.DialogueEvent("Quest1: Orlinn starts hide and seek3 speech", dialogue);

@@ -273,9 +273,6 @@ local carson = {};
 local herth = {};
 local olivia = {}; -- Olivia npc, guarding the forest entrance
 
--- special objets
-local blocking_rock = {};
-
 -- the main map loading code
 function Load(m)
 
@@ -543,12 +540,6 @@ function _CreateObjects()
 		nekko_vase:AddObject(11, 1);
 		Map:AddGroundObject(nekko_vase);
 	end
-
-	-- Create the special rock
-	blocking_rock = CreateObject(Map, "Rock1", 7, 45);
-	Map:AddGroundObject(blocking_rock);
-	-- Set the rock state based on the story point
-	_UpdateBlockingRock();
 
 	-- Quest 2: Forest event
 	-- The wooden sword sprite
@@ -1058,17 +1049,6 @@ function _TriggerPotentialDialogueAfterFadeIn()
 	end
 end
 
--- Make the rock blocks the secret passage as long as the kid hasn't been found once.
-function _UpdateBlockingRock()
-    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
-        blocking_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-        blocking_rock:SetVisible(false);
-    else
-        blocking_rock:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
-        blocking_rock:SetVisible(true);
-    end
-end
-
 -- Updates Olivia dialogues according to the story events
 function _UpdateOliviaDialogue()
     olivia:ClearDialogueReferences();
@@ -1159,6 +1139,8 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
         dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
+        dialogue:AddLine(text, georges);
         text = hoa_system.Translate("(Sigh...) Hmm, fine.");
         dialogue:AddLine(text, bronann);
         DialogueManager:AddDialogue(dialogue);
@@ -1187,6 +1169,8 @@ function _UpdateGeorgesDialogue()
         text = hoa_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
+        dialogue:AddLine(text, georges);
+        text = hoa_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
         dialogue:AddLine(text, georges);
         text = hoa_system.Translate("(Sigh...) Hmm, fine.");
         dialogue:AddLineEvent(text, bronann, "", "Quest1: GeorgesDialogueDone");
@@ -1263,7 +1247,10 @@ function _UpdateOrlinnAndKalyaState()
         text = hoa_system.Translate("Oh no, please Orlinn! I need it!");
         dialogue:AddLineEmote(text, bronann, "sweat drop");
         text = hoa_system.Translate("Sure, I'll help you. But only if you can catch me!");
+        dialogue:AddLine(text, orlinn);
+        text = hoa_system.Translate("Hee hee! (He'll never find me hiding behind the buildings!)");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Make Orlinn run and hide");
+
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
     else
