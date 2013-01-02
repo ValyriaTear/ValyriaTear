@@ -206,6 +206,10 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_map_treasures_script.OpenFile("dat/actors/map_treasures.lua"))
         return false;
 
+    // Reload the Quests script
+    if(!_LoadQuestsScript("dat/config/quests.lua"))
+        return false;
+
     return true;
 }
 
@@ -1514,6 +1518,57 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
     if(_quest_log_count < quest_log_number)
         _quest_log_count = quest_log_number;
 
+}
+
+//! (Re)Loads the quest entries into the GlobalManager
+bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
+{
+    // First clear the existing quests entries in case of a reloading.
+    _quest_titles.clear();
+    _quest_descriptions.clear();
+
+    hoa_script::ReadScriptDescriptor quests_script;
+    if(!quests_script.OpenFile(quests_script_filename)) {
+        PRINT_ERROR << "Couldn't open quests file: " << quests_script_filename
+                    << std::endl;
+        return false;
+    }
+
+    if(!quests_script.DoesTableExist("quests")) {
+        PRINT_ERROR << "No 'quests' table in file: " << quests_script_filename
+                    << std::endl;
+        quests_script.CloseFile();
+        return false;
+    }
+
+    std::vector<std::string> quest_ids;
+    quests_script.ReadTableKeys("quests", quest_ids);
+    if(quest_ids.empty()) {
+        PRINT_ERROR << "No quests defined in the 'quests' table of file: "
+                    << quests_script_filename << std::endl;
+        quests_script.CloseFile();
+        return false;
+    }
+
+    quests_script.OpenTable("quests");
+    for(uint32 i = 0; i < quest_ids.size(); ++i)
+    {
+        std::vector<std::string> quest_info;
+        quests_script.ReadStringVector(quest_ids[i], quest_info);
+        if(!GlobalManager->LoadQuest(quest_ids[i], MakeUnicodeString(quest_info[0]), MakeUnicodeString(quest_info[1])))
+        {
+           PRINT_ERROR << "duplicate quests defined in the 'quests' table of file: "
+                    << quests_script_filename << std::endl;
+            quests_script.CloseFile();
+            return false;
+        }
+    }
+
+    quests_script.CloseTable();
+
+    quests_script.CloseFile();
+
+    return true;
 }
 
 } // namespace hoa_global

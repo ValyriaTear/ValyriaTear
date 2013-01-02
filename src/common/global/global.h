@@ -1033,6 +1033,10 @@ private:
     **/
     void _LoadQuests(hoa_script::ReadScriptDescriptor &file, const std::string &quest_key);
 
+    //! (Re)Loads the quest entries into the GlobalManager
+    //! \Note this is done in _LoadGlobalScripts().
+    bool _LoadQuestsScript(const std::string& quests_script_filename);
+
     //! Loads every persistent scripts, used at the global initialization time.
     bool _LoadGlobalScripts();
 
