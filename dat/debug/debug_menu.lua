@@ -15,6 +15,9 @@ function BootMenuTest()
 	GlobalManager:AddToInventory(30012, 10);
 	GlobalManager:AddToInventory(30013, 10);
 
+    -- Used to debug the quest log
+    GlobalManager:AddQuest("quest1", "story", "quest1_barley_meal_done","get_barley");
+
 	local menu = hoa_menu.MenuMode(hoa_utils.MakeUnicodeString("The Boot Menu"), "img/menus/locations/desert_cave.png");
 	ModeManager:Push(menu, false, false);
 end
