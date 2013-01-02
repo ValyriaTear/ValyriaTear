@@ -12,6 +12,11 @@ FIND_PACKAGE(jpeg REQUIRED)
 FIND_PACKAGE(Gettext REQUIRED)
 FIND_PACKAGE(Boost 1.48.0 REQUIRED)
 
+IF (UNIX AND USE_SYSTEM_LUABIND)
+    # Find the luabind package
+    FIND_PACKAGE(Luabind REQUIRED)
+ENDIF()
+
 IF (CMAKE_COMPILER_IS_GNUCXX)
     # Help getting compilation warnings
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
@@ -79,8 +84,11 @@ INCLUDE_DIRECTORIES(
     ${JPEG_INCLUDE_DIR}
     ${LUA_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/luabind
     )
+
+IF (NOT UNIX OR NOT USE_SYSTEM_LUABIND)
+    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/luabind)
+ENDIF()
 
 # enable rc-handling with mingw
 # most likely this part can be kicked out with some later cmake version
@@ -451,7 +459,18 @@ ENDIF ()
 
 SET (PROGRAMS valyriatear)
 
-ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
+# Don't add the luabind static lib files if requested.
+IF (UNIX AND USE_SYSTEM_LUABIND)
+    ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON}
+        # The system include files.
+        ${LUABIND_INCLUDE_DIRS}
+    )
+
+    # In that case the luabind system headers will be needed
+    TARGET_LINK_LIBRARIES(valyriatear ${LUABIND_LIBRARIES})
+ELSE()
+    ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
+ENDIF()
 
 TARGET_LINK_LIBRARIES(valyriatear
     ${INTERNAL_LIBRARIES}
@@ -535,12 +554,26 @@ IF (EDITOR_SUPPORT)
 
     SET (PROGRAMS vt-editor)
 
-    ADD_EXECUTABLE(vt-editor
-        ${SRCS_EDITOR}
-        ${SRCS_LUABIND}
-        ${EDITOR_QT_HEADERS_MOC}
-        ${SRCS_COMMON}
-    )
+    # Don't add the static luabind source if requested.
+    IF (UNIX AND USE_SYSTEM_LUABIND)
+            ADD_EXECUTABLE(vt-editor
+                ${SRCS_EDITOR}
+                ${EDITOR_QT_HEADERS_MOC}
+                ${SRCS_COMMON}
+                # The system include files.
+                ${LUABIND_INCLUDE_DIRS}
+            )
+
+        # In that case the luabind system headers will be needed
+        TARGET_LINK_LIBRARIES(vt-editor ${LUABIND_LIBRARIES})
+    ELSE()
+            ADD_EXECUTABLE(vt-editor
+                ${SRCS_EDITOR}
+                ${SRCS_LUABIND}
+                ${EDITOR_QT_HEADERS_MOC}
+                ${SRCS_COMMON}
+            )
+    ENDIF()
 
     TARGET_LINK_LIBRARIES(vt-editor
         ${INTERNAL_LIBRARIES}

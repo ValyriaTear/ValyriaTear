@@ -5,6 +5,7 @@ PROJECT(VALYRIATEAR)
 
 OPTION(EDITOR_SUPPORT "Compile the Qt editor" OFF)
 OPTION(DEBUG_MENU "Add the debug menu options at game start" OFF)
+OPTION(USE_SYSTEM_LUABIND "Use the luabind headers and lib provided by the system (Linux only)" OFF)
 
 IF (NOT VERSION)
     SET(VERSION 0.1.0)
