@@ -395,7 +395,7 @@ function _CreateCharacters()
     hero = CreateSprite(Map, "Bronann", 3, 88);
     hero:SetDirection(hoa_map.MapMode.EAST);
     hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-hero:SetCollisionMask(hoa_map.MapMode.NO_COLLISION); --dev
+--hero:SetCollisionMask(hoa_map.MapMode.NO_COLLISION); --dev
     if (GlobalManager:GetPreviousLocation() == "from forest SE") then
         hero:SetPosition(71, 94);
         hero:SetDirection(hoa_map.MapMode.NORTH);
@@ -772,6 +772,37 @@ function _CreateObjects()
         { "Tree Small3", 28, 68 },
         { "Tree Small5", 22, 67 },
         { "Tree Small6", 34, 64 },
+	{ "Tree Small4", 31, 69 },
+	{ "Tree Small6", 25, 61 },
+	{ "Tree Small4", 30, 56 },
+	{ "Tree Small6", 23, 58 },
+	{ "Tree Small2", 26, 51 },
+	{ "Tree Big1", 31, 60 },
+	{ "Tree Small1", 30, 50 },
+	{ "Tree Small4", 35, 47 },
+	{ "Tree Small3", 25, 46 },
+	{ "Tree Small5", 28, 40 },
+	{ "Tree Small6", 33, 39 },
+	{ "Tree Small4", 29, 46.5 },
+	{ "Tree Small6", 27, 32 },
+	{ "Tree Small1", 32, 30 },
+	{ "Tree Small3", 30, 34 },
+	{ "Tree Small2", 35, 33 },
+	{ "Tree Small4", 40, 38 },
+	{ "Tree Little1", 34, 26.2 },
+	{ "Tree Small5", 30, 26 },
+	{ "Tree Small6", 35, 23 },
+	{ "Tree Big2", 37, 42 },
+	{ "Tree Small6", 38, 29 },
+	{ "Tree Small5", 39, 26 },
+	{ "Tree Tiny3", 32, 49 },
+	{ "Tree Small6", 40, 31 },
+	{ "Tree Small4", 41, 23 },
+	{ "Tree Small1", 43, 28 },
+	{ "Tree Small3", 46, 28.2 },
+	{ "Tree Little1", 50, 27.2 },
+	{ "Tree Small6", 51, 30 },
+	{ "Tree Small4", 54, 27 },
 
     }
 
