@@ -72,6 +72,12 @@ end
 
 
 function Update()
+    -- The update time can vary, so update the distance on each update as well.
+    distance_moved_x = SystemManager:GetUpdateTime() / hoa_map.MapMode.NORMAL_SPEED * 210.0;
+    if (a_coeff ~= 0.0) then
+        distance_moved_y = (1/a_coeff) * distance_moved_x;
+    end
+    
     -- Attack the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("attack")
