@@ -1104,8 +1104,8 @@ function _CreateObjects()
         { "Tree Tiny3", 26, 17.2 },
         { "Tree Little1", 48, 75 },
         { "Tree Little2", 50, 16 },
-        { "Tree Tiny3", 64, 17 },
-        { "Tree Little1", 67, 18 },
+        { "Tree Tiny3", 62, 17 },
+        { "Tree Little1", 70, 18 },
         { "Tree Little1", 36, 18 },
         { "Tree Big2", 90, 4 },
         { "Tree Tiny2", 111, 33 },
@@ -1366,10 +1366,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
+    dialogue:SetInputBlocked(true);
     text = hoa_system.Translate("Great! The tremor has just opened a path.");
-    dialogue:AddLineEventEmote(text, hero, "Show tree shortcut", "", "exclamation");
+    dialogue:AddLineTimedEvent(text, hero, 5000, "Show tree shortcut", "");
     text = hoa_system.Translate("We can easily return to the village from there.");
-    dialogue:AddLineEvent(text, hero, "Set Camera back to Hero", "");
+    dialogue:AddLineTimedEvent(text, hero, 5000, "Set Camera back to Hero", "");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("The Hero sees the created shortcut", dialogue);
     EventManager:RegisterEvent(event);
