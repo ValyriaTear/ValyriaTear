@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2012.12.28
+Last update: 2013.01.03
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -181,6 +181,8 @@ img/logos/program_icon.ico                                      GPLv2 or later  
 
 img/menus/key.png                                               CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
 img/menus/shard.png                                             CC by SA 3.0             Bertram
+img/menus/hand.png                                              CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
+img/menus/hand_down.png                                         CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
 img/menus/themes/royal_silk/win_border.png                      CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
 img/menus/themes/royal_silk/win_background.png                  CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications
 img/menus/themes/royal_silk/cursor.png                          CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
