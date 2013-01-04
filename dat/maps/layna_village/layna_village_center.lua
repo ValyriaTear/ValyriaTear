@@ -1284,7 +1284,7 @@ map_functions = {
         -- Makes Orlinn aware that Bronann has talked to Georges.
         _UpdateOrlinnAndKalyaState();
         _UpdateGeorgesDialogue();
-        GlobalManager:AddQuest("quest2","story","quest1_pen_given_done","find_pen");
+        GlobalManager:AddQuestLog("find_pen");
 	end,
 
     Quest1OrlinnRunAndHide = function()

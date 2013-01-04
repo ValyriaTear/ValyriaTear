@@ -124,7 +124,7 @@ void BindCommonCode()
                     .def("GetSaveLocationY", &GameGlobal::GetSaveLocationY)
                     .def("UnsetSaveLocation", &GameGlobal::UnsetSaveLocation)
                     .def("GetPreviousLocation", &GameGlobal::GetPreviousLocation)
-                    .def("AddQuest", (bool (GameGlobal:: *) (const std::string &, const std::string &, const std::string &, const std::string &)) &GameGlobal::AddQuestLogEntry)
+                    .def("AddQuestLog", &GameGlobal::AddQuestLog)
 
                     // Namespace constants
                     .enum_("constants") [

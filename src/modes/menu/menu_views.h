@@ -536,21 +536,17 @@ private:
     //! \brief the selectable list of quests
     hoa_gui::OptionBox _quests_list;
 
-    //! \brief list to quest key index. each index represents the _quest_list selection
-    //! This should be updated on every call the keep synchronized with _quests_list
-    std::vector<std::string> _quest_keys;
+    //! The currently active quest log entries.
+    std::vector<hoa_global::QuestLogEntry*> _quest_entries;
 
     //! \brief indicates whether _quests_list is active or not
     bool _active_box;
 
+    //! Setup the quests log list
+    void _SetupQuestsList();
+
     //! \brief updates the side window quest list based on the current quest log entries
     void _UpdateQuestList();
-
-    //! \brief determines if the quest is completed based on the given event name
-    bool _IsCompleted(const std::string& complete_event_group, const std::string& complete_event_name) const
-    {
-        return hoa_global::GlobalManager->DoesEventExist(complete_event_group,complete_event_name);
-    }
 };
 /**
 *** \brief Represents the quest log main window
@@ -578,17 +574,17 @@ public:
     void Update();
 
     /*!
-    * \brief sets the viewing quest key information for the quest. we use this to query the text description
+    * \brief sets the viewing quest id information for the quest. we use this to query the text description
     */
-    void SetViewingQuestKey(const std::string &quest_key)
+    void SetViewingQuestId(const std::string &quest_id)
     {
-        _viewing_quest_key = quest_key;
+        _viewing_quest_id = quest_id;
     }
 
 private:
-    //! \brief the currently viewing quest key. this is set by the Quest List Window through the
-    //! SetViewingQuestKey() function
-    std::string _viewing_quest_key;
+    //! \brief the currently viewing quest id. this is set by the Quest List Window through the
+    //! SetViewingQuestId() function
+    std::string _viewing_quest_id;
 
     //! \brief sets the display text to be rendered, based on their quest key that is set
     hoa_gui::TextBox _quest_description;
