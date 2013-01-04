@@ -269,58 +269,71 @@ end
 
 items[1001] = {
 	name = hoa_system.Translate("Minor Elixir"),
-	description = hoa_system.Translate("Improve the character status when it is sane or reduces ailing status effects by a limited degree."),
+	description = hoa_system.Translate("Revive a character, or improve the character status when it is sane or reduces ailing status effects by a limited degree."),
 	icon = "img/icons/items/potion_red_small.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 160,
+	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
+	standard_price = 50,
 	use_warmup_time = 1200,
 	cooldown_time = 1800,
 
-	BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		-- Decrement all base stats active negative status effects slightly
-		return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
-	end,
-	
-	FieldUse = function(target)
-		-- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
-	        -- which are valid only in battles.
-		return false;
-	end
+    BattleUse = function(user, target)
+        target_actor = target:GetActor();
+        -- Decrement all base stats active negative status effects slightly
+        if (target_actor:GetHitPoints() > 0) then
+            -- Decrement any active negative base stats status effects when alive
+            return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+        else
+            -- When dead, revive the character
+            target_actor:RegisterRevive(1);
+        end
+        return true;
+    end,
+
+    FieldUse = function(target)
+        if (target:GetHitPoints() > 0) then
+            -- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
+            -- which are valid only in battles.
+            return false;
+        else
+            -- When dead, revive the character
+            target:SetHitPoints(1);
+        end
+        return true;
+    end
 }
 
 items[1003] = {
 	name = hoa_system.Translate("Elixir"),
-	description = hoa_system.Translate("Revive a character, or reduces almost all its ailing status effects if the potion is drunk when alive."),
+	description = hoa_system.Translate("Revive a character with half of its Hit Points, or reduces almost all its ailing status effects if the potion is drunk when alive."),
 	icon = "img/icons/items/potion_red_large.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
-	standard_price = 1600,
+	standard_price = 1200,
 	use_warmup_time = 1600,
 	cooldown_time = 2100,
 
-	BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		if (target_actor:GetHitPoints() > 0) then
-			-- Decrement any active negative base stats status effects when alive
-			return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
-		else
-			-- When dead, revive the character
-			target_actor:RegisterRevive(1);
-		end
-		return true;
-	end,
+    BattleUse = function(user, target)
+        target_actor = target:GetActor();
+        if (target_actor:GetHitPoints() > 0) then
+            -- Decrement any active negative base stats status effects when alive
+            return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
+        else
+            -- When dead, revive the character
+            target_actor:RegisterRevive(target_actor:GetMaxHitPoints() / 2.0);
+        end
+        return true;
+    end,
 
-	FieldUse = function(target)
-		if (target:GetHitPoints() > 0) then
-		-- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
-	        -- which are valid only in battles.
-			return false;
-		else
-			-- When dead, revive the character
-			target:SetHitPoints(1);
-		end
-		return true;
-	end
+    FieldUse = function(target)
+        if (target:GetHitPoints() > 0) then
+        -- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
+            -- which are valid only in battles.
+            return false;
+        else
+            -- When dead, revive the character
+            target:SetHitPoints(target_actor:GetMaxHitPoints() / 2.0);
+        end
+        return true;
+    end
 }
 
 --------------------------------------------------------------------------------
