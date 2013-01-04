@@ -304,6 +304,7 @@ function _CreateNPCs()
 	    -- Carson isn't here anymore
 	    bronanns_dad:SetVisible(false);
 	    bronanns_dad:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        bronanns_dad:SetPosition(0, 0);
 	else
 	    EventManager:StartEvent("Dad random move");
 	end
