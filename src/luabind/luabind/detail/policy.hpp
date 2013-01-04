@@ -745,7 +745,11 @@ struct default_converter<std::string>
 
     std::string from(lua_State* L, int index)
     {
+#if LUA_VERSION_NUM > 501
+        return std::string(lua_tostring(L, index), lua_rawlen(L, index));
+#else
         return std::string(lua_tostring(L, index), lua_strlen(L, index));
+#endif
     }
 
     void to(lua_State* L, std::string const& value)

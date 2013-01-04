@@ -118,7 +118,7 @@ luabind::detail::class_rep::~class_rep()
 }
 
 // leaves object on lua stack
-std::pair<void*,void*> 
+std::pair<void*,void*>
 luabind::detail::class_rep::allocate(lua_State* L) const
 {
 	const int size = sizeof(object_rep);
@@ -189,7 +189,7 @@ void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep
 	class_rep* bcrep = binfo.base;
 
 	// import all static constants
-	for (std::map<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin(); 
+	for (std::map<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin();
 			i != bcrep->m_static_constants.end(); ++i)
 	{
 		int& v = m_static_constants[i->first];
@@ -208,7 +208,7 @@ LUABIND_API void luabind::disable_super_deprecation()
 int luabind::detail::class_rep::super_callback(lua_State* L)
 {
 	int args = lua_gettop(L);
-		
+
 	class_rep* crep = static_cast<class_rep*>(lua_touserdata(L, lua_upvalueindex(1)));
 	class_rep* base = crep->bases()[0].base;
 
@@ -270,7 +270,7 @@ int luabind::detail::class_rep::lua_settable_dispatcher(lua_State* L)
 	lua_rawset(L, -3);
 
 	crep->m_operator_cache = 0; // invalidate cache
-	
+
 	return 0;
 }
 
@@ -292,7 +292,11 @@ int luabind::detail::class_rep::static_class_gettable(lua_State* L)
 
 	const char* key = lua_tostring(L, 2);
 
-	if (std::strlen(key) != lua_strlen(L, 2))
+#if LUA_VERSION_NUM > 501
+    if (std::strlen(key) != lua_rawlen(L, 2))
+#else
+    if (std::strlen(key) != lua_strlen(L, 2))
+#endif
 	{
 		lua_pushnil(L);
 		return 1;
@@ -361,7 +365,7 @@ void luabind::detail::finalize(lua_State* L, class_rep* crep)
 		lua_call(L, 1, 0);
 	}
 
-	for (std::vector<class_rep::base_info>::const_iterator 
+	for (std::vector<class_rep::base_info>::const_iterator
 			i = crep->bases().begin(); i != crep->bases().end(); ++i)
 	{
 		if (i->base) finalize(L, i->base);
