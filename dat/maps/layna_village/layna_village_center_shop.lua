@@ -303,6 +303,7 @@ function _CreateEvents()
 
 	event = hoa_map.ShopEvent("layna: open shop");
 	event:AddObject(1, 10); -- minor potion
+    event:AddObject(1001, 10); -- minor elixir
 	event:AddObject(30003, 1); -- tunic for Bronann
 	event:AddObject(30004, 1); -- leather cloak for Kalya
 	event:AddObject(40001, 3); -- leather cloak for Kalya
