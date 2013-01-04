@@ -706,6 +706,20 @@ uint32 GameGlobal::GetNumberEvents(const std::string &group_name) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// GameGlobal class - Quests Functions
+////////////////////////////////////////////////////////////////////////////////
+
+static QuestLogInfo _empty_quest_log_info;
+
+const QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id)
+{
+    std::map<std::string, QuestLogInfo>::iterator itr = _quest_log_info.find(quest_id);
+    if(itr == _quest_log_info.end())
+        return _empty_quest_log_info;
+    return itr->second;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Other Functions
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1244,20 +1258,14 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
         return;
     }
 
-    //start writting
-    file.WriteLine("\t" + quest_log_entry->_quest_log_entry_key + " = {", false);
-    //write the completion event group
-    file.WriteLine("\"" + quest_log_entry->_complete_event_group + "\", ", false);
-    //write the completion event
-    file.WriteLine("\"" + quest_log_entry->_complete_event_name + "\", ", false);
-    //write the quest string id
-    file.WriteLine("\"" + quest_log_entry->_string_id + "\", ", false);
-    //write the quest log number. this is written as a string because loading needs a uniform type of data in the array
-    file.WriteLine("\"" + NumberToString(quest_log_entry->_quest_log_number) + "\", ", false);
-    //write the "false" or "true" string if this entry has been read or not
-    const std::string is_read(quest_log_entry->_is_read ? "true" : "false");
+    // Start writting
+    file.WriteLine("\t" + quest_log_entry->GetQuestId() + " = {", false);
+    // Write the quest log number. this is written as a string because loading needs a uniform type of data in the array
+    file.WriteLine("\"" + NumberToString(quest_log_entry->GetQuestLogNumber()) + "\", ", false);
+    // Write the "false" or "true" string if this entry has been read or not
+    const std::string is_read(quest_log_entry->IsRead() ? "true" : "false");
     file.WriteLine("\"" + is_read + "\"", false);
-    //end writing
+    // End writing
     file.WriteLine("},");
 
 }
@@ -1484,7 +1492,7 @@ void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &grou
     file.CloseTable();
 }
 
-void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &quest_key)
+void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &quest_id)
 {
     if(file.IsFileOpen() == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
@@ -1492,26 +1500,22 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
     }
     std::vector<std::string> quest_info;
     //read the 4 entries into a new quest entry
-    file.ReadStringVector(quest_key, quest_info);
-    if(quest_info.size() != 5)
+    file.ReadStringVector(quest_id, quest_info);
+    if(quest_info.size() != 2)
     {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "save file has malformed quest log entries" << std::endl;
         return;
     }
 
-    //constant values for loading
-    const std::string& complete_event_group = quest_info[0];
-    const std::string& complete_event_name = quest_info[1];
-    const std::string& string_id = quest_info[2];
     //conversion of the log number from string int. We need to do thing because ReadStringVector assumes that
     //all items are the same type.
-    uint32 quest_log_number = ::atoi(quest_info[3].c_str());
+    uint32 quest_log_number = ::atoi(quest_info[0].c_str());
     //conversion from string to bool for is_read flag
-    bool is_read = quest_info[4].compare("true") == 0;
+    bool is_read = quest_info[1].compare("true") == 0;
 
-    if(!_AddQuestLogEntry(quest_key, complete_event_group, complete_event_name, string_id, quest_log_number, is_read))
+    if(!_AddQuestLog(quest_id, quest_log_number, is_read))
     {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "save file has duplicate quest log key entries" << std::endl;
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "save file has duplicate quest log id entries" << std::endl;
         return;
     }
     //update the quest log count value if the current number is greater
@@ -1524,8 +1528,7 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
 bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
 {
     // First clear the existing quests entries in case of a reloading.
-    _quest_titles.clear();
-    _quest_descriptions.clear();
+    _quest_log_info.clear();
 
     hoa_script::ReadScriptDescriptor quests_script;
     if(!quests_script.OpenFile(quests_script_filename)) {
@@ -1553,15 +1556,23 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
     quests_script.OpenTable("quests");
     for(uint32 i = 0; i < quest_ids.size(); ++i)
     {
+        const std::string& quest_id = quest_ids[i];
         std::vector<std::string> quest_info;
-        quests_script.ReadStringVector(quest_ids[i], quest_info);
-        if(!GlobalManager->LoadQuest(quest_ids[i], MakeUnicodeString(quest_info[0]), MakeUnicodeString(quest_info[1])))
-        {
-           PRINT_ERROR << "duplicate quests defined in the 'quests' table of file: "
-                    << quests_script_filename << std::endl;
-            quests_script.CloseFile();
-            return false;
+
+        quests_script.ReadStringVector(quest_id, quest_info);
+
+        // Check for an existing quest entry
+        if(_quest_log_info.find(quest_id) != _quest_log_info.end()) {
+            PRINT_WARNING << "Duplicate quests defined in the 'quests' table of file: "
+                << quests_script_filename << std::endl;
+            continue;
         }
+
+        QuestLogInfo info = QuestLogInfo(MakeUnicodeString(quest_info[0]),
+                                         MakeUnicodeString(quest_info[1]),
+                                         quest_info[2], quest_info[3]);
+
+        _quest_log_info[quest_id] = info;
     }
 
     quests_script.CloseTable();

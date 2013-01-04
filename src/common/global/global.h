@@ -158,54 +158,63 @@ struct QuestLogEntry
 public:
     //! ctor to create the QuestLogEntry. the key, event states and description
     //! cannot be changed
-    //! \param quest_log_entry_key unique key to this quest log entry
-    //! \param complete_event_group group for the completion event
-    //! \param complete_event_name name of the completion event
-    //! \param string id for quest entry in config/quest.lua quest table
+    //! \param quest_id for quest entry in config/quest.lua quest table
     //! \param the quest log counter, indicating the order in which the quest was added
-    //! \param set whether or not the log entry is read or not. Defaults to false. this flag is manipulated by
-    //!     the game internals as opposed to the scripting side
-    QuestLogEntry(const std::string &quest_log_entry_key,
-                  const std::string &complete_event_group,
-                  const std::string &complete_event_name,
-                  const std::string &string_id,
+    //! \param set whether or not the log entry is read or not. Defaults to false.
+    //! this flag is manipulated by the game internals as opposed to the scripting side
+    QuestLogEntry(const std::string &quest_id,
                   uint32 quest_number,
-                  bool is_read = false ):
-        _quest_log_entry_key(quest_log_entry_key),
-        _complete_event_group(complete_event_group),
-        _complete_event_name(complete_event_name),
-        _string_id(string_id),
+                  bool is_read = false):
+        _quest_id(quest_id),
         _quest_log_number(quest_number),
         _is_read(is_read)
-    {
-    }
+    {}
 
-    //! the key of the quest this entry pertains to. access to this log
-    //! entry should be done via this key. This is different from
-    //! the display name, in that there could be multiple quests
-    //! which occur at different times, but are ultimately the same
-    //! display name and description. an example would be a re-occuring
-    //! "find my lost dog!" series of quests, where the same NPC periodically
-    //! looses his dog and the hero must go find it (with scaling level of difficulty).
-    //! The visual entry could be "Spot is lost!" a few times in a row, but
-    //! the quest itself is different: find_spot_1, find_spot_2, etc
-    const std::string _quest_log_entry_key;
+    void SetRead()
+    { _is_read = true; }
 
-    //! the completion event group
-    const std::string _complete_event_group;
+    bool IsRead() const
+    { return _is_read; }
 
-    //! the completion event.
-    const std::string _complete_event_name;
+    const std::string& GetQuestId() const
+    { return _quest_id; }
 
+    uint32 GetQuestLogNumber() const
+    { return _quest_log_number; }
+
+private:
     //! the string id for the title and description of this quest
-    const std::string _string_id;
+    const std::string _quest_id;
 
     //! the quest log number for this quest
     const uint32 _quest_log_number;
 
     //! flag to indicate whether or not this entry has been read
     bool _is_read;
+};
 
+// A simple structure used to store quest log system info.
+struct QuestLogInfo {
+    QuestLogInfo(const hoa_utils::ustring& title,
+                 const hoa_utils::ustring& description,
+                 const std::string& completion_event_group,
+                 const std::string& completion_event_name) :
+        _title(title),
+        _description(description),
+        _completion_event_group(completion_event_group),
+        _completion_event_name(completion_event_name)
+    {}
+
+    QuestLogInfo()
+    {}
+
+    // User info about the quest log
+    hoa_utils::ustring _title;
+    hoa_utils::ustring _description;
+
+    // Internal quest info used to know whether the quest is complete.
+    std::string _completion_event_group;
+    std::string _completion_event_name;
 };
 
 /** ****************************************************************************
@@ -450,44 +459,24 @@ public:
 
     //! \name Quest Log Entry methods
     //@{
-    /** \brief checks to see if the quest entry exists
-    *** \param quest_key the quest log entry key we are looking for
-    *** \return true if the quest log entry exists for this key
-    **/
-    bool DoesQuestLogEntryExist(const std::string &quest_key) const
+    //! Tells whether a quest id is completed, based on the internal quest info
+    //! and the current game event values.
+    bool IsQuestCompleted(const std::string &quest_id)
     {
-        return _quest_log_entries.find(quest_key) != _quest_log_entries.end();
-    }
+        if (_quest_log_info.find(quest_id) == _quest_log_info.end())
+            return false;
+        const QuestLogInfo info = _quest_log_info[quest_id];
 
-    /** \brief returns a const pointer to a quest log entry for the given key
-    *** this function will return NULL if the key is not found, so be careful. use
-    *** the DoesQuestLogEntryExist() function to test existance
-    *** \param quest_key the quest log entry key we are looking for
-    *** \return pointer to the quest log entry. returns NULL if no quest log entry found
-    **/
-    QuestLogEntry *GetQuestLogEntry(const std::string &quest_key)
-    {
-        if(!DoesQuestLogEntryExist(quest_key))
-            return NULL;
-        return _quest_log_entries.find(quest_key)->second;  //this is NOT a hack. because this is a const function,
-                                                            //you cannot use std::map's [] operator, as it allows modification.
-                                                            //this is indeed the correct way to access the value since find returns
-                                                            //a const_iterator
+        return (GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
     }
 
     /** \brief adds a new quest log entry into the quest log entries table
-    *** \param quest_log_entry_key unique key to this quest log entry
-    *** \param complete_event_group group of the completion event
-    *** \param complete_event_name name of the completion event
     *** \param the string id into quests table for this quest
     *** \return true if the entry was added. false if the entry already exists
     **/
-    bool AddQuestLogEntry(const std::string &quest_key,
-                    const std::string &complete_event_group,
-                    const std::string &complete_event_name,
-                    const std::string &string_id )
+    bool AddQuestLog(const std::string &quest_id)
     {
-        return _AddQuestLogEntry(quest_key, complete_event_group, complete_event_name, string_id, _quest_log_count++);
+        return _AddQuestLog(quest_id, _quest_log_count++);
     }
 
     /** \brief gets the number of quest log entries
@@ -498,58 +487,25 @@ public:
         return _quest_log_entries.size();
     }
 
-    /** \brief get a list of all the quest log entry keys
-    *** \return a vector of quest log entry key strings
+    /** \brief get a list of all the currently active quest log entries
+    *** \return a vector of valid quest log entries
     **/
-    std::vector<std::string> GetQuestLogKeys() const
+    std::vector<QuestLogEntry *> GetActiveQuestIds() const
     {
-        std::vector<std::string> keys;
-        for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
-            keys.push_back(itr->first);
+        std::vector<QuestLogEntry *> keys;
+        for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin();
+                itr != _quest_log_entries.end(); ++itr) {
+            if (itr->second)
+                keys.push_back(itr->second);
+        }
         return keys;
     }
 
-    /** \brief loads a quest entry from the quest table into the Global Manager
-    *** each quest is added via its unique string_id
-    *** the description and title are held seperately (mostly to reduce object bloat)
-    *** \param string_id the unique string id
-    *** \param title the display title
-    *** \param description the description
-    *** \return true if the quest was loaded
-    **/
-
-    bool LoadQuest(const std::string &string_id, const hoa_utils::ustring &title, const hoa_utils::ustring &description)
-    {
-        if(_quest_titles.find(string_id) != _quest_titles.end() || _quest_descriptions.find(string_id) != _quest_descriptions.end())
-            return false;
-        _quest_titles[string_id] = title;
-        _quest_descriptions[string_id] = description;
-        return true;
-    }
-
     /** \brief gets a pointer to the description for the quest string id,
-    *** \param string_id the quest id
-    *** \return pointer to the description if the quest_id exists. otherwise, NULL
+    *** \param quest_id the quest id
+    *** \return a reference to the given quest log info or an empty quest log info.
     **/
-    hoa_utils::ustring *GetQuestDescription(const std::string &string_id)
-    {
-        std::map<std::string, hoa_utils::ustring>::iterator itr = _quest_descriptions.find(string_id);
-        if(itr == _quest_descriptions.end())
-            return NULL;
-        return &(itr->second);
-    }
-
-    /** \brief gets a pointer to the title of the quest string id
-    *** \param string_id the quest id
-    *** \return pointer to the title if the quest_id exists. otherwise, NULL
-    **/
-    hoa_utils::ustring *GetQuestTitle(const std::string &string_id)
-    {
-        std::map<std::string, hoa_utils::ustring>::iterator itr = _quest_titles.find(string_id);
-        if(itr == _quest_titles.end())
-            return NULL;
-        return &(itr->second);
-    }
+    const QuestLogInfo& GetQuestInfo(const std::string &quest_id);
     //@}
 
     //! \note The overflow condition is not checked here: we just assume it will never occur
@@ -929,10 +885,9 @@ private:
     //! \brief The map continaing the four sprite direction offsets (x and y value).
     std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
 
-    //! \brief a map of the quest stirng ids to their descriptions
-    std::map<std::string, hoa_utils::ustring> _quest_descriptions;
-    //! \brief a map of the quest string ids to their titles
-    std::map<std::string, hoa_utils::ustring> _quest_titles;
+    //! \brief a map of the quest string ids to their info
+    std::map<std::string, QuestLogInfo> _quest_log_info;
+
 
     // ----- Private methods
 
@@ -975,30 +930,20 @@ private:
     void _SaveEvents(hoa_script::WriteScriptDescriptor &file, GlobalEventGroup *event_group);
 
     /** \brief adds a new quest log entry into the quest log entries table. also updates the quest log number
-    *** \param quest_log_entry_key unique key to this quest log entry
-    *** \param parent_event_name the name of the parent event that needs to occur for this event to show
-    *** \param complete_event_group group of the completion event
-    *** \param complete_event_name name of the completion event
-    *** \param string_id for the quest
+    *** \param quest_id for the quest
     *** \param the quest entry's log number
     *** \param flag to indicate if this entry is read or not. default is false
     *** \return true if the entry was added. false if the entry already exists
     **/
-    bool _AddQuestLogEntry(const std::string &quest_key,
-                    const std::string &complete_event_group,
-                    const std::string &complete_event_name,
-                    const std::string &string_id,
-                    uint32 quest_log_number,
-                    bool is_read = false)
+    bool _AddQuestLog(const std::string &quest_id,
+                      uint32 quest_log_number,
+                      bool is_read = false)
     {
-        if(DoesQuestLogEntryExist(quest_key))
+        if(_quest_log_entries.find(quest_id) != _quest_log_entries.end())
             return false;
-        _quest_log_entries[quest_key] = new QuestLogEntry(quest_key,
-                                                          complete_event_group,
-                                                          complete_event_name,
-                                                          string_id,
-                                                          quest_log_number,
-                                                          is_read);
+        _quest_log_entries[quest_id] = new QuestLogEntry(quest_id,
+                                                         quest_log_number,
+                                                         is_read);
         return true;
     }
 
