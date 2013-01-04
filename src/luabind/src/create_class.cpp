@@ -112,7 +112,11 @@ namespace luabind { namespace detail
 			lua_error(L);
 		}
 
-		if (std::strlen(lua_tostring(L, 1)) != lua_strlen(L, 1))
+#if LUA_VERSION_NUM > 501
+        if (std::strlen(lua_tostring(L, 1)) != lua_rawlen(L, 1))
+#else
+        if (std::strlen(lua_tostring(L, 1)) != lua_strlen(L, 1))
+#endif
 		{
 			lua_pushstring(L, "luabind does not support class names with extra nulls");
 			lua_error(L);
