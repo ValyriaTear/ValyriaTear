@@ -1595,7 +1595,9 @@ QuestListWindow::QuestListWindow() :
 {
     _quests_list.SetPosition(92.0f, 145.0f);
     _quests_list.SetDimensions(330.0f, 375.0f, 1, 255, 1, 8);
-    _quests_list.SetCursorOffset(-55.0f, -15.0f);
+    //set the cursor offset next to where the exclamation point would be.
+    //this prevents the arrow jumping
+    _quests_list.SetCursorOffset(-75.0f, -15.0f);
     _quests_list.SetTextStyle(TextStyle("text20"));
     _quests_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
     _quests_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
