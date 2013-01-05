@@ -544,7 +544,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("It flew again. I'm glad we survived. Let's get out of here before he comes back.");
+    text = hoa_system.Translate("It ran away again. I'm glad we survived. Let's get out of here before he comes back.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya talks after the battle", dialogue);

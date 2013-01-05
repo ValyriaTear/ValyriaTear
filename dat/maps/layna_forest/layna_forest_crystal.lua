@@ -876,7 +876,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("What does all of this means?");
+    text = hoa_system.Translate("What does all of this mean?");
     dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
     text = hoa_system.Translate("I shall come and make one with our only hope...");
     dialogue:AddLine(text, orlinn);
