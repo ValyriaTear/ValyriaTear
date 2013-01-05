@@ -64,7 +64,7 @@ namespace private_battle
 //@{
 const char *DEFAULT_BATTLE_MUSIC   = "mus/Confrontation.ogg";
 const char *DEFAULT_VICTORY_MUSIC  = "mus/Fanfare.ogg";
-const char *DEFAULT_DEFEAT_MUSIC   = "mus/Intermission.ogg";
+const char *DEFAULT_DEFEAT_MUSIC   = "mus/Battle_lost-OGA-Mumu.ogg";
 //@}
 
 BattleMedia::BattleMedia()
