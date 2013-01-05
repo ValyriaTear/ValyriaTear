@@ -312,19 +312,19 @@ void AudioDescriptor::FreeAudio()
     }
 }
 
-void AudioDescriptor::Play()
+bool AudioDescriptor::Play()
 {
     if(!AUDIO_ENABLE)
-        return;
+        return true;
 
     if(_state == AUDIO_STATE_PLAYING)
-        return;
+        return true;
 
     if(!_source) {
         _AcquireSource();
         if(!_source) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
-            return;
+            return false;
         }
         _SetSourceProperties();
     }
@@ -344,6 +344,7 @@ void AudioDescriptor::Play()
         IF_PRINT_WARNING(AUDIO_DEBUG) << "playing the source failed: " << AudioManager->CreateALErrorString() << std::endl;
     }
     _state = AUDIO_STATE_PLAYING;
+    return true;
 }
 
 void AudioDescriptor::Stop()
@@ -1004,15 +1005,15 @@ void SoundDescriptor::SetVolume(float volume)
     }
 }
 
-void SoundDescriptor::Play()
+bool SoundDescriptor::Play()
 {
     if(!AUDIO_ENABLE)
-        return;
+        return true;
 
     if(_state == AUDIO_STATE_PLAYING)
         Stop();
 
-    AudioDescriptor::Play();
+    return AudioDescriptor::Play();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1052,22 +1053,27 @@ bool MusicDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_typ
     return AudioDescriptor::LoadAudio(filename, load_type, stream_buffer_size);
 }
 
-void MusicDescriptor::Play()
+bool MusicDescriptor::Play()
 {
     if(!AUDIO_ENABLE)
-        return;
+        return true;
 
     if(AudioManager->_active_music == this) {
         if(_state != AUDIO_STATE_PLAYING && _state != AUDIO_STATE_FADE_IN)
-            AudioDescriptor::Play();
-            FadeIn(500);
+            if (AudioDescriptor::Play())
+                FadeIn(500);
+            else
+                return false;
     } else {
         if(AudioManager->_active_music)
             AudioManager->_active_music->FadeOut(500);
         AudioManager->_active_music = this;
-        AudioDescriptor::Play();
-        FadeIn(500);
+        if (AudioDescriptor::Play())
+            FadeIn(500);
+        else
+            return false;
     }
+    return true;
 }
 
 void MusicDescriptor::SetVolume(float volume)

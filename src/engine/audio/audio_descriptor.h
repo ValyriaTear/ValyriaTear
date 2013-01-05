@@ -214,7 +214,7 @@ public:
     void FreeAudio();
 
     const std::string GetFilename() const {
-        if(_input == NULL) return "";
+        if(_input == NULL) return std::string();
         else return _input->GetFilename();
     }
 
@@ -237,7 +237,7 @@ public:
     *** - RewindAudio()   <==>   all states
     **/
     //@{
-    virtual void Play();
+    virtual bool Play();
     virtual void Stop();
     virtual void Pause();
     virtual void Resume();
@@ -489,7 +489,7 @@ public:
     void SetVolume(float volume);
 
     //! \brief Plays or restart the currently played sound.
-    void Play();
+    bool Play();
 }; // class SoundDescriptor : public AudioDescriptor
 
 
@@ -527,7 +527,7 @@ public:
     *** calling this method on one music also effectively calls stop on another
     *** piece of music that was playing when the call was made
     **/
-    void Play();
+    bool Play();
 }; // class MusicDescriptor : public AudioDescriptor
 
 } // namespace hoa_audio
