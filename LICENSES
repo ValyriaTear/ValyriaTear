@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.01.03
+Last update: 2013.01.05
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -488,7 +488,13 @@ mus/Caketown_1-OGA-mat-pablo.ogg                                CC by SA 3.0, GP
 mus/house_in_a_forest_loop_horrorpen_oga.ogg                    CC by 3.0                HorrorPen (OGA)
 mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0             Koertes (OGA)
 mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
-
+mus/Battle_lost-OGA-Mumu.ogg                                    CC0                      Mumu (OGA) - http://opengameart.org/content/game-over-muisc
+mus/Cave2.ogg                                                   GPLv2                    Allacrost
+mus/Confrontation.ogg                                           GPLv2                    Allacrost
+mus/Fanfare.ogg                                                 GPLv2                    Allacrost
+mus/Battle_Jazz.ogg                                             GPLv2                    Allacrost
+mus/The_Creature_Awakens.ogg                                    GPLv2                    Allacrost
+mus/Save_Game.ogg                                               GPLv2                    Allacrost
 
 snd/cloth_sound.wav                                             CC by SA 3.0, GPLv2 or 3 artisticdude (OGA)
 snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0, GPLv2 or 3 IFartInUrGeneralDirection from freesound.org
@@ -563,23 +569,6 @@ Files:
 ./snd/cancel.wav
 ./snd/female_scream.ogg
 ./snd/swordslice3.wav
-
-./mus/Venturing_Dragons_in_the_Dark.ogg
-./mus/Cave2.ogg
-./mus/Confrontation.ogg
-./mus/Fanfare.ogg
-./mus/Town_Folk.ogg
-./mus/Battle_Jazz.ogg
-./mus/Seeking_New_Worlds.ogg
-./mus/The_Creature_Awakens.ogg
-./mus/Save_Game.ogg
-./mus/Claudius.ogg
-./mus/old_Opening_Effect.ogg
-./mus/old_Opening_Theme.ogg
-./mus/Desert.ogg
-./mus/Betrayal.ogg
-./mus/Intermission.ogg
-./mus/Betrayal_Battle.ogg
 
 ./img/tilesets/mountain_house_exterior.png
 ./img/tilesets/desert_cave_walls.png
