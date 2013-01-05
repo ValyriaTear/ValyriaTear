@@ -107,11 +107,11 @@ namespace luabind
 struct A
 {
 	A()
-	: cnt(0)
+	: cnt(0) 
 	{}
 
 	~A() { std::cout << "free memory\n"; }
-
+	
 	int cnt;
 };
 
@@ -144,7 +144,7 @@ int main()
 	lua_baselibopen(L);
 
 	luabind::open(L);
-
+	
 	using namespace luabind;
 
 	module(L)

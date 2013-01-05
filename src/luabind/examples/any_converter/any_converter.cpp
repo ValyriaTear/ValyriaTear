@@ -70,14 +70,14 @@ int main()
 	register_any_converter<std::string>();
 
 	lua_State* L = luaL_newstate();
-#if LUA_VERSION_NUM >= 501
+#if LUA_VERSION_NUM >= 501 
 	luaL_openlibs(L);
 #else
 	lua_baselibopen(L);
 #endif
 
 	using namespace luabind;
-
+	
 	open(L);
 	module(L)
 	[

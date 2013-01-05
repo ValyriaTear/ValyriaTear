@@ -66,6 +66,10 @@
 #include <luabind/from_stack.hpp>
 #include <luabind/typeid.hpp>
 
+#if LUA_VERSION_NUM < 502
+# define lua_rawlen lua_objlen
+#endif
+
 namespace luabind
 {
 	namespace detail
@@ -208,7 +212,7 @@ namespace luabind { namespace detail
 
         void* result;
 
-        int consumed_args(...)
+        int consumed_args(...) const
         {
             return 1;
         }
@@ -261,7 +265,7 @@ namespace luabind { namespace detail
 		typedef value_converter type;
         typedef mpl::false_ is_native;
 
-        int consumed_args(...)
+        int consumed_args(...) const
         {
             return 1;
         }
@@ -313,7 +317,7 @@ namespace luabind { namespace detail
 		typedef const_pointer_converter type;
         typedef mpl::false_ is_native;
 
-        int consumed_args(...)
+        int consumed_args(...) const
         {
             return 1;
         }
@@ -369,7 +373,7 @@ namespace luabind { namespace detail
 		typedef ref_converter type;
         typedef mpl::false_ is_native;
 
-        int consumed_args(...)
+        int consumed_args(...) const
         {
             return 1;
         }
@@ -415,7 +419,7 @@ namespace luabind { namespace detail
 		typedef const_ref_converter type;
         typedef mpl::false_ is_native;
 
-        int consumed_args(...)
+        int consumed_args(...) const
         {
             return 1;
         }
@@ -467,7 +471,7 @@ namespace luabind { namespace detail
 		typedef enum_converter type;
         typedef mpl::true_ is_native;
 
-        int consumed_args(...)
+        int consumed_args(...) const
         {
             return 1;
         }
@@ -511,7 +515,7 @@ namespace luabind { namespace detail
 		typedef value_wrapper_converter<U> type;
 		typedef mpl::true_ is_native;
 
-        int consumed_args(...)
+        int consumed_args(...) const
         {
             return 1;
         }
@@ -594,7 +598,7 @@ struct native_converter_base
 {
     typedef boost::mpl::true_ is_native;
 
-    int consumed_args(...)
+    int consumed_args(...) const
     {
         return 1;
     }
@@ -745,11 +749,7 @@ struct default_converter<std::string>
 
     std::string from(lua_State* L, int index)
     {
-#if LUA_VERSION_NUM > 501
         return std::string(lua_tostring(L, index), lua_rawlen(L, index));
-#else
-        return std::string(lua_tostring(L, index), lua_strlen(L, index));
-#endif
     }
 
     void to(lua_State* L, std::string const& value)
@@ -773,7 +773,7 @@ struct default_converter<char const*>
 {
     typedef boost::mpl::true_ is_native;
 
-    int consumed_args(...)
+    int consumed_args(...) const
     {
         return 1;
     }
@@ -824,7 +824,7 @@ struct default_converter<char[N]>
 template <>
 struct default_converter<lua_State*>
 {
-    int consumed_args(...)
+    int consumed_args(...) const
     {
         return 0;
     }
@@ -1020,6 +1020,10 @@ namespace luabind { namespace
 # define LUABIND_PLACEHOLDER_ARG(N) boost::arg<N>
 #endif
 }}
+
+#if LUA_VERSION_NUM < 502
+# undef lua_rawlen
+#endif
 
 #endif // LUABIND_POLICY_HPP_INCLUDED
 

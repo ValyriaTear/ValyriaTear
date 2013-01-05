@@ -31,6 +31,10 @@
 #include <luabind/get_main_thread.hpp>
 #include <utility>
 
+#if LUA_VERSION_NUM < 502
+# define lua_rawlen lua_objlen
+#endif
+
 using namespace luabind::detail;
 
 namespace luabind { namespace detail
@@ -118,7 +122,7 @@ luabind::detail::class_rep::~class_rep()
 }
 
 // leaves object on lua stack
-std::pair<void*,void*>
+std::pair<void*,void*> 
 luabind::detail::class_rep::allocate(lua_State* L) const
 {
 	const int size = sizeof(object_rep);
@@ -146,11 +150,10 @@ int luabind::detail::class_rep::constructor_dispatcher(lua_State* L)
         && cls->get_class_type() == class_rep::lua_class
         && !cls->bases().empty())
     {
-        lua_pushstring(L, "super");
         lua_pushvalue(L, 1);
-        lua_pushvalue(L, -3);
+        lua_pushvalue(L, -2);
         lua_pushcclosure(L, super_callback, 2);
-        lua_settable(L, LUA_GLOBALSINDEX);
+        lua_setglobal(L, "super");
     }
 
     lua_pushvalue(L, -1);
@@ -169,9 +172,8 @@ int luabind::detail::class_rep::constructor_dispatcher(lua_State* L)
 
     if (super_deprecation_disabled)
     {
-        lua_pushstring(L, "super");
         lua_pushnil(L);
-        lua_settable(L, LUA_GLOBALSINDEX);
+        lua_setglobal(L, "super");
     }
 
     return 1;
@@ -189,7 +191,7 @@ void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep
 	class_rep* bcrep = binfo.base;
 
 	// import all static constants
-	for (std::map<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin();
+	for (std::map<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin(); 
 			i != bcrep->m_static_constants.end(); ++i)
 	{
 		int& v = m_static_constants[i->first];
@@ -208,23 +210,21 @@ LUABIND_API void luabind::disable_super_deprecation()
 int luabind::detail::class_rep::super_callback(lua_State* L)
 {
 	int args = lua_gettop(L);
-
+		
 	class_rep* crep = static_cast<class_rep*>(lua_touserdata(L, lua_upvalueindex(1)));
 	class_rep* base = crep->bases()[0].base;
 
 	if (base->bases().empty())
 	{
-		lua_pushstring(L, "super");
 		lua_pushnil(L);
-		lua_settable(L, LUA_GLOBALSINDEX);
+		lua_setglobal(L, "super");
 	}
 	else
 	{
-		lua_pushstring(L, "super");
 		lua_pushlightuserdata(L, base);
 		lua_pushvalue(L, lua_upvalueindex(2));
 		lua_pushcclosure(L, super_callback, 2);
-		lua_settable(L, LUA_GLOBALSINDEX);
+		lua_setglobal(L, "super");
 	}
 
 	base->get_table(L);
@@ -241,9 +241,8 @@ int luabind::detail::class_rep::super_callback(lua_State* L)
 	// TODO: instead of clearing the global variable "super"
 	// store it temporarily in the registry. maybe we should
 	// have some kind of warning if the super global is used?
-	lua_pushstring(L, "super");
 	lua_pushnil(L);
-	lua_settable(L, LUA_GLOBALSINDEX);
+	lua_setglobal(L, "super");
 
 	return 0;
 }
@@ -270,7 +269,7 @@ int luabind::detail::class_rep::lua_settable_dispatcher(lua_State* L)
 	lua_rawset(L, -3);
 
 	crep->m_operator_cache = 0; // invalidate cache
-
+	
 	return 0;
 }
 
@@ -292,11 +291,7 @@ int luabind::detail::class_rep::static_class_gettable(lua_State* L)
 
 	const char* key = lua_tostring(L, 2);
 
-#if LUA_VERSION_NUM > 501
-    if (std::strlen(key) != lua_rawlen(L, 2))
-#else
-    if (std::strlen(key) != lua_strlen(L, 2))
-#endif
+	if (std::strlen(key) != lua_rawlen(L, 2))
 	{
 		lua_pushnil(L);
 		return 1;
@@ -365,7 +360,7 @@ void luabind::detail::finalize(lua_State* L, class_rep* crep)
 		lua_call(L, 1, 0);
 	}
 
-	for (std::vector<class_rep::base_info>::const_iterator
+	for (std::vector<class_rep::base_info>::const_iterator 
 			i = crep->bases().begin(); i != crep->bases().end(); ++i)
 	{
 		if (i->base) finalize(L, i->base);
