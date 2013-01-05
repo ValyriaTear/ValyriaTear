@@ -592,7 +592,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         } else {
             _level_text[i].SetDisplayText(UTranslate("Level: ")
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
-            _xp_text[i].SetDisplayText(UTranslate("XP: ")
+            _xp_text[i].SetDisplayText(UTranslate("XP left: ")
                                        + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel())));
         }
 
@@ -716,57 +716,50 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
             // HP
             if(_character_growths[i].hit_points > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("HP:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].hit_points)));
+                _growth_list[i].SetOptionText(line, UTranslate("HP: +") + MakeUnicodeString(NumberToString(_character_growths[i].hit_points)));
                 line = line + 2;
             }
 
             // SP
             if(_character_growths[i].skill_points > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("SP:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].skill_points)));
+                _growth_list[i].SetOptionText(line, UTranslate("SP: +") + MakeUnicodeString(NumberToString(_character_growths[i].skill_points)));
                 line = line + 2;
             }
 
             // Strength
             if(_character_growths[i].strength > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("STR:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].strength)));
+                _growth_list[i].SetOptionText(line, UTranslate("STR: +") + MakeUnicodeString(NumberToString(_character_growths[i].strength)));
                 line = line + 2;
             }
 
             // Vigor
             if(_character_growths[i].vigor > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("VIG:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].vigor)));
+                _growth_list[i].SetOptionText(line, UTranslate("VIG: +") + MakeUnicodeString(NumberToString(_character_growths[i].vigor)));
                 line = line + 2;
             }
 
             // Fortitude
             if(_character_growths[i].fortitude > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("FOR:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
+                _growth_list[i].SetOptionText(line, UTranslate("FOR: +") + MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
                 line = line + 2;
             }
 
             // Protection
             if(_character_growths[i].protection > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("PRO:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].protection)));
+                _growth_list[i].SetOptionText(line, UTranslate("PRO: +") + MakeUnicodeString(NumberToString(_character_growths[i].protection)));
                 line = line + 2;
             }
 
             // Agility
             if(_character_growths[i].agility > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("AGI:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].agility)));
+                _growth_list[i].SetOptionText(line, UTranslate("AGI: +") + MakeUnicodeString(NumberToString(_character_growths[i].agility)));
                 line = line + 2;
             }
 
             // Evade
             if(_character_growths[i].evade > 0.0f) {
-                _growth_list[i].SetOptionText(line, UTranslate("EVA:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].evade)));
+                _growth_list[i].SetOptionText(line, UTranslate("EVA: +")
+                    + MakeUnicodeString(NumberToString(_character_growths[i].evade)) + MakeUnicodeString("%"));
                 line = line + 2;
             }
 
@@ -783,7 +776,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
             level_text = UTranslate("Level (Max): ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
         } else {
             level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
-            xp_text = UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
+            xp_text = UTranslate("XP left: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
         }
 
         _level_text[i].SetDisplayText(level_text);
