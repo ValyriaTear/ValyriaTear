@@ -95,7 +95,7 @@ void bind_glut(lua_State* L)
 	open(L);
 
 	module(L)
-	[
+	[	
 		def("glutInitWindowSize", &glutInitWindowSize),
 		def("glutInitWindowPosition", &glutInitWindowPosition),
 		def("glutInitDisplayMode", &glutInitDisplayMode),

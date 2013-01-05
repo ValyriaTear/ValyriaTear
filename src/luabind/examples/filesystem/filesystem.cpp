@@ -14,7 +14,7 @@ extern "C"
 
 #include "directory_iterator.hpp"
 
-const boost::filesystem::path&
+const boost::filesystem::path& 
 identity(const boost::filesystem::path& x)
 {
 	return x;
@@ -26,7 +26,7 @@ void bind_filesystem(lua_State* L)
 	using namespace boost::filesystem;
 
 	namespace fs = boost::filesystem;
-
+	
 	module(L, "filesystem")
 	[
 		class_<fs::path>("path")
@@ -93,13 +93,13 @@ int main(int argc, const char* argv[])
 			"usage: filesystem filename [args]\n";
 		return 1;
 	}
-
+	
 	using namespace luabind;
 
 	open(L);
 
 	bind_filesystem(L);
-
+	
 	object args = newtable(L);
 
 	for (int i = 0; i < argc; ++i)

@@ -44,7 +44,7 @@ void bind_cln(lua_State* L)
 			.def(const_self <= other<int>())
 			.def(const_self < other<int>())
 			,
-
+		
 		// rational numbers
 		class_<cl_RA, cl_R>("cl_RA")
 			.def(constructor<>())
@@ -99,7 +99,7 @@ void bind_cln(lua_State* L)
 			.def(const_self <= other<int>())
 			.def(const_self < other<int>())
 			,
-
+			
 		def("factorial", &cln::factorial),
 		def("sqrt", (const cl_R(*)(const cl_R&))&cln::sqrt)
 	];

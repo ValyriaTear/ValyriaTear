@@ -43,15 +43,14 @@ int main()
 
 	lua_State* L = luaL_newstate();
 	open(L);
-
+	
 	class_<A>(L, "A")
 		.def(constructor<>());
 
 	function(L, "test1", &f1);
 
-	lua_pushstring(L, "test2");
 	lua_pushcclosure(L, &f2, 0);
-	lua_settable(L, LUA_GLOBALSINDEX);
+	lua_setglobal(L, "test2");
 
 	std::clock_t total1 = 0;
 	std::clock_t total2 = 0;
