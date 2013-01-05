@@ -304,6 +304,14 @@ void InventoryWindow::Update()
         } // case ITEM_ACTIVE_CATEGORY
 
         case ITEM_ACTIVE_LIST: {
+            //check if the items list is empty. if so, we exit up to the categories level
+            if( _inventory_items.GetNumberOptions() <= 0)
+            {
+                _active_box = ITEM_ACTIVE_CATEGORY;
+                _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+                _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+                break;
+            }
             GlobalObject *obj = _item_objects[ _inventory_items.GetSelection() ];
 
             // Activate the character select for application
@@ -361,8 +369,15 @@ void InventoryWindow::Update()
                                 // If the item use failed, we readd it to inventory.
                                 if(!ScriptCallFunction<bool>(script_function, ch_party))
                                     GlobalManager->AddToInventory(item);
-                                else // delete the item instance when succeeded.
+                                else // delete the item instance when succeeded. Also, return back a level to the item selection list
+                                {
+                                    _active_box = ITEM_ACTIVE_LIST;
+                                    _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+                                    _char_select.ResetViewableOption();
+                                    //set the item select to by lightened
+                                    _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                                     delete item;
+                                }
                             } // if GLOBAL_TARGET_PARTY
                             else { // Use on a single character only
 
@@ -370,8 +385,16 @@ void InventoryWindow::Update()
                                 // If the item use failed, we readd it to inventory.
                                 if(!ScriptCallFunction<bool>(script_function, ch))
                                     GlobalManager->AddToInventory(item);
-                                else // delete the item instance when succeeded.
+                                else // delete the item instance when succeeded. Also, return back a level to the item selection list
+                                {
+                                    _active_box = ITEM_ACTIVE_LIST;
+                                    _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+                                    _char_select.ResetViewableOption();
+                                    //set the item select to by lightened
+                                    _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                                     delete item;
+                                }
+
                             }
                         }
                         break;
@@ -421,6 +444,12 @@ void InventoryWindow::Update()
                     }
                     //add the old armor back to the inventory
                     GlobalManager->AddToInventory(selected_armor);
+                    //return back a level
+                    _active_box = ITEM_ACTIVE_LIST;
+                    _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+                    _char_select.ResetViewableOption();
+                    //set the item select to by lightened
+                    _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 
                 }
                 //if we can equuip and it is a weapon
@@ -430,6 +459,12 @@ void InventoryWindow::Update()
                     selected_weapon = ch->EquipWeapon(selected_weapon);
                     //add the old weapon back into the inventory
                     GlobalManager->AddToInventory(selected_weapon);
+                    //return back a level
+                    _active_box = ITEM_ACTIVE_LIST;
+                    _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+                    _char_select.ResetViewableOption();
+                    //set the item select to by lightened
+                    _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 
                 }
                 //if we cannot equip
