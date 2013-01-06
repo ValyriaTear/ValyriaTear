@@ -11,9 +11,9 @@ animation = {
 	columns = 1,
 	-- set the image dimensions on battles (in pixels)
 	frame_width = 128.0,
-	frame_height = 128.0,
+	frame_height = 64.0,
 	-- The frames duration in milliseconds
     frames = {
-        [0] = { id = 0, duration = 600 }
+        [0] = { id = 0, duration = 999999 }
     }
 }

@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.01.05
+Last update: 2013.01.06
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -243,7 +243,7 @@ img/sprites/battle/ammo/wood_arrow.lua                          GPLv2 or later  
 img/sprites/battle/ammo/wood_arrow.png                          CC by 3.0                Ravenmore + Bertram modifications (http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20)
 
 img/sprites/battle/characters/bronann_attack.png                GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/bronann_dead.png                  GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann_dead.png                  GPLv2                    Allacrost + Lilou
 img/sprites/battle/characters/bronann_dodge.png                 GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann_hurt.png                  GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann_idle.png                  GPLv2                    Allacrost + Bertram
@@ -262,7 +262,7 @@ img/sprites/battle/characters/bronann_run.lua                   GPLv2           
 img/sprites/battle/characters/bronann_victory.lua               GPLv2                    Bertram
 
 img/sprites/battle/characters/kalya_attack.png                  GPLv2                    Bertram (For frames 1, 3 and 4. Frame 2 is from Allacrost)
-img/sprites/battle/characters/kalya_dead.png                    GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya_dead.png                    GPLv2                    Allacrost + Lilou
 img/sprites/battle/characters/kalya_dodge.png                   GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya_idle.png                    CC by SA 3.0             Bertram (Completely replaced former version)
 img/sprites/battle/characters/kalya_run.png                     GPLv2                    Allacrost + Bertram
