@@ -16,6 +16,8 @@ Files                                                            Licenses       
 --------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
 art/bronann_by_safir_kreuz-CCbySA3.0.png                        CC by SA 3.0             Safir-Kreuz (dA)
 art/bronann_bed_animation.xcf                                   CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head + Bertram for the animation.
+art/bronann_dead.xcf                                            GPLv2                    Allacrost + Lilou
+art/bronann_kneeling.xcf                                        GPLv2                    Allacrost + Lilou
 art/Tile-Mapping-System.png                                     CC by SA 3.0             Jetrel (OGA)
 art/day_night_cycle_gradient_casper_nilsson_oga.png             CC by SA 3.0             C.Nilsson (OGA)
 art/forest_tree_small.xcf                                       CC by SA 3.0             Original tree from Jetrel (OGA) + Variations from Bertram
@@ -249,6 +251,7 @@ img/sprites/battle/characters/bronann_hurt.png                  GPLv2           
 img/sprites/battle/characters/bronann_idle.png                  GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann_jump_backward.png         CC by SA 3.0             Jetrel (OGA) + Bertram
 img/sprites/battle/characters/bronann_jump_forward.png          CC by SA 3.0             Jetrel (OGA) + Bertram
+img/sprites/battle/characters/bronann_kneeling.png              GPLv2                    Allacrost + Lilou
 img/sprites/battle/characters/bronann_run.png                   GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann_victory.png               GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann_attack.lua                GPLv2                    Bertram
@@ -258,6 +261,7 @@ img/sprites/battle/characters/bronann_hurt.lua                  GPLv2           
 img/sprites/battle/characters/bronann_idle.lua                  GPLv2                    Bertram
 img/sprites/battle/characters/bronann_jump_backward.lua         GPLv2                    Bertram
 img/sprites/battle/characters/bronann_jump_forward.lua          GPLv2                    Bertram
+img/sprites/battle/characters/bronann_kneeling.lua              GPLv2                    Bertram
 img/sprites/battle/characters/bronann_run.lua                   GPLv2                    Bertram
 img/sprites/battle/characters/bronann_victory.lua               GPLv2                    Bertram
 
