@@ -1059,11 +1059,12 @@ bool MusicDescriptor::Play()
         return true;
 
     if(AudioManager->_active_music == this) {
-        if(_state != AUDIO_STATE_PLAYING && _state != AUDIO_STATE_FADE_IN)
+        if(_state != AUDIO_STATE_PLAYING && _state != AUDIO_STATE_FADE_IN) {
             if (AudioDescriptor::Play())
                 FadeIn(500);
             else
                 return false;
+        }
     } else {
         if(AudioManager->_active_music)
             AudioManager->_active_music->FadeOut(500);
