@@ -289,14 +289,14 @@ object ReadScriptDescriptor::ReadFunctionPointer(int32 key)
 // Table Operation Functions
 //-----------------------------------------------------------------------------
 
-void ReadScriptDescriptor::OpenTable(const std::string &table_name, bool use_global)
+bool ReadScriptDescriptor::OpenTable(const std::string &table_name, bool use_global)
 {
     if(_open_tables.size() == 0 || use_global) {  // Fetch the table from the global space
         lua_getglobal(_lstack, table_name.c_str());
         if(!lua_istable(_lstack, STACK_TOP)) {
             IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because the data retrieved was not a table "
                                            << "or did not exist for the global key " << table_name << std::endl;
-            return;
+            return false;
         }
         _open_tables.push_back(table_name);
     }
@@ -307,21 +307,22 @@ void ReadScriptDescriptor::OpenTable(const std::string &table_name, bool use_glo
         if(!lua_istable(_lstack, STACK_TOP)) {
             IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because the data retrieved was not a table "
                                            << "or did not exist for the table element key " << table_name << std::endl;
-            return;
+            return false;
         }
         _open_tables.push_back(table_name);
     }
-} // void ReadScriptDescriptor::OpenTable(string key)
+    return true;
+} // bool ReadScriptDescriptor::OpenTable(string key)
 
 
 
-void ReadScriptDescriptor::OpenTable(int32 table_name)
+bool ReadScriptDescriptor::OpenTable(int32 table_name)
 {
     // At least one table must be open to use a numerical key
     if(_open_tables.size() == 0) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because there were no tables open when trying "
                                        << "to open the with the element key " << table_name << std::endl;
-        return;
+        return false;
     }
 
     lua_pushnumber(_lstack, table_name);
@@ -337,11 +338,12 @@ void ReadScriptDescriptor::OpenTable(int32 table_name)
     if(!lua_istable(_lstack, STACK_TOP)) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because the data retrieved was not a table "
                                        << "or did not exist for the table element key " << table_name << std::endl;
-        return;
+        return false;
     }
 
     _open_tables.push_back(NumberToString(table_name));
-} // void ReadScriptDescriptor::OpenTable(int32 key)
+    return true;
+} // bool ReadScriptDescriptor::OpenTable(int32 key)
 
 
 std::string ReadScriptDescriptor::OpenTablespace()
@@ -361,8 +363,10 @@ std::string ReadScriptDescriptor::OpenTablespace()
         return std::string();
     }
 
-    OpenTable(tablespace, true); // Open the tablespace from the global stack.
-    return tablespace;
+    if (OpenTable(tablespace, true)) // Open the tablespace from the global stack.
+        return tablespace;
+    else
+        return std::string();
 }
 
 

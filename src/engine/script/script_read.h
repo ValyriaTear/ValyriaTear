@@ -319,12 +319,12 @@ public:
     //! \param use_global This overrides the open_tables vector, the reason for this is
     //! when a function is called from lua, any open tables are no longer on the stack passed to the function
     //! so to start a new chain of open tables we have to ignore the open tables vector
-    void OpenTable(const std::string &table_name, bool use_global = false);
+    bool OpenTable(const std::string &table_name, bool use_global = false);
 
     /** \param table_name The integer key of the table to open
     *** \note This function will only work when there is at least one other table already open
     **/
-    void OpenTable(int32 table_name);
+    bool OpenTable(int32 table_name);
 
     /** Opens the lua file own tablespace. It's useful to permit having several lua files
     *** with their own function without worrying too much about the global naming collisions.
@@ -596,6 +596,9 @@ template <class T> T ReadScriptDescriptor::_ReadData(int32 key, T default_value)
 
 template <class T> void ReadScriptDescriptor::_ReadDataVector(const std::string &key, std::vector<T>& vect)
 {
+    if (!DoesTableExist(key))
+        return;
+
     // Open the table and grab if off the stack
     OpenTable(key);
     _ReadDataVectorHelper(vect);
@@ -611,6 +614,9 @@ template <class T> void ReadScriptDescriptor::_ReadDataVector(int32 key, std::ve
                                        << key << std::endl;;
         return;
     }
+
+    if (!DoesTableExist(key))
+        return;
 
     // Open the table and grab if off the stack
     OpenTable(key);
