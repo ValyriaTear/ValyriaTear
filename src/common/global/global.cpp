@@ -123,8 +123,8 @@ void GameGlobal::_CloseGlobalScripts() {
     _attack_skills_script.CloseTable();
     _attack_skills_script.CloseFile();
 
-    _defend_skills_script.CloseTable();
-    _defend_skills_script.CloseFile();
+    _special_skills_script.CloseTable();
+    _special_skills_script.CloseFile();
 
     _support_skills_script.CloseTable();
     _support_skills_script.CloseFile();
@@ -187,10 +187,10 @@ bool GameGlobal::_LoadGlobalScripts()
     }
     _support_skills_script.OpenTable("skills");
 
-    if(_defend_skills_script.OpenFile("dat/skills/defense.lua") == false) {
+    if(_special_skills_script.OpenFile("dat/skills/special.lua") == false) {
         return false;
     }
-    _defend_skills_script.OpenTable("skills");
+    _special_skills_script.OpenTable("skills");
 
     if(_status_effects_script.OpenFile("dat/effects/status.lua") == false) {
         return false;
@@ -1079,8 +1079,8 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\n\t\t},");
 
     file.InsertNewLine();
-    file.WriteLine("\t\tdefense_skills = {");
-    skill_vector = character->GetDefenseSkills();
+    file.WriteLine("\t\tsupport_skills = {");
+    skill_vector = character->GetSupportSkills();
     for(uint32 i = 0; i < skill_vector->size(); i++) {
         if(i == 0)
             file.WriteLine("\t\t\t", false);
@@ -1091,8 +1091,8 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\n\t\t},");
 
     file.InsertNewLine();
-    file.WriteLine("\t\tsupport_skills = {");
-    skill_vector = character->GetSupportSkills();
+    file.WriteLine("\t\tspecial_skills = {");
+    skill_vector = character->GetSpecialSkills();
     for(uint32 i = 0; i < skill_vector->size(); i++) {
         if(i == 0)
             file.WriteLine("\t\t\t", false);
@@ -1369,14 +1369,21 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     }
 
     skill_ids.clear();
-    file.ReadUIntVector("defense_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); i++) {
+    file.ReadUIntVector("support_skills", skill_ids);
+    for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
 
     skill_ids.clear();
-    file.ReadUIntVector("support_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); i++) {
+    file.ReadUIntVector("special_skills", skill_ids);
+    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+        character->AddSkill(skill_ids[i]);
+    }
+
+    // DEPRECATED: Remove in one release
+    skill_ids.clear();
+    file.ReadUIntVector("defense_skills", skill_ids);
+    for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
 

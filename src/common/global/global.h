@@ -702,8 +702,8 @@ public:
         return _attack_skills_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetDefendSkillsScript() {
-        return _defend_skills_script;
+    hoa_script::ReadScriptDescriptor &GetSpecialSkillsScript() {
+        return _special_skills_script;
     }
 
     hoa_script::ReadScriptDescriptor &GetSupportSkillsScript() {
@@ -844,8 +844,8 @@ private:
     //! \brief Contains data and functional definitions for all attack skills
     hoa_script::ReadScriptDescriptor _attack_skills_script;
 
-    //! \brief Contains data and functional definitions for all defense skills
-    hoa_script::ReadScriptDescriptor _defend_skills_script;
+    //! \brief Contains data and functional definitions for all special skills
+    hoa_script::ReadScriptDescriptor _special_skills_script;
 
     //! \brief Contains data and functional definitions for all support skills
     hoa_script::ReadScriptDescriptor _support_skills_script;

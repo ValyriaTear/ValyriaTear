@@ -1059,8 +1059,8 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
     std::vector<GlobalSkill *> all_skills;
 
     _BuildMenuBattleSkillLists(ch->GetAttackSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetDefenseSkills(), &menu_skills, &battle_skills, &all_skills);
     _BuildMenuBattleSkillLists(ch->GetSupportSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
 
     GlobalSkill *skill;
     switch(_skills_categories.GetSelection()) {
@@ -1095,44 +1095,34 @@ void SkillsWindow::_UpdateSkillList()
     std::vector<GlobalSkill *> all_skills;
 
     _BuildMenuBattleSkillLists(ch->GetAttackSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetDefenseSkills(), &menu_skills, &battle_skills, &all_skills);
     _BuildMenuBattleSkillLists(ch->GetSupportSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
 
-    std::vector<GlobalSkill *>::iterator i;
+    std::vector<GlobalSkill *>::iterator it;
 
     switch(_skills_categories.GetSelection()) {
     case SKILL_ALL:
-// 			_skills_list.SetSize(1, all_skills->size());
-// 			_skill_cost_list.SetSize(1, all_skills->size());
-
-        for(i = all_skills.begin(); i != all_skills.end(); ++i) {
-            options.push_back((*i)->GetName());
-            std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
+        for(it = all_skills.begin(); it != all_skills.end(); ++it) {
+            options.push_back((*it)->GetName());
+            std::string cost = NumberToString((*it)->GetSPRequired()) + Translate(" SP");
             cost_options.push_back(MakeUnicodeString(cost));
         }
         break;
     case SKILL_BATTLE:
-// 			_skills_list.SetSize(1,battle_skills->size());
-// 			_skill_cost_list.SetSize(1, battle_skills->size());
-
-        for(i = battle_skills.begin(); i != battle_skills.end(); ++i) {
-            options.push_back((*i)->GetName());
-            std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
+        for(it = battle_skills.begin(); it != battle_skills.end(); ++it) {
+            options.push_back((*it)->GetName());
+            std::string cost = NumberToString((*it)->GetSPRequired()) + Translate(" SP");
             cost_options.push_back(MakeUnicodeString(cost));
         }
         break;
     case SKILL_FIELD:
-// 			_skills_list.SetSize(1, menu_skills->size());
-// 			_skill_cost_list.SetSize(1, menu_skills->size());
-
-        for(i = menu_skills.begin(); i != menu_skills.end(); ++i) {
-            options.push_back((*i)->GetName());
-            std::string cost = NumberToString((*i)->GetSPRequired()) + " SP";
+        for(it = menu_skills.begin(); it != menu_skills.end(); ++it) {
+            options.push_back((*it)->GetName());
+            std::string cost = NumberToString((*it)->GetSPRequired()) + Translate(" SP");
             cost_options.push_back(MakeUnicodeString(cost));
         }
         break;
     default:
-// 			_skills_list.SetSize(1,0);
         break;
     }
 

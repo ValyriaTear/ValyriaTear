@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.01.06
+Last update: 2013.01.07
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -88,6 +88,8 @@ dat/objects/leg_armor.lua                                       GPLv2 or later  
 dat/objects/weapons.lua                                         GPLv2 or later           Allacrost + Bertram
 dat/objects/key_items.lua                                       GPLv2 or later           Bertram
 
+dat/skills/special.lua                                          GPLv2 or later           Bertram
+
 dat/skills/battle_animations/bronann_attack.lua                 GPLv2 or later           Bertram
 dat/skills/battle_animations/kalya_attack.lua                   GPLv2 or later           Bertram
 dat/skills/battle_animations/thanis_attack.lua                  GPLv2 or later           Bertram
@@ -173,6 +175,17 @@ img/icons/actors/enemies/green_snake.png                        GPLv2           
 img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
 img/icons/actors/enemies/fenrir.png                             CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
+
+img/icons/battle/default_attack.png                             GPLv2                    Allacrost
+img/icons/battle/default_special.png                            CC by SA 3.0             Bertram
+img/icons/battle/invocation.png                                 GPLv2                    Allacrost
+img/icons/battle/template.png                                   GPLv2                    Allacrost
+img/icons/battle/character_selector.png                         GPLv2                    Allacrost
+img/icons/battle/support.png                                    GPLv2                    Allacrost
+img/icons/battle/item.png                                       GPLv2                    Allacrost
+img/icons/battle/attack_point_target.png                        GPLv2                    Allacrost
+img/icons/battle/swap_icon.png                                  GPLv2                    Allacrost
+img/icons/battle/swap_card.png                                  GPLv2                    Allacrost
 
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
@@ -696,15 +709,6 @@ Files:
 
 ./img/icons/drunes.png
 ./img/icons/object_category_icons.png
-
-./img/icons/battle/character_selector.png
-./img/icons/battle/support.png
-./img/icons/battle/attack.png
-./img/icons/battle/swap_icon.png
-./img/icons/battle/swap_card.png
-./img/icons/battle/defend.png
-./img/icons/battle/item.png
-./img/icons/battle/attack_point_target.png
 
 ./img/icons/armor/winged_circlet.png
 ./img/icons/armor/shouldered_breastplate.png

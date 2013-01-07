@@ -154,8 +154,8 @@ void BindCommonCode()
                         // Skill types
                         luabind::value("GLOBAL_SKILL_INVALID", GLOBAL_SKILL_INVALID),
                         luabind::value("GLOBAL_SKILL_ATTACK", GLOBAL_SKILL_ATTACK),
-                        luabind::value("GLOBAL_SKILL_DEFEND", GLOBAL_SKILL_DEFEND),
                         luabind::value("GLOBAL_SKILL_SUPPORT", GLOBAL_SKILL_SUPPORT),
+                        luabind::value("GLOBAL_SKILL_SPECIAL", GLOBAL_SKILL_SPECIAL),
                         // Elemental type constants
                         luabind::value("GLOBAL_ELEMENTAL_FIRE", GLOBAL_ELEMENTAL_FIRE),
                         luabind::value("GLOBAL_ELEMENTAL_WATER", GLOBAL_ELEMENTAL_WATER),

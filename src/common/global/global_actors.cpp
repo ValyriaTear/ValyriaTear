@@ -985,11 +985,11 @@ void GlobalCharacter::AddSkill(uint32 skill_id)
     case GLOBAL_SKILL_ATTACK:
         _attack_skills.push_back(skill);
         break;
-    case GLOBAL_SKILL_DEFEND:
-        _defense_skills.push_back(skill);
-        break;
     case GLOBAL_SKILL_SUPPORT:
         _support_skills.push_back(skill);
+        break;
+    case GLOBAL_SKILL_SPECIAL:
+        _special_skills.push_back(skill);
         break;
     default:
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "loaded a new skill with an unknown skill type: " << skill->GetType() << std::endl;
