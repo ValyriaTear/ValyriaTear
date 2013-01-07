@@ -254,6 +254,7 @@ img/portraits/sylve_full.png                                    GPLv2           
 img/portraits/kalya.png                                         GPLv2                    Allacrost (was Laila portrait)
 img/portraits/kalya_full.png                                    GPLv2                    Allacrost (was Laila large portrait)
 img/portraits/bronann.png                                       CC by SA 3.0             Safir-Kreuz (Deviant Art)
+img/portraits/bronann_full.png                                  GPLv2                    Allacrost (was Claudius large portrait) + Fixes from Lilou to make his face correspond more.
 
 img/sprites/battle/ammo/wood_arrow.lua                          GPLv2 or later           Bertram
 img/sprites/battle/ammo/wood_arrow.png                          CC by 3.0                Ravenmore + Bertram modifications (http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20)
