@@ -11,6 +11,8 @@ local Boot;
 
 local animation_timer;
 
+local f1_help_text = {};
+
 -- Init all the needed variables
 function Initialize(boot_instance)
 	Boot = boot_instance;
@@ -33,6 +35,8 @@ function Initialize(boot_instance)
 
 	-- Init the timer
 	animation_timer = hoa_system.SystemTimer(7000, 0);
+    
+    f1_help_text = hoa_system.Translate("Press '") .. InputManager:GetHelpKeyName() .. hoa_system.Translate("' to get to know about the game keys.");
 end
 
 function Reset()
@@ -197,6 +201,10 @@ end
 
 local music_started = false;
 local snow_started = false;
+-- Use to display the key help after a few seconds
+local f1_time_counter = 0.0;
+local f1_text_alpha = 0.0;
+
 
 -- Update the animation
 function Update()
@@ -237,11 +245,23 @@ function Update()
 			if menu_bar_alpha >= 0.6 then menu_bar_alpha = 0.6 end
 		end
 
-
 		if (snow_started == false) then
 			Boot:GetParticleManager():AddParticleEffect("dat/effects/particles/snow.lua", 512.0, 384.0);
 			snow_started = true;
 		end
+
+        if (f1_time_counter < 14000.0) then
+            f1_time_counter = f1_time_counter + time_expired;
+            if (f1_time_counter < 4000.0) then
+                -- nothing
+            elseif (f1_time_counter >= 4000.0 and f1_time_counter < 12000.0) then
+                f1_text_alpha = f1_text_alpha + 0.001 * time_expired;
+                if (f1_text_alpha > 1.0) then f1_text_alpha = 1.0; end
+            elseif (f1_time_counter >= 12000.0 and f1_time_counter < 14000.0) then
+                f1_text_alpha = f1_text_alpha - 0.001 * time_expired;
+                if (f1_text_alpha < 0.0) then f1_text_alpha = 0.0; end
+            end
+        end
 	end
 end
 
@@ -349,6 +369,8 @@ function DrawPostEffects()
 	-- A dark bar used to make the menu more visible
 	if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
 		Script:DrawImage(menu_bar_id, 0.0, 128.0, hoa_video.Color(1.0, 1.0, 1.0, menu_bar_alpha));
+
+        VideoManager:DrawText(f1_help_text, 312.0, 65.0, hoa_video.Color(1.0, 1.0, 1.0, f1_text_alpha));
 	end
 
 	-- Logo
