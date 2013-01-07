@@ -42,7 +42,15 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
           DEPENDS ${_gmoFile}
       )
 
-      INSTALL(FILES ${_gmoFile} DESTINATION ${PKG_DATADIR}/po/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+      # Install the mo files depending on the OS.
+      IF (UNIX)
+          # In the linux localedir, e.g.: /usr/share/locale/<lang>/LC_MESSAGES/valyriatear.mo
+          INSTALL(FILES ${_gmoFile} DESTINATION ${LOCALEDIR}/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+      ELSE()
+          # In the po/ data folder
+          INSTALL(FILES ${_gmoFile} DESTINATION ${PKG_DATADIR}/po/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+      ENDIF()
+
       SET(_gmoFiles ${_gmoFiles} ${_gmoFile})
       SET(_moFiles ${_moFiles} ${_moFile})
 
