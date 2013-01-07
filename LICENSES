@@ -18,6 +18,7 @@ art/bronann_by_safir_kreuz-CCbySA3.0.png                        CC by SA 3.0    
 art/bronann_bed_animation.xcf                                   CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head + Bertram for the animation.
 art/bronann_dead.xcf                                            GPLv2                    Allacrost + Lilou
 art/bronann_kneeling.xcf                                        GPLv2                    Allacrost + Lilou
+art/kalya_kneeling.xcf                                          GPLv2                    Allacrost + Lilou
 art/Tile-Mapping-System.png                                     CC by SA 3.0             Jetrel (OGA)
 art/day_night_cycle_gradient_casper_nilsson_oga.png             CC by SA 3.0             C.Nilsson (OGA)
 art/forest_tree_small.xcf                                       CC by SA 3.0             Original tree from Jetrel (OGA) + Variations from Bertram
@@ -282,6 +283,8 @@ img/sprites/battle/characters/kalya_attack.png                  GPLv2           
 img/sprites/battle/characters/kalya_dead.png                    GPLv2                    Allacrost + Lilou
 img/sprites/battle/characters/kalya_dodge.png                   GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya_idle.png                    CC by SA 3.0             Bertram (Completely replaced former version)
+img/sprites/battle/characters/kalya_kneeling.png                GPLv2                    Allacrost + Lilou
+img/sprites/battle/characters/kalya_kneeling.lua                GPLv2                    Bertram
 img/sprites/battle/characters/kalya_run.png                     GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya_attack.lua                  GPLv2                    Bertram
 img/sprites/battle/characters/kalya_dead.lua                    GPLv2                    Bertram
