@@ -820,12 +820,12 @@ public:
         return &_attack_skills;
     }
 
-    std::vector<GlobalSkill *>* GetDefenseSkills() {
-        return &_defense_skills;
-    }
-
     std::vector<GlobalSkill *>* GetSupportSkills() {
         return &_support_skills;
+    }
+
+    std::vector<GlobalSkill *>* GetSpecialSkills() {
+        return &_special_skills;
     }
 
     uint32 GetHitPointsGrowth() const {
@@ -883,8 +883,8 @@ protected:
     **/
     //@{
     std::vector<GlobalSkill *> _attack_skills;
-    std::vector<GlobalSkill *> _defense_skills;
     std::vector<GlobalSkill *> _support_skills;
+    std::vector<GlobalSkill *> _special_skills;
     //@}
 
     //! \brief The script filename used to trigger a battle character animation when dealing with a particular skill.

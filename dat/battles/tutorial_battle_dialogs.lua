@@ -82,7 +82,7 @@ function Initialize(battle_instance)
         main_dialogue:AddLine(text, 1002);
         text = hoa_system.Translate("Once one of us has reached the green line, you can select an action for the one concerned. Don't panic, the battle is then paused and you've got all the time needed to select one.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("There are several action types: The basic one 'Attack', and later 'Defense', and 'Support'. Last but not least, you'll also be able to use our 'Items'. Simply choose one action and a target to trigger it.");
+        text = hoa_system.Translate("There are several action types: The basic one 'Attack', and later 'Support' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose one action and a target to trigger it.");
         main_dialogue:AddLine(text, 1002);
         text = hoa_system.Translate("The icon will the reach the top of the Stamina Bar before being triggering it. It's called the 'preparation time'. The stronger is the skill, the longer it has to be prepared.");
         main_dialogue:AddLine(text, 1002);

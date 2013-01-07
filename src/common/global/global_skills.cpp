@@ -47,12 +47,12 @@ GlobalSkill::GlobalSkill(uint32 id) :
     if((_id > 0) && (_id <= MAX_ATTACK_ID)) {
         _type = GLOBAL_SKILL_ATTACK;
         skill_script = &(GlobalManager->GetAttackSkillsScript());
-    } else if((_id > MAX_ATTACK_ID) && (_id <= MAX_DEFEND_ID)) {
-        _type = GLOBAL_SKILL_DEFEND;
-        skill_script = &(GlobalManager->GetDefendSkillsScript());
-    } else if((_id > MAX_DEFEND_ID) && (_id <= MAX_SUPPORT_ID)) {
+    } else if((_id > MAX_ATTACK_ID) && (_id <= MAX_SUPPORT_ID)) {
         _type = GLOBAL_SKILL_SUPPORT;
         skill_script = &(GlobalManager->GetSupportSkillsScript());
+    } else if((_id > MAX_SUPPORT_ID) && (_id <= MAX_SPECIAL_ID)) {
+        _type = GLOBAL_SKILL_SPECIAL;
+        skill_script = &(GlobalManager->GetSpecialSkillsScript());
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid id argument: " << id << std::endl;
         _id = 0; // Indicate that this skill is invalid

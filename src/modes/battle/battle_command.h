@@ -120,12 +120,12 @@ public:
         return &_attack_list;
     }
 
-    hoa_gui::OptionBox *GetDefendList() {
-        return &_defend_list;
-    }
-
     hoa_gui::OptionBox *GetSupportList() {
         return &_support_list;
+    }
+
+    hoa_gui::OptionBox *GetSpecialList() {
+        return &_special_list;
     }
     //@}
 
@@ -152,10 +152,10 @@ private:
     hoa_gui::OptionBox _attack_list;
 
     //! \brief A display list of all usable items
-    hoa_gui::OptionBox _defend_list;
+    hoa_gui::OptionBox _support_list;
 
     //! \brief A display list of all usable items
-    hoa_gui::OptionBox _support_list;
+    hoa_gui::OptionBox _special_list;
 }; // class CharacterCommandSettings
 
 

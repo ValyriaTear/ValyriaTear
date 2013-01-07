@@ -63,8 +63,8 @@ const uint32 OBJECT_ID_EXCEEDS   = 80001;
 **/
 //@{
 const uint32 MAX_ATTACK_ID   = 10000;
-const uint32 MAX_DEFEND_ID   = 20000;
-const uint32 MAX_SUPPORT_ID  = 30000;
+const uint32 MAX_SUPPORT_ID  = 20000;
+const uint32 MAX_SPECIAL_ID  = 30000;
 //@}
 
 } // namespace private_global
@@ -217,8 +217,8 @@ enum GLOBAL_INTENSITY {
 enum GLOBAL_SKILL {
     GLOBAL_SKILL_INVALID  = -1,
     GLOBAL_SKILL_ATTACK   =  0,
-    GLOBAL_SKILL_DEFEND   =  1,
-    GLOBAL_SKILL_SUPPORT  =  2,
+    GLOBAL_SKILL_SUPPORT  =  1,
+    GLOBAL_SKILL_SPECIAL  =  2,
     GLOBAL_SKILL_TOTAL    =  3
 };
 
