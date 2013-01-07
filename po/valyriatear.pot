@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-07 15:26+0100\n"
+"POT-Creation-Date: 2013-01-08 00:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,8 +94,8 @@ msgid "Foe"
 msgstr ""
 
 #: ../src/common/global/global_utils.cpp:45
-#: ../src/modes/battle/battle_command.cpp:1262
-#: ../src/modes/battle/battle_command.cpp:1290
+#: ../src/modes/battle/battle_command.cpp:1299
+#: ../src/modes/battle/battle_command.cpp:1327
 #: ../src/modes/battle/battle_utils.cpp:784
 msgid "All Allies"
 msgstr ""
@@ -130,56 +130,66 @@ msgstr ""
 
 #: ../src/modes/battle/battle_command.cpp:646
 #: ../src/modes/battle/battle_command.cpp:652
+#: ../src/modes/battle/battle_command.cpp:726
+#: ../src/modes/battle/battle_command.cpp:743
 msgid "Attack"
 msgstr ""
 
 #: ../src/modes/battle/battle_command.cpp:647
 #: ../src/modes/battle/battle_command.cpp:653
-msgid "Defend"
+msgid "Support"
 msgstr ""
 
 #: ../src/modes/battle/battle_command.cpp:648
 #: ../src/modes/battle/battle_command.cpp:654
-msgid "Support"
+#: ../src/modes/battle/battle_command.cpp:757
+#: ../src/modes/battle/battle_command.cpp:759
+msgid "??"
 msgstr ""
 
 #: ../src/modes/battle/battle_command.cpp:649
-#: ../src/modes/battle/battle_command.cpp:655
-msgid "Item"
+#: ../src/modes/battle/battle_command.cpp:655 ../src/modes/menu/menu.cpp:406
+#: ../src/modes/shop/shop.cpp:113
+msgid "Items"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1257
+#: ../src/modes/battle/battle_command.cpp:763
+#: ../src/modes/battle/battle_command.cpp:765
+msgid "Special"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:1294
 msgid "Select Target"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1264
-#: ../src/modes/battle/battle_command.cpp:1292
+#: ../src/modes/battle/battle_command.cpp:1301
+#: ../src/modes/battle/battle_command.cpp:1329
 #: ../src/modes/battle/battle_utils.cpp:786
 msgid "All Enemies"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1304
+#: ../src/modes/battle/battle_command.cpp:1341
 msgid "Select Attack Point"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1326
+#: ../src/modes/battle/battle_command.cpp:1363
 msgid "Skill Points: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1327
-#: ../src/modes/battle/battle_command.cpp:1334
+#: ../src/modes/battle/battle_command.cpp:1364
+#: ../src/modes/battle/battle_command.cpp:1371
 msgid "Target Type: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1328
+#: ../src/modes/battle/battle_command.cpp:1365
 msgid "Prep Time: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1329
+#: ../src/modes/battle/battle_command.cpp:1366
 msgid "Cool Time: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1333
+#: ../src/modes/battle/battle_command.cpp:1370
 msgid "Quantity: "
 msgstr ""
 
@@ -307,7 +317,7 @@ msgid "[Invalid Target]"
 msgstr ""
 
 #: ../src/modes/boot/boot.cpp:87
-msgid "Development Release"
+msgid "Half-Episode I Release Candidate 2"
 msgstr ""
 
 #: ../src/modes/boot/boot.cpp:394
@@ -610,7 +620,7 @@ msgstr ""
 msgid "Current Equipment:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:227 ../src/modes/menu/menu_views.cpp:1599
+#: ../src/modes/menu/menu.cpp:227 ../src/modes/menu/menu_views.cpp:1589
 msgid "Weapon"
 msgstr ""
 
@@ -688,10 +698,6 @@ msgstr ""
 
 #: ../src/modes/menu/menu.cpp:374
 msgid "Select to view Quest Log."
-msgstr ""
-
-#: ../src/modes/menu/menu.cpp:406 ../src/modes/shop/shop.cpp:113
-msgid "Items"
 msgstr ""
 
 #: ../src/modes/menu/menu.cpp:407
@@ -845,43 +851,48 @@ msgstr ""
 msgid "Field"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1551
+#: ../src/modes/menu/menu_views.cpp:1107 ../src/modes/menu/menu_views.cpp:1114
+#: ../src/modes/menu/menu_views.cpp:1121
+msgid " SP"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1541
 msgid "No weapon"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1552
+#: ../src/modes/menu/menu_views.cpp:1542
 msgid "No head armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1553
+#: ../src/modes/menu/menu_views.cpp:1543
 msgid "No torso armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1554
+#: ../src/modes/menu/menu_views.cpp:1544
 msgid "No arm armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1555
+#: ../src/modes/menu/menu_views.cpp:1545
 msgid "No leg armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1578 ../src/modes/shop/shop.cpp:114
+#: ../src/modes/menu/menu_views.cpp:1568 ../src/modes/shop/shop.cpp:114
 msgid "Weapons"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1581 ../src/modes/menu/menu_views.cpp:1601
+#: ../src/modes/menu/menu_views.cpp:1571 ../src/modes/menu/menu_views.cpp:1591
 msgid "Headgear"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1584 ../src/modes/menu/menu_views.cpp:1603
+#: ../src/modes/menu/menu_views.cpp:1574 ../src/modes/menu/menu_views.cpp:1593
 msgid "Body Armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1587 ../src/modes/menu/menu_views.cpp:1605
+#: ../src/modes/menu/menu_views.cpp:1577 ../src/modes/menu/menu_views.cpp:1595
 msgid "Offhand"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1590 ../src/modes/menu/menu_views.cpp:1607
+#: ../src/modes/menu/menu_views.cpp:1580 ../src/modes/menu/menu_views.cpp:1597
 msgid "Leggings"
 msgstr ""
 
@@ -1687,9 +1698,9 @@ msgstr ""
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:85
 msgid ""
-"There are several action types: The basic one 'Attack', and later 'Defense', "
-"and 'Support'. Last but not least, you'll also be able to use our 'Items'. "
-"Simply choose one action and a target to trigger it."
+"There are several action types: The basic one 'Attack', and later 'Support' "
+"skills. Last but not least, you'll also be able to use our 'Items'. Simply "
+"choose one action and a target to trigger it."
 msgstr ""
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:87
@@ -1742,6 +1753,14 @@ msgstr ""
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:111
 msgid "Good. Now let us quickly dispatch this minor threat."
+msgstr ""
+
+#: ../dat/config/boot.lua:39
+msgid "Press '"
+msgstr ""
+
+#: ../dat/config/boot.lua:39
+msgid "' to get to know about the game keys."
 msgstr ""
 
 #: ../dat/config/quests.lua:11
@@ -3549,37 +3568,37 @@ msgstr ""
 msgid "Creates a small fire that burns an enemy."
 msgstr ""
 
-#: ../dat/skills/defense.lua:41
-msgid "Defensive Stance"
-msgstr ""
-
-#: ../dat/skills/defense.lua:42
-msgid "Increases an ally's physical defense by a slight degree."
-msgstr ""
-
-#: ../dat/skills/defense.lua:64
-msgid "First Aid"
-msgstr ""
-
-#: ../dat/skills/defense.lua:65
-msgid ""
-"Performs basic medical assistance, healing the target by a minor degree."
-msgstr ""
-
-#: ../dat/skills/support.lua:49
+#: ../dat/skills/special.lua:49
 msgid "Leader Call"
 msgstr ""
 
-#: ../dat/skills/support.lua:50
+#: ../dat/skills/special.lua:50
 msgid "Temporarily increases the strength of all allies."
 msgstr ""
 
-#: ../dat/skills/support.lua:79
+#: ../dat/skills/special.lua:79
 msgid "Slime Spawn"
 msgstr ""
 
-#: ../dat/skills/support.lua:80
+#: ../dat/skills/special.lua:80
 msgid "Creates a slime."
+msgstr ""
+
+#: ../dat/skills/support.lua:41
+msgid "Defensive Stance"
+msgstr ""
+
+#: ../dat/skills/support.lua:42
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr ""
+
+#: ../dat/skills/support.lua:64
+msgid "First Aid"
+msgstr ""
+
+#: ../dat/skills/support.lua:65
+msgid ""
+"Performs basic medical assistance, healing the target by a minor degree."
 msgstr ""
 
 #: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
