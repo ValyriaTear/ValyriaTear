@@ -285,7 +285,7 @@ void Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(std::ifstream("dat/config/settings.lua") == NULL) {
+    if(std::ifstream("po/en@quot/LC_MESSAGES/valyriatear.mo") == NULL) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];

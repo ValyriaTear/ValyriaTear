@@ -48,13 +48,9 @@ ENDIF (WIN32)
 # The sub-folders to parse
 ADD_SUBDIRECTORY(src)
 
-# TODO: Add data packages
+# Add data packages
 FIND_PACKAGE(Gettext)
 ADD_SUBDIRECTORY(po)
-#ADD_SUBDIRECTORY(dat)
-#ADD_SUBDIRECTORY(img)
-#ADD_SUBDIRECTORY(mus)
-#ADD_SUBDIRECTORY(snd)
 
 # CPack installation part
 If(UNIX)
