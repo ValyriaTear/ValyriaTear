@@ -123,7 +123,9 @@ protected:
     void _DrawEquipmentInfo(hoa_global::GlobalCharacter *character);
     //! \brief draws the side window. Default draws the character windows
     virtual void _OnDrawSideWindow();
-
+    //! \brief called when there is no state transition or active state
+    //! to handle any state-specific updates that need to occur
+    virtual void _OnUpdateState(){};
     // Options associated with this state
     hoa_gui::OptionBox _options;
     // state-specific name
@@ -151,6 +153,7 @@ public:
         MAIN_OPTIONS_SKILLS,
         MAIN_OPTIONS_PARTY,
         MAIN_OPTIONS_QUESTS,
+        MAIN_OPTIONS_WORLDMAP,
         MAIN_OPTIONS_SIZE
     };
 
@@ -166,6 +169,7 @@ public:
 protected:
     void _OnDrawMainWindow();
     void _OnDrawSideWindow();
+    void _OnUpdateState();
 };
 
 /**
@@ -311,6 +315,40 @@ protected:
     bool _IsActive();
     void _OnEntry(AbstractMenuState *from_state);
 };
+
+/**
+*** \brief World Map State
+*** Allows player to view the currently enabled world map,
+*** along with the viewable locations on it
+**/
+
+class WorldMapState : virtual public AbstractMenuState
+{
+    //WorldMapState constructor
+public:
+    WorldMapState(MenuMode *menu_mode);
+
+    ~WorldMapState()
+    {
+        _location_text.ClearText();
+    }
+
+    void Reset();
+    AbstractMenuState *GetTransitionState(uint32 selection);
+protected:
+    void _OnDrawMainWindow();
+    //! \brief this function is overridden to do nothing, as the side window is not used in map mode
+    inline void _OnDrawSideWindow(){};
+    void _DrawBottomMenu();
+    void _ActiveWindowUpdate();
+    bool _IsActive();
+    void _OnEntry(AbstractMenuState *from_state);
+
+    hoa_gui::TextBox _location_text;
+    hoa_video::StillImage *_location_image;
+
+};
+
 } // namespace private_menu
 
 /** ****************************************************************************
@@ -334,6 +372,7 @@ class MenuMode : public hoa_mode_manager::GameMode
     friend class private_menu::EquipWindow;
     friend class private_menu::QuestListWindow;
     friend class private_menu::QuestWindow;
+    friend class private_menu::WorldMapWindow;
 
     friend class private_menu::AbstractMenuState;
     friend class private_menu::MainMenuState;
@@ -342,6 +381,7 @@ class MenuMode : public hoa_mode_manager::GameMode
     friend class private_menu::SkillsState;
     friend class private_menu::EquipState;
     friend class private_menu::QuestState;
+    friend class private_menu::WorldMapState;
 public:
     /** \param location_name The name of the current map that will be displayed on the menu screen.
     *** \param locale_image The filename for the location image that is displayed in the menus.
@@ -415,6 +455,7 @@ private:
     private_menu::SkillsState _skills_state;
     private_menu::EquipState _equip_state;
     private_menu::QuestState _quests_state;
+    private_menu::WorldMapState _world_map_state;
     //@}
 
     //! \brief currently viewing state
@@ -430,6 +471,7 @@ private:
     private_menu::SkillsWindow _skills_window;
     private_menu::EquipWindow _equip_window;
     private_menu::QuestWindow _quest_window;
+    private_menu::WorldMapWindow _world_map_window;
 
     MessageWindow *_message_window;
 

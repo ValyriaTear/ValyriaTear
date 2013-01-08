@@ -591,6 +591,110 @@ private:
 
 };
 
+/**
+*** \brief handles showing the currently set world map
+*** upon selection, based on the key press we cycle thru locations that are
+*** set as "revealed" on the map
+***
+*** \note WorldMap has no left window. This means that the entire screen rendering takes place here
+*** based on the Wold Map selection here, we update the WorldMapState such that for the
+*** bottom window render, we have all the information needed to show
+***
+**/
+
+class WorldMapWindow : public hoa_gui::MenuWindow
+{
+    friend class hoa_menu::MenuMode;
+    friend class WorldMapState;
+
+    enum WORLDMAP_NAVIGATION {
+        WORLDMAP_NOPRESS,   //no key press.
+        WORLDMAP_CANCEL,   //a cancel press to exit from viewing the window
+        WORLDMAP_LEFT,      //a left press to move "up" the list of locations
+        WORLDMAP_RIGHT      //a right press to move "down" the list of locations
+    };
+public:
+    WorldMapWindow();
+
+    ~WorldMapWindow()
+    {
+        _location_marker.Clear();
+        _location_pointer.Clear();
+    }
+
+    /*!
+    * \brief Draws window
+    * \return success/failure
+    */
+    void Draw();
+
+    /*!
+    * \brief Performs updates
+    */
+    void Update();
+
+     /*!
+    * \brief Result of whether or not this window is active
+    * \return true if this window is active
+    */
+    bool IsActive()
+    {
+        return _active;
+    }
+
+    /*!
+    * \brief switch the active state of this window, and do any associated work
+    * \param activate or deactivate
+    */
+    void Activate(bool new_state);
+
+    /*!
+    * \brief gets the WorldMapLocation pointer to the currently pointing
+    * location, or NULL if it deson't exist
+    * \return Pointer to the currently indexes WorldMapLocation
+    */
+    hoa_global::WorldMapLocation *GetCurrentViewingLocation()
+    {
+        const std::vector<std::string> &current_location_ids = hoa_global::GlobalManager->GetViewableLocationIds();
+        const uint32 N = current_location_ids.size();
+        if( N == 0 || _location_pointer_index > N)
+            return NULL;
+        return hoa_global::GlobalManager->GetWorldLocation(current_location_ids[_location_pointer_index]);
+    }
+
+private:
+
+    //! \brief based on the worldmap selection, sets the pointer on the
+    //! current map
+    void _SetSelectedLocation(WORLDMAP_NAVIGATION worldmap_goto);
+
+    //! \brief draws the locations and the pointer based on
+    //! the currently active location ids and what we have selected
+    //! \param window_position_x The X position of the window
+    //! \param window_position_y The Y position of the window
+    void _DrawViewableLocations(float window_position_x, float window_position_y);
+
+    //! \brief pointer to the currently loaded world map image
+    hoa_video::StillImage *_current_world_map;
+
+    //! \brief the location marker. this is loaded in the ctor
+    hoa_video::StillImage _location_marker;
+
+    //! \brief the location pointer. this is loaded in the ctor
+    hoa_video::StillImage _location_pointer;
+
+    //! \brief offsets for the current image to view in the center of the window
+    float _current_image_x_offset;
+    float _current_image_y_offset;
+
+    //! \brief the current index to the location the pointer should be on
+    uint32 _location_pointer_index;
+
+    //! \brief indicates whether this window is active or not
+    bool _active;
+
+};
+
 /*!
 * \brief Converts a vector of GlobalItem*, etc. to a vector of GlobalObjects*
 * \return the same vector, with elements of type GlobalObject*

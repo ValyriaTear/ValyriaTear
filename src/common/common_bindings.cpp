@@ -125,6 +125,10 @@ void BindCommonCode()
                     .def("UnsetSaveLocation", &GameGlobal::UnsetSaveLocation)
                     .def("GetPreviousLocation", &GameGlobal::GetPreviousLocation)
                     .def("AddQuestLog", &GameGlobal::AddQuestLog)
+                    .def("SetWorldMap", &GameGlobal::SetWorldMap)
+                    .def("ShowWorldLocation", &GameGlobal::ShowWorldLocation)
+                    .def("HideWorldLocation", &GameGlobal::HideWorldLocation)
+                    .def("SetCurrentLocationId", &GameGlobal::SetCurrentLocationId)
 
                     // Namespace constants
                     .enum_("constants") [
