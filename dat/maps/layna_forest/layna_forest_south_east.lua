@@ -659,7 +659,7 @@ function _CreateObjects()
         { "Tree Small5", 75, 84 },
         { "Tree Small3", 70, 85 },
         { "Tree Small5", 65, 86 },
-        { "Tree Small3", 64, 90 },
+        { "Tree Tiny3", 64, 91.2 },
         { "Tree Small4", 60, 83 },
         { "Tree Small4", 55, 85.1 },
         { "Tree Small5", 50, 84 },
