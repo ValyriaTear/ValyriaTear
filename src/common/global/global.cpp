@@ -81,6 +81,7 @@ GameGlobal::GameGlobal() :
     _x_save_map_position(0),
     _y_save_map_position(0),
     _same_map_hud_name_as_previous(false),
+    _current_world_location_id(""),
     _quest_log_count(0)
 {
     IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
@@ -210,6 +211,9 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_LoadQuestsScript("dat/config/quests.lua"))
         return false;
 
+    if(!_LoadWorldLocationsScript("dat/config/world_locations.lua"))
+        return false;
+
     return true;
 }
 
@@ -244,7 +248,7 @@ void GameGlobal::ClearAllData()
     _event_groups.clear();
 
     //clear the quest log
-    for(std::map<std::string,QuestLogEntry *>::iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
+    for(std::map<std::string, QuestLogEntry *>::iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
         delete itr->second;
     _quest_log_entries.clear();
 
@@ -255,6 +259,9 @@ void GameGlobal::ClearAllData()
     _previous_location.clear();
     _map_filename.clear();
     _map_hud_name.clear();
+
+    //clear global world map file
+    _world_map_image.Clear();
 
     // Clear out the time played, in case of a new game
     SystemManager->SetPlayTime(0, 0, 0);
@@ -815,6 +822,9 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
     file.WriteLine("}");
     file.InsertNewLine();
 
+    // ------ (8) Save World Map
+    _SaveWorldMap(file);
+
     // ----- (8) Report any errors detected from the previous write operations
     if(file.IsErrorDetected()) {
         if(GLOBAL_DEBUG) {
@@ -891,6 +901,9 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     for(uint32 i = 0; i < quest_keys.size(); ++i)
         _LoadQuests(file, quest_keys[i]);
     file.CloseTable();
+
+    // Load the world map data
+    _LoadWorldMap(file);
 
     // Report any errors detected from the previous read operations
     if(file.IsErrorDetected()) {
@@ -1270,6 +1283,26 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
 
 }
 
+void GameGlobal::_SaveWorldMap(hoa_script::WriteScriptDescriptor &file)
+{
+    if(file.IsFileOpen() == false)
+    {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
+        return;
+    }
+
+    //write the world map filename
+    file.WriteLine("world_map = \"" + _world_map_image.GetFilename() + "\"");
+    file.WriteLine("");
+
+    //write the viewable locations
+    file.WriteLine("viewable_locations = {");
+    for(uint32 i = 0; i < _viewable_world_locations.size(); ++i)
+        file.WriteLine("\t\"" + _viewable_world_locations[i]+"\",");
+    file.WriteLine("}");
+
+}
+
 void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &category_name)
 {
     if(file.IsFileOpen() == false) {
@@ -1528,6 +1561,74 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
     //update the quest log count value if the current number is greater
     if(_quest_log_count < quest_log_number)
         _quest_log_count = quest_log_number;
+
+}
+
+void GameGlobal::_LoadWorldMap(hoa_script::ReadScriptDescriptor &file)
+{
+    if(file.IsFileOpen() == false) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
+        return;
+    }
+    std::string world_map = file.ReadString("world_map");
+    SetWorldMap(world_map);
+
+    std::vector<std::string> location_ids;
+    file.ReadStringVector("viewable_locations", location_ids);
+    for(uint32 i = 0; i < location_ids.size(); ++i)
+        ShowWorldLocation(location_ids[i]);
+}
+
+bool GameGlobal::_LoadWorldLocationsScript(const std::string &world_locations_filename)
+{
+    _world_map_locations.clear();
+
+    hoa_script::ReadScriptDescriptor world_locations_script;
+    if(!world_locations_script.OpenFile(world_locations_filename)) {
+        PRINT_ERROR << "Couldn't open world map locations file: " << world_locations_filename << std::endl;
+        return false;
+    }
+
+    if(!world_locations_script.DoesTableExist("world_locations"))
+    {
+        PRINT_ERROR << "No 'world_locations' table in file: " << world_locations_filename << std::endl;
+        world_locations_script.CloseFile();
+        return false;
+    }
+
+    std::vector<std::string> world_location_ids;
+    world_locations_script.ReadTableKeys("world_locations", world_location_ids);
+    if(world_location_ids.empty())
+    {
+        PRINT_ERROR << "No items in 'world_locations' table in file: " << world_locations_filename << std::endl;
+        world_locations_script.CloseFile();
+        return false;
+    }
+
+    world_locations_script.OpenTable("world_locations");
+    for(uint32 i = 0; i < world_location_ids.size(); ++i)
+    {
+        const std::string &id = world_location_ids[i];
+        std::vector<std::string> values;
+        world_locations_script.ReadStringVector(id,values);
+
+        //check for existing location
+        if(_world_map_locations.find(id) != _world_map_locations.end())
+        {
+            PRINT_WARNING << "duplicate world map location id found: " << id << std::endl;
+            continue;
+        }
+
+        float x = atof(values[0].c_str());
+        float y = atof(values[1].c_str());
+        const std::string &location_name = values[2];
+        const std::string &image_path = values[3];
+        WorldMapLocation location(x, y, location_name, image_path, id);
+
+        _world_map_locations[id] = location;
+
+    }
+    return true;
 
 }
 

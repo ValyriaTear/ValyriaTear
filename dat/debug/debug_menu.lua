@@ -19,6 +19,13 @@ function BootMenuTest()
     GlobalManager:AddQuestLog("get_barley");
     GlobalManager:AddQuestLog("find_pen");
 
+    -- Used to debug World Map
+    GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
+    GlobalManager:ShowWorldLocation("layna village")
+    GlobalManager:ShowWorldLocation("The forest")
+    GlobalManager:SetCurrentLocationId("The forest")
+
+
     local menu = hoa_menu.MenuMode(hoa_utils.MakeUnicodeString("The Boot Menu"), "img/menus/locations/desert_cave.png");
     ModeManager:Push(menu, false, false);
 end

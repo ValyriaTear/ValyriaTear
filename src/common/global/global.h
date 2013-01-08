@@ -217,6 +217,63 @@ struct QuestLogInfo {
     std::string _completion_event_name;
 };
 
+/** *****************************************************************************
+*** \brief Struct for world map locations
+*** the parameters are all immutable and loaded at creation time
+*** there should be no reason for these to be created outside the global manager
+*** the key is the unique location id set in the script as a string
+*** there is no need for accesor functions because this is just a storage struct
+*** *****************************************************************************/
+struct WorldMapLocation
+{
+public:
+    WorldMapLocation()
+    {
+        _image.SetStatic(true);
+    }
+
+    WorldMapLocation(float x, float y, const std::string &location_name, const std::string &image_path, const std::string &world_map_location_id) :
+        _x(x),
+        _y(y),
+        _location_name(location_name),
+        _world_map_location_id(world_map_location_id)
+    {
+        if(!_image.Load(image_path))
+            PRINT_ERROR << "image: " << image_path << " not able to load" << std::endl;
+    }
+
+    WorldMapLocation(const WorldMapLocation &other):
+        _x(other._x),
+        _y(other._y),
+        _location_name(other._location_name),
+        _world_map_location_id(other._world_map_location_id)
+    {
+        _image = other._image;
+    }
+
+    WorldMapLocation &operator=(const WorldMapLocation &other)
+    {
+        if(this == &other)
+            return *this;
+        _x = other._x;
+        _y = other._y;
+        _location_name = other._location_name;
+        _world_map_location_id = other._world_map_location_id;
+        _image = other._image;
+        return *this;
+    }
+
+    ~WorldMapLocation(){
+        _image.Clear();
+    }
+
+    float _x;
+    float _y;
+    std::string _location_name;
+    std::string _world_map_location_id;
+    hoa_video::StillImage _image;
+};
+
 /** ****************************************************************************
 *** \brief Retains all the state information about the active game
 ***
@@ -541,8 +598,93 @@ public:
         _map_filename = map_filename;
     }
 
+    /** \brief sets the current viewable world map
+    *** empty strings are valid, and will cause the return
+    *** of a null pointer on GetWorldMap call.
+    *** \note this will also clear the currently viewable locations and the current location id
+    **/
+    void SetWorldMap(const std::string &world_map_filename)
+    {
+        _world_map_image.Clear();
+        _viewable_world_locations.clear();
+        _current_world_location_id = "";
+        _world_map_image.Load(world_map_filename);
+    }
+
+    /** \brief Sets the current location id
+    *** \param the location id of the world location that is defaulted to as "here"
+    *** when the world map menu is opened
+    **/
+    void SetCurrentLocationId(const std::string &location_id)
+    {
+        _current_world_location_id = location_id;
+    }
+
+    /** \brief adds a viewable location string id to the currently viewable
+    *** set. This string IDs are maintained in the dat/ folder
+    *** \param the string id to the currently viewable location
+    **/
+    void ShowWorldLocation( const std::string &location_id)
+    {
+        //defensive check. do not allow blank ids.
+        //if you want to remove an id, call HideWorldLocation
+        if(location_id == "" || location_id.empty())
+            return;
+        // check to make sure this location isn't already visable
+        if(std::find(_viewable_world_locations.begin(),
+                     _viewable_world_locations.end(),
+                     location_id) == _viewable_world_locations.end())
+        {
+            _viewable_world_locations.push_back(location_id);
+        }
+
+    }
+
+    /** \brief removes a location from the currently viewable list
+    *** if the id doesn't exist, we don't do anything
+    *** \param the string id to the viewable location we want to hide
+    **/
+    void HideWorldLocation( const std::string &location_id)
+    {
+        std::vector<std::string>::iterator rem_iterator = std::find(_viewable_world_locations.begin(),
+                                                          _viewable_world_locations.end(),
+                                                          location_id);
+        if(rem_iterator != _viewable_world_locations.end())
+            _viewable_world_locations.erase((rem_iterator));
+    }
+
+    /** \brief gets a refernce to the current viewable location ids
+    *** \return reference to the current viewable location ids
+    **/
+    const std::vector<std::string> &GetViewableLocationIds() const
+    {
+        return _viewable_world_locations;
+    }
+
+    /** \brief get a pointer to the associated world location for the id
+    *** \param string Reference if for the world map location
+    *** \return NULL if the location does not exist. otherwise, return a const pointer
+    *** to the location
+    **/
+    WorldMapLocation *GetWorldLocation(const std::string &id)
+    {
+        std::map<std::string, WorldMapLocation>::iterator itr = _world_map_locations.find(id);
+        return itr == _world_map_locations.end() ? NULL : &(itr->second);
+    }
+
+    /** \brief Gets a reference to the current world location id
+    *** \return Reference to the current id. this value always exists, but could be "" if
+    *** the location is not set, or if the world map is cleared
+    *** the value could also not currently exist, if HideWorldLocation was called on an
+    *** id that was also set as the current location. the calling code should check for this
+    **/
+    const std::string &GetCurrentLocationId() const
+    {
+        return _current_world_location_id;
+    }
+
     /** Set up the previous map point the character is coming from.
-    *** It is used to make the new map aware about where the character should appear.
+    *** It is used to make the newo map aware about where the character should appear.
     ***
     *** \param previous_location The string telling the location the character is coming from.
     **/
@@ -624,6 +766,22 @@ public:
 
     hoa_video::StillImage &GetMapImage() {
         return _map_image;
+    }
+
+    //! \brief gets the current world map image
+    //! \return a pointer to the currently viewable World Map Image.
+    //! \note returns NULL if the filename has been set to ""
+    hoa_video::StillImage *GetWorldMapImage() const
+    {
+        if(_world_map_image.GetFilename().empty())
+            return NULL;
+        else
+            return &_world_map_image;
+    }
+
+    const std::string &GetWorldMapFilename() const
+    {
+        return _world_map_image.GetFilename();
     }
 
     std::vector<GlobalCharacter *>* GetOrderedCharacters() {
@@ -759,6 +917,18 @@ private:
     //! \brief The graphical image which represents the current location
     hoa_video::StillImage _map_image;
 
+    //! \brief The current graphical world map. If the filename is empty,
+    //! then we are "hiding" the map
+    mutable hoa_video::StillImage _world_map_image;
+
+    //! \brief The current viewable location ids on the current world map image
+    //! \note this list is cleared when we call SetWorldMap. It is up to the
+    //! script writter to maintain the properties of the map by either
+    //!  1) call CopyViewableLocationList()
+    //!  2) maintain in some other fashion the list
+
+    std::vector<std::string> _viewable_world_locations;
+
     //! \brief The map location the character is com from. Used to make the new map know where to make the character appear.
     std::string _previous_location;
 
@@ -875,6 +1045,14 @@ private:
     **/
     std::map<std::string, QuestLogEntry *> _quest_log_entries;
 
+    /** \brief the container which stores all the available world locations in the game.
+    *** the world_location_id acts as the key
+    **/
+    std::map<std::string, WorldMapLocation> _world_map_locations;
+
+    //! \brief the current world map location id that indicates where the player is
+    std::string _current_world_location_id;
+
     /** \brief counter that is updated as quest log entries are added. we use this to
     *** order the quest logs from recent (high number) to older (low number)
     **/
@@ -953,6 +1131,11 @@ private:
     **/
     void _SaveQuests(hoa_script::WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry);
 
+    /** \brief saves the world map information. this is called from SaveGame()
+    *** \param file Reference to open and valid file for writting the data
+    **/
+    void _SaveWorldMap(hoa_script::WriteScriptDescriptor &file);
+
     /** \brief A helper function to GameGlobal::LoadGame() that restores the contents of the inventory from a saved game file
     *** \param file A reference to the open and valid file from where to read the inventory list
     *** \param category_name The name of the table in the file that should contain the inventory for a specific category
@@ -977,6 +1160,17 @@ private:
     *** \param reference to the quest entry key
     **/
     void _LoadQuests(hoa_script::ReadScriptDescriptor &file, const std::string &quest_key);
+
+    /** \brief Load world map and viewable information from the save game
+    *** \param file Reference to an open file for reading save game data
+    **/
+    void _LoadWorldMap(hoa_script::ReadScriptDescriptor &file);
+
+    /** \brief Helper function called by LoadGlobalScripts() that (re)loads each world location from the script into the world location entry map
+    *** \param file Path to the file to world locations script
+    *** \return true if succesfully loaded
+    **/
+    bool _LoadWorldLocationsScript(const std::string &world_locations_filename);
 
     //! (Re)Loads the quest entries into the GlobalManager
     //! \Note this is done in _LoadGlobalScripts().
