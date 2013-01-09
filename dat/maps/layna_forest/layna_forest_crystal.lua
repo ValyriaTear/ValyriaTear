@@ -391,7 +391,7 @@ function Load(m)
 
     -- Permits the display of the crystal ect...
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
-    
+
     -- To be continued script
     Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
 end
@@ -733,7 +733,7 @@ function _CreateEvents()
 
     -- Wolf final fight
     event = hoa_map.BattleEncounterEvent("Fenrir Battle");
-    event:SetMusic("mus/The_Creature_Awakens.ogg");
+    event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
     -- TODO: Add custom AI battle script
     -- event:AddScript("");

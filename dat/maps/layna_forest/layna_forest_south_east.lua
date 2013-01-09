@@ -1118,7 +1118,7 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-	enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+	enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
 	enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
 	-- Add tutorial battle dialog with Kalya and Bronann
 	enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");

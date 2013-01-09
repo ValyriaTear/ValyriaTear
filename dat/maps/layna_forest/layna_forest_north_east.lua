@@ -747,7 +747,7 @@ function _CreateObjects()
         { "Tree Small3", 68, 90 },
         { "Tree Small3", 67, 93 },
         { "Tree Small5", 66, 96 },
-        
+
         { "Tree Small5", 12, 95 },
         { "Tree Small6", 16, 92 },
         { "Tree Small4", 20, 88 },
@@ -972,7 +972,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = hoa_map.BattleEncounterEvent("First Wolf battle");
-    event:SetMusic("mus/The_Creature_Awakens.ogg");
+    event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
     -- TODO: Add custom AI battle script
     -- event:AddScript("");
@@ -1042,7 +1042,7 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
     -- Add tutorial battle dialog with Kalya and Bronann
     enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");

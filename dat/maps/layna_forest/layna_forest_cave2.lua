@@ -32,7 +32,7 @@ contexts[0].inherit_from = -1
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "mus/Cave2.ogg"
+music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -427,7 +427,7 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
     enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");

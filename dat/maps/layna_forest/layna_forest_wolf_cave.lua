@@ -32,7 +32,7 @@ contexts[0].inherit_from = -1
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "mus/Cave2.ogg"
+music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -526,7 +526,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = hoa_map.BattleEncounterEvent("Second Fenrir battle");
-    event:SetMusic("mus/The_Creature_Awakens.ogg");
+    event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
     -- TODO: Add custom AI battle script
