@@ -44,6 +44,8 @@
 #include "grid.h"
 #include "tileset_editor.h"
 
+#include "engine/script/script_read.h"
+
 //! \brief All editor code is contained within this namespace.
 namespace hoa_editor
 {
@@ -313,6 +315,9 @@ private:
 
     //! An error dialog for exceeding the maximum allowable number of contexts.
     QErrorMessage *_error_max_contexts;
+
+    //! The editor global script: Used to run some global function needed there.
+    hoa_script::ReadScriptDescriptor _global_script;
 }; // class Editor
 
 

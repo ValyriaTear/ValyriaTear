@@ -45,6 +45,10 @@ extern "C" {
 #include "utils.h"
 #include "defs.h"
 
+#if LUA_VERSION_NUM < 502
+# define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+#endif
+
 //! \brief All calls to the scripting engine are wrapped in this namespace.
 namespace hoa_script
 {
