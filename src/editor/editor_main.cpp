@@ -19,7 +19,6 @@
 #endif
 
 #include "editor.h"
-#include "engine/script/script.h"
 
 // Used to permit compilation as qmake will create a makefile requiring qMain
 // as the main app function, and the aliasing of main prevents this to work
@@ -37,7 +36,7 @@ int main(int argc, char **argv)
 #ifndef __MACH__
     // Look for data files in DATADIR only if they are not available in the
     // current directory.
-    if(std::ifstream("./dat/config/settings.lua") == NULL) {
+    if(std::ifstream("./dat/config/editor.lua") == NULL) {
         if(chdir(PKG_DATADIR) != 0) {
             PRINT_ERROR << "failed to change directory to data location" << std::endl;
         }
@@ -62,8 +61,6 @@ int main(int argc, char **argv)
 #endif
 
     QApplication app(argc, argv);
-    ScriptManager = ScriptEngine::SingletonCreate();
-    ScriptManager->SingletonInitialize();
 
     Editor *editor = new Editor();
     editor->setWindowTitle("Map Editor");

@@ -136,10 +136,16 @@ void ModifyScriptDescriptor::CommitChanges(bool leave_closed)
     // setup the iterator
     _open_tables_iterator = _open_tables.begin();
 
+    // Push the global table on top of the stack
+    lua_pushglobaltable(_lstack);
+
     // Write the global tables to the file. This in turn will write all other tables that are members of
     // the global tables, or members of those tables, and so on.
-    object globals(luabind::from_stack(_lstack, LUA_GLOBALSINDEX));
+    object globals(luabind::from_stack(_lstack, -1)); // -1 is the value on top of the stack, here the global table index
     _CommitTable(file, globals);
+
+    // Remove the table afterwards
+    lua_pop(_lstack, 1);
 
     file.CloseFile(); // Close the temporary file we were writing to
     CloseFile(); // Close this file as well as it is about to be over-written

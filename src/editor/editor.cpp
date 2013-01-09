@@ -14,7 +14,6 @@
  *****************************************************************************/
 
 #include "editor.h"
-#include "engine/script/script_read.h"
 
 #include <QTableWidgetItem>
 #include <QScrollBar>
@@ -74,9 +73,13 @@ Editor::Editor() : QMainWindow(),
     // create error message for exceeding maximum number of contexts
     _error_max_contexts = new QErrorMessage(this);
 
-    // create the video engine's singleton
-    // VideoManager = VideoEngine::SingletonCreate();
-    // Commented out grid and tileset editor create and destroy VideoManager
+    // Initialize the script manager
+    ScriptManager = ScriptEngine::SingletonCreate();
+    ScriptManager->SingletonInitialize();
+
+    // Open the global script
+    if (!_global_script.OpenFile("dat/config/editor.lua"))
+        PRINT_ERROR << "failed to load the editor global script: " << "dat/config/editor.lua" << std::endl;
 }
 
 
@@ -101,6 +104,10 @@ Editor::~Editor()
     delete _undo_stack;
 
     VideoEngine::SingletonDestroy();
+
+    // Close the global script.
+    _global_script.CloseFile();
+
     // Do it last since all luabind objects must be freed before closing the lua state.
     ScriptEngine::SingletonDestroy();
 }

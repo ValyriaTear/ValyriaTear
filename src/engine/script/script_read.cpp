@@ -570,7 +570,10 @@ void ReadScriptDescriptor::DEBUG_PrintGlobals()
 {
     PRINT_WARNING << "SCRIPT DEBUG: Printing script's global variables:" << std::endl;
 
-    object o(from_stack(_lstack, LUA_GLOBALSINDEX));
+    // Push the global table on top of the stack
+    lua_pushglobaltable(_lstack);
+
+    object o(from_stack(_lstack, -1)); // -1 is the value on top of the stack, here the global table index
     for(luabind::iterator it(o), end; it != end; ++it) {
         PRINT_WARNING << it.key() << " = " << (*it) << " ::: data type = " << type(*it) << std::endl;
         if(luabind::type(*it) == LUA_TTABLE) {
@@ -579,6 +582,9 @@ void ReadScriptDescriptor::DEBUG_PrintGlobals()
         }
     }
     PRINT_WARNING << std::endl;
+
+    // Remove the table afterwards
+    lua_pop(_lstack, 1);
 }
 
 

@@ -239,15 +239,24 @@ template <class T> void ModifyScriptDescriptor::_ModifyData(const std::string &k
         search_key = key.substr(last + 1);
     }
 
-    if(_open_tables.empty() == true)  // Retrieve the globals table
-        table = new luabind::object(luabind::from_stack(_lstack, LUA_GLOBALSINDEX));
-    else // Retrieve the most recently opened table from the top of the stack
-        table = new luabind::object(luabind::from_stack(_lstack, private_script::STACK_TOP));
+    // Retrieve the globals table
+    bool is_global_table = false;
+    if(_open_tables.empty()) {
+        // Push the global table on top of the stack
+        lua_pushglobaltable(_lstack);
+        is_global_table = true;
+    }
+
+    // Retrieve the most recently opened table from the top of the stack
+    table = new luabind::object(luabind::from_stack(_lstack, private_script::STACK_TOP));
 
     if(luabind::type(*table) != LUA_TTABLE) {
         _error_messages << "* _ModifyData() failed because it could not construct the table "
                         << "where the data resided: " << key << std::endl;
         delete(table);
+        // Remove the global table afterwards
+        if (is_global_table)
+            lua_pop(_lstack, 1);
         return;
     }
 
@@ -259,6 +268,10 @@ template <class T> void ModifyScriptDescriptor::_ModifyData(const std::string &k
                 delete(table);
                 // close open tables
                 this->CloseTable();
+
+                // Remove the global table afterwards
+                if (is_global_table)
+                    lua_pop(_lstack, 1);
                 return;
             }
         } catch(...)  {
@@ -271,6 +284,10 @@ template <class T> void ModifyScriptDescriptor::_ModifyData(const std::string &k
                     << "table key: " << key << std::endl;
     delete(table);
     this->CloseTable();
+
+    // Remove the global table afterwards
+    if (is_global_table)
+        lua_pop(_lstack, 1);
 } // template <class T> void ModifyScriptDescriptor::_ModifyData(const std::string& key, T value) {
 
 
@@ -317,19 +334,32 @@ template <class T> void ModifyScriptDescriptor::_AddNewData(const std::string &k
     // A pointer to the table where the object is contained
     luabind::object *table = NULL;
 
-    if(_open_tables.empty() == false)  // Retrieve the globals table
-        table = new luabind::object(luabind::from_stack(_lstack, LUA_GLOBALSINDEX));
-    else // Retrieve the most recently opened table from the top of the stack
-        table = new luabind::object(luabind::from_stack(_lstack, private_script::STACK_TOP));
+    // Retrieve the globals table
+    bool is_global_table = false;
+    if(_open_tables.empty()) {
+        // Push the global table on top of the stack
+        lua_pushglobaltable(_lstack);
+        is_global_table = true;
+    }
+
+    // Retrieve the most recently opened table from the top of the stack
+    table = new luabind::object(luabind::from_stack(_lstack, private_script::STACK_TOP));
 
     if(luabind::type(*table) != LUA_TTABLE) {
         _error_messages << "* _AddNewData() failed because the top of the stack was not a table "
                         << "when trying to add the new data: " << key << std::endl;
+        // Remove the global table afterwards
+        if (is_global_table)
+            lua_pop(_lstack, 1);
         return;
     }
 
     // NOTE: If the key already exists in the table, its value will be overwritten here
     luabind::settable(*table, key, value);
+
+    // Remove the global table afterwards
+    if (is_global_table)
+        lua_pop(_lstack, 1);
 } // template <class T> void ModifyScriptDescriptor::_AddNewData(const std::string& key, T value)
 
 
