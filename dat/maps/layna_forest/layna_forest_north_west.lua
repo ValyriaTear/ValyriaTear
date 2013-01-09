@@ -506,7 +506,7 @@ function _CreateObjects()
     end
 
     event = hoa_map.BattleEncounterEvent("Monster trap in chest");
-    event:SetMusic("mus/Battle_Jazz.ogg");
+    event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
     event:AddScript("dat/battles/tutorial_battle_dialogs.lua");
     event:AddEnemy(2, 0, 0);
@@ -1088,7 +1088,7 @@ function _CreateObjects()
 
         { "Tree Small1", 86, 35 },
         { "Tree Big1", 77, 31 },
-        
+
         { "Tree Little2", 7, 81 },
         { "Tree Tiny1", 17, 82 },
         { "Tree Little1", 27, 81 },
@@ -1426,7 +1426,7 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("mus/Battle_Jazz.ogg");
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
     -- Add tutorial battle dialog with Kalya and Bronann
     enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
