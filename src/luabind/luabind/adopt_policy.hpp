@@ -65,7 +65,10 @@ namespace luabind { namespace detail
 
             object_rep* obj = static_cast<object_rep*>(
                 lua_touserdata(L, index));
-            obj->release();
+
+            // Release the object only if not null
+            if (obj)
+                obj->release();
 
             adjust_backref_ownership(ptr, boost::is_polymorphic<T>());
 
