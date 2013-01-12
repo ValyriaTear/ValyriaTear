@@ -1811,8 +1811,7 @@ WorldMapWindow::WorldMapWindow() :
     _active(false)
 {
     _location_marker.SetStatic(true);
-    //! \note this is a temporary image in place until we get a proper one
-    if(!_location_marker.Load("img/misc/editor-tools/eye.png"))
+    if(!_location_marker.LoadFromAnimationScript("img/menus/rotating_crystal_grey.lua"))
         PRINT_ERROR << "Could not load marker image!" << std::endl;
 
     _location_pointer.SetStatic(true);
@@ -1921,6 +1920,7 @@ void WorldMapWindow::Update()
 
         }
 
+        _location_marker.Update();
     }
 }
 
@@ -1956,7 +1956,7 @@ void WorldMapWindow::Activate(bool new_state)
     const std::string &location_id = GlobalManager->GetCurrentLocationId();
     const std::vector<std::string> &current_location_ids = GlobalManager->GetViewableLocationIds();
     std::vector<std::string>::const_iterator loc = std::find(current_location_ids.begin(), current_location_ids.end(), location_id);
-    if(location_id.compare("") == 0 || loc == current_location_ids.end() )
+    if(location_id.empty() || loc == current_location_ids.end() )
         _location_pointer_index = 0;
     else
         _location_pointer_index = loc - current_location_ids.begin();
