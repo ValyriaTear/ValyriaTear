@@ -133,6 +133,10 @@ typedef int8_t    int8;
 typedef uint8_t   uint8;
 //@}
 
+//! A static empty string, used when needed to return a const reference to
+//! that kind of data.
+static const std::string _empty_string;
+
 //! Contains utility code used across the entire source code
 namespace hoa_utils
 {

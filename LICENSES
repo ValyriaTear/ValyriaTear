@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.01.10
+Last update: 2013.01.12
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -205,6 +205,7 @@ img/menus/themes/royal_silk/cursor.png                          CC by 3.0       
 img/menus/themes/black_sleet/black_sleet_skin.png               GPLv2                    Allacrost
 img/menus/themes/black_sleet/black_sleet_texture.png            GPLv2                    Allacrost
 img/menus/themes/black_sleet/cursor.png                         GPLv2                    Allacrost
+img/menus/worldmaps/test_map.png                                CC0                      Belohlavek (OGA) - http://opengameart.org/content/fantasy-world-map
 
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 

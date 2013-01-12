@@ -1129,12 +1129,6 @@ void WorldMapState::Reset()
     _menu_mode->_world_map_window.Update();
 }
 
-AbstractMenuState *WorldMapState::GetTransitionState(uint32 selection)
-{
-    return NULL;
-
-}
-
 void WorldMapState::_OnDrawMainWindow()
 {
     _menu_mode->_world_map_window.Draw();

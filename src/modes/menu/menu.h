@@ -334,7 +334,8 @@ public:
     }
 
     void Reset();
-    AbstractMenuState *GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32 /*selection*/)
+    { return NULL; }
 protected:
     void _OnDrawMainWindow();
     //! \brief this function is overridden to do nothing, as the side window is not used in map mode

@@ -22,8 +22,8 @@ function BootMenuTest()
     -- Used to debug World Map
     GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
     GlobalManager:ShowWorldLocation("layna village")
-    GlobalManager:ShowWorldLocation("The forest")
-    GlobalManager:SetCurrentLocationId("The forest")
+    GlobalManager:ShowWorldLocation("layna forest")
+    GlobalManager:SetCurrentLocationId("layna forest")
 
 
     local menu = hoa_menu.MenuMode(hoa_utils.MakeUnicodeString("The Boot Menu"), "img/menus/locations/desert_cave.png");

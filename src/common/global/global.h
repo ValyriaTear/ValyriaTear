@@ -605,10 +605,13 @@ public:
     **/
     void SetWorldMap(const std::string &world_map_filename)
     {
-        _world_map_image.Clear();
+        if (_world_map_image)
+            delete _world_map_image;
+
         _viewable_world_locations.clear();
-        _current_world_location_id = "";
-        _world_map_image.Load(world_map_filename);
+        _current_world_location_id.clear();
+        _world_map_image = new hoa_video::StillImage();
+        _world_map_image->Load(world_map_filename);
     }
 
     /** \brief Sets the current location id
@@ -624,11 +627,11 @@ public:
     *** set. This string IDs are maintained in the dat/ folder
     *** \param the string id to the currently viewable location
     **/
-    void ShowWorldLocation( const std::string &location_id)
+    void ShowWorldLocation(const std::string &location_id)
     {
         //defensive check. do not allow blank ids.
         //if you want to remove an id, call HideWorldLocation
-        if(location_id == "" || location_id.empty())
+        if(location_id.empty())
             return;
         // check to make sure this location isn't already visable
         if(std::find(_viewable_world_locations.begin(),
@@ -653,7 +656,7 @@ public:
             _viewable_world_locations.erase((rem_iterator));
     }
 
-    /** \brief gets a refernce to the current viewable location ids
+    /** \brief gets a reference to the current viewable location ids
     *** \return reference to the current viewable location ids
     **/
     const std::vector<std::string> &GetViewableLocationIds() const
@@ -684,7 +687,7 @@ public:
     }
 
     /** Set up the previous map point the character is coming from.
-    *** It is used to make the newo map aware about where the character should appear.
+    *** It is used to make the new map aware about where the character should appear.
     ***
     *** \param previous_location The string telling the location the character is coming from.
     **/
@@ -773,15 +776,15 @@ public:
     //! \note returns NULL if the filename has been set to ""
     hoa_video::StillImage *GetWorldMapImage() const
     {
-        if(_world_map_image.GetFilename().empty())
-            return NULL;
-        else
-            return &_world_map_image;
+        return _world_map_image;
     }
 
     const std::string &GetWorldMapFilename() const
     {
-        return _world_map_image.GetFilename();
+        if (_world_map_image)
+            return _world_map_image->GetFilename();
+        else
+            return _empty_string;
     }
 
     std::vector<GlobalCharacter *>* GetOrderedCharacters() {
@@ -919,7 +922,7 @@ private:
 
     //! \brief The current graphical world map. If the filename is empty,
     //! then we are "hiding" the map
-    mutable hoa_video::StillImage _world_map_image;
+    hoa_video::StillImage* _world_map_image;
 
     //! \brief The current viewable location ids on the current world map image
     //! \note this list is cleared when we call SetWorldMap. It is up to the
