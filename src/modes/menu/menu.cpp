@@ -135,7 +135,11 @@ void AbstractMenuState::Update()
             _menu_mode->_current_menu_state->_OnEntry(this);
 
         }
+
     }
+
+    // update the current state
+    _OnUpdateState();
     // update the options for the currently active state
     _menu_mode->_current_menu_state->GetOptions()->Update();
 
@@ -323,6 +327,7 @@ void MainMenuState::Reset()
     options.push_back(UTranslate("Skills"));
     options.push_back(UTranslate("Party"));
     options.push_back(UTranslate("Quests"));
+    options.push_back(UTranslate("Map"));
 
     // Add strings and set default selection.
     _options.SetOptions(options);
@@ -345,12 +350,29 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
         case MAIN_OPTIONS_QUESTS:
             return &(_menu_mode->_quests_state);
             break;
+        case MAIN_OPTIONS_WORLDMAP:
+            return &(_menu_mode->_world_map_state);
+            break;
         default:
             PRINT_ERROR << "MENU ERROR: Invalid option in " << GetStateName() << "::GetTransitionState" << std::endl;
             break;
 
     }
     return NULL;
+}
+
+void MainMenuState::_OnUpdateState()
+{
+    uint32 draw_window = _options.GetSelection();
+    switch(draw_window) {
+    case MAIN_OPTIONS_WORLDMAP:
+    {
+        _menu_mode->_world_map_window.Update();
+        break;
+    }
+    default:
+        break;
+    };
 }
 
 void MainMenuState::_OnDrawMainWindow()
@@ -378,6 +400,18 @@ void MainMenuState::_OnDrawMainWindow()
             _menu_mode->_quest_window.Draw();
             break;
         }
+        case MAIN_OPTIONS_WORLDMAP:
+        {
+            //TODO there is a visual bug here with the help information not showing properly. need to fix.
+            static const ustring world_map_window_message = UTranslate("Select to view current world map.\nUse left / right to cycle through locations. Press 'cancel' to return");
+            _menu_mode->_bottom_window.Draw();
+            _menu_mode->_help_information.SetDisplayText(world_map_window_message);
+            _menu_mode->_help_information.Draw();
+            // actual drawing of thebottom window will occur upon transition
+            // to the worls map state
+            _menu_mode->_world_map_window.Draw();
+            break;
+        }
         case MAIN_OPTIONS_PARTY:
         default: {
             AbstractMenuState::_DrawBottomMenu();
@@ -392,7 +426,7 @@ void MainMenuState::_OnDrawSideWindow()
 {
     if(_options.GetSelection() == MAIN_OPTIONS_QUESTS)
         _menu_mode->_quest_list_window.Draw();
-    else
+    else if (_options.GetSelection() != MAIN_OPTIONS_WORLDMAP)
         AbstractMenuState::_OnDrawSideWindow();
 }
 void InventoryState::Reset()
@@ -1073,6 +1107,93 @@ void QuestState::_DrawBottomMenu()
     _menu_mode->_bottom_window.Draw();
 }
 
+/////////////////////////////////////
+// World Map State
+/////////////////////////////////////
+
+WorldMapState::WorldMapState(MenuMode *menu_mode):
+    AbstractMenuState("WorldMapState", menu_mode),
+    _location_image(NULL)
+{
+    _location_text.SetPosition(102, 556);
+    _location_text.SetDimensions(500.0f, 50.0f);
+    _location_text.SetTextStyle(TextStyle("title22"));
+    _location_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+
+}
+
+void WorldMapState::Reset()
+{
+    // defensive update to set up the initial values such as the
+    // window offset and such
+    _menu_mode->_world_map_window.Update();
+}
+
+AbstractMenuState *WorldMapState::GetTransitionState(uint32 selection)
+{
+    return NULL;
+
+}
+
+void WorldMapState::_OnDrawMainWindow()
+{
+    _menu_mode->_world_map_window.Draw();
+    _DrawBottomMenu();
+}
+
+void WorldMapState::_DrawBottomMenu()
+{
+    _menu_mode->_bottom_window.Draw();
+    if(_IsActive())
+    {
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+        VideoManager->Move(150, 580);
+        // Display Location
+        _location_text.Draw();
+        if(_location_image != NULL && !_location_image->GetFilename().empty())
+        {
+            VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
+            VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+            VideoManager->Move(390, 685);
+            _location_image->Draw();
+        }
+
+    }
+}
+
+bool WorldMapState::_IsActive()
+{
+    return _menu_mode->_world_map_window.IsActive();
+}
+
+void WorldMapState::_ActiveWindowUpdate()
+{
+    _menu_mode->_world_map_window.Update();
+    if(!_IsActive())
+        _OnCancel();
+    else
+    {
+        //draw the current viewing location information
+        WorldMapLocation *current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
+        if(current_location == NULL)
+        {
+            _location_image = NULL;
+            _location_text.ClearText();
+            return;
+        }
+        _location_text.SetDisplayText(current_location->_location_name);
+        _location_image = &(current_location->_image);
+
+    }
+}
+
+void WorldMapState::_OnEntry(AbstractMenuState *from_state)
+{
+    AbstractMenuState::_OnEntry(from_state);
+    //automatically go into the world map window
+    _menu_mode->_world_map_window.Activate(true);
+}
+
 } // namespace private_menu
 
 bool MENU_DEBUG = false;
@@ -1095,6 +1216,7 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _skills_state(this),
     _equip_state(this),
     _quests_state(this),
+    _world_map_state(this),
     _message_window(NULL)
 
 {
@@ -1141,7 +1263,7 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _shard_description.SetDisplayText(UTranslate("This item is a crystal shard and can be associated with equipment."));
 
     _help_information.SetPosition(250, 570);
-    _help_information.SetDimensions(500, 80);
+    _help_information.SetDimensions(500, 100);
     _help_information.SetTextStyle(TextStyle("text20"));
     _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _help_information.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -1182,6 +1304,10 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _quest_list_window.Create(360,448, VIDEO_MENU_EDGE_ALL, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
     _quest_list_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
+    //set up the world map window
+    _world_map_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
+    _world_map_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
     _current_menu_state = &_main_menu_state;
 
     // Load menu sounds
@@ -1219,6 +1345,7 @@ MenuMode::~MenuMode()
     _main_options_window.Destroy();
     _equip_window.Destroy();
     _quest_window.Destroy();
+    _world_map_window.Destroy();
 
     // Free sounds
     _menu_sounds["confirm"].FreeAudio();
@@ -1251,6 +1378,7 @@ void MenuMode::Reset()
     _skills_window.Show();
     _equip_window.Show();
     _quest_window.Show();
+    _world_map_window.Show();
 
     _inventory_window.Activate(false);
 
