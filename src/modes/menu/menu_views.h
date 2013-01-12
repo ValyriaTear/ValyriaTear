@@ -678,7 +678,7 @@ private:
     hoa_video::StillImage *_current_world_map;
 
     //! \brief the location marker. this is loaded in the ctor
-    hoa_video::StillImage _location_marker;
+    hoa_video::AnimatedImage _location_marker;
 
     //! \brief the location pointer. this is loaded in the ctor
     hoa_video::StillImage _location_pointer;
