@@ -80,8 +80,8 @@ GameGlobal::GameGlobal() :
     _max_experience_level(100),
     _x_save_map_position(0),
     _y_save_map_position(0),
+    _world_map_image(NULL),
     _same_map_hud_name_as_previous(false),
-    _current_world_location_id(""),
     _quest_log_count(0)
 {
     IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
@@ -261,7 +261,10 @@ void GameGlobal::ClearAllData()
     _map_hud_name.clear();
 
     //clear global world map file
-    _world_map_image.Clear();
+    if (_world_map_image) {
+        delete _world_map_image;
+        _world_map_image = 0;
+    }
 
     // Clear out the time played, in case of a new game
     SystemManager->SetPlayTime(0, 0, 0);
@@ -1292,7 +1295,7 @@ void GameGlobal::_SaveWorldMap(hoa_script::WriteScriptDescriptor &file)
     }
 
     //write the world map filename
-    file.WriteLine("world_map = \"" + _world_map_image.GetFilename() + "\"");
+    file.WriteLine("world_map = \"" + GetWorldMapFilename() + "\"");
     file.WriteLine("");
 
     //write the viewable locations
