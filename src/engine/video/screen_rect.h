@@ -32,10 +32,23 @@ namespace hoa_video
 class ScreenRect
 {
 public:
-    ScreenRect()
+    ScreenRect():
+        left(0),
+        top(0),
+        width(0),
+        height(0)
     {}
-    ScreenRect(int32 l, int32 t, int32 w, int32 h)
-        : left(l), top(t), width(w), height(h) {}
+
+    ScreenRect(int32 l, int32 t, int32 w, int32 h):
+        left(l),
+        top(t),
+        width(w),
+        height(h)
+    {}
+
+    void Set(int32 l, int32 t, int32 w, int32 h)
+    { left = l; top = t; width = w; height = h; }
+
 
     /** \brief Modifies the rectangle coordinates to be an intersection of itself with another rectangle
     *** \param rect The rectangle to intersect this rectangle with
