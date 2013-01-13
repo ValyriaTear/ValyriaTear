@@ -793,8 +793,12 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     bar_size = static_cast<float>(90 * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
     VideoManager->Move(312.0f, 90.0f + y_offset);
 
-    if(GetHitPoints() > 0)
-        VideoManager->DrawRectangle(bar_size, 6, green_hp);
+    if(GetHitPoints() > 0) {
+        if (bar_size < 90.0f / 4.0f)
+            VideoManager->DrawRectangle(bar_size, 6, Color::orange);
+        else
+            VideoManager->DrawRectangle(bar_size, 6, green_hp);
+    }
 
     // Draw SP bar in blue
     bar_size = static_cast<float>(90 * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
