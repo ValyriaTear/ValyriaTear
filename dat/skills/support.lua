@@ -86,6 +86,32 @@ skills[10002] = {
 	end
 }
 
+skills[10003] = {
+    name = hoa_system.Translate("Leader Call"),
+    description = hoa_system.Translate("Temporarily increases the strength of all allies."),
+    sp_required = 14,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
+
+    BattleExecute = function(user, target)
+        local index = 0;
+        local effect_duration = user:GetVigor() * 3000;
+        while true do
+            target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+            target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
+                        hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+                        effect_duration);
+            index = index + 1;
+        end
+    end,
+}
+
 --------------------------------------------------------------------------------
 -- IDs 11,001 - 20,000 are reserved for enemy support skills
 --------------------------------------------------------------------------------

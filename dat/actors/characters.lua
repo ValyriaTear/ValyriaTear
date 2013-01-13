@@ -104,7 +104,7 @@ characters[BRONANN] = {
 
         skill_points = {
             1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
-            3, 3, 3, 3, 3, 4, 4, 4, 4, 4    
+            3, 3, 3, 3, 3, 4, 4, 4, 4, 4
         },
 
         strength = {
@@ -138,7 +138,7 @@ characters[BRONANN] = {
         }
     },
 
-    skills = { [1] = 1, [3] = 2, [8] = 3, [12] = 20001, [15] = 4 }
+    skills = { [1] = 1, [3] = 2, [8] = 3, [15] = 10003 }
 } -- characters[BRONANN]
 
 characters[KALYA] = {
@@ -231,7 +231,7 @@ characters[KALYA] = {
             5, 5, 5, 5, 5, 13, 13, 13, 13, 13,
             21, 21, 21, 21, 21, 29, 29, 29, 29, 29
         },
-    
+
         skill_points = {
             1, 1, 1, 1, 1, 3, 3, 3, 3, 3,
             5, 5, 5, 5, 5, 7, 7, 7, 7, 7
@@ -268,7 +268,7 @@ characters[KALYA] = {
         }
     },
 
-	skills = { [1] = 5, [4] = 10001, [7] = 10002, [12] = 20001 }
+	skills = { [1] = 5, [4] = 10001, [7] = 10002 }
 } -- characters[KALYA]
 
 characters[SYLVE] = {
