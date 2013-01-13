@@ -114,6 +114,9 @@ items[3] = {
 	standard_price = 1000,
 	warmup_time = 1200,
 	cooldown_time = 900,
+    trade_conditions = {
+        [1] = 1
+    },
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();

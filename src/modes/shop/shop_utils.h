@@ -200,6 +200,10 @@ public:
         return _sell_price;
     }
 
+    std::vector<std::pair<uint32, uint32> > GetTradeConditions() {
+        return _trade_conditions;
+    }
+
     uint32 GetOwnCount() const {
         return _own_count;
     }
@@ -216,12 +220,20 @@ public:
         return _sell_count;
     }
 
+    uint32 GetTradeCount() const {
+        return _trade_count;
+    }
+
     void ResetBuyCount() {
         _buy_count = 0;
     }
 
     void ResetSellCount() {
         _sell_count = 0;
+    }
+
+    void ResetTradeCount() {
+        _trade_count = 0;
     }
     //@}
 
@@ -241,10 +253,12 @@ public:
     void IncrementStockCount(uint32 inc = 1);
     void IncrementBuyCount(uint32 inc = 1);
     void IncrementSellCount(uint32 inc = 1);
+    void IncrementTradeCount(uint32 inc = 1);
     void DecrementOwnCount(uint32 dec = 1);
     void DecrementStockCount(uint32 dec = 1);
     void DecrementBuyCount(uint32 dec = 1);
     void DecrementSellCount(uint32 dec = 1);
+    void DecrementTradeCount(uint32 dec = 1);
     //@}
 
 private:
@@ -257,6 +271,9 @@ private:
     //! \brief The return that the player will receive for selling this object to the shop
     uint32 _sell_price;
 
+    //! \brief The return that the player will receive for selling this object to the shop
+    std::vector<std::pair<uint32, uint32> > _trade_conditions;
+
     //! \brief The number of this object that the player's party currently owns
     uint32 _own_count;
 
@@ -268,6 +285,9 @@ private:
 
     //! \brief The amount of this object that the player plans to sell
     uint32 _sell_count;
+
+    //! \brief The amount of this object that the player plans to sell
+    uint32 _trade_count;
 }; // class ShopObject
 
 

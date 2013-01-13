@@ -578,6 +578,7 @@ void BindModeCode()
             luabind::class_<ShopEvent, MapEvent>("ShopEvent")
             .def(luabind::constructor<std::string>())
             .def("AddObject", &ShopEvent::AddObject)
+            .def("AddTrade", &ShopEvent::AddTrade)
             .def("SetPriceLevels", &ShopEvent::SetPriceLevels)
         ];
 

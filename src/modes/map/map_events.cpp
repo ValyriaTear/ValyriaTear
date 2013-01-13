@@ -97,8 +97,11 @@ bool DialogueEvent::_Update()
 void ShopEvent::_Start()
 {
     ShopMode *shop = new ShopMode();
-    for(std::set<std::pair<uint32, uint32> >::iterator i = _objects.begin(); i != _objects.end(); ++i)
-        shop->AddObject((*i).first, (*i).second);
+    for(std::set<std::pair<uint32, uint32> >::iterator it = _objects.begin(); it != _objects.end(); ++it)
+        shop->AddObject((*it).first, (*it).second);
+
+    for(std::set<std::pair<uint32, uint32> >::iterator it = _trades.begin(); it != _trades.end(); ++it)
+        shop->AddTrade((*it).first, (*it).second);
 
     shop->SetPriceLevels(_buy_level, _sell_level);
     ModeManager->Push(shop);
