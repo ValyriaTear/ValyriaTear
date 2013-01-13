@@ -144,42 +144,42 @@ function Update()
         hand1_visible = false;
         hand2_visible = true;
         hand2_origin_x = 350.0;
-        hand2_origin_y = 170.0;
+        hand2_origin_y = 598.0;
         trigger_show_hand2 = false;
         last_line = 3;
     elseif (last_line ~= 4 and DialogueManager:GetLineCounter() == 4) then
         hand1_visible = true;
         hand2_visible = false;
         hand1_origin_x = 850.0;
-        hand1_origin_y = 300.0;
+        hand1_origin_y = 468.0;
         trigger_show_hand1 = false;
         last_line = 4;
     elseif (last_line ~= 5 and DialogueManager:GetLineCounter() == 5) then
         hand1_visible = true;
         hand2_visible = false;
         hand1_origin_x = 850.0;
-        hand1_origin_y = 490.0;
+        hand1_origin_y = 278.0;
         trigger_show_hand1 = false;
         last_line = 5;
     elseif (last_line ~= 6 and DialogueManager:GetLineCounter() == 6) then
         hand1_visible = false;
         hand2_visible = true;
         hand2_origin_x = 650.0;
-        hand2_origin_y = 170.0;
+        hand2_origin_y = 598.0;
         trigger_show_hand2 = false;
         last_line = 6;
     elseif (last_line ~= 7 and DialogueManager:GetLineCounter() == 7) then
         hand1_visible = true;
         hand2_visible = false;
         hand1_origin_x = 850.0;
-        hand1_origin_y = 600.0;
+        hand1_origin_y = 168.0;
         trigger_show_hand1 = false;
         last_line = 7;
     elseif (last_line ~= 8 and DialogueManager:GetLineCounter() == 8) then
         hand1_visible = false;
         hand2_visible = true;
         hand2_origin_x = 550.0;
-        hand2_origin_y = 170.0;
+        hand2_origin_y = 598.0;
         trigger_show_hand2 = false;
         last_line = 8;
     elseif (last_line ~= 10 and DialogueManager:GetLineCounter() == 10) then
@@ -216,14 +216,14 @@ function Update()
 
     -- Top to bottom hand handling
     -- The hand has reached the origin point, let's make it bounce
-    if (hand2_bouncing_y <= hand2_origin_y) then
+    if (hand2_bouncing_y >= hand2_origin_y) then
         bouncing2_force = 5.0;
     end
 
     -- Apply pseudo gravity
     bouncing2_force = bouncing2_force - (time_expired * 0.01);
 
-    hand2_bouncing_y = hand2_bouncing_y + bouncing2_force;
+    hand2_bouncing_y = hand2_bouncing_y - bouncing2_force;
 
     -- Update the hand shown.
     if (hand2_visible == true) then

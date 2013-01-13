@@ -53,7 +53,7 @@ function Update()
 		fog_timer:Run();
 		-- Make the fog appear at random position
 		fog_x_position = math.random(100.0, 700.0);
-		fog_y_position = math.random(200.0, 550.0);
+		fog_y_position = math.random(218.0, 568.0);
 		fog_origin_x_position = fog_x_position;
 		fog_alpha = 0.0;
 	end
@@ -73,24 +73,24 @@ end
 function DrawBackground()
 	-- Draw background main animations
 	-- Creatures
-	Script:DrawAnimation(anim_ids[0], 814.0, 769.0 - 9.0);
+	Script:DrawAnimation(anim_ids[0], 814.0, 9.0);
 	-- Eyes 1
-	Script:DrawAnimation(anim_ids[1], 28.0, 769.0 - 112.0);
+	Script:DrawAnimation(anim_ids[1], 28.0, 112.0);
 	-- Eyes 2
-	Script:DrawAnimation(anim_ids[2], 503.0, 769.0 - 21.0);
+	Script:DrawAnimation(anim_ids[2], 503.0, 21.0);
 	-- Water drop
-	Script:DrawAnimation(anim_ids[3], 200.0, 769.0 - 63.0);
+	Script:DrawAnimation(anim_ids[3], 200.0, 63.0);
 	-- Water
-	Script:DrawAnimation(anim_ids[4], 235.0, 769.0 - 110.0);
+	Script:DrawAnimation(anim_ids[4], 235.0, 110.0);
 
 	-- Draw a rock in the background
-	Script:DrawImage(rock_id, 800.0, 520.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+	Script:DrawImage(rock_id, 800.0, 248.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
 end
 
 
 function DrawForeground()
 	-- Draw the rock in the foreground
-	Script:DrawImage(rock_id, 300.0, 150.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+	Script:DrawImage(rock_id, 300.0, 618.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
 
 	-- Draw a random fog effect
 	Script:DrawImage(fog_id, fog_x_position,

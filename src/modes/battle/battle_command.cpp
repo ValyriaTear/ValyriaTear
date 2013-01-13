@@ -40,17 +40,17 @@ namespace private_battle
 {
 
 const float HEADER_POSITION_X = 140.0f;
-const float HEADER_POSITION_Y = 140.0f;
+const float HEADER_POSITION_Y = -12.0f;
 const float HEADER_SIZE_X = 350.0f;
 const float HEADER_SIZE_Y = 30.0f;
 
 const float LIST_POSITION_X = 140.0f;
-const float LIST_POSITION_Y = 115.0f;
+const float LIST_POSITION_Y = 15.0f;
 const float LIST_SIZE_X = 350.0f;
 const float LIST_SIZE_Y = 100.0f;
 
 const float TARGET_POSITION_X = 40.0f;
-const float TARGET_POSITION_Y = 115.0f;
+const float TARGET_POSITION_Y = 15.0f;
 const float TARGET_SIZE_X = 450.0f;
 const float TARGET_SIZE_Y = 100.0f;
 
@@ -77,7 +77,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _attack_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _attack_list.SetTextStyle(TextStyle("text20"));
     _attack_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-    _attack_list.SetCursorOffset(-50.0f, 25.0f);
+    _attack_list.SetCursorOffset(-50.0f, -25.0f);
 
     _support_list.SetOwner(&window);
     _support_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -87,7 +87,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _support_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _support_list.SetTextStyle(TextStyle("text20"));
     _support_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-    _support_list.SetCursorOffset(-50.0f, 25.0f);
+    _support_list.SetCursorOffset(-50.0f, -25.0f);
 
     _special_list.SetOwner(&window);
     _special_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -97,7 +97,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _special_list.SetTextStyle(TextStyle("text20"));
     _special_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-    _special_list.SetCursorOffset(-50.0f, 25.0f);
+    _special_list.SetCursorOffset(-50.0f, -25.0f);
 
     if(_character == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL character pointer" << std::endl;
@@ -276,7 +276,7 @@ ItemCommand::ItemCommand(MenuWindow &window)
     _item_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_list.SetTextStyle(TextStyle("text20"));
     _item_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-    _item_list.SetCursorOffset(-50.0f, 25.0f);
+    _item_list.SetCursorOffset(-50.0f, -25.0f);
 
     ResetItemList();
 }
@@ -628,7 +628,7 @@ CommandSupervisor::CommandSupervisor() :
     if(_command_window.Create(512.0f, 128.0f) == false) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to create menu window" << std::endl;
     }
-    _command_window.SetPosition(512.0f, 128.0f);
+    _command_window.SetPosition(512.0f, 640.0f);
     _command_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _command_window.Show();
 
@@ -658,9 +658,9 @@ CommandSupervisor::CommandSupervisor() :
     _window_text.SetStyle(TextStyle("text20"));
 
     _category_options.SetOwner(&_command_window);
-    _category_options.SetPosition(256.0f, 75.0f);
+    _category_options.SetPosition(256.0f, 55.0f);
     _category_options.SetDimensions(400.0f, 80.0f, 4, 1, 4, 1);
-    _category_options.SetCursorOffset(-20.0f, 25.0f);
+    _category_options.SetCursorOffset(-20.0f, -25.0f);
     _category_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _category_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _category_options.SetTextStyle(TextStyle("title22"));
@@ -679,7 +679,7 @@ CommandSupervisor::CommandSupervisor() :
     _target_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
     _target_options.SetTextStyle(TextStyle("text20"));
     _target_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-    _target_options.SetCursorOffset(-50.0f, 25.0f);
+    _target_options.SetCursorOffset(-50.0f, -25.0f);
 }
 
 
@@ -1230,12 +1230,12 @@ void CommandSupervisor::_DrawAction()
 
     // Draw the corresponding category icon and text to the left side of the window
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-    VideoManager->Move(570.0f, 75.0);
+    VideoManager->Move(570.0f, 693.0);
     if (_category_options.GetEmbeddedImage(category_index))
         _category_options.GetEmbeddedImage(category_index)->Draw();
     else
         _category_icons[category_index].Draw();
-    VideoManager->MoveRelative(0.0f, -35.0f);
+    VideoManager->MoveRelative(0.0f, 35.0f);
     _category_text[category_index].Draw();
 
     // Draw the header and list for either the skills or items to the right side of the window
@@ -1251,9 +1251,9 @@ void CommandSupervisor::_DrawAction()
 void CommandSupervisor::_DrawActorTarget()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 110.0f);
+    VideoManager->Move(560.0f, 658.0f);
     _window_header.Draw();
-    VideoManager->Move(560.0f, 85.0f);
+    VideoManager->Move(560.0f, 683.0f);
     _window_text.Draw();
 
 // 	_target_options.Draw();
@@ -1265,9 +1265,9 @@ void CommandSupervisor::_DrawActorTarget()
 void CommandSupervisor::_DrawAttackPointTarget()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 110.0f);
+    VideoManager->Move(560.0f, 658.0f);
     _window_header.Draw();
-    VideoManager->Move(560.0f, 85.0f);
+    VideoManager->Move(560.0f, 683.0f);
 // 	_window_text.Draw();
 
     _target_options.Draw();
@@ -1279,9 +1279,9 @@ void CommandSupervisor::_DrawAttackPointTarget()
 void CommandSupervisor::_DrawInformation()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 110.0f);
+    VideoManager->Move(560.0f, 658.0f);
     _window_header.Draw();
-    VideoManager->Move(560.0f, 85.0f);
+    VideoManager->Move(560.0f, 683.0f);
     _window_text.Draw();
 
     // TODO: draw relevant status/elemental icons

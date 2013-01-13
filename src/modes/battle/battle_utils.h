@@ -55,17 +55,17 @@ const uint32 CATEGORY_ITEM      = 3;
 //! \brief Position constants representing the significant locations along the stamina meter
 //@{
 //! \brief The bottom most position of the stamina bar
-const float STAMINA_LOCATION_BOTTOM = 128.0f;
+const float STAMINA_LOCATION_BOTTOM = 640.0f;
 
 //! \brief The location where each actor is allowed to select a command
-const float STAMINA_LOCATION_COMMAND = STAMINA_LOCATION_BOTTOM + 354.0f;
+const float STAMINA_LOCATION_COMMAND = STAMINA_LOCATION_BOTTOM - 354.0f;
 
 //! \brief The top most position of the stamina bar where actors are ready to execute their actions
-const float STAMINA_LOCATION_TOP = STAMINA_LOCATION_BOTTOM + 508.0f;
+const float STAMINA_LOCATION_TOP = STAMINA_LOCATION_BOTTOM - 508.0f;
 
 //! \brief The X and Y position of the stamina bar
 const float STAMINA_BAR_POSITION_X = 970.0f;
-const float STAMINA_BAR_POSITION_Y = 128.0f;
+const float STAMINA_BAR_POSITION_Y = 640.0f;
 //@}
 
 

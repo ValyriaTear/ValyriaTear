@@ -240,7 +240,7 @@ void EffectsSupervisor::DrawVertical()
     for(std::vector<BattleStatusEffect *>::reverse_iterator it = _status_effects.rbegin(); it != _status_effects.rend(); ++it) {
         if(*it) {
             (*it)->GetIconImage()->Draw();
-            VideoManager->MoveRelative(0.0f, -16.0f);
+            VideoManager->MoveRelative(0.0f, 16.0f);
         }
     }
 }
