@@ -608,8 +608,9 @@ public:
 
     /** \brief Draws the character's status in the bottom area of the screen
     *** \param order The order position of the character [0-3] used to determine draw positions
+    *** \param character_command Tells which character the command menu is open for, if any. (can be NULL)
     **/
-    void DrawStatus(uint32 order);
+    void DrawStatus(uint32 order, BattleCharacter* character_command);
 
     hoa_global::GlobalCharacter *GetGlobalCharacter() {
         return _global_character;

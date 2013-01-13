@@ -185,8 +185,6 @@ img/icons/battle/character_selector.png                         GPLv2           
 img/icons/battle/support.png                                    GPLv2                    Allacrost
 img/icons/battle/item.png                                       GPLv2                    Allacrost
 img/icons/battle/attack_point_target.png                        GPLv2                    Allacrost
-img/icons/battle/swap_icon.png                                  GPLv2                    Allacrost
-img/icons/battle/swap_card.png                                  GPLv2                    Allacrost
 
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
@@ -651,7 +649,6 @@ Files:
 ./img/menus/locations/blank.png
 ./img/menus/locations/desert_cave.png
 ./img/menus/locations/desert.png
-./img/menus/battle_character_bars.png
 ./img/menus/stamina_bar.png
 ./img/menus/scroll_arrows.png
 ./img/menus/equip.png

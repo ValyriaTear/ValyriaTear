@@ -247,10 +247,23 @@ void EffectsSupervisor::Update()
 
 void EffectsSupervisor::Draw()
 {
+    // Draw in reverse to not overlap the arrow symbol
+    VideoManager->MoveRelative(6.0f * 16.0f, 0.0f);
+
     for(std::vector<BattleStatusEffect *>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
         if(*it) {
             (*it)->GetIconImage()->Draw();
-            VideoManager->MoveRelative(25.0f, 0.0f);
+            VideoManager->MoveRelative(-16.0f, 0.0f);
+        }
+    }
+}
+
+void EffectsSupervisor::DrawVertical()
+{
+    for(std::vector<BattleStatusEffect *>::reverse_iterator it = _status_effects.rbegin(); it != _status_effects.rend(); ++it) {
+        if(*it) {
+            (*it)->GetIconImage()->Draw();
+            VideoManager->MoveRelative(0.0f, -16.0f);
         }
     }
 }

@@ -322,10 +322,6 @@ void SequenceSupervisor::_DrawGUI()
     VideoManager->Move(0.0f, 0.0f -  _gui_position_offset);
     _battle->GetMedia().bottom_menu_image.Draw();
 
-    // Draw the swap icon
-    VideoManager->MoveRelative(6.0f, 16.0f);
-    _battle->GetMedia().swap_icon.Draw(Color::gray);
-
     // Determine the draw order of stamina icons for all living actors
     // A container to hold all actors that should have their stamina icons drawn
     std::vector<BattleActor *> live_actors;

@@ -202,6 +202,8 @@ public:
 
     //! \brief Draws the element and status effect icons to the bottom status menu
     void Draw();
+    //! \brief Draws the same active effects but vertically
+    void DrawVertical();
 
     /** \brief Returns true if the requested status is active on the managed actor
     *** \param status The type of status effect to check for

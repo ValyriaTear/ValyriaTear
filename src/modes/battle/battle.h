@@ -153,8 +153,9 @@ public:
     //! \brief Used to provide a background highlight for a character that needs a command set
     hoa_video::StillImage character_command_highlight;
 
-    //! \brief An image which contains the covers for the HP and SP bars
-    hoa_video::StillImage character_bar_covers;
+    //! \brief An image which contains the HP and SP bars headers.
+    hoa_video::TextImage character_HP_text;
+    hoa_video::TextImage character_SP_text;
 
     /** \brief The universal stamina bar that is used to represent the state of battle actors
     *** All battle actors have a portrait that moves along this meter to signify their
@@ -165,19 +166,6 @@ public:
 
     //! \brief The image used to highlight stamina icons for selected actors
     hoa_video::StillImage stamina_icon_selected;
-
-    /** \brief Image that indicates when a player may perform character swapping
-    *** This image is drawn in the lower left corner of the screen. When no swaps are available to the player,
-    *** the image is drawn in gray-scale.
-    **/
-    hoa_video::StillImage swap_icon;
-
-    /** \brief Used for visual display of how many swaps a character may perform
-    *** This image is drawn in the lower left corner of the screen, just above the swap indicator. This image
-    *** may be drawn on the screen up to four times (in a card-stack fashion), one for each swap that is
-    *** available to be used. It is not drawn when the player has no swaps available.
-    **/
-    hoa_video::StillImage swap_card;
 
     /** \brief Small button icons used to indicate when a player can select an action for their characters
     *** These buttons are used to indicate to the player what button to press to bring up a character's command
