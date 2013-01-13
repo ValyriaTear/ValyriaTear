@@ -771,6 +771,10 @@ public:
         return _map_image;
     }
 
+    const hoa_utils::ustring& GetMapHudName() const {
+        return _map_hud_name;
+    }
+
     //! \brief gets the current world map image
     //! \return a pointer to the currently viewable World Map Image.
     //! \note returns NULL if the filename has been set to ""

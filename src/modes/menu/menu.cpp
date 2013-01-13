@@ -1203,7 +1203,7 @@ const uint32 win_width = 208;
 // MenuMode class -- Initialization and Destruction Code
 ////////////////////////////////////////////////////////////////////////////////
 
-MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) :
+MenuMode::MenuMode() :
     _main_menu_state(this),
     _inventory_state(this),
     _party_state(this),
@@ -1221,14 +1221,14 @@ MenuMode::MenuMode(const ustring &locale_name, const std::string &locale_image) 
     _locale_name.SetDimensions(500.0f, 50.0f);
     _locale_name.SetTextStyle(TextStyle("title22"));
     _locale_name.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _locale_name.SetDisplayText(locale_name);
+    _locale_name.SetDisplayText(GlobalManager->GetMapHudName());
 
     // Initialize the location graphic
-    _locale_graphic.SetStatic(true);
-    if(!locale_image.empty() && !_locale_graphic.Load(locale_image, 480, 95)) {
-        PRINT_WARNING << "Failed to load locale graphic in MenuMode constructor: "
-                      << locale_image << std::endl;
-    }
+    _locale_graphic = GlobalManager->GetMapImage();
+    if(!_locale_graphic.GetFilename().empty())
+        _locale_graphic.SetDimensions(480, 95);
+    else
+        _locale_graphic.SetDimensions(0, 0);
 
     try {
         _saved_screen = VideoManager->CaptureScreen();

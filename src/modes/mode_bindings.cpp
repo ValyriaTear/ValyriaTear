@@ -785,7 +785,7 @@ void BindModeCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_menu")
         [
             luabind::class_<MenuMode, hoa_mode_manager::GameMode>("MenuMode")
-            .def(luabind::constructor<hoa_utils::ustring, std::string>())
+            .def(luabind::constructor<>())
         ];
 
     } // End using menu mode namespaces

@@ -25,7 +25,9 @@ function BootMenuTest()
     GlobalManager:ShowWorldLocation("layna forest")
     GlobalManager:SetCurrentLocationId("layna forest")
 
+    GlobalManager:SetMap("dummy_map", "img/menus/locations/desert_cave.png",
+                         hoa_utils.MakeUnicodeString("The Boot Menu"));
 
-    local menu = hoa_menu.MenuMode(hoa_utils.MakeUnicodeString("The Boot Menu"), "img/menus/locations/desert_cave.png");
+    local menu = hoa_menu.MenuMode();
     ModeManager:Push(menu, false, false);
 end
