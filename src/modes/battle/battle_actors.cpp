@@ -55,12 +55,8 @@ void BattleParticleEffect::DrawSprite()
     if(!_effect.IsAlive())
         return;
 
-    // TODO: Make the battle mode use standard coordinates
-    // And remove that workaround
-    VideoManager->SetStandardCoordSys();
-    _effect.Move(GetXLocation(), VIDEO_STANDARD_RES_HEIGHT - GetYLocation());
+    _effect.Move(GetXLocation(), GetYLocation());
     _effect.Draw();
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 }
 
 // BattleAmmo class
@@ -396,17 +392,17 @@ void BattleActor::_UpdateStaminaIconPosition()
         y_pos = STAMINA_LOCATION_TOP;
         break;
     case ACTOR_STATE_ACTING:
-        y_pos = STAMINA_LOCATION_TOP + 25.0f;
+        y_pos = STAMINA_LOCATION_TOP - 25.0f;
         break;
     case ACTOR_STATE_COOL_DOWN:
         y_pos = STAMINA_LOCATION_BOTTOM;
         break;
     case ACTOR_STATE_DYING:
         // Make the icon fall whil disappearing...
-        y_pos -= _state_timer.PercentComplete();
+        y_pos += _state_timer.PercentComplete();
         break;
     default:
-        y_pos = STAMINA_LOCATION_BOTTOM - 50.0f;
+        y_pos = STAMINA_LOCATION_BOTTOM + 50.0f;
         break;
     }
 
@@ -717,7 +713,7 @@ void BattleCharacter::ChangeActionText()
 void BattleCharacter::DrawPortrait()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(48.0f, 9.0f);
+    VideoManager->Move(48.0f, 759.0f);
 
     std::vector<StillImage>& portrait_frames = *(_global_character->GetBattlePortraits());
     float hp_percent =  static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
@@ -760,13 +756,13 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
         y_offset = 0.0f;
         break;
     case 1:
-        y_offset = -25.0f;
+        y_offset = 25.0f;
         break;
     case 2:
-        y_offset = -50.0f;
+        y_offset = 50.0f;
         break;
     case 3:
-        y_offset = -75.0f;
+        y_offset = 75.0f;
         break;
     default:
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid order argument: " << order << std::endl;
@@ -775,7 +771,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     // Draw the character's name
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(280.0f, 82.0f + y_offset);
+    VideoManager->Move(280.0f, 686.0f + y_offset);
     _name_text.Draw();
 
     if (!character_command) {
@@ -787,7 +783,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
         // Draw the active character status effect at bottom.
         // Draw each characters active status effect.
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        VideoManager->Move(7.0f, 80.0f);
+        VideoManager->Move(7.0f, 688.0f);
         _effects_supervisor->DrawVertical();
     }
 
@@ -797,7 +793,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     // Draw HP bar in green
     bar_size = static_cast<float>(90 * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
-    VideoManager->Move(312.0f, 90.0f + y_offset);
+    VideoManager->Move(312.0f, 678.0f + y_offset);
 
     if(GetHitPoints() > 0) {
         if (bar_size < 90.0f / 4.0f)
@@ -808,21 +804,21 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     // Draw SP bar in blue
     bar_size = static_cast<float>(90 * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
-    VideoManager->Move(424.0f, 90.0f + y_offset);
+    VideoManager->Move(424.0f, 678.0f + y_offset);
 
     if(GetSkillPoints() > 0)
         VideoManager->DrawRectangle(bar_size, 6, blue_sp);
 
     // Draw the cover image over the top of the bar
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-    VideoManager->Move(290.0f, 84.0f + y_offset);
+    VideoManager->Move(290.0f, 684.0f + y_offset);
     BattleMode::CurrentInstance()->GetMedia().character_HP_text.Draw();
     VideoManager->MoveRelative(114.0f, 0.0f);
     BattleMode::CurrentInstance()->GetMedia().character_SP_text.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
     // Draw the character's current health on top of the middle of the HP bar
-    VideoManager->Move(355.0f, 88.0f + y_offset);
+    VideoManager->Move(355.0f, 680.0f + y_offset);
     _hit_points_text.Draw();
 
     // Draw the character's current skill points on top of the middle of the SP bar
@@ -851,7 +847,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
 
     // Move to the position wher command button icons are drawn
-    VideoManager->Move(545.0f, 95.0f + y_offset);
+    VideoManager->Move(545.0f, 673.0f + y_offset);
 
     // If this character can be issued a command, draw the appropriate command button to indicate this. The type of button drawn depends on
     // whether or not the character already has an action set. Characters that can not be issued a command have no button drawn

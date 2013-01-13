@@ -45,12 +45,12 @@ namespace private_battle
 //! \brief Draw position and dimension constants used for GUI objects
 //@{
 const float TOP_WINDOW_XPOS        = 512.0f;
-const float TOP_WINDOW_YPOS        = 664.0f;
+const float TOP_WINDOW_YPOS        = 104.0f;
 const float TOP_WINDOW_WIDTH       = 512.0f;
 const float TOP_WINDOW_HEIGHT      = 64.0f;
 
 const float TOOLTIP_WINDOW_XPOS    = TOP_WINDOW_XPOS;
-const float TOOLTIP_WINDOW_YPOS    = TOP_WINDOW_YPOS - TOP_WINDOW_HEIGHT + 16.0f;
+const float TOOLTIP_WINDOW_YPOS    = TOP_WINDOW_YPOS + TOP_WINDOW_HEIGHT - 16.0f;
 const float TOOLTIP_WINDOW_WIDTH   = TOP_WINDOW_WIDTH;
 const float TOOLTIP_WINDOW_HEIGHT  = 112.0f;
 
@@ -142,33 +142,33 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE &state) :
     _tooltip_window.Show();
 
     _options.SetOwner(&_options_window);
-    _options.SetPosition(TOP_WINDOW_WIDTH / 2, TOP_WINDOW_HEIGHT / 2 + 4.0f);
+    _options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
     _options.SetDimensions(480.0f, 50.0f, 2, 1, 2, 1);
     _options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     _options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _options.SetSelectMode(VIDEO_SELECT_SINGLE);
     _options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _options.SetCursorOffset(-60.0f, 25.0f);
+    _options.SetCursorOffset(-60.0f, -25.0f);
     _options.AddOption(UTranslate("Retry"));
     _options.AddOption(UTranslate("End"));
     _options.SetSelection(0);
 
     _confirm_options.SetOwner(&_options_window);
-    _confirm_options.SetPosition(TOP_WINDOW_WIDTH / 2, TOP_WINDOW_HEIGHT / 2 + 4.0f);
+    _confirm_options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
     _confirm_options.SetDimensions(240.0f, 50.0f, 2, 1, 2, 1);
     _confirm_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     _confirm_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_options.SetSelectMode(VIDEO_SELECT_SINGLE);
     _confirm_options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _confirm_options.SetCursorOffset(-60.0f, 25.0f);
+    _confirm_options.SetCursorOffset(-60.0f, -25.0f);
     _confirm_options.AddOption(UTranslate("Yes"));
     _confirm_options.AddOption(UTranslate("No"));
     _confirm_options.SetSelection(0);
 
     _tooltip.SetOwner(&_tooltip_window);
-    _tooltip.SetPosition(32.0f, TOOLTIP_WINDOW_HEIGHT - 40.0f);
+    _tooltip.SetPosition(32.0f, 40.0f);
     _tooltip.SetDimensions(480.0f, 80.0f);
     _tooltip.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _tooltip.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -290,8 +290,6 @@ void FinishDefeatAssistant::Draw()
 
 void FinishDefeatAssistant::_SetTooltipText()
 {
-    _tooltip.SetDisplayText("");
-
     if((_state == FINISH_ANNOUNCE_RESULT) || (_state == FINISH_DEFEAT_SELECT)) {
         switch(_options.GetSelection()) {
         case DEFEAT_OPTION_RETRY:
@@ -301,6 +299,7 @@ void FinishDefeatAssistant::_SetTooltipText()
             _tooltip.SetDisplayText(UTranslate("Exit to main menu."));
             break;
         default:
+            _tooltip.SetDisplayText("");
             break;
         }
     } else if(_state == FINISH_DEFEAT_CONFIRM) {
@@ -312,6 +311,7 @@ void FinishDefeatAssistant::_SetTooltipText()
             _tooltip.SetDisplayText(UTranslate("Confirm: return to main menu."));
             break;
         default:
+            _tooltip.SetDisplayText("");
             break;
         }
     }
@@ -343,7 +343,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _spoils_window.Show();
 
     _header_growth.SetOwner(&_header_window);
-    _header_growth.SetPosition(TOP_WINDOW_WIDTH / 2 - 50.0f, TOP_WINDOW_HEIGHT - 20.0f);
+    _header_growth.SetPosition(TOP_WINDOW_WIDTH / 2 - 50.0f, 15.0f);
     _header_growth.SetDimensions(400.0f, 40.0f);
     _header_growth.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_growth.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -352,7 +352,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_growth.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
     _header_drunes_dropped.SetOwner(&_header_window);
-    _header_drunes_dropped.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, TOP_WINDOW_HEIGHT - 20.0f);
+    _header_drunes_dropped.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, 15.0f);
     _header_drunes_dropped.SetDimensions(400.0f, 40.0f);
     _header_drunes_dropped.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_drunes_dropped.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -361,7 +361,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
     _header_total_drunes.SetOwner(&_header_window);
-    _header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, TOP_WINDOW_HEIGHT - 20.0f);
+    _header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, 15.0f);
     _header_total_drunes.SetDimensions(400.0f, 40.0f);
     _header_total_drunes.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_total_drunes.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -374,7 +374,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     }
 
     _object_header_text.SetOwner(&_spoils_window);
-    _object_header_text.SetPosition(SPOILS_WINDOW_WIDTH / 2 - 50.0f, SPOILS_WINDOW_HEIGHT - 10.0f);
+    _object_header_text.SetPosition(SPOILS_WINDOW_WIDTH / 2 - 50.0f, 15.0f);
     _object_header_text.SetDimensions(350.0f, 40.0f);
     _object_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_header_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -384,7 +384,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _object_header_text.SetDisplayText(UTranslate("Items Found"));
 
     _object_list.SetOwner(&_spoils_window);
-    _object_list.SetPosition(100.0f, SPOILS_WINDOW_HEIGHT - 35.0f);
+    _object_list.SetPosition(100.0f, 45.0f);
     _object_list.SetDimensions(300.0f, 160.0f, 1, 8, 1, 8);
     _object_list.SetTextStyle(TextStyle("text20", Color::white));
     _object_list.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -550,13 +550,13 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _character_window[i].SetPosition(CHAR_WINDOW_XPOS, next_ypos);
         _character_window[i].SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
         _character_window[i].Show();
-        next_ypos -= CHAR_WINDOW_HEIGHT;
+        next_ypos += CHAR_WINDOW_HEIGHT;
     }
 
     // ----- (2): Construct GUI objects that will fill each character window
     for(uint32 i = 0; i < _number_characters; i++) {
         _growth_list[i].SetOwner(&_character_window[i]);
-        _growth_list[i].SetPosition(330.0f, 115.0f);
+        _growth_list[i].SetPosition(330.0f, 15.0f);
         _growth_list[i].SetDimensions(200.0f, 100.0f, 4, 4, 4, 4);
         _growth_list[i].SetTextStyle(TextStyle("text20", Color::white, VIDEO_TEXT_SHADOW_DARK));
         _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -567,7 +567,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         }
 
         _level_text[i].SetOwner(&_character_window[i]);
-        _level_text[i].SetPosition(130.0f, 110.0f);
+        _level_text[i].SetPosition(130.0f, 10.0f);
         _level_text[i].SetDimensions(200.0f, 40.0f);
         _level_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _level_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -576,7 +576,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _level_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
         _xp_text[i].SetOwner(&_character_window[i]);
-        _xp_text[i].SetPosition(130.0f, 90.0f);
+        _xp_text[i].SetPosition(130.0f, 30.0f);
         _xp_text[i].SetDimensions(200.0f, 40.0f);
         _xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -597,7 +597,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         }
 
         _skill_text[i].SetOwner(&_character_window[i]);
-        _skill_text[i].SetPosition(130.0f, 60.0f);
+        _skill_text[i].SetPosition(130.0f, 50.0f);
         _skill_text[i].SetDimensions(200.0f, 40.0f);
         _skill_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _skill_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -855,7 +855,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
 void FinishVictoryAssistant::_DrawGrowth(uint32 index)
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-    VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f, (CHAR_WINDOW_YPOS - 15.0f) - (CHAR_WINDOW_HEIGHT * index));
+    VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f, (CHAR_WINDOW_YPOS + 17.0f) + (CHAR_WINDOW_HEIGHT * index));
     _character_portraits[index].Draw();
 
     _level_text[index].Draw();
@@ -882,7 +882,7 @@ FinishSupervisor::FinishSupervisor() :
     _defeat_assistant(_state),
     _victory_assistant(_state)
 {
-    _outcome_text.SetPosition(400.0f, 720.0f);
+    _outcome_text.SetPosition(400.0f, 48.0f);
     _outcome_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetDimensions(400.0f, 50.0f);

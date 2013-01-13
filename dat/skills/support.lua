@@ -56,7 +56,7 @@ skills[10001] = {
                                           effect_duration);
 		local Battle = ModeManager:GetTop();
 		Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance.lua",
-				target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+				target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
 	end
 }
 
@@ -77,7 +77,7 @@ skills[10002] = {
 		AudioManager:PlaySound("snd/heal_spell.wav");
 		local Battle = ModeManager:GetTop();
 		Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
-				target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+				target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
 	end,
 
 	FieldExecute = function(target, instigator)

@@ -319,7 +319,7 @@ void SequenceSupervisor::_DrawGUI()
     // Draw all images that compose the bottom menu area
     // Draw the static image for the lower menu
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, 0.0f -  _gui_position_offset);
+    VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT +  _gui_position_offset);
     _battle->GetMedia().bottom_menu_image.Draw();
 
     // Determine the draw order of stamina icons for all living actors

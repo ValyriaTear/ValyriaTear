@@ -91,20 +91,20 @@ void IndicatorElement::Start()
     switch(_indicator_type) {
     case MISS_INDICATOR:
         _x_absolute_position = _actor->GetXLocation();
-        _y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 2);
+        _y_absolute_position = _actor->GetYLocation() - (_actor->GetSpriteHeight() / 2);
         break;
     case ITEM_INDICATOR:
         _x_absolute_position = _actor->GetXLocation();
-        _y_absolute_position = _actor->GetYLocation() + _actor->GetSpriteHeight();
+        _y_absolute_position = _actor->GetYLocation() - _actor->GetSpriteHeight();
         break;
     case NEGATIVE_STATUS_EFFECT_INDICATOR:
         _x_absolute_position = _actor->GetXLocation();
-        _y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
+        _y_absolute_position = _actor->GetYLocation() - (_actor->GetSpriteHeight() / 3 * 2);
         break;
     case HEALING_INDICATOR:
     case POSITIVE_STATUS_EFFECT_INDICATOR:
         _x_absolute_position = _actor->GetXLocation();
-        _y_absolute_position = _actor->GetYLocation() + (_actor->GetSpriteHeight() / 3 * 2);
+        _y_absolute_position = _actor->GetYLocation() - (_actor->GetSpriteHeight() / 3 * 2);
         break;
     default:
         _x_absolute_position = _actor->GetXLocation();
@@ -121,7 +121,7 @@ void IndicatorElement::Draw()
     VideoManager->Move(_x_absolute_position, _y_absolute_position);
 
     // Takes in account the indicator current position.
-    VideoManager->MoveRelative(_x_position, _y_position);
+    VideoManager->MoveRelative(_x_position, -_y_position);
 }
 
 

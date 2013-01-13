@@ -43,11 +43,11 @@ function Initialize(_character, _target, _skill)
 
     -- Set the arrow starting position
     arrow_pos_x = character:GetXLocation() + character:GetSpriteWidth() / 2.0;
-    arrow_pos_y = character:GetYLocation() + (character:GetSpriteHeight() / 2.0) + 5.0;
+    arrow_pos_y = character:GetYLocation() - (character:GetSpriteHeight() / 2.0) - 5.0;
 
     -- Make the arrow reach the enemy center
     enemy_pos_x = target_actor:GetXLocation();
-    enemy_pos_y = target_actor:GetYLocation() + target_actor:GetSpriteHeight() / 2.0;
+    enemy_pos_y = target_actor:GetYLocation() - target_actor:GetSpriteHeight() / 2.0;
 
     attack_step = 0;
     attack_time = 0;

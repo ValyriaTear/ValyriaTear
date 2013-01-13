@@ -320,7 +320,7 @@ void BattleMode::Reset()
 {
     _current_instance = this;
 
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     // Load the default battle music track if no other music has been added
     if(_battle_media.battle_music.GetState() == AUDIO_STATE_UNLOADED) {
@@ -364,7 +364,7 @@ void BattleMode::RestartBattle()
 //! It is used to sort them before draw calls.
 static bool CompareObjectsYCoord(BattleObject *one, BattleObject *other)
 {
-    return (one->GetYLocation() > other->GetYLocation());
+    return (one->GetYLocation() < other->GetYLocation());
 }
 
 void BattleMode::Update()
@@ -545,8 +545,7 @@ void BattleMode::Update()
 
 void BattleMode::Draw()
 {
-    // Use custom display metrics
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     if(_state == BATTLE_STATE_INITIAL || _state == BATTLE_STATE_EXITING) {
         _sequence_supervisor->Draw();
@@ -560,8 +559,7 @@ void BattleMode::Draw()
 
 void BattleMode::DrawPostEffects()
 {
-    // Use custom display metrics
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     GetScriptSupervisor().DrawPostEffects();
 
@@ -905,15 +903,14 @@ void BattleMode::_DetermineActorLocations()
 {
     // Fallback positions for enemies when not set by scripts
     const float DEFAULT_ENEMY_LOCATIONS[][2] = {
-        // 768.0f - because of reverse Y-coordinate system
-        { 515.0f, 768.0f - 600.0f },
-        { 494.0f, 768.0f - 450.0f },
-        { 560.0f, 768.0f - 550.0f },
-        { 580.0f, 768.0f - 630.0f },
-        { 675.0f, 768.0f - 390.0f },
-        { 655.0f, 768.0f - 494.0f },
-        { 793.0f, 768.0f - 505.0f },
-        { 730.0f, 768.0f - 600.0f }
+        { 515.0f, 600.0f },
+        { 494.0f, 450.0f },
+        { 560.0f, 550.0f },
+        { 580.0f, 630.0f },
+        { 675.0f, 390.0f },
+        { 655.0f, 494.0f },
+        { 793.0f, 505.0f },
+        { 730.0f, 600.0f }
     }; // 8 positions are set [0-7]
     const uint32 NUM_DEFAULT_LOCATIONS = 8;
 
@@ -924,20 +921,20 @@ void BattleMode::_DetermineActorLocations()
     switch(_character_actors.size()) {
     case 1:
         position_x = 80.0f;
-        position_y = 288.0f;
+        position_y = 480.0f;
         break;
     case 2:
         position_x = 118.0f;
-        position_y = 343.0f;
+        position_y = 425.0f;
         break;
     case 3:
         position_x = 122.0f;
-        position_y = 393.0f;
+        position_y = 375.0f;
         break;
     case 4:
     default:
         position_x = 160.0f;
-        position_y = 448.0f;
+        position_y = 320.0f;
         break;
     }
 
@@ -948,7 +945,7 @@ void BattleMode::_DetermineActorLocations()
         _character_actors[i]->SetXLocation(position_x);
         _character_actors[i]->SetYLocation(position_y);
         position_x -= 32.0f;
-        position_y -= 105.0f;
+        position_y += 105.0f;
     }
 
     // Assign static locations to enemies
@@ -963,7 +960,7 @@ void BattleMode::_DetermineActorLocations()
             // This will permit to still see all the enemies, even when there are more than 8 of them.
             if(default_pos_id > NUM_DEFAULT_LOCATIONS - 1) {
                 position_x += default_pos_id * 3;
-                position_y -= default_pos_id * 3;
+                position_y += default_pos_id * 3;
             }
             _enemy_actors[i]->SetXOrigin(position_x);
             _enemy_actors[i]->SetYOrigin(position_y);
@@ -1014,11 +1011,11 @@ uint32 BattleMode::_NumberCharactersAlive() const
 void BattleMode::_DrawBackgroundGraphics()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_NO_BLEND, 0);
-    VideoManager->Move(0.0f, 0.0f);
+    VideoManager->Move(0.0f, 768.0f);
     _battle_media.background_image.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     GetScriptSupervisor().DrawBackground();
 }
@@ -1027,7 +1024,7 @@ void BattleMode::_DrawBackgroundGraphics()
 void BattleMode::_DrawForegroundGraphics()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     GetScriptSupervisor().DrawForeground();
 }
@@ -1055,13 +1052,13 @@ void BattleMode::_DrawSprites()
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
         if(actor_target != NULL) {
             VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
-            VideoManager->MoveRelative(0.0f, -20.0f);
+            VideoManager->MoveRelative(0.0f, 20.0f);
             _battle_media.actor_selection_image.Draw();
         } else if(IsTargetParty(target.GetType()) == true) {
             std::deque<BattleActor *>& party_target = *(target.GetParty());
             for(uint32 i = 0; i < party_target.size(); i++) {
                 VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
-                VideoManager->MoveRelative(0.0f, -20.0f);
+                VideoManager->MoveRelative(0.0f, 20.0f);
                 _battle_media.actor_selection_image.Draw();
             }
             actor_target = NULL;
@@ -1081,7 +1078,7 @@ void BattleMode::_DrawSprites()
 
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
         VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
-        VideoManager->MoveRelative(actor_target->GetAttackPoint(point)->GetXPosition(), actor_target->GetAttackPoint(point)->GetYPosition());
+        VideoManager->MoveRelative(actor_target->GetAttackPoint(point)->GetXPosition(), -actor_target->GetAttackPoint(point)->GetYPosition());
         _battle_media.attack_point_indicator.Draw();
     }
 } // void BattleMode::_DrawSprites()
@@ -1119,7 +1116,7 @@ void BattleMode::_DrawBottomMenu()
 {
     // Draw the static image for the lower menu
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, 0.0f);
+    VideoManager->Move(0.0f, 768.0f);
     _battle_media.bottom_menu_image.Draw();
 
     if(_state != BATTLE_STATE_DEFEAT && _state != BATTLE_STATE_VICTORY) {
@@ -1134,10 +1131,10 @@ void BattleMode::_DrawBottomMenu()
         // these characters needs a command selected as soon as possible
         for(uint32 i = 0; i < _character_actors.size(); ++i) {
             if(_character_actors[i] == _command_supervisor->GetCommandCharacter()) {
-                VideoManager->Move(148.0f, 85.0f - (25.0f * i));
+                VideoManager->Move(148.0f, 683.0f + (25.0f * i));
                 _battle_media.character_selected_highlight.Draw();
             } else if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
-                VideoManager->Move(148.0f, 85.0f - (25.0f * i));
+                VideoManager->Move(148.0f, 683.0f + (25.0f * i));
                 _battle_media.character_command_highlight.Draw();
             }
         }
