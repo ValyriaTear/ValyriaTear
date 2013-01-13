@@ -307,6 +307,7 @@ function _CreateEvents()
 	event:AddObject(30003, 1); -- tunic for Bronann
 	event:AddObject(30004, 1); -- leather cloak for Kalya
 	event:AddObject(40001, 3); -- leather cloak for Kalya
+    event:AddTrade(3,2);
 	event:SetPriceLevels(hoa_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
 				hoa_shop.ShopMode.SHOP_PRICE_STANDARD);
 
