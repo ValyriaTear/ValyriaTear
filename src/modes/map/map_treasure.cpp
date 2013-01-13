@@ -222,8 +222,7 @@ void TreasureSupervisor::Update()
 
     // Allow the user to go to menu mode at any time when the treasure menu is open
     if(InputManager->MenuPress()) {
-        MenuMode *MM = new MenuMode(MapMode::CurrentInstance()->GetMapHudName(),
-                                    MapMode::CurrentInstance()->GetMapImage().GetFilename());
+        MenuMode *MM = new MenuMode();
         ModeManager->Push(MM);
         return;
     }

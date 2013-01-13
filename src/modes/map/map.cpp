@@ -627,7 +627,7 @@ void MapMode::_UpdateExplore()
 {
     // First go to menu mode if the user requested it
     if(InputManager->MenuPress()) {
-        MenuMode *MM = new MenuMode(_map_hud_name, _map_image.GetFilename());
+        MenuMode *MM = new MenuMode();
         ModeManager->Push(MM);
         return;
     }
