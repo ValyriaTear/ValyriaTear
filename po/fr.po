@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-08 00:09+0100\n"
-"PO-Revision-Date: 2013-01-08 00:11+0100\n"
+"POT-Creation-Date: 2013-01-13 02:33+0100\n"
+"PO-Revision-Date: 2013-01-13 02:35+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -137,7 +137,7 @@ msgid "??"
 msgstr "??"
 
 #: ../src/modes/battle/battle_command.cpp:649
-#: ../src/modes/battle/battle_command.cpp:655 ../src/modes/menu/menu.cpp:406
+#: ../src/modes/battle/battle_command.cpp:655 ../src/modes/menu/menu.cpp:440
 #: ../src/modes/shop/shop.cpp:113
 msgid "Items"
 msgstr "Objets"
@@ -181,6 +181,14 @@ msgstr "Tps post-att: "
 #: ../src/modes/battle/battle_command.cpp:1370
 msgid "Quantity: "
 msgstr "Quantité : "
+
+#: ../src/modes/battle/battle.cpp:108
+msgid "HP"
+msgstr "PV"
+
+#: ../src/modes/battle/battle.cpp:110
+msgid "SP"
+msgstr "PM"
 
 #: ../src/modes/battle/battle_finish.cpp:153
 msgid "Retry"
@@ -308,8 +316,8 @@ msgid "[Invalid Target]"
 msgstr "[Cible invalide]"
 
 #: ../src/modes/boot/boot.cpp:87
-msgid "Half-Episode I Release Candidate 2"
-msgstr ""
+msgid "Development Release"
+msgstr "Version de développement"
 
 #: ../src/modes/boot/boot.cpp:394
 msgid "New Game"
@@ -563,60 +571,60 @@ msgstr "Vous obtenez"
 msgid "Ok"
 msgstr "Ok"
 
-#: ../src/modes/map/map_treasure.cpp:327
+#: ../src/modes/map/map_treasure.cpp:326
 msgid "Drunes"
 msgstr "Drunes"
 
-#: ../src/modes/map/map_treasure.cpp:329
+#: ../src/modes/map/map_treasure.cpp:328
 msgid "With the additional "
 msgstr "En ajoutant les "
 
-#: ../src/modes/map/map_treasure.cpp:330
+#: ../src/modes/map/map_treasure.cpp:329
 msgid " drunes found in this treasure added, the party now holds a total of "
 msgstr ""
 " drunes trouvées dans ce coffre, l'équipe possède maintenant un total de "
 
-#: ../src/modes/menu/menu.cpp:156
+#: ../src/modes/menu/menu.cpp:160
 msgid "Time: "
 msgstr "Temps : "
 
-#: ../src/modes/menu/menu.cpp:157
+#: ../src/modes/menu/menu.cpp:161
 msgid "Drunes: "
 msgstr "Drunes : "
 
-#: ../src/modes/menu/menu.cpp:205
+#: ../src/modes/menu/menu.cpp:209
 msgid "STR: "
 msgstr "FOR : "
 
-#: ../src/modes/menu/menu.cpp:208
+#: ../src/modes/menu/menu.cpp:212
 msgid "VIG: "
 msgstr "VIG : "
 
-#: ../src/modes/menu/menu.cpp:211
+#: ../src/modes/menu/menu.cpp:215
 msgid "FRT: "
 msgstr "CRG : "
 
-#: ../src/modes/menu/menu.cpp:214
+#: ../src/modes/menu/menu.cpp:218
 msgid "PRO: "
 msgstr "PRO : "
 
-#: ../src/modes/menu/menu.cpp:217
+#: ../src/modes/menu/menu.cpp:221
 msgid "AGI: "
 msgstr "AGI : "
 
-#: ../src/modes/menu/menu.cpp:220
+#: ../src/modes/menu/menu.cpp:224
 msgid "EVD: "
 msgstr "ESQ : "
 
-#: ../src/modes/menu/menu.cpp:224
+#: ../src/modes/menu/menu.cpp:228
 msgid "Current Equipment:"
 msgstr "Equipement actuel :"
 
-#: ../src/modes/menu/menu.cpp:227 ../src/modes/menu/menu_views.cpp:1589
+#: ../src/modes/menu/menu.cpp:231 ../src/modes/menu/menu_views.cpp:1589
 msgid "Weapon"
 msgstr "Arme"
 
-#: ../src/modes/menu/menu.cpp:230 ../dat/actors/characters.lua:57
+#: ../src/modes/menu/menu.cpp:234 ../dat/actors/characters.lua:57
 #: ../dat/actors/characters.lua:187 ../dat/actors/characters.lua:316
 #: ../dat/actors/characters.lua:446 ../dat/actors/characters.lua:572
 #: ../dat/actors/characters.lua:650 ../dat/actors/characters.lua:728
@@ -631,7 +639,7 @@ msgstr "Arme"
 msgid "Head"
 msgstr "Tête"
 
-#: ../src/modes/menu/menu.cpp:233 ../dat/actors/characters.lua:66
+#: ../src/modes/menu/menu.cpp:237 ../dat/actors/characters.lua:66
 #: ../dat/actors/characters.lua:196 ../dat/actors/characters.lua:325
 #: ../dat/actors/characters.lua:455 ../dat/actors/characters.lua:581
 #: ../dat/actors/characters.lua:659 ../dat/actors/characters.lua:737
@@ -640,12 +648,12 @@ msgstr "Tête"
 msgid "Torso"
 msgstr "Torse"
 
-#: ../src/modes/menu/menu.cpp:236 ../src/modes/menu/menu_views.cpp:210
+#: ../src/modes/menu/menu.cpp:240 ../src/modes/menu/menu_views.cpp:210
 #: ../dat/actors/enemies.lua:1397 ../dat/actors/enemies.lua:1463
 msgid "Arm"
 msgstr "Bras"
 
-#: ../src/modes/menu/menu.cpp:239 ../dat/actors/characters.lua:83
+#: ../src/modes/menu/menu.cpp:243 ../dat/actors/characters.lua:83
 #: ../dat/actors/characters.lua:213 ../dat/actors/characters.lua:342
 #: ../dat/actors/characters.lua:472 ../dat/actors/characters.lua:598
 #: ../dat/actors/characters.lua:676 ../dat/actors/characters.lua:754
@@ -654,79 +662,92 @@ msgstr "Bras"
 msgid "Legs"
 msgstr "Jambes"
 
-#: ../src/modes/menu/menu.cpp:245
+#: ../src/modes/menu/menu.cpp:249
 msgid "ATK: "
 msgstr "ATQ : "
 
-#: ../src/modes/menu/menu.cpp:249 ../src/modes/menu/menu.cpp:253
-#: ../src/modes/menu/menu.cpp:257 ../src/modes/menu/menu.cpp:261
+#: ../src/modes/menu/menu.cpp:253 ../src/modes/menu/menu.cpp:257
+#: ../src/modes/menu/menu.cpp:261 ../src/modes/menu/menu.cpp:265
 msgid "DEF: "
 msgstr "DEF : "
 
-#: ../src/modes/menu/menu.cpp:266
+#: ../src/modes/menu/menu.cpp:270
 msgid "M.ATK: "
 msgstr "M.ATQ : "
 
-#: ../src/modes/menu/menu.cpp:269 ../src/modes/menu/menu.cpp:272
-#: ../src/modes/menu/menu.cpp:275 ../src/modes/menu/menu.cpp:278
+#: ../src/modes/menu/menu.cpp:273 ../src/modes/menu/menu.cpp:276
+#: ../src/modes/menu/menu.cpp:279 ../src/modes/menu/menu.cpp:282
 msgid "M.DEF: "
 msgstr "M.DEF : "
 
-#: ../src/modes/menu/menu.cpp:322
+#: ../src/modes/menu/menu.cpp:326
 msgid "Inventory"
 msgstr "Inventaire"
 
-#: ../src/modes/menu/menu.cpp:323
+#: ../src/modes/menu/menu.cpp:327
 msgid "Skills"
 msgstr "Compétences"
 
-#: ../src/modes/menu/menu.cpp:324
+#: ../src/modes/menu/menu.cpp:328
 msgid "Party"
 msgstr "Equipe"
 
-#: ../src/modes/menu/menu.cpp:325
+#: ../src/modes/menu/menu.cpp:329
 msgid "Quests"
 msgstr "Quêtes"
 
-#: ../src/modes/menu/menu.cpp:374
+#: ../src/modes/menu/menu.cpp:330
+msgid "Map"
+msgstr "Carte"
+
+#: ../src/modes/menu/menu.cpp:396
 msgid "Select to view Quest Log."
 msgstr "Sélectionnez l'option pour voir le journal des quêtes."
 
-#: ../src/modes/menu/menu.cpp:407
+#: ../src/modes/menu/menu.cpp:406
+msgid ""
+"Select to view current world map.\n"
+"Use left / right to cycle through locations. Press 'cancel' to return"
+msgstr ""
+"Sélectionner pour visualiser la carte du monde.\n"
+"Utiliser gauche / droite pour changer la localisation active. Appuyer sur "
+"'Annuler' pour revenir en arrière."
+
+#: ../src/modes/menu/menu.cpp:441
 msgid "Equip"
 msgstr "Equiper"
 
-#: ../src/modes/menu/menu.cpp:408
+#: ../src/modes/menu/menu.cpp:442
 msgid "Remove"
 msgstr "Retirer"
 
-#: ../src/modes/menu/menu.cpp:409 ../src/modes/menu/menu.cpp:660
-#: ../src/modes/menu/menu.cpp:733 ../src/modes/menu/menu.cpp:791
-#: ../src/modes/menu/menu.cpp:1028
+#: ../src/modes/menu/menu.cpp:443 ../src/modes/menu/menu.cpp:694
+#: ../src/modes/menu/menu.cpp:767 ../src/modes/menu/menu.cpp:825
+#: ../src/modes/menu/menu.cpp:1062
 msgid "Back"
 msgstr "Retour"
 
-#: ../src/modes/menu/menu.cpp:482
+#: ../src/modes/menu/menu.cpp:516
 msgid "Select an item to Equip or Use."
 msgstr "Sélectionnez un objet à équiper ou utiliser."
 
-#: ../src/modes/menu/menu.cpp:631
+#: ../src/modes/menu/menu.cpp:665
 msgid "This character cannot equip this item."
 msgstr "Ce personnage ne peut pas utiliser cet objet."
 
-#: ../src/modes/menu/menu.cpp:659
+#: ../src/modes/menu/menu.cpp:693
 msgid "View/Reorder"
 msgstr "Voir / Echanger"
 
-#: ../src/modes/menu/menu.cpp:684
+#: ../src/modes/menu/menu.cpp:718
 msgid "Select a character to change position with."
 msgstr "Sélectionnez un personnage avec lequel échanger de position."
 
-#: ../src/modes/menu/menu.cpp:685
+#: ../src/modes/menu/menu.cpp:719
 msgid "Select a character to change formation."
 msgstr "Sélectionnez un personnage pour changer la formation."
 
-#: ../src/modes/menu/menu.cpp:686
+#: ../src/modes/menu/menu.cpp:720
 msgid ""
 "View character Information.\n"
 "Select a character to change formation."
@@ -734,35 +755,35 @@ msgstr ""
 "Voir les informations sur un personnage.\n"
 "Sélectionnez un personnage pour changer de formation."
 
-#: ../src/modes/menu/menu.cpp:732
+#: ../src/modes/menu/menu.cpp:766
 msgid "Use"
 msgstr "Utiliser"
 
-#: ../src/modes/menu/menu.cpp:843
+#: ../src/modes/menu/menu.cpp:877
 msgid "ATK:"
 msgstr "ATQ : "
 
-#: ../src/modes/menu/menu.cpp:845
+#: ../src/modes/menu/menu.cpp:879
 msgid "DEF:"
 msgstr "DEF : "
 
-#: ../src/modes/menu/menu.cpp:869
+#: ../src/modes/menu/menu.cpp:903
 msgid "M.ATK:"
 msgstr "M.ATQ: "
 
-#: ../src/modes/menu/menu.cpp:871
+#: ../src/modes/menu/menu.cpp:905
 msgid "M.DEF:"
 msgstr "M.DEF : "
 
-#: ../src/modes/menu/menu.cpp:1027
+#: ../src/modes/menu/menu.cpp:1061
 msgid "View"
 msgstr "Vue"
 
-#: ../src/modes/menu/menu.cpp:1131
+#: ../src/modes/menu/menu.cpp:1247
 msgid "This item is a key item and can be neither used nor sold."
 msgstr "L'objet est un objet clé et ne peut être ni utilisé ni vendu."
 
-#: ../src/modes/menu/menu.cpp:1141
+#: ../src/modes/menu/menu.cpp:1257
 msgid "This item is a crystal shard and can be associated with equipment."
 msgstr ""
 "Cet objet est un fragment de cristal et peut être associé à votre équipement."
@@ -1815,6 +1836,18 @@ msgstr ""
 "Georges a perdu sa plume. Je dois la lui rapporter afin qu'il me dise \n"
 "à qui il a donné le blé d'orge."
 
+#: ../dat/config/world_locations.lua:18
+msgid "Village of Layna"
+msgstr "Village de Layna"
+
+#: ../dat/config/world_locations.lua:29 map_names_tr.lua:18
+#: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:30
+#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:113
+#: map_names_tr.lua:117 map_names_tr.lua:121 map_names_tr.lua:125
+#: map_names_tr.lua:129 map_names_tr.lua:133
+msgid "Layna Forest"
+msgstr "Forêt de Layna"
+
 #: ../dat/credits/episode1_credits.lua:35
 msgid "Based on the engine"
 msgstr "Basé sur"
@@ -2134,7 +2167,7 @@ msgid "Bronann, the crystal! No!"
 msgstr "Bronann, le cristal ! Non !"
 
 #: ../dat/maps/layna_forest/layna_forest_entrance.lua:608
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:884
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:959
 msgid "What's that?!"
 msgstr "Qu'est-ce que c'est que ça ?!"
 
@@ -2229,7 +2262,7 @@ msgid "See? Now let's find my brother before he gets hurt."
 msgstr ""
 "Ah, tu vois ? Maintenant trouvons mon frère avant qu'il ne soit blessé."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:913
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:988
 msgid ""
 "Woah, that was quite a nasty fight. Why on earth was an arctic north fenrir "
 "lurking in the forest? I thought such animals were part of the myths."
@@ -2237,7 +2270,7 @@ msgstr ""
 "Wouah, quel combat. Mais que peux bien faire un Fenrir de l'arctique dans "
 "cette forêt ? Je pensais que ces créatures faisaient partie de la mythologie."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:915
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:990
 msgid ""
 "He just ran away. I'm almost sure we'll meet it again. We'd better be well "
 "prepared, then."
@@ -2245,7 +2278,7 @@ msgstr ""
 "Il vient de s'enfuir. Je suis presque sûre que nous le rencontrerons à "
 "nouveau. Nous ferions mieux d'être bien préparés, dans ce cas."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:917
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:992
 msgid ""
 "I'll try not to think about what it could have done to Orlinn ... Let's find "
 "him quickly."
@@ -2281,11 +2314,11 @@ msgstr "Super ! Le tremblement de terre a ouvert un passage."
 msgid "We can easily return to the village from there."
 msgstr "Nous pouvons facilement retourner au village en passant par-là."
 
-#: ../dat/maps/layna_forest/layna_forest_south_west.lua:914
+#: ../dat/maps/layna_forest/layna_forest_south_west.lua:1011
 msgid "Woah, wait!"
 msgstr "Wouah, attends !"
 
-#: ../dat/maps/layna_forest/layna_forest_south_west.lua:916
+#: ../dat/maps/layna_forest/layna_forest_south_west.lua:1013
 msgid ""
 "Look at that grass. The snakes like it very much. Beware of them, their "
 "venom can send you to sleep."
@@ -3747,19 +3780,11 @@ msgstr "Eclat de Feu"
 msgid "Creates a small fire that burns an enemy."
 msgstr "Créé une boule de feu brûlant un adversaire."
 
-#: ../dat/skills/special.lua:49
-msgid "Leader Call"
-msgstr "Cri de guerre"
-
-#: ../dat/skills/special.lua:50
-msgid "Temporarily increases the strength of all allies."
-msgstr "Augmente temporairement la force de tous les alliés."
-
-#: ../dat/skills/special.lua:79
+#: ../dat/skills/special.lua:55
 msgid "Slime Spawn"
 msgstr "Ponte de Blob"
 
-#: ../dat/skills/special.lua:80
+#: ../dat/skills/special.lua:56
 msgid "Creates a slime."
 msgstr "Créé un blob."
 
@@ -3780,18 +3805,19 @@ msgid ""
 "Performs basic medical assistance, healing the target by a minor degree."
 msgstr "Rend quelques PV à la cible"
 
+#: ../dat/skills/support.lua:90
+msgid "Leader Call"
+msgstr "Cri de guerre"
+
+#: ../dat/skills/support.lua:91
+msgid "Temporarily increases the strength of all allies."
+msgstr "Augmente temporairement la force de tous les alliés."
+
 #: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
 #: map_names_tr.lua:42 map_names_tr.lua:101 map_names_tr.lua:105
 #: map_names_tr.lua:109 map_names_tr.lua:137
 msgid "Layna Forest Cave"
 msgstr "Grottes de Layna"
-
-#: map_names_tr.lua:18 map_names_tr.lua:22 map_names_tr.lua:26
-#: map_names_tr.lua:30 map_names_tr.lua:34 map_names_tr.lua:38
-#: map_names_tr.lua:113 map_names_tr.lua:117 map_names_tr.lua:121
-#: map_names_tr.lua:125 map_names_tr.lua:129 map_names_tr.lua:133
-msgid "Layna Forest"
-msgstr "Forêt de Layna"
 
 #: map_names_tr.lua:20 map_names_tr.lua:115
 msgid "???"
@@ -3846,14 +3872,8 @@ msgstr "Entrée du village"
 #~ msgid "Item"
 #~ msgstr "Objet"
 
-#~ msgid "Development Release"
-#~ msgstr "Version de développement"
-
 #~ msgid "XP: "
 #~ msgstr "XP : "
-
-#~ msgid "HP:"
-#~ msgstr "PV : "
 
 #~ msgid "STR:"
 #~ msgstr "FOR : "
