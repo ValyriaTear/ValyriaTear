@@ -113,7 +113,7 @@ function Initialize(battle_instance)
     DialogueManager:AddDialogue(main_dialogue);
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
-    start_timer = hoa_system.SystemTimer(1000, 0);
+    start_timer = hoa_system.SystemTimer(100, 0);
 end
 
 
