@@ -63,7 +63,7 @@ void HelpWindow::Draw()
 {
     // Draw the background window
     VideoManager->PushState();
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     _window.Draw();
 
@@ -74,15 +74,15 @@ void HelpWindow::Draw()
     }
 
     // Draw the window contents, starting from the top and moving downward
-    VideoManager->Move(512.0f, 675.0f);
+    VideoManager->Move(512.0f, 93.0f);
     _text_header.Draw();
 
     _key_table_header.Draw();
     _key_table.Draw();
 
-    VideoManager->Move(512.0f, 150.0f);
+    VideoManager->Move(512.0f, 618.0f);
     _text_additional.Draw();
-    VideoManager->MoveRelative(0.0f, -30.0f);
+    VideoManager->MoveRelative(0.0f, 30.0f);
     _text_continue.Draw();
 
     VideoManager->PopState();
@@ -123,7 +123,7 @@ void HelpWindow::_RefreshText()
         _text_header.SetStyle(TextStyle("text24"));
         _text_header.SetText(UTranslate("Welcome to Valyria Tear"));
 
-        _key_table_header.SetPosition(50.0f, 540.0f);
+        _key_table_header.SetPosition(50.0f, 128.0f);
         _key_table_header.SetDimensions(600.0f, 30.0f, 3, 1, 3, 1);
         _key_table_header.SetTextStyle(TextStyle("title24"));
         _key_table_header.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
@@ -131,7 +131,7 @@ void HelpWindow::_RefreshText()
         _key_table_header.AddOption(UTranslate("Current Key"));
         _key_table_header.AddOption(UTranslate("Purpose"));
 
-        _key_table.SetPosition(50.0f, 500.0f);
+        _key_table.SetPosition(50.0f, 168.0f);
         _key_table.SetDimensions(600.0f, 380.0f, 3, 12, 3, 12);
         _key_table.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _key_table.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -159,7 +159,7 @@ void HelpWindow::_RefreshText()
                                         "Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
                                         "Then go into the Confirm mode to complete the transaction."));
 
-        _key_table_header.SetPosition(50.0f, 500.0f);
+        _key_table_header.SetPosition(50.0f, 128.0f);
         _key_table_header.SetDimensions(600.0f, 30.0f, 3, 1, 3, 1);
         _key_table_header.SetTextStyle(TextStyle("title24"));
         _key_table_header.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
@@ -167,7 +167,7 @@ void HelpWindow::_RefreshText()
         _key_table_header.AddOption(UTranslate("Current Key"));
         _key_table_header.AddOption(UTranslate("Purpose"));
 
-        _key_table.SetPosition(50.0f, 450.0f);
+        _key_table.SetPosition(50.0f, 168.0f);
         _key_table.SetDimensions(600.0f, 380.0f, 3, 12, 3, 12);
         _key_table.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _key_table.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -208,7 +208,7 @@ void HelpWindow::_RefreshText()
     _text_header.SetText(UTranslate("The table below lists the default game controls.\n") +
                          UTranslate("The control mappings can be changed in the options menu on the next screen."));
 
-    _key_table_header.SetPosition(50.0f, 540.0f);
+    _key_table_header.SetPosition(50.0f, 128.0f);
     _key_table_header.SetDimensions(600.0f, 30.0f, 3, 1, 3, 1);
     _key_table_header.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _key_table_header.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -219,7 +219,7 @@ void HelpWindow::_RefreshText()
     _key_table_header.AddOption(UTranslate("Default Key"));
     _key_table_header.AddOption(UTranslate("General Purpose"));
 
-    _key_table.SetPosition(50.0f, 500.0f);
+    _key_table.SetPosition(50.0f, 168.0f);
     _key_table.SetDimensions(600.0f, 380.0f, 3, 12, 3, 12);
     _key_table.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _key_table.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
