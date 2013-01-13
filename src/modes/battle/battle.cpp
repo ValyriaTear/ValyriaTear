@@ -92,17 +92,8 @@ BattleMedia::BattleMedia()
     if(character_command_highlight.Load("img/menus/battle_character_command.png") == false)
         PRINT_ERROR << "failed to load character command highlight image" << std::endl;
 
-    if(character_bar_covers.Load("img/menus/battle_character_bars.png") == false)
-        PRINT_ERROR << "failed to load character bars image" << std::endl;
-
     if(bottom_menu_image.Load("img/menus/battle_bottom_menu.png") == false)
         PRINT_ERROR << "failed to load bottom menu image" << std::endl;
-
-    if(swap_icon.Load("img/icons/battle/swap_icon.png") == false)
-        PRINT_ERROR << "failed to load swap icon" << std::endl;
-
-    if(swap_card.Load("img/icons/battle/swap_card.png") == false)
-        PRINT_ERROR << "failed to load swap card" << std::endl;
 
     if(ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "img/menus/battle_command_buttons.png", 2, 5) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
@@ -112,6 +103,11 @@ BattleMedia::BattleMedia()
 
     if(ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25) == false)
         PRINT_ERROR << "failed to load status icon images" << std::endl;
+
+    character_HP_text.SetStyle(TextStyle("text18", Color::white));
+    character_HP_text.SetText(Translate("HP"));
+    character_SP_text.SetStyle(TextStyle("text18", Color::white));
+    character_SP_text.SetText(Translate("SP"));
 
     if(victory_music.LoadAudio(DEFAULT_VICTORY_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load victory music file: " << DEFAULT_VICTORY_MUSIC << std::endl;
@@ -1126,15 +1122,6 @@ void BattleMode::_DrawBottomMenu()
     VideoManager->Move(0.0f, 0.0f);
     _battle_media.bottom_menu_image.Draw();
 
-    // Draw the swap icon and any swap cards
-    VideoManager->Move(6.0f, 16.0f);
-    _battle_media.swap_icon.Draw(Color::gray);
-    VideoManager->Move(6.0f, 68.0f);
-    for(uint8 i = 0; i < _current_number_swaps; i++) {
-        _battle_media.swap_card.Draw();
-        VideoManager->MoveRelative(4.0f, -4.0f);
-    }
-
     if(_state != BATTLE_STATE_DEFEAT && _state != BATTLE_STATE_VICTORY) {
         // If the player is selecting a command for a particular character,
         // draw that character's portrait
@@ -1158,7 +1145,7 @@ void BattleMode::_DrawBottomMenu()
 
     // Draw the status information of all character actors
     for(uint32 i = 0; i < _character_actors.size(); i++) {
-        _character_actors[i]->DrawStatus(i);
+        _character_actors[i]->DrawStatus(i, _command_supervisor->GetCommandCharacter());
     }
 }
 
