@@ -215,10 +215,10 @@ void TextureController::DEBUG_ShowTexSheet()
 
     VideoManager->PushState();
     VideoManager->SetDrawFlags(VIDEO_NO_BLEND, VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     glPushMatrix();
-    VideoManager->Move(0.0f, 0.0f);
+    VideoManager->Move(0.0f, 368.0f);
     glScalef(sheet->width / 2.0f, sheet->height / 2.0f, 1.0f);
 
     sheet->DEBUG_Draw();
@@ -227,14 +227,14 @@ void TextureController::DEBUG_ShowTexSheet()
 
     char buf[200];
 
-    VideoManager->Move(20, VideoManager->_current_context.coordinate_system.GetTop() - 30);
+    VideoManager->Move(20, 60);
     TextManager->Draw("Current Texture sheet:");
 
     sprintf(buf, "  Sheet:   %d", debug_current_sheet);
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     sprintf(buf, "  Size:    %dx%d", sheet->width, sheet->height);
     TextManager->Draw(buf);
 
@@ -249,15 +249,15 @@ void TextureController::DEBUG_ShowTexSheet()
     else
         sprintf(buf, "  Type:    Unknown");
 
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
     sprintf(buf, "  Static:  %d", sheet->is_static);
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
     sprintf(buf, "  TexID:   %d", sheet->tex_id);
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
     VideoManager->PopState();

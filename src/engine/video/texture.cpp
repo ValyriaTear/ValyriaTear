@@ -171,10 +171,10 @@ void TexSheet::DEBUG_Draw() const
 {
     // The vertex coordinate array to use (assumes glScale() has been appropriately set)
     static const float vertex_coords[] = {
-        0.0f, 0.0f, // Upper left
-        1.0f, 0.0f, // Upper right
         1.0f, 1.0f, // Lower right
         0.0f, 1.0f, // Lower left
+        0.0f, 0.0f, // Upper left
+        1.0f, 0.0f, // Upper right
     };
 
     // The texture coordinate array to use (specifies the coordinates encompassing the entire texture)
