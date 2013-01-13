@@ -178,12 +178,6 @@ private:
     //! \brief Window display message for "select a key"
     hoa_menu::MessageWindow _message_window;
 
-    //! \brief Window display message for "please type a file name"
-    hoa_menu::MessageWindow _file_name_alert;
-
-    //! \brief Window displays of the actual filename being typed
-    hoa_menu::MessageWindow _file_name_window;
-
     // ---------- Setup and refresh methods for boot menus
 
     //! \brief Returns whether at least one save is available to be loaded.
