@@ -612,7 +612,7 @@ void BattleCharacter::Update()
 
     if(_sprite_animation_alias == "idle") {
         // Check whether character HP are low
-        if (GetHitPoints() < (GetMaxHitPoints() / 4))
+        if (_is_stunned || GetHitPoints() < (GetMaxHitPoints() / 4))
             ChangeSpriteAnimation("poor");
     } else if(_sprite_animation_alias == "run") {
         // no need to do anything
@@ -620,7 +620,7 @@ void BattleCharacter::Update()
         // no need to do anything, the change state will handle it
     } else if(_sprite_animation_alias == "poor") {
         // Check whether character HP are not low anymore
-        if (GetHitPoints() > (GetMaxHitPoints() / 4))
+        if (!_is_stunned && GetHitPoints() > (GetMaxHitPoints() / 4))
             ChangeSpriteAnimation("idle");
     } else if(_sprite_animation_alias == "dead") {
         // no need to do anything
