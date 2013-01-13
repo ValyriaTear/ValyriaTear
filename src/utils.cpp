@@ -388,7 +388,7 @@ bool UTF16ToUTF8(const uint16 *source, char *dest, size_t length)
     }
 
     const char *source_char = reinterpret_cast<const char *>(source);
-#if (defined(_LIBICONV_VERSION) && _LIBICONV_VERSION == 0x0109)
+#if (defined(_LIBICONV_VERSION) && _LIBICONV_VERSION == 0x0109) || defined(__FreeBSD__)
     // We are using an iconv API that uses const char*
     const char *sourceChar = source_char;
 #else
@@ -421,7 +421,7 @@ bool UTF8ToUTF16(const char *source, uint16 *dest, size_t length)
         return false;
     }
 
-#if (defined(_LIBICONV_VERSION) && _LIBICONV_VERSION == 0x0109)
+#if (defined(_LIBICONV_VERSION) && _LIBICONV_VERSION == 0x0109) || defined(__FreeBSD__)
     // We are using an iconv API that uses const char*
     const char *sourceChar = source;
 #else
