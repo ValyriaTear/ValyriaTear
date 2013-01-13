@@ -66,22 +66,22 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     mode_type = MODE_MANAGER_SAVE_MODE;
 
     _window.Create(600.0f, 500.0f);
-    _window.SetPosition(212.0f, 630.0f);
+    _window.SetPosition(212.0f, 138.0f);
     _window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _window.Hide();
 
     _left_window.Create(150.0f, 500.0f);
-    _left_window.SetPosition(212.0f, 630.0f);
+    _left_window.SetPosition(212.0f, 138.0f);
     _left_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _left_window.Show();
 
     _title_window.Create(600.0f, 50.0f);
-    _title_window.SetPosition(212.0f, 680.0f);
+    _title_window.SetPosition(212.0f, 88.0f);
     _title_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _title_window.Show();
 
     // Initialize the save successful message box
-    _title_textbox.SetPosition(552.0f, 665.0f);
+    _title_textbox.SetPosition(552.0f, 103.0f);
     _title_textbox.SetDimensions(200.0f, 50.0f);
     _title_textbox.SetTextStyle(TextStyle("title22"));
     _title_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -90,16 +90,16 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     else
         _title_textbox.SetDisplayText(UTranslate("Load Game"));
 
-    for(int i = 0; i < 4; i++) {
+    for(uint32 i = 0; i < 4; ++i) {
         _character_window[i].Create(450.0f, 100.0f);
         _character_window[i].SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
         _character_window[i].Show();
     }
 
-    _character_window[0].SetPosition(355.0f, 630.0f);
-    _character_window[1].SetPosition(355.0f, 530.0f);
-    _character_window[2].SetPosition(355.0f, 430.0f);
-    _character_window[3].SetPosition(355.0f, 330.0f);
+    _character_window[0].SetPosition(355.0f, 138.0f);
+    _character_window[1].SetPosition(355.0f, 238.0f);
+    _character_window[2].SetPosition(355.0f, 338.0f);
+    _character_window[3].SetPosition(355.0f, 438.0f);
 
     // Initialize the save options box
     _file_list.SetPosition(315.0f, 384.0f);
@@ -109,7 +109,7 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _file_list.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _file_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _file_list.SetSelectMode(VIDEO_SELECT_SINGLE);
-    _file_list.SetCursorOffset(-58.0f, 18.0f);
+    _file_list.SetCursorOffset(-58.0f, -18.0f);
 
     _file_list.AddOption(UTranslate("Slot 1"));
     _file_list.AddOption(UTranslate("Slot 2"));
@@ -131,14 +131,14 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _confirm_save_optionbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_save_optionbox.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_save_optionbox.SetSelectMode(VIDEO_SELECT_SINGLE);
-    _confirm_save_optionbox.SetCursorOffset(-58.0f, 18.0f);
+    _confirm_save_optionbox.SetCursorOffset(-58.0f, -18.0f);
 
     _confirm_save_optionbox.AddOption(UTranslate("Confirm Save"));
     _confirm_save_optionbox.AddOption(UTranslate("Cancel"));
     _confirm_save_optionbox.SetSelection(0);
 
     // Initialize the save successful message box
-    _save_success_message.SetPosition(552.0f, 454.0f);
+    _save_success_message.SetPosition(552.0f, 314.0f);
     _save_success_message.SetDimensions(250.0f, 100.0f);
     _save_success_message.SetTextStyle(TextStyle("title22"));
     _save_success_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -152,21 +152,21 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _save_failure_message.SetDisplayText(UTranslate("Unable to save game!\nSave FAILED!"));
 
     // Initialize the save preview text boxes
-    _map_name_textbox.SetPosition(600.0f, 215.0f);
+    _map_name_textbox.SetPosition(600.0f, 553.0f);
     _map_name_textbox.SetDimensions(300.0f, 26.0f);
     _map_name_textbox.SetTextStyle(TextStyle("title22"));
     _map_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _map_name_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _map_name_textbox.SetDisplayText(" ");
 
-    _time_textbox.SetPosition(600.0f, 185.0f);
+    _time_textbox.SetPosition(600.0f, 583.0f);
     _time_textbox.SetDimensions(250.0f, 26.0f);
     _time_textbox.SetTextStyle(TextStyle("title22"));
     _time_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _time_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _time_textbox.SetDisplayText(" ");
 
-    _drunes_textbox.SetPosition(600.0f, 155.0f);
+    _drunes_textbox.SetPosition(600.0f, 613.0f);
     _drunes_textbox.SetDimensions(250.0f, 26.0f);
     _drunes_textbox.SetTextStyle(TextStyle("title22"));
     _drunes_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -190,7 +190,7 @@ SaveMode::~SaveMode()
 
     _left_window.Destroy();
 
-    for(int i = 0; i < 4; i++) {
+    for(uint32 i = 0; i < 4; ++i) {
         _character_window[i].Destroy();
     }
 
@@ -207,7 +207,7 @@ void SaveMode::Reset()
         IF_PRINT_WARNING(SAVE_DEBUG) << e.ToString() << std::endl;
     }
 
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 }
 
@@ -241,12 +241,12 @@ void SaveMode::Update()
             if(_confirm_save_optionbox.GetSelection() == 0) {
                 // note: using int here, because uint8 will NOT work
                 // do not change unless you understand this and can test it properly!
-                int id = _file_list.GetSelection();
+                uint32 id = (uint32)_file_list.GetSelection();
                 std::ostringstream f;
                 f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
                 std::string filename = f.str();
                 // now, attempt to save the game.  If failure, we need to tell the user that!
-                if(GlobalManager->SaveGame(filename, (uint32)id, _x_position, _y_position)) {
+                if(GlobalManager->SaveGame(filename, id, _x_position, _y_position)) {
                     _current_state = SAVE_MODE_SAVE_COMPLETE;
                     AudioManager->PlaySound("snd/save_successful_nick_bowler_oga.wav");
                 } else {
@@ -341,7 +341,7 @@ void SaveMode::DrawPostEffects()
     _screen_capture.Draw(_dim_color);
 
     // Re-set the coordinate system for everything else
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     _window.Draw();
 
@@ -360,7 +360,7 @@ void SaveMode::DrawPostEffects()
         }
         _file_list.Draw();
 
-        VideoManager->Move(420.0f, 130.0f);
+        VideoManager->Move(420.0f, 638.0f);
         if (!_location_image.GetFilename().empty())
             _location_image.Draw(Color(1.0f, 1.0f, 1.0f, 0.4f));
 
@@ -383,7 +383,7 @@ void SaveMode::DrawPostEffects()
     }
 }
 
-bool SaveMode::_LoadGame(int id)
+bool SaveMode::_LoadGame(uint32 id)
 {
     std::ostringstream f;
     f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
@@ -393,7 +393,7 @@ bool SaveMode::_LoadGame(int id)
         _current_state = SAVE_MODE_FADING_OUT;
         AudioManager->StopAllMusic();
 
-        GlobalManager->LoadGame(filename, (uint32)id);
+        GlobalManager->LoadGame(filename, id);
 
         // Create a new map mode, and fade out and in
         ModeManager->PopAll();
@@ -427,7 +427,7 @@ void SaveMode::_ClearSaveData()
 }
 
 
-bool SaveMode::_PreviewGame(int id)
+bool SaveMode::_PreviewGame(uint32 id)
 {
     std::ostringstream f;
     f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
@@ -599,27 +599,27 @@ void SmallCharacterWindow::Draw()
     GetPosition(x, y);
     GetDimensions(w, h);
     // Adjust the current position to make it look better
-    y += 5;
+    y -= 5;
 
     //Draw character portrait
-    VideoManager->Move(x + 50, y - 110);
+    VideoManager->Move(x + 50, y + 110);
     _portrait.Draw();
 
     // Write character name
-    VideoManager->MoveRelative(125, 75);
+    VideoManager->MoveRelative(125, -75);
     VideoManager->Text()->Draw(_character->GetName(), TextStyle("title22"));
 
     // Level
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel())), TextStyle("text20"));
 
     // HP
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
                                " / " + NumberToString(_character->GetMaxHitPoints())), TextStyle("text20"));
 
     // SP
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
                                " / " + NumberToString(_character->GetMaxSkillPoints())), TextStyle("text20"));
 

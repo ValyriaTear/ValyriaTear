@@ -97,10 +97,10 @@ public:
 
 private:
     //! \brief Attempts to load a game. returns true on success, false on fail
-    bool _LoadGame(int);
+    bool _LoadGame(uint32 id);
 
     //! \brief Loads preview data for the highlighted game
-    bool _PreviewGame(int);
+    bool _PreviewGame(uint32 id);
 
     //! \brief Clears out the data saves. Used especially when the data is invalid.
     void _ClearSaveData();
