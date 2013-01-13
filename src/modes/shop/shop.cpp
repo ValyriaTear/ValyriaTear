@@ -398,6 +398,20 @@ ShopObjectViewer::ShopObjectViewer() :
     _description_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _SetDescriptionText(); // Will set the position and dimensions of _description_text
 
+    // Position and dimensions for _helpful_hint_text are set by _SetHelpfulHintText()
+    _helpful_hint_text.SetTextStyle(TextStyle("text20"));
+    _helpful_hint_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _helpful_hint_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _helpful_hint_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _SetHelpfulHintText(); // Will set the position and dimensions of _helpful_hint_text
+
+    // Position and dimensions for _count_text are set by _SetCountText()
+    _count_text.SetTextStyle(TextStyle("text28"));
+    _count_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _count_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _count_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _SetCountText(); // Will set the position and dimensions of _count_text
+
     _field_use_header.SetStyle(TextStyle("text22"));
     _field_use_header.SetText(UTranslate("Field Use:"));
     _battle_use_header.SetStyle(TextStyle("text22"));
@@ -430,6 +444,8 @@ ShopObjectViewer::ShopObjectViewer() :
 void ShopObjectViewer::Initialize()
 {
     _description_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
+    _helpful_hint_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
+    _count_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
 
     _check_icon = ShopMode::CurrentInstance()->Media()->GetCheckIcon();
     _x_icon = ShopMode::CurrentInstance()->Media()->GetXIcon();
@@ -458,7 +474,12 @@ void ShopObjectViewer::Update()
             (*it)->Update();
     }
 
+    _SetHelpfulHintText();
+    _SetCountText();
+
     _description_text.Update();
+    _helpful_hint_text.Update();
+    _count_text.Update();
 }
 
 
@@ -504,6 +525,8 @@ void ShopObjectViewer::Draw()
     // In the info view mode, description text and lore text is always drawn near the bottom of the middle window
     if(_view_mode == SHOP_VIEW_MODE_INFO) {
         _description_text.Draw();
+        _helpful_hint_text.Draw();
+        _count_text.Draw();
     }
 }
 
@@ -544,6 +567,9 @@ void ShopObjectViewer::SetSelectedObject(ShopObject *object)
 
     _object_name.SetText(_selected_object->GetObject()->GetName());
     _description_text.SetDisplayText(_selected_object->GetObject()->GetDescription());
+
+    _SetHelpfulHintText();
+    _SetCountText();
     // TODO: this data is not yet available in the global code
 // 	_lore_text.SetDisplayText(_selected_object->GetObject()->GetLore());
 } // void ShopObjectViewer::SetSelectedObject(ShopObject* object)
@@ -564,6 +590,8 @@ void ShopObjectViewer::ChangeViewMode(SHOP_VIEW_MODE new_mode)
         IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode passed in function argument: " << new_mode << std::endl;
     }
     _SetDescriptionText(); // Necessary because description text must change its owner window
+    _SetHelpfulHintText();
+    _SetCountText();
 }
 
 
@@ -577,6 +605,8 @@ void ShopObjectViewer::_SetItemData()
 
     // Ensure that the position of description text is correct
     _SetDescriptionText();
+    _SetHelpfulHintText();
+    _SetCountText();
 
     // Set map/battle usability status
     GlobalItem *item = dynamic_cast<GlobalItem *>(_selected_object->GetObject());
@@ -775,6 +805,45 @@ void ShopObjectViewer::_SetDescriptionText()
     }
 }
 
+void ShopObjectViewer::_SetHelpfulHintText()
+{
+    if(_view_mode == SHOP_VIEW_MODE_LIST) {
+        _helpful_hint_text.SetDisplayText("");
+    } else {
+        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_BUY) {
+            _helpful_hint_text.SetDisplayText(Translate("Push right to add items to buy and left to remove items from your purchase."));
+        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_SELL) {
+            _helpful_hint_text.SetDisplayText(Translate("Push right to add items to sell and left to remove items from your sale."));
+        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
+            _helpful_hint_text.SetDisplayText(Translate("Push right to trade for this item and left to remove items from your trade."));
+        } else {
+            _helpful_hint_text.SetDisplayText(""); //Clear the text for everything else
+        }
+    }
+    _helpful_hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
+    _helpful_hint_text.SetPosition(25.0f, 160.0f);
+    _helpful_hint_text.SetDimensions(750.0f, 10.0f);
+}
+
+void ShopObjectViewer::_SetCountText()
+{
+    if(_view_mode == SHOP_VIEW_MODE_LIST) {
+        _count_text.SetDisplayText("");
+    } else {
+        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_BUY) {
+            _count_text.SetDisplayText(NumberToString(_selected_object->GetBuyCount()));
+        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_SELL) {
+            _count_text.SetDisplayText(NumberToString(_selected_object->GetSellCount()));
+        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
+            _count_text.SetDisplayText(NumberToString(_selected_object->GetTradeCount()));
+        } else {
+            _count_text.SetDisplayText(""); //Clear the text for everything else
+        }
+    }
+    _count_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
+    _count_text.SetPosition(100.0f, 200.0f);
+    _count_text.SetDimensions(750.0f, 10.0f);
+}
 
 
 void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 meta_diff)
@@ -861,6 +930,8 @@ void ShopObjectViewer::_DrawItem()
     _target_type_text[_target_type_index].Draw();
 
     _description_text.Draw();
+    _helpful_hint_text.Draw();
+    _count_text.Draw();
 }
 
 
@@ -985,6 +1056,7 @@ ShopMode::ShopMode() :
     _sell_price_level(SHOP_PRICE_STANDARD),
     _total_costs(0),
     _total_sales(0),
+    _total_change_amount(0),
     _shop_media(NULL),
     _object_viewer(NULL),
     _root_interface(NULL),
@@ -1028,29 +1100,29 @@ ShopMode::ShopMode() :
     std::vector<ustring> option_text;
     option_text.push_back(UTranslate("Buy"));
     option_text.push_back(UTranslate("Sell"));
-//	option_text.push_back(UTranslate("Trade"));
-    option_text.push_back(UTranslate("Confirm"));
+    option_text.push_back(UTranslate("Trade"));
+    //option_text.push_back(UTranslate("Leave"));
     _action_options.SetOptions(option_text);
     _action_options.SetSelection(0);
     _action_options.SetSkipDisabled(true);
 
     _action_titles.push_back(TextImage(option_text[0], TextStyle("title28")));
     _action_titles.push_back(TextImage(option_text[1], TextStyle("title28")));
-//	_action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
     _action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
-    _action_titles.push_back(TextImage(UTranslate("Leave"), TextStyle("title28")));
+    //_action_titles.push_back(TextImage(option_text[3], TextStyle("title28")));
+    //_action_titles.push_back(TextImage(UTranslate("Leave"), TextStyle("title28")));
 
     // (3) Create the financial table text
     _finance_table.SetOwner(&_top_window);
     _finance_table.SetPosition(80.0f, 45.0f);
-    _finance_table.SetDimensions(640.0f, 20.0f, 4, 1, 4, 1);
+    _finance_table.SetDimensions(640.0f, 20.0f, 2, 1, 2, 1);
     _finance_table.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _finance_table.SetTextStyle(TextStyle("text22"));
     _finance_table.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     // Initialize all four options with an empty string that will be overwritten by the following method call
-    for(uint32 i = 0; i < 4; i++)
+    for(uint32 i = 0; i < 2; i++)
         _finance_table.AddOption(ustring());
-    UpdateFinances(0, 0);
+    UpdateFinances(0);
 
     _shop_media = new ShopMedia();
     _object_viewer = new ShopObjectViewer();
@@ -1168,6 +1240,7 @@ void ShopMode::_UpdateAvailableShopOptions()
 {
 
     // Test the available categories
+    //Switch back to buy
     if(_available_buy.size() > 0)
         _action_options.EnableOption(0, true);
     else
@@ -1178,20 +1251,42 @@ void ShopMode::_UpdateAvailableShopOptions()
     else
         _action_options.EnableOption(1, false);
 
-    // Nothing to do in this shop
-    if(!_action_options.IsOptionEnabled(0) && !_action_options.IsOptionEnabled(1)) {
-        // Put the cursor on confirm/cancel.
+    if(_available_trade.size() > 0)
+        _action_options.EnableOption(2, true);
+    else {
+        _action_options.EnableOption(2, false);
+    }
+
+    if(!_action_options.IsOptionEnabled(0) && !_action_options.IsOptionEnabled(1) && !_action_options.IsOptionEnabled(2)) {
+        // Put the cursor on leave.
+        _action_options.SetDimensions(640.0f, 30.0f, 4, 1, 4, 1);
+        std::vector<ustring> option_text;
+        option_text.push_back(UTranslate("Buy"));
+        option_text.push_back(UTranslate("Sell"));
+        option_text.push_back(UTranslate("Trade"));
+        option_text.push_back(UTranslate("Leave"));
+        _action_options.SetOptions(option_text);
+        _action_options.SetSelection(3);
+        _action_options.SetSkipDisabled(true);
+
+        _action_titles.push_back(TextImage(option_text[0], TextStyle("title28")));
+        _action_titles.push_back(TextImage(option_text[1], TextStyle("title28")));
+        _action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
+        _action_titles.push_back(TextImage(option_text[3], TextStyle("title28")));
+
+        _action_options.EnableOption(0, false);
+        _action_options.EnableOption(1, false);
+        _action_options.EnableOption(2, false);
+        _action_options.EnableOption(3, true);
+    } else if(!_action_options.IsOptionEnabled(0) && !_action_options.IsOptionEnabled(1)) {
+        // Put the cursor on trade.
         _action_options.SetSelection(2);
     } else if(!_action_options.IsOptionEnabled(0)) {
         // Put the cursor on sell.
         _action_options.SetSelection(1);
-        // Enable the confirm option.
-        _action_options.EnableOption(2, true);
-    } else if(!_action_options.IsOptionEnabled(1)) {
+    } else if(!_action_options.IsOptionEnabled(1) || !_action_options.IsOptionEnabled(2)) {
         // Put the cursor on buy.
         _action_options.SetSelection(0);
-        // Enable the confirm option.
-        _action_options.EnableOption(2, true);
     }
 }
 
@@ -1212,7 +1307,7 @@ void ShopMode::Update()
         SoundDescriptor *sound = NULL; // Used to hold pointers of sound objects to play
 
         if(InputManager->ConfirmPress()) {
-            if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 4) {
+            if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 3) {
                 IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
                 _action_options.SetSelection(0);
                 return;
@@ -1223,16 +1318,14 @@ void ShopMode::Update()
             assert(sound != NULL);
             sound->Play();
 
-            if(_action_options.GetSelection() == 0) {  // Buy
+            if(_action_options.GetSelection() == 0 && _action_options.IsOptionEnabled(0)) {  // Buy
                 ChangeState(SHOP_STATE_BUY);
-            } else if(_action_options.GetSelection() == 1) { // Sell
+            } else if(_action_options.GetSelection() == 1 && _action_options.IsOptionEnabled(1)) { // Sell
                 ChangeState(SHOP_STATE_SELL);
-            }
-//			else if (_action_options.GetSelection() == 2) { // Trade
-//				ChangeState(SHOP_STATE_TRADE);
-//			}
-            else if(_action_options.GetSelection() == 2) {  // ConfirmInterface
-                ChangeState(SHOP_STATE_CONFIRM);
+            } else if(_action_options.GetSelection() == 2 && _action_options.IsOptionEnabled(2)) { // Trade
+                ChangeState(SHOP_STATE_TRADE);
+            } else if(_action_options.GetSelection() == 3) { // Leave
+                ChangeState(SHOP_STATE_LEAVE);
             }
         } else if(InputManager->CancelPress()) {
             ChangeState(SHOP_STATE_LEAVE);
@@ -1306,14 +1399,14 @@ void ShopMode::Draw()
     case SHOP_STATE_SELL:
         _action_titles[1].Draw();
         break;
-//		case SHOP_STATE_TRADE:
-//			_action_titles[2].Draw();
-//			break;
-    case SHOP_STATE_CONFIRM:
+    case SHOP_STATE_TRADE:
         _action_titles[2].Draw();
         break;
+    case SHOP_STATE_CONFIRM:
+        //_action_titles[3].Draw(); removed
+        break;
     case SHOP_STATE_LEAVE:
-        _action_titles[3].Draw();
+        //_action_titles[3].Draw(); removed
         break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
@@ -1438,6 +1531,49 @@ void ShopMode::RemoveObjectFromSellList(ShopObject *object)
 }
 
 
+void ShopMode::AddObjectToTradeList(ShopObject *object)
+{
+    if(object == NULL) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+        return;
+    }
+
+    if(object->GetTradeCount() == 0) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a buy count of zero" << std::endl;
+    }
+
+    uint32 object_id = object->GetObject()->GetID();
+    std::pair<std::map<uint32, ShopObject *>::iterator, bool> ret_val;
+    ret_val = _trade_list.insert(std::make_pair(object_id, object));
+    if(ret_val.second == false) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in buy list" << std::endl;
+    }
+}
+
+
+
+void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
+{
+    if(object == NULL) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+        return;
+    }
+
+    if(object->GetTradeCount() > 0) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a buy count that was non-zero" << std::endl;
+    }
+
+    uint32 object_id = object->GetObject()->GetID();
+    std::map<uint32, ShopObject *>::iterator object_entry = _trade_list.find(object_id);
+    if(object_entry == _trade_list.end()) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the buy list" << std::endl;
+    } else {
+        _trade_list.erase(object_entry);
+    }
+}
+
+
+
 
 void ShopMode::ClearOrder()
 {
@@ -1445,13 +1581,17 @@ void ShopMode::ClearOrder()
         i->second->ResetBuyCount();
     for(std::map<uint32, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++)
         i->second->ResetSellCount();
+    for(std::map<uint32, ShopObject *>::iterator i = _trade_list.begin(); i != _trade_list.end(); i++)
+        i->second->ResetTradeCount();
 
     _buy_list.clear();
     _sell_list.clear();
+    _trade_list.clear();
 
     _total_costs = 0;
     _total_sales = 0;
-    UpdateFinances(0, 0);
+    _total_change_amount = 0;
+    UpdateFinances(0);
 }
 
 
@@ -1462,55 +1602,96 @@ void ShopMode::CompleteTransaction()
     uint32 id = 0;
 
     // Add all objects on the buy list to inventory and update shop object status
-    for(std::map<uint32, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++) {
-        count = i->second->GetBuyCount();
-        id = i->second->GetObject()->GetID();
+    for(std::map<uint32, ShopObject *>::iterator it = _buy_list.begin(); it != _buy_list.end(); ++it) {
+        count = it->second->GetBuyCount();
+        id = it->second->GetObject()->GetID();
 
         // The player may have reduced the buy count to zero in the confirm interface before completing the transaction
         // We simply ignore any objects on the buy list with this condition
         if(count == 0)
             continue;
 
-        i->second->ResetBuyCount();
-        i->second->IncrementOwnCount(count);
-        i->second->DecrementStockCount(count);
+        it->second->ResetBuyCount();
+        it->second->IncrementOwnCount(count);
+        it->second->DecrementStockCount(count);
         GlobalManager->AddToInventory(id, count);
+
+        if(it->second->GetStockCount() == 0) {
+            RemoveObjectToBuy(id);
+        }
     }
     _buy_list.clear();
 
     // Remove all objects on the sell list from the inventory and update shop object status
-    for(std::map<uint32, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++) {
-        count = i->second->GetSellCount();
-        id = i->second->GetObject()->GetID();
+    for(std::map<uint32, ShopObject *>::iterator it = _sell_list.begin(); it != _sell_list.end(); ++it) {
+        count = it->second->GetSellCount();
+        id = it->second->GetObject()->GetID();
 
         if(count == 0)
             continue;
 
-        i->second->ResetSellCount();
-        i->second->DecrementOwnCount(count);
+        it->second->ResetSellCount();
+        it->second->DecrementOwnCount(count);
         GlobalManager->DecrementObjectCount(id, count);
 
         // When all owned instances of this object have been sold off, the object is automatically removed
         // from the player's inventory. If the object is not sold in the shop, this means it must be removed
         // from all shop object containers as the object data (GlobalObject pointer) is now invalid.
-        if(i->second->GetOwnCount() == 0) {
+        if(it->second->GetOwnCount() == 0) {
             RemoveObjectToSell(id);
         }
     }
     _sell_list.clear();
 
+    // Remove all objects on the trade list from the inventory and update shop object status
+    for(std::map<uint32, ShopObject *>::iterator it = _trade_list.begin(); it != _trade_list.end(); ++it) {
+        count = it->second->GetTradeCount();
+        id = it->second->GetObject()->GetID();
+
+        if(count == 0)
+            continue;
+
+        it->second->ResetTradeCount();
+        it->second->IncrementOwnCount(count);
+        it->second->DecrementStockCount(count);
+        GlobalManager->AddToInventory(id, count);
+
+        //Remove trade condition items from inventory and possibly call RemoveObjectToSell
+        // TODO fix error that happens when you trade all of one type of item in a trade
+        for(uint32 i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
+            GlobalManager->DecrementObjectCount(it->second->GetObject()->GetTradeConditions()[i].first, it->second->GetObject()->GetTradeConditions()[i].second * count);
+            //GlobalObject *new_object = GlobalCreateNewObject(it->second->GetObject()->GetTradeConditions()[i].first, 1);
+            //if(new_object != NULL) {
+            //ShopObject new_shop_object(new_object);
+            //if(new_shop_object.GetOwnCount() == 0){
+            //RemoveObjectToSell(new_shop_object.GetObject()->GetID()); Maybe RemoveObjectToSell isn't the problem?
+            //}
+            //}
+        }
+
+        if(it->second->GetStockCount() == 0) {
+            RemoveObjectToTrade(id);
+        }
+
+    }
+    _trade_list.clear();
+
     // Update the player's drune count by subtracting costs and adding revenue and update the shop's financial display
-    GlobalManager->AddDrunes(_total_sales);
-    GlobalManager->SubtractDrunes(_total_costs);
+    if(_total_change_amount >= 0) {
+        GlobalManager->AddDrunes(_total_change_amount);
+    } else {
+        GlobalManager->SubtractDrunes(-_total_change_amount);
+    }
     _total_costs = 0;
     _total_sales = 0;
-    UpdateFinances(0, 0);
+    _total_change_amount = 0;
+    UpdateFinances(0);
 
     // Notify all interfaces that a transaction has just been completed
     _root_interface->TransactionNotification();
     _buy_interface->TransactionNotification();
-    _sell_interface->TransactionNotification();
     _trade_interface->TransactionNotification();
+    _sell_interface->TransactionNotification();
     _confirm_interface->TransactionNotification();
     _leave_interface->TransactionNotification();
 
@@ -1521,34 +1702,27 @@ void ShopMode::CompleteTransaction()
 
 
 
-void ShopMode::UpdateFinances(int32 costs_amount, int32 sales_amount)
+void ShopMode::UpdateFinances(int32 change_amount)
 {
-    int32 updated_costs = _total_costs + costs_amount;
-    int32 updated_sales = _total_sales + sales_amount;
+    int32 updated_change_amount = _total_change_amount + change_amount;
 
-    if(updated_costs < 0) {
-        PRINT_WARNING << "updated amount causes costs to become negative: "
-                      << costs_amount << std::endl;
-        return;
-    }
-    if(updated_sales < 0) {
-        PRINT_WARNING << "updated amount causes sales to become negative: "
-                      << sales_amount << std::endl;
-        return;
-    }
-    if((static_cast<int32>(GlobalManager->GetDrunes()) + updated_sales - updated_costs) < 0) {
-        PRINT_WARNING << "updated costs and sales values cause negative balance: "
-                      << costs_amount << ", " << sales_amount << std::endl;
+    if((static_cast<int32>(GlobalManager->GetDrunes()) + updated_change_amount) < 0) {
+        PRINT_WARNING << "updated costs and sales values cause negative balance" << std::endl;
         return;
     }
 
-    _total_costs = static_cast<uint32>(updated_costs);
-    _total_sales = static_cast<uint32>(updated_sales);
+    _total_change_amount = updated_change_amount;
 
     _finance_table.SetOptionText(0, UTranslate("Funds: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
-    _finance_table.SetOptionText(1, UTranslate("Purchases: -") + MakeUnicodeString(NumberToString(_total_costs)));
-    _finance_table.SetOptionText(2, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_sales)));
-    _finance_table.SetOptionText(3, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
+    if(_total_change_amount < 0) {
+        _finance_table.SetOptionText(1, UTranslate("Purchases: ") + MakeUnicodeString(NumberToString(_total_change_amount)));
+    } else if(_total_change_amount > 0) {
+        _finance_table.SetOptionText(1, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_change_amount)));
+    } else {
+        _finance_table.SetOptionText(1, hoa_utils::ustring());
+    }
+    //_finance_table.SetOptionText(2, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_sales)));
+    //_finance_table.SetOptionText(3, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
 }
 
 
@@ -1564,7 +1738,7 @@ void ShopMode::ChangeState(SHOP_STATE new_state)
 
     // When state changes to the leave state, leave immediately if there are no marked purchases, sales, or trades
     if(_state == SHOP_STATE_LEAVE) {
-        if((GetTotalCosts() == 0) && (GetTotalSales() == 0)) {
+        if((GetTotalCosts() == 0) && (GetTotalSales() == 0) && GetTradeList()->empty()) {
             ModeManager->Pop();
             return;
         }
@@ -1661,6 +1835,48 @@ void ShopMode::AddObject(uint32 object_id, uint32 stock)
 
 
 
+void ShopMode::AddTrade(uint32 object_id, uint32 stock)
+{
+    if(IsInitialized() == true) {
+        PRINT_WARNING << "function called after shop was already initialized" << std::endl;
+        return;
+    }
+
+    if(object_id == private_global::OBJECT_ID_INVALID || object_id >= private_global::OBJECT_ID_EXCEEDS) {
+        PRINT_WARNING << "attempted to add object with invalid id: " << object_id << std::endl;
+        return;
+    }
+
+    if(_available_buy.find(object_id) != _available_buy.end()) {
+        PRINT_WARNING << "attempted to add object that already existed: " << object_id << std::endl;
+        return;
+    }
+
+    GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
+    if(new_object != NULL) {
+        ShopObject *new_shop_object = new ShopObject(new_object);
+        new_shop_object->IncrementStockCount(stock);
+        _available_trade.insert(std::make_pair(object_id, new_shop_object));
+    }
+}
+
+
+void ShopMode::RemoveObjectToBuy(uint32 object_id)
+{
+    std::map<uint32, ShopObject *>::iterator shop_iter = _available_buy.find(object_id);
+    if(shop_iter == _available_buy.end()) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << std::endl;
+        return;
+    }
+
+    if(shop_iter->second->GetStockCount() != 0) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: " << object_id << std::endl;
+        return;
+    }
+
+    _available_buy.erase(shop_iter);
+}
+
 void ShopMode::RemoveObjectToSell(uint32 object_id)
 {
     std::map<uint32, ShopObject *>::iterator shop_iter = _available_sell.find(object_id);
@@ -1675,6 +1891,22 @@ void ShopMode::RemoveObjectToSell(uint32 object_id)
     }
 
     _available_sell.erase(shop_iter);
+}
+
+void ShopMode::RemoveObjectToTrade(uint32 object_id)
+{
+    std::map<uint32, ShopObject *>::iterator shop_iter = _available_trade.find(object_id);
+    if(shop_iter == _available_trade.end()) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << std::endl;
+        return;
+    }
+
+    if(shop_iter->second->GetStockCount() != 0) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: " << object_id << std::endl;
+        return;
+    }
+
+    _available_trade.erase(shop_iter);
 }
 
 } // namespace hoa_shop

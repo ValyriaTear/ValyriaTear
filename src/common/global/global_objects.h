@@ -115,6 +115,11 @@ public:
         return _price;
     }
 
+    //Pointer NOT const; be careful!
+    std::vector<std::pair<uint32, uint32> > GetTradeConditions() {
+        return _trade_conditions;
+    }
+
     const hoa_video::StillImage &GetIconImage() const {
         return _icon_image;
     }
@@ -145,6 +150,9 @@ protected:
 
     //! \brief The base price of the object for purchase/sale in the game
     uint32 _price;
+
+    //! \brief The base price of the object for purchase/sale in the game
+    std::vector<std::pair<uint32, uint32> > _trade_conditions;
 
     //! \brief A loaded icon image of the object at its original size of 60x60 pixels
     hoa_video::StillImage _icon_image;
@@ -179,6 +187,9 @@ protected:
 
     //! \brief Loads status effects data
     void _LoadStatusEffects(hoa_script::ReadScriptDescriptor &script);
+
+    //! \brief Loads trading price data
+    void _LoadTradeConditions(hoa_script::ReadScriptDescriptor &script);
 }; // class GlobalObject
 
 

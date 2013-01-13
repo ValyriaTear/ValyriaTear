@@ -60,7 +60,8 @@ LeaveInterface::LeaveInterface() :
     _trade_count(0),
     _trade_characters(0),
     _buy_list_display(NULL),
-    _sell_list_display(NULL)
+    _sell_list_display(NULL),
+    _trade_list_display(NULL)
 {
     TextStyle stats_style("text20");
 
@@ -81,20 +82,21 @@ LeaveInterface::LeaveInterface() :
 
     _properties_header.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
     _properties_header.SetPosition(480.0f, 390.0f);
-    _properties_header.SetDimensions(300.0f, 30.0f, 4, 1, 4, 1);
+    _properties_header.SetDimensions(300.0f, 30.0f, 3, 1, 3, 1);
     _properties_header.SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
     _properties_header.SetTextStyle(TextStyle("title24"));
     _properties_header.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _properties_header.AddOption(UTranslate("Price"));
     _properties_header.AddOption(UTranslate("Stock"));
     _properties_header.AddOption(UTranslate("Own"));
-    _properties_header.AddOption(MakeUnicodeString(""));
+    //_properties_header.AddOption(MakeUnicodeString(""));
 
     _empty_list_text.SetStyle(TextStyle("text24"));
     _empty_list_text.SetText(UTranslate("No marked transactions."));
 
     _buy_list_display = new BuyListDisplay();
     _sell_list_display = new SellListDisplay();
+    _trade_list_display = new TradeListDisplay();
 
     _main_prompt.SetStyle(TextStyle("text24"));
     _main_prompt.SetText(UTranslate("Your order is not yet final. Are you sure you want to leave the shop?"));
@@ -120,9 +122,12 @@ LeaveInterface::~LeaveInterface()
         delete _buy_list_display;
     if(_sell_list_display != NULL)
         delete _sell_list_display;
+    if(_trade_list_display != NULL)
+        delete _trade_list_display;
 
     _buy_list_display = NULL;
     _sell_list_display = NULL;
+    _trade_list_display = NULL;
 }
 
 
@@ -131,14 +136,16 @@ void LeaveInterface::MakeActive()
 {
     std::map<uint32, ShopObject *>* buy_list = ShopMode::CurrentInstance()->GetBuyList();
     std::map<uint32, ShopObject *>* sell_list = ShopMode::CurrentInstance()->GetSellList();
-    // TODO: Get a container of all trades
+    std::map<uint32, ShopObject *>* trade_list = ShopMode::CurrentInstance()->GetTradeList();
 
     // Vector constructs required by the BuyListDisplay/SellListDisplay classes
     std::vector<ShopObject *> buy_vector;
     std::vector<ShopObject *> sell_vector;
+    std::vector<ShopObject *> trade_vector;
 
     buy_vector.reserve(buy_list->size());
     sell_vector.reserve(sell_list->size());
+    trade_vector.reserve(trade_list->size());
 
     _buy_count = 0;
     _buy_unique = 0;
@@ -158,10 +165,15 @@ void LeaveInterface::MakeActive()
 
     _trade_count = 0;
     _trade_characters = 0;
-    // TODO: Iterate through the trade container similar to buy and sell containers
+    for(std::map<uint32, ShopObject *>::iterator i = trade_list->begin(); i != trade_list->end(); i++) {
+        _trade_characters++;
+        _trade_count += i->second->GetTradeCount();
+        trade_vector.push_back(i->second);
+    }
 
     _buy_list_display->PopulateList(buy_vector);
     _sell_list_display->PopulateList(sell_vector);
+    _trade_list_display->PopulateList(trade_vector);
 
     // Determine which active list should be initially shown and change properties as needed
     if(_buy_count != 0) {
@@ -202,6 +214,7 @@ void LeaveInterface::MakeActive()
     _main_actions.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _buy_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _sell_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _trade_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
     ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(NULL);
     ShopMode::CurrentInstance()->ObjectViewer()->ChangeViewMode(SHOP_VIEW_MODE_INFO);
@@ -214,6 +227,7 @@ void LeaveInterface::Update()
     _main_actions.Update();
     _buy_list_display->Update();
     _sell_list_display->Update();
+    _trade_list_display->Update();
 
     // A swap press changes the active transaction list being shown. It takes precedence over all other
     // input events. Only the "info" state ignores this command because the transaction list is not visible
@@ -280,7 +294,13 @@ void LeaveInterface::Update()
             }
             return;
         case ACTIVE_LIST_TRADE:
-            // TODO
+            if(InputManager->ConfirmPress()) {
+                _ChangeState(LEAVE_STATE_INFO);
+            } else if(InputManager->UpPress()) {
+                _trade_list_display->InputUp();
+            } else if(InputManager->DownPress()) {
+                _trade_list_display->InputDown();
+            }
             return;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "invalid transaction list was active: "
@@ -344,9 +364,13 @@ void LeaveInterface::Draw()
 
             _properties_header.Draw();
             _sell_list_display->Draw();
-        } else if((_active_list == ACTIVE_LIST_TRADE) && (_trade_count != 0)) {
-            // TODO: once trade support is added, change above condition `(_trade_count != 0)`
-            // to a check on the trade list display's empty status
+        } else if((_active_list == ACTIVE_LIST_TRADE) && (_trade_list_display->IsListEmpty() == false)) {
+            VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+            VideoManager->Move(295.0f, 558.0f);
+            _name_header.Draw();
+
+            _properties_header.Draw();
+            _trade_list_display->Draw();
         } else { // The active list is empty
             VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
             VideoManager->Move(560.0f, 405.0f);
@@ -376,6 +400,7 @@ void LeaveInterface::_ChangeState(LEAVE_STATE new_state)
     } else if(_state == LEAVE_STATE_LIST) {
         _buy_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
         _sell_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+        _trade_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     } else if(_state == LEAVE_STATE_INFO) {
         ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(NULL);
     }
@@ -386,6 +411,7 @@ void LeaveInterface::_ChangeState(LEAVE_STATE new_state)
     } else if(new_state == LEAVE_STATE_LIST) {
         _buy_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
         _sell_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+        _trade_list_display->GetIdentifyList().SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     } else if(new_state == LEAVE_STATE_INFO) {
         ShopObject *selected_object = NULL;
         switch(_active_list) {
@@ -396,7 +422,7 @@ void LeaveInterface::_ChangeState(LEAVE_STATE new_state)
             selected_object = _sell_list_display->GetSelectedObject();
             break;
         case ACTIVE_LIST_TRADE:
-            // TODO: implement once trade interface is complete
+            selected_object = _trade_list_display->GetSelectedObject();
             break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "invalid transaction list was active: " << _active_list << std::endl;

@@ -30,6 +30,8 @@ namespace hoa_shop
 namespace private_shop
 {
 
+class TradeListDisplay;
+
 /** ****************************************************************************
 *** \brief The interface where the player confirms and completes their transaction
 ***
@@ -161,7 +163,7 @@ private:
     SellListDisplay *_sell_list_display;
 
     // TODO: Add once trade interface is working and this class is defined
-    // TradeListDisplay* _trade_list_display;
+    TradeListDisplay *_trade_list_display;
 
     //! \brief Text that prompts the user for their desired action
     hoa_video::TextImage _main_prompt;
@@ -202,6 +204,16 @@ private:
     *** buy stats data and re-rendering the stats text as appropriate.
     **/
     bool ChangeBuyQuantity(bool less_or_more, uint32 amount = 1);
+
+    /** \brief Changes the sell quantity of a selected object and updates and re-renders buy stats text
+    *** \param less_or_more False to decrease the quantity, true to increase it
+    *** \param amount The amount to decrease/increase the quantity by (default value == 1)
+    *** \return False if no quantity change could take place, true if a quantity change did occur
+    *** \note This function signature is identical to the function of the same name as the SellListDisplay class.
+    *** This method serves as a wrapper to that class with the additional feature of automatically updating
+    *** sell stats data and re-rendering the stats text as appropriate.
+    **/
+    bool ChangeTradeQuantity(bool less_or_more, uint32 amount = 1);
 
     /** \brief Changes the sell quantity of a selected object and updates and re-renders buy stats text
     *** \param less_or_more False to decrease the quantity, true to increase it
