@@ -303,7 +303,7 @@ void EffectSupervisor::_DrawLightning()
 
     VideoManager->PushState();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
+    VideoManager->SetCoordSys(0.1f, 0.9f, 0.1f, 0.9f);
     VideoManager->Move(0.0f, 0.0f);
     _lightning_inner_info._lightning_overlay_img.Draw(Color(1.0f, 1.0f, 1.0f, intensity));
     VideoManager->PopState();
@@ -315,7 +315,7 @@ void EffectSupervisor::DrawEffects()
     if(_info.overlay.active) {
         VideoManager->PushState();
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+        VideoManager->SetStandardCoordSys();
         float width = _ambient_overlay_img.GetWidth();
         float height = _ambient_overlay_img.GetHeight();
         for(float x = _info.overlay.x_shift; x <= VIDEO_STANDARD_RES_WIDTH; x = x + width) {
