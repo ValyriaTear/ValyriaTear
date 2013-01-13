@@ -52,17 +52,17 @@ local menu_bar_alpha = 0.0;
 
 -- cloud field members
 local x_positions1 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
-local y_position1 = 400.0;
+local y_position1 = 368.0;
 local x_positions2 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
-local y_position2 = 330.0;
+local y_position2 = 438.0;
 local x_positions3 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
-local y_position3 = 260.0;
+local y_position3 = 508.0;
 local x_positions4 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
-local y_position4 = 190.0;
+local y_position4 = 578.0;
 local x_positions5 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
-local y_position5 = 120.0;
+local y_position5 = 648.0;
 local x_positions6 = { -110.0, 0.0, 110.0, 220.0 , 330.0, 440.0, 550.0, 660.0, 770.0, 880.0, 990.0};
-local y_position6 = 50.0;
+local y_position6 = 718.0;
 
 -- crystal members
 local crystal_decay = 0.0;
@@ -278,7 +278,7 @@ end
 
 function DrawBackground()
 	-- The background image
-	Script:DrawImage(bckgrnd_id, 0.0, 769.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha));
+	Script:DrawImage(bckgrnd_id, 0.0, 0.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha));
 
 	-- The passing clouds
 	DrawCloudFieldLine(x_positions1, y_position1);
@@ -292,88 +292,87 @@ end
 
 function DrawPostEffects()
 	-- front mist + fog
-	Script:DrawImage(mist_id, 0.0, 769.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
-	Script:DrawImage(fog_id, 0.0, 769.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.8));
+	Script:DrawImage(mist_id, 0.0, 0.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
+	Script:DrawImage(fog_id, 0.0, 0.0, hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.8));
 
 	-- satellite behind
 	if (sat1_behind) then
 		Script:DrawImage(satellite_shadow_id,
-			640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0),
+			640.0 + sat1_decay + (sat1_x_position / 2.0), 438.0 + (sat1_x_position / 3.0),
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
 		Script:DrawImage(satellite_id,
-			448.0 + sat1_x_position, 400.0 + sat1_decay,
+			448.0 + sat1_x_position, 368.0 - sat1_decay,
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat2_behind) then
 		Script:DrawImage(satellite_shadow_id,
-			640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0),
+			640.0 + sat2_decay + (sat2_x_position / 2.0), 438.0 + (sat2_x_position / 3.0),
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
 		Script:DrawImage(satellite_id,
-			448.0 + sat2_x_position, 400.0 + sat2_decay,
+			448.0 + sat2_x_position, 368.0 - sat2_decay,
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat3_behind) then
 		Script:DrawImage(satellite_shadow_id,
-			640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0),
+			640.0 + sat3_decay + (sat3_x_position / 2.0), 438.0 + (sat3_x_position / 3.0),
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
 		Script:DrawImage(satellite_id,
-			448.0 + sat3_x_position, 400.0 + sat3_decay,
+			448.0 + sat3_x_position, 368.0 - sat3_decay,
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 
 	-- Crystal
 	Script:DrawImage(crystal_shadow_id,
-		498.0 + crystal_decay, 330.0,
+		498.0 + crystal_decay, 438.0,
 		hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
 	Script:DrawImage(crystal_id,
-		448.0, 400.0 + crystal_decay,
+		448.0, 368.0 - crystal_decay,
 		hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 
 	Script:DrawImage(flare_id,
-		384.0, 440.0 + crystal_decay,
+		384.0, 328.0 - crystal_decay,
 		hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.6));
 
 	-- satellite in front
 	if (sat1_behind == false) then
 		Script:DrawImage(satellite_shadow_id,
-			640.0 + sat1_decay + (sat1_x_position / 2.0), 330.0 - (sat1_x_position / 3.0),
+			640.0 + sat1_decay + (sat1_x_position / 2.0), 438.0 + (sat1_x_position / 3.0),
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
 		Script:DrawImage(satellite_id,
-			448.0 + sat1_x_position, 400.0 + sat1_decay,
+			448.0 + sat1_x_position, 368.0 - sat1_decay,
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat2_behind == false) then
 		Script:DrawImage(satellite_shadow_id,
-			640.0 + sat2_decay + (sat2_x_position / 2.0), 330.0 - (sat2_x_position / 3.0),
+			640.0 + sat2_decay + (sat2_x_position / 2.0), 438.0 + (sat2_x_position / 3.0),
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
 		Script:DrawImage(satellite_id,
-			448.0 + sat2_x_position, 400.0 + sat2_decay,
+			448.0 + sat2_x_position, 368.0 - sat2_decay,
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 	if (sat3_behind == false) then
 		Script:DrawImage(satellite_shadow_id,
-			640.0 + sat3_decay + (sat3_x_position / 2.0), 330.0 - (sat3_x_position / 3.0),
+			640.0 + sat3_decay + (sat3_x_position / 2.0), 438.0 + (sat3_x_position / 3.0),
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.3));
 
 		Script:DrawImage(satellite_id,
-			448.0 + sat3_x_position, 400.0 + sat3_decay,
+			448.0 + sat3_x_position, 368.0 - sat3_decay,
 			hoa_video.Color(1.0, 1.0, 1.0, bckgrnd_alpha * 0.7));
 	end
 
 	-- A dark bar used to make the menu more visible
 	if (Boot:GetState() == hoa_boot.BootMode.BOOT_STATE_MENU) then
-		Script:DrawImage(menu_bar_id, 0.0, 128.0, hoa_video.Color(1.0, 1.0, 1.0, menu_bar_alpha));
+		Script:DrawImage(menu_bar_id, 0.0, 640.0, hoa_video.Color(1.0, 1.0, 1.0, menu_bar_alpha));
 
-        VideoManager:DrawText(f1_help_text, 312.0, 65.0, hoa_video.Color(1.0, 1.0, 1.0, f1_text_alpha));
+        VideoManager:DrawText(f1_help_text, 312.0, 703.0, hoa_video.Color(1.0, 1.0, 1.0, f1_text_alpha));
 	end
 
 	-- Logo
-	VideoManager:Move(198.0, 750.0);
-	Script:DrawImage(logo_id, 198.0, 750.0, hoa_video.Color(1.0, 1.0, 1.0, logo_alpha));
+	Script:DrawImage(logo_id, 198.0, 18.0, hoa_video.Color(1.0, 1.0, 1.0, logo_alpha));
 end

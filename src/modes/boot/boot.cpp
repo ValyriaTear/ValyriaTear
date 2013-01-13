@@ -71,9 +71,7 @@ BootMode::BootMode() :
     _key_setting_function(NULL),
     _joy_setting_function(NULL),
     _joy_axis_setting_function(NULL),
-    _message_window(ustring(), 210.0f, 35.0f),
-    _file_name_alert(ustring(), 300.0f, 35.0f),
-    _file_name_window(ustring(), 150.0f, 35.0f)
+    _message_window(ustring(), 210.0f, 733.0f)
 {
     // Remove potential previous ambient overlays
     VideoManager->DisableFadeEffect();
@@ -108,7 +106,7 @@ BootMode::BootMode() :
     GetScriptSupervisor().Initialize(this);
 
     _options_window.Create(300.0f, 550.0f);
-    _options_window.SetPosition(360.0f, 580.0f);
+    _options_window.SetPosition(360.0f, 188.0f);
     _options_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _options_window.Hide();
 
@@ -125,8 +123,6 @@ BootMode::BootMode() :
 
     // make sure message window is not visible
     _message_window.Hide();
-    _file_name_alert.Hide();
-    _file_name_window.Hide();
 } // BootMode::BootMode()
 
 
@@ -147,7 +143,7 @@ BootMode::~BootMode()
 void BootMode::Reset()
 {
     // Set the coordinate system that BootMode uses
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
     GlobalManager->ClearAllData(); // Resets the game universe to a NULL state
@@ -305,7 +301,7 @@ void BootMode::Draw()
 {
     VideoManager->PushState();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     GetScriptSupervisor().DrawBackground();
     GetScriptSupervisor().DrawForeground();
@@ -316,7 +312,7 @@ void BootMode::DrawPostEffects()
 {
     VideoManager->PushState();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
     GetScriptSupervisor().DrawPostEffects();
 
@@ -334,14 +330,12 @@ void BootMode::DrawPostEffects()
             _active_menu->Draw();
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(10.0f, 10.0f);
+        VideoManager->Move(10.0f, 758.0f);
         _version_text.Draw();
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
 
         VideoManager->Move(0.0f, 0.0f);
         _message_window.Draw();
-        _file_name_alert.Draw();
-        _file_name_window.Draw();
     }
     VideoManager->PopState();
 }
@@ -382,13 +376,13 @@ void BootMode::_ReloadTranslatableMenus()
 void BootMode::_SetupMainMenu()
 {
     _main_menu.ClearOptions();
-    _main_menu.SetPosition(512.0f, 80.0f);
+    _main_menu.SetPosition(512.0f, 688.0f);
     _main_menu.SetTextStyle(TextStyle("title24"));
     _main_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _main_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _main_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _main_menu.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _main_menu.SetCursorOffset(-50.0f, 28.0f);
+    _main_menu.SetCursorOffset(-50.0f, -28.0f);
     _main_menu.SetSkipDisabled(true);
 
     _main_menu.AddOption(UTranslate("New Game"), &BootMode::_OnNewGame);
@@ -424,14 +418,14 @@ void BootMode::_SetupMainMenu()
 void BootMode::_SetupOptionsMenu()
 {
     _options_menu.ClearOptions();
-    _options_menu.SetPosition(512.0f, 300.0f);
+    _options_menu.SetPosition(512.0f, 468.0f);
     _options_menu.SetDimensions(300.0f, 600.0f, 1, 5, 1, 5);
     _options_menu.SetTextStyle(TextStyle("title22"));
     _options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _options_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _options_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _options_menu.SetCursorOffset(-50.0f, 28.0f);
+    _options_menu.SetCursorOffset(-50.0f, -28.0f);
     _options_menu.SetSkipDisabled(true);
 
     _options_menu.AddOption(UTranslate("Video"), &BootMode::_OnVideoOptions);
@@ -447,14 +441,14 @@ void BootMode::_SetupOptionsMenu()
 void BootMode::_SetupVideoOptionsMenu()
 {
     _video_options_menu.ClearOptions();
-    _video_options_menu.SetPosition(512.0f, 300.0f);
+    _video_options_menu.SetPosition(512.0f, 468.0f);
     _video_options_menu.SetDimensions(300.0f, 400.0f, 1, 4, 1, 4);
     _video_options_menu.SetTextStyle(TextStyle("title22"));
     _video_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _video_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _video_options_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _video_options_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _video_options_menu.SetCursorOffset(-50.0f, 28.0f);
+    _video_options_menu.SetCursorOffset(-50.0f, -28.0f);
     _video_options_menu.SetSkipDisabled(true);
 
     _video_options_menu.AddOption(UTranslate("Resolution:"), &BootMode::_OnResolution);
@@ -470,14 +464,14 @@ void BootMode::_SetupVideoOptionsMenu()
 void BootMode::_SetupAudioOptionsMenu()
 {
     _audio_options_menu.ClearOptions();
-    _audio_options_menu.SetPosition(512.0f, 300.0f);
+    _audio_options_menu.SetPosition(512.0f, 468.0f);
     _audio_options_menu.SetDimensions(300.0f, 200.0f, 1, 2, 1, 2);
     _audio_options_menu.SetTextStyle(TextStyle("title22"));
     _audio_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _audio_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _audio_options_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _audio_options_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _audio_options_menu.SetCursorOffset(-50.0f, 28.0f);
+    _audio_options_menu.SetCursorOffset(-50.0f, -28.0f);
     _audio_options_menu.SetSkipDisabled(true);
 
     _audio_options_menu.AddOption(UTranslate("Sound Volume: "), NULL, NULL, NULL, &BootMode::_OnSoundLeft, &BootMode::_OnSoundRight);
@@ -492,13 +486,13 @@ void BootMode::_SetupAudioOptionsMenu()
 
 void BootMode::_SetupLanguageOptionsMenu()
 {
-    _language_options_menu.SetPosition(512.0f, 300.0f);
+    _language_options_menu.SetPosition(512.0f, 468.0f);
     _language_options_menu.SetTextStyle(TextStyle("title22"));
     _language_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _language_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _language_options_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _language_options_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _language_options_menu.SetCursorOffset(-50.0f, 28.0f);
+    _language_options_menu.SetCursorOffset(-50.0f, -28.0f);
     _language_options_menu.SetSkipDisabled(true);
 
 
@@ -535,14 +529,14 @@ void BootMode::_SetupLanguageOptionsMenu()
 void BootMode::_SetupKeySettingsMenu()
 {
     _key_settings_menu.ClearOptions();
-    _key_settings_menu.SetPosition(512.0f, 300.0f);
+    _key_settings_menu.SetPosition(512.0f, 468.0f);
     _key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 12, 1, 12);
     _key_settings_menu.SetTextStyle(TextStyle("title22"));
     _key_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _key_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _key_settings_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _key_settings_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _key_settings_menu.SetCursorOffset(-50.0f, 28.0f);
+    _key_settings_menu.SetCursorOffset(-50.0f, -28.0f);
     _key_settings_menu.SetSkipDisabled(true);
 
     _key_settings_menu.AddOption(UTranslate("Up: "), &BootMode::_RedefineUpKey);
@@ -563,14 +557,14 @@ void BootMode::_SetupKeySettingsMenu()
 void BootMode::_SetupJoySettingsMenu()
 {
     _joy_settings_menu.ClearOptions();
-    _joy_settings_menu.SetPosition(512.0f, 300.0f);
+    _joy_settings_menu.SetPosition(512.0f, 468.0f);
     _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 10, 1, 10);
     _joy_settings_menu.SetTextStyle(TextStyle("title22"));
     _joy_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _joy_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _joy_settings_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _joy_settings_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _joy_settings_menu.SetCursorOffset(-50.0f, 28.0f);
+    _joy_settings_menu.SetCursorOffset(-50.0f, -28.0f);
     _joy_settings_menu.SetSkipDisabled(true);
 
     ustring dummy;
@@ -595,14 +589,14 @@ void BootMode::_SetupJoySettingsMenu()
 
 void BootMode::_SetupResolutionMenu()
 {
-    _resolution_menu.SetPosition(512.0f, 300.0f);
+    _resolution_menu.SetPosition(512.0f, 468.0f);
     _resolution_menu.SetDimensions(300.0f, 200.0f, 1, 4, 1, 4);
     _resolution_menu.SetTextStyle(TextStyle("title22"));
     _resolution_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _resolution_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _resolution_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _resolution_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _resolution_menu.SetCursorOffset(-50.0f, 28.0f);
+    _resolution_menu.SetCursorOffset(-50.0f, -28.0f);
     _resolution_menu.SetSkipDisabled(true);
 
     _resolution_menu.AddOption(MakeUnicodeString("640 x 480"), &BootMode::_OnResolution640x480);
