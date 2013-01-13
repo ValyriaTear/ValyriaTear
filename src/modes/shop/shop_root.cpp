@@ -44,7 +44,7 @@ namespace private_shop
 {
 
 // The maximum number of category icons + text that can be displayed in a single row
-const uint8 MAX_CATEGORY_ROW_SIZE = 4;
+const uint8 MAX_CATEGORY_ROW_SIZE = 3;
 
 // *****************************************************************************
 // ***** CategoryDrawData class methods
