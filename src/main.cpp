@@ -113,9 +113,6 @@ bool LoadSettings()
     InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
     InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
     InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
-    InputManager->SetSwapKey(static_cast<SDLKey>(settings.ReadInt("swap")));
-    InputManager->SetLeftSelectKey(static_cast<SDLKey>(settings.ReadInt("left_select")));
-    InputManager->SetRightSelectKey(static_cast<SDLKey>(settings.ReadInt("right_select")));
     InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
     settings.CloseTable();
 
@@ -137,9 +134,6 @@ bool LoadSettings()
     InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
     InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
     InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
-    InputManager->SetSwapJoy(static_cast<uint8>(settings.ReadInt("swap")));
-    InputManager->SetLeftSelectJoy(static_cast<uint8>(settings.ReadInt("left_select")));
-    InputManager->SetRightSelectJoy(static_cast<uint8>(settings.ReadInt("right_select")));
     InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
 
     InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));

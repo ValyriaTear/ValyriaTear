@@ -310,7 +310,7 @@ void BuyInterface::Update()
         }
 
         // Swap cycles through the object categories
-        else if(InputManager->SwapPress() && (_number_categories > 1)) {
+        else if(InputManager->MenuPress() && (_number_categories > 1)) {
             if(_ChangeCategory(true) == true)
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
             ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
@@ -328,34 +328,6 @@ void BuyInterface::Update()
                 ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
             }
         }
-
-        // Left/right change the quantity of the object to buy
-        /*else if (InputManager->LeftPress()) {
-        	if (_list_displays[_current_category]->ChangeBuyQuantity(false) == true)
-        		ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        	else
-        		ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-        }
-        else if (InputManager->RightPress()) {
-        	if (_list_displays[_current_category]->ChangeBuyQuantity(true) == true)
-        		ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        	else
-        		ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-        }
-
-        // Left select/right select change the quantity of the object to buy by a batch at a time
-        else if (InputManager->LeftSelectPress()) {
-        	if (_list_displays[_current_category]->ChangeBuyQuantity(false, SHOP_BATCH_COUNT) == true)
-        		ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        	else
-        		ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-        }
-        else if (InputManager->RightSelectPress()) {
-        	if (_list_displays[_current_category]->ChangeBuyQuantity(true, SHOP_BATCH_COUNT) == true)
-        		ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        	else
-        		ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-        }*/
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)
 
     else if(_view_mode == SHOP_VIEW_MODE_INFO) {
@@ -383,21 +355,6 @@ void BuyInterface::Update()
                 ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeBuyQuantity(true) == true) {
-                _RefreshSelectedProperties();
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-            } else
-                ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-        }
-
-        // Left select/right select change the quantity of the object to buy by a batch at a time
-        else if(InputManager->LeftSelectPress()) {
-            if(_list_displays[_current_category]->ChangeBuyQuantity(false, SHOP_BATCH_COUNT) == true) {
-                _RefreshSelectedProperties();
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-            } else
-                ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-        } else if(InputManager->RightSelectPress()) {
-            if(_list_displays[_current_category]->ChangeBuyQuantity(true, SHOP_BATCH_COUNT) == true) {
                 _RefreshSelectedProperties();
                 ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
             } else

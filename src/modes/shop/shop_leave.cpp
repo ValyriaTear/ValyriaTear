@@ -232,7 +232,7 @@ void LeaveInterface::Update()
     // A swap press changes the active transaction list being shown. It takes precedence over all other
     // input events. Only the "info" state ignores this command because the transaction list is not visible
     // while in this state
-    if((InputManager->SwapPress()) && (_state != LEAVE_STATE_INFO)) {
+    if((InputManager->MenuPress()) && (_state != LEAVE_STATE_INFO)) {
         _CycleActiveTransactionList();
         return;
     }

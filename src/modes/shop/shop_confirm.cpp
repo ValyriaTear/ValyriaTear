@@ -272,7 +272,7 @@ void ConfirmInterface::Update()
     // A swap press changes the active transaction list being shown. It takes precedence over all other
     // input events. Only the "info" state ignores this command because the transaction list is not visible
     // while in this state
-    if((InputManager->SwapPress()) && (_state != CONFIRM_STATE_INFO)) {
+    if((InputManager->MenuPress()) && (_state != CONFIRM_STATE_INFO)) {
         _CycleActiveTransactionList();
         return;
     }
@@ -559,16 +559,6 @@ void ConfirmInterface::_UpdateBuyList()
             ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
         else
             ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-    } else if(InputManager->LeftSelectPress()) {
-        if(ChangeBuyQuantity(false, 10) == true)
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        else
-            ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-    } else if(InputManager->RightSelectPress()) {
-        if(ChangeBuyQuantity(true, 10) == true)
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        else
-            ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
     }
 }
 
@@ -595,16 +585,6 @@ void ConfirmInterface::_UpdateSellList()
             ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
         else
             ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-    } else if(InputManager->LeftSelectPress()) {
-        if(ChangeSellQuantity(false, SHOP_BATCH_COUNT) == true)
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        else
-            ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-    } else if(InputManager->RightSelectPress()) {
-        if(ChangeSellQuantity(true, SHOP_BATCH_COUNT) == true)
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        else
-            ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
     }
 }
 
@@ -628,16 +608,6 @@ void ConfirmInterface::_UpdateTradeList()
             ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
     } else if(InputManager->RightPress()) {
         if(ChangeTradeQuantity(true) == true)
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        else
-            ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-    } else if(InputManager->LeftSelectPress()) {
-        if(ChangeTradeQuantity(false, 10) == true)
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
-        else
-            ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
-    } else if(InputManager->RightSelectPress()) {
-        if(ChangeTradeQuantity(true, 10) == true)
             ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
         else
             ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();

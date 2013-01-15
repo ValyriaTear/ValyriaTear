@@ -77,9 +77,6 @@ public:
     SDLKey confirm;
     SDLKey cancel;
     SDLKey menu;
-    SDLKey swap;
-    SDLKey left_select;
-    SDLKey right_select;
     SDLKey pause;
     //@}
 }; // class KeyState
@@ -112,9 +109,6 @@ public:
     uint8 confirm;
     uint8 cancel;
     uint8 menu;
-    uint8 swap;
-    uint8 left_select;
-    uint8 right_select;
     uint8 pause;
     uint8 quit;
     //@}
@@ -215,9 +209,6 @@ private:
     bool _confirm_state;
     bool _cancel_state;
     bool _menu_state;
-    bool _swap_state;
-    bool _left_select_state;
-    bool _right_select_state;
     //@}
 
     /** \name  Input Press Members
@@ -231,9 +222,6 @@ private:
     bool _confirm_press;
     bool _cancel_press;
     bool _menu_press;
-    bool _swap_press;
-    bool _left_select_press;
-    bool _right_select_press;
     bool _pause_press;
     bool _quit_press;
     bool _help_press;
@@ -250,9 +238,6 @@ private:
     bool _confirm_release;
     bool _cancel_release;
     bool _menu_release;
-    bool _swap_release;
-    bool _left_select_release;
-    bool _right_select_release;
     //@}
 
     /** \name  First Joystick Axis Motion
@@ -369,18 +354,6 @@ public:
     bool MenuState() const {
         return _menu_state;
     }
-
-    bool SwapState() const {
-        return _swap_state;
-    }
-
-    bool LeftSelectState() const {
-        return _left_select_state;
-    }
-
-    bool RightSelectState() const {
-        return _right_select_state;
-    }
     //@}
 
     /** \name Input press member access functions
@@ -413,18 +386,6 @@ public:
 
     bool MenuPress() const {
         return _menu_press;
-    }
-
-    bool SwapPress() const {
-        return _swap_press;
-    }
-
-    bool LeftSelectPress() const {
-        return _left_select_press;
-    }
-
-    bool RightSelectPress() const {
-        return _right_select_press;
     }
 
     bool PausePress() const {
@@ -471,18 +432,6 @@ public:
     bool MenuRelease() const {
         return _menu_release;
     }
-
-    bool SwapRelease() const {
-        return _swap_release;
-    }
-
-    bool LeftSelectRelease() const {
-        return _left_select_release;
-    }
-
-    bool RightSelectRelease() const {
-        return _right_select_release;
-    }
     //@}
 
     /** \name Key name access functions
@@ -515,18 +464,6 @@ public:
 
     std::string GetMenuKeyName() const {
         return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.menu));
-    }
-
-    std::string GetSwapKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.swap));
-    }
-
-    std::string GetLeftSelectKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.left_select));
-    }
-
-    std::string GetRightSelectKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.right_select));
     }
 
     std::string GetPauseKeyName() const {
@@ -575,18 +512,6 @@ public:
         return _joystick.menu;
     }
 
-    int32 GetSwapJoy() const {
-        return _joystick.swap;
-    }
-
-    int32 GetLeftSelectJoy() const {
-        return _joystick.left_select;
-    }
-
-    int32 GetRightSelectJoy() const {
-        return _joystick.right_select;
-    }
-
     int32 GetPauseJoy() const {
         return _joystick.pause;
     }
@@ -628,18 +553,6 @@ public:
         _SetNewKey(_key.menu, key);
     }
 
-    void SetSwapKey(const SDLKey &key) {
-        _SetNewKey(_key.swap, key);
-    }
-
-    void SetLeftSelectKey(const SDLKey &key) {
-        _SetNewKey(_key.left_select, key);
-    }
-
-    void SetRightSelectKey(const SDLKey &key) {
-        _SetNewKey(_key.right_select, key);
-    }
-
     void SetPauseKey(const SDLKey &key) {
         _SetNewKey(_key.pause, key);
     }
@@ -663,18 +576,6 @@ public:
 
     void SetMenuJoy(uint8 button) {
         _SetNewJoyButton(_joystick.menu, button);
-    }
-
-    void SetSwapJoy(uint8 button) {
-        _SetNewJoyButton(_joystick.swap, button);
-    }
-
-    void SetLeftSelectJoy(uint8 button) {
-        _SetNewJoyButton(_joystick.left_select, button);
-    }
-
-    void SetRightSelectJoy(uint8 button) {
-        _SetNewJoyButton(_joystick.right_select, button);
     }
 
     void SetPauseJoy(uint8 button) {
@@ -728,18 +629,6 @@ public:
 
     int32 GetMenuKey() const {
         return _key.menu;
-    }
-
-    int32 GetSwapKey() const {
-        return _key.swap;
-    }
-
-    int32 GetLeftSelectKey() const {
-        return _key.left_select;
-    }
-
-    int32 GetRightSelectKey() const {
-        return _key.right_select;
     }
 
     int32 GetPauseKey() const {

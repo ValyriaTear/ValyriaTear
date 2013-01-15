@@ -65,15 +65,6 @@ InputEngine::InputEngine()
     _menu_state           = false;
     _menu_press           = false;
     _menu_release         = false;
-    _swap_state           = false;
-    _swap_press           = false;
-    _swap_release         = false;
-    _right_select_state   = false;
-    _right_select_press   = false;
-    _right_select_release = false;
-    _left_select_state    = false;
-    _left_select_press    = false;
-    _left_select_release  = false;
 
     _pause_press          = false;
     _quit_press           = false;
@@ -153,9 +144,6 @@ bool InputEngine::RestoreDefaultKeys()
     _key.confirm      = static_cast<SDLKey>(settings_file.ReadInt("confirm"));
     _key.cancel       = static_cast<SDLKey>(settings_file.ReadInt("cancel"));
     _key.menu         = static_cast<SDLKey>(settings_file.ReadInt("menu"));
-    _key.swap         = static_cast<SDLKey>(settings_file.ReadInt("swap"));
-    _key.left_select  = static_cast<SDLKey>(settings_file.ReadInt("left_select"));
-    _key.right_select = static_cast<SDLKey>(settings_file.ReadInt("right_select"));
     _key.pause        = static_cast<SDLKey>(settings_file.ReadInt("pause"));
     settings_file.CloseTable();
     settings_file.CloseTable();
@@ -184,9 +172,6 @@ bool InputEngine::RestoreDefaultJoyButtons()
     _joystick.confirm      = static_cast<uint8>(settings_file.ReadInt("confirm"));
     _joystick.cancel       = static_cast<uint8>(settings_file.ReadInt("cancel"));
     _joystick.menu         = static_cast<uint8>(settings_file.ReadInt("menu"));
-    _joystick.swap         = static_cast<uint8>(settings_file.ReadInt("swap"));
-    _joystick.left_select  = static_cast<uint8>(settings_file.ReadInt("left_select"));
-    _joystick.right_select = static_cast<uint8>(settings_file.ReadInt("right_select"));
     _joystick.pause        = static_cast<uint8>(settings_file.ReadInt("pause"));
     _joystick.quit         = static_cast<uint8>(settings_file.ReadInt("quit"));
     settings_file.CloseTable();
@@ -235,12 +220,6 @@ void InputEngine::EventHandler()
     _cancel_release       = false;
     _menu_press           = false;
     _menu_release         = false;
-    _swap_press           = false;
-    _swap_release         = false;
-    _right_select_press   = false;
-    _right_select_release = false;
-    _left_select_press    = false;
-    _left_select_release  = false;
 
     _pause_press = false;
     _quit_press = false;
@@ -385,18 +364,6 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             _menu_state = true;
             _menu_press = true;
             return;
-        } else if(key_event.keysym.sym == _key.swap) {
-            _swap_state = true;
-            _swap_press = true;
-            return;
-        } else if(key_event.keysym.sym == _key.left_select) {
-            _left_select_state = true;
-            _left_select_press = true;
-            return;
-        } else if(key_event.keysym.sym == _key.right_select) {
-            _right_select_state = true;
-            _right_select_press = true;
-            return;
         } else if(key_event.keysym.sym == _key.pause) {
             _pause_press = true;
             return;
@@ -444,18 +411,6 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
         } else if(key_event.keysym.sym == _key.menu) {
             _menu_state = false;
             _menu_release = true;
-            return;
-        } else if(key_event.keysym.sym == _key.swap) {
-            _swap_state = false;
-            _swap_release = true;
-            return;
-        } else if(key_event.keysym.sym == _key.left_select) {
-            _left_select_state = false;
-            _left_select_release = true;
-            return;
-        } else if(key_event.keysym.sym == _key.right_select) {
-            _right_select_state = false;
-            _right_select_release = true;
             return;
         }
     }
@@ -524,18 +479,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             _menu_state = true;
             _menu_press = true;
             return;
-        } else if(js_event.jbutton.button == _joystick.swap) {
-            _swap_state = true;
-            _swap_press = true;
-            return;
-        } else if(js_event.jbutton.button == _joystick.left_select) {
-            _left_select_state = true;
-            _left_select_press = true;
-            return;
-        } else if(js_event.jbutton.button == _joystick.right_select) {
-            _right_select_state = true;
-            _right_select_press = true;
-            return;
         } else if(js_event.jbutton.button == _joystick.pause) {
             _pause_press = true;
             return;
@@ -560,18 +503,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         } else if(js_event.jbutton.button == _joystick.menu) {
             _menu_state = false;
             _menu_release = true;
-            return;
-        } else if(js_event.jbutton.button == _joystick.swap) {
-            _swap_state = false;
-            _swap_release = true;
-            return;
-        } else if(js_event.jbutton.button == _joystick.left_select) {
-            _left_select_state = false;
-            _left_select_release = true;
-            return;
-        } else if(js_event.jbutton.button == _joystick.right_select) {
-            _right_select_state = false;
-            _right_select_release = true;
             return;
         }
     } // else if (js_event.type == JOYBUTTONUP)
@@ -622,21 +553,6 @@ void InputEngine::_SetNewKey(SDLKey &old_key, SDLKey new_key)
         old_key = new_key;
         return;
     }
-    if(_key.swap == new_key) {  // swap key used already
-        _key.swap = old_key;
-        old_key = new_key;
-        return;
-    }
-    if(_key.left_select == new_key) {  // left_select key used already
-        _key.left_select = old_key;
-        old_key = new_key;
-        return;
-    }
-    if(_key.right_select == new_key) {  // right_select key used already
-        _key.right_select = old_key;
-        old_key = new_key;
-        return;
-    }
     if(_key.pause == new_key) {  // pause key used already
         _key.pause = old_key;
         old_key = new_key;
@@ -662,21 +578,6 @@ void InputEngine::_SetNewJoyButton(uint8 &old_button, uint8 new_button)
     }
     if(_joystick.menu == new_button) {  // menu button used already
         _joystick.menu = old_button;
-        old_button = new_button;
-        return;
-    }
-    if(_joystick.swap == new_button) {  // swap button used already
-        _joystick.swap = old_button;
-        old_button = new_button;
-        return;
-    }
-    if(_joystick.left_select == new_button) {  // left_select button used already
-        _joystick.left_select = old_button;
-        old_button = new_button;
-        return;
-    }
-    if(_joystick.right_select == new_button) {  // right_select button used already
-        _joystick.right_select = old_button;
         old_button = new_button;
         return;
     }
