@@ -530,7 +530,7 @@ void BootMode::_SetupKeySettingsMenu()
 {
     _key_settings_menu.ClearOptions();
     _key_settings_menu.SetPosition(512.0f, 468.0f);
-    _key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 12, 1, 12);
+    _key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 8, 1, 8);
     _key_settings_menu.SetTextStyle(TextStyle("title22"));
     _key_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _key_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -546,9 +546,6 @@ void BootMode::_SetupKeySettingsMenu()
     _key_settings_menu.AddOption(UTranslate("Confirm: "), &BootMode::_RedefineConfirmKey);
     _key_settings_menu.AddOption(UTranslate("Cancel: "), &BootMode::_RedefineCancelKey);
     _key_settings_menu.AddOption(UTranslate("Menu: "), &BootMode::_RedefineMenuKey);
-    _key_settings_menu.AddOption(UTranslate("Swap: "), &BootMode::_RedefineSwapKey);
-    _key_settings_menu.AddOption(UTranslate("Left Select: "), &BootMode::_RedefineLeftSelectKey);
-    _key_settings_menu.AddOption(UTranslate("Right Select: "), &BootMode::_RedefineRightSelectKey);
     _key_settings_menu.AddOption(UTranslate("Pause: "), &BootMode::_RedefinePauseKey);
     _key_settings_menu.AddOption(UTranslate("Restore defaults"), &BootMode::_OnRestoreDefaultKeys);
 }
@@ -558,7 +555,7 @@ void BootMode::_SetupJoySettingsMenu()
 {
     _joy_settings_menu.ClearOptions();
     _joy_settings_menu.SetPosition(512.0f, 468.0f);
-    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 10, 1, 10);
+    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 6, 1, 6);
     _joy_settings_menu.SetTextStyle(TextStyle("title22"));
     _joy_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _joy_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -577,9 +574,6 @@ void BootMode::_SetupJoySettingsMenu()
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineConfirmJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineCancelJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineMenuJoy);
-    _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineSwapJoy);
-    _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineLeftSelectJoy);
-    _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineRightSelectJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefinePauseJoy);
 //	_joy_settings_menu.AddOption(dummy, &BootMode::_RedefineQuitJoy);
 
@@ -657,10 +651,7 @@ void BootMode::_RefreshKeySettings()
     _key_settings_menu.SetOptionText(4, UTranslate("Confirm") + MakeUnicodeString("<r>" + InputManager->GetConfirmKeyName()));
     _key_settings_menu.SetOptionText(5, UTranslate("Cancel") + MakeUnicodeString("<r>" + InputManager->GetCancelKeyName()));
     _key_settings_menu.SetOptionText(6, UTranslate("Menu") + MakeUnicodeString("<r>" + InputManager->GetMenuKeyName()));
-    _key_settings_menu.SetOptionText(7, UTranslate("Swap") + MakeUnicodeString("<r>" + InputManager->GetSwapKeyName()));
-    _key_settings_menu.SetOptionText(8, UTranslate("Left Select") + MakeUnicodeString("<r>" + InputManager->GetLeftSelectKeyName()));
-    _key_settings_menu.SetOptionText(9, UTranslate("Right Select") + MakeUnicodeString("<r>" + InputManager->GetRightSelectKeyName()));
-    _key_settings_menu.SetOptionText(10, UTranslate("Pause") + MakeUnicodeString("<r>" + InputManager->GetPauseKeyName()));
+    _key_settings_menu.SetOptionText(7, UTranslate("Pause") + MakeUnicodeString("<r>" + InputManager->GetPauseKeyName()));
 }
 
 
@@ -673,9 +664,6 @@ void BootMode::_RefreshJoySettings()
     _joy_settings_menu.SetOptionText(i++, UTranslate("Confirm: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetConfirmJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Cancel: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetCancelJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Menu: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMenuJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Swap: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetSwapJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Left Select: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetLeftSelectJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Right Select: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetRightSelectJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Pause: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetPauseJoy())));
 }
 
@@ -1011,9 +999,6 @@ bool BootMode::_LoadSettingsFile(const std::string &filename)
     InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
     InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
     InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
-    InputManager->SetSwapKey(static_cast<SDLKey>(settings.ReadInt("swap")));
-    InputManager->SetLeftSelectKey(static_cast<SDLKey>(settings.ReadInt("left_select")));
-    InputManager->SetRightSelectKey(static_cast<SDLKey>(settings.ReadInt("right_select")));
     InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
     settings.CloseTable();
 
@@ -1036,9 +1021,6 @@ bool BootMode::_LoadSettingsFile(const std::string &filename)
     InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
     InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
     InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
-    InputManager->SetSwapJoy(static_cast<uint8>(settings.ReadInt("swap")));
-    InputManager->SetLeftSelectJoy(static_cast<uint8>(settings.ReadInt("left_select")));
-    InputManager->SetRightSelectJoy(static_cast<uint8>(settings.ReadInt("right_select")));
     InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
 
     // WinterKnight: These are hidden settings. You can change them by editing settings.lua,
@@ -1178,18 +1160,12 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.ModifyInt("key_settings.confirm", InputManager->GetConfirmKey());
     settings_lua.ModifyInt("key_settings.cancel", InputManager->GetCancelKey());
     settings_lua.ModifyInt("key_settings.menu", InputManager->GetMenuKey());
-    settings_lua.ModifyInt("key_settings.swap", InputManager->GetSwapKey());
-    settings_lua.ModifyInt("key_settings.left_select", InputManager->GetLeftSelectKey());
-    settings_lua.ModifyInt("key_settings.right_select", InputManager->GetRightSelectKey());
     settings_lua.ModifyInt("key_settings.pause", InputManager->GetPauseKey());
     settings_lua.ModifyInt("joystick_settings.x_axis", InputManager->GetXAxisJoy());
     settings_lua.ModifyInt("joystick_settings.y_axis", InputManager->GetYAxisJoy());
     settings_lua.ModifyInt("joystick_settings.confirm", InputManager->GetConfirmJoy());
     settings_lua.ModifyInt("joystick_settings.cancel", InputManager->GetCancelJoy());
     settings_lua.ModifyInt("joystick_settings.menu", InputManager->GetMenuJoy());
-    settings_lua.ModifyInt("joystick_settings.swap", InputManager->GetSwapJoy());
-    settings_lua.ModifyInt("joystick_settings.left_select", InputManager->GetLeftSelectJoy());
-    settings_lua.ModifyInt("joystick_settings.right_select", InputManager->GetRightSelectJoy());
     settings_lua.ModifyInt("joystick_settings.pause", InputManager->GetPauseJoy());
 
     // and save it!
@@ -1216,8 +1192,6 @@ SDLKey BootMode::_WaitKeyPress()
     return event.key.keysym.sym;
 }
 
-
-
 uint8 BootMode::_WaitJoyPress()
 {
     SDL_Event event;
@@ -1229,15 +1203,11 @@ uint8 BootMode::_WaitJoyPress()
     return event.jbutton.button;
 }
 
-
-
 void BootMode::_RedefineUpKey()
 {
     _key_setting_function = &BootMode::_SetUpKey;
     _ShowMessageWindow(false);
 }
-
-
 
 void BootMode::_RedefineDownKey()
 {
@@ -1245,15 +1215,11 @@ void BootMode::_RedefineDownKey()
     _ShowMessageWindow(false);
 }
 
-
-
 void BootMode::_RedefineLeftKey()
 {
     _key_setting_function = &BootMode::_SetLeftKey;
     _ShowMessageWindow(false);
 }
-
-
 
 void BootMode::_RedefineRightKey()
 {
@@ -1261,15 +1227,11 @@ void BootMode::_RedefineRightKey()
     _ShowMessageWindow(false);
 }
 
-
-
 void BootMode::_RedefineConfirmKey()
 {
     _key_setting_function = &BootMode::_SetConfirmKey;
     _ShowMessageWindow(false);
 }
-
-
 
 void BootMode::_RedefineCancelKey()
 {
@@ -1277,39 +1239,11 @@ void BootMode::_RedefineCancelKey()
     _ShowMessageWindow(false);
 }
 
-
-
 void BootMode::_RedefineMenuKey()
 {
     _key_setting_function = &BootMode::_SetMenuKey;
     _ShowMessageWindow(false);
 }
-
-
-
-void BootMode::_RedefineSwapKey()
-{
-    _key_setting_function = &BootMode::_SetSwapKey;
-    _ShowMessageWindow(false);
-}
-
-
-
-void BootMode::_RedefineLeftSelectKey()
-{
-    _key_setting_function = &BootMode::_SetLeftSelectKey;
-    _ShowMessageWindow(false);
-}
-
-
-
-void BootMode::_RedefineRightSelectKey()
-{
-    _key_setting_function = &BootMode::_SetRightSelectKey;
-    _ShowMessageWindow(false);
-}
-
-
 
 void BootMode::_RedefinePauseKey()
 {
@@ -1317,83 +1251,45 @@ void BootMode::_RedefinePauseKey()
     _ShowMessageWindow(false);
 }
 
-
-
 void BootMode::_SetUpKey(const SDLKey &key)
 {
     InputManager->SetUpKey(key);
 }
-
-
 
 void BootMode::_SetDownKey(const SDLKey &key)
 {
     InputManager->SetDownKey(key);
 }
 
-
 void BootMode::_SetLeftKey(const SDLKey &key)
 {
     InputManager->SetLeftKey(key);
 }
-
-
 
 void BootMode::_SetRightKey(const SDLKey &key)
 {
     InputManager->SetRightKey(key);
 }
 
-
-
 void BootMode::_SetConfirmKey(const SDLKey &key)
 {
     InputManager->SetConfirmKey(key);
 }
-
-
 
 void BootMode::_SetCancelKey(const SDLKey &key)
 {
     InputManager->SetCancelKey(key);
 }
 
-
-
 void BootMode::_SetMenuKey(const SDLKey &key)
 {
     InputManager->SetMenuKey(key);
 }
 
-
-
-void BootMode::_SetSwapKey(const SDLKey &key)
-{
-    InputManager->SetSwapKey(key);
-}
-
-
-
-void BootMode::_SetLeftSelectKey(const SDLKey &key)
-{
-    InputManager->SetLeftSelectKey(key);
-}
-
-
-
-void BootMode::_SetRightSelectKey(const SDLKey &key)
-{
-    InputManager->SetRightSelectKey(key);
-}
-
-
-
 void BootMode::_SetPauseKey(const SDLKey &key)
 {
     InputManager->SetPauseKey(key);
 }
-
-
 
 void BootMode::_RedefineXAxisJoy()
 {
@@ -1402,8 +1298,6 @@ void BootMode::_RedefineXAxisJoy()
     InputManager->ResetLastAxisMoved();
 }
 
-
-
 void BootMode::_RedefineYAxisJoy()
 {
     _joy_axis_setting_function = &BootMode::_SetYAxisJoy;
@@ -1411,14 +1305,10 @@ void BootMode::_RedefineYAxisJoy()
     InputManager->ResetLastAxisMoved();
 }
 
-
-
 void BootMode::_RedefineThresholdJoy()
 {
     // TODO
 }
-
-
 
 void BootMode::_RedefineConfirmJoy()
 {
@@ -1426,15 +1316,11 @@ void BootMode::_RedefineConfirmJoy()
     _ShowMessageWindow(true);
 }
 
-
-
 void BootMode::_RedefineCancelJoy()
 {
     _joy_setting_function = &BootMode::_SetCancelJoy;
     _ShowMessageWindow(true);
 }
-
-
 
 void BootMode::_RedefineMenuJoy()
 {
@@ -1442,102 +1328,41 @@ void BootMode::_RedefineMenuJoy()
     _ShowMessageWindow(true);
 }
 
-
-
-void BootMode::_RedefineSwapJoy()
-{
-    _joy_setting_function = &BootMode::_SetSwapJoy;
-    _ShowMessageWindow(true);
-}
-
-
-
-void BootMode::_RedefineLeftSelectJoy()
-{
-    _joy_setting_function = &BootMode::_SetLeftSelectJoy;
-    _ShowMessageWindow(true);
-}
-
-
-
-void BootMode::_RedefineRightSelectJoy()
-{
-    _joy_setting_function = &BootMode::_SetRightSelectJoy;
-    _ShowMessageWindow(true);
-}
-
-
-
 void BootMode::_RedefinePauseJoy()
 {
     _joy_setting_function = &BootMode::_SetPauseJoy;
     _ShowMessageWindow(true);
 }
 
-
-
 void BootMode::_RedefineQuitJoy()
 {
     // TODO
 }
-
-
 
 void BootMode::_SetXAxisJoy(int8 axis)
 {
     InputManager->SetXAxisJoy(axis);
 }
 
-
-
 void BootMode::_SetYAxisJoy(int8 axis)
 {
     InputManager->SetYAxisJoy(axis);
 }
-
-
 
 void BootMode::_SetConfirmJoy(uint8 button)
 {
     InputManager->SetConfirmJoy(button);
 }
 
-
-
 void BootMode::_SetCancelJoy(uint8 button)
 {
     InputManager->SetCancelJoy(button);
 }
 
-
-
 void BootMode::_SetMenuJoy(uint8 button)
 {
     InputManager->SetMenuJoy(button);
 }
-
-
-
-void BootMode::_SetSwapJoy(uint8 button)
-{
-    InputManager->SetSwapJoy(button);
-}
-
-
-
-void BootMode::_SetLeftSelectJoy(uint8 button)
-{
-    InputManager->SetLeftSelectJoy(button);
-}
-
-
-
-void BootMode::_SetRightSelectJoy(uint8 button)
-{
-    InputManager->SetRightSelectJoy(button);
-}
-
-
 
 void BootMode::_SetPauseJoy(uint8 button)
 {
