@@ -271,9 +271,16 @@ public:
     EquipState(MenuMode *menu_mode):
         AbstractMenuState("Equip State", menu_mode)
     {}
-    ~EquipState(){}
-    void Reset();
-    AbstractMenuState* GetTransitionState(uint32 selection);
+
+    ~EquipState()
+    {}
+
+    void Reset()
+    {}
+
+    AbstractMenuState* GetTransitionState(uint32 /*selection*/)
+    { return NULL; }
+
     //handles drawing the bottom window info for equipment
     static void DrawEquipmentInfo(const hoa_utils::ustring &equipment_name, bool is_weapon = false,
                                   uint32 physical_attribute = 0, uint32 magical_attribute = 0,
@@ -303,10 +310,14 @@ public:
         AbstractMenuState("Quest State", menu_mode)
     {}
 
-    ~QuestState(){}
+    ~QuestState()
+    {}
 
-    void Reset();
-    AbstractMenuState *GetTransitionState(uint32 selection);
+    void Reset()
+    {}
+
+    AbstractMenuState *GetTransitionState(uint32 /*selection*/)
+    { return NULL; }
 protected:
     void _OnDrawMainWindow();
     void _OnDrawSideWindow();

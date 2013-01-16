@@ -10,7 +10,7 @@ quests = {
         -- Title
         hoa_system.Translate("Get Some Barley Meal"),
         -- Description
-        hoa_system.Translate("Need some for dinner! Flora might have some.\nI should go and have a look in her shop first."),
+        hoa_system.Translate("Need some for dinner!\nFlora might have some.\nI should go and have a look in her shop first."),
         -- Group and event for the quest to be complete.
         "story", "quest1_barley_meal_done"
     },
@@ -20,7 +20,7 @@ quests = {
         -- Title
         hoa_system.Translate("Find Georges' pen"),
         -- Description
-        hoa_system.Translate("Georges has lost his pen. I need to get it back to him so he can tell me \n whom he gave the barley meal to."),
+        hoa_system.Translate("Georges has lost his pen. I need to get it back to him so he can tell me \nwhom he gave the barley meal to."),
         -- Group and event for the quest to be complete.
         "layna_center", "quest1_pen_given_done"
     }
