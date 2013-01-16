@@ -402,7 +402,6 @@ void MainMenuState::_OnDrawMainWindow()
         }
         case MAIN_OPTIONS_WORLDMAP:
         {
-            //TODO there is a visual bug here with the help information not showing properly. need to fix.
             static const ustring world_map_window_message = UTranslate("Select to view current world map.\nUse left / right to cycle through locations.\nPress 'cancel' to return");
             _menu_mode->_bottom_window.Draw();
             _menu_mode->_help_information.SetDisplayText(world_map_window_message);
@@ -1205,7 +1204,6 @@ MenuMode::MenuMode() :
     _help_information.SetDimensions(500, 100);
     _help_information.SetTextStyle(TextStyle("text20"));
     _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
-    //_help_information.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
     //////////// Setup the menu windows
