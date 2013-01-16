@@ -402,8 +402,7 @@ void MainMenuState::_OnDrawMainWindow()
         }
         case MAIN_OPTIONS_WORLDMAP:
         {
-            //TODO there is a visual bug here with the help information not showing properly. need to fix.
-            static const ustring world_map_window_message = UTranslate("Select to view current world map.\nUse left / right to cycle through locations. Press 'cancel' to return");
+            static const ustring world_map_window_message = UTranslate("Select to view current world map.\nUse left / right to cycle through locations.\nPress 'cancel' to return");
             _menu_mode->_bottom_window.Draw();
             _menu_mode->_help_information.SetDisplayText(world_map_window_message);
             _menu_mode->_help_information.Draw();
@@ -807,38 +806,13 @@ void SkillsState::_DrawBottomMenu()
 void EquipState::_ActiveWindowUpdate()
 {
     _menu_mode->_equip_window.Update();
+    if(!_IsActive())
+        _OnCancel();
 }
 
 bool EquipState::_IsActive()
 {
     return _menu_mode->_equip_window.IsActive();
-}
-
-void EquipState::Reset()
-{
-    // Setup the status option box
-    SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(100.0f, 50.0f, EQUIP_OPTIONS_SIZE, 1, EQUIP_OPTIONS_SIZE, 1);
-
-    // Generate the strings
-    std::vector<ustring> options;
-    options.push_back(UTranslate("Back"));
-
-    // Add strings and set default selection.
-    _options.SetOptions(options);
-    _options.SetSelection(EQUIP_OPTIONS_BACK);
-}
-
-AbstractMenuState* EquipState::GetTransitionState(uint32 selection)
-{
-    switch(selection)
-    {
-        case EQUIP_OPTIONS_BACK:
-            return &(_menu_mode->_inventory_state);
-        default:
-            break;
-    };
-    return NULL;
 }
 
 void EquipState::_OnEntry(AbstractMenuState *from_state)
@@ -1033,43 +1007,16 @@ void EquipState::_DrawBottomMenu()
     } // if EQUIP_ACTIVE_LIST
 }
 
-AbstractMenuState *QuestState::GetTransitionState(uint32 selection)
-{
-    switch(selection)
-    {
-        case QUEST_OPTIONS_BACK:
-            return &(_menu_mode->_main_menu_state);
-            break;
-        case QUEST_OPTIONS_VIEW:
-            _menu_mode->_quest_list_window.Activate(true);
-            break;
-        default:
-            break;
-
-    }
-    return NULL;
-}
-
-void QuestState::Reset()
-{
-    // Setup the status option box
-    SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(415.0f, 50.0f, QUEST_OPTIONS_SIZE, 1, QUEST_OPTIONS_SIZE, 1);
-
-    // Generate the strings
-    std::vector<ustring> options;
-    options.push_back(UTranslate("View"));
-    options.push_back(UTranslate("Back"));
-
-    // Add strings and set default selection.
-    _options.SetOptions(options);
-    _options.SetSelection(QUEST_OPTIONS_BACK);
-}
+// //////////////////////
+// QuestState
+// //////////////////////
 
 void QuestState::_ActiveWindowUpdate()
 {
     _menu_mode->_quest_window.Update();
     _menu_mode->_quest_list_window.Update();
+    if(!_IsActive())
+        _OnCancel();
 }
 
 bool QuestState::_IsActive()
@@ -1096,9 +1043,6 @@ void QuestState::_OnEntry(AbstractMenuState *from_state)
     //automatically go into the quest list window
     _menu_mode->_quest_list_window.Activate(true);
 
-    //set the option cursor to view
-    _options.SetSelection(QUEST_OPTIONS_VIEW);
-    _options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
 
 }
 
@@ -1260,8 +1204,7 @@ MenuMode::MenuMode() :
     _help_information.SetDimensions(500, 100);
     _help_information.SetTextStyle(TextStyle("text20"));
     _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
-    _help_information.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
     //////////// Setup the menu windows
     // The character windows
