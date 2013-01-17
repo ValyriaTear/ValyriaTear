@@ -575,6 +575,15 @@ public:
     void DrawBottom();
 
     /*!
+    * \brief clears the info out.
+    */
+    void ClearBottom()
+    {
+        _location_name.ClearText();
+        _location_image = NULL;
+    }
+
+    /*!
     * \brief Performs updates
     */
     void Update();
