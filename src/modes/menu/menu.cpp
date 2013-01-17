@@ -1049,6 +1049,10 @@ void QuestState::_OnEntry(AbstractMenuState *from_state)
 void QuestState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
+    if(_IsActive())
+    {
+        _menu_mode->_quest_window.DrawBottom();
+    }
 }
 
 /////////////////////////////////////

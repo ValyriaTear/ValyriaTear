@@ -195,15 +195,31 @@ private:
 
 // A simple structure used to store quest log system info.
 struct QuestLogInfo {
-    QuestLogInfo(const hoa_utils::ustring& title,
-                 const hoa_utils::ustring& description,
-                 const std::string& completion_event_group,
-                 const std::string& completion_event_name) :
+    QuestLogInfo(const hoa_utils::ustring &title,
+                 const hoa_utils::ustring &description,
+                 const std::string &completion_event_group,
+                 const std::string &completion_event_name) :
         _title(title),
         _description(description),
         _completion_event_group(completion_event_group),
         _completion_event_name(completion_event_name)
     {}
+
+    QuestLogInfo(const hoa_utils::ustring &title,
+                 const hoa_utils::ustring &description,
+                 const std::string &completion_event_group,
+                 const std::string &completion_event_name,
+                 const hoa_utils::ustring &location_name,
+                 const std::string &location_banner_filename) :
+        _title(title),
+        _description(description),
+        _completion_event_group(completion_event_group),
+        _completion_event_name(completion_event_name),
+        _location_name(location_name)
+    {
+        if(!_location_image.Load(location_banner_filename))
+            PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
+    }
 
     QuestLogInfo()
     {}
@@ -215,6 +231,10 @@ struct QuestLogInfo {
     // Internal quest info used to know whether the quest is complete.
     std::string _completion_event_group;
     std::string _completion_event_name;
+
+    // location information
+    hoa_video::StillImage _location_image;
+    hoa_utils::ustring _location_name;
 };
 
 /** *****************************************************************************
@@ -562,7 +582,7 @@ public:
     *** \param quest_id the quest id
     *** \return a reference to the given quest log info or an empty quest log info.
     **/
-    const QuestLogInfo& GetQuestInfo(const std::string &quest_id);
+    QuestLogInfo& GetQuestInfo(const std::string &quest_id);
     //@}
 
     //! \note The overflow condition is not checked here: we just assume it will never occur
