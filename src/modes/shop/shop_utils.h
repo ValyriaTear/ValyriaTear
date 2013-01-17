@@ -48,9 +48,7 @@ enum SHOP_STATE {
     SHOP_STATE_BUY       =  1,
     SHOP_STATE_SELL      =  2,
     SHOP_STATE_TRADE     =  3,
-    SHOP_STATE_CONFIRM   =  4,
-    SHOP_STATE_LEAVE     =  5,
-    SHOP_STATE_TOTAL     =  6
+    SHOP_STATE_TOTAL     =  4
 };
 
 //! \brief Used to toggle between different view models in some interfaces
@@ -76,9 +74,6 @@ enum SHOP_OBJECT {
     SHOP_OBJECT_KEY_ITEM   =  3,
     SHOP_OBJECT_TOTAL      =  4
 };
-
-//! \brief The number to add/subtract from buy/sell count when the player uses the increase/decrease batch commands
-const uint32 SHOP_BATCH_COUNT = 10;
 
 //! \name Price multipliers
 //! \brief These values are multiplied by an object's standard price to get the price for the desired price level
@@ -414,19 +409,6 @@ public:
 
     //! \brief Reconstructs all option box entries from the object data
     virtual void ReconstructList() = 0;
-
-    /** \brief Refreshes the desired properties of a single object
-    *** \param index The row index of the object data to reconstruct
-    **/
-    virtual void RefreshEntry(uint32 index) = 0;
-
-    /** \brief Refreshes the desired properties of all objects in the list
-    *** The difference between this method and the ReconstructList() method is that this method only
-    *** operates on the object's desired properties by calling RefreshEntry(), whereas ReconstructList()
-    *** clears and rebuilds the entire list from scratch. Using this method is much less costly than
-    *** reconstructing the entire list.
-    **/
-    virtual void RefreshAllEntries();
 
     /** \brief Returns a pointer to the currently selected shop object
     *** This method may return NULL if the current selection is invalid or the _objects container is empty

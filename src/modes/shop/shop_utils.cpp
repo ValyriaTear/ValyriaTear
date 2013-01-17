@@ -500,17 +500,6 @@ void ObjectListDisplay::PopulateList(std::vector<ShopObject *>& objects)
 
 
 
-void ObjectListDisplay::RefreshAllEntries()
-{
-    if(IsListEmpty() == true)
-        return;
-
-    for(uint32 i = 0; i < _objects.size(); i++)
-        RefreshEntry(i);
-}
-
-
-
 ShopObject *ObjectListDisplay::GetSelectedObject()
 {
     if(IsListEmpty() == true)

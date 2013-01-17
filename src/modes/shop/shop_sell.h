@@ -151,12 +151,6 @@ private:
     *** \return True if the _selected_object member has changed
     **/
     bool _ChangeSelection(bool up_or_down);
-
-    /** \brief Refreshes the text in the _selected_properties OptionBox
-    *** This method only needs to be called when the properties (likely quantity) change
-    *** in the "info" view mode. Calling it while in "list" view is wasted effort
-    **/
-    void _RefreshSelectedProperties();
 }; // class SellInterface : public ShopInterface
 
 
@@ -179,15 +173,6 @@ public:
 
     //! \brief Reconstructs all option box entries from the object data
     void ReconstructList();
-
-    /** \brief Will refresh the displayed sell count property for a single list entry
-    *** \param index The index of the object data to reconstruct
-    ***
-    *** The reason that only sell quantity is refreshed is that no other property data needs to be
-    *** updated while in the sell interface. All other data remains static and require updating
-    *** only after a shop transaction is completed.
-    **/
-    void RefreshEntry(uint32 index);
 
     /** \brief Changes the sell count of the selected object, refreshes the list entry, and updates financial totals
     *** \param less_or_more False to decrease the quantity, true to increase it

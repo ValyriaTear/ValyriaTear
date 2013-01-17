@@ -65,7 +65,6 @@ SellInterface::SellInterface() :
     _properties_header.SetTextStyle(TextStyle("title24"));
     _properties_header.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _properties_header.AddOption(UTranslate("Price"));
-    //_properties_header.AddOption(UTranslate("Stock"));
     _properties_header.AddOption(UTranslate("Own"));
 
     _selected_name.SetStyle(TextStyle("text22"));
@@ -77,9 +76,7 @@ SellInterface::SellInterface() :
     _selected_properties.SetTextStyle(TextStyle("text22"));
     _selected_properties.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _selected_properties.AddOption(ustring());
-    //_selected_properties.AddOption(ustring());
     _selected_properties.AddOption(ustring());
-    //_selected_properties.AddOption(ustring());
 }
 
 
@@ -161,19 +158,6 @@ void SellInterface::_RefreshItemCategories()
     }
 
     _number_categories = _category_names.size();
-
-    // Grab the sprite frames for all characters in the active party
-    /*	std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
-    	for (uint32 i = 0; i < characters->size(); ++i) {
-    		GlobalCharacter *character = characters->at(i);
-
-    		if (!character || character->GetStandardSpriteFrames()->empty()) {
-    			_character_sprites.push_back(new StillImage());
-    			continue;
-    		}
-
-    		_character_sprites.push_back(characters->at(i)->GetStandardSpriteFrames()->at(0));
-    	}*/
 }
 
 
@@ -300,10 +284,6 @@ void SellInterface::MakeActive()
         return;
     }
 
-    // Sell counts may have be modified externally so a complete list refresh is necessary
-    for(uint32 i = 0; i < _list_displays.size(); i++)
-        _list_displays[i]->RefreshAllEntries();
-
     _selected_object = _list_displays[_current_category]->GetSelectedObject();
     ShopMode::CurrentInstance()->ObjectViewer()->ChangeViewMode(_view_mode);
     ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
@@ -372,13 +352,13 @@ void SellInterface::Update()
         // Left/right change the quantity of the object to sell
         else if(InputManager->LeftPress()) {
             if(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {
-                _RefreshSelectedProperties();
+                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
                 ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
             } else
                 ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeSellQuantity(true) == true) {
-                _RefreshSelectedProperties();
+                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
                 ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
             } else
                 ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
@@ -451,7 +431,6 @@ void SellInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _selected_icon = _selected_object->GetObject()->GetIconImage();
         _selected_icon.SetDimensions(30.0f, 30.0f);
         _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetSellPrice())));
-        //_selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetOwnCount())));
     } else {
         IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << std::endl;
@@ -471,9 +450,6 @@ bool SellInterface::_ChangeCategory(bool left_or_right)
     }
 
     _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
-    // Refresh all entries in the newly selected list is required because every object is available in two
-    // categories, their standard type and the "All Wares" category.
-    _list_displays[_current_category]->RefreshAllEntries();
 
     ShopObject *last_obj = _selected_object;
     _selected_object = _list_displays[_current_category]->GetSelectedObject();
@@ -508,18 +484,6 @@ bool SellInterface::_ChangeSelection(bool down)
         return true;
 }
 
-
-
-void SellInterface::_RefreshSelectedProperties()
-{
-    if(_selected_object == NULL)
-        return;
-
-    // The only property that really needs to be refreshed is the sell quantity. Other properties will remain static.
-    //_selected_properties.SetOptionText(_selected_properties.GetNumberColumns() - 1,
-    //MakeUnicodeString("×" + NumberToString(_selected_object->GetSellCount())));
-}
-
 // *****************************************************************************
 // ***** SellListDisplay class methods
 // *****************************************************************************
@@ -537,11 +501,9 @@ void SellListDisplay::ReconstructList()
                                  + obj->GetObject()->GetName());
         _identify_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
 
-        // Add an option for each object property in the order of: price, stock, number owned, and amount to sell
+        // Add an option for each object property in the order of: price, and number owned.
         _property_list.AddOption(MakeUnicodeString(NumberToString(obj->GetSellPrice())));
-        //_property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetOwnCount())));
-        //_property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetSellCount())));
     }
 
     if(_objects.empty() == false) {
@@ -549,24 +511,6 @@ void SellListDisplay::ReconstructList()
         _property_list.SetSelection(0);
     }
 }
-
-
-
-void SellListDisplay::RefreshEntry(uint32 index)
-{
-    if(_objects.empty() == true) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "no object data is available" << std::endl;
-        return;
-    }
-    if(index >= _objects.size()) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of range: " << index << std::endl;
-        return;
-    }
-
-    //_property_list.SetOptionText((index * _property_list.GetNumberColumns()) + (_property_list.GetNumberColumns() - 1),
-    //MakeUnicodeString("×" + NumberToString(_objects[index]->GetSellCount())));
-}
-
 
 
 bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
@@ -606,7 +550,6 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
 
         obj->DecrementSellCount(change_amount);
         ShopMode::CurrentInstance()->UpdateFinances(-obj->GetSellPrice() * change_amount);
-        RefreshEntry(GetCurrentSelection());
         return true;
     } else { // more
         // Make sure that there is at least one more object available to sell in the player's inventory
@@ -623,7 +566,6 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
         obj->IncrementSellCount(change_amount);
 
         ShopMode::CurrentInstance()->UpdateFinances(obj->GetSellPrice() * change_amount);
-        RefreshEntry(GetCurrentSelection());
         return true;
     }
 } // bool SellListDisplay::ChangeSellQuantity(bool less_or_more, uint32 amount)
