@@ -54,11 +54,11 @@ std::string GetStatusName(GLOBAL_STATUS type);
 *** This class is a simple container of two enumerated values: an elemental type
 *** and an intensity. Elemental effects provide for special types of attack and
 *** defense bonuses. There are really two types of elemental effects: physical
-*** and metaphysical, the same as the two attack damage types. Whether the elemental
+*** and magical, the same as the two attack damage types. Whether the elemental
 *** effect represented by objects of this class are meant to serve as a defensive boost
 *** or an offensive boost is determined by the context in which the class object is used.
 ***
-*** \todo Explain any differences between how physical versus metaphyiscal elements
+*** \todo Explain any differences between how physical versus magical elements
 *** function in the game once that decision has been reached.
 *** ***************************************************************************/
 class GlobalElementalEffect

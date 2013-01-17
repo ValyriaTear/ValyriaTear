@@ -236,7 +236,7 @@ void BindCommonCode()
             .def("GetEvadeModifier", &GlobalAttackPoint::GetEvadeModifier)
             .def("GetActorOwner", &GlobalAttackPoint::GetActorOwner)
             .def("GetTotalPhysicalDefense", &GlobalAttackPoint::GetTotalPhysicalDefense)
-            .def("GetTotalMetaphysicalDefense", &GlobalAttackPoint::GetTotalMetaphysicalDefense)
+            .def("GetTotalMagicalDefense", &GlobalAttackPoint::GetTotalMagicalDefense)
             .def("GetTotalEvadeRating", &GlobalAttackPoint::GetTotalEvadeRating)
         ];
 
@@ -259,7 +259,7 @@ void BindCommonCode()
             .def("GetEvade", &GlobalActor::GetEvade)
 
             .def("GetTotalPhysicalAttack", &GlobalActor::GetTotalPhysicalAttack)
-            .def("GetTotalMetaphysicalAttack", &GlobalActor::GetTotalMetaphysicalAttack)
+            .def("GetTotalMagicalAttack", &GlobalActor::GetTotalMagicalAttack)
             .def("GetAttackPoint", &GlobalActor::GetAttackPoint)
 // 			.def("GetWeaponEquipped", &GlobalActor::GetWeaponEquipped)
 // 			.def("GetArmorEquipped", (GlobalArmor* (GlobalActor::*)(uint32)) &GlobalActor::GetArmorEquipped)

@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    shop.h
+*** \file    shop.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \brief   Source file for shop mode interface
 ***
@@ -431,11 +431,11 @@ ShopObjectViewer::ShopObjectViewer() :
 
     _phys_header.SetStyle(TextStyle("text22"));
     _phys_header.SetText(UTranslate("Phys:"));
-    _meta_header.SetStyle(TextStyle("text22"));
-    _meta_header.SetText(UTranslate("Meta:"));
+    _mag_header.SetStyle(TextStyle("text22"));
+    _mag_header.SetText(UTranslate("Mag:"));
 
     _phys_rating.SetStyle(TextStyle("text22"));
-    _meta_rating.SetStyle(TextStyle("text22"));
+    _mag_rating.SetStyle(TextStyle("text22"));
     _shard_slot_text.SetStyle(TextStyle("text22"));
 }
 
@@ -459,7 +459,7 @@ void ShopObjectViewer::Initialize()
         _character_sprites.push_back(&animations->at(i));
         _character_equipped.push_back(false);
         _phys_change_text.push_back(TextImage());
-        _meta_change_text.push_back(TextImage());
+        _mag_change_text.push_back(TextImage());
     }
 }
 
@@ -668,13 +668,13 @@ void ShopObjectViewer::_SetEquipmentData()
 
     if(selected_weapon) {
         _phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
-        _meta_rating.SetText(NumberToString(selected_weapon->GetMetaphysicalAttack()));
+        _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack()));
         _shard_slot_text.SetText("x" + NumberToString(selected_weapon->GetShardSlots().size()));
         _SetElementalIcons(selected_weapon->GetElementalEffects());
         _SetStatusIcons(selected_weapon->GetStatusEffects());
     } else if(selected_armor) {
         _phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
-        _meta_rating.SetText(NumberToString(selected_armor->GetMetaphysicalDefense()));
+        _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense()));
         _shard_slot_text.SetText("x" + NumberToString(selected_armor->GetShardSlots().size()));
         _SetElementalIcons(selected_armor->GetElementalEffects());
         _SetStatusIcons(selected_armor->GetStatusEffects());
@@ -685,9 +685,9 @@ void ShopObjectViewer::_SetEquipmentData()
     GlobalCharacter *character = NULL;
     GlobalWeapon *equipped_weapon = NULL;
     GlobalArmor *equipped_armor = NULL;
-    int32 phys_diff = 0, meta_diff = 0; // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
+    int32 phys_diff = 0, mag_diff = 0; // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
 
-    // NOTE: In this block of code, entries to the _phys_change_text and _meta_change_text members are only modified if that information is to be
+    // NOTE: In this block of code, entries to the _phys_change_text and _mag_change_text members are only modified if that information is to be
     // displayed for the character (meaning that the character can use the weapon/armor and does not already have it equipped). This means
     // that these two container members may contain stale data from previous objects. This is acceptable, however, as the stale data should
     // never be drawn. The stale data is allowed to remain so that we do not waste time re-rendering text for which we will not display.
@@ -712,7 +712,7 @@ void ShopObjectViewer::_SetEquipmentData()
             // Case 2: if the player does not have any weapon equipped, the stat diff is equal to the selected weapon's ratings
             if(equipped_weapon == NULL) {
                 phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack());
-                meta_diff = static_cast<int32>(selected_weapon->GetMetaphysicalAttack());
+                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack());
             }
             // Case 3: if the player already has this weapon equipped, indicate thus and move on to the next character
             else if(selected_weapon->GetID() == equipped_weapon->GetID()) {
@@ -723,12 +723,12 @@ void ShopObjectViewer::_SetEquipmentData()
             else {
                 phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack()) -
                             static_cast<int32>(equipped_weapon->GetPhysicalAttack());
-                meta_diff = static_cast<int32>(selected_weapon->GetMetaphysicalAttack()) -
-                            static_cast<int32>(equipped_weapon->GetMetaphysicalAttack());
+                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack()) -
+                            static_cast<int32>(equipped_weapon->GetMagicalAttack());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
-            _SetChangeText(i, phys_diff, meta_diff);
+            _SetChangeText(i, phys_diff, mag_diff);
         }
     } else { // (selected_armor != NULL)
         for(uint32 i = 0; i < party->size(); ++i) {
@@ -751,7 +751,7 @@ void ShopObjectViewer::_SetEquipmentData()
             // Case 2: if the player does not have any armor equipped, the stat diff is equal to the selected armor's ratings
             if(equipped_armor == NULL) {
                 phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense());
-                meta_diff = static_cast<int32>(selected_armor->GetMetaphysicalDefense());
+                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense());
             }
             // Case 3: if the player already has this armor equipped, indicate thus and move on to the next character
             else if(selected_armor->GetID() == equipped_armor->GetID()) {
@@ -762,12 +762,12 @@ void ShopObjectViewer::_SetEquipmentData()
             else {
                 phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense()) -
                             static_cast<int32>(equipped_armor->GetPhysicalDefense());
-                meta_diff = static_cast<int32>(selected_armor->GetMetaphysicalDefense()) -
-                            static_cast<int32>(equipped_armor->GetMetaphysicalDefense());
+                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense()) -
+                            static_cast<int32>(equipped_armor->GetMagicalDefense());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
-            _SetChangeText(i, phys_diff, meta_diff);
+            _SetChangeText(i, phys_diff, mag_diff);
         }
     }
 } // void ShopObjectViewer::_SetEquipmentData()
@@ -846,7 +846,7 @@ void ShopObjectViewer::_SetCountText()
 }
 
 
-void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 meta_diff)
+void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 mag_diff)
 {
     if(index >= _character_sprites.size()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of bounds: " << index << std::endl;
@@ -865,16 +865,16 @@ void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 meta_
         _phys_change_text[index].SetText(NumberToString(phys_diff));
     }
 
-    _meta_change_text[index].Clear();
-    if(meta_diff > 0) {
-        _meta_change_text[index].SetStyle(TextStyle("text18", Color::green));
-        _meta_change_text[index].SetText("+" + NumberToString(meta_diff));
-    } else if(meta_diff < 0) {
-        _meta_change_text[index].SetStyle(TextStyle("text18", Color::red));
-        _meta_change_text[index].SetText(NumberToString(meta_diff));
-    } else { // (meta_diff == 0)
-        _meta_change_text[index].SetStyle(TextStyle("text18", Color::white));
-        _meta_change_text[index].SetText(NumberToString(meta_diff));
+    _mag_change_text[index].Clear();
+    if(mag_diff > 0) {
+        _mag_change_text[index].SetStyle(TextStyle("text18", Color::green));
+        _mag_change_text[index].SetText("+" + NumberToString(mag_diff));
+    } else if(mag_diff < 0) {
+        _mag_change_text[index].SetStyle(TextStyle("text18", Color::red));
+        _mag_change_text[index].SetText(NumberToString(mag_diff));
+    } else { // (mag_diff == 0)
+        _mag_change_text[index].SetStyle(TextStyle("text18", Color::white));
+        _mag_change_text[index].SetText(NumberToString(mag_diff));
     }
 }
 
@@ -941,13 +941,13 @@ void ShopObjectViewer::_DrawEquipment()
     VideoManager->MoveRelative(80.0f, 15.0f);
     _phys_header.Draw();
     VideoManager->MoveRelative(0.0f, -30.0f);
-    _meta_header.Draw();
+    _mag_header.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
     VideoManager->MoveRelative(90.0f, 30.0f);
     _phys_rating.Draw();
     VideoManager->MoveRelative(0.0f, -30.0f);
-    _meta_rating.Draw();
+    _mag_rating.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
     VideoManager->MoveRelative(20.0f, 15.0f);
@@ -1020,7 +1020,7 @@ void ShopObjectViewer::_DrawEquipment()
             VideoManager->MoveRelative(0.0f, -65.0f);
             _phys_change_text[i].Draw();
             VideoManager->MoveRelative(0.0f, -20.0f);
-            _meta_change_text[i].Draw();
+            _mag_change_text[i].Draw();
             VideoManager->MoveRelative(0.0f, 85.0f);
         }
         // Case 3: Nothing needs to be drawn below the sprite

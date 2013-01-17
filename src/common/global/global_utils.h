@@ -151,7 +151,7 @@ enum GLOBAL_OBJECT {
 
 /** \name Elemental Effect Types
 *** \brief Used to identify the eight different types of elementals
-*** There are a total of four physical and four metaphysical elemental effects
+*** There are a total of four physical and four magical elemental effects
 **/
 enum GLOBAL_ELEMENTAL {
     GLOBAL_ELEMENTAL_INVALID    = -1,

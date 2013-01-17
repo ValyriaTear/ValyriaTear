@@ -469,13 +469,13 @@ uint32 BattleActor::GetAverageDefense()
 
 uint32 BattleActor::GetAverageMagicalDefense()
 {
-    uint32 meta_defense = 0;
+    uint32 mag_defense = 0;
 
     for(uint32 i = 0; i < _attack_points.size(); i++)
-        meta_defense += _attack_points[i]->GetTotalMetaphysicalDefense();
-    meta_defense /= _attack_points.size();
+        mag_defense += _attack_points[i]->GetTotalMagicalDefense();
 
-    return meta_defense;
+    mag_defense /= _attack_points.size();
+    return mag_defense;
 }
 
 float BattleActor::GetAverageEvadeRating()
