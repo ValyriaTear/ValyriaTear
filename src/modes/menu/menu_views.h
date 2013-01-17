@@ -564,9 +564,15 @@ public:
     ~QuestWindow(){}
     /*!
     * \brief Draws window
-    * \return success/failure
     */
     void Draw();
+
+    /*!
+    * \brief Draws the bottom window information
+    * \note this only draws the location name and banner. we assume the
+    * calling function draws the actual window and frame
+    */
+    void DrawBottom();
 
     /*!
     * \brief Performs updates
@@ -588,6 +594,12 @@ private:
 
     //! \brief sets the display text to be rendered, based on their quest key that is set
     hoa_gui::TextBox _quest_description;
+
+    //! \brief the display text to be rendered for the location name that the quest key is set to
+    hoa_gui::TextBox _location_name;
+
+    //! \brief the currently viewing location image
+    hoa_video::StillImage *_location_image;
 
 };
 

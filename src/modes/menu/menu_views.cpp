@@ -1763,7 +1763,8 @@ void QuestListWindow::_SetupQuestsList() {
 // QuestWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
-QuestWindow::QuestWindow()
+QuestWindow::QuestWindow():
+    _location_image(NULL)
 {
     //_quest_description.SetOwner(this);
     _quest_description.SetPosition(445, 130);
@@ -1772,6 +1773,12 @@ QuestWindow::QuestWindow()
     _quest_description.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _quest_description.SetTextStyle(TextStyle("text20"));
     _quest_description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+
+    _location_name.SetPosition(102, 556);
+    _location_name.SetDimensions(500.0f, 50.0f);
+    _location_name.SetTextStyle(TextStyle("title22"));
+    _location_name.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _location_name.SetDisplayText(GlobalManager->GetMapHudName());
 }
 
 void QuestWindow::Draw()
@@ -1782,6 +1789,21 @@ void QuestWindow::Draw()
         _quest_description.Draw();
 }
 
+void QuestWindow::DrawBottom()
+{
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+    VideoManager->Move(150, 580);
+    // Display Location
+    _location_name.Draw();
+
+    if(_location_image != NULL && _location_image->GetFilename().empty() == false) {
+        VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+        VideoManager->Move(390, 685);
+        _location_image->Draw();
+    }
+}
+
 void QuestWindow::Update()
 {
     MenuWindow::Update();
@@ -1789,14 +1811,21 @@ void QuestWindow::Update()
     // Check to see if the id is empty or if the quest doesn't exist. if so, draw an empty space
     if(_viewing_quest_id.empty()) {
         _quest_description.ClearText();
+        _location_name.ClearText();
+        _location_image = NULL;
         return;
     }
 
     // otherwise, put the text description for the quest in
     // Not calling ClearText each time will permit to set up the textbox text only when necessary
-    const QuestLogInfo& info = GlobalManager->GetQuestInfo(_viewing_quest_id);
+    QuestLogInfo& info = GlobalManager->GetQuestInfo(_viewing_quest_id);
     if(!info._description.empty())
+    {
         _quest_description.SetDisplayText(info._description);
+        _location_name.SetDisplayText(info._location_name);
+        _location_image = &info._location_image;
+    }
+
 }
 
 ///////////////////////////
