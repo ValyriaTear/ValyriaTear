@@ -37,8 +37,6 @@
 #include "shop_buy.h"
 #include "shop_sell.h"
 #include "shop_trade.h"
-#include "shop_confirm.h"
-#include "shop_leave.h"
 
 using namespace hoa_utils;
 using namespace hoa_audio;
@@ -398,19 +396,21 @@ ShopObjectViewer::ShopObjectViewer() :
     _description_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _SetDescriptionText(); // Will set the position and dimensions of _description_text
 
-    // Position and dimensions for _helpful_hint_text are set by _SetHelpfulHintText()
-    _helpful_hint_text.SetTextStyle(TextStyle("text20"));
-    _helpful_hint_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
-    _helpful_hint_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _helpful_hint_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _SetHelpfulHintText(); // Will set the position and dimensions of _helpful_hint_text
+    // Position and dimensions for _hint_text are set by _SetHelpfulHintText()
+    _hint_text.SetTextStyle(TextStyle("text20"));
+    _hint_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _hint_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _hint_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _hint_text.SetPosition(25.0f, 60.0f);
+    _hint_text.SetDimensions(750.0f, 10.0f);
 
     // Position and dimensions for _count_text are set by _SetCountText()
     _count_text.SetTextStyle(TextStyle("text28"));
     _count_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _count_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _count_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _SetCountText(); // Will set the position and dimensions of _count_text
+    _count_text.SetPosition(550.0f, 390.0f);
+    _count_text.SetDimensions(325.0f, 10.0f);
 
     _field_use_header.SetStyle(TextStyle("text22"));
     _field_use_header.SetText(UTranslate("Field Use:"));
@@ -443,9 +443,11 @@ ShopObjectViewer::ShopObjectViewer() :
 
 void ShopObjectViewer::Initialize()
 {
+    // Can change over time.
     _description_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
-    _helpful_hint_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
-    _count_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
+
+    _count_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
+    _hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
 
     _check_icon = ShopMode::CurrentInstance()->Media()->GetCheckIcon();
     _x_icon = ShopMode::CurrentInstance()->Media()->GetXIcon();
@@ -474,11 +476,8 @@ void ShopObjectViewer::Update()
             (*it)->Update();
     }
 
-    _SetHelpfulHintText();
-    _SetCountText();
-
     _description_text.Update();
-    _helpful_hint_text.Update();
+    _hint_text.Update();
     _count_text.Update();
 }
 
@@ -525,7 +524,7 @@ void ShopObjectViewer::Draw()
     // In the info view mode, description text and lore text is always drawn near the bottom of the middle window
     if(_view_mode == SHOP_VIEW_MODE_INFO) {
         _description_text.Draw();
-        _helpful_hint_text.Draw();
+        _hint_text.Draw();
         _count_text.Draw();
     }
 }
@@ -568,10 +567,8 @@ void ShopObjectViewer::SetSelectedObject(ShopObject *object)
     _object_name.SetText(_selected_object->GetObject()->GetName());
     _description_text.SetDisplayText(_selected_object->GetObject()->GetDescription());
 
-    _SetHelpfulHintText();
-    _SetCountText();
-    // TODO: this data is not yet available in the global code
-// 	_lore_text.SetDisplayText(_selected_object->GetObject()->GetLore());
+    _SetHintText();
+    UpdateCountText();
 } // void ShopObjectViewer::SetSelectedObject(ShopObject* object)
 
 
@@ -590,8 +587,8 @@ void ShopObjectViewer::ChangeViewMode(SHOP_VIEW_MODE new_mode)
         IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode passed in function argument: " << new_mode << std::endl;
     }
     _SetDescriptionText(); // Necessary because description text must change its owner window
-    _SetHelpfulHintText();
-    _SetCountText();
+    _SetHintText();
+    UpdateCountText();
 }
 
 
@@ -605,8 +602,8 @@ void ShopObjectViewer::_SetItemData()
 
     // Ensure that the position of description text is correct
     _SetDescriptionText();
-    _SetHelpfulHintText();
-    _SetCountText();
+    _SetHintText();
+    UpdateCountText();
 
     // Set map/battle usability status
     GlobalItem *item = dynamic_cast<GlobalItem *>(_selected_object->GetObject());
@@ -805,44 +802,59 @@ void ShopObjectViewer::_SetDescriptionText()
     }
 }
 
-void ShopObjectViewer::_SetHelpfulHintText()
+void ShopObjectViewer::_SetHintText()
 {
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
-        _helpful_hint_text.SetDisplayText("");
-    } else {
-        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_BUY) {
-            _helpful_hint_text.SetDisplayText(Translate("Push right to add items to buy and left to remove items from your purchase."));
-        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_SELL) {
-            _helpful_hint_text.SetDisplayText(Translate("Push right to add items to sell and left to remove items from your sale."));
-        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
-            _helpful_hint_text.SetDisplayText(Translate("Push right to trade for this item and left to remove items from your trade."));
-        } else {
-            _helpful_hint_text.SetDisplayText(""); //Clear the text for everything else
-        }
+        _hint_text.SetDisplayText("");
+        return;
     }
-    _helpful_hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-    _helpful_hint_text.SetPosition(25.0f, 160.0f);
-    _helpful_hint_text.SetDimensions(750.0f, 10.0f);
+
+    const std::string left_key = InputManager->GetLeftKeyName();
+    const std::string right_key = InputManager->GetRightKeyName();
+
+    switch (ShopMode::CurrentInstance()->GetState()) {
+    case SHOP_STATE_BUY:
+        _hint_text.SetDisplayText(Translate("Press ") + right_key
+                                  + Translate(" to add items to buy and ")
+                                  + left_key + Translate(" to remove items from your purchase."));
+        break;
+    case SHOP_STATE_SELL:
+        _hint_text.SetDisplayText(Translate("Press ") + right_key
+                                  + Translate(" to add items to sell and ")
+                                  + left_key + Translate(" to remove items from your sale."));
+        break;
+    case SHOP_STATE_TRADE:
+        _hint_text.SetDisplayText(Translate("Press ") + right_key
+                                  + Translate(" to trade for this items and ")
+                                  + left_key + Translate(" to remove items from your trade."));
+        break;
+    default:
+        _hint_text.SetDisplayText(""); //Clear the text for everything else
+        break;
+    }
 }
 
-void ShopObjectViewer::_SetCountText()
+void ShopObjectViewer::UpdateCountText()
 {
-    if(_view_mode == SHOP_VIEW_MODE_LIST) {
+    if(!_selected_object || _view_mode == SHOP_VIEW_MODE_LIST) {
         _count_text.SetDisplayText("");
-    } else {
-        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_BUY) {
-            _count_text.SetDisplayText(NumberToString(_selected_object->GetBuyCount()));
-        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_SELL) {
-            _count_text.SetDisplayText(NumberToString(_selected_object->GetSellCount()));
-        } else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
-            _count_text.SetDisplayText(NumberToString(_selected_object->GetTradeCount()));
-        } else {
-            _count_text.SetDisplayText(""); //Clear the text for everything else
-        }
+        return;
     }
-    _count_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-    _count_text.SetPosition(100.0f, 200.0f);
-    _count_text.SetDimensions(750.0f, 10.0f);
+
+    switch (ShopMode::CurrentInstance()->GetState()) {
+    case SHOP_STATE_BUY:
+        _count_text.SetDisplayText(Translate("Buy count: x ") + NumberToString(_selected_object->GetBuyCount()));
+        break;
+    case SHOP_STATE_SELL:
+        _count_text.SetDisplayText(Translate("Sell count: x ") + NumberToString(_selected_object->GetSellCount()));
+        break;
+    case SHOP_STATE_TRADE:
+        _count_text.SetDisplayText(Translate("Trade count: x ") + NumberToString(_selected_object->GetTradeCount()));
+        break;
+    default:
+        _count_text.SetDisplayText(""); //Clear the text for everything else
+        break;
+    }
 }
 
 
@@ -930,7 +942,7 @@ void ShopObjectViewer::_DrawItem()
     _target_type_text[_target_type_index].Draw();
 
     _description_text.Draw();
-    _helpful_hint_text.Draw();
+    _hint_text.Draw();
     _count_text.Draw();
 }
 
@@ -1062,8 +1074,7 @@ ShopMode::ShopMode() :
     _root_interface(NULL),
     _buy_interface(NULL),
     _sell_interface(NULL),
-    _trade_interface(NULL),
-    _confirm_interface(NULL)
+    _trade_interface(NULL)
 {
     mode_type = MODE_MANAGER_SHOP_MODE;
     _current_instance = this;
@@ -1101,7 +1112,6 @@ ShopMode::ShopMode() :
     option_text.push_back(UTranslate("Buy"));
     option_text.push_back(UTranslate("Sell"));
     option_text.push_back(UTranslate("Trade"));
-    //option_text.push_back(UTranslate("Leave"));
     _action_options.SetOptions(option_text);
     _action_options.SetSelection(0);
     _action_options.SetSkipDisabled(true);
@@ -1109,18 +1119,16 @@ ShopMode::ShopMode() :
     _action_titles.push_back(TextImage(option_text[0], TextStyle("title28")));
     _action_titles.push_back(TextImage(option_text[1], TextStyle("title28")));
     _action_titles.push_back(TextImage(option_text[2], TextStyle("title28")));
-    //_action_titles.push_back(TextImage(option_text[3], TextStyle("title28")));
-    //_action_titles.push_back(TextImage(UTranslate("Leave"), TextStyle("title28")));
 
     // (3) Create the financial table text
     _finance_table.SetOwner(&_top_window);
     _finance_table.SetPosition(80.0f, 45.0f);
-    _finance_table.SetDimensions(640.0f, 20.0f, 2, 1, 2, 1);
+    _finance_table.SetDimensions(640.0f, 20.0f, 3, 1, 3, 1);
     _finance_table.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _finance_table.SetTextStyle(TextStyle("text22"));
     _finance_table.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-    // Initialize all four options with an empty string that will be overwritten by the following method call
-    for(uint32 i = 0; i < 2; i++)
+    // Initialize all three options with an empty string that will be overwritten by the following method call
+    for(uint32 i = 0; i < 3; i++)
         _finance_table.AddOption(ustring());
     UpdateFinances(0);
 
@@ -1130,12 +1138,10 @@ ShopMode::ShopMode() :
     _buy_interface = new BuyInterface();
     _sell_interface = new SellInterface();
     _trade_interface = new TradeInterface();
-    _confirm_interface = new ConfirmInterface();
-    _leave_interface = new LeaveInterface();
 
     try {
         _screen_backdrop = VideoManager->CaptureScreen();
-    } catch(Exception e) {
+    } catch(const Exception& e) {
         IF_PRINT_WARNING(SHOP_DEBUG) << e.ToString() << std::endl;
     }
 } // ShopMode::ShopMode()
@@ -1150,8 +1156,6 @@ ShopMode::~ShopMode()
     delete _buy_interface;
     delete _sell_interface;
     delete _trade_interface;
-    delete _confirm_interface;
-    delete _leave_interface;
 
     _top_window.Destroy();
     _middle_window.Destroy();
@@ -1200,8 +1204,6 @@ void ShopMode::Initialize()
     _buy_interface->Reinitialize();
     _sell_interface->Reinitialize();
     _trade_interface->Reinitialize();
-    _confirm_interface->Reinitialize();
-    _leave_interface->Reinitialize();
 } // void ShopMode::Initialize()
 
 
@@ -1324,11 +1326,13 @@ void ShopMode::Update()
                 ChangeState(SHOP_STATE_SELL);
             } else if(_action_options.GetSelection() == 2 && _action_options.IsOptionEnabled(2)) { // Trade
                 ChangeState(SHOP_STATE_TRADE);
-            } else if(_action_options.GetSelection() == 3) { // Leave
-                ChangeState(SHOP_STATE_LEAVE);
+            } else if(_action_options.GetSelection() == 3) {
+                // Leave
+                ModeManager->Pop();
             }
         } else if(InputManager->CancelPress()) {
-            ChangeState(SHOP_STATE_LEAVE);
+            // Leave shop
+            ModeManager->Pop();
         } else if(InputManager->LeftPress()) {
             _action_options.InputLeft();
         } else if(InputManager->RightPress()) {
@@ -1349,12 +1353,6 @@ void ShopMode::Update()
             break;
         case SHOP_STATE_TRADE:
             _trade_interface->Update();
-            break;
-        case SHOP_STATE_CONFIRM:
-            _confirm_interface->Update();
-            break;
-        case SHOP_STATE_LEAVE:
-            _leave_interface->Update();
             break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << ", reseting to root state" << std::endl;
@@ -1402,12 +1400,6 @@ void ShopMode::Draw()
     case SHOP_STATE_TRADE:
         _action_titles[2].Draw();
         break;
-    case SHOP_STATE_CONFIRM:
-        //_action_titles[3].Draw(); removed
-        break;
-    case SHOP_STATE_LEAVE:
-        //_action_titles[3].Draw(); removed
-        break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
         break;
@@ -1431,12 +1423,6 @@ void ShopMode::Draw()
         break;
     case SHOP_STATE_TRADE:
         _trade_interface->Draw();
-        break;
-    case SHOP_STATE_CONFIRM:
-        _confirm_interface->Draw();
-        break;
-    case SHOP_STATE_LEAVE:
-        _leave_interface->Draw();
         break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
@@ -1574,7 +1560,6 @@ void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
 
 
 
-
 void ShopMode::ClearOrder()
 {
     for(std::map<uint32, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++)
@@ -1692,8 +1677,6 @@ void ShopMode::CompleteTransaction()
     _buy_interface->TransactionNotification();
     _trade_interface->TransactionNotification();
     _sell_interface->TransactionNotification();
-    _confirm_interface->TransactionNotification();
-    _leave_interface->TransactionNotification();
 
     // Update the available shop options and place the cursor accordingly.
     _UpdateAvailableObjectsToSell();
@@ -1716,13 +1699,14 @@ void ShopMode::UpdateFinances(int32 change_amount)
     _finance_table.SetOptionText(0, UTranslate("Funds: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
     if(_total_change_amount < 0) {
         _finance_table.SetOptionText(1, UTranslate("Purchases: ") + MakeUnicodeString(NumberToString(_total_change_amount)));
+        _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else if(_total_change_amount > 0) {
         _finance_table.SetOptionText(1, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_change_amount)));
+        _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else {
         _finance_table.SetOptionText(1, hoa_utils::ustring());
+        _finance_table.SetOptionText(2, hoa_utils::ustring());
     }
-    //_finance_table.SetOptionText(2, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_sales)));
-    //_finance_table.SetOptionText(3, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
 }
 
 
@@ -1735,14 +1719,6 @@ void ShopMode::ChangeState(SHOP_STATE new_state)
     }
 
     _state = new_state;
-
-    // When state changes to the leave state, leave immediately if there are no marked purchases, sales, or trades
-    if(_state == SHOP_STATE_LEAVE) {
-        if((GetTotalCosts() == 0) && (GetTotalSales() == 0) && GetTradeList()->empty()) {
-            ModeManager->Pop();
-            return;
-        }
-    }
 
     switch(_state) {
     case SHOP_STATE_ROOT:
@@ -1757,12 +1733,6 @@ void ShopMode::ChangeState(SHOP_STATE new_state)
     case SHOP_STATE_TRADE:
         _trade_interface->MakeActive();
         break;
-    case SHOP_STATE_CONFIRM:
-        _confirm_interface->MakeActive();
-        break;
-    case SHOP_STATE_LEAVE:
-        _leave_interface->MakeActive();
-        break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
         break;
@@ -1771,7 +1741,7 @@ void ShopMode::ChangeState(SHOP_STATE new_state)
 
 
 
-void ShopMode::SetShopName(ustring name)
+void ShopMode::SetShopName(const ustring& name)
 {
     if(IsInitialized() == true) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;
@@ -1783,7 +1753,7 @@ void ShopMode::SetShopName(ustring name)
 
 
 
-void ShopMode::SetGreetingText(ustring greeting)
+void ShopMode::SetGreetingText(const ustring& greeting)
 {
     if(IsInitialized() == true) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;

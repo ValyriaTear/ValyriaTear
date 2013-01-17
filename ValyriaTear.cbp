@@ -482,10 +482,6 @@
 		<Unit filename="src\modes\shop\shop.h" />
 		<Unit filename="src\modes\shop\shop_buy.cpp" />
 		<Unit filename="src\modes\shop\shop_buy.h" />
-		<Unit filename="src\modes\shop\shop_confirm.cpp" />
-		<Unit filename="src\modes\shop\shop_confirm.h" />
-		<Unit filename="src\modes\shop\shop_leave.cpp" />
-		<Unit filename="src\modes\shop\shop_leave.h" />
 		<Unit filename="src\modes\shop\shop_root.cpp" />
 		<Unit filename="src\modes\shop\shop_root.h" />
 		<Unit filename="src\modes\shop\shop_sell.cpp" />

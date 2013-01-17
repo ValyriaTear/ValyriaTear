@@ -242,6 +242,9 @@ public:
     **/
     void ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
+    //! \brief Update the the count text content according to the current shop mode and state.
+    void UpdateCountText();
+
 private:
     //! \brief Holds the current view mode of this class
     SHOP_VIEW_MODE _view_mode;
@@ -260,8 +263,8 @@ private:
     //! \brief A summary description of the object to display
     hoa_gui::TextBox _description_text;
 
-    //! \brief A helpful hint to be displayed
-    hoa_gui::TextBox _helpful_hint_text;
+    //! \brief A hint helping on how to handle commands on the shop
+    hoa_gui::TextBox _hint_text;
 
     //! \brief Displays buy count, sell count, or trade count
     hoa_gui::TextBox _count_text;
@@ -337,14 +340,11 @@ private:
     **/
     void _SetShardData();
 
-    //! \brief Determines the proper window owner, position, dimensions for description text
+    //! \brief Determines the proper window owner, position, dimensions and content of the description text
     void _SetDescriptionText();
 
-    //! \brief Determines the proper window owner, position, dimensions for helpful hint text
-    void _SetHelpfulHintText();
-
-    //! \brief Determines the proper window owner, position, dimensions for count text
-    void _SetCountText();
+    //! \brief Determines the hint text content
+    void _SetHintText();
 
     /** \brief Renders the desired physical and magical change text
     *** \param index The index into the _phys_change_text and _mag_change_text containers to re-render
@@ -533,14 +533,14 @@ public:
     *** \note This method will only work if it is called before the shop is initialized. Calling it afterwards will
     *** result in no operation and a warning message
     **/
-    void SetShopName(hoa_utils::ustring name);
+    void SetShopName(const hoa_utils::ustring& name);
 
     /** \brief Sets the greeting message from the shop/merchant
     *** \param greeting The text
     *** \note This method will only work if it is called before the shop is initialized. Calling it afterwards will
     *** result in no operation and a warning message
     **/
-    void SetGreetingText(hoa_utils::ustring greeting);
+    void SetGreetingText(const hoa_utils::ustring& greeting);
 
     /** \brief Sets the buy and sell price levels for the shop
     *** \param buy_level The price level to set for wares that the player would buy from the shop
@@ -737,8 +737,6 @@ private:
     private_shop::BuyInterface *_buy_interface;
     private_shop::SellInterface *_sell_interface;
     private_shop::TradeInterface *_trade_interface;
-    private_shop::ConfirmInterface *_confirm_interface;
-    private_shop::LeaveInterface *_leave_interface;
     //@}
 
     //! \brief Holds an image of the screen taken when the ShopMode instance was created

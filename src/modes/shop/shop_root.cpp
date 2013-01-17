@@ -114,7 +114,7 @@ RootInterface::RootInterface()
 {
     // Initialize text properties and set default text where appropriate
     _shop_name.SetStyle(TextStyle("title28"));
-    _shop_name.SetText(UTranslate("Shop Name")); // This default name should be overwritten
+    _shop_name.SetText(UTranslate("The Shop")); // This default name should be overwritten
 
     _buy_price_text.SetStyle(TextStyle("text22"));
     _buy_price_text.SetText(UTranslate("Buy prices"));
@@ -283,14 +283,14 @@ void RootInterface::Draw()
 
 
 
-void RootInterface::SetShopName(hoa_utils::ustring name)
+void RootInterface::SetShopName(const hoa_utils::ustring& name)
 {
     _shop_name.SetText(name);
 }
 
 
 
-void RootInterface::SetGreetingText(hoa_utils::ustring greeting)
+void RootInterface::SetGreetingText(const hoa_utils::ustring& greeting)
 {
     _greeting_text.SetDisplayText(greeting);
 }

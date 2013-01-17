@@ -366,16 +366,12 @@ main_options.h
 modes/pause.cpp
 modes/shop/shop_root.h
 modes/shop/shop_buy.cpp
-modes/shop/shop_leave.h
 modes/shop/shop_sell.cpp
 modes/shop/shop_trade.cpp
 modes/shop/shop_utils.h
 modes/shop/shop_root.cpp
 modes/shop/shop_trade.h
-modes/shop/shop_confirm.h
 modes/shop/shop.cpp
-modes/shop/shop_leave.cpp
-modes/shop/shop_confirm.cpp
 modes/shop/shop_buy.h
 modes/shop/shop_utils.cpp
 modes/shop/shop.h

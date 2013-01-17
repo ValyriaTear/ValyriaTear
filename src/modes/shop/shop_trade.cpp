@@ -258,10 +258,6 @@ void TradeInterface::MakeActive()
 {
     Reinitialize();
 
-    // Buy counts may have be modified externally so a complete list refresh is necessary
-    for(uint32 i = 0; i < _list_displays.size(); ++i)
-        _list_displays[i]->RefreshAllEntries();
-
     _selected_object = _list_displays[_current_category]->GetSelectedObject();
     ShopMode::CurrentInstance()->ObjectViewer()->ChangeViewMode(_view_mode);
     ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
@@ -332,16 +328,16 @@ void TradeInterface::Update()
             ShopMode::CurrentInstance()->ClearOrder();
         }
 
-        // Left/right change the quantity of the object to buy
+        // Left/right change the quantity of the object to trade
         else if(InputManager->LeftPress()) {
             if(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {
-                _RefreshSelectedProperties();
+                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
                 ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
             } else
                 ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeTradeQuantity(true) == true) {
-                _RefreshSelectedProperties();
+                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
                 ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
             } else
                 ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
@@ -417,7 +413,6 @@ void TradeInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         //TODO add trade conditions listing
         _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(_selected_object->GetOwnCount())));
-        //_selected_properties.SetOptionText(3, MakeUnicodeString("×" + NumberToString(_selected_object->GetBuyCount())));
     } else {
         IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << std::endl;
     }
@@ -437,9 +432,6 @@ bool TradeInterface::_ChangeCategory(bool left_or_right)
     }
 
     _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
-    // Refresh all entries in the newly selected list is required because every object is available in two
-    // categories, their standard type and the "All Wares" category.
-    _list_displays[_current_category]->RefreshAllEntries();
 
     ShopObject *last_obj = _selected_object;
     _selected_object = _list_displays[_current_category]->GetSelectedObject();
@@ -472,18 +464,6 @@ bool TradeInterface::_ChangeSelection(bool up_or_down)
         return false;
     else
         return true;
-}
-
-
-
-void TradeInterface::_RefreshSelectedProperties()
-{
-    if(_selected_object == NULL)
-        return;
-
-    // The only property that really needs to be refreshed is the buy quantity. Other properties will remain static.
-    //_selected_properties.SetOptionText(_selected_properties.GetNumberColumns() - 1,
-    //MakeUnicodeString("×" + NumberToString(_selected_object->GetTradeCount())));
 }
 
 // *****************************************************************************
@@ -519,24 +499,6 @@ void TradeListDisplay::ReconstructList()
 }
 
 
-
-void TradeListDisplay::RefreshEntry(uint32 index)
-{
-    if(_objects.empty() == true) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "no object data is available" << std::endl;
-        return;
-    }
-    if(index >= _objects.size()) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of range: " << index << std::endl;
-        return;
-    }
-
-    //_property_list.SetOptionText((index * _property_list.GetNumberColumns()) + (_property_list.GetNumberColumns() - 1),
-    //MakeUnicodeString("×" + NumberToString(_objects[index]->GetTradeCount())));
-}
-
-
-
 bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
 {
     ShopObject *obj = GetSelectedObject();
@@ -562,7 +524,6 @@ bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
 
         obj->DecrementTradeCount(change_amount);
         //ShopMode::CurrentInstance()->UpdateFinances(0);
-        RefreshEntry(GetCurrentSelection());
         return true;
     } else {
         // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
@@ -587,7 +548,6 @@ bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
 
         obj->IncrementTradeCount(change_amount);
         //ShopMode::CurrentInstance()->UpdateFinances(0);
-        RefreshEntry(GetCurrentSelection());
         return true;
     }
 } // bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)

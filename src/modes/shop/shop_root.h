@@ -106,12 +106,12 @@ public:
     /** \brief Create's the shop name's text
     *** \param name The name of the shop
     **/
-    void SetShopName(hoa_utils::ustring name);
+    void SetShopName(const hoa_utils::ustring& name);
 
     /** \brief Creates the shop keeper's greeting message text
     *** \param greeting The textual greeting
     **/
-    void SetGreetingText(hoa_utils::ustring greeting);
+    void SetGreetingText(const hoa_utils::ustring& greeting);
 
 private:
     //! \brief The rendered text image of the shop name

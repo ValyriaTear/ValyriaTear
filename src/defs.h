@@ -389,10 +389,6 @@ class SellInterface;
 class SellListDisplay;
 
 class TradeInterface;
-
-class ConfirmInterface;
-
-class LeaveInterface;
 }
 }
 
