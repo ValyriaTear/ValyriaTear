@@ -267,19 +267,19 @@ void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *characte
     VideoManager->Move(550, 577);
 
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetMetaphysicalAttack() : 0)));
+    VideoManager->Text()->Draw(UTranslate("M.ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetMagicalAttack() : 0)));
 
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetMetaphysicalDefense() : 0)));
+    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetMagicalDefense() : 0)));
 
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetMetaphysicalDefense() : 0)));
+    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetMagicalDefense() : 0)));
 
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetMetaphysicalDefense() : 0)));
+    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetMagicalDefense() : 0)));
 
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetMetaphysicalDefense() : 0)));
+    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetMagicalDefense() : 0)));
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
 
@@ -607,7 +607,7 @@ void InventoryState::_DrawBottomMenu()
             AbstractMenuState::_DrawEquipmentInfo(ch);
             equipment_name = selected_armor->GetName();
             physical_attribute = selected_armor->GetPhysicalDefense();
-            magical_attribute = selected_armor->GetMetaphysicalDefense();
+            magical_attribute = selected_armor->GetMagicalDefense();
 
             GlobalArmor *current_armor = NULL;
             switch(obj_type)
@@ -630,7 +630,7 @@ void InventoryState::_DrawBottomMenu()
             };
             if(current_armor) {
                 current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMetaphysicalDefense();
+                current_mag_attribute = current_armor->GetMagicalDefense();
             }
             //draw the equipment info as armor
             EquipState::DrawEquipmentInfo(equipment_name,
@@ -645,12 +645,12 @@ void InventoryState::_DrawBottomMenu()
             //similar to armor but no need to do location checking
             equipment_name = selected_weapon->GetName();
             physical_attribute = selected_weapon->GetPhysicalAttack();
-            magical_attribute = selected_weapon->GetMetaphysicalAttack();
+            magical_attribute = selected_weapon->GetMagicalAttack();
             GlobalWeapon* current_weapon = ch->GetWeaponEquipped();
             if(current_weapon)
             {
                 current_phys_attribute = current_weapon->GetPhysicalAttack();
-                current_mag_attribute = current_weapon->GetMetaphysicalAttack();
+                current_mag_attribute = current_weapon->GetMagicalAttack();
             }
             //draw the equipment info as a weapon
             EquipState::DrawEquipmentInfo(equipment_name, true,
@@ -951,12 +951,12 @@ void EquipState::_DrawBottomMenu()
 
             equipment_name = weapon->GetName();
             physical_attribute = weapon->GetPhysicalAttack();
-            magical_attribute = weapon->GetMetaphysicalAttack();
+            magical_attribute = weapon->GetMagicalAttack();
 
             GlobalWeapon *current_wpn = ch->GetWeaponEquipped();
             if(current_wpn) {
                 current_phys_attribute = current_wpn->GetPhysicalAttack();
-                current_mag_attribute = current_wpn->GetMetaphysicalAttack();
+                current_mag_attribute = current_wpn->GetMagicalAttack();
             }
 
             break;
@@ -967,12 +967,12 @@ void EquipState::_DrawBottomMenu()
 
             equipment_name = armor->GetName();
             physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMetaphysicalDefense();
+            magical_attribute = armor->GetMagicalDefense();
 
             GlobalArmor *current_armor = ch->GetHeadArmorEquipped();
             if(current_armor) {
                 current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMetaphysicalDefense();
+                current_mag_attribute = current_armor->GetMagicalDefense();
             }
 
             break;
@@ -983,12 +983,12 @@ void EquipState::_DrawBottomMenu()
 
             equipment_name = armor->GetName();
             physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMetaphysicalDefense();
+            magical_attribute = armor->GetMagicalDefense();
 
             GlobalArmor *current_armor = ch->GetTorsoArmorEquipped();
             if(current_armor) {
                 current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMetaphysicalDefense();
+                current_mag_attribute = current_armor->GetMagicalDefense();
             }
             break;
         } // case EQUIP_BODYARMOR
@@ -998,12 +998,12 @@ void EquipState::_DrawBottomMenu()
 
             equipment_name = armor->GetName();
             physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMetaphysicalDefense();
+            magical_attribute = armor->GetMagicalDefense();
 
             GlobalArmor *current_armor = ch->GetArmArmorEquipped();
             if(current_armor) {
                 current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMetaphysicalDefense();
+                current_mag_attribute = current_armor->GetMagicalDefense();
             }
             break;
         } // case EQUIP_OFFHAND
@@ -1013,12 +1013,12 @@ void EquipState::_DrawBottomMenu()
 
             equipment_name = armor->GetName();
             physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMetaphysicalDefense();
+            magical_attribute = armor->GetMagicalDefense();
 
             GlobalArmor *current_armor = ch->GetLegArmorEquipped();
             if(current_armor) {
                 current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMetaphysicalDefense();
+                current_mag_attribute = current_armor->GetMagicalDefense();
             }
             break;
         } // case EQUIP_LEGGINGS

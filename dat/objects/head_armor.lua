@@ -20,7 +20,7 @@
 -- {description}: A brief description about the armor.
 -- {icon}: The filepath to the image icon representing this armor.
 -- {physical_defense}: The amount of physical defense that the armor provides.
--- {metaphysical_defense}: The amount of metaphysical defense that the armor casues.
+-- {magical_defense}: The amount of magical defense that the armor casues.
 -- {standard_price}: The standard asking price of this armor from merchants.
 -- {usable_by}: A list of characters which may equip this armor,
 -- {slots}: The number of slots available to equip shards on the armor.
@@ -41,7 +41,7 @@ armor[20001] = {
 	description = hoa_system.Translate("An old and finely done piece of jewelery."),
 	icon = "img/icons/armor/butterfly_hair_tong.png",
 	physical_defense = 3,
-	metaphysical_defense = 12,
+	magical_defense = 12,
 	standard_price = 450,
 	usable_by = KALYA
 }
@@ -51,7 +51,7 @@ armor[20011] = {
 	description = hoa_system.Translate("Standard Karlate issued equipment. Battle worn but reliable head protection."),
 	icon = "img/icons/armor/karlate_helmet.png",
 	physical_defense = 6,
-	metaphysical_defense = 2,
+	magical_defense = 2,
 	standard_price = 80,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
@@ -62,7 +62,7 @@ armor[20012] = {
 	description = hoa_system.Translate("A small helmet composed of a secret cobalt based alloy."),
 	icon = "img/icons/armor/cobalt_helm.png",
 	physical_defense = 8,
-	metaphysical_defense = 4,
+	magical_defense = 4,
 	standard_price = 140,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
@@ -73,7 +73,7 @@ armor[20013] = {
 	description = hoa_system.Translate("A sturdy helmet with a hinged face guard offering additional protection."),
 	icon = "img/icons/armor/crested_helmet.png",
 	physical_defense = 11,
-	metaphysical_defense = 6,
+	magical_defense = 6,
 	standard_price = 220,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0

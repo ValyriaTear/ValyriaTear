@@ -234,7 +234,7 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
     _LoadStatusEffects(script_file);
 
     _physical_attack = script_file.ReadUInt("physical_attack");
-    _metaphysical_attack = script_file.ReadUInt("metaphysical_attack");
+    _magical_attack = script_file.ReadUInt("magical_attack");
     _usable_by = script_file.ReadUInt("usable_by");
 
     uint32 shards_number = script_file.ReadUInt("slots");
@@ -302,7 +302,7 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
     _LoadStatusEffects(*script_file);
 
     _physical_defense = script_file->ReadUInt("physical_defense");
-    _metaphysical_defense = script_file->ReadUInt("metaphysical_defense");
+    _magical_defense = script_file->ReadUInt("magical_defense");
     _usable_by = script_file->ReadUInt("usable_by");
 
     uint32 shards_number = script_file->ReadUInt("slots");

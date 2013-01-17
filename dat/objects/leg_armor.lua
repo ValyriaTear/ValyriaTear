@@ -20,7 +20,7 @@
 -- {description}: A brief description about the armor.
 -- {icon}: The filepath to the image icon representing this armor.
 -- {physical_defense}: The amount of physical defense that the armor provides.
--- {metaphysical_defense}: The amount of metaphysical defense that the armor casues.
+-- {magical_defense}: The amount of magical defense that the armor casues.
 -- {standard_price}: The standard asking price of this armor from merchants.
 -- {usable_by}: A list of characters which may equip this armor,
 -- {slots}: The number of slots available to equip shards on the armor.
@@ -41,7 +41,7 @@ armor[50001] = {
 	description = hoa_system.Translate("Simple but fairly good leather boots."),
 	icon = "img/icons/armor/leather_boots.png",
 	physical_defense = 1,
-	metaphysical_defense = 0,
+	magical_defense = 0,
 	standard_price = 30,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE
 }
@@ -51,7 +51,7 @@ armor[50011] = {
 	description = hoa_system.Translate("Standard equipment. Light metal alloy protects the legs while minimizing the negative impact on movement."),
 	icon = "img/icons/armor/standard_greaves.png",
 	physical_defense = 3,
-	metaphysical_defense = 0,
+	magical_defense = 0,
 	standard_price = 120,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
@@ -62,7 +62,7 @@ armor[50012] = {
 	description = hoa_system.Translate("Standard greaves that have undergone an additional tempering process, increasing their durability and strength."),
 	icon = "img/icons/armor/tempered_greaves.png",
 	physical_defense = 5,
-	metaphysical_defense = 0,
+	magical_defense = 0,
 	standard_price = 195,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
