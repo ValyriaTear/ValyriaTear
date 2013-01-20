@@ -837,7 +837,7 @@ void MapSprite::Update()
     if(!moved_position) {
         // Set the current movement animation to zero progress
         if(was_moved)
-            _animation->at(_current_anim_direction).SetTimeProgress(0);
+            _animation->at(_current_anim_direction).ResetAnimation();
 
         // Determine the correct standing frame to display
         if(!control_event || _state_saved) {
@@ -884,7 +884,7 @@ void MapSprite::Update()
     // "start and stop" whenever the direction is changed.
     if(last_anim_direction != _current_anim_direction || last_animation != _animation) {
         _animation->at(_current_anim_direction).SetTimeProgress(last_animation->at(last_anim_direction).GetTimeProgress());
-        last_animation->at(last_anim_direction).SetTimeProgress(0);
+        last_animation->at(last_anim_direction).ResetAnimation();
     }
 
     // Take care of adapting the update time according to the sprite speed when walking or running
