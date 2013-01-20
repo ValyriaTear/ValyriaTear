@@ -298,6 +298,9 @@ function Load(m)
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
+    -- Set the world map current position
+    GlobalManager:SetCurrentLocationId("layna village")
+
 	_HandleCredits();
 end
 
@@ -1327,31 +1330,31 @@ map_functions = {
         kalya:SetMoving(false);
         kalya:ClearDialogueReferences();
 
-	-- hide Orlinn has he's into the forest
-	EventManager:TerminateAllEvents(orlinn);
-	orlinn:SetMoving(false);
-	orlinn:SetVisible(false);
-	orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        -- hide Orlinn has he's into the forest
+        EventManager:TerminateAllEvents(orlinn);
+        orlinn:SetMoving(false);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     end,
 
     BrightLightStart = function()
-	bright_light_time = 0.0;
-	VideoManager:ShakeScreen(0.6, 6000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
-	AudioManager:PlaySound("snd/rumble.wav");
-	AudioManager:FadeOutAllMusic(2000);
+        bright_light_time = 0.0;
+        VideoManager:ShakeScreen(0.6, 6000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        AudioManager:PlaySound("snd/rumble.wav");
+        AudioManager:FadeOutAllMusic(2000);
     end,
 
     BrightLightUpdate = function()
         bright_light_time = bright_light_time + 2.5 * SystemManager:GetUpdateTime();
 
         if (bright_light_time < 5000.0) then
-		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, bright_light_time / 5000.0));
-		return false;
-	end
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, bright_light_time / 5000.0));
+            return false;
+        end
 
-	if (bright_light_time < 10000) then
-		Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, ((10000.0 - bright_light_time) / 5000.0)));
-		return false;
+        if (bright_light_time < 10000) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, ((10000.0 - bright_light_time) / 5000.0)));
+            return false;
         end
 
         -- end of the two-step fade in and out
@@ -1373,6 +1376,7 @@ map_functions = {
         if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == false) then
             GlobalManager:AddCharacter(KALYA);
             GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
+            GlobalManager:AddQuestLog("bring_orlinn_back");
         end
         AudioManager:FadeInAllMusic(2000);
 

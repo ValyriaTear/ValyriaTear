@@ -24,13 +24,18 @@ SYLVE    = 8;
 GlobalManager:SetMaxExperienceLevel(15);
 
 function NewGame()
-	-- Prepare the new game data
-	GlobalManager:AddCharacter(BRONANN);
-	GlobalManager:SetDrunes(0);
+    -- Prepare the new game data
+    GlobalManager:AddCharacter(BRONANN);
+    GlobalManager:SetDrunes(0);
+
+    -- Set the starting world map data
+    GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
+    GlobalManager:ShowWorldLocation("layna village")
+    GlobalManager:SetCurrentLocationId("layna village")
 
     local MM = hoa_map.MapMode("dat/maps/introduction.lua");
-	ModeManager:Pop(false, false);
-	ModeManager:Push(MM, false, true);
+    ModeManager:Pop(false, false);
+    ModeManager:Push(MM, false, true);
 end
 
 -- Common map functions.
@@ -40,5 +45,5 @@ enemy_ids = {}
 map_functions = {}
 
 map_functions[0] = function()
-	return true;
+    return true;
 end
