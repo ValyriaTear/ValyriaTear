@@ -76,7 +76,8 @@ public:
 
     //! \brief used when the MenuMode is activated.
     //! \note While we provide a default "do nothing" Reset(), each child type should have its own Reset implementation
-    virtual void Reset(){};
+    virtual void Reset()
+    {};
 
     //! \brief handles the drawing of the state
     void Draw();
@@ -158,12 +159,11 @@ public:
     };
 
     //! \brief Main Menu State constructor
-    MainMenuState(MenuMode *menu_mode):
-        AbstractMenuState("Main Menu", menu_mode)
-    {}
+    MainMenuState(MenuMode *menu_mode);
 
-    ~MainMenuState(){};
-    void Reset();
+    ~MainMenuState()
+    {};
+
     AbstractMenuState *GetTransitionState(uint32 selection);
 
 protected:

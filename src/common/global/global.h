@@ -198,16 +198,6 @@ struct QuestLogInfo {
     QuestLogInfo(const hoa_utils::ustring &title,
                  const hoa_utils::ustring &description,
                  const std::string &completion_event_group,
-                 const std::string &completion_event_name) :
-        _title(title),
-        _description(description),
-        _completion_event_group(completion_event_group),
-        _completion_event_name(completion_event_name)
-    {}
-
-    QuestLogInfo(const hoa_utils::ustring &title,
-                 const hoa_utils::ustring &description,
-                 const std::string &completion_event_group,
                  const std::string &completion_event_name,
                  const hoa_utils::ustring &location_name,
                  const std::string &location_banner_filename) :

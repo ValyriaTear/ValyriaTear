@@ -1679,16 +1679,8 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
             continue;
         }
 
-        //if description_name and description_banner_filename are not set, just call the standard constructor
-        if(quest_info.size() >= 4 && quest_info.size() < 6)
-        {
-            QuestLogInfo info = QuestLogInfo(MakeUnicodeString(quest_info[0]),
-                                     MakeUnicodeString(quest_info[1]),
-                                     quest_info[2], quest_info[3]);
-            _quest_log_info[quest_id] = info;
-        }
-        //else a fully-formed quest log
-        else if(quest_info.size() == 6)
+        //check whether all fields are there.
+        if(quest_info.size() == 6)
         {
             QuestLogInfo info = QuestLogInfo(MakeUnicodeString(quest_info[0]),
                                      MakeUnicodeString(quest_info[1]),
@@ -1701,8 +1693,6 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
         {
             PRINT_ERROR << "malformed quest log for id: " << quest_id << std::endl;
         }
-
-
     }
 
     quests_script.CloseTable();
