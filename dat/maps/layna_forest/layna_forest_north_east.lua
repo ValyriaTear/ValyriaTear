@@ -512,7 +512,7 @@ function _CreateObjects()
         { "Tree Small4", 7, 96 },
         { "Tree Small3", 10, 93 },
         { "Tree Small3", 12, 90 },
-        { "Tree Little3", 12, 64.5 },
+        { "Tree Little3", 10, 64.5 },
         { "Tree Small6", 14, 87 },
         { "Tree Small3", 15, 84 },
         { "Tree Small5", 16, 82 },
@@ -960,7 +960,15 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("boss fight pre-dialogue", dialogue);
-    event:AddEventLinkAtEnd("The hero looks at wolf");
+    event:AddEventLinkAtEnd("hero looks west");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ChangeDirectionSpriteEvent("hero looks west", hero, hoa_map.MapMode.WEST);
+    event:AddEventLinkAtEnd("hero looks east", 800);
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ChangeDirectionSpriteEvent("hero looks east", hero, hoa_map.MapMode.EAST);
+    event:AddEventLinkAtEnd("The hero looks at wolf", 800);
     EventManager:RegisterEvent(event);
 
     event = hoa_map.LookAtSpriteEvent("The hero looks at wolf", hero, wolf);
