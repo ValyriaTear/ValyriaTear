@@ -817,12 +817,13 @@ map_functions = {
 
         -- Set the quest 2 as started
         GlobalManager:SetEventValue("story", "Quest2_started", 1);
+        GlobalManager:AddQuestLog("wants_to_go_into_the_forest");
         -- Make the food and dishes not appear anymore, once the dinner is done.
         _UpdateDishesAndFood();
 
         VideoManager:FadeIn(1000);
 
-	-- Flag used to disable the warp zone temporarily
-	quest2_start_scene = true;
+        -- Flag used to disable the warp zone temporarily
+        quest2_start_scene = true;
     end
 }

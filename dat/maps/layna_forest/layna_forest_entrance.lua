@@ -251,7 +251,13 @@ function Load(m)
         hero:SetMoving(false);
         hero:SetDirection(hoa_map.MapMode.EAST);
         EventManager:StartEvent("Forest entrance dialogue", 800);
+
+        -- Add the layna forest location on first time in this map.
+        GlobalManager:ShowWorldLocation("layna forest");
     end
+
+    -- Update the world map location
+    GlobalManager:SetCurrentLocationId("layna forest");
 end
 
 -- the map update function handles checks done on each game tick.
