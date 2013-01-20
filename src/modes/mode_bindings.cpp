@@ -801,6 +801,7 @@ void BindModeCode()
             luabind::class_<ShopMode, hoa_mode_manager::GameMode>("ShopMode")
             .def(luabind::constructor<>())
             .def("AddObject", &ShopMode::AddObject)
+            .def("AddTrade", &ShopMode::AddTrade)
             .def("SetPriceLevels", &ShopMode::SetPriceLevels)
 
             .enum_("constants") [

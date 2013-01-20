@@ -1676,11 +1676,14 @@ void ShopMode::CompleteTransaction()
     _root_interface->TransactionNotification();
     _buy_interface->TransactionNotification();
     _trade_interface->TransactionNotification();
-    _sell_interface->TransactionNotification();
 
     // Update the available shop options and place the cursor accordingly.
     _UpdateAvailableObjectsToSell();
     _UpdateAvailableShopOptions();
+
+    // Update the sell list last to avoid a corruption when trading.
+    _sell_interface->TransactionNotification();
+
 } // void ShopMode::CompleteTransaction()
 
 
@@ -1817,7 +1820,7 @@ void ShopMode::AddTrade(uint32 object_id, uint32 stock)
         return;
     }
 
-    if(_available_buy.find(object_id) != _available_buy.end()) {
+    if(_available_trade.find(object_id) != _available_trade.end()) {
         PRINT_WARNING << "attempted to add object that already existed: " << object_id << std::endl;
         return;
     }

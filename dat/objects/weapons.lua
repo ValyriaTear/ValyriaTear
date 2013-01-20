@@ -90,6 +90,12 @@ weapons[10004] = {
 	usable_by = BRONANN + THANIS,
 	slots = 3,
 
+    trade_conditions = {
+        [0] = 20000,  -- price
+        [10003] = 10, -- 10 Knight's blades
+        [1003] = 5    -- 5 Elixirs
+    },
+
 	elemental_effects = {
 		[hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
 	},

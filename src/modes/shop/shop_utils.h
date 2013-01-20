@@ -195,6 +195,10 @@ public:
         return _sell_price;
     }
 
+    uint32 GetTradePrice() const {
+        return _trade_price;
+    }
+
     std::vector<std::pair<uint32, uint32> > GetTradeConditions() {
         return _trade_conditions;
     }
@@ -265,6 +269,9 @@ private:
 
     //! \brief The return that the player will receive for selling this object to the shop
     uint32 _sell_price;
+
+    //! \brief The price that the player must pay (along with the other conditions) to trade for this object from the shop
+    uint32 _trade_price;
 
     //! \brief The return that the player will receive for selling this object to the shop
     std::vector<std::pair<uint32, uint32> > _trade_conditions;

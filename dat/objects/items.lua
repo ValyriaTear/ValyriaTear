@@ -92,9 +92,15 @@ items[2] = {
 	description = hoa_system.Translate("Restores a reasonable amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_medium.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 300,
+	standard_price = 200,
 	warmup_time = 1200,
 	cooldown_time = 900,
+
+    -- Can be traded against 3 Minor healing potions and 60 drunes
+    trade_conditions = {
+        [0] = 60,
+        [1] = 3
+    },
 
 	BattleUse = function(user, target)
 		target_actor = target:GetActor();
@@ -111,11 +117,14 @@ items[3] = {
 	description = hoa_system.Translate("Restores a large amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_large.png",
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 1000,
+	standard_price = 900,
 	warmup_time = 1200,
 	cooldown_time = 900,
+
+    -- Can be traded against 4 Medium healing potions and 60 drunes
     trade_conditions = {
-        [1] = 1
+        [0] = 60,
+        [2] = 4
     },
 
 	BattleUse = function(user, target)

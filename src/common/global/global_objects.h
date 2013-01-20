@@ -54,10 +54,18 @@ class GlobalObject
 {
 public:
     GlobalObject() :
-        _id(0), _count(0), _price(0) {}
+        _id(0),
+        _count(0),
+        _price(0),
+        _trade_price(0)
+    {}
 
     GlobalObject(uint32 id, uint32 count = 1) :
-        _id(id), _count(count), _price(0) {}
+        _id(id),
+        _count(count),
+        _price(0),
+        _trade_price(0)
+    {}
 
     virtual ~GlobalObject()
     {}
@@ -115,8 +123,11 @@ public:
         return _price;
     }
 
-    //Pointer NOT const; be careful!
-    std::vector<std::pair<uint32, uint32> > GetTradeConditions() {
+    uint32 GetTradingPrice() const {
+        return _trade_price;
+    }
+
+    const std::vector<std::pair<uint32, uint32> >& GetTradeConditions() const {
         return _trade_conditions;
     }
 
@@ -151,7 +162,11 @@ protected:
     //! \brief The base price of the object for purchase/sale in the game
     uint32 _price;
 
-    //! \brief The base price of the object for purchase/sale in the game
+    //! \brief The additional price of the object requested when trading it.
+    uint32 _trade_price;
+
+    //! \brief The trade conditions of the item <item_id, number>
+    //! There is an exception: If the item_id is zero, the second value is the trade price.
     std::vector<std::pair<uint32, uint32> > _trade_conditions;
 
     //! \brief A loaded icon image of the object at its original size of 60x60 pixels
