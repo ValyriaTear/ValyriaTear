@@ -51,6 +51,9 @@ ShopObject::ShopObject(GlobalObject *object) :
     _trade_count(0)
 {
     assert(_object != NULL);
+
+    // Init the trading price
+    _trade_price = _object->GetTradingPrice();
 }
 
 
@@ -100,6 +103,7 @@ void ShopObject::SetPricing(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_le
 {
     _buy_price = _object->GetPrice();
     _sell_price = _object->GetPrice();
+    _trade_price = _object->GetTradingPrice();
     _trade_conditions = _object->GetTradeConditions();
 
     switch(buy_level) {

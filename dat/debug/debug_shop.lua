@@ -21,8 +21,10 @@ function BootShopTest()
 
     local shop = hoa_shop.ShopMode();
 
+    -- AddObject(item_id, number)
     shop:AddObject(1, 12);
     shop:AddObject(1001, 5);
+    shop:AddObject(1003, 1);
     shop:AddObject(10001, 2);
     shop:AddObject(10002, 4);
     shop:AddObject(10003, 12);
@@ -39,6 +41,13 @@ function BootShopTest()
     shop:AddObject(40004, 1);
     shop:AddObject(50001, 1);
     shop:AddObject(50002, 1);
+    
+    -- AddTrade(item_id to trade for, number)
+    -- the trade conditions are within the item declaration
+    shop:AddTrade(2, 2);
+    shop:AddTrade(3, 2);
+    shop:AddTrade(10004, 1);
+
 
     ModeManager:Push(shop, false, false);
 

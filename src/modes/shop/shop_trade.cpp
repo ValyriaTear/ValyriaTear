@@ -57,7 +57,6 @@ TradeInterface::TradeInterface() :
     _properties_header.AddOption(UTranslate("Price"));
     _properties_header.AddOption(UTranslate("Stock"));
     _properties_header.AddOption(UTranslate("Own"));
-    //_properties_header.AddOption(UTranslate("Trade"));
 
     _selected_name.SetStyle(TextStyle("text22"));
 
@@ -70,7 +69,6 @@ TradeInterface::TradeInterface() :
     _selected_properties.AddOption(ustring());
     _selected_properties.AddOption(ustring());
     _selected_properties.AddOption(ustring());
-    //_selected_properties.AddOption(ustring());
 }
 
 
@@ -411,6 +409,7 @@ void TradeInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _selected_icon = _selected_object->GetObject()->GetIconImage();
         _selected_icon.SetDimensions(30.0f, 30.0f);
         //TODO add trade conditions listing
+        _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetTradePrice())));
         _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(_selected_object->GetOwnCount())));
     } else {
@@ -483,13 +482,10 @@ void TradeListDisplay::ReconstructList()
                                  + obj->GetObject()->GetName());
         _identify_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
 
-        //TODO Add an option for each object property in the order of: price, stock, number owned, and amount to buy
-
-        _property_list.AddOption(MakeUnicodeString("×" + NumberToString(0)));
+        _property_list.AddOption(MakeUnicodeString(NumberToString(obj->GetTradePrice())));
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
         uint32 own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
-        //_property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetTradeCount())));
     }
 
     if(_objects.empty() == false) {
@@ -523,15 +519,15 @@ bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
         }
 
         obj->DecrementTradeCount(change_amount);
-        //ShopMode::CurrentInstance()->UpdateFinances(0);
+        ShopMode::CurrentInstance()->UpdateFinances(obj->GetTradePrice() * change_amount);
         return true;
     } else {
         // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
-        if((obj->GetTradeCount() >= obj->GetStockCount())) {
+        if((obj->GetTradeCount() >= obj->GetStockCount()))
             return false;
-        }
 
-        if(obj->GetObject()->GetTradeConditions().size() < 1) return false;
+        if(obj->GetObject()->GetTradeConditions().size() < 1)
+            return false;
 
         for(uint32 i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
             if(!GlobalManager->IsObjectInInventory(obj->GetObject()->GetTradeConditions()[i].first))
@@ -547,7 +543,7 @@ bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
         }
 
         obj->IncrementTradeCount(change_amount);
-        //ShopMode::CurrentInstance()->UpdateFinances(0);
+        ShopMode::CurrentInstance()->UpdateFinances(-obj->GetTradePrice() * change_amount);
         return true;
     }
 } // bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)

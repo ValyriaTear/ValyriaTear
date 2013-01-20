@@ -105,28 +105,29 @@ void GlobalObject::_LoadStatusEffects(hoa_script::ReadScriptDescriptor &script)
 
 void GlobalObject::_LoadTradeConditions(hoa_script::ReadScriptDescriptor &script)
 {
-    std::vector<uint32> temp;
-
-    if(!script.DoesTableExist("trade_conditions")) {
+    if(!script.DoesTableExist("trade_conditions"))
         return;
-    }
 
+    std::vector<uint32> temp;
     script.ReadTableKeys("trade_conditions", temp);
 
-    if(temp.empty()) {
+    if(temp.empty())
         return;
-    }
 
     script.OpenTable("trade_conditions");
 
     for(uint32 i = 0; i < temp.size(); ++i) {
         uint32 key = temp[i];
         uint32 quantity = script.ReadInt(key);
-        //_trade_conditions.push_back(key);
-        _trade_conditions.push_back(std::pair<uint32, uint32>(key, quantity));
+
+        // Set the trade price
+        if (key == 0)
+            _trade_price = quantity;
+        else // Or the conditions.
+            _trade_conditions.push_back(std::pair<uint32, uint32>(key, quantity));
     }
 
-    script.CloseTable(); // status_effects
+    script.CloseTable(); // trade_conditions
 
     return;
 }
