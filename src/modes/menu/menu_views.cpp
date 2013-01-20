@@ -1775,8 +1775,8 @@ QuestWindow::QuestWindow():
     _quest_description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
     _location_name.SetPosition(102, 556);
-    _location_name.SetDimensions(500.0f, 50.0f);
-    _location_name.SetTextStyle(TextStyle("title22"));
+    _location_name.SetDimensions(500.0f, 150.0f);
+    _location_name.SetTextStyle(TextStyle("text22"));
     _location_name.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _location_name.SetDisplayText(GlobalManager->GetMapHudName());
 }
@@ -1890,8 +1890,8 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x, float windo
         {
             //this is a slight offset for the pointer so that it points where we want it to, roughly in the center
             //of the location marker
-            static const float minor_offset_y = 8.0f;
             static const float minor_offset_x = 2.0f;
+            static const float minor_offset_y = -8.0f;
             VideoManager->Move(window_position_x + _current_image_x_offset + location->_x + minor_offset_x,
                                window_position_y + _current_image_y_offset + location->_y - _location_pointer.GetHeight() + minor_offset_y);
             _location_pointer.Draw();

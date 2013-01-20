@@ -18,6 +18,8 @@ function BootMenuTest()
     -- Used to debug the quest log
     GlobalManager:AddQuestLog("get_barley");
     GlobalManager:AddQuestLog("find_pen");
+    GlobalManager:AddQuestLog("wants_to_go_into_the_forest");
+    GlobalManager:AddQuestLog("bring_orlinn_back");
 
     -- Used to debug World Map
     GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")

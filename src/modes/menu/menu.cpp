@@ -314,8 +314,8 @@ void AbstractMenuState::_OnCancel()
         _menu_mode->_current_menu_state = _from_state;
 }
 
-
-void MainMenuState::Reset()
+MainMenuState::MainMenuState(MenuMode *menu_mode):
+    AbstractMenuState("Main Menu", menu_mode)
 {
     // Setup the main options box
     SetupOptionBoxCommonSettings(&_options);
@@ -323,15 +323,23 @@ void MainMenuState::Reset()
 
     // Generate the strings
     std::vector<ustring> options;
-    options.push_back(UTranslate("Inventory"));
-    options.push_back(UTranslate("Skills"));
-    options.push_back(UTranslate("Party"));
-    options.push_back(UTranslate("Quests"));
-    options.push_back(UTranslate("Map"));
+    options.push_back(UTranslate("Inventory")); // 0
+    options.push_back(UTranslate("Skills")); // 1
+    options.push_back(UTranslate("Party")); // 2
+    options.push_back(UTranslate("Quests")); // 3
+    options.push_back(UTranslate("Map")); // 4
 
     // Add strings and set default selection.
     _options.SetOptions(options);
     _options.SetSelection(MAIN_OPTIONS_INVENTORY);
+    _options.SetSkipDisabled(true);
+
+    // Deactivate menus with empy content
+    if (GlobalManager->GetActiveQuestIds().empty())
+        _options.EnableOption(3, false);
+
+    if (GlobalManager->GetWorldMapFilename().empty())
+        _options.EnableOption(4, false);
 }
 
 AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
@@ -407,7 +415,7 @@ void MainMenuState::_OnDrawMainWindow()
             _menu_mode->_help_information.SetDisplayText(world_map_window_message);
             _menu_mode->_help_information.Draw();
             // actual drawing of thebottom window will occur upon transition
-            // to the worls map state
+            // to the world map state
             _menu_mode->_world_map_window.Draw();
             break;
         }
