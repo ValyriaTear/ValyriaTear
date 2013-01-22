@@ -1699,12 +1699,20 @@ void QuestListWindow::_UpdateQuestList()
 
     QuestLogEntry *entry = _quest_entries[selection];
     const std::string& quest_id = entry->GetQuestId();
-
-    if (!entry->IsRead()) {
-        ustring title = GlobalManager->GetQuestInfo(quest_id)._title;
-        _quests_list.SetOptionText(selection, spacing + title);
-        entry->SetRead();
+    ustring title = GlobalManager->GetQuestInfo(quest_id)._title;
+    if(GlobalManager->IsQuestCompleted(quest_id))
+    {
+        _quests_list.SetOptionText(selection, check_file + title);
+        _quests_list.SetCursorOffset(-55.0f, -15.0f);
+        _quests_list.EnableOption(selection, false);
     }
+    else
+    {
+        _quests_list.SetCursorOffset(-75.0f, -15.0f);
+        _quests_list.SetOptionText(selection, spacing + title);
+    }
+
+    entry->SetRead();
 
     // Update the list box
     _quests_list.Update(SystemManager->GetUpdateTime());
@@ -1746,16 +1754,16 @@ void QuestListWindow::_SetupQuestsList() {
         const std::string& quest_id = entry->GetQuestId();
         ustring title = GlobalManager->GetQuestInfo(quest_id)._title;
 
-        if(entry->IsRead())
+        //completed quest check.
+        if(GlobalManager->IsQuestCompleted(quest_id)) {
+            _quests_list.AddOption(check_file + title);
+            _quests_list.EnableOption(i, false);
+        }
+        //if incomplete, then we check the read status
+        else if(entry->IsRead())
             _quests_list.AddOption(spacing + title);
         else
             _quests_list.AddOption(exclamation_file + title);
-
-        // Check if this is a completed quest, and set the option text state
-        if(GlobalManager->IsQuestCompleted(quest_id)) {
-            _quests_list.SetOptionText(i, check_file + title);
-            _quests_list.EnableOption(i, false);
-        }
     }
 }
 
@@ -1764,21 +1772,37 @@ void QuestListWindow::_SetupQuestsList() {
 ////////////////////////////////////////////////////////////////////////////////
 
 QuestWindow::QuestWindow():
-    _location_image(NULL)
+    _location_image(NULL),
+    _location_subimage(NULL)
 {
-    //_quest_description.SetOwner(this);
     _quest_description.SetPosition(445, 130);
-    _quest_description.SetDimensions(455, 400);
-    _quest_description.SetDisplaySpeed(30);
+    _quest_description.SetDimensions(455, 200);
     _quest_description.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _quest_description.SetTextStyle(TextStyle("text20"));
     _quest_description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
+    // preferably, we want the completion description to show underneath the description text
+    // last line. Unfortunatly, it seems CalculateTextHeight() doesn't work right
+    // so we fix the position for now
+    _quest_completion_description.SetPosition(445, 350);
+    _quest_completion_description.SetDimensions(455, 200);
+    _quest_completion_description.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _quest_completion_description.SetTextStyle(TextStyle("text20", Color::aqua));
+    _quest_completion_description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+
     _location_name.SetPosition(102, 556);
     _location_name.SetDimensions(500.0f, 150.0f);
     _location_name.SetTextStyle(TextStyle("text22"));
-    _location_name.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _location_name.SetDisplayText(GlobalManager->GetMapHudName());
+    _location_name.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _location_name.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+
+    _location_subname.SetPosition(500, 556);
+    _location_subname.SetDimensions(500.0f, 150.0f);
+    _location_subname.SetTextStyle(TextStyle("text22"));
+    _location_subname.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _location_subname.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+
+
 }
 
 void QuestWindow::Draw()
@@ -1786,21 +1810,34 @@ void QuestWindow::Draw()
     MenuWindow::Draw();
     Update();
     if(MenuMode::CurrentInstance()->_quest_list_window.IsActive())
+    {
         _quest_description.Draw();
+        _quest_completion_description.Draw();
+    }
+
 }
 
 void QuestWindow::DrawBottom()
 {
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150, 580);
-    // Display Location
+    // Display Location name information
     _location_name.Draw();
+    _location_subname.Draw();
 
+
+    //check location image and draw
     if(_location_image != NULL && _location_image->GetFilename().empty() == false) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(390, 685);
+        VideoManager->Move(102, 685);
         _location_image->Draw();
+    }
+
+    //check location subimage and draw
+    if(_location_subimage != NULL && _location_subimage->GetFilename().empty() == false) {
+        VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+        VideoManager->Move(500, 685);
+        _location_subimage->Draw();
     }
 }
 
@@ -1812,7 +1849,9 @@ void QuestWindow::Update()
     if(_viewing_quest_id.empty()) {
         _quest_description.ClearText();
         _location_name.ClearText();
+        _location_subname.ClearText();
         _location_image = NULL;
+        _location_subimage = NULL;
         return;
     }
 
@@ -1823,7 +1862,15 @@ void QuestWindow::Update()
     {
         _quest_description.SetDisplayText(info._description);
         _location_name.SetDisplayText(info._location_name);
+        _location_subname.SetDisplayText(info._location_subname);
         _location_image = &info._location_image;
+        _location_subimage = &info._location_subimage;
+
+        //set the completion description only if the quest is completed
+        if(GlobalManager->IsQuestCompleted(_viewing_quest_id))
+            _quest_completion_description.SetDisplayText(info._completion_description);
+        else
+            _quest_completion_description.ClearText();
     }
 
 }

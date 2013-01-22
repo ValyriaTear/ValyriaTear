@@ -1680,12 +1680,14 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
         }
 
         //check whether all fields are there.
-        if(quest_info.size() == 6)
+        if(quest_info.size() == 9)
         {
             QuestLogInfo info = QuestLogInfo(MakeUnicodeString(quest_info[0]),
                                      MakeUnicodeString(quest_info[1]),
-                                     quest_info[2], quest_info[3],
-                                     MakeUnicodeString(quest_info[4]), quest_info[5]);
+                                     MakeUnicodeString(quest_info[2]),
+                                     quest_info[3], quest_info[4],
+                                     MakeUnicodeString(quest_info[5]), quest_info[6],
+                                     MakeUnicodeString(quest_info[7]), quest_info[8]);
             _quest_log_info[quest_id] = info;
         }
         //malformed quest log
