@@ -580,7 +580,9 @@ public:
     void ClearBottom()
     {
         _location_name.ClearText();
+        _location_subname.ClearText();
         _location_image = NULL;
+        _location_subimage = NULL;
     }
 
     /*!
@@ -603,12 +605,16 @@ private:
 
     //! \brief sets the display text to be rendered, based on their quest key that is set
     hoa_gui::TextBox _quest_description;
+    //! \brief sets the display text to be rendered when the quest is completed. this is additional info
+    hoa_gui::TextBox _quest_completion_description;
 
-    //! \brief the display text to be rendered for the location name that the quest key is set to
+    //! \brief the display text to be rendered for the location name and subname that the quest key is set to
     hoa_gui::TextBox _location_name;
+    hoa_gui::TextBox _location_subname;
 
-    //! \brief the currently viewing location image
+    //! \brief the currently viewing location image and location subimage
     hoa_video::StillImage *_location_image;
+    hoa_video::StillImage *_location_subimage;
 
 };
 

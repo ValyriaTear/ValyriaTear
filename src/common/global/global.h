@@ -197,18 +197,43 @@ private:
 struct QuestLogInfo {
     QuestLogInfo(const hoa_utils::ustring &title,
                  const hoa_utils::ustring &description,
+                 const hoa_utils::ustring &completion_description,
                  const std::string &completion_event_group,
                  const std::string &completion_event_name,
                  const hoa_utils::ustring &location_name,
-                 const std::string &location_banner_filename) :
+                 const std::string &location_banner_filename,
+                 const hoa_utils::ustring &location_subname,
+                 const std::string &location_subimage_filename) :
         _title(title),
         _description(description),
+        _completion_description(completion_description),
         _completion_event_group(completion_event_group),
         _completion_event_name(completion_event_name),
-        _location_name(location_name)
+        _location_name(location_name),
+        _location_subname(location_subname)
     {
         if(!_location_image.Load(location_banner_filename))
+        {
             PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
+            return;
+        }
+        //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
+        //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
+        if(_location_image.GetHeight() > 90.0f)
+            _location_image.SetHeightKeepRatio(90.0f);
+
+        if(!_location_subimage.Load(location_subimage_filename))
+        {
+            PRINT_ERROR << "image: " << location_subimage_filename << " not able to load" << std::endl;
+            return;
+        }
+        //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
+        //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
+        if(_location_subimage.GetHeight() > 90.0f)
+            _location_subimage.SetHeightKeepRatio(90.0f);
+
+
+
     }
 
     QuestLogInfo()
@@ -217,6 +242,8 @@ struct QuestLogInfo {
     // User info about the quest log
     hoa_utils::ustring _title;
     hoa_utils::ustring _description;
+    // Completion description gets added to the quest description when the quest is considered completed
+    hoa_utils::ustring _completion_description;
 
     // Internal quest info used to know whether the quest is complete.
     std::string _completion_event_group;
@@ -224,7 +251,9 @@ struct QuestLogInfo {
 
     // location information
     hoa_video::StillImage _location_image;
+    hoa_video::StillImage _location_subimage;
     hoa_utils::ustring _location_name;
+    hoa_utils::ustring _location_subname;
 };
 
 /** *****************************************************************************
