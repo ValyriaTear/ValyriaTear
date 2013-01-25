@@ -312,6 +312,12 @@ void InventoryWindow::Update()
                 _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                 break;
             }
+            // Test whether the inventory cursor is out of bound after using
+            // the item. Can happen when using/equipping the last item of the list.
+            else if(_inventory_items.GetSelection() >= (int32)_inventory_items.GetNumberOptions()) {
+                _inventory_items.SetSelection((uint32)_inventory_items.GetNumberOptions() - 1);
+            }
+
             GlobalObject *obj = _item_objects[ _inventory_items.GetSelection() ];
 
             // Activate the character select for application
