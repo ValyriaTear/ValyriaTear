@@ -16,6 +16,11 @@ local fog_alpha = 0.0;
 local fog_timer;
 local fog_time_length = 8000;
 
+-- c++ objects instances
+local Map = {};
+local Script = {};
+local Effects = {};
+
 function Initialize(map_instance)
 	Map = map_instance;
 	Script = Map:GetScriptSupervisor();

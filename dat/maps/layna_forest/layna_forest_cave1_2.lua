@@ -6,9 +6,6 @@ setmetatable(ns, {__index = _G});
 layna_forest_cave1_2 = ns;
 setfenv(1, ns);
 
--- A reference to the C++ MapMode object that was created with this file
-map = {}
-
 -- The map name, subname and location image
 map_name = "Layna Forest Cave"
 map_image_filename = "img/menus/locations/desert_cave.png"
@@ -356,11 +353,18 @@ layers[3][47] = { 668, 669, 670, 671, 668, 669, 670, 671, 668, 669, 670, 671, 66
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
 
+-- c++ objects instances
+local Map = {};
+local ObjectManager = {};
+local DialogueManager = {};
+local EventManager = {};
+local GlobalEvents = {};
+
 -- the main character handler
 local hero = {};
 
 -- Forest dialogue secondary hero
-local kalya_sprite = nil;
+local kalya_sprite = {};
 
 -- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
 local main_sprite_name = "";

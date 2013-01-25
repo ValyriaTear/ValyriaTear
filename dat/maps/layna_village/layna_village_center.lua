@@ -6,9 +6,6 @@ setmetatable(ns, {__index = _G});
 layna_village_center = ns;
 setfenv(1, ns);
 
--- A reference to the C++ MapMode object that was created with this file
-map = {}
-
 -- The map name, subname and location image
 map_name = "Mountain Village of Layna"
 map_image_filename = "img/menus/locations/mountain_village.png"
@@ -262,6 +259,13 @@ layers[2][39] = { -1, -1, -1, -1, -1, -1, 40, 41, 20, 21, -1, -1, -1, -1, -1, -1
 
 
 -- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+
+-- c++ objects instances
+local Map = {};
+local ObjectManager = {};
+local DialogueManager = {};
+local EventManager = {};
+local GlobalEvents = {};
 
 local bronann = {};
 local kalya = {};
