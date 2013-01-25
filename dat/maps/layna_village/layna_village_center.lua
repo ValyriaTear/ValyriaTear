@@ -1280,10 +1280,6 @@ end
 local bright_light_time = {}
 
 -- Map Custom functions
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
 
 	Quest1GeorgesDialogueDone = function()

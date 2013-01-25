@@ -19,14 +19,14 @@ KALYA    = 2;
 THANIS   = 4;
 SYLVE    = 8;
 
--- level cap
--- Set to lvl 15 as there is only one dungeon.
-GlobalManager:SetMaxExperienceLevel(15);
-
 function NewGame()
     -- Prepare the new game data
     GlobalManager:AddCharacter(BRONANN);
     GlobalManager:SetDrunes(0);
+
+    -- level cap
+    -- Set to lvl 15 as there is only one dungeon.
+    GlobalManager:SetMaxExperienceLevel(15);
 
     -- Set the starting world map data
     GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
@@ -36,14 +36,4 @@ function NewGame()
     local MM = hoa_map.MapMode("dat/maps/introduction.lua");
     ModeManager:Pop(false, false);
     ModeManager:Push(MM, false, true);
-end
-
--- Common map functions.
--- Must be declared here, or the different map functions pointers (Update, Draw) won't work
--- due to invalid calls to the structs below.
-enemy_ids = {}
-map_functions = {}
-
-map_functions[0] = function()
-    return true;
 end

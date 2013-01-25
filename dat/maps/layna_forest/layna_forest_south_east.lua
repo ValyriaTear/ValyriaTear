@@ -1130,10 +1130,6 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
     heal_party = function()
         hero:SetMoving(false);
@@ -1162,4 +1158,3 @@ map_functions = {
     end,
 
 }
-

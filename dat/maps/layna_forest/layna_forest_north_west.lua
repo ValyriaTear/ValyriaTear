@@ -1438,10 +1438,6 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-    map_functions = {}
-end
-
 map_functions = {
 
     layna_forest_kalya_sees_orlinn_start = function()
@@ -1512,4 +1508,3 @@ map_functions = {
         Map:SetCamera(sprite, 2500);
     end,
 }
-

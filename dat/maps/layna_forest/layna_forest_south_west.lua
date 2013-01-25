@@ -1067,10 +1067,6 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
 
     -- Kalya tells Bronann about the snakes - start event.

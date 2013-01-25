@@ -963,10 +963,6 @@ function _SetOrlinnState()
 end
 
 -- Map Custom functions
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
     Map_PopState = function()
         Map:PopState();

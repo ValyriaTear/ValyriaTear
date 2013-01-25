@@ -644,9 +644,6 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-    map_functions = {}
-end
 
 local crystal_appearance_time = 0;
 local crystal_visible = false;
