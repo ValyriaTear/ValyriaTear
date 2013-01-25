@@ -68,6 +68,11 @@ local crystal_position_y = 44.0;
 local pos_x = 0.0;
 local pos_y = 0.0;
 
+-- c++ objects instances
+local Map = {};
+local Script = {};
+local Effects = {};
+
 function Initialize(map_instance)
     Map = map_instance;
 

@@ -13,6 +13,11 @@ local dark_overlay_id = -1;
 
 local to_be_continued_text = {};
 
+-- c++ objects instances
+local Map = {};
+local Script = {};
+local Effects = {};
+
 function Initialize(map_instance)
     Map = map_instance;
 

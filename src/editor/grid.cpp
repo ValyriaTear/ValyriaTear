@@ -551,10 +551,6 @@ void Grid::SaveMap()
     write_data.WriteNamespace(main_map_table);
 
     write_data.InsertNewLine();
-    write_data.WriteComment("A reference to the C++ MapMode object that was created with this file");
-    write_data.WriteLine("map = {}");
-
-    write_data.InsertNewLine();
     write_data.WriteComment("The map name, subname and location image");
     write_data.WriteString("map_name", map_name.toStdString());
     write_data.WriteString("map_image_filename", map_image_filename.toStdString());

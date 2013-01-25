@@ -13,6 +13,10 @@ setfenv(1, ns);
 local stone_sign_id = 0;
 local display_time = 0;
 
+-- c++ objects instances
+local Map = {};
+local Script = {};
+
 function Initialize(map_instance)
     Map = map_instance;
 
