@@ -945,7 +945,7 @@ map_functions = {
         main_sprite_name = hero:GetSpriteName();
 
         -- Make the hero be Bronann for the event.
-        ReloadSprite(hero, "Bronann");
+        hero:ReloadSprite("Bronann");
 
         kalya_sprite:SetVisible(true);
         kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
@@ -963,7 +963,7 @@ map_functions = {
         kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 
         -- Reload the hero back to default
-        ReloadSprite(hero, main_sprite_name);
+        hero:ReloadSprite(main_sprite_name);
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "kalya_speech_at_cave_entrance_done", 1);

@@ -198,7 +198,8 @@ bool GameGlobal::_LoadGlobalScripts()
     }
     _status_effects_script.OpenTable("status_effects");
 
-    if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua"))
+    if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua")
+            || !_map_sprites_script.OpenTable("sprites"))
         return false;
 
     if(!_map_objects_script.OpenFile("dat/actors/map_objects.lua"))
