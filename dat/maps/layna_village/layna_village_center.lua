@@ -1299,6 +1299,7 @@ map_functions = {
 
         -- Updates Orlinn's state
 		GlobalManager:SetEventValue("layna_center", "quest1_orlinn_dialogue1_done", 1);
+        GlobalManager:AddQuestLog("hide_n_seek_with_orlinn");
     end,
 
     Quest1GeorgesTellsBronannAboutLilly = function()
