@@ -452,41 +452,6 @@ function CreateSprite(Map, name, x, y)
     return sprite;
 end
 
--- Used to reload (or change) the graphic animations of an existing sprite.
-function ReloadSprite(sprite_ref, name)
-    if (sprites[name] == nil) then
-        print("Error: No object named: "..name.." found!!");
-        return;
-    end
-
-    if (sprite_ref == nil) then
-        print("Error: Function called with invalid sprite object");
-        return;
-    end
-
-    sprite_ref:SetName(sprites[name].name);
-    sprite_ref:SetSpriteName(name); -- The catalog reference
-    sprite_ref:SetCollHalfWidth(sprites[name].coll_half_width);
-    sprite_ref:SetCollHeight(sprites[name].coll_height);
-    sprite_ref:SetImgHalfWidth(sprites[name].img_half_width);
-    sprite_ref:SetImgHeight(sprites[name].img_height);
-    if (sprites[name].face_portrait) then
-        sprite_ref:LoadFacePortrait(sprites[name].face_portrait);
-    end
-
-    sprite_ref:ClearAnimations();
-    sprite_ref:LoadStandingAnimations(sprites[name].standard_animations.idle);
-    sprite_ref:LoadWalkingAnimations(sprites[name].standard_animations.walk);
-    if (sprites[name].standard_animations.run ~= nil) then
-        sprite_ref:LoadRunningAnimations(sprites[name].standard_animations.run);
-    end
-    -- Load custom animations
-    if (sprites[name].custom_animations ~= nil) then
-        for name,file in pairs(sprites[name].custom_animations) do
-            sprite_ref:LoadCustomAnimation(name, file);
-        end
-    end
-end
 
 -- Permit to setup a custom name
 -- and reuse the npcs sprites more easily

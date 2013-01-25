@@ -402,6 +402,13 @@ public:
     const std::string &GetSpriteName() const {
         return _sprite_name;
     }
+
+    /** \brief Used to reload (or change) the graphic animations
+    *** of an existing sprite.
+    *** \param sprite_name The sprite name entry found in the map_sprites.lua
+    *** sprite table.
+    **/
+    void ReloadSprite(const std::string& sprite_name);
     //@}
 
 protected:

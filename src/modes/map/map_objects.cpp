@@ -1467,26 +1467,10 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
 
     // Get the front party member
     GlobalActor *actor = GlobalManager->GetActiveParty()->GetActorAtIndex(0);
+
     // Update only if the actor has changed
-    if(actor && actor->GetMapSpriteName() != _visible_party_member->GetSpriteName()) {
-        hoa_script::ReadScriptDescriptor &script = GlobalManager->GetMapSpriteScript();
-
-        ScriptObject function_ptr = script.ReadFunctionPointer("ReloadSprite");
-
-        if(!function_ptr.is_valid()) {
-            PRINT_WARNING << "Invalid 'ReloadSprite' function in the map sprite script file."
-                          << std::endl;
-            return;
-        }
-
-        try {
-            ScriptCallFunction<void>(function_ptr, _visible_party_member, actor->GetMapSpriteName());
-        } catch(const luabind::error &e) {
-            PRINT_ERROR << "Error while loading script function." << std::endl;
-            ScriptManager->HandleLuaError(e);
-            return;
-        }
-    }
+    if(actor && actor->GetMapSpriteName() != _visible_party_member->GetSpriteName())
+        _visible_party_member->ReloadSprite(actor->GetMapSpriteName());
 }
 
 void ObjectSupervisor::SetAllEnemyStatesToDead()

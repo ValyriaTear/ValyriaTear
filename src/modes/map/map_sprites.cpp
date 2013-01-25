@@ -20,6 +20,7 @@
 #include "modes/map/map_events.h"
 
 #include "modes/battle/battle.h"
+#include "common/global/global.h"
 
 using namespace hoa_utils;
 using namespace hoa_audio;
@@ -790,6 +791,65 @@ void MapSprite::SetCustomAnimation(const std::string &animation_name, uint32 tim
     _custom_animation_time = (int32)time;
     _current_custom_animation = &animation;
     _custom_animation_on = true;
+}
+
+void MapSprite::ReloadSprite(const std::string& sprite_name)
+{
+    // Don't reload if it's already the same map sprite
+    if (sprite_name == GetSpriteName())
+        return;
+
+    hoa_script::ReadScriptDescriptor& script = GlobalManager->GetMapSpriteScript();
+
+    if (!script.IsFileOpen())
+        return;
+
+    if (!script.OpenTable(sprite_name)) {
+        PRINT_WARNING << "No map sprite name: " << sprite_name << " found!!"
+            << std::endl;
+        return;
+    }
+
+    SetName(script.ReadString("name"));
+    SetSpriteName(sprite_name);
+    SetCollHalfWidth(script.ReadFloat("coll_half_width"));
+    SetCollHeight(script.ReadFloat("coll_height"));
+    SetImgHalfWidth(script.ReadFloat("img_half_width"));
+    SetImgHeight(script.ReadFloat("img_height"));
+    if (script.DoesStringExist("face_portrait"))
+        LoadFacePortrait(script.ReadString("face_portrait"));
+
+    if (!script.OpenTable("standard_animations")) {
+        PRINT_WARNING << "No 'standard_animations' table in: "
+            << sprite_name << std::endl;
+        script.CloseTable(); // sprite_name
+        return;
+    }
+
+    ClearAnimations();
+    LoadStandingAnimations(script.ReadString("idle"));
+    LoadWalkingAnimations(script.ReadString("walk"));
+    if (script.DoesStringExist("run"))
+        LoadRunningAnimations(script.ReadString("run"));
+
+    script.CloseTable(); // standard_animations
+
+    // Load potential custom animations
+    if (!script.DoesTableExist("custom_animations")) {
+        script.CloseTable(); // sprite_name
+        return;
+    }
+
+    std::vector<std::string> anim_names;
+    script.ReadTableKeys("custom_animations", anim_names);
+    script.OpenTable("custom_animations");
+
+    for (uint32 i = 0; i < anim_names.size(); ++i)
+        LoadCustomAnimation(anim_names[i], script.ReadString(anim_names[i]));
+
+    // Put the tabl in the state we found it.
+    script.CloseTable(); // custom_animations
+    script.CloseTable(); // sprite_name
 }
 
 void MapSprite::LoadFacePortrait(const std::string &filename)
