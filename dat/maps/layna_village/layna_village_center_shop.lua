@@ -402,10 +402,6 @@ function _UpdateFloraDialogue()
 end
 
 -- Map Custom functions
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
 
 	Quest1FloraDialogueDone = function()

@@ -595,10 +595,6 @@ local heal_effect_time = 0;
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
     SetCamera = function(sprite)
         Map:SetCamera(sprite, 800);

@@ -760,10 +760,6 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
     Sprite_Collision_on = function(sprite)
         if (sprite ~= nil) then

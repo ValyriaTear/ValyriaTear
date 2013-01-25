@@ -1062,9 +1062,6 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-    map_functions = {}
-end
 
 map_functions = {
 
@@ -1089,4 +1086,3 @@ map_functions = {
         AudioManager:FadeInAllMusic(2000);
     end
 }
-

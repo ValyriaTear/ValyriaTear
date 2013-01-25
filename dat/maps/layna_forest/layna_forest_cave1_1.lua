@@ -854,9 +854,6 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-    map_functions = {}
-end
 
 -- Effect time used when applying the heal light effect
 local heal_effect_time = 0;

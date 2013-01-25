@@ -487,10 +487,6 @@ local fade_set = false;
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
 
     Map_PopState = function()

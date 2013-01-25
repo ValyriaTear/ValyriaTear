@@ -715,10 +715,6 @@ local destination_set = false;
 
 -- Map Custom functions
 -- Used through scripted events
-if (map_functions == nil) then
-    map_functions = {}
-end
-
 map_functions = {
     to_1_1 = function()
         fade_effect_time = 0.0;

@@ -503,10 +503,6 @@ end
 
 
 -- Map Custom functions
-if (map_functions == nil) then
-	map_functions = {}
-end
-
 map_functions = {
 
     Quest1_Orlinn_Start_Hide_N_Seek2 = function()
