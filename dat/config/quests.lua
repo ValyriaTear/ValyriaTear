@@ -15,13 +15,13 @@ quests = {
         -- Description
         hoa_system.Translate("Mom needs some for dinner!\n \nFlora might have some in her shop. I should go and have a look there first."),
         -- Completion Description
-        hoa_system.Translate("This quest is completed. Here's how i did it:\nblah blah blah..."),
+        hoa_system.Translate("Finally, I found some... Lilly had what I seeked in her house all the time."),
         -- Group and event for the quest to be complete.
         "story", "quest1_barley_meal_done",
         -- Location name and banner image filename
         hoa_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
         -- Location sub-name and image filename
-        hoa_system.Translate("Bronann's home"), "img/menus/locations/mountain_village.png",
+        hoa_system.Translate("Bronann's home"), "img/menus/quests/get_barley.png",
     },
 
     -- Quest id
@@ -31,13 +31,29 @@ quests = {
         -- Description
         hoa_system.Translate("In order to know whom Georges gave the rest of barley meal to, I need to get back his lost pen.\n \nHe spoke about losing it near a tree but also told me people in the village might know more..."),
         -- Completion Description
-        hoa_system.Translate("This quest is completed. Here's how i did it:\nblah blah blah..."),
+        hoa_system.Translate("Orlinn had the pen and I ran after him all the morning long to get it back. I hope he won't have any problems with Kalya..."),
         -- Group and event for the quest to be complete.
         "layna_center", "quest1_pen_given_done",
         -- Location name and banner image filename
         hoa_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
         -- Location sub-name and image filename
-        hoa_system.Translate("Village center"), "img/menus/locations/mountain_village.png",
+        hoa_system.Translate("Village center"), "img/menus/quests/find_pen.png",
+    },
+
+    -- Quest id
+    ["hide_n_seek_with_orlinn"] = {
+        -- Title
+        hoa_system.Translate("Catch Orlinn!"),
+        -- Description
+        hoa_system.Translate("Orlinn has got the pen I need to back to Georges! The only problem now is to find where he's hiding. Hmm, it shouldn't take long..."),
+        -- Completion Description
+        hoa_system.Translate("I ran after him all the morning long but now I've got the pen. Time to bring it back to Georges..."),
+        -- Group and event for the quest to be complete.
+        "layna_riverbank", "quest1_orlinn_hide_n_seek3_done",
+        -- Location name and banner image filename
+        hoa_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        -- Location sub-name and image filename
+        hoa_system.Translate("Village center"), "img/menus/quests/hide_n_seek_with_orlinn.png",
     },
 
     -- Quest id
@@ -47,13 +63,13 @@ quests = {
         -- Description
         hoa_system.Translate("It's been weeks since I could go outside the village.\n \nThe entrance has been shut with stones, and now they won't even let me go and breath in the only place I could still go before?!?\n \nWhatever, I need a sword just in case and I'll get there alone!"),
         -- Completion Description
-        hoa_system.Translate("This quest is completed. Here's how i did it:\nblah blah blah..."),
+        hoa_system.Translate("I'm now equipped, and the forest access has been granted!"),
         -- Group and event for the quest to be complete.
         "story", "kalya_has_joined",
         -- Location name and banner image filename
         hoa_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
         -- Location sub-name and image filename
-        hoa_system.Translate("Bronann's home"), "img/menus/locations/mountain_village.png",
+        hoa_system.Translate("Bronann's home"), "img/menus/quests/wants_to_go_into_the_forest.png",
     },
 
     -- Quest id
@@ -63,12 +79,12 @@ quests = {
         -- Description
         hoa_system.Translate("After seeing that strange light, Orlinn just ran away into the woods. He's just a kid, even if a quick one!\n \nMy own father asked me to go there with Kalya and get him back safe and sound.\n \nI can't let them down!"),
         -- Completion Description
-        hoa_system.Translate("This quest is completed. Here's how i did it:\nblah blah blah..."),
+        hoa_system.Translate("..."),
         -- Group and event for the quest to be complete.
         "none", "none",
         -- Location name and banner image filename
         hoa_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
         -- Location sub-name and image filename
-        hoa_system.Translate("Village center"), "img/menus/locations/mountain_village.png",
+        hoa_system.Translate("Village center"), "img/menus/quests/bring_orlinn_back.png",
     }
 }
