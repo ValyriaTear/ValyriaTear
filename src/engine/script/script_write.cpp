@@ -66,7 +66,7 @@ bool WriteScriptDescriptor::OpenFile(const std::string &file_name)
     }
 
     _outfile.open(file_name.c_str());
-    if(!_outfile) {
+    if(!_outfile.is_open()) {
         PRINT_ERROR << "SCRIPT ERROR: WriteScriptDescriptor::OpenFile() failed to open the file "
                     << file_name << " for writing." << std::endl;
         _access_mode = SCRIPT_CLOSED;

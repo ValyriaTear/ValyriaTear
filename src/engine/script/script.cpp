@@ -115,14 +115,15 @@ void ScriptEngine::_RemoveOpenFile(ScriptDescriptor *sd)
 {
     // NOTE: Function assumes that the ScriptDescriptor file is already open
     _open_files.erase(sd->_filename);
+
+    // Remove the thread reference from memory, permitting lua to later drop it.
+    _open_threads.erase(sd->_filename);
 }
 
 
 
 lua_State *ScriptEngine::_CheckForPreviousLuaState(const std::string &filename)
 {
-    return NULL; // TEMP, see todo notes in script.h
-
     if(_open_threads.find(filename) != _open_threads.end())
         return _open_threads[filename];
     else
