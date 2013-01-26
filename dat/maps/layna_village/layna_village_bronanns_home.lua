@@ -618,13 +618,17 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
+-- zones
+local home_exit_zone = {};
+local to_bronanns_room_zone = {};
+
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	home_exit_zone = hoa_map.CameraZone(38, 41, 24, 25, hoa_map.MapMode.CONTEXT_01);
 	Map:AddZone(home_exit_zone);
 
-	to_bronnans_room_zone = hoa_map.CameraZone(44, 47, 8, 9, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_bronnans_room_zone);
+	to_bronanns_room_zone = hoa_map.CameraZone(44, 47, 8, 9, hoa_map.MapMode.CONTEXT_01);
+	Map:AddZone(to_bronanns_room_zone);
 
 	quest2_start_scene = false;
 end
@@ -641,7 +645,7 @@ function _CheckZones()
 			AudioManager:PlaySound("snd/door_open2.wav");
 		end
 	end
-	if (to_bronnans_room_zone:IsCameraEntering() == true) then
+	if (to_bronanns_room_zone:IsCameraEntering() == true) then
 		EventManager:StartEvent("to Bronann's 1st floor");
 	end
 end

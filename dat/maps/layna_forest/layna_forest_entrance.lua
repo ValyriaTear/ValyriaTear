@@ -723,6 +723,10 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
+-- zones
+local forest_entrance_exit_zone = {};
+local to_forest_nw_zone = {};
+
 -- Create the different map zones triggering events
 function _CreateZones()
 	-- N.B.: left, right, top, bottom

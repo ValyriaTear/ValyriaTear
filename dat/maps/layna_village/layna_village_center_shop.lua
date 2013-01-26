@@ -324,6 +324,9 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
+-- zones
+local shop_exit_zone = {};
+
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	shop_exit_zone = hoa_map.CameraZone(30, 34, 28, 29, hoa_map.MapMode.CONTEXT_01);

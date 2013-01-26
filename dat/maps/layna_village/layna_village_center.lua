@@ -963,6 +963,16 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
+-- zones
+local bronanns_home_entrance_zone = {};
+local to_riverbank_zone = {};
+local to_village_entrance_zone = {};
+local to_kalya_house_path_zone = {};
+local shop_entrance_zone = {};
+local secret_path_zone = {};
+local to_layna_forest_zone = {};
+local sophia_house_entrance_zone = {};
+
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	bronanns_home_entrance_zone = hoa_map.CameraZone(10, 14, 60, 61, hoa_map.MapMode.CONTEXT_01);

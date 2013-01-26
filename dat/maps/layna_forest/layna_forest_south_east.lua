@@ -1081,6 +1081,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
+-- zones
+local to_forest_NE_zone = {};
+local to_forest_SW_zone = {};
+local to_cave1_2_zone = {};
+local to_cave2_1_zone = {};
+local to_wolf_cave_zone = {};
+
 -- Create the different map zones triggering events
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
