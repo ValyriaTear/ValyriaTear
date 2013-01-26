@@ -59,7 +59,6 @@ MapMode::MapMode(const std::string &filename) :
     GameMode(),
     _activated(false),
     _map_filename(filename),
-    _map_tablespace(""),
     _tile_supervisor(NULL),
     _object_supervisor(NULL),
     _event_supervisor(NULL),
@@ -524,18 +523,25 @@ float MapMode::GetScreenYCoordinate(float tile_position_y) const
 
 bool MapMode::_Load()
 {
-    // ---------- (1) Open map script file and read in the basic map properties and tile definitions
+    _map_tablespace = ScriptEngine::GetTableSpace(_map_filename);
+    if(_map_tablespace.empty()) {
+        PRINT_ERROR << "Invalid map name space in: "
+                    << _map_filename << std::endl;
+        return false;
+    }
+
+    // Clear out all old map data if existing.
+    ScriptManager->DropGlobalTable(_map_tablespace);
+
+    // Open map script file and read in the basic map properties and tile definitions
     if(!_map_script.OpenFile(_map_filename)) {
         PRINT_ERROR << "Couldn't open map script file: "
                     << _map_filename << std::endl;
         return false;
     }
 
-    // The map tablespace is needed later by scripted events.
-    _map_tablespace = _map_script.OpenTablespace();
-
-    if(_map_tablespace.empty()) {
-        PRINT_ERROR << "Couldn't open map name space: "
+    if(_map_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "Couldn't open map name space in: "
                     << _map_filename << std::endl;
         return false;
     }

@@ -7,9 +7,23 @@ setfenv(1, ns);
 
 
 -- The Boot instance
-local Boot;
+local Boot = {};
+local Script = {};
 
-local animation_timer;
+local animation_timer = {};
+local boot_state = {};
+
+local bckgrnd_id = {};
+local logo_id = {};
+local cloud_field_id = {};
+local mist_id = {};
+local fog_id = {};
+local crystal_id = {};
+local crystal_shadow_id = {};
+local satellite_id = {};
+local satellite_shadow_id = {};
+local flare_id = {};
+local menu_bar_id = {};
 
 local f1_help_text = {};
 
