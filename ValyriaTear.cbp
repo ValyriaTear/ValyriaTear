@@ -282,8 +282,6 @@
 		<Unit filename="src/engine/mode_manager.h" />
 		<Unit filename="src/engine/script/script.cpp" />
 		<Unit filename="src/engine/script/script.h" />
-		<Unit filename="src/engine/script/script_modify.cpp" />
-		<Unit filename="src/engine/script/script_modify.h" />
 		<Unit filename="src/engine/script/script_read.cpp" />
 		<Unit filename="src/engine/script/script_read.h" />
 		<Unit filename="src/engine/script/script_write.cpp" />
