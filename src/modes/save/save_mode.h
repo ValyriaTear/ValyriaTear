@@ -52,8 +52,7 @@ public:
         _character(NULL)
     {}
 
-    ~SmallCharacterWindow()
-    {}
+    ~SmallCharacterWindow();
 
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
@@ -103,7 +102,12 @@ private:
     bool _PreviewGame(uint32 id);
 
     //! \brief Clears out the data saves. Used especially when the data is invalid.
-    void _ClearSaveData();
+    //! \param selected_file_exists Tells whether the selected file exists.
+    void _ClearSaveData(bool selected_file_exists);
+
+    //! \brief Check the save validity of the save slots and disable those invalid.
+    //! \returns whether at least one save is valid.
+    bool _CheckSavesValidity();
 
     //! \brief The MenuWindow for the backdrop
     hoa_gui::MenuWindow _window;
@@ -138,6 +142,9 @@ private:
 
     //! \brief Displays message that game was saved successfully
     hoa_gui::TextBox _save_failure_message;
+
+    //! \brief Tells the user no saves are valid.
+    hoa_gui::TextBox _no_valid_saves_message;
 
     //! \brief Displays preview info for highlighted game
     hoa_gui::TextBox _map_name_textbox;
