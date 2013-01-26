@@ -387,6 +387,11 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
+-- zones
+local kalya_house_path_zone = {};
+local kalya_house_path_small_passage_zone = {};
+local kalya_house_entrance_zone = {};
+
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	kalya_house_path_zone = hoa_map.CameraZone(28, 58, 46, 47, hoa_map.MapMode.CONTEXT_01);

@@ -569,6 +569,10 @@ function _CreateEvents()
 
 end
 
+-- zones
+local to_cave_1_2_zone = {};
+local to_cave_exit_zone = {};
+
 -- Create the different map zones triggering events
 function _CreateZones()
 	-- N.B.: left, right, top, bottom

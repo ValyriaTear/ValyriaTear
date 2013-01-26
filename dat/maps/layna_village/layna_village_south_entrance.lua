@@ -412,6 +412,12 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
+-- zones
+local village_center_zone = {};
+local to_village_riverbank_zone = {};
+local to_left_house_zone = {};
+local to_right_house_zone = {};
+
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	village_center_zone = hoa_map.CameraZone(8, 62, 0, 2, hoa_map.MapMode.CONTEXT_01);

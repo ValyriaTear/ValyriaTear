@@ -723,6 +723,11 @@ function _CheckMonstersStates()
 
 end
 
+-- zones
+local to_cave_1_1 = {};
+local to_cave_exit = {};
+local to_wolf_cave_zone = {};
+
 -- Create the different map zones triggering events
 function _CreateZones()
 	-- N.B.: left, right, top, bottom

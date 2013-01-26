@@ -819,6 +819,13 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 end
 
+-- zones
+local village_center_zone = {};
+local to_village_entrance_zone = {};
+local to_riverbank_house_entrance_zone = {};
+local to_secret_path_entrance_zone = {};
+local orlinn_hide_n_seek2_zone = {};
+
 function _CreateZones()
 	-- N.B.: left, right, top, bottom
 	village_center_zone = hoa_map.CameraZone(89, 105, 0, 2, hoa_map.MapMode.CONTEXT_01);

@@ -1013,6 +1013,12 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
+-- zones
+local to_forest_NW_zone = {};
+local to_forest_SE_zone = {};
+local music_fade_out_zone = {};
+local boss_fight1_zone = {};
+
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom

@@ -569,6 +569,29 @@ function _CreateEvents()
 end
 
 
+-- zones
+local to_forest_SE_zone = {};
+local to_forest_crystal_zone = {};
+local to_1_1_zone = {};
+local to_1_2_zone = {};
+local to_2_1_zone = {};
+local to_2_2_zone = {};
+local to_3_1_zone = {};
+local to_3_2_zone = {};
+local to_4_1_zone = {};
+local to_4_2_zone = {};
+local to_5_1_zone = {};
+local to_5_2_zone = {};
+local to_6_1_zone = {};
+local to_6_2_zone = {};
+local to_7_1_zone = {};
+local to_7_1_bis_zone = {};
+local to_7_2_zone = {};
+local to_8_1_zone = {};
+local to_8_2_zone = {};
+local to_9_1_zone = {};
+local to_9_2_zone = {};
+
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
