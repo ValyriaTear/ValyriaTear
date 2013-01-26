@@ -53,6 +53,7 @@ const uint8 SAVE_MODE_CONFIRMING_SAVE = 2;
 const uint8 SAVE_MODE_SAVE_COMPLETE   = 3;
 const uint8 SAVE_MODE_SAVE_FAILED     = 4;
 const uint8 SAVE_MODE_FADING_OUT      = 5;
+const uint8 SAVE_MODE_NO_VALID_SAVES  = 6;
 //@}
 
 SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
@@ -151,6 +152,12 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _save_failure_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _save_failure_message.SetDisplayText(UTranslate("Unable to save game!\nSave FAILED!"));
 
+    _no_valid_saves_message.SetPosition(512.0f, 384.0f);
+    _no_valid_saves_message.SetDimensions(250.0f, 100.0f);
+    _no_valid_saves_message.SetTextStyle(TextStyle("title22"));
+    _no_valid_saves_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _no_valid_saves_message.SetDisplayText(UTranslate("No valid saves found!"));
+
     // Initialize the save preview text boxes
     _map_name_textbox.SetPosition(600.0f, 553.0f);
     _map_name_textbox.SetDimensions(300.0f, 26.0f);
@@ -173,13 +180,20 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _drunes_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _drunes_textbox.SetDisplayText(" ");
 
-    if(_save_mode)
+    if(_save_mode) {
         _current_state = SAVE_MODE_SAVING;
+    } else {
+        // When in load mode, check the saves validity and skip invalid slots
+        _file_list.SetSkipDisabled(true);
+        if (!_CheckSavesValidity())
+            _current_state = SAVE_MODE_NO_VALID_SAVES;
+    }
 
     _window.Show();
 
     // Load the first slot data
-    _PreviewGame(_file_list.GetSelection());
+    if(_file_list.GetSelection() > -1)
+        _PreviewGame(_file_list.GetSelection());
 }
 
 
@@ -273,15 +287,21 @@ void SaveMode::Update()
                 ModeManager->Pop();
             }
             break;
+        default:
+        case SAVE_MODE_NO_VALID_SAVES:
+                // Leave right away as there is nothing else to do
+                ModeManager->Pop();
+            break;
         } // end switch (_current_state)
     } // end if (InputManager->ConfirmPress())
 
     else if(InputManager->CancelPress()) {
         switch(_current_state) {
+        default:
+        case SAVE_MODE_NO_VALID_SAVES:
         case SAVE_MODE_SAVING:
         case SAVE_MODE_LOADING:
-            // Leave right away where there is nothing else to do than
-            // loading.
+            // Leave right away where there is nothing else to do
             ModeManager->Pop();
             break;
 
@@ -300,9 +320,7 @@ void SaveMode::Update()
             if(_file_list.GetSelection() > -1) {
                 _PreviewGame(_file_list.GetSelection());
             } else {
-                _map_name_textbox.SetDisplayText(" ");
-                _time_textbox.SetDisplayText(" ");
-                _drunes_textbox.SetDisplayText(" ");
+                _ClearSaveData(false);
             }
             break;
 
@@ -319,6 +337,9 @@ void SaveMode::Update()
             _file_list.InputDown();
             if(_file_list.GetSelection() > -1) {
                 _PreviewGame(_file_list.GetSelection());
+            }
+            else {
+                _ClearSaveData(false);
             }
             break;
 
@@ -377,8 +398,11 @@ void SaveMode::DrawPostEffects()
     case SAVE_MODE_SAVE_FAILED:
         _save_failure_message.Draw();
         break;
+    case SAVE_MODE_NO_VALID_SAVES:
+        _no_valid_saves_message.Draw();
+        break;
+    default:
     case SAVE_MODE_FADING_OUT:
-
         break;
     }
 }
@@ -416,9 +440,12 @@ bool SaveMode::_LoadGame(uint32 id)
 }
 
 
-void SaveMode::_ClearSaveData()
+void SaveMode::_ClearSaveData(bool selected_file_exists)
 {
-    _map_name_textbox.SetDisplayText(UTranslate("No valid data"));
+    if (selected_file_exists)
+        _map_name_textbox.SetDisplayText(UTranslate("Invalid data!"));
+    else
+        _map_name_textbox.SetDisplayText(UTranslate("No data"));
     _time_textbox.SetDisplayText(" ");
     _drunes_textbox.SetDisplayText(" ");
     _location_image.Clear();
@@ -435,57 +462,32 @@ bool SaveMode::_PreviewGame(uint32 id)
 
     // Check for the file existence, prevents a useless warning
     if(!hoa_utils::DoesFileExist(filename)) {
-        _ClearSaveData();
+        _ClearSaveData(false);
         return false;
     }
 
     ReadScriptDescriptor file;
 
+    // Clear out the save data namespace to avoid loading false information
+    // when dealing with a save game that has an invalid namespace
+    ScriptManager->DropGlobalTable("save_game1");
+
     if(!file.OpenFile(filename)) {
-        _ClearSaveData();
+        _ClearSaveData(true);
         return false;
     }
 
     if(!file.DoesTableExist("save_game1")) {
         file.CloseFile();
-        _ClearSaveData();
+        _ClearSaveData(true);
         return false;
     }
 
     // open the namespace that the save game is encapsulated in.
     file.OpenTable("save_game1");
 
+    // The map file, tested after the save game is closed.
     std::string map_filename = file.ReadString("map_filename");
-    // Tests the map file and gets the untransalted map hud name from it.
-    ReadScriptDescriptor map_file;
-    if(!map_file.OpenFile(map_filename)) {
-        _ClearSaveData();
-        return false;
-    }
-
-    // Determine the map's tablespacename and then open it. The tablespace is the name of the map file without
-    // file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
-    int32 period = map_filename.find(".");
-    int32 last_slash = map_filename.find_last_of("/");
-    std::string map_tablespace = map_filename.substr(last_slash + 1, period - (last_slash + 1));
-    map_file.OpenTable(map_tablespace);
-
-    // Read the in-game location of the save
-    std::string map_hud_name = map_file.ReadString("map_name");
-    _map_name_textbox.SetDisplayText(UTranslate(map_hud_name));
-
-    // Loads the potential location image
-    std::string map_image_filename = map_file.ReadString("map_image_filename");
-    if (map_image_filename.empty()) {
-        _location_image.Clear();
-    }
-    else {
-        if (_location_image.Load(map_image_filename))
-            _location_image.SetWidthKeepRatio(340.0f);
-    }
-
-    map_file.CloseTable();
-    map_file.CloseFile();
 
     // Used to store temp data to populate text boxes
     int32 hours = file.ReadInt("play_hours");
@@ -494,8 +496,9 @@ bool SaveMode::_PreviewGame(uint32 id)
     int32 drunes = file.ReadInt("drunes");
 
     if(!file.DoesTableExist("characters")) {
+        file.CloseTable(); // save_game1
         file.CloseFile();
-        _ClearSaveData();
+        _ClearSaveData(true);
         return false;
     }
 
@@ -524,19 +527,18 @@ bool SaveMode::_PreviewGame(uint32 id)
         character[i]->SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
         character[i]->SetSkillPoints(file.ReadUInt("skill_points"));
 
-        file.CloseTable();
+        file.CloseTable(); // character id
     }
-    file.CloseTable();
+    file.CloseTable(); // characters
 
     // Report any errors detected from the previous read operations
     if(file.IsErrorDetected()) {
-        if(GLOBAL_DEBUG) {
-            PRINT_WARNING << "one or more errors occurred while reading the save game file - they are listed below"
-                          << std::endl << file.GetErrorMessages() << std::endl;
+        PRINT_WARNING << "One or more errors occurred while reading the save game file - they are listed below:"
+            << std::endl << file.GetErrorMessages() << std::endl;
             file.ClearErrors();
-        }
     }
 
+    file.CloseTable(); // save_game1
     file.CloseFile();
 
     for(uint32 i = 0; i < 4 && i < char_ids.size(); ++i) {
@@ -559,16 +561,73 @@ bool SaveMode::_PreviewGame(uint32 id)
     drunes_ustr += MakeUnicodeString(drunes_amount.str());
 
     _drunes_textbox.SetDisplayText(drunes_ustr);
+
+    // Test the map file
+
+    // Tests the map file and gets the untranslated map hud name from it.
+    ReadScriptDescriptor map_file;
+    if(!map_file.OpenFile(map_filename)) {
+        _ClearSaveData(true);
+        return false;
+    }
+
+    if (map_file.OpenTablespace().empty()) {
+        _ClearSaveData(true);
+        map_file.CloseFile();
+        return false;
+    }
+
+    // Read the in-game location of the save
+    std::string map_hud_name = map_file.ReadString("map_name");
+    _map_name_textbox.SetDisplayText(UTranslate(map_hud_name));
+
+    // Loads the potential location image
+    std::string map_image_filename = map_file.ReadString("map_image_filename");
+    if (map_image_filename.empty()) {
+        _location_image.Clear();
+    }
+    else {
+        if (_location_image.Load(map_image_filename))
+            _location_image.SetWidthKeepRatio(340.0f);
+    }
+
+    map_file.CloseTable(); // Tablespace
+    map_file.CloseFile();
+
     return true;
 } // bool SaveMode::_PreviewGame(string& filename)
 
+bool SaveMode::_CheckSavesValidity() {
+    // check all available slots
+    bool available_saves = false;
+    for (uint32 i = 0; i < _file_list.GetNumberOptions(); ++i) {
+        if (!_PreviewGame(i)) {
+            _file_list.EnableOption(i, false);
+
+            // If the current selection is disabled, reset it.
+            if ((int32)i == _file_list.GetSelection())
+                _file_list.SetSelection(i + 1);
+        }
+        else {
+            available_saves = true;
+        }
+    }
+
+    return available_saves;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // SmallCharacterWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
+SmallCharacterWindow::~SmallCharacterWindow()
+{
+    delete _character;
+}
+
 void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
 {
+    delete _character;
     _character = character;
 
     if(character) {
