@@ -515,7 +515,7 @@ function _UpdateStoneSignDialogue()
         -- Start the stone sign dialogue event
         dialogue = hoa_map.SpriteDialogue();
         text = hoa_system.Translate("...");
-        dialogue:AddLineEvent(text, hero, "", "Start dialogue about stone sign");
+        dialogue:AddLineEvent(text, kalya_sprite, "Start dialogue about stone sign", "Display the stone sign image");
         DialogueManager:AddDialogue(dialogue);
         stone_sign:AddDialogueReference(dialogue);
     end
@@ -557,14 +557,13 @@ function _CreateEvents()
 
     -- Dialogue
     event = hoa_map.ScriptedEvent("Start dialogue about stone sign", "stone_sign_dialogue_start", "");
-    event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann");
     EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
-    move_next_to_hero_event:AddEventLinkAtEnd("Display the stone sign image");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     event = hoa_map.ScriptedEvent("Display the stone sign image", "stone_sign_image_start", "stone_sign_image_update")
