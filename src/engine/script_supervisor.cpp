@@ -24,6 +24,11 @@ void ScriptSupervisor::Initialize(hoa_mode_manager::GameMode *gm)
 {
     // Open every possible scene script files registered and process them.
     for(uint32 i = 0; i < _script_filenames.size(); ++i) {
+
+        // Clears out old script data
+        std::string tablespace = ScriptEngine::GetTableSpace(_script_filenames[i]);
+        ScriptManager->DropGlobalTable(tablespace);
+
         ReadScriptDescriptor scene_script;
         if(!scene_script.OpenFile(_script_filenames[i]))
             continue;

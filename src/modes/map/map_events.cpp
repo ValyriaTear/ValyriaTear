@@ -264,8 +264,11 @@ ScriptedEvent::ScriptedEvent(const std::string &event_id,
     _update_function(NULL)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
-    MapMode::CurrentInstance()->OpenMapTablespace(true);
-    map_script.OpenTable("map_functions");
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
+
     if(!start_function.empty()) {
         _start_function = new ScriptObject();
         *_start_function = map_script.ReadFunctionPointer(start_function);
@@ -399,8 +402,11 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, uint16 spr
     _update_function(NULL)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
-    MapMode::CurrentInstance()->OpenMapTablespace(true);
-    map_script.OpenTable("map_functions");
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
+
     if(!start_function.empty()) {
         _start_function = new ScriptObject();
         *_start_function = map_script.ReadFunctionPointer(start_function);

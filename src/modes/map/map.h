@@ -174,9 +174,10 @@ public:
 
     /** \brief Opens the map tablespace of the map script
     *** \param use_global Has the same effect as in ReadScriptDescriptor#OpenTable
+    *** \returns whether the tablespace opening was successful.
     **/
-    void OpenMapTablespace(bool use_global = false) {
-        _map_script.OpenTable(_map_tablespace, use_global);
+    bool OpenMapTablespace(bool use_global = false) {
+        return _map_script.OpenTable(_map_tablespace, use_global);
     }
 
     const std::string &GetMapFilename() const {

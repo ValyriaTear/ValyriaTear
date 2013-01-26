@@ -84,6 +84,9 @@ BootMode::BootMode() :
     date_string.append(__DATE__);
     _version_text.SetText(UTranslate("Development Release") + MakeUnicodeString(date_string));
 
+    // Get rid of the old table to make sure no old data is used.
+    ScriptManager->DropGlobalTable("boot");
+
     // Test the existence and validity of the boot script.
     ReadScriptDescriptor boot_script;
     if(!boot_script.OpenFile("dat/config/boot.lua")) {
