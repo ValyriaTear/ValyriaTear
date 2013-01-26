@@ -106,7 +106,6 @@ class ScriptDescriptor
 
 public:
     ScriptDescriptor() {
-        _filename = "";
         _access_mode = SCRIPT_CLOSED;
         _error_messages.clear();
     }
@@ -140,7 +139,7 @@ public:
 
     //! \brief Returns true if any errors have been detected but not retrieved
     bool IsErrorDetected() const {
-        return (_error_messages.str() != "");
+        return (!_error_messages.str().empty());
     }
 
     //! \name Class Member Access Functions
@@ -182,6 +181,15 @@ public:
     **/
     std::vector<std::string> GetOpenTables() {
         return _open_tables;
+    }
+
+    //! \brief Create an auto namespace tablename out of the filename
+    //! For example, 'dat/maps/demo.lua' will a tablespace name of 'demo'.
+    std::string GetTableSpace() {
+        int32 period = _filename.find(".");
+        int32 last_slash = _filename.find_last_of("/");
+        std::string tablespace = _filename.substr(last_slash + 1, period - (last_slash + 1));
+        return tablespace;
     }
     //@}
 
@@ -252,18 +260,41 @@ public:
     **/
     void HandleCastError(const luabind::cast_failed &err);
 
+    /** \brief Empties a global table or namespace by applying a new pointer to it.
+    *** It is used to get rid of old data when reloading a file for instance.
+    *** You should then call this *before* opening the script file when needed.
+    *** \warning Use with care as you may make the game crash if you open a script file
+    *** and delete its namespace table afterward, for instance.
+    **/
+    void DropGlobalTable(const std::string& tablename)
+    {
+        if (tablename.empty())
+            return;
+        std::string reset_namespace_table = tablename + " = {}";
+        luaL_dostring(_global_state, reset_namespace_table.c_str());
+    }
+
+    //! \brief Create an auto namespace tablename out of the filename
+    //! For example, 'dat/maps/demo.lua' will a tablespace name of 'demo'.
+    static std::string GetTableSpace(const std::string& filename) {
+        if (filename.empty())
+            return std::string();
+
+        int32 period = filename.find(".");
+        int32 last_slash = filename.find_last_of("/");
+        std::string tablespace = filename.substr(last_slash + 1, period - (last_slash + 1));
+        return tablespace;
+    }
+
 private:
     ScriptEngine();
 
     //! \brief Maintains a list of all script files that are currently open
     std::map<std::string, ScriptDescriptor *> _open_files;
 
-    // TODO: not re-opening Lua files introduces serious problems (invalid data being read) and conflicts when
-    // two files share the same variable name are opened in succession. I believe this "feature" should be
-    // removed, but I'm leaving it here for now until we understand the situation completely.
     /** \brief Maintains a cache of opened lua threads
-    *** This is done so that a file that has already been loaded into the lua state will not be loaded again.
-    *** Instead the lua_thread will be returned.
+    *** This is done so that the thread state is kept in memory
+    *** until the data aren't needed anymore.
     **/
     std::map<std::string, lua_State *> _open_threads;
 
@@ -276,14 +307,24 @@ private:
     //! \brief Removes an open file from the list of open files
     void _RemoveOpenFile(ScriptDescriptor *sd);
 
-    // TODO: related to the to-do note above. I don't think this function should be used. For now it
-    // always returns NULL.
     /** \brief Checks for the existence of a previously opened lua state from that filename.
-    *** This should class because the filename contains the full path
+    *** The filename contains the full path.
+    *** Note that a thread should only be used once per file opening and its reference removed
+    *** at file closure. This way, the lua garbage collector can remove it safely.
     ***
-    *** \return A pointer to the lua_State for the file, or NULL if the file has never been opened.
+    *** \return A pointer to the thread's lua_State for the file, or NULL if the file has never been opened.
     **/
     lua_State *_CheckForPreviousLuaState(const std::string &filename);
+
+    /** \brief Triggers the Lua garbage collector, dropping all orphaned lua references
+    *** from the stack. This is automatically done by lua to free memory on the long-term.
+    *** But manually triggered when some old lua namespace data need to be dropped.
+    **/
+    void _TriggerLuaGarbageCollector()
+    {
+        lua_gc(_global_state, LUA_GCCOLLECT, 0);
+    }
+
 }; // class ScriptEngine : public hoa_utils::Singleton<ScriptEngine>
 
 } // namespace hoa_script

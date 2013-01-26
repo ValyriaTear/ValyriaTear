@@ -33,11 +33,6 @@ ReadScriptDescriptor::~ReadScriptDescriptor()
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "destructor was called when file was still open: " << _filename << std::endl;
         CloseFile();
     }
-
-    _filename = "";
-    _access_mode = SCRIPT_CLOSED;
-    _error_messages.clear();
-    _open_tables.clear();
 }
 
 //-----------------------------------------------------------------------------
@@ -59,20 +54,20 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
         return false;
     }
 
-    // Check if this file was opened previously.
-    if((_lstack = ScriptManager->_CheckForPreviousLuaState(filename)) == NULL) {
-        // Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
-        // stack and we have to be sure there is enough space there.
-        lua_checkstack(ScriptManager->GetGlobalState(), 1);
-        _lstack = lua_newthread(ScriptManager->GetGlobalState());
+    // Check that the thread stack is in sync with open files.
+    assert(ScriptManager->_CheckForPreviousLuaState(filename) == NULL);
 
-        // Attempt to load and execute the Lua file
-        if(luaL_loadfile(_lstack, filename.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
-            PRINT_ERROR << "could not open script file: " << filename << ", error message:" << std::endl
-                        << lua_tostring(_lstack, private_script::STACK_TOP) << std::endl;
-            _access_mode = SCRIPT_CLOSED;
-            return false;
-        }
+    // Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
+    // stack and we have to be sure there is enough space there.
+    lua_checkstack(ScriptManager->GetGlobalState(), 1);
+    _lstack = lua_newthread(ScriptManager->GetGlobalState());
+
+    // Attempt to load and execute the Lua file
+    if(luaL_loadfile(_lstack, filename.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
+        PRINT_ERROR << "could not open script file: " << filename << ", error message:" << std::endl
+                    << lua_tostring(_lstack, private_script::STACK_TOP) << std::endl;
+        _access_mode = SCRIPT_CLOSED;
+        return false;
     }
 
     _filename = filename;
@@ -87,7 +82,7 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
 
 bool ReadScriptDescriptor::OpenFile()
 {
-    if(_filename == "") {
+    if(_filename.empty()) {
         PRINT_ERROR << "could not open file because of an invalid file name (empty string)" << std::endl;
         return false;
     }
@@ -177,18 +172,16 @@ bool ReadScriptDescriptor::_CheckDataType(int32 type, luabind::object &obj_check
 
     // When this type is passed to the function, we don't care what type the object is as long
     // as it was seen to be something
-    if(type == LUA_TNIL) {
+    if(type == LUA_TNIL)
         return true;
-    }
 
     // Simple type comparison is all that is needed for all non-numeric types
-    else if(type == object_type) {
+    if(type == object_type)
         return true;
-    }
 
     // Because Lua only has a "number" type, we have to do perform a special cast
     // to examine integer versus floating point types
-    else if(object_type == LUA_TNUMBER) {
+    if(object_type == LUA_TNUMBER) {
         if(type == INTEGER_TYPE) {
             try {
                 luabind::object_cast<int32>(obj_check);
@@ -330,6 +323,7 @@ bool ReadScriptDescriptor::OpenTable(int32 table_name)
     if(!lua_istable(_lstack, STACK_TOP - 1)) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "about to fail because STACK_TOP - 1 is not a "
                                        << "table, or the table does not exist for the table element key: " << table_name << std::endl;
+        return false;
     }
 
     // Note: This call is unsafe and might make the game crash.
@@ -353,10 +347,7 @@ std::string ReadScriptDescriptor::OpenTablespace()
         return std::string();
     }
 
-    // file extension or path information (for example, 'dat/maps/demo.lua' has a tablespace name of 'demo').
-    int32 period = _filename.find(".");
-    int32 last_slash = _filename.find_last_of("/");
-    std::string tablespace = _filename.substr(last_slash + 1, period - (last_slash + 1));
+    std::string tablespace = GetTableSpace();
 
     if(tablespace.empty()) {
         PRINT_ERROR << "The script filename is not valid to be used as tablespace name: " << _filename << std::endl;
@@ -396,9 +387,10 @@ uint32 ReadScriptDescriptor::GetTableSize(const std::string &table_name)
 {
     uint32 size = 0;
 
-    OpenTable(table_name);
-    size = GetTableSize();
-    CloseTable();
+    if (OpenTable(table_name)) {
+        size = GetTableSize();
+        CloseTable();
+    }
     return size;
 }
 
@@ -414,9 +406,10 @@ uint32 ReadScriptDescriptor::GetTableSize(int32 table_name)
 {
     uint32 size = 0;
 
-    OpenTable(table_name);
-    size = GetTableSize();
-    CloseTable();
+    if (OpenTable(table_name)) {
+        size = GetTableSize();
+        CloseTable();
+    }
 
     return size;
 }
@@ -463,10 +456,9 @@ bool ReadScriptDescriptor::RunScriptFunction(const std::string &filename,
         return false;
     }
 
-    if(!global)
-        OpenTablespace();
-
-    bool ran = RunScriptFunction(function_name);
+    bool ran = false;
+    if(global || !OpenTablespace().empty())
+        ran = RunScriptFunction(function_name);
 
     CloseFile();
 
