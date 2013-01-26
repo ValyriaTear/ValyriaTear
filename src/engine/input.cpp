@@ -70,6 +70,7 @@ InputEngine::InputEngine()
     _quit_press           = false;
     _help_press           = false;
 
+    _joysticks_enabled    = true;
     _joyaxis_x_first      = true;
     _joyaxis_y_first      = true;
     _joystick.js          = NULL;
@@ -85,42 +86,41 @@ InputEngine::~InputEngine()
     IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine destructor invoked"
                                   << std::endl;
 
-    // If a joystick is open, close it before exiting
-    if(_joystick.js != NULL) {
-        SDL_JoystickClose(_joystick.js);
-    }
+    DeinitializeJoysticks();
 }
-
-
-// Initialize singleton pointers and key/joystick systems.
-bool InputEngine::SingletonInitialize()
-{
-    // Initialize the SDL joystick subsystem
-    if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0) {
-        PRINT_ERROR << "INPUT ERROR: failed to initailize the SDL joystick subsystem"
-                    << std::endl;
-        return false;
-    }
-
-    return true;
-}
-
 
 // This is no longer inside SingletonInitialize because we need to load the lua settings
 // before initializing the joysticks.
 void InputEngine::InitializeJoysticks()
 {
+    // Don't init joystick if settings told to disable them.
+    if (!_joysticks_enabled)
+        return;
+
     // Attempt to initialize and setup the joystick system
     if(SDL_NumJoysticks() == 0) {  // No joysticks found
         SDL_JoystickEventState(SDL_IGNORE);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
     } else { // At least one joystick exists
+        // Initialize the SDL joystick subsystem
+        if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0)
+            return;
+
         SDL_JoystickEventState(SDL_ENABLE);
         // TODO: need to allow user to specify which joystick to open, if multiple exist
         _joystick.js = SDL_JoystickOpen(_joystick.joy_index);
     }
 }
 
+void InputEngine::DeinitializeJoysticks()
+{
+    // If a joystick is open, close it before exiting
+    if(_joystick.js)
+        SDL_JoystickClose(_joystick.js);
+
+    SDL_JoystickEventState(SDL_IGNORE);
+    SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+}
 
 // Loads the default key settings from the lua file and sets them back
 bool InputEngine::RestoreDefaultKeys()

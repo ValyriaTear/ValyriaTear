@@ -267,6 +267,9 @@ private:
 
     //! \brief Handler methods for the joystick settings options menu
     //@{
+    void _OnToggleJoystickEnabled();
+    void _OnThresholdJoyLeft();
+    void _OnThresholdJoyRight();
     void _OnRestoreDefaultJoyButtons();
     //@}
 
@@ -280,7 +283,7 @@ private:
     **/
     void _ShowMessageWindow(bool joystick);
 
-    /** \brief Shows the message window to display text that its waiting for either a keybpard, joystick button, or joystick axis event
+    /** \brief Shows the message window to display text that its waiting for either a keyboard, joystick button, or joystick axis event
     *** \param wait The type of event the message box should state its waiting for
     **/
     void _ShowMessageWindow(private_boot::WAIT_FOR wait);
@@ -292,18 +295,11 @@ private:
     void _ChangeResolution(int32 width, int32 height);
 
     /** \brief Saves the settings to a file specified by the user
-    *** \param filename the name of the file for the settings to be loaded from if a blank string
-    *** is passed the default "settings.lua" will be used
-    *** \return true if file could be loaded, false otherwise
-    **/
-    bool _LoadSettingsFile(const std::string &filename);
-
-    /** \brief Saves the settings to a file specified by the user
     *** \param filename the name of the file for the settings to be saved to, if a blank string is
     *** passed the default "settings.lua" will be used
     *** \return true if file could be saved, false otherwise
     **/
-    bool _SaveSettingsFile(const std::string &filename);
+    bool _SaveSettingsFile(const std::string &filename = std::string());
 
     // ---------- Input configuration methods
 
@@ -326,9 +322,6 @@ private:
     void _RedefineConfirmKey();
     void _RedefineCancelKey();
     void _RedefineMenuKey();
-    void _RedefineSwapKey();
-    void _RedefineLeftSelectKey();
-    void _RedefineRightSelectKey();
     void _RedefinePauseKey();
     //@}
 
@@ -344,9 +337,6 @@ private:
     void _SetConfirmKey(const SDLKey &key);
     void _SetCancelKey(const SDLKey &key);
     void _SetMenuKey(const SDLKey &key);
-    void _SetSwapKey(const SDLKey &key);
-    void _SetLeftSelectKey(const SDLKey &key);
-    void _SetRightSelectKey(const SDLKey &key);
     void _SetPauseKey(const SDLKey &key);
     //@}
 
@@ -354,13 +344,9 @@ private:
     //@{
     void _RedefineXAxisJoy();
     void _RedefineYAxisJoy();
-    void _RedefineThresholdJoy();
     void _RedefineConfirmJoy();
     void _RedefineCancelJoy();
     void _RedefineMenuJoy();
-    void _RedefineSwapJoy();
-    void _RedefineLeftSelectJoy();
-    void _RedefineRightSelectJoy();
     void _RedefinePauseJoy();
     void _RedefineQuitJoy();
     //@}
@@ -372,13 +358,12 @@ private:
     //@{
     void _SetXAxisJoy(int8 axis);
     void _SetYAxisJoy(int8 axis);
+    void _SetJoyThreshold(int16 threshold);
     void _SetConfirmJoy(uint8 button);
     void _SetCancelJoy(uint8 button);
     void _SetMenuJoy(uint8 button);
-    void _SetSwapJoy(uint8 button);
-    void _SetLeftSelectJoy(uint8 button);
-    void _SetRightSelectJoy(uint8 button);
     void _SetPauseJoy(uint8 button);
+    void _SetQuitJoy(uint8 button);
     //@}
 }; // class BootMode : public hoa_mode_manager::GameMode
 

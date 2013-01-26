@@ -133,7 +133,7 @@ BootMode::BootMode() :
 BootMode::~BootMode()
 {
     _options_window.Destroy();
-    _SaveSettingsFile("");
+    _SaveSettingsFile();
 
     IF_PRINT_WARNING(BOOT_DEBUG)
             << "BOOT: BootMode destructor invoked." << std::endl;
@@ -191,7 +191,7 @@ void BootMode::Update()
 
         // save the settings (automatically changes the first_start variable to 0)
         _has_modified_settings = true;
-        _SaveSettingsFile("");
+        _SaveSettingsFile();
 
         return;
     }
@@ -558,7 +558,7 @@ void BootMode::_SetupJoySettingsMenu()
 {
     _joy_settings_menu.ClearOptions();
     _joy_settings_menu.SetPosition(512.0f, 468.0f);
-    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 6, 1, 6);
+    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 9, 1, 9);
     _joy_settings_menu.SetTextStyle(TextStyle("title22"));
     _joy_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _joy_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -568,17 +568,17 @@ void BootMode::_SetupJoySettingsMenu()
     _joy_settings_menu.SetSkipDisabled(true);
 
     ustring dummy;
-    // TODO: Add missing joystick options in the GUI
-//	_joy_settings_menu.AddOption(dummy, &BootMode::_ToggleJoystickEnabled);
+    _joy_settings_menu.AddOption(dummy, &BootMode::_OnToggleJoystickEnabled, NULL, NULL,
+                                 &BootMode::_OnToggleJoystickEnabled, &BootMode::_OnToggleJoystickEnabled);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineXAxisJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineYAxisJoy);
-//	_joy_settings_menu.AddOption(dummy, &BootMode::_RedefineThresholdJoy);
+    _joy_settings_menu.AddOption(dummy, NULL, NULL, NULL, &BootMode::_OnThresholdJoyLeft, &BootMode::_OnThresholdJoyRight);
 
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineConfirmJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineCancelJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineMenuJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefinePauseJoy);
-//	_joy_settings_menu.AddOption(dummy, &BootMode::_RedefineQuitJoy);
+    _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineQuitJoy);
 
     _joy_settings_menu.AddOption(UTranslate("Restore defaults"), &BootMode::_OnRestoreDefaultJoyButtons);
 }
@@ -662,12 +662,19 @@ void BootMode::_RefreshKeySettings()
 void BootMode::_RefreshJoySettings()
 {
     int32 i = 0;
+    if(InputManager->GetJoysticksEnabled())
+        _joy_settings_menu.SetOptionText(i++, UTranslate("Input enabled: ") + MakeUnicodeString("<r>") +  UTranslate("Yes"));
+    else
+        _joy_settings_menu.SetOptionText(i++, UTranslate("Input enabled: ") + MakeUnicodeString("<r>") +  UTranslate("No"));
+
     _joy_settings_menu.SetOptionText(i++, UTranslate("X Axis") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetXAxisJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Y Axis") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetYAxisJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Threshold") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetThresholdJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Confirm: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetConfirmJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Cancel: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetCancelJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Menu: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMenuJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Pause: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetPauseJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Quit: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetQuitJoy())));
 }
 
 // ****************************************************************************
@@ -755,7 +762,6 @@ void BootMode::_OnLanguageOptions()
 {
     // Switch the current menu
     _active_menu = &_language_options_menu;
-    //_UpdateLanguageOptions();
 }
 
 
@@ -909,7 +915,31 @@ void BootMode::_OnRestoreDefaultKeys()
     _has_modified_settings = true;
 }
 
+void BootMode::_OnToggleJoystickEnabled()
+{
+    InputManager->SetJoysticksEnabled(!InputManager->GetJoysticksEnabled());
+    if (InputManager->GetJoysticksEnabled())
+        InputManager->InitializeJoysticks();
+    else
+        InputManager->DeinitializeJoysticks();
 
+    _RefreshJoySettings();
+    _has_modified_settings = true;
+}
+
+void BootMode::_OnThresholdJoyLeft()
+{
+    InputManager->SetThresholdJoy(InputManager->GetThresholdJoy() - 100);
+    _RefreshJoySettings();
+    _has_modified_settings = true;
+}
+
+void BootMode::_OnThresholdJoyRight()
+{
+    InputManager->SetThresholdJoy(InputManager->GetThresholdJoy() + 100);
+    _RefreshJoySettings();
+    _has_modified_settings = true;
+}
 
 void BootMode::_OnRestoreDefaultJoyButtons()
 {
@@ -952,7 +982,6 @@ void BootMode::_ShowMessageWindow(bool joystick)
 
 void BootMode::_ShowMessageWindow(WAIT_FOR wait)
 {
-    std::string message = "";
     if(wait == WAIT_JOY_BUTTON)
         _message_window.SetText(UTranslate("Please press a new joystick button."));
     else if(wait == WAIT_KEY)
@@ -973,139 +1002,9 @@ void BootMode::_ChangeResolution(int32 width, int32 height)
 {
     VideoManager->SetResolution(width, height);
     VideoManager->ApplySettings();
-// 	_active_menu = &_video_options_menu; // return back to video options
     _RefreshVideoOptions();
     _has_modified_settings = true;
 }
-
-
-
-bool BootMode::_LoadSettingsFile(const std::string &filename)
-{
-    ReadScriptDescriptor settings;
-
-    if(!settings.OpenFile(filename))
-        return false;
-
-    IF_PRINT_WARNING(BOOT_DEBUG)
-            << "BOOT: Opened file to load settings " << settings.GetFilename() << std::endl;
-
-    settings.OpenTable("settings");
-
-    SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
-
-    settings.OpenTable("key_settings");
-    InputManager->SetUpKey(static_cast<SDLKey>(settings.ReadInt("up")));
-    InputManager->SetDownKey(static_cast<SDLKey>(settings.ReadInt("down")));
-    InputManager->SetLeftKey(static_cast<SDLKey>(settings.ReadInt("left")));
-    InputManager->SetRightKey(static_cast<SDLKey>(settings.ReadInt("right")));
-    InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
-    InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
-    InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
-    InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
-    settings.CloseTable();
-
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
-                    << "information from file: " << settings.GetFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
-        settings.CloseFile();
-        return false;
-    }
-
-    settings.OpenTable("joystick_settings");
-    // This is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
-    // TODO; It should call a method of the input engine to disable the joysticks.
-    if(settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-        SDL_JoystickEventState(SDL_IGNORE);
-        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-    }
-    InputManager->SetJoyIndex(static_cast<int32>(settings.ReadInt("index")));
-    InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
-    InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
-    InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
-    InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
-
-    // WinterKnight: These are hidden settings. You can change them by editing settings.lua,
-    // but they are not available in the options menu at this time.
-    InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
-    if(settings.DoesIntExist("x_axis"))
-        InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
-    if(settings.DoesIntExist("y_axis"))
-        InputManager->SetYAxisJoy(static_cast<int8>(settings.ReadInt("y_axis")));
-    if(settings.DoesIntExist("threshold"))
-        InputManager->SetThresholdJoy(static_cast<uint16>(settings.ReadInt("threshold")));
-    settings.CloseTable();
-
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
-                    << "from file: " << settings.GetFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
-        settings.CloseFile();
-        return false;
-    }
-
-    // Load video settings
-    settings.OpenTable("video_settings");
-    bool fullscreen = settings.ReadBool("full_screen");
-    VideoManager->SetPixelArtSmoothed(settings.ReadBool("smooth_graphics"));
-    int32 resx = static_cast<int32>(settings.ReadInt("screen_resx"));
-
-
-    //Set Resolution  according to width if no width matches our predefined resoultion set to lowest resolution
-    if(resx == 800) {
-        _OnResolution800x600();
-        _resolution_menu.SetSelection(1);
-    } else if(resx == 1024) {
-        _OnResolution1024x768();
-        _resolution_menu.SetSelection(2);
-    } else if(resx == 1280) {
-        _OnResolution1280x1024();
-        _resolution_menu.SetSelection(3);
-    } else {
-        _OnResolution640x480();
-        _resolution_menu.SetSelection(0);
-    }
-
-    //set the fullscreen and update video options
-    if(VideoManager->IsFullscreen() && fullscreen == false)
-        _OnToggleFullscreen();
-    else if(VideoManager->IsFullscreen() == false && fullscreen)
-        _OnToggleFullscreen();
-
-    settings.CloseTable();
-
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
-                    << "information from file: " << settings.GetFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
-        settings.CloseFile();
-        return false;
-    }
-
-    // Load Audio settings
-    if(AUDIO_ENABLE) {
-        settings.OpenTable("audio_settings");
-        AudioManager->SetMusicVolume(static_cast<float>(settings.ReadFloat("music_vol")));
-        AudioManager->SetSoundVolume(static_cast<float>(settings.ReadFloat("sound_vol")));
-    }
-    settings.CloseAllTables();
-
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
-                    << "information from file: " << settings.GetFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
-        settings.CloseFile();
-        return false;
-    }
-
-    settings.CloseFile();
-
-    IF_PRINT_WARNING(BOOT_DEBUG) << "Settings closed " << settings.GetFilename() << std::endl;
-
-    return true;
-} // bool BootMode::_LoadSettingsFile(const std::string& filename)
-
 
 
 bool BootMode::_SaveSettingsFile(const std::string &filename)
@@ -1115,14 +1014,14 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     if(!_has_modified_settings)
         return false;
 
-    std::string file = "";
-    std::string fileTemp = "";
+    std::string file;
+    std::string fileTemp;
 
     // Load the settings file for reading in the original data
     fileTemp = GetUserDataPath(false) + "/settings.lua";
 
 
-    if(filename == "")
+    if(filename.empty())
         file = fileTemp;
     else
         file = GetUserDataPath(false) + "/" + filename;
@@ -1131,48 +1030,84 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     if(!DoesFileExist(file))
         CopyFile(std::string("dat/config/settings.lua"), file);
 
-    ModifyScriptDescriptor settings_lua;
+    WriteScriptDescriptor settings_lua;
     if(!settings_lua.OpenFile(file)) {
-        PRINT_ERROR << "BOOT ERROR: failed to load the settings file!" << std::endl;
+        PRINT_ERROR << "Failed to save the settings file: " <<
+            settings_lua.GetFilename() << std::endl;
         return false;
     }
 
+    settings_lua.WriteComment("--General settings--");
+    settings_lua.BeginTable("settings");
+
     // Write the current settings into the .lua file
-    settings_lua.ModifyInt("settings.first_start", 0);
+    settings_lua.WriteComment("Show the first time help window");
+    settings_lua.WriteInt("first_start", 0);
+
 
     //Save language settings
-    settings_lua.ModifyString("settings.language", SystemManager->GetLanguage());
+    settings_lua.WriteComment("The GUI and in game dialogues language used");
+    settings_lua.WriteString("language", SystemManager->GetLanguage());
 
     // video
-    settings_lua.OpenTable("settings");
-    settings_lua.ModifyInt("video_settings.screen_resx", VideoManager->GetScreenWidth());
-    settings_lua.ModifyInt("video_settings.screen_resy", VideoManager->GetScreenHeight());
-    settings_lua.ModifyBool("video_settings.full_screen", VideoManager->IsFullscreen());
-    settings_lua.ModifyBool("video_settings.smooth_graphics", VideoManager->ShouldSmoothPixelArt());
-    //settings_lua.ModifyFloat("video_settings.brightness", VideoManager->GetGamma());
+    settings_lua.InsertNewLine();
+    settings_lua.WriteComment("--Video settings--");
+    settings_lua.BeginTable("video_settings");
+    settings_lua.WriteComment("Screen resolution");
+    settings_lua.WriteInt("screen_resx", VideoManager->GetScreenWidth());
+    settings_lua.WriteInt("screen_resy", VideoManager->GetScreenHeight());
+    settings_lua.WriteComment("Run the screen fullscreen/in a window");
+    settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
+    settings_lua.WriteComment("Used smoothed tile sprites when playing");
+    settings_lua.WriteBool("smooth_graphics", VideoManager->ShouldSmoothPixelArt());
+    settings_lua.EndTable(); // video_settings
 
     // audio
-    settings_lua.ModifyFloat("audio_settings.music_vol", AudioManager->GetMusicVolume());
-    settings_lua.ModifyFloat("audio_settings.sound_vol", AudioManager->GetSoundVolume());
+    settings_lua.InsertNewLine();
+    settings_lua.WriteComment("--Audio settings--");
+    settings_lua.BeginTable("audio_settings");
+    settings_lua.WriteComment("Music and sounds volumes: [0.0 - 1.0]");
+    settings_lua.WriteFloat("music_vol", AudioManager->GetMusicVolume());
+    settings_lua.WriteFloat("sound_vol", AudioManager->GetSoundVolume());
+    settings_lua.EndTable(); // audio_settings
 
     // input
-    settings_lua.ModifyInt("key_settings.up", InputManager->GetUpKey());
-    settings_lua.ModifyInt("key_settings.down", InputManager->GetDownKey());
-    settings_lua.ModifyInt("key_settings.left", InputManager->GetLeftKey());
-    settings_lua.ModifyInt("key_settings.right", InputManager->GetRightKey());
-    settings_lua.ModifyInt("key_settings.confirm", InputManager->GetConfirmKey());
-    settings_lua.ModifyInt("key_settings.cancel", InputManager->GetCancelKey());
-    settings_lua.ModifyInt("key_settings.menu", InputManager->GetMenuKey());
-    settings_lua.ModifyInt("key_settings.pause", InputManager->GetPauseKey());
-    settings_lua.ModifyInt("joystick_settings.x_axis", InputManager->GetXAxisJoy());
-    settings_lua.ModifyInt("joystick_settings.y_axis", InputManager->GetYAxisJoy());
-    settings_lua.ModifyInt("joystick_settings.confirm", InputManager->GetConfirmJoy());
-    settings_lua.ModifyInt("joystick_settings.cancel", InputManager->GetCancelJoy());
-    settings_lua.ModifyInt("joystick_settings.menu", InputManager->GetMenuJoy());
-    settings_lua.ModifyInt("joystick_settings.pause", InputManager->GetPauseJoy());
+    settings_lua.InsertNewLine();
+    settings_lua.WriteComment("--Keyboard settings--");
+    settings_lua.BeginTable("key_settings");
+    settings_lua.WriteComment("Keyboard key SDL values.");
+    settings_lua.WriteInt("up", InputManager->GetUpKey());
+    settings_lua.WriteInt("down", InputManager->GetDownKey());
+    settings_lua.WriteInt("left", InputManager->GetLeftKey());
+    settings_lua.WriteInt("right", InputManager->GetRightKey());
+    settings_lua.WriteInt("confirm", InputManager->GetConfirmKey());
+    settings_lua.WriteInt("cancel", InputManager->GetCancelKey());
+    settings_lua.WriteInt("menu", InputManager->GetMenuKey());
+    settings_lua.WriteInt("pause", InputManager->GetPauseKey());
+    settings_lua.EndTable(); // key_settings
+
+    settings_lua.InsertNewLine();
+    settings_lua.WriteComment("--Joystick settings--");
+    settings_lua.BeginTable("joystick_settings");
+    settings_lua.WriteComment("Tells whether joysticks input should be taken in account");
+    settings_lua.WriteBool("input_disabled", (!InputManager->GetJoysticksEnabled()));
+    settings_lua.WriteComment("The axis index number to be used as x/y axis");
+    settings_lua.WriteInt("x_axis", InputManager->GetXAxisJoy());
+    settings_lua.WriteInt("y_axis", InputManager->GetYAxisJoy());
+    settings_lua.WriteComment("The joystick x/y axis dead zone [0-N] (Default: 8192)");
+    settings_lua.WriteInt("threshold", InputManager->GetThresholdJoy());
+    settings_lua.WriteComment("Joystick keys index number [0-N] (0 is the first button)");
+    settings_lua.WriteInt("confirm", InputManager->GetConfirmJoy());
+    settings_lua.WriteInt("cancel", InputManager->GetCancelJoy());
+    settings_lua.WriteInt("menu", InputManager->GetMenuJoy());
+    settings_lua.WriteInt("pause", InputManager->GetPauseJoy());
+    settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
+    settings_lua.EndTable(); // joystick_settings
+
+    settings_lua.EndTable(); // settings
 
     // and save it!
-    settings_lua.CommitChanges();
+    settings_lua.SaveFile();
     settings_lua.CloseFile();
 
     _has_modified_settings = false;
@@ -1308,11 +1243,6 @@ void BootMode::_RedefineYAxisJoy()
     InputManager->ResetLastAxisMoved();
 }
 
-void BootMode::_RedefineThresholdJoy()
-{
-    // TODO
-}
-
 void BootMode::_RedefineConfirmJoy()
 {
     _joy_setting_function = &BootMode::_SetConfirmJoy;
@@ -1339,7 +1269,8 @@ void BootMode::_RedefinePauseJoy()
 
 void BootMode::_RedefineQuitJoy()
 {
-    // TODO
+    _joy_setting_function = &BootMode::_SetQuitJoy;
+    _ShowMessageWindow(true);
 }
 
 void BootMode::_SetXAxisJoy(int8 axis)
@@ -1370,6 +1301,11 @@ void BootMode::_SetMenuJoy(uint8 button)
 void BootMode::_SetPauseJoy(uint8 button)
 {
     InputManager->SetPauseJoy(button);
+}
+
+void BootMode::_SetQuitJoy(uint8 button)
+{
+    InputManager->SetQuitJoy(button);
 }
 
 } // namespace hoa_boot

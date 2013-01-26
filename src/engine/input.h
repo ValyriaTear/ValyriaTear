@@ -189,6 +189,10 @@ private:
     //! Holds the current user-defined joystick settings
     private_input::JoystickState _joystick;
 
+    //! \brief Tells whether the joystick input is disabled.
+    //! Is useful on certain OS where other inputs are falsely taken as joysticks ones.
+    bool _joysticks_enabled;
+
     //! Any key (or joystick button) pressed
     bool _any_key_press;
 
@@ -276,10 +280,14 @@ private:
 public:
     ~InputEngine();
 
-    bool SingletonInitialize();
+    bool SingletonInitialize()
+    { return true; }
 
     //! \brief Initialize the joysticks with SDL, delayed because we need info from the lua settings file first.
     void InitializeJoysticks();
+
+    //! \brief Deinitialize the joysticks, if initialized.
+    void DeinitializeJoysticks();
 
     /** \brief Loads the default key settings from the lua file and sets them back
     *** \return Returns false if the settings file couldn't be read
@@ -479,6 +487,13 @@ public:
     }
     //@}
 
+    //! \brief Tells whether joysticks should have enabled or not.
+    //! \note this isn't representing the SDL subsystem state, but a game option
+    //! preventing them from being initialized if necessary.
+    bool GetJoysticksEnabled() const {
+        return _joysticks_enabled;
+    }
+
     /** \name Joystick axis access functions
     *** \return axis number or threshold value
     **/
@@ -557,6 +572,13 @@ public:
         _SetNewKey(_key.pause, key);
     }
     //@}
+
+    //! \brief Tells whether joysticks should have enabled or not.
+    //! \note this isn't representing the SDL subsystem state, but a game option
+    //! preventing them from being initialized if necessary.
+    void SetJoysticksEnabled(bool enabled) {
+        _joysticks_enabled = enabled;
+    }
 
     /** \name Joystick button re-mapping functions
     *** \param	key New button for the action
