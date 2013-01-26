@@ -430,8 +430,6 @@ modes/menu/menu.cpp
 modes/menu/menu_views.cpp
 modes/menu/menu_views.h
 modes/pause.h
-engine/script/script_modify.h
-engine/script/script_modify.cpp
 engine/input.h
 engine/input.cpp
 engine/engine_bindings.cpp

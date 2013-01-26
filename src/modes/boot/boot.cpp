@@ -16,7 +16,7 @@
 #include "modes/boot/boot.h"
 
 #include "engine/audio/audio.h"
-#include "engine/script/script_modify.h"
+#include "engine/script/script_write.h"
 #include "engine/input.h"
 #include "engine/system.h"
 
