@@ -97,15 +97,28 @@ void QuitApp()
 bool LoadSettings()
 {
     ReadScriptDescriptor settings;
-    if(settings.OpenFile(GetSettingsFilename()) == false)
+    if(!settings.OpenFile(GetSettingsFilename()))
         return false;
 
-    settings.OpenTable("settings");
+    if (!settings.OpenTable("settings")) {
+        PRINT_ERROR << "Couldn't open the 'settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
+        return false;
+    }
 
     // Load language settings
     SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
 
-    settings.OpenTable("key_settings");
+    if (!settings.OpenTable("key_settings")) {
+        PRINT_ERROR << "Couldn't open the 'key_settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+            settings.CloseFile();
+        return false;
+    }
+
     InputManager->SetUpKey(static_cast<SDLKey>(settings.ReadInt("up")));
     InputManager->SetDownKey(static_cast<SDLKey>(settings.ReadInt("down")));
     InputManager->SetLeftKey(static_cast<SDLKey>(settings.ReadInt("left")));
@@ -114,22 +127,17 @@ bool LoadSettings()
     InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
     InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
     InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
-    settings.CloseTable();
+    settings.CloseTable(); // key_settings
 
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
-                    << "information from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
+    if (!settings.OpenTable("joystick_settings")) {
+        PRINT_ERROR << "Couldn't open the 'joystick_settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+            settings.CloseFile();
         return false;
     }
 
-    settings.OpenTable("joystick_settings");
-    // This is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
-    // TODO; It should call a method of the input engine to disable the joysticks.
-    if(settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-        SDL_JoystickEventState(SDL_IGNORE);
-        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-    }
+    InputManager->SetJoysticksEnabled(!settings.ReadBool("input_disabled"));
     InputManager->SetJoyIndex(static_cast<int32>(settings.ReadInt("index")));
     InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
     InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
@@ -142,48 +150,48 @@ bool LoadSettings()
     if(settings.DoesIntExist("y_axis"))
         InputManager->SetYAxisJoy(static_cast<int8>(settings.ReadInt("y_axis")));
 
-    // WinterKnight: These are hidden settings. You can change them by editing settings.lua,
-    // but they are not available in the options menu at this time.
     if(settings.DoesIntExist("threshold"))
         InputManager->SetThresholdJoy(static_cast<uint16>(settings.ReadInt("threshold")));
 
-    settings.CloseTable();
+    settings.CloseTable(); // joystick_settings
 
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
-                    << "from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
+    if (!settings.OpenTable("video_settings")) {
+        PRINT_ERROR << "Couldn't open the 'video_settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+            settings.CloseFile();
         return false;
     }
 
     // Load video settings
-    settings.OpenTable("video_settings");
-    bool fullscreen = settings.ReadBool("full_screen");
     int32 resx = settings.ReadInt("screen_resx");
     int32 resy = settings.ReadInt("screen_resy");
     VideoManager->SetInitialResolution(resx, resy);
-    VideoManager->SetFullscreen(fullscreen);
-    settings.CloseTable();
-
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
-                    << "information from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
-        return false;
-    }
+    VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
+    VideoManager->SetPixelArtSmoothed(settings.ReadBool("smooth_graphics"));
+    settings.CloseTable(); // video_settings
 
     // Load Audio settings
     if(AUDIO_ENABLE) {
-        settings.OpenTable("audio_settings");
+        if (!settings.OpenTable("audio_settings")) {
+            PRINT_ERROR << "Couldn't open the 'audio_settings' table in: "
+                << settings.GetFilename() << std::endl
+                << settings.GetErrorMessages() << std::endl;
+                settings.CloseFile();
+            return false;
+        }
+
         AudioManager->SetMusicVolume(static_cast<float>(settings.ReadFloat("music_vol")));
         AudioManager->SetSoundVolume(static_cast<float>(settings.ReadFloat("sound_vol")));
+
+        settings.CloseTable(); // audio_settings
     }
-    settings.CloseAllTables();
+    settings.CloseTable(); // settings
 
     if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
-                    << "information from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
+        PRINT_ERROR << "Errors while attempting to load the setting file: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
         return false;
     }
 
@@ -402,11 +410,12 @@ void InitializeEngine() throw(Exception)
     SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
 
     // Load all the settings from lua. This includes some engine configuration settings.
-    if(LoadSettings() == false)
+    if(!LoadSettings())
         throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
 
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();
+
     if(VideoManager->ApplySettings() == false)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
     if(VideoManager->FinalizeInitialization() == false)
