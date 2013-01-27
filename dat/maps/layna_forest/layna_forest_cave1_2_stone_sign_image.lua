@@ -63,11 +63,11 @@ function DrawPostEffects()
     local text_alpha = 1.0;
     if (display_time >= 0 and display_time <= 2500) then
 		text_alpha = display_time / 2500;
-    elseif (display_time > 2500 and display_time <= 6500) then
+    elseif (display_time > 2500 and display_time <= 4500) then
         text_alpha = 1.0;
-    elseif (display_time > 6500 and display_time <= 8000) then
-        text_alpha = 1.0 - (display_time - 6500) / (8000 - 6500);
-    elseif (display_time > 8000) then
+    elseif (display_time > 4500 and display_time <= 6000) then
+        text_alpha = 1.0 - (display_time - 4500) / (6000 - 4500);
+    elseif (display_time > 6000) then
         text_alpha = 0.0;
         return;
     end
