@@ -425,16 +425,6 @@ bool VideoEngine::ApplySettings()
             IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
         }
 
-        // Clear GL state
-        DisableBlending();
-        DisableTexture2D();
-        DisableAlphaTest();
-        DisableStencilTest();
-        DisableScissoring();
-        DisableVertexArray();
-        DisableColorArray();
-        DisableTextureCoordArray();
-
         int32 flags = SDL_OPENGL;
 
         if(_temp_fullscreen == true) {
@@ -477,6 +467,16 @@ bool VideoEngine::ApplySettings()
                 return false;
             }
         }
+
+        // Clear GL state, after SDL_SetVideoMode() for OSX compatibility
+        DisableBlending();
+        DisableTexture2D();
+        DisableAlphaTest();
+        DisableStencilTest();
+        DisableScissoring();
+        DisableVertexArray();
+        DisableColorArray();
+        DisableTextureCoordArray();
 
         // Turn off writing to the depth buffer
         glDepthMask(GL_FALSE);
