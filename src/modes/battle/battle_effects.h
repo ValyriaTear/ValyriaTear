@@ -64,7 +64,8 @@ public:
     BattleStatusEffect(hoa_global::GLOBAL_STATUS type, hoa_global::GLOBAL_INTENSITY intensity, BattleActor *actor,
                        uint32 duration = 0);
 
-    ~BattleStatusEffect();
+    ~BattleStatusEffect()
+    {}
 
     /** \brief Increments the status effect intensity by a positive amount
     *** \param amount The number of intensity levels to increase the status effect by
@@ -100,15 +101,15 @@ public:
         return _affected_actor;
     }
 
-    ScriptObject *GetApplyFunction() const {
+    const ScriptObject& GetApplyFunction() const {
         return _apply_function;
     }
 
-    ScriptObject *GetUpdateFunction() const {
+    const ScriptObject& GetUpdateFunction() const {
         return _update_function;
     }
 
-    ScriptObject *GetRemoveFunction() const {
+    const ScriptObject& GetRemoveFunction() const {
         return _remove_function;
     }
 
@@ -141,13 +142,13 @@ private:
     hoa_global::GLOBAL_STATUS _opposite_effect;
 
     //! \brief A pointer to the script function that applies the initial effect
-    ScriptObject *_apply_function;
+    ScriptObject _apply_function;
 
     //! \brief A pointer to the script function that updates any necessary changes caused by the effect
-    ScriptObject *_update_function;
+    ScriptObject _update_function;
 
     //! \brief A pointer to the script function that removes the effect and restores the actor to their original state
-    ScriptObject *_remove_function;
+    ScriptObject _remove_function;
 
     //! \brief A pointer to the actor that is affected by this status
     BattleActor *_affected_actor;

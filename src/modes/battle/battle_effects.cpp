@@ -46,9 +46,6 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     GlobalStatusEffect(type, intensity),
     _icon_index(0),
     _opposite_effect(GLOBAL_STATUS_INVALID),
-    _apply_function(NULL),
-    _update_function(NULL),
-    _remove_function(NULL),
     _affected_actor(actor),
     _timer(0),
     _icon_image(NULL),
@@ -89,22 +86,19 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     _opposite_effect = static_cast<GLOBAL_STATUS>(script_file.ReadInt("opposite_effect"));
 
     if(script_file.DoesFunctionExist("Apply")) {
-        _apply_function = new ScriptObject();
-        (*_apply_function) = script_file.ReadFunctionPointer("Apply");
+        _apply_function = script_file.ReadFunctionPointer("Apply");
     } else {
         PRINT_WARNING << "no Apply function found in Lua definition file for status: " << table_id << std::endl;
     }
 
     if(script_file.DoesFunctionExist("Update")) {
-        _update_function = new ScriptObject();
-        (*_update_function) = script_file.ReadFunctionPointer("Update");
+        _update_function = script_file.ReadFunctionPointer("Update");
     } else {
         PRINT_WARNING << "no Update function found in Lua definition file for status: " << table_id << std::endl;
     }
 
     if(script_file.DoesFunctionExist("Remove")) {
-        _remove_function = new ScriptObject();
-        (*_remove_function) = script_file.ReadFunctionPointer("Remove");
+        _remove_function = script_file.ReadFunctionPointer("Remove");
     } else {
         PRINT_WARNING << "no Remove function found in Lua definition file for status: " << table_id << std::endl;
     }
@@ -122,23 +116,6 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     _timer.Run();
     _icon_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(_type, _intensity);
 }
-
-
-
-BattleStatusEffect::~BattleStatusEffect()
-{
-    if(_apply_function != NULL)
-        delete _apply_function;
-    if(_update_function != NULL)
-        delete _update_function;
-    if(_remove_function != NULL)
-        delete _remove_function;
-
-    _apply_function = NULL;
-    _update_function = NULL;
-    _remove_function = NULL;
-}
-
 
 
 void BattleStatusEffect::SetIntensity(hoa_global::GLOBAL_INTENSITY intensity)
@@ -239,7 +216,7 @@ void EffectsSupervisor::Update()
 
         // Update the effect according to the script function
         if(!effect_removed) {
-            ScriptCallFunction<void>(*(_status_effects[i]->GetUpdateFunction()), _status_effects[i]);
+            ScriptCallFunction<void>(_status_effects[i]->GetUpdateFunction(), _status_effects[i]);
             _status_effects[i]->ResetIntensityChanged();
         }
     }
@@ -443,7 +420,7 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
 
 
     // Call the apply script function now that this new status is active on the actor
-    ScriptCallFunction<void>(*(new_effect->GetApplyFunction()), new_effect);
+    ScriptCallFunction<void>(new_effect->GetApplyFunction(), new_effect);
 }
 
 
@@ -456,7 +433,7 @@ void EffectsSupervisor::_RemoveStatus(BattleStatusEffect *status_effect)
     // Remove the status effect from the active effects list if it registered there.
     GLOBAL_STATUS effect_type = status_effect->GetType();
     if(_status_effects[effect_type] && _status_effects[effect_type] == status_effect) {
-        ScriptCallFunction<void>(*(status_effect->GetRemoveFunction()), status_effect);
+        ScriptCallFunction<void>(status_effect->GetRemoveFunction(), status_effect);
         _status_effects[effect_type] = 0;
     }
     // But delete the effect anyway.
