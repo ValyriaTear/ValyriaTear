@@ -411,7 +411,6 @@ void TradeInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _selected_name.SetText(_selected_object->GetObject()->GetName());
         _selected_icon = _selected_object->GetObject()->GetIconImage();
         _selected_icon.SetDimensions(30.0f, 30.0f);
-        //TODO add trade conditions listing
         _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetTradePrice())));
         _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(_selected_object->GetOwnCount())));

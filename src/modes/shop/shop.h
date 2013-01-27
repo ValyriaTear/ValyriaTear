@@ -269,6 +269,9 @@ private:
 
     //! \brief Displays buy count, sell count, or trade count
     hoa_gui::TextBox _count_text;
+
+    //! \brief Trade conditions displayed in an OptionBox
+    hoa_gui::OptionBox _conditions;
     //@}
 
     //! \name Data used only for item object types

@@ -175,7 +175,8 @@ weapons[10004] = {
     trade_conditions = {
         [0] = 20000,  -- price
         [10003] = 10, -- 10 Knight's blades
-        [1003] = 5    -- 5 Elixirs
+        [1003] = 5,    -- 5 Elixirs
+        [1] = 3
     },
 
     elemental_effects = {

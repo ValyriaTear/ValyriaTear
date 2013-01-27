@@ -432,6 +432,15 @@ ShopObjectViewer::ShopObjectViewer() :
     _phys_rating.SetStyle(TextStyle("text22"));
     _mag_rating.SetStyle(TextStyle("text22"));
     _shard_slot_text.SetStyle(TextStyle("text22"));
+
+    _conditions.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
+    _conditions.SetPosition(180.0f, 300.0f);
+    _conditions.SetDimensions(600.0f, 300.0f, 2, 255, 2, 6);
+    _conditions.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _conditions.SetTextStyle(TextStyle("text22"));
+    _conditions.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _conditions.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
+    _conditions.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
 }
 
 
@@ -518,6 +527,9 @@ void ShopObjectViewer::Draw()
         _description_text.Draw();
         _hint_text.Draw();
         _count_text.Draw();
+        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE){
+            _conditions.Draw();
+        }
     }
 }
 
@@ -572,6 +584,17 @@ void ShopObjectViewer::ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _view_mode = new_mode;
     } else if(new_mode == SHOP_VIEW_MODE_INFO) {
         _view_mode = new_mode;
+        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE){
+            _conditions.ClearOptions();
+            for(uint32 i = 0; i < _selected_object->GetObject()->GetTradeConditions().size(); ++i) {
+                GlobalObject* temp = GlobalCreateNewObject(_selected_object->GetObject()->GetTradeConditions()[i].first,1);
+                _conditions.AddOption(MakeUnicodeString("<" + temp->GetIconImage().GetFilename() + "><30>")
+                                         + temp->GetName());
+                _conditions.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
+                _conditions.AddOption(MakeUnicodeString("×" + NumberToString(_selected_object->GetObject()->GetTradeConditions()[i].second)));
+            }
+            _conditions.SetSelection(0);
+        }
     } else {
         IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode passed in function argument: " << new_mode << std::endl;
     }
@@ -995,10 +1018,15 @@ void ShopObjectViewer::_DrawEquipment()
     VideoManager->SetDrawFlags(VIDEO_Y_TOP, 0);
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(60.0f, -15.0f);
-    } else { // (_view_mode == SHOP_VIEW_MODE_INFO)
-        // In info view mode, draw the spites centered on the screen in a row below the other equipment data
-        VideoManager->Move(512.0f, 293.0f);
+        VideoManager->MoveRelative(60.0f, 15.0f);
+    }
+    else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
+        // In info view mode, draw on the left side
+        VideoManager->Move(150.0f, 295.0f);
+    }
+    else {
+    // In info view mode, draw the spites centered on the screen in a row below the other equipment data
+        VideoManager->Move(512.0f, 475.0f);
         float x_offset = -20.0f * _character_sprites.size();
         VideoManager->MoveRelative(x_offset, 0.0f);
     }
