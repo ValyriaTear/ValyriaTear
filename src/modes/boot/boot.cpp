@@ -79,10 +79,8 @@ BootMode::BootMode() :
     IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << std::endl;
     mode_type = MODE_MANAGER_BOOT_MODE;
 
+    // The text is setup in _SetupMainMenu()
     _version_text.SetStyle(TextStyle("text20"));
-    std::string date_string = " - ";
-    date_string.append(__DATE__);
-    _version_text.SetText(UTranslate("Half-Episode I Release Candidate 2") + MakeUnicodeString(date_string));
 
     // Get rid of the old table to make sure no old data is used.
     ScriptManager->DropGlobalTable("boot");
@@ -126,6 +124,14 @@ BootMode::BootMode() :
 
     // make sure message window is not visible
     _message_window.Hide();
+
+    // Preload test sound
+    AudioManager->LoadSound("snd/volume_test.wav", this);
+    // Preload main sounds
+    AudioManager->LoadSound("snd/confirm.wav", this);
+    AudioManager->LoadSound("snd/cancel.wav", this);
+    AudioManager->LoadSound("snd/bump.wav", this);
+    AudioManager->LoadSound("snd/new_game.wav", this);
 } // BootMode::BootMode()
 
 
@@ -411,10 +417,9 @@ void BootMode::_SetupMainMenu()
         _main_menu.SetSelection(1);
     }
 
-    // Preload main sounds
-    AudioManager->LoadSound("snd/confirm.wav");
-    AudioManager->LoadSound("snd/cancel.wav");
-    AudioManager->LoadSound("snd/bump.wav");
+    std::string date_string = " - ";
+    date_string.append(__DATE__);
+    _version_text.SetText(UTranslate("Half-Episode I Release") + MakeUnicodeString(date_string));
 }
 
 
@@ -481,9 +486,6 @@ void BootMode::_SetupAudioOptionsMenu()
     _audio_options_menu.AddOption(UTranslate("Music Volume: "), NULL, NULL, NULL, &BootMode::_OnMusicLeft, &BootMode::_OnMusicRight);
 
     _audio_options_menu.SetSelection(0);
-
-    // Preload test sound
-    AudioManager->LoadSound("snd/volume_test.wav", this);
 }
 
 
