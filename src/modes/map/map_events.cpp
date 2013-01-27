@@ -259,9 +259,7 @@ void BattleEncounterEvent::_Start()
 ScriptedEvent::ScriptedEvent(const std::string &event_id,
                              const std::string &start_function,
                              const std::string &update_function) :
-    MapEvent(event_id, SCRIPTED_EVENT),
-    _start_function(NULL),
-    _update_function(NULL)
+    MapEvent(event_id, SCRIPTED_EVENT)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
     if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
@@ -269,86 +267,28 @@ ScriptedEvent::ScriptedEvent(const std::string &event_id,
     if (!map_script.OpenTable("map_functions"))
         return;
 
-    if(!start_function.empty()) {
-        _start_function = new ScriptObject();
-        *_start_function = map_script.ReadFunctionPointer(start_function);
-    }
+    if(!start_function.empty())
+        _start_function = map_script.ReadFunctionPointer(start_function);
 
-    if(!update_function.empty()) {
-        _update_function = new ScriptObject();
-        *_update_function = map_script.ReadFunctionPointer(update_function);
-    }
+    if(!update_function.empty())
+        _update_function = map_script.ReadFunctionPointer(update_function);
 
     map_script.CloseTable(); // map_functions
     map_script.CloseTable(); // tablespace
 }
 
 
-
-ScriptedEvent::~ScriptedEvent()
-{
-    if(_start_function != NULL) {
-        delete _start_function;
-        _start_function = NULL;
-    }
-    if(_update_function != NULL) {
-        delete _update_function;
-        _update_function = NULL;
-    }
-}
-
-
-
-ScriptedEvent::ScriptedEvent(const ScriptedEvent &copy) :
-    MapEvent(copy)
-{
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-}
-
-
-
-ScriptedEvent &ScriptedEvent::operator=(const ScriptedEvent &copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    MapEvent::operator=(copy);
-
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-
-    return *this;
-}
-
-
-
 void ScriptedEvent::_Start()
 {
-    if(_start_function != NULL)
-        ScriptCallFunction<void>(*_start_function);
+    if(_start_function.is_valid())
+        ScriptCallFunction<void>(_start_function);
 }
-
 
 
 bool ScriptedEvent::_Update()
 {
-    if(_update_function != NULL)
-        return ScriptCallFunction<bool>(*_update_function);
+    if(_update_function.is_valid())
+        return ScriptCallFunction<bool>(_update_function);
     else
         return true;
 }
@@ -397,9 +337,7 @@ void SpriteEvent::Terminate()
 ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, uint16 sprite_id,
         const std::string &start_function,
         const std::string &update_function) :
-    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite_id),
-    _start_function(NULL),
-    _update_function(NULL)
+    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite_id)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
     if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
@@ -407,15 +345,11 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, uint16 spr
     if (!map_script.OpenTable("map_functions"))
         return;
 
-    if(!start_function.empty()) {
-        _start_function = new ScriptObject();
-        *_start_function = map_script.ReadFunctionPointer(start_function);
-    }
+    if(!start_function.empty())
+        _start_function = map_script.ReadFunctionPointer(start_function);
 
-    if(!update_function.empty()) {
-        _update_function = new ScriptObject();
-        *_update_function = map_script.ReadFunctionPointer(update_function);
-    }
+    if(!update_function.empty())
+        _update_function = map_script.ReadFunctionPointer(update_function);
 
     map_script.CloseTable(); // map_functions
     map_script.CloseTable(); // tablespace
@@ -426,103 +360,45 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, uint16 spr
 ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
         const std::string &start_function,
         const std::string &update_function) :
-    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite),
-    _start_function(NULL),
-    _update_function(NULL)
+    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
-    MapMode::CurrentInstance()->OpenMapTablespace(true);
-    map_script.OpenTable("map_functions");
-    if(!start_function.empty()) {
-        _start_function = new ScriptObject();
-        *_start_function = map_script.ReadFunctionPointer(start_function);
-    }
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
 
-    if(!update_function.empty()) {
-        _update_function = new ScriptObject();
-        *_update_function = map_script.ReadFunctionPointer(update_function);
-    }
+    if(!start_function.empty())
+        _start_function = map_script.ReadFunctionPointer(start_function);
+
+    if(!update_function.empty())
+        _update_function = map_script.ReadFunctionPointer(update_function);
 
     map_script.CloseTable(); // map_functions
     map_script.CloseTable(); // tablespace
 }
 
 
-
-ScriptedSpriteEvent::~ScriptedSpriteEvent()
-{
-    if(_start_function != NULL) {
-        delete _start_function;
-        _start_function = NULL;
-    }
-    if(_update_function != NULL) {
-        delete _update_function;
-        _update_function = NULL;
-    }
-}
-
-
-
-ScriptedSpriteEvent::ScriptedSpriteEvent(const ScriptedSpriteEvent &copy) :
-    SpriteEvent(copy)
-{
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-}
-
-
-
-ScriptedSpriteEvent &ScriptedSpriteEvent::operator=(const ScriptedSpriteEvent &copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    SpriteEvent::operator=(copy);
-
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-
-    return *this;
-}
-
-
-
 void ScriptedSpriteEvent::_Start()
 {
-    if(_start_function != NULL) {
-        SpriteEvent::_Start();
-        ScriptCallFunction<void>(*_start_function, _sprite);
-    }
+    SpriteEvent::_Start();
+    if(_start_function.is_valid())
+        ScriptCallFunction<void>(_start_function, _sprite);
 }
-
 
 
 bool ScriptedSpriteEvent::_Update()
 {
     bool finished = false;
-    if(_update_function != NULL) {
-        finished = ScriptCallFunction<bool>(*_update_function, _sprite);
+    if(_update_function.is_valid()) {
+        finished = ScriptCallFunction<bool>(_update_function, _sprite);
     } else {
         finished = true;
     }
 
-    if(finished) {
+    if(finished)
         SpriteEvent::Terminate();
-    }
+
     return finished;
 }
 

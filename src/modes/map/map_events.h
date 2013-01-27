@@ -481,18 +481,15 @@ public:
     ScriptedEvent(const std::string &event_id, const std::string &start_function,
                   const std::string &update_function);
 
-    ~ScriptedEvent();
-
-    ScriptedEvent(const ScriptedEvent &copy);
-
-    ScriptedEvent &operator=(const ScriptedEvent &copy);
+    ~ScriptedEvent()
+    {}
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
-    ScriptObject *_start_function;
+    ScriptObject _start_function;
 
     //! \brief A pointer to the Lua function that returns a boolean value if the event is finished
-    ScriptObject *_update_function;
+    ScriptObject _update_function;
 
     //! \brief Calls the Lua _start_function, if one was defined
     void _Start();
@@ -601,18 +598,15 @@ public:
     ScriptedSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
                         const std::string &start_function, const std::string &update_function);
 
-    ~ScriptedSpriteEvent();
-
-    ScriptedSpriteEvent(const ScriptedSpriteEvent &copy);
-
-    ScriptedSpriteEvent &operator=(const ScriptedSpriteEvent &copy);
+    ~ScriptedSpriteEvent()
+    {}
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
-    ScriptObject *_start_function;
+    ScriptObject _start_function;
 
     //! \brief A pointer to the Lua function that returns a boolean value if the event is finished
-    ScriptObject *_update_function;
+    ScriptObject _update_function;
 
     //! \brief Calls the Lua _start_function, if one was defined
     void _Start();
