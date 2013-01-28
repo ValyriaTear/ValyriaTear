@@ -452,6 +452,8 @@
 		<Unit filename="src/modes/map/map_dialogue.h" />
 		<Unit filename="src/modes/map/map_events.cpp" />
 		<Unit filename="src/modes/map/map_events.h" />
+		<Unit filename="src/modes/map/map_minimap.cpp" />
+		<Unit filename="src/modes/map/map_minimap.h" />
 		<Unit filename="src/modes/map/map_objects.cpp" />
 		<Unit filename="src/modes/map/map_objects.h" />
 		<Unit filename="src/modes/map/map_sprites.cpp" />

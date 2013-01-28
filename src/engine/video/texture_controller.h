@@ -58,6 +58,8 @@ class TextureController : public hoa_utils::Singleton<TextureController>
     friend class private_video::FixedTexSheet;
     friend class private_video::VariableTexSheet;
 
+    //friend class hoa_map::private_map::CollisionMap;
+
     friend class hoa_mode_manager::ParticleSystem;
 
 public:
