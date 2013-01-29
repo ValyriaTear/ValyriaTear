@@ -90,6 +90,7 @@
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
+					<Add library="SDL_image" />
 					<Add directory="valyriatear-win32-depends/lib" />
 				</Linker>
 			</Target>
