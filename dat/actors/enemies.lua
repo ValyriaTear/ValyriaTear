@@ -698,7 +698,7 @@ enemies[12] = {
 
     skills = {
         1006, -- Normal attack
-        7     -- Fire burst
+        10004 -- Fire burst
     },
 
     drop_objects = {

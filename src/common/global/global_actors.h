@@ -816,12 +816,12 @@ public:
         return _armor_equipped[GLOBAL_POSITION_LEGS];
     }
 
-    std::vector<GlobalSkill *>* GetAttackSkills() {
-        return &_attack_skills;
+    std::vector<GlobalSkill *>* GetWeaponSkills() {
+        return &_weapon_skills;
     }
 
-    std::vector<GlobalSkill *>* GetSupportSkills() {
-        return &_support_skills;
+    std::vector<GlobalSkill *>* GetMagicSkills() {
+        return &_magic_skills;
     }
 
     std::vector<GlobalSkill *>* GetSpecialSkills() {
@@ -876,14 +876,14 @@ public:
 
 protected:
     /** \brief Sortable skill containers
-    *** Skills are divided into three types: attack, defense, and support. There is really no functional
+    *** Skills are divided into three types: weapon, magic, and special. There is really no functional
     *** distinguishment between the various skill types, they just serve an organizational means and are
     *** used to identify a skill's general purpose/use. Characters keep their skills in these seperate
     *** containers because they are presented in this way to the player.
     **/
     //@{
-    std::vector<GlobalSkill *> _attack_skills;
-    std::vector<GlobalSkill *> _support_skills;
+    std::vector<GlobalSkill *> _weapon_skills;
+    std::vector<GlobalSkill *> _magic_skills;
     std::vector<GlobalSkill *> _special_skills;
     //@}
 

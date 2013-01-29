@@ -57,14 +57,14 @@ const uint32 OBJECT_ID_EXCEEDS   = 80001;
 /** \name Skill ID Range Constants
 *** These constants set the maximum valid ID ranges for each skill category.
 *** The full valid range for each skill category ID is:
-*** - Attack:        1-10000
-*** - Defend:    10001-20000
-*** - Support:   20001-30000
+*** - Weapon:        1-10000
+*** - Magic:    10001-20000
+*** - Special:   20001-30000
 **/
 //@{
-const uint32 MAX_ATTACK_ID   = 10000;
-const uint32 MAX_SUPPORT_ID  = 20000;
-const uint32 MAX_SPECIAL_ID  = 30000;
+const uint32 MAX_WEAPON_SKILL_ID   = 10000;
+const uint32 MAX_MAGIC_SKILL_ID    = 20000;
+const uint32 MAX_SPECIAL_SKILL_ID  = 30000;
 //@}
 
 } // namespace private_global
@@ -216,8 +216,8 @@ enum GLOBAL_INTENSITY {
 **/
 enum GLOBAL_SKILL {
     GLOBAL_SKILL_INVALID  = -1,
-    GLOBAL_SKILL_ATTACK   =  0,
-    GLOBAL_SKILL_SUPPORT  =  1,
+    GLOBAL_SKILL_WEAPON   =  0,
+    GLOBAL_SKILL_MAGIC    =  1,
     GLOBAL_SKILL_SPECIAL  =  2,
     GLOBAL_SKILL_TOTAL    =  3
 };

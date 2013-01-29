@@ -368,6 +368,9 @@ private:
     //! TextBox that holds the selected skill's description
     hoa_gui::TextBox _description;
 
+    //! The current skill icon, if any
+    hoa_video::StillImage _skill_icon;
+
     //! Track which character's skillset was chosen
     int32 _char_skillset;
 

@@ -436,6 +436,7 @@ void MainMenuState::_OnDrawSideWindow()
     else if (_options.GetSelection() != MAIN_OPTIONS_WORLDMAP)
         AbstractMenuState::_OnDrawSideWindow();
 }
+
 void InventoryState::Reset()
 {
     // Setup the option box
@@ -452,7 +453,6 @@ void InventoryState::Reset()
     // Add strings and set default selection.
     _options.SetOptions(options);
     _options.SetSelection(INV_OPTIONS_USE);
-
 }
 
 AbstractMenuState* InventoryState::GetTransitionState(uint32 selection)
@@ -797,17 +797,18 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32 selection)
 
 void SkillsState::_OnDrawMainWindow()
 {
-
     _DrawBottomMenu();
     _menu_mode->_skills_window.Draw();
-
 }
+
 void SkillsState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
 
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150, 580);
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
+    VideoManager->Move(90, 580);
+    _menu_mode->_skills_window._skill_icon.Draw();
+
     _menu_mode->_skills_window._description.Draw();
 }
 

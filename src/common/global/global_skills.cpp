@@ -44,13 +44,13 @@ GlobalSkill::GlobalSkill(uint32 id) :
     // A pointer to the skill script which will be used to load this skill
     ReadScriptDescriptor *skill_script = NULL;
 
-    if((_id > 0) && (_id <= MAX_ATTACK_ID)) {
-        _type = GLOBAL_SKILL_ATTACK;
-        skill_script = &(GlobalManager->GetAttackSkillsScript());
-    } else if((_id > MAX_ATTACK_ID) && (_id <= MAX_SUPPORT_ID)) {
-        _type = GLOBAL_SKILL_SUPPORT;
-        skill_script = &(GlobalManager->GetSupportSkillsScript());
-    } else if((_id > MAX_SUPPORT_ID) && (_id <= MAX_SPECIAL_ID)) {
+    if((_id > 0) && (_id <= MAX_WEAPON_SKILL_ID)) {
+        _type = GLOBAL_SKILL_WEAPON;
+        skill_script = &(GlobalManager->GetWeaponSkillsScript());
+    } else if((_id > MAX_WEAPON_SKILL_ID) && (_id <= MAX_MAGIC_SKILL_ID)) {
+        _type = GLOBAL_SKILL_MAGIC;
+        skill_script = &(GlobalManager->GetMagicSkillsScript());
+    } else if((_id > MAX_MAGIC_SKILL_ID) && (_id <= MAX_SPECIAL_SKILL_ID)) {
         _type = GLOBAL_SKILL_SPECIAL;
         skill_script = &(GlobalManager->GetSpecialSkillsScript());
     } else {
@@ -70,6 +70,8 @@ GlobalSkill::GlobalSkill(uint32 id) :
     _name = MakeUnicodeString(skill_script->ReadString("name"));
     if(skill_script->DoesStringExist("description"))
         _description = MakeUnicodeString(skill_script->ReadString("description"));
+    if(skill_script->DoesStringExist("icon"))
+        _icon_filename = skill_script->ReadString("icon");
     _sp_required = skill_script->ReadUInt("sp_required");
     _warmup_time = skill_script->ReadUInt("warmup_time");
     _cooldown_time = skill_script->ReadUInt("cooldown_time");
@@ -105,6 +107,7 @@ GlobalSkill::GlobalSkill(const GlobalSkill &copy)
 {
     _name = copy._name;
     _description = copy._description;
+    _icon_filename = copy._icon_filename;
     _id = copy._id;
     _type = copy._type;
     _sp_required = copy._sp_required;
@@ -128,6 +131,7 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
 
     _name = copy._name;
     _description = copy._description;
+    _icon_filename = copy._icon_filename;
     _id = copy._id;
     _type = copy._type;
     _sp_required = copy._sp_required;

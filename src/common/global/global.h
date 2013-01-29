@@ -902,16 +902,16 @@ public:
         return _leg_armor_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetAttackSkillsScript() {
-        return _attack_skills_script;
+    hoa_script::ReadScriptDescriptor &GetWeaponSkillsScript() {
+        return _weapon_skills_script;
+    }
+
+    hoa_script::ReadScriptDescriptor &GetMagicSkillsScript() {
+        return _magic_skills_script;
     }
 
     hoa_script::ReadScriptDescriptor &GetSpecialSkillsScript() {
         return _special_skills_script;
-    }
-
-    hoa_script::ReadScriptDescriptor &GetSupportSkillsScript() {
-        return _support_skills_script;
     }
 
     hoa_script::ReadScriptDescriptor &GetStatusEffectsScript() {
@@ -1054,17 +1054,14 @@ private:
     //! \brief Contains data definitions for all shards
     // hoa_script::ReadScriptDescriptor _shard_script;
 
-    //! \brief Contains data definitions for all key items
-    // hoa_script::ReadScriptDescriptor _key_items_script;
+    //! \brief Contains data and functional definitions for all weapon skills
+    hoa_script::ReadScriptDescriptor _weapon_skills_script;
 
-    //! \brief Contains data and functional definitions for all attack skills
-    hoa_script::ReadScriptDescriptor _attack_skills_script;
+    //! \brief Contains data and functional definitions for all magic skills
+    hoa_script::ReadScriptDescriptor _magic_skills_script;
 
     //! \brief Contains data and functional definitions for all special skills
     hoa_script::ReadScriptDescriptor _special_skills_script;
-
-    //! \brief Contains data and functional definitions for all support skills
-    hoa_script::ReadScriptDescriptor _support_skills_script;
 
     //! \brief Contains functional definitions for all status effects
     hoa_script::ReadScriptDescriptor _status_effects_script;

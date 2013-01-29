@@ -121,14 +121,14 @@ void GameGlobal::_CloseGlobalScripts() {
     _leg_armor_script.CloseTable();
     _leg_armor_script.CloseFile();
 
-    _attack_skills_script.CloseTable();
-    _attack_skills_script.CloseFile();
+    _weapon_skills_script.CloseTable();
+    _weapon_skills_script.CloseFile();
+
+    _magic_skills_script.CloseTable();
+    _magic_skills_script.CloseFile();
 
     _special_skills_script.CloseTable();
     _special_skills_script.CloseFile();
-
-    _support_skills_script.CloseTable();
-    _support_skills_script.CloseFile();
 
     _status_effects_script.CloseTable();
     _status_effects_script.CloseFile();
@@ -178,15 +178,15 @@ bool GameGlobal::_LoadGlobalScripts()
     }
     _leg_armor_script.OpenTable("armor");
 
-    if(_attack_skills_script.OpenFile("dat/skills/attack.lua") == false) {
+    if(_weapon_skills_script.OpenFile("dat/skills/weapon.lua") == false) {
         return false;
     }
-    _attack_skills_script.OpenTable("skills");
+    _weapon_skills_script.OpenTable("skills");
 
-    if(_support_skills_script.OpenFile("dat/skills/support.lua") == false) {
+    if(_magic_skills_script.OpenFile("dat/skills/magic.lua") == false) {
         return false;
     }
-    _support_skills_script.OpenTable("skills");
+    _magic_skills_script.OpenTable("skills");
 
     if(_special_skills_script.OpenFile("dat/skills/special.lua") == false) {
         return false;
@@ -1084,8 +1084,8 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     std::vector<GlobalSkill *>* skill_vector;
 
     file.InsertNewLine();
-    file.WriteLine("\t\tattack_skills = {");
-    skill_vector = character->GetAttackSkills();
+    file.WriteLine("\t\tweapon_skills = {");
+    skill_vector = character->GetWeaponSkills();
     for(uint32 i = 0; i < skill_vector->size(); i++) {
         if(i == 0)
             file.WriteLine("\t\t\t", false);
@@ -1096,8 +1096,8 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\n\t\t},");
 
     file.InsertNewLine();
-    file.WriteLine("\t\tsupport_skills = {");
-    skill_vector = character->GetSupportSkills();
+    file.WriteLine("\t\tmagic_skills = {");
+    skill_vector = character->GetMagicSkills();
     for(uint32 i = 0; i < skill_vector->size(); i++) {
         if(i == 0)
             file.WriteLine("\t\t\t", false);
@@ -1334,7 +1334,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
         return;
     }
 
-    // ----- (1): Create a new GlobalCharacter object using the provided id
+    // Create a new GlobalCharacter object using the provided id
     // This loads all of the character's "static" data, such as their name, etc.
     GlobalCharacter *character = new GlobalCharacter(id, false);
 
@@ -1345,10 +1345,10 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     // Gets whether the character is currently enabled
     if(file.DoesBoolExist("enabled"))
         character->Enable(file.ReadBool("enabled"));
-    else // old format
+    else // old format DEPRECATED: Removed in one release
         character->Enable(true);
 
-    // ----- (2): Read in all of the character's stats data
+    // Read in all of the character's stats data
     character->SetExperienceLevel(file.ReadUInt("experience_level"));
     character->SetExperiencePoints(file.ReadUInt("experience_points"));
 
@@ -1364,7 +1364,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     character->SetAgility(file.ReadUInt("agility"));
     character->SetEvade(file.ReadFloat("evade"));
 
-    // ----- (3): Read the character's equipment and load it onto the character
+    // Read the character's equipment and load it onto the character
     file.OpenTable("equipment");
     uint32 equip_id;
 
@@ -1396,17 +1396,17 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
 
     file.CloseTable();
 
-    // ----- (4): Read the character's skills and pass those onto the character object
+    // Read the character's skills and pass those onto the character object
     std::vector<uint32> skill_ids;
 
     skill_ids.clear();
-    file.ReadUIntVector("attack_skills", skill_ids);
+    file.ReadUIntVector("weapon_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); i++) {
         character->AddSkill(skill_ids[i]);
     }
 
     skill_ids.clear();
-    file.ReadUIntVector("support_skills", skill_ids);
+    file.ReadUIntVector("magic_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
@@ -1420,6 +1420,17 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     // DEPRECATED: Remove in one release
     skill_ids.clear();
     file.ReadUIntVector("defense_skills", skill_ids);
+    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+        character->AddSkill(skill_ids[i]);
+    }
+    // DEPRECATED: Remove in one release
+    file.ReadUIntVector("attack_skills", skill_ids);
+    for(uint32 i = 0; i < skill_ids.size(); i++) {
+        character->AddSkill(skill_ids[i]);
+    }
+    // DEPRECATED: Remove in one release
+    skill_ids.clear();
+    file.ReadUIntVector("support_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }

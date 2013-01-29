@@ -815,8 +815,8 @@ SkillsWindow::SkillsWindow() :
     _InitSkillsCategories();
 
     _description.SetOwner(this);
-    _description.SetPosition(30.0f, 465.0f);
-    _description.SetDimensions(800.0f, 80.0f);
+    _description.SetPosition(90.0f, 465.0f);
+    _description.SetDimensions(740.0f, 80.0f);
     _description.SetDisplaySpeed(30);
     _description.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -844,7 +844,7 @@ void SkillsWindow::_InitSkillsList()
 {
     // Set up the inventory option box
     _skills_list.SetPosition(500.0f, 170.0f);
-    _skills_list.SetDimensions(180.0f, 360.0f, 1, 255, 1, 4);
+    _skills_list.SetDimensions(180.0f, 360.0f, 1, 255, 1, 6);
     _skills_list.SetTextStyle(TextStyle("text20"));
     _skills_list.SetCursorOffset(-52.0f, -20.0f);
     _skills_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
@@ -858,7 +858,7 @@ void SkillsWindow::_InitSkillsList()
 
     // setup the cost option box
     _skill_cost_list.SetPosition(700.0f, 170.0f);
-    _skill_cost_list.SetDimensions(180.0f, 360.0f, 1, 255, 1, 4);
+    _skill_cost_list.SetDimensions(180.0f, 360.0f, 1, 255, 1, 6);
     _skill_cost_list.SetTextStyle(TextStyle("text20"));
     _skill_cost_list.SetCursorOffset(-52.0f, -20.0f);
     _skill_cost_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
@@ -1045,13 +1045,43 @@ void SkillsWindow::Update()
     if(_active_box != SKILL_ACTIVE_CHAR_APPLY)
         _UpdateSkillList();
 
-    if(_skills_list.GetNumberOptions() > 0 && _skills_list.GetSelection() >= 0 && static_cast<int32>(_skills_list.GetNumberOptions()) > _skills_list.GetSelection()) {
+    if(_skills_list.GetNumberOptions() > 0 && _skills_list.GetSelection() >= 0
+            && static_cast<int32>(_skills_list.GetNumberOptions()) > _skills_list.GetSelection()) {
+
         GlobalSkill *skill = _GetCurrentSkill();
 
+        // Get the skill type
+        hoa_utils::ustring skill_type;
+        switch(skill->GetType()) {
+            case GLOBAL_SKILL_WEAPON:
+                skill_type = UTranslate("Weapon skill");
+                break;
+            case GLOBAL_SKILL_MAGIC:
+                skill_type = UTranslate("Magic skill");
+                break;
+            case GLOBAL_SKILL_SPECIAL:
+                skill_type = UTranslate("Special skill");
+                break;
+            default:
+            break;
+        }
+
         hoa_utils::ustring description = skill->GetName();
+        if (!skill_type.empty())
+            description += MakeUnicodeString("  (") + skill_type + MakeUnicodeString(")");
+
         description += MakeUnicodeString("\n\n");
         description += skill->GetDescription();
         _description.SetDisplayText(description);
+
+        // Load the skill icon
+        if (!skill->GetIconFilename().empty()) {
+            _skill_icon.Load(skill->GetIconFilename());
+            if (_skill_icon.GetHeight() > 70)
+                _skill_icon.SetHeightKeepRatio(70);
+        }
+        else
+            _skill_icon.Clear();
     }
 
 } // void SkillsWindow::Update()
@@ -1064,8 +1094,8 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
     std::vector<GlobalSkill *> battle_skills;
     std::vector<GlobalSkill *> all_skills;
 
-    _BuildMenuBattleSkillLists(ch->GetAttackSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetSupportSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetMagicSkills(), &menu_skills, &battle_skills, &all_skills);
     _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
 
     GlobalSkill *skill;
@@ -1100,40 +1130,64 @@ void SkillsWindow::_UpdateSkillList()
     std::vector<GlobalSkill *> battle_skills;
     std::vector<GlobalSkill *> all_skills;
 
-    _BuildMenuBattleSkillLists(ch->GetAttackSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetSupportSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
+    // Iterators
+    std::vector<GlobalSkill *>::const_iterator it;
+    std::vector<GlobalSkill*>::const_iterator it_begin;
+    std::vector<GlobalSkill*>::const_iterator it_end;
 
-    std::vector<GlobalSkill *>::iterator it;
+    _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetMagicSkills(), &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
 
     switch(_skills_categories.GetSelection()) {
     case SKILL_ALL:
-        for(it = all_skills.begin(); it != all_skills.end(); ++it) {
-            options.push_back((*it)->GetName());
-            std::string cost = NumberToString((*it)->GetSPRequired()) + Translate(" SP");
-            cost_options.push_back(MakeUnicodeString(cost));
-        }
+        it_begin = all_skills.begin();
+        it_end = all_skills.end();
         break;
     case SKILL_BATTLE:
-        for(it = battle_skills.begin(); it != battle_skills.end(); ++it) {
-            options.push_back((*it)->GetName());
-            std::string cost = NumberToString((*it)->GetSPRequired()) + Translate(" SP");
-            cost_options.push_back(MakeUnicodeString(cost));
-        }
+        it_begin = battle_skills.begin();
+        it_end = battle_skills.end();
         break;
     case SKILL_FIELD:
-        for(it = menu_skills.begin(); it != menu_skills.end(); ++it) {
-            options.push_back((*it)->GetName());
-            std::string cost = NumberToString((*it)->GetSPRequired()) + Translate(" SP");
-            cost_options.push_back(MakeUnicodeString(cost));
-        }
+        it_begin = menu_skills.begin();
+        it_end = menu_skills.end();
         break;
     default:
         break;
     }
 
+    for(it = it_begin; it != it_end; ++it) {
+        // Check for the existence of an icon
+        hoa_utils::ustring name;
+        if((*it)->GetIconFilename().empty()) {
+            // If no icon, use the weapon icon for weapon skills
+            if ((*it)->GetType() == GLOBAL_SKILL_WEAPON &&
+                 ch->GetWeaponEquipped() && !ch->GetWeaponEquipped()->GetIconImage().GetFilename().empty())
+                name = MakeUnicodeString("<" + ch->GetWeaponEquipped()->GetIconImage().GetFilename() + ">");
+            else if ((*it)->GetType() == GLOBAL_SKILL_WEAPON)
+                name = MakeUnicodeString("<img/icons/weapons/fist-human.png>");
+
+            name += MakeUnicodeString("<45>") + (*it)->GetName();
+        }
+        else {
+            name += MakeUnicodeString("<" + (*it)->GetIconFilename() + "><45>") + (*it)->GetName();
+        }
+
+        options.push_back(name);
+
+        std::string cost = NumberToString((*it)->GetSPRequired()) + Translate(" SP");
+        cost_options.push_back(MakeUnicodeString(cost));
+    }
+
     _skills_list.SetOptions(options);
     _skill_cost_list.SetOptions(cost_options);
+
+
+    // Resize icons if necessary
+    for (uint32 i = 0; i < _skills_list.GetNumberOptions(); ++i) {
+        if (StillImage *image = _skills_list.GetEmbeddedImage(i))
+            image->SetHeightKeepRatio(45);
+    }
 
 }
 

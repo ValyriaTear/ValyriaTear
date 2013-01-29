@@ -107,7 +107,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     // Construct the attack, defend, and support skill lists for the character
     std::vector<GlobalSkill *>* skill_list = NULL;
 
-    skill_list = _character->GetGlobalCharacter()->GetAttackSkills();
+    skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
     for(uint32 i = 0; i < skill_list->size(); i++) {
         _attack_list.AddOption(ustring());
         _attack_list.AddOptionElementText(i, skill_list->at(i)->GetName());
@@ -122,7 +122,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     if(skill_list->empty() == false)
         _attack_list.SetSelection(0);
 
-    skill_list = _character->GetGlobalCharacter()->GetSupportSkills();
+    skill_list = _character->GetGlobalCharacter()->GetMagicSkills();
     for(uint32 i = 0; i < skill_list->size(); i++) {
         _support_list.AddOption(ustring());
         _support_list.AddOptionElementText(i, skill_list->at(i)->GetName());
@@ -161,8 +161,8 @@ void CharacterCommandSettings::RefreshLists()
     uint32 current_sp = _character->GetSkillPoints();
     std::vector<GlobalSkill *>* skill_list = NULL;
 
-    skill_list = _character->GetGlobalCharacter()->GetAttackSkills();
-    for(uint32 i = 0; i < skill_list->size(); i++) {
+    skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
+    for(uint32 i = 0; i < skill_list->size(); ++i) {
         require_sp = skill_list->at(i)->GetSPRequired();
         if(require_sp > current_sp)
             _attack_list.EnableOption(i, false);
@@ -170,8 +170,8 @@ void CharacterCommandSettings::RefreshLists()
             _attack_list.EnableOption(i, true);
     }
 
-    skill_list = _character->GetGlobalCharacter()->GetSupportSkills();
-    for(uint32 i = 0; i < skill_list->size(); i++) {
+    skill_list = _character->GetGlobalCharacter()->GetMagicSkills();
+    for(uint32 i = 0; i < skill_list->size(); ++i) {
         require_sp = skill_list->at(i)->GetSPRequired();
         if(require_sp > current_sp)
             _support_list.EnableOption(i, false);
@@ -180,7 +180,7 @@ void CharacterCommandSettings::RefreshLists()
     }
 
     skill_list = _character->GetGlobalCharacter()->GetSpecialSkills();
-    for(uint32 i = 0; i < skill_list->size(); i++) {
+    for(uint32 i = 0; i < skill_list->size(); ++i) {
         require_sp = skill_list->at(i)->GetSPRequired();
         if(require_sp > current_sp)
             _special_list.EnableOption(i, false);
@@ -982,10 +982,10 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
         if(_state == COMMAND_STATE_CATEGORY) {
             switch(_category_options.GetSelection()) {
             case CATEGORY_ATTACK:
-                _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetAttackSkills(), _active_settings->GetAttackList());
+                _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetWeaponSkills(), _active_settings->GetAttackList());
                 break;
             case CATEGORY_SUPPORT:
-                _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetSupportSkills(), _active_settings->GetSupportList());
+                _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetMagicSkills(), _active_settings->GetSupportList());
                 break;
             case CATEGORY_SPECIAL:
                 _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetSpecialSkills(), _active_settings->GetSpecialList());

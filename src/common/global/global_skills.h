@@ -90,6 +90,10 @@ public:
         return _description;
     }
 
+    const std::string &GetIconFilename() const {
+        return _icon_filename;
+    }
+
     uint32 GetID() const {
         return _id;
     }
@@ -157,6 +161,9 @@ private:
     *** typically missing a description
     **/
     hoa_utils::ustring _description;
+
+    //! The potential skill icon filename
+    std::string _icon_filename;
 
     //! \brief The type identifier for the skill
     GLOBAL_SKILL _type;

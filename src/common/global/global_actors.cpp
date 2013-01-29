@@ -982,11 +982,11 @@ void GlobalCharacter::AddSkill(uint32 skill_id)
     // Insert the pointer to the new skill inside of the global skills map and the skill type vector
     _skills.insert(std::make_pair(skill_id, skill));
     switch(skill->GetType()) {
-    case GLOBAL_SKILL_ATTACK:
-        _attack_skills.push_back(skill);
+    case GLOBAL_SKILL_WEAPON:
+        _weapon_skills.push_back(skill);
         break;
-    case GLOBAL_SKILL_SUPPORT:
-        _support_skills.push_back(skill);
+    case GLOBAL_SKILL_MAGIC:
+        _magic_skills.push_back(skill);
         break;
     case GLOBAL_SKILL_SPECIAL:
         _special_skills.push_back(skill);
