@@ -116,16 +116,25 @@ public:
         return _last_enemy_target;
     }
 
-    hoa_gui::OptionBox *GetAttackList() {
-        return &_attack_list;
+    hoa_gui::OptionBox *GetWeaponSkillList() {
+        return &_weapon_skill_list;
+    }
+    hoa_gui::OptionBox *GetWeaponTargetList() {
+        return &_weapon_target_list;
     }
 
-    hoa_gui::OptionBox *GetSupportList() {
-        return &_support_list;
+    hoa_gui::OptionBox *GetMagicSkillList() {
+        return &_magic_skill_list;
+    }
+    hoa_gui::OptionBox *GetMagicTargetList() {
+        return &_magic_target_list;
     }
 
-    hoa_gui::OptionBox *GetSpecialList() {
-        return &_special_list;
+    hoa_gui::OptionBox *GetSpecialSkillList() {
+        return &_special_skill_list;
+    }
+    hoa_gui::OptionBox *GetSpecialTargetList() {
+        return &_special_target_list;
     }
     //@}
 
@@ -148,14 +157,17 @@ private:
     //! \brief The last enemy target that the player selected for this character
     BattleTarget _last_enemy_target;
 
-    //! \brief A display list of all usable items
-    hoa_gui::OptionBox _attack_list;
+    //! \brief A display list of all usable weapon skills
+    hoa_gui::OptionBox _weapon_skill_list;
+    hoa_gui::OptionBox _weapon_target_list;
+
+    //! \brief A display list of all usable magic skills
+    hoa_gui::OptionBox _magic_skill_list;
+    hoa_gui::OptionBox _magic_target_list;
 
     //! \brief A display list of all usable items
-    hoa_gui::OptionBox _support_list;
-
-    //! \brief A display list of all usable items
-    hoa_gui::OptionBox _special_list;
+    hoa_gui::OptionBox _special_skill_list;
+    hoa_gui::OptionBox _special_target_list;
 }; // class CharacterCommandSettings
 
 
@@ -276,6 +288,8 @@ private:
 
     //! \brief A display list of all usable items
     hoa_gui::OptionBox _item_list;
+    //! \brief A display list of all usable items target type and number in inventory.
+    hoa_gui::OptionBox _item_target_list;
 }; // class ItemCommand
 
 
@@ -297,9 +311,12 @@ public:
 
     /** \brief Initializes the class
     *** \param skills A pointer to the set of skills that the class will
-    *** \param skill_list A pointer to the option box
+    *** \param skill_list A pointer to the skill list option box
+    *** \param target_n_cost_list A pointer to the target typ and skill cost option box
     **/
-    void Initialize(std::vector<hoa_global::GlobalSkill *>* skills, hoa_gui::OptionBox *skill_list);
+    void Initialize(std::vector<hoa_global::GlobalSkill *>* skills,
+                    hoa_gui::OptionBox *skill_list,
+                    hoa_gui::OptionBox *target_n_cost_list);
 
     /** \brief Returns the currently selected skill
     *** This function will return NULL if the class has not been initialized and there is no list of
@@ -335,6 +352,8 @@ private:
 
     //! \brief A pointer to the list of skills that the class should operate on
     hoa_gui::OptionBox *_skill_list;
+    //! \brief A pointer to the list of skills targets and cost
+    hoa_gui::OptionBox *_target_n_cost_list;
 }; // class SkillCommand
 
 
