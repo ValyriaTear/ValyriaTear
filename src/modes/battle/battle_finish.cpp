@@ -597,7 +597,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         }
 
         _skill_text[i].SetOwner(&_character_window[i]);
-        _skill_text[i].SetPosition(130.0f, 60.0f);
+        _skill_text[i].SetPosition(130.0f, 65.0f);
         _skill_text[i].SetDimensions(200.0f, 40.0f);
         _skill_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _skill_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
