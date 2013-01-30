@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.01.29
+Last update: 2013.01.30
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -364,6 +364,9 @@ img/sprites/map/enemies/scorpion_walk.png                       GPLv2           
 img/sprites/map/enemies/slime_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/snake_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2                    The Mana World
+img/sprites/map/enemies/spider_idle.lua                         GPLv2                    Bertram
+img/sprites/map/enemies/spider_spritesheet.png                  GPLv2                    The Mana World + Made it brown (Bertram)
+img/sprites/map/enemies/spider_walk.lua                         GPLv2                    Bertram
 img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2                    Bertram - adapted from the wolf spritesheet
 img/sprites/map/enemies/fenrir_idle.lua                         GPLv2                    Bertram
 img/sprites/map/enemies/fenrir_walk.lua                         GPLv2                    Bertram

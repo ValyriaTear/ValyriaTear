@@ -1025,7 +1025,7 @@ function _CreateEnemies()
     -- near the exit
 	roam_zone = hoa_map.EnemyZone(12, 14, 77, 79, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "slime");
+	enemy = CreateEnemySprite(Map, "spider");
 	_SetBattleEnvironment(enemy);
 	enemy:NewEnemyParty();
 	enemy:AddEnemy(1);

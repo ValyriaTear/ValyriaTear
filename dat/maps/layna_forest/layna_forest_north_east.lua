@@ -921,12 +921,12 @@ function _CreateEnemies()
     -- after fight zone
     roam_zone = hoa_map.EnemyZone(112, 120, 34, 80, hoa_map.MapMode.CONTEXT_01);
 
-    enemy = CreateEnemySprite(Map, "slime");
+    enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
     enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
     enemy:AddEnemy(1);
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);

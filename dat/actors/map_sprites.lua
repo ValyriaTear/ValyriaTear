@@ -349,6 +349,19 @@ sprites["slime"] = {
     }
 }
 
+sprites["spider"] = {
+    coll_half_width = 0.9,
+    coll_height = 1.8,
+    img_half_width = 1.0,
+    img_height = 2.0,
+    movement_speed = ENEMY_SPEED,
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/spider_idle.lua",
+        walk = "img/sprites/map/enemies/spider_walk.lua"
+    }
+}
+
 sprites["big slime"] = {
     name = hoa_system.Translate("Slime Mother"),
     coll_half_width = 1.5,
