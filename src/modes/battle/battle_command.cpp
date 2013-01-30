@@ -764,20 +764,20 @@ CommandSupervisor::CommandSupervisor() :
     _category_text[3].SetText(Translate("Items"));
 
     std::vector<ustring> option_text;
-    option_text.push_back(MakeUnicodeString("<img/icons/battle/default_weapon.png>\n") + UTranslate("Weapon"));
-    option_text.push_back(MakeUnicodeString("<img/icons/battle/magic.png>\n") + UTranslate("Magic"));
+    option_text.push_back(MakeUnicodeString("<img/icons/battle/default_weapon.png>\n\n") + UTranslate("Weapon"));
+    option_text.push_back(MakeUnicodeString("<img/icons/battle/magic.png>\n\n") + UTranslate("Magic"));
     option_text.push_back(MakeUnicodeString("")); // Special
-    option_text.push_back(MakeUnicodeString("<img/icons/battle/item.png>\n") + UTranslate("Items"));
+    option_text.push_back(MakeUnicodeString("<img/icons/battle/item.png>\n\n") + UTranslate("Items"));
 
     _window_header.SetStyle(TextStyle("title22"));
     _window_text.SetStyle(TextStyle("text20"));
 
     _category_options.SetOwner(&_command_window);
-    _category_options.SetPosition(256.0f, 55.0f);
-    _category_options.SetDimensions(400.0f, 80.0f, 4, 1, 4, 1);
+    _category_options.SetPosition(256.0f, 80.0f);
+    _category_options.SetDimensions(400.0f, 100.0f, 4, 1, 4, 1);
     _category_options.SetCursorOffset(-20.0f, -25.0f);
     _category_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _category_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _category_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _category_options.SetTextStyle(TextStyle("title22"));
     _category_options.SetSelectMode(VIDEO_SELECT_SINGLE);
     _category_options.SetOptions(option_text);
@@ -838,7 +838,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
 
     // Weapon
     if(_active_settings->GetWeaponSkillList()->GetNumberOptions() == 0) {
-        _category_options.SetOptionText(0, MakeUnicodeString("<img/icons/battle/default_weapon.png>\n") + UTranslate("Weapon"));
+        _category_options.SetOptionText(0, MakeUnicodeString("<img/icons/battle/default_weapon.png>\n\n") + UTranslate("Weapon"));
         _category_options.EnableOption(0, false);
     }
     else {
@@ -853,11 +853,9 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
             else
                 icon_name += "img/icons/weapons/fist-human.png";
         }
-        icon_name += ">\n";
+        icon_name += ">\n\n";
 
         _category_options.SetOptionText(0, MakeUnicodeString(icon_name) +  UTranslate("Weapon"));
-        if (_category_options.GetEmbeddedImage(0))
-            _category_options.GetEmbeddedImage(0)->SetHeightKeepRatio(45);
         _category_options.EnableOption(0, true);
     }
 
@@ -874,10 +872,16 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
         _category_text[2].SetText("");
     }
     else {
-        // TODO: Set actual icon from character config.
-        _category_options.SetOptionText(2, MakeUnicodeString("<img/icons/battle/default_special.png>\n") + UTranslate("Special"));
+        // Set icon from character config.
+        std::string special_icon = character->GetGlobalCharacter()->GetSpecialCategoryIconFilename();
+        if (special_icon.empty())
+            special_icon = "img/icons/battle/default_special.png";
+
+        hoa_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
+        _category_options.SetOptionText(2, MakeUnicodeString("<" + special_icon + ">\n\n") + special_name);
         _category_options.EnableOption(2, true);
-        _category_text[2].SetText(Translate("Special")); //TODO: Use actual name from character config
+        // Use special name from character config
+        _category_text[2].SetText(special_name);
     }
 
     // Items

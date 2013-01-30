@@ -797,6 +797,10 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     // Set up the map sprite name (untranslated) used as a string id to later link it with a map sprite.
     _map_sprite_name = char_script.ReadString("map_sprite_name");
 
+    // Load the special skills category name and icon
+    _special_category_name = MakeUnicodeString(char_script.ReadString("special_skill_category_name"));
+    _special_category_icon = char_script.ReadString("special_skill_category_icon");
+
     // Read each battle_animations table keys and store the corresponding animation in memory.
     std::vector<std::string> keys_vect;
     char_script.ReadTableKeys("battle_animations", keys_vect);

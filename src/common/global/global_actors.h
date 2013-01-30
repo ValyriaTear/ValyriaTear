@@ -872,6 +872,14 @@ public:
     std::vector<hoa_video::StillImage>* GetBattlePortraits() {
         return &_battle_portraits;
     }
+
+    const hoa_utils::ustring& GetSpecialCategoryName() const {
+        return _special_category_name;
+    }
+
+    const std::string& GetSpecialCategoryIconFilename() const {
+        return _special_category_icon;
+    }
     //@}
 
 protected:
@@ -923,6 +931,11 @@ protected:
     **/
     hoa_video::StillImage _menu_portrait;
     //@}
+
+    //! \brief The special skills category name and icon
+    //! Used in battles to show the corresponding name and icon.
+    hoa_utils::ustring _special_category_name;
+    std::string _special_category_icon;
 
     //! \brief Tells whether a character is in the visible game formation
     bool _enabled;

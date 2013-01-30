@@ -5,6 +5,11 @@ function BootMenuTest()
     GlobalManager:AddCharacter(KALYA);
     GlobalManager:AddCharacter(SYLVE);
     GlobalManager:AddCharacter(THANIS);
+
+    -- Add a special to Kalya
+    local kalya = GlobalManager:GetCharacter(2);
+    kalya:AddSkill(20001);
+
     GlobalManager:AddDrunes(1842);
     GlobalManager:AddToInventory(1, 5);
     GlobalManager:AddToInventory(1001, 2);

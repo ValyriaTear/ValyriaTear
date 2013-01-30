@@ -16,6 +16,8 @@ characters[BRONANN] = {
     battle_portraits = "img/portraits/battle/bronann_damage.png",
     stamina_icon = "img/icons/actors/characters/bronann.png",
     map_sprite_name = "Bronann",
+    special_skill_category_name = hoa_system.Translate("Holy"),
+    special_skill_category_icon = "img/icons/battle/holy.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/bronann_idle.lua",
@@ -149,6 +151,8 @@ characters[KALYA] = {
     battle_portraits = "img/portraits/battle/kalya_damage.png",
     stamina_icon = "img/icons/actors/characters/kalya.png",
     map_sprite_name = "Kalya",
+    special_skill_category_name = hoa_system.Translate("Invocation"),
+    special_skill_category_icon = "img/icons/battle/invocation.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/kalya_idle.lua",
@@ -280,6 +284,8 @@ characters[SYLVE] = {
     battle_portraits = "img/portraits/battle/sylve_damage.png",
     stamina_icon = "img/icons/actors/characters/sylve.png",
     map_sprite_name = "Sylve",
+    special_skill_category_name = hoa_system.Translate("Mist"),
+    special_skill_category_icon = "img/icons/battle/mist.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/sylve_idle.lua",
@@ -409,6 +415,8 @@ characters[THANIS] = {
     battle_portraits = "img/portraits/battle/thanis_damage.png",
     stamina_icon = "img/icons/actors/characters/thanis.png",
     map_sprite_name = "Thanis",
+    special_skill_category_name = hoa_system.Translate("Acheron"),
+    special_skill_category_icon = "img/icons/battle/acheron.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/thanis_idle.lua",

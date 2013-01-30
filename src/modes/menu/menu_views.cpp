@@ -1049,6 +1049,7 @@ void SkillsWindow::Update()
             && static_cast<int32>(_skills_list.GetNumberOptions()) > _skills_list.GetSelection()) {
 
         GlobalSkill *skill = _GetCurrentSkill();
+        GlobalCharacter *skill_owner = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
 
         // Get the skill type
         hoa_utils::ustring skill_type;
@@ -1060,7 +1061,10 @@ void SkillsWindow::Update()
                 skill_type = UTranslate("Magic skill");
                 break;
             case GLOBAL_SKILL_SPECIAL:
-                skill_type = UTranslate("Special skill");
+                if (skill_owner)
+                    skill_type = skill_owner->GetSpecialCategoryName();
+                else
+                    skill_type = UTranslate("Special skill");
                 break;
             default:
             break;

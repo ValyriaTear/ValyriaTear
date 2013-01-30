@@ -45,7 +45,21 @@ end
 -- IDs 20,001 - 21,000 are reserved for character special skills
 --------------------------------------------------------------------------------
 
+skills[20001] = {
+    name = hoa_system.Translate("Wolf Pain"),
+    description = hoa_system.Translate("Calls the defender of the Arctic."),
+    icon = "img/icons/specials/moon.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
 
+    BattleExecute = function(user, target)
+        -- TODO: Add the friendly AI monster in battle, next to Kalya
+    end,
+}
 
 --------------------------------------------------------------------------------
 -- IDs 21,001 - 30,000 are reserved for enemy special skills
