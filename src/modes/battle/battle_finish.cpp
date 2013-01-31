@@ -88,15 +88,11 @@ CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
 
 
 void CharacterGrowth::UpdateGrowthData() {
-    bool remaining_growth = true;
-    bool level_gained = false;
+    while (_character->ReachedNewExperienceLevel()) {
+        // Makes the character gain its level.
+        _character->AcknowledgeGrowth();
 
-    // The logic required to update this data can be a bit tricky. We have to retrieve all of the stat growth
-    // prior to calling AcknowledgeGrowth() because that call will reset the stat data. However, the list of
-    // new skills learned is not available until after calling AcknowledgeGrowth to process the new level gained
-    // (if any). And of course multiple AcknowledgeGrowth() calls may have to be made. The structure of the loop
-    // below addresses all of these cases.
-    while (remaining_growth == true) {
+        // Update the battle finish growth info members
         hit_points += _character->GetHitPointsGrowth();
         skill_points += _character->GetSkillPointsGrowth();
         strength += _character->GetStrengthGrowth();
@@ -106,20 +102,15 @@ void CharacterGrowth::UpdateGrowthData() {
         agility += _character->GetAgilityGrowth();
         evade += _character->GetEvadeGrowth();
 
-        level_gained = _character->ReachedNewExperienceLevel();
-        remaining_growth = _character->AcknowledgeGrowth();
+        ++_experience_levels_gained;
+        AudioManager->PlaySound("snd/levelup.wav");
 
-        if (level_gained == true) {
-            _experience_levels_gained++;
-            AudioManager->PlaySound("snd/levelup.wav");
-
-            // New skills are only found in growth data when the character has reached a new level
-            // Note that the character's new skills learned container will be cleared upon the next
-            // call to AcknowledgeGrowth, so skills will not be duplicated in the skills_learned container
-            std::vector<GlobalSkill*>* skills = _character->GetNewSkillsLearned();
-            for (uint32 i = 0; i < skills->size(); i++) {
-                skills_learned.push_back(skills->at(i));
-            }
+        // New skills are only found in growth data when the character has reached a new level
+        // Note that the character's new skills learned container will be cleared upon the next
+        // call to AcknowledgeGrowth, so skills will not be duplicated in the skills_learned container
+        std::vector<GlobalSkill*>* skills = _character->GetNewSkillsLearned();
+        for (uint32 i = 0; i < skills->size(); i++) {
+            skills_learned.push_back(skills->at(i));
         }
     }
 }

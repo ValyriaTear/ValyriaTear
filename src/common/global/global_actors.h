@@ -765,10 +765,7 @@ public:
 
     //! \brief Returns true if the character has earned enough experience points to reach the next level
     bool ReachedNewExperienceLevel() const
-        { return _experience_for_next_level <= 0; }
-
-    //! \brief Returns true if the character has outstanding growth that has not been acknowledged
-    bool HasUnacknowledgedGrowth() const;
+    { return _experience_for_next_level <= 0; }
 
     /** \brief Adds any growth that has occured by modifying the character's stats
     *** \return True if additional growth is detected and requires another AcknowledgeGrowth() call.
@@ -776,14 +773,13 @@ public:
     *** If an experience level is gained, this function will open up the script file that contains
     *** the character's definition and get new growth stats for the next experience level. Often this
     *** requires another call to this function to process growth that has occurred after the level
-    *** was gained. It is a good idea to put calls to this function in a loop to process all growth
-    *** (ie, while (AcknowledgeGrowth() != false)).
+    *** was gained.
     ***
     *** \note If multiple experience levels were gained as a result of adding a large amount of XP, this
     *** function will only increment the experience level by one. In the case where multiple levels are
     *** gained, this function will need to be called once for each level up.
     **/
-    bool AcknowledgeGrowth();
+    void AcknowledgeGrowth();
 
     //! \name Public Member Access Functions
     //@{
@@ -959,7 +955,7 @@ private:
     *** a call to AcknowledgeGrowth().
     ***
     *** \note These members are given read/write access in Lua so that Lua may use them to hold new
-    *** growth amounts when a character reaches a new level. Refer to the function DetermineNextLevelGrowth(character)
+    *** growth amounts when a character reaches a new level. Refer to the function DetermineLevelGrowth(character)
     *** defined in dat/actors/characters.lua
     **/
     //@{
@@ -971,29 +967,6 @@ private:
     uint32 _protection_growth;
     uint32 _agility_growth;
     float _evade_growth;
-    //@}
-
-    /** \brief The periodic growth of the stats as a function of experience points
-    *** The purpose of these containers is to support the gradual growth of characters.
-    *** The first member in each pair is the experience points required for that growth
-    *** to occur, while the second member is the value of the growth. Each entry in the
-    *** deques are ordered from lowest (front) to highest (back) XP requirements. The
-    *** final entry in each deque should be the growth for when the next experience
-    *** level is reached. Note that these structures do not need to contain any entries
-    *** (ie, a stat does not need to grow on every level).
-    ***
-    *** These containers are emptied when a new experience level occurs, and are also
-    *** re-constructed after the experience level gain has been acknowledged.
-    **/
-    //@{
-    std::deque<std::pair<uint32, uint32> > _hit_points_periodic_growth;
-    std::deque<std::pair<uint32, uint32> > _skill_points_periodic_growth;
-    std::deque<std::pair<uint32, uint32> > _strength_periodic_growth;
-    std::deque<std::pair<uint32, uint32> > _vigor_periodic_growth;
-    std::deque<std::pair<uint32, uint32> > _fortitude_periodic_growth;
-    std::deque<std::pair<uint32, uint32> > _protection_periodic_growth;
-    std::deque<std::pair<uint32, uint32> > _agility_periodic_growth;
-    std::deque<std::pair<uint32, float> > _evade_periodic_growth;
     //@}
 
     /** \brief Contains pointers to all skills that were learned by achieving the current experience level
@@ -1014,34 +987,6 @@ private:
     **/
     std::vector<GlobalSkill*> _new_skills_learned;
 
-    /** \brief Examines if any growth has occured as a result of the character's experience points
-    *** \return True if any amount of growth has occurred, false if no growth has occurred.
-    ***
-    *** This is called by GlobalCharacter whenever the character's experience points change. If any growth is
-    *** detected, _ProcessPeriodicGrowth() is called and the various growth members of the class are incremented
-    *** by the growth amount.
-    **/
-    bool _CheckForGrowth();
-
-    /** \brief Removes acquired growth from the periodic growth containers and accumulating it in the growth members
-    ***
-    *** This method should be called whenever any amount of growth in any stat has been detected. There is no harm in
-    *** invoking this method when no growth has occurred, however it will do nothing but waste time in this case.
-    **/
-    void _ProcessPeriodicGrowth();
-
-    /** \brief Constructs the numerous periodic growth deques when growth stats for a new level are loaded in
-    *** After new growth stats have been loaded in for a level, this function takes those values, breaks them
-    *** apart, and spreads out their growth periodically. 50% of the growth is saved for when the character
-    *** reaches a new level, while the other 50% are rewarded as the character's experience grows to values
-    *** in between the previous experience level marker and the next.
-    ***
-    *** \note The growth members should contain the total growth stats when this function is called. These
-    *** members will be set back to zero before the function returns as their values will be split up
-    *** and placed across numerous entries in the periodic_growth containers. All periodic_growth deques should be
-    *** empty when this function is called.
-    **/
-    void _ConstructPeriodicGrowth();
 }; // class GlobalCharacter : public GlobalActor
 
 

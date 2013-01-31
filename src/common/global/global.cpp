@@ -1117,117 +1117,7 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
             file.WriteLine(", ", false);
         file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
     }
-    file.WriteLine("\n\t\t},");
-
-    file.InsertNewLine();
-    file.WriteLine("\t\tnew_skills_learned = {");
-    skill_vector = character->GetNewSkillsLearned();
-    for(uint32 i = 0; i < skill_vector->size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
-    }
-    file.WriteLine("\n\t\t},");
-
-    // ----- (4): Write out the character's growth data
-    if(character->HasUnacknowledgedGrowth() == true) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "discovered unacknowledged character growth while saving game file" << std::endl;
-    }
-
-    file.InsertNewLine();
-    file.WriteLine("\t\tgrowth = {");
-    file.WriteLine("\t\t\texperience_for_next_level = " + NumberToString(character->_experience_for_next_level) + ",");
-
-    file.WriteLine("\t\t\thit_points = { ");
-    for(uint32 i = 0; i < character->_hit_points_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_hit_points_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_hit_points_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-
-    file.WriteLine("\t\t\tskill_points = { ");
-    for(uint32 i = 0; i < character->_skill_points_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_skill_points_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_skill_points_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-
-    file.WriteLine("\t\t\tstrength = { ");
-    for(uint32 i = 0; i < character->_strength_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_strength_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_strength_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-
-    file.WriteLine("\t\t\tvigor = { ");
-    for(uint32 i = 0; i < character->_vigor_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_vigor_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_vigor_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-
-    file.WriteLine("\t\t\tfortitude = { ");
-    for(uint32 i = 0; i < character->_fortitude_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_fortitude_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_fortitude_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-
-    file.WriteLine("\t\t\tprotection = { ");
-    for(uint32 i = 0; i < character->_protection_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_protection_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_protection_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-
-    file.WriteLine("\t\t\tagility = { ");
-    for(uint32 i = 0; i < character->_agility_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_agility_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_agility_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-
-    file.WriteLine("\t\t\tevade = { ");
-    for(uint32 i = 0; i < character->_evade_periodic_growth.size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine("[" + NumberToString(character->_evade_periodic_growth[i].first) + "] = "
-                       + NumberToString(character->_evade_periodic_growth[i].second), false);
-    }
-    file.WriteLine("\n\t\t\t},");
-    file.WriteLine("\t\t}");
+    file.WriteLine("\n\t\t}");
 
     if(last)
         file.WriteLine("\t}");
@@ -1329,18 +1219,22 @@ void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &c
 
 void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
 {
-    if(file.IsFileOpen() == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
+    if(!file.IsFileOpen()) {
+        PRINT_WARNING << "Can't load character, the file " << file.GetFilename()
+            << " is not open." << std::endl;
+        return;
+    }
+
+    // This function assumes that the characters table in the saved game file is already open.
+    // So all we need to open is the character's table
+    if (!file.OpenTable(id)) {
+        PRINT_WARNING << "Can't load unexisting character id: " << id << std::endl;
         return;
     }
 
     // Create a new GlobalCharacter object using the provided id
     // This loads all of the character's "static" data, such as their name, etc.
     GlobalCharacter *character = new GlobalCharacter(id, false);
-
-    // This function assumes that the characters table in the saved game file is already open.
-    // So all we need to open is the character's table
-    file.OpenTable(id);
 
     // Gets whether the character is currently enabled
     if(file.DoesBoolExist("enabled"))
@@ -1351,6 +1245,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     // Read in all of the character's stats data
     character->SetExperienceLevel(file.ReadUInt("experience_level"));
     character->SetExperiencePoints(file.ReadUInt("experience_points"));
+    character->_experience_for_next_level = file.ReadInt("experience_points_next");
 
     character->SetMaxHitPoints(file.ReadUInt("max_hit_points"));
     character->SetHitPoints(file.ReadUInt("hit_points"));
@@ -1365,36 +1260,37 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     character->SetEvade(file.ReadFloat("evade"));
 
     // Read the character's equipment and load it onto the character
-    file.OpenTable("equipment");
-    uint32 equip_id;
+    if (file.OpenTable("equipment")) {
+        uint32 equip_id;
 
-    // Equip the objects on the character as long as valid equipment IDs were read
-    equip_id = file.ReadUInt("weapon");
-    if(equip_id != 0) {
-        character->EquipWeapon(new GlobalWeapon(equip_id));
+        // Equip the objects on the character as long as valid equipment IDs were read
+        equip_id = file.ReadUInt("weapon");
+        if(equip_id != 0) {
+            character->EquipWeapon(new GlobalWeapon(equip_id));
+        }
+
+        equip_id = file.ReadUInt("head_armor");
+        if(equip_id != 0) {
+            character->EquipHeadArmor(new GlobalArmor(equip_id));
+        }
+
+        equip_id = file.ReadUInt("torso_armor");
+        if(equip_id != 0) {
+            character->EquipTorsoArmor(new GlobalArmor(equip_id));
+        }
+
+        equip_id = file.ReadUInt("arm_armor");
+        if(equip_id != 0) {
+            character->EquipArmArmor(new GlobalArmor(equip_id));
+        }
+
+        equip_id = file.ReadUInt("leg_armor");
+        if(equip_id != 0) {
+            character->EquipLegArmor(new GlobalArmor(equip_id));
+        }
+
+        file.CloseTable(); // equipment
     }
-
-    equip_id = file.ReadUInt("head_armor");
-    if(equip_id != 0) {
-        character->EquipHeadArmor(new GlobalArmor(equip_id));
-    }
-
-    equip_id = file.ReadUInt("torso_armor");
-    if(equip_id != 0) {
-        character->EquipTorsoArmor(new GlobalArmor(equip_id));
-    }
-
-    equip_id = file.ReadUInt("arm_armor");
-    if(equip_id != 0) {
-        character->EquipArmArmor(new GlobalArmor(equip_id));
-    }
-
-    equip_id = file.ReadUInt("leg_armor");
-    if(equip_id != 0) {
-        character->EquipLegArmor(new GlobalArmor(equip_id));
-    }
-
-    file.CloseTable();
 
     // Read the character's skills and pass those onto the character object
     std::vector<uint32> skill_ids;
@@ -1435,92 +1331,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
         character->AddSkill(skill_ids[i]);
     }
 
-    skill_ids.clear();
-    file.ReadUIntVector("new_skills_learned", skill_ids);
-    std::vector<GlobalSkill*>* new_skills = character->GetNewSkillsLearned();
-    for(uint32 i = 0; i < skill_ids.size(); i++) {
-        GlobalSkill* skill = character->GetSkill(skill_ids[i]);
-        if (skill == NULL) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "new skill learned was not found in character's existing set of skills: " << skill_ids[i] << std::endl;
-        }
-        else {
-            new_skills->push_back(skill);
-        }
-    }
-
-    // ----- (5): Reset the character's growth from the saved data
-    std::vector<uint32> growth_keys;
-
-    file.OpenTable("growth");
-
-    character->_experience_for_next_level = file.ReadInt("experience_for_next_level");
-
-    growth_keys.clear();
-    file.OpenTable("hit_points");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_hit_points_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    growth_keys.clear();
-    file.OpenTable("skill_points");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_skill_points_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    growth_keys.clear();
-    file.OpenTable("strength");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_strength_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    growth_keys.clear();
-    file.OpenTable("vigor");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_vigor_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    growth_keys.clear();
-    file.OpenTable("fortitude");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_fortitude_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    growth_keys.clear();
-    file.OpenTable("protection");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_protection_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    growth_keys.clear();
-    file.OpenTable("agility");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_agility_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadUInt(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    growth_keys.clear();
-    file.OpenTable("evade");
-    file.ReadTableKeys(growth_keys);
-    for(uint32 i = 0; i < growth_keys.size(); i++) {
-        character->_evade_periodic_growth.push_back(std::make_pair(growth_keys[i], file.ReadFloat(growth_keys[i])));
-    }
-    file.CloseTable();
-
-    file.CloseTable();
-    file.CloseTable();
+    file.CloseTable(); // character id
 
     AddCharacter(character);
 } // void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id);

@@ -96,18 +96,18 @@ characters[BRONANN] = {
     -- Begin character growth tables. Every line within these tables contains 10 elements to represent the stat growth for every 10 levels
     growth = {
         experience_for_next_level = {
-            100, 112, 126, 142, 161, 183, 209, 238, 273, 315,
-            363, 421, 490, 572, 670, 788, 931, 1105, 1316, 1575
+            100, 112, 126, 142, 161, 183, 209, 238, 273, 315,   --  1 - 10
+            363, 421, 490, 572, 670, 788, 931, 1105, 1316, 1575 -- 11 - 20
         },
 
         hit_points = {
-            5, 5, 5, 5, 13, 13, 13, 13, 21, 21,
-            21, 21, 29, 29, 29, 29, 37, 37, 37, 37
+            5, 5, 5, 5, 13, 13, 13, 13, 21, 21,    --  2 - 11
+            21, 21, 29, 29, 29, 29, 37, 37, 37, 37 -- 12 - 21
         },
 
         skill_points = {
-            1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
-            3, 3, 3, 3, 3, 4, 4, 4, 4, 4
+            1, 1, 1, 1, 1, 2, 2, 2, 2, 2,          --  2 - 11
+            3, 3, 3, 3, 3, 4, 4, 4, 4, 4           -- 12 - 21
         },
 
         strength = {
@@ -546,53 +546,51 @@ characters[THANIS] = {
 --
 -- Before this function is called, the character should already have their
 -- _experience_level member incremented to the new level. What this function does
--- is determine the amount that each stat will grow by on the -next- level gained
--- (-not- the current level gained). This function should be called every time a
+-- is determine the amount that each stat will grow by on the current level gained.
+-- This function should be called every time a
 -- character gains a level, and also when a new character is constructed from an
 -- initial state.
 ------------------------------------------------------------------------------]]
-function DetermineNextLevelGrowth(character)
-    local new_level = character:GetExperienceLevel();        -- The value of the character's new XP level
+function DetermineLevelGrowth(character)
+    local new_level = character:GetExperienceLevel() - 1;    -- The value of the character's new XP level
     local character_table = characters[character:GetID()];   -- Reference to the character's definition table
     local growth_table = nil;                                -- Reference to the table containing the character's growth stats
 
     if (character_table == nil) then
-        print("LUA ERROR: characters.lua::DetermineNextLevelGrowth() failed because the character's ID was invalid");
+        print("LUA ERROR: characters.lua::DetermineLevelGrowth() failed because the character's ID was invalid");
         return;
     end
 
     growth_table = character_table["growth"];
     if (growth_table == nil) then
-        print("LUA ERROR: characters.lua::DetermineNextLevelGrowth() failed because no growth table for the character was found");
+        print("LUA ERROR: characters.lua::DetermineLevelGrowth() failed because no growth table for the character was found");
         return;
     end
 
-    character:AddExperienceForNextLevel(growth_table["experience_for_next_level"][new_level]);
-
     -- All growth members should be zero when this function is called. Warn if this is not the case
     if (character._hit_points_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when hit_points_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when hit_points_growth was non-zero.");
     end
     if (character._skill_points_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when skill_points_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when skill_points_growth was non-zero.");
     end
     if (character._strength_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when strength_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when strength_growth was non-zero.");
     end
     if (character._vigor_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when vigor_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when vigor_growth was non-zero.");
     end
     if (character._fortitude_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when fortitude_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when fortitude_growth was non-zero.");
     end
     if (character._protection_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when protection_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when protection_growth was non-zero.");
     end
     if (character._agility_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when agility_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when agility_growth was non-zero.");
     end
     if (character._evade_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineNextLevelGrowth() called when evade_growth was non-zero.");
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when evade_growth was non-zero.");
     end
 
     -- Copy over the character's stat growth data
@@ -604,7 +602,9 @@ function DetermineNextLevelGrowth(character)
     character._protection_growth = growth_table["protection"][new_level];
     character._agility_growth = growth_table["agility"][new_level];
     character._evade_growth = growth_table["evade"][new_level];
-end -- function DetermineNextLevelGrowth(character)
+
+    character:AddExperienceForNextLevel(growth_table["experience_for_next_level"][new_level]);
+end -- function DetermineLevelGrowth(character)
 
 
 ------------------------------------------------------------------------------[[
@@ -613,12 +613,11 @@ end -- function DetermineNextLevelGrowth(character)
 --
 -- Before this function is called, the character should already have their
 -- _experience_level member incremented to the new level. What this function does
--- is determine the amount that each stat will grow by on the -next- level gained
--- (-not- the current level gained) and if any new skills will be learned by
--- reaching this level.
+-- is determine the amount that each stat will grow by on the current level gained
+-- and if any new skills will be learned by reaching this level.
 ------------------------------------------------------------------------------]]
 function DetermineNewSkillsLearned(character)
-    local new_level = character:GetExperienceLevel();        -- The value of the character's new XP level
+    local new_level = character:GetExperienceLevel() - 1;    -- The value of the character's new XP level
     local character_table = characters[character:GetID()];   -- Reference to the character's definition table
     local new_skills = nil;                                  -- Reference to the number or table of the new skills learned
 
