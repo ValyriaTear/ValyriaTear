@@ -295,10 +295,7 @@ void SellInterface::MakeActive()
 
 void SellInterface::TransactionNotification()
 {
-    _PopulateLists();
-
-    _current_category = _number_categories > 0 ? _number_categories - 1 : 0;
-    _view_mode = SHOP_VIEW_MODE_LIST;
+    Reinitialize();
 }
 
 
