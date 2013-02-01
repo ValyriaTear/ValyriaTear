@@ -971,11 +971,12 @@ bool GlobalCharacter::AddExperiencePoints(uint32 xp)
 void GlobalCharacter::AddSkill(uint32 skill_id)
 {
     if(skill_id == 0) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
+        PRINT_WARNING << "function received an invalid skill_id argument: " << skill_id << std::endl;
         return;
     }
     if(_skills.find(skill_id) != _skills.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to add skill because the character already knew this skill: " << skill_id << std::endl;
+        PRINT_WARNING << "failed to add skill because the character already knew this skill: "
+            << skill_id << std::endl;
         return;
     }
 
@@ -999,7 +1000,7 @@ void GlobalCharacter::AddSkill(uint32 skill_id)
         _special_skills.push_back(skill);
         break;
     default:
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "loaded a new skill with an unknown skill type: " << skill->GetType() << std::endl;
+        PRINT_WARNING << "loaded a new skill with an unknown skill type: " << skill->GetType() << std::endl;
         break;
     }
 }
@@ -1021,6 +1022,14 @@ void GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
     }
 
     AddSkill(skill_id);
+
+    std::map<uint32, GlobalSkill *>::iterator skill = _skills.find(skill_id);
+    if(skill == _skills.end()) {
+        PRINT_WARNING << "failed because the new skill was not added successfully: " << skill_id << std::endl;
+        return;
+    }
+
+    _new_skills_learned.push_back(skill->second);
 }
 
 hoa_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)

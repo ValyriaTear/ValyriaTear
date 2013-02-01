@@ -141,6 +141,7 @@ characters[BRONANN] = {
         }
     },
 
+    -- [character level] = skill_id learned.
     skills = { [1] = 1, [3] = 2, [8] = 3, [15] = 10003 }
 } -- characters[BRONANN]
 
@@ -617,7 +618,7 @@ end -- function DetermineLevelGrowth(character)
 -- and if any new skills will be learned by reaching this level.
 ------------------------------------------------------------------------------]]
 function DetermineNewSkillsLearned(character)
-    local new_level = character:GetExperienceLevel() - 1;    -- The value of the character's new XP level
+    local new_level = character:GetExperienceLevel();        -- The value of the character's new XP level
     local character_table = characters[character:GetID()];   -- Reference to the character's definition table
     local new_skills = nil;                                  -- Reference to the number or table of the new skills learned
 
