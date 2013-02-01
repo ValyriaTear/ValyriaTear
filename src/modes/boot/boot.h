@@ -144,6 +144,9 @@ private:
     //! \brief Pointer to the currently active boot menu object
     private_boot::BootMenu *_active_menu;
 
+    //! \brief Keeps in memory whether this is the first app run ever.
+    bool _first_run;
+
     /** \name Various menus available in boot mode
     *** The name of the menu objects is rather self explanatory. There are a number of methods in
     *** BootMode that are used by these menus.
@@ -285,8 +288,8 @@ private:
 
     // ---------- Helper methods not directly tied to any specific boot menu
 
-    //! \brief Tests whether the welcome window should be shown.
-    void _ShowHelpWindow();
+    //! \brief Tests whether the language selection and the welcome help window should be shown.
+    void _ShowLanguageSelectionWindow();
 
     /** \brief Shows the message window to display text that its waiting for either a joystick or keyboard event
     *** \param joystick True if the window should state its waiting for a joystick event, false for a keyboard event

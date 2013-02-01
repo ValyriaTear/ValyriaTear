@@ -68,6 +68,7 @@ BootMode::BootMode() :
     _boot_state(BOOT_STATE_INTRO),
     _exiting_to_new_game(false),
     _has_modified_settings(false),
+    _first_run(false),
     _key_setting_function(NULL),
     _joy_setting_function(NULL),
     _joy_axis_setting_function(NULL),
@@ -134,9 +135,6 @@ BootMode::BootMode() :
     _menu_bar.Load("img/menus/battle_bottom_menu.png", 1024, 128);
 
     _f1_help_text.SetStyle(TextStyle("text18"));
-    _f1_help_text.SetText(Translate("Press '")
-        + InputManager->GetHelpKeyName()
-        + Translate("' to get to know about the game keys."));
 
     // The timer that will be used to display the menu bar and the help text
     _boot_timer.Initialize(14000);
@@ -205,6 +203,38 @@ void BootMode::Update()
         }
     }
 
+    // Test whether the welcome sequence should be shown once
+    static bool language_selection_shown = false;
+    if(!language_selection_shown) {
+        _ShowLanguageSelectionWindow();
+        language_selection_shown = true;
+    }
+
+    // On first app run, show the language menu and apply language on any key press.
+    if (_first_run && _active_menu == &_language_options_menu) {
+        _active_menu->Update();
+        if (InputManager->UpPress()) {
+            _active_menu->InputUp();
+        }
+        else if (InputManager->DownPress()) {
+            _active_menu->InputDown();
+        }
+        else if (InputManager->AnyKeyPress()) {
+            // Set the language
+            _active_menu->InputConfirm();
+            // Go directly back to the main menu when first selecting the language.
+            _options_window.Hide();
+            _active_menu = &_main_menu;
+            // And show the help window
+            ModeManager->GetHelpWindow()->Show();
+            // save the settings (automatically changes the first_start variable to 0)
+            _has_modified_settings = true;
+            _SaveSettingsFile();
+            _first_run = false; // Terminate the first run sequence
+        }
+        return;
+    }
+
     HelpWindow *help_window = ModeManager->GetHelpWindow();
     if(help_window && help_window->IsActive()) {
         // Any key, except F1
@@ -212,11 +242,6 @@ void BootMode::Update()
             AudioManager->PlaySound("snd/confirm.wav");
             help_window->Hide();
         }
-
-        // save the settings (automatically changes the first_start variable to 0)
-        _has_modified_settings = true;
-        _SaveSettingsFile();
-
         return;
     }
 
@@ -364,30 +389,23 @@ void BootMode::DrawPostEffects()
     GetScriptSupervisor().DrawPostEffects();
 
     if(_boot_state == BOOT_STATE_MENU) {
-        _options_window.Draw();
-
-        // Test whether the welcome window should be shown once
-        static bool help_window_shown = false;
-        if(!help_window_shown) {
-            _ShowHelpWindow();
-            help_window_shown = true;
-        }
-
-        if(_active_menu) {
-            if (_active_menu == &_main_menu) {
-                VideoManager->Move(0.0f, 640.0f);
-                _menu_bar.Draw(Color(1.0f, 1.0f, 1.0f, _menu_bar_alpha));
-            }
-            _active_menu->Draw();
+        if (!_first_run) {
+            VideoManager->Move(0.0f, 640.0f);
+            _menu_bar.Draw(Color(1.0f, 1.0f, 1.0f, _menu_bar_alpha));
         }
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(312.0f, 735.0f);
+        VideoManager->Move(322.0f, 745.0f);
         _f1_help_text.Draw(Color(1.0f, 1.0f, 1.0f, _help_text_alpha));
+
         VideoManager->Move(10.0f, 758.0f);
         _version_text.Draw();
-        VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
 
+        _options_window.Draw();
+        if(_active_menu)
+            _active_menu->Draw();
+
+        VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->Move(0.0f, 0.0f);
         _message_window.Draw();
     }
@@ -461,6 +479,10 @@ void BootMode::_SetupMainMenu()
     } else {
         _main_menu.SetSelection(1);
     }
+
+    _f1_help_text.SetText(Translate("Press '")
+        + InputManager->GetHelpKeyName()
+        + Translate("' to get to know about the game keys."));
 }
 
 
@@ -995,23 +1017,25 @@ void BootMode::_OnRestoreDefaultJoyButtons()
 // ***** BootMode helper methods
 // ****************************************************************************
 
-void BootMode::_ShowHelpWindow()
+void BootMode::_ShowLanguageSelectionWindow()
 {
     // Load the settings file for reading in the welcome variable
     ReadScriptDescriptor settings_lua;
     std::string file = GetSettingsFilename();
     if(!settings_lua.OpenFile(file)) {
-        PRINT_WARNING << "failed to load the boot settings file" << std::endl;
+        PRINT_WARNING << "failed to load the settings file" << std::endl;
+        return;
     }
 
     settings_lua.OpenTable("settings");
     if(settings_lua.ReadInt("first_start") == 1) {
-        ModeManager->GetHelpWindow()->Show();
+        _first_run = true;
+        _options_window.Show();
+        _active_menu = &_language_options_menu;
     }
     settings_lua.CloseTable();
     settings_lua.CloseFile();
 }
-
 
 void BootMode::_ShowMessageWindow(bool joystick)
 {
@@ -1020,8 +1044,6 @@ void BootMode::_ShowMessageWindow(bool joystick)
     else
         _ShowMessageWindow(WAIT_KEY);
 }
-
-
 
 void BootMode::_ShowMessageWindow(WAIT_FOR wait)
 {
@@ -1039,8 +1061,6 @@ void BootMode::_ShowMessageWindow(WAIT_FOR wait)
     _message_window.Show();
 }
 
-
-
 void BootMode::_ChangeResolution(int32 width, int32 height)
 {
     VideoManager->SetResolution(width, height);
@@ -1048,7 +1068,6 @@ void BootMode::_ChangeResolution(int32 width, int32 height)
     _RefreshVideoOptions();
     _has_modified_settings = true;
 }
-
 
 bool BootMode::_SaveSettingsFile(const std::string &filename)
 {
@@ -1063,7 +1082,6 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     // Load the settings file for reading in the original data
     fileTemp = GetUserDataPath(false) + "/settings.lua";
 
-
     if(filename.empty())
         file = fileTemp;
     else
@@ -1075,8 +1093,8 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
 
     WriteScriptDescriptor settings_lua;
     if(!settings_lua.OpenFile(file)) {
-        PRINT_ERROR << "Failed to save the settings file: " <<
-            settings_lua.GetFilename() << std::endl;
+        PRINT_ERROR << "Failed to open settings file: " <<
+            file << std::endl;
         return false;
     }
 
