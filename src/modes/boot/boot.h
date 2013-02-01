@@ -178,6 +178,16 @@ private:
     //! \brief Window display message for "select a key"
     hoa_menu::MessageWindow _message_window;
 
+    //! The menu bar displayed below the main menu.
+    hoa_video::StillImage _menu_bar;
+    float _menu_bar_alpha;
+
+    //! A text displayed a few second at startup to remind the player about the keys to use.
+    hoa_video::TextImage _f1_help_text;
+    float _help_text_alpha;
+
+    hoa_system::SystemTimer _boot_timer;
+
     // ---------- Setup and refresh methods for boot menus
 
     //! \brief Returns whether at least one save is available to be loaded.

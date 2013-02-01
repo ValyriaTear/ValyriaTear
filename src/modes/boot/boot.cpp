@@ -71,7 +71,9 @@ BootMode::BootMode() :
     _key_setting_function(NULL),
     _joy_setting_function(NULL),
     _joy_axis_setting_function(NULL),
-    _message_window(ustring(), 210.0f, 733.0f)
+    _message_window(ustring(), 210.0f, 733.0f),
+    _menu_bar_alpha(0.0f),
+    _help_text_alpha(0.0f)
 {
     // Remove potential previous ambient overlays
     VideoManager->DisableFadeEffect();
@@ -127,6 +129,19 @@ BootMode::BootMode() :
 
     // make sure message window is not visible
     _message_window.Hide();
+
+    // Load the menu bar and the help text
+    _menu_bar.Load("img/menus/battle_bottom_menu.png", 1024, 128);
+
+    _f1_help_text.SetStyle(TextStyle("text18"));
+    _f1_help_text.SetText(Translate("Press '")
+        + InputManager->GetHelpKeyName()
+        + Translate("' to get to know about the game keys."));
+
+    // The timer that will be used to display the menu bar and the help text
+    _boot_timer.Initialize(14000);
+    _boot_timer.EnableManualUpdate();
+    _boot_timer.Run();
 
     // Preload test sound
     AudioManager->LoadSound("snd/volume_test.wav", this);
@@ -255,6 +270,26 @@ void BootMode::Update()
 
     _active_menu->Update();
 
+    // Update also the bar and f1 help text alpha
+    uint32 time_expired = SystemManager->GetUpdateTime();
+    _boot_timer.Update(time_expired);
+    if (_boot_timer.GetTimeExpired() >= 4000.0 && _boot_timer.GetTimeExpired() < 12000.0) {
+        _help_text_alpha += 0.001f * time_expired;
+        if (_help_text_alpha > 1.0f)
+            _help_text_alpha = 1.0f;
+    }
+    else if (_boot_timer.GetTimeExpired() >= 12000.0 && _boot_timer.GetTimeExpired() < 14000.0) {
+        _help_text_alpha -= 0.001f * time_expired;
+        if (_help_text_alpha < 0.0f)
+            _help_text_alpha = 0.0f;
+    }
+
+    if (_menu_bar_alpha < 0.6f) {
+        _menu_bar_alpha = _menu_bar_alpha + 0.001f * time_expired;
+        if (_menu_bar_alpha >= 0.6f)
+            _menu_bar_alpha = 0.6f;
+    }
+
     // Only quit when we are at the main menu level
     if(_active_menu == &_main_menu && InputManager->QuitPress()) {
         SystemManager->ExitGame();
@@ -338,10 +373,17 @@ void BootMode::DrawPostEffects()
             help_window_shown = true;
         }
 
-        if(_active_menu)
+        if(_active_menu) {
+            if (_active_menu == &_main_menu) {
+                VideoManager->Move(0.0f, 640.0f);
+                _menu_bar.Draw(Color(1.0f, 1.0f, 1.0f, _menu_bar_alpha));
+            }
             _active_menu->Draw();
+        }
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+        VideoManager->Move(312.0f, 735.0f);
+        _f1_help_text.Draw(Color(1.0f, 1.0f, 1.0f, _help_text_alpha));
         VideoManager->Move(10.0f, 758.0f);
         _version_text.Draw();
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
