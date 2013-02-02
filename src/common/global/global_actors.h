@@ -863,7 +863,12 @@ public:
 
     //! Image accessor functions
     //@{
+    //! \brief Returns the corresponding battle character sprite animation
     hoa_video::AnimatedImage *RetrieveBattleAnimation(const std::string &name);
+
+    //! \brief Returns the corresponding battle **weapon** sprite animation
+    //! Usually displayed on top of the sprite to make it look like holding it.
+    hoa_video::AnimatedImage *RetrieveWeaponAnimation(const std::string &name);
 
     std::vector<hoa_video::StillImage>* GetBattlePortraits() {
         return &_battle_portraits;

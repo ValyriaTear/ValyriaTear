@@ -38,59 +38,139 @@ end
 -- -----------------------------------------------------------------------------
 
 weapons[10001] = {
-	name = hoa_system.Translate("Wooden Sword"),
-	description = hoa_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
-	icon = "img/icons/weapons/woodensword.png",
-	physical_attack = 2,
-	magical_attack = 0,
-	standard_price = 0,
-	usable_by = BRONANN + THANIS,
-	slots = 0,
-    key_item = true
+    name = hoa_system.Translate("Wooden Sword"),
+    description = hoa_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
+    icon = "img/icons/weapons/woodensword.png",
+    physical_attack = 2,
+    magical_attack = 0,
+    standard_price = 0,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+    key_item = true,
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_idle.lua",
+            run = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_run.lua",
+            attack = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_dodge.lua",
+            --victory = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_idle.lua",
+            --magic_prepare = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_magic_prepare.lua",
+            --magic_cast = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_hurt.lua"
+        }
+    }
 }
 
 weapons[10011] = {
-	name = hoa_system.Translate("Karlate Sword"),
-	description = hoa_system.Translate("Standard Karlate issued equipment. A light weight iron sword suitable for most skirmishes."),
-	icon = "img/icons/weapons/karlate_sword.png",
-	physical_attack = 12,
-	magical_attack = 0,
-	standard_price = 120,
-	usable_by = BRONANN + THANIS,
-	slots = 0
+    name = hoa_system.Translate("Karlate Sword"),
+    description = hoa_system.Translate("Standard Karlate issued equipment. A light weight iron sword suitable for most skirmishes."),
+    icon = "img/icons/weapons/karlate_sword.png",
+    physical_attack = 12,
+    magical_attack = 0,
+    standard_price = 120,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+        }
+    }
 }
 
 weapons[10002] = {
-	name = hoa_system.Translate("Iron Sword"),
-	description = hoa_system.Translate("A sturdy but somewhat dull sword whose blade was forged from a single block of solid iron."),
-	icon = "img/icons/weapons/iron_sword.png",
-	physical_attack = 16,
-	magical_attack = 0,
-	standard_price = 250,
-	usable_by = BRONANN + THANIS,
-	slots = 0
+    name = hoa_system.Translate("Iron Sword"),
+    description = hoa_system.Translate("A sturdy but somewhat dull sword whose blade was forged from a single block of solid iron."),
+    icon = "img/icons/weapons/iron_sword.png",
+    physical_attack = 16,
+    magical_attack = 0,
+    standard_price = 250,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+        }
+    }
 }
 
 weapons[10003] = {
-	name = hoa_system.Translate("Knight's Blade"),
-	description = hoa_system.Translate("A weapon bestowed to seasoned veterans of the knighthood in several kingdoms throughout the world."),
-	icon = "img/icons/weapons/knights_blade.png",
-	physical_attack = 34,
-	magical_attack = 0,
-	standard_price = 800,
-	usable_by = BRONANN + THANIS,
-	slots = 1
+    name = hoa_system.Translate("Knight's Blade"),
+    description = hoa_system.Translate("A weapon bestowed to seasoned veterans of the knighthood in several kingdoms throughout the world."),
+    icon = "img/icons/weapons/knights_blade.png",
+    physical_attack = 34,
+    magical_attack = 0,
+    standard_price = 800,
+    usable_by = BRONANN + THANIS,
+    slots = 1,
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+        }
+    }
 }
 
 weapons[10004] = {
-	name = hoa_system.Translate("Paladin's Sword"),
-	description = hoa_system.Translate("A mythical weapon blessed with a magical fire."),
-	icon = "img/icons/weapons/paladin-sword.png",
-	physical_attack = 90,
-	magical_attack = 30,
-	standard_price = 30800,
-	usable_by = BRONANN + THANIS,
-	slots = 3,
+    name = hoa_system.Translate("Paladin's Sword"),
+    description = hoa_system.Translate("A mythical weapon blessed with a magical fire."),
+    icon = "img/icons/weapons/paladin-sword.png",
+    physical_attack = 90,
+    magical_attack = 30,
+    standard_price = 30800,
+    usable_by = BRONANN + THANIS,
+    slots = 3,
 
     trade_conditions = {
         [0] = 20000,  -- price
@@ -98,14 +178,34 @@ weapons[10004] = {
         [1003] = 5    -- 5 Elixirs
     },
 
-	elemental_effects = {
-		[hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
-	},
+    elemental_effects = {
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+    },
 
-	status_effects = {
-		[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
-		[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
-	}
+    status_effects = {
+        [hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+        }
+    }
 }
 
 -- -----------------------------------------------------------------------------
@@ -113,15 +213,15 @@ weapons[10004] = {
 -- -----------------------------------------------------------------------------
 
 weapons[11001] = {
-	name = hoa_system.Translate("Arbalest"),
-	description = hoa_system.Translate("A standard wooden arbalest."),
-	icon = "img/icons/weapons/arbalest.png",
-	-- The image displayed when kalya fires with her arbalest.
-	battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
-	physical_attack = 3,
-	magical_attack = 0,
-	standard_price = 50,
-	usable_by = KALYA,
-	slots = 0,
+    name = hoa_system.Translate("Arbalest"),
+    description = hoa_system.Translate("A standard wooden arbalest."),
+    icon = "img/icons/weapons/arbalest.png",
+    -- The image displayed when kalya fires with her arbalest.
+    battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
+    physical_attack = 3,
+    magical_attack = 0,
+    standard_price = 50,
+    usable_by = KALYA,
+    slots = 0,
     key_item = true
 }

@@ -355,6 +355,10 @@ public:
     const std::string &GetAmmoImageFile() const {
         return _ammo_image_file;
     }
+
+    //! \brief Get the animation filename corresponding to the character weapon animation
+    //! requested.
+    const std::string& GetWeaponAnimationFile(uint32 character_id, const std::string& animation_alias);
     //@}
 
 private:
@@ -372,12 +376,19 @@ private:
     **/
     uint32 _usable_by;
 
+    //! \brief The info about weapon animations for each global character.
+    //! map < character_id, map < animation alias, animation filename > >
+    std::map <uint32, std::map<std::string, std::string> > _weapon_animations;
+
     /** \brief Shard slots which may be used to place shards on the weapon
     *** Weapons may have no slots, so it is not uncommon for the size of this vector to be zero.
     *** When shard slots are available but empty (has no attached shard), the pointer at that index
     *** will be NULL.
     **/
     std::vector<GlobalShard *> _shard_slots;
+
+    //! \brief Loads the battle animations data for each character that can use the weapon.
+    void _LoadWeaponBattleAnimations(hoa_script::ReadScriptDescriptor& script);
 }; // class GlobalWeapon : public GlobalObject
 
 

@@ -245,7 +245,11 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
     // Load the possible battle ammo animated image filename.
     _ammo_image_file = script_file.ReadString("battle_ammo_animation_file");
 
-    script_file.CloseTable();
+    // Load the weapon battle animation info
+    if (script_file.DoesTableExist("battle_animations"))
+        _LoadWeaponBattleAnimations(script_file);
+
+    script_file.CloseTable(); // id
     if(script_file.IsErrorDetected()) {
         if(GLOBAL_DEBUG) {
             PRINT_WARNING << "one or more errors occurred while reading weapon data - they are listed below"
@@ -254,6 +258,58 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
         _InvalidateObject();
     }
 } // void GlobalWeapon::GlobalWeapon(uint32 id, uint32 count = 1)
+
+const std::string& GlobalWeapon::GetWeaponAnimationFile(uint32 character_id, const std::string& animation_alias)
+{
+    if (_weapon_animations.find(character_id) == _weapon_animations.end())
+        return _empty_string;
+
+    const std::map<std::string, std::string>& char_map = _weapon_animations.at(character_id);
+    if (char_map.find(animation_alias) == char_map.end())
+        return _empty_string;
+
+    return char_map.at(animation_alias);
+}
+
+void GlobalWeapon::_LoadWeaponBattleAnimations(ReadScriptDescriptor& script)
+{
+    //std::map <uint32, std::map<std::string, std::string> > _weapon_animations;
+    _weapon_animations.clear();
+
+    // The character id keys
+    std::vector<uint32> char_ids;
+
+    script.ReadTableKeys("battle_animations", char_ids);
+    if (char_ids.empty())
+        return;
+
+    if (!script.OpenTable("battle_animations"))
+        return;
+
+    for (uint32 i = 0; i < char_ids.size(); ++i) {
+        uint32 char_id = char_ids[i];
+
+        // Read all the animation aliases
+        std::vector<std::string> anim_aliases;
+        script.ReadTableKeys(char_id, anim_aliases);
+
+        if (anim_aliases.empty())
+            continue;
+
+        if (!script.OpenTable(char_id))
+            continue;
+
+        for (uint32 j = 0; j < anim_aliases.size(); ++j) {
+            std::string anim_alias = anim_aliases[j];
+            std::string anim_file = script.ReadString(anim_alias);
+            _weapon_animations[char_id].insert(std::make_pair<std::string, std::string>(anim_alias, anim_file));
+        }
+
+        script.CloseTable(); // char_id
+    }
+
+    script.CloseTable(); // battle_animations
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalArmor class

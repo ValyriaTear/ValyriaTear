@@ -394,39 +394,45 @@ public:
     }
 
     void ReadTableKeys(const std::string &table_name, std::vector<std::string>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(const std::string &table_name, std::vector<int32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(const std::string &table_name, std::vector<uint32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(int32 table_name, std::vector<std::string>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(int32 table_name, std::vector<int32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(int32 table_name, std::vector<uint32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
     //@}
     //@}

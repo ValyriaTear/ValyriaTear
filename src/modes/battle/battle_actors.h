@@ -571,11 +571,11 @@ public:
     void ChangeState(ACTOR_STATE new_state);
 
     float GetSpriteWidth() const {
-        return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetWidth();
+        return _current_sprite_animation ? _current_sprite_animation->GetWidth() : 0.0f;
     }
 
     float GetSpriteHeight() const {
-        return _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetHeight();
+        return _current_sprite_animation ? _current_sprite_animation->GetHeight() : 0.0f;
     }
 
     /** \brief Changes the battle character's current sprite animation image
@@ -633,6 +633,14 @@ protected:
     //! \brief The animation name before being attacked,
     //! used to return to it after the hurt or dodge animation.
     std::string _before_attack_sprite_animation;
+
+    //! \brief The Animated image pointer from the global character
+    //! Used to avoid calling the global character std::map find calls on each loops
+    //! Don't delete it, it's just a reference to the global manager animated images
+    hoa_video::AnimatedImage *_current_sprite_animation;
+
+    //! The current weapon animation loaded for the given weapon
+    hoa_video::AnimatedImage _current_weapon_animation;
 
     //! \brief Rendered text of the character's name
     hoa_video::TextImage _name_text;

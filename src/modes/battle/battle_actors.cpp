@@ -514,6 +514,15 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
     _action_selection_text.SetText("");
     _target_selection_text.SetStyle(TextStyle("text20"));
     _target_selection_text.SetText("");
+
+    // Init the battle animation pointers
+    _current_sprite_animation = _global_character->RetrieveBattleAnimation(_sprite_animation_alias);
+    // Add custom weapon animation
+    std::string weapon_animation;
+    if (_global_character->GetWeaponEquipped())
+            weapon_animation = _global_character->GetWeaponEquipped()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
+    if (weapon_animation.empty() || !_current_weapon_animation.LoadFromAnimationScript(weapon_animation))
+        _current_weapon_animation.Clear();
 }
 
 void BattleCharacter::ResetActor()
@@ -552,7 +561,7 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
         std::string animation_name = _action->GetActionName().empty() ? "idle" : _action->GetActionName();
         ChangeSpriteAnimation(animation_name);
         // Reset state timer
-        _state_timer.Initialize(_global_character->RetrieveBattleAnimation(animation_name)->GetAnimationLength());
+        _state_timer.Initialize(_current_sprite_animation->GetAnimationLength());
         _state_timer.Run();
         break;
     }
@@ -561,7 +570,7 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
         if(_action)
             _action->Cancel();
         ChangeSpriteAnimation("dying");
-        _state_timer.Initialize(_global_character->RetrieveBattleAnimation("dying")->GetAnimationLength());
+        _state_timer.Initialize(_current_sprite_animation->GetAnimationLength());
         _state_timer.Run();
         break;
     case ACTOR_STATE_DEAD:
@@ -569,7 +578,7 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
         break;
     case ACTOR_STATE_REVIVE:
         ChangeSpriteAnimation("revive");
-        _state_timer.Initialize(_global_character->RetrieveBattleAnimation("revive")->GetAnimationLength());
+        _state_timer.Initialize(_current_sprite_animation->GetAnimationLength());
         _state_timer.Run();
         break;
     default:
@@ -588,7 +597,8 @@ void BattleCharacter::Update()
     _animation_timer.Update();
 
     // Update the active sprite animation
-    _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Update();
+    _current_sprite_animation->Update();
+    _current_weapon_animation.Update();
 
     // Update potential scripted Battle action without hardcoded logic in that case
     if(_action &&
@@ -667,7 +677,8 @@ void BattleCharacter::Update()
 void BattleCharacter::DrawSprite()
 {
     VideoManager->Move(_x_location, _y_location);
-    _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->Draw();
+    _current_sprite_animation->Draw();
+    _current_weapon_animation.Draw();
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
         VideoManager->MoveRelative(0, GetSpriteHeight());
@@ -683,8 +694,19 @@ void BattleCharacter::ChangeSpriteAnimation(const std::string &alias)
         _before_attack_sprite_animation = _sprite_animation_alias;
 
     _sprite_animation_alias = alias;
-    _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->ResetAnimation();
-    uint32 timer_length = _global_character->RetrieveBattleAnimation(_sprite_animation_alias)->GetAnimationLength();
+    _current_sprite_animation = _global_character->RetrieveBattleAnimation(_sprite_animation_alias);
+
+    // Change the weapon animation as well
+    // Add custom weapon animation
+    std::string weapon_animation;
+    if (_global_character->GetWeaponEquipped())
+            weapon_animation = _global_character->GetWeaponEquipped()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
+    if (weapon_animation.empty() || !_current_weapon_animation.LoadFromAnimationScript(weapon_animation))
+        _current_weapon_animation.Clear();
+
+    _current_sprite_animation->ResetAnimation();
+    _current_weapon_animation.ResetAnimation();
+    uint32 timer_length = _current_sprite_animation->GetAnimationLength();
 
     _animation_timer.Reset();
     _animation_timer.SetDuration(timer_length);
