@@ -837,7 +837,10 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     ClearAllData();
 
     // open the namespace that the save game is encapsulated in.
-    file.OpenTable("save_game1");
+    if (!file.OpenTable("save_game1")) {
+        PRINT_ERROR << "Couldn't open the savegame " << filename << std::endl;
+        return false;
+    }
 
     // Load play data
     _map_filename = file.ReadString("map_filename");
@@ -862,29 +865,59 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     _LoadInventory(file, "key_items"); // DEPRECATED: Remove in one release
 
     // Load characters into the party in the correct order
-    file.OpenTable("characters");
+    if (!file.OpenTable("characters")) {
+        PRINT_ERROR << "Couldn't open the savegame characters data in " << filename << std::endl;
+        file.CloseAllTables();
+        file.CloseFile();
+        return false;
+    }
+
+    if (!file.DoesTableExist("order")) {
+        PRINT_ERROR << "Couldn't open the savegame characters order data in " << filename << std::endl;
+        file.CloseAllTables();
+        file.CloseFile();
+        return false;
+    }
+
     std::vector<uint32> char_ids;
     file.ReadUIntVector("order", char_ids);
+
+    if (char_ids.empty()) {
+        PRINT_ERROR << "No valid characters id in " << filename << std::endl;
+        file.CloseAllTables();
+        file.CloseFile();
+        return false;
+    }
+
     for(uint32 i = 0; i < char_ids.size(); i++) {
         _LoadCharacter(file, char_ids[i]);
     }
-    file.CloseTable();
+    file.CloseTable(); // characters
+
+    if (_characters.empty()) {
+        PRINT_ERROR << "No characters were added by save game file: " << filename << std::endl;
+        file.CloseAllTables();
+        file.CloseFile();
+        return false;
+    }
 
     // Load event data
     std::vector<std::string> group_names;
-    file.OpenTable("event_groups");
-    file.ReadTableKeys(group_names);
-    for(uint32 i = 0; i < group_names.size(); i++)
-        _LoadEvents(file, group_names[i]);
-    file.CloseTable();
+    if (file.OpenTable("event_groups")) {
+        file.ReadTableKeys(group_names);
+        for(uint32 i = 0; i < group_names.size(); i++)
+            _LoadEvents(file, group_names[i]);
+        file.CloseTable();
+    }
 
     // Load the quest log data
     std::vector<std::string> quest_keys;
-    file.OpenTable("quest_log");
-    file.ReadTableKeys(quest_keys);
-    for(uint32 i = 0; i < quest_keys.size(); ++i)
-        _LoadQuests(file, quest_keys[i]);
-    file.CloseTable();
+    if (file.OpenTable("quest_log")) {
+        file.ReadTableKeys(quest_keys);
+        for(uint32 i = 0; i < quest_keys.size(); ++i)
+            _LoadQuests(file, quest_keys[i]);
+        file.CloseTable();
+    }
 
     // Load the world map data
     _LoadWorldMap(file);
@@ -1184,15 +1217,15 @@ void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &c
         return;
     }
 
-    std::vector<uint32> object_ids;
-
     // The table keys are the inventory object ID numbers. The value of each key is the count of that object
-    file.OpenTable(category_name);
-    file.ReadTableKeys(object_ids);
-    for(uint32 i = 0; i < object_ids.size(); i++) {
-        AddToInventory(object_ids[i], file.ReadUInt(object_ids[i]));
+    if (file.OpenTable(category_name)) {
+        std::vector<uint32> object_ids;
+        file.ReadTableKeys(object_ids);
+        for(uint32 i = 0; i < object_ids.size(); i++) {
+            AddToInventory(object_ids[i], file.ReadUInt(object_ids[i]));
+        }
+        file.CloseTable();
     }
-    file.CloseTable();
 }
 
 
@@ -1330,12 +1363,17 @@ void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &grou
 
     std::vector<std::string> event_names;
 
-    file.OpenTable(group_name);
-    file.ReadTableKeys(event_names);
-    for(uint32 i = 0; i < event_names.size(); i++) {
-        new_group->AddNewEvent(event_names[i], file.ReadInt(event_names[i]));
+    if (file.OpenTable(group_name)) {
+        file.ReadTableKeys(event_names);
+        for(uint32 i = 0; i < event_names.size(); i++) {
+            new_group->AddNewEvent(event_names[i], file.ReadInt(event_names[i]));
+        }
+        file.CloseTable();
     }
-    file.CloseTable();
+    else {
+        PRINT_ERROR << "Invalid event group name '" << group_name << " in save file "
+                << file.GetFilename() << std::endl;
+    }
 }
 
 void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &quest_id)

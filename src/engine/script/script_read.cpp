@@ -295,6 +295,9 @@ bool ReadScriptDescriptor::OpenTable(const std::string &table_name, bool use_glo
     }
 
     else { // The table to fetch is an element of another table
+        if (!DoesTableExist(table_name))
+            return false;
+
         lua_pushstring(_lstack, table_name.c_str());
         lua_gettable(_lstack, STACK_TOP - 1);
         if(!lua_istable(_lstack, STACK_TOP)) {
@@ -317,6 +320,9 @@ bool ReadScriptDescriptor::OpenTable(int32 table_name)
                                        << "to open the with the element key " << table_name << std::endl;
         return false;
     }
+
+    if (!DoesTableExist(table_name))
+        return false;
 
     lua_pushnumber(_lstack, table_name);
 
