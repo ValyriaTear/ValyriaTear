@@ -322,9 +322,8 @@ void InventoryWindow::Update()
 
             // Activate the character select for application
             if(event == VIDEO_OPTION_CONFIRM) {
-                // Don't accept selecting key or shard items
-                if(obj->GetObjectType() == GLOBAL_OBJECT_KEY_ITEM ||
-                        obj->GetObjectType() == GLOBAL_OBJECT_SHARD) {
+                // Don't accept selecting shard items for now
+                if(obj->GetObjectType() == GLOBAL_OBJECT_SHARD) {
                     MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
                     break;
                 }
@@ -519,8 +518,8 @@ void InventoryWindow::_UpdateItemText()
     switch(current_selected_category) {
         case ITEM_ALL: {
             std::map<uint32, GlobalObject *>* inv = GlobalManager->GetInventory();
-            for(std::map<uint32, GlobalObject *>::iterator i = inv->begin(); i != inv->end(); i++) {
-                _item_objects.push_back(i->second);
+            for(std::map<uint32, GlobalObject *>::iterator it = inv->begin(); it != inv->end(); ++it) {
+                _item_objects.push_back(it->second);
             }
             break;
         }
@@ -548,9 +547,14 @@ void InventoryWindow::_UpdateItemText()
             _item_objects = _GetItemVector(GlobalManager->GetInventoryLegArmor());
             break;
 
-        case ITEM_KEY:
-            _item_objects = _GetItemVector(GlobalManager->GetInventoryKeyItems());
+        case ITEM_KEY: {
+            std::map<uint32, GlobalObject *>* inv = GlobalManager->GetInventory();
+            for(std::map<uint32, GlobalObject *>::iterator it = inv->begin(); it != inv->end(); ++it) {
+                if (it->second->IsKeyItem())
+                    _item_objects.push_back(it->second);
+            }
             break;
+        }
         default:
             break;
         }

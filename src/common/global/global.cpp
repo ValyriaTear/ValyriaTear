@@ -103,9 +103,6 @@ void GameGlobal::_CloseGlobalScripts() {
     _items_script.CloseTable();
     _items_script.CloseFile();
 
-    _key_items_script.CloseTable();
-    _key_items_script.CloseFile();
-
     _weapons_script.CloseTable();
     _weapons_script.CloseFile();
 
@@ -148,10 +145,6 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_items_script.OpenFile("dat/objects/items.lua"))
         return false;
     _items_script.OpenTable("items");
-
-    if(!_key_items_script.OpenFile("dat/objects/key_items.lua"))
-        return false;
-    _key_items_script.OpenTable("key_items");
 
     if(_weapons_script.OpenFile("dat/objects/weapons.lua") == false) {
         return false;
@@ -232,7 +225,6 @@ void GameGlobal::ClearAllData()
     _inventory_arm_armor.clear();
     _inventory_leg_armor.clear();
     _inventory_shards.clear();
-    _inventory_key_items.clear();
 
     // Delete all characters
     for(std::map<uint32, GlobalCharacter *>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
@@ -414,7 +406,8 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
     }
 
     // Otherwise create a new object instance and add it to the inventory
-    if((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
+    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
+        || (obj_id > MAX_SHARD_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         GlobalItem *new_obj = new GlobalItem(obj_id, obj_count);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_items.push_back(new_obj);
@@ -442,10 +435,6 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
 // 		GlobalShard *new_obj = new GlobalShard(obj_id, obj_count);
 // 		_inventory.insert(std::make_pair(obj_id, new_obj));
 // 		_inventory_shards.push_back(new_obj);
-    } else if((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
-        GlobalKeyItem *new_obj = new GlobalKeyItem(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_key_items.push_back(new_obj);
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
     }
@@ -471,7 +460,8 @@ void GameGlobal::AddToInventory(GlobalObject *object)
     }
 
     // Figure out which type of object this is, cast it to the correct type, and add it to the inventory
-    if((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
+    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
+        || (obj_id > MAX_SHARD_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         GlobalItem *new_obj = dynamic_cast<GlobalItem *>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_items.push_back(new_obj);
@@ -499,10 +489,6 @@ void GameGlobal::AddToInventory(GlobalObject *object)
 // 		GlobalShard *new_obj = dynamic_cast<GlobalShard*>(object);
 // 		_inventory.insert(std::make_pair(obj_id, new_obj));
 // 		_inventory_shards.push_back(new_obj);
-    } else if((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
-        GlobalKeyItem *new_obj = dynamic_cast<GlobalKeyItem *>(object);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_key_items.push_back(new_obj);
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
         delete object;
@@ -519,7 +505,8 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
     }
 
     // Use the id value to figure out what type of object it is, and remove it from the object vector
-    if((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
+    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
+        || (obj_id > MAX_SHARD_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         if(_RemoveFromInventory(obj_id, _inventory_items) == false)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory items: " << obj_id << std::endl;
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
@@ -540,9 +527,6 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SHARD_ID)) {
         if(_RemoveFromInventory(obj_id, _inventory_shards) == false)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory shards: " << obj_id << std::endl;
-    } else if((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
-        if(_RemoveFromInventory(obj_id, _inventory_key_items) == false)
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory key items: " << obj_id << std::endl;
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory with an invalid id: " << obj_id << std::endl;
     }
@@ -559,7 +543,8 @@ GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
 
     GlobalObject *return_object = NULL;
     // Use the id value to figure out what type of object it is, and remove it from the object vector
-    if((obj_id > 0) && (obj_id <= MAX_ITEM_ID)) {
+    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
+        || (obj_id > MAX_SHARD_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         return_object = _RetrieveFromInventory(obj_id, _inventory_items, all_counts);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << std::endl;
@@ -587,10 +572,6 @@ GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
         return_object = _RetrieveFromInventory(obj_id, _inventory_shards, all_counts);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory shards: " << obj_id << std::endl;
-    } else if((obj_id > MAX_SHARD_ID) && (obj_id <= MAX_KEY_ITEM_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_key_items, all_counts);
-        if(return_object == NULL)
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory key items: " << obj_id << std::endl;
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory with an invalid id: " << obj_id << std::endl;
     }
@@ -786,7 +767,6 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
     _SaveInventory(file, "arm_armor", _inventory_arm_armor);
     _SaveInventory(file, "leg_armor", _inventory_leg_armor);
     _SaveInventory(file, "shards", _inventory_shards);
-    _SaveInventory(file, "key_items", _inventory_key_items);
 
     // ----- (5) Save character data
     file.InsertNewLine();
@@ -879,7 +859,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     _LoadInventory(file, "arm_armor");
     _LoadInventory(file, "leg_armor");
     _LoadInventory(file, "shards");
-    _LoadInventory(file, "key_items");
+    _LoadInventory(file, "key_items"); // DEPRECATED: Remove in one release
 
     // Load characters into the party in the correct order
     file.OpenTable("characters");

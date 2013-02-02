@@ -76,9 +76,6 @@ SHOP_OBJECT ShopObject::DetermineShopObjectType(GLOBAL_OBJECT global_type)
     case GLOBAL_OBJECT_SHARD:
         shop_type = SHOP_OBJECT_SHARD;
         break;
-    case GLOBAL_OBJECT_KEY_ITEM:
-        shop_type = SHOP_OBJECT_KEY_ITEM;
-        break;
     case GLOBAL_OBJECT_INVALID:
     case GLOBAL_OBJECT_TOTAL:
     default:

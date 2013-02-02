@@ -120,13 +120,13 @@ void BuyInterface::_UpdateAvailableBuyDealTypes()
         case GLOBAL_OBJECT_SHARD:
             _buy_deal_types |= DEALS_SHARDS;
             break;
-        case GLOBAL_OBJECT_KEY_ITEM:
-            _buy_deal_types |= DEALS_KEY_ITEMS;
-            break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << std::endl;
             break;
         }
+        // Test whether this is a key item
+        if (it->second->GetObject()->IsKeyItem())
+            _buy_deal_types |= DEALS_KEY_ITEMS;
     }
 }
 
@@ -181,7 +181,7 @@ void BuyInterface::Reinitialize()
     }
 
     // Holds the index to the _object_data vector where the container for a specific object type is located
-    std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
+    std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL + 1, 0); // + key items
     // Used to set the appropriate data in the type_index vector
     uint32 next_index = 0;
     // Used to do a bit-by-bit analysis of the deal_types variable
@@ -230,13 +230,14 @@ void BuyInterface::Reinitialize()
         case GLOBAL_OBJECT_SHARD:
             object_data[type_index[6]].push_back(obj);
             break;
-        case GLOBAL_OBJECT_KEY_ITEM:
-            object_data[type_index[7]].push_back(obj);
-            break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << std::endl;
             break;
         }
+
+        // Test whether this is a key item
+        if (it->second->GetObject()->IsKeyItem())
+            object_data[type_index[7]].push_back(obj);
 
         // If there is an "All Wares" category, make sure the object gets added there as well
         if(_number_categories > 1) {

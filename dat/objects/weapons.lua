@@ -24,6 +24,7 @@
 -- {standard_price}: The standard asking price of this weapon from merchants.
 -- {usable_by}: A list of characters which may equip this weapon.
 -- {slots}: The number of slots available to equip shards on the weapon.
+-- {key_item}: Tells whether the item is a key item, preventing it from being consumed or sold.
 ------------------------------------------------------------------------------]]
 
 -- All weapon definitions are stored in this table
@@ -44,7 +45,8 @@ weapons[10001] = {
 	magical_attack = 0,
 	standard_price = 0,
 	usable_by = BRONANN + THANIS,
-	slots = 0
+	slots = 0,
+    key_item = true
 }
 
 weapons[10011] = {
@@ -120,5 +122,6 @@ weapons[11001] = {
 	magical_attack = 0,
 	standard_price = 50,
 	usable_by = KALYA,
-	slots = 0
+	slots = 0,
+    key_item = true
 }

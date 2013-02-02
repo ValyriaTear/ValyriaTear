@@ -71,8 +71,7 @@ enum SHOP_OBJECT {
     SHOP_OBJECT_ITEM       =  0,
     SHOP_OBJECT_EQUIPMENT  =  1, //!< This type covers weapons and all types of armor
     SHOP_OBJECT_SHARD      =  2,
-    SHOP_OBJECT_KEY_ITEM   =  3,
-    SHOP_OBJECT_TOTAL      =  4
+    SHOP_OBJECT_TOTAL      =  3
 };
 
 //! \name Price multipliers

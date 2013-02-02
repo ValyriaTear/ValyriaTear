@@ -212,11 +212,8 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
     case GLOBAL_OBJECT_SHARD:
         index = 6;
         break;
-    case GLOBAL_OBJECT_KEY_ITEM:
-        index = 7;
-        break;
     case GLOBAL_OBJECT_TOTAL:
-        index = 8;
+        index = 7;
         break;
     default:
         return NULL;
@@ -252,11 +249,8 @@ StillImage *ShopMedia::GetCategoryIcon(GLOBAL_OBJECT object_type)
     case GLOBAL_OBJECT_SHARD:
         index = 6;
         break;
-    case GLOBAL_OBJECT_KEY_ITEM:
-        index = 7;
-        break;
     case GLOBAL_OBJECT_TOTAL:
-        index = 8;
+        index = 7;
         break;
     default:
         return NULL;
@@ -514,9 +508,6 @@ void ShopObjectViewer::Draw()
     case SHOP_OBJECT_SHARD:
         _DrawShard();
         break;
-    case SHOP_OBJECT_KEY_ITEM:
-        _DrawKeyItem();
-        break;
     default: // unknown/unsupported object type, draw no further information
         break;
     }
@@ -555,9 +546,6 @@ void ShopObjectViewer::SetSelectedObject(ShopObject *object)
         break;
     case SHOP_OBJECT_SHARD:
         _SetShardData();
-        break;
-    case SHOP_OBJECT_KEY_ITEM:
-        _SetDescriptionText();
         break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid object type: " << _object_type << std::endl;
@@ -783,7 +771,7 @@ void ShopObjectViewer::_SetDescriptionText()
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         _description_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
         // For key items, draw position is a little higher than other cases to center it in the blank area
-        if(_object_type == SHOP_OBJECT_KEY_ITEM) {
+        if(_selected_object && _selected_object->GetObject()->IsKeyItem()) {
             _description_text.SetPosition(102.0f, 76.0f);
         } else {
             _description_text.SetPosition(102.0f, 56.0f);
@@ -1040,20 +1028,10 @@ void ShopObjectViewer::_DrawEquipment()
     }
 } // void ShopObjectViewer::_DrawEquipment()
 
-
-
 void ShopObjectViewer::_DrawShard()
 {
     // TODO: implement when GlobalShard class is ready for use
 }
-
-
-
-void ShopObjectViewer::_DrawKeyItem()
-{
-    _description_text.Draw();
-}
-
 
 } // namespace private_shop
 
@@ -1219,7 +1197,7 @@ void ShopMode::_UpdateAvailableObjectsToSell()
             continue;
 
         // Don't show key items either.
-        if(it->second->GetObjectType() == GLOBAL_OBJECT_KEY_ITEM)
+        if(it->second->IsKeyItem())
             continue;
 
         // Check if the object already exists in the shop list and if so, set its ownership count

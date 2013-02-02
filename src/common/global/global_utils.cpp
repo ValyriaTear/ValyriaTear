@@ -118,7 +118,8 @@ GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count)
 {
     GlobalObject *new_object = NULL;
 
-    if((id > 0) && (id <= MAX_ITEM_ID))
+    if((id > 0 && id <= MAX_ITEM_ID)
+        || (id > MAX_SHARD_ID && id <= MAX_KEY_ITEM_ID))
         new_object = new GlobalItem(id, count);
     else if((id > MAX_ITEM_ID) && (id <= MAX_WEAPON_ID))
         new_object = new GlobalWeapon(id, count);
@@ -126,8 +127,6 @@ GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count)
         new_object = new GlobalArmor(id, count);
     else if((id > MAX_LEG_ARMOR_ID) && (id <= MAX_SHARD_ID))
         new_object = new GlobalShard(id, count);
-    else if((id > MAX_SHARD_ID) && (id <= MAX_KEY_ITEM_ID))
-        new_object = new GlobalKeyItem(id, count);
     else
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid id argument: " << id << std::endl;
 

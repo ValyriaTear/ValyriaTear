@@ -109,13 +109,14 @@ void TradeInterface::_UpdateAvailableTradeDealTypes()
         case GLOBAL_OBJECT_SHARD:
             _trade_deal_types |= DEALS_SHARDS;
             break;
-        case GLOBAL_OBJECT_KEY_ITEM:
-            _trade_deal_types |= DEALS_KEY_ITEMS;
-            break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << std::endl;
             break;
         }
+
+        // Also test whether this is a key item
+        if (it->second->GetObject()->IsKeyItem())
+            _trade_deal_types |= DEALS_KEY_ITEMS;
     }
 }
 
@@ -219,13 +220,14 @@ void TradeInterface::Reinitialize()
         case GLOBAL_OBJECT_SHARD:
             object_data[type_index[6]].push_back(obj);
             break;
-        case GLOBAL_OBJECT_KEY_ITEM:
-            object_data[type_index[7]].push_back(obj);
-            break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << std::endl;
             break;
         }
+
+        // Also test whether this is a key item.
+        if (obj->GetObject()->IsKeyItem())
+             object_data[type_index[7]].push_back(obj);
 
         // If there is an "All Wares" category, make sure the object gets added there as well
         if(_number_categories > 1) {

@@ -23,6 +23,7 @@
 -- {standard_price}: The standard asking price of this weapon from merchants.
 -- {warmup_time}: The time needed before using that item in battles.
 -- {cooldown_time}: The time needed after using that item in battles.
+-- {key_item}: Tells whether the item is a key item, preventing it from being consumed or sold.
 --
 -- Each item entry requires a function called {BattleUse} to be defined. This function implements the
 -- use of item in battle, healing damage, causing status changes, playing sounds, and animating
@@ -355,3 +356,30 @@ items[1003] = {
 --------------------------------------------------------------------------------
 -- IDs 3,001 - 4,000 are reserved for attack items
 --------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- IDs 70001-80000 are reserved for "simple" key items
+--------------------------------------------------------------------------------
+items[70001] = {
+    name = hoa_system.Translate("Pen"),
+    description = hoa_system.Translate("Georges' pen, presumably used to write poetry."),
+    icon = "img/icons/items/key_items/ink.png",
+    standard_price = 0,
+    key_item = true
+}
+
+items[70002] = {
+    name = hoa_system.Translate("Barley Meal"),
+    description = hoa_system.Translate("Basic yet good and cheap flour."),
+    icon = "img/icons/items/key_items/barley_meal_bag.png",
+    standard_price = 0,
+    key_item = true
+}
+
+items[70003] = {
+    name = hoa_system.Translate("Wolfpain Necklace"),
+    description = hoa_system.Translate("A strange necklace with unknown powers."),
+    icon = "img/icons/items/key_items/necklace_wolfpain.png",
+    standard_price = 0,
+    key_item = true
+}

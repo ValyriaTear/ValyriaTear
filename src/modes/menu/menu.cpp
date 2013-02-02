@@ -523,8 +523,6 @@ void InventoryState::_DrawBottomMenu()
     static const ustring inventory_help_message = UTranslate("Select an item to Equip or Use.");
     _menu_mode->_bottom_window.Draw();
 
-
-
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(150, 580);
 
@@ -551,21 +549,12 @@ void InventoryState::_DrawBottomMenu()
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         _menu_mode->_inventory_window._description.Draw();
 
-        switch(obj_type)
-        {
-            case GLOBAL_OBJECT_KEY_ITEM:
-                _DrawItemDescription(*obj, _menu_mode->_key_item_symbol, _menu_mode->_key_item_description);
-                break;
-            case GLOBAL_OBJECT_SHARD:
-                _DrawItemDescription(*obj, _menu_mode->_shard_symbol, _menu_mode->_shard_description);
-                break;
-            default:
-                break;
-        };
+        if (obj->IsKeyItem())
+            _DrawItemDescription(*obj, _menu_mode->_key_item_symbol, _menu_mode->_key_item_description);
+        else if (obj_type == GLOBAL_OBJECT_SHARD)
+            _DrawItemDescription(*obj, _menu_mode->_shard_symbol, _menu_mode->_shard_description);
 
         //Draw help text
-
-
     }
     else if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_CHAR)
     {
@@ -1203,7 +1192,7 @@ MenuMode::MenuMode() :
     _key_item_description.SetDimensions(700.0f, 50.0f);
     _key_item_description.SetTextStyle(TextStyle("text20"));
     _key_item_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _key_item_description.SetDisplayText(UTranslate("This item is a key item and can be neither used nor sold."));
+    _key_item_description.SetDisplayText(UTranslate("This item is a key item and can be neither consumed nor sold."));
 
     // Load shards related resources.
     if(!_shard_symbol.Load("img/menus/shard.png"))

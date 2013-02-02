@@ -193,7 +193,6 @@ class GlobalItem;
 class GlobalWeapon;
 class GlobalArmor;
 class GlobalShard;
-class GlobalKeyItem;
 
 class GlobalStatusEffect;
 class GlobalElementalEffect;

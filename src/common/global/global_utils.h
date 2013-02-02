@@ -39,7 +39,7 @@ namespace private_global
 *** - Arm Armor:    40001-50000
 *** - Leg Armor:    50001-60000
 *** - Shards:       60001-70000
-*** - Key Items:    70001-80000
+*** - Key Items:    70001-80000 // Old, now any kind of item can be a key item.
 **/
 //@{
 const uint32 OBJECT_ID_INVALID   = 0;
@@ -145,8 +145,7 @@ enum GLOBAL_OBJECT {
     GLOBAL_OBJECT_ARM_ARMOR   =  4,
     GLOBAL_OBJECT_LEG_ARMOR   =  5,
     GLOBAL_OBJECT_SHARD       =  6,
-    GLOBAL_OBJECT_KEY_ITEM    =  7,
-    GLOBAL_OBJECT_TOTAL       =  8
+    GLOBAL_OBJECT_TOTAL       =  7
 };
 
 /** \name Elemental Effect Types

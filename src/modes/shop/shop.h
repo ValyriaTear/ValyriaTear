@@ -379,9 +379,6 @@ private:
 
     //! \brief Helper function that draws information specific to shards
     void _DrawShard();
-
-    //! \brief Helper function that draws information specific to key items
-    void _DrawKeyItem();
 }; // class ShopObjectViewer
 
 } // namespace private_shop

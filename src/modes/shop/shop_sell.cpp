@@ -96,6 +96,10 @@ void SellInterface::_UpdateAvailableSellDealTypes()
     // Determine what types of objects the shop deals in based on the managed object list
     std::map<uint32, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
     for(std::map<uint32, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
+        // Key items can't be sold.
+        if (it->second->GetObject()->IsKeyItem())
+            continue;
+
         hoa_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
         switch(object_type) {
         case GLOBAL_OBJECT_ITEM:
@@ -118,9 +122,6 @@ void SellInterface::_UpdateAvailableSellDealTypes()
             break;
         case GLOBAL_OBJECT_SHARD:
             _sell_deal_types |= DEALS_SHARDS;
-            break;
-        case GLOBAL_OBJECT_KEY_ITEM:
-            // Key items can't be sold.
             break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << std::endl;
@@ -200,7 +201,8 @@ void SellInterface::_PopulateLists()
     for(std::map<uint32, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
         obj = it->second;
 
-        if(!obj)
+        // Key items are not permitted to be sold
+        if(!obj || obj->GetObject()->IsKeyItem())
             continue;
 
         if(obj->GetOwnCount() > 0) {
@@ -226,8 +228,6 @@ void SellInterface::_PopulateLists()
             case GLOBAL_OBJECT_SHARD:
                 object_data[type_index[6]].push_back(obj);
                 break;
-            case GLOBAL_OBJECT_KEY_ITEM:
-                continue; // Key items are not permitted to be sold
             default:
                 IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << std::endl;
                 break;

@@ -38,6 +38,8 @@ void GlobalObject::_LoadObjectData(hoa_script::ReadScriptDescriptor &script)
     _price = script.ReadUInt("standard_price");
     _LoadTradeConditions(script);
     std::string icon_file = script.ReadString("icon");
+    if (script.DoesBoolExist("key_item"))
+        _is_key_item = script.ReadBool("key_item");
     if(_icon_image.Load(icon_file) == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load icon image for item: " << _id << std::endl;
         _InvalidateObject();
@@ -142,15 +144,15 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
     _warmup_time(0),
     _cooldown_time(0)
 {
-    if((_id == 0) || (_id > MAX_ITEM_ID)) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << std::endl;
+    if(_id == 0 || (_id > MAX_ITEM_ID && (_id <= MAX_SHARD_ID && _id > MAX_KEY_ITEM_ID))) {
+        PRINT_WARNING << "invalid id in constructor: " << _id << std::endl;
         _InvalidateObject();
         return;
     }
 
     ReadScriptDescriptor &script_file = GlobalManager->GetItemsScript();
     if(script_file.DoesTableExist(_id) == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for item in definition file: " << _id << std::endl;
+        PRINT_WARNING << "no valid data for item in definition file: " << _id << std::endl;
         _InvalidateObject();
         return;
     }
@@ -168,10 +170,8 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
 
     script_file.CloseTable();
     if(script_file.IsErrorDetected()) {
-        if(GLOBAL_DEBUG) {
-            PRINT_WARNING << "one or more errors occurred while reading item data - they are listed below"
-                          << std::endl << script_file.GetErrorMessages() << std::endl;
-        }
+        PRINT_WARNING << "one or more errors occurred while reading item data - they are listed below"
+                        << std::endl << script_file.GetErrorMessages() << std::endl;
         _InvalidateObject();
     }
 } // void GlobalItem::GlobalItem(uint32 id, uint32 count = 1)
@@ -370,39 +370,5 @@ GlobalShard::GlobalShard(uint32 id, uint32 count) :
 // 		_InvalidateObject();
 // 	}
 } // void GlobalShard::GlobalShard(uint32 id, uint32 count = 1)
-
-////////////////////////////////////////////////////////////////////////////////
-// GlobalKeyItem class
-////////////////////////////////////////////////////////////////////////////////
-
-GlobalKeyItem::GlobalKeyItem(uint32 id, uint32 count) :
-    GlobalObject(id, count)
-{
-    if((_id <= MAX_SHARD_ID) || (_id > MAX_KEY_ITEM_ID)) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << std::endl;
-        _InvalidateObject();
-        return;
-    }
-
-    ReadScriptDescriptor &script_file = GlobalManager->GetKeyItemsScript();
-    if(script_file.DoesTableExist(_id) == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for key item in definition file: " << _id << std::endl;
-        _InvalidateObject();
-        return;
-    }
-
-    // Load the item data from the script
-    script_file.OpenTable(_id);
-    _LoadObjectData(script_file);
-
-    script_file.CloseTable();
-    if(script_file.IsErrorDetected()) {
-        if(GLOBAL_DEBUG) {
-            PRINT_WARNING << "one or more errors occurred while reading key item data - they are listed below"
-                          << std::endl << script_file.GetErrorMessages() << std::endl;
-        }
-        _InvalidateObject();
-    }
-} // void GlobalKeyItem::GlobalKeyItem(uint32 id, uint32 count = 1)
 
 } // namespace hoa_global

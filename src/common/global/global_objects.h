@@ -62,6 +62,7 @@ public:
 
     GlobalObject(uint32 id, uint32 count = 1) :
         _id(id),
+        _is_key_item(false),
         _count(count),
         _price(0),
         _trade_price(0)
@@ -73,6 +74,11 @@ public:
     //! \brief Returns true if the object is properly initialized and ready to be used
     bool IsValid() const {
         return (_id != 0);
+    }
+
+    //! \brief Returns true if the object is properly initialized and ready to be used
+    bool IsKeyItem() const {
+        return _is_key_item;
     }
 
     /** \brief Purely virtual function used to distinguish between object types
@@ -155,6 +161,9 @@ protected:
 
     //! \brief A short description of the item to display on the screen
     hoa_utils::ustring _description;
+
+    //! \brief Tells whether an item is a key item, preventing from being consumed or sold.
+    bool _is_key_item;
 
     //! \brief Retains how many occurences of the object are represented by this class object instance
     uint32 _count;
@@ -455,26 +464,6 @@ public:
         return GLOBAL_OBJECT_SHARD;
     }
 }; // class GlobalShard : public GlobalObject
-
-
-/** ****************************************************************************
-*** \brief Represents key items found throughout the game
-***
-*** Key items are special items which can not be used directly used nor sold by
-*** the player. Their primary function is to for use in game logic. For example,
-*** a copper key may be needed to open a certain door in a dungeon. Key items
-*** have no need for further data  nor logic beyond what is provided in the
-*** GlobalObject base class is necessary for key items.
-*** ***************************************************************************/
-class GlobalKeyItem : public GlobalObject
-{
-public:
-    GlobalKeyItem(uint32 id, uint32 count = 1);
-
-    GLOBAL_OBJECT GetObjectType() const {
-        return GLOBAL_OBJECT_KEY_ITEM;
-    }
-}; // class GlobalKeyItem : public GlobalObject
 
 } // namespace hoa_global
 

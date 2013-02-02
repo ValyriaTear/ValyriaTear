@@ -24,6 +24,7 @@
 -- {standard_price}: The standard asking price of this armor from merchants.
 -- {usable_by}: A list of characters which may equip this armor,
 -- {slots}: The number of slots available to equip shards on the armor.
+-- {key_item}: Tells whether the item is a key item, preventing it from being consumed or sold.
 ------------------------------------------------------------------------------]]
 
 -- All armor definitions are stored in this table
@@ -43,7 +44,8 @@ armor[30001] = {
 	physical_defense = 1,
 	magical_defense = 0,
 	standard_price = 0,
-	usable_by = BRONANN
+	usable_by = BRONANN,
+    key_item = true
 }
 
 armor[30002] = {
@@ -53,7 +55,8 @@ armor[30002] = {
 	physical_defense = 1,
 	magical_defense = 0,
 	standard_price = 0,
-	usable_by = KALYA
+	usable_by = KALYA,
+    key_item = true
 }
 
 armor[30003] = {

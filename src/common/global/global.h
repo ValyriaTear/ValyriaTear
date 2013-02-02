@@ -870,16 +870,8 @@ public:
         return &_inventory_shards;
     }
 
-    std::vector<GlobalKeyItem *>* GetInventoryKeyItems() {
-        return &_inventory_key_items;
-    }
-
     hoa_script::ReadScriptDescriptor &GetItemsScript() {
         return _items_script;
-    }
-
-    hoa_script::ReadScriptDescriptor &GetKeyItemsScript() {
-        return _key_items_script;
     }
 
     hoa_script::ReadScriptDescriptor &GetWeaponsScript() {
@@ -1022,7 +1014,6 @@ private:
     std::vector<GlobalArmor *>    _inventory_arm_armor;
     std::vector<GlobalArmor *>    _inventory_leg_armor;
     std::vector<GlobalShard *>    _inventory_shards;
-    std::vector<GlobalKeyItem *>  _inventory_key_items;
     //@}
 
     //! \name Global data and function script files
@@ -1032,9 +1023,6 @@ private:
 
     //! \brief Contains data definitions for all items
     hoa_script::ReadScriptDescriptor _items_script;
-
-    //! \brief Contains data definitions for all key items
-    hoa_script::ReadScriptDescriptor _key_items_script;
 
     //! \brief Contains data definitions for all weapons
     hoa_script::ReadScriptDescriptor _weapons_script;

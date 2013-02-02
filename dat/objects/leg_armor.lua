@@ -24,6 +24,7 @@
 -- {standard_price}: The standard asking price of this armor from merchants.
 -- {usable_by}: A list of characters which may equip this armor,
 -- {slots}: The number of slots available to equip shards on the armor.
+-- {key_item}: Tells whether the item is a key item, preventing it from being consumed or sold.
 ------------------------------------------------------------------------------]]
 
 -- All armor definitions are stored in this table
