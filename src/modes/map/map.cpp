@@ -189,7 +189,7 @@ void MapMode::Reset()
         active_music->FadeOut(500);
 
     if(music && music->GetState() != _audio_state) {
-        if (_audio_state == AUDIO_STATE_PLAYING) {
+        if (_audio_state == AUDIO_STATE_PLAYING || _audio_state == AUDIO_STATE_FADE_IN) {
             // In case the music volume was modified, we fade it back in smoothly
             if(music->GetVolume() < 1.0f)
                 music->FadeIn(1000);
