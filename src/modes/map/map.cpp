@@ -671,7 +671,8 @@ void MapMode::_UpdateExplore()
                 if(!phs->GetEventIdWhenTalking().empty()) {
                     _camera->moving = false;
                     _camera->is_running = false;
-                    _event_supervisor->StartEvent(phs->GetEventIdWhenTalking());
+                    if (!_event_supervisor->IsEventActive(phs->GetEventIdWhenTalking()))
+                        _event_supervisor->StartEvent(phs->GetEventIdWhenTalking());
                     return;
                 }
             }
