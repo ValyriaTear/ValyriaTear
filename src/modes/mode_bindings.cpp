@@ -253,6 +253,8 @@ void BindModeCode()
             .def("SetCurrentAnimation", &PhysicalObject::SetCurrentAnimation)
             .def("SetAnimationProgress", &PhysicalObject::SetAnimationProgress)
             .def("GetCurrentAnimation", &PhysicalObject::GetCurrentAnimation)
+            .def("SetEventWhenTalking", &PhysicalObject::SetEventWhenTalking)
+            .def("ClearEventWhenTalking", &PhysicalObject::ClearEventWhenTalking)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

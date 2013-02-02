@@ -139,6 +139,7 @@ const uint32 TILES_PER_TILESET = 256;
 
 //! \brief Used to identify the type of map object
 enum MAP_OBJECT_TYPE {
+    OBJECT_TYPE   = -1, //! Default type
     PHYSICAL_TYPE = 0,  //! This is a physical (visible) object, like a rock, a door, ect...
     VIRTUAL_TYPE = 1,   //! This is used as another type of NPC sprite, but without interaction.
     SPRITE_TYPE = 2,    //! This is a NPC sprite. Blocking for the hero, but not for the other sprites.

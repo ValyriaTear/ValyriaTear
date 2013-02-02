@@ -665,7 +665,17 @@ void MapMode::_UpdateExplore()
         MapObject *obj = _object_supervisor->FindNearestInteractionObject(_camera);
 
         if(obj != NULL) {
-            if(obj->GetType() == SPRITE_TYPE) {
+            if(obj->GetType() == PHYSICAL_TYPE) {
+                PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(obj);
+
+                if(!phs->GetEventIdWhenTalking().empty()) {
+                    _camera->moving = false;
+                    _camera->is_running = false;
+                    _event_supervisor->StartEvent(phs->GetEventIdWhenTalking());
+                    return;
+                }
+            }
+            else if(obj->GetType() == SPRITE_TYPE) {
                 MapSprite *sp = reinterpret_cast<MapSprite *>(obj);
 
                 if(sp->HasAvailableDialogue()) {

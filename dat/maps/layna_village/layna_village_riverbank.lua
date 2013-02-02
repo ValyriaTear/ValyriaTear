@@ -447,6 +447,10 @@ function _CreateNPCs()
 	object = CreateObject(Map, "Dog1", 66, 42);
 	Map:AddGroundObject(object);
 
+    event = hoa_map.SoundEvent("Lilly's dog barks", "snd/dog_barking.wav");
+    EventManager:RegisterEvent(event);
+    object:SetEventWhenTalking("Lilly's dog barks");
+
 	kalya = CreateSprite(Map, "Kalya", 2, 2);
 	kalya:SetDirection(hoa_map.MapMode.SOUTH);
 	kalya:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);

@@ -425,7 +425,29 @@ public:
     uint32 GetCurrentAnimation() const {
         return current_animation;
     }
+
+    /** \brief Adds an event triggered when talking to a physical object
+    *** \param event_id The event string id
+    **/
+    void SetEventWhenTalking(const std::string& event_id) {
+        _event_when_talking = event_id;
+    }
+
+    /** \brief Removes the event linked to a physical object
+    **/
+    void ClearEventWhenTalking() {
+        _event_when_talking.clear();
+    }
+
+    //! \brief Returns the event id triggered when talking to the physical object.
+    const std::string& GetEventIdWhenTalking() const {
+        return _event_when_talking;
+    }
     //@}
+
+private:
+    //! \brief The event id triggered when talking to the sprite.
+    std::string _event_when_talking;
 }; // class PhysicalObject : public MapObject
 
 /** ****************************************************************************

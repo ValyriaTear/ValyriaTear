@@ -55,6 +55,7 @@ MapObject::MapObject() :
     collision_mask(ALL_COLLISION),
     sky_object(false),
     draw_on_second_pass(false),
+    _object_type(OBJECT_TYPE),
     _emote_animation(0),
     _emote_offset_x(0.0f),
     _emote_offset_y(0.0f),
@@ -1106,6 +1107,13 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         // do not consider the object for the search
         if(!((*it)->context & sprite->context))
             continue;
+
+        // If the object is a physical object without any event, we can ignore it
+        if((*it)->GetObjectType() == PHYSICAL_TYPE) {
+            PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(*it);
+            if(phs->GetEventIdWhenTalking().empty())
+                continue;
+        }
 
         // If the object is a sprite without any dialogue, we can ignore it
         if((*it)->GetObjectType() == SPRITE_TYPE) {

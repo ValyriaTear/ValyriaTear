@@ -431,7 +431,14 @@ function _CreateNPCs()
 	npc:AddDialogueReference(dialogue);
 	-- Add her cat, Nekko
 	object = CreateObject(Map, "Cat1", 24, 37.6);
-	if (object ~= nil) then Map:AddGroundObject(object) end;
+	if (object ~= nil) then
+        Map:AddGroundObject(object)
+
+        event = hoa_map.SoundEvent("Nekko says Meoww!", "snd/meow.wav");
+        EventManager:RegisterEvent(event);
+
+        object:SetEventWhenTalking("Nekko says Meoww!");
+    end;
 
 	georges = CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
 	Map:AddGroundObject(georges);
