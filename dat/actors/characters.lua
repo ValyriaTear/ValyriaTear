@@ -20,21 +20,21 @@ characters[BRONANN] = {
     special_skill_category_icon = "img/icons/battle/holy.png",
 
     battle_animations = {
-        idle = "img/sprites/battle/characters/bronann_idle.lua",
-        run = "img/sprites/battle/characters/bronann_run.lua",
-        attack = "img/sprites/battle/characters/bronann_attack.lua",
-        dodge = "img/sprites/battle/characters/bronann_dodge.lua",
-        victory = "img/sprites/battle/characters/bronann_victory.lua",
-        hurt = "img/sprites/battle/characters/bronann_hurt.lua",
-        poor = "img/sprites/battle/characters/bronann_kneeling.lua",
-        dying = "img/sprites/battle/characters/bronann_kneeling.lua",
-        dead = "img/sprites/battle/characters/bronann_dead.lua",
-        revive = "img/sprites/battle/characters/bronann_kneeling.lua",
-        item = "img/sprites/battle/characters/bronann_idle.lua",
-        magic_prepare = "img/sprites/battle/characters/bronann_magic_prepare.lua",
-        magic_cast = "img/sprites/battle/characters/bronann_magic_cast.lua",
-        jump_forward = "img/sprites/battle/characters/bronann_jump_forward.lua",
-        jump_backward = "img/sprites/battle/characters/bronann_jump_backward.lua"
+        idle = "img/sprites/battle/characters/bronann/bronann_idle.lua",
+        run = "img/sprites/battle/characters/bronann/bronann_run.lua",
+        attack = "img/sprites/battle/characters/bronann/bronann_attack.lua",
+        dodge = "img/sprites/battle/characters/bronann/bronann_dodge.lua",
+        victory = "img/sprites/battle/characters/bronann/bronann_victory.lua",
+        hurt = "img/sprites/battle/characters/bronann/bronann_hurt.lua",
+        poor = "img/sprites/battle/characters/bronann/bronann_kneeling.lua",
+        dying = "img/sprites/battle/characters/bronann/bronann_kneeling.lua",
+        dead = "img/sprites/battle/characters/bronann/bronann_dead.lua",
+        revive = "img/sprites/battle/characters/bronann/bronann_kneeling.lua",
+        item = "img/sprites/battle/characters/bronann/bronann_idle.lua",
+        magic_prepare = "img/sprites/battle/characters/bronann/bronann_magic_prepare.lua",
+        magic_cast = "img/sprites/battle/characters/bronann/bronann_magic_cast.lua",
+        jump_forward = "img/sprites/battle/characters/bronann/bronann_jump_forward.lua",
+        jump_backward = "img/sprites/battle/characters/bronann/bronann_jump_backward.lua"
     },
 
     initial_stats = {

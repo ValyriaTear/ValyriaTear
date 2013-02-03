@@ -50,21 +50,21 @@ weapons[10001] = {
 
     battle_animations = {
         [BRONANN] = {
-            idle = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_idle.lua",
-            run = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_run.lua",
-            attack = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_attack.lua",
-            dodge = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_dodge.lua",
-            --victory = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_victory.lua",
-            hurt = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_hurt.lua",
-            poor = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_kneeling.lua",
-            dying = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_kneeling.lua",
-            dead = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_dead.lua",
-            revive = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_kneeling.lua",
-            item = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_idle.lua",
-            --magic_prepare = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_magic_prepare.lua",
-            --magic_cast = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_magic_cast.lua",
-            jump_forward = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_jump_forward.lua",
-            jump_backward = "img/sprites/battle/characters/weapons/bronann/wood_bronze/bronann_hurt.lua"
+            idle = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dodge.lua",
+            --victory = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            --magic_prepare = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.lua",
+            --magic_cast = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua"
         }
     }
 }
@@ -81,21 +81,21 @@ weapons[10011] = {
 
     battle_animations = {
         [BRONANN] = {
-            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
-            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
-            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
-            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
-            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
-            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
-            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
-            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
-            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
-            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
         }
     }
 }
@@ -112,21 +112,21 @@ weapons[10002] = {
 
     battle_animations = {
         [BRONANN] = {
-            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
-            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
-            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
-            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
-            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
-            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
-            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
-            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
-            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
-            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
         }
     }
 }
@@ -143,21 +143,21 @@ weapons[10003] = {
 
     battle_animations = {
         [BRONANN] = {
-            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
-            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
-            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
-            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
-            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
-            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
-            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
-            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
-            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
-            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
         }
     }
 }
@@ -189,21 +189,21 @@ weapons[10004] = {
 
     battle_animations = {
         [BRONANN] = {
-            idle = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            run = "img/sprites/battle/characters/weapons/bronann/steel/bronann_run.lua",
-            attack = "img/sprites/battle/characters/weapons/bronann/steel/bronann_attack.lua",
-            dodge = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dodge.lua",
-            victory = "img/sprites/battle/characters/weapons/bronann/steel/bronann_victory.lua",
-            hurt = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua",
-            poor = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dying = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            dead = "img/sprites/battle/characters/weapons/bronann/steel/bronann_dead.lua",
-            revive = "img/sprites/battle/characters/weapons/bronann/steel/bronann_kneeling.lua",
-            item = "img/sprites/battle/characters/weapons/bronann/steel/bronann_idle.lua",
-            magic_prepare = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_prepare.lua",
-            magic_cast = "img/sprites/battle/characters/weapons/bronann/steel/bronann_magic_cast.lua",
-            jump_forward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_jump_forward.lua",
-            jump_backward = "img/sprites/battle/characters/weapons/bronann/steel/bronann_hurt.lua"
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
         }
     }
 }
