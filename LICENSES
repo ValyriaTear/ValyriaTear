@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.02.03
+Last update: 2013.02.05
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -308,6 +308,12 @@ img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua        
 img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.png             GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua                  GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_run.png                  GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua           GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.png           GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua        GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.png        GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua              GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.png              GPLv2                    Allacrost + Bertram
 
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack.lua         GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack.png         GPLv2                    Allacrost + Bertram
@@ -325,6 +331,13 @@ img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua  
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.png       GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.lua            GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.png            GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_jump_backward.lua  GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.lua     GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.png     GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.lua  GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.png  GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.lua        GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.png        GPLv2                    Allacrost + Bertram
 
 img/sprites/battle/characters/kalya_attack.png                  GPLv2                    Bertram (For frames 1, 3 and 4. Frame 2 is from Allacrost)
 img/sprites/battle/characters/kalya_dead.png                    GPLv2                    Allacrost + Lilou
