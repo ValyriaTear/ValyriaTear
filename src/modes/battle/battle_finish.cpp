@@ -314,7 +314,7 @@ void FinishDefeatAssistant::_SetTooltipText()
 
 FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _state(state),
-    _number_characters(0),
+    _characters_number(0),
     _xp_earned(0),
     _drunes_dropped(0),
     _begin_counting(false),
@@ -407,11 +407,14 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
 
 void FinishVictoryAssistant::Initialize()
 {
-    // ----- (1): Prepare all character data
+    // Prepare all character data
     std::deque<BattleCharacter *>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-    _number_characters = all_characters.size();
+    // Reinit the number of living characters
+    uint32 alive_characters_number = 0;
 
-    for(uint32 i = 0; i < _number_characters; ++i) {
+    _characters_number = all_characters.size();
+
+    for(uint32 i = 0; i < _characters_number; ++i) {
         _characters.push_back(all_characters[i]->GetGlobalCharacter());
         _character_growths.push_back(CharacterGrowth(_characters[i]));
         _character_portraits[i] = all_characters[i]->GetPortrait();
@@ -420,16 +423,18 @@ void FinishVictoryAssistant::Initialize()
         if(!_character_portraits[i].GetFilename().empty())
             _character_portraits[i].SetDimensions(100.0f, 100.0f);
 
-        // Gray out portraits of deceased characters
-        if(!all_characters[i]->IsAlive()) {
-            _character_portraits[i].EnableGrayScale();
-        } else {
+        if(all_characters[i]->IsAlive()) {
             // Set up the victory animation for the living beings
             all_characters[i]->ChangeSpriteAnimation("victory");
+            // Adds a living player to later split xp with.
+            ++alive_characters_number;
+        } else {
+            // Gray out portraits of deceased characters
+            _character_portraits[i].EnableGrayScale();
         }
     }
 
-    // ----- (2): Collect the XP, drunes, and dropped objects for each defeated enemy
+    // Collect the XP, drunes, and dropped objects for each defeated enemy
     std::deque<BattleEnemy *>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
     GlobalEnemy *enemy;
     std::vector<GlobalObject *> objects;
@@ -459,8 +464,11 @@ void FinishVictoryAssistant::Initialize()
         }
     }
 
-    // ----- (3): Divide up the XP earnings by the number of players (both living and dead) and apply the penalty for any battle retries
-    _xp_earned /= _number_characters;
+    // Divide up the XP earnings by the number of players (only living ones)
+    if (alive_characters_number > 0)
+        _xp_earned /= alive_characters_number;
+    else
+        _xp_earned /= 4; // Should never happen.
 
     _CreateCharacterGUIObjects();
     _CreateObjectList();
@@ -497,7 +505,7 @@ void FinishVictoryAssistant::Draw()
 
     if(_state == FINISH_VICTORY_GROWTH) {
         _header_growth.Draw();
-        for(uint32 i = 0; i < _number_characters; i++) {
+        for(uint32 i = 0; i < _characters_number; ++i) {
             _character_window[i].Draw();
             _DrawGrowth(i);
         }
@@ -528,11 +536,11 @@ void FinishVictoryAssistant::_SetHeaderText()
 
 void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 {
-    // ----- (1): Create the character windows. The lowest one does not have its lower border removed
+    // Create the character windows. The lowest one does not have its lower border removed
     float next_ypos = CHAR_WINDOW_YPOS;
-    for(uint32 i = 0; i < _number_characters; i++) {
+    for(uint32 i = 0; i < _characters_number; ++i) {
         _number_character_windows_created++;
-        if((i + 1) >= _number_characters) {
+        if((i + 1) >= _characters_number) {
             _character_window[i].Create(CHAR_WINDOW_WIDTH, CHAR_WINDOW_HEIGHT);
         } else {
             _character_window[i].Create(CHAR_WINDOW_WIDTH, CHAR_WINDOW_HEIGHT, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
@@ -544,8 +552,8 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         next_ypos += CHAR_WINDOW_HEIGHT;
     }
 
-    // ----- (2): Construct GUI objects that will fill each character window
-    for(uint32 i = 0; i < _number_characters; i++) {
+    // Construct GUI objects that will fill each character window
+    for(uint32 i = 0; i < _characters_number; ++i) {
         _growth_list[i].SetOwner(&_character_window[i]);
         _growth_list[i].SetPosition(330.0f, 15.0f);
         _growth_list[i].SetDimensions(200.0f, 100.0f, 4, 4, 4, 4);
@@ -690,11 +698,10 @@ void FinishVictoryAssistant::_UpdateGrowth()
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
     // Tell whether the character can receive XP
     bool level_maxed_out = false;
-    for(uint32 i = 0; i < _number_characters; ++i) {
+    for(uint32 i = 0; i < _characters_number; ++i) {
         // Don't add experience points to dead characters
-        if(battle_characters[i]->IsAlive() == false) {
+        if(!battle_characters[i]->IsAlive())
             continue;
-        }
 
         // Don't permit to earn XP when the maximum level has been reached.
         if(battle_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())

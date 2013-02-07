@@ -196,7 +196,7 @@ private:
     FINISH_STATE &_state;
 
     //! \brief The total number of characters in the victorious party, living or dead
-    uint32 _number_characters;
+    uint32 _characters_number;
 
     //! \brief The amount of xp earned for the victory (per character)
     uint32 _xp_earned;
