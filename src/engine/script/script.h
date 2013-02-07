@@ -65,8 +65,7 @@ extern bool SCRIPT_DEBUG;
 enum SCRIPT_ACCESS_MODE {
     SCRIPT_CLOSED  = 0,
     SCRIPT_READ    = 1,
-    SCRIPT_WRITE   = 2,
-    SCRIPT_MODIFY  = 3
+    SCRIPT_WRITE   = 2
 };
 
 /** \brief A macro for a reference to a Lua object

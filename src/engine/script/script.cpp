@@ -102,7 +102,7 @@ void ScriptEngine::_AddOpenFile(ScriptDescriptor *sd)
     // NOTE: This function assumes that the file is not already open
     _open_files.insert(std::make_pair(sd->_filename, sd));
     // Add the lua_State to the list of opened lua states if it is not already present
-    if(sd->GetAccessMode() == SCRIPT_READ || sd->GetAccessMode() == SCRIPT_MODIFY) {
+    if(sd->GetAccessMode() == SCRIPT_READ) {
         ReadScriptDescriptor *rsd = dynamic_cast<ReadScriptDescriptor *>(sd);
         if(_open_threads.find(rsd->GetFilename()) == _open_threads.end())
             _open_threads[rsd->GetFilename()] = rsd->_lstack;
