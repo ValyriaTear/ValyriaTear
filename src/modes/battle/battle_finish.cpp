@@ -26,6 +26,7 @@
 #include "modes/battle/battle_utils.h"
 
 #include "modes/boot/boot.h"
+#include <boost/concept_check.hpp>
 
 using namespace hoa_utils;
 using namespace hoa_audio;
@@ -362,6 +363,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
 
     for(uint32 i = 0; i < 4; i++) {
         _growth_list[i].SetOwner(&(_character_window[i]));
+        _raw_xp_given[i] = false;
     }
 
     _object_header_text.SetOwner(&_spoils_window);
@@ -470,6 +472,14 @@ void FinishVictoryAssistant::Initialize()
     else
         _xp_earned /= 4; // Should never happen.
 
+    // Compute the raw fighting XP bonus for each characters (20% of character's XP)
+    for(uint32 i = 0; i < _characters.size() && i < 4; ++i) {
+        if (_characters[i]->HasEquipment())
+            _raw_xp_given[i] = false;
+        else
+            _raw_xp_given[i] = true;
+    }
+
     _CreateCharacterGUIObjects();
     _CreateObjectList();
     _SetHeaderText();
@@ -555,13 +565,13 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
     // Construct GUI objects that will fill each character window
     for(uint32 i = 0; i < _characters_number; ++i) {
         _growth_list[i].SetOwner(&_character_window[i]);
-        _growth_list[i].SetPosition(330.0f, 15.0f);
-        _growth_list[i].SetDimensions(200.0f, 100.0f, 4, 4, 4, 4);
+        _growth_list[i].SetPosition(350.0f, 15.0f);
+        _growth_list[i].SetDimensions(180.0f, 70.0f, 4, 4, 4, 4);
         _growth_list[i].SetTextStyle(TextStyle("text20", Color::white, VIDEO_TEXT_SHADOW_DARK));
         _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _growth_list[i].SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
         _growth_list[i].SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-        for(uint32 j = 0; j < 16; j ++) {
+        for(uint32 j = 0; j < 16; ++j) {
             _growth_list[i].AddOption();
         }
 
@@ -576,7 +586,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
         _xp_text[i].SetOwner(&_character_window[i]);
         _xp_text[i].SetPosition(130.0f, 30.0f);
-        _xp_text[i].SetDimensions(200.0f, 40.0f);
+        _xp_text[i].SetDimensions(200.0f, 50.0f);
         _xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
         _xp_text[i].SetDisplaySpeed(30);
@@ -649,7 +659,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
     // The amount of XP to add to each character this update cycle
     uint32 xp_to_add = 0;
 
-    // ---------- (1): Process confirm press inputs.
+    // Process confirm press inputs.
     if(InputManager->ConfirmPress()) {
         // Begin counting out XP earned
         if(!_begin_counting) {
@@ -670,7 +680,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
     if(!_begin_counting || (_xp_earned == 0))
         return;
 
-    // ---------- (2): Update the timer and determine how much XP to add if the time has been reached
+    // Update the timer and determine how much XP to add if the time has been reached
     // We don't want to modify the XP to add if a confirm event occurred in step (1)
     if(xp_to_add == 0) {
         time_counter += SystemManager->GetUpdateTime();
@@ -690,11 +700,10 @@ void FinishVictoryAssistant::_UpdateGrowth()
     }
 
     // If there is no XP to add this update cycle, there is nothing left for us to do
-    if(xp_to_add == 0) {
+    if(xp_to_add == 0)
         return;
-    }
 
-    // ---------- (3): Add the XP amount to the characters appropriately
+    // Add the XP amount to the characters appropriately
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
     // Tell whether the character can receive XP
     bool level_maxed_out = false;
@@ -707,7 +716,12 @@ void FinishVictoryAssistant::_UpdateGrowth()
         if(battle_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
             level_maxed_out = true;
 
-        if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_to_add) == true) {
+        uint32 xp_added = xp_to_add;
+        // Add the raw bonus when needed (+20% XP)
+        if (_raw_xp_given[i] == true)
+            xp_added += (xp_to_add / 5);
+
+        if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_added) == true) {
             _character_growths[i].UpdateGrowthData();
             // Only add text for the stats that experienced growth
             uint32 line = 0;
@@ -764,7 +778,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
             if(_character_growths[i].skills_learned.empty() == false) {
                 // TODO: this currently only shows the first skill learned. We need this interface to support showing multiple
                 // skills that were learned for each character
-                _skill_text[i].SetDisplayText(UTranslate("New Skill Learned:\n   ") + _character_growths[i].skills_learned[0]->GetName());
+                _skill_text[i].SetDisplayText(UTranslate("New Skill Learned:\n") + _character_growths[i].skills_learned[0]->GetName());
             }
         }
 
@@ -775,6 +789,8 @@ void FinishVictoryAssistant::_UpdateGrowth()
         } else {
             level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
             xp_text = UTranslate("XP left: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
+            if (_raw_xp_given[i])
+                xp_text += UTranslate(" (+20%)");
         }
 
         _level_text[i].SetDisplayText(level_text);

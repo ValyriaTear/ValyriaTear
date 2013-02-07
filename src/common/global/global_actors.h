@@ -367,6 +367,9 @@ public:
         return _attack_points;
     }
 
+    //! \brief Tells whether the actor has got equipment.
+    bool HasEquipment() const;
+
     GlobalAttackPoint *GetAttackPoint(uint32 index) const;
 
     const std::map<uint32, GlobalSkill *>& GetSkills() {

@@ -201,6 +201,11 @@ private:
     //! \brief The amount of xp earned for the victory (per character)
     uint32 _xp_earned;
 
+    //! \brief Tells to which character the raw fighting XP bonus is given to.
+    //! The Raw fighting XP bonus is given when a character has won
+    //! without wearing any equipment.
+    bool _raw_xp_given[4];
+
     //! \brief The amount of drunes dropped by the enemy party
     uint32 _drunes_dropped;
 

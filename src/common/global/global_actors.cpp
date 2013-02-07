@@ -361,7 +361,17 @@ GlobalArmor *GlobalActor::GetArmorEquipped(uint32 index) const
     return _armor_equipped[index];
 }
 
+bool GlobalActor::HasEquipment() const
+{
+    if (_weapon_equipped)
+        return true;
 
+    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
+        if (_armor_equipped.at(i) != NULL)
+            return true;
+    }
+    return false;
+}
 
 GlobalAttackPoint *GlobalActor::GetAttackPoint(uint32 index) const
 {
