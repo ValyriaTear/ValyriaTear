@@ -122,7 +122,7 @@ RootInterface::RootInterface()
     _sell_price_text.SetText(UTranslate("Sell prices"));
 
     _greeting_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
-    _greeting_text.SetPosition(40.0f, 100.0f);
+    _greeting_text.SetPosition(40.0f, 40.0f);
     _greeting_text.SetDimensions(600.0f, 50.0f);
     _greeting_text.SetTextStyle(TextStyle("text22"));
     _greeting_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
@@ -246,16 +246,16 @@ void RootInterface::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, 0);
 
     // Middle window: draw shop's name at the top
-    VideoManager->Move(512.0f, 580.0f);
+    VideoManager->Move(512.0f, 188.0f);
     _shop_name.Draw();
 
     // Middle window: below the shop name draw the pricing text and rating image
-    VideoManager->MoveRelative(-140.0f, -60.0f);
+    VideoManager->MoveRelative(-140.0f, 60.0f);
     _buy_price_text.Draw();
     VideoManager->MoveRelative(280.0f, 0.0f);
     _sell_price_text.Draw();
 
-    VideoManager->MoveRelative(-280.0f, -40.0f);
+    VideoManager->MoveRelative(-280.0f, 40.0f);
     _buy_price_rating.Draw();
     VideoManager->MoveRelative(280.0f, 0.0f);
     _sell_price_rating.Draw();

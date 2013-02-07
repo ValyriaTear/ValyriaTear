@@ -390,12 +390,12 @@ ShopObjectViewer::ShopObjectViewer() :
     _description_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _SetDescriptionText(); // Will set the position and dimensions of _description_text
 
-    // Position and dimensions for _hint_text are set by _SetHelpfulHintText()
+    // Position and dimensions for _hint_text are set by _SetHintText()
     _hint_text.SetTextStyle(TextStyle("text20"));
     _hint_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _hint_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _hint_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _hint_text.SetPosition(25.0f, 60.0f);
+    _hint_text.SetPosition(25.0f, 340.0f);
     _hint_text.SetDimensions(750.0f, 10.0f);
 
     // Position and dimensions for _count_text are set by _SetCountText()
@@ -403,7 +403,7 @@ ShopObjectViewer::ShopObjectViewer() :
     _count_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _count_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _count_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _count_text.SetPosition(550.0f, 390.0f);
+    _count_text.SetPosition(550.0f, 22.0f);
     _count_text.SetDimensions(325.0f, 10.0f);
 
     _field_use_header.SetStyle(TextStyle("text22"));
@@ -486,16 +486,16 @@ void ShopObjectViewer::Draw()
     // Set the initial draw cursor position to the top left corner of the proper window
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
-        VideoManager->Move(135.0f, 188.0f);
+        VideoManager->Move(135.0f, 580.0f);
     } else if(_view_mode == SHOP_VIEW_MODE_INFO) {
-        VideoManager->Move(135.0f, 568.0f);
+        VideoManager->Move(135.0f, 200.0f);
     } else { // An unknown/unsupported view mode is active, so draw nothing
         return;
     }
 
     // Object's name and icon are drawn in the same position for all objects
     _object_name.Draw();
-    VideoManager->MoveRelative(0.0f, -55.0f);
+    VideoManager->MoveRelative(0.0f, 55.0f);
     _selected_object->GetObject()->GetIconImage().Draw();
 
     switch(_object_type) {
@@ -772,16 +772,16 @@ void ShopObjectViewer::_SetDescriptionText()
         _description_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
         // For key items, draw position is a little higher than other cases to center it in the blank area
         if(_selected_object && _selected_object->GetObject()->IsKeyItem()) {
-            _description_text.SetPosition(102.0f, 76.0f);
+            _description_text.SetPosition(102.0f, 64.0f);
         } else {
-            _description_text.SetPosition(102.0f, 56.0f);
+            _description_text.SetPosition(102.0f, 84.0f);
         }
         _description_text.SetDimensions(675.0f, 50.0f);
     }
 
     else if(_view_mode == SHOP_VIEW_MODE_INFO) {
         _description_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-        _description_text.SetPosition(25.0f, 140.0f);
+        _description_text.SetPosition(25.0f, 260.0f);
         _description_text.SetDimensions(750.0f, 50.0f);
     }
 
@@ -903,7 +903,7 @@ void ShopObjectViewer::_DrawItem()
     float move_offset = 0.0f; // Used to save image widths in determining relative movement
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
 
-    VideoManager->MoveRelative(80.0f, 15.0f);
+    VideoManager->MoveRelative(80.0f, -15.0f);
     _field_use_header.Draw();
     move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
     VideoManager->MoveRelative(move_offset, 0.0f);
@@ -938,66 +938,66 @@ void ShopObjectViewer::_DrawItem()
 
 void ShopObjectViewer::_DrawEquipment()
 {
-    VideoManager->MoveRelative(80.0f, 15.0f);
+    VideoManager->MoveRelative(80.0f, -15.0f);
     _phys_header.Draw();
-    VideoManager->MoveRelative(0.0f, -30.0f);
+    VideoManager->MoveRelative(0.0f, 30.0f);
     _mag_header.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
-    VideoManager->MoveRelative(90.0f, 30.0f);
+    VideoManager->MoveRelative(90.0f, -30.0f);
     _phys_rating.Draw();
-    VideoManager->MoveRelative(0.0f, -30.0f);
+    VideoManager->MoveRelative(0.0f, 30.0f);
     _mag_rating.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
-    VideoManager->MoveRelative(20.0f, 15.0f);
+    VideoManager->MoveRelative(20.0f, -15.0f);
     _shard_slot_icon->Draw();
     VideoManager->MoveRelative(30.0f, 0.0f);
     _shard_slot_text.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
-    VideoManager->MoveRelative(40.0f, 55.0f);
+    VideoManager->MoveRelative(40.0f, -55.0f);
 
     // Draw up to two columns of 4 elemental effects icons
     uint32 element_size = _elemental_icons.size();
     for(uint32 i = 0; i < 4 && i < element_size; ++i) {
         _elemental_icons[i]->Draw();
-        VideoManager->MoveRelative(0.0f, -25.0f);
+        VideoManager->MoveRelative(0.0f, 25.0f);
     }
-    VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 4 ? 4 : element_size));
+    VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 4 ? 4 : element_size));
 
     // Draw a second column when there are many elemental effects.
     if(element_size > 4) {
         for(uint32 i = 4; i < 8 && i < element_size; ++i) {
             _elemental_icons[i]->Draw();
-            VideoManager->MoveRelative(0.0f, -25.0f);
+            VideoManager->MoveRelative(0.0f, 25.0f);
         }
 
-        VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 8 ? 8 : element_size - 4));
+        VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 8 ? 8 : element_size - 4));
     }
 
     // Draw up to two columns of 4 status effects icons
     element_size = _status_icons.size();
     for(uint32 i = 0; i < 4 && i < element_size; ++i) {
         _status_icons[i]->Draw();
-        VideoManager->MoveRelative(0.0f, -25.0f);
+        VideoManager->MoveRelative(0.0f, 25.0f);
     }
-    VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 4 ? 4 : element_size));
+    VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 4 ? 4 : element_size));
     if(element_size > 4) {
         for(uint32 i = 4; i < 8 && i < element_size; ++i) {
             _status_icons[i]->Draw();
-            VideoManager->MoveRelative(0.0f, -25.0f);
+            VideoManager->MoveRelative(0.0f, 25.0f);
         }
-        VideoManager->MoveRelative(40.0f, 25.0f * (element_size > 8 ? 8 : element_size - 4));
+        VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 8 ? 8 : element_size - 4));
     }
 
     VideoManager->SetDrawFlags(VIDEO_Y_TOP, 0);
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(60.0f, 15.0f);
+        VideoManager->MoveRelative(60.0f, -15.0f);
     } else { // (_view_mode == SHOP_VIEW_MODE_INFO)
         // In info view mode, draw the spites centered on the screen in a row below the other equipment data
-        VideoManager->Move(512.0f, 475.0f);
+        VideoManager->Move(512.0f, 293.0f);
         float x_offset = -20.0f * _character_sprites.size();
         VideoManager->MoveRelative(x_offset, 0.0f);
     }
@@ -1011,17 +1011,17 @@ void ShopObjectViewer::_DrawEquipment()
 
         // Case 1: Draw the equip icon below the character sprite
         if(_character_equipped[i]) {
-            VideoManager->MoveRelative(0.0f, -78.0f);
-            _equip_icon->Draw();
             VideoManager->MoveRelative(0.0f, 78.0f);
+            _equip_icon->Draw();
+            VideoManager->MoveRelative(0.0f, -78.0f);
         }
         // Case 2: Draw the phys/meta change text below the sprite
         else if(!_character_sprites[i]->IsGrayScale()) {
-            VideoManager->MoveRelative(0.0f, -65.0f);
+            VideoManager->MoveRelative(0.0f, 65.0f);
             _phys_change_text[i].Draw();
-            VideoManager->MoveRelative(0.0f, -20.0f);
+            VideoManager->MoveRelative(0.0f, 20.0f);
             _mag_change_text[i].Draw();
-            VideoManager->MoveRelative(0.0f, 85.0f);
+            VideoManager->MoveRelative(0.0f, -85.0f);
         }
         // Case 3: Nothing needs to be drawn below the sprite
         VideoManager->MoveRelative(40.0f, 0.0f);
@@ -1057,33 +1057,33 @@ ShopMode::ShopMode() :
     mode_type = MODE_MANAGER_SHOP_MODE;
     _current_instance = this;
 
-    // ---------- (1): Create the menu windows and set their properties
+    // Create the menu windows and set their properties
     _top_window.Create(800.0f, 96.0f, ~VIDEO_MENU_EDGE_BOTTOM);
-    _top_window.SetPosition(112.0f, 684.0f);
+    _top_window.SetPosition(112.0f, 84.0f);
     _top_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _top_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _top_window.Show();
 
     _middle_window.Create(800.0f, 400.0f, VIDEO_MENU_EDGE_ALL, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
-    _middle_window.SetPosition(112.0f, 604.0f);
+    _middle_window.SetPosition(112.0f, 164.0f);
     _middle_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _middle_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _middle_window.Show();
 
     _bottom_window.Create(800.0f, 140.0f, ~VIDEO_MENU_EDGE_TOP);
-    _bottom_window.SetPosition(112.0f, 224.0f);
+    _bottom_window.SetPosition(112.0f, 544.0f);
     _bottom_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _bottom_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _bottom_window.Show();
 
-    // (2) Create the list of shop actions
+    // Create the list of shop actions
     _action_options.SetOwner(&_top_window);
-    _action_options.SetPosition(80.0f, 90.0f);
+    _action_options.SetPosition(80.0f, 6.0f);
     _action_options.SetDimensions(640.0f, 30.0f, 3, 1, 3, 1);
     _action_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _action_options.SetTextStyle(TextStyle("title28"));
     _action_options.SetSelectMode(VIDEO_SELECT_SINGLE);
-    _action_options.SetCursorOffset(-55.0f, 30.0f);
+    _action_options.SetCursorOffset(-55.0f, -30.0f);
     _action_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
 
     std::vector<ustring> option_text;
@@ -1100,7 +1100,7 @@ ShopMode::ShopMode() :
 
     // (3) Create the financial table text
     _finance_table.SetOwner(&_top_window);
-    _finance_table.SetPosition(80.0f, 45.0f);
+    _finance_table.SetPosition(80.0f, 51.0f);
     _finance_table.SetDimensions(640.0f, 20.0f, 3, 1, 3, 1);
     _finance_table.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _finance_table.SetTextStyle(TextStyle("text22"));
@@ -1148,7 +1148,7 @@ ShopMode::~ShopMode()
 
 void ShopMode::Reset()
 {
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 
     _current_instance = this;
@@ -1345,26 +1345,27 @@ void ShopMode::Update()
 void ShopMode::Draw()
 {
     // Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
-    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetScreenWidth()), 0.0f, static_cast<float>(VideoManager->GetScreenHeight()));
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetScreenWidth()),
+                              static_cast<float>(VideoManager->GetScreenHeight()), 0.0f);
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     VideoManager->Move(0.0f, 0.0f);
     _screen_backdrop.Draw();
 
     // Draw all menu windows
     // Restore the standard shop coordinate system before drawing the shop windows
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
     _top_window.Draw();
     _bottom_window.Draw();
     _middle_window.Draw(); // Drawn last because the middle window has the middle upper and lower window borders attached
 
     // ---------- (3): Draw the contents of the top window
-    VideoManager->Move(130.0f, 605.0f);
+    VideoManager->Move(130.0f, 103.0f);
     ShopMode::CurrentInstance()->Media()->GetDrunesIcon()->Draw();
     VideoManager->MoveRelative(705.0f, 0.0f);
     ShopMode::CurrentInstance()->Media()->GetDrunesIcon()->Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-    VideoManager->Move(512.0f, 657.0f);
+    VideoManager->Move(512.0f, 111.0f);
     switch(_state) {
     case SHOP_STATE_ROOT:
         _action_options.Draw();
@@ -1383,8 +1384,8 @@ void ShopMode::Draw()
         break;
     }
 
-    // TODO: This method isn't working correctly (know idea why these coordinates work). When the call is fixed, the args should be updated
-    VideoManager->DrawLine(-315.0f, -20.0f, 315.0f, -20.0f, 1.0f, Color::white);
+    // Note that X and Y are centered at that moment, explaining the relative coordinates used below.
+    VideoManager->DrawLine(-315.0f, 20.0f, 315.0f, 20.0f, 1.0f, Color::white);
 
     _finance_table.Draw();
 

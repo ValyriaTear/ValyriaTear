@@ -71,7 +71,7 @@ BuyInterface::BuyInterface() :
     _selected_name.SetStyle(TextStyle("text22"));
 
     _selected_properties.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
-    _selected_properties.SetPosition(480.0f, 80.0f);
+    _selected_properties.SetPosition(480.0f, 70.0f);
     _selected_properties.SetDimensions(300.0f, 30.0f, 3, 1, 3, 1);
     _selected_properties.SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
     _selected_properties.SetTextStyle(TextStyle("text22"));
@@ -369,7 +369,7 @@ void BuyInterface::Draw()
 {
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(200.0f, 558.0f);
+        VideoManager->Move(200.0f, 210.0f);
         _category_header.Draw();
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
@@ -382,11 +382,11 @@ void BuyInterface::Draw()
         _list_displays[_current_category]->Draw();
     } else if(_view_mode == SHOP_VIEW_MODE_INFO) {
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(295.0f, 175.0f);
+        VideoManager->Move(295.0f, 593.0f);
         _name_header.Draw();
         _properties_header.Draw();
 
-        VideoManager->MoveRelative(0.0f, -50.0f);
+        VideoManager->MoveRelative(0.0f, 50.0f);
         _selected_icon.Draw();
         VideoManager->MoveRelative(30.0f, 0.0f);
         _selected_name.Draw();
@@ -411,7 +411,7 @@ void BuyInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _category_display.ChangeViewMode(_view_mode);
 
         _properties_header.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-        _properties_header.SetPosition(480.0f, 390.0f);
+        _properties_header.SetPosition(480.0f, 10.0f);
     } else if(new_mode == SHOP_VIEW_MODE_INFO) {
         _view_mode = new_mode;
         ShopMode::CurrentInstance()->ObjectViewer()->ChangeViewMode(_view_mode);
@@ -419,7 +419,7 @@ void BuyInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _category_display.SetSelectedObject(_selected_object);
 
         _properties_header.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
-        _properties_header.SetPosition(480.0f, 130.0f);
+        _properties_header.SetPosition(480.0f, 15.0f);
 
         _selected_name.SetText(_selected_object->GetObject()->GetName());
         _selected_icon = _selected_object->GetObject()->GetIconImage();
