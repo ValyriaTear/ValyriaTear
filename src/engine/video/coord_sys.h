@@ -50,6 +50,28 @@ public:
         else _vertical_direction = -1.0f;
     }
 
+    bool operator == (const CoordSys& other) {
+        if(_vertical_direction != other._vertical_direction)
+            return false;
+
+        if(_horizontal_direction != other._horizontal_direction)
+            return false;
+
+        if (_left != other._left)
+            return false;
+
+        if (_right != other._right)
+            return false;
+
+        if (_bottom != other._bottom)
+            return false;
+
+        if (_top != other._top)
+            return false;
+
+        return true;
+    }
+
     //! \brief Class member access functions
     //@{
     float GetVerticalDirection() const {
