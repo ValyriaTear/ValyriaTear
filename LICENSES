@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.02.05
+Last update: 2013.02.07
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -339,18 +339,41 @@ img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.lua        GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.png        GPLv2                    Allacrost + Bertram
 
-img/sprites/battle/characters/kalya_attack.png                  GPLv2                    Bertram (For frames 1, 3 and 4. Frame 2 is from Allacrost)
-img/sprites/battle/characters/kalya_dead.png                    GPLv2                    Allacrost + Lilou
 img/sprites/battle/characters/kalya_dodge.png                   GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/kalya_idle.png                    CC by SA 3.0             Bertram (Completely replaced former version)
-img/sprites/battle/characters/kalya_kneeling.png                GPLv2                    Allacrost + Lilou
-img/sprites/battle/characters/kalya_kneeling.lua                GPLv2                    Bertram
-img/sprites/battle/characters/kalya_run.png                     GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/kalya_attack.lua                  GPLv2                    Bertram
-img/sprites/battle/characters/kalya_dead.lua                    GPLv2                    Bertram
 img/sprites/battle/characters/kalya_dodge.lua                   GPLv2                    Bertram
-img/sprites/battle/characters/kalya_idle.lua                    GPLv2                    Bertram
-img/sprites/battle/characters/kalya_run.lua                     GPLv2                    Bertram
+img/sprites/battle/characters/kalya_victory.png                 GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya_victory.lua                 GPLv2                    Bertram
+
+img/sprites/battle/characters/kalya/kalya_attack.lua            GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_attack.png            GPLv2                    Bertram (For frames 1, 3 and 4. Frame 2 is from Allacrost)
+img/sprites/battle/characters/kalya/kalya_dead.lua              GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_dead.png              GPLv2                    Allacrost + Lilou
+img/sprites/battle/characters/kalya/kalya_hurt.lua              GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_hurt.png              GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/kalya_idle.lua              GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_idle.png              CC by SA 3.0             Bertram (Completely replaced former version)
+img/sprites/battle/characters/kalya/kalya_kneeling.lua          GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_kneeling.png          GPLv2                    Allacrost + Lilou
+img/sprites/battle/characters/kalya/kalya_magic_cast.lua        GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_magic_cast.png        GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/kalya_magic_prepare.lua     GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_magic_prepare.png     GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/kalya_run.lua               GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_run.png               GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua         GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.png         GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua           GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.png           GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.lua           GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.png           GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua           GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.png           GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua       GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.png       GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua     GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.png     GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua  GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.png  GPLv2                    Allacrost + Bertram
 
 img/sprites/battle/characters/sylve_dead.png                    GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/sylve_idle.png                    GPLv2                    Allacrost + Bertram

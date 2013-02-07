@@ -159,19 +159,19 @@ characters[KALYA] = {
     special_skill_category_icon = "img/icons/battle/invocation.png",
 
     battle_animations = {
-        idle = "img/sprites/battle/characters/kalya_idle.lua",
-        run = "img/sprites/battle/characters/kalya_run.lua",
-        attack = "img/sprites/battle/characters/kalya_attack.lua",
+        idle = "img/sprites/battle/characters/kalya/kalya_idle.lua",
+        run = "img/sprites/battle/characters/kalya/kalya_run.lua",
+        attack = "img/sprites/battle/characters/kalya/kalya_attack.lua",
         dodge = "img/sprites/battle/characters/kalya_dodge.lua",
         victory = "img/sprites/battle/characters/kalya_victory.lua",
-        hurt = "img/sprites/battle/characters/kalya_hurt.lua",
-        poor = "img/sprites/battle/characters/kalya_kneeling.lua",
-        dying = "img/sprites/battle/characters/kalya_kneeling.lua",
-        dead = "img/sprites/battle/characters/kalya_dead.lua",
-        revive = "img/sprites/battle/characters/kalya_kneeling.lua",
-        item = "img/sprites/battle/characters/kalya_idle.lua",
-        magic_prepare = "img/sprites/battle/characters/kalya_magic_prepare.lua",
-        magic_cast = "img/sprites/battle/characters/kalya_magic_cast.lua"
+        hurt = "img/sprites/battle/characters/kalya/kalya_hurt.lua",
+        poor = "img/sprites/battle/characters/kalya/kalya_kneeling.lua",
+        dying = "img/sprites/battle/characters/kalya/kalya_kneeling.lua",
+        dead = "img/sprites/battle/characters/kalya/kalya_dead.lua",
+        revive = "img/sprites/battle/characters/kalya/kalya_kneeling.lua",
+        item = "img/sprites/battle/characters/kalya/kalya_idle.lua",
+        magic_prepare = "img/sprites/battle/characters/kalya/kalya_magic_prepare.lua",
+        magic_cast = "img/sprites/battle/characters/kalya/kalya_magic_cast.lua"
     },
 
     initial_stats = {

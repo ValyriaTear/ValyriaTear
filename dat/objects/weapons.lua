@@ -223,5 +223,23 @@ weapons[11001] = {
     standard_price = 50,
     usable_by = KALYA,
     slots = 0,
-    key_item = true
+    key_item = true,
+
+    battle_animations = {
+        [KALYA] = {
+            idle = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            --run = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua", --TODO
+            attack = "img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua",
+            --dodge = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dodge.lua", -- TODO
+            --victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.lua", -- TODO
+            hurt = "img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.lua",
+            poor = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dying = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dead = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua",
+            revive = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            item = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua"
+        }
+    }
 }
