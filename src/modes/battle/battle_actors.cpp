@@ -915,9 +915,6 @@ BattleEnemy::~BattleEnemy()
 void BattleEnemy::ResetActor()
 {
     BattleActor::ResetActor();
-
-    std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
-    sprite_frames[3].DisableGrayScale();
 }
 
 void BattleEnemy::ChangeState(ACTOR_STATE new_state)

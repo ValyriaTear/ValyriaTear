@@ -134,8 +134,11 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     // Construct the weapon, magic, and special skill lists for the character
     std::vector<GlobalSkill *>* skill_list = NULL;
 
-    skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
-     for(uint32 i = 0; i < skill_list->size(); i++) {
+    if (_character->GetWeaponEquipped())
+        skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
+    else
+        skill_list = _character->GetGlobalCharacter()->GetBareHandsSkills();
+    for(uint32 i = 0; i < skill_list->size(); i++) {
         _weapon_skill_list.AddOption(ustring());
         if (!skill_list->at(i)->GetIconFilename().empty()) {
             _weapon_skill_list.AddOptionElementImage(i, skill_list->at(i)->GetIconFilename());
@@ -837,39 +840,47 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     // Determine which categories should be enabled or disabled
 
     // Weapon
-    if(_active_settings->GetWeaponSkillList()->GetNumberOptions() == 0) {
-        _category_options.SetOptionText(0, MakeUnicodeString("<img/icons/battle/default_weapon.png>\n\n") + UTranslate("Weapon"));
-        _category_options.EnableOption(0, false);
+    // Determine the weapon icon name
+    std::string icon_name = "<";
+
+    if (character->GetWeaponEquipped()) {
+        if (character->GetWeaponEquipped()->GetIconImage().GetFilename().empty())
+            icon_name += "img/icons/battle/default_weapon.png";
+        else
+            icon_name += character->GetWeaponEquipped()->GetIconImage().GetFilename();
     }
     else {
-        // Determine the weapon icon name
-        GlobalCharacter *gbl_char = character->GetGlobalCharacter();
+        icon_name += "img/icons/weapons/fist-human.png";
+    }
+    icon_name += ">\n\n";
 
-        std::string icon_name = "<";
+    // When a character has no basic weapon skill, we add the 'pass turn' skill instead.
+    if(character->GetWeaponEquipped()) {
+        _category_options.SetOptionText(CATEGORY_WEAPON, MakeUnicodeString(icon_name) +  UTranslate("Weapon"));
+        _category_text[CATEGORY_WEAPON].SetText(UTranslate("Weapon"));
+    }
+    else {
+        _category_options.SetOptionText(CATEGORY_WEAPON, MakeUnicodeString(icon_name) +  UTranslate("Bare-hand"));
+        _category_text[CATEGORY_WEAPON].SetText(UTranslate("Bare-hand"));
+    }
 
-        if (gbl_char) {
-            if (gbl_char->GetWeaponEquipped() && !gbl_char->GetWeaponEquipped()->GetIconImage().GetFilename().empty())
-                icon_name += gbl_char->GetWeaponEquipped()->GetIconImage().GetFilename();
-            else
-                icon_name += "img/icons/weapons/fist-human.png";
-        }
-        icon_name += ">\n\n";
-
-        _category_options.SetOptionText(0, MakeUnicodeString(icon_name) +  UTranslate("Weapon"));
-        _category_options.EnableOption(0, true);
+    // If there are no skills, disable it, and print a warning
+    if (_active_settings->GetWeaponSkillList()->GetNumberOptions() == 0) {
+        _category_options.EnableOption(CATEGORY_WEAPON, false);
+        PRINT_WARNING << "No weapon or bare hand skills, the battle might get stuck" << std::endl;
     }
 
     // Magic
     if(_active_settings->GetMagicSkillList()->GetNumberOptions() == 0)
-        _category_options.EnableOption(1, false);
+        _category_options.EnableOption(CATEGORY_MAGIC, false);
     else
-        _category_options.EnableOption(1, true);
+        _category_options.EnableOption(CATEGORY_MAGIC, true);
 
     // Special
     if(_active_settings->GetSpecialSkillList()->GetNumberOptions() == 0) {
-        _category_options.SetOptionText(2, MakeUnicodeString(""));
-        _category_options.EnableOption(2, false);
-        _category_text[2].SetText("");
+        _category_options.SetOptionText(CATEGORY_SPECIAL, MakeUnicodeString(""));
+        _category_options.EnableOption(CATEGORY_SPECIAL, false);
+        _category_text[CATEGORY_SPECIAL].SetText("");
     }
     else {
         // Set icon from character config.
@@ -878,17 +889,17 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
             special_icon = "img/icons/battle/default_special.png";
 
         hoa_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
-        _category_options.SetOptionText(2, MakeUnicodeString("<" + special_icon + ">\n\n") + special_name);
-        _category_options.EnableOption(2, true);
+        _category_options.SetOptionText(CATEGORY_SPECIAL, MakeUnicodeString("<" + special_icon + ">\n\n") + special_name);
+        _category_options.EnableOption(CATEGORY_SPECIAL, true);
         // Use special name from character config
-        _category_text[2].SetText(special_name);
+        _category_text[CATEGORY_SPECIAL].SetText(special_name);
     }
 
     // Items
     if(_item_command.GetNumberListOptions() == 0)
-        _category_options.EnableOption(3, false);
+        _category_options.EnableOption(CATEGORY_ITEM, false);
     else
-        _category_options.EnableOption(3, true);
+        _category_options.EnableOption(CATEGORY_ITEM, true);
 
     // Warn if there are no enabled options in the category list
     for(uint32 i = 0; i < _category_options.GetNumberOptions(); i++) {
@@ -896,7 +907,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
             return;
     }
 
-    IF_PRINT_WARNING(BATTLE_DEBUG) << "no options in category list were enabled" << std::endl;
+    PRINT_ERROR << "No category options were enabled. The game might be stuck." << std::endl;
 }
 
 
@@ -992,7 +1003,7 @@ void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
 
 bool CommandSupervisor::_IsSkillCategorySelected() const
 {
-    uint32 category = _category_options.GetSelection();
+    int32 category = _category_options.GetSelection();
     if((category == CATEGORY_WEAPON) || (category == CATEGORY_MAGIC) || (category == CATEGORY_SPECIAL))
         return true;
     else
@@ -1003,7 +1014,7 @@ bool CommandSupervisor::_IsSkillCategorySelected() const
 
 bool CommandSupervisor::_IsItemCategorySelected() const
 {
-    uint32 category = _category_options.GetSelection();
+    int32 category = _category_options.GetSelection();
     if(category == CATEGORY_ITEM)
         return true;
     else
@@ -1101,8 +1112,14 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
         if(_state == COMMAND_STATE_CATEGORY) {
             switch(_category_options.GetSelection()) {
             case CATEGORY_WEAPON:
-                _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetWeaponSkills(),
-                                          _active_settings->GetWeaponSkillList(), _active_settings->GetWeaponTargetList());
+                if (GetCommandCharacter()->GetWeaponEquipped()) {
+                    _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetWeaponSkills(),
+                                              _active_settings->GetWeaponSkillList(), _active_settings->GetWeaponTargetList());
+                }
+                else {
+                    _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetBareHandsSkills(),
+                                              _active_settings->GetWeaponSkillList(), _active_settings->GetWeaponTargetList());
+                }
                 break;
             case CATEGORY_MAGIC:
                 _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetMagicSkills(),
@@ -1163,7 +1180,7 @@ void CommandSupervisor::_UpdateCategory()
     }
 
     else if(InputManager->ConfirmPress()) {
-        if(_category_options.IsOptionEnabled(_category_options.GetSelection()) == true) {
+        if(_category_options.IsOptionEnabled(_category_options.GetSelection())) {
             _active_settings->SetLastCategory(_category_options.GetSelection());
             _ChangeState(COMMAND_STATE_ACTION);
             BattleMode::CurrentInstance()->GetMedia().confirm_sound.Play();
@@ -1238,7 +1255,7 @@ void CommandSupervisor::_UpdateAction()
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid category selection: " << _category_options.GetSelection() << std::endl;
         _state = COMMAND_STATE_CATEGORY;
-        _category_options.SetSelection(0);
+        _category_options.SetSelection(CATEGORY_WEAPON);
     }
 }
 

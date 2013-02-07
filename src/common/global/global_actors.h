@@ -816,6 +816,11 @@ public:
         return &_weapon_skills;
     }
 
+    //! \brief Gets the skills useable when the character hasn't got any weapon.
+    std::vector<GlobalSkill *>* GetBareHandsSkills() {
+        return &_bare_hands_skills;
+    }
+
     std::vector<GlobalSkill *>* GetMagicSkills() {
         return &_magic_skills;
     }
@@ -894,6 +899,8 @@ protected:
     std::vector<GlobalSkill *> _weapon_skills;
     std::vector<GlobalSkill *> _magic_skills;
     std::vector<GlobalSkill *> _special_skills;
+    // Skills available when no weapons
+    std::vector<GlobalSkill *> _bare_hands_skills;
     //@}
 
     //! \brief The script filename used to trigger a battle character animation when dealing with a particular skill.
@@ -940,6 +947,9 @@ protected:
 
     //! \brief Tells whether a character is in the visible game formation
     bool _enabled;
+
+    //! \brief Add a skill available only when the character has got no weapons.
+    void _AddBareHandsSkill(uint32 skill_id);
 
 private:
     /** \brief The remaining experience points required to reach the next experience level

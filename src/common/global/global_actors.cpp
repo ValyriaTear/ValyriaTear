@@ -801,6 +801,14 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     _special_category_name = MakeUnicodeString(char_script.ReadString("special_skill_category_name"));
     _special_category_icon = char_script.ReadString("special_skill_category_icon");
 
+    // Load the bare hand skills available
+    if (char_script.DoesTableExist("bare_hands_skills")) {
+        std::vector<uint32> bare_skills;
+        char_script.ReadUIntVector("bare_hands_skills", bare_skills);
+        for (uint32 i = 0; i < bare_skills.size(); ++i)
+            _AddBareHandsSkill(bare_skills[i]);
+    }
+
     // Read each battle_animations table keys and store the corresponding animation in memory.
     std::vector<std::string> keys_vect;
     char_script.ReadTableKeys("battle_animations", keys_vect);
@@ -1030,6 +1038,30 @@ void GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
     }
 
     _new_skills_learned.push_back(skill->second);
+}
+
+void GlobalCharacter::_AddBareHandsSkill(uint32 skill_id)
+{
+    if(skill_id == 0) {
+        PRINT_WARNING << "function received an invalid skill_id argument: " << skill_id << std::endl;
+        return;
+    }
+    if(_skills.find(skill_id) != _skills.end()) {
+        PRINT_WARNING << "failed to add skill because the character already knew this skill: "
+            << skill_id << std::endl;
+        return;
+    }
+
+    GlobalSkill *skill = new GlobalSkill(skill_id);
+    if(!skill->IsValid()) {
+        PRINT_WARNING << "the skill to add failed to load: " << skill_id << std::endl;
+        delete skill;
+        return;
+    }
+
+    // Insert the pointer to the new skill inside of the global skills map and the skill type vector
+    _skills.insert(std::make_pair(skill_id, skill));
+    _bare_hands_skills.push_back(skill);
 }
 
 hoa_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)

@@ -227,6 +227,60 @@ skills[6] = {
 	end
 }
 
+skills[999] = {
+   name = hoa_system.Translate("Throw stone"),
+   description = hoa_system.Translate("Kalya's attack when she's got no weapon."),
+   sp_required = 0,
+   warmup_time = 1000,
+   cooldown_time = 200,
+   action_name = "attack",
+   target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+   BattleExecute = function(user, target)
+       target_actor = target:GetActor();
+
+       if (hoa_battle.CalculateStandardEvasion(target) == false) then
+           -- Attack: Strength / 3
+           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+       else
+           target_actor:RegisterMiss(true);
+       end
+        AudioManager:PlaySound("snd/missed_target.wav");
+   end,
+
+   animation_scripts = {
+       -- TODO: Use a custom script used to make her throw a stone.
+       [KALYA] = "dat/skills/battle_animations/kalya_attack.lua"
+   }
+}
+
+skills[1000] = {
+   name = hoa_system.Translate("Punch"),
+   description = hoa_system.Translate("A simple punch. Better than nothing..."),
+   sp_required = 0,
+   warmup_time = 1000,
+   cooldown_time = 200,
+   action_name = "attack",
+   target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+   BattleExecute = function(user, target)
+       target_actor = target:GetActor();
+
+       if (hoa_battle.CalculateStandardEvasion(target) == false) then
+           -- Attack: Strength / 3
+           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+       else
+           target_actor:RegisterMiss(true);
+       end
+        AudioManager:PlaySound("snd/missed_target.wav");
+   end,
+
+   animation_scripts = {
+       [BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
+       [THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+   }
+}
+
 --------------------------------------------------------------------------------
 -- IDs 1,001 - 10,000 are reserved for enemy attack skills
 --------------------------------------------------------------------------------
