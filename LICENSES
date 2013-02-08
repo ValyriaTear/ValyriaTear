@@ -359,6 +359,7 @@ img/sprites/battle/characters/kalya/kalya_run.lua               GPLv2           
 img/sprites/battle/characters/kalya/kalya_run.png               GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya/kalya_victory.lua           GPLv2                    Bertram
 img/sprites/battle/characters/kalya/kalya_victory.png           GPLv2                    Allacrost + Bertram
+
 img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua         GPLv2                    Bertram
 img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.png         GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua           GPLv2                    Bertram
@@ -375,6 +376,8 @@ img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua     GPLv2
 img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.png     GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua  GPLv2                    Bertram
 img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.png  GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua            GPLv2                    Bertram
+img/sprites/battle/characters/kalya/weapons/steel/kalya_run.png            GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.lua        GPLv2                    Bertram
 img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.png        GPLv2                    Allacrost + Bertram
 
