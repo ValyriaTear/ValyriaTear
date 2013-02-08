@@ -704,6 +704,15 @@ void BindModeCode()
             .def("GetSpriteHeight", &BattleActor::GetSpriteHeight)
             .def("SetShowAmmo", &BattleActor::SetShowAmmo)
             .def("SetAmmoPosition", &BattleActor::SetAmmoPosition)
+            .def("GetAmmo", &BattleActor::GetAmmo)
+        ];
+
+        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")
+        [
+            luabind::class_<BattleAmmo, BattleActor>("BattleAmmo")
+
+            .def("LoadAmmoAnimatedImage", &BattleAmmo::LoadAmmoAnimatedImage)
+            .def("SetFlyingHeight", &BattleAmmo::SetFlyingHeight)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")

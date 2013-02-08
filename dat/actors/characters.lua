@@ -171,7 +171,8 @@ characters[KALYA] = {
         revive = "img/sprites/battle/characters/kalya/kalya_kneeling.lua",
         item = "img/sprites/battle/characters/kalya/kalya_idle.lua",
         magic_prepare = "img/sprites/battle/characters/kalya/kalya_magic_prepare.lua",
-        magic_cast = "img/sprites/battle/characters/kalya/kalya_magic_cast.lua"
+        magic_cast = "img/sprites/battle/characters/kalya/kalya_magic_cast.lua",
+        throw_stone = "img/sprites/battle/characters/kalya/kalya_throw_stone.lua" -- bare hand attack
     },
 
     initial_stats = {

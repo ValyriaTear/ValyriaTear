@@ -95,6 +95,7 @@ dat/skills/special.lua                                          GPLv2 or later  
 dat/skills/battle_animations/bronann_attack.lua                 GPLv2 or later           Bertram
 dat/skills/battle_animations/bronann_punch.lua                  GPLv2 or later           Bertram
 dat/skills/battle_animations/kalya_attack.lua                   GPLv2 or later           Bertram
+dat/skills/battle_animations/kalya_throw_stone.lua              GPLv2 or later           Bertram
 dat/skills/battle_animations/thanis_attack.lua                  GPLv2 or later           Bertram
 
 dat/tilesets/building_interior_objects_01.lua                   GPLv2 or later           Allacrost + Bertram
@@ -270,6 +271,7 @@ img/portraits/bronann_full.png                                  GPLv2           
 
 img/sprites/battle/ammo/wood_arrow.lua                          GPLv2 or later           Bertram
 img/sprites/battle/ammo/wood_arrow.png                          CC by 3.0                Ravenmore + Bertram modifications (http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20)
+img/sprites/battle/ammo/rock_ammo.lua                           GPLv2 or later           Bertram
 
 img/sprites/battle/characters/bronann/bronann_attack.png        GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/bronann_dead.png          GPLv2                    Allacrost + Lilou
@@ -358,6 +360,8 @@ img/sprites/battle/characters/kalya/kalya_magic_prepare.lua     GPLv2           
 img/sprites/battle/characters/kalya/kalya_magic_prepare.png     GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya/kalya_run.lua               GPLv2                    Bertram
 img/sprites/battle/characters/kalya/kalya_run.png               GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/kalya/kalya_throw_stone.lua       GPLv2                    Bertram
+img/sprites/battle/characters/kalya/kalya_throw_stone.png       GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/kalya/kalya_victory.lua           GPLv2                    Bertram
 img/sprites/battle/characters/kalya/kalya_victory.png           GPLv2                    Allacrost + Bertram
 

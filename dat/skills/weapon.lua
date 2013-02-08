@@ -233,7 +233,7 @@ skills[999] = {
    sp_required = 0,
    warmup_time = 1000,
    cooldown_time = 200,
-   action_name = "attack",
+   action_name = "throw_stone",
    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
 
    BattleExecute = function(user, target)
@@ -242,7 +242,7 @@ skills[999] = {
        if (hoa_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
-           AudioManager:PlaySound("snd/throw.wav"); -- TODO place this at the beginning of the throw stone script
+           AudioManager:PlaySound("snd/punch.wav");
        else
            target_actor:RegisterMiss(true);
            AudioManager:PlaySound("snd/missed_target.wav");
@@ -251,7 +251,7 @@ skills[999] = {
 
    animation_scripts = {
        -- TODO: Use a custom script used to make her throw a stone.
-       [KALYA] = "dat/skills/battle_animations/kalya_attack.lua"
+       [KALYA] = "dat/skills/battle_animations/kalya_throw_stone.lua"
    }
 }
 
