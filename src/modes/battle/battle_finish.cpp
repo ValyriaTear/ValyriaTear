@@ -363,7 +363,8 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
 
     for(uint32 i = 0; i < 4; i++) {
         _growth_list[i].SetOwner(&(_character_window[i]));
-        _raw_xp_given[i] = false;
+        _raw_xp_given[i] = true;
+        _raw_xp_won[i] = false;
     }
 
     _object_header_text.SetOwner(&_spoils_window);
@@ -474,10 +475,14 @@ void FinishVictoryAssistant::Initialize()
 
     // Compute the raw fighting XP bonus for each characters (20% of character's XP)
     for(uint32 i = 0; i < _characters.size() && i < 4; ++i) {
-        if (_characters[i]->HasEquipment())
-            _raw_xp_given[i] = false;
-        else
+        if (_characters[i]->HasEquipment()) {
+            _raw_xp_won[i] = false;
             _raw_xp_given[i] = true;
+        }
+        else {
+            _raw_xp_won[i] = true;
+            _raw_xp_given[i] = false;
+        }
     }
 
     _CreateCharacterGUIObjects();
@@ -717,9 +722,19 @@ void FinishVictoryAssistant::_UpdateGrowth()
             level_maxed_out = true;
 
         uint32 xp_added = xp_to_add;
-        // Add the raw bonus when needed (+20% XP)
-        if (_raw_xp_given[i] == true)
-            xp_added += (xp_to_add / 5);
+        // Add the raw bonus when not given yet (+20% XP)
+        if (_raw_xp_given[i] == false) {
+            if (_xp_earned > 100) {
+                xp_added += (xp_to_add / 5);
+            }
+            else {
+                // When giving one xp point at a time,
+                // we give all the rest of the raw bonus and set it as done.
+                xp_added += _xp_earned / 5;
+                _raw_xp_given[i] = true;
+            }
+
+        }
 
         if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_added) == true) {
             _character_growths[i].UpdateGrowthData();
@@ -789,7 +804,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
         } else {
             level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
             xp_text = UTranslate("XP left: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
-            if (_raw_xp_given[i])
+            if (_raw_xp_won[i])
                 xp_text += UTranslate(" (+20%)");
         }
 
