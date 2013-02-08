@@ -242,10 +242,11 @@ skills[999] = {
        if (hoa_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+           AudioManager:PlaySound("snd/throw.wav"); -- TODO place this at the beginning of the throw stone script
        else
            target_actor:RegisterMiss(true);
+           AudioManager:PlaySound("snd/missed_target.wav");
        end
-        AudioManager:PlaySound("snd/missed_target.wav");
    end,
 
    animation_scripts = {
@@ -269,14 +270,15 @@ skills[1000] = {
        if (hoa_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+           AudioManager:PlaySound("snd/punch.wav");
        else
            target_actor:RegisterMiss(true);
+           AudioManager:PlaySound("snd/missed_target.wav");
        end
-        AudioManager:PlaySound("snd/missed_target.wav");
    end,
 
    animation_scripts = {
-       [BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
+       [BRONANN] = "dat/skills/battle_animations/bronann_punch.lua",
        [THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
    }
 }

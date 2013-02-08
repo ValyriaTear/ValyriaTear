@@ -93,6 +93,7 @@ dat/skills/magic.lua                                            GPLv2 or later  
 dat/skills/special.lua                                          GPLv2 or later           Bertram
 
 dat/skills/battle_animations/bronann_attack.lua                 GPLv2 or later           Bertram
+dat/skills/battle_animations/bronann_punch.lua                  GPLv2 or later           Bertram
 dat/skills/battle_animations/kalya_attack.lua                   GPLv2 or later           Bertram
 dat/skills/battle_animations/thanis_attack.lua                  GPLv2 or later           Bertram
 
@@ -614,9 +615,11 @@ snd/levelup.wav                                                 CC0             
 snd/lightning.wav                                               CC0                      (Bertram)
 snd/meow.wav                                                    CC by 3.0                TheGertz (FreeSound) - hhttp://www.freesound.org/people/TheGertz/sounds/131201/
 snd/new_game.wav                                                GPLv2                    (Same sound than the opening_sword_fall.wav) file from Allacrost.
+snd/punch.wav                                                   CC0                      Independent.nu (OGA) - http://opengameart.org/content/37-hitspunches
 snd/save_point_activated_dokashiteru_oga.wav                    CC by 3.0, GPLv2, GPLv3  DoKashiteru (OGA)
 snd/save_successful_nick_bowler_oga.wav                         CC by 3.0                Nick Bowler, added by draconx (OGA)
 snd/thunder.wav                                                 CC0                      (Bertram)
+snd/throw.wav                                                   CC by 3.0                (c) copyright Blender Foundation | apricot.blender.org (OGA) - http://opengameart.org/content/sfxthrow
 snd/falling_tree.ogg                                            CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/tree-falling-yo-frankie
 
 
