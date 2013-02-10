@@ -395,6 +395,13 @@ public:
         return _custom_animation_on;
     }
 
+    /** \brief Disable a posible running custom animation.
+    *** Useful when setting an inifinite running animation, for instance.
+    **/
+    void DisableCustomAnimation() {
+        _custom_animation_on = false;
+    }
+
     void SetSpriteName(const std::string &map_sprite_name) {
         _sprite_name = map_sprite_name;
     }

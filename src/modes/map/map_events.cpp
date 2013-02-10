@@ -43,6 +43,11 @@ namespace private_map
 
 void SpriteEvent::_Start()
 {
+    if (!_sprite) {
+        PRINT_WARNING << "No valid sprite given in event: " << GetEventID() << std::endl;
+        return;
+    }
+
     EventSupervisor *event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
     // Terminate the previous event whenever it is another sprite event.
     if(dynamic_cast<SpriteEvent *>(_sprite->control_event) && event_supervisor) {
@@ -811,6 +816,10 @@ bool AnimateSpriteEvent::_Update()
 
 void AnimateSpriteEvent::Terminate()
 {
+    // Disable a possible still running custom animation.
+    // Useful when calling TerminateAllEvents() on a sprite.
+    if (_map_sprite)
+        _map_sprite->DisableCustomAnimation();
     _map_sprite = 0;
     _animation_name.clear();
     _animation_time = 0;

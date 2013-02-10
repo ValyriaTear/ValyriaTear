@@ -773,6 +773,8 @@ void MapSprite::SetCustomAnimation(const std::string &animation_name, uint32 tim
     // Same if the key isn't found
     std::map<std::string, AnimatedImage>::iterator it = _custom_animations.find(animation_name);
     if(it == _custom_animations.end()) {
+        PRINT_WARNING << "Couldn't find any custom animation '" << animation_name
+            << "' for sprite: " << GetSpriteName() << std::endl;
         _custom_animation_on = false;
         return;
     }
@@ -785,6 +787,8 @@ void MapSprite::SetCustomAnimation(const std::string &animation_name, uint32 tim
     // Still check the animation length
     if(time == 0) {
         _custom_animation_on = false;
+        PRINT_WARNING << "Zero-length custom animation '" << animation_name
+            << "' for sprite: " << GetSpriteName() << std::endl;
         return;
     }
 
