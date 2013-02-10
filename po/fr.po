@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-08 10:37+0100\n"
-"PO-Revision-Date: 2013-02-08 11:39+0100\n"
+"PO-Revision-Date: 2013-02-10 21:23+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -2182,7 +2182,7 @@ msgstr "Orlinn ! Arrête-toi !"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:813
 msgid "What's happening!?!"
-msgstr "Que ce passe-t-il !?!"
+msgstr "Que se passe-t-il !?!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:852
 msgid "Gosh!! By all heavens, what is this?"
@@ -2219,7 +2219,7 @@ msgstr "Nous t'attendons tous impatiemment."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:875
 msgid "Now, come. And make one with our holy hope."
-msgstr "Maintenant, viens. Et ne fais qu'un avec notre espoir sacré."
+msgstr "Maintenant, viens. Et ne fait qu'un avec notre espoir sacré."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:883
 msgid "What does all of this mean?"
