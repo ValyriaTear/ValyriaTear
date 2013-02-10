@@ -720,6 +720,7 @@ end
 -- Special event references which destinations must be updated just before being called.
 local move_next_to_hero_event = {}
 local move_back_to_hero_event = {}
+local orlinn_move_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -769,11 +770,17 @@ function _CreateEvents()
 
     event = hoa_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya_sprite, orlinn);
     EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, hero);
+    EventManager:RegisterEvent(event);
     event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks east", kalya_sprite, hoa_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
     event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya_sprite, hoa_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
     event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, hoa_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya_sprite, hoa_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
     event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks east", hero, hoa_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
@@ -783,6 +790,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks south", hero, hoa_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Orlinn looks east", orlinn, hoa_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Orlinn looks west", orlinn, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, hoa_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+
 
     dialogue = hoa_map.SpriteDialogue();
     text = hoa_system.Translate("Orlinn!!");
@@ -912,25 +926,187 @@ function _CreateEvents()
     event = hoa_map.ScriptedSpriteEvent("kalya:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.AnimateSpriteEvent("Bronann is hurt", hero, "hurt", 1500);
-    event:AddEventLinkAtEnd("to be continued");
+    event = hoa_map.AnimateSpriteEvent("Bronann is hurt", hero, "hurt", 1200);
+    event:AddEventLinkAtEnd("Bronann is sleeping");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.AnimateSpriteEvent("Bronann is sleeping", hero, "sleeping", 999999);
     EventManager:RegisterEvent(event);
 
     event = hoa_map.ScriptedEvent("white flash", "white_flash", "white_flash_update");
+    event:AddEventLinkAtEnd("sixth dialogue part");
     EventManager:RegisterEvent(event);
 
-    -- Current end of game for first release (!!)
-    event = hoa_map.ScriptedEvent("to be continued", "to_be_continued", "");
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Bronann!");
+    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("sixth dialogue part", dialogue);
+    event:AddEventLinkAtEnd("Kalya runs to Bronann");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Kalya runs to Bronann", kalya_sprite, 39, 47, true);
+    event:AddEventLinkAtEnd("Kalya looks east");
+    event:AddEventLinkAtEnd("Kalya kneels", 300);
+    event:AddEventLinkAtEnd("seventh dialogue part", 600);
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.AnimateSpriteEvent("Kalya kneels", kalya_sprite, "kneeling", 999999);
+    EventManager:RegisterEvent(event);
+
+    -- Simply stop the custom animation
+    event = hoa_map.ScriptedSpriteEvent("Kalya gets up", kalya_sprite, "Terminate_all_events", "");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Kalya and orlinn are surprised", "orlinn_kalya_exclamation", "");
+    event:AddEventLinkAtEnd("Kalya looks east");
+    event:AddEventLinkAtEnd("Bronann kneels");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.AnimateSpriteEvent("Bronann kneels", hero, "kneeling", 999999);
+    EventManager:RegisterEvent(event);
+
+    -- Simply stop the custom animation
+    event = hoa_map.ScriptedSpriteEvent("Bronann gets up", hero, "Terminate_all_events", "");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Fade out crystal music", "fade_out_music", "");
+    EventManager:RegisterEvent(event);
+    
+    event = hoa_map.ScriptedEvent("Play funny music", "play_funny_music", "");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Bronann! Are you all right? Answer me!!");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks west", "exclamation");
+    text = hoa_system.Translate("Bronann!");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks east", "exclamation");
+    text = hoa_system.Translate("Woah, what happened here?");
+    dialogue:AddLineEmote(text, orlinn, "interrogation");
+    text = hoa_system.Translate("Bronann!");
+    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    text = hoa_system.Translate("Sis! What's the matter? What happened?");
+    dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "Kalya gets up", "interrogation");
+    text = hoa_system.Translate("What happened?? ... Orlinn ... What have you done? ...");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "", "sweat drop");
+    text = hoa_system.Translate("... My head ...");
+    dialogue:AddLineEvent(text, hero, "", "Kalya and orlinn are surprised");
+    text = hoa_system.Translate("Bronann! Are you alright?");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks east", "", "exclamation");
+    text = hoa_system.Translate("I... I guess so. ...");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("... The crystal! Orlinn! ...");
+    dialogue:AddLineEventEmote(text, hero, "Bronann gets up", "", "exclamation");
+    text = hoa_system.Translate("Don't worry, I'm fine. Say, what crystal?");
+    dialogue:AddLine(text, orlinn);
+    text = hoa_system.Translate("... You won't be fine for long after I'm done with you!!");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "Fade out crystal music", "thinking dots");
+    text = hoa_system.Translate("... Huh? Wait, I didn't do anything this time!!");
+    dialogue:AddLineEmote(text, orlinn, "sweat drop");
+    text = hoa_system.Translate("... Oh? You didn't??");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Play funny music", "", "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("seventh dialogue part", dialogue);
+    event:AddEventLinkAtEnd("Kalya runs to point 2");
+    event:AddEventLinkAtEnd("Orlinn runs to point 3");
+    event:AddEventLinkAtEnd("Bronann sighs and think", 2000);
+    EventManager:RegisterEvent(event);
+
+    -- Kalya runs after Orlinn's loop
+    -- 35, 44 -- 42, 52 -- 46, 43
+    event = hoa_map.PathMoveSpriteEvent("Kalya runs to point 1", kalya_sprite, 35, 44, true);
+    event:AddEventLinkAtEnd("Kalya runs to point 2");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Kalya runs to point 2", kalya_sprite, 42, 52, true);
+    event:AddEventLinkAtEnd("Kalya runs to point 3");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Kalya runs to point 3", kalya_sprite, 46, 43, true);
+    event:AddEventLinkAtEnd("Kalya runs to point 1");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 1", orlinn, 35, 44, true);
+    event:AddEventLinkAtEnd("Orlinn runs to point 2");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 2", orlinn, 42, 52, true);
+    event:AddEventLinkAtEnd("Orlinn runs to point 3");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 3", orlinn, 46, 43, true);
+    event:AddEventLinkAtEnd("Orlinn runs to point 1");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Kalya stops running", kalya_sprite, "Terminate_all_events", "");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.AnimateSpriteEvent("Bronann sighs", hero, "hero_stance", 3000);
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Kalya comes back next to Bronann", kalya_sprite, 44, 49, true);
+    event:AddEventLinkAtEnd("Kalya looks at Bronann");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Sigh... I should have stayed home today...");
+    dialogue:AddLineEvent(text, hero, "Bronann sighs", "");
+    text = hoa_system.Translate("Yet, I wonder... What happened to the crystal?");
+    dialogue:AddLineEvent(text, hero, "Bronann sighs", "");
+    text = hoa_system.Translate("... And why is my head hurting so much...");
+    dialogue:AddLineEventEmote(text, hero, "", "Kalya stops running", "sweat drop");
+    text = hoa_system.Translate("I also wondered about it. My only conclusion is that you made it disappear...");
+    dialogue:AddLineEvent(text, kalya_sprite, "Kalya comes back next to Bronann", "");
+    text = hoa_system.Translate("Possible, still I really feel dizzy...");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("You're fine, that's what is counting... I'm relieved Orlinn is fine, too. And Speaking of that: Orlinn! Stop running and come here, right away!");
+    dialogue:AddLine(text, kalya_sprite);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Bronann sighs and think", dialogue);
+    event:AddEventLinkAtEnd("Orlinn stops running");
+    event:AddEventLinkAtEnd("Last dialogue");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Orlinn stops running", orlinn, "Terminate_all_events", "");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Orlinn comes back next to Bronann", orlinn, 40, 49, true);
+    event:AddEventLinkAtEnd("Orlinn looks at Bronann");
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Owww... Ok.");
+    dialogue:AddLineEventEmote(text, orlinn, "", "Orlinn comes back next to Bronann", "sweat drop");
+    text = hoa_system.Translate("Now, Orlinn. You'd better answer precisely!");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Why on earth did you go into the forest alone, and how did you just get there so quickly?");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("I sincerely don't know... I was like... dreaming...");
+    dialogue:AddLineEmote(text, orlinn, "interrogation");
+    text = hoa_system.Translate("I merely remember a voice in my head, telling me to come...");
+    dialogue:AddLineEmote(text, orlinn, "thinking dots");
+    text = hoa_system.Translate("You know you won't get away with this, when you'll see Herth...");
+    dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
+    text = hoa_system.Translate("Yiek! I swear it's the truth!");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    text = hoa_system.Translate("We'll see... Anyway, we'd better get back to the village and see him as soon as possible.");
+    dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Last dialogue", dialogue);
+    event:AddEventLinkAtEnd("kalya goes back to party");
+    event:AddEventLinkAtEnd("orlinn goes back to party");
     EventManager:RegisterEvent(event);
 
     -- for later
-    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("2nd hero goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of crystal event");
-	EventManager:RegisterEvent(move_back_to_hero_event);
+    EventManager:RegisterEvent(move_back_to_hero_event);
+
+    orlinn_move_to_hero_event = hoa_map.PathMoveSpriteEvent("orlinn goes back to party", orlinn, hero, false);
+    EventManager:RegisterEvent(orlinn_move_to_hero_event);
 
     event = hoa_map.ScriptedEvent("end of crystal event", "end_of_crystal_event", "");
-    event:AddEventLinkAtEnd("Map:Popstate()");
-	EventManager:RegisterEvent(event);
+    --event:AddEventLinkAtEnd("Map:Popstate()");
+    event:AddEventLinkAtEnd("to be continued");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("to be continued", "to_be_continued", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -1066,17 +1242,16 @@ map_functions = {
         crystal_appearance_time = crystal_appearance_time + SystemManager:GetUpdateTime();
 
         if (crystal_visible == false and crystal_appearance_time >= 10000) then
-            -- Set the  crystal to visible while the white flash
-            crystal:SetVisible(true);
-            crystal_effect:Start();
-            -- Add a light
-          	Map:AddLight("img/misc/lights/sun_flare_light_secondary.lua",
+            -- Add a light, TODO: Turn this into a scripted light object and remove it when the crystal appears
+            Map:AddLight("img/misc/lights/sun_flare_light_secondary.lua",
                     "img/misc/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     hoa_video.Color(0.8, 0.8, 1.0, 0.3),
                     hoa_video.Color(0.8, 0.8, 0.85, 0.2),
                     hoa_map.MapMode.CONTEXT_01);
-
+            -- Set the  crystal to visible while the white flash
+            crystal:SetVisible(true);
+            crystal_effect:Start();
             crystal_visible = true;
         end
         return false;
@@ -1092,23 +1267,61 @@ map_functions = {
         if (flash_effect_time < 300.0) then
             Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, flash_effect_time / 300.0));
             return false;
+        elseif (flash_effect_time >= 300.0 and flash_effect_time <= 1000.0) then
+            if (crystal_visible == true) then
+                -- hide the crystal and the effect
+                crystal_effect:Stop();
+                crystal:SetVisible(false);
+                AudioManager:PlaySound("snd/crystal_chime.wav");
+                crystal_visible = false;
+            end
+            return false; -- do nothing
+        elseif (flash_effect_time > 1000.0 and flash_effect_time < 2500.0) then
+            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, 1.0 - (flash_effect_time - 1000.0) / (2500.0 - 1000.0)));
+            return false;
         end
+
         return true;
     end,
 
-    to_be_continued = function()
-        GlobalManager:SetEventValue("game", "to_be_continued", 1);
+    Terminate_all_events = function(sprite)
+        EventManager:TerminateAllEvents(sprite);
+    end,
+
+    orlinn_kalya_exclamation = function()
+        orlinn:Emote("exclamation", hoa_map.MapMode.ANIM_NORTH);
+        kalya_sprite:Emote("exclamation", hoa_map.MapMode.ANIM_NORTH);
+
+        -- Restore also their collision mask
+        orlinn:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+    end,
+
+    fade_out_music = function()
+            AudioManager:FadeOutAllMusic(2000);
+    end,
+
+    play_funny_music = function()
+            AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
     end,
 
     end_of_crystal_event = function()
         kalya_sprite:SetPosition(0, 0);
         kalya_sprite:SetVisible(false);
         kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
 
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);
 
         -- Set event as done
         --GlobalManager:SetEventValue("story", "layna_forest_crystal_event_done", 1);
-    end
+    end,
+
+    to_be_continued = function()
+        GlobalManager:SetEventValue("game", "to_be_continued", 1);
+    end,
+
 }

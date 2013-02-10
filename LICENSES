@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.02.08
+Last update: 2013.02.10
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -427,13 +427,16 @@ img/sprites/battle/enemies/fenrir_final.png                     CC by SA 3.0    
 
 img/sprites/map/characters/bronann_bed_animation.lua            GPLv2                    Bertram
 img/sprites/map/characters/bronann_bed_animation.png            CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head, Bertram for the frames.
+img/sprites/map/characters/bronann_dead.lua                     GPLv2                    Bertram
 img/sprites/map/characters/bronann_frightened.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_herostance.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
 img/sprites/map/characters/bronann_idle_guard_south.png         GPLv2                    Allacrost
 img/sprites/map/characters/bronann_idle_guard_west.png          GPLv2                    Allacrost
+img/sprites/map/characters/bronann_kneeling.lua                 GPLv2                    Bertram
 img/sprites/map/characters/bronann_run.png                      GPLv2                    Allacrost
 img/sprites/map/characters/bronann_walk.png                     GPLv2                    Allacrost
+img/sprites/map/characters/kalya_kneeling.lua                   GPLv2                    Bertram
 img/sprites/map/characters/kalya_run.png                        GPLv2                    Allacrost
 img/sprites/map/characters/kalya_walk.png                       GPLv2                    Allacrost
 img/sprites/map/characters/sylve_run.png                        GPLv2                    Allacrost
@@ -610,8 +613,10 @@ mus/house_in_a_forest_loop_horrorpen_oga.ogg                    CC by 3.0       
 mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0             Koertes (OGA)
 mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
 mus/shrine-OGA-yd.ogg                                           (CC0)                    yd (OGA) - http://opengameart.org/content/shrine
+mus/Zander Noriega - School of Quirks.ogg                       CC by SA 3.0             Zander Noriega (OGA) - http://opengameart.org/content/school-of-quirks
 
 snd/cloth_sound.wav                                             CC by SA 3.0, GPLv2 or 3 artisticdude (OGA)
+snd/crystal_chime.wav                                           CC by SA 3.0             Bertram
 snd/dog_barking.wav                                             CC by 3.0                Brandon Morris (OGA) - http://opengameart.org/content/dog-barking-mono
 snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0, GPLv2 or 3 IFartInUrGeneralDirection from freesound.org
 snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
