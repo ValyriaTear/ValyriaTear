@@ -358,7 +358,6 @@ public:
 
     /** \brief Sets the coordinate system to use.
     *** \param coordinate_system The coordinate system to set the screen to use
-    *** \note this function checks whether the coord system actually needs to be changed.
     **/
     void SetCoordSys(const CoordSys &coordinate_system);
 
@@ -901,11 +900,6 @@ private:
     *** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
     **/
     void _UpdateShake(uint32 frame_time);
-
-    /** \brief Sets the coordinate system to use.
-    *** \param coordinate_system The coordinate system to set the screen to use
-    **/
-    void _SetCoordSys(const CoordSys &coordinate_system);
 }; // class VideoEngine : public hoa_utils::Singleton<VideoEngine>
 
 }  // namespace hoa_video

@@ -107,7 +107,7 @@ VideoEngine::VideoEngine():
     _current_context.x_flip = 0;
     _current_context.y_flip = 0;
     _current_context.coordinate_system = CoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH,
-                                         VIDEO_STANDARD_RES_HEIGHT, 0.0f);
+                                         0.0f, VIDEO_STANDARD_RES_HEIGHT);
     _current_context.viewport = ScreenRect(0, 0, 100, 100);
     _current_context.scissor_rectangle = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH,
                                          VIDEO_STANDARD_RES_HEIGHT);
@@ -383,7 +383,7 @@ void VideoEngine::Draw()
     PushState();
 
     // Restore possible previous coords changes
-    SetStandardCoordSys();
+    SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
 
     if(TextureManager->debug_current_sheet >= 0)
         TextureManager->DEBUG_ShowTexSheet();
@@ -420,9 +420,6 @@ void VideoEngine::GetPixelSize(float &x, float &y)
 bool VideoEngine::ApplySettings()
 {
     if(_target == VIDEO_TARGET_SDL_WINDOW) {
-        // Invalidate the coord sys to force its initialization
-        _SetCoordSys(CoordSys(0.0f, 1.0f, 0.0f, 1.0f));
-
         // Losing GL context, so unload images first
         if(TextureManager && TextureManager->UnloadTextures() == false) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
@@ -511,12 +508,6 @@ bool VideoEngine::ApplySettings()
 //-----------------------------------------------------------------------------
 
 void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
-{
-    if (!(_current_context.coordinate_system == coordinate_system))
-        _SetCoordSys(coordinate_system);
-}
-
-void VideoEngine::_SetCoordSys(const CoordSys &coordinate_system)
 {
     _current_context.coordinate_system = coordinate_system;
 
