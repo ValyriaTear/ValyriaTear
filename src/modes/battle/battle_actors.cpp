@@ -169,19 +169,16 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         }
         break;
     case ACTOR_STATE_COOL_DOWN:
+    {
         _execution_finished = false;
-        if(_action == NULL) {
-            // TODO: This case seems to occur when the action could not be executed (due to insufficient SP, etc).
-            // When this is the case, the action gets deleted and the actor would otherwise get stuck, because we
-            // dont have a cool-down time available to give it. This case needs to be handled better
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
-            // TEMP: find a better solution than this temporary hack
-            ChangeState(ACTOR_STATE_IDLE);
-        } else {
-            _state_timer.Initialize(_action->GetCoolDownTime());
-            _state_timer.Run();
-        }
+        uint32 cool_down_time = 1000; // Default value, overriden by valid actions
+        if(_action)
+            cool_down_time = _action->GetCoolDownTime();
+
+        _state_timer.Initialize(cool_down_time);
+        _state_timer.Run();
         break;
+    }
     case ACTOR_STATE_DYING:
         ChangeSpriteAnimation("dying");
         _state_timer.Initialize(1500); // Default value, overriden for characters
@@ -601,8 +598,7 @@ void BattleCharacter::Update()
     _current_weapon_animation.Update();
 
     // Update potential scripted Battle action without hardcoded logic in that case
-    if(_action &&
-            _action->IsScripted() && _state == ACTOR_STATE_ACTING) {
+    if(_action && _action->IsScripted() && _state == ACTOR_STATE_ACTING) {
         if(!_action->Update())
             return;
         else

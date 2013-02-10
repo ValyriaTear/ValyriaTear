@@ -65,7 +65,7 @@ void BindModeCode()
 
             // Namespace constants
             .enum_("constants") [
-                // Battle states
+                // Boot states
                 luabind::value("BOOT_STATE_INTRO", BOOT_STATE_INTRO),
                 luabind::value("BOOT_STATE_MENU", BOOT_STATE_MENU)
             ]
