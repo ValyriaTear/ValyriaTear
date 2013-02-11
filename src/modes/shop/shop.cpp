@@ -77,8 +77,8 @@ ShopMedia::ShopMedia()
     if(_x_icon.Load("img/menus/red_x.png") == false)
         IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load x icon image" << std::endl;
 
-    if(!_shard_slot_icon.Load("img/menus/shard_slot.png"))
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load shard slot icon image" << std::endl;
+    if(!_shard_slot_icon.Load("img/menus/shard.png"))
+        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load shard icon image" << std::endl;
 
     if(_equip_icon.Load("img/menus/equip.png") == false)
         IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load equip icon image" << std::endl;
