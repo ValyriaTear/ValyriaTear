@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-08 10:37+0100\n"
+"POT-Creation-Date: 2013-02-11 00:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Use: "
 msgstr ""
 
-#: ../src/modes/battle/battle_actors.cpp:722
+#: ../src/modes/battle/battle_actors.cpp:718
 msgid "[Select Action]"
 msgstr ""
 
@@ -602,8 +602,8 @@ msgid "Current Equipment:"
 msgstr ""
 
 #: ../src/modes/menu/menu.cpp:234 ../dat/actors/characters.lua:60
-#: ../dat/actors/characters.lua:197 ../dat/actors/characters.lua:331
-#: ../dat/actors/characters.lua:466 ../dat/actors/enemies.lua:114
+#: ../dat/actors/characters.lua:198 ../dat/actors/characters.lua:332
+#: ../dat/actors/characters.lua:467 ../dat/actors/enemies.lua:114
 #: ../dat/actors/enemies.lua:164 ../dat/actors/enemies.lua:221
 #: ../dat/actors/enemies.lua:381 ../dat/actors/enemies.lua:433
 #: ../dat/actors/enemies.lua:490 ../dat/actors/enemies.lua:555
@@ -615,8 +615,8 @@ msgid "Head"
 msgstr ""
 
 #: ../src/modes/menu/menu.cpp:237 ../dat/actors/characters.lua:69
-#: ../dat/actors/characters.lua:206 ../dat/actors/characters.lua:340
-#: ../dat/actors/characters.lua:475 ../dat/actors/enemies.lua:329
+#: ../dat/actors/characters.lua:207 ../dat/actors/characters.lua:341
+#: ../dat/actors/characters.lua:476 ../dat/actors/enemies.lua:329
 #: ../dat/actors/enemies.lua:682 ../dat/actors/enemies.lua:802
 msgid "Torso"
 msgstr ""
@@ -627,8 +627,8 @@ msgid "Arm"
 msgstr ""
 
 #: ../src/modes/menu/menu.cpp:243 ../dat/actors/characters.lua:86
-#: ../dat/actors/characters.lua:223 ../dat/actors/characters.lua:357
-#: ../dat/actors/characters.lua:492 ../dat/actors/enemies.lua:1126
+#: ../dat/actors/characters.lua:224 ../dat/actors/characters.lua:358
+#: ../dat/actors/characters.lua:493 ../dat/actors/enemies.lua:1126
 #: ../dat/actors/enemies.lua:1403 ../dat/actors/enemies.lua:1517
 msgid "Legs"
 msgstr ""
@@ -1356,12 +1356,12 @@ msgstr ""
 msgid "Holy"
 msgstr ""
 
-#: ../dat/actors/characters.lua:77 ../dat/actors/characters.lua:214
-#: ../dat/actors/characters.lua:348 ../dat/actors/characters.lua:483
+#: ../dat/actors/characters.lua:77 ../dat/actors/characters.lua:215
+#: ../dat/actors/characters.lua:349 ../dat/actors/characters.lua:484
 msgid "Arms"
 msgstr ""
 
-#: ../dat/actors/characters.lua:152 ../dat/actors/map_sprites.lua:36
+#: ../dat/actors/characters.lua:152 ../dat/actors/map_sprites.lua:38
 msgid "Kalya"
 msgstr ""
 
@@ -1369,19 +1369,19 @@ msgstr ""
 msgid "Invocation"
 msgstr ""
 
-#: ../dat/actors/characters.lua:288
+#: ../dat/actors/characters.lua:289
 msgid "Sylve"
 msgstr ""
 
-#: ../dat/actors/characters.lua:294
+#: ../dat/actors/characters.lua:295
 msgid "Mist"
 msgstr ""
 
-#: ../dat/actors/characters.lua:422 ../dat/actors/map_sprites.lua:53
+#: ../dat/actors/characters.lua:423 ../dat/actors/map_sprites.lua:60
 msgid "Thanis"
 msgstr ""
 
-#: ../dat/actors/characters.lua:428
+#: ../dat/actors/characters.lua:429
 msgid "Acheron"
 msgstr ""
 
@@ -1408,7 +1408,7 @@ msgid "Abdomen"
 msgstr ""
 
 #: ../dat/actors/enemies.lua:142 ../dat/actors/enemies.lua:359
-#: ../dat/actors/enemies.lua:411 ../dat/actors/map_sprites.lua:408
+#: ../dat/actors/enemies.lua:411 ../dat/actors/map_sprites.lua:415
 msgid "Fenrir"
 msgstr ""
 
@@ -1421,11 +1421,11 @@ msgstr ""
 msgid "Tail"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:260 ../dat/actors/map_sprites.lua:366
+#: ../dat/actors/enemies.lua:260 ../dat/actors/map_sprites.lua:373
 msgid "Slime Mother"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:308 ../dat/actors/map_sprites.lua:325
+#: ../dat/actors/enemies.lua:308 ../dat/actors/map_sprites.lua:332
 msgid "Bat"
 msgstr ""
 
@@ -1555,67 +1555,67 @@ msgstr ""
 msgid "Kyle"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:71
+#: ../dat/actors/map_sprites.lua:78
 msgid "Carson"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:87
+#: ../dat/actors/map_sprites.lua:94
 msgid "Malta"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:103
+#: ../dat/actors/map_sprites.lua:110
 msgid "Orlinn"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:118
+#: ../dat/actors/map_sprites.lua:125
 msgid "Herth"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:137
+#: ../dat/actors/map_sprites.lua:144
 msgid "Olivia"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:152
+#: ../dat/actors/map_sprites.lua:159
 msgid "Brymir"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:167
+#: ../dat/actors/map_sprites.lua:174
 msgid "Martha"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:182
+#: ../dat/actors/map_sprites.lua:189
 msgid "Sophia"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:197
+#: ../dat/actors/map_sprites.lua:204
 msgid "Lilly"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:212
+#: ../dat/actors/map_sprites.lua:219
 msgid "Georges"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:228
+#: ../dat/actors/map_sprites.lua:235
 msgid "Crystal"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:244
+#: ../dat/actors/map_sprites.lua:251
 msgid "Soldier"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:259
+#: ../dat/actors/map_sprites.lua:266
 msgid "Lord"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:277
+#: ../dat/actors/map_sprites.lua:284
 msgid "Chicken"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:292
+#: ../dat/actors/map_sprites.lua:299
 msgid "Butterfly"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:307
+#: ../dat/actors/map_sprites.lua:314
 msgid "Squirrel"
 msgstr ""
 
@@ -2093,72 +2093,190 @@ msgid ""
 "around."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:788
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:802
 msgid "Orlinn!!"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:790
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:804
 msgid "I can feel it, sis'. It's coming!"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:792
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:806
 msgid "Orlinn, stop!"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:813
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:827
 msgid "What's happening!?!"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:852
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:866
 msgid "Gosh!! By all heavens, what is this?"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:854
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:868
 msgid "A crystal stone?!?"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:856
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:870
 msgid "This is her. I heard her voice calling..."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:865
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:879
 msgid "Dear chosen one, the time has finally come."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:867
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:881
 msgid "For us, it will take an instant."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:869
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:883
 msgid "For you, it might have been decades."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:871
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:885
 msgid "May you bring a happy end to this foolish destiny of ours."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:873
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:887
 msgid "We're all anxiously awaiting your return."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:875
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:889
 msgid "Now, come. And make one with our holy hope."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:883
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:897
 msgid "What does all of this mean?"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:885
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:899
 msgid "I shall come and make one with our only hope..."
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:887
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:901
 msgid "What! No, Orlinn!"
 msgstr ""
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:903
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:917
 msgid "Bronann, the crystal! No!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:941
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:982
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:986
+#: ../dat/maps/layna_village/layna_village_bronanns_home.lua:366
+msgid "Bronann!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:980
+msgid "Bronann! Are you all right? Answer me!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:984
+msgid "Woah, what happened here?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:988
+msgid "Sis! What's the matter? What happened?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:990
+msgid "What happened?? ... Orlinn ... What have you done? ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:992
+msgid "... My head ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:994
+msgid "Bronann! Are you alright?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:996
+msgid "I... I guess so. ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:998
+msgid "... The crystal! Orlinn! ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1000
+msgid "Don't worry, I'm fine. Say, what crystal?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1002
+msgid "... You won't be fine for long after I'm done with you!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1004
+msgid "... Huh? Wait, I didn't do anything this time!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1006
+msgid "... Oh? You didn't??"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1047
+msgid "Sigh... I should have stayed home today..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1049
+msgid "Yet, I wonder... What happened to the crystal?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1051
+msgid "... And why is my head hurting so much..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1053
+msgid ""
+"I also wondered about it. My only conclusion is that you made it disappear..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1055
+msgid "Possible, still I really feel dizzy..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1057
+msgid ""
+"You're fine, that's what is counting... I'm relieved Orlinn is fine, too. "
+"And Speaking of that: Orlinn! Stop running and come here, right away!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1073
+msgid "Owww... Ok."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1075
+msgid "Now, Orlinn. You'd better answer precisely!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1077
+msgid ""
+"Why on earth did you go into the forest alone, and how did you just get "
+"there so quickly?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1079
+msgid "I sincerely don't know... I was like... dreaming..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1081
+msgid "I merely remember a voice in my head, telling me to come..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1083
+msgid "You know you won't get away with this, when you'll see Herth..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1085
+msgid "Yiek! I swear it's the truth!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1087
+msgid ""
+"We'll see... Anyway, we'd better get back to the village and see him as soon "
+"as possible."
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_entrance.lua:618
@@ -2404,10 +2522,6 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:321
 msgid "Nah, no problem, I'll find it."
-msgstr ""
-
-#: ../dat/maps/layna_village/layna_village_bronanns_home.lua:366
-msgid "Bronann!"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:395
@@ -3692,11 +3806,11 @@ msgstr ""
 msgid "Kalya's attack when she's got no weapon."
 msgstr ""
 
-#: ../dat/skills/weapon.lua:258
+#: ../dat/skills/weapon.lua:259
 msgid "Punch"
 msgstr ""
 
-#: ../dat/skills/weapon.lua:259
+#: ../dat/skills/weapon.lua:260
 msgid "A simple punch. Better than nothing..."
 msgstr ""
 
