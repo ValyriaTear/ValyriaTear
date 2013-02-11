@@ -970,9 +970,9 @@ function _CreateEvents()
     event = hoa_map.ScriptedSpriteEvent("Bronann gets up", hero, "Terminate_all_events", "");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("Fade out crystal music", "fade_out_music", "");
+    event = hoa_map.ScriptedEvent("Fade out music", "fade_out_music", "");
     EventManager:RegisterEvent(event);
-    
+
     event = hoa_map.ScriptedEvent("Play funny music", "play_funny_music", "");
     EventManager:RegisterEvent(event);
 
@@ -981,26 +981,26 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks west", "exclamation");
     text = hoa_system.Translate("Bronann!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks east", "exclamation");
-    text = hoa_system.Translate("Woah, what happened here?");
+    text = hoa_system.Translate("Woah, where am I?");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = hoa_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     text = hoa_system.Translate("Sis! What's the matter? What happened?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "Kalya gets up", "interrogation");
     text = hoa_system.Translate("What happened?? ... Orlinn ... What have you done? ...");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "", "sweat drop");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "", "exclamation");
     text = hoa_system.Translate("... My head ...");
     dialogue:AddLineEvent(text, hero, "", "Kalya and orlinn are surprised");
     text = hoa_system.Translate("Bronann! Are you alright?");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks east", "", "exclamation");
     text = hoa_system.Translate("I... I guess so. ...");
     dialogue:AddLine(text, hero);
-    text = hoa_system.Translate("... The crystal! Orlinn! ...");
+    text = hoa_system.Translate("... The wolf! The crystal! Orlinn! Are you ok?? ...");
     dialogue:AddLineEventEmote(text, hero, "Bronann gets up", "", "exclamation");
-    text = hoa_system.Translate("Don't worry, I'm fine. Say, what crystal?");
+    text = hoa_system.Translate("Don't worry, I'm fine. Err, what crystal? What ... wolf??");
     dialogue:AddLine(text, orlinn);
     text = hoa_system.Translate("... You won't be fine for long after I'm done with you!!");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "Fade out crystal music", "thinking dots");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "Fade out music", "thinking dots");
     text = hoa_system.Translate("... Huh? Wait, I didn't do anything this time!!");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = hoa_system.Translate("... Oh? You didn't??");
@@ -1036,7 +1036,7 @@ function _CreateEvents()
     event = hoa_map.ScriptedSpriteEvent("Kalya stops running", kalya_sprite, "Terminate_all_events", "");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.AnimateSpriteEvent("Bronann sighs", hero, "hero_stance", 3000);
+    event = hoa_map.AnimateSpriteEvent("Bronann sighs", hero, "hero_stance", 6000);
     EventManager:RegisterEvent(event);
 
     event = hoa_map.PathMoveSpriteEvent("Kalya comes back next to Bronann", kalya_sprite, 44, 49, true);
@@ -1044,17 +1044,23 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Sigh... I should have stayed home today...");
+    text = hoa_system.Translate("When I'll catch you, I'll make you wish you weren't born!! Rahh!");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Yiek!!");
+    dialogue:AddLine(text, orlinn);
+    text = hoa_system.Translate("Come here, now!!!");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Yiek!!");
+    dialogue:AddLine(text, orlinn);
+    text = hoa_system.Translate("(Sigh)... I should have stayed home today...");
     dialogue:AddLineEvent(text, hero, "Bronann sighs", "");
-    text = hoa_system.Translate("Yet, I wonder... What happened to the crystal?");
-    dialogue:AddLineEvent(text, hero, "Bronann sighs", "");
-    text = hoa_system.Translate("... And why is my head hurting so much...");
-    dialogue:AddLineEventEmote(text, hero, "", "Kalya stops running", "sweat drop");
-    text = hoa_system.Translate("I also wondered about it. My only conclusion is that you made it disappear...");
+    text = hoa_system.Translate("... Ouch, why is my head hurting so much? ...");
+    dialogue:AddLineEvent(text, hero, "", "Kalya stops running");
+    text = hoa_system.Translate("Are you ok? We should get back home so Lilly can examine you...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya comes back next to Bronann", "");
-    text = hoa_system.Translate("Possible, still I really feel dizzy...");
+    text = hoa_system.Translate("I still really feel dizzy but I'll be ok...");
     dialogue:AddLine(text, hero);
-    text = hoa_system.Translate("You're fine, that's what is counting... I'm relieved Orlinn is fine, too. And Speaking of that: Orlinn! Stop running and come here, right away!");
+    text = hoa_system.Translate("I'm relieved Orlinn is fine, too. And speaking of that: Orlinn! Stop running and come here, right away!");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Bronann sighs and think", dialogue);
@@ -1069,23 +1075,32 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn looks at Bronann");
     EventManager:RegisterEvent(event);
 
+    event = hoa_map.ScriptedEvent("Play wind music", "play_wind_music", "");
+    EventManager:RegisterEvent(event);
+
     dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Owww... Ok.");
-    dialogue:AddLineEventEmote(text, orlinn, "", "Orlinn comes back next to Bronann", "sweat drop");
-    text = hoa_system.Translate("Now, Orlinn. You'd better answer precisely!");
+    text = hoa_system.Translate("Owww... Alright.");
+    dialogue:AddLineEventEmote(text, orlinn, "Fade out music", "Orlinn comes back next to Bronann", "sweat drop");
+    text = hoa_system.Translate("Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how did you just get there so quickly?");
     dialogue:AddLine(text, kalya_sprite);
-    text = hoa_system.Translate("Why on earth did you go into the forest alone, and how did you just get there so quickly?");
-    dialogue:AddLine(text, kalya_sprite);
-    text = hoa_system.Translate("I sincerely don't know... I was like... dreaming...");
+    text = hoa_system.Translate("I don't know...");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
+    text = hoa_system.Translate("Why was that giant wolf protecting you?");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("What was that crystal? Why did you want to make one with it?");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("I... I... I sincerely don't know... I swear! I was like... dreaming...");
+    dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = hoa_system.Translate("I merely remember a voice in my head, telling me to come...");
     dialogue:AddLineEmote(text, orlinn, "thinking dots");
     text = hoa_system.Translate("You know you won't get away with this, when you'll see Herth...");
     dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
-    text = hoa_system.Translate("Yiek! I swear it's the truth!");
+    text = hoa_system.Translate("I swear it's the truth!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    text = hoa_system.Translate("We'll see... Anyway, we'd better get back to the village and see him as soon as possible.");
-    dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
+    text = hoa_system.Translate("Making one with the crystal, huh?");
+    dialogue:AddLineEmote(text, hero, "sweat drop");
+    text = hoa_system.Translate("Let's not panic, you look fine... Anyway, we'd better get back to the village and see the Elders as soon as possible.");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Play wind music", "", "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Last dialogue", dialogue);
     event:AddEventLinkAtEnd("kalya goes back to party");
@@ -1298,11 +1313,15 @@ map_functions = {
     end,
 
     fade_out_music = function()
-            AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutAllMusic(2000);
     end,
 
     play_funny_music = function()
-            AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
+        AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
+    end,
+
+    play_wind_music = function()
+        AudioManager:PlayMusic("snd/wind.ogg");
     end,
 
     end_of_crystal_event = function()
