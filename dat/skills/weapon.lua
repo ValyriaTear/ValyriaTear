@@ -436,3 +436,22 @@ skills[1007] = {
        end
    end
 }
+
+skills[1008] = {
+    name = "Fenrir Attack",
+    sp_required = 0,
+    warmup_time = 1400,
+    cooldown_time = 0,
+    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    BattleExecute = function(user, target)
+        target_actor = target:GetActor();
+
+        if (hoa_battle.CalculateStandardEvasion(target) == false) then
+            target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+            AudioManager:PlaySound("snd/growl1_IFartInUrGeneralDirection_freesound.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}
