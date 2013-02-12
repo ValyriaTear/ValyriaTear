@@ -710,6 +710,18 @@ public:
         return _global_enemy;
     }
 
+    float GetSpriteAlpha() const {
+        return _sprite_alpha;
+    }
+
+    //! Set the sprite alpha, useful for custom death sequences.
+    //! Ignored otherwise. LATER: (Should be more widely used)
+    void SetSpriteAlpha(float alpha) {
+        if (alpha > 1.0f) alpha = 1.0f;
+        if (alpha < 0.0f) alpha = 0.0f;
+        _sprite_alpha = alpha;
+    }
+
 protected:
     //! \brief A pointer to the global enemy object which the battle enemy represents
     hoa_global::GlobalEnemy *_global_enemy;
@@ -722,6 +734,14 @@ protected:
 
     //! \brief Contains the alpha value to draw the sprite at: useful for fading effects
     float _sprite_alpha;
+
+    //! \brief Script object used when playing the death sequence.
+    //! A default sequence is played one of those is invalid.
+    ScriptObject _death_update;
+    ScriptObject _death_init;
+
+    //! \brief Loads the potential death animation scripted functions.
+    void _LoadDeathAnimationScript();
 
     /** \brief Decides what action that the enemy should execute and the target
     *** This function is used as a fallback when no AI script is set for the given enemy.

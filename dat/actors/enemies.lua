@@ -145,6 +145,9 @@ enemies[3] = {
     sprite_width = 268,
     sprite_height = 196,
 
+    scripts = {
+        death = "dat/battles/enemies_animations/fenrir_flee.lua"
+    },
 
     base_stats = {
         hit_points = 160,
@@ -362,6 +365,9 @@ enemies[7] = {
     sprite_width = 268,
     sprite_height = 196,
 
+    scripts = {
+        death = "dat/battles/enemies_animations/fenrir_flee.lua"
+    },
 
     base_stats = {
         hit_points = 320,
@@ -414,6 +420,10 @@ enemies[8] = {
     sprite_width = 268,
     sprite_height = 196,
 
+    -- TODO: Add a better looking boss death
+    --scripts = {
+    --    death = "dat/battles/enemies_animations/fenrir_death.lua"
+    --},
 
     base_stats = {
         hit_points = 640,

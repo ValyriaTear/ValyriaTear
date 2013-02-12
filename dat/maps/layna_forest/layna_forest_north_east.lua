@@ -986,8 +986,6 @@ function _CreateEvents()
     event = hoa_map.BattleEncounterEvent("First Wolf battle");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
-    -- TODO: Add custom AI battle script
-    -- event:AddScript("");
     event:AddEnemy(3, 0, 0);
     event:AddEventLinkAtEnd("Make the wolf disappear");
     EventManager:RegisterEvent(event);

@@ -1183,8 +1183,11 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
         return;
     }
 
-    enemy_data.OpenTable("enemies");
-    enemy_data.OpenTable(_id);
+    if (!enemy_data.OpenTable("enemies") || !enemy_data.OpenTable(_id)) {
+        enemy_data.CloseFile();
+        PRINT_ERROR << "Failed to open the enemies[" << _id << "] table in "
+            << filename << std::endl;
+    }
 
     // Load the enemy's name and sprite data
     _name = MakeUnicodeString(enemy_data.ReadString("name"));
@@ -1214,50 +1217,62 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
         _no_stat_randomization = enemy_data.ReadBool("no_stat_randomization");
     }
 
-    enemy_data.OpenTable("base_stats");
-    _max_hit_points = enemy_data.ReadUInt("hit_points");
-    _hit_points = _max_hit_points;
-    _max_skill_points = enemy_data.ReadUInt("skill_points");
-    _skill_points = _max_skill_points;
-    _experience_points = enemy_data.ReadUInt("experience_points");
-    _strength = enemy_data.ReadUInt("strength");
-    _vigor = enemy_data.ReadUInt("vigor");
-    _fortitude = enemy_data.ReadUInt("fortitude");
-    _protection = enemy_data.ReadUInt("protection");
-    _agility = enemy_data.ReadUInt("agility");
-    _evade = enemy_data.ReadFloat("evade");
-    _drunes_dropped = enemy_data.ReadUInt("drunes");
-    enemy_data.CloseTable();
+    // Loads enemy battle animation scripts
+    if (enemy_data.OpenTable("scripts")) {
+        _death_script_filename = enemy_data.ReadString("death");
+        enemy_data.CloseTable();
+    }
+
+    if (enemy_data.OpenTable("base_stats")) {
+        _max_hit_points = enemy_data.ReadUInt("hit_points");
+        _hit_points = _max_hit_points;
+        _max_skill_points = enemy_data.ReadUInt("skill_points");
+        _skill_points = _max_skill_points;
+        _experience_points = enemy_data.ReadUInt("experience_points");
+        _strength = enemy_data.ReadUInt("strength");
+        _vigor = enemy_data.ReadUInt("vigor");
+        _fortitude = enemy_data.ReadUInt("fortitude");
+        _protection = enemy_data.ReadUInt("protection");
+        _agility = enemy_data.ReadUInt("agility");
+        _evade = enemy_data.ReadFloat("evade");
+        _drunes_dropped = enemy_data.ReadUInt("drunes");
+        enemy_data.CloseTable();
+    }
 
     // Create the attack points for the enemy
-    enemy_data.OpenTable("attack_points");
-    uint32 ap_size = enemy_data.GetTableSize();
-    for(uint32 i = 1; i <= ap_size; i++) {
-        _attack_points.push_back(new GlobalAttackPoint(this));
-        enemy_data.OpenTable(i);
-        if(_attack_points.back()->LoadData(enemy_data) == false) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load data for an attack point: " << i << std::endl;
+    if (enemy_data.OpenTable("attack_points")) {
+        uint32 ap_size = enemy_data.GetTableSize();
+        for(uint32 i = 1; i <= ap_size; i++) {
+            _attack_points.push_back(new GlobalAttackPoint(this));
+            if (enemy_data.OpenTable(i)) {
+                if(_attack_points.back()->LoadData(enemy_data) == false) {
+                    IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load data for an attack point: "
+                        << i << std::endl;
+                }
+                enemy_data.CloseTable();
+            }
         }
         enemy_data.CloseTable();
     }
-    enemy_data.CloseTable();
 
     // Add the set of skills for the enemy
-    enemy_data.OpenTable("skills");
-    for(uint32 i = 1; i <= enemy_data.GetTableSize(); i++) {
-        _skill_set.push_back(enemy_data.ReadUInt(i));
-    }
-    enemy_data.CloseTable();
-
-    // Load the possible items that the enemy may drop
-    enemy_data.OpenTable("drop_objects");
-    for(uint32 i = 1; i <= enemy_data.GetTableSize(); i++) {
-        enemy_data.OpenTable(i);
-        _dropped_objects.push_back(enemy_data.ReadUInt(1));
-        _dropped_chance.push_back(enemy_data.ReadFloat(2));
+    if (enemy_data.OpenTable("skills")) {
+        for(uint32 i = 1; i <= enemy_data.GetTableSize(); i++) {
+            _skill_set.push_back(enemy_data.ReadUInt(i));
+        }
         enemy_data.CloseTable();
     }
-    enemy_data.CloseTable();
+
+    // Load the possible items that the enemy may drop
+    if (enemy_data.OpenTable("drop_objects")) {
+        for(uint32 i = 1; i <= enemy_data.GetTableSize(); i++) {
+            enemy_data.OpenTable(i);
+            _dropped_objects.push_back(enemy_data.ReadUInt(1));
+            _dropped_chance.push_back(enemy_data.ReadFloat(2));
+            enemy_data.CloseTable();
+        }
+        enemy_data.CloseTable();
+    }
 
     enemy_data.CloseTable(); // enemies[_id]
     enemy_data.CloseTable(); // enemies

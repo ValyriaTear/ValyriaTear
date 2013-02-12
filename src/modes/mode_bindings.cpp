@@ -729,6 +729,8 @@ void BindModeCode()
             .def("ChangeSpriteAnimation", &BattleEnemy::ChangeSpriteAnimation)
             .def("GetSpriteWidth", &BattleEnemy::GetSpriteWidth)
             .def("GetSpriteHeight", &BattleEnemy::GetSpriteHeight)
+            .def("GetSpriteAlpha", &BattleEnemy::GetSpriteAlpha)
+            .def("SetSpriteAlpha", &BattleEnemy::SetSpriteAlpha)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_battle")

@@ -1084,6 +1084,10 @@ public:
     std::vector<hoa_video::StillImage>* GetBattleSpriteFrames() {
         return &_battle_sprite_frames;
     }
+
+    const std::string& GetDeathScriptFilename() const {
+        return _death_script_filename;
+    }
     //@}
 
 protected:
@@ -1118,6 +1122,9 @@ protected:
     *** damage frame, the second element contains the 33% damage frame, and so on.
     **/
     std::vector<hoa_video::StillImage> _battle_sprite_frames;
+
+    //! \brief Stores the animation script filename used when the enemy dies.
+    std::string _death_script_filename;
 }; // class GlobalEnemy : public GlobalActor
 
 

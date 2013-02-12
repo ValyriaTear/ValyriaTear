@@ -181,8 +181,8 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     }
     case ACTOR_STATE_DYING:
         ChangeSpriteAnimation("dying");
-        _state_timer.Initialize(1500); // Default value, overriden for characters
-        _state_timer.Run();
+        // Note that the state timer is initiliazed in Battle Character
+        // or In BattleEnemy
 
         // Make the battle engine aware of the actor death
         _effects_supervisor->RemoveAllStatus();
@@ -901,6 +901,35 @@ BattleEnemy::BattleEnemy(GlobalEnemy *enemy) :
     for(std::map<uint32, GlobalSkill *>::const_iterator i = (_global_enemy->GetSkills()).begin(); i != (_global_enemy->GetSkills()).end(); i++) {
         _enemy_skills.push_back(i->second);
     }
+
+    _LoadDeathAnimationScript();
+}
+
+void BattleEnemy::_LoadDeathAnimationScript()
+{
+    // Loads potential death animation script functions
+    if (_global_enemy->GetDeathScriptFilename().empty())
+        return;
+
+    std::string filename = _global_enemy->GetDeathScriptFilename();
+
+    std::string tablespace = ScriptEngine::GetTableSpace(filename);
+    ScriptManager->DropGlobalTable(tablespace);
+
+    ReadScriptDescriptor death_script;
+    if(!death_script.OpenFile(filename))
+        return;
+
+    if(death_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "The enemy death script file: " << filename
+                    << "has got no valid namespace" << std::endl;
+        death_script.CloseFile();
+        return;
+    }
+
+    _death_init = death_script.ReadFunctionPointer("Initialize");
+    _death_update = death_script.ReadFunctionPointer("Update");
+    death_script.CloseFile();
 }
 
 BattleEnemy::~BattleEnemy()
@@ -925,6 +954,23 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
         _state_timer.Initialize(400); // Default monster action time
         _state_timer.Run();
         break;
+    case ACTOR_STATE_DYING:
+        // Trigger the death sequence if it is valid
+        if (_death_init.is_valid()) {
+            ScriptCallFunction<void>(_death_init, BattleMode::CurrentInstance(), this);
+        }
+        else {
+            // Default value, not used when scripted
+            _state_timer.Initialize(1500);
+            _state_timer.Run();
+        }
+
+        ChangeSpriteAnimation("dying");
+
+        // Make the battle engine aware of the actor death
+        _effects_supervisor->RemoveAllStatus();
+        BattleMode::CurrentInstance()->NotifyActorDeath(this);
+        break;
     default:
         break;
     }
@@ -942,13 +988,6 @@ void BattleEnemy::Update()
 {
     BattleActor::Update();
 
-    // Only set the origin when actor are in normal battle mode,
-    // Otherwise the battle sequence manager will take care of them.
-    if(BattleMode::CurrentInstance()->GetState() == BATTLE_STATE_NORMAL) {
-        _x_location = _x_origin;
-        _y_location = _y_origin;
-    }
-
     // Note: that update part only handles attack actions
     if(_state == ACTOR_STATE_ACTING) {
         if(_state_timer.PercentComplete() <= 0.50f)
@@ -956,8 +995,17 @@ void BattleEnemy::Update()
         else
             _x_location = _x_origin - TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
     } else if(_state == ACTOR_STATE_DYING) {
-        // Add a fade out effect
-        _sprite_alpha = 1.0f - _state_timer.PercentComplete();
+        if (_death_init.is_valid()) {
+            if (_death_update.is_valid()) {
+                // Change the state when the animation has finished.
+                if (ScriptCallFunction<bool>(_death_update))
+                    ChangeState(ACTOR_STATE_DEAD);
+            }
+        }
+        else {
+            // Add a default fade out effect
+            _sprite_alpha = 1.0f - _state_timer.PercentComplete();
+        }
     }
     // Reset the animations set below to idle once done
     else if(_animation_timer.IsFinished()) {
@@ -968,7 +1016,7 @@ void BattleEnemy::Update()
 
     // Add a shake effect when the battle actor has received damages
     if(_hurt_timer.IsRunning())
-        _x_location += RandomFloat(-2.0f, 2.0f);
+        _x_location = _x_origin + RandomFloat(-2.0f, 2.0f);
 
     if(_state == ACTOR_STATE_ACTING) {
         if(!_execution_finished) {
