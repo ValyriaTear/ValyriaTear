@@ -398,6 +398,9 @@ function Load(m)
 
     -- To be continued script
     Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
+
+    -- Preload the useful musics
+    AudioManager:LoadMusic("mus/Zander Noriega - School of Quirks.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -984,7 +987,7 @@ function _CreateEvents()
     text = hoa_system.Translate("Woah, where am I?");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = hoa_system.Translate("Bronann!");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("Sis! What's the matter? What happened?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "Kalya gets up", "interrogation");
     text = hoa_system.Translate("What happened?? ... Orlinn ... What have you done? ...");
