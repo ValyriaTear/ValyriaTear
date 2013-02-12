@@ -19,6 +19,10 @@ local character_pos_x = 0.0;
 local character_pos_y = 0.0;
 local character_offset_to_enemy = -32.0;
 
+local a_coeff = 0.0;
+local distance_moved_x = 0.0;
+local distance_moved_y = 0.0;
+
 local enemy_pos_x = 0.0;
 local enemy_pos_y = 0.0;
 

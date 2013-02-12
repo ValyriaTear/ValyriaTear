@@ -18,6 +18,10 @@ local skill = {};
 local stone_pos_x = 0.0;
 local stone_pos_y = 0.0;
 
+local a_coeff = 0.0;
+local distance_moved_x = 0.0;
+local distance_moved_y = 0.0;
+
 local enemy_pos_x = 0.0;
 local enemy_pos_y = 0.0;
 
