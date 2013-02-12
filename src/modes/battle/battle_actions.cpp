@@ -80,6 +80,10 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
     if(animation_script_file.empty())
         return;
 
+    // Clears out old script data
+    std::string tablespace = ScriptEngine::GetTableSpace(animation_script_file);
+    ScriptManager->DropGlobalTable(tablespace);
+
     ReadScriptDescriptor anim_script;
     if(!anim_script.OpenFile(animation_script_file)) {
         anim_script.CloseFile();

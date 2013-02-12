@@ -515,7 +515,7 @@ void ImageDescriptor::_DrawOrientation() const
         y_off = _height;
     }
 
-    if(VideoManager->_shake_forces.size() > 0) {
+    if(!VideoManager->_shake_forces.empty()) {
         // Calculate x and y draw offsets due to any screen shaking effects
         float x_shake = VideoManager->_x_shake * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft()) / VIDEO_STANDARD_RES_WIDTH;
         float y_shake = VideoManager->_y_shake * (current_context.coordinate_system.GetTop() - current_context.coordinate_system.GetBottom()) / VIDEO_STANDARD_RES_HEIGHT;
