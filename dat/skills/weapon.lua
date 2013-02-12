@@ -80,8 +80,8 @@ skills[1] = {
 	end,
 
 	animation_scripts = {
-		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
-		[THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+		[BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
+		[THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
 	}
 }
 
@@ -108,8 +108,8 @@ skills[2] = {
 	end,
 
 	animation_scripts = {
-		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
-		[THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+		[BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
+		[THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
 	}
 }
 
@@ -139,8 +139,8 @@ skills[3] = {
 	end,
 
 	animation_scripts = {
-		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
-		[THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+		[BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
+		[THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
 	}
 }
 
@@ -172,8 +172,8 @@ skills[4] = {
 	end,
 
 	animation_scripts = {
-		[BRONANN] = "dat/skills/battle_animations/bronann_attack.lua",
-		[THANIS] = "dat/skills/battle_animations/thanis_blade_rush_attack.lua"
+		[BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
+		[THANIS] = "dat/battles/characters_animations/thanis_blade_rush_attack.lua"
 	}
 }
 
@@ -200,7 +200,7 @@ skills[5] = {
 	end,
 
 	animation_scripts = {
-		[KALYA] = "dat/skills/battle_animations/kalya_attack.lua"
+		[KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
 	}
 }
 
@@ -250,8 +250,7 @@ skills[999] = {
    end,
 
    animation_scripts = {
-       -- TODO: Use a custom script used to make her throw a stone.
-       [KALYA] = "dat/skills/battle_animations/kalya_throw_stone.lua"
+       [KALYA] = "dat/battles/characters_animations/kalya_throw_stone.lua"
    }
 }
 
@@ -278,8 +277,8 @@ skills[1000] = {
    end,
 
    animation_scripts = {
-       [BRONANN] = "dat/skills/battle_animations/bronann_punch.lua",
-       [THANIS] = "dat/skills/battle_animations/thanis_attack.lua"
+       [BRONANN] = "dat/battles/characters_animations/bronann_punch.lua",
+       [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
    }
 }
 

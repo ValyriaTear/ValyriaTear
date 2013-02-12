@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.02.10
+Last update: 2013.02.12
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -43,6 +43,14 @@ dat/actors/map_sprites.lua                                      GPLv2 or later  
 
 dat/battles/desert_cave_battle_anim.lua                         GPLv2 or later           Bertram
 dat/battles/tutorial_battle_dialogs.lua                         GPLv2 or later           Allacrost + Bertram
+
+dat/battles/characters_animations/bronann_attack.lua            GPLv2 or later           Bertram
+dat/battles/characters_animations/bronann_punch.lua             GPLv2 or later           Bertram
+dat/battles/characters_animations/kalya_attack.lua              GPLv2 or later           Bertram
+dat/battles/characters_animations/kalya_throw_stone.lua         GPLv2 or later           Bertram
+dat/battles/characters_animations/thanis_attack.lua             GPLv2 or later           Bertram
+
+dat/battles/enemies_animations/fenrir_flee.lua                  GPLv2 or later           Bertram
 
 dat/config/boot.lua                                             GPLv2 or later           Bertram (Completely redone it.)
 dat/config/debug_menu.lua                                       GPLv2 or later           Bertram (Completely redone it.)
@@ -91,12 +99,6 @@ dat/objects/key_items.lua                                       GPLv2 or later  
 dat/skills/weapon.lua                                           GPLv2 or later           Bertram
 dat/skills/magic.lua                                            GPLv2 or later           Bertram
 dat/skills/special.lua                                          GPLv2 or later           Bertram
-
-dat/skills/battle_animations/bronann_attack.lua                 GPLv2 or later           Bertram
-dat/skills/battle_animations/bronann_punch.lua                  GPLv2 or later           Bertram
-dat/skills/battle_animations/kalya_attack.lua                   GPLv2 or later           Bertram
-dat/skills/battle_animations/kalya_throw_stone.lua              GPLv2 or later           Bertram
-dat/skills/battle_animations/thanis_attack.lua                  GPLv2 or later           Bertram
 
 dat/tilesets/building_interior_objects_01.lua                   GPLv2 or later           Allacrost + Bertram
 dat/tilesets/desert_house_tileset.lua                           GPLv2 or later           Allacrost + Bertram
