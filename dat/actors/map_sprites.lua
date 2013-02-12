@@ -111,7 +111,7 @@ sprites["Orlinn"] = {
     coll_half_width = 0.95,
     coll_height = 1.0,
     img_half_width = 1.0,
-    img_height = 2.9,
+    img_height = 3.0,
     movement_speed = NORMAL_SPEED,
 
     -- using special animation files.
@@ -250,7 +250,7 @@ sprites["Crystal"] = {
 sprites["Soldier"] = {
     name = hoa_system.Translate("Soldier"),
     coll_half_width = 0.95,
-    coll_height = 1.9,
+    coll_height = 1.2,
     img_half_width = 1.0,
     img_height = 4.0,
     movement_speed = SLOW_SPEED,
@@ -265,7 +265,7 @@ sprites["Soldier"] = {
 sprites["Lord"] = {
     name = hoa_system.Translate("Lord"),
     coll_half_width = 0.95,
-    coll_height = 1.9,
+    coll_height = 1.2,
     img_half_width = 1.0,
     img_height = 4.0,
     movement_speed = SLOW_SPEED,
