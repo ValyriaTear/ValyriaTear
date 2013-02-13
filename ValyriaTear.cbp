@@ -22,7 +22,7 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D_WINDOWS" />
-					<Add option="-DDEBUG_MENU" />
+					<Add option="-DDEBUG_FEATURES" />
 					<Add directory="valyriatear-win32-depends/include" />
 					<Add directory="valyriatear-win32-depends/include/AL" />
 					<Add directory="valyriatear-win32-depends/include/boost" />

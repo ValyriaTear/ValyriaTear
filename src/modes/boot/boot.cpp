@@ -27,7 +27,7 @@
 
 #include "modes/mode_help_window.h"
 
-#ifdef DEBUG_MENU
+#ifdef DEBUG_FEATURES
 // Files below are used for boot mode to do a test launch of other modes
 #include "modes/battle/battle.h"
 #include "modes/menu/menu.h"
@@ -462,7 +462,7 @@ void BootMode::_SetupMainMenu()
     _main_menu.AddOption(UTranslate("Options"), &BootMode::_OnOptions);
 
     // Insert the debug options
-#ifdef DEBUG_MENU
+#ifdef DEBUG_FEATURES
     _main_menu.SetDimensions(1000.0f, 50.0f, 7, 1, 7, 1);
     _main_menu.AddOption(UTranslate("Battle"), &BootMode::_DEBUG_OnBattle);
     _main_menu.AddOption(UTranslate("Menu"), &BootMode::_DEBUG_OnMenu);
@@ -778,7 +778,7 @@ void BootMode::_OnQuit()
 }
 
 
-#ifdef DEBUG_MENU
+#ifdef DEBUG_FEATURES
 void BootMode::_DEBUG_OnBattle()
 {
     ReadScriptDescriptor read_data;
@@ -803,7 +803,7 @@ void BootMode::_DEBUG_OnShop()
     read_data.RunScriptFunction("dat/debug/debug_shop.lua",
                                 "BootShopTest", true);
 }
-#endif // #ifdef DEBUG_MENU
+#endif // #ifdef DEBUG_FEATURES
 
 
 void BootMode::_OnVideoOptions()

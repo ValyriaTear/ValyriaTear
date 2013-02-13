@@ -305,7 +305,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 VideoManager->MakeScreenshot(path);
                 return;
             }
-#ifdef DEBUG_MENU
+#ifdef DEBUG_FEATURES
             // Insert developers options here.
             else if(key_event.keysym.sym == SDLK_r) {
                 VideoManager->ToggleFPS();
@@ -313,6 +313,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             } else if(key_event.keysym.sym == SDLK_a) {
                 // Toggle the display of debug visual engine information
                 VideoManager->ToggleDebugInfo();
+                return;
             } else if(key_event.keysym.sym == SDLK_t) {
                 // Display and cycle through the texture sheets
                 VideoManager->Textures()->DEBUG_NextTexSheet();

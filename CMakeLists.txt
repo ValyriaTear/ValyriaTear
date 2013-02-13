@@ -3,8 +3,8 @@ CMAKE_POLICY(VERSION 2.6)
 
 PROJECT(VALYRIATEAR)
 
-OPTION(EDITOR_SUPPORT "Compile the Qt editor" OFF)
-OPTION(DEBUG_MENU "Add the debug menu options at game start" OFF)
+OPTION(EDITOR_SUPPORT "Compile the Qt editor along with the game" OFF)
+OPTION(DEBUG_FEATURES "Compile the game with the debug features" OFF)
 OPTION(USE_SYSTEM_LUABIND "Use the luabind headers and lib provided by the system (Linux only)" OFF)
 
 IF (NOT VERSION)

@@ -231,7 +231,7 @@ private:
     void _OnOptions();
     void _OnQuit();
 
-#ifdef DEBUG_MENU
+#ifdef DEBUG_FEATURES
     void _DEBUG_OnBattle();
     void _DEBUG_OnMenu();
     void _DEBUG_OnShop();
