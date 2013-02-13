@@ -41,7 +41,7 @@ namespace hoa_map
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
 {
-
+class Light;
 } // namespace private_map
 
 /** ****************************************************************************
@@ -151,6 +151,9 @@ public:
                   const hoa_video::Color &main_color,
                   const hoa_video::Color &secondary_color,
                   hoa_map::private_map::MAP_CONTEXT map_context);
+
+    //! \brief Add a light object, often created through scripting
+    void AddLight(private_map::Light *light);
 
     //! \brief Vectors containing the save points animations (when the character is in or not).
     std::vector<hoa_video::AnimatedImage> active_save_point_animations;

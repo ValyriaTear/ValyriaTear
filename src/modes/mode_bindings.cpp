@@ -98,7 +98,10 @@ void BindModeCode()
             .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
             .def("AddSavePoint", &MapMode::AddSavePoint)
             .def("AddHalo", &MapMode::AddHalo)
-            .def("AddLight", &MapMode::AddLight)
+            .def("AddLight", (void(MapMode:: *)(const std::string &, const std::string &, float, float,
+                                                const hoa_video::Color&, const hoa_video::Color&,
+                                                hoa_map::private_map::MAP_CONTEXT))&MapMode::AddLight)
+            .def("AddLight", (void(MapMode:: *)(private_map::Light*))&MapMode::AddLight, luabind::adopt(_2))
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *))&MapMode::SetCamera)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *, uint32))&MapMode::SetCamera)
             .def("MoveVirtualFocus", (void(MapMode:: *)(float, float))&MapMode::MoveVirtualFocus)
@@ -242,6 +245,13 @@ void BindModeCode()
             .def(luabind::constructor<const std::string &, float, float, MAP_CONTEXT>())
             .def("Stop", &ParticleObject::Stop)
             .def("Start", &ParticleObject::Start)
+        ];
+
+        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+        [
+            luabind::class_<Light, MapObject>("Light")
+            .def(luabind::constructor<const std::string&, const std::string&, float, float,
+                 const hoa_video::Color&, const hoa_video::Color&, MAP_CONTEXT>())
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

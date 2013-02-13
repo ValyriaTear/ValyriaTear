@@ -1010,21 +1010,15 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya_sprite, "Play funny music", "", "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("seventh dialogue part", dialogue);
-    event:AddEventLinkAtEnd("Kalya runs to point 2");
+    event:AddEventLinkAtEnd("Kalya runs after Orlinn");
     event:AddEventLinkAtEnd("Orlinn runs to point 3");
     event:AddEventLinkAtEnd("Bronann sighs and think", 2000);
     EventManager:RegisterEvent(event);
 
     -- Kalya runs after Orlinn's loop
     -- 35, 44 -- 42, 52 -- 46, 43
-    event = hoa_map.PathMoveSpriteEvent("Kalya runs to point 1", kalya_sprite, 35, 44, true);
-    event:AddEventLinkAtEnd("Kalya runs to point 2");
-    EventManager:RegisterEvent(event);
-    event = hoa_map.PathMoveSpriteEvent("Kalya runs to point 2", kalya_sprite, 42, 52, true);
-    event:AddEventLinkAtEnd("Kalya runs to point 3");
-    EventManager:RegisterEvent(event);
-    event = hoa_map.PathMoveSpriteEvent("Kalya runs to point 3", kalya_sprite, 46, 43, true);
-    event:AddEventLinkAtEnd("Kalya runs to point 1");
+    event = hoa_map.PathMoveSpriteEvent("Kalya runs after Orlinn", kalya_sprite, orlinn, true);
+    event:AddEventLinkAtEnd("Kalya runs after Orlinn");
     EventManager:RegisterEvent(event);
     event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 1", orlinn, 35, 44, true);
     event:AddEventLinkAtEnd("Orlinn runs to point 2");
@@ -1102,7 +1096,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = hoa_system.Translate("Making one with the crystal, huh?");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-    text = hoa_system.Translate("Let's not panic, you look fine... Anyway, we'd better get back to the village and see the Elders as soon as possible.");
+    text = hoa_system.Translate("Let's not panic, Bronann, you look fine... Anyway, we'd better get back to the village and see the Elders as soon as possible.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Play wind music", "", "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Last dialogue", dialogue);
@@ -1164,6 +1158,7 @@ local flash_effect_time = 0;
 
 local crystal_appearance_time = 0;
 local crystal_visible = false;
+local crystal_light_effect = {};
 
 map_functions = {
 
@@ -1260,13 +1255,14 @@ map_functions = {
         crystal_appearance_time = crystal_appearance_time + SystemManager:GetUpdateTime();
 
         if (crystal_visible == false and crystal_appearance_time >= 10000) then
-            -- Add a light, TODO: Turn this into a scripted light object and remove it when the crystal appears
-            Map:AddLight("img/misc/lights/sun_flare_light_secondary.lua",
+            -- Add a light upon the crystal
+            crystal_light_effect = hoa_map.Light("img/misc/lights/sun_flare_light_secondary.lua",
                     "img/misc/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     hoa_video.Color(0.8, 0.8, 1.0, 0.3),
                     hoa_video.Color(0.8, 0.8, 0.85, 0.2),
                     hoa_map.MapMode.CONTEXT_01);
+            Map:AddLight(crystal_light_effect);
             -- Set the  crystal to visible while the white flash
             crystal:SetVisible(true);
             crystal_effect:Start();
@@ -1290,6 +1286,7 @@ map_functions = {
                 -- hide the crystal and the effect
                 crystal_effect:Stop();
                 crystal:SetVisible(false);
+                crystal_light_effect:SetVisible(false);
                 AudioManager:PlaySound("snd/crystal_chime.wav");
                 crystal_visible = false;
             end
@@ -1313,6 +1310,8 @@ map_functions = {
         -- Restore also their collision mask
         orlinn:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
         kalya_sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+        -- And prepare for the funny scene
+        orlinn:SetMovementSpeed(hoa_map.MapMode.ENEMY_SPEED);
     end,
 
     fade_out_music = function()
