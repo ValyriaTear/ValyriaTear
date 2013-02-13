@@ -168,7 +168,11 @@ bool LoadSettings()
     int32 resy = settings.ReadInt("screen_resy");
     VideoManager->SetInitialResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
-    VideoManager->SetPixelArtSmoothed(settings.ReadBool("smooth_graphics"));
+    // Enforce smooth tiles graphics at first run
+    if (settings.DoesBoolExist("smooth_graphics"))
+        VideoManager->SetPixelArtSmoothed(settings.ReadBool("smooth_graphics"));
+    else
+        VideoManager->SetPixelArtSmoothed(true);
     settings.CloseTable(); // video_settings
 
     // Load Audio settings
