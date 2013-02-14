@@ -338,9 +338,23 @@ void BattleMode::Reset()
 
 void BattleMode::RestartBattle()
 {
+    // Can't restart a bettle that hasn't started yet.
+    if (GetState() == BATTLE_STATE_INVALID)
+        return;
 
     // Reset potential battle scripts
     GetScriptSupervisor().Reset();
+
+    // Removes all enemies and readd only the ones that were present
+    // at the beginning of the battle.
+    for(uint32 i = 0; i < _enemy_actors.size(); ++i)
+        delete _enemy_actors[i];
+
+    _enemy_actors.clear();
+    _enemy_party.clear();
+
+    for(uint32 i = 0; i < _initial_enemy_actors_info.size(); ++i)
+        AddEnemy(_initial_enemy_actors_info[i].id, _initial_enemy_actors_info[i].pos_x, _initial_enemy_actors_info[i].pos_y);
 
     // Reset the state of all characters and enemies
     for(uint32 i = 0; i < _character_actors.size(); ++i)
@@ -352,7 +366,6 @@ void BattleMode::RestartBattle()
     // Reset battle inventory and available actions
     _command_supervisor->ResetItemList();
     _command_supervisor->ConstructMenus();
-
 
     _battle_media.battle_music.Rewind();
     _battle_media.battle_music.Play();
@@ -575,17 +588,15 @@ void BattleMode::DrawPostEffects()
 // BattleMode class -- secondary methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void BattleMode::AddEnemy(GlobalEnemy *new_enemy, float position_x, float position_y)
+void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
 {
-    // Don't add the enemy if it has an invalid ID or an experience level that is not zero
+    GlobalEnemy *new_enemy = new hoa_global::GlobalEnemy(new_enemy_id);
+
+    // Don't add the enemy if its id was invalidated
     if(new_enemy->GetID() == 0) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy with an invalid id: "
-                                       << new_enemy->GetID() << std::endl;
-        return;
-    }
-    if(new_enemy->GetExperienceLevel() != 0) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to add a new enemy that had already been initialized: "
-                                       << new_enemy->GetID() << std::endl;
+        PRINT_WARNING << "attempted to add a new enemy with an invalid id: "
+            << new_enemy->GetID() << std::endl;
+        delete new_enemy;
         return;
     }
 
@@ -600,8 +611,13 @@ void BattleMode::AddEnemy(GlobalEnemy *new_enemy, float position_x, float positi
     _enemy_actors.push_back(new_battle_enemy);
     _enemy_party.push_back(new_battle_enemy);
 
-    // If the battle has already begun, let's finish the initialization.
-    if (GetState() != BATTLE_STATE_INVALID) {
+    if (GetState() == BATTLE_STATE_INVALID) {
+        // When the enemy is added before the battle has begun, we can store it
+        // in case of a battle restart, as the number of enemies might have changed afterwards
+        _initial_enemy_actors_info.push_back(BattleEnemyInfo(new_enemy_id, position_x, position_y));
+    }
+    else {
+        // If the battle has already begun, let's finish the enemy initialization.
         SetActorIdleStateTime(new_battle_enemy);
         new_battle_enemy->ChangeState(ACTOR_STATE_IDLE);
     }

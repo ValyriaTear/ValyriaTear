@@ -71,6 +71,35 @@ const float BATTLE_SEMI_ACTIVE_FACTOR   = 1.5f;
 const float BATTLE_ACTIVE_FACTOR        = 1.0f;
 //@}
 
+//! \brief A simple structure keeping the enemy info to later permit to reinsert
+//! it as it was first requested, on battles restarts.
+struct BattleEnemyInfo {
+    BattleEnemyInfo():
+        id(0),
+        pos_x(0.0f),
+        pos_y(0.0f)
+    {}
+
+    BattleEnemyInfo(uint32 _id):
+        id(_id),
+        pos_x(0.0f),
+        pos_y(0.0f)
+    {}
+
+    BattleEnemyInfo(uint32 _id, float x, float y):
+        id(_id),
+        pos_x(x),
+        pos_y(y)
+    {}
+
+    //! \brief the battle enemy id
+    uint32 id;
+    //! \brief The x enemy position on the battle field, or 0 if default one.
+    float pos_x;
+    //! \brief The y enemy position on the battle field, or 0 if default one.
+    float pos_y;
+};
+
 /** ****************************************************************************
 *** \brief A companion class to BattleMode that holds various multimedia data
 ***
@@ -265,15 +294,6 @@ public:
     //@}
 
     /** \brief Adds a new active enemy to the battle field
-    *** \param new_enemy A copy of the GlobalEnemy object to add to the battle
-    *** \param position_x, position_y The enemy sprite position on the battle ground in pixels
-    *** This method uses the GlobalEnemy copy constructor to create a copy of the enemy. The GlobalEnemy
-    *** passed as an argument should be in its default loaded state (that is, it should have an experience
-    *** level equal to zero).
-    **/
-    void AddEnemy(hoa_global::GlobalEnemy *new_enemy, float position_x, float position_y);
-
-    /** \brief Adds a new active enemy to the battle field
     *** \param new_enemy_id The id number of the new enemy to add to the battle
     *** \param position_x, position_y The enemy sprite position on the battle ground in pixels
     *** This method works precisely the same was as the method which takes a GlobalEnemy argument,
@@ -282,13 +302,11 @@ public:
     *** defined somewhere else, it is better to pass it in to the alternative definition of this
     *** function.
     **/
-    void AddEnemy(uint32 new_enemy_id, float position_x, float position_y) {
-        AddEnemy(new hoa_global::GlobalEnemy(new_enemy_id), position_x, position_y);
-    }
+    void AddEnemy(uint32 new_enemy_id, float position_x, float position_y);
 
     /** \brief Restores the battle to its initial state, allowing the player another attempt to achieve victory
-    ***
-    ***
+    *** This function is permitted only when the battle state isn't invalid, as this value is reserved
+    *** for battles that haven't started yet.
     **/
     void RestartBattle();
 
@@ -473,6 +491,10 @@ private:
     *** it may point to either the character or enemy party.
     **/
     std::deque<private_battle::BattleActor *> _enemy_party;
+
+    //! \brief A copy of the enemy actors id at the beginning of the battle. Useful when restarting the battle,
+    //! as the number of enemies might have changed.
+    std::deque<private_battle::BattleEnemyInfo> _initial_enemy_actors_info;
 
     /** \brief The particle effects container.
     *** It will permit to draw particle effect in the right order, and will get rid of the dead particle effects,
