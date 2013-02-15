@@ -384,8 +384,8 @@ public:
     //! \brief Draws all active indicator text and graphics for the actor
     void DrawIndicators() const;
 
-    //! \brief Draws the stamina icon
-    void DrawStaminaIcon(const hoa_video::Color &color = hoa_video::Color::white) const;
+    //! \brief Draws the stamina icon - default implementation
+    virtual void DrawStaminaIcon(const hoa_video::Color &color = hoa_video::Color::white) const;
 
     /** \brief Sets the action that the actor should execute next
     *** \param action A pointer to the action that the actor should execute
@@ -722,6 +722,9 @@ public:
         _sprite_alpha = alpha;
     }
 
+    //! \brief See BattleActor::DrawStaminaIcon()
+    void DrawStaminaIcon(const hoa_video::Color &color = hoa_video::Color::white) const;
+
 protected:
     //! \brief A pointer to the global enemy object which the battle enemy represents
     hoa_global::GlobalEnemy *_global_enemy;
@@ -739,6 +742,8 @@ protected:
     //! A default sequence is played one of those is invalid.
     ScriptObject _death_update;
     ScriptObject _death_init;
+    // This function permits to draw something along with the Batleenemy Sprite
+    ScriptObject _death_draw_on_sprite;
 
     //! \brief Loads the potential death animation scripted functions.
     void _LoadDeathAnimationScript();

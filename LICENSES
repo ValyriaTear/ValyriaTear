@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.02.12
+Last update: 2013.02.15
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -50,6 +50,10 @@ dat/battles/characters_animations/kalya_attack.lua              GPLv2 or later  
 dat/battles/characters_animations/kalya_throw_stone.lua         GPLv2 or later           Bertram
 dat/battles/characters_animations/thanis_attack.lua             GPLv2 or later           Bertram
 
+dat/battles/enemies_animations/death_light_1.png                CC by SA 3.0             Bertram
+dat/battles/enemies_animations/death_light_2.png                CC by SA 3.0             Bertram
+dat/battles/enemies_animations/death_light_3.png                CC by SA 3.0             Bertram
+dat/battles/enemies_animations/fenrir_death.lua                 GPLv2 or later           Bertram
 dat/battles/enemies_animations/fenrir_flee.lua                  GPLv2 or later           Bertram
 
 dat/config/boot.lua                                             GPLv2 or later           Bertram (Completely redone it.)
@@ -71,6 +75,7 @@ dat/effects/particles/blue_firework.lua                         GPLv2 or later  
 dat/effects/particles/crystal_appearance.lua                    GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/defensive_stance.lua                      GPLv2 or later           Bertram
 dat/effects/particles/explosion.lua                             GPLv2 or later           roos + Bertram modifications
+dat/effects/particles/boss_death_particle.lua                   GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/fire.lua                                  GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/fire_spell.lua                            GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/heal_particle.lua                         GPLv2 or later           Bertram

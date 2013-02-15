@@ -395,7 +395,7 @@ void BattleActor::_UpdateStaminaIconPosition()
         y_pos = STAMINA_LOCATION_BOTTOM;
         break;
     case ACTOR_STATE_DYING:
-        // Make the icon fall whil disappearing...
+        // Make the icon fall while disappearing...
         y_pos += _state_timer.PercentComplete();
         break;
     default:
@@ -929,6 +929,7 @@ void BattleEnemy::_LoadDeathAnimationScript()
 
     _death_init = death_script.ReadFunctionPointer("Initialize");
     _death_update = death_script.ReadFunctionPointer("Update");
+    _death_draw_on_sprite = death_script.ReadFunctionPointer("DrawOnSprite");
     death_script.CloseFile();
 }
 
@@ -957,7 +958,15 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
     case ACTOR_STATE_DYING:
         // Trigger the death sequence if it is valid
         if (_death_init.is_valid()) {
-            ScriptCallFunction<void>(_death_init, BattleMode::CurrentInstance(), this);
+            try {
+                ScriptCallFunction<void>(_death_init, BattleMode::CurrentInstance(), this);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while triggering Initialize() function of enemy id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while triggering Initialize() function of enemy id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
         }
         else {
             // Default value, not used when scripted
@@ -998,8 +1007,20 @@ void BattleEnemy::Update()
         if (_death_init.is_valid()) {
             if (_death_update.is_valid()) {
                 // Change the state when the animation has finished.
-                if (ScriptCallFunction<bool>(_death_update))
+                try {
+                    if (ScriptCallFunction<bool>(_death_update))
+                        ChangeState(ACTOR_STATE_DEAD);
+                } catch(const luabind::error &e) {
+                    PRINT_ERROR << "Error while triggering Update() function of enemy id: " << _global_actor->GetID() << std::endl;
+                    ScriptManager->HandleLuaError(e);
+                    // Do not block the player
                     ChangeState(ACTOR_STATE_DEAD);
+                } catch(const luabind::cast_failed &e) {
+                    PRINT_ERROR << "Error while triggering Update() function of enemy id: " << _global_actor->GetID() << std::endl;
+                    ScriptManager->HandleCastError(e);
+                    // Do not block the player
+                    ChangeState(ACTOR_STATE_DEAD);
+                }
             }
         }
         else {
@@ -1043,6 +1064,18 @@ void BattleEnemy::DrawSprite()
     // Alpha will range from 1.0 to 0.0 in the following calculations
     if(_state == ACTOR_STATE_DYING) {
         sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
+
+        try {
+            if (_death_draw_on_sprite.is_valid())
+                ScriptCallFunction<void>(_death_draw_on_sprite);
+        } catch(const luabind::error &e) {
+            PRINT_ERROR << "Error while triggering DrawOnSprite() function of enemy id: " << _global_actor->GetID() << std::endl;
+            ScriptManager->HandleLuaError(e);
+        } catch(const luabind::cast_failed &e) {
+            PRINT_ERROR << "Error while triggering DrawOnSprite() function of enemy id: " << _global_actor->GetID() << std::endl;
+            ScriptManager->HandleCastError(e);
+        }
+
     } else if(GetHitPoints() == GetMaxHitPoints()) {
         sprite_frames[0].Draw();
     } else if(hp_percent > 0.666f) {
@@ -1064,6 +1097,22 @@ void BattleEnemy::DrawSprite()
         BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
     }
 } // void BattleEnemy::DrawSprite()
+
+void BattleEnemy::DrawStaminaIcon(const hoa_video::Color &color) const
+{
+    if(!IsAlive())
+        return;
+
+    VideoManager->Move(_x_stamina_location, _y_stamina_location);
+    // Make the stamina icon fade away when dying, use the enemy sprite alpha
+    if(_state == ACTOR_STATE_DYING) {
+        _stamina_icon.Draw(Color(color.GetRed(), color.GetGreen(),
+                                 color.GetBlue(), _sprite_alpha));
+    }
+    else {
+        _stamina_icon.Draw(color);
+    }
+}
 
 // TODO: No party target will work, this will have to be addressed eventually.
 // The use of a skill on dead enemies is not supported either.

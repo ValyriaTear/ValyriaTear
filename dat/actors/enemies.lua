@@ -420,10 +420,9 @@ enemies[8] = {
     sprite_width = 268,
     sprite_height = 196,
 
-    -- TODO: Add a better looking boss death
-    --scripts = {
-    --    death = "dat/battles/enemies_animations/fenrir_death.lua"
-    --},
+    scripts = {
+        death = "dat/battles/enemies_animations/fenrir_death.lua"
+    },
 
     base_stats = {
         hit_points = 640,
