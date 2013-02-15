@@ -49,10 +49,10 @@ Add Editor compilation (Requires QT 4.8.x headers)
 cmake -DEDITOR_SUPPORT=on .
 
 Add debug menus, and debug commands:
-cmake -DDEBUG_MENU=on .
+cmake -DDEBUG_FEATURES=on .
 
 Add both:
-cmake -DDEBUG_MENU=on -DEDITOR_SUPPORT=on .
+cmake -DDEBUG_FEATURES=on -DEDITOR_SUPPORT=on .
 
 On Code::Blocks:
 Got to Project->Build options, and add the flags in the #defines tab, i.e.:
