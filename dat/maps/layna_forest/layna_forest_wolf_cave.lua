@@ -348,8 +348,10 @@ function _CreateObjects()
     DialogueManager:AddDialogue(dialogue);
     necklace_npc:AddDialogueReference(dialogue);
 
-    -- Place all the jewel related object out of reach when the event is already done.
-    if (GlobalManager:DoesEventExist("story", "wolfpain_necklace_obtained") == true) then
+    -- Place all the jewel related object out of reach when the event is already done
+    -- or the wolf beaten in the crystal map.
+    if (GlobalManager:DoesEventExist("story", "wolfpain_necklace_obtained") == true
+            or GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         necklace_npc:SetPosition(0, 0);
 
         light_tilt:SetVisible(false);
