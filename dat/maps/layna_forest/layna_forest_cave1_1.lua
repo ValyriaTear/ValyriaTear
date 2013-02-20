@@ -458,13 +458,38 @@ function _CreateObjects()
     local npc = {};
     local event = {}
 
+    -- Adapt the light color according to the time of the day.
+    local light_color_red = 1.0;
+    local light_color_green = 1.0;
+    local light_color_blue = 1.0;
+    local light_color_alpha = 0.8;
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        local tw_value = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+        if (tw_value >= 4 and tw_value < 6) then
+            light_color_red = 0.83;
+            light_color_green = 0.72;
+            light_color_blue = 0.70;
+            light_color_alpha = 0.29;
+        elseif (tw_value >= 6 and tw_value < 8) then
+            light_color_red = 0.62;
+            light_color_green = 0.50;
+            light_color_blue = 0.59;
+            light_color_alpha = 0.49;
+        elseif (tw_value >= 8) then
+            light_color_red = 0.30;
+            light_color_green = 0.30;
+            light_color_blue = 0.46;
+            light_color_alpha = 0.60;
+        end
+    end
+
     -- Add a halo showing the cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 116, 109,
-            hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
 
     -- Add a halo showing the next cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 132, 14,
-            hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
 
 
     Map:AddSavePoint(50, 6, hoa_map.MapMode.CONTEXT_01);

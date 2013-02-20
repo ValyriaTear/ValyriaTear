@@ -18,6 +18,9 @@ local fog_alpha = 0.0;
 local fog_timer;
 local fog_time_length = 8000;
 
+local Battle = {};
+local Script = {};
+
 function Initialize(battle_instance)
 	Battle = battle_instance;
 	Script = Battle:GetScriptSupervisor();

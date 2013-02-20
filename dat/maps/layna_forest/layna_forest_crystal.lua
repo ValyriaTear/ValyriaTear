@@ -396,11 +396,27 @@ function Load(m)
     -- Permits the display of the crystal ect...
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
 
-    -- To be continued script
-    Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
-
     -- Preload the useful musics
     AudioManager:LoadMusic("mus/Zander Noriega - School of Quirks.ogg", Map);
+
+    -- Handle time of the day lighting, won't be used when arriving here the first time as expected.
+    _HandleTwilight();
+end
+
+-- Handle the twilight advancement after the crystal scene
+function _HandleTwilight()
+
+    -- If the characters have seen the crystal, then it's time to make the twilight happen
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        return;
+    end
+
+    -- test if the day time is sufficiently advanced
+    if (GlobalManager:DoesEventExist("story", "layna_forest_twilight_value") == false) then
+        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 0);
+    end
+
+    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -482,18 +498,33 @@ function _CreateObjects()
     wolf:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
     wolf:SetDirection(hoa_map.MapMode.SOUTH);
     Map:AddGroundObject(wolf);
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        wolf:SetPosition(0, 0);
+        wolf:SetVisible(false);
+        wolf:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    end
 
     -- Orlinn, waiting...
     orlinn = CreateSprite(Map, "Orlinn", 42, 58);
     orlinn:SetDirection(hoa_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
     Map:AddGroundObject(orlinn);
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    end
 
     crystal = CreateSprite(Map, "Crystal", 41, 45);
     crystal:SetDirection(hoa_map.MapMode.SOUTH);
     crystal:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
     crystal:SetVisible(false);
     Map:AddGroundObject(crystal);
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        crystal:SetPosition(0, 0);
+        crystal:SetVisible(false);
+        crystal:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    end
 
     crystal_effect = hoa_map.ParticleObject("dat/effects/particles/inactive_save_point.lua",
                                             41, 46, hoa_map.MapMode.CONTEXT_01);
@@ -1016,17 +1047,19 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Kalya runs after Orlinn's loop
-    -- 35, 44 -- 42, 52 -- 46, 43
     event = hoa_map.PathMoveSpriteEvent("Kalya runs after Orlinn", kalya_sprite, orlinn, true);
     event:AddEventLinkAtEnd("Kalya runs after Orlinn");
     EventManager:RegisterEvent(event);
-    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 1", orlinn, 35, 44, true);
+    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 1", orlinn, 32, 38, true);
     event:AddEventLinkAtEnd("Orlinn runs to point 2");
     EventManager:RegisterEvent(event);
-    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 2", orlinn, 42, 52, true);
+    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 2", orlinn, 32, 45, true);
     event:AddEventLinkAtEnd("Orlinn runs to point 3");
     EventManager:RegisterEvent(event);
-    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 3", orlinn, 46, 43, true);
+    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 3", orlinn, 50, 45, true);
+    event:AddEventLinkAtEnd("Orlinn runs to point 4");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Orlinn runs to point 4", orlinn, 50, 38, true);
     event:AddEventLinkAtEnd("Orlinn runs to point 1");
     EventManager:RegisterEvent(event);
 
@@ -1113,11 +1146,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_to_hero_event);
 
     event = hoa_map.ScriptedEvent("end of crystal event", "end_of_crystal_event", "");
-    --event:AddEventLinkAtEnd("Map:Popstate()");
-    event:AddEventLinkAtEnd("to be continued");
-    EventManager:RegisterEvent(event);
-
-    event = hoa_map.ScriptedEvent("to be continued", "to_be_continued", "");
+    event:AddEventLinkAtEnd("Map:Popstate()");
     EventManager:RegisterEvent(event);
 end
 
@@ -1205,6 +1234,7 @@ map_functions = {
             Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
             return false;
         end
+
         return true;
     end,
 
@@ -1286,6 +1316,7 @@ map_functions = {
                 -- hide the crystal and the effect
                 crystal_effect:Stop();
                 crystal:SetVisible(false);
+                crystal:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
                 crystal_light_effect:SetVisible(false);
                 AudioManager:PlaySound("snd/crystal_chime.wav");
                 crystal_visible = false;
@@ -1311,7 +1342,7 @@ map_functions = {
         orlinn:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
         kalya_sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
         -- And prepare for the funny scene
-        orlinn:SetMovementSpeed(hoa_map.MapMode.ENEMY_SPEED);
+        orlinn:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED - 7.0);
     end,
 
     fade_out_music = function()
@@ -1336,13 +1367,11 @@ map_functions = {
 
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);
+        Map:SetCamera(hero, 800);
 
         -- Set event as done
-        --GlobalManager:SetEventValue("story", "layna_forest_crystal_event_done", 1);
-    end,
-
-    to_be_continued = function()
-        GlobalManager:SetEventValue("game", "to_be_continued", 1);
-    end,
-
+        GlobalManager:SetEventValue("story", "layna_forest_crystal_event_done", 1);
+        -- Start the twilight
+        _HandleTwilight();
+    end
 }

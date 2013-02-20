@@ -387,6 +387,24 @@ function Load(m)
 
 	-- Add clouds overlay
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+
+    _HandleTwilight();
+end
+
+-- Handle the twilight advancement after the crystal scene
+function _HandleTwilight()
+
+    -- If the characters have seen the crystal, then it's time to make the twilight happen
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        return;
+    end
+
+    -- test if the day time is sufficiently advanced
+    if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") < 1) then
+        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 1);
+    end
+
+    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -1129,10 +1147,20 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-	enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
-	enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
-	-- Add tutorial battle dialog with Kalya and Bronann
-	enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+    -- default values
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
+
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        -- Add tutorial battle dialog with Kalya and Bronann
+        enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+    else
+        -- Setup time of the day lighting on battles
+        enemy:AddBattleScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2 ) then
+            enemy:SetBattleBackground("img/backdrops/battle/forest_background_evening.png");
+        end
+    end
 end
 
 -- Map Custom functions
@@ -1161,6 +1189,7 @@ map_functions = {
             Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
             return false;
         end
+
         return true;
     end,
 

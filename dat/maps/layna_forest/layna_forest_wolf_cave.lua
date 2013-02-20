@@ -248,7 +248,8 @@ function Load(m)
 	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
     -- Trigger the dialogue at entrance if not done yet.
-    if (GlobalManager:DoesEventExist("story", "kalya_speech_in_wolf_cave") == false) then
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 0 and
+            GlobalManager:DoesEventExist("story", "kalya_speech_in_wolf_cave") == false) then
         hero:SetMoving(false);
         hero:SetDirection(hoa_map.MapMode.NORTH);
         EventManager:StartEvent("Wolf cave entrance dialogue", 200);
@@ -302,13 +303,38 @@ function _CreateObjects()
 	local npc = {};
 	local event = {};
 
+    -- Adapt the light color according to the time of the day.
+    local light_color_red = 1.0;
+    local light_color_green = 1.0;
+    local light_color_blue = 1.0;
+    local light_color_alpha = 0.8;
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        local tw_value = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+        if (tw_value >= 4 and tw_value < 6) then
+            light_color_red = 0.83;
+            light_color_green = 0.72;
+            light_color_blue = 0.70;
+            light_color_alpha = 0.29;
+        elseif (tw_value >= 6 and tw_value < 8) then
+            light_color_red = 0.62;
+            light_color_green = 0.50;
+            light_color_blue = 0.59;
+            light_color_alpha = 0.49;
+        elseif (tw_value >= 8) then
+            light_color_red = 0.30;
+            light_color_green = 0.30;
+            light_color_blue = 0.46;
+            light_color_alpha = 0.60;
+        end
+    end
+
 	-- Add a halo showing the cave entrances
 	Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 59,
-		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+		    hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
 
     -- Add different halo light, representing holes of light coming from the ceiling
 	Map:AddHalo("img/misc/lights/right_ray_light.lua", 28, 17,
-		    hoa_video.Color(1.0, 1.0, 1.0, 0.8), hoa_map.MapMode.CONTEXT_01);
+		    hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
 
     -- Add the wolfpain necklace, triggering the second battle with the fenrir
     -- As this object is special, we're not using the object catalogue to only load that one once.

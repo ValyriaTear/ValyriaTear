@@ -262,6 +262,27 @@ function Load(m)
 
     -- Update the world map location
     GlobalManager:SetCurrentLocationId("layna forest");
+
+    -- To be continued script
+    Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
+
+    _HandleTwilight();
+end
+
+-- Handle the twilight advancement after the crystal scene
+function _HandleTwilight()
+
+    -- If the characters have seen the crystal, then it's time to make the twilight happen
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        return;
+    end
+
+    -- test if the day time is sufficiently advanced
+    if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") < 3) then
+        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 3);
+    end
+
+    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -721,6 +742,10 @@ function _CreateEvents()
 
     event = hoa_map.ScriptedEvent("end of save point event", "end_of_save_point_event", "");
 	EventManager:RegisterEvent(event);
+
+    -- NOTE temp event until what's next is done
+    event = hoa_map.ScriptedEvent("to be continued", "to_be_continued", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -740,8 +765,13 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
 	if (forest_entrance_exit_zone:IsCameraEntering() == true) then
-		hero:SetMoving(false);
-		EventManager:StartEvent("exit forest");
+        if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 0) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("exit forest");
+        else
+            hero:SetMoving(false);
+            EventManager:StartEvent("to be continued");
+        end
 	elseif (to_forest_nw_zone:IsCameraEntering() == true) then
 		hero:SetMoving(false);
 		EventManager:StartEvent("to forest NW");
@@ -750,10 +780,20 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-	enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
-	enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
-	-- Add tutorial battle dialog with Kalya and Bronann
-	enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+    -- default values
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
+
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        -- Add tutorial battle dialog with Kalya and Bronann
+        enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+    else
+        -- Setup time of the day lighting on battles
+        enemy:AddBattleScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+            enemy:SetBattleBackground("img/backdrops/battle/forest_background_evening.png");
+        end
+    end
 end
 
 -- Map Custom functions
@@ -840,5 +880,11 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "kalya_save_points_n_spring_speech_done", 1);
+    end,
+
+    to_be_continued = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        GlobalManager:SetEventValue("game", "to_be_continued", 1);
     end
 }

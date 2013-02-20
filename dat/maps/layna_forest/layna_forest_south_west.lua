@@ -397,6 +397,19 @@ function Load(m)
         hero:SetDirection(hoa_map.MapMode.WEST);
         EventManager:StartEvent("Forest entrance dialogue about snakes", 200);
     end
+
+    _HandleTwilight();
+end
+
+-- Handle the twilight advancement after the crystal scene
+function _HandleTwilight()
+
+    -- If the characters have seen the crystal, then it's time to make the twilight happen
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        return;
+    end
+
+    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -1065,8 +1078,16 @@ end
 function _SetBattleEnvironment(enemy)
 	enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
 	enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
-	-- Add tutorial battle dialog with Kalya and Bronann
-	enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        -- Add tutorial battle dialog with Kalya and Bronann
+        enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+    else
+        -- Setup time of the day lighting on battles
+        enemy:AddBattleScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+            enemy:SetBattleBackground("img/backdrops/battle/forest_background_evening.png");
+        end
+    end
 end
 
 -- Map Custom functions
