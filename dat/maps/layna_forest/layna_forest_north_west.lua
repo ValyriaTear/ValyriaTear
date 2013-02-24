@@ -1299,6 +1299,10 @@ end
 local move_next_to_hero_event = {}
 local move_back_to_hero_event = {}
 
+-- used in the scene when returning to the village
+local move_next_to_hero_event2 = {};
+local move_next_to_hero_event3 = {};
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = {};
@@ -1324,9 +1328,19 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = hoa_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya_sprite, orlinn);
     EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya_sprite);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.LookAtSpriteEvent("Bronann looks at Orlinn", hero, orlinn);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya_sprite, hoa_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
     event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
     EventManager:RegisterEvent(event);
     event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("orlinn:SetCollision(NONE)", orlinn, "Sprite_Collision_off", "");
+    EventManager:RegisterEvent(event);
+    event = hoa_map.ScriptedSpriteEvent("orlinn:SetCollision(ALL)", orlinn, "Sprite_Collision_on", "");
     EventManager:RegisterEvent(event);
 
     -- First time forest entrance dialogue about save points and the heal spring.
@@ -1416,6 +1430,76 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("The Hero sees the created shortcut", dialogue);
     EventManager:RegisterEvent(event);
+
+    -- scene when returning to the village
+
+    -- NOTE: The actual destination is set just before the actual start call
+    move_next_to_hero_event2 = hoa_map.PathMoveSpriteEvent("Kalya moves next to Orlinn", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
+    EventManager:RegisterEvent(move_next_to_hero_event2);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    move_next_to_hero_event3 = hoa_map.PathMoveSpriteEvent("Bronann moves next to Orlinn", hero, 0, 0, false);
+    move_next_to_hero_event3:AddEventLinkAtEnd("Bronann looks at Orlinn");
+    EventManager:RegisterEvent(move_next_to_hero_event3);
+
+    event = hoa_map.ScriptedEvent("Start of dialogue when returning to the village", "start_of_dialogue_return_to_village", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Orlinn");
+    event:AddEventLinkAtEnd("Bronann moves next to Orlinn");
+    event:AddEventLinkAtEnd("Dialogue when returning to the village", 800);
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("We're almost there!");
+    dialogue:AddLine(text, orlinn);
+    text = hoa_system.Translate("Say Sister, do you think Herth will be angry with me for what happened?");
+    dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
+    text = hoa_system.Translate("I don't think so, Orlinn. We both know you didn't do it on purpose, right?");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Ok...");
+    dialogue:AddLine(text, orlinn);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Dialogue when returning to the village", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes to the village", 800);
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Orlinn goes to the village", orlinn, 1, 84, true);
+    event:AddEventLinkAtEnd("Make Orlinn invisible");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedEvent("Make Orlinn invisible", "make_orlinn_invisible", "");
+    event:AddEventLinkAtEnd("Dialogue when returning to the village - part 2", 800);
+    EventManager:RegisterEvent(event);
+
+    dialogue = hoa_map.SpriteDialogue();
+    text = hoa_system.Translate("Kalya, ... Err ...");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("What is it, Bronann?");
+    dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
+    text = hoa_system.Translate("Hmm... Nevermind.");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("Don't worry too much, Bronann, Herth will be able to help you.");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("Me? But ...");
+    dialogue:AddLine(text, hero);
+    text = hoa_system.Translate("Thanks ...");
+    dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks west", "");
+    text = hoa_system.Translate("Thanks for your help there ...");
+    dialogue:AddLine(text, kalya_sprite);
+    text = hoa_system.Translate("... You're welcome.");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = hoa_map.DialogueEvent("Dialogue when returning to the village - part 2", dialogue);
+    event:AddEventLinkAtEnd("Bronann goes to the village");
+    event:AddEventLinkAtEnd("Kalya goes to the village");
+    event:AddEventLinkAtEnd("to forest entrance");
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.PathMoveSpriteEvent("Bronann goes to the village", hero, 1, 83, false);
+    EventManager:RegisterEvent(event);
+    event = hoa_map.PathMoveSpriteEvent("Kalya goes to the village", kalya_sprite, 1, 85, false);
+    EventManager:RegisterEvent(event);
+
 end
 
 -- zones
@@ -1424,12 +1508,16 @@ local to_forest_NE_zone = {};
 local to_forest_SW_zone = {};
 local to_cave_entrance_zone = {};
 local orlinn_scene_zone = {};
+local dialogue_near_forest_entrance_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
     to_forest_entrance_zone = hoa_map.CameraZone(0, 1, 80, 90, hoa_map.MapMode.CONTEXT_01);
     Map:AddZone(to_forest_entrance_zone);
+
+    dialogue_near_forest_entrance_zone = hoa_map.CameraZone(5, 7, 80, 90, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(dialogue_near_forest_entrance_zone);
 
     to_forest_NE_zone = hoa_map.CameraZone(126, 128, 40, 45, hoa_map.MapMode.CONTEXT_01);
     Map:AddZone(to_forest_NE_zone);
@@ -1449,6 +1537,13 @@ function _CheckZones()
     if (to_forest_entrance_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to forest entrance");
+    elseif (dialogue_near_forest_entrance_zone:IsCameraEntering() == true
+            and GlobalManager:GetEventValue("story", "layna_forest_return_to_village_dialogue_done") == 0) then
+        if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+            -- Start the return to village dialogue
+            hero:SetMoving(false);
+            EventManager:StartEvent("Start of dialogue when returning to the village");
+        end
     elseif (to_forest_NE_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to forest NE");
@@ -1561,5 +1656,35 @@ map_functions = {
 
     SetCamera2 = function(sprite)
         Map:SetCamera(sprite, 2500);
+    end,
+
+    start_of_dialogue_return_to_village = function()
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya_sprite:SetVisible(true);
+        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        hero:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        orlinn:SetDirection(hoa_map.MapMode.WEST);
+
+        move_next_to_hero_event2:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        move_next_to_hero_event3:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition() - 2.0, false);
+
+        -- Set the event as done now to avoid retriggering it
+        GlobalManager:SetEventValue("story", "layna_forest_return_to_village_dialogue_done", 1);
+    end,
+
+    make_orlinn_invisible = function()
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
     end
 }
