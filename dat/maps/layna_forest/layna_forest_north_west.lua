@@ -530,7 +530,22 @@ function _CreateObjects()
     event = hoa_map.BattleEncounterEvent("Monster trap in chest");
     event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
-    event:AddScript("dat/battles/tutorial_battle_dialogs.lua");
+
+    -- default values
+    event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetBackground("img/backdrops/battle/forest_background.png");
+
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+        -- Add tutorial battle dialog with Kalya and Bronann
+        event:AddScript("dat/battles/tutorial_battle_dialogs.lua");
+    else
+        -- Setup time of the day lighting on battles
+        event:AddScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+            event:SetBackground("img/backdrops/battle/forest_background_evening.png");
+        end
+    end
+
     event:AddEnemy(2, 0, 0);
     event:AddEnemy(2, 0, 0);
     event:AddEnemy(2, 0, 0);
