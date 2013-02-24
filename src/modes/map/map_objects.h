@@ -704,6 +704,13 @@ private:
     //! \brief Events triggered at the start of the treasure event.
     std::vector<std::string> _events;
 
+    //! \brief Tells whether the events have been started. So we can keep track of
+    //! whether they've finished before opening the treasure supervisor.
+    bool _events_triggered;
+
+    //! \brief Tells whether the treasure is being opened.
+    bool _is_opening;
+
     //! \brief Loads the state of the chest from the global event corresponding to the current map
     void _LoadState();
 }; // class TreasureObject : public PhysicalObject

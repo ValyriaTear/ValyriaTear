@@ -617,6 +617,8 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     PhysicalObject()
 {
     _object_type = TREASURE_TYPE;
+    _events_triggered = false;
+    _is_opening = false;
 
     _treasure_name = treasure_name;
     if(treasure_name.empty())
@@ -673,26 +675,53 @@ void TreasureObject::Open()
         return;
     }
 
-    SetCurrentAnimation(TREASURE_OPENING_ANIM);
+    // Test whether events should be triggered
+    if (_events.empty())
+        _events_triggered = true;
 
-    // Add an event to the treasures group indicating that the treasure has now been opened
-    GlobalManager->SetEventValue("treasures", _treasure_name, 1);
+    SetCurrentAnimation(TREASURE_OPENING_ANIM);
+    _is_opening = true;
 }
 
 void TreasureObject::Update()
 {
     PhysicalObject::Update();
 
-    if((current_animation == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished())) {
+    if((current_animation == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished()))
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
 
-        // Trigger potential events on opening
-        if (_events.size() > 0) {
-            for (uint32 i = 0; i < _events.size(); ++i) {
-                MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_events[i]);
-            }
+    if (!_is_opening || current_animation != TREASURE_OPEN_ANIM)
+        return;
+
+    // Once opened, we handle potential events and the display of the treasure supervisor
+    EventSupervisor *event_manager = MapMode::CurrentInstance()->GetEventSupervisor();
+
+    if (!_events_triggered) {
+        // Trigger potential events after opening
+        for (uint32 i = 0; i < _events.size(); ++i) {
+            if (!event_manager->IsEventActive(_events[i]))
+                 MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_events[i]);
         }
+        _events_triggered = true;
+    }
+    else if (!_events.empty()) {
+        // Test whether the events have finished
+        std::vector<std::string>::iterator it = _events.begin();
+        for (; it != _events.end();) {
+            // Once the event has finished, we forget it
+            if (!event_manager->IsEventActive(*it))
+                _events.erase(it);
+            else
+                ++it;
+        }
+    }
+    else {
+        // Once all events are finished, we can open the treasure supervisor
         MapMode::CurrentInstance()->GetTreasureSupervisor()->Initialize(this);
+        // Add an event to the treasures group indicating that the treasure has now been opened
+        GlobalManager->SetEventValue("treasures", _treasure_name, 1);
+        // End the opening sequence
+        _is_opening = false;
     }
 }
 
