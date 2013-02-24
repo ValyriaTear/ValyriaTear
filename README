@@ -1,7 +1,7 @@
 Valyria Tear
 
 
-Copyright (C) 2012 by Bertram
+Copyright (C) 2012-2013 by Bertram
 Copyright (C) 2004 - 2011 by The Allacrost Project
 
 This code is licensed under the GNU GPL. It is free software and you may
@@ -26,18 +26,20 @@ Game directories included and used are:
 dat/ img/ mus/ snd/ src/ po/
 
 Library dependencies (you will need the following in order to compile and run the game):
-OpenGL and GLU
+Boost headers (Tested from 1.48 to 1.50) (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
+GNU Gettext - (libiconv, libintl)
+lua (5.1.x - 5.2.x) - (liblua)
+Luabind 0.9.1 (Provided as a static library)
+libz
 libjpeg (6.2 to 8)
 libpng (1.2 to 1.5)
+Ogg/Vorbis - (libogg, libvorbis, libvorbisenc, libvorbisfile)
+OpenAL
+OpenGL and GLU
 SDL (1.2)
 SDL_ttf (1.2)
-OpenAL
-libogg
-libvorbis
-GNU Gettext
-lua 5.1.x
-Luabind 0.9.1 (Provided as a static library)
-Boost headers (1.48 to 1.49) (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
+SDL_image (1.2)
+and:
 Qt 4.8.x (only if you wish to compile the map editor)
 
 Compiling with editor or debug feature support:
