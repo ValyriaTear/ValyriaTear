@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.02.15
+Last update: 2013.02.24
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -33,6 +33,7 @@ art/item_template.png                                           CC by SA 3.0    
 art/lightning1.xcf                                              CC by SA 3.0             Bertram
 art/lightning2.xcf                                              CC by SA 3.0             Bertram
 art/lightning3.xcf                                              CC by SA 3.0             Bertram
+art/stamina_bar.xcf                                             CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
 
 dat/global.lua                                                  GPLv2 or later           Bertram (Completely redone it.)
 
@@ -218,12 +219,15 @@ img/menus/hand.png                                              CC by 3.0       
 img/menus/hand_down.png                                         CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
 img/menus/rotating_crystal_grey.lua                             GPLv2                    Bertram
 img/menus/rotating_crystal_grey.png                             CC by 3.0                qubodup (OGA) - http://opengameart.org/content/rotating-crystal-animation-8-step
+img/menus/stamina_bar.png                                       CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
+
 img/menus/themes/royal_silk/win_border.png                      CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
 img/menus/themes/royal_silk/win_background.png                  CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications
 img/menus/themes/royal_silk/cursor.png                          CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
 img/menus/themes/black_sleet/black_sleet_skin.png               GPLv2                    Allacrost
 img/menus/themes/black_sleet/black_sleet_texture.png            GPLv2                    Allacrost
 img/menus/themes/black_sleet/cursor.png                         GPLv2                    Allacrost
+
 img/menus/worldmaps/test_map.png                                CC0                      Belohlavek (OGA) - http://opengameart.org/content/fantasy-world-map
 
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
@@ -760,7 +764,6 @@ Files:
 ./img/menus/locations/blank.png
 ./img/menus/locations/desert_cave.png
 ./img/menus/locations/desert.png
-./img/menus/stamina_bar.png
 ./img/menus/scroll_arrows.png
 ./img/menus/equip.png
 ./img/menus/battle_character_command.png

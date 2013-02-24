@@ -38,6 +38,7 @@ local Script = {};
 local DialogueManager = {};
 local stop_script = false;
 local start_timer = {};
+local main_dialogue = {};
 
 function Initialize(battle_instance)
     Battle = battle_instance;
@@ -58,8 +59,6 @@ function Initialize(battle_instance)
     hand2_image_id = Script:AddImage("img/menus/hand_down.png", 26.0, 47.0);
 
     DialogueManager = Battle:GetDialogueSupervisor();
-
-    local main_dialogue = {};
 
     -- Add all speakers for the dialogues to be added
     -- TODO: all of these custom speaker calls should be replaced with calls to AddCharacterSpeaker() later
@@ -86,13 +85,13 @@ function Initialize(battle_instance)
         main_dialogue:AddLine(text, 1002);
         text = hoa_system.Translate("In battles, our stamina icons and the ones of our enemy are going up the Stamina Bar. The more Agility you have, the quickest you'll reach the upper part of it.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("Once one of us has reached the green line, you can select an action for the one concerned. Don't panic, the battle is then paused and you've got all the time needed to select one.");
+        text = hoa_system.Translate("Once one of us has reached the action level, you can select an action for the one concerned. Don't panic, the battle is then paused and you've got all the time needed to select one.");
         main_dialogue:AddLine(text, 1002);
         text = hoa_system.Translate("There are several action types: The basic one 'Weapon', and later 'Magic' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose one action and a target to trigger it.");
         main_dialogue:AddLine(text, 1002);
         text = hoa_system.Translate("The icon will the reach the top of the Stamina Bar before being triggering it. It's called the 'preparation time'. The stronger is the skill, the longer it has to be prepared.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("By the way, you're not forced to wait for your icon to reach the green line before acting. The two little arrows here can be triggered, using your up and down keys, to preselect an action for either of us.");
+        text = hoa_system.Translate("By the way, you're not forced to wait for your icon to reach the action level before acting. The two little arrows here can be triggered, using your up and down keys, to preselect an action for either of us.");
         main_dialogue:AddLine(text, 1002);
         text = hoa_system.Translate("As long as the little arrows there are visible, you can change the selected action.");
         main_dialogue:AddLine(text, 1002);
