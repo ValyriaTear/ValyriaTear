@@ -1130,7 +1130,7 @@ function _CreateEvents()
     text = hoa_system.Translate("Making one with the crystal, huh?");
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = hoa_system.Translate("Let's not panic, Bronann, you look fine... Anyway, we'd better get back to the village and see the Elders as soon as possible.");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Play wind music", "", "thinking dots");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "", "Play wind music", "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Last dialogue", dialogue);
     event:AddEventLinkAtEnd("kalya goes back to party");
