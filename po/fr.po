@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-11 00:54+0100\n"
-"PO-Revision-Date: 2013-02-11 01:08+0100\n"
+"POT-Creation-Date: 2013-02-24 22:23+0100\n"
+"PO-Revision-Date: 2013-02-24 22:37+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -97,11 +97,11 @@ msgstr "Tous les ennemies"
 msgid "Invalid Target"
 msgstr "Cible invalide"
 
-#: ../src/modes/battle/battle_actions.cpp:307
+#: ../src/modes/battle/battle_actions.cpp:311
 msgid "Use: [error]"
 msgstr "Utiliser : [erreur]"
 
-#: ../src/modes/battle/battle_actions.cpp:309
+#: ../src/modes/battle/battle_actions.cpp:313
 msgid "Use: "
 msgstr "Action :"
 
@@ -594,32 +594,32 @@ msgstr "Equipement actuel :"
 #: ../src/modes/menu/menu.cpp:234 ../dat/actors/characters.lua:60
 #: ../dat/actors/characters.lua:198 ../dat/actors/characters.lua:332
 #: ../dat/actors/characters.lua:467 ../dat/actors/enemies.lua:114
-#: ../dat/actors/enemies.lua:164 ../dat/actors/enemies.lua:221
-#: ../dat/actors/enemies.lua:381 ../dat/actors/enemies.lua:433
-#: ../dat/actors/enemies.lua:490 ../dat/actors/enemies.lua:555
-#: ../dat/actors/enemies.lua:610 ../dat/actors/enemies.lua:990
-#: ../dat/actors/enemies.lua:1046 ../dat/actors/enemies.lua:1265
-#: ../dat/actors/enemies.lua:1322 ../dat/actors/enemies.lua:1379
-#: ../dat/actors/enemies.lua:1445 ../dat/actors/enemies.lua:1501
+#: ../dat/actors/enemies.lua:167 ../dat/actors/enemies.lua:224
+#: ../dat/actors/enemies.lua:387 ../dat/actors/enemies.lua:442
+#: ../dat/actors/enemies.lua:499 ../dat/actors/enemies.lua:564
+#: ../dat/actors/enemies.lua:619 ../dat/actors/enemies.lua:999
+#: ../dat/actors/enemies.lua:1055 ../dat/actors/enemies.lua:1274
+#: ../dat/actors/enemies.lua:1331 ../dat/actors/enemies.lua:1388
+#: ../dat/actors/enemies.lua:1454 ../dat/actors/enemies.lua:1510
 msgid "Head"
 msgstr "Tête"
 
 #: ../src/modes/menu/menu.cpp:237 ../dat/actors/characters.lua:69
 #: ../dat/actors/characters.lua:207 ../dat/actors/characters.lua:341
-#: ../dat/actors/characters.lua:476 ../dat/actors/enemies.lua:329
-#: ../dat/actors/enemies.lua:682 ../dat/actors/enemies.lua:802
+#: ../dat/actors/characters.lua:476 ../dat/actors/enemies.lua:332
+#: ../dat/actors/enemies.lua:691 ../dat/actors/enemies.lua:811
 msgid "Torso"
 msgstr "Torse"
 
 #: ../src/modes/menu/menu.cpp:240 ../src/modes/menu/menu_views.cpp:210
-#: ../dat/actors/enemies.lua:1395 ../dat/actors/enemies.lua:1461
+#: ../dat/actors/enemies.lua:1404 ../dat/actors/enemies.lua:1470
 msgid "Arm"
 msgstr "Bras"
 
 #: ../src/modes/menu/menu.cpp:243 ../dat/actors/characters.lua:86
 #: ../dat/actors/characters.lua:224 ../dat/actors/characters.lua:358
-#: ../dat/actors/characters.lua:493 ../dat/actors/enemies.lua:1126
-#: ../dat/actors/enemies.lua:1403 ../dat/actors/enemies.lua:1517
+#: ../dat/actors/characters.lua:493 ../dat/actors/enemies.lua:1135
+#: ../dat/actors/enemies.lua:1412 ../dat/actors/enemies.lua:1526
 msgid "Legs"
 msgstr "Jambes"
 
@@ -783,8 +783,8 @@ msgstr "Csq"
 msgid "Tor"
 msgstr "Trs"
 
-#: ../src/modes/menu/menu_views.cpp:211 ../dat/actors/enemies.lua:506
-#: ../dat/actors/enemies.lua:626 ../dat/actors/enemies.lua:1062
+#: ../src/modes/menu/menu_views.cpp:211 ../dat/actors/enemies.lua:515
+#: ../dat/actors/enemies.lua:635 ../dat/actors/enemies.lua:1071
 msgid "Leg"
 msgstr "Jmb"
 
@@ -1394,12 +1394,12 @@ msgstr "Abîmes"
 msgid "Green Slime"
 msgstr "Blob vert"
 
-#: ../dat/actors/enemies.lua:67 ../dat/actors/enemies.lua:172
-#: ../dat/actors/enemies.lua:229 ../dat/actors/enemies.lua:281
-#: ../dat/actors/enemies.lua:389 ../dat/actors/enemies.lua:441
-#: ../dat/actors/enemies.lua:746 ../dat/actors/enemies.lua:849
-#: ../dat/actors/enemies.lua:896 ../dat/actors/enemies.lua:943
-#: ../dat/actors/enemies.lua:1273
+#: ../dat/actors/enemies.lua:67 ../dat/actors/enemies.lua:175
+#: ../dat/actors/enemies.lua:232 ../dat/actors/enemies.lua:284
+#: ../dat/actors/enemies.lua:395 ../dat/actors/enemies.lua:450
+#: ../dat/actors/enemies.lua:755 ../dat/actors/enemies.lua:858
+#: ../dat/actors/enemies.lua:905 ../dat/actors/enemies.lua:952
+#: ../dat/actors/enemies.lua:1282
 msgid "Body"
 msgstr "Corps"
 
@@ -1407,156 +1407,156 @@ msgstr "Corps"
 msgid "Spider"
 msgstr "Araignée"
 
-#: ../dat/actors/enemies.lua:122 ../dat/actors/enemies.lua:498
-#: ../dat/actors/enemies.lua:1330
+#: ../dat/actors/enemies.lua:122 ../dat/actors/enemies.lua:507
+#: ../dat/actors/enemies.lua:1339
 msgid "Abdomen"
 msgstr "Abdomen"
 
-#: ../dat/actors/enemies.lua:142 ../dat/actors/enemies.lua:359
-#: ../dat/actors/enemies.lua:411 ../dat/actors/map_sprites.lua:415
+#: ../dat/actors/enemies.lua:142 ../dat/actors/enemies.lua:362
+#: ../dat/actors/enemies.lua:417 ../dat/actors/map_sprites.lua:415
 msgid "Fenrir"
 msgstr "Fenrir"
 
-#: ../dat/actors/enemies.lua:200
+#: ../dat/actors/enemies.lua:203
 msgid "Snake"
 msgstr "Serpent"
 
-#: ../dat/actors/enemies.lua:237 ../dat/actors/enemies.lua:563
-#: ../dat/actors/enemies.lua:1281 ../dat/actors/enemies.lua:1338
+#: ../dat/actors/enemies.lua:240 ../dat/actors/enemies.lua:572
+#: ../dat/actors/enemies.lua:1290 ../dat/actors/enemies.lua:1347
 msgid "Tail"
 msgstr "Queue"
 
-#: ../dat/actors/enemies.lua:260 ../dat/actors/map_sprites.lua:373
+#: ../dat/actors/enemies.lua:263 ../dat/actors/map_sprites.lua:373
 msgid "Slime Mother"
 msgstr "Maman blob"
 
-#: ../dat/actors/enemies.lua:308 ../dat/actors/map_sprites.lua:332
+#: ../dat/actors/enemies.lua:311 ../dat/actors/map_sprites.lua:332
 msgid "Bat"
 msgstr "Chauve-souris"
 
-#: ../dat/actors/enemies.lua:337
+#: ../dat/actors/enemies.lua:340
 msgid "Wing"
 msgstr "Aile"
 
-#: ../dat/actors/enemies.lua:469
+#: ../dat/actors/enemies.lua:478
 msgid "Scorpion"
 msgstr "Scorpion"
 
-#: ../dat/actors/enemies.lua:534
+#: ../dat/actors/enemies.lua:543
 msgid "Dune Crawler"
 msgstr "Creuseur de dunes"
 
-#: ../dat/actors/enemies.lua:589
+#: ../dat/actors/enemies.lua:598
 msgid "Skeleton"
 msgstr "Squelette"
 
-#: ../dat/actors/enemies.lua:618 ../dat/actors/enemies.lua:998
-#: ../dat/actors/enemies.lua:1387 ../dat/actors/enemies.lua:1453
-#: ../dat/actors/enemies.lua:1509
+#: ../dat/actors/enemies.lua:627 ../dat/actors/enemies.lua:1007
+#: ../dat/actors/enemies.lua:1396 ../dat/actors/enemies.lua:1462
+#: ../dat/actors/enemies.lua:1518
 msgid "Chest"
 msgstr "Poitrine"
 
-#: ../dat/actors/enemies.lua:653
+#: ../dat/actors/enemies.lua:662
 msgid "Stygian Lizard"
 msgstr "Saurien ténébreux"
 
-#: ../dat/actors/enemies.lua:674
+#: ../dat/actors/enemies.lua:683
 msgid "Eye"
 msgstr "Oeil"
 
-#: ../dat/actors/enemies.lua:690 ../dat/actors/enemies.lua:754
+#: ../dat/actors/enemies.lua:699 ../dat/actors/enemies.lua:763
 msgid "Claw"
 msgstr "Griffes"
 
-#: ../dat/actors/enemies.lua:717
+#: ../dat/actors/enemies.lua:726
 msgid "Demonic Essence"
 msgstr "Essence démoniaque"
 
-#: ../dat/actors/enemies.lua:738
+#: ../dat/actors/enemies.lua:747
 msgid "Face"
 msgstr "Tête"
 
-#: ../dat/actors/enemies.lua:781
+#: ../dat/actors/enemies.lua:790
 msgid "Yeti"
 msgstr "Yéti"
 
-#: ../dat/actors/enemies.lua:828
+#: ../dat/actors/enemies.lua:837
 msgid "Red Slime"
 msgstr "Blob rouge"
 
-#: ../dat/actors/enemies.lua:875
+#: ../dat/actors/enemies.lua:884
 msgid "Thing"
 msgstr "Chose"
 
-#: ../dat/actors/enemies.lua:922
+#: ../dat/actors/enemies.lua:931
 msgid "Mushroom Zombie"
 msgstr "Zombi-gnon"
 
-#: ../dat/actors/enemies.lua:969
+#: ../dat/actors/enemies.lua:978
 msgid "Rat"
 msgstr "Rat"
 
-#: ../dat/actors/enemies.lua:1025
+#: ../dat/actors/enemies.lua:1034
 msgid "Scorpion Goliath"
 msgstr "Scorpion Goliath"
 
-#: ../dat/actors/enemies.lua:1054
+#: ../dat/actors/enemies.lua:1063
 msgid "Pincer"
 msgstr "Pince"
 
-#: ../dat/actors/enemies.lua:1089
+#: ../dat/actors/enemies.lua:1098
 msgid "Armored Beast"
 msgstr "Bête en armure"
 
-#: ../dat/actors/enemies.lua:1110
+#: ../dat/actors/enemies.lua:1119
 msgid "Mesosoma"
 msgstr "Mésosoma"
 
-#: ../dat/actors/enemies.lua:1118
+#: ../dat/actors/enemies.lua:1127
 msgid "Pincers"
 msgstr "Pinces"
 
-#: ../dat/actors/enemies.lua:1146
+#: ../dat/actors/enemies.lua:1155
 msgid "Daemarbora"
 msgstr "Daemarbora"
 
-#: ../dat/actors/enemies.lua:1167
+#: ../dat/actors/enemies.lua:1176
 msgid "Trunk"
 msgstr "Tronc"
 
-#: ../dat/actors/enemies.lua:1175
+#: ../dat/actors/enemies.lua:1184
 msgid "Branches"
 msgstr "Branches"
 
-#: ../dat/actors/enemies.lua:1195
+#: ../dat/actors/enemies.lua:1204
 msgid "Aerocephal"
 msgstr "Aérocéphal"
 
-#: ../dat/actors/enemies.lua:1216
+#: ../dat/actors/enemies.lua:1225
 msgid "Forehead"
 msgstr "Front"
 
-#: ../dat/actors/enemies.lua:1224
+#: ../dat/actors/enemies.lua:1233
 msgid "Orifice"
 msgstr "Orifice"
 
-#: ../dat/actors/enemies.lua:1244
+#: ../dat/actors/enemies.lua:1253
 msgid "Arcana Drake"
 msgstr "Arcana Drake"
 
-#: ../dat/actors/enemies.lua:1301
+#: ../dat/actors/enemies.lua:1310
 msgid "Nagaruda"
 msgstr "Nagaruda"
 
-#: ../dat/actors/enemies.lua:1358
+#: ../dat/actors/enemies.lua:1367
 msgid "Deceleon"
 msgstr "Décéléon"
 
-#: ../dat/actors/enemies.lua:1423
+#: ../dat/actors/enemies.lua:1432
 msgid "Aurum Drakueli"
 msgstr "Aurum Drakueli"
 
-#: ../dat/actors/enemies.lua:1480
+#: ../dat/actors/enemies.lua:1489
 msgid "Kyle"
 msgstr "Kyle"
 
@@ -1624,7 +1624,7 @@ msgstr "Papillon"
 msgid "Squirrel"
 msgstr "Ecureuil"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:68
+#: ../dat/battles/tutorial_battle_dialogs.lua:73
 msgid ""
 "Woah, I wouldn't have expected enemies so close to the village. Bronann, do "
 "you need a quick reminder about the basics in battles?"
@@ -1632,30 +1632,30 @@ msgstr ""
 "Wouah, je ne pensais pas trouver des monstres si près du village. Bronann, "
 "as-tu besoin d'un rappel sur les bases en combat ?"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:70
-#: ../dat/battles/tutorial_battle_dialogs.lua:97 ../dat/config/quests.lua:82
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:517
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:379
+#: ../dat/battles/tutorial_battle_dialogs.lua:75
+#: ../dat/battles/tutorial_battle_dialogs.lua:102 ../dat/config/quests.lua:82
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:542
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:407
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:526
 #: ../dat/maps/layna_village/layna_village_center.lua:738
 #: ../dat/maps/layna_village/layna_village_center.lua:1244
 msgid "..."
 msgstr "..."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:72
+#: ../dat/battles/tutorial_battle_dialogs.lua:77
 msgid "Ask about battle basics."
 msgstr "Demander la base en combat."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:74
+#: ../dat/battles/tutorial_battle_dialogs.lua:79
 msgid "Ask nothing. I know how to fight."
 msgstr "Ne rien demander. Je sais me battre."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:77
+#: ../dat/battles/tutorial_battle_dialogs.lua:82
 msgid "Er, I could use a refresher on the fundamentals of combat."
 msgstr ""
 "Heu, Cela ne me dérangerait pas d'avoir un bon rafraîchissement des bases."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:79
+#: ../dat/battles/tutorial_battle_dialogs.lua:84
 msgid ""
 "Here you can find the Hit Points (HP) and Skill Points (SP) of all the ally "
 "party. Don't let our HP reach 0 or we're doomed!"
@@ -1663,7 +1663,7 @@ msgstr ""
 "Ici, tu peux voir les points de vie (PV) et les points de magie (PM) de tous "
 "les alliés. Ne laisse pas nos PV tomber à 0 ou c'en est fini de nous deux !"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:81
+#: ../dat/battles/tutorial_battle_dialogs.lua:86
 msgid ""
 "In battles, our stamina icons and the ones of our enemy are going up the "
 "Stamina Bar. The more Agility you have, the quickest you'll reach the upper "
@@ -1673,27 +1673,27 @@ msgstr ""
 "la barre d'endurance. Plus tu as en Agilité, plus vite ton icône arrivera en "
 "haut de la barre."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:83
+#: ../dat/battles/tutorial_battle_dialogs.lua:88
 msgid ""
-"Once one of us has reached the green line, you can select an action for the "
-"one concerned. Don't panic, the battle is then paused and you've got all the "
-"time needed to select one."
+"Once one of us has reached the action level, you can select an action for "
+"the one concerned. Don't panic, the battle is then paused and you've got all "
+"the time needed to select one."
 msgstr ""
-"Dès que l'un d'entre nous atteint la ligne verte, tu peux sélectionner une "
-"action pour celui qui l'a atteint. Ne panique pas, le combat est alors en "
-"pause et tu as tout le temps nécessaire pour faire ton choix."
+"Dès que l'un d'entre nous atteint le niveau d'action, tu peux sélectionner "
+"une action pour celui qui l'a atteint. Ne panique pas, le combat est alors "
+"en pause et tu as tout le temps nécessaire pour faire ton choix."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:85
+#: ../dat/battles/tutorial_battle_dialogs.lua:90
 msgid ""
-"There are several action types: The basic one 'Attack', and later 'Support' "
+"There are several action types: The basic one 'Weapon', and later 'Magic' "
 "skills. Last but not least, you'll also be able to use our 'Items'. Simply "
 "choose one action and a target to trigger it."
 msgstr ""
-"Il y a différents types d'actions : 'Attaque' tout simplement, ou plus tard "
-"'Support'. Sans oublier que tu pourras utiliser nos 'Objets' en combat. "
+"Il y a différents types d'actions : Le très direct 'Arme', ou plus tard de "
+"la 'Magie'. Sans oublier que tu pourras utiliser nos 'Objets' en combat. "
 "Choisis simplement une action et une cible pour la déclencher."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:87
+#: ../dat/battles/tutorial_battle_dialogs.lua:92
 msgid ""
 "The icon will the reach the top of the Stamina Bar before being triggering "
 "it. It's called the 'preparation time'. The stronger is the skill, the "
@@ -1703,52 +1703,52 @@ msgstr ""
 "démarrer. C'est le 'Temps de préparation'. Plus la capacité est puissante, "
 "plus ce temps peut être long."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:89
+#: ../dat/battles/tutorial_battle_dialogs.lua:94
 msgid ""
-"By the way, you're not forced to wait for your icon to reach the green line "
-"before acting. The two little arrows here can be triggered, using your up "
-"and down keys, to preselect an action for either of us."
+"By the way, you're not forced to wait for your icon to reach the action "
+"level before acting. The two little arrows here can be triggered, using your "
+"up and down keys, to preselect an action for either of us."
 msgstr ""
-"A propos, tu n'es pas obligé d'attendre que ton icône ait atteint la ligne "
-"verte pour agir. Les deux petites flèches vertes peuvent être déclenchées, "
-"en utilisant les touches haut et bas, afin de présélectionner une action "
-"pour chacun d'entre nous."
+"A propos, tu n'es pas obligé d'attendre que ton icône ait atteint le niveau "
+"d'action pour agir. Les deux petites flèches vertes peuvent être "
+"déclenchées, en utilisant les touches haut et bas, afin de présélectionner "
+"une action pour chacun d'entre nous."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:91
+#: ../dat/battles/tutorial_battle_dialogs.lua:96
 msgid ""
 "As long as the little arrows there are visible, you can change the selected "
 "action."
 msgstr "Tant que les flèches sont visibles, tu peux changer d'action."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:93
+#: ../dat/battles/tutorial_battle_dialogs.lua:98
 msgid "Don't forget you can press '"
 msgstr "N'oublie pas que tu peux appuyer sur '"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:93
+#: ../dat/battles/tutorial_battle_dialogs.lua:98
 msgid "' if you need more details."
 msgstr "' si tu as besoin de plus amples détails."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:95
+#: ../dat/battles/tutorial_battle_dialogs.lua:100
 msgid "Shall I repeat?"
 msgstr "Dois-je répéter ?"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:99
+#: ../dat/battles/tutorial_battle_dialogs.lua:104
 msgid "Yes, please!"
 msgstr "Oui, s'il-te-plaît !"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:101
+#: ../dat/battles/tutorial_battle_dialogs.lua:106
 msgid "No, it's alright!"
 msgstr "Non, c'est tout bon !"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:105
+#: ../dat/battles/tutorial_battle_dialogs.lua:110
 msgid "Don't worry Kalya, I have not forgotten my training."
 msgstr "Ne t'inquiète pas Kalya, je n'ai pas oublié mon entraînement."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:108
+#: ../dat/battles/tutorial_battle_dialogs.lua:113
 msgid "Thanks Kalya, I'm prepared now."
 msgstr "Merci Kalya, je suis prêt maintenant."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:111
+#: ../dat/battles/tutorial_battle_dialogs.lua:116
 msgid "Good. Now let us quickly dispatch this minor threat."
 msgstr "Bien, maintenant débarrassons-nous rapidement de cette faible menace."
 
@@ -2073,82 +2073,82 @@ msgstr "Quitter : "
 msgid "Help Menu: "
 msgstr "Menu d'aide : "
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:486
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:472
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:330
-#: ../dat/maps/layna_forest/layna_forest_south_east.lua:455
+#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:511
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:491
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:351
+#: ../dat/maps/layna_forest/layna_forest_south_east.lua:473
 msgid "Your party feels better..."
 msgstr "Votre équipe se sent mieux..."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:785
+#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:810
 msgid "What a creepy place. I had never heard about this before ..."
 msgstr ""
 "Quel endroit effrayant. Je n'ai jamais entendu parler de ce lieu "
 "auparavant..."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:787
+#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:812
 msgid "It seems Orlinn was able to go through those platforms somehow."
 msgstr ""
 "Il semblerait qu'Orlinn ait été capable de traverser ces plateformes d'une "
 "certaine manière."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:789
+#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:814
 msgid "Let's make our way through this before something bad happens to him."
 msgstr "Trouvons une manière de passer avant que quelque-chose ne lui arrive."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:791
+#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:816
 msgid "Look, there is a stone slab on the ground. Let's check this out."
 msgstr "Regarde, il a une sorte de dalle juste-là. Allons vérifier."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:809
+#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:834
 msgid "It seems the way is clear now."
 msgstr "Il semblerait que nous puissions passer maintenant."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:811
+#: ../dat/maps/layna_forest/layna_forest_cave1_1.lua:836
 msgid "(I also heard something falling outside. Let's hope it's nothing bad.)"
 msgstr ""
 "(J'ai également entendu tomber quelque-chose. Espérons que ce ne soit pas un "
 "mauvais présage.)"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:510
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:535
 msgid "Only the last one standing shall pass ..."
 msgstr "Seul le dernier debout pourra passer ..."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:577
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:602
 msgid "'Only the last one standing shall pass.' ..."
 msgstr "'Seul le dernier debout pourra passer' ..."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:579
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:604
 msgid "You are able to decipher this writing, Kalya?"
 msgstr "Tu es capable de déchiffrer cette écriture, Kalya ?"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:581
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:606
 msgid "Somehow... I don't know why, but yes ..."
 msgstr "D'une certain manière... Je ne sais pas pourquoi, mais oui..."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:583
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:608
 msgid "Still, I don't know what it means, though."
 msgstr "Je ne comprends pas ce que cette énigme signifie, cependant."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:585
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:610
 msgid "Let's look around. We might find out."
 msgstr "Regardons autour de nous. Nous pourrions trouver quelque-chose."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:604
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:629
 msgid "... Something heavy seems to have fallen nearby."
 msgstr "... Quelque-chose de lourd semble être tombé pas très loin d'ici."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:623
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:648
 msgid "... Look!"
 msgstr "... Regarde !"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:641
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:666
 msgid "I can feel fresh air and some light coming from around this rock."
 msgstr ""
 "Je peux sentir de l'air frais et il y a de la lumière provenant de derrière "
 "ce rocher."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:643
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:668
 msgid ""
 "There are signs engraved on this rock, too. This sounds like some kind of "
 "mechanism my family used long ago..."
@@ -2156,11 +2156,11 @@ msgstr ""
 "Il y aussi des signes gravés sur ce rocher. Cela ressemble à un mécanisme "
 "utilisé par ma famille il y a longtemps..."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:645
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:670
 msgid "Your family? Long ago? ..."
 msgstr "Ta famille ? Il y a longtemps ? ..."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:647
+#: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:672
 msgid ""
 "Err... Nevermind that, we must find a way to make this move. Let's look "
 "around."
@@ -2168,264 +2168,285 @@ msgstr ""
 "Heu, oublie ça, nous devons trouver un moyen de bouger ce rocher. Vérifions "
 "les environs."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:802
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:836
 msgid "Orlinn!!"
 msgstr "Orlinn !!"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:804
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:838
 msgid "I can feel it, sis'. It's coming!"
 msgstr "Je peux le sentir, ça approche !"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:806
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:840
 msgid "Orlinn, stop!"
 msgstr "Orlinn ! Arrête-toi !"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:827
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:861
 msgid "What's happening!?!"
 msgstr "Que se passe-t-il !?!"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:866
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:900
 msgid "Gosh!! By all heavens, what is this?"
 msgstr "Par tous les saints, qu'est-ce que c'est que ça ?"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:868
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:902
 msgid "A crystal stone?!?"
 msgstr "Une pierre de cristal ?!?"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:870
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:904
 msgid "This is her. I heard her voice calling..."
 msgstr "C'est elle. J'entends sa voix appeler..."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:879
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:913
 msgid "Dear chosen one, the time has finally come."
 msgstr "Noble Elu, le temps est finalement venu."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:881
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:915
 msgid "For us, it will take an instant."
 msgstr "Pour nous, cela ne durera qu'un instant."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:883
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:917
 msgid "For you, it might have been decades."
 msgstr "Pour toi, cela aura pu durer des années."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:885
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:919
 msgid "May you bring a happy end to this foolish destiny of ours."
 msgstr ""
 "Puisses-tu apporter une fin heureuse à ce destin funeste qui est le nôtre."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:887
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:921
 msgid "We're all anxiously awaiting your return."
 msgstr "Nous t'attendons tous impatiemment."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:889
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:923
 msgid "Now, come. And make one with our holy hope."
 msgstr "Maintenant, viens. Et ne fait qu'un avec notre espoir sacré."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:897
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:931
 msgid "What does all of this mean?"
 msgstr "Qu'est-ce que cela signifie ?"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:899
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:933
 msgid "I shall come and make one with our only hope..."
 msgstr "Je ne ferai qu'un avec notre unique espoir..."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:901
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:935
 msgid "What! No, Orlinn!"
 msgstr "Quoi ! Non, Orlinn !"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:917
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:951
 msgid "Bronann, the crystal! No!"
 msgstr "Bronann, le cristal ! Non !"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:941
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:982
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:986
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:975
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1016
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1020
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:366
 msgid "Bronann!"
 msgstr "Bronann !"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:980
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1014
 msgid "Bronann! Are you all right? Answer me!!"
 msgstr "Claudius ! Est-ce que tout va bien ? Réponds-moi !!"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:984
-msgid "Woah, what happened here?"
-msgstr "Wouah, qu'est-ce qui se passe ici ?"
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1018
+msgid "Woah, where am I?"
+msgstr "Wouah, où suis-je ?"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:988
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1022
 msgid "Sis! What's the matter? What happened?"
 msgstr "Soeurette! Qu'est-ce qu'il y a ? Que se passe-t-il ?"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:990
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1024
 msgid "What happened?? ... Orlinn ... What have you done? ..."
 msgstr "Que se passe-t-il ?? ... Orlinn ... Qu'as-tu fait ?"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:992
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1026
 msgid "... My head ..."
 msgstr "... Ma tête ..."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:994
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1028
 msgid "Bronann! Are you alright?"
 msgstr "Bronann ! Est-ce que ça va ?"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:996
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1030
 msgid "I... I guess so. ..."
 msgstr "Je... Je suppose. ..."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:998
-msgid "... The crystal! Orlinn! ..."
-msgstr "... Le cristal ! Orlinn ! ..."
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1032
+msgid "... The wolf! The crystal! Orlinn! Are you ok?? ..."
+msgstr "... Le loup! Le cristal ! Orlinn ! Tout va bien ?? ..."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1000
-msgid "Don't worry, I'm fine. Say, what crystal?"
-msgstr "Ne t'inquiète pas, je vais bien. Heu dis-moi, quel cristal ?"
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1034
+msgid "Don't worry, I'm fine. Err, what crystal? What ... wolf??"
+msgstr "Ne t'inquiète pas, je vais bien. Heu, quel cristal ? Quel loup ??"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1002
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1036
 msgid "... You won't be fine for long after I'm done with you!!"
 msgstr "... Tu n'iras pas si bien que ça lorsque j'en aurai fini avec toi !!"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1004
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1038
 msgid "... Huh? Wait, I didn't do anything this time!!"
 msgstr "... Hein ? Attends, je n'ai rien fait cette fois !!"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1006
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1040
 msgid "... Oh? You didn't??"
 msgstr "... Ah, vraiment ??"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1047
-msgid "Sigh... I should have stayed home today..."
-msgstr "(Soupir)... J'aurais dû rester à la maison aujourd'hui ..."
-
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1049
-msgid "Yet, I wonder... What happened to the crystal?"
-msgstr "Cependant, je me demandais ... Qu'est-il arrivé au cristal ?"
-
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1051
-msgid "... And why is my head hurting so much..."
-msgstr "... Et pourquoi ma tête me fait-elle si mal..."
-
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1053
-msgid ""
-"I also wondered about it. My only conclusion is that you made it disappear..."
-msgstr ""
-"Je me suis également posé la question. La seule conclusion logique est que "
-"tu l'as fait disparaître ..."
-
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1055
-msgid "Possible, still I really feel dizzy..."
-msgstr "Possible, seulement je me sens toujours tout drôle ..."
-
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1057
-msgid ""
-"You're fine, that's what is counting... I'm relieved Orlinn is fine, too. "
-"And Speaking of that: Orlinn! Stop running and come here, right away!"
-msgstr ""
-"Tu vas bien, c'est ce qui compte ... Je suis soulagée qu'Orlinn aille bien, "
-"lui aussi. Et en parlant de ça : Orlinn ! Arrête de courir et viens par ici, "
-"maintenant !"
-
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1073
-msgid "Owww... Ok."
-msgstr "Euhh ... ok."
-
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1075
-msgid "Now, Orlinn. You'd better answer precisely!"
-msgstr "Bon alors, Orlinn, tu ferais mieux de répondre de manière précise !"
-
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:1077
-msgid ""
-"Why on earth did you go into the forest alone, and how did you just get "
-"there so quickly?"
-msgstr ""
-"Pourquoi ciel es-tu allé dans la forêt seul, et comment as-tu fait pour "
-"arriver jusqu'ici aussi rapidement ?"
+msgid "When I'll catch you, I'll make you wish you weren't born!! Rahh!"
+msgstr "Lorsque je t'attraperai, je vais de faire regretter d'être né !! Ahh!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:1079
-msgid "I sincerely don't know... I was like... dreaming..."
-msgstr "Sincèrement, je ne sais pas ... C'était comme si ... je rêvais ...."
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1083
+msgid "Yiek!!"
+msgstr "Ahhh !!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:1081
+msgid "Come here, now!!!"
+msgstr "Viens ici, tout de suite !!!"
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1085
+msgid "(Sigh)... I should have stayed home today..."
+msgstr "(Soupir)... J'aurais dû rester à la maison aujourd'hui ..."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1087
+msgid "... Ouch, why is my head hurting so much? ..."
+msgstr "... Oh, pourquoi ma tête me fait-elle si mal ? ..."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1089
+msgid "Are you ok? We should get back home so Lilly can examine you..."
+msgstr ""
+"Tout va bien ? Nous devrions rentrer afin que Lilly puisse t'examiner ..."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1091
+msgid "I still really feel dizzy but I'll be ok..."
+msgstr "Je me sens toujours tout drôle mais ça ira ..."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1093
+msgid ""
+"I'm relieved Orlinn is fine, too. And speaking of that: Orlinn! Stop running "
+"and come here, right away!"
+msgstr ""
+"Je suis soulagée qu'Orlinn aille bien, lui aussi. Et en parlant de ça : "
+"Orlinn ! Arrête de courir et viens par ici, maintenant !"
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1112
+msgid "Owww... Alright."
+msgstr "Ohhh ... ok."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1114
+msgid ""
+"Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how "
+"did you just get there so quickly?"
+msgstr ""
+"Maintenant Orlinn, dis-nous : Pourquoi ciel es-tu allé dans la forêt seul, "
+"et comment as-tu fait pour arriver jusqu'ici aussi rapidement ?"
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1116
+msgid "I don't know..."
+msgstr "Je ne sais pas ..."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1118
+msgid "Why was that giant wolf protecting you?"
+msgstr "Pourquoi ce loup géant te protégeait-il ?"
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1120
+msgid "What was that crystal? Why did you want to make one with it?"
+msgstr ""
+"Et ce cristal , qu'est-ce que c'était ? Pourquoi voulais-tu ne faire qu'un "
+"avec lui ?"
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1122
+msgid "I... I... I sincerely don't know... I swear! I was like... dreaming..."
+msgstr "Sincèrement, je ne sais pas ... C'était comme si ... je rêvais ...."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1124
 msgid "I merely remember a voice in my head, telling me to come..."
 msgstr ""
 "Je me rappelle vaguement d'une voix dans ma tête, me disant de venir ..."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1083
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1126
 msgid "You know you won't get away with this, when you'll see Herth..."
 msgstr ""
 "Tu sais que tu ne sortiras pas comme cela, lorsque nous verrons Herth ..."
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1085
-msgid "Yiek! I swear it's the truth!"
-msgstr "Ahh ! Je jure que c'est la vérité !"
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1128
+msgid "I swear it's the truth!"
+msgstr "Je jure que c'est la vérité !"
 
-#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1087
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1130
+msgid "Making one with the crystal, huh?"
+msgstr "Ne faire qu'un avec le cristal, heu ?"
+
+#: ../dat/maps/layna_forest/layna_forest_crystal.lua:1132
 msgid ""
-"We'll see... Anyway, we'd better get back to the village and see him as soon "
-"as possible."
+"Let's not panic, Bronann, you look fine... Anyway, we'd better get back to "
+"the village and see the Elders as soon as possible."
 msgstr ""
-"Nous verrons ... De toute façon, nous ferions mieux de retourner au village "
-"et d'aller le voir le plus vite possible."
+"Ne panique pas Bronann, tu as l'air d'aller bien ... De toute façon, nous "
+"ferions mieux de retourner au village et d'aller voir les Anciens le plus "
+"vite possible."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:618
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:963
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:642
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:981
 msgid "What's that?!"
 msgstr "Qu'est-ce que c'est que ça ?!"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:633
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:657
 msgid "Can you also see this strange circle surrounded by light?"
 msgstr "Peux-tu également voir cet étrange cercle entouré de lumière ?"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:635
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:659
 msgid "When I'm standing near you, I can."
 msgstr "Quand je suis à côté de toi, je le peux."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:637
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:661
 msgid "Strange... it sounds familiar to me. Like... A safe place to be."
 msgstr ""
 "Etrange ... Cela me semble familier. Comme ... un endroit où je serais en "
 "sécurité."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:639
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:663
 msgid "I feel like I can go in there..."
 msgstr "J'ai l'impression que je peux aller à l'intérieur ..."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:641
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:665
 msgid "Be careful, Kalya!"
 msgstr "Sois prudente, Kalya !"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:643
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:667
 msgid "It is like... it's calling me."
 msgstr "C'est comme... s'il m'appelait."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:656
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:680
 msgid "See... It brings no harm."
 msgstr "Tu vois... Ce n'est pas dangereux."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:658
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:682
 msgid "Err... Are you sure?"
 msgstr "Heu... Es-tu sûr ?"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:660
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:684
 msgid "Sure! Do you trust me?"
 msgstr "Bien sûr ! Me fais-tu confiance ?"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:662
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:686
 msgid "... I do trust you, Kalya."
 msgstr "... Je te fais confiance, Kalya."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:665
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:689
 msgid "If so, then come and try for yourself. Push '"
 msgstr "Dans ce cas, viens et essaie par toi-même. Appuie sur '"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:667
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:691
 msgid "' and you'll feel safe, too."
 msgstr "' et tu te sentiras mieux, également."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:669
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:693
 msgid "Ok, I... I'll do it."
 msgstr "Ok, je... je le ferai."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:681
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:705
 msgid ""
 "Oh, I almost forgot, have you seen up here? There is a Layna spring! We can "
 "heal our wounds there."
@@ -2433,36 +2454,36 @@ msgstr ""
 "Oh, j'avais presque oublié, as-tu vu là-bas ? C'est une source de Layna ! "
 "Nous pouvons nous soigner en un rien de temps avec ça."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:683
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:707
 msgid "Just stand in front of the goddess statue below the spring and push '"
 msgstr "Mets-toi simplement en face de la statue de la déesse et appuie sur '"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:685
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:709
 msgid "'."
 msgstr "'."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:687
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:711
 msgid "Ok, thanks."
 msgstr "Oh, merci."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:689
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:713
 msgid "... What are you waiting for? Come."
 msgstr "... Qu'est-ce que tu attends ? Viens."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:691
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:715
 msgid "Huh? I... I'm coming."
 msgstr "Hein ? je ... je viens."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:703
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:727
 msgid "You're right. This place makes me feel good."
 msgstr "Tu as raison. Je me sens plutôt bien."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance.lua:705
+#: ../dat/maps/layna_forest/layna_forest_entrance.lua:729
 msgid "See? Now let's find my brother before he gets hurt."
 msgstr ""
 "Ah, tu vois ? Maintenant trouvons mon frère avant qu'il ne soit blessé."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:1000
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:1016
 msgid ""
 "Woah, that was quite a nasty fight. Why on earth was an arctic north fenrir "
 "lurking in the forest? I thought such animals were part of the myths."
@@ -2470,7 +2491,7 @@ msgstr ""
 "Wouah, quel combat. Mais que peux bien faire un Fenrir de l'arctique dans "
 "cette forêt ? Je pensais que ces créatures faisaient partie de la mythologie."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:1002
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:1018
 msgid ""
 "He just ran away. I'm almost sure we'll meet it again. We'd better be well "
 "prepared, then."
@@ -2478,7 +2499,7 @@ msgstr ""
 "Il vient de s'enfuir. Je suis presque sûre que nous le rencontrerons à "
 "nouveau. Nous ferions mieux d'être bien préparés, dans ce cas."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east.lua:1004
+#: ../dat/maps/layna_forest/layna_forest_north_east.lua:1020
 msgid ""
 "I'll try not to think about what it could have done to Orlinn ... Let's find "
 "him quickly."
@@ -2486,39 +2507,92 @@ msgstr ""
 "Je vais tâcher de ne pas penser à ce qui pourrait être arrivé à Orlinn... "
 "Trouvons-le rapidement."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1306
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1358
 msgid "Orlinn!"
 msgstr "Orlinn !"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1321
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1373
 msgid "Orlinn, stop it RIGHT NOW!!"
 msgstr "Orlinn, arrête-toi MAINTENANT !!"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1323
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1375
 msgid "I can't sis. I can feel it... calling me..."
 msgstr "Je ne peux pas soeurette. Je le sens ... m'appeler ..."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1345
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1397
 msgid "Quick! Let's follow him."
 msgstr "Vite ! Suivons-le."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1347
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1399
 msgid "Right!"
 msgstr "Ok !"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1374
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1426
 msgid "Great! The tremor has just opened a path."
 msgstr "Super ! Le tremblement de terre a ouvert un passage."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1376
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1428
 msgid "We can easily return to the village from there."
 msgstr "Nous pouvons facilement retourner au village en passant par-là."
 
-#: ../dat/maps/layna_forest/layna_forest_south_west.lua:1015
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1453
+msgid "We're almost there!"
+msgstr "Nous y sommes presque !"
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1455
+msgid "Say Sister, do you think Herth will be angry with me for what happened?"
+msgstr ""
+"Heu soeurette, crois-tu que Herth sera en colère contre moi pour ce qui "
+"s'est passé ?"
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1457
+msgid ""
+"I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+msgstr ""
+"Je ne pense pas, Orlinn. Nous savons tous deux que tu ne l'as pas fait "
+"exprès, n'est-ce pas ?"
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1459
+msgid "Ok..."
+msgstr "Ok ..."
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1475
+msgid "Kalya, ... Err ..."
+msgstr "Kalya ... Heu ..."
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1477
+msgid "What is it, Bronann?"
+msgstr "Qu'y a-t-il, Bronann ?"
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1479
+msgid "Hmm... Nevermind."
+msgstr "Humm ... non, rien."
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1481
+msgid "Don't worry too much, Bronann, Herth will be able to help you."
+msgstr "Ne t'inquiète pas trop, Bronann, Herth pourra t'aider."
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1483
+msgid "Me? But ..."
+msgstr "Moi ? Mais ...."
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1485
+msgid "Thanks ..."
+msgstr "Merci ..."
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1487
+msgid "Thanks for your help there ..."
+msgstr "Merci pour ton aide là-bas ..."
+
+#: ../dat/maps/layna_forest/layna_forest_north_west.lua:1489
+msgid "... You're welcome."
+msgstr "... De rien."
+
+#: ../dat/maps/layna_forest/layna_forest_south_west.lua:1026
 msgid "Woah, wait!"
 msgstr "Wouah, attends !"
 
-#: ../dat/maps/layna_forest/layna_forest_south_west.lua:1017
+#: ../dat/maps/layna_forest/layna_forest_south_west.lua:1028
 msgid ""
 "Look at that grass. The snakes like it very much. Beware of them, their "
 "venom can send you to sleep."
@@ -2526,48 +2600,48 @@ msgstr ""
 "Regarde ces touffes d'herbes. Les serpents adorent s'y promener. Fais "
 "attention à eux, leur venin peut t'endormir."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:346
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:372
 msgid "(Bronann looks on the ground ...)"
 msgstr "(Bronann regarde au sol...)"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:377
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:405
 msgid "This water looks weird. Shall we drink it anyway?"
 msgstr ""
 "Cette eau ne me dit rien qui vaille. Allons-nous tout de même la boire ?"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:381
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:409
 msgid "Yes, I'm so thirsty."
 msgstr "Oui, j'ai si soif."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:383
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:411
 msgid "No way, we'd get sick."
 msgstr "Pas question, nous serions malades."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:386
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:414
 msgid "The party drinks the water and feels... still right?"
 msgstr "L'équipe boit de cette eau et se sent... toujours bien ?"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:389
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:417
 msgid "The party won't drink it."
 msgstr "L'équipe ne but pas l'eau."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:455
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:483
 msgid "Yiek, it's stinking in here."
 msgstr "Erk, ça sent vraiment mauvais par ici."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:457
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:485
 msgid "Look at all those bones. We should be careful."
 msgstr "Regarde tous ces os. Nous devrions faire attention."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:459
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:487
 msgid "I hope Orlinn is going well."
 msgstr "J'espère qu'Orlinn va bien."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:497
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:525
 msgid "What a lovely necklace! I'll take it."
 msgstr "Quel magnifique collier ! Je le prends."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:499
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:527
 msgid ""
 "Kalya ... We're in the middle of a cave and you're only thinking about "
 "wearing jewels."
@@ -2575,31 +2649,31 @@ msgstr ""
 "Kalya... Nous sommes au beau milieu d'une grotte lugubre et tu ne songes "
 "qu'à te parer d'un collier."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:501
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:529
 msgid "It suits me better than it would for you, don't be jealous."
 msgstr "Il m'ira bien mieux qu'à toi de toute façon, ne sois donc pas jaloux."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:503
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:531
 msgid "Kalya! You'd better be careful!"
 msgstr "Kalya ! Tu ferais bien d'être prudente !"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:505
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:533
 msgid "Don't even start, this one is all mine."
 msgstr "N'y pense même pas ! Ce collier est tout à moi !"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:507
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:535
 msgid "Not the necklace, the Fenrir!"
 msgstr "Pas le collier ! Le Fenrir !"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:509
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:537
 msgid "You can't be serious, we would have heard it come."
 msgstr "Arrêtes tes bêtises, nous l'aurions entendu venir."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:521
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:549
 msgid "Ah well, finally you were serious, weren't you?"
 msgstr "Ah, heu, finalement, tu étais sérieux, n'est-ce pas ?"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:551
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:578
 msgid ""
 "It ran away again. I'm glad we survived. Let's get out of here before he "
 "comes back."
@@ -4025,11 +4099,11 @@ msgstr "Jet de pierre"
 msgid "Kalya's attack when she's got no weapon."
 msgstr "L'attaque de Kalya lorsqu'elle n'a pas d'armes."
 
-#: ../dat/skills/weapon.lua:259
+#: ../dat/skills/weapon.lua:258
 msgid "Punch"
 msgstr "Coup de poing"
 
-#: ../dat/skills/weapon.lua:260
+#: ../dat/skills/weapon.lua:259
 msgid "A simple punch. Better than nothing..."
 msgstr "Un coup de poing. Toujours mieux que rien ..."
 
@@ -4077,6 +4151,22 @@ msgstr "Bord de rivière"
 #: map_names_tr.lua:91 map_names_tr.lua:183
 msgid "Village entrance"
 msgstr "Entrée du village"
+
+#~ msgid "Woah, what happened here?"
+#~ msgstr "Wouah, qu'est-ce qui se passe ici ?"
+
+#~ msgid "Yet, I wonder... What happened to the crystal?"
+#~ msgstr "Cependant, je me demandais ... Qu'est-il arrivé au cristal ?"
+
+#~ msgid ""
+#~ "I also wondered about it. My only conclusion is that you made it "
+#~ "disappear..."
+#~ msgstr ""
+#~ "Je me suis également posé la question. La seule conclusion logique est "
+#~ "que tu l'as fait disparaître ..."
+
+#~ msgid "Now, Orlinn. You'd better answer precisely!"
+#~ msgstr "Bon alors, Orlinn, tu ferais mieux de répondre de manière précise !"
 
 #~ msgid "Attack"
 #~ msgstr "Attaque"
@@ -4405,9 +4495,6 @@ msgstr "Entrée du village"
 #~ msgid "Ask nothing."
 #~ msgstr "... Rien."
 
-#~ msgid "Yiek!!!"
-#~ msgstr "Ahhh !!"
-
 #~ msgid "Ok, right!"
 #~ msgstr "D'accord !"
 
@@ -4657,9 +4744,6 @@ msgstr "Entrée du village"
 
 #~ msgid "I didn’t think so."
 #~ msgstr "Je ne pensais pas."
-
-#~ msgid "I don’t know."
-#~ msgstr "Je ne sais pas."
 
 #~ msgid ""
 #~ "I guess you’re right. And hey, thanks for covering for me back there. I "
@@ -5059,9 +5143,6 @@ msgstr "Entrée du village"
 #~ "Tu serais fou de partir seul et longtemps dans le désert. Il y a une "
 #~ "grotte à l'est, par contre, et si tu t'y aventures assez loin, tu "
 #~ "trouveras de l'eau."
-
-#~ msgid "You're late."
-#~ msgstr "Tu es en retard."
 
 #~ msgid "You’ll be all right."
 #~ msgstr "Ça va aller..."
