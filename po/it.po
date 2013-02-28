@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-24 22:23+0100\n"
-"PO-Revision-Date: 2013-02-25 21:24+0100\n"
+"PO-Revision-Date: 2013-02-28 17:46+0100\n"
 "Last-Translator: BioHazardX <dhamp90@aol.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Percuoti"
 
 #: ../src/common/global/global_effects.cpp:47
 msgid "Piercing"
-msgstr "Perforare"
+msgstr "Perfora"
 
 #: ../src/common/global/global_effects.cpp:49
 msgid "Invalid Elemental"
@@ -155,24 +155,24 @@ msgstr "Seleziona punto d'attacco"
 
 #: ../src/modes/battle/battle_command.cpp:1502
 msgid "Skill Points: "
-msgstr "Punti abilità:"
+msgstr "Punti potenza: "
 
 #: ../src/modes/battle/battle_command.cpp:1503
 #: ../src/modes/battle/battle_command.cpp:1510
 msgid "Target Type: "
-msgstr "Tipo di bersaglio:"
+msgstr "Tipo di bersaglio: "
 
 #: ../src/modes/battle/battle_command.cpp:1504
 msgid "Prep Time: "
-msgstr "Tempo prep.:"
+msgstr "Tempo prep.: "
 
 #: ../src/modes/battle/battle_command.cpp:1505
 msgid "Cool Time: "
-msgstr "Tempo migliore:"
+msgstr "Tempo migliore: "
 
 #: ../src/modes/battle/battle_command.cpp:1509
 msgid "Quantity: "
-msgstr "Quantità:"
+msgstr "Quantità: "
 
 #: ../src/modes/battle/battle.cpp:108
 msgid "HP"
@@ -220,11 +220,11 @@ msgstr "Oggetti trovati"
 
 #: ../src/modes/battle/battle_finish.cpp:541
 msgid "XP Earned: "
-msgstr "PE guadagnati:"
+msgstr "PE guadagnati: "
 
 #: ../src/modes/battle/battle_finish.cpp:543
 msgid "Drunes Found: "
-msgstr "Drune trovate:"
+msgstr "Drune trovate: "
 
 #: ../src/modes/battle/battle_finish.cpp:544
 msgid "Total Drunes: "
@@ -233,17 +233,17 @@ msgstr "Drune totali:"
 #: ../src/modes/battle/battle_finish.cpp:603
 #: ../src/modes/battle/battle_finish.cpp:803
 msgid "Level (Max): "
-msgstr "Livello (massimo):"
+msgstr "Livello (massimo): "
 
 #: ../src/modes/battle/battle_finish.cpp:607
 #: ../src/modes/battle/battle_finish.cpp:805
 msgid "Level: "
-msgstr "Livello:"
+msgstr "Livello: "
 
 #: ../src/modes/battle/battle_finish.cpp:609
 #: ../src/modes/battle/battle_finish.cpp:806
 msgid "XP left: "
-msgstr "PE mancanti:"
+msgstr "PE mancanti: "
 
 #: ../src/modes/battle/battle_finish.cpp:746
 msgid "HP: +"
@@ -378,39 +378,39 @@ msgstr "Luminosità:"
 #: ../src/modes/boot/boot.cpp:529 ../src/modes/boot/boot.cpp:697
 #: ../src/modes/boot/boot.cpp:699
 msgid "Map tiles: "
-msgstr "Tile mappa:"
+msgstr "Qualità: "
 
 #: ../src/modes/boot/boot.cpp:548 ../src/modes/boot/boot.cpp:706
 msgid "Sound Volume: "
-msgstr "Volume suono:"
+msgstr "Volume suono: "
 
 #: ../src/modes/boot/boot.cpp:549 ../src/modes/boot/boot.cpp:707
 msgid "Music Volume: "
-msgstr "Volume musica:"
+msgstr "Volume musica: "
 
 #: ../src/modes/boot/boot.cpp:610
 msgid "Up: "
-msgstr "Su:"
+msgstr "Su: "
 
 #: ../src/modes/boot/boot.cpp:611
 msgid "Down: "
-msgstr "Giù:"
+msgstr "Giù: "
 
 #: ../src/modes/boot/boot.cpp:612
 msgid "Left: "
-msgstr "Sinistra:"
+msgstr "Sinistra: "
 
 #: ../src/modes/boot/boot.cpp:613
 msgid "Right: "
-msgstr "Destra:"
+msgstr "Destra: "
 
 #: ../src/modes/boot/boot.cpp:614
 msgid "Confirm: "
-msgstr "Conferma:"
+msgstr "Conferma: "
 
 #: ../src/modes/boot/boot.cpp:615
 msgid "Cancel: "
-msgstr "Annulla:"
+msgstr "Annulla: "
 
 #: ../src/modes/boot/boot.cpp:616
 msgid "Menu: "
@@ -418,7 +418,7 @@ msgstr "Menu: "
 
 #: ../src/modes/boot/boot.cpp:617
 msgid "Pause: "
-msgstr "Pausa:"
+msgstr "Pausa: "
 
 #: ../src/modes/boot/boot.cpp:618 ../src/modes/boot/boot.cpp:648
 msgid "Restore defaults"
@@ -426,15 +426,15 @@ msgstr "Ripristina predefiniti"
 
 #: ../src/modes/boot/boot.cpp:684
 msgid "Resolution: "
-msgstr "Risoluzione:"
+msgstr "Risoluzione: "
 
 #: ../src/modes/boot/boot.cpp:688 ../src/modes/boot/boot.cpp:690
 msgid "Window mode: "
-msgstr "Modalità schermo:"
+msgstr "Schermo: "
 
 #: ../src/modes/boot/boot.cpp:688
 msgid "Fullscreen"
-msgstr "Schermo intero"
+msgstr "Intero"
 
 #: ../src/modes/boot/boot.cpp:690
 msgid "Windowed"
@@ -442,15 +442,15 @@ msgstr "Finestra"
 
 #: ../src/modes/boot/boot.cpp:693
 msgid "Brightness: "
-msgstr "Luminosità:"
+msgstr "Luminosità: "
 
 #: ../src/modes/boot/boot.cpp:697
 msgid "Smoothed"
-msgstr "Lisciato"
+msgstr "Alta"
 
 #: ../src/modes/boot/boot.cpp:699
 msgid "Normal"
-msgstr "Normale:"
+msgstr "Normale"
 
 #: ../src/modes/boot/boot.cpp:715
 msgid "Move Up"
@@ -486,7 +486,7 @@ msgstr "Pausa"
 
 #: ../src/modes/boot/boot.cpp:731 ../src/modes/boot/boot.cpp:733
 msgid "Input enabled: "
-msgstr "Input abilitato:"
+msgstr "Input abilitato: "
 
 #: ../src/modes/boot/boot.cpp:735
 msgid "X Axis"
@@ -546,21 +546,21 @@ msgstr "Drune"
 
 #: ../src/modes/map/map_treasure.cpp:328
 msgid "With the additional "
-msgstr "Con l'aggiuntivo di"
+msgstr "Con l'aggiuntivo di "
 
 #: ../src/modes/map/map_treasure.cpp:329
 msgid " drunes found in this treasure added, the party now holds a total of "
 msgstr ""
 " aggiunte drune trovate all'interno di questo tesoro, ora il gruppo possiede "
-"un totale di"
+"un totale di "
 
 #: ../src/modes/menu/menu.cpp:160
 msgid "Time: "
-msgstr "Tempo:"
+msgstr "Tempo: "
 
 #: ../src/modes/menu/menu.cpp:161
 msgid "Drunes: "
-msgstr "Drune:"
+msgstr "Drune: "
 
 #: ../src/modes/menu/menu.cpp:209
 msgid "STR: "
@@ -662,7 +662,7 @@ msgstr "Mappa"
 
 #: ../src/modes/menu/menu.cpp:404
 msgid "Select to view Quest Log."
-msgstr "Seleziona per mostrare il log delle missioni."
+msgstr "Seleziona per mostrare il riquadro delle missioni."
 
 #: ../src/modes/menu/menu.cpp:413
 msgid ""
@@ -671,7 +671,7 @@ msgid ""
 "Press 'cancel' to return"
 msgstr ""
 "Seleziona per visualizzare l'attuale mappa del mondo.\n"
-"Usa sinistra/destra per scorrere le posizioni. \n"
+"Usa sinistra/destra per scorrere le località.\n"
 "Premi ''annulla'' per tornare"
 
 #: ../src/modes/menu/menu.cpp:449
@@ -761,7 +761,7 @@ msgstr "PP: "
 
 #: ../src/modes/menu/menu_views.cpp:113 ../src/modes/menu/menu_views.cpp:777
 msgid "XP to Next: "
-msgstr "PE lv. succ.:"
+msgstr "PE lv. succ.: "
 
 #: ../src/modes/menu/menu_views.cpp:205 ../src/modes/menu/menu_views.cpp:916
 msgid "All"
@@ -794,31 +794,31 @@ msgstr "Chi"
 
 #: ../src/modes/menu/menu_views.cpp:763
 msgid "Experience Level: "
-msgstr "Livello esperienza:"
+msgstr "Livello esperienza: "
 
 #: ../src/modes/menu/menu_views.cpp:780
 msgid "Strength: "
-msgstr "Forza:"
+msgstr "Forza: "
 
 #: ../src/modes/menu/menu_views.cpp:783
 msgid "Vigor: "
-msgstr "Vigore:"
+msgstr "Vigore: "
 
 #: ../src/modes/menu/menu_views.cpp:786
 msgid "Fortitude: "
-msgstr "Fermezza:"
+msgstr "Fermezza: "
 
 #: ../src/modes/menu/menu_views.cpp:789
 msgid "Protection: "
-msgstr "Protezione:"
+msgstr "Protezione: "
 
 #: ../src/modes/menu/menu_views.cpp:792
 msgid "Agility: "
-msgstr "Agilità:"
+msgstr "Agilità: "
 
 #: ../src/modes/menu/menu_views.cpp:795
 msgid "Evade: "
-msgstr "Elusione:"
+msgstr "Elusione: "
 
 #: ../src/modes/menu/menu_views.cpp:917
 msgid "Field"
@@ -846,19 +846,19 @@ msgstr "Nessuna arma"
 
 #: ../src/modes/menu/menu_views.cpp:1610
 msgid "No head armor"
-msgstr "Nessuna protezione (testa)"
+msgstr "Nessuna protezione "
 
 #: ../src/modes/menu/menu_views.cpp:1611
 msgid "No torso armor"
-msgstr "Nessuna protezione (busto)"
+msgstr "Nessuna protezione "
 
 #: ../src/modes/menu/menu_views.cpp:1612
 msgid "No arm armor"
-msgstr "Nessuna protezione (braccia)"
+msgstr "Nessuna protezione "
 
 #: ../src/modes/menu/menu_views.cpp:1613
 msgid "No leg armor"
-msgstr "Nessuna protezione (gambe)"
+msgstr "Nessuna protezione"
 
 #: ../src/modes/menu/menu_views.cpp:1636 ../src/modes/shop/shop.cpp:112
 msgid "Weapons"
@@ -866,7 +866,7 @@ msgstr "Armi"
 
 #: ../src/modes/menu/menu_views.cpp:1639 ../src/modes/menu/menu_views.cpp:1659
 msgid "Headgear"
-msgstr "Copricapo"
+msgstr "Capo"
 
 #: ../src/modes/menu/menu_views.cpp:1642 ../src/modes/menu/menu_views.cpp:1661
 msgid "Body Armor"
@@ -874,7 +874,7 @@ msgstr "Armatura"
 
 #: ../src/modes/menu/menu_views.cpp:1645 ../src/modes/menu/menu_views.cpp:1663
 msgid "Offhand"
-msgstr "Guanti"
+msgstr "Mani"
 
 #: ../src/modes/menu/menu_views.cpp:1648 ../src/modes/menu/menu_views.cpp:1665
 msgid "Leggings"
@@ -954,7 +954,7 @@ msgstr "Rimuovi un oggetto venduto o comprato dalla lista"
 
 #: ../src/modes/mode_help_window.cpp:181
 msgid "Add an item to the buy/sell list."
-msgstr "Aggiungi un oggetto venduto o comprato dalla lista"
+msgstr "Aggiungi un oggetto venduto o comprato dalla lista."
 
 #: ../src/modes/mode_help_window.cpp:182 ../src/modes/mode_help_window.cpp:229
 #: ../dat/help/in_game_move_and_interact_anim.lua:39
@@ -1007,7 +1007,7 @@ msgstr ""
 
 #: ../src/modes/mode_help_window.cpp:219
 msgid "Default Key"
-msgstr "Tasto predefinito"
+msgstr "Tasto predef."
 
 #: ../src/modes/mode_help_window.cpp:220
 msgid "General Purpose"
@@ -1195,7 +1195,7 @@ msgstr "Tempo - "
 
 #: ../src/modes/save/save_mode.cpp:560
 msgid "Drunes - "
-msgstr "Drune -"
+msgstr "Drune - "
 
 #: ../src/modes/shop/shop_buy.cpp:58 ../src/modes/shop/shop_sell.cpp:58
 #: ../src/modes/shop/shop_trade.cpp:48
@@ -1276,27 +1276,27 @@ msgstr "Premi "
 
 #: ../src/modes/shop/shop.cpp:806
 msgid " to add items to buy and "
-msgstr " per aggiungere oggetti di acquisto e"
+msgstr " per aggiungere oggetti di acquisto e "
 
 #: ../src/modes/shop/shop.cpp:807
 msgid " to remove items from your purchase."
-msgstr " per rimuovere oggetti dai vostri acquisti."
+msgstr " per rimuoverli dagli acquisti."
 
 #: ../src/modes/shop/shop.cpp:811
 msgid " to add items to sell and "
-msgstr " per aggiungere oggetti di vendita e"
+msgstr " per aggiungere oggetti di vendita e "
 
 #: ../src/modes/shop/shop.cpp:812
 msgid " to remove items from your sale."
-msgstr " per rimuovere oggetti dalle vostre vendite."
+msgstr " per rimuoverli dalle vendite."
 
 #: ../src/modes/shop/shop.cpp:816
 msgid " to trade for this items and "
-msgstr " per trattare questi oggetti e"
+msgstr " per trattare questi oggetti e "
 
 #: ../src/modes/shop/shop.cpp:817
 msgid " to remove items from your trade."
-msgstr " per rimuovere oggetti dalla vostra trattativa."
+msgstr " per rimuoverli dalla trattativa."
 
 #: ../src/modes/shop/shop.cpp:834
 msgid "Buy count: x "
@@ -1320,7 +1320,7 @@ msgstr "Vendi"
 
 #: ../src/modes/shop/shop.cpp:1092 ../src/modes/shop/shop.cpp:1246
 msgid "Trade"
-msgstr "Merce"
+msgstr "Trattativa"
 
 #: ../src/modes/shop/shop.cpp:1247
 msgid "Leave"
@@ -1328,7 +1328,7 @@ msgstr "Lascia"
 
 #: ../src/modes/shop/shop.cpp:1681
 msgid "Funds: "
-msgstr "Cassa:"
+msgstr "Cassa: "
 
 #: ../src/modes/shop/shop.cpp:1683
 msgid "Purchases: "
@@ -1336,7 +1336,7 @@ msgstr "Acquisti: "
 
 #: ../src/modes/shop/shop.cpp:1684 ../src/modes/shop/shop.cpp:1687
 msgid "Total: "
-msgstr "Totale:"
+msgstr "Totale: "
 
 #: ../src/modes/shop/shop.cpp:1686
 msgid "Sales: +"
@@ -1805,8 +1805,8 @@ msgid ""
 "He spoke about losing it near a tree but also told me people in the village "
 "might know more..."
 msgstr ""
-"Devo recuperare la penna che Georges ha perso, per poi sapere a chi gli ha "
-"dato il resto della farina d'orzo.\n"
+"Per scoprire che fine ha fatto il resto della farina d'orzo, devo recuperare "
+"la penna che Georges ha perso.\n"
 "\n"
 "Lui racconta di averla persa vicino a un albero, ma forse le persone del "
 "villaggio potrebbero sapere qualcosa di più..."
@@ -1859,9 +1859,8 @@ msgid ""
 msgstr ""
 "Sono passate settimane da quando potevo uscire dal villaggio.\n"
 "\n"
-"Perfino l'entrata è stata chiusa con delle pietre, e ora non ditemi che non "
-"vogliono nemmeno darmi un'attimo di pace nell'unico posto che preferisco "
-"andare!?\n"
+"L'entrata è stata chiusa con delle pietre, si vede che non vogliono darmi "
+"nemmeno un'attimo di pace nell'unico posto che preferisco andare!?\n"
 "\n"
 "In ogni caso, vado a prendermi da solo una spada!"
 
@@ -1938,7 +1937,7 @@ msgstr "Traduzioni"
 
 #: ../dat/credits/episode1_credits.lua:67
 msgid "Tester Team"
-msgstr "Squadra dei tester"
+msgstr "Squadra tester"
 
 #: ../dat/credits/episode1_credits.lua:72
 msgid "To Lilou and Léo..."
@@ -2058,11 +2057,11 @@ msgstr "Conferma/apri/parla:"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:55
 msgid "Run / Cancel: "
-msgstr "Corri/annulla:"
+msgstr "Corri/annulla: "
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:56
 msgid "Party Menu: "
-msgstr "Menu gruppo:"
+msgstr "Menu gruppo: "
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:58
 msgid "Game commands:"
@@ -2115,11 +2114,11 @@ msgstr "(ho sentito qualcosa cadere all'esterno. Speriamo bene.)"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:535
 msgid "Only the last one standing shall pass ..."
-msgstr "Solo l'ultimo che si rialza in piedi può passare..."
+msgstr "Solo colui che rimane in piedi fino all'ultimo potrà passare..."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:602
 msgid "'Only the last one standing shall pass.' ..."
-msgstr "''Solo l'ultimo che si rialza in piedi può passare.''..."
+msgstr "''Solo colui che rimane in piedi fino all'ultimo potrà passare.''..."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:604
 msgid "You are able to decipher this writing, Kalya?"
@@ -2156,7 +2155,7 @@ msgid ""
 "mechanism my family used long ago..."
 msgstr ""
 "Ci sono pure dei segni incisi su questa roccia. Sembra una sorte di "
-"meccanismo che la mia famiglia usava tanto tempo fa..."
+"meccanismo che la mia famiglia ne faceva uso tanto tempo fa..."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:670
 msgid "Your family? Long ago? ..."
@@ -2167,7 +2166,7 @@ msgid ""
 "Err... Nevermind that, we must find a way to make this move. Let's look "
 "around."
 msgstr ""
-"Err...non importa, dobbiamo trovare un modo per farlo muovere. Diamo "
+"Err...non importa, dobbiamo trovare un modo per rimuoverla. Diamo "
 "un'occhiata in giro."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:836
@@ -2184,7 +2183,7 @@ msgstr "Orlinn, basta!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:861
 msgid "What's happening!?!"
-msgstr "Cos'è successo!!?"
+msgstr "Cosa sta succedendo!!?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:900
 msgid "Gosh!! By all heavens, what is this?"
@@ -2196,7 +2195,7 @@ msgstr "Una pietra di cristallo!!?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:904
 msgid "This is her. I heard her voice calling..."
-msgstr "Questo è suo. Ho sentito la sua voce che chiamava..."
+msgstr "Questa è lei. Ho sentito la sua voce che chiamava..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:913
 msgid "Dear chosen one, the time has finally come."
@@ -2308,7 +2307,7 @@ msgstr "Vieni qui, presto!!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:1085
 msgid "(Sigh)... I should have stayed home today..."
-msgstr "(Sigh)...avrei dovuto rimanere a casa oggi..."
+msgstr "(Sospiro)...avrei dovuto rimanere a casa oggi..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal.lua:1087
 msgid "... Ouch, why is my head hurting so much? ..."
@@ -2589,7 +2588,7 @@ msgstr "...Prego."
 
 #: ../dat/maps/layna_forest/layna_forest_south_west.lua:1026
 msgid "Woah, wait!"
-msgstr "Hey, aspetta!"
+msgstr "Ehi, aspetta!"
 
 #: ../dat/maps/layna_forest/layna_forest_south_west.lua:1028
 msgid ""
@@ -2625,7 +2624,7 @@ msgstr "Il gruppo non beve."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:483
 msgid "Yiek, it's stinking in here."
-msgstr "Bleah, è disgustosa."
+msgstr "Yiek, qui dentro c'è un odore nauseabondo."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:485
 msgid "Look at all those bones. We should be careful."
@@ -2644,20 +2643,20 @@ msgid ""
 "Kalya ... We're in the middle of a cave and you're only thinking about "
 "wearing jewels."
 msgstr ""
-"Kalya...siamo nel bel mezzo di una caverna e stai solo pensando a gioielli "
-"da indossare."
+"Kalya...siamo nel bel mezzo di una caverna e pensi solo ai gioielli da "
+"indossare."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:529
 msgid "It suits me better than it would for you, don't be jealous."
-msgstr "Mi si adatta meglio di quanto tu credi, non essere geloso."
+msgstr "Mi si adatta meglio di quanto tu credi, non fare il geloso."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:531
 msgid "Kalya! You'd better be careful!"
-msgstr "Kalya! Dovresti stare più attenta!"
+msgstr "Kalya! Faresti meglio a stare attenta!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:533
 msgid "Don't even start, this one is all mine."
-msgstr "Non iniziare a fare la predica, sarà tutto mio."
+msgstr "Non cominciare, è tutto mia."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:535
 msgid "Not the necklace, the Fenrir!"
@@ -2665,11 +2664,11 @@ msgstr "Non la collana, il fenrir!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:537
 msgid "You can't be serious, we would have heard it come."
-msgstr "Non puoi fare il serio, avremmo potuto sentirlo se arrivava."
+msgstr "Non essere così preoccupato, lo avremmo potuto sentire se arrivava."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:549
 msgid "Ah well, finally you were serious, weren't you?"
-msgstr "Ah bene, finalmente facevi la seria, non è vero?"
+msgstr "Ah be', eri davvero preoccupato, non è vero?"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave.lua:578
 msgid ""
@@ -2694,7 +2693,7 @@ msgstr "È meglio andare e dimenticarsene al più presto..."
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:317
 msgid "Hey son! Slept well? Err, where did I leave that oil lamp?"
 msgstr ""
-"Hey figliolo! Dormito bene? Mmm, ma dove avrò lasciato quella lampada ad "
+"Ehi figliolo! Dormito bene? Mmm, ma dove avrò lasciato quella lampada ad "
 "olio..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:319
@@ -2750,7 +2749,7 @@ msgid ""
 "Hey, wait! All of the elders in the village are on their nerves. There is "
 "something going on here! Why won't you tell me?"
 msgstr ""
-"Hey, aspetta! Tutti gli anziani del villaggio sono nervosi. C'è sotto "
+"Ehi, aspettate! Tutti gli anziani del villaggio sono nervosi. C'è sotto "
 "qualcosa! Perché non me lo volete dire?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:555
@@ -2791,7 +2790,7 @@ msgstr "Forse lo dovremmo dire..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:610
 msgid "It's too early, darling. We might be wrong."
-msgstr "È ancora troppo presto, tesoro. Potremmo commettere degli errori."
+msgstr "È ancora troppo presto, tesoro. Potremmo sbagliare."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:612
 msgid "I really hope we are..."
@@ -2803,7 +2802,7 @@ msgstr "Bronann, mi prometti di stare più attento d'ora in poi, ok?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:704
 msgid "Sigh... got it, mom!"
-msgstr "Sigh...va bene, mamma!"
+msgstr "Uffa...va bene, mamma!"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:706
 msgid "Perfect timing, let's have dinner."
@@ -2819,7 +2818,7 @@ msgstr "Ciao figlio mio, hai fatto un altro incubo la scorsa notte?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:722
 msgid "Hi mom. Huh, how do you know..."
-msgstr "Ciao mamma. Huh, come lo sai..."
+msgstr "Ciao mamma. Uh, come lo sai..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:724
 msgid "Eh eh? Have you already forgotten I'm your mother?"
@@ -2857,7 +2856,7 @@ msgstr "Mm, andrò nel negozio di Flora. Spero che mi possa aiutare..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:653
 msgid "Why doesn't anyone want to tell me what's going on!!"
-msgstr "Perché nessuno non mi vuole dire che cosa sta succedendo!!"
+msgstr "Perché nessuno non mi vuole dire che cosa sta accadendo!!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:655
 msgid ""
@@ -2904,7 +2903,7 @@ msgstr "Carson, hanno oltrepassato il fiume. Tra poco tempo verrano qui."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:740
 msgid "Huh? Hey, what's happening here?!"
-msgstr "Eh? Hey, cosa è successo qui!?"
+msgstr "Uh? Ehi, cosa è successo qui!?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:742
 msgid "Bronann, I ..."
@@ -2928,8 +2927,8 @@ msgid ""
 "I did, but he just slipped through my fingers at the very second that "
 "strange light appeared."
 msgstr ""
-"Era con me, ma poi mi è sfuggito tra le mani nello stesso secondo in cui è "
-"apparsa quella strana luce."
+"Era con me, ma poi mi è sfuggito tra le mani nello stesso istante in cui "
+"quella strana luce è apparsa."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:763
 msgid ""
@@ -2982,11 +2981,11 @@ msgstr "Carson ha ragione, Kalya. Bronann ti deve seguire."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:783
 msgid "But he would just be a burden!"
-msgstr "Ma sarebbe solo di peso!"
+msgstr "Ma sarebbe solo un peso!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:785
 msgid "Huh? Hey! But..."
-msgstr "Cosa? Hey! Ma..."
+msgstr "Cosa? Ehi! Ma..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:787
 msgid "He won't slow you down, believe me. Right, Bronann?"
@@ -3084,8 +3083,8 @@ msgid ""
 "And tell me that you equipped your sword ... If you haven't, open your "
 "inventory by pressing the menu key ("
 msgstr ""
-"E poi fammi sapere se ti sei equipaggiato della spada...Se non c'è l'hai, "
-"apri il tuo inventario premendo il tasto di menu ("
+"E poi dimmi se ti sei equipaggiato della spada...se non c'è l'hai, apri il "
+"tuo inventario premendo il tasto di menu ("
 
 #: ../dat/maps/layna_village/layna_village_center.lua:945
 msgid ""
@@ -3111,9 +3110,9 @@ msgid ""
 "the group in the forest. By that I mean that the person on the top of the "
 "battle formation will actually appear, while the others will stay hidden."
 msgstr ""
-"La seconda cosa è che la persona in prima linea guiderà il gruppo nella "
+"La seconda cosa è che la persona che comanda guiderà il gruppo nella "
 "foresta. Con questo voglio dire che la persona che guida la formazione verrà "
-"realmente mostrata, mentre gli altri personaggi non verranno visualizzati."
+"realmente mostrata, mentre gli altri personaggi rimarranno nascosti."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:953
 msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
@@ -3130,8 +3129,8 @@ msgid ""
 "That will be the case only in certain areas. Here in the village, you'll be "
 "the one leading, or at least you may believe that ..."
 msgstr ""
-"L'unico caso sarà solo in certe zone. Qui nel villaggio sarai colui che ci "
-"guiderà, o per lo meno sarà quello che crederai di fare..."
+"L'unica eccezione sarà solo in certe zone. Qui nel villaggio sarai colui che "
+"ci guiderà, o per lo meno ci crederai..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1085
 msgid ""
@@ -3177,19 +3176,19 @@ msgstr "Non ringraziarmi per questo. Il piacere è tutto mio."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1142
 msgid "Here it is, Georges."
-msgstr "È qui, Georges."
+msgstr "Ecco qui, Georges."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1144
 msgid ""
 "You're the nicest person I know, Bronnan. I well tell everyone how brave "
 "you..."
 msgstr ""
-"Sei la persona più gentile che conosca, Bronann. Dirò a tutti quanto "
-"coraggioso sei..."
+"Siete la persona più gentile che conosca, Bronann. Dirò a tutti quanto "
+"coraggioso siete stato..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1146
 msgid "(Sigh...) Georges!"
-msgstr "(sospiro...)Georges!"
+msgstr "(Sospiro...) Georges!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1148
 msgid "Ok ok. Just having a bit of spirit, young man."
@@ -3205,13 +3204,13 @@ msgid ""
 "You see, I lost my beloved pen. Was it near a tree or next to the waving "
 "child of the mountain snow?"
 msgstr ""
-"Vedi, ho perduto la mia amata penna. Non mi ricordo se era vicino a un "
+"Vedete, ho perduto la mia amata penna. Non mi ricordo se era vicino a un "
 "albero o accanto al fanciullo vanaglorioso della montagna innevata..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1164
 #: ../dat/maps/layna_village/layna_village_center.lua:1195
 msgid "Shall you find it, I would be entrustfully obliged to you!"
-msgstr "Devi trovarla, e te ne sarò ''fiduciosamente'' riconoscente!"
+msgstr "Dovete trovarla, e ve ne sarò ''fiduciosamente'' riconoscente!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1166
 #: ../dat/maps/layna_village/layna_village_center.lua:1197
@@ -3219,12 +3218,12 @@ msgid ""
 "Inquire our comrades in the settlement, perhaps somebody has laid their eyes "
 "on it."
 msgstr ""
-"Chiedi ai nostri compaesani, forse qualcuno ha posato gli occhi su di lui."
+"Chiedete ai nostri compaesani, forse qualcuno ha posato gli occhi su di lui."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1168
 #: ../dat/maps/layna_village/layna_village_center.lua:1199
 msgid "(Sigh...) Hmm, fine."
-msgstr "(sospiro...) Mm, bene."
+msgstr "(Sospiro...) Mm, bene."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1175
 msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
@@ -3232,7 +3231,7 @@ msgstr "Salve Georges. Ehm, vengo dal negozio e..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1177
 msgid "Can you hear this?"
-msgstr "Hai sentito?"
+msgstr "Avete sentito?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1179
 msgid "Erm, ... Well, I don't hear anything special..."
@@ -3243,7 +3242,7 @@ msgid ""
 "That's the point! Can't you hear the magnificient sound of nature, so "
 "invisible to our adapted ears?"
 msgstr ""
-"Questo è il punto! Non senti il magnifico suono della natura, così "
+"Questo è il punto! Non sentite il magnifico suono della natura, così "
 "silenzioso per le nostre normali orecchie?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1183
@@ -3294,7 +3293,7 @@ msgstr "Ha ha ha!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1259
 msgid "What are you laughing about, Orlinn?"
-msgstr "Che hai da ridere?"
+msgstr "Orlinn, che hai da ridere?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1261
 msgid "You'll never find it!"
@@ -3326,11 +3325,11 @@ msgstr "Sicuramente ti aiuterò. Ma solo se riesci ad acciuffarmi!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1275
 msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
-msgstr "Ah ah ah! (non mi troverà mai nascosto dietro a questi edifici!)"
+msgstr "Ah ah ah! (non mi troverà mai nascosto dietro agli edifici!)"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1282
 msgid "Heya bro! Wanna play with me?"
-msgstr "Hey amico! Vuoi giocare con me?"
+msgstr "Ehi amico! Vuoi giocare con me?"
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:357
 msgid "Hi Bronann! What can I do for you?"
@@ -3365,7 +3364,7 @@ msgstr "Trova il nostro ''poeta'' e ti darà un po' di farina d'orzo, capito?"
 msgid ""
 "He's probably 'musing' around the cliffs in the village center right now."
 msgstr ""
-"Probabilmente in questo momento starà 'meditando'' in giro per le scogliere "
+"Probabilmente in questo momento starà ''meditando'' in giro per le scogliere "
 "nel centro del villaggio."
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:380
@@ -3386,8 +3385,8 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:386
 msgid "Times are becoming harder now. We've got less food than before..."
 msgstr ""
-"E poi i tempi di oggi si fanno sempre più duri. Abbiamo meno cibo rispetto a "
-"prima..."
+"Per di più i tempi di oggi si fanno sempre più duri. Abbiamo meno cibo "
+"rispetto a prima..."
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:388
 msgid ""
@@ -3428,7 +3427,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:568
 msgid "Wow! You found me!"
-msgstr "Wow! Mi avete trovato!"
+msgstr "Wow! Mi hai trovato!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:570
 msgid "But I'm not done yet!"
@@ -3436,11 +3435,11 @@ msgstr "Ma non ho ancora finito!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:572
 msgid "You'll never find me hiding behind the..."
-msgstr "Non mi troverai mai nascosto dietro..."
+msgstr "Non mi troverai mai nascosto dietro quel..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:574
 msgid "Hey, why would I telling you my hiding spots?!"
-msgstr "Ehi, perche mai dovrei dire dei miei nascondigli a te!?"
+msgstr "Ehi, perché mai dovrei dirti dei miei nascondigli!?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:592
 msgid "That kid is pretty quick. This is going to take all day..."
@@ -3465,7 +3464,7 @@ msgstr "Ma sorella! Io..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:668
 msgid "I don't want to hear it! Now, come!"
-msgstr "Non voglio sentire! Vieni, ora!"
+msgstr "Non voglio sentire! Vieni via, ora!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:670
 msgid "Don't blame him, Kalya. Actually, it was..."
@@ -3506,8 +3505,8 @@ msgid ""
 "Don't blame Kalya. She was having a hard time along with her brother before "
 "living here, you know?"
 msgstr ""
-"Non incolpare Kalya. Non lo sapevi che stava attraversando un periodo "
-"difficile con suo fratello prima di venire a vivere qui?"
+"Non incolpare Kalya. Non lo sapevi che ha passato un periodo difficile con "
+"suo fratello prima di venire a vivere qui?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:738
 msgid "Well anyway, she's been ignoring me since the first day I saw her..."
@@ -3523,7 +3522,7 @@ msgstr "...Eh?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:744
 msgid "Heh heh, don't worry about it. It will come in time."
-msgstr "Eh eh, non preoccupartene. Arriverà in tempo."
+msgstr "Eh eh, non preoccupartene. Arriverà il tempo."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:789
 msgid "Here it is, Bronann."
@@ -3635,7 +3634,7 @@ msgstr "È possibile. Ma non preoccuparti troppo, ok?"
 
 #: ../dat/maps/layna_village/layna_village_south_entrance.lua:496
 msgid "Yiek!!! Hey, you scared me."
-msgstr "Aaaah!!! Hey, mi hai fatto prendere un colpo."
+msgstr "Yiek!!! Ehi, mi hai fatto prendere un colpo."
 
 #: ../dat/maps/layna_village/layna_village_south_entrance.lua:498
 msgid "But You'll never find me hiding on top of the cliffs!"
@@ -3951,7 +3950,7 @@ msgstr "Spada di legno con manico in acciaio, molto buona per fare pratica."
 
 #: ../dat/objects/weapons.lua:73
 msgid "Karlate Sword"
-msgstr "Spada karlate"
+msgstr "Spada dei karlate"
 
 #: ../dat/objects/weapons.lua:74
 msgid ""
@@ -4003,7 +4002,7 @@ msgstr "Normale arbalest in legno."
 
 #: ../dat/skills/magic.lua:43
 msgid "Defensive Stance"
-msgstr "Posizione di difesa"
+msgstr "Posizione difensiva"
 
 #: ../dat/skills/magic.lua:44
 msgid "Increases an ally's physical defense by a slight degree."
@@ -4028,7 +4027,7 @@ msgstr "Aumenta temporaneamente la forza di tutti gli alleati."
 
 #: ../dat/skills/magic.lua:121
 msgid "Fire burst"
-msgstr "Fuoco magico"
+msgstr "Fiammata"
 
 #: ../dat/skills/magic.lua:122
 msgid "Creates a small fire that burns an enemy."
@@ -4056,11 +4055,11 @@ msgstr "Colpo di spada"
 
 #: ../dat/skills/weapon.lua:62
 msgid "A textbook manoeuver that deals an effective blow."
-msgstr "Manovra da manuale che assesta un colpo potente."
+msgstr "Manovra da manuale che assesta un colpo efficace."
 
 #: ../dat/skills/weapon.lua:89
 msgid "Forward Thrust"
-msgstr "Avanzamento"
+msgstr "Carica"
 
 #: ../dat/skills/weapon.lua:90
 msgid "A quicker and more powerful blow than the standard sword slash."
@@ -4085,11 +4084,11 @@ msgstr "Attacco aggressivo di lama che infligge danni significativi."
 
 #: ../dat/skills/weapon.lua:182
 msgid "Single Shot"
-msgstr "Colpo singolo"
+msgstr "Tiro singolo"
 
 #: ../dat/skills/weapon.lua:183
 msgid "A simple shot using an arbalest."
-msgstr "Semplice colpo singolo di arbalest."
+msgstr "Semplice tiro singolo con l'arbalest."
 
 #: ../dat/skills/weapon.lua:209
 msgid "Dagger Slash"
@@ -4119,7 +4118,7 @@ msgstr "Un semplice pugno. Meglio che niente..."
 #: map_names_tr.lua:42 map_names_tr.lua:101 map_names_tr.lua:105
 #: map_names_tr.lua:109 map_names_tr.lua:137
 msgid "Layna Forest Cave"
-msgstr "Grotta della foresta di Layna"
+msgstr "Grotta nella foresta di Layna"
 
 #: map_names_tr.lua:20 map_names_tr.lua:115
 msgid "???"
