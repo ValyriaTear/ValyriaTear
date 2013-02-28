@@ -74,8 +74,8 @@ skills[21001] = {
 	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
 
 	BattleExecute = function(user, target)
-		local x_position = 200.0 + (hoa_utils.RandomFloat() * 450.0)
-		local y_position = 200.0 + (hoa_utils.RandomFloat() * 300.0)
+		local x_position = 250.0 + (hoa_utils.RandomFloat() * 400.0)
+		local y_position = 350.0 + (hoa_utils.RandomFloat() * 250.0)
 		local Battle = ModeManager:GetTop();
 		Battle:AddEnemy(1, x_position, y_position);
 	end
