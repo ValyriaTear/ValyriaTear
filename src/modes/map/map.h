@@ -386,6 +386,11 @@ private:
     **/
     uint32 _run_stamina;
 
+    /** \brief the alpha value used to create fade in/out of the map GUI when switching in
+    *** or out of the STATE_SCENE or DIALOGUE state.
+    **/
+    float _gui_alpha;
+
     /** \brief Maintains a stack state for the different modes of operation that the map may be in
     *** The top (back) of the stack is the active mode
     **/

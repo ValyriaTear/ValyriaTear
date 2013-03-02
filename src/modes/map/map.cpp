@@ -74,7 +74,8 @@ MapMode::MapMode(const std::string &filename) :
     _running_disabled(false),
     _unlimited_stamina(false),
     _show_gui(true),
-    _run_stamina(10000)
+    _run_stamina(10000),
+    _gui_alpha(0.0f)
 {
     mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
@@ -246,12 +247,27 @@ void MapMode::Update()
     _object_supervisor->Update();
     _object_supervisor->SortObjects();
 
+    switch(CurrentState()) {
+    case STATE_SCENE:
+    case STATE_DIALOGUE:
+        // Fade out the gui alpha
+        if (_gui_alpha > 0.0f)
+            _gui_alpha -= SystemManager->GetUpdateTime() * 0.005;
+        break;
+    default:
+        // Fade in the gui alpha if necessary
+        if (_gui_alpha < 1.0f)
+            _gui_alpha += SystemManager->GetUpdateTime() * 0.005;
+        break;
+    }
+
     // Update the active state of the map
     switch(CurrentState()) {
     case STATE_EXPLORE:
         _UpdateExplore();
         break;
     case STATE_SCENE:
+        // Nothing
         break;
     case STATE_DIALOGUE:
         _dialogue_supervisor->Update();
@@ -1057,7 +1073,7 @@ void MapMode::_DrawGUI()
 
     // Draw the stamina bar in the lower right corner
     if(!_unlimited_stamina && _intro_timer.IsFinished())
-        _DrawStaminaBar();
+        _DrawStaminaBar(Color(1.0f, 1.0f, 1.0f, _gui_alpha));
 
     // Draw the debug info
     if(!VideoManager->DebugInfoOn())
