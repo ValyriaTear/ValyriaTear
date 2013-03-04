@@ -211,6 +211,5 @@ systems[1] =
 	modify_stencil = false,
 	stencil_op = 'INCR',
 	use_stencil = false,
-	scene_lighting = 0.6,
 	random_initial_angle = true
 }
