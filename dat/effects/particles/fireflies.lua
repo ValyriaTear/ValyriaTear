@@ -96,11 +96,14 @@ systems[0] =
     wind_velocity_y = 0,
     wind_velocity_variation_x = 0,
     wind_velocity_variation_y = 0,
-    wave_motion_used = true,
-    wave_length = 1.0,
-    wave_length_variation = 0,
-    wave_amplitude = 5.0,
-    wave_amplitude_variation = 1.0,
+
+    wave_motion = {
+        wave_length = 1.0,
+        wave_length_variation = 0,
+        wave_amplitude = 5.0,
+        wave_amplitude_variation = 1.0,
+    },
+
     tangential_acceleration = 0,
     tangential_acceleration_variation = 0,
     radial_acceleration = 0,

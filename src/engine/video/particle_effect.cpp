@@ -237,11 +237,19 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         sys_def.wind_velocity_variation_x = particle_script.ReadFloat("wind_velocity_variation_x");
         sys_def.wind_velocity_variation_y = particle_script.ReadFloat("wind_velocity_variation_y");
 
-        sys_def.wave_motion_used = particle_script.ReadBool("wave_motion_used");
-        sys_def.wave_length = particle_script.ReadFloat("wave_length");
-        sys_def.wave_length_variation = particle_script.ReadFloat("wave_length_variation");
-        sys_def.wave_amplitude = particle_script.ReadFloat("wave_amplitude");
-        sys_def.wave_amplitude_variation = particle_script.ReadFloat("wave_amplitude_variation");
+        if (particle_script.OpenTable("wave_motion")) {
+
+            sys_def.wave_motion_used = true;
+            sys_def.wave_length = particle_script.ReadFloat("wave_length");
+            sys_def.wave_length_variation = particle_script.ReadFloat("wave_length_variation");
+            sys_def.wave_amplitude = particle_script.ReadFloat("wave_amplitude");
+            sys_def.wave_amplitude_variation = particle_script.ReadFloat("wave_amplitude_variation");
+
+            particle_script.CloseTable();
+        }
+        else {
+            sys_def.wave_motion_used = false;
+        }
 
         sys_def.tangential_acceleration = particle_script.ReadFloat("tangential_acceleration");
         sys_def.tangential_acceleration_variation = particle_script.ReadFloat("tangential_acceleration_variation");

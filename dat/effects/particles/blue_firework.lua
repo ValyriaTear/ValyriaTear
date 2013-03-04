@@ -1,5 +1,4 @@
 -- Blue fireworks
--- Last modified on November 10th, 2005
 -- Author: roos, modifications by Bertram
 
 systems = {}
@@ -82,11 +81,14 @@ systems[0] =
 	wind_velocity_y = 0,
 	wind_velocity_variation_x = 0,
 	wind_velocity_variation_y = 0,
-	wave_motion_used = true,
-	wave_length = .5,
-	wave_length_variation = 0,
-	wave_amplitude = 0,
-	wave_amplitude_variation = 0,
+
+    wave_motion = {
+        wave_length = .5,
+        wave_length_variation = 0,
+        wave_amplitude = 0,
+        wave_amplitude_variation = 0,
+    },
+
 	tangential_acceleration = 7880,
 	tangential_acceleration_variation = 0,
 	radial_acceleration = 0,
