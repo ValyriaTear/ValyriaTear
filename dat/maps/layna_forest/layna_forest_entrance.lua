@@ -404,6 +404,20 @@ function _CreateObjects()
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel2 random move", 1800);
+    else
+        -- add fireflies near the statue at night
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                                27, 22, hoa_map.MapMode.CONTEXT_01);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        Map:AddGroundObject(object);
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                                25, 23, hoa_map.MapMode.CONTEXT_01);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        Map:AddGroundObject(object);
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                                29, 22.5, hoa_map.MapMode.CONTEXT_01);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        Map:AddGroundObject(object);
     end
 
 	object = CreateObject(Map, "Tree Small3", 23, 18);
