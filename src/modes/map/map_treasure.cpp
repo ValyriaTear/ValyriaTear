@@ -326,9 +326,9 @@ void TreasureSupervisor::_UpdateList()
         if(list_selection == 0 && _treasure->_drunes != 0) {  // If true, the drunes have been selected
             _selection_name.SetText(UTranslate("Drunes"));
             _selection_icon = &_drunes_icon;
-            _detail_textbox.SetDisplayText(UTranslate("With the additional ") + MakeUnicodeString(NumberToString(_treasure->_drunes)) +
-                                           UTranslate(" drunes found in this treasure added, the party now holds a total of ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes()))
-                                           + MakeUnicodeString(" drunes."));
+            _detail_textbox.SetDisplayText(VTranslate("With the additional %u drunes found in this treasure added, "
+                                                      "the party now holds a total of %u drunes.",
+                                                      _treasure->_drunes, GlobalManager->GetDrunes()));
         } else { // Otherwise, a GlobalObject is selected
             if(_treasure->_drunes != 0)
                 list_selection--;

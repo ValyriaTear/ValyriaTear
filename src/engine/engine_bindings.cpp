@@ -181,6 +181,12 @@ void BindEngineCode()
             luabind::def("UTranslate", &hoa_system::UTranslate),
             luabind::def("CUTranslate", &hoa_system::CUTranslate),
 
+            // Specializaton of c-formatted translation bounds
+            luabind::def("VTranslate", (std::string(*)(const std::string&, uint32)) &hoa_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, int32)) &hoa_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, float)) &hoa_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, const std::string&)) &hoa_system::VTranslate),
+
             luabind::class_<SystemTimer>("SystemTimer")
             .def(luabind::constructor<>())
             .def(luabind::constructor<uint32, int32>())

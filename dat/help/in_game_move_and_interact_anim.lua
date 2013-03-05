@@ -51,15 +51,15 @@ function Initialize(map_instance)
     move_down_text = hoa_system.Translate(InputManager:GetDownKeyName());
 
     action_title_text = hoa_system.Translate("Possible actions:");
-    confirm_text = hoa_system.Translate("Confirm / Open / Talk: ") .. hoa_system.Translate(InputManager:GetConfirmKeyName());
-    cancel_text = hoa_system.Translate("Run / Cancel: ") .. hoa_system.Translate(InputManager:GetCancelKeyName());
-    menu_text = hoa_system.Translate("Party Menu: ") .. hoa_system.Translate(InputManager:GetMenuKeyName());
+    confirm_text = hoa_system.VTranslate("Confirm / Open / Talk: %s", hoa_system.Translate(InputManager:GetConfirmKeyName()));
+    cancel_text = hoa_system.VTranslate("Run / Cancel: %s", hoa_system.Translate(InputManager:GetCancelKeyName()));
+    menu_text = hoa_system.VTranslate("Party Menu: %s", hoa_system.Translate(InputManager:GetMenuKeyName()));
 
     game_title_text = hoa_system.Translate("Game commands:");
-    pause_text = hoa_system.Translate("Pause Menu: ") .. hoa_system.Translate(InputManager:GetPauseKeyName());
-    quit_text = hoa_system.Translate("Quit Menu: ") .. hoa_system.Translate(InputManager:GetQuitKeyName());
+    pause_text = hoa_system.VTranslate("Pause Menu: %s", hoa_system.Translate(InputManager:GetPauseKeyName()));
+    quit_text = hoa_system.VTranslate("Quit Menu: %s", hoa_system.Translate(InputManager:GetQuitKeyName()));
 
-    help_text = hoa_system.Translate("Help Menu: ") .. hoa_system.Translate(InputManager:GetHelpKeyName());
+    help_text = hoa_system.VTranslate("Help Menu: %s", hoa_system.Translate(InputManager:GetHelpKeyName()));
 end
 
 function Update()

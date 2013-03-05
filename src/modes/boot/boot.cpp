@@ -481,9 +481,8 @@ void BootMode::_SetupMainMenu()
         _main_menu.SetSelection(1);
     }
 
-    _f1_help_text.SetText(Translate("Press '")
-        + InputManager->GetHelpKeyName()
-        + Translate("' to get to know about the game keys."));
+    _f1_help_text.SetText(VTranslate("Press '%s' to get to know about the game keys.",
+                                     InputManager->GetHelpKeyName()));
 }
 
 

@@ -940,9 +940,7 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("First of all before going there, you might need a better equipment. Go and see Flora first, ok?");
     dialogue:AddLine(text, kalya);
-    text = hoa_system.Translate("And tell me that you equipped your sword ... If you haven't, open your inventory by pressing the menu key (")
-           .. InputManager:GetMenuKeyName()
-           .. hoa_system.Translate("), and select 'Equip'. Then you'll be able to select your sword and add it as your main weapon, ok?");
+    text = hoa_system.VTranslate("And tell me that you equipped your sword ... If you haven't, open your inventory by pressing the menu key (%s), and select 'Equip'. Then you'll be able to select your sword and add it as your main weapon, ok?", InputManager:GetMenuKeyName());
     dialogue:AddLine(text, kalya);
     text = hoa_system.Translate("You mean, like, I need to push a key to open my bag?");
     dialogue:AddLineEmote(text, bronann, "interrogation");

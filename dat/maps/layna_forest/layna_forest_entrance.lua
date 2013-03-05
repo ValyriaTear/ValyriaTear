@@ -699,10 +699,7 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("... I do trust you, Kalya.");
     dialogue:AddLine(text, hero);
-    -- TODO: Add support for at least one parameter c-format replacement.
-    text = hoa_system.Translate("If so, then come and try for yourself. Push '")
-           ..InputManager:GetConfirmKeyName()
-           ..hoa_system.Translate("' and you'll feel safe, too.");
+    text = hoa_system.VTranslate("If so, then come and try for yourself. Push '%s' and you'll feel safe, too.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("Ok, I... I'll do it.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
@@ -718,9 +715,7 @@ function _CreateEvents()
     dialogue = hoa_map.SpriteDialogue();
     text = hoa_system.Translate("Oh, I almost forgot, have you seen up here? There is a Layna spring! We can heal our wounds there.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the spring", "", "exclamation");
-    text = hoa_system.Translate("Just stand in front of the goddess statue below the spring and push '")
-                                ..InputManager:GetConfirmKeyName()
-                                ..hoa_system.Translate("'.");
+    text = hoa_system.VTranslate("Just stand in front of the goddess statue below the spring and push '%s'.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("Ok, thanks.");
     dialogue:AddLine(text, hero);

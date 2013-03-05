@@ -51,7 +51,6 @@ bool SYSTEM_DEBUG = false;
 
 std::string Translate(const std::string &text)
 {
-    // gettext is a C library so the gettext() function takes/returns a C-style char* string
     return std::string(gettext(text.c_str()));
 }
 
@@ -60,7 +59,6 @@ ustring UTranslate(const std::string &text)
     return MakeUnicodeString(Translate(text));
 }
 
-// xgettext invocation: CTranslate:1,"context|text: Leave the context untranslated and let the |"
 // Use: context|text
 std::string CTranslate(const std::string &text)
 {
@@ -79,6 +77,37 @@ ustring CUTranslate(const std::string &text)
 {
     return MakeUnicodeString(CTranslate(text));
 }
+
+// Inner templated VTranslate functions
+template<typename T> std::string _VTranslate(const std::string &text, const T& arg1)
+{
+    std::string translation = gettext(text.c_str());
+
+    translation = strprintf(translation.c_str(), arg1);
+
+    return translation;
+}
+
+template<typename T> std::string _VTranslate(const std::string &text, const T& arg1, const T& arg2)
+{
+    std::string translation = gettext(text.c_str());
+
+    translation = strprintf(translation.c_str(), arg1, arg2);
+
+    return translation;
+}
+
+std::string VTranslate(const std::string &text, int32 arg1)
+{ return _VTranslate(text, arg1); }
+std::string VTranslate(const std::string &text, uint32 arg1)
+{ return _VTranslate(text, arg1); }
+std::string VTranslate(const std::string &text, const std::string& arg1)
+{ return _VTranslate(text, arg1.c_str()); }
+std::string VTranslate(const std::string &text, float arg1)
+{ return _VTranslate(text, arg1); }
+std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2)
+{ return _VTranslate(text, arg1, arg2); }
+
 
 // -----------------------------------------------------------------------------
 // SystemTimer Class

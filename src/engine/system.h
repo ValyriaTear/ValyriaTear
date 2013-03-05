@@ -117,6 +117,17 @@ hoa_utils::ustring UTranslate(const std::string &text);
 **/
 hoa_utils::ustring CUTranslate(const std::string &text);
 
+/** \brief Returns the translated string fprinted with the c-formatted arguments.
+*** \param text The text to transform containing c-format argument
+*** \param arg1 The text argument.
+**/
+std::string VTranslate(const std::string &text, int32 arg1);
+std::string VTranslate(const std::string &text, uint32 arg1);
+std::string VTranslate(const std::string &text, const std::string& arg1);
+std::string VTranslate(const std::string &text, float arg1);
+// Example with 2 args, used in the treasure supervisor
+std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2);
+
 
 /** ****************************************************************************
 *** \brief A timer assistant useful for monitoring progress and processing event sequences
