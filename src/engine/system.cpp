@@ -60,6 +60,26 @@ ustring UTranslate(const std::string &text)
     return MakeUnicodeString(Translate(text));
 }
 
+// xgettext invocation: CTranslate:1,"context|text: Leave the context untranslated and let the |"
+// Use: context|text
+std::string CTranslate(const std::string &text)
+{
+    std::string translation = gettext(text.c_str());
+
+    size_t sep_id = translation.find_first_of('|', 0);
+
+    // No separator found or is the last character
+    if (sep_id == std::string::npos || sep_id == translation.size())
+        return translation;
+
+    return translation.substr(sep_id + 1);
+}
+
+ustring CUTranslate(const std::string &text)
+{
+    return MakeUnicodeString(CTranslate(text));
+}
+
 // -----------------------------------------------------------------------------
 // SystemTimer Class
 // -----------------------------------------------------------------------------

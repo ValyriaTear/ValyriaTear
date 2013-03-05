@@ -177,7 +177,9 @@ void BindEngineCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_system")
         [
             luabind::def("Translate", &hoa_system::Translate),
+            luabind::def("CTranslate", &hoa_system::CTranslate),
             luabind::def("UTranslate", &hoa_system::UTranslate),
+            luabind::def("CUTranslate", &hoa_system::CUTranslate),
 
             luabind::class_<SystemTimer>("SystemTimer")
             .def(luabind::constructor<>())

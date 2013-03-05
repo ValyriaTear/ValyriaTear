@@ -96,6 +96,12 @@ enum SYSTEM_TIMER_STATE {
 **/
 std::string Translate(const std::string &text);
 
+/** \brief Returns the translated string out of the given context
+*** \param text a string in the form of "context|text" permitting contextual translation.
+*** \note I chose not to use pgettext() because there is no official support on Windows
+*** and I prefer a common way to do it.
+**/
+std::string CTranslate(const std::string &text);
 
 /** \brief Returns a ustring translated into the game's current language
 *** \param text A const reference to the string that should be translated
@@ -105,6 +111,11 @@ std::string Translate(const std::string &text);
 *** MakeUnicodeString(Translate(string));
 **/
 hoa_utils::ustring UTranslate(const std::string &text);
+
+/** \brief Returns the contextual translation as a ustring.
+*** \see CTranslate().
+**/
+hoa_utils::ustring CUTranslate(const std::string &text);
 
 
 /** ****************************************************************************

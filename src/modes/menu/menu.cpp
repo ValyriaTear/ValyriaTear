@@ -238,7 +238,7 @@ void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *characte
     VideoManager->Text()->Draw(UTranslate("Torso"));
 
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Arm"));
+    VideoManager->Text()->Draw(CUTranslate("Equipment|Arm"));
 
     VideoManager->MoveRelative(0, 20);
     VideoManager->Text()->Draw(UTranslate("Legs"));

@@ -208,7 +208,7 @@ void InventoryWindow::_InitCategory()
     options.push_back(UTranslate("Wpn"));
     options.push_back(UTranslate("Hlm"));
     options.push_back(UTranslate("Tor"));
-    options.push_back(UTranslate("Arm"));
+    options.push_back(CUTranslate("Menu|Arm"));
     options.push_back(UTranslate("Leg"));
     options.push_back(UTranslate("Key"));
 
