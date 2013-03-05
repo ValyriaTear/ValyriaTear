@@ -5,6 +5,8 @@ systems = {}
 
 systems[0] =
 {
+    enabled = true,
+
     emitter =
     {
         x=0,
@@ -65,7 +67,7 @@ systems[0] =
     {
         16
     },
-    enabled = true,
+
     blend_mode = 13,
     system_lifetime = .3,
     particle_lifetime = 3.8,
@@ -81,23 +83,14 @@ systems[0] =
     wind_velocity_y = 0,
     wind_velocity_variation_x = 0,
     wind_velocity_variation_y = 0,
-    wave_motion_used = false,
-    wave_length = .5,
-    wave_length_variation = 0,
-    wave_amplitude = 0,
-    wave_amplitude_variation = 0,
+
     tangential_acceleration = 0,
     tangential_acceleration_variation = 0,
     radial_acceleration = 0,
     radial_acceleration_variation = 0,
     user_defined_attractor = false,
     attractor_falloff = 0,
-    rotation_used = false,
-    rotate_to_velocity = false,
-    speed_scale_used = false,
-    speed_scale = 0.005,
-    min_speed_scale = 1.0,
-    max_speed_scale = 20.0,
+
     smooth_animation = false,
     modify_stencil = true,
     stencil_op = 'INCR',

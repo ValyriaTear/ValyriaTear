@@ -9,6 +9,8 @@ systems = {}
 
 systems[0] =
 {
+    enabled = true,
+
     emitter =
     {
         x = -32,
@@ -80,7 +82,7 @@ systems[0] =
     {
         16
     },
-    enabled = true,
+
     blend_mode = 13,
     system_lifetime = 3.0,
     particle_lifetime = 3.0,
@@ -110,12 +112,7 @@ systems[0] =
     radial_acceleration_variation = 0,
     user_defined_attractor = false,
     attractor_falloff = 0.0,
-    rotation_used = true,
-    rotate_to_velocity = false,
-    speed_scale_used = false,
-    speed_scale = 0.005,
-    min_speed_scale = 1.0,
-    max_speed_scale = 20.0,
+
     smooth_animation = true,
     modify_stencil = false,
     stencil_op = 'INCR',

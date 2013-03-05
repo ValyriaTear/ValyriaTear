@@ -8,6 +8,8 @@ systems = {}
 
 systems[0] =
 {
+    enabled = true,
+
     emitter =
     {
         x=-612,
@@ -68,7 +70,7 @@ systems[0] =
     {
         16
     },
-    enabled = true,
+
     blend_mode = 13,
     system_lifetime = .3,
     particle_lifetime = 3.8,
@@ -91,12 +93,18 @@ systems[0] =
     radial_acceleration_variation = 0,
     user_defined_attractor = false,
     attractor_falloff = 0,
-    rotation_used = true,
-    rotate_to_velocity = true,
-    speed_scale_used = true,
-    speed_scale = 0.005,
-    min_speed_scale = 1.0,
-    max_speed_scale = 20.0,
+
+    -- Makes the particles rotate.
+    rotation = {
+        -- rotate according to the 3d direction of the particle.
+        rotate_to_velocity = {
+            -- stretch the particle according to its speed.
+            speed_scale = 0.005
+            min_speed_scale = 1.0,
+            max_speed_scale = 20.0
+        }
+    },
+
     smooth_animation = true,
     modify_stencil = false,
     stencil_op = 'INCR',
