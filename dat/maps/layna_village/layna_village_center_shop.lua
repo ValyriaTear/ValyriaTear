@@ -301,9 +301,10 @@ end
 function _CreateEvents()
 	local event = {};
 
-	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center.lua", "from_shop");
-	EventManager:RegisterEvent(event);
+    -- Triggered Events
+    event = hoa_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center.lua",
+                                       "dat/maps/layna_village/layna_village_center.lua", "from_shop");
+    EventManager:RegisterEvent(event);
 
 	event = hoa_map.ShopEvent("layna: open shop");
 	event:AddObject(1, 10); -- minor potion

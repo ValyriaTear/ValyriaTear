@@ -370,12 +370,14 @@ function _CreateEvents()
 	local dialogue = {};
 	local text = {}
 
-	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path.lua", "from_kalya_house_exterior");
-	EventManager:RegisterEvent(event);
+    -- Triggered Events
+    event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path.lua",
+                                       "dat/maps/layna_village/layna_village_kalya_house_path.lua", "from_kalya_house_exterior");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path.lua", "from_kalya_house_small_passage");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path.lua",
+                                       "dat/maps/layna_village/layna_village_kalya_house_path.lua", "from_kalya_house_small_passage");
+    EventManager:RegisterEvent(event);
 
 	-- Kalya house locked door event
 	dialogue = hoa_map.SpriteDialogue();

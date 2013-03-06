@@ -80,7 +80,7 @@ void BindModeCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
         [
             luabind::class_<MapMode, hoa_mode_manager::GameMode>("MapMode")
-            .def(luabind::constructor<const std::string &>())
+            .def(luabind::constructor<const std::string &, const std::string &>())
             .def_readonly("object_supervisor", &MapMode::_object_supervisor)
             .def_readonly("event_supervisor", &MapMode::_event_supervisor)
             .def_readonly("dialogue_supervisor", &MapMode::_dialogue_supervisor)
@@ -519,7 +519,7 @@ void BindModeCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
         [
             luabind::class_<MapTransitionEvent, MapEvent>("MapTransitionEvent")
-            .def(luabind::constructor<std::string, std::string, std::string>())
+            .def(luabind::constructor<std::string, std::string, std::string, std::string>())
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

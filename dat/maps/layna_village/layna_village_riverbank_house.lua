@@ -313,13 +313,14 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local dialogue = {};
-	local text = {};
+    local event = {};
+    local dialogue = {};
+    local text = {};
 
-	-- Triggered events
-	event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_riverbank.lua", "from_riverbank_house");
-	EventManager:RegisterEvent(event);
+    -- Triggered events
+    event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_riverbank.lua",
+                                       "dat/maps/layna_village/layna_village_riverbank.lua", "from_riverbank_house");
+    EventManager:RegisterEvent(event);
 
 end
 

@@ -478,16 +478,18 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local text = {};
-	local dialogue = {};
+    local event = {};
+    local text = {};
+    local dialogue = {};
 
-	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center.lua", "from_bronanns_home");
-	EventManager:RegisterEvent(event);
+    -- Triggered Events
+    event = hoa_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center.lua",
+                                       "dat/maps/layna_village/layna_village_center.lua", "from_bronanns_home");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua", "from_bronanns_home");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua",
+                                       "dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua", "from_bronanns_home");
+    EventManager:RegisterEvent(event);
 
 	-- Generic events
 	event = hoa_map.ScriptedEvent("Audio:FadeOutMusic()", "Audio_FadeOutMusic", "");

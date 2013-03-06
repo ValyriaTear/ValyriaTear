@@ -446,7 +446,8 @@ function _CreateEvents()
 	EventManager:RegisterEvent(event);
 
     -- Triggered events
-    event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home.lua", "From Bronann's first floor");
+    event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home.lua",
+                                       "dat/maps/layna_village/layna_village_bronanns_home.lua", "From Bronann's first floor");
     EventManager:RegisterEvent(event);
 end
 

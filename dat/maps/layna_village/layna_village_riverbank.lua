@@ -546,22 +546,26 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
+    local event = {};
     local dialogue = {};
     local text = {};
 
-	-- Map change Events
-	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua", "from_riverbank");
-	EventManager:RegisterEvent(event);
+    -- Map change Events
+    event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua",
+                                       "dat/maps/layna_village/layna_village_center.lua", "from_riverbank");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance.lua", "from_riverbank");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance.lua",
+                                       "dat/maps/layna_village/layna_village_south_entrance.lua", "from_riverbank");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Riverbank house", "dat/maps/layna_village/layna_village_riverbank_house.lua", "from_riverbank");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to Riverbank house", "dat/maps/layna_village/layna_village_riverbank_house.lua",
+                                       "dat/maps/layna_village/layna_village_riverbank_house.lua", "from_riverbank");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to secret path entrance", "dat/maps/layna_village/layna_village_center.lua", "from_secret_path");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to secret path entrance", "dat/maps/layna_village/layna_village_center.lua",
+                                       "dat/maps/layna_village/layna_village_center.lua", "from_secret_path");
+    EventManager:RegisterEvent(event);
 
 	-- Quest events - Hide and seek 2
 	dialogue = hoa_map.SpriteDialogue();

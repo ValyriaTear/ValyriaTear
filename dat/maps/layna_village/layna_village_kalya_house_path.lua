@@ -538,20 +538,24 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
+    local event = {};
 
-	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua", "from_kalya_house_path");
-	EventManager:RegisterEvent(event);
+    -- Triggered Events
+    event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua",
+                                       "dat/maps/layna_village/layna_village_center.lua", "from_kalya_house_path");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Kalya house exterior", "dat/maps/layna_village/layna_village_kalya_house_exterior.lua", "from_kalya_house_path");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to Kalya house exterior", "dat/maps/layna_village/layna_village_kalya_house_exterior.lua",
+                                       "dat/maps/layna_village/layna_village_kalya_house_exterior.lua", "from_kalya_house_path");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to grandma house", "dat/maps/layna_village/layna_village_kalya_house_path_small_house.lua", "from_kalya_house_path");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to grandma house", "dat/maps/layna_village/layna_village_kalya_house_path_small_house.lua",
+                                       "dat/maps/layna_village/layna_village_kalya_house_path_small_house.lua", "from_kalya_house_path");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Kalya house small passage", "dat/maps/layna_village/layna_village_kalya_house_exterior.lua", "from_kalya_house_path_small_passage");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to Kalya house small passage", "dat/maps/layna_village/layna_village_kalya_house_exterior.lua",
+                                       "dat/maps/layna_village/layna_village_kalya_house_exterior.lua", "from_kalya_house_path_small_passage");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones

@@ -991,15 +991,17 @@ local move_back_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local dialogue = {};
-	local text = {};
+    local event = {};
+    local dialogue = {};
+    local text = {};
 
-	event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua", "from forest SW");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from forest SW");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from forest SW");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_west.lua", "from forest SW");
+    EventManager:RegisterEvent(event);
 
     -- Dialogue events
     event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);

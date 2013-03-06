@@ -435,16 +435,18 @@ local move_back_to_hero_event2 = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local dialogue = {};
-	local text = {};
+    local event = {};
+    local dialogue = {};
+    local text = {};
 
     -- Map transition events
-	event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from_layna_wolf_cave");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from_layna_wolf_cave");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_wolf_cave");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_wolf_cave");
+    EventManager:RegisterEvent(event);
 
     -- SP Heal event on fountain
 	event = hoa_map.ScriptedEvent("Fountain heal", "heal_party_sp", "heal_done");

@@ -763,7 +763,8 @@ function _CreateEvents()
     local text = {};
 
     -- Triggered events
-    event = hoa_map.MapTransitionEvent("to forest cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua", "from layna forest crystal");
+    event = hoa_map.MapTransitionEvent("to forest cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave2.lua", "from layna forest crystal");
     EventManager:RegisterEvent(event);
 
     -- Heal point

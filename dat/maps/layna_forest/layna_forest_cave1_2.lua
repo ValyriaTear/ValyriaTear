@@ -555,19 +555,22 @@ local move_back_to_hero_event2 = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local dialogue = {};
-	local text = {};
+    local event = {};
+    local dialogue = {};
+    local text = {};
 
     -- Map transition events
-	event = hoa_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_cave_1_2");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_cave_1_2");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave.lua", "from_layna_cave_1_2");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave.lua",
+                                       "dat/maps/layna_forest/layna_forest_wolf_cave.lua",  "from_layna_cave_1_2");
+    EventManager:RegisterEvent(event);
 
     -- Generic events
     event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, hoa_map.MapMode.NORTH);

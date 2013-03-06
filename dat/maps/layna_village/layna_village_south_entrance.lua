@@ -384,20 +384,24 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
+    local event = {};
 
-	-- Triggered Events
-	event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua", "from_village_south");
-	EventManager:RegisterEvent(event);
+    -- Triggered Events
+    event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center.lua",
+                                       "dat/maps/layna_village/layna_village_center.lua", "from_village_south");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to Village riverbank", "dat/maps/layna_village/layna_village_riverbank.lua", "from_village_south");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to Village riverbank", "dat/maps/layna_village/layna_village_riverbank.lua",
+                                       "dat/maps/layna_village/layna_village_riverbank.lua", "from_village_south");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to left house", "dat/maps/layna_village/layna_village_south_entrance_left_house.lua", "from_village_south");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to left house", "dat/maps/layna_village/layna_village_south_entrance_left_house.lua",
+                                       "dat/maps/layna_village/layna_village_south_entrance_left_house.lua", "from_village_south");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to right house", "dat/maps/layna_village/layna_village_south_entrance_right_house.lua", "from_village_south");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to right house", "dat/maps/layna_village/layna_village_south_entrance_right_house.lua",
+                                       "dat/maps/layna_village/layna_village_south_entrance_right_house.lua", "from_village_south");
+    EventManager:RegisterEvent(event);
 
     -- Orlinn events
     event = hoa_map.ScriptedEvent("Quest1: Start Orlinn Hide n Seek2", "Quest1_Orlinn_Start_Hide_N_Seek2", "");

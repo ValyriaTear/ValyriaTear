@@ -526,15 +526,17 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
+    local event = {};
     local dialogue = {};
-	local text = {};
+    local text = {};
 
     -- Map events
-    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua", "from layna forest cave 2")
+    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from layna forest cave 2")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal.lua", "from layna forest cave 2")
+    event = hoa_map.MapTransitionEvent("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal.lua",
+                                       "dat/maps/layna_forest/layna_forest_crystal.lua", "from layna forest cave 2")
     EventManager:RegisterEvent(event);
 
     -- Fade in/out events - to making the character wander from a cave place to another

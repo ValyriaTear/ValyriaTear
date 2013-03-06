@@ -623,18 +623,28 @@ public:
     }
 
     /** \brief Sets the name and graphic for the current location
-    *** \param map_filename The string that contains the name of the current map.
+    *** \param map_data_filename The string that contains the name of the current map data file.
+    *** \param map_script_filename The string that contains the name of the current map script file.
     *** \param map_image_filename The filename of the image that presents this map
     *** \param map_hud_name The UTF16 map name shown at map intro time.
     **/
-    void SetMap(const std::string &map_filename, const std::string &map_image_filename,
+    void SetMap(const std::string &map_data_filename,
+                const std::string &map_script_filename,
+                const std::string &map_image_filename,
                 const hoa_utils::ustring &map_hud_name);
 
-    /** \brief Sets the active Map filename (for game saves)
-    *** \param location_name The string that contains the name of the current map
+    /** \brief Sets the active Map data filename (for game saves)
+    *** \param location_name The string that contains the name of the current map data
     **/
-    void SetMapFilename(const std::string &map_filename) {
-        _map_filename = map_filename;
+    void SetMapDataFilename(const std::string &map_data_filename) {
+        _map_data_filename = map_data_filename;
+    }
+
+    /** \brief Sets the active Map script filename (for game saves)
+    *** \param location_name The string that contains the name of the current map script file
+    **/
+    void SetMapScriptFilename(const std::string &map_script_filename) {
+        _map_script_filename = map_script_filename;
     }
 
     /** \brief sets the current viewable world map
@@ -786,8 +796,12 @@ public:
         return _drunes;
     }
 
-    const std::string &GetMapFilename() {
-        return _map_filename;
+    const std::string &GetMapDataFilename() {
+        return _map_data_filename;
+    }
+
+    const std::string &GetMapScriptFilename() {
+        return _map_script_filename;
     }
 
     uint32 GetSaveLocationX() {
@@ -946,8 +960,9 @@ private:
     **/
     uint32 _max_experience_level;
 
-    //! \brief The map filename the current party is on.
-    std::string _map_filename;
+    //! \brief The map data and script filename the current party is on.
+    std::string _map_data_filename;
+    std::string _map_script_filename;
 
     //! \brief last save point map tile location.
     uint32 _x_save_map_position, _y_save_map_position;

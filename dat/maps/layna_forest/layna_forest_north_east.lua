@@ -962,10 +962,12 @@ function _CreateEvents()
     local text = {};
 
     -- Map events
-    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_NE");
+    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_NE");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_forest_NE");
+    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_forest_NE");
     EventManager:RegisterEvent(event);
 
     -- generic events

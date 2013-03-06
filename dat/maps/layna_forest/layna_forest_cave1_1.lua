@@ -768,10 +768,12 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_cave_entrance");
+    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_cave_entrance");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from_layna_cave_entrance");
+    event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from_layna_cave_entrance");
     EventManager:RegisterEvent(event);
 
     -- Heal point

@@ -603,16 +603,18 @@ local move_back_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local dialogue = {};
-	local text = {};
+    local event = {};
+    local dialogue = {};
+    local text = {};
 
-	-- Triggered events
-	event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center.lua", "from_layna_forest_entrance");
-	EventManager:RegisterEvent(event);
+    -- Triggered events
+    event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center.lua",
+                                       "dat/maps/layna_village/layna_village_center.lua", "from_layna_forest_entrance");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_entrance");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_entrance");
+    EventManager:RegisterEvent(event);
 
 	-- Heal point
 	event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");

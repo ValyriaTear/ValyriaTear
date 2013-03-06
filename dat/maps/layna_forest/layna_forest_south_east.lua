@@ -1080,23 +1080,29 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};	local dialogue = {};
-	local text = {};
+    local event = {};
+    local dialogue = {};
+    local text = {};
 
     -- Map events
-    event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_east.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_west.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave.lua",
+                                       "dat/maps/layna_forest/layna_forest_wolf_cave.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave2.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
     -- Heal point

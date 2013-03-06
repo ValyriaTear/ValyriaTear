@@ -56,10 +56,11 @@ MapMode *MapMode::_current_instance = NULL;
 // ********** MapMode Public Class Methods
 // ****************************************************************************
 
-MapMode::MapMode(const std::string &filename) :
+MapMode::MapMode(const std::string &data_filename, const std::string& script_filename) :
     GameMode(),
     _activated(false),
-    _map_filename(filename),
+    _map_data_filename(data_filename),
+    _map_script_filename(script_filename),
     _tile_supervisor(NULL),
     _object_supervisor(NULL),
     _event_supervisor(NULL),
@@ -123,8 +124,6 @@ MapMode::MapMode(const std::string &filename) :
     _camera_timer.Initialize(0, 1);
 
     if(!_Load()) {
-        PRINT_ERROR << "Couldn't load the map file: " << _map_filename << std::endl
-                    << "Returning to boot mode. You should report this error." << std::endl;
         BootMode *BM = new BootMode();
         ModeManager->PopAll();
         ModeManager->Push(BM);
@@ -181,7 +180,8 @@ void MapMode::Reset()
     MapMode::_current_instance = this;
 
     // Make the map location known globally to other code that may need to know this information
-    GlobalManager->SetMap(_map_filename, _map_image.GetFilename(), _map_hud_name);
+    GlobalManager->SetMap(_map_data_filename, _map_script_filename,
+                          _map_image.GetFilename(), _map_hud_name);
 
     // Only replace a different previous music.
     MusicDescriptor *music = AudioManager->RetrieveMusic(_music_filename);
@@ -544,38 +544,76 @@ float MapMode::GetScreenYCoordinate(float tile_position_y) const
 
 bool MapMode::_Load()
 {
-    _map_tablespace = ScriptEngine::GetTableSpace(_map_filename);
-    if(_map_tablespace.empty()) {
-        PRINT_ERROR << "Invalid map name space in: "
-                    << _map_filename << std::endl;
+    // Map data
+
+    _map_data_tablespace = ScriptEngine::GetTableSpace(_map_data_filename);
+    if(_map_data_tablespace.empty()) {
+        PRINT_ERROR << "Invalid map data namespace in: "
+                    << _map_data_filename << std::endl;
         return false;
     }
 
     // Clear out all old map data if existing.
-    ScriptManager->DropGlobalTable(_map_tablespace);
+    ScriptManager->DropGlobalTable(_map_data_tablespace);
 
     // Open map script file and read in the basic map properties and tile definitions
-    if(!_map_script.OpenFile(_map_filename)) {
-        PRINT_ERROR << "Couldn't open map script file: "
-                    << _map_filename << std::endl;
+    if(!_map_script.OpenFile(_map_data_filename)) {
+        PRINT_ERROR << "Couldn't open map data file: "
+                    << _map_data_filename << std::endl;
         return false;
     }
 
     if(_map_script.OpenTablespace().empty()) {
-        PRINT_ERROR << "Couldn't open map name space in: "
-                    << _map_filename << std::endl;
+        PRINT_ERROR << "Couldn't open map data namespace in: "
+                    << _map_data_filename << std::endl;
+        _map_script.CloseFile();
+        return false;
+    }
+
+    // Loads the collision grid
+    if(!_object_supervisor->Load(_map_script)) {
+        PRINT_ERROR << "Failed to load the collision grid from: "
+            << _map_data_filename << std::endl;
+        _map_script.CloseFile();
         return false;
     }
 
     // Instruct the supervisor classes to perform their portion of the load operation
     if(!_tile_supervisor->Load(_map_script)) {
-        PRINT_ERROR << "Failed to load the tile data." << std::endl;
+        PRINT_ERROR << "Failed to load the tile data from: "
+            << _map_data_filename << std::endl;
+        _map_script.CloseFile();
         return false;
     }
 
-    // NOTE: The object supervisor will complain itself about the error.
-    if(!_object_supervisor->Load(_map_script))
+    _map_script.CloseAllTables();
+    _map_script.CloseFile(); // Free the map data file once everyhting is loaded
+
+    // Map script
+
+    _map_script_tablespace = ScriptEngine::GetTableSpace(_map_script_filename);
+    if(_map_script_tablespace.empty()) {
+        PRINT_ERROR << "Invalid map script namespace in: "
+                    << _map_script_filename << std::endl;
         return false;
+    }
+
+    // Clear out all old map data if existing.
+    ScriptManager->DropGlobalTable(_map_script_tablespace);
+
+    // Open map script file and read in the basic map properties and tile definitions
+    if(!_map_script.OpenFile(_map_script_filename)) {
+        PRINT_ERROR << "Couldn't open map script file: "
+                    << _map_script_filename << std::endl;
+        return false;
+    }
+
+    if(_map_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "Couldn't open map script namespace in: "
+                    << _map_script_filename << std::endl;
+        _map_script.CloseFile();
+        return false;
+    }
 
     // Loads the map image and translated location names.
     // Test for empty strings to never trigger the default gettext msg string
@@ -617,7 +655,9 @@ bool MapMode::_Load()
     }
 
     if(!loading_succeeded) {
-        PRINT_ERROR << "Invalid map Load() function. The function wasn't called."
+        PRINT_ERROR << "Invalid map Load() function in "
+                    << _map_script_filename
+                    << ". The function wasn't called."
                     << std::endl;
         _map_script.CloseAllTables();
         _map_script.CloseFile();
@@ -643,7 +683,7 @@ bool MapMode::_Load()
     }
 
     _map_script.CloseAllTables();
-    _map_script.CloseFile(); // Free the map file once everyhting is loaded
+    _map_script.CloseFile(); // Free the map script file once everything is loaded
 
     return true;
 } // bool MapMode::_Load()
