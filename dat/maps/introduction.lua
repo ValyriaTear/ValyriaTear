@@ -64,7 +64,7 @@ function _CreateObjects()
 
     crystal_effect = hoa_map.ParticleObject("dat/effects/particles/inactive_save_point.lua",
                                             41, 46, hoa_map.MapMode.CONTEXT_01);
-	crystal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    crystal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     crystal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(crystal_effect);
 
@@ -259,7 +259,7 @@ function _CreateObjects()
     end
 
     -- grass array
-	local map_grass = {
+    local map_grass = {
         -- the grass, hiding a bit the snakes
         { "Grass Clump1", 52, 79 },
         { "Grass Clump1", 9, 63 },
@@ -297,8 +297,8 @@ function _CreateEvents()
     event:AddEventLinkAtStart("fade to Bronann's room", 10000);
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("fade to Bronann's room", "dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua",
-                                       "dat/maps/layna_village/layna_village_bronanns_home_first_floor.lua", "from_introduction1");
+    event = hoa_map.MapTransitionEvent("fade to Bronann's room", "dat/maps/layna_village/layna_village_bronanns_home_first_floor_map.lua",
+                                       "dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_introduction1");
     EventManager:RegisterEvent(event);
 end
 

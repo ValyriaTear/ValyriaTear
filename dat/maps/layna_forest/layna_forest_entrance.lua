@@ -606,8 +606,8 @@ function _CreateEvents()
     local text = {};
 
     -- Triggered events
-    event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center.lua",
-                                       "dat/maps/layna_village/layna_village_center.lua", "from_layna_forest_entrance");
+    event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
+                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua",
