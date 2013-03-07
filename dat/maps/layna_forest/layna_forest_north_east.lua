@@ -355,7 +355,6 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
-local GlobalEvents = {};
 
 -- the main character handler
 local hero = {};
@@ -367,7 +366,6 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
-    GlobalEvents = Map.map_event_group;
 
     Map.unlimited_stamina = false;
 
@@ -436,7 +434,7 @@ function _CreateObjects()
     wolf:SetDirection(hoa_map.MapMode.SOUTH);
     Map:AddGroundObject(wolf);
 
-    -- Only add the squirrels and butterflies when the night isn't about to happen 
+    -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
         npc = CreateSprite(Map, "Butterfly", 42, 18);

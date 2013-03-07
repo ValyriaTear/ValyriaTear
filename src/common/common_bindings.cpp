@@ -217,17 +217,6 @@ void BindCommonCode()
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
         [
-            luabind::class_<GlobalEventGroup>("GlobalEventGroup")
-            .def("DoesEventExist", &GlobalEventGroup::DoesEventExist)
-            .def("AddNewEvent", &GlobalEventGroup::AddNewEvent)
-            .def("GetEvent", &GlobalEventGroup::GetEvent)
-            .def("SetEvent", &GlobalEventGroup::SetEvent)
-            .def("GetNumberEvents", &GlobalEventGroup::GetNumberEvents)
-            .def("GetGroupName", &GlobalEventGroup::GetGroupName)
-        ];
-
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
-        [
             luabind::class_<GlobalAttackPoint>("GlobalAttackPoint")
             .def("GetName", &GlobalAttackPoint::GetName)
             .def("GetXPosition", &GlobalAttackPoint::GetXPosition)

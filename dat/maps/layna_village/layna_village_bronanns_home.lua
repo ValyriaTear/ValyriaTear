@@ -240,7 +240,6 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
-local GlobalEvents = {};
 
 -- The main character handlers
 local bronann = {};

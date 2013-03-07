@@ -84,7 +84,6 @@ void BindModeCode()
             .def_readonly("object_supervisor", &MapMode::_object_supervisor)
             .def_readonly("event_supervisor", &MapMode::_event_supervisor)
             .def_readonly("dialogue_supervisor", &MapMode::_dialogue_supervisor)
-            .def_readonly("treasure_supervisor", &MapMode::_treasure_supervisor)
 
             .def_readwrite("camera", &MapMode::_camera)
             .def_readwrite("unlimited_stamina", &MapMode::_unlimited_stamina)

@@ -243,7 +243,6 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
-local GlobalEvents = {};
 
 local bronann = {};
 local orlinn = {};

@@ -211,7 +211,6 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
-local GlobalEvents = {};
 
 -- the main character handler
 local bronann = {};
