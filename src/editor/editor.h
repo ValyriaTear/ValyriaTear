@@ -140,7 +140,6 @@ private slots:
     //! \brief These slots process selection for their item in the View menu.
     //{@
     void _ViewToggleGrid();
-    void _ViewTextures();
     //@}
 
     //! \name Tiles Menu Item Slots
@@ -163,7 +162,6 @@ private slots:
     //! \name Map Menu Item Slots
     //! \brief These slots process selection for their item in the Map menu.
     //{@
-    void _MapSelectMusic();
     void _MapProperties();
     void _MapAddContext();
     //@}
@@ -250,7 +248,6 @@ private:
     QAction *_quit_action;
 
     QAction *_toggle_grid_action;
-    QAction *_view_textures_action;
 
     QAction *_undo_action;
     QAction *_redo_action;
@@ -268,7 +265,6 @@ private:
 
     QAction *_context_properties_action;
     QAction *_map_properties_action;
-    QAction *_select_music_action;
 
     QAction *_help_action;
     QAction *_about_action;

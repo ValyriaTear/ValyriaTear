@@ -36,18 +36,8 @@ enum LAYER_TYPE {
     GROUND_LAYER  =  0,
     SKY_LAYER     =  1,
     SELECT_LAYER  =  2,
-    OBJECT_LAYER  =  3,
-    TOTAL_LAYER   =  4
+    TOTAL_LAYER   =  3
 };
-
-//! \brief All types of objects that may be found in the object layer.
-enum OBJECT_TYPE {
-    INVALID_OBJECT        = -1,
-    VIRTUAL_SPRITE_OBJECT =  0,
-    SPRITE_OBJECT         =  1,
-    TOTAL_OBJECT          =  2
-};
-
 
 LAYER_TYPE &operator++(LAYER_TYPE &value, int dummy);
 
@@ -204,11 +194,6 @@ public:
         _select_on = value;
         updateGL();
     }
-
-    void SetDebugTexturesOn(bool value) {
-        _debug_textures_on = value;
-        updateGL();
-    }
     //@}
 
     /** \brief Creates a new context for each layer.
@@ -266,26 +251,11 @@ public:
     // Be sure to set the parent of the items returned, and add them in the corresponding Qt widget.
     std::vector<QTreeWidgetItem *> getLayerItems();
 
-    //! \brief Gets the custom scripting data and stores it in an string buffer
-    void GetScriptingData();
-    //! \brief the scripting lines writtien after the map data.
-    std::string after_text;
-
-    //! \brief The map name and subname presented to the player
-    QString map_name;
-    QString map_subname;
-
-    //! \brief The map image filename used to represent the map.
-    QString map_image_filename;
-
     //! \brief List of the tileset names being used.
     QStringList tileset_names;
 
     //! \brief A vector which contains a pointer to each tileset and the tiles it has loaded via LoadMultiImage.
     std::vector<Tileset *> tilesets;
-
-    //! \brief The default background music filename, used at load time
-    QString music_filename;
 
     //! \brief Pointer to scrollArea
     EditorScrollArea *_ed_scrollarea;
@@ -322,10 +292,6 @@ private:
     bool _grid_on;
     //! \brief When TRUE the rectangle of chosen tiles is displayed.
     bool _select_on;
-    //! \brief When TRUE the texture sheets are displayed.
-    bool _debug_textures_on;
-    //! \brief When TRUE the object layer of tiles is displayed.
-    bool _ol_on;
 
     //! \brief A vector of contexts containing the tiles in the each layers.
     std::vector<Context> _tile_contexts;
