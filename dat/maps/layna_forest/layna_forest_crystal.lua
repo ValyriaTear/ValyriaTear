@@ -1,15 +1,8 @@
--- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --
-
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
 layna_forest_crystal = ns;
 setfenv(1, ns);
-
--- The map name, subname and location image
-map_name = "Layna Forest"
-map_image_filename = "img/menus/locations/layna_forest.png"
-map_subname = "???"
 
 -- The number of rows, and columns that compose the map
 num_tile_cols = 64
@@ -26,10 +19,6 @@ contexts = {}
 contexts[0] = {}
 contexts[0].name = "Base"
 contexts[0].inherit_from = -1
-
--- The music file used as default background music on this map.
--- Other musics will have to handled through scripting.
-music_filename = "snd/wind.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -349,7 +338,17 @@ layers[3][46] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 
 
--- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+-- Map Script
+-- TODO: Split the map data in one release.
+
+-- The map name, subname and location image
+map_name = "Layna Forest"
+map_image_filename = "img/menus/locations/layna_forest.png"
+map_subname = "???"
+
+-- The music file used as default background music on this map.
+-- Other musics will have to handled through scripting.
+music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
 local Map = {};
@@ -721,7 +720,7 @@ function _CreateObjects()
     end
 
     -- grass array
-	local map_grass = {
+    local map_grass = {
         -- the grass, hiding a bit the snakes
         { "Grass Clump1", 52, 79 },
         { "Grass Clump1", 9, 63 },
@@ -761,8 +760,8 @@ function _CreateEvents()
     local text = {};
 
     -- Triggered events
-    event = hoa_map.MapTransitionEvent("to forest cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave2.lua", "from layna forest crystal");
+    event = hoa_map.MapTransitionEvent("to forest cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from layna forest crystal");
     EventManager:RegisterEvent(event);
 
     -- Heal point
@@ -773,8 +772,6 @@ function _CreateEvents()
     event = hoa_map.BattleEncounterEvent("Fenrir Battle");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
-    -- TODO: Add custom AI battle script
-    -- event:AddScript("");
     event:AddEnemy(8, 0, 0);
     event:AddEventLinkAtEnd("Make the wolf disappear");
     EventManager:RegisterEvent(event);
@@ -784,15 +781,15 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Start of ending dialogue.
-	event = hoa_map.ScriptedEvent("boss fight post-dialogue", "post_boss_dialogue_start", "");
+    event = hoa_map.ScriptedEvent("boss fight post-dialogue", "post_boss_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     event = hoa_map.ScriptedEvent("Map:Popstate()", "Map_PopState", "");
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     event = hoa_map.ScriptedSpriteEvent("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);

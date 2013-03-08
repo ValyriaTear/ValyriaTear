@@ -1,15 +1,8 @@
--- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --
-
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
 layna_forest_south_east = ns;
 setfenv(1, ns);
-
--- The map name, subname and location image
-map_name = "Layna Forest"
-map_image_filename = "img/menus/locations/layna_forest.png"
-map_subname = ""
 
 -- The number of rows, and columns that compose the map
 num_tile_cols = 64
@@ -26,10 +19,6 @@ contexts = {}
 contexts[0] = {}
 contexts[0].name = "Base"
 contexts[0].inherit_from = -1
-
--- The music file used as default background music on this map.
--- Other musics will have to handled through scripting.
-music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -349,8 +338,17 @@ layers[3][45] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[3][46] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 
+-- Map script
+-- TODO: Split from the map data in one release.
 
--- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+-- The map name, subname and location image
+map_name = "Layna Forest"
+map_image_filename = "img/menus/locations/layna_forest.png"
+map_subname = ""
+
+-- The music file used as default background music on this map.
+-- Other musics will have to handled through scripting.
+music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = {};
@@ -364,27 +362,27 @@ local hero = {};
 -- the main map loading code
 function Load(m)
 
-	Map = m;
-	ObjectManager = Map.object_supervisor;
-	DialogueManager = Map.dialogue_supervisor;
-	EventManager = Map.event_supervisor;
+    Map = m;
+    ObjectManager = Map.object_supervisor;
+    DialogueManager = Map.dialogue_supervisor;
+    EventManager = Map.event_supervisor;
 
-	Map.unlimited_stamina = false;
+    Map.unlimited_stamina = false;
 
-	_CreateCharacters();
-	_CreateObjects();
-	_CreateEnemies();
+    _CreateCharacters();
+    _CreateObjects();
+    _CreateEnemies();
 
-	-- Set the camera focus on hero
-	Map:SetCamera(hero);
-	-- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-	Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    -- Set the camera focus on hero
+    Map:SetCamera(hero);
+    -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
+    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
-	_CreateEvents();
-	_CreateZones();
+    _CreateEvents();
+    _CreateZones();
 
-	-- Add clouds overlay
-	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    -- Add clouds overlay
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
     _HandleTwilight();
 end
@@ -407,16 +405,16 @@ end
 
 -- the map update function handles checks done on each game tick.
 function Update()
-	-- Check whether the character is in one of the zones
-	_CheckZones();
+    -- Check whether the character is in one of the zones
+    _CheckZones();
 end
 
 -- Character creation
 function _CreateCharacters()
-	-- Default hero and position - from forest North East
-	hero = CreateSprite(Map, "Bronann", 40, 4);
-	hero:SetDirection(hoa_map.MapMode.SOUTH);
-	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    -- Default hero and position - from forest North East
+    hero = CreateSprite(Map, "Bronann", 40, 4);
+    hero:SetDirection(hoa_map.MapMode.SOUTH);
+    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
     local x_position = GlobalManager:GetSaveLocationX();
@@ -428,28 +426,28 @@ function _CreateCharacters()
         hero:SetDirection(hoa_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
     elseif (GlobalManager:GetPreviousLocation() == "from forest SW") then
-		hero:SetDirection(hoa_map.MapMode.EAST);
-		hero:SetPosition(4, 54);
+        hero:SetDirection(hoa_map.MapMode.EAST);
+        hero:SetPosition(4, 54);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
-		hero:SetDirection(hoa_map.MapMode.SOUTH);
-		hero:SetPosition(14, 42);
+        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetPosition(14, 42);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_wolf_cave") then
-		hero:SetDirection(hoa_map.MapMode.SOUTH);
-		hero:SetPosition(32, 21);
+        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetPosition(32, 21);
     elseif (GlobalManager:GetPreviousLocation() == "from layna forest cave 2") then
         hero:SetDirection(hoa_map.MapMode.SOUTH);
         hero:SetPosition(66, 72);
     end
 
-	Map:AddGroundObject(hero);
+    Map:AddGroundObject(hero);
 end
 
 -- The heal particle effect map object
 local heal_effect = {};
 
 function _CreateObjects()
-	local object = {}
-	local npc = {}
+    local object = {}
+    local npc = {}
 
     -- Save point
     Map:AddSavePoint(61, 9, hoa_map.MapMode.CONTEXT_01);
@@ -528,19 +526,19 @@ function _CreateObjects()
 
     end
 
-	-- Treasures
-	local chest1 = CreateTreasure(Map, "layna_forest_SE_chest1", "Wood_Chest1", 63.7, 30);
-	if (chest1 ~= nil) then
-		chest1:AddObject(40001, 1); -- Prismatic ring
-		Map:AddGroundObject(chest1);
-	end
+    -- Treasures
+    local chest1 = CreateTreasure(Map, "layna_forest_SE_chest1", "Wood_Chest1", 63.7, 30);
+    if (chest1 ~= nil) then
+        chest1:AddObject(40001, 1); -- Prismatic ring
+        Map:AddGroundObject(chest1);
+    end
 
-	chest1 = CreateTreasure(Map, "layna_forest_SE_chest2", "Wood_Chest1", 88, 80);
-	if (chest1 ~= nil) then
-		chest1:AddObject(11, 2); -- Small Moon juice potion x 2
+    chest1 = CreateTreasure(Map, "layna_forest_SE_chest2", "Wood_Chest1", 88, 80);
+    if (chest1 ~= nil) then
+        chest1:AddObject(11, 2); -- Small Moon juice potion x 2
         chest1:SetDrunes(15);
-		Map:AddGroundObject(chest1);
-	end
+        Map:AddGroundObject(chest1);
+    end
 
     -- Trees array
     local map_trees = {
@@ -962,7 +960,7 @@ function _CreateObjects()
         { "Tree Little4", 57, 58 },
     }
 
-	-- Loads the trees according to the array
+    -- Loads the trees according to the array
     for my_index, my_array in pairs(map_trees) do
         --print(my_array[1], my_array[2], my_array[3]);
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
@@ -980,7 +978,7 @@ function _CreateObjects()
         { "Grass Clump1", 65, 55 }
     }
 
-	-- Loads the grass clumps according to the array
+    -- Loads the grass clumps according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
@@ -991,89 +989,89 @@ function _CreateObjects()
 end
 
 function _CreateEnemies()
-	local enemy = {};
-	local roam_zone = {};
+    local enemy = {};
+    local roam_zone = {};
 
-	-- Hint: left, right, top, bottom
+    -- Hint: left, right, top, bottom
 
     -- top right
-	roam_zone = hoa_map.EnemyZone(77, 123, 2, 5, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(77, 123, 2, 5, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "slime");
-	_SetBattleEnvironment(enemy);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
-	roam_zone:AddEnemy(enemy, Map, 1);
+    enemy = CreateEnemySprite(Map, "slime");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
+    roam_zone:AddEnemy(enemy, Map, 1);
 
-	Map:AddZone(roam_zone);
+    Map:AddZone(roam_zone);
 
-	roam_zone = hoa_map.EnemyZone(106, 121, 18, 25, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(106, 121, 18, 25, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "slime");
-	_SetBattleEnvironment(enemy);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
-	roam_zone:AddEnemy(enemy, Map, 1);
+    enemy = CreateEnemySprite(Map, "slime");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
+    roam_zone:AddEnemy(enemy, Map, 1);
 
-	Map:AddZone(roam_zone);
+    Map:AddZone(roam_zone);
 
     -- wide passage
     roam_zone = hoa_map.EnemyZone(97, 118, 40, 89, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "slime");
-	_SetBattleEnvironment(enemy);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
-	roam_zone:AddEnemy(enemy, Map, 2);
+    enemy = CreateEnemySprite(Map, "slime");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
+    roam_zone:AddEnemy(enemy, Map, 2);
 
-	Map:AddZone(roam_zone);
+    Map:AddZone(roam_zone);
 
     -- near the exit
-	roam_zone = hoa_map.EnemyZone(12, 14, 77, 79, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(12, 14, 77, 79, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "spider");
-	_SetBattleEnvironment(enemy);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
-	roam_zone:AddEnemy(enemy, Map, 1);
+    enemy = CreateEnemySprite(Map, "spider");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
+    roam_zone:AddEnemy(enemy, Map, 1);
 
-	Map:AddZone(roam_zone);
+    Map:AddZone(roam_zone);
 
     -- in the inner part
-	roam_zone = hoa_map.EnemyZone(24, 84, 46, 78, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(24, 84, 46, 78, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "slime");
-	_SetBattleEnvironment(enemy);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
-	roam_zone:AddEnemy(enemy, Map, 3);
+    enemy = CreateEnemySprite(Map, "slime");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
+    roam_zone:AddEnemy(enemy, Map, 3);
 
-	Map:AddZone(roam_zone);
+    Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -1083,24 +1081,24 @@ function _CreateEvents()
     local text = {};
 
     -- Map events
-    event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_east.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_west.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave.lua",
-                                       "dat/maps/layna_forest/layna_forest_wolf_cave.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave2.lua", "from forest SE")
+    event = hoa_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
     -- Heal point
@@ -1117,40 +1115,40 @@ local to_wolf_cave_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
-	-- N.B.: left, right, top, bottom
-	to_forest_NE_zone = hoa_map.CameraZone(36, 41, 0, 2, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_forest_NE_zone);
+    -- N.B.: left, right, top, bottom
+    to_forest_NE_zone = hoa_map.CameraZone(36, 41, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(to_forest_NE_zone);
 
-	to_forest_SW_zone = hoa_map.CameraZone(0, 2, 52, 56, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_forest_SW_zone);
+    to_forest_SW_zone = hoa_map.CameraZone(0, 2, 52, 56, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(to_forest_SW_zone);
 
-	to_cave1_2_zone = hoa_map.CameraZone(12, 16, 39, 40, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_cave1_2_zone);
+    to_cave1_2_zone = hoa_map.CameraZone(12, 16, 39, 40, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(to_cave1_2_zone);
 
-	to_cave2_1_zone = hoa_map.CameraZone(64, 68, 69, 70, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_cave2_1_zone);
+    to_cave2_1_zone = hoa_map.CameraZone(64, 68, 69, 70, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(to_cave2_1_zone);
 
-	to_wolf_cave_zone = hoa_map.CameraZone(30, 34, 17, 18, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_wolf_cave_zone);
+    to_wolf_cave_zone = hoa_map.CameraZone(30, 34, 17, 18, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(to_wolf_cave_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-	if (to_forest_NE_zone:IsCameraEntering() == true) then
-		hero:SetMoving(false);
-		EventManager:StartEvent("to forest NE");
-	elseif (to_forest_SW_zone:IsCameraEntering() == true) then
-		hero:SetMoving(false);
-		EventManager:StartEvent("to forest SW");
-	elseif (to_cave1_2_zone:IsCameraEntering() == true) then
-		hero:SetMoving(false);
-		EventManager:StartEvent("to cave 1_2");
-	elseif (to_wolf_cave_zone:IsCameraEntering() == true) then
-		hero:SetMoving(false);
-		EventManager:StartEvent("to wolf cave");
-	elseif (to_cave2_1_zone:IsCameraEntering() == true) then
-		hero:SetMoving(false);
-		EventManager:StartEvent("to cave 2");
+    if (to_forest_NE_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to forest NE");
+    elseif (to_forest_SW_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to forest SW");
+    elseif (to_cave1_2_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to cave 1_2");
+    elseif (to_wolf_cave_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to wolf cave");
+    elseif (to_cave2_1_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to cave 2");
     end
 end
 
