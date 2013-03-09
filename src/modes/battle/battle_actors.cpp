@@ -327,7 +327,8 @@ void BattleActor::Update()
                 _state_timer.Update();
         }
 
-        _effects_supervisor->Update();
+        if (IsAlive())
+            _effects_supervisor->Update();
     }
     else if (_state == ACTOR_STATE_DYING) {
         // Permits the actor to die even in pause mode,
