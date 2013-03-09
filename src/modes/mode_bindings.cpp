@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -80,11 +80,10 @@ void BindModeCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
         [
             luabind::class_<MapMode, hoa_mode_manager::GameMode>("MapMode")
-            .def(luabind::constructor<const std::string &>())
+            .def(luabind::constructor<const std::string &, const std::string &>())
             .def_readonly("object_supervisor", &MapMode::_object_supervisor)
             .def_readonly("event_supervisor", &MapMode::_event_supervisor)
             .def_readonly("dialogue_supervisor", &MapMode::_dialogue_supervisor)
-            .def_readonly("treasure_supervisor", &MapMode::_treasure_supervisor)
 
             .def_readwrite("camera", &MapMode::_camera)
             .def_readwrite("unlimited_stamina", &MapMode::_unlimited_stamina)
@@ -519,7 +518,7 @@ void BindModeCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
         [
             luabind::class_<MapTransitionEvent, MapEvent>("MapTransitionEvent")
-            .def(luabind::constructor<std::string, std::string, std::string>())
+            .def(luabind::constructor<std::string, std::string, std::string, std::string>())
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

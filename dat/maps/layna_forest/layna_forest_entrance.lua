@@ -1,15 +1,8 @@
--- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --
-
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
 layna_forest_entrance = ns;
 setfenv(1, ns);
-
--- The map name, subname and location image
-map_name = "Layna Forest"
-map_image_filename = "img/menus/locations/layna_forest.png"
-map_subname = "Forest entrance"
 
 -- The number of rows, and columns that compose the map
 num_tile_cols = 32
@@ -26,10 +19,6 @@ contexts = {}
 contexts[0] = {}
 contexts[0].name = "Base"
 contexts[0].inherit_from = -1
-
--- The music file used as default background music on this map.
--- Other musics will have to handled through scripting.
-music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -205,15 +194,23 @@ layers[3][21] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[3][22] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[3][23] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 
+-- Map script part
+-- TODO: Split from map data in one release.
 
--- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+-- The map name, subname and location image
+map_name = "Layna Forest"
+map_image_filename = "img/menus/locations/layna_forest.png"
+map_subname = "Forest entrance"
+
+-- The music file used as default background music on this map.
+-- Other musics will have to handled through scripting.
+music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
-local GlobalEvents = {};
 
 -- the main character handler
 local hero = {};
@@ -227,28 +224,27 @@ local main_sprite_name = "";
 -- the main map loading code
 function Load(m)
 
-	Map = m;
-	ObjectManager = Map.object_supervisor;
-	DialogueManager = Map.dialogue_supervisor;
-	EventManager = Map.event_supervisor;
-	GlobalEvents = Map.map_event_group;
+    Map = m;
+    ObjectManager = Map.object_supervisor;
+    DialogueManager = Map.dialogue_supervisor;
+    EventManager = Map.event_supervisor;
 
-	Map.unlimited_stamina = false;
+    Map.unlimited_stamina = false;
 
-	_CreateCharacters();
-	_CreateObjects();
-	_CreateEnemies();
+    _CreateCharacters();
+    _CreateObjects();
+    _CreateEnemies();
 
-	-- Set the camera focus on hero
-	Map:SetCamera(hero);
-	-- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-	Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    -- Set the camera focus on hero
+    Map:SetCamera(hero);
+    -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
+    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
-	_CreateEvents();
-	_CreateZones();
+    _CreateEvents();
+    _CreateZones();
 
-	-- Add clouds overlay
-	Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    -- Add clouds overlay
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
     -- Trigger the save point and spring speech event once
     if (GlobalManager:DoesEventExist("story", "kalya_save_points_n_spring_speech_done") == false) then
@@ -287,32 +283,32 @@ end
 
 -- the map update function handles checks done on each game tick.
 function Update()
-	-- Check whether the character is in one of the zones
-	_CheckZones();
+    -- Check whether the character is in one of the zones
+    _CheckZones();
 end
 
 -- Character creation
 function _CreateCharacters()
-	-- Default hero and position
-	hero = CreateSprite(Map, "Bronann", 3, 30);
-	hero:SetDirection(hoa_map.MapMode.EAST);
-	hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    -- Default hero and position
+    hero = CreateSprite(Map, "Bronann", 3, 30);
+    hero:SetDirection(hoa_map.MapMode.EAST);
+    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
 
-	-- Load previous save point data
-	local x_position = GlobalManager:GetSaveLocationX();
-	local y_position = GlobalManager:GetSaveLocationY();
-	if (x_position ~= 0 and y_position ~= 0) then
-		-- Use the save point position, and clear the save position data for next maps
-		GlobalManager:UnsetSaveLocation();
-		-- Make the character look at us in that case
-		hero:SetDirection(hoa_map.MapMode.SOUTH);
-		hero:SetPosition(x_position, y_position);
-	elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_NW") then
-		hero:SetDirection(hoa_map.MapMode.WEST);
-		hero:SetPosition(61.0, 32.0);
-	end
+    -- Load previous save point data
+    local x_position = GlobalManager:GetSaveLocationX();
+    local y_position = GlobalManager:GetSaveLocationY();
+    if (x_position ~= 0 and y_position ~= 0) then
+        -- Use the save point position, and clear the save position data for next maps
+        GlobalManager:UnsetSaveLocation();
+        -- Make the character look at us in that case
+        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetPosition(x_position, y_position);
+    elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_NW") then
+        hero:SetDirection(hoa_map.MapMode.WEST);
+        hero:SetPosition(61.0, 32.0);
+    end
 
-	Map:AddGroundObject(hero);
+    Map:AddGroundObject(hero);
 
     -- Create secondary character - Kalya
     kalya_sprite = CreateSprite(Map, "Kalya",
@@ -329,15 +325,15 @@ end
 local heal_effect = {};
 
 function _CreateObjects()
-	local object = {}
-	local npc = {}
+    local object = {}
+    local npc = {}
 
-	Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
+    Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
 
     -- Load the spring heal effect.
     heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
                                             0, 0, hoa_map.MapMode.CONTEXT_01);
-	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
 
@@ -353,7 +349,7 @@ function _CreateObjects()
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
-    -- Only add the squirrels and butterflies when the night isn't about to happen 
+    -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         npc = CreateSprite(Map, "Butterfly", 42, 18);
         npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
@@ -404,183 +400,197 @@ function _CreateObjects()
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel2 random move", 1800);
+    else
+        -- add fireflies near the statue at night
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                                27, 22, hoa_map.MapMode.CONTEXT_01);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        Map:AddGroundObject(object);
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                                25, 23, hoa_map.MapMode.CONTEXT_01);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        Map:AddGroundObject(object);
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                                29, 22.5, hoa_map.MapMode.CONTEXT_01);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        Map:AddGroundObject(object);
     end
 
-	object = CreateObject(Map, "Tree Small3", 23, 18);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 40, 14);
-	Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 23, 18);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 40, 14);
+    Map:AddGroundObject(object);
 
-	-- Trees above the pathway
-	object = CreateObject(Map, "Tree Big1", 4, 41);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small1", 5, 21);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Big2", 12, 7);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small2", 1, 17.2);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Rock2", 1, 27);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Rock2", 5, 27);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Rock2", 1, 33);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Rock2", 5, 33);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 3, 5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 8, 6);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 11, 2);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 15, 4.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 19, 6.2);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 23, 7.2);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 26, 4);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 30, 5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 34, 7);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 36, 8);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 39, 9);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 42, 7.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 45, 6);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 48, 10);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 47.5, 8);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 50, 12);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 54, 15);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 59, 17);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 62, 20);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 62, 12);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 54, 8);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 60, 4);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 55, 20);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 61, 26);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 45, 23);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 11, 20);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 2, 24);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 3, 14);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 7, 10);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 2, 8);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 4, 17);
-	Map:AddGroundObject(object);
+    -- Trees above the pathway
+    object = CreateObject(Map, "Tree Big1", 4, 41);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small1", 5, 21);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Big2", 12, 7);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small2", 1, 17.2);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Rock2", 1, 27);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Rock2", 5, 27);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Rock2", 1, 33);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Rock2", 5, 33);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 3, 5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 8, 6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 11, 2);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 15, 4.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 19, 6.2);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 23, 7.2);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 26, 4);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 30, 5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 34, 7);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 36, 8);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 39, 9);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 42, 7.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 45, 6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 48, 10);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 47.5, 8);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 50, 12);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 54, 15);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 59, 17);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 62, 20);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 62, 12);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 54, 8);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 60, 4);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 55, 20);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 61, 26);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 45, 23);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 11, 20);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 2, 24);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 3, 14);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 7, 10);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 2, 8);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 4, 17);
+    Map:AddGroundObject(object);
 
-	-- Trees below the pathway
-	object = CreateObject(Map, "Tree Small3", 2, 40);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 7, 38);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 9, 42);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 4, 47);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 12, 41);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 11, 45);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 14, 46);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 16.5, 48);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 19, 46.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 23, 48);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 26, 39);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 36, 43);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 27, 49);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 30.5, 51);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 33, 50);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 37, 48.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 40.5, 51);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 44, 50.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small6", 47, 49.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 49.5, 48.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small4", 52, 50);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 55, 48);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 58, 50.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 58, 47);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small3", 62, 46.5);
-	Map:AddGroundObject(object);
-	object = CreateObject(Map, "Tree Small5", 62, 49);
-	Map:AddGroundObject(object);
+    -- Trees below the pathway
+    object = CreateObject(Map, "Tree Small3", 2, 40);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 7, 38);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 9, 42);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 4, 47);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 12, 41);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 11, 45);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 14, 46);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 16.5, 48);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 19, 46.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 23, 48);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 26, 39);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 36, 43);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 27, 49);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 30.5, 51);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 33, 50);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 37, 48.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 40.5, 51);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 44, 50.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small6", 47, 49.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 49.5, 48.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small4", 52, 50);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 55, 48);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 58, 50.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 58, 47);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small3", 62, 46.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Tree Small5", 62, 49);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Little2", 15, 8);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Tiny4", 29, 37);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Little3", 16, 40.2);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Little1", 9, 12);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Tiny3", 58, 22);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Little1", 58, 9);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Tiny3", 28, 8.5);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
     object = CreateObject(Map, "Tree Little3", 11, 44);
-	Map:AddGroundObject(object);
+    Map:AddGroundObject(object);
 end
 
 function _CreateEnemies()
-	local enemy = {};
-	local roam_zone = {};
+    local enemy = {};
+    local roam_zone = {};
 
-	-- Hint: left, right, top, bottom
-	roam_zone = hoa_map.EnemyZone(49, 62, 26, 39, hoa_map.MapMode.CONTEXT_01);
+    -- Hint: left, right, top, bottom
+    roam_zone = hoa_map.EnemyZone(49, 62, 26, 39, hoa_map.MapMode.CONTEXT_01);
 
-	enemy = CreateEnemySprite(Map, "slime");
-	_SetBattleEnvironment(enemy);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(1);
-	enemy:NewEnemyParty();
-	enemy:AddEnemy(1);
-	enemy:AddEnemy(2);
-	roam_zone:AddEnemy(enemy, Map, 1);
+    enemy = CreateEnemySprite(Map, "slime");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
+    roam_zone:AddEnemy(enemy, Map, 1);
 
-	Map:AddZone(roam_zone);
+    Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -589,47 +599,49 @@ local move_back_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-	local event = {};
-	local dialogue = {};
-	local text = {};
+    local event = {};
+    local dialogue = {};
+    local text = {};
 
-	-- Triggered events
-	event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center.lua", "from_layna_forest_entrance");
-	EventManager:RegisterEvent(event);
+    -- Triggered events
+    event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
+                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
+    EventManager:RegisterEvent(event);
 
-	event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_forest_entrance");
-	EventManager:RegisterEvent(event);
+    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
+    EventManager:RegisterEvent(event);
 
-	-- Heal point
-	event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
-	EventManager:RegisterEvent(event);
+    -- Heal point
+    event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
+    EventManager:RegisterEvent(event);
 
     -- Generic events
     event = hoa_map.ScriptedEvent("Map:Popstate()", "Map_PopState", "");
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     event = hoa_map.ScriptedSpriteEvent("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
     event = hoa_map.ScriptedSpriteEvent("hero:SetCollision(ALL)", hero, "Sprite_Collision_on", "");
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
     event = hoa_map.ScriptedSpriteEvent("second_hero:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
     event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
     event = hoa_map.LookAtSpriteEvent("Kalya looks at the save point", kalya_sprite, 19, 26);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
     event = hoa_map.LookAtSpriteEvent("Kalya looks at the spring", kalya_sprite, 27, 23);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
     event = hoa_map.LookAtSpriteEvent("Bronann looks at the save point", hero, 19, 26);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     -- First time forest entrance dialogue about save points and the heal spring.
-	event = hoa_map.ScriptedEvent("Forest entrance dialogue", "forest_save_point_dialogue_start", "");
+    event = hoa_map.ScriptedEvent("Forest entrance dialogue", "forest_save_point_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
@@ -639,9 +651,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("What's that?!");
-	dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-	DialogueManager:AddDialogue(dialogue);
+    text = hoa_system.Translate("What's that?!");
+    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya is surprised before running to the save point", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to the save point");
     EventManager:RegisterEvent(event);
@@ -654,8 +666,8 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("Can you also see this strange circle surrounded by light?");
-	dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "exclamation");
+    text = hoa_system.Translate("Can you also see this strange circle surrounded by light?");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "exclamation");
     text = hoa_system.Translate("When I'm standing near you, I can.");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
     text = hoa_system.Translate("Strange... it sounds familiar to me. Like... A safe place to be.");
@@ -666,7 +678,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = hoa_system.Translate("It is like... it's calling me.");
     dialogue:AddLine(text, kalya_sprite);
-	DialogueManager:AddDialogue(dialogue);
+    DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya starts to talk about the save point", dialogue);
     event:AddEventLinkAtEnd("Kalya moves into the save point");
     event:AddEventLinkAtEnd("Bronann looks at the save point");
@@ -674,39 +686,34 @@ function _CreateEvents()
 
     event = hoa_map.PathMoveSpriteEvent("Kalya moves into the save point", kalya_sprite, 19, 26, false);
     event:AddEventLinkAtEnd("Kalya talks about the save point - part 2", 1000);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("See... It brings no harm.");
-	dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
+    text = hoa_system.Translate("See... It brings no harm.");
+    dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
     text = hoa_system.Translate("Err... Are you sure?");
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = hoa_system.Translate("Sure! Do you trust me?");
     dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("... I do trust you, Kalya.");
     dialogue:AddLine(text, hero);
-    -- TODO: Add support for at least one parameter c-format replacement.
-    text = hoa_system.Translate("If so, then come and try for yourself. Push '")
-           ..InputManager:GetConfirmKeyName()
-           ..hoa_system.Translate("' and you'll feel safe, too.");
+    text = hoa_system.VTranslate("If so, then come and try for yourself. Push '%s' and you'll feel safe, too.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("Ok, I... I'll do it.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-	DialogueManager:AddDialogue(dialogue);
+    DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya talks about the save point - part 2", dialogue);
     event:AddEventLinkAtEnd("Kalya moves slightly right of the save point");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.PathMoveSpriteEvent("Kalya moves slightly right of the save point", kalya_sprite, 20, 26, false);
     event:AddEventLinkAtEnd("Kalya talks about the save point - part 3", 1000);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
     text = hoa_system.Translate("Oh, I almost forgot, have you seen up here? There is a Layna spring! We can heal our wounds there.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the spring", "", "exclamation");
-    text = hoa_system.Translate("Just stand in front of the goddess statue below the spring and push '")
-                                ..InputManager:GetConfirmKeyName()
-                                ..hoa_system.Translate("'.");
+    text = hoa_system.VTranslate("Just stand in front of the goddess statue below the spring and push '%s'.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya_sprite);
     text = hoa_system.Translate("Ok, thanks.");
     dialogue:AddLine(text, hero);
@@ -714,21 +721,21 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "thinking dots");
     text = hoa_system.Translate("Huh? I... I'm coming.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-	DialogueManager:AddDialogue(dialogue);
+    DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya talks about the save point - part 3", dialogue);
     event:AddEventLinkAtEnd("Bronann moves into the save point");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.PathMoveSpriteEvent("Bronann moves into the save point", hero, 18, 26, false);
     event:AddEventLinkAtEnd("Kalya talks about the save point - part 4", 1000);
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-	text = hoa_system.Translate("You're right. This place makes me feel good.");
-	dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
-	text = hoa_system.Translate("See? Now let's find my brother before he gets hurt.");
-	dialogue:AddLine(text, kalya_sprite);
-	DialogueManager:AddDialogue(dialogue);
+    text = hoa_system.Translate("You're right. This place makes me feel good.");
+    dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
+    text = hoa_system.Translate("See? Now let's find my brother before he gets hurt.");
+    dialogue:AddLine(text, kalya_sprite);
+    DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Kalya talks about the save point - part 4", dialogue);
     event:AddEventLinkAtEnd("second_hero:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera");
@@ -741,10 +748,10 @@ function _CreateEvents()
     move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("2nd hero goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("Map:Popstate()");
     move_back_to_hero_event:AddEventLinkAtEnd("end of save point event");
-	EventManager:RegisterEvent(move_back_to_hero_event);
+    EventManager:RegisterEvent(move_back_to_hero_event);
 
     event = hoa_map.ScriptedEvent("end of save point event", "end_of_save_point_event", "");
-	EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
 
     -- NOTE temp event until what's next is done
     event = hoa_map.ScriptedEvent("to be continued", "to_be_continued", "");
@@ -757,17 +764,17 @@ local to_forest_nw_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
-	-- N.B.: left, right, top, bottom
-	forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(forest_entrance_exit_zone);
+    -- N.B.: left, right, top, bottom
+    forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(forest_entrance_exit_zone);
 
-	to_forest_nw_zone = hoa_map.CameraZone(62, 64, 29, 35, hoa_map.MapMode.CONTEXT_01);
-	Map:AddZone(to_forest_nw_zone);
+    to_forest_nw_zone = hoa_map.CameraZone(62, 64, 29, 35, hoa_map.MapMode.CONTEXT_01);
+    Map:AddZone(to_forest_nw_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-	if (forest_entrance_exit_zone:IsCameraEntering() == true) then
+    if (forest_entrance_exit_zone:IsCameraEntering() == true) then
         if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("exit forest");
@@ -775,10 +782,10 @@ function _CheckZones()
             hero:SetMoving(false);
             EventManager:StartEvent("to be continued");
         end
-	elseif (to_forest_nw_zone:IsCameraEntering() == true) then
-		hero:SetMoving(false);
-		EventManager:StartEvent("to forest NW");
-	end
+    elseif (to_forest_nw_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to forest NW");
+    end
 end
 
 -- Sets common battle environment settings for enemy sprites

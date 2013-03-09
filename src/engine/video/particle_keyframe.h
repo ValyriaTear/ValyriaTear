@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -47,7 +48,8 @@ public:
         size_variation_x(0.0f),
         size_variation_y(0.0f),
         rotation_speed_variation(0.0f),
-        color_variation(0.0f, 0.0f, 0.0f, 0.0f)
+        color_variation(0.0f, 0.0f, 0.0f, 0.0f),
+        time(0.0f)
     {}
 
     //! width and height scale. 1.0 means to use the normal height

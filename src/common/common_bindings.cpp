@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -118,8 +119,9 @@ void BindCommonCode()
                     .def("SetEventValue", &GameGlobal::SetEventValue)
                     .def("GetNumberEventGroups", &GameGlobal::GetNumberEventGroups)
                     .def("GetNumberEvents", &GameGlobal::GetNumberEvents)
-                    .def("SetMapFilename", (void(GameGlobal:: *)(const std::string &)) &GameGlobal::SetMapFilename)
-                    .def("GetMapFilename", &GameGlobal::GetMapFilename)
+                    .def("SetMapDataFilename", (void(GameGlobal:: *)(const std::string &)) &GameGlobal::SetMapDataFilename)
+                    .def("SetMapScriptFilename", (void(GameGlobal:: *)(const std::string &)) &GameGlobal::SetMapScriptFilename)
+                    .def("GetMapScriptFilename", &GameGlobal::GetMapScriptFilename)
                     .def("SetMap", &GameGlobal::SetMap)
                     .def("GetSaveLocationX", &GameGlobal::GetSaveLocationX)
                     .def("GetSaveLocationY", &GameGlobal::GetSaveLocationY)
@@ -212,17 +214,6 @@ void BindCommonCode()
                         luabind::value("GLOBAL_TARGET_ALL_FOES", GLOBAL_TARGET_ALL_FOES)
                     ]
                 ];
-
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
-        [
-            luabind::class_<GlobalEventGroup>("GlobalEventGroup")
-            .def("DoesEventExist", &GlobalEventGroup::DoesEventExist)
-            .def("AddNewEvent", &GlobalEventGroup::AddNewEvent)
-            .def("GetEvent", &GlobalEventGroup::GetEvent)
-            .def("SetEvent", &GlobalEventGroup::SetEvent)
-            .def("GetNumberEvents", &GlobalEventGroup::GetNumberEvents)
-            .def("GetGroupName", &GlobalEventGroup::GetGroupName)
-        ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
         [

@@ -33,7 +33,7 @@ function NewGame()
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:SetCurrentLocationId("layna village")
 
-    local MM = hoa_map.MapMode("dat/maps/introduction.lua");
+    local MM = hoa_map.MapMode("dat/maps/layna_forest/layna_forest_crystal.lua", "dat/maps/introduction.lua");
     ModeManager:Pop(false, false);
     ModeManager:Push(MM, false, true);
 end

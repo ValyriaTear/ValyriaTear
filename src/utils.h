@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,6 +23,7 @@
 ***   - OpenDarwin #ifdef __MACH__
 ***   - Linux      #ifdef __linux__
 ***   - FreeBSD    #ifdef __FreeBSD__
+***   - OpenBSD    #ifdef __OpenBSD__
 ***   - Solaris    #ifdef SOLARIS
 ***   - BeOS       #ifdef __BEOS__
 ***
@@ -242,6 +244,16 @@ std::string Upcase(std::string text);
 //! \brief Returns the string with the first letter uppercased.
 std::string UpcaseFirst(std::string text);
 
+/** \brief A safe version of sprintf that returns a std::string of the result.
+*** Copyright The Mana Developers (2012) - GPLv2
+*/
+std::string strprintf(char const *, ...)
+#ifdef __GNUC__
+    // This attribute is nice: it even works through gettext invokation. For
+    // example, gcc will complain that strprintf(_("%s"), 42) is ill-formed.
+    __attribute__((__format__(__printf__, 1, 2)))
+#endif
+;
 
 /** ****************************************************************************
 *** \brief Implements unicode strings with uint16 as the character type

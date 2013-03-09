@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -236,11 +237,19 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         sys_def.wind_velocity_variation_x = particle_script.ReadFloat("wind_velocity_variation_x");
         sys_def.wind_velocity_variation_y = particle_script.ReadFloat("wind_velocity_variation_y");
 
-        sys_def.wave_motion_used = particle_script.ReadBool("wave_motion_used");
-        sys_def.wave_length = particle_script.ReadFloat("wave_length");
-        sys_def.wave_length_variation = particle_script.ReadFloat("wave_length_variation");
-        sys_def.wave_amplitude = particle_script.ReadFloat("wave_amplitude");
-        sys_def.wave_amplitude_variation = particle_script.ReadFloat("wave_amplitude_variation");
+        if (particle_script.OpenTable("wave_motion")) {
+
+            sys_def.wave_motion_used = true;
+            sys_def.wave_length = particle_script.ReadFloat("wave_length");
+            sys_def.wave_length_variation = particle_script.ReadFloat("wave_length_variation");
+            sys_def.wave_amplitude = particle_script.ReadFloat("wave_amplitude");
+            sys_def.wave_amplitude_variation = particle_script.ReadFloat("wave_amplitude_variation");
+
+            particle_script.CloseTable();
+        }
+        else {
+            sys_def.wave_motion_used = false;
+        }
 
         sys_def.tangential_acceleration = particle_script.ReadFloat("tangential_acceleration");
         sys_def.tangential_acceleration_variation = particle_script.ReadFloat("tangential_acceleration_variation");
@@ -251,13 +260,36 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         sys_def.user_defined_attractor = particle_script.ReadBool("user_defined_attractor");
         sys_def.attractor_falloff = particle_script.ReadFloat("attractor_falloff");
 
-        sys_def.rotation_used = particle_script.ReadBool("rotation_used");
-        sys_def.rotate_to_velocity = particle_script.ReadBool("rotate_to_velocity");
+        if (particle_script.OpenTable("rotation")) {
+            sys_def.rotation_used = true;
 
-        sys_def.speed_scale_used = particle_script.ReadBool("speed_scale_used");
-        sys_def.speed_scale = particle_script.ReadFloat("speed_scale");
-        sys_def.min_speed_scale = particle_script.ReadFloat("min_speed_scale");
-        sys_def.max_speed_scale = particle_script.ReadFloat("max_speed_scale");
+            if (particle_script.OpenTable("rotate_to_velocity")) {
+
+                sys_def.rotate_to_velocity = true;
+
+                if (particle_script.DoesFloatExist("speed_scale")) {
+                    sys_def.speed_scale_used = true;
+
+                    sys_def.speed_scale = particle_script.ReadFloat("speed_scale");
+                    sys_def.min_speed_scale = particle_script.ReadFloat("min_speed_scale");
+                    sys_def.max_speed_scale = particle_script.ReadFloat("max_speed_scale");
+
+                }
+                else {
+                    sys_def.speed_scale_used = false;
+                }
+
+                particle_script.CloseTable(); // rotate_to_velocity
+            }
+            else {
+                sys_def.rotate_to_velocity = false;
+            }
+
+            particle_script.CloseTable(); // rotation
+        }
+        else {
+            sys_def.rotation_used = false;
+        }
 
         sys_def.smooth_animation = particle_script.ReadBool("smooth_animation");
         sys_def.modify_stencil = particle_script.ReadBool("modify_stencil");

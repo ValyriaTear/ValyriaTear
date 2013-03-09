@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -510,8 +511,8 @@ void EnemyZone::Update()
         ++_active_enemies;
     } else {
         PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
-                      << " tries. Check the enemy zones of map:"
-                      << MapMode::CurrentInstance()->GetMapFilename() << std::endl;
+                      << " tries. Check the enemy zones of map script:"
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
     }
 } // void EnemyZone::Update()
 

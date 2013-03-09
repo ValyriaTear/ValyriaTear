@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -207,7 +208,7 @@ void InventoryWindow::_InitCategory()
     options.push_back(UTranslate("Wpn"));
     options.push_back(UTranslate("Hlm"));
     options.push_back(UTranslate("Tor"));
-    options.push_back(UTranslate("Arm"));
+    options.push_back(CUTranslate("Menu|Arm"));
     options.push_back(UTranslate("Leg"));
     options.push_back(UTranslate("Key"));
 

@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -422,10 +423,12 @@ bool SaveMode::_LoadGame(uint32 id)
         // Create a new map mode, and fade out and in
         ModeManager->PopAll();
         try {
-            MapMode *MM = new MapMode(GlobalManager->GetMapFilename());
+            MapMode *MM = new MapMode(GlobalManager->GetMapDataFilename(), GlobalManager->GetMapScriptFilename());
             ModeManager->Push(MM, true, true);
         } catch(const luabind::error &e) {
-            PRINT_ERROR << "Map::_Load -- Error loading map " << GlobalManager->GetMapFilename()
+            PRINT_ERROR << "Map::_Load -- Error loading map data "
+                        << GlobalManager->GetMapDataFilename()
+                        << ", script: " << GlobalManager->GetMapScriptFilename()
                         << ", returning to BootMode." << std::endl
                         << "Exception message:" << std::endl;
             ScriptManager->HandleLuaError(e);
@@ -487,7 +490,12 @@ bool SaveMode::_PreviewGame(uint32 id)
     file.OpenTable("save_game1");
 
     // The map file, tested after the save game is closed.
-    std::string map_filename = file.ReadString("map_filename");
+    // DEPRECATED: Old way, will be removed in one release.
+    std::string map_script_filename;
+    if (file.DoesStringExist("map_filename"))
+        map_script_filename = file.ReadString("map_filename");
+    else
+        map_script_filename = file.ReadString("map_script_filename");
 
     // Used to store temp data to populate text boxes
     int32 hours = file.ReadInt("play_hours");
@@ -566,7 +574,7 @@ bool SaveMode::_PreviewGame(uint32 id)
 
     // Tests the map file and gets the untranslated map hud name from it.
     ReadScriptDescriptor map_file;
-    if(!map_file.OpenFile(map_filename)) {
+    if(!map_file.OpenFile(map_script_filename)) {
         _ClearSaveData(true);
         return false;
     }

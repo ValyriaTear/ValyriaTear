@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -147,11 +148,9 @@ void Editor::_ViewMenuSetup()
 {
     if(_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL) {
         _toggle_grid_action->setEnabled(true);
-        _view_textures_action->setEnabled(true);
     } // map must exist in order to set view options
     else {
         _toggle_grid_action->setEnabled(false);
-        _view_textures_action->setEnabled(false);
     } // map does not exist, can't view it*/
 }
 
@@ -187,7 +186,7 @@ void Editor::_TilesEnableActions()
 
 void Editor::_TilesetMenuSetup()
 {
-    // TODO: temp fix for bug 161: don't edit tilesets if a map is open
+    // Don't edit tilesets if a map is open
     if(_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL)
         _edit_tileset_action->setEnabled(false);
     else
@@ -199,12 +198,10 @@ void Editor::_TilesetMenuSetup()
 void Editor::_MapMenuSetup()
 {
     if(_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL) {
-        _select_music_action->setEnabled(true);
         _map_properties_action->setEnabled(true);
         _context_properties_action->setEnabled(true);
     } // map must exist in order to set properties
     else {
-        _select_music_action->setEnabled(false);
         _map_properties_action->setEnabled(false);
         _context_properties_action->setEnabled(false);
     } // map does not exist, can't modify it
@@ -368,7 +365,6 @@ void Editor::_FileNew()
             if(_select_on)
                 _TileToggleSelect();
             _ViewToggleGrid();
-            _ViewTextures();
 
             // Populate the context combobox
             // _context_cbox->clear() doesn't work, it seg faults.
@@ -503,7 +499,6 @@ void Editor::_FileOpen()
             if(_select_on)
                 _TileToggleSelect();
             _ViewToggleGrid();
-            _ViewTextures();
 
             // Populate the context combobox
             // _context_cbox->clear() doesn't work, it seg faults.
@@ -630,19 +625,6 @@ void Editor::_ViewToggleGrid()
         _ed_scrollarea->_map->SetGridOn(_grid_on);
     } // map must exist in order to view things on it
 }
-
-
-void Editor::_ViewTextures()
-{
-    if(_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL) {
-        _textures_on = !_textures_on;
-        if(_textures_on) {
-            VideoManager->Textures()->DEBUG_NextTexSheet();
-        }
-        _ed_scrollarea->_map->SetDebugTexturesOn(_textures_on);
-    } // map must exist in order to view things on it
-}
-
 
 
 void Editor::_TileLayerFill()
@@ -788,21 +770,6 @@ void Editor::_TilesetEdit()
     delete tileset_editor;
 }
 
-
-void Editor::_MapSelectMusic()
-{
-    if(_ed_scrollarea == NULL)
-        return;
-
-    MusicDialog *music = new MusicDialog(this, "music_dialog");
-
-    if(music->exec() == QDialog::Accepted) {
-        _ed_scrollarea->_map->music_filename = music->GetMusicFile();
-        _ed_scrollarea->_map->SetChanged(true);
-    } // only process results if user selected okay
-
-    delete music;
-}
 
 void Editor::_MapAddLayer()
 {
@@ -1374,11 +1341,6 @@ void Editor::_CreateActions()
     _toggle_grid_action->setCheckable(true);
     connect(_toggle_grid_action, SIGNAL(triggered()), this, SLOT(_ViewToggleGrid()));
 
-    _view_textures_action = new QAction("&Texture sheets", this);
-    _view_textures_action->setShortcut(tr("Ctrl+T"));
-    _view_textures_action->setStatusTip("Cycles through the video engine's texture sheets");
-    connect(_view_textures_action, SIGNAL(triggered()), this, SLOT(_ViewTextures()));
-
     // Create menu actions related to the Tiles menu
 
     _undo_action = new QAction(QIcon("img/misc/editor-tools/arrow-left.png"), "&Undo", this);
@@ -1438,11 +1400,6 @@ void Editor::_CreateActions()
     //_edit_walkability_action->setCheckable(true);
     connect(_edit_tileset_action, SIGNAL(triggered()), this, SLOT(_TilesetEdit()));
 
-    // Create menu actions related to the Map menu
-    _select_music_action = new QAction("&Select map music...", this);
-    _select_music_action->setStatusTip("Choose background music for the map");
-    connect(_select_music_action, SIGNAL(triggered()), this, SLOT(_MapSelectMusic()));
-
     _context_properties_action = new QAction("&Add Context...", this);
     _context_properties_action->setStatusTip("Create a new context on the map");
     connect(_context_properties_action, SIGNAL(triggered()), this, SLOT(_MapAddContext()));
@@ -1485,8 +1442,6 @@ void Editor::_CreateMenus()
     // view menu creation
     _view_menu = menuBar()->addMenu("&View");
     _view_menu->addAction(_toggle_grid_action);
-    _view_menu->addSeparator();
-    _view_menu->addAction(_view_textures_action);
     _view_menu->setTearOffEnabled(true);
     connect(_view_menu, SIGNAL(aboutToShow()), this, SLOT(_ViewMenuSetup()));
 
@@ -1515,9 +1470,7 @@ void Editor::_CreateMenus()
 
     // map menu creation
     _map_menu = menuBar()->addMenu("&Map");
-    _map_menu->addAction(_select_music_action);
     _map_menu->addAction(_context_properties_action);
-    _map_menu->addSeparator();
     _map_menu->addAction(_map_properties_action);
     connect(_map_menu, SIGNAL(aboutToShow()), this, SLOT(_MapMenuSetup()));
 
@@ -2156,7 +2109,7 @@ void EditorScrollArea::_AutotileRandomize(int32 &tileset_num, int32 &tile_index)
 
 
 
-void EditorScrollArea::_AutotileTransitions(int32 &tileset_num, int32 &tile_index, const std::string &tile_group)
+void EditorScrollArea::_AutotileTransitions(int32 &/*tileset_num*/, int32 &/*tile_index*/, const std::string &/*tile_group*/)
 {
     /*
     // These 2 vectors have a one-to-one correspondence. They should always

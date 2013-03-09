@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -250,7 +250,8 @@ void GameGlobal::ClearAllData()
 
     // Clear out the map previous location
     _previous_location.clear();
-    _map_filename.clear();
+    _map_data_filename.clear();
+    _map_script_filename.clear();
     _map_hud_name.clear();
 
     //clear global world map file
@@ -715,10 +716,13 @@ QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id)
 // GameGlobal class - Other Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-void GameGlobal::SetMap(const std::string &map_filename, const std::string &map_image_filename,
+void GameGlobal::SetMap(const std::string &map_data_filename,
+                        const std::string &map_script_filename,
+                        const std::string &map_image_filename,
                         const hoa_utils::ustring &map_hud_name)
 {
-    _map_filename = map_filename;
+    _map_data_filename = map_data_filename;
+    _map_script_filename = map_script_filename;
 
     if(!_map_image.Load(map_image_filename))
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load map image: " << map_image_filename << std::endl;
@@ -748,7 +752,8 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
 
     // Save simple play data
     file.InsertNewLine();
-    file.WriteString("map_filename", _map_filename);
+    file.WriteString("map_data_filename", _map_data_filename);
+    file.WriteString("map_script_filename", _map_script_filename);
     //! \note Coords are in map tiles
     file.WriteUInt("location_x", x_position);
     file.WriteUInt("location_y", y_position);
@@ -843,7 +848,17 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     }
 
     // Load play data
-    _map_filename = file.ReadString("map_filename");
+    // DEPRECATED: Old way to load, will be removed in a release
+    if (file.DoesStringExist("map_filename")) {
+        _map_data_filename = file.ReadString("map_filename");
+        _map_script_filename = file.ReadString("map_filename");
+    }
+    else {
+        // New way: data and script are separated.
+        _map_data_filename = file.ReadString("map_data_filename");
+        _map_script_filename = file.ReadString("map_script_filename");
+    }
+
     // Load a potential saved position
     _x_save_map_position = file.ReadUInt("location_x");
     _y_save_map_position = file.ReadUInt("location_y");

@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -95,6 +96,12 @@ enum SYSTEM_TIMER_STATE {
 **/
 std::string Translate(const std::string &text);
 
+/** \brief Returns the translated string out of the given context
+*** \param text a string in the form of "context|text" permitting contextual translation.
+*** \note I chose not to use pgettext() because there is no official support on Windows
+*** and I prefer a common way to do it.
+**/
+std::string CTranslate(const std::string &text);
 
 /** \brief Returns a ustring translated into the game's current language
 *** \param text A const reference to the string that should be translated
@@ -104,6 +111,22 @@ std::string Translate(const std::string &text);
 *** MakeUnicodeString(Translate(string));
 **/
 hoa_utils::ustring UTranslate(const std::string &text);
+
+/** \brief Returns the contextual translation as a ustring.
+*** \see CTranslate().
+**/
+hoa_utils::ustring CUTranslate(const std::string &text);
+
+/** \brief Returns the translated string fprinted with the c-formatted arguments.
+*** \param text The text to transform containing c-format argument
+*** \param arg1 The text argument.
+**/
+std::string VTranslate(const std::string &text, int32 arg1);
+std::string VTranslate(const std::string &text, uint32 arg1);
+std::string VTranslate(const std::string &text, const std::string& arg1);
+std::string VTranslate(const std::string &text, float arg1);
+// Example with 2 args, used in the treasure supervisor
+std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2);
 
 
 /** ****************************************************************************

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -83,8 +84,9 @@ class MapMode : public hoa_mode_manager::GameMode
     friend void hoa_defs::BindModeCode();
 
 public:
-    //! \param filename The name of the Lua file that retains all data about the map to create
-    MapMode(const std::string &filename);
+    //! \param data_filename The name of the Lua file that retains all data about the map to create
+    //! \param script_filename The name of the Lua file that retains all data about script to load
+    MapMode(const std::string &data_filename, const std::string& script_filename);
 
     ~MapMode();
 
@@ -180,11 +182,11 @@ public:
     *** \returns whether the tablespace opening was successful.
     **/
     bool OpenMapTablespace(bool use_global = false) {
-        return _map_script.OpenTable(_map_tablespace, use_global);
+        return _map_script.OpenTable(_map_script_tablespace, use_global);
     }
 
-    const std::string &GetMapFilename() const {
-        return _map_filename;
+    const std::string &GetMapScriptFilename() const {
+        return _map_script_filename;
     }
 
     private_map::TileSupervisor *GetTileSupervisor() const {
@@ -292,14 +294,20 @@ private:
     //! the triggering of deactivate more than once.
     bool _activated;
 
-    //! \brief The name of the Lua file that represents the map
-    std::string _map_filename;
+    //! \brief The name of the Lua file that contains the map data
+    std::string _map_data_filename;
 
-    /** \brief The map's unique name as it is used to identify a Lua namespace table
-    *** To avoid Lua naming conflicts between multiple map files, all map data is encompassed within
+    /** \brief The map's data unique name as it is used to identify a Lua namespace table
+    *** To avoid Lua naming conflicts between multiple scripting files, all map data is encompassed within
     *** a namespace (a Lua table) that is unique to each map.
     **/
-    std::string _map_tablespace;
+    std::string _map_data_tablespace;
+
+    //! \brief The name of the Lua file that contains the map script
+    std::string _map_script_filename;
+
+    //! \brief The map's script unique name as it is used to identify a Lua namespace table
+    std::string _map_script_tablespace;
 
     //! \brief The name of the map, as it will be read by the player in the game.
     hoa_utils::ustring _map_hud_name;
@@ -384,6 +392,11 @@ private:
     *** it does to consume it when running.
     **/
     uint32 _run_stamina;
+
+    /** \brief the alpha value used to create fade in/out of the map GUI when switching in
+    *** or out of the STATE_SCENE or DIALOGUE state.
+    **/
+    float _gui_alpha;
 
     /** \brief Maintains a stack state for the different modes of operation that the map may be in
     *** The top (back) of the stack is the active mode

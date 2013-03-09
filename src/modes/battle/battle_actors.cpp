@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -326,7 +327,8 @@ void BattleActor::Update()
                 _state_timer.Update();
         }
 
-        _effects_supervisor->Update();
+        if (IsAlive())
+            _effects_supervisor->Update();
     }
     else if (_state == ACTOR_STATE_DYING) {
         // Permits the actor to die even in pause mode,

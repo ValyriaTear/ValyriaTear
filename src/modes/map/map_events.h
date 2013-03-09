@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -351,10 +352,13 @@ class MapTransitionEvent : public MapEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param filename The name of the map file to transition to
+    *** \param data_filename The name of the map data file to transition to
+    *** \param data_filename The name of the map script file to use
     *** \param coming_from The transition origin.
     **/
-    MapTransitionEvent(const std::string &event_id, const std::string &filename,
+    MapTransitionEvent(const std::string &event_id,
+                       const std::string &data_filename,
+                       const std::string &script_filename,
                        const std::string &coming_from);
 
     ~MapTransitionEvent() {};
@@ -366,8 +370,9 @@ protected:
     //! \brief Once the fading process completes, creates the new map mode to transition to
     bool _Update();
 
-    //! \brief The filename of the map to transition to
-    std::string _transition_map_filename;
+    //! \brief The data and script filenames of the map to transition to
+    std::string _transition_map_data_filename;
+    std::string _transition_map_script_filename;
 
     /** \brief a string telling where the map transition is coming from.
     *** useful when changing from a map to another to set up the camera position.

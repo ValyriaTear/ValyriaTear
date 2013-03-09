@@ -5,29 +5,6 @@
 -- player encounters in battle. This file contains those enemies who have ids
 -- from 1-100.
 --
--- At the top of each enemy entry, list the set of general traits that the enemy
--- is to possess. For example, "weak physical attack, high agility". This is done
--- so that if others modify the enemy's properties later in balancing efforts, they
--- know the general properties that the enemy needs to continue to represent. Below
--- is an example of a header you can use.
---
--- Traits -----------------------------------------------------------------------
--- HSP: high HP, low SP
--- ATK: low phys, no meta
--- DEF: low phys, med meta
--- SPD: med agi, low eva
--- XPD: med XP, vlow drunes
---------------------------------------------------------------------------------
---
--- The three letter acronym categories mean the following
--- HSP = HP/SP
--- ATK = Attack Ratings (physical and metaphysical)
--- DEF = Defense Ratings (physical and metaphysical)
--- SPD = Speed Ratings (agility and evade)
--- XPD = Experience points and drunes rewarded
---
--- To stay consistent, use the following degree indicators for each stat:
--- {zero, vlow, low, med, high, vhigh}
 ------------------------------------------------------------------------------]]
 
 -- All enemy definitions are stored in this table
@@ -35,13 +12,6 @@
 enemies = {}
 
 
--- Traits -----------------------------------------------------------------------
--- HSP: low HP, vlow SP
--- ATK: low phys, zero meta
--- DEF: low phys, vlow meta
--- SPD: low agi, low eva
--- XPD: low XP, vlow drunes
---------------------------------------------------------------------------------
 enemies[1] = {
     name = hoa_system.Translate("Green Slime"),
     stamina_icon = "img/icons/actors/enemies/green_slime.png",
@@ -58,8 +28,8 @@ enemies[1] = {
         protection = 1,
         agility = 20,
         evade = 2.0,
-        experience_points = 8,
-        drunes = 6
+        experience_points = 15,
+        drunes = 8
     },
 
     attack_points = {
@@ -82,13 +52,6 @@ enemies[1] = {
     }
 }
 
--- Traits -----------------------------------------------------------------------
--- HSP: low HP, vlow SP
--- ATK: low phys, zero meta
--- DEF: med phys, low meta
--- SPD: low agi, low eva
--- XPD: low XP, low drunes
---------------------------------------------------------------------------------
 enemies[2] = {
     name = hoa_system.Translate("Spider"),
     stamina_icon = "img/icons/actors/enemies/spider.png",
@@ -105,8 +68,8 @@ enemies[2] = {
         protection = 4,
         agility = 25,
         evade = 2.0,
-        experience_points = 14,
-        drunes = 8
+        experience_points = 19,
+        drunes = 10
     },
 
     attack_points = {
@@ -152,14 +115,14 @@ enemies[3] = {
     base_stats = {
         hit_points = 160,
         skill_points = 10,
-        experience_points = 120,
         strength = 20,
         vigor = 14,
         fortitude = 6,
         protection = 6,
         agility = 40,
         evade = 4.0,
-        drunes = 100
+        experience_points = 44,
+        drunes = 0
     },
 
     attack_points = {
@@ -192,13 +155,6 @@ enemies[3] = {
 }
 
 
--- Traits -----------------------------------------------------------------------
--- HSP: med HP, low SP
--- ATK: med phys, zero meta
--- DEF: med phys, low meta
--- SPD: med agi, low eva
--- XPD: low XP, med drunes
---------------------------------------------------------------------------------
 enemies[4] = {
     name = hoa_system.Translate("Snake"),
     stamina_icon = "img/icons/actors/enemies/green_snake.png",
@@ -215,8 +171,8 @@ enemies[4] = {
         protection = 5,
         agility = 30,
         evade = 6.0,
-        experience_points = 25,
-        drunes = 12
+        experience_points = 31,
+        drunes = 15
     },
 
     attack_points = {
@@ -267,7 +223,7 @@ enemies[5] = {
     sprite_height = 128,
 
     base_stats = {
-        hit_points = 455,
+        hit_points = 355,
         skill_points = 0,
         strength = 35,
         vigor = 10,
@@ -275,8 +231,8 @@ enemies[5] = {
         protection = 10,
         agility = 18,
         evade = 2.0,
-        experience_points = 80,
-        drunes = 80
+        experience_points = 89,
+        drunes = 56
     },
 
     attack_points = {
@@ -300,13 +256,7 @@ enemies[5] = {
     }
 }
 
--- Traits -----------------------------------------------------------------------
--- HSP: med HP, low SP
--- ATK: low phys, zero meta
--- DEF: low phys, low meta
--- SPD: high agi, med eva
--- XPD: low XP, low drunes
---------------------------------------------------------------------------------
+
 enemies[6] = {
     name = hoa_system.Translate("Bat"),
     stamina_icon = "img/icons/actors/enemies/bat.png",
@@ -323,7 +273,7 @@ enemies[6] = {
         protection = 8,
         agility = 35,
         evade = 6.0,
-        experience_points = 30,
+        experience_points = 32,
         drunes = 15
     },
 
@@ -370,16 +320,16 @@ enemies[7] = {
     },
 
     base_stats = {
-        hit_points = 320,
+        hit_points = 420,
         skill_points = 10,
-        experience_points = 160,
         strength = 27,
         vigor = 14,
         fortitude = 10,
         protection = 6,
         agility = 40,
         evade = 4.0,
-        drunes = 100
+        experience_points = 98,
+        drunes = 0
     },
 
     attack_points = {
@@ -427,13 +377,13 @@ enemies[8] = {
     base_stats = {
         hit_points = 640,
         skill_points = 10,
-        experience_points = 160,
         strength = 27,
         vigor = 14,
         fortitude = 10,
         protection = 6,
         agility = 40,
         evade = 4.0,
+        experience_points = 142,
         drunes = 100
     },
 
@@ -466,6 +416,8 @@ enemies[8] = {
     }
 }
 
+
+-- ======== Unbalanced ========
 
 -- Traits -----------------------------------------------------------------------
 -- HSP: low HP, low SP

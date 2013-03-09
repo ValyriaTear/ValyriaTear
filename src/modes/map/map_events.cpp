@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -143,10 +144,12 @@ bool SoundEvent::_Update()
 // -----------------------------------------------------------------------------
 
 MapTransitionEvent::MapTransitionEvent(const std::string &event_id,
-                                       const std::string &filename,
+                                       const std::string &data_filename,
+                                       const std::string &script_filename,
                                        const std::string &coming_from) :
     MapEvent(event_id, MAP_TRANSITION_EVENT),
-    _transition_map_filename(filename),
+    _transition_map_data_filename(data_filename),
+    _transition_map_script_filename(script_filename),
     _transition_origin(coming_from),
     _done(false)
 {}
@@ -172,7 +175,7 @@ bool MapTransitionEvent::_Update()
     // break the fade smoothness and visible duration.
     if(!_done) {
         hoa_global::GlobalManager->SetPreviousLocation(_transition_origin);
-        MapMode *MM = new MapMode(_transition_map_filename);
+        MapMode *MM = new MapMode(_transition_map_data_filename, _transition_map_script_filename);
         ModeManager->Pop();
         ModeManager->Push(MM, false, true);
         _done = true;

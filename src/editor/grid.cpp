@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -31,10 +32,6 @@ using namespace hoa_video;
 
 namespace hoa_editor
 {
-
-// Map editor markup lines
-const char *BEFORE_TEXT_MARKER = "-- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --";
-const char *AFTER_TEXT_MARKER =  "-- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --";
 
 LAYER_TYPE getLayerType(const std::string &type)
 {
@@ -80,8 +77,7 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     _changed(false),
     _initialized(false),
     _grid_on(true),
-    _select_on(false),
-    _ol_on(true)
+    _select_on(false)
 {
     resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
     setMouseTracking(true);
@@ -241,13 +237,7 @@ bool Grid::LoadMap()
 
     read_data.OpenTable(main_map_table);
 
-    // Load the map name and image
-    map_name = QString::fromStdString(read_data.ReadString("map_name"));
-    map_image_filename = QString::fromStdString(read_data.ReadString("map_image_filename"));
-    map_subname = QString::fromStdString(read_data.ReadString("map_subname"));
-
     // Reset container data
-    music_filename.clear();
     tileset_names.clear();
     tilesets.clear();
     _tile_contexts.clear();
@@ -330,9 +320,6 @@ bool Grid::LoadMap()
     for(uint32 i = 1; i <= table_size; i++)
         tileset_names.append(QString(read_data.ReadString(i).c_str()));
     read_data.CloseTable();
-
-    // Load default music filename
-    music_filename = QString::fromStdString(read_data.ReadString("music_filename"));
 
     // Loading the tileset images using LoadMultiImage is done in editor.cpp in
     // FileOpen via creation of the TilesetTable(s)
@@ -497,43 +484,8 @@ bool Grid::LoadMap()
 
     read_data.CloseTable();
 
-    // Gets the data at load time because we might change the filename during the session.
-    GetScriptingData();
-
     return true;
 } // Grid::LoadMap()
-
-void Grid::GetScriptingData()
-{
-    std::ifstream file;
-    const int32 BUFFER_SIZE = 1024;
-    char buffer[BUFFER_SIZE];
-
-    // First, get the non-editor data (such as map scripting) from the file to save, so we don't clobber it.
-    file.open(_file_name.toAscii(), std::ifstream::in);
-    if(file.is_open()) {
-        // Search for AFTER_TEXT_MARKER
-        while(!file.eof()) {
-            file.clear();
-            file.getline(buffer, BUFFER_SIZE);
-            if(strstr(buffer, AFTER_TEXT_MARKER))
-                break;
-        }
-
-        // Put all text after AFTER_TEXT_MARKER into after_text string
-        while(!file.eof()) {
-            file.clear();
-            file.getline(buffer, BUFFER_SIZE);
-            if(!file.eof()) {
-                after_text.append(buffer);
-                after_text.push_back('\n');
-            }
-        }
-
-        file.close();
-    }
-}
-
 
 void Grid::SaveMap()
 {
@@ -544,17 +496,9 @@ void Grid::SaveMap()
         return;
     }
 
-    write_data.WriteLine(BEFORE_TEXT_MARKER);
-    write_data.InsertNewLine();
     write_data.WriteComment("Set the namespace according to the map name.");
     std::string main_map_table = std::string(_file_name.section('/', -1).remove(".lua").toAscii());
     write_data.WriteNamespace(main_map_table);
-
-    write_data.InsertNewLine();
-    write_data.WriteComment("The map name, subname and location image");
-    write_data.WriteString("map_name", map_name.toStdString());
-    write_data.WriteString("map_image_filename", map_image_filename.toStdString());
-    write_data.WriteString("map_subname", map_subname.toStdString());
 
     write_data.InsertNewLine();
     write_data.WriteComment("The number of rows, and columns that compose the map");
@@ -579,11 +523,6 @@ void Grid::SaveMap()
         write_data.EndTable();
     }
     write_data.EndTable();
-
-    write_data.InsertNewLine();
-    write_data.WriteComment("The music file used as default background music on this map.");
-    write_data.WriteComment("Other musics will have to handled through scripting.");
-    write_data.WriteString("music_filename", music_filename.toAscii().data());
 
     write_data.InsertNewLine();
     write_data.WriteComment("The names of the tilesets used, with the path and file extension omitted");
@@ -779,12 +718,6 @@ void Grid::SaveMap()
         } // write the vector if it has data in it
     } // iterate through all contexts of all layers, assuming all layers have same number of contexts
 
-    write_data.WriteLine(AFTER_TEXT_MARKER);
-
-    // Write the "after data" if this file is overwriting another
-    if(!after_text.empty())
-        write_data.WriteLine(after_text, false);
-
     write_data.CloseFile();
 
     _changed = false;
@@ -869,7 +802,7 @@ void Grid::DeleteLayer(uint32 layer_id)
     }
 }
 
-void Grid::InsertRow(uint32 tile_index_y)
+void Grid::InsertRow(uint32 /*tile_index_y*/)
 {
 // See bugs #153 & 154 as to why this function is not implemented for Windows
 // TODO: Check that tile_index is within acceptable bounds
@@ -891,7 +824,7 @@ void Grid::InsertRow(uint32 tile_index_y)
 } // Grid::InsertRow(...)
 
 
-void Grid::InsertCol(uint32 tile_index_x)
+void Grid::InsertCol(uint32 /*tile_index_x*/)
 {
     /*
     // See bugs #153 & 154 as to why this function is not implemented for Windows
@@ -933,7 +866,7 @@ void Grid::InsertCol(uint32 tile_index_x)
 } // Grid::InsertCol(...)
 
 
-void Grid::DeleteRow(uint32 tile_index_y)
+void Grid::DeleteRow(uint32 /*tile_index_y*/)
 {
     /*
     // See bugs #153 & 154 as to why this function is not implemented for Windows
@@ -962,7 +895,7 @@ void Grid::DeleteRow(uint32 tile_index_y)
 } // Grid::DeleteRow(...)
 
 
-void Grid::DeleteCol(uint32 tile_index_x)
+void Grid::DeleteCol(uint32 /*tile_index_x*/)
 {
     /*
     // See bugs #153 & 154 as to why this function is not implemented for Windows
@@ -1119,12 +1052,6 @@ void Grid::paintGL()
         }
     }
 
-
-    // Draw object layer if it is enabled for viewing
-    if(_ol_on) {
-        // TODO: Readd object layer support in a simple way.
-    } // object layer must be viewable
-
     // Draw selection rectangle if this mode is active
     if(_select_on) {
         Color blue_selection(0.0f, 0.0f, 255.0f, 0.5f);
@@ -1154,9 +1081,6 @@ void Grid::paintGL()
     // If grid is toggled on, draw it
     if(_grid_on)
         VideoManager->DrawGrid(0.0f, 0.0f, 1.0f, 1.0f, Color::black);
-
-    if(_debug_textures_on)
-        VideoManager->Textures()->DEBUG_ShowTexSheet();
 } // void Grid::paintGL()
 
 

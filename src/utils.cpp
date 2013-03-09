@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -116,6 +117,29 @@ std::string UpcaseFirst(std::string text)
     std::transform(text.begin(), ++text.begin(), text.begin(), ::toupper);
     return text;
 }
+
+std::string strprintf(char const *format, ...)
+{
+    char buf[256];
+    va_list(args);
+    va_start(args, format);
+    int nb = vsnprintf(buf, 256, format, args);
+    va_end(args);
+    if (nb < 256)
+    {
+        return buf;
+    }
+    // The static size was not big enough, try again with a dynamic allocation.
+    ++nb;
+    char *buf2 = new char[nb];
+    va_start(args, format);
+    vsnprintf(buf2, nb, format, args);
+    va_end(args);
+    std::string res(buf2);
+    delete [] buf2;
+    return res;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 ///// ustring Class

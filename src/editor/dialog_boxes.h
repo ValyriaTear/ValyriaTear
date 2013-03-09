@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -110,55 +111,6 @@ private:
     //! \brief A layout to manage all the labels, spinboxes, and listviews.
     QGridLayout *_dia_layout;
 }; // class MapPropertiesDialog: public QDialog
-
-
-/** ***************************************************************************
-*** \brief A dialog box that allows the user to declare what music files to
-***        load for this map.
-***
-*** This only defines the music files that the map should load. It does not
-*** define when or how each file should be played. It populates two lists of
-*** music files: one containing the music already chosen for the map, and the
-*** other with all the remaining music files that are not chosen. Each file is
-*** mutually exclusive and is only found in one list or the other, preventing
-*** the user from declaring to use the same music file more than once.
-*** **************************************************************************/
-class MusicDialog: public QDialog
-{
-    // Macro needed to use Qt's slots and signals.
-    Q_OBJECT
-
-    // Needed for accessing map properties.
-    friend class Editor;
-    friend class EditorScrollView;
-
-public:
-    /** \param parent The widget from which this dialog was invoked.
-    *** \param name The name of this widget.
-    **/
-    MusicDialog(QWidget *parent, const QString &name);
-
-    ~MusicDialog();
-
-    //! \name Class member accessor functions
-    //@{
-    QString GetMusicFile() const;
-    //@}
-
-private:
-    //! \brief A pushbutton for finishing map music selection.
-    QPushButton *_ok_pbut;
-
-    //! \brief Label for listview showing available music to select from.
-    QLabel *_available_label;
-
-    //! \brief A layout to manage all the labels, buttons, and listviews.
-    QGridLayout *_dia_layout;
-
-    //! \brief A listview with all the remaining music files.
-    QListWidget *_available_music_list;
-}; // class MusicDialog
-
 
 /** ***************************************************************************
 *** \brief A dialog box that allows the user to add new contexts to the map

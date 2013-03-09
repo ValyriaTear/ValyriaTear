@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -487,7 +487,7 @@ int main(int argc, char *argv[])
         // Now the program should be in app/Contents
         path.append("/Resources/");
         chdir(path.c_str());
-#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
+#elif (defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)) && !defined(RELEASE_BUILD)
         // Look for data files in DATADIR only if they are not available in the current directory.
         if(std::ifstream("dat/config/settings.lua") == NULL) {
             if(chdir(PKG_DATADIR) != 0) {

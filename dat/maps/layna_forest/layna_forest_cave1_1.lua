@@ -1,15 +1,8 @@
--- Valyria Tear map editor begin. Do not edit this line or put anything before this line. --
-
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
 layna_forest_cave1_1 = ns;
 setfenv(1, ns);
-
--- The map name, subname and location image
-map_name = "Layna Forest Cave"
-map_image_filename = "img/menus/locations/desert_cave.png"
-map_subname = ""
 
 -- The number of rows, and columns that compose the map
 num_tile_cols = 64
@@ -26,10 +19,6 @@ contexts = {}
 contexts[0] = {}
 contexts[0].name = "Base"
 contexts[0].inherit_from = -1
-
--- The music file used as default background music on this map.
--- Other musics will have to handled through scripting.
-music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- The names of the tilesets used, with the path and file extension omitted
 tileset_filenames = {}
@@ -351,15 +340,23 @@ layers[3][45] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 layers[3][46] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 layers[3][47] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
 
+-- Script part.
+-- TODO; Split the map part in one release
 
--- Valyria Tear map editor end. Do not edit this line. Place your scripts after this line. --
+-- The map name, subname and location image
+map_name = "Layna Forest Cave"
+map_image_filename = "img/menus/locations/desert_cave.png"
+map_subname = ""
+
+-- The music file used as default background music on this map.
+-- Other musics will have to handled through scripting.
+music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
-local GlobalEvents = {};
 
 -- the main character handler
 local hero = {};
@@ -377,7 +374,6 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
-    GlobalEvents = Map.map_event_group;
 
     Map.unlimited_stamina = false;
 
@@ -528,10 +524,6 @@ function _CreateObjects()
     entrance_trigger_rock = CreateObject(Map, "Rock1", 115, 79);
     if (trigger:GetState() == true) then
         map_functions.make_entrance_rock_invisible();
-
-        -- FIXME: Remove this useless piece of script for the release.
-        -- I added this to permit early players to get the tree shortcut.
-        GlobalManager:SetEventValue("story", "layna_forest_trees_shorcut_open", 1);
     end
     Map:AddGroundObject(entrance_trigger_rock);
 
@@ -768,10 +760,12 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west.lua", "from_layna_cave_entrance");
+    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_cave_entrance");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2.lua", "from_layna_cave_entrance");
+    event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_cave_entrance");
     EventManager:RegisterEvent(event);
 
     -- Heal point

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -176,7 +177,15 @@ void BindEngineCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_system")
         [
             luabind::def("Translate", &hoa_system::Translate),
+            luabind::def("CTranslate", &hoa_system::CTranslate),
             luabind::def("UTranslate", &hoa_system::UTranslate),
+            luabind::def("CUTranslate", &hoa_system::CUTranslate),
+
+            // Specializaton of c-formatted translation bounds
+            luabind::def("VTranslate", (std::string(*)(const std::string&, uint32)) &hoa_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, int32)) &hoa_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, float)) &hoa_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, const std::string&)) &hoa_system::VTranslate),
 
             luabind::class_<SystemTimer>("SystemTimer")
             .def(luabind::constructor<>())
