@@ -23,6 +23,7 @@
 ***   - OpenDarwin #ifdef __MACH__
 ***   - Linux      #ifdef __linux__
 ***   - FreeBSD    #ifdef __FreeBSD__
+***   - OpenBSD    #ifdef __OpenBSD__
 ***   - Solaris    #ifdef SOLARIS
 ***   - BeOS       #ifdef __BEOS__
 ***
