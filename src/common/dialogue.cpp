@@ -251,7 +251,6 @@ void CommonDialogueWindow::Clear()
 
 void CommonDialogueWindow::Draw()
 {
-    // Temporarily change the coordinate system to 1024x768 and draw the contents of the dialogue window
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
@@ -259,20 +258,17 @@ void CommonDialogueWindow::Draw()
     VideoManager->Move(_pos_x, _pos_y);
     _parchment_image.Draw();
 
-    // TODO: nameplate is not drawn for now because its not visually appealing. Eventually we'll either decide
-    // to remove it entirely or re-enable it with an improved nameplate.
-// 	VideoManager->MoveRelative(-370.0f, -10.0f);
-// 	_nameplate_image.Draw();
+    VideoManager->MoveRelative(-370.0f, -45.0f);
+    if(_portrait_image)
+        _portrait_image->Draw();
 
-    VideoManager->MoveRelative(-370.0f, -15.0f);
+   VideoManager->MoveRelative(0.0f, 30.0f);
+   _nameplate_image.Draw();
+
+    VideoManager->MoveRelative(0.0f, -6.0f);
     _name_text.Draw();
 
-    if(_portrait_image != NULL) {
-        VideoManager->MoveRelative(0.0f, -25.0f);
-        _portrait_image->Draw();
-        VideoManager->MoveRelative(0.0f, 25.0f);
-    }
-
+    VideoManager->MoveRelative(0.0f, 5.0f);
     _blink_time += SystemManager->GetUpdateTime();
     if(_blink_time > 500) {
         _blink_time -= 500;
