@@ -119,8 +119,6 @@ VideoEngine::VideoEngine():
                                          VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissoring_enabled = false;
 
-    strcpy(_next_temp_file, "00000000");
-
     for(uint32 sample = 0; sample < FPS_SAMPLES; sample++)
         _fps_samples[sample] = 0;
 

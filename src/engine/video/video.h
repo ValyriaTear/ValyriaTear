@@ -851,9 +851,6 @@ private:
     //! Image used as a sub-fading overlay
     StillImage _fade_overlay_img;
 
-    //! eight character name for temp files that increments every time you create a new one so they are always unique
-    char _next_temp_file[9];
-
     //! Keeps whether debug info about the current game mode should be drawn.
     bool _debug_info;
 
