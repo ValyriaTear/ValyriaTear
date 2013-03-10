@@ -77,6 +77,7 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     _show_gui(true),
     _run_stamina(10000),
     _gui_alpha(0.0f),
+    _minimap(NULL),
     _show_minimap(false)
 {
     mode_type = MODE_MANAGER_MAP_MODE;
@@ -143,7 +144,6 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
 
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
-    _collision_map = NULL;
 }
 
 
@@ -155,7 +155,7 @@ MapMode::~MapMode()
     delete(_event_supervisor);
     delete(_dialogue_supervisor);
     delete(_treasure_supervisor);
-    if(_collision_map) delete _collision_map;
+    if(_minimap) delete _minimap;
 }
 
 void MapMode::Deactivate()
@@ -220,8 +220,8 @@ void MapMode::Reset()
     if(CurrentState() == private_map::STATE_EXPLORE)
         _object_supervisor->ReloadVisiblePartyMember();
 
-    if(!_CreateCollisionMap())
-        PRINT_WARNING << "Unable to create CollisionMap for " << _map_data_filename << std::endl;
+    if(!_CreateMinimap())
+        PRINT_WARNING << "Unable to create the minimap for " << _map_data_filename << std::endl;
 }
 
 
@@ -296,7 +296,7 @@ void MapMode::Update()
     _event_supervisor->Update();
 
     //update collision camera
-    _collision_map->Update(_camera, _gui_alpha);
+    _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
 } // void MapMode::Update()
@@ -317,9 +317,9 @@ void MapMode::Draw()
     GetScriptSupervisor().DrawForeground();
 
     //draw the collosion map as neccesary
-    if(_show_minimap && _collision_map && (CurrentState() != STATE_SCENE)
+    if(_show_minimap && _minimap && (CurrentState() != STATE_SCENE)
             && (CurrentState() != STATE_DIALOGUE))
-        _collision_map->Draw();
+        _minimap->Draw();
 
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
@@ -697,14 +697,14 @@ bool MapMode::_Load()
     return true;
 } // bool MapMode::_Load()
 
-bool MapMode::_CreateCollisionMap()
+bool MapMode::_CreateMinimap()
 {
-    if(_collision_map) {
-        delete _collision_map;
-        _collision_map = NULL;
+    if(_minimap) {
+        delete _minimap;
+        _minimap = NULL;
     }
 
-    _collision_map = new CollisionMap(_object_supervisor, this->GetMapScriptFilename());
+    _minimap = new Minimap(_object_supervisor, this->GetMapScriptFilename());
     return true;
 }
 

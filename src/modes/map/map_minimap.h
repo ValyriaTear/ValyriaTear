@@ -20,8 +20,9 @@
 #ifndef __MAP_MINIMAP_HEADER__
 #define __MAP_MINIMAP_HEADER__
 
-#include <string>
 #include "engine/video/image.h"
+
+#include <string>
 
 //forward declerations
 namespace hoa_gui
@@ -38,7 +39,7 @@ class ObjectSupervisor;
 class VirtualSprite;
 
 //! \brief Handles the Collision minimap generation, caching, drawing and updating the minimap
-class CollisionMap {
+class Minimap {
 public:
     /** \brief constructor taking the target map mode. This also creates the actual collision map
     *** Currently, there is only one global map supervisor instance, so technically I could call the static GetInstance function.
@@ -48,12 +49,12 @@ public:
     *** \param map_object_supervisor the target map object supervisor
     *** \param map_name name of the actual map we are generating for
     **/
-    CollisionMap(ObjectSupervisor *map_object_supervisor, const std::string &map_name);
+    Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map_name);
 
-    CollisionMap() {}
+    Minimap() {}
 
-    ~CollisionMap() {
-        _collision_map_image.Clear();
+    ~Minimap() {
+        _minimap_image.Clear();
         _location_marker.Clear();
     }
 
@@ -70,7 +71,7 @@ public:
 
 private:
     //! \brief the generated collision map image for this collision map
-    hoa_video::StillImage _collision_map_image;
+    hoa_video::StillImage _minimap_image;
 
     //! \brief creates the procedural collision map
     SDL_Surface *_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor);

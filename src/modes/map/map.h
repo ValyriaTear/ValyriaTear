@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
 //            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
@@ -44,7 +44,7 @@ namespace hoa_map
 namespace private_map
 {
 class Light;
-class CollisionMap;
+class Minimap;
 } // namespace private_map
 
 /** ****************************************************************************
@@ -449,8 +449,8 @@ private:
     std::string _music_filename;
     hoa_audio::AUDIO_STATE _audio_state;
 
-    //! \brief the collision map (minimap) for the current map instance
-    private_map::CollisionMap *_collision_map;
+    //! \brief the minimap for the current map instance
+    private_map::Minimap *_minimap;
 
     //! \brief flag that enables minimap rendering or not
     bool _show_minimap;
@@ -466,7 +466,7 @@ private:
     *** actual rendering is done through SDL, as we currently don't have off-screen rendering / render
     *** to texture available throught he hoa_engine
     **/
-    bool _CreateCollisionMap();
+    bool _CreateMinimap();
 
     //! \brief A helper function to Update() that is called only when the map is in the explore state
     void _UpdateExplore();

@@ -50,7 +50,7 @@ struct SDLSurfaceController {
 static hoa_video::Color default_opacity = hoa_video::Color(1.0f, 1.0f, 1.0f, 0.75f);
 static hoa_video::Color overlap_opacity = hoa_video::Color(1.0f, 1.0f, 1.0f, 0.65f);
 
-CollisionMap::CollisionMap(ObjectSupervisor *map_object_supervisor, const std::string &map_name) :
+Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map_name) :
     _current_position_x(-1),
     _current_position_y(-1),
     _box_x_length(20.0f),
@@ -89,7 +89,7 @@ CollisionMap::CollisionMap(ObjectSupervisor *map_object_supervisor, const std::s
     SDL_FreeSurface(temp_surface);
     //do the image file creationg
     std::string map_name_cmap = map_name + "_cmap";
-    _collision_map_image = hoa_video::VideoManager->CreateImage(&temp_data, map_name_cmap );
+    _minimap_image = hoa_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
     free(temp_data.pixels);
 
     //setup the map window, if it isn't already created
@@ -106,7 +106,7 @@ CollisionMap::CollisionMap(ObjectSupervisor *map_object_supervisor, const std::s
     _location_marker.SetFrameIndex(0);
 }
 
-static inline void prepare_surface(SDL_Surface *temp_surface)
+static inline void _PrepareSurface(SDL_Surface *temp_surface)
 {
     static SDLSurfaceController white_noise("img/menus/minimap_collision.png");
     SDL_Rect r;
@@ -129,7 +129,7 @@ static inline void prepare_surface(SDL_Surface *temp_surface)
     }
 }
 
-SDL_Surface *CollisionMap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
+SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 {
 
     float x, y, width, height;
@@ -161,7 +161,7 @@ SDL_Surface *CollisionMap::_ProcedurallyDraw(ObjectSupervisor *map_object_superv
     //context against the map-grid's collision context. if this is NOT a colidable location
     //fill that square in with a full alpha block
     //note that the ordering needs to be transposed for drawing
-    prepare_surface(temp_surface);
+    _PrepareSurface(temp_surface);
 
     for(uint32 row = 0; row < _grid_width; ++row)
     {
@@ -188,7 +188,7 @@ SDL_Surface *CollisionMap::_ProcedurallyDraw(ObjectSupervisor *map_object_superv
     return temp_surface;
 }
 
-void CollisionMap::Draw()
+void Minimap::Draw()
 {
     using namespace hoa_video;
     if(_current_position_x > -1)
@@ -215,7 +215,7 @@ void CollisionMap::Draw()
         VideoManager->Move(0, 0);
         //adjust the currnet opacity for the map scale
 
-        _collision_map_image.Draw(resultant_opacity + Color(0.0f, 0.0f, 0.0f, -0.15f));
+        _minimap_image.Draw(resultant_opacity + Color(0.0f, 0.0f, 0.0f, -0.15f));
 
         VideoManager->Move(x_location, y_location);
         _location_marker.Draw(resultant_opacity);
@@ -228,7 +228,7 @@ void CollisionMap::Draw()
     }
 }
 
-void CollisionMap::Update(VirtualSprite *camera, float map_alpha_scale)
+void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
 {
     //in case the camera isn't specified, we don't do anything
     if(!camera)
@@ -244,8 +244,8 @@ void CollisionMap::Update(VirtualSprite *camera, float map_alpha_scale)
 
     //update the opacity based on the camera location.
     //we decrease the opacity if it is in the region covered by the collision map
-    if((_collision_map_image.GetWidth() - _x_cent) <= 180.0f &&
-            (_collision_map_image.GetHeight() - _y_cent) <= 115.0f)
+    if((_minimap_image.GetWidth() - _x_cent) <= 180.0f &&
+            (_minimap_image.GetHeight() - _y_cent) <= 115.0f)
         _current_opacity = &overlap_opacity;
     else
         _current_opacity = &default_opacity;
