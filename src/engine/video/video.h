@@ -368,7 +368,6 @@ public:
     *** \param width current width as a float
     *** \param height current height as a float
     **/
-
     void GetCurrentViewport(float &x, float &y, float &width, float &height)
     {
         static GLint viewport_dimensions[4] = {(GLint)0};
@@ -377,15 +376,14 @@ public:
         y = (float) viewport_dimensions[1];
         width = (float) viewport_dimensions[2];
         height = (float) viewport_dimensions[3];
-
     }
+
     /** \brief assigns the viewport for open gl to draw into
     *** \param x the x start location
     *** \param y the y start location
     *** \param width the x width
     *** \param height the y height
     **/
-
     void SetViewport(float x, float y, float width, float height)
     {
         if(width <= 0 || height <= 0)

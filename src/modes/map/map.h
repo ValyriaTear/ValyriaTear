@@ -32,7 +32,7 @@
 #include "engine/system.h"
 
 #include "map_utils.h"
-#include "modes/map/map_minimap.h"
+#include "map_minimap.h"
 
 #include "engine/audio/audio_descriptor.h"
 
@@ -281,15 +281,13 @@ public:
     //! the x position of a tile position on the Y axis.
     float GetScreenYCoordinate(float tile_position_y) const;
 
-    //! \brief toggles visibility of collision map
-    //! \param the new state of the collision map visibility
+    //! \brief toggles visibility of the minimap
+    //! \param the new state of the minimap visibility
     //! \return the previous state of visibility before changing
-    bool SetCollisionMapVisibility(bool visibility)
-    {
-        bool previous_visibility = _show_collision_map;
-        _show_collision_map = visibility;
+    bool ShowMinimap(bool visibility) {
+        bool previous_visibility = _show_minimap;
+        _show_minimap = visibility;
         return previous_visibility;
-
     }
     //@}
 
@@ -451,11 +449,11 @@ private:
     std::string _music_filename;
     hoa_audio::AUDIO_STATE _audio_state;
 
-    //! \brief the collision map for the current map instance
+    //! \brief the collision map (minimap) for the current map instance
     private_map::CollisionMap *_collision_map;
 
-    //! \brief flag that enables collision map rendering or not
-    bool _show_collision_map;
+    //! \brief flag that enables minimap rendering or not
+    bool _show_minimap;
 
     // ----- Methods -----
 

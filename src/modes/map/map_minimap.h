@@ -1,6 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2013 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -23,12 +22,13 @@
 
 #include <string>
 #include "engine/video/image.h"
+
 //forward declerations
 namespace hoa_gui
 {
     class MenuWindow;
-
 }
+
 namespace hoa_map
 {
 namespace private_map
@@ -36,6 +36,7 @@ namespace private_map
 
 class ObjectSupervisor;
 class VirtualSprite;
+
 //! \brief Handles the Collision minimap generation, caching, drawing and updating the minimap
 class CollisionMap {
 public:
@@ -48,9 +49,10 @@ public:
     *** \param map_name name of the actual map we are generating for
     **/
     CollisionMap(ObjectSupervisor *map_object_supervisor, const std::string &map_name);
-    CollisionMap(){}
-    ~CollisionMap()
-    {
+
+    CollisionMap() {}
+
+    ~CollisionMap() {
         _collision_map_image.Clear();
         _location_marker.Clear();
     }
@@ -113,7 +115,6 @@ private:
 
     //! \brief specifies the additive alpha we get from the map class
     float _map_alpha_scale;
-
 };
 
 }

@@ -877,9 +877,10 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     {
         throw Exception("raw_image is NULL, cannot create a StillImage", __FILE__, __LINE__, __FUNCTION__);
         return still_image;
-
     }
+
     still_image.SetDimensions(raw_image->width, raw_image->height);
+
     //Check to see if the image_name exists
     if(TextureManager->_IsImageTextureRegistered(image_name))
     {
@@ -896,7 +897,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
             throw Exception("image already exists in texture manager", __FILE__, __LINE__, __FUNCTION__);
             return still_image;
         }
-
     }
 
     //create a new texture image. the next few steps are similar to CaptureImage, so in the future
@@ -906,12 +906,14 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     // Create a texture sheet of an appropriate size that can retain the capture
     TexSheet *temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(raw_image->width), RoundUpPow2(raw_image->height), VIDEO_TEXSHEET_ANY, false);
     VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
+
     // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
     if(sheet == NULL) {
         delete new_image;
         throw Exception("could not create texture sheet to store still image", __FILE__, __LINE__, __FUNCTION__);
         return still_image;
     }
+
     if(sheet->InsertTexture(new_image) == false)
     {
         TextureManager->_RemoveSheet(sheet);
@@ -919,6 +921,7 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
         throw Exception("could not insert raw image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
         return still_image;
     }
+
     if(sheet->CopyRect(0, 0, *raw_image) == false)
     {
         TextureManager->_RemoveSheet(sheet);
@@ -932,8 +935,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     still_image._image_texture = new_image;
     still_image._texture = new_image;
     return still_image;
-
-
 }
 
 void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c)

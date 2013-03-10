@@ -230,8 +230,7 @@ function Load(m)
     EventManager = Map.event_supervisor;
 
     Map.unlimited_stamina = false;
-    -- set the collision map visibility to true
-    Map:SetCollisionMapVisibility(true);
+    Map:ShowMinimap(true);
 
     _CreateCharacters();
     _CreateObjects();

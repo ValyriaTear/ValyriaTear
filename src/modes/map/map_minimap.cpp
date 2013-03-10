@@ -1,6 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2013 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2013 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -8,13 +7,21 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file    minimap.cpp
+*** \author  TNik N (IkarusDowned) nihonnik@gmail.com
+*** \brief   Source file for the minimaps.
+*** ***************************************************************************/
+
 #include "modes/map/map_minimap.h"
-#include <algorithm>
 
 #include "modes/map/map_objects.h"
 #include "modes/map/map_sprites.h"
+
 #include "engine/video/video.h"
 #include "common/gui/menu_window.h"
+
+#include <algorithm>
 #include <SDL_image.h>
 
 namespace hoa_map
@@ -30,9 +37,7 @@ struct SDLSurfaceController {
         _surface(IMG_Load(str))
     {
         if(!_surface)
-        {
             PRINT_ERROR << "Couldn't create white_noise image for collision map: " << SDL_GetError() << std::endl;
-        }
     }
 
     ~SDLSurfaceController()
@@ -59,11 +64,13 @@ CollisionMap::CollisionMap(ObjectSupervisor *map_object_supervisor, const std::s
     if(!map_object_supervisor)
     {
         PRINT_ERROR << "map object supervisor is not instantiated" << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     //save the viewport
-    hoa_video::VideoManager->GetCurrentViewport(_viewport_original_x, _viewport_original_y, _viewport_original_width, _viewport_original_height);
+    hoa_video::VideoManager->GetCurrentViewport(_viewport_original_x, _viewport_original_y,
+                                                _viewport_original_width, _viewport_original_height);
+
     //create a temporary SDL surface on which to generate the collision map
     SDL_Surface *temp_surface = _ProcedurallyDraw(map_object_supervisor);
 
@@ -86,7 +93,7 @@ CollisionMap::CollisionMap(ObjectSupervisor *map_object_supervisor, const std::s
     free(temp_data.pixels);
 
     //setup the map window, if it isn't already created
-    _background.Load("img/menus/themes/royal_silk/cmap_background.png");
+    _background.Load("img/menus/minimap_background.png");
     _background.SetStatic(true);
     _background.SetHeight(173.0f);
     _background.SetWidth(235.0f);
@@ -97,13 +104,11 @@ CollisionMap::CollisionMap(ObjectSupervisor *map_object_supervisor, const std::s
     _location_marker.SetWidth(_box_x_length * 5);
     _location_marker.SetHeight(_box_y_length * 5);
     _location_marker.SetFrameIndex(0);
-
-
 }
 
 static inline void prepare_surface(SDL_Surface *temp_surface)
 {
-    static SDLSurfaceController white_noise("img/misc/white_noise_2.png");
+    static SDLSurfaceController white_noise("img/menus/minimap_collision.png");
     SDL_Rect r;
     r.x = r.y = 0;
 
@@ -120,10 +125,7 @@ static inline void prepare_surface(SDL_Surface *temp_surface)
                 PRINT_ERROR << "Couldnt fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                 exit(EXIT_FAILURE);
             }
-
         }
-
-
     }
 }
 
@@ -134,18 +136,20 @@ SDL_Surface *CollisionMap::_ProcedurallyDraw(ObjectSupervisor *map_object_superv
     hoa_video::VideoManager->GetCurrentViewport(x, y, width, height);
 
     map_object_supervisor->GetGridAxis(_grid_width, _grid_height);
-    //create a new SDL surface that is the rendering dimensions we want.
-    //note: my assumption is all target supported architectures are little endian, but if not we need to make the macro-check here
-    SDL_Surface *temp_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-                                                     _grid_width * _box_x_length, _grid_height * _box_y_length,
-                                                     32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 
-    if(!temp_surface)
-    {
+    //create a new SDL surface that is the rendering dimensions we want.
+    SDL_Surface *temp_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                                     _grid_width * _box_x_length, _grid_height * _box_y_length, 32,
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+                                                     0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+#else
+                                                     0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+#endif
+
+    if(!temp_surface) {
         PRINT_ERROR << "Couldn't create temp_surface for collision map: " << SDL_GetError() << std::endl;
         exit(EXIT_FAILURE);
     }
-
 
     //set the basic rect information
     SDL_Rect r;
@@ -178,6 +182,7 @@ SDL_Surface *CollisionMap::_ProcedurallyDraw(ObjectSupervisor *map_object_superv
         }
         r.x += _box_x_length;
     }
+
     //flush the SDL surface. This forces any pending writes onto the surface to complete
     SDL_UpdateRect(temp_surface, 0, 0, 0, 0);
     return temp_surface;
@@ -218,18 +223,19 @@ void CollisionMap::Draw()
         VideoManager->PopState();
 
         //remember kids: please be kind and rewind!
-        VideoManager->SetViewport(_viewport_original_x, _viewport_original_y, _viewport_original_width, _viewport_original_height);
-
+        VideoManager->SetViewport(_viewport_original_x, _viewport_original_y,
+                                  _viewport_original_width, _viewport_original_height);
     }
 }
 
 void CollisionMap::Update(VirtualSprite *camera, float map_alpha_scale)
 {
-
     //in case the camera isn't specified, we don't do anything
     if(!camera)
         return;
+
     _map_alpha_scale = map_alpha_scale;
+
     //get the collision-map transformed location of the camera
     _current_position_x = camera->GetPosition().x;
     _current_position_y = camera->GetPosition().y;
@@ -237,10 +243,9 @@ void CollisionMap::Update(VirtualSprite *camera, float map_alpha_scale)
     _y_cent = _box_y_length * _current_position_y;
 
     //update the opacity based on the camera location.
-    //we decrease the opacity if it is in the region covered by the
-    //collision map
+    //we decrease the opacity if it is in the region covered by the collision map
     if((_collision_map_image.GetWidth() - _x_cent) <= 180.0f &&
-       (_collision_map_image.GetHeight() - _y_cent) <= 115.0f)
+            (_collision_map_image.GetHeight() - _y_cent) <= 115.0f)
         _current_opacity = &overlap_opacity;
     else
         _current_opacity = &default_opacity;
@@ -248,7 +253,6 @@ void CollisionMap::Update(VirtualSprite *camera, float map_alpha_scale)
     //update the orthographic projection information based on the camera location
     //we "lock" the minimap so that if it is against an edge of the map the orthographic
     //projection doesn't roll over the edge.
-
     if(_x_cent - _x_half_len < 0)
         _x_cent = _x_half_len;
     if(_x_cent + _x_half_len > _grid_width * _box_x_length)

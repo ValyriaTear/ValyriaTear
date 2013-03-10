@@ -429,6 +429,8 @@ modes/map/map_treasure.cpp
 modes/map/map_sprites.h
 modes/map/map_zones.cpp
 modes/map/map_objects.h
+modes/map/map_minimap.cpp
+modes/map/map_minimap.h
 modes/menu/menu.h
 modes/menu/menu.cpp
 modes/menu/menu_views.cpp

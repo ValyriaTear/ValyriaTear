@@ -22,7 +22,6 @@
 #include "modes/map/map_sprites.h"
 #include "modes/map/map_tiles.h"
 
-
 #include "modes/menu/menu.h"
 #include "modes/pause.h"
 #include "modes/boot/boot.h"
@@ -78,7 +77,7 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     _show_gui(true),
     _run_stamina(10000),
     _gui_alpha(0.0f),
-    _show_collision_map(false)
+    _show_minimap(false)
 {
     mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
@@ -234,7 +233,6 @@ void MapMode::Update()
     // least once before setting the pause mode, avoiding a crash.
     _UpdateMapFrame();
 
-
     // Process quit and pause events unconditional to the state of map mode
     if(InputManager->QuitPress()) {
         ModeManager->Push(new PauseMode(true));
@@ -301,10 +299,7 @@ void MapMode::Update()
     _collision_map->Update(_camera, _gui_alpha);
 
     GameMode::Update();
-
 } // void MapMode::Update()
-
-
 
 void MapMode::Draw()
 {
@@ -322,15 +317,13 @@ void MapMode::Draw()
     GetScriptSupervisor().DrawForeground();
 
     //draw the collosion map as neccesary
-    if(_show_collision_map && _collision_map && (CurrentState() != STATE_SCENE))
+    if(_show_minimap && _collision_map && (CurrentState() != STATE_SCENE)
+            && (CurrentState() != STATE_DIALOGUE))
         _collision_map->Draw();
 
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _object_supervisor->DrawDialogIcons();
-
-
-
 }
 
 void MapMode::DrawPostEffects()
@@ -347,20 +340,16 @@ void MapMode::DrawPostEffects()
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
-    // Draw the gui, unaffected by potential
-    // fading effects.
+    // Draw the gui, unaffected by potential fading effects.
     _DrawGUI();
-    if(CurrentState() == STATE_DIALOGUE) {
+
+    if(CurrentState() == STATE_DIALOGUE)
         _dialogue_supervisor->Draw();
-    }
 
     // Draw the treasure menu if necessary
     if(CurrentState() == STATE_TREASURE)
         _treasure_supervisor->Draw();
-
 }
-
-
 
 void MapMode::ResetState()
 {
@@ -710,11 +699,11 @@ bool MapMode::_Load()
 
 bool MapMode::_CreateCollisionMap()
 {
-    if(!_collision_map)
-    {
+    if(_collision_map) {
         delete _collision_map;
         _collision_map = NULL;
     }
+
     _collision_map = new CollisionMap(_object_supervisor, this->GetMapScriptFilename());
     return true;
 }

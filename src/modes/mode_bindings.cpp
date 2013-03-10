@@ -114,7 +114,7 @@ void BindModeCode()
             .def("GetScreenXCoordinate", &MapMode::GetScreenXCoordinate)
             .def("GetScreenYCoordinate", &MapMode::GetScreenYCoordinate)
             .def("DrawMapLayers", &MapMode::_DrawMapLayers)
-            .def("SetCollisionMapVisibility", &MapMode::SetCollisionMapVisibility)
+            .def("ShowMinimap", &MapMode::ShowMinimap)
 
             // Namespace constants
             .enum_("constants") [
