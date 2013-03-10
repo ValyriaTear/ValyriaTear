@@ -262,11 +262,16 @@ void CommonDialogueWindow::Draw()
     if(_portrait_image)
         _portrait_image->Draw();
 
-   VideoManager->MoveRelative(0.0f, 30.0f);
-   _nameplate_image.Draw();
+    if (!_name_text.GetString().empty()) {
+        VideoManager->MoveRelative(0.0f, 30.0f);
+        _nameplate_image.Draw();
 
-    VideoManager->MoveRelative(0.0f, -6.0f);
-    _name_text.Draw();
+        VideoManager->MoveRelative(0.0f, -6.0f);
+        _name_text.Draw();
+    }
+    else {
+        VideoManager->MoveRelative(0.0f, 24.0f);
+    }
 
     VideoManager->MoveRelative(0.0f, 5.0f);
     _blink_time += SystemManager->GetUpdateTime();
