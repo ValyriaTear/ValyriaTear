@@ -1030,10 +1030,6 @@ void MapSprite::AddDialogueReference(uint32 dialogue_id)
 {
     _dialogue_references.push_back(dialogue_id);
     UpdateDialogueStatus();
-    // TODO: The call above causes a warning to be printed out if the sprite has been created but the dialogue has not yet.
-    // Map scripts typically create all sprites first (including their dialogue references) before creating the dialogues.
-    // We need a safe way to add dialogue references to the sprite without causing these warnings to be printed when the
-    // map is loading.
 }
 
 void MapSprite::ClearDialogueReferences()
@@ -1072,25 +1068,27 @@ void MapSprite::UpdateDialogueStatus()
     _has_available_dialogue = false;
     _has_unseen_dialogue = false;
 
+    SpriteDialogue *dialogue = NULL;
+
     for(uint32 i = 0; i < _dialogue_references.size(); i++) {
-        SpriteDialogue *dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
-        if(dialogue == NULL) {
-            IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << object_id << " is referencing unknown dialogue: " << _dialogue_references[i] << std::endl;
+        dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
+        if(!dialogue) {
+            PRINT_WARNING << "sprite: " << object_id << " is referencing unknown dialogue: "
+                          << _dialogue_references[i] << std::endl;
             continue;
         }
 
-        if(dialogue->IsAvailable()) {
-            _has_available_dialogue = true;
-            if(_next_dialogue < 0)
-                _next_dialogue = i;
-        }
-        if(dialogue->HasAlreadySeen() == false) {
-            _has_unseen_dialogue = true;
-        }
-    }
+        // try and not take already seen dialogues.
+        // So we take only the last dialogue reference even if already seen.
+        if (dialogue->HasAlreadySeen() && i < _dialogue_references.size() - 1)
+            continue;
 
-    // TODO: if the sprite has available, unseen dialogue and the _next_dialogue pointer is pointing to a dialogue that is already seen, change it
-    // to point to the unseen available dialogue
+        _has_available_dialogue = true;
+        if(_next_dialogue < 0)
+            _next_dialogue = i;
+
+        _has_unseen_dialogue = !dialogue->HasAlreadySeen();
+    }
 }
 
 void MapSprite::IncrementNextDialogue()
@@ -1111,13 +1109,11 @@ void MapSprite::IncrementNextDialogue()
         }
 
         SpriteDialogue *dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[_next_dialogue]);
-        if(dialogue && dialogue->IsAvailable()) {
+        if(dialogue)
             return;
-        }
+
         // If this case occurs, all dialogues are now unavailable
         else if(_next_dialogue == last_dialogue) {
-            IF_PRINT_WARNING(MAP_DEBUG) << "all referenced dialogues are now unavailable for this sprite" << std::endl;
-            _has_available_dialogue = false;
             _has_unseen_dialogue = false;
             _dialogue_started = false;
             return;

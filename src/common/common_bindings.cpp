@@ -63,16 +63,6 @@ void BindCommonCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_common")
         [
             luabind::class_<CommonDialogue>("CommonDialogue")
-            // TODO: add commented lines back in later. There is a build issue with the editor when these lines are included
-// 			.def("AddLine", (void(CommonDialogue::*)(std::string))&CommonDialogue::AddLine)
-// 			.def("AddLine", (void(CommonDialogue::*)(std::string, int32))&CommonDialogue::AddLine)
-// 			.def("AddLineTimed", (void(CommonDialogue::*)(std::string, uint32))&CommonDialogue::AddLineTimed)
-// 			.def("AddLineTimed", (void(CommonDialogue::*)(std::string, int32, uint32))&CommonDialogue::AddLineTimed)
-// 			.def("AddOption", (void(CommonDialogue::*)(std::string))&CommonDialogue::AddOption)
-// 			.def("AddOption", (void(CommonDialogue::*)(std::string, int32))&CommonDialogue::AddOption)
-            .def("HasAlreadySeen", &CommonDialogue::HasAlreadySeen)
-            .def("SetTimesSeen", &CommonDialogue::SetTimesSeen)
-            .def("SetMaxViews", &CommonDialogue::SetMaxViews)
         ];
 
     } // End using common namespace

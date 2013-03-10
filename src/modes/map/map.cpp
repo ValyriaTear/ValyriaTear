@@ -179,9 +179,6 @@ void MapMode::Reset()
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
-    // Set the active instance pointer to this map
-    MapMode::_current_instance = this;
-
     // Make the map location known globally to other code that may need to know this information
     GlobalManager->SetMap(_map_data_filename, _map_script_filename,
                           _map_image.GetFilename(), _map_hud_name);
@@ -675,21 +672,6 @@ bool MapMode::_Load()
 
     _update_function = _map_script.ReadFunctionPointer("Update");
     _draw_function = _map_script.ReadFunctionPointer("Draw");
-
-    // ---------- (6) Prepare all sprites with dialogue
-    // This is done at this stage because the map script's load function creates the sprite and dialogue objects. Only after
-    // both sets are created can we determine which sprites have active dialogue.
-
-    // TODO: Need to figure out a new function appropriate for this code?
-    // TEMP: The line below is very bad to do, but is necessary for the UpdateDialogueStatus function to work correctly
-    _current_instance = this;
-    for(std::map<uint16, MapObject *>::iterator it = _object_supervisor->_all_objects.begin();
-            it != _object_supervisor->_all_objects.end(); ++it) {
-        if(it->second->GetType() == SPRITE_TYPE) {
-            MapSprite *sprite = dynamic_cast<MapSprite *>(it->second);
-            sprite->UpdateDialogueStatus();
-        }
-    }
 
     _map_script.CloseAllTables();
     _map_script.CloseFile(); // Free the map script file once everything is loaded

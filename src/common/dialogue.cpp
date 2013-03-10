@@ -35,8 +35,7 @@ namespace hoa_common
 
 CommonDialogue::CommonDialogue(uint32 id) :
     _dialogue_id(id),
-    _times_seen(0),
-    _max_views(COMMON_DIALOGUE_INFINITE_VIEWS),
+    _dialogue_seen(false),
     _line_count(0)
 {}
 
@@ -120,13 +119,6 @@ bool CommonDialogue::Validate()
     // Valid dialogues need to have at least one line
     if(_line_count == 0) {
         IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id << ": no lines" << std::endl;
-        return false;
-    }
-
-    // Check that the dialogue has not been seen more times than it is allowed to be viewed
-    if((_max_views != COMMON_DIALOGUE_INFINITE_VIEWS) && (_times_seen > static_cast<uint32>(_max_views))) {
-        IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-                                       << ": discrepency in max/seen view counts" << std::endl;
         return false;
     }
 

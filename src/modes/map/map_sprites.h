@@ -460,9 +460,7 @@ protected:
     **/
     int16 _next_dialogue;
 
-    /** \brief True if the sprite references at least one available dialogue
-    *** \note A dialogue may become unavailable if it reaches its max view count
-    **/
+    //! \brief True if the sprite references at least one dialogue
     bool _has_available_dialogue;
 
     //! \brief True if at least one dialogue referenced by this sprite has not yet been viewed -and- is available to be viewed
