@@ -201,8 +201,14 @@ public:
     virtual void Update()
     {}
 
-    //! \brief Draws the menu window to the screen.
-    void Draw();
+    //! \brief Draws the menu window to the screen with default color and opacity
+    void Draw()
+    {
+        Draw(hoa_video::Color::white);
+    }
+
+    //! \brief Draws the menu window to the screen with a specified color and opacity
+    void Draw(const hoa_video::Color& color);
 
     /** \brief Causes the menu to begin making itself visible.
     *** Depending on the display mode, the menu might show instantly or gradually.

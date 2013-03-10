@@ -362,6 +362,41 @@ public:
     **/
     void SetCoordSys(const CoordSys &coordinate_system);
 
+    /** \brief get the current viewport information
+    *** \param x the current x location as a float
+    *** \param y the current y location as a float
+    *** \param width current width as a float
+    *** \param height current height as a float
+    **/
+
+    void GetCurrentViewport(float &x, float &y, float &width, float &height)
+    {
+        static GLint viewport_dimensions[4] = {(GLint)0};
+        glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
+        x = (float) viewport_dimensions[0];
+        y = (float) viewport_dimensions[1];
+        width = (float) viewport_dimensions[2];
+        height = (float) viewport_dimensions[3];
+
+    }
+    /** \brief assigns the viewport for open gl to draw into
+    *** \param x the x start location
+    *** \param y the y start location
+    *** \param width the x width
+    *** \param height the y height
+    **/
+
+    void SetViewport(float x, float y, float width, float height)
+    {
+        if(width <= 0 || height <= 0)
+        {
+            PRINT_WARNING << "attempted to set an invalid viewport size: " << x << "," << y
+                << " at " << width << ":" << height << std::endl;
+            return;
+        }
+        glViewport((GLint) x, (GLint)y, (GLsizei)width, (GLsizei)height);
+    }
+
     //! Perform the OpenGL corresponding calls, but only if necessary.
     void EnableAlphaTest();
     void DisableAlphaTest();
@@ -515,6 +550,19 @@ public:
     *** large amount of texutre memory (roughly 3GB for a 1024x768 screen).
     **/
     StillImage CaptureScreen() throw(hoa_utils::Exception);
+
+    /** \brief Creates an image based on the raw image information passed in. This
+    *** image can be rendered or used as a texture by the rendering system
+    *** \param raw_image a pointer to a valid ImageMemory. It is assumed all the parameters such as width and height are set,
+    *** and that the size of a pixel is 4-bytes wide
+    *** \param image_name The unique image name that we will use to create this image. Note that if it is not unique we throw an Exception
+    *** if delete_on_exist is not set to true (default)
+    *** \param delete_on_exist Flag that indicates whether or not to destroy the image from the TextureManager if the image_name exists.
+    *** Default true
+    *** \return a valid StillImage that is created from the input parameter
+    *** \throw Exception if the new image cannot be created
+    **/
+    StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(hoa_utils::Exception);
 
     /** \brief Returns a pointer to the GUIManager singleton object
     *** This method allows the user to perform text operations. For example, to load a

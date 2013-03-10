@@ -1553,6 +1553,35 @@ void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
     } // y
 }
 
+bool ObjectSupervisor::IsStaticCollision(uint32 x, uint32 y)
+{
+
+    //if the map's collision context is set to 1, we can return since we know there is a collision
+    if(IsMapCollision(x, y))
+        return true;
+
+    std::vector<hoa_map::private_map::MapObject *>::const_iterator it, it_end;
+    for(it = _ground_objects.begin(), it_end = _ground_objects.end(); it != it_end; ++it) {
+        MapObject *collision_object = *it;
+        // Check if the object exists and has the no_collision property enabled
+        if(!collision_object || collision_object->collision_mask == NO_COLLISION)
+            continue;
+
+        //only check physical objects. we don't care about sprites and enemies, treasure boxes, etc
+        if(collision_object->GetObjectType() != PHYSICAL_TYPE)
+            continue;
+
+        //get the rect. if the x and y fields are within the rect, we have a collision here
+        MapRectangle rect = collision_object->GetCollisionRectangle();
+        //we know x and y are inside the map. So, just test then as a box vs point test
+        if(rect.top <= y && y <= rect.bottom &&
+           rect.left <= x && x <= rect.right)
+           return true;
+    }
+
+    return false;
+}
+
 } // namespace private_map
 
 } // namespace hoa_map
