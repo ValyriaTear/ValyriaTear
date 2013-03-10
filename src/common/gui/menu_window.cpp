@@ -170,8 +170,7 @@ void MenuWindow::Update(uint32 frame_time)
 } // void MenuWindow::Update(uint32 frame_time)
 
 
-
-void MenuWindow::Draw()
+void MenuWindow::Draw(const Color& color)
 {
     if(_initialized == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "the menu window was not initialized:\n" << _initialization_errors << std::endl;
@@ -195,7 +194,7 @@ void MenuWindow::Draw()
     }
 
     VideoManager->Move(_x_position, _y_position);
-    _menu_image.Draw(Color::white);
+    _menu_image.Draw(color);
 
     if(GUIManager->DEBUG_DrawOutlines() == true) {
         _DEBUG_DrawOutline();

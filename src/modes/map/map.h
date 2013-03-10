@@ -32,6 +32,7 @@
 #include "engine/system.h"
 
 #include "map_utils.h"
+#include "modes/map/map_minimap.h"
 
 #include "engine/audio/audio_descriptor.h"
 
@@ -43,6 +44,7 @@ namespace hoa_map
 namespace private_map
 {
 class Light;
+class CollisionMap;
 } // namespace private_map
 
 /** ****************************************************************************
@@ -279,6 +281,16 @@ public:
     //! the x position of a tile position on the Y axis.
     float GetScreenYCoordinate(float tile_position_y) const;
 
+    //! \brief toggles visibility of collision map
+    //! \param the new state of the collision map visibility
+    //! \return the previous state of visibility before changing
+    bool SetCollisionMapVisibility(bool visibility)
+    {
+        bool previous_visibility = _show_collision_map;
+        _show_collision_map = visibility;
+        return previous_visibility;
+
+    }
     //@}
 
 private:
@@ -439,10 +451,24 @@ private:
     std::string _music_filename;
     hoa_audio::AUDIO_STATE _audio_state;
 
+    //! \brief the collision map for the current map instance
+    private_map::CollisionMap *_collision_map;
+
+    //! \brief flag that enables collision map rendering or not
+    bool _show_collision_map;
+
     // ----- Methods -----
 
     //! \brief Loads all map data contained in the Lua file that defines the map
     bool _Load();
+
+    /** \brief Auto-generates the Collision mini-map for the current location.
+    *** This is done by using the collision markers in the current map context and setting up an image where
+    *** areas that cannot be moved onto, and mapping them as "white" blocks into a black image
+    *** actual rendering is done through SDL, as we currently don't have off-screen rendering / render
+    *** to texture available throught he hoa_engine
+    **/
+    bool _CreateCollisionMap();
 
     //! \brief A helper function to Update() that is called only when the map is in the explore state
     void _UpdateExplore();

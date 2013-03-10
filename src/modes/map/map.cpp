@@ -22,6 +22,7 @@
 #include "modes/map/map_sprites.h"
 #include "modes/map/map_tiles.h"
 
+
 #include "modes/menu/menu.h"
 #include "modes/pause.h"
 #include "modes/boot/boot.h"
@@ -76,7 +77,8 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     _unlimited_stamina(false),
     _show_gui(true),
     _run_stamina(10000),
-    _gui_alpha(0.0f)
+    _gui_alpha(0.0f),
+    _show_collision_map(false)
 {
     mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
@@ -142,6 +144,7 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
 
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
+    _collision_map = NULL;
 }
 
 
@@ -153,6 +156,7 @@ MapMode::~MapMode()
     delete(_event_supervisor);
     delete(_dialogue_supervisor);
     delete(_treasure_supervisor);
+    if(_collision_map) delete _collision_map;
 }
 
 void MapMode::Deactivate()
@@ -216,6 +220,9 @@ void MapMode::Reset()
     // I.e: When going out of the menu mode.
     if(CurrentState() == private_map::STATE_EXPLORE)
         _object_supervisor->ReloadVisiblePartyMember();
+
+    if(!_CreateCollisionMap())
+        PRINT_WARNING << "Unable to create CollisionMap for " << _map_data_filename << std::endl;
 }
 
 
@@ -226,6 +233,7 @@ void MapMode::Update()
     // NOTE: It's done before handling pause so that the frame is updated at
     // least once before setting the pause mode, avoiding a crash.
     _UpdateMapFrame();
+
 
     // Process quit and pause events unconditional to the state of map mode
     if(InputManager->QuitPress()) {
@@ -289,7 +297,11 @@ void MapMode::Update()
     // ---------- (5) Update all active map events
     _event_supervisor->Update();
 
+    //update collision camera
+    _collision_map->Update(_camera, _gui_alpha);
+
     GameMode::Update();
+
 } // void MapMode::Update()
 
 
@@ -309,9 +321,16 @@ void MapMode::Draw()
     VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawForeground();
 
+    //draw the collosion map as neccesary
+    if(_show_collision_map && _collision_map && (CurrentState() != STATE_SCENE))
+        _collision_map->Draw();
+
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _object_supervisor->DrawDialogIcons();
+
+
+
 }
 
 void MapMode::DrawPostEffects()
@@ -338,6 +357,7 @@ void MapMode::DrawPostEffects()
     // Draw the treasure menu if necessary
     if(CurrentState() == STATE_TREASURE)
         _treasure_supervisor->Draw();
+
 }
 
 
@@ -688,7 +708,16 @@ bool MapMode::_Load()
     return true;
 } // bool MapMode::_Load()
 
-
+bool MapMode::_CreateCollisionMap()
+{
+    if(!_collision_map)
+    {
+        delete _collision_map;
+        _collision_map = NULL;
+    }
+    _collision_map = new CollisionMap(_object_supervisor, this->GetMapScriptFilename());
+    return true;
+}
 
 void MapMode::_UpdateExplore()
 {
