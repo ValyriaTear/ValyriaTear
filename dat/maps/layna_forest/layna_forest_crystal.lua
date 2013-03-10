@@ -377,7 +377,6 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    --_CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);

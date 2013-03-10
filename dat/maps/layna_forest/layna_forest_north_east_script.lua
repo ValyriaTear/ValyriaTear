@@ -32,6 +32,8 @@ function Load(m)
 
     Map.unlimited_stamina = false;
 
+    Map:ShowMinimap(true);
+
     _CreateCharacters();
     _CreateObjects();
     _CreateEnemies();

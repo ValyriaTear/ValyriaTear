@@ -368,6 +368,7 @@ function Load(m)
     EventManager = Map.event_supervisor;
 
     Map.unlimited_stamina = false;
+    Map:ShowMinimap(true);
 
     _CreateCharacters();
     _CreateObjects();
