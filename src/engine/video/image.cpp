@@ -515,14 +515,16 @@ void ImageDescriptor::_DrawOrientation() const
     if(current_context.y_flip) {
         y_off = _height;
     }
-
-    if(!VideoManager->_shake_forces.empty()) {
+// Avoid a useless dependency on the mode manager for the editor build
+#ifndef EDITOR_BUILD
+    if(VideoManager->IsScreenShaking()) {
         // Calculate x and y draw offsets due to any screen shaking effects
         float x_shake = VideoManager->_x_shake * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft()) / VIDEO_STANDARD_RES_WIDTH;
         float y_shake = VideoManager->_y_shake * (current_context.coordinate_system.GetTop() - current_context.coordinate_system.GetBottom()) / VIDEO_STANDARD_RES_HEIGHT;
         x_off += x_shake;
         y_off += y_shake;
     }
+#endif
 
     VideoManager->MoveRelative(x_off * current_context.coordinate_system.GetHorizontalDirection(), y_off * current_context.coordinate_system.GetVerticalDirection());
 

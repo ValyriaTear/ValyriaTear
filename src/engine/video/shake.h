@@ -18,34 +18,32 @@
 #define __SHAKE_HEADER__
 
 #include "utils.h"
+#include "interpolator.h"
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
 
 //! \brief Screen shake fall-off modes, which control the behavior of a screen shake.
 enum ShakeFalloff {
-    VIDEO_FALLOFF_INVALID = -1,
+    SHAKE_FALLOFF_INVALID = -1,
 
     //! Shake remains at constant force
-    VIDEO_FALLOFF_NONE = 0,
+    SHAKE_FALLOFF_NONE = 0,
 
     //! Shake starts out small, builds up, then dies down
-    VIDEO_FALLOFF_EASE = 1,
+    SHAKE_FALLOFF_EASE = 1,
 
     //! Shake strength decreases linearly until the end
-    VIDEO_FALLOFF_LINEAR = 2,
+    SHAKE_FALLOFF_LINEAR = 2,
 
     //! Shake decreases slowly and drops off quickly at the end
-    VIDEO_FALLOFF_GRADUAL = 3,
+    SHAKE_FALLOFF_GRADUAL = 3,
 
     //! Shake suddenly falls off, used for "impacts"
-    VIDEO_FALLOFF_SUDDEN = 4,
+    SHAKE_FALLOFF_SUDDEN = 4,
 
-    VIDEO_FALLOFF_TOTAL = 5
+    SHAKE_FALLOFF_TOTAL = 5
 };
-
-namespace private_video
-{
 
 /** ****************************************************************************
 *** \brief Represents the force of a screen shake
@@ -69,8 +67,6 @@ public:
     uint32 end_time;
 };
 
-}  // namespace private_video
-
-}  // namespace hoa_video
+}  // namespace hoa_mode_manager
 
 #endif  // __SHAKE_HEADER__

@@ -40,6 +40,12 @@
 namespace hoa_video
 {
 
+class TextureController;
+
+namespace private_video {
+class TextTexture;
+}
+
 //! \brief The singleton pointer for the instance of the texture controller
 extern TextureController *TextureManager;
 

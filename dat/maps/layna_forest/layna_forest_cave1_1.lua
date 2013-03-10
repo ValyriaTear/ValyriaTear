@@ -357,6 +357,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Effects = {};
 
 -- the main character handler
 local hero = {};
@@ -374,6 +375,7 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = false;
     Map:ShowMinimap(true);
@@ -391,7 +393,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Effects:EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
     -- Add the background and foreground animations
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
 
@@ -872,7 +874,7 @@ function _MakeRockInvisible(object)
     -- Only triggers the sound and shaking if the triggers states are not being loaded.
     if (_loading_objects == false) then
         AudioManager:PlaySound("snd/cave-in.ogg");
-        VideoManager:ShakeScreen(0.6, 1000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        Effects:ShakeScreen(0.6, 1000, hoa_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
     end
 end
 

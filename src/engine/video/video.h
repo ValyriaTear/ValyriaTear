@@ -33,8 +33,6 @@
 #include "coord_sys.h"
 #include "fade.h"
 #include "image.h"
-#include "interpolator.h"
-#include "shake.h"
 #include "screen_rect.h"
 #include "texture_controller.h"
 #include "text.h"
@@ -65,9 +63,30 @@
 
 #include <stack>
 
+namespace hoa_gui {
+class TextBox;
+class OptionBox;
+class GUISystem;
+class MenuWindow;
+namespace private_gui {
+class GUIElement;
+}
+}
+
+namespace hoa_map {
+namespace private_map {
+class MapTransitionEvent;
+}
+}
+
+namespace hoa_mode_manager {
+class ModeEngine;
+}
+
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace hoa_video
 {
+class VideoEngine;
 
 //! \brief The singleton pointer for the engine, responsible for all video operations.
 extern VideoEngine *VideoManager;
@@ -640,28 +659,13 @@ public:
     }
 
     //-- Screen shaking -------------------------------------------------------
-
-    /** \brief Adds a new shaking effect to the screen
-    ***
-    *** \param force The initial force of the shake
-    *** \param falloff_time The number of milliseconds that the effect should last for. 0 indicates infinite time.
-    *** \param falloff_method Specifies the method of falloff. The default is VIDEO_FALLOFF_NONE.
-    *** \note If you want to manually control when the shaking stops, set the falloff_time to zero
-    *** and the falloff_method to VIDEO_FALLOFF_NONE.
-    **/
-    void ShakeScreen(float force, uint32 falloff_time, ShakeFalloff falloff_method = VIDEO_FALLOFF_NONE);
-
-    //! \brief Terminates all current screen shake effects
-    void StopShaking() {
-        _shake_forces.clear();
-        _x_shake = 0.0f;
-        _y_shake = 0.0f;
-    }
-
+// Avoid a useless dependency on the mode manager for the editor build
+#ifndef EDITOR_BUILD
     //! \brief Returns true if the screen is shaking
-    bool IsShaking() {
-        return (_shake_forces.empty() == false);
-    }
+    //! \note The function acts as a wrapper for the current game mode effect supervisor
+    //! and check for active shaking
+    bool IsScreenShaking();
+#endif
 
     //-- Miscellaneous --------------------------------------------------------
 
@@ -864,9 +868,6 @@ private:
     //! Current gamma value
     float _gamma_value;
 
-    //! current shake forces affecting screen
-    std::deque<private_video::ShakeForce> _shake_forces;
-
     // changing the video settings does not actually do anything until
     // you call ApplySettings(). Up til that point, store them in temp
     // variables so if the new settings are invalid, we can roll back.
@@ -909,28 +910,6 @@ private:
     */
     int32 _ConvertYAlign(int32 yalign);
 
-    /** \brief returns a filename like TEMP_abcd1234.ext, and each time you call it, it increments the
-     *         alphanumeric part of the filename. This way, during any particular run
-     *         of the game, each temp filename is guaranteed to be unique.
-     *         Assuming you create a new temp file every second, it would take 100,000 years to get
-     *         from TEMP_00000000 to TEMP_zzzzzzzz
-     *
-     *  \param extension   The extension for the temp file. Although we could just save temp files
-     *                     without an extension, that might cause stupid bugs like DevIL refusing
-     *                     to load an image because it doesn't end with .png.
-     * \return name of the generated temp file
-     */
-    std::string _CreateTempFilename(const std::string &extension);
-
-    /** \brief Rounds a force value to the nearest integer based on probability.
-    *** \param force  The force to round
-    *** \return the rounded force value
-    *** \note For example, a force value of 2.85 has an 85% chance of rounding to 3 and a 15% chance of rounding to 2. This rounding
-    *** methodology is necessary because for force values less than 1 (e.g. 0.5f), the shake force would always round down to zero
-    *** even though there is positive force.
-    **/
-    float _RoundForce(float force);
-
     /**
     * \brief takes an x value and converts it into screen coordinates
     * \return the converted value
@@ -942,11 +921,6 @@ private:
     * \return the converted value
     */
     int32 _ScreenCoordY(float y);
-
-    /** \brief Updates all active shaking effects
-    *** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
-    **/
-    void _UpdateShake(uint32 frame_time);
 }; // class VideoEngine : public hoa_utils::Singleton<VideoEngine>
 
 }  // namespace hoa_video

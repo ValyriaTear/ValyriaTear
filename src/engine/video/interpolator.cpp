@@ -18,24 +18,60 @@
 #include <cstdarg>
 #include <math.h>
 
-#include "video.h"
+#include "interpolator.h"
 
 using namespace hoa_utils;
 using namespace hoa_video::private_video;
 
-namespace hoa_video
+namespace hoa_mode_manager
 {
 
 // Controls how slow the slow transform is. The greater the number, the "slower" it is. Should be greater than 1.0f
-const float VIDEO_SLOW_TRANSFORM_POWER = 2.0f;
+const float SLOW_TRANSFORM_POWER = 2.0f;
 
 // Controls how fast the fast transform is. The smaller the number, the "faster" it is. Should be between 0.0f and 1.0f
-const float VIDEO_FAST_TRANSFORM_POWER = 0.3f;
+const float FAST_TRANSFORM_POWER = 0.3f;
 
+/** \brief Interpolates logarithmically. Increases quickly and then levels off.
+*** \param initial_value The initial value to interpolate. Should be between 0.0f and 1.0f (inclusive)
+*** \return The interpolated value
+**/
+static float _FastTransform(float initial_value)
+{
+    return pow(initial_value, FAST_TRANSFORM_POWER);
+}
 
+/** \brief Interpolates exponentially. Increases slowly and then sky rockets.
+*** \param initial_value The initial value to interpolate. Should be between 0.0f and 1.0f (inclusive)
+*** \return The interpolated value
+**/
+static float _SlowTransform(float initial_value)
+{
+    return pow(initial_value, SLOW_TRANSFORM_POWER);
+}
+
+/** \brief Interpolates periodically. Increases slowly to 1.0f then back down to 0.0f via a sine function.
+*** \param initial_value The initial value to interpolate. Should be between 0.0f and 1.0f (inclusive)
+*** \return The interpolated value
+**/
+static float _EaseTransform(float initial_value)
+{
+    return 0.5f * (1.0f + sinf(UTILS_2PI * (initial_value - 0.25f)));
+}
+
+/** \brief Linearly interpolates a value which is (alpha * 100) percent between initial and final
+*** \param alpha Determines where inbetween initial (0.0f) and final (1.0f) the interpolation should be
+*** \param initial The initial value
+*** \param final The final value
+*** \return the linear interpolated value
+**/
+static float Lerp(float alpha, float initial, float final)
+{
+    return alpha * final + (1.0f - alpha) * initial;
+}
 
 Interpolator::Interpolator() :
-    _method(VIDEO_INTERPOLATE_LINEAR),
+    _method(INTERPOLATE_LINEAR),
     _a(0.0f),
     _b(0.0f),
     _current_time(0),
@@ -49,7 +85,7 @@ Interpolator::Interpolator() :
 void Interpolator::Start(float a, float b, uint32 milliseconds)
 {
     if(_ValidMethod() == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
+        IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
                 << " was called when an invalid interpolation method was set" << std::endl;
         return;
     }
@@ -69,14 +105,14 @@ void Interpolator::Start(float a, float b, uint32 milliseconds)
 void Interpolator::SetMethod(InterpolationMethod method)
 {
     if(_finished == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
+        IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
                 << " was called when an interpolation was still in progress" << std::endl;
         return;
     }
 
     _method = method;
     if(_ValidMethod() == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
+        IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
                 << " was passed an invalid method argument" << std::endl;
     }
 }
@@ -86,7 +122,7 @@ void Interpolator::SetMethod(InterpolationMethod method)
 void Interpolator::Update(uint32 frame_time)
 {
     if(_ValidMethod() == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
+        IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
                 << " was called when an invalid method was set" << std::endl;
         return;
     }
@@ -109,59 +145,38 @@ void Interpolator::Update(uint32 frame_time)
     }
 
     if(progress > 1.0f) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
+        IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
                 << " calculated a progress value greater than 1.0" << std::endl;
         progress = 1.0f;
     }
 
     // Apply a transformation based on the interpolation method
     switch(_method) {
-    case VIDEO_INTERPOLATE_EASE:
+    case INTERPOLATE_EASE:
         progress = _EaseTransform(progress);
         break;
-    case VIDEO_INTERPOLATE_SRCA:
+    case INTERPOLATE_SRCA:
         progress = 0.0f;
         break;
-    case VIDEO_INTERPOLATE_SRCB:
+    case INTERPOLATE_SRCB:
         progress = 1.0f;
         break;
-    case VIDEO_INTERPOLATE_FAST:
+    case INTERPOLATE_FAST:
         progress = _FastTransform(progress);
         break;
-    case VIDEO_INTERPOLATE_SLOW:
+    case INTERPOLATE_SLOW:
         progress = _SlowTransform(progress);
         break;
-    case VIDEO_INTERPOLATE_LINEAR:
+    case INTERPOLATE_LINEAR:
         // Nothing to do, just use progress value as it is
         break;
     default:
-        IF_PRINT_WARNING(VIDEO_DEBUG)
+        IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
                 << " the current method did not match any supported methods" << std::endl;
         return;
     };
 
     _current_value = Lerp(progress, _a, _b);
 } // void Interpolator::Update(uint32 frame_time)
-
-
-
-float Interpolator::_FastTransform(float initial_value)
-{
-    return pow(initial_value, VIDEO_FAST_TRANSFORM_POWER);
-}
-
-
-
-float Interpolator::_SlowTransform(float initial_value)
-{
-    return pow(initial_value, VIDEO_SLOW_TRANSFORM_POWER);
-}
-
-
-
-float Interpolator::_EaseTransform(float initial_value)
-{
-    return 0.5f * (1.0f + sinf(UTILS_2PI * (initial_value - 0.25f)));
-}
 
 }  // namespace hoa_video

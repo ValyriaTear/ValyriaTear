@@ -18,6 +18,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Effects = {};
 
 local bronann = {};
 local kalya = {};
@@ -36,6 +37,7 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = true;
 
@@ -52,7 +54,7 @@ function Load(m)
     _TriggerPotentialDialogueAfterFadeIn();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Effects:EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
     -- Set the world map current position
     GlobalManager:SetCurrentLocationId("layna village")
@@ -1115,7 +1117,7 @@ map_functions = {
 
     BrightLightStart = function()
         bright_light_time = 0.0;
-        VideoManager:ShakeScreen(0.6, 6000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        Effects:ShakeScreen(0.6, 6000, hoa_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         AudioManager:PlaySound("snd/rumble.wav");
         AudioManager:FadeOutAllMusic(2000);
     end,

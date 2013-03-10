@@ -297,14 +297,10 @@ engine/video/image.cpp
 engine/video/image.h
 engine/video/image_base.cpp
 engine/video/image_base.h
-engine/video/interpolator.cpp
-engine/video/interpolator.h
 engine/video/fade.h
 engine/video/fade.cpp
 engine/video/text.cpp
 engine/video/text.h
-engine/video/shake.cpp
-engine/video/shake.h
 engine/video/particle_manager.h
 engine/video/particle_manager.cpp
 engine/video/particle_effect.h
@@ -366,6 +362,10 @@ engine/mode_manager.h
 engine/mode_manager.cpp
 engine/script_supervisor.h
 engine/script_supervisor.cpp
+engine/video/shake.cpp
+engine/video/shake.h
+engine/video/interpolator.cpp
+engine/video/interpolator.h
 main_options.h
 modes/pause.cpp
 modes/shop/shop_root.h

@@ -20,6 +20,11 @@
 
 #include "engine/system.h"
 
+// Avoid a useless dependency on the mode manager for the editor build
+#ifndef EDITOR_BUILD
+#include "engine/mode_manager.h"
+#endif
+
 using namespace hoa_utils;
 using namespace hoa_video::private_video;
 
@@ -371,9 +376,6 @@ void VideoEngine::Clear(const Color &c)
 void VideoEngine::Update()
 {
     uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
-
-    // Update shaking effect
-    _UpdateShake(frame_time);
 
     _screen_fader.Update(frame_time);
 }
@@ -945,6 +947,25 @@ void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c
     Text()->Draw(text, text_style);
 }
 
+// Avoid a useless dependency on the mode manager for the editor build
+#ifndef EDITOR_BUILD
+bool VideoEngine::IsScreenShaking()
+{
+    hoa_mode_manager::GameMode *gm = hoa_mode_manager::ModeManager->GetTop();
+
+    if (!gm)
+        return false;
+
+    hoa_mode_manager::EffectSupervisor &effects = gm->GetEffectSupervisor();
+    if (!effects.IsScreenShaking())
+        return false;
+
+    // update the shaking offsets before returning
+    effects.GetShakingOffsets(_x_shake, _y_shake);
+    return true;
+}
+#endif
+
 void VideoEngine::SetGamma(float value)
 {
     _gamma_value = value;
@@ -1005,48 +1026,6 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.pixels = NULL;
 }
 
-//-----------------------------------------------------------------------------
-// _CreateTempFilename
-//-----------------------------------------------------------------------------
-
-std::string VideoEngine::_CreateTempFilename(const std::string &extension)
-{
-    // figure out the temp filename to return
-    std::string file_name = "/tmp/"APPSHORTNAME;
-    file_name += _next_temp_file;
-    file_name += extension;
-
-    // increment the 8-character temp name
-    // Note: assume that the temp name is currently set to
-    //       a valid name
-
-
-    for(int32 digit = 7; digit >= 0; --digit) {
-        ++_next_temp_file[digit];
-
-        if(_next_temp_file[digit] > 'z') {
-            if(digit == 0) {
-                IF_PRINT_WARNING(VIDEO_DEBUG)
-                        << "VIDEO ERROR: _nextTempFile went past 'zzzzzzzz'" << std::endl;
-                return file_name;
-            }
-
-            _next_temp_file[digit] = '0';
-        } else {
-            if(_next_temp_file[digit] > '9' && _next_temp_file[digit] < 'a')
-                _next_temp_file[digit] = 'a';
-
-            // if the digit did not overflow, then we don't need to carry over
-            break;
-        }
-    }
-
-    return file_name;
-}
-
-
-
-
 int32 VideoEngine::_ConvertYAlign(int32 y_align)
 {
     switch(y_align) {
@@ -1061,9 +1040,6 @@ int32 VideoEngine::_ConvertYAlign(int32 y_align)
         return 0;
     }
 }
-
-
-
 
 int32 VideoEngine::_ConvertXAlign(int32 x_align)
 {
