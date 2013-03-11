@@ -16,7 +16,7 @@
 
 #include "modes/map/map_tiles.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 
 #include "engine/video/video.h"
 

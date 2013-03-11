@@ -21,7 +21,7 @@
 #include "engine/video/video.h"
 #include "engine/input.h"
 #include "modes/boot/boot.h"
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 
 using namespace hoa_utils;
 using namespace hoa_audio;

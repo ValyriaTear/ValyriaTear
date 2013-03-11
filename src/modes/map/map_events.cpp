@@ -16,7 +16,7 @@
 
 #include "modes/map/map_events.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 
 #include "modes/map/map_sprites.h"
 

@@ -362,7 +362,6 @@ engine/mode_manager.h
 engine/mode_manager.cpp
 engine/script_supervisor.h
 engine/script_supervisor.cpp
-engine/video/shake.cpp
 engine/video/shake.h
 engine/video/interpolator.cpp
 engine/video/interpolator.h
@@ -417,9 +416,9 @@ modes/map/map_treasure.h
 modes/map/map_events.h
 modes/map/map_tiles.h
 modes/map/map_utils.h
-modes/map/map.cpp
+modes/map/map_mode.cpp
 modes/map/map_dialogue.cpp
-modes/map/map.h
+modes/map/map_mode.h
 modes/map/map_utils.cpp
 modes/map/map_objects.cpp
 modes/map/map_events.cpp

@@ -312,7 +312,6 @@
 		<Unit filename="src/engine/video/particle_system.cpp" />
 		<Unit filename="src/engine/video/particle_system.h" />
 		<Unit filename="src/engine/video/screen_rect.h" />
-		<Unit filename="src/engine/video/shake.cpp" />
 		<Unit filename="src/engine/video/shake.h" />
 		<Unit filename="src/engine/video/text.cpp" />
 		<Unit filename="src/engine/video/text.h" />
@@ -446,8 +445,8 @@
 		<Unit filename="src/modes/boot/boot.h" />
 		<Unit filename="src/modes/boot/boot_menu.cpp" />
 		<Unit filename="src/modes/boot/boot_menu.h" />
-		<Unit filename="src/modes/map/map.cpp" />
-		<Unit filename="src/modes/map/map.h" />
+		<Unit filename="src/modes/map/map_mode.cpp" />
+		<Unit filename="src/modes/map/map_mode.h" />
 		<Unit filename="src/modes/map/map_dialogue.cpp" />
 		<Unit filename="src/modes/map/map_dialogue.h" />
 		<Unit filename="src/modes/map/map_events.cpp" />

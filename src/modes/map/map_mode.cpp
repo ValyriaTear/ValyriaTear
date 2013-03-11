@@ -14,7 +14,7 @@
 *** \brief   Source file for map mode interface.
 *** ***************************************************************************/
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_events.h"
