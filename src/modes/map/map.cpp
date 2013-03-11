@@ -637,9 +637,10 @@ bool MapMode::_Load()
     // Load map default music
     // NOTE: Other audio handling will be handled through scripting
     _music_filename = _map_script.ReadString("music_filename");
-    if(!AudioManager->LoadMusic(_music_filename, this))
+    if(!_music_filename.empty() && !AudioManager->LoadMusic(_music_filename, this))
         PRINT_WARNING << "Failed to load map music: " << _music_filename << std::endl;
-    _audio_state = AUDIO_STATE_PLAYING; // Set the default music state to "playing".
+    else if (!_music_filename.empty())
+        _audio_state = AUDIO_STATE_PLAYING; // Set the default music state to "playing".
 
     // Call the map script's custom load function and get a reference to all other script function pointers
     ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
