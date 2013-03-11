@@ -1025,27 +1025,25 @@ void StillImage::Draw() const
 void StillImage::Draw(const Color &draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f) == true) {
+    if(IsFloatEqual(draw_color[3], 0.0f))
         return;
-    }
 
     glPushMatrix();
     _DrawOrientation();
 
-    float modulation = VideoManager->_screen_fader.GetFadeModulation();
-    // Used to determine if the image color should be modulated by any degree due to screen fading effects
-    bool skip_modulation = (draw_color == Color::white && IsFloatEqual(modulation, 1.0f));
-    if(skip_modulation) {
-        _DrawTexture(_color);
-    } else {
-        Color fade_color(modulation, modulation, modulation, 1.0f);
-        Color modulated_colors[4];
 
-        fade_color = draw_color * fade_color;
-        modulated_colors[0] = _color[0] * fade_color;
-        modulated_colors[1] = _color[1] * fade_color;
-        modulated_colors[2] = _color[2] * fade_color;
-        modulated_colors[3] = _color[3] * fade_color;
+    // Used to determine if the image color should be modulated by any degree due to screen fading effects
+    if(draw_color == Color::white) {
+        _DrawTexture(_color);
+    }
+    else {
+        // The color of each vertex point.
+        Color modulated_colors[4];
+        modulated_colors[0] = _color[0] * draw_color;
+        modulated_colors[1] = _color[1] * draw_color;
+        modulated_colors[2] = _color[2] * draw_color;
+        modulated_colors[3] = _color[3] * draw_color;
+
         _DrawTexture(modulated_colors);
     }
 
@@ -1605,23 +1603,17 @@ void CompositeImage::Clear()
 }
 
 
-
 void CompositeImage::Draw() const
 {
     Draw(Color::white);
 }
 
 
-
 void CompositeImage::Draw(const Color &draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f) == true) {
+    if(IsFloatEqual(draw_color[3], 0.0f))
         return;
-    }
-
-    float modulation = VideoManager->_screen_fader.GetFadeModulation();
-    Color fade_color(modulation, modulation, modulation, 1.0f);
 
     CoordSys coord_sys = VideoManager->_current_context.coordinate_system;
 
@@ -1637,12 +1629,6 @@ void CompositeImage::Draw(const Color &draw_color) const
     glPushMatrix();
 
     VideoManager->MoveRelative(x_align_offset, y_align_offset);
-
-    bool skip_modulation = (draw_color == Color::white && IsFloatEqual(modulation, 1.0f));
-
-    // If we're modulating, calculate the fading color now
-    if(skip_modulation == false)
-        fade_color = draw_color * fade_color;
 
     for(uint32 i = 0; i < _elements.size(); ++i) {
         float x_off, y_off;
@@ -1676,14 +1662,14 @@ void CompositeImage::Draw(const Color &draw_color) const
 
         glScalef(x_scale, y_scale, 1.0f);
 
-        if(skip_modulation)
+        if(draw_color == Color::white)
             _elements[i].image._DrawTexture(_color);
         else {
             Color modulated_colors[4];
-            modulated_colors[0] = _color[0] * fade_color;
-            modulated_colors[1] = _color[1] * fade_color;
-            modulated_colors[2] = _color[2] * fade_color;
-            modulated_colors[3] = _color[3] * fade_color;
+            modulated_colors[0] = _color[0] * draw_color;
+            modulated_colors[1] = _color[1] * draw_color;
+            modulated_colors[2] = _color[2] * draw_color;
+            modulated_colors[3] = _color[3] * draw_color;
             _elements[i].image._DrawTexture(modulated_colors);
         }
         glPopMatrix();

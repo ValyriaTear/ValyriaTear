@@ -206,7 +206,6 @@ class VideoEngine : public hoa_utils::Singleton<VideoEngine>
     friend class private_video::VariableTexSheet;
 
     friend class ImageDescriptor;
-    friend class StillImage;
     friend class CompositeImage;
     friend class private_video::TextElement;
     friend class TextImage;
@@ -847,9 +846,6 @@ private:
 
     //! \brief Manages the current screen fading effect when fading is activated
     private_video::ScreenFader _screen_fader;
-
-    //! Image used as a sub-fading overlay
-    StillImage _fade_overlay_img;
 
     //! Keeps whether debug info about the current game mode should be drawn.
     bool _debug_info;

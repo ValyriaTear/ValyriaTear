@@ -121,9 +121,6 @@ VideoEngine::VideoEngine():
 
     for(uint32 sample = 0; sample < FPS_SAMPLES; sample++)
         _fps_samples[sample] = 0;
-
-    // Custom fading overlay
-    _fade_overlay_img.Load("", 1.0f, 1.0f);
 }
 
 
@@ -785,17 +782,7 @@ void VideoEngine::SetTransform(float matrix[16])
 
 void VideoEngine::DrawFadeEffect()
 {
-
-    // Draw a screen overlay if we are in the process of doing a custom fading
-    if(_screen_fader.ShouldUseFadeOverlay()) {
-        _fade_overlay_img.SetColor(_screen_fader.GetFadeOverlayColor());
-        SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
-        PushState();
-        Move(0.0f, 0.0f);
-        _fade_overlay_img.Draw();
-        PopState();
-    }
+    _screen_fader.Draw();
 }
 
 
