@@ -30,6 +30,8 @@ local carson = {};
 local herth = {};
 local olivia = {}; -- Olivia npc, guarding the forest entrance
 
+local wooden_sword = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -352,8 +354,8 @@ function _CreateEvents()
                                        "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_secret_path");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_village_center");
+    event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest/layna_forest_entrance.lua",
+                                       "dat/maps/layna_forest/layna_forest_entrance.lua", "from_village_center")
     EventManager:RegisterEvent(event);
 
     -- Generic events
@@ -894,7 +896,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
-    return;
+        return;
         -- Quest 1 done as for Georges
     elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
