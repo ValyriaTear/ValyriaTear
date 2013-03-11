@@ -135,10 +135,8 @@ function Update()
     end
 
     -- If the dialogue has not been seen yet, check if its time to start it
-    if (main_dialogue:HasAlreadySeen() == false) then
-        if ((start_timer:IsFinished() == true) and (DialogueManager:IsDialogueActive() == false)) then
-            DialogueManager:BeginDialogue(1);
-        end
+    if ((start_timer:IsFinished() == true) and (DialogueManager:IsDialogueActive() == false)) then
+        DialogueManager:BeginDialogue(1);
     end
 
     -- Set up whether the hand should be shown and where
@@ -195,6 +193,7 @@ function Update()
         hand1_visible = false;
         hand2_visible = false;
         last_line = 15;
+        stop_script = true;
     end
 
     -- get time expired
