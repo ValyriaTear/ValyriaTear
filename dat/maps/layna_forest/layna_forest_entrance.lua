@@ -613,6 +613,11 @@ function _CreateEvents()
                                        "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
     EventManager:RegisterEvent(event);
 
+    -- After the forest dungeon
+    event = hoa_map.MapTransitionEvent("exit forest at night", "dat/maps/layna_village/layna_village_center_map.lua",
+                                       "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
+    EventManager:RegisterEvent(event);
+
     -- Heal point
     event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
@@ -782,6 +787,7 @@ function _CheckZones()
         else
             hero:SetMoving(false);
             EventManager:StartEvent("to be continued");
+            --EventManager:StartEvent("exit forest at night");
         end
     elseif (to_forest_nw_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
