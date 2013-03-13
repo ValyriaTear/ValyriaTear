@@ -87,7 +87,7 @@ void BindCommonCode()
                 [
                     luabind::class_<GameGlobal>("GameGlobal")
                     .def("AddCharacter", (void(GameGlobal:: *)(uint32)) &GameGlobal::AddCharacter)
-                    .def("RemoveCharacter", (void(GameGlobal:: *)(uint32)) &GameGlobal::RemoveCharacter)
+                    .def("RemoveCharacter", (void(GameGlobal:: *)(uint32, bool)) &GameGlobal::RemoveCharacter)
                     .def("GetCharacter", &GameGlobal::GetCharacter)
                     .def("GetActiveParty", &GameGlobal::GetActiveParty)
                     .def("GetDrunes", &GameGlobal::GetDrunes)
