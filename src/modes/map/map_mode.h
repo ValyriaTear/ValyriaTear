@@ -231,6 +231,18 @@ public:
 
     bool IsCameraOnVirtualFocus();
 
+    bool IsCameraMoving() {
+        return _camera_timer.IsRunning();
+    }
+
+    bool IsCameraXAxisInMapCorner() const {
+        return _camera_x_in_map_corner;
+    }
+
+    bool IsCameraYAxisInMapCorner() const {
+        return _camera_y_in_map_corner;
+    }
+
     /** \brief Gets the currently active map context
     *** which is always equal to the context of the object pointed to by the _camera member,
     *** or the base context when no camera has been set up.
@@ -251,14 +263,6 @@ public:
 
     const hoa_video::StillImage &GetMapImage() const {
         return _map_image;
-    }
-
-    bool IsCameraXAxisInMapCorner() const {
-        return _camera_x_in_map_corner;
-    }
-
-    bool IsCameraYAxisInMapCorner() const {
-        return _camera_y_in_map_corner;
     }
 
     //! \brief Tells whether a battle can start
