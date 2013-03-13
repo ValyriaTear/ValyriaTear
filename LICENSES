@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.03.10
+Last update: 2013.03.13
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -181,6 +181,7 @@ img/icons/actors/characters/thanis.png                          GPLv2           
 img/icons/actors/characters/bronann.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
 
 img/icons/actors/enemies/big_slime.png                          GPLv2                    Bertram + Allacrost (From green slime enemy)
+img/icons/actors/enemies/dark_soldier.png                       GPLv3                    Allacrost + Kirill777 (OGA) - http://opengameart.org/content/soldier-0
 img/icons/actors/enemies/mushroom_zombie.png                    CC by SA 3.0             Redshrike (OGA)
 img/icons/actors/characters/red_slime.png                       GPLv2                    Allacrost (From green slime enemy)
 img/icons/actors/enemies/green_snake.png                        GPLv2                    Allacrost (From snake enemy)
@@ -271,6 +272,7 @@ img/portraits/battle/laila_damage.png                           GPLv2           
 img/portraits/battle/thanis_damage.png                          GPLv2                    Allacrost (was Claudius icon)
 img/portraits/battle/sylve_damage.png                           GPLv2                    Allacrost (was Raphaela icon)
 img/portraits/battle/bronann_damage.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
+img/portraits/npcs/dark_soldier.png                             GPLv3                    Kirill777 (OGA) -  http://opengameart.org/content/soldier-0
 
 img/portraits/map/npcs/malta.png                                GPLv2                    Allacrost (was Vanica portrait)
 img/portraits/map/npcs/carson.png                               GPLv2                    Allacrost (was Marcus portrait)
@@ -431,6 +433,7 @@ img/sprites/battle/characters/others/soldier_run.lua            GPLv2           
 img/sprites/battle/characters/others/soldier_victory.lua        GPLv2                    Bertram
 
 img/sprites/battle/enemies/big_slime.png                        GPLv2                    Bertram (based on the slime sprite)
+img/sprites/battle/enemies/dark_soldier.png                     GPLv3                    Kirill777 (OGA) - http://opengameart.org/content/soldier-0
 img/sprites/battle/enemies/green_snake.png                      GPLv2                    Allacrost (From snake enemy)
 img/sprites/battle/enemies/mushroom_zombie.png                  CC by SA 3.0             Redshrike (OGA)
 img/sprites/battle/enemies/red_slime.png                        GPLv2                    Allacrost (Roots)
@@ -454,6 +457,8 @@ img/sprites/map/characters/bronann_walk.png                     GPLv2           
 img/sprites/map/characters/kalya_kneeling.lua                   GPLv2                    Bertram
 img/sprites/map/characters/kalya_run.png                        GPLv2                    Allacrost
 img/sprites/map/characters/kalya_walk.png                       GPLv2                    Allacrost
+img/sprites/map/characters/kalya_struggling.lua                 GPLv2                    Bertram
+img/sprites/map/characters/kalya_struggling.png                 GPLv2                    Allacrost + Bertram
 img/sprites/map/characters/sylve_run.png                        GPLv2                    Allacrost
 img/sprites/map/characters/sylve_walk.png                       GPLv2                    Allacrost
 img/sprites/map/characters/thanis_walk.png                      GPLv2                    Allacrost
@@ -462,6 +467,9 @@ img/sprites/map/enemies/bat_spritesheet.png                     CC by SA 3.0    
 img/sprites/map/enemies/big_slime_idle.lua                      GPLv2                    Bertram
 img/sprites/map/enemies/big_slime_spritesheet.png               CC by SA 3.0             From the Liberated Pixel Cup Slime enemy - http://lpc.opengameart.org/ (OGA)
 img/sprites/map/enemies/big_slime_walk.lua                      GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier01_idle.lua                 GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier01_spritesheet.png          CC by SA 3.0             Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+img/sprites/map/enemies/dark_soldier01_walk.lua                 GPLv2                    Bertram
 img/sprites/map/enemies/gigas_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/naga_walk.png                           GPLv2                    Allacrost
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2                    Allacrost
@@ -488,6 +496,8 @@ img/sprites/map/npcs/npc_man02_walk.png                         GPLv2           
 img/sprites/map/npcs/npc_old_woman01_walk.png                   GPLv2                    Allacrost
 img/sprites/map/npcs/npc_soldier01_walk.png                     GPLv2                    Allacrost
 img/sprites/map/npcs/npc_soldier02_walk.png                     GPLv2                    Allacrost
+img/sprites/map/npcs/npc_soldier01_idle.lua                     GPLv2                    Bertram
+img/sprites/map/npcs/npc_soldier01_walk.lua                     GPLv2                    Bertram
 img/sprites/map/npcs/npc_woman01_walk.png                       GPLv2                    Allacrost
 img/sprites/map/npcs/npc_woman02_walk.png                       GPLv2                    Allacrost
 img/sprites/map/npcs/npc_woman03_walk.png                       CC by SA 3.0             Jetrel (OGA) + Bertram's work.
