@@ -61,6 +61,9 @@ function Load(m)
     if (GlobalManager:GetEventValue("story", "return_to_layna_village_dialogue_done") ~= 1) then
         EventManager:StartEvent("Return to village dialogue");
     end
+    
+    -- Preload the soldier music
+    AudioManager:LoadMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
 end
 
 function Update()
@@ -607,10 +610,16 @@ map_functions = {
         soldier4:SetPosition(41, 43);
         soldier4:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
         soldier4:SetDirection(hoa_map.MapMode.SOUTH);
+
+        -- Fade out the music
+        AudioManager:FadeOutAllMusic(2000);
     end,
 
     set_camera_on_kalya = function()
         Map:SetCamera(kalya, 800);
+        
+        -- Play the soldier music!!
+        AudioManager:PlayMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     end,
 
     set_camera_on_bronann = function()

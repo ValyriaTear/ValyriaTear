@@ -11,8 +11,7 @@ map_subname = "Riverbank"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
--- TODO: Add dark music
-music_filename = ""
+music_filename = "mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
 local Map = {};
