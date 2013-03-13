@@ -264,6 +264,9 @@ function Load(m)
     Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
 
     _HandleTwilight();
+
+    -- Change the music according to the moment of the story.
+    EventManager:StartEvent("Music start", 50);
 end
 
 -- Handle the twilight advancement after the crystal scene
@@ -604,6 +607,10 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
+    -- Music event
+    event = hoa_map.ScriptedEvent("Music start", "music_start", "");
+    EventManager:RegisterEvent(event);
+
     -- Triggered events
     event = hoa_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
@@ -899,9 +906,17 @@ map_functions = {
         GlobalManager:SetEventValue("story", "kalya_save_points_n_spring_speech_done", 1);
     end,
 
+    music_start = function()
+        -- If the night has fallen, let the music change
+        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") >= 6) then
+            AudioManager:PlayMusic("mus/forest_at_night.ogg");
+        end
+    end,
+
     to_be_continued = function()
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         GlobalManager:SetEventValue("game", "to_be_continued", 1);
     end
+
 }

@@ -11,8 +11,7 @@ map_subname = "Village center"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
--- TODO: Add night forest looping sound
-music_filename = ""
+music_filename = "mus/forest_at_night.ogg"
 
 -- c++ objects instances
 local Map = {};
