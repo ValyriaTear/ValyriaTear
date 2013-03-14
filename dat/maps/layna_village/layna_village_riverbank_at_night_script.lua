@@ -78,10 +78,154 @@ function _CreateCharacters()
     Map:AddGroundObject(bronann);
 end
 
+local herth = {};
+local orlinn = {};
+local kalya = {};
+local lilly = {};
+local carson = {};
+local malta = {};
+local brymir = {};
+local martha = {};
+local georges = {};
+local olivia = {};
+
+local soldier1 = {};
+local soldier2 = {};
+local soldier3 = {};
+local soldier4 = {};
+local soldier5 = {};
+local soldier6 = {};
+local soldier7 = {};
+local soldier8 = {};
+local soldier9 = {};
+local soldier10 = {};
+local soldier11 = {};
+local soldier12 = {};
+local soldier13 = {};
+local soldier14 = {};
+local soldier15 = {};
+local soldier16 = {};
+
+local soldier17 = {};
+local soldier18 = {};
+local soldier19 = {};
+local soldier20 = {};
+
+local lord = {};
+
 function _CreateNPCs()
     local text = {}
     local dialogue = {}
     local event = {}
+
+    herth = CreateSprite(Map, "Herth", 86, 55);
+    herth:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(herth);
+
+    orlinn = CreateSprite(Map, "Orlinn", 76, 44);
+    orlinn:SetDirection(hoa_map.MapMode.EAST);
+    orlinn:SetMovementSpeed(hoa_map.MapMode.VERY_FAST_SPEED);
+    Map:AddGroundObject(orlinn);
+
+    kalya = CreateSprite(Map, "Kalya", 77, 55);
+    kalya:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(kalya);
+
+    lilly = CreateNPCSprite(Map, "Woman3", "Lilly", 95, 54);
+    lilly:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(lilly);
+
+    carson = CreateSprite(Map, "Carson", 97, 61);
+    carson:SetDirection(hoa_map.MapMode.NORTH);
+    Map:AddGroundObject(carson);
+
+    malta = CreateSprite(Map, "Malta", 95, 62);
+    malta:SetDirection(hoa_map.MapMode.NORTH);
+    Map:AddGroundObject(malta);
+
+    brymir = CreateNPCSprite(Map, "Old Woman1", "Brymir", 87, 61.5);
+    brymir:SetDirection(hoa_map.MapMode.NORTH);
+    Map:AddGroundObject(brymir);
+
+    martha = CreateNPCSprite(Map, "Woman1", "Martha", 89, 61);
+    martha:SetDirection(hoa_map.MapMode.NORTH);
+    Map:AddGroundObject(martha);
+
+    georges = CreateNPCSprite(Map, "Man1", "Georges", 105, 61.5);
+    georges:SetDirection(hoa_map.MapMode.NORTH);
+    Map:AddGroundObject(georges);
+
+    olivia = CreateNPCSprite(Map, "Girl1", "Olivia", 107, 61);
+    olivia:SetDirection(hoa_map.MapMode.NORTH);
+    Map:AddGroundObject(olivia);
+
+    -- Create the soldiers
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 88, 59);
+    soldier1:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier1);
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 96, 59);
+    soldier2:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier2);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 106, 59.5);
+    soldier3:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier3);
+    soldier4 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 88, 55);
+    soldier4:SetDirection(hoa_map.MapMode.WEST);
+    Map:AddGroundObject(soldier4);
+    soldier5 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 99, 59);
+    soldier5:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier5);
+    soldier6 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 102.5, 59.2);
+    soldier6:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier6);
+    soldier7 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 93, 59.3);
+    soldier7:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier7);
+    soldier8 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 90.6, 59.6);
+    soldier8:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier8);
+    soldier9 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 108, 57);
+    soldier9:SetDirection(hoa_map.MapMode.WEST);
+    Map:AddGroundObject(soldier9);
+    soldier10 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 108, 54);
+    soldier10:SetDirection(hoa_map.MapMode.WEST);
+    Map:AddGroundObject(soldier10);
+    soldier11 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 103, 50);
+    soldier11:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier11);
+    soldier12 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 90, 50);
+    soldier12:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier12);
+    soldier13 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 100, 48);
+    soldier13:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier13);
+    soldier14 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 96, 48);
+    soldier14:SetDirection(hoa_map.MapMode.SOUTH);
+    Map:AddGroundObject(soldier14);
+    soldier15 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 84, 53);
+    soldier15:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(soldier15);
+    soldier16 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 84, 57);
+    soldier16:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(soldier16);
+
+    lord = CreateNPCSprite(Map, "Lord", "??", 100, 54);
+    lord:SetDirection(hoa_map.MapMode.WEST);
+    Map:AddGroundObject(lord);
+
+    -- soldiers around kalya 77,55
+    soldier17 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 79, 55);
+    soldier17:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(soldier17);
+    soldier18 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 77, 53);
+    soldier18:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(soldier18);
+    soldier19 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 77, 57);
+    soldier19:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(soldier19);
+    soldier20 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 75, 55);
+    soldier20:SetDirection(hoa_map.MapMode.EAST);
+    Map:AddGroundObject(soldier20);
 
 end
 
@@ -136,6 +280,26 @@ function _CreateObjects()
         Map:AddGroundObject(object);
     end
 
+    -- Add burning flames halos and objects
+    _CreateFire(84, 51.2);
+    _CreateFire(83, 59);
+    _CreateFire(97, 51);
+    _CreateFire(111, 58);
+    _CreateFire(109, 52);
+
+end
+
+-- creates the necessary objects to display some fire
+function _CreateFire(fire_x, fire_y)
+    -- Add burning flames halos and objects
+    local object = CreateObject(Map, "Campfire1", fire_x, fire_y);
+    if (object ~= nil) then Map:AddGroundObject(object) end;
+    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
+        hoa_video.Color(0.85, 0.32, 0.0, 0.6),
+        hoa_map.MapMode.CONTEXT_01);
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
+        hoa_video.Color(0.99, 1.0, 0.27, 0.2),
+        hoa_map.MapMode.CONTEXT_01);
 end
 
 -- Creates all events and sets up the entire event sequence chain
