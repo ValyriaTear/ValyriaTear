@@ -2,7 +2,7 @@ Valyria Tear
 
 
 Copyright (C) 2012-2013 by Bertram
-Copyright (C) 2004 - 2011 by The Allacrost Project
+Copyright (C) 2004-2011 by The Allacrost Project
 
 This code is licensed under the GNU GPL. It is free software and you may
 modify it and/or redistribute it under the terms of this license.
@@ -60,6 +60,6 @@ On Code::Blocks:
 Got to Project->Build options, and add the flags in the #defines tab, i.e.:
 DEBUG_MENU
 
-Note that the editor can't be build using C::B. Use Qt-Creator and the MapEditor.pro file for that.
+Note that the editor can't be built using C::B. Use Qt-Creator and the MapEditor.pro file for that.
 Be sure also to read the instructions within that file, as RTTI support must be enabled, and unicode disabled
 in the compile flags.
