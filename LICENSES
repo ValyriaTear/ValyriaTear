@@ -248,6 +248,8 @@ img/misc/editor-tools/go-up.png                                 GPLv2           
 img/misc/lights/left_window_light.png                           CC by SA 3.0             Bertram
 img/misc/lights/right_window_light.png                          CC by SA 3.0             Bertram
 img/misc/lights/torch_light_mask.png                            CC by SA 3.0             Bertram (Completely redone)
+img/misc/lights/torch_light_mask2.lua                           CC by SA 3.0             Bertram
+img/misc/lights/torch_light_mask2.png                           CC by SA 3.0             Bertram
 img/misc/lights/left_window_light.lua                           GPLv2 or later           Bertram
 img/misc/lights/right_window_light.lua                          GPLv2 or later           Bertram
 img/misc/lights/torch_light_mask.lua                            GPLv2 or later           Bertram
