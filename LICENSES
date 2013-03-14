@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.03.13
+Last update: 2013.03.14
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -525,6 +525,8 @@ img/sprites/map/objects/bush4.lua                               GPLv2           
 img/sprites/map/objects/bush4.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/cat1.lua                                GPLv2                    Bertram
 img/sprites/map/objects/cat1.png                                CC By SA 3.0             Strawheart (OGA)  http://mtsids.com/
+img/sprites/map/objects/campfire.lua                            GPLv2                    Bertram
+img/sprites/map/objects/campfire.png                            CC by SA 3.0             Jetrel + Zabin (OGA) - http://opengameart.org/content/camp-fire-animation-for-rpgs-finished
 img/sprites/map/objects/chair1.lua                              GPLv2                    Bertram
 img/sprites/map/objects/chair1.png                              GPLv2                    Allacrost
 img/sprites/map/objects/chair1_inverted.lua                     GPLv2                    Bertram

@@ -96,6 +96,14 @@ objects["Bush4"] = {
     img_height = 4.0
 }
 
+objects["Campfire1"] = {
+    animation_filename = "img/sprites/map/objects/campfire.lua",
+    coll_half_width = 1.0,
+    coll_height = 1.6,
+    img_half_width = 2.0,
+    img_height = 4.0
+}
+
 objects["Candle1"] = {
     animation_filename = "img/sprites/map/objects/candle1.lua",
     coll_half_width = 1.0,
