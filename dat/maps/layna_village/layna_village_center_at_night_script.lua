@@ -413,7 +413,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = hoa_system.Translate("Fortunately, they didn't see me or I would have been caught as well.");
     dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("I should follow them silently. Maybe I'll be able to free Kalya on time.");
+    text = hoa_system.Translate("I should follow them silently. They will probably lead me to the others and I must help Kalya before she gets hurt!");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Bronann dialogue after guards caught Kalya", dialogue);
@@ -425,7 +425,7 @@ function _CreateEvents()
 
     -- After Kalya has been caught, Bronann wants to follow her
     dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("What am I doing? I should go an try to free Kalya!");
+    text = hoa_system.Translate("What am I doing? I should go and try to free Kalya!");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("Bronann should follow Kalya", dialogue);
@@ -582,7 +582,7 @@ map_functions = {
         Map:PushState(hoa_map.MapMode.STATE_SCENE);
         bronann:SetMoving(false);
 
-        -- In case she has finished running
+        -- In case she hasn't finished running
         EventManager:TerminateAllEvents(kalya);
 
         kalya:SetVisible(true);
