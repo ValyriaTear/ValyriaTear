@@ -53,15 +53,6 @@ Color Color::blue(0.0f, 0.0f, 1.0f, 1.0f);
 Color Color::violet(0.0f, 0.0f, 1.0f, 1.0f);
 Color Color::brown(0.6f, 0.3f, 0.1f, 1.0f);
 
-
-
-float Lerp(float alpha, float initial, float final)
-{
-    return alpha * final + (1.0f - alpha) * initial;
-}
-
-
-
 void RotatePoint(float &x, float &y, float angle)
 {
     float original_x = x;

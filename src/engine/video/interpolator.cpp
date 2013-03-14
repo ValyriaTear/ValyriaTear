@@ -59,17 +59,6 @@ static float _EaseTransform(float initial_value)
     return 0.5f * (1.0f + sinf(UTILS_2PI * (initial_value - 0.25f)));
 }
 
-/** \brief Linearly interpolates a value which is (alpha * 100) percent between initial and final
-*** \param alpha Determines where inbetween initial (0.0f) and final (1.0f) the interpolation should be
-*** \param initial The initial value
-*** \param final The final value
-*** \return the linear interpolated value
-**/
-static float Lerp(float alpha, float initial, float final)
-{
-    return alpha * final + (1.0f - alpha) * initial;
-}
-
 Interpolator::Interpolator() :
     _method(INTERPOLATE_LINEAR),
     _a(0.0f),

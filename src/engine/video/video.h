@@ -164,15 +164,6 @@ enum VIDEO_TARGET {
 const float	VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
 const float	VIDEO_STANDARD_RES_HEIGHT = 768.0f;
 
-/** \brief Linearly interpolates a value which is (alpha * 100) percent between initial and final
-*** \param alpha Determines where inbetween initial (0.0f) and final (1.0f) the interpolation should be
-*** \param initial The initial value
-*** \param final The final value
-*** \return the linear interpolated value
-**/
-float Lerp(float alpha, float initial, float final);
-
-
 /** \brief Rotates a point (x,y) around the origin (0,0), by angle radians
 *** \param x x coordinate of point to rotate
 *** \param y y coordinate of point to rotate

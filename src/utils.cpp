@@ -45,6 +45,11 @@ bool UTILS_DEBUG = false;
 ///// Numeric utility functions
 ////////////////////////////////////////////////////////////////////////////////
 
+float Lerp(float alpha, float initial, float final_value)
+{
+    return alpha * final_value + (1.0f - alpha) * initial;
+}
+
 uint32 RoundUpPow2(uint32 x)
 {
     x -= 1;
@@ -56,14 +61,10 @@ uint32 RoundUpPow2(uint32 x)
     return x + 1;
 }
 
-
-
 bool IsPowerOfTwo(uint32 x)
 {
     return ((x & (x - 1)) == 0);
 }
-
-
 
 bool IsOddNumber(uint32 x)
 {
@@ -71,35 +72,25 @@ bool IsOddNumber(uint32 x)
     return (x & 0x00000001);
 }
 
-
-
 bool IsFloatInRange(float value, float lower, float upper)
 {
     return (value >= lower && value <= upper);
 }
-
-
 
 bool IsFloatEqual(float value, float base, float delta)
 {
     return (value >= (base - delta) && value <= (base + delta));
 }
 
-
-
 float GetFloatFraction(float value)
 {
     return (value - GetFloatInteger(value));
 }
 
-
-
 float GetFloatInteger(float value)
 {
     return static_cast<float>(static_cast<int>(value));
 }
-
-
 
 float FloorToFloatMultiple(const float value, const float multiple)
 {
@@ -146,8 +137,6 @@ std::string strprintf(char const *format, ...)
 ////////////////////////////////////////////////////////////////////////////////
 
 const size_t ustring::npos = ~0;
-
-
 
 ustring::ustring()
 {
