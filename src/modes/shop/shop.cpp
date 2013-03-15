@@ -1088,7 +1088,7 @@ void ShopObjectViewer::_DrawEquipment()
     VideoManager->SetDrawFlags(VIDEO_Y_TOP, 0);
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(60.0f, 15.0f);
+        VideoManager->MoveRelative(60.0f, -10.0f);
     }
     else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
         // In info view mode, draw on the left side
