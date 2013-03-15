@@ -107,6 +107,8 @@ std::string VTranslate(const std::string &text, float arg1)
 { return _VTranslate(text, arg1); }
 std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2)
 { return _VTranslate(text, arg1, arg2); }
+std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2)
+{ return _VTranslate(text, arg1.c_str(), arg2.c_str()); }
 
 
 // -----------------------------------------------------------------------------

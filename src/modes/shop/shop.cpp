@@ -880,24 +880,18 @@ void ShopObjectViewer::_SetHintText()
         return;
     }
 
-    const std::string left_key = InputManager->GetLeftKeyName();
-    const std::string right_key = InputManager->GetRightKeyName();
+    const std::string left_key = Translate(InputManager->GetLeftKeyName());
+    const std::string right_key = Translate(InputManager->GetRightKeyName());
 
     switch (ShopMode::CurrentInstance()->GetState()) {
     case SHOP_STATE_BUY:
-        _hint_text.SetDisplayText(Translate("Press ") + right_key
-                                  + Translate(" to add items to buy and ")
-                                  + left_key + Translate(" to remove items from your purchase."));
+        _hint_text.SetDisplayText(VTranslate("Press %s to add items to buy and %s to remove items from your purchase.", right_key, left_key));
         break;
     case SHOP_STATE_SELL:
-        _hint_text.SetDisplayText(Translate("Press ") + right_key
-                                  + Translate(" to add items to sell and ")
-                                  + left_key + Translate(" to remove items from your sale."));
+        _hint_text.SetDisplayText(VTranslate("Press %s to add items to sell and %s to remove items from your sale.", right_key, left_key));
         break;
     case SHOP_STATE_TRADE:
-        _hint_text.SetDisplayText(Translate("Press ") + right_key
-                                  + Translate(" to trade for this items and ")
-                                  + left_key + Translate(" to remove items from your trade."));
+        _hint_text.SetDisplayText(VTranslate("Press %s to add items to trade and %s to remove them.", right_key, left_key));
         break;
     default:
         _hint_text.SetDisplayText(""); //Clear the text for everything else
