@@ -342,6 +342,10 @@ void TradeInterface::Update()
                 ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
             } else
                 ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
+        } else if(InputManager->UpPress()) {
+            ShopMode::CurrentInstance()->ObjectViewer()->ScrollUpTradeConditions();
+        } else if(InputManager->DownPress()) {
+            ShopMode::CurrentInstance()->ObjectViewer()->ScrollDownTradeConditions();
         }
     }
 

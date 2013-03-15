@@ -433,14 +433,27 @@ ShopObjectViewer::ShopObjectViewer() :
     _mag_rating.SetStyle(TextStyle("text22"));
     _shard_slot_text.SetStyle(TextStyle("text22"));
 
-    _conditions.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-    _conditions.SetPosition(180.0f, 300.0f);
-    _conditions.SetDimensions(600.0f, 300.0f, 2, 255, 2, 6);
-    _conditions.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _conditions.SetTextStyle(TextStyle("text22"));
-    _conditions.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-    _conditions.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
-    _conditions.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+    _conditions_title.SetStyle(TextStyle("text22"));
+    _conditions_title.SetText(UTranslate("Conditions:"));
+
+    _conditions_name.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
+    _conditions_name.SetPosition(400.0f, 140.0f);
+    _conditions_name.SetDimensions(600.0f, 120.0f, 1, 255, 1, 4);
+    _conditions_name.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _conditions_name.SetTextStyle(TextStyle("text22"));
+    _conditions_name.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+    _conditions_name.SetCursorOffset(-40.0f, -20.0f);
+    _conditions_name.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
+    _conditions_name.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
+
+    _conditions_number.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
+    _conditions_number.SetPosition(730.0f, 140.0f);
+    _conditions_number.SetDimensions(50.0f, 120.0f, 1, 255, 1, 4);
+    _conditions_number.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _conditions_number.SetTextStyle(TextStyle("text22"));
+    _conditions_number.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _conditions_number.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
+    _conditions_number.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
 }
 
 
@@ -483,6 +496,11 @@ void ShopObjectViewer::Update()
     _description_text.Update();
     _hint_text.Update();
     _count_text.Update();
+
+    if (ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
+        _conditions_name.Update();
+        _conditions_number.Update();
+    }
 }
 
 
@@ -527,8 +545,12 @@ void ShopObjectViewer::Draw()
         _description_text.Draw();
         _hint_text.Draw();
         _count_text.Draw();
-        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE){
-            _conditions.Draw();
+        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
+            VideoManager->Move(580.0f, 275.0f);
+            _conditions_title.Draw();
+
+            _conditions_name.Draw();
+            _conditions_number.Draw();
         }
     }
 }
@@ -576,34 +598,71 @@ void ShopObjectViewer::SetSelectedObject(ShopObject *object)
 
 void ShopObjectViewer::ChangeViewMode(SHOP_VIEW_MODE new_mode)
 {
-    if(_view_mode == new_mode) {
+    if(_view_mode == new_mode)
         return;
-    }
 
     if(new_mode == SHOP_VIEW_MODE_LIST) {
         _view_mode = new_mode;
     } else if(new_mode == SHOP_VIEW_MODE_INFO) {
         _view_mode = new_mode;
-        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE){
-            _conditions.ClearOptions();
-            for(uint32 i = 0; i < _selected_object->GetObject()->GetTradeConditions().size(); ++i) {
-                GlobalObject* temp = GlobalCreateNewObject(_selected_object->GetObject()->GetTradeConditions()[i].first,1);
-                _conditions.AddOption(MakeUnicodeString("<" + temp->GetIconImage().GetFilename() + "><30>")
-                                         + temp->GetName());
-                _conditions.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
-                _conditions.AddOption(MakeUnicodeString("×" + NumberToString(_selected_object->GetObject()->GetTradeConditions()[i].second)));
-            }
-            _conditions.SetSelection(0);
-        }
+        if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE)
+            _UpdateTradeConditions();
     } else {
         IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/unsupported view mode passed in function argument: " << new_mode << std::endl;
     }
+
     _SetDescriptionText(); // Necessary because description text must change its owner window
     _SetHintText();
     UpdateCountText();
 }
 
+void ShopObjectViewer::_UpdateTradeConditions()
+{
+    _conditions_name.ClearOptions();
+    _conditions_number.ClearOptions();
 
+    if (!_selected_object || !_selected_object->GetObject())
+        return;
+
+    // The option box current index
+    uint32 j = 0;
+    // The trade conditions
+    const std::vector<std::pair<uint32, uint32> >& trade_cond = _selected_object->GetObject()->GetTradeConditions();
+
+    for(uint32 i = 0; i < trade_cond.size(); ++i) {
+        uint32 item_id = trade_cond[i].first;
+        uint32 item_number = trade_cond[i].second;
+
+        // Create a global object to get info from.
+        GlobalObject* obj = GlobalCreateNewObject(item_id, 1);
+        if (!obj)
+            continue;
+
+        _conditions_name.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
+                                 + obj->GetName());
+        // Delete it once we're done with it.
+        delete obj;
+
+        StillImage *img = _conditions_name.GetEmbeddedImage(j);
+        if (img)
+            img->SetDimensions(30.0f, 30.0f);
+
+        _conditions_number.AddOption(MakeUnicodeString("x" + NumberToString(item_number)));
+
+        ++j;
+    }
+
+    // Hide the cursor if there is no scrolling to do on conditions
+    if (_conditions_name.GetNumberOptions() < 5)
+        _conditions_name.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    else
+        _conditions_name.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+
+    _conditions_name.SetSelection(0);
+    _conditions_number.SetSelection(0);
+    _conditions_name.ResetViewableOption();
+    _conditions_number.ResetViewableOption();
+}
 
 void ShopObjectViewer::_SetItemData()
 {
@@ -869,6 +928,17 @@ void ShopObjectViewer::UpdateCountText()
     }
 }
 
+void ShopObjectViewer::ScrollUpTradeConditions()
+{
+    _conditions_name.InputUp();
+    _conditions_number.InputUp();
+}
+
+void ShopObjectViewer::ScrollDownTradeConditions()
+{
+    _conditions_name.InputDown();
+    _conditions_number.InputDown();
+}
 
 void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 mag_diff)
 {

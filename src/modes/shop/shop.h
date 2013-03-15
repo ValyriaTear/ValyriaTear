@@ -246,6 +246,10 @@ public:
     //! \brief Update the the count text content according to the current shop mode and state.
     void UpdateCountText();
 
+    //! \brief Scroll the trade conditions up or down. Has no effect when not in trade mode.
+    void ScrollUpTradeConditions();
+    void ScrollDownTradeConditions();
+
 private:
     //! \brief Holds the current view mode of this class
     SHOP_VIEW_MODE _view_mode;
@@ -270,8 +274,12 @@ private:
     //! \brief Displays buy count, sell count, or trade count
     hoa_gui::TextBox _count_text;
 
+    //! \brief The trade conditions title
+    hoa_video::TextImage _conditions_title;
+
     //! \brief Trade conditions displayed in an OptionBox
-    hoa_gui::OptionBox _conditions;
+    hoa_gui::OptionBox _conditions_name;
+    hoa_gui::OptionBox _conditions_number;
     //@}
 
     //! \name Data used only for item object types
@@ -328,6 +336,11 @@ private:
     //! \brief For weapons and armor, text to indicate changes in phys/mag stats from current equipment
     std::vector<hoa_video::TextImage> _phys_change_text, _mag_change_text;
     //@}
+
+    /** \brief Updates the condition list.
+    *** Used in trade mode to show the rade conditions in the detailed view.
+    **/
+    void _UpdateTradeConditions();
 
     /** \brief Updates the data and visuals associated specifically with items for the selected object
     *** This method should only be called if the _selected_object member is an item
