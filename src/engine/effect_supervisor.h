@@ -19,6 +19,7 @@
 
 #include "engine/video/color.h"
 #include "engine/video/image.h"
+#include "engine/video/shake.h"
 
 #include <deque>
 
@@ -143,6 +144,33 @@ public:
      */
     void DisableEffects();
 
+    /** \brief Adds a new shaking effect to the screen
+    ***
+    *** \param force The initial force of the shake
+    *** \param falloff_time The number of milliseconds that the effect should last for. 0 indicates infinite time.
+    *** \param falloff_method Specifies the method of falloff. The default is VIDEO_FALLOFF_NONE.
+    *** \note If you want to manually control when the shaking stops, set the falloff_time to zero
+    *** and the falloff_method to VIDEO_FALLOFF_NONE.
+    **/
+    void ShakeScreen(float force, uint32 falloff_time, ShakeFalloff falloff_method = SHAKE_FALLOFF_NONE);
+
+    //! \brief Terminates all current screen shake effects
+    void StopShaking() {
+        _shake_forces.clear();
+        _x_shake = 0.0f;
+        _y_shake = 0.0f;
+    }
+
+    bool IsScreenShaking() const {
+        return !_shake_forces.empty();
+    }
+
+    //! \brief Give back the shaking offsets
+    void GetShakingOffsets(float &shake_x, float &shake_y) {
+        shake_x = _x_shake;
+        shake_y = _y_shake;
+    }
+
 private:
     /** \brief Load the lightning effects lua script
      *  \param script_file a lua script file which contains lightning intensities stored
@@ -203,6 +231,22 @@ private:
     } _lightning_inner_info;
 
     AmbientEffectsInfo _info;
+
+    // Shaking screen related members
+    //! current shake forces affecting screen
+    std::deque<ShakeForce> _shake_forces;
+
+    //! X offset to shake the screen by (if any)
+    float _x_shake;
+
+    //! Y offset to shake the screen by (if any)
+    float _y_shake;
+
+    /** \brief Updates all active shaking effects
+    *** \param frame_time The number of milliseconds that have elapsed
+    *** for the current rendering frame
+    **/
+    void _UpdateShake(uint32 frame_time);
 };
 
 } // namespace hoa_mode_manager

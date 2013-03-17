@@ -33,10 +33,8 @@ const int32 COMMON_DIALOGUE_NEXT_LINE        = -1;
 const int32 COMMON_DIALOGUE_END              = -2;
 //! \brief Indicates that a line has no display timer enabled
 const int32 COMMON_DIALOGUE_NO_TIMER         = -1;
-//! \brief Indicates that the dialogue can be viewed an infinite number of times
-const int32 COMMON_DIALOGUE_INFINITE_VIEWS   = -1;
-//! \brief Returned by numerous dialogue functions to indicate a bad/invalid function call was made
-const int32 COMMON_DIALOGUE_BAD_VALUE        = -5555;
+//! \brief the default invalid value.
+const int32 COMMON_DIALOGUE_INVALID          = -1;
 
 //! \brief The dialogue window should have no indicator (i.e. for automated text)
 const uint8 COMMON_DIALOGUE_NO_INDICATOR   = 0;
@@ -140,13 +138,11 @@ public:
 
     //! \brief Indicates if this dialogue has already been seen by the player.
     bool HasAlreadySeen() const {
-        return (_times_seen != 0);
+        return _dialogue_seen;
     }
 
-    //! \brief Return true if this dialogue is available to be viewed (_times_seen is still less than _max_views)
-    bool IsAvailable() const {
-        if(_max_views == COMMON_DIALOGUE_INFINITE_VIEWS) return true;
-        else return (static_cast<int32>(_times_seen) < _max_views);
+    void SetAsSeen(bool seen = true) {
+        _dialogue_seen = seen;
     }
 
     /** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
@@ -169,13 +165,13 @@ public:
 
     //! \brief Returns the line index that follows the line specified
     int32 GetLineNextLine(uint32 line) const {
-        if(line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE;
+        if(line >= _line_count) return COMMON_DIALOGUE_INVALID;
         else return _next_lines[line];
     }
 
     //! \brief Returns the display time of the line specified
     int32 GetLineDisplayTime(uint32 line) const {
-        if(line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE;
+        if(line >= _line_count) return COMMON_DIALOGUE_INVALID;
         else return _display_times[line];
     }
 
@@ -192,32 +188,8 @@ public:
         return _dialogue_id;
     }
 
-    int32 GetTimesSeen() const {
-        return _times_seen;
-    }
-
-    int32 GetMaxViews() const {
-        return _max_views;
-    }
-
     uint32 GetLineCount() const {
         return _line_count;
-    }
-
-    void ResetTimesSeen() {
-        _times_seen = 0;
-    }
-
-    void SetTimesSeen(uint32 times) {
-        _times_seen = times;
-    }
-
-    void IncrementTimesSeen() {
-        _times_seen++;
-    }
-
-    void SetMaxViews(int32 views) {
-        _max_views = views;
     }
     //@}
 
@@ -225,11 +197,8 @@ protected:
     //! \brief A unique identification number that represents this dialogue
     uint32 _dialogue_id;
 
-    //! \brief Counts the number of time a player has seen this dialogue.
-    uint32 _times_seen;
-
-    //! \brief Declares the max number of times that this dialogue can be viewed (negative value indicates no limit)
-    int32 _max_views;
+    //! \brief Tells whether the dialogue has been seen by the player.
+    bool _dialogue_seen;
 
     //! \brief Stores the amount of lines in the dialogue.
     uint32 _line_count;
@@ -290,7 +259,7 @@ public:
 
     //! \brief Returns the line index that follows the line when the given option is selected
     int32 GetOptionNextLine(uint32 option) const {
-        if(option >= GetNumberOptions()) return COMMON_DIALOGUE_BAD_VALUE;
+        if(option >= GetNumberOptions()) return COMMON_DIALOGUE_INVALID;
         else return _next_lines[option];
     }
     //@}

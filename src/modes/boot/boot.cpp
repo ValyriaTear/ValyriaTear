@@ -23,7 +23,7 @@
 
 #include "common/global/global.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/save/save_mode.h"
 
 #include "modes/mode_help_window.h"

@@ -129,7 +129,7 @@ function Update()
 
     if (tremor_triggered == false and display_time >= 2000) then
         -- Trigger a tremor
-        VideoManager:ShakeScreen(10.0, 13000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        Effects:ShakeScreen(10.0, 13000, hoa_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         AudioManager:PlaySound("snd/rumble.wav");
 
         -- trigger also the particle effect

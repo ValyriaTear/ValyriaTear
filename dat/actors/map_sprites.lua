@@ -52,7 +52,8 @@ sprites["Kalya"] = {
 
     -- using standard (one direction only) animation files.
     custom_animations = {
-        kneeling = "img/sprites/map/characters/kalya_kneeling.lua"
+        kneeling = "img/sprites/map/characters/kalya_kneeling.lua",
+        struggling = "img/sprites/map/characters/kalya_struggling.lua"
     }
 }
 
@@ -262,21 +263,6 @@ sprites["Soldier"] = {
     }
 }
 
-sprites["Lord"] = {
-    name = hoa_system.Translate("Lord"),
-    coll_half_width = 0.95,
-    coll_height = 1.2,
-    img_half_width = 1.0,
-    img_height = 4.0,
-    movement_speed = SLOW_SPEED,
-
-    -- using special animation files.
-    standard_animations = {
-        idle = "img/sprites/map/npcs/npc_soldier02_idle.lua",
-        walk = "img/sprites/map/npcs/npc_soldier02_walk.lua"
-    }
-}
-
 -- ---------
 -- Scening - Animals, ect ...
 -- ---------
@@ -425,6 +411,38 @@ sprites["Fenrir"] = {
         walk = "img/sprites/map/enemies/fenrir_walk.lua"
     }
 }
+
+sprites["Dark Soldier"] = {
+    name = hoa_system.Translate("Dark Soldier"),
+    coll_half_width = 0.95,
+    coll_height = 1.2,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/npcs/dark_soldier.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/dark_soldier01_idle.lua",
+        walk = "img/sprites/map/enemies/dark_soldier01_walk.lua"
+    }
+}
+
+sprites["Lord"] = {
+    name = hoa_system.Translate("Lord"),
+    coll_half_width = 0.95,
+    coll_height = 1.2,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/npc_soldier02_idle.lua",
+        walk = "img/sprites/map/npcs/npc_soldier02_walk.lua"
+    }
+}
+
 
 
 function CreateSprite(Map, name, x, y)

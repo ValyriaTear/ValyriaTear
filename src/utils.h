@@ -158,6 +158,14 @@ const float UTILS_PI         = 3.141592653f;
 const float UTILS_2PI        = 6.283185307f;
 //@}
 
+/** \brief Linearly interpolates a value which is (alpha * 100) percent between initial and final
+*** \param alpha Determines where inbetween initial (0.0f) and final (1.0f) the interpolation should be
+*** \param initial The initial value
+*** \param final_value The final value
+*** \return the linear interpolated value
+**/
+float Lerp(float alpha, float initial, float final_value);
+
 /** \brief Rounds an unsigned integer up to the nearest power of two.
 *** \param x The number to round up.
 *** \return The nearest power of two rounded up from the argument.

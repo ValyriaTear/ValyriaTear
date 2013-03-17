@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.03.09
+Last update: 2013.03.14
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -181,6 +181,7 @@ img/icons/actors/characters/thanis.png                          GPLv2           
 img/icons/actors/characters/bronann.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
 
 img/icons/actors/enemies/big_slime.png                          GPLv2                    Bertram + Allacrost (From green slime enemy)
+img/icons/actors/enemies/dark_soldier.png                       GPLv3                    Allacrost + Kirill777 (OGA) - http://opengameart.org/content/soldier-0
 img/icons/actors/enemies/mushroom_zombie.png                    CC by SA 3.0             Redshrike (OGA)
 img/icons/actors/characters/red_slime.png                       GPLv2                    Allacrost (From green slime enemy)
 img/icons/actors/enemies/green_snake.png                        GPLv2                    Allacrost (From snake enemy)
@@ -217,6 +218,9 @@ img/menus/dialogue_nameplate.png                                GPLv2           
 img/menus/hand.png                                              CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
 img/menus/hand_down.png                                         CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
 img/menus/key.png                                               CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
+img/menus/minimap_arrows.png                                    CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
+img/menus/minimap_background.png                                GPLv2                    Allacrost + Modifications by Bertram
+img/menus/minimap_collision.png                                 GPLv2                    Allacrost + Modifications by Bertram
 img/menus/rotating_crystal_grey.lua                             GPLv2                    Bertram
 img/menus/rotating_crystal_grey.png                             CC by 3.0                qubodup (OGA) - http://opengameart.org/content/rotating-crystal-animation-8-step
 img/menus/shard.png                                             CC by SA 3.0             Bertram
@@ -244,6 +248,8 @@ img/misc/editor-tools/go-up.png                                 GPLv2           
 img/misc/lights/left_window_light.png                           CC by SA 3.0             Bertram
 img/misc/lights/right_window_light.png                          CC by SA 3.0             Bertram
 img/misc/lights/torch_light_mask.png                            CC by SA 3.0             Bertram (Completely redone)
+img/misc/lights/torch_light_mask2.lua                           CC by SA 3.0             Bertram
+img/misc/lights/torch_light_mask2.png                           CC by SA 3.0             Bertram
 img/misc/lights/left_window_light.lua                           GPLv2 or later           Bertram
 img/misc/lights/right_window_light.lua                          GPLv2 or later           Bertram
 img/misc/lights/torch_light_mask.lua                            GPLv2 or later           Bertram
@@ -268,6 +274,7 @@ img/portraits/battle/laila_damage.png                           GPLv2           
 img/portraits/battle/thanis_damage.png                          GPLv2                    Allacrost (was Claudius icon)
 img/portraits/battle/sylve_damage.png                           GPLv2                    Allacrost (was Raphaela icon)
 img/portraits/battle/bronann_damage.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
+img/portraits/npcs/dark_soldier.png                             GPLv3                    Kirill777 (OGA) -  http://opengameart.org/content/soldier-0
 
 img/portraits/map/npcs/malta.png                                GPLv2                    Allacrost (was Vanica portrait)
 img/portraits/map/npcs/carson.png                               GPLv2                    Allacrost (was Marcus portrait)
@@ -428,6 +435,7 @@ img/sprites/battle/characters/others/soldier_run.lua            GPLv2           
 img/sprites/battle/characters/others/soldier_victory.lua        GPLv2                    Bertram
 
 img/sprites/battle/enemies/big_slime.png                        GPLv2                    Bertram (based on the slime sprite)
+img/sprites/battle/enemies/dark_soldier.png                     GPLv3                    Kirill777 (OGA) - http://opengameart.org/content/soldier-0
 img/sprites/battle/enemies/green_snake.png                      GPLv2                    Allacrost (From snake enemy)
 img/sprites/battle/enemies/mushroom_zombie.png                  CC by SA 3.0             Redshrike (OGA)
 img/sprites/battle/enemies/red_slime.png                        GPLv2                    Allacrost (Roots)
@@ -451,6 +459,8 @@ img/sprites/map/characters/bronann_walk.png                     GPLv2           
 img/sprites/map/characters/kalya_kneeling.lua                   GPLv2                    Bertram
 img/sprites/map/characters/kalya_run.png                        GPLv2                    Allacrost
 img/sprites/map/characters/kalya_walk.png                       GPLv2                    Allacrost
+img/sprites/map/characters/kalya_struggling.lua                 GPLv2                    Bertram
+img/sprites/map/characters/kalya_struggling.png                 GPLv2                    Allacrost + Bertram
 img/sprites/map/characters/sylve_run.png                        GPLv2                    Allacrost
 img/sprites/map/characters/sylve_walk.png                       GPLv2                    Allacrost
 img/sprites/map/characters/thanis_walk.png                      GPLv2                    Allacrost
@@ -459,6 +469,9 @@ img/sprites/map/enemies/bat_spritesheet.png                     CC by SA 3.0    
 img/sprites/map/enemies/big_slime_idle.lua                      GPLv2                    Bertram
 img/sprites/map/enemies/big_slime_spritesheet.png               CC by SA 3.0             From the Liberated Pixel Cup Slime enemy - http://lpc.opengameart.org/ (OGA)
 img/sprites/map/enemies/big_slime_walk.lua                      GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier01_idle.lua                 GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier01_spritesheet.png          CC by SA 3.0             Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+img/sprites/map/enemies/dark_soldier01_walk.lua                 GPLv2                    Bertram
 img/sprites/map/enemies/gigas_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/naga_walk.png                           GPLv2                    Allacrost
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2                    Allacrost
@@ -485,6 +498,8 @@ img/sprites/map/npcs/npc_man02_walk.png                         GPLv2           
 img/sprites/map/npcs/npc_old_woman01_walk.png                   GPLv2                    Allacrost
 img/sprites/map/npcs/npc_soldier01_walk.png                     GPLv2                    Allacrost
 img/sprites/map/npcs/npc_soldier02_walk.png                     GPLv2                    Allacrost
+img/sprites/map/npcs/npc_soldier01_idle.lua                     GPLv2                    Bertram
+img/sprites/map/npcs/npc_soldier01_walk.lua                     GPLv2                    Bertram
 img/sprites/map/npcs/npc_woman01_walk.png                       GPLv2                    Allacrost
 img/sprites/map/npcs/npc_woman02_walk.png                       GPLv2                    Allacrost
 img/sprites/map/npcs/npc_woman03_walk.png                       CC by SA 3.0             Jetrel (OGA) + Bertram's work.
@@ -512,6 +527,8 @@ img/sprites/map/objects/bush4.lua                               GPLv2           
 img/sprites/map/objects/bush4.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/cat1.lua                                GPLv2                    Bertram
 img/sprites/map/objects/cat1.png                                CC By SA 3.0             Strawheart (OGA)  http://mtsids.com/
+img/sprites/map/objects/campfire.lua                            GPLv2                    Bertram
+img/sprites/map/objects/campfire.png                            CC by SA 3.0             Jetrel + Zabin (OGA) - http://opengameart.org/content/camp-fire-animation-for-rpgs-finished
 img/sprites/map/objects/chair1.lua                              GPLv2                    Bertram
 img/sprites/map/objects/chair1.png                              GPLv2                    Allacrost
 img/sprites/map/objects/chair1_inverted.lua                     GPLv2                    Bertram
@@ -620,11 +637,13 @@ mus/accion-OGA-djsaryon.ogg                                     CC by SA 3.0, GP
 mus/Battle_lost-OGA-Mumu.ogg                                    CC0                      Mumu (OGA) - http://opengameart.org/content/game-over-muisc
 mus/Caketown_1-OGA-mat-pablo.ogg                                CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
 mus/Fanfare.ogg                                                 GPLv2                    Allacrost
+mus/forest_at_night.ogg                                         CC by 3.0                Benboncan, dobroide (freesound.org) - Mix from Bertram between http://www.freesound.org/people/Benboncan/sounds/64544/ and http://www.freesound.org/people/dobroide/sounds/20574/
 mus/heroism-OGA-Edward-J-Blakeley.ogg                           GPLv2, GPLv3             Edward J. Blakeley (OGA) - http://opengameart.org/content/heroism
 mus/house_in_a_forest_loop_horrorpen_oga.ogg                    CC by 3.0                HorrorPen (OGA)
 mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0             Koertes (OGA)
 mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
 mus/shrine-OGA-yd.ogg                                           (CC0)                    yd (OGA) - http://opengameart.org/content/shrine
+mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg                   CC by 3.0                Mathew Pablo (OGA) - http://opengameart.org/content/theme-of-com-mecha
 mus/Zander Noriega - School of Quirks.ogg                       CC by SA 3.0             Zander Noriega (OGA) - http://opengameart.org/content/school-of-quirks
 
 snd/cloth_sound.wav                                             CC by SA 3.0, GPLv2 or 3 artisticdude (OGA)

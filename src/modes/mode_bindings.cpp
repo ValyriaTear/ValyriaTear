@@ -35,7 +35,7 @@
 #include "modes/battle/battle_dialogue.h"
 #include "modes/battle/battle_effects.h"
 #include "modes/battle/battle_utils.h"
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_events.h"
 #include "modes/map/map_objects.h"
@@ -106,14 +106,16 @@ void BindModeCode()
             .def("MoveVirtualFocus", (void(MapMode:: *)(float, float))&MapMode::MoveVirtualFocus)
             .def("MoveVirtualFocus", (void(MapMode:: *)(float, float, uint32))&MapMode::MoveVirtualFocus)
             .def("IsCameraOnVirtualFocus", &MapMode::IsCameraOnVirtualFocus)
+            .def("IsCameraMoving", &MapMode::IsCameraMoving)
+            .def("GetScreenXCoordinate", &MapMode::GetScreenXCoordinate)
+            .def("GetScreenYCoordinate", &MapMode::GetScreenYCoordinate)
             .def("SetShowGUI", &MapMode::SetShowGUI)
             .def("IsShowGUI", &MapMode::IsShowGUI)
             .def("PushState", &MapMode::PushState)
             .def("PopState", &MapMode::PopState)
             .def("CurrentState", &MapMode::CurrentState)
-            .def("GetScreenXCoordinate", &MapMode::GetScreenXCoordinate)
-            .def("GetScreenYCoordinate", &MapMode::GetScreenYCoordinate)
             .def("DrawMapLayers", &MapMode::_DrawMapLayers)
+            .def("ShowMinimap", &MapMode::ShowMinimap)
 
             // Namespace constants
             .enum_("constants") [
@@ -312,6 +314,8 @@ void BindModeCode()
             .def("LoadRunningAnimations", &MapSprite::LoadRunningAnimations)
             .def("LoadCustomAnimation", &MapSprite::LoadCustomAnimation)
             .def("ClearAnimations", &MapSprite::ClearAnimations)
+            .def("SetCustomAnimation", &MapSprite::SetCustomAnimation)
+            .def("DisableCustomAnimation", &MapSprite::DisableCustomAnimation)
             .def("AddDialogueReference", (void(MapSprite:: *)(uint32))&MapSprite::AddDialogueReference)
             .def("AddDialogueReference", (void(MapSprite:: *)(SpriteDialogue *))&MapSprite::AddDialogueReference)
             .def("ClearDialogueReferences", &MapSprite::ClearDialogueReferences)

@@ -18,6 +18,7 @@
 #define __FADE_HEADER__
 
 #include "color.h"
+#include "image.h"
 
 namespace hoa_video
 {
@@ -52,19 +53,6 @@ public:
     **/
     void Update(uint32 time);
 
-    //! \brief Class Member Accessor Functions
-    bool ShouldUseFadeOverlay() const {
-        return _use_fade_overlay;
-    }
-
-    Color GetFadeOverlayColor() const {
-        return _fade_overlay_color;
-    }
-
-    float GetFadeModulation() const {
-        return _fade_modulation;
-    }
-
     bool IsFading() const {
         return _is_fading;
     }
@@ -91,8 +79,11 @@ public:
         return _transitional_fading;
     }
 
+    //! \brief Draw the fading overlay
+    void Draw();
+
 private:
-    //! \brief The color that the screen is currently faded to.
+    //! \brief The current overlay color.
     Color _current_color;
 
     //! \brief The initial color of the screen before the fade started.
@@ -110,14 +101,8 @@ private:
     //! \brief True if the class is currently in the process of fading
     bool _is_fading;
 
-    //! \brief Set to true if using an overlay, false if using modulation.
-    bool _use_fade_overlay;
-
-    //! \brief Color of the overlay, if one is being used.
-    Color _fade_overlay_color;
-
-    //! \brief A float determining the degree of modulation.
-    float _fade_modulation;
+    //! Image used as a fading overlay
+    StillImage _fade_overlay_img;
 
     //! \brief Set to true if the fading process requires interpolation of RGB values between colors
     bool _interpolate_rgb_values;

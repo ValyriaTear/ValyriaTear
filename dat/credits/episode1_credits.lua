@@ -65,7 +65,7 @@ function Initialize(map_instance)
         },
         [8] = {
             header = hoa_system.Translate("Tester Team"),
-            text = "Shirish\nSahaondra\nKyara"
+            text = "Shirish\nKhyana\nSahaondra"
         },
         [9] = {
             header = "",

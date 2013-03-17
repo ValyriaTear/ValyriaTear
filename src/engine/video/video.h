@@ -33,8 +33,6 @@
 #include "coord_sys.h"
 #include "fade.h"
 #include "image.h"
-#include "interpolator.h"
-#include "shake.h"
 #include "screen_rect.h"
 #include "texture_controller.h"
 #include "text.h"
@@ -65,9 +63,30 @@
 
 #include <stack>
 
+namespace hoa_gui {
+class TextBox;
+class OptionBox;
+class GUISystem;
+class MenuWindow;
+namespace private_gui {
+class GUIElement;
+}
+}
+
+namespace hoa_map {
+namespace private_map {
+class MapTransitionEvent;
+}
+}
+
+namespace hoa_mode_manager {
+class ModeEngine;
+}
+
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace hoa_video
 {
+class VideoEngine;
 
 //! \brief The singleton pointer for the engine, responsible for all video operations.
 extern VideoEngine *VideoManager;
@@ -145,15 +164,6 @@ enum VIDEO_TARGET {
 const float	VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
 const float	VIDEO_STANDARD_RES_HEIGHT = 768.0f;
 
-/** \brief Linearly interpolates a value which is (alpha * 100) percent between initial and final
-*** \param alpha Determines where inbetween initial (0.0f) and final (1.0f) the interpolation should be
-*** \param initial The initial value
-*** \param final The final value
-*** \return the linear interpolated value
-**/
-float Lerp(float alpha, float initial, float final);
-
-
 /** \brief Rotates a point (x,y) around the origin (0,0), by angle radians
 *** \param x x coordinate of point to rotate
 *** \param y y coordinate of point to rotate
@@ -187,7 +197,6 @@ class VideoEngine : public hoa_utils::Singleton<VideoEngine>
     friend class private_video::VariableTexSheet;
 
     friend class ImageDescriptor;
-    friend class StillImage;
     friend class CompositeImage;
     friend class private_video::TextElement;
     friend class TextImage;
@@ -362,6 +371,39 @@ public:
     **/
     void SetCoordSys(const CoordSys &coordinate_system);
 
+    /** \brief get the current viewport information
+    *** \param x the current x location as a float
+    *** \param y the current y location as a float
+    *** \param width current width as a float
+    *** \param height current height as a float
+    **/
+    void GetCurrentViewport(float &x, float &y, float &width, float &height)
+    {
+        static GLint viewport_dimensions[4] = {(GLint)0};
+        glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
+        x = (float) viewport_dimensions[0];
+        y = (float) viewport_dimensions[1];
+        width = (float) viewport_dimensions[2];
+        height = (float) viewport_dimensions[3];
+    }
+
+    /** \brief assigns the viewport for open gl to draw into
+    *** \param x the x start location
+    *** \param y the y start location
+    *** \param width the x width
+    *** \param height the y height
+    **/
+    void SetViewport(float x, float y, float width, float height)
+    {
+        if(width <= 0 || height <= 0)
+        {
+            PRINT_WARNING << "attempted to set an invalid viewport size: " << x << "," << y
+                << " at " << width << ":" << height << std::endl;
+            return;
+        }
+        glViewport((GLint) x, (GLint)y, (GLsizei)width, (GLsizei)height);
+    }
+
     //! Perform the OpenGL corresponding calls, but only if necessary.
     void EnableAlphaTest();
     void DisableAlphaTest();
@@ -516,6 +558,19 @@ public:
     **/
     StillImage CaptureScreen() throw(hoa_utils::Exception);
 
+    /** \brief Creates an image based on the raw image information passed in. This
+    *** image can be rendered or used as a texture by the rendering system
+    *** \param raw_image a pointer to a valid ImageMemory. It is assumed all the parameters such as width and height are set,
+    *** and that the size of a pixel is 4-bytes wide
+    *** \param image_name The unique image name that we will use to create this image. Note that if it is not unique we throw an Exception
+    *** if delete_on_exist is not set to true (default)
+    *** \param delete_on_exist Flag that indicates whether or not to destroy the image from the TextureManager if the image_name exists.
+    *** Default true
+    *** \return a valid StillImage that is created from the input parameter
+    *** \throw Exception if the new image cannot be created
+    **/
+    StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(hoa_utils::Exception);
+
     /** \brief Returns a pointer to the GUIManager singleton object
     *** This method allows the user to perform text operations. For example, to load a
     *** font, the user may utilize this method like so:
@@ -594,28 +649,13 @@ public:
     }
 
     //-- Screen shaking -------------------------------------------------------
-
-    /** \brief Adds a new shaking effect to the screen
-    ***
-    *** \param force The initial force of the shake
-    *** \param falloff_time The number of milliseconds that the effect should last for. 0 indicates infinite time.
-    *** \param falloff_method Specifies the method of falloff. The default is VIDEO_FALLOFF_NONE.
-    *** \note If you want to manually control when the shaking stops, set the falloff_time to zero
-    *** and the falloff_method to VIDEO_FALLOFF_NONE.
-    **/
-    void ShakeScreen(float force, uint32 falloff_time, ShakeFalloff falloff_method = VIDEO_FALLOFF_NONE);
-
-    //! \brief Terminates all current screen shake effects
-    void StopShaking() {
-        _shake_forces.clear();
-        _x_shake = 0.0f;
-        _y_shake = 0.0f;
-    }
-
+// Avoid a useless dependency on the mode manager for the editor build
+#ifndef EDITOR_BUILD
     //! \brief Returns true if the screen is shaking
-    bool IsShaking() {
-        return (_shake_forces.empty() == false);
-    }
+    //! \note The function acts as a wrapper for the current game mode effect supervisor
+    //! and check for active shaking
+    bool IsScreenShaking();
+#endif
 
     //-- Miscellaneous --------------------------------------------------------
 
@@ -798,12 +838,6 @@ private:
     //! \brief Manages the current screen fading effect when fading is activated
     private_video::ScreenFader _screen_fader;
 
-    //! Image used as a sub-fading overlay
-    StillImage _fade_overlay_img;
-
-    //! eight character name for temp files that increments every time you create a new one so they are always unique
-    char _next_temp_file[9];
-
     //! Keeps whether debug info about the current game mode should be drawn.
     bool _debug_info;
 
@@ -817,9 +851,6 @@ private:
 
     //! Current gamma value
     float _gamma_value;
-
-    //! current shake forces affecting screen
-    std::deque<private_video::ShakeForce> _shake_forces;
 
     // changing the video settings does not actually do anything until
     // you call ApplySettings(). Up til that point, store them in temp
@@ -863,28 +894,6 @@ private:
     */
     int32 _ConvertYAlign(int32 yalign);
 
-    /** \brief returns a filename like TEMP_abcd1234.ext, and each time you call it, it increments the
-     *         alphanumeric part of the filename. This way, during any particular run
-     *         of the game, each temp filename is guaranteed to be unique.
-     *         Assuming you create a new temp file every second, it would take 100,000 years to get
-     *         from TEMP_00000000 to TEMP_zzzzzzzz
-     *
-     *  \param extension   The extension for the temp file. Although we could just save temp files
-     *                     without an extension, that might cause stupid bugs like DevIL refusing
-     *                     to load an image because it doesn't end with .png.
-     * \return name of the generated temp file
-     */
-    std::string _CreateTempFilename(const std::string &extension);
-
-    /** \brief Rounds a force value to the nearest integer based on probability.
-    *** \param force  The force to round
-    *** \return the rounded force value
-    *** \note For example, a force value of 2.85 has an 85% chance of rounding to 3 and a 15% chance of rounding to 2. This rounding
-    *** methodology is necessary because for force values less than 1 (e.g. 0.5f), the shake force would always round down to zero
-    *** even though there is positive force.
-    **/
-    float _RoundForce(float force);
-
     /**
     * \brief takes an x value and converts it into screen coordinates
     * \return the converted value
@@ -896,11 +905,6 @@ private:
     * \return the converted value
     */
     int32 _ScreenCoordY(float y);
-
-    /** \brief Updates all active shaking effects
-    *** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
-    **/
-    void _UpdateShake(uint32 frame_time);
 }; // class VideoEngine : public hoa_utils::Singleton<VideoEngine>
 
 }  // namespace hoa_video

@@ -533,6 +533,7 @@ int main(int argc, char *argv[])
             VideoManager->Draw();
             ModeManager->DrawEffects();
             ModeManager->DrawPostEffects();
+            VideoManager->DrawFadeEffect();
             // Swap the buffers once the draw operations are done.
             SDL_GL_SwapBuffers();
 

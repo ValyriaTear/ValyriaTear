@@ -16,7 +16,7 @@
 
 #include "modes/map/map_treasure.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_objects.h"
 
 #include "modes/menu/menu.h"

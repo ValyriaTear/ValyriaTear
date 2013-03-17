@@ -1060,7 +1060,10 @@ void SkillsWindow::Update()
         hoa_utils::ustring skill_type;
         switch(skill->GetType()) {
             case GLOBAL_SKILL_WEAPON:
-                skill_type = UTranslate("Weapon skill");
+                if (skill_owner->GetWeaponEquipped())
+                    skill_type = UTranslate("Weapon skill");
+                else
+                    skill_type = UTranslate("Bare hands");
                 break;
             case GLOBAL_SKILL_MAGIC:
                 skill_type = UTranslate("Magic skill");
@@ -1103,7 +1106,10 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
     std::vector<GlobalSkill *> battle_skills;
     std::vector<GlobalSkill *> all_skills;
 
-    _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+    if (ch->GetWeaponEquipped())
+        _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+    else
+        _BuildMenuBattleSkillLists(ch->GetBareHandsSkills(), &menu_skills, &battle_skills, &all_skills);
     _BuildMenuBattleSkillLists(ch->GetMagicSkills(), &menu_skills, &battle_skills, &all_skills);
     _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
 
@@ -1144,7 +1150,10 @@ void SkillsWindow::_UpdateSkillList()
     std::vector<GlobalSkill*>::const_iterator it_begin;
     std::vector<GlobalSkill*>::const_iterator it_end;
 
-    _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+    if (ch->GetWeaponEquipped())
+        _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+    else
+        _BuildMenuBattleSkillLists(ch->GetBareHandsSkills(), &menu_skills, &battle_skills, &all_skills);
     _BuildMenuBattleSkillLists(ch->GetMagicSkills(), &menu_skills, &battle_skills, &all_skills);
     _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
 
@@ -1203,13 +1212,13 @@ void SkillsWindow::_UpdateSkillList()
 void SkillsWindow::_BuildMenuBattleSkillLists(std::vector<GlobalSkill *> *skill_list,
         std::vector<GlobalSkill *> *field, std::vector<GlobalSkill *> *battle, std::vector<GlobalSkill *> *all)
 {
-    std::vector<GlobalSkill *>::iterator i;
-    for(i = skill_list->begin(); i != skill_list->end(); ++i) {
-        if((*i)->IsExecutableInBattle())
-            battle->push_back(*i);
-        if((*i)->IsExecutableInField())
-            field->push_back(*i);
-        all->push_back(*i);
+    std::vector<GlobalSkill *>::iterator it;
+    for(it = skill_list->begin(); it != skill_list->end(); ++it) {
+        if((*it)->IsExecutableInBattle())
+            battle->push_back(*it);
+        if((*it)->IsExecutableInField())
+            field->push_back(*it);
+        all->push_back(*it);
     }
 }
 

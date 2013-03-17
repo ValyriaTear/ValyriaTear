@@ -17,7 +17,7 @@
 
 #include "modes/map/map_dialogue.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_events.h"
 #include "modes/map/map_sprites.h"
 
@@ -378,7 +378,7 @@ void DialogueSupervisor::EndDialogue()
         return;
     }
 
-    _current_dialogue->IncrementTimesSeen();
+    _current_dialogue->SetAsSeen();
 
     // We only want to call the RestoreState function *once* for each speaker, so first we have to construct a list of pointers
     // for all speakers without duplication (i.e. the case where a speaker spoke more than one line of dialogue).

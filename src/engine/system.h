@@ -127,6 +127,7 @@ std::string VTranslate(const std::string &text, const std::string& arg1);
 std::string VTranslate(const std::string &text, float arg1);
 // Example with 2 args, used in the treasure supervisor
 std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2);
+std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
 
 
 /** ****************************************************************************

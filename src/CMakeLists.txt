@@ -297,14 +297,10 @@ engine/video/image.cpp
 engine/video/image.h
 engine/video/image_base.cpp
 engine/video/image_base.h
-engine/video/interpolator.cpp
-engine/video/interpolator.h
 engine/video/fade.h
 engine/video/fade.cpp
 engine/video/text.cpp
 engine/video/text.h
-engine/video/shake.cpp
-engine/video/shake.h
 engine/video/particle_manager.h
 engine/video/particle_manager.cpp
 engine/video/particle_effect.h
@@ -366,6 +362,9 @@ engine/mode_manager.h
 engine/mode_manager.cpp
 engine/script_supervisor.h
 engine/script_supervisor.cpp
+engine/video/shake.h
+engine/video/interpolator.cpp
+engine/video/interpolator.h
 main_options.h
 modes/pause.cpp
 modes/shop/shop_root.h
@@ -417,9 +416,9 @@ modes/map/map_treasure.h
 modes/map/map_events.h
 modes/map/map_tiles.h
 modes/map/map_utils.h
-modes/map/map.cpp
+modes/map/map_mode.cpp
 modes/map/map_dialogue.cpp
-modes/map/map.h
+modes/map/map_mode.h
 modes/map/map_utils.cpp
 modes/map/map_objects.cpp
 modes/map/map_events.cpp
@@ -429,6 +428,8 @@ modes/map/map_treasure.cpp
 modes/map/map_sprites.h
 modes/map/map_zones.cpp
 modes/map/map_objects.h
+modes/map/map_minimap.cpp
+modes/map/map_minimap.h
 modes/menu/menu.h
 modes/menu/menu.cpp
 modes/menu/menu_views.cpp
@@ -479,10 +480,9 @@ IF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
         ${SDLIMAGE_LIBRARY}
         ${OPENGL_LIBRARIES}
         ${OPENAL_LIBRARY}
-
+        ${VORBISFILE_LIBRARIES}
         ${OGG_LIBRARY}
         ${VORBIS_LIBRARIES}
-
         ${PNG_LIBRARIES}
         ${JPEG_LIBRARIES}
         ${LUA_LIBRARIES}

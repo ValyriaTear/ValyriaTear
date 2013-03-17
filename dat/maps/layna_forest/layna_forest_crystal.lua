@@ -377,7 +377,6 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    --_CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -1259,7 +1258,7 @@ map_functions = {
     end,
 
     first_tremor = function()
-        VideoManager:ShakeScreen(1.0, 2000, hoa_video.GameVideo.VIDEO_FALLOFF_SUDDEN);
+        Map:GetEffectSupervisor():ShakeScreen(1.0, 2000, hoa_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
         AudioManager:PlaySound("snd/rumble.wav");
     end,
 

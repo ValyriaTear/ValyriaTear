@@ -108,6 +108,18 @@ void BindEngineCode()
             .def("DisableEffects", &EffectSupervisor::DisableEffects)
             .def("GetCameraXMovement", &EffectSupervisor::GetCameraXMovement)
             .def("GetCameraYMovement", &EffectSupervisor::GetCameraYMovement)
+            .def("ShakeScreen", &EffectSupervisor::ShakeScreen)
+            .def("StopShaking", &EffectSupervisor::StopShaking)
+
+            // Namespace constants
+            .enum_("constants") [
+                // Shake fall off types
+                luabind::value("SHAKE_FALLOFF_NONE", SHAKE_FALLOFF_NONE),
+                luabind::value("SHAKE_FALLOFF_EASE", SHAKE_FALLOFF_EASE),
+                luabind::value("SHAKE_FALLOFF_LINEAR", SHAKE_FALLOFF_LINEAR),
+                luabind::value("SHAKE_FALLOFF_GRADUAL", SHAKE_FALLOFF_GRADUAL),
+                luabind::value("SHAKE_FALLOFF_SUDDEN", SHAKE_FALLOFF_SUDDEN)
+            ]
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
@@ -246,7 +258,6 @@ void BindEngineCode()
             .def("FadeScreen", &VideoEngine::FadeScreen)
             .def("IsFading", &VideoEngine::IsFading)
             .def("FadeIn", &VideoEngine::FadeIn)
-            .def("ShakeScreen", &VideoEngine::ShakeScreen)
             .def("DrawText", (void (VideoEngine:: *)(const hoa_utils::ustring &, float, float, const Color &)) &VideoEngine::DrawText)
             .def("DrawText", (void (VideoEngine:: *)(const std::string &, float, float, const Color &)) &VideoEngine::DrawText)
 
@@ -256,13 +267,6 @@ void BindEngineCode()
 
             // Namespace constants
             .enum_("constants") [
-                // Shake fall off types
-                luabind::value("VIDEO_FALLOFF_NONE", VIDEO_FALLOFF_NONE),
-                luabind::value("VIDEO_FALLOFF_EASE", VIDEO_FALLOFF_EASE),
-                luabind::value("VIDEO_FALLOFF_LINEAR", VIDEO_FALLOFF_LINEAR),
-                luabind::value("VIDEO_FALLOFF_GRADUAL", VIDEO_FALLOFF_GRADUAL),
-                luabind::value("VIDEO_FALLOFF_SUDDEN", VIDEO_FALLOFF_SUDDEN),
-
                 // Video context drawing constants
                 luabind::value("VIDEO_X_LEFT", VIDEO_X_LEFT),
                 luabind::value("VIDEO_X_CENTER", VIDEO_X_CENTER),

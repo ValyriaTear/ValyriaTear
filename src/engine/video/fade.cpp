@@ -36,16 +36,15 @@ ScreenFader::ScreenFader() :
     _current_time(0),
     _end_time(0),
     _is_fading(false),
-    _use_fade_overlay(false),
-    _fade_overlay_color(0.0f, 0.0f, 0.0f, 0.0f),
-    _fade_modulation(1.0f),
     _interpolate_rgb_values(false),
     _transitional_fading(false)
-{}
+{
+    // Fading overlay image
+    _fade_overlay_img.Load("", 1.0f, 1.0f);
+}
 
 
-
-void ScreenFader::BeginFade(const Color &final, uint32 time, bool transitional)
+void ScreenFader::BeginFade(const Color &final_color, uint32 duration, bool transitional)
 {
     // If last fade is made by the system, don't permit to fade:
     if(!transitional && _is_fading && _transitional_fading)
@@ -54,27 +53,11 @@ void ScreenFader::BeginFade(const Color &final, uint32 time, bool transitional)
     _transitional_fading = transitional;
     _is_fading = true;
 
-    _end_time = time;
+    _end_time = duration;
 
     _initial_color = _current_color;
-    _final_color = final;
+    _final_color = final_color;
     _current_time = 0;
-
-    // Figure out if this is a simple fade or if an overlay is required
-    // A simple fade is defined as a fade from clear to black, from black
-    // to clear, or from somewhere between clear and black to either clear
-    // or black. More simply, it's a fade where both the initial and final
-    // color's RGB values are zeroed out
-
-    _use_fade_overlay = true;
-
-    if((IsFloatEqual(_initial_color[0], 0.0f) && IsFloatEqual(_initial_color[1], 0.0f)
-            && IsFloatEqual(_initial_color[2], 0.0f) && IsFloatEqual(_final_color[0], 0.0f)
-            && IsFloatEqual(_final_color[1], 0.0f) && IsFloatEqual(_final_color[2], 0.0f))) {
-        _use_fade_overlay = false;
-    } else {
-        _fade_modulation = 1.0f;
-    }
 
     // If we are fading to or from transparent, then the RGB values do not need to be interpolated
     if(IsFloatEqual(_final_color[3], 0.0f)) {
@@ -109,38 +92,39 @@ void ScreenFader::Update(uint32 time)
     // Check for fading finish condition
     if(_current_time >= _end_time) {
         _current_color = _final_color;
+        _fade_overlay_img.SetColor(_current_color);
         _is_fading = false;
-
-        if(_use_fade_overlay) {
-            // Check if we have faded to black or clear. If so, we can use modulation
-            if(IsFloatEqual(_final_color[3], 0.0f) || (IsFloatEqual(_final_color[0], 0.0f)
-                    && IsFloatEqual(_final_color[1], 0.0f) && IsFloatEqual(_final_color[2], 0.0f))) {
-                _use_fade_overlay = false;
-                _fade_modulation = 1.0f - _final_color[3];
-            }
-        } else
-            _fade_modulation = 1.0f - _final_color[3];
-
         return;
     }
 
     // Calculate the new interpolated color
     float percent_complete = static_cast<float>(_current_time) / static_cast<float>(_end_time);
 
-    if(_interpolate_rgb_values == true) {
+    if(_interpolate_rgb_values) {
         _current_color[0] = Lerp(percent_complete, _initial_color[0], _final_color[0]);
         _current_color[1] = Lerp(percent_complete, _initial_color[1], _final_color[1]);
         _current_color[2] = Lerp(percent_complete, _initial_color[2], _final_color[2]);
     }
     _current_color[3] = Lerp(percent_complete, _initial_color[3], _final_color[3]);
 
-    if(_use_fade_overlay == false)
-        _fade_modulation = 1.0f - _current_color[3];
-    else
-        _fade_overlay_color = _current_color;
+    _fade_overlay_img.SetColor(_current_color);
 
     _current_time += time;
-} // void FadeScreen::Update(uint32 time)
+}
+
+void ScreenFader::Draw()
+{
+    if (_current_color == Color::clear)
+        return;
+
+    VideoManager->PushState();
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
+    // We add a margin in case of screen shaking to avoid unlit parts.
+    VideoManager->SetCoordSys(0.1f, 0.9f, 0.9f, 0.1f);
+    VideoManager->Move(0.0f, 0.0f);
+    _fade_overlay_img.Draw();
+    VideoManager->PopState();
+}
 
 } // namespace private_video
 

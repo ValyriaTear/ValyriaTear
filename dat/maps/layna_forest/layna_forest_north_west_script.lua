@@ -40,6 +40,7 @@ function Load(m)
     EventManager = Map.event_supervisor;
 
     Map.unlimited_stamina = false;
+    Map:ShowMinimap(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -1080,19 +1081,21 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Dialogue: the hero sees the tree shortcut
-    event = hoa_map.ScriptedEvent("Show tree shortcut", "show_trees_shortcut", "");
-    EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("Set Camera back to Hero", hero, "SetCamera2", "");
+    event = hoa_map.ScriptedEvent("Show tree shortcut", "show_trees_shortcut", "is_camera_moving_finished");
+    event:AddEventLinkAtEnd("The Hero sees the created shortcut");
     EventManager:RegisterEvent(event);
 
     dialogue = hoa_map.SpriteDialogue();
-    dialogue:SetInputBlocked(true);
     text = hoa_system.Translate("Great! The tremor has just opened a path.");
-    dialogue:AddLineTimedEvent(text, hero, 5000, "Show tree shortcut", "");
+    dialogue:AddLine(text, hero);
     text = hoa_system.Translate("We can easily return to the village from there.");
-    dialogue:AddLineTimedEvent(text, hero, 5000, "Set Camera back to Hero", "");
+    dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = hoa_map.DialogueEvent("The Hero sees the created shortcut", dialogue);
+    event:AddEventLinkAtEnd("Set Camera back to Hero")
+    EventManager:RegisterEvent(event);
+
+    event = hoa_map.ScriptedSpriteEvent("Set Camera back to Hero", hero, "SetCamera2", "is_camera2_moving_finished");
     EventManager:RegisterEvent(event);
 
     -- scene when returning to the village
@@ -1225,7 +1228,7 @@ function _CheckZones()
             elseif (GlobalManager:DoesEventExist("story", "layna_forest_trees_shorcut_open") == true
                     and GlobalManager:DoesEventExist("story", "layna_forest_trees_shortcut_seen") == false) then
                 hero:SetMoving(false);
-                EventManager:StartEvent("The Hero sees the created shortcut");
+                EventManager:StartEvent("Show tree shortcut");
                 GlobalManager:SetEventValue("story", "layna_forest_trees_shortcut_seen", 1);
             end
         end
@@ -1314,12 +1317,28 @@ map_functions = {
 
     show_trees_shortcut = function()
         -- Focus the camera on the shortcut
+        Map:PushState(hoa_map.MapMode.STATE_SCENE);
         Map:MoveVirtualFocus(64, 16);
         Map:SetCamera(ObjectManager.virtual_focus, 2500);
     end,
 
     SetCamera2 = function(sprite)
         Map:SetCamera(sprite, 2500);
+    end,
+
+    is_camera_moving_finished = function()
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        return true;
+    end,
+
+    is_camera2_moving_finished = function(sprite)
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        Map:PopState();
+        return true;
     end,
 
     start_of_dialogue_return_to_village = function()

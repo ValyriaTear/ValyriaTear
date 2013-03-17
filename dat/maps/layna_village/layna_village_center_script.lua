@@ -18,6 +18,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Effects = {};
 
 local bronann = {};
 local kalya = {};
@@ -29,6 +30,8 @@ local carson = {};
 local herth = {};
 local olivia = {}; -- Olivia npc, guarding the forest entrance
 
+local wooden_sword = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -36,6 +39,7 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = true;
 
@@ -52,7 +56,7 @@ function Load(m)
     _TriggerPotentialDialogueAfterFadeIn();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Effects:EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
 
     -- Set the world map current position
     GlobalManager:SetCurrentLocationId("layna village")
@@ -350,8 +354,8 @@ function _CreateEvents()
                                        "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_secret_path");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_village_center");
+    event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest/layna_forest_entrance.lua",
+                                       "dat/maps/layna_forest/layna_forest_entrance.lua", "from_village_center")
     EventManager:RegisterEvent(event);
 
     -- Generic events
@@ -892,7 +896,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
-    return;
+        return;
         -- Quest 1 done as for Georges
     elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
@@ -1115,7 +1119,7 @@ map_functions = {
 
     BrightLightStart = function()
         bright_light_time = 0.0;
-        VideoManager:ShakeScreen(0.6, 6000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        Effects:ShakeScreen(0.6, 6000, hoa_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         AudioManager:PlaySound("snd/rumble.wav");
         AudioManager:FadeOutAllMusic(2000);
     end,

@@ -172,10 +172,16 @@ weapons[10004] = {
     usable_by = BRONANN + THANIS,
     slots = 3,
 
+    -- NOTE: Testing trade conditions, balance this later
     trade_conditions = {
         [0] = 20000,  -- price
         [10003] = 10, -- 10 Knight's blades
-        [1003] = 5    -- 5 Elixirs
+        [1003] = 5,   -- 5 Elixirs
+        [1] = 3,      -- 3 minor healing potions
+        [2] = 2,      -- 2 medium healing potions
+        [3] = 6,      -- 6 healing potions
+        [4] = 5,      -- 5 Mega healing potions
+        [11] = 8      -- 8 Small moon juice
     },
 
     elemental_effects = {

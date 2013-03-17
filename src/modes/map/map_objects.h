@@ -965,6 +965,38 @@ public:
     //! \brief Draw the collision rectangles. Used for debugging purpose.
     void DrawCollisionArea(const MapFrame *frame);
 
+    //! \brief some retrieval functions. These are all const to indicate that
+    //! external callers cannot modify the contents of the map_object;
+
+    //! \brief get the number of rows and columns in the collision grid
+    void GetGridAxis(uint32 &x, uint32 &y) const
+    {
+        x = _num_grid_x_axis;
+        y = _num_grid_y_axis;
+    }
+
+    //! \brief checks to see if the location is a wall for the party or not. The naming is to indicate
+    //! that we only check for non-moving objects. IE, characters / NPCs / enemies are not checked
+    //! note that treasure boxes, save spots, etc are also skipped
+    //! \param x x location on collision grid
+    //! \param y y location on collision grid
+    //! \return whether the location would be a "wall" for the party or not
+    bool IsStaticCollision(uint32 x, uint32 y);
+
+    //! \brief checks if the location on the grid has a simple map collision. This is different from
+    //! IsStaticCollision, int hat it DOES NOT check static objects, but only the collision value for the map
+    bool IsMapCollision(uint32 x, uint32 y)
+    {
+        static const MAP_CONTEXT collision = MAP_CONTEXT_01;
+        //if the map's collision context is set to 1, we can return since we know there is a collision
+        if(_collision_grid[y][x] == collision)
+            return true;
+        else
+            return false;
+    }
+
+    //! returns a const reference to the ground objects in
+    const std::vector<MapObject *>& GetGroundObjects() const { return _ground_objects; }
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.
     private_map::MapObject *_FindNearestSavePoint(const VirtualSprite *sprite);

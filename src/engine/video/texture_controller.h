@@ -40,6 +40,12 @@
 namespace hoa_video
 {
 
+class TextureController;
+
+namespace private_video {
+class TextTexture;
+}
+
 //! \brief The singleton pointer for the instance of the texture controller
 extern TextureController *TextureManager;
 
@@ -57,7 +63,6 @@ class TextureController : public hoa_utils::Singleton<TextureController>
     friend class private_video::TexSheet;
     friend class private_video::FixedTexSheet;
     friend class private_video::VariableTexSheet;
-
     friend class hoa_mode_manager::ParticleSystem;
 
 public:

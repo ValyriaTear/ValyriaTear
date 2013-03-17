@@ -17,7 +17,7 @@
 #ifndef __MAP_ZONES_HEADER__
 #define __MAP_ZONES_HEADER__
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_objects.h"
 
 namespace hoa_map

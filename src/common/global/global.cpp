@@ -17,7 +17,7 @@
 
 #include "global.h"
 #include "engine/system.h"
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 
 using namespace hoa_utils;
 
