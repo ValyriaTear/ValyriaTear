@@ -293,7 +293,9 @@ void MapMode::Update()
     _event_supervisor->Update();
 
     //update collision camera
-    _minimap->Update(_camera, _gui_alpha);
+    if(_show_minimap && _minimap && (CurrentState() != STATE_SCENE)
+            && (CurrentState() != STATE_DIALOGUE))
+        _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
 } // void MapMode::Update()
