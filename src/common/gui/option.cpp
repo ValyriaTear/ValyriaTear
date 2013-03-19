@@ -222,7 +222,7 @@ void OptionBox::Draw()
             }
 
             float left_edge = 999999.0f; // The x offset to where the visible option contents begin
-            _DrawOption(_options.at(index), bounds, _scroll_offset, left_edge);
+            _DrawOption(_options.at(index), bounds, left_edge);
 
             // Draw the cursor if the previously drawn option was or is selected
             if((static_cast<int32>(index) == _selection || static_cast<int32>(index) == _first_selection) &&
@@ -1130,12 +1130,8 @@ void OptionBox::_DetermineScrollArrows()
 
 
 
-void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, float scroll_offset, float &left_edge)
+void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, float &left_edge)
 {
-    // TODO: this function doesn't make use of the scroll_offset parameter currently, but I'm pretty sure it is
-    // needed somewhere to get scrolling full working. Once the scrolling feature has been enabled and verified
-    // for correctness if this paramater is still unused, remove it.
-
     float x, y;
     int32 xalign = _option_xalign;
     int32 yalign = _option_yalign;

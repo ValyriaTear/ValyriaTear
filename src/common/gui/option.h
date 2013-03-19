@@ -656,10 +656,9 @@ private:
     /** \brief Draws a single option cell
     *** \param op The option contents to draw within the cell
     *** \param bounds The boundary coordinates for the information cell
-    *** \param scroll_offset A draw offset for when the option box is in the process of scrolling from one option to another
     *** \param left_edge Returns a coordinate that represents the left edge of the cell content (as opposed to strictly the cell boundary)
     **/
-    void _DrawOption(const private_gui::Option &op, const private_gui::OptionCellBounds &bounds, float cell_offset, float &left_edge);
+    void _DrawOption(const private_gui::Option &op, const private_gui::OptionCellBounds &bounds, float &left_edge);
 
     /** \brief Draws the cursor
     *** \param op The option contents to draw within the cell
