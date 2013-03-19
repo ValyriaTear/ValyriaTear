@@ -84,7 +84,7 @@ ShopMedia::ShopMedia()
     if(_equip_icon.Load("img/menus/equip.png") == false)
         IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load equip icon image" << std::endl;
 
-    if(!ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 8, 9))
+    if(!ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 7, 9))
         IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load elemental icon images" << std::endl;
 
     if(!ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
@@ -282,17 +282,14 @@ StillImage *ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_IN
     case GLOBAL_ELEMENTAL_EARTH:
         row = 3;
         break;
-    case GLOBAL_ELEMENTAL_SLICING:
+    case GLOBAL_ELEMENTAL_LIFE:
         row = 4;
         break;
-    case GLOBAL_ELEMENTAL_SMASHING:
+    case GLOBAL_ELEMENTAL_DEATH:
         row = 5;
         break;
-    case GLOBAL_ELEMENTAL_MAULING:
+    case GLOBAL_ELEMENTAL_NEUTRAL:
         row = 6;
-        break;
-    case GLOBAL_ELEMENTAL_PIERCING:
-        row = 7;
         break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << element_type << std::endl;

@@ -157,10 +157,9 @@ void BindCommonCode()
                         luabind::value("GLOBAL_ELEMENTAL_WATER", GLOBAL_ELEMENTAL_WATER),
                         luabind::value("GLOBAL_ELEMENTAL_VOLT", GLOBAL_ELEMENTAL_VOLT),
                         luabind::value("GLOBAL_ELEMENTAL_EARTH", GLOBAL_ELEMENTAL_EARTH),
-                        luabind::value("GLOBAL_ELEMENTAL_SLICING", GLOBAL_ELEMENTAL_SLICING),
-                        luabind::value("GLOBAL_ELEMENTAL_SMASHING", GLOBAL_ELEMENTAL_SMASHING),
-                        luabind::value("GLOBAL_ELEMENTAL_MAULING", GLOBAL_ELEMENTAL_MAULING),
-                        luabind::value("GLOBAL_ELEMENTAL_PIERCING", GLOBAL_ELEMENTAL_PIERCING),
+                        luabind::value("GLOBAL_ELEMENTAL_LIFE", GLOBAL_ELEMENTAL_LIFE),
+                        luabind::value("GLOBAL_ELEMENTAL_DEATH", GLOBAL_ELEMENTAL_DEATH),
+                        luabind::value("GLOBAL_ELEMENTAL_NEUTRAL", GLOBAL_ELEMENTAL_NEUTRAL),
                         // Status type constants
                         luabind::value("GLOBAL_STATUS_INVALID", GLOBAL_STATUS_INVALID),
                         luabind::value("GLOBAL_STATUS_STRENGTH_RAISE", GLOBAL_STATUS_STRENGTH_RAISE),
@@ -180,7 +179,6 @@ void BindCommonCode()
                         luabind::value("GLOBAL_STATUS_SP_REGEN", GLOBAL_STATUS_SP_REGEN),
                         luabind::value("GLOBAL_STATUS_SP_DRAIN", GLOBAL_STATUS_SP_DRAIN),
                         luabind::value("GLOBAL_STATUS_PARALYSIS", GLOBAL_STATUS_PARALYSIS),
-                        luabind::value("GLOBAL_STATUS_STASIS", GLOBAL_STATUS_STASIS),
                         // Intensity type constants
                         luabind::value("GLOBAL_INTENSITY_NEG_EXTREME", GLOBAL_INTENSITY_NEG_EXTREME),
                         luabind::value("GLOBAL_INTENSITY_NEG_GREATER", GLOBAL_INTENSITY_NEG_GREATER),

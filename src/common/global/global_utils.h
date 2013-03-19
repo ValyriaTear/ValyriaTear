@@ -159,11 +159,10 @@ enum GLOBAL_ELEMENTAL {
     GLOBAL_ELEMENTAL_WATER      =  1,
     GLOBAL_ELEMENTAL_VOLT       =  2,
     GLOBAL_ELEMENTAL_EARTH      =  3,
-    GLOBAL_ELEMENTAL_SLICING    =  4,
-    GLOBAL_ELEMENTAL_SMASHING   =  5,
-    GLOBAL_ELEMENTAL_MAULING    =  6,
-    GLOBAL_ELEMENTAL_PIERCING   =  7,
-    GLOBAL_ELEMENTAL_TOTAL      =  8
+    GLOBAL_ELEMENTAL_LIFE       =  4,
+    GLOBAL_ELEMENTAL_DEATH      =  5,
+    GLOBAL_ELEMENTAL_NEUTRAL    =  6,
+    GLOBAL_ELEMENTAL_TOTAL      =  7
 };
 
 /** \name Status Effect Types
@@ -188,8 +187,7 @@ enum GLOBAL_STATUS {
     GLOBAL_STATUS_SP_REGEN          = 14,
     GLOBAL_STATUS_SP_DRAIN          = 15,
     GLOBAL_STATUS_PARALYSIS         = 16,
-    GLOBAL_STATUS_STASIS            = 17,
-    GLOBAL_STATUS_TOTAL             = 18
+    GLOBAL_STATUS_TOTAL             = 17
 };
 
 /** \name Effect Intensity Levels

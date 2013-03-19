@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.03.14
+Last update: 2013.03.19
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -202,6 +202,12 @@ img/icons/battle/holy.png                                       GPLv2           
 img/icons/battle/mist.png                                       GPLv2                    Allacrost
 
 img/icons/specials/moon.png                                     CC by SA 3.0             Bertram, the moon part is based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture
+
+img/icons/effects/attack_types.png                              GPLv2                    Taken from the elemental.png file. (Allacrost)
+img/icons/effects/elemental.png                                 GPLv2                    Allacrost + changes from Bertram
+img/icons/effects/status.png                                    GPLv2                    Allacrost, HP, SP icons from Bertram
+img/icons/effects/targets.png                                   GPLv2                    Allacrost
+img/icons/effects/templates.png                                 GPLv2                    Allacrost, simplified from the original version by Bertram
 
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
@@ -835,11 +841,6 @@ Files:
 ./img/icons/actors/enemies/aurum-drakueli.png
 ./img/icons/actors/enemies/stygian_lizard.png
 ./img/icons/actors/enemies/rat.png
-
-./img/icons/effects/templates.png
-./img/icons/effects/status.png
-./img/icons/effects/targets.png
-./img/icons/effects/elemental.png
 
 ./img/icons/drunes.png
 ./img/icons/object_category_icons.png

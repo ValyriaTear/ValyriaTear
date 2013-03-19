@@ -544,7 +544,6 @@ bool IsNewStatusBetter(GLOBAL_STATUS new_status, GLOBAL_INTENSITY old_intensity,
     case GLOBAL_STATUS_HP_DRAIN:
     case GLOBAL_STATUS_SP_DRAIN:
     case GLOBAL_STATUS_PARALYSIS:
-    case GLOBAL_STATUS_STASIS:
         if(old_intensity < new_intensity)
             return false;
         else

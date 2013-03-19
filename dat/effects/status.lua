@@ -699,23 +699,3 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 		battle_actor:SetStunned(false);
 	end
 }
-
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STASIS] = {
-	name = hoa_system.Translate("Stasis"),
-	default_duration = 10000,
-	icon_index = 17,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_INVALID,
-
-	Apply = function(effect)
-		-- TODO
-	end,
-
-	Update = function(effect)
-		-- TODO
-	end,
-
-	Remove = function(effect)
-		-- TODO
-	end
-}
-

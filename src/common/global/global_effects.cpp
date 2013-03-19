@@ -38,16 +38,14 @@ std::string GetElementName(GLOBAL_ELEMENTAL type)
         return Translate("Volt");
     case GLOBAL_ELEMENTAL_EARTH:
         return Translate("Earth");
-    case GLOBAL_ELEMENTAL_SLICING:
-        return Translate("Slicing");
-    case GLOBAL_ELEMENTAL_SMASHING:
-        return Translate("Smashing");
-    case GLOBAL_ELEMENTAL_MAULING:
-        return Translate("Mauling");
-    case GLOBAL_ELEMENTAL_PIERCING:
-        return Translate("Piercing");
+    case GLOBAL_ELEMENTAL_LIFE:
+        return Translate("Life");
+    case GLOBAL_ELEMENTAL_DEATH:
+        return Translate("Death");
+    case GLOBAL_ELEMENTAL_NEUTRAL:
+        return Translate("Neutral");
     default:
-        return Translate("Invalid Elemental");
+        return Translate("Invalid Element");
     }
 }
 
