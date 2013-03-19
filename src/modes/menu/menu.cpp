@@ -149,6 +149,13 @@ void AbstractMenuState::Update()
 
 void AbstractMenuState::UpdateTimeAndDrunes()
 {
+    // Only update the time every 900ms
+    static int32 _update_of_time = 0;
+    _update_of_time -= (int32) hoa_system::SystemManager->GetUpdateTime();
+    if (_update_of_time > 0)
+        return;
+    _update_of_time = 900;
+
     std::ostringstream os_time;
     uint8 hours = SystemManager->GetPlayHours();
     uint8 minutes = SystemManager->GetPlayMinutes();
