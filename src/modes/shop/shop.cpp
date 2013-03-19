@@ -1087,7 +1087,7 @@ void ShopObjectViewer::_DrawEquipment()
     }
     else {
     // In info view mode, draw the spites centered on the screen in a row below the other equipment data
-        VideoManager->Move(512.0f, 475.0f);
+        VideoManager->Move(512.0f, 295.0f);
         float x_offset = -20.0f * _character_sprites.size();
         VideoManager->MoveRelative(x_offset, 0.0f);
     }
