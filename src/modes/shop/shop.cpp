@@ -376,7 +376,8 @@ ShopObjectViewer::ShopObjectViewer() :
     _object_type(SHOP_OBJECT_INVALID),
     _map_usable(false),
     _battle_usable(false),
-    _target_type_index(0)
+    _target_type_index(0),
+    _shard_number(0)
 {
     // Initialize all properties of class members that we can
     _object_name.SetStyle(TextStyle("title24"));
@@ -428,7 +429,6 @@ ShopObjectViewer::ShopObjectViewer() :
 
     _phys_rating.SetStyle(TextStyle("text22"));
     _mag_rating.SetStyle(TextStyle("text22"));
-    _shard_slot_text.SetStyle(TextStyle("text22"));
 
     _conditions_title.SetStyle(TextStyle("text22"));
     _conditions_title.SetText(UTranslate("Conditions:"));
@@ -734,13 +734,13 @@ void ShopObjectViewer::_SetEquipmentData()
     if(selected_weapon) {
         _phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
         _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack()));
-        _shard_slot_text.SetText("x" + NumberToString(selected_weapon->GetShardSlots().size()));
+        _shard_number = selected_weapon->GetShardSlots().size();
         _SetElementalIcons(selected_weapon->GetElementalEffects());
         _SetStatusIcons(selected_weapon->GetStatusEffects());
     } else if(selected_armor) {
         _phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
         _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense()));
-        _shard_slot_text.SetText("x" + NumberToString(selected_armor->GetShardSlots().size()));
+        _shard_number = selected_armor->GetShardSlots().size();
         _SetElementalIcons(selected_armor->GetElementalEffects());
         _SetStatusIcons(selected_armor->GetStatusEffects());
     }
@@ -1036,9 +1036,10 @@ void ShopObjectViewer::_DrawEquipment()
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
     VideoManager->MoveRelative(20.0f, -15.0f);
-    _shard_slot_icon->Draw();
-    VideoManager->MoveRelative(30.0f, 0.0f);
-    _shard_slot_text.Draw();
+    for (uint32 i = 0; i < _shard_number; ++i) {
+        _shard_slot_icon->Draw();
+        VideoManager->MoveRelative(15.0f , 0.0f);
+    }
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
     VideoManager->MoveRelative(40.0f, -55.0f);

@@ -312,8 +312,8 @@ private:
     //! \brief An icon image of a shard slot
     hoa_video::StillImage *_shard_slot_icon;
 
-    //! \brief Text indicating how many shards the selected equipment can support
-    hoa_video::TextImage _shard_slot_text;
+    //! \brief The number of shard the equipment can support.
+    uint32 _shard_number;
 
     //! \brief Icon images representing elemental effects and intensity properties of the selected object
     std::vector<hoa_video::StillImage *> _elemental_icons;
