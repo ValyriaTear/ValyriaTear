@@ -253,24 +253,6 @@ private:
 class PartyWindow : public hoa_gui::MenuWindow
 {
     friend class hoa_menu::MenuMode;
-private:
-
-    //! char portraits
-    std::vector<hoa_video::StillImage> _full_portraits;
-
-    //! if the window is active or not
-    uint32 _char_select_active;
-
-    //! character selection option box
-    hoa_gui::OptionBox _char_select;
-
-    //! The character select option box once first character has been selected
-    hoa_gui::OptionBox _second_char_select;
-
-    /*!
-    * \brief initialize character selection option box
-    */
-    void _InitCharSelect();
 
 public:
 
@@ -303,6 +285,30 @@ public:
     * \param new_value true to activate window, false to deactivate window
     */
     void Activate(bool new_value);
+
+private:
+    //! char portraits
+    std::vector<hoa_video::StillImage> _full_portraits;
+
+    //! if the window is active or not
+    uint32 _char_select_active;
+
+    //! character selection option box
+    hoa_gui::OptionBox _char_select;
+
+    //! The character select option box once first character has been selected
+    hoa_gui::OptionBox _second_char_select;
+
+    //! \brief The character status
+    hoa_video::TextImage _character_status_text;
+    hoa_video::TextImage _character_status_numbers;
+    hoa_video::StillImage _character_status_icons;
+
+    //! \brief initialize character selection option box
+    void _InitCharSelect();
+
+    //! \brief Updates the status text (and icons)
+    void _UpdateStatus();
 
 }; // class PartyWindow : public hoa_video::MenuWindow
 

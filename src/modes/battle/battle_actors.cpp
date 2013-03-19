@@ -455,39 +455,6 @@ void BattleActor::SetAgility(uint32 agility)
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 }
 
-uint32 BattleActor::GetAverageDefense()
-{
-    uint32 phys_defense = 0;
-
-    for(uint32 i = 0; i < _attack_points.size(); i++)
-        phys_defense += _attack_points[i]->GetTotalPhysicalDefense();
-    phys_defense /= _attack_points.size();
-
-    return phys_defense;
-}
-
-uint32 BattleActor::GetAverageMagicalDefense()
-{
-    uint32 mag_defense = 0;
-
-    for(uint32 i = 0; i < _attack_points.size(); i++)
-        mag_defense += _attack_points[i]->GetTotalMagicalDefense();
-
-    mag_defense /= _attack_points.size();
-    return mag_defense;
-}
-
-float BattleActor::GetAverageEvadeRating()
-{
-    float evade = 0.0f;
-
-    for(uint32 i = 0; i < _attack_points.size(); i++)
-        evade += _attack_points[i]->GetTotalEvadeRating();
-    evade /= static_cast<float>(_attack_points.size());
-
-    return evade;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // BattleCharacter class
 ////////////////////////////////////////////////////////////////////////////////

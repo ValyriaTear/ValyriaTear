@@ -445,15 +445,6 @@ public:
     }
     //@}
 
-    //! \brief Returns the average defense/evasion totals of all of the actor's attack points
-    //@{
-    uint32 GetAverageDefense();
-
-    uint32 GetAverageMagicalDefense();
-
-    float GetAverageEvadeRating();
-    //@}
-
     //! \name Class member access methods
     //@{
     ACTOR_STATE GetState() const {

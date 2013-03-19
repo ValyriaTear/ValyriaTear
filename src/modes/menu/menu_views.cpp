@@ -669,6 +669,12 @@ void PartyWindow::_InitCharSelect()
     _second_char_select.SetOptions(options);
     _second_char_select.SetSelection(0);
     _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+
+    _character_status_text.SetStyle(TextStyle("text18"));
+    _character_status_numbers.SetStyle(TextStyle("text18"));
+    _UpdateStatus();
+
+    _character_status_icons.Load("img/icons/effects/menu_status_icons1.png");
 }
 
 // Updates the status window
@@ -738,8 +744,53 @@ void PartyWindow::Update()
         break;
     } // switch
     _char_select.Update();
+
+    // update the status text
+    if (InputManager->AnyKeyPress())
+        _UpdateStatus();
 } // void PartyWindow::Update()
 
+void PartyWindow::_UpdateStatus()
+{
+    _character_status_text.Clear();
+    _character_status_numbers.Clear();
+
+    GlobalCharacter *ch =  dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+    if (!ch)
+        return;
+
+    hoa_utils::ustring text;
+    text = UTranslate("Experience Level: ") + MakeUnicodeString(NumberToString(ch->GetExperienceLevel()))
+        + MakeUnicodeString("\n\n\n")
+        + UTranslate("Strength (STR): ") + MakeUnicodeString("\n\n")
+        + UTranslate("Vigor (VIG): ") + MakeUnicodeString("\n\n")
+        + UTranslate("Fortitude (FRT): ") + MakeUnicodeString("\n\n")
+        + UTranslate("Protection (PRO): ") + MakeUnicodeString("\n\n")
+        + UTranslate("Agility (AGI): ") + MakeUnicodeString("\n\n")
+        + UTranslate("Evade (EVD): ") + MakeUnicodeString("%")
+        + MakeUnicodeString("\n\n\n")
+        + UTranslate("Attack (ATK): ") + MakeUnicodeString("\n")
+        + UTranslate("Mg Attack (M.ATK): ") + MakeUnicodeString("\n\n")
+        + UTranslate("Defense (DEF): ") + MakeUnicodeString("\n")
+        + UTranslate("Mg Defense (M.DEF): ");
+
+    _character_status_text.SetText(text);
+
+    text = MakeUnicodeString("\n\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetStrength())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetVigor())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetFortitude())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetAgility())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetStrength())) + MakeUnicodeString("%")
+        + MakeUnicodeString("\n\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetTotalPhysicalAttack())) + MakeUnicodeString("\n")
+        + MakeUnicodeString(NumberToString(ch->GetTotalMagicalAttack())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetAverageDefense())) + MakeUnicodeString("\n")
+        + MakeUnicodeString(NumberToString(ch->GetAverageMagicalDefense()));
+
+    _character_status_numbers.SetText(text);
+}
 
 // Draws the party window
 void PartyWindow::Draw()
@@ -748,62 +799,18 @@ void PartyWindow::Draw()
     _char_select.Draw();
     _second_char_select.Draw();
 
-    GlobalCharacter *ch =  dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
-
-    // Set drawing system
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 
-    // window top corner is 432, 99
-    VideoManager->Move(565, 130);
-
-    //Draw character name and level
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
-    VideoManager->Text()->Draw(ch->GetName());
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("Experience Level: ") + MakeUnicodeString(NumberToString(ch->GetExperienceLevel())));
-
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
-
-    //Draw all character stats
-    VideoManager->MoveRelative(-55, 60);
-    VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(ch->GetHitPoints()) +
-                               " (" + NumberToString(ch->GetMaxHitPoints()) + ")"));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(ch->GetSkillPoints()) +
-                               " (" + NumberToString(ch->GetMaxSkillPoints()) + ")"));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("XP to Next: ") + MakeUnicodeString(NumberToString(ch->GetExperienceForNextLevel())));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("Strength: ") + MakeUnicodeString(NumberToString(ch->GetStrength())));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("Vigor: ") + MakeUnicodeString(NumberToString(ch->GetVigor())));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("Fortitude: ") + MakeUnicodeString(NumberToString(ch->GetFortitude())));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("Protection: ") + MakeUnicodeString(NumberToString(ch->GetProtection())));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("Agility: ") + MakeUnicodeString(NumberToString(ch->GetAgility())));
-
-    VideoManager->MoveRelative(0, 25);
-    VideoManager->Text()->Draw(UTranslate("Evade: ") + MakeUnicodeString(NumberToString(ch->GetEvade()) + "%"));
-
-    //Draw character full body portrait
-    VideoManager->Move(855, 145);
-    VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_TOP, 0);
-
+     //Draw character full body portrait
+    VideoManager->Move(440.0f, 130.0f);
     _full_portraits[_char_select.GetSelection()].Draw();
 
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-
-
+    VideoManager->Move(660.0f, 130.0f);
+    _character_status_text.Draw();
+    VideoManager->MoveRelative(190.0f, 0.0f);
+    _character_status_numbers.Draw();
+    VideoManager->MoveRelative(-25.0f, 60.0f);
+    _character_status_icons.Draw();
 } // void PartyWindow::Draw()
 
 ////////////////////////////////////////////////////////////////////////////////

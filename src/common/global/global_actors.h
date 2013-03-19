@@ -354,6 +354,13 @@ public:
 
     float GetTotalEvadeRating(uint32 index) const;
 
+    /** \brief Returns the average defense/evasion totals
+    *** of all of the actor's attack points. It used against global attacks.
+    **/
+    uint32 GetAverageDefense();
+    uint32 GetAverageMagicalDefense();
+    float GetAverageEvadeRating();
+
     GlobalWeapon *GetWeaponEquipped() const {
         return _weapon_equipped;
     }
