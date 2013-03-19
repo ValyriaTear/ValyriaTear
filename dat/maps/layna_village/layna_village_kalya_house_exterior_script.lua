@@ -164,6 +164,9 @@ function _CreateObjects()
         kalya_house_exterior_chest:AddObject(1, 1);
         Map:AddGroundObject(kalya_house_exterior_chest);
     end
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 10.0, 46.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
 end
 
 -- Creates all events and sets up the entire event sequence chain

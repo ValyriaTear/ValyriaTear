@@ -606,6 +606,75 @@ void Light::Draw()
     }
 }
 
+SoundObject::SoundObject(const std::string &sound_filename, float x, float y,
+                         float strength, MAP_CONTEXT map_context)
+{
+    MapObject::_object_type = SOUND_TYPE;
+
+    if (!_sound.LoadAudio(sound_filename)) {
+        PRINT_WARNING << "Couldn't load environmental sound file: "
+            << sound_filename << std::endl;
+    }
+
+    // Tells the engine the sound can be unloaded if no other mode is using
+    // when the current map mode will be destructed
+    _sound.AddOwner(MapMode::CurrentInstance());
+    _sound.SetLooping(true);
+    _sound.SetVolume(0.0f);
+    _sound.Stop();
+
+    _strength = strength;
+    // Invalidates negative or near 0 values.
+    if (_strength <= 0.2f)
+        _strength = 0.0f;
+
+    _time_remaining = 0.0f;
+
+    position.x = x;
+    position.y = y;
+
+    context = map_context;
+    collision_mask = NO_COLLISION;
+}
+
+void SoundObject::Update()
+{
+    if (_strength == 0.0f)
+        return;
+
+    // Update the volume only every 100ms
+    _time_remaining -= (int32)hoa_system::SystemManager->GetUpdateTime();
+    if (_time_remaining > 0.0f)
+        return;
+    _time_remaining = 100;
+
+    // N.B.: The distance between two point formula is:
+    // squareroot((x2 - x1)^2+(y2 - y1)^2)
+    MapMode *mm = MapMode::CurrentInstance();
+    if(!mm)
+        return;
+    const MapFrame &frame = mm->GetMapFrame();
+
+    MapPosition center;
+    center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
+    center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
+
+    float distance = (position.x - center.x) * (position.x - center.x);
+    distance += (position.y - center.y) * (position.y - center.y);
+    //distance = sqrtf(_distance); <-- We dont actually need it as it is slow.
+
+    if (distance >= (_strength * _strength)) {
+        _sound.Stop();
+        return;
+    }
+
+    float volume = 1.0f - (distance / (_strength * _strength));
+    _sound.SetVolume(volume);
+
+    if (_sound.GetState() != AUDIO_STATE_PLAYING)
+        _sound.Play();
+}
+
 // ----------------------------------------------------------------------------
 // ---------- TreasureObject Class Functions
 // ----------------------------------------------------------------------------
@@ -871,6 +940,9 @@ ObjectSupervisor::~ObjectSupervisor()
     for(uint32 i = 0; i < _sky_objects.size(); ++i) {
         delete(_sky_objects[i]);
     }
+    for(uint32 i = 0; i < _sound_objects.size(); ++i) {
+        delete(_sound_objects[i]);
+    }
     for(uint32 i = 0; i < _halos.size(); ++i) {
         delete(_halos[i]);
     }
@@ -983,6 +1055,8 @@ void ObjectSupervisor::Update()
     for(uint32 i = 0; i < _zones.size(); ++i)
         _zones[i]->Update();
 
+    _UpdateAmbientSounds();
+
     // TODO: examine all sprites for movement and context change, then check all resident zones to see if the sprite has entered
 }
 
@@ -1054,6 +1128,14 @@ void ObjectSupervisor::_UpdateSavePoints()
             it != _save_points.end(); ++it) {
         (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
                          (*it)->GetCollisionRectangle()));
+        (*it)->Update();
+    }
+}
+
+void ObjectSupervisor::_UpdateAmbientSounds()
+{
+    for(std::vector<SoundObject *>::iterator it = _sound_objects.begin();
+            it != _sound_objects.end(); ++it) {
         (*it)->Update();
     }
 }

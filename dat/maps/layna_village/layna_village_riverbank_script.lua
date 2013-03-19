@@ -205,6 +205,21 @@ function _CreateObjects()
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
         hoa_video.Color(1.0, 1.0, 0.85, 0.3),
         hoa_map.MapMode.CONTEXT_01);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
 end
 
 -- Creates all events and sets up the entire event sequence chain

@@ -615,6 +615,42 @@ private:
     //@}
 }; // class Light : public MapObject
 
+/** ****************************************************************************
+*** \brief Represents a sound source object on the map
+*** ***************************************************************************/
+class SoundObject : public MapObject
+{
+public:
+    /** \brief An environmental sound objet which sound is played looped and with a volume
+    *** computed against the distance of the object with the camera.
+    *** \param sound_filename The sound filename to play.
+    *** \param x, y The sound map location
+    *** \param strength The "strength" of the sound, the maximal distance
+    in map tiles the sound can be heard within.
+    *** The sound volume will be compute according that distance.
+    *** \param map_context the context this sound can be heard in.
+    **/
+    SoundObject(const std::string &sound_filename, float x, float y,
+                float strength, MAP_CONTEXT map_context);
+
+    ~SoundObject()
+    {}
+
+    //! \brief Updates the object's current volume.
+    void Update();
+
+    //! \brief Does nothing
+    void Draw()
+    {}
+
+private:
+    //! \brief The sound object.
+    hoa_audio::SoundDescriptor _sound;
+    //! The maximal distance in map tiles the sound can be heard within.
+    float _strength;
+    //! The time remaining before next update
+    int32 _time_remaining;
+}; // class SoundObject : public MapObject
 
 /** ****************************************************************************
 *** \brief Represents an obtainable treasure on the map which the player may access
@@ -1004,6 +1040,9 @@ private:
     //! \brief Updates save points animation and active state.
     void _UpdateSavePoints();
 
+    //! \brief Updates the ambient sounds volume according to the camera distance.
+    void _UpdateAmbientSounds();
+
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
 
@@ -1073,6 +1112,10 @@ private:
     *** Translucent clouds can make good use of this object layer, for instance.
     **/
     std::vector<MapObject *> _sky_objects;
+
+    //! \brief Ambient sound objects, that plays a sound with a volume according
+    //! to the distance with the camera.
+    std::vector<SoundObject *> _sound_objects;
 
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
     //! \note Halos and lights are not registered in _all_objects.

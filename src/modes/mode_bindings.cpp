@@ -94,6 +94,7 @@ void BindModeCode()
             .def("AddGroundObject", &MapMode::AddGroundObject, luabind::adopt(_2))
             .def("AddPassObject", &MapMode::AddPassObject, luabind::adopt(_2))
             .def("AddSkyObject", &MapMode::AddSkyObject, luabind::adopt(_2))
+            .def("AddAmbientSoundObject", &MapMode::AddAmbientSoundObject, luabind::adopt(_2))
             .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
             .def("AddSavePoint", &MapMode::AddSavePoint)
             .def("AddHalo", &MapMode::AddHalo)
@@ -253,6 +254,12 @@ void BindModeCode()
             luabind::class_<Light, MapObject>("Light")
             .def(luabind::constructor<const std::string&, const std::string&, float, float,
                  const hoa_video::Color&, const hoa_video::Color&, MAP_CONTEXT>())
+        ];
+
+        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
+        [
+            luabind::class_<SoundObject, MapObject>("SoundObject")
+            .def(luabind::constructor<const std::string&, float, float, float, MAP_CONTEXT>())
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

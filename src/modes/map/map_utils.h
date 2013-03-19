@@ -150,7 +150,8 @@ enum MAP_OBJECT_TYPE {
     HALO_TYPE = 6,      //! This is a source of light, here for eye candy.
     LIGHT_TYPE = 7,     //! Another light type, but will change dynamically according to the map viewpoint.
     PARTICLE_TYPE = 8,  //! A particle object.
-    TRIGGER_TYPE = 9    //! A trigger object.
+    TRIGGER_TYPE = 9,   //! A trigger object.
+    SOUND_TYPE = 10     //! An environmental sound
 };
 
 /** \name Map Sprite Speeds

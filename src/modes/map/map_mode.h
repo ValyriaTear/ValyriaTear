@@ -44,7 +44,12 @@ namespace hoa_map
 namespace private_map
 {
 class Light;
+class MapObject;
 class Minimap;
+class ObjectSupervisor;
+class PhysicalObject;
+class SoundObject;
+class TreasureObject;
 } // namespace private_map
 
 /** ****************************************************************************
@@ -137,6 +142,9 @@ public:
 
     //! \brief Adds a new object to the sky object layer
     void AddSkyObject(private_map::MapObject *obj);
+
+    //! \brief Adds a new ambient sound object
+    void AddAmbientSoundObject(private_map::SoundObject *obj);
 
     //! \brief Adds a new zone to the map
     void AddZone(private_map::MapZone *zone);

@@ -32,6 +32,8 @@ namespace hoa_map
 namespace private_map
 {
 
+class TreasureObject;
+
 /** ****************************************************************************
 *** \brief A container class for treasures procured by the player
 ***

@@ -307,6 +307,7 @@ class ObjectSupervisor;
 class MapObject;
 class PhysicalObject;
 class TreasureObject;
+class SoundObject;
 
 class VirtualSprite;
 class MapSprite;
