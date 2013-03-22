@@ -700,6 +700,9 @@ void PartyState::Reset()
     // Add strings and set default selection.
     _options.SetOptions(options);
     _options.SetSelection(PARTY_OPTIONS_VIEW_ALTER);
+
+    _menu_mode->_help_information.SetDisplayText(
+        UTranslate("View character Information.\nSelect a character to change formation."));
 }
 
 AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
@@ -719,34 +722,20 @@ AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
 
 void PartyState::_DrawBottomMenu()
 {
-    static const ustring change_position_message = UTranslate("Select a character to change position with.");
-    static const ustring change_formation_mesage = UTranslate("Select a character to change formation.");
-    static const ustring general_help_message = UTranslate("View character Information.\nSelect a character to change formation.");
-
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(150, 580);
 
-    //show a helpfull message
-    if(_IsActive())
-    {
-        if(_menu_mode->_party_window.GetActiveState() == FORM_ACTIVE_SECOND)
-            _menu_mode->_help_information.SetDisplayText(change_position_message);
-        else
-            _menu_mode->_help_information.SetDisplayText(change_formation_mesage);
-    }
-    else
-        _menu_mode->_help_information.SetDisplayText(general_help_message);
-
-    _menu_mode->_help_information.Draw();
+    // show a helpful message
+    if(!_IsActive())
+        _menu_mode->_help_information.Draw();
 }
+
 void PartyState::_OnDrawMainWindow()
 {
-
     _DrawBottomMenu();
     _menu_mode->_party_window.Draw();
-
 }
 
 void SkillsState::_ActiveWindowUpdate()

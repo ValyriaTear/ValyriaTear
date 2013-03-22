@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.03.19
+Last update: 2013.03.22
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -232,6 +232,12 @@ img/menus/rotating_crystal_grey.lua                             GPLv2           
 img/menus/rotating_crystal_grey.png                             CC by 3.0                qubodup (OGA) - http://opengameart.org/content/rotating-crystal-animation-8-step
 img/menus/shard.png                                             CC by SA 3.0             Bertram
 img/menus/stamina_bar.png                                       CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
+
+img/menus/status/menu_avg_atk_def.png                           GPLv2                    Allacrost + Modifications by Bertram
+img/menus/status/menu_def_icon.png                              GPLv2                    Allacrost + Modifications by Bertram
+img/menus/status/menu_mdef_icon.png                             GPLv2                    Allacrost + Modifications by Bertram
+img/menus/status/menu_point_atk_def.png                         GPLv2                    Allacrost + Modifications by Bertram
+img/menus/status/menu_stats_icons.png                           GPLv2                    Allacrost + Modifications by Bertram
 
 img/menus/themes/royal_silk/win_border.png                      CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
 img/menus/themes/royal_silk/win_background.png                  CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications

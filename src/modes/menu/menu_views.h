@@ -304,6 +304,33 @@ private:
     hoa_video::TextImage _character_status_numbers;
     hoa_video::StillImage _character_status_icons;
 
+    //! \brief Some help text displayed in the middle window
+    //! To give some place in the bottom window for equipment.
+    hoa_video::TextImage _help_text;
+
+    //! \brief Text and image used to display equipment info
+    //! The average and focused (attack points) atk/dev labels.
+    hoa_video::TextImage _average_text;
+    hoa_video::TextImage _focused_text;
+    //! The average atk/def image and text
+    hoa_video::TextImage _average_atk_def_text;
+    hoa_video::TextImage _average_atk_def_numbers;
+    hoa_video::StillImage _average_atk_def_icons;
+    hoa_video::StillImage _weapon_icon;
+
+    //! The focused def text and images
+    hoa_video::StillImage _focused_def_icon;
+    hoa_video::StillImage _focused_mdef_icon;
+    hoa_video::TextImage _focused_def_text;
+    hoa_video::TextImage _focused_def_numbers;
+    hoa_video::TextImage _focused_mdef_numbers;
+    hoa_video::StillImage _focused_def_category_icons;
+    //! The actual character armor icon if any
+    hoa_video::StillImage _focused_def_armor_icons[4];
+
+    //! \brief Draws equipment stat info in the bottom window.
+    void _DrawBottomEquipmentInfo();
+
     //! \brief initialize character selection option box
     void _InitCharSelect();
 

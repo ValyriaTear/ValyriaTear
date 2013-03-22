@@ -670,25 +670,60 @@ void PartyWindow::_InitCharSelect()
     _second_char_select.SetSelection(0);
     _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
-    _character_status_text.SetStyle(TextStyle("text18"));
-    _character_status_numbers.SetStyle(TextStyle("text18"));
-    _UpdateStatus();
+    _help_text.SetStyle(TextStyle("text18"));
 
-    _character_status_icons.Load("img/icons/effects/menu_status_icons1.png");
+    _character_status_text.SetStyle(TextStyle("text20"));
+    _character_status_numbers.SetStyle(TextStyle("text20"));
+    _character_status_icons.Load("img/menus/status/menu_stats_icons.png");
+
+    _average_text.SetStyle(TextStyle("text20"));
+    _average_text.SetText(Translate("Attack / Defense:"));
+    _focused_text.SetStyle(TextStyle("text20"));
+    _focused_text.SetText(Translate("Detailed defense:"));
+
+    _average_atk_def_text.SetStyle(TextStyle("text18"));
+    hoa_utils::ustring text = UTranslate("Attack (ATK): ") + MakeUnicodeString("\n")
+        + UTranslate("Magical Attack (M.ATK): ") + MakeUnicodeString("\n\n")
+        + UTranslate("Defense (DEF): ") + MakeUnicodeString("\n")
+        + UTranslate("Magical Defense (M.DEF): ");
+    _average_atk_def_text.SetText(text);
+    _average_atk_def_numbers.SetStyle(TextStyle("text18"));
+    _average_atk_def_icons.Load("img/menus/status/menu_avg_atk_def.png");
+
+    _focused_def_text.SetStyle(TextStyle("text18"));
+    text = MakeUnicodeString("\n") // Skip title
+        + UTranslate("Head: ") + MakeUnicodeString("\n")
+        + UTranslate("Torso: ") + MakeUnicodeString("\n")
+        + UTranslate("Arm: ") + MakeUnicodeString("\n")
+        + UTranslate("Leg: ");
+    _focused_def_text.SetText(text);
+    _focused_def_numbers.SetStyle(TextStyle("text18"));
+    _focused_mdef_numbers.SetStyle(TextStyle("text18"));
+
+    _focused_def_category_icons.Load("img/menus/status/menu_point_atk_def.png");
+    _focused_def_icon.Load("img/menus/status/menu_def_icon.png");
+    _focused_mdef_icon.Load("img/menus/status/menu_mdef_icon.png");
+
+    _UpdateStatus();
 }
 
 // Updates the status window
 void PartyWindow::Update()
 {
+    static const ustring change_position_message = UTranslate("Select a character to change position with.");
+    static const ustring change_formation_message = UTranslate("Select a character to change formation.");
+
     // Points to the active option box
     OptionBox *active_option = NULL;
     //choose correct menu
     switch(_char_select_active) {
     case FORM_ACTIVE_CHAR:
         active_option = &_char_select;
+        _help_text.SetText(change_formation_message);
         break;
     case FORM_ACTIVE_SECOND:
         active_option = &_second_char_select;
+        _help_text.SetText(change_position_message);
         break;
     }
 
@@ -752,8 +787,10 @@ void PartyWindow::Update()
 
 void PartyWindow::_UpdateStatus()
 {
-    _character_status_text.Clear();
     _character_status_numbers.Clear();
+    _average_atk_def_numbers.Clear();
+    _focused_def_numbers.Clear();
+    _focused_mdef_numbers.Clear();
 
     GlobalCharacter *ch =  dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
     if (!ch)
@@ -767,12 +804,7 @@ void PartyWindow::_UpdateStatus()
         + UTranslate("Fortitude (FRT): ") + MakeUnicodeString("\n\n")
         + UTranslate("Protection (PRO): ") + MakeUnicodeString("\n\n")
         + UTranslate("Agility (AGI): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Evade (EVD): ") + MakeUnicodeString("%")
-        + MakeUnicodeString("\n\n\n")
-        + UTranslate("Attack (ATK): ") + MakeUnicodeString("\n")
-        + UTranslate("Mg Attack (M.ATK): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Defense (DEF): ") + MakeUnicodeString("\n")
-        + UTranslate("Mg Defense (M.DEF): ");
+        + UTranslate("Evade (EVD): ");
 
     _character_status_text.SetText(text);
 
@@ -782,14 +814,102 @@ void PartyWindow::_UpdateStatus()
         + MakeUnicodeString(NumberToString(ch->GetFortitude())) + MakeUnicodeString("\n\n")
         + MakeUnicodeString(NumberToString(ch->GetProtection())) + MakeUnicodeString("\n\n")
         + MakeUnicodeString(NumberToString(ch->GetAgility())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetStrength())) + MakeUnicodeString("%")
-        + MakeUnicodeString("\n\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetTotalPhysicalAttack())) + MakeUnicodeString("\n")
+        + MakeUnicodeString(NumberToString(ch->GetEvade())) + MakeUnicodeString("%");
+
+    _character_status_numbers.SetText(text);
+
+    text = MakeUnicodeString(NumberToString(ch->GetTotalPhysicalAttack())) + MakeUnicodeString("\n")
         + MakeUnicodeString(NumberToString(ch->GetTotalMagicalAttack())) + MakeUnicodeString("\n\n")
         + MakeUnicodeString(NumberToString(ch->GetAverageDefense())) + MakeUnicodeString("\n")
         + MakeUnicodeString(NumberToString(ch->GetAverageMagicalDefense()));
 
-    _character_status_numbers.SetText(text);
+    _average_atk_def_numbers.SetText(text);
+
+    _weapon_icon.Clear();
+    GlobalWeapon *weapon = ch->GetWeaponEquipped();
+    if (weapon)
+        _weapon_icon.Load(weapon->GetIconImage().GetFilename());
+    else
+        _weapon_icon.Load("img/icons/weapons/fist-human.png");
+    _weapon_icon.SetHeightKeepRatio(40);
+
+    GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
+    _focused_def_armor_icons[0].Clear();
+    if (head_armor) {
+        _focused_def_armor_icons[0].Load(head_armor->GetIconImage().GetFilename());
+        _focused_def_armor_icons[0].SetHeightKeepRatio(20);
+    }
+
+    _focused_def_armor_icons[1].Clear();
+    GlobalArmor *torso_armor = ch->GetTorsoArmorEquipped();
+    if (torso_armor) {
+        _focused_def_armor_icons[1].Load(torso_armor->GetIconImage().GetFilename());
+        _focused_def_armor_icons[1].SetHeightKeepRatio(20);
+    }
+
+    _focused_def_armor_icons[2].Clear();
+    GlobalArmor *arm_armor = ch->GetArmArmorEquipped();
+    if (arm_armor) {
+        _focused_def_armor_icons[2].Load(arm_armor->GetIconImage().GetFilename());
+        _focused_def_armor_icons[2].SetHeightKeepRatio(20);
+    }
+
+    _focused_def_armor_icons[3].Clear();
+    GlobalArmor *leg_armor = ch->GetLegArmorEquipped();
+    if (leg_armor) {
+        _focused_def_armor_icons[3].Load(leg_armor->GetIconImage().GetFilename());
+        _focused_def_armor_icons[3].SetHeightKeepRatio(20);
+    }
+
+    text = MakeUnicodeString("\n") // Skip titles
+        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (head_armor ? head_armor->GetPhysicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (torso_armor ? torso_armor->GetPhysicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (arm_armor ? arm_armor->GetPhysicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (leg_armor ? leg_armor->GetPhysicalDefense() : 0)) + "\n");
+
+    _focused_def_numbers.SetText(text);
+
+    text = MakeUnicodeString("\n") // Skip titles
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (head_armor ? head_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (torso_armor ? torso_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (arm_armor ? arm_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (leg_armor ? leg_armor->GetMagicalDefense() : 0)) + "\n");
+
+    _focused_mdef_numbers.SetText(text);
+}
+
+void PartyWindow::_DrawBottomEquipmentInfo()
+{
+    VideoManager->Move(110.0f, 560.0f);
+    _average_text.Draw();
+    VideoManager->MoveRelative(-10.0f, 25.0f);
+    _average_atk_def_text.Draw();
+    VideoManager->MoveRelative(230.0f, 3.0f);
+    _average_atk_def_icons.Draw();
+    VideoManager->MoveRelative(25.0f, -3.0f);
+    _average_atk_def_numbers.Draw();
+
+    VideoManager->MoveRelative(40.0f, 0.0f);
+    _weapon_icon.Draw();
+
+    VideoManager->MoveRelative(125.0f, -25.0f);
+    _focused_text.Draw();
+    VideoManager->MoveRelative(-10.0f, 25.0f);
+    _focused_def_text.Draw();
+    VideoManager->MoveRelative(80.0f, 20.0f);
+    _focused_def_category_icons.Draw();
+    VideoManager->MoveRelative(25.0f, 0.0f);
+    for (uint32 i = 0; i < 4; ++i) {
+         _focused_def_armor_icons[i].Draw();
+         VideoManager->MoveRelative(0.0f, 20.0f);
+    }
+    VideoManager->MoveRelative(50.0f, -100.0f);
+    _focused_def_icon.Draw();
+    _focused_def_numbers.Draw();
+
+    VideoManager->MoveRelative(50.0f, 0.0f);
+    _focused_mdef_icon.Draw();
+    _focused_mdef_numbers.Draw();
 }
 
 // Draws the party window
@@ -807,10 +927,17 @@ void PartyWindow::Draw()
 
     VideoManager->Move(660.0f, 130.0f);
     _character_status_text.Draw();
-    VideoManager->MoveRelative(190.0f, 0.0f);
+    VideoManager->MoveRelative(200.0f, 0.0f);
     _character_status_numbers.Draw();
-    VideoManager->MoveRelative(-25.0f, 60.0f);
+    VideoManager->MoveRelative(-25.0f, 67.0f);
     _character_status_icons.Draw();
+
+    if (GetActiveState() != FORM_ACTIVE_NONE) {
+        VideoManager->Move(450.0f, 500.0f);
+        _help_text.Draw();
+        // Draw equipment info
+        _DrawBottomEquipmentInfo();
+    }
 } // void PartyWindow::Draw()
 
 ////////////////////////////////////////////////////////////////////////////////

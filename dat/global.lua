@@ -29,7 +29,7 @@ function NewGame()
     GlobalManager:SetMaxExperienceLevel(15);
 
     -- Set the starting world map data
-    GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
+    GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:SetCurrentLocationId("layna village")
 
