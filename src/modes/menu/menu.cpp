@@ -211,8 +211,18 @@ void AbstractMenuState::_OnDrawSideWindow()
     _menu_mode->_character_window3.Draw();
 }
 
-void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *character)
+void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *character, hoa_global::GlobalObject *obj)
 {
+    //set stat modifier information
+    GLOBAL_INTENSITY intensities[6] = {GLOBAL_INTENSITY_INVALID};
+    if(obj)
+    {
+        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> > &status_modifiers = obj->GetStatusEffects();
+        const size_t N = status_modifiers.size();
+        for(size_t i = 0; i <N; ++i)
+            if(status_modifiers[i].first != GLOBAL_STATUS_INVALID && status_modifiers[i].first < 11)  //ignore the status if it is HP_REGEN or higher
+                intensities[static_cast<size_t>(status_modifiers[i].first) / 2] = status_modifiers[i].second; //status has lower and raise. we simply normalize this
+    }
 
     VideoManager->Text()->Draw(UTranslate("STR: ") + MakeUnicodeString(NumberToString(character->GetStrength())));
 
@@ -230,6 +240,25 @@ void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *characte
 
     VideoManager->MoveRelative(0, 20);
     VideoManager->Text()->Draw(UTranslate("EVD: ") + MakeUnicodeString(NumberToString(character->GetEvade()) + "%"));
+
+    //move to the top of list, over next to the stats and draw the changes
+    VideoManager->MoveRelative(90, -100);
+    for(size_t i = 0; i < 6; ++i)
+    {
+        static ustring minus_indicator = MakeUnicodeString("");     //negative values already have a sign, just need the space padding
+        static ustring plus_indicator = MakeUnicodeString("+");
+        static ustring percent = MakeUnicodeString(("%"));
+
+        if(intensities[i] != GLOBAL_INTENSITY_INVALID && static_cast<int>(intensities[i]) !=0)
+        {
+            ustring change_indicator = (static_cast<int>(intensities[i]) > 0 ? plus_indicator : minus_indicator)
+                + MakeUnicodeString(NumberToString(static_cast<int>(intensities[i])));
+            if(i == 5)  //EVD is a percentage
+                change_indicator += percent;
+            VideoManager->Text()->Draw(change_indicator, static_cast<int>(intensities[i]) > 0 ? Color::green : Color::red );
+        }
+        VideoManager->MoveRelative(0, 20);
+    }
 
     VideoManager->Move(310, 577);
 
@@ -608,7 +637,7 @@ void InventoryState::_DrawBottomMenu()
         if(is_equipable_armor && selected_armor)
         {
             //draw the equipment stats and change info
-            AbstractMenuState::_DrawEquipmentInfo(ch);
+            AbstractMenuState::_DrawEquipmentInfo(ch,  static_cast<GlobalObject *>(selected_weapon));
             equipment_name = selected_armor->GetName();
             physical_attribute = selected_armor->GetPhysicalDefense();
             magical_attribute = selected_armor->GetMagicalDefense();
@@ -645,7 +674,7 @@ void InventoryState::_DrawBottomMenu()
         else if(is_equipable_weapon && selected_weapon)
         {
             //draw the equipment stats and change info
-            AbstractMenuState::_DrawEquipmentInfo(ch);
+            AbstractMenuState::_DrawEquipmentInfo(ch, static_cast<GlobalObject *>(selected_weapon));
             //similar to armor but no need to do location checking
             equipment_name = selected_weapon->GetName();
             physical_attribute = selected_weapon->GetPhysicalAttack();
@@ -903,7 +932,7 @@ void EquipState::_DrawBottomMenu()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(150, 580);
     GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_menu_mode->_equip_window._char_select.GetSelection()));
-    AbstractMenuState::_DrawEquipmentInfo(ch);
+    GlobalObject *obj = NULL;
     // Show the selected equipment stats (and diff with the current one.)
     if(_menu_mode->_equip_window._active_box == EQUIP_ACTIVE_LIST) {
         ustring equipment_name;
@@ -923,11 +952,12 @@ void EquipState::_DrawBottomMenu()
             magical_attribute = weapon->GetMagicalAttack();
 
             GlobalWeapon *current_wpn = ch->GetWeaponEquipped();
+
             if(current_wpn) {
                 current_phys_attribute = current_wpn->GetPhysicalAttack();
                 current_mag_attribute = current_wpn->GetMagicalAttack();
             }
-
+            obj = static_cast<GlobalObject *>( weapon );
             break;
         } // case EQUIP_WEAPON
         case EQUIP_HEADGEAR: {
@@ -943,7 +973,7 @@ void EquipState::_DrawBottomMenu()
                 current_phys_attribute = current_armor->GetPhysicalDefense();
                 current_mag_attribute = current_armor->GetMagicalDefense();
             }
-
+            obj = static_cast<GlobalObject *>( armor );
             break;
         } // case EQUIP_HEADGEAR
         case EQUIP_BODYARMOR: {
@@ -959,6 +989,7 @@ void EquipState::_DrawBottomMenu()
                 current_phys_attribute = current_armor->GetPhysicalDefense();
                 current_mag_attribute = current_armor->GetMagicalDefense();
             }
+            obj = static_cast<GlobalObject *>( armor );
             break;
         } // case EQUIP_BODYARMOR
         case EQUIP_OFFHAND: {
@@ -974,6 +1005,8 @@ void EquipState::_DrawBottomMenu()
                 current_phys_attribute = current_armor->GetPhysicalDefense();
                 current_mag_attribute = current_armor->GetMagicalDefense();
             }
+
+            obj = static_cast<GlobalObject *>( armor );
             break;
         } // case EQUIP_OFFHAND
         case EQUIP_LEGGINGS: {
@@ -989,12 +1022,15 @@ void EquipState::_DrawBottomMenu()
                 current_phys_attribute = current_armor->GetPhysicalDefense();
                 current_mag_attribute = current_armor->GetMagicalDefense();
             }
+            obj = static_cast<GlobalObject *>( armor );
             break;
         } // case EQUIP_LEGGINGS
 
         default:
             break;
         } // switch
+
+        AbstractMenuState::_DrawEquipmentInfo(ch, obj);
         DrawEquipmentInfo(equipment_name, _menu_mode->_equip_window._equip_select.GetSelection() == EQUIP_WEAPON,
                           physical_attribute, magical_attribute, current_phys_attribute, current_mag_attribute);
 
