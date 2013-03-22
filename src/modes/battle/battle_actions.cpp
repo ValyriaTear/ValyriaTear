@@ -29,7 +29,6 @@
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
-using namespace hoa_input;
 using namespace hoa_system;
 using namespace hoa_global;
 using namespace hoa_script;

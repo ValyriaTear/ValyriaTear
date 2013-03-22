@@ -24,11 +24,10 @@
 #ifndef __SYSTEM_HEADER__
 #define __SYSTEM_HEADER__
 
+#include "utils.h"
+
 #include <set>
 #include <SDL/SDL.h>
-
-#include "utils.h"
-#include "defs.h"
 
 #define NO_THREADS 0
 #define SDL_THREADS 1
@@ -47,9 +46,15 @@ typedef int Thread;
 typedef int Semaphore;
 #endif
 
+namespace hoa_mode_manager {
+class GameMode;
+}
+
 //! All calls to the system engine are wrapped in this namespace.
 namespace hoa_system
 {
+
+class SystemEngine;
 
 //! \brief The singleton pointer responsible for managing the system during game operation.
 extern SystemEngine *SystemManager;

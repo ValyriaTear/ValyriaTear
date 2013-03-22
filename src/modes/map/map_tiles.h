@@ -24,6 +24,11 @@
 
 #include "engine/script/script_read.h"
 
+namespace hoa_video {
+class ImageDescriptor;
+class AnimatedImage;
+}
+
 namespace hoa_map
 {
 

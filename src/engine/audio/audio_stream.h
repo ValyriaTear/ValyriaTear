@@ -28,7 +28,6 @@
 #include "alc.h"
 #endif
 
-#include "defs.h"
 #include "utils.h"
 
 #include "audio_input.h"

@@ -315,7 +315,6 @@ engine/script/script_write.h
 engine/script/script_write.cpp
 utils.h
 utils.cpp
-defs.h
 )
 
 SET(SRCS

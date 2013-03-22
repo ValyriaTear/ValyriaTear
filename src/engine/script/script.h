@@ -26,6 +26,13 @@
 #ifndef __SCRIPT_HEADER__
 #define __SCRIPT_HEADER__
 
+#include "utils.h"
+
+// Prevents redefinition errors on OSX against old boost libraries.
+#ifdef __MACH__
+#undef check
+#endif
+
 #include <sstream>
 #include <fstream>
 extern "C" {
@@ -34,17 +41,9 @@ extern "C" {
 #include <lualib.h>
 }
 
-// This needs a comment: what is check and why is it undefined for darwin?
-#ifdef __MACH__
-#undef check
-#endif
-
 #include <luabind/luabind.hpp>
 #include <luabind/object.hpp>
 #include <luabind/adopt_policy.hpp>
-
-#include "utils.h"
-#include "defs.h"
 
 #if LUA_VERSION_NUM < 502
 # define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
@@ -53,6 +52,8 @@ extern "C" {
 //! \brief All calls to the scripting engine are wrapped in this namespace.
 namespace hoa_script
 {
+
+class ScriptEngine;
 
 //! \brief The singleton pointer responsible for the interaction between the C++ engine and Lua scripts.
 extern ScriptEngine *ScriptManager;

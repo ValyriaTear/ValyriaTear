@@ -18,10 +18,9 @@
 #ifndef __SCRIPT_READ_HEADER__
 #define __SCRIPT_READ_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
 #include "script.h"
+
+#include "utils.h"
 
 namespace hoa_script
 {

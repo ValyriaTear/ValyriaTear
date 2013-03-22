@@ -25,8 +25,14 @@
 #include "engine/video/image.h"
 #include "engine/script/script.h"
 
+namespace hoa_script {
+class ReadScriptDescriptor;
+}
+
 namespace hoa_global
 {
+
+class GlobalShard;
 
 /** ****************************************************************************
 *** \brief An abstract base class for representing a game object

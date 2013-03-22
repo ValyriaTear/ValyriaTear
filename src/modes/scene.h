@@ -24,12 +24,11 @@
 #ifndef __SCENE_HEADER__
 #define __SCENE_HEADER__
 
-#include <string>
-
 #include "utils.h"
-#include "defs.h"
 
 #include "engine/mode_manager.h"
+
+#include <string>
 
 //! All calls to scene mode are wrapped in this namespace.
 namespace hoa_scene

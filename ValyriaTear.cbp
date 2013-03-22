@@ -263,7 +263,6 @@
 		<Unit filename="src/common/gui/option.h" />
 		<Unit filename="src/common/gui/textbox.cpp" />
 		<Unit filename="src/common/gui/textbox.h" />
-		<Unit filename="src/defs.h" />
 		<Unit filename="src/engine/audio/audio.cpp" />
 		<Unit filename="src/engine/audio/audio.h" />
 		<Unit filename="src/engine/audio/audio_descriptor.cpp" />
@@ -445,14 +444,14 @@
 		<Unit filename="src/modes/boot/boot.h" />
 		<Unit filename="src/modes/boot/boot_menu.cpp" />
 		<Unit filename="src/modes/boot/boot_menu.h" />
-		<Unit filename="src/modes/map/map_mode.cpp" />
-		<Unit filename="src/modes/map/map_mode.h" />
 		<Unit filename="src/modes/map/map_dialogue.cpp" />
 		<Unit filename="src/modes/map/map_dialogue.h" />
 		<Unit filename="src/modes/map/map_events.cpp" />
 		<Unit filename="src/modes/map/map_events.h" />
 		<Unit filename="src/modes/map/map_minimap.cpp" />
 		<Unit filename="src/modes/map/map_minimap.h" />
+		<Unit filename="src/modes/map/map_mode.cpp" />
+		<Unit filename="src/modes/map/map_mode.h" />
 		<Unit filename="src/modes/map/map_objects.cpp" />
 		<Unit filename="src/modes/map/map_objects.h" />
 		<Unit filename="src/modes/map/map_sprites.cpp" />

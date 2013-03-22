@@ -36,6 +36,15 @@
 
 #include "engine/audio/audio_descriptor.h"
 
+namespace hoa_defs {
+void BindModeCode();
+}
+
+namespace hoa_global {
+class GlobalEnemy;
+class GlobalObject;
+}
+
 //! All calls to map mode are wrapped in this namespace.
 namespace hoa_map
 {
@@ -43,13 +52,18 @@ namespace hoa_map
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
 {
+class DialogueSupervisor;
+class EventSupervisor;
 class Light;
 class MapObject;
+class MapZone;
 class Minimap;
 class ObjectSupervisor;
 class PhysicalObject;
 class SoundObject;
+class TileSupervisor;
 class TreasureObject;
+class TreasureSupervisor;
 } // namespace private_map
 
 /** ****************************************************************************

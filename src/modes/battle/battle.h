@@ -42,8 +42,14 @@ extern bool BATTLE_DEBUG;
 namespace private_battle
 {
 
+class BattleCharacter;
+class BattleEnemy;
 class BattleObject;
 class BattleParticleEffect;
+class CommandSupervisor;
+class DialogueSupervisor;
+class FinishSupervisor;
+class SequenceSupervisor;
 
 /** \name Battle setting type
 *** \brief Represents the play types of battle that the player may have to deal with

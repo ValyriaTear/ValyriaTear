@@ -24,7 +24,6 @@
 
 using namespace hoa_utils;
 using namespace hoa_system;
-using namespace hoa_boot;
 using namespace hoa_video;
 using namespace hoa_audio;
 

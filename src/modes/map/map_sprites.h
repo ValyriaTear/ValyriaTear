@@ -27,6 +27,8 @@ namespace hoa_map
 namespace private_map
 {
 
+class SpriteEvent;
+
 //! Standard time values for spawning enemies on a map. All values are in number of milliseconds.
 //@{
 //! \brief The time to spawn an enemy when the player first enters a map

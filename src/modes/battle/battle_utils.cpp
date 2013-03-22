@@ -17,16 +17,14 @@
 *** classes.
 *** ***************************************************************************/
 
-#include "defs.h"
-#include "utils.h"
+#include "modes/battle/battle_utils.h"
+
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
 
 #include "common/global/global.h"
 
 #include "engine/system.h"
-
-#include "modes/battle/battle.h"
-#include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_utils.h"
 
 using namespace hoa_utils;
 using namespace hoa_system;

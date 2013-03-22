@@ -32,6 +32,8 @@
 namespace hoa_menu
 {
 
+class MenuMode;
+
 namespace private_menu
 {
 

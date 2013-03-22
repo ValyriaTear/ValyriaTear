@@ -29,8 +29,14 @@
 
 #include <cstring>
 
+namespace hoa_mode_manager {
+class GameMode;
+}
+
 namespace hoa_audio
 {
+
+class AudioDescriptor;
 
 //! \brief The set of states that AudioDescriptor class objects may be in
 enum AUDIO_STATE {
@@ -60,6 +66,8 @@ enum AUDIO_LOAD {
 
 namespace private_audio
 {
+
+class AudioEffect;
 
 //! \brief The default buffer size (in bytes) for streaming buffers
 const uint32 DEFAULT_BUFFER_SIZE = 8192;

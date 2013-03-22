@@ -23,7 +23,6 @@
 #include <QTableWidget>
 #include <QVariant>
 
-#include "defs.h"
 #include "engine/script/script.h"
 #include "utils.h"
 #include "engine/video/video.h"

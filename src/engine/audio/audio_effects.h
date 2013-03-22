@@ -28,6 +28,8 @@
 namespace hoa_audio
 {
 
+class AudioDescriptor;
+
 enum AUDIO_EFFECT {
     AUDIO_EFFECT_NONE = 0
 };

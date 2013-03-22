@@ -34,13 +34,11 @@
 #ifndef __BATTLE_DIALOGUE_HEADER__
 #define __BATTLE_DIALOGUE_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "engine/video/video.h"
 
 #include "common/dialogue.h"
-
 
 namespace hoa_battle
 {

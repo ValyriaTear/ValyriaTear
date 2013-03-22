@@ -31,6 +31,9 @@ namespace hoa_battle
 namespace private_battle
 {
 
+class BattleActor;
+class BattleTarget;
+
 //! \name Screen dimension constants
 //@{
 //! \brief Battle scenes are visualized via an invisible grid of 64x64 tiles

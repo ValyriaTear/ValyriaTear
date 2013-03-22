@@ -20,7 +20,6 @@
 #ifndef __BATTLE_EFFECTS_HEADER__
 #define __BATTLE_EFFECTS_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "engine/script/script.h"

@@ -8,7 +8,10 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "defs.h"
+#include "shop_trade.h"
+
+#include "shop.h"
+
 #include "utils.h"
 
 #include "engine/audio/audio.h"
@@ -17,9 +20,6 @@
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
-
-#include "shop.h"
-#include "shop_trade.h"
 
 using namespace hoa_utils;
 using namespace hoa_audio;

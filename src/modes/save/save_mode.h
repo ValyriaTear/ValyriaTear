@@ -25,6 +25,10 @@
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
 
+namespace hoa_global {
+class GlobalCharacter;
+}
+
 //! \brief All calls to save mode are wrapped in this namespace.
 namespace hoa_save
 {

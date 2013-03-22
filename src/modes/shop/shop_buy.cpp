@@ -18,7 +18,10 @@
 *** to see if it should have similar changes made.
 *** ***************************************************************************/
 
-#include "defs.h"
+#include "shop_buy.h"
+
+#include "shop.h"
+
 #include "utils.h"
 
 #include "engine/audio/audio.h"
@@ -27,9 +30,6 @@
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
-
-#include "shop.h"
-#include "shop_buy.h"
 
 using namespace hoa_utils;
 using namespace hoa_audio;

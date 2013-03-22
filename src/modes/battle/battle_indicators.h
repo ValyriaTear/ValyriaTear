@@ -22,9 +22,6 @@
 #ifndef __BATTLE_INDICATORS_HEADER__
 #define __BATTLE_INDICATORS_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "battle_utils.h"
 
 namespace hoa_battle

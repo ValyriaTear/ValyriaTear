@@ -17,7 +17,6 @@
 #ifndef __MENU_WINDOW_HEADER__
 #define __MENU_WINDOW_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "gui.h"

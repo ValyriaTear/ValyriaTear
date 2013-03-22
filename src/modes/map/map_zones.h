@@ -26,6 +26,8 @@ namespace hoa_map
 namespace private_map
 {
 
+class EnemySprite;
+
 /** ****************************************************************************
 *** \brief Represents a rectangular area on a map.
 ***

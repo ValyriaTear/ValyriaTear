@@ -31,7 +31,6 @@
 #ifndef __PARTICLE_EMITTER_HEADER__
 #define __PARTICLE_EMITTER_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 namespace hoa_mode_manager

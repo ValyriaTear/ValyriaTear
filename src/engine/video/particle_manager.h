@@ -21,11 +21,12 @@
 #ifndef __PARTICLE_MANAGER_HEADER__
 #define __PARTICLE_MANAGER_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 namespace hoa_mode_manager
 {
+
+class ParticleEffect;
 
 /*!***************************************************************************
  *  \brief ParticleManager, used internally by video engine to store/update/draw

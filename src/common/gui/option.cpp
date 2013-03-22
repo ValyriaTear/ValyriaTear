@@ -16,7 +16,6 @@
 using namespace hoa_utils;
 using namespace hoa_video;
 using namespace hoa_video::private_video;
-using namespace hoa_input;
 using namespace hoa_gui::private_gui;
 
 namespace hoa_gui

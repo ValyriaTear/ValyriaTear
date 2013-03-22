@@ -14,8 +14,9 @@
 *** \brief   Implementations for functions that handle command-line arguments.
 *** **************************************************************************/
 
+#include "main_options.h"
+
 #include "utils.h"
-#include "defs.h"
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
@@ -26,7 +27,27 @@
 
 #include "common/global/global.h"
 
-#include "main_options.h"
+namespace hoa_battle {
+extern bool BATTLE_DEBUG;
+}
+namespace hoa_boot {
+extern bool BOOT_DEBUG;
+}
+namespace hoa_common {
+extern bool COMMON_DEBUG;
+}
+namespace hoa_menu {
+extern bool MENU_DEBUG;
+}
+namespace hoa_pause {
+extern bool PAUSE_DEBUG;
+}
+namespace hoa_shop {
+extern bool SHOP_DEBUG;
+}
+namespace hoa_scene {
+extern bool SCENE_DEBUG;
+}
 
 using namespace hoa_utils;
 

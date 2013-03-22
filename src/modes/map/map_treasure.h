@@ -26,6 +26,10 @@
 
 #include "engine/audio/audio_descriptor.h"
 
+namespace hoa_global {
+class GlobalObject;
+}
+
 namespace hoa_map
 {
 

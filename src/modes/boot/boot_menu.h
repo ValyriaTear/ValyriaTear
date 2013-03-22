@@ -23,6 +23,8 @@
 namespace hoa_boot
 {
 
+class BootMode;
+
 namespace private_boot
 {
 

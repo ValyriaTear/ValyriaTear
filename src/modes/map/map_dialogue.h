@@ -28,6 +28,8 @@ namespace hoa_map
 namespace private_map
 {
 
+class VirtualSprite;
+
 /** ****************************************************************************
 *** \brief Represents a dialogue that occurs between one or more sprites on a map
 *** ***************************************************************************/

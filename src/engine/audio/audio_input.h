@@ -33,7 +33,6 @@
 #include "alc.h"
 #endif
 
-#include "defs.h"
 #include "utils.h"
 
 #include <vorbis/vorbisfile.h>

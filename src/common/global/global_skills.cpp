@@ -25,6 +25,10 @@ using namespace hoa_video;
 using namespace hoa_script;
 using namespace hoa_battle;
 
+namespace hoa_battle {
+extern bool BATTLE_DEBUG;
+}
+
 namespace hoa_global
 {
 

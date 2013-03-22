@@ -20,11 +20,31 @@
 
 #include "modes/map/map_treasure.h"
 
+namespace hoa_script {
+class ReadScriptDescriptor;
+}
+
+namespace hoa_mode_manager {
+class ParticleEffect;
+}
+
+namespace hoa_defs {
+void BindModeCode();
+}
+
 namespace hoa_map
 {
 
+class MapMode;
+
 namespace private_map
 {
+
+class ContextZone;
+class MapSprite;
+class MapZone;
+class ResidentZone;
+class VirtualSprite;
 
 /** ****************************************************************************
 *** \brief Abstract class that represents objects on a map

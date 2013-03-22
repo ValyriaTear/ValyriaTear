@@ -15,6 +15,8 @@
 *** \note    Only main.cpp and main_options.cpp should need to include this file.
 *** **************************************************************************/
 
+#include "utils.h"
+
 /** \brief Namespace containing functions central to main program execution.
 *** \note Normally no other code should need to use this namespace.
 **/

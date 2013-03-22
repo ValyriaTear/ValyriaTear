@@ -36,6 +36,11 @@ namespace hoa_map
 namespace private_map
 {
 
+class ContextZone;
+class MapSprite;
+class SpriteDialogue;
+class VirtualSprite;
+
 struct BattleEnemyInfo;
 
 /** ****************************************************************************

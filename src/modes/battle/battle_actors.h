@@ -22,7 +22,6 @@
 #ifndef __BATTLE_ACTORS_HEADER__
 #define __BATTLE_ACTORS_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "common/global/global_actors.h"
@@ -37,6 +36,10 @@ namespace hoa_battle
 
 namespace private_battle
 {
+
+class BattleAction;
+class EffectsSupervisor;
+class IndicatorSupervisor;
 
 /** ****************************************************************************
 *** \brief An abstract class for representing an object in the battle

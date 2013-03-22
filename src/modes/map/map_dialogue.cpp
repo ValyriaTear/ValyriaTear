@@ -23,6 +23,10 @@
 
 #include "engine/input.h"
 
+namespace hoa_common {
+extern bool COMMON_DEBUG;
+}
+
 using namespace hoa_utils;
 using namespace hoa_audio;
 using namespace hoa_video;
@@ -32,7 +36,6 @@ using namespace hoa_mode_manager;
 using namespace hoa_script;
 using namespace hoa_system;
 using namespace hoa_global;
-using namespace hoa_menu;
 using namespace hoa_common;
 
 namespace hoa_map

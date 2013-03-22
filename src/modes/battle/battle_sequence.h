@@ -22,7 +22,8 @@
 #ifndef __BATTLE_SEQUENCE_HEADER__
 #define __BATTLE_SEQUENCE_HEADER__
 
-#include "defs.h"
+#include "modes/battle/battle_utils.h"
+
 #include "utils.h"
 
 #include "engine/audio/audio.h"
@@ -32,8 +33,6 @@
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
-
-#include "modes/battle/battle_utils.h"
 
 namespace hoa_battle
 {

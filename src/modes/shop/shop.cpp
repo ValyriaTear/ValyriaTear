@@ -18,9 +18,13 @@
 *** shop keeper.
 *** ***************************************************************************/
 
-#include <iostream>
+#include "shop.h"
 
-#include "defs.h"
+#include "shop_root.h"
+#include "shop_buy.h"
+#include "shop_sell.h"
+#include "shop_trade.h"
+
 #include "utils.h"
 
 #include "engine/audio/audio.h"
@@ -33,11 +37,7 @@
 #include "engine/mode_manager.h"
 #include "modes/pause.h"
 
-#include "shop.h"
-#include "shop_root.h"
-#include "shop_buy.h"
-#include "shop_sell.h"
-#include "shop_trade.h"
+#include <iostream>
 
 using namespace hoa_utils;
 using namespace hoa_audio;

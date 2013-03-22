@@ -27,6 +27,8 @@
 namespace hoa_audio
 {
 
+extern bool AUDIO_DEBUG;
+
 namespace private_audio
 {
 

@@ -31,6 +31,9 @@ namespace hoa_shop
 namespace private_shop
 {
 
+class BuyListDisplay;
+class SellListDisplay;
+
 /** ****************************************************************************
 *** \brief Manages the shop when it is in buy mode and enables the player to view and purchase wares
 ***

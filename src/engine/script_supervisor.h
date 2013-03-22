@@ -20,6 +20,10 @@
 #include "engine/script/script_read.h"
 #include "engine/video/video.h"
 
+namespace hoa_mode_manager {
+class GameMode;
+}
+
 class ScriptSupervisor
 {
 public:

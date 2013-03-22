@@ -27,7 +27,6 @@ using namespace hoa_mode_manager;
 using namespace hoa_input;
 using namespace hoa_system;
 using namespace hoa_video;
-using namespace hoa_pause;
 using namespace hoa_scene::private_scene;
 
 namespace hoa_scene

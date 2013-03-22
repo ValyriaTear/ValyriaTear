@@ -22,7 +22,6 @@
 #ifndef __BATTLE_ACTIONS_HEADER__
 #define __BATTLE_ACTIONS_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "engine/system.h"

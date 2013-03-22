@@ -32,6 +32,8 @@ namespace hoa_shop
 namespace private_shop
 {
 
+class SellListDisplay;
+
 /** ****************************************************************************
 *** \brief Manages the shop when it is in sell mode and enables the player to sell their inventory
 ***

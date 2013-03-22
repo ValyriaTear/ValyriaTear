@@ -23,19 +23,19 @@
 #ifndef __MENU_HEADER__
 #define __MENU_HEADER__
 
-#include <string>
-#include <vector>
-#include <map>
+#include "menu_views.h"
 
 #include "utils.h"
-#include "defs.h"
 
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
 
 #include "engine/mode_manager.h"
-#include "menu_views.h"
+
+#include <string>
+#include <vector>
+#include <map>
 
 //! \brief All calls to menu mode are wrapped in this namespace.
 namespace hoa_menu

@@ -40,6 +40,8 @@
 namespace hoa_global
 {
 
+class GameGlobal;
+
 //! \brief The singleton pointer responsible for the management of global game data.
 extern GameGlobal *GlobalManager;
 

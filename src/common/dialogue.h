@@ -25,6 +25,8 @@
 namespace hoa_common
 {
 
+class CommonDialogueOptions;
+
 //! \name Constants used among common dialogue classes
 //@{
 //! \brief Indicates that the next line to read should follow sequentially

@@ -58,6 +58,21 @@ using namespace hoa_script;
 using namespace hoa_boot;
 using namespace hoa_map;
 
+//! \brief Namespace which contains all binding functions
+namespace hoa_defs
+{
+
+/** \brief Contains the binding code which makes the C++ engine available to Lua
+*** This method should <b>only be called once</b>. It must be called after the
+*** ScriptEngine is initialized, otherwise the application will crash.
+**/
+
+void BindEngineCode();
+void BindCommonCode();
+void BindModeCode();
+
+} // namespace hoa_defs
+
 /** \brief Frees all data allocated by the game by destroying the singleton classes
 ***
 *** \note <b>Do not attempt to call or otherwise reference this function.</b>

@@ -44,6 +44,8 @@
 namespace hoa_audio
 {
 
+class AudioEngine;
+
 //! \brief The singleton pointer responsible for all audio operations.
 extern AudioEngine *AudioManager;
 

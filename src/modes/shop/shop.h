@@ -29,6 +29,10 @@
 
 #include "shop_utils.h"
 
+namespace hoa_audio {
+class SoundDescriptor;
+}
+
 //! \brief All calls to shop mode are wrapped in this namespace.
 namespace hoa_shop
 {
@@ -39,6 +43,11 @@ extern bool SHOP_DEBUG;
 //! \brief An internal namespace to be used only within the shop code. Don't use this namespace anywhere else!
 namespace private_shop
 {
+
+class BuyInterface;
+class RootInterface;
+class SellInterface;
+class TradeInterface;
 
 /** ****************************************************************************
 *** \brief A companion class to ShopMode that holds various multimedia data

@@ -35,10 +35,13 @@
 #ifndef __PARTICLE_EFFECT_HEADER__
 #define __PARTICLE_EFFECT_HEADER__
 
-#include "defs.h" // TODO: Get rid of this bad practice
+#include "engine/video/particle_system.h"
+
 #include "utils.h"
 
-#include "engine/video/particle_system.h"
+namespace hoa_script {
+class ReadScriptDescriptor;
+}
 
 namespace hoa_map
 {
