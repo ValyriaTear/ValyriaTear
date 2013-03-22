@@ -747,20 +747,20 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
         return false;
     }
 
-    // Write out namespace information
-    file.WriteNamespace("save_game1");
+    // Open the save_game1 table
+    file.WriteLine("save_game1 = {");
 
     // Save simple play data
     file.InsertNewLine();
-    file.WriteString("map_data_filename", _map_data_filename);
-    file.WriteString("map_script_filename", _map_script_filename);
+    file.WriteLine("map_data_filename = \"" + _map_data_filename + "\",");
+    file.WriteLine("map_script_filename = \"" + _map_script_filename + "\",");
     //! \note Coords are in map tiles
-    file.WriteUInt("location_x", x_position);
-    file.WriteUInt("location_y", y_position);
-    file.WriteUInt("play_hours", SystemManager->GetPlayHours());
-    file.WriteUInt("play_minutes", SystemManager->GetPlayMinutes());
-    file.WriteUInt("play_seconds", SystemManager->GetPlaySeconds());
-    file.WriteUInt("drunes", _drunes);
+    file.WriteLine("location_x = " + NumberToString(x_position) + ",");
+    file.WriteLine("location_y = " + NumberToString(y_position) + ",");
+    file.WriteLine("play_hours = " + NumberToString(SystemManager->GetPlayHours()) + ",");
+    file.WriteLine("play_minutes = " + NumberToString(SystemManager->GetPlayMinutes()) + ",");
+    file.WriteLine("play_seconds = " + NumberToString(SystemManager->GetPlaySeconds()) + ",");
+    file.WriteLine("drunes = " + NumberToString(_drunes) + ",");
 
     // Save the inventory (object id + object count pairs)
     // NOTE: This does not save any weapons/armor that are equipped on the characters. That data
@@ -784,7 +784,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
         else
             file.WriteLine(", " + NumberToString(_ordered_characters[i]->GetID()), false);
     }
-    file.WriteLine("\n\t},");
+    file.WriteLine("\n\t},"); // order
 
     // Now save each individual character's data
     for(uint32 i = 0; i < _ordered_characters.size(); i++) {
@@ -793,7 +793,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
         else
             _SaveCharacter(file, _ordered_characters[i], false);
     }
-    file.WriteLine("}");
+    file.WriteLine("},"); // characters
 
     // ----- (6) Save event data
     file.InsertNewLine();
@@ -801,14 +801,14 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
     for(std::map<std::string, GlobalEventGroup *>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
         _SaveEvents(file, it->second);
     }
-    file.WriteLine("}");
+    file.WriteLine("},");
     file.InsertNewLine();
 
     // ------ (7) Save quest log
     file.WriteLine("quest_log = {");
     for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
         _SaveQuests(file, itr->second);
-    file.WriteLine("}");
+    file.WriteLine("},");
     file.InsertNewLine();
 
     // ------ (8) Save World Map
@@ -822,6 +822,9 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
             file.ClearErrors();
         }
     }
+
+    file.InsertNewLine();
+    file.WriteLine("} -- save_game1"); //save_game1
 
     file.CloseFile();
 
@@ -1168,14 +1171,24 @@ void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *even
 
     file.WriteLine("\t" + event_group->GetGroupName() + " = {");
 
+    uint32 i = 0;
     for(std::map<std::string, int32>::const_iterator it = event_group->GetEvents().begin(); it != event_group->GetEvents().end(); ++it) {
         if(it == event_group->GetEvents().begin())
             file.WriteLine("\t\t", false);
         else
             file.WriteLine(", ", false);
+
+        // Add a new line every 4 entries for better readability and debugging
+        if ((i > 0) && !(i % 4)) {
+            file.InsertNewLine();
+            file.WriteLine("\t\t", false);
+        }
+
         file.WriteLine("[\"" + it->first + "\"] = " + NumberToString(it->second), false);
+
+        ++i;
     }
-    file.WriteLine("\t},");
+    file.WriteLine("\n\t},");
 
 }
 
@@ -1207,15 +1220,14 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
 
 void GameGlobal::_SaveWorldMap(hoa_script::WriteScriptDescriptor &file)
 {
-    if(file.IsFileOpen() == false)
-    {
+    if(!file.IsFileOpen()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
 
     //write the world map filename
-    file.WriteLine("world_map = \"" + GetWorldMapFilename() + "\"");
-    file.WriteLine("");
+    file.WriteLine("world_map = \"" + GetWorldMapFilename() + "\",");
+    file.InsertNewLine();
 
     //write the viewable locations
     file.WriteLine("viewable_locations = {");

@@ -1289,11 +1289,18 @@ template <class T> void GameGlobal::_SaveInventory(hoa_script::WriteScriptDescri
             file.WriteLine("\t", false);
         else
             file.WriteLine(", ", false);
+
+        // Add a new line every 10 entries for better readability and debugging
+        if ((i > 0) && !(i % 10)) {
+            file.InsertNewLine();
+            file.WriteLine("\t", false);
+        }
+
         file.WriteLine("[" + hoa_utils::NumberToString(inv[i]->GetID()) + "] = "
                        + hoa_utils::NumberToString(inv[i]->GetCount()), false);
     }
     file.InsertNewLine();
-    file.WriteLine("}");
+    file.WriteLine("},");
 } // template <class T> void GameGlobal::_SaveInventory(hoa_script::WriteScriptDescriptor& file, std::string name, std::vector<T*>& inv)
 
 } // namespace hoa_global
