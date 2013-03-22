@@ -23,7 +23,9 @@ INCLUDEPATH += ./src/luabind/luabind
 INCLUDEPATH += ./src/luabind/luabind/detail
 
 # Linker additional libs
+# You'll have to adapt this line below to make find the lib folder as it won't work as is.
 LIBS += -L"./valyriatear-win32-depends/lib"
+
 LIBS += -lLua51 -llibiconv2 -lSDL -lSDL_image -lSDL_TTF -llibpng -llibjpeg -llibintl -lOpenAL32 -logg -lvorbis
 
 # Enable rtti needed for typeid() in Luabind
@@ -113,7 +115,6 @@ SOURCES += \
     ./src/engine/video/fade.cpp \
     ./src/engine/system.cpp \
     ./src/engine/mode_manager.cpp \
-    ./src/engine/video/shake.cpp \
     ./src/engine/video/text.cpp \
     ./src/modes/mode_help_window.cpp \
     ./src/engine/video/particle_system.cpp \
