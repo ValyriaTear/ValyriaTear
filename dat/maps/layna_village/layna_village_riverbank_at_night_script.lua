@@ -287,6 +287,40 @@ function _CreateObjects()
     _CreateFire(111, 58);
     _CreateFire(109, 52);
 
+    -- Ambient sounds
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    Map:AddAmbientSoundObject(object);
+
+    -- Fireflies on water
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                    53, 29, hoa_map.MapMode.CONTEXT_01);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
+
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                    52, 38, hoa_map.MapMode.CONTEXT_01);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                    54, 40, hoa_map.MapMode.CONTEXT_01);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
+                                    99, 73, hoa_map.MapMode.CONTEXT_01);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
 end
 
 -- creates the necessary objects to display some fire
