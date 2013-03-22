@@ -386,32 +386,6 @@ void BindModeCode()
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
         [
-            luabind::class_<ResidentZone, MapZone>("ResidentZone")
-            .def(luabind::constructor<>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
-            .def("IsResidentEntering", &ResidentZone::IsResidentEntering)
-            .def("IsResidentExiting", &ResidentZone::IsResidentExiting)
-            .def("IsSpriteResident", (bool(ResidentZone:: *)(uint32)const)&ResidentZone::IsSpriteResident)
-            .def("IsSpriteResident", (bool(ResidentZone:: *)(VirtualSprite *)const)&ResidentZone::IsSpriteResident)
-            .def("IsCameraResident", &ResidentZone::IsCameraResident)
-            .def("IsSpriteEntering", (bool(ResidentZone:: *)(uint32)const)&ResidentZone::IsSpriteEntering)
-            .def("IsSpriteEntering", (bool(ResidentZone:: *)(VirtualSprite *)const)&ResidentZone::IsSpriteEntering)
-            .def("IsCameraEntering", &ResidentZone::IsCameraEntering)
-            .def("IsSpriteExiting", (bool(ResidentZone:: *)(uint32)const)&ResidentZone::IsSpriteExiting)
-            .def("IsSpriteExiting", (bool(ResidentZone:: *)(VirtualSprite *)const)&ResidentZone::IsSpriteExiting)
-            .def("IsCameraExiting", &ResidentZone::IsCameraExiting)
-            .def("GetResident", &ResidentZone::GetResident)
-            .def("GetEnteringResident", &ResidentZone::GetEnteringResident)
-            .def("GetExitingResident", &ResidentZone::GetExitingResident)
-            .def("GetNumberResidents", &ResidentZone::GetNumberResidents)
-            .def("GetNumberEnteringResidents", &ResidentZone::GetNumberEnteringResidents)
-            .def("GetNumberExitingResidents", &ResidentZone::GetNumberExitingResidents)
-
-        ];
-
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
-        [
             luabind::class_<EnemyZone, MapZone>("EnemyZone")
             .def(luabind::constructor<>())
             .def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())

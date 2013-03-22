@@ -43,7 +43,6 @@ namespace private_map
 class ContextZone;
 class MapSprite;
 class MapZone;
-class ResidentZone;
 class VirtualSprite;
 
 /** ****************************************************************************
@@ -1144,14 +1143,6 @@ private:
 
     //! \brief Container for all zones used in this map
     std::vector<MapZone *> _zones;
-
-    /** \brief Container for all resident zones used in this map
-    ***
-    *** Resident zones (and classes derived from resident zones) are stored in an additional container because
-    *** they need to continually check whether sprites have entered them. This is done in the Update() function
-    *** of this class.
-    **/
-    std::vector<ResidentZone *> _resident_zones;
 }; // class ObjectSupervisor
 
 } // namespace private_map

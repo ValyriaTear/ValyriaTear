@@ -1056,8 +1056,6 @@ void ObjectSupervisor::Update()
         _zones[i]->Update();
 
     _UpdateAmbientSounds();
-
-    // TODO: examine all sprites for movement and context change, then check all resident zones to see if the sprite has entered
 }
 
 void ObjectSupervisor::DrawSavePoints()
