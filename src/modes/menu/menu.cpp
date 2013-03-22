@@ -1261,6 +1261,29 @@ MenuMode::MenuMode() :
                 << "MENU WARNING: attempting to create a new instance of MenuMode when one already seems to exist" << std::endl;
     }
     _current_instance = this;
+
+    // Reset states
+    _main_menu_state.Reset();
+    _inventory_state.Reset();
+    _party_state.Reset();
+    _skills_state.Reset();
+    _equip_state.Reset();
+    _quests_state.Reset();
+
+    // Show all windows (make them visible)
+    _bottom_window.Show();
+    _main_options_window.Show();
+    _character_window0.Show();
+    _character_window1.Show();
+    _character_window2.Show();
+    _character_window3.Show();
+    _inventory_window.Show();
+    _quest_list_window.Show();
+    _party_window.Show();
+    _skills_window.Show();
+    _equip_window.Show();
+    _quest_window.Show();
+    _world_map_window.Show();
 } // MenuMode::MenuMode()
 
 
@@ -1295,43 +1318,6 @@ MenuMode::~MenuMode()
     if(_message_window != NULL)
         delete _message_window;
 } // MenuMode::~MenuMode()
-
-
-// Resets configuration/data for the class as appropriate
-void MenuMode::Reset()
-{
-    // Top left corner coordinates in menu mode are always (0,0)
-    VideoManager->SetStandardCoordSys();
-
-    // Show all windows (make them visible)
-    _bottom_window.Show();
-    _main_options_window.Show();
-    _character_window0.Show();
-    _character_window1.Show();
-    _character_window2.Show();
-    _character_window3.Show();
-    _inventory_window.Show();
-    _quest_list_window.Show();
-    _party_window.Show();
-    _skills_window.Show();
-    _equip_window.Show();
-    _quest_window.Show();
-    _world_map_window.Show();
-
-    _inventory_window.Activate(false);
-
-    // Reset states
-    _main_menu_state.Reset();
-    _inventory_state.Reset();
-    _party_state.Reset();
-    _skills_state.Reset();
-    _equip_state.Reset();
-    _quests_state.Reset();
-
-    // set initial state to main menu
-    _current_menu_state = &_main_menu_state;
-
-} // void MenuMode::Reset()
 
 ////////////////////////////////////////////////////////////////////////////////
 // MenuMode class -- Update Code

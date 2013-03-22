@@ -405,8 +405,9 @@ public:
         return _current_instance;
     }
 
-    //! \brief Resets the menu mode back to its default setup.
-    void Reset();
+    //! \brief Called when starting/returning to the menu mode. Currently useless.
+    void Reset()
+    {}
 
     //! \brief Updates the menu. Calls Update() on active window if there is one
     void Update();
