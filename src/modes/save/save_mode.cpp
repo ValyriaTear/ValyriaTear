@@ -492,10 +492,23 @@ bool SaveMode::_PreviewGame(uint32 id)
     // The map file, tested after the save game is closed.
     // DEPRECATED: Old way, will be removed in one release.
     std::string map_script_filename;
-    if (file.DoesStringExist("map_filename"))
+    std::string map_data_filename;
+    if (file.DoesStringExist("map_filename")) {
         map_script_filename = file.ReadString("map_filename");
-    else
+        map_data_filename = file.ReadString("map_filename");
+    }
+    else {
         map_script_filename = file.ReadString("map_script_filename");
+        map_data_filename = file.ReadString("map_data_filename");
+    }
+
+    // DEPRECATED: Remove in one release
+    // Hack to permit the split of last map data and scripts.
+    if (!map_script_filename.empty() && map_data_filename == map_script_filename) {
+        std::string map_common_name = map_data_filename.substr(0, map_data_filename.length() - 4);
+        map_data_filename = map_common_name + "_map.lua";
+        map_script_filename = map_common_name + "_script.lua";
+    }
 
     // Used to store temp data to populate text boxes
     int32 hours = file.ReadInt("play_hours");

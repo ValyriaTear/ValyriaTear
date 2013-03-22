@@ -862,6 +862,14 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
         _map_script_filename = file.ReadString("map_script_filename");
     }
 
+    // DEPRECATED: Remove in one release
+    // Hack to permit the split of last map data and scripts.
+    if (!_map_data_filename.empty() && _map_data_filename == _map_script_filename) {
+        std::string map_common_name = _map_data_filename.substr(0, _map_data_filename.length() - 4);
+        _map_data_filename = map_common_name + "_map.lua";
+        _map_script_filename = map_common_name + "_script.lua";
+    }
+
     // Load a potential saved position
     _x_save_map_position = file.ReadUInt("location_x");
     _y_save_map_position = file.ReadUInt("location_y");
