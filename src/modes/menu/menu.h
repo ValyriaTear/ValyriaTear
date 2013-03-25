@@ -122,7 +122,7 @@ protected:
     //! \brief instance-specific main window drawing code goes in here. the default is to simply draws nothing
     virtual void _OnDrawMainWindow(){}
     //! \brief handles drawing the generalized equipment information
-    void _DrawEquipmentInfo(hoa_global::GlobalCharacter *character);
+    void _DrawEquipmentInfo(hoa_global::GlobalCharacter *character, hoa_global::GlobalObject *obj);
     //! \brief draws the side window. Default draws the character windows
     virtual void _OnDrawSideWindow();
     //! \brief called when there is no state transition or active state
