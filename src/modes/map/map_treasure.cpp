@@ -114,8 +114,6 @@ TreasureSupervisor::TreasureSupervisor() :
     _list_options.SetCursorOffset(-50.0f, -25.0f);
     _list_options.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
     _list_options.SetOwner(&_list_window);
-    // TODO: this currently does not work (text will be blank). Re-enable it once the scissoring bug is fixed in the video engine
-// 	_list_options.Scissoring(true, true);
 
     _detail_textbox.SetPosition(20.0f, 90.0f);
     _detail_textbox.SetDimensions(726.0f, 128.0f);
@@ -126,17 +124,6 @@ TreasureSupervisor::TreasureSupervisor() :
     _detail_textbox.SetOwner(&_list_window);
 
     _selection_name.SetStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
-
-    if(!_drunes_icon.Load("img/icons/drunes.png"))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load drunes icon for treasure menu" << std::endl;
-
-    if(!_coins_snd.LoadAudio("snd/coins.wav"))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the obtain sound for Drunes treasures" << std::endl;
-    _coins_snd.AddOwner(MapMode::CurrentInstance());
-
-    if(!_items_snd.LoadAudio("snd/itempick2_michel_baradari_oga.wav"))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the obtain sound for Items treasures" << std::endl;
-    _items_snd.AddOwner(MapMode::CurrentInstance());
 } // TreasureSupervisor::TreasureSupervisor()
 
 TreasureSupervisor::~TreasureSupervisor()
@@ -167,9 +154,9 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
     // Construct the object list, including any drunes that were contained within the treasure
     if(_treasure->_drunes != 0) {
         _list_options.AddOption(MakeUnicodeString("<img/icons/drunes.png>       Drunes<R>" + NumberToString(_treasure->_drunes)));
-        _coins_snd.Play();
+        GlobalManager->Media().PlaySound("coins");
     } else {
-        _items_snd.Play();
+        GlobalManager->Media().PlaySound("item_pickup");
     }
 
     for(uint32 i = 0; i < _treasure->_objects_list.size(); i++) {
@@ -325,7 +312,7 @@ void TreasureSupervisor::_UpdateList()
         uint32 list_selection = _list_options.GetSelection();
         if(list_selection == 0 && _treasure->_drunes != 0) {  // If true, the drunes have been selected
             _selection_name.SetText(UTranslate("Drunes"));
-            _selection_icon = &_drunes_icon;
+            _selection_icon = GlobalManager->Media().GetDrunesIcon();
             _detail_textbox.SetDisplayText(VTranslate("With the additional %u drunes found in this treasure added, "
                                                       "the party now holds a total of %u drunes.",
                                                       _treasure->_drunes, GlobalManager->GetDrunes()));

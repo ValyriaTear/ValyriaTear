@@ -335,8 +335,7 @@ class GameGlobal : public hoa_utils::Singleton<GameGlobal>
 public:
     ~GameGlobal();
 
-    bool SingletonInitialize()
-    { return _LoadGlobalScripts(); }
+    bool SingletonInitialize();
 
     //! Reloads the persistent scripts. Used when changing the language for instance.
     bool ReloadGlobalScripts()
@@ -948,6 +947,13 @@ public:
         else return 0;
     }
 
+    //! \brief Gives access to global media files.
+    //! Note: The reference is passed non const to be able to give modifiable references
+    //! and pointers.
+    GlobalMedia& Media() {
+        return _global_media;
+    }
+
 private:
     GameGlobal();
 
@@ -1114,6 +1120,9 @@ private:
     //! \brief a map of the quest string ids to their info
     std::map<std::string, QuestLogInfo> _quest_log_info;
 
+    // ----- Global media files
+    //! \brief member storing all the common media files.
+    GlobalMedia _global_media;
 
     // ----- Private methods
 

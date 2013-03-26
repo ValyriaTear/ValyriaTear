@@ -125,7 +125,7 @@ class BattleMedia
 public:
     BattleMedia();
 
-    ~BattleMedia();
+    ~BattleMedia() {}
 
     ///! \brief Updates the different animations and media
     void Update();
@@ -151,13 +151,6 @@ public:
     *** \return A pointer to the appropriate icon image, or NULL if the target type was invalid
     **/
     hoa_video::StillImage *GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type);
-
-    /** \brief Retrieves a specific status icon with the proper type and intensity
-    *** \param type The type of status effect the user is trying to retrieve the icon for
-    *** \param intensity The intensity level of the icon to retrieve
-    *** \return The icon representation of the element type and intensity, or NULL if no appropriate image was found
-    **/
-    hoa_video::StillImage *GetStatusIcon(hoa_global::GLOBAL_STATUS type, hoa_global::GLOBAL_INTENSITY intensity);
 
     const hoa_video::StillImage &GetStunnedIcon() {
         return _stunned_icon;
@@ -220,30 +213,13 @@ public:
 
     //! \brief The music played after the player has lost the battle
     hoa_audio::MusicDescriptor defeat_music;
-
-    //! \brief Various sounds that are played as the player performs menu actions
-    //@{
-    hoa_audio::SoundDescriptor confirm_sound;
-    hoa_audio::SoundDescriptor cancel_sound;
-    hoa_audio::SoundDescriptor cursor_sound;
-    hoa_audio::SoundDescriptor invalid_sound;
-    hoa_audio::SoundDescriptor finish_sound;
     //@}
 
 private:
-    /** \brief Container used to find the appropriate row index for each status type
-    *** Status icons for all types of status are all contained within a single image. This container is used to
-    *** quickly determine which row of icons in that image corresponds to each status type.
-    **/
-    std::map<hoa_global::GLOBAL_STATUS, uint32> _status_indeces;
-
     /** \brief Holds icon images that represent the different types of targets
     *** Target types include attack points, ally/enemy, and different parties.
     **/
     std::vector<hoa_video::StillImage> _target_type_icons;
-
-    //! \brief Contains the entire set of status effect icons
-    std::vector<hoa_video::StillImage> _status_icons;
 
     //! \brief An icon displayed above the character's head when it is stunned.
     hoa_video::StillImage _stunned_icon;

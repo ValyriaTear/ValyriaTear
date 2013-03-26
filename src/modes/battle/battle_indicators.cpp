@@ -17,7 +17,7 @@
 #include "engine/system.h"
 #include "engine/video/video.h"
 
-#include "common/global/global_utils.h"
+#include "common/global/global.h"
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
@@ -566,13 +566,13 @@ void IndicatorSupervisor::AddStatusIndicator(GLOBAL_STATUS old_status, GLOBAL_IN
 {
     // If the status and intensity has not changed, only a single status icon needs to be used
     if((old_status == new_status) && (old_intensity == new_intensity)) {
-        StillImage *image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(new_status, new_intensity);
+        StillImage *image = GlobalManager->Media().GetStatusIcon(new_status, new_intensity);
         _wait_queue.push_back(new IndicatorImage(_actor, *image, POSITIVE_STATUS_EFFECT_INDICATOR));
     }
     // Otherwise two status icons need to be used in the indicator image
     else {
-        StillImage *first_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(old_status, old_intensity);
-        StillImage *second_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(new_status, new_intensity);
+        StillImage *first_image = GlobalManager->Media().GetStatusIcon(old_status, old_intensity);
+        StillImage *second_image = GlobalManager->Media().GetStatusIcon(new_status, new_intensity);
         INDICATOR_TYPE indicator_type = IsNewStatusBetter(new_status, old_intensity, new_intensity) ?
                                         POSITIVE_STATUS_EFFECT_INDICATOR : NEGATIVE_STATUS_EFFECT_INDICATOR;
         _wait_queue.push_back(new IndicatorBlendedImage(_actor, *first_image, *second_image, indicator_type));

@@ -96,6 +96,14 @@ GameGlobal::~GameGlobal()
     _CloseGlobalScripts();
 } // GameGlobal::~GameGlobal()
 
+bool GameGlobal::SingletonInitialize()
+{
+    // Init the media files.
+    _global_media.Initialize();
+
+    return _LoadGlobalScripts();
+}
+
 void GameGlobal::_CloseGlobalScripts() {
     // Close all persistent script files
     _global_script.CloseFile();

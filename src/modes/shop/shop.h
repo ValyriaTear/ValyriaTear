@@ -67,46 +67,11 @@ class ShopMedia
 public:
     ShopMedia();
 
-    ~ShopMedia();
+    ~ShopMedia() {}
 
+    //! \brief Shop specific category names
     std::vector<hoa_utils::ustring>* GetAllCategoryNames() {
         return &_all_category_names;
-    }
-
-    std::vector<hoa_video::StillImage>* GetAllCategoryIcons() {
-        return &_all_category_icons;
-    }
-
-    hoa_video::StillImage *GetDrunesIcon() {
-        return &_drunes_icon;
-    }
-
-    hoa_video::StillImage *GetStarIcon() {
-        return &_star_icon;
-    }
-
-    hoa_video::StillImage *GetCheckIcon() {
-        return &_check_icon;
-    }
-
-    hoa_video::StillImage *GetXIcon() {
-        return &_x_icon;
-    }
-
-    hoa_video::StillImage *GetShardSlotIcon() {
-        return &_shard_slot_icon;
-    }
-
-    hoa_video::StillImage *GetEquipIcon() {
-        return &_equip_icon;
-    }
-
-    std::vector<hoa_video::StillImage>* GetElementalIcons() {
-        return &_elemental_icons;
-    }
-
-    std::vector<hoa_video::StillImage>* GetStatusIcons() {
-        return &_status_icons;
     }
 
     std::vector<hoa_video::AnimatedImage>* GetCharacterSprites() {
@@ -120,75 +85,12 @@ public:
     **/
     hoa_utils::ustring *GetCategoryName(hoa_global::GLOBAL_OBJECT object_type);
 
-    /** \brief Retrieves the category icon image that represents the specified object type
-    *** \param object_type The type of the global object to retrieve the icon for
-    *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
-    *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
-    **/
-    hoa_video::StillImage *GetCategoryIcon(hoa_global::GLOBAL_OBJECT object_type);
-
-    /** \brief Retrieves a specific elemental icon with the proper type and intensity
-    *** \param element_type The type of element the user is trying to retrieve the icon for
-    *** \param intensity The intensity level of the icon to retrieve
-    *** \return The icon representation of the element type and intensity
-    **/
-    hoa_video::StillImage *GetElementalIcon(hoa_global::GLOBAL_ELEMENTAL element_type, hoa_global::GLOBAL_INTENSITY intensity);
-
-    /** \brief Retrieves a specificstatus icon with the proper type and intensity
-    *** \param status_type The type of status the user is trying to retrieve the icon for
-    *** \param intensity The intensity level of the icon to retrieve
-    *** \return The icon representation of the status type and intensity
-    **/
-    hoa_video::StillImage *GetStatusIcon(hoa_global::GLOBAL_STATUS status_type, hoa_global::GLOBAL_INTENSITY intensity);
-
-    /** \brief Retrieves a shop sound object
-    *** \param identifier The string identifier for the sound to retrieve
-    *** \return A pointer to the SoundDescriptor, or NULL if no sound had the identifier name
-    **/
-    hoa_audio::SoundDescriptor *GetSound(const std::string &identifier);
-
 private:
-    /** \brief Container used to find the appropriate row index for each status type
-    *** Status icons for all types of status are all contained within a single image. This container is used to
-    *** quickly determine which row of icons in that image corresponds to each status type.
-    **/
-    std::map<hoa_global::GLOBAL_STATUS, uint32> _status_indeces;
-
     //! \brief Retains text names for all possible object categories, including "all wares"
     std::vector<hoa_utils::ustring> _all_category_names;
 
-    //! \brief Retains icon images for all possible object categories, including "all wares"
-    std::vector<hoa_video::StillImage> _all_category_icons;
-
-    //! \brief Image icon representing drunes (currency)
-    hoa_video::StillImage _drunes_icon;
-
-    //! \brief Image icon of a single yellow/gold star
-    hoa_video::StillImage _star_icon;
-
-    //! \brief Image icon of a green check mark
-    hoa_video::StillImage _check_icon;
-
-    //! \brief Image icon of a red x
-    hoa_video::StillImage _x_icon;
-
-    //! \brief Image icon representing open shard slots available on weapons and armors
-    hoa_video::StillImage _shard_slot_icon;
-
-    //! \brief Image icon that represents when a character has a weapon or armor equipped
-    hoa_video::StillImage _equip_icon;
-
-    //! \brief Retains all icon images that represent the game's elementals
-    std::vector<hoa_video::StillImage> _elemental_icons;
-
-    //! \brief Retains all icon images that represent the game's status effects
-    std::vector<hoa_video::StillImage> _status_icons;
-
     //! \brief Retains sprite image frames for all characters in the active party
     std::vector<hoa_video::AnimatedImage> _character_sprites;
-
-    //! \brief A map of the sounds used in shop mode
-    std::map<std::string, hoa_audio::SoundDescriptor *> _sounds;
 
     //! \brief Initialize the character's data to show
     void _InitializeCharacters();

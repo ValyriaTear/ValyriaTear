@@ -142,12 +142,7 @@ BootMode::BootMode() :
     _boot_timer.EnableManualUpdate();
     _boot_timer.Run();
 
-    // Preload test sound
-    AudioManager->LoadSound("snd/volume_test.wav", this);
-    // Preload main sounds
-    AudioManager->LoadSound("snd/confirm.wav", this);
-    AudioManager->LoadSound("snd/cancel.wav", this);
-    AudioManager->LoadSound("snd/bump.wav", this);
+    // Preload new game sound
     AudioManager->LoadSound("snd/new_game.wav", this);
 } // BootMode::BootMode()
 
@@ -240,7 +235,7 @@ void BootMode::Update()
     if(help_window && help_window->IsActive()) {
         // Any key, except F1
         if(!InputManager->HelpPress() && InputManager->AnyKeyPress()) {
-            AudioManager->PlaySound("snd/confirm.wav");
+            GlobalManager->Media().PlaySound("confirm");
             help_window->Hide();
         }
         return;
@@ -327,10 +322,10 @@ void BootMode::Update()
         if(_active_menu->IsOptionEnabled(_active_menu->GetSelection())) {
             // Don't play the sound on New Games as they have their own sound
             if(_active_menu != &_main_menu && _active_menu->GetSelection() != -1)
-                AudioManager->PlaySound("snd/confirm.wav");
+                GlobalManager->Media().PlaySound("confirm");
         } else {
             // Otherwise play a different sound
-            AudioManager->PlaySound("snd/bump.wav");
+            GlobalManager->Media().PlaySound("bump");
         }
 
         _active_menu->InputConfirm();
@@ -364,7 +359,7 @@ void BootMode::Update()
         }
 
         // Play cancel sound
-        AudioManager->PlaySound("snd/cancel.wav");
+        GlobalManager->Media().PlaySound("cancel");
     }
 } // void BootMode::Update()
 
@@ -924,7 +919,7 @@ void BootMode::_OnSoundLeft()
     AudioManager->SetSoundVolume(AudioManager->GetSoundVolume() - 0.1f);
     _RefreshAudioOptions();
     // Play a sound for user to hear new volume level.
-    AudioManager->PlaySound("snd/volume_test.wav");
+    GlobalManager->Media().PlaySound("volume_test");
     _has_modified_settings = true;
 }
 
@@ -935,7 +930,7 @@ void BootMode::_OnSoundRight()
     AudioManager->SetSoundVolume(AudioManager->GetSoundVolume() + 0.1f);
     _RefreshAudioOptions();
     // Play a sound for user to hear new volume level.
-    AudioManager->PlaySound("snd/volume_test.wav");
+    GlobalManager->Media().PlaySound("volume_test");
     _has_modified_settings = true;
 }
 

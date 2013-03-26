@@ -120,7 +120,7 @@ void RootInterface::Reinitialize()
 
     // Star images used to construct the composite star rating (30x30 pixel size)
     StillImage star, gray_star;
-    star = *(ShopMode::CurrentInstance()->Media()->GetStarIcon());
+    star = *(GlobalManager->Media().GetStarIcon());
     gray_star = star;
     gray_star.EnableGrayScale();
 

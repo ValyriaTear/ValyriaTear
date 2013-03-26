@@ -8,7 +8,6 @@
 -- Each status effect implementation requires the following data to be defined.
 -- {name} - The name of the status effect as it will be shown to the player
 -- {default_duration} - The default duration that the effect lasts, in milliseconds
--- {icon_index} - A numeric index to the row of images where the icons for this effect
 -- {opposite_effect} - The status which acts as an opposite status to this one
 -- {Apply} - A function executed when the status effect is applied to the target
 -- {Update} - A function executed periodically while the status is still in effect
@@ -47,7 +46,6 @@ end
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
 	name = hoa_system.Translate("Raise Strength"),
 	default_duration = 30000,
-	icon_index = 0,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER,
 
 	Apply = function(effect)
@@ -93,7 +91,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
 	name = hoa_system.Translate("Lower Strength"),
 	default_duration = 30000,
-	icon_index = 1,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
 
 	Apply = function(effect)
@@ -139,7 +136,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
 	name = hoa_system.Translate("Raise Vigor"),
 	default_duration = 30000,
-	icon_index = 2,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER,
 
 	Apply = function(effect)
@@ -185,7 +181,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
 	name = hoa_system.Translate("Lower Vigor"),
 	default_duration = 30000,
-	icon_index = 3,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE,
 
 	Apply = function(effect)
@@ -231,7 +226,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
 	name = hoa_system.Translate("Raise Fortitude"),
 	default_duration = 30000,
-	icon_index = 4,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER,
 
 	Apply = function(effect)
@@ -277,7 +271,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
 	name = hoa_system.Translate("Lower Fortitude"),
 	default_duration = 30000,
-	icon_index = 5,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
 
 	Apply = function(effect)
@@ -323,7 +316,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
 	name = hoa_system.Translate("Raise Protection"),
 	default_duration = 30000,
-	icon_index = 6,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER,
 
 	Apply = function(effect)
@@ -369,7 +361,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
 	name = hoa_system.Translate("Lower Protection"),
 	default_duration = 30000,
-	icon_index = 7,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE,
 
 	Apply = function(effect)
@@ -415,7 +406,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 	name = hoa_system.Translate("Raise Agility"),
 	default_duration = 30000,
-	icon_index = 8,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
 
 	Apply = function(effect)
@@ -463,7 +453,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 	name = hoa_system.Translate("Lower Agility"),
 	default_duration = 30000,
-	icon_index = 9,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE,
 
 	Apply = function(effect)
@@ -511,7 +500,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
 	name = hoa_system.Translate("Raise Evasion"),
 	default_duration = 30000,
-	icon_index = 10,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER,
 
 	Apply = function(effect)
@@ -560,7 +548,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
 	name = hoa_system.Translate("Lower Evasion"),
 	default_duration = 30000,
-	icon_index = 11,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE,
 
 	Apply = function(effect)
@@ -606,7 +593,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = {
 	name = hoa_system.Translate("Regenerate HP"),
 	default_duration = 30000,
-	icon_index = 12,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN,
 
 	Apply = function(effect)
@@ -625,7 +611,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN] = {
 	name = hoa_system.Translate("Drain HP"),
 	default_duration = 30000,
-	icon_index = 13,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN,
 
 	Apply = function(effect)
@@ -644,7 +629,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = {
 	name = hoa_system.Translate("Regenerate SP"),
 	default_duration = 30000,
-	icon_index = 14,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN,
 
 	Apply = function(effect)
@@ -663,7 +647,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN] = {
 	name = hoa_system.Translate("Drain SP"),
 	default_duration = 30000,
-	icon_index = 15,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN,
 
 	Apply = function(effect)
@@ -682,7 +665,6 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN] = {
 status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 	name = hoa_system.Translate("Paralysis"),
 	default_duration = 10000,
-	icon_index = 16,
 	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_INVALID,
 
 	Apply = function(effect)

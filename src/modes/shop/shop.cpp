@@ -66,49 +66,6 @@ namespace private_shop
 
 ShopMedia::ShopMedia()
 {
-    if(_drunes_icon.Load("img/icons/drunes.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load drunes icon image" << std::endl;
-
-    if(_star_icon.Load("img/menus/star.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load star icon image" << std::endl;
-
-    if(_check_icon.Load("img/menus/green_check.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load check icon image" << std::endl;
-
-    if(_x_icon.Load("img/menus/red_x.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load x icon image" << std::endl;
-
-    if(!_shard_slot_icon.Load("img/menus/shard.png"))
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load shard icon image" << std::endl;
-
-    if(_equip_icon.Load("img/menus/equip.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load equip icon image" << std::endl;
-
-    if(!ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 7, 9))
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load elemental icon images" << std::endl;
-
-    if(!ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
-        PRINT_ERROR << "failed to load status icon images" << std::endl;
-
-    _sounds["confirm"] = new SoundDescriptor();
-    _sounds["cancel"] = new SoundDescriptor();
-    _sounds["coins"] = new SoundDescriptor();
-    _sounds["bump"] = new SoundDescriptor();
-
-    uint32 sound_load_failures = 0;
-    if(_sounds["confirm"]->LoadAudio("snd/confirm.wav") == false)
-        sound_load_failures++;
-    if(_sounds["cancel"]->LoadAudio("snd/cancel.wav") == false)
-        sound_load_failures++;
-    if(_sounds["coins"]->LoadAudio("snd/coins.wav") == false)
-        sound_load_failures++;
-    if(_sounds["bump"]->LoadAudio("snd/bump.wav") == false)
-        sound_load_failures++;
-
-    if(sound_load_failures > 0) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load " << sound_load_failures << " sounds needed by shop mode" << std::endl;
-    }
-
     _all_category_names.push_back(UTranslate("Items"));
     _all_category_names.push_back(UTranslate("Weapons"));
     _all_category_names.push_back(UTranslate("Head Armor"));
@@ -119,51 +76,8 @@ ShopMedia::ShopMedia()
     _all_category_names.push_back(UTranslate("Key Items"));
     _all_category_names.push_back(UTranslate("All Wares"));
 
-    if(!ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 4))
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load object category icon images" << std::endl;
-
-    // The last three images in this multi image are blank, so they are removed
-    _all_category_icons.pop_back();
-    _all_category_icons.pop_back();
-    _all_category_icons.pop_back();
-
-    // Determine which status effects correspond to which icons and store the result in the _status_indices container
-    hoa_script::ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-
-    std::vector<int32> status_types;
-    script_file.ReadTableKeys(status_types);
-
-    for(uint32 i = 0; i < status_types.size(); ++i) {
-        GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(status_types[i]);
-
-        // Check for duplicate entries of the same status effect
-        if(_status_indeces.find(status) != _status_indeces.end()) {
-            IF_PRINT_WARNING(SHOP_DEBUG) << "duplicate entry found in file " << script_file.GetFilename() <<
-                                         " for status type: " << status_types[i] << std::endl;
-            continue;
-        }
-
-        script_file.OpenTable(status_types[i]);
-        if(script_file.DoesIntExist("icon_index") == true) {
-            uint32 icon_index = script_file.ReadUInt("icon_index");
-            _status_indeces.insert(std::pair<GLOBAL_STATUS, uint32>(status, icon_index));
-        } else {
-            IF_PRINT_WARNING(SHOP_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << std::endl;
-        }
-        script_file.CloseTable();
-    }
-
     // Initialize the character's prites images.
     _InitializeCharacters();
-}
-
-
-
-ShopMedia::~ShopMedia()
-{
-    for(std::map<std::string, SoundDescriptor *>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
-        delete i->second;
-    _sounds.clear();
 }
 
 
@@ -221,149 +135,6 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
     }
 
     return &(_all_category_names[index]);
-}
-
-
-StillImage *ShopMedia::GetCategoryIcon(GLOBAL_OBJECT object_type)
-{
-    uint32 index = 0;
-
-    switch(object_type) {
-    case GLOBAL_OBJECT_ITEM:
-        index = 0;
-        break;
-    case GLOBAL_OBJECT_WEAPON:
-        index = 1;
-        break;
-    case GLOBAL_OBJECT_HEAD_ARMOR:
-        index = 2;
-        break;
-    case GLOBAL_OBJECT_TORSO_ARMOR:
-        index = 3;
-        break;
-    case GLOBAL_OBJECT_ARM_ARMOR:
-        index = 4;
-        break;
-    case GLOBAL_OBJECT_LEG_ARMOR:
-        index = 5;
-        break;
-    case GLOBAL_OBJECT_SHARD:
-        index = 6;
-        break;
-    case GLOBAL_OBJECT_TOTAL:
-        index = 7;
-        break;
-    default:
-        return NULL;
-    }
-
-    return &(_all_category_icons[index]);
-}
-
-
-StillImage *ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity)
-{
-    const uint32 NUMBER_INTENSTIY_LEVELS = 9;
-
-    // Row/col coordinates for where the specific icon can be found in the multi image array
-    uint32 row = 0, col = 0;
-
-    // Elemental type determines the icon's row
-    switch(element_type) {
-    case GLOBAL_ELEMENTAL_FIRE:
-        row = 0;
-        break;
-    case GLOBAL_ELEMENTAL_WATER:
-        row = 1;
-        break;
-    case GLOBAL_ELEMENTAL_VOLT:
-        row = 2;
-        break;
-    case GLOBAL_ELEMENTAL_EARTH:
-        row = 3;
-        break;
-    case GLOBAL_ELEMENTAL_LIFE:
-        row = 4;
-        break;
-    case GLOBAL_ELEMENTAL_DEATH:
-        row = 5;
-        break;
-    case GLOBAL_ELEMENTAL_NEUTRAL:
-        row = 6;
-        break;
-    default:
-        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << element_type << std::endl;
-        return NULL;
-    }
-
-    // Intensity determines the icon's column
-    switch(intensity) {
-    case GLOBAL_INTENSITY_POS_EXTREME:
-        col = 0;
-        break;
-    case GLOBAL_INTENSITY_POS_GREATER:
-        col = 1;
-        break;
-    case GLOBAL_INTENSITY_POS_MODERATE:
-        col = 2;
-        break;
-    case GLOBAL_INTENSITY_POS_LESSER:
-        col = 3;
-        break;
-    case GLOBAL_INTENSITY_NEUTRAL:
-        col = 4;
-        break;
-    case GLOBAL_INTENSITY_NEG_LESSER:
-        col = 5;
-        break;
-    case GLOBAL_INTENSITY_NEG_MODERATE:
-        col = 6;
-        break;
-    case GLOBAL_INTENSITY_NEG_GREATER:
-        col = 7;
-        break;
-    case GLOBAL_INTENSITY_NEG_EXTREME:
-        col = 8;
-        break;
-    default:
-        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid intensity level: " << intensity << std::endl;
-        return NULL;
-    }
-
-    return &(_elemental_icons[(row * NUMBER_INTENSTIY_LEVELS) + col]);
-}
-
-StillImage *ShopMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity)
-{
-    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
-        PRINT_WARNING << "type argument was invalid: " << type << std::endl;
-        return NULL;
-    }
-    if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-        PRINT_WARNING << "type argument was invalid: " << intensity << std::endl;
-        return NULL;
-    }
-
-    std::map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
-    if(status_entry == _status_indeces.end()) {
-        PRINT_WARNING << "no entry in the status icon index for status type: " << type << std::endl;
-        return NULL;
-    }
-
-    const uint32 IMAGE_ROWS = 5;
-    uint32 status_index = status_entry->second;
-    uint32 intensity_index = static_cast<uint32>(intensity);
-    return &(_status_icons[(status_index * IMAGE_ROWS) + intensity_index]);
-}
-
-SoundDescriptor *ShopMedia::GetSound(const std::string &identifier)
-{
-    std::map<std::string, SoundDescriptor *>::iterator sound = _sounds.find(identifier);
-    if(sound != _sounds.end()) {
-        return sound->second;
-    } else {
-        return NULL;
-    }
 }
 
 // *****************************************************************************
@@ -463,10 +234,11 @@ void ShopObjectViewer::Initialize()
     _count_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
     _hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
 
-    _check_icon = ShopMode::CurrentInstance()->Media()->GetCheckIcon();
-    _x_icon = ShopMode::CurrentInstance()->Media()->GetXIcon();
-    _shard_slot_icon = ShopMode::CurrentInstance()->Media()->GetShardSlotIcon();
-    _equip_icon = ShopMode::CurrentInstance()->Media()->GetEquipIcon();
+    GlobalMedia& media = GlobalManager->Media();
+    _check_icon = media.GetCheckIcon();
+    _x_icon = media.GetXIcon();
+    _shard_slot_icon = media.GetShardSlotIcon();
+    _equip_icon = media.GetEquipIcon();
 
     std::vector<hoa_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
     uint32 number_character = animations->size();
@@ -969,7 +741,7 @@ void ShopObjectViewer::_SetElementalIcons(const std::vector<std::pair<GLOBAL_ELE
     for(std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
             it != elemental_effects.end(); ++it) {
         if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _elemental_icons.push_back(ShopMode::CurrentInstance()->Media()->GetElementalIcon(it->first, it->second));
+            _elemental_icons.push_back(GlobalManager->Media().GetElementalIcon(it->first, it->second));
     }
 }
 
@@ -979,7 +751,7 @@ void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS
     for(std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >::const_iterator it = status_effects.begin();
             it != status_effects.end(); ++it) {
         if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _status_icons.push_back(ShopMode::CurrentInstance()->Media()->GetStatusIcon(it->first, it->second));
+            _status_icons.push_back(GlobalManager->Media().GetStatusIcon(it->first, it->second));
     }
 }
 
@@ -1375,8 +1147,6 @@ void ShopMode::Update()
 
     // When the state is at the root interface ,ShopMode needs to process user input and possibly change state
     if(_state == SHOP_STATE_ROOT) {
-        SoundDescriptor *sound = NULL; // Used to hold pointers of sound objects to play
-
         if(InputManager->ConfirmPress()) {
             if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 3) {
                 IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
@@ -1385,9 +1155,7 @@ void ShopMode::Update()
             }
 
             _action_options.InputConfirm();
-            sound = ShopMode::CurrentInstance()->Media()->GetSound("confirm");
-            assert(sound != NULL);
-            sound->Play();
+            GlobalManager->Media().PlaySound("confirm");
 
             if(_action_options.GetSelection() == 0 && _action_options.IsOptionEnabled(0)) {  // Buy
                 ChangeState(SHOP_STATE_BUY);
@@ -1449,11 +1217,12 @@ void ShopMode::Draw()
     _bottom_window.Draw();
     _middle_window.Draw(); // Drawn last because the middle window has the middle upper and lower window borders attached
 
-    // ---------- (3): Draw the contents of the top window
+    // Draw the contents of the top window
+    StillImage *drunes_icon = GlobalManager->Media().GetDrunesIcon();
     VideoManager->Move(130.0f, 103.0f);
-    ShopMode::CurrentInstance()->Media()->GetDrunesIcon()->Draw();
+    drunes_icon->Draw();
     VideoManager->MoveRelative(705.0f, 0.0f);
-    ShopMode::CurrentInstance()->Media()->GetDrunesIcon()->Draw();
+    drunes_icon->Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
     VideoManager->Move(512.0f, 111.0f);
@@ -1712,16 +1481,9 @@ void ShopMode::CompleteTransaction()
         GlobalManager->AddToInventory(id, count);
 
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
-        // TODO fix error that happens when you trade all of one type of item in a trade
         for(uint32 i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
-            GlobalManager->DecrementObjectCount(it->second->GetObject()->GetTradeConditions()[i].first, it->second->GetObject()->GetTradeConditions()[i].second * count);
-            //GlobalObject *new_object = GlobalCreateNewObject(it->second->GetObject()->GetTradeConditions()[i].first, 1);
-            //if(new_object != NULL) {
-            //ShopObject new_shop_object(new_object);
-            //if(new_shop_object.GetOwnCount() == 0){
-            //RemoveObjectToSell(new_shop_object.GetObject()->GetID()); Maybe RemoveObjectToSell isn't the problem?
-            //}
-            //}
+            GlobalManager->DecrementObjectCount(it->second->GetObject()->GetTradeConditions()[i].first,
+                                                it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
 
         if(it->second->GetStockCount() == 0) {

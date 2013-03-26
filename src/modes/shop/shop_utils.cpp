@@ -429,7 +429,7 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject *shop_object)
     } else {
         GLOBAL_OBJECT object_type = _selected_object->GetObject()->GetObjectType();
         _name_text.SetText(*(ShopMode::CurrentInstance()->Media()->GetCategoryName(object_type)));
-        _object_icon = ShopMode::CurrentInstance()->Media()->GetCategoryIcon(object_type);
+        _object_icon = GlobalManager->Media().GetItemCategoryIcon(object_type);
     }
 }
 

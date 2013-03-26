@@ -194,13 +194,6 @@ private:
     //! \brief A pointer to the image of the selected list item
     hoa_video::StillImage *_selection_icon;
 
-    //! \brief Holds the icon image that represent drunes
-    hoa_video::StillImage _drunes_icon;
-
-    //! \brief The "Obtained" sound, played at opening.
-    hoa_audio::SoundDescriptor _coins_snd;
-    hoa_audio::SoundDescriptor _items_snd;
-
     // ---------- Private methods
 
     //! \brief Processes user input when the action sub-window is selected

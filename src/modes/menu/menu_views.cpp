@@ -238,7 +238,7 @@ void InventoryWindow::Update()
 {
 
     //bool cancel = false;
-    if(GlobalManager->GetInventory()->size() == 0) {
+    if(GlobalManager->GetInventory()->empty()) {
         // no more items in inventory, exit inventory window
         Activate(false);
         return;
@@ -247,7 +247,7 @@ void InventoryWindow::Update()
     // Points to the active option box
     OptionBox *active_option = NULL;
 
-    _inventory_items.Update(SystemManager->GetUpdateTime());   //For scrolling
+    _inventory_items.Update();   //For scrolling
 
     switch(_active_box) {
     case ITEM_ACTIVE_CATEGORY:

@@ -129,7 +129,7 @@ void TradeInterface::_RefreshItemCategories()
     _category_names.clear();
     ShopMedia *shop_media = ShopMode::CurrentInstance()->Media();
     std::vector<ustring>* all_category_names = shop_media->GetAllCategoryNames();
-    std::vector<StillImage>* all_category_icons = shop_media->GetAllCategoryIcons();
+    std::vector<StillImage>* all_category_icons = GlobalManager->Media().GetAllItemCategoryIcons();
 
     // Determine which categories are used in this shop and populate the true containers with that data
     _UpdateAvailableTradeDealTypes();
@@ -288,44 +288,44 @@ void TradeInterface::Update()
             _ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
-            ShopMode::CurrentInstance()->Media()->GetSound("cancel")->Play();
+            GlobalManager->Media().PlaySound("cancel");
         }
 
         // Swap cycles through the object categories
         else if(InputManager->MenuPress() && (_number_categories > 1)) {
             if(_ChangeCategory(true) == true)
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+            GlobalManager->Media().PlaySound("confirm");
         }
 
         // Up/down changes the selected object in the current list
         else if(InputManager->UpPress()) {
             if(_ChangeSelection(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             }
         } else if(InputManager->DownPress()) {
             if(_ChangeSelection(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)
 
     else if(_view_mode == SHOP_VIEW_MODE_INFO) {
         if(InputManager->ConfirmPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_LIST); //Is this needed?
+            _ChangeViewMode(SHOP_VIEW_MODE_LIST);
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
             ShopMode::CurrentInstance()->CompleteTransaction();
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+            GlobalManager->Media().PlaySound("confirm");
             ShopMode::CurrentInstance()->ClearOrder();
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_TRADE);
 
         }
         if(InputManager->CancelPress()) {
             _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            while(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {} //Is this dangerous or inefficient?
-            ShopMode::CurrentInstance()->Media()->GetSound("cancel")->Play();
+            while(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {}
+            GlobalManager->Media().PlaySound("cancel");
             ShopMode::CurrentInstance()->ClearOrder();
         }
 
@@ -333,15 +333,15 @@ void TradeInterface::Update()
         else if(InputManager->LeftPress()) {
             if(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             } else
-                ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
+                GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeTradeQuantity(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             } else
-                ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
+                GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->UpPress()) {
             ShopMode::CurrentInstance()->ObjectViewer()->ScrollUpTradeConditions();
         } else if(InputManager->DownPress()) {

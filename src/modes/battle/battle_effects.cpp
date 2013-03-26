@@ -115,7 +115,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     // --- (4): Finish initialization of members
     _timer.Reset();
     _timer.Run();
-    _icon_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(_type, _intensity);
+    _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
 }
 
 
@@ -160,7 +160,7 @@ void BattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
         return;
 
     _intensity_changed = true;
-    _icon_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(_type, _intensity);
+    _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

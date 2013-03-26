@@ -102,9 +102,6 @@ BattleMedia::BattleMedia()
     if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "img/icons/effects/targets.png", 1, 8) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
-    if(ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25) == false)
-        PRINT_ERROR << "failed to load status icon images" << std::endl;
-
     character_HP_text.SetStyle(TextStyle("text18", Color::white));
     character_HP_text.SetText(Translate("HP"));
     character_SP_text.SetStyle(TextStyle("text18", Color::white));
@@ -116,59 +113,9 @@ BattleMedia::BattleMedia()
     if(defeat_music.LoadAudio(DEFAULT_DEFEAT_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
-    if(confirm_sound.LoadAudio("snd/confirm.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load confirm sound" << std::endl;
-
-    if(cancel_sound.LoadAudio("snd/cancel.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cancel sound" << std::endl;
-
-    if(cursor_sound.LoadAudio("snd/confirm.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cursor sound" << std::endl;
-
-    if(invalid_sound.LoadAudio("snd/cancel.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load invalid sound" << std::endl;
-
-    if(finish_sound.LoadAudio("snd/confirm.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load finish sound" << std::endl;
-
-    // Determine which status effects correspond to which icons and store the result in the _status_indices container
-    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-
-    std::vector<int32> status_types;
-    script_file.ReadTableKeys(status_types);
-
-    for(uint32 i = 0; i < status_types.size(); i++) {
-        GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(status_types[i]);
-
-        // Check for duplicate entries of the same status effect
-        if(_status_indeces.find(status) != _status_indeces.end()) {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "duplicate entry found in file " << script_file.GetFilename() <<
-                                           " for status type: " << status_types[i] << std::endl;
-            continue;
-        }
-
-        script_file.OpenTable(status_types[i]);
-        if(script_file.DoesIntExist("icon_index") == true) {
-            uint32 icon_index = script_file.ReadUInt("icon_index");
-            _status_indeces.insert(std::pair<GLOBAL_STATUS, uint32>(status, icon_index));
-        } else {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << std::endl;
-        }
-        script_file.CloseTable();
-    }
-
     // Load the stunned icon
     if(!_stunned_icon.Load("img/icons/effects/zzz.png"))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
-}
-
-
-
-BattleMedia::~BattleMedia()
-{
-    battle_music.FreeAudio();
-    victory_music.FreeAudio();
-    defeat_music.FreeAudio();
 }
 
 
@@ -229,31 +176,6 @@ StillImage *BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid target type argument: " << target_type << std::endl;
         return NULL;
     }
-}
-
-
-
-StillImage *BattleMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity)
-{
-    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << type << std::endl;
-        return NULL;
-    }
-    if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << intensity << std::endl;
-        return NULL;
-    }
-
-    std::map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
-    if(status_entry == _status_indeces.end()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no entry in the status icon index for status type: " << type << std::endl;
-        return NULL;
-    }
-
-    const uint32 IMAGE_ROWS = 5;
-    uint32 status_index = status_entry->second;
-    uint32 intensity_index = static_cast<uint32>(intensity);
-    return &(_status_icons[(status_index * IMAGE_ROWS) + intensity_index]);
 }
 
 } // namespace private_battle
