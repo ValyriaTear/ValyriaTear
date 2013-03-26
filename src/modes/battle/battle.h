@@ -624,8 +624,12 @@ class TransitionToBattleMode : public hoa_mode_manager::GameMode
 public:
     TransitionToBattleMode(BattleMode *BM);
 
-    ~TransitionToBattleMode()
-    {}
+    ~TransitionToBattleMode() {
+        // If the game quits while in pause mode during a transition to battle,
+        // The battle mode object needs to be freed.
+        if (_BM)
+            delete _BM;
+    }
 
     void Update();
 

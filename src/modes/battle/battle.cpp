@@ -280,6 +280,8 @@ BattleMode::BattleMode() :
 
     mode_type = MODE_MANAGER_BATTLE_MODE;
 
+    _current_instance = this;
+
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
     _dialogue_supervisor = new DialogueSupervisor();
@@ -319,8 +321,6 @@ BattleMode::~BattleMode()
 
 void BattleMode::Reset()
 {
-    _current_instance = this;
-
     VideoManager->SetStandardCoordSys();
 
     // Load the default battle music track if no other music has been added
