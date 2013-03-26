@@ -14,7 +14,7 @@ tmp_file=$(mktemp  ${TMPDIR:-/tmp}/XXXXX)
 
 # update the dates, creating the interval if it doesn't exist yet
 find src/ -iname "*.cpp" -or -iname "*.h" -or -iname "*.hpp" |
-  xargs gsed -i "/Copyright.*$copyright_notice/ s,\(20[0-9]*\) \|\(20[0-9]*\)-20[0-9]* ,\1\2-$new_year ,"
+  xargs sed -i "/Copyright.*$copyright_notice/ s,\(20[0-9]*\) \|\(20[0-9]*\)-20[0-9]* ,\1\2-$new_year ,"
 
 # do a semi-automated commit check
 git diff > $tmp_file
