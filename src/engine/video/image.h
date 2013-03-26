@@ -49,7 +49,6 @@
 
 #include "image_base.h"
 
-struct U;
 namespace hoa_mode_manager
 {
 class ParticleSystem;

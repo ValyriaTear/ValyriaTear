@@ -111,13 +111,13 @@ ModeEngine::~ModeEngine()
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: ModeEngine destructor invoked" << std::endl;
     // Delete any game modes on the stack
-    while(_game_stack.size() != 0) {
+    while(!_game_stack.empty()) {
         delete _game_stack.back();
         _game_stack.pop_back();
     }
 
     // Delete any game modes on the push stack
-    while(_push_stack.size() != 0) {
+    while(!_push_stack.empty()) {
         delete _push_stack.back();
         _push_stack.pop_back();
     }
@@ -130,13 +130,13 @@ ModeEngine::~ModeEngine()
 bool ModeEngine::SingletonInitialize()
 {
     // Delete any game modes on the stack
-    while(_game_stack.size() != 0) {
+    while(!_game_stack.empty()) {
         delete _game_stack.back();
         _game_stack.pop_back();
     }
 
     // Delete any game modes on the push stack
-    while(_push_stack.size() != 0) {
+    while(!_push_stack.empty()) {
         delete _push_stack.back();
         _push_stack.pop_back();
     }
