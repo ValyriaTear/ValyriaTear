@@ -44,69 +44,6 @@ namespace hoa_shop
 namespace private_shop
 {
 
-// The maximum number of category icons + text that can be displayed in a single row
-const uint8 MAX_CATEGORY_ROW_SIZE = 3;
-
-// *****************************************************************************
-// ***** CategoryDrawData class methods
-// *****************************************************************************
-
-void CategoryDrawData::ComputeCoordinates(uint8 number_categories)
-{
-    if(number_categories > GLOBAL_OBJECT_TOTAL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid argument value: " << number_categories << std::endl;
-        return;
-    }
-
-    // ---------- (1): Determine the number of entries in each category row
-    if(number_categories <= MAX_CATEGORY_ROW_SIZE) {
-        first_row_num = number_categories;
-        second_row_num = 0;
-    } else {
-        first_row_num = MAX_CATEGORY_ROW_SIZE;
-        second_row_num = number_categories - first_row_num;
-    }
-
-    // ---------- (2): Determine the y position in each category row
-    if(second_row_num != 0) {  // then there are two rows of categories to draw
-        first_row_y = 420.0f;
-        second_row_y = 320.0f;
-    } else {
-        first_row_y = 370.0f;
-        second_row_y = first_row_y;
-    }
-
-    // ---------- (3): Determine the x position of each category row
-    switch(first_row_num) {
-    case 1:
-        first_row_x = 512.0f; // Horizontal center of screen
-        break;
-    case 2:
-        first_row_x = 437.0f; // The delta between icons when drawn is 150.0f, so move the draw cursor by half that amount
-        break;
-    case 3:
-        first_row_x = 362.0f;
-        break;
-    case 4:
-        first_row_x = 287.0f;
-        break;
-    }
-    switch(second_row_num) {
-    case 1:
-        second_row_x = 512.0f;
-        break;
-    case 2:
-        second_row_x = 437.0f;
-        break;
-    case 3:
-        second_row_x = 362.0f;
-        break;
-    case 4:
-        second_row_x = 287.0f;
-        break;
-    }
-} // void CategoryDrawData::ComputeCoordinates(uint8 number_categories)
-
 // *****************************************************************************
 // ***** RootInterface class methods
 // *****************************************************************************
@@ -130,8 +67,6 @@ RootInterface::RootInterface()
     _greeting_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _greeting_text.SetDisplayText(UTranslate("\"Welcome! Take a look around.\"")); // Default greeting, should usually be overwritten
 }
-
-
 
 void RootInterface::Reinitialize()
 {
@@ -216,31 +151,12 @@ void RootInterface::Reinitialize()
         num_buy_stars--;
         offset += 40.0f;
     }
-    /* FIXME: Readd this
-    	// ---------- (2): Construct category name text and graphics and determine category draw coordinates
-    	// Determine the number of names and icons of categories to load
-    	uint32 number_categories = ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames()->size();
-    	if (number_categories > 1) // If multiple categories are available, remove one because we don't want to show the "all" category
-    		number_categories--;
-
-    	TextStyle name_style("text22");
-    	for (uint32 i = 0; i < number_categories; i++) {
-    		_category_names.push_back(TextImage(ShopMode::CurrentInstance()->Media()->GetSaleCategoryNames()->at(i), name_style));
-    		_category_icons.push_back(ShopMode::CurrentInstance()->Media()->GetSaleCategoryIcons()->at(i));
-    	}
-
-    	_category_draw_data.ComputeCoordinates(_category_icons.size());
-    	*/
 } // void RootInterface::Initialize()
-
-
 
 void RootInterface::Update()
 {
     _greeting_text.Update();
 }
-
-
 
 void RootInterface::Draw()
 {
@@ -260,36 +176,15 @@ void RootInterface::Draw()
     _buy_price_rating.Draw();
     VideoManager->MoveRelative(280.0f, 0.0f);
     _sell_price_rating.Draw();
-    /* FIXME: Readd this
-    	// Middle window: below the pricing text/image draw the category icons and text in one or two rows
-    	VideoManager->Move(_category_draw_data.first_row_x, _category_draw_data.first_row_y);
-    	for (uint8 i = 0; i < _category_draw_data.first_row_num; i++) {
-    		_category_icons[i].Draw();
-    		VideoManager->MoveRelative(0.0f, -60.0f);
-    		_category_names[i].Draw();
-    		VideoManager->MoveRelative(150.0f, 60.0f);
-    	}
 
-    	VideoManager->Move(_category_draw_data.second_row_x, _category_draw_data.second_row_y);
-    	for (uint8 i = 0; i < _category_draw_data.second_row_num; i++) {
-    		_category_icons[i + MAX_CATEGORY_ROW_SIZE].Draw();
-    		VideoManager->MoveRelative(0.0f, -60.0f);
-    		_category_names[i +MAX_CATEGORY_ROW_SIZE].Draw();
-    		VideoManager->MoveRelative(150.0f, 60.0f);
-    	}
-    */
     // Bottom window: draw the greeting text
     _greeting_text.Draw();
 }
-
-
 
 void RootInterface::SetShopName(const hoa_utils::ustring& name)
 {
     _shop_name.SetText(name);
 }
-
-
 
 void RootInterface::SetGreetingText(const hoa_utils::ustring& greeting)
 {
