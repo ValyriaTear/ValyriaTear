@@ -298,7 +298,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 static uint32 i = 1;
                 std::string path = "";
                 while(true) {
-                    path = hoa_utils::GetUserDataPath(true) + "screenshot_" + NumberToString<uint32>(i) + ".jpg";
+                    path = hoa_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32>(i) + ".jpg";
                     if(!DoesFileExist(path))
                         break;
                     i++;

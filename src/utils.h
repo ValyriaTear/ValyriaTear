@@ -697,14 +697,13 @@ bool DeleteFile(const std::string &filename);
 
 //! \name User directory and settings paths
 //@{
-/** \brief Finds the OS specific directory path to save and retrieve user data
-*** \param user_files If true, retrieves the path for user created content files. If false,
-*** retrieves the path for application settings. Default value is true.
-*** \note Only OS X systems make any use of the user_files parameter.
-**/
-const std::string GetUserDataPath(bool user_files = true);
+//! \brief Gives the OS specific directory path to save and retrieve user data
+const std::string GetUserDataPath();
 
-/** \brief Retrieves the path and filename of the settings file to use
+//! \brief Gives the OS specific directory path to save and retrieve user config data
+const std::string GetUserConfigPath();
+
+/** \brief Gives the path and filename of the settings file to use
 *** \return A string with the settings filename, or an empty string if the settings file could not be found
 **/
 const std::string GetSettingsFilename();

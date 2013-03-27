@@ -415,7 +415,7 @@ bool BootMode::_SavesAvailable(int32 maxId)
 {
     assert(maxId > 0);
     int32 savesAvailable = 0;
-    std::string data_path = GetUserDataPath(true);
+    std::string data_path = GetUserDataPath();
     for(int id = 0; id < maxId; ++id) {
         std::ostringstream f;
         f << data_path + "saved_game_" << id << ".lua";
@@ -1075,12 +1075,12 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     std::string fileTemp;
 
     // Load the settings file for reading in the original data
-    fileTemp = GetUserDataPath(false) + "/settings.lua";
+    fileTemp = GetUserConfigPath() + "/settings.lua";
 
     if(filename.empty())
         file = fileTemp;
     else
-        file = GetUserDataPath(false) + "/" + filename;
+        file = GetUserConfigPath() + "/" + filename;
 
     //copy the default file so we have an already set up lua file and then we can modify its settings
     if(!DoesFileExist(file))

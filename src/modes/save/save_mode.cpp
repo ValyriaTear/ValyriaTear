@@ -258,7 +258,7 @@ void SaveMode::Update()
                 // do not change unless you understand this and can test it properly!
                 uint32 id = (uint32)_file_list.GetSelection();
                 std::ostringstream f;
-                f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+                f << GetUserDataPath() + "saved_game_" << id << ".lua";
                 std::string filename = f.str();
                 // now, attempt to save the game.  If failure, we need to tell the user that!
                 if(GlobalManager->SaveGame(filename, id, _x_position, _y_position)) {
@@ -411,7 +411,7 @@ void SaveMode::DrawPostEffects()
 bool SaveMode::_LoadGame(uint32 id)
 {
     std::ostringstream f;
-    f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+    f << GetUserDataPath() + "saved_game_" << id << ".lua";
     std::string filename = f.str();
 
     if(DoesFileExist(filename)) {
@@ -460,7 +460,7 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
 bool SaveMode::_PreviewGame(uint32 id)
 {
     std::ostringstream f;
-    f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+    f << GetUserDataPath() + "saved_game_" << id << ".lua";
     std::string filename = f.str();
 
     // Check for the file existence, prevents a useless warning
