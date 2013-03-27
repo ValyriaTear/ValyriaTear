@@ -223,8 +223,8 @@ function _CreateEvents()
                                        "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_cave_1_2");
+    event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_cave_1_2");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",

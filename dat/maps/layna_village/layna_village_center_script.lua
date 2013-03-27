@@ -354,8 +354,8 @@ function _CreateEvents()
                                        "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_secret_path");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest/layna_forest_entrance.lua",
-                                       "dat/maps/layna_forest/layna_forest_entrance.lua", "from_village_center")
+    event = hoa_map.MapTransitionEvent("to layna forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_village_center")
     EventManager:RegisterEvent(event);
 
     -- Generic events

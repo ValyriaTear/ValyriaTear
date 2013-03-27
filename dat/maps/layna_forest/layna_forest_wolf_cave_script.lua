@@ -249,8 +249,8 @@ function _CreateEvents()
                                        "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_wolf_cave");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from_layna_wolf_cave");
+    event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_wolf_cave");
     EventManager:RegisterEvent(event);
 
     -- SP Heal event on fountain

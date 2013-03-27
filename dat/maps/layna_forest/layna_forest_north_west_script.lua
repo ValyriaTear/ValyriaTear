@@ -970,8 +970,8 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = hoa_map.MapTransitionEvent("to forest entrance", "dat/maps/layna_forest/layna_forest_entrance.lua",
-                                       "dat/maps/layna_forest/layna_forest_entrance.lua", "from_layna_forest_NW");
+    event = hoa_map.MapTransitionEvent("to forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_layna_forest_NW");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
@@ -982,8 +982,8 @@ function _CreateEvents()
                                        "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from_layna_forest_NW");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave entrance", "dat/maps/layna_forest/layna_forest_cave1_1.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_forest_NW");
+    event = hoa_map.MapTransitionEvent("to cave entrance", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_forest_NW");
     EventManager:RegisterEvent(event);
 
     -- dialogue events

@@ -195,8 +195,8 @@ function _CreateEvents()
                                        "dat/maps/layna_forest/layna_forest_south_east.lua", "from layna forest cave 2")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal.lua",
-                                       "dat/maps/layna_forest/layna_forest_crystal.lua", "from layna forest cave 2")
+    event = hoa_map.MapTransitionEvent("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_crystal_script.lua", "from layna forest cave 2")
     EventManager:RegisterEvent(event);
 
     -- Fade in/out events - to making the character wander from a cave place to another

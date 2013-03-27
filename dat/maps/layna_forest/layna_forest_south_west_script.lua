@@ -658,8 +658,8 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from forest SW");
+    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from forest SW");
     EventManager:RegisterEvent(event);
 
     event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
