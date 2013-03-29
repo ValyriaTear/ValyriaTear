@@ -121,7 +121,7 @@ function Update()
     -- Triggers snow representing the boss body ashes...
     if (death_particles_triggered == false and elapsed_time > 8000) then
         -- Make the wolf howls at the end
-        AudioManager:PlaySound("snd/makok_howl.ogg");
+        AudioManager:PlaySound("snd/wolf_howl.ogg");
 
         Battle:TriggerBattleParticleEffect("dat/effects/particles/boss_death_particle.lua",
                                            enemy_pos_x + 200, enemy_pos_y - 255);
