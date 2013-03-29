@@ -601,33 +601,14 @@ void Grid::SaveMap()
                 } // no tile exists at current location
                 else {
                     for(uint32 i = 0; i < walk_vect.size(); ++i) {
-                        // If a layer is set and passable over a blocking layer,
-                        // the result is passable.
-                        // i.e: base value: 101 (context id = 2), value to set: 0
-                        // Result wanted: 001.
-                        // We, then, use a NOT AND operator when setting a zero:
-                        // mask = mask & ~(1 << position); // if 0
-
                         // NW corner
-                        if(walk_vect[i][0] == 0)
-                            map_row_north[col % _width * 2] &= ~(1 << context);
-                        else if(walk_vect[i][0] == 1)
-                            map_row_north[col % _width * 2] |= (walk_vect[i][0] << context);
+                        map_row_north[col % _width * 2] |= (walk_vect[i][0] << context);
                         // NE corner
-                        if(walk_vect[i][1] == 0)
-                            map_row_north[col % _width * 2 + 1] &= ~(1 << context);
-                        else if(walk_vect[i][1] == 1)
-                            map_row_north[col % _width * 2 + 1] |= (walk_vect[i][1] << context);
+                        map_row_north[col % _width * 2 + 1] |= (walk_vect[i][1] << context);
                         // SW corner
-                        if(walk_vect[i][2] == 0)
-                            map_row_south[col % _width * 2] &= ~(1 << context);
-                        else if(walk_vect[i][2] == 1)
-                            map_row_south[col % _width * 2] |= (walk_vect[i][2] << context);
+                        map_row_south[col % _width * 2] |= (walk_vect[i][2] << context);
                         // SE corner
-                        if(walk_vect[i][3] == 0)
-                            map_row_south[col % _width * 2 + 1] &= ~(1 << context);
-                        else if(walk_vect[i][3] == 1)
-                            map_row_south[col % _width * 2 + 1] |= (walk_vect[i][3] << context);
+                        map_row_south[col % _width * 2 + 1] |= (walk_vect[i][3] << context);
                     }
                 } // a real tile exists at current location
 
