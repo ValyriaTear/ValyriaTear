@@ -147,7 +147,7 @@ void InventoryWindow::_InitInventoryItems()
 {
     // Set up the inventory option box
     _inventory_items.SetPosition(500.0f, 170.0f);
-    _inventory_items.SetDimensions(400.0f, 360.0f, 1, 255, 1, 6);
+    _inventory_items.SetDimensions(400.0f, 360.0f, 1, 255, 1, 10);
     _inventory_items.SetTextStyle(TextStyle("text20"));
     _inventory_items.SetCursorOffset(-52.0f, -20.0f);
     _inventory_items.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
@@ -564,12 +564,17 @@ void InventoryWindow::_UpdateItemText()
     std::vector<ustring> inv_names;
 
     for(size_t ctr = 0; ctr < _item_objects.size(); ctr++) {
-        text = MakeUnicodeString("<" + _item_objects[ctr]->GetIconImage().GetFilename() + "><32>     ") +
+        text = MakeUnicodeString("<" + _item_objects[ctr]->GetIconImage().GetFilename() + "><20>     ") +
                _item_objects[ctr]->GetName() + MakeUnicodeString("<R><350>" + NumberToString(_item_objects[ctr]->GetCount()) + "   ");
         inv_names.push_back(text);
     }
 
     _inventory_items.SetOptions(inv_names);
+    for (uint32 i = 0; i < _inventory_items.GetNumberOptions(); ++i) {
+        StillImage *image = _inventory_items.GetEmbeddedImage(i);
+        if (image)
+            image->SetWidthKeepRatio(32);
+    }
 
     if(current_selected_category != _previous_category )
     {
