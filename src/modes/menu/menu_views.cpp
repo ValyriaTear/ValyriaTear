@@ -1089,12 +1089,19 @@ void SkillsWindow::Update()
         active_option->InputRight();
     } else if(InputManager->UpPress()) {
         active_option->InputUp();
+        if (active_option == &_skills_list)
+            _skill_cost_list.InputUp();
     } else if(InputManager->DownPress()) {
         active_option->InputDown();
+        if (active_option == &_skills_list)
+            _skill_cost_list.InputDown();
     }
 
     uint32 event = active_option->GetEvent();
     active_option->Update();
+    if (active_option == &_skills_list)
+        _skill_cost_list.Update();
+
     switch(_active_box) {
     case SKILL_ACTIVE_CHAR_APPLY:
         // Handle skill application
@@ -1163,6 +1170,7 @@ void SkillsWindow::Update()
         // Choose skill type
         if(event == VIDEO_OPTION_CONFIRM) {
             _skills_list.SetSelection(0);
+            _skill_cost_list.SetSelection(0);
             if(_skills_list.GetNumberOptions() > 0) {
                 _active_box = SKILL_ACTIVE_LIST;
                 _skills_categories.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
