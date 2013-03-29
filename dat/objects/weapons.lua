@@ -214,6 +214,73 @@ weapons[10004] = {
     }
 }
 
+-- NOTE: Test weapon
+weapons[10999] = {
+    name = hoa_system.Translate("Omni Sword"),
+    description = "The ultimate sword, used only for testing...",
+    icon = "img/icons/weapons/sword-flaming.png",
+    physical_attack = 9999,
+    magical_attack = 9999,
+    standard_price = 9999999,
+    usable_by = BRONANN + THANIS,
+    slots = 5,
+    key_item = true,
+
+    -- NOTE: Testing trade conditions,
+    trade_conditions = {
+        [0] = 20000,  -- price
+        [10003] = 10, -- 10 Knight's blades
+        [1003] = 5,   -- 5 Elixirs
+        [1] = 3,      -- 3 minor healing potions
+        [2] = 2,      -- 2 medium healing potions
+        [3] = 6,      -- 6 healing potions
+        [4] = 5,      -- 5 Mega healing potions
+        [11] = 8      -- 8 Small moon juice
+    },
+
+    elemental_effects = {
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_WATER] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
+    },
+
+    status_effects = {
+        [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
+        }
+    }
+}
+
 -- -----------------------------------------------------------------------------
 -- IDs 11,001 - 11,500 are reserved for arbalests
 -- -----------------------------------------------------------------------------

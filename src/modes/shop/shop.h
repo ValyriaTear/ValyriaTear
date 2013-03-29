@@ -171,6 +171,9 @@ private:
     //! \brief The type of the selected object
     SHOP_OBJECT _object_type;
 
+    //! \brief When the object type is equipment, this tells whether it is a weapon.
+    bool _is_weapon;
+
     //! \name Data that all object types share
     //@{
     //! \brief The name of the selected object
@@ -222,6 +225,15 @@ private:
 
     //! \brief An icon image of a shard slot
     hoa_video::StillImage *_shard_slot_icon;
+
+    //! \brief The key item icon
+    hoa_video::StillImage *_key_item_icon;
+
+    //! \brief ATK, DEF, MATK, MDEF icons
+    hoa_video::StillImage *_atk_icon;
+    hoa_video::StillImage *_matk_icon;
+    hoa_video::StillImage *_def_icon;
+    hoa_video::StillImage *_mdef_icon;
 
     //! \brief The number of shard the equipment can support.
     uint32 _shard_number;

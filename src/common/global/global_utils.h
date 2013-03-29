@@ -331,6 +331,10 @@ public:
         return &_equip_icon;
     }
 
+    hoa_video::StillImage* GetKeyItemIcon() {
+        return &_key_item_icon;
+    }
+
     hoa_video::StillImage* GetBottomMenuImage() {
         return &_bottom_menu_image;
     }
@@ -386,6 +390,9 @@ private:
 
     //! \brief Image icon that represents when a character has a weapon or armor equipped
     hoa_video::StillImage _equip_icon;
+
+    //! \brief The Key item icon
+    hoa_video::StillImage _key_item_icon;
 
     //! \brief Retains all icon images that represent the game's elementals
     std::vector<hoa_video::StillImage> _elemental_icons;

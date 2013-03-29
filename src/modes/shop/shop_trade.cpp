@@ -172,7 +172,8 @@ void TradeInterface::Reinitialize()
     }
 
     // Holds the index to the _object_data vector where the container for a specific object type is located
-    std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
+    // The + 1 is set to reserve space for key items.
+    std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL + 1, 0);
     // Used to set the appropriate data in the type_index vector
     uint32 next_index = 0;
     // Used to do a bit-by-bit analysis of the deal_types variable

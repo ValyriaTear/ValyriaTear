@@ -145,6 +145,7 @@ ShopObjectViewer::ShopObjectViewer() :
     _view_mode(SHOP_VIEW_MODE_LIST),
     _selected_object(NULL),
     _object_type(SHOP_OBJECT_INVALID),
+    _is_weapon(false),
     _map_usable(false),
     _battle_usable(false),
     _target_type_index(0),
@@ -193,13 +194,13 @@ ShopObjectViewer::ShopObjectViewer() :
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_ALLIES), TextStyle("text22")));
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_FOES), TextStyle("text22")));
 
-    _phys_header.SetStyle(TextStyle("text22"));
-    _phys_header.SetText(UTranslate("Phys:"));
-    _mag_header.SetStyle(TextStyle("text22"));
-    _mag_header.SetText(UTranslate("Mag:"));
+    _phys_header.SetStyle(TextStyle("text18"));
+    _phys_header.SetText(UTranslate("ATK:"));
+    _mag_header.SetStyle(TextStyle("text18"));
+    _mag_header.SetText(UTranslate("M.ATK:"));
 
-    _phys_rating.SetStyle(TextStyle("text22"));
-    _mag_rating.SetStyle(TextStyle("text22"));
+    _phys_rating.SetStyle(TextStyle("text18"));
+    _mag_rating.SetStyle(TextStyle("text18"));
 
     _conditions_title.SetStyle(TextStyle("text22"));
     _conditions_title.SetText(UTranslate("Conditions:"));
@@ -222,8 +223,19 @@ ShopObjectViewer::ShopObjectViewer() :
     _conditions_number.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _conditions_number.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
     _conditions_number.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
-}
 
+    GlobalMedia& media = GlobalManager->Media();
+    _check_icon = media.GetCheckIcon();
+    _x_icon = media.GetXIcon();
+    _shard_slot_icon = media.GetShardSlotIcon();
+    _equip_icon = media.GetEquipIcon();
+    _key_item_icon = media.GetKeyItemIcon();
+
+    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+}
 
 
 void ShopObjectViewer::Initialize()
@@ -233,12 +245,6 @@ void ShopObjectViewer::Initialize()
 
     _count_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
     _hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-
-    GlobalMedia& media = GlobalManager->Media();
-    _check_icon = media.GetCheckIcon();
-    _x_icon = media.GetXIcon();
-    _shard_slot_icon = media.GetShardSlotIcon();
-    _equip_icon = media.GetEquipIcon();
 
     std::vector<hoa_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
     uint32 number_character = animations->size();
@@ -250,7 +256,6 @@ void ShopObjectViewer::Initialize()
         _mag_change_text.push_back(TextImage());
     }
 }
-
 
 
 void ShopObjectViewer::Update()
@@ -293,7 +298,13 @@ void ShopObjectViewer::Draw()
     // Object's name and icon are drawn in the same position for all objects
     _object_name.Draw();
     VideoManager->MoveRelative(0.0f, 55.0f);
-    _selected_object->GetObject()->GetIconImage().Draw();
+    GlobalObject* object = _selected_object->GetObject();
+    object->GetIconImage().Draw();
+    if (object->IsKeyItem()) {
+        VideoManager->MoveRelative(32.0f, 15.0f);
+        _key_item_icon->Draw();
+        VideoManager->MoveRelative(-32.0f, -15.0f);
+    }
 
     switch(_object_type) {
     case SHOP_OBJECT_ITEM:
@@ -477,9 +488,11 @@ void ShopObjectViewer::_SetEquipmentData()
     if(_selected_object->GetObject()->GetObjectType() == GLOBAL_OBJECT_WEAPON) {
         selected_weapon = dynamic_cast<GlobalWeapon *>(_selected_object->GetObject());
         usable_status = selected_weapon->GetUsableBy();
+        _is_weapon = true;
     } else {
         selected_armor = dynamic_cast<GlobalArmor *>(_selected_object->GetObject());
         usable_status = selected_armor->GetUsableBy();
+        _is_weapon = false;
 
         // Armor on GlobalCharacter objects are stored in 4-element vectors. The different armor type maps to one of these four elements
         switch(selected_armor->GetObjectType()) {
@@ -504,12 +517,16 @@ void ShopObjectViewer::_SetEquipmentData()
     // ---------- (2): Determine equipment's rating, socket, elemental effects, and status effects to report
 
     if(selected_weapon) {
+        _phys_header.SetText(UTranslate("ATK:"));
+        _mag_header.SetText(UTranslate("M.ATK:"));
         _phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
         _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack()));
         _shard_number = selected_weapon->GetShardSlots().size();
         _SetElementalIcons(selected_weapon->GetElementalEffects());
         _SetStatusIcons(selected_weapon->GetStatusEffects());
     } else if(selected_armor) {
+        _phys_header.SetText(UTranslate("DEF:"));
+        _mag_header.SetText(UTranslate("M.DEF:"));
         _phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
         _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense()));
         _shard_number = selected_armor->GetShardSlots().size();
@@ -795,81 +812,89 @@ void ShopObjectViewer::_DrawItem()
 
 void ShopObjectViewer::_DrawEquipment()
 {
-    VideoManager->MoveRelative(80.0f, -15.0f);
+    VideoManager->MoveRelative(70.0f, -15.0f);
+    if (_is_weapon)
+        _atk_icon->Draw();
+    else
+        _def_icon->Draw();
+    VideoManager->MoveRelative(25.0f, 0.0f);
     _phys_header.Draw();
-    VideoManager->MoveRelative(0.0f, 30.0f);
+
+    VideoManager->MoveRelative(-25.0f, 30.0f);
+    if (_is_weapon)
+        _matk_icon->Draw();
+    else
+        _mdef_icon->Draw();
+    VideoManager->MoveRelative(25.0f, 0.0f);
     _mag_header.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
-    VideoManager->MoveRelative(90.0f, -30.0f);
+    VideoManager->MoveRelative(110.0f, -30.0f);
     _phys_rating.Draw();
     VideoManager->MoveRelative(0.0f, 30.0f);
     _mag_rating.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
-    VideoManager->MoveRelative(20.0f, -15.0f);
+    VideoManager->MoveRelative(20.0f, 0.0f);
     for (uint32 i = 0; i < _shard_number; ++i) {
         _shard_slot_icon->Draw();
         VideoManager->MoveRelative(15.0f , 0.0f);
     }
+    VideoManager->MoveRelative(-15.0f * (_shard_number > 5.0f ? 5.0f : _shard_number) , -35.0f);
 
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
-    VideoManager->MoveRelative(40.0f, -55.0f);
-
-    // Draw up to two columns of 4 elemental effects icons
+    // Draw elemental effect icons
     uint32 element_size = _elemental_icons.size();
-    for(uint32 i = 0; i < 4 && i < element_size; ++i) {
+    VideoManager->MoveRelative((18.0f * element_size) - 12.0f, 0.0f);
+    for(uint32 i = 0; i < element_size; ++i) {
         _elemental_icons[i]->Draw();
-        VideoManager->MoveRelative(0.0f, 25.0f);
+        VideoManager->MoveRelative(-18.0f, 0.0f);
     }
-    VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 4 ? 4 : element_size));
+    VideoManager->MoveRelative(0.0f, -25.0f);
 
-    // Draw a second column when there are many elemental effects.
-    if(element_size > 4) {
-        for(uint32 i = 4; i < 8 && i < element_size; ++i) {
-            _elemental_icons[i]->Draw();
-            VideoManager->MoveRelative(0.0f, 25.0f);
-        }
-
-        VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 8 ? 8 : element_size - 4));
-    }
-
-    // Draw up to two columns of 4 status effects icons
-    element_size = _status_icons.size();
-    for(uint32 i = 0; i < 4 && i < element_size; ++i) {
+    // Draw status effects icons
+    element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    VideoManager->MoveRelative((18.0f * element_size), 0.0f);
+    for(uint32 i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
-        VideoManager->MoveRelative(0.0f, 25.0f);
-    }
-    VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 4 ? 4 : element_size));
-    if(element_size > 4) {
-        for(uint32 i = 4; i < 8 && i < element_size; ++i) {
-            _status_icons[i]->Draw();
-            VideoManager->MoveRelative(0.0f, 25.0f);
-        }
-        VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 8 ? 8 : element_size - 4));
+        VideoManager->MoveRelative(-18.0f, 0.0f);
     }
 
-    VideoManager->SetDrawFlags(VIDEO_Y_TOP, 0);
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(60.0f, -10.0f);
+        VideoManager->MoveRelative(210.0f, -20.0f);
     }
     else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
         // In info view mode, draw on the left side
-        VideoManager->Move(150.0f, 295.0f);
+        VideoManager->Move(170.0f, 295.0f);
     }
     else {
-    // In info view mode, draw the spites centered on the screen in a row below the other equipment data
+        // In info view mode, draw the sprites centered on the screen
+        // in a row below the other equipment data
         VideoManager->Move(512.0f, 295.0f);
         float x_offset = -20.0f * _character_sprites.size();
         VideoManager->MoveRelative(x_offset, 0.0f);
     }
-    for(uint32 i = 0; i < _character_sprites.size(); i++) {
-        // In list mode, there's only enough room to show 8 sprites
-        if((_view_mode == SHOP_VIEW_MODE_LIST) && (i >= 8)) {
-            break;
-        }
 
+    VideoManager->MoveRelative(-45.0f, 78.0f);
+    if (_is_weapon)
+        _atk_icon->Draw();
+    else
+        _def_icon->Draw();
+    VideoManager->MoveRelative(0.0f, 18.0f);
+    if (_is_weapon)
+        _matk_icon->Draw();
+    else
+        _mdef_icon->Draw();
+    VideoManager->MoveRelative(45.0f, -96.0f);
+
+    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, 0);
+
+    uint32 max_characters = _character_sprites.size();
+    // In list mode, there's only enough room to show 8 sprites
+    if ((_view_mode == SHOP_VIEW_MODE_LIST) && (max_characters > 8))
+        max_characters = 8;
+
+    for(uint32 i = 0; i < max_characters; ++i) {
         _character_sprites[i]->Draw();
 
         // Case 1: Draw the equip icon below the character sprite
@@ -878,7 +903,7 @@ void ShopObjectViewer::_DrawEquipment()
             _equip_icon->Draw();
             VideoManager->MoveRelative(0.0f, -78.0f);
         }
-        // Case 2: Draw the phys/meta change text below the sprite
+        // Case 2: Draw the phys/mag change text below the sprite
         else if(!_character_sprites[i]->IsGrayScale()) {
             VideoManager->MoveRelative(0.0f, 65.0f);
             _phys_change_text[i].Draw();
