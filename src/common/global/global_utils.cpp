@@ -193,6 +193,54 @@ bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount)
     return true;
 }
 
+GLOBAL_STATUS GetOppositeStatusEffect(GLOBAL_STATUS status_effect)
+{
+    switch (status_effect) {
+    default:
+        return GLOBAL_STATUS_INVALID;
+
+    case GLOBAL_STATUS_STRENGTH_RAISE:
+        return GLOBAL_STATUS_STRENGTH_LOWER;
+    case GLOBAL_STATUS_STRENGTH_LOWER:
+        return GLOBAL_STATUS_STRENGTH_RAISE;
+
+    case GLOBAL_STATUS_VIGOR_RAISE:
+        return GLOBAL_STATUS_VIGOR_LOWER;
+    case GLOBAL_STATUS_VIGOR_LOWER:
+        return GLOBAL_STATUS_VIGOR_RAISE;
+
+    case GLOBAL_STATUS_FORTITUDE_RAISE:
+        return GLOBAL_STATUS_FORTITUDE_LOWER;
+    case GLOBAL_STATUS_FORTITUDE_LOWER:
+        return GLOBAL_STATUS_FORTITUDE_RAISE;
+
+    case GLOBAL_STATUS_PROTECTION_RAISE:
+        return GLOBAL_STATUS_PROTECTION_LOWER;
+    case GLOBAL_STATUS_PROTECTION_LOWER:
+        return GLOBAL_STATUS_PROTECTION_RAISE;
+
+    case GLOBAL_STATUS_AGILITY_RAISE:
+        return GLOBAL_STATUS_AGILITY_LOWER;
+    case GLOBAL_STATUS_AGILITY_LOWER:
+        return GLOBAL_STATUS_AGILITY_RAISE;
+
+    case GLOBAL_STATUS_EVADE_RAISE:
+        return GLOBAL_STATUS_EVADE_LOWER;
+    case GLOBAL_STATUS_EVADE_LOWER:
+        return GLOBAL_STATUS_EVADE_RAISE;
+
+    case GLOBAL_STATUS_HP_REGEN:
+        return GLOBAL_STATUS_HP_DRAIN;
+    case GLOBAL_STATUS_HP_DRAIN:
+        return GLOBAL_STATUS_HP_REGEN;
+
+    case GLOBAL_STATUS_SP_REGEN:
+        return GLOBAL_STATUS_SP_DRAIN;
+    case GLOBAL_STATUS_SP_DRAIN:
+        return GLOBAL_STATUS_SP_REGEN;
+    }
+}
+
 // GlobalMedia functions
 
 void GlobalMedia::Initialize()

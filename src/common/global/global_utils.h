@@ -293,6 +293,9 @@ bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 **/
 bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 
+//! Give the opposite status effect if there is one of GLOBAL_STATUS_INVALID if none.
+GLOBAL_STATUS GetOppositeStatusEffect(GLOBAL_STATUS status_effect);
+
 /** \brief A simple class used to store commonly used media files.
 *** It is used as a member of the game global class.
 **/
