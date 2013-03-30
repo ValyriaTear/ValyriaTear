@@ -42,6 +42,7 @@ extern bool BATTLE_DEBUG;
 namespace private_battle
 {
 
+class BattleActor;
 class BattleCharacter;
 class BattleEnemy;
 class BattleObject;
@@ -422,6 +423,7 @@ public:
     //@}
 
 private:
+
     //! \brief A static pointer to the currently active instance of battle mode
     static BattleMode *_current_instance;
 
@@ -530,6 +532,24 @@ private:
 
     //! \brief Initializes all data necessary for the battle to begin
     void _Initialize();
+
+    //! \brief resets the character's original global attributes
+    //! \note this also sets the BattleActor's attributes for the first time
+    void _ResetAttributesFromGlobalActor(private_battle::BattleActor &character);
+
+    //! \brief applies the highest status effect for the given weapon and armor
+    //! to the character.
+    //! \note this does not effect the global character, but only for the duration of the battle
+    void _ApplyPassiveStatusEffects(private_battle::BattleActor &character,
+                                    const hoa_global::GlobalWeapon &weapon,
+                                    const std::vector<hoa_global::GlobalArmor *>& armors);
+
+    //! \brief resets the actor to their global status values, and then applies
+    //! the passive effect
+    //! \note this is a very simple function, and technically cane be put into the header and inlined.
+    //! \note however, if you do that then you need to mess with the include order, and probably
+    //! \note increase both coupling and build time.
+    void _ResetPassiveStatusEffects(hoa_battle::private_battle::BattleActor &character);
 
     /** \brief Sets the origin location of all character and enemy actors
     *** The location of the actors in both parties is dependent upon the number and physical size of the actor

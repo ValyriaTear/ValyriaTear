@@ -33,6 +33,7 @@
 #include "modes/battle/battle_finish.h"
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
+#include "modes/battle/battle_effects.h"
 
 using namespace hoa_utils;
 using namespace hoa_audio;
@@ -239,8 +240,6 @@ BattleMode::~BattleMode()
     }
 } // BattleMode::~BattleMode()
 
-
-
 void BattleMode::Reset()
 {
     VideoManager->SetStandardCoordSys();
@@ -281,7 +280,11 @@ void BattleMode::RestartBattle()
 
     // Reset the state of all characters and enemies
     for(uint32 i = 0; i < _character_actors.size(); ++i)
+    {
         _character_actors[i]->ResetActor();
+        _ResetPassiveStatusEffects(*(_character_actors[i]));
+    }
+
 
     for(uint32 i = 0; i < _enemy_actors.size(); ++i)
         _enemy_actors[i]->ResetActor();
@@ -733,7 +736,7 @@ void BattleMode::_Initialize()
         BattleCharacter *new_actor = new BattleCharacter(dynamic_cast<GlobalCharacter *>(active_party->GetActorAtIndex(i)));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
-
+        _ResetPassiveStatusEffects(*new_actor);
         // Check whether the character is alive
         if(new_actor->GetHitPoints() == 0)
             new_actor->ChangeState(ACTOR_STATE_DEAD);
@@ -811,6 +814,80 @@ void BattleMode::_Initialize()
 
     ChangeState(BATTLE_STATE_INITIAL);
 } // void BattleMode::_Initialize()
+
+void BattleMode::_ResetAttributesFromGlobalActor(private_battle::BattleActor &character)
+{
+    character.ResetAgility();
+    character.ResetEvade();
+    character.ResetFortitude();
+    character.ResetProtection();
+    character.ResetStrength();
+    character.ResetVigor();
+}
+
+//! \brief sets the max_effect at the proper index only if it is higher in value than the current one there
+static void SetEffectMaximum(GLOBAL_INTENSITY *max_effect, const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >&status_effects)
+{
+    for(size_t i = 0; i < status_effects.size(); ++i)
+    {
+        //we are only interested in attribute effects
+
+        if(status_effects[i].first == GLOBAL_STATUS_INVALID ||
+           status_effects[i].first > GLOBAL_STATUS_EVADE_LOWER)
+            continue;
+        if(status_effects[i].second < GLOBAL_INTENSITY_NEG_EXTREME ||
+           status_effects[i].second > GLOBAL_INTENSITY_POS_EXTREME)
+            continue;
+
+        size_t index = (size_t) status_effects[i].first;
+        if((int)max_effect[index] < (int)(status_effects[i].second))
+            max_effect[index] = status_effects[i].second;
+    }
+}
+
+void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &character,
+                                    const hoa_global::GlobalWeapon &weapon,
+                                    const std::vector<hoa_global::GlobalArmor *>& armors)
+{
+    //we only count the first 12 status effects as valid
+    //todo: allow a way for drain / regen
+    const static size_t MAX_VALID_STATUS  = 12;
+    //max value array for each of the status types.
+    GLOBAL_INTENSITY max_effect[MAX_VALID_STATUS] = {GLOBAL_INTENSITY_INVALID};
+    //adjust effects for the weapons
+    SetEffectMaximum(max_effect, weapon.GetStatusEffects());
+    //adjust effects for armor
+    for(std::vector<hoa_global::GlobalArmor *>::const_iterator itr = armors.begin(),
+        end = armors.end(); itr != end; ++itr)
+        if((*itr))
+            SetEffectMaximum(max_effect, (*itr)->GetStatusEffects());
+    //go through each effect (as a pair) looking for the highest one.
+    for(size_t i = 0; i < MAX_VALID_STATUS; i += 2)
+    {
+        //no change for this status
+        if(max_effect[i] == GLOBAL_INTENSITY_INVALID && max_effect[i+1] == GLOBAL_INTENSITY_INVALID)
+            continue;
+        GLOBAL_STATUS max_status;
+        GLOBAL_INTENSITY max_intensity;
+        max_status = (int)max_effect[i] > (int)max_effect[i+1] ? (GLOBAL_STATUS)i : (GLOBAL_STATUS)(i + 1);
+        max_intensity = max_effect[(size_t)max_status];
+        if(max_intensity == GLOBAL_INTENSITY_NEUTRAL)
+            continue;
+        //now, we manually effect the player with a "permenant effect" by creating
+        //a battle effect and immediatly allowing it to modify the player.
+        //this effect does NOT go into the effect controller
+        private_battle::BattleStatusEffect scripted_effect(max_status, max_intensity, &character);
+        //immediatly apply the full effect
+        ScriptCallFunction<void>(scripted_effect.GetApplyFunction(), &scripted_effect);
+    }
+
+}
+
+void BattleMode::_ResetPassiveStatusEffects(hoa_battle::private_battle::BattleActor &character)
+{
+   _ResetAttributesFromGlobalActor(character);
+   _ApplyPassiveStatusEffects(character, *(character.GetGlobalActor()->GetWeaponEquipped()), character.GetGlobalActor()->GetArmorEquipped());
+}
 
 void BattleMode::SetActorIdleStateTime(BattleActor *actor)
 {
