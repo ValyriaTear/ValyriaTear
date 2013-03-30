@@ -541,7 +541,7 @@ private:
     //! to the character.
     //! \note this does not effect the global character, but only for the duration of the battle
     void _ApplyPassiveStatusEffects(private_battle::BattleActor &character,
-                                    const hoa_global::GlobalWeapon &weapon,
+                                    const hoa_global::GlobalWeapon* weapon,
                                     const std::vector<hoa_global::GlobalArmor *>& armors);
 
     //! \brief resets the actor to their global status values, and then applies

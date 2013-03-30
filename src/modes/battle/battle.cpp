@@ -846,30 +846,35 @@ static void SetEffectMaximum(GLOBAL_INTENSITY *max_effect, const std::vector<std
 }
 
 void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &character,
-                                    const hoa_global::GlobalWeapon &weapon,
-                                    const std::vector<hoa_global::GlobalArmor *>& armors)
+                                            const hoa_global::GlobalWeapon* weapon,
+                                            const std::vector<hoa_global::GlobalArmor *>& armors)
 {
     //we only count the first 12 status effects as valid
     //todo: allow a way for drain / regen
     const static size_t MAX_VALID_STATUS  = 12;
     //max value array for each of the status types.
     GLOBAL_INTENSITY max_effect[MAX_VALID_STATUS] = {GLOBAL_INTENSITY_INVALID};
+
     //adjust effects for the weapons
-    SetEffectMaximum(max_effect, weapon.GetStatusEffects());
+    if (weapon)
+        SetEffectMaximum(max_effect, weapon->GetStatusEffects());
+
     //adjust effects for armor
     for(std::vector<hoa_global::GlobalArmor *>::const_iterator itr = armors.begin(),
-        end = armors.end(); itr != end; ++itr)
+            end = armors.end(); itr != end; ++itr) {
         if((*itr))
             SetEffectMaximum(max_effect, (*itr)->GetStatusEffects());
+    }
+
     //go through each effect (as a pair) looking for the highest one.
     for(size_t i = 0; i < MAX_VALID_STATUS; i += 2)
     {
         //no change for this status
-        if(max_effect[i] == GLOBAL_INTENSITY_INVALID && max_effect[i+1] == GLOBAL_INTENSITY_INVALID)
+        if(max_effect[i] == GLOBAL_INTENSITY_INVALID && max_effect[i + 1] == GLOBAL_INTENSITY_INVALID)
             continue;
         GLOBAL_STATUS max_status;
         GLOBAL_INTENSITY max_intensity;
-        max_status = (int)max_effect[i] > (int)max_effect[i+1] ? (GLOBAL_STATUS)i : (GLOBAL_STATUS)(i + 1);
+        max_status = (int)max_effect[i] > (int)max_effect[i + 1] ? (GLOBAL_STATUS)i : (GLOBAL_STATUS)(i + 1);
         max_intensity = max_effect[(size_t)max_status];
         if(max_intensity == GLOBAL_INTENSITY_NEUTRAL)
             continue;
@@ -886,7 +891,7 @@ void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &charact
 void BattleMode::_ResetPassiveStatusEffects(hoa_battle::private_battle::BattleActor &character)
 {
    _ResetAttributesFromGlobalActor(character);
-   _ApplyPassiveStatusEffects(character, *(character.GetGlobalActor()->GetWeaponEquipped()), character.GetGlobalActor()->GetArmorEquipped());
+   _ApplyPassiveStatusEffects(character, character.GetGlobalActor()->GetWeaponEquipped(), character.GetGlobalActor()->GetArmorEquipped());
 }
 
 void BattleMode::SetActorIdleStateTime(BattleActor *actor)
