@@ -82,6 +82,8 @@ AbstractMenuState::AbstractMenuState(const char *state_name, MenuMode *menu_mode
 
 void AbstractMenuState::Update()
 {
+    GlobalMedia& media = GlobalManager->Media();
+
     // if the current state is set to active, to an active update instead and return
     if(_IsActive())
     {
@@ -92,7 +94,7 @@ void AbstractMenuState::Update()
     // the Mode stack as well.
     if(InputManager->CancelPress())
     {
-        _menu_mode->_menu_sounds["cancel"].Play();
+        media.PlaySound("cancel");
         if(_menu_mode->_current_menu_state == &(_menu_mode->_main_menu_state))
             ModeManager->Pop();
         // do instance specific cancel logic
@@ -114,7 +116,7 @@ void AbstractMenuState::Update()
     else if(InputManager->ConfirmPress())
     {
         if(_options.IsOptionEnabled((_options.GetSelection())))
-            _menu_mode->_menu_sounds["confirm"].Play();
+            media.PlaySound("cancel");
         _options.InputConfirm();
     }
     // return the event type from the option
@@ -551,13 +553,13 @@ void InventoryState::_OnDrawMainWindow()
 }
 
 void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,
-                                          hoa_video::StillImage &item_image,
+                                          hoa_video::StillImage* item_image,
                                           hoa_gui::TextBox &description)
 {
-    int32 key_pos_x = 100 + obj.GetIconImage().GetWidth() - item_image.GetWidth() - 3;
-    int32 key_pos_y = 600 + obj.GetIconImage().GetHeight() - item_image.GetHeight() - 3;
+    int32 key_pos_x = 100 + obj.GetIconImage().GetWidth() - item_image->GetWidth() - 3;
+    int32 key_pos_y = 600 + obj.GetIconImage().GetHeight() - item_image->GetHeight() - 3;
     VideoManager->Move(key_pos_x, key_pos_y);
-    item_image.Draw();
+    item_image->Draw();
     VideoManager->Move(185, 600);
     description.Draw();
 }
@@ -591,9 +593,9 @@ void InventoryState::_DrawBottomMenu()
         _menu_mode->_inventory_window._description.Draw();
 
         if (obj->IsKeyItem())
-            _DrawItemDescription(*obj, _menu_mode->_key_item_symbol, _menu_mode->_key_item_description);
+            _DrawItemDescription(*obj, _menu_mode->_key_item_icon, _menu_mode->_key_item_description);
         else if (obj_type == GLOBAL_OBJECT_SHARD)
-            _DrawItemDescription(*obj, _menu_mode->_shard_symbol, _menu_mode->_shard_description);
+            _DrawItemDescription(*obj, _menu_mode->_shard_icon, _menu_mode->_shard_description);
 
         //Draw help text
     }
@@ -1214,9 +1216,8 @@ MenuMode::MenuMode() :
         PRINT_ERROR << e.ToString() << std::endl;
     }
 
-    // Load key items related resources.
-    if(!_key_item_symbol.Load("img/menus/key.png"))
-        PRINT_WARNING << "Couldn't load key item symbol." << std::endl;
+    GlobalMedia& media = GlobalManager->Media();
+    _key_item_icon = media.GetKeyItemIcon();
 
     _key_item_description.SetPosition(165, 600);
     _key_item_description.SetDimensions(700.0f, 50.0f);
@@ -1224,9 +1225,7 @@ MenuMode::MenuMode() :
     _key_item_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _key_item_description.SetDisplayText(UTranslate("This item is a key item and can be neither consumed nor sold."));
 
-    // Load shards related resources.
-    if(!_shard_symbol.Load("img/menus/shard.png"))
-        PRINT_WARNING << "Couldn't load shard symbol." << std::endl;
+    _shard_icon = media.GetShardSlotIcon();
 
     _shard_description.SetPosition(165, 600);
     _shard_description.SetDimensions(700.0f, 50.0f);
@@ -1281,15 +1280,7 @@ MenuMode::MenuMode() :
 
     _current_menu_state = &_main_menu_state;
 
-    // Load menu sounds
-    _menu_sounds["confirm"] = SoundDescriptor();
-    _menu_sounds["confirm"].LoadAudio("snd/confirm.wav");
-    _menu_sounds["cancel"] = SoundDescriptor();
-    _menu_sounds["cancel"].LoadAudio("snd/cancel.wav");
-    _menu_sounds["bump"] = SoundDescriptor();
-    _menu_sounds["bump"].LoadAudio("snd/bump.wav");
-
-    if(_current_instance != NULL) {
+    if(_current_instance) {
         IF_PRINT_WARNING(MENU_DEBUG)
                 << "MENU WARNING: attempting to create a new instance of MenuMode when one already seems to exist" << std::endl;
     }
@@ -1340,11 +1331,6 @@ MenuMode::~MenuMode()
     _equip_window.Destroy();
     _quest_window.Destroy();
     _world_map_window.Destroy();
-
-    // Free sounds
-    _menu_sounds["confirm"].FreeAudio();
-    _menu_sounds["bump"].FreeAudio();
-    _menu_sounds["cancel"].FreeAudio();
 
     _current_instance = NULL;
 

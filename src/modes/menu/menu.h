@@ -210,7 +210,7 @@ public:
     AbstractMenuState *GetTransitionState(uint32 selection);
 protected:
     void _DrawItemDescription(hoa_global::GlobalObject &obj,
-                              hoa_video::StillImage &item_image,
+                              hoa_video::StillImage* item_image,
                               hoa_gui::TextBox &description);
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
@@ -448,12 +448,16 @@ private:
     hoa_video::StillImage _saved_screen;
 
     //! \brief The symbol indicating that the item is a key item.
-    hoa_video::StillImage _key_item_symbol;
+    //! \note Don't delete this, it is managed by the Global Manager.
+    hoa_video::StillImage* _key_item_icon;
+
     //! \brief Test indicating that the item is a key item and cannot be used or sold.
     hoa_gui::TextBox _key_item_description;
 
     //! \brief The symbol indicating that the item is a crystal shard.
-    hoa_video::StillImage _shard_symbol;
+    //! \note Don't delete this, it is managed by the Global Manager.
+    hoa_video::StillImage* _shard_icon;
+
     //! \brief Test indicating that the item is a shard and can be associated with equipment.
     hoa_gui::TextBox _shard_description;
 
@@ -497,9 +501,6 @@ private:
     private_menu::WorldMapWindow _world_map_window;
 
     MessageWindow *_message_window;
-
-    //! \brief A map of the sounds used while in MenuMode
-    std::map<std::string, hoa_audio::SoundDescriptor> _menu_sounds;
 
     //! \name Option boxes that are used in the various menu windows
     //@{
