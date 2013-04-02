@@ -43,6 +43,9 @@ namespace hoa_menu
 
 namespace private_menu {
 
+//! A static variable permitting to update the displayed game time only every 900ms
+static int32 _update_of_time = 0;
+
 //! \brief Functions that initialize the numerous option boxes
 static void SetupOptionBoxCommonSettings(OptionBox *ob)
 {
@@ -72,6 +75,9 @@ AbstractMenuState::AbstractMenuState(const char *state_name, MenuMode *menu_mode
     _drunes_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _drunes_text.SetDimensions(200.0f, 30.0f);
     _drunes_text.SetPosition(110.0f, 650.0f);
+
+    // Display the game time right away
+    _update_of_time = 0;
 }
 
 void AbstractMenuState::Update()
@@ -136,7 +142,9 @@ void AbstractMenuState::Update()
             _menu_mode->_current_menu_state->_OnEntry(this);
 
         }
-
+        // When we change the state, update the time immediately to avoid
+        // showing outdated or empty time info
+        _update_of_time = 0;
     }
 
     // update the current state
@@ -150,7 +158,6 @@ void AbstractMenuState::Update()
 void AbstractMenuState::UpdateTimeAndDrunes()
 {
     // Only update the time every 900ms
-    static int32 _update_of_time = 0;
     _update_of_time -= (int32) hoa_system::SystemManager->GetUpdateTime();
     if (_update_of_time > 0)
         return;
