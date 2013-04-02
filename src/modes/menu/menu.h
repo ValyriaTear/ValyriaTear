@@ -78,7 +78,7 @@ public:
     //! \brief used when the MenuMode is activated.
     //! \note While we provide a default "do nothing" Reset(), each child type should have its own Reset implementation
     virtual void Reset()
-    {};
+    {}
 
     //! \brief handles the drawing of the state
     void Draw();
@@ -96,44 +96,59 @@ public:
     *** \note NULL actions do not lead to a crash, but the assumption is that the state has some state-specific
     *** actions, such as activitaing a MenuView that take place
     **/
-    virtual AbstractMenuState *GetTransitionState(uint32 selection)=0;
+    virtual AbstractMenuState *GetTransitionState(uint32 selection) = 0;
 
     //! \brief returns the name of the state
-    const char *GetStateName() { return _state_name;}
+    const char *GetStateName()
+    { return _state_name; }
 
     //! \brief returns a pointer to the OptionsBox associated with this state
-    hoa_gui::OptionBox *GetOptions() { return &_options;}
+    hoa_gui::OptionBox *GetOptions()
+    { return &_options; }
 
 protected:
     //! \brief default bottom menu drawing
     void _DrawBottomMenu();
+
     //! \brief action that takes place when we exit this state via a "cancel" input
     void _OnCancel();
-    //! \brief handles any state preperation that needs to be done upon entry to this state
-    //! \param the state that we are transitioning from
-    //  this was simple enough to allow for inlining
-    virtual void _OnEntry(AbstractMenuState *from_state) { _from_state = from_state; }
+
     //! \brief returns the default selection to use when we first load the menu after MenuMode is at the top of stack
-    virtual uint32 _GetDefaultSelection() { return 0;}
+    virtual uint32 _GetDefaultSelection()
+    { return 0; }
+
     //! \brief handles updating the state when it is claimed as "active"
-    virtual void _ActiveWindowUpdate(){}
+    virtual void _ActiveWindowUpdate()
+    {}
+
     //! \brief returns wether or not the state is active
-    virtual bool _IsActive() { return false;}
+    virtual bool _IsActive()
+    { return false;}
+
     //! \brief instance-specific main window drawing code goes in here. the default is to simply draws nothing
-    virtual void _OnDrawMainWindow(){}
+    virtual void _OnDrawMainWindow()
+    {}
+
     //! \brief handles drawing the generalized equipment information
     void _DrawEquipmentInfo(hoa_global::GlobalCharacter *character, hoa_global::GlobalObject *obj);
+
     //! \brief draws the side window. Default draws the character windows
     virtual void _OnDrawSideWindow();
+
     //! \brief called when there is no state transition or active state
     //! to handle any state-specific updates that need to occur
-    virtual void _OnUpdateState(){};
+    virtual void _OnUpdateState()
+    {};
+
     // Options associated with this state
     hoa_gui::OptionBox _options;
+
     // state-specific name
     const char *_state_name;
+
     // a pointer to the active MenuMode
     MenuMode *_menu_mode;
+
     // a pointer to the state we should return to on a "cancel" press.
     AbstractMenuState *_from_state;
 
@@ -276,8 +291,7 @@ public:
     ~EquipState()
     {}
 
-    void Reset()
-    {}
+    void Reset();
 
     AbstractMenuState* GetTransitionState(uint32 /*selection*/)
     { return NULL; }
@@ -289,7 +303,6 @@ public:
 protected:
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
-    void _OnEntry(AbstractMenuState *from_state);
     void _ActiveWindowUpdate();
     bool _IsActive();
 };
@@ -314,8 +327,7 @@ public:
     ~QuestState()
     {}
 
-    void Reset()
-    {}
+    void Reset();
 
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
     { return NULL; }
@@ -325,7 +337,6 @@ protected:
     void _DrawBottomMenu();
     void _ActiveWindowUpdate();
     bool _IsActive();
-    void _OnEntry(AbstractMenuState *from_state);
 };
 
 /**
@@ -340,26 +351,27 @@ class WorldMapState : virtual public AbstractMenuState
 public:
     WorldMapState(MenuMode *menu_mode);
 
-    ~WorldMapState()
-    {
-        _location_text.ClearText();
-    }
+    ~WorldMapState() {}
 
     void Reset();
+
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
     { return NULL; }
 protected:
     void _OnDrawMainWindow();
+
     //! \brief this function is overridden to do nothing, as the side window is not used in map mode
-    inline void _OnDrawSideWindow(){};
+    inline void _OnDrawSideWindow()
+    {}
+
     void _DrawBottomMenu();
+
     void _ActiveWindowUpdate();
+
     bool _IsActive();
-    void _OnEntry(AbstractMenuState *from_state);
 
     hoa_gui::TextBox _location_text;
     hoa_video::StillImage *_location_image;
-
 };
 
 } // namespace private_menu

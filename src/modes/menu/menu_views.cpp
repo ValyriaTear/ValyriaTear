@@ -121,6 +121,7 @@ void CharacterWindow::Draw()
 // InventoryWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
+static const ustring inventory_help_message = UTranslate("Select an item to Equip or Use.");
 
 InventoryWindow::InventoryWindow() :
     _active_box(ITEM_ACTIVE_NONE),
@@ -222,6 +223,7 @@ void InventoryWindow::Activate(bool new_status)
     // Set new status
     if(new_status) {
         _active_box = ITEM_ACTIVE_CATEGORY;
+        MenuMode::CurrentInstance()->_help_information.SetDisplayText(inventory_help_message);
         // Update cursor state
         _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     } else {
@@ -235,8 +237,6 @@ void InventoryWindow::Activate(bool new_status)
 // Updates the window
 void InventoryWindow::Update()
 {
-
-    //bool cancel = false;
     if(GlobalManager->GetInventory()->empty()) {
         // no more items in inventory, exit inventory window
         Activate(false);
@@ -308,6 +308,7 @@ void InventoryWindow::Update()
             if( _inventory_items.GetNumberOptions() <= 0)
             {
                 _active_box = ITEM_ACTIVE_CATEGORY;
+                MenuMode::CurrentInstance()->_help_information.SetDisplayText(inventory_help_message);
                 _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
                 _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                 break;
@@ -336,6 +337,7 @@ void InventoryWindow::Update()
             // Return to category selection
             else if(event == VIDEO_OPTION_CANCEL) {
                 _active_box = ITEM_ACTIVE_CATEGORY;
+                MenuMode::CurrentInstance()->_help_information.SetDisplayText(inventory_help_message);
                 _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
                 _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                 MenuMode::CurrentInstance()->_menu_sounds["cancel"].Play();
@@ -590,9 +592,6 @@ void InventoryWindow::Draw()
 {
     MenuWindow::Draw();
 
-    // Update the item list
-    _UpdateItemText();
-
     // Draw char select option box
     _char_select.Draw();
 
@@ -708,7 +707,7 @@ void PartyWindow::_InitCharSelect()
     _focused_def_icon.Load("img/menus/status/menu_def_icon.png");
     _focused_mdef_icon.Load("img/menus/status/menu_mdef_icon.png");
 
-    _UpdateStatus();
+    UpdateStatus();
 }
 
 // Updates the status window
@@ -786,10 +785,10 @@ void PartyWindow::Update()
 
     // update the status text
     if (InputManager->AnyKeyPress())
-        _UpdateStatus();
+        UpdateStatus();
 } // void PartyWindow::Update()
 
-void PartyWindow::_UpdateStatus()
+void PartyWindow::UpdateStatus()
 {
     _character_status_numbers.Clear();
     _average_atk_def_numbers.Clear();
@@ -1393,11 +1392,6 @@ EquipWindow::EquipWindow() :
     _InitCharSelect();
     _InitEquipmentSelect();
     _InitEquipmentList();
-}
-
-
-EquipWindow::~EquipWindow()
-{
 }
 
 

@@ -138,9 +138,9 @@ void AbstractMenuState::Update()
         {
             // change the static current menu state
             _menu_mode->_current_menu_state = next_state;
-            // run entry-specific code
-            _menu_mode->_current_menu_state->_OnEntry(this);
 
+            next_state->_from_state = this;
+            next_state->Reset();
         }
         // When we change the state, update the time immediately to avoid
         // showing outdated or empty time info
@@ -564,17 +564,14 @@ void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,
 
 void InventoryState::_DrawBottomMenu()
 {
-    static const ustring inventory_help_message = UTranslate("Select an item to Equip or Use.");
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(150, 580);
 
     if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_CATEGORY)
-    {
-        _menu_mode->_help_information.SetDisplayText(inventory_help_message);
         _menu_mode->_help_information.Draw();
-    }
+
      //if we are out of items, the bottom view should do no work
     if(GlobalManager->GetInventory()->size() == 0 || _menu_mode->_inventory_window._item_objects.size() == 0)
         return;
@@ -739,6 +736,9 @@ void PartyState::Reset()
 
     _menu_mode->_help_information.SetDisplayText(
         UTranslate("View character Information.\nSelect a character to change formation."));
+
+    // Update the current character status at reset, in case of equipment change.
+    _menu_mode->_party_window.UpdateStatus();
 }
 
 AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
@@ -817,6 +817,20 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32 selection)
     return NULL;
 }
 
+void EquipState::Reset()
+{
+    // equip state must handle removal as well as equip. we check to see where we transitioned from...
+    if(_from_state == &_menu_mode->_inventory_state)
+    {
+        // if its from the inventory EQUIP selection, activate the window with the equip flag set to true
+        if(_from_state->GetOptions()->GetSelection() == InventoryState::INV_OPTIONS_EQUIP)
+            _menu_mode->_equip_window.Activate(true, true);
+        // otherwise, it was frmo the REMOVE selection, activate the window with the equip flag set to false
+        else
+            _menu_mode->_equip_window.Activate(true, false);
+    }
+}
+
 void SkillsState::_OnDrawMainWindow()
 {
     _DrawBottomMenu();
@@ -844,22 +858,6 @@ void EquipState::_ActiveWindowUpdate()
 bool EquipState::_IsActive()
 {
     return _menu_mode->_equip_window.IsActive();
-}
-
-void EquipState::_OnEntry(AbstractMenuState *from_state)
-{
-    AbstractMenuState::_OnEntry(from_state);
-    // equip state must handle removal as well as equip. we check to see where we transitioned from...
-    if(_from_state == &_menu_mode->_inventory_state)
-    {
-        // if its from the inventory EQUIP selection, activate the window with the equip flag set to true
-        if(_from_state->GetOptions()->GetSelection() == InventoryState::INV_OPTIONS_EQUIP)
-            _menu_mode->_equip_window.Activate(true, true);
-        // otherwise, it was frmo the REMOVE selection, activate the window with the equip flag set to false
-        else
-            _menu_mode->_equip_window.Activate(true, false);
-    }
-
 }
 
 void EquipState::_OnDrawMainWindow()
@@ -1049,6 +1047,14 @@ void EquipState::_DrawBottomMenu()
 // QuestState
 // //////////////////////
 
+void QuestState::Reset()
+{
+    //clear the bottom info
+    _menu_mode->_quest_window.ClearBottom();
+    //automatically go into the quest list window
+    _menu_mode->_quest_list_window.Activate(true);
+}
+
 void QuestState::_ActiveWindowUpdate()
 {
     _menu_mode->_quest_window.Update();
@@ -1072,17 +1078,6 @@ void QuestState::_OnDrawMainWindow()
 void QuestState::_OnDrawSideWindow()
 {
     _menu_mode->_quest_list_window.Draw();
-
-}
-
-void QuestState::_OnEntry(AbstractMenuState *from_state)
-{
-    AbstractMenuState::_OnEntry(from_state);
-    //clear the bottom info
-    _menu_mode->_quest_window.ClearBottom();
-    //automatically go into the quest list window
-    _menu_mode->_quest_list_window.Activate(true);
-
 
 }
 
@@ -1112,6 +1107,9 @@ WorldMapState::WorldMapState(MenuMode *menu_mode):
 
 void WorldMapState::Reset()
 {
+    //automatically go into the world map window
+    _menu_mode->_world_map_window.Activate(true);
+
     // defensive update to set up the initial values such as the
     // window offset and such
     _menu_mode->_world_map_window.Update();
@@ -1151,29 +1149,21 @@ bool WorldMapState::_IsActive()
 void WorldMapState::_ActiveWindowUpdate()
 {
     _menu_mode->_world_map_window.Update();
-    if(!_IsActive())
+    if(!_IsActive()) {
         _OnCancel();
-    else
-    {
-        //draw the current viewing location information
-        WorldMapLocation *current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
-        if(current_location == NULL)
-        {
-            _location_image = NULL;
-            _location_text.ClearText();
-            return;
-        }
-        _location_text.SetDisplayText(current_location->_location_name);
-        _location_image = &(current_location->_image);
-
+        return;
     }
-}
 
-void WorldMapState::_OnEntry(AbstractMenuState *from_state)
-{
-    AbstractMenuState::_OnEntry(from_state);
-    //automatically go into the world map window
-    _menu_mode->_world_map_window.Activate(true);
+    //draw the current viewing location information
+    WorldMapLocation *current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
+    if(current_location == NULL)
+    {
+        _location_image = NULL;
+        _location_text.ClearText();
+        return;
+    }
+    _location_text.SetDisplayText(current_location->_location_name);
+    _location_image = &(current_location->_image);
 }
 
 } // namespace private_menu

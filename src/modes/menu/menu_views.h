@@ -288,6 +288,9 @@ public:
     */
     void Activate(bool new_value);
 
+    //! \brief Updates the status text (and icons)
+    void UpdateStatus();
+
 private:
     //! char portraits
     std::vector<hoa_video::StillImage> _full_portraits;
@@ -335,9 +338,6 @@ private:
 
     //! \brief initialize character selection option box
     void _InitCharSelect();
-
-    //! \brief Updates the status text (and icons)
-    void _UpdateStatus();
 
 }; // class PartyWindow : public hoa_video::MenuWindow
 
@@ -456,7 +456,9 @@ class EquipWindow : public hoa_gui::MenuWindow
     friend class EquipState;
 public:
     EquipWindow();
-    ~EquipWindow();
+
+    ~EquipWindow()
+    {}
 
     /*!
     * \brief Draws window
