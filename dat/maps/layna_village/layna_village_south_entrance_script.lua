@@ -146,14 +146,12 @@ function _CreateObjects()
             "img/misc/lights/sun_flare_light_small_secondary.lua",
         20.0, 29.5,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
     Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
             "img/misc/lights/sun_flare_light_small_secondary.lua",
         48.0, 29.5,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -198,16 +196,16 @@ local to_right_house_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = hoa_map.CameraZone(8, 62, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    village_center_zone = hoa_map.CameraZone(8, 62, 0, 2);
     Map:AddZone(village_center_zone);
 
-    to_village_riverbank_zone = hoa_map.CameraZone(0, 1, 26, 43, hoa_map.MapMode.CONTEXT_01);
+    to_village_riverbank_zone = hoa_map.CameraZone(0, 1, 26, 43);
     Map:AddZone(to_village_riverbank_zone);
 
-    to_left_house_zone = hoa_map.CameraZone(18, 22, 32, 33, hoa_map.MapMode.CONTEXT_01);
+    to_left_house_zone = hoa_map.CameraZone(18, 22, 32, 33);
     Map:AddZone(to_left_house_zone);
 
-    to_right_house_zone = hoa_map.CameraZone(46, 50, 32, 33, hoa_map.MapMode.CONTEXT_01);
+    to_right_house_zone = hoa_map.CameraZone(46, 50, 32, 33);
     Map:AddZone(to_right_house_zone);
 end
 

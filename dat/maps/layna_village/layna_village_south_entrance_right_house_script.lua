@@ -85,13 +85,11 @@ function _CreateObjects()
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Flower Pot1", 35, 26);
-    object:SetContext(hoa_map.MapMode.CONTEXT_01);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Right Window Light", 35, 22);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-    object:SetContext(hoa_map.MapMode.CONTEXT_01);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
@@ -115,7 +113,7 @@ local room_exit_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    room_exit_zone = hoa_map.CameraZone(26, 30, 29, 30, hoa_map.MapMode.CONTEXT_01);
+    room_exit_zone = hoa_map.CameraZone(26, 30, 29, 30);
     Map:AddZone(room_exit_zone);
 end
 

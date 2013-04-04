@@ -190,35 +190,32 @@ function _CreateObjects()
             "img/misc/lights/sun_flare_light_secondary.lua",
         94.0, 40.0,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
     Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
             "img/misc/lights/sun_flare_light_secondary.lua",
         102.0, 40.0,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
     -- Small door lights
     Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
             "img/misc/lights/sun_flare_light_small_secondary.lua",
         98.0, 43.5,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
     Map:AddAmbientSoundObject(object);
 end
 
@@ -514,19 +511,19 @@ local orlinn_hide_n_seek2_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = hoa_map.CameraZone(89, 105, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    village_center_zone = hoa_map.CameraZone(89, 105, 0, 2);
     Map:AddZone(village_center_zone);
 
-    to_village_entrance_zone = hoa_map.CameraZone(118, 119, 10, 27, hoa_map.MapMode.CONTEXT_01);
+    to_village_entrance_zone = hoa_map.CameraZone(118, 119, 10, 27);
     Map:AddZone(to_village_entrance_zone);
 
-    to_riverbank_house_entrance_zone = hoa_map.CameraZone(96, 100, 46, 47, hoa_map.MapMode.CONTEXT_01);
+    to_riverbank_house_entrance_zone = hoa_map.CameraZone(96, 100, 46, 47);
     Map:AddZone(to_riverbank_house_entrance_zone);
 
-    to_secret_path_entrance_zone = hoa_map.CameraZone(60, 72, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    to_secret_path_entrance_zone = hoa_map.CameraZone(60, 72, 0, 2);
     Map:AddZone(to_secret_path_entrance_zone);
 
-    orlinn_hide_n_seek2_zone = hoa_map.CameraZone(75, 80, 0, 7, hoa_map.MapMode.CONTEXT_01);
+    orlinn_hide_n_seek2_zone = hoa_map.CameraZone(75, 80, 0, 7);
     Map:AddZone(orlinn_hide_n_seek2_zone);
 end
 

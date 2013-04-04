@@ -165,7 +165,7 @@ function _CreateObjects()
         Map:AddGroundObject(kalya_house_exterior_chest);
     end
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 10.0, 46.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 10.0, 46.0, 20.0);
     Map:AddAmbientSoundObject(object);
 end
 
@@ -201,13 +201,13 @@ local kalya_house_entrance_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    kalya_house_path_zone = hoa_map.CameraZone(28, 58, 46, 47, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_path_zone = hoa_map.CameraZone(28, 58, 46, 47);
     Map:AddZone(kalya_house_path_zone);
 
-    kalya_house_path_small_passage_zone = hoa_map.CameraZone(0, 1, 0, 33, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_path_small_passage_zone = hoa_map.CameraZone(0, 1, 0, 33);
     Map:AddZone(kalya_house_path_small_passage_zone);
 
-    kalya_house_entrance_zone = hoa_map.CameraZone(42, 46, 16, 17, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_entrance_zone = hoa_map.CameraZone(42, 46, 16, 17);
     Map:AddZone(kalya_house_entrance_zone);
 end
 

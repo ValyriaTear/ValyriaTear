@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    map.h
+*** \file    map_mode.h
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \brief   Header file for map mode interface.
 ***
@@ -164,19 +164,17 @@ public:
     void AddZone(private_map::MapZone *zone);
 
     //! \brief Adds a save point (Map Object) at the given coordinates.
-    void AddSavePoint(float x, float y, hoa_map::private_map::MAP_CONTEXT map_context);
+    void AddSavePoint(float x, float y);
 
     //! \brief Adds a halo light (as Map Object) at the given coordinates.
-    void AddHalo(const std::string &filename, float x, float y, const hoa_video::Color &color,
-                 hoa_map::private_map::MAP_CONTEXT map_context);
+    void AddHalo(const std::string &filename, float x, float y, const hoa_video::Color &color);
 
     //! \brief Add a light source at the given coordinates.
     void AddLight(const std::string &main_flare_filename,
                   const std::string &secondary_flare_filename,
                   float x, float y,
                   const hoa_video::Color &main_color,
-                  const hoa_video::Color &secondary_color,
-                  hoa_map::private_map::MAP_CONTEXT map_context);
+                  const hoa_video::Color &secondary_color);
 
     //! \brief Add a light object, often created through scripting
     void AddLight(private_map::Light *light);
@@ -264,12 +262,6 @@ public:
     bool IsCameraYAxisInMapCorner() const {
         return _camera_y_in_map_corner;
     }
-
-    /** \brief Gets the currently active map context
-    *** which is always equal to the context of the object pointed to by the _camera member,
-    *** or the base context when no camera has been set up.
-    **/
-    private_map::MAP_CONTEXT GetCurrentContext() const;
 
     bool IsShowGUI() const {
         return _show_gui;
@@ -380,12 +372,6 @@ private:
     *** that cause map events to occur
     **/
     ScriptObject _update_function;
-
-    /** \brief Script function which assists with the MapMode#Draw method
-    *** This function allows for drawing of custom map visuals. Usually this includes lighting or
-    *** other visual effects for the map environment.
-    **/
-    ScriptObject _draw_function;
 
     // ----- Members : Properties and State -----
 

@@ -582,7 +582,7 @@ function _CreateEnemies()
     -- Treasure zone
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(5, 10, 8, 47, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(5, 10, 8, 47);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -600,7 +600,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- after fight zone
-    roam_zone = hoa_map.EnemyZone(112, 120, 34, 80, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(112, 120, 34, 80);
 
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
@@ -703,17 +703,17 @@ local boss_fight1_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NW_zone = hoa_map.CameraZone(0, 1, 86, 90, hoa_map.MapMode.CONTEXT_01);
+    to_forest_NW_zone = hoa_map.CameraZone(0, 1, 86, 90);
     Map:AddZone(to_forest_NW_zone);
 
-    to_forest_SE_zone = hoa_map.CameraZone(69, 75, 95, 96, hoa_map.MapMode.CONTEXT_01);
+    to_forest_SE_zone = hoa_map.CameraZone(69, 75, 95, 96);
     Map:AddZone(to_forest_SE_zone);
 
     -- Fade out music zone - used to set a dramatic area
-    music_fade_out_zone = hoa_map.CameraZone(48, 50, 8, 17, hoa_map.MapMode.CONTEXT_01);
+    music_fade_out_zone = hoa_map.CameraZone(48, 50, 8, 17);
     Map:AddZone(music_fade_out_zone);
 
-    boss_fight1_zone = hoa_map.CameraZone(103, 105, 4, 18, hoa_map.MapMode.CONTEXT_01);
+    boss_fight1_zone = hoa_map.CameraZone(103, 105, 4, 18);
     Map:AddZone(boss_fight1_zone);
 end
 

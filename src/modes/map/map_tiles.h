@@ -56,9 +56,6 @@ public:
     {}
 };
 
-// A map context - A map file can have several, but at least one.
-typedef std::vector<Layer> Context;
-
 /** ****************************************************************************
 *** \brief A helper class to MapMode responsible for all tile data and operations
 ***
@@ -112,15 +109,8 @@ private:
     **/
     uint16 _num_tile_on_y_axis;
 
-    /** \brief A map of 2D vectors that contains all of the map's tile objects.
-    *** Each key-value pair in the std::map represents a map context, thus the size of the std::map is equal to
-    *** the number of contexts in the game map (up to 32).
-    **/
-    std::map<MAP_CONTEXT, Context > _tile_grid;
-
-    //! \brief keeps a reference to the current context data for speed optimizations purpose
-    Context *_ctxt_layers;
-    MAP_CONTEXT _current_context;
+    //! \brief The map tile layers
+    std::vector<Layer> _tile_grid;
 
     //! \brief Contains the image objects for all map tiles, both still and animated.
     std::vector<hoa_video::ImageDescriptor *> _tile_images;

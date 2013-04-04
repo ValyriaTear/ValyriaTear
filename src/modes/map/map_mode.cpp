@@ -307,10 +307,7 @@ void MapMode::Draw()
 
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    if(_draw_function.is_valid())
-        ScriptCallFunction<void>(_draw_function);
-    else
-        _DrawMapLayers();
+    _DrawMapLayers();
 
     VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawForeground();
@@ -451,16 +448,15 @@ void MapMode::AddZone(MapZone *zone)
 }
 
 
-void MapMode::AddSavePoint(float x, float y, MAP_CONTEXT map_context)
+void MapMode::AddSavePoint(float x, float y)
 {
-    SavePoint *save_point = new SavePoint(x, y, map_context);
+    SavePoint *save_point = new SavePoint(x, y);
     _object_supervisor->_save_points.push_back(save_point);
 }
 
-void MapMode::AddHalo(const std::string &filename, float x, float y,
-                      const Color &color, MAP_CONTEXT map_context)
+void MapMode::AddHalo(const std::string &filename, float x, float y, const Color &color)
 {
-    Halo *halo = new Halo(filename, x, y, color, map_context);
+    Halo *halo = new Halo(filename, x, y, color);
     _object_supervisor->_halos.push_back(halo);
 }
 
@@ -468,14 +464,12 @@ void MapMode::AddLight(const std::string &main_flare_filename,
                        const std::string &secondary_flare_filename,
                        float x, float y,
                        const Color &main_color,
-                       const Color &secondary_color,
-                       MAP_CONTEXT map_context)
+                       const Color &secondary_color)
 {
     Light *light = new Light(main_flare_filename,
                              secondary_flare_filename,
                              x, y, main_color,
-                             secondary_color,
-                             map_context);
+                             secondary_color);
 
     AddLight(light);
 }
@@ -529,15 +523,6 @@ bool MapMode::IsCameraOnVirtualFocus()
 {
     return _camera == _object_supervisor->VirtualFocus();
 }
-
-
-MAP_CONTEXT MapMode::GetCurrentContext() const
-{
-    if(_camera)
-        return _camera->GetContext();
-    return MAP_CONTEXT_01;
-}
-
 
 bool MapMode::AttackAllowed()
 {
@@ -684,7 +669,6 @@ bool MapMode::_Load()
     }
 
     _update_function = _map_script.ReadFunctionPointer("Update");
-    _draw_function = _map_script.ReadFunctionPointer("Draw");
 
     _map_script.CloseAllTables();
     _map_script.CloseFile(); // Free the map script file once everything is loaded

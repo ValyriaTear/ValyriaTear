@@ -274,35 +274,30 @@ function _CreateObjects()
             "img/misc/lights/sun_flare_light_secondary.lua",
         74.0, 55.0,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
 
     Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
             "img/misc/lights/sun_flare_light_secondary.lua",
         86.0, 67.0,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
     Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
             "img/misc/lights/sun_flare_light_secondary.lua",
         22.0, 32.0,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
 
     -- Small door lights
     Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
             "img/misc/lights/sun_flare_light_small_secondary.lua",
         12.0, 57.5,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-      hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
     Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
             "img/misc/lights/sun_flare_light_small_secondary.lua",
         94.0, 67.5,
         hoa_video.Color(1.0, 1.0, 1.0, 0.6),
-        hoa_video.Color(1.0, 1.0, 0.85, 0.3),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(1.0, 1.0, 0.85, 0.3));
 
     -- Treasure vase
     local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37);
@@ -744,28 +739,28 @@ local sophia_house_entrance_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    bronanns_home_entrance_zone = hoa_map.CameraZone(10, 14, 60, 61, hoa_map.MapMode.CONTEXT_01);
+    bronanns_home_entrance_zone = hoa_map.CameraZone(10, 14, 60, 61);
     Map:AddZone(bronanns_home_entrance_zone);
 
-    to_riverbank_zone = hoa_map.CameraZone(19, 35, 78, 79, hoa_map.MapMode.CONTEXT_01);
+    to_riverbank_zone = hoa_map.CameraZone(19, 35, 78, 79);
     Map:AddZone(to_riverbank_zone);
 
-    to_village_entrance_zone = hoa_map.CameraZone(60, 113, 78, 79, hoa_map.MapMode.CONTEXT_01);
+    to_village_entrance_zone = hoa_map.CameraZone(60, 113, 78, 79);
     Map:AddZone(to_village_entrance_zone);
 
-    to_kalya_house_path_zone = hoa_map.CameraZone(0, 1, 8, 15, hoa_map.MapMode.CONTEXT_01);
+    to_kalya_house_path_zone = hoa_map.CameraZone(0, 1, 8, 15);
     Map:AddZone(to_kalya_house_path_zone);
 
-    shop_entrance_zone = hoa_map.CameraZone(92, 96, 70, 71, hoa_map.MapMode.CONTEXT_01);
+    shop_entrance_zone = hoa_map.CameraZone(92, 96, 70, 71);
     Map:AddZone(shop_entrance_zone);
 
-    secret_path_zone = hoa_map.CameraZone(0, 1, 55, 61, hoa_map.MapMode.CONTEXT_01);
+    secret_path_zone = hoa_map.CameraZone(0, 1, 55, 61);
     Map:AddZone(secret_path_zone);
 
-    to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43, hoa_map.MapMode.CONTEXT_01);
+    to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43);
     Map:AddZone(to_layna_forest_zone);
 
-    sophia_house_entrance_zone = hoa_map.CameraZone(21, 23, 21, 22, hoa_map.MapMode.CONTEXT_01);
+    sophia_house_entrance_zone = hoa_map.CameraZone(21, 23, 21, 22);
     Map:AddZone(sophia_house_entrance_zone);
 end
 

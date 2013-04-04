@@ -99,8 +99,7 @@ void BindModeCode()
             .def("AddSavePoint", &MapMode::AddSavePoint)
             .def("AddHalo", &MapMode::AddHalo)
             .def("AddLight", (void(MapMode:: *)(const std::string &, const std::string &, float, float,
-                                                const hoa_video::Color&, const hoa_video::Color&,
-                                                hoa_map::private_map::MAP_CONTEXT))&MapMode::AddLight)
+                                                const hoa_video::Color&, const hoa_video::Color&))&MapMode::AddLight)
             .def("AddLight", (void(MapMode:: *)(private_map::Light*))&MapMode::AddLight, luabind::adopt(_2))
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *))&MapMode::SetCamera)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *, uint32))&MapMode::SetCamera)
@@ -131,41 +130,6 @@ void BindModeCode()
                 luabind::value("ENEMY_COLLISION", ENEMY_COLLISION),
                 luabind::value("WALL_COLLISION", WALL_COLLISION),
                 luabind::value("ALL_COLLISION", ALL_COLLISION),
-                // Map contexts
-                luabind::value("CONTEXT_NONE", MAP_CONTEXT_NONE),
-                luabind::value("CONTEXT_01", MAP_CONTEXT_01),
-                luabind::value("CONTEXT_02", MAP_CONTEXT_02),
-                luabind::value("CONTEXT_03", MAP_CONTEXT_03),
-                luabind::value("CONTEXT_04", MAP_CONTEXT_04),
-                luabind::value("CONTEXT_05", MAP_CONTEXT_05),
-                luabind::value("CONTEXT_06", MAP_CONTEXT_06),
-                luabind::value("CONTEXT_07", MAP_CONTEXT_07),
-                luabind::value("CONTEXT_08", MAP_CONTEXT_08),
-                luabind::value("CONTEXT_09", MAP_CONTEXT_09),
-                luabind::value("CONTEXT_10", MAP_CONTEXT_10),
-                luabind::value("CONTEXT_11", MAP_CONTEXT_11),
-                luabind::value("CONTEXT_12", MAP_CONTEXT_12),
-                luabind::value("CONTEXT_13", MAP_CONTEXT_13),
-                luabind::value("CONTEXT_14", MAP_CONTEXT_14),
-                luabind::value("CONTEXT_15", MAP_CONTEXT_15),
-                luabind::value("CONTEXT_16", MAP_CONTEXT_16),
-                luabind::value("CONTEXT_17", MAP_CONTEXT_17),
-                luabind::value("CONTEXT_18", MAP_CONTEXT_18),
-                luabind::value("CONTEXT_19", MAP_CONTEXT_19),
-                luabind::value("CONTEXT_20", MAP_CONTEXT_20),
-                luabind::value("CONTEXT_21", MAP_CONTEXT_21),
-                luabind::value("CONTEXT_22", MAP_CONTEXT_22),
-                luabind::value("CONTEXT_23", MAP_CONTEXT_23),
-                luabind::value("CONTEXT_24", MAP_CONTEXT_24),
-                luabind::value("CONTEXT_25", MAP_CONTEXT_25),
-                luabind::value("CONTEXT_26", MAP_CONTEXT_26),
-                luabind::value("CONTEXT_27", MAP_CONTEXT_27),
-                luabind::value("CONTEXT_28", MAP_CONTEXT_28),
-                luabind::value("CONTEXT_29", MAP_CONTEXT_29),
-                luabind::value("CONTEXT_30", MAP_CONTEXT_30),
-                luabind::value("CONTEXT_31", MAP_CONTEXT_31),
-                luabind::value("CONTEXT_32", MAP_CONTEXT_32),
-                luabind::value("CONTEXT_ALL", MAP_CONTEXT_ALL),
                 // Object types
                 luabind::value("PHYSICAL_TYPE", PHYSICAL_TYPE),
                 luabind::value("VIRTUAL_TYPE", VIRTUAL_TYPE),
@@ -214,7 +178,6 @@ void BindModeCode()
         [
             luabind::class_<MapObject>("MapObject")
             .def("SetObjectID", &MapObject::SetObjectID)
-            .def("SetContext", &MapObject::SetContext)
             .def("SetXPosition", &MapObject::SetXPosition)
             .def("SetYPosition", &MapObject::SetYPosition)
             .def("SetPosition", &MapObject::SetPosition)
@@ -227,7 +190,6 @@ void BindModeCode()
             .def("SetCollisionMask", &MapObject::SetCollisionMask)
             .def("SetDrawOnSecondPass", &MapObject::SetDrawOnSecondPass)
             .def("GetObjectID", &MapObject::GetObjectID)
-            .def("GetContext", &MapObject::GetContext)
             .def("GetXPosition", &MapObject::GetXPosition)
             .def("GetYPosition", &MapObject::GetYPosition)
             .def("GetImgHalfWidth", &MapObject::GetImgHalfWidth)
@@ -244,7 +206,7 @@ void BindModeCode()
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
         [
             luabind::class_<ParticleObject, MapObject>("ParticleObject")
-            .def(luabind::constructor<const std::string &, float, float, MAP_CONTEXT>())
+            .def(luabind::constructor<const std::string &, float, float>())
             .def("Stop", &ParticleObject::Stop)
             .def("Start", &ParticleObject::Start)
         ];
@@ -253,13 +215,13 @@ void BindModeCode()
         [
             luabind::class_<Light, MapObject>("Light")
             .def(luabind::constructor<const std::string&, const std::string&, float, float,
-                 const hoa_video::Color&, const hoa_video::Color&, MAP_CONTEXT>())
+                 const hoa_video::Color&, const hoa_video::Color&>())
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
         [
             luabind::class_<SoundObject, MapObject>("SoundObject")
-            .def(luabind::constructor<const std::string&, float, float, float, MAP_CONTEXT>())
+            .def(luabind::constructor<const std::string&, float, float, float>())
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -366,11 +328,8 @@ void BindModeCode()
             luabind::class_<MapZone>("MapZone")
             .def(luabind::constructor<>())
             .def(luabind::constructor<uint16, uint16, uint16, uint16>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
             .def("AddSection", &MapZone::AddSection)
             .def("IsInsideZone", &MapZone::IsInsideZone)
-            .def("GetActiveContexts", &MapZone::GetActiveContexts)
-            .def("SetActiveContexts", &MapZone::SetActiveContexts)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
@@ -378,7 +337,6 @@ void BindModeCode()
             luabind::class_<CameraZone, MapZone>("CameraZone")
             .def(luabind::constructor<>())
             .def(luabind::constructor<uint16, uint16, uint16, uint16>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
             .def("IsCameraInside", &CameraZone::IsCameraInside)
             .def("IsCameraEntering", &CameraZone::IsCameraEntering)
             .def("IsCameraExiting", &CameraZone::IsCameraExiting)
@@ -388,7 +346,7 @@ void BindModeCode()
         [
             luabind::class_<EnemyZone, MapZone>("EnemyZone")
             .def(luabind::constructor<>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16, MAP_CONTEXT>())
+            .def(luabind::constructor<uint16, uint16, uint16, uint16>())
             .def("AddEnemy", &EnemyZone::AddEnemy, luabind::adopt(_2))
             .def("AddSpawnSection", &EnemyZone::AddSpawnSection)
             .def("IsRoamingRestrained", &EnemyZone::IsRoamingRestrained)
@@ -397,13 +355,6 @@ void BindModeCode()
             .def("SetSpawnTime", &EnemyZone::SetSpawnTime)
             .def("SetSpawnsLeft", &EnemyZone::SetSpawnsLeft)
             .def("GetSpawnsLeft", &EnemyZone::GetSpawnsLeft)
-        ];
-
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")
-        [
-            luabind::class_<ContextZone, MapZone>("ContextZone")
-            .def(luabind::constructor<MAP_CONTEXT, MAP_CONTEXT>())
-            .def("AddSection", (void(ContextZone:: *)(uint16, uint16, uint16, uint16, bool))&ContextZone::AddSection)
         ];
 
         luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_map")

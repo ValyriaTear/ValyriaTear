@@ -82,7 +82,6 @@ function _CreateCharacters()
     if (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
         bronann:SetPosition(37.5, 17.5);
         bronann:SetDirection(hoa_map.MapMode.WEST);
-        bronann:SetContext(hoa_map.MapMode.CONTEXT_02);
     end
 
     Map:AddGroundObject(bronann);
@@ -90,7 +89,6 @@ function _CreateCharacters()
     -- Add Bronann in bed wake up animation
     bronann_in_bed = hoa_map.PhysicalObject();
     bronann_in_bed:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    bronann_in_bed:SetContext(hoa_map.MapMode.CONTEXT_01);
     bronann_in_bed:SetPosition(20, 20);
     bronann_in_bed:SetCollHalfWidth(1.75);
     bronann_in_bed:SetCollHeight(5.50);
@@ -132,47 +130,33 @@ function _CreateObjects()
 
     -- Parent's room
     object = CreateObject(Map, "Big Bed1", 38.5, 30.0);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Chair1_inverted", 38, 35);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Locker", 38, 35.9);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Small Wooden Table", 40, 36);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Paper and Feather", 40, 34);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Box1", 40, 38); -- Prevent from going south of the table.
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 19, 33);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Box1", 19, 35);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Box1", 19, 37);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 33);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
+    object = CreateObject(Map, "Box1", 23, 35);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Flower Pot1", 27, 33);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
+    object = CreateObject(Map, "Flower Pot1", 27, 34.5);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Right Window Light", 41, 33);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
@@ -218,27 +202,12 @@ end
 
 -- zones
 local room_exit_zone = {};
-local bronanns_room_hall_zone = {};
-local bronanns_hall_parents_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    room_exit_zone = hoa_map.CameraZone(38, 39, 16, 19, hoa_map.MapMode.CONTEXT_02);
+    room_exit_zone = hoa_map.CameraZone(38, 39, 16, 19);
     Map:AddZone(room_exit_zone);
-
-    -- Bronann's room / hall context change
-    bronanns_room_hall_zone = hoa_map.ContextZone(hoa_map.MapMode.CONTEXT_01, hoa_map.MapMode.CONTEXT_02);
-    bronanns_room_hall_zone:AddSection(28, 29, 16, 20, false); -- To context 2
-    bronanns_room_hall_zone:AddSection(26, 27, 16, 20, true); -- To context 1
-    Map:AddZone(bronanns_room_hall_zone);
-
-    -- Bronann's room / hall context change
-    bronanns_hall_parents_zone = hoa_map.ContextZone(hoa_map.MapMode.CONTEXT_02, hoa_map.MapMode.CONTEXT_03);
-    bronanns_hall_parents_zone:AddSection(30, 33, 20, 21, false); -- To context 3
-    bronanns_hall_parents_zone:AddSection(30, 33, 18, 19, true); -- To context 2
-    Map:AddZone(bronanns_hall_parents_zone);
-
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

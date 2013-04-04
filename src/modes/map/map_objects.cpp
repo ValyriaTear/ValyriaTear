@@ -45,7 +45,6 @@ namespace private_map
 
 MapObject::MapObject() :
     object_id(-1),
-    context(MAP_CONTEXT_01),
     img_half_width(0.0f),
     img_height(0.0f),
     coll_half_width(0.0f),
@@ -68,10 +67,6 @@ bool MapObject::ShouldDraw()
         return false;
 
     MapMode *map = MapMode::CurrentInstance();
-
-    // If the context is not in one of the active context, don't display it.
-    if(!(context & map->GetCurrentContext()))
-        return false;
 
     // Determine if the sprite is off-screen and if so, don't draw it.
     if(!MapRectangle::CheckIntersection(GetImageRectangle(), map->GetMapFrame().screen_edges))
@@ -254,15 +249,13 @@ void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
 }
 
 // Particle object
-ParticleObject::ParticleObject(const std::string &filename, float x, float y,
-                               MAP_CONTEXT map_context):
+ParticleObject::ParticleObject(const std::string &filename, float x, float y):
     MapObject()
 {
     position.x = x;
     position.y = y;
 
     _object_type = PARTICLE_TYPE;
-    context = map_context;
     collision_mask = NO_COLLISION;
 
     _particle_effect = new hoa_mode_manager::ParticleEffect(filename);
@@ -331,7 +324,7 @@ void ParticleObject::Draw()
 }
 
 // Save points
-SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
+SavePoint::SavePoint(float x, float y):
     MapObject(),
     _animations(0),
     _save_active(false)
@@ -340,7 +333,6 @@ SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
     position.y = y;
 
     _object_type = SAVE_TYPE;
-    context = map_context;
     collision_mask = NO_COLLISION;
 
     _animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
@@ -362,10 +354,8 @@ SavePoint::SavePoint(float x, float y, MAP_CONTEXT map_context):
 
     // The save point is going along with two particle objects used to show
     // whether the player is in or out the save point
-    _active_particle_object = new ParticleObject("dat/effects/particles/active_save_point.lua",
-            x, y, map_context);
-    _inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua",
-            x, y, map_context);
+    _active_particle_object = new ParticleObject("dat/effects/particles/active_save_point.lua", x, y);
+    _inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua", x, y);
 
     _active_particle_object->Stop();
 
@@ -420,7 +410,7 @@ void SavePoint::SetActive(bool active)
 
 
 // Halos
-Halo::Halo(const std::string &filename, float x, float y, const Color &color, MAP_CONTEXT map_context):
+Halo::Halo(const std::string &filename, float x, float y, const Color &color):
     MapObject()
 {
     _color = color;
@@ -428,7 +418,6 @@ Halo::Halo(const std::string &filename, float x, float y, const Color &color, MA
     position.y = y;
 
     _object_type = HALO_TYPE;
-    context = map_context;
     collision_mask = NO_COLLISION;
 
     if(_animation.LoadFromAnimationScript(filename)) {
@@ -456,8 +445,7 @@ void Halo::Draw()
 // Light objects
 Light::Light(const std::string &main_flare_filename,
              const std::string &secondary_flare_filename,
-             float x, float y, const Color &main_color, const Color &secondary_color,
-             MAP_CONTEXT map_context):
+             float x, float y, const Color &main_color, const Color &secondary_color):
     MapObject()
 {
     _main_color = main_color;
@@ -467,7 +455,6 @@ Light::Light(const std::string &main_flare_filename,
     position.y = y;
 
     _object_type = LIGHT_TYPE;
-    context = map_context;
     collision_mask = NO_COLLISION;
 
     _a = _b = 0.0f;
@@ -606,8 +593,8 @@ void Light::Draw()
     }
 }
 
-SoundObject::SoundObject(const std::string &sound_filename, float x, float y,
-                         float strength, MAP_CONTEXT map_context)
+SoundObject::SoundObject(const std::string &sound_filename, float x, float y, float strength):
+    MapObject()
 {
     MapObject::_object_type = SOUND_TYPE;
 
@@ -633,7 +620,6 @@ SoundObject::SoundObject(const std::string &sound_filename, float x, float y,
     position.x = x;
     position.y = y;
 
-    context = map_context;
     collision_mask = NO_COLLISION;
 }
 
@@ -1152,11 +1138,6 @@ MapObject *ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite *sprite)
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
 
-        // If the object and sprite do not exist in one of the same context,
-        // do not consider the object for the search
-        if(!((*it)->context & sprite->context))
-            continue;
-
         if(MapRectangle::CheckIntersection(sprite->GetCollisionRectangle(),
                                            (*it)->GetCollisionRectangle())) {
             return (*it);
@@ -1210,11 +1191,6 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         // Don't allow particle object to get in the way
         // as this prevents save points from functioning
         if((*it)->GetObjectType() == PARTICLE_TYPE)
-            continue;
-
-        // If the object and sprite do not exist in one of the same contexts,
-        // do not consider the object for the search
-        if(!((*it)->context & sprite->context))
             continue;
 
         // If the object is a physical object without any event, we can ignore it
@@ -1356,9 +1332,8 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
         for(uint32 y = static_cast<uint32>(sprite_rect.top); y <= static_cast<uint32>(sprite_rect.bottom); ++y) {
             for(uint32 x = static_cast<uint32>(sprite_rect.left); x <= static_cast<uint32>(sprite_rect.right); ++x) {
                 // Checks the collision grid at the row-column at the object's current context
-                if((_collision_grid[y][x] & sprite->context) != 0) {
+                if(_collision_grid[y][x] > 0)
                     return WALL_COLLISION;
-                }
             }
         }
     }
@@ -1375,11 +1350,6 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
 
         // Object and sprite are the same
         if(collision_object->object_id == sprite->object_id)
-            continue;
-
-        // If the two objects are not contained within one of the same contexts,
-        // they can not overlap
-        if(!(sprite->context & collision_object->context))
             continue;
 
         // If the two objects aren't colliding, try next.
@@ -1614,8 +1584,6 @@ bool ObjectSupervisor::IsWithinMapBounds(VirtualSprite *sprite) const
 
 void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
 {
-    MAP_CONTEXT context_id = MapMode::CurrentInstance()->GetCurrentContext();
-
     VideoManager->Move(frame->tile_x_offset - 0.5f, frame->tile_y_offset - 1.0f);
 
     for(uint32 y = static_cast<uint32>(frame->tile_y_start * 2);
@@ -1624,7 +1592,7 @@ void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
                 x < static_cast<uint32>((frame->tile_x_start + frame->num_draw_x_axis) * 2); ++x) {
 
             // Draw the collision rectangle
-            if(_collision_grid[y][x] & context_id)
+            if(_collision_grid[y][x] > 0)
                 VideoManager->DrawRectangle(1.0f, 1.0f, Color(1.0f, 0.0f, 0.0f, 0.6f));
 
             VideoManager->MoveRelative(1.0f, 0.0f);

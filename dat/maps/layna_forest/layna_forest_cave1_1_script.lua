@@ -145,18 +145,17 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 116, 109,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add a halo showing the next cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 132, 14,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
 
-    Map:AddSavePoint(50, 6, hoa_map.MapMode.CONTEXT_01);
+    Map:AddSavePoint(50, 6);
 
     -- Load the spring heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
-                        0, 0, hoa_map.MapMode.CONTEXT_01);
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
@@ -362,7 +361,7 @@ function _CreateEnemies()
 
     -- Extra boss near the save point - Can only be beaten once.
     -- Hint: left, right, top, bottom
-    slime_mother_roam_zone = hoa_map.EnemyZone(8, 10, 6, 6, hoa_map.MapMode.CONTEXT_01);
+    slime_mother_roam_zone = hoa_map.EnemyZone(8, 10, 6, 6);
 
     if (GlobalManager:DoesEventExist("story", "layna_forest_slime_mother_defeated")) then
         slime_mother_defeated = true;
@@ -379,7 +378,7 @@ function _CreateEnemies()
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(7, 38, 25, 27, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(7, 38, 25, 27);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -391,7 +390,7 @@ function _CreateEnemies()
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(97, 115, 38, 40, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(97, 115, 38, 40);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -403,7 +402,7 @@ function _CreateEnemies()
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(51, 81, 58, 61, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(51, 81, 58, 61);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -511,10 +510,10 @@ local to_cave_1_2_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NW_zone = hoa_map.CameraZone(114, 118, 95, 97, hoa_map.MapMode.CONTEXT_01);
+    to_forest_NW_zone = hoa_map.CameraZone(114, 118, 95, 97);
     Map:AddZone(to_forest_NW_zone);
 
-    to_cave_1_2_zone = hoa_map.CameraZone(126, 128, 3, 13, hoa_map.MapMode.CONTEXT_01);
+    to_cave_1_2_zone = hoa_map.CameraZone(126, 128, 3, 13);
     Map:AddZone(to_cave_1_2_zone);
 end
 

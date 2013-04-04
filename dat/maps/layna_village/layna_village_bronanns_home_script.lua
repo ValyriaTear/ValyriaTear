@@ -403,10 +403,10 @@ local to_bronanns_room_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    home_exit_zone = hoa_map.CameraZone(38, 41, 24, 25, hoa_map.MapMode.CONTEXT_01);
+    home_exit_zone = hoa_map.CameraZone(38, 41, 24, 25);
     Map:AddZone(home_exit_zone);
 
-    to_bronanns_room_zone = hoa_map.CameraZone(44, 47, 8, 9, hoa_map.MapMode.CONTEXT_01);
+    to_bronanns_room_zone = hoa_map.CameraZone(44, 47, 8, 9);
     Map:AddZone(to_bronanns_room_zone);
 
     quest2_start_scene = false;

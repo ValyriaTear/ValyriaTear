@@ -585,7 +585,7 @@ function _CreateEnemies()
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(40, 52, 67, 87, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(40, 52, 67, 87);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -601,7 +601,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
 
-    roam_zone = hoa_map.EnemyZone(77, 84, 71, 87, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(77, 84, 71, 87);
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -616,7 +616,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(2, 11, 66, 87, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(2, 11, 66, 87);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -632,7 +632,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(5, 25, 5, 37, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(5, 25, 5, 37);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -717,10 +717,10 @@ local to_forest_NW_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_SE_zone = hoa_map.CameraZone(126, 128, 82, 87, hoa_map.MapMode.CONTEXT_01);
+    to_forest_SE_zone = hoa_map.CameraZone(126, 128, 82, 87);
     Map:AddZone(to_forest_SE_zone);
 
-    to_forest_NW_zone = hoa_map.CameraZone(52, 59, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    to_forest_NW_zone = hoa_map.CameraZone(52, 59, 0, 2);
     Map:AddZone(to_forest_NW_zone);
 end
 

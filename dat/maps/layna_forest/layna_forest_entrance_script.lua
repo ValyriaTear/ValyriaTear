@@ -139,11 +139,10 @@ function _CreateObjects()
     local object = {}
     local npc = {}
 
-    Map:AddSavePoint(19, 27, hoa_map.MapMode.CONTEXT_01);
+    Map:AddSavePoint(19, 27);
 
     -- Load the spring heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
-                                            0, 0, hoa_map.MapMode.CONTEXT_01);
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
@@ -213,16 +212,13 @@ function _CreateObjects()
         EventManager:StartEvent("Squirrel2 random move", 1800);
     else
         -- add fireflies near the statue at night
-        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
-                                                27, 22, hoa_map.MapMode.CONTEXT_01);
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua", 27, 22);
         object:SetObjectID(Map.object_supervisor:GenerateObjectID());
         Map:AddGroundObject(object);
-        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
-                                                25, 23, hoa_map.MapMode.CONTEXT_01);
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua", 25, 23);
         object:SetObjectID(Map.object_supervisor:GenerateObjectID());
         Map:AddGroundObject(object);
-        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
-                                                29, 22.5, hoa_map.MapMode.CONTEXT_01);
+        object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua", 29, 22.5);
         object:SetObjectID(Map.object_supervisor:GenerateObjectID());
         Map:AddGroundObject(object);
     end
@@ -388,7 +384,7 @@ function _CreateEnemies()
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(49, 62, 26, 39, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -585,10 +581,10 @@ local to_forest_nw_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34, hoa_map.MapMode.CONTEXT_01);
+    forest_entrance_exit_zone = hoa_map.CameraZone(0, 1, 26, 34);
     Map:AddZone(forest_entrance_exit_zone);
 
-    to_forest_nw_zone = hoa_map.CameraZone(62, 64, 29, 35, hoa_map.MapMode.CONTEXT_01);
+    to_forest_nw_zone = hoa_map.CameraZone(62, 64, 29, 35);
     Map:AddZone(to_forest_nw_zone);
 end
 

@@ -102,9 +102,9 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 58, 104,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 67, 5,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     local chest1 = CreateTreasure(Map, "layna_forest_cave2_chest1", "Wood_Chest1", 107, 28);
     if (chest1 ~= nil) then
@@ -127,7 +127,7 @@ function _CreateEnemies()
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(12, 18, 17, 31, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(12, 18, 17, 31);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -145,7 +145,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(94, 102, 62, 70, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(94, 102, 62, 70);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -164,7 +164,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(62, 71, 36, 44, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(62, 71, 36, 44);
 
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
@@ -282,68 +282,68 @@ local to_9_2_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_SE_zone = hoa_map.CameraZone(56, 60, 95, 96, hoa_map.MapMode.CONTEXT_01);
+    to_forest_SE_zone = hoa_map.CameraZone(56, 60, 95, 96);
     Map:AddZone(to_forest_SE_zone);
 
-    to_forest_crystal_zone = hoa_map.CameraZone(60, 74, 0, 1, hoa_map.MapMode.CONTEXT_01);
+    to_forest_crystal_zone = hoa_map.CameraZone(60, 74, 0, 1);
     Map:AddZone(to_forest_crystal_zone);
 
     -- cave zones
-    to_1_1_zone = hoa_map.CameraZone(8, 10, 39, 40, hoa_map.MapMode.CONTEXT_01);
+    to_1_1_zone = hoa_map.CameraZone(8, 10, 39, 40);
     Map:AddZone(to_1_1_zone);
 
-    to_1_2_zone = hoa_map.CameraZone(42, 44, 83, 84, hoa_map.MapMode.CONTEXT_01);
+    to_1_2_zone = hoa_map.CameraZone(42, 44, 83, 84);
     Map:AddZone(to_1_2_zone);
 
-    to_2_1_zone = hoa_map.CameraZone(28, 30, 43, 44, hoa_map.MapMode.CONTEXT_01);
+    to_2_1_zone = hoa_map.CameraZone(28, 30, 43, 44);
     Map:AddZone(to_2_1_zone);
 
-    to_2_2_zone = hoa_map.CameraZone(36, 38, 3, 4, hoa_map.MapMode.CONTEXT_01);
+    to_2_2_zone = hoa_map.CameraZone(36, 38, 3, 4);
     Map:AddZone(to_2_2_zone);
 
-    to_3_1_zone = hoa_map.CameraZone(120, 122, 89, 90, hoa_map.MapMode.CONTEXT_01);
+    to_3_1_zone = hoa_map.CameraZone(120, 122, 89, 90);
     Map:AddZone(to_3_1_zone);
 
-    to_3_2_zone = hoa_map.CameraZone(52, 54, 13, 14, hoa_map.MapMode.CONTEXT_01);
+    to_3_2_zone = hoa_map.CameraZone(52, 54, 13, 14);
     Map:AddZone(to_3_2_zone);
 
-    to_4_1_zone = hoa_map.CameraZone(46, 48, 65, 66, hoa_map.MapMode.CONTEXT_01);
+    to_4_1_zone = hoa_map.CameraZone(46, 48, 65, 66);
     Map:AddZone(to_4_1_zone);
 
-    to_4_2_zone = hoa_map.CameraZone(92, 94, 45, 46, hoa_map.MapMode.CONTEXT_01);
+    to_4_2_zone = hoa_map.CameraZone(92, 94, 45, 46);
     Map:AddZone(to_4_2_zone);
 
-    to_5_1_zone = hoa_map.CameraZone(76, 78, 7, 8, hoa_map.MapMode.CONTEXT_01);
+    to_5_1_zone = hoa_map.CameraZone(76, 78, 7, 8);
     Map:AddZone(to_5_1_zone);
 
-    to_5_2_zone = hoa_map.CameraZone(76, 78, 25, 26, hoa_map.MapMode.CONTEXT_01);
+    to_5_2_zone = hoa_map.CameraZone(76, 78, 25, 26);
     Map:AddZone(to_5_2_zone);
 
-    to_6_1_zone = hoa_map.CameraZone(2, 4, 73, 74, hoa_map.MapMode.CONTEXT_01);
+    to_6_1_zone = hoa_map.CameraZone(2, 4, 73, 74);
     Map:AddZone(to_6_1_zone);
 
-    to_6_2_zone = hoa_map.CameraZone(66, 68, 79, 80, hoa_map.MapMode.CONTEXT_01);
+    to_6_2_zone = hoa_map.CameraZone(66, 68, 79, 80);
     Map:AddZone(to_6_2_zone);
 
-    to_7_1_zone = hoa_map.CameraZone(36, 38, 71, 72, hoa_map.MapMode.CONTEXT_01);
+    to_7_1_zone = hoa_map.CameraZone(36, 38, 71, 72);
     Map:AddZone(to_7_1_zone);
 
-    to_7_1_bis_zone = hoa_map.CameraZone(96, 98, 23, 24, hoa_map.MapMode.CONTEXT_01);
+    to_7_1_bis_zone = hoa_map.CameraZone(96, 98, 23, 24);
     Map:AddZone(to_7_1_bis_zone);
 
-    to_7_2_zone = hoa_map.CameraZone(26, 28, 81, 82, hoa_map.MapMode.CONTEXT_01);
+    to_7_2_zone = hoa_map.CameraZone(26, 28, 81, 82);
     Map:AddZone(to_7_2_zone);
 
-    to_8_1_zone = hoa_map.CameraZone(2, 4, 3, 4, hoa_map.MapMode.CONTEXT_01);
+    to_8_1_zone = hoa_map.CameraZone(2, 4, 3, 4);
     Map:AddZone(to_8_1_zone);
 
-    to_8_2_zone = hoa_map.CameraZone(22, 24, 57, 58, hoa_map.MapMode.CONTEXT_01);
+    to_8_2_zone = hoa_map.CameraZone(22, 24, 57, 58);
     Map:AddZone(to_8_2_zone);
 
-    to_9_1_zone = hoa_map.CameraZone(118, 120, 7, 8, hoa_map.MapMode.CONTEXT_01);
+    to_9_1_zone = hoa_map.CameraZone(118, 120, 7, 8);
     Map:AddZone(to_9_1_zone);
 
-    to_9_2_zone = hoa_map.CameraZone(78, 80, 69, 70, hoa_map.MapMode.CONTEXT_01);
+    to_9_2_zone = hoa_map.CameraZone(78, 80, 69, 70);
     Map:AddZone(to_9_2_zone);
 end
 

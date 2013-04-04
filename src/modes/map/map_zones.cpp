@@ -30,14 +30,7 @@ namespace private_map
 // ---------- MapZone Class Functions
 // -----------------------------------------------------------------------------
 
-MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) :
-    _active_contexts(MAP_CONTEXT_NONE)
-{
-    AddSection(left_col, right_col, top_row, bottom_row);
-}
-
-MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts) :
-    _active_contexts(contexts)
+MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {
     AddSection(left_col, right_col, top_row, bottom_row);
 }
@@ -98,9 +91,6 @@ void MapZone::_RandomPosition(float &x, float &y)
 bool MapZone::_ShouldDraw(const ZoneSection &section)
 {
     MapMode *map = MapMode::CurrentInstance();
-    // If the context is not in one of the active context, don't display it.
-    if(!(_active_contexts & map->GetCurrentContext()))
-        return false;
 
     MapRectangle rect;
     rect.top = section.top_row;
@@ -145,32 +135,20 @@ CameraZone::CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16
     _was_camera_inside(false)
 {}
 
-
-
-CameraZone::CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts) :
-    MapZone(left_col, right_col, top_row, bottom_row, contexts),
-    _camera_inside(false),
-    _was_camera_inside(false)
-{}
-
-
-
 void CameraZone::Update()
 {
     _was_camera_inside = _camera_inside;
 
     // Update only if camera is on a real sprite
-    if(MapMode::CurrentInstance()->IsCameraOnVirtualFocus()) {
+    if(MapMode::CurrentInstance()->IsCameraOnVirtualFocus())
         return;
-    }
 
     VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
     if(camera == NULL) {
         _camera_inside = false;
     }
     // Camera must share a context with the zone and be within its borders
-    else if((_active_contexts & camera->GetContext())
-            && (IsInsideZone(camera->GetXPosition(), camera->GetYPosition()))) {
+    else if(IsInsideZone(camera->GetXPosition(), camera->GetYPosition())) {
         _camera_inside = true;
     } else {
         _camera_inside = false;
@@ -198,9 +176,8 @@ EnemyZone::EnemyZone() :
 
 
 EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
-                     uint16 top_row, uint16 bottom_row,
-                     MAP_CONTEXT contexts):
-    MapZone(left_col, right_col, top_row, bottom_row, contexts),
+                     uint16 top_row, uint16 bottom_row):
+    MapZone(left_col, right_col, top_row, bottom_row),
     _roaming_restrained(true),
     _agression_roaming_restrained(false),
     _active_enemies(0),
@@ -212,8 +189,6 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
     _dead_timer.Finish();
 }
-
-
 
 EnemyZone::EnemyZone(const EnemyZone &copy) :
     MapZone(copy)
@@ -233,8 +208,6 @@ EnemyZone::EnemyZone(const EnemyZone &copy) :
     _dead_timer.Finish();
     _spawn_timer.Reset();
 }
-
-
 
 EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
 {
@@ -260,8 +233,6 @@ EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
     return *this;
 }
 
-
-
 void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_number)
 {
     if(enemy_number == 0) {
@@ -271,7 +242,6 @@ void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_
 
     // Prepare the first enemy
     enemy->SetZone(this);
-    enemy->SetContext(GetActiveContexts());
     map_instance->AddGroundObject(enemy);
     _enemies.push_back(enemy);
 
@@ -282,7 +252,6 @@ void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_
         // Add a 10% random margin of error to make enemies look less synchronized
         copy->SetTimeToChange(static_cast<uint32>(copy->GetTimeToChange() * (1 + RandomFloat() * 10)));
         copy->Reset();
-        copy->SetContext(GetActiveContexts());
 
         map_instance->AddGroundObject(copy);
         _enemies.push_back(copy);
@@ -322,13 +291,11 @@ void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_ro
 
     // Create the spawn zone if it does not exist and add the new section
     if(_spawn_zone == NULL) {
-        _spawn_zone = new MapZone(left_col, right_col, top_row, bottom_row, GetActiveContexts());
+        _spawn_zone = new MapZone(left_col, right_col, top_row, bottom_row);
     } else {
         _spawn_zone->AddSection(left_col, right_col, top_row, bottom_row);
     }
 }
-
-
 
 void EnemyZone::EnemyDead()
 {
@@ -338,8 +305,6 @@ void EnemyZone::EnemyDead()
         --_active_enemies;
     }
 }
-
-
 
 void EnemyZone::Update()
 {
@@ -433,8 +398,6 @@ void EnemyZone::Update()
     }
 } // void EnemyZone::Update()
 
-
-
 void EnemyZone::Draw()
 {
     // Verify each section of the zone and check if the position is within the section bounds.
@@ -445,86 +408,6 @@ void EnemyZone::Draw()
                                                    hoa_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
         }
     }
-}
-
-// -----------------------------------------------------------------------------
-// ---------- ContextZone Class Functions
-// -----------------------------------------------------------------------------
-
-ContextZone::ContextZone(MAP_CONTEXT one, MAP_CONTEXT two) :
-    _context_one(one),
-    _context_two(two)
-{
-    if(_context_one == _context_two) {
-        PRINT_ERROR << "tried to create a ContextZone with two equal context values: " << _context_one << std::endl;
-    }
-}
-
-
-
-void ContextZone::AddSection(uint16 /*left_col*/, uint16 /*right_col*/, uint16 /*top_row*/, uint16 /*bottom_row*/)
-{
-    IF_PRINT_WARNING(MAP_DEBUG) << "this method is invalid for this class and should not be called: section will not be added" << std::endl;
-}
-
-
-
-void ContextZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, bool context)
-{
-    if(left_col >= right_col) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "left and right coordinates are mismatched: section will not be added" << std::endl;
-        return;
-    }
-
-    if(top_row >= bottom_row) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "top and bottom coordinates are mismatched: section will not be added" << std::endl;
-        return;
-    }
-
-    _sections.push_back(ZoneSection(left_col, right_col, top_row, bottom_row));
-    _section_contexts.push_back(context);
-}
-
-
-
-void ContextZone::Update()
-{
-    int16 index;
-
-    // Check every ground object and determine if its context should be changed by this zone
-    for(std::vector<MapObject *>::iterator i = MapMode::CurrentInstance()->GetObjectSupervisor()->_ground_objects.begin();
-            i != MapMode::CurrentInstance()->GetObjectSupervisor()->_ground_objects.end(); i++) {
-        // If the object does not have a context equal to one of the two switching contexts, do not examine it further
-        if((*i)->GetContext() != _context_one && (*i)->GetContext() != _context_two) {
-            continue;
-        }
-
-        // If the object is inside the zone, set their context to that zone's context
-        // (This may result in no change from the object's current context depending on the zone section)
-        index = _IsInsideZone(*i);
-        if(index >= 0) {
-            (*i)->SetContext(_section_contexts[index] ? _context_one : _context_two);
-        }
-    }
-}
-
-
-
-int16 ContextZone::_IsInsideZone(MapObject *object)
-{
-    // NOTE: argument is not NULL-checked here for performance reasons
-    uint16 x = (uint16)GetFloatInteger(object->GetXPosition());
-    uint16 y = (uint16)GetFloatInteger(object->GetYPosition());
-
-    // Check each section of the zone to see if the object is located within
-    for(uint16 i = 0; i < _sections.size(); i++) {
-        if(x >= _sections[i].left_col && x <= _sections[i].right_col &&
-                y >= _sections[i].top_row && y <= _sections[i].bottom_row) {
-            return i;
-        }
-    }
-
-    return -1;
 }
 
 } // namespace private_map

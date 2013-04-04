@@ -131,11 +131,10 @@ function _CreateObjects()
     local npc = {}
 
     -- save point
-    Map:AddSavePoint(58, 87, hoa_map.MapMode.CONTEXT_01);
+    Map:AddSavePoint(58, 87);
 
     -- Load the spring heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
-                                            0, 0, hoa_map.MapMode.CONTEXT_01);
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
 	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
@@ -185,8 +184,7 @@ function _CreateObjects()
         crystal:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     end
 
-    crystal_effect = hoa_map.ParticleObject("dat/effects/particles/inactive_save_point.lua",
-                                            41, 46, hoa_map.MapMode.CONTEXT_01);
+    crystal_effect = hoa_map.ParticleObject("dat/effects/particles/inactive_save_point.lua", 41, 46);
 	crystal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     crystal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(crystal_effect);
@@ -815,10 +813,10 @@ local wolf_battle_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_cave2_zone = hoa_map.CameraZone(28, 33, 23, 25, hoa_map.MapMode.CONTEXT_01);
+    to_forest_cave2_zone = hoa_map.CameraZone(28, 33, 23, 25);
     Map:AddZone(to_forest_cave2_zone);
 
-    wolf_battle_zone = hoa_map.CameraZone(38, 46, 63, 66, hoa_map.MapMode.CONTEXT_01);
+    wolf_battle_zone = hoa_map.CameraZone(38, 46, 63, 66);
     Map:AddZone(wolf_battle_zone);
 end
 
@@ -948,8 +946,7 @@ map_functions = {
                     "img/misc/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     hoa_video.Color(0.8, 0.8, 1.0, 0.3),
-                    hoa_video.Color(0.8, 0.8, 0.85, 0.2),
-                    hoa_map.MapMode.CONTEXT_01);
+                    hoa_video.Color(0.8, 0.8, 0.85, 0.2));
             Map:AddLight(crystal_light_effect);
             -- Set the  crystal to visible while the white flash
             crystal:SetVisible(true);

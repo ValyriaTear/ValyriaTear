@@ -569,7 +569,6 @@ function CreateObject(Map, name, x, y)
     local object = {}
     object = hoa_map.PhysicalObject();
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    object:SetContext(hoa_map.MapMode.CONTEXT_01);
     object:SetPosition(x, y);
     object:SetCollHalfWidth(objects[name].coll_half_width);
     object:SetCollHeight(objects[name].coll_height);

@@ -91,16 +91,6 @@ public:
     **/
     int16 object_id;
 
-    /** \brief The map context that the object currently resides in.
-    *** Context helps to determine where an object "resides". For example, inside of a house or
-    *** outside of a house. The context member determines if the object should be drawn or not,
-    *** since objects are only drawn if they are in the same context as the map's camera.
-    *** Objects can only interact with one another if they both reside in the same context.
-    ***
-    *** \note The default value for this member is the base context (context 01).
-    **/
-    MAP_CONTEXT context;
-
     /** \brief Coordinates for the object's origin/position.
     *** The origin of every map object is the bottom center point of the object. These
     *** origin coordinates are used to determine where the object is on the map as well
@@ -230,10 +220,6 @@ public:
         object_id = id;
     }
 
-    void SetContext(MAP_CONTEXT ctxt) {
-        context = ctxt;
-    }
-
     void SetPosition(float x, float y) {
         position.x = x;
         position.y = y;
@@ -282,10 +268,6 @@ public:
 
     int16 GetObjectID() const {
         return object_id;
-    }
-
-    MAP_CONTEXT GetContext() const {
-        return context;
     }
 
     MapPosition GetPosition() const {
@@ -475,7 +457,7 @@ private:
 class ParticleObject : public MapObject
 {
 public:
-    ParticleObject(const std::string &filename, float x, float y, MAP_CONTEXT map_context);
+    ParticleObject(const std::string &filename, float x, float y);
 
     ~ParticleObject();
 
@@ -506,7 +488,7 @@ private:
 class SavePoint : public MapObject
 {
 public:
-    SavePoint(float x, float y, MAP_CONTEXT map_context);
+    SavePoint(float x, float y);
 
     ~SavePoint()
     {}
@@ -545,8 +527,7 @@ class Halo : public MapObject
 {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-    Halo(const std::string &filename, float x, float y,
-         const hoa_video::Color &color, MAP_CONTEXT map_context);
+    Halo(const std::string &filename, float x, float y, const hoa_video::Color &color);
 
     ~Halo()
     {}
@@ -581,8 +562,7 @@ public:
     Light(const std::string &main_flare_filename,
           const std::string &secondary_flare_filename,
           float x, float y,
-          const hoa_video::Color &main_color, const hoa_video::Color &secondary_color,
-          MAP_CONTEXT map_context);
+          const hoa_video::Color &main_color, const hoa_video::Color &secondary_color);
 
     ~Light()
     {}
@@ -647,10 +627,8 @@ public:
     *** \param strength The "strength" of the sound, the maximal distance
     in map tiles the sound can be heard within.
     *** The sound volume will be compute according that distance.
-    *** \param map_context the context this sound can be heard in.
     **/
-    SoundObject(const std::string &sound_filename, float x, float y,
-                float strength, MAP_CONTEXT map_context);
+    SoundObject(const std::string &sound_filename, float x, float y, float strength);
 
     ~SoundObject()
     {}
@@ -844,8 +822,6 @@ private:
 class ObjectSupervisor
 {
     friend class hoa_map::MapMode;
-    // TEMP: for allowing context zones to access all objects
-    friend class hoa_map::private_map::ContextZone;
     friend void hoa_defs::BindModeCode();
 
 public:
@@ -1041,17 +1017,12 @@ public:
     //! \brief checks if the location on the grid has a simple map collision. This is different from
     //! IsStaticCollision, int hat it DOES NOT check static objects, but only the collision value for the map
     bool IsMapCollision(uint32 x, uint32 y)
-    {
-        static const MAP_CONTEXT collision = MAP_CONTEXT_01;
-        //if the map's collision context is set to 1, we can return since we know there is a collision
-        if(_collision_grid[y][x] == collision)
-            return true;
-        else
-            return false;
-    }
+    { return (_collision_grid[y][x] > 0); }
 
     //! returns a const reference to the ground objects in
-    const std::vector<MapObject *>& GetGroundObjects() const { return _ground_objects; }
+    const std::vector<MapObject *>& GetGroundObjects() const
+    { return _ground_objects; }
+
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.
     private_map::MapObject *_FindNearestSavePoint(const VirtualSprite *sprite);

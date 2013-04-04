@@ -114,11 +114,10 @@ function _CreateObjects()
     local npc = {}
 
     -- Save point
-    Map:AddSavePoint(61, 9, hoa_map.MapMode.CONTEXT_01);
+    Map:AddSavePoint(61, 9);
 
     -- Load the heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua",
-                                            0, 0, hoa_map.MapMode.CONTEXT_01);
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
@@ -659,7 +658,7 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
 
     -- top right
-    roam_zone = hoa_map.EnemyZone(77, 123, 2, 5, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(77, 123, 2, 5);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -674,7 +673,7 @@ function _CreateEnemies()
 
     Map:AddZone(roam_zone);
 
-    roam_zone = hoa_map.EnemyZone(106, 121, 18, 25, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(106, 121, 18, 25);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -690,7 +689,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- wide passage
-    roam_zone = hoa_map.EnemyZone(97, 118, 40, 89, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(97, 118, 40, 89);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -706,7 +705,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- near the exit
-    roam_zone = hoa_map.EnemyZone(12, 14, 77, 79, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(12, 14, 77, 79);
 
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
@@ -722,7 +721,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- in the inner part
-    roam_zone = hoa_map.EnemyZone(24, 84, 46, 78, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = hoa_map.EnemyZone(24, 84, 46, 78);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -780,19 +779,19 @@ local to_wolf_cave_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NE_zone = hoa_map.CameraZone(36, 41, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    to_forest_NE_zone = hoa_map.CameraZone(36, 41, 0, 2);
     Map:AddZone(to_forest_NE_zone);
 
-    to_forest_SW_zone = hoa_map.CameraZone(0, 2, 52, 56, hoa_map.MapMode.CONTEXT_01);
+    to_forest_SW_zone = hoa_map.CameraZone(0, 2, 52, 56);
     Map:AddZone(to_forest_SW_zone);
 
-    to_cave1_2_zone = hoa_map.CameraZone(12, 16, 39, 40, hoa_map.MapMode.CONTEXT_01);
+    to_cave1_2_zone = hoa_map.CameraZone(12, 16, 39, 40);
     Map:AddZone(to_cave1_2_zone);
 
-    to_cave2_1_zone = hoa_map.CameraZone(64, 68, 69, 70, hoa_map.MapMode.CONTEXT_01);
+    to_cave2_1_zone = hoa_map.CameraZone(64, 68, 69, 70);
     Map:AddZone(to_cave2_1_zone);
 
-    to_wolf_cave_zone = hoa_map.CameraZone(30, 34, 17, 18, hoa_map.MapMode.CONTEXT_01);
+    to_wolf_cave_zone = hoa_map.CameraZone(30, 34, 17, 18);
     Map:AddZone(to_wolf_cave_zone);
 end
 

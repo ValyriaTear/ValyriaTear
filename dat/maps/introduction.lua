@@ -63,7 +63,7 @@ function _CreateObjects()
     Map:AddGroundObject(crystal);
 
     crystal_effect = hoa_map.ParticleObject("dat/effects/particles/inactive_save_point.lua",
-                                            41, 46, hoa_map.MapMode.CONTEXT_01);
+                                            41, 46);
     crystal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     crystal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(crystal_effect);
@@ -330,8 +330,7 @@ map_functions = {
                     "img/misc/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     hoa_video.Color(0.8, 0.8, 1.0, 0.3),
-                    hoa_video.Color(0.8, 0.8, 0.85, 0.2),
-                    hoa_map.MapMode.CONTEXT_01);
+                    hoa_video.Color(0.8, 0.8, 0.85, 0.2));
 
             crystal_visible = true;
         end

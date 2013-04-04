@@ -61,7 +61,7 @@ function Load(m)
     if (GlobalManager:GetEventValue("story", "return_to_layna_village_dialogue_done") ~= 1) then
         EventManager:StartEvent("Return to village dialogue");
     end
-    
+
     -- Preload the soldier music
     AudioManager:LoadMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
 end
@@ -446,28 +446,28 @@ local sophia_house_entrance_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    bronanns_home_entrance_zone = hoa_map.CameraZone(10, 14, 60, 61, hoa_map.MapMode.CONTEXT_01);
+    bronanns_home_entrance_zone = hoa_map.CameraZone(10, 14, 60, 61);
     Map:AddZone(bronanns_home_entrance_zone);
 
-    to_riverbank_zone = hoa_map.CameraZone(19, 35, 78, 79, hoa_map.MapMode.CONTEXT_01);
+    to_riverbank_zone = hoa_map.CameraZone(19, 35, 78, 79);
     Map:AddZone(to_riverbank_zone);
 
-    to_village_entrance_zone = hoa_map.CameraZone(60, 113, 78, 79, hoa_map.MapMode.CONTEXT_01);
+    to_village_entrance_zone = hoa_map.CameraZone(60, 113, 78, 79);
     Map:AddZone(to_village_entrance_zone);
 
-    to_kalya_house_path_zone = hoa_map.CameraZone(0, 1, 8, 15, hoa_map.MapMode.CONTEXT_01);
+    to_kalya_house_path_zone = hoa_map.CameraZone(0, 1, 8, 15);
     Map:AddZone(to_kalya_house_path_zone);
 
-    shop_entrance_zone = hoa_map.CameraZone(92, 96, 70, 71, hoa_map.MapMode.CONTEXT_01);
+    shop_entrance_zone = hoa_map.CameraZone(92, 96, 70, 71);
     Map:AddZone(shop_entrance_zone);
 
-    secret_path_zone = hoa_map.CameraZone(0, 1, 55, 61, hoa_map.MapMode.CONTEXT_01);
+    secret_path_zone = hoa_map.CameraZone(0, 1, 55, 61);
     Map:AddZone(secret_path_zone);
 
-    to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43, hoa_map.MapMode.CONTEXT_01);
+    to_layna_forest_zone = hoa_map.CameraZone(117, 119, 30, 43);
     Map:AddZone(to_layna_forest_zone);
 
-    sophia_house_entrance_zone = hoa_map.CameraZone(21, 23, 21, 22, hoa_map.MapMode.CONTEXT_01);
+    sophia_house_entrance_zone = hoa_map.CameraZone(21, 23, 21, 22);
     Map:AddZone(sophia_house_entrance_zone);
 end
 
@@ -617,7 +617,7 @@ map_functions = {
 
     set_camera_on_kalya = function()
         Map:SetCamera(kalya, 800);
-        
+
         -- Play the soldier music!!
         AudioManager:PlayMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     end,

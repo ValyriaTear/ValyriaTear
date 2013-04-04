@@ -142,17 +142,17 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrances
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 113, 109,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 0, 18,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add different halo light, representing holes of light coming from the ceiling
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 23, 17,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 15, 50,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 37, 84,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Create the stone sign telling what to do to pass the test...
     object = CreateObject(Map, "Stone Sign1", 22, 10);
@@ -376,7 +376,7 @@ function _CreateEnemies()
 
     -- Monsters that can only be beaten once
     -- Hint: left, right, top, bottom
-    roam_zone1 = hoa_map.EnemyZone(26, 30, 43, 50, hoa_map.MapMode.CONTEXT_01);
+    roam_zone1 = hoa_map.EnemyZone(26, 30, 43, 50);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -392,7 +392,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone1);
 
     -- Hint: left, right, top, bottom
-    roam_zone2 = hoa_map.EnemyZone(35, 43, 13, 20, hoa_map.MapMode.CONTEXT_01);
+    roam_zone2 = hoa_map.EnemyZone(35, 43, 13, 20);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -407,7 +407,7 @@ function _CreateEnemies()
     end
     Map:AddZone(roam_zone2);
 
-    roam_zone3 = hoa_map.EnemyZone(61, 67, 40, 48, hoa_map.MapMode.CONTEXT_01);
+    roam_zone3 = hoa_map.EnemyZone(61, 67, 40, 48);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -422,7 +422,7 @@ function _CreateEnemies()
     end
     Map:AddZone(roam_zone3);
 
-    roam_zone4 = hoa_map.EnemyZone(89, 100, 12, 15, hoa_map.MapMode.CONTEXT_01);
+    roam_zone4 = hoa_map.EnemyZone(89, 100, 12, 15);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "bat");
         _SetBattleEnvironment(enemy);
@@ -485,16 +485,16 @@ local seeing_the_exit_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_cave_1_1_zone = hoa_map.CameraZone(0, 1, 11, 16, hoa_map.MapMode.CONTEXT_01);
+    to_cave_1_1_zone = hoa_map.CameraZone(0, 1, 11, 16);
     Map:AddZone(to_cave_1_1_zone);
 
-    to_cave_exit_zone = hoa_map.CameraZone(108, 116, 95, 96, hoa_map.MapMode.CONTEXT_01);
+    to_cave_exit_zone = hoa_map.CameraZone(108, 116, 95, 96);
     Map:AddZone(to_cave_exit_zone);
 
-    to_wolf_cave_zone = hoa_map.CameraZone(123, 124, 12, 13, hoa_map.MapMode.CONTEXT_01);
+    to_wolf_cave_zone = hoa_map.CameraZone(123, 124, 12, 13);
     Map:AddZone(to_wolf_cave_zone);
 
-    seeing_the_exit_zone = hoa_map.CameraZone(99, 122, 80, 96, hoa_map.MapMode.CONTEXT_01);
+    seeing_the_exit_zone = hoa_map.CameraZone(99, 122, 80, 96);
     Map:AddZone(seeing_the_exit_zone);
 end
 

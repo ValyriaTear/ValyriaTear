@@ -38,7 +38,6 @@ function CreateTreasure(Map, save_name, name, x, y)
         treasures[name].opening_animation_filename,
         treasures[name].opened_animation_filename);
     treasure:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    treasure:SetContext(hoa_map.MapMode.CONTEXT_01);
     treasure:SetPosition(x, y);
     treasure:SetCollHalfWidth(treasures[name].coll_half_width);
     treasure:SetCollHeight(treasures[name].coll_height);

@@ -30,86 +30,9 @@ namespace hoa_map
 namespace private_map
 {
 
-//! \brief  Gives back the correct MAP_CONTEXT bitmask values
-//! corresponding to the given context id.
-MAP_CONTEXT GetContextMaskFromContextId(uint32 id)
-{
-    switch(id) {
-    case 0:
-        return MAP_CONTEXT_01;
-    case 1:
-        return MAP_CONTEXT_02;
-    case 2:
-        return MAP_CONTEXT_03;
-    case 3:
-        return MAP_CONTEXT_04;
-    case 4:
-        return MAP_CONTEXT_05;
-    case 5:
-        return MAP_CONTEXT_06;
-    case 6:
-        return MAP_CONTEXT_07;
-    case 7:
-        return MAP_CONTEXT_08;
-    case 8:
-        return MAP_CONTEXT_09;
-    case 9:
-        return MAP_CONTEXT_10;
-    case 10:
-        return MAP_CONTEXT_11;
-    case 11:
-        return MAP_CONTEXT_12;
-    case 12:
-        return MAP_CONTEXT_13;
-    case 13:
-        return MAP_CONTEXT_14;
-    case 14:
-        return MAP_CONTEXT_15;
-    case 15:
-        return MAP_CONTEXT_16;
-    case 16:
-        return MAP_CONTEXT_17;
-    case 17:
-        return MAP_CONTEXT_18;
-    case 18:
-        return MAP_CONTEXT_19;
-    case 19:
-        return MAP_CONTEXT_20;
-    case 20:
-        return MAP_CONTEXT_21;
-    case 21:
-        return MAP_CONTEXT_22;
-    case 22:
-        return MAP_CONTEXT_23;
-    case 23:
-        return MAP_CONTEXT_24;
-    case 24:
-        return MAP_CONTEXT_25;
-    case 25:
-        return MAP_CONTEXT_26;
-    case 26:
-        return MAP_CONTEXT_27;
-    case 27:
-        return MAP_CONTEXT_28;
-    case 28:
-        return MAP_CONTEXT_29;
-    case 29:
-        return MAP_CONTEXT_30;
-    case 30:
-        return MAP_CONTEXT_31;
-    case 31:
-        return MAP_CONTEXT_32;
-    default:
-        break;
-    }
-    return MAP_CONTEXT_NONE;
-}
-
 TileSupervisor::TileSupervisor() :
     _num_tile_on_x_axis(0),
-    _num_tile_on_y_axis(0),
-    _ctxt_layers(0),
-    _current_context(MAP_CONTEXT_NONE)
+    _num_tile_on_y_axis(0)
 {}
 
 TileSupervisor::~TileSupervisor()
@@ -139,28 +62,6 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     // Load the map dimensions and do some basic sanity checks
     _num_tile_on_y_axis = map_file.ReadInt("num_tile_rows");
     _num_tile_on_x_axis = map_file.ReadInt("num_tile_cols");
-
-    std::vector<int32> context_inherits;
-    //map_file.ReadUIntVector("context_inherits", context_inherits);
-    map_file.OpenTable("contexts");
-    uint32 num_contexts = map_file.GetTableSize();
-    for(uint32 context_id = 0;  context_id < num_contexts; ++context_id) {
-        map_file.OpenTable(context_id);
-        int32 inheritance = map_file.ReadInt("inherit_from");
-
-        // The base context can't inherit from another one
-        if(context_id == 0)
-            inheritance = -1;
-
-        // A context can't inherit from a context with a higher id, or itself.
-        if((int32)context_id <= inheritance || inheritance < -1)
-            inheritance = -1;
-
-        context_inherits.push_back(inheritance);
-
-        map_file.CloseTable();
-    }
-    map_file.CloseTable(); // contexts
 
     // Load all of the tileset images that are used by this map
 
@@ -194,14 +95,13 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
         return false;
     }
 
-    // Read in the map tile indeces from all tile layers for the base context
+    // Read in the map tile indeces from all tile layers.
     // The indeces stored for the map layers in this file directly correspond to a location within a tileset. Tilesets contain a total of 256 tiles
     // each, so 0-255 correspond to the first tileset, 256-511 the second, etc. The tile location within the tileset is also determined by the index,
     // where the first 16 indeces in the tileset range are the tiles of the first row (left to right), and so on.
 
-    // Create the base context
+    // Clears out the tiles grid
     _tile_grid.clear();
-    _tile_grid.insert(std::make_pair(MAP_CONTEXT_01, Context()));
 
     std::vector<int32> table_x_indeces; // Used to temporarily store a row of table indeces
 
@@ -218,7 +118,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
         map_file.OpenTable(layer_id);
 
         // Add a layer for the base context
-        _tile_grid[MAP_CONTEXT_01].resize(layer_id + 1);
+        _tile_grid.resize(layer_id + 1);
 
         LAYER_TYPE layer_type = getLayerType(map_file.ReadString("type"));
 
@@ -229,10 +129,10 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             continue;
         }
 
-        _tile_grid[MAP_CONTEXT_01][layer_id].layer_type = layer_type;
+        _tile_grid[layer_id].layer_type = layer_type;
 
         // Add the new tile rows (y axis)
-        _tile_grid[MAP_CONTEXT_01][layer_id].tiles.resize(_num_tile_on_y_axis);
+        _tile_grid[layer_id].tiles.resize(_num_tile_on_y_axis);
 
         // Read the tile data
         for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
@@ -255,90 +155,16 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             }
 
             // Prepare the columns (x axis)
-            _tile_grid[MAP_CONTEXT_01][layer_id].tiles[y].resize(_num_tile_on_x_axis);
+            _tile_grid[layer_id].tiles[y].resize(_num_tile_on_x_axis);
 
             for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
-                _tile_grid[MAP_CONTEXT_01][layer_id].tiles[y][x] = table_x_indeces[x];
+                _tile_grid[layer_id].tiles[y][x] = table_x_indeces[x];
             }
         }
         map_file.CloseTable(); // layers[layer_id]
     }
 
     map_file.CloseTable(); // layers
-
-    // Create each additional context for the map by loading its table data
-
-    // Load the tile data for each additional map context
-    for(uint32 ctxt = 1; ctxt < num_contexts; ++ctxt) {
-        MAP_CONTEXT this_context = static_cast<MAP_CONTEXT>(1 << ctxt);
-        std::string context_name = "context_";
-        if(ctxt < 10)  // precede single digit context names with a zero
-            context_name += "0";
-        context_name += NumberToString(ctxt);
-
-        // Check wether the context inhjeritance id is lower than the current one.
-        if(context_inherits[ctxt] >= (int32)ctxt) {
-            PRINT_WARNING << "Invalid context inheritance found for context id: " << ctxt
-                          << ". Permitted values goes from -1 (none) to " << ctxt - 1 << std::endl;
-            continue;
-        }
-
-        // Initialize this context by making a copy of the base map context first, as most contexts re-use many of the same tiles from the base context
-        // If non-inheriting context, start with empty map!
-        if(context_inherits[ctxt] > -1) {
-            _tile_grid.insert(std::make_pair(this_context,
-                                             _tile_grid[GetContextMaskFromContextId(context_inherits[ctxt])]));
-        } else {
-            _tile_grid.insert(std::make_pair(this_context, Context()));
-
-            // Resize the context to have the same size as the base one
-            // The number of layers
-            _tile_grid[this_context].resize(layers_number);
-            // Fro each layer, set up the grid size
-            for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
-                // Type
-                _tile_grid[this_context][layer_id].layer_type = _tile_grid[MAP_CONTEXT_01][layer_id].layer_type;
-                // Height
-                _tile_grid[this_context][layer_id].tiles.resize(_num_tile_on_y_axis);
-                for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
-                    // and width
-                    _tile_grid[this_context][layer_id].tiles[y].assign((size_t)_num_tile_on_x_axis, -1);
-                }
-            }
-        }
-
-        // Read the table corresponding to this context and modify each tile accordingly.
-        // The context table is an array of integer data. The size of this array should be divisible by four, as every consecutive group of four integers in
-        // this table represent one tile context element. The first integer corresponds to the tile layer (0 = lower, 1 = middle, 2 = upper), the second
-        // and third represent the row and column of the tile respectively, and the fourth value indicates which tile image should be used for this context.
-        // So if the first four entries in the context table were {0, 12, 26, 180}, this would set the lower layer tile at position (12, 26) to the tile
-        // index 180.
-        std::vector<int32> context_data;
-        map_file.ReadIntVector(context_name, context_data);
-        if(context_data.size() % 4 != 0) {
-            PRINT_WARNING <<  ", context data was not evenly divisible by four (incomplete context data)"
-                          << " in context: " << this_context << std::endl;
-            continue;
-        }
-
-        for(uint32 j = 0; j < context_data.size(); j += 4) {
-            int32 layer_id = context_data[j];
-            int32 y = context_data[j + 1];
-            int32 x = context_data[j + 2];
-            int32 tile_id = context_data[j + 3];
-
-            if(y >= _num_tile_on_y_axis ||
-                    x >= _num_tile_on_x_axis ||
-                    layer_id >= (int32)_tile_grid[this_context].size()) {
-                PRINT_WARNING << "Invalid context data found for context: " << this_context << ": layer id: " << layer_id
-                              << ", x: " << x << ", y: " << y << std::endl;
-                continue;
-            }
-
-            _tile_grid[this_context][layer_id].tiles[y][x] = tile_id;
-        }
-    } // for (uint32 ctxt = 1; ctxt < map_instance->_num_map_contexts; ++ctxt)
-
 
     // Determine which tiles in each tileset are referenced in this map
 
@@ -347,18 +173,13 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     // Set size to be equal to the total number of tiles and initialize all entries to -1 (unreferenced)
     tile_references.assign(tileset_filenames.size() * TILES_PER_TILESET, -1);
 
-    std::map<MAP_CONTEXT, Context>::const_iterator it = _tile_grid.begin();
-    std::map<MAP_CONTEXT, Context>::const_iterator it_end = _tile_grid.end();
-    // For each context
-    for(; it != it_end; ++it) {
-        // For each layer
-        for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
-            // For each tile id
-            for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
-                for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
-                    if((it->second)[layer_id].tiles[y][x] >= 0)
-                        tile_references[(it->second)[layer_id].tiles[y][x] ] = 0;
-                }
+    // For each layer
+    for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
+        // For each tile id
+        for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
+            for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
+                if(_tile_grid[layer_id].tiles[y][x] >= 0)
+                    tile_references[_tile_grid[layer_id].tiles[y][x] ] = 0;
             }
         }
     }
@@ -380,18 +201,13 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     }
 
     // Now, go back and re-assign all tile layer indeces with the translated indeces
-    std::map<MAP_CONTEXT, Context>::iterator it2 = _tile_grid.begin();
-    std::map<MAP_CONTEXT, Context>::iterator it2_end = _tile_grid.end();
-    // For each context
-    for(; it2 != it2_end; ++it2) {
-        // For each layer
-        for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
-            // For each tile id
-            for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
-                for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
-                    if((it2->second)[layer_id].tiles[y][x] >= 0)
-                        (it2->second)[layer_id].tiles[y][x] = tile_references[(it2->second)[layer_id].tiles[y][x] ];
-                }
+    // For each layer
+    for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
+        // For each tile id
+        for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
+            for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
+                if(_tile_grid[layer_id].tiles[y][x] >= 0)
+                    _tile_grid[layer_id].tiles[y][x] = tile_references[_tile_grid[layer_id].tiles[y][x] ];
             }
         }
     }
@@ -408,7 +224,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     for(uint32 i = 0; i < tileset_filenames.size(); i++) {
         if(tileset_script.OpenFile("dat/tilesets/" + tileset_filenames[i] + ".lua") == false) {
             PRINT_ERROR << "map failed to load because it could not open a tileset definition file: " << tileset_script.GetFilename() << std::endl;
-            exit(1);
+            exit(EXIT_FAILURE);
         }
         tileset_script.OpenTable(tileset_filenames[i]);
 
@@ -482,26 +298,11 @@ void TileSupervisor::Update()
     for(uint32 i = 0; i < _animated_tile_images.size(); i++) {
         _animated_tile_images[i]->Update();
     }
-
-    // When the context changes, reset the layers pointer
-    // TODO: Only do that when the camera is changed or when the camera changes context.
-    MAP_CONTEXT context = MapMode::CurrentInstance()->GetCurrentContext();
-    if(_current_context != context) {
-        std::map<MAP_CONTEXT, Context>::iterator it = _tile_grid.find(context);
-        if(it != _tile_grid.end())
-            _ctxt_layers = &it->second;
-        else
-            _ctxt_layers = 0;
-        _current_context = context;
-    }
 }
 
 
 void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_type)
 {
-    if(!_ctxt_layers)
-        return;
-
     // We'll use the top-left positions to render the tiles.
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
@@ -509,9 +310,10 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
     uint32 y_end = static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis);
     uint32 x_end = static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis);
 
-    for(uint32 layer_id = 0; layer_id < _ctxt_layers->size(); ++layer_id) {
+    uint32 layer_number = _tile_grid.size();
+    for(uint32 layer_id = 0; layer_id < layer_number; ++layer_id) {
 
-        const Layer &layer = _ctxt_layers->at(layer_id);
+        const Layer &layer = _tile_grid.at(layer_id);
         if(layer.layer_type != layer_type)
             continue;
 

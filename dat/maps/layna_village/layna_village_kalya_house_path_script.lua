@@ -313,16 +313,16 @@ local kalya_house_small_passage_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = hoa_map.CameraZone(62, 63, 42, 47, hoa_map.MapMode.CONTEXT_01);
+    village_center_zone = hoa_map.CameraZone(62, 63, 42, 47);
     Map:AddZone(village_center_zone);
 
-    kalya_house_exterior_zone = hoa_map.CameraZone(26, 56, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_exterior_zone = hoa_map.CameraZone(26, 56, 0, 2);
     Map:AddZone(kalya_house_exterior_zone);
 
-    grandma_house_entrance_zone = hoa_map.CameraZone(11, 13, 7, 8, hoa_map.MapMode.CONTEXT_01);
+    grandma_house_entrance_zone = hoa_map.CameraZone(11, 13, 7, 8);
     Map:AddZone(grandma_house_entrance_zone);
 
-    kalya_house_small_passage_zone = hoa_map.CameraZone(3, 8, 0, 1, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_small_passage_zone = hoa_map.CameraZone(3, 8, 0, 1);
     Map:AddZone(kalya_house_small_passage_zone);
 end
 

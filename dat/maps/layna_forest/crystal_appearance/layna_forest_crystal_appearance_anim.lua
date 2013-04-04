@@ -89,7 +89,7 @@ function Initialize(map_instance)
 
     -- Load the spring heal effect.
     vortex_effect = hoa_map.ParticleObject("dat/effects/particles/crystal_appearance.lua",
-                                            crystal_position_x, crystal_position_y, hoa_map.MapMode.CONTEXT_01);
+                                            crystal_position_x, crystal_position_y);
 	vortex_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     vortex_effect:Stop(); -- Don't run it until the whole animation starts
     Map:AddSkyObject(vortex_effect);

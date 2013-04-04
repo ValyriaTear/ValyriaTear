@@ -113,7 +113,7 @@ local room_exit_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    room_exit_zone = hoa_map.CameraZone(26, 30, 12, 13, hoa_map.MapMode.CONTEXT_01);
+    room_exit_zone = hoa_map.CameraZone(26, 30, 12, 13);
     Map:AddZone(room_exit_zone);
 end
 

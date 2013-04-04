@@ -135,17 +135,16 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrances
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 59,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add different halo light, representing holes of light coming from the ceiling
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 28, 17,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add the wolfpain necklace, triggering the second battle with the fenrir
     -- As this object is special, we're not using the object catalogue to only load that one once.
     necklace = hoa_map.PhysicalObject();
     necklace:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    necklace:SetContext(hoa_map.MapMode.CONTEXT_01);
     necklace:SetPosition(30, 9);
     necklace:SetCollHalfWidth(0.5);
     necklace:SetCollHeight(1.0);
@@ -157,7 +156,6 @@ function _CreateObjects()
     -- Adds a light tilting to catch the player attention
     light_tilt = hoa_map.PhysicalObject();
     light_tilt:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    light_tilt:SetContext(hoa_map.MapMode.CONTEXT_01);
     light_tilt:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
     light_tilt:SetPosition(30, 9.1);
     light_tilt:SetCollHalfWidth(0.5);
@@ -225,8 +223,7 @@ function _CreateObjects()
     npc:AddDialogueReference(dialogue);
 
     -- Load the spring heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_sp_particle.lua",
-                                            0, 0, hoa_map.MapMode.CONTEXT_01);
+    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_sp_particle.lua", 0, 0);
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
@@ -410,10 +407,10 @@ local to_cave_exit_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_cave_1_2_zone = hoa_map.CameraZone(0, 1, 24, 28, hoa_map.MapMode.CONTEXT_01);
+    to_cave_1_2_zone = hoa_map.CameraZone(0, 1, 24, 28);
     Map:AddZone(to_cave_1_2_zone);
 
-    to_cave_exit_zone = hoa_map.CameraZone(24, 29, 47, 48, hoa_map.MapMode.CONTEXT_01);
+    to_cave_exit_zone = hoa_map.CameraZone(24, 29, 47, 48);
     Map:AddZone(to_cave_exit_zone);
 end
 

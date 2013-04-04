@@ -288,37 +288,33 @@ function _CreateObjects()
     _CreateFire(109, 52);
 
     -- Ambient sounds
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
-    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
     Map:AddAmbientSoundObject(object);
 
     -- Fireflies on water
-    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
-                                    53, 29, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua", 53, 29);
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(object);
 
-    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
-                                    52, 38, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua", 52, 38);
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(object);
-    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
-                                    54, 40, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua", 54, 40);
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(object);
-    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua",
-                                    99, 73, hoa_map.MapMode.CONTEXT_01);
+    object = hoa_map.ParticleObject("dat/effects/particles/fireflies.lua", 99, 73);
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(object);
 end
@@ -329,11 +325,9 @@ function _CreateFire(fire_x, fire_y)
     local object = CreateObject(Map, "Campfire1", fire_x, fire_y);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
-        hoa_video.Color(0.85, 0.32, 0.0, 0.6),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(0.85, 0.32, 0.0, 0.6));
     Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
-        hoa_video.Color(0.99, 1.0, 0.27, 0.2),
-        hoa_map.MapMode.CONTEXT_01);
+        hoa_video.Color(0.99, 1.0, 0.27, 0.2));
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -356,13 +350,13 @@ local to_riverbank_house_entrance_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = hoa_map.CameraZone(89, 105, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    village_center_zone = hoa_map.CameraZone(89, 105, 0, 2);
     Map:AddZone(village_center_zone);
 
-    to_village_entrance_zone = hoa_map.CameraZone(118, 119, 10, 27, hoa_map.MapMode.CONTEXT_01);
+    to_village_entrance_zone = hoa_map.CameraZone(118, 119, 10, 27);
     Map:AddZone(to_village_entrance_zone);
 
-    to_riverbank_house_entrance_zone = hoa_map.CameraZone(96, 100, 46, 47, hoa_map.MapMode.CONTEXT_01);
+    to_riverbank_house_entrance_zone = hoa_map.CameraZone(96, 100, 46, 47);
     Map:AddZone(to_riverbank_house_entrance_zone);
 end
 

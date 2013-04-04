@@ -69,55 +69,6 @@ enum MAP_STATE {
 };
 //@}
 
-
-/** \name Map Context Constants
-*** \brief Constants used to represent all 32 possible map contexts
-***
-*** Note that only one bit is set for each context. This is done so that the collision
-*** grid for all contexts can be stored in a single integer. This also simplifies the
-*** complexity of collision detection for map sprites.
-***
-*** \note Ideally these names would omit the "MAP_" affix. However, doing so creates some naming conflicts
-*** with 64-bit versions of Windows so we cannot. In Lua though, we bind these names without the "MAP_" since
-*** no conflict exists in the Lua environment.
-**/
-enum MAP_CONTEXT {
-    MAP_CONTEXT_NONE  = 0x00000000,
-    MAP_CONTEXT_01    = 0x00000001, // Also known as the base context
-    MAP_CONTEXT_02    = 0x00000002,
-    MAP_CONTEXT_03    = 0x00000004,
-    MAP_CONTEXT_04    = 0x00000008,
-    MAP_CONTEXT_05    = 0x00000010,
-    MAP_CONTEXT_06    = 0x00000020,
-    MAP_CONTEXT_07    = 0x00000040,
-    MAP_CONTEXT_08    = 0x00000080,
-    MAP_CONTEXT_09    = 0x00000100,
-    MAP_CONTEXT_10    = 0x00000200,
-    MAP_CONTEXT_11    = 0x00000400,
-    MAP_CONTEXT_12    = 0x00000800,
-    MAP_CONTEXT_13    = 0x00001000,
-    MAP_CONTEXT_14    = 0x00002000,
-    MAP_CONTEXT_15    = 0x00004000,
-    MAP_CONTEXT_16    = 0x00008000,
-    MAP_CONTEXT_17    = 0x00010000,
-    MAP_CONTEXT_18    = 0x00020000,
-    MAP_CONTEXT_19    = 0x00040000,
-    MAP_CONTEXT_20    = 0x00080000,
-    MAP_CONTEXT_21    = 0x00100000,
-    MAP_CONTEXT_22    = 0x00200000,
-    MAP_CONTEXT_23    = 0x00400000,
-    MAP_CONTEXT_24    = 0x00800000,
-    MAP_CONTEXT_25    = 0x01000000,
-    MAP_CONTEXT_26    = 0x02000000,
-    MAP_CONTEXT_27    = 0x04000000,
-    MAP_CONTEXT_28    = 0x08000000,
-    MAP_CONTEXT_29    = 0x10000000,
-    MAP_CONTEXT_30    = 0x20000000,
-    MAP_CONTEXT_31    = 0x40000000,
-    MAP_CONTEXT_32    = 0x80000000,
-    MAP_CONTEXT_ALL   = 0xFFFFFFFF,
-};
-
 /** \name Map Zone Types
 *** \brief Identifier types for the various classes of map zones
 ***
