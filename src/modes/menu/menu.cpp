@@ -65,19 +65,6 @@ AbstractMenuState::AbstractMenuState(const char *state_name, MenuMode *menu_mode
     _menu_mode(menu_mode),
     _from_state(NULL)
 {
-    // Init the controls parameters.
-    _time_text.SetTextStyle(TextStyle("text22"));
-    _time_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _time_text.SetDimensions(200.0f, 30.0f);
-    _time_text.SetPosition(110.0f, 620.0f);
-
-    _drunes_text.SetTextStyle(TextStyle("text22"));
-    _drunes_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _drunes_text.SetDimensions(200.0f, 30.0f);
-    _drunes_text.SetPosition(110.0f, 650.0f);
-
-    // Display the game time right away
-    _update_of_time = 0;
 }
 
 void AbstractMenuState::Update()
@@ -154,30 +141,7 @@ void AbstractMenuState::Update()
     // update the options for the currently active state
     _menu_mode->_current_menu_state->GetOptions()->Update();
 
-    UpdateTimeAndDrunes();
-}
-
-void AbstractMenuState::UpdateTimeAndDrunes()
-{
-    // Only update the time every 900ms
-    _update_of_time -= (int32) hoa_system::SystemManager->GetUpdateTime();
-    if (_update_of_time > 0)
-        return;
-    _update_of_time = 900;
-
-    std::ostringstream os_time;
-    uint8 hours = SystemManager->GetPlayHours();
-    uint8 minutes = SystemManager->GetPlayMinutes();
-    uint8 seconds = SystemManager->GetPlaySeconds();
-    os_time << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
-    os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
-    os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
-
-    // TODO: hoa_utils::ustring should be able to take const modifiers in its operators....
-    static hoa_utils::ustring time_ustr_base = UTranslate("Time: ");
-    static hoa_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
-    _time_text.SetDisplayText(time_ustr_base + MakeUnicodeString(os_time.str()));
-    _drunes_text.SetDisplayText(drunes_ustr_base + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
+    _menu_mode->UpdateTimeAndDrunes();
 }
 
 void AbstractMenuState::Draw()
@@ -220,134 +184,25 @@ void AbstractMenuState::_OnDrawSideWindow()
     _menu_mode->_character_window3.Draw();
 }
 
-void AbstractMenuState::_DrawEquipmentInfo(hoa_global::GlobalCharacter *character, hoa_global::GlobalObject *obj)
-{
-    //set stat modifier information
-    GLOBAL_INTENSITY intensities[6] = {GLOBAL_INTENSITY_INVALID};
-    if(obj)
-    {
-        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> > &status_modifiers = obj->GetStatusEffects();
-        const size_t N = status_modifiers.size();
-        for(size_t i = 0; i <N; ++i)
-            if(status_modifiers[i].first != GLOBAL_STATUS_INVALID && status_modifiers[i].first < 11)  //ignore the status if it is HP_REGEN or higher
-                intensities[static_cast<size_t>(status_modifiers[i].first) / 2] = status_modifiers[i].second; //status has lower and raise. we simply normalize this
-    }
-
-    VideoManager->Text()->Draw(UTranslate("STR: ") + MakeUnicodeString(NumberToString(character->GetStrength())));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("VIG: ") + MakeUnicodeString(NumberToString(character->GetVigor())));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("FRT: ") + MakeUnicodeString(NumberToString(character->GetFortitude())));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("PRO: ") + MakeUnicodeString(NumberToString(character->GetProtection())));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("AGI: ") + MakeUnicodeString(NumberToString(character->GetAgility())));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("EVD: ") + MakeUnicodeString(NumberToString(character->GetEvade()) + "%"));
-
-    //move to the top of list, over next to the stats and draw the changes
-    VideoManager->MoveRelative(90, -100);
-    for(size_t i = 0; i < 6; ++i)
-    {
-        static ustring minus_indicator = MakeUnicodeString("");     //negative values already have a sign, just need the space padding
-        static ustring plus_indicator = MakeUnicodeString("+");
-        static ustring percent = MakeUnicodeString(("%"));
-
-        if(intensities[i] != GLOBAL_INTENSITY_INVALID && static_cast<int>(intensities[i]) !=0)
-        {
-            ustring change_indicator = (static_cast<int>(intensities[i]) > 0 ? plus_indicator : minus_indicator)
-                + MakeUnicodeString(NumberToString(static_cast<int>(intensities[i])));
-            if(i == 5)  //EVD is a percentage
-                change_indicator += percent;
-            VideoManager->Text()->Draw(change_indicator, static_cast<int>(intensities[i]) > 0 ? Color::green : Color::red );
-        }
-        VideoManager->MoveRelative(0, 20);
-    }
-
-    VideoManager->Move(310, 577);
-
-    VideoManager->Text()->Draw(UTranslate("Current Equipment:"));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Weapon"));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Head"));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Torso"));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(CUTranslate("Equipment|Arm"));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Legs"));
-
-    VideoManager->Move(400, 577);
-
-    VideoManager->MoveRelative(0, 20);
-    GlobalWeapon *wpn = character->GetWeaponEquipped();
-    VideoManager->Text()->Draw(UTranslate("ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetPhysicalAttack() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    GlobalArmor *head_armor = character->GetHeadArmorEquipped();
-    VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetPhysicalDefense() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    GlobalArmor *torso_armor = character->GetTorsoArmorEquipped();
-    VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetPhysicalDefense() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    GlobalArmor *arm_armor = character->GetArmArmorEquipped();
-    VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetPhysicalDefense() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    GlobalArmor *leg_armor = character->GetLegArmorEquipped();
-    VideoManager->Text()->Draw(UTranslate("DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetPhysicalDefense() : 0)));
-
-    VideoManager->Move(550, 577);
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.ATK: ") + MakeUnicodeString(NumberToString(wpn ? wpn->GetMagicalAttack() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(head_armor ? head_armor->GetMagicalDefense() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(torso_armor ? torso_armor->GetMagicalDefense() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(arm_armor ? arm_armor->GetMagicalDefense() : 0)));
-
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("M.DEF: ") + MakeUnicodeString(NumberToString(leg_armor ? leg_armor->GetMagicalDefense() : 0)));
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-}
-
 void AbstractMenuState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150, 580);
+    VideoManager->Move(150.0f, 580.0f);
     // Display Location
     _menu_mode->_locale_name.Draw();
 
     // Draw Played Time
-    _time_text.Draw();
+    _menu_mode->_time_text.Draw();
 
     // Display the current funds that the party has
-    _drunes_text.Draw();
+    _menu_mode->_drunes_text.Draw();
 
     if(!_menu_mode->_locale_graphic.GetFilename().empty()) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(390, 685);
+        VideoManager->Move(390.0f, 685.0f);
         _menu_mode->_locale_graphic.Draw();
     }
 }
@@ -610,12 +465,6 @@ void InventoryState::_DrawBottomMenu()
         GlobalArmor *selected_armor = NULL;
         GlobalWeapon *selected_weapon = NULL;
 
-        ustring equipment_name;
-        uint32 physical_attribute = 0;
-        uint32 magical_attribute = 0;
-
-        uint32 current_phys_attribute = 0;
-        uint32 current_mag_attribute = 0;
         //check the obj_type again to see if its a weapon or armor
         switch(obj_type)
         {
@@ -640,62 +489,17 @@ void InventoryState::_DrawBottomMenu()
                 return;
                 break;
         }
+
+        // TODO: Simplify this.
         if(is_equipable_armor && selected_armor)
         {
             //draw the equipment stats and change info
-            AbstractMenuState::_DrawEquipmentInfo(ch,  static_cast<GlobalObject *>(selected_weapon));
-            equipment_name = selected_armor->GetName();
-            physical_attribute = selected_armor->GetPhysicalDefense();
-            magical_attribute = selected_armor->GetMagicalDefense();
-
-            GlobalArmor *current_armor = NULL;
-            switch(obj_type)
-            {
-                case GLOBAL_OBJECT_LEG_ARMOR:
-                    current_armor = ch->GetLegArmorEquipped();
-                    break;
-                case GLOBAL_OBJECT_HEAD_ARMOR:
-                    current_armor = ch->GetHeadArmorEquipped();
-                    break;
-                case GLOBAL_OBJECT_TORSO_ARMOR:
-                    current_armor = ch->GetTorsoArmorEquipped();
-                    break;
-                case GLOBAL_OBJECT_ARM_ARMOR:
-                    current_armor = ch->GetArmArmorEquipped();
-                    break;
-                default:
-                    break;
-
-            };
-            if(current_armor) {
-                current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMagicalDefense();
-            }
-            //draw the equipment info as armor
-            EquipState::DrawEquipmentInfo(equipment_name,
-                                          false,
-                                          physical_attribute, magical_attribute,
-                                          current_phys_attribute, current_mag_attribute);
+            _menu_mode->DrawEquipmentInfo();
         }
         else if(is_equipable_weapon && selected_weapon)
         {
             //draw the equipment stats and change info
-            AbstractMenuState::_DrawEquipmentInfo(ch, static_cast<GlobalObject *>(selected_weapon));
-            //similar to armor but no need to do location checking
-            equipment_name = selected_weapon->GetName();
-            physical_attribute = selected_weapon->GetPhysicalAttack();
-            magical_attribute = selected_weapon->GetMagicalAttack();
-            GlobalWeapon* current_weapon = ch->GetWeaponEquipped();
-            if(current_weapon)
-            {
-                current_phys_attribute = current_weapon->GetPhysicalAttack();
-                current_mag_attribute = current_weapon->GetMagicalAttack();
-            }
-            //draw the equipment info as a weapon
-            EquipState::DrawEquipmentInfo(equipment_name, true,
-                                          physical_attribute, magical_attribute,
-                                          current_phys_attribute, current_mag_attribute);
-
+            _menu_mode->DrawEquipmentInfo();
         }
         else
         {
@@ -713,7 +517,7 @@ void InventoryState::_DrawBottomMenu()
 void PartyState::_ActiveWindowUpdate()
 {
     _menu_mode->_party_window.Update();
-    UpdateTimeAndDrunes();
+    _menu_mode->UpdateTimeAndDrunes();
 }
 
 bool PartyState::_IsActive()
@@ -868,181 +672,9 @@ void EquipState::_OnDrawMainWindow()
     _menu_mode->_equip_window.Draw();
 }
 
-void EquipState::DrawEquipmentInfo(const ustring &equipment_name,
-                                   bool is_weapon, uint32 physical_attribute,
-                                   uint32 magical_attribute, uint32 current_phys_attribute,
-                                   uint32 current_mag_attribute)
-{
-    // Display the info
-    VideoManager->Move(755, 577);
-    VideoManager->Text()->Draw(equipment_name);
-    VideoManager->MoveRelative(0, 20);
-
-    if (is_weapon)
-        VideoManager->Text()->Draw(UTranslate("ATK:"));
-    else
-        VideoManager->Text()->Draw(UTranslate("DEF:"));
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(physical_attribute)));
-
-    if (physical_attribute - current_phys_attribute != 0) {
-        std::string sign_start;
-        Color text_color;
-        if ((int32)(physical_attribute - current_phys_attribute) > 0) {
-            sign_start = "+";
-            text_color = Color::green;
-        } else {
-            sign_start = "";
-            text_color = Color::red;
-        }
-
-        ustring diff_stat = MakeUnicodeString(sign_start)
-                            + MakeUnicodeString(NumberToString(physical_attribute - current_phys_attribute));
-        VideoManager->MoveRelative(60, 0);
-        VideoManager->Text()->Draw(diff_stat, TextStyle("text22", text_color));
-        VideoManager->MoveRelative(-60, 0);
-    }
-    VideoManager->MoveRelative(0, 20);
-
-    if (is_weapon)
-        VideoManager->Text()->Draw(UTranslate("M.ATK:"));
-    else
-        VideoManager->Text()->Draw(UTranslate("M.DEF:"));
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(MakeUnicodeString(NumberToString(magical_attribute)));
-
-    if (magical_attribute - current_mag_attribute != 0) {
-        std::string sign_start;
-        Color text_color;
-        if ((int32)(magical_attribute - current_mag_attribute) > 0) {
-            sign_start = "+";
-            text_color = Color::green;
-        } else {
-            sign_start = "";
-            text_color = Color::red;
-        }
-
-        ustring diff_stat = MakeUnicodeString(sign_start)
-                            + MakeUnicodeString(NumberToString(magical_attribute - current_mag_attribute));
-        VideoManager->MoveRelative(60, 0);
-        VideoManager->Text()->Draw(diff_stat, TextStyle("text22", text_color));
-        VideoManager->MoveRelative(-60, 0);
-    }
-
-    VideoManager->MoveRelative(0, 20);
-}
-
 void EquipState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
-
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150, 580);
-    GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_menu_mode->_equip_window._char_select.GetSelection()));
-    GlobalObject *obj = NULL;
-    // Show the selected equipment stats (and diff with the current one.)
-    if(_menu_mode->_equip_window._active_box == EQUIP_ACTIVE_LIST) {
-        ustring equipment_name;
-        uint32 physical_attribute = 0;
-        uint32 magical_attribute = 0;
-
-        uint32 current_phys_attribute = 0;
-        uint32 current_mag_attribute = 0;
-
-        switch(_menu_mode->_equip_window._equip_select.GetSelection()) {
-        case EQUIP_WEAPON: {
-            int32 selection = _menu_mode->_equip_window._equip_list.GetSelection();
-            GlobalWeapon *weapon = GlobalManager->GetInventoryWeapons()->at(_menu_mode->_equip_window._equip_list_inv_index.at(selection));
-
-            equipment_name = weapon->GetName();
-            physical_attribute = weapon->GetPhysicalAttack();
-            magical_attribute = weapon->GetMagicalAttack();
-
-            GlobalWeapon *current_wpn = ch->GetWeaponEquipped();
-
-            if(current_wpn) {
-                current_phys_attribute = current_wpn->GetPhysicalAttack();
-                current_mag_attribute = current_wpn->GetMagicalAttack();
-            }
-            obj = static_cast<GlobalObject *>( weapon );
-            break;
-        } // case EQUIP_WEAPON
-        case EQUIP_HEADGEAR: {
-            int32 selection = _menu_mode->_equip_window._equip_list.GetSelection();
-            GlobalArmor *armor = GlobalManager->GetInventoryHeadArmor()->at(_menu_mode->_equip_window._equip_list_inv_index.at(selection));
-
-            equipment_name = armor->GetName();
-            physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMagicalDefense();
-
-            GlobalArmor *current_armor = ch->GetHeadArmorEquipped();
-            if(current_armor) {
-                current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMagicalDefense();
-            }
-            obj = static_cast<GlobalObject *>( armor );
-            break;
-        } // case EQUIP_HEADGEAR
-        case EQUIP_BODYARMOR: {
-            int32 selection = _menu_mode->_equip_window._equip_list.GetSelection();
-            GlobalArmor *armor = GlobalManager->GetInventoryTorsoArmor()->at(_menu_mode->_equip_window._equip_list_inv_index.at(selection));
-
-            equipment_name = armor->GetName();
-            physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMagicalDefense();
-
-            GlobalArmor *current_armor = ch->GetTorsoArmorEquipped();
-            if(current_armor) {
-                current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMagicalDefense();
-            }
-            obj = static_cast<GlobalObject *>( armor );
-            break;
-        } // case EQUIP_BODYARMOR
-        case EQUIP_OFFHAND: {
-            int32 selection = _menu_mode->_equip_window._equip_list.GetSelection();
-            GlobalArmor *armor = GlobalManager->GetInventoryArmArmor()->at(_menu_mode->_equip_window._equip_list_inv_index.at(selection));
-
-            equipment_name = armor->GetName();
-            physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMagicalDefense();
-
-            GlobalArmor *current_armor = ch->GetArmArmorEquipped();
-            if(current_armor) {
-                current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMagicalDefense();
-            }
-
-            obj = static_cast<GlobalObject *>( armor );
-            break;
-        } // case EQUIP_OFFHAND
-        case EQUIP_LEGGINGS: {
-            int32 selection = _menu_mode->_equip_window._equip_list.GetSelection();
-            GlobalArmor *armor = GlobalManager->GetInventoryLegArmor()->at(_menu_mode->_equip_window._equip_list_inv_index.at(selection));
-
-            equipment_name = armor->GetName();
-            physical_attribute = armor->GetPhysicalDefense();
-            magical_attribute = armor->GetMagicalDefense();
-
-            GlobalArmor *current_armor = ch->GetLegArmorEquipped();
-            if(current_armor) {
-                current_phys_attribute = current_armor->GetPhysicalDefense();
-                current_mag_attribute = current_armor->GetMagicalDefense();
-            }
-            obj = static_cast<GlobalObject *>( armor );
-            break;
-        } // case EQUIP_LEGGINGS
-
-        default:
-            break;
-        } // switch
-
-        AbstractMenuState::_DrawEquipmentInfo(ch, obj);
-        DrawEquipmentInfo(equipment_name, _menu_mode->_equip_window._equip_select.GetSelection() == EQUIP_WEAPON,
-                          physical_attribute, magical_attribute, current_phys_attribute, current_mag_attribute);
-
-
-    } // if EQUIP_ACTIVE_LIST
 }
 
 // //////////////////////
@@ -1087,9 +719,7 @@ void QuestState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
     if(_IsActive())
-    {
         _menu_mode->_quest_window.DrawBottom();
-    }
 }
 
 /////////////////////////////////////
@@ -1180,7 +810,7 @@ const uint32 win_start_y = (768 - 600) / 2 + 15;
 const uint32 win_width = 208;
 
 ////////////////////////////////////////////////////////////////////////////////
-// MenuMode class -- Initialization and Destruction Code
+// MenuMode class
 ////////////////////////////////////////////////////////////////////////////////
 
 MenuMode::MenuMode() :
@@ -1191,11 +821,29 @@ MenuMode::MenuMode() :
     _equip_state(this),
     _quests_state(this),
     _world_map_state(this),
-    _message_window(NULL)
+    _message_window(NULL),
+    _object(NULL),
+    _character(NULL),
+    _is_weapon(false),
+    _shard_number(0)
 
 {
     IF_PRINT_WARNING(MENU_DEBUG)
             << "MENU: MenuMode constructor invoked." << std::endl;
+
+    // Init the controls parameters.
+    _time_text.SetTextStyle(TextStyle("text22"));
+    _time_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _time_text.SetDimensions(200.0f, 30.0f);
+    _time_text.SetPosition(110.0f, 620.0f);
+
+    _drunes_text.SetTextStyle(TextStyle("text22"));
+    _drunes_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _drunes_text.SetDimensions(200.0f, 30.0f);
+    _drunes_text.SetPosition(110.0f, 650.0f);
+
+    // Display the game time right away
+    _update_of_time = 0;
 
     _locale_name.SetPosition(win_start_x + 40, win_start_y + 457);
     _locale_name.SetDimensions(500.0f, 50.0f);
@@ -1238,6 +886,11 @@ MenuMode::MenuMode() :
     _help_information.SetTextStyle(TextStyle("text20"));
     _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+
+    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
 
     //////////// Setup the menu windows
     // The character windows
@@ -1308,9 +961,27 @@ MenuMode::MenuMode() :
     _equip_window.Show();
     _quest_window.Show();
     _world_map_window.Show();
+
+    // Init the equipment view members
+    _phys_header.SetStyle(TextStyle("text18"));
+    _mag_header.SetStyle(TextStyle("text18"));
+
+    _phys_stat.SetStyle(TextStyle("text18"));
+    _mag_stat.SetStyle(TextStyle("text18"));
+
+    _object_name.SetStyle(TextStyle("text20"));
+
+    _phys_stat_diff.SetStyle(TextStyle("text18"));
+    _mag_stat_diff.SetStyle(TextStyle("text18"));
+
+    _detailed_stat_header.SetStyle(TextStyle("text18"));
+
+    _det_phys_stat.SetStyle(TextStyle("text18"));
+    _det_mag_stat.SetStyle(TextStyle("text18"));
+
+    _det_phys_stat_diff.SetStyle(TextStyle("text18"));
+    _det_mag_stat_diff.SetStyle(TextStyle("text18"));
 } // MenuMode::MenuMode()
-
-
 
 MenuMode::~MenuMode()
 {
@@ -1338,9 +1009,28 @@ MenuMode::~MenuMode()
         delete _message_window;
 } // MenuMode::~MenuMode()
 
-////////////////////////////////////////////////////////////////////////////////
-// MenuMode class -- Update Code
-////////////////////////////////////////////////////////////////////////////////
+void MenuMode::UpdateTimeAndDrunes()
+{
+    // Only update the time every 900ms
+    _update_of_time -= (int32) hoa_system::SystemManager->GetUpdateTime();
+    if (_update_of_time > 0)
+        return;
+    _update_of_time = 900;
+
+    std::ostringstream os_time;
+    uint8 hours = SystemManager->GetPlayHours();
+    uint8 minutes = SystemManager->GetPlayMinutes();
+    uint8 seconds = SystemManager->GetPlaySeconds();
+    os_time << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
+    os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
+    os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
+
+    // TODO: hoa_utils::ustring should be able to take const modifiers in its operators....
+    static hoa_utils::ustring time_ustr_base = UTranslate("Time: ");
+    static hoa_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
+    _time_text.SetDisplayText(time_ustr_base + MakeUnicodeString(os_time.str()));
+    _drunes_text.SetDisplayText(drunes_ustr_base + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
+}
 
 void MenuMode::Update()
 {
@@ -1366,17 +1056,217 @@ void MenuMode::Update()
 
 } // void MenuMode::Update()
 
-////////////////////////////////////////////////////////////////////////////////
-// MenuMode class -- Draw Code
-////////////////////////////////////////////////////////////////////////////////
+void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *object)
+{
+    _character = character;
+
+    // Only update when necessary
+    if (_object == object)
+        return;
+    _object = object;
+
+    // Clear the corresponding texts when there is no corresponding data
+    if (!_object) {
+        _object_name.Clear();
+        _elemental_icons.clear();
+        _status_icons.clear();
+        _shard_number = 0;
+
+        _phys_header.Clear();
+        _mag_header.Clear();
+        _phys_stat.Clear();
+        _mag_stat.Clear();
+    }
+
+    if (!_character) {
+        _phys_stat_diff.Clear();
+        _mag_stat_diff.Clear();
+
+        _detailed_stat_header.Clear();
+
+        _det_phys_stat.Clear();
+        _det_mag_stat.Clear();
+
+        _det_phys_stat_diff.Clear();
+        _det_mag_stat_diff.Clear();
+    }
+
+    // If there is no object, we can return here.
+    if (!_object)
+        return;
+
+    _object_name.SetText(_object->GetName());
+
+    // Loads elemental icons
+    const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& elemental_effects = _object->GetElementalEffects();
+    _elemental_icons.clear();
+    for(std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
+            it != elemental_effects.end(); ++it) {
+        if(it->second != GLOBAL_INTENSITY_NEUTRAL)
+            _elemental_icons.push_back(GlobalManager->Media().GetElementalIcon(it->first, it->second));
+    }
+
+    // Loads status effects.
+    const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects = _object->GetStatusEffects();
+    _status_icons.clear();
+    for(std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >::const_iterator it = status_effects.begin();
+            it != status_effects.end(); ++it) {
+        if(it->second != GLOBAL_INTENSITY_NEUTRAL)
+            _status_icons.push_back(GlobalManager->Media().GetStatusIcon(it->first, it->second));
+    }
+
+    uint32 equip_phys_stat = 0;
+    uint32 equip_mag_stat = 0;
+
+    switch (_object->GetObjectType()) {
+        default: // Should never happen
+            return;
+        case GLOBAL_OBJECT_WEAPON: {
+            _is_weapon = true;
+            GlobalWeapon* wpn = dynamic_cast<GlobalWeapon *>(_object);
+            _shard_number = wpn->GetShardSlots().size();
+            equip_phys_stat = wpn->GetPhysicalAttack();
+            equip_mag_stat = wpn->GetMagicalAttack();
+            break;
+        }
+
+        case GLOBAL_OBJECT_HEAD_ARMOR:
+        case GLOBAL_OBJECT_TORSO_ARMOR:
+        case GLOBAL_OBJECT_ARM_ARMOR:
+        case GLOBAL_OBJECT_LEG_ARMOR:
+        {
+            _is_weapon = false;
+            GlobalArmor* armor = dynamic_cast<GlobalArmor *>(_object);
+            _shard_number = armor->GetShardSlots().size();
+            equip_phys_stat = armor->GetPhysicalDefense();
+            equip_mag_stat = armor->GetMagicalDefense();
+            break;
+        }
+    }
+
+    if (_is_weapon) {
+        _phys_header.SetText(UTranslate("ATK:"));
+        _mag_header.SetText(UTranslate("M.ATK:"));
+    }
+    else {
+        _phys_header.SetText(UTranslate("DEF:"));
+        _mag_header.SetText(UTranslate("M.DEF:"));
+    }
+
+    _phys_stat.SetText(NumberToString(equip_phys_stat));
+    _mag_stat.SetText(NumberToString(equip_mag_stat));
+
+    // We can stop here if there is no valid character
+    if (!_character)
+        return;
+
+    // TODO: Deal with character detail stats and diffs.
+    /*
+    //! \brief The overall atk/def diff with current equipment
+    hoa_video::TextImage _phys_stat_diff;
+    hoa_video::TextImage _mag_stat_diff;
+    hoa_video::Color _phys_diff_color;
+    hoa_video::Color _mag_diff_color;
+
+    //! \brief detailed stat header
+    hoa_video::TextImage _detailed_stat_header;
+
+    hoa_video::TextImage _det_phys_stat;
+    hoa_video::TextImage _det_mag_stat;
+
+    //! \brief The detailed atk/def diff with current equipment
+    hoa_video::TextImage _det_phys_stat_diff;
+    hoa_video::TextImage _det_mag_stat_diff;
+    */
+}
+
 void MenuMode::Draw()
 {
     _current_menu_state->Draw();
 
-    if(_message_window != NULL)
+    if(_message_window)
         _message_window->Draw();
 } // void MenuMode::Draw()
 
+
+void MenuMode::DrawEquipmentInfo()
+{
+    if (!_object)
+        return;
+
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
+    VideoManager->Move(100.0f, 560.0f);
+    _object_name.Draw();
+
+    VideoManager->MoveRelative(0.0f, 30.0f);
+    const StillImage& obj_icon = _object->GetIconImage();
+    obj_icon.Draw();
+
+    // Key item/shard part
+    if (_object->IsKeyItem()) {
+        int32 key_pos_x = obj_icon.GetWidth() - _key_item_icon->GetWidth() - 3;
+        int32 key_pos_y = obj_icon.GetHeight() - _key_item_icon->GetHeight() - 3;
+        VideoManager->MoveRelative(key_pos_x, key_pos_y);
+        _key_item_icon->Draw();
+        VideoManager->MoveRelative(-key_pos_x, -key_pos_y);
+    }
+
+    // Draw weapon stats
+    VideoManager->MoveRelative(70.0f, 0.0f);
+    if (_is_weapon)
+        _atk_icon->Draw();
+    else
+        _def_icon->Draw();
+    VideoManager->MoveRelative(25.0f, 0.0f);
+    _phys_header.Draw();
+
+    VideoManager->MoveRelative(-25.0f, 30.0f);
+    if (_is_weapon)
+        _matk_icon->Draw();
+    else
+        _mdef_icon->Draw();
+    VideoManager->MoveRelative(25.0f, 0.0f);
+    _mag_header.Draw();
+
+    VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
+    VideoManager->MoveRelative(110.0f, -30.0f);
+    _phys_stat.Draw();
+    VideoManager->MoveRelative(0.0f, 30.0f);
+    _mag_stat.Draw();
+
+    // Draw diff with current weapon stat, if any
+    VideoManager->MoveRelative(50.0f, -30.0f);
+    _phys_stat_diff.Draw(_phys_diff_color);
+    VideoManager->MoveRelative(0.0f, 30.0f);
+    _mag_stat_diff.Draw(_mag_diff_color);
+
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
+    VideoManager->MoveRelative(20.0f, 0.0f);
+    for (uint32 i = 0; i < _shard_number; ++i) {
+        _shard_icon->Draw();
+        VideoManager->MoveRelative(15.0f , 0.0f);
+    }
+    VideoManager->MoveRelative(-15.0f * (_shard_number > 5.0f ? 5.0f : _shard_number) , -35.0f);
+
+    // Draw elemental effect icons
+    uint32 element_size = _elemental_icons.size();
+    VideoManager->MoveRelative((18.0f * element_size) - 12.0f, 0.0f);
+    for(uint32 i = 0; i < element_size; ++i) {
+        _elemental_icons[i]->Draw();
+        VideoManager->MoveRelative(-18.0f, 0.0f);
+    }
+    VideoManager->MoveRelative(0.0f, -25.0f);
+
+    // Draw status effects icons
+    element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    VideoManager->MoveRelative((18.0f * element_size), 0.0f);
+    for(uint32 i = 0; i < element_size; ++i) {
+        _status_icons[i]->Draw();
+        VideoManager->MoveRelative(-18.0f, 0.0f);
+    }
+
+    // TODO: Draw detailed character defense diffs
+}
 
 void MenuMode::ReloadCharacterWindows()
 {

@@ -177,6 +177,20 @@ public:
         if(_colors[3] > 1.0f) _colors[3] = 1.0f;
         else if(_colors[3] < 0.0f) _colors[3] = 0.0f;
     }
+
+    void SetColor(float r, float g, float b, float alpha) {
+        SetRed(r);
+        SetGreen(g);
+        SetBlue(b);
+        SetAlpha(alpha);
+    }
+
+    void SetColor(const Color& c) {
+        SetRed(c.GetRed());
+        SetGreen(c.GetGreen());
+        SetBlue(c.GetBlue());
+        SetAlpha(c.GetAlpha());
+    }
     //@}
 
 private:

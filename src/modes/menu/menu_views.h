@@ -41,11 +41,11 @@ namespace private_menu
 enum ITEM_CATEGORY {
     ITEM_ALL = 0,
     ITEM_ITEM = 1,
-    ITEM_WEAPONS = 2,
+    ITEM_WEAPON = 2,
     ITEM_HEAD_ARMOR = 3,
     ITEM_TORSO_ARMOR = 4,
-    ITEM_ARM_ARMOR = 5,
-    ITEM_LEG_ARMOR = 6,
+    ITEM_ARMS_ARMOR = 5,
+    ITEM_LEGS_ARMOR = 6,
     ITEM_KEY = 7,
     ITEM_CATEGORY_SIZE = 8
 };
@@ -61,10 +61,10 @@ enum SKILL_CATEGORY {
 //! \brief The different equipment categories
 enum EQUIP_CATEGORY {
     EQUIP_WEAPON = 0,
-    EQUIP_HEADGEAR = 1,
-    EQUIP_BODYARMOR = 2,
-    EQUIP_OFFHAND = 3,
-    EQUIP_LEGGINGS = 4,
+    EQUIP_HEAD = 1,
+    EQUIP_TORSO = 2,
+    EQUIP_ARMS = 3,
+    EQUIP_LEGS = 4,
     EQUIP_CATEGORY_SIZE = 5
 };
 
@@ -509,25 +509,33 @@ private:
     //! equipment images
     std::vector<hoa_video::StillImage> _equip_images;
 
-    /*!
-    * \brief Set up char selector
-    */
+    //! \brief The current character the equip window is dealing with.
+    hoa_global::GlobalCharacter* _character;
+
+    //! \brief The current object the equip window is dealing with.
+    hoa_global::GlobalObject* _object;
+
+    //! \brief The different labels
+    hoa_video::TextImage _weapon_label;
+    hoa_video::TextImage _head_label;
+    hoa_video::TextImage _torso_label;
+    hoa_video::TextImage _arms_label;
+    hoa_video::TextImage _legs_label;
+
+    //! \brief Set up char selector
     void _InitCharSelect();
 
-    /*!
-    * \brief Set up equipment selector
-    */
+    //! \brief Set up equipment selector
     void _InitEquipmentSelect();
 
-    /*!
-    * \brief Set up replacement selector
-    */
+    //! \brief Set up replacement selector
     void _InitEquipmentList();
 
-    /*!
-    * \brief Updates the equipment list
-    */
+    //! \brief Updates the equipment list
     void _UpdateEquipList();
+
+    //! \brief Updates the selected object
+    void _UpdateSelectedObject();
 
 }; // class EquipWindow : public hoa_video::MenuWindow
 

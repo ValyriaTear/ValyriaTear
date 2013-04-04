@@ -227,7 +227,7 @@ void InventoryWindow::Activate(bool new_status)
         // Update cursor state
         _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     } else {
-        //FIX ME: Play N/A noise
+        GlobalManager->Media().PlaySound("bump");
         _active_box = ITEM_ACTIVE_NONE;
         _item_categories.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
         _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
@@ -531,7 +531,7 @@ void InventoryWindow::_UpdateItemText()
             _item_objects = _GetItemVector(GlobalManager->GetInventoryItems());
             break;
 
-        case ITEM_WEAPONS:
+        case ITEM_WEAPON:
             _item_objects = _GetItemVector(GlobalManager->GetInventoryWeapons());
             break;
 
@@ -543,11 +543,11 @@ void InventoryWindow::_UpdateItemText()
             _item_objects = _GetItemVector(GlobalManager->GetInventoryTorsoArmor());
             break;
 
-        case ITEM_ARM_ARMOR:
+        case ITEM_ARMS_ARMOR:
             _item_objects = _GetItemVector(GlobalManager->GetInventoryArmArmor());
             break;
 
-        case ITEM_LEG_ARMOR:
+        case ITEM_LEGS_ARMOR:
             _item_objects = _GetItemVector(GlobalManager->GetInventoryLegArmor());
             break;
 
@@ -1392,8 +1392,21 @@ void SkillsWindow::Draw()
 ////////////////////////////////////////////////////////////////////////////////
 
 EquipWindow::EquipWindow() :
-    _active_box(EQUIP_ACTIVE_NONE)
+    _active_box(EQUIP_ACTIVE_NONE),
+    _character(NULL)
 {
+    // Init the labels
+    _weapon_label.SetStyle(TextStyle("text20"));
+    _weapon_label.SetText(UTranslate("Weapon"));
+    _head_label.SetStyle(TextStyle("text20"));
+    _head_label.SetText(UTranslate("Head"));
+    _torso_label.SetStyle(TextStyle("text20"));
+    _torso_label.SetText(UTranslate("Torso"));
+    _arms_label.SetStyle(TextStyle("text20"));
+    _arms_label.SetText(UTranslate("Arms"));
+    _legs_label.SetStyle(TextStyle("text20"));
+    _legs_label.SetText(UTranslate("Legs"));
+
     // Initialize option boxes
     _InitCharSelect();
     _InitEquipmentSelect();
@@ -1463,6 +1476,8 @@ void EquipWindow::_InitCharSelect()
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
+    _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+
 } // void EquipWindow::InitCharSelect()
 
 
@@ -1523,6 +1538,10 @@ void EquipWindow::Update()
         active_option->InputDown();
     }
 
+    // update the concerned character on each change
+    if (InputManager->AnyKeyPress())
+        _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+
     uint32 event = active_option->GetEvent();
     active_option->Update();
     switch(_active_box) {
@@ -1557,23 +1576,22 @@ void EquipWindow::Update()
                 }
             } // Unequip mode
             else {
-                GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
                 switch(_equip_select.GetSelection()) {
                     // Unequip and return the old weapon to inventory
                 case EQUIP_WEAPON:
-                    GlobalManager->AddToInventory(ch->EquipWeapon(NULL));
+                    GlobalManager->AddToInventory(_character->EquipWeapon(NULL));
                     break;
-                case EQUIP_HEADGEAR:
-                    GlobalManager->AddToInventory(ch->EquipHeadArmor(NULL));
+                case EQUIP_HEAD:
+                    GlobalManager->AddToInventory(_character->EquipHeadArmor(NULL));
                     break;
-                case EQUIP_BODYARMOR:
-                    GlobalManager->AddToInventory(ch->EquipTorsoArmor(NULL));
+                case EQUIP_TORSO:
+                    GlobalManager->AddToInventory(_character->EquipTorsoArmor(NULL));
                     break;
-                case EQUIP_OFFHAND:
-                    GlobalManager->AddToInventory(ch->EquipArmArmor(NULL));
+                case EQUIP_ARMS:
+                    GlobalManager->AddToInventory(_character->EquipArmArmor(NULL));
                     break;
-                case EQUIP_LEGGINGS:
-                    GlobalManager->AddToInventory(ch->EquipLegArmor(NULL));
+                case EQUIP_LEGS:
+                    GlobalManager->AddToInventory(_character->EquipLegArmor(NULL));
                     break;
                 default:
                     PRINT_WARNING << "Unequip slot is invalid: " << _equip_select.GetSelection() << std::endl;
@@ -1592,7 +1610,6 @@ void EquipWindow::Update()
     // Choose replacement when equipping
     case EQUIP_ACTIVE_LIST:
         if(event == VIDEO_OPTION_CONFIRM) {
-            GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
             // Equipment global Id.
             uint32 id_num = 0;
             // Get the actual inventory index.
@@ -1601,53 +1618,53 @@ void EquipWindow::Update()
             switch(_equip_select.GetSelection()) {
             case EQUIP_WEAPON: {
                 GlobalWeapon *wpn = GlobalManager->GetInventoryWeapons()->at(inventory_id);
-                if(wpn->GetUsableBy() & ch->GetID()) {
+                if(wpn->GetUsableBy() & _character->GetID()) {
                     id_num = wpn->GetID();
-                    GlobalManager->AddToInventory(ch->EquipWeapon((GlobalWeapon *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipWeapon((GlobalWeapon *)GlobalManager->RetrieveFromInventory(id_num)));
                 } else {
                     media.PlaySound("cancel");
                 }
                 break;
             }
 
-            case EQUIP_HEADGEAR: {
+            case EQUIP_HEAD: {
                 GlobalArmor *hlm = GlobalManager->GetInventoryHeadArmor()->at(inventory_id);
-                if(hlm->GetUsableBy() & ch->GetID()) {
+                if(hlm->GetUsableBy() & _character->GetID()) {
                     id_num = hlm->GetID();
-                    GlobalManager->AddToInventory(ch->EquipHeadArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipHeadArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
                 } else {
                     media.PlaySound("cancel");
                 }
                 break;
             }
 
-            case EQUIP_BODYARMOR: {
+            case EQUIP_TORSO: {
                 GlobalArmor *arm = GlobalManager->GetInventoryTorsoArmor()->at(inventory_id);
-                if(arm->GetUsableBy() & ch->GetID()) {
+                if(arm->GetUsableBy() & _character->GetID()) {
                     id_num = arm->GetID();
-                    GlobalManager->AddToInventory(ch->EquipTorsoArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipTorsoArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
                 } else {
                     media.PlaySound("cancel");
                 }
                 break;
             }
 
-            case EQUIP_OFFHAND: {
+            case EQUIP_ARMS: {
                 GlobalArmor *shld = GlobalManager->GetInventoryArmArmor()->at(inventory_id);
-                if(shld->GetUsableBy() & ch->GetID()) {
+                if(shld->GetUsableBy() & _character->GetID()) {
                     id_num = shld->GetID();
-                    GlobalManager->AddToInventory(ch->EquipArmArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipArmArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
                 } else {
                     media.PlaySound("cancel");
                 }
                 break;
             }
 
-            case EQUIP_LEGGINGS: {
+            case EQUIP_LEGS: {
                 GlobalArmor *lgs = GlobalManager->GetInventoryLegArmor()->at(inventory_id);
-                if(lgs->GetUsableBy() & ch->GetID()) {
+                if(lgs->GetUsableBy() & _character->GetID()) {
                     id_num = lgs->GetID();
-                    GlobalManager->AddToInventory(ch->EquipLegArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipLegArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1675,13 +1692,13 @@ void EquipWindow::Update()
     } // switch _active_box
 
     _UpdateEquipList();
+    _UpdateSelectedObject();
 } // void EquipWindow::Update()
 
 
 
 void EquipWindow::_UpdateEquipList()
 {
-    GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
     std::vector<ustring> options;
 
     if(_active_box == EQUIP_ACTIVE_LIST) {
@@ -1692,16 +1709,16 @@ void EquipWindow::_UpdateEquipList()
         case EQUIP_WEAPON:
             equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryWeapons());
             break;
-        case EQUIP_HEADGEAR:
+        case EQUIP_HEAD:
             equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryHeadArmor());
             break;
-        case EQUIP_BODYARMOR:
+        case EQUIP_TORSO:
             equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryTorsoArmor());
             break;
-        case EQUIP_OFFHAND:
+        case EQUIP_ARMS:
             equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryArmArmor());
             break;
-        case EQUIP_LEGGINGS:
+        case EQUIP_LEGS:
             equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryLegArmor());
             break;
         } // switch
@@ -1723,7 +1740,7 @@ void EquipWindow::_UpdateEquipList()
             }
 
             // If the character can't equip the item, don't show it.
-            if(_equip && !(usability_bitmask & ch->GetID()))
+            if(_equip && !(usability_bitmask & _character->GetID()))
                 continue;
 
             options.push_back(MakeUnicodeString("<") +
@@ -1743,23 +1760,23 @@ void EquipWindow::_UpdateEquipList()
         _equip_images.clear();
         StillImage i;
 
-        GlobalWeapon *wpn = ch->GetWeaponEquipped();
+        GlobalWeapon *wpn = _character->GetWeaponEquipped();
         i.Load(wpn ? wpn->GetIconImage().GetFilename() : "img/icons/weapons/fist-human.png");
         _equip_images.push_back(i);
 
-        GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
+        GlobalArmor *head_armor = _character->GetHeadArmorEquipped();
         i.Load(head_armor ? head_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 
-        GlobalArmor *torso_armor = ch->GetTorsoArmorEquipped();
+        GlobalArmor *torso_armor = _character->GetTorsoArmorEquipped();
         i.Load(torso_armor ? torso_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 
-        GlobalArmor *arm_armor = ch->GetArmArmorEquipped();
+        GlobalArmor *arm_armor = _character->GetArmArmorEquipped();
         i.Load(arm_armor ? arm_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 
-        GlobalArmor *leg_armor = ch->GetLegArmorEquipped();
+        GlobalArmor *leg_armor = _character->GetLegArmorEquipped();
         i.Load(leg_armor ? leg_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 
@@ -1767,20 +1784,100 @@ void EquipWindow::_UpdateEquipList()
         options.push_back(wpn ? wpn->GetName() : UTranslate("No weapon"));
         options.push_back(head_armor ? head_armor->GetName() : UTranslate("No head armor"));
         options.push_back(torso_armor ? torso_armor->GetName() : UTranslate("No torso armor"));
-        options.push_back(arm_armor ? arm_armor->GetName() : UTranslate("No arm armor"));
-        options.push_back(leg_armor ? leg_armor->GetName() : UTranslate("No leg armor"));
+        options.push_back(arm_armor ? arm_armor->GetName() : UTranslate("No arms armor"));
+        options.push_back(leg_armor ? leg_armor->GetName() : UTranslate("No legs armor"));
 
         _equip_select.SetOptions(options);
     }
 
 } // void EquipWindow::UpdateEquipList()
 
+void EquipWindow::_UpdateSelectedObject()
+{
+    // Don't show anything when there is no item selected
+    if (_active_box == EQUIP_ACTIVE_CHAR || _active_box == EQUIP_ACTIVE_NONE) {
+        _object = NULL;
+        return;
+    }
 
+    // Only updates when some input is handled.
+    if (!InputManager->AnyKeyPress())
+        return;
+
+    // We're listing the character's equipment.
+    // Let's use the character object.
+    if (_active_box == EQUIP_ACTIVE_SELECT) {
+
+        switch (_equip_select.GetSelection()) {
+            default:
+                // Should never happen
+                _object = NULL;
+                break;
+            case EQUIP_WEAPON:
+                _object = _character->GetWeaponEquipped();
+                break;
+            case EQUIP_HEAD:
+                _object = _character->GetHeadArmorEquipped();
+                break;
+            case EQUIP_TORSO:
+                _object = _character->GetTorsoArmorEquipped();
+                break;
+            case EQUIP_ARMS:
+                _object = _character->GetArmArmorEquipped();
+                break;
+            case EQUIP_LEGS:
+                _object = _character->GetLegArmorEquipped();
+                break;
+        }
+        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object);
+        return;
+    }
+
+    // EQUIP_ACTIVE_LIST, we're choosing a new piece of equipment.
+
+    // Get the actual inventory index.
+    uint32 inventory_id = _equip_list_inv_index[_equip_list.GetSelection()];
+
+    switch(_equip_select.GetSelection()) {
+        default:
+            // Should never happen
+            _object = NULL;
+            return;
+            break;
+
+        case EQUIP_WEAPON: {
+            _object = GlobalManager->GetInventoryWeapons()->at(inventory_id);
+            break;
+        }
+
+        case EQUIP_HEAD: {
+            _object = GlobalManager->GetInventoryHeadArmor()->at(inventory_id);
+            break;
+        }
+
+        case EQUIP_TORSO: {
+            _object = GlobalManager->GetInventoryTorsoArmor()->at(inventory_id);
+            break;
+        }
+
+        case EQUIP_ARMS: {
+            _object = GlobalManager->GetInventoryArmArmor()->at(inventory_id);
+            break;
+        }
+
+        case EQUIP_LEGS: {
+            _object = GlobalManager->GetInventoryLegArmor()->at(inventory_id);
+            break;
+        }
+    }
+
+    // We now update equipment info
+    MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object);
+}
 
 void EquipWindow::Draw()
 {
     MenuWindow::Draw();
-    _UpdateEquipList();
 
     //Draw option boxes
     _char_select.Draw();
@@ -1791,44 +1888,48 @@ void EquipWindow::Draw()
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
         switch(_equip_select.GetSelection()) {
         case EQUIP_WEAPON:
-            VideoManager->Text()->Draw(UTranslate("Weapons"));
+            _weapon_label.Draw();
             break;
-        case EQUIP_HEADGEAR:
-            VideoManager->Text()->Draw(UTranslate("Headgear"));
+        case EQUIP_HEAD:
+            _head_label.Draw();
             break;
-        case EQUIP_BODYARMOR:
-            VideoManager->Text()->Draw(UTranslate("Body Armor"));
+        case EQUIP_TORSO:
+            _torso_label.Draw();
             break;
-        case EQUIP_OFFHAND:
-            VideoManager->Text()->Draw(UTranslate("Offhand"));
+        case EQUIP_ARMS:
+            _arms_label.Draw();
             break;
-        case EQUIP_LEGGINGS:
-            VideoManager->Text()->Draw(UTranslate("Leggings"));
+        case EQUIP_LEGS:
+            _legs_label.Draw();
             break;
         }
-    } else {
+    }
+    else {
+        // Show the character equipment.
         _equip_select.Draw();
 
-        //FIX ME: Use XML tags for formatting option boxes
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
         VideoManager->Move(450.0f, 170.0f);
-        VideoManager->Text()->Draw(UTranslate("Weapon"));
+        _weapon_label.Draw();
         VideoManager->MoveRelative(0.0f, 70.0f);
-        VideoManager->Text()->Draw(UTranslate("Headgear"));
+        _head_label.Draw();
         VideoManager->MoveRelative(0.0f, 70.0f);
-        VideoManager->Text()->Draw(UTranslate("Body Armor"));
+        _torso_label.Draw();
         VideoManager->MoveRelative(0.0f, 70.0f);
-        VideoManager->Text()->Draw(UTranslate("Offhand"));
+        _arms_label.Draw();
         VideoManager->MoveRelative(0.0f, 70.0f);
-        VideoManager->Text()->Draw(UTranslate("Leggings"));
+        _legs_label.Draw();
 
         VideoManager->MoveRelative(150.0f, -370.0f);
 
-        for(uint32 i = 0; i < _equip_images.size(); i++) {
+        for(uint32 i = 0; i < _equip_images.size(); ++i) {
             VideoManager->MoveRelative(0.0f, 70.0f);
             _equip_images[i].Draw();
         }
     }
+
+    // Draw the equipment info in the bottom window
+    MenuMode::CurrentInstance()->DrawEquipmentInfo();
 
 } // void EquipWindow::Draw()
 
@@ -1900,8 +2001,6 @@ void QuestListWindow::Update()
     }
     //standard upate of quest list
     _UpdateQuestList();
-
-
 }
 
 /**

@@ -86,9 +86,6 @@ public:
     //! \brief handles updating the state
     void Update();
 
-    //! \brief Updates the time and drunes text
-    void UpdateTimeAndDrunes();
-
     /**
     *** \brief based on the selection (pased in via the OptionBox selection returns the next state to transition to
     *** \param selection selection state indicator
@@ -123,14 +120,11 @@ protected:
 
     //! \brief returns wether or not the state is active
     virtual bool _IsActive()
-    { return false;}
+    { return false; }
 
     //! \brief instance-specific main window drawing code goes in here. the default is to simply draws nothing
     virtual void _OnDrawMainWindow()
     {}
-
-    //! \brief handles drawing the generalized equipment information
-    void _DrawEquipmentInfo(hoa_global::GlobalCharacter *character, hoa_global::GlobalObject *obj);
 
     //! \brief draws the side window. Default draws the character windows
     virtual void _OnDrawSideWindow();
@@ -151,10 +145,6 @@ protected:
 
     // a pointer to the state we should return to on a "cancel" press.
     AbstractMenuState *_from_state;
-
-    // The default text (time and drunes) display on the bottom part.
-    hoa_gui::TextBox _time_text;
-    hoa_gui::TextBox _drunes_text;
 };
 
 /**
@@ -296,10 +286,6 @@ public:
     AbstractMenuState* GetTransitionState(uint32 /*selection*/)
     { return NULL; }
 
-    //handles drawing the bottom window info for equipment
-    static void DrawEquipmentInfo(const hoa_utils::ustring &equipment_name, bool is_weapon = false,
-                                  uint32 physical_attribute = 0, uint32 magical_attribute = 0,
-                                  uint32 current_phys_attribute = 0, uint32 current_mag_attribute = 0);
 protected:
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
@@ -430,9 +416,26 @@ public:
     //! \brief (Re)Loads the characters windows based on the characters' positions in the party.
     void ReloadCharacterWindows();
 
+    //! \brief Updates the time and drunes text
+    void UpdateTimeAndDrunes();
+
+    //! \brief handles drawing the generalized equipment information
+    //! Used by both the inventory and equip windows and states.
+    //! \note If the GlobalCharacter is NULL, the function won't show the diff.
+    void UpdateEquipmentInfo(hoa_global::GlobalCharacter *character,
+                             hoa_global::GlobalObject *obj);
+
+    //! \brief Draws The current equipment info
+    //! Used by both the inventory and equip windows and states.
+    void DrawEquipmentInfo();
+
 private:
     //! \brief A static pointer to the last instantiated MenuMode object
     static MenuMode *_current_instance;
+
+    //! \brief The default text (time and drunes) display on the bottom part.
+    hoa_gui::TextBox _time_text;
+    hoa_gui::TextBox _drunes_text;
 
     //! \brief Text image which displays the name of the location in the game where MenuMode was invoked
     hoa_gui::TextBox _locale_name;
@@ -460,6 +463,13 @@ private:
 
     //! \brief Test indicating that the item is a shard and can be associated with equipment.
     hoa_gui::TextBox _shard_description;
+
+    //! \brief Icons representing the atk/def of the equipment/character.
+    //! \note Don't delete those, they are managed by the Global Manager.
+    hoa_video::StillImage* _atk_icon;
+    hoa_video::StillImage* _def_icon;
+    hoa_video::StillImage* _matk_icon;
+    hoa_video::StillImage* _mdef_icon;
 
     //! \brief shared "help" information text box. can be used to display a short helpful message to the player
     hoa_gui::TextBox _help_information;
@@ -512,10 +522,54 @@ private:
     hoa_gui::OptionBox _menu_formation;
     //@}
 
-    //! \brief Draws the 'Name' and 'Qty' tags for the item list.
-    void _DrawItemListHeader()
-    {}
+    /** \brief Equipment view data used to display a common equipment view
+    **/
+    //@{
+    //! \brief The selected object instance
+    hoa_global::GlobalObject* _object;
 
+    //! \brief The selected character
+    hoa_global::GlobalCharacter* _character;
+
+    //! \brief The name of the selected object
+    hoa_video::TextImage _object_name;
+
+    //! \brief When the object type is equipment, this tells whether it is a weapon.
+    bool _is_weapon;
+
+    //! \brief The text headers
+    hoa_video::TextImage _phys_header;
+    hoa_video::TextImage _mag_header;
+
+    //! \brief The equipment stats
+    hoa_video::TextImage _phys_stat;
+    hoa_video::TextImage _mag_stat;
+
+    //! \brief The overall atk/def diff with current equipment
+    hoa_video::TextImage _phys_stat_diff;
+    hoa_video::TextImage _mag_stat_diff;
+    hoa_video::Color _phys_diff_color;
+    hoa_video::Color _mag_diff_color;
+
+    //! \brief detailed stat header
+    hoa_video::TextImage _detailed_stat_header;
+
+    hoa_video::TextImage _det_phys_stat;
+    hoa_video::TextImage _det_mag_stat;
+
+    //! \brief The detailed atk/def diff with current equipment
+    hoa_video::TextImage _det_phys_stat_diff;
+    hoa_video::TextImage _det_mag_stat_diff;
+
+    //! \brief Icon images representing elemental effects and intensity properties of the selected object
+    std::vector<hoa_video::StillImage *> _elemental_icons;
+
+    //! \brief Icon images representing status effects and intensity properties of the selected object
+    std::vector<hoa_video::StillImage *> _status_icons;
+
+    //! \brief The number of shard the equipment can support.
+    uint32 _shard_number;
+    //@}
 }; // class MenuMode : public hoa_mode_manager::GameMode
 
 } // namespace hoa_menu
