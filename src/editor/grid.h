@@ -84,26 +84,6 @@ public:
     }
 };
 
-struct Context {
-
-    Context():
-        inherit_from_context_id(-1)
-    {}
-
-    std::string name;
-    std::vector<Layer> layers;
-
-    // Tells the context id the current context inherit from
-    // This means that the parent context will be used as a base, and the current
-    // context will only have its own differences from it.
-    // At least, the base context can't a parent context, thus marking it as -1
-    // in that case.
-    // Note that a context cannot inherit from itself, and cannot inherit
-    // from a context with a higher id then its own (to avoid very complicated and useless
-    // use cases.
-    int32 inherit_from_context_id;
-};
-
 LAYER_TYPE getLayerType(const std::string &type);
 std::string getTypeFromLayer(const LAYER_TYPE &type);
 
@@ -142,22 +122,17 @@ public:
     uint32  GetWidth()    const {
         return _width;
     }
-    uint32  GetContext()  const {
-        return _context;
-    }
     bool    GetChanged()  const {
         return _changed;
     }
 
-    std::vector<Layer>& GetLayers(int context) {
-        return _tile_contexts[context].layers;
+    std::vector<Layer>& GetLayers() {
+        return _tile_layers;
     }
 
     std::vector<std::vector<int32> >& GetSelectionLayer() {
         return _select_layer;
     }
-
-    QStringList GetContextNames();
 
     // Fill the selection layer with the empty tile (-1) value.
     void ClearSelectionLayer();
@@ -172,9 +147,6 @@ public:
     void SetWidth(uint32 width)        {
         _width     = width;
         _changed = true;
-    }
-    void SetContext(uint32 context)    {
-        _context   = context;
     }
 
     //! Tells whether the map has been modified.
@@ -195,11 +167,6 @@ public:
         updateGL();
     }
     //@}
-
-    /** \brief Creates a new context for each layer.
-    *** \param inherit_context The index of the context to inherit from.
-    **/
-    bool CreateNewContext(std::string name, int32 inherit_context);
 
     /** \brief Loads a map from a Lua file when the user selects "Open Map"
     ***        from the "File" menu.
@@ -281,8 +248,6 @@ private:
     uint32 _height;
     //! \brief The width of the map in tiles.
     uint32 _width;
-    //! \brief The active context for editing tiles.
-    uint32 _context;
 
     //! \brief When TRUE the map has been modified.
     bool _changed;
@@ -293,8 +258,8 @@ private:
     //! \brief When TRUE the rectangle of chosen tiles is displayed.
     bool _select_on;
 
-    //! \brief A vector of contexts containing the tiles in the each layers.
-    std::vector<Context> _tile_contexts;
+    //! \brief A vector of layers.
+    std::vector<Layer> _tile_layers;
 
     /** \brief A vector of tiles in the selection rectangle.
     ***

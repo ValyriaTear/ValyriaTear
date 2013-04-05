@@ -24,7 +24,7 @@ INCLUDEPATH += ./src/luabind/luabind/detail
 
 # Linker additional libs
 # You'll have to adapt this line below to make find the lib folder as it won't work as is.
-LIBS += -L"./valyriatear-win32-depends/lib"
+LIBS += -L"../build-env/valyriatear-win32-depends/lib"
 
 LIBS += -lLua51 -llibiconv2 -lSDL -lSDL_image -lSDL_TTF -llibpng -llibjpeg -llibintl -lOpenAL32 -logg -lvorbis
 
@@ -33,7 +33,10 @@ LIBS += -lLua51 -llibiconv2 -lSDL -lSDL_image -lSDL_TTF -llibpng -llibjpeg -llib
 # This below doesn't work - Edit qmake.conf in the mkspecs profile for win32-g++ to enable rtti and exceptions
 # by default, and remove the -DQT_NO_DYNAMIC_CAST and -DUNICODE flags from the Makefile.Release file
 # after qmake invocation and before compiling.
-DEFINES -= -DQT_NO_DYNAMIC_CAST -DUNICODE
+DEFINES -= QT_NO_DYNAMIC_CAST
+DEFINES -= UNICODE
+DEFINES += EDITOR_BUILD QT_DYNAMIC_CAST NO_UNICODE
+
 QMAKE_CXXFLAGS -= -fno-exceptions -fno-rtti
 QMAKE_CXXFLAGS += -fexceptions -frtti
 
