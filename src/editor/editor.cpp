@@ -292,217 +292,242 @@ void Editor::SetupMainView()
 
 void Editor::_FileNew()
 {
-    if(_EraseOK()) {
-        MapPropertiesDialog *new_map = new MapPropertiesDialog(this, "new_map", false);
+    if(!_EraseOK()) {
+        statusBar()->showMessage(tr("No map created! Unsaved data is still existing."), 5000);
+        return;
+    }
 
-        if(new_map->exec() == QDialog::Accepted) {
-            if(_ed_scrollarea != NULL)
-                delete _ed_scrollarea;
-            _ed_scrollarea = new EditorScrollArea(NULL, new_map->GetWidth(), new_map->GetHeight());
+    MapPropertiesDialog *new_map = new MapPropertiesDialog(this, "new_map", false);
 
-            SetupMainView();
-
-            QTreeWidget *tilesets = new_map->GetTilesetTree();
-            int num_items     = tilesets->topLevelItemCount();
-            int checked_items = 0;
-            for(int i = 0; i < num_items; i++)
-                if(tilesets->topLevelItem(i)->checkState(0) == Qt::Checked)
-                    checked_items++;
-
-            // Used to show the progress of tilesets that have been loaded.
-            QProgressDialog *new_map_progress =
-                new QProgressDialog(tr("Loading tilesets..."), NULL, 0, checked_items, this,
-                                    Qt::Widget | Qt::FramelessWindowHint | Qt::WindowTitleHint);
-            new_map_progress->setWindowTitle(tr("Creating Map..."));
-
-            // Set location of and show the progress dialog
-            new_map_progress->move(this->pos().x() + this->width() / 2  - new_map_progress->width() / 2,
-                                   this->pos().y() + this->height() / 2 - new_map_progress->height() / 2);
-            new_map_progress->show();
-
-            checked_items = 0;
-            for(int i = 0; i < num_items; i++) {
-                if(tilesets->topLevelItem(i)->checkState(0) == Qt::Checked) {
-                    new_map_progress->setValue(checked_items++);
-
-                    TilesetTable *a_tileset = new TilesetTable();
-                    if(!a_tileset->Load(tilesets->topLevelItem(i)->text(0))) {
-                        const std::string mes = "Failed to load tileset image: "
-                                                + tilesets->topLevelItem(i)->text(0).toStdString();
-                        QMessageBox::critical(this, tr("Map Editor"),
-                                              tr(mes.c_str()));
-                    }
-                    _ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
-                    _ed_scrollarea->_map->tilesets.push_back(a_tileset);
-                    _ed_scrollarea->_map->tileset_def_names.push_back(a_tileset->GetDefintionFilename());
-                } // tileset must be checked
-            } // iterate through all possible tilesets
-            new_map_progress->setValue(checked_items);
-
-            _ed_scrollarea->_map->SetInitialized(true);
-            _ed_scrollarea->resize(new_map->GetWidth() * TILE_WIDTH, new_map->GetHeight() * TILE_HEIGHT);
-
-            // Set the splitters sizes
-            QList<int> sizes;
-            sizes << 600 << 200;
-            _ed_splitter->setSizes(sizes);
-
-            sizes.clear();
-            sizes << 150 << 50 << 400;
-            _ed_tileset_layer_splitter->setSizes(sizes);
-
-            _ed_splitter->show();
-
-            _grid_on = false;
-            if(_select_on)
-                _TileToggleSelect();
-            _ViewToggleGrid();
-
-            // Enable appropriate actions
-            _TilesEnableActions();
-
-            // Set default edit mode
-            _ed_scrollarea->_layer_id = 0;
-
-            // Add default layers
-            QIcon icon(QString("img/misc/editor-tools/eye.png"));
-            QTreeWidgetItem *background = new QTreeWidgetItem(_ed_layer_view);
-            background->setText(0, QString::number(0));
-            background->setIcon(1, icon);
-            background->setText(2, tr("Background"));
-            background->setText(3, tr("ground"));
-            QTreeWidgetItem *background2 = new QTreeWidgetItem(_ed_layer_view);
-            background2->setText(0, QString::number(1));
-            background2->setIcon(1, icon);
-            background2->setText(2, tr("Background 2"));
-            background2->setText(3, tr("ground"));
-            QTreeWidgetItem *background3 = new QTreeWidgetItem(_ed_layer_view);
-            background3->setText(0, QString::number(2));
-            background3->setIcon(1, icon);
-            background3->setText(2, tr("Background 3"));
-            background3->setText(3, tr("ground"));
-            QTreeWidgetItem *sky = new QTreeWidgetItem(_ed_layer_view);
-            sky->setText(0, QString::number(3));
-            sky->setIcon(1, icon);
-            sky->setText(2, tr("Sky"));
-            sky->setText(3, tr("sky"));
-
-            _ed_layer_view->adjustSize();
-            // Fix a bug in the width computation of the icon
-            _ed_layer_view->setColumnWidth(1, 20);
-
-            _ed_layer_view->setCurrentItem(background); // layer 0
-
-            _ed_scrollarea->_tile_mode  = PAINT_TILE;
-
-            _undo_stack->setClean();
-
-            // Hide and delete progress bar
-            new_map_progress->hide();
-            delete new_map_progress;
-
-            statusBar()->showMessage(tr("New map created"), 5000);
-        } // only if the user pressed OK
-        else
-            statusBar()->showMessage(tr("No map created!"), 5000);
-
+    if(new_map->exec() != QDialog::Accepted) {
+        statusBar()->showMessage(tr("No map created!"), 5000);
         delete new_map;
-    } // make sure an unsaved map is not lost
+        return;
+    }
+
+    if(_ed_scrollarea != NULL)
+        delete _ed_scrollarea;
+    _ed_scrollarea = new EditorScrollArea(NULL, new_map->GetWidth(), new_map->GetHeight());
+
+    SetupMainView();
+
+    QTreeWidget *tilesets = new_map->GetTilesetTree();
+    int num_items     = tilesets->topLevelItemCount();
+    int checked_items = 0;
+    for(int i = 0; i < num_items; i++)
+        if(tilesets->topLevelItem(i)->checkState(0) == Qt::Checked)
+            checked_items++;
+
+    // Used to show the progress of tilesets that have been loaded.
+    QProgressDialog *new_map_progress =
+        new QProgressDialog(tr("Loading tilesets..."), NULL, 0, checked_items, this,
+                            Qt::Widget | Qt::FramelessWindowHint | Qt::WindowTitleHint);
+    new_map_progress->setWindowTitle(tr("Creating Map..."));
+
+    // Set location of and show the progress dialog
+    new_map_progress->move(this->pos().x() + this->width() / 2  - new_map_progress->width() / 2,
+                            this->pos().y() + this->height() / 2 - new_map_progress->height() / 2);
+    new_map_progress->show();
+
+    checked_items = 0;
+    for(int i = 0; i < num_items; i++) {
+        if(tilesets->topLevelItem(i)->checkState(0) == Qt::Checked) {
+            new_map_progress->setValue(checked_items++);
+
+            TilesetTable *a_tileset = new TilesetTable();
+            if(!a_tileset->Load(tilesets->topLevelItem(i)->text(0))) {
+                const std::string mes = "Failed to load tileset image: "
+                                        + tilesets->topLevelItem(i)->text(0).toStdString();
+                QMessageBox::critical(this, tr("Map Editor"),
+                                        tr(mes.c_str()));
+                statusBar()->showMessage(tr("Couldn't load map! Invalid tileset given"), 5000);
+
+                // Hide and delete progress bar
+                new_map_progress->hide();
+                delete new_map_progress;
+                delete new_map;
+                _FileClose();
+                return;
+            }
+            _ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
+            _ed_scrollarea->_map->tilesets.push_back(a_tileset);
+            _ed_scrollarea->_map->tileset_def_names.push_back(a_tileset->GetDefintionFilename());
+        } // tileset must be checked
+    } // iterate through all possible tilesets
+    new_map_progress->setValue(checked_items);
+
+    _ed_scrollarea->_map->SetInitialized(true);
+    _ed_scrollarea->resize(new_map->GetWidth() * TILE_WIDTH, new_map->GetHeight() * TILE_HEIGHT);
+
+    // Set the splitters sizes
+    QList<int> sizes;
+    sizes << 600 << 200;
+    _ed_splitter->setSizes(sizes);
+
+    sizes.clear();
+    sizes << 150 << 50 << 400;
+    _ed_tileset_layer_splitter->setSizes(sizes);
+
+    _ed_splitter->show();
+
+    _grid_on = false;
+    if(_select_on)
+        _TileToggleSelect();
+    _ViewToggleGrid();
+
+    // Enable appropriate actions
+    _TilesEnableActions();
+
+    // Set default edit mode
+    _ed_scrollarea->_layer_id = 0;
+
+    // Add default layers
+    QIcon icon(QString("img/misc/editor-tools/eye.png"));
+    QTreeWidgetItem *background = new QTreeWidgetItem(_ed_layer_view);
+    background->setText(0, QString::number(0));
+    background->setIcon(1, icon);
+    background->setText(2, tr("Background"));
+    background->setText(3, tr("ground"));
+    QTreeWidgetItem *background2 = new QTreeWidgetItem(_ed_layer_view);
+    background2->setText(0, QString::number(1));
+    background2->setIcon(1, icon);
+    background2->setText(2, tr("Background 2"));
+    background2->setText(3, tr("ground"));
+    QTreeWidgetItem *background3 = new QTreeWidgetItem(_ed_layer_view);
+    background3->setText(0, QString::number(2));
+    background3->setIcon(1, icon);
+    background3->setText(2, tr("Background 3"));
+    background3->setText(3, tr("ground"));
+    QTreeWidgetItem *sky = new QTreeWidgetItem(_ed_layer_view);
+    sky->setText(0, QString::number(3));
+    sky->setIcon(1, icon);
+    sky->setText(2, tr("Sky"));
+    sky->setText(3, tr("sky"));
+
+    _ed_layer_view->adjustSize();
+    // Fix a bug in the width computation of the icon
+    _ed_layer_view->setColumnWidth(1, 20);
+
+    _ed_layer_view->setCurrentItem(background); // layer 0
+
+    _ed_scrollarea->_tile_mode  = PAINT_TILE;
+
+    _undo_stack->setClean();
+
+    // Hide and delete progress bar
+    new_map_progress->hide();
+    delete new_map_progress;
+
+    delete new_map;
+
+    statusBar()->showMessage(tr("New map created"), 5000);
 } // void Editor::_FileNew()
 
 
 
 void Editor::_FileOpen()
 {
-    if(_EraseOK()) {
-        // file to open
-        QString file_name = QFileDialog::getOpenFileName(this, tr("Map Editor -- File Open"),
-                            "dat/maps", "Maps (*.lua)");
+    if(!_EraseOK()) {
+        statusBar()->showMessage(tr("No map created! Unsaved data is still existing."), 5000);
+        return;
+    }
 
-        if(!file_name.isEmpty()) {
-            if(_ed_scrollarea != NULL)
-                delete _ed_scrollarea;
-            _ed_scrollarea = new EditorScrollArea(NULL, 0, 0);
+    // file to open
+    QString file_name = QFileDialog::getOpenFileName(this, tr("Map Editor -- File Open"),
+                        "dat/maps", "Maps (*.lua)");
 
-            SetupMainView();
+    if(file_name.isEmpty()) {
+        statusBar()->showMessage(tr("No map created! Empty filename given."), 5000);
+        return;
+    }
 
-            _ed_scrollarea->_map->SetFileName(file_name);
-            _ed_scrollarea->_map->LoadMap();
+    if(_ed_scrollarea != NULL)
+        delete _ed_scrollarea;
+    _ed_scrollarea = new EditorScrollArea(NULL, 0, 0);
 
-            _UpdateLayersView();
+    SetupMainView();
 
-            // Count for the tileset names
-            int num_items = _ed_scrollarea->_map->tileset_def_names.count();
-            int progress_steps = 0;
+    _ed_scrollarea->_map->SetFileName(file_name);
+    _ed_scrollarea->_map->LoadMap();
 
-            // Used to show the progress of tilesets has been loaded.
-            QProgressDialog *new_map_progress =
-                new QProgressDialog(tr("Loading tilesets..."), NULL, 0, num_items, this,
-                                    Qt::Widget | Qt::FramelessWindowHint | Qt::WindowTitleHint);
-            new_map_progress->setWindowTitle(tr("Creating Map..."));
+    _UpdateLayersView();
 
-            // Set the progress bar
-            new_map_progress->move(this->pos().x() + this->width() / 2  - new_map_progress->width() / 2,
-                                   this->pos().y() + this->height() / 2 - new_map_progress->height() / 2);
-            new_map_progress->show();
+    // Count for the tileset names
+    int num_items = _ed_scrollarea->_map->tileset_def_names.count();
+    int progress_steps = 0;
 
-            for(QStringList::ConstIterator it = _ed_scrollarea->_map->tileset_def_names.begin();
-                    it != _ed_scrollarea->_map->tileset_def_names.end(); it++) {
-                new_map_progress->setValue(progress_steps++);
+    // Used to show the progress of tilesets has been loaded.
+    QProgressDialog *new_map_progress =
+        new QProgressDialog(tr("Loading tilesets..."), NULL, 0, num_items, this,
+                            Qt::Widget | Qt::FramelessWindowHint | Qt::WindowTitleHint);
+    new_map_progress->setWindowTitle(tr("Creating Map..."));
 
-                TilesetTable *a_tileset = new TilesetTable();
-                if(!a_tileset->Load(*it)) {
-                    const std::string mes = tr("Failed to load tileset image: ").toStdString()
-                                            + (*it).toStdString();
-                    QMessageBox::critical(this, tr("Map Editor"),
-                                          tr(mes.c_str()));
-                }
+    // Set the progress bar
+    new_map_progress->move(this->pos().x() + this->width() / 2  - new_map_progress->width() / 2,
+                            this->pos().y() + this->height() / 2 - new_map_progress->height() / 2);
+    new_map_progress->show();
 
-                _ed_tabs->addTab(a_tileset->table, *it);
-                _ed_scrollarea->_map->tilesets.push_back(a_tileset);
-            } // iterate through all tilesets in the map
-            new_map_progress->setValue(progress_steps);
+    for(QStringList::ConstIterator it = _ed_scrollarea->_map->tileset_def_names.begin();
+            it != _ed_scrollarea->_map->tileset_def_names.end(); it++) {
+        new_map_progress->setValue(progress_steps++);
 
-            _ed_scrollarea->_map->SetInitialized(true);
-            _ed_scrollarea->resize(_ed_scrollarea->_map->GetWidth(),
-                                   _ed_scrollarea->_map->GetHeight());
-
-            // Set the splitters sizes
-            QList<int> sizes;
-            sizes << 600 << 200;
-            _ed_splitter->setSizes(sizes);
-
-            sizes.clear();
-            sizes << 150 << 50 << 400;
-            _ed_tileset_layer_splitter->setSizes(sizes);
-
-            _ed_splitter->show();
-
-            _grid_on = false;
-            if(_select_on)
-                _TileToggleSelect();
-            _ViewToggleGrid();
-
-            // Enable appropriate actions
-            _TilesEnableActions();
-
-            // Set default edit mode
-            _ed_scrollarea->_layer_id = 0;
-            _ed_scrollarea->_tile_mode  = PAINT_TILE;
+        TilesetTable *a_tileset = new TilesetTable();
+        if(!a_tileset->Load(*it)) {
+            const std::string mes = tr("Failed to load tileset image: ").toStdString()
+                                    + (*it).toStdString();
+            QMessageBox::critical(this, tr("Map Editor"),
+                                    tr(mes.c_str()));
+            statusBar()->showMessage(tr("Couldn't load map! Invalid tileset given"), 5000);
 
             // Hide and delete progress bar
             new_map_progress->hide();
             delete new_map_progress;
+            _FileClose();
+            return;
+        }
 
-            _undo_stack->setClean();
-            statusBar()->showMessage(QString(tr("Opened \'%1\'")).
-                                     arg(_ed_scrollarea->_map->GetFileName()), 5000);
+        _ed_tabs->addTab(a_tileset->table, *it);
+        _ed_scrollarea->_map->tilesets.push_back(a_tileset);
+    } // iterate through all tilesets in the map
+    new_map_progress->setValue(progress_steps);
 
-            setWindowTitle(QString("Map Editor - ") + _ed_scrollarea->_map->GetFileName());
-        } // file must exist in order to open it
-        else
-            statusBar()->showMessage(tr("No map created!"), 5000);
-    } // make sure an unsaved map is not lost
+    _ed_scrollarea->_map->SetInitialized(true);
+    _ed_scrollarea->resize(_ed_scrollarea->_map->GetWidth(),
+                            _ed_scrollarea->_map->GetHeight());
+
+    // Set the splitters sizes
+    QList<int> sizes;
+    sizes << 600 << 200;
+    _ed_splitter->setSizes(sizes);
+
+    sizes.clear();
+    sizes << 150 << 50 << 400;
+    _ed_tileset_layer_splitter->setSizes(sizes);
+
+    _ed_splitter->show();
+
+    _grid_on = false;
+    if(_select_on)
+        _TileToggleSelect();
+    _ViewToggleGrid();
+
+    // Enable appropriate actions
+    _TilesEnableActions();
+
+    // Set default edit mode
+    _ed_scrollarea->_layer_id = 0;
+    _ed_scrollarea->_tile_mode  = PAINT_TILE;
+
+    // Hide and delete progress bar
+    new_map_progress->hide();
+    delete new_map_progress;
+
+    _undo_stack->setClean();
+    statusBar()->showMessage(QString(tr("Opened \'%1\'")).
+                                arg(_ed_scrollarea->_map->GetFileName()), 5000);
+
+    setWindowTitle(QString("Map Editor - ") + _ed_scrollarea->_map->GetFileName());
+
 } // void Editor::_FileOpen()
 
 
@@ -513,14 +538,14 @@ void Editor::_FileSaveAs()
     QString file_name = QFileDialog::getSaveFileName(this,
                         tr("Map Editor -- File Save"), "dat/maps", "Maps (*.lua)");
 
-    if(!file_name.isEmpty()) {
-        _ed_scrollarea->_map->SetFileName(file_name);
-        _FileSave();
-        setWindowTitle(QString("Map Editor - ") + _ed_scrollarea->_map->GetFileName());
+    if(file_name.isEmpty()) {
+        statusBar()->showMessage("Save abandoned.", 5000);
         return;
-    } // make sure the file name is not blank
+    }
 
-    statusBar()->showMessage("Save abandoned.", 5000);
+    _ed_scrollarea->_map->SetFileName(file_name);
+    _FileSave();
+    setWindowTitle(QString("Map Editor - ") + _ed_scrollarea->_map->GetFileName());
 }
 
 
@@ -545,33 +570,34 @@ void Editor::_FileSave()
 void Editor::_FileClose()
 {
     // Checks to see if the map is unsaved.
-    if(_EraseOK()) {
-        if(_ed_scrollarea != NULL) {
-            delete _ed_scrollarea;
-            _ed_scrollarea = NULL;
-            _undo_stack->clear();
+    if(!_EraseOK())
+        return;
 
-            // Enable appropriate actions
-            _TilesEnableActions();
-        } // scrollview must exist first
+    if(_ed_scrollarea != NULL) {
+        delete _ed_scrollarea;
+        _ed_scrollarea = NULL;
+        _undo_stack->clear();
 
-        if(_ed_tabs != NULL) {
-            delete _ed_tabs;
-            _ed_tabs = NULL;
-        } // tabs must exist first
+        // Enable appropriate actions
+        _TilesEnableActions();
+    } // scrollview must exist first
 
-        if(_ed_layer_toolbar != NULL) {
-            delete _ed_layer_toolbar;
-            _ed_layer_toolbar = NULL;
-        }
+    if(_ed_tabs != NULL) {
+        delete _ed_tabs;
+        _ed_tabs = NULL;
+    } // tabs must exist first
 
-        if(_ed_layer_view != NULL) {
-            delete _ed_layer_view;
-            _ed_layer_view = NULL;
-        }
+    if(_ed_layer_toolbar != NULL) {
+        delete _ed_layer_toolbar;
+        _ed_layer_toolbar = NULL;
+    }
 
-        setWindowTitle(tr("Map Editor"));
-    } // make sure an unsaved map is not lost
+    if(_ed_layer_view != NULL) {
+        delete _ed_layer_view;
+        _ed_layer_view = NULL;
+    }
+
+    setWindowTitle(tr("Map Editor"));
 }
 
 
@@ -1407,26 +1433,28 @@ void Editor::_CreateToolbars()
 
 bool Editor::_EraseOK()
 {
-    if(_ed_scrollarea != NULL && _ed_scrollarea->_map != NULL) {
-        if(_ed_scrollarea->_map->GetChanged()) {
-            switch(QMessageBox::warning(this, "Unsaved File", "The document contains unsaved changes!\n"
-                                        "Do you want to save the changes before proceeding?", "&Save", "&Discard", "Cancel",
-                                        0,		// Enter == button 0
-                                        2)) {	// Escape == button 2
-            case 0: // Save clicked or Alt+S pressed or Enter pressed.
-                // save and exit
-                _FileSave();
-                break;
-            case 1: // Discard clicked or Alt+D pressed
-                // don't save but exit
-                break;
-            default: // Cancel clicked or Escape pressed
-                // don't exit
-                statusBar()->showMessage("Save abandoned", 5000);
-                return false;
-            } // warn the user to save
-        } // map has been modified
-    } // map must exist first
+    if(!_ed_scrollarea || !_ed_scrollarea->_map)
+        return true;
+
+    if(!_ed_scrollarea->_map->GetChanged())
+        return true;
+
+    switch(QMessageBox::warning(this, "Unsaved File", "The document contains unsaved changes!\n"
+                                "Do you want to save the changes before proceeding?", "&Save", "&Discard", "Cancel",
+                                0,		// Enter == button 0
+                                2)) {	// Escape == button 2
+    case 0: // Save clicked or Alt+S pressed or Enter pressed.
+        // save and exit
+        _FileSave();
+        break;
+    case 1: // Discard clicked or Alt+D pressed
+        // don't save but exit
+        break;
+    default: // Cancel clicked or Escape pressed
+        // don't exit
+        statusBar()->showMessage("Save abandoned", 5000);
+        return false;
+    } // warn the user to save
 
     return true;
 }
