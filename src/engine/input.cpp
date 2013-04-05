@@ -42,8 +42,8 @@ bool INPUT_DEBUG = false;
 InputEngine::InputEngine()
 {
     IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine constructor invoked" << std::endl;
-    _any_key_press		    = false;
-    _any_key_release	    = false;
+    _any_key_press        = false;
+    _any_key_release      = false;
     _last_axis_moved      = -1;
     _up_state             = false;
     _up_press             = false;
@@ -78,6 +78,7 @@ InputEngine::InputEngine()
     _joystick.x_axis      = 0;
     _joystick.y_axis      = 1;
     _joystick.threshold   = 8192;
+    _joystick.joy_index   = 0; // the first joystick
 }
 
 
@@ -98,15 +99,21 @@ void InputEngine::InitializeJoysticks()
     if (!_joysticks_enabled)
         return;
 
-    // Attempt to initialize and setup the joystick system
+    // Initialize the SDL joystick subsystem
+    if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0) {
+        _joysticks_enabled = false;
+        PRINT_WARNING << "Error while initializing the joystick subsystem." << std::endl;
+        return;
+    }
+
+    // Test the number of joystick available
     if(SDL_NumJoysticks() == 0) {  // No joysticks found
         SDL_JoystickEventState(SDL_IGNORE);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-    } else { // At least one joystick exists
-        // Initialize the SDL joystick subsystem
-        if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0)
-            return;
-
+        _joysticks_enabled = false;
+        PRINT_WARNING << "No joysticks found, couldn't initialize the joystick subsystem." << std::endl;
+    }
+    else { // At least one joystick exists
         SDL_JoystickEventState(SDL_ENABLE);
         // TODO: need to allow user to specify which joystick to open, if multiple exist
         _joystick.js = SDL_JoystickOpen(_joystick.joy_index);
