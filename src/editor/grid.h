@@ -218,8 +218,8 @@ public:
     // Be sure to set the parent of the items returned, and add them in the corresponding Qt widget.
     std::vector<QTreeWidgetItem *> getLayerItems();
 
-    //! \brief List of the tileset names being used.
-    QStringList tileset_names;
+    //! \brief List of the tileset definition files being used.
+    QStringList tileset_def_names;
 
     //! \brief A vector which contains a pointer to each tileset and the tiles it has loaded via LoadMultiImage.
     std::vector<Tileset *> tilesets;

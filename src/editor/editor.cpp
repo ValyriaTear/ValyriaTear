@@ -334,7 +334,7 @@ void Editor::_FileNew()
                     }
                     _ed_tabs->addTab(a_tileset->table, tilesets->topLevelItem(i)->text(0));
                     _ed_scrollarea->_map->tilesets.push_back(a_tileset);
-                    _ed_scrollarea->_map->tileset_names.push_back(a_tileset->tileset_name);
+                    _ed_scrollarea->_map->tileset_def_names.push_back(a_tileset->GetDefintionFilename());
                 } // tileset must be checked
             } // iterate through all possible tilesets
             new_map_progress->setValue(checked_items);
@@ -432,7 +432,7 @@ void Editor::_FileOpen()
             _UpdateLayersView();
 
             // Count for the tileset names
-            int num_items = _ed_scrollarea->_map->tileset_names.count();
+            int num_items = _ed_scrollarea->_map->tileset_def_names.count();
             int progress_steps = 0;
 
             // Used to show the progress of tilesets has been loaded.
@@ -446,8 +446,8 @@ void Editor::_FileOpen()
                                    this->pos().y() + this->height() / 2 - new_map_progress->height() / 2);
             new_map_progress->show();
 
-            for(QStringList::ConstIterator it = _ed_scrollarea->_map->tileset_names.begin();
-                    it != _ed_scrollarea->_map->tileset_names.end(); it++) {
+            for(QStringList::ConstIterator it = _ed_scrollarea->_map->tileset_def_names.begin();
+                    it != _ed_scrollarea->_map->tileset_def_names.end(); it++) {
                 new_map_progress->setValue(progress_steps++);
 
                 TilesetTable *a_tileset = new TilesetTable();
@@ -602,11 +602,11 @@ void Editor::_TileLayerFill()
 
     // put selected tile from tileset into tile array at correct position
     int32 tileset_index = table->currentRow() * 16 + table->currentColumn();
-    int32 multiplier = _ed_scrollarea->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+    int32 multiplier = _ed_scrollarea->_map->tileset_def_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
 
     if(multiplier == -1) {
-        _ed_scrollarea->_map->tileset_names.append(_ed_tabs->tabText(_ed_tabs->currentIndex()));
-        multiplier = _ed_scrollarea->_map->tileset_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+        _ed_scrollarea->_map->tileset_def_names.append(_ed_tabs->tabText(_ed_tabs->currentIndex()));
+        multiplier = _ed_scrollarea->_map->tileset_def_names.indexOf(_ed_tabs->tabText(_ed_tabs->currentIndex()));
     } // calculate index of current tileset
 
     std::vector<std::vector<int32> >& current_layer = _ed_scrollarea->GetCurrentLayer();
@@ -1913,10 +1913,10 @@ void EditorScrollArea::_PaintTile(int32 index_x, int32 index_y)
     if(selections.size() > 0)
         selection = selections.at(0);
 
-    int32 multiplier = _map->tileset_names.indexOf(tileset_name);
+    int32 multiplier = _map->tileset_def_names.indexOf(tileset_name);
     if(multiplier == -1) {
-        _map->tileset_names.append(tileset_name);
-        multiplier = _map->tileset_names.indexOf(tileset_name);
+        _map->tileset_def_names.append(tileset_name);
+        multiplier = _map->tileset_def_names.indexOf(tileset_name);
     } // calculate index of current tileset
 
     if(selections.size() > 0 && (selection.columnCount() * selection.rowCount() > 1)) {
@@ -1986,7 +1986,7 @@ void EditorScrollArea::_AutotileRandomize(int32 &tileset_num, int32 &tile_index)
         std::string tileset_name = read_data.ReadString(1);
         tile_index = read_data.ReadInt(2);
         read_data.CloseTable();
-        tileset_num = _map->tileset_names.indexOf(
+        tileset_num = _map->tileset_def_names.indexOf(
                           QString(tileset_name.c_str()));
         read_data.CloseTable();
 

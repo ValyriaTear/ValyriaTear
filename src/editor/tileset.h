@@ -68,16 +68,20 @@ public:
 
     virtual ~Tileset();
 
-    /** \brief Returns the filename of a tileset image given the tileset's name
-    *** \param tileset_name The name of the tileset (e.g. "mountain_village")
-    **/
-    static QString CreateImageFilename(const QString &tileset_name);
+    //! \brief Returns the filename of a tileset image given the tileset's name
+    QString GetImageFilename() {
+        return _tileset_image_filename;
+    }
 
-    /** \brief Returns the filename of a tileset definition file given the
-    ***        tileset's name
-    *** \param tileset_name The name of the tileset (e.g. "mountain_village")
-    **/
-    static QString CreateDataFilename(const QString &tileset_name);
+    //! \brief Returns the filename of a tileset definition file given the tileset's name
+    QString GetDefintionFilename() {
+        return _tileset_definition_filename;
+    }
+
+    //! \brief Returns the filename of a tileset definition file given the tileset's name
+    QString GetTilesetName() {
+        return _tileset_name;
+    }
 
     /** \brief Returns the tileset name that corresponds to either an image or
     ***        data filename
@@ -105,23 +109,19 @@ public:
 
     /** \brief Loads the tileset definition file and stores its data in the
     ***        class containers
-    *** \param set_name The unique name that identifies the tileset (not a
-    ***                 filename)
+    *** \param def_filename The tileset definition filename.
     *** \param one_image If true, the tiles vector will contain a single image
     ***                  for the entire tileset
     *** \return True if the tileset was loaded successfully
     *** \note This function will clear the previously loaded contents when it
     ***       is called
     **/
-    virtual bool Load(const QString &set_name, bool one_image = false);
+    virtual bool Load(const QString &def_filename, bool one_image = false);
 
     /** \brief Saves the tileset data to its tileset definition file
     *** \return True if the save operation was successful
     **/
     bool Save();
-
-    //! \brief The name of the tileset this table is representing.
-    QString tileset_name;
 
     //! \brief Contains the StillImage tiles of the tileset, used in grid.cpp.
     // FIXME Turn this into a QT object, so that one can remove the editor dependency upon the videomanager
@@ -134,6 +134,13 @@ public:
     std::map<int, std::string> autotileability;
 
 protected:
+    //! \brief tileset image and definition filenames.
+    QString _tileset_image_filename;
+    QString _tileset_definition_filename;
+
+    //! \brief The tileset name and namespace
+    QString _tileset_name;
+
     //! \brief True if the class is holding valid, loaded tileset data.
     bool _initialized;
 
@@ -154,7 +161,7 @@ public:
 
     //! \note Inherited methods from Tileset class that need to be overridden
     //@{
-    bool Load(const QString &set_name);
+    bool Load(const QString &def_filename);
     //@}
 
     //! Reference to the table implementation of this tileset

@@ -177,7 +177,6 @@ bool Grid::LoadMap()
     read_data.OpenTable(main_map_table);
 
     // Reset container data
-    tileset_names.clear();
     tilesets.clear();
     _tile_layers.clear();
 
@@ -205,15 +204,18 @@ bool Grid::LoadMap()
         }
     }
 
-    read_data.OpenTable("tileset_filenames");
-    uint32 table_size = read_data.GetTableSize();
-    for(uint32 i = 1; i <= table_size; i++)
-        tileset_names.append(QString(read_data.ReadString(i).c_str()));
-    read_data.CloseTable();
+    // Loads the tileset definition filenames
+    tileset_def_names.clear();
+    if (read_data.OpenTable("tileset_filenames")) {
+        uint32 table_size = read_data.GetTableSize();
+        for(uint32 i = 1; i <= table_size; ++i) {
+            tileset_def_names.append(read_data.ReadString(i).c_str());
+        }
+        read_data.CloseTable();
+    }
 
     // Loading the tileset images using LoadMultiImage is done in editor.cpp in
     // FileOpen via creation of the TilesetTable(s)
-
     if(!read_data.DoesTableExist("layers")) {
         read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
@@ -325,11 +327,11 @@ void Grid::SaveMap()
     write_data.WriteInt("num_tile_rows", _height);
 
     write_data.InsertNewLine();
-    write_data.WriteComment("The names of the tilesets used, with the path and file extension omitted");
+    write_data.WriteComment("The tilesets definition files used.");
     write_data.BeginTable("tileset_filenames");
     uint32 i = 0;
-    for(QStringList::Iterator qit = tileset_names.begin();
-            qit != tileset_names.end(); ++qit) {
+    for(QStringList::Iterator qit = tileset_def_names.begin();
+            qit != tileset_def_names.end(); ++qit) {
         ++i;
         write_data.WriteString(i, (*qit).toAscii().data());
     } // iterate through tileset_names writing each element

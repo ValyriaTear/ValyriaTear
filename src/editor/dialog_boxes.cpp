@@ -53,7 +53,7 @@ MapPropertiesDialog::MapPropertiesDialog
     connect(_cancel_pbut, SIGNAL(released()), this, SLOT(reject()));
 
     // Set up the list of selectable tilesets
-    QDir tileset_dir("img/tilesets");
+    QDir tileset_dir("dat/tilesets");
     _tileset_tree = new QTreeWidget(this);
     _tileset_tree->setColumnCount(1);
     _tileset_tree->setHeaderLabels(QStringList("Tilesets"));
@@ -63,9 +63,11 @@ MapPropertiesDialog::MapPropertiesDialog
 
     // Loop through all files in the tileset directory. Start the loop at 2 to
     // skip over the present and parent working directories ("." and "..")
+    // Also add the dat/tilesets path.
     for(uint32 i = 2; i < tileset_dir.count(); i++) {
+        QString tileset_definition_file = "dat/tilesets/" + tileset_dir[i];
         tilesets.append(new QTreeWidgetItem((QTreeWidget *)0,
-                                            QStringList(tileset_dir[i].remove(".png"))));
+                                            QStringList(tileset_definition_file)));
         tilesets.back()->setCheckState(0, Qt::Unchecked); // enables checkboxes
 
         // Indicates that the user wants to edit the map's existing properties
