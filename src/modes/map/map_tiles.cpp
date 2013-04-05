@@ -73,8 +73,23 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     map_file.ReadStringVector("tileset_filenames", tileset_filenames);
 
     for(uint32 i = 0; i < tileset_filenames.size(); i++) {
-        // Construct the image filename from the tileset filename and create a new vector to use in the LoadMultiImage call
-        std::string image_filename = "img/tilesets/" + tileset_filenames[i] + ".png";
+        std::string tileset_file = tileset_filenames[i];
+
+        ReadScriptDescriptor tileset_script;
+        if (!tileset_script.OpenFile(tileset_file)) {
+            PRINT_ERROR << "Couldn't open the tileset definition file: " << tileset_file << std::endl;
+            return false;
+        }
+
+        if (tileset_script.OpenTablespace().empty()) {
+            PRINT_ERROR << "Couldn't open the tileset tablespace from file: " << tileset_file << std::endl;
+            tileset_script.CloseFile();
+            return false;
+        }
+
+        std::string image_filename = tileset_script.ReadString("image");
+        tileset_script.CloseFile();
+
         tileset_images.push_back(std::vector<StillImage>(TILES_PER_TILESET));
 
         // Each tileset image is 512x512 pixels, yielding 16 * 16 (== 256) 32x32 pixel tiles each
@@ -222,11 +237,18 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     std::map<uint32, AnimatedImage *> tile_animations;
 
     for(uint32 i = 0; i < tileset_filenames.size(); i++) {
-        if(tileset_script.OpenFile("dat/tilesets/" + tileset_filenames[i] + ".lua") == false) {
-            PRINT_ERROR << "map failed to load because it could not open a tileset definition file: " << tileset_script.GetFilename() << std::endl;
-            exit(EXIT_FAILURE);
+        if (!tileset_script.OpenFile(tileset_filenames[i])) {
+            PRINT_ERROR << "map failed to load because it could not open a tileset definition file: "
+                << tileset_filenames[i] << std::endl;
+            return false;
         }
-        tileset_script.OpenTable(tileset_filenames[i]);
+
+        if (tileset_script.OpenTablespace().empty()) {
+            PRINT_ERROR << "map failed to load because it could not open a tileset tablespace from file: "
+                << tileset_filenames[i] << std::endl;
+            tileset_script.CloseFile();
+            return false;
+        }
 
         if(tileset_script.DoesTableExist("animated_tiles") == true) {
             tileset_script.OpenTable("animated_tiles");
