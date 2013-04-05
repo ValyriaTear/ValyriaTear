@@ -386,16 +386,31 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
     roam_zone = hoa_map.EnemyZone(49, 62, 26, 39);
 
-    enemy = CreateEnemySprite(Map, "slime");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") >= 6) then
+        -- Encounters at night (snakes, spiders and bats)
+        enemy = CreateEnemySprite(Map, "bat");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(2);
+        enemy:AddEnemy(6);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(4);
+        enemy:AddEnemy(6);
+        roam_zone:AddEnemy(enemy, Map, 1);
+    else
+        -- Day and first encounters (slimes and spiders)
+        enemy = CreateEnemySprite(Map, "slime");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(1);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(1);
+        enemy:AddEnemy(2);
+        roam_zone:AddEnemy(enemy, Map, 1);
+    end
 
     Map:AddZone(roam_zone);
 end
