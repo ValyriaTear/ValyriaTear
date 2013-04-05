@@ -3,7 +3,6 @@ setmetatable(ns, {__index = _G});
 building_interior_objects_01 = ns;
 setfenv(1, ns);
 
-file_name = "dat/tilesets/building_interior_objects_01.lua"
 image = "img/tilesets/building_interior_objects_01.png"
 num_tile_cols = 16
 num_tile_rows = 16

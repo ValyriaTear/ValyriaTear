@@ -3,7 +3,6 @@ setmetatable(ns, {__index = _G});
 desert_cave_ground = ns;
 setfenv(1, ns);
 
-file_name = "dat/tilesets/desert_cave_ground.lua"
 image = "img/tilesets/desert_cave_ground.png"
 num_tile_cols = 16
 num_tile_rows = 16

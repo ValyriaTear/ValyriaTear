@@ -3,7 +3,6 @@ setmetatable(ns, {__index = _G});
 snow_tileset = ns;
 setfenv(1, ns);
 
-file_name = "dat/tilesets/snow_tileset.lua"
 image = "img/tilesets/snow_tileset.png"
 num_tile_cols = 16
 num_tile_rows = 16

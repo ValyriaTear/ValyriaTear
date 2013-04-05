@@ -3,7 +3,6 @@ setmetatable(ns, {__index = _G});
 water_tileset = ns;
 setfenv(1, ns);
 
-file_name = "dat/tilesets/water_tileset.lua"
 image = "img/tilesets/water_tileset.png"
 num_tile_cols = 16
 num_tile_rows = 16

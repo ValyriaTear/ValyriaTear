@@ -3,7 +3,6 @@ setmetatable(ns, {__index = _G});
 mountain_house_exterior2 = ns;
 setfenv(1, ns);
 
-file_name = "dat/tilesets/mountain_house_exterior2.lua"
 image = "img/tilesets/mountain_house_exterior2.png"
 num_tile_cols = 16
 num_tile_rows = 16
