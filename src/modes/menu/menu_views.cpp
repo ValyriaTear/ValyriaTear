@@ -1829,7 +1829,8 @@ void EquipWindow::_UpdateSelectedObject()
                 _object = _character->GetLegArmorEquipped();
                 break;
         }
-        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object);
+        EQUIP_VIEW view_type = _equip ? EQUIP_VIEW_CHAR : EQUIP_VIEW_UNEQUIPPING;
+        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, view_type);
         return;
     }
 
@@ -1872,7 +1873,7 @@ void EquipWindow::_UpdateSelectedObject()
     }
 
     // We now update equipment info
-    MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object);
+    MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
 }
 
 void EquipWindow::Draw()

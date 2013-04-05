@@ -824,6 +824,7 @@ MenuMode::MenuMode() :
     _message_window(NULL),
     _object(NULL),
     _character(NULL),
+    _equip_view_type(EQUIP_VIEW_NONE),
     _is_weapon(false),
     _shard_number(0)
 
@@ -888,8 +889,8 @@ MenuMode::MenuMode() :
     _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
     _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH_RAISE, GLOBAL_INTENSITY_NEUTRAL);
-    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR_RAISE, GLOBAL_INTENSITY_NEUTRAL);
-    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
     _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
 
     //////////// Setup the menu windows
@@ -973,14 +974,6 @@ MenuMode::MenuMode() :
 
     _phys_stat_diff.SetStyle(TextStyle("text18"));
     _mag_stat_diff.SetStyle(TextStyle("text18"));
-
-    _detailed_stat_header.SetStyle(TextStyle("text18"));
-
-    _det_phys_stat.SetStyle(TextStyle("text18"));
-    _det_mag_stat.SetStyle(TextStyle("text18"));
-
-    _det_phys_stat_diff.SetStyle(TextStyle("text18"));
-    _det_mag_stat_diff.SetStyle(TextStyle("text18"));
 } // MenuMode::MenuMode()
 
 MenuMode::~MenuMode()
@@ -1056,14 +1049,17 @@ void MenuMode::Update()
 
 } // void MenuMode::Update()
 
-void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *object)
+void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *object, EQUIP_VIEW view_type)
 {
-    _character = character;
-
     // Only update when necessary
-    if (_object == object)
+    if ((_object == object) && (_character == character) && (_equip_view_type == view_type))
         return;
+    if (view_type == EQUIP_VIEW_NONE)
+        return;
+
     _object = object;
+    _character = character;
+    _equip_view_type = view_type;
 
     // Clear the corresponding texts when there is no corresponding data
     if (!_object) {
@@ -1078,17 +1074,11 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         _mag_stat.Clear();
     }
 
-    if (!_character) {
+    // Don't show any diff when there no slected character,
+    // or not showing equip/unequip diffs.
+    if (!_character || view_type == EQUIP_VIEW_CHAR) {
         _phys_stat_diff.Clear();
         _mag_stat_diff.Clear();
-
-        _detailed_stat_header.Clear();
-
-        _det_phys_stat.Clear();
-        _det_mag_stat.Clear();
-
-        _det_phys_stat_diff.Clear();
-        _det_mag_stat_diff.Clear();
     }
 
     // If there is no object, we can return here.
@@ -1123,10 +1113,16 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             return;
         case GLOBAL_OBJECT_WEAPON: {
             _is_weapon = true;
-            GlobalWeapon* wpn = dynamic_cast<GlobalWeapon *>(_object);
-            _shard_number = wpn->GetShardSlots().size();
-            equip_phys_stat = wpn->GetPhysicalAttack();
-            equip_mag_stat = wpn->GetMagicalAttack();
+            GlobalWeapon* wpn = NULL;
+            // If character view or unequipping, we take the character current weapon as a base
+            if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING)
+                wpn = _character ? _character->GetWeaponEquipped() : NULL;
+            else // We can take the given object as a base
+                wpn = dynamic_cast<GlobalWeapon *>(_object);
+
+            _shard_number = wpn ? wpn->GetShardSlots().size() : 0;
+            equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
+            equip_mag_stat = wpn ? wpn->GetMagicalAttack() : 0;
             break;
         }
 
@@ -1136,10 +1132,20 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         case GLOBAL_OBJECT_LEG_ARMOR:
         {
             _is_weapon = false;
-            GlobalArmor* armor = dynamic_cast<GlobalArmor *>(_object);
-            _shard_number = armor->GetShardSlots().size();
-            equip_phys_stat = armor->GetPhysicalDefense();
-            equip_mag_stat = armor->GetMagicalDefense();
+            GlobalArmor* armor = NULL;
+
+            // If character view or unequipping, we take the character current armor as a base
+            if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING) {
+                uint32 equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
+                armor = _character ? _character->GetArmorEquipped(equip_index) : NULL;
+            }
+            else { // We can take the given object as a base
+                armor = dynamic_cast<GlobalArmor *>(_object);
+            }
+
+            _shard_number = armor ? armor->GetShardSlots().size() : 0;
+            equip_phys_stat = armor ? armor->GetPhysicalDefense() : 0;
+            equip_mag_stat = armor ? armor->GetMagicalDefense() : 0;
             break;
         }
     }
@@ -1156,28 +1162,73 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
     _phys_stat.SetText(NumberToString(equip_phys_stat));
     _mag_stat.SetText(NumberToString(equip_mag_stat));
 
-    // We can stop here if there is no valid character
-    if (!_character)
+    // We can stop here if there is no valid character, or simply showing
+    // the object stats
+    if (!_character || view_type == EQUIP_VIEW_CHAR)
         return;
 
-    // TODO: Deal with character detail stats and diffs.
-    /*
-    //! \brief The overall atk/def diff with current equipment
-    hoa_video::TextImage _phys_stat_diff;
-    hoa_video::TextImage _mag_stat_diff;
-    hoa_video::Color _phys_diff_color;
-    hoa_video::Color _mag_diff_color;
+    int32 phys_stat_diff = 0;
+    int32 mag_stat_diff = 0;
 
-    //! \brief detailed stat header
-    hoa_video::TextImage _detailed_stat_header;
+    if (_is_weapon) {
+        // Get the character's current attack
+        GlobalWeapon* wpn = _character->GetWeaponEquipped();
+        uint32 char_phys_stat = 0;
+        uint32 char_mag_stat = 0;
+        if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
+            char_phys_stat = (wpn ? wpn->GetPhysicalAttack() : 0);
+            char_mag_stat = (wpn ? wpn->GetMagicalAttack() : 0);
 
-    hoa_video::TextImage _det_phys_stat;
-    hoa_video::TextImage _det_mag_stat;
+            phys_stat_diff = equip_phys_stat - char_phys_stat;
+            mag_stat_diff = equip_mag_stat - char_mag_stat;
+        }
+        else { // unequipping
+            phys_stat_diff = char_phys_stat - equip_phys_stat;
+            mag_stat_diff = char_mag_stat - equip_mag_stat;
+        }
+    }
+    else { // armors
+        uint32 equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
+        GlobalArmor* armor = _character->GetArmorEquipped(equip_index);
+        uint32 char_phys_stat = 0;
+        uint32 char_mag_stat = 0;
+        if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
+            char_phys_stat = (armor ? armor->GetPhysicalDefense() : 0);
+            char_mag_stat = (armor ? armor->GetMagicalDefense() : 0);
 
-    //! \brief The detailed atk/def diff with current equipment
-    hoa_video::TextImage _det_phys_stat_diff;
-    hoa_video::TextImage _det_mag_stat_diff;
-    */
+            phys_stat_diff = equip_phys_stat - char_phys_stat;
+            mag_stat_diff = equip_mag_stat - char_mag_stat;
+        }
+        else { // unequiping
+            phys_stat_diff = char_phys_stat - equip_phys_stat;
+            mag_stat_diff = char_mag_stat - equip_mag_stat;
+        }
+    }
+
+    // Compute the overall stats diff with selected equipment
+    if (phys_stat_diff > 0) {
+        _phys_stat_diff.SetText("+" + NumberToString(phys_stat_diff));
+        _phys_diff_color.SetColor(Color::green);
+    }
+    else if (phys_stat_diff < 0) {
+        _phys_stat_diff.SetText(NumberToString(phys_stat_diff));
+        _phys_diff_color.SetColor(Color::red);
+    }
+    else {
+        _phys_stat_diff.Clear();
+    }
+
+    if (mag_stat_diff > 0) {
+        _mag_stat_diff.SetText("+" + NumberToString(mag_stat_diff));
+        _mag_diff_color.SetColor(Color::green);
+    }
+    else if (mag_stat_diff < 0) {
+        _mag_stat_diff.SetText(NumberToString(mag_stat_diff));
+        _mag_diff_color.SetColor(Color::red);
+    }
+    else {
+        _mag_stat_diff.Clear();
+    }
 }
 
 void MenuMode::Draw()
@@ -1264,8 +1315,6 @@ void MenuMode::DrawEquipmentInfo()
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
-
-    // TODO: Draw detailed character defense diffs
 }
 
 void MenuMode::ReloadCharacterWindows()

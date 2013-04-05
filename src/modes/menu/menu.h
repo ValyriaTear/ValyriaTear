@@ -49,6 +49,17 @@ extern bool MENU_DEBUG;
 namespace private_menu
 {
 
+//! \brief The different bottom window equipment views
+enum EQUIP_VIEW {
+    EQUIP_VIEW_NONE        = -1,
+    //! Show the current character stats using the given object type.
+    EQUIP_VIEW_CHAR        = 0,
+    //! Show the diffs of characters stats against the given object.
+    EQUIP_VIEW_EQUIPPING   = 1,
+    //! Show the diffs of characters stats against nothing using the given object type.
+    EQUIP_VIEW_UNEQUIPPING = 2
+};
+
 /**
 *** \brief Defines a single menu state, which includes the currently viewing parameters and transition states
 ***
@@ -419,11 +430,12 @@ public:
     //! \brief Updates the time and drunes text
     void UpdateTimeAndDrunes();
 
-    //! \brief handles drawing the generalized equipment information
-    //! Used by both the inventory and equip windows and states.
-    //! \note If the GlobalCharacter is NULL, the function won't show the diff.
+    /** \brief handles drawing the generalized equipment information
+    *** Used by both the inventory and equip windows and states.
+    **/
     void UpdateEquipmentInfo(hoa_global::GlobalCharacter *character,
-                             hoa_global::GlobalObject *obj);
+                             hoa_global::GlobalObject *object,
+                             private_menu::EQUIP_VIEW view_type);
 
     //! \brief Draws The current equipment info
     //! Used by both the inventory and equip windows and states.
@@ -531,6 +543,9 @@ private:
     //! \brief The selected character
     hoa_global::GlobalCharacter* _character;
 
+    //! \brief the current equipment view type
+    private_menu::EQUIP_VIEW _equip_view_type;
+
     //! \brief The name of the selected object
     hoa_video::TextImage _object_name;
 
@@ -550,16 +565,6 @@ private:
     hoa_video::TextImage _mag_stat_diff;
     hoa_video::Color _phys_diff_color;
     hoa_video::Color _mag_diff_color;
-
-    //! \brief detailed stat header
-    hoa_video::TextImage _detailed_stat_header;
-
-    hoa_video::TextImage _det_phys_stat;
-    hoa_video::TextImage _det_mag_stat;
-
-    //! \brief The detailed atk/def diff with current equipment
-    hoa_video::TextImage _det_phys_stat_diff;
-    hoa_video::TextImage _det_mag_stat_diff;
 
     //! \brief Icon images representing elemental effects and intensity properties of the selected object
     std::vector<hoa_video::StillImage *> _elemental_icons;

@@ -27,6 +27,23 @@ using namespace hoa_global::private_global;
 namespace hoa_global
 {
 
+uint32 GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type)
+{
+    switch (object_type) {
+    default:
+       break;
+    case GLOBAL_OBJECT_HEAD_ARMOR:
+        return GLOBAL_POSITION_HEAD;
+    case GLOBAL_OBJECT_TORSO_ARMOR:
+        return GLOBAL_POSITION_TORSO;
+    case GLOBAL_OBJECT_ARM_ARMOR:
+        return GLOBAL_POSITION_ARMS;
+    case GLOBAL_OBJECT_LEG_ARMOR:
+        return GLOBAL_POSITION_LEGS;
+    }
+     return GLOBAL_POSITION_INVALID;
+}
+
 std::string GetTargetText(GLOBAL_TARGET target)
 {
     switch(target) {

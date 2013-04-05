@@ -136,10 +136,11 @@ const uint32 GLOBAL_CHARACTER_ALL         = 0xFFFFFFFF;
 *** \brief Integers that represent the index location of the four attack points and armor types for characters
 **/
 //@{
-const uint32 GLOBAL_POSITION_HEAD  = 0;
-const uint32 GLOBAL_POSITION_TORSO = 1;
-const uint32 GLOBAL_POSITION_ARMS  = 2;
-const uint32 GLOBAL_POSITION_LEGS  = 3;
+const uint32 GLOBAL_POSITION_HEAD     = 0;
+const uint32 GLOBAL_POSITION_TORSO    = 1;
+const uint32 GLOBAL_POSITION_ARMS     = 2;
+const uint32 GLOBAL_POSITION_LEGS     = 3;
+const uint32 GLOBAL_POSITION_INVALID  = 4;
 //@}
 
 //! \brief The maximum number of characters that can be in the active party
@@ -159,6 +160,9 @@ enum GLOBAL_OBJECT {
     GLOBAL_OBJECT_SHARD       =  6,
     GLOBAL_OBJECT_TOTAL       =  7
 };
+
+//! \brief translate the object type into the object position.
+uint32 GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type);
 
 /** \name Elemental Effect Types
 *** \brief Used to identify the eight different types of elementals
