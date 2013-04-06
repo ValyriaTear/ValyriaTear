@@ -240,6 +240,10 @@ private:
     */
     void _UpdateItemText();
 
+    //! \brief updates the selected item and character
+    //! \note this also updates calls _UpdateItemText();
+    void _UpdateSelection();
+
     /*!
     * \brief Initializes inventory items option box
     */

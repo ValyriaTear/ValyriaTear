@@ -289,49 +289,8 @@ void InventoryWindow::Update()
     }
 
     // Update object and character data when necessary
-    if (InputManager->AnyKeyPress()) {
-        // Update the item list
-        _UpdateItemText();
-
-        _object = _item_objects[ _inventory_items.GetSelection() ];
-        _object_type = _object->GetObjectType();
-
-        if (_active_box == ITEM_ACTIVE_CHAR)
-            _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
-
-        //check the obj_type again to see if its a weapon or armor
-        switch(_object_type) {
-            case GLOBAL_OBJECT_WEAPON:
-            {
-                GlobalWeapon* selected_weapon = dynamic_cast<GlobalWeapon *>(_object);
-                uint32 usability_bitmask = selected_weapon->GetUsableBy();
-                _is_equipment = true;
-                _can_equip = usability_bitmask & _character->GetID();
-                MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
-                break;
-            }
-            case GLOBAL_OBJECT_HEAD_ARMOR:
-            case GLOBAL_OBJECT_TORSO_ARMOR:
-            case GLOBAL_OBJECT_ARM_ARMOR:
-            case GLOBAL_OBJECT_LEG_ARMOR:
-            {
-                GlobalArmor* selected_armor = dynamic_cast<GlobalArmor *>(_object);
-                uint32 usability_bitmask = selected_armor->GetUsableBy();
-                _is_equipment = true;
-                _can_equip = usability_bitmask & _character->GetID();
-                MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
-                break;
-            }
-            default:
-                _is_equipment = false;
-                _can_equip = false;
-
-                // Prepare the equipment help message
-                const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
-                MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
-                break;
-        }
-    }
+    if (InputManager->AnyKeyPress())
+        _UpdateSelection();
 
     uint32 event = active_option->GetEvent();
     active_option->Update();
@@ -423,7 +382,6 @@ void InventoryWindow::Update()
                 //values used for equipment selection
                 GlobalArmor *selected_armor = NULL;
                 GlobalWeapon *selected_weapon = NULL;
-                GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
                 switch(_object_type)
                 {
                     case GLOBAL_OBJECT_ITEM:
@@ -455,7 +413,7 @@ void InventoryWindow::Update()
 
 
                                 // If the item use failed, we readd it to inventory.
-                                if(!ScriptCallFunction<bool>(script_function, ch))
+                                if(!ScriptCallFunction<bool>(script_function, _character))
                                     GlobalManager->AddToInventory(item);
                                 else // delete the item instance when succeeded. Also, return back a level to the item selection list
                                 {
@@ -490,23 +448,24 @@ void InventoryWindow::Update()
                     default:
                         break;
                 }
+
                 //if we can equip this and it is armor
-                if(_can_equip)
+                if(_can_equip && selected_armor)
                 {
                     //do swap of armor based on object type (aka armor type)
                     switch(_object_type)
                     {
                         case GLOBAL_OBJECT_HEAD_ARMOR:
-                            selected_armor = ch->EquipHeadArmor(selected_armor);
+                            selected_armor = _character->EquipHeadArmor(selected_armor);
                             break;
                         case GLOBAL_OBJECT_TORSO_ARMOR:
-                            selected_armor = ch->EquipTorsoArmor(selected_armor);
+                            selected_armor = _character->EquipTorsoArmor(selected_armor);
                             break;
                         case GLOBAL_OBJECT_ARM_ARMOR:
-                            selected_armor = ch->EquipArmArmor(selected_armor);
+                            selected_armor = _character->EquipArmArmor(selected_armor);
                             break;
                         case GLOBAL_OBJECT_LEG_ARMOR:
-                            selected_armor = ch->EquipLegArmor(selected_armor);
+                            selected_armor = _character->EquipLegArmor(selected_armor);
                         default:
                             break;
                     }
@@ -524,7 +483,7 @@ void InventoryWindow::Update()
                 else if(_can_equip && selected_weapon)
                 {
                     //get the old weapon by swapping the selected_weapon for the current one
-                    selected_weapon = ch->EquipWeapon(selected_weapon);
+                    selected_weapon = _character->EquipWeapon(selected_weapon);
                     //add the old weapon back into the inventory
                     GlobalManager->AddToInventory(selected_weapon);
                     //return back a level
@@ -546,6 +505,8 @@ void InventoryWindow::Update()
                     media.PlaySound("cancel");
                 }
 
+                _UpdateSelection();
+
             } // if VIDEO_OPTION_CONFIRM
             // Return to item selection
             else if(event == VIDEO_OPTION_CANCEL) {
@@ -558,6 +519,51 @@ void InventoryWindow::Update()
         } // case ITEM_ACTIVE_CHAR
     } // switch (_active_box)
 } // void InventoryWindow::Update()
+
+void InventoryWindow::_UpdateSelection()
+{
+    // Update the item list
+    _UpdateItemText();
+
+    _object = _item_objects[ _inventory_items.GetSelection() ];
+    _object_type = _object->GetObjectType();
+
+    if (_active_box == ITEM_ACTIVE_CHAR)
+        _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+
+    //check the obj_type again to see if its a weapon or armor
+    switch(_object_type) {
+        case GLOBAL_OBJECT_WEAPON:
+        {
+            GlobalWeapon* selected_weapon = dynamic_cast<GlobalWeapon *>(_object);
+            uint32 usability_bitmask = selected_weapon->GetUsableBy();
+            _is_equipment = true;
+            _can_equip = usability_bitmask & _character->GetID();
+            MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+            break;
+        }
+        case GLOBAL_OBJECT_HEAD_ARMOR:
+        case GLOBAL_OBJECT_TORSO_ARMOR:
+        case GLOBAL_OBJECT_ARM_ARMOR:
+        case GLOBAL_OBJECT_LEG_ARMOR:
+        {
+            GlobalArmor* selected_armor = dynamic_cast<GlobalArmor *>(_object);
+            uint32 usability_bitmask = selected_armor->GetUsableBy();
+            _is_equipment = true;
+            _can_equip = usability_bitmask & _character->GetID();
+            MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+            break;
+        }
+        default:
+            _is_equipment = false;
+            _can_equip = false;
+
+            // Prepare the equipment help message
+            const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
+            MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
+            break;
+    }
+}
 
 // Updates the item list
 void InventoryWindow::_UpdateItemText()
