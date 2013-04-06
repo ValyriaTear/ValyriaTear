@@ -104,7 +104,7 @@ void AbstractMenuState::Update()
     else if(InputManager->ConfirmPress())
     {
         if(_options.IsOptionEnabled((_options.GetSelection())))
-            media.PlaySound("cancel");
+            media.PlaySound("confirm");
         _options.InputConfirm();
     }
     // return the event type from the option
@@ -389,7 +389,6 @@ void InventoryState::_OnDrawMainWindow()
 {
 
     uint32 draw_window = _options.GetSelection();
-    _DrawBottomMenu();
     // Inventory state has multiple state types to draw, including the Equip transition state.
     switch(draw_window)
     {
@@ -407,113 +406,6 @@ void InventoryState::_OnDrawMainWindow()
     }
 
 }
-
-void InventoryState::_DrawItemDescription(vt_global::GlobalObject &obj,
-                                          vt_video::StillImage* item_image,
-                                          vt_gui::TextBox &description)
-{
-    int32 key_pos_x = 100 + obj.GetIconImage().GetWidth() - item_image->GetWidth() - 3;
-    int32 key_pos_y = 600 + obj.GetIconImage().GetHeight() - item_image->GetHeight() - 3;
-    VideoManager->Move(key_pos_x, key_pos_y);
-    item_image->Draw();
-    VideoManager->Move(185, 600);
-    description.Draw();
-}
-
-void InventoryState::_DrawBottomMenu()
-{
-    _menu_mode->_bottom_window.Draw();
-
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150, 580);
-
-    if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_CATEGORY)
-        _menu_mode->_help_information.Draw();
-
-     //if we are out of items, the bottom view should do no work
-    if(GlobalManager->GetInventory()->size() == 0 || _menu_mode->_inventory_window._item_objects.size() == 0)
-        return;
-
-    GlobalObject *obj = _menu_mode->_inventory_window._item_objects[ _menu_mode->_inventory_window._inventory_items.GetSelection() ];
-    const GLOBAL_OBJECT obj_type = obj->GetObjectType();
-    if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_LIST) {
-
-
-        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
-
-        VideoManager->Move(100, 600);
-        obj->GetIconImage().Draw();
-        VideoManager->MoveRelative(65, -15);
-        VideoManager->Text()->Draw(obj->GetName());
-        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        _menu_mode->_inventory_window._description.Draw();
-
-        if (obj->IsKeyItem())
-            _DrawItemDescription(*obj, _menu_mode->_key_item_icon, _menu_mode->_key_item_description);
-        else if (obj_type == GLOBAL_OBJECT_SHARD)
-            _DrawItemDescription(*obj, _menu_mode->_shard_icon, _menu_mode->_shard_description);
-
-        //Draw help text
-    }
-    else if(_menu_mode->_inventory_window._active_box == ITEM_ACTIVE_CHAR)
-    {
-        //character is selected, check the obj_type for equipable items
-        uint32 actor_index = _menu_mode->_inventory_window._char_select.GetSelection();
-        GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(actor_index));
-
-        bool is_equipable_armor = false;
-        bool is_equipable_weapon = false;
-        GlobalArmor *selected_armor = NULL;
-        GlobalWeapon *selected_weapon = NULL;
-
-        //check the obj_type again to see if its a weapon or armor
-        switch(obj_type)
-        {
-            case GLOBAL_OBJECT_WEAPON:
-            {
-                selected_weapon = dynamic_cast<GlobalWeapon *>(obj);
-                uint32 usability_bitmask = selected_weapon->GetUsableBy();
-                is_equipable_weapon = usability_bitmask & ch->GetID();
-                break;
-            }
-            case GLOBAL_OBJECT_HEAD_ARMOR:
-            case GLOBAL_OBJECT_TORSO_ARMOR:
-            case GLOBAL_OBJECT_ARM_ARMOR:
-            case GLOBAL_OBJECT_LEG_ARMOR:
-            {
-                selected_armor = dynamic_cast<GlobalArmor *>(obj);
-                uint32 usability_bitmask = selected_armor->GetUsableBy();
-                is_equipable_armor = usability_bitmask & ch->GetID();
-                break;
-            }
-            default:
-                return;
-                break;
-        }
-
-        // TODO: Simplify this.
-        if(is_equipable_armor && selected_armor)
-        {
-            //draw the equipment stats and change info
-            _menu_mode->DrawEquipmentInfo();
-        }
-        else if(is_equipable_weapon && selected_weapon)
-        {
-            //draw the equipment stats and change info
-            _menu_mode->DrawEquipmentInfo();
-        }
-        else
-        {
-            //otherwise print a message
-            // NOTE: If more flexibility is needed down the road, load this from script
-            const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
-            _menu_mode->_help_information.SetDisplayText(cannot_equip);
-            _menu_mode->_help_information.Draw();
-
-        }
-    }
-}
-
 
 void PartyState::_ActiveWindowUpdate()
 {

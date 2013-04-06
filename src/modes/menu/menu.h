@@ -203,20 +203,24 @@ public:
         INV_OPTIONS_BACK,
         INV_OPTIONS_SIZE
     };
+
     //! \brief InventoryState state constructor
     InventoryState(MenuMode *menu_mode):
         AbstractMenuState("Inventory State", menu_mode)
     {}
-    ~InventoryState(){}
+
+    ~InventoryState()
+    {}
+
     void Reset();
+
     AbstractMenuState *GetTransitionState(uint32 selection);
+
 protected:
-    void _DrawItemDescription(vt_global::GlobalObject &obj,
-                              vt_video::StillImage* item_image,
-                              vt_gui::TextBox &description);
-    void _DrawBottomMenu();
     void _OnDrawMainWindow();
+
     void _ActiveWindowUpdate();
+
     bool _IsActive();
 };
 

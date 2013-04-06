@@ -220,6 +220,21 @@ private:
     //! holds previous category. we were looking at
     ITEM_CATEGORY _previous_category;
 
+    //! The currently selected object
+    vt_global::GlobalObject* _object;
+
+    //! The currently selected object type.
+    vt_global::GLOBAL_OBJECT _object_type;
+
+    //! The currently selected Character
+    vt_global::GlobalCharacter* _character;
+
+    //! Tells whether the item is a piece of equipment
+    bool _is_equipment;
+
+    //! Tells whether the character can equip the item
+    bool _can_equip;
+
     /*!
     * \brief Updates the item text in the inventory items
     */
@@ -239,6 +254,14 @@ private:
     * \brief Initializes item category select option box
     */
     void _InitCategory();
+
+    //! Draws the special item description and image
+    //! on the icon bottom right part of the item icon.
+    //! (Used for key items and shards)
+    void _DrawSpecialItemDescription(vt_video::StillImage* special_image,
+                                     vt_gui::TextBox& description);
+
+    void _DrawBottomInfo();
 
     template <class T> std::vector<vt_global::GlobalObject *> _GetItemVector(std::vector<T *> *inv);
 

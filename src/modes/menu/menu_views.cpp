@@ -126,9 +126,15 @@ static const ustring inventory_help_message = UTranslate("Select an item to Equi
 
 InventoryWindow::InventoryWindow() :
     _active_box(ITEM_ACTIVE_NONE),
-    _previous_category(ITEM_ALL)
+    _previous_category(ITEM_ALL),
+    _object(NULL),
+    _object_type(vt_global::GLOBAL_OBJECT_INVALID),
+    _character(NULL),
+    _is_equipment(false),
+    _can_equip(false)
 {
     _InitCategory();
+    _UpdateItemText();
     _InitInventoryItems();
     _InitCharSelect();
 
@@ -159,6 +165,8 @@ void InventoryWindow::_InitInventoryItems()
     _UpdateItemText();
     if(_inventory_items.GetNumberOptions() > 0) {
         _inventory_items.SetSelection(0);
+        _object = _item_objects[ _inventory_items.GetSelection() ];
+        _object_type = _object->GetObjectType();
     }
     VideoManager->MoveRelative(-65, 20);
     // Initially hide the cursor
@@ -189,6 +197,8 @@ void InventoryWindow::_InitCharSelect()
     _char_select.SetOptions(options);
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+
+    _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
 }
 
 //Initalizes the available item categories
@@ -278,6 +288,51 @@ void InventoryWindow::Update()
         active_option->InputDown();
     }
 
+    // Update object and character data when necessary
+    if (InputManager->AnyKeyPress()) {
+        // Update the item list
+        _UpdateItemText();
+
+        _object = _item_objects[ _inventory_items.GetSelection() ];
+        _object_type = _object->GetObjectType();
+
+        if (_active_box == ITEM_ACTIVE_CHAR)
+            _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+
+        //check the obj_type again to see if its a weapon or armor
+        switch(_object_type) {
+            case GLOBAL_OBJECT_WEAPON:
+            {
+                GlobalWeapon* selected_weapon = dynamic_cast<GlobalWeapon *>(_object);
+                uint32 usability_bitmask = selected_weapon->GetUsableBy();
+                _is_equipment = true;
+                _can_equip = usability_bitmask & _character->GetID();
+                MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+                break;
+            }
+            case GLOBAL_OBJECT_HEAD_ARMOR:
+            case GLOBAL_OBJECT_TORSO_ARMOR:
+            case GLOBAL_OBJECT_ARM_ARMOR:
+            case GLOBAL_OBJECT_LEG_ARMOR:
+            {
+                GlobalArmor* selected_armor = dynamic_cast<GlobalArmor *>(_object);
+                uint32 usability_bitmask = selected_armor->GetUsableBy();
+                _is_equipment = true;
+                _can_equip = usability_bitmask & _character->GetID();
+                MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+                break;
+            }
+            default:
+                _is_equipment = false;
+                _can_equip = false;
+
+                // Prepare the equipment help message
+                const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
+                MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
+                break;
+        }
+    }
+
     uint32 event = active_option->GetEvent();
     active_option->Update();
     // Handle confirm/cancel presses differently for each window
@@ -322,12 +377,10 @@ void InventoryWindow::Update()
                 _inventory_items.SetSelection((uint32)_inventory_items.GetNumberOptions() - 1);
             }
 
-            GlobalObject *obj = _item_objects[ _inventory_items.GetSelection() ];
-
             // Activate the character select for application
             if(event == VIDEO_OPTION_CONFIRM) {
                 // Don't accept selecting shard items for now
-                if(obj->GetObjectType() == GLOBAL_OBJECT_SHARD) {
+                if(_object_type == GLOBAL_OBJECT_SHARD) {
                     media.PlaySound("cancel");
                     break;
                 }
@@ -335,6 +388,19 @@ void InventoryWindow::Update()
                 _active_box = ITEM_ACTIVE_CHAR;
                 _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
                 _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+
+                switch (_object_type) {
+                    case GLOBAL_OBJECT_WEAPON:
+                    case GLOBAL_OBJECT_ARM_ARMOR:
+                    case GLOBAL_OBJECT_HEAD_ARMOR:
+                    case GLOBAL_OBJECT_TORSO_ARMOR:
+                    case GLOBAL_OBJECT_LEG_ARMOR:
+                        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+                        break;
+                    default: // other objects
+                        break;
+                }
+
                 media.PlaySound("confirm");
             } // if VIDEO_OPTION_CONFIRM
             // Return to category selection
@@ -346,7 +412,7 @@ void InventoryWindow::Update()
                 media.PlaySound("cancel");
             } // else if VIDEO_OPTION_CANCEL
             else if(event == VIDEO_OPTION_BOUNDS_UP || VIDEO_OPTION_BOUNDS_DOWN) {
-                _description.SetDisplayText(obj->GetDescription());
+                _description.SetDisplayText(_object->GetDescription());
             } // else if VIDEO_OPTION_BOUNDS_UP
             break;
         } // case ITEM_ACTIVE_LIST
@@ -354,26 +420,22 @@ void InventoryWindow::Update()
         case ITEM_ACTIVE_CHAR: {
             // Use the item on the chosen character
             if(event == VIDEO_OPTION_CONFIRM) {
-                GlobalObject *obj = _item_objects[ _inventory_items.GetSelection() ];
-
                 //values used for equipment selection
-                bool is_equipable = false;
                 GlobalArmor *selected_armor = NULL;
                 GlobalWeapon *selected_weapon = NULL;
-                GLOBAL_OBJECT obj_type = obj->GetObjectType();
                 GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
-                switch(obj_type)
+                switch(_object_type)
                 {
                     case GLOBAL_OBJECT_ITEM:
                     {
                         // Returns an item object, already removed from inventory.
                         // Don't forget to readd the item if not used, or to delete the pointer.
-                        GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(obj->GetID());
+                        GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(_object->GetID());
                         const ScriptObject &script_function = item->GetFieldUseFunction();
                         if(!script_function.is_valid()) {
                             IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
                         } else {
-                            if(IsTargetParty(item->GetTargetType()) == true) {
+                            if(IsTargetParty(item->GetTargetType())) {
                                 GlobalParty *ch_party = GlobalManager->GetActiveParty();
 
                                 // If the item use failed, we readd it to inventory.
@@ -412,9 +474,7 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_WEAPON:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_weapon = dynamic_cast<GlobalWeapon *>(GlobalManager->RetrieveFromInventory(obj->GetID()));
-                        uint32 usability_bitmask = selected_weapon->GetUsableBy();
-                        is_equipable = usability_bitmask & ch->GetID();
+                        selected_weapon = dynamic_cast<GlobalWeapon *>(GlobalManager->RetrieveFromInventory(_object->GetID()));
                         break;
                     }
                     case GLOBAL_OBJECT_HEAD_ARMOR:
@@ -423,9 +483,7 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_LEG_ARMOR:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_armor = dynamic_cast<GlobalArmor *>(GlobalManager->RetrieveFromInventory(obj->GetID()));
-                        uint32 usability_bitmask = selected_armor->GetUsableBy();
-                        is_equipable = usability_bitmask & ch->GetID();
+                        selected_armor = dynamic_cast<GlobalArmor *>(GlobalManager->RetrieveFromInventory(_object->GetID()));
                         break;
                     }
 
@@ -433,10 +491,10 @@ void InventoryWindow::Update()
                         break;
                 }
                 //if we can equip this and it is armor
-                if(is_equipable && selected_armor)
+                if(_can_equip)
                 {
                     //do swap of armor based on object type (aka armor type)
-                    switch(obj_type)
+                    switch(_object_type)
                     {
                         case GLOBAL_OBJECT_HEAD_ARMOR:
                             selected_armor = ch->EquipHeadArmor(selected_armor);
@@ -463,7 +521,7 @@ void InventoryWindow::Update()
 
                 }
                 //if we can equuip and it is a weapon
-                else if(is_equipable && selected_weapon)
+                else if(_can_equip && selected_weapon)
                 {
                     //get the old weapon by swapping the selected_weapon for the current one
                     selected_weapon = ch->EquipWeapon(selected_weapon);
@@ -499,9 +557,6 @@ void InventoryWindow::Update()
             break;
         } // case ITEM_ACTIVE_CHAR
     } // switch (_active_box)
-
-    // Update the item list
-    _UpdateItemText();
 } // void InventoryWindow::Update()
 
 // Updates the item list
@@ -593,6 +648,8 @@ void InventoryWindow::_UpdateItemText()
 
 void InventoryWindow::Draw()
 {
+    _DrawBottomInfo();
+
     MenuWindow::Draw();
 
     // Draw char select option box
@@ -605,6 +662,56 @@ void InventoryWindow::Draw()
     _inventory_items.Draw();
 } // bool InventoryWindow::Draw()
 
+void InventoryWindow::_DrawSpecialItemDescription(vt_video::StillImage* special_image,
+                                                  vt_gui::TextBox& description)
+{
+    int32 key_pos_x = 100 + _object->GetIconImage().GetWidth() - special_image->GetWidth() - 3;
+    int32 key_pos_y = 600 + _object->GetIconImage().GetHeight() - special_image->GetHeight() - 3;
+    VideoManager->Move(key_pos_x, key_pos_y);
+    special_image->Draw();
+    VideoManager->Move(185, 600);
+    description.Draw();
+}
+
+void InventoryWindow::_DrawBottomInfo()
+{
+    MenuMode* menu = MenuMode::CurrentInstance();
+    menu->_bottom_window.Draw();
+
+    //if we are out of items, the bottom view should do no work
+    if(GlobalManager->GetInventory()->empty() || _item_objects.empty())
+        return;
+
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+    VideoManager->Move(150, 580);
+
+
+    if(_active_box == ITEM_ACTIVE_CATEGORY) {
+        menu->_help_information.Draw();
+    }
+    else if(_active_box == ITEM_ACTIVE_LIST) {
+
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
+
+        VideoManager->Move(100, 600);
+        _object->GetIconImage().Draw();
+        VideoManager->MoveRelative(65, -15);
+        VideoManager->Text()->Draw(_object->GetName());
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+        _description.Draw();
+
+        if (_object->IsKeyItem())
+            _DrawSpecialItemDescription(menu->_key_item_icon, menu->_key_item_description);
+        else if (_object_type == GLOBAL_OBJECT_SHARD)
+            _DrawSpecialItemDescription(menu->_shard_icon, menu->_shard_description);
+    }
+    else if(_is_equipment && _active_box == ITEM_ACTIVE_CHAR) {
+        if (_can_equip)
+            menu->DrawEquipmentInfo();
+        else
+            menu->_help_information.Draw();
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // PartyWindow Class
@@ -1879,6 +1986,8 @@ void EquipWindow::_UpdateSelectedObject()
 
 void EquipWindow::Draw()
 {
+    MenuMode::CurrentInstance()->_bottom_window.Draw();
+
     MenuWindow::Draw();
 
     //Draw option boxes
