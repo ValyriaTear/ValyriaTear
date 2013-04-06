@@ -8,28 +8,14 @@ setfenv(1, ns);
 num_tile_cols = 32
 num_tile_rows = 24
 
--- The contexts names and inheritance definition
--- Tells the context id the current context inherit from
--- This means that the parent context will be used as a base, and the current
--- context will only have its own differences from it.
--- At least, the base context (id:0) can't a parent context, thus it should be equal to -1.
--- Note that a context cannot inherit from itself or a context with a higher id
--- since it would lead to nasty and useless loading use cases.
-contexts = {}
-contexts[0] = {}
-contexts[0].name = "Base"
-contexts[0].inherit_from = -1
-
--- The names of the tilesets used, with the path and file extension omitted
+-- The tilesets definition files used.
 tileset_filenames = {}
-tileset_filenames[1] = "mountain_landscape"
-tileset_filenames[2] = "wood_tileset"
-tileset_filenames[3] = "castle_exterior_01"
-tileset_filenames[4] = "village_exterior"
+tileset_filenames[1] = "dat/tilesets/mountain_landscape.lua"
+tileset_filenames[2] = "dat/tilesets/wood_tileset.lua"
+tileset_filenames[3] = "dat/tilesets/castle_exterior_01.lua"
+tileset_filenames[4] = "dat/tilesets/village_exterior.lua"
 
--- The map grid to indicate walkability. The size of the grid is 4x the size of the tile layer tables
--- Walkability status of tiles for 32 contexts. Zero indicates walkable for all contexts. Valid range: [0:2^32-1]
--- Example: 1 (BIN 001) = wall for first context only, 2 (BIN 010) means wall for second context only, 5 (BIN 101) means Wall for first and third context.
+-- The map grid to indicate walkability. 0 is walkable, 1 is not.
 map_grid = {}
 map_grid[0] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 map_grid[1] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
