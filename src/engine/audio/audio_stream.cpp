@@ -24,7 +24,7 @@
 
 #include <cstdlib>
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 extern bool AUDIO_DEBUG;
@@ -118,4 +118,4 @@ void AudioStream::SetLoopEnd(uint32 sample)
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio

@@ -22,10 +22,10 @@
 
 using namespace luabind;
 
-using namespace hoa_utils;
-using namespace hoa_script::private_script;
+using namespace vt_utils;
+using namespace vt_script::private_script;
 
-namespace hoa_script
+namespace vt_script
 {
 
 ReadScriptDescriptor::~ReadScriptDescriptor()
@@ -598,4 +598,4 @@ void ReadScriptDescriptor::DEBUG_PrintTable(object table, int tab)
     }
 }
 
-} // namespace hoa_script
+} // namespace vt_script

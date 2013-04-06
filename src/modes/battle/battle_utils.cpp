@@ -26,11 +26,11 @@
 
 #include "engine/system.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -780,7 +780,7 @@ ustring BattleTarget::GetName()
 // BattleItem class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleItem::BattleItem(hoa_global::GlobalItem item) :
+BattleItem::BattleItem(vt_global::GlobalItem item) :
     _item(item),
     _battle_count(item.GetCount())
 {
@@ -818,4 +818,4 @@ void BattleItem::DecrementBattleCount()
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop

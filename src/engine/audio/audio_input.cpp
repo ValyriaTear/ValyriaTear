@@ -24,7 +24,7 @@
 #include "audio_input.h"
 #include <SDL/SDL_endian.h>
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 extern bool AUDIO_DEBUG;
@@ -465,4 +465,4 @@ uint32 AudioMemory::Read(uint8 *buffer, uint32 size, bool &end)
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio

@@ -33,7 +33,7 @@ function trigger_potential_stun(user, target)
     local target_actor = target:GetActor();
     local attack_point = target_actor:GetAttackPoint(target:GetPoint());
     local chance_modifier = (user:GetTotalMagicalAttack() - attack_point:GetTotalMagicalDefense()) * 3.0;
-    local chance = (hoa_utils.RandomFloat() * 100.0);
+    local chance = (vt_utils.RandomFloat() * 100.0);
     --print( chance.. "/".. 50.0 + chance_modifier);
     if (chance > (50.0 + chance_modifier)) then
         target_actor:RegisterMiss(true);
@@ -43,8 +43,8 @@ function trigger_potential_stun(user, target)
     -- Compute an effect duration time based on the characters' stats
     local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
-    target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
-                                      hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
+                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
                                       effect_duration);
 end
 
@@ -58,20 +58,20 @@ end
 --------------------------------------------------------------------------------
 
 skills[1] = {
-	name = hoa_system.Translate("Sword Slash"),
-	description = hoa_system.Translate("A textbook manoeuver that deals an effective blow."),
+	name = vt_system.Translate("Sword Slash"),
+	description = vt_system.Translate("A textbook manoeuver that deals an effective blow."),
 	sp_required = 0,
 	warmup_time = 1200,
 	cooldown_time = 200,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			-- Normal +0 attack
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamage(user, target), target);
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamage(user, target), target);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -86,19 +86,19 @@ skills[1] = {
 }
 
 skills[2] = {
-	name = hoa_system.Translate("Forward Thrust"),
-	description = hoa_system.Translate("A quicker and more powerful blow than the standard sword slash."),
+	name = vt_system.Translate("Forward Thrust"),
+	description = vt_system.Translate("A quicker and more powerful blow than the standard sword slash."),
 	sp_required = 2,
 	warmup_time = 800,
 	cooldown_time = 200,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageMultiplier(user, target, 1.75), target);
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageMultiplier(user, target, 1.75), target);
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -114,23 +114,23 @@ skills[2] = {
 }
 
 skills[3] = {
-	name = hoa_system.Translate("Stun Strike"),
-	description = hoa_system.Translate("A blow which temporarily stun its target."),
+	name = vt_system.Translate("Stun Strike"),
+	description = vt_system.Translate("A blow which temporarily stun its target."),
 	sp_required = 4,
 	warmup_time = 1200,
 	cooldown_time = 0,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasionAdder(target, 5.5) == false) then
+		if (vt_battle.CalculateStandardEvasionAdder(target, 5.5) == false) then
 			-- Calculate chance for paralysis effect and activate it
 			trigger_potential_stun(user, target);
 
 			-- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamage(user, target));
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamage(user, target));
 			AudioManager:PlaySound("snd/swordslice1.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -145,25 +145,25 @@ skills[3] = {
 }
 
 skills[4] = {
-	name = hoa_system.Translate("Blade Rush"),
-	description = hoa_system.Translate("A strong and aggressive attack with a blade that deals significant damage."),
+	name = vt_system.Translate("Blade Rush"),
+	description = vt_system.Translate("A strong and aggressive attack with a blade that deals significant damage."),
 	sp_required = 4,
 	warmup_time = 2000,
 	cooldown_time = 0,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
+		if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
-                                          hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
+                                          vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
                                           effect_duration);
 
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
 			AudioManager:PlaySound("snd/swordslice2.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -179,19 +179,19 @@ skills[4] = {
 
 -- Kalya first attack
 skills[5] = {
-	name = hoa_system.Translate("Single Shot"),
-	description = hoa_system.Translate("A simple shot using an arbalest."),
+	name = vt_system.Translate("Single Shot"),
+	description = vt_system.Translate("A simple shot using an arbalest."),
 	sp_required = 0,
 	warmup_time = 2500,
 	cooldown_time = 200,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
 			AudioManager:PlaySound("snd/crossbow.ogg");
 		else
 			target_actor:RegisterMiss(true);
@@ -206,19 +206,19 @@ skills[5] = {
 
 -- Sylve first attack
 skills[6] = {
-	name = hoa_system.Translate("Dagger Slash"),
-	description = hoa_system.Translate("A simple but efficient dagger attack."),
+	name = vt_system.Translate("Dagger Slash"),
+	description = vt_system.Translate("A simple but efficient dagger attack."),
 	sp_required = 0,
 	warmup_time = 1000,
 	cooldown_time = 200,
 	action_name = "attack",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
 			AudioManager:PlaySound("snd/swordslice2.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -228,18 +228,18 @@ skills[6] = {
 }
 
 skills[999] = {
-   name = hoa_system.Translate("Throw stone"),
-   description = hoa_system.Translate("Kalya's attack when she's got no weapon."),
+   name = vt_system.Translate("Throw stone"),
+   description = vt_system.Translate("Kalya's attack when she's got no weapon."),
    sp_required = 0,
    warmup_time = 1000,
    cooldown_time = 200,
    action_name = "throw_stone",
-   target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
    BattleExecute = function(user, target)
        target_actor = target:GetActor();
 
-       if (hoa_battle.CalculateStandardEvasion(target) == false) then
+       if (vt_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
            AudioManager:PlaySound("snd/punch.wav");
@@ -255,18 +255,18 @@ skills[999] = {
 }
 
 skills[1000] = {
-   name = hoa_system.Translate("Punch"),
-   description = hoa_system.Translate("A simple punch. Better than nothing..."),
+   name = vt_system.Translate("Punch"),
+   description = vt_system.Translate("A simple punch. Better than nothing..."),
    sp_required = 0,
    warmup_time = 1000,
    cooldown_time = 200,
    action_name = "attack",
-   target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
    BattleExecute = function(user, target)
        target_actor = target:GetActor();
 
-       if (hoa_battle.CalculateStandardEvasion(target) == false) then
+       if (vt_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
            AudioManager:PlaySound("snd/punch.wav");
@@ -291,13 +291,13 @@ skills[1001] = {
 	sp_required = 0,
 	warmup_time = 1100,
 	cooldown_time = 500,
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 10), target);
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 10), target);
 			AudioManager:PlaySound("snd/slime_attack.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -310,13 +310,13 @@ skills[1002] = {
 	sp_required = 0,
 	warmup_time = 1400,
 	cooldown_time = 0,
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 13), target);
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 13), target);
 			AudioManager:PlaySound("snd/spider_attack.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -329,13 +329,13 @@ skills[1003] = {
 	sp_required = 0,
 	warmup_time = 900,
 	cooldown_time = 0,
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
 			AudioManager:PlaySound("snd/snake_attack.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -348,17 +348,17 @@ skills[1004] = {
 	sp_required = 1,
 	warmup_time = 900,
 	cooldown_time = 0,
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- Calculate chance for paralysis effect and activate it
 			trigger_potential_stun(user, target);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
 			AudioManager:PlaySound("snd/snake_attack.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -371,21 +371,21 @@ skills[1005] = {
 	sp_required = 1,
 	warmup_time = 900,
 	cooldown_time = 0,
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor = target:GetActor();
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
-                                              hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
+                                              vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
                                               effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
 			AudioManager:PlaySound("snd/snake_attack.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -398,13 +398,13 @@ skills[1006] = {
 	sp_required = 0,
 	warmup_time = 1400,
 	cooldown_time = 0,
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
 
-		if (hoa_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+		if (vt_battle.CalculateStandardEvasion(target) == false) then
+			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
 			AudioManager:PlaySound("snd/skeleton_attack.wav");
 		else
 			target_actor:RegisterMiss(true);
@@ -417,13 +417,13 @@ skills[1007] = {
    sp_required = 0,
    warmup_time = 900,
    cooldown_time = 0,
-   target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
    BattleExecute = function(user, target)
        target_actor = target:GetActor();
 
-       if (hoa_battle.CalculateStandardEvasion(target) == false) then
-           local hp_drain = hoa_battle.CalculatePhysicalDamageAdder(user, target, 8);
+       if (vt_battle.CalculateStandardEvasion(target) == false) then
+           local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
            target_actor:RegisterDamage(hp_drain, target);
            -- If the damage dealt was 1, don't recover any HP from the attack
            if (hp_drain > 1) then
@@ -441,13 +441,13 @@ skills[1008] = {
     sp_required = 0,
     warmup_time = 1400,
     cooldown_time = 0,
-    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
     BattleExecute = function(user, target)
         target_actor = target:GetActor();
 
-        if (hoa_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
             AudioManager:PlaySound("snd/growl1_IFartInUrGeneralDirection_freesound.wav");
         else
             target_actor:RegisterMiss(true);

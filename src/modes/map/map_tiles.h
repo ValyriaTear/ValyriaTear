@@ -24,12 +24,12 @@
 
 #include "engine/script/script_read.h"
 
-namespace hoa_video {
+namespace vt_video {
 class ImageDescriptor;
 class AnimatedImage;
 }
 
-namespace hoa_map
+namespace vt_map
 {
 
 class MapMode;
@@ -68,7 +68,7 @@ public:
 *** ***************************************************************************/
 class TileSupervisor
 {
-    friend class hoa_map::MapMode;
+    friend class vt_map::MapMode;
 
 public:
     TileSupervisor();
@@ -79,7 +79,7 @@ public:
     *** \param map_file A reference to the Lua file containing the map data
     *** \note The map file should already be opened with no Lua tables open
     **/
-    bool Load(hoa_script::ReadScriptDescriptor &map_file);
+    bool Load(vt_script::ReadScriptDescriptor &map_file);
 
     //! \brief Updates all animated tile images
     void Update();
@@ -113,17 +113,17 @@ private:
     std::vector<Layer> _tile_grid;
 
     //! \brief Contains the image objects for all map tiles, both still and animated.
-    std::vector<hoa_video::ImageDescriptor *> _tile_images;
+    std::vector<vt_video::ImageDescriptor *> _tile_images;
 
     /** \brief Contains all of the animated tile images used on the map.
     *** The purpose of this vector is to easily update all tile animations without stepping through the
     *** _tile_images vector, which contains both still and animated images.
     **/
-    std::vector<hoa_video::AnimatedImage *> _animated_tile_images;
+    std::vector<vt_video::AnimatedImage *> _animated_tile_images;
 }; // class TileSupervisor
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_TILES_HEADER__

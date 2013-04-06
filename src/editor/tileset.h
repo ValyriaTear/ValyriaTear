@@ -28,7 +28,7 @@
 #include "engine/video/video.h"
 
 //! All calls to the editor are wrapped in this namespace.
-namespace hoa_editor
+namespace vt_editor
 {
 
 //! \brief Standard tile dimensions in number of pixels.
@@ -125,7 +125,7 @@ public:
 
     //! \brief Contains the StillImage tiles of the tileset, used in grid.cpp.
     // FIXME Turn this into a QT object, so that one can remove the editor dependency upon the videomanager
-    std::vector<hoa_video::StillImage> tiles;
+    std::vector<vt_video::StillImage> tiles;
 
     //! \brief Contains walkability information for each tile.
     std::map<int, std::vector<int32> > walkability;
@@ -168,6 +168,6 @@ public:
     QTableWidget *table;
 }; // class TilesetTable : public Tileset
 
-} // namespace hoa_editor
+} // namespace vt_editor
 
 #endif // __TILESET_HEADER__

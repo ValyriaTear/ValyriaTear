@@ -46,12 +46,12 @@ typedef int Thread;
 typedef int Semaphore;
 #endif
 
-namespace hoa_mode_manager {
+namespace vt_mode_manager {
 class GameMode;
 }
 
 //! All calls to the system engine are wrapped in this namespace.
-namespace hoa_system
+namespace vt_system
 {
 
 class SystemEngine;
@@ -59,7 +59,7 @@ class SystemEngine;
 //! \brief The singleton pointer responsible for managing the system during game operation.
 extern SystemEngine *SystemManager;
 
-//! \brief Determines whether the code in the hoa_system namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_system namespace should print debug statements or not.
 extern bool SYSTEM_DEBUG;
 
 /** \brief A constant that represents an "infinite" number of milliseconds that can never be reached
@@ -110,17 +110,17 @@ std::string CTranslate(const std::string &text);
 
 /** \brief Returns a ustring translated into the game's current language
 *** \param text A const reference to the string that should be translated
-*** \return Translated text in the form of a hoa_utils::ustring
+*** \return Translated text in the form of a vt_utils::ustring
 ***
 *** \note This function is nothing more than a short-cut for typing:
 *** MakeUnicodeString(Translate(string));
 **/
-hoa_utils::ustring UTranslate(const std::string &text);
+vt_utils::ustring UTranslate(const std::string &text);
 
 /** \brief Returns the contextual translation as a ustring.
 *** \see CTranslate().
 **/
-hoa_utils::ustring CUTranslate(const std::string &text);
+vt_utils::ustring CUTranslate(const std::string &text);
 
 /** \brief Returns the translated string fprinted with the c-formatted arguments.
 *** \param text The text to transform containing c-format argument
@@ -186,7 +186,7 @@ public:
     /** \brief Enables the auto update feature for the timer
     *** \param owner A pointer to the GameMode which owns this class. Default value is set to NULL (no owner).
     **/
-    void EnableAutoUpdate(hoa_mode_manager::GameMode *owner = NULL);
+    void EnableAutoUpdate(vt_mode_manager::GameMode *owner = NULL);
 
     //! \brief Disables the timer auto update feature
     void EnableManualUpdate();
@@ -274,7 +274,7 @@ public:
 
     void SetNumberLoops(int32 loops);
 
-    void SetModeOwner(hoa_mode_manager::GameMode *owner);
+    void SetModeOwner(vt_mode_manager::GameMode *owner);
     //@}
 
     //! \name Class Member Accessor Methods
@@ -295,7 +295,7 @@ public:
         return _auto_update;
     }
 
-    hoa_mode_manager::GameMode *GetModeOwner() const {
+    vt_mode_manager::GameMode *GetModeOwner() const {
         return _mode_owner;
     }
 
@@ -322,7 +322,7 @@ protected:
     int32 _number_loops;
 
     //! \brief A pointer to the game mode object which owns this timer, or NULL if it is unowned
-    hoa_mode_manager::GameMode *_mode_owner;
+    vt_mode_manager::GameMode *_mode_owner;
 
     //! \brief The amount of time that has expired on the current timer loop (counts up from 0 to _duration)
     uint32 _time_expired;
@@ -358,9 +358,9 @@ protected:
 ***
 *** \note This class is a singleton.
 *** ***************************************************************************/
-class SystemEngine : public hoa_utils::Singleton<SystemEngine>
+class SystemEngine : public vt_utils::Singleton<SystemEngine>
 {
-    friend class hoa_utils::Singleton<SystemEngine>;
+    friend class vt_utils::Singleton<SystemEngine>;
 
 public:
     ~SystemEngine();
@@ -522,7 +522,7 @@ private:
     *** The timers in this container are updated on each call to UpdateTimers().
     **/
     std::set<SystemTimer *> _auto_system_timers;
-}; // class SystemEngine : public hoa_utils::Singleton<SystemEngine>
+}; // class SystemEngine : public vt_utils::Singleton<SystemEngine>
 
 
 
@@ -565,6 +565,6 @@ template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *mycla
 #endif
 }
 
-} // namepsace hoa_system
+} // namepsace vt_system
 
 #endif // __SYSTEM_HEADER__

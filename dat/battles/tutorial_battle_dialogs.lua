@@ -69,56 +69,56 @@ function Initialize(battle_instance)
     -- The dialogue constructed below offers the player instructions on how to do battle. It is displayed only once in the first few seconds
     -- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
     -- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
-    main_dialogue = hoa_battle.BattleDialogue(1);
-        text = hoa_system.Translate("Woah, I wouldn't have expected enemies so close to the village. Bronann, do you need a quick reminder about the basics in battles?");
+    main_dialogue = vt_battle.BattleDialogue(1);
+        text = vt_system.Translate("Woah, I wouldn't have expected enemies so close to the village. Bronann, do you need a quick reminder about the basics in battles?");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("...");
+        text = vt_system.Translate("...");
         main_dialogue:AddLine(text, 1000);
-        text = hoa_system.Translate("Ask about battle basics.");
+        text = vt_system.Translate("Ask about battle basics.");
         main_dialogue:AddOption(text, 2);
-        text = hoa_system.Translate("Ask nothing. I know how to fight.");
+        text = vt_system.Translate("Ask nothing. I know how to fight.");
         main_dialogue:AddOption(text, 13);
         -- [Line 2] After selecting option: Ask about battle basics.
-        text = hoa_system.Translate("Er, I could use a refresher on the fundamentals of combat.");
+        text = vt_system.Translate("Er, I could use a refresher on the fundamentals of combat.");
         main_dialogue:AddLine(text, 1000);
-        text = hoa_system.Translate("Here you can find the Hit Points (HP) and Skill Points (SP) of all the ally party. Don't let our HP reach 0 or we're doomed!");
+        text = vt_system.Translate("Here you can find the Hit Points (HP) and Skill Points (SP) of all the ally party. Don't let our HP reach 0 or we're doomed!");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("In battles, our stamina icons and the ones of our enemy are going up the Stamina Bar. The more Agility you have, the quickest you'll reach the upper part of it.");
+        text = vt_system.Translate("In battles, our stamina icons and the ones of our enemy are going up the Stamina Bar. The more Agility you have, the quickest you'll reach the upper part of it.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("Once one of us has reached the action level, you can select an action for the one concerned. Don't panic, the battle is then paused and you've got all the time needed to select one.");
+        text = vt_system.Translate("Once one of us has reached the action level, you can select an action for the one concerned. Don't panic, the battle is then paused and you've got all the time needed to select one.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("There are several action types: The basic one 'Weapon', and later 'Magic' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose one action and a target to trigger it.");
+        text = vt_system.Translate("There are several action types: The basic one 'Weapon', and later 'Magic' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose one action and a target to trigger it.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("The icon will the reach the top of the Stamina Bar before being triggering it. It's called the 'preparation time'. The stronger is the skill, the longer it has to be prepared.");
+        text = vt_system.Translate("The icon will the reach the top of the Stamina Bar before being triggering it. It's called the 'preparation time'. The stronger is the skill, the longer it has to be prepared.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("By the way, you're not forced to wait for your icon to reach the action level before acting. The two little arrows here can be triggered, using your up and down keys, to preselect an action for either of us.");
+        text = vt_system.Translate("By the way, you're not forced to wait for your icon to reach the action level before acting. The two little arrows here can be triggered, using your up and down keys, to preselect an action for either of us.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("As long as the little arrows there are visible, you can change the selected action.");
+        text = vt_system.Translate("As long as the little arrows there are visible, you can change the selected action.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("Don't forget you can press '") .. InputManager:GetHelpKeyName() .. hoa_system.Translate("' if you need more details.");
+        text = vt_system.Translate("Don't forget you can press '") .. InputManager:GetHelpKeyName() .. vt_system.Translate("' if you need more details.");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("Shall I repeat?");
+        text = vt_system.Translate("Shall I repeat?");
         main_dialogue:AddLine(text, 1002);
-        text = hoa_system.Translate("...");
+        text = vt_system.Translate("...");
         main_dialogue:AddLine(text, 1000);
-        text = hoa_system.Translate("Yes, please!");
+        text = vt_system.Translate("Yes, please!");
         main_dialogue:AddOption(text, 3);
-        text = hoa_system.Translate("No, it's alright!");
+        text = vt_system.Translate("No, it's alright!");
         main_dialogue:AddOption(text, 14);
 
         -- [Line 13] End
-        text = hoa_system.Translate("Don't worry Kalya, I have not forgotten my training.");
+        text = vt_system.Translate("Don't worry Kalya, I have not forgotten my training.");
         main_dialogue:AddLine(text, 1000, 15);
         -- [Line 14] After selecting option: Ask nothing. (After a topic has already been asked).
-        text = hoa_system.Translate("Thanks Kalya, I'm prepared now.");
+        text = vt_system.Translate("Thanks Kalya, I'm prepared now.");
         main_dialogue:AddLine(text, 1000);
         -- [Line 25] Final line of dialogue
-        text = hoa_system.Translate("Good. Now let us quickly dispatch this minor threat.");
+        text = vt_system.Translate("Good. Now let us quickly dispatch this minor threat.");
         main_dialogue:AddLine(text, 1002);
     DialogueManager:AddDialogue(main_dialogue);
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
-    start_timer = hoa_system.SystemTimer(100, 0);
+    start_timer = vt_system.SystemTimer(100, 0);
 end
 
 
@@ -130,7 +130,7 @@ function Update()
     start_timer:Update();
 
     -- Wait until the initial battle sequence ends to begin running the dialogue start timer
-    if ((start_timer:IsInitial() == true) and (Battle:GetState() ~= hoa_battle.BattleMode.BATTLE_STATE_INITIAL)) then
+    if ((start_timer:IsInitial() == true) and (Battle:GetState() ~= vt_battle.BattleMode.BATTLE_STATE_INITIAL)) then
         start_timer:Run();
     end
 
@@ -242,9 +242,9 @@ function DrawPostEffects()
 
     -- Draw the hands
     if (hand1_visible == true) then
-        Script:DrawImage(hand1_image_id, hand1_bouncing_x, hand1_origin_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(hand1_image_id, hand1_bouncing_x, hand1_origin_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
     end
     if (hand2_visible == true) then
-        Script:DrawImage(hand2_image_id, hand2_origin_x, hand2_bouncing_y, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(hand2_image_id, hand2_origin_x, hand2_bouncing_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
     end
 end

@@ -22,7 +22,7 @@
 
 #include "shop_utils.h"
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
@@ -79,29 +79,29 @@ public:
     /** \brief Create's the shop name's text
     *** \param name The name of the shop
     **/
-    void SetShopName(const hoa_utils::ustring& name);
+    void SetShopName(const vt_utils::ustring& name);
 
     /** \brief Creates the shop keeper's greeting message text
     *** \param greeting The textual greeting
     **/
-    void SetGreetingText(const hoa_utils::ustring& greeting);
+    void SetGreetingText(const vt_utils::ustring& greeting);
 
 private:
     //! \brief The rendered text image of the shop name
-    hoa_video::TextImage _shop_name;
+    vt_video::TextImage _shop_name;
 
     //! \brief Text for displaying price levels
-    hoa_video::TextImage _buy_price_text, _sell_price_text;
+    vt_video::TextImage _buy_price_text, _sell_price_text;
 
     //! \brief A composite image for the star rating of the buy and sell price levels
-    hoa_video::CompositeImage _buy_price_rating, _sell_price_rating;
+    vt_video::CompositeImage _buy_price_rating, _sell_price_rating;
 
     //! \brief A textbox displaying a short greeting or message from the shop keeper
-    hoa_gui::TextBox _greeting_text;
+    vt_gui::TextBox _greeting_text;
 }; // class RootInterface : public ShopInterface
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_ROOT_HEADER__

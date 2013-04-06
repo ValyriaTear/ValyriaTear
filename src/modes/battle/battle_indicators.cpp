@@ -24,12 +24,12 @@
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -135,7 +135,7 @@ void IndicatorElement::Update()
 void IndicatorElement::_UpdateDrawPosition()
 {
     // the time passed since the last call in ms.
-    float elapsed_ms = static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
+    float elapsed_ms = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
 
     switch(_indicator_type) {
     case DAMAGE_INDICATOR: {
@@ -587,4 +587,4 @@ void IndicatorSupervisor::AddItemIndicator(const GlobalItem &item)
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

@@ -14,10 +14,10 @@
 #include "particle_keyframe.h"
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_video;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
@@ -854,4 +854,4 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
                                            _system_def->particle_lifetime_variation);
 }
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager

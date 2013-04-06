@@ -27,7 +27,7 @@
 
 #include "global_utils.h"
 
-namespace hoa_global
+namespace vt_global
 {
 
 /** \brief Retrieves a string representation for any GLOBAL_ELEMENTAL enum value
@@ -168,6 +168,6 @@ protected:
     GLOBAL_INTENSITY _intensity;
 }; // class GlobalStatusEffect
 
-} // namespace hoa_global
+} // namespace vt_global
 
 #endif // __GLOBAL_EFFECTS_HEADER__

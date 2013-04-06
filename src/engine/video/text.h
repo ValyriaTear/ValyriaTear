@@ -34,7 +34,7 @@
 
 typedef struct _TTF_Font TTF_Font;
 
-namespace hoa_video
+namespace vt_video
 {
 
 class TextSupervisor;
@@ -181,14 +181,14 @@ public:
     /** \brief Constructor defaults image as the first one in a texture sheet.
     *** \note The actual sheet where the image is located will be determined later.
     **/
-    TextTexture(const hoa_utils::ustring &string_, const TextStyle &style_);
+    TextTexture(const vt_utils::ustring &string_, const TextStyle &style_);
 
     ~TextTexture();
 
     // ---------- Public members
 
     //! \brief The string represented
-    hoa_utils::ustring string;
+    vt_utils::ustring string;
 
     //! \brief The text style of the rendered string
     TextStyle style;
@@ -289,7 +289,7 @@ public:
     TextImage();
 
     //! \brief Constructs rendered string of specified ustring
-    TextImage(const hoa_utils::ustring &string, TextStyle style = TextStyle());
+    TextImage(const vt_utils::ustring &string, TextStyle style = TextStyle());
 
     //! \brief Constructs rendered string of specified std::string
     TextImage(const std::string &string, TextStyle style = TextStyle());
@@ -363,14 +363,14 @@ public:
     }
 
     //! \brief Sets the text contained
-    void SetText(const hoa_utils::ustring &string) {
+    void SetText(const vt_utils::ustring &string) {
         _string = string;
         _Regenerate();
     }
 
     //! \brief Sets the text (std::string version)
     void SetText(const std::string &string) {
-        SetText(hoa_utils::MakeUnicodeString(string));
+        SetText(vt_utils::MakeUnicodeString(string));
         _Regenerate();
     }
 
@@ -382,7 +382,7 @@ public:
 
     //! \name Class Member Access Functions
     //@{
-    hoa_utils::ustring GetString() const {
+    vt_utils::ustring GetString() const {
         return _string;
     }
 
@@ -393,7 +393,7 @@ public:
 
 private:
     //! \brief The unicode string of the text to render
-    hoa_utils::ustring _string;
+    vt_utils::ustring _string;
 
     //! \brief The style to render the text in
     TextStyle _style;
@@ -421,9 +421,9 @@ private:
 *** way for doing so is to call "VideoManager->Text()->MethodName()".
 *** VideoManager->Text() returns the singleton pointer to this class.
 *** ***************************************************************************/
-class TextSupervisor : public hoa_utils::Singleton<TextSupervisor>
+class TextSupervisor : public vt_utils::Singleton<TextSupervisor>
 {
-    friend class hoa_utils::Singleton<TextSupervisor>;
+    friend class vt_utils::Singleton<TextSupervisor>;
     friend class VideoEngine;
     friend class TextureController;
     friend class private_video::TextTexture;
@@ -478,7 +478,7 @@ public:
     /** \brief Renders and draws a unicode string of text to the screen in the default text style
     *** \param text The text string to draw in unicode format
     **/
-    void Draw(const hoa_utils::ustring &text) {
+    void Draw(const vt_utils::ustring &text) {
         Draw(text, _default_style);
     }
 
@@ -486,13 +486,13 @@ public:
     *** \param text The text string to draw in unicode format
     *** \param style A reference to the TextStyle to use for drawing the string
     **/
-    void Draw(const hoa_utils::ustring &text, const TextStyle &style);
+    void Draw(const vt_utils::ustring &text, const TextStyle &style);
 
     /** \brief Renders and draws a standard string of text to the screen in the default text style
     *** \param text The text string to draw in standard format
     **/
     void Draw(const std::string &text) {
-        Draw(hoa_utils::MakeUnicodeString(text));
+        Draw(vt_utils::MakeUnicodeString(text));
     }
 
     /** \brief Renders and draws a standard string of text to the screen in a desired text style
@@ -500,7 +500,7 @@ public:
     *** \param style A reference to the TextStyle to use for drawing the string
     **/
     void Draw(const std::string &text, const TextStyle &style) {
-        Draw(hoa_utils::MakeUnicodeString(text), style);
+        Draw(vt_utils::MakeUnicodeString(text), style);
     }
 
     /** \brief Calculates what the width would be for a unicode string of text if it were rendered
@@ -508,7 +508,7 @@ public:
     *** \param text The text string in unicode format
     *** \return The width of the text as it would be rendered, or -1 if there was an error
     **/
-    int32 CalculateTextWidth(const std::string &font_name, const hoa_utils::ustring &text);
+    int32 CalculateTextWidth(const std::string &font_name, const vt_utils::ustring &text);
 
     /** \brief Calculates what the width would be for a standard string of text if it were rendered
     *** \param font_name The reference name of the font to use for the calculation
@@ -572,9 +572,9 @@ private:
     *** \param buffer A reference to the pixel array where to place the rendered string to
     *** \return True if the string was rendered successfully, or false if it was not
     **/
-    bool _RenderText(hoa_utils::ustring &string, TextStyle &style, private_video::ImageMemory &buffer);
-}; // class TextSupervisor : public hoa_utils::Singleton
+    bool _RenderText(vt_utils::ustring &string, TextStyle &style, private_video::ImageMemory &buffer);
+}; // class TextSupervisor : public vt_utils::Singleton
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __TEXT_HEADER__

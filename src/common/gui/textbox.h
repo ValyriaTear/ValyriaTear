@@ -26,7 +26,7 @@
 #include "engine/video/text.h"
 #include "engine/video/screen_rect.h"
 
-namespace hoa_gui
+namespace vt_gui
 {
 
 namespace private_gui
@@ -89,7 +89,7 @@ public:
     *** \param frame_time The amount of milliseconds that have transpired since the last frame.
     *** This must be called every frame in order to update the gradual display of text.
     **/
-    void Update(uint32 frame_time = hoa_system::SystemManager->GetUpdateTime());
+    void Update(uint32 frame_time = vt_system::SystemManager->GetUpdateTime());
 
     /** \brief Renders the textbox to the screen back buffer.
     *** Note that the rendering is not affected by any draw flags or coordinate system settings,.
@@ -122,7 +122,7 @@ public:
     /** \brief Sets the text style to use for this textbox.
     *** \param style The style intended \see #TextStyle
     **/
-    void SetTextStyle(const hoa_video::TextStyle &style);
+    void SetTextStyle(const vt_video::TextStyle &style);
 
     /** \brief Sets the current text display mode (e.g. fading lines of text, etc.)
     *** \param mode The display mode to use for the text.
@@ -146,7 +146,7 @@ public:
     *** new lines where appropriate. If the text is so big that it can't fit even with word
     *** wrapping, an error is printed to the console if debugging is enabled.
     **/
-    void SetDisplayText(const hoa_utils::ustring &text);
+    void SetDisplayText(const vt_utils::ustring &text);
 
     /** \brief A non-unicode version of SetDisplayText().
     *** \param text The text to be set in the box (a standard non-unicode string).
@@ -166,7 +166,7 @@ public:
     /** \brief  Gets the current text style for this textbox
     *** \return The current text style.
     **/
-    const hoa_video::TextStyle &GetTextStyle() {
+    const vt_video::TextStyle &GetTextStyle() {
         return _text_style;
     }
 
@@ -181,7 +181,7 @@ public:
     }
 
     //! \brief Returns the text currently being displayed by the textbox.
-    void GetText(std::vector<hoa_utils::ustring>& text) const {
+    void GetText(std::vector<vt_utils::ustring>& text) const {
         text = _text;
     }
 
@@ -233,27 +233,27 @@ private:
     uint32 _end_time;
 
     //! \brief The rendered image of the text stored in the text box
-    hoa_video::TextImage _text_image;
+    vt_video::TextImage _text_image;
 
     //! \brief The text style for this textbox
-    hoa_video::TextStyle _text_style;
+    vt_video::TextStyle _text_style;
 
     //! \brief A pointer to the structure containing properties of the current font such as its height, etc.
-    hoa_video::FontProperties *_font_properties;
+    vt_video::FontProperties *_font_properties;
 
     //! \brief The display mode for the text (one character at a time, fading in, instant, etc.).
     TEXT_DISPLAY_MODE _mode;
 
     //! \brief An array of wide strings, one for each line of text.
-    std::vector<hoa_utils::ustring> _text;
+    std::vector<vt_utils::ustring> _text;
 
     //! \brief The unedited text for reformatting
-    hoa_utils::ustring _text_save;
+    vt_utils::ustring _text_save;
 
     //! \brief Cache data for textbox drawing
     //! Recomputed in ReformatText()
     // The textBox text scissoring screen rectangle.
-    hoa_video::ScreenRect _scissor_rect;
+    vt_video::ScreenRect _scissor_rect;
     // Holds the height of the text to be drawn
     float _text_height;
     // Holds the actual x and y position where the text should be drawn
@@ -273,14 +273,14 @@ private:
     *** If the line is too long to fit in the width of the textbox, it will automatically
     *** be split into multiple lines through word wrapping.
     **/
-    void _AddLine(const hoa_utils::ustring &line);
+    void _AddLine(const vt_utils::ustring &line);
 
     /** \brief Draws the textbox text, taking the display mode into account.
     *** \param text_x The x value to use, depending on the alignment.
     *** \param text_y The y value to use, depending on the alignment.
     *** \param scissor_rect The scissor rectangle used for this textbox.
     **/
-    void _DrawTextLines(float text_x, float text_y, hoa_video::ScreenRect scissor_rect);
+    void _DrawTextLines(float text_x, float text_y, vt_video::ScreenRect scissor_rect);
 
     /** \brief Reformats text for size/font.
     **/
@@ -294,6 +294,6 @@ private:
 
 }; // class TextBox : public GUIControl
 
-} // namespace hoa_gui
+} // namespace vt_gui
 
 #endif  // __TEXTBOX_HEADER__

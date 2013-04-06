@@ -33,7 +33,7 @@
 
 #include "utils.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /*!***************************************************************************
@@ -179,6 +179,6 @@ public:
     EMITTER_SPIN _spin;
 };
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager
 
 #endif  // __PARTICLE_EMITTER_HEADER__

@@ -10,7 +10,7 @@
 
 /** ****************************************************************************
 *** \file   audio_effects.h
-*** \author Moisés Ferrer Serra, byaku@allacrost.org
+*** \author Moisï¿½s Ferrer Serra, byaku@allacrost.org
 *** \brief  Header file for audio effects
 ***
 *** This code provides the interface for effects, as well as the private classes
@@ -25,7 +25,7 @@
 
 #include "audio_descriptor.h"
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 class AudioDescriptor;
@@ -73,6 +73,6 @@ public:
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif // __AUDIO_EFFECTS_HEADER__

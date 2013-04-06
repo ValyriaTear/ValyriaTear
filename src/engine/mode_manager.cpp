@@ -22,14 +22,14 @@
 
 #include "modes/mode_help_window.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_audio;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_audio;
 
-template<> hoa_mode_manager::ModeEngine *Singleton<hoa_mode_manager::ModeEngine>::_singleton_reference = NULL;
+template<> vt_mode_manager::ModeEngine *Singleton<vt_mode_manager::ModeEngine>::_singleton_reference = NULL;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 ModeEngine *ModeManager = NULL;
@@ -71,7 +71,7 @@ GameMode::~GameMode()
 
 void GameMode::Update()
 {
-    uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
+    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _script_supervisor.Update();
     _effect_supervisor.Update(frame_time);
@@ -349,4 +349,4 @@ void ModeEngine::DEBUG_PrintStack()
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager

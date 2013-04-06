@@ -60,7 +60,7 @@ function Load(m)
 
     if (GlobalManager:DoesEventExist("story", "kalya_speech_at_cave_entrance_done") == false) then
         hero:SetMoving(false);
-        hero:SetDirection(hoa_map.MapMode.WEST);
+        hero:SetDirection(vt_map.MapMode.WEST);
         -- Add 200 ms here to permit the engine to setup the correct hero sprite first
         EventManager:StartEvent("Cave entrance dialogue", 200);
     end
@@ -79,8 +79,8 @@ end
 function _CreateCharacters()
     -- Default hero and position
     hero = CreateSprite(Map, "Bronann", 116, 92);
-    hero:SetDirection(hoa_map.MapMode.NORTH);
-    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    hero:SetDirection(vt_map.MapMode.NORTH);
+    hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
     local x_position = GlobalManager:GetSaveLocationX();
@@ -89,10 +89,10 @@ function _CreateCharacters()
         -- Use the save point position, and clear the save position data for next maps
         GlobalManager:UnsetSaveLocation();
         -- Make the character look at us in that case
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
-        hero:SetDirection(hoa_map.MapMode.WEST);
+        hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(125.0, 9.0);
     end
 
@@ -102,9 +102,9 @@ function _CreateCharacters()
     kalya_sprite = CreateSprite(Map, "Kalya",
                                 hero:GetXPosition(), hero:GetYPosition());
 
-    kalya_sprite:SetDirection(hoa_map.MapMode.NORTH);
-    kalya_sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-    kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
+    kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
     Map:AddGroundObject(kalya_sprite);
 end
@@ -145,29 +145,29 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 116, 109,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add a halo showing the next cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 132, 14,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
 
     Map:AddSavePoint(50, 6);
 
     -- Load the spring heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
+    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
 
     -- Heal point
     npc = CreateSprite(Map, "Butterfly", 35, 7);
-    npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
     Map:AddGroundObject(npc);
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Your party feels better...");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Cave heal", "");
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
@@ -175,7 +175,7 @@ function _CreateObjects()
     -- The triggers
 
     --near entrance
-    trigger = hoa_map.TriggerObject("layna_cave_entrance_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_entrance_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -190,11 +190,11 @@ function _CreateObjects()
     end
     Map:AddGroundObject(entrance_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove entrance rock", "make_entrance_rock_invisible_n_speech", "");
+    event = vt_map.ScriptedEvent("Remove entrance rock", "make_entrance_rock_invisible_n_speech", "");
     EventManager:RegisterEvent(event);
 
     -- 2nd trigger
-    trigger = hoa_map.TriggerObject("layna_cave_2nd_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_2nd_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -209,11 +209,11 @@ function _CreateObjects()
     end
     Map:AddGroundObject(second_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove 2nd rock", "make_2nd_rock_invisible", "");
+    event = vt_map.ScriptedEvent("Remove 2nd rock", "make_2nd_rock_invisible", "");
     EventManager:RegisterEvent(event);
 
     -- 3rd trigger
-    trigger = hoa_map.TriggerObject("layna_cave_3rd_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_3rd_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -228,11 +228,11 @@ function _CreateObjects()
     end
     Map:AddGroundObject(third_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove 3rd rock", "make_3rd_rock_invisible", "");
+    event = vt_map.ScriptedEvent("Remove 3rd rock", "make_3rd_rock_invisible", "");
     EventManager:RegisterEvent(event);
 
     -- 4th trigger
-    trigger = hoa_map.TriggerObject("layna_cave_4th_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_4th_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -247,11 +247,11 @@ function _CreateObjects()
     end
     Map:AddGroundObject(fourth_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove 4th rock", "make_4th_rock_invisible", "");
+    event = vt_map.ScriptedEvent("Remove 4th rock", "make_4th_rock_invisible", "");
     EventManager:RegisterEvent(event);
 
     -- 5th trigger
-    trigger = hoa_map.TriggerObject("layna_cave_5th_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_5th_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -266,11 +266,11 @@ function _CreateObjects()
     end
     Map:AddGroundObject(fifth_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove 5th rock", "make_5th_rock_invisible", "");
+    event = vt_map.ScriptedEvent("Remove 5th rock", "make_5th_rock_invisible", "");
     EventManager:RegisterEvent(event);
 
     -- 6th trigger
-    trigger = hoa_map.TriggerObject("layna_cave_6th_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_6th_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -285,11 +285,11 @@ function _CreateObjects()
     end
     Map:AddGroundObject(sixth_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove 6th rock", "make_6th_rock_invisible", "");
+    event = vt_map.ScriptedEvent("Remove 6th rock", "make_6th_rock_invisible", "");
     EventManager:RegisterEvent(event);
 
     -- 7th trigger
-    trigger = hoa_map.TriggerObject("layna_cave_7th_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_7th_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -304,11 +304,11 @@ function _CreateObjects()
     end
     Map:AddGroundObject(seventh_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove 7th rock", "make_7th_rock_invisible", "");
+    event = vt_map.ScriptedEvent("Remove 7th rock", "make_7th_rock_invisible", "");
     EventManager:RegisterEvent(event);
 
     -- 8th trigger
-    trigger = hoa_map.TriggerObject("layna_cave_8th_trigger",
+    trigger = vt_map.TriggerObject("layna_cave_8th_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
@@ -323,7 +323,7 @@ function _CreateObjects()
     end
     Map:AddGroundObject(eighth_trigger_rock);
 
-    event = hoa_map.ScriptedEvent("Remove 8th rock", "make_8th_rock_invisible", "");
+    event = vt_map.ScriptedEvent("Remove 8th rock", "make_8th_rock_invisible", "");
     EventManager:RegisterEvent(event);
 
     -- Tells the other functions the objects are now loaded.
@@ -361,7 +361,7 @@ function _CreateEnemies()
 
     -- Extra boss near the save point - Can only be beaten once.
     -- Hint: left, right, top, bottom
-    slime_mother_roam_zone = hoa_map.EnemyZone(8, 10, 6, 6);
+    slime_mother_roam_zone = vt_map.EnemyZone(8, 10, 6, 6);
 
     if (GlobalManager:DoesEventExist("story", "layna_forest_slime_mother_defeated")) then
         slime_mother_defeated = true;
@@ -378,7 +378,7 @@ function _CreateEnemies()
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(7, 38, 25, 27);
+    roam_zone = vt_map.EnemyZone(7, 38, 25, 27);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -390,7 +390,7 @@ function _CreateEnemies()
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(97, 115, 38, 40);
+    roam_zone = vt_map.EnemyZone(97, 115, 38, 40);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -402,7 +402,7 @@ function _CreateEnemies()
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(51, 81, 58, 61);
+    roam_zone = vt_map.EnemyZone(51, 81, 58, 61);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -423,82 +423,82 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+    event = vt_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
                                        "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_cave_entrance");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+    event = vt_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
                                        "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_cave_entrance");
     EventManager:RegisterEvent(event);
 
     -- Heal point
-    event = hoa_map.ScriptedEvent("Cave heal", "heal_party", "heal_done");
+    event = vt_map.ScriptedEvent("Cave heal", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
 
     -- Dialogue events
-    event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
     EventManager:RegisterEvent(event);
-    event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
     EventManager:RegisterEvent(event);
-    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, hoa_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
-    event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, hoa_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
-    event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks west", hero, hoa_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks west", hero, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    event = vt_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
     EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    event = vt_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
     EventManager:RegisterEvent(event);
 
     -- Dialogue
-    event = hoa_map.ScriptedEvent("Cave entrance dialogue", "cave_dialogue_start", "");
+    event = vt_map.ScriptedEvent("Cave entrance dialogue", "cave_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
     EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya wonders about Orlinn");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("What a creepy place. I had never heard about this before ...");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("What a creepy place. I had never heard about this before ...");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
-    text = hoa_system.Translate("It seems Orlinn was able to go through those platforms somehow.");
+    text = vt_system.Translate("It seems Orlinn was able to go through those platforms somehow.");
     dialogue:AddLine(text, kalya_sprite);
-    text = hoa_system.Translate("Let's make our way through this before something bad happens to him.");
+    text = vt_system.Translate("Let's make our way through this before something bad happens to him.");
     dialogue:AddLineEvent(text, kalya_sprite, "", "Bronann looks west");
-    text = hoa_system.Translate("Look, there is a stone slab on the ground. Let's check this out.");
+    text = vt_system.Translate("Look, there is a stone slab on the ground. Let's check this out.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("Kalya wonders about Orlinn", dialogue);
+    event = vt_map.DialogueEvent("Kalya wonders about Orlinn", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("kalya goes back to party");
     EventManager:RegisterEvent(event);
 
-    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event = vt_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of cave entrance dialogue");
     EventManager:RegisterEvent(move_back_to_hero_event);
 
-    event = hoa_map.ScriptedEvent("end of cave entrance dialogue", "end_of_cave_dialogue", "");
+    event = vt_map.ScriptedEvent("end of cave entrance dialogue", "end_of_cave_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks north");
     EventManager:RegisterEvent(event);
 
     -- Dialogue when pushing first trigger
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("It seems the way is clear now.");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("It seems the way is clear now.");
     dialogue:AddLineEventEmote(text, hero, "", "Play falling tree sound", "exclamation");
-    text = hoa_system.Translate("(I also heard something falling outside. Let's hope it's nothing bad.)");
+    text = vt_system.Translate("(I also heard something falling outside. Let's hope it's nothing bad.)");
     dialogue:AddLineEventEmote(text, hero, "Hero looks south", "", "interrogation");
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("First trigger dialogue", dialogue);
+    event = vt_map.DialogueEvent("First trigger dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.SoundEvent("Play falling tree sound", "snd/falling_tree.ogg");
+    event = vt_map.SoundEvent("Play falling tree sound", "snd/falling_tree.ogg");
     EventManager:RegisterEvent(event);
-    event = hoa_map.ChangeDirectionSpriteEvent("Hero looks south", hero, hoa_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Hero looks south", hero, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
 
 end
@@ -510,10 +510,10 @@ local to_cave_1_2_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NW_zone = hoa_map.CameraZone(114, 118, 95, 97);
+    to_forest_NW_zone = vt_map.CameraZone(114, 118, 95, 97);
     Map:AddZone(to_forest_NW_zone);
 
-    to_cave_1_2_zone = hoa_map.CameraZone(126, 128, 3, 13);
+    to_cave_1_2_zone = vt_map.CameraZone(126, 128, 3, 13);
     Map:AddZone(to_cave_1_2_zone);
 end
 
@@ -530,11 +530,11 @@ end
 
 function _MakeRockInvisible(object)
     object:SetVisible(false);
-    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     -- Only triggers the sound and shaking if the triggers states are not being loaded.
     if (_loading_objects == false) then
         AudioManager:PlaySound("snd/cave-in.ogg");
-        Effects:ShakeScreen(0.6, 1000, hoa_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
+        Effects:ShakeScreen(0.6, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
     end
 end
 
@@ -561,12 +561,12 @@ map_functions = {
         heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
 
         if (heal_effect_time < 300.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, heal_effect_time / 300.0 / 3.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 1.0, heal_effect_time / 300.0 / 3.0));
             return false;
         end
 
         if (heal_effect_time < 1000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
             return false;
         end
         return true;
@@ -608,25 +608,25 @@ map_functions = {
     make_visible = function(sprite)
         if (sprite ~= nil) then
             sprite:SetVisible(true);
-            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+            sprite:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         end
     end,
 
     Sprite_Collision_on = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+            sprite:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         end
     end,
 
     Sprite_Collision_off = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+            sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
     end,
 
     -- Kalya talks with Bronann at cave entrance - start event.
     cave_dialogue_start = function()
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         -- Keep a reference of the correct sprite for the event end.
         main_sprite_name = hero:GetSpriteName();
@@ -636,9 +636,9 @@ map_functions = {
 
         kalya_sprite:SetVisible(true);
         kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
-        hero:SetDirection(hoa_map.MapMode.NORTH);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
     end,
@@ -647,7 +647,7 @@ map_functions = {
         Map:PopState();
         kalya_sprite:SetPosition(0, 0);
         kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);

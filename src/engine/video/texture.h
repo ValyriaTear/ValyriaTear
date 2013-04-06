@@ -59,7 +59,7 @@
 
 #include <set>
 
-namespace hoa_video
+namespace vt_video
 {
 
 class ScreenRect;
@@ -429,6 +429,6 @@ private:
 
 }  // namespace private_video
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __TEXTURE_HEADER__

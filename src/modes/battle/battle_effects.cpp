@@ -26,14 +26,14 @@
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_script;
+using namespace vt_video;
 
-using namespace hoa_global;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -119,7 +119,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 }
 
 
-void BattleStatusEffect::SetIntensity(hoa_global::GLOBAL_INTENSITY intensity)
+void BattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
 {
     if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set status effect to invalid intensity: " << intensity << std::endl;
@@ -195,7 +195,7 @@ void EffectsSupervisor::Update()
 
         bool effect_removed = false;
 
-        hoa_system::SystemTimer *effect_timer = _status_effects[i]->GetTimer();
+        vt_system::SystemTimer *effect_timer = _status_effects[i]->GetTimer();
 
         // Update the effect time while taking in account the battle speed
         effect_timer->Update(SystemManager->GetUpdateTime() * BattleMode::CurrentInstance()->GetBattleTypeTimeFactor());
@@ -443,4 +443,4 @@ void EffectsSupervisor::_RemoveStatus(BattleStatusEffect *status_effect)
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

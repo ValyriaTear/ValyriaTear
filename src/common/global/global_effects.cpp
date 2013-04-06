@@ -19,12 +19,12 @@
 
 #include "engine/system.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_script;
+using namespace vt_system;
 
-namespace hoa_global
+namespace vt_global
 {
 
 std::string GetElementName(GLOBAL_ELEMENTAL type)
@@ -81,14 +81,14 @@ std::string GetStatusName(GLOBAL_STATUS type)
 
 void GlobalElementalEffect::IncrementIntensity(uint8 amount)
 {
-    hoa_global::IncrementIntensity(_intensity, amount);
+    vt_global::IncrementIntensity(_intensity, amount);
 }
 
 
 
 void GlobalElementalEffect::DecrementIntensity(uint8 amount)
 {
-    hoa_global::DecrementIntensity(_intensity, amount);
+    vt_global::DecrementIntensity(_intensity, amount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +97,7 @@ void GlobalElementalEffect::DecrementIntensity(uint8 amount)
 
 bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
 {
-    return hoa_global::IncrementIntensity(_intensity, amount);
+    return vt_global::IncrementIntensity(_intensity, amount);
 }
 
 
@@ -105,7 +105,7 @@ bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
 bool GlobalStatusEffect::DecrementIntensity(uint8 amount)
 {
     GLOBAL_INTENSITY previous_intensity = _intensity;
-    bool intensity_modified = hoa_global::DecrementIntensity(_intensity, amount);
+    bool intensity_modified = vt_global::DecrementIntensity(_intensity, amount);
 
     if(intensity_modified == true) {
         if(_intensity < GLOBAL_INTENSITY_NEUTRAL) {
@@ -118,4 +118,4 @@ bool GlobalStatusEffect::DecrementIntensity(uint8 amount)
     return intensity_modified;
 }
 
-} // namespace hoa_global
+} // namespace vt_global

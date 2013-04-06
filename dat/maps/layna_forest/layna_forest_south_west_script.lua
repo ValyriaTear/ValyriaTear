@@ -57,7 +57,7 @@ function Load(m)
         -- Trigger the save point and spring speech event once
     if (GlobalManager:DoesEventExist("story", "kalya_speech_about_snakes_done") == false) then
         hero:SetMoving(false);
-        hero:SetDirection(hoa_map.MapMode.WEST);
+        hero:SetDirection(vt_map.MapMode.WEST);
         EventManager:StartEvent("Forest entrance dialogue about snakes", 200);
     end
 
@@ -85,12 +85,12 @@ end
 function _CreateCharacters()
     -- Default hero and position
     hero = CreateSprite(Map, "Bronann", 124, 85);
-    hero:SetDirection(hoa_map.MapMode.WEST);
-    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    hero:SetDirection(vt_map.MapMode.WEST);
+    hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     if (GlobalManager:GetPreviousLocation() == "from_layna_forest_NW") then
         hero:SetPosition(54, 4);
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
     end
 
     Map:AddGroundObject(hero);
@@ -99,9 +99,9 @@ function _CreateCharacters()
     kalya_sprite = CreateSprite(Map, "Kalya",
                                 hero:GetXPosition(), hero:GetYPosition());
 
-    kalya_sprite:SetDirection(hoa_map.MapMode.WEST);
-    kalya_sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-    kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    kalya_sprite:SetDirection(vt_map.MapMode.WEST);
+    kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
     Map:AddGroundObject(kalya_sprite);
 end
@@ -114,51 +114,51 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
         npc = CreateSprite(Map, "Butterfly", 42, 18);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly1 random move");
 
         npc = CreateSprite(Map, "Butterfly", 12, 30);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
         npc = CreateSprite(Map, "Butterfly", 50, 25);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
         npc = CreateSprite(Map, "Butterfly", 40, 30);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
         npc = CreateSprite(Map, "Squirrel", 18, 24);
         -- Squirrels don't collide with the npcs.
-        npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel1 random move");
 
         npc = CreateSprite(Map, "Squirrel", 40, 14);
         -- Squirrels don't collide with the npcs.
-        npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel2 random move", 1800);
@@ -575,7 +575,7 @@ function _CreateObjects()
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(object);
     end
 end
@@ -585,7 +585,7 @@ function _CreateEnemies()
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(40, 52, 67, 87);
+    roam_zone = vt_map.EnemyZone(40, 52, 67, 87);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -601,7 +601,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
 
-    roam_zone = hoa_map.EnemyZone(77, 84, 71, 87);
+    roam_zone = vt_map.EnemyZone(77, 84, 71, 87);
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -616,7 +616,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(2, 11, 66, 87);
+    roam_zone = vt_map.EnemyZone(2, 11, 66, 87);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -632,7 +632,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(5, 25, 5, 37);
+    roam_zone = vt_map.EnemyZone(5, 25, 5, 37);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -658,55 +658,55 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+    event = vt_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
                                        "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from forest SW");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+    event = vt_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
                                        "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from forest SW");
     EventManager:RegisterEvent(event);
 
     -- Dialogue events
-    event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
     EventManager:RegisterEvent(event);
-    event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
     EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    event = vt_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
     EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    event = vt_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
     EventManager:RegisterEvent(event);
 
     -- First time forest entrance dialogue about save points and the heal spring.
-    event = hoa_map.ScriptedEvent("Forest entrance dialogue about snakes", "forest_dialogue_about_snakes_start", "");
+    event = vt_map.ScriptedEvent("Forest entrance dialogue about snakes", "forest_dialogue_about_snakes_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
     EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya Tells about snakes");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Woah, wait!");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Woah, wait!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
-    text = hoa_system.Translate("Look at that grass. The snakes like it very much. Beware of them, their venom can send you to sleep.");
+    text = vt_system.Translate("Look at that grass. The snakes like it very much. Beware of them, their venom can send you to sleep.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("Kalya Tells about snakes", dialogue);
+    event = vt_map.DialogueEvent("Kalya Tells about snakes", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("Set Camera back to Bronann", hero, "SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent("Set Camera back to Bronann", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("kalya goes back to party");
     EventManager:RegisterEvent(event);
 
-    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event = vt_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of dialogue about snakes");
     EventManager:RegisterEvent(move_back_to_hero_event);
 
-    event = hoa_map.ScriptedEvent("end of dialogue about snakes", "end_of_dialogue_about_snakes", "");
+    event = vt_map.ScriptedEvent("end of dialogue about snakes", "end_of_dialogue_about_snakes", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -717,10 +717,10 @@ local to_forest_NW_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_SE_zone = hoa_map.CameraZone(126, 128, 82, 87);
+    to_forest_SE_zone = vt_map.CameraZone(126, 128, 82, 87);
     Map:AddZone(to_forest_SE_zone);
 
-    to_forest_NW_zone = hoa_map.CameraZone(52, 59, 0, 2);
+    to_forest_NW_zone = vt_map.CameraZone(52, 59, 0, 2);
     Map:AddZone(to_forest_NW_zone);
 end
 
@@ -759,7 +759,7 @@ map_functions = {
 
     -- Kalya tells Bronann about the snakes - start event.
     forest_dialogue_about_snakes_start = function()
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         -- Keep a reference of the correct sprite for the event end.
         main_sprite_name = hero:GetSpriteName();
@@ -769,8 +769,8 @@ map_functions = {
 
         kalya_sprite:SetVisible(true);
         kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         Map:SetCamera(kalya_sprite, 800);
 
@@ -783,13 +783,13 @@ map_functions = {
 
     Sprite_Collision_on = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+            sprite:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         end
     end,
 
     Sprite_Collision_off = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+            sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
     end,
 
@@ -797,7 +797,7 @@ map_functions = {
         Map:PopState();
         kalya_sprite:SetPosition(0, 0);
         kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);

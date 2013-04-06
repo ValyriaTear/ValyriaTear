@@ -32,16 +32,16 @@
 
 #include "common/global/global.h"
 
-namespace hoa_defs
+namespace vt_defs
 {
 
 void BindEngineCode()
 {
     // ----- Audio Engine Bindings
     {
-        using namespace hoa_audio;
+        using namespace vt_audio;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_audio")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_audio")
         [
             luabind::class_<AudioEngine>("GameAudio")
             .def("PlaySound", &AudioEngine::PlaySound)
@@ -59,9 +59,9 @@ void BindEngineCode()
 
     // ----- Input Engine Bindings
     {
-        using namespace hoa_input;
+        using namespace vt_input;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_input")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_input")
         [
             luabind::class_<InputEngine>("GameInput")
             .def("GetUpKeyName", &InputEngine::GetUpKeyName)
@@ -82,9 +82,9 @@ void BindEngineCode()
 
     // ----- Mode Manager Engine Bindings
     {
-        using namespace hoa_mode_manager;
+        using namespace vt_mode_manager;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ScriptSupervisor>("ScriptSupervisor")
             .def("AddScript", &ScriptSupervisor::AddScript)
@@ -96,7 +96,7 @@ void BindEngineCode()
             .def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<EffectSupervisor>("EffectSupervisor")
             .def("EnableLightingOverlay", &EffectSupervisor::EnableLightingOverlay)
@@ -122,7 +122,7 @@ void BindEngineCode()
             ]
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ParticleEffect>("ParticleEffect")
             .def(luabind::constructor<>())
@@ -136,14 +136,14 @@ void BindEngineCode()
             .def("Start", &ParticleEffect::Start)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ParticleManager>("ParticleManager")
             .def("AddParticleEffect", &ParticleManager::AddParticleEffect)
             .def("StopAll", &ParticleManager::StopAll)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<GameMode>("GameMode")
             .def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
@@ -151,7 +151,7 @@ void BindEngineCode()
             .def("GetParticleManager", &GameMode::GetParticleManager)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ModeEngine>("GameModeManager")
             // The adopt policy set on the GameMode pointer is permitting to avoid
@@ -171,9 +171,9 @@ void BindEngineCode()
 
     // ----- Script Engine Bindings
     {
-        using namespace hoa_script;
+        using namespace vt_script;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_script")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_script")
         [
             luabind::class_<ScriptEngine>("GameScript")
         ];
@@ -184,20 +184,20 @@ void BindEngineCode()
 
     // ----- System Engine Bindings
     {
-        using namespace hoa_system;
+        using namespace vt_system;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_system")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_system")
         [
-            luabind::def("Translate", &hoa_system::Translate),
-            luabind::def("CTranslate", &hoa_system::CTranslate),
-            luabind::def("UTranslate", &hoa_system::UTranslate),
-            luabind::def("CUTranslate", &hoa_system::CUTranslate),
+            luabind::def("Translate", &vt_system::Translate),
+            luabind::def("CTranslate", &vt_system::CTranslate),
+            luabind::def("UTranslate", &vt_system::UTranslate),
+            luabind::def("CUTranslate", &vt_system::CUTranslate),
 
             // Specializaton of c-formatted translation bounds
-            luabind::def("VTranslate", (std::string(*)(const std::string&, uint32)) &hoa_system::VTranslate),
-            luabind::def("VTranslate", (std::string(*)(const std::string&, int32)) &hoa_system::VTranslate),
-            luabind::def("VTranslate", (std::string(*)(const std::string&, float)) &hoa_system::VTranslate),
-            luabind::def("VTranslate", (std::string(*)(const std::string&, const std::string&)) &hoa_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, uint32)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, int32)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, float)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, const std::string&)) &vt_system::VTranslate),
 
             luabind::class_<SystemTimer>("SystemTimer")
             .def(luabind::constructor<>())
@@ -247,9 +247,9 @@ void BindEngineCode()
 
     // ----- Video Engine Bindings
     {
-        using namespace hoa_video;
+        using namespace vt_video;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_video")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_video")
         [
             luabind::class_<Color>("Color")
             .def(luabind::constructor<float, float, float, float>()),
@@ -258,7 +258,7 @@ void BindEngineCode()
             .def("FadeScreen", &VideoEngine::FadeScreen)
             .def("IsFading", &VideoEngine::IsFading)
             .def("FadeIn", &VideoEngine::FadeIn)
-            .def("DrawText", (void (VideoEngine:: *)(const hoa_utils::ustring &, float, float, const Color &)) &VideoEngine::DrawText)
+            .def("DrawText", (void (VideoEngine:: *)(const vt_utils::ustring &, float, float, const Color &)) &VideoEngine::DrawText)
             .def("DrawText", (void (VideoEngine:: *)(const std::string &, float, float, const Color &)) &VideoEngine::DrawText)
 
             // Draw cursor commands
@@ -287,13 +287,13 @@ void BindEngineCode()
     } // End using video namespaces
 
     // ---------- Bind engine class objects
-    luabind::object global_table = luabind::globals(hoa_script::ScriptManager->GetGlobalState());
-    global_table["AudioManager"]     = hoa_audio::AudioManager;
-    global_table["InputManager"]     = hoa_input::InputManager;
-    global_table["ModeManager"]      = hoa_mode_manager::ModeManager;
-    global_table["ScriptManager"]    = hoa_script::ScriptManager;
-    global_table["SystemManager"]    = hoa_system::SystemManager;
-    global_table["VideoManager"]     = hoa_video::VideoManager;
+    luabind::object global_table = luabind::globals(vt_script::ScriptManager->GetGlobalState());
+    global_table["AudioManager"]     = vt_audio::AudioManager;
+    global_table["InputManager"]     = vt_input::InputManager;
+    global_table["ModeManager"]      = vt_mode_manager::ModeManager;
+    global_table["ScriptManager"]    = vt_script::ScriptManager;
+    global_table["SystemManager"]    = vt_system::SystemManager;
+    global_table["VideoManager"]     = vt_video::VideoManager;
 } // void BindEngineCode()
 
-} // namespace hoa_defs
+} // namespace vt_defs

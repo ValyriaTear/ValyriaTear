@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <SDL_image.h>
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -47,8 +47,8 @@ struct SDLSurfaceController {
     }
 };
 
-static hoa_video::Color default_opacity = hoa_video::Color(1.0f, 1.0f, 1.0f, 0.75f);
-static hoa_video::Color overlap_opacity = hoa_video::Color(1.0f, 1.0f, 1.0f, 0.65f);
+static vt_video::Color default_opacity = vt_video::Color(1.0f, 1.0f, 1.0f, 0.75f);
+static vt_video::Color overlap_opacity = vt_video::Color(1.0f, 1.0f, 1.0f, 0.65f);
 
 Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map_name) :
     _current_position_x(-1),
@@ -68,7 +68,7 @@ Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map
     }
 
     //save the viewport
-    hoa_video::VideoManager->GetCurrentViewport(_viewport_original_x, _viewport_original_y,
+    vt_video::VideoManager->GetCurrentViewport(_viewport_original_x, _viewport_original_y,
                                                 _viewport_original_width, _viewport_original_height);
 
     //create a temporary SDL surface on which to generate the collision map
@@ -76,7 +76,7 @@ Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map
 
     SDL_LockSurface(temp_surface);
     //setup a temporary memory space to copy the SDL data into
-    hoa_video::private_video::ImageMemory temp_data;
+    vt_video::private_video::ImageMemory temp_data;
     temp_data.rgb_format = false;
     temp_data.width = temp_surface->w;
     temp_data.height = temp_surface->h;
@@ -89,7 +89,7 @@ Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map
     SDL_FreeSurface(temp_surface);
     //do the image file creationg
     std::string map_name_cmap = map_name + "_cmap";
-    _minimap_image = hoa_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
+    _minimap_image = vt_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
     free(temp_data.pixels);
 
     //setup the map window, if it isn't already created
@@ -133,7 +133,7 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 {
 
     float x, y, width, height;
-    hoa_video::VideoManager->GetCurrentViewport(x, y, width, height);
+    vt_video::VideoManager->GetCurrentViewport(x, y, width, height);
 
     map_object_supervisor->GetGridAxis(_grid_width, _grid_height);
 
@@ -190,7 +190,7 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 
 void Minimap::Draw()
 {
-    using namespace hoa_video;
+    using namespace vt_video;
     if(_current_position_x > -1)
     {
         Color resultant_opacity = *_current_opacity;

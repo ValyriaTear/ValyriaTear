@@ -20,16 +20,16 @@
 #include "global_skills.h"
 #include "global.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_script;
-using namespace hoa_battle;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_script;
+using namespace vt_battle;
 
-namespace hoa_battle {
+namespace vt_battle {
 extern bool BATTLE_DEBUG;
 }
 
-namespace hoa_global
+namespace vt_global
 {
 
 using namespace private_global;
@@ -182,4 +182,4 @@ std::string GlobalSkill::GetAnimationScript(uint32 character_id)
     return script_file;
 }
 
-} // namespace hoa_global
+} // namespace vt_global

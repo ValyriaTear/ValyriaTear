@@ -18,12 +18,12 @@
 
 #include "texture_controller.h"
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
+using namespace vt_utils;
+using namespace vt_video::private_video;
 
-template<> hoa_video::TextureController *Singleton<hoa_video::TextureController>::_singleton_reference = NULL;
+template<> vt_video::TextureController *Singleton<vt_video::TextureController>::_singleton_reference = NULL;
 
-namespace hoa_video
+namespace vt_video
 {
 
 TextureController *TextureManager = NULL;
@@ -122,7 +122,7 @@ bool TextureController::UnloadTextures()
         std::vector<FontGlyph *>* glyph_cache = j->second->glyph_cache;
 
         if(glyph_cache) {
-            std::vector<hoa_video::FontGlyph *>::iterator it_end = glyph_cache->end();
+            std::vector<vt_video::FontGlyph *>::iterator it_end = glyph_cache->end();
             for(std::vector<FontGlyph *>::iterator k = glyph_cache->begin();
                     k != it_end; ++k) {
                 if(*k)
@@ -681,4 +681,4 @@ void TextureController::_UnregisterTextTexture(TextTexture *tex)
 }
 
 
-}  // namespace hoa_video
+}  // namespace vt_video

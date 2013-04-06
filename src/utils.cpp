@@ -36,7 +36,7 @@
 #include <stdexcept>
 #include <algorithm>
 
-namespace hoa_utils
+namespace vt_utils
 {
 
 bool UTILS_DEBUG = false;

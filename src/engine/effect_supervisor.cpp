@@ -20,9 +20,9 @@
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 
-using namespace hoa_video;
+using namespace vt_video;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 EffectSupervisor::EffectSupervisor()
@@ -95,7 +95,7 @@ bool EffectSupervisor::_LoadLightnings(const std::string &lightning_file)
 {
     _lightning_inner_info._lightning_data.clear();
 
-    hoa_script::ReadScriptDescriptor lightning_script;
+    vt_script::ReadScriptDescriptor lightning_script;
     if(lightning_script.OpenFile(lightning_file) == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "No script file: '"
                                       << lightning_file << "' The lightning effects won't work." << std::endl;
@@ -185,7 +185,7 @@ void EffectSupervisor::EnableLightning(int16 id, bool loop)
                 it_end = _lightning_inner_info._lightning_sound_events.at(id).end(); it != it_end; ++it) {
             _lightning_inner_info._current_lightning_sound_events.push_back(*it);
             // Preload the files for efficiency
-            hoa_audio::AudioManager->LoadSound(it->sound_filename);
+            vt_audio::AudioManager->LoadSound(it->sound_filename);
         }
     } else {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid lightning effect requested: "
@@ -208,7 +208,7 @@ void EffectSupervisor::_UpdateAmbientOverlay(uint32 frame_time)
 
     // Update the shifting
     float elapsed_ms = static_cast<float>(frame_time);
-    //static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
+    //static_cast<float>(vt_system::SystemManager->GetUpdateTime());
     _info.overlay.x_shift += elapsed_ms / 1000 * _info.overlay.x_speed;
     _info.overlay.y_shift += elapsed_ms / 1000 * _info.overlay.y_speed;
 
@@ -252,7 +252,7 @@ void EffectSupervisor::_UpdateLightning(uint32 frame_time)
     if(it != _lightning_inner_info._current_lightning_sound_events.end()
             && (*it).time > -1 && (*it).time <= _lightning_inner_info._lightning_current_time) {
         // Play the sound
-        hoa_audio::AudioManager->PlaySound((*it).sound_filename);
+        vt_audio::AudioManager->PlaySound((*it).sound_filename);
         // And put the data at bottom for next potential lightning loop
         LightningVideoManagerInfo::lightning_sound_event next_event;
         next_event.sound_filename = (*it).sound_filename;
@@ -473,8 +473,8 @@ void EffectSupervisor::_UpdateShake(uint32 frame_time)
 
     // Calculate random shake offsets using the negative and positive net force values
     // Note that this doesn't produce a radially symmetric distribution of offsets
-    _x_shake = _RoundForce(hoa_utils::RandomFloat(-net_force, net_force));
-    _y_shake = _RoundForce(hoa_utils::RandomFloat(-net_force, net_force));
+    _x_shake = _RoundForce(vt_utils::RandomFloat(-net_force, net_force));
+    _y_shake = _RoundForce(vt_utils::RandomFloat(-net_force, net_force));
 }
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager

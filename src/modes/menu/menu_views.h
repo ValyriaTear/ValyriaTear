@@ -29,7 +29,7 @@
 #include "common/gui/menu_window.h"
 #include "common/gui/option.h"
 
-namespace hoa_menu
+namespace vt_menu
 {
 
 class MenuMode;
@@ -121,14 +121,14 @@ enum CONFIRM_RESULT {
 *** It will contain all the information of the character and handle its draw
 *** placement.
 *** ***************************************************************************/
-class CharacterWindow : public hoa_gui::MenuWindow
+class CharacterWindow : public vt_gui::MenuWindow
 {
 private:
     //! The name of the character that this window corresponds) to
     uint32 _char_id;
 
     //! The image of the character
-    hoa_video::StillImage _portrait;
+    vt_video::StillImage _portrait;
 
 public:
     CharacterWindow();
@@ -139,13 +139,13 @@ public:
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
     **/
-    void SetCharacter(hoa_global::GlobalCharacter *character);
+    void SetCharacter(vt_global::GlobalCharacter *character);
 
     /** \brief render this window to the screen
     *** \return success/failure
     **/
     void Draw();
-}; // class CharacterWindow : public hoa_video::MenuWindow
+}; // class CharacterWindow : public vt_video::MenuWindow
 
 
 
@@ -154,9 +154,9 @@ public:
 ***
 *** This handles item use.  You can also view all items by category.
 *** ***************************************************************************/
-class InventoryWindow : public hoa_gui::MenuWindow
+class InventoryWindow : public vt_gui::MenuWindow
 {
-    friend class hoa_menu::MenuMode;
+    friend class vt_menu::MenuMode;
     friend class InventoryState;
 
 public:
@@ -193,28 +193,28 @@ public:
 
 private:
     //! Used for char portraits in bottom menu
-    std::vector<hoa_video::StillImage> _portraits;
+    std::vector<vt_video::StillImage> _portraits;
 
     //! Used for the current dungeon
-    hoa_video::StillImage _location_graphic;
+    vt_video::StillImage _location_graphic;
 
     //! Flag to specify the active option box
     uint32 _active_box;
 
     //! OptionBox to display all of the items
-    hoa_gui::OptionBox _inventory_items;
+    vt_gui::OptionBox _inventory_items;
 
     //! OptionBox to choose character
-    hoa_gui::OptionBox _char_select;
+    vt_gui::OptionBox _char_select;
 
     //! OptionBox to choose item category
-    hoa_gui::OptionBox _item_categories;
+    vt_gui::OptionBox _item_categories;
 
     //! TextBox that holds the selected object's description
-    hoa_gui::TextBox _description;
+    vt_gui::TextBox _description;
 
     //! Vector of GlobalObjects that corresponds to _inventory_items
-    std::vector< hoa_global::GlobalObject * > _item_objects;
+    std::vector< vt_global::GlobalObject * > _item_objects;
 
     //! holds previous category. we were looking at
     ITEM_CATEGORY _previous_category;
@@ -239,9 +239,9 @@ private:
     */
     void _InitCategory();
 
-    template <class T> std::vector<hoa_global::GlobalObject *> _GetItemVector(std::vector<T *> *inv);
+    template <class T> std::vector<vt_global::GlobalObject *> _GetItemVector(std::vector<T *> *inv);
 
-}; // class InventoryWindow : public hoa_video::MenuWindow
+}; // class InventoryWindow : public vt_video::MenuWindow
 
 
 
@@ -252,9 +252,9 @@ private:
 *** You can scroll through them all as well, to view all the different characters.
 *** You can also reorder the position of characters
 *** ***************************************************************************/
-class PartyWindow : public hoa_gui::MenuWindow
+class PartyWindow : public vt_gui::MenuWindow
 {
-    friend class hoa_menu::MenuMode;
+    friend class vt_menu::MenuMode;
 
 public:
 
@@ -293,45 +293,45 @@ public:
 
 private:
     //! char portraits
-    std::vector<hoa_video::StillImage> _full_portraits;
+    std::vector<vt_video::StillImage> _full_portraits;
 
     //! if the window is active or not
     uint32 _char_select_active;
 
     //! character selection option box
-    hoa_gui::OptionBox _char_select;
+    vt_gui::OptionBox _char_select;
 
     //! The character select option box once first character has been selected
-    hoa_gui::OptionBox _second_char_select;
+    vt_gui::OptionBox _second_char_select;
 
     //! \brief The character status
-    hoa_video::TextImage _character_status_text;
-    hoa_video::TextImage _character_status_numbers;
-    hoa_video::StillImage _character_status_icons;
+    vt_video::TextImage _character_status_text;
+    vt_video::TextImage _character_status_numbers;
+    vt_video::StillImage _character_status_icons;
 
     //! \brief Some help text displayed in the middle window
     //! To give some place in the bottom window for equipment.
-    hoa_video::TextImage _help_text;
+    vt_video::TextImage _help_text;
 
     //! \brief Text and image used to display equipment info
     //! The average and focused (attack points) atk/dev labels.
-    hoa_video::TextImage _average_text;
-    hoa_video::TextImage _focused_text;
+    vt_video::TextImage _average_text;
+    vt_video::TextImage _focused_text;
     //! The average atk/def image and text
-    hoa_video::TextImage _average_atk_def_text;
-    hoa_video::TextImage _average_atk_def_numbers;
-    hoa_video::StillImage _average_atk_def_icons;
-    hoa_video::StillImage _weapon_icon;
+    vt_video::TextImage _average_atk_def_text;
+    vt_video::TextImage _average_atk_def_numbers;
+    vt_video::StillImage _average_atk_def_icons;
+    vt_video::StillImage _weapon_icon;
 
     //! The focused def text and images
-    hoa_video::StillImage _focused_def_icon;
-    hoa_video::StillImage _focused_mdef_icon;
-    hoa_video::TextImage _focused_def_text;
-    hoa_video::TextImage _focused_def_numbers;
-    hoa_video::TextImage _focused_mdef_numbers;
-    hoa_video::StillImage _focused_def_category_icons;
+    vt_video::StillImage _focused_def_icon;
+    vt_video::StillImage _focused_mdef_icon;
+    vt_video::TextImage _focused_def_text;
+    vt_video::TextImage _focused_def_numbers;
+    vt_video::TextImage _focused_mdef_numbers;
+    vt_video::StillImage _focused_def_category_icons;
     //! The actual character armor icon if any
-    hoa_video::StillImage _focused_def_armor_icons[4];
+    vt_video::StillImage _focused_def_armor_icons[4];
 
     //! \brief Draws equipment stat info in the bottom window.
     void _DrawBottomEquipmentInfo();
@@ -339,7 +339,7 @@ private:
     //! \brief initialize character selection option box
     void _InitCharSelect();
 
-}; // class PartyWindow : public hoa_video::MenuWindow
+}; // class PartyWindow : public vt_video::MenuWindow
 
 
 
@@ -350,9 +350,9 @@ private:
 *** You can scroll through them all, filter by category, choose one, and apply it
 *** to a character.
 *** ***************************************************************************/
-class SkillsWindow : public hoa_gui::MenuWindow
+class SkillsWindow : public vt_gui::MenuWindow
 {
-    friend class hoa_menu::MenuMode;
+    friend class vt_menu::MenuMode;
     friend class SkillsState;
 public:
     SkillsWindow();
@@ -390,22 +390,22 @@ private:
     uint32 _active_box;
 
     //! The character select option box
-    hoa_gui::OptionBox _char_select;
+    vt_gui::OptionBox _char_select;
 
     //! The skills categories option box
-    hoa_gui::OptionBox _skills_categories;
+    vt_gui::OptionBox _skills_categories;
 
     //! The skills list option box
-    hoa_gui::OptionBox _skills_list;
+    vt_gui::OptionBox _skills_list;
 
     //! The skill SP cost option box
-    hoa_gui::OptionBox _skill_cost_list;
+    vt_gui::OptionBox _skill_cost_list;
 
     //! TextBox that holds the selected skill's description
-    hoa_gui::TextBox _description;
+    vt_gui::TextBox _description;
 
     //! The current skill icon, if any
-    hoa_video::StillImage _skill_icon;
+    vt_video::StillImage _skill_icon;
 
     //! Track which character's skillset was chosen
     int32 _char_skillset;
@@ -426,21 +426,21 @@ private:
     void _InitCharSelect();
 
     //! \brief Returns the currently selected skill
-    hoa_global::GlobalSkill *_GetCurrentSkill();
+    vt_global::GlobalSkill *_GetCurrentSkill();
 
     /*!
     * \brief Sets up the skills that comprise the different categories
     */
     void _UpdateSkillList();
 
-    hoa_utils::ustring _BuildSkillListText(const hoa_global::GlobalSkill *skill);
+    vt_utils::ustring _BuildSkillListText(const vt_global::GlobalSkill *skill);
 
     //! \brief parses the 3 skill lists of the global character and sorts them according to use (menu/battle)
-    void _BuildMenuBattleSkillLists(std::vector<hoa_global::GlobalSkill *> *skill_list,
-                                    std::vector<hoa_global::GlobalSkill *> *field, std::vector<hoa_global::GlobalSkill *> *battle,
-                                    std::vector<hoa_global::GlobalSkill *> *all);
+    void _BuildMenuBattleSkillLists(std::vector<vt_global::GlobalSkill *> *skill_list,
+                                    std::vector<vt_global::GlobalSkill *> *field, std::vector<vt_global::GlobalSkill *> *battle,
+                                    std::vector<vt_global::GlobalSkill *> *all);
 
-}; //class SkillsWindow : public hoa_video::MenuWindow
+}; //class SkillsWindow : public vt_video::MenuWindow
 
 
 /** ****************************************************************************
@@ -449,9 +449,9 @@ private:
 *** This window changes a character's equipment.
 *** You can choose a piece of equipment and replace with an item from the given list.
 *** ***************************************************************************/
-class EquipWindow : public hoa_gui::MenuWindow
+class EquipWindow : public vt_gui::MenuWindow
 {
-    friend class hoa_menu::MenuMode;
+    friend class vt_menu::MenuMode;
     friend class InventoryState;
     friend class EquipState;
 public:
@@ -491,13 +491,13 @@ private:
     bool _equip;
 
     //! Character selector
-    hoa_gui::OptionBox _char_select;
+    vt_gui::OptionBox _char_select;
 
     //! Equipment selector
-    hoa_gui::OptionBox _equip_select;
+    vt_gui::OptionBox _equip_select;
 
     //! Replacement selector
-    hoa_gui::OptionBox _equip_list;
+    vt_gui::OptionBox _equip_list;
 
     //! \brief the items actual index in the replacor list
     //! Since not all the items are displayed in this list.
@@ -507,20 +507,20 @@ private:
     uint32 _active_box;
 
     //! equipment images
-    std::vector<hoa_video::StillImage> _equip_images;
+    std::vector<vt_video::StillImage> _equip_images;
 
     //! \brief The current character the equip window is dealing with.
-    hoa_global::GlobalCharacter* _character;
+    vt_global::GlobalCharacter* _character;
 
     //! \brief The current object the equip window is dealing with.
-    hoa_global::GlobalObject* _object;
+    vt_global::GlobalObject* _object;
 
     //! \brief The different labels
-    hoa_video::TextImage _weapon_label;
-    hoa_video::TextImage _head_label;
-    hoa_video::TextImage _torso_label;
-    hoa_video::TextImage _arms_label;
-    hoa_video::TextImage _legs_label;
+    vt_video::TextImage _weapon_label;
+    vt_video::TextImage _head_label;
+    vt_video::TextImage _torso_label;
+    vt_video::TextImage _arms_label;
+    vt_video::TextImage _legs_label;
 
     //! \brief Set up char selector
     void _InitCharSelect();
@@ -537,7 +537,7 @@ private:
     //! \brief Updates the selected object
     void _UpdateSelectedObject();
 
-}; // class EquipWindow : public hoa_video::MenuWindow
+}; // class EquipWindow : public vt_video::MenuWindow
 
 /**
 *** \brief Represents the quest log list window on the left side
@@ -545,8 +545,8 @@ private:
 *** their quests (in Quest Window)
 **/
 
-class QuestListWindow : public hoa_gui::MenuWindow {
-    friend class hoa_menu::MenuMode;
+class QuestListWindow : public vt_gui::MenuWindow {
+    friend class vt_menu::MenuMode;
     friend class QuestState;
     friend class QuestWindow;
 public:
@@ -583,10 +583,10 @@ public:
 private:
 
     //! \brief the selectable list of quests
-    hoa_gui::OptionBox _quests_list;
+    vt_gui::OptionBox _quests_list;
 
     //! The currently active quest log entries.
-    std::vector<hoa_global::QuestLogEntry*> _quest_entries;
+    std::vector<vt_global::QuestLogEntry*> _quest_entries;
 
     //! \brief indicates whether _quests_list is active or not
     bool _active_box;
@@ -602,9 +602,9 @@ private:
 *** players can view their active quests as well as completed quests when this window is viewing
 **/
 
-class QuestWindow : public hoa_gui::MenuWindow {
+class QuestWindow : public vt_gui::MenuWindow {
 
-    friend class hoa_menu::MenuMode;
+    friend class vt_menu::MenuMode;
     friend class QuestState;
 
 public:
@@ -653,17 +653,17 @@ private:
     std::string _viewing_quest_id;
 
     //! \brief sets the display text to be rendered, based on their quest key that is set
-    hoa_gui::TextBox _quest_description;
+    vt_gui::TextBox _quest_description;
     //! \brief sets the display text to be rendered when the quest is completed. this is additional info
-    hoa_gui::TextBox _quest_completion_description;
+    vt_gui::TextBox _quest_completion_description;
 
     //! \brief the display text to be rendered for the location name and subname that the quest key is set to
-    hoa_gui::TextBox _location_name;
-    hoa_gui::TextBox _location_subname;
+    vt_gui::TextBox _location_name;
+    vt_gui::TextBox _location_subname;
 
     //! \brief the currently viewing location image and location subimage
-    hoa_video::StillImage *_location_image;
-    hoa_video::StillImage *_location_subimage;
+    vt_video::StillImage *_location_image;
+    vt_video::StillImage *_location_subimage;
 
 };
 
@@ -678,9 +678,9 @@ private:
 ***
 **/
 
-class WorldMapWindow : public hoa_gui::MenuWindow
+class WorldMapWindow : public vt_gui::MenuWindow
 {
-    friend class hoa_menu::MenuMode;
+    friend class vt_menu::MenuMode;
     friend class WorldMapState;
 
     enum WORLDMAP_NAVIGATION {
@@ -729,13 +729,13 @@ public:
     * location, or NULL if it deson't exist
     * \return Pointer to the currently indexes WorldMapLocation
     */
-    hoa_global::WorldMapLocation *GetCurrentViewingLocation()
+    vt_global::WorldMapLocation *GetCurrentViewingLocation()
     {
-        const std::vector<std::string> &current_location_ids = hoa_global::GlobalManager->GetViewableLocationIds();
+        const std::vector<std::string> &current_location_ids = vt_global::GlobalManager->GetViewableLocationIds();
         const uint32 N = current_location_ids.size();
         if( N == 0 || _location_pointer_index > N)
             return NULL;
-        return hoa_global::GlobalManager->GetWorldLocation(current_location_ids[_location_pointer_index]);
+        return vt_global::GlobalManager->GetWorldLocation(current_location_ids[_location_pointer_index]);
     }
 
 private:
@@ -751,13 +751,13 @@ private:
     void _DrawViewableLocations(float window_position_x, float window_position_y);
 
     //! \brief pointer to the currently loaded world map image
-    hoa_video::StillImage *_current_world_map;
+    vt_video::StillImage *_current_world_map;
 
     //! \brief the location marker. this is loaded in the ctor
-    hoa_video::AnimatedImage _location_marker;
+    vt_video::AnimatedImage _location_marker;
 
     //! \brief the location pointer. this is loaded in the ctor
-    hoa_video::StillImage _location_pointer;
+    vt_video::StillImage _location_pointer;
 
     //! \brief offsets for the current image to view in the center of the window
     float _current_image_x_offset;
@@ -775,9 +775,9 @@ private:
 * \brief Converts a vector of GlobalItem*, etc. to a vector of GlobalObjects*
 * \return the same vector, with elements of type GlobalObject*
 */
-template <class T> std::vector<hoa_global::GlobalObject *> InventoryWindow::_GetItemVector(std::vector<T *>* inv)
+template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetItemVector(std::vector<T *>* inv)
 {
-    std::vector<hoa_global::GlobalObject *> obj_vector;
+    std::vector<vt_global::GlobalObject *> obj_vector;
 
     for(typename std::vector<T *>::iterator i = inv->begin(); i != inv->end(); i++) {
         obj_vector.push_back(*i);
@@ -794,14 +794,14 @@ template <class T> std::vector<hoa_global::GlobalObject *> InventoryWindow::_Get
 *** This class is not private because it's a handy message box and
 *** it could be used else where.
 *** **************************************************************************/
-class MessageWindow : public hoa_gui::MenuWindow
+class MessageWindow : public vt_gui::MenuWindow
 {
 public:
-    MessageWindow(const hoa_utils::ustring &message, float w, float h);
+    MessageWindow(const vt_utils::ustring &message, float w, float h);
     ~MessageWindow();
 
     //! \brief Set the text to display in the window
-    void SetText(const hoa_utils::ustring &message) {
+    void SetText(const vt_utils::ustring &message) {
         _message = message;
         _textbox.SetDisplayText(message);
     }
@@ -813,12 +813,12 @@ public:
 
 private:
     //! \brief the message to display
-    hoa_utils::ustring _message;
+    vt_utils::ustring _message;
 
     //! \brief used to display the message
-    hoa_gui::TextBox _textbox;
+    vt_gui::TextBox _textbox;
 }; // class MessageWindow
 
-} // namespace hoa_menu
+} // namespace vt_menu
 
 #endif

@@ -25,13 +25,13 @@
 #include "battle_actors.h"
 #include "battle_dialogue.h"
 
-using namespace hoa_utils;
-using namespace hoa_input;
-using namespace hoa_video;
-using namespace hoa_common;
-using namespace hoa_gui;
+using namespace vt_utils;
+using namespace vt_input;
+using namespace vt_video;
+using namespace vt_common;
+using namespace vt_gui;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -508,4 +508,4 @@ void DialogueSupervisor::_EndLine()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

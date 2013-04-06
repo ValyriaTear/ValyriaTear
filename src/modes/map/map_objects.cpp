@@ -26,14 +26,14 @@
 #include "engine/video/particle_effect.h"
 #include "engine/audio/audio.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_global;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -124,7 +124,7 @@ MapRectangle MapObject::GetImageRectangle() const
     return rect;
 }
 
-void MapObject::Emote(const std::string &emote_name, hoa_map::private_map::ANIM_DIRECTIONS dir)
+void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir)
 {
     _emote_animation = GlobalManager->GetEmoteAnimation(emote_name);
 
@@ -258,7 +258,7 @@ ParticleObject::ParticleObject(const std::string &filename, float x, float y):
     _object_type = PARTICLE_TYPE;
     collision_mask = NO_COLLISION;
 
-    _particle_effect = new hoa_mode_manager::ParticleEffect(filename);
+    _particle_effect = new vt_mode_manager::ParticleEffect(filename);
     if(!_particle_effect)
         return;
 
@@ -629,7 +629,7 @@ void SoundObject::Update()
         return;
 
     // Update the volume only every 100ms
-    _time_remaining -= (int32)hoa_system::SystemManager->GetUpdateTime();
+    _time_remaining -= (int32)vt_system::SystemManager->GetUpdateTime();
     if (_time_remaining > 0.0f)
         return;
     _time_remaining = 100;
@@ -679,10 +679,10 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     if(treasure_name.empty())
         PRINT_WARNING << "Empty treasure name found. The treasure won't function normally." << std::endl;
 
-    _treasure = new hoa_map::private_map::MapTreasure();
+    _treasure = new vt_map::private_map::MapTreasure();
 
     // Dissect the frames and create the closed, opening, and open animations
-    hoa_video::AnimatedImage closed_anim, opening_anim, open_anim;
+    vt_video::AnimatedImage closed_anim, opening_anim, open_anim;
 
     closed_anim.LoadFromAnimationScript(closed_animation_file);
     MapMode::ScaleToMapCoords(closed_anim);
@@ -813,7 +813,7 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     _on_event = on_event_id;
 
     // Dissect the frames and create the closed, opening, and open animations
-    hoa_video::AnimatedImage off_anim, on_anim;
+    vt_video::AnimatedImage off_anim, on_anim;
 
     off_anim.LoadFromAnimationScript(off_animation_file);
     MapMode::ScaleToMapCoords(off_anim);
@@ -1341,7 +1341,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
     std::vector<MapObject *>* objects = sprite->sky_object ?
                                         &_sky_objects : &_ground_objects;
 
-    std::vector<hoa_map::private_map::MapObject *>::const_iterator it, it_end;
+    std::vector<vt_map::private_map::MapObject *>::const_iterator it, it_end;
     for(it = objects->begin(), it_end = objects->end(); it != it_end; ++it) {
         MapObject *collision_object = *it;
         // Check if the object exists and has the no_collision property enabled
@@ -1608,7 +1608,7 @@ bool ObjectSupervisor::IsStaticCollision(uint32 x, uint32 y)
     if(IsMapCollision(x, y))
         return true;
 
-    std::vector<hoa_map::private_map::MapObject *>::const_iterator it, it_end;
+    std::vector<vt_map::private_map::MapObject *>::const_iterator it, it_end;
     for(it = _ground_objects.begin(), it_end = _ground_objects.end(); it != it_end; ++it) {
         MapObject *collision_object = *it;
         // Check if the object exists and has the no_collision property enabled
@@ -1632,4 +1632,4 @@ bool ObjectSupervisor::IsStaticCollision(uint32 x, uint32 y)
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

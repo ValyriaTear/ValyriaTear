@@ -17,10 +17,10 @@
 
 #include "engine/mode_manager.h"
 
-using namespace hoa_video;
-using namespace hoa_script;
+using namespace vt_video;
+using namespace vt_script;
 
-void ScriptSupervisor::Initialize(hoa_mode_manager::GameMode *gm)
+void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
 {
     // Open every possible scene script files registered and process them.
     for(uint32 i = 0; i < _script_filenames.size(); ++i) {
@@ -58,7 +58,7 @@ void ScriptSupervisor::Initialize(hoa_mode_manager::GameMode *gm)
     }
 }
 
-void ScriptSupervisor::SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag)
+void ScriptSupervisor::SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag)
 {
     VideoManager->SetDrawFlags(draw_flag, 0);
 }

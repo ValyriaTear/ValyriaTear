@@ -29,7 +29,7 @@
 #include "editor.h"
 #include "grid.h"
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 
@@ -155,6 +155,6 @@ private:
 
 }; // class MusicDialog
 
-} // namespace hoa_editor
+} // namespace vt_editor
 
 #endif // __DIALOG_BOXES_HEADER__

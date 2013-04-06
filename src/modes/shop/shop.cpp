@@ -39,18 +39,18 @@
 
 #include <iostream>
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_mode_manager;
-using namespace hoa_shop::private_shop;
-using namespace hoa_pause;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_mode_manager;
+using namespace vt_shop::private_shop;
+using namespace vt_pause;
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 bool SHOP_DEBUG = false;
@@ -246,7 +246,7 @@ void ShopObjectViewer::Initialize()
     _count_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
     _hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
 
-    std::vector<hoa_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
+    std::vector<vt_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
     uint32 number_character = animations->size();
 
     for(uint32 i = 0; i < number_character; ++i) {
@@ -261,7 +261,7 @@ void ShopObjectViewer::Initialize()
 void ShopObjectViewer::Update()
 {
     // Update active character animations.
-    std::vector<hoa_video::AnimatedImage *>::iterator it = _character_sprites.begin();
+    std::vector<vt_video::AnimatedImage *>::iterator it = _character_sprites.begin();
     for(; it != _character_sprites.end(); ++it) {
         if(!(*it)->IsGrayScale())
             (*it)->Update();
@@ -1564,8 +1564,8 @@ void ShopMode::UpdateFinances(int32 change_amount)
         _finance_table.SetOptionText(1, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_change_amount)));
         _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else {
-        _finance_table.SetOptionText(1, hoa_utils::ustring());
-        _finance_table.SetOptionText(2, hoa_utils::ustring());
+        _finance_table.SetOptionText(1, vt_utils::ustring());
+        _finance_table.SetOptionText(2, vt_utils::ustring());
     }
 }
 
@@ -1739,4 +1739,4 @@ void ShopMode::RemoveObjectToTrade(uint32 object_id)
     _available_trade.erase(shop_iter);
 }
 
-} // namespace hoa_shop
+} // namespace vt_shop

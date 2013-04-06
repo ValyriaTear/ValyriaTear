@@ -23,16 +23,16 @@
 #include "mode_manager.h"
 #include "system.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_script;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_input::private_input;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_script;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_input::private_input;
 
-template<> hoa_input::InputEngine *Singleton<hoa_input::InputEngine>::_singleton_reference = NULL;
+template<> vt_input::InputEngine *Singleton<vt_input::InputEngine>::_singleton_reference = NULL;
 
-namespace hoa_input
+namespace vt_input
 {
 
 InputEngine *InputManager = NULL;
@@ -305,7 +305,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 static uint32 i = 1;
                 std::string path = "";
                 while(true) {
-                    path = hoa_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32>(i) + ".jpg";
+                    path = vt_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32>(i) + ".jpg";
                     if(!DoesFileExist(path))
                         break;
                     i++;
@@ -600,4 +600,4 @@ void InputEngine::_SetNewJoyButton(uint8 &old_button, uint8 new_button)
 } // end InputEngine::_SetNewJoyButton(uint8 & old_button, uint8 new_button)
 
 
-} // namespace hoa_input
+} // namespace vt_input

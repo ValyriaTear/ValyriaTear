@@ -20,7 +20,7 @@
 #include "common/gui/option.h"
 #include "common/gui/menu_window.h"
 
-namespace hoa_boot
+namespace vt_boot
 {
 
 class BootMode;
@@ -47,7 +47,7 @@ namespace private_boot
 *** the function pointer containers appropriately. Use only the methods specific to this class
 *** to add or remove options.
 *** ***************************************************************************/
-class BootMenu : public hoa_gui::OptionBox
+class BootMenu : public vt_gui::OptionBox
 {
 public:
     BootMenu()
@@ -64,7 +64,7 @@ public:
     *** \param *left_function BootMode handler function for left input events
     *** \param *right_function BootMode handler function for right input events
     **/
-    void AddOption(const hoa_utils::ustring &text, void (BootMode::*confirm_function)() = NULL,
+    void AddOption(const vt_utils::ustring &text, void (BootMode::*confirm_function)() = NULL,
                    void (BootMode::*up_function)() = NULL,   void (BootMode::*down_function)() = NULL,
                    void (BootMode::*left_function)() = NULL, void (BootMode::*right_function)() = NULL);
 
@@ -92,10 +92,10 @@ private:
 
     //! \brief Right input handlers for all options in the menu
     std::vector<void (BootMode:: *)()> _right_handlers;
-}; // class BootMenu : public hoa_video::OptionBox
+}; // class BootMenu : public vt_video::OptionBox
 
 } // namespace private_boot
 
-} // namespace hoa_boot
+} // namespace vt_boot
 
 #endif // __BOOT_MENU__

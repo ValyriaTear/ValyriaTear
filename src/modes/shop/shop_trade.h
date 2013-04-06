@@ -26,7 +26,7 @@
 
 #include "shop_utils.h"
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
@@ -82,19 +82,19 @@ private:
     uint32 _current_category;
 
     //! \brief Header text for the category field
-    hoa_video::TextImage _category_header;
+    vt_video::TextImage _category_header;
 
     //! \brief Header text for the name field
-    hoa_video::TextImage _name_header;
+    vt_video::TextImage _name_header;
 
     //! \brief Header text for the list of object properties (refer to the BuyListDisplay class)
-    hoa_gui::OptionBox _properties_header;
+    vt_gui::OptionBox _properties_header;
 
     //! \brief String representations of all object categories where purchases are available
-    std::vector<hoa_utils::ustring> _category_names;
+    std::vector<vt_utils::ustring> _category_names;
 
     //! \brief A pointer to the icon image for each purchasable object category
-    std::vector<hoa_video::StillImage *> _category_icons;
+    std::vector<vt_video::StillImage *> _category_icons;
 
     //! \brief Display manager for the current category of objects selected
     ObjectCategoryDisplay _category_display;
@@ -103,13 +103,13 @@ private:
     std::vector<TradeListDisplay *> _list_displays;
 
     //! \brief A copy of the selected object's icon, scaled to 1/4 size
-    hoa_video::StillImage _selected_icon;
+    vt_video::StillImage _selected_icon;
 
     //! \brief Text image of the selected object's name
-    hoa_video::TextImage _selected_name;
+    vt_video::TextImage _selected_name;
 
     //! \brief A single row option box containing the selected object's properties
-    hoa_gui::OptionBox _selected_properties;
+    vt_gui::OptionBox _selected_properties;
 
     /**
     ***  Update the available deal types. Called only in _RefreshItemCategories().
@@ -174,6 +174,6 @@ public:
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_TRADE_HEADER__

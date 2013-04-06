@@ -25,15 +25,15 @@
 
 #include <map>
 
-namespace hoa_audio {
+namespace vt_audio {
 class SoundDescriptor;
 }
 
-namespace hoa_video {
+namespace vt_video {
 class StillImage;
 };
 
-namespace hoa_global
+namespace vt_global
 {
 
 class GlobalObject;
@@ -314,39 +314,39 @@ public:
     //! the texture manager is ready only afterward.
     void Initialize();
 
-    hoa_video::StillImage* GetDrunesIcon() {
+    vt_video::StillImage* GetDrunesIcon() {
         return &_drunes_icon;
     }
 
-    hoa_video::StillImage* GetStarIcon() {
+    vt_video::StillImage* GetStarIcon() {
         return &_star_icon;
     }
 
-    hoa_video::StillImage* GetCheckIcon() {
+    vt_video::StillImage* GetCheckIcon() {
         return &_check_icon;
     }
 
-    hoa_video::StillImage* GetXIcon() {
+    vt_video::StillImage* GetXIcon() {
         return &_x_icon;
     }
 
-    hoa_video::StillImage* GetShardSlotIcon() {
+    vt_video::StillImage* GetShardSlotIcon() {
         return &_shard_slot_icon;
     }
 
-    hoa_video::StillImage* GetEquipIcon() {
+    vt_video::StillImage* GetEquipIcon() {
         return &_equip_icon;
     }
 
-    hoa_video::StillImage* GetKeyItemIcon() {
+    vt_video::StillImage* GetKeyItemIcon() {
         return &_key_item_icon;
     }
 
-    hoa_video::StillImage* GetBottomMenuImage() {
+    vt_video::StillImage* GetBottomMenuImage() {
         return &_bottom_menu_image;
     }
 
-    std::vector<hoa_video::StillImage>* GetAllItemCategoryIcons() {
+    std::vector<vt_video::StillImage>* GetAllItemCategoryIcons() {
         return &_all_category_icons;
     }
 
@@ -355,21 +355,21 @@ public:
     *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
     *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
     **/
-    hoa_video::StillImage* GetItemCategoryIcon(GLOBAL_OBJECT object_type);
+    vt_video::StillImage* GetItemCategoryIcon(GLOBAL_OBJECT object_type);
 
     /** \brief Retrieves a specific elemental icon with the proper type and intensity
     *** \param element_type The type of element the user is trying to retrieve the icon for
     *** \param intensity The intensity level of the icon to retrieve
     *** \return The icon representation of the element type and intensity
     **/
-    hoa_video::StillImage* GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity);
+    vt_video::StillImage* GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity);
 
     /** \brief Retrieves a specific status icon with the proper type and intensity
     *** \param status_type The type of status the user is trying to retrieve the icon for
     *** \param intensity The intensity level of the icon to retrieve
     *** \return The icon representation of the status type and intensity
     **/
-    hoa_video::StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity);
+    vt_video::StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity);
 
     /** \brief Plays a sound object previoulsy loaded
     *** \param identifier The string identifier for the sound to play
@@ -378,45 +378,45 @@ public:
 
 private:
     //! \brief Retains icon images for all possible object categories, including "all wares"
-    std::vector<hoa_video::StillImage> _all_category_icons;
+    std::vector<vt_video::StillImage> _all_category_icons;
 
     //! \brief Image icon representing drunes (currency)
-    hoa_video::StillImage _drunes_icon;
+    vt_video::StillImage _drunes_icon;
 
     //! \brief Image icon of a single yellow/gold star
-    hoa_video::StillImage _star_icon;
+    vt_video::StillImage _star_icon;
 
     //! \brief Image icon of a green check mark
-    hoa_video::StillImage _check_icon;
+    vt_video::StillImage _check_icon;
 
     //! \brief Image icon of a red x
-    hoa_video::StillImage _x_icon;
+    vt_video::StillImage _x_icon;
 
     //! \brief Image icon representing open shard slots available on weapons and armors
-    hoa_video::StillImage _shard_slot_icon;
+    vt_video::StillImage _shard_slot_icon;
 
     //! \brief Image icon that represents when a character has a weapon or armor equipped
-    hoa_video::StillImage _equip_icon;
+    vt_video::StillImage _equip_icon;
 
     //! \brief The Key item icon
-    hoa_video::StillImage _key_item_icon;
+    vt_video::StillImage _key_item_icon;
 
     //! \brief Retains all icon images that represent the game's elementals
-    std::vector<hoa_video::StillImage> _elemental_icons;
+    std::vector<vt_video::StillImage> _elemental_icons;
 
     //! \brief Retains all icon images that represent the game's status effects
-    std::vector<hoa_video::StillImage> _status_icons;
+    std::vector<vt_video::StillImage> _status_icons;
 
     //! \brief The battle and boot bottom image
-    hoa_video::StillImage _bottom_menu_image;
+    vt_video::StillImage _bottom_menu_image;
 
     //! \brief A map of the sounds used in different game modes
-    std::map<std::string, hoa_audio::SoundDescriptor*> _sounds;
+    std::map<std::string, vt_audio::SoundDescriptor*> _sounds;
 
     //! \brief Loads a sound file and add it to the sound map
     void _LoadSoundFile(const std::string& sound_name, const std::string& filename);
 };
 
-} // namespace hoa_global
+} // namespace vt_global
 
 #endif // __GLOBAL_UTILS_HEADER__

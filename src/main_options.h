@@ -20,7 +20,7 @@
 /** \brief Namespace containing functions central to main program execution.
 *** \note Normally no other code should need to use this namespace.
 **/
-namespace hoa_main {
+namespace vt_main {
 
 /** \brief Parses command-line options and takes appropriate action on those options
 *** \param return_code A reference to the return code to exit the program with.
@@ -61,4 +61,4 @@ bool ResetSettings();
 **/
 bool EnableDebugging(const std::string& vars);
 
-} // namespace hoa_main
+} // namespace vt_main

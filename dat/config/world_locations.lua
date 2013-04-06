@@ -15,7 +15,7 @@ world_locations = {
         -- Y location
         "150",
         -- location name
-        hoa_system.Translate("Village of Layna"),
+        vt_system.Translate("Village of Layna"),
         -- banner filename,
         "img/menus/locations/mountain_village.png"
     },
@@ -26,7 +26,7 @@ world_locations = {
         -- Y location
         "100",
         -- location name
-        hoa_system.Translate("Layna Forest"),
+        vt_system.Translate("Layna Forest"),
         -- banner filename,
         "img/menus/locations/layna_forest.png"
     },

@@ -73,14 +73,14 @@ end
 function _CreateCharacters()
     -- Default hero and position
     hero = CreateSprite(Map, "Bronann", 3, 15);
-    hero:SetDirection(hoa_map.MapMode.EAST);
-    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    hero:SetDirection(vt_map.MapMode.EAST);
+    hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     if (GlobalManager:GetPreviousLocation() == "from forest SE") then
-        hero:SetDirection(hoa_map.MapMode.NORTH);
+        hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(112, 94);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_wolf_cave") then
-        hero:SetDirection(hoa_map.MapMode.WEST);
+        hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(122, 15);
     end
 
@@ -90,9 +90,9 @@ function _CreateCharacters()
     kalya_sprite = CreateSprite(Map, "Kalya",
                                 hero:GetXPosition(), hero:GetYPosition());
 
-    kalya_sprite:SetDirection(hoa_map.MapMode.NORTH);
-    kalya_sprite:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
-    kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
+    kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
     Map:AddGroundObject(kalya_sprite);
 end
@@ -142,17 +142,17 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrances
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 113, 109,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 0, 18,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add different halo light, representing holes of light coming from the ceiling
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 23, 17,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 15, 50,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 37, 84,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Create the stone sign telling what to do to pass the test...
     object = CreateObject(Map, "Stone Sign1", 22, 10);
@@ -160,7 +160,7 @@ function _CreateObjects()
     -- Create an invisible sprite, used to handle the dialogue
     stone_sign = CreateSprite(Map, "Butterfly", 22, 11);
     stone_sign:SetName("Stone sign");
-    stone_sign:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    stone_sign:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     stone_sign:SetVisible(false);
     Map:AddGroundObject(stone_sign);
 
@@ -178,7 +178,7 @@ function _CreateObjects()
 
     -- Remove the block if all enemies have already been defeated
     if (GlobalManager:DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
-        blocking_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        blocking_rock:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         blocking_rock:SetVisible(false);
     end
 end
@@ -190,15 +190,15 @@ function _UpdateStoneSignDialogue()
     stone_sign:ClearDialogueReferences();
 
     if (GlobalManager:DoesEventExist("story", "kalya_stone_sign_dialogue_done")) then
-        dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Only the last one standing shall pass ...");
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("Only the last one standing shall pass ...");
         dialogue:AddLine(text, stone_sign);
         DialogueManager:AddDialogue(dialogue);
         stone_sign:AddDialogueReference(dialogue);
     else
         -- Start the stone sign dialogue event
-        dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("...");
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("...");
         dialogue:AddLineEvent(text, kalya_sprite, "Start dialogue about stone sign", "Display the stone sign image");
         DialogueManager:AddDialogue(dialogue);
         stone_sign:AddDialogueReference(dialogue);
@@ -219,138 +219,138 @@ function _CreateEvents()
     local text = {};
 
     -- Map transition events
-    event = hoa_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua",
+    event = vt_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua",
                                        "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+    event = vt_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
                                        "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_cave_1_2");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
+    event = vt_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
                                        "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua",  "from_layna_cave_1_2");
     EventManager:RegisterEvent(event);
 
     -- Generic events
-    event = hoa_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, hoa_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
-    event = hoa_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, hoa_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
-    event = hoa_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
     EventManager:RegisterEvent(event);
-    event = hoa_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
     EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    event = vt_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
     EventManager:RegisterEvent(event);
-    event = hoa_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    event = vt_map.ScriptedSpriteEvent("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
     EventManager:RegisterEvent(event);
 
     -- Dialogue
-    event = hoa_map.ScriptedEvent("Start dialogue about stone sign", "stone_sign_dialogue_start", "");
+    event = vt_map.ScriptedEvent("Start dialogue about stone sign", "stone_sign_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann");
     EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = hoa_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    event = hoa_map.ScriptedEvent("Display the stone sign image", "stone_sign_image_start", "stone_sign_image_update")
+    event = vt_map.ScriptedEvent("Display the stone sign image", "stone_sign_image_start", "stone_sign_image_update")
     event:AddEventLinkAtEnd("Kalya reads the scripture");
     EventManager:RegisterEvent(event);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("'Only the last one standing shall pass.' ...");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("'Only the last one standing shall pass.' ...");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Bronann looks at Kalya", "thinking dots");
-    text = hoa_system.Translate("You are able to decipher this writing, Kalya?");
+    text = vt_system.Translate("You are able to decipher this writing, Kalya?");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = hoa_system.Translate("Somehow... I don't know why, but yes ...");
+    text = vt_system.Translate("Somehow... I don't know why, but yes ...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Bronann looks north");
-    text = hoa_system.Translate("Still, I don't know what it means, though.");
+    text = vt_system.Translate("Still, I don't know what it means, though.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = hoa_system.Translate("Let's look around. We might find out.");
+    text = vt_system.Translate("Let's look around. We might find out.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("Kalya reads the scripture", dialogue);
+    event = vt_map.DialogueEvent("Kalya reads the scripture", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("kalya goes back to party");
     EventManager:RegisterEvent(event);
 
-    move_back_to_hero_event = hoa_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event = vt_map.PathMoveSpriteEvent("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of stone sign dialogue");
     EventManager:RegisterEvent(move_back_to_hero_event);
 
-    event = hoa_map.ScriptedEvent("end of stone sign dialogue", "end_of_stone_sign_dialogue", "");
+    event = vt_map.ScriptedEvent("end of stone sign dialogue", "end_of_stone_sign_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks north");
     EventManager:RegisterEvent(event);
 
 
     -- Dialogue when all the enemies are dead.
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("... Something heavy seems to have fallen nearby.");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("... Something heavy seems to have fallen nearby.");
     dialogue:AddLineEmote(text, hero, "exclamation");
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("Hero dialogue during tremor", dialogue);
+    event = vt_map.DialogueEvent("Hero dialogue during tremor", dialogue);
     EventManager:RegisterEvent(event);
 
 
     -- Kalya sees the mechanisms to go out.
-    event = hoa_map.ScriptedEvent("Kalya sees the cave exit", "see_the_exit_dialogue_start", "");
+    event = vt_map.ScriptedEvent("Kalya sees the cave exit", "see_the_exit_dialogue_start", "");
     event:AddEventLinkAtEnd("Exit seen: Kalya moves next to Bronann");
     EventManager:RegisterEvent(event);
 
     -- NOTE the actual coords will be set at event start.
-    move_next_to_hero_event2 = hoa_map.PathMoveSpriteEvent("Exit seen: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Exit seen: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at the rock");
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya says 'Look!'");
     EventManager:RegisterEvent(move_next_to_hero_event2);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("... Look!");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("... Look!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("Kalya says 'Look!'", dialogue);
+    event = vt_map.DialogueEvent("Kalya says 'Look!'", dialogue);
     event:AddEventLinkAtEnd("Set_Camera(kalya_sprite)");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("Set_Camera(kalya_sprite)", kalya_sprite, "Set_Camera", "");
+    event = vt_map.ScriptedSpriteEvent("Set_Camera(kalya_sprite)", kalya_sprite, "Set_Camera", "");
     event:AddEventLinkAtEnd("Kalya comes close to the rock");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.PathMoveSpriteEvent("Kalya comes close to the rock", kalya_sprite, 112, 89, false);
+    event = vt_map.PathMoveSpriteEvent("Kalya comes close to the rock", kalya_sprite, 112, 89, false);
     event:AddEventLinkAtEnd("Kalya looks at the rock");
     event:AddEventLinkAtEnd("Bronann looks at Kalya");
     event:AddEventLinkAtEnd("Kalya tells there is an exit behind the rock");
     EventManager:RegisterEvent(event);
 
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("I can feel fresh air and some light coming from around this rock.");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I can feel fresh air and some light coming from around this rock.");
     dialogue:AddLine(text, kalya_sprite);
-    text = hoa_system.Translate("There are signs engraved on this rock, too. This sounds like some kind of mechanism my family used long ago...");
+    text = vt_system.Translate("There are signs engraved on this rock, too. This sounds like some kind of mechanism my family used long ago...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
-    text = hoa_system.Translate("Your family? Long ago? ...");
+    text = vt_system.Translate("Your family? Long ago? ...");
     dialogue:AddLineEmote(text, hero, "interrogation");
-    text = hoa_system.Translate("Err... Nevermind that, we must find a way to make this move. Let's look around.");
+    text = vt_system.Translate("Err... Nevermind that, we must find a way to make this move. Let's look around.");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("Kalya tells there is an exit behind the rock", dialogue);
+    event = vt_map.DialogueEvent("Kalya tells there is an exit behind the rock", dialogue);
     event:AddEventLinkAtEnd("Set_Camera(hero)");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedSpriteEvent("Set_Camera(hero)", hero, "Set_Camera", "");
+    event = vt_map.ScriptedSpriteEvent("Set_Camera(hero)", hero, "Set_Camera", "");
     event:AddEventLinkAtEnd("Exit seen: kalya goes back to party");
     EventManager:RegisterEvent(event);
 
-    move_back_to_hero_event2 = hoa_map.PathMoveSpriteEvent("Exit seen: kalya goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Exit seen: kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event2:AddEventLinkAtEnd("end of exit seen dialogue");
     EventManager:RegisterEvent(move_back_to_hero_event2);
 
-    event = hoa_map.ScriptedEvent("end of exit seen dialogue", "end_of_exit_seen_dialogue", "");
+    event = vt_map.ScriptedEvent("end of exit seen dialogue", "end_of_exit_seen_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks south");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.LookAtSpriteEvent("Kalya looks at the rock", kalya_sprite, 112, 92);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at the rock", kalya_sprite, 112, 92);
     EventManager:RegisterEvent(event);
 end
 
@@ -376,7 +376,7 @@ function _CreateEnemies()
 
     -- Monsters that can only be beaten once
     -- Hint: left, right, top, bottom
-    roam_zone1 = hoa_map.EnemyZone(26, 30, 43, 50);
+    roam_zone1 = vt_map.EnemyZone(26, 30, 43, 50);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -392,7 +392,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone1);
 
     -- Hint: left, right, top, bottom
-    roam_zone2 = hoa_map.EnemyZone(35, 43, 13, 20);
+    roam_zone2 = vt_map.EnemyZone(35, 43, 13, 20);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -407,7 +407,7 @@ function _CreateEnemies()
     end
     Map:AddZone(roam_zone2);
 
-    roam_zone3 = hoa_map.EnemyZone(61, 67, 40, 48);
+    roam_zone3 = vt_map.EnemyZone(61, 67, 40, 48);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -422,7 +422,7 @@ function _CreateEnemies()
     end
     Map:AddZone(roam_zone3);
 
-    roam_zone4 = hoa_map.EnemyZone(89, 100, 12, 15);
+    roam_zone4 = vt_map.EnemyZone(89, 100, 12, 15);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "bat");
         _SetBattleEnvironment(enemy);
@@ -462,10 +462,10 @@ function _CheckMonstersStates()
             and monster3_defeated and monster4_defeated) then
         monsters_defeated = true;
 
-        blocking_rock:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        blocking_rock:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         blocking_rock:SetVisible(false);
         AudioManager:PlaySound("snd/cave-in.ogg");
-        VideoManager:ShakeScreen(0.6, 1000, hoa_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        VideoManager:ShakeScreen(0.6, 1000, vt_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
 
         hero:SetMoving(false);
         -- Trigger the dialogue event about the shaking...
@@ -485,16 +485,16 @@ local seeing_the_exit_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_cave_1_1_zone = hoa_map.CameraZone(0, 1, 11, 16);
+    to_cave_1_1_zone = vt_map.CameraZone(0, 1, 11, 16);
     Map:AddZone(to_cave_1_1_zone);
 
-    to_cave_exit_zone = hoa_map.CameraZone(108, 116, 95, 96);
+    to_cave_exit_zone = vt_map.CameraZone(108, 116, 95, 96);
     Map:AddZone(to_cave_exit_zone);
 
-    to_wolf_cave_zone = hoa_map.CameraZone(123, 124, 12, 13);
+    to_wolf_cave_zone = vt_map.CameraZone(123, 124, 12, 13);
     Map:AddZone(to_wolf_cave_zone);
 
-    seeing_the_exit_zone = hoa_map.CameraZone(99, 122, 80, 96);
+    seeing_the_exit_zone = vt_map.CameraZone(99, 122, 80, 96);
     Map:AddZone(seeing_the_exit_zone);
 end
 
@@ -530,13 +530,13 @@ end
 map_functions = {
     Sprite_Collision_on = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
+            sprite:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         end
     end,
 
     Sprite_Collision_off = function(sprite)
         if (sprite ~= nil) then
-            sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+            sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
     end,
 
@@ -546,7 +546,7 @@ map_functions = {
 
     -- Kalya and Bronann read the engraved text
     stone_sign_dialogue_start = function()
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         -- Keep a reference of the correct sprite for the event end.
         main_sprite_name = hero:GetSpriteName();
@@ -556,9 +556,9 @@ map_functions = {
 
         kalya_sprite:SetVisible(true);
         kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
-        hero:SetDirection(hoa_map.MapMode.NORTH);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
     end,
@@ -580,7 +580,7 @@ map_functions = {
         Map:PopState();
         kalya_sprite:SetPosition(0, 0);
         kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);
@@ -592,7 +592,7 @@ map_functions = {
 
     -- Kalya and Bronann see the exit
     see_the_exit_dialogue_start = function()
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         -- Keep a reference of the correct sprite for the event end.
         main_sprite_name = hero:GetSpriteName();
@@ -602,9 +602,9 @@ map_functions = {
 
         kalya_sprite:SetVisible(true);
         kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetCollisionMask(hoa_map.MapMode.ALL_COLLISION);
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         move_next_to_hero_event2:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
     end,
@@ -612,7 +612,7 @@ map_functions = {
     end_of_exit_seen_dialogue = function()
         kalya_sprite:SetPosition(0, 0);
         kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);

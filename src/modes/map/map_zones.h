@@ -20,7 +20,7 @@
 #include "modes/map/map_mode.h"
 #include "modes/map/map_objects.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -339,10 +339,10 @@ private:
     int32 _spawns_left;
 
     //! \brief Used for the respawning of enemies within the zone
-    hoa_system::SystemTimer _spawn_timer;
+    vt_system::SystemTimer _spawn_timer;
 
     //! \brief Used to keep track of the amount of time to wait before re-spawning a dead enemy
-    hoa_system::SystemTimer _dead_timer;
+    vt_system::SystemTimer _dead_timer;
 
     //! \brief An optional zone which specifies where enemies may spawn
     MapZone *_spawn_zone;
@@ -355,6 +355,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_ZONES_HEADER__

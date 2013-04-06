@@ -28,15 +28,15 @@
 #include "engine/input.h"
 #include "engine/script/script.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -418,7 +418,7 @@ void BattleActor::DrawIndicators() const
     _indicator_supervisor->Draw();
 }
 
-void BattleActor::DrawStaminaIcon(const hoa_video::Color &color) const
+void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
 {
     if(!IsAlive())
         return;
@@ -1067,7 +1067,7 @@ void BattleEnemy::DrawSprite()
     }
 } // void BattleEnemy::DrawSprite()
 
-void BattleEnemy::DrawStaminaIcon(const hoa_video::Color &color) const
+void BattleEnemy::DrawStaminaIcon(const vt_video::Color &color) const
 {
     if(!IsAlive())
         return;
@@ -1206,4 +1206,4 @@ void BattleEnemy::_DecideAction()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

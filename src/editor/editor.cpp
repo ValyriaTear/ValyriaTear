@@ -19,11 +19,11 @@
 #include <QTableWidgetItem>
 #include <QScrollBar>
 
-using namespace hoa_utils;
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_script;
+using namespace vt_video;
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 
@@ -2450,4 +2450,4 @@ void LayerCommand::redo()
     _editor->_ed_scrollarea->_map->updateGL();
 }
 
-} // namespace hoa_editor
+} // namespace vt_editor

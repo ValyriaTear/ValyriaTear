@@ -17,7 +17,7 @@
 
 #include <iostream>
 
-using namespace hoa_test;
+using namespace vt_test;
 
 bool ExecuteTests(const std::string& tests) {
 	std::cout << "This option is not yet implemented." << std::endl;

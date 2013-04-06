@@ -42,7 +42,7 @@
 #include "utils.h"
 
 //! All calls to the input engine are wrapped in this namespace.
-namespace hoa_input
+namespace vt_input
 {
 
 class InputEngine;
@@ -50,7 +50,7 @@ class InputEngine;
 //! The singleton pointer responsible for handling and updating user input.
 extern InputEngine *InputManager;
 
-//! Determines whether the code in the hoa_input namespace should print debug statements or not.
+//! Determines whether the code in the vt_input namespace should print debug statements or not.
 extern bool INPUT_DEBUG;
 
 //! An internal namespace to be used only within the input code.
@@ -177,9 +177,9 @@ public:
 *** \note In the end, all you really need to know about this class are the
 *** member access functions in the public section of this class (its not that hard).
 *** **************************************************************************/
-class InputEngine : public hoa_utils::Singleton<InputEngine>
+class InputEngine : public vt_utils::Singleton<InputEngine>
 {
-    friend class hoa_utils::Singleton<InputEngine>;
+    friend class vt_utils::Singleton<InputEngine>;
 
 private:
     InputEngine();
@@ -448,43 +448,43 @@ public:
     **/
     //@{
     std::string GetUpKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.up));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.up));
     }
 
     std::string GetDownKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.down));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.down));
     }
 
     std::string GetLeftKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.left));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.left));
     }
 
     std::string GetRightKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.right));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.right));
     }
 
     std::string GetConfirmKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.confirm));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.confirm));
     }
 
     std::string GetCancelKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.cancel));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.cancel));
     }
 
     std::string GetMenuKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.menu));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.menu));
     }
 
     std::string GetPauseKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.pause));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.pause));
     }
 
     std::string GetHelpKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(SDLK_F1));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(SDLK_F1));
     }
 
     std::string GetQuitKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(SDLK_ESCAPE));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(SDLK_ESCAPE));
     }
     //@}
 
@@ -663,8 +663,8 @@ public:
     const SDL_Event &GetMostRecentEvent() const {
         return _event;
     }
-}; // class InputEngine : public hoa_utils::Singleton<InputEngine>
+}; // class InputEngine : public vt_utils::Singleton<InputEngine>
 
-} // namespace hoa_input
+} // namespace vt_input
 
 #endif

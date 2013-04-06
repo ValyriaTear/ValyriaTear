@@ -25,12 +25,12 @@
 #include "engine/mode_manager.h"
 #endif
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
+using namespace vt_utils;
+using namespace vt_video::private_video;
 
-template<> hoa_video::VideoEngine *Singleton<hoa_video::VideoEngine>::_singleton_reference = NULL;
+template<> vt_video::VideoEngine *Singleton<vt_video::VideoEngine>::_singleton_reference = NULL;
 
-namespace hoa_video
+namespace vt_video
 {
 
 VideoEngine *VideoManager = NULL;
@@ -120,7 +120,7 @@ void VideoEngine::DrawFPS()
     if(!_fps_display)
         return;
 
-    uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
+    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
     SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
 
     // Calculate the FPS for the current frame
@@ -361,7 +361,7 @@ void VideoEngine::Clear(const Color &c)
 
 void VideoEngine::Update()
 {
-    uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
+    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _screen_fader.Update(frame_time);
 }
@@ -927,12 +927,12 @@ void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c
 #ifndef EDITOR_BUILD
 bool VideoEngine::IsScreenShaking()
 {
-    hoa_mode_manager::GameMode *gm = hoa_mode_manager::ModeManager->GetTop();
+    vt_mode_manager::GameMode *gm = vt_mode_manager::ModeManager->GetTop();
 
     if (!gm)
         return false;
 
-    hoa_mode_manager::EffectSupervisor &effects = gm->GetEffectSupervisor();
+    vt_mode_manager::EffectSupervisor &effects = gm->GetEffectSupervisor();
     if (!effects.IsScreenShaking())
         return false;
 
@@ -1163,4 +1163,4 @@ void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)
     //PopMatrix();
 }
 
-}  // namespace hoa_video
+}  // namespace vt_video

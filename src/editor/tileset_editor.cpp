@@ -16,10 +16,10 @@
 
 #include "tileset_editor.h"
 
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_script;
+using namespace vt_video;
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -303,4 +303,4 @@ void TilesetEditor::_SaveFile()
                                  tr("Failed to save data to tileset definition file."));
 }
 
-} // namespace hoa_editor
+} // namespace vt_editor

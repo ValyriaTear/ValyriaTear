@@ -20,7 +20,7 @@
 #include "engine/script/script_read.h"
 #include "engine/video/video.h"
 
-namespace hoa_mode_manager {
+namespace vt_mode_manager {
 class GameMode;
 }
 
@@ -48,7 +48,7 @@ public:
     /** \brief Initializes all data necessary for the scripts to begin
     *** \param gm The game mode initializing the scene component.
     **/
-    void Initialize(hoa_mode_manager::GameMode *gm);
+    void Initialize(vt_mode_manager::GameMode *gm);
 
     ///! \brief Updates the different animations and media
     void Update();
@@ -98,21 +98,21 @@ public:
     *** \param position screen position to draw at.
     *** \param color to blend the image at.
     **/
-    void DrawImage(int32 id, float x, float y, const hoa_video::Color &color = hoa_video::Color::white);
+    void DrawImage(int32 id, float x, float y, const vt_video::Color &color = vt_video::Color::white);
 
     //! \brief Same than @DrawImage but with a given rotation.
-    void DrawRotatedImage(int32 id, float x, float y, const hoa_video::Color &color, float angle);
+    void DrawRotatedImage(int32 id, float x, float y, const vt_video::Color &color, float angle);
 
     //! \brief Used to permit changing a draw flag at boot time. Use with caution.
-    void SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag);
+    void SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag);
 
 private:
 
     //! \brief Contains a collection of custom loaded images, usable to be drawn through scripting.
-    std::vector<hoa_video::StillImage> _script_images;
+    std::vector<vt_video::StillImage> _script_images;
 
     //! \brief Contains a collection of custom loaded animations, usable to be drawn through scripting.
-    std::vector<hoa_video::AnimatedImage> _script_animations;
+    std::vector<vt_video::AnimatedImage> _script_animations;
 
     //! \name Script data
     //@{

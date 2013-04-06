@@ -23,13 +23,13 @@
 
 #include "scene.h"
 
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_scene::private_scene;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_scene::private_scene;
 
-namespace hoa_scene
+namespace vt_scene
 {
 
 bool SCENE_DEBUG = false;
@@ -83,4 +83,4 @@ void SceneMode::Draw()
 // 	Draw the scene, maybe with a filter that lets it fade in and out....?
 }
 
-} // namespace hoa_scene
+} // namespace vt_scene

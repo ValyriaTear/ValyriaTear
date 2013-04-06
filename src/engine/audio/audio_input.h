@@ -38,7 +38,7 @@
 #include <vorbis/vorbisfile.h>
 #include <fstream>
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 namespace private_audio
@@ -289,6 +289,6 @@ private:
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif // __AUDIO_INPUT_HEADER__

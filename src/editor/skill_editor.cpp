@@ -18,10 +18,10 @@
 
 #include "engine/script/script_read.h"
 
-using namespace hoa_utils;
-using namespace hoa_script;
-using namespace hoa_global;
-using namespace hoa_editor;
+using namespace vt_utils;
+using namespace vt_script;
+using namespace vt_global;
+using namespace vt_editor;
 
 SkillEditor::SkillEditor(QWidget *parent, const QString &/*name*/)
     : QWidget(parent)

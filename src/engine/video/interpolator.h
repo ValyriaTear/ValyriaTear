@@ -22,7 +22,7 @@
 
 #include "utils.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 //! \brief The various ways to create smoothed values between two numbers (e.g. linear interpolation)
@@ -113,6 +113,6 @@ private:
     }
 }; // class Interpolator
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __INTERPOLATOR_HEADER__

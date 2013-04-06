@@ -17,10 +17,10 @@
 #include "boot.h"
 #include "boot_menu.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_video;
 
-namespace hoa_boot
+namespace vt_boot
 {
 
 namespace private_boot
@@ -111,4 +111,4 @@ void BootMenu::InputRight()
 
 } // namespace private_boot
 
-} // namespace hoa_boot
+} // namespace vt_boot

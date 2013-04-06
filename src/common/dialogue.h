@@ -22,7 +22,7 @@
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
 
-namespace hoa_common
+namespace vt_common
 {
 
 class CommonDialogueOptions;
@@ -160,8 +160,8 @@ public:
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the text of the line specified
-    hoa_utils::ustring GetLineText(uint32 line) const {
-        if(line >= _line_count) return hoa_utils::ustring();
+    vt_utils::ustring GetLineText(uint32 line) const {
+        if(line >= _line_count) return vt_utils::ustring();
         else return _text[line];
     }
 
@@ -206,7 +206,7 @@ protected:
     uint32 _line_count;
 
     //! \brief The text of the conversation, split up into multiple lines
-    std::vector<hoa_utils::ustring> _text;
+    std::vector<vt_utils::ustring> _text;
 
     /** \brief Holds indeces pointing to which line should follow each line of text
     *** \note When a line contains options, the value stored in this container for that line is never used
@@ -254,8 +254,8 @@ public:
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the text of the option specified
-    hoa_utils::ustring GetOptionText(uint32 option) const {
-        if(option >= GetNumberOptions()) return hoa_utils::ustring();
+    vt_utils::ustring GetOptionText(uint32 option) const {
+        if(option >= GetNumberOptions()) return vt_utils::ustring();
         else return _text[option];
     }
 
@@ -273,7 +273,7 @@ public:
 
 protected:
     //! \brief Contains the text of each option
-    std::vector<hoa_utils::ustring> _text;
+    std::vector<vt_utils::ustring> _text;
 
     //! \brief A index containing the next line of dialogue that should follow each option
     std::vector<int32> _next_lines;
@@ -326,23 +326,23 @@ public:
 
     //! \name Class member access methods
     //@{
-    hoa_gui::TextBox &GetDisplayTextBox() {
+    vt_gui::TextBox &GetDisplayTextBox() {
         return _display_textbox;
     }
 
-    hoa_gui::OptionBox &GetDisplayOptionBox() {
+    vt_gui::OptionBox &GetDisplayOptionBox() {
         return _display_optionbox;
     }
 
-    hoa_video::TextImage &GetNameText() {
+    vt_video::TextImage &GetNameText() {
         return _name_text;
     }
 
-    hoa_video::StillImage *GetPortraitImage() const {
+    vt_video::StillImage *GetPortraitImage() const {
         return _portrait_image;
     }
 
-    void SetPortraitImage(hoa_video::StillImage *image) {
+    void SetPortraitImage(vt_video::StillImage *image) {
         _portrait_image = image;
     }
 
@@ -356,16 +356,16 @@ private:
     float _pos_x, _pos_y;
 
     //! \brief A parchment paper image embedded within the dialogue window
-    hoa_video::StillImage _parchment_image;
+    vt_video::StillImage _parchment_image;
 
     //! \brief The nameplate image used along with the dialogue box image
-    hoa_video::StillImage _nameplate_image;
+    vt_video::StillImage _nameplate_image;
 
     //! \brief The image indicating following dialogue lines
-    hoa_video::StillImage _next_line_image;
+    vt_video::StillImage _next_line_image;
 
     //! \brief The image indicating the last line of a dialogue
-    hoa_video::StillImage _last_line_image;
+    vt_video::StillImage _last_line_image;
 
     //! \brief The indicator symbol to use (arrow, end_of_dialogue_symbol, or none)
     uint8 _indicator_symbol;
@@ -377,16 +377,16 @@ private:
     bool _blink_state;
 
     //! \brief The textbox used for rendering the dialogue text
-    hoa_gui::TextBox _display_textbox;
+    vt_gui::TextBox _display_textbox;
 
     //! \brief The option box used for rendering dialogue options where applicable
-    hoa_gui::OptionBox _display_optionbox;
+    vt_gui::OptionBox _display_optionbox;
 
     //! \brief Holds the name of the speaker
-    hoa_video::TextImage _name_text;
+    vt_video::TextImage _name_text;
 
     //! \brief A pointer to a portrait image to display alongside the text. A NULL value will display no portrait
-    hoa_video::StillImage *_portrait_image;
+    vt_video::StillImage *_portrait_image;
 }; // class CommonDialogueWindow
 
 
@@ -453,7 +453,7 @@ public:
         return _current_options;
     }
 
-    hoa_system::SystemTimer &GetLineTimer() {
+    vt_system::SystemTimer &GetLineTimer() {
         return _line_timer;
     }
 
@@ -473,12 +473,12 @@ protected:
     CommonDialogueOptions *_current_options;
 
     //! \brief A timer that employed for dialogues which have a display time limit
-    hoa_system::SystemTimer _line_timer;
+    vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
     uint32 _line_counter;
 }; // class CommonDialogueSupervisor
 
-} // namespace hoa_common
+} // namespace vt_common
 
 #endif // __DIALOGUE_HEADER__

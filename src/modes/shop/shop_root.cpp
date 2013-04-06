@@ -29,16 +29,16 @@
 #include "shop.h"
 #include "shop_root.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_global;
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
@@ -181,16 +181,16 @@ void RootInterface::Draw()
     _greeting_text.Draw();
 }
 
-void RootInterface::SetShopName(const hoa_utils::ustring& name)
+void RootInterface::SetShopName(const vt_utils::ustring& name)
 {
     _shop_name.SetText(name);
 }
 
-void RootInterface::SetGreetingText(const hoa_utils::ustring& greeting)
+void RootInterface::SetGreetingText(const vt_utils::ustring& greeting)
 {
     _greeting_text.SetDisplayText(greeting);
 }
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop

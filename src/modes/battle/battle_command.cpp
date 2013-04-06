@@ -25,16 +25,16 @@
 #include "modes/battle/battle_command.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -889,7 +889,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
         if (special_icon.empty())
             special_icon = "img/icons/battle/default_special.png";
 
-        hoa_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
+        vt_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
         _category_options.SetOptionText(CATEGORY_SPECIAL, MakeUnicodeString("<" + special_icon + ">\n\n") + special_name);
         _category_options.EnableOption(CATEGORY_SPECIAL, true);
         // Use special name from character config
@@ -1545,4 +1545,4 @@ void CommandSupervisor::_FinalizeCommand()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

@@ -37,13 +37,13 @@
 
 #include <libintl.h>
 
-using namespace hoa_utils;
-using namespace hoa_script;
-using namespace hoa_mode_manager;
+using namespace vt_utils;
+using namespace vt_script;
+using namespace vt_mode_manager;
 
-template<> hoa_system::SystemEngine *Singleton<hoa_system::SystemEngine>::_singleton_reference = NULL;
+template<> vt_system::SystemEngine *Singleton<vt_system::SystemEngine>::_singleton_reference = NULL;
 
-namespace hoa_system
+namespace vt_system
 {
 
 SystemEngine *SystemManager = NULL;
@@ -250,7 +250,7 @@ void SystemTimer::SetNumberLoops(int32 loops)
 
 
 
-void SystemTimer::SetModeOwner(hoa_mode_manager::GameMode *owner)
+void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 {
     if(IsInitial() == false) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << std::endl;
@@ -520,4 +520,4 @@ void SystemEngine::UnlockThread(Semaphore *s)
 #endif
 }
 
-} // namespace hoa_system
+} // namespace vt_system

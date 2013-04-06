@@ -23,7 +23,7 @@
 
 #include <deque>
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 // Useful common info about ambient effects
@@ -51,7 +51,7 @@ struct AmbientLightInfo {
     bool active;
 
     //! Image used as overlay for ambient lightning
-    hoa_video::Color color;
+    vt_video::Color color;
 };
 
 // Lightnings
@@ -85,7 +85,7 @@ public:
     /** \brief turn on the ligt color for the scene
      * \param color the light color to use
      */
-    void EnableLightingOverlay(const hoa_video::Color &color);
+    void EnableLightingOverlay(const vt_video::Color &color);
 
     /** \brief disables scene lighting
      */
@@ -197,14 +197,14 @@ private:
     void _UpdateAmbientOverlay(uint32 frame_time);
 
     //! Image used as ambient overlay
-    hoa_video::StillImage _ambient_overlay_img;
+    vt_video::StillImage _ambient_overlay_img;
 
     //! Image used as overlay for ambient lightning
-    hoa_video::StillImage _light_overlay_img;
+    vt_video::StillImage _light_overlay_img;
 
     struct LightningVideoManagerInfo {
         //! Image used as overlay for lightning effects
-        hoa_video::StillImage _lightning_overlay_img;
+        vt_video::StillImage _lightning_overlay_img;
 
         //! current time of currently active lightning effect (time since it started in ms)
         int32 _lightning_current_time;
@@ -249,6 +249,6 @@ private:
     void _UpdateShake(uint32 frame_time);
 };
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager
 
 #endif

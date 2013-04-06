@@ -28,7 +28,7 @@ function Initialize(map_instance)
 
     display_time = 0;
 
-    to_be_continued_text = hoa_system.Translate("To be continued...");
+    to_be_continued_text = vt_system.Translate("To be continued...");
 end
 
 function Update()
@@ -64,8 +64,8 @@ function DrawPostEffects()
     if (display_time >= 0 and display_time <= 2500) then
         overlay_alpha = display_time / 2500;
     end
-    Script:DrawImage(dark_overlay_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+    Script:DrawImage(dark_overlay_id, 512.0, 768.0, vt_video.Color(1.0, 1.0, 1.0, overlay_alpha));
 
-    VideoManager:DrawText(to_be_continued_text, 612.0, 448.0, hoa_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+    VideoManager:DrawText(to_be_continued_text, 612.0, 448.0, vt_video.Color(1.0, 1.0, 1.0, overlay_alpha));
 
 end

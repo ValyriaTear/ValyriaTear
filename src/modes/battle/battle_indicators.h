@@ -24,7 +24,7 @@
 
 #include "battle_utils.h"
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -99,7 +99,7 @@ public:
         return _actor;
     }
 
-    const hoa_system::SystemTimer &GetTimer() const {
+    const vt_system::SystemTimer &GetTimer() const {
         return _timer;
     }
 
@@ -125,10 +125,10 @@ protected:
     BattleActor *_actor;
 
     //! \brief Used to monitor the display progress
-    hoa_system::SystemTimer _timer;
+    vt_system::SystemTimer _timer;
 
     //! \brief A modulation color used to modify the alpha (transparency) of the drawn element
-    hoa_video::Color _alpha_color;
+    vt_video::Color _alpha_color;
 
     //! \brief Represent the force currently applied on the effects per second on the x axis.
     float _x_force;
@@ -187,7 +187,7 @@ public:
     *** \param style The style to use to render the text image
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorText(BattleActor *actor, const std::string &text, const hoa_video::TextStyle &style,
+    IndicatorText(BattleActor *actor, const std::string &text, const vt_video::TextStyle &style,
                   INDICATOR_TYPE indicator_type);
 
     ~IndicatorText()
@@ -203,7 +203,7 @@ public:
 
 protected:
     //! \brief The rendered image of the text to display
-    hoa_video::TextImage _text_image;
+    vt_video::TextImage _text_image;
 }; // class IndicatorText  : public IndicatorElement
 
 
@@ -228,7 +228,7 @@ public:
     *** \param image A const reference to the loaded image object to display
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorImage(BattleActor *actor, const hoa_video::StillImage &image,
+    IndicatorImage(BattleActor *actor, const vt_video::StillImage &image,
                    INDICATOR_TYPE indicator_type);
 
     ~IndicatorImage()
@@ -243,13 +243,13 @@ public:
     void Draw();
 
     //! \brief Returns a reference to the image use
-    hoa_video::StillImage &GetImage() {
+    vt_video::StillImage &GetImage() {
         return _image;
     }
 
 protected:
     //! \brief The image to display as an indicator
-    hoa_video::StillImage _image;
+    vt_video::StillImage _image;
 }; // class IndicatorImage : public IndicatorElement
 
 
@@ -288,8 +288,8 @@ public:
     *** \param second_image A const reference to the second loaded image to display
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorBlendedImage(BattleActor *actor, const hoa_video::StillImage &first_image,
-                          const hoa_video::StillImage &second_image,
+    IndicatorBlendedImage(BattleActor *actor, const vt_video::StillImage &first_image,
+                          const vt_video::StillImage &second_image,
                           INDICATOR_TYPE indicator_type);
 
     ~IndicatorBlendedImage()
@@ -304,29 +304,29 @@ public:
     void Draw();
 
     //! \brief Returns a reference to the first image
-    hoa_video::StillImage &GetFirstImage() {
+    vt_video::StillImage &GetFirstImage() {
         return _first_image;
     }
 
     //! \brief Returns a reference to the second image
-    hoa_video::StillImage &GetSecondImage() {
+    vt_video::StillImage &GetSecondImage() {
         return _second_image;
     }
 
 
 protected:
     //! \brief The first image to display in the blended element
-    hoa_video::StillImage _first_image;
+    vt_video::StillImage _first_image;
 
     //! \brief The second image to display in the blended element
-    hoa_video::StillImage _second_image;
+    vt_video::StillImage _second_image;
 
     /** \brief A modulation color used to modify the alpha (transparency) of the second image
     *** \note This is only used when both the first and second images are beind drawn blended
     *** together. The first image will use the inherited _alpha_color member in this case.
     *** _alpha_color is also used for both the standard element fade in and fade out effects.
     **/
-    hoa_video::Color _second_alpha_color;
+    vt_video::Color _second_alpha_color;
 }; // class IndicatorBlendedImage : public IndicatorElement
 
 
@@ -391,11 +391,11 @@ public:
     *** example, when the timer for the status effect is reset. If the status and intensity arguments are equal,
     *** only a single icon image will be used in the indicator.
     **/
-    void AddStatusIndicator(hoa_global::GLOBAL_STATUS old_status, hoa_global::GLOBAL_INTENSITY old_intensity,
-                            hoa_global::GLOBAL_STATUS new_status, hoa_global::GLOBAL_INTENSITY new_intensity);
+    void AddStatusIndicator(vt_global::GLOBAL_STATUS old_status, vt_global::GLOBAL_INTENSITY old_intensity,
+                            vt_global::GLOBAL_STATUS new_status, vt_global::GLOBAL_INTENSITY new_intensity);
 
     //! \brief Creates indicator with item image above the character
-    void AddItemIndicator(const hoa_global::GlobalItem &item);
+    void AddItemIndicator(const vt_global::GlobalItem &item);
 private:
     //! \brief A pointer to the actor that this class supervises indicator elements for
     BattleActor *_actor;
@@ -414,6 +414,6 @@ private:
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_INDICATORS_HEADER__

@@ -23,22 +23,22 @@
 
 #include "engine/input.h"
 
-namespace hoa_common {
+namespace vt_common {
 extern bool COMMON_DEBUG;
 }
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_common;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_common;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -52,7 +52,7 @@ SpriteDialogue::SpriteDialogue(uint32 id) :
     CommonDialogue(id),
     _input_blocked(false),
     _restore_state(true),
-    _event_name("dialogue#" + hoa_utils::NumberToString(id))
+    _event_name("dialogue#" + vt_utils::NumberToString(id))
 {}
 
 SpriteDialogue::SpriteDialogue() :
@@ -60,7 +60,7 @@ SpriteDialogue::SpriteDialogue() :
     _input_blocked(false),
     _restore_state(true)
 {
-    _event_name = "dialogue#" + hoa_utils::NumberToString(GetDialogueID());
+    _event_name = "dialogue#" + vt_utils::NumberToString(GetDialogueID());
 }
 
 void SpriteDialogue::AddLine(const std::string &text, uint32 speaker_id)
@@ -498,7 +498,7 @@ void DialogueSupervisor::_BeginLine()
     if(!emote_event.empty() && !_emote_triggered) {
         MapSprite *sprite = dynamic_cast<MapSprite *>(map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter)));
         if(sprite) {
-            sprite->Emote(emote_event, (hoa_map::private_map::ANIM_DIRECTIONS)sprite->GetCurrentAnimationDirection());
+            sprite->Emote(emote_event, (vt_map::private_map::ANIM_DIRECTIONS)sprite->GetCurrentAnimationDirection());
             _state = DIALOGUE_STATE_EMOTE;
             _emote_triggered = true;
             return;
@@ -611,4 +611,4 @@ void DialogueSupervisor::_EndLine()
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

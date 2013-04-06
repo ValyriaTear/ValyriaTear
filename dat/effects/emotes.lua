@@ -8,10 +8,10 @@
 ------------------------------------------------------------------------------]]
 
 
-local ANIM_SOUTH = hoa_map.MapMode.ANIM_SOUTH;
-local ANIM_NORTH = hoa_map.MapMode.ANIM_NORTH;
-local ANIM_WEST = hoa_map.MapMode.ANIM_WEST;
-local ANIM_EAST = hoa_map.MapMode.ANIM_EAST;
+local ANIM_SOUTH = vt_map.MapMode.ANIM_SOUTH;
+local ANIM_NORTH = vt_map.MapMode.ANIM_NORTH;
+local ANIM_WEST = vt_map.MapMode.ANIM_WEST;
+local ANIM_EAST = vt_map.MapMode.ANIM_EAST;
 
 -- All item definitions are stored in this table
 if (emotes == nil) then

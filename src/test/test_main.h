@@ -21,7 +21,7 @@
 /** \brief Namespace containing code used only for testing purposes
 *** \note Normally no other code should need to use this namespace.
 **/
-namespace hoa_test {
+namespace vt_test {
 
 /** \brief Executes a specific piece of code that is intended to test some piece of functionality
 *** \param tests The list of tests to execute in a space delimited string format
@@ -33,6 +33,6 @@ namespace hoa_test {
 **/
 bool ExecuteTests(const std::string& tests);
 
-} // namespace hoa_test
+} // namespace vt_test
 
 #endif // __TEST_MAIN_HEADER__

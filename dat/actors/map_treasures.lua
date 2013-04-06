@@ -33,7 +33,7 @@ function CreateTreasure(Map, save_name, name, x, y)
     end
     local treasure = {}
 
-    treasure = hoa_map.TreasureObject(save_name,
+    treasure = vt_map.TreasureObject(save_name,
         treasures[name].closed_animation_filename,
         treasures[name].opening_animation_filename,
         treasures[name].opened_animation_filename);

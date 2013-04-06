@@ -16,7 +16,7 @@
 
 #include "dialog_boxes.h"
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 
@@ -204,4 +204,4 @@ LayerInfo LayerDialog::_GetLayerInfo()
     return layer_info;
 }
 
-} // namespace hoa_editor
+} // namespace vt_editor

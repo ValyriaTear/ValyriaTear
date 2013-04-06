@@ -567,7 +567,7 @@ function CreateObject(Map, name, x, y)
     end
 
     local object = {}
-    object = hoa_map.PhysicalObject();
+    object = vt_map.PhysicalObject();
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     object:SetPosition(x, y);
     object:SetCollHalfWidth(objects[name].coll_half_width);

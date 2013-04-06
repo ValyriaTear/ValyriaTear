@@ -26,11 +26,11 @@
 #include <sstream>
 #include <iostream>
 
-using namespace hoa_script;
-using namespace hoa_map::private_map;
-using namespace hoa_video;
+using namespace vt_script;
+using namespace vt_map::private_map;
+using namespace vt_video;
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 LAYER_TYPE getLayerType(const std::string &type)
@@ -814,4 +814,4 @@ void Grid::resizeGL(int w, int h)
     VideoManager->ApplySettings();
 } // Grid::resizeGL(...)
 
-} // namespace hoa_editor
+} // namespace vt_editor

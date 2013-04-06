@@ -57,7 +57,7 @@ function Initialize(_character, _target, _skill)
 
     damage_triggered = false;
 
-    distance_moved_x = SystemManager:GetUpdateTime() / hoa_map.MapMode.NORMAL_SPEED * 150.0;
+    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 150.0;
     local y_diff = character_pos_y - enemy_pos_y;
     if (y_diff == 0.0) then
         a_coeff = 0.0;
@@ -76,7 +76,7 @@ end
 
 function Update()
     -- The update time can vary, so update the distance on each update as well.
-    distance_moved_x = SystemManager:GetUpdateTime() / hoa_map.MapMode.NORMAL_SPEED * 150.0;
+    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 150.0;
     if (a_coeff ~= 0.0) then
         distance_moved_y = (1/a_coeff) * distance_moved_x;
     end

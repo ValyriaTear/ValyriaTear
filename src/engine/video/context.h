@@ -21,7 +21,7 @@
 #include "coord_sys.h"
 #include "screen_rect.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -68,6 +68,6 @@ public:
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __CONTEXT_HEADER__

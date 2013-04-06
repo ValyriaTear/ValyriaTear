@@ -40,22 +40,22 @@ end
 --------------------------------------------------------------------------------
 
 skills[10001] = {
-    name = hoa_system.Translate("Defensive Stance"),
-    description = hoa_system.Translate("Increases an ally's physical defense by a slight degree."),
+    name = vt_system.Translate("Defensive Stance"),
+    description = vt_system.Translate("Increases an ally's physical defense by a slight degree."),
     icon = "img/icons/magic/defensive_stance.png",
     sp_required = 3,
     warmup_time = 300,
     cooldown_time = 0,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
-    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 
     BattleExecute = function(user, target)
         target_actor = target:GetActor();
         local effect_duration = user:GetProtection() * 2000;
         if (effect_duration < 10000) then effect_duration = 10000 end
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
-                                          hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
+                                          vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                           effect_duration);
         local Battle = ModeManager:GetTop();
         Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance.lua",
@@ -64,19 +64,19 @@ skills[10001] = {
 }
 
 skills[10002] = {
-    name = hoa_system.Translate("First Aid"),
-    description = hoa_system.Translate("Performs basic medical assistance, healing the target by a minor degree."),
+    name = vt_system.Translate("First Aid"),
+    description = vt_system.Translate("Performs basic medical assistance, healing the target by a minor degree."),
     icon = "img/icons/magic/first_aid.png",
     sp_required = 4,
     warmup_time = 1500,
     cooldown_time = 200,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
-    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 
     BattleExecute = function(user, target)
         target_actor = target:GetActor();
-        local hit_points = (user:GetVigor() * 3) +  hoa_utils.RandomBoundedInteger(0, 15);
+        local hit_points = (user:GetVigor() * 3) +  vt_utils.RandomBoundedInteger(0, 15);
         target_actor:RegisterHealing(hit_points, true);
         AudioManager:PlaySound("snd/heal_spell.wav");
         local Battle = ModeManager:GetTop();
@@ -85,21 +85,21 @@ skills[10002] = {
     end,
 
     FieldExecute = function(target, instigator)
-        target:AddHitPoints((instigator:GetVigor() * 5) + hoa_utils.RandomBoundedInteger(0, 30));
+        target:AddHitPoints((instigator:GetVigor() * 5) + vt_utils.RandomBoundedInteger(0, 30));
         AudioManager:PlaySound("snd/heal_spell.wav");
     end
 }
 
 skills[10003] = {
-    name = hoa_system.Translate("Leader Call"),
-    description = hoa_system.Translate("Temporarily increases the strength of all allies."),
+    name = vt_system.Translate("Leader Call"),
+    description = vt_system.Translate("Temporarily increases the strength of all allies."),
     icon = "img/icons/magic/leader_call.png",
     sp_required = 14,
     warmup_time = 4000,
     cooldown_time = 750,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
-    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
 
     BattleExecute = function(user, target)
         local index = 0;
@@ -109,8 +109,8 @@ skills[10003] = {
             if (target_actor == nil) then
                 break;
             end
-            target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
-                        hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
+                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
                         effect_duration);
             index = index + 1;
         end
@@ -118,21 +118,21 @@ skills[10003] = {
 }
 
 skills[10004] = {
-    name = hoa_system.Translate("Fire burst"),
-    description = hoa_system.Translate("Creates a small fire that burns an enemy."),
+    name = vt_system.Translate("Fire burst"),
+    description = vt_system.Translate("Creates a small fire that burns an enemy."),
     icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
     cooldown_time = 750,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
-    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_FOE,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
     BattleExecute = function(user, target)
         target_actor = target:GetActor();
-        if (hoa_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- TODO: Add fire elemental damage type.
-            target_actor:RegisterDamage(hoa_battle.CalculatePhysicalDamageAdder(user, target, 0), target);
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 0), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",

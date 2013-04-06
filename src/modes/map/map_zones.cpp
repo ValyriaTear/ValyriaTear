@@ -18,9 +18,9 @@
 
 #include "modes/map/map_sprites.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -71,9 +71,9 @@ void MapZone::Draw()
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            hoa_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
+            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
                                                    it->bottom_row - it->top_row,
-                                                   hoa_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
+                                                   vt_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
         }
     }
 }
@@ -113,14 +113,14 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
     x_pos = rect.left + (rect.right - rect.left) / 2;
     y_pos = rect.top + (rect.bottom - rect.top);
-    hoa_video::VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
+    vt_video::VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
     rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(x_pos), x_pixel_length);
     rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(y_pos), y_pixel_length);
     x_pos = static_cast<float>(GetFloatInteger(x_pos)) + rounded_x_offset;
     y_pos = static_cast<float>(GetFloatInteger(y_pos)) + rounded_y_offset;
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
-    hoa_video::VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
+    vt_video::VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
                                   y_pos - map->GetMapFrame().screen_edges.top);
     return true;
 }
@@ -403,13 +403,13 @@ void EnemyZone::Draw()
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            hoa_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
+            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
                                                    it->bottom_row - it->top_row,
-                                                   hoa_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
+                                                   vt_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
         }
     }
 }
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

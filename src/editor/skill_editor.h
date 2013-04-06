@@ -34,7 +34,7 @@
 #include "common/global/global_skills.h"
 #include "engine/script/script.h"
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 class SkillEditor : public QWidget
@@ -61,15 +61,15 @@ private:
     //! \brief Loads the skills from an individual file
     //! the ReadScriptDescriptor must already be opened.
     //! this function closes the script when finished.
-    void _LoadSkills(hoa_script::ReadScriptDescriptor &script, std::vector<hoa_global::GlobalSkill *> &skills, hoa_global::GLOBAL_SKILL type);
+    void _LoadSkills(vt_script::ReadScriptDescriptor &script, std::vector<vt_global::GlobalSkill *> &skills, vt_global::GLOBAL_SKILL type);
     //! \brief Create the UI for the given tab page.
-    void _CreateTab(hoa_global::GLOBAL_SKILL type, std::vector<hoa_global::GlobalSkill *> skills, QString name);
+    void _CreateTab(vt_global::GLOBAL_SKILL type, std::vector<vt_global::GlobalSkill *> skills, QString name);
     //! \brief Create the buttons at the bottom of the tab
-    void _CreateTabBottomButtons(hoa_global::GLOBAL_SKILL type);
+    void _CreateTabBottomButtons(vt_global::GLOBAL_SKILL type);
     //! \brief clean up functions, to delete all the controls on the individual tab pages
-    void _CleanupTab(hoa_global::GLOBAL_SKILL type);
+    void _CleanupTab(vt_global::GLOBAL_SKILL type);
     //! \brief returns the skill list associated with the current tab
-    std::vector<hoa_global::GlobalSkill *> &_GetCurrentSkillList();
+    std::vector<vt_global::GlobalSkill *> &_GetCurrentSkillList();
     //! \brief Reloads the current tab with the currently selected skill
     void _ReloadTab();
 
@@ -79,13 +79,13 @@ private:
     QHBoxLayout *_hbox;
     //! \brief vectors to hold the global skills
     //@{
-    std::vector<hoa_global::GlobalSkill *> _attack_skills;
-    std::vector<hoa_global::GlobalSkill *> _defense_skills;
-    std::vector<hoa_global::GlobalSkill *> _support_skills;
+    std::vector<vt_global::GlobalSkill *> _attack_skills;
+    std::vector<vt_global::GlobalSkill *> _defense_skills;
+    std::vector<vt_global::GlobalSkill *> _support_skills;
     //@}
 
     //! \brief the currently selected tab
-    hoa_global::GLOBAL_SKILL _current_tab;
+    vt_global::GLOBAL_SKILL _current_tab;
 
     //! \brief tab page controls
     //@{
@@ -121,7 +121,7 @@ private:
     //@}
 };
 
-} // namespace hoa_editor
+} // namespace vt_editor
 
 #endif
 // __SKILL_EDITOR_HEADER__

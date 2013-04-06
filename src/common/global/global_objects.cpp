@@ -20,19 +20,19 @@
 #include "engine/script/script.h"
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_script;
-using namespace hoa_video;
-using namespace hoa_global::private_global;
+using namespace vt_utils;
+using namespace vt_script;
+using namespace vt_video;
+using namespace vt_global::private_global;
 
-namespace hoa_global
+namespace vt_global
 {
 
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalObject class
 ////////////////////////////////////////////////////////////////////////////////
 
-void GlobalObject::_LoadObjectData(hoa_script::ReadScriptDescriptor &script)
+void GlobalObject::_LoadObjectData(vt_script::ReadScriptDescriptor &script)
 {
     _name = MakeUnicodeString(script.ReadString("name"));
     _description = MakeUnicodeString(script.ReadString("description"));
@@ -49,7 +49,7 @@ void GlobalObject::_LoadObjectData(hoa_script::ReadScriptDescriptor &script)
     }
 }
 
-void GlobalObject::_LoadElementalEffects(hoa_script::ReadScriptDescriptor &script)
+void GlobalObject::_LoadElementalEffects(vt_script::ReadScriptDescriptor &script)
 {
     if(!script.DoesTableExist("elemental_effects"))
         return;
@@ -78,7 +78,7 @@ void GlobalObject::_LoadElementalEffects(hoa_script::ReadScriptDescriptor &scrip
     script.CloseTable(); // elemental_effects
 }
 
-void GlobalObject::_LoadStatusEffects(hoa_script::ReadScriptDescriptor &script)
+void GlobalObject::_LoadStatusEffects(vt_script::ReadScriptDescriptor &script)
 {
     if(!script.DoesTableExist("status_effects"))
         return;
@@ -123,7 +123,7 @@ void GlobalObject::_LoadStatusEffects(hoa_script::ReadScriptDescriptor &script)
     script.CloseTable(); // status_effects
 }
 
-void GlobalObject::_LoadTradeConditions(hoa_script::ReadScriptDescriptor &script)
+void GlobalObject::_LoadTradeConditions(vt_script::ReadScriptDescriptor &script)
 {
     if(!script.DoesTableExist("trade_conditions"))
         return;
@@ -453,4 +453,4 @@ GlobalShard::GlobalShard(uint32 id, uint32 count) :
 // 	}
 } // void GlobalShard::GlobalShard(uint32 id, uint32 count = 1)
 
-} // namespace hoa_global
+} // namespace vt_global

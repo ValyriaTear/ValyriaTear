@@ -25,7 +25,7 @@
 
 #include "color.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /*!***************************************************************************
@@ -57,7 +57,7 @@ public:
     float size_y;
 
     //! color (includes alpha)
-    hoa_video::Color color;
+    vt_video::Color color;
 
     //! rotation speed, radians per second clockwise
     float rotation_speed;
@@ -71,11 +71,11 @@ public:
 
     //! random variation added to color (each channel contains
     //! the variation for that channel)
-    hoa_video::Color color_variation;
+    vt_video::Color color_variation;
 
     float time;
 };
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif  //! __PARTICLE_KEYFRAME_HEADER__

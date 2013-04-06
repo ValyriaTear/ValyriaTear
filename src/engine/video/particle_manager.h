@@ -23,7 +23,7 @@
 
 #include "utils.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 class ParticleEffect;
@@ -110,6 +110,6 @@ private:
     int32 _num_particles;
 };
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif // !__PARTICLE_MANAGER_HEADER

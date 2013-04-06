@@ -13,12 +13,12 @@
 #include "option.h"
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_video::private_video;
-using namespace hoa_gui::private_gui;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_video::private_video;
+using namespace vt_gui::private_gui;
 
-namespace hoa_gui
+namespace vt_gui
 {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -365,7 +365,7 @@ void OptionBox::AddOption()
 
 
 
-void OptionBox::AddOption(const hoa_utils::ustring &text)
+void OptionBox::AddOption(const vt_utils::ustring &text)
 {
     Option option;
     if(_ConstructOption(text, option) == false) {
@@ -484,7 +484,7 @@ void OptionBox::AddOptionElementPosition(uint32 option_index, uint32 position_le
 
 
 
-bool OptionBox::SetOptionText(uint32 index, const hoa_utils::ustring &text)
+bool OptionBox::SetOptionText(uint32 index, const vt_utils::ustring &text)
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << std::endl;
@@ -1281,4 +1281,4 @@ void OptionBox::_DEBUG_DrawOutline()
     }
 }
 
-} // namespace hoa_gui
+} // namespace vt_gui

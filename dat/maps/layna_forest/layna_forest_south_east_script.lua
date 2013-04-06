@@ -77,8 +77,8 @@ end
 function _CreateCharacters()
     -- Default hero and position - from forest North East
     hero = CreateSprite(Map, "Bronann", 40, 4);
-    hero:SetDirection(hoa_map.MapMode.SOUTH);
-    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    hero:SetDirection(vt_map.MapMode.SOUTH);
+    hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
     local x_position = GlobalManager:GetSaveLocationX();
@@ -87,19 +87,19 @@ function _CreateCharacters()
         -- Use the save point position, and clear the save position data for next maps
         GlobalManager:UnsetSaveLocation();
         -- Make the character look at us in that case
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
     elseif (GlobalManager:GetPreviousLocation() == "from forest SW") then
-        hero:SetDirection(hoa_map.MapMode.EAST);
+        hero:SetDirection(vt_map.MapMode.EAST);
         hero:SetPosition(4, 54);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_1_2") then
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(14, 42);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_wolf_cave") then
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(32, 21);
     elseif (GlobalManager:GetPreviousLocation() == "from layna forest cave 2") then
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(66, 72);
     end
 
@@ -117,19 +117,19 @@ function _CreateObjects()
     Map:AddSavePoint(61, 9);
 
     -- Load the heal effect.
-    heal_effect = hoa_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
+    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
 
     -- Heal point
     npc = CreateSprite(Map, "Butterfly", 67, 11);
-    npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
     Map:AddGroundObject(npc);
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Your party feels better...");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
@@ -138,51 +138,51 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
         npc = CreateSprite(Map, "Butterfly", 42, 18);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly1 random move");
 
         npc = CreateSprite(Map, "Butterfly", 12, 30);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
         npc = CreateSprite(Map, "Butterfly", 50, 25);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
         npc = CreateSprite(Map, "Butterfly", 40, 30);
-        npc:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
         npc = CreateSprite(Map, "Squirrel", 18, 24);
         -- Squirrels don't collide with the npcs.
-        npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel1 random move");
 
         npc = CreateSprite(Map, "Squirrel", 40, 14);
         -- Squirrels don't collide with the npcs.
-        npc:SetCollisionMask(hoa_map.MapMode.WALL_COLLISION);
+        npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         Map:AddGroundObject(npc);
-        event = hoa_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel2 random move", 1800);
@@ -645,7 +645,7 @@ function _CreateObjects()
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+        object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(object);
     end
 
@@ -658,7 +658,7 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
 
     -- top right
-    roam_zone = hoa_map.EnemyZone(77, 123, 2, 5);
+    roam_zone = vt_map.EnemyZone(77, 123, 2, 5);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -673,7 +673,7 @@ function _CreateEnemies()
 
     Map:AddZone(roam_zone);
 
-    roam_zone = hoa_map.EnemyZone(106, 121, 18, 25);
+    roam_zone = vt_map.EnemyZone(106, 121, 18, 25);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -689,7 +689,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- wide passage
-    roam_zone = hoa_map.EnemyZone(97, 118, 40, 89);
+    roam_zone = vt_map.EnemyZone(97, 118, 40, 89);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -705,7 +705,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- near the exit
-    roam_zone = hoa_map.EnemyZone(12, 14, 77, 79);
+    roam_zone = vt_map.EnemyZone(12, 14, 77, 79);
 
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
@@ -721,7 +721,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- in the inner part
-    roam_zone = hoa_map.EnemyZone(24, 84, 46, 78);
+    roam_zone = vt_map.EnemyZone(24, 84, 46, 78);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -744,28 +744,28 @@ function _CreateEvents()
     local text = {};
 
     -- Map events
-    event = hoa_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
+    event = vt_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
                                        "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
+    event = vt_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
                                        "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+    event = vt_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
                                        "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
+    event = vt_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
                                        "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
+    event = vt_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
                                        "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from forest SE")
     EventManager:RegisterEvent(event);
 
     -- Heal point
-    event = hoa_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
+    event = vt_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
 end
 
@@ -779,19 +779,19 @@ local to_wolf_cave_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NE_zone = hoa_map.CameraZone(36, 41, 0, 2);
+    to_forest_NE_zone = vt_map.CameraZone(36, 41, 0, 2);
     Map:AddZone(to_forest_NE_zone);
 
-    to_forest_SW_zone = hoa_map.CameraZone(0, 2, 52, 56);
+    to_forest_SW_zone = vt_map.CameraZone(0, 2, 52, 56);
     Map:AddZone(to_forest_SW_zone);
 
-    to_cave1_2_zone = hoa_map.CameraZone(12, 16, 39, 40);
+    to_cave1_2_zone = vt_map.CameraZone(12, 16, 39, 40);
     Map:AddZone(to_cave1_2_zone);
 
-    to_cave2_1_zone = hoa_map.CameraZone(64, 68, 69, 70);
+    to_cave2_1_zone = vt_map.CameraZone(64, 68, 69, 70);
     Map:AddZone(to_cave2_1_zone);
 
-    to_wolf_cave_zone = hoa_map.CameraZone(30, 34, 17, 18);
+    to_wolf_cave_zone = vt_map.CameraZone(30, 34, 17, 18);
     Map:AddZone(to_wolf_cave_zone);
 end
 
@@ -851,12 +851,12 @@ map_functions = {
         heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
 
         if (heal_effect_time < 300.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, heal_effect_time / 300.0 / 3.0 ));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 1.0, heal_effect_time / 300.0 / 3.0 ));
             return false;
         end
 
         if (heal_effect_time < 1000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
             return false;
         end
 

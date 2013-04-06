@@ -58,22 +58,22 @@ end
 function _CreateCharacters()
     -- default position and direction
     bronann = CreateSprite(Map, "Bronann", 32.0, 27.0);
-    bronann:SetDirection(hoa_map.MapMode.NORTH);
-    bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    bronann:SetDirection(vt_map.MapMode.NORTH);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
     npc = CreateNPCSprite(Map, "Woman1", "Flora", 39, 20);
-    npc:SetDirection(hoa_map.MapMode.SOUTH);
+    npc:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(npc);
 
     -- The npc is too far away from the Hero so we make an invisible doppelgänger
     flora = CreateNPCSprite(Map, "Woman1", "Flora", 39, 22);
     Map:AddGroundObject(flora);
     flora:SetVisible(false);
-    flora:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    flora:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     _UpdateFloraDialogue();
 end
 
@@ -95,11 +95,11 @@ function _CreateObjects()
     -- lights
     object = CreateObject(Map, "Right Window Light 2", 41, 10);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Right Window Light 2", 41, 17);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
@@ -108,26 +108,26 @@ function _CreateEvents()
     local event = {};
 
     -- Triggered Events
-    event = hoa_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
+    event = vt_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from_shop");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ShopEvent("layna: open shop");
+    event = vt_map.ShopEvent("layna: open shop");
     event:AddObject(1, 10); -- minor potion
     event:AddObject(1001, 10); -- minor elixir
     event:AddObject(30003, 1); -- tunic for Bronann
     event:AddObject(30004, 1); -- leather cloak for Kalya
     event:AddObject(40001, 3); -- leather cloak for Kalya
-    event:SetPriceLevels(hoa_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
-                hoa_shop.ShopMode.SHOP_PRICE_STANDARD);
+    event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
+                vt_shop.ShopMode.SHOP_PRICE_STANDARD);
 
     EventManager:RegisterEvent(event);
 
     -- Quest events
-    event = hoa_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
+    event = vt_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("Quest2: Talked to Flora", "Quest2FloraDialogueDone", "");
+    event = vt_map.ScriptedEvent("Quest2: Talked to Flora", "Quest2FloraDialogueDone", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -136,7 +136,7 @@ local shop_exit_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    shop_exit_zone = hoa_map.CameraZone(30, 34, 28, 29);
+    shop_exit_zone = vt_map.CameraZone(30, 34, 28, 29);
     Map:AddZone(shop_exit_zone);
 end
 
@@ -160,43 +160,43 @@ function _UpdateFloraDialogue()
         -- nothing special
     elseif (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
         -- The dialogue before the forest event
-        dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Hi Bronann! What can I do for you?");
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
-        text = hoa_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practise a bit.");
+        text = vt_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practise a bit.");
         dialogue:AddLine(text, bronann);
-        text = hoa_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practise with him. Are you sure everything is alright?");
+        text = vt_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practise with him. Are you sure everything is alright?");
         dialogue:AddLine(text, flora);
-        text = hoa_system.Translate("Err, nevermind...");
+        text = vt_system.Translate("Err, nevermind...");
         dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");
         DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         -- Just repeat the last dialogue sentence, when the dialogue is already done.
-        dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
         dialogue:AddLine(text, flora);
-        text = hoa_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
+        text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
         dialogue:AddLine(text, flora);
         DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
-        dialogue = hoa_map.SpriteDialogue();
-        text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("Hi Bronnan! What can I do for you?");
         dialogue:AddLine(text, flora);
-        text = hoa_system.Translate("Hi Flora! Do you have some barley meal left?");
+        text = vt_system.Translate("Hi Flora! Do you have some barley meal left?");
         dialogue:AddLine(text, bronann);
-        text = hoa_system.Translate("Oh sorry, our 'great' poet came earlier and took all the rest of it.");
+        text = vt_system.Translate("Oh sorry, our 'great' poet came earlier and took all the rest of it.");
         dialogue:AddLine(text, flora);
-        text = hoa_system.Translate("Times are becoming harder now. We've got less food than before...");
+        text = vt_system.Translate("Times are becoming harder now. We've got less food than before...");
         dialogue:AddLine(text, flora);
-        text = hoa_system.Translate("? ... This is the first time that I've see you wear such a worrisome expression.");
+        text = vt_system.Translate("? ... This is the first time that I've see you wear such a worrisome expression.");
         dialogue:AddLine(text, bronann);
-        text = hoa_system.Translate("Nevermind... Don't worry about me. Just find him and he should give you some, ok?");
+        text = vt_system.Translate("Nevermind... Don't worry about me. Just find him and he should give you some, ok?");
         dialogue:AddLine(text, flora);
-        text = hoa_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
+        text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
         -- Set the quest dialogue as seen by the player.
         dialogue:AddLineEvent(text, flora, "", "SetQuest1DialogueDone");
         DialogueManager:AddDialogue(dialogue);
@@ -204,8 +204,8 @@ function _UpdateFloraDialogue()
         return;
     end
     --default behaviour
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Hi Bronnan! What can I do for you?");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Hi Bronnan! What can I do for you?");
     dialogue:AddLineEvent(text, flora, "", "layna: open shop");
     DialogueManager:AddDialogue(dialogue);
     flora:AddDialogueReference(dialogue);

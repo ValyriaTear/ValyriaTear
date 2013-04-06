@@ -22,7 +22,7 @@
 
 #include "utils.h"
 
-namespace hoa_script
+namespace vt_script
 {
 
 /** ****************************************************************************
@@ -285,7 +285,7 @@ template <class T> void WriteScriptDescriptor::_WriteDataVector(const std::strin
         _outfile << key << " = { ";
     } else {
         _WriteTablePath();
-        if(hoa_utils::IsStringNumeric(key))
+        if(vt_utils::IsStringNumeric(key))
             _outfile << "[" << key << "] = { ";
         else
             _outfile << '.' << key << " = { ";
@@ -318,6 +318,6 @@ template <class T> void WriteScriptDescriptor::_WriteDataVector(const int32 key,
     _outfile << " }" << std::endl;
 }
 
-} // namespace hoa_script
+} // namespace vt_script
 
 #endif // __SCRIPT_WRITE_HEADER_

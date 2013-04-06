@@ -29,11 +29,11 @@
 
 #include <cstring>
 
-namespace hoa_mode_manager {
+namespace vt_mode_manager {
 class GameMode;
 }
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 class AudioDescriptor;
@@ -324,25 +324,25 @@ public:
     *** when the game mode is deleted.
     *** This function won't add NULL reference and won't permit duplicate owners.
     **/
-    void AddOwner(hoa_mode_manager::GameMode *gm);
+    void AddOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Adds multiple owners at once.
     *** @see AddOwner()
     **/
-    void AddOwners(std::vector<hoa_mode_manager::GameMode *>& owners);
+    void AddOwners(std::vector<vt_mode_manager::GameMode *>& owners);
 
     /**
     *** Remove a game mode reference from the audio descriptor owners,
     *** and checks whether the file data can be freed.
     *** \returns whether the descriptor should be removed from the cache.
     **/
-    bool RemoveOwner(hoa_mode_manager::GameMode *gm);
+    bool RemoveOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Get the list of game mode claiming ownership over the audio descriptor.
     **/
-    std::vector<hoa_mode_manager::GameMode *>* GetOwners() {
+    std::vector<vt_mode_manager::GameMode *>* GetOwners() {
         return &_owners;
     }
 
@@ -427,7 +427,7 @@ protected:
     *** Musics and sounds that are never owned will have to be freed manually.
     *** @see AddOwner(), RemoveOwner()
     **/
-    std::vector<hoa_mode_manager::GameMode *> _owners;
+    std::vector<vt_mode_manager::GameMode *> _owners;
 
     //! \brief Holds all active audio effects for this descriptor
     std::vector<private_audio::AudioEffect *> _audio_effects;
@@ -539,6 +539,6 @@ public:
     bool Play();
 }; // class MusicDescriptor : public AudioDescriptor
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif

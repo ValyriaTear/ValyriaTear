@@ -46,20 +46,20 @@
 #include <SDL_image.h>
 #include <time.h>
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
-using namespace hoa_boot;
-using namespace hoa_map;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
+using namespace vt_boot;
+using namespace vt_map;
 
 //! \brief Namespace which contains all binding functions
-namespace hoa_defs
+namespace vt_defs
 {
 
 /** \brief Contains the binding code which makes the C++ engine available to Lua
@@ -71,7 +71,7 @@ void BindEngineCode();
 void BindCommonCode();
 void BindModeCode();
 
-} // namespace hoa_defs
+} // namespace vt_defs
 
 /** \brief Frees all data allocated by the game by destroying the singleton classes
 ***
@@ -225,7 +225,7 @@ bool LoadSettings()
 //! or if the default font is invalid.
 static void LoadFonts(const std::string &font_script_filename)
 {
-    hoa_script::ReadScriptDescriptor font_script;
+    vt_script::ReadScriptDescriptor font_script;
 
     //Checking the file existence and validity.
     if(!font_script.OpenFile(font_script_filename)) {
@@ -294,7 +294,7 @@ static void LoadFonts(const std::string &font_script_filename)
 //! and handle keeping the them in memory through config
 static void LoadGUIThemes(const std::string& theme_script_filename)
 {
-    hoa_script::ReadScriptDescriptor theme_script;
+    vt_script::ReadScriptDescriptor theme_script;
 
     // Checking the file existence and validity.
     if(!theme_script.OpenFile(theme_script_filename)) {
@@ -410,9 +410,9 @@ void InitializeEngine() throw(Exception)
         throw Exception("ERROR: unable to initialize ScriptManager", __FILE__, __LINE__, __FUNCTION__);
     }
 
-    hoa_defs::BindEngineCode();
-    hoa_defs::BindCommonCode();
-    hoa_defs::BindModeCode();
+    vt_defs::BindEngineCode();
+    vt_defs::BindCommonCode();
+    vt_defs::BindModeCode();
 
     if(SystemManager->SingletonInitialize() == false) {
         throw Exception("ERROR: unable to initialize SystemManager", __FILE__, __LINE__, __FUNCTION__);
@@ -518,7 +518,7 @@ int main(int argc, char *argv[])
         int32 return_code = EXIT_FAILURE;
 
         // Parse command lines and exit out of the game if needed
-        if(hoa_main::ParseProgramOptions(return_code, static_cast<int32>(argc), argv) == false) {
+        if(vt_main::ParseProgramOptions(return_code, static_cast<int32>(argc), argv) == false) {
             return static_cast<int>(return_code);
         }
 

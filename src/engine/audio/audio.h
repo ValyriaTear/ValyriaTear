@@ -41,7 +41,7 @@
 #include <cstring>
 
 //! \brief All related audio engine code is wrapped within this namespace
-namespace hoa_audio
+namespace vt_audio
 {
 
 class AudioEngine;
@@ -49,7 +49,7 @@ class AudioEngine;
 //! \brief The singleton pointer responsible for all audio operations.
 extern AudioEngine *AudioManager;
 
-//! \brief Determines whether the code in the hoa_audio namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_audio namespace should print debug statements or not.
 extern bool AUDIO_DEBUG;
 
 //! \brief Enable whether the audio engine should function
@@ -90,9 +90,9 @@ public:
 *** \note Make sure to later resume paused sounds, otherwise the sources that they hold
 *** will never be released
 *** ***************************************************************************/
-class AudioEngine : public hoa_utils::Singleton<AudioEngine>
+class AudioEngine : public vt_utils::Singleton<AudioEngine>
 {
-    friend class hoa_utils::Singleton<AudioEngine>;
+    friend class vt_utils::Singleton<AudioEngine>;
 // friend class private_audio::SoundData;
 // friend class private_audio::MusicData;
     friend class AudioDescriptor;
@@ -248,13 +248,13 @@ public:
     *** \param gm The game mode owning the audio descriptor to load.
     *** \return True if the sound was loaded into the cache successfully
     **/
-    bool LoadSound(const std::string &filename, hoa_mode_manager::GameMode *gm = NULL);
+    bool LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm = NULL);
 
     /** \brief Creates a new MusicDescriptor using the given filename and loads it into the audio cache
     *** \param gm The game mode owning the audio descriptor to load.
     *** \return True if the music was loaded into the cache successfully
     **/
-    bool LoadMusic(const std::string &filename, hoa_mode_manager::GameMode *gm = NULL);
+    bool LoadMusic(const std::string &filename, vt_mode_manager::GameMode *gm = NULL);
 
     //! \brief Plays a sound that is contained within the audio cache
     void PlaySound(const std::string &filename);
@@ -302,7 +302,7 @@ public:
     *** Thus, permitting to check whether the audio descriptors owned by the mode can be freed
     *** from memory.
     **/
-    void RemoveOwner(hoa_mode_manager::GameMode *gm);
+    void RemoveOwner(vt_mode_manager::GameMode *gm);
 
     /** \name Error Detection and Processing methods
     *** Code external to the audio engine should not need to make use of the following methods,
@@ -425,8 +425,8 @@ private:
     *** \note If this function returns false, you should delete the pointer that you passed to it.
     **/
     bool _LoadAudio(AudioDescriptor *audio, const std::string &filename);
-}; // class AudioEngine : public hoa_utils::Singleton<AudioEngine>
+}; // class AudioEngine : public vt_utils::Singleton<AudioEngine>
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif // __AUDIO_HEADER__

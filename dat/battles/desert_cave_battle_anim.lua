@@ -35,7 +35,7 @@ function Initialize(battle_instance)
 	anim_ids[4] = Script:AddAnimation("img/backdrops/battle/desert_cave/desert_cave_water.lua");
 
 	-- Construct a timer used to display the fog with a custom alpha value and position
-	fog_timer = hoa_system.SystemTimer(fog_time_length, 0);
+	fog_timer = vt_system.SystemTimer(fog_time_length, 0);
 	-- Load a fog image used later to be displayed dynamically on the battle ground
 	fog_id = Script:AddImage("img/ambient/fog.png", 320.0, 256.0);
 
@@ -48,7 +48,7 @@ function Update()
 	-- fog
 	-- Start the timer only at normal battle stage
 	if ((fog_timer:IsRunning() == false)
-		and (Battle:GetState() ~= hoa_battle.BattleMode.BATTLE_STATE_INITIAL)) then
+		and (Battle:GetState() ~= vt_battle.BattleMode.BATTLE_STATE_INITIAL)) then
 		fog_timer:Run();
 	end
 	if (fog_timer:IsFinished()) then
@@ -87,16 +87,16 @@ function DrawBackground()
 	Script:DrawAnimation(anim_ids[4], 235.0, 110.0);
 
 	-- Draw a rock in the background
-	Script:DrawImage(rock_id, 800.0, 248.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+	Script:DrawImage(rock_id, 800.0, 248.0, vt_video.Color(1.0, 1.0, 1.0, 1.0));
 end
 
 
 function DrawForeground()
 	-- Draw the rock in the foreground
-	Script:DrawImage(rock_id, 300.0, 618.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+	Script:DrawImage(rock_id, 300.0, 618.0, vt_video.Color(1.0, 1.0, 1.0, 1.0));
 
 	-- Draw a random fog effect
 	Script:DrawImage(fog_id, fog_x_position,
 						fog_y_position,
-						hoa_video.Color(1.0, 1.0, 1.0, fog_alpha));
+						vt_video.Color(1.0, 1.0, 1.0, fog_alpha));
 end

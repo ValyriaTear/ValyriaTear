@@ -23,10 +23,10 @@
 #include <QHeaderView>
 #include <QFile>
 
-using namespace hoa_video;
-using namespace hoa_script;
+using namespace vt_video;
+using namespace vt_script;
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ Tileset::Tileset() :
 
 Tileset::~Tileset()
 {
-    for(std::vector<hoa_video::StillImage>::iterator it = tiles.begin();
+    for(std::vector<vt_video::StillImage>::iterator it = tiles.begin();
             it != tiles.end(); it++)
         (*it).Clear();
     tiles.clear();
@@ -383,4 +383,4 @@ bool TilesetTable::Load(const QString &def_filename)
     return true;
 } // TilesetTable::Load(...)
 
-} // namespace hoa_editor
+} // namespace vt_editor

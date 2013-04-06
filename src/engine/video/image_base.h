@@ -42,7 +42,7 @@
 #include "color.h"
 #include "texture.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -283,6 +283,6 @@ private:
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __IMAGE_BASE_HEADER__

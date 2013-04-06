@@ -38,8 +38,8 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[40001] = {
-	name = hoa_system.Translate("Prismatic ring"),
-	description = hoa_system.Translate("A strange ring that protects the wearer from darkness."),
+	name = vt_system.Translate("Prismatic ring"),
+	description = vt_system.Translate("A strange ring that protects the wearer from darkness."),
 	icon = "img/icons/armor/jewelry_ring_prismatic.png",
 	physical_defense = 4,
 	magical_defense = 3,
@@ -49,8 +49,8 @@ armor[40001] = {
 }
 
 armor[40011] = {
-	name = hoa_system.Translate("Wooden Shield"),
-	description = hoa_system.Translate("Robust wooden oak protects from all but the heaviest of assaults."),
+	name = vt_system.Translate("Wooden Shield"),
+	description = vt_system.Translate("Robust wooden oak protects from all but the heaviest of assaults."),
 	icon = "img/icons/armor/wooden_shield.png",
 	physical_defense = 2,
 	magical_defense = 0,
@@ -60,8 +60,8 @@ armor[40011] = {
 }
 
 armor[40012] = {
-	name = hoa_system.Translate("Metal Shield"),
-	description = hoa_system.Translate("A shield formed completely out of a light-weight but cheap metallic alloy."),
+	name = vt_system.Translate("Metal Shield"),
+	description = vt_system.Translate("A shield formed completely out of a light-weight but cheap metallic alloy."),
 	icon = "img/icons/armor/metal_shield.png",
 	physical_defense = 5,
 	magical_defense = 2,
@@ -71,8 +71,8 @@ armor[40012] = {
 }
 
 armor[40013] = {
-	name = hoa_system.Translate("Phoenix Shield"),
-	description = hoa_system.Translate("A tall steel shield with a mighty phoenix emblazoned on the front."),
+	name = vt_system.Translate("Phoenix Shield"),
+	description = vt_system.Translate("A tall steel shield with a mighty phoenix emblazoned on the front."),
 	icon = "img/icons/armor/phoenix_shield.png",
 	physical_defense = 10,
 	magical_defense = 6,
@@ -82,8 +82,8 @@ armor[40013] = {
 }
 
 armor[40014] = {
-	name = hoa_system.Translate("Trident Shield"),
-	description = hoa_system.Translate("A large shield with enough fortitude to withstand waves of powerful attacks."),
+	name = vt_system.Translate("Trident Shield"),
+	description = vt_system.Translate("A large shield with enough fortitude to withstand waves of powerful attacks."),
 	icon = "img/icons/armor/trident_shield.png",
 	physical_defense = 10,
 	magical_defense = 6,

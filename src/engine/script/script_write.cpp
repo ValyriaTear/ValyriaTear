@@ -22,9 +22,9 @@
 #include "script.h"
 #include "script_write.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-namespace hoa_script
+namespace vt_script
 {
 
 WriteScriptDescriptor::~WriteScriptDescriptor()
@@ -470,4 +470,4 @@ void WriteScriptDescriptor::_WriteTablePath()
     }
 }
 
-} // namespace hoa_script
+} // namespace vt_script

@@ -29,7 +29,7 @@
 #include "boot_menu.h"
 
 //! \brief All calls to boot mode are wrapped in this namespace.
-namespace hoa_boot
+namespace vt_boot
 {
 
 //! \brief Various states that boot mode may be in
@@ -38,7 +38,7 @@ enum BOOT_STATE {
     BOOT_STATE_MENU    = 1
 };
 
-//! \brief Determines whether the code in the hoa_boot namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_boot namespace should print debug statements or not.
 extern bool BOOT_DEBUG;
 
 //! \brief An internal namespace to be used only within the boot code. Don't use this namespace anywhere else!
@@ -86,7 +86,7 @@ enum WAIT_FOR {
 *** to somewhere in src/common and appropriately renamed, or BootMode should implement
 *** its own version of this class and not include "menu_views.h" anywhere
 *** ***************************************************************************/
-class BootMode : public hoa_mode_manager::GameMode
+class BootMode : public vt_mode_manager::GameMode
 {
 public:
     BootMode();
@@ -137,10 +137,10 @@ private:
     std::vector<std::string> _po_files;
 
     //! \brief Rendered text of the release version number
-    hoa_video::TextImage _version_text;
+    vt_video::TextImage _version_text;
 
     //! \brief A simple menu window where the various options menus are displayed
-    hoa_gui::MenuWindow _options_window;
+    vt_gui::MenuWindow _options_window;
 
     //! \brief Pointer to the currently active boot menu object
     private_boot::BootMenu *_active_menu;
@@ -180,17 +180,17 @@ private:
     void (BootMode::*_joy_axis_setting_function)(int8 axis);
 
     //! \brief Window display message for "select a key"
-    hoa_menu::MessageWindow _message_window;
+    vt_menu::MessageWindow _message_window;
 
     //! The menu bar displayed below the main menu.
-    hoa_video::StillImage _menu_bar;
+    vt_video::StillImage _menu_bar;
     float _menu_bar_alpha;
 
     //! A text displayed a few second at startup to remind the player about the keys to use.
-    hoa_video::TextImage _f1_help_text;
+    vt_video::TextImage _f1_help_text;
     float _help_text_alpha;
 
-    hoa_system::SystemTimer _boot_timer;
+    vt_system::SystemTimer _boot_timer;
 
     // ---------- Setup and refresh methods for boot menus
 
@@ -379,8 +379,8 @@ private:
     void _SetPauseJoy(uint8 button);
     void _SetQuitJoy(uint8 button);
     //@}
-}; // class BootMode : public hoa_mode_manager::GameMode
+}; // class BootMode : public vt_mode_manager::GameMode
 
-} // namespace hoa_boot
+} // namespace vt_boot
 
 #endif // __BOOT_HEADER__

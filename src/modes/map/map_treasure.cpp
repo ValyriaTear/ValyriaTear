@@ -26,16 +26,16 @@
 
 #include "common/global/global.h"
 
-using namespace hoa_utils;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_global;
-using namespace hoa_menu;
+using namespace vt_utils;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_global;
+using namespace vt_menu;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -59,7 +59,7 @@ MapTreasure::~MapTreasure()
 
 bool MapTreasure::AddObject(uint32 id, uint32 quantity)
 {
-    hoa_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
+    vt_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
 
     if(obj == NULL) {
         IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << std::endl;
@@ -193,7 +193,7 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
             continue;
         if(!GlobalManager->IsObjectInInventory(obj->GetID())) {
             // Pass a copy to the inventory, the treasure object will delete its content on destruction.
-            hoa_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
+            vt_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
             GlobalManager->AddToInventory(obj_copy);
         } else {
             GlobalManager->IncrementObjectCount(obj->GetID(), obj->GetCount());
@@ -278,7 +278,7 @@ void TreasureSupervisor::Finish()
     _list_window.Hide();
     _list_options.ClearOptions();
 
-    if(MapMode::CurrentInstance()->CurrentState() == hoa_map::private_map::STATE_TREASURE)
+    if(MapMode::CurrentInstance()->CurrentState() == vt_map::private_map::STATE_TREASURE)
         MapMode::CurrentInstance()->PopState();
 }
 
@@ -369,4 +369,4 @@ void TreasureSupervisor::_UpdateDetail()
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

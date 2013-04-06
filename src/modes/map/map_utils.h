@@ -22,10 +22,10 @@
 
 #include <cmath>
 
-namespace hoa_map
+namespace vt_map
 {
 
-//! Determines whether the code in the hoa_map namespace should print debug statements or not.
+//! Determines whether the code in the vt_map namespace should print debug statements or not.
 extern bool MAP_DEBUG;
 
 namespace private_map
@@ -375,6 +375,6 @@ typedef std::vector<MapPosition> Path;
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_UTILS_HEADER__

@@ -48,7 +48,7 @@
 #include "engine/script/script_read.h"
 
 //! \brief All editor code is contained within this namespace.
-namespace hoa_editor
+namespace vt_editor
 {
 
 //! \brief Various modes for tile editing
@@ -292,7 +292,7 @@ private:
     QUndoStack *_undo_stack;
 
     //! The editor global script: Used to run some global function needed there.
-    hoa_script::ReadScriptDescriptor _global_script;
+    vt_script::ReadScriptDescriptor _global_script;
 }; // class Editor
 
 
@@ -460,7 +460,7 @@ private:
     Editor *_editor;
 }; // class LayerCommand: public QUndoCommand
 
-} // namespace hoa_editor
+} // namespace vt_editor
 
 #endif
 // __EDITOR_HEADER__

@@ -38,21 +38,21 @@
 #include <iostream>
 #include <sstream>
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
 
-using namespace hoa_global;
+using namespace vt_global;
 
-using namespace hoa_boot::private_boot;
+using namespace vt_boot::private_boot;
 
-namespace hoa_boot
+namespace vt_boot
 {
 
 bool BOOT_DEBUG = false;
@@ -754,7 +754,7 @@ void BootMode::_OnNewGame()
 
 void BootMode::_OnLoadGame()
 {
-    hoa_save::SaveMode *SVM = new hoa_save::SaveMode(false);
+    vt_save::SaveMode *SVM = new vt_save::SaveMode(false);
     ModeManager->Push(SVM);
 }
 
@@ -1364,4 +1364,4 @@ void BootMode::_SetQuitJoy(uint8 button)
     InputManager->SetQuitJoy(button);
 }
 
-} // namespace hoa_boot
+} // namespace vt_boot

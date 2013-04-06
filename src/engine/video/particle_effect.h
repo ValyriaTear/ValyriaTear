@@ -39,11 +39,11 @@
 
 #include "utils.h"
 
-namespace hoa_script {
+namespace vt_script {
 class ReadScriptDescriptor;
 }
 
-namespace hoa_map
+namespace vt_map
 {
 namespace private_map
 {
@@ -51,7 +51,7 @@ class ParticleObject;
 }
 }
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /*!***************************************************************************
@@ -254,7 +254,7 @@ private:
     bool _CreateEffect();
 
     //! \brief Helper function used to read a color subtable.
-    hoa_video::Color _ReadColor(hoa_script::ReadScriptDescriptor &particle_script,
+    vt_video::Color _ReadColor(vt_script::ReadScriptDescriptor &particle_script,
                                 const std::string &param_name);
 
     //! The effect definition
@@ -286,6 +286,6 @@ private:
     int32 _num_particles;
 }; // class ParticleEffect
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif  //! __PARTICLE_EFFECT_HEADER__

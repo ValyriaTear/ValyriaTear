@@ -14,10 +14,10 @@
 
 #include "engine/video/particle_effect.h"
 
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_script;
+using namespace vt_video;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 bool ParticleManager::AddParticleEffect(const std::string &effect_filename, float x, float y)
@@ -123,4 +123,4 @@ void ParticleManager::_Destroy()
     _active_effects.clear();
 }
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager

@@ -28,8 +28,8 @@
 #undef main
 #endif
 
-using namespace hoa_script;
-using namespace hoa_editor;
+using namespace vt_script;
+using namespace vt_editor;
 
 int main(int argc, char **argv)
 {

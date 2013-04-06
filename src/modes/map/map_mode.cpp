@@ -32,21 +32,21 @@
 
 #include "common/global/global.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_boot;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_global;
-using namespace hoa_menu;
-using namespace hoa_pause;
-using namespace hoa_save;
-using namespace hoa_map::private_map;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_boot;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_global;
+using namespace vt_menu;
+using namespace vt_pause;
+using namespace vt_save;
+using namespace vt_map::private_map;
 
-namespace hoa_map
+namespace vt_map
 {
 
 // Initialize static class variables
@@ -640,7 +640,7 @@ bool MapMode::_Load()
         _audio_state = AUDIO_STATE_PLAYING; // Set the default music state to "playing".
 
     // Call the map script's custom load function and get a reference to all other script function pointers
-    ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
+    ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), vt_script::private_script::STACK_TOP));
     ScriptObject function = map_table["Load"];
 
     bool loading_succeeded = true;
@@ -981,7 +981,7 @@ void MapMode::_DrawMapLayers()
 
 
 
-void MapMode::_DrawStaminaBar(const hoa_video::Color &blending)
+void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 {
     const Color olive_green(0.0196f, 0.207f, 0.0196f, 1.0f);
     const Color lighter_green(0.419f, 0.894f, 0.0f, 1.0f);
@@ -1136,5 +1136,5 @@ void MapMode::_DrawGUI()
     VideoManager->PopState();
 } // void MapMode::_DrawGUI()
 
-} // namespace hoa_map
+} // namespace vt_map
 

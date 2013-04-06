@@ -20,7 +20,7 @@
 
 #include "utils.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 /** ****************************************************************************
@@ -89,6 +89,6 @@ public:
     int32 width, height;
 }; // class ScreenRect
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __SCREEN_RECT_HEADER__

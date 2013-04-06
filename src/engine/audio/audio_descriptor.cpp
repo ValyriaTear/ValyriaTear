@@ -25,9 +25,9 @@
 #include "audio_descriptor.h"
 #include "engine/system.h"
 
-using namespace hoa_audio::private_audio;
+using namespace vt_audio::private_audio;
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 namespace private_audio
@@ -170,7 +170,7 @@ bool AudioDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_typ
     }
     // Convert the file extension to uppercase and use it to create the proper input type
     std::string file_extension = filename.substr(filename.size() - 3, 3);
-    file_extension = hoa_utils::Upcase(file_extension);
+    file_extension = vt_utils::Upcase(file_extension);
 
     // Based on the extension of the file, load properly one
     if(file_extension.compare("WAV") == 0) {
@@ -557,14 +557,14 @@ void AudioDescriptor::SetDirection(const float direction[3])
     }
 }
 
-void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm)
+void AudioDescriptor::AddOwner(vt_mode_manager::GameMode *gm)
 {
     // Don't accept null references.
     if(!gm)
         return;
 
     // Check for duplicate entries
-    std::vector<hoa_mode_manager::GameMode *>::const_iterator it = _owners.begin();
+    std::vector<vt_mode_manager::GameMode *>::const_iterator it = _owners.begin();
     for(; it != _owners.end(); ++it) {
         if(*it == gm)
             return;
@@ -573,16 +573,16 @@ void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm)
     _owners.push_back(gm);
 }
 
-void AudioDescriptor::AddOwners(std::vector<hoa_mode_manager::GameMode *>& owners)
+void AudioDescriptor::AddOwners(std::vector<vt_mode_manager::GameMode *>& owners)
 {
-    std::vector<hoa_mode_manager::GameMode *>::const_iterator it = owners.begin();
+    std::vector<vt_mode_manager::GameMode *>::const_iterator it = owners.begin();
 
     for(; it != owners.end(); ++it) {
         AddOwner(*it);
     }
 }
 
-bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm)
+bool AudioDescriptor::RemoveOwner(vt_mode_manager::GameMode *gm)
 {
     if(!gm)
         return false;
@@ -592,7 +592,7 @@ bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm)
         return false;
 
     // Check for duplicate entries
-    std::vector<hoa_mode_manager::GameMode *>::iterator it = _owners.begin();
+    std::vector<vt_mode_manager::GameMode *>::iterator it = _owners.begin();
     for(; it != _owners.end();) {
         if(*it != gm) {
             ++it;
@@ -817,7 +817,7 @@ void AudioDescriptor::_HandleFadeStates()
             return;
         }
 
-        float time_elapsed = (float)hoa_system::SystemManager->GetUpdateTime();
+        float time_elapsed = (float)vt_system::SystemManager->GetUpdateTime();
         float new_volume = GetVolume() - (_original_volume - (_original_volume - (time_elapsed / _fade_effect_time)));
 
         // Stop the audio, and terminate the effect if the volume drops to 0.0f or below
@@ -840,7 +840,7 @@ void AudioDescriptor::_HandleFadeStates()
             return;
         }
 
-        float time_elapsed = (float)hoa_system::SystemManager->GetUpdateTime();
+        float time_elapsed = (float)vt_system::SystemManager->GetUpdateTime();
         float new_volume = GetVolume() + (time_elapsed / _fade_effect_time);
 
 
@@ -1089,4 +1089,4 @@ void MusicDescriptor::SetVolume(float volume)
     }
 }
 
-} // namespace hoa_audio
+} // namespace vt_audio

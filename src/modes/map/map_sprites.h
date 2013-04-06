@@ -21,7 +21,7 @@
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_zones.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -339,12 +339,12 @@ public:
     *** These functions are specifically written to enable Lua to access the members of this class.
     **/
     //@{
-    void SetName(const hoa_utils::ustring &name) {
+    void SetName(const vt_utils::ustring &name) {
         _name = name;
     }
 
     void SetName(const std::string &name) {
-        _name = hoa_utils::MakeUnicodeString(name);
+        _name = vt_utils::MakeUnicodeString(name);
     }
 
     void SetCurrentAnimationDirection(uint8 anim_direction) {
@@ -363,11 +363,11 @@ public:
         return _has_unseen_dialogue;
     }
 
-    hoa_utils::ustring &GetName() {
+    vt_utils::ustring &GetName() {
         return _name;
     }
 
-    hoa_video::StillImage *GetFacePortrait() const {
+    vt_video::StillImage *GetFacePortrait() const {
         return _face_portrait;
     }
 
@@ -422,12 +422,12 @@ public:
 
 protected:
     //! \brief The name of the sprite, as seen by the player in the game.
-    hoa_utils::ustring _name;
+    vt_utils::ustring _name;
 
     /** \brief A pointer to the face portrait of the sprite, as seen in dialogues and menus.
     *** \note Not all sprites have portraits, in which case this member will be NULL
     **/
-    hoa_video::StillImage *_face_portrait;
+    vt_video::StillImage *_face_portrait;
 
     /** Keeps the map sprite reference name permitting, used to know whether a map sprite needs reloading
     *** when the map sprite name has actually changed.
@@ -441,18 +441,18 @@ protected:
     uint8 _current_anim_direction;
 
     //! \brief A map containing all four directions of the sprite's various animations.
-    std::vector<hoa_video::AnimatedImage> _standing_animations;
-    std::vector<hoa_video::AnimatedImage> _walking_animations;
-    std::vector<hoa_video::AnimatedImage> _running_animations;
+    std::vector<vt_video::AnimatedImage> _standing_animations;
+    std::vector<vt_video::AnimatedImage> _walking_animations;
+    std::vector<vt_video::AnimatedImage> _running_animations;
 
     //! \brief A pointer to the current standard animation vector
-    std::vector<hoa_video::AnimatedImage>* _animation;
+    std::vector<vt_video::AnimatedImage>* _animation;
 
     //! \brief A map containing all the custom animations, indexed by their name.
-    std::map<std::string, hoa_video::AnimatedImage> _custom_animations;
+    std::map<std::string, vt_video::AnimatedImage> _custom_animations;
 
     //! \brief The currently used custom animation.
-    hoa_video::AnimatedImage *_current_custom_animation;
+    vt_video::AnimatedImage *_current_custom_animation;
 
     //! \brief Contains the id values of all dialogues referenced by the sprite
     std::vector<uint32> _dialogue_references;
@@ -662,7 +662,7 @@ private:
     private_map::EnemyZone *_zone;
 
     //! \brief Used to gradually fade in the sprite as it is spawning by adjusting the alpha channel
-    hoa_video::Color _color;
+    vt_video::Color _color;
 
     //! \brief A timer used for spawning
     uint32 _time_elapsed;
@@ -703,6 +703,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_SPRITES_HEADER__

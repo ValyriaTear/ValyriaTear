@@ -21,16 +21,16 @@
 #include "modes/boot/boot.h"
 #include "modes/pause.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_boot;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_boot;
 
-namespace hoa_pause
+namespace vt_pause
 {
 
 bool PAUSE_DEBUG = false;
@@ -196,4 +196,4 @@ void PauseMode::DrawPostEffects()
     }
 }
 
-} // namespace hoa_pause
+} // namespace vt_pause

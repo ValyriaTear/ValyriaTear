@@ -21,11 +21,11 @@
 #include "global_effects.h"
 #include "global_skills.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_script;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_script;
 
-namespace hoa_global
+namespace vt_global
 {
 
 extern bool GLOBAL_DEBUG;
@@ -1107,7 +1107,7 @@ void GlobalCharacter::_AddBareHandsSkill(uint32 skill_id)
     _bare_hands_skills.push_back(skill);
 }
 
-hoa_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)
+vt_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)
 {
     if(_battle_animation.find(name) == _battle_animation.end())
         return &_battle_animation["idle"];
@@ -1655,4 +1655,4 @@ void GlobalParty::AddSkillPoints(uint32 sp)
     }
 }
 
-} // namespace hoa_global
+} // namespace vt_global

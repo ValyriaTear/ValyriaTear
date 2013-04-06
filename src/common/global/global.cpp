@@ -19,15 +19,15 @@
 #include "engine/system.h"
 #include "modes/map/map_mode.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_video;
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_video;
+using namespace vt_script;
+using namespace vt_system;
 
-template<> hoa_global::GameGlobal *Singleton<hoa_global::GameGlobal>::_singleton_reference = NULL;
+template<> vt_global::GameGlobal *Singleton<vt_global::GameGlobal>::_singleton_reference = NULL;
 
-namespace hoa_global
+namespace vt_global
 {
 
 using namespace private_global;
@@ -727,7 +727,7 @@ QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id)
 void GameGlobal::SetMap(const std::string &map_data_filename,
                         const std::string &map_script_filename,
                         const std::string &map_image_filename,
-                        const hoa_utils::ustring &map_hud_name)
+                        const vt_utils::ustring &map_hud_name)
 {
     _map_data_filename = map_data_filename;
     _map_script_filename = map_script_filename;
@@ -978,7 +978,7 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
     // First, clear the list in case of reloading
     _emotes.clear();
 
-    hoa_script::ReadScriptDescriptor emotes_script;
+    vt_script::ReadScriptDescriptor emotes_script;
     if(!emotes_script.OpenFile(emotes_filename))
         return;
 
@@ -1004,16 +1004,16 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
         if(anim.LoadFromAnimationScript(animation_file)) {
             // NOTE: The map mode should one day be fixed to use the same coords
             // than everything else, thus making possible to remove this
-            hoa_map::MapMode::ScaleToMapCoords(anim);
+            vt_map::MapMode::ScaleToMapCoords(anim);
 
             _emotes.insert(std::make_pair(emotes_id[i], anim));
 
             // The vector containing the offsets
             std::vector<std::pair<float, float> > emote_offsets;
-            emote_offsets.resize(hoa_map::private_map::NUM_ANIM_DIRECTIONS);
+            emote_offsets.resize(vt_map::private_map::NUM_ANIM_DIRECTIONS);
 
             // For each directions
-            for(uint32 j = 0; j < hoa_map::private_map::NUM_ANIM_DIRECTIONS; ++j) {
+            for(uint32 j = 0; j < vt_map::private_map::NUM_ANIM_DIRECTIONS; ++j) {
                 emotes_script.OpenTable(j);
 
                 std::pair<float, float> offsets;
@@ -1034,13 +1034,13 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
     emotes_script.CloseFile();
 }
 
-void GameGlobal::GetEmoteOffset(float &x, float &y, const std::string &emote_id, hoa_map::private_map::ANIM_DIRECTIONS dir)
+void GameGlobal::GetEmoteOffset(float &x, float &y, const std::string &emote_id, vt_map::private_map::ANIM_DIRECTIONS dir)
 {
 
     x = 0.0f;
     y = 0.0f;
 
-    if(dir < hoa_map::private_map::ANIM_SOUTH || dir >= hoa_map::private_map::NUM_ANIM_DIRECTIONS)
+    if(dir < vt_map::private_map::ANIM_SOUTH || dir >= vt_map::private_map::NUM_ANIM_DIRECTIONS)
         return;
 
     std::map<std::string, std::vector<std::pair<float, float> > >::const_iterator it =
@@ -1234,7 +1234,7 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
 
 }
 
-void GameGlobal::_SaveWorldMap(hoa_script::WriteScriptDescriptor &file)
+void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
 {
     if(!file.IsFileOpen()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
@@ -1451,7 +1451,7 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
 
 }
 
-void GameGlobal::_LoadWorldMap(hoa_script::ReadScriptDescriptor &file)
+void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
 {
     if(file.IsFileOpen() == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
@@ -1470,7 +1470,7 @@ bool GameGlobal::_LoadWorldLocationsScript(const std::string &world_locations_fi
 {
     _world_map_locations.clear();
 
-    hoa_script::ReadScriptDescriptor world_locations_script;
+    vt_script::ReadScriptDescriptor world_locations_script;
     if(!world_locations_script.OpenFile(world_locations_filename)) {
         PRINT_ERROR << "Couldn't open world map locations file: " << world_locations_filename << std::endl;
         return false;
@@ -1525,7 +1525,7 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
     // First clear the existing quests entries in case of a reloading.
     _quest_log_info.clear();
 
-    hoa_script::ReadScriptDescriptor quests_script;
+    vt_script::ReadScriptDescriptor quests_script;
     if(!quests_script.OpenFile(quests_script_filename)) {
         PRINT_ERROR << "Couldn't open quests file: " << quests_script_filename
                     << std::endl;
@@ -1588,5 +1588,5 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
     return true;
 }
 
-} // namespace hoa_global
+} // namespace vt_global
 

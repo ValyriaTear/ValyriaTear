@@ -27,9 +27,9 @@ extern "C" {
 
 #include <SDL_image.h>
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -522,4 +522,4 @@ ImageTexture::~ImageTexture()
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video

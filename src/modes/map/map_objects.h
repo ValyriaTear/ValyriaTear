@@ -20,19 +20,19 @@
 
 #include "modes/map/map_treasure.h"
 
-namespace hoa_script {
+namespace vt_script {
 class ReadScriptDescriptor;
 }
 
-namespace hoa_mode_manager {
+namespace vt_mode_manager {
 class ParticleEffect;
 }
 
-namespace hoa_defs {
+namespace vt_defs {
 void BindModeCode();
 }
 
-namespace hoa_map
+namespace vt_map
 {
 
 class MapMode;
@@ -321,7 +321,7 @@ public:
     /** \brief Play the corresponding emote animation set in the emotes.lua file
     *** \see LoadEmotes() in the GameGlobal class.
     **/
-    void Emote(const std::string &emote_name, hoa_map::private_map::ANIM_DIRECTIONS dir = hoa_map::private_map::ANIM_SOUTH);
+    void Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir = vt_map::private_map::ANIM_SOUTH);
 
     //! \brief Indicates whether the given map object is using an emote animation.
     bool HasEmote() const {
@@ -334,7 +334,7 @@ protected:
     MAP_OBJECT_TYPE _object_type;
 
     //! \brief the emote animation to play
-    hoa_video::AnimatedImage *_emote_animation;
+    vt_video::AnimatedImage *_emote_animation;
 
     //! \brief The emote animation drawing offset (depending on the map object direction)
     float _emote_offset_x;
@@ -389,7 +389,7 @@ public:
     *** frame to the animation. Usually only need a single still image or animation will be
     *** needed, but a vector is used here in case others are needed.
     **/
-    std::vector<hoa_video::AnimatedImage> animations;
+    std::vector<vt_video::AnimatedImage> animations;
 
     //! \brief Updates the object's current animation.
     virtual void Update();
@@ -413,7 +413,7 @@ public:
     **/
     int32 AddStillFrame(const std::string &image_filename);
 
-    void AddAnimation(hoa_video::AnimatedImage new_img) {
+    void AddAnimation(vt_video::AnimatedImage new_img) {
         animations.push_back(new_img);
     }
 
@@ -477,7 +477,7 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    hoa_mode_manager::ParticleEffect *_particle_effect;
+    vt_mode_manager::ParticleEffect *_particle_effect;
 
     //@}
 }; // class ParticleObject : public MapObject
@@ -507,7 +507,7 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    std::vector<hoa_video::AnimatedImage>* _animations;
+    std::vector<vt_video::AnimatedImage>* _animations;
 
     //! \brief The corresponding particle object for active/inactive save points pointers
     // Note that those pointers are managed by the object supervisor
@@ -527,7 +527,7 @@ class Halo : public MapObject
 {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-    Halo(const std::string &filename, float x, float y, const hoa_video::Color &color);
+    Halo(const std::string &filename, float x, float y, const vt_video::Color &color);
 
     ~Halo()
     {}
@@ -543,10 +543,10 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    hoa_video::AnimatedImage _animation;
+    vt_video::AnimatedImage _animation;
 
     //! The blending color of the halo
-    hoa_video::Color _color;
+    vt_video::Color _color;
 
     //@}
 }; // class Halo : public MapObject
@@ -562,7 +562,7 @@ public:
     Light(const std::string &main_flare_filename,
           const std::string &secondary_flare_filename,
           float x, float y,
-          const hoa_video::Color &main_color, const hoa_video::Color &secondary_color);
+          const vt_video::Color &main_color, const vt_video::Color &secondary_color);
 
     ~Light()
     {}
@@ -584,16 +584,16 @@ private:
     void _UpdateLightAngle();
 
     //! \brief A reference to the current light animation.
-    hoa_video::AnimatedImage _main_animation;
-    hoa_video::AnimatedImage _secondary_animation;
+    vt_video::AnimatedImage _main_animation;
+    vt_video::AnimatedImage _secondary_animation;
 
     //! The blending color of the light
-    hoa_video::Color _main_color;
-    hoa_video::Color _secondary_color;
+    vt_video::Color _main_color;
+    vt_video::Color _secondary_color;
 
     //! The blending color with dynamic alpha, for better rendering
-    hoa_video::Color _main_color_alpha;
-    hoa_video::Color _secondary_color_alpha;
+    vt_video::Color _main_color_alpha;
+    vt_video::Color _secondary_color_alpha;
 
     //! used to compute the flare lines equation.
     float _a, _b;
@@ -642,7 +642,7 @@ public:
 
 private:
     //! \brief The sound object.
-    hoa_audio::SoundDescriptor _sound;
+    vt_audio::SoundDescriptor _sound;
     //! The maximal distance in map tiles the sound can be heard within.
     float _strength;
     //! The time remaining before next update
@@ -821,8 +821,8 @@ private:
 *** ***************************************************************************/
 class ObjectSupervisor
 {
-    friend class hoa_map::MapMode;
-    friend void hoa_defs::BindModeCode();
+    friend class vt_map::MapMode;
+    friend void vt_defs::BindModeCode();
 
 public:
     ObjectSupervisor();
@@ -871,7 +871,7 @@ public:
     *** be at the highest level scope (i.e., there are no actively open tables
     *** in the script descriptor object).
     **/
-    bool Load(hoa_script::ReadScriptDescriptor &map_file);
+    bool Load(vt_script::ReadScriptDescriptor &map_file);
 
     //! \brief Updates the state of all map zones and objects
     void Update();
@@ -1118,6 +1118,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_OBJECTS_HEADER__

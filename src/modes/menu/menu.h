@@ -38,11 +38,11 @@
 #include <map>
 
 //! \brief All calls to menu mode are wrapped in this namespace.
-namespace hoa_menu
+namespace vt_menu
 {
 
 class MenuMode;
-//! \brief Determines whether the code in the hoa_menu namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_menu namespace should print debug statements or not.
 extern bool MENU_DEBUG;
 
 //! \brief An internal namespace to be used only within the menu code. Don't use this namespace anywhere else!
@@ -111,7 +111,7 @@ public:
     { return _state_name; }
 
     //! \brief returns a pointer to the OptionsBox associated with this state
-    hoa_gui::OptionBox *GetOptions()
+    vt_gui::OptionBox *GetOptions()
     { return &_options; }
 
 protected:
@@ -146,7 +146,7 @@ protected:
     {};
 
     // Options associated with this state
-    hoa_gui::OptionBox _options;
+    vt_gui::OptionBox _options;
 
     // state-specific name
     const char *_state_name;
@@ -210,9 +210,9 @@ public:
     void Reset();
     AbstractMenuState *GetTransitionState(uint32 selection);
 protected:
-    void _DrawItemDescription(hoa_global::GlobalObject &obj,
-                              hoa_video::StillImage* item_image,
-                              hoa_gui::TextBox &description);
+    void _DrawItemDescription(vt_global::GlobalObject &obj,
+                              vt_video::StillImage* item_image,
+                              vt_gui::TextBox &description);
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
     void _ActiveWindowUpdate();
@@ -367,8 +367,8 @@ protected:
 
     bool _IsActive();
 
-    hoa_gui::TextBox _location_text;
-    hoa_video::StillImage *_location_image;
+    vt_gui::TextBox _location_text;
+    vt_video::StillImage *_location_image;
 };
 
 } // namespace private_menu
@@ -385,7 +385,7 @@ protected:
 *** \note MenuMode does not play its own music, but rather it continues playing
 *** music from the previous GameMode that created it.
 *** ***************************************************************************/
-class MenuMode : public hoa_mode_manager::GameMode
+class MenuMode : public vt_mode_manager::GameMode
 {
     friend class private_menu::CharacterWindow;
     friend class private_menu::InventoryWindow;
@@ -433,8 +433,8 @@ public:
     /** \brief handles drawing the generalized equipment information
     *** Used by both the inventory and equip windows and states.
     **/
-    void UpdateEquipmentInfo(hoa_global::GlobalCharacter *character,
-                             hoa_global::GlobalObject *object,
+    void UpdateEquipmentInfo(vt_global::GlobalCharacter *character,
+                             vt_global::GlobalObject *object,
                              private_menu::EQUIP_VIEW view_type);
 
     //! \brief Draws The current equipment info
@@ -446,52 +446,52 @@ private:
     static MenuMode *_current_instance;
 
     //! \brief The default text (time and drunes) display on the bottom part.
-    hoa_gui::TextBox _time_text;
-    hoa_gui::TextBox _drunes_text;
+    vt_gui::TextBox _time_text;
+    vt_gui::TextBox _drunes_text;
 
     //! \brief Text image which displays the name of the location in the game where MenuMode was invoked
-    hoa_gui::TextBox _locale_name;
+    vt_gui::TextBox _locale_name;
 
     /** \brief The graphic that represents the current map that the player is exploring
     *** This image is set using the string in the MenuMode constructor
     **/
-    hoa_video::StillImage _locale_graphic;
+    vt_video::StillImage _locale_graphic;
 
     /** \brief Retains a snap-shot of the screen just prior to when menu mode was entered
     *** This image is perpetually drawn as the background while in menu mode
     **/
-    hoa_video::StillImage _saved_screen;
+    vt_video::StillImage _saved_screen;
 
     //! \brief The symbol indicating that the item is a key item.
     //! \note Don't delete this, it is managed by the Global Manager.
-    hoa_video::StillImage* _key_item_icon;
+    vt_video::StillImage* _key_item_icon;
 
     //! \brief Test indicating that the item is a key item and cannot be used or sold.
-    hoa_gui::TextBox _key_item_description;
+    vt_gui::TextBox _key_item_description;
 
     //! \brief The symbol indicating that the item is a crystal shard.
     //! \note Don't delete this, it is managed by the Global Manager.
-    hoa_video::StillImage* _shard_icon;
+    vt_video::StillImage* _shard_icon;
 
     //! \brief Test indicating that the item is a shard and can be associated with equipment.
-    hoa_gui::TextBox _shard_description;
+    vt_gui::TextBox _shard_description;
 
     //! \brief Icons representing the atk/def of the equipment/character.
     //! \note Don't delete those, they are managed by the Global Manager.
-    hoa_video::StillImage* _atk_icon;
-    hoa_video::StillImage* _def_icon;
-    hoa_video::StillImage* _matk_icon;
-    hoa_video::StillImage* _mdef_icon;
+    vt_video::StillImage* _atk_icon;
+    vt_video::StillImage* _def_icon;
+    vt_video::StillImage* _matk_icon;
+    vt_video::StillImage* _mdef_icon;
 
     //! \brief shared "help" information text box. can be used to display a short helpful message to the player
-    hoa_gui::TextBox _help_information;
+    vt_gui::TextBox _help_information;
 
     /** \name Main Display Windows
     *** \brief The various menu windows that are displayed in menu mode
     **/
     //@{
-    hoa_gui::MenuWindow _bottom_window;
-    hoa_gui::MenuWindow _main_options_window;
+    vt_gui::MenuWindow _bottom_window;
+    vt_gui::MenuWindow _main_options_window;
     //@}
 
     /** \name currently available states
@@ -526,57 +526,57 @@ private:
 
     //! \name Option boxes that are used in the various menu windows
     //@{
-    hoa_gui::OptionBox _menu_inventory;
-    hoa_gui::OptionBox _menu_skills;
-    hoa_gui::OptionBox _menu_status;
-    hoa_gui::OptionBox _menu_options;
-    hoa_gui::OptionBox _menu_equip;
-    hoa_gui::OptionBox _menu_formation;
+    vt_gui::OptionBox _menu_inventory;
+    vt_gui::OptionBox _menu_skills;
+    vt_gui::OptionBox _menu_status;
+    vt_gui::OptionBox _menu_options;
+    vt_gui::OptionBox _menu_equip;
+    vt_gui::OptionBox _menu_formation;
     //@}
 
     /** \brief Equipment view data used to display a common equipment view
     **/
     //@{
     //! \brief The selected object instance
-    hoa_global::GlobalObject* _object;
+    vt_global::GlobalObject* _object;
 
     //! \brief The selected character
-    hoa_global::GlobalCharacter* _character;
+    vt_global::GlobalCharacter* _character;
 
     //! \brief the current equipment view type
     private_menu::EQUIP_VIEW _equip_view_type;
 
     //! \brief The name of the selected object
-    hoa_video::TextImage _object_name;
+    vt_video::TextImage _object_name;
 
     //! \brief When the object type is equipment, this tells whether it is a weapon.
     bool _is_weapon;
 
     //! \brief The text headers
-    hoa_video::TextImage _phys_header;
-    hoa_video::TextImage _mag_header;
+    vt_video::TextImage _phys_header;
+    vt_video::TextImage _mag_header;
 
     //! \brief The equipment stats
-    hoa_video::TextImage _phys_stat;
-    hoa_video::TextImage _mag_stat;
+    vt_video::TextImage _phys_stat;
+    vt_video::TextImage _mag_stat;
 
     //! \brief The overall atk/def diff with current equipment
-    hoa_video::TextImage _phys_stat_diff;
-    hoa_video::TextImage _mag_stat_diff;
-    hoa_video::Color _phys_diff_color;
-    hoa_video::Color _mag_diff_color;
+    vt_video::TextImage _phys_stat_diff;
+    vt_video::TextImage _mag_stat_diff;
+    vt_video::Color _phys_diff_color;
+    vt_video::Color _mag_diff_color;
 
     //! \brief Icon images representing elemental effects and intensity properties of the selected object
-    std::vector<hoa_video::StillImage *> _elemental_icons;
+    std::vector<vt_video::StillImage *> _elemental_icons;
 
     //! \brief Icon images representing status effects and intensity properties of the selected object
-    std::vector<hoa_video::StillImage *> _status_icons;
+    std::vector<vt_video::StillImage *> _status_icons;
 
     //! \brief The number of shard the equipment can support.
     uint32 _shard_number;
     //@}
-}; // class MenuMode : public hoa_mode_manager::GameMode
+}; // class MenuMode : public vt_mode_manager::GameMode
 
-} // namespace hoa_menu
+} // namespace vt_menu
 
 #endif

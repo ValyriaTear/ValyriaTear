@@ -25,7 +25,7 @@
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 //! \brief The five possible price ratings/levels for the shop's buy/sell prices
@@ -162,7 +162,7 @@ class ShopObject
 public:
     /** \param object A pointer to a valid GlobalObject instance that the shop object will represent
     **/
-    ShopObject(hoa_global::GlobalObject *object);
+    ShopObject(vt_global::GlobalObject *object);
 
     ~ShopObject()
     {}
@@ -170,7 +170,7 @@ public:
     /** \brief Determines the appropriate SHOP_OBJECT that corresponds to a GLOBAL_OBJECT
     *** \param global_type The global object type to find the equivalent shop object type for
     **/
-    static SHOP_OBJECT DetermineShopObjectType(hoa_global::GLOBAL_OBJECT global_type);
+    static SHOP_OBJECT DetermineShopObjectType(vt_global::GLOBAL_OBJECT global_type);
 
     //! \brief Returns the shop object type of this object
     SHOP_OBJECT DetermineShopObjectType();
@@ -183,7 +183,7 @@ public:
 
     //! \name Class member accessor functions
     //@{
-    hoa_global::GlobalObject *GetObject() const {
+    vt_global::GlobalObject *GetObject() const {
         return _object;
     }
 
@@ -262,7 +262,7 @@ public:
 
 private:
     //! \brief A pointer to the global object represented by this
-    hoa_global::GlobalObject *_object;
+    vt_global::GlobalObject *_object;
 
     //! \brief The price that the player must pay to buy this object from the shop
     uint32 _buy_price;
@@ -342,7 +342,7 @@ public:
     *** the same as the previous name/icon
     *** \note It is safe to pass a NULL pointer for the icon argument
     **/
-    void ChangeCategory(hoa_utils::ustring &name, const hoa_video::StillImage *icon);
+    void ChangeCategory(vt_utils::ustring &name, const vt_video::StillImage *icon);
 
 protected:
     //! \brief Determines where and how the category display should draw its images
@@ -352,22 +352,22 @@ protected:
     ShopObject *_selected_object;
 
     //! \brief A pointer to an icon image representing the current category
-    const hoa_video::StillImage *_current_icon;
+    const vt_video::StillImage *_current_icon;
 
     //! \brief A pointer to the icon image that represents the previous category
-    const hoa_video::StillImage *_last_icon;
+    const vt_video::StillImage *_last_icon;
 
     //! \brief The category image for the selected object
-    const hoa_video::StillImage *_object_icon;
+    const vt_video::StillImage *_object_icon;
 
     //! \brief The name of the current category for "list" view mode
-    hoa_gui::TextBox _name_textbox;
+    vt_gui::TextBox _name_textbox;
 
     //! \brief The name of the current category for "info" view mode
-    hoa_video::TextImage _name_text;
+    vt_video::TextImage _name_text;
 
     //! \brief A timer used to track the progress of category transitions
-    hoa_system::SystemTimer _transition_timer;
+    vt_system::SystemTimer _transition_timer;
 }; // class ObjectCategoryDisplay
 
 
@@ -449,11 +449,11 @@ public:
 
     //! \name Class member access methods
     //@{
-    hoa_gui::OptionBox &GetIdentifyList() {
+    vt_gui::OptionBox &GetIdentifyList() {
         return _identify_list;
     }
 
-    hoa_gui::OptionBox &GetPropertyList() {
+    vt_gui::OptionBox &GetPropertyList() {
         return _property_list;
     }
     //@}
@@ -463,14 +463,14 @@ protected:
     std::vector<ShopObject *> _objects;
 
     //! \brief Contains identification information about each objects such as graphical icon and name
-    hoa_gui::OptionBox _identify_list;
+    vt_gui::OptionBox _identify_list;
 
     //! \brief Contains properties about the object such as price, stock, amount owned, or amount to buy/sell
-    hoa_gui::OptionBox _property_list;
+    vt_gui::OptionBox _property_list;
 }; // class ObjectListDisplay
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_UTILS_HEADER__

@@ -27,7 +27,7 @@
 
 #include "tileset.h"
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 //! \brief Different tile layers in the map.
@@ -270,6 +270,6 @@ private:
     std::vector<std::vector<int32> > _select_layer;
 }; // class Grid : public QGLWidget
 
-} // namespace hoa_editor
+} // namespace vt_editor
 
 #endif // __GRID_HEADER__

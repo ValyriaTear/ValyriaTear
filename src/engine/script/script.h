@@ -50,7 +50,7 @@ extern "C" {
 #endif
 
 //! \brief All calls to the scripting engine are wrapped in this namespace.
-namespace hoa_script
+namespace vt_script
 {
 
 class ScriptEngine;
@@ -58,7 +58,7 @@ class ScriptEngine;
 //! \brief The singleton pointer responsible for the interaction between the C++ engine and Lua scripts.
 extern ScriptEngine *ScriptManager;
 
-//! \brief Determines whether the code in the hoa_script namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_script namespace should print debug statements or not.
 extern bool SCRIPT_DEBUG;
 
 /** \name Script File Access Modes
@@ -218,9 +218,9 @@ protected:
 ***
 *** \note This class is a singleton
 *** ***************************************************************************/
-class ScriptEngine : public hoa_utils::Singleton<ScriptEngine>
+class ScriptEngine : public vt_utils::Singleton<ScriptEngine>
 {
-    friend class hoa_utils::Singleton<ScriptEngine>;
+    friend class vt_utils::Singleton<ScriptEngine>;
     friend class ScriptDescriptor;
     friend class ReadScriptDescriptor;
     friend class WriteScriptDescriptor;
@@ -326,8 +326,8 @@ private:
         lua_gc(_global_state, LUA_GCCOLLECT, 0);
     }
 
-}; // class ScriptEngine : public hoa_utils::Singleton<ScriptEngine>
+}; // class ScriptEngine : public vt_utils::Singleton<ScriptEngine>
 
-} // namespace hoa_script
+} // namespace vt_script
 
 #endif // __SCRIPT_HEADER__

@@ -26,16 +26,16 @@
 
 #include "modes/menu/menu.h"
 
-using namespace hoa_menu::private_menu;
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_global;
-using namespace hoa_input;
-using namespace hoa_system;
+using namespace vt_menu::private_menu;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_global;
+using namespace vt_input;
+using namespace vt_system;
 
-namespace hoa_menu
+namespace vt_menu
 {
 
 namespace private_menu
@@ -71,7 +71,7 @@ void CharacterWindow::Draw()
     MenuWindow::Draw();
 
     // check to see if this window is an actual character
-    if(_char_id == hoa_global::GLOBAL_CHARACTER_INVALID)
+    if(_char_id == vt_global::GLOBAL_CHARACTER_INVALID)
         // no more to do here
         return;
 
@@ -687,7 +687,7 @@ void PartyWindow::_InitCharSelect()
     _focused_text.SetText(Translate("Detailed defense:"));
 
     _average_atk_def_text.SetStyle(TextStyle("text18"));
-    hoa_utils::ustring text = UTranslate("Attack (ATK): ") + MakeUnicodeString("\n")
+    vt_utils::ustring text = UTranslate("Attack (ATK): ") + MakeUnicodeString("\n")
         + UTranslate("Magical Attack (M.ATK): ") + MakeUnicodeString("\n\n")
         + UTranslate("Defense (DEF): ") + MakeUnicodeString("\n")
         + UTranslate("Magical Defense (M.DEF): ");
@@ -803,7 +803,7 @@ void PartyWindow::UpdateStatus()
     if (!ch)
         return;
 
-    hoa_utils::ustring text;
+    vt_utils::ustring text;
     text = UTranslate("Experience Level: ") + MakeUnicodeString(NumberToString(ch->GetExperienceLevel()))
         + MakeUnicodeString("\n\n\n")
         + UTranslate("Strength (STR): ") + MakeUnicodeString("\n\n")
@@ -1208,7 +1208,7 @@ void SkillsWindow::Update()
         GlobalCharacter *skill_owner = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
 
         // Get the skill type
-        hoa_utils::ustring skill_type;
+        vt_utils::ustring skill_type;
         switch(skill->GetType()) {
             case GLOBAL_SKILL_WEAPON:
                 if (skill_owner->GetWeaponEquipped())
@@ -1229,7 +1229,7 @@ void SkillsWindow::Update()
             break;
         }
 
-        hoa_utils::ustring description = skill->GetName();
+        vt_utils::ustring description = skill->GetName();
         if (!skill_type.empty())
             description += MakeUnicodeString("  (") + skill_type + MakeUnicodeString(")");
 
@@ -1327,7 +1327,7 @@ void SkillsWindow::_UpdateSkillList()
 
     for(it = it_begin; it != it_end; ++it) {
         // Check for the existence of an icon
-        hoa_utils::ustring name;
+        vt_utils::ustring name;
         if((*it)->GetIconFilename().empty()) {
             // If no icon, use the weapon icon for weapon skills
             if ((*it)->GetType() == GLOBAL_SKILL_WEAPON &&
@@ -2401,4 +2401,4 @@ void MessageWindow::Draw()
     _textbox.Draw();
 }
 
-} // namespace hoa_menu
+} // namespace vt_menu

@@ -54,8 +54,8 @@ end
 -- Character creation
 function _CreateCharacters()
     bronann = CreateSprite(Map, "Bronann", 28, 15);
-    bronann:SetDirection(hoa_map.MapMode.SOUTH);
-    bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    bronann:SetDirection(vt_map.MapMode.SOUTH);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     Map:AddGroundObject(bronann);
 end
@@ -80,7 +80,7 @@ function _CreateObjects()
 
 
     object = CreateObject(Map, "Left Window Light", 21, 21);
-    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
@@ -89,7 +89,7 @@ function _CreateObjects()
 
     object = CreateObject(Map, "Right Window Light", 35, 21);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
@@ -101,7 +101,7 @@ function _CreateEvents()
     local text = {};
 
     -- Triggered events
-    event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_center_map.lua",
+    event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from sophia's house");
     EventManager:RegisterEvent(event);
 
@@ -113,7 +113,7 @@ local room_exit_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    room_exit_zone = hoa_map.CameraZone(26, 30, 12, 13);
+    room_exit_zone = vt_map.CameraZone(26, 30, 12, 13);
     Map:AddZone(room_exit_zone);
 end
 

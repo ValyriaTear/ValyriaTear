@@ -21,7 +21,7 @@
 
 #include <cmath>
 
-namespace hoa_video
+namespace vt_video
 {
 
 /** ****************************************************************************
@@ -109,6 +109,6 @@ private:
     float _left, _right, _bottom, _top;
 }; // class CoordSys
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __COORD_SYS_HEADER__

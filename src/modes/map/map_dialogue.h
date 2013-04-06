@@ -22,7 +22,7 @@
 
 #include "map_utils.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -33,7 +33,7 @@ class VirtualSprite;
 /** ****************************************************************************
 *** \brief Represents a dialogue that occurs between one or more sprites on a map
 *** ***************************************************************************/
-class SpriteDialogue : public hoa_common::CommonDialogue
+class SpriteDialogue : public vt_common::CommonDialogue
 {
 public:
     //! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within this map
@@ -269,7 +269,7 @@ private:
 
     //! \brief the emote to play on the speaker sprite before starting the line (and if possible).
     std::vector<std::string> _emote_events;
-}; // class SpriteDialogue : public hoa_common::CommonDialogue
+}; // class SpriteDialogue : public vt_common::CommonDialogue
 
 
 /** ***************************************************************************************
@@ -280,7 +280,7 @@ private:
 *** that will follow. Optionally, each particular option may trigger a different map event when
 *** it is selected.
 *** **************************************************************************************/
-class MapDialogueOptions : public hoa_common::CommonDialogueOptions
+class MapDialogueOptions : public vt_common::CommonDialogueOptions
 {
 public:
     MapDialogueOptions()
@@ -338,7 +338,7 @@ public:
 private:
     //! \brief An optional MapEvent that may occur as a result of selecting each option
     std::vector<std::string> _events;
-}; // class MapDialogueOptions : public hoa_common::CommonDialogueOptions
+}; // class MapDialogueOptions : public vt_common::CommonDialogueOptions
 
 
 /** ****************************************************************************
@@ -404,7 +404,7 @@ public:
         return _current_options;
     }
 
-    hoa_system::SystemTimer &GetLineTimer() {
+    vt_system::SystemTimer &GetLineTimer() {
         return _line_timer;
     }
 
@@ -431,13 +431,13 @@ private:
     MapDialogueOptions *_current_options;
 
     //! \brief A timer employed for dialogues which have a display time limit
-    hoa_system::SystemTimer _line_timer;
+    vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
     uint32 _line_counter;
 
     //! \brief Holds the text and graphics that should be displayed for the dialogue
-    hoa_common::CommonDialogueWindow _dialogue_window;
+    vt_common::CommonDialogueWindow _dialogue_window;
 
     //! \brief Keeps in memory whether the emote event has been triggered.
     bool _emote_triggered;
@@ -480,6 +480,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_DIALOGUE_HEADER__

@@ -36,8 +36,8 @@ function BootMenuTest()
 
     GlobalManager:SetMap("dummy_map", "dummy_script",
                          "img/menus/locations/desert_cave.png",
-                         hoa_utils.MakeUnicodeString("The Boot Menu"));
+                         vt_utils.MakeUnicodeString("The Boot Menu"));
 
-    local menu = hoa_menu.MenuMode();
+    local menu = vt_menu.MenuMode();
     ModeManager:Push(menu, false, false);
 end

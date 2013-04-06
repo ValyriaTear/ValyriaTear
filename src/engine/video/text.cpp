@@ -27,12 +27,12 @@
 
 #include "video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
+using namespace vt_utils;
+using namespace vt_video::private_video;
 
-template<> hoa_video::TextSupervisor *Singleton<hoa_video::TextSupervisor>::_singleton_reference = NULL;
+template<> vt_video::TextSupervisor *Singleton<vt_video::TextSupervisor>::_singleton_reference = NULL;
 
-namespace hoa_video
+namespace vt_video
 {
 
 TextSupervisor *TextManager = NULL;
@@ -149,7 +149,7 @@ static const uint32 AMASK = 0xFF000000;
 // TextTexture class
 // -----------------------------------------------------------------------------
 
-TextTexture::TextTexture(const hoa_utils::ustring &string_, const TextStyle &style_) :
+TextTexture::TextTexture(const vt_utils::ustring &string_, const TextStyle &style_) :
     BaseTexture(),
     string(string_),
     style(style_)
@@ -524,7 +524,7 @@ TextSupervisor::~TextSupervisor()
             TTF_CloseFont(fp->ttf_font);
 
         if(fp->glyph_cache) {
-            std::vector<hoa_video::FontGlyph *>::const_iterator it_end = fp->glyph_cache->end();
+            std::vector<vt_video::FontGlyph *>::const_iterator it_end = fp->glyph_cache->end();
             for(std::vector<FontGlyph *>::iterator j = fp->glyph_cache->begin(); j != it_end; ++j) {
                 delete *j;
             }
@@ -672,7 +672,7 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 
 
 
-int32 TextSupervisor::CalculateTextWidth(const std::string &font_name, const hoa_utils::ustring &text)
+int32 TextSupervisor::CalculateTextWidth(const std::string &font_name, const vt_utils::ustring &text)
 {
     if(IsFontValid(font_name) == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "font name argument was invalid: " << font_name << std::endl;
@@ -962,7 +962,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
 
 
 
-bool TextSupervisor::_RenderText(hoa_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
+bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {
     FontProperties *fp = _font_map[style.font];
     TTF_Font *font = fp->ttf_font;
@@ -1083,6 +1083,6 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring &string, TextStyle &style, I
     SDL_FreeSurface(intermediary);
 
     return true;
-} // bool TextSupervisor::_RenderText(hoa_utils::ustring& string, TextStyle& style, ImageMemory& buffer)
+} // bool TextSupervisor::_RenderText(vt_utils::ustring& string, TextStyle& style, ImageMemory& buffer)
 
-}  // namespace hoa_video
+}  // namespace vt_video

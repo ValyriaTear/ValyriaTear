@@ -21,7 +21,7 @@
 
 #include "utils.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 /** ****************************************************************************
@@ -68,8 +68,8 @@ public:
     //! \brief Overloaded Operators
     //@{
     bool operator == (const Color &c) const {
-        return (hoa_utils::IsFloatEqual(_colors[0], c._colors[0]) && hoa_utils::IsFloatEqual(_colors[1], c._colors[1]) &&
-                hoa_utils::IsFloatEqual(_colors[2], c._colors[2]) && hoa_utils::IsFloatEqual(_colors[3], c._colors[3]));
+        return (vt_utils::IsFloatEqual(_colors[0], c._colors[0]) && vt_utils::IsFloatEqual(_colors[1], c._colors[1]) &&
+                vt_utils::IsFloatEqual(_colors[2], c._colors[2]) && vt_utils::IsFloatEqual(_colors[3], c._colors[3]));
     }
 
     bool operator != (const Color &c) const {
@@ -201,6 +201,6 @@ private:
     float _colors[4];
 }; // class Color
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __COLOR_HEADER__

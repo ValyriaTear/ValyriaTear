@@ -26,14 +26,14 @@
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -331,4 +331,4 @@ uint32 ItemAction::GetCoolDownTime() const
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

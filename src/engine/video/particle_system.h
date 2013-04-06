@@ -34,7 +34,7 @@
 
 #include "engine/video/image.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 //! \brief Specifies the stencil operation to use and describes how the stencil buffer is modified
@@ -413,7 +413,7 @@ private:
     ParticleSystemDef *_system_def;
 
     //! Animation for each particle. If it's non-animated, it just has 1 frame
-    hoa_video::AnimatedImage _animation;
+    vt_video::AnimatedImage _animation;
 
     //! Number of active particles in this system. (The size of the vectors may be larger, since
     //! we might set a particle quota for the system which is higher than what's actually there.)
@@ -422,7 +422,7 @@ private:
     //! The array of particle vertices. Note that this array contains FOUR vertices per particle.
     //! This is used for rendering the particles with OpenGL
     std::vector<ParticleVertex> _particle_vertices;
-    std::vector<hoa_video::Color> _particle_colors;
+    std::vector<vt_video::Color> _particle_colors;
     std::vector<ParticleTexCoord> _particle_texcoords;
 
     //! This array holds everything except positions and colors. The reason we keep positions and
@@ -443,6 +443,6 @@ private:
 
 }; // class ParticleSystem
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif

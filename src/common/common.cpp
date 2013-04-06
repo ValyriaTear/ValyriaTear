@@ -17,8 +17,8 @@
 // Local common headers
 #include "common.h"
 
-namespace hoa_common {
+namespace vt_common {
 
 bool COMMON_DEBUG = false;
 
-} // namespace hoa_common
+} // namespace vt_common

@@ -27,18 +27,18 @@
 #include "engine/mode_manager.h"
 #include "menu.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_system;
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_global;
-using namespace hoa_pause;
-using namespace hoa_menu::private_menu;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_system;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_global;
+using namespace vt_pause;
+using namespace vt_menu::private_menu;
 
-namespace hoa_menu
+namespace vt_menu
 {
 
 namespace private_menu {
@@ -407,9 +407,9 @@ void InventoryState::_OnDrawMainWindow()
 
 }
 
-void InventoryState::_DrawItemDescription(hoa_global::GlobalObject &obj,
-                                          hoa_video::StillImage* item_image,
-                                          hoa_gui::TextBox &description)
+void InventoryState::_DrawItemDescription(vt_global::GlobalObject &obj,
+                                          vt_video::StillImage* item_image,
+                                          vt_gui::TextBox &description)
 {
     int32 key_pos_x = 100 + obj.GetIconImage().GetWidth() - item_image->GetWidth() - 3;
     int32 key_pos_y = 600 + obj.GetIconImage().GetHeight() - item_image->GetHeight() - 3;
@@ -1005,7 +1005,7 @@ MenuMode::~MenuMode()
 void MenuMode::UpdateTimeAndDrunes()
 {
     // Only update the time every 900ms
-    _update_of_time -= (int32) hoa_system::SystemManager->GetUpdateTime();
+    _update_of_time -= (int32) vt_system::SystemManager->GetUpdateTime();
     if (_update_of_time > 0)
         return;
     _update_of_time = 900;
@@ -1018,9 +1018,9 @@ void MenuMode::UpdateTimeAndDrunes()
     os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
     os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-    // TODO: hoa_utils::ustring should be able to take const modifiers in its operators....
-    static hoa_utils::ustring time_ustr_base = UTranslate("Time: ");
-    static hoa_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
+    // TODO: vt_utils::ustring should be able to take const modifiers in its operators....
+    static vt_utils::ustring time_ustr_base = UTranslate("Time: ");
+    static vt_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
     _time_text.SetDisplayText(time_ustr_base + MakeUnicodeString(os_time.str()));
     _drunes_text.SetDisplayText(drunes_ustr_base + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 }
@@ -1356,4 +1356,4 @@ void MenuMode::ReloadCharacterWindows()
     _character_window3.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 334));
 }
 
-} // namespace hoa_menu
+} // namespace vt_menu

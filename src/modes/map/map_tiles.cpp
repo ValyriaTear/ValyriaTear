@@ -20,11 +20,11 @@
 
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_script;
+using namespace vt_video;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -362,4 +362,4 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

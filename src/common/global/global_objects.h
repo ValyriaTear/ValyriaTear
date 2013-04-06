@@ -25,11 +25,11 @@
 #include "engine/video/image.h"
 #include "engine/script/script.h"
 
-namespace hoa_script {
+namespace vt_script {
 class ReadScriptDescriptor;
 }
 
-namespace hoa_global
+namespace vt_global
 {
 
 class GlobalShard;
@@ -116,11 +116,11 @@ public:
         return _id;
     }
 
-    const hoa_utils::ustring &GetName() const {
+    const vt_utils::ustring &GetName() const {
         return _name;
     }
 
-    const hoa_utils::ustring &GetDescription() const {
+    const vt_utils::ustring &GetDescription() const {
         return _description;
     }
 
@@ -144,7 +144,7 @@ public:
         return _trade_conditions;
     }
 
-    const hoa_video::StillImage &GetIconImage() const {
+    const vt_video::StillImage &GetIconImage() const {
         return _icon_image;
     }
 
@@ -164,10 +164,10 @@ protected:
     uint32 _id;
 
     //! \brief The name of the object as it would be displayed on a screen
-    hoa_utils::ustring _name;
+    vt_utils::ustring _name;
 
     //! \brief A short description of the item to display on the screen
-    hoa_utils::ustring _description;
+    vt_utils::ustring _description;
 
     //! \brief Tells whether an item is a key item, preventing from being consumed or sold.
     bool _is_key_item;
@@ -186,7 +186,7 @@ protected:
     std::vector<std::pair<uint32, uint32> > _trade_conditions;
 
     //! \brief A loaded icon image of the object at its original size of 60x60 pixels
-    hoa_video::StillImage _icon_image;
+    vt_video::StillImage _icon_image;
 
     /** \brief Container that holds the intensity of each type of elemental effect of the object
     *** Elements with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no elemental bonus
@@ -211,16 +211,16 @@ protected:
     *** table context prepared. This function will do nothing more but read the expected key/values of
     *** the open table in the script file and return.
     **/
-    void _LoadObjectData(hoa_script::ReadScriptDescriptor &script);
+    void _LoadObjectData(vt_script::ReadScriptDescriptor &script);
 
     //! \brief Loads elemental effects data
-    void _LoadElementalEffects(hoa_script::ReadScriptDescriptor &script);
+    void _LoadElementalEffects(vt_script::ReadScriptDescriptor &script);
 
     //! \brief Loads status effects data
-    void _LoadStatusEffects(hoa_script::ReadScriptDescriptor &script);
+    void _LoadStatusEffects(vt_script::ReadScriptDescriptor &script);
 
     //! \brief Loads trading price data
-    void _LoadTradeConditions(hoa_script::ReadScriptDescriptor &script);
+    void _LoadTradeConditions(vt_script::ReadScriptDescriptor &script);
 }; // class GlobalObject
 
 
@@ -395,7 +395,7 @@ private:
     std::vector<GlobalShard *> _shard_slots;
 
     //! \brief Loads the battle animations data for each character that can use the weapon.
-    void _LoadWeaponBattleAnimations(hoa_script::ReadScriptDescriptor& script);
+    void _LoadWeaponBattleAnimations(vt_script::ReadScriptDescriptor& script);
 }; // class GlobalWeapon : public GlobalObject
 
 
@@ -483,6 +483,6 @@ public:
     }
 }; // class GlobalShard : public GlobalObject
 
-} // namespace hoa_global
+} // namespace vt_global
 
 #endif // __GLOBAL_OBJECTS_HEADER__

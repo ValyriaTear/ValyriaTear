@@ -21,12 +21,12 @@
 
 #include "engine/video/video.h"
 
-using namespace hoa_system;
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_gui;
+using namespace vt_system;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_gui;
 
-namespace hoa_common
+namespace vt_common
 {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -379,4 +379,4 @@ CommonDialogue *CommonDialogueSupervisor::GetDialogue(uint32 dialogue_id)
     }
 }
 
-} // namespace hoa_common
+} // namespace vt_common

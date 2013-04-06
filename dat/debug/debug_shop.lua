@@ -19,7 +19,7 @@ function BootShopTest()
     GlobalManager:AddToInventory(40001, 1);
     GlobalManager:AddToInventory(50001, 1);
 
-    local shop = hoa_shop.ShopMode();
+    local shop = vt_shop.ShopMode();
 
     -- AddObject(item_id, number)
     shop:AddObject(1, 12);

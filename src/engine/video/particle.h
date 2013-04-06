@@ -26,7 +26,7 @@
 #include "particle_keyframe.h"
 
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /*!***************************************************************************
@@ -129,7 +129,7 @@ public:
     float combined_velocity_y;
 
     //! color
-    hoa_video::Color color;
+    vt_video::Color color;
 
     //! current rotation angle
     float rotation_angle;
@@ -192,14 +192,14 @@ public:
     float next_size_variation_y;
     float current_rotation_speed_variation;
     float next_rotation_speed_variation;
-    hoa_video::Color current_color_variation;
-    hoa_video::Color next_color_variation;
+    vt_video::Color current_color_variation;
+    vt_video::Color next_color_variation;
 
     //! keep track of current and next keyframes
     ParticleKeyframe *current_keyframe;
     ParticleKeyframe *next_keyframe;
 };
 
-} // hoa_mode_manager
+} // vt_mode_manager
 
 #endif  //! __PARTICLE_HEADER__

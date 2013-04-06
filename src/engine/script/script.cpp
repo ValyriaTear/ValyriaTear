@@ -24,12 +24,12 @@
 
 using namespace luabind;
 
-using namespace hoa_utils;
-using namespace hoa_script::private_script;
+using namespace vt_utils;
+using namespace vt_script::private_script;
 
-template<> hoa_script::ScriptEngine *Singleton<hoa_script::ScriptEngine>::_singleton_reference = NULL;
+template<> vt_script::ScriptEngine *Singleton<vt_script::ScriptEngine>::_singleton_reference = NULL;
 
-namespace hoa_script
+namespace vt_script
 {
 
 ScriptEngine *ScriptManager = NULL;
@@ -132,4 +132,4 @@ lua_State *ScriptEngine::_CheckForPreviousLuaState(const std::string &filename)
 }
 
 
-} // namespace hoa_script
+} // namespace vt_script

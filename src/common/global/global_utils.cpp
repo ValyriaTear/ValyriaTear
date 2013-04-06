@@ -20,11 +20,11 @@
 #include "engine/system.h"
 #include "engine/audio/audio_descriptor.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_global::private_global;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_global::private_global;
 
-namespace hoa_global
+namespace vt_global
 {
 
 uint32 GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type)
@@ -284,13 +284,13 @@ void GlobalMedia::Initialize()
     if (!_key_item_icon.Load("img/menus/key.png"))
         PRINT_WARNING << "Failed to load key item icon image" << std::endl;
 
-    if(!hoa_video::ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 7, 9))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 7, 9))
         PRINT_WARNING << "Failed to load elemental icon images" << std::endl;
 
-    if(!hoa_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
         PRINT_WARNING << "Failed to load status icon images" << std::endl;
 
-    if(!hoa_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 3))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 3))
         PRINT_WARNING << "Failed to load object category icon images" << std::endl;
 
     // Load common sounds
@@ -305,12 +305,12 @@ void GlobalMedia::Initialize()
 GlobalMedia::~GlobalMedia()
 {
     // Clear up sounds
-    for(std::map<std::string, hoa_audio::SoundDescriptor *>::iterator it = _sounds.begin(); it != _sounds.end(); ++it)
+    for(std::map<std::string, vt_audio::SoundDescriptor *>::iterator it = _sounds.begin(); it != _sounds.end(); ++it)
         delete it->second;
     _sounds.clear();
 }
 
-hoa_video::StillImage* GlobalMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity)
+vt_video::StillImage* GlobalMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity)
 {
     const uint32 NUMBER_INTENSTIY_LEVELS = 9;
 
@@ -382,7 +382,7 @@ hoa_video::StillImage* GlobalMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_ty
     return &(_elemental_icons[(row * NUMBER_INTENSTIY_LEVELS) + col]);
 }
 
-hoa_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type)
+vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type)
 {
     uint32 index = 0;
 
@@ -418,7 +418,7 @@ hoa_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_typ
     return &(_all_category_icons[index]);
 }
 
-hoa_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity)
+vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity)
 {
     if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
         PRINT_WARNING << "Invalid type: " << type << std::endl;
@@ -436,7 +436,7 @@ hoa_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INT
 
 void GlobalMedia::PlaySound(const std::string &identifier)
 {
-    std::map<std::string, hoa_audio::SoundDescriptor *>::iterator sound = _sounds.find(identifier);
+    std::map<std::string, vt_audio::SoundDescriptor *>::iterator sound = _sounds.find(identifier);
     if((sound != _sounds.end()) && sound->second)
          sound->second->Play();
 }
@@ -446,9 +446,9 @@ void GlobalMedia::_LoadSoundFile(const std::string& sound_name, const std::strin
     if (filename.empty() || sound_name.empty())
         return;
 
-    _sounds[sound_name] = new hoa_audio::SoundDescriptor();
+    _sounds[sound_name] = new vt_audio::SoundDescriptor();
     if(!_sounds[sound_name]->LoadAudio(filename))
         PRINT_WARNING << "Failed to load '" << filename << "' needed by shop mode" << std::endl;
 }
 
-} // namespace hoa_global
+} // namespace vt_global

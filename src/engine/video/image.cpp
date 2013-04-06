@@ -27,10 +27,10 @@ extern "C" {
 #include <jpeglib.h>
 }
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
+using namespace vt_utils;
+using namespace vt_video::private_video;
 
-namespace hoa_video
+namespace vt_video
 {
 
 // -----------------------------------------------------------------------------
@@ -1217,7 +1217,7 @@ void AnimatedImage::Clear()
 
 bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
 {
-    hoa_script::ReadScriptDescriptor image_script;
+    vt_script::ReadScriptDescriptor image_script;
     if(!image_script.OpenFile(filename))
         return false;
 
@@ -1230,7 +1230,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
 
     std::string image_filename = image_script.ReadString("image_filename");
 
-    if(!hoa_utils::DoesFileExist(image_filename)) {
+    if(!vt_utils::DoesFileExist(image_filename)) {
         PRINT_WARNING << "The image file doesn't exist: " << image_filename << std::endl;
         image_script.CloseTable();
         image_script.CloseFile();
@@ -1475,7 +1475,7 @@ void AnimatedImage::Update(uint32 elapsed_time)
         return;
 
     // Get the amount of milliseconds that have pass since the last display
-    uint32 ms_change = (elapsed_time == 0) ? hoa_system::SystemManager->GetUpdateTime() : elapsed_time;
+    uint32 ms_change = (elapsed_time == 0) ? vt_system::SystemManager->GetUpdateTime() : elapsed_time;
     _frame_counter += ms_change;
     // If the frame time has expired, update the frame index and counter.
     while(_frame_counter >= _frames[_frame_index].frame_time) {
@@ -1828,4 +1828,4 @@ void CompositeImage::AddImage(const StillImage &img, float x_offset, float y_off
 // } // void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32> >& indeces)
 
 
-}  // namespace hoa_video
+}  // namespace vt_video

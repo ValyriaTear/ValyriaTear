@@ -38,8 +38,8 @@ end
 -- -----------------------------------------------------------------------------
 
 weapons[10001] = {
-    name = hoa_system.Translate("Wooden Sword"),
-    description = hoa_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
+    name = vt_system.Translate("Wooden Sword"),
+    description = vt_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
     icon = "img/icons/weapons/woodensword.png",
     physical_attack = 2,
     magical_attack = 0,
@@ -70,8 +70,8 @@ weapons[10001] = {
 }
 
 weapons[10011] = {
-    name = hoa_system.Translate("Karlate Sword"),
-    description = hoa_system.Translate("Standard Karlate issued equipment. A light weight iron sword suitable for most skirmishes."),
+    name = vt_system.Translate("Karlate Sword"),
+    description = vt_system.Translate("Standard Karlate issued equipment. A light weight iron sword suitable for most skirmishes."),
     icon = "img/icons/weapons/karlate_sword.png",
     physical_attack = 12,
     magical_attack = 0,
@@ -101,8 +101,8 @@ weapons[10011] = {
 }
 
 weapons[10002] = {
-    name = hoa_system.Translate("Iron Sword"),
-    description = hoa_system.Translate("A sturdy but somewhat dull sword whose blade was forged from a single block of solid iron."),
+    name = vt_system.Translate("Iron Sword"),
+    description = vt_system.Translate("A sturdy but somewhat dull sword whose blade was forged from a single block of solid iron."),
     icon = "img/icons/weapons/iron_sword.png",
     physical_attack = 16,
     magical_attack = 0,
@@ -132,8 +132,8 @@ weapons[10002] = {
 }
 
 weapons[10003] = {
-    name = hoa_system.Translate("Knight's Blade"),
-    description = hoa_system.Translate("A weapon bestowed to seasoned veterans of the knighthood in several kingdoms throughout the world."),
+    name = vt_system.Translate("Knight's Blade"),
+    description = vt_system.Translate("A weapon bestowed to seasoned veterans of the knighthood in several kingdoms throughout the world."),
     icon = "img/icons/weapons/knights_blade.png",
     physical_attack = 34,
     magical_attack = 0,
@@ -163,8 +163,8 @@ weapons[10003] = {
 }
 
 weapons[10004] = {
-    name = hoa_system.Translate("Paladin's Sword"),
-    description = hoa_system.Translate("A mythical weapon blessed with a magical fire."),
+    name = vt_system.Translate("Paladin's Sword"),
+    description = vt_system.Translate("A mythical weapon blessed with a magical fire."),
     icon = "img/icons/weapons/paladin-sword.png",
     physical_attack = 90,
     magical_attack = 30,
@@ -185,12 +185,12 @@ weapons[10004] = {
     },
 
     elemental_effects = {
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
     },
 
     status_effects = {
-        [hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+        [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
     },
 
     battle_animations = {
@@ -216,7 +216,7 @@ weapons[10004] = {
 
 -- NOTE: Test weapon
 weapons[10999] = {
-    name = hoa_system.Translate("Omni Sword"),
+    name = vt_system.Translate("Omni Sword"),
     description = "The ultimate sword, used only for testing...",
     icon = "img/icons/weapons/sword-flaming.png",
     physical_attack = 9999,
@@ -239,25 +239,25 @@ weapons[10999] = {
     },
 
     elemental_effects = {
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_WATER] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
     },
 
     status_effects = {
-        [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
+        [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
     },
 
     battle_animations = {
@@ -286,8 +286,8 @@ weapons[10999] = {
 -- -----------------------------------------------------------------------------
 
 weapons[11001] = {
-    name = hoa_system.Translate("Arbalest"),
-    description = hoa_system.Translate("A standard wooden arbalest."),
+    name = vt_system.Translate("Arbalest"),
+    description = vt_system.Translate("A standard wooden arbalest."),
     icon = "img/icons/weapons/arbalest.png",
     -- The image displayed when kalya fires with her arbalest.
     battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",

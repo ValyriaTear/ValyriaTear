@@ -33,34 +33,34 @@
 #include "common/global/global_skills.h"
 #include "common/global/global_utils.h"
 
-namespace hoa_defs
+namespace vt_defs
 {
 
 void BindCommonCode()
 {
     // ---------- Bind Utils Functions
     {
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_utils")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_utils")
         [
-            luabind::class_<hoa_utils::ustring>("ustring")
+            luabind::class_<vt_utils::ustring>("ustring")
             .def(luabind::constructor<uint16 *>())
             .def(luabind::constructor<>())
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_utils")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_utils")
         [
-            luabind::def("RandomFloat", (float( *)(void)) &hoa_utils::RandomFloat),
-            luabind::def("RandomBoundedInteger", &hoa_utils::RandomBoundedInteger),
-            luabind::def("MakeUnicodeString", &hoa_utils::MakeUnicodeString),
-            luabind::def("MakeStandardString", &hoa_utils::MakeStandardString)
+            luabind::def("RandomFloat", (float( *)(void)) &vt_utils::RandomFloat),
+            luabind::def("RandomBoundedInteger", &vt_utils::RandomBoundedInteger),
+            luabind::def("MakeUnicodeString", &vt_utils::MakeUnicodeString),
+            luabind::def("MakeStandardString", &vt_utils::MakeStandardString)
         ];
     }
 
     // ---------- Bind Common Components
     {
-        using namespace hoa_common;
+        using namespace vt_common;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_common")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_common")
         [
             luabind::class_<CommonDialogue>("CommonDialogue")
         ];
@@ -70,7 +70,7 @@ void BindCommonCode()
 
     // ---------- Bind Global Components
     {
-        using namespace hoa_global;
+        using namespace vt_global;
 
         luabind::def("GetTargetText", &GetTargetText),
                 luabind::def("IsTargetPoint", &IsTargetPoint),
@@ -83,7 +83,7 @@ void BindCommonCode()
 // 	luabind::def("IncrementIntensity", &IncrementIntensity),
 // 	luabind::def("DecrementIntensity", &DecrementIntensity),
 
-                luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+                luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
                 [
                     luabind::class_<GameGlobal>("GameGlobal")
                     .def("AddCharacter", (void(GameGlobal:: *)(uint32)) &GameGlobal::AddCharacter)
@@ -203,7 +203,7 @@ void BindCommonCode()
                     ]
                 ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalAttackPoint>("GlobalAttackPoint")
             .def("GetName", &GlobalAttackPoint::GetName)
@@ -218,7 +218,7 @@ void BindCommonCode()
             .def("GetTotalEvadeRating", &GlobalAttackPoint::GetTotalEvadeRating)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalActor>("GlobalActor")
             .def("GetID", &GlobalActor::GetID)
@@ -288,7 +288,7 @@ void BindCommonCode()
 // 			.def("EquipArmor", &GlobalActor::EquipArmor)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalCharacter, GlobalActor>("GlobalCharacter")
             .def_readwrite("_hit_points_growth", &GlobalCharacter::_hit_points_growth)
@@ -304,19 +304,19 @@ void BindCommonCode()
             .def("AddNewSkillLearned", &GlobalCharacter::AddNewSkillLearned)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalParty>("GlobalParty")
             .def("AddHitPoints", &GlobalParty::AddHitPoints)
             .def("AddSkillPoints", &GlobalParty::AddSkillPoints)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalEnemy, GlobalActor>("GlobalEnemy")
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalObject>("GlobalObject")
             .def("GetID", &GlobalObject::GetID)
@@ -327,39 +327,39 @@ void BindCommonCode()
             .def("DecrementCount", &GlobalObject::DecrementCount)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalItem, GlobalObject>("GlobalItem")
 // 			.def(luabind::constructor<>(uint32, uint32))
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalWeapon, GlobalObject>("GlobalWeapon")
             .def("GetUsableBy", &GlobalWeapon::GetUsableBy)
 // 			.def(luabind::constructor<>(uint32, uint32))
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalArmor, GlobalObject>("GlobalArmor")
             .def("GetUsableBy", &GlobalArmor::GetUsableBy)
 // 			.def(luabind::constructor<>(uint32, uint32))
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalStatusEffect>("GlobalStatusEffect")
             .def("GetType", &GlobalStatusEffect::GetType)
             .def("GetIntensity", &GlobalStatusEffect::GetIntensity)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalElementalEffect>("GlobalElementalEffect")
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_global")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalSkill>("GlobalSkill")
             .def("GetID", &GlobalSkill::GetID)
@@ -370,8 +370,8 @@ void BindCommonCode()
     } // End using global namespaces
 
     // Bind the GlobalManager object to Lua
-    luabind::object global_table = luabind::globals(hoa_script::ScriptManager->GetGlobalState());
-    global_table["GlobalManager"] = hoa_global::GlobalManager;
+    luabind::object global_table = luabind::globals(vt_script::ScriptManager->GetGlobalState());
+    global_table["GlobalManager"] = vt_global::GlobalManager;
 } // void BindCommonCode()
 
-} // namespace hoa_defs
+} // namespace vt_defs

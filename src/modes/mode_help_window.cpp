@@ -21,13 +21,13 @@
 #include "engine/input.h"
 #include "engine/mode_manager.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_script;
+using namespace vt_system;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 // *****************************************************************************
@@ -113,7 +113,7 @@ void HelpWindow::_RefreshText()
     _text_continue.SetStyle(TextStyle("title24"));
     char buffer[256];
     sprintf(buffer, Translate("Press '%s' anytime to show/hide help.").c_str(),
-            hoa_input::InputManager->GetHelpKeyName().c_str());
+            vt_input::InputManager->GetHelpKeyName().c_str());
 
     _text_continue.SetText(std::string(buffer));
 
@@ -138,19 +138,19 @@ void HelpWindow::_RefreshText()
         _key_table.SetTextStyle(TextStyle("text22"));
         _key_table.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
         _key_table.AddOption(UTranslate("Left"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetLeftKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetLeftKeyName()));
         _key_table.AddOption(UTranslate("Move menu cursor to the left"));
         _key_table.AddOption(UTranslate("Right"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetRightKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetRightKeyName()));
         _key_table.AddOption(UTranslate("Move menu cursor to the right"));
         _key_table.AddOption(UTranslate("Confirm"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetConfirmKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetConfirmKeyName()));
         _key_table.AddOption(UTranslate("Confirm a menu command"));
         _key_table.AddOption(UTranslate("Cancel"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetCancelKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetCancelKeyName()));
         _key_table.AddOption(UTranslate("Cancel a menu command"));
         _key_table.AddOption(UTranslate("Quit"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetQuitKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetQuitKeyName()));
         _key_table.AddOption(UTranslate("Quit the application"));
         return;
     } else if(game_type == MODE_MANAGER_SHOP_MODE) {
@@ -174,31 +174,31 @@ void HelpWindow::_RefreshText()
         _key_table.SetTextStyle(TextStyle("text22"));
         _key_table.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
         _key_table.AddOption(UTranslate("Left"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetLeftKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetLeftKeyName()));
         _key_table.AddOption(UTranslate("Remove an item from the buy/sell list"));
         _key_table.AddOption(UTranslate("Right"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetRightKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetRightKeyName()));
         _key_table.AddOption(UTranslate("Add an item to the buy/sell list."));
         _key_table.AddOption(UTranslate("Up"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetUpKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetUpKeyName()));
         _key_table.AddOption(UTranslate("Move up in the item list."));
         _key_table.AddOption(UTranslate("Down"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetDownKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetDownKeyName()));
         _key_table.AddOption(UTranslate("Move down in the item list."));
         _key_table.AddOption(UTranslate("Confirm"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetConfirmKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetConfirmKeyName()));
         _key_table.AddOption(UTranslate("Show details or confirm a transaction"));
         _key_table.AddOption(UTranslate("Cancel"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetCancelKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetCancelKeyName()));
         _key_table.AddOption(UTranslate("Get out the Buy/Sell/Confirm mode,\nor quit the shop."));
         _key_table.AddOption(); // Spacer
         _key_table.AddOption();
         _key_table.AddOption();
         _key_table.AddOption(UTranslate("Pause"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetPauseKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetPauseKeyName()));
         _key_table.AddOption(UTranslate("Pauses the game"));
         _key_table.AddOption(UTranslate("Quit"));
-        _key_table.AddOption(UTranslate(hoa_input::InputManager->GetQuitKeyName()));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetQuitKeyName()));
         _key_table.AddOption(UTranslate("Close this window / Show the system menu"));
         return;
     }
@@ -267,4 +267,4 @@ void HelpWindow::_RefreshText()
     _text_additional.SetText(UTranslate("There are additional commands available which can be found in the MANUAL file."));
 }
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager

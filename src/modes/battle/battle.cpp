@@ -35,19 +35,19 @@
 #include "modes/battle/battle_utils.h"
 #include "modes/battle/battle_effects.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
-using namespace hoa_pause;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
+using namespace vt_pause;
 
-using namespace hoa_battle::private_battle;
+using namespace vt_battle::private_battle;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 bool BATTLE_DEBUG = false;
@@ -153,7 +153,7 @@ StillImage *BattleMedia::GetCharacterActionButton(uint32 index)
 }
 
 
-StillImage *BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type)
+StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
 {
     switch(target_type) {
     case GLOBAL_TARGET_SELF_POINT:
@@ -516,7 +516,7 @@ void BattleMode::DrawPostEffects()
 
 void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
 {
-    GlobalEnemy *new_enemy = new hoa_global::GlobalEnemy(new_enemy_id);
+    GlobalEnemy *new_enemy = new vt_global::GlobalEnemy(new_enemy_id);
 
     // Don't add the enemy if its id was invalidated
     if(new_enemy->GetID() == 0) {
@@ -846,8 +846,8 @@ static void SetEffectMaximum(GLOBAL_INTENSITY *max_effect, const std::vector<std
 }
 
 void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &character,
-                                            const hoa_global::GlobalWeapon* weapon,
-                                            const std::vector<hoa_global::GlobalArmor *>& armors)
+                                            const vt_global::GlobalWeapon* weapon,
+                                            const std::vector<vt_global::GlobalArmor *>& armors)
 {
     //we only count the first 12 status effects as valid
     //todo: allow a way for drain / regen
@@ -860,7 +860,7 @@ void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &charact
         SetEffectMaximum(max_effect, weapon->GetStatusEffects());
 
     //adjust effects for armor
-    for(std::vector<hoa_global::GlobalArmor *>::const_iterator itr = armors.begin(),
+    for(std::vector<vt_global::GlobalArmor *>::const_iterator itr = armors.begin(),
             end = armors.end(); itr != end; ++itr) {
         if((*itr))
             SetEffectMaximum(max_effect, (*itr)->GetStatusEffects());
@@ -888,7 +888,7 @@ void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &charact
 
 }
 
-void BattleMode::_ResetPassiveStatusEffects(hoa_battle::private_battle::BattleActor &character)
+void BattleMode::_ResetPassiveStatusEffects(vt_battle::private_battle::BattleActor &character)
 {
    _ResetAttributesFromGlobalActor(character);
    _ApplyPassiveStatusEffects(character, character.GetGlobalActor()->GetWeaponEquipped(), character.GetGlobalActor()->GetArmorEquipped());
@@ -1321,8 +1321,8 @@ void TransitionToBattleMode::Reset()
     AudioManager->StopAllMusic();
 
     // Play a random encounter sound
-    uint32 file_id = hoa_utils::RandomBoundedInteger(0, 2);
-    hoa_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
+    uint32 file_id = vt_utils::RandomBoundedInteger(0, 2);
+    vt_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
 }
 
-} // namespace hoa_battle
+} // namespace vt_battle

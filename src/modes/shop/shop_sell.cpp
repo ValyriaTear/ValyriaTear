@@ -31,15 +31,15 @@
 
 #include "common/global/global.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_global;
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
@@ -101,7 +101,7 @@ void SellInterface::_UpdateAvailableSellDealTypes()
         if (it->second->GetObject()->IsKeyItem())
             continue;
 
-        hoa_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
+        vt_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
         switch(object_type) {
         case GLOBAL_OBJECT_ITEM:
             _sell_deal_types |= DEALS_ITEMS;
@@ -570,4 +570,4 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
