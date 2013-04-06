@@ -120,9 +120,6 @@ void PauseMode::Reset()
 
 void PauseMode::Update()
 {
-    // Don't eat up 100% of the CPU time while in pause mode
-    SDL_Delay(50); // Puts the process to sleep for 50ms
-
     // If an option has been selected, don't handle input until it has finished.
     if(_option_selected)
         return;
