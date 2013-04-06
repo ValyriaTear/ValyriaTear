@@ -79,7 +79,8 @@ TreasureSupervisor::TreasureSupervisor() :
     _selection(ACTION_SELECTED),
     _window_title(UTranslate("You obtain"), TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2)),
     _selection_name(),
-    _selection_icon(NULL)
+    _selection_icon(NULL),
+    _is_key_item(false)
 {
     // Create the menu windows and option boxes used for the treasure menu and
     // align them at the appropriate locations on the screen
@@ -243,9 +244,17 @@ void TreasureSupervisor::Draw()
     if(_selection == DETAIL_SELECTED) {
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
         // Move to the upper left corner and draw the object icon
-        if(_selection_icon != NULL) {
+        if(_selection_icon) {
             VideoManager->Move(150.0f, 535.0f);
             _selection_icon->Draw();
+            if (_is_key_item) {
+                StillImage* key_icon = GlobalManager->Media().GetKeyItemIcon();
+                VideoManager->MoveRelative(_selection_icon->GetWidth() - key_icon->GetWidth() - 3.0f,
+                                           _selection_icon->GetHeight() - key_icon->GetHeight() - 3.0f);
+                key_icon->Draw();
+                VideoManager->MoveRelative(-_selection_icon->GetWidth() + key_icon->GetWidth() + 3.0f,
+                                           -_selection_icon->GetHeight() + key_icon->GetHeight() + 3.0f);
+            }
         }
 
         // Draw the name of the selected object to the right of the icon
@@ -310,16 +319,19 @@ void TreasureSupervisor::_UpdateList()
         _list_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
         uint32 list_selection = _list_options.GetSelection();
-        if(list_selection == 0 && _treasure->_drunes != 0) {  // If true, the drunes have been selected
+        if(list_selection == 0 && _treasure->_drunes != 0) {
+            // If true, the drunes have been selected
             _selection_name.SetText(UTranslate("Drunes"));
             _selection_icon = GlobalManager->Media().GetDrunesIcon();
             _detail_textbox.SetDisplayText(VTranslate("With the additional %u drunes found in this treasure added, "
                                                       "the party now holds a total of %u drunes.",
                                                       _treasure->_drunes, GlobalManager->GetDrunes()));
+            _is_key_item = false;
         } else { // Otherwise, a GlobalObject is selected
             if(_treasure->_drunes != 0)
                 list_selection--;
             _selection_name.SetText(_treasure->_objects_list[list_selection]->GetName());
+            _is_key_item = _treasure->_objects_list[list_selection]->IsKeyItem();
             // TODO: this is not good practice. We should probably either remove the const status from the GetIconImage() call
             _selection_icon = const_cast<StillImage *>(&_treasure->_objects_list[list_selection]->GetIconImage());
             _detail_textbox.SetDisplayText(_treasure->_objects_list[list_selection]->GetDescription());

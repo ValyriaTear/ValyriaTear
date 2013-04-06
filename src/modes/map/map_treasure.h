@@ -194,6 +194,9 @@ private:
     //! \brief A pointer to the image of the selected list item
     hoa_video::StillImage *_selection_icon;
 
+    //! \brief Tells whether the currently selected item is a key item
+    bool _is_key_item;
+
     // ---------- Private methods
 
     //! \brief Processes user input when the action sub-window is selected
