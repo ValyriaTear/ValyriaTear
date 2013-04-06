@@ -429,6 +429,9 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
 void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 {
     if(js_event.type == SDL_JOYAXISMOTION) {
+        // Arrows are keys, too
+        _any_key_press = true;
+
         if(js_event.jaxis.axis == _joystick.x_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
                 if(!_left_state) {
@@ -437,6 +440,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _left_state = false;
+                _any_key_press = false;
             }
 
             if(js_event.jaxis.value > _joystick.threshold) {
@@ -446,6 +450,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _right_state = false;
+                _any_key_press = false;
             }
         } else if(js_event.jaxis.axis == _joystick.y_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
@@ -455,6 +460,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _up_state = false;
+                _any_key_press = false;
             }
 
             if(js_event.jaxis.value > _joystick.threshold) {
@@ -464,6 +470,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _down_state = false;
+                _any_key_press = false;
             }
         }
 
