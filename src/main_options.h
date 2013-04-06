@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    main_options.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header functions for handling command-line arguments
 *** \note    Only main.cpp and main_options.cpp should need to include this file.
 *** **************************************************************************/

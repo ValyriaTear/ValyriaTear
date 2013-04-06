@@ -8,15 +8,16 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_manager.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle manager
- *
- * The particle manager is very simple. Every time you want to draw an effect,
- * you call AddEffect() with a pointer to the effect definition structure.
- * Then every frame, call Update() and Draw() to draw all the effects.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_manager.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle manager
+***
+*** The particle manager is very simple. Every time you want to draw an effect,
+*** you call AddEffect() with a pointer to the effect definition structure.
+*** Then every frame, call Update() and Draw() to draw all the effects.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_MANAGER_HEADER__
 #define __PARTICLE_MANAGER_HEADER__

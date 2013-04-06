@@ -8,6 +8,14 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file   gui.cpp
+*** \author Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief  Source file for GUI code
+***
+*** ***************************************************************************/
+
 #include "gui.h"
 
 #include "engine/video/video.h"

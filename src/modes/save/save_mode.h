@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    save_mode.h
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for save interface.
 ***
 *** This code is for saving and loading.

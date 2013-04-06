@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    dialog_boxes.h
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for all of the editor's dialog boxes.
 *** **************************************************************************/
 

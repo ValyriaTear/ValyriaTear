@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    screen_rect.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the ScreenRect class.
 *** The ScreenRect class is used for storing rectangles with pixel coordinates
 *** ***************************************************************************/

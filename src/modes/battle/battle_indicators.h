@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_indicators.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle indicator displays.
 ***
 *** This code contains the implementation of various indicators and indicator

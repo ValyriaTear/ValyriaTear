@@ -8,11 +8,12 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    editor.cpp
- * \author  Philip Vorsilak, gorzuate@allacrost.org
- * \brief   Source file for editor's main window and user interface.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    editor.cpp
+*** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for editor's main window and user interface.
+*** **************************************************************************/
 
 #include "editor.h"
 

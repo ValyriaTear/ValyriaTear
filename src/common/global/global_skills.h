@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_skills.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game skills.
 ***
 *** This file contains the class implementation for "skills", which are the

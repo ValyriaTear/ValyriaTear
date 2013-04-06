@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_effects.h
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game effects
 ***
 *** This file contains the class implementation for status and elemental effects.

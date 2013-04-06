@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    option.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for OptionBox GUI control and supporting classes
 ***
 *** OptionBox is a type of GUI control that allows you to create several

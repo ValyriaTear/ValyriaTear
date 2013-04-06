@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    interpolator.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for Interpolator class
 ***
 *** The Interpolator class can interpolate between a single and final value

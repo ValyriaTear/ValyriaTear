@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    coord_sys.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the CoordSys class.
 *** ***************************************************************************/
 

@@ -8,6 +8,13 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ***************************************************************************
+*** \file    particle_manager.cpp
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for particle manager
+*** **************************************************************************/
+
 #include "engine/video/particle_manager.h"
 
 #include "engine/video/video.h"

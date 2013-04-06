@@ -9,10 +9,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file   system.h
-*** \author Tyler Olsen, roots@allacrost.org
-*** \author Andy Gardner, chopperdave@allacrost.org
-*** \brief  Header file for system code management
+*** \file    system.h
+*** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for system code management
 ***
 *** The system code handles a diverse variety of tasks including timing, threads
 *** and translation functions.

@@ -12,11 +12,8 @@
 *** \file    shop_trade.h
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \author  Josh Niehenke, jnskeer@gmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for sell interface of shop mode
-***
-*** \note The contents of this file are near identical to the contents of
-*** shop_buy.h. When making any changes to this file, please look to shop_buy.h
-*** to see if it should have similar changes made.
 *** ***************************************************************************/
 
 #ifndef __SHOP_TRADE_HEADER__

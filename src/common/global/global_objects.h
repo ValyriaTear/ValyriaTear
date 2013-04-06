@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_objects.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game objects
 ***
 *** This file contains several representations of inventory "objects" used

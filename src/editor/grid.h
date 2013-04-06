@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    grid.h
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the editor grid.
 *** **************************************************************************/
 

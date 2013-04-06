@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_events.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode events and event processing
 ***
 *** Events occur on map mode to alter the state of the map, present a scene to the

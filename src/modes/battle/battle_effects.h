@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_effects.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle actor effects.
 ***
 *** This file contains the code that manages effects that influence an actor's

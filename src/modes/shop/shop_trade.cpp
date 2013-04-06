@@ -8,6 +8,14 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file    shop_trade.cpp
+*** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Josh Niehenke, jnskeer@gmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for sell interface of shop mode
+*** ***************************************************************************/
+
 #include "shop_trade.h"
 
 #include "shop.h"

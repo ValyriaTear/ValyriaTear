@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_mode.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode interface.
 ***
 *** This file contains the interface for map mode, active when the player is

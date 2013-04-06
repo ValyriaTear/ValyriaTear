@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_tiles.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode tile management.
 ***
 *** This code encapsulates everything related to tiles and tile management in

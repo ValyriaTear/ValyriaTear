@@ -13,6 +13,7 @@
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Andy Gardner, chopperdave@allacrost.org
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for actions that occur in battles.
 *** ***************************************************************************/
 

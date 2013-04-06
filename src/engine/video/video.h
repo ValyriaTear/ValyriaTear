@@ -11,7 +11,8 @@
 /** ****************************************************************************
 *** \file    video.h
 *** \author  Raj Sharma, roos@allacrost.org
-***          Daniel Steuernol, steu@allacrost.org
+*** \author  Daniel Steuernol, steu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for video engine interface.
 ***
 *** This code provides a comprehensive API for managing all drawing, rendering,

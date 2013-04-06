@@ -8,11 +8,12 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    boot_menu.cpp
- * \author  Viljami Korhonen, mindflayer@allacrost.org
- * \brief   Source file for the boot menus
- *****************************************************************************/
+/** ****************************************************************************
+*** \file    boot_menu.cpp
+*** \author  Viljami Korhonen, mindflayer@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for the boot menus
+*** ***************************************************************************/
 
 #include "boot.h"
 #include "boot_menu.h"

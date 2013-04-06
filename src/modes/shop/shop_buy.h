@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_buy.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for buy interface of shop mode
 ***
 *** \note The contents of this file are near identical to the contents of

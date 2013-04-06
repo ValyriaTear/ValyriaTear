@@ -12,6 +12,7 @@
 *** \file   audio_descriptor.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for audio descriptors, sources and buffers
 ***
 *** This code provides the interface for the sound and music descriptors, that

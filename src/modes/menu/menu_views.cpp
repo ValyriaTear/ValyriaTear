@@ -8,13 +8,14 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    menu_views.cpp
- * \author  Daniel Steuernol steu@allacrost.org
- * \author  Andy Gardner chopperdave@allacrost.org
- * \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
- * \brief   Source file for various menu views.
- *****************************************************************************/
+/** ****************************************************************************
+*** \file    menu_views.cpp
+*** \author  Daniel Steuernol steu@allacrost.org
+*** \author  Andy Gardner chopperdave@allacrost.org
+*** \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for various menu views.
+*** ***************************************************************************/
 
 #include <iostream>
 #include <sstream>

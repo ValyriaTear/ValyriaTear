@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for shop mode interface
 ***
 *** This code provides an interface for the user to purchase wares from a

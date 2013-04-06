@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_actors.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game actors
 ***
 *** This file contains the implementation of "actors", which are living entities

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    interpolator.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for Interpolator class
 *** ***************************************************************************/
 

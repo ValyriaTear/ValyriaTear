@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    boot.h
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for boot mode interface.
 ***
 *** This code handles the game event processing and frame drawing when the user

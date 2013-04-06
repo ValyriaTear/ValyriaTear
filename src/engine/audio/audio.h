@@ -13,6 +13,7 @@
 *** \author  Tyler Olsen - roots@allacrost.org
 *** \author  Mois�s Ferrer Serra - byaku@allacrost.org
 *** \author  Aaron Smith - etherstar@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for audio engine interface.
 ***
 *** This code provides an easy-to-use API for managing all music and sounds used

@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    tileset.cpp
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for editor's tileset, used for maintaining a visible
 ***          "list" of tiles to select from for painting on the map.
 *** **************************************************************************/

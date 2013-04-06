@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file   audio_effects.cpp
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source file for audio effects
 *** ***************************************************************************/
 

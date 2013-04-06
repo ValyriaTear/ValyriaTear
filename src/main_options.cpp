@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    main_options.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Implementations for functions that handle command-line arguments.
 *** **************************************************************************/
 
@@ -44,9 +45,6 @@ extern bool PAUSE_DEBUG;
 }
 namespace vt_shop {
 extern bool SHOP_DEBUG;
-}
-namespace vt_scene {
-extern bool SCENE_DEBUG;
 }
 
 using namespace vt_utils;
@@ -332,7 +330,6 @@ bool EnableDebugging(const std::string &vars)
             vt_menu::MENU_DEBUG                    = true;
             vt_pause::PAUSE_DEBUG                  = true;
             vt_shop::SHOP_DEBUG                    = true;
-            vt_scene::SCENE_DEBUG                  = true;
             vt_utils::UTILS_DEBUG                  = true;
             vt_video::VIDEO_DEBUG                  = true;
         } else if(args[i] == "audio") {
@@ -359,8 +356,6 @@ bool EnableDebugging(const std::string &vars)
             vt_menu::MENU_DEBUG = true;
         } else if(args[i] == "pause") {
             vt_pause::PAUSE_DEBUG = true;
-        } else if(args[i] == "scene") {
-            vt_scene::SCENE_DEBUG = true;
         } else if(args[i] == "shop") {
             vt_shop::SHOP_DEBUG = true;
         } else if(args[i] == "utils") {

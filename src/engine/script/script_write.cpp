@@ -11,7 +11,8 @@
 /** ****************************************************************************
 *** \file    script_write.cpp
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for the WriteScriptDescriptor class.
 *** ***************************************************************************/
 

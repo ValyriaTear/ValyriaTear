@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_sell.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for sell interface of shop mode
 ***
 *** \note The contents of this file are near identical to the contents of

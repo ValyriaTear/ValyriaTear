@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    editor.h
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for editor's main window and user interface.
 *** ***************************************************************************/
 

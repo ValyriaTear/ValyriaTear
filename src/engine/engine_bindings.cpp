@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    engine_bindings.cpp
 *** \author  Daniel Steuernol, steu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Lua bindings for the engine code
 ***
 *** All bindings for the engine code is contained within this file.

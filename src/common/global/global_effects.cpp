@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_effects.cpp
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for global game effects
 *** ***************************************************************************/
 

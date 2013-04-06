@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 

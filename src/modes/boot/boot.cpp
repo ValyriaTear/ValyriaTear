@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    boot.cpp
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for boot mode interface.
 *** ***************************************************************************/
 

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    editor_main.cpp
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for editor's main() function.
 *** ***************************************************************************/
 

@@ -11,7 +11,8 @@
 /** ****************************************************************************
 *** \file    script.h
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the scripting engine.
 ***
 *** This code serves as the bridge between the game engine (written in C++) and

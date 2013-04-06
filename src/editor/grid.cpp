@@ -8,12 +8,13 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    grid.cpp
- * \author  Philip Vorsilak, gorzuate@allacrost.org
- * \brief   Source file for editor's grid, used for the OpenGL map portion
- *          where tiles are painted, edited, etc.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    grid.cpp
+*** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for editor's grid, used for the OpenGL map portion
+***          where tiles are painted, edited, etc.
+*** **************************************************************************/
 
 #include "grid.h"
 #include "editor.h"

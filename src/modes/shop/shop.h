@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for shop mode interface
 ***
 *** This code provides an interface for the user to purchase wares from a

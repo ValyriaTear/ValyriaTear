@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_utils.h
 *** \author  Tyler Olsen, rootslinux@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game utility code
 ***
 *** This file contains several common constants, enums, and functions that are

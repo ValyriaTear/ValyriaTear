@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for shop mode utility code.
 ***
 *** This file contains utility code that is shared among the various shop mode

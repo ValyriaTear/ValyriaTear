@@ -12,6 +12,7 @@
 *** \file   audio_input.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Aaron Smith - etherstar@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for classes that provide input for sounds
 ***
 *** This code provides classes for loading sounds (WAV and OGG). It also

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle sequence manager.
 ***
 *** Battle sequences are the brief scenes that the player sees when the battle

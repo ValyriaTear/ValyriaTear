@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    common.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for common code shared across the source tree
 *** ***************************************************************************/
 

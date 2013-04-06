@@ -8,23 +8,24 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_system.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle system
- *
- * This file contains two classes: ParticleSystemDef, and ParticleSystem.
- *
- * ParticleSystemDef is a "definition" class, meaning that it holds information
- * about a particle system, like its lifetime, the emitter, and other properties.
- *
- * ParticleSystem is an "instance" class, meaning that it holds information about
- * a particle system which is currently being drawn on screen.
- *
- * This way, if you have 100 explosions for example, the properties of the
- * effect are stored only once, and the only thing that gets repeated 100 times
- * is instance-specific stuff like positions of vertices, etc.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_system.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle system
+***
+*** This file contains two classes: ParticleSystemDef, and ParticleSystem.
+***
+*** ParticleSystemDef is a "definition" class, meaning that it holds information
+*** about a particle system, like its lifetime, the emitter, and other properties.
+***
+*** ParticleSystem is an "instance" class, meaning that it holds information about
+*** a particle system which is currently being drawn on screen.
+***
+*** This way, if you have 100 explosions for example, the properties of the
+*** effect are stored only once, and the only thing that gets repeated 100 times
+*** is instance-specific stuff like positions of vertices, etc.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_SYSTEM_HEADER__
 #define __PARTICLE_SYSTEM_HEADER__

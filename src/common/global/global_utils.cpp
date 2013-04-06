@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_utils.cpp
 *** \author  Tyler Olsen, rootslinux@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for global game utility code
 *** ***************************************************************************/
 

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file   audio_effects.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for audio effects
 ***
 *** This code provides the interface for effects, as well as the private classes

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    text.cpp
 *** \author  Lindsay Roberts, linds@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for text rendering
 ***
 *** This code makes use of the SDL_ttf font library for representing fonts,

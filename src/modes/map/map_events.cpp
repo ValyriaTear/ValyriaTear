@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_events.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode events and event processing.
 *** ***************************************************************************/
 

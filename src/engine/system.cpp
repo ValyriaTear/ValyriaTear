@@ -9,10 +9,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file   system.cpp
-*** \author Tyler Olsen, roots@allacrost.org
-*** \author Andy Gardner, chopperdave@allacrost.org
-*** \brief  Source file for system code management
+*** \file    system.cpp
+*** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for system code management
 *** ***************************************************************************/
 
 #include "engine/system.h"

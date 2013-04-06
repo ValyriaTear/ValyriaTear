@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_root.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for root interface of shop mode
 *** ***************************************************************************/
 

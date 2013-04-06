@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    common_bindings.cpp
 *** \author  Daniel Steuernol, steu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Lua bindings for common game code
 ***
 *** All bindings for the common code is contained within this file.

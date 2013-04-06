@@ -11,27 +11,8 @@
 /** ***************************************************************************
 *** \file   input.h
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for processing user input
-***
-*** \todo Currently joystick hat and ball events are not handled by this input
-*** event manager. I may add support for them later if it is found necessary.
-***
-*** \todo Joystick processing needs more testing. It has only bee tested with
-*** one gamepad (Logitech Wingman Extreme). Particularly, I'm not sure if I
-*** chose an adequate value for JOYSTICK_THRESHOLD that will be suitable for
-*** all gamepads/joysticks.
-***
-*** \todo This engine is missing the following functionality:
-***   - Access calls for re-defining what keys/joystick buttons are mapped to
-***     which input events
-***   - The ability to save the current key/joystick maps to a file, or
-***     overwrite the mapping in a current file.
-***   - The ability to handle systems with multiple joysticks and to allow the
-***     player to choose which joystick to use
-***   - The ability to allow the player to disable the joystick subsystem and
-***     normal keyboard commands. At least one input (keyboard or joystick)
-***     should be enabled at any given time. Keyboard meta-commands (Ctrl+key)
-***     are exempt from this rule and will never be disabled
 *** **************************************************************************/
 
 #ifndef __INPUT_HEADER__

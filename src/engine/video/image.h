@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    image.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for image classes
 ***
 *** This file contains several classes that represent images loaded into the

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_objects.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for global game objects
 *** ***************************************************************************/
 

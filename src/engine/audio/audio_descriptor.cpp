@@ -12,6 +12,7 @@
 *** \file   audio_descriptor.cpp
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source for audio descriptors, sources and buffers
 ***
 *** This code provides the funcionality for load sounds and music in the engine.

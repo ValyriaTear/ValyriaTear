@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file    dialog_boxes.cpp
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for all of the editor's dialog boxes.
 *** **************************************************************************/
 

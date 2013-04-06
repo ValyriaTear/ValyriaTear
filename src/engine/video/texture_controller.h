@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    texture_controller.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for texture management code
 ***
 *** This code declares a single class, TextureController, which manages all

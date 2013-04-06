@@ -13,6 +13,7 @@
 *** \author  Daniel Steuernol steu@allacrost.org
 *** \author  Andy Gardner chopperdave@allacrost.org
 *** \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for various menu views.
 ***
 *** This code handles the different menu windows that the user will see while the

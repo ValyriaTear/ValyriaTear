@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    tileset_editor.h
 *** \author  Bar�� Soner U�akl? blackkknight@hotmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for editor's tileset editor dialog
 *******************************************************************************/
 

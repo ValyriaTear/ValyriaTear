@@ -13,6 +13,7 @@
 *** \author  Daniel Steuernol steu@allacrost.org
 *** \author  Andy Gardner chopperdave@allacrost.org
 *** \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for menu mode interface.
 ***
 *** This code handles the game event processing and frame drawing when the user

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    save_mode.cpp
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for save mode interface.
 *** ***************************************************************************/
 

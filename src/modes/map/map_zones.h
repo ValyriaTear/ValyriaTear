@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_zones.h
 *** \author  Guillaume Anctil, drakkoon@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode zones.
 *** ***************************************************************************/
 

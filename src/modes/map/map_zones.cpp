@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_zones.cpp
 *** \author  Guillaume Anctil, drakkoon@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode zones.
 *** ***************************************************************************/
 

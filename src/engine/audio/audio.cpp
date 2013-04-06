@@ -13,6 +13,7 @@
 *** \author  Tyler Olsen - roots@allacrost.org
 *** \author  Mois�s Ferrer Serra - byaku@allacrost.org
 *** \author  Aaron Smith - etherstar@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Implementation of the audio engine singleton.
 ***
 *** The code included here implements the interface of the audio singleton.

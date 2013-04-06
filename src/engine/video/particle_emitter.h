@@ -8,25 +8,26 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_emitter.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle emitter
- *
- * This file contains the ParticleEmitter class, and some enumerations for
- * emitter properties.
- *
- * ParticleEmitter stores info about how a system emits particles. This is made
- * up of two things:
- *
- *  1) Where are particles emitted?
- *      -For example, you could create a circle-shaped emitter, and then every
- *         time a particle is emitted, a random spot in that circle is chosen.
- *
- *  2) When are particles emitted?
- *      -For example, you could emit them all at once, or slowly through the
- *         life of the system.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_emitter.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle emitter
+***
+*** This file contains the ParticleEmitter class, and some enumerations for
+*** emitter properties.
+***
+*** ParticleEmitter stores info about how a system emits particles. This is made
+*** up of two things:
+***
+***  1) Where are particles emitted?
+***      -For example, you could create a circle-shaped emitter, and then every
+***         time a particle is emitted, a random spot in that circle is chosen.
+***
+***  2) When are particles emitted?
+***      -For example, you could emit them all at once, or slowly through the
+***         life of the system.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_EMITTER_HEADER__
 #define __PARTICLE_EMITTER_HEADER__

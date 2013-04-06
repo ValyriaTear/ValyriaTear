@@ -8,17 +8,18 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle data
- *
- * This file contains structure(s) for representing a single particle. In theory,
- * we should be able to just have one structure which holds all properties for
- * a particle, but in fact we have two: one for the position, and one for everything
- * else. The reason is that having the positions separated is more efficient
- * for rendering.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle data
+***
+*** This file contains structure(s) for representing a single particle. In theory,
+*** we should be able to just have one structure which holds all properties for
+*** a particle, but in fact we have two: one for the position, and one for everything
+*** else. The reason is that having the positions separated is more efficient
+*** for rendering.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_HEADER__
 #define __PARTICLE_HEADER__

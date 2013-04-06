@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    pause.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for pause mode interface.
 *** ***************************************************************************/
 

@@ -8,9 +8,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
-*** \file   script_supervisor.h
-*** \author Yohann Ferreira, yohann ferreira orange fre
-*** \brief  Source file for managing scriptable animated effects for any game mode.
+*** \file    script_supervisor.h
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for managing scriptable animated effects for any game mode.
 *** **************************************************************************/
 
 #ifndef __SCRIPT_SUPERVISOR_HEADER__

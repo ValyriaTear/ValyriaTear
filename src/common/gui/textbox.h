@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    textbox.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for TextBox class
 ***
 *** The TextBox class is a GUI control which lets you define a rectangular area

@@ -11,7 +11,7 @@
 /** ****************************************************************************
 *** \file    mode_help_window.h
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
-*** \author  Bertram, yohann.ferreira@orange.fr
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the boot welcome window
 *** ***************************************************************************/
 

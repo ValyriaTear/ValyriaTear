@@ -12,6 +12,7 @@
 *** \file   audio_input.cpp
 *** \author Mois�s Ferrer Serra - byaku@allacrost.org
 *** \author Aaron Smith - etherstar@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source for the classes that provide input for sounds
 ***
 *** This code provides classes for loading sounds (WAV and OGG). It also

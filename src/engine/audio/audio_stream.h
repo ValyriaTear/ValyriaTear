@@ -12,6 +12,7 @@
 *** \file   audio_stream.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for class for streaming audio from diferent sources
 ***
 *** This code implements functionality for advanced streaming operations

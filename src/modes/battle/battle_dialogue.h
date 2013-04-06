@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_dialogue.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle dialogue code
 ***
 *** Dialogue that occurs during a battle typically involves the characters in the

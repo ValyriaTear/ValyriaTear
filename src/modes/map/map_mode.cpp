@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_mode.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode interface.
 *** ***************************************************************************/
 

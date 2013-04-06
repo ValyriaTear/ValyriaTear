@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_command.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle command menu
 ***
 *** This code is responsible for processing input from the player when they are

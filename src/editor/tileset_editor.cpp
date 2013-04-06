@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    tileset_editor.cpp
 *** \author  Bar�� Soner U�akl? blackkknight@hotmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for editor's tileset editor dialog
 *******************************************************************************/
 

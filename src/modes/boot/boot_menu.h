@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    boot_menu.h
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the boot menus
 *** ***************************************************************************/
 

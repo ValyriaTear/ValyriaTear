@@ -8,29 +8,30 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_effect.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle effects
- *
- * Particle effects are basically nothing more than a collection of particle
- * systems. Many effects are just one system. However, for example, if you think
- * about a campfire effect, that might actually consist of fire + smoke + embers.
- * So, that's an example of an effect that consists of 3 systems.
- *
- * This file contains two classes: ParticleEffectDef, and ParticleEffect.
- *
- * ParticleEffectDef is a "definition" class, which holds a list of
- *    ParticleSystemDefs.
- *
- * ParticleEffect is an "instance" class, which holds a list of
- *    ParticleSystems.
- *
- *
- * This way, if you have 100 explosions, the properties of the
- * effect are stored only once in a ParticleEffectDef, and the only thing that
- * gets repeated 100 times is the ParticleEffect, which holds instance-specific stuff.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_effect.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle effects
+***
+*** Particle effects are basically nothing more than a collection of particle
+*** systems. Many effects are just one system. However, for example, if you think
+*** about a campfire effect, that might actually consist of fire + smoke + embers.
+*** So, that's an example of an effect that consists of 3 systems.
+***
+*** This file contains two classes: ParticleEffectDef, and ParticleEffect.
+***
+*** ParticleEffectDef is a "definition" class, which holds a list of
+***    ParticleSystemDefs.
+***
+*** ParticleEffect is an "instance" class, which holds a list of
+***    ParticleSystems.
+***
+***
+*** This way, if you have 100 explosions, the properties of the
+*** effect are stored only once in a ParticleEffectDef, and the only thing that
+*** gets repeated 100 times is the ParticleEffect, which holds instance-specific stuff.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_EFFECT_HEADER__
 #define __PARTICLE_EFFECT_HEADER__
