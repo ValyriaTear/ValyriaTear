@@ -73,6 +73,9 @@ Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map
 
     //create a temporary SDL surface on which to generate the collision map
     SDL_Surface *temp_surface = _ProcedurallyDraw(map_object_supervisor);
+    if (!temp_surface) {
+        MapMode::CurrentInstance()->ShowMinimap(false);
+    }
 
     SDL_LockSurface(temp_surface);
     //setup a temporary memory space to copy the SDL data into
@@ -106,7 +109,7 @@ Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map
     _location_marker.SetFrameIndex(0);
 }
 
-static inline void _PrepareSurface(SDL_Surface *temp_surface)
+static inline bool _PrepareSurface(SDL_Surface *temp_surface)
 {
     static SDLSurfaceController white_noise("img/menus/minimap_collision.png");
     SDL_Rect r;
@@ -122,11 +125,12 @@ static inline void _PrepareSurface(SDL_Surface *temp_surface)
             r.y = y;
             if(SDL_BlitSurface(white_noise._surface, NULL, temp_surface, &r))
             {
-                PRINT_ERROR << "Couldnt fill a rect on temp_surface: " << SDL_GetError() << std::endl;
-                exit(EXIT_FAILURE);
+                PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
+                return false;
             }
         }
     }
+    return true;
 }
 
 SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
@@ -148,7 +152,7 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 
     if(!temp_surface) {
         PRINT_ERROR << "Couldn't create temp_surface for collision map: " << SDL_GetError() << std::endl;
-        exit(EXIT_FAILURE);
+        return NULL;
     }
 
     //set the basic rect information
@@ -161,7 +165,10 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
     //context against the map-grid's collision context. if this is NOT a colidable location
     //fill that square in with a full alpha block
     //note that the ordering needs to be transposed for drawing
-    _PrepareSurface(temp_surface);
+    if (!_PrepareSurface(temp_surface)) {
+        SDL_FreeSurface(temp_surface);
+        return NULL;
+    }
 
     for(uint32 row = 0; row < _grid_width; ++row)
     {
@@ -173,8 +180,9 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 
                 if(SDL_FillRect(temp_surface, &r, SDL_MapRGBA(temp_surface->format, 0x00, 0x00, 0x00, 0x00)))
                 {
-                    PRINT_ERROR << "Couldnt fill a rect on temp_surface: " << SDL_GetError() << std::endl;
-                    exit(EXIT_FAILURE);
+                    PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
+                    SDL_FreeSurface(temp_surface);
+                    return NULL;
                 }
 
             }
