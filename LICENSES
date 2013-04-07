@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.03.22
+Last update: 2013.04.07
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -233,8 +233,6 @@ img/menus/shard.png                                             CC by SA 3.0    
 img/menus/stamina_bar.png                                       CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
 
 img/menus/status/menu_avg_atk_def.png                           GPLv2                    Allacrost + Modifications by Bertram
-img/menus/status/menu_def_icon.png                              GPLv2                    Allacrost + Modifications by Bertram
-img/menus/status/menu_mdef_icon.png                             GPLv2                    Allacrost + Modifications by Bertram
 img/menus/status/menu_point_atk_def.png                         GPLv2                    Allacrost + Modifications by Bertram
 img/menus/status/menu_stats_icons.png                           GPLv2                    Allacrost + Modifications by Bertram
 

@@ -724,7 +724,9 @@ void InventoryWindow::_DrawBottomInfo()
 ////////////////////////////////////////////////////////////////////////////////
 
 PartyWindow::PartyWindow() :
-    _char_select_active(FORM_ACTIVE_NONE)
+    _char_select_active(FORM_ACTIVE_NONE),
+    _focused_def_icon(NULL),
+    _focused_mdef_icon(NULL)
 {
     // Get party size for iteration
     uint32 partysize = GlobalManager->GetActiveParty()->GetPartySize();
@@ -820,8 +822,8 @@ void PartyWindow::_InitCharSelect()
     _focused_mdef_numbers.SetStyle(TextStyle("text18"));
 
     _focused_def_category_icons.Load("img/menus/status/menu_point_atk_def.png");
-    _focused_def_icon.Load("img/menus/status/menu_def_icon.png");
-    _focused_mdef_icon.Load("img/menus/status/menu_mdef_icon.png");
+    _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
 
     UpdateStatus();
 }
@@ -1025,11 +1027,11 @@ void PartyWindow::_DrawBottomEquipmentInfo()
          VideoManager->MoveRelative(0.0f, 20.0f);
     }
     VideoManager->MoveRelative(50.0f, -100.0f);
-    _focused_def_icon.Draw();
+    _focused_def_icon->Draw();
     _focused_def_numbers.Draw();
 
     VideoManager->MoveRelative(50.0f, 0.0f);
-    _focused_mdef_icon.Draw();
+    _focused_mdef_icon->Draw();
     _focused_mdef_numbers.Draw();
 }
 

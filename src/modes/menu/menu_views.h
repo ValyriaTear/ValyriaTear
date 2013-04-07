@@ -352,8 +352,10 @@ private:
     vt_video::StillImage _weapon_icon;
 
     //! The focused def text and images
-    vt_video::StillImage _focused_def_icon;
-    vt_video::StillImage _focused_mdef_icon;
+    //! Do not delete those pointers, they are handled by the GlobalMedia class
+    vt_video::StillImage* _focused_def_icon;
+    vt_video::StillImage* _focused_mdef_icon;
+
     vt_video::TextImage _focused_def_text;
     vt_video::TextImage _focused_def_numbers;
     vt_video::TextImage _focused_mdef_numbers;
