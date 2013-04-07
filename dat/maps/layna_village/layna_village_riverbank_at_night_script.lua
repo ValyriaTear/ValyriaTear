@@ -324,6 +324,10 @@ function _CreateFire(fire_x, fire_y)
     -- Add burning flames halos and objects
     local object = CreateObject(Map, "Campfire1", fire_x, fire_y);
     if (object ~= nil) then Map:AddGroundObject(object) end;
+
+    object = vt_map.SoundObject("snd/campfire.ogg", fire_x, fire_y, 7.0);
+    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
     Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
