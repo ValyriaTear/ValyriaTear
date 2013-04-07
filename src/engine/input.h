@@ -11,7 +11,7 @@
 /** ***************************************************************************
 *** \file   input.h
 *** \author Tyler Olsen, roots@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for processing user input
 *** **************************************************************************/
 

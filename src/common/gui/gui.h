@@ -11,7 +11,7 @@
 /** ****************************************************************************
 *** \file   gui.h
 *** \author Raj Sharma, roos@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for GUI code
 ***
 *** This code implements the base structures of the video engine's GUI system.

@@ -11,7 +11,7 @@
 /** ****************************************************************************
 *** \file   gui.cpp
 *** \author Raj Sharma, roos@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source file for GUI code
 ***
 *** ***************************************************************************/
