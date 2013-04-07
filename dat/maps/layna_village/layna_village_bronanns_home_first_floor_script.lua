@@ -129,7 +129,7 @@ function _CreateObjects()
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     -- Parent's room
-    object = CreateObject(Map, "Big Bed1", 38.5, 30.0);
+    object = CreateObject(Map, "Bed2", 37.7, 30.0);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Chair1_inverted", 38, 35);

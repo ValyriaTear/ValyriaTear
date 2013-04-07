@@ -16,11 +16,11 @@ objects["Bed1"] = {
     img_height = 5.68
 }
 
-objects["Big Bed1"] = {
-    animation_filename = "img/sprites/map/objects/bed1.lua",
-    coll_half_width = 2.75,
+objects["Bed2"] = {
+    animation_filename = "img/sprites/map/objects/bed2.lua",
+    coll_half_width = 3.31,
     coll_height = 5.50,
-    img_half_width = 2.75,
+    img_half_width = 3.31,
     img_height = 5.68
 }
 

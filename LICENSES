@@ -526,6 +526,8 @@ img/sprites/map/objects/barrel1.lua                             GPLv2           
 img/sprites/map/objects/barrel1.png                             GPLv2                    Allacrost
 img/sprites/map/objects/bed1.lua                                GPLv2                    Bertram
 img/sprites/map/objects/bed1.png                                GPLv2                    Allacrost
+img/sprites/map/objects/bed2.lua                                GPLv2                    Bertram
+img/sprites/map/objects/bed2.png                                GPLv2                    Allacrost + Lilou
 img/sprites/map/objects/bench1.lua                              GPLv2                    Bertram
 img/sprites/map/objects/bench1.png                              GPLv2                    Allacrost
 img/sprites/map/objects/bench2.lua                              GPLv2                    Bertram
