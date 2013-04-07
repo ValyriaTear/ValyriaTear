@@ -430,8 +430,10 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
 void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 {
     if(js_event.type == SDL_JOYAXISMOTION) {
-        // Arrows are keys, too
-        _any_key_press = true;
+        // This is a hack to prevent certain misbehaving joysticks
+        // from bothering the input with ghost axis motion
+        if (js_event.jaxis.axis >= 10)
+            return;
 
         if(js_event.jaxis.axis == _joystick.x_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
@@ -476,8 +478,11 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         }
 
         if(js_event.jaxis.value > _joystick.threshold
-                || js_event.jaxis.value < -_joystick.threshold)
+                || js_event.jaxis.value < -_joystick.threshold) {
             _last_axis_moved = js_event.jaxis.axis;
+            // Axis are keys, too
+            _any_key_press = true;
+        }
     } // if (js_event.type == SDL_JOYAXISMOTION)
 
     else if(js_event.type == SDL_JOYBUTTONDOWN) {
