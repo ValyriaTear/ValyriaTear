@@ -27,7 +27,7 @@ function Initialize(map_instance)
 
     Script = Map:GetScriptSupervisor();
 
-    allacrost_logo_id = Script:AddImage("img/logos/vt_garland_logo.png", 206.0, 100.0);
+    allacrost_logo_id = Script:AddImage("img/logos/hoa_garland_logo.png", 206.0, 100.0);
     open_game_art_logo_id = Script:AddImage("img/logos/oga.png", 160.0, 80.0);
 
     credit_map = {
