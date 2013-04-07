@@ -631,6 +631,10 @@ img/sprites/map/treasures/chest1.png                            GPLv2           
 img/sprites/map/treasures/chest1_closed.lua                     GPLv2                    Bertram
 img/sprites/map/treasures/chest1_opening.lua                    GPLv2                    Bertram
 img/sprites/map/treasures/chest1_open.lua                       GPLv2                    Bertram
+img/sprites/map/treasures/locker1.png                           GPLv2                    Allacrost + Bertram
+img/sprites/map/treasures/locker1_closed.lua                    GPLv2                    Bertram
+img/sprites/map/treasures/locker1_open.lua                      GPLv2                    Bertram
+img/sprites/map/treasures/locker1_opening.lua                   GPLv2                    Bertram
 
 img/sprites/map/triggers/stone_trigger1_off.lua                 GPLv2                    Bertram
 img/sprites/map/triggers/stone_trigger1_off.png                 CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)

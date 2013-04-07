@@ -112,15 +112,26 @@ function _CreateObjects()
         Map:AddGroundObject(chest);
     end
 
+    chest = CreateTreasure(Map, "bronannsparent_room_chest", "Locker_Chest1", 41, 33.2);
+    if (chest ~= nil) then
+        chest:AddObject(11, 1);
+        chest:SetDrunes(12);
+        chest:SetDrawOnSecondPass(true); -- Above the table
+        chest:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        Map:AddGroundObject(chest);
+    end
+
     object = CreateObject(Map, "Chair1", 23, 26);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Small Wooden Table", 20, 27);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Candle1", 19, 25);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above the table
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Book1", 21, 25);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
@@ -134,11 +145,10 @@ function _CreateObjects()
 
     object = CreateObject(Map, "Chair1_inverted", 38, 35);
     if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Locker", 38, 35.9);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Small Wooden Table", 40, 36);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Paper and Feather", 40, 34);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
