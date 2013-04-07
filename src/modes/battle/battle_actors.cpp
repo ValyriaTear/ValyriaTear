@@ -588,6 +588,8 @@ void BattleCharacter::Update()
             ChangeSpriteAnimation("poor");
     } else if(_sprite_animation_alias == "run") {
         // no need to do anything
+    } else if(_sprite_animation_alias == "run_after_victory") {
+        // no need to do anything
     } else if(_sprite_animation_alias == "dying") {
         // no need to do anything, the change state will handle it
     } else if(_sprite_animation_alias == "poor") {

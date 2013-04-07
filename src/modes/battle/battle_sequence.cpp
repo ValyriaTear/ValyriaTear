@@ -253,7 +253,7 @@ void SequenceSupervisor::_UpdateExitingSequence()
 
             if(!_one_is_dead) {
                 for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-                    _battle->_character_actors[i]->ChangeSpriteAnimation("run");
+                    _battle->_character_actors[i]->ChangeSpriteAnimation("run_after_victory");
                 }
             }
 
