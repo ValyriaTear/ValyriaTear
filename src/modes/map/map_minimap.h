@@ -99,8 +99,10 @@ private:
     float _viewport_original_height;
 
     //! \brief modified viewport information
-    static const float _viewport_width = 175.0f;
-    static const float _viewport_height = 128.0f;
+    float _viewport_x;
+    float _viewport_y;
+    float _viewport_width;
+    float _viewport_height;
 
     //! \brief map offset information
     float _x_offset, _y_offset;

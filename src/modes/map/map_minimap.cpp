@@ -107,6 +107,13 @@ Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map
     _location_marker.SetWidth(_box_x_length * 5);
     _location_marker.SetHeight(_box_y_length * 5);
     _location_marker.SetFrameIndex(0);
+
+    float ratio_x = vt_video::VideoManager->GetScreenWidth() / 800.0f;
+    float ratio_y = vt_video::VideoManager->GetScreenHeight() / 600.0f;
+    _viewport_x = 610.0f * ratio_x;
+    _viewport_y = 42.0f * ratio_y;
+    _viewport_width = 175.0f * ratio_x;
+    _viewport_height = 128.0f * ratio_y;
 }
 
 static inline bool _PrepareSurface(SDL_Surface *temp_surface)
@@ -209,11 +216,11 @@ void Minimap::Draw()
         //set the new coordinates to match our viewport
         VideoManager->SetStandardCoordSys();
         //draw the background in the current viewport and coordinate space
-        VideoManager->Move(775, 545);
+        VideoManager->Move(775.0f, 545.0f);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
         _background.Draw(resultant_opacity);
         //assign the viewport to be "inside" the above area
-        VideoManager->SetViewport(610, 42, _viewport_width, _viewport_height);
+        VideoManager->SetViewport(_viewport_x, _viewport_y, _viewport_width, _viewport_height);
         //scale and translate the orthographic projection such that it "centers" on our calculated positions
         VideoManager->SetCoordSys(_x_cent - _x_half_len, _x_cent + _x_half_len, _y_cent + _y_half_len, _y_cent - _y_half_len);
 
