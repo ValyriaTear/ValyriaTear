@@ -11,9 +11,9 @@ world_locations = {
     -- world location id
     ["layna village"] = {
         -- X location
-        "150",
+        "300",
         -- Y location
-        "150",
+        "120",
         -- location name
         vt_system.Translate("Village of Layna"),
         -- banner filename,
@@ -22,9 +22,9 @@ world_locations = {
     -- world location id
     ["layna forest"] = {
         -- X location
-        "200",
+        "350",
         -- Y location
-        "100",
+        "140",
         -- location name
         vt_system.Translate("Layna Forest"),
         -- banner filename,

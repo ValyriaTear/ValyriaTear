@@ -29,7 +29,7 @@ function BootMenuTest()
     GlobalManager:AddQuestLog("bring_orlinn_back");
 
     -- Used to debug World Map
-    GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
+    GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:ShowWorldLocation("layna forest")
     GlobalManager:SetCurrentLocationId("layna forest")
