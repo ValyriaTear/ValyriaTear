@@ -164,18 +164,14 @@ bool Grid::LoadMap()
         return false;
     }
 
-    // Check that the main table containing the map exists and open it
-    std::string main_map_table = std::string(_file_name.section('/', -1).
-                                 remove(".lua").toAscii());
-    if(read_data.DoesTableExist(main_map_table) == false) {
+    if(!read_data.DoesTableExist("map_data")) {
         read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
-                             QString("File did not contain the main map table: %1").
-                             arg(QString::fromStdString(main_map_table)));
+                             QString("File did not contain the main map table: 'map_data'"));
         return false;
     }
 
-    read_data.OpenTable(main_map_table);
+    read_data.OpenTable("map_data");
 
     // Reset container data
     tilesets.clear();
@@ -313,14 +309,12 @@ void Grid::SaveMap()
 {
     WriteScriptDescriptor write_data;
 
-    if(write_data.OpenFile(std::string(_file_name.toAscii())) == false) {
+    if(!write_data.OpenFile(_file_name.toStdString())) {
         QMessageBox::warning(this, "Saving File...", QString("ERROR: could not open %1 for writing!").arg(_file_name));
         return;
     }
 
-    write_data.WriteComment("Set the namespace according to the map name.");
-    std::string main_map_table = std::string(_file_name.section('/', -1).remove(".lua").toAscii());
-    write_data.WriteNamespace(main_map_table);
+    write_data.BeginTable("map_data");
 
     write_data.InsertNewLine();
     write_data.WriteComment("The number of rows, and columns that compose the map");
@@ -450,6 +444,8 @@ void Grid::SaveMap()
         write_data.InsertNewLine();
     } // for each layers
     write_data.EndTable(); // Layers
+
+    write_data.EndTable(); // map_data
 
     write_data.CloseFile();
 

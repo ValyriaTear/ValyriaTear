@@ -549,16 +549,8 @@ float MapMode::GetScreenYCoordinate(float tile_position_y) const
 bool MapMode::_Load()
 {
     // Map data
-
-    _map_data_tablespace = ScriptEngine::GetTableSpace(_map_data_filename);
-    if(_map_data_tablespace.empty()) {
-        PRINT_ERROR << "Invalid map data namespace in: "
-                    << _map_data_filename << std::endl;
-        return false;
-    }
-
     // Clear out all old map data if existing.
-    ScriptManager->DropGlobalTable(_map_data_tablespace);
+    ScriptManager->DropGlobalTable("map_data");
 
     // Open map script file and read in the basic map properties and tile definitions
     if(!_map_script.OpenFile(_map_data_filename)) {
@@ -567,8 +559,8 @@ bool MapMode::_Load()
         return false;
     }
 
-    if(_map_script.OpenTablespace().empty()) {
-        PRINT_ERROR << "Couldn't open map data namespace in: "
+    if(!_map_script.OpenTable("map_data")) {
+        PRINT_ERROR << "Couldn't open table 'map_data' in: "
                     << _map_data_filename << std::endl;
         _map_script.CloseFile();
         return false;
