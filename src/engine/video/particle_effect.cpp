@@ -33,6 +33,10 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     _effect_def.Clear();
     _loaded = false;
 
+    // Make sure the corresponding tables are empty
+    ScriptManager->DropGlobalTable("systems");
+    ScriptManager->DropGlobalTable("map_effect_collision");
+
     vt_script::ReadScriptDescriptor particle_script;
     if(!particle_script.OpenFile(particle_file)) {
         PRINT_WARNING << "No script file: '"
@@ -42,8 +46,11 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     }
 
     // Read the particle image rectangle when existing
-    _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
-    _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+    if (particle_script.OpenTable("map_effect_collision")) {
+        _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
+        _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+        particle_script.CloseTable(); // map_effect_collision
+    }
 
     if(!particle_script.DoesTableExist("systems")) {
         PRINT_WARNING << "Could not find the 'systems' array in particle effect "

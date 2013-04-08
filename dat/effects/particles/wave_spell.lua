@@ -1,10 +1,6 @@
 --Wave particle effect
 -- Author: Bertram
 
--- The effect overall size in pixel. Used to make the map mode draw the effect on time.
-effect_collision_width = 6*16;
-effect_collision_height = 7*16;
-
 systems = {}
 
 systems[0] =
