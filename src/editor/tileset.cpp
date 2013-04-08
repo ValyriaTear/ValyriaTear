@@ -139,7 +139,11 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
         return false;
     }
 
-    read_data.OpenTable(std::string(_tileset_name.toAscii()));
+    if (!read_data.OpenTable("tileset")) {
+        read_data.CloseFile();
+        return false;
+        qDebug("Failed to open the 'tileset' table");
+    }
 
     _tileset_image_filename = QString::fromStdString(read_data.ReadString("image"));
 
@@ -238,8 +242,8 @@ bool Tileset::Save()
     if (!write_data.OpenFile(_tileset_definition_filename.toStdString()))
         return false;
 
-    // Write the localization namespace for the tileset file
-    write_data.WriteNamespace(_tileset_name.toStdString());
+    // Write the main table for the tileset file
+    write_data.BeginTable("tileset");
     write_data.InsertNewLine();
 
     // Write basic tileset properties
@@ -283,19 +287,20 @@ bool Tileset::Save()
             write_data.WriteUIntVector(anim_tile + 1, vect);
             vect.clear();
         } // iterate through all animated tiles of the tileset
-        write_data.EndTable();
+        write_data.EndTable(); // animated_tiles
     } // data must exist in order to save it
 
-    if(write_data.IsErrorDetected() == true) {
+    write_data.EndTable(); // tileset
+
+    if(write_data.IsErrorDetected()) {
         PRINT_ERROR << "Errors were detected when saving tileset file. The errors include: "
                     << std::endl << write_data.GetErrorMessages() << std::endl;
         write_data.CloseFile();
         return false;
-    } // errors were found
-    else {
-        write_data.CloseFile();
-        return true;
-    } // no errors found
+    }
+
+    write_data.CloseFile();
+    return true;
 } // Tileset::Save()
 
 

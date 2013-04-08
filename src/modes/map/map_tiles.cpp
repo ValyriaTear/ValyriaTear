@@ -82,8 +82,8 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             return false;
         }
 
-        if (tileset_script.OpenTablespace().empty()) {
-            PRINT_ERROR << "Couldn't open the tileset tablespace from file: " << tileset_file << std::endl;
+        if (!tileset_script.OpenTable("tileset")) {
+            PRINT_ERROR << "Couldn't open the 'tileset' table from file: " << tileset_file << std::endl;
             tileset_script.CloseFile();
             return false;
         }
@@ -244,14 +244,14 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             return false;
         }
 
-        if (tileset_script.OpenTablespace().empty()) {
-            PRINT_ERROR << "map failed to load because it could not open a tileset tablespace from file: "
+        if (!tileset_script.OpenTable("tileset")) {
+            PRINT_ERROR << "map failed to load because it could not open the 'tileset' table from file: "
                 << tileset_filenames[i] << std::endl;
             tileset_script.CloseFile();
             return false;
         }
 
-        if(tileset_script.DoesTableExist("animated_tiles") == true) {
+        if(tileset_script.DoesTableExist("animated_tiles")) {
             tileset_script.OpenTable("animated_tiles");
             for(uint32 j = 1; j <= tileset_script.GetTableSize(); j++) {
                 animation_info.clear();
