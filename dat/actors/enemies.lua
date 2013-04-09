@@ -11,13 +11,23 @@
 -- check to see if the enemies table has already been created by another script
 enemies = {}
 
+-- Enemy hurt levels
+local HURT_NONE = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_NONE;
+local HURT_SLIGHTLY = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_SLIGHTLY;
+local HURT_MEDIUM = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_MEDIUM;
+local HURT_HEAVILY = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_HEAVILY;
+
 
 enemies[1] = {
     name = vt_system.Translate("Green Slime"),
     stamina_icon = "img/icons/actors/enemies/green_slime.png",
-    battle_sprites = "img/sprites/battle/enemies/green_slime.png",
-    sprite_width = 64,
-    sprite_height = 64,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/green_slime_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/green_slime_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/green_slime_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/green_slime_3.lua"
+    },
 
     base_stats = {
         hit_points = 55,
@@ -55,9 +65,13 @@ enemies[1] = {
 enemies[2] = {
     name = vt_system.Translate("Spider"),
     stamina_icon = "img/icons/actors/enemies/spider.png",
-    battle_sprites = "img/sprites/battle/enemies/spider.png",
-    sprite_width = 64,
-    sprite_height = 64,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/spider_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/spider_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/spider_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/spider_3.lua"
+    },
 
     base_stats = {
         hit_points = 65,
@@ -104,9 +118,13 @@ enemies[2] = {
 enemies[3] = {
     name = vt_system.Translate("Fenrir"),
     stamina_icon = "img/icons/actors/enemies/fenrir.png",
-    battle_sprites = "img/sprites/battle/enemies/fenrir_normal.png",
-    sprite_width = 268,
-    sprite_height = 196,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_1.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_1.lua"
+    },
 
     scripts = {
         death = "dat/battles/enemies_animations/fenrir_flee.lua"
@@ -158,9 +176,13 @@ enemies[3] = {
 enemies[4] = {
     name = vt_system.Translate("Snake"),
     stamina_icon = "img/icons/actors/enemies/green_snake.png",
-    battle_sprites = "img/sprites/battle/enemies/green_snake.png",
-    sprite_width = 128,
-    sprite_height = 64,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/green_snake_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/green_snake_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/green_snake_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/green_snake_3.lua"
+    },
 
     base_stats = {
         hit_points = 80,
@@ -218,9 +240,13 @@ enemies[4] = {
 enemies[5] = {
     name = vt_system.Translate("Slime Mother"),
     stamina_icon = "img/icons/actors/enemies/big_slime.png",
-    battle_sprites = "img/sprites/battle/enemies/big_slime.png",
-    sprite_width = 128,
-    sprite_height = 128,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/big_slime_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/big_slime_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/big_slime_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/big_slime_3.lua"
+    },
 
     base_stats = {
         hit_points = 355,
@@ -260,9 +286,13 @@ enemies[5] = {
 enemies[6] = {
     name = vt_system.Translate("Bat"),
     stamina_icon = "img/icons/actors/enemies/bat.png",
-    battle_sprites = "img/sprites/battle/enemies/bat.png",
-    sprite_width = 64,
-    sprite_height = 128,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/bat_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/bat_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/bat_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/bat_3.lua"
+    },
 
     base_stats = {
         hit_points = 75,
@@ -311,9 +341,13 @@ enemies[6] = {
 enemies[7] = {
     name = vt_system.Translate("Fenrir"),
     stamina_icon = "img/icons/actors/enemies/fenrir.png",
-    battle_sprites = "img/sprites/battle/enemies/fenrir_normal.png",
-    sprite_width = 268,
-    sprite_height = 196,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_1.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_1.lua"
+    },
 
     scripts = {
         death = "dat/battles/enemies_animations/fenrir_flee.lua"
@@ -366,9 +400,13 @@ enemies[7] = {
 enemies[8] = {
     name = vt_system.Translate("Fenrir"),
     stamina_icon = "img/icons/actors/enemies/fenrir.png",
-    battle_sprites = "img/sprites/battle/enemies/fenrir_final.png",
-    sprite_width = 268,
-    sprite_height = 196,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_3.lua"
+    },
 
     scripts = {
         death = "dat/battles/enemies_animations/fenrir_death.lua"
@@ -419,10 +457,15 @@ enemies[8] = {
 enemies[9] = {
     name = vt_system.Translate("Dark Soldier"),
     stamina_icon = "img/icons/actors/enemies/dark_soldier.png",
-    battle_sprites = "img/sprites/battle/enemies/dark_soldier.png",
-    sprite_width = 64,
-    sprite_height = 64,
 
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/dark_soldier_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/dark_soldier_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/dark_soldier_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/dark_soldier_0.lua"
+    },
+
+    -- TODO: Balance stats
     base_stats = {
         hit_points = 122,
         skill_points = 10,
@@ -432,7 +475,6 @@ enemies[9] = {
         protection = 4,
         agility = 14,
         evade = 2.0,
-        -- TODO: Balance XP and Drunes
         experience_points = 8,
         drunes = 12
     },
@@ -440,24 +482,24 @@ enemies[9] = {
     attack_points = {
         [1] = {
             name = vt_system.Translate("Head"),
-            x_position = -6,
-            y_position = 23,
+            x_position = 0,
+            y_position = 280,
             fortitude_modifier = -0.2,
             protection_modifier = -0.2,
             evade_modifier = 0.2
         },
         [2] = {
             name = vt_system.Translate("Abdomen"),
-            x_position = 7,
-            y_position = 26,
+            x_position = 0,
+            y_position = 200,
             fortitude_modifier = 0.4,
             protection_modifier = 0.3,
             evade_modifier = 0.0
         },
         [3] = {
-            name = vt_system.Translate("Leg"),
-            x_position = 16,
-            y_position = 14,
+            name = vt_system.Translate("Legs"),
+            x_position = -20,
+            y_position = 100,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.1,

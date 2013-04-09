@@ -875,6 +875,8 @@ BattleEnemy::BattleEnemy(GlobalEnemy *enemy) :
     }
 
     _LoadDeathAnimationScript();
+
+    _sprite_animations = _global_enemy->GetBattleAnimations();
 }
 
 void BattleEnemy::_LoadDeathAnimationScript()
@@ -969,6 +971,11 @@ void BattleEnemy::Update()
 {
     BattleActor::Update();
 
+    // Updates the sprites animations
+    for (uint32 i = 0; i < _sprite_animations->size(); ++i) {
+        _sprite_animations->at(i).Update();
+    }
+
     // Note: that update part only handles attack actions
     if(_state == ACTOR_STATE_ACTING) {
         if(_state_timer.PercentComplete() <= 0.50f)
@@ -1029,13 +1036,12 @@ void BattleEnemy::DrawSprite()
     if(_state == ACTOR_STATE_DEAD)
         return;
 
-    std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
     float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
     VideoManager->Move(_x_location, _y_location);
     // Alpha will range from 1.0 to 0.0 in the following calculations
     if(_state == ACTOR_STATE_DYING) {
-        sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
 
         try {
             if (_death_draw_on_sprite.is_valid())
@@ -1049,19 +1055,19 @@ void BattleEnemy::DrawSprite()
         }
 
     } else if(GetHitPoints() == GetMaxHitPoints()) {
-        sprite_frames[0].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
     } else if(hp_percent > 0.666f) {
-        sprite_frames[0].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
         float alpha = 1.0f - ((hp_percent - 0.666f) * 3.0f);
-        sprite_frames[1].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
     } else if(hp_percent >  0.333f) {
-        sprite_frames[1].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw();
         float alpha = 1.0f - ((hp_percent - 0.333f) * 3.0f);
-        sprite_frames[2].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
     } else { // (hp_precent > 0.0f)
-        sprite_frames[2].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw();
         float alpha = 1.0f - (hp_percent * 3.0f);
-        sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
     }
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {

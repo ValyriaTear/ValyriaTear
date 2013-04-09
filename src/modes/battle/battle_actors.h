@@ -676,11 +676,11 @@ public:
     void ChangeState(ACTOR_STATE new_state);
 
     float GetSpriteWidth() const {
-        return _global_enemy->GetBattleSpriteFrames()->at(0).GetWidth();
+        return _global_enemy->GetSpriteWidth();
     }
 
     float GetSpriteHeight() const {
-        return _global_enemy->GetBattleSpriteFrames()->at(0).GetHeight();
+        return _global_enemy->GetSpriteHeight();
     }
 
     /** \brief Changes the battle enemy's current sprite animation image
@@ -727,6 +727,10 @@ protected:
 
     //! \brief An unsorted vector containing all the skills that the enemy may use
     std::vector<vt_global::GlobalSkill *> _enemy_skills;
+
+    //! \brief A pointer to the enemy battle animations
+    //! Do not delete it, the global enemy instance will take care of it.
+    std::vector<vt_video::AnimatedImage>* _sprite_animations;
 
     //! \brief Contains the identifier text of the current sprite animation
     std::string _sprite_animation_alias;

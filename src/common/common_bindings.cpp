@@ -200,7 +200,12 @@ void BindCommonCode()
                         luabind::value("GLOBAL_TARGET_ALLY_EVEN_DEAD", GLOBAL_TARGET_ALLY_EVEN_DEAD),
                         luabind::value("GLOBAL_TARGET_FOE", GLOBAL_TARGET_FOE),
                         luabind::value("GLOBAL_TARGET_ALL_ALLIES", GLOBAL_TARGET_ALL_ALLIES),
-                        luabind::value("GLOBAL_TARGET_ALL_FOES", GLOBAL_TARGET_ALL_FOES)
+                        luabind::value("GLOBAL_TARGET_ALL_FOES", GLOBAL_TARGET_ALL_FOES),
+                        // Enemies hurt levels
+                        luabind::value("GLOBAL_ENEMY_HURT_NONE", GLOBAL_ENEMY_HURT_NONE),
+                        luabind::value("GLOBAL_ENEMY_HURT_SLIGHTLY", GLOBAL_ENEMY_HURT_SLIGHTLY),
+                        luabind::value("GLOBAL_ENEMY_HURT_MEDIUM", GLOBAL_ENEMY_HURT_MEDIUM),
+                        luabind::value("GLOBAL_ENEMY_HURT_HEAVILY", GLOBAL_ENEMY_HURT_HEAVILY)
                     ]
                 ];
 

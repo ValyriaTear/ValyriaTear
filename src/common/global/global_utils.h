@@ -236,6 +236,15 @@ enum GLOBAL_SKILL {
     GLOBAL_SKILL_TOTAL    =  3
 };
 
+//! \brief The Battle enemies harm levels
+enum GLOBAL_ENEMY_HURT {
+    GLOBAL_ENEMY_HURT_NONE     = 0,
+    GLOBAL_ENEMY_HURT_SLIGHTLY = 1,
+    GLOBAL_ENEMY_HURT_MEDIUM   = 2,
+    GLOBAL_ENEMY_HURT_HEAVILY  = 3,
+    GLOBAL_ENEMY_HURT_TOTAL    = 4,
+};
+
 /** \brief Retrieves a string representation for any GLOBAL_TARGET enum value
 *** \param target The target enum value to find the string for
 *** \return Translated text that describes the target

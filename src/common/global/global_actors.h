@@ -1090,8 +1090,8 @@ public:
         return _sprite_height;
     }
 
-    std::vector<vt_video::StillImage>* GetBattleSpriteFrames() {
-        return &_battle_sprite_frames;
+    std::vector<vt_video::AnimatedImage>* GetBattleAnimations() {
+        return &_battle_animations;
     }
 
     const std::string& GetDeathScriptFilename() const {
@@ -1125,12 +1125,12 @@ protected:
     **/
     std::vector<uint32> _skill_set;
 
-    /** \brief The battle sprite frame images for the enemy
-    *** Each enemy has four frames representing damage levels of 0%, 33%, 66%, and 100%. This vector thus
+    /** \brief The battle sprite animations for the enemy
+    *** Each enemy has four animations representing damage levels of 0%, 33%, 66%, and 100%. This vector thus
     *** always has a size of four holding each of these image frames. The first element contains the 0%
     *** damage frame, the second element contains the 33% damage frame, and so on.
     **/
-    std::vector<vt_video::StillImage> _battle_sprite_frames;
+    std::vector<vt_video::AnimatedImage> _battle_animations;
 
     //! \brief Stores the animation script filename used when the enemy dies.
     std::string _death_script_filename;
