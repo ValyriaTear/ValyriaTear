@@ -517,6 +517,69 @@ enemies[9] = {
     }
 }
 
+enemies[10] = {
+    name = vt_system.Translate("Lord Banesore"),
+    stamina_icon = "img/icons/actors/enemies/lord_banesore.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/lord_banesore_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/lord_banesore_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/lord_banesore_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/lord_banesore_0.lua"
+    },
+
+    -- TODO: Balance stats
+    base_stats = {
+        hit_points = 122,
+        skill_points = 10,
+        strength = 18,
+        vigor = 0,
+        fortitude = 12,
+        protection = 4,
+        agility = 14,
+        evade = 2.0,
+        experience_points = 8,
+        drunes = 12
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -40,
+            y_position = 300,
+            fortitude_modifier = -0.2,
+            protection_modifier = -0.2,
+            evade_modifier = 0.2
+        },
+        [2] = {
+            name = vt_system.Translate("Abdomen"),
+            x_position = -40,
+            y_position = 200,
+            fortitude_modifier = 0.4,
+            protection_modifier = 0.3,
+            evade_modifier = 0.0
+        },
+        [3] = {
+            name = vt_system.Translate("Legs"),
+            x_position = -20,
+            y_position = 100,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.1,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+        }
+    },
+
+    skills = {
+        1006
+    },
+
+    drop_objects = {
+        { 1, 0.15 }, -- Minor Healing Potion
+        { 11, 0.15 } -- Minor Moon Juice
+    }
+}
+
 -- ======== Unbalanced ========
 
 -- Traits -----------------------------------------------------------------------
