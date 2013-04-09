@@ -475,8 +475,6 @@
 		<Unit filename="src/modes/pause.h" />
 		<Unit filename="src/modes/save/save_mode.cpp" />
 		<Unit filename="src/modes/save/save_mode.h" />
-		<Unit filename="src/modes/scene.cpp" />
-		<Unit filename="src/modes/scene.h" />
 		<Unit filename="src/modes/shop/shop.cpp" />
 		<Unit filename="src/modes/shop/shop.h" />
 		<Unit filename="src/modes/shop/shop_buy.cpp" />
