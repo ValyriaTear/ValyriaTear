@@ -462,31 +462,31 @@ img/sprites/battle/enemies/thing.png                            CC by SA 3.0    
 img/sprites/battle/enemies/yeti.png                             CC by SA 3.0             Jetrel (OGA)
 img/sprites/battle/enemies/white_wolf.png                       CC by SA 3.0, GPLv2      Bertram, based on two sources: http://opengameart.org/content/the-wolf, and: http://opengameart.org/content/gray-wolf from Buch (OGA)
 img/sprites/battle/enemies/fenrir.png                           CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
-img/sprites/battle/enemies/bat_0.lua                            GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/bat_1.lua                            GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/bat_2.lua                            GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/bat_3.lua                            GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/big_slime_0.lua                      GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/big_slime_1.lua                      GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/big_slime_2.lua                      GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/big_slime_3.lua                      GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/dark_soldier_0.lua                   GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/fenrir_0.lua                         GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/fenrir_1.lua                         GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/fenrir_2.lua                         GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/fenrir_3.lua                         GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_slime_0.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_slime_1.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_slime_2.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_slime_3.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_snake_0.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_snake_1.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_snake_2.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/green_snake_3.lua                    GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/spider_0.lua                         GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/spider_1.lua                         GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/spider_2.lua                         GPLv2                    Bertram (based on the slime sprite)
-img/sprites/battle/enemies/spider_3.lua                         GPLv2                    Bertram (based on the slime sprite)
+img/sprites/battle/enemies/bat_0.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/bat_1.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/bat_2.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/bat_3.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_0.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_1.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_2.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_3.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/dark_soldier_0.lua                   GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_0.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_1.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_2.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_3.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_0.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_1.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_2.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_3.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_0.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_1.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_2.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_3.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/spider_0.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/spider_1.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/spider_2.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/spider_3.lua                         GPLv2                    Bertram
 img/sprites/battle/enemies/lord_banesore.png                    CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
 img/sprites/battle/enemies/lord_banesore_0.lua                  GPLv2                    Bertram (based on the slime sprite)
 
