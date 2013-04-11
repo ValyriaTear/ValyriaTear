@@ -557,12 +557,16 @@ void InventoryWindow::_UpdateSelection()
         default:
             _is_equipment = false;
             _can_equip = false;
-
-            // Prepare the equipment help message
-            const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
-            MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
             break;
     }
+
+    // Prepare the equipment help message
+    const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
+    const static ustring item_use = UTranslate("Select a character to use the item on.");
+    if (_is_equipment && !_can_equip)
+        MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
+    else // standard items
+        MenuMode::CurrentInstance()->_help_information.SetDisplayText(item_use);
 }
 
 // Updates the item list
@@ -681,24 +685,23 @@ void InventoryWindow::_DrawSpecialItemDescription(vt_video::StillImage* special_
 
 void InventoryWindow::_DrawBottomInfo()
 {
-    MenuMode* menu = MenuMode::CurrentInstance();
-    menu->_bottom_window.Draw();
-
     //if we are out of items, the bottom view should do no work
     if(GlobalManager->GetInventory()->empty() || _item_objects.empty())
         return;
 
+    MenuMode* menu = MenuMode::CurrentInstance();
+
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(150, 580);
 
-
     if(_active_box == ITEM_ACTIVE_CATEGORY) {
+        menu->_bottom_window.Draw();
         menu->_help_information.Draw();
     }
     else if(_active_box == ITEM_ACTIVE_LIST) {
+        menu->_bottom_window.Draw();
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
-
         VideoManager->Move(100, 600);
         _object->GetIconImage().Draw();
         VideoManager->MoveRelative(65, -15);
@@ -711,8 +714,10 @@ void InventoryWindow::_DrawBottomInfo()
         else if (_object_type == GLOBAL_OBJECT_SHARD)
             _DrawSpecialItemDescription(menu->_shard_icon, menu->_shard_description);
     }
-    else if(_is_equipment && _active_box == ITEM_ACTIVE_CHAR) {
-        if (_can_equip)
+    else if(_active_box == ITEM_ACTIVE_CHAR) {
+        menu->_bottom_window.Draw();
+
+        if (_is_equipment && _can_equip)
             menu->DrawEquipmentInfo();
         else
             menu->_help_information.Draw();

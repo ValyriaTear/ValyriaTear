@@ -401,6 +401,8 @@ void InventoryState::_OnDrawMainWindow()
         case INV_OPTIONS_USE:
         case INV_OPTIONS_BACK:
         default:
+            if (!_IsActive())
+                AbstractMenuState::_DrawBottomMenu();
             _menu_mode->_inventory_window.Draw();
             break;
     }
