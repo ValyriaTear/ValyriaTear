@@ -413,7 +413,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Fortunately, they didn't see me or I would have been caught as well.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("I should follow them silently. They will probably lead me to the others and I must help Kalya before she gets hurt!");
+    text = vt_system.Translate("I should follow them silently...");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann dialogue after guards caught Kalya", dialogue);

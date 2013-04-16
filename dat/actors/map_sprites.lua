@@ -28,6 +28,7 @@ sprites["Bronann"] = {
         hero_stance = "img/sprites/map/characters/bronann_hero_stance_unarmed.lua",
         searching = "img/sprites/map/characters/bronann_searching_unarmed.lua",
         frightened = "img/sprites/map/characters/bronann_frightened_unarmed.lua",
+        frightened_fixed = "img/sprites/map/characters/bronann_frightened_unarmed_fixed.lua",
         hurt = "img/sprites/map/characters/bronann_hurt_unarmed.lua",
         sleeping = "img/sprites/map/characters/bronann_dead.lua",
         kneeling = "img/sprites/map/characters/bronann_kneeling.lua"

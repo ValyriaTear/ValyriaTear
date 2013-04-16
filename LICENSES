@@ -494,6 +494,7 @@ img/sprites/map/characters/bronann_bed_animation.lua            GPLv2           
 img/sprites/map/characters/bronann_bed_animation.png            CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head, Bertram for the frames.
 img/sprites/map/characters/bronann_dead.lua                     GPLv2                    Bertram
 img/sprites/map/characters/bronann_frightened.png               GPLv2                    Allacrost
+img/sprites/map/characters/bronann_frightened_unarmed_fixed.lua GPLv2                    Bertram
 img/sprites/map/characters/bronann_herostance.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
 img/sprites/map/characters/bronann_idle_guard_south.png         GPLv2                    Allacrost

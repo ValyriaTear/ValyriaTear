@@ -44,6 +44,11 @@ function Load(m)
     -- Add clouds overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+
+    -- Start the return to village dialogue if it hasn't been done already.
+    if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
+        EventManager:StartEvent("Bronann arrives at the riverbank dialogue");
+    end
 end
 
 function Update()
@@ -110,6 +115,10 @@ local soldier17 = {};
 local soldier18 = {};
 local soldier19 = {};
 local soldier20 = {};
+
+-- Soldiers guarding the surroundings
+local soldier21 = {};
+local soldier22 = {};
 
 local lord = {};
 
@@ -209,7 +218,7 @@ function _CreateNPCs()
     soldier16:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier16);
 
-    lord = CreateNPCSprite(Map, "Lord", "??", 100, 54);
+    lord = CreateNPCSprite(Map, "Lord", "Lord Banesore", 100, 54);
     lord:SetDirection(vt_map.MapMode.WEST);
     Map:AddGroundObject(lord);
 
@@ -226,6 +235,41 @@ function _CreateNPCs()
     soldier20 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 75, 55);
     soldier20:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier20);
+
+    -- soldiers guarding the surroundings
+    soldier21 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 95, 21);
+    soldier21:SetDirection(vt_map.MapMode.NORTH);
+    Map:AddGroundObject(soldier21);
+    event = vt_map.ChangeDirectionSpriteEvent("Soldier21 looks north", soldier21, vt_map.MapMode.NORTH);
+    event:AddEventLinkAtEnd("Soldier21 goes east", 3000);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier21 goes east", soldier21, 98, 21, false);
+    event:AddEventLinkAtEnd("Soldier21 goes back", 3000);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier21 goes back", soldier21, 95, 21, false);
+    event:AddEventLinkAtEnd("Soldier21 looks north");
+    EventManager:RegisterEvent(event);
+    EventManager:StartEvent("Soldier21 goes east");
+
+    soldier22 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 83, 28);
+    soldier22:SetDirection(vt_map.MapMode.WEST);
+    Map:AddGroundObject(soldier22);
+    event = vt_map.ChangeDirectionSpriteEvent("Soldier22 looks north", soldier22, vt_map.MapMode.NORTH);
+    event:AddEventLinkAtEnd("Soldier22 goes south", 3000);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier22 goes south", soldier22, 83, 31, false);
+    event:AddEventLinkAtEnd("Soldier22 looks west2");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Soldier22 looks west2", soldier22, vt_map.MapMode.WEST);
+    event:AddEventLinkAtEnd("Soldier22 goes back", 3000);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier22 goes back", soldier22, 83, 28, false);
+    event:AddEventLinkAtEnd("Soldier22 looks west");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Soldier22 looks west", soldier22, vt_map.MapMode.WEST);
+    event:AddEventLinkAtEnd("Soldier22 looks north", 3000);
+    EventManager:RegisterEvent(event);
+    EventManager:StartEvent("Soldier22 goes south");
 
 end
 
@@ -345,12 +389,86 @@ function _CreateEvents()
                                        "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_riverbank");
     EventManager:RegisterEvent(event);
 
+    -- generic events
+    event = vt_map.ScriptedEvent("Map:PushState(SCENE)", "Map_SceneState", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+
+    -- Bronann can't go back event
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I can't go back now...");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Bronann can't go back", dialogue);
+    EventManager:RegisterEvent(event);
+
+    -- Bronann hides when entering the map
+    event = vt_map.ScriptedEvent("Bronann arrives at the riverbank dialogue", "arrival_at_riverbank_dialogue_start", "");
+    event:AddEventLinkAtEnd("Bronann hides behind the trees", 50);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Bronann hides behind the trees", bronann, 92.5, 6.0, false);
+    event:AddEventLinkAtEnd("Bronann looks south");
+    event:AddEventLinkAtEnd("Bronann thinks he needs to get closer");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Guards keeping the surroundings... I need to come closer and see what's happening.");
+    dialogue:AddLine(text, bronann);
+    text = vt_system.Translate("I should be able to sneak through when they're not watching...");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Bronann thinks he needs to get closer", dialogue);
+    event:AddEventLinkAtEnd("End of bronann arrival at the riverbank");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("End of bronann arrival at the riverbank", "arrival_at_riverbank_dialogue_end", "");
+    EventManager:RegisterEvent(event);
+
+    -- Bronann is catched
+    event = vt_map.ScriptedEvent("Bronann is catched start", "bronann_is_catched_start", "");
+    event:AddEventLinkAtEnd("The soldier21 looks at Bronann");
+    event:AddEventLinkAtEnd("The soldier22 looks at Bronann");
+    event:AddEventLinkAtEnd("The soldier yells at Bronann");
+    event:AddEventLinkAtEnd("Bronann is surprised");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.LookAtSpriteEvent("The soldier21 looks at Bronann", soldier21, bronann);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("The soldier22 looks at Bronann", soldier22, bronann);
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Who's there?");
+    dialogue:AddLine(text, soldier21);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The soldier yells at Bronann", dialogue);
+    event:AddEventLinkAtEnd("Restart map");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.AnimateSpriteEvent("Bronann is surprised", bronann, "frightened_fixed", 999999);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("Restart map", "dat/maps/layna_village/layna_village_riverbank_map.lua",
+                                      "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local village_center_zone = {};
 local to_village_entrance_zone = {};
 local to_riverbank_house_entrance_zone = {};
+
+local soldier21_watching_zone = {};
+local soldier21_watching_right_zone = {};
+local soldier22_watching_zone = {};
+local soldier22_watching_north_zone = {};
+local soldier22_watching_west_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -362,12 +480,52 @@ function _CreateZones()
 
     to_riverbank_house_entrance_zone = vt_map.CameraZone(96, 100, 46, 47);
     Map:AddZone(to_riverbank_house_entrance_zone);
+
+    soldier21_watching_zone = vt_map.CameraZone(84, 88, 12, 22);
+    soldier21_watching_zone:AddSection(88, 94, 9, 22);
+    soldier21_watching_zone:AddSection(95, 105, 3, 14);
+    Map:AddZone(soldier21_watching_zone);
+
+    soldier21_watching_right_zone = vt_map.CameraZone(94, 105, 14, 22);
+    soldier21_watching_right_zone:AddSection(105, 120, 9, 24);
+    Map:AddZone(soldier21_watching_right_zone);
+
+    soldier22_watching_zone = vt_map.CameraZone(74, 85, 17, 38);
+    Map:AddZone(soldier22_watching_zone);
+
+    soldier22_watching_north_zone = vt_map.CameraZone(78, 80, 12, 17);
+    Map:AddZone(soldier22_watching_north_zone);
+
+    soldier22_watching_west_zone = vt_map.CameraZone(64, 74, 20, 32);
+    Map:AddZone(soldier22_watching_west_zone);
+
 end
 
 function _CheckZones()
     if (village_center_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
-        EventManager:StartEvent("to Village center");
+        if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
+            EventManager:StartEvent("to Village center");
+        else
+            EventManager:StartEvent("Bronann can't go back");
+        end
+    elseif (soldier21_watching_right_zone:IsCameraEntering() == true) then
+        EventManager:StartEvent("Bronann is catched start");
+    elseif (soldier21_watching_zone:IsCameraInside() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") == 1
+                and soldier21:GetDirection() == vt_map.MapMode.NORTH) then
+            EventManager:StartEvent("Bronann is catched start");
+        end
+    elseif (soldier22_watching_zone:IsCameraEntering() == true) then
+        EventManager:StartEvent("Bronann is catched start");
+    elseif (soldier22_watching_north_zone:IsCameraInside() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (soldier22:GetDirection() == vt_map.MapMode.NORTH) then
+            EventManager:StartEvent("Bronann is catched start");
+        end
+    elseif (soldier22_watching_west_zone:IsCameraInside() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (soldier22:GetDirection() == vt_map.MapMode.WEST) then
+            EventManager:StartEvent("Bronann is catched start");
+        end
     end
 
 end
@@ -383,6 +541,26 @@ map_functions = {
             sprite:SetVisible(false);
             sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
+    end,
+
+    arrival_at_riverbank_dialogue_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+
+    arrival_at_riverbank_dialogue_end = function()
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "layna_village_arrival_at_riverbank_done", 1);
+        Map:PopState();
+    end,
+
+    bronann_is_catched_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        bronann:SetMoving(false);
+        EventManager:TerminateAllEvents(soldier21);
+        EventManager:TerminateAllEvents(soldier22);
+        -- Undo the last event, as the map is restarting
+        GlobalManager:SetEventValue("story", "layna_village_arrival_at_riverbank_done", 0);
     end,
 
 }
