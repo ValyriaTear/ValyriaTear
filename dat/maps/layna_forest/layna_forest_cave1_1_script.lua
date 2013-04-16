@@ -39,7 +39,6 @@ function Load(m)
     Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = false;
-    Map:ShowMinimap(true);
 
     _CreateCharacters();
     _CreateObjects();
