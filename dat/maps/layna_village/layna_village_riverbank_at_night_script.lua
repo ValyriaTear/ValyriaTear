@@ -398,6 +398,17 @@ function _CreateEvents()
 
     event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks east", bronann, vt_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Orlinn", bronann, orlinn);
+    EventManager:RegisterEvent(event);
+    event = vt_map.AnimateSpriteEvent("Bronann is frightened by Orlinn", bronann, "frightened", 0); -- defaut time
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, bronann);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
 
     -- Bronann can't go back event
     dialogue = vt_map.SpriteDialogue();
@@ -457,6 +468,44 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("Restart map", "dat/maps/layna_village/layna_village_riverbank_map.lua",
                                       "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
     EventManager:RegisterEvent(event);
+
+    -- Lord battle scene
+    event = vt_map.ScriptedEvent("Lord battle dialogue start", "lord_battle_scene_start", "");
+    event:AddEventLinkAtEnd("Bronann hides behind the trees near Orlinn", 50);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Bronann hides behind the trees near Orlinn", bronann, 70.0, 47.0, true);
+    event:AddEventLinkAtEnd("Bronann and Orlinn are discussing");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes near Bronann", orlinn, 71.5, 43.8, false);
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("(Whispering) Kalya!");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
+    text = vt_system.Translate("(What's happening here?)");
+    dialogue:AddLineEvent(text, bronann, "Orlinn goes near Bronann", "");
+    text = vt_system.Translate("(Also whispering) I don't know...");
+    dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Bronann", "Bronann looks at Orlinn");
+    text = vt_system.Translate("(Woah, you scared me. Are you mad? You could have make us both caught!)");
+    dialogue:AddLineEvent(text, bronann, "Bronann is frightened by Orlinn", "");
+    text = vt_system.Translate("(I thought you've seen me, eh.)");
+    dialogue:AddLine(text, orlinn);
+    text = vt_system.Translate("(Kalya was brought here by those weirdos. They are helding everyone captive. Lilly is discussing with that big guy. He gives me the chill.)");
+    dialogue:AddLine(text, orlinn);
+    text = vt_system.Translate("(Let's have a look..)");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Bronann and Orlinn are discussing", dialogue);
+    event:AddEventLinkAtEnd("Bronann looks east");
+    event:AddEventLinkAtEnd("Orlinn looks east");
+    event:AddEventLinkAtEnd("Set Camera on Lilly");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedSpriteEvent("Set Camera on Lilly", lilly, "set_camera_on", "set_camera_update");
+    --event:AddEventLinkAtEnd("Bronann hides behind the trees near Orlinn", 50);
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -469,6 +518,8 @@ local soldier21_watching_right_zone = {};
 local soldier22_watching_zone = {};
 local soldier22_watching_north_zone = {};
 local soldier22_watching_west_zone = {};
+
+local battle_dialogue_start_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -499,6 +550,8 @@ function _CreateZones()
     soldier22_watching_west_zone = vt_map.CameraZone(64, 74, 20, 32);
     Map:AddZone(soldier22_watching_west_zone);
 
+    battle_dialogue_start_zone = vt_map.CameraZone(64, 86, 39, 40);
+    Map:AddZone(battle_dialogue_start_zone);
 end
 
 function _CheckZones()
@@ -526,6 +579,8 @@ function _CheckZones()
         if (soldier22:GetDirection() == vt_map.MapMode.WEST) then
             EventManager:StartEvent("Bronann is catched start");
         end
+    elseif (battle_dialogue_start_zone:IsCameraEntering() == true) then
+        EventManager:StartEvent("Lord battle dialogue start");
     end
 
 end
@@ -541,6 +596,17 @@ map_functions = {
             sprite:SetVisible(false);
             sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
+    end,
+
+    set_camera_on = function(sprite)
+        Map:SetCamera(sprite, 800);
+    end,
+
+    set_camera_update = function()
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        return true;
     end,
 
     arrival_at_riverbank_dialogue_start = function()
@@ -561,6 +627,10 @@ map_functions = {
         EventManager:TerminateAllEvents(soldier22);
         -- Undo the last event, as the map is restarting
         GlobalManager:SetEventValue("story", "layna_village_arrival_at_riverbank_done", 0);
+    end,
+
+    lord_battle_scene_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,
 
 }
