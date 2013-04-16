@@ -65,10 +65,13 @@ void BattleParticleEffect::DrawSprite()
 void BattleAmmo::DrawSprite()
 {
     // Draw potential sprite ammo
-    if(_shown) {
-        VideoManager->Move(GetXLocation(), GetYLocation());
-        _ammo_image.Draw();
-    }
+    if(!_shown)
+        return;
+
+    VideoManager->Move(GetXLocation(), GetYLocation());
+    _ammo_image.Draw(Color(0.0f, 0.0f, 0.0f, 0.6f));
+    VideoManager->MoveRelative(0.0f, -_flying_height);
+    _ammo_image.Draw();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -490,6 +493,9 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
             weapon_animation = _global_character->GetWeaponEquipped()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
     if (weapon_animation.empty() || !_current_weapon_animation.LoadFromAnimationScript(weapon_animation))
         _current_weapon_animation.Clear();
+
+    // Prepare the flying height of potential ammo weapons
+    _ammo.SetFlyingHeight(GetSpriteHeight() / 2.0f);
 }
 
 void BattleCharacter::ResetActor()

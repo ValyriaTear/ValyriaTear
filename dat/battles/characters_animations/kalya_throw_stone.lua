@@ -18,6 +18,11 @@ local skill = {};
 local stone_pos_x = 0.0;
 local stone_pos_y = 0.0;
 
+local stone_height = 0.0;
+local total_distance = 0.0;
+local height_diff = 0.0;
+local height_min = 0.0;
+
 local a_coeff = 0.0;
 local distance_moved_x = 0.0;
 local distance_moved_y = 0.0;
@@ -45,9 +50,15 @@ function Initialize(_character, _target, _skill)
         return;
     end
 
+    -- Set the arrow flying height members
+    stone_height = (character:GetSpriteHeight() / 2.0) + 5.0;
+    total_distance = math.abs(target_actor:GetXLocation() - character:GetXLocation());
+    height_diff = stone_height - (target_actor:GetSpriteHeight() / 2.0);
+    height_min = math.min(stone_height, (target_actor:GetSpriteHeight() / 2.0));
+
     -- Set the arrow starting position
     stone_pos_x = character:GetXLocation() + character:GetSpriteWidth() / 2.0;
-    stone_pos_y = character:GetYLocation() - (character:GetSpriteHeight() / 2.0) - 5.0;
+    stone_pos_y = character:GetYLocation() - stone_height;
     character:SetAmmoPosition(stone_pos_x, stone_pos_y);
 
     -- Make the arrow reach the enemy center
@@ -85,7 +96,19 @@ function Update()
     if (a_coeff ~= 0.0) then
         distance_moved_y = (1/a_coeff) * distance_moved_x;
     end
-    
+
+    -- Update the stone flying height according to the distance
+    -- Get the % of of x distance left
+    local distance_left = math.abs((stone_pos_x + distance_moved_x) - enemy_pos_x);
+
+    if (total_distance > 0.0) then
+        if (height_diff > 0.0) then
+            stone_height = height_min + ((distance_left / total_distance) * height_diff);
+        else
+            stone_height = height_min + (((total_distance - distance_left) / total_distance) * -height_diff);
+        end
+    end
+
     -- Attack the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("throw_stone")
@@ -120,7 +143,8 @@ function Update()
             if stone_pos_y > enemy_pos_y then stone_pos_y = enemy_pos_y end
         end
 
-        character:SetAmmoPosition(stone_pos_x, stone_pos_y);
+        character:SetAmmoPosition(stone_pos_x, stone_pos_y + stone_height);
+        character:GetAmmo():SetFlyingHeight(stone_height);
 
         if (stone_pos_x >= enemy_pos_x and stone_pos_y == enemy_pos_y) then
             character:ChangeSpriteAnimation("idle");

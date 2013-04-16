@@ -18,6 +18,11 @@ local skill = {};
 local arrow_pos_x = 0.0;
 local arrow_pos_y = 0.0;
 
+local arrow_height = 0.0;
+local total_distance = 0.0;
+local height_diff = 0.0;
+local height_min = 0.0;
+
 local a_coeff = 0.0;
 local distance_moved_x = 0.0;
 local distance_moved_y = 0.0;
@@ -45,9 +50,15 @@ function Initialize(_character, _target, _skill)
         return;
     end
 
+    -- Set the arrow flying height members
+    arrow_height = (character:GetSpriteHeight() / 2.0) + 5.0;
+    total_distance = math.abs(target_actor:GetXLocation() - character:GetXLocation());
+    height_diff = arrow_height - (target_actor:GetSpriteHeight() / 2.0);
+    height_min = math.min(arrow_height, (target_actor:GetSpriteHeight() / 2.0));
+
     -- Set the arrow starting position
     arrow_pos_x = character:GetXLocation() + character:GetSpriteWidth() / 2.0;
-    arrow_pos_y = character:GetYLocation() - (character:GetSpriteHeight() / 2.0) - 5.0;
+    arrow_pos_y = character:GetYLocation() - arrow_height;
 
     -- Make the arrow reach the enemy center
     enemy_pos_x = target_actor:GetXLocation();
@@ -81,7 +92,19 @@ function Update()
     if (a_coeff ~= 0.0) then
         distance_moved_y = (1/a_coeff) * distance_moved_x;
     end
-    
+
+    -- Update the arrow flying height according to the distance
+    -- Get the % of of x distance left
+    local distance_left = math.abs((arrow_pos_x + distance_moved_x) - enemy_pos_x);
+
+    if (total_distance > 0.0) then
+        if (height_diff > 0.0) then
+            arrow_height = height_min + ((distance_left / total_distance) * height_diff);
+        else
+            arrow_height = height_min + (((total_distance - distance_left) / total_distance) * -height_diff);
+        end
+    end
+
     -- Attack the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("attack")
@@ -116,7 +139,8 @@ function Update()
             if arrow_pos_y > enemy_pos_y then arrow_pos_y = enemy_pos_y end
         end
 
-        character:SetAmmoPosition(arrow_pos_x, arrow_pos_y);
+        character:SetAmmoPosition(arrow_pos_x, arrow_pos_y + arrow_height);
+        character:GetAmmo():SetFlyingHeight(arrow_height);
 
         if (arrow_pos_x >= enemy_pos_x and arrow_pos_y == enemy_pos_y) then
             attack_step = 3;

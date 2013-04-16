@@ -136,7 +136,7 @@ class BattleAmmo : public BattleObject
 public:
     BattleAmmo():
         BattleObject(),
-        _flying_height(0),
+        _flying_height(0.0f),
         _shown(false)
     {}
 
@@ -159,11 +159,11 @@ public:
         return _ammo_image;
     }
 
-    void SetFlyingHeight(uint32 height) {
+    void SetFlyingHeight(float height) {
         _flying_height = height;
     }
 
-    uint32 GetFlyingHeight() const {
+    float GetFlyingHeight() const {
         return _flying_height;
     }
 
@@ -178,11 +178,9 @@ public:
 protected:
     //! The actual ammo graphics used when firing
     vt_video::AnimatedImage _ammo_image;
-    // TODO: Later add a shadow to the ammo, to show its height
-    //vt_video::AnimatedImage _ammo_shadow_image;
 
-    //! The height of the ammo compared to the ground (at which height the ammo flies).
-    uint32 _flying_height;
+    //! The pixel height of the ammo compared to the ground (at which height the ammo flies).
+    float _flying_height;
 
     //! Tells whether the ammo should be drawn on screen.
     bool _shown;
