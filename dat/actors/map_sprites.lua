@@ -438,8 +438,8 @@ sprites["Lord"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_soldier02_idle.lua",
-        walk = "img/sprites/map/npcs/npc_soldier02_walk.lua"
+        idle = "img/sprites/map/enemies/lord_idle.lua",
+        walk = "img/sprites/map/enemies/lord_walk.lua"
     }
 }
 

@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.04.09
+Last update: 2013.04.16
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -529,6 +529,9 @@ img/sprites/map/enemies/spider_walk.lua                         GPLv2           
 img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2                    Bertram - adapted from the wolf spritesheet
 img/sprites/map/enemies/fenrir_idle.lua                         GPLv2                    Bertram
 img/sprites/map/enemies/fenrir_walk.lua                         GPLv2                    Bertram
+img/sprites/map/enemies/lord_idle.lua                           GPLv2                    Bertram
+img/sprites/map/enemies/lord_spritesheet.png                    CC by SA 3.0             Bertram, adapted from Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+img/sprites/map/enemies/lord_walk.lua                           GPLv2                    Bertram
 
 img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
 img/sprites/map/npcs/crystal_idle.lua                           GPLv2                    Bertram
