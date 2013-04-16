@@ -436,6 +436,7 @@ sprites["Lord"] = {
     img_half_width = 1.0,
     img_height = 4.0,
     movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/npcs/lord_banesore.png",
 
     -- using special animation files.
     standard_animations = {

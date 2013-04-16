@@ -410,6 +410,12 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ChangeDirectionSpriteEvent("Banesore look east", lord, vt_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Banesore look west", lord, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+
+
     -- Bronann can't go back event
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("I can't go back now...");
@@ -504,7 +510,49 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedSpriteEvent("Set Camera on Lilly", lilly, "set_camera_on", "set_camera_update");
-    --event:AddEventLinkAtEnd("Bronann hides behind the trees near Orlinn", 50);
+    event:AddEventLinkAtEnd("Dialogue with the Lord");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I already told you again, and again, Banesore, I don't know anything about such a Crystal.");
+    dialogue:AddLine(text, lilly);
+    text = vt_system.Translate("It is 'Lord Banesore', you scum!");
+    dialogue:AddLine(text, soldier1);
+    text = vt_system.Translate("So much to lose and still looking at me in the eyes... I admire such a courageous heart, my dear one.");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("Therefore, I'm inclined to ask the questions one last time:");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("Where is the Crystal? Where is... the boy?");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("It's time to think Lilly...");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("Huh? How do you know my name??");
+    dialogue:AddLineEmote(text, lilly, "exclamation");
+    text = vt_system.Translate("Your very soul is slowly but surely opening. I can feel your sorrow and doubts grow now.");
+    dialogue:AddLineEvent(text, lord, "Banesore moves closer to Lilly 1", "");
+    text = vt_system.Translate("Fight it, Lilly! Focus!");
+    dialogue:AddLineEmote(text, carson, "exclamation");
+    text = vt_system.Translate("Keep quiet, you old daft rat!");
+    dialogue:AddLine(text, soldier1);
+    text = vt_system.Translate("Oh! My apologize, it seems you said the truth about the Crystal...");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("The fact you didn't mention anything about the boy is leading me to think you know him.");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("...");
+    dialogue:AddLine(text, lilly);
+    text = vt_system.Translate("Ah? So he must be close...");
+    dialogue:AddLineEvent(text, lord, "Banesore moves closer to Lilly 2", "");
+    text = vt_system.Translate("What? No!");
+    dialogue:AddLineEmote(text, malta, "exclamation");
+    text = vt_system.Translate("Oh, I'm getting it. This is her mother. Bring her here, and kill her!");
+    dialogue:AddLineEvent(text, lord, "Banesore look east", "Banesore look west");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue with the Lord", dialogue);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 1", lord, 99.0, 54.0, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 2", lord, 98.0, 54.0, false);
     EventManager:RegisterEvent(event);
 end
 
