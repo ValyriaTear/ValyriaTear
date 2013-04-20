@@ -75,3 +75,10 @@ valyriatear-win32-depends/*
 #files modified during runtime
 stderr.txt
 stdout.txt
+
+# Mac & Xcode specific files
+.DS_Store
+ValyriaTear.xcodeproj/xcuserdata
+ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata
+Xcode/ValyriaTear.xcodeproj/xcuserdata
+Xcode/ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata 
