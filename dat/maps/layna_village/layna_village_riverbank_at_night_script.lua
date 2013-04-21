@@ -410,9 +410,9 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Banesore look east", lord, vt_map.MapMode.EAST);
+    event = vt_map.ChangeDirectionSpriteEvent("Banesore looks south", lord, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Banesore look west", lord, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent("Banesore looks west", lord, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
 
@@ -484,7 +484,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann and Orlinn are discussing");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn goes near Bronann", orlinn, 71.5, 43.8, false);
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes near Bronann", orlinn, 71.0, 43.8, false);
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
@@ -545,14 +545,67 @@ function _CreateEvents()
     text = vt_system.Translate("What? No!");
     dialogue:AddLineEmote(text, malta, "exclamation");
     text = vt_system.Translate("Oh, I'm getting it. This is her mother. Bring her here, and kill her!");
-    dialogue:AddLineEvent(text, lord, "Banesore look east", "Banesore look west");
+    dialogue:AddLineEvent(text, lord, "Banesore looks south", "Banesore looks west");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord", dialogue);
+    event:AddEventLinkAtEnd("All villagers are surprised");
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 1", lord, 99.0, 54.0, false);
     EventManager:RegisterEvent(event);
     event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 2", lord, 98.0, 54.0, false);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("All villagers are surprised", "exclamation_all_villagers", "");
+    event:AddEventLinkAtEnd("Carson protects Malta", 1000);
+    event:AddEventLinkAtEnd("Set Camera on Carson");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Carson protects Malta", carson, 95.0, 60.5, false);
+    event:AddEventLinkAtEnd("Carson looks north");
+    event:AddEventLinkAtEnd("Carson defies the Lord");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ChangeDirectionSpriteEvent("Carson looks north", carson, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedSpriteEvent("Set Camera on Carson", carson, "set_camera_on", "set_camera_update");
+    event:AddEventLinkAtEnd("Dialogue with the Lord 2");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Let her out of this! You can have me instead.");
+    dialogue:AddLine(text, carson);
+    text = vt_system.Translate("So, here we have a gentleman! I'll start with you, then...");
+    dialogue:AddLineEvent(text, lord, "Banesore looks south", "");
+    text = vt_system.Translate("Fine...");
+    dialogue:AddLine(text, carson);
+    text = vt_system.Translate("... But she will be the next one.");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("You filthy demon!");
+    dialogue:AddLineEmote(text, carson, "exclamation");
+    text = vt_system.Translate("It's fine, I'll come...");
+    dialogue:AddLine(text, malta);
+    text = vt_system.Translate("No!");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue with the Lord 2", dialogue);
+    event:AddEventLinkAtEnd("All villagers are surprised 2");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("All villagers are surprised 2", "exclamation_all_villagers", "");
+    event:AddEventLinkAtEnd("Set Camera on Bronann");
+    event:AddEventLinkAtEnd("Banesore looks west");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedSpriteEvent("Set Camera on Bronann", bronann, "set_camera_on", "set_camera_update");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("At last... The boy.");
+    dialogue:AddLine(text, lord);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue with the Lord 3", dialogue);
     EventManager:RegisterEvent(event);
 end
 
@@ -680,5 +733,17 @@ map_functions = {
     lord_battle_scene_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,
+
+    exclamation_all_villagers = function()
+        kalya:Emote("exclamation", kalya:GetDirection());
+        herth:Emote("exclamation", herth:GetDirection());
+        lilly:Emote("exclamation", lilly:GetDirection());
+        carson:Emote("exclamation", carson:GetDirection());
+        malta:Emote("exclamation", malta:GetDirection());
+        brymir:Emote("exclamation", brymir:GetDirection());
+        martha:Emote("exclamation", martha:GetDirection());
+        georges:Emote("exclamation", georges:GetDirection());
+        olivia:Emote("exclamation", olivia:GetDirection());
+    end
 
 }
