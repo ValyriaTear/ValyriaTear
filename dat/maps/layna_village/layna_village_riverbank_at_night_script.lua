@@ -596,16 +596,84 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("All villagers are surprised 2", "exclamation_all_villagers", "");
     event:AddEventLinkAtEnd("Set Camera on Bronann");
     event:AddEventLinkAtEnd("Banesore looks west");
+    event:AddEventLinkAtEnd("Bronann runs to the soldiers 1");
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedSpriteEvent("Set Camera on Bronann", bronann, "set_camera_on", "set_camera_update");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.PathMoveSpriteEvent("Bronann runs to the soldiers 1", bronann, 85.0, 49.0, true);
+    event:AddEventLinkAtEnd("Bronann runs to the soldiers 2");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Bronann runs to the soldiers 2", bronann, 91.0, 54.0, true);
+    event:AddEventLinkAtEnd("Bronann looks east");
+    event:AddEventLinkAtEnd("Dialogue with the Lord 3");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("A soldier goes closer to stop Bronann", soldier12, 91.0, 52.0, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("The soldier goes back to his place", soldier12, 90.0, 50.0, false);
+    event:AddEventLinkAtEnd("The soldier looks south");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("The soldier looks south", soldier12, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Lilly goes near Bronann", lilly, 93.0, 54.0, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Lilly looks east", lilly, vt_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Lilly let Bronann advance", lilly, 93.0, 51.0, false);
+    event:AddEventLinkAtEnd("Lilly looks south");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Lilly looks south", lilly, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Lilly looks west", lilly, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("At last... The boy.");
+    dialogue:AddLineEvent(text, lord, "", "A soldier goes closer to stop Bronann");
+    text = vt_system.Translate("No! Let him come closer...");
+    dialogue:AddLineEvent(text, lord, "", "The soldier goes back to his place");
+    text = vt_system.Translate("Bronann!!");
+    dialogue:AddLine(text, malta);
+    text = vt_system.Translate("Bronann!! No!");
+    dialogue:AddLine(text, carson);
+    text = vt_system.Translate("Bronann, Why? ...");
+    dialogue:AddLineEvent(text, lilly, "Lilly goes near Bronann", "");
+    text = vt_system.Translate("Clear the way, Lilly. I need to speak to him...");
+    dialogue:AddLineEvent(text, lord, "", "Lilly looks east");
+    text = vt_system.Translate("Let's have a talk, Bronann!");
     dialogue:AddLine(text, lord);
+    text = vt_system.Translate("I don't have any other choice, Lilly...");
+    dialogue:AddLineEvent(text, bronann, "Lilly looks west", "");
+    text = vt_system.Translate("Bronann...");
+    dialogue:AddLineEvent(text, lilly, "", "Lilly let Bronann advance");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 3", dialogue);
+    event:AddEventLinkAtEnd("Bronann goes closer from Banesore", 1000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Bronann goes closer from Banesore", bronann, 93.0, 54.0, false);
+    event:AddEventLinkAtEnd("Dialogue with the Lord 4");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("You... After all these years...");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("Show it to me... Try and use it one me!");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("What are you talking about?");
+    dialogue:AddLine(text, bronann);
+    text = vt_system.Translate("But, the Crystal, of course. I can feel it within your flesh...");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("The Crystal? My flesh??");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
+    text = vt_system.Translate("Ah, so you need some kind of motivation? Let me handle this, with pleasure!");
+    dialogue:AddLine(text, lord);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue with the Lord 4", dialogue);
+    event:AddEventLinkAtEnd("Battle with Banesore");
     EventManager:RegisterEvent(event);
 end
 
