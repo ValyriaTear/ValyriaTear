@@ -493,7 +493,7 @@ int main(int argc, char *argv[])
     try {
         // Change to the directory where the game data is stored
 #ifdef __MACH__
-        string path;
+        std::string path;
         path = argv[0];
         // Remove the binary name
         path.erase(path.find_last_of('/'));
