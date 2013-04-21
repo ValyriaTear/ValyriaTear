@@ -33,7 +33,7 @@ namespace luabind { namespace detail {
 
     LUABIND_API void push_instance_metatable(lua_State* L);
 
-    namespace {
+    namespace moredetail {
 
         int create_cpp_class_metatable(lua_State* L)
         {
@@ -109,8 +109,8 @@ namespace luabind { namespace detail {
     class class_rep;
 
     class_registry::class_registry(lua_State* L)
-        : m_cpp_class_metatable(create_cpp_class_metatable(L))
-        , m_lua_class_metatable(create_lua_class_metatable(L))
+        : m_cpp_class_metatable(luabind::detail::moredetail::create_cpp_class_metatable(L))
+        , m_lua_class_metatable(luabind::detail::moredetail::create_lua_class_metatable(L))
     {
         push_instance_metatable(L);
         m_instance_metatable = luaL_ref(L, LUA_REGISTRYINDEX);
