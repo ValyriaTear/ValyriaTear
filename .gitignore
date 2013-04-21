@@ -56,7 +56,7 @@ doc/SOURCE/html/*
 [0-9][0-9][0-9][0-9]-*.patch
 
 # static libraries
-*.a
+# *.a
 
 # files created by qmake
 *.cxx
