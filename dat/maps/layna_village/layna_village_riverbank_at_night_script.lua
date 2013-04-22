@@ -465,6 +465,7 @@ function _CreateEvents()
     dialogue:AddLine(text, soldier21);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldier yells at Bronann", dialogue);
+    event:AddEventLinkAtEnd("Battle with Banesore");
     event:AddEventLinkAtEnd("Restart map");
     EventManager:RegisterEvent(event);
 
@@ -661,7 +662,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("You... After all these years...");
     dialogue:AddLine(text, lord);
-    text = vt_system.Translate("Show it to me... Try and use it one me!");
+    text = vt_system.Translate("Show it to me... Try and use it on me!");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("What are you talking about?");
     dialogue:AddLine(text, bronann);
@@ -671,9 +672,19 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Ah, so you need some kind of motivation? Let me handle this, with pleasure!");
     dialogue:AddLine(text, lord);
+    text = vt_system.Translate("Let's fight!");
+    dialogue:AddLine(text, lord);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 4", dialogue);
     event:AddEventLinkAtEnd("Battle with Banesore");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.BattleEncounterEvent("Battle with Banesore");
+    event:SetMusic("mus/the_recon_mission.ogg");
+    event:SetBackground("img/backdrops/battle/mountain_village.png");
+    event:AddEnemy(10, 700, 600);
+    event:AddScript("dat/maps/common/at_night.lua");
+    --event:AddScript("dat/maps/layna_village/battle_with_banesore_script.lua");
     EventManager:RegisterEvent(event);
 end
 
