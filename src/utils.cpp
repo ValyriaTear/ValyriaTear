@@ -1079,7 +1079,14 @@ static const std::string _SetupSettingsFilename()
 {
     std::string settings_file = GetUserConfigPath() + "settings.lua";
     if(!DoesFileExist(settings_file)) {
-        settings_file = "dat/config/settings.lua";
+
+        #ifdef __APPLE__
+
+                settings_file = "../Resources/dat/config/settings.lua";
+        #else
+            settings_file = "dat/config/settings.lua";
+        #endif
+
         if(!DoesFileExist(settings_file))
             PRINT_WARNING << "settings.lua file not found." << std::endl;
     }
