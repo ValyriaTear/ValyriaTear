@@ -1230,6 +1230,7 @@
 				2BA1774416D8330400163B97 /* Resources */,
 				2B33A85F16D84D7600197E24 /* CopyFiles */,
 				2BDBE27A1724DACA0094E313 /* Localization Script */,
+				2BDBE27B1724ED480094E313 /* Version Script */,
 			);
 			buildRules = (
 			);
@@ -1322,6 +1323,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Localisation script\n\n# Xcode uses a different .bash_profile it seems\n# This is macports path\nexport PATH=/opt/local/bin:/opt/local/sbin:$PATH\n\nfor i in `grep -v ^# ../po/LINGUAS`\ndo\nmkdir -p po/$i/LC_MESSAGES\nmsgfmt -c -o po/$i/LC_MESSAGES/valyriatear.mo ../po/$i.po\ndone\n\ncp -r po $TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources\n#rm -r locale";
+		};
+		2BDBE27B1724ED480094E313 /* Version Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Version Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Version script\n\n# Update the CFBundleShortVersionString in the generated Info.plist using the most recent Git tag.\n# Idea taken from http://tinyurl.com/3usjj9d by Joachim Bondo.\n\n# Get the current release description from Git.\nGIT_RELEASE_VERSION=`git describe --tags --abbrev=0`\n\n# Set the CFBundleShortVersionString in the generated Info.plist (stripping off the leading \"v\").\ndefaults write \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH%.*}\" \"CFBundleShortVersionString\" \"${GIT_RELEASE_VERSION#*v}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
