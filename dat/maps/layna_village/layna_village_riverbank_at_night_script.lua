@@ -465,7 +465,6 @@ function _CreateEvents()
     dialogue:AddLine(text, soldier21);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldier yells at Bronann", dialogue);
-    event:AddEventLinkAtEnd("Battle with Banesore");
     event:AddEventLinkAtEnd("Restart map");
     EventManager:RegisterEvent(event);
 
