@@ -1229,6 +1229,7 @@
 				2BA1774316D8330400163B97 /* Frameworks */,
 				2BA1774416D8330400163B97 /* Resources */,
 				2B33A85F16D84D7600197E24 /* CopyFiles */,
+				2BDBE27A1724DACA0094E313 /* Localization Script */,
 			);
 			buildRules = (
 			);
@@ -1306,6 +1307,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2BDBE27A1724DACA0094E313 /* Localization Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Localization Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Localisation script\n\n# Xcode uses a different .bash_profile it seems\n# This is macports path\nexport PATH=/opt/local/bin:/opt/local/sbin:$PATH\n\nfor i in `grep -v ^# ../po/LINGUAS`\ndo\nmkdir -p po/$i/LC_MESSAGES\nmsgfmt -c -o po/$i/LC_MESSAGES/valyriatear.mo ../po/$i.po\ndone\n\ncp -r po $TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources\n#rm -r locale";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2B57F5CA16D9EE3900ECEB71 /* Sources */ = {
