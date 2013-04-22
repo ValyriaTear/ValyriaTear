@@ -76,7 +76,7 @@ valyriatear-win32-depends/*
 stderr.txt
 stdout.txt
 
-#mac crap
+# Mac specific files
 .DS_Store
 ValyriaTear.xcodeproj/xcuserdata
 ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata
