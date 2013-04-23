@@ -29,7 +29,7 @@
 #include "utils.h"
 
 // Prevents redefinition errors on OSX against old boost libraries.
-#ifdef __MACH__
+#ifdef __APPLE__
 #undef check
 #endif
 
