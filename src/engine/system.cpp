@@ -36,7 +36,9 @@
 #include <limits.h>
 #endif
 
+#ifndef DISABLE_TRANSLATIONS
 #include <libintl.h>
+#endif
 
 using namespace vt_utils;
 using namespace vt_script;
@@ -49,6 +51,14 @@ namespace vt_system
 
 SystemEngine *SystemManager = NULL;
 bool SYSTEM_DEBUG = false;
+
+// If gettext translations are disabled, let's define a dummy gettext.
+#ifdef DISABLE_TRANSLATIONS
+const char* gettext(const char *text)
+{
+    return text;
+}
+#endif
 
 std::string Translate(const std::string &text)
 {
@@ -349,10 +359,11 @@ void Reinitl10n()
 #else
     bind_text_domain_path = LOCALEDIR;
 #endif
-
+#ifndef DISABLE_TRANSLATIONS
     bindtextdomain(APPSHORTNAME, bind_text_domain_path.c_str());
     bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
     textdomain(APPSHORTNAME);
+#endif
 }
 
 

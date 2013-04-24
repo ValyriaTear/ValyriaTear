@@ -580,6 +580,12 @@ void BootMode::_SetupLanguageOptionsMenu()
         _po_files.push_back(read_data.ReadString(2));
         _language_options_menu.AddOption(MakeUnicodeString(read_data.ReadString(1)),
                                          &BootMode::_OnLanguageSelect);
+
+#ifdef DISABLE_TRANSLATIONS
+        // If translations are disabled, only admit the first entry (English)
+        if (i > 1)
+            _language_options_menu.EnableOption(i - 1, false);
+#endif
         read_data.CloseTable();
     }
 
