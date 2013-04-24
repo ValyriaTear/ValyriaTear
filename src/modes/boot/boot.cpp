@@ -572,7 +572,7 @@ void BootMode::_SetupLanguageOptionsMenu()
     uint32 table_size = read_data.GetTableSize();
 
     // Set up the dimensions of the window according to how many languages are available.
-    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, table_size);
+    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, (table_size > 8 ? 8 : table_size));
 
     _po_files.clear();
     for(uint32 i = 1; i <= table_size; i++) {
