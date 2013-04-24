@@ -117,6 +117,17 @@ int32 ScriptSupervisor::AddAnimation(const std::string &filename)
 }
 
 
+int32 ScriptSupervisor::AddAnimation(const std::string &filename, float width,
+                                     float height)
+{
+    int32 id = AddAnimation(filename);
+    if (id > -1)
+        _script_animations[id].SetDimensions(width, height);
+
+    return id;
+}
+
+
 void ScriptSupervisor::DrawAnimation(int32 id, float x, float y)
 {
     if(id < 0 || id > static_cast<int32>(_script_animations.size()) - 1)

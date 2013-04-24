@@ -77,9 +77,11 @@ public:
 
     /** \brief Loads a custom lua animation files, to be drawn through scripting
     *** \param filename The filename of the new background image to load
+    *** \param width, height The animation image dimensions.
     *** \return id the id used to invoke the animation through scripted draw calls.
     **/
     int32 AddAnimation(const std::string &filename);
+    int32 AddAnimation(const std::string &filename, float width, float height);
 
     /** \brief Draws a custom animation.
     *** \param custom image id, obtained through AddCustomAnimation()
