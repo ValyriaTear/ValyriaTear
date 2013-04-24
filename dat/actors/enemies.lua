@@ -528,18 +528,18 @@ enemies[10] = {
         [HURT_HEAVILY] = "img/sprites/battle/enemies/lord_banesore_0.lua"
     },
 
-    -- TODO: Balance stats
+    -- Special, unwinnable battle with no reward
     base_stats = {
-        hit_points = 122,
-        skill_points = 10,
-        strength = 18,
-        vigor = 0,
-        fortitude = 12,
-        protection = 4,
-        agility = 14,
-        evade = 2.0,
-        experience_points = 8,
-        drunes = 12
+        hit_points = 999999,
+        skill_points = 99999,
+        strength = 18, -- Just for the game
+        vigor = 999,
+        fortitude = 999,
+        protection = 999,
+        agility = 27,
+        evade = 8.0,
+        experience_points = 0,
+        drunes = 0
     },
 
     attack_points = {
@@ -575,8 +575,6 @@ enemies[10] = {
     },
 
     drop_objects = {
-        { 1, 0.15 }, -- Minor Healing Potion
-        { 11, 0.15 } -- Minor Moon Juice
     }
 }
 

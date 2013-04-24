@@ -545,7 +545,7 @@ function _CreateEvents()
     text = vt_system.Translate("What? No!");
     dialogue:AddLineEmote(text, malta, "exclamation");
     text = vt_system.Translate("Oh, I'm getting it. This is her mother. Bring her here, and kill her!");
-    dialogue:AddLineEvent(text, lord, "Banesore looks south", "Banesore looks west");
+    dialogue:AddLineEvent(text, lord, "Banesore looks south", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord", dialogue);
     event:AddEventLinkAtEnd("All villagers are surprised");
@@ -590,23 +590,33 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 2", dialogue);
-    event:AddEventLinkAtEnd("All villagers are surprised 2");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.ScriptedEvent("All villagers are surprised 2", "exclamation_all_villagers", "");
     event:AddEventLinkAtEnd("Set Camera on Bronann");
     event:AddEventLinkAtEnd("Banesore looks west");
     event:AddEventLinkAtEnd("Bronann runs to the soldiers 1");
+    event:AddEventLinkAtEnd("Exclamation of all soldiers");
+    event:AddEventLinkAtEnd("All villagers are surprised 2");
+    event:AddEventLinkAtEnd("All people look at Bronann");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Set Camera on Bronann", bronann, "set_camera_on", "set_camera_update");
+    event = vt_map.ScriptedEvent("Exclamation of all soldiers", "exclamation_all_soldiers", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("All villagers are surprised 2", "exclamation_all_villagers", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("All people look at Bronann", "all_people_look_at_bronann", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedSpriteEvent("Set Camera on Bronann", bronann, "set_camera_on", "");
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Bronann runs to the soldiers 1", bronann, 85.0, 49.0, true);
     event:AddEventLinkAtEnd("Bronann runs to the soldiers 2");
+    event:AddEventLinkAtEnd("All people look at Bronann");
     EventManager:RegisterEvent(event);
     event = vt_map.PathMoveSpriteEvent("Bronann runs to the soldiers 2", bronann, 91.0, 54.0, true);
     event:AddEventLinkAtEnd("Bronann looks east");
+    event:AddEventLinkAtEnd("All people look at Bronann");
     event:AddEventLinkAtEnd("Dialogue with the Lord 3");
     EventManager:RegisterEvent(event);
 
@@ -622,7 +632,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Lilly looks east", lilly, vt_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Lilly let Bronann advance", lilly, 93.0, 51.0, false);
+    event = vt_map.PathMoveSpriteEvent("Lilly let Bronann advance", lilly, 93.0, 50.0, false);
     event:AddEventLinkAtEnd("Lilly looks south");
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Lilly looks south", lilly, vt_map.MapMode.SOUTH);
@@ -632,7 +642,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("At last... The boy.");
-    dialogue:AddLineEvent(text, lord, "", "A soldier goes closer to stop Bronann");
+    dialogue:AddLineEventEmote(text, lord, "", "A soldier goes closer to stop Bronann", "exclamation");
     text = vt_system.Translate("No! Let him come closer...");
     dialogue:AddLineEvent(text, lord, "", "The soldier goes back to his place");
     text = vt_system.Translate("Bronann!!");
@@ -661,15 +671,17 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("You... After all these years...");
     dialogue:AddLine(text, lord);
-    text = vt_system.Translate("Show it to me... Try and use it on me!");
-    dialogue:AddLine(text, lord);
-    text = vt_system.Translate("What are you talking about?");
+    text = vt_system.Translate("... Let everyone out of this. We don't have your 'crystal'...");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("But, the Crystal, of course. I can feel it within your flesh...");
+    text = vt_system.Translate("Of course, you have it. I can feel it within your flesh...");
     dialogue:AddLine(text, lord);
-    text = vt_system.Translate("The Crystal? My flesh??");
+    text = vt_system.Translate("So, the crystal is in me??");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Ah, so you need some kind of motivation? Let me handle this, with pleasure!");
+    text = vt_system.Translate("Now, show it to me...");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("But I...");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
+    text = vt_system.Translate("Do you need some kind of motivation? If so, let me handle this with my greatest pleasure!");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("Let's fight!");
     dialogue:AddLine(text, lord);
@@ -680,10 +692,10 @@ function _CreateEvents()
 
     event = vt_map.BattleEncounterEvent("Battle with Banesore");
     event:SetMusic("mus/the_recon_mission.ogg");
-    event:SetBackground("img/backdrops/battle/mountain_village.png");
+    event:SetBackground("img/backdrops/battle/mountain_village_single_house.png");
     event:AddEnemy(10, 700, 600);
     event:AddScript("dat/maps/common/at_night.lua");
-    --event:AddScript("dat/maps/layna_village/battle_with_banesore_script.lua");
+    event:AddScript("dat/maps/layna_village/battle_with_banesore_script.lua");
     EventManager:RegisterEvent(event);
 end
 
@@ -804,6 +816,8 @@ map_functions = {
         bronann:SetMoving(false);
         EventManager:TerminateAllEvents(soldier21);
         EventManager:TerminateAllEvents(soldier22);
+        soldier21:Emote("exclamation", soldier21:GetDirection());
+        soldier22:Emote("exclamation", soldier22:GetDirection());
         -- Undo the last event, as the map is restarting
         GlobalManager:SetEventValue("story", "layna_village_arrival_at_riverbank_done", 0);
     end,
@@ -822,6 +836,58 @@ map_functions = {
         martha:Emote("exclamation", martha:GetDirection());
         georges:Emote("exclamation", georges:GetDirection());
         olivia:Emote("exclamation", olivia:GetDirection());
+    end,
+
+    exclamation_all_soldiers = function()
+        soldier1:Emote("exclamation", soldier1:GetDirection());
+        soldier2:Emote("exclamation", soldier2:GetDirection());
+        soldier3:Emote("exclamation", soldier3:GetDirection());
+        soldier4:Emote("exclamation", soldier4:GetDirection());
+        soldier5:Emote("exclamation", soldier5:GetDirection());
+        soldier6:Emote("exclamation", soldier6:GetDirection());
+        soldier7:Emote("exclamation", soldier7:GetDirection());
+        soldier8:Emote("exclamation", soldier8:GetDirection());
+        soldier9:Emote("exclamation", soldier9:GetDirection());
+        soldier10:Emote("exclamation", soldier10:GetDirection());
+        soldier11:Emote("exclamation", soldier11:GetDirection());
+        soldier12:Emote("exclamation", soldier12:GetDirection());
+        soldier13:Emote("exclamation", soldier13:GetDirection());
+        soldier14:Emote("exclamation", soldier14:GetDirection());
+        soldier15:Emote("exclamation", soldier15:GetDirection());
+        soldier16:Emote("exclamation", soldier16:GetDirection());
+    end,
+
+    all_people_look_at_bronann = function()
+        soldier1:LookAt(bronann);
+        soldier2:LookAt(bronann);
+        soldier3:LookAt(bronann);
+        soldier4:LookAt(bronann);
+        soldier5:LookAt(bronann);
+        soldier6:LookAt(bronann);
+        soldier7:LookAt(bronann);
+        soldier8:LookAt(bronann);
+        soldier9:LookAt(bronann);
+        soldier10:LookAt(bronann);
+        soldier11:LookAt(bronann);
+        soldier12:LookAt(bronann);
+        soldier13:LookAt(bronann);
+        soldier14:LookAt(bronann);
+        soldier15:LookAt(bronann);
+        soldier16:LookAt(bronann);
+        soldier17:LookAt(bronann);
+        soldier18:LookAt(bronann);
+        soldier19:LookAt(bronann);
+        soldier20:LookAt(bronann);
+
+        kalya:LookAt(bronann);
+        herth:LookAt(bronann);
+        malta:LookAt(bronann);
+        carson:LookAt(bronann);
+        lilly:LookAt(bronann);
+        brymir:LookAt(bronann);
+        martha:LookAt(bronann);
+        georges:LookAt(bronann);
+        olivia:LookAt(bronann);
     end
 
 }

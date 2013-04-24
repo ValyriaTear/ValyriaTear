@@ -1,11 +1,6 @@
 -- This script executes for the very first battle that the player encounters in a new game.
 -- Its purpose is to present a dialogue to the player at the start of the battle to provide
 -- a brief explanation of the battle system.
---
--- This script is only used by the river cave access map. All battles on that map load this script,
--- but we only want the script to execute for the first battle. So the "global_events" event group is
--- used to record when the first battle occurs. If it has already occurred, this script effectively does
--- nothing
 
 local ns = {}
 setmetatable(ns, {__index = _G})
