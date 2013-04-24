@@ -1778,9 +1778,11 @@
 					/opt/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_CPLUSPLUSFLAGS = "-DEDITOR_SUPPORT=off";
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DEDITOR_SUPPORT=off",
+					"-DDISABLE_TRANSLATIONS=on",
+				);
 				OTHER_LDFLAGS = (
-					"$(SRCROOT)/libs/libintl.a",
 					"$(SRCROOT)/libs/libvorbisfile.a",
 					"$(SRCROOT)/libs/libvorbisenc.a",
 					"$(SRCROOT)/libs/libz.a",
@@ -1824,9 +1826,11 @@
 					/opt/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_CPLUSPLUSFLAGS = "-DEDITOR_SUPPORT=off";
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DEDITOR_SUPPORT=off",
+					"-DDISABLE_TRANSLATIONS=on",
+				);
 				OTHER_LDFLAGS = (
-					"$(SRCROOT)/libs/libintl.a",
 					"$(SRCROOT)/libs/libvorbisfile.a",
 					"$(SRCROOT)/libs/libvorbisenc.a",
 					"$(SRCROOT)/libs/libz.a",
