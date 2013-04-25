@@ -183,11 +183,6 @@ bool LoadSettings()
     int32 resy = settings.ReadInt("screen_resy");
     VideoManager->SetInitialResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
-    // Enforce smooth tiles graphics at first run
-    if (settings.DoesBoolExist("smooth_graphics"))
-        VideoManager->SetPixelArtSmoothed(settings.ReadBool("smooth_graphics"));
-    else
-        VideoManager->SetPixelArtSmoothed(true);
     settings.CloseTable(); // video_settings
 
     // Load Audio settings
@@ -431,6 +426,9 @@ void InitializeEngine() throw(Exception)
     // Load all the settings from lua. This includes some engine configuration settings.
     if(!LoadSettings())
         throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
+
+    // Enforce smooth tiles graphics
+    VideoManager->SetPixelArtSmoothed(true);
 
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();

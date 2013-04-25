@@ -1121,8 +1121,6 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("screen_resy", VideoManager->GetScreenHeight());
     settings_lua.WriteComment("Run the screen fullscreen/in a window");
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
-    settings_lua.WriteComment("Used smoothed tile sprites when playing");
-    settings_lua.WriteBool("smooth_graphics", VideoManager->ShouldSmoothPixelArt());
     settings_lua.EndTable(); // video_settings
 
     // audio
