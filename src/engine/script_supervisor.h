@@ -86,8 +86,10 @@ public:
     /** \brief Draws a custom animation.
     *** \param custom image id, obtained through AddCustomAnimation()
     *** \param position screen position to draw at.
+    *** \param color to blend the image at.
     **/
     void DrawAnimation(int32 id, float x, float y);
+    void DrawAnimation(int32 id, float x, float y, const vt_video::Color &color);
 
     /** \brief Loads a custom images, to be drawn through scripting
     *** \param filename The filename of the new background image to load
@@ -100,7 +102,8 @@ public:
     *** \param position screen position to draw at.
     *** \param color to blend the image at.
     **/
-    void DrawImage(int32 id, float x, float y, const vt_video::Color &color = vt_video::Color::white);
+    void DrawImage(int32 id, float x, float y);
+    void DrawImage(int32 id, float x, float y, const vt_video::Color &color);
 
     //! \brief Same than @DrawImage but with a given rotation.
     void DrawRotatedImage(int32 id, float x, float y, const vt_video::Color &color, float angle);

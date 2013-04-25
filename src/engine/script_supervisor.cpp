@@ -81,14 +81,12 @@ void ScriptSupervisor::Update()
         ReadScriptDescriptor::RunScriptObject(_update_functions[i]);
 }
 
-
 void ScriptSupervisor::DrawBackground()
 {
     // Handles custom scripted draw before sprites
     for(uint32 i = 0; i < _draw_background_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_draw_background_functions[i]);
 }
-
 
 void ScriptSupervisor::DrawForeground()
 {
@@ -116,7 +114,6 @@ int32 ScriptSupervisor::AddAnimation(const std::string &filename)
     return id;
 }
 
-
 int32 ScriptSupervisor::AddAnimation(const std::string &filename, float width,
                                      float height)
 {
@@ -127,16 +124,19 @@ int32 ScriptSupervisor::AddAnimation(const std::string &filename, float width,
     return id;
 }
 
-
 void ScriptSupervisor::DrawAnimation(int32 id, float x, float y)
+{
+   DrawAnimation(id, x, y, Color::white);
+}
+
+void ScriptSupervisor::DrawAnimation(int32 id, float x, float y, const Color& color)
 {
     if(id < 0 || id > static_cast<int32>(_script_animations.size()) - 1)
         return;
 
     VideoManager->Move(x, y);
-    _script_animations[id].Draw();
+    _script_animations[id].Draw(color);
 }
-
 
 int32 ScriptSupervisor::AddImage(const std::string &filename, float width,
                                  float height)
@@ -151,6 +151,11 @@ int32 ScriptSupervisor::AddImage(const std::string &filename, float width,
 
     int32 id = _script_images.size() - 1;
     return id;
+}
+
+void ScriptSupervisor::DrawImage(int32 id, float x, float y)
+{
+    DrawImage(id, x, y, Color::white);
 }
 
 void ScriptSupervisor::DrawImage(int32 id, float x, float y, const Color &color)

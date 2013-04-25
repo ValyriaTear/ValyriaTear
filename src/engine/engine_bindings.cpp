@@ -92,9 +92,11 @@ void BindEngineCode()
             .def("AddAnimation", (int32(ScriptSupervisor:: *)(const std::string&))&ScriptSupervisor::AddAnimation)
             .def("AddAnimation", (int32(ScriptSupervisor:: *)(const std::string&, float, float))&ScriptSupervisor::AddAnimation)
             .def("AddImage", &ScriptSupervisor::AddImage)
-            .def("DrawImage", &ScriptSupervisor::DrawImage)
+            .def("DrawImage", (void(ScriptSupervisor:: *)(int32, float, float, const vt_video::Color&))&ScriptSupervisor::DrawImage)
+            .def("DrawImage", (void(ScriptSupervisor:: *)(int32, float, float))&ScriptSupervisor::DrawImage)
             .def("DrawRotatedImage", &ScriptSupervisor::DrawRotatedImage)
-            .def("DrawAnimation", &ScriptSupervisor::DrawAnimation)
+            .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float))&ScriptSupervisor::DrawAnimation)
+            .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float, const vt_video::Color&))&ScriptSupervisor::DrawAnimation)
             .def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
         ];
 

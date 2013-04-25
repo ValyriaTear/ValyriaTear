@@ -20,8 +20,7 @@
 ***
 *** \note You shouldn't need to modify this code if you are wishing to extend
 *** the game (either for a new inherited GameMode class, or a new data/scripting
-*** file). Contact the author of this code if you feel it lacks functionality
-*** that you need.
+*** file).
 *** ***************************************************************************/
 
 #ifndef __SCRIPT_HEADER__
