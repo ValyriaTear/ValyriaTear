@@ -23,6 +23,8 @@
 
 #include "engine/input.h"
 
+#include "common/global/global.h"
+
 namespace vt_common {
 extern bool COMMON_DEBUG;
 }
@@ -52,15 +54,45 @@ SpriteDialogue::SpriteDialogue(uint32 id) :
     CommonDialogue(id),
     _input_blocked(false),
     _restore_state(true),
-    _event_name("dialogue#" + vt_utils::NumberToString(id))
+    _dialogue_seen(false)
 {}
 
 SpriteDialogue::SpriteDialogue() :
     CommonDialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
     _input_blocked(false),
-    _restore_state(true)
+    _restore_state(true),
+    _dialogue_seen(false)
+{}
+
+SpriteDialogue::SpriteDialogue(const std::string& dialogue_event_name) :
+    CommonDialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
+    _input_blocked(false),
+    _restore_state(true),
+    _event_name(dialogue_event_name)
 {
-    _event_name = "dialogue#" + vt_utils::NumberToString(GetDialogueID());
+    // Check whether the dialogue as already been seen
+    _dialogue_seen = false;
+    if (_event_name.empty())
+        return;
+
+    int32 seen = vt_global::GlobalManager->GetEventValue("dialogues", _event_name);
+    if (seen > 0)
+        _dialogue_seen = true;
+}
+
+void SpriteDialogue::SetAsSeen(bool seen)
+{
+    _dialogue_seen = seen;
+
+    if (_event_name.empty())
+        return;
+
+    // Stores the dialogue state in the save data
+    int32 event_value = 0;
+    if (_dialogue_seen)
+        event_value = 1;
+
+    vt_global::GlobalManager->SetEventValue("dialogues", _event_name, event_value);
 }
 
 void SpriteDialogue::AddLine(const std::string &text, uint32 speaker_id)

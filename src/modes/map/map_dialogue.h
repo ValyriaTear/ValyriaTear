@@ -42,8 +42,24 @@ public:
     //! \brief Constructor with auto-generated dialogue ID
     SpriteDialogue();
 
+    //! \brief Dialogue with auto-generated id and event name
+    //! \param dialogue_event_name event name used and stored in the 'dialogues' save data table.
+    //! The event name is used to know whether the player has already seen a dialogue
+    //! and display the dialogue bubble accordingly.
+    //! If empty, the event is not stored.
+    SpriteDialogue(const std::string& dialogue_event_name);
+
     ~SpriteDialogue()
     {}
+
+    //! \brief Indicates if this dialogue has already been seen by the player.
+    bool HasAlreadySeen() const {
+        return _dialogue_seen;
+    }
+
+    //! \brief Set the dialogue as seen by the player, and stores its states
+    //! in the save data if its event name isn't empty.
+    void SetAsSeen(bool seen = true);
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen
@@ -255,8 +271,11 @@ private:
     //! \brief If true, the state of map sprites participating in this dialogue will be reset after the dialogue completes
     bool _restore_state;
 
-    //! \brief The event name for this dialogue that is stored in the saved game file, of the form "dialogue#"
+    //! \brief The event name for this dialogue that is stored in the saved game file, if not empty.
     std::string _event_name;
+
+    //! \brief Tells whether the dialogue has been seen by the player.
+    bool _dialogue_seen;
 
     //! \brief Contains object ID numbers that declare the speaker of each line
     std::vector<uint32> _speakers;

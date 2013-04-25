@@ -310,7 +310,6 @@ void DialogueSupervisor::EndDialogue()
         return;
     }
 
-    _current_dialogue->SetAsSeen();
     _current_dialogue = NULL;
     _current_options = NULL;
     _line_timer.Finish();

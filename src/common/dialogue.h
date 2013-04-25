@@ -139,15 +139,6 @@ public:
     **/
     void AddOption(const std::string &text, int32 next_line);
 
-    //! \brief Indicates if this dialogue has already been seen by the player.
-    bool HasAlreadySeen() const {
-        return _dialogue_seen;
-    }
-
-    void SetAsSeen(bool seen = true) {
-        _dialogue_seen = seen;
-    }
-
     /** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
     *** \return True if the validation was successful, false if any problems were discovered
     ***
@@ -199,9 +190,6 @@ public:
 protected:
     //! \brief A unique identification number that represents this dialogue
     uint32 _dialogue_id;
-
-    //! \brief Tells whether the dialogue has been seen by the player.
-    bool _dialogue_seen;
 
     //! \brief Stores the amount of lines in the dialogue.
     uint32 _line_count;

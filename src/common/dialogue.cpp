@@ -36,7 +36,6 @@ namespace vt_common
 
 CommonDialogue::CommonDialogue(uint32 id) :
     _dialogue_id(id),
-    _dialogue_seen(false),
     _line_count(0)
 {}
 

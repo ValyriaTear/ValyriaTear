@@ -90,7 +90,7 @@ function _CreateNPCs()
         EventManager:StartEvent("Dad random move");
     end
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_dad");
     text = vt_system.Translate("Hey son! Slept well? Err, where did I leave that oil lamp?");
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("Hi Dad! Er, I don't know. Sorry.");
@@ -488,14 +488,14 @@ function _UpdateMotherDialogue()
         bronanns_mother:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         -- 1st quest dialogue
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_about_barley_meal");
         local text = vt_system.Translate("Could you go and buy some barley meal for us three?");
         dialogue:AddLine(text, bronanns_mother);
         DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
         -- Begining dialogue
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_mother1");
         local text = vt_system.Translate("Hi son, did you also have a nightmare last night?");
         dialogue:AddLine(text, bronanns_mother);
         text = vt_system.Translate("Hi mom. Huh, how do you know...");
