@@ -17,6 +17,11 @@ local dialogue3_done = false;
 local battle_exit_done = false;
 
 local fire1_id = -1;
+local fire1_1_id = -1;
+local fire1_2_id = -1;
+
+local soldier_id = -1;
+local lilly_id = -1;
 
 function Initialize(battle_instance)
     Battle = battle_instance;
@@ -24,6 +29,11 @@ function Initialize(battle_instance)
 
     -- TODO: Add campfire, lilly and soldiers
     fire1_id = Script:AddAnimation("img/sprites/map/objects/campfire.lua", 128.0, 128.0);
+    fire1_1_id = Script:AddAnimation("img/misc/lights/torch_light_mask2.lua", 340.0, 340.0);
+    fire1_2_id = Script:AddImage("img/misc/lights/sun_flare_light.png", 154.0, 161.0);
+
+    soldier_id = Script:AddAnimation("dat/maps/layna_village/battle_dark_soldier_idle_down.lua", 150.0, 150.0);
+    lilly_id = Script:AddAnimation("dat/maps/layna_village/battle_lilly_idle_down.lua", 70.0, 140.0);
 
     local text = {};
     local dialogue = {};
@@ -94,36 +104,36 @@ function Update()
 
     Battle:SetSceneMode(false);
 
-    -- Only update the expired dialogue time when the battle isn't in scene mode.
-    -- TODO:
-    -- A BATTLE_SCENE state is needed to handle:
-    --  - State pause for actors
-    --  - Dialogues updates
-    --  - Other script events
+    -- Only update the expired dialogue time when the battle isn't in scene mode
+    -- and the actors aren't paused...
     if (Battle:AreActorStatesPaused() == false) then
        battle_time = battle_time + time_expired;
     end
 
+    -- TODO: Lilly discretly helps Bronann
+
+    -- TODO: Make Herth appear and help Bronann to flee
+
+
     if (dialogue1_done == false) then
-        Battle:SetSceneMode(true);
         DialogueManager:BeginDialogue(1);
+        Battle:SetSceneMode(true);
         dialogue1_done = true;
     end
 
     if (battle_time >= 3000 and dialogue2_done == false) then
-        Battle:SetSceneMode(true);
         DialogueManager:BeginDialogue(2);
+        Battle:SetSceneMode(true);
         dialogue2_done = true;
     end
 
     if (battle_time >= 6000 and dialogue3_done == false) then
-        Battle:SetSceneMode(true);
         DialogueManager:BeginDialogue(3);
+        Battle:SetSceneMode(true);
         dialogue3_done = true;
     end
 
     if (battle_time >= 8000 and battle_exit_done == false) then
-        Battle:SetSceneMode(true);
         ModeManager:Pop(true, true);
         battle_exit_done = true;
     end
@@ -131,14 +141,18 @@ function Update()
 end
 
 function DrawBackground()
-    --TODO
-	-- Draw background main animations
-	Script:DrawAnimation(fire1_id, 235.0, 310.0);
+    Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND);
 
-	--Script:DrawImage(rock_id, 800.0, 248.0, vt_video.Color(1.0, 1.0, 1.0, 1.0));
-end
+    Script:DrawAnimation(soldier_id, 130.0, 280.0);
+    Script:DrawAnimation(lilly_id, 75.0, 250.0);
 
-function DrawPostEffects()
-    --TODO
+    Script:DrawAnimation(soldier_id, 300.0, 290.0);
+    Script:DrawAnimation(soldier_id, 495.0, 330.0);
 
+    Script:DrawAnimation(soldier_id, 795.0, 250.0);
+
+	Script:DrawAnimation(fire1_id, 235.0, 340.0);
+    Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND_ADD);
+    Script:DrawAnimation(fire1_1_id, 115.0, 270.0, vt_video.Color(0.85, 0.32, 0.0, 0.7));
+    Script:DrawImage(fire1_2_id, 220.0, 350.0, vt_video.Color(0.99, 1.0, 0.27, 0.5));
 end

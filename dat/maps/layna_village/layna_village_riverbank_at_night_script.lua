@@ -486,6 +486,8 @@ function _CreateEvents()
 
     event = vt_map.PathMoveSpriteEvent("Orlinn goes near Bronann", orlinn, 71.0, 43.8, false);
     EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Orlinn hides again", orlinn, 76.0, 43.8, false);
+    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("(Whispering) Kalya!");
@@ -505,7 +507,7 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann and Orlinn are discussing", dialogue);
     event:AddEventLinkAtEnd("Bronann looks east");
-    event:AddEventLinkAtEnd("Orlinn looks east");
+    event:AddEventLinkAtEnd("Orlinn hides again");
     event:AddEventLinkAtEnd("Set Camera on Lilly");
     EventManager:RegisterEvent(event);
 
