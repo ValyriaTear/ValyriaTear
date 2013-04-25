@@ -92,6 +92,8 @@ function Update()
         return;
     end
 
+    Battle:SetSceneMode(false);
+
     -- Only update the expired dialogue time when the battle isn't in scene mode.
     -- TODO:
     -- A BATTLE_SCENE state is needed to handle:
@@ -103,21 +105,25 @@ function Update()
     end
 
     if (dialogue1_done == false) then
+        Battle:SetSceneMode(true);
         DialogueManager:BeginDialogue(1);
         dialogue1_done = true;
     end
 
     if (battle_time >= 3000 and dialogue2_done == false) then
+        Battle:SetSceneMode(true);
         DialogueManager:BeginDialogue(2);
         dialogue2_done = true;
     end
 
     if (battle_time >= 6000 and dialogue3_done == false) then
+        Battle:SetSceneMode(true);
         DialogueManager:BeginDialogue(3);
         dialogue3_done = true;
     end
 
     if (battle_time >= 8000 and battle_exit_done == false) then
+        Battle:SetSceneMode(true);
         ModeManager:Pop(true, true);
         battle_exit_done = true;
     end

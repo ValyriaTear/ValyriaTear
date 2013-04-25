@@ -196,6 +196,7 @@ BattleMode::BattleMode() :
     _last_enemy_dying(false),
     _stamina_icon_alpha(1.0f),
     _actor_state_paused(false),
+    _scene_mode(false),
     _battle_type(BATTLE_TYPE_WAIT),
     _highest_agility(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR)
@@ -323,16 +324,8 @@ void BattleMode::Update()
         return;
     }
 
-    if(_dialogue_supervisor->IsDialogueActive() == true) {
+    if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Update();
-
-        // Because the dialogue may have ended in the call to Update(), we have to check it again here.
-        if(_dialogue_supervisor->IsDialogueActive() == true) {
-            if(_dialogue_supervisor->GetCurrentDialogue()->IsHaltBattleAction() == true) {
-                return;
-            }
-        }
-    }
 
     // Update all actors animations and y-sorting
     _battle_objects.clear();
@@ -362,6 +355,10 @@ void BattleMode::Update()
     }
 
     std::sort(_battle_objects.begin(), _battle_objects.end(), CompareObjectsYCoord);
+
+    // If the battle is in scene mode, we only update animation
+    if (_scene_mode)
+        return;
 
     // Now checking standard battle conditions
 
@@ -1117,19 +1114,16 @@ void BattleMode::_DrawGUI()
         _DrawIndicators();
 
     if(_command_supervisor->GetState() != COMMAND_STATE_INVALID) {
-        if((_dialogue_supervisor->IsDialogueActive()) &&
-                (_dialogue_supervisor->GetCurrentDialogue()->IsHaltBattleAction())) {
-            // Do not draw the command selection GUI if a dialogue is active that halts the battle action
-        } else if(!_last_enemy_dying) {
+        // Do not draw the command selection GUI if the battle is in scene mode
+        if(!IsInSceneMode() && !_last_enemy_dying)
             _command_supervisor->Draw();
-        }
     }
-    if(_dialogue_supervisor->IsDialogueActive()) {
+
+    if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Draw();
-    }
-    if((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {
+
+    if((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT))
         _finish_supervisor->Draw();
-    }
 }
 
 

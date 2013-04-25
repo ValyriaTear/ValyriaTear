@@ -35,13 +35,15 @@ local stop_script = false;
 local start_timer = {};
 local main_dialogue = {};
 
+local dialogue_started = false;
+
 function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
 
     stop_script = false;
 
-    if (GlobalManager:DoesEventExist("story", "first_battle") == false) then
+    if (GlobalManager:GetEventValue("story", "first_battle") ~= 1) then
         GlobalManager:SetEventValue("story", "first_battle", 1);
         stop_script = false;
     else
@@ -114,6 +116,8 @@ function Initialize(battle_instance)
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);
+
+    dialogue_started = false;
 end
 
 
@@ -129,9 +133,17 @@ function Update()
         start_timer:Run();
     end
 
+    -- If the dialogue is done, end the scene
+    if ((dialogue_started == true) and (DialogueManager:IsDialogueActive()) == false) then
+        Battle:SetSceneMode(false);
+        stop_script = true;
+    end
+
     -- If the dialogue has not been seen yet, check if its time to start it
-    if ((start_timer:IsFinished() == true) and (DialogueManager:IsDialogueActive() == false)) then
+    if ((dialogue_started == false) and (start_timer:IsFinished() == true) and (DialogueManager:IsDialogueActive() == false)) then
         DialogueManager:BeginDialogue(1);
+        Battle:SetSceneMode(true);
+        dialogue_started = true;
     end
 
     -- Set up whether the hand should be shown and where
@@ -188,7 +200,6 @@ function Update()
         hand1_visible = false;
         hand2_visible = false;
         last_line = 15;
-        stop_script = true;
     end
 
     -- get time expired

@@ -113,7 +113,8 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
         }
     }
 
-    // --- (4): Finish initialization of members
+    // Init the effect timer
+    _timer.EnableManualUpdate();
     _timer.Reset();
     _timer.Run();
     _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
@@ -189,6 +190,11 @@ EffectsSupervisor::~EffectsSupervisor()
 
 void EffectsSupervisor::Update()
 {
+    // Do not update when states are paused
+    BattleMode *BM = BattleMode::CurrentInstance();
+    if (BM->IsInSceneMode() || BM->AreActorStatesPaused())
+        return;
+
     // Update the timers and state for all active status effects
     for(uint32 i = 0; i < _status_effects.size(); ++i) {
         if(!_status_effects.at(i))
@@ -199,7 +205,7 @@ void EffectsSupervisor::Update()
         vt_system::SystemTimer *effect_timer = _status_effects[i]->GetTimer();
 
         // Update the effect time while taking in account the battle speed
-        effect_timer->Update(SystemManager->GetUpdateTime() * BattleMode::CurrentInstance()->GetBattleTypeTimeFactor());
+        effect_timer->Update(SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor());
 
         // Decrease the intensity of the status by one level when its timer expires. This may result in
         // the status effect being removed from the actor if its intensity changes to the neutral level.

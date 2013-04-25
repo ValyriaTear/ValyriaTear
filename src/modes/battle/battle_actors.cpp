@@ -322,7 +322,8 @@ void BattleActor::Update()
     // Don't update the state timer when the battle tells is to pause
     // when in idle state.
     // Also don't elapse the status effect time when paused.
-    if (!BattleMode::CurrentInstance()->AreActorStatesPaused()) {
+    BattleMode *BM = BattleMode::CurrentInstance();
+    if (!BM->AreActorStatesPaused() && !BM->IsInSceneMode()) {
         // Don't update the state_timer if the character is hurt.
         if (!_hurt_timer.IsRunning()) {
 
@@ -348,7 +349,7 @@ void BattleActor::Update()
 
     _indicator_supervisor->Update();
 
-    if (_state_timer.IsFinished() == true) {
+    if (_state_timer.IsFinished()) {
         if (_state == ACTOR_STATE_IDLE) {
             // If an action is already set for the actor, skip the command state and immediately begin the warm up state
             if (_action == NULL)
@@ -572,6 +573,10 @@ void BattleCharacter::Update()
     // Update the active sprite animation
     _current_sprite_animation->Update();
     _current_weapon_animation.Update();
+
+    // In scene mode, only the animations are updated
+    if (BattleMode::CurrentInstance()->IsInSceneMode())
+        return;
 
     // Update potential scripted Battle action without hardcoded logic in that case
     if(_action && _action->IsScripted() && _state == ACTOR_STATE_ACTING) {
@@ -978,9 +983,12 @@ void BattleEnemy::Update()
     BattleActor::Update();
 
     // Updates the sprites animations
-    for (uint32 i = 0; i < _sprite_animations->size(); ++i) {
+    for (uint32 i = 0; i < _sprite_animations->size(); ++i)
         _sprite_animations->at(i).Update();
-    }
+
+    // In scene mode, only the animations are updated
+    if (BattleMode::CurrentInstance()->IsInSceneMode())
+        return;
 
     // Note: that update part only handles attack actions
     if(_state == ACTOR_STATE_ACTING) {

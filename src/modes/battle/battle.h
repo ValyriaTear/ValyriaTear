@@ -309,6 +309,16 @@ public:
         return _state;
     }
 
+    //! \brief Sets the battle in scene mode, pausing the actors actions and states.
+    void SetSceneMode(bool scene_mode) {
+        _scene_mode = scene_mode;
+    }
+
+    //! \brief Tells whether the battle is paused and playing a scene
+    bool IsInSceneMode() const {
+        return _scene_mode;
+    }
+
     /** \brief Changes the state of the battle and performs any initializations and updates needed
     *** \param new_state The new state to change the battle to
     **/
@@ -519,6 +529,12 @@ private:
 
     //! \brief Tells whether the state of battle actors should be paused. Used in wait battle types.
     bool _actor_state_paused;
+
+    //! Tells whether the battle is in scene mode
+    //! The actor states should then be paused, the dialogues played if there are some,
+    //! But the actors animations and indicators should still updates.
+    //! The effects shouldn't update though.
+    bool _scene_mode;
 
     //! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
     vt_battle::private_battle::BATTLE_TYPE _battle_type;

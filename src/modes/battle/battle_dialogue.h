@@ -156,21 +156,7 @@ public:
         else return _speakers[line];
     }
 
-    //! \name Class Member Access Functions
-    //@{
-    bool IsHaltBattleAction() const {
-        return _halt_battle_action;
-    }
-
-    void SetHaltBattleAction(bool halt) {
-        _halt_battle_action = halt;
-    }
-    //@}
-
 private:
-    //! \brief When true, the battle action will be suspended while this dialogue is active
-    bool _halt_battle_action;
-
     //! \brief Contains the speaker ID number corresponding to each line of text
     std::vector<uint32> _speakers;
 }; // class BattleDialogue : public vt_common::CommonDialogue
