@@ -303,13 +303,15 @@ function _CreateEvents()
 
     -- NOTE the actual coords will be set at event start.
     move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Exit seen: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
-    move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at the rock");
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya says 'Look!'");
     EventManager:RegisterEvent(move_next_to_hero_event2);
 
+    event = vt_map.LookAtSpriteEvent("Kalya looks at the rock", kalya_sprite, 112, 92);
+    EventManager:RegisterEvent(event);
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("... Look!");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the rock", "", "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya says 'Look!'", dialogue);
     event:AddEventLinkAtEnd("Set_Camera(kalya_sprite)");
@@ -349,9 +351,6 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("end of exit seen dialogue", "end_of_exit_seen_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks south");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.LookAtSpriteEvent("Kalya looks at the rock", kalya_sprite, 112, 92);
     EventManager:RegisterEvent(event);
 end
 
@@ -512,7 +511,7 @@ function _CheckZones()
         EventManager:StartEvent("to wolf cave");
     elseif (monsters_defeated == false
             and GlobalManager:GetEventValue("story", "kalya_layna_forest_cave1_2_exit_dialogue_done") == 0) then
-        if (seeing_the_exit_zone:IsCameraEntering() == true) then
+        if (seeing_the_exit_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
             EventManager:StartEvent("Kalya sees the cave exit");
         end
     end
