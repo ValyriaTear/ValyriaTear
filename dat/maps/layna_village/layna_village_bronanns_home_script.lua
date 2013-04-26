@@ -201,10 +201,10 @@ end
 function _CreateObjects()
     object = {}
 
-    object = CreateObject(Map, "Chair1", 48, 18);
+    object = CreateObject(Map, "Chair1", 47, 18);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Chair1_inverted", 40, 18);
+    object = CreateObject(Map, "Chair1_inverted", 41, 18);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Bench2", 44, 15.3);
