@@ -191,8 +191,8 @@ function _CreateEvents()
     local text = {};
 
     -- Map events
-    event = vt_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from layna forest cave 2")
+    event = vt_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from layna forest cave 2")
     EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal_map.lua",
