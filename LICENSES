@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.04.22
+Last update: 2013.04.26
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -36,6 +36,7 @@ art/lightning3.xcf                                              CC by SA 3.0    
 art/stamina_bar.xcf                                             CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
 art/knight_lord.xcf                                             CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
 art/lord_spritesheet.xcf                                        CC by SA 3.0             Bertram, based on Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+art/well.xcf                                                    CC by SA 3.0             Bertram, based on several Jetrel's sprites.
 
 dat/global.lua                                                  GPLv2 or later           Bertram (Completely redone it.)
 
@@ -653,6 +654,8 @@ img/sprites/map/objects/tree_tiny4.lua                          GPLv2           
 img/sprites/map/objects/tree_tiny4.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/vase1.lua                               GPLv2                    Bertram
 img/sprites/map/objects/vase1.png                               GPLv2                    Allacrost
+img/sprites/map/objects/well.lua                                GPLv2                    Bertram
+img/sprites/map/objects/well.png                                CC by SA 3.0             Bertram, based on several Jetrel's sprites
 img/sprites/map/objects/wooden_table_big.lua                    GPLv2                    Bertram
 img/sprites/map/objects/wooden_table_big.png                    GPLv2                    Allacrost
 img/sprites/map/objects/wooden_table_small.lua                  GPLv2                    Bertram

@@ -260,6 +260,10 @@ function _CreateObjects()
     object = CreateObject(Map, "Rock2", 113, 42);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
+    -- A village with drinkable water
+    object = CreateObject(Map, "Well", 59.0, 32.0);
+    if (object ~= nil) then Map:AddGroundObject(object) end;
+
     -- collision bug hidders
     object = CreateObject(Map, "Barrel1", 14, 38);
     if (object ~= nil) then Map:AddGroundObject(object) end;

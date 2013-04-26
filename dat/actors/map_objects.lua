@@ -512,6 +512,14 @@ objects["Vase1"] = {
     img_height = 1.5
 }
 
+objects["Well"] = {
+    animation_filename = "img/sprites/map/objects/well.lua",
+    coll_half_width = 2.10,
+    coll_height = 3.20,
+    img_half_width = 2.43,
+    img_height = 4.56
+}
+
 objects["Wooden Sword1"] = {
     animation_filename = "img/sprites/map/objects/wooden_sword1.lua",
     coll_half_width = 0.65,
