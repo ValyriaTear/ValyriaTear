@@ -100,7 +100,7 @@ function _CreateNPCs()
     npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 7, 25);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue("ep1_layna_village_granma_default");
     text = vt_system.Translate("Ah! It's nice to see your dear young face around, Bronann. Come and chat with an old grandma.");
     dialogue:AddLine(text, npc);
     text = vt_system.Translate("Er... Sorry grandma, I have to go! Maybe later?");

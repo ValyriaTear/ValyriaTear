@@ -121,7 +121,7 @@ function _CreateNPCs()
         DialogueManager:AddDialogue(dialogue);
         npc:AddDialogueReference(dialogue);
         -- The second time, just repeat the sentence
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_herth_south_entrance_default");
         text = vt_system.Translate("It's a possibility. But don't worry too much, ok?");
         dialogue:AddLine(text, npc);
         DialogueManager:AddDialogue(dialogue);

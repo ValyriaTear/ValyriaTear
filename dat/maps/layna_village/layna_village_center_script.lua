@@ -131,7 +131,7 @@ function _CreateNPCs()
     event:AddEventLinkAtEnd("Kalya random move", 2000); -- Loop on itself
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Kalya random move");
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue("ep1_layna_village_kalya_wants_to_be_alone");
     text = vt_system.Translate("Please, leave me alone, Bronann...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
@@ -157,7 +157,7 @@ function _CreateNPCs()
     npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.WEST);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue("ep1_layna_village_brymir_gossip");
     text = vt_system.Translate("Ahh sure! (gossip, gossip)");
     dialogue:AddLine(text, npc);
     DialogueManager:AddDialogue(dialogue);
@@ -166,7 +166,7 @@ function _CreateNPCs()
     npc = CreateNPCSprite(Map, "Woman1", "Martha", 70, 64);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.EAST);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue("ep1_layna_village_martha_gossip");
     text = vt_system.Translate("Did you hear that? (gossip, gossip)");
     dialogue:AddLine(text, npc);
     DialogueManager:AddDialogue(dialogue);
@@ -175,12 +175,13 @@ function _CreateNPCs()
     npc = CreateNPCSprite(Map, "Woman2", "Sophia", 22, 38);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("You're too young to trade stuff with me!");
-    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
-        if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
-            text = vt_system.Translate("If you're running after Orlinn, I just saw him disappear near your house.");
-        end
+    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true and
+            GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_sophia_hint_about_orlinn");
+        text = vt_system.Translate("If you're running after Orlinn, I just saw him disappear near your house.");
+    else
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_sophia_no_trade");
+        text = vt_system.Translate("You're too young to trade stuff with me!");
     end
     dialogue:AddLine(text, npc);
     DialogueManager:AddDialogue(dialogue);
@@ -842,7 +843,7 @@ function _UpdateOliviaDialogue()
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
         if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false
             and GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-            dialogue = vt_map.SpriteDialogue();
+            dialogue = vt_map.SpriteDialogue("ep1_layna_village_olivia_no_access_to_forest2");
             text = vt_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword...");
             dialogue:AddLineEmote(text, olivia, "exclamation");
             text = vt_system.Translate("Aww...");
@@ -852,7 +853,7 @@ function _UpdateOliviaDialogue()
             DialogueManager:AddDialogue(dialogue);
             olivia:AddDialogueReference(dialogue);
         else
-            dialogue = vt_map.SpriteDialogue();
+            dialogue = vt_map.SpriteDialogue("ep1_layna_village_olivia_no_access_to_forest1");
             text = vt_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
             dialogue:AddLineEmote(text, olivia, "exclamation");
             text = vt_system.Translate("Aww...");
@@ -861,7 +862,7 @@ function _UpdateOliviaDialogue()
             olivia:AddDialogueReference(dialogue);
         end
     else
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_olivia_access_to_forest");
         text = vt_system.Translate("Good luck Bronann.");
         dialogue:AddLine(text, olivia);
         DialogueManager:AddDialogue(dialogue);
@@ -886,7 +887,7 @@ function _UpdateGeorgesDialogue()
     -- default behaviour once the barley meal is given
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true
         and GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == false) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_barley_meal_for_lilly");
         text = vt_system.Translate("Actually, the barley meal was for Lilly.");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("!! What?");
@@ -919,7 +920,7 @@ function _UpdateGeorgesDialogue()
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         -- Once talked to him after the shop conversation, just put the end of the dialogue
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_pen_lost");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
@@ -964,7 +965,7 @@ function _UpdateGeorgesDialogue()
         return;
     end
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_default");
     text = vt_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
     dialogue:AddLine(text, georges);
     DialogueManager:AddDialogue(dialogue);
@@ -991,7 +992,7 @@ function _UpdateOrlinnAndKalyaState()
     end
     if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Bronann got Georges' pen, update orlinn dialogue
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_orlinn_wont_bother_again");
         text = vt_system.Translate("I promise I won't bother you again ...");
         dialogue:AddLine(text, orlinn);
         text = vt_system.Translate("Don't worry about that, Orlinn. Ok?");
@@ -1039,7 +1040,7 @@ function _UpdateOrlinnAndKalyaState()
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
     else
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_orlinn_wanna_play");
         text = vt_system.Translate("Heya bro! Wanna play with me?");
         dialogue:AddLine(text, orlinn);
         DialogueManager:AddDialogue(dialogue);

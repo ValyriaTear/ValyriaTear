@@ -577,7 +577,7 @@ function _SetLillyState()
         DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_lilly_go_home");
         text = vt_system.Translate("You should go back home. Your mom must be waiting for you.");
         dialogue:AddLine(text, lilly);
         DialogueManager:AddDialogue(dialogue);
@@ -601,7 +601,7 @@ function _SetLillyState()
         DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     else
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_lilly_default");
         text = vt_system.Translate("What a nice day, isn't it?");
         dialogue:AddLine(text, lilly);
         DialogueManager:AddDialogue(dialogue);

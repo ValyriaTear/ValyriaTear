@@ -174,7 +174,7 @@ function _UpdateFloraDialogue()
         return;
     elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         -- Just repeat the last dialogue sentence, when the dialogue is already done.
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue("ep1_layna_village_flora_about_georges");
         text = vt_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
@@ -204,7 +204,7 @@ function _UpdateFloraDialogue()
         return;
     end
     --default behaviour
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue("ep1_layna_village_flora_default");
     text = vt_system.Translate("Hi Bronnan! What can I do for you?");
     dialogue:AddLineEvent(text, flora, "", "layna: open shop");
     DialogueManager:AddDialogue(dialogue);
