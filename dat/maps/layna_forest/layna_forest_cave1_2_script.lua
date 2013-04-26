@@ -18,6 +18,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Effects = {};
 
 -- the main character handler
 local hero = {};
@@ -35,9 +36,9 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = false;
-    Map:ShowMinimap(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -465,7 +466,7 @@ function _CheckMonstersStates()
         blocking_rock:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         blocking_rock:SetVisible(false);
         AudioManager:PlaySound("snd/cave-in.ogg");
-        VideoManager:ShakeScreen(0.6, 1000, vt_video.GameVideo.VIDEO_FALLOFF_GRADUAL);
+        Effects:ShakeScreen(0.6, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
 
         hero:SetMoving(false);
         -- Trigger the dialogue event about the shaking...
