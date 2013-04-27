@@ -39,7 +39,7 @@
 #include "modes/boot/boot.h"
 #include "main_options.h"
 
-#ifdef __MACH__
+#ifdef __APPLE__
 #include <unistd.h>
 #endif
 
@@ -490,7 +490,7 @@ int main(int argc, char *argv[])
 
     try {
         // Change to the directory where the game data is stored
-#ifdef __MACH__
+#ifdef __APPLE__
         std::string path;
         path = argv[0];
         // Remove the binary name

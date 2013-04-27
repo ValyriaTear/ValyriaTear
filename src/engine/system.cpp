@@ -29,7 +29,7 @@
 #ifndef PATH_MAX
 #define PATH_MAX _MAX_PATH   // redefine _MAX_PATH to be compatible with Darwin's PATH_MAX
 #endif
-#elif defined __MACH__
+#elif defined __APPLE__
 #include <unistd.h>
 #include <cstdlib>
 #elif defined __linux__
@@ -339,7 +339,7 @@ void Reinitl10n()
 
     std::string bind_text_domain_path;
 
-#if defined(_WIN32) || defined(__MACH__)
+#if defined(_WIN32) || defined(__APPLE__)
     char buffer[PATH_MAX];
     // Get the current working directory.
     bind_text_domain_path = getcwd(buffer, PATH_MAX);

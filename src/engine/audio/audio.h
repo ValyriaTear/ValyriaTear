@@ -30,7 +30,7 @@
 #include "audio_descriptor.h"
 #include "audio_effects.h"
 
-#ifdef __MACH__
+#ifdef __APPLE__
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #else

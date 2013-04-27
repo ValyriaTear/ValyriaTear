@@ -888,7 +888,7 @@ static void _CopyOldSaveFiles(const std::string &destination_path)
         return; // nothing to do
 #endif
 
-#ifndef __MACH__
+#ifndef __APPLE__
     for (uint32 i = 0; i < 6; ++i) {
         std::stringstream save_filename;
         save_filename << "saved_game_" << i << ".lua";
@@ -939,7 +939,7 @@ static void _CopyOldSettingsFile(const std::string &destination_path)
     if(!DoesFileExist(old_file))
         return; // nothing to do
 #endif
-#ifndef __MACH__
+#ifndef __APPLE__
     std::string new_filename = destination_path + "settings.lua";
 
     if (!MoveFile(old_file, new_filename))
@@ -966,7 +966,7 @@ static const std::string _SetupUserDataPath()
         return user_path;
     }
 
-#elif defined __MACH__
+#elif defined __APPLE__
     passwd *pw = getpwuid(getuid());
     if(pw) {
         std::string path = std::string(pw->pw_dir) + "/Library/Application Support/"APPUPCASEDIRNAME"/";
@@ -1027,7 +1027,7 @@ static const std::string _SetupUserConfigPath()
         return user_path;
      }
 
-#elif defined __MACH__
+#elif defined __APPLE__
     passwd *pw = getpwuid(getuid());
     if(pw) {
         std::string path = std::string(pw->pw_dir) + "/Library/Preferences/"APPUPCASEDIRNAME"/";
