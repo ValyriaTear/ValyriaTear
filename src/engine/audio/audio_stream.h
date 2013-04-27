@@ -21,7 +21,7 @@
 #ifndef __AUDIO_STREAM_HEADER__
 #define __AUDIO_STREAM_HEADER__
 
-#ifdef __MACH__
+#ifdef __APPLE__
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #else

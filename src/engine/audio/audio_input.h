@@ -26,7 +26,7 @@
 #ifndef __AUDIO_INPUT_HEADER__
 #define __AUDIO_INPUT_HEADER__
 
-#ifdef __MACH__
+#ifdef __APPLE__
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #else
