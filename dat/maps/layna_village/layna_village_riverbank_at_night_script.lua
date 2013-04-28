@@ -47,8 +47,7 @@ function Load(m)
 
     -- Start the return to village dialogue if it hasn't been done already.
     if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
-        --EventManager:StartEvent("Bronann arrives at the riverbank dialogue");
-        EventManager:StartEvent("Battle with Banesore");
+        EventManager:StartEvent("Bronann arrives at the riverbank dialogue");
     end
 end
 
