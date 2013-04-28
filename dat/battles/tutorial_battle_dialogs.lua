@@ -59,8 +59,8 @@ function Initialize(battle_instance)
 
     -- Add all speakers for the dialogues to be added
     -- TODO: all of these custom speaker calls should be replaced with calls to AddCharacterSpeaker() later
-    DialogueManager:AddCustomSpeaker(1000, "Bronann", "img/portraits/bronann.png");
-    DialogueManager:AddCustomSpeaker(1002, "Kalya", "img/portraits/kalya.png");
+    DialogueManager:AddCustomSpeaker(1000, vt_system.Translate("Bronann"), "img/portraits/bronann.png");
+    DialogueManager:AddCustomSpeaker(1002, vt_system.Translate("Kalya"), "img/portraits/kalya.png");
 
     local text;
     -- The dialogue constructed below offers the player instructions on how to do battle. It is displayed only once in the first few seconds

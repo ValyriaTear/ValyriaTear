@@ -398,8 +398,20 @@ public:
         return _character_actors;
     }
 
+    private_battle::BattleCharacter* GetCharacterActor(uint32 index) {
+        if (index >= _character_actors.size())
+            return NULL;
+        return _character_actors[index];
+    }
+
     std::deque<private_battle::BattleEnemy *>& GetEnemyActors() {
         return _enemy_actors;
+    }
+
+    private_battle::BattleEnemy* GetEnemyActor(uint32 index) {
+        if (index >= _enemy_actors.size())
+            return NULL;
+        return _enemy_actors[index];
     }
 
     std::deque<private_battle::BattleActor *>& GetCharacterParty() {

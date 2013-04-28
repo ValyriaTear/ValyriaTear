@@ -23,6 +23,8 @@ local fire1_2_id = -1;
 local soldier_id = -1;
 local lilly_id = -1;
 
+local lilly_charge_time = 0;
+
 function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
@@ -41,9 +43,10 @@ function Initialize(battle_instance)
 
     -- Add all speakers for the dialogues to be added
     -- TODO: all of these custom speaker calls should be replaced with calls to AddCharacterSpeaker() later
-    DialogueManager:AddCustomSpeaker(1000, "Bronann", "img/portraits/bronann.png");
-    DialogueManager:AddCustomSpeaker(1001, "Banesore", "img/portraits/npcs/lord_banesore.png");
-    DialogueManager:AddCustomSpeaker(1002, "Herth", "");
+    DialogueManager:AddCustomSpeaker(1000, vt_system.Translate("Bronann"), "img/portraits/bronann.png");
+    DialogueManager:AddCustomSpeaker(1001, vt_system.Translate("Banesore"), "img/portraits/npcs/lord_banesore.png");
+    DialogueManager:AddCustomSpeaker(1002, vt_system.Translate("Herth"), "");
+    DialogueManager:AddCustomSpeaker(1003, vt_system.Translate("Lilly"), "");
 
     dialogue = vt_battle.BattleDialogue(1);
     text = vt_system.Translate("So... Do you think you can hurt me?");
@@ -68,6 +71,12 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, 1002);
     DialogueManager:AddDialogue(dialogue);
 
+    -- Lilly helps Bronann
+    dialogue = vt_battle.BattleDialogue(4);
+    text = vt_system.Translate("Hold on Bronann!");
+    dialogue:AddLine(text, 1003);
+    DialogueManager:AddDialogue(dialogue);
+
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);
 
@@ -76,6 +85,9 @@ function Initialize(battle_instance)
     dialogue2_done = false;
     dialogue3_done = false;
     battle_exit_done = false;
+
+    -- Add a charge time at the end of which lilly can help Bronann
+    lilly_charge_time = 10000;
 end
 
 
@@ -106,13 +118,23 @@ function Update()
     -- Only update the expired dialogue time when the battle isn't in scene mode
     -- and the actors aren't paused...
     if (Battle:AreActorStatesPaused() == false) then
-       battle_time = battle_time + time_expired;
+        battle_time = battle_time + time_expired;
+        if (lilly_charge_time > 0) then
+           lilly_charge_time = lilly_charge_time - time_expired;
+        end
     end
 
-    -- TODO: Lilly discretly helps Bronann
-
-    -- TODO: Make Herth appear and help Bronann to flee
-
+    -- Lilly discretly helps Bronann:
+    -- - When Bronann's HP are low and at least a few seconds have passed
+    -- - And the dialogue with Herth isn't done.
+    if (dialogue3_done == false and lilly_charge_time <= 0) then
+        if (Battle:GetCharacterActor(0):GetHitPoints() <= 25) then
+            DialogueManager:BeginDialogue(4);
+            Battle:SetSceneMode(true);
+            lilly_charge_time = 20000;
+            lilly_heals_bronann();
+        end
+    end
 
     if (dialogue1_done == false) then
         DialogueManager:BeginDialogue(1);
@@ -120,19 +142,20 @@ function Update()
         dialogue1_done = true;
     end
 
-    if (battle_time >= 3000 and dialogue2_done == false) then
+    if (battle_time >= 30000 and dialogue2_done == false) then
         DialogueManager:BeginDialogue(2);
         Battle:SetSceneMode(true);
         dialogue2_done = true;
     end
 
-    if (battle_time >= 6000 and dialogue3_done == false) then
+    -- TODO: Make Herth appear and help Bronann to flee
+    if (battle_time >= 60000 and dialogue3_done == false) then
         DialogueManager:BeginDialogue(3);
         Battle:SetSceneMode(true);
         dialogue3_done = true;
     end
 
-    if (battle_time >= 8000 and battle_exit_done == false) then
+    if (battle_time >= 80000 and battle_exit_done == false) then
         ModeManager:Pop(true, true);
         battle_exit_done = true;
     end
@@ -154,4 +177,15 @@ function DrawBackground()
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND_ADD);
     Script:DrawAnimation(fire1_1_id, 115.0, 270.0, vt_video.Color(0.85, 0.32, 0.0, 0.7));
     Script:DrawImage(fire1_2_id, 220.0, 350.0, vt_video.Color(0.99, 1.0, 0.27, 0.5));
+end
+
+function lilly_heals_bronann()
+    -- Get Bronann
+    local target_actor = Battle:GetCharacterActor(0);
+
+    local hit_points = (20 * 3) +  vt_utils.RandomBoundedInteger(0, 15);
+    target_actor:RegisterHealing(hit_points, true);
+    AudioManager:PlaySound("snd/heal_spell.wav");
+    Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
+            target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
 end
