@@ -27,13 +27,12 @@ function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
 
-    -- TODO: Add campfire, lilly and soldiers
     fire1_id = Script:AddAnimation("img/sprites/map/objects/campfire.lua", 128.0, 128.0);
     fire1_1_id = Script:AddAnimation("img/misc/lights/torch_light_mask2.lua", 340.0, 340.0);
     fire1_2_id = Script:AddImage("img/misc/lights/sun_flare_light.png", 154.0, 161.0);
 
-    soldier_id = Script:AddAnimation("dat/maps/layna_village/battle_dark_soldier_idle_down.lua", 150.0, 150.0);
-    lilly_id = Script:AddAnimation("dat/maps/layna_village/battle_lilly_idle_down.lua", 70.0, 140.0);
+    soldier_id = Script:AddAnimation("dat/maps/layna_village/battle_with_banesore/battle_dark_soldier_idle_down.lua", 150.0, 150.0);
+    lilly_id = Script:AddAnimation("dat/maps/layna_village/battle_with_banesore/battle_lilly_idle_down.lua", 70.0, 140.0);
 
     local text = {};
     local dialogue = {};

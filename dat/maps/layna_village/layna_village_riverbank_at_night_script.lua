@@ -697,7 +697,7 @@ function _CreateEvents()
     event:SetBackground("img/backdrops/battle/mountain_village_single_house.png");
     event:AddEnemy(10, 700, 600);
     event:AddScript("dat/maps/common/at_night.lua");
-    event:AddScript("dat/maps/layna_village/battle_with_banesore_script.lua");
+    event:AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
     EventManager:RegisterEvent(event);
 end
 
