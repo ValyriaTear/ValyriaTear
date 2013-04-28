@@ -14,6 +14,7 @@ local battle_time = {};
 local dialogue1_done = false;
 local dialogue2_done = false;
 local dialogue3_done = false;
+local dialogue4_done = false;
 local battle_exit_done = false;
 
 local fire1_id = -1;
@@ -22,8 +23,12 @@ local fire1_2_id = -1;
 
 local soldier_id = -1;
 local lilly_id = -1;
+local herth_walking_id = -1;
 
 local lilly_charge_time = 0;
+
+local herth_x_position = 0.0;
+local bronann = {};
 
 function Initialize(battle_instance)
     Battle = battle_instance;
@@ -51,7 +56,7 @@ function Initialize(battle_instance)
     dialogue = vt_battle.BattleDialogue(1);
     text = vt_system.Translate("So... Do you think you can hurt me?");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("At least, I can try!");
+    text = vt_system.Translate("...");
     dialogue:AddLine(text, 1000);
     DialogueManager:AddDialogue(dialogue);
 
@@ -71,8 +76,19 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, 1002);
     DialogueManager:AddDialogue(dialogue);
 
-    -- Lilly helps Bronann
     dialogue = vt_battle.BattleDialogue(4);
+    text = vt_system.Translate("Do you remind me, Banesore?");
+    dialogue:AddLine(text, 1002);
+    text = vt_system.Translate("I do, old man...");
+    dialogue:AddLine(text, 1001);
+    text = vt_system.Translate("Then, you know your zombified men are no match to me...");
+    dialogue:AddLine(text, 1002);
+    text = vt_system.Translate("Argh! My chest is burning!!");
+    dialogue:AddLine(text, 1000);
+    DialogueManager:AddDialogue(dialogue);
+
+    -- Lilly helps Bronann
+    dialogue = vt_battle.BattleDialogue(5);
     text = vt_system.Translate("Hold on Bronann!");
     dialogue:AddLine(text, 1003);
     DialogueManager:AddDialogue(dialogue);
@@ -84,10 +100,17 @@ function Initialize(battle_instance)
     dialogue1_done = false;
     dialogue2_done = false;
     dialogue3_done = false;
+    dialogue4_done = false;
     battle_exit_done = false;
 
     -- Add a charge time at the end of which lilly can help Bronann
     lilly_charge_time = 10000;
+
+    -- Set Herth's starting x position
+    herth_x_position = 0.0;
+    
+    -- Get Bronann actor
+    bronann = Battle:GetCharacterActor(0);
 end
 
 
@@ -108,12 +131,42 @@ function Update()
         return;
     end
 
+    -- Update herth position until he is in place
+    if (dialogue3_done == true and DialogueManager:IsDialogueActive() == false) then
+        if (herth_walking_id == -1) then
+            -- Load and start Herth animation only after the dialogue 3.
+            herth_walking_id = Script:AddAnimation("dat/maps/layna_village/battle_with_banesore/herth_walking.lua", 70.0, 140.0);
+        end
+        if (herth_x_position <= 175.0) then
+            herth_x_position = herth_x_position + time_expired * 0.7;
+        end
+    end
+
     -- If the dialogue has not been seen yet, check if its time to start it
     if (DialogueManager:IsDialogueActive() == true) then
         return;
     end
 
+    -- Don't play a dialogue when bronann is acting
+    if (bronann:GetState() ~= vt_battle.BattleMode.ACTOR_STATE_IDLE and bronann:GetState() ~= vt_battle.BattleMode.ACTOR_STATE_COMMAND) then
+        return;
+    end
+
+    -- Stay in scene mode once the battle is over
+    if (battle_exit_done == true) then
+        return;
+    end
+
     Battle:SetSceneMode(false);
+
+    -- Bronann is hurt by the crystal
+    if (dialogue4_done == true and battle_exit_done == false) then
+        Battle:SetSceneMode(true);
+        ModeManager:Pop(true, true);
+        battle_exit_done = true;
+        --Change Bronann animation
+        bronann:ChangeSpriteAnimation("hurt");
+    end
 
     -- Only update the expired dialogue time when the battle isn't in scene mode
     -- and the actors aren't paused...
@@ -128,8 +181,8 @@ function Update()
     -- - When Bronann's HP are low and at least a few seconds have passed
     -- - And the dialogue with Herth isn't done.
     if (dialogue3_done == false and lilly_charge_time <= 0) then
-        if (Battle:GetCharacterActor(0):GetHitPoints() <= 25) then
-            DialogueManager:BeginDialogue(4);
+        if (bronann:GetHitPoints() <= 25) then
+            DialogueManager:BeginDialogue(5);
             Battle:SetSceneMode(true);
             lilly_charge_time = 20000;
             lilly_heals_bronann();
@@ -148,19 +201,25 @@ function Update()
         dialogue2_done = true;
     end
 
-    -- TODO: Make Herth appear and help Bronann to flee
+    -- Make Herth appear and help Bronann to flee
     if (battle_time >= 60000 and dialogue3_done == false) then
         DialogueManager:BeginDialogue(3);
         Battle:SetSceneMode(true);
         dialogue3_done = true;
     end
 
-    if (battle_time >= 80000 and battle_exit_done == false) then
-        ModeManager:Pop(true, true);
-        battle_exit_done = true;
+    -- Once Herth is in place, let's trigger the last dialogue
+    if (dialogue3_done == true and herth_x_position >= 175.0) then
+        if (dialogue4_done == false) then
+            DialogueManager:BeginDialogue(4);
+            Battle:SetSceneMode(true);
+            dialogue4_done = true;
+        end
     end
 
 end
+
+
 
 function DrawBackground()
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND);
@@ -173,19 +232,22 @@ function DrawBackground()
 
     Script:DrawAnimation(soldier_id, 795.0, 250.0);
 
-	Script:DrawAnimation(fire1_id, 235.0, 340.0);
+    Script:DrawAnimation(fire1_id, 235.0, 340.0);
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND_ADD);
     Script:DrawAnimation(fire1_1_id, 115.0, 270.0, vt_video.Color(0.85, 0.32, 0.0, 0.7));
     Script:DrawImage(fire1_2_id, 220.0, 350.0, vt_video.Color(0.99, 1.0, 0.27, 0.5));
 end
 
-function lilly_heals_bronann()
-    -- Get Bronann
-    local target_actor = Battle:GetCharacterActor(0);
+function DrawForeground()
+    if (dialogue3_done == true) then
+        Script:DrawAnimation(herth_walking_id, herth_x_position, 450.0);
+    end
+end
 
+function lilly_heals_bronann()
     local hit_points = (20 * 3) +  vt_utils.RandomBoundedInteger(0, 15);
-    target_actor:RegisterHealing(hit_points, true);
+    bronann:RegisterHealing(hit_points, true);
     AudioManager:PlaySound("snd/heal_spell.wav");
     Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
-            target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+            bronann:GetXLocation(), bronann:GetYLocation() + 5);
 end

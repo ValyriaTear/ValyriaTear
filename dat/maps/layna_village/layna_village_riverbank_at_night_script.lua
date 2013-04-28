@@ -47,7 +47,8 @@ function Load(m)
 
     -- Start the return to village dialogue if it hasn't been done already.
     if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
-        EventManager:StartEvent("Bronann arrives at the riverbank dialogue");
+        --EventManager:StartEvent("Bronann arrives at the riverbank dialogue");
+        EventManager:StartEvent("Battle with Banesore");
     end
 end
 
@@ -696,8 +697,8 @@ function _CreateEvents()
     event:SetMusic("mus/the_recon_mission.ogg");
     event:SetBackground("img/backdrops/battle/mountain_village_single_house.png");
     event:AddEnemy(10, 700, 600);
-    event:AddScript("dat/maps/common/at_night.lua");
     event:AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
+    event:AddScript("dat/maps/common/at_night.lua");
     EventManager:RegisterEvent(event);
 end
 

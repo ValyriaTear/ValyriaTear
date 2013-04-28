@@ -608,7 +608,19 @@ void BindModeCode()
                 luabind::value("BATTLE_TYPE_WAIT", BATTLE_TYPE_WAIT),
                 luabind::value("BATTLE_TYPE_SEMI_ACTIVE", BATTLE_TYPE_SEMI_ACTIVE),
                 luabind::value("BATTLE_TYPE_ACTIVE", BATTLE_TYPE_ACTIVE),
-                luabind::value("BATTLE_TYPE_TOTAL", BATTLE_TYPE_TOTAL)
+                luabind::value("BATTLE_TYPE_TOTAL", BATTLE_TYPE_TOTAL),
+
+                // Battle actor states
+                luabind::value("ACTOR_STATE_IDLE", ACTOR_STATE_IDLE),
+                luabind::value("ACTOR_STATE_COMMAND", ACTOR_STATE_COMMAND),
+                luabind::value("ACTOR_STATE_WARM_UP", ACTOR_STATE_WARM_UP),
+                luabind::value("ACTOR_STATE_READY", ACTOR_STATE_READY),
+                luabind::value("ACTOR_STATE_ACTING", ACTOR_STATE_ACTING),
+                luabind::value("ACTOR_STATE_COOL_DOWN", ACTOR_STATE_COOL_DOWN),
+                luabind::value("ACTOR_STATE_DYING", ACTOR_STATE_DYING),
+                luabind::value("ACTOR_STATE_DEAD", ACTOR_STATE_DEAD),
+                luabind::value("ACTOR_STATE_REVIVE", ACTOR_STATE_REVIVE),
+                luabind::value("ACTOR_STATE_PARALYZED", ACTOR_STATE_PARALYZED)
             ]
         ];
 
@@ -652,6 +664,7 @@ void BindModeCode()
             .def("SetShowAmmo", &BattleActor::SetShowAmmo)
             .def("SetAmmoPosition", &BattleActor::SetAmmoPosition)
             .def("GetAmmo", &BattleActor::GetAmmo)
+            .def("GetState", &BattleActor::GetState)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")

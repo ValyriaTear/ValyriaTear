@@ -21,6 +21,6 @@ animation = {
         [4] = { id = 4, duration = 40 },
         [5] = { id = 5, duration = 40 },
         [6] = { id = 6, duration = 75 },
-        [7] = { id = 7, duration = 150 }
+        [7] = { id = 7, duration = 999999 }
     }
 }
