@@ -226,7 +226,7 @@ function _CreateNPCs()
     soldier16:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier16);
 
-    lord = CreateNPCSprite(Map, "Lord", "Lord Banesore", 100, 54);
+    lord = CreateNPCSprite(Map, "Lord", "Lord Banesore", 105, 54);
     lord:SetDirection(vt_map.MapMode.WEST);
     Map:AddGroundObject(lord);
 
@@ -561,9 +561,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("All villagers are surprised");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 1", lord, 99.0, 54.0, false);
+    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 1", lord, 103.0, 54.0, false);
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 2", lord, 97.8, 54.0, false);
+    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 2", lord, 101.0, 54.0, false);
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("All villagers are surprised", "exclamation_all_villagers", "");
@@ -775,7 +775,7 @@ function _CreateEvents()
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("What?!");
     dialogue:AddLineEmote(text, herth, "exclamation");
-    text = vt_system.Translate("After all, I simply made sure that boy would reach the mount Combe, safe and sound.");
+    text = vt_system.Translate("After all, I simply made sure that boy would reach the Mt. Combe, safe and sound.");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("He is the only one that can get what I'm looking for...");
     dialogue:AddLine(text, lord);
