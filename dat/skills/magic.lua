@@ -131,12 +131,39 @@ skills[10004] = {
     BattleExecute = function(user, target)
         target_actor = target:GetActor();
         if (vt_battle.CalculateStandardEvasion(target) == false) then
-            -- TODO: Add fire elemental damage type.
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 0), target);
+            -- TODO: Set fire elemental damage type based on character stats
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 30), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",
-                    target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+                    target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+            --AudioManager:PlaySound("snd/fire_burst.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end,
+}
+
+skills[10005] = {
+    name = vt_system.Translate("Wave"),
+    description = vt_system.Translate("Makes waves fall on an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        target_actor = target:GetActor();
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            -- TODO: Set water elemental damage type based on character stats
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 45), target);
+            -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
+            local Battle = ModeManager:GetTop();
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+                    target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             --AudioManager:PlaySound("snd/fire_burst.wav");
         else
             target_actor:RegisterMiss(true);
