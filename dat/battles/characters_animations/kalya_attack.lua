@@ -80,7 +80,7 @@ function Initialize(_character, _target, _skill)
         distance_moved_y = (1/a_coeff) * distance_moved_x;
     end
 
-    --print("distance x: ", enemy_pos_x - character_pos_x - 64.0)
+    --print("distance x: ", enemy_pos_x - character_pos_x)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, 1/a_coeff, distance_moved_y);
 end
