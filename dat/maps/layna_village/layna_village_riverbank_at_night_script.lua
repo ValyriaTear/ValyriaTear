@@ -18,6 +18,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Script = {};
 
 local bronann = {};
 
@@ -28,6 +29,7 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Script = Map:GetScriptSupervisor();
 
     Map.unlimited_stamina = true;
 
@@ -43,7 +45,13 @@ function Load(m)
 
     -- Add clouds overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+
+    -- Event Scripts
+    Script:AddScript("dat/maps/layna_village/battle_with_banesore/show_crystals_script.lua");
+    Script:AddScript("dat/maps/layna_village/battle_with_banesore/show_smoke_cloud_script.lua");
+
+    -- Put last to get a proper night effect
+    Script:AddScript("dat/maps/common/at_night.lua");
 
     -- Start the return to village dialogue if it hasn't been done already.
     if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
@@ -555,7 +563,7 @@ function _CreateEvents()
 
     event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 1", lord, 99.0, 54.0, false);
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 2", lord, 98.0, 54.0, false);
+    event = vt_map.PathMoveSpriteEvent("Banesore moves closer to Lilly 2", lord, 97.8, 54.0, false);
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("All villagers are surprised", "exclamation_all_villagers", "");
@@ -698,6 +706,96 @@ function _CreateEvents()
     event:AddEnemy(10, 700, 600);
     event:AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
     event:AddScript("dat/maps/common/at_night.lua");
+
+    event:AddEventLinkAtEnd("Soldier4 is KO");
+    event:AddEventLinkAtEnd("Soldier15 is KO");
+    event:AddEventLinkAtEnd("Soldier16 is KO");
+    event:AddEventLinkAtEnd("Place Herth next to Bronann");
+    event:AddEventLinkAtEnd("Bronann is looking poor");
+
+    event:AddEventLinkAtEnd("Show both crystals", 2000);
+    EventManager:RegisterEvent(event);
+
+    -- The after-fight scene
+    -- The soldiers 4, 15 and 16 have been ko'd by Herth
+    event = vt_map.AnimateSpriteEvent("Soldier4 is KO", soldier4, "ko", 999999);
+    EventManager:RegisterEvent(event);
+    event = vt_map.AnimateSpriteEvent("Soldier15 is KO", soldier15, "ko", 999999);
+    EventManager:RegisterEvent(event);
+    event = vt_map.AnimateSpriteEvent("Soldier16 is KO", soldier16, "ko", 999999);
+    EventManager:RegisterEvent(event);
+    -- Herth is in front of Bronann, protecting him from Banesore
+    event = vt_map.ScriptedEvent("Place Herth next to Bronann", "place_herth_next_to_bronann", "");
+    EventManager:RegisterEvent(event);
+
+    -- Bronann is hurt by the summoned Tear
+    event = vt_map.AnimateSpriteEvent("Bronann is looking poor", bronann, "kneeling", 999999);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Show both crystals", "show_both_crystals", "show_both_crystals_update");
+    event:AddEventLinkAtEnd("Dialogue after crystals appearance");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.LookAtSpriteEvent("Herth looks at Kalya", herth, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Herth looks at Banesore", herth, lord);
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Ah, there it is... Finally!");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("Kalya! Now!!");
+    dialogue:AddLineEvent(text, herth, "Herth looks at Kalya", "Herth looks at Banesore");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
+    event:AddEventLinkAtEnd("Kalya uses smoke to flee with Bronann");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.AnimateSpriteEvent("Kalya uses smoke to flee with Bronann", kalya, "kneeling", 1000);
+    event:AddEventLinkAtEnd("Kalya uses smoke to flee with Bronann 2");
+    event:AddEventLinkAtEnd("Kalya, Bronann and Orlinn disappear", 600);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Kalya, Bronann and Orlinn disappear", "make_bronann_orlinn_kalya_disappear", "");
+    EventManager:RegisterEvent(event);
+
+    -- All soldiers, except the one on the ground
+    event = vt_map.ScriptedEvent("Exclamation of all soldiers 2", "exclamation_all_soldiers_2", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Kalya uses smoke to flee with Bronann 2", "smoke_event_start", "smoke_event_update");
+    event:AddEventLinkAtEnd("Exclamation of all soldiers 2");
+    event:AddEventLinkAtEnd("Dialogue between Herth and Banesore");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("You won't get him, Banesore! It seems we were smarter than you, this time...");
+    dialogue:AddLine(text, herth);
+    text = vt_system.Translate("Ah ah ah... But this is exactly what I wanted.");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("What?!");
+    dialogue:AddLineEmote(text, herth, "exclamation");
+    text = vt_system.Translate("After all, I simply made sure that boy would reach the mount Combe, safe and sound.");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("He is the only one that can get what I'm looking for...");
+    dialogue:AddLine(text, lord);
+    text = vt_system.Translate("Soldiers! Give them a few minutes before starting the chase.");
+    dialogue:AddLineEvent(text, lord, "Banesore looks south", "");
+    text = vt_system.Translate("Yes, my Lord!");
+    dialogue:AddLine(text, soldier1);
+    text = vt_system.Translate("Why in hell ...?");
+    dialogue:AddLineEmote(text, herth, "exclamation");
+    text = vt_system.Translate("... Am I telling you all that? That's simple...");
+    dialogue:AddLineEvent(text, lord, "Banesore looks west", "");
+    text = vt_system.Translate("It doesn't matter as you're all going to die now...");
+    dialogue:AddLine(text, lord);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue between Herth and Banesore", dialogue);
+    event:AddEventLinkAtEnd("To Kalya house path scene");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("To Kalya house path scene", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
+                                      "dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua", "from_riverbank_at_night_scene");
     EventManager:RegisterEvent(event);
 end
 
@@ -807,7 +905,6 @@ map_functions = {
     end,
 
     arrival_at_riverbank_dialogue_end = function()
-
         -- Set event as done
         GlobalManager:SetEventValue("story", "layna_village_arrival_at_riverbank_done", 1);
         Map:PopState();
@@ -890,6 +987,56 @@ map_functions = {
         martha:LookAt(bronann);
         georges:LookAt(bronann);
         olivia:LookAt(bronann);
-    end
+    end,
 
+    place_herth_next_to_bronann = function()
+        herth:SetPosition(95.0, 55.0);
+    end,
+
+    show_both_crystals = function()
+        -- Triggers the crystal appearance
+        GlobalManager:SetEventValue("scripts_events", "layna_village_riverbank_show_crystals", 1)
+    end,
+
+    show_both_crystals_update = function()
+        if (GlobalManager:GetEventValue("scripts_events", "layna_village_riverbank_show_crystals") == 0) then
+            return true;
+        end
+        return false;
+    end,
+
+    smoke_event_start = function()
+        -- Triggers the smoke
+        GlobalManager:SetEventValue("scripts_events", "layna_village_riverbank_smoke", 1)
+    end,
+
+    smoke_event_update = function()
+        if (GlobalManager:GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
+            return true;
+        end
+        return false;
+    end,
+
+    exclamation_all_soldiers_2 = function()
+        soldier1:Emote("exclamation", soldier1:GetDirection());
+        soldier2:Emote("exclamation", soldier2:GetDirection());
+        soldier3:Emote("exclamation", soldier3:GetDirection());
+        soldier5:Emote("exclamation", soldier5:GetDirection());
+        soldier6:Emote("exclamation", soldier6:GetDirection());
+        soldier7:Emote("exclamation", soldier7:GetDirection());
+        soldier8:Emote("exclamation", soldier8:GetDirection());
+        soldier9:Emote("exclamation", soldier9:GetDirection());
+        soldier10:Emote("exclamation", soldier10:GetDirection());
+        soldier11:Emote("exclamation", soldier11:GetDirection());
+        soldier12:Emote("exclamation", soldier12:GetDirection());
+        soldier13:Emote("exclamation", soldier13:GetDirection());
+        soldier14:Emote("exclamation", soldier14:GetDirection());
+    end,
+
+    make_bronann_orlinn_kalya_disappear = function()
+        bronann:SetVisible(false);
+        kalya:SetVisible(false);
+        orlinn:SetVisible(false);
+        herth:SetPosition(92.0, 54.0);
+    end
 }

@@ -66,22 +66,26 @@ function Initialize(battle_instance)
     DialogueManager:AddDialogue(dialogue);
 
     dialogue = vt_battle.BattleDialogue(3);
+    text = vt_system.Translate("Argh! It hurts!");
+    dialogue:AddLine(text, 1000);
     text = vt_system.Translate("Yes! I can feel it come closer to the surface!");
     dialogue:AddLine(text, 1001);
     text = vt_system.Translate("Let your fear grow, young boy!");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("Argh!");
-    dialogue:AddLine(text, 1000);
     text = vt_system.Translate("Don't listen to him, Bronann!");
     dialogue:AddLine(text, 1002);
     DialogueManager:AddDialogue(dialogue);
 
     dialogue = vt_battle.BattleDialogue(4);
-    text = vt_system.Translate("Do you remind me, Banesore?");
+    text = vt_system.Translate("I will... try.");
+    dialogue:AddLine(text, 1000);
+    text = vt_system.Translate("Hmph. Leave that man to me, soldiers!");
+    dialogue:AddLine(text, 1001);
+    text = vt_system.Translate("So... You seem to remind me, Banesore?");
     dialogue:AddLine(text, 1002);
     text = vt_system.Translate("I do, old man...");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("Then, you know your zombified men are no match to me...");
+    text = vt_system.Translate("Then, you know your zombified soldiers are no match to me...");
     dialogue:AddLine(text, 1002);
     text = vt_system.Translate("Argh! My chest is burning!!");
     dialogue:AddLine(text, 1000);
@@ -108,7 +112,7 @@ function Initialize(battle_instance)
 
     -- Set Herth's starting x position
     herth_x_position = 0.0;
-    
+
     -- Get Bronann actor
     bronann = Battle:GetCharacterActor(0);
 end
@@ -165,13 +169,14 @@ function Update()
         ModeManager:Pop(true, true);
         battle_exit_done = true;
         --Change Bronann animation
-        bronann:ChangeSpriteAnimation("hurt");
+        bronann:ChangeSpriteAnimation("poor");
     end
 
     -- Only update the expired dialogue time when the battle isn't in scene mode
     -- and the actors aren't paused...
     if (Battle:AreActorStatesPaused() == false) then
         battle_time = battle_time + time_expired;
+
         if (lilly_charge_time > 0) then
            lilly_charge_time = lilly_charge_time - time_expired;
         end
@@ -206,6 +211,7 @@ function Update()
         DialogueManager:BeginDialogue(3);
         Battle:SetSceneMode(true);
         dialogue3_done = true;
+        bronann:ChangeSpriteAnimation("poor");
     end
 
     -- Once Herth is in place, let's trigger the last dialogue

@@ -426,6 +426,11 @@ sprites["Dark Soldier"] = {
     standard_animations = {
         idle = "img/sprites/map/enemies/dark_soldier01_idle.lua",
         walk = "img/sprites/map/enemies/dark_soldier01_walk.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        ko = "img/sprites/map/enemies/dark_soldier_ko.lua",
     }
 }
 

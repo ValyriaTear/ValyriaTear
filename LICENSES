@@ -520,6 +520,8 @@ img/sprites/map/enemies/big_slime_walk.lua                      GPLv2           
 img/sprites/map/enemies/dark_soldier01_idle.lua                 GPLv2                    Bertram
 img/sprites/map/enemies/dark_soldier01_spritesheet.png          CC by SA 3.0             Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/dark_soldier01_walk.lua                 GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier_ko.lua                     GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier_ko.png                     CC by SA 3.0             Bertram, based on: Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/gigas_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/naga_walk.png                           GPLv2                    Allacrost
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2                    Allacrost
