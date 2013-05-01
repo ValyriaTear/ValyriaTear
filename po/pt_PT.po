@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: ValkyriaTear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-11 00:54+0100\n"
-"PO-Revision-Date: 2013-02-24 15:10-0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2013-05-01 19:02-0000\n"
+"Last-Translator: Sérgio Lopes <knitter.is@gmail.com>\n"
 "Language-Team: Sérgio Lopes <knitter.is@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1054,7 +1054,7 @@ msgstr ""
 
 #: ../src/modes/mode_help_window.cpp:250
 msgid "Swap"
-msgstr ""
+msgstr "Trocar"
 
 #: ../src/modes/mode_help_window.cpp:251
 msgid "A"
@@ -1090,7 +1090,7 @@ msgstr ""
 
 #: ../src/modes/mode_help_window.cpp:260
 msgid "Spacebar"
-msgstr ""
+msgstr "Barra de Espaços"
 
 #: ../src/modes/mode_help_window.cpp:263
 msgid "Esc"
@@ -1104,7 +1104,7 @@ msgstr ""
 
 #: ../src/modes/pause.cpp:59
 msgid "Paused"
-msgstr ""
+msgstr "Em Pausa"
 
 #: ../src/modes/pause.cpp:71
 msgid "Quit Game"
@@ -1112,35 +1112,35 @@ msgstr "Sair do Jogo"
 
 #: ../src/modes/pause.cpp:72
 msgid "Quit to Main Menu"
-msgstr ""
+msgstr "Sair para Menu Principal"
 
 #: ../src/modes/save/save_mode.cpp:90
 msgid "Save Game"
-msgstr ""
+msgstr "Gravar Jogo"
 
 #: ../src/modes/save/save_mode.cpp:115
 msgid "Slot 1"
-msgstr ""
+msgstr "Espaço 1"
 
 #: ../src/modes/save/save_mode.cpp:116
 msgid "Slot 2"
-msgstr ""
+msgstr "Espaço 2"
 
 #: ../src/modes/save/save_mode.cpp:117
 msgid "Slot 3"
-msgstr ""
+msgstr "Espaço 3"
 
 #: ../src/modes/save/save_mode.cpp:118
 msgid "Slot 4"
-msgstr ""
+msgstr "Espaço 4"
 
 #: ../src/modes/save/save_mode.cpp:119
 msgid "Slot 5"
-msgstr ""
+msgstr "Espaço 5"
 
 #: ../src/modes/save/save_mode.cpp:120
 msgid "Slot 6"
-msgstr ""
+msgstr "Espaço 6"
 
 #: ../src/modes/save/save_mode.cpp:137
 msgid "Confirm Save"
@@ -1162,11 +1162,11 @@ msgstr ""
 
 #: ../src/modes/save/save_mode.cpp:446
 msgid "Invalid data!"
-msgstr ""
+msgstr "Dados inválidos!"
 
 #: ../src/modes/save/save_mode.cpp:448
 msgid "No data"
-msgstr ""
+msgstr "Sem dados"
 
 #: ../src/modes/save/save_mode.cpp:553
 msgid "Time - "
@@ -1193,7 +1193,7 @@ msgstr "Preço"
 
 #: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_trade.cpp:58
 msgid "Stock"
-msgstr ""
+msgstr "Stock"
 
 #: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_sell.cpp:68
 #: ../src/modes/shop/shop_trade.cpp:59
@@ -1202,27 +1202,27 @@ msgstr ""
 
 #: ../src/modes/shop/shop.cpp:113
 msgid "Head Armor"
-msgstr ""
+msgstr "Armadura de Cabeça"
 
 #: ../src/modes/shop/shop.cpp:114
 msgid "Torso Armor"
-msgstr ""
+msgstr "Armadura de Tronco"
 
 #: ../src/modes/shop/shop.cpp:115
 msgid "Arm Armor"
-msgstr ""
+msgstr "Armadura de Braço"
 
 #: ../src/modes/shop/shop.cpp:116
 msgid "Leg Armor"
-msgstr ""
+msgstr "Armadura de Perna"
 
 #: ../src/modes/shop/shop.cpp:117
 msgid "Shards"
-msgstr ""
+msgstr "Lascas"
 
 #: ../src/modes/shop/shop.cpp:118
 msgid "Key Items"
-msgstr ""
+msgstr "Items Chave"
 
 #: ../src/modes/shop/shop.cpp:119
 msgid "All Wares"
@@ -1251,7 +1251,7 @@ msgstr ""
 #: ../src/modes/shop/shop.cpp:805 ../src/modes/shop/shop.cpp:810
 #: ../src/modes/shop/shop.cpp:815
 msgid "Press "
-msgstr ""
+msgstr "Pressiona"
 
 #: ../src/modes/shop/shop.cpp:806
 msgid " to add items to buy and "
@@ -1307,11 +1307,11 @@ msgstr "Sair"
 
 #: ../src/modes/shop/shop.cpp:1681
 msgid "Funds: "
-msgstr ""
+msgstr "Recursos:"
 
 #: ../src/modes/shop/shop.cpp:1683
 msgid "Purchases: "
-msgstr ""
+msgstr "Compras:"
 
 #: ../src/modes/shop/shop.cpp:1684 ../src/modes/shop/shop.cpp:1687
 msgid "Total: "
@@ -1319,11 +1319,11 @@ msgstr "Total:"
 
 #: ../src/modes/shop/shop.cpp:1686
 msgid "Sales: +"
-msgstr ""
+msgstr "Vendas: +"
 
 #: ../src/modes/shop/shop_root.cpp:117
 msgid "The Shop"
-msgstr ""
+msgstr "A Loja"
 
 #: ../src/modes/shop/shop_root.cpp:120
 msgid "Buy prices"
@@ -1356,7 +1356,7 @@ msgstr "Kalya"
 
 #: ../dat/actors/characters.lua:158
 msgid "Invocation"
-msgstr ""
+msgstr "Invocação"
 
 #: ../dat/actors/characters.lua:289
 msgid "Sylve"
@@ -1364,7 +1364,7 @@ msgstr "Sylve"
 
 #: ../dat/actors/characters.lua:295
 msgid "Mist"
-msgstr ""
+msgstr "Névoa"
 
 #: ../dat/actors/characters.lua:423 ../dat/actors/map_sprites.lua:60
 msgid "Thanis"
@@ -1376,7 +1376,7 @@ msgstr "Acheron"
 
 #: ../dat/actors/enemies.lua:46
 msgid "Green Slime"
-msgstr ""
+msgstr "Lodo Verde"
 
 #: ../dat/actors/enemies.lua:67 ../dat/actors/enemies.lua:172
 #: ../dat/actors/enemies.lua:229 ../dat/actors/enemies.lua:281
@@ -1385,7 +1385,7 @@ msgstr ""
 #: ../dat/actors/enemies.lua:896 ../dat/actors/enemies.lua:943
 #: ../dat/actors/enemies.lua:1273
 msgid "Body"
-msgstr ""
+msgstr "Corpo"
 
 #: ../dat/actors/enemies.lua:93
 msgid "Spider"
@@ -1412,7 +1412,7 @@ msgstr "Cauda"
 
 #: ../dat/actors/enemies.lua:260 ../dat/actors/map_sprites.lua:373
 msgid "Slime Mother"
-msgstr ""
+msgstr "Lodo Mãe"
 
 #: ../dat/actors/enemies.lua:308 ../dat/actors/map_sprites.lua:332
 msgid "Bat"
@@ -1438,7 +1438,7 @@ msgstr "Esqueleto"
 #: ../dat/actors/enemies.lua:1387 ../dat/actors/enemies.lua:1453
 #: ../dat/actors/enemies.lua:1509
 msgid "Chest"
-msgstr ""
+msgstr "Peito"
 
 #: ../dat/actors/enemies.lua:653
 msgid "Stygian Lizard"
@@ -1454,11 +1454,11 @@ msgstr "Garra"
 
 #: ../dat/actors/enemies.lua:717
 msgid "Demonic Essence"
-msgstr ""
+msgstr "Essência Demoníaca"
 
 #: ../dat/actors/enemies.lua:738
 msgid "Face"
-msgstr ""
+msgstr "Cara"
 
 #: ../dat/actors/enemies.lua:781
 msgid "Yeti"
@@ -1466,11 +1466,11 @@ msgstr "Yeti"
 
 #: ../dat/actors/enemies.lua:828
 msgid "Red Slime"
-msgstr ""
+msgstr "Lodo Vermelho"
 
 #: ../dat/actors/enemies.lua:875
 msgid "Thing"
-msgstr ""
+msgstr "Coisa"
 
 #: ../dat/actors/enemies.lua:922
 msgid "Mushroom Zombie"
@@ -1486,7 +1486,7 @@ msgstr ""
 
 #: ../dat/actors/enemies.lua:1054
 msgid "Pincer"
-msgstr ""
+msgstr "Pinça"
 
 #: ../dat/actors/enemies.lua:1089
 msgid "Armored Beast"
@@ -1498,7 +1498,7 @@ msgstr ""
 
 #: ../dat/actors/enemies.lua:1118
 msgid "Pincers"
-msgstr ""
+msgstr "Pinças"
 
 #: ../dat/actors/enemies.lua:1146
 msgid "Daemarbora"
@@ -1518,7 +1518,7 @@ msgstr ""
 
 #: ../dat/actors/enemies.lua:1216
 msgid "Forehead"
-msgstr ""
+msgstr "Testa"
 
 #: ../dat/actors/enemies.lua:1224
 msgid "Orifice"
@@ -1590,7 +1590,7 @@ msgstr ""
 
 #: ../dat/actors/map_sprites.lua:251
 msgid "Soldier"
-msgstr ""
+msgstr "Soldado"
 
 #: ../dat/actors/map_sprites.lua:266
 msgid "Lord"
@@ -1697,11 +1697,11 @@ msgstr ""
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:99
 msgid "Yes, please!"
-msgstr ""
+msgstr "Sim, por favor!"
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:101
 msgid "No, it's alright!"
-msgstr ""
+msgstr "Não, não há problema!"
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:105
 msgid "Don't worry Kalya, I have not forgotten my training."
@@ -1965,19 +1965,19 @@ msgstr "Shift"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:47
 msgid "Move your character:"
-msgstr ""
+msgstr "Mover a personagem:"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:53
 msgid "Possible actions:"
-msgstr ""
+msgstr "Acções possíveis:"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:54
 msgid "Confirm / Open / Talk: "
-msgstr ""
+msgstr "Confirmar / Abrir / Falar:"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:55
 msgid "Run / Cancel: "
-msgstr ""
+msgstr "Correr / Cancelar:"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:56
 msgid "Party Menu: "
@@ -2060,7 +2060,7 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:623
 msgid "... Look!"
-msgstr ""
+msgstr "… Olha!"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2.lua:641
 msgid "I can feel fresh air and some light coming from around this rock."
@@ -2395,7 +2395,7 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_north_west.lua:1347
 msgid "Right!"
-msgstr ""
+msgstr "Certo!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west.lua:1374
 msgid "Great! The tremor has just opened a path."
@@ -2555,7 +2555,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:555
 msgid "None of you?"
-msgstr ""
+msgstr "Nenhum de vós?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:557
 msgid "You really won't tell me?"
@@ -2573,11 +2573,11 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:573
 msgid "But mom!"
-msgstr ""
+msgstr "Mas mãe!"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:575
 msgid "Bronann, please."
-msgstr ""
+msgstr "Bronann, por favor."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home.lua:577
 msgid "(grumble)... Crap!"
@@ -2817,7 +2817,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center.lua:867
 msgid "Good luck, son."
-msgstr ""
+msgstr "Boa sorte, filho."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:882
 msgid "Ok, we'll go together. But slow me down and I'll make you regret it..."
@@ -2918,7 +2918,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1104
 msgid "Good luck Bronann."
-msgstr ""
+msgstr "Boa sorte Bronann."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1129
 #: ../dat/maps/layna_village/layna_village_center.lua:1150
@@ -2928,7 +2928,7 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_center.lua:1131
 #: ../dat/maps/layna_village/layna_village_center.lua:1152
 msgid "!! What?"
-msgstr ""
+msgstr "!! O quê?"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1133
 msgid "Don't thank me for that. It's my pleasure."
@@ -3027,7 +3027,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1234
 msgid "I promise I won't bother you again ..."
-msgstr ""
+msgstr "Prometo que não te incomodo mais ..."
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1236
 msgid "Don't worry about that, Orlinn. Ok?"
@@ -3052,7 +3052,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1265
 msgid "Hee hee hee! Yes!"
-msgstr ""
+msgstr "Hee hee hee! Sim!"
 
 #: ../dat/maps/layna_village/layna_village_center.lua:1267
 msgid "Please tell me! Have you found it?"
@@ -3096,7 +3096,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:363
 msgid "Err, nevermind..."
-msgstr ""
+msgstr "Err, esquece..."
 
 #: ../dat/maps/layna_village/layna_village_center_shop.lua:371
 msgid "Just find our *poet* and he should give you some barley meal, ok?"
@@ -3139,7 +3139,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_exterior.lua:382
 msgid "Hmm, the door is locked."
-msgstr ""
+msgstr "Hmm, a porta está trancada."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path.lua:357
 msgid ""
@@ -3179,7 +3179,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:644
 msgid "Please no! Wait!"
-msgstr ""
+msgstr "Por favor não! Espera!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:646
 msgid "Orlinn! Stop this!"
@@ -3191,7 +3191,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:666
 msgid "But sis! I..."
-msgstr ""
+msgstr "Mas mana! Eu…"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:668
 msgid "I don't want to hear it! Now, come!"
@@ -3227,7 +3227,7 @@ msgstr "Bronann?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:734
 msgid "Er, yes?"
-msgstr ""
+msgstr "Er, sim?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:736
 msgid ""
@@ -3257,7 +3257,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:808
 msgid "Thanks, Lilly."
-msgstr ""
+msgstr "Obrigado, Lilly."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:810
 msgid ""
@@ -3288,7 +3288,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:912
 msgid "Sure, just ask."
-msgstr ""
+msgstr "Claro, basta pedires."
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:914
 msgid ""
@@ -3302,7 +3302,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:918
 msgid "What?!"
-msgstr ""
+msgstr "O quê?!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:920
 msgid ""
@@ -3312,7 +3312,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:950
 msgid "You'll never get me!"
-msgstr ""
+msgstr "Nunca me apanharás!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank.lua:962
 msgid "Orlinn, how did you get there?"
@@ -3324,7 +3324,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_south_entrance.lua:335
 msgid "Hi Bronann."
-msgstr ""
+msgstr "Olá Bronann."
 
 #: ../dat/maps/layna_village/layna_village_south_entrance.lua:337
 msgid "Hi Herth. I see you've blocked the gate, why so?"
@@ -3359,7 +3359,7 @@ msgstr ""
 
 #: ../dat/maps/to_be_continued_anim.lua:31
 msgid "To be continued..."
-msgstr ""
+msgstr "Continua..."
 
 #: ../dat/objects/arm_armor.lua:41
 msgid "Prismatic ring"
@@ -3371,7 +3371,7 @@ msgstr ""
 
 #: ../dat/objects/arm_armor.lua:52
 msgid "Wooden Shield"
-msgstr ""
+msgstr "Escudo de Madeira"
 
 #: ../dat/objects/arm_armor.lua:53
 msgid "Robust wooden oak protects from all but the heaviest of assaults."
@@ -3379,7 +3379,7 @@ msgstr ""
 
 #: ../dat/objects/arm_armor.lua:63
 msgid "Metal Shield"
-msgstr ""
+msgstr "Escudo de Metal"
 
 #: ../dat/objects/arm_armor.lua:64
 msgid ""
@@ -3388,7 +3388,7 @@ msgstr ""
 
 #: ../dat/objects/arm_armor.lua:74
 msgid "Phoenix Shield"
-msgstr ""
+msgstr "Escudo da Fénix"
 
 #: ../dat/objects/arm_armor.lua:75
 msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
@@ -3396,7 +3396,7 @@ msgstr ""
 
 #: ../dat/objects/arm_armor.lua:85
 msgid "Trident Shield"
-msgstr ""
+msgstr "Escudo de Tridente"
 
 #: ../dat/objects/arm_armor.lua:86
 msgid ""
@@ -3422,7 +3422,7 @@ msgstr ""
 
 #: ../dat/objects/head_armor.lua:63
 msgid "Cobalt Helm"
-msgstr ""
+msgstr "Elmo de Cobalto"
 
 #: ../dat/objects/head_armor.lua:64
 msgid "A small helmet composed of a secret cobalt based alloy."
@@ -3455,7 +3455,7 @@ msgstr ""
 
 #: ../dat/objects/items.lua:117
 msgid "Healing Potion"
-msgstr ""
+msgstr "Poção de Cura"
 
 #: ../dat/objects/items.lua:118
 msgid "Restores a large amount of hit points to an ally."
@@ -3487,7 +3487,7 @@ msgstr ""
 
 #: ../dat/objects/items.lua:225
 msgid "Moon Juice Potion"
-msgstr ""
+msgstr "Poção de Sumo de Lua"
 
 #: ../dat/objects/items.lua:226
 msgid "Restores a large amount of skill points to an ally."
@@ -3513,7 +3513,7 @@ msgstr ""
 
 #: ../dat/objects/items.lua:319
 msgid "Elixir"
-msgstr ""
+msgstr "Elixir"
 
 #: ../dat/objects/items.lua:320
 msgid ""
@@ -3547,7 +3547,7 @@ msgstr ""
 
 #: ../dat/objects/leg_armor.lua:41
 msgid "Leather boots"
-msgstr ""
+msgstr "Botas de cabedal"
 
 #: ../dat/objects/leg_armor.lua:42
 msgid "Simple but fairly good leather boots."
@@ -3593,7 +3593,7 @@ msgstr ""
 
 #: ../dat/objects/torso_armor.lua:63
 msgid "Tunic"
-msgstr ""
+msgstr "Túnica"
 
 #: ../dat/objects/torso_armor.lua:64
 msgid "An old light soldier tunic."
@@ -3637,7 +3637,7 @@ msgstr ""
 
 #: ../dat/objects/weapons.lua:41
 msgid "Wooden Sword"
-msgstr ""
+msgstr "Espada de Madeira"
 
 #: ../dat/objects/weapons.lua:42
 msgid "A sword made of wood with a steel hilt, very good for practising."
@@ -3655,7 +3655,7 @@ msgstr ""
 
 #: ../dat/objects/weapons.lua:104
 msgid "Iron Sword"
-msgstr ""
+msgstr "Espada de Ferro"
 
 #: ../dat/objects/weapons.lua:105
 msgid ""
@@ -3699,7 +3699,7 @@ msgstr ""
 
 #: ../dat/skills/magic.lua:67
 msgid "First Aid"
-msgstr ""
+msgstr "Primeiros Socorros"
 
 #: ../dat/skills/magic.lua:68
 msgid ""
