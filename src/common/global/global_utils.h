@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_utils.h
 *** \author  Tyler Olsen, rootslinux@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game utility code
 ***
 *** This file contains several common constants, enums, and functions that are
@@ -21,8 +22,19 @@
 #define __GLOBAL_UTILS_HEADER__
 
 #include "utils.h"
+#include "engine/video/image.h"
 
-namespace hoa_global
+#include <map>
+
+namespace vt_audio {
+class SoundDescriptor;
+}
+
+namespace vt_video {
+class StillImage;
+};
+
+namespace vt_global
 {
 
 class GlobalObject;
@@ -125,10 +137,11 @@ const uint32 GLOBAL_CHARACTER_ALL         = 0xFFFFFFFF;
 *** \brief Integers that represent the index location of the four attack points and armor types for characters
 **/
 //@{
-const uint32 GLOBAL_POSITION_HEAD  = 0;
-const uint32 GLOBAL_POSITION_TORSO = 1;
-const uint32 GLOBAL_POSITION_ARMS  = 2;
-const uint32 GLOBAL_POSITION_LEGS  = 3;
+const uint32 GLOBAL_POSITION_HEAD     = 0;
+const uint32 GLOBAL_POSITION_TORSO    = 1;
+const uint32 GLOBAL_POSITION_ARMS     = 2;
+const uint32 GLOBAL_POSITION_LEGS     = 3;
+const uint32 GLOBAL_POSITION_INVALID  = 4;
 //@}
 
 //! \brief The maximum number of characters that can be in the active party
@@ -149,6 +162,9 @@ enum GLOBAL_OBJECT {
     GLOBAL_OBJECT_TOTAL       =  7
 };
 
+//! \brief translate the object type into the object position.
+uint32 GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type);
+
 /** \name Elemental Effect Types
 *** \brief Used to identify the eight different types of elementals
 *** There are a total of four physical and four magical elemental effects
@@ -159,11 +175,10 @@ enum GLOBAL_ELEMENTAL {
     GLOBAL_ELEMENTAL_WATER      =  1,
     GLOBAL_ELEMENTAL_VOLT       =  2,
     GLOBAL_ELEMENTAL_EARTH      =  3,
-    GLOBAL_ELEMENTAL_SLICING    =  4,
-    GLOBAL_ELEMENTAL_SMASHING   =  5,
-    GLOBAL_ELEMENTAL_MAULING    =  6,
-    GLOBAL_ELEMENTAL_PIERCING   =  7,
-    GLOBAL_ELEMENTAL_TOTAL      =  8
+    GLOBAL_ELEMENTAL_LIFE       =  4,
+    GLOBAL_ELEMENTAL_DEATH      =  5,
+    GLOBAL_ELEMENTAL_NEUTRAL    =  6,
+    GLOBAL_ELEMENTAL_TOTAL      =  7
 };
 
 /** \name Status Effect Types
@@ -188,8 +203,7 @@ enum GLOBAL_STATUS {
     GLOBAL_STATUS_SP_REGEN          = 14,
     GLOBAL_STATUS_SP_DRAIN          = 15,
     GLOBAL_STATUS_PARALYSIS         = 16,
-    GLOBAL_STATUS_STASIS            = 17,
-    GLOBAL_STATUS_TOTAL             = 18
+    GLOBAL_STATUS_TOTAL             = 17
 };
 
 /** \name Effect Intensity Levels
@@ -220,6 +234,15 @@ enum GLOBAL_SKILL {
     GLOBAL_SKILL_MAGIC    =  1,
     GLOBAL_SKILL_SPECIAL  =  2,
     GLOBAL_SKILL_TOTAL    =  3
+};
+
+//! \brief The Battle enemies harm levels
+enum GLOBAL_ENEMY_HURT {
+    GLOBAL_ENEMY_HURT_NONE     = 0,
+    GLOBAL_ENEMY_HURT_SLIGHTLY = 1,
+    GLOBAL_ENEMY_HURT_MEDIUM   = 2,
+    GLOBAL_ENEMY_HURT_HEAVILY  = 3,
+    GLOBAL_ENEMY_HURT_TOTAL    = 4,
 };
 
 /** \brief Retrieves a string representation for any GLOBAL_TARGET enum value
@@ -284,6 +307,126 @@ bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 **/
 bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 
-} // namespace hoa_global
+//! Give the opposite status effect if there is one of GLOBAL_STATUS_INVALID if none.
+GLOBAL_STATUS GetOppositeStatusEffect(GLOBAL_STATUS status_effect);
+
+/** \brief A simple class used to store commonly used media files.
+*** It is used as a member of the game global class.
+**/
+class GlobalMedia {
+public:
+    GlobalMedia() {}
+
+    ~GlobalMedia();
+
+    //! \brief Loads all the media files.
+    //! Should be called after the final intialization of the VideoManager as
+    //! the texture manager is ready only afterward.
+    void Initialize();
+
+    vt_video::StillImage* GetDrunesIcon() {
+        return &_drunes_icon;
+    }
+
+    vt_video::StillImage* GetStarIcon() {
+        return &_star_icon;
+    }
+
+    vt_video::StillImage* GetCheckIcon() {
+        return &_check_icon;
+    }
+
+    vt_video::StillImage* GetXIcon() {
+        return &_x_icon;
+    }
+
+    vt_video::StillImage* GetShardSlotIcon() {
+        return &_shard_slot_icon;
+    }
+
+    vt_video::StillImage* GetEquipIcon() {
+        return &_equip_icon;
+    }
+
+    vt_video::StillImage* GetKeyItemIcon() {
+        return &_key_item_icon;
+    }
+
+    vt_video::StillImage* GetBottomMenuImage() {
+        return &_bottom_menu_image;
+    }
+
+    std::vector<vt_video::StillImage>* GetAllItemCategoryIcons() {
+        return &_all_category_icons;
+    }
+
+    /** \brief Retrieves the category icon image that represents the specified object type
+    *** \param object_type The type of the global object to retrieve the icon for
+    *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
+    *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
+    **/
+    vt_video::StillImage* GetItemCategoryIcon(GLOBAL_OBJECT object_type);
+
+    /** \brief Retrieves a specific elemental icon with the proper type and intensity
+    *** \param element_type The type of element the user is trying to retrieve the icon for
+    *** \param intensity The intensity level of the icon to retrieve
+    *** \return The icon representation of the element type and intensity
+    **/
+    vt_video::StillImage* GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity);
+
+    /** \brief Retrieves a specific status icon with the proper type and intensity
+    *** \param status_type The type of status the user is trying to retrieve the icon for
+    *** \param intensity The intensity level of the icon to retrieve
+    *** \return The icon representation of the status type and intensity
+    **/
+    vt_video::StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity);
+
+    /** \brief Plays a sound object previoulsy loaded
+    *** \param identifier The string identifier for the sound to play
+    **/
+    void PlaySound(const std::string &identifier);
+
+private:
+    //! \brief Retains icon images for all possible object categories, including "all wares"
+    std::vector<vt_video::StillImage> _all_category_icons;
+
+    //! \brief Image icon representing drunes (currency)
+    vt_video::StillImage _drunes_icon;
+
+    //! \brief Image icon of a single yellow/gold star
+    vt_video::StillImage _star_icon;
+
+    //! \brief Image icon of a green check mark
+    vt_video::StillImage _check_icon;
+
+    //! \brief Image icon of a red x
+    vt_video::StillImage _x_icon;
+
+    //! \brief Image icon representing open shard slots available on weapons and armors
+    vt_video::StillImage _shard_slot_icon;
+
+    //! \brief Image icon that represents when a character has a weapon or armor equipped
+    vt_video::StillImage _equip_icon;
+
+    //! \brief The Key item icon
+    vt_video::StillImage _key_item_icon;
+
+    //! \brief Retains all icon images that represent the game's elementals
+    std::vector<vt_video::StillImage> _elemental_icons;
+
+    //! \brief Retains all icon images that represent the game's status effects
+    std::vector<vt_video::StillImage> _status_icons;
+
+    //! \brief The battle and boot bottom image
+    vt_video::StillImage _bottom_menu_image;
+
+    //! \brief A map of the sounds used in different game modes
+    std::map<std::string, vt_audio::SoundDescriptor*> _sounds;
+
+    //! \brief Loads a sound file and add it to the sound map
+    void _LoadSoundFile(const std::string& sound_name, const std::string& filename);
+};
+
+} // namespace vt_global
 
 #endif // __GLOBAL_UTILS_HEADER__

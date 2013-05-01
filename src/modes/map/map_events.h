@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_events.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode events and event processing
 ***
 *** Events occur on map mode to alter the state of the map, present a scene to the
@@ -30,11 +31,16 @@
 
 #include "engine/script/script.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
 {
+
+class ContextZone;
+class MapSprite;
+class SpriteDialogue;
+class VirtualSprite;
 
 struct BattleEnemyInfo;
 
@@ -236,8 +242,8 @@ public:
     //! \param event_id The ID of this event
     ShopEvent(const std::string &event_id):
         MapEvent(event_id, SHOP_EVENT),
-        _buy_level(hoa_shop::SHOP_PRICE_STANDARD),
-        _sell_level(hoa_shop::SHOP_PRICE_STANDARD)
+        _buy_level(vt_shop::SHOP_PRICE_STANDARD),
+        _sell_level(vt_shop::SHOP_PRICE_STANDARD)
     {}
 
     ~ShopEvent()
@@ -264,8 +270,8 @@ public:
     }
 
     //! \brief Set the shop quality levels which will handle pricing variations.
-    void SetPriceLevels(hoa_shop::SHOP_PRICE_LEVEL buy_level,
-                        hoa_shop::SHOP_PRICE_LEVEL sell_level) {
+    void SetPriceLevels(vt_shop::SHOP_PRICE_LEVEL buy_level,
+                        vt_shop::SHOP_PRICE_LEVEL sell_level) {
         _buy_level = buy_level;
         _sell_level = sell_level;
     }
@@ -278,8 +284,8 @@ protected:
     std::set<std::pair<uint32, uint32> > _trades;
 
     //! \brief The Shop quality levels. The more the level is, the worse it is for the player.
-    hoa_shop::SHOP_PRICE_LEVEL _buy_level;
-    hoa_shop::SHOP_PRICE_LEVEL _sell_level;
+    vt_shop::SHOP_PRICE_LEVEL _buy_level;
+    vt_shop::SHOP_PRICE_LEVEL _sell_level;
 
     //! \brief Creates an instance of ShopMode and pushes it to the game mode stack
     void _Start();
@@ -327,7 +333,7 @@ public:
     { _sound.Stop(); }
 
     //! \brief Accessor which allows the properties of the sound to be customized
-    hoa_audio::SoundDescriptor &GetSound()
+    vt_audio::SoundDescriptor &GetSound()
     { return _sound; }
 
 protected:
@@ -339,7 +345,7 @@ protected:
     bool _Update();
 
     //! \brief The sound that this event will play
-    hoa_audio::SoundDescriptor _sound;
+    vt_audio::SoundDescriptor _sound;
 }; // class SoundEvent : public MapEvent
 
 
@@ -836,7 +842,7 @@ public:
 
 protected:
     /** \brief The amount of time (in milliseconds) to perform random movement before ending this action
-    *** Set this member to hoa_system::INFINITE_TIME in order to continue the random movement
+    *** Set this member to vt_system::INFINITE_TIME in order to continue the random movement
     *** forever. The default value of this member will be set to 10 seconds if it is not specified.
     **/
     uint32 _total_movement_time;
@@ -1121,6 +1127,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_EVENTS_HEADER__

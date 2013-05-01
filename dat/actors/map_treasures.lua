@@ -20,6 +20,16 @@ treasures["Wood_Chest1"] = {
     img_height = 2.0
 }
 
+treasures["Locker_Chest1"] = {
+    closed_animation_filename = "img/sprites/map/treasures/locker1_closed.lua",
+    opening_animation_filename = "img/sprites/map/treasures/locker1_opening.lua",
+    opened_animation_filename = "img/sprites/map/treasures/locker1_open.lua",
+    coll_half_width = 0.93,
+    coll_height = 1.0,
+    img_half_width =0.93,
+    img_height = 1.81
+}
+
 -- The helper function permitting to easily create a prepared map object
 function CreateTreasure(Map, save_name, name, x, y)
     if (treasures[name] == nil) then
@@ -33,12 +43,11 @@ function CreateTreasure(Map, save_name, name, x, y)
     end
     local treasure = {}
 
-    treasure = hoa_map.TreasureObject(save_name,
+    treasure = vt_map.TreasureObject(save_name,
         treasures[name].closed_animation_filename,
         treasures[name].opening_animation_filename,
         treasures[name].opened_animation_filename);
     treasure:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    treasure:SetContext(hoa_map.MapMode.CONTEXT_01);
     treasure:SetPosition(x, y);
     treasure:SetCollHalfWidth(treasures[name].coll_half_width);
     treasure:SetCollHeight(treasures[name].coll_height);

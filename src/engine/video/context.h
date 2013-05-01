@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    context.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the Context class.
 *** ***************************************************************************/
 
@@ -21,7 +22,7 @@
 #include "coord_sys.h"
 #include "screen_rect.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -68,6 +69,6 @@ public:
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __CONTEXT_HEADER__

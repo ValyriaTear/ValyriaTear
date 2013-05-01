@@ -9,8 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    map.h
+*** \file    map_mode.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode interface.
 ***
 *** This file contains the interface for map mode, active when the player is
@@ -36,15 +37,34 @@
 
 #include "engine/audio/audio_descriptor.h"
 
+namespace vt_defs {
+void BindModeCode();
+}
+
+namespace vt_global {
+class GlobalEnemy;
+class GlobalObject;
+}
+
 //! All calls to map mode are wrapped in this namespace.
-namespace hoa_map
+namespace vt_map
 {
 
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
 {
+class DialogueSupervisor;
+class EventSupervisor;
 class Light;
+class MapObject;
+class MapZone;
 class Minimap;
+class ObjectSupervisor;
+class PhysicalObject;
+class SoundObject;
+class TileSupervisor;
+class TreasureObject;
+class TreasureSupervisor;
 } // namespace private_map
 
 /** ****************************************************************************
@@ -81,9 +101,9 @@ class Minimap;
 *** particular area of map code, such as tiles or objects. These sub-manager
 *** classes should be viewed as extensions of the MapMode class.
 *** ***************************************************************************/
-class MapMode : public hoa_mode_manager::GameMode
+class MapMode : public vt_mode_manager::GameMode
 {
-    friend void hoa_defs::BindModeCode();
+    friend void vt_defs::BindModeCode();
 
 public:
     //! \param data_filename The name of the Lua file that retains all data about the map to create
@@ -138,30 +158,31 @@ public:
     //! \brief Adds a new object to the sky object layer
     void AddSkyObject(private_map::MapObject *obj);
 
+    //! \brief Adds a new ambient sound object
+    void AddAmbientSoundObject(private_map::SoundObject *obj);
+
     //! \brief Adds a new zone to the map
     void AddZone(private_map::MapZone *zone);
 
     //! \brief Adds a save point (Map Object) at the given coordinates.
-    void AddSavePoint(float x, float y, hoa_map::private_map::MAP_CONTEXT map_context);
+    void AddSavePoint(float x, float y);
 
     //! \brief Adds a halo light (as Map Object) at the given coordinates.
-    void AddHalo(const std::string &filename, float x, float y, const hoa_video::Color &color,
-                 hoa_map::private_map::MAP_CONTEXT map_context);
+    void AddHalo(const std::string &filename, float x, float y, const vt_video::Color &color);
 
     //! \brief Add a light source at the given coordinates.
     void AddLight(const std::string &main_flare_filename,
                   const std::string &secondary_flare_filename,
                   float x, float y,
-                  const hoa_video::Color &main_color,
-                  const hoa_video::Color &secondary_color,
-                  hoa_map::private_map::MAP_CONTEXT map_context);
+                  const vt_video::Color &main_color,
+                  const vt_video::Color &secondary_color);
 
     //! \brief Add a light object, often created through scripting
     void AddLight(private_map::Light *light);
 
     //! \brief Vectors containing the save points animations (when the character is in or not).
-    std::vector<hoa_video::AnimatedImage> active_save_point_animations;
-    std::vector<hoa_video::AnimatedImage> inactive_save_point_animations;
+    std::vector<vt_video::AnimatedImage> active_save_point_animations;
+    std::vector<vt_video::AnimatedImage> inactive_save_point_animations;
 
     //! \brief Class member accessor functions
     //@{
@@ -169,13 +190,13 @@ public:
         return _current_instance;
     }
 
-    const hoa_utils::ustring &GetMapHudName() const {
+    const vt_utils::ustring &GetMapHudName() const {
         return _map_hud_name;
     }
 
     // Note: The map script is only valid while in loading the map file.
     // The file is closed afterward to permit the save menu to open it, for instance.
-    hoa_script::ReadScriptDescriptor &GetMapScript() {
+    vt_script::ReadScriptDescriptor &GetMapScript() {
         return _map_script;
     }
 
@@ -243,12 +264,6 @@ public:
         return _camera_y_in_map_corner;
     }
 
-    /** \brief Gets the currently active map context
-    *** which is always equal to the context of the object pointed to by the _camera member,
-    *** or the base context when no camera has been set up.
-    **/
-    private_map::MAP_CONTEXT GetCurrentContext() const;
-
     bool IsShowGUI() const {
         return _show_gui;
     }
@@ -257,11 +272,11 @@ public:
         _show_gui = state;
     }
 
-    const hoa_video::AnimatedImage &GetDialogueIcon() const {
+    const vt_video::AnimatedImage &GetDialogueIcon() const {
         return _dialogue_icon;
     }
 
-    const hoa_video::StillImage &GetMapImage() const {
+    const vt_video::StillImage &GetMapImage() const {
         return _map_image;
     }
 
@@ -272,7 +287,7 @@ public:
      * \brief Since the map coords are non standard, this function
      * permits to quickly adapt the images to the map scale.
      */
-    static void ScaleToMapCoords(hoa_video::ImageDescriptor &img) {
+    static void ScaleToMapCoords(vt_video::ImageDescriptor &img) {
         img.SetDimensions(img.GetWidth() / (private_map::GRID_LENGTH / 2),
                           img.GetHeight() / (private_map::GRID_LENGTH / 2));
     }
@@ -324,16 +339,16 @@ private:
     std::string _map_script_tablespace;
 
     //! \brief The name of the map, as it will be read by the player in the game.
-    hoa_utils::ustring _map_hud_name;
+    vt_utils::ustring _map_hud_name;
 
     //! \brief The map sub-part hud name. Shown in every cases.
-    hoa_utils::ustring _map_hud_subname;
+    vt_utils::ustring _map_hud_subname;
 
     /** \brief The interface to the file which contains all the map's stored data and subroutines.
     *** This class generally performs a large amount of communication with this script continuously.
     *** The script remains open for as long as the MapMode object exists.
     **/
-    hoa_script::ReadScriptDescriptor _map_script;
+    vt_script::ReadScriptDescriptor _map_script;
 
     // ----- Members : Supervisor Class Objects and Script Functions -----
 
@@ -359,12 +374,6 @@ private:
     **/
     ScriptObject _update_function;
 
-    /** \brief Script function which assists with the MapMode#Draw method
-    *** This function allows for drawing of custom map visuals. Usually this includes lighting or
-    *** other visual effects for the map environment.
-    **/
-    ScriptObject _draw_function;
-
     // ----- Members : Properties and State -----
 
     //! \brief Retains information needed to correctly draw the next map frame
@@ -387,7 +396,7 @@ private:
     float _delta_y;
 
     //! \brief A time for camera movement
-    hoa_system::SystemTimer _camera_timer;
+    vt_system::SystemTimer _camera_timer;
 
     //! \brief The number of contexts that this map uses (at least 1, at most 32)
     uint8 _num_map_contexts;
@@ -424,26 +433,26 @@ private:
     *** and name at the top center of the screen. The graphic and text are faded in for the first
     *** two seconds, drawn opaquely for the next three seconds, and faded out in the final two seconds.
     **/
-    hoa_system::SystemTimer _intro_timer;
+    vt_system::SystemTimer _intro_timer;
 
     //! \brief Freestyle art image of the current map
-    hoa_video::StillImage _map_image;
+    vt_video::StillImage _map_image;
 
     //! \brief An icon graphic which appears over the heads of NPCs who have dialogue that has not been read by the player
-    hoa_video::AnimatedImage _dialogue_icon;
+    vt_video::AnimatedImage _dialogue_icon;
 
     //! \brief Image which underlays the stamina bar for running
-    hoa_video::StillImage _stamina_bar_background;
+    vt_video::StillImage _stamina_bar_background;
 
     //! \brief Image which overlays the stamina bar to show that the player has unlimited running
-    hoa_video::StillImage _stamina_bar_infinite_overlay;
+    vt_video::StillImage _stamina_bar_infinite_overlay;
 
     // ----- Members : Containers -----
     /** \brief A container for the various foes which may appear on this map
     *** These enemies are kept at their initial stats. When they are passed to battle mode,
     *** a copy of each enemy is made and initialized there.
     **/
-    std::vector<hoa_global::GlobalEnemy *> _enemies;
+    std::vector<vt_global::GlobalEnemy *> _enemies;
 
     /**
     *** Stores the first music filename loaded by the map.
@@ -451,7 +460,7 @@ private:
     *** NOTE: Other audio handling will have to be used through scripting.
     **/
     std::string _music_filename;
-    hoa_audio::AUDIO_STATE _audio_state;
+    vt_audio::AUDIO_STATE _audio_state;
 
     //! \brief the minimap for the current map instance
     private_map::Minimap *_minimap;
@@ -468,7 +477,7 @@ private:
     *** This is done by using the collision markers in the current map context and setting up an image where
     *** areas that cannot be moved onto, and mapping them as "white" blocks into a black image
     *** actual rendering is done through SDL, as we currently don't have off-screen rendering / render
-    *** to texture available throught he hoa_engine
+    *** to texture available throught he vt_engine
     **/
     bool _CreateMinimap();
 
@@ -485,12 +494,12 @@ private:
     void _DrawGUI();
 
     //! \brief Draws the stamina bar, part of DrawGUI()
-    void _DrawStaminaBar(const hoa_video::Color &blending = hoa_video::Color::white);
+    void _DrawStaminaBar(const vt_video::Color &blending = vt_video::Color::white);
 
     //! \brief Draws the map layer tile and collision grid.
     void _DrawDebugGrid();
 }; // class MapMode
 
-} // namespace hoa_map;
+} // namespace vt_map;
 
 #endif

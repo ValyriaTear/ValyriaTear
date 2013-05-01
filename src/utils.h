@@ -11,6 +11,7 @@
 /** ***************************************************************************(
 *** \file    utils.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the utility code.
 ***
 *** This code includes various utility functions that are used across different
@@ -19,8 +20,8 @@
 ***
 *** \note Use the following macros for OS-dependent code.
 ***   - Windows    #ifdef _WIN32
-***   - Mac OS X   #ifdef __MACH__
-***   - OpenDarwin #ifdef __MACH__
+***   - Mac OS X   #ifdef __APPLE__
+***   - OpenDarwin #ifdef __APPLE__
 ***   - Linux      #ifdef __linux__
 ***   - FreeBSD    #ifdef __FreeBSD__
 ***   - OpenBSD    #ifdef __OpenBSD__
@@ -65,7 +66,7 @@
 #include <stdint.h> // Using the C header, because the C++ header, <cstdint> is only available in ISO C++0x
 #endif
 
-#ifdef __MACH__
+#ifdef __APPLE__
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #else
@@ -140,10 +141,10 @@ typedef uint8_t   uint8;
 static const std::string _empty_string;
 
 //! Contains utility code used across the entire source code
-namespace hoa_utils
+namespace vt_utils
 {
 
-//! Determines whether the code in the hoa_utils namespace should print debug statements or not.
+//! Determines whether the code in the vt_utils namespace should print debug statements or not.
 extern bool UTILS_DEBUG;
 
 /** \name Multiples of Pi constants
@@ -405,8 +406,8 @@ private:
 *** singleton classes. To create a new singleton type class, follow the steps below.
 *** It is assumed that the desired class is called "ClassName".
 ***
-*** -# In the header file, define the class as follows: class ClassName : public hoa_utils::Singleton<ClassName>
-*** -# Make hoa_utils::Singleton<ClassName> a friend of ClassName in the header file
+*** -# In the header file, define the class as follows: class ClassName : public vt_utils::Singleton<ClassName>
+*** -# Make vt_utils::Singleton<ClassName> a friend of ClassName in the header file
 *** -# Put the ClassName() constructor in the private section of the class, and the destructor in the public section
 *** -# Define the following function in the public section of the class and implement it: bool SingletonInitialize()
 *** -# In the source file, set the static template member like so: template<> ClassName* Singleton<ClassName>::_singleton_reference = NULL
@@ -431,7 +432,7 @@ private:
 ***
 *** \note Most of our singleton classes also define a pointer to their singleton object inside the
 *** source file of the class. For example, the AudioEngine singleton contains the AudioManager class object
-*** name inside the hoa_audio namespace. Therefore you do not need to call the SingletonGetReference()
+*** name inside the vt_audio namespace. Therefore you do not need to call the SingletonGetReference()
 *** function when this object is made available.
 *** ***************************************************************************/
 template<typename T> class Singleton
@@ -532,7 +533,7 @@ bool UTF8ToUTF16(const char *source, uint16 *dest, size_t length);
 *** as unicode characters are the only characters allowed to be displayed. This
 *** function serves primarily for debugging and diagnostic purposes.
 **/
-hoa_utils::ustring MakeUnicodeString(const std::string &text);
+vt_utils::ustring MakeUnicodeString(const std::string &text);
 
 /** \brief Creates an starndard string from a ustring
 *** \param text The ustring to create the equivalent standard string for
@@ -542,7 +543,7 @@ hoa_utils::ustring MakeUnicodeString(const std::string &text);
 *** Standard strings are used for resource loading (of images, sounds, etc.) so
 *** this may come in use if a ustring contains file information.
 **/
-std::string MakeStandardString(const hoa_utils::ustring &text);
+std::string MakeStandardString(const vt_utils::ustring &text);
 //@}
 
 /** \brief A template function that returns the number of elements in an array
@@ -697,19 +698,18 @@ bool DeleteFile(const std::string &filename);
 
 //! \name User directory and settings paths
 //@{
-/** \brief Finds the OS specific directory path to save and retrieve user data
-*** \param user_files If true, retrieves the path for user created content files. If false,
-*** retrieves the path for application settings. Default value is true.
-*** \note Only OS X systems make any use of the user_files parameter.
-**/
-const std::string GetUserDataPath(bool user_files = true);
+//! \brief Gives the OS specific directory path to save and retrieve user data
+const std::string GetUserDataPath();
 
-/** \brief Retrieves the path and filename of the settings file to use
+//! \brief Gives the OS specific directory path to save and retrieve user config data
+const std::string GetUserConfigPath();
+
+/** \brief Gives the path and filename of the settings file to use
 *** \return A string with the settings filename, or an empty string if the settings file could not be found
 **/
 const std::string GetSettingsFilename();
 //@}
 
-} // namespace hoa_utils
+} // namespace vt_utils
 
 #endif // __UTILS_HEADER__

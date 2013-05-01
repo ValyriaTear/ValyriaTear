@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_command.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle command menu
 ***
 *** This code is responsible for processing input from the player when they are
@@ -27,7 +28,7 @@
 
 #include "battle_utils.h"
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -53,7 +54,7 @@ public:
     /** \param character A pointer to the character represented by this class
     *** \param window A reference to the MenuWindow that should be the owner of the GUI displays
     **/
-    CharacterCommandSettings(BattleCharacter *character, hoa_gui::MenuWindow &window);
+    CharacterCommandSettings(BattleCharacter *character, vt_gui::MenuWindow &window);
 
     ~CharacterCommandSettings()
     {}
@@ -117,24 +118,24 @@ public:
         return _last_enemy_target;
     }
 
-    hoa_gui::OptionBox *GetWeaponSkillList() {
+    vt_gui::OptionBox *GetWeaponSkillList() {
         return &_weapon_skill_list;
     }
-    hoa_gui::OptionBox *GetWeaponTargetList() {
+    vt_gui::OptionBox *GetWeaponTargetList() {
         return &_weapon_target_list;
     }
 
-    hoa_gui::OptionBox *GetMagicSkillList() {
+    vt_gui::OptionBox *GetMagicSkillList() {
         return &_magic_skill_list;
     }
-    hoa_gui::OptionBox *GetMagicTargetList() {
+    vt_gui::OptionBox *GetMagicTargetList() {
         return &_magic_target_list;
     }
 
-    hoa_gui::OptionBox *GetSpecialSkillList() {
+    vt_gui::OptionBox *GetSpecialSkillList() {
         return &_special_skill_list;
     }
-    hoa_gui::OptionBox *GetSpecialTargetList() {
+    vt_gui::OptionBox *GetSpecialTargetList() {
         return &_special_target_list;
     }
     //@}
@@ -159,16 +160,16 @@ private:
     BattleTarget _last_enemy_target;
 
     //! \brief A display list of all usable weapon skills
-    hoa_gui::OptionBox _weapon_skill_list;
-    hoa_gui::OptionBox _weapon_target_list;
+    vt_gui::OptionBox _weapon_skill_list;
+    vt_gui::OptionBox _weapon_target_list;
 
     //! \brief A display list of all usable magic skills
-    hoa_gui::OptionBox _magic_skill_list;
-    hoa_gui::OptionBox _magic_target_list;
+    vt_gui::OptionBox _magic_skill_list;
+    vt_gui::OptionBox _magic_target_list;
 
     //! \brief A display list of all usable items
-    hoa_gui::OptionBox _special_skill_list;
-    hoa_gui::OptionBox _special_target_list;
+    vt_gui::OptionBox _special_skill_list;
+    vt_gui::OptionBox _special_target_list;
 }; // class CharacterCommandSettings
 
 
@@ -190,7 +191,7 @@ class ItemCommand
 {
 public:
     //! \param window A reference to the MenuWindow that the GUI objects should be owned by
-    ItemCommand(hoa_gui::MenuWindow &window);
+    ItemCommand(vt_gui::MenuWindow &window);
 
     ~ItemCommand()
     {}
@@ -285,12 +286,12 @@ private:
     std::vector<int32> _item_mappings;
 
     //! \brief A single line of header text for the item list option box
-    hoa_gui::OptionBox _item_header;
+    vt_gui::OptionBox _item_header;
 
     //! \brief A display list of all usable items
-    hoa_gui::OptionBox _item_list;
+    vt_gui::OptionBox _item_list;
     //! \brief A display list of all usable items target type and number in inventory.
-    hoa_gui::OptionBox _item_target_list;
+    vt_gui::OptionBox _item_target_list;
 }; // class ItemCommand
 
 
@@ -305,7 +306,7 @@ class SkillCommand
 {
 public:
     //! \param window A reference to the MenuWindow that the GUI objects should be owned by
-    SkillCommand(hoa_gui::MenuWindow &window);
+    SkillCommand(vt_gui::MenuWindow &window);
 
     ~SkillCommand()
     {}
@@ -315,15 +316,15 @@ public:
     *** \param skill_list A pointer to the skill list option box
     *** \param target_n_cost_list A pointer to the target typ and skill cost option box
     **/
-    void Initialize(std::vector<hoa_global::GlobalSkill *>* skills,
-                    hoa_gui::OptionBox *skill_list,
-                    hoa_gui::OptionBox *target_n_cost_list);
+    void Initialize(std::vector<vt_global::GlobalSkill *>* skills,
+                    vt_gui::OptionBox *skill_list,
+                    vt_gui::OptionBox *target_n_cost_list);
 
     /** \brief Returns the currently selected skill
     *** This function will return NULL if the class has not been initialized and there is no list of
     *** skills to select from.
     **/
-    hoa_global::GlobalSkill *GetSelectedSkill() const;
+    vt_global::GlobalSkill *GetSelectedSkill() const;
 
     /** \brief Returns if the selected skill is enabled
     *** This function will return true, if the selected skill is enabled and false otherwise. It will
@@ -346,15 +347,15 @@ public:
 
 private:
     //! \brief A pointer to the vector of skills corresponding to the options in _skill_list
-    std::vector<hoa_global::GlobalSkill *>* _skills;
+    std::vector<vt_global::GlobalSkill *>* _skills;
 
     //! \brief A single line of header text for the skill list option box
-    hoa_gui::OptionBox _skill_header;
+    vt_gui::OptionBox _skill_header;
 
     //! \brief A pointer to the list of skills that the class should operate on
-    hoa_gui::OptionBox *_skill_list;
+    vt_gui::OptionBox *_skill_list;
     //! \brief A pointer to the list of skills targets and cost
-    hoa_gui::OptionBox *_target_n_cost_list;
+    vt_gui::OptionBox *_target_n_cost_list;
 }; // class SkillCommand
 
 
@@ -462,7 +463,7 @@ private:
     CharacterCommandSettings *_active_settings;
 
     //! \brief A pointer to the skill that is currently selected, if any
-    hoa_global::GlobalSkill *_selected_skill;
+    vt_global::GlobalSkill *_selected_skill;
 
     //! \brief A pointer to the item that is currently selected, if any
     BattleItem *_selected_item;
@@ -482,31 +483,31 @@ private:
     // ---------- Graphics and GUI members
 
     //! \brief Contains the icon images that represent each action category
-    std::vector<hoa_video::StillImage> _category_icons;
+    std::vector<vt_video::StillImage> _category_icons;
 
     //! \brief Contains the text that represent each action category
-    std::vector<hoa_video::TextImage> _category_text;
+    std::vector<vt_video::TextImage> _category_text;
 
     //! \brief The window where all command information and GUI displays are drawn
-    hoa_gui::MenuWindow _command_window;
+    vt_gui::MenuWindow _command_window;
 
     //! \brief Header text
-    hoa_video::TextImage _window_header;
+    vt_video::TextImage _window_header;
 
     //! \brief Rendered text that contains information about the currently selected target
-    hoa_video::TextImage _window_text;
+    vt_video::TextImage _window_text;
 
     /** \brief The option box that lists the types of actions that a character may take in battle
     *** Typically this list includes "attack", "defend", "support", and "item". More types may appear
     *** under special circumstances and conditions.
     **/
-    hoa_gui::OptionBox _category_options;
+    vt_gui::OptionBox _category_options;
 
     /** \brief Contains a list of the possible targets that a player may select from
     ***
     *** This option box is used for the selection of both actors and attack points.
     **/
-    hoa_gui::OptionBox _target_options;
+    vt_gui::OptionBox _target_options;
 
     // ---------- Private methods
 
@@ -517,7 +518,7 @@ private:
     bool _IsItemCategorySelected() const;
 
     //! \brief Returns the type of target for the selected action
-    hoa_global::GLOBAL_TARGET _ActionTargetType();
+    vt_global::GLOBAL_TARGET _ActionTargetType();
 
     //! \brief Returns true if the character parameter has already had a settings instance created for it
     bool _HasCharacterSettings(BattleCharacter *character) const {
@@ -588,6 +589,6 @@ private:
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_COMMAND_HEADER__

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_finish.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle finish menu
 *** ***************************************************************************/
 
@@ -29,16 +30,16 @@
 #include "modes/boot/boot.h"
 #include <boost/concept_check.hpp>
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -626,7 +627,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
 void FinishVictoryAssistant::_CreateObjectList()
 {
-    for(std::map<hoa_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+    for(std::map<vt_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
         GlobalObject *obj = i->first;
         _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
                                + obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
@@ -966,7 +967,7 @@ void FinishSupervisor::Update()
                 break;
             case DEFEAT_OPTION_END:
                 ModeManager->PopAll();
-                ModeManager->Push(new hoa_boot::BootMode(), false, true);
+                ModeManager->Push(new vt_boot::BootMode(), false, true);
                 break;
             default:
                 IF_PRINT_WARNING(BATTLE_DEBUG)
@@ -993,4 +994,4 @@ void FinishSupervisor::Draw()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

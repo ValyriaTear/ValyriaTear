@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_skills.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game skills.
 ***
 *** This file contains the class implementation for "skills", which are the
@@ -26,7 +27,7 @@
 #include "engine/script/script.h"
 #include "modes/battle/battle_actors.h"
 
-namespace hoa_global
+namespace vt_global
 {
 
 /** ****************************************************************************
@@ -83,11 +84,11 @@ public:
     *** \note No set functions are defined because the class members should only be intialized within Lua
     **/
     //@{
-    const hoa_utils::ustring &GetName() const {
+    const vt_utils::ustring &GetName() const {
         return _name;
     }
 
-    const hoa_utils::ustring &GetDescription() const {
+    const vt_utils::ustring &GetDescription() const {
         return _description;
     }
 
@@ -135,7 +136,7 @@ public:
     }
 
     //! Execute the corresponding skill Battle function
-    bool ExecuteBattleFunction(hoa_battle::private_battle::BattleActor *user, hoa_battle::private_battle::BattleTarget target);
+    bool ExecuteBattleFunction(vt_battle::private_battle::BattleActor *user, vt_battle::private_battle::BattleTarget target);
 
     /** \brief Returns a pointer to the ScriptObject of the menu execution function
     *** \note This function will return NULL if the skill is not executable in menus
@@ -155,13 +156,13 @@ private:
     uint32 _id;
 
     //! \brief The name of the skill as it will be displayed on the screen.
-    hoa_utils::ustring _name;
+    vt_utils::ustring _name;
 
     /** \brief A short description of what the skill does when executed
     *** \note Not all defined skills have a description. For example, skills used only by enemies are
     *** typically missing a description
     **/
-    hoa_utils::ustring _description;
+    vt_utils::ustring _description;
 
     //! The potential skill icon filename
     std::string _icon_filename;
@@ -214,6 +215,6 @@ private:
     std::map <uint32, std::string> _animation_scripts;
 }; // class GlobalSkill
 
-} // namespace hoa_global
+} // namespace vt_global
 
 #endif // __GLOBAL_SKILLS_HEADER__

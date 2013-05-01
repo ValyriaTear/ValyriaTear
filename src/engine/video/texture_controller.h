@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    texture_controller.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for texture management code
 ***
 *** This code declares a single class, TextureController, which manages all
@@ -37,7 +38,7 @@
 
 #include <map>
 
-namespace hoa_video
+namespace vt_video
 {
 
 class TextureController;
@@ -49,9 +50,9 @@ class TextTexture;
 //! \brief The singleton pointer for the instance of the texture controller
 extern TextureController *TextureManager;
 
-class TextureController : public hoa_utils::Singleton<TextureController>
+class TextureController : public vt_utils::Singleton<TextureController>
 {
-    friend class hoa_utils::Singleton<TextureController>;
+    friend class vt_utils::Singleton<TextureController>;
     friend class VideoEngine;
     friend class private_video::ImageMemory;
     friend class ImageDescriptor;
@@ -63,7 +64,7 @@ class TextureController : public hoa_utils::Singleton<TextureController>
     friend class private_video::TexSheet;
     friend class private_video::FixedTexSheet;
     friend class private_video::VariableTexSheet;
-    friend class hoa_mode_manager::ParticleSystem;
+    friend class vt_mode_manager::ParticleSystem;
 
 public:
     TextureController();
@@ -155,7 +156,7 @@ private:
     *** \return True if the "img/temp" directory was successfully emptied
     **/
     bool _DeleteTempTextures() {
-        return hoa_utils::CleanDirectory("img/temp");
+        return vt_utils::CleanDirectory("img/temp");
     }
     //@}
 
@@ -199,12 +200,12 @@ private:
     /** \brief Adds an image texture to the map registery
     *** \param img A pointer to the ImageTexture to add with its filename and tags members correctly set
     **/
-    void _RegisterImageTexture(hoa_video::private_video::ImageTexture *img);
+    void _RegisterImageTexture(vt_video::private_video::ImageTexture *img);
 
     /** \brief Removes an image texture from the map registery
     *** \param img A pointer to the ImageTexture to remove with its filename and tags members correctly set
     **/
-    void _UnregisterImageTexture(hoa_video::private_video::ImageTexture *img);
+    void _UnregisterImageTexture(vt_video::private_video::ImageTexture *img);
 
     /** \brief Determines if an ImageTexture is currently registered
     *** \param nametag The filename + tag string data to use as the map key
@@ -217,7 +218,7 @@ private:
     /** \brief Return the ImageTexture stored under the given nametag (filename + tag)
     *** \return A pointer to the registered ImageTexture object, or NULL if the nametag could not be found
      **/
-    hoa_video::private_video::ImageTexture *_GetImageTexture(std::string nametag) {
+    vt_video::private_video::ImageTexture *_GetImageTexture(std::string nametag) {
         if(_IsImageTextureRegistered(nametag) == true) return _images[nametag];
         else return NULL;
     }
@@ -243,8 +244,8 @@ private:
         return (_text_images.find(tex) != _text_images.end());
     }
     //@}
-}; // class TextureController : public hoa_utils::Singleton<TextureController>
+}; // class TextureController : public vt_utils::Singleton<TextureController>
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __TEXTURE_CONTROLLER_HEADER__

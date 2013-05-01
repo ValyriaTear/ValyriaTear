@@ -14,6 +14,7 @@
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Corey Hoffstein, visage@allacrost.org
 *** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle mode interface.
 *** ***************************************************************************/
 
@@ -33,20 +34,21 @@
 #include "modes/battle/battle_finish.h"
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
+#include "modes/battle/battle_effects.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
-using namespace hoa_pause;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
+using namespace vt_pause;
 
-using namespace hoa_battle::private_battle;
+using namespace vt_battle::private_battle;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 bool BATTLE_DEBUG = false;
@@ -102,9 +104,6 @@ BattleMedia::BattleMedia()
     if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "img/icons/effects/targets.png", 1, 8) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
-    if(ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25) == false)
-        PRINT_ERROR << "failed to load status icon images" << std::endl;
-
     character_HP_text.SetStyle(TextStyle("text18", Color::white));
     character_HP_text.SetText(Translate("HP"));
     character_SP_text.SetStyle(TextStyle("text18", Color::white));
@@ -116,59 +115,9 @@ BattleMedia::BattleMedia()
     if(defeat_music.LoadAudio(DEFAULT_DEFEAT_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
-    if(confirm_sound.LoadAudio("snd/confirm.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load confirm sound" << std::endl;
-
-    if(cancel_sound.LoadAudio("snd/cancel.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cancel sound" << std::endl;
-
-    if(cursor_sound.LoadAudio("snd/confirm.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load cursor sound" << std::endl;
-
-    if(invalid_sound.LoadAudio("snd/cancel.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load invalid sound" << std::endl;
-
-    if(finish_sound.LoadAudio("snd/confirm.wav") == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load finish sound" << std::endl;
-
-    // Determine which status effects correspond to which icons and store the result in the _status_indices container
-    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-
-    std::vector<int32> status_types;
-    script_file.ReadTableKeys(status_types);
-
-    for(uint32 i = 0; i < status_types.size(); i++) {
-        GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(status_types[i]);
-
-        // Check for duplicate entries of the same status effect
-        if(_status_indeces.find(status) != _status_indeces.end()) {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "duplicate entry found in file " << script_file.GetFilename() <<
-                                           " for status type: " << status_types[i] << std::endl;
-            continue;
-        }
-
-        script_file.OpenTable(status_types[i]);
-        if(script_file.DoesIntExist("icon_index") == true) {
-            uint32 icon_index = script_file.ReadUInt("icon_index");
-            _status_indeces.insert(std::pair<GLOBAL_STATUS, uint32>(status, icon_index));
-        } else {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << std::endl;
-        }
-        script_file.CloseTable();
-    }
-
     // Load the stunned icon
     if(!_stunned_icon.Load("img/icons/effects/zzz.png"))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
-}
-
-
-
-BattleMedia::~BattleMedia()
-{
-    battle_music.FreeAudio();
-    victory_music.FreeAudio();
-    defeat_music.FreeAudio();
 }
 
 
@@ -205,7 +154,7 @@ StillImage *BattleMedia::GetCharacterActionButton(uint32 index)
 }
 
 
-StillImage *BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type)
+StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
 {
     switch(target_type) {
     case GLOBAL_TARGET_SELF_POINT:
@@ -231,31 +180,6 @@ StillImage *BattleMedia::GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type
     }
 }
 
-
-
-StillImage *BattleMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity)
-{
-    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << type << std::endl;
-        return NULL;
-    }
-    if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "type argument was invalid: " << intensity << std::endl;
-        return NULL;
-    }
-
-    std::map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
-    if(status_entry == _status_indeces.end()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no entry in the status icon index for status type: " << type << std::endl;
-        return NULL;
-    }
-
-    const uint32 IMAGE_ROWS = 5;
-    uint32 status_index = status_entry->second;
-    uint32 intensity_index = static_cast<uint32>(intensity);
-    return &(_status_icons[(status_index * IMAGE_ROWS) + intensity_index]);
-}
-
 } // namespace private_battle
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -272,6 +196,7 @@ BattleMode::BattleMode() :
     _last_enemy_dying(false),
     _stamina_icon_alpha(1.0f),
     _actor_state_paused(false),
+    _scene_mode(false),
     _battle_type(BATTLE_TYPE_WAIT),
     _highest_agility(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR)
@@ -279,6 +204,8 @@ BattleMode::BattleMode() :
     IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << std::endl;
 
     mode_type = MODE_MANAGER_BATTLE_MODE;
+
+    _current_instance = this;
 
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
@@ -315,12 +242,8 @@ BattleMode::~BattleMode()
     }
 } // BattleMode::~BattleMode()
 
-
-
 void BattleMode::Reset()
 {
-    _current_instance = this;
-
     VideoManager->SetStandardCoordSys();
 
     // Load the default battle music track if no other music has been added
@@ -359,7 +282,11 @@ void BattleMode::RestartBattle()
 
     // Reset the state of all characters and enemies
     for(uint32 i = 0; i < _character_actors.size(); ++i)
+    {
         _character_actors[i]->ResetActor();
+        _ResetPassiveStatusEffects(*(_character_actors[i]));
+    }
+
 
     for(uint32 i = 0; i < _enemy_actors.size(); ++i)
         _enemy_actors[i]->ResetActor();
@@ -397,16 +324,8 @@ void BattleMode::Update()
         return;
     }
 
-    if(_dialogue_supervisor->IsDialogueActive() == true) {
+    if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Update();
-
-        // Because the dialogue may have ended in the call to Update(), we have to check it again here.
-        if(_dialogue_supervisor->IsDialogueActive() == true) {
-            if(_dialogue_supervisor->GetCurrentDialogue()->IsHaltBattleAction() == true) {
-                return;
-            }
-        }
-    }
 
     // Update all actors animations and y-sorting
     _battle_objects.clear();
@@ -436,6 +355,10 @@ void BattleMode::Update()
     }
 
     std::sort(_battle_objects.begin(), _battle_objects.end(), CompareObjectsYCoord);
+
+    // If the battle is in scene mode, we only update animation
+    if (_scene_mode)
+        return;
 
     // Now checking standard battle conditions
 
@@ -591,7 +514,7 @@ void BattleMode::DrawPostEffects()
 
 void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
 {
-    GlobalEnemy *new_enemy = new hoa_global::GlobalEnemy(new_enemy_id);
+    GlobalEnemy *new_enemy = new vt_global::GlobalEnemy(new_enemy_id);
 
     // Don't add the enemy if its id was invalidated
     if(new_enemy->GetID() == 0) {
@@ -811,7 +734,7 @@ void BattleMode::_Initialize()
         BattleCharacter *new_actor = new BattleCharacter(dynamic_cast<GlobalCharacter *>(active_party->GetActorAtIndex(i)));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
-
+        _ResetPassiveStatusEffects(*new_actor);
         // Check whether the character is alive
         if(new_actor->GetHitPoints() == 0)
             new_actor->ChangeState(ACTOR_STATE_DEAD);
@@ -889,6 +812,85 @@ void BattleMode::_Initialize()
 
     ChangeState(BATTLE_STATE_INITIAL);
 } // void BattleMode::_Initialize()
+
+void BattleMode::_ResetAttributesFromGlobalActor(private_battle::BattleActor &character)
+{
+    character.ResetAgility();
+    character.ResetEvade();
+    character.ResetFortitude();
+    character.ResetProtection();
+    character.ResetStrength();
+    character.ResetVigor();
+}
+
+//! \brief sets the max_effect at the proper index only if it is higher in value than the current one there
+static void SetEffectMaximum(GLOBAL_INTENSITY *max_effect, const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >&status_effects)
+{
+    for(size_t i = 0; i < status_effects.size(); ++i)
+    {
+        //we are only interested in attribute effects
+
+        if(status_effects[i].first == GLOBAL_STATUS_INVALID ||
+           status_effects[i].first > GLOBAL_STATUS_EVADE_LOWER)
+            continue;
+        if(status_effects[i].second < GLOBAL_INTENSITY_NEG_EXTREME ||
+           status_effects[i].second > GLOBAL_INTENSITY_POS_EXTREME)
+            continue;
+
+        size_t index = (size_t) status_effects[i].first;
+        if((int)max_effect[index] < (int)(status_effects[i].second))
+            max_effect[index] = status_effects[i].second;
+    }
+}
+
+void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &character,
+                                            const vt_global::GlobalWeapon* weapon,
+                                            const std::vector<vt_global::GlobalArmor *>& armors)
+{
+    //we only count the first 12 status effects as valid
+    //todo: allow a way for drain / regen
+    const static size_t MAX_VALID_STATUS  = 12;
+    //max value array for each of the status types.
+    GLOBAL_INTENSITY max_effect[MAX_VALID_STATUS] = {GLOBAL_INTENSITY_INVALID};
+
+    //adjust effects for the weapons
+    if (weapon)
+        SetEffectMaximum(max_effect, weapon->GetStatusEffects());
+
+    //adjust effects for armor
+    for(std::vector<vt_global::GlobalArmor *>::const_iterator itr = armors.begin(),
+            end = armors.end(); itr != end; ++itr) {
+        if((*itr))
+            SetEffectMaximum(max_effect, (*itr)->GetStatusEffects());
+    }
+
+    //go through each effect (as a pair) looking for the highest one.
+    for(size_t i = 0; i < MAX_VALID_STATUS; i += 2)
+    {
+        //no change for this status
+        if(max_effect[i] == GLOBAL_INTENSITY_INVALID && max_effect[i + 1] == GLOBAL_INTENSITY_INVALID)
+            continue;
+        GLOBAL_STATUS max_status;
+        GLOBAL_INTENSITY max_intensity;
+        max_status = (int)max_effect[i] > (int)max_effect[i + 1] ? (GLOBAL_STATUS)i : (GLOBAL_STATUS)(i + 1);
+        max_intensity = max_effect[(size_t)max_status];
+        if(max_intensity == GLOBAL_INTENSITY_NEUTRAL)
+            continue;
+        //now, we manually effect the player with a "permenant effect" by creating
+        //a battle effect and immediatly allowing it to modify the player.
+        //this effect does NOT go into the effect controller
+        private_battle::BattleStatusEffect scripted_effect(max_status, max_intensity, &character);
+        //immediatly apply the full effect
+        ScriptCallFunction<void>(scripted_effect.GetApplyFunction(), &scripted_effect);
+    }
+
+}
+
+void BattleMode::_ResetPassiveStatusEffects(vt_battle::private_battle::BattleActor &character)
+{
+   _ResetAttributesFromGlobalActor(character);
+   _ApplyPassiveStatusEffects(character, character.GetGlobalActor()->GetWeaponEquipped(), character.GetGlobalActor()->GetArmorEquipped());
+}
 
 void BattleMode::SetActorIdleStateTime(BattleActor *actor)
 {
@@ -1112,19 +1114,16 @@ void BattleMode::_DrawGUI()
         _DrawIndicators();
 
     if(_command_supervisor->GetState() != COMMAND_STATE_INVALID) {
-        if((_dialogue_supervisor->IsDialogueActive()) &&
-                (_dialogue_supervisor->GetCurrentDialogue()->IsHaltBattleAction())) {
-            // Do not draw the command selection GUI if a dialogue is active that halts the battle action
-        } else if(!_last_enemy_dying) {
+        // Do not draw the command selection GUI if the battle is in scene mode
+        if(!IsInSceneMode() && !_last_enemy_dying)
             _command_supervisor->Draw();
-        }
     }
-    if(_dialogue_supervisor->IsDialogueActive()) {
+
+    if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Draw();
-    }
-    if((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {
+
+    if((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT))
         _finish_supervisor->Draw();
-    }
 }
 
 
@@ -1317,8 +1316,8 @@ void TransitionToBattleMode::Reset()
     AudioManager->StopAllMusic();
 
     // Play a random encounter sound
-    uint32 file_id = hoa_utils::RandomBoundedInteger(0, 2);
-    hoa_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
+    uint32 file_id = vt_utils::RandomBoundedInteger(0, 2);
+    vt_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
 }
 
-} // namespace hoa_battle
+} // namespace vt_battle

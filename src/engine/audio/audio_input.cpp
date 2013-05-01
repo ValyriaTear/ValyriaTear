@@ -12,6 +12,7 @@
 *** \file   audio_input.cpp
 *** \author Mois�s Ferrer Serra - byaku@allacrost.org
 *** \author Aaron Smith - etherstar@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source for the classes that provide input for sounds
 ***
 *** This code provides classes for loading sounds (WAV and OGG). It also
@@ -24,8 +25,10 @@
 #include "audio_input.h"
 #include <SDL/SDL_endian.h>
 
-namespace hoa_audio
+namespace vt_audio
 {
+
+extern bool AUDIO_DEBUG;
 
 namespace private_audio
 {
@@ -463,4 +466,4 @@ uint32 AudioMemory::Read(uint8 *buffer, uint32 size, bool &end)
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio

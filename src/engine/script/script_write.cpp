@@ -11,7 +11,8 @@
 /** ****************************************************************************
 *** \file    script_write.cpp
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for the WriteScriptDescriptor class.
 *** ***************************************************************************/
 
@@ -22,9 +23,9 @@
 #include "script.h"
 #include "script_write.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-namespace hoa_script
+namespace vt_script
 {
 
 WriteScriptDescriptor::~WriteScriptDescriptor()
@@ -470,4 +471,4 @@ void WriteScriptDescriptor::_WriteTablePath()
     }
 }
 
-} // namespace hoa_script
+} // namespace vt_script

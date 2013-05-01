@@ -49,7 +49,7 @@ function Initialize(_character, _target, _skill)
     character_pos_x = character:GetXLocation();
     character_pos_y = character:GetYLocation();
 
-    enemy_pos_x = target_actor:GetXLocation();
+    enemy_pos_x = target_actor:GetXLocation() - (character:GetSpriteWidth() / 2.0);
     enemy_pos_y = target_actor:GetYLocation();
 
     attack_step = 0;
@@ -57,18 +57,18 @@ function Initialize(_character, _target, _skill)
 
     damage_triggered = false;
 
-    distance_moved_x = SystemManager:GetUpdateTime() / hoa_map.MapMode.NORMAL_SPEED * 150.0;
+    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 150.0;
     local y_diff = character_pos_y - enemy_pos_y;
     if (y_diff == 0.0) then
         a_coeff = 0.0;
         distance_moved_y = 0.0;
     else
-        a_coeff = (enemy_pos_x - character_pos_x - 64.0) / (character_pos_y - enemy_pos_y);
+        a_coeff = (enemy_pos_x - character_pos_x) / (character_pos_y - enemy_pos_y);
         if (a_coeff < 0) then a_coeff = -a_coeff; end
         distance_moved_y = (1/a_coeff) * distance_moved_x;
     end
 
-    --print("distance x: ", enemy_pos_x - character_pos_x - 64.0)
+    --print("distance x: ", enemy_pos_x - character_pos_x)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, 1/a_coeff, distance_moved_y);
 end
@@ -76,7 +76,7 @@ end
 
 function Update()
     -- The update time can vary, so update the distance on each update as well.
-    distance_moved_x = SystemManager:GetUpdateTime() / hoa_map.MapMode.NORMAL_SPEED * 150.0;
+    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 150.0;
     if (a_coeff ~= 0.0) then
         distance_moved_y = (1/a_coeff) * distance_moved_x;
     end
@@ -88,13 +88,13 @@ function Update()
     end
     -- Make the player move till it reaches the enemy
     if (attack_step == 1) then
-        if (character_pos_x > enemy_pos_x - 64.0) then
+        if (character_pos_x > enemy_pos_x) then
             character_pos_x = character_pos_x - distance_moved_x;
-            if character_pos_x < enemy_pos_x - 64.0 then character_pos_x = enemy_pos_x - 64.0 end
+            if character_pos_x < enemy_pos_x then character_pos_x = enemy_pos_x end
         end
-        if (character_pos_x < enemy_pos_x - 64.0) then
+        if (character_pos_x < enemy_pos_x) then
             character_pos_x = character_pos_x + distance_moved_x;
-            if character_pos_x > enemy_pos_x - 64.0 then character_pos_x = enemy_pos_x - 64.0 end
+            if character_pos_x > enemy_pos_x then character_pos_x = enemy_pos_x end
         end
         if (character_pos_y > enemy_pos_y) then
             character_pos_y = character_pos_y - distance_moved_y;
@@ -109,7 +109,7 @@ function Update()
         character:SetYLocation(character_pos_y);
 
         -- Attack when reaching the enemy
-        if (character_pos_x >= enemy_pos_x - 64.0 and character_pos_y == enemy_pos_y) then
+        if (character_pos_x >= enemy_pos_x and character_pos_y == enemy_pos_y) then
             attack_step = 2;
         end
     end

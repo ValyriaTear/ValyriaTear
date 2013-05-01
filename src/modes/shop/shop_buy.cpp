@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_buy.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for buy interface of shop mode
 ***
 *** \note The contents of this file are near identical to the contents of
@@ -18,7 +19,10 @@
 *** to see if it should have similar changes made.
 *** ***************************************************************************/
 
-#include "defs.h"
+#include "shop_buy.h"
+
+#include "shop.h"
+
 #include "utils.h"
 
 #include "engine/audio/audio.h"
@@ -28,18 +32,15 @@
 
 #include "common/global/global.h"
 
-#include "shop.h"
-#include "shop_buy.h"
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_global;
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_global;
-
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
@@ -98,7 +99,7 @@ void BuyInterface::_UpdateAvailableBuyDealTypes()
     // Determine what types of objects the shop deals in based on the managed object list
     std::map<uint32, ShopObject *>* buy_objects = ShopMode::CurrentInstance()->GetAvailableBuy();
     for(std::map<uint32, ShopObject *>::iterator it = buy_objects->begin(); it != buy_objects->end(); ++it) {
-        hoa_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
+        vt_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
         switch(object_type) {
         case GLOBAL_OBJECT_ITEM:
             _buy_deal_types |= DEALS_ITEMS;
@@ -139,7 +140,7 @@ void BuyInterface::_RefreshItemCategories()
     _category_names.clear();
     ShopMedia *shop_media = ShopMode::CurrentInstance()->Media();
     std::vector<ustring>* all_category_names = shop_media->GetAllCategoryNames();
-    std::vector<StillImage>* all_category_icons = shop_media->GetAllCategoryIcons();
+    std::vector<StillImage>* all_category_icons = GlobalManager->Media().GetAllItemCategoryIcons();
 
     // Determine which categories are used in this shop and populate the true containers with that data
     _UpdateAvailableBuyDealTypes();
@@ -303,26 +304,26 @@ void BuyInterface::Update()
             _ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
-            ShopMode::CurrentInstance()->Media()->GetSound("cancel")->Play();
+            GlobalManager->Media().PlaySound("cancel");
         }
 
         // Swap cycles through the object categories
         else if(InputManager->MenuPress() && (_number_categories > 1)) {
             if(_ChangeCategory(true) == true)
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-            ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+            GlobalManager->Media().PlaySound("confirm");
         }
 
         // Up/down changes the selected object in the current list
         else if(InputManager->UpPress()) {
             if(_ChangeSelection(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             }
         } else if(InputManager->DownPress()) {
             if(_ChangeSelection(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)
@@ -332,14 +333,14 @@ void BuyInterface::Update()
             _ChangeViewMode(SHOP_VIEW_MODE_LIST);
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
             ShopMode::CurrentInstance()->CompleteTransaction();
-            //ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+            GlobalManager->Media().PlaySound("confirm");
             ShopMode::CurrentInstance()->ClearOrder();
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_SELL); //If the entire sell list is emptied, this somehow helps
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_BUY);
         } else if(InputManager->CancelPress()) {
             _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            while(_list_displays[_current_category]->ChangeBuyQuantity(false) == true) {} //Is this dangerous or inefficient?
-            ShopMode::CurrentInstance()->Media()->GetSound("cancel")->Play();
+            while(_list_displays[_current_category]->ChangeBuyQuantity(false) == true) {}
+            GlobalManager->Media().PlaySound("cancel");
             ShopMode::CurrentInstance()->ClearOrder();
         }
 
@@ -347,15 +348,15 @@ void BuyInterface::Update()
         else if(InputManager->LeftPress()) {
             if(_list_displays[_current_category]->ChangeBuyQuantity(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             } else
-                ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
+                GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeBuyQuantity(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
-                ShopMode::CurrentInstance()->Media()->GetSound("confirm")->Play();
+                GlobalManager->Media().PlaySound("confirm");
             } else
-                ShopMode::CurrentInstance()->Media()->GetSound("bump")->Play();
+                GlobalManager->Media().PlaySound("bump");
         }
     }
 
@@ -571,4 +572,4 @@ bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop

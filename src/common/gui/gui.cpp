@@ -8,17 +8,25 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file   gui.cpp
+*** \author Raj Sharma, roos@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
+*** \brief  Source file for GUI code
+***
+*** ***************************************************************************/
+
 #include "gui.h"
 
 #include "engine/video/video.h"
 #include "common/gui/menu_window.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_video;
 
-template<> hoa_gui::GUISystem *Singleton<hoa_gui::GUISystem>::_singleton_reference = NULL;
+template<> vt_gui::GUISystem *Singleton<vt_gui::GUISystem>::_singleton_reference = NULL;
 
-namespace hoa_gui
+namespace vt_gui
 {
 
 GUISystem *GUIManager = NULL;
@@ -398,4 +406,4 @@ void GUISystem::_RemoveMenuWindow(MenuWindow *old_window)
     }
 }
 
-} // namespace hoa_gui
+} // namespace vt_gui

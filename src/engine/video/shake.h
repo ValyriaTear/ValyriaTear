@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shake.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for screen shaking code
 *** ***************************************************************************/
 
@@ -20,7 +21,7 @@
 #include "utils.h"
 #include "interpolator.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 //! \brief Screen shake fall-off modes, which control the behavior of a screen shake.
@@ -67,6 +68,6 @@ public:
     uint32 end_time;
 };
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif  // __SHAKE_HEADER__

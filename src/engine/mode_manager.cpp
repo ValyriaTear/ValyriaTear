@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file   mode_manager.cpp
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source file for managing user settings
 *** **************************************************************************/
 
@@ -22,15 +23,14 @@
 
 #include "modes/mode_help_window.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_boot;
-using namespace hoa_video;
-using namespace hoa_audio;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_audio;
 
-template<> hoa_mode_manager::ModeEngine *Singleton<hoa_mode_manager::ModeEngine>::_singleton_reference = NULL;
+template<> vt_mode_manager::ModeEngine *Singleton<vt_mode_manager::ModeEngine>::_singleton_reference = NULL;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 ModeEngine *ModeManager = NULL;
@@ -72,7 +72,7 @@ GameMode::~GameMode()
 
 void GameMode::Update()
 {
-    uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
+    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _script_supervisor.Update();
     _effect_supervisor.Update(frame_time);
@@ -112,13 +112,13 @@ ModeEngine::~ModeEngine()
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: ModeEngine destructor invoked" << std::endl;
     // Delete any game modes on the stack
-    while(_game_stack.size() != 0) {
+    while(!_game_stack.empty()) {
         delete _game_stack.back();
         _game_stack.pop_back();
     }
 
     // Delete any game modes on the push stack
-    while(_push_stack.size() != 0) {
+    while(!_push_stack.empty()) {
         delete _push_stack.back();
         _push_stack.pop_back();
     }
@@ -131,13 +131,13 @@ ModeEngine::~ModeEngine()
 bool ModeEngine::SingletonInitialize()
 {
     // Delete any game modes on the stack
-    while(_game_stack.size() != 0) {
+    while(!_game_stack.empty()) {
         delete _game_stack.back();
         _game_stack.pop_back();
     }
 
     // Delete any game modes on the push stack
-    while(_push_stack.size() != 0) {
+    while(!_push_stack.empty()) {
         delete _push_stack.back();
         _push_stack.pop_back();
     }
@@ -289,6 +289,7 @@ void ModeEngine::Update()
         // Reset the fade out member
         _fade_out_finished = false;
 
+#ifndef EDITOR_BUILD // Needed when building using QT-Creator
         // We can now fade in, or not
         VideoManager->_TransitionalFadeIn(_fade_in ? FADE_IN_OUT_TIME : 0);
 
@@ -297,6 +298,7 @@ void ModeEngine::Update()
 
         // Re-initialize the game update timer so that the new active game mode does not begin with any update time to process
         SystemManager->InitializeUpdateTimer();
+#endif
     } // if (_state_change == true)
 
     // Call the Update function on the top stack mode (the active game mode)
@@ -348,4 +350,4 @@ void ModeEngine::DEBUG_PrintStack()
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager

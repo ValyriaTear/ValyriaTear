@@ -29,11 +29,11 @@ function NewGame()
     GlobalManager:SetMaxExperienceLevel(15);
 
     -- Set the starting world map data
-    GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
+    GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:SetCurrentLocationId("layna village")
 
-    local MM = hoa_map.MapMode("dat/maps/layna_forest/layna_forest_crystal.lua", "dat/maps/introduction.lua");
+    local MM = vt_map.MapMode("dat/maps/layna_forest/layna_forest_crystal_map.lua", "dat/maps/introduction.lua");
     ModeManager:Pop(false, false);
     ModeManager:Push(MM, false, true);
 end

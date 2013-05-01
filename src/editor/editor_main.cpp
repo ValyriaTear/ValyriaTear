@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    editor_main.cpp
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for editor's main() function.
 *** ***************************************************************************/
 
@@ -28,8 +29,8 @@
 #undef main
 #endif
 
-using namespace hoa_script;
-using namespace hoa_editor;
+using namespace vt_script;
+using namespace vt_editor;
 
 int main(int argc, char **argv)
 {

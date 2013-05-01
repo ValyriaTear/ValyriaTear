@@ -12,6 +12,7 @@
 *** \file   audio_stream.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for class for streaming audio from diferent sources
 ***
 *** This code implements functionality for advanced streaming operations
@@ -20,7 +21,7 @@
 #ifndef __AUDIO_STREAM_HEADER__
 #define __AUDIO_STREAM_HEADER__
 
-#ifdef __MACH__
+#ifdef __APPLE__
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #else
@@ -28,12 +29,11 @@
 #include "alc.h"
 #endif
 
-#include "defs.h"
 #include "utils.h"
 
 #include "audio_input.h"
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 namespace private_audio
@@ -131,6 +131,6 @@ private:
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif // __AUDIO_STREAM_HEADER__

@@ -58,11 +58,11 @@ end
 function _CreateCharacters()
     -- Default hero and position
     hero = CreateSprite(Map, "Bronann", 58, 94);
-    hero:SetDirection(hoa_map.MapMode.NORTH);
-    hero:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    hero:SetDirection(vt_map.MapMode.NORTH);
+    hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     if (GlobalManager:GetPreviousLocation() == "from layna forest crystal") then
-        hero:SetDirection(hoa_map.MapMode.SOUTH);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(69, 4);
     end
 
@@ -102,9 +102,9 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrance
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 58, 104,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 67, 5,
-            hoa_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha), hoa_map.MapMode.CONTEXT_01);
+            vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     local chest1 = CreateTreasure(Map, "layna_forest_cave2_chest1", "Wood_Chest1", 107, 28);
     if (chest1 ~= nil) then
@@ -127,7 +127,7 @@ function _CreateEnemies()
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(12, 18, 17, 31, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = vt_map.EnemyZone(12, 18, 17, 31);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -145,7 +145,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(94, 102, 62, 70, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = vt_map.EnemyZone(94, 102, 62, 70);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -164,7 +164,7 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = hoa_map.EnemyZone(62, 71, 36, 44, hoa_map.MapMode.CONTEXT_01);
+    roam_zone = vt_map.EnemyZone(62, 71, 36, 44);
 
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
@@ -191,67 +191,67 @@ function _CreateEvents()
     local text = {};
 
     -- Map events
-    event = hoa_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east.lua", "from layna forest cave 2")
+    event = vt_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from layna forest cave 2")
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal.lua",
-                                       "dat/maps/layna_forest/layna_forest_crystal.lua", "from layna forest cave 2")
+    event = vt_map.MapTransitionEvent("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_crystal_script.lua", "from layna forest cave 2")
     EventManager:RegisterEvent(event);
 
     -- Fade in/out events - to making the character wander from a cave place to another
-    event = hoa_map.ScriptedEvent("to 1-1", "to_1_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 1-1", "to_1_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 1-2", "to_1_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 1-2", "to_1_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 2-1", "to_2_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 2-1", "to_2_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 2-2", "to_2_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 2-2", "to_2_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 3-1", "to_3_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 3-1", "to_3_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 3-2", "to_3_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 3-2", "to_3_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 4-1", "to_4_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 4-1", "to_4_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 4-2", "to_4_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 4-2", "to_4_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 5-1", "to_5_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 5-1", "to_5_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 5-2", "to_5_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 5-2", "to_5_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 6-1", "to_6_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 6-1", "to_6_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 6-2", "to_6_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 6-2", "to_6_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 7-1", "to_7_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 7-1", "to_7_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 7-2", "to_7_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 7-2", "to_7_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 8-1", "to_8_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 8-1", "to_8_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 8-2", "to_8_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 8-2", "to_8_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 9-1", "to_9_1", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 9-1", "to_9_1", "a_to_b_update");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.ScriptedEvent("to 9-2", "to_9_2", "a_to_b_update");
+    event = vt_map.ScriptedEvent("to 9-2", "to_9_2", "a_to_b_update");
     EventManager:RegisterEvent(event);
 end
 
@@ -282,68 +282,68 @@ local to_9_2_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_SE_zone = hoa_map.CameraZone(56, 60, 95, 96, hoa_map.MapMode.CONTEXT_01);
+    to_forest_SE_zone = vt_map.CameraZone(56, 60, 95, 96);
     Map:AddZone(to_forest_SE_zone);
 
-    to_forest_crystal_zone = hoa_map.CameraZone(60, 74, 0, 1, hoa_map.MapMode.CONTEXT_01);
+    to_forest_crystal_zone = vt_map.CameraZone(60, 74, 0, 1);
     Map:AddZone(to_forest_crystal_zone);
 
     -- cave zones
-    to_1_1_zone = hoa_map.CameraZone(8, 10, 39, 40, hoa_map.MapMode.CONTEXT_01);
+    to_1_1_zone = vt_map.CameraZone(8, 10, 39, 40);
     Map:AddZone(to_1_1_zone);
 
-    to_1_2_zone = hoa_map.CameraZone(42, 44, 83, 84, hoa_map.MapMode.CONTEXT_01);
+    to_1_2_zone = vt_map.CameraZone(42, 44, 83, 84);
     Map:AddZone(to_1_2_zone);
 
-    to_2_1_zone = hoa_map.CameraZone(28, 30, 43, 44, hoa_map.MapMode.CONTEXT_01);
+    to_2_1_zone = vt_map.CameraZone(28, 30, 43, 44);
     Map:AddZone(to_2_1_zone);
 
-    to_2_2_zone = hoa_map.CameraZone(36, 38, 3, 4, hoa_map.MapMode.CONTEXT_01);
+    to_2_2_zone = vt_map.CameraZone(36, 38, 3, 4);
     Map:AddZone(to_2_2_zone);
 
-    to_3_1_zone = hoa_map.CameraZone(120, 122, 89, 90, hoa_map.MapMode.CONTEXT_01);
+    to_3_1_zone = vt_map.CameraZone(120, 122, 89, 90);
     Map:AddZone(to_3_1_zone);
 
-    to_3_2_zone = hoa_map.CameraZone(52, 54, 13, 14, hoa_map.MapMode.CONTEXT_01);
+    to_3_2_zone = vt_map.CameraZone(52, 54, 13, 14);
     Map:AddZone(to_3_2_zone);
 
-    to_4_1_zone = hoa_map.CameraZone(46, 48, 65, 66, hoa_map.MapMode.CONTEXT_01);
+    to_4_1_zone = vt_map.CameraZone(46, 48, 65, 66);
     Map:AddZone(to_4_1_zone);
 
-    to_4_2_zone = hoa_map.CameraZone(92, 94, 45, 46, hoa_map.MapMode.CONTEXT_01);
+    to_4_2_zone = vt_map.CameraZone(92, 94, 45, 46);
     Map:AddZone(to_4_2_zone);
 
-    to_5_1_zone = hoa_map.CameraZone(76, 78, 7, 8, hoa_map.MapMode.CONTEXT_01);
+    to_5_1_zone = vt_map.CameraZone(76, 78, 7, 8);
     Map:AddZone(to_5_1_zone);
 
-    to_5_2_zone = hoa_map.CameraZone(76, 78, 25, 26, hoa_map.MapMode.CONTEXT_01);
+    to_5_2_zone = vt_map.CameraZone(76, 78, 25, 26);
     Map:AddZone(to_5_2_zone);
 
-    to_6_1_zone = hoa_map.CameraZone(2, 4, 73, 74, hoa_map.MapMode.CONTEXT_01);
+    to_6_1_zone = vt_map.CameraZone(2, 4, 73, 74);
     Map:AddZone(to_6_1_zone);
 
-    to_6_2_zone = hoa_map.CameraZone(66, 68, 79, 80, hoa_map.MapMode.CONTEXT_01);
+    to_6_2_zone = vt_map.CameraZone(66, 68, 79, 80);
     Map:AddZone(to_6_2_zone);
 
-    to_7_1_zone = hoa_map.CameraZone(36, 38, 71, 72, hoa_map.MapMode.CONTEXT_01);
+    to_7_1_zone = vt_map.CameraZone(36, 38, 71, 72);
     Map:AddZone(to_7_1_zone);
 
-    to_7_1_bis_zone = hoa_map.CameraZone(96, 98, 23, 24, hoa_map.MapMode.CONTEXT_01);
+    to_7_1_bis_zone = vt_map.CameraZone(96, 98, 23, 24);
     Map:AddZone(to_7_1_bis_zone);
 
-    to_7_2_zone = hoa_map.CameraZone(26, 28, 81, 82, hoa_map.MapMode.CONTEXT_01);
+    to_7_2_zone = vt_map.CameraZone(26, 28, 81, 82);
     Map:AddZone(to_7_2_zone);
 
-    to_8_1_zone = hoa_map.CameraZone(2, 4, 3, 4, hoa_map.MapMode.CONTEXT_01);
+    to_8_1_zone = vt_map.CameraZone(2, 4, 3, 4);
     Map:AddZone(to_8_1_zone);
 
-    to_8_2_zone = hoa_map.CameraZone(22, 24, 57, 58, hoa_map.MapMode.CONTEXT_01);
+    to_8_2_zone = vt_map.CameraZone(22, 24, 57, 58);
     Map:AddZone(to_8_2_zone);
 
-    to_9_1_zone = hoa_map.CameraZone(118, 120, 7, 8, hoa_map.MapMode.CONTEXT_01);
+    to_9_1_zone = vt_map.CameraZone(118, 120, 7, 8);
     Map:AddZone(to_9_1_zone);
 
-    to_9_2_zone = hoa_map.CameraZone(78, 80, 69, 70, hoa_map.MapMode.CONTEXT_01);
+    to_9_2_zone = vt_map.CameraZone(78, 80, 69, 70);
     Map:AddZone(to_9_2_zone);
 end
 
@@ -431,10 +431,10 @@ map_functions = {
 
         destination_x = 44;
         destination_y = 86;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -443,10 +443,10 @@ map_functions = {
 
         destination_x = 11;
         destination_y = 41;
-        destination_orientation = hoa_map.MapMode.EAST;
+        destination_orientation = vt_map.MapMode.EAST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -455,10 +455,10 @@ map_functions = {
 
         destination_x = 36;
         destination_y = 6;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -467,10 +467,10 @@ map_functions = {
 
         destination_x = 30;
         destination_y = 46;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -479,10 +479,10 @@ map_functions = {
 
         destination_x = 51;
         destination_y = 16;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -491,10 +491,10 @@ map_functions = {
 
         destination_x = 118;
         destination_y = 90;
-        destination_orientation = hoa_map.MapMode.WEST;
+        destination_orientation = vt_map.MapMode.WEST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -503,10 +503,10 @@ map_functions = {
 
         destination_x = 95;
         destination_y = 48;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -515,10 +515,10 @@ map_functions = {
 
         destination_x = 50;
         destination_y = 67;
-        destination_orientation = hoa_map.MapMode.EAST;
+        destination_orientation = vt_map.MapMode.EAST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -527,10 +527,10 @@ map_functions = {
 
         destination_x = 76;
         destination_y = 28;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -539,10 +539,10 @@ map_functions = {
 
         destination_x = 74;
         destination_y = 9;
-        destination_orientation = hoa_map.MapMode.WEST;
+        destination_orientation = vt_map.MapMode.WEST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -551,10 +551,10 @@ map_functions = {
 
         destination_x = 66;
         destination_y = 82;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -563,10 +563,10 @@ map_functions = {
 
         destination_x = 4;
         destination_y = 76;
-        destination_orientation = hoa_map.MapMode.EAST;
+        destination_orientation = vt_map.MapMode.EAST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -575,10 +575,10 @@ map_functions = {
 
         destination_x = 24;
         destination_y = 82;
-        destination_orientation = hoa_map.MapMode.WEST;
+        destination_orientation = vt_map.MapMode.WEST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -587,10 +587,10 @@ map_functions = {
 
         destination_x = 34.5;
         destination_y = 71.5;
-        destination_orientation = hoa_map.MapMode.WEST;
+        destination_orientation = vt_map.MapMode.WEST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -599,10 +599,10 @@ map_functions = {
 
         destination_x = 24;
         destination_y = 59;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -611,10 +611,10 @@ map_functions = {
 
         destination_x = 4;
         destination_y = 6;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -623,10 +623,10 @@ map_functions = {
 
         destination_x = 80;
         destination_y = 72;
-        destination_orientation = hoa_map.MapMode.EAST;
+        destination_orientation = vt_map.MapMode.EAST;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -635,10 +635,10 @@ map_functions = {
 
         destination_x = 119;
         destination_y = 10;
-        destination_orientation = hoa_map.MapMode.SOUTH;
+        destination_orientation = vt_map.MapMode.SOUTH;
         destination_set = false;
 
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
     end,
 
@@ -646,7 +646,7 @@ map_functions = {
         fade_effect_time = fade_effect_time + SystemManager:GetUpdateTime();
 
         if (fade_effect_time < 200.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.0, fade_effect_time / 200.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, fade_effect_time / 200.0));
             return false;
         end
 
@@ -658,7 +658,7 @@ map_functions = {
                 destination_set = true;
             end
 
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.0, ((1000.0 - fade_effect_time) / 200.0)));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, ((1000.0 - fade_effect_time) / 200.0)));
             return false;
         end
 

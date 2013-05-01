@@ -16,11 +16,11 @@ objects["Bed1"] = {
     img_height = 5.68
 }
 
-objects["Big Bed1"] = {
-    animation_filename = "img/sprites/map/objects/bed1.lua",
-    coll_half_width = 2.75,
+objects["Bed2"] = {
+    animation_filename = "img/sprites/map/objects/bed2.lua",
+    coll_half_width = 3.31,
     coll_height = 5.50,
-    img_half_width = 2.75,
+    img_half_width = 3.31,
     img_height = 5.68
 }
 
@@ -512,6 +512,14 @@ objects["Vase1"] = {
     img_height = 1.5
 }
 
+objects["Well"] = {
+    animation_filename = "img/sprites/map/objects/well.lua",
+    coll_half_width = 2.10,
+    coll_height = 3.20,
+    img_half_width = 2.43,
+    img_height = 4.56
+}
+
 objects["Wooden Sword1"] = {
     animation_filename = "img/sprites/map/objects/wooden_sword1.lua",
     coll_half_width = 0.65,
@@ -567,9 +575,8 @@ function CreateObject(Map, name, x, y)
     end
 
     local object = {}
-    object = hoa_map.PhysicalObject();
+    object = vt_map.PhysicalObject();
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    object:SetContext(hoa_map.MapMode.CONTEXT_01);
     object:SetPosition(x, y);
     object:SetCollHalfWidth(objects[name].coll_half_width);
     object:SetCollHeight(objects[name].coll_height);

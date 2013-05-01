@@ -13,6 +13,7 @@
 *** \author  Daniel Steuernol steu@allacrost.org
 *** \author  Andy Gardner chopperdave@allacrost.org
 *** \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for menu mode interface.
 ***
 *** This code handles the game event processing and frame drawing when the user
@@ -23,31 +24,42 @@
 #ifndef __MENU_HEADER__
 #define __MENU_HEADER__
 
-#include <string>
-#include <vector>
-#include <map>
+#include "menu_views.h"
 
 #include "utils.h"
-#include "defs.h"
 
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
 
 #include "engine/mode_manager.h"
-#include "menu_views.h"
+
+#include <string>
+#include <vector>
+#include <map>
 
 //! \brief All calls to menu mode are wrapped in this namespace.
-namespace hoa_menu
+namespace vt_menu
 {
 
 class MenuMode;
-//! \brief Determines whether the code in the hoa_menu namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_menu namespace should print debug statements or not.
 extern bool MENU_DEBUG;
 
 //! \brief An internal namespace to be used only within the menu code. Don't use this namespace anywhere else!
 namespace private_menu
 {
+
+//! \brief The different bottom window equipment views
+enum EQUIP_VIEW {
+    EQUIP_VIEW_NONE        = -1,
+    //! Show the current character stats using the given object type.
+    EQUIP_VIEW_CHAR        = 0,
+    //! Show the diffs of characters stats against the given object.
+    EQUIP_VIEW_EQUIPPING   = 1,
+    //! Show the diffs of characters stats against nothing using the given object type.
+    EQUIP_VIEW_UNEQUIPPING = 2
+};
 
 /**
 *** \brief Defines a single menu state, which includes the currently viewing parameters and transition states
@@ -78,16 +90,13 @@ public:
     //! \brief used when the MenuMode is activated.
     //! \note While we provide a default "do nothing" Reset(), each child type should have its own Reset implementation
     virtual void Reset()
-    {};
+    {}
 
     //! \brief handles the drawing of the state
     void Draw();
 
     //! \brief handles updating the state
     void Update();
-
-    //! \brief Updates the time and drunes text
-    void UpdateTimeAndDrunes();
 
     /**
     *** \brief based on the selection (pased in via the OptionBox selection returns the next state to transition to
@@ -96,50 +105,58 @@ public:
     *** \note NULL actions do not lead to a crash, but the assumption is that the state has some state-specific
     *** actions, such as activitaing a MenuView that take place
     **/
-    virtual AbstractMenuState *GetTransitionState(uint32 selection)=0;
+    virtual AbstractMenuState *GetTransitionState(uint32 selection) = 0;
 
     //! \brief returns the name of the state
-    const char *GetStateName() { return _state_name;}
+    const char *GetStateName()
+    { return _state_name; }
 
     //! \brief returns a pointer to the OptionsBox associated with this state
-    hoa_gui::OptionBox *GetOptions() { return &_options;}
+    vt_gui::OptionBox *GetOptions()
+    { return &_options; }
 
 protected:
     //! \brief default bottom menu drawing
     void _DrawBottomMenu();
+
     //! \brief action that takes place when we exit this state via a "cancel" input
     void _OnCancel();
-    //! \brief handles any state preperation that needs to be done upon entry to this state
-    //! \param the state that we are transitioning from
-    //  this was simple enough to allow for inlining
-    virtual void _OnEntry(AbstractMenuState *from_state) { _from_state = from_state; }
+
     //! \brief returns the default selection to use when we first load the menu after MenuMode is at the top of stack
-    virtual uint32 _GetDefaultSelection() { return 0;}
+    virtual uint32 _GetDefaultSelection()
+    { return 0; }
+
     //! \brief handles updating the state when it is claimed as "active"
-    virtual void _ActiveWindowUpdate(){}
+    virtual void _ActiveWindowUpdate()
+    {}
+
     //! \brief returns wether or not the state is active
-    virtual bool _IsActive() { return false;}
+    virtual bool _IsActive()
+    { return false; }
+
     //! \brief instance-specific main window drawing code goes in here. the default is to simply draws nothing
-    virtual void _OnDrawMainWindow(){}
-    //! \brief handles drawing the generalized equipment information
-    void _DrawEquipmentInfo(hoa_global::GlobalCharacter *character);
+    virtual void _OnDrawMainWindow()
+    {}
+
     //! \brief draws the side window. Default draws the character windows
     virtual void _OnDrawSideWindow();
+
     //! \brief called when there is no state transition or active state
     //! to handle any state-specific updates that need to occur
-    virtual void _OnUpdateState(){};
+    virtual void _OnUpdateState()
+    {};
+
     // Options associated with this state
-    hoa_gui::OptionBox _options;
+    vt_gui::OptionBox _options;
+
     // state-specific name
     const char *_state_name;
+
     // a pointer to the active MenuMode
     MenuMode *_menu_mode;
+
     // a pointer to the state we should return to on a "cancel" press.
     AbstractMenuState *_from_state;
-
-    // The default text (time and drunes) display on the bottom part.
-    hoa_gui::TextBox _time_text;
-    hoa_gui::TextBox _drunes_text;
 };
 
 /**
@@ -186,20 +203,24 @@ public:
         INV_OPTIONS_BACK,
         INV_OPTIONS_SIZE
     };
+
     //! \brief InventoryState state constructor
     InventoryState(MenuMode *menu_mode):
         AbstractMenuState("Inventory State", menu_mode)
     {}
-    ~InventoryState(){}
+
+    ~InventoryState()
+    {}
+
     void Reset();
+
     AbstractMenuState *GetTransitionState(uint32 selection);
+
 protected:
-    void _DrawItemDescription(hoa_global::GlobalObject &obj,
-                              hoa_video::StillImage &item_image,
-                              hoa_gui::TextBox &description);
-    void _DrawBottomMenu();
     void _OnDrawMainWindow();
+
     void _ActiveWindowUpdate();
+
     bool _IsActive();
 };
 
@@ -276,20 +297,14 @@ public:
     ~EquipState()
     {}
 
-    void Reset()
-    {}
+    void Reset();
 
     AbstractMenuState* GetTransitionState(uint32 /*selection*/)
     { return NULL; }
 
-    //handles drawing the bottom window info for equipment
-    static void DrawEquipmentInfo(const hoa_utils::ustring &equipment_name, bool is_weapon = false,
-                                  uint32 physical_attribute = 0, uint32 magical_attribute = 0,
-                                  uint32 current_phys_attribute = 0, uint32 current_mag_attribute = 0);
 protected:
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
-    void _OnEntry(AbstractMenuState *from_state);
     void _ActiveWindowUpdate();
     bool _IsActive();
 };
@@ -314,8 +329,7 @@ public:
     ~QuestState()
     {}
 
-    void Reset()
-    {}
+    void Reset();
 
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
     { return NULL; }
@@ -325,7 +339,6 @@ protected:
     void _DrawBottomMenu();
     void _ActiveWindowUpdate();
     bool _IsActive();
-    void _OnEntry(AbstractMenuState *from_state);
 };
 
 /**
@@ -340,26 +353,27 @@ class WorldMapState : virtual public AbstractMenuState
 public:
     WorldMapState(MenuMode *menu_mode);
 
-    ~WorldMapState()
-    {
-        _location_text.ClearText();
-    }
+    ~WorldMapState() {}
 
     void Reset();
+
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
     { return NULL; }
 protected:
     void _OnDrawMainWindow();
+
     //! \brief this function is overridden to do nothing, as the side window is not used in map mode
-    inline void _OnDrawSideWindow(){};
+    inline void _OnDrawSideWindow()
+    {}
+
     void _DrawBottomMenu();
+
     void _ActiveWindowUpdate();
+
     bool _IsActive();
-    void _OnEntry(AbstractMenuState *from_state);
 
-    hoa_gui::TextBox _location_text;
-    hoa_video::StillImage *_location_image;
-
+    vt_gui::TextBox _location_text;
+    vt_video::StillImage *_location_image;
 };
 
 } // namespace private_menu
@@ -376,7 +390,7 @@ protected:
 *** \note MenuMode does not play its own music, but rather it continues playing
 *** music from the previous GameMode that created it.
 *** ***************************************************************************/
-class MenuMode : public hoa_mode_manager::GameMode
+class MenuMode : public vt_mode_manager::GameMode
 {
     friend class private_menu::CharacterWindow;
     friend class private_menu::InventoryWindow;
@@ -405,8 +419,9 @@ public:
         return _current_instance;
     }
 
-    //! \brief Resets the menu mode back to its default setup.
-    void Reset();
+    //! \brief Called when starting/returning to the menu mode. Currently useless.
+    void Reset()
+    {}
 
     //! \brief Updates the menu. Calls Update() on active window if there is one
     void Update();
@@ -417,42 +432,71 @@ public:
     //! \brief (Re)Loads the characters windows based on the characters' positions in the party.
     void ReloadCharacterWindows();
 
+    //! \brief Updates the time and drunes text
+    void UpdateTimeAndDrunes();
+
+    /** \brief handles drawing the generalized equipment information
+    *** Used by both the inventory and equip windows and states.
+    **/
+    void UpdateEquipmentInfo(vt_global::GlobalCharacter *character,
+                             vt_global::GlobalObject *object,
+                             private_menu::EQUIP_VIEW view_type);
+
+    //! \brief Draws The current equipment info
+    //! Used by both the inventory and equip windows and states.
+    void DrawEquipmentInfo();
+
 private:
     //! \brief A static pointer to the last instantiated MenuMode object
     static MenuMode *_current_instance;
 
+    //! \brief The default text (time and drunes) display on the bottom part.
+    vt_gui::TextBox _time_text;
+    vt_gui::TextBox _drunes_text;
+
     //! \brief Text image which displays the name of the location in the game where MenuMode was invoked
-    hoa_gui::TextBox _locale_name;
+    vt_gui::TextBox _locale_name;
 
     /** \brief The graphic that represents the current map that the player is exploring
     *** This image is set using the string in the MenuMode constructor
     **/
-    hoa_video::StillImage _locale_graphic;
+    vt_video::StillImage _locale_graphic;
 
     /** \brief Retains a snap-shot of the screen just prior to when menu mode was entered
     *** This image is perpetually drawn as the background while in menu mode
     **/
-    hoa_video::StillImage _saved_screen;
+    vt_video::StillImage _saved_screen;
 
     //! \brief The symbol indicating that the item is a key item.
-    hoa_video::StillImage _key_item_symbol;
+    //! \note Don't delete this, it is managed by the Global Manager.
+    vt_video::StillImage* _key_item_icon;
+
     //! \brief Test indicating that the item is a key item and cannot be used or sold.
-    hoa_gui::TextBox _key_item_description;
+    vt_gui::TextBox _key_item_description;
 
     //! \brief The symbol indicating that the item is a crystal shard.
-    hoa_video::StillImage _shard_symbol;
+    //! \note Don't delete this, it is managed by the Global Manager.
+    vt_video::StillImage* _shard_icon;
+
     //! \brief Test indicating that the item is a shard and can be associated with equipment.
-    hoa_gui::TextBox _shard_description;
+    vt_gui::TextBox _shard_description;
+
+    //! \brief Icons representing the atk/def of the equipment/character.
+    //! \note Don't delete those, they are managed by the Global Manager.
+    vt_video::StillImage* _atk_icon;
+    vt_video::StillImage* _def_icon;
+    vt_video::StillImage* _matk_icon;
+    vt_video::StillImage* _mdef_icon;
 
     //! \brief shared "help" information text box. can be used to display a short helpful message to the player
-    hoa_gui::TextBox _help_information;
+    vt_gui::TextBox _help_information;
 
     /** \name Main Display Windows
     *** \brief The various menu windows that are displayed in menu mode
     **/
     //@{
-    hoa_gui::MenuWindow _bottom_window;
-    hoa_gui::MenuWindow _main_options_window;
+    vt_gui::MenuWindow _bottom_window;
+    vt_gui::MenuWindow _main_options_window;
     //@}
 
     /** \name currently available states
@@ -485,25 +529,59 @@ private:
 
     MessageWindow *_message_window;
 
-    //! \brief A map of the sounds used while in MenuMode
-    std::map<std::string, hoa_audio::SoundDescriptor> _menu_sounds;
-
     //! \name Option boxes that are used in the various menu windows
     //@{
-    hoa_gui::OptionBox _menu_inventory;
-    hoa_gui::OptionBox _menu_skills;
-    hoa_gui::OptionBox _menu_status;
-    hoa_gui::OptionBox _menu_options;
-    hoa_gui::OptionBox _menu_equip;
-    hoa_gui::OptionBox _menu_formation;
+    vt_gui::OptionBox _menu_inventory;
+    vt_gui::OptionBox _menu_skills;
+    vt_gui::OptionBox _menu_status;
+    vt_gui::OptionBox _menu_options;
+    vt_gui::OptionBox _menu_equip;
+    vt_gui::OptionBox _menu_formation;
     //@}
 
-    //! \brief Draws the 'Name' and 'Qty' tags for the item list.
-    void _DrawItemListHeader()
-    {}
+    /** \brief Equipment view data used to display a common equipment view
+    **/
+    //@{
+    //! \brief The selected object instance
+    vt_global::GlobalObject* _object;
 
-}; // class MenuMode : public hoa_mode_manager::GameMode
+    //! \brief The selected character
+    vt_global::GlobalCharacter* _character;
 
-} // namespace hoa_menu
+    //! \brief the current equipment view type
+    private_menu::EQUIP_VIEW _equip_view_type;
+
+    //! \brief The name of the selected object
+    vt_video::TextImage _object_name;
+
+    //! \brief When the object type is equipment, this tells whether it is a weapon.
+    bool _is_weapon;
+
+    //! \brief The text headers
+    vt_video::TextImage _phys_header;
+    vt_video::TextImage _mag_header;
+
+    //! \brief The equipment stats
+    vt_video::TextImage _phys_stat;
+    vt_video::TextImage _mag_stat;
+
+    //! \brief The overall atk/def diff with current equipment
+    vt_video::TextImage _phys_stat_diff;
+    vt_video::TextImage _mag_stat_diff;
+    vt_video::Color _phys_diff_color;
+    vt_video::Color _mag_diff_color;
+
+    //! \brief Icon images representing elemental effects and intensity properties of the selected object
+    std::vector<vt_video::StillImage *> _elemental_icons;
+
+    //! \brief Icon images representing status effects and intensity properties of the selected object
+    std::vector<vt_video::StillImage *> _status_icons;
+
+    //! \brief The number of shard the equipment can support.
+    uint32 _shard_number;
+    //@}
+}; // class MenuMode : public vt_mode_manager::GameMode
+
+} // namespace vt_menu
 
 #endif

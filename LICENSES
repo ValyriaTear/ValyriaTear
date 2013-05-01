@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.03.14
+Last update: 2013.04.30
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -34,6 +34,9 @@ art/lightning1.xcf                                              CC by SA 3.0    
 art/lightning2.xcf                                              CC by SA 3.0             Bertram
 art/lightning3.xcf                                              CC by SA 3.0             Bertram
 art/stamina_bar.xcf                                             CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
+art/knight_lord.xcf                                             CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
+art/lord_spritesheet.xcf                                        CC by SA 3.0             Bertram, based on Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+art/well.xcf                                                    CC by SA 3.0             Bertram, based on several Jetrel's sprites.
 
 dat/global.lua                                                  GPLv2 or later           Bertram (Completely redone it.)
 
@@ -136,6 +139,7 @@ img/backdrops/battle/desert_cave/desert_cave_eyes1.lua          GPLv2           
 img/backdrops/battle/desert_cave/desert_cave_creatures.lua      GPLv2                    Bertram
 
 img/backdrops/battle/mountain_village.png                       GPLv2                    Allacrost
+img/backdrops/battle/mountain_village_single_house.png          GPLv2                    Allacrost (Part of mountain_village.png) + based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture + stars from http://opengameart.org/content/dirt-platformer-tiles
 img/backdrops/battle/rock.png                                   GPLv2                    Allacrost
 
 img/backgrops/boot/background.png                               GPLv2                    JAP (OGA)
@@ -182,8 +186,9 @@ img/icons/actors/characters/bronann.png                         CC by SA 3.0    
 
 img/icons/actors/enemies/big_slime.png                          GPLv2                    Bertram + Allacrost (From green slime enemy)
 img/icons/actors/enemies/dark_soldier.png                       GPLv3                    Allacrost + Kirill777 (OGA) - http://opengameart.org/content/soldier-0
+img/icons/actors/enemies/lord_banesore.png                      CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
 img/icons/actors/enemies/mushroom_zombie.png                    CC by SA 3.0             Redshrike (OGA)
-img/icons/actors/characters/red_slime.png                       GPLv2                    Allacrost (From green slime enemy)
+img/icons/actors/enemies/red_slime.png                          GPLv2                    Allacrost (From green slime enemy)
 img/icons/actors/enemies/green_snake.png                        GPLv2                    Allacrost (From snake enemy)
 img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
@@ -202,6 +207,12 @@ img/icons/battle/holy.png                                       GPLv2           
 img/icons/battle/mist.png                                       GPLv2                    Allacrost
 
 img/icons/specials/moon.png                                     CC by SA 3.0             Bertram, the moon part is based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture
+
+img/icons/effects/attack_types.png                              GPLv2                    Taken from the elemental.png file. (Allacrost)
+img/icons/effects/elemental.png                                 GPLv2                    Allacrost + changes from Bertram
+img/icons/effects/status.png                                    GPLv2                    Allacrost, HP, SP icons from Bertram
+img/icons/effects/targets.png                                   GPLv2                    Allacrost
+img/icons/effects/templates.png                                 GPLv2                    Allacrost, simplified from the original version by Bertram
 
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
@@ -226,6 +237,10 @@ img/menus/rotating_crystal_grey.png                             CC by 3.0       
 img/menus/shard.png                                             CC by SA 3.0             Bertram
 img/menus/stamina_bar.png                                       CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
 
+img/menus/status/menu_avg_atk_def.png                           GPLv2                    Allacrost + Modifications by Bertram
+img/menus/status/menu_point_atk_def.png                         GPLv2                    Allacrost + Modifications by Bertram
+img/menus/status/menu_stats_icons.png                           GPLv2                    Allacrost + Modifications by Bertram
+
 img/menus/themes/royal_silk/win_border.png                      CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
 img/menus/themes/royal_silk/win_background.png                  CC by SA 3.0 / GPLv2     Allacrost + Bertram modifications
 img/menus/themes/royal_silk/cursor.png                          CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
@@ -233,7 +248,7 @@ img/menus/themes/black_sleet/black_sleet_skin.png               GPLv2           
 img/menus/themes/black_sleet/black_sleet_texture.png            GPLv2                    Allacrost
 img/menus/themes/black_sleet/cursor.png                         GPLv2                    Allacrost
 
-img/menus/worldmaps/test_map.png                                CC0                      Belohlavek (OGA) - http://opengameart.org/content/fantasy-world-map
+img/menus/worldmaps/layna_region.png                            CC by SA 3.0             Combination of: http://opengameart.org/content/old-time-3-islands-map (CC0) - Gaming4JC and MrBeast - http://opengameart.org/content/worldmapoverworld-tileset + map by Bertram
 
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 
@@ -275,6 +290,7 @@ img/portraits/battle/thanis_damage.png                          GPLv2           
 img/portraits/battle/sylve_damage.png                           GPLv2                    Allacrost (was Raphaela icon)
 img/portraits/battle/bronann_damage.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
 img/portraits/npcs/dark_soldier.png                             GPLv3                    Kirill777 (OGA) -  http://opengameart.org/content/soldier-0
+img/portraits/npcs/lord_banesore.png                            CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
 
 img/portraits/map/npcs/malta.png                                GPLv2                    Allacrost (was Vanica portrait)
 img/portraits/map/npcs/carson.png                               GPLv2                    Allacrost (was Marcus portrait)
@@ -292,26 +308,27 @@ img/sprites/battle/ammo/wood_arrow.lua                          GPLv2 or later  
 img/sprites/battle/ammo/wood_arrow.png                          CC by 3.0                Ravenmore + Bertram modifications (http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20)
 img/sprites/battle/ammo/rock_ammo.lua                           GPLv2 or later           Bertram
 
-img/sprites/battle/characters/bronann/bronann_attack.png        GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/bronann/bronann_dead.png          GPLv2                    Allacrost + Lilou
-img/sprites/battle/characters/bronann/bronann_dodge.png         GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/bronann/bronann_hurt.png          GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/bronann/bronann_idle.png          GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/bronann/bronann_jump_backward.png CC by SA 3.0             Jetrel (OGA) + Bertram
-img/sprites/battle/characters/bronann/bronann_jump_forward.png  CC by SA 3.0             Jetrel (OGA) + Bertram
-img/sprites/battle/characters/bronann/bronann_kneeling.png      GPLv2                    Allacrost + Lilou
-img/sprites/battle/characters/bronann/bronann_run.png           GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/bronann/bronann_victory.png       GPLv2                    Allacrost + Bertram
-img/sprites/battle/characters/bronann/bronann_attack.lua        GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_dead.lua          GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_dodge.lua         GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_hurt.lua          GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_idle.lua          GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_jump_backward.lua GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_jump_forward.lua  GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_kneeling.lua      GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_run.lua           GPLv2                    Bertram
-img/sprites/battle/characters/bronann/bronann_victory.lua       GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_attack.png                             GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/bronann_dead.png                               GPLv2                    Allacrost + Lilou
+img/sprites/battle/characters/bronann/bronann_dodge.png                              GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/bronann_hurt.png                               GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/bronann_idle.png                               GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/bronann_jump_backward.png                      CC by SA 3.0             Jetrel (OGA) + Bertram
+img/sprites/battle/characters/bronann/bronann_jump_forward.png                       CC by SA 3.0             Jetrel (OGA) + Bertram
+img/sprites/battle/characters/bronann/bronann_kneeling.png                           GPLv2                    Allacrost + Lilou
+img/sprites/battle/characters/bronann/bronann_run.png                                GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/bronann_victory.png                            GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/bronann_attack.lua                             GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_dead.lua                               GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_dodge.lua                              GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_hurt.lua                               GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_idle.lua                               GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_jump_backward.lua                      GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_jump_forward.lua                       GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_kneeling.lua                           GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_run.lua                                GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_run_after_victory.lua                  GPLv2                    Bertram
+img/sprites/battle/characters/bronann/bronann_victory.lua                            GPLv2                    Bertram
 
 img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua               GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.png               GPLv2                    Allacrost + Bertram
@@ -330,6 +347,8 @@ img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua        
 img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.png             GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua                  GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_run.png                  GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_run_after_victory.lua    GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/steel/bronann_run_after_victory.png    GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua           GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.png           GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua        GPLv2                    Bertram
@@ -353,6 +372,8 @@ img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua  
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.png       GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.lua            GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.png            GPLv2                    Allacrost + Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run_after_victory.lua  GPLv2                    Bertram
+img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run_after_victory.png  GPLv2                    Allacrost + Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_jump_backward.lua  GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.lua     GPLv2                    Bertram
 img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.png     GPLv2                    Allacrost + Bertram
@@ -442,13 +463,40 @@ img/sprites/battle/enemies/red_slime.png                        GPLv2           
 img/sprites/battle/enemies/thing.png                            CC by SA 3.0             Jetrel (OGA)
 img/sprites/battle/enemies/yeti.png                             CC by SA 3.0             Jetrel (OGA)
 img/sprites/battle/enemies/white_wolf.png                       CC by SA 3.0, GPLv2      Bertram, based on two sources: http://opengameart.org/content/the-wolf, and: http://opengameart.org/content/gray-wolf from Buch (OGA)
-img/sprites/battle/enemies/fenrir_normal.png                    CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
-img/sprites/battle/enemies/fenrir_final.png                     CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
+img/sprites/battle/enemies/fenrir.png                           CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
+img/sprites/battle/enemies/bat_0.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/bat_1.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/bat_2.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/bat_3.lua                            GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_0.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_1.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_2.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/big_slime_3.lua                      GPLv2                    Bertram
+img/sprites/battle/enemies/dark_soldier_0.lua                   GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_0.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_1.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_2.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/fenrir_3.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_0.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_1.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_2.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_slime_3.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_0.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_1.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_2.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/green_snake_3.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/spider_0.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/spider_1.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/spider_2.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/spider_3.lua                         GPLv2                    Bertram
+img/sprites/battle/enemies/lord_banesore.png                    CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
+img/sprites/battle/enemies/lord_banesore_0.lua                  GPLv2                    Bertram (based on the slime sprite)
 
 img/sprites/map/characters/bronann_bed_animation.lua            GPLv2                    Bertram
 img/sprites/map/characters/bronann_bed_animation.png            CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head, Bertram for the frames.
 img/sprites/map/characters/bronann_dead.lua                     GPLv2                    Bertram
 img/sprites/map/characters/bronann_frightened.png               GPLv2                    Allacrost
+img/sprites/map/characters/bronann_frightened_unarmed_fixed.lua GPLv2                    Bertram
 img/sprites/map/characters/bronann_herostance.png               GPLv2                    Allacrost
 img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
 img/sprites/map/characters/bronann_idle_guard_south.png         GPLv2                    Allacrost
@@ -472,6 +520,8 @@ img/sprites/map/enemies/big_slime_walk.lua                      GPLv2           
 img/sprites/map/enemies/dark_soldier01_idle.lua                 GPLv2                    Bertram
 img/sprites/map/enemies/dark_soldier01_spritesheet.png          CC by SA 3.0             Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/dark_soldier01_walk.lua                 GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier_ko.lua                     GPLv2                    Bertram
+img/sprites/map/enemies/dark_soldier_ko.png                     CC by SA 3.0             Bertram, based on: Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/gigas_walk.png                          GPLv2                    Allacrost
 img/sprites/map/enemies/naga_walk.png                           GPLv2                    Allacrost
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2                    Allacrost
@@ -484,6 +534,9 @@ img/sprites/map/enemies/spider_walk.lua                         GPLv2           
 img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2                    Bertram - adapted from the wolf spritesheet
 img/sprites/map/enemies/fenrir_idle.lua                         GPLv2                    Bertram
 img/sprites/map/enemies/fenrir_walk.lua                         GPLv2                    Bertram
+img/sprites/map/enemies/lord_idle.lua                           GPLv2                    Bertram
+img/sprites/map/enemies/lord_spritesheet.png                    CC by SA 3.0             Bertram, adapted from Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+img/sprites/map/enemies/lord_walk.lua                           GPLv2                    Bertram
 
 img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2                    Bertram
 img/sprites/map/npcs/crystal_idle.lua                           GPLv2                    Bertram
@@ -511,6 +564,8 @@ img/sprites/map/objects/barrel1.lua                             GPLv2           
 img/sprites/map/objects/barrel1.png                             GPLv2                    Allacrost
 img/sprites/map/objects/bed1.lua                                GPLv2                    Bertram
 img/sprites/map/objects/bed1.png                                GPLv2                    Allacrost
+img/sprites/map/objects/bed2.lua                                GPLv2                    Bertram
+img/sprites/map/objects/bed2.png                                GPLv2                    Allacrost + Lilou
 img/sprites/map/objects/bench1.lua                              GPLv2                    Bertram
 img/sprites/map/objects/bench1.png                              GPLv2                    Allacrost
 img/sprites/map/objects/bench2.lua                              GPLv2                    Bertram
@@ -601,6 +656,8 @@ img/sprites/map/objects/tree_tiny4.lua                          GPLv2           
 img/sprites/map/objects/tree_tiny4.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/vase1.lua                               GPLv2                    Bertram
 img/sprites/map/objects/vase1.png                               GPLv2                    Allacrost
+img/sprites/map/objects/well.lua                                GPLv2                    Bertram
+img/sprites/map/objects/well.png                                CC by SA 3.0             Bertram, based on several Jetrel's sprites
 img/sprites/map/objects/wooden_table_big.lua                    GPLv2                    Bertram
 img/sprites/map/objects/wooden_table_big.png                    GPLv2                    Allacrost
 img/sprites/map/objects/wooden_table_small.lua                  GPLv2                    Bertram
@@ -614,6 +671,10 @@ img/sprites/map/treasures/chest1.png                            GPLv2           
 img/sprites/map/treasures/chest1_closed.lua                     GPLv2                    Bertram
 img/sprites/map/treasures/chest1_opening.lua                    GPLv2                    Bertram
 img/sprites/map/treasures/chest1_open.lua                       GPLv2                    Bertram
+img/sprites/map/treasures/locker1.png                           GPLv2                    Allacrost + Bertram
+img/sprites/map/treasures/locker1_closed.lua                    GPLv2                    Bertram
+img/sprites/map/treasures/locker1_open.lua                      GPLv2                    Bertram
+img/sprites/map/treasures/locker1_opening.lua                   GPLv2                    Bertram
 
 img/sprites/map/triggers/stone_trigger1_off.lua                 GPLv2                    Bertram
 img/sprites/map/triggers/stone_trigger1_off.png                 CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
@@ -645,9 +706,12 @@ mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0, GP
 mus/shrine-OGA-yd.ogg                                           (CC0)                    yd (OGA) - http://opengameart.org/content/shrine
 mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg                   CC by 3.0                Mathew Pablo (OGA) - http://opengameart.org/content/theme-of-com-mecha
 mus/Zander Noriega - School of Quirks.ogg                       CC by SA 3.0             Zander Noriega (OGA) - http://opengameart.org/content/school-of-quirks
+mus/the_recon_mission.ogg                                       CC by 3.0                Zander Noriega (OGA) - http://opengameart.org/content/the-recon-mission
 
+snd/campfire.ogg                                                CC0                      Loop made by Bertram out of: http://www.freesound.org/people/Spandau/sounds/40699/
 snd/cloth_sound.wav                                             CC by SA 3.0, GPLv2 or 3 artisticdude (OGA)
 snd/crystal_chime.wav                                           CC by SA 3.0             Bertram
+snd/crystal_appearance.ogg                                      CC by SA 3.0, GPLv3      Mathew Pablo (OGA) - Based on the few first seconds of Solliloquy.
 snd/dog_barking.wav                                             CC by 3.0                Brandon Morris (OGA) - http://opengameart.org/content/dog-barking-mono
 snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0, GPLv2 or 3 IFartInUrGeneralDirection from freesound.org
 snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
@@ -661,6 +725,7 @@ snd/save_successful_nick_bowler_oga.wav                         CC by 3.0       
 snd/thunder.wav                                                 CC0                      (Bertram)
 snd/throw.wav                                                   CC by 3.0                (c) copyright Blender Foundation | apricot.blender.org (OGA) - http://opengameart.org/content/sfxthrow
 snd/falling_tree.ogg                                            CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/tree-falling-yo-frankie
+snd/wolf_howl.ogg                                               GPLv2                    Allacrost
 
 
 Allacrost files: (Each and every are assumed to be licensed under the GPLv2 conditions according to the original authors.)
@@ -681,7 +746,6 @@ Files:
 ./snd/lively_crowd.ogg
 ./snd/heal.wav
 ./snd/male_scream.ogg
-./snd/makok_howl.ogg
 ./snd/chestopen3.wav
 ./snd/slime_attack.wav
 ./snd/opening_sword_swipe.wav
@@ -835,11 +899,6 @@ Files:
 ./img/icons/actors/enemies/aurum-drakueli.png
 ./img/icons/actors/enemies/stygian_lizard.png
 ./img/icons/actors/enemies/rat.png
-
-./img/icons/effects/templates.png
-./img/icons/effects/status.png
-./img/icons/effects/targets.png
-./img/icons/effects/elemental.png
 
 ./img/icons/drunes.png
 ./img/icons/object_category_icons.png

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    image_base.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for image base classes
 *** ***************************************************************************/
 
@@ -27,9 +28,9 @@ extern "C" {
 
 #include <SDL_image.h>
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -117,10 +118,19 @@ bool ImageMemory::LoadImage(const std::string &filename)
             }
 #else
             if(alpha_format) {
+
+#ifdef __APPLE__
+
+                dst_pixel[3] = img_pixel[0];
+                dst_pixel[0] = img_pixel[1];
+                dst_pixel[1] = img_pixel[2];
+                dst_pixel[2] = img_pixel[3];
+#else
                 dst_pixel[2] = img_pixel[0];
                 dst_pixel[1] = img_pixel[1];
                 dst_pixel[0] = img_pixel[2];
                 dst_pixel[3] = img_pixel[3];
+#endif
             } else {
                 dst_pixel[0] = img_pixel[0];
                 dst_pixel[1] = img_pixel[1];
@@ -522,4 +532,4 @@ ImageTexture::~ImageTexture()
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video

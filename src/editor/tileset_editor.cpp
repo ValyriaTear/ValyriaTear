@@ -11,15 +11,16 @@
 /** ****************************************************************************
 *** \file    tileset_editor.cpp
 *** \author  Bar�� Soner U�akl? blackkknight@hotmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for editor's tileset editor dialog
 *******************************************************************************/
 
 #include "tileset_editor.h"
 
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_script;
+using namespace vt_video;
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +62,6 @@ void TilesetDisplay::initializeGL()
 
     VideoManager->ApplySettings();
     VideoManager->FinalizeInitialization();
-    VideoManager->ToggleFPS();
 }
 
 
@@ -266,26 +266,14 @@ void TilesetEditor::_NewFile()
     QString filename = QFileDialog::getOpenFileName(this, "Map Editor -- File Open",
                        "img/tilesets", "Tileset Images (*.png)");
 
-    if(!filename.isEmpty()) {
-        if(QFile::exists(Tileset::CreateDataFilename(Tileset::CreateTilesetName(filename)))) {
-            int response = QMessageBox::question(this, tr("Map Editor"),
-                                                 tr("There already exists a data file that corresponds to this tileset image. "
-                                                    "Executing a save operation will overwrite all data in this file. "
-                                                    "Do you wish to continue anyway?"),
-                                                 QMessageBox::Yes,
-                                                 QMessageBox::No
-                                                );
+    if (filename.isEmpty())
+        return;
 
-            if(response == QMessageBox::No)
-                return;
-        }
+    if(_tset_display->tileset->New(filename, true) == false)
+        QMessageBox::warning(this, tr("Map Editor"),
+                                tr("Failed to create new tileset."));
 
-        if(_tset_display->tileset->New(filename, true) == false)
-            QMessageBox::warning(this, tr("Map Editor"),
-                                 tr("Failed to create new tileset."));
-
-        _tset_display->updateGL();
-    } // there must be a file specified for loading
+    _tset_display->updateGL();
 }
 
 
@@ -296,19 +284,14 @@ void TilesetEditor::_OpenFile()
     QString file_name = QFileDialog::getOpenFileName(this, "Map Editor -- File Open",
                         "dat/tilesets", "Tilesets (*.lua)");
 
-    if(!file_name.isEmpty()) {
-        // The tileset loading function takes just the name of the tileset
-        // as an argument, so strip the file name accordingly.
-        int i = file_name.lastIndexOf("/");
-        file_name = file_name.remove(0, i + 1);
-        file_name.chop(4);
+    if (file_name.isEmpty())
+        return;
 
-        if(_tset_display->tileset->Load(file_name, true) == false)
-            QMessageBox::warning(this, tr("Map Editor"),
-                                 tr("Failed to load existing tileset."));
+    if(_tset_display->tileset->Load(file_name, true) == false)
+        QMessageBox::warning(this, tr("Map Editor"),
+                                tr("Failed to load existing tileset."));
 
-        _tset_display->updateGL();
-    } // file must exist in order to open it
+    _tset_display->updateGL();
 }
 
 
@@ -321,4 +304,4 @@ void TilesetEditor::_SaveFile()
                                  tr("Failed to save data to tileset definition file."));
 }
 
-} // namespace hoa_editor
+} // namespace vt_editor

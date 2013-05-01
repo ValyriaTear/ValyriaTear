@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_finish.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle finish menu
 ***
 *** This code takes effect after either the character or enemy party has emerged
@@ -26,7 +27,7 @@
 
 #include "modes/battle/battle_utils.h"
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -69,7 +70,7 @@ class CharacterGrowth
 {
 public:
     //! \param ch A pointer to the character that this growth information represents
-    CharacterGrowth(hoa_global::GlobalCharacter* ch);
+    CharacterGrowth(vt_global::GlobalCharacter* ch);
 
     ~CharacterGrowth()
         {}
@@ -87,7 +88,7 @@ public:
     //@}
 
     //! \brief A vector holding valid object pointers to all skills that have been learned
-    std::vector<hoa_global::GlobalSkill*> skills_learned;
+    std::vector<vt_global::GlobalSkill*> skills_learned;
 
     /** \brief Updates all class members with the latest growth from the character
     ***
@@ -101,7 +102,7 @@ public:
 
 private:
     //! \brief A valid object pointer to the character that the growth in this class represents
-    hoa_global::GlobalCharacter* _character;
+    vt_global::GlobalCharacter* _character;
 
     //! \brief A counter that reflects the number of experience levels that the character has gained (0 for no levels gained)
     uint32 _experience_levels_gained;
@@ -145,19 +146,19 @@ private:
     FINISH_STATE &_state;
 
     //! \brief The window that the defeat message and options are displayed upon
-    hoa_gui::MenuWindow _options_window;
+    vt_gui::MenuWindow _options_window;
 
     //! \brief The window that the defeat message and options are displayed upon
-    hoa_gui::MenuWindow _tooltip_window;
+    vt_gui::MenuWindow _tooltip_window;
 
     //! \brief The list of options that the player may choose from when they lose the battle
-    hoa_gui::OptionBox _options;
+    vt_gui::OptionBox _options;
 
     //! \brief A simple "yes/no" confirmation to the selected option
-    hoa_gui::OptionBox _confirm_options;
+    vt_gui::OptionBox _confirm_options;
 
     //! \brief Tooltip text explaining the currently selected option
-    hoa_gui::TextBox _tooltip;
+    vt_gui::TextBox _tooltip;
 
     //! \brief Changes the text displayed by the tooltip based on the current state and selected option
     void _SetTooltipText();
@@ -220,46 +221,46 @@ private:
     uint32 _number_character_windows_created;
 
     //! \brief Pointers to all characters who took part in the battle
-    std::vector<hoa_global::GlobalCharacter *> _characters;
+    std::vector<vt_global::GlobalCharacter *> _characters;
 
     //! \brief The growth data container objects for each corresponding character in _characters
     std::vector<CharacterGrowth> _character_growths;
 
     //! \brief Holds portrait images for each character portraits
-    hoa_video::StillImage _character_portraits[4];
+    vt_video::StillImage _character_portraits[4];
 
     //! \brief Holds all objects that were dropped by the defeated enemy party (<ID, quantity>)
-    std::map<hoa_global::GlobalObject *, int32> _objects_dropped;
+    std::map<vt_global::GlobalObject *, int32> _objects_dropped;
 
     //! \brief The top window in the GUI display that contains header text
-    hoa_gui::MenuWindow _header_window;
+    vt_gui::MenuWindow _header_window;
 
     //! \brief A window for each character showing any change to their attributes
-    hoa_gui::MenuWindow _character_window[4];
+    vt_gui::MenuWindow _character_window[4];
 
     //! \brief A window used to display details about objects dropped by the defeated enemies
-    hoa_gui::MenuWindow _spoils_window;
+    vt_gui::MenuWindow _spoils_window;
 
     //! \brief Drawn to the top header window displaying information about the stats/items obtained
-    hoa_gui::TextBox _header_growth;
-    hoa_gui::TextBox _header_drunes_dropped;
-    hoa_gui::TextBox _header_total_drunes;
+    vt_gui::TextBox _header_growth;
+    vt_gui::TextBox _header_drunes_dropped;
+    vt_gui::TextBox _header_total_drunes;
 
     //! \brief Four row, four column option box for each character to display their stat growth
-    hoa_gui::OptionBox _growth_list[4];
+    vt_gui::OptionBox _growth_list[4];
 
     //! \brief Holds the experience level and XP points remaining for each character
-    hoa_gui::TextBox _level_text[4];
-    hoa_gui::TextBox _xp_text[4];
+    vt_gui::TextBox _level_text[4];
+    vt_gui::TextBox _xp_text[4];
 
     //! \brief Holds the text indicating new skills that each character has learned
-    hoa_gui::TextBox _skill_text[4];
+    vt_gui::TextBox _skill_text[4];
 
     //! \brief Header text for the object list option box
-    hoa_gui::TextBox _object_header_text;
+    vt_gui::TextBox _object_header_text;
 
     //! \brief Displays all objects obtained by the character party
-    hoa_gui::OptionBox _object_list;
+    vt_gui::OptionBox _object_list;
 
     //! \brief Creates the character windows and any GUI objects that populate them
     void _CreateCharacterGUIObjects();
@@ -332,11 +333,11 @@ private:
     FinishVictoryAssistant _victory_assistant;
 
     //! \brief Used to announce the battle's outcome (victory or defeat)
-    hoa_gui::TextBox _outcome_text;
+    vt_gui::TextBox _outcome_text;
 }; // class FinishSupervisor
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_FINISH_HEADER__

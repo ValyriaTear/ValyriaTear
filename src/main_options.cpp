@@ -11,11 +11,13 @@
 /** ***************************************************************************
 *** \file    main_options.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Implementations for functions that handle command-line arguments.
 *** **************************************************************************/
 
+#include "main_options.h"
+
 #include "utils.h"
-#include "defs.h"
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
@@ -26,11 +28,28 @@
 
 #include "common/global/global.h"
 
-#include "main_options.h"
+namespace vt_battle {
+extern bool BATTLE_DEBUG;
+}
+namespace vt_boot {
+extern bool BOOT_DEBUG;
+}
+namespace vt_common {
+extern bool COMMON_DEBUG;
+}
+namespace vt_menu {
+extern bool MENU_DEBUG;
+}
+namespace vt_pause {
+extern bool PAUSE_DEBUG;
+}
+namespace vt_shop {
+extern bool SHOP_DEBUG;
+}
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-namespace hoa_main
+namespace vt_main
 {
 
 bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
@@ -60,7 +79,7 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
             }
             i++;
         } else if(options[i] == "--disable-audio") {
-            hoa_audio::AUDIO_ENABLE = false;
+            vt_audio::AUDIO_ENABLE = false;
         } else if(options[i] == "-h" || options[i] == "--help") {
             PrintUsage();
             return_code = 0;
@@ -181,15 +200,15 @@ bool PrintSystemInformation()
     printf("\n===== Video Information\n");
 
     // TODO: This code should be re-located to a function (DEBUG_PrintInfo()) in the video engine
-// 	hoa_video::VideoManager = hoa_video::VideoEngine::SingletonCreate();
-// 	if (hoa_video::VideoManager->SingletonInitialize() == false) {
+// 	vt_video::VideoManager = vt_video::VideoEngine::SingletonCreate();
+// 	if (vt_video::VideoManager->SingletonInitialize() == false) {
 // 		cerr << "ERROR: unable to initialize the VideoManager" << std::endl;
 // 		return false;
 // 	}
 // 	else {
-// 		hoa_video::VideoManager->DEBUG_PrintInfo();
+// 		vt_video::VideoManager->DEBUG_PrintInfo();
 // 	}
-// 	hoa_video::VideoEngine::SingletonDestroy();
+// 	vt_video::VideoEngine::SingletonDestroy();
 
     // TODO: print the OpenGL version number here
 
@@ -253,14 +272,14 @@ bool PrintSystemInformation()
 
     printf("\n===== Audio Information\n");
 
-    hoa_audio::AudioManager = hoa_audio::AudioEngine::SingletonCreate();
-    if(hoa_audio::AudioManager->SingletonInitialize() == false) {
+    vt_audio::AudioManager = vt_audio::AudioEngine::SingletonCreate();
+    if(vt_audio::AudioManager->SingletonInitialize() == false) {
         std::cerr << "ERROR: unable to initialize the AudioManager" << std::endl;
         return false;
     } else {
-        hoa_audio::AudioManager->DEBUG_PrintInfo();
+        vt_audio::AudioManager->DEBUG_PrintInfo();
     }
-    hoa_audio::AudioEngine::SingletonDestroy();
+    vt_audio::AudioEngine::SingletonDestroy();
 
     printf("\n");
 
@@ -298,54 +317,51 @@ bool EnableDebugging(const std::string &vars)
             // NOTE: commented out because apparently SDL_putenv is not yet an available function on some systems
             // SDL_putenv("SDL_DEBUG=1");
 
-            hoa_audio::AUDIO_DEBUG                  = true;
-            hoa_battle::BATTLE_DEBUG                = true;
-            hoa_boot::BOOT_DEBUG                    = true;
-            hoa_common::COMMON_DEBUG                = true;
-            hoa_script::SCRIPT_DEBUG                = true;
-            hoa_mode_manager::MODE_MANAGER_DEBUG    = true;
-            hoa_input::INPUT_DEBUG                  = true;
-            hoa_system::SYSTEM_DEBUG                = true;
-            hoa_global::GLOBAL_DEBUG                = true;
-            hoa_map::MAP_DEBUG                      = true;
-            hoa_menu::MENU_DEBUG                    = true;
-            hoa_pause::PAUSE_DEBUG                  = true;
-            hoa_shop::SHOP_DEBUG                    = true;
-            hoa_scene::SCENE_DEBUG                  = true;
-            hoa_utils::UTILS_DEBUG                  = true;
-            hoa_video::VIDEO_DEBUG                  = true;
+            vt_audio::AUDIO_DEBUG                  = true;
+            vt_battle::BATTLE_DEBUG                = true;
+            vt_boot::BOOT_DEBUG                    = true;
+            vt_common::COMMON_DEBUG                = true;
+            vt_script::SCRIPT_DEBUG                = true;
+            vt_mode_manager::MODE_MANAGER_DEBUG    = true;
+            vt_input::INPUT_DEBUG                  = true;
+            vt_system::SYSTEM_DEBUG                = true;
+            vt_global::GLOBAL_DEBUG                = true;
+            vt_map::MAP_DEBUG                      = true;
+            vt_menu::MENU_DEBUG                    = true;
+            vt_pause::PAUSE_DEBUG                  = true;
+            vt_shop::SHOP_DEBUG                    = true;
+            vt_utils::UTILS_DEBUG                  = true;
+            vt_video::VIDEO_DEBUG                  = true;
         } else if(args[i] == "audio") {
-            hoa_audio::AUDIO_DEBUG = true;
+            vt_audio::AUDIO_DEBUG = true;
         } else if(args[i] == "battle") {
-            hoa_battle::BATTLE_DEBUG = true;
+            vt_battle::BATTLE_DEBUG = true;
         } else if(args[i] == "boot") {
-            hoa_boot::BOOT_DEBUG = true;
+            vt_boot::BOOT_DEBUG = true;
         } else if(args[i] == "common") {
-            hoa_common::COMMON_DEBUG = true;
+            vt_common::COMMON_DEBUG = true;
         } else if(args[i] == "data") {
-            hoa_script::SCRIPT_DEBUG = true;
+            vt_script::SCRIPT_DEBUG = true;
         } else if(args[i] == "mode_manager") {
-            hoa_mode_manager::MODE_MANAGER_DEBUG = true;
+            vt_mode_manager::MODE_MANAGER_DEBUG = true;
         } else if(args[i] == "input") {
-            hoa_input::INPUT_DEBUG = true;
+            vt_input::INPUT_DEBUG = true;
         } else if(args[i] == "system") {
-            hoa_system::SYSTEM_DEBUG = true;
+            vt_system::SYSTEM_DEBUG = true;
         } else if(args[i] == "global") {
-            hoa_global::GLOBAL_DEBUG = true;
+            vt_global::GLOBAL_DEBUG = true;
         } else if(args[i] == "map") {
-            hoa_map::MAP_DEBUG = true;
+            vt_map::MAP_DEBUG = true;
         } else if(args[i] == "menu") {
-            hoa_menu::MENU_DEBUG = true;
+            vt_menu::MENU_DEBUG = true;
         } else if(args[i] == "pause") {
-            hoa_pause::PAUSE_DEBUG = true;
-        } else if(args[i] == "scene") {
-            hoa_scene::SCENE_DEBUG = true;
+            vt_pause::PAUSE_DEBUG = true;
         } else if(args[i] == "shop") {
-            hoa_shop::SHOP_DEBUG = true;
+            vt_shop::SHOP_DEBUG = true;
         } else if(args[i] == "utils") {
-            hoa_utils::UTILS_DEBUG = true;
+            vt_utils::UTILS_DEBUG = true;
         } else if(args[i] == "video") {
-            hoa_video::VIDEO_DEBUG = true;
+            vt_video::VIDEO_DEBUG = true;
         } else {
             std::cerr << "ERROR: invalid debug argument: " << args[i] << std::endl;
             return false;
@@ -355,4 +371,4 @@ bool EnableDebugging(const std::string &vars)
     return true;
 } // bool EnableDebugging(string vars)
 
-} // namespace hoa_main
+} // namespace vt_main

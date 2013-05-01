@@ -20,11 +20,30 @@
 
 #include "modes/map/map_treasure.h"
 
-namespace hoa_map
+namespace vt_script {
+class ReadScriptDescriptor;
+}
+
+namespace vt_mode_manager {
+class ParticleEffect;
+}
+
+namespace vt_defs {
+void BindModeCode();
+}
+
+namespace vt_map
 {
+
+class MapMode;
 
 namespace private_map
 {
+
+class ContextZone;
+class MapSprite;
+class MapZone;
+class VirtualSprite;
 
 /** ****************************************************************************
 *** \brief Abstract class that represents objects on a map
@@ -71,16 +90,6 @@ public:
     *** are invalid.
     **/
     int16 object_id;
-
-    /** \brief The map context that the object currently resides in.
-    *** Context helps to determine where an object "resides". For example, inside of a house or
-    *** outside of a house. The context member determines if the object should be drawn or not,
-    *** since objects are only drawn if they are in the same context as the map's camera.
-    *** Objects can only interact with one another if they both reside in the same context.
-    ***
-    *** \note The default value for this member is the base context (context 01).
-    **/
-    MAP_CONTEXT context;
 
     /** \brief Coordinates for the object's origin/position.
     *** The origin of every map object is the bottom center point of the object. These
@@ -211,10 +220,6 @@ public:
         object_id = id;
     }
 
-    void SetContext(MAP_CONTEXT ctxt) {
-        context = ctxt;
-    }
-
     void SetPosition(float x, float y) {
         position.x = x;
         position.y = y;
@@ -263,10 +268,6 @@ public:
 
     int16 GetObjectID() const {
         return object_id;
-    }
-
-    MAP_CONTEXT GetContext() const {
-        return context;
     }
 
     MapPosition GetPosition() const {
@@ -320,7 +321,7 @@ public:
     /** \brief Play the corresponding emote animation set in the emotes.lua file
     *** \see LoadEmotes() in the GameGlobal class.
     **/
-    void Emote(const std::string &emote_name, hoa_map::private_map::ANIM_DIRECTIONS dir = hoa_map::private_map::ANIM_SOUTH);
+    void Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir = vt_map::private_map::ANIM_SOUTH);
 
     //! \brief Indicates whether the given map object is using an emote animation.
     bool HasEmote() const {
@@ -333,7 +334,7 @@ protected:
     MAP_OBJECT_TYPE _object_type;
 
     //! \brief the emote animation to play
-    hoa_video::AnimatedImage *_emote_animation;
+    vt_video::AnimatedImage *_emote_animation;
 
     //! \brief The emote animation drawing offset (depending on the map object direction)
     float _emote_offset_x;
@@ -388,7 +389,7 @@ public:
     *** frame to the animation. Usually only need a single still image or animation will be
     *** needed, but a vector is used here in case others are needed.
     **/
-    std::vector<hoa_video::AnimatedImage> animations;
+    std::vector<vt_video::AnimatedImage> animations;
 
     //! \brief Updates the object's current animation.
     virtual void Update();
@@ -412,7 +413,7 @@ public:
     **/
     int32 AddStillFrame(const std::string &image_filename);
 
-    void AddAnimation(hoa_video::AnimatedImage new_img) {
+    void AddAnimation(vt_video::AnimatedImage new_img) {
         animations.push_back(new_img);
     }
 
@@ -456,7 +457,7 @@ private:
 class ParticleObject : public MapObject
 {
 public:
-    ParticleObject(const std::string &filename, float x, float y, MAP_CONTEXT map_context);
+    ParticleObject(const std::string &filename, float x, float y);
 
     ~ParticleObject();
 
@@ -476,7 +477,7 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    hoa_mode_manager::ParticleEffect *_particle_effect;
+    vt_mode_manager::ParticleEffect *_particle_effect;
 
     //@}
 }; // class ParticleObject : public MapObject
@@ -487,7 +488,7 @@ private:
 class SavePoint : public MapObject
 {
 public:
-    SavePoint(float x, float y, MAP_CONTEXT map_context);
+    SavePoint(float x, float y);
 
     ~SavePoint()
     {}
@@ -506,7 +507,7 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    std::vector<hoa_video::AnimatedImage>* _animations;
+    std::vector<vt_video::AnimatedImage>* _animations;
 
     //! \brief The corresponding particle object for active/inactive save points pointers
     // Note that those pointers are managed by the object supervisor
@@ -526,8 +527,7 @@ class Halo : public MapObject
 {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-    Halo(const std::string &filename, float x, float y,
-         const hoa_video::Color &color, MAP_CONTEXT map_context);
+    Halo(const std::string &filename, float x, float y, const vt_video::Color &color);
 
     ~Halo()
     {}
@@ -543,10 +543,10 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    hoa_video::AnimatedImage _animation;
+    vt_video::AnimatedImage _animation;
 
     //! The blending color of the halo
-    hoa_video::Color _color;
+    vt_video::Color _color;
 
     //@}
 }; // class Halo : public MapObject
@@ -562,8 +562,7 @@ public:
     Light(const std::string &main_flare_filename,
           const std::string &secondary_flare_filename,
           float x, float y,
-          const hoa_video::Color &main_color, const hoa_video::Color &secondary_color,
-          MAP_CONTEXT map_context);
+          const vt_video::Color &main_color, const vt_video::Color &secondary_color);
 
     ~Light()
     {}
@@ -585,16 +584,16 @@ private:
     void _UpdateLightAngle();
 
     //! \brief A reference to the current light animation.
-    hoa_video::AnimatedImage _main_animation;
-    hoa_video::AnimatedImage _secondary_animation;
+    vt_video::AnimatedImage _main_animation;
+    vt_video::AnimatedImage _secondary_animation;
 
     //! The blending color of the light
-    hoa_video::Color _main_color;
-    hoa_video::Color _secondary_color;
+    vt_video::Color _main_color;
+    vt_video::Color _secondary_color;
 
     //! The blending color with dynamic alpha, for better rendering
-    hoa_video::Color _main_color_alpha;
-    hoa_video::Color _secondary_color_alpha;
+    vt_video::Color _main_color_alpha;
+    vt_video::Color _secondary_color_alpha;
 
     //! used to compute the flare lines equation.
     float _a, _b;
@@ -615,6 +614,40 @@ private:
     //@}
 }; // class Light : public MapObject
 
+/** ****************************************************************************
+*** \brief Represents a sound source object on the map
+*** ***************************************************************************/
+class SoundObject : public MapObject
+{
+public:
+    /** \brief An environmental sound objet which sound is played looped and with a volume
+    *** computed against the distance of the object with the camera.
+    *** \param sound_filename The sound filename to play.
+    *** \param x, y The sound map location
+    *** \param strength The "strength" of the sound, the maximal distance
+    in map tiles the sound can be heard within.
+    *** The sound volume will be compute according that distance.
+    **/
+    SoundObject(const std::string &sound_filename, float x, float y, float strength);
+
+    ~SoundObject()
+    {}
+
+    //! \brief Updates the object's current volume.
+    void Update();
+
+    //! \brief Does nothing
+    void Draw()
+    {}
+
+private:
+    //! \brief The sound object.
+    vt_audio::SoundDescriptor _sound;
+    //! The maximal distance in map tiles the sound can be heard within.
+    float _strength;
+    //! The time remaining before next update
+    int32 _time_remaining;
+}; // class SoundObject : public MapObject
 
 /** ****************************************************************************
 *** \brief Represents an obtainable treasure on the map which the player may access
@@ -788,10 +821,8 @@ private:
 *** ***************************************************************************/
 class ObjectSupervisor
 {
-    friend class hoa_map::MapMode;
-    // TEMP: for allowing context zones to access all objects
-    friend class hoa_map::private_map::ContextZone;
-    friend void hoa_defs::BindModeCode();
+    friend class vt_map::MapMode;
+    friend void vt_defs::BindModeCode();
 
 public:
     ObjectSupervisor();
@@ -840,7 +871,7 @@ public:
     *** be at the highest level scope (i.e., there are no actively open tables
     *** in the script descriptor object).
     **/
-    bool Load(hoa_script::ReadScriptDescriptor &map_file);
+    bool Load(vt_script::ReadScriptDescriptor &map_file);
 
     //! \brief Updates the state of all map zones and objects
     void Update();
@@ -986,23 +1017,21 @@ public:
     //! \brief checks if the location on the grid has a simple map collision. This is different from
     //! IsStaticCollision, int hat it DOES NOT check static objects, but only the collision value for the map
     bool IsMapCollision(uint32 x, uint32 y)
-    {
-        static const MAP_CONTEXT collision = MAP_CONTEXT_01;
-        //if the map's collision context is set to 1, we can return since we know there is a collision
-        if(_collision_grid[y][x] == collision)
-            return true;
-        else
-            return false;
-    }
+    { return (_collision_grid[y][x] > 0); }
 
     //! returns a const reference to the ground objects in
-    const std::vector<MapObject *>& GetGroundObjects() const { return _ground_objects; }
+    const std::vector<MapObject *>& GetGroundObjects() const
+    { return _ground_objects; }
+
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.
     private_map::MapObject *_FindNearestSavePoint(const VirtualSprite *sprite);
 
     //! \brief Updates save points animation and active state.
     void _UpdateSavePoints();
+
+    //! \brief Updates the ambient sounds volume according to the camera distance.
+    void _UpdateAmbientSounds();
 
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
@@ -1074,6 +1103,10 @@ private:
     **/
     std::vector<MapObject *> _sky_objects;
 
+    //! \brief Ambient sound objects, that plays a sound with a volume according
+    //! to the distance with the camera.
+    std::vector<SoundObject *> _sound_objects;
+
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
     //! \note Halos and lights are not registered in _all_objects.
     std::vector<Halo *> _halos;
@@ -1081,18 +1114,10 @@ private:
 
     //! \brief Container for all zones used in this map
     std::vector<MapZone *> _zones;
-
-    /** \brief Container for all resident zones used in this map
-    ***
-    *** Resident zones (and classes derived from resident zones) are stored in an additional container because
-    *** they need to continually check whether sprites have entered them. This is done in the Update() function
-    *** of this class.
-    **/
-    std::vector<ResidentZone *> _resident_zones;
 }; // class ObjectSupervisor
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_OBJECTS_HEADER__

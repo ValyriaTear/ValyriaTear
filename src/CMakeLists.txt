@@ -15,6 +15,7 @@ FIND_PACKAGE(Boost 1.48.0 REQUIRED)
 IF (UNIX AND USE_SYSTEM_LUABIND)
     # Find the luabind package
     FIND_PACKAGE(Luabind REQUIRED)
+    MESSAGE(STATUS "Using system luabind")
 ENDIF()
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
@@ -39,6 +40,12 @@ SET(FLAGS "${FLAGS} -DPKG_NAME=\\\"${PKG_NAME}/\\\"")
 
 IF (DEBUG_FEATURES)
     SET(FLAGS "${FLAGS} -DDEBUG_FEATURES")
+    MESSAGE(STATUS "Developer features enabled")
+ENDIF()
+
+IF (DISABLE_TRANSLATIONS)
+    SET(FLAGS "${FLAGS} -DDISABLE_TRANSLATIONS")
+    MESSAGE(STATUS "l10n support disabled")
 ENDIF()
 
 IF (CMAKE_BUILD_TYPE)
@@ -56,20 +63,25 @@ IF (CMAKE_BUILD_TYPE)
     ENDIF()
 ENDIF()
 
-IF (WIN32)
-    SET(EXTRA_LIBRARIES ws2_32 winmm)
-    FIND_PACKAGE(LibIntl REQUIRED)
-ELSEIF (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR BEOS OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-    FIND_PACKAGE(LibIntl REQUIRED)
-ELSEIF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
-    FIND_PACKAGE(LibIntl REQUIRED)
-    FIND_PACKAGE(Ogg REQUIRED)
-    FIND_PACKAGE(Vorbis REQUIRED)
-ELSEIF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
-    # explicit linking to libintl is required on Solaris
-    SET(EXTRA_LIBRARIES intl)
+IF (NOT DISABLE_TRANSLATIONS)
+    IF (WIN32)
+        SET(EXTRA_LIBRARIES ws2_32 winmm)
+        FIND_PACKAGE(LibIntl REQUIRED)
+    ELSEIF (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR BEOS OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+        FIND_PACKAGE(LibIntl REQUIRED)
+    ELSEIF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+        FIND_PACKAGE(LibIntl REQUIRED)
+    ELSEIF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
+        # explicit linking to libintl is required on Solaris
+        SET(EXTRA_LIBRARIES intl)
+    ENDIF()
 ENDIF()
 
+IF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+    FIND_PACKAGE(Ogg REQUIRED)
+    FIND_PACKAGE(Vorbis REQUIRED)
+ENDIF()
+    
 IF (USE_X11)
     FIND_PACKAGE(X11 REQUIRED)
     INCLUDE_DIRECTORIES(${X11_INCLUDE_DIR})
@@ -116,72 +128,6 @@ MARK_AS_ADVANCED(SDL_INCLUDE_DIR)
 MARK_AS_ADVANCED(SDL_LIBRARY)
 MARK_AS_ADVANCED(SDLIMAGE_INCLUDE_DIR)
 MARK_AS_ADVANCED(SDLIMAGE_LIBRARY)
-
-SET(SRCS_TESTS
-test/test_main.cpp
-test/test_main.h
-)
-
-SET(SRCS_LUABIND_TESTS
-luabind/examples/hello_world/hello_world.cpp
-luabind/examples/cln/cln_test.cpp
-luabind/examples/any_converter/any_converter.cpp
-luabind/examples/intrusive_ptr/intrusive_ptr.cpp
-luabind/examples/glut/glut_bind.cpp
-luabind/examples/filesystem/filesystem.cpp
-luabind/examples/filesystem/directory_iterator.hpp
-luabind/examples/regexp/regex_wrap.cpp
-luabind/test/test_user_defined_converter.cpp
-luabind/test/test_virtual_inheritance.cpp
-luabind/test/test_super_leak.cpp
-luabind/test/main.cpp
-luabind/test/test_properties.cpp
-luabind/test/test_construction.cpp
-luabind/test/test_shared_ptr.cpp
-luabind/test/test_scope.cpp
-luabind/test/test_exceptions.cpp
-luabind/test/test_shadow.cpp
-luabind/test/test_const.cpp
-luabind/test/test_private_destructors.cpp
-luabind/test/test_table.cpp
-luabind/test/test_set_instance_value.cpp
-luabind/test/test_def_from_base.cpp
-luabind/test/test_implicit_cast.cpp
-luabind/test/test_simple_class.cpp
-luabind/test/benchmark.cpp
-luabind/test/test_abstract_base.cpp
-luabind/test/test_back_reference.cpp
-luabind/test/test_adopt.cpp
-luabind/test/test_implicit_raw.cpp
-luabind/test/test_typetraits.cpp
-luabind/test/test_value_wrapper.cpp
-luabind/test/test_smart_ptr_attributes.cpp
-luabind/test/test_dynamic_type.cpp
-luabind/test/test_policies.cpp
-luabind/test/test_tag_function.cpp
-luabind/test/test_iterator.cpp
-luabind/test/test_null_pointer.cpp
-luabind/test/test_create_in_thread.cpp
-luabind/test/test_free_functions.cpp
-luabind/test/test_exception_handlers.cpp
-luabind/test/test_object.cpp
-luabind/test/test_automatic_smart_ptr.cpp
-luabind/test/test_builtin_converters.cpp
-luabind/test/test_yield.cpp
-luabind/test/test_vector_of_object.cpp
-luabind/test/test_collapse_converter.cpp
-luabind/test/test_adopt_wrapper.cpp
-luabind/test/test_held_type.cpp
-luabind/test/test_attributes.cpp
-luabind/test/test_has_get_pointer.cpp
-luabind/test/test_lua_classes.cpp
-luabind/test/test_separation.cpp
-luabind/test/test_operators.cpp
-luabind/test/test_class_info.cpp
-luabind/test/test.hpp
-luabind/test/test_extend_class_in_lua.cpp
-luabind/test/test_unsigned_int.cpp
-)
 
 SET(SRCS_LUABIND
 luabind/src/class_registry.cpp
@@ -315,7 +261,6 @@ engine/script/script_write.h
 engine/script/script_write.cpp
 utils.h
 utils.cpp
-defs.h
 )
 
 SET(SRCS
@@ -379,7 +324,6 @@ modes/shop/shop_buy.h
 modes/shop/shop_utils.cpp
 modes/shop/shop.h
 modes/shop/shop_sell.h
-modes/scene.h
 modes/mode_bindings.cpp
 modes/mode_help_window.h
 modes/mode_help_window.cpp
@@ -403,7 +347,6 @@ modes/battle/battle_effects.h
 modes/battle/battle.cpp
 modes/battle/battle_finish.cpp
 modes/battle/battle_sequence.cpp
-modes/scene.cpp
 modes/boot/boot.h
 modes/boot/boot.cpp
 modes/boot/boot_menu.h

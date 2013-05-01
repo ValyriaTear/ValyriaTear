@@ -8,17 +8,24 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file    menu_window.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for menu window class
+*** ***************************************************************************/
+
 #include <sstream>
 
 #include "engine/video/video.h"
 #include "menu_window.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_video::private_video;
-using namespace hoa_gui::private_gui;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_video::private_video;
+using namespace vt_gui::private_gui;
 
-namespace hoa_gui
+namespace vt_gui
 {
 
 MenuWindow::MenuWindow() :
@@ -556,4 +563,4 @@ bool MenuWindow::_RecreateImage()
     return true;
 }
 
-}  // namespace hoa_gui
+}  // namespace vt_gui

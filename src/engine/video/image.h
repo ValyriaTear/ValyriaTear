@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    image.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for image classes
 ***
 *** This file contains several classes that represent images loaded into the
@@ -49,13 +50,12 @@
 
 #include "image_base.h"
 
-struct U;
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 class ParticleSystem;
 }
 
-namespace hoa_video
+namespace vt_video
 {
 
 class StillImage;
@@ -203,7 +203,7 @@ public:
     *** \param bpp The number of bits per pixel of the image
     *** \throw Exception If any of the properties are not retrieved successfully
     **/
-    static void GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(hoa_utils::Exception);
+    static void GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
 
     /** \brief Loads a multi image into a vector of StillImage objects
     *** \param images Reference to the vector of StillImages to be loaded with elements from the multi image
@@ -321,7 +321,7 @@ private:
     *** \param bpp The number of bits per pixel of the image
     *** \throw Exception If any of the properties are not retrieved successfully
     **/
-    static void _GetPngImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(hoa_utils::Exception);
+    static void _GetPngImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
 
     /** \brief Retrieves various properties about a JPG image file
     *** \param filename The name of the JPG image file to retrieve the properties of
@@ -330,7 +330,7 @@ private:
     *** \param bpp The number of bits per pixel of the image
     *** \throw Exception If any of the properties are not retrieved successfully
     **/
-    static void _GetJpgImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(hoa_utils::Exception);
+    static void _GetJpgImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
 
     /** \brief A helper function to the public LoadMultiImage* calls
     *** \param images Reference to the vector of StillImages to be loaded
@@ -358,7 +358,7 @@ class StillImage : public ImageDescriptor
     friend class AnimatedImage;
     friend class CompositeImage;
     friend class TextureController;
-    friend class hoa_mode_manager::ParticleSystem;
+    friend class vt_mode_manager::ParticleSystem;
 
 public:
     //! \brief Supply the constructor with "true" if you want this to represent a grayscale image
@@ -947,6 +947,6 @@ private:
     std::vector<private_video::ImageElement> _elements;
 }; // class CompositeImage : public ImageDescriptor
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __IMAGE_HEADER__

@@ -69,18 +69,18 @@ end
 function _CreateCharacters()
     -- Default: From village center
     bronann = CreateSprite(Map, "Bronann", 48, 44);
-    bronann:SetDirection(hoa_map.MapMode.NORTH);
-    bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    bronann:SetDirection(vt_map.MapMode.NORTH);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- set up the position according to the previous map
     if (GlobalManager:GetPreviousLocation() == "from_kalya_house_interior") then
         bronann:SetPosition(44, 18);
-        bronann:SetDirection(hoa_map.MapMode.SOUTH);
+        bronann:SetDirection(vt_map.MapMode.SOUTH);
     end
 
     if (GlobalManager:GetPreviousLocation() == "from_kalya_house_path_small_passage") then
         bronann:SetPosition(2, 20);
-        bronann:SetDirection(hoa_map.MapMode.EAST);
+        bronann:SetDirection(vt_map.MapMode.EAST);
     end
 
     Map:AddGroundObject(bronann);
@@ -164,6 +164,9 @@ function _CreateObjects()
         kalya_house_exterior_chest:AddObject(1, 1);
         Map:AddGroundObject(kalya_house_exterior_chest);
     end
+
+    object = vt_map.SoundObject("snd/gentle_stream.ogg", 10.0, 46.0, 20.0);
+    Map:AddAmbientSoundObject(object);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -173,20 +176,20 @@ function _CreateEvents()
     local text = {}
 
     -- Triggered Events
-    event = hoa_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
+    event = vt_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_exterior");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
+    event = vt_map.MapTransitionEvent("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_small_passage");
     EventManager:RegisterEvent(event);
 
     -- Kalya house locked door event
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Hmm, the door is locked.");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Hmm, the door is locked.");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
-    event = hoa_map.DialogueEvent("Bronann can't enter kalya house", dialogue);
+    event = vt_map.DialogueEvent("Bronann can't enter kalya house", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
 end
@@ -198,13 +201,13 @@ local kalya_house_entrance_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    kalya_house_path_zone = hoa_map.CameraZone(28, 58, 46, 47, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_path_zone = vt_map.CameraZone(28, 58, 46, 47);
     Map:AddZone(kalya_house_path_zone);
 
-    kalya_house_path_small_passage_zone = hoa_map.CameraZone(0, 1, 0, 33, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_path_small_passage_zone = vt_map.CameraZone(0, 1, 0, 33);
     Map:AddZone(kalya_house_path_small_passage_zone);
 
-    kalya_house_entrance_zone = hoa_map.CameraZone(42, 46, 16, 17, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_entrance_zone = vt_map.CameraZone(42, 46, 16, 17);
     Map:AddZone(kalya_house_entrance_zone);
 end
 

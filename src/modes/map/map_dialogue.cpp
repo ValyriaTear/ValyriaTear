@@ -23,19 +23,24 @@
 
 #include "engine/input.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_menu;
-using namespace hoa_common;
+#include "common/global/global.h"
 
-namespace hoa_map
+namespace vt_common {
+extern bool COMMON_DEBUG;
+}
+
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_common;
+
+namespace vt_map
 {
 
 namespace private_map
@@ -49,15 +54,45 @@ SpriteDialogue::SpriteDialogue(uint32 id) :
     CommonDialogue(id),
     _input_blocked(false),
     _restore_state(true),
-    _event_name("dialogue#" + hoa_utils::NumberToString(id))
+    _dialogue_seen(false)
 {}
 
 SpriteDialogue::SpriteDialogue() :
     CommonDialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
     _input_blocked(false),
-    _restore_state(true)
+    _restore_state(true),
+    _dialogue_seen(false)
+{}
+
+SpriteDialogue::SpriteDialogue(const std::string& dialogue_event_name) :
+    CommonDialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
+    _input_blocked(false),
+    _restore_state(true),
+    _event_name(dialogue_event_name)
 {
-    _event_name = "dialogue#" + hoa_utils::NumberToString(GetDialogueID());
+    // Check whether the dialogue as already been seen
+    _dialogue_seen = false;
+    if (_event_name.empty())
+        return;
+
+    int32 seen = vt_global::GlobalManager->GetEventValue("dialogues", _event_name);
+    if (seen > 0)
+        _dialogue_seen = true;
+}
+
+void SpriteDialogue::SetAsSeen(bool seen)
+{
+    _dialogue_seen = seen;
+
+    if (_event_name.empty())
+        return;
+
+    // Stores the dialogue state in the save data
+    int32 event_value = 0;
+    if (_dialogue_seen)
+        event_value = 1;
+
+    vt_global::GlobalManager->SetEventValue("dialogues", _event_name, event_value);
 }
 
 void SpriteDialogue::AddLine(const std::string &text, uint32 speaker_id)
@@ -495,7 +530,7 @@ void DialogueSupervisor::_BeginLine()
     if(!emote_event.empty() && !_emote_triggered) {
         MapSprite *sprite = dynamic_cast<MapSprite *>(map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter)));
         if(sprite) {
-            sprite->Emote(emote_event, (hoa_map::private_map::ANIM_DIRECTIONS)sprite->GetCurrentAnimationDirection());
+            sprite->Emote(emote_event, (vt_map::private_map::ANIM_DIRECTIONS)sprite->GetCurrentAnimationDirection());
             _state = DIALOGUE_STATE_EMOTE;
             _emote_triggered = true;
             return;
@@ -608,4 +643,4 @@ void DialogueSupervisor::_EndLine()
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

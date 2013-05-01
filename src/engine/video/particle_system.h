@@ -8,23 +8,24 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_system.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle system
- *
- * This file contains two classes: ParticleSystemDef, and ParticleSystem.
- *
- * ParticleSystemDef is a "definition" class, meaning that it holds information
- * about a particle system, like its lifetime, the emitter, and other properties.
- *
- * ParticleSystem is an "instance" class, meaning that it holds information about
- * a particle system which is currently being drawn on screen.
- *
- * This way, if you have 100 explosions for example, the properties of the
- * effect are stored only once, and the only thing that gets repeated 100 times
- * is instance-specific stuff like positions of vertices, etc.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_system.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle system
+***
+*** This file contains two classes: ParticleSystemDef, and ParticleSystem.
+***
+*** ParticleSystemDef is a "definition" class, meaning that it holds information
+*** about a particle system, like its lifetime, the emitter, and other properties.
+***
+*** ParticleSystem is an "instance" class, meaning that it holds information about
+*** a particle system which is currently being drawn on screen.
+***
+*** This way, if you have 100 explosions for example, the properties of the
+*** effect are stored only once, and the only thing that gets repeated 100 times
+*** is instance-specific stuff like positions of vertices, etc.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_SYSTEM_HEADER__
 #define __PARTICLE_SYSTEM_HEADER__
@@ -34,7 +35,7 @@
 
 #include "engine/video/image.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 //! \brief Specifies the stencil operation to use and describes how the stencil buffer is modified
@@ -413,7 +414,7 @@ private:
     ParticleSystemDef *_system_def;
 
     //! Animation for each particle. If it's non-animated, it just has 1 frame
-    hoa_video::AnimatedImage _animation;
+    vt_video::AnimatedImage _animation;
 
     //! Number of active particles in this system. (The size of the vectors may be larger, since
     //! we might set a particle quota for the system which is higher than what's actually there.)
@@ -422,7 +423,7 @@ private:
     //! The array of particle vertices. Note that this array contains FOUR vertices per particle.
     //! This is used for rendering the particles with OpenGL
     std::vector<ParticleVertex> _particle_vertices;
-    std::vector<hoa_video::Color> _particle_colors;
+    std::vector<vt_video::Color> _particle_colors;
     std::vector<ParticleTexCoord> _particle_texcoords;
 
     //! This array holds everything except positions and colors. The reason we keep positions and
@@ -443,6 +444,6 @@ private:
 
 }; // class ParticleSystem
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif

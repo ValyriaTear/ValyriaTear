@@ -25,12 +25,12 @@
 #include <string>
 
 //forward declerations
-namespace hoa_gui
+namespace vt_gui
 {
     class MenuWindow;
 }
 
-namespace hoa_map
+namespace vt_map
 {
 namespace private_map
 {
@@ -71,7 +71,7 @@ public:
 
 private:
     //! \brief the generated collision map image for this collision map
-    hoa_video::StillImage _minimap_image;
+    vt_video::StillImage _minimap_image;
 
     //! \brief creates the procedural collision map
     SDL_Surface *_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor);
@@ -79,7 +79,7 @@ private:
     //! \brief objects for the "window" which will hold the map
     //! \note we plan to move this to a Controller object, or something similar
     //! that is a single instance held by the map itself
-    hoa_video::StillImage _background;
+    vt_video::StillImage _background;
 
     //! \brief the current map locations
     float _current_position_x;
@@ -90,7 +90,7 @@ private:
     uint32 _box_y_length;
 
     //! \brief the location sprite
-    hoa_video::AnimatedImage _location_marker;
+    vt_video::AnimatedImage _location_marker;
 
     //! \brief the original viewport information
     float _viewport_original_x;
@@ -99,8 +99,10 @@ private:
     float _viewport_original_height;
 
     //! \brief modified viewport information
-    static const float _viewport_width = 175.0f;
-    static const float _viewport_height = 128.0f;
+    float _viewport_x;
+    float _viewport_y;
+    float _viewport_width;
+    float _viewport_height;
 
     //! \brief map offset information
     float _x_offset, _y_offset;
@@ -112,7 +114,7 @@ private:
     uint32 _grid_height;
 
     //! \brief opacities for when the character is under the map location
-    hoa_video::Color *_current_opacity;
+    vt_video::Color *_current_opacity;
 
     //! \brief specifies the additive alpha we get from the map class
     float _map_alpha_scale;

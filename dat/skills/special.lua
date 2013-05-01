@@ -46,15 +46,15 @@ end
 --------------------------------------------------------------------------------
 
 skills[20001] = {
-    name = hoa_system.Translate("Wolf Pain"),
-    description = hoa_system.Translate("Calls the defender of the Arctic."),
+    name = vt_system.Translate("Wolf Pain"),
+    description = vt_system.Translate("Calls the defender of the Arctic."),
     icon = "img/icons/specials/moon.png",
     sp_required = 7,
     warmup_time = 4000,
     cooldown_time = 750,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
-    target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
 
     BattleExecute = function(user, target)
         -- TODO: Add the friendly AI monster in battle, next to Kalya
@@ -66,16 +66,16 @@ skills[20001] = {
 --------------------------------------------------------------------------------
 
 skills[21001] = {
-	name = hoa_system.Translate("Slime Spawn"),
-	description = hoa_system.Translate("Creates a slime."),
+	name = vt_system.Translate("Slime Spawn"),
+	description = vt_system.Translate("Creates a slime."),
 	sp_required = 0,
 	warmup_time = 1400,
 	cooldown_time = 750,
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_SELF,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
 
 	BattleExecute = function(user, target)
-		local x_position = 250.0 + (hoa_utils.RandomFloat() * 400.0)
-		local y_position = 350.0 + (hoa_utils.RandomFloat() * 250.0)
+		local x_position = 250.0 + (vt_utils.RandomFloat() * 400.0)
+		local y_position = 350.0 + (vt_utils.RandomFloat() * 250.0)
 		local Battle = ModeManager:GetTop();
 		Battle:AddEnemy(1, x_position, y_position);
 	end

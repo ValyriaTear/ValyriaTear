@@ -11,22 +11,22 @@ world_locations = {
     -- world location id
     ["layna village"] = {
         -- X location
-        "150",
+        "300",
         -- Y location
-        "150",
+        "120",
         -- location name
-        hoa_system.Translate("Village of Layna"),
+        vt_system.Translate("Village of Layna"),
         -- banner filename,
         "img/menus/locations/mountain_village.png"
     },
     -- world location id
     ["layna forest"] = {
         -- X location
-        "200",
+        "350",
         -- Y location
-        "100",
+        "140",
         -- location name
-        hoa_system.Translate("Layna Forest"),
+        vt_system.Translate("Layna Forest"),
         -- banner filename,
         "img/menus/locations/layna_forest.png"
     },

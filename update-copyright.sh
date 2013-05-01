@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Copyright (C) 2001-2010 Wormux Team.
 # Copyright (C) 2010 The Mana World Development Team.
 # Copyright (C) 2012 The Mana Developers
@@ -6,15 +6,14 @@
 
 new_year="$1"
 copyright_notice="Bertram"
-[[ -z $new_year ]] && echo "Missing parameter: year" && exit 1
+: ${new_year:?Missing parameter: year} >/dev/null
 
-[[ ! -e src ]] && echo "This script should be ran from the top repository dir" && exit 2
+[ ! -e src ] && echo "This script should be ran from the top repository dir" && exit 2
 
-tmp_file="w$RANDOM$RANDOM$RANDOM$RANDOM"
-[[ -e $tmp_file ]] && tmp_file="w$RANDOM$RANDOM$RANDOM$RANDOM"
+tmp_file=$(mktemp  ${TMPDIR:-/tmp}/XXXXX)
 
 # update the dates, creating the interval if it doesn't exist yet
-find -iname "*.cpp" -or -iname "*.h" -or -iname "*.hpp" | 
+find src/ -iname "*.cpp" -or -iname "*.h" -or -iname "*.hpp" |
   xargs sed -i "/Copyright.*$copyright_notice/ s,\(20[0-9]*\) \|\(20[0-9]*\)-20[0-9]* ,\1\2-$new_year ,"
 
 # do a semi-automated commit check
@@ -23,8 +22,7 @@ echo "The next +/- counts mentioning copyrights should match:"
 grep "^[-+][^-+]" $tmp_file | sort | uniq -c
 echo "If they don't, try finding the offending files with grep -rl <\$bad_line>"
 
-# Remove temp file
-[[ -e $tmp_file ]] && rm $tmp_file
+rm -f "$tmp_file"
 
 # Indicate the source file that may miss the copyright notice.
 echo "Those files are missing the given Copyright notice."

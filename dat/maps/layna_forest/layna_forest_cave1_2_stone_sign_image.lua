@@ -72,5 +72,5 @@ function DrawPostEffects()
         return;
     end
 
-    Script:DrawImage(stone_sign_id, 512, 384.0, hoa_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
+    Script:DrawImage(stone_sign_id, 512, 384.0, vt_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
 end

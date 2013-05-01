@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_dialogue.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle dialogue code.
 *** ***************************************************************************/
 
@@ -25,13 +26,13 @@
 #include "battle_actors.h"
 #include "battle_dialogue.h"
 
-using namespace hoa_utils;
-using namespace hoa_input;
-using namespace hoa_video;
-using namespace hoa_common;
-using namespace hoa_gui;
+using namespace vt_utils;
+using namespace vt_input;
+using namespace vt_video;
+using namespace vt_common;
+using namespace vt_gui;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -42,8 +43,7 @@ namespace private_battle
 ///////////////////////////////////////////////////////////////////////////////
 
 BattleDialogue::BattleDialogue(uint32 id) :
-    CommonDialogue(id),
-    _halt_battle_action(true)
+    CommonDialogue(id)
 {}
 
 
@@ -267,16 +267,16 @@ void DialogueSupervisor::ChangeSpeakerPortrait(uint32 id, const std::string &por
         return;
     }
 
-    if(portrait != "") {
-        if(speaker->second.portrait.Load(portrait) == false) {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid image filename for new portrait: " << portrait << std::endl;
-            return;
-        }
-    }
+    if(portrait.empty())
+        return;
 
     // Note: we don't have to also check whether or not the active portrait on the dialogue window needs to be
     // updated since the dialogue window simply retains a pointer to the image object. We only update the StillImage
     // class object contents in this function, not its address.
+    if(!speaker->second.portrait.Load(portrait)) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid image filename for new portrait: " << portrait << std::endl;
+        return;
+    }
 }
 
 
@@ -309,7 +309,6 @@ void DialogueSupervisor::EndDialogue()
         return;
     }
 
-    _current_dialogue->SetAsSeen();
     _current_dialogue = NULL;
     _current_options = NULL;
     _line_timer.Finish();
@@ -371,7 +370,7 @@ void DialogueSupervisor::_UpdateLine()
     }
 
     // Set the correct indicator
-    if(_current_dialogue->IsHaltBattleAction() == false || _current_options != NULL || _dialogue_window.GetDisplayTextBox().IsFinished() == false) {
+    if(_current_options || !_dialogue_window.GetDisplayTextBox().IsFinished()) {
         _dialogue_window.SetIndicator(COMMON_DIALOGUE_NO_INDICATOR);
     } else if(_line_counter == _current_dialogue->GetLineCount() - 1) {
         _dialogue_window.SetIndicator(COMMON_DIALOGUE_LAST_INDICATOR);
@@ -379,10 +378,9 @@ void DialogueSupervisor::_UpdateLine()
         _dialogue_window.SetIndicator(COMMON_DIALOGUE_NEXT_INDICATOR);
     }
 
-    // If this dialogue does not halt the battle action, user input is not processed so we are finished
-    if(_current_dialogue->IsHaltBattleAction() == false) {
+    // If the battle isn't in scene mode, we can handle the user input
+    if (!BattleMode::CurrentInstance()->IsInSceneMode())
         return;
-    }
 
     if(InputManager->ConfirmPress()) {
         // If the line is not yet finished displaying, display the rest of the text
@@ -508,4 +506,4 @@ void DialogueSupervisor::_EndLine()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

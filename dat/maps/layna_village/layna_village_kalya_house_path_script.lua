@@ -69,23 +69,23 @@ end
 function _CreateCharacters()
     -- Default: From village center
     bronann = CreateSprite(Map, "Bronann", 61, 45);
-    bronann:SetDirection(hoa_map.MapMode.WEST);
-    bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    bronann:SetDirection(vt_map.MapMode.WEST);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- set up the position according to the previous map
     if (GlobalManager:GetPreviousLocation() == "from_kalya_house_exterior") then
         bronann:SetPosition(43, 3);
-        bronann:SetDirection(hoa_map.MapMode.SOUTH);
+        bronann:SetDirection(vt_map.MapMode.SOUTH);
     end
     if (GlobalManager:GetPreviousLocation() == "from grandma house") then
         bronann:SetPosition(12, 6);
-        bronann:SetDirection(hoa_map.MapMode.NORTH);
+        bronann:SetDirection(vt_map.MapMode.NORTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
 
     if (GlobalManager:GetPreviousLocation() == "from_kalya_house_small_passage") then
         bronann:SetPosition(6, 3);
-        bronann:SetDirection(hoa_map.MapMode.WEST);
+        bronann:SetDirection(vt_map.MapMode.WEST);
     end
 
     Map:AddGroundObject(bronann);
@@ -99,34 +99,34 @@ function _CreateNPCs()
 
     npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 7, 25);
     Map:AddGroundObject(npc);
-    npc:SetDirection(hoa_map.MapMode.SOUTH);
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("Ah! It's nice to see your dear young face around, Bronann. Come and chat with an old grandma.");
+    npc:SetDirection(vt_map.MapMode.SOUTH);
+    dialogue = vt_map.SpriteDialogue("ep1_layna_village_granma_default");
+    text = vt_system.Translate("Ah! It's nice to see your dear young face around, Bronann. Come and chat with an old grandma.");
     dialogue:AddLine(text, npc);
-    text = hoa_system.Translate("Er... Sorry grandma, I have to go! Maybe later?");
+    text = vt_system.Translate("Er... Sorry grandma, I have to go! Maybe later?");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = hoa_system.Translate("Ah! You'll surely want to see te young lady living up there. Ah, youngins nowadays...");
+    text = vt_system.Translate("Ah! You'll surely want to see the young lady living up there. Ah, youngins nowadays...");
     dialogue:AddLine(text, npc);
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     npc = CreateSprite(Map, "Chicken", 21, 36);
     Map:AddGroundObject(npc);
-    event = hoa_map.RandomMoveSpriteEvent("Chicken1 random move", npc, 1000, 1000);
+    event = vt_map.RandomMoveSpriteEvent("Chicken1 random move", npc, 1000, 1000);
     event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Chicken1 random move");
 
     npc = CreateSprite(Map, "Chicken", 19, 34);
     Map:AddGroundObject(npc);
-    event = hoa_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
+    event = vt_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
     event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Chicken2 random move", 1200);
 
     npc = CreateSprite(Map, "Chicken", 23, 33);
     Map:AddGroundObject(npc);
-    event = hoa_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
+    event = vt_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
     event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Chicken3 random move", 2100);
@@ -288,19 +288,19 @@ function _CreateEvents()
     local event = {};
 
     -- Triggered Events
-    event = hoa_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
+    event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from_kalya_house_path");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to Kalya house exterior", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
+    event = vt_map.MapTransitionEvent("to Kalya house exterior", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_exterior_script.lua", "from_kalya_house_path");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to grandma house", "dat/maps/layna_village/layna_village_kalya_house_path_small_house_map.lua",
+    event = vt_map.MapTransitionEvent("to grandma house", "dat/maps/layna_village/layna_village_kalya_house_path_small_house_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_path_small_house_script.lua", "from_kalya_house_path");
     EventManager:RegisterEvent(event);
 
-    event = hoa_map.MapTransitionEvent("to Kalya house small passage", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
+    event = vt_map.MapTransitionEvent("to Kalya house small passage", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_exterior_script.lua", "from_kalya_house_path_small_passage");
     EventManager:RegisterEvent(event);
 end
@@ -313,16 +313,16 @@ local kalya_house_small_passage_zone = {};
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = hoa_map.CameraZone(62, 63, 42, 47, hoa_map.MapMode.CONTEXT_01);
+    village_center_zone = vt_map.CameraZone(62, 63, 42, 47);
     Map:AddZone(village_center_zone);
 
-    kalya_house_exterior_zone = hoa_map.CameraZone(26, 56, 0, 2, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_exterior_zone = vt_map.CameraZone(26, 56, 0, 2);
     Map:AddZone(kalya_house_exterior_zone);
 
-    grandma_house_entrance_zone = hoa_map.CameraZone(11, 13, 7, 8, hoa_map.MapMode.CONTEXT_01);
+    grandma_house_entrance_zone = vt_map.CameraZone(11, 13, 7, 8);
     Map:AddZone(grandma_house_entrance_zone);
 
-    kalya_house_small_passage_zone = hoa_map.CameraZone(3, 8, 0, 1, hoa_map.MapMode.CONTEXT_01);
+    kalya_house_small_passage_zone = vt_map.CameraZone(3, 8, 0, 1);
     Map:AddZone(kalya_house_small_passage_zone);
 end
 

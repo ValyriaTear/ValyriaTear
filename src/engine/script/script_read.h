@@ -11,19 +11,19 @@
 /** ****************************************************************************
 *** \file    script_read.h
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the ReadScriptDescriptor class.
 *** ***************************************************************************/
 
 #ifndef __SCRIPT_READ_HEADER__
 #define __SCRIPT_READ_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
 #include "script.h"
 
-namespace hoa_script
+#include "utils.h"
+
+namespace vt_script
 {
 
 namespace private_script
@@ -226,12 +226,12 @@ public:
         return _ReadData<std::string>(key, "");
     }
 
-    hoa_utils::ustring ReadUString(const std::string &key) {
-        return _ReadData<hoa_utils::ustring>(key, hoa_utils::MakeUnicodeString(""));
+    vt_utils::ustring ReadUString(const std::string &key) {
+        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
     }
 
-    hoa_utils::ustring ReadUString(int32 key) {
-        return _ReadData<hoa_utils::ustring>(key, hoa_utils::MakeUnicodeString(""));
+    vt_utils::ustring ReadUString(int32 key) {
+        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
     }
     //@}
 
@@ -288,12 +288,12 @@ public:
         _ReadDataVector<std::string>(key, vect);
     }
 
-    void ReadUStringVector(const std::string &key, std::vector<hoa_utils::ustring>& vect) {
-        _ReadDataVector<hoa_utils::ustring>(key, vect);
+    void ReadUStringVector(const std::string &key, std::vector<vt_utils::ustring>& vect) {
+        _ReadDataVector<vt_utils::ustring>(key, vect);
     }
 
-    void ReadUStringVector(int32 key, std::vector<hoa_utils::ustring>& vect) {
-        _ReadDataVector<hoa_utils::ustring>(key, vect);
+    void ReadUStringVector(int32 key, std::vector<vt_utils::ustring>& vect) {
+        _ReadDataVector<vt_utils::ustring>(key, vect);
     }
     //@}
 
@@ -681,6 +681,6 @@ template <class T> void ReadScriptDescriptor::_ReadTableKeys(std::vector<T>& key
     }
 } // template <class T> void ReadScriptDescriptor::ReadTableKeys(std::vector<T>& keys) {
 
-} // namespace hoa_script
+} // namespace vt_script
 
 #endif // __SCRIPT_READ_HEADER__

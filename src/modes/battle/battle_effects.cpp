@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_effects.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle actor effects.
 *** ***************************************************************************/
 
@@ -26,14 +27,14 @@
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_script;
+using namespace vt_video;
 
-using namespace hoa_global;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -112,14 +113,15 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
         }
     }
 
-    // --- (4): Finish initialization of members
+    // Init the effect timer
+    _timer.EnableManualUpdate();
     _timer.Reset();
     _timer.Run();
-    _icon_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(_type, _intensity);
+    _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
 }
 
 
-void BattleStatusEffect::SetIntensity(hoa_global::GLOBAL_INTENSITY intensity)
+void BattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
 {
     if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set status effect to invalid intensity: " << intensity << std::endl;
@@ -160,7 +162,7 @@ void BattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
         return;
 
     _intensity_changed = true;
-    _icon_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(_type, _intensity);
+    _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,6 +190,11 @@ EffectsSupervisor::~EffectsSupervisor()
 
 void EffectsSupervisor::Update()
 {
+    // Do not update when states are paused
+    BattleMode *BM = BattleMode::CurrentInstance();
+    if (BM->IsInSceneMode() || BM->AreActorStatesPaused())
+        return;
+
     // Update the timers and state for all active status effects
     for(uint32 i = 0; i < _status_effects.size(); ++i) {
         if(!_status_effects.at(i))
@@ -195,10 +202,10 @@ void EffectsSupervisor::Update()
 
         bool effect_removed = false;
 
-        hoa_system::SystemTimer *effect_timer = _status_effects[i]->GetTimer();
+        vt_system::SystemTimer *effect_timer = _status_effects[i]->GetTimer();
 
         // Update the effect time while taking in account the battle speed
-        effect_timer->Update(SystemManager->GetUpdateTime() * BattleMode::CurrentInstance()->GetBattleTypeTimeFactor());
+        effect_timer->Update(SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor());
 
         // Decrease the intensity of the status by one level when its timer expires. This may result in
         // the status effect being removed from the actor if its intensity changes to the neutral level.
@@ -443,4 +450,4 @@ void EffectsSupervisor::_RemoveStatus(BattleStatusEffect *status_effect)
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

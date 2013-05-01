@@ -11,7 +11,8 @@
 /** ****************************************************************************
 *** \file    script.h
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the scripting engine.
 ***
 *** This code serves as the bridge between the game engine (written in C++) and
@@ -19,12 +20,18 @@
 ***
 *** \note You shouldn't need to modify this code if you are wishing to extend
 *** the game (either for a new inherited GameMode class, or a new data/scripting
-*** file). Contact the author of this code if you feel it lacks functionality
-*** that you need.
+*** file).
 *** ***************************************************************************/
 
 #ifndef __SCRIPT_HEADER__
 #define __SCRIPT_HEADER__
+
+#include "utils.h"
+
+// Prevents redefinition errors on OSX against old boost libraries.
+#ifdef __APPLE__
+#undef check
+#endif
 
 #include <sstream>
 #include <fstream>
@@ -34,30 +41,24 @@ extern "C" {
 #include <lualib.h>
 }
 
-// This needs a comment: what is check and why is it undefined for darwin?
-#ifdef __MACH__
-#undef check
-#endif
-
 #include <luabind/luabind.hpp>
 #include <luabind/object.hpp>
 #include <luabind/adopt_policy.hpp>
-
-#include "utils.h"
-#include "defs.h"
 
 #if LUA_VERSION_NUM < 502
 # define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
 #endif
 
 //! \brief All calls to the scripting engine are wrapped in this namespace.
-namespace hoa_script
+namespace vt_script
 {
+
+class ScriptEngine;
 
 //! \brief The singleton pointer responsible for the interaction between the C++ engine and Lua scripts.
 extern ScriptEngine *ScriptManager;
 
-//! \brief Determines whether the code in the hoa_script namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_script namespace should print debug statements or not.
 extern bool SCRIPT_DEBUG;
 
 /** \name Script File Access Modes
@@ -217,9 +218,9 @@ protected:
 ***
 *** \note This class is a singleton
 *** ***************************************************************************/
-class ScriptEngine : public hoa_utils::Singleton<ScriptEngine>
+class ScriptEngine : public vt_utils::Singleton<ScriptEngine>
 {
-    friend class hoa_utils::Singleton<ScriptEngine>;
+    friend class vt_utils::Singleton<ScriptEngine>;
     friend class ScriptDescriptor;
     friend class ReadScriptDescriptor;
     friend class WriteScriptDescriptor;
@@ -325,8 +326,8 @@ private:
         lua_gc(_global_state, LUA_GCCOLLECT, 0);
     }
 
-}; // class ScriptEngine : public hoa_utils::Singleton<ScriptEngine>
+}; // class ScriptEngine : public vt_utils::Singleton<ScriptEngine>
 
-} // namespace hoa_script
+} // namespace vt_script
 
 #endif // __SCRIPT_HEADER__

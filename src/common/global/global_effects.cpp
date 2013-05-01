@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_effects.cpp
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for global game effects
 *** ***************************************************************************/
 
@@ -19,12 +20,12 @@
 
 #include "engine/system.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_script;
+using namespace vt_system;
 
-namespace hoa_global
+namespace vt_global
 {
 
 std::string GetElementName(GLOBAL_ELEMENTAL type)
@@ -38,16 +39,14 @@ std::string GetElementName(GLOBAL_ELEMENTAL type)
         return Translate("Volt");
     case GLOBAL_ELEMENTAL_EARTH:
         return Translate("Earth");
-    case GLOBAL_ELEMENTAL_SLICING:
-        return Translate("Slicing");
-    case GLOBAL_ELEMENTAL_SMASHING:
-        return Translate("Smashing");
-    case GLOBAL_ELEMENTAL_MAULING:
-        return Translate("Mauling");
-    case GLOBAL_ELEMENTAL_PIERCING:
-        return Translate("Piercing");
+    case GLOBAL_ELEMENTAL_LIFE:
+        return Translate("Life");
+    case GLOBAL_ELEMENTAL_DEATH:
+        return Translate("Death");
+    case GLOBAL_ELEMENTAL_NEUTRAL:
+        return Translate("Neutral");
     default:
-        return Translate("Invalid Elemental");
+        return Translate("Invalid Element");
     }
 }
 
@@ -83,14 +82,14 @@ std::string GetStatusName(GLOBAL_STATUS type)
 
 void GlobalElementalEffect::IncrementIntensity(uint8 amount)
 {
-    hoa_global::IncrementIntensity(_intensity, amount);
+    vt_global::IncrementIntensity(_intensity, amount);
 }
 
 
 
 void GlobalElementalEffect::DecrementIntensity(uint8 amount)
 {
-    hoa_global::DecrementIntensity(_intensity, amount);
+    vt_global::DecrementIntensity(_intensity, amount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +98,7 @@ void GlobalElementalEffect::DecrementIntensity(uint8 amount)
 
 bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
 {
-    return hoa_global::IncrementIntensity(_intensity, amount);
+    return vt_global::IncrementIntensity(_intensity, amount);
 }
 
 
@@ -107,7 +106,7 @@ bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
 bool GlobalStatusEffect::DecrementIntensity(uint8 amount)
 {
     GLOBAL_INTENSITY previous_intensity = _intensity;
-    bool intensity_modified = hoa_global::DecrementIntensity(_intensity, amount);
+    bool intensity_modified = vt_global::DecrementIntensity(_intensity, amount);
 
     if(intensity_modified == true) {
         if(_intensity < GLOBAL_INTENSITY_NEUTRAL) {
@@ -120,4 +119,4 @@ bool GlobalStatusEffect::DecrementIntensity(uint8 amount)
     return intensity_modified;
 }
 
-} // namespace hoa_global
+} // namespace vt_global

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    tileset_editor.h
 *** \author  Bar�� Soner U�akl? blackkknight@hotmail.com
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for editor's tileset editor dialog
 *******************************************************************************/
 
@@ -34,7 +35,7 @@
 
 #include "tileset.h"
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 /** ****************************************************************************
@@ -78,7 +79,7 @@ protected:
 
 private:
     //! \brief A red, translucent square the size of 1/4th of a tile
-    hoa_video::StillImage _red_square;
+    vt_video::StillImage _red_square;
 
     //! Tells the last edited square coords, used when using mouse drag to paint
     //! areas quickly.
@@ -148,7 +149,7 @@ private:
     TilesetDisplay *_tset_display;
 }; // class TilesetEditor : public QDialog
 
-} // namespace hoa_editor
+} // namespace vt_editor
 
 #endif
 // __TILESET_EDITOR_HEADER__

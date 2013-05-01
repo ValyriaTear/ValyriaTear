@@ -29,7 +29,7 @@ function Initialize(map_instance)
 	background_id = Script:AddImage("img/backdrops/cave_background.png", 1024.0, 768.0);
 
 	-- Construct a timer used to display the fog with a custom alpha value and position
-	fog_timer = hoa_system.SystemTimer(fog_time_length, 0);
+	fog_timer = vt_system.SystemTimer(fog_time_length, 0);
 	-- Load a fog image used later to be displayed dynamically on the battle ground
 	fog_id = Script:AddImage("img/ambient/fog.png", 320.0, 256.0);
 
@@ -73,7 +73,7 @@ end
 
 function DrawBackground()
 	-- Draw background animation
-	Script:DrawImage(background_id, 512.0, 768.0, hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+	Script:DrawImage(background_id, 512.0, 768.0, vt_video.Color(1.0, 1.0, 1.0, 1.0));
 
 end
 
@@ -82,5 +82,5 @@ function DrawForeground()
 	-- Draw a random fog effect
 	Script:DrawImage(fog_id, fog_x_position,
                      fog_y_position,
-					 hoa_video.Color(1.0, 1.0, 1.0, fog_alpha));
+					 vt_video.Color(1.0, 1.0, 1.0, fog_alpha));
 end

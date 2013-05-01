@@ -8,12 +8,13 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    grid.cpp
- * \author  Philip Vorsilak, gorzuate@allacrost.org
- * \brief   Source file for editor's grid, used for the OpenGL map portion
- *          where tiles are painted, edited, etc.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    grid.cpp
+*** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for editor's grid, used for the OpenGL map portion
+***          where tiles are painted, edited, etc.
+*** **************************************************************************/
 
 #include "grid.h"
 #include "editor.h"
@@ -26,11 +27,11 @@
 #include <sstream>
 #include <iostream>
 
-using namespace hoa_script;
-using namespace hoa_map::private_map;
-using namespace hoa_video;
+using namespace vt_script;
+using namespace vt_map::private_map;
+using namespace vt_video;
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 LAYER_TYPE getLayerType(const std::string &type)
@@ -73,7 +74,6 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     _file_name(name),
     _height(height),
     _width(width),
-    _context(0),
     _changed(false),
     _initialized(false),
     _grid_on(true),
@@ -92,36 +92,33 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
         }
     }
 
-    // Create default base context
-    _tile_contexts.resize(1);
-    _tile_contexts[0].name = tr("Base").toStdString();
     // Create default base layers
-    _tile_contexts[0].layers.resize(4);
+    _tile_layers.resize(4);
     // Add a default ground type and name to it
-    _tile_contexts[0].layers[0].layer_type = GROUND_LAYER;
-    _tile_contexts[0].layers[0].name = tr("Background").toStdString();
-    _tile_contexts[0].layers[1].layer_type = GROUND_LAYER;
-    _tile_contexts[0].layers[1].name = tr("Background 2").toStdString();
-    _tile_contexts[0].layers[2].layer_type = GROUND_LAYER;
-    _tile_contexts[0].layers[2].name = tr("Background 3").toStdString();
-    _tile_contexts[0].layers[3].layer_type = SKY_LAYER;
-    _tile_contexts[0].layers[3].name = tr("Sky").toStdString();
+    _tile_layers[0].layer_type = GROUND_LAYER;
+    _tile_layers[0].name = tr("Background").toStdString();
+    _tile_layers[1].layer_type = GROUND_LAYER;
+    _tile_layers[1].name = tr("Background 2").toStdString();
+    _tile_layers[2].layer_type = GROUND_LAYER;
+    _tile_layers[2].name = tr("Background 3").toStdString();
+    _tile_layers[3].layer_type = SKY_LAYER;
+    _tile_layers[3].name = tr("Sky").toStdString();
 
     // Set up its size, and fill it with empty values
-    _tile_contexts[0].layers[0].tiles.resize(_height);
-    _tile_contexts[0].layers[1].tiles.resize(_height);
-    _tile_contexts[0].layers[2].tiles.resize(_height);
-    _tile_contexts[0].layers[3].tiles.resize(_height);
+    _tile_layers[0].tiles.resize(_height);
+    _tile_layers[1].tiles.resize(_height);
+    _tile_layers[2].tiles.resize(_height);
+    _tile_layers[3].tiles.resize(_height);
     for(uint32 y = 0; y < _height; ++y) {
-        _tile_contexts[0].layers[0].tiles[y].resize(_width);
-        _tile_contexts[0].layers[1].tiles[y].resize(_width);
-        _tile_contexts[0].layers[2].tiles[y].resize(_width);
-        _tile_contexts[0].layers[3].tiles[y].resize(_width);
+        _tile_layers[0].tiles[y].resize(_width);
+        _tile_layers[1].tiles[y].resize(_width);
+        _tile_layers[2].tiles[y].resize(_width);
+        _tile_layers[3].tiles[y].resize(_width);
         for(uint32 x = 0; x < _width; ++x) {
-            _tile_contexts[0].layers[0].tiles[y][x] = -1;
-            _tile_contexts[0].layers[1].tiles[y][x] = -1;
-            _tile_contexts[0].layers[2].tiles[y][x] = -1;
-            _tile_contexts[0].layers[3].tiles[y][x] = -1;
+            _tile_layers[0].tiles[y][x] = -1;
+            _tile_layers[1].tiles[y][x] = -1;
+            _tile_layers[2].tiles[y][x] = -1;
+            _tile_layers[3].tiles[y][x] = -1;
         }
     }
 } // Grid constructor
@@ -140,16 +137,6 @@ Grid::~Grid()
 // Grid class -- public functions
 ///////////////////////////////////////////////////////////////////////////////
 
-QStringList Grid::GetContextNames()
-{
-    QStringList context_names;
-    for(uint32 i = 0; i < _tile_contexts.size(); ++i) {
-        context_names.append(QString::fromStdString(_tile_contexts[i].name));
-    }
-    return context_names;
-}
-
-
 void Grid::ClearSelectionLayer()
 {
     for(uint32 y = 0; y < _height; ++y) {
@@ -158,55 +145,6 @@ void Grid::ClearSelectionLayer()
         }
     }
 }
-
-bool Grid::CreateNewContext(std::string name, int32 inherit_context)
-{
-    // Return false when the inheritance is invalid.
-    if(inherit_context < -1 || inherit_context >= (int32)_tile_contexts.size())
-        return false;
-
-    int context_id = _tile_contexts.size();
-    std::stringstream context;
-    context << "context_";
-    if(context_id < 10)
-        context << "0";
-    context << context_id;
-
-    // Push a new base context copy
-    // Make sure the context to be created is indeed the next one
-    _tile_contexts.resize(context_id + 1);
-
-    uint32 layers_num = _tile_contexts[0].layers.size();
-
-    // Create an empty context when there is no inheritance
-    if(inherit_context == -1) {
-        // Resize the context to have the same size as the base one
-        // The number of layers
-        _tile_contexts[context_id].layers.resize(layers_num);
-        // For each layer, set up the grid size
-        for(uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
-            // Type
-            _tile_contexts[context_id].layers[layer_id].layer_type = _tile_contexts[0].layers[layer_id].layer_type;
-            // Layer name
-            _tile_contexts[context_id].layers[layer_id].name = _tile_contexts[0].layers[layer_id].name;
-            // Height
-            _tile_contexts[context_id].layers[layer_id].tiles.resize(_height);
-            for(uint32 y = 0; y < _height; ++y) {
-                // and width
-                _tile_contexts[context_id].layers[layer_id].tiles[y].assign((size_t)_width, -1);
-            }
-        }
-    } else {
-        // Copy the context data from the parent one
-        _tile_contexts[context_id] = _tile_contexts[inherit_context];
-    }
-
-    // Set the context name and inheritance info after that
-    _tile_contexts[context_id].name = name;
-    _tile_contexts[context_id].inherit_from_context_id = inherit_context;
-
-    return true;
-} // Grid::CreateNewContext(...)
 
 bool Grid::LoadMap()
 {
@@ -220,82 +158,30 @@ bool Grid::LoadMap()
 
     // Open the map file for reading
     if(!read_data.OpenFile(std::string(_file_name.toAscii()))) {
+        read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
                              QString("Could not open file %1 for reading.").arg(_file_name));
         return false;
     }
 
-    // Check that the main table containing the map exists and open it
-    std::string main_map_table = std::string(_file_name.section('/', -1).
-                                 remove(".lua").toAscii());
-    if(read_data.DoesTableExist(main_map_table) == false) {
-        QMessageBox::warning(this, message_box_title,
-                             QString("File did not contain the main map table: %1").
-                             arg(QString::fromStdString(main_map_table)));
-        return false;
-    }
-
-    read_data.OpenTable(main_map_table);
-
-    // Reset container data
-    tileset_names.clear();
-    tilesets.clear();
-    _tile_contexts.clear();
-
-    if(!read_data.DoesTableExist("contexts")) {
+    if(!read_data.DoesTableExist("map_data")) {
         read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
-                             QString(tr("No 'contexts' table found.")));
+                             QString("File did not contain the main map table: 'map_data'"));
         return false;
     }
 
-    // read context data
-    read_data.OpenTable("contexts");
-    uint32 num_contexts = read_data.GetTableSize();
-    // There can't be more than 32 contexts
-    if(num_contexts > 32)
-        num_contexts = 32;
+    read_data.OpenTable("map_data");
 
-    // There can't be more than 32 different contexts
-    for(uint32 context_id = 0; context_id < num_contexts; ++context_id) {
-        if(!read_data.DoesTableExist(context_id)) {
-            read_data.CloseFile();
-            return false;
-        }
-
-        // opens contexts[context_id]
-        read_data.OpenTable(context_id);
-
-        // Create the corresponding context data
-        _tile_contexts.resize(context_id + 1);
-
-        std::string name = read_data.ReadString("name");
-
-        // Add the context name
-        _tile_contexts[context_id].name = name;
-
-        int32 inheritance = read_data.ReadInt("inherit_from");
-
-        // The base context can't inherit from another one.
-        if(context_id == 0)
-            inheritance = -1;
-
-        // One context can't inherit from itself or a context with a higher id.
-        if((int32)context_id <= inheritance)
-            inheritance = -1;
-
-        _tile_contexts[context_id].inherit_from_context_id = inheritance;
-
-        // Closes contexts[context_id]
-        read_data.CloseTable();
-    }
-    // Closes contexts table
-    read_data.CloseTable();
+    // Reset container data
+    tilesets.clear();
+    _tile_layers.clear();
 
     _height = read_data.ReadUInt("num_tile_rows");
     _width  = read_data.ReadUInt("num_tile_cols");
 
     if(read_data.IsErrorDetected()) {
+        read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
                              QString("Data read failure occurred for global map variables. Error messages:\n%1").
                              arg(QString::fromStdString(read_data.GetErrorMessages())));
@@ -315,15 +201,18 @@ bool Grid::LoadMap()
         }
     }
 
-    read_data.OpenTable("tileset_filenames");
-    uint32 table_size = read_data.GetTableSize();
-    for(uint32 i = 1; i <= table_size; i++)
-        tileset_names.append(QString(read_data.ReadString(i).c_str()));
-    read_data.CloseTable();
+    // Loads the tileset definition filenames
+    tileset_def_names.clear();
+    if (read_data.OpenTable("tileset_filenames")) {
+        uint32 table_size = read_data.GetTableSize();
+        for(uint32 i = 1; i <= table_size; ++i) {
+            tileset_def_names.append(read_data.ReadString(i).c_str());
+        }
+        read_data.CloseTable();
+    }
 
     // Loading the tileset images using LoadMultiImage is done in editor.cpp in
     // FileOpen via creation of the TilesetTable(s)
-
     if(!read_data.DoesTableExist("layers")) {
         read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
@@ -352,20 +241,20 @@ bool Grid::LoadMap()
         LAYER_TYPE layer_type = getLayerType(read_data.ReadString("type"));
 
         if(layer_type == INVALID_LAYER) {
+            read_data.CloseFile();
             QMessageBox::warning(this, message_box_title,
                                  QString(tr("Ignoring unexisting layer type: %i in file: %s").arg(
                                              (int32)layer_type).arg(read_data.GetFilename().c_str())));
-            read_data.CloseTable(); // layers[layer_id]
             return false;
         }
 
         // Add a new layer
-        _tile_contexts[0].layers.resize(layer_id + 1);
+        _tile_layers.resize(layer_id + 1);
         // Set the new layer type
-        _tile_contexts[0].layers[layer_id].layer_type = layer_type;
+        _tile_layers[layer_id].layer_type = layer_type;
 
         // the layer visible name
-        _tile_contexts[0].layers[layer_id].name = read_data.ReadString("name");
+        _tile_layers[layer_id].name = read_data.ReadString("name");
 
         // Parse layers[layer_id].tiles[y]
         for(uint32 y = 0; y < _height; ++y) {
@@ -380,18 +269,18 @@ bool Grid::LoadMap()
             read_data.ReadIntVector(y, vect);
 
             // Prepare the the row
-            _tile_contexts[0].layers[layer_id].tiles.resize(y + 1);
+            _tile_layers[layer_id].tiles.resize(y + 1);
 
             if(vect.size() != _width) {
+                read_data.CloseFile();
                 QMessageBox::warning(this, message_box_title,
                                      QString(tr("Invalid line size of layers[%i][%i] in file: %s")
                                              .arg(layer_id).arg(y).arg(read_data.GetFilename().c_str())));
-                read_data.CloseTable(); // layers[layer_id]
                 return false;
             }
 
             for(std::vector<int32>::iterator it = vect.begin(); it != vect.end(); ++it)
-                _tile_contexts[0].layers[layer_id].tiles[y].push_back(*it);
+                _tile_layers[layer_id].tiles[y].push_back(*it);
             vect.clear();
         } // iterate through the rows of the layer
 
@@ -404,85 +293,14 @@ bool Grid::LoadMap()
     read_data.CloseTable();
 
     if(read_data.IsErrorDetected()) {
+        read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
                              QString("Data read failure occurred for tile layer tables. Error messages:\n%1").
                              arg(QString::fromStdString(read_data.GetErrorMessages())));
         return false;
     }
 
-    // Load any existing map context data
-    for(uint32 ctxt = 1; ctxt < num_contexts; ++ctxt) {
-        // In case of inheritence, copy the parent context data
-        if(_tile_contexts[ctxt].inherit_from_context_id > -1
-                && _tile_contexts[ctxt].inherit_from_context_id < (int32)ctxt) {
-            // First preserve the name and inheritance info
-            std::string name = _tile_contexts[ctxt].name;
-            int32 inherit_info = _tile_contexts[ctxt].inherit_from_context_id;
-
-            // then copy the data
-            _tile_contexts[ctxt] = _tile_contexts[_tile_contexts[ctxt].inherit_from_context_id];
-
-            // and restore the info
-            _tile_contexts[ctxt].name = name;
-            _tile_contexts[ctxt].inherit_from_context_id = inherit_info;
-        } else {
-            // If non-inheriting context, start with an empty one.
-            // Resize the context to have the same size as the base one
-            // The number of layers
-            _tile_contexts[ctxt].layers.resize(layers_num);
-            // For each layer, set up the grid size
-            for(uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
-                // Type
-                _tile_contexts[ctxt].layers[layer_id].layer_type = _tile_contexts[0].layers[layer_id].layer_type;
-                // Layer name
-                _tile_contexts[ctxt].layers[layer_id].name = _tile_contexts[0].layers[layer_id].name;
-                // Height
-                _tile_contexts[ctxt].layers[layer_id].tiles.resize(_height);
-                for(uint32 y = 0; y < _height; ++y) {
-                    // and width
-                    _tile_contexts[ctxt].layers[layer_id].tiles[y].assign((size_t)_width, -1);
-                }
-            }
-        }
-
-        // Read the table corresponding to this context and modify each tile
-        // accordingly. The context table is an array of integer data. The size
-        // of this array should be divisible by four, as every consecutive
-        // group of four integers in this table represent one tile context
-        // element. The first integer corresponds to the tile layer (0 = lower,
-        // 1 = middle, 2 = upper), the second and third represent the row and
-        // column of the tile respectively, and the fourth value indicates
-        // which tile image should be used for this context. So if the first
-        // four entries in the context table were {0, 12, 26, 180}, this would
-        // set the lower layer tile at position (12, 26) to the tile index 180.
-        std::vector<int32> context_data;
-
-        std::stringstream context;
-        context << "context_";
-        if(ctxt < 10)
-            context << "0";
-        context << ctxt;
-
-        read_data.ReadIntVector(context.str(), context_data);
-        for(uint32 j = 0; j < context_data.size(); j += 4) {
-            int32 layer_id = context_data[j];
-            int32 y = context_data[j + 1];
-            int32 x = context_data[j + 2];
-            int32 tile_id = context_data[j + 3];
-
-            _tile_contexts[ctxt].layers[layer_id].tiles[y][x] = tile_id;
-
-        } // iterate through all tiles in this context
-    } // iterate through all existing contexts
-
-    if(read_data.IsErrorDetected()) {
-        QMessageBox::warning(this, message_box_title,
-                             QString("Data read failure occurred for context tables. Error messages:\n%1").
-                             arg(QString::fromStdString(read_data.GetErrorMessages())));
-        return false;
-    }
-
-    read_data.CloseTable();
+    read_data.CloseFile();
 
     return true;
 } // Grid::LoadMap()
@@ -491,14 +309,12 @@ void Grid::SaveMap()
 {
     WriteScriptDescriptor write_data;
 
-    if(write_data.OpenFile(std::string(_file_name.toAscii())) == false) {
+    if(!write_data.OpenFile(_file_name.toStdString())) {
         QMessageBox::warning(this, "Saving File...", QString("ERROR: could not open %1 for writing!").arg(_file_name));
         return;
     }
 
-    write_data.WriteComment("Set the namespace according to the map name.");
-    std::string main_map_table = std::string(_file_name.section('/', -1).remove(".lua").toAscii());
-    write_data.WriteNamespace(main_map_table);
+    write_data.BeginTable("map_data");
 
     write_data.InsertNewLine();
     write_data.WriteComment("The number of rows, and columns that compose the map");
@@ -506,39 +322,18 @@ void Grid::SaveMap()
     write_data.WriteInt("num_tile_rows", _height);
 
     write_data.InsertNewLine();
-    write_data.WriteComment("The contexts names and inheritance definition");
-    write_data.WriteComment("Tells the context id the current context inherit from");
-    write_data.WriteComment("This means that the parent context will be used as a base, and the current");
-    write_data.WriteComment("context will only have its own differences from it.");
-    write_data.WriteComment("At least, the base context (id:0) can't a parent context, thus it should be equal to -1.");
-    write_data.WriteComment("Note that a context cannot inherit from itself or a context with a higher id");
-    write_data.WriteComment("since it would lead to nasty and useless loading use cases.");
-
-    write_data.BeginTable("contexts");
-    for(uint32 context_id = 0; context_id < _tile_contexts.size(); ++context_id) {
-
-        write_data.BeginTable(context_id);
-        write_data.WriteString("name", _tile_contexts[context_id].name);
-        write_data.WriteInt("inherit_from", _tile_contexts[context_id].inherit_from_context_id);
-        write_data.EndTable();
-    }
-    write_data.EndTable();
-
-    write_data.InsertNewLine();
-    write_data.WriteComment("The names of the tilesets used, with the path and file extension omitted");
+    write_data.WriteComment("The tilesets definition files used.");
     write_data.BeginTable("tileset_filenames");
     uint32 i = 0;
-    for(QStringList::Iterator qit = tileset_names.begin();
-            qit != tileset_names.end(); ++qit) {
+    for(QStringList::Iterator qit = tileset_def_names.begin();
+            qit != tileset_def_names.end(); ++qit) {
         ++i;
         write_data.WriteString(i, (*qit).toAscii().data());
     } // iterate through tileset_names writing each element
     write_data.EndTable();
     write_data.InsertNewLine();
 
-    write_data.WriteComment("The map grid to indicate walkability. The size of the grid is 4x the size of the tile layer tables");
-    write_data.WriteComment("Walkability status of tiles for 32 contexts. Zero indicates walkable for all contexts. Valid range: [0:2^32-1]");
-    write_data.WriteComment("Example: 1 (BIN 001) = wall for first context only, 2 (BIN 010) means wall for second context only, 5 (BIN 101) means Wall for first and third context.");
+    write_data.WriteComment("The map grid to indicate walkability. 0 is walkable, 1 is not.");
     write_data.BeginTable("map_grid");
     //[layer][walkability]
     std::vector<std::vector<int32> > walk_vect;
@@ -548,117 +343,98 @@ void Grid::SaveMap()
     // Used to save the southern walkability info of tiles in all layers of
     // all contexts; initialize to walkable.
     std::vector<int32> map_row_south(_width * 2, 0);
+
     for(uint32 y = 0; y < _height; ++y) {
-        // Iterate through all contexts of all layers, column by column,
-        // row by row.
-        for(int context = 0; context < static_cast<int>(_tile_contexts.size());
-                ++context) {
-            for(uint32 x = 0; x < _width; ++x) {
+        // Iterate through all layers, column by column, row by row.
+        for(uint32 x = 0; x < _width; ++x) {
 
-                // Used to know if any tile at all on all combined layers exists.
-                bool missing_tile = true;
+            // Indicates whether a painted tile is present on at least one layer.
+            bool no_tile_at_all = true;
 
-                // linearized coords
-                int32 col = y * _width + x;
+            // linearized coords
+            int32 col = y * _width + x;
 
-                // Get walkability for each tile layers.
-                for(uint32 layer_id = 0; layer_id < _tile_contexts[context].layers.size(); ++layer_id) {
-                    // Don't deal with sky layers
-                    if(_tile_contexts[context].layers[layer_id].layer_type == SKY_LAYER)
-                        continue;
+            // Get walkability for each tile layers.
+            for(uint32 layer_id = 0; layer_id < _tile_layers.size(); ++layer_id) {
+                // Don't deal with sky layers
+                if(_tile_layers[layer_id].layer_type == SKY_LAYER)
+                    continue;
 
-                    int tileset_index = _tile_contexts[context].layers[layer_id].tiles[y][x] / 256;
-                    int tile_index = 0;
-                    if(tileset_index == 0)
-                        tile_index = _tile_contexts[context].layers[layer_id].tiles[y][x];
-                    else  // Don't divide by 0
-                        tile_index = _tile_contexts[context].layers[layer_id].tiles[y][x] %
-                                     (tileset_index * 256);
+                int tileset_index = _tile_layers[layer_id].tiles[y][x] / 256;
+                int tile_index = -1;
+                if(tileset_index == 0) // First tileset
+                    tile_index = _tile_layers[layer_id].tiles[y][x];
+                else  // Don't divide by 0
+                    tile_index = _tile_layers[layer_id].tiles[y][x] %
+                                    (tileset_index * 256);
 
-                    // Push back a layer
-                    walk_vect.resize(layer_id + 1);
+                // Push back a layer
+                walk_vect.resize(layer_id + 1);
 
-                    if(tile_index == -1) {
-                        walk_vect[layer_id].push_back(-1);
-                        walk_vect[layer_id].push_back(-1);
-                        walk_vect[layer_id].push_back(-1);
-                        walk_vect[layer_id].push_back(-1);
-                    } else {
-                        missing_tile = false;
-                        walk_vect[layer_id] = tilesets[tileset_index]->walkability[tile_index];
-                    }
-                } // For each layer
+                if(tile_index == -1) {
+                    // no tile on this layer we assume walkable (0) for now
+                    // until all layers have been checked.
+                    walk_vect[layer_id].push_back(0);
+                    walk_vect[layer_id].push_back(0);
+                    walk_vect[layer_id].push_back(0);
+                    walk_vect[layer_id].push_back(0);
+                } else {
+                    no_tile_at_all = false;
+                    walk_vect[layer_id] = tilesets[tileset_index]->walkability[tile_index];
+                }
+            } // For each layer
 
-                if(missing_tile == true) {
+            if(no_tile_at_all) {
+                // NW corner
+                map_row_north[col % _width * 2]     = 1;
+                // NE corner
+                map_row_north[col % _width * 2 + 1] = 1;
+                // SW corner
+                map_row_south[col % _width * 2]     = 1;
+                // SE corner
+                map_row_south[col % _width * 2 + 1] = 1;
+            }
+            else {
+                for(uint32 i = 0; i < walk_vect.size(); ++i) {
                     // NW corner
-                    map_row_north[col % _width * 2]     |= 1 << context;
+                    map_row_north[col % _width * 2] |= walk_vect[i][0];
                     // NE corner
-                    map_row_north[col % _width * 2 + 1] |= 1 << context;
+                    map_row_north[col % _width * 2 + 1] |= walk_vect[i][1];
                     // SW corner
-                    map_row_south[col % _width * 2]     |= 1 << context;
+                    map_row_south[col % _width * 2] |= walk_vect[i][2];
                     // SE corner
-                    map_row_south[col % _width * 2 + 1] |= 1 << context;
-                } // no tile exists at current location
-                else {
-                    for(uint32 i = 0; i < walk_vect.size(); ++i) {
-                        // If a layer is set and passable over a blocking layer,
-                        // the result is passable.
-                        // i.e: base value: 101 (context id = 2), value to set: 0
-                        // Result wanted: 001.
-                        // We, then, use a NOT AND operator when setting a zero:
-                        // mask = mask & ~(1 << position); // if 0
+                    map_row_south[col % _width * 2 + 1] |= walk_vect[i][3];
+                }
+            } // a real tile exists at current location
 
-                        // NW corner
-                        if(walk_vect[i][0] == 0)
-                            map_row_north[col % _width * 2] &= ~(1 << context);
-                        else if(walk_vect[i][0] == 1)
-                            map_row_north[col % _width * 2] |= (walk_vect[i][0] << context);
-                        // NE corner
-                        if(walk_vect[i][1] == 0)
-                            map_row_north[col % _width * 2 + 1] &= ~(1 << context);
-                        else if(walk_vect[i][1] == 1)
-                            map_row_north[col % _width * 2 + 1] |= (walk_vect[i][1] << context);
-                        // SW corner
-                        if(walk_vect[i][2] == 0)
-                            map_row_south[col % _width * 2] &= ~(1 << context);
-                        else if(walk_vect[i][2] == 1)
-                            map_row_south[col % _width * 2] |= (walk_vect[i][2] << context);
-                        // SE corner
-                        if(walk_vect[i][3] == 0)
-                            map_row_south[col % _width * 2 + 1] &= ~(1 << context);
-                        else if(walk_vect[i][3] == 1)
-                            map_row_south[col % _width * 2 + 1] |= (walk_vect[i][3] << context);
-                    }
-                } // a real tile exists at current location
-
-                walk_vect.clear();
-            } // x
-        } // iterate through each context
+            walk_vect.clear();
+        } // x
 
         write_data.WriteIntVector(y * 2,   map_row_north);
         write_data.WriteIntVector(y * 2 + 1, map_row_south);
         map_row_north.assign(_width * 2, 0);
         map_row_south.assign(_width * 2, 0);
     } // iterate through the rows (y axis) of the layers
+
     write_data.EndTable();
     write_data.InsertNewLine();
 
     write_data.WriteComment("The tile layers. The numbers are indeces to the tile_mappings table.");
     write_data.BeginTable("layers");
 
-    uint32 layers_num = _tile_contexts[0].layers.size();
+    uint32 layers_num = _tile_layers.size();
     for(uint32 layer_id = 0; layer_id < layers_num; ++layer_id) {
 
         write_data.BeginTable(layer_id);
 
-        write_data.WriteString("type", getTypeFromLayer(_tile_contexts[0].layers[layer_id].layer_type));
-        write_data.WriteString("name", _tile_contexts[0].layers[layer_id].name);
+        write_data.WriteString("type", getTypeFromLayer(_tile_layers[layer_id].layer_type));
+        write_data.WriteString("name", _tile_layers[layer_id].name);
 
         std::vector<int32> layer_row;
 
         for(uint32 y = 0; y < _height; y++) {
             for(uint32 x = 0; x < _width; x++) {
-                layer_row.push_back(_tile_contexts[0].layers[layer_id].tiles[y][x]);
+                layer_row.push_back(_tile_layers[layer_id].tiles[y][x]);
             } // iterate through the columns of the lower layer
             write_data.WriteIntVector(y, layer_row);
             layer_row.clear();
@@ -668,55 +444,8 @@ void Grid::SaveMap()
         write_data.InsertNewLine();
     } // for each layers
     write_data.EndTable(); // Layers
-    write_data.InsertNewLine();
 
-    if(_tile_contexts.size() > 1)
-        write_data.WriteComment("Contexts data");
-
-    std::vector<int32> context_data;  // one vector of ints contains all the context info
-    // Iterate through all contexts of all layers.
-    for(uint32 context_id = 1; context_id < _tile_contexts.size(); ++context_id) {
-        int32 context_inherit = _tile_contexts[context_id].inherit_from_context_id;
-
-        for(uint32 layer_id = 0; layer_id < _tile_contexts[context_id].layers.size(); ++layer_id) {
-            for(uint32 y = 0; y < _height; ++y) {
-                for(uint32 x = 0; x < _width; ++x) {
-                    int32 ctxt_tile_id = _tile_contexts[context_id].layers[layer_id].tiles[y][x];
-                    // Record when :
-                    // - A different tile exists when inheriting of the parent context
-                    if(context_inherit > -1 && context_inherit < (int32)context_id) {
-                        int32 parent_tile_id = _tile_contexts[context_inherit].layers[layer_id].tiles[y][x];
-                        if(parent_tile_id != ctxt_tile_id) {
-                            context_data.push_back(layer_id);
-                            context_data.push_back(y);
-                            context_data.push_back(x);
-                            context_data.push_back(ctxt_tile_id);
-                        }
-                    }
-                    // - When ctxt_tile_id is not empty and when there is no inheritance.
-                    else if(context_inherit == -1 && ctxt_tile_id != -1) {
-                        context_data.push_back(layer_id);
-                        context_data.push_back(y);
-                        context_data.push_back(x);
-                        context_data.push_back(ctxt_tile_id);
-                    }
-
-                } // iterate through the columns of the lower layer
-            } // iterate through the rows of the lower layer
-        } // Layers
-
-        if(!context_data.empty()) {
-            std::stringstream context;
-            context << "context_";
-            if(context_id < 10)
-                context << "0";
-            context << context_id;
-
-            write_data.WriteIntVector(context.str(), context_data);
-            write_data.InsertNewLine();
-            context_data.clear();
-        } // write the vector if it has data in it
-    } // iterate through all contexts of all layers, assuming all layers have same number of contexts
+    write_data.EndTable(); // map_data
 
     write_data.CloseFile();
 
@@ -729,8 +458,8 @@ uint32 Grid::_GetNextLayerId(const LAYER_TYPE &layer_type)
     // Computes the new layer id
     LAYER_TYPE previous_layer_type = GROUND_LAYER;
     uint32 i = 0;
-    for(; i < _tile_contexts[0].layers.size(); ++i) {
-        LAYER_TYPE current_type = _tile_contexts[0].layers[i].layer_type;
+    for(; i < _tile_layers.size(); ++i) {
+        LAYER_TYPE current_type = _tile_layers[i].layer_type;
 
         if(previous_layer_type == layer_type && current_type != layer_type)
             return i;
@@ -755,50 +484,42 @@ void Grid::AddLayer(const LayerInfo &layer_info)
     layer.Fill(-1); // Make the layer empty
 
     // The layer id is completely new, so we push a new layer for each context
-    if(new_layer_id >= _tile_contexts[0].layers.size()) {
-        assert(new_layer_id == _tile_contexts[0].layers.size());
-
-        for(uint32 ctxt = 0; ctxt < _tile_contexts.size(); ++ctxt) {
-            _tile_contexts[ctxt].layers.push_back(layer);
-        }
+    if(new_layer_id >= _tile_layers.size()) {
+        assert(new_layer_id == _tile_layers.size());
+        _tile_layers.push_back(layer);
         return;
     }
 
     // If the id is taken, we have to insert the layer before the one
     // with the same id.
+    std::vector<Layer> new_layers;
+    for(uint32 layer_id = 0; layer_id < _tile_layers.size(); ++layer_id) {
+        // If we have reached the wanted layer id, add the new layer
+        if(layer_id == new_layer_id)
+            new_layers.push_back(layer);
 
-    for(uint32 ctxt = 0; ctxt < _tile_contexts.size(); ++ctxt) {
-        std::vector<Layer> new_layers;
-        for(uint32 layer_id = 0; layer_id < _tile_contexts[ctxt].layers.size(); ++layer_id) {
-            // If we have reached the wanted layer id, add the new layer
-            if(layer_id == new_layer_id)
-                new_layers.push_back(layer);
-
-            // Push the other layer in any case
-            new_layers.push_back(_tile_contexts[ctxt].layers[layer_id]);
-        }
-
-        // Once done, we can swap the data, replacing the layers with the one inserted.
-        _tile_contexts[ctxt].layers.swap(new_layers);
+        // Push the other layer in any case
+        new_layers.push_back(_tile_layers[layer_id]);
     }
+
+    // Once done, we can swap the data, replacing the layers with the one inserted.
+    _tile_layers.swap(new_layers);
 }
 
 void Grid::DeleteLayer(uint32 layer_id)
 {
-    if(layer_id >= _tile_contexts[0].layers.size())
+    if(layer_id >= _tile_layers.size())
         return;
 
-    for(uint32 ctxt = 0; ctxt < _tile_contexts.size(); ++ctxt) {
-        uint32 layer = 0;
-        std::vector<Layer>::iterator it = _tile_contexts[ctxt].layers.begin();
-        std::vector<Layer>::iterator it_end = _tile_contexts[ctxt].layers.end();
-        for(; it != it_end; ++it) {
-            if(layer == layer_id) {
-                _tile_contexts[ctxt].layers.erase(it);
-                break;
-            }
-            ++layer;
+    uint32 layer = 0;
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        if(layer == layer_id) {
+            _tile_layers.erase(it);
+            break;
         }
+        ++layer;
     }
 }
 
@@ -941,21 +662,21 @@ void Grid::DeleteCol(uint32 /*tile_index_x*/)
 std::vector<QTreeWidgetItem *> Grid::getLayerItems()
 {
     std::vector<QTreeWidgetItem *> layers_names;
-    for(uint32 layer_id = 0; layer_id < _tile_contexts[0].layers.size(); ++layer_id) {
+    for(uint32 layer_id = 0; layer_id < _tile_layers.size(); ++layer_id) {
         QTreeWidgetItem *item = new QTreeWidgetItem();
         // Check for empty names
-        QString name = QString::fromStdString(_tile_contexts[0].layers[layer_id].name);
+        QString name = QString::fromStdString(_tile_layers[layer_id].name);
         if(name.size() == 0)
             name = QString::number(layer_id);
 
         item->setText(0, QString::number(layer_id));
 
         // Show the visible icon depending on the layer state
-        if(_tile_contexts[_context].layers[layer_id].visible)
+        if(_tile_layers[layer_id].visible)
             item->setIcon(1, QIcon(QString("img/misc/editor-tools/eye.png")));
 
         item->setText(2, name);
-        item->setText(3, tr(getTypeFromLayer(_tile_contexts[0].layers[layer_id].layer_type).c_str()));
+        item->setText(3, tr(getTypeFromLayer(_tile_layers[layer_id].layer_type).c_str()));
         layers_names.push_back(item);
     }
 
@@ -1023,12 +744,12 @@ void Grid::paintGL()
     x = left_tile;
     y = top_tile;
     while(y <= bottom_tile) {
-        for(uint32 layer_id = 0; layer_id < _tile_contexts[_context].layers.size(); ++layer_id) {
+        for(uint32 layer_id = 0; layer_id < _tile_layers.size(); ++layer_id) {
             // Don't draw the layer if it's not visible
-            if(!_tile_contexts[_context].layers[layer_id].visible)
+            if(!_tile_layers[layer_id].visible)
                 continue;
 
-            layer_index = _tile_contexts[_context].layers[layer_id].tiles[y][x];
+            layer_index = _tile_layers[layer_id].tiles[y][x];
             // Draw tile if one exists at this location
             if(layer_index != -1) {
                 tileset_index = layer_index / 256;
@@ -1090,4 +811,4 @@ void Grid::resizeGL(int w, int h)
     VideoManager->ApplySettings();
 } // Grid::resizeGL(...)
 
-} // namespace hoa_editor
+} // namespace vt_editor

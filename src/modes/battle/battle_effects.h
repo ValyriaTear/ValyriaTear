@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_effects.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle actor effects.
 ***
 *** This file contains the code that manages effects that influence an actor's
@@ -20,7 +21,6 @@
 #ifndef __BATTLE_EFFECTS_HEADER__
 #define __BATTLE_EFFECTS_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "engine/script/script.h"
@@ -28,7 +28,7 @@
 
 #include "common/global/global_effects.h"
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -54,7 +54,7 @@ namespace private_battle
 *** \todo Implement opposite types for status effects and possibly add a boolean
 *** member to indicate whether the status is aiding or ailing.
 *** ***************************************************************************/
-class BattleStatusEffect : public hoa_global::GlobalStatusEffect
+class BattleStatusEffect : public vt_global::GlobalStatusEffect
 {
 public:
     /** \param type The status type that this class object should represent
@@ -62,7 +62,7 @@ public:
     *** \param actor A pointer to the actor affected by the status
     *** \param duration The effect duration, a default value is used when none is given.
     **/
-    BattleStatusEffect(hoa_global::GLOBAL_STATUS type, hoa_global::GLOBAL_INTENSITY intensity, BattleActor *actor,
+    BattleStatusEffect(vt_global::GLOBAL_STATUS type, vt_global::GLOBAL_INTENSITY intensity, BattleActor *actor,
                        uint32 duration = 0);
 
     ~BattleStatusEffect()
@@ -84,7 +84,7 @@ public:
     //! \brief Class Member Access Functions
     //@{
     //! \note This will cause the timer to reset and also
-    void SetIntensity(hoa_global::GLOBAL_INTENSITY intensity);
+    void SetIntensity(vt_global::GLOBAL_INTENSITY intensity);
 
     const std::string &GetName() const {
         return _name;
@@ -94,7 +94,7 @@ public:
         return _icon_index;
     }
 
-    hoa_global::GLOBAL_STATUS GetOppositeEffect() const {
+    vt_global::GLOBAL_STATUS GetOppositeEffect() const {
         return _opposite_effect;
     }
 
@@ -115,11 +115,11 @@ public:
     }
 
     //! \note Returns a pointer instead of a reference so that Lua functions can access the timer
-    hoa_system::SystemTimer *GetTimer() {
+    vt_system::SystemTimer *GetTimer() {
         return &_timer;
     }
 
-    hoa_video::StillImage *GetIconImage() const {
+    vt_video::StillImage *GetIconImage() const {
         return _icon_image;
     }
 
@@ -140,7 +140,7 @@ private:
     uint32 _icon_index;
 
     //! \brief The opposte effect for the status, set to GLOBAL_STATUS_INVALID if no opposite effect exists
-    hoa_global::GLOBAL_STATUS _opposite_effect;
+    vt_global::GLOBAL_STATUS _opposite_effect;
 
     //! \brief A pointer to the script function that applies the initial effect
     ScriptObject _apply_function;
@@ -155,10 +155,10 @@ private:
     BattleActor *_affected_actor;
 
     //! \brief A timer used to determine how long the status effect lasts
-    hoa_system::SystemTimer _timer;
+    vt_system::SystemTimer _timer;
 
     //! \brief A pointer to the icon image that represents the status. Will be NULL if the status is invalid
-    hoa_video::StillImage *_icon_image;
+    vt_video::StillImage *_icon_image;
 
     //! \brief A flag set to true when the intensity value was changed and cleared when the Update method is called
     bool _intensity_changed;
@@ -169,7 +169,7 @@ private:
     *** This method should be called after every change in intensity is made.
     **/
     void _ProcessIntensityChange(bool reset_timer_only);
-}; // class BattleStatusEffect : public hoa_global::GlobalStatusEffect
+}; // class BattleStatusEffect : public vt_global::GlobalStatusEffect
 
 
 /** ****************************************************************************
@@ -210,14 +210,14 @@ public:
     /** \brief Returns true if the requested status is active on the managed actor
     *** \param status The type of status effect to check for
     **/
-    bool IsStatusActive(hoa_global::GLOBAL_STATUS status) {
+    bool IsStatusActive(vt_global::GLOBAL_STATUS status) {
         return (_status_effects[status] != NULL);
     }
 
     /** \brief Reurns true if the opposite status to that of the argument is active
     *** \param status The type of opposite status to check for
     **/
-    bool IsOppositeStatusActive(hoa_global::GLOBAL_STATUS status);
+    bool IsOppositeStatusActive(vt_global::GLOBAL_STATUS status);
 
     /** \brief Immediately removes all active status effects from the actor
     *** \note This function is typically used in the case of an actor's death. Because it returns no value, indicator icons
@@ -243,7 +243,7 @@ public:
     *** \note To be absolutely certain that a particular status effect is removed from the actor regardless of its current
     *** intensity, use the value GLOBAL_INTENSITY_NEG_EXTREME for the intensity argument.
     **/
-    bool ChangeStatus(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity, uint32 duration = 0);
+    bool ChangeStatus(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity, uint32 duration = 0);
 
 private:
     //! \brief A pointer to the actor that this class supervises effects for
@@ -252,7 +252,7 @@ private:
     // TODO: support for elemental effects may be added here at a later time
 //	//! \brief Contains all active element effects
 // 	std::vector<BattleElementEffect*> _element_effects;
-//hoa_global::GLOBAL_ELEMENTAL_TOTAL <-- Reserve this
+//vt_global::GLOBAL_ELEMENTAL_TOTAL <-- Reserve this
 
     //! \brief Contains all possible status effects.
     //! The vector is initialized with the size of all possible status effects slots.
@@ -268,7 +268,7 @@ private:
     *** Do not call this method unless you are certain that the given status is not already active on the actor, otherwise
     *** memory leaks and other problems may arise.
     **/
-    void _CreateNewStatus(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity,
+    void _CreateNewStatus(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
                           uint32 duration = 0);
 
     /** \brief Removes an existing status effect from the actor
@@ -282,6 +282,6 @@ private:
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_EFFECTS_HEADER__

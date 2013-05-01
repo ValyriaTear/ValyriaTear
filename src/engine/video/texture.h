@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    tex_mgmt.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for texture management code
 ***
 *** We use texture management so that at runtime, we can load many small images
@@ -59,7 +60,7 @@
 
 #include <set>
 
-namespace hoa_video
+namespace vt_video
 {
 
 class ScreenRect;
@@ -429,6 +430,6 @@ private:
 
 }  // namespace private_video
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __TEXTURE_HEADER__

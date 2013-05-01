@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_events.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode events and event processing.
 *** ***************************************************************************/
 
@@ -23,16 +24,16 @@
 #include "modes/shop/shop.h"
 #include "modes/battle/battle.h"
 
-using namespace hoa_audio;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_video;
+using namespace vt_audio;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_video;
 
-using namespace hoa_battle;
-using namespace hoa_shop;
+using namespace vt_battle;
+using namespace vt_shop;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -174,7 +175,7 @@ bool MapTransitionEvent::_Update()
     // Only load the map once the fade out is done, since the load time can
     // break the fade smoothness and visible duration.
     if(!_done) {
-        hoa_global::GlobalManager->SetPreviousLocation(_transition_origin);
+        vt_global::GlobalManager->SetPreviousLocation(_transition_origin);
         MapMode *MM = new MapMode(_transition_map_data_filename, _transition_map_script_filename);
         ModeManager->Pop();
         ModeManager->Push(MM, false, true);
@@ -646,8 +647,8 @@ bool PathMoveSpriteEvent::_Update()
     float distance_moved = _sprite->CalculateDistanceMoved();
 
     // Check whether the sprite has arrived at the position of the current node
-    if(hoa_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
-            && hoa_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
         ++_current_node;
 
         if(_current_node < _path.size()) {
@@ -664,8 +665,8 @@ bool PathMoveSpriteEvent::_Update()
     _SetSpriteDirection();
 
     // End the path event
-    if(hoa_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
-            && hoa_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
         Terminate();
         return true;
     }
@@ -1395,4 +1396,4 @@ void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_star
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

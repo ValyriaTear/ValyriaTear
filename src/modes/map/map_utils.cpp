@@ -11,12 +11,13 @@
 /** ****************************************************************************
 *** \file    map_utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode utility code
 *** *****************************************************************************/
 
 #include "map_utils.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 bool MAP_DEBUG = false;
@@ -37,5 +38,5 @@ bool MapRectangle::CheckIntersection(const MapRectangle &first, const MapRectang
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 

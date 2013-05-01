@@ -11,7 +11,8 @@
 /** ****************************************************************************
 *** \file    video.h
 *** \author  Raj Sharma, roos@allacrost.org
-***          Daniel Steuernol, steu@allacrost.org
+*** \author  Daniel Steuernol, steu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for video engine interface.
 ***
 *** This code provides a comprehensive API for managing all drawing, rendering,
@@ -63,7 +64,7 @@
 
 #include <stack>
 
-namespace hoa_gui {
+namespace vt_gui {
 class TextBox;
 class OptionBox;
 class GUISystem;
@@ -73,25 +74,25 @@ class GUIElement;
 }
 }
 
-namespace hoa_map {
+namespace vt_map {
 namespace private_map {
 class MapTransitionEvent;
 }
 }
 
-namespace hoa_mode_manager {
+namespace vt_mode_manager {
 class ModeEngine;
 }
 
 //! \brief All calls to the video engine are wrapped in this namespace.
-namespace hoa_video
+namespace vt_video
 {
 class VideoEngine;
 
 //! \brief The singleton pointer for the engine, responsible for all video operations.
 extern VideoEngine *VideoManager;
 
-//! \brief Determines whether the code in the hoa_video namespace should print
+//! \brief Determines whether the code in the vt_video namespace should print
 extern bool VIDEO_DEBUG;
 
 namespace private_video
@@ -179,19 +180,19 @@ void RotatePoint(float &x, float &y, float angle);
 *** large, the implementation of many of the methods for this class are split up
 *** into multiple .cpp source files in the video code directory.
 *** *****************************************************************************/
-class VideoEngine : public hoa_utils::Singleton<VideoEngine>
+class VideoEngine : public vt_utils::Singleton<VideoEngine>
 {
-    friend class hoa_utils::Singleton<VideoEngine>;
+    friend class vt_utils::Singleton<VideoEngine>;
 
     friend class TextureController;
     friend class TextSupervisor;
-    friend class hoa_gui::GUISystem;
+    friend class vt_gui::GUISystem;
 
-    friend class hoa_gui::TextBox;
-    friend class hoa_gui::OptionBox;
-    friend class hoa_gui::MenuWindow;
+    friend class vt_gui::TextBox;
+    friend class vt_gui::OptionBox;
+    friend class vt_gui::MenuWindow;
 
-    friend class hoa_gui::private_gui::GUIElement;
+    friend class vt_gui::private_gui::GUIElement;
     friend class private_video::TexSheet;
     friend class private_video::FixedTexSheet;
     friend class private_video::VariableTexSheet;
@@ -556,7 +557,7 @@ public:
     *** screen captures existing at one time, because each image capture requires a relatively
     *** large amount of texutre memory (roughly 3GB for a 1024x768 screen).
     **/
-    StillImage CaptureScreen() throw(hoa_utils::Exception);
+    StillImage CaptureScreen() throw(vt_utils::Exception);
 
     /** \brief Creates an image based on the raw image information passed in. This
     *** image can be rendered or used as a texture by the rendering system
@@ -569,7 +570,7 @@ public:
     *** \return a valid StillImage that is created from the input parameter
     *** \throw Exception if the new image cannot be created
     **/
-    StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(hoa_utils::Exception);
+    StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(vt_utils::Exception);
 
     /** \brief Returns a pointer to the GUIManager singleton object
     *** This method allows the user to perform text operations. For example, to load a
@@ -591,9 +592,9 @@ public:
      * \param c color of the text
      */
     void DrawText(const std::string &text, float x, float y, const Color &c) {
-        DrawText(hoa_utils::MakeUnicodeString(text), x, y, c);
+        DrawText(vt_utils::MakeUnicodeString(text), x, y, c);
     }
-    void DrawText(const hoa_utils::ustring &text, float x, float y, const Color &c);
+    void DrawText(const vt_utils::ustring &text, float x, float y, const Color &c);
 
     /** \brief Returns a pointer to the TextureManager singleton object
     *** This method allows the user to perform texture management operations. For example, to reload
@@ -766,8 +767,8 @@ private:
 
     //-- System fades. Only usable by the mode manager
     // and the MapTransition MapEvent.
-    friend class hoa_mode_manager::ModeEngine;
-    friend class hoa_map::private_map::MapTransitionEvent;
+    friend class vt_mode_manager::ModeEngine;
+    friend class vt_map::private_map::MapTransitionEvent;
     void _StartTransitionFadeOut(const Color &final, uint32 time) {
         _screen_fader.StartTransitionFadeOut(final, time);
     }
@@ -905,8 +906,8 @@ private:
     * \return the converted value
     */
     int32 _ScreenCoordY(float y);
-}; // class VideoEngine : public hoa_utils::Singleton<VideoEngine>
+}; // class VideoEngine : public vt_utils::Singleton<VideoEngine>
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __VIDEO_HEADER__

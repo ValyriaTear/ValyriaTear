@@ -11,12 +11,13 @@
 /** ***************************************************************************
 *** \file    dialog_boxes.cpp
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for all of the editor's dialog boxes.
 *** **************************************************************************/
 
 #include "dialog_boxes.h"
 
-namespace hoa_editor
+namespace vt_editor
 {
 
 
@@ -53,7 +54,7 @@ MapPropertiesDialog::MapPropertiesDialog
     connect(_cancel_pbut, SIGNAL(released()), this, SLOT(reject()));
 
     // Set up the list of selectable tilesets
-    QDir tileset_dir("img/tilesets");
+    QDir tileset_dir("dat/tilesets");
     _tileset_tree = new QTreeWidget(this);
     _tileset_tree->setColumnCount(1);
     _tileset_tree->setHeaderLabels(QStringList("Tilesets"));
@@ -63,9 +64,11 @@ MapPropertiesDialog::MapPropertiesDialog
 
     // Loop through all files in the tileset directory. Start the loop at 2 to
     // skip over the present and parent working directories ("." and "..")
+    // Also add the dat/tilesets path.
     for(uint32 i = 2; i < tileset_dir.count(); i++) {
+        QString tileset_definition_file = "dat/tilesets/" + tileset_dir[i];
         tilesets.append(new QTreeWidgetItem((QTreeWidget *)0,
-                                            QStringList(tileset_dir[i].remove(".png"))));
+                                            QStringList(tileset_definition_file)));
         tilesets.back()->setCheckState(0, Qt::Unchecked); // enables checkboxes
 
         // Indicates that the user wants to edit the map's existing properties
@@ -137,88 +140,6 @@ void MapPropertiesDialog::_EnableOKButton()
     _ok_pbut->setEnabled(false);
 } // MapPropertiesDialog::_EnableOKButton()
 
-////////////////////////////////////////////////////////////////////////////////
-// ContextPropertiesDialog class -- all functions
-////////////////////////////////////////////////////////////////////////////////
-
-ContextPropertiesDialog::ContextPropertiesDialog
-(QWidget *parent, const QString & /*name*/)
-    : QDialog(parent)
-{
-    setWindowTitle("Context Properties...");
-    _name_label = new QLabel("Context name", this);
-    _name_ledit = new QLineEdit(this);
-    connect(_name_ledit, SIGNAL(textEdited(const QString &)), this,
-            SLOT(_EnableOKButton()));
-
-    // Set up the cancel and okay push buttons
-    _cancel_pbut = new QPushButton("Cancel", this);
-    _ok_pbut     = new QPushButton("OK", this);
-    _cancel_pbut->setDefault(true);
-    // At construction nothing has been entered so disable the ok button
-    _ok_pbut->setEnabled(false);
-    connect(_ok_pbut,     SIGNAL(released()), this, SLOT(accept()));
-    connect(_cancel_pbut, SIGNAL(released()), this, SLOT(reject()));
-
-    _inherit_from_label = new QLabel("Inherit from", this);
-
-    // Set up the list of inheritable contexts
-    _context_tree = new QTreeWidget(this);
-    _context_tree->setColumnCount(2);
-    QStringList headers;
-    headers << "id" << "Name";
-    _context_tree->setHeaderLabels(headers);
-
-    // Get a reference to the Editor
-    Editor *editor = static_cast<Editor *>(parent);
-
-    // Loop through all files that are present in the tileset directory
-    QStringList context_names = editor->_ed_scrollarea->_map->GetContextNames();
-
-    uint32 id = 0;
-    for(QStringList::Iterator qit = context_names.begin();
-            qit != context_names.end(); ++qit) {
-        QTreeWidgetItem *background = new QTreeWidgetItem(_context_tree);
-        background->setText(0, QString::number(id));
-        background->setText(1, *qit);
-        ++id;
-    }
-
-    // Add all of the aforementioned widgets into a nice-looking grid layout
-    _dia_layout = new QGridLayout(this);
-    _dia_layout->addWidget(_name_label,   0, 0);
-    _dia_layout->addWidget(_name_ledit,   0, 1);
-    _dia_layout->addWidget(_inherit_from_label,   1, 0);
-    _dia_layout->addWidget(_context_tree, 1, 1, 5, -1);
-    _dia_layout->addWidget(_cancel_pbut,  6, 0);
-    _dia_layout->addWidget(_ok_pbut,      6, 1);
-} // ContextPropertiesDialog constructor
-
-
-ContextPropertiesDialog::~ContextPropertiesDialog()
-{
-    delete _name_label;
-    delete _name_ledit;
-    delete _cancel_pbut;
-    delete _ok_pbut;
-    delete _inherit_from_label;
-    delete _context_tree;
-    delete _dia_layout;
-} // ContextPropertiesDialog destructor
-
-
-// ********** Private slot **********
-
-void ContextPropertiesDialog::_EnableOKButton()
-{
-    // Disable the ok button if the line edit is empty.
-    // The default inheritable context is the base context.
-    if(_name_ledit->text() == "")
-        _ok_pbut->setEnabled(false);
-    else
-        _ok_pbut->setEnabled(true);
-} // ContextPropertiesDialog::_EnableOKButton()
-
 ///////////////////////////////////////////////////////////////////////////////
 // LayerDialog class -- all functions
 ///////////////////////////////////////////////////////////////////////////////
@@ -284,4 +205,4 @@ LayerInfo LayerDialog::_GetLayerInfo()
     return layer_info;
 }
 
-} // namespace hoa_editor
+} // namespace vt_editor

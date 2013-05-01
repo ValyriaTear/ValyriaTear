@@ -80,7 +80,7 @@ function Update()
     elapsed_time = elapsed_time + SystemManager:GetUpdateTime();
 
     if (lightning_1_triggered == false and elapsed_time > 800) then
-        Effects:EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0));
         AudioManager:PlaySound("snd/magic_blast.ogg");
         lightning_1_triggered = true;
     elseif (lightning_1_stopped == false and elapsed_time > 1000 ) then
@@ -89,7 +89,7 @@ function Update()
     end
 
     if (lightning_2_triggered == false and elapsed_time > 1700) then
-        Effects:EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0));
         AudioManager:PlaySound("snd/magic_blast.ogg");
         lightning_2_triggered = true;
     elseif (lightning_2_stopped == false and elapsed_time > 1900 ) then
@@ -98,7 +98,7 @@ function Update()
     end
 
     if (lightning_3_triggered == false and elapsed_time > 3000) then
-        Effects:EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, 1.0));
+        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0));
         AudioManager:PlaySound("snd/magic_blast.ogg");
         lightning_3_triggered = true;
     elseif (lightning_3_stopped == false and elapsed_time > 3400) then
@@ -107,7 +107,7 @@ function Update()
     end
 
     if (elapsed_time >= 4000 and elapsed_time < 8000) then
-        Effects:EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, 0.7 * (elapsed_time - 4000.0) / (8000.0 - 4000.0)));
+        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 0.7 * (elapsed_time - 4000.0) / (8000.0 - 4000.0)));
 
         -- Trigger the rumble and sprite shaking
         if (rumble_triggered == false) then
@@ -115,13 +115,13 @@ function Update()
             rumble_triggered = true;
         end
     elseif (elapsed_time >= 8000 and elapsed_time < 10000) then
-        Effects:EnableLightingOverlay(hoa_video.Color(1.0, 1.0, 1.0, 1.0 - (elapsed_time - 8000.0) / (10000.0 - 8000.0)));
+        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0 - (elapsed_time - 8000.0) / (10000.0 - 8000.0)));
     end
 
     -- Triggers snow representing the boss body ashes...
     if (death_particles_triggered == false and elapsed_time > 8000) then
         -- Make the wolf howls at the end
-        AudioManager:PlaySound("snd/makok_howl.ogg");
+        AudioManager:PlaySound("snd/wolf_howl.ogg");
 
         Battle:TriggerBattleParticleEffect("dat/effects/particles/boss_death_particle.lua",
                                            enemy_pos_x + 200, enemy_pos_y - 255);
@@ -150,14 +150,14 @@ end
 function DrawOnSprite()
     if (elapsed_time < 7800) then
         Script:DrawImage(light2_id, enemy_pos_x, enemy_pos_y + 30,
-            hoa_video.Color(1.0, 1.0, 1.0, 0.5 * elapsed_time / 4000.0));
+            vt_video.Color(1.0, 1.0, 1.0, 0.5 * elapsed_time / 4000.0));
     end
     if (elapsed_time >= 3000 and elapsed_time < 7800) then
         Script:DrawImage(light1_id, enemy_pos_x, enemy_pos_y + 30,
-            hoa_video.Color(1.0, 1.0, 1.0, 0.5 * (elapsed_time - 3000.0) / (7800.0 - 3000.0)));
+            vt_video.Color(1.0, 1.0, 1.0, 0.5 * (elapsed_time - 3000.0) / (7800.0 - 3000.0)));
     end
     if (elapsed_time >= 7800 and elapsed_time < 10000) then
         Script:DrawImage(light3_id, enemy_pos_x, enemy_pos_y + 30,
-            hoa_video.Color(1.0, 1.0, 1.0, 0.5 - 0.5 * ((elapsed_time - 8000.0) / (9000.0 - 8000.0))));
+            vt_video.Color(1.0, 1.0, 1.0, 0.5 - 0.5 * ((elapsed_time - 8000.0) / (9000.0 - 8000.0))));
     end
 end

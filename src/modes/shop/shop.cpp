@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for shop mode interface
 ***
 *** This code provides an interface for the user to purchase wares from a
@@ -18,9 +19,13 @@
 *** shop keeper.
 *** ***************************************************************************/
 
-#include <iostream>
+#include "shop.h"
 
-#include "defs.h"
+#include "shop_root.h"
+#include "shop_buy.h"
+#include "shop_sell.h"
+#include "shop_trade.h"
+
 #include "utils.h"
 
 #include "engine/audio/audio.h"
@@ -33,24 +38,20 @@
 #include "engine/mode_manager.h"
 #include "modes/pause.h"
 
-#include "shop.h"
-#include "shop_root.h"
-#include "shop_buy.h"
-#include "shop_sell.h"
-#include "shop_trade.h"
+#include <iostream>
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_mode_manager;
-using namespace hoa_shop::private_shop;
-using namespace hoa_pause;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_mode_manager;
+using namespace vt_shop::private_shop;
+using namespace vt_pause;
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 bool SHOP_DEBUG = false;
@@ -66,49 +67,6 @@ namespace private_shop
 
 ShopMedia::ShopMedia()
 {
-    if(_drunes_icon.Load("img/icons/drunes.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load drunes icon image" << std::endl;
-
-    if(_star_icon.Load("img/menus/star.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load star icon image" << std::endl;
-
-    if(_check_icon.Load("img/menus/green_check.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load check icon image" << std::endl;
-
-    if(_x_icon.Load("img/menus/red_x.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load x icon image" << std::endl;
-
-    if(!_shard_slot_icon.Load("img/menus/shard.png"))
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load shard icon image" << std::endl;
-
-    if(_equip_icon.Load("img/menus/equip.png") == false)
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load equip icon image" << std::endl;
-
-    if(!ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 8, 9))
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load elemental icon images" << std::endl;
-
-    if(!ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
-        PRINT_ERROR << "failed to load status icon images" << std::endl;
-
-    _sounds["confirm"] = new SoundDescriptor();
-    _sounds["cancel"] = new SoundDescriptor();
-    _sounds["coins"] = new SoundDescriptor();
-    _sounds["bump"] = new SoundDescriptor();
-
-    uint32 sound_load_failures = 0;
-    if(_sounds["confirm"]->LoadAudio("snd/confirm.wav") == false)
-        sound_load_failures++;
-    if(_sounds["cancel"]->LoadAudio("snd/cancel.wav") == false)
-        sound_load_failures++;
-    if(_sounds["coins"]->LoadAudio("snd/coins.wav") == false)
-        sound_load_failures++;
-    if(_sounds["bump"]->LoadAudio("snd/bump.wav") == false)
-        sound_load_failures++;
-
-    if(sound_load_failures > 0) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load " << sound_load_failures << " sounds needed by shop mode" << std::endl;
-    }
-
     _all_category_names.push_back(UTranslate("Items"));
     _all_category_names.push_back(UTranslate("Weapons"));
     _all_category_names.push_back(UTranslate("Head Armor"));
@@ -119,51 +77,8 @@ ShopMedia::ShopMedia()
     _all_category_names.push_back(UTranslate("Key Items"));
     _all_category_names.push_back(UTranslate("All Wares"));
 
-    if(!ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 4))
-        IF_PRINT_WARNING(SHOP_DEBUG) << "failed to load object category icon images" << std::endl;
-
-    // The last three images in this multi image are blank, so they are removed
-    _all_category_icons.pop_back();
-    _all_category_icons.pop_back();
-    _all_category_icons.pop_back();
-
-    // Determine which status effects correspond to which icons and store the result in the _status_indices container
-    hoa_script::ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-
-    std::vector<int32> status_types;
-    script_file.ReadTableKeys(status_types);
-
-    for(uint32 i = 0; i < status_types.size(); ++i) {
-        GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(status_types[i]);
-
-        // Check for duplicate entries of the same status effect
-        if(_status_indeces.find(status) != _status_indeces.end()) {
-            IF_PRINT_WARNING(SHOP_DEBUG) << "duplicate entry found in file " << script_file.GetFilename() <<
-                                         " for status type: " << status_types[i] << std::endl;
-            continue;
-        }
-
-        script_file.OpenTable(status_types[i]);
-        if(script_file.DoesIntExist("icon_index") == true) {
-            uint32 icon_index = script_file.ReadUInt("icon_index");
-            _status_indeces.insert(std::pair<GLOBAL_STATUS, uint32>(status, icon_index));
-        } else {
-            IF_PRINT_WARNING(SHOP_DEBUG) << "no icon_index member was found for status effect: " << status_types[i] << std::endl;
-        }
-        script_file.CloseTable();
-    }
-
     // Initialize the character's prites images.
     _InitializeCharacters();
-}
-
-
-
-ShopMedia::~ShopMedia()
-{
-    for(std::map<std::string, SoundDescriptor *>::iterator i = _sounds.begin(); i != _sounds.end(); i++)
-        delete i->second;
-    _sounds.clear();
 }
 
 
@@ -223,152 +138,6 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
     return &(_all_category_names[index]);
 }
 
-
-StillImage *ShopMedia::GetCategoryIcon(GLOBAL_OBJECT object_type)
-{
-    uint32 index = 0;
-
-    switch(object_type) {
-    case GLOBAL_OBJECT_ITEM:
-        index = 0;
-        break;
-    case GLOBAL_OBJECT_WEAPON:
-        index = 1;
-        break;
-    case GLOBAL_OBJECT_HEAD_ARMOR:
-        index = 2;
-        break;
-    case GLOBAL_OBJECT_TORSO_ARMOR:
-        index = 3;
-        break;
-    case GLOBAL_OBJECT_ARM_ARMOR:
-        index = 4;
-        break;
-    case GLOBAL_OBJECT_LEG_ARMOR:
-        index = 5;
-        break;
-    case GLOBAL_OBJECT_SHARD:
-        index = 6;
-        break;
-    case GLOBAL_OBJECT_TOTAL:
-        index = 7;
-        break;
-    default:
-        return NULL;
-    }
-
-    return &(_all_category_icons[index]);
-}
-
-
-StillImage *ShopMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity)
-{
-    const uint32 NUMBER_INTENSTIY_LEVELS = 9;
-
-    // Row/col coordinates for where the specific icon can be found in the multi image array
-    uint32 row = 0, col = 0;
-
-    // Elemental type determines the icon's row
-    switch(element_type) {
-    case GLOBAL_ELEMENTAL_FIRE:
-        row = 0;
-        break;
-    case GLOBAL_ELEMENTAL_WATER:
-        row = 1;
-        break;
-    case GLOBAL_ELEMENTAL_VOLT:
-        row = 2;
-        break;
-    case GLOBAL_ELEMENTAL_EARTH:
-        row = 3;
-        break;
-    case GLOBAL_ELEMENTAL_SLICING:
-        row = 4;
-        break;
-    case GLOBAL_ELEMENTAL_SMASHING:
-        row = 5;
-        break;
-    case GLOBAL_ELEMENTAL_MAULING:
-        row = 6;
-        break;
-    case GLOBAL_ELEMENTAL_PIERCING:
-        row = 7;
-        break;
-    default:
-        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid elemental type: " << element_type << std::endl;
-        return NULL;
-    }
-
-    // Intensity determines the icon's column
-    switch(intensity) {
-    case GLOBAL_INTENSITY_POS_EXTREME:
-        col = 0;
-        break;
-    case GLOBAL_INTENSITY_POS_GREATER:
-        col = 1;
-        break;
-    case GLOBAL_INTENSITY_POS_MODERATE:
-        col = 2;
-        break;
-    case GLOBAL_INTENSITY_POS_LESSER:
-        col = 3;
-        break;
-    case GLOBAL_INTENSITY_NEUTRAL:
-        col = 4;
-        break;
-    case GLOBAL_INTENSITY_NEG_LESSER:
-        col = 5;
-        break;
-    case GLOBAL_INTENSITY_NEG_MODERATE:
-        col = 6;
-        break;
-    case GLOBAL_INTENSITY_NEG_GREATER:
-        col = 7;
-        break;
-    case GLOBAL_INTENSITY_NEG_EXTREME:
-        col = 8;
-        break;
-    default:
-        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid intensity level: " << intensity << std::endl;
-        return NULL;
-    }
-
-    return &(_elemental_icons[(row * NUMBER_INTENSTIY_LEVELS) + col]);
-}
-
-StillImage *ShopMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity)
-{
-    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
-        PRINT_WARNING << "type argument was invalid: " << type << std::endl;
-        return NULL;
-    }
-    if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-        PRINT_WARNING << "type argument was invalid: " << intensity << std::endl;
-        return NULL;
-    }
-
-    std::map<GLOBAL_STATUS, uint32>::iterator status_entry = _status_indeces.find(type);
-    if(status_entry == _status_indeces.end()) {
-        PRINT_WARNING << "no entry in the status icon index for status type: " << type << std::endl;
-        return NULL;
-    }
-
-    const uint32 IMAGE_ROWS = 5;
-    uint32 status_index = status_entry->second;
-    uint32 intensity_index = static_cast<uint32>(intensity);
-    return &(_status_icons[(status_index * IMAGE_ROWS) + intensity_index]);
-}
-
-SoundDescriptor *ShopMedia::GetSound(const std::string &identifier)
-{
-    std::map<std::string, SoundDescriptor *>::iterator sound = _sounds.find(identifier);
-    if(sound != _sounds.end()) {
-        return sound->second;
-    } else {
-        return NULL;
-    }
-}
-
 // *****************************************************************************
 // ***** ShopObjectViewer class methods
 // *****************************************************************************
@@ -377,9 +146,11 @@ ShopObjectViewer::ShopObjectViewer() :
     _view_mode(SHOP_VIEW_MODE_LIST),
     _selected_object(NULL),
     _object_type(SHOP_OBJECT_INVALID),
+    _is_weapon(false),
     _map_usable(false),
     _battle_usable(false),
-    _target_type_index(0)
+    _target_type_index(0),
+    _shard_number(0)
 {
     // Initialize all properties of class members that we can
     _object_name.SetStyle(TextStyle("title24"));
@@ -424,14 +195,13 @@ ShopObjectViewer::ShopObjectViewer() :
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_ALLIES), TextStyle("text22")));
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_FOES), TextStyle("text22")));
 
-    _phys_header.SetStyle(TextStyle("text22"));
-    _phys_header.SetText(UTranslate("Phys:"));
-    _mag_header.SetStyle(TextStyle("text22"));
-    _mag_header.SetText(UTranslate("Mag:"));
+    _phys_header.SetStyle(TextStyle("text18"));
+    _phys_header.SetText(UTranslate("ATK:"));
+    _mag_header.SetStyle(TextStyle("text18"));
+    _mag_header.SetText(UTranslate("M.ATK:"));
 
-    _phys_rating.SetStyle(TextStyle("text22"));
-    _mag_rating.SetStyle(TextStyle("text22"));
-    _shard_slot_text.SetStyle(TextStyle("text22"));
+    _phys_rating.SetStyle(TextStyle("text18"));
+    _mag_rating.SetStyle(TextStyle("text18"));
 
     _conditions_title.SetStyle(TextStyle("text22"));
     _conditions_title.SetText(UTranslate("Conditions:"));
@@ -454,8 +224,19 @@ ShopObjectViewer::ShopObjectViewer() :
     _conditions_number.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _conditions_number.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
     _conditions_number.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
-}
 
+    GlobalMedia& media = GlobalManager->Media();
+    _check_icon = media.GetCheckIcon();
+    _x_icon = media.GetXIcon();
+    _shard_slot_icon = media.GetShardSlotIcon();
+    _equip_icon = media.GetEquipIcon();
+    _key_item_icon = media.GetKeyItemIcon();
+
+    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+}
 
 
 void ShopObjectViewer::Initialize()
@@ -466,12 +247,7 @@ void ShopObjectViewer::Initialize()
     _count_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
     _hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
 
-    _check_icon = ShopMode::CurrentInstance()->Media()->GetCheckIcon();
-    _x_icon = ShopMode::CurrentInstance()->Media()->GetXIcon();
-    _shard_slot_icon = ShopMode::CurrentInstance()->Media()->GetShardSlotIcon();
-    _equip_icon = ShopMode::CurrentInstance()->Media()->GetEquipIcon();
-
-    std::vector<hoa_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
+    std::vector<vt_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
     uint32 number_character = animations->size();
 
     for(uint32 i = 0; i < number_character; ++i) {
@@ -483,11 +259,10 @@ void ShopObjectViewer::Initialize()
 }
 
 
-
 void ShopObjectViewer::Update()
 {
     // Update active character animations.
-    std::vector<hoa_video::AnimatedImage *>::iterator it = _character_sprites.begin();
+    std::vector<vt_video::AnimatedImage *>::iterator it = _character_sprites.begin();
     for(; it != _character_sprites.end(); ++it) {
         if(!(*it)->IsGrayScale())
             (*it)->Update();
@@ -524,7 +299,13 @@ void ShopObjectViewer::Draw()
     // Object's name and icon are drawn in the same position for all objects
     _object_name.Draw();
     VideoManager->MoveRelative(0.0f, 55.0f);
-    _selected_object->GetObject()->GetIconImage().Draw();
+    GlobalObject* object = _selected_object->GetObject();
+    object->GetIconImage().Draw();
+    if (object->IsKeyItem()) {
+        VideoManager->MoveRelative(32.0f, 15.0f);
+        _key_item_icon->Draw();
+        VideoManager->MoveRelative(-32.0f, -15.0f);
+    }
 
     switch(_object_type) {
     case SHOP_OBJECT_ITEM:
@@ -708,9 +489,11 @@ void ShopObjectViewer::_SetEquipmentData()
     if(_selected_object->GetObject()->GetObjectType() == GLOBAL_OBJECT_WEAPON) {
         selected_weapon = dynamic_cast<GlobalWeapon *>(_selected_object->GetObject());
         usable_status = selected_weapon->GetUsableBy();
+        _is_weapon = true;
     } else {
         selected_armor = dynamic_cast<GlobalArmor *>(_selected_object->GetObject());
         usable_status = selected_armor->GetUsableBy();
+        _is_weapon = false;
 
         // Armor on GlobalCharacter objects are stored in 4-element vectors. The different armor type maps to one of these four elements
         switch(selected_armor->GetObjectType()) {
@@ -735,15 +518,19 @@ void ShopObjectViewer::_SetEquipmentData()
     // ---------- (2): Determine equipment's rating, socket, elemental effects, and status effects to report
 
     if(selected_weapon) {
+        _phys_header.SetText(UTranslate("ATK:"));
+        _mag_header.SetText(UTranslate("M.ATK:"));
         _phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
         _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack()));
-        _shard_slot_text.SetText("x" + NumberToString(selected_weapon->GetShardSlots().size()));
+        _shard_number = selected_weapon->GetShardSlots().size();
         _SetElementalIcons(selected_weapon->GetElementalEffects());
         _SetStatusIcons(selected_weapon->GetStatusEffects());
     } else if(selected_armor) {
+        _phys_header.SetText(UTranslate("DEF:"));
+        _mag_header.SetText(UTranslate("M.DEF:"));
         _phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
         _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense()));
-        _shard_slot_text.SetText("x" + NumberToString(selected_armor->GetShardSlots().size()));
+        _shard_number = selected_armor->GetShardSlots().size();
         _SetElementalIcons(selected_armor->GetElementalEffects());
         _SetStatusIcons(selected_armor->GetStatusEffects());
     }
@@ -972,7 +759,7 @@ void ShopObjectViewer::_SetElementalIcons(const std::vector<std::pair<GLOBAL_ELE
     for(std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
             it != elemental_effects.end(); ++it) {
         if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _elemental_icons.push_back(ShopMode::CurrentInstance()->Media()->GetElementalIcon(it->first, it->second));
+            _elemental_icons.push_back(GlobalManager->Media().GetElementalIcon(it->first, it->second));
     }
 }
 
@@ -982,7 +769,7 @@ void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS
     for(std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >::const_iterator it = status_effects.begin();
             it != status_effects.end(); ++it) {
         if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _status_icons.push_back(ShopMode::CurrentInstance()->Media()->GetStatusIcon(it->first, it->second));
+            _status_icons.push_back(GlobalManager->Media().GetStatusIcon(it->first, it->second));
     }
 }
 
@@ -1026,80 +813,89 @@ void ShopObjectViewer::_DrawItem()
 
 void ShopObjectViewer::_DrawEquipment()
 {
-    VideoManager->MoveRelative(80.0f, -15.0f);
+    VideoManager->MoveRelative(70.0f, -15.0f);
+    if (_is_weapon)
+        _atk_icon->Draw();
+    else
+        _def_icon->Draw();
+    VideoManager->MoveRelative(25.0f, 0.0f);
     _phys_header.Draw();
-    VideoManager->MoveRelative(0.0f, 30.0f);
+
+    VideoManager->MoveRelative(-25.0f, 30.0f);
+    if (_is_weapon)
+        _matk_icon->Draw();
+    else
+        _mdef_icon->Draw();
+    VideoManager->MoveRelative(25.0f, 0.0f);
     _mag_header.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
-    VideoManager->MoveRelative(90.0f, -30.0f);
+    VideoManager->MoveRelative(110.0f, -30.0f);
     _phys_rating.Draw();
     VideoManager->MoveRelative(0.0f, 30.0f);
     _mag_rating.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
-    VideoManager->MoveRelative(20.0f, -15.0f);
-    _shard_slot_icon->Draw();
-    VideoManager->MoveRelative(30.0f, 0.0f);
-    _shard_slot_text.Draw();
+    VideoManager->MoveRelative(20.0f, 0.0f);
+    for (uint32 i = 0; i < _shard_number; ++i) {
+        _shard_slot_icon->Draw();
+        VideoManager->MoveRelative(15.0f , 0.0f);
+    }
+    VideoManager->MoveRelative(-15.0f * (_shard_number > 5.0f ? 5.0f : _shard_number) , -35.0f);
 
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
-    VideoManager->MoveRelative(40.0f, -55.0f);
-
-    // Draw up to two columns of 4 elemental effects icons
+    // Draw elemental effect icons
     uint32 element_size = _elemental_icons.size();
-    for(uint32 i = 0; i < 4 && i < element_size; ++i) {
+    VideoManager->MoveRelative((18.0f * element_size) - 12.0f, 0.0f);
+    for(uint32 i = 0; i < element_size; ++i) {
         _elemental_icons[i]->Draw();
-        VideoManager->MoveRelative(0.0f, 25.0f);
+        VideoManager->MoveRelative(-18.0f, 0.0f);
     }
-    VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 4 ? 4 : element_size));
+    VideoManager->MoveRelative(0.0f, -25.0f);
 
-    // Draw a second column when there are many elemental effects.
-    if(element_size > 4) {
-        for(uint32 i = 4; i < 8 && i < element_size; ++i) {
-            _elemental_icons[i]->Draw();
-            VideoManager->MoveRelative(0.0f, 25.0f);
-        }
-
-        VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 8 ? 8 : element_size - 4));
-    }
-
-    // Draw up to two columns of 4 status effects icons
-    element_size = _status_icons.size();
-    for(uint32 i = 0; i < 4 && i < element_size; ++i) {
+    // Draw status effects icons
+    element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    VideoManager->MoveRelative((18.0f * element_size), 0.0f);
+    for(uint32 i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
-        VideoManager->MoveRelative(0.0f, 25.0f);
-    }
-    VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 4 ? 4 : element_size));
-    if(element_size > 4) {
-        for(uint32 i = 4; i < 8 && i < element_size; ++i) {
-            _status_icons[i]->Draw();
-            VideoManager->MoveRelative(0.0f, 25.0f);
-        }
-        VideoManager->MoveRelative(40.0f, -25.0f * (element_size > 8 ? 8 : element_size - 4));
+        VideoManager->MoveRelative(-18.0f, 0.0f);
     }
 
-    VideoManager->SetDrawFlags(VIDEO_Y_TOP, 0);
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(60.0f, -10.0f);
+        VideoManager->MoveRelative(210.0f, -20.0f);
     }
     else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
         // In info view mode, draw on the left side
-        VideoManager->Move(150.0f, 295.0f);
+        VideoManager->Move(170.0f, 295.0f);
     }
     else {
-    // In info view mode, draw the spites centered on the screen in a row below the other equipment data
-        VideoManager->Move(512.0f, 475.0f);
+        // In info view mode, draw the sprites centered on the screen
+        // in a row below the other equipment data
+        VideoManager->Move(512.0f, 295.0f);
         float x_offset = -20.0f * _character_sprites.size();
         VideoManager->MoveRelative(x_offset, 0.0f);
     }
-    for(uint32 i = 0; i < _character_sprites.size(); i++) {
-        // In list mode, there's only enough room to show 8 sprites
-        if((_view_mode == SHOP_VIEW_MODE_LIST) && (i >= 8)) {
-            break;
-        }
 
+    VideoManager->MoveRelative(-45.0f, 78.0f);
+    if (_is_weapon)
+        _atk_icon->Draw();
+    else
+        _def_icon->Draw();
+    VideoManager->MoveRelative(0.0f, 18.0f);
+    if (_is_weapon)
+        _matk_icon->Draw();
+    else
+        _mdef_icon->Draw();
+    VideoManager->MoveRelative(45.0f, -96.0f);
+
+    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, 0);
+
+    uint32 max_characters = _character_sprites.size();
+    // In list mode, there's only enough room to show 8 sprites
+    if ((_view_mode == SHOP_VIEW_MODE_LIST) && (max_characters > 8))
+        max_characters = 8;
+
+    for(uint32 i = 0; i < max_characters; ++i) {
         _character_sprites[i]->Draw();
 
         // Case 1: Draw the equip icon below the character sprite
@@ -1108,7 +904,7 @@ void ShopObjectViewer::_DrawEquipment()
             _equip_icon->Draw();
             VideoManager->MoveRelative(0.0f, -78.0f);
         }
-        // Case 2: Draw the phys/meta change text below the sprite
+        // Case 2: Draw the phys/mag change text below the sprite
         else if(!_character_sprites[i]->IsGrayScale()) {
             VideoManager->MoveRelative(0.0f, 65.0f);
             _phys_change_text[i].Draw();
@@ -1377,8 +1173,6 @@ void ShopMode::Update()
 
     // When the state is at the root interface ,ShopMode needs to process user input and possibly change state
     if(_state == SHOP_STATE_ROOT) {
-        SoundDescriptor *sound = NULL; // Used to hold pointers of sound objects to play
-
         if(InputManager->ConfirmPress()) {
             if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 3) {
                 IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
@@ -1387,9 +1181,7 @@ void ShopMode::Update()
             }
 
             _action_options.InputConfirm();
-            sound = ShopMode::CurrentInstance()->Media()->GetSound("confirm");
-            assert(sound != NULL);
-            sound->Play();
+            GlobalManager->Media().PlaySound("confirm");
 
             if(_action_options.GetSelection() == 0 && _action_options.IsOptionEnabled(0)) {  // Buy
                 ChangeState(SHOP_STATE_BUY);
@@ -1451,11 +1243,12 @@ void ShopMode::Draw()
     _bottom_window.Draw();
     _middle_window.Draw(); // Drawn last because the middle window has the middle upper and lower window borders attached
 
-    // ---------- (3): Draw the contents of the top window
+    // Draw the contents of the top window
+    StillImage *drunes_icon = GlobalManager->Media().GetDrunesIcon();
     VideoManager->Move(130.0f, 103.0f);
-    ShopMode::CurrentInstance()->Media()->GetDrunesIcon()->Draw();
+    drunes_icon->Draw();
     VideoManager->MoveRelative(705.0f, 0.0f);
-    ShopMode::CurrentInstance()->Media()->GetDrunesIcon()->Draw();
+    drunes_icon->Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
     VideoManager->Move(512.0f, 111.0f);
@@ -1714,16 +1507,9 @@ void ShopMode::CompleteTransaction()
         GlobalManager->AddToInventory(id, count);
 
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
-        // TODO fix error that happens when you trade all of one type of item in a trade
         for(uint32 i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
-            GlobalManager->DecrementObjectCount(it->second->GetObject()->GetTradeConditions()[i].first, it->second->GetObject()->GetTradeConditions()[i].second * count);
-            //GlobalObject *new_object = GlobalCreateNewObject(it->second->GetObject()->GetTradeConditions()[i].first, 1);
-            //if(new_object != NULL) {
-            //ShopObject new_shop_object(new_object);
-            //if(new_shop_object.GetOwnCount() == 0){
-            //RemoveObjectToSell(new_shop_object.GetObject()->GetID()); Maybe RemoveObjectToSell isn't the problem?
-            //}
-            //}
+            GlobalManager->DecrementObjectCount(it->second->GetObject()->GetTradeConditions()[i].first,
+                                                it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
 
         if(it->second->GetStockCount() == 0) {
@@ -1779,8 +1565,8 @@ void ShopMode::UpdateFinances(int32 change_amount)
         _finance_table.SetOptionText(1, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_change_amount)));
         _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else {
-        _finance_table.SetOptionText(1, hoa_utils::ustring());
-        _finance_table.SetOptionText(2, hoa_utils::ustring());
+        _finance_table.SetOptionText(1, vt_utils::ustring());
+        _finance_table.SetOptionText(2, vt_utils::ustring());
     }
 }
 
@@ -1954,4 +1740,4 @@ void ShopMode::RemoveObjectToTrade(uint32 object_id)
     _available_trade.erase(shop_iter);
 }
 
-} // namespace hoa_shop
+} // namespace vt_shop

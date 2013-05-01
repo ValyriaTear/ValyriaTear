@@ -10,18 +10,19 @@
 characters = {}
 
 characters[BRONANN] = {
-    name = hoa_system.Translate("Bronann"),
+    name = vt_system.Translate("Bronann"),
     portrait = "img/portraits/bronann.png",
     full_portrait = "img/portraits/bronann_full.png",
     battle_portraits = "img/portraits/battle/bronann_damage.png",
     stamina_icon = "img/icons/actors/characters/bronann.png",
     map_sprite_name = "Bronann",
-    special_skill_category_name = hoa_system.Translate("Holy"),
+    special_skill_category_name = vt_system.Translate("Holy"),
     special_skill_category_icon = "img/icons/battle/holy.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/bronann/bronann_idle.lua",
         run = "img/sprites/battle/characters/bronann/bronann_run.lua",
+        run_after_victory = "img/sprites/battle/characters/bronann/bronann_run_after_victory.lua",
         attack = "img/sprites/battle/characters/bronann/bronann_attack.lua",
         dodge = "img/sprites/battle/characters/bronann/bronann_dodge.lua",
         victory = "img/sprites/battle/characters/bronann/bronann_victory.lua",
@@ -56,40 +57,40 @@ characters[BRONANN] = {
     },
 
     attack_points = {
-        [hoa_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
-            name = hoa_system.Translate("Head"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
+            name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
-            name = hoa_system.Translate("Torso"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
+            name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.40,
             protection_modifier = 0.10,
             evade_modifier = -0.20
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
-            name = hoa_system.Translate("Arms"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
+            name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
-            name = hoa_system.Translate("Legs"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
+            name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
         }
     },
 
@@ -149,18 +150,19 @@ characters[BRONANN] = {
 } -- characters[BRONANN]
 
 characters[KALYA] = {
-    name = hoa_system.Translate("Kalya"),
+    name = vt_system.Translate("Kalya"),
     portrait = "img/portraits/kalya.png",
     full_portrait = "img/portraits/kalya_full.png",
     battle_portraits = "img/portraits/battle/kalya_damage.png",
     stamina_icon = "img/icons/actors/characters/kalya.png",
     map_sprite_name = "Kalya",
-    special_skill_category_name = hoa_system.Translate("Invocation"),
+    special_skill_category_name = vt_system.Translate("Invocation"),
     special_skill_category_icon = "img/icons/battle/invocation.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/kalya/kalya_idle.lua",
         run = "img/sprites/battle/characters/kalya/kalya_run.lua",
+        run_after_victory = "img/sprites/battle/characters/kalya/kalya_run.lua",
         attack = "img/sprites/battle/characters/kalya/kalya_attack.lua",
         dodge = "img/sprites/battle/characters/kalya/kalya_dodge.lua",
         victory = "img/sprites/battle/characters/kalya/kalya_victory.lua",
@@ -194,40 +196,40 @@ characters[KALYA] = {
     },
 
     attack_points = {
-        [hoa_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
-            name = hoa_system.Translate("Head"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
+            name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
-            name = hoa_system.Translate("Torso"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
+            name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.40,
             protection_modifier = 0.10,
             evade_modifier = -0.20
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
-            name = hoa_system.Translate("Arms"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
+            name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
-            name = hoa_system.Translate("Legs"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
+            name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
         }
     },
 
@@ -286,18 +288,19 @@ characters[KALYA] = {
 } -- characters[KALYA]
 
 characters[SYLVE] = {
-    name = hoa_system.Translate("Sylve"),
+    name = vt_system.Translate("Sylve"),
     portrait = "img/portraits/sylve.png",
     full_portrait = "img/portraits/sylve_full.png",
     battle_portraits = "img/portraits/battle/sylve_damage.png",
     stamina_icon = "img/icons/actors/characters/sylve.png",
     map_sprite_name = "Sylve",
-    special_skill_category_name = hoa_system.Translate("Mist"),
+    special_skill_category_name = vt_system.Translate("Mist"),
     special_skill_category_icon = "img/icons/battle/mist.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/sylve_idle.lua",
         run = "img/sprites/battle/characters/sylve_run.lua",
+        run_after_victory = "img/sprites/battle/characters/sylve_run.lua",
         attack = "img/sprites/battle/characters/sylve_run.lua",
         dodge = "img/sprites/battle/characters/sylve_idle.lua",
         victory = "img/sprites/battle/characters/sylve_idle.lua",
@@ -328,40 +331,40 @@ characters[SYLVE] = {
     },
 
     attack_points = {
-        [hoa_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
-            name = hoa_system.Translate("Head"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
+            name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
-            name = hoa_system.Translate("Torso"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
+            name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.40,
             protection_modifier = 0.10,
             evade_modifier = -0.20
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
-            name = hoa_system.Translate("Arms"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
+            name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
-            name = hoa_system.Translate("Legs"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
+            name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
         }
     },
 
@@ -420,18 +423,19 @@ characters[SYLVE] = {
 } -- characters[SYLVE]
 
 characters[THANIS] = {
-    name = hoa_system.Translate("Thanis"),
+    name = vt_system.Translate("Thanis"),
     portrait = "img/portraits/thanis.png",
     full_portrait = "img/portraits/thanis_full.png",
     battle_portraits = "img/portraits/battle/thanis_damage.png",
     stamina_icon = "img/icons/actors/characters/thanis.png",
     map_sprite_name = "Thanis",
-    special_skill_category_name = hoa_system.Translate("Acheron"),
+    special_skill_category_name = vt_system.Translate("Acheron"),
     special_skill_category_icon = "img/icons/battle/acheron.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/thanis_idle.lua",
         run = "img/sprites/battle/characters/thanis_run.lua",
+        run_after_victory = "img/sprites/battle/characters/thanis_run.lua",
         run_left = "img/sprites/battle/characters/thanis_run_left.lua",
         attack = "img/sprites/battle/characters/thanis_attack.lua",
         dodge = "img/sprites/battle/characters/thanis_idle.lua",
@@ -463,40 +467,40 @@ characters[THANIS] = {
     },
 
     attack_points = {
-        [hoa_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
-            name = hoa_system.Translate("Head"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_HEAD] = {
+            name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
-            name = hoa_system.Translate("Torso"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
+            name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.40,
             protection_modifier = 0.10,
             evade_modifier = -0.20
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
-            name = hoa_system.Translate("Arms"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
+            name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
         },
-        [hoa_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
-            name = hoa_system.Translate("Legs"),
+        [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
+            name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
         }
     },
 

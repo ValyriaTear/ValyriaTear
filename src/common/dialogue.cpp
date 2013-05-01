@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    dialogue.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for common dialogue code.
 *** ***************************************************************************/
 
@@ -21,12 +22,12 @@
 
 #include "engine/video/video.h"
 
-using namespace hoa_system;
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_gui;
+using namespace vt_system;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_gui;
 
-namespace hoa_common
+namespace vt_common
 {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35,7 +36,6 @@ namespace hoa_common
 
 CommonDialogue::CommonDialogue(uint32 id) :
     _dialogue_id(id),
-    _dialogue_seen(false),
     _line_count(0)
 {}
 
@@ -379,4 +379,4 @@ CommonDialogue *CommonDialogueSupervisor::GetDialogue(uint32 dialogue_id)
     }
 }
 
-} // namespace hoa_common
+} // namespace vt_common

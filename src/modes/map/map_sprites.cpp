@@ -22,16 +22,16 @@
 #include "modes/battle/battle.h"
 #include "common/global/global.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_mode_manager;
-using namespace hoa_video;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_battle;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_mode_manager;
+using namespace vt_video;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_battle;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -583,7 +583,7 @@ MapSprite::~MapSprite()
         delete _face_portrait;
 }
 
-bool _LoadAnimations(std::vector<hoa_video::AnimatedImage>& animations, const std::string &filename)
+bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std::string &filename)
 {
     // Prepare to add the animations for each directions, if needed.
 
@@ -592,7 +592,7 @@ bool _LoadAnimations(std::vector<hoa_video::AnimatedImage>& animations, const st
     for(uint8 i = 0; i < NUM_ANIM_DIRECTIONS; ++i)
         animations.push_back(AnimatedImage());
 
-    hoa_script::ReadScriptDescriptor animations_script;
+    vt_script::ReadScriptDescriptor animations_script;
     if(!animations_script.OpenFile(filename))
         return false;
 
@@ -606,7 +606,7 @@ bool _LoadAnimations(std::vector<hoa_video::AnimatedImage>& animations, const st
 
     std::string image_filename = animations_script.ReadString("image_filename");
 
-    if(!hoa_utils::DoesFileExist(image_filename)) {
+    if(!vt_utils::DoesFileExist(image_filename)) {
         PRINT_WARNING << "The image file doesn't exist: " << image_filename << std::endl;
         animations_script.CloseTable();
         animations_script.CloseFile();
@@ -803,7 +803,7 @@ void MapSprite::ReloadSprite(const std::string& sprite_name)
     if (sprite_name == GetSpriteName())
         return;
 
-    hoa_script::ReadScriptDescriptor& script = GlobalManager->GetMapSpriteScript();
+    vt_script::ReadScriptDescriptor& script = GlobalManager->GetMapSpriteScript();
 
     if (!script.IsFileOpen())
         return;
@@ -954,7 +954,7 @@ void MapSprite::Update()
     // Take care of adapting the update time according to the sprite speed when walking or running
     uint32 elapsed_time = 0;
     if(_animation == &_walking_animations || (_has_running_animations && _animation == &_running_animations)) {
-        elapsed_time = (uint32)(((float)hoa_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / movement_speed);
+        elapsed_time = (uint32)(((float)vt_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / movement_speed);
     }
 
     _animation->at(_current_anim_direction).Update(elapsed_time);
@@ -1342,4 +1342,4 @@ void EnemySprite::Draw()
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_mode.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode interface.
 *** ***************************************************************************/
 
@@ -32,21 +33,21 @@
 
 #include "common/global/global.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_boot;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_global;
-using namespace hoa_menu;
-using namespace hoa_pause;
-using namespace hoa_save;
-using namespace hoa_map::private_map;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_boot;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_global;
+using namespace vt_menu;
+using namespace vt_pause;
+using namespace vt_save;
+using namespace vt_map::private_map;
 
-namespace hoa_map
+namespace vt_map
 {
 
 // Initialize static class variables
@@ -293,7 +294,9 @@ void MapMode::Update()
     _event_supervisor->Update();
 
     //update collision camera
-    _minimap->Update(_camera, _gui_alpha);
+    if(_show_minimap && _minimap && (CurrentState() != STATE_SCENE)
+            && (CurrentState() != STATE_DIALOGUE))
+        _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
 } // void MapMode::Update()
@@ -305,10 +308,7 @@ void MapMode::Draw()
 
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    if(_draw_function.is_valid())
-        ScriptCallFunction<void>(_draw_function);
-    else
-        _DrawMapLayers();
+    _DrawMapLayers();
 
     VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawForeground();
@@ -428,6 +428,16 @@ void MapMode::AddSkyObject(MapObject *obj)
     _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
 }
 
+void MapMode::AddAmbientSoundObject(SoundObject *obj)
+{
+    if(!obj) {
+        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        return;
+    }
+
+    _object_supervisor->_sound_objects.push_back(obj);
+}
+
 
 void MapMode::AddZone(MapZone *zone)
 {
@@ -439,16 +449,15 @@ void MapMode::AddZone(MapZone *zone)
 }
 
 
-void MapMode::AddSavePoint(float x, float y, MAP_CONTEXT map_context)
+void MapMode::AddSavePoint(float x, float y)
 {
-    SavePoint *save_point = new SavePoint(x, y, map_context);
+    SavePoint *save_point = new SavePoint(x, y);
     _object_supervisor->_save_points.push_back(save_point);
 }
 
-void MapMode::AddHalo(const std::string &filename, float x, float y,
-                      const Color &color, MAP_CONTEXT map_context)
+void MapMode::AddHalo(const std::string &filename, float x, float y, const Color &color)
 {
-    Halo *halo = new Halo(filename, x, y, color, map_context);
+    Halo *halo = new Halo(filename, x, y, color);
     _object_supervisor->_halos.push_back(halo);
 }
 
@@ -456,14 +465,12 @@ void MapMode::AddLight(const std::string &main_flare_filename,
                        const std::string &secondary_flare_filename,
                        float x, float y,
                        const Color &main_color,
-                       const Color &secondary_color,
-                       MAP_CONTEXT map_context)
+                       const Color &secondary_color)
 {
     Light *light = new Light(main_flare_filename,
                              secondary_flare_filename,
                              x, y, main_color,
-                             secondary_color,
-                             map_context);
+                             secondary_color);
 
     AddLight(light);
 }
@@ -518,15 +525,6 @@ bool MapMode::IsCameraOnVirtualFocus()
     return _camera == _object_supervisor->VirtualFocus();
 }
 
-
-MAP_CONTEXT MapMode::GetCurrentContext() const
-{
-    if(_camera)
-        return _camera->GetContext();
-    return MAP_CONTEXT_01;
-}
-
-
 bool MapMode::AttackAllowed()
 {
     return (CurrentState() != STATE_DIALOGUE && CurrentState() != STATE_TREASURE && !IsCameraOnVirtualFocus());
@@ -551,16 +549,8 @@ float MapMode::GetScreenYCoordinate(float tile_position_y) const
 bool MapMode::_Load()
 {
     // Map data
-
-    _map_data_tablespace = ScriptEngine::GetTableSpace(_map_data_filename);
-    if(_map_data_tablespace.empty()) {
-        PRINT_ERROR << "Invalid map data namespace in: "
-                    << _map_data_filename << std::endl;
-        return false;
-    }
-
     // Clear out all old map data if existing.
-    ScriptManager->DropGlobalTable(_map_data_tablespace);
+    ScriptManager->DropGlobalTable("map_data");
 
     // Open map script file and read in the basic map properties and tile definitions
     if(!_map_script.OpenFile(_map_data_filename)) {
@@ -569,8 +559,8 @@ bool MapMode::_Load()
         return false;
     }
 
-    if(_map_script.OpenTablespace().empty()) {
-        PRINT_ERROR << "Couldn't open map data namespace in: "
+    if(!_map_script.OpenTable("map_data")) {
+        PRINT_ERROR << "Couldn't open table 'map_data' in: "
                     << _map_data_filename << std::endl;
         _map_script.CloseFile();
         return false;
@@ -643,7 +633,7 @@ bool MapMode::_Load()
         _audio_state = AUDIO_STATE_PLAYING; // Set the default music state to "playing".
 
     // Call the map script's custom load function and get a reference to all other script function pointers
-    ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), hoa_script::private_script::STACK_TOP));
+    ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), vt_script::private_script::STACK_TOP));
     ScriptObject function = map_table["Load"];
 
     bool loading_succeeded = true;
@@ -672,7 +662,6 @@ bool MapMode::_Load()
     }
 
     _update_function = _map_script.ReadFunctionPointer("Update");
-    _draw_function = _map_script.ReadFunctionPointer("Draw");
 
     _map_script.CloseAllTables();
     _map_script.CloseFile(); // Free the map script file once everything is loaded
@@ -985,7 +974,7 @@ void MapMode::_DrawMapLayers()
 
 
 
-void MapMode::_DrawStaminaBar(const hoa_video::Color &blending)
+void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 {
     const Color olive_green(0.0196f, 0.207f, 0.0196f, 1.0f);
     const Color lighter_green(0.419f, 0.894f, 0.0f, 1.0f);
@@ -1140,5 +1129,5 @@ void MapMode::_DrawGUI()
     VideoManager->PopState();
 } // void MapMode::_DrawGUI()
 
-} // namespace hoa_map
+} // namespace vt_map
 

@@ -8,9 +8,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
-*** \file   script_supervisor.h
-*** \author Yohann Ferreira, yohann ferreira orange fre
-*** \brief  Source file for managing scriptable animated effects for any game mode.
+*** \file    script_supervisor.h
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for managing scriptable animated effects for any game mode.
 *** **************************************************************************/
 
 #ifndef __SCRIPT_SUPERVISOR_HEADER__
@@ -19,6 +19,10 @@
 #include "utils.h"
 #include "engine/script/script_read.h"
 #include "engine/video/video.h"
+
+namespace vt_mode_manager {
+class GameMode;
+}
 
 class ScriptSupervisor
 {
@@ -44,7 +48,7 @@ public:
     /** \brief Initializes all data necessary for the scripts to begin
     *** \param gm The game mode initializing the scene component.
     **/
-    void Initialize(hoa_mode_manager::GameMode *gm);
+    void Initialize(vt_mode_manager::GameMode *gm);
 
     ///! \brief Updates the different animations and media
     void Update();
@@ -73,15 +77,19 @@ public:
 
     /** \brief Loads a custom lua animation files, to be drawn through scripting
     *** \param filename The filename of the new background image to load
+    *** \param width, height The animation image dimensions.
     *** \return id the id used to invoke the animation through scripted draw calls.
     **/
     int32 AddAnimation(const std::string &filename);
+    int32 AddAnimation(const std::string &filename, float width, float height);
 
     /** \brief Draws a custom animation.
     *** \param custom image id, obtained through AddCustomAnimation()
     *** \param position screen position to draw at.
+    *** \param color to blend the image at.
     **/
     void DrawAnimation(int32 id, float x, float y);
+    void DrawAnimation(int32 id, float x, float y, const vt_video::Color &color);
 
     /** \brief Loads a custom images, to be drawn through scripting
     *** \param filename The filename of the new background image to load
@@ -94,21 +102,22 @@ public:
     *** \param position screen position to draw at.
     *** \param color to blend the image at.
     **/
-    void DrawImage(int32 id, float x, float y, const hoa_video::Color &color = hoa_video::Color::white);
+    void DrawImage(int32 id, float x, float y);
+    void DrawImage(int32 id, float x, float y, const vt_video::Color &color);
 
     //! \brief Same than @DrawImage but with a given rotation.
-    void DrawRotatedImage(int32 id, float x, float y, const hoa_video::Color &color, float angle);
+    void DrawRotatedImage(int32 id, float x, float y, const vt_video::Color &color, float angle);
 
     //! \brief Used to permit changing a draw flag at boot time. Use with caution.
-    void SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag);
+    void SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag);
 
 private:
 
     //! \brief Contains a collection of custom loaded images, usable to be drawn through scripting.
-    std::vector<hoa_video::StillImage> _script_images;
+    std::vector<vt_video::StillImage> _script_images;
 
     //! \brief Contains a collection of custom loaded animations, usable to be drawn through scripting.
-    std::vector<hoa_video::AnimatedImage> _script_animations;
+    std::vector<vt_video::AnimatedImage> _script_animations;
 
     //! \name Script data
     //@{

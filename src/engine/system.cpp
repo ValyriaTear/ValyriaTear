@@ -9,10 +9,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file   system.cpp
-*** \author Tyler Olsen, roots@allacrost.org
-*** \author Andy Gardner, chopperdave@allacrost.org
-*** \brief  Source file for system code management
+*** \file    system.cpp
+*** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for system code management
 *** ***************************************************************************/
 
 #include "engine/system.h"
@@ -28,26 +29,36 @@
 #ifndef PATH_MAX
 #define PATH_MAX _MAX_PATH   // redefine _MAX_PATH to be compatible with Darwin's PATH_MAX
 #endif
-#elif defined __MACH__
+#elif defined __APPLE__
 #include <unistd.h>
 #include <cstdlib>
 #elif defined __linux__
 #include <limits.h>
 #endif
 
+#ifndef DISABLE_TRANSLATIONS
 #include <libintl.h>
+#endif
 
-using namespace hoa_utils;
-using namespace hoa_script;
-using namespace hoa_mode_manager;
+using namespace vt_utils;
+using namespace vt_script;
+using namespace vt_mode_manager;
 
-template<> hoa_system::SystemEngine *Singleton<hoa_system::SystemEngine>::_singleton_reference = NULL;
+template<> vt_system::SystemEngine *Singleton<vt_system::SystemEngine>::_singleton_reference = NULL;
 
-namespace hoa_system
+namespace vt_system
 {
 
 SystemEngine *SystemManager = NULL;
 bool SYSTEM_DEBUG = false;
+
+// If gettext translations are disabled, let's define a dummy gettext.
+#ifdef DISABLE_TRANSLATIONS
+const char* gettext(const char *text)
+{
+    return text;
+}
+#endif
 
 std::string Translate(const std::string &text)
 {
@@ -250,7 +261,7 @@ void SystemTimer::SetNumberLoops(int32 loops)
 
 
 
-void SystemTimer::SetModeOwner(hoa_mode_manager::GameMode *owner)
+void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 {
     if(IsInitial() == false) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << std::endl;
@@ -328,7 +339,7 @@ void Reinitl10n()
 
     std::string bind_text_domain_path;
 
-#if defined(_WIN32) || defined(__MACH__)
+#if defined(_WIN32) || defined(__APPLE__)
     char buffer[PATH_MAX];
     // Get the current working directory.
     bind_text_domain_path = getcwd(buffer, PATH_MAX);
@@ -348,10 +359,11 @@ void Reinitl10n()
 #else
     bind_text_domain_path = LOCALEDIR;
 #endif
-
+#ifndef DISABLE_TRANSLATIONS
     bindtextdomain(APPSHORTNAME, bind_text_domain_path.c_str());
     bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
     textdomain(APPSHORTNAME);
+#endif
 }
 
 
@@ -520,4 +532,4 @@ void SystemEngine::UnlockThread(Semaphore *s)
 #endif
 }
 
-} // namespace hoa_system
+} // namespace vt_system

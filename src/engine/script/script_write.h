@@ -11,19 +11,19 @@
 /** ****************************************************************************
 *** \file    script_write.h
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the WriteScriptDescriptor class.
 *** ***************************************************************************/
 
 #ifndef __SCRIPT_WRITE_HEADER__
 #define __SCRIPT_WRITE_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
 #include "script.h"
 
-namespace hoa_script
+#include "utils.h"
+
+namespace vt_script
 {
 
 /** ****************************************************************************
@@ -286,7 +286,7 @@ template <class T> void WriteScriptDescriptor::_WriteDataVector(const std::strin
         _outfile << key << " = { ";
     } else {
         _WriteTablePath();
-        if(hoa_utils::IsStringNumeric(key))
+        if(vt_utils::IsStringNumeric(key))
             _outfile << "[" << key << "] = { ";
         else
             _outfile << '.' << key << " = { ";
@@ -319,6 +319,6 @@ template <class T> void WriteScriptDescriptor::_WriteDataVector(const int32 key,
     _outfile << " }" << std::endl;
 }
 
-} // namespace hoa_script
+} // namespace vt_script
 
 #endif // __SCRIPT_WRITE_HEADER_

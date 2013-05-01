@@ -8,6 +8,12 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file    fade.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for ScreenFader class.
+*** ***************************************************************************/
 
 #include <cassert>
 #include <cstdarg>
@@ -20,10 +26,10 @@
 #include "engine/mode_manager.h"
 #endif
 
-using namespace hoa_utils;
-using namespace hoa_mode_manager;
+using namespace vt_utils;
+using namespace vt_mode_manager;
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -128,4 +134,4 @@ void ScreenFader::Draw()
 
 } // namespace private_video
 
-}  // namespace hoa_video
+}  // namespace vt_video

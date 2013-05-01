@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    option.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for OptionBox GUI control and supporting classes
 ***
 *** OptionBox is a type of GUI control that allows you to create several
@@ -25,7 +26,7 @@
 #include "engine/video/text.h"
 #include "engine/system.h"
 
-namespace hoa_gui
+namespace vt_gui
 {
 
 //! \brief The number of milliseconds it takes to scroll when the cursor goes past the end of an option box
@@ -216,10 +217,10 @@ public:
     std::vector<OptionElement> elements;
 
     //! \brief Contains all pieces of text for this option
-    std::vector<hoa_utils::ustring> text;
+    std::vector<vt_utils::ustring> text;
 
     //! \brief Contains all images used for this option
-    hoa_video::StillImage *image;
+    vt_video::StillImage *image;
 }; // class Option
 
 } // namespace private_gui
@@ -255,7 +256,7 @@ public:
     *** to be processed by the option box. Therefore it is recommended that
     *** this method be called on every frame while it is active.
     **/
-    void Update(uint32 frame_time = hoa_system::SystemManager->GetUpdateTime());
+    void Update(uint32 frame_time = vt_system::SystemManager->GetUpdateTime());
 
     //! \brief Draws each enabled option to the screen
     void Draw();
@@ -282,7 +283,7 @@ public:
     *** If any single option contains formatting errors, then the entire set of options will not be added.
     *** Example of an option with formatting: "<img/weapons/mythril.png>Mythril knife<r>500 drunes"
     **/
-    void SetOptions(const std::vector<hoa_utils::ustring>& option_text);
+    void SetOptions(const std::vector<vt_utils::ustring>& option_text);
 
     //! \brief Removes all options and their allocated data from the OptionBox
     void ClearOptions();
@@ -296,7 +297,7 @@ public:
     *** \param text The formatting text for the new option
     *** The option will not be added if it contained formatting errors.
     **/
-    void AddOption(const hoa_utils::ustring &text);
+    void AddOption(const vt_utils::ustring &text);
 
     /** \brief Appends a text string element to an existing option
     *** \param option_index The index of the option to append the text element to
@@ -304,7 +305,7 @@ public:
     *** \note This string is treated as pure text and formatting options embedded in the string will
     *** <b>not</b> be processed by this function.
     **/
-    void AddOptionElementText(uint32 option_index, const hoa_utils::ustring &text);
+    void AddOptionElementText(uint32 option_index, const vt_utils::ustring &text);
 
     /** \brief Appends an image element to an existing option
     *** \param option_index The index of the option to append the image element to
@@ -316,7 +317,7 @@ public:
     *** \param option_index The index of the option to append the image element to
     *** \param image A pointer to the image to create a copy of for the option (must be non-NULL)
     **/
-    void AddOptionElementImage(uint32 option_index, const hoa_video::StillImage *image);
+    void AddOptionElementImage(uint32 option_index, const vt_video::StillImage *image);
 
     /** \brief Appends an alignment element to an existing option
     *** \param option_index The index of the option to append the alignment element to
@@ -337,7 +338,7 @@ public:
     *** \param text The text to change the option to
     *** \return False if the option text could not be changed
     **/
-    bool SetOptionText(uint32 index, const hoa_utils::ustring &text);
+    bool SetOptionText(uint32 index, const vt_utils::ustring &text);
 
     /** \brief Sets the currently selected option (0 to # of options - 1)
     *** \param index The desired selection index in the list of options
@@ -363,7 +364,7 @@ public:
     *** \param index The index of the option to retrieve the image
     *** \return NULL if the index is invalid or the option does not embed an image, otherwise a valid pointer to a StillImage
     **/
-    hoa_video::StillImage *GetEmbeddedImage(uint32 index) const;
+    vt_video::StillImage *GetEmbeddedImage(uint32 index) const;
 
     /** \brief Used to determine whether the option box is initialized and ready for use
     *** \param error_messages Used to report the list of reasons why the option box is not initialized
@@ -455,7 +456,7 @@ public:
     /** \brief Sets the text style to use for this textbox.
     *** \param style The style intended \see #TextStyle
     **/
-    void SetTextStyle(const hoa_video::TextStyle &style);
+    void SetTextStyle(const vt_video::TextStyle &style);
 
     /** \brief Sets the state of the cursor icon
     *** \param state The cursor state to set
@@ -557,7 +558,7 @@ private:
     //! \name Drawing Related Members
     //@{
     //! \brief The text style that the options should be rendered in
-    hoa_video::TextStyle _text_style;
+    vt_video::TextStyle _text_style;
 
     //! \brief The column of row of data that is drawn in the top-left cell
     uint32 _draw_left_column, _draw_top_row;
@@ -627,7 +628,7 @@ private:
     *** \param option which option the string corresponds to
     *** \return True if the option was successfully constructed from the string, or false if there was an error.
     **/
-    bool _ConstructOption(const hoa_utils::ustring &format_string, private_gui::Option &option);
+    bool _ConstructOption(const vt_utils::ustring &format_string, private_gui::Option &option);
 
     /** \brief Changes the selected option by making a movement relative to the current selection
     *** \param offset The amount to move in specified direction (ie 1 row up, 1 column right, etc.)
@@ -656,10 +657,9 @@ private:
     /** \brief Draws a single option cell
     *** \param op The option contents to draw within the cell
     *** \param bounds The boundary coordinates for the information cell
-    *** \param scroll_offset A draw offset for when the option box is in the process of scrolling from one option to another
     *** \param left_edge Returns a coordinate that represents the left edge of the cell content (as opposed to strictly the cell boundary)
     **/
-    void _DrawOption(const private_gui::Option &op, const private_gui::OptionCellBounds &bounds, float cell_offset, float &left_edge);
+    void _DrawOption(const private_gui::Option &op, const private_gui::OptionCellBounds &bounds, float &left_edge);
 
     /** \brief Draws the cursor
     *** \param op The option contents to draw within the cell
@@ -677,6 +677,6 @@ private:
     void _DEBUG_DrawOutline();
 }; // class OptionBox : public private_gui::GUIControl
 
-} // namespace hoa_gui
+} // namespace vt_gui
 
 #endif  // __OPTION_HEADER__

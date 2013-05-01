@@ -13,6 +13,7 @@
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Andy Gardner, chopperdave@allacrost.org
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for actions that occur in battles.
 ***
 *** Actions are events that are carried out by actors and include the execution
@@ -22,7 +23,6 @@
 #ifndef __BATTLE_ACTIONS_HEADER__
 #define __BATTLE_ACTIONS_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "engine/system.h"
@@ -30,7 +30,7 @@
 
 #include "common/global/global.h"
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -88,7 +88,7 @@ public:
     }
 
     //! \brief Returns the name of the action that the player would read
-    virtual hoa_utils::ustring GetName() const = 0;
+    virtual vt_utils::ustring GetName() const = 0;
 
     //! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
     virtual uint32 GetWarmUpTime() const = 0;
@@ -115,7 +115,7 @@ public:
 
 protected:
     //! \brief The rendered text for the name of the action
-// 	hoa_video::TextImage _action_name;
+// 	vt_video::TextImage _action_name;
 
     //! \brief The actor who will be executing the action
     BattleActor *_actor;
@@ -149,7 +149,7 @@ protected:
 class SkillAction : public BattleAction
 {
 public:
-    SkillAction(BattleActor *actor, BattleTarget target, hoa_global::GlobalSkill *skill);
+    SkillAction(BattleActor *actor, BattleTarget target, vt_global::GlobalSkill *skill);
 
     bool IsItemAction() const {
         return false;
@@ -170,7 +170,7 @@ public:
     void Cancel()
     {}
 
-    hoa_utils::ustring GetName() const;
+    vt_utils::ustring GetName() const;
 
     uint32 GetWarmUpTime() const;
 
@@ -180,13 +180,13 @@ public:
 
     std::string GetActionName() const;
 
-    hoa_global::GlobalSkill *GetSkill() {
+    vt_global::GlobalSkill *GetSkill() {
         return _skill;
     }
 
 private:
     //! \brief Pointer to the skill attached to this script (for skill events only)
-    hoa_global::GlobalSkill *_skill;
+    vt_global::GlobalSkill *_skill;
 
     /** The functions of the possible attack animation skill.
     *** When valid, the Update function should be called until the function returns true.
@@ -226,7 +226,7 @@ public:
     ///! \brief Cancel a waiting action, putting back the item in available battle items.
     void Cancel();
 
-    hoa_utils::ustring GetName() const;
+    vt_utils::ustring GetName() const;
 
     uint32 GetWarmUpTime() const;
 
@@ -254,7 +254,7 @@ private:
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_ACTIONS_HEADER__
 

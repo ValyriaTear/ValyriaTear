@@ -8,6 +8,13 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ***************************************************************************
+*** \file    particle.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for particle effects
+*** **************************************************************************/
+
 #include "engine/video/particle_effect.h"
 #include "engine/video/particle_system.h"
 
@@ -15,10 +22,10 @@
 #include "engine/video/video.h"
 #include "engine/script/script_read.h"
 
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_script;
+using namespace vt_video;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
@@ -26,7 +33,11 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     _effect_def.Clear();
     _loaded = false;
 
-    hoa_script::ReadScriptDescriptor particle_script;
+    // Make sure the corresponding tables are empty
+    ScriptManager->DropGlobalTable("systems");
+    ScriptManager->DropGlobalTable("map_effect_collision");
+
+    vt_script::ReadScriptDescriptor particle_script;
     if(!particle_script.OpenFile(particle_file)) {
         PRINT_WARNING << "No script file: '"
                       << particle_file << "' The corresponding particle effect won't work."
@@ -35,8 +46,11 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     }
 
     // Read the particle image rectangle when existing
-    _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
-    _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+    if (particle_script.OpenTable("map_effect_collision")) {
+        _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
+        _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+        particle_script.CloseTable(); // map_effect_collision
+    }
 
     if(!particle_script.DoesTableExist("systems")) {
         PRINT_WARNING << "Could not find the 'systems' array in particle effect "
@@ -194,7 +208,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         std::vector<std::string>::const_iterator it, it_end;
         for(it = sys_def.animation_frame_filenames.begin(),
                 it_end = sys_def.animation_frame_filenames.end(); it != it_end; ++it) {
-            if(!hoa_utils::DoesFileExist(*it)) {
+            if(!vt_utils::DoesFileExist(*it)) {
                 PRINT_WARNING << "Could not find file: "
                               << *it << " in system #" << sys << " in particle effect "
                               << particle_file << std::endl;
@@ -319,7 +333,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
 }
 
 // A helper function reading a lua subtable of 4 float values.
-Color ParticleEffect::_ReadColor(hoa_script::ReadScriptDescriptor &particle_script,
+Color ParticleEffect::_ReadColor(vt_script::ReadScriptDescriptor &particle_script,
                                  const std::string &param_name)
 {
     std::vector<float> float_vec;
@@ -411,7 +425,7 @@ bool ParticleEffect::Draw()
 
 bool ParticleEffect::Update()
 {
-    return Update(static_cast<float>(hoa_system::SystemManager->GetUpdateTime()) / 1000.0f);
+    return Update(static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 1000.0f);
 }
 
 bool ParticleEffect::Update(float frame_time)
@@ -424,7 +438,7 @@ bool ParticleEffect::Update(float frame_time)
 
     bool success = true;
 
-    hoa_mode_manager::EffectParameters effect_parameters;
+    vt_mode_manager::EffectParameters effect_parameters;
     effect_parameters.orientation = _orientation;
 
     // note we subtract the effect position to put the attractor point in effect
@@ -521,4 +535,4 @@ void ParticleEffect::GetPosition(float &x, float &y) const
     y = _y;
 }
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager

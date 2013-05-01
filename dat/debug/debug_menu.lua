@@ -17,6 +17,7 @@ function BootMenuTest()
     GlobalManager:AddToInventory(10002, 10);
     GlobalManager:AddToInventory(10003, 10);
     GlobalManager:AddToInventory(10004, 1);
+    GlobalManager:AddToInventory(10999, 1);
     GlobalManager:AddToInventory(30011, 10);
     GlobalManager:AddToInventory(30012, 10);
     GlobalManager:AddToInventory(30013, 10);
@@ -28,15 +29,15 @@ function BootMenuTest()
     GlobalManager:AddQuestLog("bring_orlinn_back");
 
     -- Used to debug World Map
-    GlobalManager:SetWorldMap("img/menus/worldmaps/test_map.png")
+    GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:ShowWorldLocation("layna forest")
     GlobalManager:SetCurrentLocationId("layna forest")
 
     GlobalManager:SetMap("dummy_map", "dummy_script",
                          "img/menus/locations/desert_cave.png",
-                         hoa_utils.MakeUnicodeString("The Boot Menu"));
+                         vt_utils.MakeUnicodeString("The Boot Menu"));
 
-    local menu = hoa_menu.MenuMode();
+    local menu = vt_menu.MenuMode();
     ModeManager:Push(menu, false, false);
 end

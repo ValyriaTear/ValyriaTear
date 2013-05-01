@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for shop mode utility code.
 ***
 *** This file contains utility code that is shared among the various shop mode
@@ -24,14 +25,14 @@
 #include "shop_utils.h"
 #include "shop.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_gui;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_gui;
 
-using namespace hoa_global;
+using namespace vt_global;
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
@@ -429,7 +430,7 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject *shop_object)
     } else {
         GLOBAL_OBJECT object_type = _selected_object->GetObject()->GetObjectType();
         _name_text.SetText(*(ShopMode::CurrentInstance()->Media()->GetCategoryName(object_type)));
-        _object_icon = ShopMode::CurrentInstance()->Media()->GetCategoryIcon(object_type);
+        _object_icon = GlobalManager->Media().GetItemCategoryIcon(object_type);
     }
 }
 
@@ -569,4 +570,4 @@ void ObjectListDisplay::Draw()
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop

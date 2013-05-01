@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file   gui.h
 *** \author Raj Sharma, roos@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for GUI code
 ***
 *** This code implements the base structures of the video engine's GUI system.
@@ -23,13 +24,13 @@
 
 #include <map>
 
-namespace hoa_video
+namespace vt_video
 {
 class StillImage;
 class VideoEngine;
 }
 
-namespace hoa_gui
+namespace vt_gui
 {
 
 class GUISystem;
@@ -45,8 +46,8 @@ class MenuSkin;
 
 //! \brief 50% alpha colors used for debug drawing of GUI element outlines
 //@{
-const hoa_video::Color alpha_black(0.0f, 0.0f, 0.0f, 0.5f);
-const hoa_video::Color alpha_white(1.0f, 1.0f, 1.0f, 0.5f);
+const vt_video::Color alpha_black(0.0f, 0.0f, 0.0f, 0.5f);
+const vt_video::Color alpha_white(1.0f, 1.0f, 1.0f, 0.5f);
 //@}
 
 //! \brief Constants used as indeces to access the GUISystem#_scroll_arrows vector
@@ -242,10 +243,10 @@ protected:
 *** class which manages the GUI system. It also handles the drawing of the
 *** average frames per second (FPS) on the screen.
 *** ***************************************************************************/
-class GUISystem : public hoa_utils::Singleton<GUISystem>
+class GUISystem : public vt_utils::Singleton<GUISystem>
 {
-    friend class hoa_utils::Singleton<GUISystem>;
-    friend class hoa_video::VideoEngine;
+    friend class vt_utils::Singleton<GUISystem>;
+    friend class vt_video::VideoEngine;
     friend class MenuWindow;
     friend class TextBox;
     friend class OptionBox;
@@ -285,23 +286,23 @@ public:
 
     //! \brief Loads a single background color with no background image
     bool LoadMenuSkin(const std::string &skin_name, const std::string &border_image,
-                      const hoa_video::Color &background_color, bool make_default = false);
+                      const vt_video::Color &background_color, bool make_default = false);
 
     //! \brief Loads multiple multiple background colors with no background image
     bool LoadMenuSkin(const std::string &skin_name, const std::string &border_image,
-                      const hoa_video::Color &top_left, const hoa_video::Color &top_right,
-                      const hoa_video::Color &bottom_left, const hoa_video::Color &bottom_right, bool make_default = false);
+                      const vt_video::Color &top_left, const vt_video::Color &top_right,
+                      const vt_video::Color &bottom_left, const vt_video::Color &bottom_right, bool make_default = false);
 
     //! \brief Loads a background image with a single background color
     bool LoadMenuSkin(const std::string &skin_name, const std::string &border_image,
                       const std::string &background_image,
-                      const hoa_video::Color &background_color, bool make_default = false);
+                      const vt_video::Color &background_color, bool make_default = false);
 
     //! \brief Loads a background image with multiple background colors
     bool LoadMenuSkin(const std::string &skin_name, const std::string &border_image,
                       const std::string &background_image,
-                      const hoa_video::Color &top_left, const hoa_video::Color &top_right,
-                      const hoa_video::Color &bottom_left, const hoa_video::Color &bottom_right, bool make_default = false);
+                      const vt_video::Color &top_left, const vt_video::Color &top_right,
+                      const vt_video::Color &bottom_left, const vt_video::Color &bottom_right, bool make_default = false);
     //@}
 
     /** \brief Deletes a menu skin that has been loaded
@@ -333,7 +334,7 @@ public:
     }
 
     // Don't commit this.
-    std::vector<hoa_video::StillImage>* GetScrollArrows() {
+    std::vector<vt_video::StillImage>* GetScrollArrows() {
         return &_scroll_arrows;
     }
 
@@ -351,7 +352,7 @@ private:
     *** images represent up, down, left, right in that order, and the last four arrows follow this
     *** format as well.
     **/
-    std::vector<hoa_video::StillImage> _scroll_arrows;
+    std::vector<vt_video::StillImage> _scroll_arrows;
 
     /** \brief A map containing all of the menu skins which have been loaded
     *** The string argument is the reference name of the menu, which is defined
@@ -371,7 +372,7 @@ private:
     *** If no menu skins exist, this member will be NULL. It will never be NULL as long as one menu skin is loaded.
     *** If the default menu skin is deleted by the user, an alternative default skin will automatically be set.
     **/
-    hoa_gui::private_gui::MenuSkin *_default_skin;
+    vt_gui::private_gui::MenuSkin *_default_skin;
 
     //! \brief The next ID to assign to a MenuWindow when one is created
     uint32 _next_window_id;
@@ -414,8 +415,8 @@ private:
     *** Don't call this method anywhere else but from MenuWindow::Destroy(), or you may cause problems.
     **/
     void _RemoveMenuWindow(MenuWindow *old_window);
-}; // class GUISystem : public hoa_utils::Singleton<GUISystem>
+}; // class GUISystem : public vt_utils::Singleton<GUISystem>
 
-} // namespace hoa_gui
+} // namespace vt_gui
 
 #endif // __GUI_HEADER__

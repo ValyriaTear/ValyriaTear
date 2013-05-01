@@ -56,7 +56,7 @@ doc/SOURCE/html/*
 [0-9][0-9][0-9][0-9]-*.patch
 
 # static libraries
-*.a
+# *.a
 
 # files created by qmake
 *.cxx
@@ -75,3 +75,11 @@ valyriatear-win32-depends/*
 #files modified during runtime
 stderr.txt
 stdout.txt
+
+# Mac specific files
+.DS_Store
+ValyriaTear.xcodeproj/xcuserdata
+ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata
+Xcode/ValyriaTear.xcodeproj/xcuserdata
+Xcode/ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata
+Xcode/Release/*.dmg

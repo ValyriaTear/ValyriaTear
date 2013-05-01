@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    boot.cpp
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for boot mode interface.
 *** ***************************************************************************/
 
@@ -38,21 +39,21 @@
 #include <iostream>
 #include <sstream>
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
 
-using namespace hoa_global;
+using namespace vt_global;
 
-using namespace hoa_boot::private_boot;
+using namespace vt_boot::private_boot;
 
-namespace hoa_boot
+namespace vt_boot
 {
 
 bool BOOT_DEBUG = false;
@@ -142,12 +143,7 @@ BootMode::BootMode() :
     _boot_timer.EnableManualUpdate();
     _boot_timer.Run();
 
-    // Preload test sound
-    AudioManager->LoadSound("snd/volume_test.wav", this);
-    // Preload main sounds
-    AudioManager->LoadSound("snd/confirm.wav", this);
-    AudioManager->LoadSound("snd/cancel.wav", this);
-    AudioManager->LoadSound("snd/bump.wav", this);
+    // Preload new game sound
     AudioManager->LoadSound("snd/new_game.wav", this);
 } // BootMode::BootMode()
 
@@ -240,7 +236,7 @@ void BootMode::Update()
     if(help_window && help_window->IsActive()) {
         // Any key, except F1
         if(!InputManager->HelpPress() && InputManager->AnyKeyPress()) {
-            AudioManager->PlaySound("snd/confirm.wav");
+            GlobalManager->Media().PlaySound("confirm");
             help_window->Hide();
         }
         return;
@@ -327,10 +323,10 @@ void BootMode::Update()
         if(_active_menu->IsOptionEnabled(_active_menu->GetSelection())) {
             // Don't play the sound on New Games as they have their own sound
             if(_active_menu != &_main_menu && _active_menu->GetSelection() != -1)
-                AudioManager->PlaySound("snd/confirm.wav");
+                GlobalManager->Media().PlaySound("confirm");
         } else {
             // Otherwise play a different sound
-            AudioManager->PlaySound("snd/bump.wav");
+            GlobalManager->Media().PlaySound("bump");
         }
 
         _active_menu->InputConfirm();
@@ -364,7 +360,7 @@ void BootMode::Update()
         }
 
         // Play cancel sound
-        AudioManager->PlaySound("snd/cancel.wav");
+        GlobalManager->Media().PlaySound("cancel");
     }
 } // void BootMode::Update()
 
@@ -420,7 +416,7 @@ bool BootMode::_SavesAvailable(int32 maxId)
 {
     assert(maxId > 0);
     int32 savesAvailable = 0;
-    std::string data_path = GetUserDataPath(true);
+    std::string data_path = GetUserDataPath();
     for(int id = 0; id < maxId; ++id) {
         std::ostringstream f;
         f << data_path + "saved_game_" << id << ".lua";
@@ -576,7 +572,7 @@ void BootMode::_SetupLanguageOptionsMenu()
     uint32 table_size = read_data.GetTableSize();
 
     // Set up the dimensions of the window according to how many languages are available.
-    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, table_size);
+    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, (table_size > 8 ? 8 : table_size));
 
     _po_files.clear();
     for(uint32 i = 1; i <= table_size; i++) {
@@ -584,6 +580,12 @@ void BootMode::_SetupLanguageOptionsMenu()
         _po_files.push_back(read_data.ReadString(2));
         _language_options_menu.AddOption(MakeUnicodeString(read_data.ReadString(1)),
                                          &BootMode::_OnLanguageSelect);
+
+#ifdef DISABLE_TRANSLATIONS
+        // If translations are disabled, only admit the first entry (English)
+        if (i > 1)
+            _language_options_menu.EnableOption(i - 1, false);
+#endif
         read_data.CloseTable();
     }
 
@@ -759,7 +761,7 @@ void BootMode::_OnNewGame()
 
 void BootMode::_OnLoadGame()
 {
-    hoa_save::SaveMode *SVM = new hoa_save::SaveMode(false);
+    vt_save::SaveMode *SVM = new vt_save::SaveMode(false);
     ModeManager->Push(SVM);
 }
 
@@ -924,7 +926,7 @@ void BootMode::_OnSoundLeft()
     AudioManager->SetSoundVolume(AudioManager->GetSoundVolume() - 0.1f);
     _RefreshAudioOptions();
     // Play a sound for user to hear new volume level.
-    AudioManager->PlaySound("snd/volume_test.wav");
+    GlobalManager->Media().PlaySound("volume_test");
     _has_modified_settings = true;
 }
 
@@ -935,7 +937,7 @@ void BootMode::_OnSoundRight()
     AudioManager->SetSoundVolume(AudioManager->GetSoundVolume() + 0.1f);
     _RefreshAudioOptions();
     // Play a sound for user to hear new volume level.
-    AudioManager->PlaySound("snd/volume_test.wav");
+    GlobalManager->Media().PlaySound("volume_test");
     _has_modified_settings = true;
 }
 
@@ -1080,12 +1082,12 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     std::string fileTemp;
 
     // Load the settings file for reading in the original data
-    fileTemp = GetUserDataPath(false) + "/settings.lua";
+    fileTemp = GetUserConfigPath() + "/settings.lua";
 
     if(filename.empty())
         file = fileTemp;
     else
-        file = GetUserDataPath(false) + "/" + filename;
+        file = GetUserConfigPath() + "/" + filename;
 
     //copy the default file so we have an already set up lua file and then we can modify its settings
     if(!DoesFileExist(file))
@@ -1119,8 +1121,6 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("screen_resy", VideoManager->GetScreenHeight());
     settings_lua.WriteComment("Run the screen fullscreen/in a window");
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
-    settings_lua.WriteComment("Used smoothed tile sprites when playing");
-    settings_lua.WriteBool("smooth_graphics", VideoManager->ShouldSmoothPixelArt());
     settings_lua.EndTable(); // video_settings
 
     // audio
@@ -1369,4 +1369,4 @@ void BootMode::_SetQuitJoy(uint8 button)
     InputManager->SetQuitJoy(button);
 }
 
-} // namespace hoa_boot
+} // namespace vt_boot

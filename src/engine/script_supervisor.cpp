@@ -9,18 +9,18 @@
 
 /** ****************************************************************************
 *** \file    script_supervisor.cpp
-*** \author Yohann Ferreira, yohann ferreira orange fre
-*** \brief  Source file for managing scriptable animated effects for any game mode.
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for managing scriptable animated effects for any game mode.
 *** ***************************************************************************/
 
 #include "engine/script_supervisor.h"
 
 #include "engine/mode_manager.h"
 
-using namespace hoa_video;
-using namespace hoa_script;
+using namespace vt_video;
+using namespace vt_script;
 
-void ScriptSupervisor::Initialize(hoa_mode_manager::GameMode *gm)
+void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
 {
     // Open every possible scene script files registered and process them.
     for(uint32 i = 0; i < _script_filenames.size(); ++i) {
@@ -58,7 +58,7 @@ void ScriptSupervisor::Initialize(hoa_mode_manager::GameMode *gm)
     }
 }
 
-void ScriptSupervisor::SetDrawFlag(hoa_video::VIDEO_DRAW_FLAGS draw_flag)
+void ScriptSupervisor::SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag)
 {
     VideoManager->SetDrawFlags(draw_flag, 0);
 }
@@ -81,14 +81,12 @@ void ScriptSupervisor::Update()
         ReadScriptDescriptor::RunScriptObject(_update_functions[i]);
 }
 
-
 void ScriptSupervisor::DrawBackground()
 {
     // Handles custom scripted draw before sprites
     for(uint32 i = 0; i < _draw_background_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_draw_background_functions[i]);
 }
-
 
 void ScriptSupervisor::DrawForeground()
 {
@@ -116,16 +114,29 @@ int32 ScriptSupervisor::AddAnimation(const std::string &filename)
     return id;
 }
 
+int32 ScriptSupervisor::AddAnimation(const std::string &filename, float width,
+                                     float height)
+{
+    int32 id = AddAnimation(filename);
+    if (id > -1)
+        _script_animations[id].SetDimensions(width, height);
+
+    return id;
+}
 
 void ScriptSupervisor::DrawAnimation(int32 id, float x, float y)
+{
+   DrawAnimation(id, x, y, Color::white);
+}
+
+void ScriptSupervisor::DrawAnimation(int32 id, float x, float y, const Color& color)
 {
     if(id < 0 || id > static_cast<int32>(_script_animations.size()) - 1)
         return;
 
     VideoManager->Move(x, y);
-    _script_animations[id].Draw();
+    _script_animations[id].Draw(color);
 }
-
 
 int32 ScriptSupervisor::AddImage(const std::string &filename, float width,
                                  float height)
@@ -140,6 +151,11 @@ int32 ScriptSupervisor::AddImage(const std::string &filename, float width,
 
     int32 id = _script_images.size() - 1;
     return id;
+}
+
+void ScriptSupervisor::DrawImage(int32 id, float x, float y)
+{
+    DrawImage(id, x, y, Color::white);
 }
 
 void ScriptSupervisor::DrawImage(int32 id, float x, float y, const Color &color)

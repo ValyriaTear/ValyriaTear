@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    fade.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for ScreenFader class.
 *** ***************************************************************************/
 
@@ -20,7 +21,7 @@
 #include "color.h"
 #include "image.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -114,6 +115,6 @@ private:
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __FADE_HEADER__

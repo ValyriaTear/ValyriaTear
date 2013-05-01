@@ -11,7 +11,7 @@
 /** ****************************************************************************
 *** \file    mode_help_window.h
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
-*** \author  Bertram, yohann.ferreira@orange.fr
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the boot welcome window
 *** ***************************************************************************/
 
@@ -22,7 +22,7 @@
 #include "engine/video/text.h"
 #include "common/gui/option.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /** ****************************************************************************
@@ -69,27 +69,27 @@ private:
     bool _active;
 
     //! Window for the screen
-    hoa_gui::MenuWindow _window;
+    vt_gui::MenuWindow _window;
 
     //! \brief Rendered text of the header string
-    hoa_video::TextImage _text_header;
+    vt_video::TextImage _text_header;
 
     //! \brief An option box used as a header for the key table
-    hoa_gui::OptionBox _key_table_header;
+    vt_gui::OptionBox _key_table_header;
 
     //! \brief Stores the text for default key mappings in a table format
-    hoa_gui::OptionBox _key_table;
+    vt_gui::OptionBox _key_table;
 
     //! \brief Rendered text that tells the player how to move past the window
-    hoa_video::TextImage _text_additional;
+    vt_video::TextImage _text_additional;
 
     //! \brief Rendered text that tells the player how to move past the window
-    hoa_video::TextImage _text_continue;
+    vt_video::TextImage _text_continue;
 
     //! \brief Refresh the text shown according to the given game mode
     void _RefreshText();
 }; // class HelpWindow
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager
 
 #endif // __MODE_HELP_WINDOW__

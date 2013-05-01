@@ -8,16 +8,23 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ***************************************************************************
+*** \file    particle_system.cpp
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for particle system
+*** **************************************************************************/
+
 #include "video.h"
 
 #include "particle_system.h"
 #include "particle_keyframe.h"
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_video;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
@@ -854,4 +861,4 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
                                            _system_def->particle_lifetime_variation);
 }
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager

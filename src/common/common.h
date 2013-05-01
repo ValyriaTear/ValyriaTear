@@ -11,17 +11,18 @@
 /** ****************************************************************************
 *** \file    common.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for common code shared across the source tree
 *** ***************************************************************************/
 
 #ifndef __COMMON_HEADER__
 #define __COMMON_HEADER__
 
-namespace hoa_common {
+namespace vt_common {
 
-//! \brief Determines whether the code in the hoa_common namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_common namespace should print debug statements or not.
 extern bool COMMON_DEBUG;
 
-} // namespace hoa_common
+} // namespace vt_common
 
 #endif // __COMMON_HEADER__

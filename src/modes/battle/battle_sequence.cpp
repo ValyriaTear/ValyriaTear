@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_sequence.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle sequence manager.
 *** ***************************************************************************/
 
@@ -24,13 +25,13 @@
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_video;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -252,7 +253,7 @@ void SequenceSupervisor::_UpdateExitingSequence()
 
             if(!_one_is_dead) {
                 for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-                    _battle->_character_actors[i]->ChangeSpriteAnimation("run");
+                    _battle->_character_actors[i]->ChangeSpriteAnimation("run_after_victory");
                 }
             }
 
@@ -357,4 +358,4 @@ void SequenceSupervisor::_DrawGUI()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

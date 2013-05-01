@@ -70,10 +70,10 @@ function field_healing_potion(target, hit_points)
 end
 
 items[1] = {
-	name = hoa_system.Translate("Minor Healing Potion"),
-	description = hoa_system.Translate("Restores a small amount of hit points to an ally."),
+	name = vt_system.Translate("Minor Healing Potion"),
+	description = vt_system.Translate("Restores a small amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_small.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 30,
 	warmup_time = 1000,
 	cooldown_time = 700,
@@ -89,10 +89,10 @@ items[1] = {
 }
 
 items[2] = {
-	name = hoa_system.Translate("Medium Healing Potion"),
-	description = hoa_system.Translate("Restores a reasonable amount of hit points to an ally."),
+	name = vt_system.Translate("Medium Healing Potion"),
+	description = vt_system.Translate("Restores a reasonable amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_medium.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 200,
 	warmup_time = 1200,
 	cooldown_time = 900,
@@ -114,10 +114,10 @@ items[2] = {
 }
 
 items[3] = {
-	name = hoa_system.Translate("Healing Potion"),
-	description = hoa_system.Translate("Restores a large amount of hit points to an ally."),
+	name = vt_system.Translate("Healing Potion"),
+	description = vt_system.Translate("Restores a large amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_large.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 900,
 	warmup_time = 1200,
 	cooldown_time = 900,
@@ -139,10 +139,10 @@ items[3] = {
 }
 
 items[4] = {
-	name = hoa_system.Translate("Mega Healing Potion"),
-	description = hoa_system.Translate("Restores a very high amount of hit points to an ally."),
+	name = vt_system.Translate("Mega Healing Potion"),
+	description = vt_system.Translate("Restores a very high amount of hit points to an ally."),
 	icon = "img/icons/items/potion_green_large.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 5000,
 	warmup_time = 1200,
 	cooldown_time = 1200,
@@ -184,10 +184,10 @@ end
 
 
 items[11] = {
-	name = hoa_system.Translate("Small Moon Juice Potion"),
-	description = hoa_system.Translate("Restores a small amount of skill points to an ally."),
+	name = vt_system.Translate("Small Moon Juice Potion"),
+	description = vt_system.Translate("Restores a small amount of skill points to an ally."),
 	icon = "img/icons/items/potion_blue_small.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 90,
 	use_warmup_time = 1000,
 	cooldown_time = 1200,
@@ -203,10 +203,10 @@ items[11] = {
 }
 
 items[12] = {
-	name = hoa_system.Translate("Medium Moon Juice Potion"),
-	description = hoa_system.Translate("Restores a reasonable amount of skill points to an ally."),
+	name = vt_system.Translate("Medium Moon Juice Potion"),
+	description = vt_system.Translate("Restores a reasonable amount of skill points to an ally."),
 	icon = "img/icons/items/potion_blue_medium.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 380,
 	use_warmup_time = 1000,
 	cooldown_time = 1200,
@@ -222,10 +222,10 @@ items[12] = {
 }
 
 items[13] = {
-	name = hoa_system.Translate("Moon Juice Potion"),
-	description = hoa_system.Translate("Restores a large amount of skill points to an ally."),
+	name = vt_system.Translate("Moon Juice Potion"),
+	description = vt_system.Translate("Restores a large amount of skill points to an ally."),
 	icon = "img/icons/items/potion_blue_large.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 1300,
 	use_warmup_time = 1000,
 	cooldown_time = 1200,
@@ -241,10 +241,10 @@ items[13] = {
 }
 
 items[13] = {
-	name = hoa_system.Translate("Mega Moon Juice Potion"),
-	description = hoa_system.Translate("Restores a very high amount of skill points to an ally."),
+	name = vt_system.Translate("Mega Moon Juice Potion"),
+	description = vt_system.Translate("Restores a very high amount of skill points to an ally."),
 	icon = "img/icons/items/potion_blue_huge.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 	standard_price = 6100,
 	use_warmup_time = 1200,
 	cooldown_time = 1300,
@@ -266,12 +266,12 @@ items[13] = {
 decrement_negative_effects = function(target_actor, intensity)
     if (target_actor:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE, intensity, 30000);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE, intensity, 30000);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE, intensity, 30000);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE, intensity, 30000);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE, intensity, 30000);
-        target_actor:RegisterStatusChange(hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE, intensity, 30000);
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE, intensity, 30000);
 	AudioManager:PlaySound("snd/potion_drink.wav");
 	return true;
     else
@@ -281,10 +281,10 @@ decrement_negative_effects = function(target_actor, intensity)
 end
 
 items[1001] = {
-	name = hoa_system.Translate("Minor Elixir"),
-	description = hoa_system.Translate("Revive a character, or improve the character status when it is sane or reduces ailing status effects by a limited degree."),
+	name = vt_system.Translate("Minor Elixir"),
+	description = vt_system.Translate("Revive a character, or improve the character status when it is sane or reduces ailing status effects by a limited degree."),
 	icon = "img/icons/items/potion_red_small.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
 	standard_price = 50,
 	use_warmup_time = 1200,
 	cooldown_time = 1800,
@@ -294,7 +294,7 @@ items[1001] = {
         -- Decrement all base stats active negative status effects slightly
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
-            return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+            return decrement_negative_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
         else
             -- When dead, revive the character
             target_actor:RegisterRevive(1);
@@ -316,10 +316,10 @@ items[1001] = {
 }
 
 items[1003] = {
-	name = hoa_system.Translate("Elixir"),
-	description = hoa_system.Translate("Revive a character with half of its Hit Points, or reduces almost all its ailing status effects if the potion is drunk when alive."),
+	name = vt_system.Translate("Elixir"),
+	description = vt_system.Translate("Revive a character with half of its Hit Points, or reduces almost all its ailing status effects if the potion is drunk when alive."),
 	icon = "img/icons/items/potion_red_large.png",
-	target_type = hoa_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
 	standard_price = 1200,
 	use_warmup_time = 1600,
 	cooldown_time = 2100,
@@ -328,7 +328,7 @@ items[1003] = {
         target_actor = target:GetActor();
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
-            return decrement_negative_effects(target_actor, hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
+            return decrement_negative_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
         else
             -- When dead, revive the character
             target_actor:RegisterRevive(target_actor:GetMaxHitPoints() / 2.0);
@@ -361,24 +361,24 @@ items[1003] = {
 -- IDs 70001-80000 are reserved for "simple" key items
 --------------------------------------------------------------------------------
 items[70001] = {
-    name = hoa_system.Translate("Pen"),
-    description = hoa_system.Translate("Georges' pen, presumably used to write poetry."),
+    name = vt_system.Translate("Pen"),
+    description = vt_system.Translate("Georges' pen, presumably used to write poetry."),
     icon = "img/icons/items/key_items/ink.png",
     standard_price = 0,
     key_item = true
 }
 
 items[70002] = {
-    name = hoa_system.Translate("Barley Meal"),
-    description = hoa_system.Translate("Basic yet good and cheap flour."),
+    name = vt_system.Translate("Barley Meal"),
+    description = vt_system.Translate("Basic yet good and cheap flour."),
     icon = "img/icons/items/key_items/barley_meal_bag.png",
     standard_price = 0,
     key_item = true
 }
 
 items[70003] = {
-    name = hoa_system.Translate("Wolfpain Necklace"),
-    description = hoa_system.Translate("A strange necklace with unknown powers."),
+    name = vt_system.Translate("Wolfpain Necklace"),
+    description = vt_system.Translate("A strange necklace with unknown powers."),
     icon = "img/icons/items/key_items/necklace_wolfpain.png",
     standard_price = 0,
     key_item = true

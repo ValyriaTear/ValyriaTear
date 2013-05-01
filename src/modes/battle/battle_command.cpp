@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_command.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle menu windows
 *** ***************************************************************************/
 
@@ -25,16 +26,16 @@
 #include "modes/battle/battle_command.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -536,11 +537,11 @@ void ItemCommand::UpdateList()
     if(InputManager->UpPress()) {
         _item_list.InputUp();
         _item_target_list.InputUp();
-        BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+        GlobalManager->Media().PlaySound("confirm");
     } else if(InputManager->DownPress()) {
         _item_list.InputDown();
         _item_target_list.InputDown();
-        BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+        GlobalManager->Media().PlaySound("confirm");
     }
 }
 
@@ -705,11 +706,11 @@ void SkillCommand::UpdateList()
     if(InputManager->UpPress()) {
         _skill_list->InputUp();
         _target_n_cost_list->InputUp();
-        BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+        GlobalManager->Media().PlaySound("confirm");
     } else if(InputManager->DownPress()) {
         _skill_list->InputDown();
         _target_n_cost_list->InputDown();
-        BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+        GlobalManager->Media().PlaySound("confirm");
     }
 }
 
@@ -889,7 +890,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
         if (special_icon.empty())
             special_icon = "img/icons/battle/default_special.png";
 
-        hoa_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
+        vt_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
         _category_options.SetOptionText(CATEGORY_SPECIAL, MakeUnicodeString("<" + special_icon + ">\n\n") + special_name);
         _category_options.EnableOption(CATEGORY_SPECIAL, true);
         // Use special name from character config
@@ -982,13 +983,13 @@ void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
     // If the character currently selecting a command dies, we get out.
     if(character == actor) {
         _ChangeState(COMMAND_STATE_INVALID);
-        BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+        GlobalManager->Media().PlaySound("cancel");
         return;
     }
 
     // Update the selected target if the target is the actor who just deceased
     if(_selected_target.GetActor() == actor) {
-        BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+        GlobalManager->Media().PlaySound("cancel");
 
         // Try selecting the next actor and fall back to the previous command menu
         // if not possible.
@@ -1078,7 +1079,7 @@ bool CommandSupervisor::_SetInitialTarget()
         if(!_selected_target.SetInitialTarget(user, target_type)) {
             // No more target of that type, let's go back to the command state
             _selected_target.InvalidateTarget();
-            BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+            GlobalManager->Media().PlaySound("cancel");
             return false;
         }
     }
@@ -1143,7 +1144,7 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
         // Set the initial target if we're coming from the action selection state
         if(_state == COMMAND_STATE_ACTION) {
             if(!_SetInitialTarget()) {
-                BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+                GlobalManager->Media().PlaySound("cancel");
                 return;
             }
         }
@@ -1172,11 +1173,11 @@ void CommandSupervisor::_UpdateCategory()
         // is allowed to continue.
         if((BM->GetBattleType() == BATTLE_TYPE_WAIT || BM->GetBattleType() == BATTLE_TYPE_SEMI_ACTIVE)
             && (GetCommandCharacter()->GetState() == ACTOR_STATE_COMMAND)) {
-            BM->GetMedia().cancel_sound.Play();
+            GlobalManager->Media().PlaySound("cancel");
         } else {
             _ChangeState(COMMAND_STATE_INVALID);
             BM->NotifyCommandCancel();
-            BM->GetMedia().cancel_sound.Play();
+            GlobalManager->Media().PlaySound("cancel");
         }
     }
 
@@ -1184,20 +1185,20 @@ void CommandSupervisor::_UpdateCategory()
         if(_category_options.IsOptionEnabled(_category_options.GetSelection())) {
             _active_settings->SetLastCategory(_category_options.GetSelection());
             _ChangeState(COMMAND_STATE_ACTION);
-            BattleMode::CurrentInstance()->GetMedia().confirm_sound.Play();
+            GlobalManager->Media().PlaySound("confirm");
         } else {
-            BattleMode::CurrentInstance()->GetMedia().invalid_sound.Play();
+            GlobalManager->Media().PlaySound("cancel");
         }
     }
 
     else if(InputManager->LeftPress()) {
         _category_options.InputLeft();
-        BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+        GlobalManager->Media().PlaySound("confirm");
     }
 
     else if(InputManager->RightPress()) {
         _category_options.InputRight();
-        BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+        GlobalManager->Media().PlaySound("confirm");
     }
 }
 
@@ -1207,7 +1208,7 @@ void CommandSupervisor::_UpdateAction()
 {
     if(InputManager->CancelPress()) {
         _ChangeState(COMMAND_STATE_CATEGORY);
-        BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+        GlobalManager->Media().PlaySound("cancel");
         return;
     }
 
@@ -1218,15 +1219,15 @@ void CommandSupervisor::_UpdateAction()
             bool is_skill_enabled = _skill_command.GetSelectedSkillEnabled();
             if(is_skill_enabled == true) {
                 _ChangeState(COMMAND_STATE_ACTOR);
-                BattleMode::CurrentInstance()->GetMedia().confirm_sound.Play();
+                GlobalManager->Media().PlaySound("confirm");
             } else {
-                BattleMode::CurrentInstance()->GetMedia().invalid_sound.Play();
+                GlobalManager->Media().PlaySound("cancel");
             }
         }
 
         else if(InputManager->MenuPress()) {
             _ChangeState(COMMAND_STATE_INFORMATION);
-            BattleMode::CurrentInstance()->GetMedia().confirm_sound.Play();
+            GlobalManager->Media().PlaySound("confirm");
         }
 
         else {
@@ -1239,15 +1240,15 @@ void CommandSupervisor::_UpdateAction()
             // Permit the selection only where are items left.
             if(_selected_item != NULL && _item_command.IsSelectedItemAvailable()) {
                 _ChangeState(COMMAND_STATE_ACTOR);
-                BattleMode::CurrentInstance()->GetMedia().confirm_sound.Play();
+                GlobalManager->Media().PlaySound("confirm");
             } else {
-                BattleMode::CurrentInstance()->GetMedia().invalid_sound.Play();
+                GlobalManager->Media().PlaySound("cancel");
             }
         }
 
         else if(InputManager->MenuPress()) {
             _ChangeState(COMMAND_STATE_INFORMATION);
-            BattleMode::CurrentInstance()->GetMedia().confirm_sound.Play();
+            GlobalManager->Media().PlaySound("confirm");
         }
 
         else {
@@ -1266,7 +1267,7 @@ void CommandSupervisor::_UpdateActorTarget()
 {
     if(InputManager->CancelPress()) {
         _ChangeState(COMMAND_STATE_ACTION);
-        BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+        GlobalManager->Media().PlaySound("cancel");
     }
 
     else if(InputManager->ConfirmPress()) {
@@ -1289,7 +1290,7 @@ void CommandSupervisor::_UpdateActorTarget()
         if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
             _selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);
             _CreateActorTargetText();
-            BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+            GlobalManager->Media().PlaySound("confirm");
         }
     }
 }
@@ -1300,7 +1301,7 @@ void CommandSupervisor::_UpdateAttackPointTarget()
 {
     if(InputManager->CancelPress()) {
         _ChangeState(COMMAND_STATE_ACTOR);
-        BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+        GlobalManager->Media().PlaySound("cancel");
     }
 
     else if(InputManager->ConfirmPress()
@@ -1316,7 +1317,7 @@ void CommandSupervisor::_UpdateAttackPointTarget()
 
         _selected_target.SelectNextPoint(GetCommandCharacter(), InputManager->DownPress());
         _CreateAttackPointTargetText();
-        BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+        GlobalManager->Media().PlaySound("confirm");
     }
 }
 
@@ -1326,12 +1327,12 @@ void CommandSupervisor::_UpdateInformation()
 {
     if(InputManager->CancelPress() || InputManager->MenuPress()) {
         _state = COMMAND_STATE_ACTION;
-        BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+        GlobalManager->Media().PlaySound("cancel");
     }
 
     else if(InputManager->ConfirmPress()) {
         _ChangeState(COMMAND_STATE_ACTOR);
-        BattleMode::CurrentInstance()->GetMedia().cancel_sound.Play();
+        GlobalManager->Media().PlaySound("cancel");
     }
 
     // Change selected skill/item and update the information text
@@ -1340,11 +1341,11 @@ void CommandSupervisor::_UpdateInformation()
         if(_IsSkillCategorySelected() == true) {
             _skill_command.UpdateList();
             _selected_skill = _skill_command.GetSelectedSkill();
-            BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+            GlobalManager->Media().PlaySound("confirm");
         } else if(_IsItemCategorySelected() == true) {
             _item_command.UpdateList();
             _selected_item = _item_command.GetSelectedItem();
-            BattleMode::CurrentInstance()->GetMedia().cursor_sound.Play();
+            GlobalManager->Media().PlaySound("confirm");
         }
 
         _CreateInformationText();
@@ -1540,9 +1541,9 @@ void CommandSupervisor::_FinalizeCommand()
 
     _ChangeState(COMMAND_STATE_INVALID);
     BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
-    BattleMode::CurrentInstance()->GetMedia().finish_sound.Play();
+    GlobalManager->Media().PlaySound("confirm");
 }
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

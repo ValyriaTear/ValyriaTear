@@ -11,13 +11,23 @@
 -- check to see if the enemies table has already been created by another script
 enemies = {}
 
+-- Enemy hurt levels
+local HURT_NONE = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_NONE;
+local HURT_SLIGHTLY = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_SLIGHTLY;
+local HURT_MEDIUM = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_MEDIUM;
+local HURT_HEAVILY = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_HEAVILY;
+
 
 enemies[1] = {
-    name = hoa_system.Translate("Green Slime"),
+    name = vt_system.Translate("Green Slime"),
     stamina_icon = "img/icons/actors/enemies/green_slime.png",
-    battle_sprites = "img/sprites/battle/enemies/green_slime.png",
-    sprite_width = 64,
-    sprite_height = 64,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/green_slime_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/green_slime_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/green_slime_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/green_slime_3.lua"
+    },
 
     base_stats = {
         hit_points = 55,
@@ -34,7 +44,7 @@ enemies[1] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = 5,
             y_position = 34,
             fortitude_modifier = 0.0,
@@ -53,11 +63,15 @@ enemies[1] = {
 }
 
 enemies[2] = {
-    name = hoa_system.Translate("Spider"),
+    name = vt_system.Translate("Spider"),
     stamina_icon = "img/icons/actors/enemies/spider.png",
-    battle_sprites = "img/sprites/battle/enemies/spider.png",
-    sprite_width = 64,
-    sprite_height = 64,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/spider_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/spider_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/spider_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/spider_3.lua"
+    },
 
     base_stats = {
         hit_points = 65,
@@ -74,7 +88,7 @@ enemies[2] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -15,
             y_position = 33,
             fortitude_modifier = 0.0,
@@ -82,7 +96,7 @@ enemies[2] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Abdomen"),
+            name = vt_system.Translate("Abdomen"),
             x_position = 16,
             y_position = 57,
             fortitude_modifier = 0.2,
@@ -102,11 +116,15 @@ enemies[2] = {
 
 -- Layna forest first boss - 1st encounter
 enemies[3] = {
-    name = hoa_system.Translate("Fenrir"),
+    name = vt_system.Translate("Fenrir"),
     stamina_icon = "img/icons/actors/enemies/fenrir.png",
-    battle_sprites = "img/sprites/battle/enemies/fenrir_normal.png",
-    sprite_width = 268,
-    sprite_height = 196,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_1.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_1.lua"
+    },
 
     scripts = {
         death = "dat/battles/enemies_animations/fenrir_flee.lua"
@@ -127,7 +145,7 @@ enemies[3] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -108,
             y_position = 156,
             fortitude_modifier = -0.2,
@@ -135,7 +153,7 @@ enemies[3] = {
             evade_modifier = 0.2
         },
         [2] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 120,
             fortitude_modifier = 0.0,
@@ -156,11 +174,15 @@ enemies[3] = {
 
 
 enemies[4] = {
-    name = hoa_system.Translate("Snake"),
+    name = vt_system.Translate("Snake"),
     stamina_icon = "img/icons/actors/enemies/green_snake.png",
-    battle_sprites = "img/sprites/battle/enemies/green_snake.png",
-    sprite_width = 128,
-    sprite_height = 64,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/green_snake_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/green_snake_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/green_snake_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/green_snake_3.lua"
+    },
 
     base_stats = {
         hit_points = 80,
@@ -177,7 +199,7 @@ enemies[4] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -40,
             y_position = 60,
             fortitude_modifier = 0.0,
@@ -185,7 +207,7 @@ enemies[4] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = -6,
             y_position = 25,
             fortitude_modifier = 0.0,
@@ -193,13 +215,13 @@ enemies[4] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Tail"),
+            name = vt_system.Translate("Tail"),
             x_position = 14,
             y_position = 38,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
         }
     },
 
@@ -216,11 +238,15 @@ enemies[4] = {
 }
 
 enemies[5] = {
-    name = hoa_system.Translate("Slime Mother"),
+    name = vt_system.Translate("Slime Mother"),
     stamina_icon = "img/icons/actors/enemies/big_slime.png",
-    battle_sprites = "img/sprites/battle/enemies/big_slime.png",
-    sprite_width = 128,
-    sprite_height = 128,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/big_slime_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/big_slime_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/big_slime_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/big_slime_3.lua"
+    },
 
     base_stats = {
         hit_points = 355,
@@ -237,7 +263,7 @@ enemies[5] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = 5,
             y_position = 34,
             fortitude_modifier = 0.0,
@@ -258,11 +284,15 @@ enemies[5] = {
 
 
 enemies[6] = {
-    name = hoa_system.Translate("Bat"),
+    name = vt_system.Translate("Bat"),
     stamina_icon = "img/icons/actors/enemies/bat.png",
-    battle_sprites = "img/sprites/battle/enemies/bat.png",
-    sprite_width = 64,
-    sprite_height = 128,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/bat_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/bat_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/bat_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/bat_3.lua"
+    },
 
     base_stats = {
         hit_points = 75,
@@ -279,7 +309,7 @@ enemies[6] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Torso"),
+            name = vt_system.Translate("Torso"),
             x_position = 0,
             y_position = 95,
             fortitude_modifier = 0.2,
@@ -287,13 +317,13 @@ enemies[6] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Wing"),
+            name = vt_system.Translate("Wing"),
             x_position = -40,
             y_position = 90,
             fortitude_modifier = -0.5,
             protection_modifier = 0.0,
             evade_modifier = 0.4,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 25.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 25.0 }
         },
     },
 
@@ -309,11 +339,15 @@ enemies[6] = {
 
 -- Layna forest first boss - 2nd encounter
 enemies[7] = {
-    name = hoa_system.Translate("Fenrir"),
+    name = vt_system.Translate("Fenrir"),
     stamina_icon = "img/icons/actors/enemies/fenrir.png",
-    battle_sprites = "img/sprites/battle/enemies/fenrir_normal.png",
-    sprite_width = 268,
-    sprite_height = 196,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_1.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_1.lua"
+    },
 
     scripts = {
         death = "dat/battles/enemies_animations/fenrir_flee.lua"
@@ -334,7 +368,7 @@ enemies[7] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -108,
             y_position = 156,
             fortitude_modifier = -0.2,
@@ -342,7 +376,7 @@ enemies[7] = {
             evade_modifier = 0.2
         },
         [2] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 120,
             fortitude_modifier = 0.0,
@@ -364,11 +398,15 @@ enemies[7] = {
 
 -- Layna forest first boss - Last encounter
 enemies[8] = {
-    name = hoa_system.Translate("Fenrir"),
+    name = vt_system.Translate("Fenrir"),
     stamina_icon = "img/icons/actors/enemies/fenrir.png",
-    battle_sprites = "img/sprites/battle/enemies/fenrir_final.png",
-    sprite_width = 268,
-    sprite_height = 196,
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_3.lua"
+    },
 
     scripts = {
         death = "dat/battles/enemies_animations/fenrir_death.lua"
@@ -389,7 +427,7 @@ enemies[8] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -108,
             y_position = 156,
             fortitude_modifier = -0.2,
@@ -397,7 +435,7 @@ enemies[8] = {
             evade_modifier = 0.2
         },
         [2] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 120,
             fortitude_modifier = 0.0,
@@ -417,12 +455,17 @@ enemies[8] = {
 }
 
 enemies[9] = {
-    name = hoa_system.Translate("Dark Soldier"),
+    name = vt_system.Translate("Dark Soldier"),
     stamina_icon = "img/icons/actors/enemies/dark_soldier.png",
-    battle_sprites = "img/sprites/battle/enemies/dark_soldier.png",
-    sprite_width = 64,
-    sprite_height = 64,
 
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/dark_soldier_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/dark_soldier_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/dark_soldier_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/dark_soldier_0.lua"
+    },
+
+    -- TODO: Balance stats
     base_stats = {
         hit_points = 122,
         skill_points = 10,
@@ -432,36 +475,35 @@ enemies[9] = {
         protection = 4,
         agility = 14,
         evade = 2.0,
-        -- TODO: Balance XP and Drunes
         experience_points = 8,
         drunes = 12
     },
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
-            x_position = -6,
-            y_position = 23,
+            name = vt_system.Translate("Head"),
+            x_position = 0,
+            y_position = 280,
             fortitude_modifier = -0.2,
             protection_modifier = -0.2,
             evade_modifier = 0.2
         },
         [2] = {
-            name = hoa_system.Translate("Abdomen"),
-            x_position = 7,
-            y_position = 26,
+            name = vt_system.Translate("Abdomen"),
+            x_position = 0,
+            y_position = 200,
             fortitude_modifier = 0.4,
             protection_modifier = 0.3,
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Leg"),
-            x_position = 16,
-            y_position = 14,
+            name = vt_system.Translate("Legs"),
+            x_position = -20,
+            y_position = 100,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.1,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
         }
     },
 
@@ -475,6 +517,70 @@ enemies[9] = {
     }
 }
 
+enemies[10] = {
+    name = vt_system.Translate("Lord Banesore"),
+    stamina_icon = "img/icons/actors/enemies/lord_banesore.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/lord_banesore_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/lord_banesore_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/lord_banesore_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/lord_banesore_0.lua"
+    },
+
+    -- Special, unwinnable battle with no reward
+    base_stats = {
+        hit_points = 999999,
+        skill_points = 99999,
+        strength = 18, -- Just for the game
+        vigor = 999,
+        fortitude = 999,
+        protection = 999,
+        agility = 27,
+        evade = 8.0,
+        experience_points = 0,
+        drunes = 0
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -40,
+            y_position = 300,
+            fortitude_modifier = -0.2,
+            protection_modifier = -0.2,
+            evade_modifier = 0.2
+        },
+        [2] = {
+            name = vt_system.Translate("Abdomen"),
+            x_position = -40,
+            y_position = 200,
+            fortitude_modifier = 0.4,
+            protection_modifier = 0.3,
+            evade_modifier = 0.0
+        },
+        [3] = {
+            name = vt_system.Translate("Legs"),
+            x_position = -20,
+            y_position = 100,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.1,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+        }
+    },
+
+    skills = {
+        1006,
+        10001,
+        10004,
+        10005
+    },
+
+    drop_objects = {
+    }
+}
+
 -- ======== Unbalanced ========
 
 -- Traits -----------------------------------------------------------------------
@@ -485,7 +591,7 @@ enemies[9] = {
 -- XPD: med XP, low drunes
 --------------------------------------------------------------------------------
 enemies[59] = {
-    name = hoa_system.Translate("Scorpion"),
+    name = vt_system.Translate("Scorpion"),
     stamina_icon = "img/icons/actors/enemies/scorpion.png",
     battle_sprites = "img/sprites/battle/enemies/scorpion.png",
     sprite_width = 64,
@@ -506,7 +612,7 @@ enemies[59] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -6,
             y_position = 23,
             fortitude_modifier = 0.0,
@@ -514,7 +620,7 @@ enemies[59] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Abdomen"),
+            name = vt_system.Translate("Abdomen"),
             x_position = 7,
             y_position = 26,
             fortitude_modifier = 0.0,
@@ -522,13 +628,13 @@ enemies[59] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Leg"),
+            name = vt_system.Translate("Leg"),
             x_position = 16,
             y_position = 14,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
         }
     },
 
@@ -550,7 +656,7 @@ enemies[59] = {
 -- XPD: ??? XP, ??? drunes
 --------------------------------------------------------------------------------
 enemies[60] = {
-    name = hoa_system.Translate("Dune Crawler"),
+    name = vt_system.Translate("Dune Crawler"),
     stamina_icon = "img/icons/actors/enemies/dune_crawler.png",
     battle_sprites = "img/sprites/battle/enemies/dune_crawler.png",
     sprite_width = 64,
@@ -571,7 +677,7 @@ enemies[60] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -5,
             y_position = 22,
             fortitude_modifier = 0.0,
@@ -579,7 +685,7 @@ enemies[60] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Tail"),
+            name = vt_system.Translate("Tail"),
             x_position = 18,
             y_position = 45,
             fortitude_modifier = 0.0,
@@ -605,7 +711,7 @@ enemies[60] = {
 -- XPD: med XP, med drunes
 --------------------------------------------------------------------------------
 enemies[61] = {
-    name = hoa_system.Translate("Skeleton"),
+    name = vt_system.Translate("Skeleton"),
     stamina_icon = "img/icons/actors/enemies/skeleton.png",
     battle_sprites = "img/sprites/battle/enemies/skeleton.png",
     sprite_width = 64,
@@ -626,7 +732,7 @@ enemies[61] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -23,
             y_position = 108,
             fortitude_modifier = 0.0,
@@ -634,7 +740,7 @@ enemies[61] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Chest"),
+            name = vt_system.Translate("Chest"),
             x_position = -12,
             y_position = 82,
             fortitude_modifier = 0.0,
@@ -642,13 +748,13 @@ enemies[61] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Leg"),
+            name = vt_system.Translate("Leg"),
             x_position = -26,
             y_position = 56,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 20.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 20.0 }
         }
     },
 
@@ -669,7 +775,7 @@ enemies[61] = {
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
 enemies[62] = {
-    name = hoa_system.Translate("Stygian Lizard"),
+    name = vt_system.Translate("Stygian Lizard"),
     stamina_icon = "img/icons/actors/enemies/stygian_lizard.png",
     battle_sprites = "img/sprites/battle/enemies/stygian_lizard.png",
     sprite_width = 192,
@@ -690,7 +796,7 @@ enemies[62] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Eye"),
+            name = vt_system.Translate("Eye"),
             x_position = 10,
             y_position = 160,
             fortitude_modifier = 0.0,
@@ -698,7 +804,7 @@ enemies[62] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Torso"),
+            name = vt_system.Translate("Torso"),
             x_position = -13,
             y_position = 80,
             fortitude_modifier = 0.0,
@@ -706,7 +812,7 @@ enemies[62] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Claw"),
+            name = vt_system.Translate("Claw"),
             x_position = -60,
             y_position = 115,
             fortitude_modifier = 0.0,
@@ -733,7 +839,7 @@ enemies[62] = {
 -- XPD: med XP, med drunes
 --------------------------------------------------------------------------------
 enemies[63] = {
-    name = hoa_system.Translate("Demonic Essence"),
+    name = vt_system.Translate("Demonic Essence"),
     stamina_icon = "img/icons/actors/enemies/demonic_essence.png",
     battle_sprites = "img/sprites/battle/enemies/demonic_essence.png",
     sprite_width = 128,
@@ -754,7 +860,7 @@ enemies[63] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Face"),
+            name = vt_system.Translate("Face"),
             x_position = 0,
             y_position = 166,
             fortitude_modifier = 0.0,
@@ -762,7 +868,7 @@ enemies[63] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = -8,
             y_position = 114,
             fortitude_modifier = 0.0,
@@ -770,7 +876,7 @@ enemies[63] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Claw"),
+            name = vt_system.Translate("Claw"),
             x_position = -48,
             y_position = 108,
             fortitude_modifier = 0.0,
@@ -797,7 +903,7 @@ enemies[63] = {
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
 enemies[64] = {
-    name = hoa_system.Translate("Yeti"),
+    name = vt_system.Translate("Yeti"),
     stamina_icon = "img/icons/actors/enemies/yeti.png",
     battle_sprites = "img/sprites/battle/enemies/yeti.png",
     sprite_width = 128,
@@ -818,7 +924,7 @@ enemies[64] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Torso"),
+            name = vt_system.Translate("Torso"),
             x_position = -13,
             y_position = 80,
             fortitude_modifier = 0.0,
@@ -844,7 +950,7 @@ enemies[64] = {
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
 enemies[65] = {
-    name = hoa_system.Translate("Red Slime"),
+    name = vt_system.Translate("Red Slime"),
     stamina_icon = "img/icons/actors/enemies/red_slime.png",
     battle_sprites = "img/sprites/battle/enemies/red_slime.png",
     sprite_width = 64,
@@ -865,7 +971,7 @@ enemies[65] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = -13,
             y_position = 80,
             fortitude_modifier = 0.0,
@@ -891,7 +997,7 @@ enemies[65] = {
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
 enemies[66] = {
-    name = hoa_system.Translate("Thing"),
+    name = vt_system.Translate("Thing"),
     stamina_icon = "img/icons/actors/enemies/thing.png",
     battle_sprites = "img/sprites/battle/enemies/thing.png",
     sprite_width = 64,
@@ -912,7 +1018,7 @@ enemies[66] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = -13,
             y_position = 80,
             fortitude_modifier = 0.0,
@@ -938,7 +1044,7 @@ enemies[66] = {
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
 enemies[67] = {
-    name = hoa_system.Translate("Mushroom Zombie"),
+    name = vt_system.Translate("Mushroom Zombie"),
     stamina_icon = "img/icons/actors/enemies/mushroom_zombie.png",
     battle_sprites = "img/sprites/battle/enemies/mushroom_zombie.png",
     sprite_width = 64,
@@ -959,7 +1065,7 @@ enemies[67] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = -13,
             y_position = 80,
             fortitude_modifier = 0.0,
@@ -985,7 +1091,7 @@ enemies[67] = {
 -- XPD: low XP, med drunes
 --------------------------------------------------------------------------------
 enemies[68] = {
-    name = hoa_system.Translate("Rat"),
+    name = vt_system.Translate("Rat"),
     stamina_icon = "img/icons/actors/enemies/rat.png",
     battle_sprites = "img/sprites/battle/enemies/rat.png",
     sprite_width = 64,
@@ -1006,7 +1112,7 @@ enemies[68] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -24,
             y_position = 50,
             fortitude_modifier = 0.0,
@@ -1014,7 +1120,7 @@ enemies[68] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Chest"),
+            name = vt_system.Translate("Chest"),
             x_position = -8,
             y_position = 25,
             fortitude_modifier = 0.0,
@@ -1041,7 +1147,7 @@ enemies[68] = {
 -- Notes: First boss in prologue module
 --------------------------------------------------------------------------------
 enemies[91] = {
-    name = hoa_system.Translate("Scorpion Goliath"),
+    name = vt_system.Translate("Scorpion Goliath"),
     stamina_icon = "img/icons/actors/enemies/scorpion_goliath.png",
     battle_sprites = "img/sprites/battle/enemies/scorpion_goliath.png",
     sprite_width = 512,
@@ -1062,7 +1168,7 @@ enemies[91] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -30,
             y_position = 125,
             fortitude_modifier = 0.0,
@@ -1070,7 +1176,7 @@ enemies[91] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Pincer"),
+            name = vt_system.Translate("Pincer"),
             x_position = -190,
             y_position = 120,
             fortitude_modifier = 0.0,
@@ -1078,7 +1184,7 @@ enemies[91] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Leg"),
+            name = vt_system.Translate("Leg"),
             x_position = 200,
             y_position = 160,
             fortitude_modifier = 0.0,
@@ -1105,7 +1211,7 @@ enemies[91] = {
 -- Notes: Second boss in prologue module
 --------------------------------------------------------------------------------
 enemies[92] = {
-    name = hoa_system.Translate("Armored Beast"),
+    name = vt_system.Translate("Armored Beast"),
     stamina_icon = "img/icons/actors/enemies/armored_beast.png",
     battle_sprites = "img/sprites/battle/enemies/armored_beast.png",
     sprite_width = 256,
@@ -1126,7 +1232,7 @@ enemies[92] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Mesosoma"),
+            name = vt_system.Translate("Mesosoma"),
             x_position = -6,
             y_position = 23,
             fortitude_modifier = 0.0,
@@ -1134,7 +1240,7 @@ enemies[92] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Pincers"),
+            name = vt_system.Translate("Pincers"),
             x_position = 7,
             y_position = 26,
             fortitude_modifier = 0.0,
@@ -1142,7 +1248,7 @@ enemies[92] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Legs"),
+            name = vt_system.Translate("Legs"),
             x_position = 7,
             y_position = 26,
             fortitude_modifier = 0.0,
@@ -1162,7 +1268,7 @@ enemies[92] = {
 
 
 enemies[101] = {
-    name = hoa_system.Translate("Daemarbora"),
+    name = vt_system.Translate("Daemarbora"),
     stamina_icon = "img/icons/actors/enemies/daemarbora.png",
     battle_sprites = "img/sprites/battle/enemies/daemarbora.png",
     sprite_width = 128,
@@ -1183,7 +1289,7 @@ enemies[101] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Trunk"),
+            name = vt_system.Translate("Trunk"),
             x_position = -6,
             y_position = 36,
             fortitude_modifier = 0,
@@ -1191,7 +1297,7 @@ enemies[101] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Branches"),
+            name = vt_system.Translate("Branches"),
             x_position = 0,
             y_position = 80,
             fortitude_modifier = 0,
@@ -1211,7 +1317,7 @@ enemies[101] = {
 
 
 enemies[102] = {
-    name = hoa_system.Translate("Aerocephal"),
+    name = vt_system.Translate("Aerocephal"),
     stamina_icon = "img/icons/actors/enemies/aerocephal.png",
     battle_sprites = "img/sprites/battle/enemies/aerocephal.png",
     sprite_width = 192,
@@ -1232,7 +1338,7 @@ enemies[102] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Forehead"),
+            name = vt_system.Translate("Forehead"),
             x_position = -6,
             y_position = 127,
             fortitude_modifier = 0.0,
@@ -1240,7 +1346,7 @@ enemies[102] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Orifice"),
+            name = vt_system.Translate("Orifice"),
             x_position = -1,
             y_position = 77,
             fortitude_modifier = 0.0,
@@ -1260,7 +1366,7 @@ enemies[102] = {
 
 
 enemies[103] = {
-    name = hoa_system.Translate("Arcana Drake"),
+    name = vt_system.Translate("Arcana Drake"),
     stamina_icon = "img/icons/actors/enemies/arcana_drake.png",
     battle_sprites = "img/sprites/battle/enemies/arcana_drake.png",
     sprite_width = 192,
@@ -1281,7 +1387,7 @@ enemies[103] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -6,
             y_position = 167,
             fortitude_modifier = 0.0,
@@ -1289,7 +1395,7 @@ enemies[103] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Body"),
+            name = vt_system.Translate("Body"),
             x_position = -1,
             y_position = 111,
             fortitude_modifier = 0.0,
@@ -1297,7 +1403,7 @@ enemies[103] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Tail"),
+            name = vt_system.Translate("Tail"),
             x_position = -74,
             y_position = 146,
             fortitude_modifier = 0.0,
@@ -1317,7 +1423,7 @@ enemies[103] = {
 
 
 enemies[104] = {
-    name = hoa_system.Translate("Nagaruda"),
+    name = vt_system.Translate("Nagaruda"),
     stamina_icon = "img/icons/actors/enemies/nagaruda.png",
     battle_sprites = "img/sprites/battle/enemies/nagaruda.png",
     sprite_width = 192,
@@ -1338,7 +1444,7 @@ enemies[104] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -26,
             y_position = 165,
             fortitude_modifier = 0.0,
@@ -1346,7 +1452,7 @@ enemies[104] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Abdomen"),
+            name = vt_system.Translate("Abdomen"),
             x_position = -36,
             y_position = 115,
             fortitude_modifier = 0.0,
@@ -1354,7 +1460,7 @@ enemies[104] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Tail"),
+            name = vt_system.Translate("Tail"),
             x_position = -26,
             y_position = 65,
             fortitude_modifier = 0.0,
@@ -1374,7 +1480,7 @@ enemies[104] = {
 
 
 enemies[105] = {
-    name = hoa_system.Translate("Deceleon"),
+    name = vt_system.Translate("Deceleon"),
     stamina_icon = "img/icons/actors/enemies/deceleon.png",
     battle_sprites = "img/sprites/battle/enemies/deceleon.png",
     sprite_width = 256,
@@ -1395,7 +1501,7 @@ enemies[105] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -104,
             y_position = 226,
             fortitude_modifier = 0.0,
@@ -1403,7 +1509,7 @@ enemies[105] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Chest"),
+            name = vt_system.Translate("Chest"),
             x_position = -106,
             y_position = 190,
             fortitude_modifier = 0.0,
@@ -1411,7 +1517,7 @@ enemies[105] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Arm"),
+            name = vt_system.Translate("Arm"),
             x_position = -56,
             y_position = 155,
             fortitude_modifier = 0.0,
@@ -1419,7 +1525,7 @@ enemies[105] = {
             evade_modifier = 0.0
         },
         [4] = {
-            name = hoa_system.Translate("Legs"),
+            name = vt_system.Translate("Legs"),
             x_position = -106,
             y_position = 105,
             fortitude_modifier = 0.0,
@@ -1439,7 +1545,7 @@ enemies[105] = {
 
 
 enemies[106] = {
-    name = hoa_system.Translate("Aurum Drakueli"),
+    name = vt_system.Translate("Aurum Drakueli"),
     stamina_icon = "img/icons/actors/enemies/aurum_drakueli.png",
     battle_sprites = "img/sprites/battle/enemies/aurum_drakueli.png",
     sprite_width = 320,
@@ -1461,7 +1567,7 @@ enemies[106] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = -4,
             y_position = 222,
             fortitude_modifier = 0,
@@ -1469,7 +1575,7 @@ enemies[106] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Chest"),
+            name = vt_system.Translate("Chest"),
             x_position = 39,
             y_position = 155,
             fortitude_modifier = 0,
@@ -1477,7 +1583,7 @@ enemies[106] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Arm"),
+            name = vt_system.Translate("Arm"),
             x_position = 82,
             y_position = 143,
             fortitude_modifier = 0,
@@ -1496,7 +1602,7 @@ enemies[106] = {
 }
 
 enemies[107] = {
-    name = hoa_system.Translate("Kyle"),
+    name = vt_system.Translate("Kyle"),
     stamina_icon = "img/icons/actors/enemies/kyle.png",
     battle_sprites = "img/sprites/battle/enemies/kyle.png",
     sprite_width = 48,
@@ -1517,7 +1623,7 @@ enemies[107] = {
 
     attack_points = {
         [1] = {
-            name = hoa_system.Translate("Head"),
+            name = vt_system.Translate("Head"),
             x_position = 21,
             y_position = 80,
             fortitude_modifier = 0.0,
@@ -1525,7 +1631,7 @@ enemies[107] = {
             evade_modifier = 0.0
         },
         [2] = {
-            name = hoa_system.Translate("Chest"),
+            name = vt_system.Translate("Chest"),
             x_position = 21,
             y_position = 46,
             fortitude_modifier = 0.0,
@@ -1533,7 +1639,7 @@ enemies[107] = {
             evade_modifier = 0.0
         },
         [3] = {
-            name = hoa_system.Translate("Legs"),
+            name = vt_system.Translate("Legs"),
             x_position = 21,
             y_position = 14,
             fortitude_modifier = 0.0,

@@ -13,6 +13,7 @@
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Corey Hoffstein, visage@allacrost.org
 *** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for actors present in battles.
 *** ***************************************************************************/
 
@@ -28,15 +29,15 @@
 #include "engine/input.h"
 #include "engine/script/script.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -64,10 +65,13 @@ void BattleParticleEffect::DrawSprite()
 void BattleAmmo::DrawSprite()
 {
     // Draw potential sprite ammo
-    if(_shown) {
-        VideoManager->Move(GetXLocation(), GetYLocation());
-        _ammo_image.Draw();
-    }
+    if(!_shown)
+        return;
+
+    VideoManager->Move(GetXLocation(), GetYLocation());
+    _ammo_image.Draw(Color(0.0f, 0.0f, 0.0f, 0.6f));
+    VideoManager->MoveRelative(0.0f, -_flying_height);
+    _ammo_image.Draw();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -318,7 +322,8 @@ void BattleActor::Update()
     // Don't update the state timer when the battle tells is to pause
     // when in idle state.
     // Also don't elapse the status effect time when paused.
-    if (!BattleMode::CurrentInstance()->AreActorStatesPaused()) {
+    BattleMode *BM = BattleMode::CurrentInstance();
+    if (!BM->AreActorStatesPaused() && !BM->IsInSceneMode()) {
         // Don't update the state_timer if the character is hurt.
         if (!_hurt_timer.IsRunning()) {
 
@@ -344,7 +349,7 @@ void BattleActor::Update()
 
     _indicator_supervisor->Update();
 
-    if (_state_timer.IsFinished() == true) {
+    if (_state_timer.IsFinished()) {
         if (_state == ACTOR_STATE_IDLE) {
             // If an action is already set for the actor, skip the command state and immediately begin the warm up state
             if (_action == NULL)
@@ -418,7 +423,7 @@ void BattleActor::DrawIndicators() const
     _indicator_supervisor->Draw();
 }
 
-void BattleActor::DrawStaminaIcon(const hoa_video::Color &color) const
+void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
 {
     if(!IsAlive())
         return;
@@ -455,39 +460,6 @@ void BattleActor::SetAgility(uint32 agility)
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 }
 
-uint32 BattleActor::GetAverageDefense()
-{
-    uint32 phys_defense = 0;
-
-    for(uint32 i = 0; i < _attack_points.size(); i++)
-        phys_defense += _attack_points[i]->GetTotalPhysicalDefense();
-    phys_defense /= _attack_points.size();
-
-    return phys_defense;
-}
-
-uint32 BattleActor::GetAverageMagicalDefense()
-{
-    uint32 mag_defense = 0;
-
-    for(uint32 i = 0; i < _attack_points.size(); i++)
-        mag_defense += _attack_points[i]->GetTotalMagicalDefense();
-
-    mag_defense /= _attack_points.size();
-    return mag_defense;
-}
-
-float BattleActor::GetAverageEvadeRating()
-{
-    float evade = 0.0f;
-
-    for(uint32 i = 0; i < _attack_points.size(); i++)
-        evade += _attack_points[i]->GetTotalEvadeRating();
-    evade /= static_cast<float>(_attack_points.size());
-
-    return evade;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // BattleCharacter class
 ////////////////////////////////////////////////////////////////////////////////
@@ -522,6 +494,9 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
             weapon_animation = _global_character->GetWeaponEquipped()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
     if (weapon_animation.empty() || !_current_weapon_animation.LoadFromAnimationScript(weapon_animation))
         _current_weapon_animation.Clear();
+
+    // Prepare the flying height of potential ammo weapons
+    _ammo.SetFlyingHeight(GetSpriteHeight() / 2.0f);
 }
 
 void BattleCharacter::ResetActor()
@@ -599,6 +574,10 @@ void BattleCharacter::Update()
     _current_sprite_animation->Update();
     _current_weapon_animation.Update();
 
+    // In scene mode, only the animations are updated
+    if (BattleMode::CurrentInstance()->IsInSceneMode())
+        return;
+
     // Update potential scripted Battle action without hardcoded logic in that case
     if(_action && _action->IsScripted() && _state == ACTOR_STATE_ACTING) {
         if(!_action->Update())
@@ -619,6 +598,8 @@ void BattleCharacter::Update()
         if (_is_stunned || GetHitPoints() < (GetMaxHitPoints() / 4))
             ChangeSpriteAnimation("poor");
     } else if(_sprite_animation_alias == "run") {
+        // no need to do anything
+    } else if(_sprite_animation_alias == "run_after_victory") {
         // no need to do anything
     } else if(_sprite_animation_alias == "dying") {
         // no need to do anything, the change state will handle it
@@ -679,7 +660,7 @@ void BattleCharacter::DrawSprite()
     _current_weapon_animation.Draw();
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
-        VideoManager->MoveRelative(0, GetSpriteHeight());
+        VideoManager->MoveRelative(0, -GetSpriteHeight());
         BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
     }
 } // void BattleCharacter::DrawSprite()
@@ -905,6 +886,8 @@ BattleEnemy::BattleEnemy(GlobalEnemy *enemy) :
     }
 
     _LoadDeathAnimationScript();
+
+    _sprite_animations = _global_enemy->GetBattleAnimations();
 }
 
 void BattleEnemy::_LoadDeathAnimationScript()
@@ -999,6 +982,14 @@ void BattleEnemy::Update()
 {
     BattleActor::Update();
 
+    // Updates the sprites animations
+    for (uint32 i = 0; i < _sprite_animations->size(); ++i)
+        _sprite_animations->at(i).Update();
+
+    // In scene mode, only the animations are updated
+    if (BattleMode::CurrentInstance()->IsInSceneMode())
+        return;
+
     // Note: that update part only handles attack actions
     if(_state == ACTOR_STATE_ACTING) {
         if(_state_timer.PercentComplete() <= 0.50f)
@@ -1059,13 +1050,12 @@ void BattleEnemy::DrawSprite()
     if(_state == ACTOR_STATE_DEAD)
         return;
 
-    std::vector<StillImage>& sprite_frames = *(_global_enemy->GetBattleSpriteFrames());
     float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
     VideoManager->Move(_x_location, _y_location);
     // Alpha will range from 1.0 to 0.0 in the following calculations
     if(_state == ACTOR_STATE_DYING) {
-        sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
 
         try {
             if (_death_draw_on_sprite.is_valid())
@@ -1079,28 +1069,28 @@ void BattleEnemy::DrawSprite()
         }
 
     } else if(GetHitPoints() == GetMaxHitPoints()) {
-        sprite_frames[0].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
     } else if(hp_percent > 0.666f) {
-        sprite_frames[0].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
         float alpha = 1.0f - ((hp_percent - 0.666f) * 3.0f);
-        sprite_frames[1].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
     } else if(hp_percent >  0.333f) {
-        sprite_frames[1].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw();
         float alpha = 1.0f - ((hp_percent - 0.333f) * 3.0f);
-        sprite_frames[2].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
     } else { // (hp_precent > 0.0f)
-        sprite_frames[2].Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw();
         float alpha = 1.0f - (hp_percent * 3.0f);
-        sprite_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
     }
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
-        VideoManager->MoveRelative(0, GetSpriteHeight());
+        VideoManager->MoveRelative(0, -GetSpriteHeight());
         BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
     }
 } // void BattleEnemy::DrawSprite()
 
-void BattleEnemy::DrawStaminaIcon(const hoa_video::Color &color) const
+void BattleEnemy::DrawStaminaIcon(const vt_video::Color &color) const
 {
     if(!IsAlive())
         return;
@@ -1239,4 +1229,4 @@ void BattleEnemy::_DecideAction()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

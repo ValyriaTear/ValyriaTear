@@ -13,6 +13,7 @@
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Corey Hoffstein, visage@allacrost.org
 *** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for actors present in battles.
 ***
 *** This code contains the implementation of battle actors (characters and
@@ -22,7 +23,6 @@
 #ifndef __BATTLE_ACTORS_HEADER__
 #define __BATTLE_ACTORS_HEADER__
 
-#include "defs.h"
 #include "utils.h"
 
 #include "common/global/global_actors.h"
@@ -32,11 +32,15 @@
 #include "engine/video/text.h"
 #include "engine/video/particle_effect.h"
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
 {
+
+class BattleAction;
+class EffectsSupervisor;
+class IndicatorSupervisor;
 
 /** ****************************************************************************
 *** \brief An abstract class for representing an object in the battle
@@ -123,7 +127,7 @@ public:
 
 protected:
     //! The particle effect class used internally
-    hoa_mode_manager::ParticleEffect _effect;
+    vt_mode_manager::ParticleEffect _effect;
 };
 
 //! \brief The battle ammo class is made to represent an ammo image on the battle ground.
@@ -132,7 +136,7 @@ class BattleAmmo : public BattleObject
 public:
     BattleAmmo():
         BattleObject(),
-        _flying_height(0),
+        _flying_height(0.0f),
         _shown(false)
     {}
 
@@ -151,15 +155,15 @@ public:
         _ammo_image.LoadFromAnimationScript(filename);
     }
 
-    const hoa_video::AnimatedImage &GetAmmoImage() const {
+    const vt_video::AnimatedImage &GetAmmoImage() const {
         return _ammo_image;
     }
 
-    void SetFlyingHeight(uint32 height) {
+    void SetFlyingHeight(float height) {
         _flying_height = height;
     }
 
-    uint32 GetFlyingHeight() const {
+    float GetFlyingHeight() const {
         return _flying_height;
     }
 
@@ -173,12 +177,10 @@ public:
 
 protected:
     //! The actual ammo graphics used when firing
-    hoa_video::AnimatedImage _ammo_image;
-    // TODO: Later add a shadow to the ammo, to show its height
-    //hoa_video::AnimatedImage _ammo_shadow_image;
+    vt_video::AnimatedImage _ammo_image;
 
-    //! The height of the ammo compared to the ground (at which height the ammo flies).
-    uint32 _flying_height;
+    //! The pixel height of the ammo compared to the ground (at which height the ammo flies).
+    float _flying_height;
 
     //! Tells whether the ammo should be drawn on screen.
     bool _shown;
@@ -217,10 +219,10 @@ protected:
 *** use an item, or perform some sort of skill. Each actor is responsible for the
 *** management of the action that they intend to take.
 *** ***************************************************************************/
-class BattleActor : public hoa_global::GlobalActor, public BattleObject
+class BattleActor : public vt_global::GlobalActor, public BattleObject
 {
 public:
-    BattleActor(hoa_global::GlobalActor *actor);
+    BattleActor(vt_global::GlobalActor *actor);
 
     virtual ~BattleActor();
 
@@ -347,7 +349,7 @@ public:
     *** If the desired effect does yield a change in status, this function will prepare an indicator image
     *** to be displayed representing the change in status.
     **/
-    void RegisterStatusChange(hoa_global::GLOBAL_STATUS status, hoa_global::GLOBAL_INTENSITY intensity,
+    void RegisterStatusChange(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
                               uint32 duration = 0);
 
     /** Returns the reference of the indicators supervisor.
@@ -386,7 +388,7 @@ public:
     void DrawIndicators() const;
 
     //! \brief Draws the stamina icon - default implementation
-    virtual void DrawStaminaIcon(const hoa_video::Color &color = hoa_video::Color::white) const;
+    virtual void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
 
     /** \brief Sets the action that the actor should execute next
     *** \param action A pointer to the action that the actor should execute
@@ -445,22 +447,13 @@ public:
     }
     //@}
 
-    //! \brief Returns the average defense/evasion totals of all of the actor's attack points
-    //@{
-    uint32 GetAverageDefense();
-
-    uint32 GetAverageMagicalDefense();
-
-    float GetAverageEvadeRating();
-    //@}
-
     //! \name Class member access methods
     //@{
     ACTOR_STATE GetState() const {
         return _state;
     }
 
-    hoa_global::GlobalActor *GetGlobalActor() {
+    vt_global::GlobalActor *GetGlobalActor() {
         return _global_actor;
     }
 
@@ -489,11 +482,11 @@ public:
         return _idle_state_time;
     }
 
-    hoa_video::StillImage &GetStaminaIcon() {
+    vt_video::StillImage &GetStaminaIcon() {
         return _stamina_icon;
     }
 
-    hoa_system::SystemTimer &GetStateTimer() {
+    vt_system::SystemTimer &GetStateTimer() {
         return _state_timer;
     }
 
@@ -508,7 +501,7 @@ protected:
     ACTOR_STATE _state;
 
     //! \brief A pointer to the global actor object which the battle actor represents
-    hoa_global::GlobalActor *_global_actor;
+    vt_global::GlobalActor *_global_actor;
 
     //! \brief The ammo object. Use when the actor weapon uses ammo.
     BattleAmmo _ammo;
@@ -523,16 +516,16 @@ protected:
     uint32 _idle_state_time;
 
     //! \brief A timer used as the character progresses through the standard series of actor states
-    hoa_system::SystemTimer _state_timer;
+    vt_system::SystemTimer _state_timer;
 
     //! \brief A timer telling the time the character is hurt, making it visually shaking.
-    hoa_system::SystemTimer _hurt_timer;
+    vt_system::SystemTimer _hurt_timer;
 
     //! \brief Tells whether the actor is stunned, preventing its idle state time to update.
     bool _is_stunned;
 
     //! \brief Used to assist in the animation of actors as they move on the battlefield
-    hoa_system::SystemTimer _animation_timer;
+    vt_system::SystemTimer _animation_timer;
 
     //! \brief The x and y coordinates of the actor's current stamina icon on the stamina bar.
     float _x_stamina_location, _y_stamina_location;
@@ -558,7 +551,7 @@ protected:
 class BattleCharacter : public BattleActor
 {
 public:
-    BattleCharacter(hoa_global::GlobalCharacter *character);
+    BattleCharacter(vt_global::GlobalCharacter *character);
 
     ~BattleCharacter()
     {}
@@ -613,7 +606,7 @@ public:
     **/
     void DrawStatus(uint32 order, BattleCharacter* character_command);
 
-    hoa_global::GlobalCharacter *GetGlobalCharacter() {
+    vt_global::GlobalCharacter *GetGlobalCharacter() {
         return _global_character;
     }
 
@@ -623,7 +616,7 @@ public:
 
 protected:
     //! \brief A pointer to the global character object which the battle character represents
-    hoa_global::GlobalCharacter *_global_character;
+    vt_global::GlobalCharacter *_global_character;
 
     //! \brief Retrains the last HP and SP values that were rendered to text
     uint32 _last_rendered_hp, _last_rendered_sp;
@@ -638,25 +631,25 @@ protected:
     //! \brief The Animated image pointer from the global character
     //! Used to avoid calling the global character std::map find calls on each loops
     //! Don't delete it, it's just a reference to the global manager animated images
-    hoa_video::AnimatedImage *_current_sprite_animation;
+    vt_video::AnimatedImage *_current_sprite_animation;
 
     //! The current weapon animation loaded for the given weapon
-    hoa_video::AnimatedImage _current_weapon_animation;
+    vt_video::AnimatedImage _current_weapon_animation;
 
     //! \brief Rendered text of the character's name
-    hoa_video::TextImage _name_text;
+    vt_video::TextImage _name_text;
 
     //! \brief Rendered text of the character's current hit points
-    hoa_video::TextImage _hit_points_text;
+    vt_video::TextImage _hit_points_text;
 
     //! \brief Rendered text of the character's current skill points
-    hoa_video::TextImage _skill_points_text;
+    vt_video::TextImage _skill_points_text;
 
     //! \brief Rendered text of the character's currently selected action
-    hoa_video::TextImage _action_selection_text;
+    vt_video::TextImage _action_selection_text;
 
     //! \brief Rendered text of the character's currently selected target
-    hoa_video::TextImage _target_selection_text;
+    vt_video::TextImage _target_selection_text;
 }; // class BattleCharacter
 
 
@@ -668,7 +661,7 @@ protected:
 class BattleEnemy : public BattleActor
 {
 public:
-    BattleEnemy(hoa_global::GlobalEnemy *enemy);
+    BattleEnemy(vt_global::GlobalEnemy *enemy);
 
     ~BattleEnemy();
 
@@ -681,11 +674,11 @@ public:
     void ChangeState(ACTOR_STATE new_state);
 
     float GetSpriteWidth() const {
-        return _global_enemy->GetBattleSpriteFrames()->at(0).GetWidth();
+        return _global_enemy->GetSpriteWidth();
     }
 
     float GetSpriteHeight() const {
-        return _global_enemy->GetBattleSpriteFrames()->at(0).GetHeight();
+        return _global_enemy->GetSpriteHeight();
     }
 
     /** \brief Changes the battle enemy's current sprite animation image
@@ -707,7 +700,7 @@ public:
     //! \brief Draws the damage blended enemy sprite image on to the battle field
     void DrawSprite();
 
-    hoa_global::GlobalEnemy *GetGlobalEnemy() {
+    vt_global::GlobalEnemy *GetGlobalEnemy() {
         return _global_enemy;
     }
 
@@ -724,14 +717,18 @@ public:
     }
 
     //! \brief See BattleActor::DrawStaminaIcon()
-    void DrawStaminaIcon(const hoa_video::Color &color = hoa_video::Color::white) const;
+    void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
 
 protected:
     //! \brief A pointer to the global enemy object which the battle enemy represents
-    hoa_global::GlobalEnemy *_global_enemy;
+    vt_global::GlobalEnemy *_global_enemy;
 
     //! \brief An unsorted vector containing all the skills that the enemy may use
-    std::vector<hoa_global::GlobalSkill *> _enemy_skills;
+    std::vector<vt_global::GlobalSkill *> _enemy_skills;
+
+    //! \brief A pointer to the enemy battle animations
+    //! Do not delete it, the global enemy instance will take care of it.
+    std::vector<vt_video::AnimatedImage>* _sprite_animations;
 
     //! \brief Contains the identifier text of the current sprite animation
     std::string _sprite_animation_alias;
@@ -759,6 +756,6 @@ protected:
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_ACTORS_HEADER__

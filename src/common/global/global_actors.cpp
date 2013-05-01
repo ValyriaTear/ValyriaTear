@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_actors.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for global game actors
 *** ***************************************************************************/
 
@@ -21,12 +22,14 @@
 #include "global_effects.h"
 #include "global_skills.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_script;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_script;
 
-namespace hoa_global
+namespace vt_global
 {
+
+extern bool GLOBAL_DEBUG;
 
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalAttackPoint class
@@ -350,7 +353,37 @@ float GlobalActor::GetTotalEvadeRating(uint32 index) const
     return _attack_points[index]->GetTotalEvadeRating();
 }
 
+uint32 GlobalActor::GetAverageDefense()
+{
+    uint32 phys_defense = 0;
 
+    for(uint32 i = 0; i < _attack_points.size(); i++)
+        phys_defense += _attack_points[i]->GetTotalPhysicalDefense();
+    phys_defense /= _attack_points.size();
+
+    return phys_defense;
+}
+
+uint32 GlobalActor::GetAverageMagicalDefense()
+{
+    uint32 mag_defense = 0;
+
+    for(uint32 i = 0; i < _attack_points.size(); i++)
+        mag_defense += _attack_points[i]->GetTotalMagicalDefense();
+    mag_defense /= _attack_points.size();
+    return mag_defense;
+}
+
+float GlobalActor::GetAverageEvadeRating()
+{
+    float evade = 0.0f;
+
+    for(uint32 i = 0; i < _attack_points.size(); i++)
+        evade += _attack_points[i]->GetTotalEvadeRating();
+    evade /= static_cast<float>(_attack_points.size());
+
+    return evade;
+}
 
 GlobalArmor *GlobalActor::GetArmorEquipped(uint32 index) const
 {
@@ -1075,7 +1108,7 @@ void GlobalCharacter::_AddBareHandsSkill(uint32 skill_id)
     _bare_hands_skills.push_back(skill);
 }
 
-hoa_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)
+vt_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)
 {
     if(_battle_animation.find(name) == _battle_animation.end())
         return &_battle_animation["idle"];
@@ -1192,25 +1225,46 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
     // Load the enemy's name and sprite data
     _name = MakeUnicodeString(enemy_data.ReadString("name"));
-    _sprite_width = enemy_data.ReadInt("sprite_width");
-    _sprite_height = enemy_data.ReadInt("sprite_height");
 
-    // Attempt to load the MultiImage for the sprite's frames, which should contain one row and four columns of images
-    _battle_sprite_frames.assign(4, StillImage());
-    std::string sprite_filename = enemy_data.ReadString("battle_sprites");
-    if(!ImageDescriptor::LoadMultiImageFromElementGrid(_battle_sprite_frames, sprite_filename, 1, 4))
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load sprite frames for enemy: " << sprite_filename << std::endl;
+    // Attempt to load the animations for each harm levels
+    _battle_animations.assign(GLOBAL_ENEMY_HURT_TOTAL, AnimatedImage());
+    if (enemy_data.OpenTable("battle_animations" )) {
+        std::vector<uint32> animations_id;
+        std::vector<std::string> animations;
+        enemy_data.ReadTableKeys(animations_id);
+        for (uint32 i = 0; i < animations_id.size(); ++i) {
+            uint32 anim_id = animations_id[i];
+            if (anim_id >= GLOBAL_ENEMY_HURT_TOTAL) {
+                PRINT_WARNING << "Invalid table id in 'battle_animations' table for enemy: "
+                    << _id << std::endl;
+                continue;
+            }
+
+            _battle_animations[anim_id].LoadFromAnimationScript(enemy_data.ReadString(anim_id));
+
+            // Updates the sprite dimensions
+            if (_battle_animations[anim_id].GetWidth() > _sprite_width)
+                _sprite_width =_battle_animations[anim_id].GetWidth();
+            if (_battle_animations[anim_id].GetHeight() > _sprite_height)
+                _sprite_height =_battle_animations[anim_id].GetHeight();
+        }
+
+        enemy_data.CloseTable();
+    }
+    else {
+        PRINT_WARNING << "No 'battle_animations' table for enemy: " << _id << std::endl;
+    }
 
     std::string stamina_icon_filename = enemy_data.ReadString("stamina_icon");
     if(!stamina_icon_filename.empty()) {
-        if(!_stamina_icon.Load(stamina_icon_filename, 45.0f, 45.0f)) {
+        if(!_stamina_icon.Load(stamina_icon_filename)) {
             PRINT_WARNING << "Invalid stamina icon image: " << stamina_icon_filename
                           << " for enemy: " << MakeStandardString(_name) << ". Loading default one." << std::endl;
 
-            _stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
+            _stamina_icon.Load("img/icons/actors/default_stamina_icon.png");
         }
     } else {
-        _stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
+        _stamina_icon.Load("img/icons/actors/default_stamina_icon.png");
     }
 
     // Load the enemy's base stats
@@ -1623,4 +1677,4 @@ void GlobalParty::AddSkillPoints(uint32 sp)
     }
 }
 
-} // namespace hoa_global
+} // namespace vt_global

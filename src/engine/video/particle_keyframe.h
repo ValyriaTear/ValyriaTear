@@ -8,24 +8,25 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_keyframe.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle keyframes
- *
- * Particle properties are keyframed- for example, you can vary the size of a
- * particle along its lifetime, to create some interesting effects. The
- * ParticleKeyframe class contains all of the keyframed properties for a given
- * snapshot in time (time ranges from 0.0 to 1.0), and these keyframes are stored
- * in the ParticleSystemDef class.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_keyframe.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle keyframes
+***
+*** Particle properties are keyframed- for example, you can vary the size of a
+*** particle along its lifetime, to create some interesting effects. The
+*** ParticleKeyframe class contains all of the keyframed properties for a given
+*** snapshot in time (time ranges from 0.0 to 1.0), and these keyframes are stored
+*** in the ParticleSystemDef class.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_KEYFRAME_HEADER__
 #define __PARTICLE_KEYFRAME_HEADER__
 
 #include "color.h"
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /*!***************************************************************************
@@ -57,7 +58,7 @@ public:
     float size_y;
 
     //! color (includes alpha)
-    hoa_video::Color color;
+    vt_video::Color color;
 
     //! rotation speed, radians per second clockwise
     float rotation_speed;
@@ -71,11 +72,11 @@ public:
 
     //! random variation added to color (each channel contains
     //! the variation for that channel)
-    hoa_video::Color color_variation;
+    vt_video::Color color_variation;
 
     float time;
 };
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif  //! __PARTICLE_KEYFRAME_HEADER__

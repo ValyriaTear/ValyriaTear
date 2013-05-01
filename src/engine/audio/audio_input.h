@@ -12,6 +12,7 @@
 *** \file   audio_input.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Aaron Smith - etherstar@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for classes that provide input for sounds
 ***
 *** This code provides classes for loading sounds (WAV and OGG). It also
@@ -25,7 +26,7 @@
 #ifndef __AUDIO_INPUT_HEADER__
 #define __AUDIO_INPUT_HEADER__
 
-#ifdef __MACH__
+#ifdef __APPLE__
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #else
@@ -33,13 +34,12 @@
 #include "alc.h"
 #endif
 
-#include "defs.h"
 #include "utils.h"
 
 #include <vorbis/vorbisfile.h>
 #include <fstream>
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 namespace private_audio
@@ -290,6 +290,6 @@ private:
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif // __AUDIO_INPUT_HEADER__

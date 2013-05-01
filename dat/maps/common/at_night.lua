@@ -18,7 +18,7 @@ end
 
 function DrawForeground()
     -- Useful for the map mode
-    Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_X_LEFT);
-    Script:SetDrawFlag(hoa_video.GameVideo.VIDEO_Y_TOP);
-    Script:DrawImage(night_layer_id, 0.0, 0.0, hoa_video.Color(0.0, 0.0, 0.24, 0.6));
+    Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_LEFT);
+    Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_TOP);
+    Script:DrawImage(night_layer_id, 0.0, 0.0, vt_video.Color(0.0, 0.0, 0.24, 0.6));
 end

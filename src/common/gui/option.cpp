@@ -8,18 +8,24 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file    option.cpp
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for OptionBox GUI control and supporting classes
+*** ***************************************************************************/
+
 #include <sstream>
 
 #include "option.h"
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_video::private_video;
-using namespace hoa_input;
-using namespace hoa_gui::private_gui;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_video::private_video;
+using namespace vt_gui::private_gui;
 
-namespace hoa_gui
+namespace vt_gui
 {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -222,7 +228,7 @@ void OptionBox::Draw()
             }
 
             float left_edge = 999999.0f; // The x offset to where the visible option contents begin
-            _DrawOption(_options.at(index), bounds, _scroll_offset, left_edge);
+            _DrawOption(_options.at(index), bounds, left_edge);
 
             // Draw the cursor if the previously drawn option was or is selected
             if((static_cast<int32>(index) == _selection || static_cast<int32>(index) == _first_selection) &&
@@ -366,7 +372,7 @@ void OptionBox::AddOption()
 
 
 
-void OptionBox::AddOption(const hoa_utils::ustring &text)
+void OptionBox::AddOption(const vt_utils::ustring &text)
 {
     Option option;
     if(_ConstructOption(text, option) == false) {
@@ -485,7 +491,7 @@ void OptionBox::AddOptionElementPosition(uint32 option_index, uint32 position_le
 
 
 
-bool OptionBox::SetOptionText(uint32 index, const hoa_utils::ustring &text)
+bool OptionBox::SetOptionText(uint32 index, const vt_utils::ustring &text)
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << std::endl;
@@ -1130,12 +1136,8 @@ void OptionBox::_DetermineScrollArrows()
 
 
 
-void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, float scroll_offset, float &left_edge)
+void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, float &left_edge)
 {
-    // TODO: this function doesn't make use of the scroll_offset parameter currently, but I'm pretty sure it is
-    // needed somewhere to get scrolling full working. Once the scrolling feature has been enabled and verified
-    // for correctness if this paramater is still unused, remove it.
-
     float x, y;
     int32 xalign = _option_xalign;
     int32 yalign = _option_yalign;
@@ -1286,4 +1288,4 @@ void OptionBox::_DEBUG_DrawOutline()
     }
 }
 
-} // namespace hoa_gui
+} // namespace vt_gui

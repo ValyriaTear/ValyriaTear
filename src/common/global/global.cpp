@@ -19,15 +19,15 @@
 #include "engine/system.h"
 #include "modes/map/map_mode.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_video;
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_video;
+using namespace vt_script;
+using namespace vt_system;
 
-template<> hoa_global::GameGlobal *Singleton<hoa_global::GameGlobal>::_singleton_reference = NULL;
+template<> vt_global::GameGlobal *Singleton<vt_global::GameGlobal>::_singleton_reference = NULL;
 
-namespace hoa_global
+namespace vt_global
 {
 
 using namespace private_global;
@@ -95,6 +95,14 @@ GameGlobal::~GameGlobal()
 
     _CloseGlobalScripts();
 } // GameGlobal::~GameGlobal()
+
+bool GameGlobal::SingletonInitialize()
+{
+    // Init the media files.
+    _global_media.Initialize();
+
+    return _LoadGlobalScripts();
+}
 
 void GameGlobal::_CloseGlobalScripts() {
     // Close all persistent script files
@@ -719,7 +727,7 @@ QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id)
 void GameGlobal::SetMap(const std::string &map_data_filename,
                         const std::string &map_script_filename,
                         const std::string &map_image_filename,
-                        const hoa_utils::ustring &map_hud_name)
+                        const vt_utils::ustring &map_hud_name)
 {
     _map_data_filename = map_data_filename;
     _map_script_filename = map_script_filename;
@@ -747,20 +755,20 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
         return false;
     }
 
-    // Write out namespace information
-    file.WriteNamespace("save_game1");
+    // Open the save_game1 table
+    file.WriteLine("save_game1 = {");
 
     // Save simple play data
     file.InsertNewLine();
-    file.WriteString("map_data_filename", _map_data_filename);
-    file.WriteString("map_script_filename", _map_script_filename);
+    file.WriteLine("map_data_filename = \"" + _map_data_filename + "\",");
+    file.WriteLine("map_script_filename = \"" + _map_script_filename + "\",");
     //! \note Coords are in map tiles
-    file.WriteUInt("location_x", x_position);
-    file.WriteUInt("location_y", y_position);
-    file.WriteUInt("play_hours", SystemManager->GetPlayHours());
-    file.WriteUInt("play_minutes", SystemManager->GetPlayMinutes());
-    file.WriteUInt("play_seconds", SystemManager->GetPlaySeconds());
-    file.WriteUInt("drunes", _drunes);
+    file.WriteLine("location_x = " + NumberToString(x_position) + ",");
+    file.WriteLine("location_y = " + NumberToString(y_position) + ",");
+    file.WriteLine("play_hours = " + NumberToString(SystemManager->GetPlayHours()) + ",");
+    file.WriteLine("play_minutes = " + NumberToString(SystemManager->GetPlayMinutes()) + ",");
+    file.WriteLine("play_seconds = " + NumberToString(SystemManager->GetPlaySeconds()) + ",");
+    file.WriteLine("drunes = " + NumberToString(_drunes) + ",");
 
     // Save the inventory (object id + object count pairs)
     // NOTE: This does not save any weapons/armor that are equipped on the characters. That data
@@ -784,7 +792,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
         else
             file.WriteLine(", " + NumberToString(_ordered_characters[i]->GetID()), false);
     }
-    file.WriteLine("\n\t},");
+    file.WriteLine("\n\t},"); // order
 
     // Now save each individual character's data
     for(uint32 i = 0; i < _ordered_characters.size(); i++) {
@@ -793,7 +801,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
         else
             _SaveCharacter(file, _ordered_characters[i], false);
     }
-    file.WriteLine("}");
+    file.WriteLine("},"); // characters
 
     // ----- (6) Save event data
     file.InsertNewLine();
@@ -801,14 +809,14 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
     for(std::map<std::string, GlobalEventGroup *>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
         _SaveEvents(file, it->second);
     }
-    file.WriteLine("}");
+    file.WriteLine("},");
     file.InsertNewLine();
 
     // ------ (7) Save quest log
     file.WriteLine("quest_log = {");
     for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
         _SaveQuests(file, itr->second);
-    file.WriteLine("}");
+    file.WriteLine("},");
     file.InsertNewLine();
 
     // ------ (8) Save World Map
@@ -822,6 +830,9 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
             file.ClearErrors();
         }
     }
+
+    file.InsertNewLine();
+    file.WriteLine("} -- save_game1"); //save_game1
 
     file.CloseFile();
 
@@ -857,6 +868,14 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
         // New way: data and script are separated.
         _map_data_filename = file.ReadString("map_data_filename");
         _map_script_filename = file.ReadString("map_script_filename");
+    }
+
+    // DEPRECATED: Remove in one release
+    // Hack to permit the split of last map data and scripts.
+    if (!_map_data_filename.empty() && _map_data_filename == _map_script_filename) {
+        std::string map_common_name = _map_data_filename.substr(0, _map_data_filename.length() - 4);
+        _map_data_filename = map_common_name + "_map.lua";
+        _map_script_filename = map_common_name + "_script.lua";
     }
 
     // Load a potential saved position
@@ -959,7 +978,7 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
     // First, clear the list in case of reloading
     _emotes.clear();
 
-    hoa_script::ReadScriptDescriptor emotes_script;
+    vt_script::ReadScriptDescriptor emotes_script;
     if(!emotes_script.OpenFile(emotes_filename))
         return;
 
@@ -985,16 +1004,16 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
         if(anim.LoadFromAnimationScript(animation_file)) {
             // NOTE: The map mode should one day be fixed to use the same coords
             // than everything else, thus making possible to remove this
-            hoa_map::MapMode::ScaleToMapCoords(anim);
+            vt_map::MapMode::ScaleToMapCoords(anim);
 
             _emotes.insert(std::make_pair(emotes_id[i], anim));
 
             // The vector containing the offsets
             std::vector<std::pair<float, float> > emote_offsets;
-            emote_offsets.resize(hoa_map::private_map::NUM_ANIM_DIRECTIONS);
+            emote_offsets.resize(vt_map::private_map::NUM_ANIM_DIRECTIONS);
 
             // For each directions
-            for(uint32 j = 0; j < hoa_map::private_map::NUM_ANIM_DIRECTIONS; ++j) {
+            for(uint32 j = 0; j < vt_map::private_map::NUM_ANIM_DIRECTIONS; ++j) {
                 emotes_script.OpenTable(j);
 
                 std::pair<float, float> offsets;
@@ -1015,13 +1034,13 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
     emotes_script.CloseFile();
 }
 
-void GameGlobal::GetEmoteOffset(float &x, float &y, const std::string &emote_id, hoa_map::private_map::ANIM_DIRECTIONS dir)
+void GameGlobal::GetEmoteOffset(float &x, float &y, const std::string &emote_id, vt_map::private_map::ANIM_DIRECTIONS dir)
 {
 
     x = 0.0f;
     y = 0.0f;
 
-    if(dir < hoa_map::private_map::ANIM_SOUTH || dir >= hoa_map::private_map::NUM_ANIM_DIRECTIONS)
+    if(dir < vt_map::private_map::ANIM_SOUTH || dir >= vt_map::private_map::NUM_ANIM_DIRECTIONS)
         return;
 
     std::map<std::string, std::vector<std::pair<float, float> > >::const_iterator it =
@@ -1168,14 +1187,24 @@ void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *even
 
     file.WriteLine("\t" + event_group->GetGroupName() + " = {");
 
+    uint32 i = 0;
     for(std::map<std::string, int32>::const_iterator it = event_group->GetEvents().begin(); it != event_group->GetEvents().end(); ++it) {
         if(it == event_group->GetEvents().begin())
             file.WriteLine("\t\t", false);
         else
             file.WriteLine(", ", false);
+
+        // Add a new line every 4 entries for better readability and debugging
+        if ((i > 0) && !(i % 4)) {
+            file.InsertNewLine();
+            file.WriteLine("\t\t", false);
+        }
+
         file.WriteLine("[\"" + it->first + "\"] = " + NumberToString(it->second), false);
+
+        ++i;
     }
-    file.WriteLine("\t},");
+    file.WriteLine("\n\t},");
 
 }
 
@@ -1205,17 +1234,16 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
 
 }
 
-void GameGlobal::_SaveWorldMap(hoa_script::WriteScriptDescriptor &file)
+void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
 {
-    if(file.IsFileOpen() == false)
-    {
+    if(!file.IsFileOpen()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
 
     //write the world map filename
-    file.WriteLine("world_map = \"" + GetWorldMapFilename() + "\"");
-    file.WriteLine("");
+    file.WriteLine("world_map = \"" + GetWorldMapFilename() + "\",");
+    file.InsertNewLine();
 
     //write the viewable locations
     file.WriteLine("viewable_locations = {");
@@ -1423,7 +1451,7 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
 
 }
 
-void GameGlobal::_LoadWorldMap(hoa_script::ReadScriptDescriptor &file)
+void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
 {
     if(file.IsFileOpen() == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
@@ -1442,7 +1470,7 @@ bool GameGlobal::_LoadWorldLocationsScript(const std::string &world_locations_fi
 {
     _world_map_locations.clear();
 
-    hoa_script::ReadScriptDescriptor world_locations_script;
+    vt_script::ReadScriptDescriptor world_locations_script;
     if(!world_locations_script.OpenFile(world_locations_filename)) {
         PRINT_ERROR << "Couldn't open world map locations file: " << world_locations_filename << std::endl;
         return false;
@@ -1497,7 +1525,7 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
     // First clear the existing quests entries in case of a reloading.
     _quest_log_info.clear();
 
-    hoa_script::ReadScriptDescriptor quests_script;
+    vt_script::ReadScriptDescriptor quests_script;
     if(!quests_script.OpenFile(quests_script_filename)) {
         PRINT_ERROR << "Couldn't open quests file: " << quests_script_filename
                     << std::endl;
@@ -1560,5 +1588,5 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
     return true;
 }
 
-} // namespace hoa_global
+} // namespace vt_global
 

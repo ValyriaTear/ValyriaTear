@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    interpolator.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for Interpolator class
 *** ***************************************************************************/
 
@@ -20,11 +21,10 @@
 
 #include "interpolator.h"
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
-
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
+
+extern bool MODE_MANAGER_DEBUG;
 
 // Controls how slow the slow transform is. The greater the number, the "slower" it is. Should be greater than 1.0f
 const float SLOW_TRANSFORM_POWER = 2.0f;
@@ -56,7 +56,7 @@ static float _SlowTransform(float initial_value)
 **/
 static float _EaseTransform(float initial_value)
 {
-    return 0.5f * (1.0f + sinf(UTILS_2PI * (initial_value - 0.25f)));
+    return 0.5f * (1.0f + sinf(vt_utils::UTILS_2PI * (initial_value - 0.25f)));
 }
 
 Interpolator::Interpolator() :
@@ -165,7 +165,7 @@ void Interpolator::Update(uint32 frame_time)
         return;
     };
 
-    _current_value = Lerp(progress, _a, _b);
+    _current_value = vt_utils::Lerp(progress, _a, _b);
 } // void Interpolator::Update(uint32 frame_time)
 
-}  // namespace hoa_video
+}  // namespace vt_video

@@ -38,8 +38,8 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[20001] = {
-	name = hoa_system.Translate("Butterfly hair tong"),
-	description = hoa_system.Translate("An old and finely done piece of jewelery."),
+	name = vt_system.Translate("Butterfly hair tong"),
+	description = vt_system.Translate("An old and finely done piece of jewelery."),
 	icon = "img/icons/armor/butterfly_hair_tong.png",
 	physical_defense = 3,
 	magical_defense = 12,
@@ -49,8 +49,8 @@ armor[20001] = {
 }
 
 armor[20011] = {
-	name = hoa_system.Translate("Standard Helmet"),
-	description = hoa_system.Translate("Standard Karlate issued equipment. Battle worn but reliable head protection."),
+	name = vt_system.Translate("Standard Helmet"),
+	description = vt_system.Translate("Standard Karlate issued equipment. Battle worn but reliable head protection."),
 	icon = "img/icons/armor/karlate_helmet.png",
 	physical_defense = 6,
 	magical_defense = 2,
@@ -60,8 +60,8 @@ armor[20011] = {
 }
 
 armor[20012] = {
-	name = hoa_system.Translate("Cobalt Helm"),
-	description = hoa_system.Translate("A small helmet composed of a secret cobalt based alloy."),
+	name = vt_system.Translate("Cobalt Helm"),
+	description = vt_system.Translate("A small helmet composed of a secret cobalt based alloy."),
 	icon = "img/icons/armor/cobalt_helm.png",
 	physical_defense = 8,
 	magical_defense = 4,
@@ -71,8 +71,8 @@ armor[20012] = {
 }
 
 armor[20013] = {
-	name = hoa_system.Translate("Crested Helmet"),
-	description = hoa_system.Translate("A sturdy helmet with a hinged face guard offering additional protection."),
+	name = vt_system.Translate("Crested Helmet"),
+	description = vt_system.Translate("A sturdy helmet with a hinged face guard offering additional protection."),
 	icon = "img/icons/armor/crested_helmet.png",
 	physical_defense = 11,
 	magical_defense = 6,

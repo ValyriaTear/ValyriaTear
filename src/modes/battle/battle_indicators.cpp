@@ -11,25 +11,26 @@
 /** ****************************************************************************
 *** \file    battle_indicators.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle indicator displays.
 *** ***************************************************************************/
 
 #include "engine/system.h"
 #include "engine/video/video.h"
 
-#include "common/global/global_utils.h"
+#include "common/global/global.h"
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -135,7 +136,7 @@ void IndicatorElement::Update()
 void IndicatorElement::_UpdateDrawPosition()
 {
     // the time passed since the last call in ms.
-    float elapsed_ms = static_cast<float>(hoa_system::SystemManager->GetUpdateTime());
+    float elapsed_ms = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
 
     switch(_indicator_type) {
     case DAMAGE_INDICATOR: {
@@ -544,7 +545,6 @@ bool IsNewStatusBetter(GLOBAL_STATUS new_status, GLOBAL_INTENSITY old_intensity,
     case GLOBAL_STATUS_HP_DRAIN:
     case GLOBAL_STATUS_SP_DRAIN:
     case GLOBAL_STATUS_PARALYSIS:
-    case GLOBAL_STATUS_STASIS:
         if(old_intensity < new_intensity)
             return false;
         else
@@ -567,13 +567,13 @@ void IndicatorSupervisor::AddStatusIndicator(GLOBAL_STATUS old_status, GLOBAL_IN
 {
     // If the status and intensity has not changed, only a single status icon needs to be used
     if((old_status == new_status) && (old_intensity == new_intensity)) {
-        StillImage *image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(new_status, new_intensity);
+        StillImage *image = GlobalManager->Media().GetStatusIcon(new_status, new_intensity);
         _wait_queue.push_back(new IndicatorImage(_actor, *image, POSITIVE_STATUS_EFFECT_INDICATOR));
     }
     // Otherwise two status icons need to be used in the indicator image
     else {
-        StillImage *first_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(old_status, old_intensity);
-        StillImage *second_image = BattleMode::CurrentInstance()->GetMedia().GetStatusIcon(new_status, new_intensity);
+        StillImage *first_image = GlobalManager->Media().GetStatusIcon(old_status, old_intensity);
+        StillImage *second_image = GlobalManager->Media().GetStatusIcon(new_status, new_intensity);
         INDICATOR_TYPE indicator_type = IsNewStatusBetter(new_status, old_intensity, new_intensity) ?
                                         POSITIVE_STATUS_EFFECT_INDICATOR : NEGATIVE_STATUS_EFFECT_INDICATOR;
         _wait_queue.push_back(new IndicatorBlendedImage(_actor, *first_image, *second_image, indicator_type));
@@ -588,4 +588,4 @@ void IndicatorSupervisor::AddItemIndicator(const GlobalItem &item)
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

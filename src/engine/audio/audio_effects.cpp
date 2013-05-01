@@ -10,7 +10,8 @@
 
 /** ****************************************************************************
 *** \file   audio_effects.cpp
-*** \author Moisés Ferrer Serra, byaku@allacrost.org
+*** \author Moisï¿½s Ferrer Serra, byaku@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source file for audio effects
 *** ***************************************************************************/
 
@@ -18,7 +19,7 @@
 
 #include "engine/system.h"
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 namespace private_audio
@@ -28,4 +29,4 @@ namespace private_audio
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio

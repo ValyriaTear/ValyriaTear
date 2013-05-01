@@ -4,7 +4,7 @@
 -- The second entry corresponds to the name of the gettext PO file for that
 -- language.
 languages = {}
-languages[1] = { "English", "en@quot" }
+languages[1] = { "English", "en@quot" } -- The default language (used when translations are disabled/broken)
 languages[2] = { "Deutsch", "de" }
 --languages[x] = { "Español", "es" }
 languages[3] = { "Français", "fr" }

@@ -38,8 +38,8 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[50001] = {
-	name = hoa_system.Translate("Leather boots"),
-	description = hoa_system.Translate("Simple but fairly good leather boots."),
+	name = vt_system.Translate("Leather boots"),
+	description = vt_system.Translate("Simple but fairly good leather boots."),
 	icon = "img/icons/armor/leather_boots.png",
 	physical_defense = 1,
 	magical_defense = 0,
@@ -48,8 +48,8 @@ armor[50001] = {
 }
 
 armor[50011] = {
-	name = hoa_system.Translate("Standard Greaves"),
-	description = hoa_system.Translate("Standard equipment. Light metal alloy protects the legs while minimizing the negative impact on movement."),
+	name = vt_system.Translate("Standard Greaves"),
+	description = vt_system.Translate("Standard equipment. Light metal alloy protects the legs while minimizing the negative impact on movement."),
 	icon = "img/icons/armor/standard_greaves.png",
 	physical_defense = 3,
 	magical_defense = 0,
@@ -59,8 +59,8 @@ armor[50011] = {
 }
 
 armor[50012] = {
-	name = hoa_system.Translate("Tempered Greaves"),
-	description = hoa_system.Translate("Standard greaves that have undergone an additional tempering process, increasing their durability and strength."),
+	name = vt_system.Translate("Tempered Greaves"),
+	description = vt_system.Translate("Standard greaves that have undergone an additional tempering process, increasing their durability and strength."),
 	icon = "img/icons/armor/tempered_greaves.png",
 	physical_defense = 5,
 	magical_defense = 0,

@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_sell.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for sell interface of shop mode
 ***
 *** \note The contents of this file are near identical to the contents of
@@ -26,11 +27,13 @@
 
 #include "shop_utils.h"
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
 {
+
+class SellListDisplay;
 
 /** ****************************************************************************
 *** \brief Manages the shop when it is in sell mode and enables the player to sell their inventory
@@ -86,19 +89,19 @@ private:
     uint32 _current_category;
 
     //! \brief Header text for the category field
-    hoa_video::TextImage _category_header;
+    vt_video::TextImage _category_header;
 
     //! \brief Header text for the name field
-    hoa_video::TextImage _name_header;
+    vt_video::TextImage _name_header;
 
     //! \brief Header text for the list of object properties (refer to the SellListDisplay class)
-    hoa_gui::OptionBox _properties_header;
+    vt_gui::OptionBox _properties_header;
 
     //! \brief String representations of all category names that may
-    std::vector<hoa_utils::ustring> _category_names;
+    std::vector<vt_utils::ustring> _category_names;
 
     //! \brief A pointer to icon images
-    std::vector<hoa_video::StillImage *> _category_icons;
+    std::vector<vt_video::StillImage *> _category_icons;
 
     //! \brief Display manager for the current category of objects selected
     ObjectCategoryDisplay _category_display;
@@ -109,13 +112,13 @@ private:
     std::vector<SellListDisplay *> _list_displays;
 
     //! \brief A copy of the selected object's icon, scaled to 1/4 size
-    hoa_video::StillImage _selected_icon;
+    vt_video::StillImage _selected_icon;
 
     //! \brief Text image of the selected object's name
-    hoa_video::TextImage _selected_name;
+    vt_video::TextImage _selected_name;
 
     //! \brief A single row option box containing the selected object's properties
-    hoa_gui::OptionBox _selected_properties;
+    vt_gui::OptionBox _selected_properties;
 
     /**
     ***  Update the available deal types. Called only in _RefreshItemCategories().
@@ -189,6 +192,6 @@ public:
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_SELL_HEADER__

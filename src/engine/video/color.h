@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    color.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the Color class.
 *** ***************************************************************************/
 
@@ -21,7 +22,7 @@
 
 #include "utils.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 /** ****************************************************************************
@@ -68,8 +69,8 @@ public:
     //! \brief Overloaded Operators
     //@{
     bool operator == (const Color &c) const {
-        return (hoa_utils::IsFloatEqual(_colors[0], c._colors[0]) && hoa_utils::IsFloatEqual(_colors[1], c._colors[1]) &&
-                hoa_utils::IsFloatEqual(_colors[2], c._colors[2]) && hoa_utils::IsFloatEqual(_colors[3], c._colors[3]));
+        return (vt_utils::IsFloatEqual(_colors[0], c._colors[0]) && vt_utils::IsFloatEqual(_colors[1], c._colors[1]) &&
+                vt_utils::IsFloatEqual(_colors[2], c._colors[2]) && vt_utils::IsFloatEqual(_colors[3], c._colors[3]));
     }
 
     bool operator != (const Color &c) const {
@@ -177,6 +178,20 @@ public:
         if(_colors[3] > 1.0f) _colors[3] = 1.0f;
         else if(_colors[3] < 0.0f) _colors[3] = 0.0f;
     }
+
+    void SetColor(float r, float g, float b, float alpha) {
+        SetRed(r);
+        SetGreen(g);
+        SetBlue(b);
+        SetAlpha(alpha);
+    }
+
+    void SetColor(const Color& c) {
+        SetRed(c.GetRed());
+        SetGreen(c.GetGreen());
+        SetBlue(c.GetBlue());
+        SetAlpha(c.GetAlpha());
+    }
     //@}
 
 private:
@@ -187,6 +202,6 @@ private:
     float _colors[4];
 }; // class Color
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __COLOR_HEADER__

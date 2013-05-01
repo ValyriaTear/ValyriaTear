@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    screen_rect.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the ScreenRect class.
 *** The ScreenRect class is used for storing rectangles with pixel coordinates
 *** ***************************************************************************/
@@ -20,7 +21,7 @@
 
 #include "utils.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 /** ****************************************************************************
@@ -89,6 +90,6 @@ public:
     int32 width, height;
 }; // class ScreenRect
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __SCREEN_RECT_HEADER__

@@ -11,28 +11,27 @@
 /** ****************************************************************************
 *** \file    battle_utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle mode utility code
 ***
 *** This file contains utility code that is shared among the various battle mode
 *** classes.
 *** ***************************************************************************/
 
-#include "defs.h"
-#include "utils.h"
+#include "modes/battle/battle_utils.h"
+
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
 
 #include "common/global/global.h"
 
 #include "engine/system.h"
 
-#include "modes/battle/battle.h"
-#include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_utils.h"
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_global;
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_global;
-
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -782,7 +781,7 @@ ustring BattleTarget::GetName()
 // BattleItem class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleItem::BattleItem(hoa_global::GlobalItem item) :
+BattleItem::BattleItem(vt_global::GlobalItem item) :
     _item(item),
     _battle_count(item.GetCount())
 {
@@ -820,4 +819,4 @@ void BattleItem::DecrementBattleCount()
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop

@@ -8,7 +8,6 @@
 -- Each status effect implementation requires the following data to be defined.
 -- {name} - The name of the status effect as it will be shown to the player
 -- {default_duration} - The default duration that the effect lasts, in milliseconds
--- {icon_index} - A numeric index to the row of images where the icons for this effect
 -- {opposite_effect} - The status which acts as an opposite status to this one
 -- {Apply} - A function executed when the status effect is applied to the target
 -- {Update} - A function executed periodically while the status is still in effect
@@ -20,7 +19,7 @@
 -- The opposite_status property is only applicable to some pairs of status effects.
 -- For example, a pair of effects that increase strength and decrease strength. Each status
 -- effect can have only one opposite effect, not several. If the status effect has no opposite
--- effect, this member should be set to hoa_global.GameGlobal.GLOBAL_STATUS_INVALID.
+-- effect, this member should be set to vt_global.GameGlobal.GLOBAL_STATUS_INVALID.
 --
 -- The Apply, Update, and Remove functions are all called with an argument, {effect},
 -- which is a pointer to the BattleStatusEffect object that was constructed to represent
@@ -44,19 +43,18 @@ if (status_effects == nil) then
 end
 
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
-	name = hoa_system.Translate("Raise Strength"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
+	name = vt_system.Translate("Raise Strength"),
 	default_duration = 30000,
-	icon_index = 0,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE].ModifyAttribute(effect);
 		end
 	end,
 
@@ -72,15 +70,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
 		base_value = actor:GetStrength();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifer = 1.2;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 1.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 1.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 1.8;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -90,19 +88,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
-	name = hoa_system.Translate("Lower Strength"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
+	name = vt_system.Translate("Lower Strength"),
 	default_duration = 30000,
-	icon_index = 1,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER].ModifyAttribute(effect);
 		end
 	end,
 
@@ -118,15 +115,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
 		base_value = actor:GetStrength();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifier = 0.8;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 0.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 0.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 0.2;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -136,19 +133,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
-	name = hoa_system.Translate("Raise Vigor"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
+	name = vt_system.Translate("Raise Vigor"),
 	default_duration = 30000,
-	icon_index = 2,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE].ModifyAttribute(effect);
 		end
 	end,
 
@@ -164,15 +160,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
 		base_value = actor:GetVigor();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifer = 1.2;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 1.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 1.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 1.8;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -182,19 +178,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
-	name = hoa_system.Translate("Lower Vigor"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
+	name = vt_system.Translate("Lower Vigor"),
 	default_duration = 30000,
-	icon_index = 3,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER].ModifyAttribute(effect);
 		end
 	end,
 
@@ -210,15 +205,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
 		base_value = actor:GetVigor();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifier = 0.8;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 0.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 0.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 0.2;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -228,19 +223,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
-	name = hoa_system.Translate("Raise Fortitude"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
+	name = vt_system.Translate("Raise Fortitude"),
 	default_duration = 30000,
-	icon_index = 4,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE].ModifyAttribute(effect);
 		end
 	end,
 
@@ -256,15 +250,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
 		base_value = actor:GetFortitude();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifer = 1.2;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 1.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 1.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 1.8;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -274,19 +268,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
-	name = hoa_system.Translate("Lower Fortitude"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
+	name = vt_system.Translate("Lower Fortitude"),
 	default_duration = 30000,
-	icon_index = 5,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER].ModifyAttribute(effect);
 		end
 	end,
 
@@ -302,15 +295,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
 		base_value = actor:GetFortitude();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifier = 0.8;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 0.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 0.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 0.2;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -320,19 +313,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_LOWER] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
-	name = hoa_system.Translate("Raise Protection"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
+	name = vt_system.Translate("Raise Protection"),
 	default_duration = 30000,
-	icon_index = 6,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE].ModifyAttribute(effect);
 		end
 	end,
 
@@ -348,15 +340,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
 		base_value = actor:GetProtection();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifer = 1.2;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 1.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 1.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 1.8;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -366,19 +358,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
-	name = hoa_system.Translate("Lower Protection"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
+	name = vt_system.Translate("Lower Protection"),
 	default_duration = 30000,
-	icon_index = 7,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER].ModifyAttribute(effect);
 		end
 	end,
 
@@ -394,15 +385,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
 		base_value = actor:GetProtection();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifier = 0.8;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 0.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 0.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 0.2;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -412,19 +403,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_LOWER] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
-	name = hoa_system.Translate("Raise Agility"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
+	name = vt_system.Translate("Raise Agility"),
 	default_duration = 30000,
-	icon_index = 8,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE].ModifyAttribute(effect);
 		end
 	end,
 
@@ -441,15 +431,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 		base_value = actor:GetAgility();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifer = 1.2;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 1.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 1.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 1.8;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -460,19 +450,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
-	name = hoa_system.Translate("Lower Agility"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
+	name = vt_system.Translate("Lower Agility"),
 	default_duration = 30000,
-	icon_index = 9,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER].ModifyAttribute(effect);
 		end
 	end,
 
@@ -490,15 +479,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 		base_value = actor:GetAgility();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifier = 0.8;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 0.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 0.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 0.2;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -508,19 +497,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
-	name = hoa_system.Translate("Raise Evasion"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
+	name = vt_system.Translate("Raise Evasion"),
 	default_duration = 30000,
-	icon_index = 10,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE].ModifyAttribute(effect);
 		end
 	end,
 
@@ -536,15 +524,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
 		base_value = actor:GetEvade();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifer = 1.2;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 1.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 1.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 1.8;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -557,19 +545,18 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
-	name = hoa_system.Translate("Lower Evasion"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
+	name = vt_system.Translate("Lower Evasion"),
 	default_duration = 30000,
-	icon_index = 11,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE,
 
 	Apply = function(effect)
-		status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER].ModifyAttribute(effect);
+		status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER].ModifyAttribute(effect);
 	end,
 
 	Update = function(effect)
 		if (effect:HasIntensityChanged() == true) then
-			status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER].ModifyAttribute(effect);
+			status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER].ModifyAttribute(effect);
 		end
 	end,
 
@@ -585,15 +572,15 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
 		base_value = actor:GetEvade();
 		attribute_modifier = 1;
 
-		if (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+		if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
 			attribute_modifier = 1;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
 			attribute_modifier = 0.8;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
 			attribute_modifier = 0.6;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 			attribute_modifier = 0.4;
-		elseif (intensity == hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+		elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
 			attribute_modifier = 0.2;
 		else
 			print("Lua warning: status effect had an invalid intensity value: " .. intensity);
@@ -603,11 +590,10 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = {
-	name = hoa_system.Translate("Regenerate HP"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = {
+	name = vt_system.Translate("Regenerate HP"),
 	default_duration = 30000,
-	icon_index = 12,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN,
 
 	Apply = function(effect)
 		-- TODO
@@ -622,11 +608,10 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN] = {
-	name = hoa_system.Translate("Drain HP"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN] = {
+	name = vt_system.Translate("Drain HP"),
 	default_duration = 30000,
-	icon_index = 13,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_HP_REGEN,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_HP_REGEN,
 
 	Apply = function(effect)
 		-- TODO
@@ -641,11 +626,10 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = {
-	name = hoa_system.Translate("Regenerate SP"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = {
+	name = vt_system.Translate("Regenerate SP"),
 	default_duration = 30000,
-	icon_index = 14,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN,
 
 	Apply = function(effect)
 		-- TODO
@@ -660,11 +644,10 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN] = {
-	name = hoa_system.Translate("Drain SP"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN] = {
+	name = vt_system.Translate("Drain SP"),
 	default_duration = 30000,
-	icon_index = 15,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_SP_REGEN,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_SP_REGEN,
 
 	Apply = function(effect)
 		-- TODO
@@ -679,11 +662,10 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_SP_DRAIN] = {
 	end
 }
 
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
-	name = hoa_system.Translate("Paralysis"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
+	name = vt_system.Translate("Paralysis"),
 	default_duration = 10000,
-	icon_index = 16,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_INVALID,
+	opposite_effect = vt_global.GameGlobal.GLOBAL_STATUS_INVALID,
 
 	Apply = function(effect)
 		battle_actor = effect:GetAffectedActor();
@@ -699,23 +681,3 @@ status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 		battle_actor:SetStunned(false);
 	end
 }
-
-status_effects[hoa_global.GameGlobal.GLOBAL_STATUS_STASIS] = {
-	name = hoa_system.Translate("Stasis"),
-	default_duration = 10000,
-	icon_index = 17,
-	opposite_effect = hoa_global.GameGlobal.GLOBAL_STATUS_INVALID,
-
-	Apply = function(effect)
-		-- TODO
-	end,
-
-	Update = function(effect)
-		-- TODO
-	end,
-
-	Remove = function(effect)
-		-- TODO
-	end
-}
-

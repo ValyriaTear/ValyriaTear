@@ -46,7 +46,7 @@ function Load(m)
 
     -- If not done, start the opening dialogue
     if (GlobalManager:DoesEventExist("story", "opening_dialogue_done") == false) then
-        Map:PushState(hoa_map.MapMode.STATE_SCENE);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         EventManager:StartEvent("opening", 10000);
         bronann_in_bed:SetVisible(true);
         bed:SetVisible(false);
@@ -75,22 +75,20 @@ end
 -- Character creation
 function _CreateCharacters()
     bronann = CreateSprite(Map, "Bronann", 23.5, 17.5);
-    bronann:SetDirection(hoa_map.MapMode.SOUTH);
-    bronann:SetMovementSpeed(hoa_map.MapMode.NORMAL_SPEED);
+    bronann:SetDirection(vt_map.MapMode.SOUTH);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- set up the position according to the previous map
     if (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
         bronann:SetPosition(37.5, 17.5);
-        bronann:SetDirection(hoa_map.MapMode.WEST);
-        bronann:SetContext(hoa_map.MapMode.CONTEXT_02);
+        bronann:SetDirection(vt_map.MapMode.WEST);
     end
 
     Map:AddGroundObject(bronann);
 
     -- Add Bronann in bed wake up animation
-    bronann_in_bed = hoa_map.PhysicalObject();
+    bronann_in_bed = vt_map.PhysicalObject();
     bronann_in_bed:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    bronann_in_bed:SetContext(hoa_map.MapMode.CONTEXT_01);
     bronann_in_bed:SetPosition(20, 20);
     bronann_in_bed:SetCollHalfWidth(1.75);
     bronann_in_bed:SetCollHeight(5.50);
@@ -114,15 +112,26 @@ function _CreateObjects()
         Map:AddGroundObject(chest);
     end
 
+    chest = CreateTreasure(Map, "bronannsparent_room_chest", "Locker_Chest1", 39, 33.2);
+    if (chest ~= nil) then
+        chest:AddObject(11, 1);
+        chest:SetDrunes(12);
+        chest:SetDrawOnSecondPass(true); -- Above the table
+        chest:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        Map:AddGroundObject(chest);
+    end
+
     object = CreateObject(Map, "Chair1", 23, 26);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Small Wooden Table", 20, 27);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Candle1", 19, 25);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above the table
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Book1", 21, 25);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
@@ -131,48 +140,33 @@ function _CreateObjects()
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     -- Parent's room
-    object = CreateObject(Map, "Big Bed1", 38.5, 30.0);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
+    object = CreateObject(Map, "Bed2", 37.7, 30.0);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Chair1_inverted", 38, 35);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Locker", 38, 35.9);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Small Wooden Table", 40, 36);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Paper and Feather", 40, 34);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
+    object = CreateObject(Map, "Paper and Feather", 41, 34);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Box1", 40, 38); -- Prevent from going south of the table.
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 19, 33);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Box1", 19, 35);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Box1", 19, 37);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
     if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 33);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
+    object = CreateObject(Map, "Box1", 23, 35);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Flower Pot1", 27, 33);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
+    object = CreateObject(Map, "Flower Pot1", 27, 34.5);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Right Window Light", 41, 33);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    object:SetCollisionMask(hoa_map.MapMode.NO_COLLISION);
-    object:SetContext(hoa_map.MapMode.CONTEXT_03);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
@@ -184,61 +178,46 @@ function _CreateEvents()
     local text = {};
 
     -- fade out after the bed animation
-    event = hoa_map.ScriptedEvent("opening", "begin_fade_out", "fade_out_update");
+    event = vt_map.ScriptedEvent("opening", "begin_fade_out", "fade_out_update");
     event:AddEventLinkAtEnd("opening_dialogue");
     EventManager:RegisterEvent(event);
 
     -- Bronann's opening dialogue
-    dialogue = hoa_map.SpriteDialogue();
-    text = hoa_system.Translate("That nightmare again... This time, I still feel dizzy even after getting up...");
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("That nightmare again... This time, I still feel dizzy even after getting up...");
     dialogue:AddLine(text, bronann);
-    text = hoa_system.Translate("I'd better be going and forget about it as fast as possible...");
+    text = vt_system.Translate("I'd better be going and forget about it as fast as possible...");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
 
     -- Bronann's opening dialogue event
-    event = hoa_map.DialogueEvent("opening_dialogue", dialogue);
+    event = vt_map.DialogueEvent("opening_dialogue", dialogue);
     event:AddEventLinkAtEnd("opening2");
     EventManager:RegisterEvent(event);
 
     -- Unblock Bronann so he can start walking
-    event = hoa_map.ScriptedEvent("opening2", "Map_PopState", "");
+    event = vt_map.ScriptedEvent("opening2", "Map_PopState", "");
     event:AddEventLinkAtEnd("opening3");
     EventManager:RegisterEvent(event);
 
     -- Set the opening dialogue as done
-    event = hoa_map.ScriptedEvent("opening3", "OpeningDialogueDone", "");
+    event = vt_map.ScriptedEvent("opening3", "OpeningDialogueDone", "");
     EventManager:RegisterEvent(event);
 
     -- Triggered events
-    event = hoa_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
+    event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
                                        "dat/maps/layna_village/layna_village_bronanns_home_script.lua", "From Bronann's first floor");
     EventManager:RegisterEvent(event);
 end
 
 -- zones
 local room_exit_zone = {};
-local bronanns_room_hall_zone = {};
-local bronanns_hall_parents_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    room_exit_zone = hoa_map.CameraZone(38, 39, 16, 19, hoa_map.MapMode.CONTEXT_02);
+    room_exit_zone = vt_map.CameraZone(38, 39, 16, 19);
     Map:AddZone(room_exit_zone);
-
-    -- Bronann's room / hall context change
-    bronanns_room_hall_zone = hoa_map.ContextZone(hoa_map.MapMode.CONTEXT_01, hoa_map.MapMode.CONTEXT_02);
-    bronanns_room_hall_zone:AddSection(28, 29, 16, 20, false); -- To context 2
-    bronanns_room_hall_zone:AddSection(26, 27, 16, 20, true); -- To context 1
-    Map:AddZone(bronanns_room_hall_zone);
-
-    -- Bronann's room / hall context change
-    bronanns_hall_parents_zone = hoa_map.ContextZone(hoa_map.MapMode.CONTEXT_02, hoa_map.MapMode.CONTEXT_03);
-    bronanns_hall_parents_zone:AddSection(30, 33, 20, 21, false); -- To context 3
-    bronanns_hall_parents_zone:AddSection(30, 33, 18, 19, true); -- To context 2
-    Map:AddZone(bronanns_hall_parents_zone);
-
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -273,7 +252,7 @@ map_functions = {
         fade_effect_time = fade_effect_time + SystemManager:GetUpdateTime();
 
         if (fade_effect_time < 1000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.0, fade_effect_time / 1000.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, fade_effect_time / 1000.0));
             return false;
         end
 
@@ -291,7 +270,7 @@ map_functions = {
         end
 
         if (fade_effect_time >= 2000.0 and fade_effect_time < 3000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(hoa_video.Color(0.0, 0.0, 0.0, ((3000.0 - fade_effect_time) / 1000.0)));
+            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, ((3000.0 - fade_effect_time) / 1000.0)));
             return false;
         end
 

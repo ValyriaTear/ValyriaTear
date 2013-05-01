@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    image_base.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for image base classes
 ***
 *** This file contains several classes that represent various types of images
@@ -42,7 +43,7 @@
 #include "color.h"
 #include "texture.h"
 
-namespace hoa_video
+namespace vt_video
 {
 
 namespace private_video
@@ -283,6 +284,6 @@ private:
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __IMAGE_BASE_HEADER__

@@ -11,6 +11,7 @@
 /** ***************************************************************************
 *** \file   input.cpp
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source file for processing user input
 *** **************************************************************************/
 
@@ -23,16 +24,16 @@
 #include "mode_manager.h"
 #include "system.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_script;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_input::private_input;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_script;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_input::private_input;
 
-template<> hoa_input::InputEngine *Singleton<hoa_input::InputEngine>::_singleton_reference = NULL;
+template<> vt_input::InputEngine *Singleton<vt_input::InputEngine>::_singleton_reference = NULL;
 
-namespace hoa_input
+namespace vt_input
 {
 
 InputEngine *InputManager = NULL;
@@ -42,8 +43,8 @@ bool INPUT_DEBUG = false;
 InputEngine::InputEngine()
 {
     IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine constructor invoked" << std::endl;
-    _any_key_press		    = false;
-    _any_key_release	    = false;
+    _any_key_press        = false;
+    _any_key_release      = false;
     _last_axis_moved      = -1;
     _up_state             = false;
     _up_press             = false;
@@ -78,6 +79,7 @@ InputEngine::InputEngine()
     _joystick.x_axis      = 0;
     _joystick.y_axis      = 1;
     _joystick.threshold   = 8192;
+    _joystick.joy_index   = 0; // the first joystick
 }
 
 
@@ -98,15 +100,21 @@ void InputEngine::InitializeJoysticks()
     if (!_joysticks_enabled)
         return;
 
-    // Attempt to initialize and setup the joystick system
+    // Initialize the SDL joystick subsystem
+    if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0) {
+        _joysticks_enabled = false;
+        PRINT_WARNING << "Error while initializing the joystick subsystem." << std::endl;
+        return;
+    }
+
+    // Test the number of joystick available
     if(SDL_NumJoysticks() == 0) {  // No joysticks found
         SDL_JoystickEventState(SDL_IGNORE);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-    } else { // At least one joystick exists
-        // Initialize the SDL joystick subsystem
-        if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0)
-            return;
-
+        _joysticks_enabled = false;
+        PRINT_WARNING << "No joysticks found, couldn't initialize the joystick subsystem." << std::endl;
+    }
+    else { // At least one joystick exists
         SDL_JoystickEventState(SDL_ENABLE);
         // TODO: need to allow user to specify which joystick to open, if multiple exist
         _joystick.js = SDL_JoystickOpen(_joystick.joy_index);
@@ -298,7 +306,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 static uint32 i = 1;
                 std::string path = "";
                 while(true) {
-                    path = hoa_utils::GetUserDataPath(true) + "screenshot_" + NumberToString<uint32>(i) + ".jpg";
+                    path = vt_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32>(i) + ".jpg";
                     if(!DoesFileExist(path))
                         break;
                     i++;
@@ -422,6 +430,11 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
 void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 {
     if(js_event.type == SDL_JOYAXISMOTION) {
+        // This is a hack to prevent certain misbehaving joysticks
+        // from bothering the input with ghost axis motion
+        if (js_event.jaxis.axis >= 10)
+            return;
+
         if(js_event.jaxis.axis == _joystick.x_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
                 if(!_left_state) {
@@ -430,6 +443,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _left_state = false;
+                _any_key_press = false;
             }
 
             if(js_event.jaxis.value > _joystick.threshold) {
@@ -439,6 +453,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _right_state = false;
+                _any_key_press = false;
             }
         } else if(js_event.jaxis.axis == _joystick.y_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
@@ -448,6 +463,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _up_state = false;
+                _any_key_press = false;
             }
 
             if(js_event.jaxis.value > _joystick.threshold) {
@@ -457,12 +473,16 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _down_state = false;
+                _any_key_press = false;
             }
         }
 
         if(js_event.jaxis.value > _joystick.threshold
-                || js_event.jaxis.value < -_joystick.threshold)
+                || js_event.jaxis.value < -_joystick.threshold) {
             _last_axis_moved = js_event.jaxis.axis;
+            // Axis are keys, too
+            _any_key_press = true;
+        }
     } // if (js_event.type == SDL_JOYAXISMOTION)
 
     else if(js_event.type == SDL_JOYBUTTONDOWN) {
@@ -593,4 +613,4 @@ void InputEngine::_SetNewJoyButton(uint8 &old_button, uint8 new_button)
 } // end InputEngine::_SetNewJoyButton(uint8 & old_button, uint8 new_button)
 
 
-} // namespace hoa_input
+} // namespace vt_input

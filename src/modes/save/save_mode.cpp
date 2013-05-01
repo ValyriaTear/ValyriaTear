@@ -11,6 +11,7 @@
 /** ****************************************************************************
 *** \file    save_mode.cpp
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for save mode interface.
 *** ***************************************************************************/
 
@@ -23,19 +24,19 @@
 #include "modes/boot/boot.h"
 #include "modes/map/map_mode.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_boot;
-using namespace hoa_global;
-using namespace hoa_map;
-using namespace hoa_script;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_boot;
+using namespace vt_global;
+using namespace vt_map;
+using namespace vt_script;
 
-namespace hoa_save
+namespace vt_save
 {
 
 bool SAVE_DEBUG = false;
@@ -258,7 +259,7 @@ void SaveMode::Update()
                 // do not change unless you understand this and can test it properly!
                 uint32 id = (uint32)_file_list.GetSelection();
                 std::ostringstream f;
-                f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+                f << GetUserDataPath() + "saved_game_" << id << ".lua";
                 std::string filename = f.str();
                 // now, attempt to save the game.  If failure, we need to tell the user that!
                 if(GlobalManager->SaveGame(filename, id, _x_position, _y_position)) {
@@ -411,7 +412,7 @@ void SaveMode::DrawPostEffects()
 bool SaveMode::_LoadGame(uint32 id)
 {
     std::ostringstream f;
-    f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+    f << GetUserDataPath() + "saved_game_" << id << ".lua";
     std::string filename = f.str();
 
     if(DoesFileExist(filename)) {
@@ -460,11 +461,11 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
 bool SaveMode::_PreviewGame(uint32 id)
 {
     std::ostringstream f;
-    f << GetUserDataPath(true) + "saved_game_" << id << ".lua";
+    f << GetUserDataPath() + "saved_game_" << id << ".lua";
     std::string filename = f.str();
 
     // Check for the file existence, prevents a useless warning
-    if(!hoa_utils::DoesFileExist(filename)) {
+    if(!vt_utils::DoesFileExist(filename)) {
         _ClearSaveData(false);
         return false;
     }
@@ -492,10 +493,23 @@ bool SaveMode::_PreviewGame(uint32 id)
     // The map file, tested after the save game is closed.
     // DEPRECATED: Old way, will be removed in one release.
     std::string map_script_filename;
-    if (file.DoesStringExist("map_filename"))
+    std::string map_data_filename;
+    if (file.DoesStringExist("map_filename")) {
         map_script_filename = file.ReadString("map_filename");
-    else
+        map_data_filename = file.ReadString("map_filename");
+    }
+    else {
         map_script_filename = file.ReadString("map_script_filename");
+        map_data_filename = file.ReadString("map_data_filename");
+    }
+
+    // DEPRECATED: Remove in one release
+    // Hack to permit the split of last map data and scripts.
+    if (!map_script_filename.empty() && map_data_filename == map_script_filename) {
+        std::string map_common_name = map_data_filename.substr(0, map_data_filename.length() - 4);
+        map_data_filename = map_common_name + "_map.lua";
+        map_script_filename = map_common_name + "_script.lua";
+    }
 
     // Used to store temp data to populate text boxes
     int32 hours = file.ReadInt("play_hours");
@@ -558,14 +572,14 @@ bool SaveMode::_PreviewGame(uint32 id)
     time_text << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
     time_text << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-    hoa_utils::ustring time_ustr = UTranslate("Time - ");
+    vt_utils::ustring time_ustr = UTranslate("Time - ");
     time_ustr += MakeUnicodeString(time_text.str());
     _time_textbox.SetDisplayText(time_ustr);
 
     std::ostringstream drunes_amount;
     drunes_amount << drunes;
 
-    hoa_utils::ustring drunes_ustr = UTranslate("Drunes - ");
+    vt_utils::ustring drunes_ustr = UTranslate("Drunes - ");
     drunes_ustr += MakeUnicodeString(drunes_amount.str());
 
     _drunes_textbox.SetDisplayText(drunes_ustr);
@@ -658,7 +672,7 @@ void SmallCharacterWindow::Draw()
     if(_character == NULL)
         return;
 
-    if(_character->GetID() == hoa_global::GLOBAL_CHARACTER_INVALID)
+    if(_character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID)
         return;
 
     // Get the window metrics
@@ -693,4 +707,4 @@ void SmallCharacterWindow::Draw()
     return;
 }
 
-} // namespace hoa_save
+} // namespace vt_save
