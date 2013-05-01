@@ -6,7 +6,8 @@
 languages = {}
 languages[1] = { "English", "en@quot" } -- The default language (used when translations are disabled/broken)
 languages[2] = { "Deutsch", "de" }
---languages[x] = { "Español", "es" }
 languages[3] = { "Français", "fr" }
 languages[4] = { "Italiano", "it" }
+languages[5] = { "Português", "pt_PT" }
+--languages[x] = { "Español", "es" }
 --languages[x] = { "Português do Brasil", "pt_BR" }
