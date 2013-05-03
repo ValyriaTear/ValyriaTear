@@ -33,9 +33,23 @@ IF (POLICY CMP0015)
     CMAKE_POLICY(SET CMP0015 OLD)
 ENDIF()
 
+# in case a user overwrites these paths and specifies a relative one
+FOREACH(dir PKG_DATADIR LOCALEDIR)
+    IF(WIN32)
+        # no change for win32
+        SET(FULL_${dir} ${${dir}})
+    ELSE(WIN32)
+        IF(NOT IS_ABSOLUTE ${${dir}})
+            SET(FULL_${dir} "${CMAKE_INSTALL_PREFIX}/${${dir}}")
+        ELSE()
+            SET(FULL_${dir} ${${dir}})
+        ENDIF()
+    ENDIF(WIN32)
+ENDFOREACH()
+
 SET(FLAGS "-DPACKAGE_VERSION=\\\"${VERSION}\\\"")
-SET(FLAGS "${FLAGS} -DPKG_DATADIR=\\\"${PKG_DATADIR}/\\\"")
-SET(FLAGS "${FLAGS} -DLOCALEDIR=\\\"${LOCALEDIR}/\\\"")
+SET(FLAGS "${FLAGS} -DPKG_DATADIR=\\\"${FULL_PKG_DATADIR}/\\\"")
+SET(FLAGS "${FLAGS} -DLOCALEDIR=\\\"${FULL_LOCALEDIR}/\\\"")
 SET(FLAGS "${FLAGS} -DPKG_NAME=\\\"${PKG_NAME}/\\\"")
 
 IF (DEBUG_FEATURES)

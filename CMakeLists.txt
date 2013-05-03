@@ -41,9 +41,9 @@ ELSE (WIN32)
     IF (NOT OSX AND NOT BEOS)
         OPTION(USE_X11 "Use X11 Clipboard functionality" ON)
     ENDIF ()
-    SET(PKG_DATADIR ${CMAKE_INSTALL_PREFIX}/share/valyriatear)
-    SET(LOCALEDIR ${CMAKE_INSTALL_PREFIX}/share/locale)
-    SET(PKG_BINDIR ${CMAKE_INSTALL_PREFIX}/bin)
+    SET(PKG_DATADIR ${CMAKE_INSTALL_PREFIX}/share/valyriatear CACHE PATH "Data dir")
+    SET(LOCALEDIR ${CMAKE_INSTALL_PREFIX}/share/locale CACHE PATH "Locale dir")
+    SET(PKG_BINDIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Binary dir")
 ENDIF (WIN32)
 
 # The sub-folders to parse
