@@ -58,7 +58,6 @@ skills[10001] = {
                                           vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                           effect_duration);
         local Battle = ModeManager:GetTop();
-        -- TODO: Add sound
         if (target_actor:GetSpriteHeight() > 250.0) then
             -- Big sprite version
             Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance_big_sprites.lua",
@@ -67,6 +66,7 @@ skills[10001] = {
             Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         end
+        AudioManager:PlaySound("snd/defence1_spell.ogg");
     end
 }
 
@@ -144,7 +144,7 @@ skills[10004] = {
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            --AudioManager:PlaySound("snd/fire_burst.wav");
+            AudioManager:PlaySound("snd/fire1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
@@ -171,7 +171,7 @@ skills[10005] = {
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            --AudioManager:PlaySound("snd/fire_burst.wav");
+            AudioManager:PlaySound("snd/wave1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
