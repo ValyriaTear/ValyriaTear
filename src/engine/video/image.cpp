@@ -694,7 +694,7 @@ void ImageDescriptor::_GetPngImageInfo(const std::string &filename, uint32 &rows
     png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
 
     // grab the relevant data...
-#if PNG_LIBPNG_VER_SONUM == 15
+#if PNG_LIBPNG_VER_SONUM >= 15
     cols = png_get_image_width(png_ptr, info_ptr);
     rows = png_get_image_height(png_ptr, info_ptr);
     bpp = png_get_bit_depth(png_ptr, info_ptr) * 8;
