@@ -49,7 +49,7 @@ function Initialize(map_instance)
         },
         [4] = {
             header = vt_system.Translate("Music"),
-            text = "Mathew Pablo\n(matthewpablo.com)\nKoertes (OGA)\nHorrorPen (OGA)"
+            text = "Mathew Pablo\n(matthewpablo.com)\nZander Noriega (OGA)\nKoertes (OGA)\nHorrorPen (OGA)"
         },
         [5] = {
             header = vt_system.Translate("Programming, Scripting, Maps"),
@@ -61,11 +61,11 @@ function Initialize(map_instance)
         },
         [7] = {
             header = vt_system.Translate("Translations"),
-            text = "NaN (DE)\nBioHazardX (IT)\nBertram (FR)"
+            text = "NaN (DE)\nBioHazardX (IT)\nKnitter (pt_PT)\nBertram (FR)"
         },
         [8] = {
             header = vt_system.Translate("Tester Team"),
-            text = "Shirish\nKhyana\nSahaondra"
+            text = "Shirish\nKhyana\nSahaondra\nOmega\nPenPen"
         },
         [9] = {
             header = "",
