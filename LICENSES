@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.04.30
+Last update: 2013.05.03
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -588,6 +588,8 @@ img/sprites/map/objects/chair1.lua                              GPLv2           
 img/sprites/map/objects/chair1.png                              GPLv2                    Allacrost
 img/sprites/map/objects/chair1_inverted.lua                     GPLv2                    Bertram
 img/sprites/map/objects/chair1_inverted.png                     GPLv2                    Allacrost
+img/sprites/map/objects/chair1_north.lua                        GPLv2                    Bertram
+img/sprites/map/objects/chair1_north.png                        CC by SA 3.0             Bertram, based on Jetrel's (OGA) work
 img/sprites/map/objects/chair2.lua                              GPLv2                    Bertram
 img/sprites/map/objects/chair2.png                              GPLv2                    Allacrost
 img/sprites/map/objects/clock1.lua                              GPLv2                    Bertram

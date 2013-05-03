@@ -136,6 +136,14 @@ objects["Chair1_inverted"] = {
     img_height = 2.9
 }
 
+objects["Chair1_north"] = {
+    animation_filename = "img/sprites/map/objects/chair1_north.lua",
+    coll_half_width = 0.75,
+    coll_height = 0.9,
+    img_half_width = 0.75,
+    img_height = 2.81
+}
+
 objects["Chair2"] = {
     animation_filename = "img/sprites/map/objects/chair2.lua",
     coll_half_width = 0.95,

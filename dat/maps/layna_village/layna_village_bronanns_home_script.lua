@@ -207,7 +207,7 @@ function _CreateObjects()
     object = CreateObject(Map, "Chair1_inverted", 41, 18);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Bench2", 44, 15.3);
+    object = CreateObject(Map, "Chair1_north", 44, 15.3);
     if (object ~= nil) then Map:AddGroundObject(object) end;
 
     object = CreateObject(Map, "Table1", 44, 19);
