@@ -8,6 +8,8 @@ local display_time = 0;
 local flash_alpha = 0.0;
 local cloud_alpha = 0.0;
 
+local smoke_sound_triggered = false;
+
 -- c++ objects instances
 local Map = {};
 local Script = {};
@@ -22,6 +24,8 @@ function Initialize(map_instance)
 
     flash_alpha = 0.0;
     cloud_alpha = 0.0;
+
+    smoke_sound_triggered = false;
 end
 
 function Update()
@@ -32,6 +36,11 @@ function Update()
 
     if (GlobalManager:GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
         return;
+    end
+
+    if (smoke_sound_triggered == false) then
+        AudioManager:PlaySound("snd/steam_hisses.ogg");
+        smoke_sound_triggered = true;
     end
 
     local time_expired = SystemManager:GetUpdateTime();
