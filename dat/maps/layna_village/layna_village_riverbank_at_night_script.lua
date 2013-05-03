@@ -766,6 +766,25 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Kalya uses smoke to flee with Bronann 2", "smoke_event_start", "smoke_event_update");
     event:AddEventLinkAtEnd("Exclamation of all soldiers 2");
     event:AddEventLinkAtEnd("Dialogue between Herth and Banesore");
+    event:AddEventLinkAtEnd("Soldier17 looks at Kalya");
+    event:AddEventLinkAtEnd("Soldier18 looks at Kalya", 150);
+    event:AddEventLinkAtEnd("Soldier19 looks at Kalya", 300);
+    event:AddEventLinkAtEnd("Soldier20 looks at Kalya", 400);
+
+    event:AddEventLinkAtEnd("Soldiers wonders where Kalya is", 500);
+    EventManager:RegisterEvent(event);
+
+    -- The soldiers guarding Kalya wonder whe she is...
+    event = vt_map.LookAtSpriteEvent("Soldier17 looks at Kalya", soldier17, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Soldier18 looks at Kalya", soldier18, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Soldier19 looks at Kalya", soldier19, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Soldier20 looks at Kalya", soldier20, kalya);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Soldiers wonders where Kalya is", "interrogation_soldiers_guarding_kalya", "");
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
@@ -1038,5 +1057,12 @@ map_functions = {
         kalya:SetVisible(false);
         orlinn:SetVisible(false);
         herth:SetPosition(92.0, 54.0);
+    end,
+
+    interrogation_soldiers_guarding_kalya = function()
+        soldier17:Emote("interrogation", soldier17:GetDirection());
+        soldier18:Emote("interrogation", soldier18:GetDirection());
+        soldier19:Emote("interrogation", soldier19:GetDirection());
+        soldier20:Emote("interrogation", soldier20:GetDirection());
     end
 }

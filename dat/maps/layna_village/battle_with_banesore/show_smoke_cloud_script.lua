@@ -58,9 +58,9 @@ function Update()
     end
 
     -- The smoke cloud alpha
-    if (display_time > 1500 and display_time <= 4300) then
-        cloud_alpha = 1.0 - (display_time - 1500) / (4300 - 1500);
-    elseif (display_time > 4300) then
+    if (display_time > 1500 and display_time <= 4100) then
+        cloud_alpha = 0.9 - (display_time - 1500) / (4100 - 1500);
+    elseif (display_time > 4100) then
         cloud_alpha = 0.0;
     end
 
@@ -79,4 +79,6 @@ function DrawForeground()
     end
 
     Script:DrawImage(smoke_cloud_id, 452.0 + display_time * 0.05, 424.0, vt_video.Color(1.0, 1.0, 1.0, cloud_alpha));
+    Script:DrawImage(smoke_cloud_id, 452.0, 424.0 + display_time * 0.05, vt_video.Color(1.0, 1.0, 1.0, cloud_alpha));
+    Script:DrawImage(smoke_cloud_id, 452.0 - display_time * 0.05, 424.0 - display_time * 0.02, vt_video.Color(1.0, 1.0, 1.0, cloud_alpha));
 end
