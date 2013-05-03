@@ -989,17 +989,18 @@ void MapSprite::_DrawDebugInfo()
 
 void MapSprite::Draw()
 {
-    if(MapObject::ShouldDraw()) {
-        if(_custom_animation_on && _current_custom_animation)
-            _current_custom_animation->Draw();
-        else
-            _animation->at(_current_anim_direction).Draw();
+    if(!MapObject::ShouldDraw())
+        return;
 
-        MapObject::_DrawEmote();
+    if(_custom_animation_on && _current_custom_animation)
+        _current_custom_animation->Draw();
+    else
+        _animation->at(_current_anim_direction).Draw();
 
-        if(VideoManager->DebugInfoOn())
-            _DrawDebugInfo();
-    }
+    MapObject::_DrawEmote();
+
+    if(VideoManager->DebugInfoOn())
+        _DrawDebugInfo();
 }
 
 void MapSprite::DrawDialog()
