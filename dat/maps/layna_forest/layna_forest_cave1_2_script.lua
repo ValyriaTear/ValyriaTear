@@ -220,8 +220,8 @@ function _CreateEvents()
     local text = {};
 
     -- Map transition events
-    event = vt_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_1.lua", "from_layna_cave_1_2");
+    event = vt_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
+                                       "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_cave_1_2");
     EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
