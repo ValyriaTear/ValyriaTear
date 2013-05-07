@@ -37,7 +37,6 @@ function Load(m)
     -- Set the camera focus on Bronann
     Map:SetCamera(bronann);
 
-    _CreateNPCs();
     _CreateObjects();
 
     _CreateEvents();
@@ -77,32 +76,6 @@ function _CreateCharacters()
     kalya:SetVisible(false);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(kalya);
-end
-
-local soldier1 = {};
-local soldier2 = {};
-local soldier3 = {};
-local soldier4 = {};
-
-function _CreateNPCs()
-    local npc = {}
-    local text = {}
-    local dialogue = {}
-    local event = {}
-
-    -- Create the soldiers
-    soldier1 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 88, 59);
-    soldier1:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier1);
-    soldier2 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 96, 59);
-    soldier2:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 106, 59.5);
-    soldier3:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier3);
-    soldier4 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 88, 55);
-    soldier4:SetDirection(vt_map.MapMode.WEST);
-    Map:AddGroundObject(soldier4);
 end
 
 function _CreateObjects()
