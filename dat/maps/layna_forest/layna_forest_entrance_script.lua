@@ -67,9 +67,6 @@ function Load(m)
     -- Update the world map location
     GlobalManager:SetCurrentLocationId("layna forest");
 
-    -- To be continued script
-    Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
-
     _HandleTwilight();
 
     -- Change the music according to the moment of the story.
@@ -583,10 +580,6 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("end of save point event", "end_of_save_point_event", "");
     EventManager:RegisterEvent(event);
-
-    -- NOTE temp event until what's next is done
-    event = vt_map.ScriptedEvent("to be continued", "to_be_continued", "");
-    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -611,8 +604,7 @@ function _CheckZones()
             EventManager:StartEvent("exit forest");
         else
             hero:SetMoving(false);
-            EventManager:StartEvent("to be continued");
-            --EventManager:StartEvent("exit forest at night");
+            EventManager:StartEvent("exit forest at night");
         end
     elseif (to_forest_nw_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
@@ -729,12 +721,5 @@ map_functions = {
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") >= 6) then
             AudioManager:PlayMusic("mus/forest_at_night.ogg");
         end
-    end,
-
-    to_be_continued = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-        hero:SetMoving(false);
-        GlobalManager:SetEventValue("game", "to_be_continued", 1);
     end
-
 }
