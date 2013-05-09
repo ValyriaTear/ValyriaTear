@@ -139,7 +139,7 @@ skills[10004] = {
         target_actor = target:GetActor();
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- TODO: Set fire elemental damage type based on character stats
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 30), target);
+            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 30), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",
@@ -166,7 +166,7 @@ skills[10005] = {
         target_actor = target:GetActor();
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- TODO: Set water elemental damage type based on character stats
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 45), target);
+            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 45), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",

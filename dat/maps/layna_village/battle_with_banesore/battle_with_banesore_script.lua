@@ -188,10 +188,10 @@ function Update()
     -- - When Bronann's HP are low and at least a few seconds have passed
     -- - And the dialogue with Herth isn't done.
     if (dialogue3_done == false and lilly_charge_time <= 0) then
-        if (bronann:GetHitPoints() <= 25) then
+        if (bronann:GetHitPoints() <= 50) then
             DialogueManager:BeginDialogue(5);
             Battle:SetSceneMode(true);
-            lilly_charge_time = 20000;
+            lilly_charge_time = 10000;
             lilly_heals_bronann();
         end
     end

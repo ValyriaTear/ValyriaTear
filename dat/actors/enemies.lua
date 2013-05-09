@@ -93,7 +93,8 @@ enemies[2] = {
             y_position = 33,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
-            evade_modifier = 0.0
+            evade_modifier = 0.0,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Abdomen"),
@@ -150,7 +151,8 @@ enemies[3] = {
             y_position = 156,
             fortitude_modifier = -0.2,
             protection_modifier = 0,
-            evade_modifier = 0.2
+            evade_modifier = 0.2,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -204,7 +206,8 @@ enemies[4] = {
             y_position = 60,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
-            evade_modifier = 0.0
+            evade_modifier = 0.2,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -212,7 +215,7 @@ enemies[4] = {
             y_position = 25,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
-            evade_modifier = 0.0
+            evade_modifier = 0.1
         },
         [3] = {
             name = vt_system.Translate("Tail"),
@@ -220,7 +223,7 @@ enemies[4] = {
             y_position = 38,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
-            evade_modifier = 0.0,
+            evade_modifier = 0.2,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
         }
     },
@@ -314,7 +317,7 @@ enemies[6] = {
             y_position = 95,
             fortitude_modifier = 0.2,
             protection_modifier = 0.0,
-            evade_modifier = 0.0
+            evade_modifier = 0.1
         },
         [2] = {
             name = vt_system.Translate("Wing"),
@@ -373,7 +376,8 @@ enemies[7] = {
             y_position = 156,
             fortitude_modifier = -0.2,
             protection_modifier = 0,
-            evade_modifier = 0.2
+            evade_modifier = 0.2,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -432,7 +436,8 @@ enemies[8] = {
             y_position = 156,
             fortitude_modifier = -0.2,
             protection_modifier = 0,
-            evade_modifier = 0.2
+            evade_modifier = 0.2,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -486,10 +491,11 @@ enemies[9] = {
             y_position = 280,
             fortitude_modifier = -0.2,
             protection_modifier = -0.2,
-            evade_modifier = 0.2
+            evade_modifier = 0.2,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
         },
         [2] = {
-            name = vt_system.Translate("Abdomen"),
+            name = vt_system.Translate("Torso"),
             x_position = 0,
             y_position = 200,
             fortitude_modifier = 0.4,
@@ -532,8 +538,8 @@ enemies[10] = {
     base_stats = {
         hit_points = 999999,
         skill_points = 99999,
-        strength = 18, -- Just for the game
-        vigor = 999,
+        strength = 40, -- Just for the river bank battle
+        vigor = 40, -- just for the riverbank battle
         fortitude = 999,
         protection = 999,
         agility = 27,
@@ -549,15 +555,16 @@ enemies[10] = {
             y_position = 300,
             fortitude_modifier = -0.2,
             protection_modifier = -0.2,
-            evade_modifier = 0.2
+            evade_modifier = 0.4,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
         },
         [2] = {
-            name = vt_system.Translate("Abdomen"),
+            name = vt_system.Translate("Torso"),
             x_position = -40,
             y_position = 200,
             fortitude_modifier = 0.4,
             protection_modifier = 0.3,
-            evade_modifier = 0.0
+            evade_modifier = 0.4
         },
         [3] = {
             name = vt_system.Translate("Legs"),
@@ -565,7 +572,7 @@ enemies[10] = {
             y_position = 100,
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
-            evade_modifier = 0.1,
+            evade_modifier = 0.4,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
         }
     },
