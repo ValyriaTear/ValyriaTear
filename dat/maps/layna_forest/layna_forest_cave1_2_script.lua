@@ -491,7 +491,7 @@ function _CreateZones()
     to_cave_exit_zone = vt_map.CameraZone(108, 116, 95, 96);
     Map:AddZone(to_cave_exit_zone);
 
-    to_wolf_cave_zone = vt_map.CameraZone(123, 124, 12, 13);
+    to_wolf_cave_zone = vt_map.CameraZone(122, 124, 12, 14);
     Map:AddZone(to_wolf_cave_zone);
 
     seeing_the_exit_zone = vt_map.CameraZone(99, 122, 80, 96);
