@@ -794,7 +794,7 @@ function _CreateEvents()
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("What?!");
     dialogue:AddLineEmote(text, herth, "exclamation");
-    text = vt_system.Translate("After all, I simply made sure that boy would reach the Mt. Combe, safe and sound.");
+    text = vt_system.Translate("After all, I simply made sure that boy would reach the Mt. Elbrus, safe and sound.");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("He is the only one that can get what I'm looking for...");
     dialogue:AddLine(text, lord);
