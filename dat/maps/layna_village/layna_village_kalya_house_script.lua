@@ -56,6 +56,9 @@ function Load(m)
     if (GlobalManager:GetEventValue("story", "kalya_basement_scene") == 0) then
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         EventManager:StartEvent("Orlinn goes out of the stairs");
+    else
+        -- Set the sad music
+        EventManager:StartEvent("Sad music start", 100);
     end
 end
 
@@ -273,7 +276,13 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Bronann looks angry", bronann, "hero_stance", 999999);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Stop Bronann looks angry", "termninate_bronann_events", "");
+    event = vt_map.ScriptedEvent("Stop Bronann looks angry", "terminate_bronann_events", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Sad music start", "sad_music_start", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("FadeOutAllMusic", "fade_out_music", "");
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
@@ -284,7 +293,7 @@ function _CreateEvents()
     text = vt_system.Translate("The soldiers might be here within minutes. We'll leave to the north and cross the north-west plain up to...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("No.");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEvent(text, bronann, "FadeOutAllMusic", "");
     text = vt_system.Translate("No?!");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "exclamation");
     text = vt_system.Translate("No, I won't follow you anymore...");
@@ -308,7 +317,7 @@ function _CreateEvents()
     text = vt_system.Translate("... Fine.");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks south", "", "sweat drop");
     text = vt_system.Translate("...");
-    dialogue:AddLine(text, bronann);
+    dialogue:AddLineEvent(text, bronann, "", "Sad music start");
     text = vt_system.Translate("I knew the crystal would appear...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("What?");
@@ -380,9 +389,15 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya goes triggering the secret path");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Click sound", "click_sound", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Wall sound", "wall_sound", "");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.PathMoveSpriteEvent("Kalya goes triggering the secret path", kalya, 28.0, 15.1, false);
-    -- TODO: Add mid event playing a 'click'
     event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Click sound");
+    event:AddEventLinkAtEnd("Wall sound", 700);
     event:AddEventLinkAtEnd("Kalya triggers the secret path", 1000);
     EventManager:RegisterEvent(event);
 
@@ -495,7 +510,15 @@ map_functions = {
         orlinn:SetVisible(false);
     end,
 
-    termninate_bronann_events = function()
+    fade_out_music = function()
+        AudioManager:FadeOutAllMusic(1000);
+    end,
+
+    sad_music_start = function()
+        AudioManager:PlayMusic("mus/sad_moment.ogg");
+    end,
+
+    terminate_bronann_events = function()
         EventManager:TerminateAllEvents(bronann);
     end,
 
@@ -503,8 +526,15 @@ map_functions = {
         orlinn:SetVisible(true);
     end,
 
-    kalya_triggers_the_secret_path =  function()
+    click_sound = function()
+        AudioManager:PlaySound("snd/menu_click_01.wav");
+    end,
+
+    wall_sound = function()
         AudioManager:PlaySound("snd/cave-in.ogg");
+    end,
+
+    kalya_triggers_the_secret_path =  function()
         Effects:ShakeScreen(0.6, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         fake_wall:SetVisible(false);
         fake_wall:SetPosition(0, 0);
