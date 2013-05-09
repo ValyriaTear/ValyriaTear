@@ -98,6 +98,8 @@ dat/maps/layna_forest/crystal_appearance/crystal_shadow.png     CC by SA 3.0    
 dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua        GPLv2 Bertram
 dat/maps/layna_forest/crystal_appearance/vortex.png             CC by SA 3.0             Bertram
 
+dat/maps/layna_village/kalya_house_fake_wall.png                GPLv2 or later           Bertram, based on Jetrel harrvah tileset.
+
 dat/objects/arm_armor.lua                                       GPLv2 or later           Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2 or later           Allacrost + Bertram
 dat/objects/items.lua                                           GPLv2 or later           Allacrost + Bertram
