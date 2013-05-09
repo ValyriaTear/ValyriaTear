@@ -287,13 +287,12 @@ void BattleMode::RestartBattle()
         _ResetPassiveStatusEffects(*(_character_actors[i]));
     }
 
-
     for(uint32 i = 0; i < _enemy_actors.size(); ++i)
         _enemy_actors[i]->ResetActor();
 
     // Reset battle inventory and available actions
-    _command_supervisor->ResetItemList();
-    _command_supervisor->ConstructMenus();
+    delete _command_supervisor;
+    _command_supervisor = new CommandSupervisor();
 
     _battle_media.battle_music.Rewind();
     _battle_media.battle_music.Play();

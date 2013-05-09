@@ -131,6 +131,12 @@ void BattleActor::ResetActor()
     ResetAgility();
     ResetEvade();
 
+    // If the actor did not get a chance to execute their action, delete it
+    if(_action != NULL) {
+        delete _action;
+        _action = NULL;
+    }
+    
     // Invalidate the actor state to force the reinit of the idle or dead state
     _state = ACTOR_STATE_INVALID;
 

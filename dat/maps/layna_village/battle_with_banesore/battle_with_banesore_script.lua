@@ -119,6 +119,26 @@ function Initialize(battle_instance)
     bronann = Battle:GetCharacterActor(0);
 end
 
+function Reset()
+    battle_time = 0;
+    dialogue1_done = false;
+    dialogue2_done = false;
+    dialogue3_done = false;
+    dialogue4_done = false;
+    battle_exit_done = false;
+
+    -- Add a charge time at the end of which lilly can help Bronann
+    lilly_charge_time = 10000;
+
+    -- Set Herth's starting x position
+    herth_x_position = 0.0;
+
+    -- Get Bronann actor
+    bronann = Battle:GetCharacterActor(0);
+
+    start_timer:Reset();
+end
+
 
 function Update()
 
