@@ -1012,19 +1012,25 @@ void MapSprite::DrawDialog()
         return;
 
     MapMode *map_mode = MapMode::CurrentInstance();
-    if(_has_available_dialogue && _has_unseen_dialogue && !_dialogue_started
-            && map_mode->IsShowGUI() && !map_mode->IsCameraOnVirtualFocus()) {
-        Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
-        float icon_alpha = 1.0f - (fabs(GetXPosition() - map_mode->GetCamera()->GetXPosition())
-                                   + fabs(GetYPosition() - map_mode->GetCamera()->GetYPosition())) / DIALOGUE_ICON_VISIBLE_RANGE;
+    // Don't show a dialogue bubble when not in exploration mode.
+    if (map_mode->CurrentState() != STATE_EXPLORE)
+        return;
 
-        if(icon_alpha < 0.0f)
-            icon_alpha = 0.0f;
-        icon_color.SetAlpha(icon_alpha);
+    // Other logical conditions preventing the bubble from being displayed
+    if (!_has_available_dialogue || !_has_unseen_dialogue || _dialogue_started
+            || !map_mode->IsShowGUI() || map_mode->IsCameraOnVirtualFocus())
+        return;
 
-        VideoManager->MoveRelative(0, -GetImgHeight());
-        map_mode->GetDialogueIcon().Draw(icon_color);
-    }
+    Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
+    float icon_alpha = 1.0f - (fabs(GetXPosition() - map_mode->GetCamera()->GetXPosition())
+                               + fabs(GetYPosition() - map_mode->GetCamera()->GetYPosition())) / DIALOGUE_ICON_VISIBLE_RANGE;
+
+    if(icon_alpha < 0.0f)
+        icon_alpha = 0.0f;
+    icon_color.SetAlpha(icon_alpha);
+
+    VideoManager->MoveRelative(0, -GetImgHeight());
+    map_mode->GetDialogueIcon().Draw(icon_color);
 }
 
 void MapSprite::AddDialogueReference(uint32 dialogue_id)
