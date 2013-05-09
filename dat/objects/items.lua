@@ -354,8 +354,21 @@ items[1003] = {
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
--- IDs 3,001 - 4,000 are reserved for attack items
+-- IDs 3,001 - 4,000 are reserved for weapon improvement items
 --------------------------------------------------------------------------------
+items[3001] = {
+    name = vt_system.Translate("Copper Ore"),
+    description = vt_system.Translate("A small amount of copper ore."),
+    icon = "img/icons/items/copper_ore.png",
+    standard_price = 150
+}
+
+items[3002] = {
+    name = vt_system.Translate("Iron Ore"),
+    description = vt_system.Translate("A small amount of iron ore."),
+    icon = "img/icons/items/iron_ore.png",
+    standard_price = 450
+}
 
 --------------------------------------------------------------------------------
 -- IDs 70001-80000 are reserved for "simple" key items
