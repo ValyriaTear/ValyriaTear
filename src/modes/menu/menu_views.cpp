@@ -344,6 +344,15 @@ void InventoryWindow::Update()
                     break;
                 }
 
+                // Check first whether the item is usable from the menu
+                GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(_object->GetID());
+                if (!item->IsUsableInField()) {
+                    media.PlaySound("cancel");
+                    GlobalManager->AddToInventory(item);
+                    break;
+                }
+                GlobalManager->AddToInventory(item);
+
                 _active_box = ITEM_ACTIVE_CHAR;
                 _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
                 _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
