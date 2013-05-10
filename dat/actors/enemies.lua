@@ -470,18 +470,17 @@ enemies[9] = {
         [HURT_HEAVILY] = "img/sprites/battle/enemies/dark_soldier_0.lua"
     },
 
-    -- TODO: Balance stats
     base_stats = {
-        hit_points = 122,
-        skill_points = 10,
-        strength = 18,
-        vigor = 0,
-        fortitude = 12,
-        protection = 4,
-        agility = 14,
-        evade = 2.0,
-        experience_points = 8,
-        drunes = 12
+        hit_points = 300,
+        skill_points = 30,
+        strength = 80,
+        vigor = 28,
+        fortitude = 87,
+        protection = 35,
+        agility = 38,
+        evade = 5.0,
+        experience_points = 96,
+        drunes = 63
     },
 
     attack_points = {
