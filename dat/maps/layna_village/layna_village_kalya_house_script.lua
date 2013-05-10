@@ -170,7 +170,7 @@ function _CreateObjects()
     -- Chests
     local chest = CreateTreasure(Map, "kalya_house_basement_chest1", "Wood_Chest1", 25, 22);
     if (chest ~= nil) then
-        chest:AddObject(10002, 1); -- 1 Iron Sword
+        chest:AddObject(10011, 1); -- 1 Iron Sword
         Map:AddGroundObject(chest);
     end
 
