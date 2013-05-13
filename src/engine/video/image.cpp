@@ -1035,10 +1035,10 @@ void StillImage::Draw(const Color &draw_color) const
         return;
 
     glPushMatrix();
-    _DrawOrientation();
-
     if (_x_offset != 0.0f || _y_offset != 0.0f)
         VideoManager->MoveRelative(_x_offset, _y_offset);
+
+    _DrawOrientation();
 
     // Used to determine if the image color should be modulated by any degree due to screen fading effects
     if(draw_color == Color::white) {
@@ -1294,7 +1294,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
             x_offset = image_script.ReadFloat("x_offset");
         if (image_script.DoesFloatExist("y_offset"))
             y_offset = image_script.ReadFloat("y_offset");
-        
+
         if(frame_id < 0 || frame_duration < 0 || frame_id >= (int32)image_frames.size()) {
             PRINT_WARNING << "Invalid frame (" << frames_table_id << ") in file: "
                           << filename << std::endl;
@@ -1318,10 +1318,10 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
     _frames.clear();
     ResetAnimation();
     for(uint32 i = 0; i < frames_ids.size(); ++i) {
-        // Set the dimension of the requested frame
-        image_frames[frames_ids[i]].SetDimensions(_width, _height);
         // set the frame offsets
         image_frames[frames_ids[i]].SetDrawOffsets(frames_offsets[i].first, frames_offsets[i].second);
+        // Set the dimension of the requested frame
+        image_frames[frames_ids[i]].SetDimensions(_width, _height);
 
         AddFrame(image_frames[frames_ids[i]], frames_duration[i]);
         if(frames_duration[i] == 0) {
