@@ -890,8 +890,9 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
 
 StillImage::StillImage(const bool grayscale) :
     ImageDescriptor(),
-    _filename(""),
-    _image_texture(NULL)
+    _image_texture(NULL),
+    _x_offset(0.0f),
+    _y_offset(0.0f)
 {
     Clear();
     _grayscale = grayscale;
@@ -911,6 +912,8 @@ void StillImage::Clear()
     ImageDescriptor::Clear(); // This call will remove the texture reference for us
     _filename.clear();
     _image_texture = NULL;
+    _x_offset = 0.0f;
+    _y_offset = 0.0f;
 }
 
 
@@ -923,6 +926,8 @@ bool StillImage::Load(const std::string &filename)
         _image_texture = NULL;
         _width = 0.0f;
         _height = 0.0f;
+        _x_offset = 0.0f;
+        _y_offset = 0.0f;
     }
 
     _filename = filename;
@@ -1032,6 +1037,8 @@ void StillImage::Draw(const Color &draw_color) const
     glPushMatrix();
     _DrawOrientation();
 
+    if (_x_offset != 0.0f || _y_offset != 0.0f)
+        VideoManager->MoveRelative(_x_offset, _y_offset);
 
     // Used to determine if the image color should be modulated by any degree due to screen fading effects
     if(draw_color == Color::white) {
@@ -1270,6 +1277,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
 
     std::vector<uint32> frames_ids;
     std::vector<uint32> frames_duration;
+    std::vector<std::pair<float, float> > frames_offsets;
 
     image_script.OpenTable("frames");
     uint32 num_frames = image_script.GetTableSize();
@@ -1279,6 +1287,14 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         int32 frame_id = image_script.ReadInt("id");
         int32 frame_duration = image_script.ReadInt("duration");
 
+        // Loads the frame offsets
+        float x_offset = 0.0f;
+        float y_offset = 0.0f;
+        if (image_script.DoesFloatExist("x_offset"))
+            x_offset = image_script.ReadFloat("x_offset");
+        if (image_script.DoesFloatExist("y_offset"))
+            y_offset = image_script.ReadFloat("y_offset");
+        
         if(frame_id < 0 || frame_duration < 0 || frame_id >= (int32)image_frames.size()) {
             PRINT_WARNING << "Invalid frame (" << frames_table_id << ") in file: "
                           << filename << std::endl;
@@ -1289,6 +1305,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
 
         frames_ids.push_back((uint32)frame_id);
         frames_duration.push_back((uint32)frame_duration);
+        frames_offsets.push_back(std::make_pair<float, float>(x_offset, y_offset));
 
         image_script.CloseTable(); // frames[frame_table_id] table
     }
@@ -1303,6 +1320,9 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
     for(uint32 i = 0; i < frames_ids.size(); ++i) {
         // Set the dimension of the requested frame
         image_frames[frames_ids[i]].SetDimensions(_width, _height);
+        // set the frame offsets
+        image_frames[frames_ids[i]].SetDrawOffsets(frames_offsets[i].first, frames_offsets[i].second);
+
         AddFrame(image_frames[frames_ids[i]], frames_duration[i]);
         if(frames_duration[i] == 0) {
             PRINT_WARNING << "Added a frame time value of zero when loading file: " << filename << std::endl;

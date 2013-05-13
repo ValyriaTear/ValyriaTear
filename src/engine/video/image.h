@@ -429,6 +429,8 @@ public:
     *** \param width Width of the image
     **/
     void SetWidth(float width) {
+        if (_width > 0.0f && _x_offset != 0.0f)
+            _x_offset = _x_offset != 0.0f ? _x_offset / _width * width : 0.0f;
         _width = width;
     }
 
@@ -436,6 +438,8 @@ public:
     *** \param height Height of the image
     **/
     void SetHeight(float height) {
+        if (_height > 0.0f && _y_offset != 0.0f)
+            _y_offset = _y_offset != 0.0f ? _y_offset / _height * height : 0.0f;
         _height = height;
     }
 
@@ -458,6 +462,29 @@ public:
         SetHeight(height);
     }
 
+    /** \brief Sets the image X drawing offset
+    *** \param x_offset The horizontal offset in pixels
+    **/
+    void SetXDrawOffset(float x_offset) {
+        _x_offset = x_offset;
+    }
+
+    /** \brief Sets the image Y drawing offset
+    *** \param y_offset The vertical offset in pixels
+    **/
+    void SetYDrawOffset(float y_offset) {
+        _y_offset = y_offset;
+    }
+
+    /** \brief Sets the image drawing offset
+    *** \param x_offset The horizontal offset in pixels
+    *** \param y_offset The vertical offset in pixels
+    **/
+    void SetDrawOffsets(float x_offset, float y_offset) {
+        _x_offset = x_offset;
+        _y_offset = y_offset;
+    }
+
     /** \brief Sets image to static/animated
     ***	\param is_static Flag indicating whether the image should be made static or not
     **/
@@ -476,6 +503,9 @@ protected:
 
     //! \brief The texture image that is referenced by this element
     private_video::ImageTexture *_image_texture;
+
+    //! \brief X and y draw position offsets of this element
+    float _x_offset, _y_offset;
 }; // class StillImage : public ImageDescriptor
 
 

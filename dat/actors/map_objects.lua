@@ -237,7 +237,7 @@ objects["Grass Clump1"] = {
     coll_half_width = 2.2,
     coll_height = 1.2,
     img_half_width = 2.5,
-    img_height = 3.0
+    img_height = 3.5
 }
 
 objects["Green Pepper1"] = {
