@@ -13,10 +13,13 @@ function BootMenuTest()
     GlobalManager:AddDrunes(1842);
     GlobalManager:AddToInventory(1, 5);
     GlobalManager:AddToInventory(1001, 2);
+    GlobalManager:AddToInventory(3001, 1);
+    GlobalManager:AddToInventory(3002, 1);
+    GlobalManager:AddToInventory(3003, 1);
+    GlobalManager:AddToInventory(3004, 1);
     GlobalManager:AddToInventory(10001, 10);
     GlobalManager:AddToInventory(10002, 10);
     GlobalManager:AddToInventory(10003, 10);
-    GlobalManager:AddToInventory(10004, 1);
     GlobalManager:AddToInventory(10999, 1);
     GlobalManager:AddToInventory(30011, 10);
     GlobalManager:AddToInventory(30012, 10);

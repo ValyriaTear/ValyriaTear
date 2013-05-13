@@ -370,6 +370,20 @@ items[3002] = {
     standard_price = 450
 }
 
+items[3003] = {
+    name = vt_system.Translate("Evanium Ore"),
+    description = vt_system.Translate("A small amount of Evanium ore."),
+    icon = "img/icons/items/evanium_ore.png",
+    standard_price = 1500
+}
+
+items[3004] = {
+    name = vt_system.Translate("Phoenix Feather"),
+    description = vt_system.Translate("A genuine and perfect feather from the great Fire Bird. It is known to bring life to inanimated items."),
+    icon = "img/icons/items/phoenix_feather.png",
+    standard_price = 4500
+}
+
 --------------------------------------------------------------------------------
 -- IDs 70001-80000 are reserved for "simple" key items
 --------------------------------------------------------------------------------

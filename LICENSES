@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.05.09
+Last update: 2013.05.13
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -220,7 +220,9 @@ img/icons/effects/templates.png                                 GPLv2           
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
 img/icons/items/copper_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/evanium_ore.png                                 CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/phoenix_feather.png                             CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
 
 img/icons/magic/defensive_stance.png                            CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
 img/icons/magic/first_aid.png                                   CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
