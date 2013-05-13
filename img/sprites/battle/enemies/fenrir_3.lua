@@ -10,10 +10,10 @@ animation = {
     rows = 1,
     columns = 4,
     -- set the image dimensions on battles (in pixels)
-    frame_width = 469.0,
-    frame_height = 297.0,
+    frame_width = 560.0,
+    frame_height = 406.0,
     -- The frames duration in milliseconds
     frames = {
-        [0] = { id = 3, duration = 999999 },
+        [0] = { id = 3, duration = 999999, y_offset = 98.0 },
     }
-    }
+}

@@ -432,7 +432,7 @@ function _CreateEvents()
     event = vt_map.BattleEncounterEvent("Fenrir Battle");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
-    event:AddEnemy(8, 0, 0);
+    event:AddEnemy(8, 512, 500);
     event:AddEventLinkAtEnd("Make the wolf disappear");
     EventManager:RegisterEvent(event);
 

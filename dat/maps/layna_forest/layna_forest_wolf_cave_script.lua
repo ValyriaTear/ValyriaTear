@@ -365,7 +365,7 @@ function _CreateEvents()
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
-    event:AddEnemy(7, 0, 0);
+    event:AddEnemy(7, 512, 500);
     event:AddEventLinkAtEnd("Make the fenrir disappear");
     EventManager:RegisterEvent(event);
 

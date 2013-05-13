@@ -669,7 +669,7 @@ function _CreateEvents()
     event = vt_map.BattleEncounterEvent("First Wolf battle");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
-    event:AddEnemy(3, 0, 0);
+    event:AddEnemy(3, 512, 500);
     event:AddEventLinkAtEnd("Make the wolf disappear");
     EventManager:RegisterEvent(event);
 
