@@ -222,7 +222,6 @@ img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0    
 img/icons/items/copper_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 
-
 img/icons/magic/defensive_stance.png                            CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
 img/icons/magic/first_aid.png                                   CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
 img/icons/magic/leader_call.png                                 CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
@@ -874,10 +873,10 @@ Files:
 ./img/icons/weapons/iron_sword.png
 ./img/icons/weapons/arbalest.png
 ./img/icons/weapons/karlate_sword.png
-./img/icons/weapons/reinforced_crossbow.png
 ./img/icons/weapons/quick_crossbow.png
 ./img/icons/weapons/standard_crossbow.png
 ./img/icons/weapons/knights_blade.png
+
 ./img/icons/items/instrument_kantele.png
 ./img/icons/items/potion_blue_huge.png
 ./img/icons/items/scroll_red.png
