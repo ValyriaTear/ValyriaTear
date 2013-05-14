@@ -48,6 +48,25 @@ function trigger_potential_stun(user, target)
                                       effect_duration);
 end
 
+function trigger_potential_attack_lowering(user, target)
+    local target_actor = target:GetActor();
+    local attack_point = target_actor:GetAttackPoint(target:GetPoint());
+    local chance_modifier = (user:GetTotalMagicalAttack() - attack_point:GetTotalMagicalDefense()) * 3.0;
+    local chance = (vt_utils.RandomFloat() * 100.0);
+    --print( chance.. "/".. 50.0 + chance_modifier);
+    if (chance > (50.0 + chance_modifier)) then
+        target_actor:RegisterMiss(true);
+        return;
+    end
+
+    -- Compute an effect duration time based on the characters' stats
+    local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
+    if (effect_duration < 15000) then effect_duration = 15000; end
+    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER,
+                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                      effect_duration);
+end
+
 -- All attack skills definitions are stored in this table
 if (skills == nil) then
 	skills = {}
@@ -118,7 +137,7 @@ skills[3] = {
 	description = vt_system.Translate("A blow which temporarily stun its target."),
 	sp_required = 4,
 	warmup_time = 1200,
-	cooldown_time = 0,
+	cooldown_time = 200,
 	action_name = "attack",
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
@@ -151,7 +170,7 @@ skills[4] = {
 	warmup_time = 2000,
 	cooldown_time = 0,
 	action_name = "attack",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
 		target_actor = target:GetActor();
@@ -179,33 +198,61 @@ skills[4] = {
 
 -- Kalya first attack
 skills[5] = {
-	name = vt_system.Translate("Single Shot"),
-	description = vt_system.Translate("A simple shot using an arbalest."),
-	sp_required = 0,
-	warmup_time = 2500,
-	cooldown_time = 200,
-	action_name = "attack",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+    name = vt_system.Translate("Single Shot"),
+    description = vt_system.Translate("A simple shot using an arbalest."),
+    sp_required = 0,
+    warmup_time = 2500,
+    cooldown_time = 200,
+    action_name = "attack",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
-	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+    BattleExecute = function(user, target)
+        target_actor = target:GetActor();
 
-		if (vt_battle.CalculateStandardEvasion(target) == false) then
-			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
-			AudioManager:PlaySound("snd/crossbow.ogg");
-		else
-			target_actor:RegisterMiss(true);
-			AudioManager:PlaySound("snd/crossbow_miss.ogg");
-		end
-	end,
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+            AudioManager:PlaySound("snd/crossbow.ogg");
+        else
+            target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("snd/crossbow_miss.ogg");
+        end
+    end,
 
-	animation_scripts = {
-		[KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
-	}
+    animation_scripts = {
+        [KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
+    }
+}
+
+skills[6] = {
+    name = vt_system.Translate("Incapacitating Shot"),
+    description = vt_system.Translate("A powerful aimed shot lowering the enemy attack."),
+    sp_required = 12,
+    warmup_time = 2700,
+    cooldown_time = 300,
+    action_name = "attack",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    BattleExecute = function(user, target)
+        target_actor = target:GetActor();
+
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            -- Calculate chance for attack lowering effect and activate it
+            trigger_potential_attack_lowering(user, target);
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 15), target);
+            AudioManager:PlaySound("snd/crossbow.ogg");
+        else
+            target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("snd/crossbow_miss.ogg");
+        end
+    end,
+
+    animation_scripts = {
+        [KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
+    }
 }
 
 -- Sylve first attack
-skills[6] = {
+skills[10] = {
 	name = vt_system.Translate("Dagger Slash"),
 	description = vt_system.Translate("A simple but efficient dagger attack."),
 	sp_required = 0,

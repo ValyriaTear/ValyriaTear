@@ -45,13 +45,134 @@ end
 -- IDs 20,001 - 21,000 are reserved for character special skills
 --------------------------------------------------------------------------------
 
+-------------------------
+-- Bronann's special skills
+-------------------------
+
 skills[20001] = {
+    name = "", -- TODO
+    description = "", -- TODO
+    icon = "",
+    sp_required = 30,
+    warmup_time = 6000,
+    cooldown_time = 1000,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target)
+        -- TODO: Add skill
+    end,
+}
+
+
+-------------------------
+-- Kalya's special skills
+-------------------------
+
+skills[20011] = {
     name = vt_system.Translate("Wolf Pain"),
     description = vt_system.Translate("Calls the defender of the Arctic."),
     icon = "img/icons/specials/moon.png",
-    sp_required = 7,
+    sp_required = 14,
     warmup_time = 4000,
     cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target)
+        -- TODO: Add the friendly AI monster in battle, next to Kalya
+    end,
+}
+
+skills[20012] = {
+    name = "", -- TODO
+    description = "", -- TODO
+    icon = "",
+    sp_required = 30,
+    warmup_time = 6000,
+    cooldown_time = 1000,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target)
+        -- TODO: Add the friendly AI monster in battle, next to Kalya
+    end,
+}
+
+skills[20013] = {
+    name = "", -- TODO
+    description = "", -- TODO
+    icon = "",
+    sp_required = 30,
+    warmup_time = 6000,
+    cooldown_time = 1000,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target)
+        -- TODO: Add the friendly AI monster in battle, next to Kalya
+    end,
+}
+
+skills[20014] = {
+    name = "", -- TODO
+    description = "", -- TODO
+    icon = "",
+    sp_required = 30,
+    warmup_time = 6000,
+    cooldown_time = 1000,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target)
+        -- TODO: Add the friendly AI monster in battle, next to Kalya
+    end,
+}
+
+skills[20015] = {
+    name = "", -- TODO
+    description = "", -- TODO
+    icon = "",
+    sp_required = 30,
+    warmup_time = 6000,
+    cooldown_time = 1000,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target)
+        -- TODO: Add the friendly AI monster in battle, next to Kalya
+    end,
+}
+
+skills[20016] = {
+    name = "", -- TODO
+    description = "", -- TODO
+    icon = "",
+    sp_required = 30,
+    warmup_time = 6000,
+    cooldown_time = 1000,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target)
+        -- TODO: Add the friendly AI monster in battle, next to Kalya
+    end,
+}
+
+skills[20017] = {
+    name = "", -- TODO
+    description = "", -- TODO
+    icon = "",
+    sp_required = 30,
+    warmup_time = 6000,
+    cooldown_time = 1000,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
@@ -66,17 +187,17 @@ skills[20001] = {
 --------------------------------------------------------------------------------
 
 skills[21001] = {
-	name = vt_system.Translate("Slime Spawn"),
-	description = vt_system.Translate("Creates a slime."),
-	sp_required = 0,
-	warmup_time = 1400,
-	cooldown_time = 750,
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+    name = vt_system.Translate("Slime Spawn"),
+    description = vt_system.Translate("Creates a slime."),
+    sp_required = 0,
+    warmup_time = 1400,
+    cooldown_time = 750,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
 
-	BattleExecute = function(user, target)
-		local x_position = 250.0 + (vt_utils.RandomFloat() * 400.0)
-		local y_position = 350.0 + (vt_utils.RandomFloat() * 250.0)
-		local Battle = ModeManager:GetTop();
-		Battle:AddEnemy(1, x_position, y_position);
-	end
+    BattleExecute = function(user, target)
+        local x_position = 250.0 + (vt_utils.RandomFloat() * 400.0)
+        local y_position = 350.0 + (vt_utils.RandomFloat() * 250.0)
+        local Battle = ModeManager:GetTop();
+        Battle:AddEnemy(1, x_position, y_position);
+    end
 }

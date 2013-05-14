@@ -39,6 +39,9 @@ end
 -- IDs 10,001 - 11,000 are reserved for character magic skills
 --------------------------------------------------------------------------------
 
+-------------------------------------------------------------
+-- 10001 - 10099 - Natural skills, obtained through levelling
+-------------------------------------------------------------
 skills[10001] = {
     name = vt_system.Translate("Shield"),
     description = vt_system.Translate("Increases an ally's physical defense by a slight degree."),
@@ -124,7 +127,11 @@ skills[10003] = {
     end,
 }
 
-skills[10004] = {
+-------------------------------------------------------------
+-- 10100 - 10199 - Shards skills, obtained through equipping shards to equipment
+-------------------------------------------------------------
+
+skills[10100] = {
     name = vt_system.Translate("Fire burst"),
     description = vt_system.Translate("Creates a small fire that burns an enemy."),
     icon = "img/icons/magic/fireball.png",
@@ -151,7 +158,7 @@ skills[10004] = {
     end,
 }
 
-skills[10005] = {
+skills[10110] = {
     name = vt_system.Translate("Wave"),
     description = vt_system.Translate("Makes waves fall on an enemy."),
     --icon = "img/icons/magic/fireball.png",
@@ -177,9 +184,3 @@ skills[10005] = {
         end
     end,
 }
-
---------------------------------------------------------------------------------
--- IDs 11,001 - 20,000 are reserved for enemy magic skills
---------------------------------------------------------------------------------
-
-
