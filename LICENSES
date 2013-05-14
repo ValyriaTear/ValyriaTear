@@ -77,8 +77,8 @@ dat/effects/particles/rain.lua                                  GPLv2 or later  
 dat/effects/particles/snow.lua                                  GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/blue_firework.lua                         GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/crystal_appearance.lua                    GPLv2 or later           roos + Bertram modifications
-dat/effects/particles/defensive_stance.lua                      GPLv2 or later           Bertram
-dat/effects/particles/defensive_stance_big_sprites.lua          GPLv2 or later           Bertram
+dat/effects/particles/shield.lua                                GPLv2 or later           Bertram
+dat/effects/particles/shield_big_sprites.lua                    GPLv2 or later           Bertram
 dat/effects/particles/explosion.lua                             GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/boss_death_particle.lua                   GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/fire.lua                                  GPLv2 or later           roos + Bertram modifications
@@ -224,7 +224,7 @@ img/icons/items/evanium_ore.png                                 CC by 3.0       
 img/icons/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/phoenix_feather.png                             CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
 
-img/icons/magic/defensive_stance.png                            CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
+img/icons/magic/shield.png                                      CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
 img/icons/magic/first_aid.png                                   CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
 img/icons/magic/leader_call.png                                 CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
 

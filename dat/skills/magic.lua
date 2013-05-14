@@ -40,9 +40,9 @@ end
 --------------------------------------------------------------------------------
 
 skills[10001] = {
-    name = vt_system.Translate("Defensive Stance"),
+    name = vt_system.Translate("Shield"),
     description = vt_system.Translate("Increases an ally's physical defense by a slight degree."),
-    icon = "img/icons/magic/defensive_stance.png",
+    icon = "img/icons/magic/shield.png",
     sp_required = 3,
     warmup_time = 300,
     cooldown_time = 0,
@@ -60,10 +60,10 @@ skills[10001] = {
         local Battle = ModeManager:GetTop();
         if (target_actor:GetSpriteHeight() > 250.0) then
             -- Big sprite version
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance_big_sprites.lua",
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/shield_big_sprites.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         else
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/defensive_stance.lua",
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/shield.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         end
         AudioManager:PlaySound("snd/defence1_spell.ogg");
