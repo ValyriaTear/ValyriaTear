@@ -54,7 +54,7 @@ skills[10001] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 
     BattleExecute = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
         local effect_duration = user:GetProtection() * 2000;
         if (effect_duration < 10000) then effect_duration = 10000 end
         target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
@@ -85,7 +85,7 @@ skills[10002] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
 
     BattleExecute = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
         local hit_points = (user:GetVigor() * 3) +  vt_utils.RandomBoundedInteger(0, 15);
         target_actor:RegisterHealing(hit_points, true);
         AudioManager:PlaySound("snd/heal_spell.wav");
@@ -115,7 +115,7 @@ skills[10003] = {
         local index = 0;
         local effect_duration = user:GetVigor() * 3000;
         while true do
-            target_actor = target:GetPartyActor(index);
+            local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
                 break;
             end
@@ -143,7 +143,7 @@ skills[10100] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
     BattleExecute = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- TODO: Set fire elemental damage type based on character stats
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 30), target);
@@ -158,7 +158,322 @@ skills[10100] = {
     end,
 }
 
+skills[10101] = {
+    name = vt_system.Translate("Fire Circle"),
+    description = vt_system.Translate("Increases the Fire elemental defence on a character."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10102] = {
+    name = vt_system.Translate("Lava"),
+    description = vt_system.Translate("Magical attack combining Earth and Fire damages."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10103] = {
+    name = vt_system.Translate("Fog"),
+    description = vt_system.Translate("Increases the evade rate of an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10104] = {
+    name = vt_system.Translate("Fire Breath"),
+    description = vt_system.Translate("Magical attack combining Air and Fire damages."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10105] = {
+    name = vt_system.Translate("Focus"),
+    description = vt_system.Translate("Increases the Physical Defence of an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10106] = {
+    name = vt_system.Translate("Holy Fire"),
+    description = vt_system.Translate("Magical attack combining Life and Fire damages."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10107] = {
+    name = vt_system.Translate("Life"),
+    description = vt_system.Translate("Revives a fallen ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10108] = {
+    name = vt_system.Translate("Petrify"),
+    description = vt_system.Translate("Turns an enemy into a stone."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10109] = {
+    name = vt_system.Translate("Rage"),
+    description = vt_system.Translate("Enrages an ally, increasing its Attack and Speed, but reducing its Defence."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
 skills[10110] = {
+    name = vt_system.Translate("Rock Fall"),
+    description = vt_system.Translate("Rocks fall on an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            -- TODO: Set Earth elemental damage type based on character stats
+            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 45), target);
+            -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
+            local Battle = ModeManager:GetTop();
+            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+            --AudioManager:PlaySound("snd/wave1_spell.ogg");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end,
+}
+
+skills[10111] = {
+    name = vt_system.Translate("Earth Circle"),
+    description = vt_system.Translate("Increases the Earth elemental defence on a character."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10112] = {
+    name = vt_system.Translate("Tangle"),
+    description = vt_system.Translate("Decreases the evade rate of an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10113] = {
+    name = vt_system.Translate("Magical Armor"),
+    description = vt_system.Translate("Increases the Magical Defence of an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10114] = {
+    name = vt_system.Translate("Haste"),
+    description = vt_system.Translate("Increases the Battle Speed of an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10115] = {
+    name = vt_system.Translate("Moon"),
+    description = vt_system.Translate("Makes an enemy attack its own allies."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10116] = {
+    name = vt_system.Translate("Cure"),
+    description = vt_system.Translate("Cures the poison from an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10117] = {
+    name = vt_system.Translate("Drain"),
+    description = vt_system.Translate("Steals HP from an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10118] = {
+    name = vt_system.Translate("Curse"),
+    description = vt_system.Translate("Severely decreases several random stats of an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10119] = {
+    name = vt_system.Translate("Meteor"),
+    description = vt_system.Translate("High Earth damages on all foes."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10120] = {
     name = vt_system.Translate("Wave"),
     description = vt_system.Translate("Makes waves fall on an enemy."),
     --icon = "img/icons/magic/fireball.png",
@@ -170,7 +485,7 @@ skills[10110] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
     BattleExecute = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- TODO: Set water elemental damage type based on character stats
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 45), target);
@@ -182,5 +497,562 @@ skills[10110] = {
         else
             target_actor:RegisterMiss(true);
         end
+    end,
+}
+
+skills[10121] = {
+    name = vt_system.Translate("Water Circle"),
+    description = vt_system.Translate("Increases the Water elemental defence on a character."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10122] = {
+    name = vt_system.Translate("Wirlwind"),
+    description = vt_system.Translate("Magical attack combining Water and Air damages."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10123] = {
+    name = vt_system.Translate("Slow"),
+    description = vt_system.Translate("Decreases the battle speed of an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10124] = {
+    name = vt_system.Translate("Blindness"),
+    description = vt_system.Translate("Prevents an enemy from succeeding any physical attacks."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10125] = {
+    name = vt_system.Translate("Heal"),
+    description = vt_system.Translate("Restores Health of an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+
+skills[10126] = {
+    name = vt_system.Translate("Poison"),
+    description = vt_system.Translate("Inflicts poison to an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10127] = {
+    name = vt_system.Translate("Stun"),
+    description = vt_system.Translate("Stuns an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10128] = {
+    name = vt_system.Translate("Tsunami"),
+    description = vt_system.Translate("High Water damages on all foes."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10129] = {
+    name = vt_system.Translate("Healing Rain"),
+    description = vt_system.Translate("Cures health of all allies."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10130] = {
+    name = vt_system.Translate("Wind"),
+    description = vt_system.Translate("The wind slashes an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            -- TODO: Set Air elemental damage type based on character stats
+            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 45), target);
+            -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
+            local Battle = ModeManager:GetTop();
+            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+            --AudioManager:PlaySound("snd/wave1_spell.ogg");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end,
+}
+
+skills[10131] = {
+    name = vt_system.Translate("Wind Circle"),
+    description = vt_system.Translate("Increases the Air elemental defence on an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10132] = {
+    name = vt_system.Translate("Lightning"),
+    description = vt_system.Translate("Magical attack combining Life and Air damages."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10133] = {
+    name = vt_system.Translate("Regen"),
+    description = vt_system.Translate("Makes an ally recover slowly its health."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10134] = {
+    name = vt_system.Translate("Magic Drain"),
+    description = vt_system.Translate("Steals Skill Points from an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 1,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10135] = {
+    name = vt_system.Translate("Silence"),
+    description = vt_system.Translate("Prevents an enemy from using any magic skills."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 1,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10136] = {
+    name = vt_system.Translate("Storm"),
+    description = vt_system.Translate("High Air damages on all foes."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10137] = {
+    name = vt_system.Translate("Stop"),
+    description = vt_system.Translate("Stops an enemy for quite a long time."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 1,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10140] = {
+    name = vt_system.Translate("Holy"),
+    description = vt_system.Translate("An holy light strikes an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            -- TODO: Set Life elemental damage type based on character stats
+            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 45), target);
+            -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
+            local Battle = ModeManager:GetTop();
+            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+            --AudioManager:PlaySound("snd/wave1_spell.ogg");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end,
+}
+
+skills[10141] = {
+    name = vt_system.Translate("Life Circle"),
+    description = vt_system.Translate("Increases the Life elemental defence on a character."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10142] = {
+    name = vt_system.Translate("Purify"),
+    description = vt_system.Translate("Cures all bad effects on a character, except the poison."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10143] = {
+    name = vt_system.Translate("Sun Haze"),
+    description = vt_system.Translate("High Life damages on all foes."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10144] = {
+    name = vt_system.Translate("Aura"),
+    description = vt_system.Translate("Boost an ally speed and recovers slowly its health."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10150] = {
+    name = vt_system.Translate("Death"),
+    description = vt_system.Translate("Death tries to an enemy with it."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            -- TODO: Set Death elemental damage type based on character stats
+            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 45), target);
+            -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
+            local Battle = ModeManager:GetTop();
+            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+            --AudioManager:PlaySound("snd/wave1_spell.ogg");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end,
+}
+
+skills[10151] = {
+    name = vt_system.Translate("Death Circle"),
+    description = vt_system.Translate("Increases the Death elemental defence on an ally."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10152] = {
+    name = vt_system.Translate("Doom"),
+    description = vt_system.Translate("Adds a Death counter upon the enemy's head."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10153] = {
+    name = vt_system.Translate("Magical Reflection"),
+    description = vt_system.Translate("Makes the next enemy spell targetting the ally be cast upon itself."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10160] = {
+    name = vt_system.Translate("Dispell"),
+    description = vt_system.Translate("Removes any status effect, elemental effect, and active spell on an enemy."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            -- TODO: Set Neutral elemental damage type based on character stats
+            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, 45), target);
+            -- trigger the Neutral effect slightly under the sprite to make it appear before it from the player's point of view.
+            local Battle = ModeManager:GetTop();
+            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+            --AudioManager:PlaySound("snd/wave1_spell.ogg");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end,
+}
+
+skills[10161] = {
+    name = vt_system.Translate("Shell"),
+    description = vt_system.Translate("Increases all elemental effects on one character."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10162] = {
+    name = vt_system.Translate("?"),
+    description = vt_system.Translate("A mystic spell happening when offensively combining opposite elementals."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10163] = {
+    name = vt_system.Translate("Counter"),
+    description = vt_system.Translate("Makes an ally counter-attack if hurt."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10164] = {
+    name = vt_system.Translate("Phoenix Call"),
+    description = vt_system.Translate("Revives all allies."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+    end,
+}
+
+skills[10165] = {
+    name = vt_system.Translate("Bio"),
+    description = vt_system.Translate("Cures poison on all characters."),
+    --icon = "img/icons/magic/fireball.png",
+    sp_required = 7,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
     end,
 }

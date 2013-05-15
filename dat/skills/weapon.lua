@@ -86,7 +86,7 @@ skills[1] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			-- Normal +0 attack
@@ -114,7 +114,7 @@ skills[2] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageMultiplier(user, target, 1.75), target);
@@ -142,7 +142,7 @@ skills[3] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasionAdder(target, 5.5) == false) then
 			-- Calculate chance for paralysis effect and activate it
@@ -173,7 +173,7 @@ skills[4] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
@@ -207,7 +207,7 @@ skills[5] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
     BattleExecute = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
@@ -233,7 +233,7 @@ skills[6] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
     BattleExecute = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- Calculate chance for attack lowering effect and activate it
@@ -262,7 +262,7 @@ skills[10] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
@@ -284,7 +284,7 @@ skills[999] = {
    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
    BattleExecute = function(user, target)
-       target_actor = target:GetActor();
+       local target_actor = target:GetActor();
 
        if (vt_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
@@ -311,7 +311,7 @@ skills[1000] = {
    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
    BattleExecute = function(user, target)
-       target_actor = target:GetActor();
+       local target_actor = target:GetActor();
 
        if (vt_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
@@ -341,7 +341,7 @@ skills[1001] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 10), target);
@@ -360,7 +360,7 @@ skills[1002] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 13), target);
@@ -379,7 +379,7 @@ skills[1003] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
@@ -398,7 +398,7 @@ skills[1004] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- Calculate chance for paralysis effect and activate it
@@ -421,10 +421,9 @@ skills[1005] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor = target:GetActor();
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
@@ -448,7 +447,7 @@ skills[1006] = {
 	target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
 	BattleExecute = function(user, target)
-		target_actor = target:GetActor();
+		local target_actor = target:GetActor();
 
 		if (vt_battle.CalculateStandardEvasion(target) == false) then
 			target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
@@ -467,7 +466,7 @@ skills[1007] = {
    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
    BattleExecute = function(user, target)
-       target_actor = target:GetActor();
+       local target_actor = target:GetActor();
 
        if (vt_battle.CalculateStandardEvasion(target) == false) then
            local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
@@ -491,7 +490,7 @@ skills[1008] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
     BattleExecute = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
