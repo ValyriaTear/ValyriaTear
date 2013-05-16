@@ -724,8 +724,9 @@ MenuMode::MenuMode() :
     _spirit_number(0)
 
 {
-    IF_PRINT_WARNING(MENU_DEBUG)
-            << "MENU: MenuMode constructor invoked." << std::endl;
+    _current_instance = this;
+
+    mode_type = MODE_MANAGER_MENU_MODE;
 
     // Init the controls parameters.
     _time_text.SetTextStyle(TextStyle("text22"));
@@ -829,12 +830,6 @@ MenuMode::MenuMode() :
 
     _current_menu_state = &_main_menu_state;
 
-    if(_current_instance) {
-        IF_PRINT_WARNING(MENU_DEBUG)
-                << "MENU WARNING: attempting to create a new instance of MenuMode when one already seems to exist" << std::endl;
-    }
-    _current_instance = this;
-
     // Reset states
     _main_menu_state.Reset();
     _inventory_state.Reset();
@@ -896,6 +891,11 @@ MenuMode::~MenuMode()
     if(_message_window != NULL)
         delete _message_window;
 } // MenuMode::~MenuMode()
+
+void MenuMode::Reset()
+{
+    _current_instance = this;
+}
 
 void MenuMode::UpdateTimeAndDrunes()
 {

@@ -44,9 +44,7 @@ const uint8 MODE_MANAGER_BATTLE_MODE = 3;
 const uint8 MODE_MANAGER_MENU_MODE   = 4;
 const uint8 MODE_MANAGER_SHOP_MODE   = 5;
 const uint8 MODE_MANAGER_PAUSE_MODE  = 6;
-const uint8 MODE_MANAGER_SCENE_MODE  = 7;
-const uint8 MODE_MANAGER_WORLD_MODE  = 8;
-const uint8 MODE_MANAGER_SAVE_MODE   = 9;
+const uint8 MODE_MANAGER_SAVE_MODE   = 7;
 //@}
 
 /** ***************************************************************************

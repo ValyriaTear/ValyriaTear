@@ -1037,10 +1037,11 @@ ShopMode::~ShopMode()
 
 void ShopMode::Reset()
 {
+    _current_instance = this;
+
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 
-    _current_instance = this;
     if(IsInitialized() == false)
         Initialize();
 }

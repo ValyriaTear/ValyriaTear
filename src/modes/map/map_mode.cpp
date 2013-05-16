@@ -174,6 +174,8 @@ void MapMode::Deactivate()
 
 void MapMode::Reset()
 {
+    _current_instance = this;
+
     _activated = true;
 
     // Reset video engine context properties

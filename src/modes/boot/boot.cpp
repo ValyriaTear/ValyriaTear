@@ -78,11 +78,12 @@ BootMode::BootMode() :
     _menu_bar_alpha(0.0f),
     _help_text_alpha(0.0f)
 {
+    _current_instance = this;
+
+    mode_type = MODE_MANAGER_BOOT_MODE;
+
     // Remove potential previous ambient overlays
     VideoManager->DisableFadeEffect();
-
-    IF_PRINT_DEBUG(BOOT_DEBUG) << "BootMode constructor invoked" << std::endl;
-    mode_type = MODE_MANAGER_BOOT_MODE;
 
     // Note: Not translated on purpose.
     _version_text.SetStyle(TextStyle("text18"));
@@ -164,12 +165,13 @@ BootMode::~BootMode()
 
 void BootMode::Reset()
 {
+    _current_instance = this;
+
     // Set the coordinate system that BootMode uses
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
     GlobalManager->ClearAllData(); // Resets the game universe to a NULL state
-    _current_instance = this;
 
     GetScriptSupervisor().Reset();
 }

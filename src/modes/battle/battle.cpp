@@ -201,11 +201,9 @@ BattleMode::BattleMode() :
     _highest_agility(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR)
 {
-    IF_PRINT_DEBUG(BATTLE_DEBUG) << "constructor invoked" << std::endl;
+    _current_instance = this;
 
     mode_type = MODE_MANAGER_BATTLE_MODE;
-
-    _current_instance = this;
 
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
@@ -236,14 +234,12 @@ BattleMode::~BattleMode()
     _enemy_party.clear();
 
     _ready_queue.clear();
-
-    if(_current_instance == this) {
-        _current_instance = NULL;
-    }
 } // BattleMode::~BattleMode()
 
 void BattleMode::Reset()
 {
+    _current_instance = this;
+
     VideoManager->SetStandardCoordSys();
 
     // Load the default battle music track if no other music has been added
