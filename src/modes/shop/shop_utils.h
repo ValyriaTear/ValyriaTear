@@ -72,7 +72,7 @@ enum SHOP_OBJECT {
     SHOP_OBJECT_INVALID    = -1,
     SHOP_OBJECT_ITEM       =  0,
     SHOP_OBJECT_EQUIPMENT  =  1, //!< This type covers weapons and all types of armor
-    SHOP_OBJECT_SHARD      =  2,
+    SHOP_OBJECT_SPIRIT     =  2,
     SHOP_OBJECT_TOTAL      =  3
 };
 
@@ -101,7 +101,7 @@ const uint8 DEALS_HEAD_ARMOR   = 0x04;
 const uint8 DEALS_TORSO_ARMOR  = 0x08;
 const uint8 DEALS_ARM_ARMOR    = 0x10;
 const uint8 DEALS_LEG_ARMOR    = 0x20;
-const uint8 DEALS_SHARDS       = 0x40;
+const uint8 DEALS_SPIRIT       = 0x40;
 const uint8 DEALS_KEY_ITEMS    = 0x80;
 //@}
 

@@ -112,8 +112,8 @@ private:
 *** different depending upon what type of object is selected. The primary purpose of this class
 *** is to serve as a helper to the BuyInterface class and to keep the code organized.
 ***
-*** \todo Currently this class treats the display of shards the same as it does for items
-*** and key items. This should be changed once shard properties have a more clear definition
+*** \todo Currently this class treats the display of spirits the same as it does for items
+*** and key items. This should be changed once spirit properties have a more clear definition
 *** in the game design.
 ***
 *** \todo Status icons are not currently displayed as there are no status effects implemented
@@ -224,8 +224,8 @@ private:
     //! \brief A rendering of the physical and magical attack/defense ratings
     vt_video::TextImage _phys_rating, _mag_rating;
 
-    //! \brief An icon image of a shard slot
-    vt_video::StillImage *_shard_slot_icon;
+    //! \brief An icon image of a spirit slot
+    vt_video::StillImage *_spirit_slot_icon;
 
     //! \brief The key item icon
     vt_video::StillImage *_key_item_icon;
@@ -236,8 +236,8 @@ private:
     vt_video::StillImage *_def_icon;
     vt_video::StillImage *_mdef_icon;
 
-    //! \brief The number of shard the equipment can support.
-    uint32 _shard_number;
+    //! \brief The number of spirit the equipment can support.
+    uint32 _spirit_number;
 
     //! \brief Icon images representing elemental effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _elemental_icons;
@@ -276,10 +276,10 @@ private:
     **/
     void _SetEquipmentData();
 
-    /** \brief Updates the data and visuals associated specifically with shards for the selected object
-    *** This method should only be called if the _selected_object member is a shard
+    /** \brief Updates the data and visuals associated specifically with spirits for the selected object
+    *** This method should only be called if the _selected_object member is a spirit
     **/
-    void _SetShardData();
+    void _SetSpiritData();
 
     //! \brief Determines the proper window owner, position, dimensions and content of the description text
     void _SetDescriptionText();
@@ -318,8 +318,8 @@ private:
     //! \brief Helper function that draws information specific to equipment
     void _DrawEquipment();
 
-    //! \brief Helper function that draws information specific to shards
-    void _DrawShard();
+    //! \brief Helper function that draws information specific to spirits
+    void _DrawSpirit();
 }; // class ShopObjectViewer
 
 } // namespace private_shop

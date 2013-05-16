@@ -139,14 +139,14 @@ GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count)
     GlobalObject *new_object = NULL;
 
     if((id > 0 && id <= MAX_ITEM_ID)
-        || (id > MAX_SHARD_ID && id <= MAX_KEY_ITEM_ID))
+        || (id > MAX_SPIRIT_ID && id <= MAX_KEY_ITEM_ID))
         new_object = new GlobalItem(id, count);
     else if((id > MAX_ITEM_ID) && (id <= MAX_WEAPON_ID))
         new_object = new GlobalWeapon(id, count);
     else if((id > MAX_WEAPON_ID) && (id <= MAX_LEG_ARMOR_ID))
         new_object = new GlobalArmor(id, count);
-    else if((id > MAX_LEG_ARMOR_ID) && (id <= MAX_SHARD_ID))
-        new_object = new GlobalShard(id, count);
+    else if((id > MAX_LEG_ARMOR_ID) && (id <= MAX_SPIRIT_ID))
+        new_object = new GlobalSpirit(id, count);
     else
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid id argument: " << id << std::endl;
 
@@ -276,8 +276,8 @@ void GlobalMedia::Initialize()
     if (!_x_icon.Load("img/menus/red_x.png"))
         PRINT_WARNING << "Failed to load x icon image" << std::endl;
 
-    if (!_shard_slot_icon.Load("img/menus/shard.png"))
-        PRINT_WARNING << "Failed to load shard icon image" << std::endl;
+    if (!_spirit_slot_icon.Load("img/menus/spirit.png"))
+        PRINT_WARNING << "Failed to load spirit icon image" << std::endl;
 
     if (!_equip_icon.Load("img/menus/equip.png"))
         PRINT_WARNING << "Failed to load equip icon image" << std::endl;
@@ -406,7 +406,7 @@ vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type
     case GLOBAL_OBJECT_LEG_ARMOR:
         index = 5;
         break;
-    case GLOBAL_OBJECT_SHARD:
+    case GLOBAL_OBJECT_SPIRIT:
         index = 6;
         break;
     case GLOBAL_OBJECT_TOTAL:

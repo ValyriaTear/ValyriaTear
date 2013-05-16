@@ -115,8 +115,8 @@ void TradeInterface::_UpdateAvailableTradeDealTypes()
         case GLOBAL_OBJECT_LEG_ARMOR:
             _trade_deal_types |= DEALS_LEG_ARMOR;
             break;
-        case GLOBAL_OBJECT_SHARD:
-            _trade_deal_types |= DEALS_SHARDS;
+        case GLOBAL_OBJECT_SPIRIT:
+            _trade_deal_types |= DEALS_SPIRIT;
             break;
         default:
             IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << std::endl;
@@ -188,7 +188,7 @@ void TradeInterface::Reinitialize()
     uint8 bit_x = 0x01;
 
     // This loop determines where each type of object should be placed in the object_data container. For example,
-    // if the available categories in the shop are items, weapons, shards, and all wares, the size of object_data
+    // if the available categories in the shop are items, weapons, spirits, and all wares, the size of object_data
     // will be four. When we go to add an object of one of these types into the object_data container, we need
     // to know the correct index for each type of object. These indeces are stored in the type_index vector. The
     // size of this vector is the number of object types, so it becomes simple to map each object type to its correct
@@ -227,7 +227,7 @@ void TradeInterface::Reinitialize()
         case GLOBAL_OBJECT_LEG_ARMOR:
             object_data[type_index[5]].push_back(obj);
             break;
-        case GLOBAL_OBJECT_SHARD:
+        case GLOBAL_OBJECT_SPIRIT:
             object_data[type_index[6]].push_back(obj);
             break;
         default:

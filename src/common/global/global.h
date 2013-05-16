@@ -881,8 +881,8 @@ public:
         return &_inventory_leg_armor;
     }
 
-    std::vector<GlobalShard *>* GetInventoryShards() {
-        return &_inventory_shards;
+    std::vector<GlobalSpirit *>* GetInventorySpirits() {
+        return &_inventory_spirits;
     }
 
     vt_script::ReadScriptDescriptor &GetItemsScript() {
@@ -907,6 +907,10 @@ public:
 
     vt_script::ReadScriptDescriptor &GetLegArmorScript() {
         return _leg_armor_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetSpiritsScript() {
+        return _spirits_script;
     }
 
     vt_script::ReadScriptDescriptor &GetWeaponSkillsScript() {
@@ -1036,7 +1040,7 @@ private:
     std::vector<GlobalArmor *>    _inventory_torso_armor;
     std::vector<GlobalArmor *>    _inventory_arm_armor;
     std::vector<GlobalArmor *>    _inventory_leg_armor;
-    std::vector<GlobalShard *>    _inventory_shards;
+    std::vector<GlobalSpirit *>   _inventory_spirits;
     //@}
 
     //! \name Global data and function script files
@@ -1062,8 +1066,8 @@ private:
     //! \brief Contains data definitions for all armor that are equipped on the legs
     vt_script::ReadScriptDescriptor _leg_armor_script;
 
-    //! \brief Contains data definitions for all shards
-    // vt_script::ReadScriptDescriptor _shard_script;
+    //! \brief Contains data definitions for all spirits
+    vt_script::ReadScriptDescriptor _spirits_script;
 
     //! \brief Contains data and functional definitions for all weapon skills
     vt_script::ReadScriptDescriptor _weapon_skills_script;

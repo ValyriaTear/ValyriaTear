@@ -721,7 +721,7 @@ MenuMode::MenuMode() :
     _character(NULL),
     _equip_view_type(EQUIP_VIEW_NONE),
     _is_weapon(false),
-    _shard_number(0)
+    _spirit_number(0)
 
 {
     IF_PRINT_WARNING(MENU_DEBUG)
@@ -769,13 +769,13 @@ MenuMode::MenuMode() :
     _key_item_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _key_item_description.SetDisplayText(UTranslate("This item is a key item and can be neither consumed nor sold."));
 
-    _shard_icon = media.GetShardSlotIcon();
+    _spirit_icon = media.GetSpiritSlotIcon();
 
-    _shard_description.SetPosition(165, 600);
-    _shard_description.SetDimensions(700.0f, 50.0f);
-    _shard_description.SetTextStyle(TextStyle("text20"));
-    _shard_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _shard_description.SetDisplayText(UTranslate("This item is a crystal shard and can be associated with equipment."));
+    _spirit_description.SetPosition(165, 600);
+    _spirit_description.SetDimensions(700.0f, 50.0f);
+    _spirit_description.SetTextStyle(TextStyle("text20"));
+    _spirit_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _spirit_description.SetDisplayText(UTranslate("This item is an elemental spirit and can be associated with equipment."));
 
     _help_information.SetPosition(250, 570);
     _help_information.SetDimensions(500, 100);
@@ -961,7 +961,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         _object_name.Clear();
         _elemental_icons.clear();
         _status_icons.clear();
-        _shard_number = 0;
+        _spirit_number = 0;
 
         _phys_header.Clear();
         _mag_header.Clear();
@@ -1015,7 +1015,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             else // We can take the given object as a base
                 wpn = dynamic_cast<GlobalWeapon *>(_object);
 
-            _shard_number = wpn ? wpn->GetShardSlots().size() : 0;
+            _spirit_number = wpn ? wpn->GetSpiritSlots().size() : 0;
             equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
             equip_mag_stat = wpn ? wpn->GetMagicalAttack() : 0;
             break;
@@ -1038,7 +1038,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
                 armor = dynamic_cast<GlobalArmor *>(_object);
             }
 
-            _shard_number = armor ? armor->GetShardSlots().size() : 0;
+            _spirit_number = armor ? armor->GetSpiritSlots().size() : 0;
             equip_phys_stat = armor ? armor->GetPhysicalDefense() : 0;
             equip_mag_stat = armor ? armor->GetMagicalDefense() : 0;
             break;
@@ -1148,7 +1148,7 @@ void MenuMode::DrawEquipmentInfo()
     const StillImage& obj_icon = _object->GetIconImage();
     obj_icon.Draw();
 
-    // Key item/shard part
+    // Key item/spirit part
     if (_object->IsKeyItem()) {
         int32 key_pos_x = obj_icon.GetWidth() - _key_item_icon->GetWidth() - 3;
         int32 key_pos_y = obj_icon.GetHeight() - _key_item_icon->GetHeight() - 3;
@@ -1188,11 +1188,11 @@ void MenuMode::DrawEquipmentInfo()
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
     VideoManager->MoveRelative(20.0f, 0.0f);
-    for (uint32 i = 0; i < _shard_number; ++i) {
-        _shard_icon->Draw();
+    for (uint32 i = 0; i < _spirit_number; ++i) {
+        _spirit_icon->Draw();
         VideoManager->MoveRelative(15.0f , 0.0f);
     }
-    VideoManager->MoveRelative(-15.0f * (_shard_number > 5.0f ? 5.0f : _shard_number) , -35.0f);
+    VideoManager->MoveRelative(-15.0f * (_spirit_number > 5.0f ? 5.0f : _spirit_number) , -35.0f);
 
     // Draw elemental effect icons
     uint32 element_size = _elemental_icons.size();

@@ -163,7 +163,7 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
     _warmup_time(0),
     _cooldown_time(0)
 {
-    if(_id == 0 || (_id > MAX_ITEM_ID && (_id <= MAX_SHARD_ID && _id > MAX_KEY_ITEM_ID))) {
+    if(_id == 0 || (_id > MAX_ITEM_ID && (_id <= MAX_SPIRIT_ID && _id > MAX_KEY_ITEM_ID))) {
         PRINT_WARNING << "invalid id in constructor: " << _id << std::endl;
         _InvalidateObject();
         return;
@@ -257,13 +257,13 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
     _magical_attack = script_file.ReadUInt("magical_attack");
     _usable_by = script_file.ReadUInt("usable_by");
 
-    uint32 shards_number = script_file.ReadUInt("slots");
-    // Only permit a max of 5 shards for equipment
-    if (shards_number > 5) {
-        shards_number = 5;
-        PRINT_WARNING << "More than 5 shards declared in item " << _id << std::endl;
+    uint32 spirits_number = script_file.ReadUInt("slots");
+    // Only permit a max of 5 spirits for equipment
+    if (spirits_number > 5) {
+        spirits_number = 5;
+        PRINT_WARNING << "More than 5 spirit slots declared in item " << _id << std::endl;
     }
-    _shard_slots.resize(shards_number, NULL);
+    _spirit_slots.resize(spirits_number, NULL);
 
     // Load the possible battle ammo animated image filename.
     _ammo_image_file = script_file.ReadString("battle_ammo_animation_file");
@@ -385,13 +385,13 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
     _magical_defense = script_file->ReadUInt("magical_defense");
     _usable_by = script_file->ReadUInt("usable_by");
 
-    uint32 shards_number = script_file->ReadUInt("slots");
-    // Only permit a max of 5 shards for equipment
-    if (shards_number > 5) {
-        shards_number = 5;
-        PRINT_WARNING << "More than 5 shards declared in item " << _id << std::endl;
+    uint32 spirits_number = script_file->ReadUInt("slots");
+    // Only permit a max of 5 spirits for equipment
+    if (spirits_number > 5) {
+        spirits_number = 5;
+        PRINT_WARNING << "More than 5 spirit slots declared in item " << _id << std::endl;
     }
-    _shard_slots.resize(shards_number, NULL);
+    _spirit_slots.resize(spirits_number, NULL);
 
     script_file->CloseTable();
     if(script_file->IsErrorDetected()) {
@@ -420,38 +420,36 @@ GLOBAL_OBJECT GlobalArmor::GetObjectType() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// GlobalShard class
+// GlobalSpirit class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalShard::GlobalShard(uint32 id, uint32 count) :
+GlobalSpirit::GlobalSpirit(uint32 id, uint32 count) :
     GlobalObject(id, count)
 {
-    if((_id <= MAX_LEG_ARMOR_ID) || (_id > MAX_SHARD_ID)) {
+    if((_id <= MAX_LEG_ARMOR_ID) || (_id > MAX_SPIRIT_ID)) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "invalid id in constructor: " << _id << std::endl;
         _InvalidateObject();
         return;
     }
 
-    // TODO: uncomment the code below when shards scripts are available
-// 	ReadScriptDescriptor& script_file = GlobalManager->GetShardsScript();
-// 	if (script_file.DoesTableExist(_id) == false) {
-// 		IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for shard in definition file: " << _id << std::endl;
-// 		_InvalidateObject();
-// 		return;
-// 	}
-//
-// 	// Load the shard data from the script
-// 	script_file.OpenTable(_id);
-// 	_LoadObjectData(script_file);
-//
-// 	script_file.CloseTable();
-// 	if (script_file.IsErrorDetected()) {
-// 		if (GLOBAL_DEBUG) {
-// 			PRINT_WARNING << "one or more errors occurred while reading shard data - they are listed below" << std::endl;
-// 			cerr << script_file.GetErrorMessages() << std::endl;
-// 		}
-// 		_InvalidateObject();
-// 	}
-} // void GlobalShard::GlobalShard(uint32 id, uint32 count = 1)
+    ReadScriptDescriptor& script_file = GlobalManager->GetSpiritsScript();
+    if (script_file.DoesTableExist(_id) == false) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "No valid data for spirit id: " << _id << std::endl;
+        _InvalidateObject();
+        return;
+    }
+
+    // Load the spirit data from the script
+    script_file.OpenTable(_id);
+    _LoadObjectData(script_file);
+
+    script_file.CloseTable();
+    if (script_file.IsErrorDetected()) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "one or more errors occurred while reading spirit data - they are listed below" << std::endl
+            << script_file.GetErrorMessages() << std::endl;
+
+        _InvalidateObject();
+    }
+} // void GlobalSpirit::GlobalSpirit(uint32 id, uint32 count = 1)
 
 } // namespace vt_global

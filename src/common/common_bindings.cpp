@@ -137,7 +137,7 @@ void BindCommonCode()
                         luabind::value("GLOBAL_OBJECT_TORSO_ARMOR", GLOBAL_OBJECT_TORSO_ARMOR),
                         luabind::value("GLOBAL_OBJECT_ARM_ARMOR", GLOBAL_OBJECT_ARM_ARMOR),
                         luabind::value("GLOBAL_OBJECT_LEG_ARMOR", GLOBAL_OBJECT_LEG_ARMOR),
-                        luabind::value("GLOBAL_OBJECT_SHARD", GLOBAL_OBJECT_SHARD),
+                        luabind::value("GLOBAL_OBJECT_SPIRIT", GLOBAL_OBJECT_SPIRIT),
                         // Item usage constants
                         luabind::value("GLOBAL_USE_INVALID", GLOBAL_USE_INVALID),
                         luabind::value("GLOBAL_USE_FIELD", GLOBAL_USE_FIELD),

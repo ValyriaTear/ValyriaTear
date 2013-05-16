@@ -474,12 +474,12 @@ private:
     //! \brief Test indicating that the item is a key item and cannot be used or sold.
     vt_gui::TextBox _key_item_description;
 
-    //! \brief The symbol indicating that the item is a crystal shard.
+    //! \brief The symbol indicating that the item is a crystal spirit.
     //! \note Don't delete this, it is managed by the Global Manager.
-    vt_video::StillImage* _shard_icon;
+    vt_video::StillImage* _spirit_icon;
 
-    //! \brief Test indicating that the item is a shard and can be associated with equipment.
-    vt_gui::TextBox _shard_description;
+    //! \brief Test indicating that the item is a spirit and can be associated with equipment.
+    vt_gui::TextBox _spirit_description;
 
     //! \brief Icons representing the atk/def of the equipment/character.
     //! \note Don't delete those, they are managed by the Global Manager.
@@ -577,8 +577,8 @@ private:
     //! \brief Icon images representing status effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _status_icons;
 
-    //! \brief The number of shard the equipment can support.
-    uint32 _shard_number;
+    //! \brief The number of spirit the equipment can support.
+    uint32 _spirit_number;
     //@}
 }; // class MenuMode : public vt_mode_manager::GameMode
 

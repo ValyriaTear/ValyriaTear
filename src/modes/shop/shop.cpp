@@ -73,7 +73,7 @@ ShopMedia::ShopMedia()
     _all_category_names.push_back(UTranslate("Torso Armor"));
     _all_category_names.push_back(UTranslate("Arm Armor"));
     _all_category_names.push_back(UTranslate("Leg Armor"));
-    _all_category_names.push_back(UTranslate("Shards"));
+    _all_category_names.push_back(UTranslate("Spirits"));
     _all_category_names.push_back(UTranslate("Key Items"));
     _all_category_names.push_back(UTranslate("All Wares"));
 
@@ -125,7 +125,7 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
     case GLOBAL_OBJECT_LEG_ARMOR:
         index = 5;
         break;
-    case GLOBAL_OBJECT_SHARD:
+    case GLOBAL_OBJECT_SPIRIT:
         index = 6;
         break;
     case GLOBAL_OBJECT_TOTAL:
@@ -150,7 +150,7 @@ ShopObjectViewer::ShopObjectViewer() :
     _map_usable(false),
     _battle_usable(false),
     _target_type_index(0),
-    _shard_number(0)
+    _spirit_number(0)
 {
     // Initialize all properties of class members that we can
     _object_name.SetStyle(TextStyle("title24"));
@@ -228,7 +228,7 @@ ShopObjectViewer::ShopObjectViewer() :
     GlobalMedia& media = GlobalManager->Media();
     _check_icon = media.GetCheckIcon();
     _x_icon = media.GetXIcon();
-    _shard_slot_icon = media.GetShardSlotIcon();
+    _spirit_slot_icon = media.GetSpiritSlotIcon();
     _equip_icon = media.GetEquipIcon();
     _key_item_icon = media.GetKeyItemIcon();
 
@@ -314,8 +314,8 @@ void ShopObjectViewer::Draw()
     case SHOP_OBJECT_EQUIPMENT:
         _DrawEquipment();
         break;
-    case SHOP_OBJECT_SHARD:
-        _DrawShard();
+    case SHOP_OBJECT_SPIRIT:
+        _DrawSpirit();
         break;
     default: // unknown/unsupported object type, draw no further information
         break;
@@ -360,8 +360,8 @@ void ShopObjectViewer::SetSelectedObject(ShopObject *object)
     case SHOP_OBJECT_EQUIPMENT:
         _SetEquipmentData();
         break;
-    case SHOP_OBJECT_SHARD:
-        _SetShardData();
+    case SHOP_OBJECT_SPIRIT:
+        _SetSpiritData();
         break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid object type: " << _object_type << std::endl;
@@ -522,7 +522,7 @@ void ShopObjectViewer::_SetEquipmentData()
         _mag_header.SetText(UTranslate("M.ATK:"));
         _phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
         _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack()));
-        _shard_number = selected_weapon->GetShardSlots().size();
+        _spirit_number = selected_weapon->GetSpiritSlots().size();
         _SetElementalIcons(selected_weapon->GetElementalEffects());
         _SetStatusIcons(selected_weapon->GetStatusEffects());
     } else if(selected_armor) {
@@ -530,7 +530,7 @@ void ShopObjectViewer::_SetEquipmentData()
         _mag_header.SetText(UTranslate("M.DEF:"));
         _phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
         _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense()));
-        _shard_number = selected_armor->GetShardSlots().size();
+        _spirit_number = selected_armor->GetSpiritSlots().size();
         _SetElementalIcons(selected_armor->GetElementalEffects());
         _SetStatusIcons(selected_armor->GetStatusEffects());
     }
@@ -629,9 +629,9 @@ void ShopObjectViewer::_SetEquipmentData()
 
 
 
-void ShopObjectViewer::_SetShardData()
+void ShopObjectViewer::_SetSpiritData()
 {
-    // TODO: implement when GlobalShard class is ready for use
+    // TODO: implement when GlobalSpirit class is ready for use
 }
 
 
@@ -837,11 +837,11 @@ void ShopObjectViewer::_DrawEquipment()
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
     VideoManager->MoveRelative(20.0f, 0.0f);
-    for (uint32 i = 0; i < _shard_number; ++i) {
-        _shard_slot_icon->Draw();
+    for (uint32 i = 0; i < _spirit_number; ++i) {
+        _spirit_slot_icon->Draw();
         VideoManager->MoveRelative(15.0f , 0.0f);
     }
-    VideoManager->MoveRelative(-15.0f * (_shard_number > 5.0f ? 5.0f : _shard_number) , -35.0f);
+    VideoManager->MoveRelative(-15.0f * (_spirit_number > 5.0f ? 5.0f : _spirit_number) , -35.0f);
 
     // Draw elemental effect icons
     uint32 element_size = _elemental_icons.size();
@@ -917,9 +917,9 @@ void ShopObjectViewer::_DrawEquipment()
     }
 } // void ShopObjectViewer::_DrawEquipment()
 
-void ShopObjectViewer::_DrawShard()
+void ShopObjectViewer::_DrawSpirit()
 {
-    // TODO: implement when GlobalShard class is ready for use
+    // TODO: implement when GlobalSpirit class is ready for use
 }
 
 } // namespace private_shop

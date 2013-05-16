@@ -338,8 +338,8 @@ void InventoryWindow::Update()
 
             // Activate the character select for application
             if(event == VIDEO_OPTION_CONFIRM) {
-                // Don't accept selecting shard items for now
-                if(_object_type == GLOBAL_OBJECT_SHARD) {
+                // Don't accept selecting spirit items for now
+                if(_object_type == GLOBAL_OBJECT_SPIRIT) {
                     media.PlaySound("cancel");
                     break;
                 }
@@ -720,8 +720,8 @@ void InventoryWindow::_DrawBottomInfo()
 
         if (_object->IsKeyItem())
             _DrawSpecialItemDescription(menu->_key_item_icon, menu->_key_item_description);
-        else if (_object_type == GLOBAL_OBJECT_SHARD)
-            _DrawSpecialItemDescription(menu->_shard_icon, menu->_shard_description);
+        else if (_object_type == GLOBAL_OBJECT_SPIRIT)
+            _DrawSpecialItemDescription(menu->_spirit_icon, menu->_spirit_description);
     }
     else if(_active_box == ITEM_ACTIVE_CHAR) {
         menu->_bottom_window.Draw();

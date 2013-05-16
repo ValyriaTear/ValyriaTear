@@ -93,6 +93,15 @@ function BootMenuTest()
     GlobalManager:AddToInventory(30012, 10);
     GlobalManager:AddToInventory(30013, 10);
 
+    -- Add the spirits
+    GlobalManager:AddToInventory(60001, 1);
+    GlobalManager:AddToInventory(60002, 1);
+    GlobalManager:AddToInventory(60003, 1);
+    GlobalManager:AddToInventory(60004, 1);
+    GlobalManager:AddToInventory(60005, 1);
+    GlobalManager:AddToInventory(60006, 1);
+    GlobalManager:AddToInventory(60007, 1);
+
     -- Used to debug the quest log
     GlobalManager:AddQuestLog("get_barley");
     GlobalManager:AddQuestLog("find_pen");

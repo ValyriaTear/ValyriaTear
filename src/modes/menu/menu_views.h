@@ -261,7 +261,7 @@ private:
 
     //! Draws the special item description and image
     //! on the icon bottom right part of the item icon.
-    //! (Used for key items and shards)
+    //! (Used for key items and spirits)
     void _DrawSpecialItemDescription(vt_video::StillImage* special_image,
                                      vt_gui::TextBox& description);
 

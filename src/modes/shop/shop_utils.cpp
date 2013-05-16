@@ -75,8 +75,8 @@ SHOP_OBJECT ShopObject::DetermineShopObjectType(GLOBAL_OBJECT global_type)
     case GLOBAL_OBJECT_LEG_ARMOR:
         shop_type = SHOP_OBJECT_EQUIPMENT;
         break;
-    case GLOBAL_OBJECT_SHARD:
-        shop_type = SHOP_OBJECT_SHARD;
+    case GLOBAL_OBJECT_SPIRIT:
+        shop_type = SHOP_OBJECT_SPIRIT;
         break;
     case GLOBAL_OBJECT_INVALID:
     case GLOBAL_OBJECT_TOTAL:

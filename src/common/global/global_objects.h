@@ -33,7 +33,7 @@ class ReadScriptDescriptor;
 namespace vt_global
 {
 
-class GlobalShard;
+class GlobalSpirit;
 
 /** ****************************************************************************
 *** \brief An abstract base class for representing a game object
@@ -322,7 +322,7 @@ private:
 *** equipped on every character. Weapons have two attack ratings: physical
 *** and magical, both of which are included in the damage calculation
 *** formulae when a character or enemy attacks using the weapon. Weapons may also
-*** have a small number of "sockets" in which shards can be inserted to improve
+*** have a small number of slots in which spirits can be merged to improve
 *** or alter the weapon's properties. Some weapons have zero sockets available.
 *** Finally, weapons may come imbued with certain elemental or status effect
 *** properties that are inflicted on a target.
@@ -356,8 +356,8 @@ public:
         return _usable_by;
     }
 
-    const std::vector<GlobalShard *>& GetShardSlots() const {
-        return _shard_slots;
+    const std::vector<GlobalSpirit *>& GetSpiritSlots() const {
+        return _spirit_slots;
     }
 
     const std::string &GetAmmoImageFile() const {
@@ -388,12 +388,12 @@ private:
     //! map < character_id, map < animation alias, animation filename > >
     std::map <uint32, std::map<std::string, std::string> > _weapon_animations;
 
-    /** \brief Shard slots which may be used to place shards on the weapon
+    /** \brief Spirit slots which may be used to place spirits on the weapon
     *** Weapons may have no slots, so it is not uncommon for the size of this vector to be zero.
-    *** When shard slots are available but empty (has no attached shard), the pointer at that index
+    *** When spirit slots are available but empty (has no attached spirit), the pointer at that index
     *** will be NULL.
     **/
-    std::vector<GlobalShard *> _shard_slots;
+    std::vector<GlobalSpirit *> _spirit_slots;
 
     //! \brief Loads the battle animations data for each character that can use the weapon.
     void _LoadWeaponBattleAnimations(vt_script::ReadScriptDescriptor& script);
@@ -411,7 +411,7 @@ private:
 *** two defense ratings: physical and magical, both of which are included in
 *** the damage calculation formulae when a character or enemy is attacked at the
 *** location where the armor is equipped. Armor may also have a small number of
-*** "sockets" in which shards can be inserted to improve or alter the armor's
+*** "sockets" in which spirits can be inserted to improve or alter the armor's
 *** properties. Some armor will have zero sockets available. Finally, armor may
 *** come imbued with certain elemental or status effect properties that bolster
 *** and protect the user.
@@ -439,8 +439,8 @@ public:
         return _usable_by;
     }
 
-    const std::vector<GlobalShard *>& GetShardSlots() const {
-        return _shard_slots;
+    const std::vector<GlobalSpirit *>& GetSpiritSlots() const {
+        return _spirit_slots;
     }
 
 private:
@@ -455,34 +455,34 @@ private:
     **/
     uint32 _usable_by;
 
-    /** \brief Sockets which may be used to place shards on the armor
+    /** \brief Sockets which may be used to place spirits on the armor
     *** Armor may have no sockets, so it is not uncommon for the size of this vector to be zero.
-    *** When a socket is available but empty (has no attached shard), the pointer at that index
+    *** When a socket is available but empty (has no attached spirit), the pointer at that index
     *** will be NULL.
     **/
-    std::vector<GlobalShard *> _shard_slots;
+    std::vector<GlobalSpirit *> _spirit_slots;
 }; // class GlobalArmor : public GlobalObject
 
 
 /** ****************************************************************************
-*** \brief Represents any type of shard that can be attached to weapons and armor
+*** \brief Represents any type of spirit that can be attached to weapons and armor
 ***
-*** Shards are small gems or stones that can be placed into sockets available on
-*** weapons and armor. Shards have the ability to enhance the properties of
+*** Spirits are small gems or stones that can be placed into sockets available on
+*** weapons and armor. Spirits have the ability to enhance the properties of
 *** equipment it is attached to, allowing the player a degree of customization
 *** in the weapons and armor that their character use.
 ***
 *** \todo This class is not yet implemented
 *** ***************************************************************************/
-class GlobalShard : public GlobalObject
+class GlobalSpirit : public GlobalObject
 {
 public:
-    GlobalShard(uint32 id, uint32 count = 1);
+    GlobalSpirit(uint32 id, uint32 count = 1);
 
     GLOBAL_OBJECT GetObjectType() const {
-        return GLOBAL_OBJECT_SHARD;
+        return GLOBAL_OBJECT_SPIRIT;
     }
-}; // class GlobalShard : public GlobalObject
+}; // class GlobalSpirit : public GlobalObject
 
 } // namespace vt_global
 

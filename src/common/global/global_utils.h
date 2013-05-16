@@ -51,7 +51,7 @@ namespace private_global
 *** - Torso Armor:  30001-40000
 *** - Arm Armor:    40001-50000
 *** - Leg Armor:    50001-60000
-*** - Shards:       60001-70000
+*** - Spirits:      60001-70000
 *** - Key Items:    70001-80000 // Old, now any kind of item can be a key item.
 **/
 //@{
@@ -62,7 +62,7 @@ const uint32 MAX_HEAD_ARMOR_ID   = 30000;
 const uint32 MAX_TORSO_ARMOR_ID  = 40000;
 const uint32 MAX_ARM_ARMOR_ID    = 50000;
 const uint32 MAX_LEG_ARMOR_ID    = 60000;
-const uint32 MAX_SHARD_ID        = 70000;
+const uint32 MAX_SPIRIT_ID       = 70000;
 const uint32 MAX_KEY_ITEM_ID     = 80000;
 const uint32 OBJECT_ID_EXCEEDS   = 80001;
 //@}
@@ -158,7 +158,7 @@ enum GLOBAL_OBJECT {
     GLOBAL_OBJECT_TORSO_ARMOR =  3,
     GLOBAL_OBJECT_ARM_ARMOR   =  4,
     GLOBAL_OBJECT_LEG_ARMOR   =  5,
-    GLOBAL_OBJECT_SHARD       =  6,
+    GLOBAL_OBJECT_SPIRIT      =  6,
     GLOBAL_OBJECT_TOTAL       =  7
 };
 
@@ -340,8 +340,8 @@ public:
         return &_x_icon;
     }
 
-    vt_video::StillImage* GetShardSlotIcon() {
-        return &_shard_slot_icon;
+    vt_video::StillImage* GetSpiritSlotIcon() {
+        return &_spirit_slot_icon;
     }
 
     vt_video::StillImage* GetEquipIcon() {
@@ -402,8 +402,8 @@ private:
     //! \brief Image icon of a red x
     vt_video::StillImage _x_icon;
 
-    //! \brief Image icon representing open shard slots available on weapons and armors
-    vt_video::StillImage _shard_slot_icon;
+    //! \brief Image icon representing open spirit slots available on weapons and armors
+    vt_video::StillImage _spirit_slot_icon;
 
     //! \brief Image icon that represents when a character has a weapon or armor equipped
     vt_video::StillImage _equip_icon;
