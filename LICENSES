@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.05.13
+Last update: 2013.05.16
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -107,6 +107,7 @@ dat/objects/torso_armor.lua                                     GPLv2 or later  
 dat/objects/leg_armor.lua                                       GPLv2 or later           Allacrost + Bertram
 dat/objects/weapons.lua                                         GPLv2 or later           Allacrost + Bertram
 dat/objects/key_items.lua                                       GPLv2 or later           Bertram
+dat/objects/elementals.lua                                      GPLv2 or later           Bertram
 
 dat/skills/weapon.lua                                           GPLv2 or later           Bertram
 dat/skills/magic.lua                                            GPLv2 or later           Bertram
@@ -220,9 +221,20 @@ img/icons/effects/templates.png                                 GPLv2           
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
 img/icons/items/copper_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/evanium_ore.png                                 CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/anthozium_ore.png                               CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/auridium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/borium_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/titanium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/evanium_ore.png                                 CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/phoenix_feather.png                             CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
+img/icons/items/ardoris.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/demona.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/dryad.png                                       CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/fairy.png                                       CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/oblivion.png                                    CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/sylphid.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/undine.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 
 img/icons/magic/shield.png                                      CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1
 img/icons/magic/first_aid.png                                   CC by SA 3.0             J. W. Bjerk [eleazzaar] (OGA) - http://opengameart.org/content/painterly-spell-icons-part-1

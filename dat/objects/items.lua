@@ -371,13 +371,41 @@ items[3002] = {
 }
 
 items[3003] = {
+    name = vt_system.Translate("Titanium Ore"),
+    description = vt_system.Translate("A small amount of Titanium ore."),
+    icon = "img/icons/items/titanium_ore.png",
+    standard_price = 650
+}
+
+items[3004] = {
+    name = vt_system.Translate("Anthozium Ore"),
+    description = vt_system.Translate("A small amount of Anthozium ore."),
+    icon = "img/icons/items/anthozium_ore.png",
+    standard_price = 850
+}
+
+items[3005] = {
+    name = vt_system.Translate("Auridium Ore"),
+    description = vt_system.Translate("A small amount of Auridium ore."),
+    icon = "img/icons/items/auridium_ore.png",
+    standard_price = 1050
+}
+
+items[3006] = {
+    name = vt_system.Translate("Borium Ore"),
+    description = vt_system.Translate("A small amount of Borium ore."),
+    icon = "img/icons/items/borium_ore.png",
+    standard_price = 1250
+}
+
+items[3007] = {
     name = vt_system.Translate("Evanium Ore"),
     description = vt_system.Translate("A small amount of Evanium ore."),
     icon = "img/icons/items/evanium_ore.png",
     standard_price = 1500
 }
 
-items[3004] = {
+items[3008] = {
     name = vt_system.Translate("Phoenix Feather"),
     description = vt_system.Translate("A genuine and perfect feather from the great Fire Bird. It is known to bring life to inanimated items."),
     icon = "img/icons/items/phoenix_feather.png",
