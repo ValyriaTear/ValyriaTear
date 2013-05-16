@@ -1243,13 +1243,6 @@ void ShopMode::Draw()
     _bottom_window.Draw();
     _middle_window.Draw(); // Drawn last because the middle window has the middle upper and lower window borders attached
 
-    // Draw the contents of the top window
-    StillImage *drunes_icon = GlobalManager->Media().GetDrunesIcon();
-    VideoManager->Move(130.0f, 103.0f);
-    drunes_icon->Draw();
-    VideoManager->MoveRelative(705.0f, 0.0f);
-    drunes_icon->Draw();
-
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
     VideoManager->Move(512.0f, 111.0f);
     switch(_state) {
