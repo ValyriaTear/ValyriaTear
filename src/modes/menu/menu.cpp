@@ -1188,11 +1188,19 @@ void MenuMode::DrawEquipmentInfo()
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
     VideoManager->MoveRelative(20.0f, 0.0f);
+    float j = 0;
     for (uint32 i = 0; i < _spirit_number; ++i) {
         _spirit_icon->Draw();
-        VideoManager->MoveRelative(15.0f , 0.0f);
+        if (i % 2 == 0) {
+            VideoManager->MoveRelative(15.0f , 0.0f);
+            j -= 15.0f;
+        }
+        else {
+            VideoManager->MoveRelative(25.0f , 0.0f);
+            j -= 25.0f;
+        }
     }
-    VideoManager->MoveRelative(-15.0f * (_spirit_number > 5.0f ? 5.0f : _spirit_number) , -35.0f);
+    VideoManager->MoveRelative(j, -35.0f);
 
     // Draw elemental effect icons
     uint32 element_size = _elemental_icons.size();
