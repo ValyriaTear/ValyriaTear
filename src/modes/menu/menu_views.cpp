@@ -1308,8 +1308,12 @@ void SkillsWindow::Update()
     case SKILL_ACTIVE_CATEGORY:
         // Choose skill type
         if(event == VIDEO_OPTION_CONFIRM) {
+            // Reset the list view
             _skills_list.SetSelection(0);
             _skill_cost_list.SetSelection(0);
+            _skills_list.ResetViewableOption();
+            _skill_cost_list.ResetViewableOption();
+
             if(_skills_list.GetNumberOptions() > 0) {
                 _active_box = SKILL_ACTIVE_LIST;
                 _skills_categories.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
