@@ -47,6 +47,7 @@ function BootMenuTest()
     kalya:AddSkill(10164);
     kalya:AddSkill(10113);
     kalya:AddSkill(10165);
+    kalya:AddSkill(10133);
 
     -- Sylve
     local sylve = GlobalManager:GetCharacter(SYLVE);
