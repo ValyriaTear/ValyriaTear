@@ -56,6 +56,7 @@ function BootMenuTest()
     sylve:AddSkill(10131);
     sylve:AddSkill(10134);
     sylve:AddSkill(10162);
+    sylve:AddSkill(10105);
 
 
     -- Thanis
@@ -64,13 +65,14 @@ function BootMenuTest()
     -- elementals
     thanis:AddSkill(10100);
     thanis:AddSkill(10101);
-    --thanis:AddSkill(10102);
+    thanis:AddSkill(10102);
     thanis:AddSkill(10104);
     thanis:AddSkill(10109);
     thanis:AddSkill(10118);
     thanis:AddSkill(10150);
     thanis:AddSkill(10151);
     thanis:AddSkill(10152);
+    thanis:AddSkill(10108);
 
 
     -- Equipment
