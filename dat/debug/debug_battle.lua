@@ -9,8 +9,10 @@ function BootBattleTest()
     GlobalManager:AddToInventory(1003, 10);
 
 
-    -- local bronann = GlobalManager:GetCharacter(1);
-    -- bronann:AddSkill(10001);
+    local bronann = GlobalManager:GetCharacter(BRONANN);
+    bronann:AddSkill(10120); -- Wave
+    bronann:SetMaxHitPoints(9999);
+    bronann:SetHitPoints(9999);
 
     local battle = vt_battle.BattleMode();
     battle:AddEnemy(1, 0, 0);
