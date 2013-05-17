@@ -1,7 +1,7 @@
 -- Spirits
 -- Elemental spirits that can possess a weapon to improve it.
 
--- All spiritq definitions are stored in this table
+-- All spirits definitions are stored in this table
 if (spirits == nil) then
    spirits = {}
 end
@@ -87,33 +87,157 @@ spirits[SYLPHID] = {
     name = vt_system.Translate("Sylphid"),
     description = vt_system.Translate("A very rare spirit of Wind, usually neither tamable nor catchable."),
     icon = "img/icons/items/sylphid.png",
-    standard_price = 4500
+    standard_price = 4500,
+    effects = {
+        [0] = { element = GLOBAL_ELEMENTAL_VOLT, intensity = GLOBAL_INTENSITY_POS_LESSER },
+        [1] = { element = GLOBAL_ELEMENTAL_EARTH, intensity = GLOBAL_INTENSITY_NEG_LESSER }
+    },
+    combinations = {
+        -- [Combined with] = skill id obtained
+        attack = {
+            [ARDORIS]  = 10104, -- Fire Breath
+            [UNDINE]   = 10122, -- Whirlwind
+            [SYLPHID]  = 10130, -- Wind
+            [DRYAD]    = 10162, -- ? (antipode)
+            [FAIRY]    = 10132, -- Lightning
+            [DEMONA]   = 10134, -- Magic Drain
+            [OBLIVION] = 10136  -- Storm
+        },
+        defence = {
+            [ARDORIS]  = 10105, -- Focus
+            [UNDINE]   = 10123, -- Slow
+            [SYLPHID]  = 10131, -- Wind Circle
+            [DRYAD]    = 10114, -- Haste
+            [FAIRY]    = 10133, -- Regen
+            [DEMONA]   = 10135, -- Silence
+            [OBLIVION] = 10137  -- Stop
+        }
+    }
 }
 
 spirits[DRYAD] = {
     name = vt_system.Translate("Dryad"),
     description = vt_system.Translate("A fragile spirit, child of Mother Nature."),
     icon = "img/icons/items/dryad.png",
-    standard_price = 4500
+    standard_price = 4500,
+    effects = {
+        [0] = { element = GLOBAL_ELEMENTAL_EARTH, intensity = GLOBAL_INTENSITY_POS_LESSER },
+        [1] = { element = GLOBAL_ELEMENTAL_VOLT, intensity = GLOBAL_INTENSITY_NEG_LESSER }
+    },
+    combinations = {
+        -- [Combined with] = skill id obtained
+        attack = {
+            [ARDORIS]  = 10102, -- Lava
+            [UNDINE]   = 10112, -- Entangle
+            [SYLPHID]  = 10162, -- ? (antipode)
+            [DRYAD]    = 10110, -- Rock fall
+            [FAIRY]    = 10115, -- Moon
+            [DEMONA]   = 10117, -- Drain
+            [OBLIVION] = 10119  -- Meteor
+        },
+        defence = {
+            [ARDORIS]  = 10001, -- Shield
+            [UNDINE]   = 10113, -- Magical Armor
+            [SYLPHID]  = 10114, -- Haste
+            [DRYAD]    = 10111, -- Earth Circle
+            [FAIRY]    = 10116, -- Cure
+            [DEMONA]   = 10118, -- Curse
+            [OBLIVION] = 10165  -- Bio
+        }
+    }
 }
 
 spirits[FAIRY] = {
     name = vt_system.Translate("Fairy"),
     description = vt_system.Translate("Blinding as the sun, she brings life even where Death belongs."),
     icon = "img/icons/items/fairy.png",
-    standard_price = 5500
+    standard_price = 5500,
+    effects = {
+        [0] = { element = GLOBAL_ELEMENTAL_LIFE, intensity = GLOBAL_INTENSITY_POS_LESSER },
+        [1] = { element = GLOBAL_ELEMENTAL_DEATH, intensity = GLOBAL_INTENSITY_NEG_LESSER }
+    },
+    combinations = {
+        -- [Combined with] = skill id obtained
+        attack = {
+            [ARDORIS]  = 10106, -- Holy Fire
+            [UNDINE]   = 10124, -- Blindness
+            [SYLPHID]  = 10132, -- Lightning
+            [DRYAD]    = 10115, -- Moon
+            [FAIRY]    = 10140, -- Holy
+            [DEMONA]   = 10162, -- ? (antipode)
+            [OBLIVION] = 10143  -- Sun Haze
+        },
+        defence = {
+            [ARDORIS]  = 10107, -- Life
+            [UNDINE]   = 10125, -- Heal
+            [SYLPHID]  = 10133, -- Regen
+            [DRYAD]    = 10116, -- Cure
+            [FAIRY]    = 10141, -- Life Circle
+            [DEMONA]   = 10142, -- Purify
+            [OBLIVION] = 10144  -- Aura
+        }
+    }
 }
 
 spirits[DEMONA] = {
     name = vt_system.Translate("Demona"),
     description = vt_system.Translate("Spirit of the Dark. It can't be possessed: it only chose to be possessed, waiting for its hour..."),
     icon = "img/icons/items/demona.png",
-    standard_price = 5500
+    standard_price = 5500,
+    effects = {
+        [0] = { element = GLOBAL_ELEMENTAL_DEATH, intensity = GLOBAL_INTENSITY_POS_LESSER },
+        [1] = { element = GLOBAL_ELEMENTAL_LIFE, intensity = GLOBAL_INTENSITY_NEG_LESSER }
+    },
+    combinations = {
+        -- [Combined with] = skill id obtained
+        attack = {
+            [ARDORIS]  = 10108, -- Petrify
+            [UNDINE]   = 10126, -- Poison
+            [SYLPHID]  = 10134, -- Magic Drain
+            [DRYAD]    = 10117, -- Drain
+            [FAIRY]    = 10162, -- ? (antipode)
+            [DEMONA]   = 10150, -- Death
+            [OBLIVION] = 10152  -- Doom
+        },
+        defence = {
+            [ARDORIS]  = 10109, -- Rage
+            [UNDINE]   = 10127, -- Stun
+            [SYLPHID]  = 10135, -- Silence
+            [DRYAD]    = 10118, -- Curse
+            [FAIRY]    = 10142, -- Purify
+            [DEMONA]   = 10151, -- Death Circle
+            [OBLIVION] = 10153  -- Magical Reflection
+        }
+    }
 }
 
 spirits[OBLIVION] = {
     name = vt_system.Translate("Oblivion"),
     description = vt_system.Translate("Touched neither by the time nor space, this spirit is dwelling in pure energy."),
     icon = "img/icons/items/oblivion.png",
-    standard_price = 7500
+    standard_price = 7500,
+    effects = {
+        [0] = { element = GLOBAL_ELEMENTAL_NEUTRAL, intensity = GLOBAL_INTENSITY_POS_LESSER }
+    },
+    combinations = {
+        -- [Combined with] = skill id obtained
+        attack = {
+            [ARDORIS]  = 10163, -- Counter
+            [UNDINE]   = 10128, -- Tsunami
+            [SYLPHID]  = 10136, -- Storm
+            [DRYAD]    = 10119, -- Meteor
+            [FAIRY]    = 10143, -- Sun Haze
+            [DEMONA]   = 10152, -- Doom
+            [OBLIVION] = 10160  -- Dispell
+        },
+        defence = {
+            [ARDORIS]  = 10164, -- Phoenix Call
+            [UNDINE]   = 10129, -- Heal Rain
+            [SYLPHID]  = 10137, -- Stop
+            [DRYAD]    = 10165, -- Bio
+            [FAIRY]    = 10144, -- Aura
+            [DEMONA]   = 10153, -- Magical Reflection
+            [OBLIVION] = 10153  -- Shell
+        }
+    }
 }
