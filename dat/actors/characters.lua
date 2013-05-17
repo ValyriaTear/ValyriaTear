@@ -611,6 +611,16 @@ function DetermineLevelGrowth(character)
         print("LUA WARN: character.lua:DetermineLevelGrowth() called when evade_growth was non-zero.");
     end
 
+    -- Testing at least one stat to see whether the table has still got values
+    if (growth_table["hit_points"][new_level] == nil) then
+        print("LUA WARN: character.lua:DetermineLevelGrowth() next level data unexisting. Can't properly level up the character.");
+        character._hit_points_growth = 1;
+        character:AddExperienceForNextLevel(500);
+        -- Remove the level up in that case
+        character:SetExperienceLevel(character:GetExperienceLevel() - 1);
+        return;
+    end
+
     -- Copy over the character's stat growth data
     character._hit_points_growth = growth_table["hit_points"][new_level];
     character._skill_points_growth = growth_table["skill_points"][new_level];

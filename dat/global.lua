@@ -19,14 +19,14 @@ KALYA    = 2;
 SYLVE    = 4;
 THANIS   = 8;
 
+-- level cap
+-- Set to lvl 15 as there is only one dungeon.
+GlobalManager:SetMaxExperienceLevel(15);
+
 function NewGame()
     -- Prepare the new game data
     GlobalManager:AddCharacter(BRONANN);
     GlobalManager:SetDrunes(0);
-
-    -- level cap
-    -- Set to lvl 15 as there is only one dungeon.
-    GlobalManager:SetMaxExperienceLevel(15);
 
     -- Set the starting world map data
     GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
