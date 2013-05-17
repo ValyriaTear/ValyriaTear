@@ -240,10 +240,11 @@ img/icons/items/sylphid.png                                     CC by SA 3.0    
 img/icons/items/undine.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 
 img/icons/magic/first_aid.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/magic/lava.png                                        CC0                      (zookeeper) (OGA) - http://opengameart.org/content/seamless-animated-fire-texture
 img/icons/magic/leader_call.png                                 CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/antipode.png                                    GPLv2                    Allacrost
+img/icons/magic/bio.png                                         CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/blindness.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/magic/counter.png                                     CC by SA 3.0             Icon by Bertram, Icon taken from sword by Clint Bellanger (OGA) - http://opengameart.org/content/naraphim-sword-1
 img/icons/magic/cure.png                                        CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/curse.png                                       GPLv2                    Allacrost
 img/icons/magic/death.png                                       GPLv2                    Allacrost
@@ -256,17 +257,21 @@ img/icons/magic/fire_burst.png                                  CC by SA 3.0    
 img/icons/magic/fire_circle.png                                 CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/fog.png                                         CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/focus.png                                       CC by SA 3.0             Bertram
+img/icons/magic/haste.png                                       CC by 3.0                icon by Bertram, trigon by hc (OGA) - http://opengameart.org/content/lens-flares-and-particles?page=1
 img/icons/magic/heal.png                                        CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/heal_rain.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/holy.png                                        CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/holy_fire.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/magic/lava.png                                        CC0                      (zookeeper) (OGA) - http://opengameart.org/content/seamless-animated-fire-texture
 img/icons/magic/life.png                                        CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/life_circle.png                                 CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/magic_drain.png                                 GPLv2                    Allacrost
+img/icons/magic/magical_armor.png                               GPLv2                    Allacrost + Edit by Bertram
 img/icons/magic/meteor.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/magic/phoenix_call.png                                CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/magic/moon.png                                        CC by SA 3.0             Bertram, the moon part is based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture
 img/icons/magic/petrify.png                                     CC by 3.0                qubodup (OGA) - http://opengameart.org/content/sandstone-ornament-256px
-img/icons/magic/rage.png                                        GPLv2                    Allacrost
+img/icons/magic/phoenix_call.png                                CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/magic/poison.png                                      GPLv2                    Icon by Bertram, Skull by Modanung (The Mana World) - www.themanaworld.orgimg/icons/magic/rage.png                                        GPLv2                    Allacrost
 img/icons/magic/rock_fall.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/shield.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/slow.png                                        CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons

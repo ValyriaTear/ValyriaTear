@@ -23,6 +23,7 @@ function BootMenuTest()
     bronann:AddSkill(10132);
     bronann:AddSkill(10140);
     bronann:AddSkill(10143);
+    bronann:AddSkill(10114);
 
     -- Kalya
     local kalya = GlobalManager:GetCharacter(KALYA);
@@ -44,6 +45,8 @@ function BootMenuTest()
     kalya:AddSkill(10129);
     kalya:AddSkill(10141);
     kalya:AddSkill(10164);
+    kalya:AddSkill(10113);
+    kalya:AddSkill(10165);
 
     -- Sylve
     local sylve = GlobalManager:GetCharacter(SYLVE);
@@ -57,6 +60,8 @@ function BootMenuTest()
     sylve:AddSkill(10134);
     sylve:AddSkill(10162);
     sylve:AddSkill(10105);
+    sylve:AddSkill(10115);
+    sylve:AddSkill(10126);
 
 
     -- Thanis
@@ -73,6 +78,7 @@ function BootMenuTest()
     thanis:AddSkill(10151);
     thanis:AddSkill(10152);
     thanis:AddSkill(10108);
+    thanis:AddSkill(10163);
 
 
     -- Equipment
