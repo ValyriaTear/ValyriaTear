@@ -63,6 +63,7 @@ function BootMenuTest()
     sylve:AddSkill(10105);
     sylve:AddSkill(10115);
     sylve:AddSkill(10126);
+    sylve:AddSkill(10136);
 
 
     -- Thanis
