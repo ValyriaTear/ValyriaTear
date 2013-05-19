@@ -271,7 +271,7 @@ function _UpdateOrlinnState()
         dialogue = vt_map.SpriteDialogue();
         text = vt_system.Translate("Yiek!!! Hey, you scared me.");
         dialogue:AddLineEmote(text, orlinn, "exclamation");
-        text = vt_system.Translate("But You'll never find me hiding on top of the cliffs!");
+        text = vt_system.Translate("But you'll never find me hiding on top of the cliffs!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Start Orlinn Hide n Seek2");
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
