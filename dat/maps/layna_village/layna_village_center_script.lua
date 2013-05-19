@@ -940,7 +940,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Erm, ... Well, I don't hear anything special...");
         dialogue:AddLineEmote(text, bronann, "interrogation");
-        text = vt_system.Translate("That's the point! Can't you hear the magnificient sound of nature, so invisible to our adapted ears?");
+        text = vt_system.Translate("That's the point! Can't you hear the magnificent sound of nature, so invisible to our adapted ears?");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Huh, please Georges. I do not want to run away like the last time...");
         dialogue:AddLine(text, bronann);
