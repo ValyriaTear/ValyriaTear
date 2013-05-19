@@ -923,7 +923,7 @@ function _UpdateGeorgesDialogue()
         dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_pen_lost");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
+        text = vt_system.Translate("Shall you find it, I would be extremely obliged to you!");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
         dialogue:AddLine(text, georges);
@@ -954,7 +954,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
+        text = vt_system.Translate("Shall you find it, I would be extremely obliged to you!");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
         dialogue:AddLine(text, georges);
