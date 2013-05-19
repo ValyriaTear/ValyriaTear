@@ -416,7 +416,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Why doesn't anyone want to tell me what's going on!!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Still, I have go there and figure out what they're trying to hide from me.");
+    text = vt_system.Translate("Still, I have to go there and figure out what they're trying to hide from me.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann wants to see Flora for equipment", dialogue);
