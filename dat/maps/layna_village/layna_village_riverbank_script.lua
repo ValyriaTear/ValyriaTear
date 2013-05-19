@@ -250,7 +250,7 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("You'll never find me hiding behind the...");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("Hey, why would I telling you my hiding spots?!");
+    text = vt_system.Translate("Hey, why would I tell you my hiding spots?!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     DialogueManager:AddDialogue(dialogue);
 
