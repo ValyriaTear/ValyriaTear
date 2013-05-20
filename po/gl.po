@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 00:05+0000\n"
-"PO-Revision-Date: 2013-05-20 07:55+0200\n"
+"PO-Revision-Date: 2013-05-20 21:51+0200\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
@@ -656,7 +656,7 @@ msgstr "H: "
 
 #: ../src/modes/menu/menu_views.cpp:114
 msgid "XP to Next: "
-msgstr "Exp. para avanzar: "
+msgstr "Exp. para av.: "
 
 #: ../src/modes/menu/menu_views.cpp:125
 msgid "Select an item to Equip or Use."
@@ -2012,147 +2012,160 @@ msgstr "O grupo síntese mellor…"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:466
 msgid "What a creepy place. I had never heard about this before ..."
-msgstr ""
+msgstr "Non me gusta nada este lugar. E como é que nunca escoitei falar del?"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:468
 msgid "It seems Orlinn was able to go through those platforms somehow."
 msgstr ""
+"Non sei como o faría, pero parece que Orlin apañouse para atravesar esas "
+"plataformas."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:470
 msgid "Let's make our way through this before something bad happens to him."
 msgstr ""
+"Apurémonos, temos que chegar onda el antes de que lle ocorra nada malo."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:472
 msgid "Look, there is a stone slab on the ground. Let's check this out."
 msgstr ""
+"Mira para aí, hai unha lousa no chan. Será mellor que lle botemos un ollo."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:490
 msgid "It seems the way is clear now."
-msgstr ""
+msgstr "Parece que o camiño se despexou."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:492
 msgid "(I also heard something falling outside. Let's hope it's nothing bad.)"
 msgstr ""
+"Escoitaches iso? Parece que algo caeu por fóra da cova. Esperemos que non "
+"sexa nada malo."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:195
 msgid "Only the last one standing shall pass ..."
-msgstr ""
+msgstr "Só o último en pé pasará…"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:265
 msgid "'Only the last one standing shall pass.' ..."
-msgstr ""
+msgstr "«Só o último en pé pasará»…"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:267
 msgid "You are able to decipher this writing, Kalya?"
-msgstr ""
+msgstr "Saber les estas escrituras?"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:269
 msgid "Somehow... I don't know why, but yes ..."
-msgstr ""
+msgstr "Non me preguntes como… non o sei. Pero si, entendo o que din…"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:271
 msgid "Still, I don't know what it means, though."
 msgstr ""
+"Aínda sabendo o que din, non acabo de entender o que queren dicir. Que "
+"significa?"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:273
 msgid "Let's look around. We might find out."
-msgstr ""
+msgstr "Botemos unha ollada pola zona. Pode que o descubramos."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:292
 msgid "... Something heavy seems to have fallen nearby."
-msgstr ""
+msgstr "Soa como se algo moi pesado acabase de caer preto de aquí."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:313
 msgid "... Look!"
-msgstr ""
+msgstr "Mira para aí!"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:331
 msgid "I can feel fresh air and some light coming from around this rock."
 msgstr ""
+"Hai aire fresco arredor desta rocha, e pode verse luz entrar polos buratos."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:333
 msgid ""
 "There are signs engraved on this rock, too. This sounds like some kind of "
 "mechanism my family used long ago..."
 msgstr ""
+"Nesta rocha tamén hai símbolos gravados. Parece unha especie de mecanismo que "
+"a miña familia empregou hai moito tempo…"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:335
 msgid "Your family? Long ago? ..."
-msgstr ""
+msgstr "A túa familia? Hai moito tempo?"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:337
 msgid ""
 "Err... Nevermind that, we must find a way to make this move. Let's look "
 "around."
 msgstr ""
+"Eh… Esquéceo, temos que atopar un xeito de mover a rocha. Botemos unha ollada "
+"polos arredores."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:492
 msgid "Orlinn!!"
-msgstr ""
+msgstr "Orlin!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:494
 msgid "I can feel it, sis'. It's coming!"
-msgstr ""
+msgstr "Podo sentilo, Calia. Achégase!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:496
 msgid "Orlinn, stop!"
-msgstr ""
+msgstr "Orlin, para!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:517
 msgid "What's happening!?!"
-msgstr ""
+msgstr "Que ocorre?!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:556
 msgid "Gosh!! By all heavens, what is this?"
-msgstr ""
+msgstr "Pero que demo é isto?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:558
 msgid "A crystal stone?!?"
-msgstr ""
+msgstr "Unha pedra de cristal?!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:560
 msgid "This is her. I heard her voice calling..."
-msgstr ""
+msgstr "É ela. Escoitei a súa voz, chamando…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:569
 msgid "Dear chosen one, the time has finally come."
-msgstr ""
+msgstr "Oh, elixida, por fin chegou o momento."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:571
 msgid "For us, it will take an instant."
-msgstr ""
+msgstr "Para nós, non será máis que un instante."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:573
 msgid "For you, it might have been decades."
-msgstr ""
+msgstr "Para ti, pode que fosen décadas."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:575
 msgid "May you bring a happy end to this foolish destiny of ours."
-msgstr ""
+msgstr "Oxalá que lle deas un final feliz ou teu aciago destino."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:577
 msgid "We're all anxiously awaiting your return."
-msgstr ""
+msgstr "Estamos todos esperando ansiosamente a túa volta."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:579
 msgid "Now, come. And make one with our holy hope."
-msgstr ""
+msgstr "Ven. Únete á nosa sagrada esperanza."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:587
 msgid "What does all of this mean?"
-msgstr ""
+msgstr "Que significa todo isto?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:589
 msgid "I shall come and make one with our only hope..."
-msgstr ""
+msgstr "Virei e unireime á nosa única esperanza…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:591
 msgid "What! No, Orlinn!"
-msgstr ""
+msgstr "O que? Non, Orlin!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:607
 msgid "Bronann, the crystal! No!"
-msgstr ""
+msgstr "Bronan, o cristal! Non!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:631
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:672
@@ -2164,134 +2177,140 @@ msgstr "Bronan!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:670
 msgid "Bronann! Are you all right? Answer me!!"
-msgstr ""
+msgstr "Bronan! Estás ben? Contesta!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:674
 msgid "Woah, where am I?"
-msgstr ""
+msgstr "Onde estou?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:678
 msgid "Sis! What's the matter? What happened?"
-msgstr ""
+msgstr "Calia! Que ocorre? Que pasou?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:680
 msgid "What happened?? ... Orlinn ... What have you done? ..."
-msgstr ""
+msgstr "Como que que pasou? Orlin, que fixeches?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:682
 msgid "... My head ..."
-msgstr ""
+msgstr "A miña cabeza…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:684
 msgid "Bronann! Are you alright?"
-msgstr ""
+msgstr "Bronan! Estás ben?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:686
 msgid "I... I guess so. ..."
-msgstr ""
+msgstr "Si… supoño…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:688
 msgid "... The wolf! The crystal! Orlinn! Are you ok?? ..."
-msgstr ""
+msgstr "O lobo! O cristal! Orlin! Estás ben?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:690
 msgid "Don't worry, I'm fine. Err, what crystal? What ... wolf??"
-msgstr ""
+msgstr "Non te preocupes, estou ben. Isto… que cristal? Que… lobo?!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:692
 msgid "... You won't be fine for long after I'm done with you!!"
-msgstr ""
+msgstr "Non estaredes ben por moito tempo, diso encárgome eu!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:694
 msgid "... Huh? Wait, I didn't do anything this time!!"
-msgstr ""
+msgstr "O que? Un momento, desta vez non fixen nada!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:696
 msgid "... Oh? You didn't??"
-msgstr ""
+msgstr "Non?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:733
 msgid "When I'll catch you, I'll make you wish you weren't born!! Rahh!"
-msgstr ""
+msgstr "Cando te colla desexarás volver ao ventre da túa nai! Rah!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:735
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:739
 msgid "Yiek!!"
-msgstr ""
+msgstr "Ei!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:737
 msgid "Come here, now!!!"
-msgstr ""
+msgstr "Ven, xa!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:741
 msgid "(Sigh)... I should have stayed home today..."
-msgstr ""
+msgstr "Quen me mandaría a min saír hoxe da casa…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:743
 msgid "... Ouch, why is my head hurting so much? ..."
-msgstr ""
+msgstr "Au! Por que me doe tanto a cabeza?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:745
 msgid "Are you ok? We should get back home so Lilly can examine you..."
-msgstr ""
+msgstr "Estás ben? Deberíamos volver a casa, e que Lili che bote unha ollada…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:747
 msgid "I still really feel dizzy but I'll be ok..."
-msgstr ""
+msgstr "Aínda me doe algo a cabeza, pero xa se me pasará…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:749
 msgid ""
 "I'm relieved Orlinn is fine, too. And speaking of that: Orlinn! Stop running "
 "and come here, right away!"
 msgstr ""
+"Menos mal que non lle pasou nada a Orlin. E falando diso: Orlin! Deixa de "
+"correr e ven para aquí, agora mesmo!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:768
 msgid "Owww... Alright."
-msgstr ""
+msgstr "Ho… xa vou."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:770
 msgid ""
 "Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how "
 "did you just get there so quickly?"
 msgstr ""
+"E agora cóntanos: por que demo entraches no bosque ti só? E como chegaches "
+"tan rápido?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:772
 msgid "I don't know..."
-msgstr ""
+msgstr "Non sei…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:774
 msgid "Why was that giant wolf protecting you?"
-msgstr ""
+msgstr "Por que te protexía o lobo xigante ese?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:776
 msgid "What was that crystal? Why did you want to make one with it?"
-msgstr ""
+msgstr "Que era ese cristal? Por que querías unirte a el?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:778
 msgid "I... I... I sincerely don't know... I swear! I was like... dreaming..."
-msgstr ""
+msgstr "Eh… eh… non o sei, de verdade… Xúrocho, era… era como un soño…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:780
 msgid "I merely remember a voice in my head, telling me to come..."
-msgstr ""
+msgstr "Só lembro como unha voz na miña cabeza, dicíndome que viñese…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:782
 msgid "You know you won't get away with this, when you'll see Herth..."
-msgstr ""
+msgstr "Desta non te vas librar, xa verás cando te vexa Erce…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:784
 msgid "I swear it's the truth!"
-msgstr ""
+msgstr "É a verdade!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:786
 msgid "Making one with the crystal, huh?"
-msgstr ""
+msgstr "Unirte ao cristal, non é?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:788
 msgid ""
 "Let's not panic, Bronann, you look fine... Anyway, we'd better get back to "
 "the village and see the Elders as soon as possible."
 msgstr ""
+"Non nos poñamos nerviosos, Bronan, parece que estás ben… En fin, o mellor "
+"será que volvamos á vila e vaiamos ver aos anciáns canto antes."
 
 #: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:482
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:646
@@ -2375,38 +2394,44 @@ msgid ""
 "Woah, that was quite a nasty fight. Why on earth was an arctic north fenrir "
 "lurking in the forest? I thought such animals were part of the myths."
 msgstr ""
+"Saímos desta polos pelos. Que demo facía no bosque un fenrir ártico? Pensaba "
+"que esas criaturas non eran máis que lendas para asustar aos nenos."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:683
 msgid ""
 "He just ran away. I'm almost sure we'll meet it again. We'd better be well "
 "prepared, then."
 msgstr ""
+"E conseguiu escapar. Non me estrañaría que o volvésemos atopar. E será mellor "
+"que esteamos preparados cando iso ocorra, non vaia ser."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:685
 msgid ""
 "I'll try not to think about what it could have done to Orlinn ... Let's find "
 "him quickly."
 msgstr ""
+"Prefiro nin imaxinar o que lle faría a Orlin se chega atopalo… Temos que dar "
+"con meu irmán axiña."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1023
 msgid "Orlinn!"
-msgstr ""
+msgstr "Orlin!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1038
 msgid "Orlinn, stop it RIGHT NOW!!"
-msgstr ""
+msgstr "Orlin, queda aí quieto!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1040
 msgid "I can't sis. I can feel it... calling me..."
-msgstr ""
+msgstr "Non podo, Calia. Podo sentilo… chamándome…"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1062
 msgid "Quick! Let's follow him."
-msgstr ""
+msgstr "Rápido, temos que seguilo!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1064
 msgid "Right!"
-msgstr ""
+msgstr "Vamos!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1089
 msgid "Great! The tremor has just opened a path."
@@ -4467,7 +4492,7 @@ msgstr "Aumenta lixeiramente a defensa dun membro do grupo."
 
 #: ../dat/skills/magic.lua:74
 msgid "First Aid"
-msgstr ""
+msgstr "Primeiros auxilios"
 
 #: ../dat/skills/magic.lua:75
 msgid ""
@@ -4532,11 +4557,11 @@ msgstr "Un golpe máis rápido e eficaz que unha simple coitelada."
 
 #: ../dat/skills/weapon.lua:117
 msgid "Stun Strike"
-msgstr ""
+msgstr "Atordar"
 
 #: ../dat/skills/weapon.lua:118
 msgid "A blow which temporarily stun its target."
-msgstr ""
+msgstr "Un golpe que atorda temporalmente a quen o recibe."
 
 #: ../dat/skills/weapon.lua:148
 msgid "Blade Rush"
