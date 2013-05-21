@@ -100,7 +100,7 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       ADD_CUSTOM_TARGET(
          "update-translation-${_lang}"
          COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --backup=none -s ${_absFile} ${_absPotFile}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
          )
       ADD_DEPENDENCIES("update-translation-${_lang}" update-pot)
       ADD_DEPENDENCIES(update-po "update-translation-${_lang}")
