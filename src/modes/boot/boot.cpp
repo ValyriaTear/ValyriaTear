@@ -716,14 +716,14 @@ void BootMode::_RefreshAudioOptions()
 void BootMode::_RefreshKeySettings()
 {
     // Update key names
-    _key_settings_menu.SetOptionText(0, UTranslate("Move Up") + MakeUnicodeString("<r>" + InputManager->GetUpKeyName()));
-    _key_settings_menu.SetOptionText(1, UTranslate("Move Down") + MakeUnicodeString("<r>" + InputManager->GetDownKeyName()));
-    _key_settings_menu.SetOptionText(2, UTranslate("Move Left") + MakeUnicodeString("<r>" + InputManager->GetLeftKeyName()));
-    _key_settings_menu.SetOptionText(3, UTranslate("Move Right") + MakeUnicodeString("<r>" + InputManager->GetRightKeyName()));
-    _key_settings_menu.SetOptionText(4, UTranslate("Confirm") + MakeUnicodeString("<r>" + InputManager->GetConfirmKeyName()));
-    _key_settings_menu.SetOptionText(5, UTranslate("Cancel") + MakeUnicodeString("<r>" + InputManager->GetCancelKeyName()));
-    _key_settings_menu.SetOptionText(6, UTranslate("Menu") + MakeUnicodeString("<r>" + InputManager->GetMenuKeyName()));
-    _key_settings_menu.SetOptionText(7, UTranslate("Pause") + MakeUnicodeString("<r>" + InputManager->GetPauseKeyName()));
+    _key_settings_menu.SetOptionText(0, UTranslate("Move Up") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetUpKeyName()));
+    _key_settings_menu.SetOptionText(1, UTranslate("Move Down") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetDownKeyName()));
+    _key_settings_menu.SetOptionText(2, UTranslate("Move Left") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetLeftKeyName()));
+    _key_settings_menu.SetOptionText(3, UTranslate("Move Right") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetRightKeyName()));
+    _key_settings_menu.SetOptionText(4, UTranslate("Confirm") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetConfirmKeyName()));
+    _key_settings_menu.SetOptionText(5, UTranslate("Cancel") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetCancelKeyName()));
+    _key_settings_menu.SetOptionText(6, UTranslate("Menu") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetMenuKeyName()));
+    _key_settings_menu.SetOptionText(7, UTranslate("Pause") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetPauseKeyName()));
 }
 
 
