@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 00:05+0000\n"
-"PO-Revision-Date: 2013-05-20 21:51+0200\n"
+"PO-Revision-Date: 2013-05-21 08:42+0200\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
@@ -2435,60 +2435,60 @@ msgstr "Vamos!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1089
 msgid "Great! The tremor has just opened a path."
-msgstr ""
+msgstr "Xenial! Ese tremor deixou un camiño aberto."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1091
 msgid "We can easily return to the village from there."
-msgstr ""
+msgstr "Pol aí poderemos volver facilmente á vila."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1120
 msgid "We're almost there!"
-msgstr ""
+msgstr "Xa case estamos!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1122
 msgid "Say Sister, do you think Herth will be angry with me for what happened?"
-msgstr ""
+msgstr "Calia, cres que Erce se anoxará comigo polo que ocorreu?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1124
 msgid ""
 "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
-msgstr ""
+msgstr "Non creo, Orlin. Ambos sabemos que non o fixeches a propósito, non si?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1126
 msgid "Ok..."
-msgstr ""
+msgstr "Vale…"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1142
 msgid "Kalya, ... Err ..."
-msgstr ""
+msgstr "Calia… Isto…"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1144
 msgid "What is it, Bronann?"
-msgstr ""
+msgstr "Que foi?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1146
 msgid "Hmm... Nevermind."
-msgstr ""
+msgstr "Hmm… Nada, dá igual."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1148
 msgid "Don't worry too much, Bronann, Herth will be able to help you."
-msgstr ""
+msgstr "Non te preocupes demasiado, Bronan. Erce poderá axudarte."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1150
 msgid "Me? But ..."
-msgstr ""
+msgstr "A min? Pero…"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1152
 msgid "Thanks ..."
-msgstr ""
+msgstr "Grazas…"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1154
 msgid "Thanks for your help there ..."
-msgstr ""
+msgstr "Grazas pola túa axuda…"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1156
 msgid "... You're welcome."
-msgstr ""
+msgstr "…de nada."
 
 #: ../dat/maps/layna_forest/layna_forest_south_west_script.lua:691
 msgid "Woah, wait!"
@@ -2504,139 +2504,142 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:175
 msgid "(Bronann looks on the ground ...)"
-msgstr ""
+msgstr "(Bronan mira para o chan)"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:208
 msgid "This water looks weird. Shall we drink it anyway?"
-msgstr ""
+msgstr "A auga ten un aspecto estraño. Será potábel?"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:212
 msgid "Yes, I'm so thirsty."
-msgstr ""
+msgstr "Dáme igual, eu estou que morro coa sede."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:214
 msgid "No way, we'd get sick."
-msgstr ""
+msgstr "Nin se che pase pola cabeza, que aínda nos ha sentar mal."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:217
 msgid "The party drinks the water and feels... still right?"
-msgstr ""
+msgstr "O grupo bebe a auga e síntese… ben. De momento?"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:220
 msgid "The party won't drink it."
-msgstr ""
+msgstr "O grupo decide non beber a auga."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:287
 msgid "Yiek, it's stinking in here."
-msgstr ""
+msgstr "Mi ma, como fede."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:289
 msgid "Look at all those bones. We should be careful."
-msgstr ""
+msgstr "Mirade, ósos. Máis nos vale andar con tino."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:291
 msgid "I hope Orlinn is going well."
-msgstr ""
+msgstr "Espero que Orlin estea ben."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:329
 msgid "What a lovely necklace! I'll take it."
-msgstr ""
+msgstr "Que colgante tan bonito! Para min."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:331
 msgid ""
 "Kalya ... We're in the middle of a cave and you're only thinking about "
 "wearing jewels."
-msgstr ""
+msgstr "Estamos no medio dunha cova e ti a poñer xoias? O que hai que ver…"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:333
 msgid "It suits me better than it would for you, don't be jealous."
-msgstr ""
+msgstr "Non sexas celoso, a ti non te quedaría tan ben como a min."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:335
 msgid "Kalya! You'd better be careful!"
-msgstr ""
+msgstr "Calia, ten moito coidado!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:337
 msgid "Don't even start, this one is all mine."
-msgstr ""
+msgstr "Nin se che ocorra, este é meu."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:339
 msgid "Not the necklace, the Fenrir!"
-msgstr ""
+msgstr "Non falo do colgante, falo do fenrir!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:341
 msgid "You can't be serious, we would have heard it come."
-msgstr ""
+msgstr "Estarás de broma, non? Se houbese un fenrir por aquí escoitariámolo."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:353
 msgid "Ah well, finally you were serious, weren't you?"
-msgstr ""
+msgstr "Vale, conque o dicías en serio…"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:382
 msgid ""
 "It ran away again. I'm glad we survived. Let's get out of here before he "
 "comes back."
 msgstr ""
+"Volveu escapar, pero polo menos sobrevivimos. Marchemos antes de que volva."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:52
 msgid "Banesore"
-msgstr ""
+msgstr "Bansor"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:57
 msgid "So... Do you think you can hurt me?"
-msgstr ""
+msgstr "Que? Pensas que podes comigo?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:59
 msgid "You? A child with an old wooden stick?"
-msgstr ""
+msgstr "Ti? Un rapaz cun vello pau de madeira?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:66
 msgid "You're stronger than I thought but still ... So weak!"
 msgstr ""
+"Es máis forte do que pensaba… Pero segues sendo unha miñoca fronte a min!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:71
 msgid "Argh! It hurts!"
-msgstr ""
+msgstr "Argh! Doe!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:73
 msgid "Yes! I can feel it come closer to the surface!"
-msgstr ""
+msgstr "Si! Podo sentilo achegándose á superficie!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:75
 msgid "Let your fear grow, young boy!"
-msgstr ""
+msgstr "Prepárate para o que te espera, rapaz!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:77
 msgid "Don't listen to him, Bronann!"
-msgstr ""
+msgstr "Ignórao, Bronan!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:82
 msgid "I will... try."
-msgstr ""
+msgstr "Eh… intentareino."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:84
 msgid "Hmph. Leave that man to me, soldiers!"
-msgstr ""
+msgstr "Hmm… Ese deixádemo a min, soldados!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:86
 msgid "So... You seem to remind me, Banesore?"
-msgstr ""
+msgstr "Que? Lémbrasme, Bansor?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:88
 msgid "I do, old man..."
-msgstr ""
+msgstr "Por suposto, vello…"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:90
 msgid "Then, you know your zombified soldiers are no match to me..."
 msgstr ""
+"Entón serás consciente de que os teus soldados zombis non son rival para min…"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:92
 msgid "Argh! My chest is burning!!"
-msgstr ""
+msgstr "Argh! Árdeme o peito!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:98
 msgid "Hold on Bronann!"
-msgstr ""
+msgstr "Aguanta, Bronan!"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:187
 msgid ""
