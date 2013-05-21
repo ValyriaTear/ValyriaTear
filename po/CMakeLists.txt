@@ -77,6 +77,7 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       COMMAND rm -f translatable-files
       COMMAND rm -f map_names_files
       COMMAND rm -f map_names_tr.lua
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
 
    ADD_CUSTOM_TARGET(
@@ -90,6 +91,7 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       # Add map names and subnames to the translatable strings
       COMMAND grep 'map_name =' -Irl ../dat/maps --include=*.lua | sort > map_names_files
       COMMAND grep 'map_subname =' -Irl  ../dat/maps --include=*.lua | sort >> map_names_files
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
 
    FOREACH(_lang ${_languages})
@@ -98,6 +100,7 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       ADD_CUSTOM_TARGET(
          "update-translation-${_lang}"
          COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --backup=none -s ${_absFile} ${_absPotFile}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
          )
       ADD_DEPENDENCIES("update-translation-${_lang}" update-pot)
       ADD_DEPENDENCIES(update-po "update-translation-${_lang}")
@@ -112,7 +115,7 @@ FOREACH(_lang ${_languages})
    STRING(REGEX REPLACE "#.*" "" _lang "${_lang}")
    IF(NOT ${_lang} STREQUAL "")
       SET(languages ${languages} ${_lang})
-      SET(POFILES ${POFILES} "${_lang}.po")
+      SET(POFILES ${POFILES} "${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po")
    ENDIF()
 ENDFOREACH()
 
