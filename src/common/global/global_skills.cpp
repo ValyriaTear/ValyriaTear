@@ -59,6 +59,9 @@ GlobalSkill::GlobalSkill(uint32 id) :
     } else if((_id > MAX_MAGIC_SKILL_ID) && (_id <= MAX_SPECIAL_SKILL_ID)) {
         _type = GLOBAL_SKILL_SPECIAL;
         skill_script = &(GlobalManager->GetSpecialSkillsScript());
+    } else if((_id > MAX_SPECIAL_SKILL_ID) && (_id <= MAX_BARE_HANDS_SKILL_ID)) {
+        _type = GLOBAL_SKILL_BARE_HANDS;
+        skill_script = &(GlobalManager->GetBareHandsSkillsScript());
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid id argument: " << id << std::endl;
         _id = 0; // Indicate that this skill is invalid

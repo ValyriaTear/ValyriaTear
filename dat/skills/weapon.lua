@@ -1,7 +1,5 @@
 ------------------------------------------------------------------------------[[
--- Filename: attack.lua
---
--- Description: This file contains the definitions of all attack skills.
+-- Description: This file contains the definitions of all weapon skills.
 -- Each attack skill has a unique integer identifier
 -- that is used as its key in the skills table below. Some skills are primarily
 -- intended for characters to use while others are intended for enemies to use.
@@ -272,61 +270,6 @@ skills[10] = {
 			AudioManager:PlaySound("snd/missed_target.wav");
 		end
 	end
-}
-
-skills[999] = {
-   name = vt_system.Translate("Throw stone"),
-   description = vt_system.Translate("Kalya's attack when she's got no weapon."),
-   sp_required = 0,
-   warmup_time = 1000,
-   cooldown_time = 200,
-   action_name = "throw_stone",
-   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
-
-   BattleExecute = function(user, target)
-       local target_actor = target:GetActor();
-
-       if (vt_battle.CalculateStandardEvasion(target) == false) then
-           -- Attack: Strength / 3
-           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
-           AudioManager:PlaySound("snd/punch.wav");
-       else
-           target_actor:RegisterMiss(true);
-           AudioManager:PlaySound("snd/missed_target.wav");
-       end
-   end,
-
-   animation_scripts = {
-       [KALYA] = "dat/battles/characters_animations/kalya_throw_stone.lua"
-   }
-}
-
-skills[1000] = {
-   name = vt_system.Translate("Punch"),
-   description = vt_system.Translate("A simple punch. Better than nothing..."),
-   sp_required = 0,
-   warmup_time = 1000,
-   cooldown_time = 200,
-   action_name = "attack",
-   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
-
-   BattleExecute = function(user, target)
-       local target_actor = target:GetActor();
-
-       if (vt_battle.CalculateStandardEvasion(target) == false) then
-           -- Attack: Strength / 3
-           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
-           AudioManager:PlaySound("snd/punch.wav");
-       else
-           target_actor:RegisterMiss(true);
-           AudioManager:PlaySound("snd/missed_target.wav");
-       end
-   end,
-
-   animation_scripts = {
-       [BRONANN] = "dat/battles/characters_animations/bronann_punch.lua",
-       [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
-   }
 }
 
 --------------------------------------------------------------------------------

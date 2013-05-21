@@ -138,6 +138,9 @@ void GameGlobal::_CloseGlobalScripts() {
     _special_skills_script.CloseTable();
     _special_skills_script.CloseFile();
 
+    _bare_hands_skills_script.CloseTable();
+    _bare_hands_skills_script.CloseFile();
+
     _status_effects_script.CloseTable();
     _status_effects_script.CloseFile();
 
@@ -201,6 +204,11 @@ bool GameGlobal::_LoadGlobalScripts()
         return false;
     }
     _special_skills_script.OpenTable("skills");
+
+    if(_bare_hands_skills_script.OpenFile("dat/skills/barehands.lua") == false) {
+        return false;
+    }
+    _bare_hands_skills_script.OpenTable("skills");
 
     if(_status_effects_script.OpenFile("dat/effects/status.lua") == false) {
         return false;
@@ -1172,6 +1180,18 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
             file.WriteLine(", ", false);
         file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
     }
+    file.WriteLine("\n\t\t},");
+
+    file.InsertNewLine();
+    file.WriteLine("\t\tbare_hands_skills = {");
+    skill_vector = character->GetBareHandsSkills();
+    for(uint32 i = 0; i < skill_vector->size(); i++) {
+        if(i == 0)
+            file.WriteLine("\t\t\t", false);
+        else
+            file.WriteLine(", ", false);
+        file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
+    }
     file.WriteLine("\n\t\t}");
 
     if(last)
@@ -1362,6 +1382,13 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     skill_ids.clear();
     file.ReadUIntVector("weapon_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); i++) {
+        // DEPRECATED HACK: Remove that in one release.
+        // Turn old bare hands skills id into new ones at load time.
+        if (skill_ids[i] == 999)
+            skill_ids[i] = 30002;
+        else if (skill_ids[i] == 1000)
+            skill_ids[i] = 30001;
+
         character->AddSkill(skill_ids[i]);
     }
 
@@ -1373,6 +1400,12 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
 
     skill_ids.clear();
     file.ReadUIntVector("special_skills", skill_ids);
+    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+        character->AddSkill(skill_ids[i]);
+    }
+
+    skill_ids.clear();
+    file.ReadUIntVector("bare_hands_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }

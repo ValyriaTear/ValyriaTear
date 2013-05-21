@@ -850,7 +850,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
         std::vector<uint32> bare_skills;
         char_script.ReadUIntVector("bare_hands_skills", bare_skills);
         for (uint32 i = 0; i < bare_skills.size(); ++i)
-            _AddBareHandsSkill(bare_skills[i]);
+            AddSkill(bare_skills[i]);
     }
 
     // Read each battle_animations table keys and store the corresponding animation in memory.
@@ -1050,6 +1050,9 @@ void GlobalCharacter::AddSkill(uint32 skill_id)
         break;
     case GLOBAL_SKILL_SPECIAL:
         _special_skills.push_back(skill);
+        break;
+    case GLOBAL_SKILL_BARE_HANDS:
+        _bare_hands_skills.push_back(skill);
         break;
     default:
         PRINT_WARNING << "loaded a new skill with an unknown skill type: " << skill->GetType() << std::endl;

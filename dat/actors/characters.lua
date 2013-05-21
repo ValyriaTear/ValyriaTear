@@ -143,7 +143,7 @@ characters[BRONANN] = {
     },
 
     -- The default skill available when no weapon.
-    bare_hands_skills = { 1000 },
+    bare_hands_skills = { 30001 },
 
     -- [character level] = skill_id learned.
     skills = { [1] = 1, [2] = 2, [8] = 3, [16] = 10003 }
@@ -282,7 +282,7 @@ characters[KALYA] = {
     },
 
     -- The default skill available when no weapon.
-    bare_hands_skills = { 999 },
+    bare_hands_skills = { 30002 },
 
     skills = { [1] = 5, [3] = 10001, [7] = 10002, [14] = 6 }
 } -- characters[KALYA]
@@ -417,7 +417,7 @@ characters[SYLVE] = {
     },
 
     -- The default skill available when no weapon.
-    bare_hands_skills = { 1000 },
+    bare_hands_skills = { 30001 },
 
     skills = { [1] = 10 }
 } -- characters[SYLVE]
@@ -553,7 +553,7 @@ characters[THANIS] = {
     },
 
     -- The default skill available when no weapon.
-    bare_hands_skills = { 1000 },
+    bare_hands_skills = { 30001 },
 
     skills = { [1] = 1 }
 } -- characters[THANIS]

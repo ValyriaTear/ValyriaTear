@@ -925,6 +925,10 @@ public:
         return _special_skills_script;
     }
 
+    vt_script::ReadScriptDescriptor &GetBareHandsSkillsScript() {
+        return _bare_hands_skills_script;
+    }
+
     vt_script::ReadScriptDescriptor &GetStatusEffectsScript() {
         return _status_effects_script;
     }
@@ -1077,6 +1081,9 @@ private:
 
     //! \brief Contains data and functional definitions for all special skills
     vt_script::ReadScriptDescriptor _special_skills_script;
+
+    //! \brief Contains data and functional definitions for all bare hands skills
+    vt_script::ReadScriptDescriptor _bare_hands_skills_script;
 
     //! \brief Contains functional definitions for all status effects
     vt_script::ReadScriptDescriptor _status_effects_script;

@@ -1467,7 +1467,7 @@ void SkillsWindow::_UpdateSkillList()
             if ((*it)->GetType() == GLOBAL_SKILL_WEAPON &&
                  ch->GetWeaponEquipped() && !ch->GetWeaponEquipped()->GetIconImage().GetFilename().empty())
                 name = MakeUnicodeString("<" + ch->GetWeaponEquipped()->GetIconImage().GetFilename() + ">");
-            else if ((*it)->GetType() == GLOBAL_SKILL_WEAPON)
+            else if ((*it)->GetType() == GLOBAL_SKILL_BARE_HANDS)
                 name = MakeUnicodeString("<img/icons/weapons/fist-human.png>");
 
             name += MakeUnicodeString("<45>") + (*it)->GetName();

@@ -70,14 +70,16 @@ const uint32 OBJECT_ID_EXCEEDS   = 80001;
 /** \name Skill ID Range Constants
 *** These constants set the maximum valid ID ranges for each skill category.
 *** The full valid range for each skill category ID is:
-*** - Weapon:        1-10000
-*** - Magic:    10001-20000
-*** - Special:   20001-30000
+*** - Weapon:         1-10000
+*** - Magic:      10001-20000
+*** - Special:    20001-30000
+*** - Bare-hands: 30001-40000
 **/
 //@{
-const uint32 MAX_WEAPON_SKILL_ID   = 10000;
-const uint32 MAX_MAGIC_SKILL_ID    = 20000;
-const uint32 MAX_SPECIAL_SKILL_ID  = 30000;
+const uint32 MAX_WEAPON_SKILL_ID     = 10000;
+const uint32 MAX_MAGIC_SKILL_ID      = 20000;
+const uint32 MAX_SPECIAL_SKILL_ID    = 30000;
+const uint32 MAX_BARE_HANDS_SKILL_ID = 40000;
 //@}
 
 } // namespace private_global
@@ -229,11 +231,12 @@ enum GLOBAL_INTENSITY {
 *** \brief Enum values used to identify the type of a skill.
 **/
 enum GLOBAL_SKILL {
-    GLOBAL_SKILL_INVALID  = -1,
-    GLOBAL_SKILL_WEAPON   =  0,
-    GLOBAL_SKILL_MAGIC    =  1,
-    GLOBAL_SKILL_SPECIAL  =  2,
-    GLOBAL_SKILL_TOTAL    =  3
+    GLOBAL_SKILL_INVALID     = -1,
+    GLOBAL_SKILL_WEAPON      =  0,
+    GLOBAL_SKILL_MAGIC       =  1,
+    GLOBAL_SKILL_SPECIAL     =  2,
+    GLOBAL_SKILL_BARE_HANDS  =  3,
+    GLOBAL_SKILL_TOTAL       =  4
 };
 
 //! \brief The Battle enemies harm levels
