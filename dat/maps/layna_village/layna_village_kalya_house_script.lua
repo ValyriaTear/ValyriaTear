@@ -49,6 +49,9 @@ function Load(m)
     _CreateEvents();
     _CreateZones();
 
+    -- Preloads the sad music
+    AudioManager:LoadMusic("mus/sad_moment.ogg", Map);
+
     -- To be continued script
     Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
 
