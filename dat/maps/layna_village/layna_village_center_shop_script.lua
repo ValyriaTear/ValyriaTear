@@ -192,7 +192,7 @@ function _UpdateFloraDialogue()
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Times are becoming harder now. We've got less food than before...");
         dialogue:AddLine(text, flora);
-        text = vt_system.Translate("? ... This is the first time that I've see you wear such a worrisome expression.");
+        text = vt_system.Translate("? ... This is the first time that I've seen you wear such a worrisome expression.");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Nevermind... Don't worry about me. Just find him and he should give you some, ok?");
         dialogue:AddLine(text, flora);

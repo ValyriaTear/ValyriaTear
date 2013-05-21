@@ -416,7 +416,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Why doesn't anyone want to tell me what's going on!!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Still, I have go there and figure out what they're trying to hide from me.");
+    text = vt_system.Translate("Still, I have to go there and figure out what they're trying to hide from me.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann wants to see Flora for equipment", dialogue);
@@ -923,7 +923,7 @@ function _UpdateGeorgesDialogue()
         dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_pen_lost");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
+        text = vt_system.Translate("Shall you find it, I would be extremely obliged to you!");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
         dialogue:AddLine(text, georges);
@@ -940,7 +940,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Erm, ... Well, I don't hear anything special...");
         dialogue:AddLineEmote(text, bronann, "interrogation");
-        text = vt_system.Translate("That's the point! Can't you hear the magnificient sound of nature, so invisible to our adapted ears?");
+        text = vt_system.Translate("That's the point! Can't you hear the magnificent sound of nature, so invisible to our adapted ears?");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Huh, please Georges. I do not want to run away like the last time...");
         dialogue:AddLine(text, bronann);
@@ -954,7 +954,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Shall you find it, I would be entrustfully obliged to you!");
+        text = vt_system.Translate("Shall you find it, I would be extremely obliged to you!");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
         dialogue:AddLine(text, georges);
