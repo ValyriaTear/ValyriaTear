@@ -160,7 +160,7 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     -- Create an invisible sprite, used to handle the dialogue
     stone_sign = CreateSprite(Map, "Butterfly", 22, 11);
-    stone_sign:SetName("Stone sign");
+    stone_sign:SetName(vt_system.Translate("Stone sign"));
     stone_sign:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     stone_sign:SetVisible(false);
     Map:AddGroundObject(stone_sign);
