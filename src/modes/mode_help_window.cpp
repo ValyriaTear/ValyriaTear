@@ -206,7 +206,7 @@ void HelpWindow::_RefreshText()
     // MODE_MANAGER_DUMMY_MODE text
     _text_header.SetStyle(TextStyle("text20"));
     _text_header.SetText(UTranslate("The table below lists the default game controls.\n") +
-                         UTranslate("The control mappings can be changed in the options menu on the next screen."));
+                         UTranslate("The control mappings can be changed in the options menu."));
 
     _key_table_header.SetPosition(50.0f, 128.0f);
     _key_table_header.SetDimensions(600.0f, 30.0f, 3, 1, 3, 1);
