@@ -76,7 +76,7 @@ end
 
 skills[1] = {
 	name = vt_system.Translate("Sword Slash"),
-	description = vt_system.Translate("A textbook manoeuver that deals an effective blow."),
+	description = vt_system.Translate("A textbook maneuver that deals an effective blow."),
 	sp_required = 0,
 	warmup_time = 1200,
 	cooldown_time = 200,
