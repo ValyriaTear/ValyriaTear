@@ -936,7 +936,7 @@ skills[10152] = {
 
 skills[10153] = {
     name = vt_system.Translate("Magical Reflection"),
-    description = vt_system.Translate("Makes the next enemy spell targetting the ally be cast upon itself."),
+    description = vt_system.Translate("Makes the next enemy spell targeting the ally be cast upon itself."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
