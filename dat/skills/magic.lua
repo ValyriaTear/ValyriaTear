@@ -786,7 +786,7 @@ skills[10137] = {
 
 skills[10140] = {
     name = vt_system.Translate("Holy"),
-    description = vt_system.Translate("An holy light strikes an enemy."),
+    description = vt_system.Translate("A holy light strikes an enemy."),
     icon = "img/icons/magic/holy.png",
     sp_required = 7,
     warmup_time = 4000,
