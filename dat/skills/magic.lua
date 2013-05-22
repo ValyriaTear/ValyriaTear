@@ -160,7 +160,7 @@ skills[10100] = {
 
 skills[10101] = {
     name = vt_system.Translate("Fire Circle"),
-    description = vt_system.Translate("Increases the Fire elemental defence on a character."),
+    description = vt_system.Translate("Increases the Fire elemental defense on a character."),
     icon = "img/icons/magic/fire_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -331,7 +331,7 @@ skills[10110] = {
 
 skills[10111] = {
     name = vt_system.Translate("Earth Circle"),
-    description = vt_system.Translate("Increases the Earth elemental defence on a character."),
+    description = vt_system.Translate("Increases the Earth elemental defense on a character."),
     icon = "img/icons/magic/earth_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -502,7 +502,7 @@ skills[10120] = {
 
 skills[10121] = {
     name = vt_system.Translate("Water Circle"),
-    description = vt_system.Translate("Increases the Water elemental defence on a character."),
+    description = vt_system.Translate("Increases the Water elemental defense on a character."),
     icon = "img/icons/magic/water_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -674,7 +674,7 @@ skills[10130] = {
 
 skills[10131] = {
     name = vt_system.Translate("Wind Circle"),
-    description = vt_system.Translate("Increases the Air elemental defence on an ally."),
+    description = vt_system.Translate("Increases the Air elemental defense on an ally."),
     icon = "img/icons/magic/wind_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -813,7 +813,7 @@ skills[10140] = {
 
 skills[10141] = {
     name = vt_system.Translate("Life Circle"),
-    description = vt_system.Translate("Increases the Life elemental defence on a character."),
+    description = vt_system.Translate("Increases the Life elemental defense on a character."),
     icon = "img/icons/magic/life_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -904,7 +904,7 @@ skills[10150] = {
 
 skills[10151] = {
     name = vt_system.Translate("Death Circle"),
-    description = vt_system.Translate("Increases the Death elemental defence on an ally."),
+    description = vt_system.Translate("Increases the Death elemental defense on an ally."),
     icon = "img/icons/magic/death_circle.png",
     sp_required = 7,
     warmup_time = 4000,
