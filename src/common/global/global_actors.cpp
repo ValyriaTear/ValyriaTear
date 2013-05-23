@@ -1036,6 +1036,7 @@ bool GlobalCharacter::AddSkill(uint32 skill_id, bool permanently)
         }
 
         // The character already knew the skill but that doesn't really matter.
+        delete skill;
         return true;
     }
 
