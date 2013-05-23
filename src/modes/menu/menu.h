@@ -578,6 +578,11 @@ private:
 
     //! \brief The number of spirit the equipment can support.
     uint32 _spirit_number;
+
+    //! \brief The skills earned when equipping info
+    vt_video::TextImage _equip_skills_header;
+    std::vector<vt_video::TextImage> _equip_skills;
+    std::vector<vt_video::StillImage> _equip_skill_icons;
     //@}
 }; // class MenuMode : public vt_mode_manager::GameMode
 

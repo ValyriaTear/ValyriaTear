@@ -153,6 +153,7 @@ void BindCommonCode()
                         luabind::value("GLOBAL_SKILL_WEAPON", GLOBAL_SKILL_WEAPON),
                         luabind::value("GLOBAL_SKILL_MAGIC", GLOBAL_SKILL_MAGIC),
                         luabind::value("GLOBAL_SKILL_SPECIAL", GLOBAL_SKILL_SPECIAL),
+                        luabind::value("GLOBAL_SKILL_BARE_HANDS", GLOBAL_SKILL_BARE_HANDS),
                         // Elemental type constants
                         luabind::value("GLOBAL_ELEMENTAL_FIRE", GLOBAL_ELEMENTAL_FIRE),
                         luabind::value("GLOBAL_ELEMENTAL_WATER", GLOBAL_ELEMENTAL_WATER),
@@ -248,13 +249,10 @@ void BindCommonCode()
             .def("GetAverageMagicalDefense", &GlobalActor::GetAverageMagicalDefense)
             .def("GetAverageEvadeRating", &GlobalActor::GetAverageEvadeRating)
             .def("GetAttackPoint", &GlobalActor::GetAttackPoint)
-// 			.def("GetWeaponEquipped", &GlobalActor::GetWeaponEquipped)
-// 			.def("GetArmorEquipped", (GlobalArmor* (GlobalActor::*)(uint32)) &GlobalActor::GetArmorEquipped)
-// 			.def("GetAttackPoints", &GlobalActor::GetAttackPoints)
-// 			.def("GetElementalAttackBonuses", &GlobalActor::GetElementalAttackBonuses)
-// 			.def("GetStatusAttackBonuses", &GlobalActor::GetStatusAttackBonuses)
-// 			.def("GetElementalDefenseBonuses", &GlobalActor::GetElementalDefenseBonuses)
-// 			.def("GetStatusDefenseBonuses", &GlobalActor::GetStatusDefenseBonuses)
+//          .def("GetElementalAttackBonuses", &GlobalActor::GetElementalAttackBonuses)
+//          .def("GetStatusAttackBonuses", &GlobalActor::GetStatusAttackBonuses)
+//          .def("GetElementalDefenseBonuses", &GlobalActor::GetElementalDefenseBonuses)
+//          .def("GetStatusDefenseBonuses", &GlobalActor::GetStatusDefenseBonuses)
 
             .def("SetHitPoints", &GlobalActor::SetHitPoints)
             .def("SetSkillPoints", &GlobalActor::SetSkillPoints)
@@ -290,8 +288,6 @@ void BindCommonCode()
             .def("SubtractEvade", &GlobalActor::SubtractEvade)
 
             .def("IsAlive", &GlobalActor::IsAlive)
-// 			.def("EquipWeapon", &GlobalActor::EquipWeapon)
-// 			.def("EquipArmor", &GlobalActor::EquipArmor)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
@@ -306,7 +302,7 @@ void BindCommonCode()
             .def_readwrite("_agility_growth", &GlobalCharacter::_agility_growth)
             .def_readwrite("_evade_growth", &GlobalCharacter::_evade_growth)
             .def("AddExperienceForNextLevel", &GlobalCharacter::AddExperienceForNextLevel)
-            .def("AddSkill", &GlobalCharacter::AddSkill)
+            .def("AddSkill", (bool(GlobalCharacter:: *)(uint32)) &GlobalCharacter::AddSkill)
             .def("AddNewSkillLearned", &GlobalCharacter::AddNewSkillLearned)
         ];
 
@@ -336,21 +332,18 @@ void BindCommonCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalItem, GlobalObject>("GlobalItem")
-// 			.def(luabind::constructor<>(uint32, uint32))
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalWeapon, GlobalObject>("GlobalWeapon")
             .def("GetUsableBy", &GlobalWeapon::GetUsableBy)
-// 			.def(luabind::constructor<>(uint32, uint32))
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalArmor, GlobalObject>("GlobalArmor")
             .def("GetUsableBy", &GlobalArmor::GetUsableBy)
-// 			.def(luabind::constructor<>(uint32, uint32))
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

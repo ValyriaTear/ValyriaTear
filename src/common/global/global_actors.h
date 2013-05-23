@@ -229,32 +229,17 @@ public:
 
     GlobalActor &operator=(const GlobalActor &copy);
 
-    /** \brief Equips a new weapon on the actor
-    *** \param weapon The new weapon to equip on the actor
-    *** \return A pointer to the weapon that was previouslly equipped, or NULL if no weapon was equipped.
-    ***
-    *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
-    **/
-    GlobalWeapon *EquipWeapon(GlobalWeapon *weapon);
-
-    /** \brief Equips a new armor on the actor
-    *** \param armor The piece of armor to equip
-    *** \param index The index into the _armor_equippd vector where to equip the armor
-    *** \return A pointer to the armor that was previously equipped, or NULL if no armor was equipped
-    ***
-    *** This function will also automatically re-calculate all defense ratings, elemental, and status bonuses
-    *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
-    *** the function will return the armor argument.
-    **/
-    GlobalArmor *EquipArmor(GlobalArmor *armor, uint32 index);
-
     /** \brief Adds a new skill to the actor's skill set
     *** \param skill_id The id number of the skill to add
+    *** \return whether the skill addition succeeded.
     ***
     *** No skill may be added more than once. If this case is detected or an error occurs when trying
     *** to load the skill data, it will not be added.
     **/
-    virtual void AddSkill(uint32 skill_id) = 0;
+    virtual bool AddSkill(uint32 skill_id) = 0;
+
+    //! \brief Tells whether the actor has already learned the given skill.
+    bool HasSkill(uint32 skill_id);
 
     /** \brief Determines if the actor is "alive" and able to perform actions
     *** \return True if the character has a non-zero amount of hit points
@@ -376,23 +361,22 @@ public:
         return _attack_points;
     }
 
+    /** \brief Equips a new weapon on the actor
+    *** \param weapon The new weapon to equip on the actor
+    *** \return A pointer to the weapon that was previouslly equipped, or NULL if no weapon was equipped.
+    ***
+    *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
+    **/
+    virtual GlobalWeapon *EquipWeapon(GlobalWeapon *weapon);
+
     //! \brief Tells whether the actor has got equipment.
     bool HasEquipment() const;
 
     GlobalAttackPoint *GetAttackPoint(uint32 index) const;
 
-    const std::map<uint32, GlobalSkill *>& GetSkills() {
+    const std::vector<GlobalSkill *>& GetSkills() {
         return _skills;
     }
-
-    /** \brief Retrieves a pointer to a skill with a specific id
-    *** \param skill_id The unique ID of the skill to find and return
-    *** \return A pointer to the skill if it is found, or NULL if the skill was not found
-    **/
-    GlobalSkill *GetSkill(uint32 skill_id) const;
-
-    //! \brief An alternative GetSkill call that takes a skill pointer as an argument
-    GlobalSkill *GetSkill(const GlobalSkill *skill) const;
 
     // TODO: elemental and status effects not yet available in game
 // 	std::vector<GlobalElementalEffect*>& GetElementalAttackBonuses()
@@ -622,7 +606,10 @@ protected:
     *** Unlike with characters, there is no need to hold the various types of skills in seperate containers
     *** for enemies. An enemy must have <b>at least</b> one skill in order to do anything useful in battle.
     **/
-    std::map<uint32, GlobalSkill *> _skills;
+    std::vector<GlobalSkill *> _skills;
+
+    //! A vector keeping all the skills ids learned. Used for fast id requests.
+    std::vector<uint32> _skills_id;
 
     /** \brief The elemental effects added to the actor's attack
     *** Actors may carry various elemental attack bonuses, or they may carry none. These bonuses include
@@ -652,7 +639,16 @@ protected:
     **/
 // 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_defense_bonuses;
 
-    // ---------- Private methods
+    /** \brief Equips a new armor on the actor
+    *** \param armor The piece of armor to equip
+    *** \param index The index into the _armor_equippd vector where to equip the armor
+    *** \return A pointer to the armor that was previously equipped, or NULL if no armor was equipped
+    ***
+    *** This function will also automatically re-calculate all defense ratings, elemental, and status bonuses
+    *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
+    *** the function will return the armor argument.
+    **/
+    GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32 index);
 
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's strength/vigor with their weapon's attack ratings
@@ -740,20 +736,39 @@ public:
         return _enabled;
     }
 
+    GlobalWeapon* EquipWeapon(GlobalWeapon* weapon) {
+        GlobalWeapon* old_weapon = GlobalActor::EquipWeapon(weapon);
+        // Reloads available skill according to equipment
+        _UpdatesAvailableSkills();
+        return old_weapon;
+    }
+
     GlobalArmor *EquipHeadArmor(GlobalArmor *armor) {
-        return EquipArmor(armor, GLOBAL_POSITION_HEAD);
+        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_HEAD);
+        // Reloads available skill according to equipment
+        _UpdatesAvailableSkills();
+        return old_armor;
     }
 
     GlobalArmor *EquipTorsoArmor(GlobalArmor *armor) {
-        return EquipArmor(armor, GLOBAL_POSITION_TORSO);
+        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_TORSO);
+        // Reloads available skill according to equipment
+        _UpdatesAvailableSkills();
+        return old_armor;
     }
 
     GlobalArmor *EquipArmArmor(GlobalArmor *armor) {
-        return EquipArmor(armor, GLOBAL_POSITION_ARMS);
+        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_ARMS);
+        // Reloads available skill according to equipment
+        _UpdatesAvailableSkills();
+        return old_armor;
     }
 
     GlobalArmor *EquipLegArmor(GlobalArmor *armor) {
-        return EquipArmor(armor, GLOBAL_POSITION_LEGS);
+        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_LEGS);
+        // Reloads available skill according to equipment
+        _UpdatesAvailableSkills();
+        return old_armor;
     }
 
     /** \brief Adds experience points to the character
@@ -762,18 +777,29 @@ public:
     **/
     bool AddExperiencePoints(uint32 xp);
 
+    //! \brief Permanently adds a new skill to the character (inherited from GlobalActor)
+    //! \returns whether the skill was successfully added.
+    bool AddSkill(uint32 skill_id) {
+        return AddSkill(skill_id, true);
+    }
+
     //! \brief Adds a new skill to the character, inherited from GlobalActor
-    void AddSkill(uint32 skill_id);
+    //! \param permanently Tells whether the skill is permanently learned.
+    //! This is usually the case for skill learned when levelling, but not for skills
+    //! available through equipment.
+    //! \returns whether the skill was successfully added.
+    bool AddSkill(uint32 skill_id, bool permanently);
 
     /** \brief Adds a new skill for the character to learn once the next experience level is gained
     *** \param skill_id The ID number of the skill to add
+    *** \returns whether the skill was successfully added.
     *** \note This function is bound to Lua and used whenever a character gains a level.
     ***
     *** The difference between this method and AddSkill() is that the skill added is also copied to the
     *** _new_skills_learned container. This allows external code to easily know what skill or skills have
     *** been added to the character.
     **/
-    void AddNewSkillLearned(uint32 skill_id);
+    bool AddNewSkillLearned(uint32 skill_id);
 
     //! \brief Returns true if the character has earned enough experience points to reach the next level
     bool ReachedNewExperienceLevel() const
@@ -911,8 +937,12 @@ protected:
     std::vector<GlobalSkill *> _weapon_skills;
     std::vector<GlobalSkill *> _magic_skills;
     std::vector<GlobalSkill *> _special_skills;
-    // Skills available when no weapons
+    // Skills available when no weapon is equipped.
     std::vector<GlobalSkill *> _bare_hands_skills;
+
+    //! A vector storing only the skills that are permanently learned. This is useful when recomputing
+    //! the available skills, on equip/unequip.
+    std::vector<uint32> _permanent_skills;
     //@}
 
     //! \brief The script filename used to trigger a battle character animation when dealing with a particular skill.
@@ -960,8 +990,8 @@ protected:
     //! \brief Tells whether a character is in the visible game formation
     bool _enabled;
 
-    //! \brief Add a skill available only when the character has got no weapons.
-    void _AddBareHandsSkill(uint32 skill_id);
+    //! \brief Recomputes which skills are available, based on equipment and permanent skills.
+    void _UpdatesAvailableSkills();
 
 private:
     /** \brief The remaining experience points required to reach the next experience level
@@ -1057,6 +1087,7 @@ public:
 
     /** \brief Enables the enemy to be able to use a specific skill
     *** \param skill_id The integer ID of the skill to add to the enemy
+    *** \returns whether the skill was added successfully.
     ***
     *** This method should be called only <b>after</b> the Initialize() method has been invoked. The
     *** purpose of this method is to allow non-standard skills to be used by enemies under certain
@@ -1064,7 +1095,7 @@ public:
     *** and gain access to new skills after certain criteria are met. Normally you would want to define
     *** any skills that you wish an enemy to be able to use within their Lua definition file.
     **/
-    void AddSkill(uint32 skill_id);
+    bool AddSkill(uint32 skill_id);
 
     /** \brief Uses random variables to calculate which objects, if any, the enemy dropped
     *** \param objects A reference to a vector to hold the GlobalObject pointers

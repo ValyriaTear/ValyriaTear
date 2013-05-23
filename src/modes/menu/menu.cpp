@@ -864,6 +864,9 @@ MenuMode::MenuMode() :
 
     _phys_stat_diff.SetStyle(TextStyle("text18"));
     _mag_stat_diff.SetStyle(TextStyle("text18"));
+
+    _equip_skills_header.SetStyle(TextStyle("title20"));
+    _equip_skills_header.SetText(UTranslate("Skills obtained:"));
 } // MenuMode::MenuMode()
 
 MenuMode::~MenuMode()
@@ -962,6 +965,8 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         _elemental_icons.clear();
         _status_icons.clear();
         _spirit_number = 0;
+        _equip_skills.clear();
+        _equip_skill_icons.clear();
 
         _phys_header.Clear();
         _mag_header.Clear();
@@ -1018,6 +1023,22 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             _spirit_number = wpn ? wpn->GetSpiritSlots().size() : 0;
             equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
             equip_mag_stat = wpn ? wpn->GetMagicalAttack() : 0;
+
+            const std::vector<uint32>& equip_skills = wpn->GetEquipmentSkills();
+            _equip_skills.clear();
+            _equip_skill_icons.clear();
+            // Display a max of 5 skills
+            for (uint32 i = 0; i < equip_skills.size() && i < 5; ++i) {
+                GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
+                if (skill && skill->IsValid()) {
+                    _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
+                    _equip_skill_icons.push_back(vt_video::StillImage());
+                    vt_video::StillImage& img = _equip_skill_icons.back();
+                    img.Load(skill->GetIconFilename());
+                    img.SetWidthKeepRatio(15.0f);
+                }
+                delete skill;
+            }
             break;
         }
 
@@ -1041,6 +1062,22 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             _spirit_number = armor ? armor->GetSpiritSlots().size() : 0;
             equip_phys_stat = armor ? armor->GetPhysicalDefense() : 0;
             equip_mag_stat = armor ? armor->GetMagicalDefense() : 0;
+
+            const std::vector<uint32>& equip_skills = armor->GetEquipmentSkills();
+            _equip_skills.clear();
+            _equip_skill_icons.clear();
+            // Display a max of 5 skills
+            for (uint32 i = 0; i < equip_skills.size() && i < 5; ++i) {
+                GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
+                if (skill && skill->IsValid()) {
+                    _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
+                    _equip_skill_icons.push_back(vt_video::StillImage());
+                    vt_video::StillImage& img = _equip_skill_icons.back();
+                    img.Load(skill->GetIconFilename());
+                    img.SetWidthKeepRatio(15.0f);
+                }
+                delete skill;
+            }
             break;
         }
     }
@@ -1217,6 +1254,19 @@ void MenuMode::DrawEquipmentInfo()
     for(uint32 i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
+    }
+
+    // Draw possible equipment skills
+    VideoManager->MoveRelative(250.0f, 0.0f);
+    element_size = _equip_skills.size();
+    if (element_size > 0)
+        _equip_skills_header.Draw();
+    VideoManager->MoveRelative(10.0f, 20.0f);
+    for (uint32 i = 0; i < element_size; ++i) {
+        _equip_skills[i].Draw();
+        VideoManager->MoveRelative(-20.0f, 5.0f);
+        _equip_skill_icons[i].Draw();
+        VideoManager->MoveRelative(20.0f, 15.0f);
     }
 }
 

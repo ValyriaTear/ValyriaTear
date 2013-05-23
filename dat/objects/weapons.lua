@@ -357,6 +357,9 @@ weapons[10999] = {
         [vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
     },
 
+    -- A max of 5 skills can be earned through a piece of equipment.
+    equipment_skills = { 10100, 10119, 10101, 10163, 10164 },
+
     battle_animations = {
         [BRONANN] = {
             idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",

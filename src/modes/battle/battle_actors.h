@@ -240,8 +240,8 @@ public:
     }
 
     //! \brief Empty method. Required because this is a pure virtual method of GlobalActor
-    void AddSkill(uint32 /*skill_id*/)
-    {}
+    bool AddSkill(uint32 /*skill_id*/)
+    { return false; }
 
     /** \brief Restores an actor to the initial state it was in when the battle began
     ***
@@ -722,9 +722,6 @@ public:
 protected:
     //! \brief A pointer to the global enemy object which the battle enemy represents
     vt_global::GlobalEnemy *_global_enemy;
-
-    //! \brief An unsorted vector containing all the skills that the enemy may use
-    std::vector<vt_global::GlobalSkill *> _enemy_skills;
 
     //! \brief A pointer to the enemy battle animations
     //! Do not delete it, the global enemy instance will take care of it.

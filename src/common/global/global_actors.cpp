@@ -175,10 +175,10 @@ GlobalActor::~GlobalActor()
     _armor_equipped.clear();
 
     // Delete all skills
-    for(std::map<uint32, GlobalSkill *>::iterator i = _skills.begin(); i != _skills.end(); i++) {
-        delete i->second;
-    }
-    _skills.clear();
+    for(uint32 i = 0; i < _skills.size(); ++i)
+        delete _skills[i];
+    //_skills.clear();
+    //_skill_ids.clear();
 }
 
 
@@ -226,8 +226,9 @@ GlobalActor::GlobalActor(const GlobalActor &copy)
     }
 
     // Copy all skills
-    for(std::map<uint32, GlobalSkill *>::const_iterator i = copy._skills.begin(); i != copy._skills.end(); i++) {
-        _skills.insert(std::make_pair(i->first, new GlobalSkill(*(i->second))));
+    for (uint32 i = 0; i < copy._skills.size(); ++i) {
+        _skills.push_back(copy._skills[i]);
+        _skills_id.push_back(copy._skills_id[i]);
     }
 }
 
@@ -279,8 +280,9 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     }
 
     // Copy all skills
-    for(std::map<uint32, GlobalSkill *>::const_iterator i = copy._skills.begin(); i != copy._skills.end(); i++) {
-        _skills.insert(std::make_pair(i->first, new GlobalSkill(*(i->second))));
+    for (uint32 i = 0; i < copy._skills.size(); ++i) {
+        _skills.push_back(copy._skills[i]);
+        _skills_id.push_back(copy._skills_id[i]);
     }
     return *this;
 }
@@ -297,7 +299,7 @@ GlobalWeapon *GlobalActor::EquipWeapon(GlobalWeapon *weapon)
 
 
 
-GlobalArmor *GlobalActor::EquipArmor(GlobalArmor *armor, uint32 index)
+GlobalArmor *GlobalActor::_EquipArmor(GlobalArmor *armor, uint32 index)
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
@@ -317,7 +319,14 @@ GlobalArmor *GlobalActor::EquipArmor(GlobalArmor *armor, uint32 index)
     return old_armor;
 }
 
-
+bool GlobalActor::HasSkill(uint32 skill_id)
+{
+    for (uint32 i = 0; i < _skills_id.size(); ++i) {
+        if (_skills_id.at(i) == skill_id)
+            return true;
+    }
+    return false;
+}
 
 uint32 GlobalActor::GetTotalPhysicalDefense(uint32 index) const
 {
@@ -416,33 +425,6 @@ GlobalAttackPoint *GlobalActor::GetAttackPoint(uint32 index) const
 
     return _attack_points[index];
 }
-
-
-
-GlobalSkill *GlobalActor::GetSkill(uint32 skill_id) const
-{
-    std::map<uint32, GlobalSkill *>::const_iterator skill_location = _skills.find(skill_id);
-    if(skill_location == _skills.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "actor did not have a skill with the requested skill_id: " << skill_id << std::endl;
-        return NULL;
-    }
-
-    return skill_location->second;
-}
-
-
-
-GlobalSkill *GlobalActor::GetSkill(const GlobalSkill *skill) const
-{
-    if(skill == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL pointer argument" << std::endl;
-        return NULL;
-    }
-
-    return GetSkill(skill->GetID());
-}
-
-
 
 void GlobalActor::AddHitPoints(uint32 amount)
 {
@@ -992,6 +974,9 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
         char_script.CloseTable(); // growth
     } // if (initial)
 
+    // Reloads available skill according to equipment
+    _UpdatesAvailableSkills();
+
     char_script.CloseTable(); // "characters[id]"
     char_script.CloseTable(); // "characters"
 
@@ -1020,27 +1005,41 @@ bool GlobalCharacter::AddExperiencePoints(uint32 xp)
 
 
 
-void GlobalCharacter::AddSkill(uint32 skill_id)
+bool GlobalCharacter::AddSkill(uint32 skill_id, bool permanently)
 {
     if(skill_id == 0) {
         PRINT_WARNING << "function received an invalid skill_id argument: " << skill_id << std::endl;
-        return;
-    }
-    if(_skills.find(skill_id) != _skills.end()) {
-        PRINT_WARNING << "failed to add skill because the character already knew this skill: "
-            << skill_id << std::endl;
-        return;
+        return false;
     }
 
     GlobalSkill *skill = new GlobalSkill(skill_id);
     if(!skill->IsValid()) {
         PRINT_WARNING << "the skill to add failed to load: " << skill_id << std::endl;
         delete skill;
-        return;
+        return false;
+    }
+
+    if(HasSkill(skill_id)) {
+        //Test whether the skill should become permanent
+        if (permanently) {
+            bool found = false;
+            for (uint32 i = 0; i < _permanent_skills.size(); ++i) {
+                if (_permanent_skills[i] == skill_id) {
+                    found = true;
+                    i = _permanent_skills.size();
+                }
+            }
+
+            // if the skill wasn't permanent, it will then become one.
+            if (!found)
+                _permanent_skills.push_back(skill->GetID());
+        }
+
+        // The character already knew the skill but that doesn't really matter.
+        return true;
     }
 
     // Insert the pointer to the new skill inside of the global skills map and the skill type vector
-    _skills.insert(std::make_pair(skill_id, skill));
     switch(skill->GetType()) {
     case GLOBAL_SKILL_WEAPON:
         _weapon_skills.push_back(skill);
@@ -1056,15 +1055,23 @@ void GlobalCharacter::AddSkill(uint32 skill_id)
         break;
     default:
         PRINT_WARNING << "loaded a new skill with an unknown skill type: " << skill->GetType() << std::endl;
+        return false;
         break;
     }
+
+    _skills_id.push_back(skill_id);
+    _skills.push_back(skill);
+    if (permanently)
+        _permanent_skills.push_back(skill->GetID());
+
+    return true;
 }
 
-void GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
+bool GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
 {
     if(skill_id == 0) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
-        return;
+        return false;
     }
 
     // Make sure we don't add a skill more than once
@@ -1072,43 +1079,55 @@ void GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
         if(skill_id == (*it)->GetID()) {
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add was already present in the list of newly learned skills: "
                                            << skill_id << std::endl;
-            return;
+            return false;
         }
     }
 
-    AddSkill(skill_id);
+    if (!AddSkill(skill_id))
+        PRINT_WARNING << "Failed because the new skill was not added successfully: " << skill_id << std::endl;
+    else
+        _new_skills_learned.push_back(_skills.back());
 
-    std::map<uint32, GlobalSkill *>::iterator skill = _skills.find(skill_id);
-    if(skill == _skills.end()) {
-        PRINT_WARNING << "failed because the new skill was not added successfully: " << skill_id << std::endl;
-        return;
-    }
-
-    _new_skills_learned.push_back(skill->second);
+    return true;
 }
 
-void GlobalCharacter::_AddBareHandsSkill(uint32 skill_id)
+void GlobalCharacter::_UpdatesAvailableSkills()
 {
-    if(skill_id == 0) {
-        PRINT_WARNING << "function received an invalid skill_id argument: " << skill_id << std::endl;
-        return;
+    // Clears out the skills <and parse the current equipment to tells which ones are available.
+    for (uint32 i = 0; i < _skills.size(); ++i) {
+        delete _skills[i];
     }
-    if(_skills.find(skill_id) != _skills.end()) {
-        PRINT_WARNING << "failed to add skill because the character already knew this skill: "
-            << skill_id << std::endl;
-        return;
+    _skills.clear();
+    _skills_id.clear();
+
+    _bare_hands_skills.clear();
+    _weapon_skills.clear();
+    _magic_skills.clear();
+    _special_skills.clear();
+
+    // First readd the permanent ones
+    for (uint32 i = 0; i < _permanent_skills.size(); ++i) {
+        // As the skill is already permanent, don't readd it as one.
+        AddSkill(_permanent_skills[i], false);
     }
 
-    GlobalSkill *skill = new GlobalSkill(skill_id);
-    if(!skill->IsValid()) {
-        PRINT_WARNING << "the skill to add failed to load: " << skill_id << std::endl;
-        delete skill;
-        return;
+    // Now, add skill obtained through current equipment.
+    if (_weapon_equipped) {
+        const std::vector<uint32>& wpn_skills = _weapon_equipped->GetEquipmentSkills();
+
+        for (uint32 i = 0; i < wpn_skills.size(); ++i)
+            AddSkill(wpn_skills[i], false);
     }
 
-    // Insert the pointer to the new skill inside of the global skills map and the skill type vector
-    _skills.insert(std::make_pair(skill_id, skill));
-    _bare_hands_skills.push_back(skill);
+    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
+        if (!_armor_equipped[i])
+            continue;
+
+        const std::vector<uint32>& armor_skills = _armor_equipped[i]->GetEquipmentSkills();
+
+        for (uint32 j = 0; j < armor_skills.size(); ++j)
+            AddSkill(armor_skills[j], false);
+    }
 }
 
 vt_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)
@@ -1351,26 +1370,29 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
 
 
-void GlobalEnemy::AddSkill(uint32 skill_id)
+bool GlobalEnemy::AddSkill(uint32 skill_id)
 {
     if(skill_id == 0) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
-        return;
+        return false;
     }
-    if(_skills.find(skill_id) != _skills.end()) {
+
+    if(HasSkill(skill_id)) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to add skill because the enemy already knew this skill: " << skill_id << std::endl;
-        return;
+        return false;
     }
 
     GlobalSkill *skill = new GlobalSkill(skill_id);
     if(skill->IsValid() == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add failed to load: " << skill_id << std::endl;
         delete skill;
-        return;
+        return false;
     }
 
-    // Insert the pointer to the new skill inside of the global skills map and the skill type vector
-    _skills.insert(std::make_pair(skill_id, skill));
+    // Insert the pointer to the new skill inside of the global skills vectors
+    _skills.push_back(skill);
+    _skills_id.push_back(skill_id);
+    return true;
 }
 
 

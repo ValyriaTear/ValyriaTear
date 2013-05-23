@@ -136,7 +136,7 @@ void BattleActor::ResetActor()
         delete _action;
         _action = NULL;
     }
-    
+
     // Invalidate the actor state to force the reinit of the idle or dead state
     _state = ACTOR_STATE_INVALID;
 
@@ -887,10 +887,6 @@ BattleEnemy::BattleEnemy(GlobalEnemy *enemy) :
     _sprite_animation_alias("idle"),
     _sprite_alpha(1.0f)
 {
-    for(std::map<uint32, GlobalSkill *>::const_iterator i = (_global_enemy->GetSkills()).begin(); i != (_global_enemy->GetSkills()).end(); i++) {
-        _enemy_skills.push_back(i->second);
-    }
-
     _LoadDeathAnimationScript();
 
     _sprite_animations = _global_enemy->GetBattleAnimations();
@@ -1116,7 +1112,8 @@ void BattleEnemy::DrawStaminaIcon(const vt_video::Color &color) const
 // The use of a skill on dead enemies is not supported either.
 void BattleEnemy::_DecideAction()
 {
-    if(_global_enemy->GetSkills().empty()) {
+    const std::vector<GlobalSkill*>& enemy_skills = _global_actor->GetSkills();
+    if(enemy_skills.empty()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "enemy had no usable skills" << std::endl;
         ChangeState(ACTOR_STATE_IDLE);
         return;
@@ -1159,9 +1156,9 @@ void BattleEnemy::_DecideAction()
 
     // Select a random skill to use
     uint32 skill_index = 0;
-    if(_enemy_skills.size() > 1)
-        skill_index = RandomBoundedInteger(0, _enemy_skills.size() - 1);
-    GlobalSkill *skill = _enemy_skills[skill_index];
+    if(enemy_skills.size() > 1)
+        skill_index = RandomBoundedInteger(0, enemy_skills.size() - 1);
+    GlobalSkill *skill = enemy_skills.at(skill_index);
 
     // Select the target
     GLOBAL_TARGET target_type = skill->GetTargetType();

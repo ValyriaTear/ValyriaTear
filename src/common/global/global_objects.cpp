@@ -153,6 +153,15 @@ void GlobalObject::_LoadTradeConditions(vt_script::ReadScriptDescriptor &script)
     return;
 }
 
+void GlobalObject::_LoadEquipmentSkills(vt_script::ReadScriptDescriptor &script)
+{
+    _equipment_skills.clear();
+    if(!script.DoesTableExist("equipment_skills"))
+        return;
+
+    script.ReadUIntVector("equipment_skills", _equipment_skills);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalItem class
 ////////////////////////////////////////////////////////////////////////////////
@@ -252,6 +261,7 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 
     _LoadElementalEffects(script_file);
     _LoadStatusEffects(script_file);
+    _LoadEquipmentSkills(script_file);
 
     _physical_attack = script_file.ReadUInt("physical_attack");
     _magical_attack = script_file.ReadUInt("magical_attack");
@@ -380,6 +390,7 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
 
     _LoadElementalEffects(*script_file);
     _LoadStatusEffects(*script_file);
+    _LoadEquipmentSkills(*script_file);
 
     _physical_defense = script_file->ReadUInt("physical_defense");
     _magical_defense = script_file->ReadUInt("magical_defense");

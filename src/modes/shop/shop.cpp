@@ -206,6 +206,9 @@ ShopObjectViewer::ShopObjectViewer() :
     _conditions_title.SetStyle(TextStyle("text22"));
     _conditions_title.SetText(UTranslate("Conditions:"));
 
+    _equip_skills_header.SetStyle(TextStyle("title20"));
+    _equip_skills_header.SetText(UTranslate("Skills obtained:"));
+
     _conditions_name.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
     _conditions_name.SetPosition(400.0f, 140.0f);
     _conditions_name.SetDimensions(600.0f, 120.0f, 1, 255, 1, 4);
@@ -480,7 +483,7 @@ void ShopObjectViewer::_SetEquipmentData()
         return;
     }
 
-    // ---------- (1): Determine whether the selected object is a weapon or piece of armor
+    // Determine whether the selected object is a weapon or piece of armor
     GlobalWeapon *selected_weapon = NULL;
     GlobalArmor *selected_armor = NULL;
     uint32 usable_status = 0; // This is a bit mask that will hold the selected object's usablility information
@@ -515,7 +518,7 @@ void ShopObjectViewer::_SetEquipmentData()
         }
     }
 
-    // ---------- (2): Determine equipment's rating, socket, elemental effects, and status effects to report
+    // Determine equipment's rating, socket, elemental effects, and status effects to report
 
     if(selected_weapon) {
         _phys_header.SetText(UTranslate("ATK:"));
@@ -535,7 +538,25 @@ void ShopObjectViewer::_SetEquipmentData()
         _SetStatusIcons(selected_armor->GetStatusEffects());
     }
 
-    // ---------- (3): For each character, determine if they already have the selection equipped or determine the change in pricing
+    // Updates Equipment skills
+    const std::vector<uint32>& equip_skills = selected_weapon ? selected_weapon->GetEquipmentSkills() :
+                                              selected_armor->GetEquipmentSkills();
+    _equip_skills.clear();
+    _equip_skill_icons.clear();
+    // Display a max of 5 skills
+    for (uint32 i = 0; i < equip_skills.size() && i < 5; ++i) {
+        GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
+        if (skill && skill->IsValid()) {
+            _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
+            _equip_skill_icons.push_back(vt_video::StillImage());
+            vt_video::StillImage& img = _equip_skill_icons.back();
+            img.Load(skill->GetIconFilename());
+            img.SetWidthKeepRatio(15.0f);
+        }
+        delete skill;
+    }
+
+    // For each character, determine if they already have the selection equipped or determine the change in pricing
     std::vector<GlobalCharacter *>* party = GlobalManager->GetOrderedCharacters();
     GlobalCharacter *character = NULL;
     GlobalWeapon *equipped_weapon = NULL;
@@ -868,22 +889,42 @@ void ShopObjectViewer::_DrawEquipment()
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
 
+    // Split character and skills display depending on the current view
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
         VideoManager->MoveRelative(210.0f, -20.0f);
     }
     else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
         // In info view mode, draw on the left side
-        VideoManager->Move(170.0f, 295.0f);
+        VideoManager->Move(150.0f, 295.0f);
     }
     else {
         // In info view mode, draw the sprites centered on the screen
         // in a row below the other equipment data
-        VideoManager->Move(512.0f, 295.0f);
+        VideoManager->Move(312.0f, 295.0f);
         float x_offset = -20.0f * _character_sprites.size();
         VideoManager->MoveRelative(x_offset, 0.0f);
     }
 
+    // Draws earned skills
+    element_size = _equip_skills.size();
+    if (element_size > 0)
+        _equip_skills_header.Draw();
+    VideoManager->MoveRelative(10.0f, 20.0f);
+    for (uint32 i = 0; i < element_size; ++i) {
+        _equip_skills[i].Draw();
+        VideoManager->MoveRelative(-20.0f, 0.0f);
+        _equip_skill_icons[i].Draw();
+        VideoManager->MoveRelative(20.0f, 20.0f);
+    }
+
+    // Prepare the characters position
+    if (_view_mode != SHOP_VIEW_MODE_LIST && ShopMode::CurrentInstance()->GetState() != SHOP_STATE_TRADE)
+        VideoManager->MoveRelative(250.0f, (-20.0f * element_size) - 20.0f);
+    else
+        VideoManager->MoveRelative(170.0f, (-20.0f * element_size) - 20.0f);
+
+    // Character ATK/DEF icons
     VideoManager->MoveRelative(-45.0f, 78.0f);
     if (_is_weapon)
         _atk_icon->Draw();
@@ -896,12 +937,13 @@ void ShopObjectViewer::_DrawEquipment()
         _mdef_icon->Draw();
     VideoManager->MoveRelative(45.0f, -96.0f);
 
+    // Draws character
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, 0);
 
     uint32 max_characters = _character_sprites.size();
-    // In list mode, there's only enough room to show 8 sprites
-    if ((_view_mode == SHOP_VIEW_MODE_LIST) && (max_characters > 8))
-        max_characters = 8;
+    // There's only enough room to show 4 sprites
+    if (max_characters > 4)
+        max_characters = 4;
 
     for(uint32 i = 0; i < max_characters; ++i) {
         _character_sprites[i]->Draw();

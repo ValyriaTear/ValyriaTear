@@ -199,6 +199,9 @@ protected:
     **/
     std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> > _status_effects;
 
+    //! \brief The skills that can be learned when equipping that piece of equipment.
+    std::vector<uint32> _equipment_skills;
+
     //! \brief Causes the object to become invalid due to a loading error or other significant issue
     void _InvalidateObject() {
         _id = 0;
@@ -220,8 +223,11 @@ protected:
     //! \brief Loads status effects data
     void _LoadStatusEffects(vt_script::ReadScriptDescriptor &script);
 
-    //! \brief Loads trading price data
+    //! \brief Loads trading conditions data
     void _LoadTradeConditions(vt_script::ReadScriptDescriptor &script);
+
+    //! \brief Loads the object linked skills (used by equipment only)
+    void _LoadEquipmentSkills(vt_script::ReadScriptDescriptor &script);
 }; // class GlobalObject
 
 
@@ -367,6 +373,11 @@ public:
     //! \brief Get the animation filename corresponding to the character weapon animation
     //! requested.
     const std::string& GetWeaponAnimationFile(uint32 character_id, const std::string& animation_alias);
+
+    //! \brief Gives the list of learned skill thanks to this piece of equipment.
+    const std::vector<uint32>& GetEquipmentSkills() const {
+        return _equipment_skills;
+    }
     //@}
 
 private:
@@ -441,6 +452,11 @@ public:
 
     const std::vector<GlobalSpirit *>& GetSpiritSlots() const {
         return _spirit_slots;
+    }
+
+    //! \brief Gives the list of learned skill thanks to this piece of equipment.
+    const std::vector<uint32>& GetEquipmentSkills() const {
+        return _equipment_skills;
     }
 
 private:

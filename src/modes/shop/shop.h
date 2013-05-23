@@ -244,6 +244,11 @@ private:
 
     //! \brief Icon images representing status effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _status_icons;
+
+    //! \brief The skills earned when equipping
+    vt_video::TextImage _equip_skills_header;
+    std::vector<vt_video::TextImage> _equip_skills;
+    std::vector<vt_video::StillImage> _equip_skill_icons;
     //@}
 
     //! \name Data used for displaying character sprites and related status
