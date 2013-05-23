@@ -1150,11 +1150,16 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\tweapon_skills = {");
     skill_vector = character->GetWeaponSkills();
     for(uint32 i = 0; i < skill_vector->size(); i++) {
+        uint32 skill_id = skill_vector->at(i)->GetID();
+        // Only stores permanent skills
+        if (!character->IsSkillPermanent(skill_id))
+            continue;
+
         if(i == 0)
             file.WriteLine("\t\t\t", false);
         else
             file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
+        file.WriteLine(NumberToString(skill_id), false);
     }
     file.WriteLine("\n\t\t},");
 
@@ -1162,11 +1167,16 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\tmagic_skills = {");
     skill_vector = character->GetMagicSkills();
     for(uint32 i = 0; i < skill_vector->size(); i++) {
+        uint32 skill_id = skill_vector->at(i)->GetID();
+        // Only stores permanent skills
+        if (!character->IsSkillPermanent(skill_id))
+            continue;
+
         if(i == 0)
             file.WriteLine("\t\t\t", false);
         else
             file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
+        file.WriteLine(NumberToString(skill_id), false);
     }
     file.WriteLine("\n\t\t},");
 
@@ -1174,11 +1184,16 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\tspecial_skills = {");
     skill_vector = character->GetSpecialSkills();
     for(uint32 i = 0; i < skill_vector->size(); i++) {
+        uint32 skill_id = skill_vector->at(i)->GetID();
+        // Only stores permanent skills
+        if (!character->IsSkillPermanent(skill_id))
+            continue;
+
         if(i == 0)
             file.WriteLine("\t\t\t", false);
         else
             file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
+        file.WriteLine(NumberToString(skill_id), false);
     }
     file.WriteLine("\n\t\t},");
 

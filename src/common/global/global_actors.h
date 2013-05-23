@@ -867,6 +867,15 @@ public:
         return &_special_skills;
     }
 
+    //! Tells whether a skill has been permanently learned.
+    bool IsSkillPermanent(uint32 skill_id) {
+        for (uint32 i = 0; i < _permanent_skills.size(); ++i) {
+            if (_permanent_skills.at(i) == skill_id)
+                return true;
+        }
+        return false;
+    }
+
     uint32 GetHitPointsGrowth() const {
         return _hit_points_growth;
     }
