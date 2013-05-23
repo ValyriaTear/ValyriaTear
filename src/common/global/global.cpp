@@ -152,71 +152,46 @@ void GameGlobal::_CloseGlobalScripts() {
 bool GameGlobal::_LoadGlobalScripts()
 {
     // Open up the persistent script files
-    if(_global_script.OpenFile("dat/global.lua") == false) {
+    if(!_global_script.OpenFile("dat/global.lua"))
         return false;
-    }
 
-    if(!_items_script.OpenFile("dat/objects/items.lua"))
+    if(!_items_script.OpenFile("dat/objects/items.lua") || !_items_script.OpenTable("items"))
         return false;
-    _items_script.OpenTable("items");
 
-    if(_weapons_script.OpenFile("dat/objects/weapons.lua") == false) {
+    if(!_weapons_script.OpenFile("dat/objects/weapons.lua") || !_weapons_script.OpenTable("weapons"))
         return false;
-    }
-    _weapons_script.OpenTable("weapons");
 
-    if(_head_armor_script.OpenFile("dat/objects/head_armor.lua") == false) {
+    if(!_head_armor_script.OpenFile("dat/objects/head_armor.lua") || !_head_armor_script.OpenTable("armor"))
         return false;
-    }
-    _head_armor_script.OpenTable("armor");
 
-    if(_torso_armor_script.OpenFile("dat/objects/torso_armor.lua") == false) {
+    if(!_torso_armor_script.OpenFile("dat/objects/torso_armor.lua") || !_torso_armor_script.OpenTable("armor"))
         return false;
-    }
-    _torso_armor_script.OpenTable("armor");
 
-    if(_arm_armor_script.OpenFile("dat/objects/arm_armor.lua") == false) {
+    if(!_arm_armor_script.OpenFile("dat/objects/arm_armor.lua") || !_arm_armor_script.OpenTable("armor"))
         return false;
-    }
-    _arm_armor_script.OpenTable("armor");
 
-    if(_leg_armor_script.OpenFile("dat/objects/leg_armor.lua") == false) {
+    if(!_leg_armor_script.OpenFile("dat/objects/leg_armor.lua") || !_leg_armor_script.OpenTable("armor"))
         return false;
-    }
-    _leg_armor_script.OpenTable("armor");
 
-    if(_spirits_script.OpenFile("dat/objects/spirits.lua") == false) {
+    if(!_spirits_script.OpenFile("dat/objects/spirits.lua") || !_spirits_script.OpenTable("spirits"))
         return false;
-    }
-    _spirits_script.OpenTable("spirits");
 
-    if(_weapon_skills_script.OpenFile("dat/skills/weapon.lua") == false) {
+    if(!_weapon_skills_script.OpenFile("dat/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))
         return false;
-    }
-    _weapon_skills_script.OpenTable("skills");
 
-    if(_magic_skills_script.OpenFile("dat/skills/magic.lua") == false) {
+    if(!_magic_skills_script.OpenFile("dat/skills/magic.lua") || !_magic_skills_script.OpenTable("skills"))
+       return false;
+
+    if(!_special_skills_script.OpenFile("dat/skills/special.lua") || !_special_skills_script.OpenTable("skills"))
         return false;
-    }
-    _magic_skills_script.OpenTable("skills");
 
-    if(_special_skills_script.OpenFile("dat/skills/special.lua") == false) {
+    if(!_bare_hands_skills_script.OpenFile("dat/skills/barehands.lua") || !_bare_hands_skills_script.OpenTable("skills"))
         return false;
-    }
-    _special_skills_script.OpenTable("skills");
 
-    if(_bare_hands_skills_script.OpenFile("dat/skills/barehands.lua") == false) {
+    if(!_status_effects_script.OpenFile("dat/effects/status.lua") || !_status_effects_script.OpenTable("status_effects"))
         return false;
-    }
-    _bare_hands_skills_script.OpenTable("skills");
 
-    if(_status_effects_script.OpenFile("dat/effects/status.lua") == false) {
-        return false;
-    }
-    _status_effects_script.OpenTable("status_effects");
-
-    if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua")
-            || !_map_sprites_script.OpenTable("sprites"))
+    if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
         return false;
 
     if(!_map_objects_script.OpenFile("dat/actors/map_objects.lua"))
