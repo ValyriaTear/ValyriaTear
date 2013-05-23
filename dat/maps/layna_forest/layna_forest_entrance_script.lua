@@ -193,6 +193,7 @@ function _CreateObjects()
         npc = CreateSprite(Map, "Squirrel", 18, 24);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        npc:SetSpriteAsScenery(true);
         Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
@@ -202,6 +203,7 @@ function _CreateObjects()
         npc = CreateSprite(Map, "Squirrel", 40, 16);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        npc:SetSpriteAsScenery(true);
         Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself

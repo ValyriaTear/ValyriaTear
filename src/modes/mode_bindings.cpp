@@ -131,9 +131,19 @@ void BindModeCode()
                 luabind::value("WALL_COLLISION", WALL_COLLISION),
                 luabind::value("ALL_COLLISION", ALL_COLLISION),
                 // Object types
+                luabind::value("OBJECT_TYPE", OBJECT_TYPE),
                 luabind::value("PHYSICAL_TYPE", PHYSICAL_TYPE),
                 luabind::value("VIRTUAL_TYPE", VIRTUAL_TYPE),
                 luabind::value("SPRITE_TYPE", SPRITE_TYPE),
+                luabind::value("ENEMY_TYPE", ENEMY_TYPE),
+                luabind::value("TREASURE_TYPE", TREASURE_TYPE),
+                luabind::value("SAVE_TYPE", SAVE_TYPE),
+                luabind::value("HALO_TYPE", HALO_TYPE),
+                luabind::value("LIGHT_TYPE", LIGHT_TYPE),
+                luabind::value("PARTICLE_TYPE", PARTICLE_TYPE),
+                luabind::value("TRIGGER_TYPE", TRIGGER_TYPE),
+                luabind::value("SOUND_TYPE", SOUND_TYPE),
+                luabind::value("SCENERY_TYPE", SCENERY_TYPE),
                 // Sprite directions
                 luabind::value("NORTH", NORTH),
                 luabind::value("SOUTH", SOUTH),
@@ -293,6 +303,7 @@ void BindModeCode()
             .def("SetSpriteName", &MapSprite::SetSpriteName)
             .def("GetSpriteName", &MapSprite::GetSpriteName)
             .def("ReloadSprite", &MapSprite::ReloadSprite)
+            .def("SetSpriteAsScenery", &MapSprite::SetSpriteAsScenery)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

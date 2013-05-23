@@ -418,6 +418,13 @@ public:
     *** sprite table.
     **/
     void ReloadSprite(const std::string& sprite_name);
+
+    //! Will change the sprite type to SCENERY,
+    //! making other sprites unable to collide with it. It is usually used to setup
+    //! harmless and little animals seen on maps.
+    void SetSpriteAsScenery(bool is_scenery) {
+        MapObject::_object_type = is_scenery ? SCENERY_TYPE : SPRITE_TYPE;
+    }
     //@}
 
 protected:
