@@ -407,6 +407,9 @@ AudioMemory::AudioMemory(const AudioMemory &audio_memory) :
 
 AudioMemory &AudioMemory::operator=(const AudioMemory &audio_memory)
 {
+    if(this == &audio_memory)  // Handle self-assignment case
+        return *this;
+
     if(_audio_data != NULL) {
         delete[] _audio_data;
         _audio_data = NULL;
