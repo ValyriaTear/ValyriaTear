@@ -877,7 +877,7 @@ skills[10144] = {
 
 skills[10150] = {
     name = vt_system.Translate("Death"),
-    description = vt_system.Translate("Death tries to an enemy with it."),
+    description = vt_system.Translate("Death tries and take an enemy with it."),
     icon = "img/icons/magic/death.png",
     sp_required = 7,
     warmup_time = 4000,
