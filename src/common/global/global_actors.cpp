@@ -227,7 +227,8 @@ GlobalActor::GlobalActor(const GlobalActor &copy)
 
     // Copy all skills
     for (uint32 i = 0; i < copy._skills.size(); ++i) {
-        _skills.push_back(copy._skills[i]);
+        // Create a new instance as the skill is deleted on an actor object basis.
+        _skills.push_back(new GlobalSkill(*copy._skills[i]));
         _skills_id.push_back(copy._skills_id[i]);
     }
 }
@@ -281,7 +282,8 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
 
     // Copy all skills
     for (uint32 i = 0; i < copy._skills.size(); ++i) {
-        _skills.push_back(copy._skills[i]);
+        // Create a new instance as the skill is deleted on an actor object basis.
+        _skills.push_back(new GlobalSkill(*copy._skills[i]));
         _skills_id.push_back(copy._skills_id[i]);
     }
     return *this;
