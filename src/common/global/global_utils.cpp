@@ -285,6 +285,9 @@ void GlobalMedia::Initialize()
     if (!_key_item_icon.Load("img/menus/key.png"))
         PRINT_WARNING << "Failed to load key item icon image" << std::endl;
 
+    if (!_clock_icon.Load("img/menus/clock.png"))
+        PRINT_WARNING << "Failed to load clock icon image" << std::endl;
+
     if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 7, 9))
         PRINT_WARNING << "Failed to load elemental icon images" << std::endl;
 

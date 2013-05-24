@@ -182,6 +182,11 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _drunes_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _drunes_textbox.SetDisplayText(" ");
 
+    _clock_icon = vt_global::GlobalManager->Media().GetClockIcon();
+    _clock_icon->SetWidthKeepRatio(30.0f);
+    _drunes_icon = vt_global::GlobalManager->Media().GetDrunesIcon();
+    _drunes_icon->SetWidthKeepRatio(30.0f);
+
     if(_save_mode) {
         _current_state = SAVE_MODE_SAVING;
     } else {
@@ -387,6 +392,11 @@ void SaveMode::DrawPostEffects()
         if (!_location_image.GetFilename().empty())
             _location_image.Draw(Color(1.0f, 1.0f, 1.0f, 0.4f));
 
+        VideoManager->MoveRelative(15.0f, -35.0f);
+        _clock_icon->Draw();
+        VideoManager->MoveRelative(0.0f, 30.0f);
+        _drunes_icon->Draw();
+
         _map_name_textbox.Draw();
         _time_textbox.Draw();
         _drunes_textbox.Draw();
@@ -571,18 +581,11 @@ bool SaveMode::_PreviewGame(uint32 id)
     time_text << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
     time_text << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
     time_text << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
-
-    vt_utils::ustring time_ustr = UTranslate("Time - ");
-    time_ustr += MakeUnicodeString(time_text.str());
-    _time_textbox.SetDisplayText(time_ustr);
+    _time_textbox.SetDisplayText(MakeUnicodeString(time_text.str()));
 
     std::ostringstream drunes_amount;
     drunes_amount << drunes;
-
-    vt_utils::ustring drunes_ustr = UTranslate("Drunes - ");
-    drunes_ustr += MakeUnicodeString(drunes_amount.str());
-
-    _drunes_textbox.SetDisplayText(drunes_ustr);
+    _drunes_textbox.SetDisplayText(MakeUnicodeString(drunes_amount.str()));
 
     // Test the map file
 

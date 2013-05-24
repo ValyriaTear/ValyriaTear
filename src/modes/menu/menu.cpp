@@ -200,6 +200,11 @@ void AbstractMenuState::_DrawBottomMenu()
     // Display the current funds that the party has
     _menu_mode->_drunes_text.Draw();
 
+    VideoManager->MoveRelative(-50.0f, 60.0f);
+    _menu_mode->_clock_icon->Draw();
+    VideoManager->MoveRelative(0.0f, 30.0f);
+    _menu_mode->_drunes_icon->Draw();
+
     if(!_menu_mode->_locale_graphic.GetFilename().empty()) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -732,12 +737,12 @@ MenuMode::MenuMode() :
     _time_text.SetTextStyle(TextStyle("text22"));
     _time_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _time_text.SetDimensions(200.0f, 30.0f);
-    _time_text.SetPosition(110.0f, 620.0f);
+    _time_text.SetPosition(140.0f, 620.0f);
 
     _drunes_text.SetTextStyle(TextStyle("text22"));
     _drunes_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _drunes_text.SetDimensions(200.0f, 30.0f);
-    _drunes_text.SetPosition(110.0f, 650.0f);
+    _drunes_text.SetPosition(140.0f, 650.0f);
 
     // Display the game time right away
     _update_of_time = 0;
@@ -788,6 +793,11 @@ MenuMode::MenuMode() :
     _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR_RAISE, GLOBAL_INTENSITY_NEUTRAL);
     _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
     _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+
+    _clock_icon = vt_global::GlobalManager->Media().GetClockIcon();
+    _clock_icon->SetWidthKeepRatio(30.0f);
+    _drunes_icon = vt_global::GlobalManager->Media().GetDrunesIcon();
+    _drunes_icon->SetWidthKeepRatio(30.0f);
 
     //////////// Setup the menu windows
     // The character windows
@@ -916,11 +926,8 @@ void MenuMode::UpdateTimeAndDrunes()
     os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
     os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
 
-    // TODO: vt_utils::ustring should be able to take const modifiers in its operators....
-    static vt_utils::ustring time_ustr_base = UTranslate("Time: ");
-    static vt_utils::ustring drunes_ustr_base = UTranslate("Drunes: ");
-    _time_text.SetDisplayText(time_ustr_base + MakeUnicodeString(os_time.str()));
-    _drunes_text.SetDisplayText(drunes_ustr_base + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
+    _time_text.SetDisplayText(MakeUnicodeString(os_time.str()));
+    _drunes_text.SetDisplayText(MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 }
 
 void MenuMode::Update()

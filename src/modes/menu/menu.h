@@ -453,6 +453,10 @@ private:
     vt_gui::TextBox _time_text;
     vt_gui::TextBox _drunes_text;
 
+    //! \brief Time and drunes icons. Global media references, don't delete those!
+    vt_video::StillImage* _clock_icon;
+    vt_video::StillImage* _drunes_icon;
+
     //! \brief Text image which displays the name of the location in the game where MenuMode was invoked
     vt_gui::TextBox _locale_name;
 

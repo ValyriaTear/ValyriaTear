@@ -158,6 +158,10 @@ private:
     vt_gui::TextBox _drunes_textbox;
     vt_video::StillImage _location_image;
 
+    //! Icon references from Global Media, do not delete those!
+    vt_video::StillImage* _clock_icon;
+    vt_video::StillImage* _drunes_icon;
+
     //! \brief Used to know whether a save position has to be saved.
     uint32 _x_position, _y_position;
 

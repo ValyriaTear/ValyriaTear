@@ -355,6 +355,10 @@ public:
         return &_key_item_icon;
     }
 
+    vt_video::StillImage* GetClockIcon() {
+        return &_clock_icon;
+    }
+
     vt_video::StillImage* GetBottomMenuImage() {
         return &_bottom_menu_image;
     }
@@ -413,6 +417,9 @@ private:
 
     //! \brief The Key item icon
     vt_video::StillImage _key_item_icon;
+
+    //! \brief The clock icon
+    vt_video::StillImage _clock_icon;
 
     //! \brief Retains all icon images that represent the game's elementals
     std::vector<vt_video::StillImage> _elemental_icons;
