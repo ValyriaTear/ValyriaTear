@@ -1410,7 +1410,7 @@ void GlobalEnemy::Initialize()
     // TODO: we may wish to actually define XP levels for enemies in their data table, though I don't know what purpose it may serve
     _experience_level = 1;
 
-    // ----- (1): Add all new skills that should be available at the current experience level
+    // Add all new skills that should be available at the current experience level
     for(uint32 i = 0; i < _skill_set.size(); i++) {
         AddSkill(_skill_set[i]);
     }
@@ -1419,7 +1419,7 @@ void GlobalEnemy::Initialize()
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "no skills were added for the enemy: " << _id << std::endl;
     }
 
-    // ----- (3): Randomize the stats by using a guassian random variable
+    // Randomize the stats by using a guassian random variable
     if(_no_stat_randomization == false) {
         // Use the base stats as the means and a standard deviation of 10% of the mean
         _max_hit_points     = GaussianRandomValue(_max_hit_points, _max_hit_points / 10.0f);
@@ -1430,8 +1430,11 @@ void GlobalEnemy::Initialize()
         _fortitude          = GaussianRandomValue(_fortitude, _fortitude / 10.0f);
         _protection         = GaussianRandomValue(_protection, _protection / 10.0f);
         _agility            = GaussianRandomValue(_agility, _agility / 10.0f);
-        // TODO: need a gaussian random var function that takes a float arg
-        //_evade              = static_cast<float>(GaussianRandomValue(_evade, _evade / 10.0f));
+
+        // Multiply the evade value by 10 to permit the decimal to be kept
+        float evade = _evade * 10.0f;
+        _evade              = (static_cast<float>(GaussianRandomValue(evade, evade / 10.0f)) / 10.0f);
+
         _drunes_dropped     = GaussianRandomValue(_drunes_dropped, _drunes_dropped / 10.0f);
     }
 
