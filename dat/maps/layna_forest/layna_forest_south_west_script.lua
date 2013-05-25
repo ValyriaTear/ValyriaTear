@@ -148,6 +148,7 @@ function _CreateObjects()
         npc = CreateSprite(Map, "Squirrel", 18, 24);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        npc:SetSpriteAsScenery(true);
         Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
@@ -157,6 +158,7 @@ function _CreateObjects()
         npc = CreateSprite(Map, "Squirrel", 40, 14);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        npc:SetSpriteAsScenery(true);
         Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
@@ -590,12 +592,12 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(4, 0, 0);
-    enemy:AddEnemy(2, 0, 0);
-    enemy:AddEnemy(1, 0, 0);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(2);
+    enemy:AddEnemy(1);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(4, 0, 0);
-    enemy:AddEnemy(2, 0, 0);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, Map, 1);
 
     Map:AddZone(roam_zone);
@@ -605,12 +607,12 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(1, 0, 0);
-    enemy:AddEnemy(1, 0, 0);
-    enemy:AddEnemy(1, 0, 0);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
+    enemy:AddEnemy(1);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(2, 0, 0);
-    enemy:AddEnemy(1, 0, 0);
+    enemy:AddEnemy(2);
+    enemy:AddEnemy(1);
     roam_zone:AddEnemy(enemy, Map, 1);
 
     Map:AddZone(roam_zone);
@@ -621,12 +623,12 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(4, 0, 0);
-    enemy:AddEnemy(2, 0, 0);
-    enemy:AddEnemy(1, 0, 0);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(2);
+    enemy:AddEnemy(1);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(4, 0, 0);
-    enemy:AddEnemy(2, 0, 0);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, Map, 1);
 
     Map:AddZone(roam_zone);
@@ -637,12 +639,12 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(4, 0, 0);
-    enemy:AddEnemy(2, 0, 0);
-    enemy:AddEnemy(1, 0, 0);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(2);
+    enemy:AddEnemy(1);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(4, 0, 0);
-    enemy:AddEnemy(2, 0, 0);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, Map, 1);
 
     Map:AddZone(roam_zone);
