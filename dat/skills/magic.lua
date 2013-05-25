@@ -342,6 +342,15 @@ skills[10111] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        -- TODO: Set elemental defense type based on character stats
+        -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
+        local Battle = ModeManager:GetTop();
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/earth_circle.lua",
+                target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+        -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/earth_circle_outer_particles.lua",
+                target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+        --AudioManager:PlaySound("snd/circle_spell.ogg");
     end,
 }
 
@@ -513,6 +522,15 @@ skills[10121] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        -- TODO: Set elemental defense type based on character stats
+        -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
+        local Battle = ModeManager:GetTop();
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/water_circle.lua",
+                target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+        -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/water_circle_outer_particles.lua",
+                target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+        --AudioManager:PlaySound("snd/circle_spell.ogg");
     end,
 }
 
@@ -685,6 +703,15 @@ skills[10131] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        -- TODO: Set elemental defense type based on character stats
+        -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
+        local Battle = ModeManager:GetTop();
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/wind_circle.lua",
+                target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
+        -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/wind_circle_outer_particles.lua",
+                target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+        --AudioManager:PlaySound("snd/circle_spell.ogg");
     end,
 }
 
