@@ -850,6 +850,12 @@ public:
         return _armor_equipped[GLOBAL_POSITION_LEGS];
     }
 
+    //! The permanent skills are saved between two game sessions.
+    //! whereas the equipment skills are reloaded through equipment.
+    std::vector<uint32>& GetPermanentSkills() {
+        return _permanent_skills;
+    }
+
     std::vector<GlobalSkill *>* GetWeaponSkills() {
         return &_weapon_skills;
     }
@@ -865,15 +871,6 @@ public:
 
     std::vector<GlobalSkill *>* GetSpecialSkills() {
         return &_special_skills;
-    }
-
-    //! Tells whether a skill has been permanently learned.
-    bool IsSkillPermanent(uint32 skill_id) {
-        for (uint32 i = 0; i < _permanent_skills.size(); ++i) {
-            if (_permanent_skills.at(i) == skill_id)
-                return true;
-        }
-        return false;
     }
 
     uint32 GetHitPointsGrowth() const {

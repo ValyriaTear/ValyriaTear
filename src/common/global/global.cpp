@@ -1128,69 +1128,19 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\t\tleg_armor = " + NumberToString(leg_id));
     file.WriteLine("\t\t},");
 
-    // ----- (3): Write out the character's skills
-    std::vector<GlobalSkill *>* skill_vector;
-
+    // Write out the character's permanent skills.
+    // The equipment skills will be reloaded through equipment
     file.InsertNewLine();
-    file.WriteLine("\t\tweapon_skills = {");
-    skill_vector = character->GetWeaponSkills();
-    for(uint32 i = 0; i < skill_vector->size(); i++) {
-        uint32 skill_id = skill_vector->at(i)->GetID();
-        // Only stores permanent skills
-        if (!character->IsSkillPermanent(skill_id))
-            continue;
+    file.WriteLine("\t\tskills = {");
+    const std::vector<uint32>& skill_vector = character->GetPermanentSkills();
+    for(uint32 i = 0; i < skill_vector.size(); i++) {
+        uint32 skill_id = skill_vector.at(i);
 
         if(i == 0)
             file.WriteLine("\t\t\t", false);
         else
             file.WriteLine(", ", false);
         file.WriteLine(NumberToString(skill_id), false);
-    }
-    file.WriteLine("\n\t\t},");
-
-    file.InsertNewLine();
-    file.WriteLine("\t\tmagic_skills = {");
-    skill_vector = character->GetMagicSkills();
-    for(uint32 i = 0; i < skill_vector->size(); i++) {
-        uint32 skill_id = skill_vector->at(i)->GetID();
-        // Only stores permanent skills
-        if (!character->IsSkillPermanent(skill_id))
-            continue;
-
-        if(i == 0)
-            file.WriteLine("\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_id), false);
-    }
-    file.WriteLine("\n\t\t},");
-
-    file.InsertNewLine();
-    file.WriteLine("\t\tspecial_skills = {");
-    skill_vector = character->GetSpecialSkills();
-    for(uint32 i = 0; i < skill_vector->size(); i++) {
-        uint32 skill_id = skill_vector->at(i)->GetID();
-        // Only stores permanent skills
-        if (!character->IsSkillPermanent(skill_id))
-            continue;
-
-        if(i == 0)
-            file.WriteLine("\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_id), false);
-    }
-    file.WriteLine("\n\t\t},");
-
-    file.InsertNewLine();
-    file.WriteLine("\t\tbare_hands_skills = {");
-    skill_vector = character->GetBareHandsSkills();
-    for(uint32 i = 0; i < skill_vector->size(); i++) {
-        if(i == 0)
-            file.WriteLine("\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_vector->at(i)->GetID()), false);
     }
     file.WriteLine("\n\t\t}");
 
@@ -1380,7 +1330,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     std::vector<uint32> skill_ids;
 
     skill_ids.clear();
-    file.ReadUIntVector("weapon_skills", skill_ids);
+    file.ReadUIntVector("skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); i++) {
         // DEPRECATED HACK: Remove that in one release.
         // Turn old bare hands skills id into new ones at load time.
@@ -1392,18 +1342,34 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
         character->AddSkill(skill_ids[i]);
     }
 
+    //DEPRECATED: Will be removed in one release!
+    skill_ids.clear();
+    file.ReadUIntVector("weapon_skills", skill_ids);
+    for(uint32 i = 0; i < skill_ids.size(); i++) {
+        // DEPRECATED HACK: Remove that in one release.
+        // Turn old bare hands skills id into new ones at load time.
+        if (skill_ids[i] == 999)
+            skill_ids[i] = 30002;
+        else if (skill_ids[i] == 1000)
+            skill_ids[i] = 30001;
+
+        character->AddSkill(skill_ids[i]);
+    }
+    //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("magic_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
 
+    //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("special_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
 
+    //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("bare_hands_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
