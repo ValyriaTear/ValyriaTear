@@ -726,7 +726,7 @@ void BattleMode::_Initialize()
     }
 
     for(uint32 i = 0; i < active_party->GetPartySize(); i++) {
-        BattleCharacter *new_actor = new BattleCharacter(dynamic_cast<GlobalCharacter *>(active_party->GetActorAtIndex(i)));
+        BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
         _ResetPassiveStatusEffects(*new_actor);
@@ -881,10 +881,10 @@ void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &charact
 
 }
 
-void BattleMode::_ResetPassiveStatusEffects(vt_battle::private_battle::BattleActor &character)
+void BattleMode::_ResetPassiveStatusEffects(vt_battle::private_battle::BattleCharacter &character)
 {
    _ResetAttributesFromGlobalActor(character);
-   _ApplyPassiveStatusEffects(character, character.GetGlobalActor()->GetWeaponEquipped(), character.GetGlobalActor()->GetArmorEquipped());
+   _ApplyPassiveStatusEffects(character, character.GetGlobalCharacter()->GetWeaponEquipped(), character.GetGlobalCharacter()->GetArmorsEquipped());
 }
 
 void BattleMode::SetActorIdleStateTime(BattleActor *actor)

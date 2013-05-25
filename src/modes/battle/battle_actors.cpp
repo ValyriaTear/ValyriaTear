@@ -98,12 +98,6 @@ BattleActor::BattleActor(GlobalActor *actor) :
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << std::endl;
         return;
     }
-
-    // Load the potential the ammo image filename
-    std::string ammo_animation_file = GetWeaponEquipped() ?
-                                      GetWeaponEquipped()->GetAmmoImageFile() : std::string();
-    if(!ammo_animation_file.empty())
-        _ammo.LoadAmmoAnimatedImage(ammo_animation_file);
 }
 
 BattleActor::~BattleActor()
@@ -500,6 +494,12 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
             weapon_animation = _global_character->GetWeaponEquipped()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
     if (weapon_animation.empty() || !_current_weapon_animation.LoadFromAnimationScript(weapon_animation))
         _current_weapon_animation.Clear();
+
+    // Load the potential the ammo image filename
+    std::string ammo_animation_file = _global_character->GetWeaponEquipped() ?
+                                      _global_character->GetWeaponEquipped()->GetAmmoImageFile() : std::string();
+    if(!ammo_animation_file.empty())
+        _ammo.LoadAmmoAnimatedImage(ammo_animation_file);
 
     // Prepare the flying height of potential ammo weapons
     _ammo.SetFlyingHeight(GetSpriteHeight() / 2.0f);

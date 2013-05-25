@@ -578,7 +578,7 @@ private:
     //! \note this is a very simple function, and technically cane be put into the header and inlined.
     //! \note however, if you do that then you need to mess with the include order, and probably
     //! \note increase both coupling and build time.
-    void _ResetPassiveStatusEffects(vt_battle::private_battle::BattleActor &character);
+    void _ResetPassiveStatusEffects(vt_battle::private_battle::BattleCharacter &character);
 
     /** \brief Sets the origin location of all character and enemy actors
     *** The location of the actors in both parties is dependent upon the number and physical size of the actor

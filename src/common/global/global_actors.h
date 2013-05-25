@@ -236,7 +236,8 @@ public:
     *** No skill may be added more than once. If this case is detected or an error occurs when trying
     *** to load the skill data, it will not be added.
     **/
-    virtual bool AddSkill(uint32 skill_id) = 0;
+    virtual bool AddSkill(uint32 /*skill_id*/)
+    { return false; }
 
     //! \brief Tells whether the actor has already learned the given skill.
     bool HasSkill(uint32 skill_id);
@@ -244,7 +245,7 @@ public:
     /** \brief Determines if the actor is "alive" and able to perform actions
     *** \return True if the character has a non-zero amount of hit points
     **/
-    bool IsAlive() const {
+    virtual bool IsAlive() const {
         return (_hit_points != 0);
     }
 
@@ -292,10 +293,6 @@ public:
 
     uint32 GetMaxSkillPoints() const {
         return _max_skill_points;
-    }
-
-    uint32 GetExperienceLevel() const {
-        return _experience_level;
     }
 
     uint32 GetExperiencePoints() const {
@@ -347,49 +344,15 @@ public:
     uint32 GetAverageMagicalDefense();
     float GetAverageEvadeRating();
 
-    GlobalWeapon *GetWeaponEquipped() const {
-        return _weapon_equipped;
-    }
-
-    const std::vector<GlobalArmor *>& GetArmorEquipped() {
-        return _armor_equipped;
-    }
-
-    GlobalArmor *GetArmorEquipped(uint32 index) const;
-
     const std::vector<GlobalAttackPoint *>& GetAttackPoints() {
         return _attack_points;
     }
-
-    /** \brief Equips a new weapon on the actor
-    *** \param weapon The new weapon to equip on the actor
-    *** \return A pointer to the weapon that was previouslly equipped, or NULL if no weapon was equipped.
-    ***
-    *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
-    **/
-    virtual GlobalWeapon *EquipWeapon(GlobalWeapon *weapon);
-
-    //! \brief Tells whether the actor has got equipment.
-    bool HasEquipment() const;
 
     GlobalAttackPoint *GetAttackPoint(uint32 index) const;
 
     const std::vector<GlobalSkill *>& GetSkills() {
         return _skills;
     }
-
-    // TODO: elemental and status effects not yet available in game
-// 	std::vector<GlobalElementalEffect*>& GetElementalAttackBonuses()
-// 		{ return _elemental_attack_bonuses; }
-//
-// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusAttackBonuses()
-// 		{ return _status_attack_bonuses; }
-//
-// 	std::vector<GlobalElementalEffect*>& GetElementalDefenseBonuses()
-// 		{ return _elemental_defense_bonuses; }
-//
-// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusDefenseBonuses()
-// 		{ return _status_defense_bonuses; }
     //@}
 
     /** \name Class member set functions
@@ -398,10 +361,6 @@ public:
     *** re-calculated when an appropriately related stat is changed.
     **/
     //@{
-    void SetExperienceLevel(uint32 xp_level) {
-        _experience_level = xp_level;
-    }
-
     void SetExperiencePoints(uint32 xp_points) {
         _experience_points = xp_points;
     }
@@ -426,22 +385,22 @@ public:
         if(_skill_points > _max_skill_points) _skill_points = _max_skill_points;
     }
 
-    void SetStrength(uint32 st) {
+    virtual void SetStrength(uint32 st) {
         _strength = st;
         _CalculateAttackRatings();
     }
 
-    void SetVigor(uint32 vi) {
+    virtual void SetVigor(uint32 vi) {
         _vigor = vi;
         _CalculateAttackRatings();
     }
 
-    void SetFortitude(uint32 fo) {
+    virtual void SetFortitude(uint32 fo) {
         _fortitude = fo;
         _CalculateDefenseRatings();
     }
 
-    void SetProtection(uint32 pr) {
+    virtual void SetProtection(uint32 pr) {
         _protection = pr;
         _CalculateDefenseRatings();
     }
@@ -451,7 +410,7 @@ public:
         _agility = ag;
     }
 
-    void SetEvade(float ev) {
+    virtual void SetEvade(float ev) {
         _evade = ev;
         _CalculateEvadeRatings();
     }
@@ -487,21 +446,21 @@ public:
     //! \note The number of skill points will be decreased if they are greater than the new maximum
     void SubtractMaxSkillPoints(uint32 amount);
 
-    void AddStrength(uint32 amount);
+    virtual void AddStrength(uint32 amount);
 
-    void SubtractStrength(uint32 amount);
+    virtual void SubtractStrength(uint32 amount);
 
-    void AddVigor(uint32 amount);
+    virtual void AddVigor(uint32 amount);
 
-    void SubtractVigor(uint32 amount);
+    virtual void SubtractVigor(uint32 amount);
 
-    void AddFortitude(uint32 amount);
+    virtual void AddFortitude(uint32 amount);
 
-    void SubtractFortitude(uint32 amount);
+    virtual void SubtractFortitude(uint32 amount);
 
-    void AddProtection(uint32 amount);
+    virtual void AddProtection(uint32 amount);
 
-    void SubtractProtection(uint32 amount);
+    virtual void SubtractProtection(uint32 amount);
 
     void AddAgility(uint32 amount);
 
@@ -533,9 +492,6 @@ protected:
 
     //! \name Base Actor Statistics
     //@{
-    //! \brief The current experience level of the actor
-    uint32 _experience_level;
-
     //! \brief The number of experience points the actor has earned
     uint32 _experience_points;
 
@@ -581,27 +537,6 @@ protected:
     **/
     std::vector<GlobalAttackPoint *> _attack_points;
 
-    /** \brief The weapon that the actor has equipped
-    *** \note If no weapon is equipped, this member will be equal to NULL.
-    ***
-    *** Actors are not required to have weapons equipped, and indeed most enemies will probably not have any
-    *** weapons explicitly equipped. The various bonuses to attack ratings, elemental attacks, and status
-    *** attacks are automatically added to the appropriate members of this class when the weapon is equipped,
-    *** and likewise those bonuses are removed when the weapon is unequipped.
-    **/
-    GlobalWeapon *_weapon_equipped;
-
-    /** \brief The various armors that the actor has equipped
-    *** \note The size of this vector will always be equal to the number of attack points on the actor.
-    ***
-    *** Actors are not required to have armor of any sort equipped. Note that the defense bonuses that
-    *** are afforded by the armors are not directly applied to the character's defense ratings, but rather to
-    *** the defense ratings of their attack points. However the elemental and status bonuses of the armor are
-    *** applied to the character as a whole. The armor must be equipped on one of the actor's attack points to
-    *** really afford any kind of defensive bonus.
-    **/
-    std::vector<GlobalArmor *> _armor_equipped;
-
     /** \brief A map containing all skills that the actor can use
     *** Unlike with characters, there is no need to hold the various types of skills in seperate containers
     *** for enemies. An enemy must have <b>at least</b> one skill in order to do anything useful in battle.
@@ -611,53 +546,14 @@ protected:
     //! A vector keeping all the skills ids learned. Used for fast id requests.
     std::vector<uint32> _skills_id;
 
-    /** \brief The elemental effects added to the actor's attack
-    *** Actors may carry various elemental attack bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the weapon that the character may have equipped.
-    **/
-// 	std::vector<GlobalElementalEffect*> _elemental_attack_bonuses;
-
-    /** \brief The status effects added to the actor's attack
-    *** Actors may carry various status attack bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the weapon that the character may have equipped. The first member
-    *** in the pair is the likelihood (between 0.0 and 1.0) that the actor has of inflicting that status
-    *** effect upon a targeted foe.
-    **/
-// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_attack_bonuses;
-
-    /** \brief The elemental effects added to the actor's defense
-    *** Actors may carry various elemental defense bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by all of the armors that the character may have equipped.
-    **/
-// 	std::vector<GlobalElementalEffect*> _elemental_defense_bonuses;
-
-    /** \brief The status effects added to the actor's defense
-    *** Actors may carry various status defense bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the armors that the character may have equipped. The first member
-    *** in the pair is the reduction in the likelihood (between 0.0 and 1.0) that the actor has of
-    *** repelling an attack with a status effect.
-    **/
-// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_defense_bonuses;
-
-    /** \brief Equips a new armor on the actor
-    *** \param armor The piece of armor to equip
-    *** \param index The index into the _armor_equippd vector where to equip the armor
-    *** \return A pointer to the armor that was previously equipped, or NULL if no armor was equipped
-    ***
-    *** This function will also automatically re-calculate all defense ratings, elemental, and status bonuses
-    *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
-    *** the function will return the armor argument.
-    **/
-    GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32 index);
-
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's strength/vigor with their weapon's attack ratings
     *** and places the result in total physical/magical attack members
     **/
-    void _CalculateAttackRatings();
+    virtual void _CalculateAttackRatings();
 
     //! \brief Calculates the physical and magical defense ratings for each attack point
-    void _CalculateDefenseRatings();
+    virtual void _CalculateDefenseRatings();
 
     //! \brief Calculates the evade rating for each attack point
     void _CalculateEvadeRatings();
@@ -724,8 +620,7 @@ public:
     **/
     GlobalCharacter(uint32 id, bool initial = true);
 
-    virtual ~GlobalCharacter()
-        {}
+    virtual ~GlobalCharacter();
 
     //! \brief Tells whether a character is in the visible game formation
     void Enable(bool enable) {
@@ -736,46 +631,89 @@ public:
         return _enabled;
     }
 
-    GlobalWeapon* EquipWeapon(GlobalWeapon* weapon) {
-        GlobalWeapon* old_weapon = GlobalActor::EquipWeapon(weapon);
-        // Reloads available skill according to equipment
-        _UpdatesAvailableSkills();
-        return old_weapon;
+    void SetExperienceLevel(uint32 xp_level) {
+        _experience_level = xp_level;
     }
 
-    GlobalArmor *EquipHeadArmor(GlobalArmor *armor) {
-        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_HEAD);
-        // Reloads available skill according to equipment
-        _UpdatesAvailableSkills();
-        return old_armor;
+    // Character's stats changers, taking equipment in account
+    virtual void SetStrength(uint32 st) {
+        _strength = st;
+        _CalculateAttackRatings();
     }
 
-    GlobalArmor *EquipTorsoArmor(GlobalArmor *armor) {
-        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_TORSO);
-        // Reloads available skill according to equipment
-        _UpdatesAvailableSkills();
-        return old_armor;
+    virtual void SetVigor(uint32 vi) {
+        _vigor = vi;
+        _CalculateAttackRatings();
     }
 
-    GlobalArmor *EquipArmArmor(GlobalArmor *armor) {
-        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_ARMS);
-        // Reloads available skill according to equipment
-        _UpdatesAvailableSkills();
-        return old_armor;
+    virtual void SetFortitude(uint32 fo) {
+        _fortitude = fo;
+        _CalculateDefenseRatings();
     }
 
-    GlobalArmor *EquipLegArmor(GlobalArmor *armor) {
-        GlobalArmor* old_armor = _EquipArmor(armor, GLOBAL_POSITION_LEGS);
-        // Reloads available skill according to equipment
-        _UpdatesAvailableSkills();
-        return old_armor;
+    virtual void SetProtection(uint32 pr) {
+        _protection = pr;
+        _CalculateDefenseRatings();
     }
+
+    virtual void AddStrength(uint32 amount);
+
+    virtual void SubtractStrength(uint32 amount);
+
+    virtual void AddVigor(uint32 amount);
+
+    virtual void SubtractVigor(uint32 amount);
+
+    virtual void AddFortitude(uint32 amount);
+
+    virtual void SubtractFortitude(uint32 amount);
+
+    virtual void AddProtection(uint32 amount);
+
+    virtual void SubtractProtection(uint32 amount);
 
     /** \brief Adds experience points to the character
     *** \param xp The amount of experience points to add
     *** \return True if the new experience points triggered character growth
     **/
     bool AddExperiencePoints(uint32 xp);
+
+    GlobalArmor *EquipHeadArmor(GlobalArmor *armor) {
+        return _EquipArmor(armor, GLOBAL_POSITION_HEAD);
+    }
+
+    GlobalArmor *EquipTorsoArmor(GlobalArmor *armor) {
+        return _EquipArmor(armor, GLOBAL_POSITION_TORSO);
+    }
+
+    GlobalArmor *EquipArmArmor(GlobalArmor *armor) {
+       return _EquipArmor(armor, GLOBAL_POSITION_ARMS);
+    }
+
+    GlobalArmor *EquipLegArmor(GlobalArmor *armor) {
+        return _EquipArmor(armor, GLOBAL_POSITION_LEGS);
+    }
+
+    const std::vector<GlobalArmor *>& GetArmorsEquipped() {
+        return _armor_equipped;
+    }
+
+    GlobalArmor *GetArmorEquipped(uint32 index) const;
+
+    GlobalWeapon *GetWeaponEquipped() const {
+        return _weapon_equipped;
+    }
+
+    /** \brief Equips a new weapon on the actor
+    *** \param weapon The new weapon to equip on the actor
+    *** \return A pointer to the weapon that was previouslly equipped, or NULL if no weapon was equipped.
+    ***
+    *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
+    **/
+    GlobalWeapon *EquipWeapon(GlobalWeapon *weapon);
+
+    //! \brief Tells whether the actor has got equipment.
+    bool HasEquipment() const;
 
     //! \brief Permanently adds a new skill to the character (inherited from GlobalActor)
     //! \returns whether the skill was successfully added.
@@ -821,6 +759,10 @@ public:
 
     //! \name Public Member Access Functions
     //@{
+    uint32 GetExperienceLevel() const {
+        return _experience_level;
+    }
+
     /** \note The reason why next level experience requirements are added and not simply set is so that any
     *** additional experience that was earned above the amount that was needed to achieve the next level will
     *** be factored in to reducing the amount of experience required for the next level. This is possible because
@@ -850,12 +792,6 @@ public:
         return _armor_equipped[GLOBAL_POSITION_LEGS];
     }
 
-    //! The permanent skills are saved between two game sessions.
-    //! whereas the equipment skills are reloaded through equipment.
-    std::vector<uint32>& GetPermanentSkills() {
-        return _permanent_skills;
-    }
-
     std::vector<GlobalSkill *>* GetWeaponSkills() {
         return &_weapon_skills;
     }
@@ -871,6 +807,12 @@ public:
 
     std::vector<GlobalSkill *>* GetSpecialSkills() {
         return &_special_skills;
+    }
+
+    //! The permanent skills are saved between two game sessions.
+    //! whereas the equipment skills are reloaded through equipment.
+    std::vector<uint32>& GetPermanentSkills() {
+        return _permanent_skills;
     }
 
     uint32 GetHitPointsGrowth() const {
@@ -933,6 +875,9 @@ public:
     //@}
 
 protected:
+    //! \brief The current experience level of the actor
+    uint32 _experience_level;
+
     /** \brief Sortable skill containers
     *** Skills are divided into three types: weapon, magic, and special. There is really no functional
     *** distinguishment between the various skill types, they just serve an organizational means and are
@@ -996,8 +941,53 @@ protected:
     //! \brief Tells whether a character is in the visible game formation
     bool _enabled;
 
+    /** \brief The weapon that the character has equipped
+    *** \note If no weapon is equipped, this member will be equal to NULL.
+    ***
+    *** Actors are not required to have weapons equipped, and indeed most enemies will probably not have any
+    *** weapons explicitly equipped. The various bonuses to attack ratings, elemental attacks, and status
+    *** attacks are automatically added to the appropriate members of this class when the weapon is equipped,
+    *** and likewise those bonuses are removed when the weapon is unequipped.
+    **/
+    GlobalWeapon *_weapon_equipped;
+
+    /** \brief The various armors that the character has equipped
+    *** \note The size of this vector will always be equal to the number of attack points on the character.
+    ***
+    *** Actors are not required to have armor of any sort equipped. Note that the defense bonuses that
+    *** are afforded by the armors are not directly applied to the character's defense ratings, but rather to
+    *** the defense ratings of their attack points. However the elemental and status bonuses of the armor are
+    *** applied to the character as a whole. The armor must be equipped on one of the caracter's attack points to
+    *** really afford any kind of defensive bonus.
+    **/
+    std::vector<GlobalArmor *> _armor_equipped;
+
+    /** \brief Equips a new armor on the character
+    *** \param armor The piece of armor to equip
+    *** \param index The index into the _armor_equipped vector where to equip the armor
+    *** \return A pointer to the armor that was previously equipped, or NULL if no armor was equipped
+    ***
+    *** This function will also automatically re-calculate all defense ratings, elemental, and status bonuses
+    *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
+    *** the function will return the armor argument.
+    **/
+    GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32 index);
+
     //! \brief Recomputes which skills are available, based on equipment and permanent skills.
     void _UpdatesAvailableSkills();
+
+    // TODO: elemental and status effects on the global character
+// 	std::vector<GlobalElementalEffect*>& GetElementalAttackBonuses()
+// 		{ return _elemental_attack_bonuses; }
+//
+// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusAttackBonuses()
+// 		{ return _status_attack_bonuses; }
+//
+// 	std::vector<GlobalElementalEffect*>& GetElementalDefenseBonuses()
+// 		{ return _elemental_defense_bonuses; }
+//
+// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusDefenseBonuses()
+// 		{ return _status_defense_bonuses; }
 
 private:
     /** \brief The remaining experience points required to reach the next experience level
@@ -1049,6 +1039,43 @@ private:
     *** are removed from a character should also be removed from this container if they exist.
     **/
     std::vector<GlobalSkill*> _new_skills_learned;
+
+    /** \brief The elemental effects added to the character's attack
+    *** Actors may carry various elemental attack bonuses, or they may carry none. These bonuses include
+    *** those that are brought upon by the weapon that the character may have equipped.
+    **/
+// 	std::vector<GlobalElementalEffect*> _elemental_attack_bonuses;
+
+    /** \brief The status effects added to the character's attack
+    *** Actors may carry various status attack bonuses, or they may carry none. These bonuses include
+    *** those that are brought upon by the weapon that the character may have equipped. The first member
+    *** in the pair is the likelihood (between 0.0 and 1.0) that the character has of inflicting that status
+    *** effect upon a targeted foe.
+    **/
+// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_attack_bonuses;
+
+    /** \brief The elemental effects added to the character's defense
+    *** Actors may carry various elemental defense bonuses, or they may carry none. These bonuses include
+    *** those that are brought upon by all of the armors that the character may have equipped.
+    **/
+// 	std::vector<GlobalElementalEffect*> _elemental_defense_bonuses;
+
+    /** \brief The status effects added to the character's defense
+    *** Actors may carry various status defense bonuses, or they may carry none. These bonuses include
+    *** those that are brought upon by the armors that the character may have equipped. The first member
+    *** in the pair is the reduction in the likelihood (between 0.0 and 1.0) that the character has of
+    *** repelling an attack with a status effect.
+    **/
+// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_defense_bonuses;
+
+    /** \brief Calculates an actor's physical and magical attack ratings
+    *** This function sums the actor's strength/vigor with their weapon's attack ratings
+    *** and places the result in total physical/magical attack members
+    **/
+    virtual void _CalculateAttackRatings();
+
+    //! \brief Calculates the physical and magical defense ratings for each attack point
+    virtual void _CalculateDefenseRatings();
 
 }; // class GlobalCharacter : public GlobalActor
 
@@ -1175,118 +1202,118 @@ protected:
 
 
 /** ****************************************************************************
-*** \brief Represents a party of actors
+*** \brief Represents a party of characters
 ***
-*** This class is a container for a group or "party" of actors. A party is a type
+*** This class is a container for a group or "party" of characters. A party is a type
 *** of target for items and skills. The GameGlobal class also organizes characters
-*** into parties for convienence. Note that an actor may be either an enemy or
+*** into parties for convienence. Note that an character may be either an enemy or
 *** a character, but you should avoid creating parties that contain both characters
 *** and enemies, as it can lead to conflicts. For example, a character and enemy which
 *** enemy which have the same ID value).
 ***
-*** Parties may or may not allow duplicate actors (a duplicate actor is defined
-*** as an actor that has the same _id member as another actor in the party).
+*** Parties may or may not allow duplicate characters (a duplicate character is defined
+*** as an character that has the same _id member as another character in the party).
 *** This property is determined in the GlobalParty constructor
 ***
-*** \note When this class is destroyed, the actors contained within the class are
-*** <i>not</i> destroyed. Only the references to those actors through this class object
+*** \note When this class is destroyed, the characters contained within the class are
+*** <i>not</i> destroyed. Only the references to those characters through this class object
 *** are lost.
 ***
-*** \note All methods which perform an operation by using an actor ID are
+*** \note All methods which perform an operation by using an character ID are
 *** <b>only</b> valid to use if the party does not allow duplicates.
 *** ***************************************************************************/
 class GlobalParty
 {
 public:
-    //! \param allow_duplicates Determines whether or not the party allows duplicate actors to be added (default value == false)
+    //! \param allow_duplicates Determines whether or not the party allows duplicate characters to be added (default value == false)
     GlobalParty(bool allow_duplicates = false) :
         _allow_duplicates(allow_duplicates) {}
 
     ~GlobalParty()
     {}
 
-    // ---------- Actor addition, removal, and retrieval methods
+    // ---------- Character addition, removal, and retrieval methods
 
-    /** \brief Adds an actor to the party
-    *** \param actor A pointer to the actor to add to the party
-    *** \param index The index where the actor should be inserted. If negative, actor is added to the end
-    *** \note The actor will not be added if it is already in the party and duplicates are not allowed
+    /** \brief Adds an character to the party
+    *** \param character A pointer to the character to add to the party
+    *** \param index The index where the character should be inserted. If negative, character is added to the end
+    *** \note The character will not be added if it is already in the party and duplicates are not allowed
     **/
-    void AddActor(GlobalActor *actor, int32 index = -1);
+    void AddCharacter(GlobalCharacter *character, int32 index = -1);
 
-    /** \brief Removes an actor from the party
-    *** \param index The index of the actor in the party to remove
-    *** \return A pointer to the actor that was removed, or NULL if the index provided was invalid
+    /** \brief Removes an character from the party
+    *** \param index The index of the character in the party to remove
+    *** \return A pointer to the character that was removed, or NULL if the index provided was invalid
     **/
-    GlobalActor *RemoveActorAtIndex(uint32 index);
+    GlobalCharacter *RemoveCharacterAtIndex(uint32 index);
 
-    /** \brief Removes an actor from the party
-    *** \param id The id value of the actor to remove
-    *** \return A pointer to the actor that was removed, or NULL if the actor was not found in the party
+    /** \brief Removes an character from the party
+    *** \param id The id value of the character to remove
+    *** \return A pointer to the character that was removed, or NULL if the character was not found in the party
     **/
-    GlobalActor *RemoveActorByID(uint32 id);
+    GlobalCharacter *RemoveCharacterByID(uint32 id);
 
-    /** \brief Clears the party of all actors
-    *** \note This function does not return the actor pointers, so if you wish to get the
-    *** GlobalActors make sure you do so prior to invoking this call.
+    /** \brief Clears the party of all characters
+    *** \note This function does not return the character pointers, so if you wish to get the
+    *** GlobalCharacter make sure you do so prior to invoking this call.
     **/
-    void RemoveAllActors() {
-        _actors.clear();
+    void RemoveAllCharacters() {
+        _characters.clear();
     }
 
-    /** \brief Retrieves a poitner to the actor in the party at a specified index
-    *** \param index The index where the actor may be found in the party
-    *** \return A pointer to the actor at the specified index, or NULL if the index argument was invalid
+    /** \brief Retrieves a poitner to the character in the party at a specified index
+    *** \param index The index where the character may be found in the party
+    *** \return A pointer to the character at the specified index, or NULL if the index argument was invalid
     **/
-    GlobalActor *GetActorAtIndex(uint32 index) const;
+    GlobalCharacter *GetCharacterAtIndex(uint32 index) const;
 
-    /** \brief Retrieves a poitner to the actor in the party with the spefified id
-    *** \param id The id of the actor to return
-    *** \return A pointer to the actor with the requested ID, or NULL if the actor was not found
+    /** \brief Retrieves a poitner to the character in the party with the spefified id
+    *** \param id The id of the character to return
+    *** \return A pointer to the character with the requested ID, or NULL if the character was not found
     **/
-    GlobalActor *GetActorByID(uint32 id) const;
+    GlobalCharacter *GetCharacterByID(uint32 id) const;
 
-    // ---------- Actor swap and replacement methods
+    // ---------- Character swap and replacement methods
 
-    /** \brief Swaps the location of two actors in the party by their indeces
-    *** \param first_index The index of the first actor to swap
-    *** \param second_index The index of the second actor to swap
+    /** \brief Swaps the location of two characters in the party by their indeces
+    *** \param first_index The index of the first character to swap
+    *** \param second_index The index of the second character to swap
     **/
-    void SwapActorsByIndex(uint32 first_index, uint32 second_index);
+    void SwapCharactersByIndex(uint32 first_index, uint32 second_index);
 
-    /** \brief Swaps the location of two actors in the party by looking up their IDs
-    *** \param first_id The id of the first actor to swap
-    *** \param second_id The id of the second actor to swap
+    /** \brief Swaps the location of two characters in the party by looking up their IDs
+    *** \param first_id The id of the first character to swap
+    *** \param second_id The id of the second character to swap
     **/
-    void SwapActorsByID(uint32 first_id, uint32 second_id);
+    void SwapCharactersByID(uint32 first_id, uint32 second_id);
 
-    /** \brief Replaces an actor in the party at a specified index with a new actor
-    *** \param index The index of the actor to be replaced
-    *** \param new_actor A pointer to the actor that will replace the existing actor
-    *** \return A pointer to the replaced actor, or NULL if the operation did not take place
+    /** \brief Replaces an character in the party at a specified index with a new character
+    *** \param index The index of the character to be replaced
+    *** \param new_character A pointer to the character that will replace the existing character
+    *** \return A pointer to the replaced character, or NULL if the operation did not take place
     **/
-    GlobalActor *ReplaceActorByIndex(uint32 index, GlobalActor *new_actor);
+    GlobalCharacter *ReplaceCharacterByIndex(uint32 index, GlobalCharacter *new_character);
 
-    /** \brief Replaces an actor in the party with the specified id with a new actor
-    *** \param id The id of the actor to be replaced
-    *** \param new_actor A pointer to the actor that will replace the existing actor
-    *** \return A pointer to the replaced actor, or NULL if the operation did not take place
+    /** \brief Replaces an character in the party with the specified id with a new character
+    *** \param id The id of the character to be replaced
+    *** \param new_character A pointer to the character that will replace the existing character
+    *** \return A pointer to the replaced character, or NULL if the operation did not take place
     **/
-    GlobalActor *ReplaceActorByID(uint32 id, GlobalActor *new_actor);
+    GlobalCharacter *ReplaceCharacterByID(uint32 id, GlobalCharacter *new_character);
 
     // ---------- Other methods
 
-    /** \brief Computes the average experience level of all actors in the party
+    /** \brief Computes the average experience level of all characters in the party
     *** \return A float representing the average experience level (0.0f if party is empty)
     **/
     float AverageExperienceLevel() const;
 
-    /** \brief Adds a certain amount of hit points to all actors in the party
+    /** \brief Adds a certain amount of hit points to all characters in the party
     *** \param hp The number of health points to add
     **/
     void AddHitPoints(uint32 hp);
 
-    /** \brief Adds a certain amount of skill points to all actors in the party
+    /** \brief Adds a certain amount of skill points to all characters in the party
     *** \param sp The number of skill points to add
     **/
     void AddSkillPoints(uint32 sp);
@@ -1298,30 +1325,30 @@ public:
     }
 
     bool IsPartyEmpty() const {
-        return (_actors.size() == 0);
+        return (_characters.size() == 0);
     }
 
     uint32 GetPartySize() const {
-        return _actors.size();
+        return _characters.size();
     }
 
-    const std::vector<GlobalActor *>& GetAllActors() const {
-        return _actors;
+    const std::vector<GlobalCharacter *>& GetAllCharacters() const {
+        return _characters;
     }
     //@}
 
 private:
-    /** \brief Actors are allowed to be inserted into the party multiple times when this member is true
+    /** \brief Characters are allowed to be inserted into the party multiple times when this member is true
     *** \note The value of this member is set in the class constructor and can not be changed at a later time
     **/
     bool _allow_duplicates;
 
-    /** \brief A container of actors that are in this party
-    *** The GlobalActor objects pointed to by the elements in this vector are not managed by this class. Therefore
-    *** one needs to be careful that if any of the GlobalActor objects are destroyed outside the context of this
-    *** class, the actor should be removed from this container immediately to avoid a possible segmentation fault.
+    /** \brief A container of characters that are in this party
+    *** The GlobalCharacter objects pointed to by the elements in this vector are not managed by this class. Therefore
+    *** one needs to be careful that if any of the GlobalCharacter objects are destroyed outside the context of this
+    *** class, the character should be removed from this container immediately to avoid a possible segmentation fault.
     **/
-    std::vector<GlobalActor *> _actors;
+    std::vector<GlobalCharacter *> _characters;
 }; // class GlobalParty
 
 } // namespace vt_global

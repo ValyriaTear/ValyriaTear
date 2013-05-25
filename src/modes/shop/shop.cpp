@@ -609,7 +609,7 @@ void ShopObjectViewer::_SetEquipmentData()
     } else { // (selected_armor != NULL)
         for(uint32 i = 0; i < party->size(); ++i) {
             character = party->at(i);
-            equipped_armor = character->GetArmorEquipped().at(armor_index);
+            equipped_armor = character->GetArmorEquipped(armor_index);
 
             // Initially assume that the character does not have this armor equipped
             _character_equipped[i] = false;

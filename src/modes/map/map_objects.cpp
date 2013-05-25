@@ -1548,7 +1548,7 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
         return;
 
     // Get the front party member
-    GlobalActor *actor = GlobalManager->GetActiveParty()->GetActorAtIndex(0);
+    GlobalActor *actor = GlobalManager->GetActiveParty()->GetCharacterAtIndex(0);
 
     // Update only if the actor has changed
     if(actor && actor->GetMapSpriteName() != _visible_party_member->GetSpriteName())

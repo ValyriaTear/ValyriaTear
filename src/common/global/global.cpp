@@ -231,7 +231,7 @@ void GameGlobal::ClearAllData()
     }
     _characters.clear();
     _ordered_characters.clear();
-    _active_party.RemoveAllActors();
+    _active_party.RemoveAllCharacters();
 
     // Delete all event groups
     for(std::map<std::string, GlobalEventGroup *>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
@@ -292,7 +292,7 @@ void GameGlobal::AddCharacter(uint32 id)
 
     // Add the new character to the active party if the active party contains less than four characters
     if(_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
-        _active_party.AddActor(ch);
+        _active_party.AddCharacter(ch);
 
     _ordered_characters.push_back(ch);
 }
@@ -319,7 +319,7 @@ void GameGlobal::AddCharacter(GlobalCharacter *ch)
 
     // Add the new character to the active party if the active party contains less than four characters
     if(_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
-        _active_party.AddActor(ch);
+        _active_party.AddCharacter(ch);
 
     _ordered_characters.push_back(ch);
 }
@@ -345,9 +345,9 @@ void GameGlobal::RemoveCharacter(uint32 id, bool erase)
     }
 
     // Reform the active party in case the removed character was a member of it
-    _active_party.RemoveAllActors();
+    _active_party.RemoveAllCharacters();
     for(uint32 j = 0; j < _ordered_characters.size() && j < GLOBAL_MAX_PARTY_SIZE; j++) {
-        _active_party.AddActor(_ordered_characters[j]);
+        _active_party.AddCharacter(_ordered_characters[j]);
     }
 
     // If we were asked to remove the character completely from the game data.
@@ -390,7 +390,7 @@ void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
     _ordered_characters[second_index] = tmp;
 
     // Do the same for the party member.
-    _active_party.SwapActorsByIndex(first_index, second_index);
+    _active_party.SwapCharactersByIndex(first_index, second_index);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -399,15 +399,15 @@ void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
 
 void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
 {
+    // Don't add object instance without at least one actual item.
+    if (obj_count == 0)
+        return;
+
     // If the object is already in the inventory, increment the count of the object
     if(_inventory.find(obj_id) != _inventory.end()) {
         _inventory[obj_id]->IncrementCount(obj_count);
         return;
     }
-
-    // Don't add object instance without at least one actual item.
-    if (obj_count == 0)
-        return;
 
     // Otherwise create a new object instance and add it to the inventory
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
@@ -1129,7 +1129,7 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\t},");
 
     // Write out the character's permanent skills.
-    // The equipment skills will be reloaded through equipment
+    // The equipment skills will be reloaded through equipment.
     file.InsertNewLine();
     file.WriteLine("\t\tskills = {");
     const std::vector<uint32>& skill_vector = character->GetPermanentSkills();
@@ -1361,14 +1361,12 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
-
     //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("special_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
-
     //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("bare_hands_skills", skill_ids);

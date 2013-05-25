@@ -198,7 +198,7 @@ void InventoryWindow::_InitCharSelect()
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
-    _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+    _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 }
 
 //Initalizes the available item categories
@@ -538,7 +538,7 @@ void InventoryWindow::_UpdateSelection()
     _object_type = _object->GetObjectType();
 
     if (_active_box == ITEM_ACTIVE_CHAR)
-        _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+        _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
     //check the obj_type again to see if its a weapon or armor
     switch(_object_type) {
@@ -749,7 +749,7 @@ PartyWindow::PartyWindow() :
 
     // Set up the full body portrait
     for(uint32 i = 0; i < partysize; i++) {
-        ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(i));
+        ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
         _full_portraits.push_back(ch->GetFullPortrait());
     }
 
@@ -929,7 +929,7 @@ void PartyWindow::UpdateStatus()
     _focused_def_numbers.Clear();
     _focused_mdef_numbers.Clear();
 
-    GlobalCharacter *ch =  dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+    GlobalCharacter *ch =  GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
     if (!ch)
         return;
 
@@ -1246,8 +1246,8 @@ void SkillsWindow::Update()
         // Handle skill application
         if(event == VIDEO_OPTION_CONFIRM) {
             GlobalSkill *skill = _GetCurrentSkill();
-            GlobalCharacter *target = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
-            GlobalCharacter *instigator = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
+            GlobalCharacter *target = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+            GlobalCharacter *instigator = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
 
             const ScriptObject &script_function = skill->GetFieldExecuteFunction();
 
@@ -1339,7 +1339,7 @@ void SkillsWindow::Update()
             && static_cast<int32>(_skills_list.GetNumberOptions()) > _skills_list.GetSelection()) {
 
         GlobalSkill *skill = _GetCurrentSkill();
-        GlobalCharacter *skill_owner = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
+        GlobalCharacter *skill_owner = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
 
         // Get the skill type
         vt_utils::ustring skill_type;
@@ -1385,7 +1385,7 @@ void SkillsWindow::Update()
 
 GlobalSkill *SkillsWindow::_GetCurrentSkill()
 {
-    GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_skillset));
+    GlobalCharacter *ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
 
     std::vector<GlobalSkill *> menu_skills;
     std::vector<GlobalSkill *> battle_skills;
@@ -1421,7 +1421,7 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 
 void SkillsWindow::_UpdateSkillList()
 {
-    GlobalCharacter *ch = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+    GlobalCharacter *ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
     assert(ch);
     std::vector<ustring> options;
     std::vector<ustring> cost_options;
@@ -1610,7 +1610,7 @@ void EquipWindow::_InitCharSelect()
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
-    _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+    _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
 } // void EquipWindow::InitCharSelect()
 
@@ -1674,7 +1674,7 @@ void EquipWindow::Update()
 
     // update the concerned character on each change
     if (InputManager->AnyKeyPress())
-        _character = dynamic_cast<GlobalCharacter *>(GlobalManager->GetActiveParty()->GetActorAtIndex(_char_select.GetSelection()));
+        _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
     uint32 event = active_option->GetEvent();
     active_option->Update();

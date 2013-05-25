@@ -1284,13 +1284,13 @@ void MenuMode::ReloadCharacterWindows()
     // Setup character windows based on active party size
     switch(characters.GetPartySize()) {
     case 4:
-        _character_window3.SetCharacter(dynamic_cast<GlobalCharacter *>(characters.GetActorAtIndex(3)));
+        _character_window3.SetCharacter(characters.GetCharacterAtIndex(3));
     case 3:
-        _character_window2.SetCharacter(dynamic_cast<GlobalCharacter *>(characters.GetActorAtIndex(2)));
+        _character_window2.SetCharacter(characters.GetCharacterAtIndex(2));
     case 2:
-        _character_window1.SetCharacter(dynamic_cast<GlobalCharacter *>(characters.GetActorAtIndex(1)));
+        _character_window1.SetCharacter(characters.GetCharacterAtIndex(1));
     case 1:
-        _character_window0.SetCharacter(dynamic_cast<GlobalCharacter *>(characters.GetActorAtIndex(0)));
+        _character_window0.SetCharacter(characters.GetCharacterAtIndex(0));
         break;
     default:
         PRINT_ERROR << "No characters in party!" << std::endl;

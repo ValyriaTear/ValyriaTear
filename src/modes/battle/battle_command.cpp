@@ -135,8 +135,9 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
 
     // Construct the weapon, magic, and special skill lists for the character
     std::vector<GlobalSkill *>* skill_list = NULL;
+    GlobalWeapon* char_wpn = _character->GetGlobalCharacter()->GetWeaponEquipped();
 
-    if (_character->GetWeaponEquipped())
+    if (char_wpn)
         skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
     else
         skill_list = _character->GetGlobalCharacter()->GetBareHandsSkills();
@@ -150,8 +151,8 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
         else {
             // Check for the weapon icon
             std::string wpn_icon_filename;
-            if (_character->GetWeaponEquipped())
-                wpn_icon_filename = _character->GetWeaponEquipped()->GetIconImage().GetFilename();
+            if (char_wpn)
+                wpn_icon_filename = char_wpn->GetIconImage().GetFilename();
             else
                 wpn_icon_filename = "img/icons/weapons/fist-human.png";
 
@@ -845,11 +846,12 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     // Determine the weapon icon name
     std::string icon_name = "<";
 
-    if (character->GetWeaponEquipped()) {
-        if (character->GetWeaponEquipped()->GetIconImage().GetFilename().empty())
+    GlobalWeapon* wpn = character->GetGlobalCharacter()->GetWeaponEquipped();
+    if (wpn) {
+        if (wpn->GetIconImage().GetFilename().empty())
             icon_name += "img/icons/battle/default_weapon.png";
         else
-            icon_name += character->GetWeaponEquipped()->GetIconImage().GetFilename();
+            icon_name += wpn->GetIconImage().GetFilename();
     }
     else {
         icon_name += "img/icons/weapons/fist-human.png";
@@ -857,7 +859,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     icon_name += ">\n\n";
 
     // When a character has no basic weapon skill, we add the 'pass turn' skill instead.
-    if(character->GetWeaponEquipped()) {
+    if(wpn) {
         _category_options.SetOptionText(CATEGORY_WEAPON, MakeUnicodeString(icon_name) +  UTranslate("Weapon"));
         _category_text[CATEGORY_WEAPON].SetText(UTranslate("Weapon"));
     }
@@ -1114,7 +1116,7 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
         if(_state == COMMAND_STATE_CATEGORY) {
             switch(_category_options.GetSelection()) {
             case CATEGORY_WEAPON:
-                if (GetCommandCharacter()->GetWeaponEquipped()) {
+                if (GetCommandCharacter()->GetGlobalCharacter()->GetWeaponEquipped()) {
                     _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetWeaponSkills(),
                                               _active_settings->GetWeaponSkillList(), _active_settings->GetWeaponTargetList());
                 }

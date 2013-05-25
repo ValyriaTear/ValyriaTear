@@ -239,10 +239,6 @@ public:
         return (_state != ACTOR_STATE_DYING && IsAlive());
     }
 
-    //! \brief Empty method. Required because this is a pure virtual method of GlobalActor
-    bool AddSkill(uint32 /*skill_id*/)
-    { return false; }
-
     /** \brief Restores an actor to the initial state it was in when the battle began
     ***
     *** This includes resetting the actor's state, attributes, status effect, and animations.

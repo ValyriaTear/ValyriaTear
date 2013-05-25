@@ -720,7 +720,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
             continue;
 
         // Don't permit to earn XP when the maximum level has been reached.
-        if(battle_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
+        if(battle_characters[i]->GetGlobalCharacter()->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
             level_maxed_out = true;
 
         uint32 xp_added = xp_to_add;

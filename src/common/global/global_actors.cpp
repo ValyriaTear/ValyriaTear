@@ -138,7 +138,6 @@ void GlobalAttackPoint::CalculateTotalEvade()
 
 GlobalActor::GlobalActor() :
     _id(0),
-    _experience_level(0),
     _experience_points(0),
     _hit_points(0),
     _max_hit_points(0),
@@ -151,10 +150,8 @@ GlobalActor::GlobalActor() :
     _agility(0),
     _evade(0.0f),
     _total_physical_attack(0),
-    _total_magical_attack(0),
-    _weapon_equipped(NULL)
+    _total_magical_attack(0)
 {}
-
 
 
 GlobalActor::~GlobalActor()
@@ -164,15 +161,6 @@ GlobalActor::~GlobalActor()
         delete _attack_points[i];
     }
     _attack_points.clear();
-
-    // Delete all equipment
-    if(_weapon_equipped != NULL)
-        delete _weapon_equipped;
-    for(uint32 i = 0; i < _armor_equipped.size(); i++) {
-        if(_armor_equipped[i] != NULL)
-            delete _armor_equipped[i];
-    }
-    _armor_equipped.clear();
 
     // Delete all skills
     for(uint32 i = 0; i < _skills.size(); ++i)
@@ -191,7 +179,6 @@ GlobalActor::GlobalActor(const GlobalActor &copy)
     _portrait = copy._portrait;
     _full_portrait = copy._full_portrait;
     _stamina_icon = copy._stamina_icon;
-    _experience_level = copy._experience_level;
     _experience_points = copy._experience_points;
     _hit_points = copy._hit_points;
     _max_hit_points = copy._max_hit_points;
@@ -210,19 +197,6 @@ GlobalActor::GlobalActor(const GlobalActor &copy)
     for(uint32 i = 0; i < copy._attack_points.size(); i++) {
         _attack_points.push_back(new GlobalAttackPoint(*copy._attack_points[i]));
         _attack_points[i]->SetActorOwner(this);
-    }
-
-    // Copy all equipment
-    if(copy._weapon_equipped == NULL)
-        _weapon_equipped = NULL;
-    else
-        _weapon_equipped = new GlobalWeapon(*copy._weapon_equipped);
-
-    for(uint32 i = 0; i < _armor_equipped.size(); i++) {
-        if(_armor_equipped[i] == NULL)
-            _armor_equipped.push_back(NULL);
-        else
-            _armor_equipped.push_back(new GlobalArmor(*copy._armor_equipped[i]));
     }
 
     // Copy all skills
@@ -246,7 +220,6 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     _portrait = copy._portrait;
     _full_portrait = copy._full_portrait;
     _stamina_icon = copy._stamina_icon;
-    _experience_level = copy._experience_level;
     _experience_points = copy._experience_points;
     _hit_points = copy._hit_points;
     _max_hit_points = copy._max_hit_points;
@@ -267,19 +240,6 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
         _attack_points[i]->SetActorOwner(this);
     }
 
-    // Copy all equipment
-    if(copy._weapon_equipped == NULL)
-        _weapon_equipped = NULL;
-    else
-        _weapon_equipped = new GlobalWeapon(*copy._weapon_equipped);
-
-    for(uint32 i = 0; i < _armor_equipped.size(); i++) {
-        if(_armor_equipped[i] == NULL)
-            _armor_equipped.push_back(NULL);
-        else
-            _armor_equipped.push_back(new GlobalArmor(*copy._armor_equipped[i]));
-    }
-
     // Copy all skills
     for (uint32 i = 0; i < copy._skills.size(); ++i) {
         // Create a new instance as the skill is deleted on an actor object basis.
@@ -287,38 +247,6 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
         _skills_id.push_back(copy._skills_id[i]);
     }
     return *this;
-}
-
-
-
-GlobalWeapon *GlobalActor::EquipWeapon(GlobalWeapon *weapon)
-{
-    GlobalWeapon *old_weapon = _weapon_equipped;
-    _weapon_equipped = weapon;
-    _CalculateAttackRatings();
-    return old_weapon;
-}
-
-
-
-GlobalArmor *GlobalActor::_EquipArmor(GlobalArmor *armor, uint32 index)
-{
-    if(index >= _armor_equipped.size()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
-        return armor;
-    }
-
-    GlobalArmor *old_armor = _armor_equipped[index];
-    _armor_equipped[index] = armor;
-
-    if(old_armor != NULL && armor != NULL) {
-        if(old_armor->GetObjectType() != armor->GetObjectType()) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "old armor was replaced with a different type of armor" << std::endl;
-        }
-    }
-
-    _attack_points[index]->CalculateTotalDefense(_armor_equipped[index]);
-    return old_armor;
 }
 
 bool GlobalActor::HasSkill(uint32 skill_id)
@@ -394,28 +322,6 @@ float GlobalActor::GetAverageEvadeRating()
     evade /= static_cast<float>(_attack_points.size());
 
     return evade;
-}
-
-GlobalArmor *GlobalActor::GetArmorEquipped(uint32 index) const
-{
-    if(index >= _armor_equipped.size()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
-        return NULL;
-    }
-
-    return _armor_equipped[index];
-}
-
-bool GlobalActor::HasEquipment() const
-{
-    if (_weapon_equipped)
-        return true;
-
-    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
-        if (_armor_equipped.at(i) != NULL)
-            return true;
-    }
-    return false;
 }
 
 GlobalAttackPoint *GlobalActor::GetAttackPoint(uint32 index) const
@@ -708,11 +614,6 @@ void GlobalActor::_CalculateAttackRatings()
 {
     _total_physical_attack = _strength;
     _total_magical_attack = _vigor;
-
-    if(_weapon_equipped != NULL) {
-        _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
-        _total_magical_attack += _weapon_equipped->GetMagicalAttack();
-    }
 }
 
 
@@ -720,12 +621,8 @@ void GlobalActor::_CalculateAttackRatings()
 void GlobalActor::_CalculateDefenseRatings()
 {
     // Re-calculate the defense ratings for all attack points
-    for(uint32 i = 0; i < _attack_points.size(); i++) {
-        if((i < _armor_equipped.size()) && (_armor_equipped[i] != NULL))
-            _attack_points[i]->CalculateTotalDefense(_armor_equipped[i]);
-        else
-            _attack_points[i]->CalculateTotalDefense(NULL);
-    }
+    for(uint32 i = 0; i < _attack_points.size(); i++)
+        _attack_points[i]->CalculateTotalDefense(NULL);
 }
 
 
@@ -743,7 +640,9 @@ void GlobalActor::_CalculateEvadeRatings()
 ////////////////////////////////////////////////////////////////////////////////
 
 GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
+    _experience_level(0),
     _enabled(true),
+    _weapon_equipped(NULL),
     _experience_for_next_level(0),
     _hit_points_growth(0),
     _skill_points_growth(0),
@@ -996,6 +895,17 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     _CalculateEvadeRatings();
 } // GlobalCharacter::GlobalCharacter(uint32 id, bool initial)
 
+GlobalCharacter::~GlobalCharacter()
+{
+    // Delete all equipment
+    if(_weapon_equipped != NULL)
+        delete _weapon_equipped;
+    for(uint32 i = 0; i < _armor_equipped.size(); i++) {
+        if(_armor_equipped[i] != NULL)
+            delete _armor_equipped[i];
+    }
+    _armor_equipped.clear();
+}
 
 
 bool GlobalCharacter::AddExperiencePoints(uint32 xp)
@@ -1005,7 +915,152 @@ bool GlobalCharacter::AddExperiencePoints(uint32 xp)
     return ReachedNewExperienceLevel();
 }
 
+void GlobalCharacter::AddStrength(uint32 amount)
+{
+    if((0xFFFFFFFF - amount) < _strength) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
+        _strength = 0xFFFFFFFF;
+    } else {
+        _strength += amount;
+    }
 
+    _CalculateAttackRatings();
+}
+
+void GlobalCharacter::SubtractStrength(uint32 amount)
+{
+    if(amount >= _strength)
+        _strength = 0;
+    else
+        _strength -= amount;
+
+    _CalculateAttackRatings();
+}
+
+void GlobalCharacter::AddVigor(uint32 amount)
+{
+    if((0xFFFFFFFF - amount) < _vigor) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
+        _vigor = 0xFFFFFFFF;
+    } else {
+        _vigor += amount;
+    }
+
+    _CalculateAttackRatings();
+}
+
+void GlobalCharacter::SubtractVigor(uint32 amount)
+{
+    if(amount >= _vigor)
+        _vigor = 0;
+    else
+        _vigor -= amount;
+
+    _CalculateAttackRatings();
+}
+
+void GlobalCharacter::AddFortitude(uint32 amount)
+{
+    if((0xFFFFFFFF - amount) < _fortitude) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
+        _fortitude = 0xFFFFFFFF;
+    } else {
+        _fortitude += amount;
+    }
+
+    _CalculateDefenseRatings();
+}
+
+void GlobalCharacter::SubtractFortitude(uint32 amount)
+{
+    if(amount >= _fortitude)
+        _fortitude = 0;
+    else
+        _fortitude -= amount;
+
+    _CalculateDefenseRatings();
+}
+
+void GlobalCharacter::AddProtection(uint32 amount)
+{
+    if((0xFFFFFFFF - amount) < _protection) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
+        _protection = 0xFFFFFFFF;
+    } else {
+        _protection += amount;
+    }
+
+    _CalculateDefenseRatings();
+}
+
+void GlobalCharacter::SubtractProtection(uint32 amount)
+{
+    if(amount >= _protection)
+        _protection = 0;
+    else
+        _protection -= amount;
+
+    _CalculateDefenseRatings();
+}
+
+GlobalWeapon *GlobalCharacter::EquipWeapon(GlobalWeapon *weapon)
+{
+    GlobalWeapon *old_weapon = _weapon_equipped;
+    _weapon_equipped = weapon;
+
+    _CalculateAttackRatings();
+    _UpdatesAvailableSkills();
+
+    return old_weapon;
+}
+
+
+
+GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32 index)
+{
+    if(index >= _armor_equipped.size()) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
+        return armor;
+    }
+
+    GlobalArmor *old_armor = _armor_equipped[index];
+    _armor_equipped[index] = armor;
+
+    if(old_armor != NULL && armor != NULL) {
+        if(old_armor->GetObjectType() != armor->GetObjectType()) {
+            IF_PRINT_WARNING(GLOBAL_DEBUG) << "old armor was replaced with a different type of armor" << std::endl;
+        }
+    }
+
+    _attack_points[index]->CalculateTotalDefense(_armor_equipped[index]);
+
+    // Reloads available skill according to equipment
+    _UpdatesAvailableSkills();
+
+    return old_armor;
+}
+
+GlobalArmor *GlobalCharacter::GetArmorEquipped(uint32 index) const
+{
+    if(index >= _armor_equipped.size()) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
+        return NULL;
+    }
+
+    return _armor_equipped[index];
+}
+
+bool GlobalCharacter::HasEquipment() const
+{
+    if (_weapon_equipped)
+        return true;
+
+    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
+        if (_armor_equipped.at(i) != NULL)
+            return true;
+    }
+    return false;
+}
 
 bool GlobalCharacter::AddSkill(uint32 skill_id, bool permanently)
 {
@@ -1215,6 +1270,28 @@ void GlobalCharacter::AcknowledgeGrowth() {
     return;
 } // bool GlobalCharacter::AcknowledgeGrowth()
 
+void GlobalCharacter::_CalculateAttackRatings()
+{
+    _total_physical_attack = _strength;
+    _total_magical_attack = _vigor;
+
+    if(_weapon_equipped != NULL) {
+        _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
+        _total_magical_attack += _weapon_equipped->GetMagicalAttack();
+    }
+}
+
+void GlobalCharacter::_CalculateDefenseRatings()
+{
+    // Re-calculate the defense ratings for all attack points
+    for(uint32 i = 0; i < _attack_points.size(); i++) {
+        if((i < _armor_equipped.size()) && (_armor_equipped[i] != NULL))
+            _attack_points[i]->CalculateTotalDefense(_armor_equipped[i]);
+        else
+            _attack_points[i]->CalculateTotalDefense(NULL);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // GlobalEnemy class
 ////////////////////////////////////////////////////////////////////////////////
@@ -1407,9 +1484,6 @@ void GlobalEnemy::Initialize()
         return;
     }
 
-    // TODO: we may wish to actually define XP levels for enemies in their data table, though I don't know what purpose it may serve
-    _experience_level = 1;
-
     // Add all new skills that should be available at the current experience level
     for(uint32 i = 0; i < _skill_set.size(); i++) {
         AddSkill(_skill_set[i]);
@@ -1438,7 +1512,7 @@ void GlobalEnemy::Initialize()
         _drunes_dropped     = GaussianRandomValue(_drunes_dropped, _drunes_dropped / 10.0f);
     }
 
-    // ----- (4): Set the current hit points and skill points to their new maximum values
+    // Set the current hit points and skill points to their new maximum values
     _hit_points = _max_hit_points;
     _skill_points = _max_skill_points;
 } // void GlobalEnemy::Initialize(uint32 xp_level)
@@ -1460,241 +1534,241 @@ void GlobalEnemy::DetermineDroppedObjects(std::vector<GlobalObject *>& objects)
 // GlobalParty class
 ////////////////////////////////////////////////////////////////////////////////
 
-void GlobalParty::AddActor(GlobalActor *actor, int32 index)
+void GlobalParty::AddCharacter(GlobalCharacter *character, int32 index)
 {
-    if(actor == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL actor argument" << std::endl;
+    if(character == NULL) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL character argument" << std::endl;
         return;
     }
 
     if(_allow_duplicates == false) {
-        // Check that this actor is not already in the party
-        for(uint32 i = 0; i < _actors.size(); i++) {
-            if(actor->GetID() == _actors[i]->GetID()) {
-                IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add an actor that was already in the party "
-                                               << "when duplicates were not allowed: " << actor->GetID() << std::endl;
+        // Check that this character is not already in the party
+        for(uint32 i = 0; i < _characters.size(); i++) {
+            if(character->GetID() == _characters[i]->GetID()) {
+                IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add an character that was already in the party "
+                                               << "when duplicates were not allowed: " << character->GetID() << std::endl;
                 return;
             }
         }
     }
 
-    // Add actor to the end of the party if index is negative
+    // Add character to the end of the party if index is negative
     if(index < 0) {
-        _actors.push_back(actor);
+        _characters.push_back(character);
         return;
     }
 
     // Check that the requested index does not exceed the size of the container
-    if(static_cast<uint32>(index) >= _actors.size()) {
+    if(static_cast<uint32>(index) >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded the current party size: " << index << std::endl;
-        _actors.push_back(actor); // Add the actor to the end of the party instead
+        _characters.push_back(character); // Add the character to the end of the party instead
         return;
     } else {
-        std::vector<GlobalActor *>::iterator position = _actors.begin();
+        std::vector<GlobalCharacter *>::iterator position = _characters.begin();
         for(int32 i = 0; i < index; i++, position++);
-        _actors.insert(position, actor);
+        _characters.insert(position, character);
     }
 }
 
 
 
-GlobalActor *GlobalParty::RemoveActorAtIndex(uint32 index)
+GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32 index)
 {
-    if(index >= _actors.size()) {
+    if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: "
                                        << index << std::endl;
         return NULL;
     }
 
-    GlobalActor *removed_actor = _actors[index];
-    std::vector<GlobalActor *>::iterator position = _actors.begin();
+    GlobalCharacter *removed_character = _characters[index];
+    std::vector<GlobalCharacter *>::iterator position = _characters.begin();
     for(uint32 i = 0; i < index; i++, position++);
-    _actors.erase(position);
+    _characters.erase(position);
 
-    return removed_actor;
+    return removed_character;
 }
 
 
 
-GlobalActor *GlobalParty::RemoveActorByID(uint32 id)
+GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32 id)
 {
     if(_allow_duplicates) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to remove actor when duplicates were allowed in the party: " << id << std::endl;
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to remove character when duplicates were allowed in the party: " << id << std::endl;
         return NULL;
     }
 
-    GlobalActor *removed_actor = NULL;
-    for(std::vector<GlobalActor *>::iterator position = _actors.begin(); position != _actors.end(); position++) {
+    GlobalCharacter *removed_character = NULL;
+    for(std::vector<GlobalCharacter *>::iterator position = _characters.begin(); position != _characters.end(); position++) {
         if(id == (*position)->GetID()) {
-            removed_actor = *position;
-            _actors.erase(position);
+            removed_character = *position;
+            _characters.erase(position);
             break;
         }
     }
 
-    if(removed_actor == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << std::endl;
+    if(removed_character == NULL) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested id: " << id << std::endl;
     }
 
-    return removed_actor;
+    return removed_character;
 }
 
 
 
-GlobalActor *GlobalParty::GetActorAtIndex(uint32 index) const
+GlobalCharacter *GlobalParty::GetCharacterAtIndex(uint32 index) const
 {
-    if(index >= _actors.size()) {
+    if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
         return NULL;
     }
 
-    return _actors[index];
+    return _characters[index];
 }
 
 
 
-GlobalActor *GlobalParty::GetActorByID(uint32 id) const
+GlobalCharacter *GlobalParty::GetCharacterByID(uint32 id) const
 {
     if(_allow_duplicates) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to retrieve actor when duplicates were allowed in the party: " << id << std::endl;
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to retrieve character when duplicates were allowed in the party: " << id << std::endl;
         return NULL;
     }
 
-    for(uint32 i = 0; i < _actors.size(); i++) {
-        if(_actors[i]->GetID() == id) {
-            return _actors[i];
+    for(uint32 i = 0; i < _characters.size(); i++) {
+        if(_characters[i]->GetID() == id) {
+            return _characters[i];
         }
     }
 
-    IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << std::endl;
+    IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested id: " << id << std::endl;
     return NULL;
 }
 
 
 
-void GlobalParty::SwapActorsByIndex(uint32 first_index, uint32 second_index)
+void GlobalParty::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
 {
     if(first_index == second_index) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << std::endl;
         return;
     }
-    if(first_index >= _actors.size()) {
+    if(first_index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index argument exceeded current party size: " << first_index << std::endl;
         return;
     }
-    if(second_index >= _actors.size()) {
+    if(second_index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "second_index argument exceeded current party size: " << second_index << std::endl;
         return;
     }
 
-    GlobalActor *tmp = _actors[first_index];
-    _actors[first_index] = _actors[second_index];
-    _actors[second_index] = tmp;
+    GlobalCharacter *tmp = _characters[first_index];
+    _characters[first_index] = _characters[second_index];
+    _characters[second_index] = tmp;
 }
 
 
 
-void GlobalParty::SwapActorsByID(uint32 first_id, uint32 second_id)
+void GlobalParty::SwapCharactersByID(uint32 first_id, uint32 second_id)
 {
     if(first_id == second_id) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_id and second_id arguments had the same value: " << first_id << std::endl;
         return;
     }
     if(_allow_duplicates) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to swap actors when duplicates were allowed in the party: " << first_id << std::endl;
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to swap characters when duplicates were allowed in the party: " << first_id << std::endl;
         return;
     }
 
-    std::vector<GlobalActor *>::iterator first_position;
-    std::vector<GlobalActor *>::iterator second_position;
-    for(first_position = _actors.begin(); first_position != _actors.end(); first_position++) {
+    std::vector<GlobalCharacter *>::iterator first_position;
+    std::vector<GlobalCharacter *>::iterator second_position;
+    for(first_position = _characters.begin(); first_position != _characters.end(); first_position++) {
         if((*first_position)->GetID() == first_id)
             break;
     }
-    for(second_position = _actors.begin(); second_position != _actors.end(); second_position++) {
+    for(second_position = _characters.begin(); second_position != _characters.end(); second_position++) {
         if((*second_position)->GetID() == second_id)
             break;
     }
 
-    if(first_position == _actors.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested first_id: " << first_id << std::endl;
+    if(first_position == _characters.end()) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested first_id: " << first_id << std::endl;
         return;
     }
-    if(second_position == _actors.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested second_id: " << second_id << std::endl;
+    if(second_position == _characters.end()) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested second_id: " << second_id << std::endl;
         return;
     }
 
-    GlobalActor *tmp = *first_position;
+    GlobalCharacter *tmp = *first_position;
     *first_position = *second_position;
     *second_position = tmp;
 }
 
 
 
-GlobalActor *GlobalParty::ReplaceActorByIndex(uint32 index, GlobalActor *new_actor)
+GlobalCharacter *GlobalParty::ReplaceCharacterByIndex(uint32 index, GlobalCharacter *new_character)
 {
-    if(new_actor == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_actor argument" << std::endl;
+    if(new_character == NULL) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_character argument" << std::endl;
         return NULL;
     }
-    if(index >= _actors.size()) {
+    if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
         return NULL;
     }
 
-    GlobalActor *tmp = _actors[index];
-    _actors[index] = new_actor;
+    GlobalCharacter *tmp = _characters[index];
+    _characters[index] = new_character;
     return tmp;
 }
 
 
 
-GlobalActor *GlobalParty::ReplaceActorByID(uint32 id, GlobalActor *new_actor)
+GlobalCharacter *GlobalParty::ReplaceCharacterByID(uint32 id, GlobalCharacter *new_character)
 {
     if(_allow_duplicates) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace actor when duplicates were allowed in the party: " << id << std::endl;
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace character when duplicates were allowed in the party: " << id << std::endl;
         return NULL;
     }
-    if(new_actor == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_actor argument" << std::endl;
+    if(new_character == NULL) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_character argument" << std::endl;
         return NULL;
     }
 
-    GlobalActor *removed_actor = NULL;
-    for(std::vector<GlobalActor *>::iterator position = _actors.begin(); position != _actors.end(); position++) {
+    GlobalCharacter *removed_character = NULL;
+    for(std::vector<GlobalCharacter *>::iterator position = _characters.begin(); position != _characters.end(); position++) {
         if((*position)->GetID() == id) {
-            removed_actor = *position;
-            *position = new_actor;
+            removed_character = *position;
+            *position = new_character;
             break;
         }
     }
 
-    if(removed_actor == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an actor in the party with the requested id: " << id << std::endl;
+    if(removed_character == NULL) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested id: " << id << std::endl;
     }
 
-    return removed_actor;
+    return removed_character;
 }
 
 
 
 float GlobalParty::AverageExperienceLevel() const
 {
-    if(_actors.empty())
+    if(_characters.empty())
         return 0.0f;
 
     float xp_level_sum = 0.0f;
-    for(uint32 i = 0; i < _actors.size(); i++)
-        xp_level_sum += static_cast<float>(_actors[i]->GetExperienceLevel());
-    return (xp_level_sum / static_cast<float>(_actors.size()));
+    for(uint32 i = 0; i < _characters.size(); i++)
+        xp_level_sum += static_cast<float>(_characters[i]->GetExperienceLevel());
+    return (xp_level_sum / static_cast<float>(_characters.size()));
 }
 
 
 
 void GlobalParty::AddHitPoints(uint32 hp)
 {
-    for(std::vector<GlobalActor *>::iterator i = _actors.begin(); i != _actors.end(); i++) {
+    for(std::vector<GlobalCharacter *>::iterator i = _characters.begin(); i != _characters.end(); i++) {
         (*i)->AddHitPoints(hp);
     }
 }
@@ -1703,7 +1777,7 @@ void GlobalParty::AddHitPoints(uint32 hp)
 
 void GlobalParty::AddSkillPoints(uint32 sp)
 {
-    for(std::vector<GlobalActor *>::iterator i = _actors.begin(); i != _actors.end(); i++) {
+    for(std::vector<GlobalCharacter *>::iterator i = _characters.begin(); i != _characters.end(); i++) {
         (*i)->AddSkillPoints(sp);
     }
 }
