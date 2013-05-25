@@ -1305,6 +1305,11 @@ template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescrip
     file.InsertNewLine();
     file.WriteLine(name + " = {");
     for(uint32 i = 0; i < inv.size(); i++) {
+
+        // Don't save inventory items with 0 count
+        if(inv[i]->GetCount() == 0)
+            continue;
+
         if(i == 0)
             file.WriteLine("\t", false);
         else

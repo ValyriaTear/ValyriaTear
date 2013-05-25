@@ -405,6 +405,10 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
         return;
     }
 
+    // Don't add object instance without at least one actual item.
+    if (obj_count == 0)
+        return;
+
     // Otherwise create a new object instance and add it to the inventory
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
         || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
@@ -451,6 +455,12 @@ void GameGlobal::AddToInventory(GlobalObject *object)
 
     uint32 obj_id = object->GetID();
     uint32 obj_count = object->GetCount();
+
+    // Don't add object instance without at least one actual item.
+    if (obj_count == 0) {
+        delete object;
+        return;
+    }
 
     // If an instance of the same object is already inside the inventory, just increment the count and delete the object
     if(_inventory.find(obj_id) != _inventory.end()) {
