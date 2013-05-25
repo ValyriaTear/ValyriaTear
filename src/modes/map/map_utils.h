@@ -98,10 +98,13 @@ enum MAP_OBJECT_TYPE {
     TREASURE_TYPE = 4,  /** This is a treasure, can obtain a treasure from it when exploring,
                         but blocking for movement. */
     SAVE_TYPE     = 5,  //! This is a save point. The player can save while its character is in it.
-    HALO_TYPE     = 6,  //! This is a source of light, here for eye candy.
-    LIGHT_TYPE    = 7,  //! Another light type, but will change dynamically according to the map viewpoint.
-    PARTICLE_TYPE = 8,  //! A particle object.
-    TRIGGER_TYPE  = 9,  //! A trigger object.
+    TRIGGER_TYPE  = 6,  //! A trigger object.
+
+    //! Objects without possible interaction
+    //! Those objects are ignored when searching for the nearest interactable object.
+    HALO_TYPE     = 7,  //! This is a source of light, here for eye candy.
+    LIGHT_TYPE    = 8,  //! Another light type, but will change dynamically according to the map viewpoint.
+    PARTICLE_TYPE = 9,  //! A particle object.
     SOUND_TYPE    = 10, //! An environmental sound
     SCENERY_TYPE  = 11  //! The object is a scenery animal or harmless thing, and nothing should collide with.
 };

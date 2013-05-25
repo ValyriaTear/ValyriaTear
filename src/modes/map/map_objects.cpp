@@ -1183,9 +1183,9 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         if(*it == sprite)  // Don't allow the sprite itself to be considered in the search
             continue;
 
-        // Don't allow particle object to get in the way
-        // as this prevents save points from functioning
-        if((*it)->GetObjectType() == PARTICLE_TYPE)
+        // Don't allow scenery object types to get in the way
+        // as this is preventing save points from functioning, for instance
+        if((*it)->GetObjectType() >= HALO_TYPE)
             continue;
 
         // If the object is a physical object without any event, we can ignore it
