@@ -61,7 +61,7 @@ function Initialize(map_instance)
         },
         [7] = {
             header = vt_system.Translate("Translations"),
-            text = "NaN (DE)\nBioHazardX (IT)\nKnitter (pt_PT)\nBertram (FR)"
+            text = "NaN (de)\nGallaecio (gl)\nBioHazardX (it)\nKnitter (pt_PT)\nBertram (fr)"
         },
         [8] = {
             header = vt_system.Translate("Tester Team"),
@@ -132,6 +132,10 @@ function Update()
 
 end
 
+local header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0);
+local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local logo_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 function DrawPostEffects()
     -- Stop once the credits have finished.
     if (credit_map[credit_id] == nil or intro_time_done == false) then
@@ -148,23 +152,26 @@ function DrawPostEffects()
 
     local text_alpha = 1.0;
     if (credit_time >= 0
-			and credit_time <= 1000) then
-		text_alpha = credit_time / 1000;
+            and credit_time <= 1000) then
+        text_alpha = credit_time / 1000;
     elseif (credit_time > 4000
-			and credit_time <= 5000) then
+            and credit_time <= 5000) then
         text_alpha = 1.0 - (credit_time - 4000) / (5000 - 4000);
     elseif (credit_time > 5000) then
         text_alpha = 0.0;
     end
 
-    VideoManager:DrawText(credit_map[credit_id].header, 870.0, 600.0, vt_video.Color(1.0, 0.8, 0.7, 1.0 * text_alpha));
-    VideoManager:DrawText(credit_map[credit_id].text, 870.0, 648.0, vt_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
+    header_color:SetAlpha(1.0 * text_alpha);
+    text_color:SetAlpha(0.9 * text_alpha);
+    VideoManager:DrawText(credit_map[credit_id].header, 870.0, 600.0, header_color);
+    VideoManager:DrawText(credit_map[credit_id].text, 870.0, 648.0, text_color);
 
     -- Custom images in honor of those who helped :)
+    logo_color:SetAlpha(0.8 * text_alpha);
     if (credit_id == 0) then
-        Script:DrawImage(allacrost_logo_id, 870.0, 720.0, vt_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
+        Script:DrawImage(allacrost_logo_id, 870.0, 720.0, logo_color);
     elseif (credit_id == 3) then
-        Script:DrawImage(open_game_art_logo_id, 690.0, 710.0, vt_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
+        Script:DrawImage(open_game_art_logo_id, 690.0, 710.0, logo_color);
     end
 
 end
