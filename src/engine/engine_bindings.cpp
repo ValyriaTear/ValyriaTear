@@ -256,7 +256,9 @@ void BindEngineCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_video")
         [
             luabind::class_<Color>("Color")
-            .def(luabind::constructor<float, float, float, float>()),
+            .def(luabind::constructor<float, float, float, float>())
+            .def("SetAlpha", &Color::SetAlpha)
+            .def("SetColor", (void(Color::*)(float, float, float, float))&Color::SetColor),
 
             luabind::class_<VideoEngine>("GameVideo")
             .def("FadeScreen", &VideoEngine::FadeScreen)
