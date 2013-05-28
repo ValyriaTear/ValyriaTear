@@ -16,9 +16,11 @@ function Initialize(battle_instance)
     night_layer_id = Script:AddImage("", 1024.0, 768.0);
 end
 
+local night_color = vt_video.Color(0.0, 0.0, 0.24, 0.6);
+
 function DrawForeground()
     -- Useful for the map mode
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_LEFT);
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_TOP);
-    Script:DrawImage(night_layer_id, 0.0, 0.0, vt_video.Color(0.0, 0.0, 0.24, 0.6));
+    Script:DrawImage(night_layer_id, 0.0, 0.0, night_color);
 end

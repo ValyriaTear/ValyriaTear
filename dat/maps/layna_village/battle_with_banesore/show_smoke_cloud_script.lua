@@ -28,6 +28,8 @@ function Initialize(map_instance)
     smoke_sound_triggered = false;
 end
 
+local flash_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 function Update()
     -- Only show the image if requested by the events
     if (GlobalManager:DoesEventExist("scripts_events", "layna_village_riverbank_smoke") == false) then
@@ -65,6 +67,7 @@ function Update()
     elseif (display_time > 4000) then
         flash_alpha = 0.0;
     end
+    flash_color:SetAlpha(flash_alpha);
 
     -- The smoke cloud alpha
     if (display_time > 1500 and display_time <= 4100) then
@@ -73,9 +76,11 @@ function Update()
         cloud_alpha = 0.0;
     end
 
-    Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, flash_alpha));
+    Map:GetEffectSupervisor():EnableLightingOverlay(flash_color);
 
 end
+
+local cloud_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawForeground()
     -- Only show the image if requested by the events
@@ -87,7 +92,8 @@ function DrawForeground()
         return;
     end
 
-    Script:DrawImage(smoke_cloud_id, 452.0 + display_time * 0.05, 424.0, vt_video.Color(1.0, 1.0, 1.0, cloud_alpha));
-    Script:DrawImage(smoke_cloud_id, 452.0, 424.0 + display_time * 0.05, vt_video.Color(1.0, 1.0, 1.0, cloud_alpha));
-    Script:DrawImage(smoke_cloud_id, 452.0 - display_time * 0.05, 424.0 - display_time * 0.02, vt_video.Color(1.0, 1.0, 1.0, cloud_alpha));
+    cloud_color:SetAlpha(cloud_alpha);
+    Script:DrawImage(smoke_cloud_id, 452.0 + display_time * 0.05, 424.0, cloud_color);
+    Script:DrawImage(smoke_cloud_id, 452.0, 424.0 + display_time * 0.05, cloud_color);
+    Script:DrawImage(smoke_cloud_id, 452.0 - display_time * 0.05, 424.0 - display_time * 0.02, cloud_color);
 end

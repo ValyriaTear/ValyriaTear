@@ -247,7 +247,8 @@ function Update()
 
 end
 
-
+local light_mask1_color = vt_video.Color(0.85, 0.32, 0.0, 0.7);
+local light_mask2_color = vt_video.Color(0.99, 1.0, 0.27, 0.5);
 
 function DrawBackground()
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND);
@@ -262,8 +263,8 @@ function DrawBackground()
 
     Script:DrawAnimation(fire1_id, 235.0, 340.0);
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND_ADD);
-    Script:DrawAnimation(fire1_1_id, 115.0, 270.0, vt_video.Color(0.85, 0.32, 0.0, 0.7));
-    Script:DrawImage(fire1_2_id, 220.0, 350.0, vt_video.Color(0.99, 1.0, 0.27, 0.5));
+    Script:DrawAnimation(fire1_1_id, 115.0, 270.0, light_mask1_color);
+    Script:DrawImage(fire1_2_id, 220.0, 350.0, light_mask2_color);
 end
 
 function DrawForeground()

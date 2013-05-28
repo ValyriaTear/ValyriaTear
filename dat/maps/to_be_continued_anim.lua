@@ -49,6 +49,8 @@ function Update()
 
 end
 
+local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 function DrawPostEffects()
     -- Only show the image if requested by the events
     if (GlobalManager:DoesEventExist("game", "to_be_continued") == false) then
@@ -63,9 +65,10 @@ function DrawPostEffects()
     local overlay_alpha = 1.0;
     if (display_time >= 0 and display_time <= 2500) then
         overlay_alpha = display_time / 2500;
+        text_color:SetAlpha(overlay_alpha);
     end
-    Script:DrawImage(dark_overlay_id, 512.0, 768.0, vt_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+    Script:DrawImage(dark_overlay_id, 512.0, 768.0, text_color);
 
-    VideoManager:DrawText(to_be_continued_text, 612.0, 448.0, vt_video.Color(1.0, 1.0, 1.0, overlay_alpha));
+    VideoManager:DrawText(to_be_continued_text, 612.0, 448.0, text_color);
 
 end

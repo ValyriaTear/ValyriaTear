@@ -95,6 +95,10 @@ function Update()
     end
 end
 
+local black_layer_color = vt_video.Color(0.0, 0.0, 0.0, 1.0);
+local white_crystal_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local red_crystal_color = vt_video.Color(1.0, 0.0, 0.0, 1.0);
+
 function DrawPostEffects()
     -- Only show the image if requested by the events
     if (GlobalManager:DoesEventExist("scripts_events", "layna_village_riverbank_show_crystals") == false) then
@@ -107,10 +111,13 @@ function DrawPostEffects()
 
     -- black layer
     -- Current alignment: X_CENTER, Y_BOTTOM
-    Script:DrawImage(black_layer_id, 512.0, 768.0, vt_video.Color(0.0, 0.0, 0.0, 0.9 * crystal1_alpha));
+    black_layer_color:SetAlpha(0.9 * crystal1_alpha);
+    Script:DrawImage(black_layer_id, 512.0, 768.0, black_layer_color);
 
     -- White
-    Script:DrawImage(crystal_id, camera_x_position, camera_y_position + math.sin(0.003 * display_time + 0.785) * 3, vt_video.Color(1.0, 1.0, 1.0, 0.7 * crystal1_alpha));
+    white_crystal_color:SetAlpha(0.7 * crystal1_alpha);
+    Script:DrawImage(crystal_id, camera_x_position, camera_y_position + math.sin(0.003 * display_time + 0.785) * 3, white_crystal_color);
     -- red one
-    Script:DrawImage(crystal_id, lord_x_position, lord_y_position + math.sin(0.003 * display_time + 3.14) * 3, vt_video.Color(1.0, 0.0, 0.0, 0.7 * crystal2_alpha));
+    red_crystal_color:SetAlpha(0.7 * crystal2_alpha);
+    Script:DrawImage(crystal_id, lord_x_position, lord_y_position + math.sin(0.003 * display_time + 3.14) * 3, red_crystal_color);
 end
