@@ -78,6 +78,11 @@ function Update()
 
 end
 
+local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local move_header_color = vt_video.Color(1.0, 0.4, 0.4, 1.0);
+local action_header_color = vt_video.Color(1.0, 1.0, 0.4, 1.0);
+local game_header_color = vt_video.Color(0.6, 0.4, 0.0, 1.0);
+
 function DrawPostEffects()
     -- Only show the image if requested by the events
     if (GlobalManager:DoesEventExist("game", "show_move_interact_info") == false) then
@@ -92,27 +97,31 @@ function DrawPostEffects()
     local text_alpha = 1.0;
     if (display_time >= 0 and display_time <= 2500) then
         text_alpha = 1.0 * (display_time / 2500);
+        text_color:SetAlpha(text_alpha);
+        move_header_color:SetAlpha(text_alpha);
+        action_header_color:SetAlpha(text_alpha);
+        game_header_color:SetAlpha(text_alpha);
     end
 
-    VideoManager:DrawText(move_title_text, 142.0, 148.0, vt_video.Color(1.0, 0.4, 0.4, text_alpha));
-    VideoManager:DrawText(move_left_text, 92.0, 208.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
-    VideoManager:DrawText(move_right_text, 212.0, 208.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
-    VideoManager:DrawText(move_up_text, 142.0, 178.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
-    VideoManager:DrawText(move_down_text, 142.0, 238.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(move_title_text, 142.0, 148.0, move_header_color);
+    VideoManager:DrawText(move_left_text, 92.0, 208.0, text_color);
+    VideoManager:DrawText(move_right_text, 212.0, 208.0, text_color);
+    VideoManager:DrawText(move_up_text, 142.0, 178.0, text_color);
+    VideoManager:DrawText(move_down_text, 142.0, 238.0, text_color);
 
-    VideoManager:DrawText(action_title_text, 142.0, 308.0, vt_video.Color(1.0, 1.0, 0.4, text_alpha));
+    VideoManager:DrawText(action_title_text, 142.0, 308.0, action_header_color);
 
-    VideoManager:DrawText(game_title_text, 142.0, 458.0, vt_video.Color(0.6, 0.4, 0.0, text_alpha));
+    VideoManager:DrawText(game_title_text, 142.0, 458.0, game_header_color);
 
     -- Align the commands on the left for other languages...
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_LEFT);
-    VideoManager:DrawText(confirm_text, 32.0, 338.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
-    VideoManager:DrawText(cancel_text, 32.0, 368.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
-    VideoManager:DrawText(menu_text, 32.0, 398.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(confirm_text, 32.0, 338.0, text_color);
+    VideoManager:DrawText(cancel_text, 32.0, 368.0, text_color);
+    VideoManager:DrawText(menu_text, 32.0, 398.0, text_color);
 
-    VideoManager:DrawText(pause_text, 32.0, 488.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
-    VideoManager:DrawText(quit_text, 32.0, 518.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(pause_text, 32.0, 488.0, text_color);
+    VideoManager:DrawText(quit_text, 32.0, 518.0, text_color);
 
-    VideoManager:DrawText(help_text, 32.0, 558.0, vt_video.Color(1.0, 1.0, 1.0, text_alpha));
+    VideoManager:DrawText(help_text, 32.0, 558.0, text_color);
 
 end
