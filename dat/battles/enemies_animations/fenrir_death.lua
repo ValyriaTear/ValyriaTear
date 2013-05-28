@@ -65,7 +65,8 @@ function Initialize(battle, _enemy)
     AudioManager:FadeOutAllMusic(2000);
 end
 
-
+local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local overlay_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function Update()
 
@@ -80,7 +81,7 @@ function Update()
     elapsed_time = elapsed_time + SystemManager:GetUpdateTime();
 
     if (lightning_1_triggered == false and elapsed_time > 800) then
-        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Effects:EnableLightingOverlay(white_color);
         AudioManager:PlaySound("snd/magic_blast.ogg");
         lightning_1_triggered = true;
     elseif (lightning_1_stopped == false and elapsed_time > 1000 ) then
@@ -89,7 +90,7 @@ function Update()
     end
 
     if (lightning_2_triggered == false and elapsed_time > 1700) then
-        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Effects:EnableLightingOverlay(white_color);
         AudioManager:PlaySound("snd/magic_blast.ogg");
         lightning_2_triggered = true;
     elseif (lightning_2_stopped == false and elapsed_time > 1900 ) then
@@ -98,7 +99,7 @@ function Update()
     end
 
     if (lightning_3_triggered == false and elapsed_time > 3000) then
-        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Effects:EnableLightingOverlay(white_color);
         AudioManager:PlaySound("snd/magic_blast.ogg");
         lightning_3_triggered = true;
     elseif (lightning_3_stopped == false and elapsed_time > 3400) then
@@ -107,7 +108,8 @@ function Update()
     end
 
     if (elapsed_time >= 4000 and elapsed_time < 8000) then
-        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 0.7 * (elapsed_time - 4000.0) / (8000.0 - 4000.0)));
+        overlay_color:SetAlpha(0.7 * (elapsed_time - 4000.0) / (8000.0 - 4000.0));
+        Effects:EnableLightingOverlay(overlay_color);
 
         -- Trigger the rumble and sprite shaking
         if (rumble_triggered == false) then
@@ -115,7 +117,8 @@ function Update()
             rumble_triggered = true;
         end
     elseif (elapsed_time >= 8000 and elapsed_time < 10000) then
-        Effects:EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0 - (elapsed_time - 8000.0) / (10000.0 - 8000.0)));
+        overlay_color:SetAlpha(1.0 - (elapsed_time - 8000.0) / (10000.0 - 8000.0));
+        Effects:EnableLightingOverlay(overlay_color);
     end
 
     -- Triggers snow representing the boss body ashes...
@@ -147,17 +150,21 @@ function Update()
     return false;
 end
 
+local light1_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local light2_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local light3_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 function DrawOnSprite()
     if (elapsed_time < 7800) then
-        Script:DrawImage(light2_id, enemy_pos_x, enemy_pos_y + 30,
-            vt_video.Color(1.0, 1.0, 1.0, 0.5 * elapsed_time / 4000.0));
+        light1_color:SetAlpha(0.5 * elapsed_time / 4000.0);
+        Script:DrawImage(light2_id, enemy_pos_x, enemy_pos_y + 30, light1_color);
     end
     if (elapsed_time >= 3000 and elapsed_time < 7800) then
-        Script:DrawImage(light1_id, enemy_pos_x, enemy_pos_y + 30,
-            vt_video.Color(1.0, 1.0, 1.0, 0.5 * (elapsed_time - 3000.0) / (7800.0 - 3000.0)));
+        light2_color:SetAlpha(0.5 * (elapsed_time - 3000.0) / (7800.0 - 3000.0));
+        Script:DrawImage(light1_id, enemy_pos_x, enemy_pos_y + 30, light2_color);
     end
     if (elapsed_time >= 7800 and elapsed_time < 10000) then
-        Script:DrawImage(light3_id, enemy_pos_x, enemy_pos_y + 30,
-            vt_video.Color(1.0, 1.0, 1.0, 0.5 - 0.5 * ((elapsed_time - 8000.0) / (9000.0 - 8000.0))));
+        light3_color:SetAlpha(0.5 - 0.5 * ((elapsed_time - 8000.0) / (9000.0 - 8000.0)));
+        Script:DrawImage(light3_id, enemy_pos_x, enemy_pos_y + 30, light3_color);
     end
 end

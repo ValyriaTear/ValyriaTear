@@ -244,13 +244,15 @@ function Update()
     end
 end
 
+local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 function DrawPostEffects()
 
     -- Draw the hands
     if (hand1_visible == true) then
-        Script:DrawImage(hand1_image_id, hand1_bouncing_x, hand1_origin_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(hand1_image_id, hand1_bouncing_x, hand1_origin_y, white_color);
     end
     if (hand2_visible == true) then
-        Script:DrawImage(hand2_image_id, hand2_origin_x, hand2_bouncing_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(hand2_image_id, hand2_origin_x, hand2_bouncing_y, white_color);
     end
 end
