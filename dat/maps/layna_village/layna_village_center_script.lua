@@ -1057,6 +1057,7 @@ end
 
 -- Helps with the two step fade in the forest event
 local bright_light_time = {}
+local bright_light_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 -- Map Custom functions
 map_functions = {
@@ -1128,12 +1129,14 @@ map_functions = {
         bright_light_time = bright_light_time + 2.5 * SystemManager:GetUpdateTime();
 
         if (bright_light_time < 5000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, bright_light_time / 5000.0));
+            bright_light_color:SetAlpha(bright_light_time / 5000.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(bright_light_color);
             return false;
         end
 
         if (bright_light_time < 10000) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, ((10000.0 - bright_light_time) / 5000.0)));
+            bright_light_color:SetAlpha((10000.0 - bright_light_time) / 5000.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(bright_light_color);
             return false;
         end
 

@@ -235,6 +235,8 @@ end
 local fade_effect_time = 0;
 local fade_set = false;
 
+local black_layer = vt_video.Color(0.0, 0.0, 0.0, 1.0);
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
@@ -252,7 +254,8 @@ map_functions = {
         fade_effect_time = fade_effect_time + SystemManager:GetUpdateTime();
 
         if (fade_effect_time < 1000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, fade_effect_time / 1000.0));
+            black_layer:SetAlpha(fade_effect_time / 1000.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(black_layer);
             return false;
         end
 
@@ -268,9 +271,9 @@ map_functions = {
             end
             return false;
         end
-
         if (fade_effect_time >= 2000.0 and fade_effect_time < 3000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, ((3000.0 - fade_effect_time) / 1000.0)));
+            black_layer:SetAlpha(((3000.0 - fade_effect_time) / 1000.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(black_layer);
             return false;
         end
 
