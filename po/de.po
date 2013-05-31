@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-10 00:05+0000\n"
-"PO-Revision-Date: 2013-05-21 15:11+0100\n"
+"POT-Creation-Date: 2013-05-27 03:10+0200\n"
+"PO-Revision-Date: 2013-05-28 16:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -33,11 +33,11 @@ msgstr "Blitz"
 msgid "Earth"
 msgstr "Erde"
 
-#: ../src/common/global/global_effects.cpp:43
+#: ../src/common/global/global_effects.cpp:43 ../dat/skills/magic.lua:258
 msgid "Life"
 msgstr "Leben"
 
-#: ../src/common/global/global_effects.cpp:45
+#: ../src/common/global/global_effects.cpp:45 ../dat/skills/magic.lua:906
 msgid "Death"
 msgstr "Tod"
 
@@ -59,7 +59,7 @@ msgstr "Selbst — Punkt"
 
 #: ../src/common/global/global_utils.cpp:54
 msgid "Ally — Point"
-msgstr "Mitstreiter — Punkt"
+msgstr "Verbündeter — Punkt"
 
 #: ../src/common/global/global_utils.cpp:56
 msgid "Foe — Point"
@@ -78,8 +78,8 @@ msgid "Foe"
 msgstr "Feind"
 
 #: ../src/common/global/global_utils.cpp:65
-#: ../src/modes/battle/battle_command.cpp:1440
-#: ../src/modes/battle/battle_command.cpp:1468
+#: ../src/modes/battle/battle_command.cpp:1442
+#: ../src/modes/battle/battle_command.cpp:1470
 #: ../src/modes/battle/battle_utils.cpp:772
 msgid "All Allies"
 msgstr "Alle Verbündeten"
@@ -104,70 +104,70 @@ msgstr "Verwende: "
 msgid "[Select Action]"
 msgstr "[Wähle Aktion]"
 
-#: ../src/modes/battle/battle_command.cpp:354
+#: ../src/modes/battle/battle_command.cpp:355
 msgid "Item<R>Type   ×"
 msgstr "Gegenstand<R>Typ   ×"
 
-#: ../src/modes/battle/battle_command.cpp:653
+#: ../src/modes/battle/battle_command.cpp:654
 msgid "Skill<R>Type SP"
 msgstr "Fertigkeit<R>Typ SP"
 
-#: ../src/modes/battle/battle_command.cpp:766
-#: ../src/modes/battle/battle_command.cpp:772
-#: ../src/modes/battle/battle_command.cpp:861
-#: ../src/modes/battle/battle_command.cpp:862
-#: ../src/modes/menu/menu_views.cpp:1530
+#: ../src/modes/battle/battle_command.cpp:767
+#: ../src/modes/battle/battle_command.cpp:773
+#: ../src/modes/battle/battle_command.cpp:863
+#: ../src/modes/battle/battle_command.cpp:864
+#: ../src/modes/menu/menu_views.cpp:1534
 msgid "Weapon"
 msgstr "Waffe"
 
-#: ../src/modes/battle/battle_command.cpp:767
-#: ../src/modes/battle/battle_command.cpp:773
+#: ../src/modes/battle/battle_command.cpp:768
+#: ../src/modes/battle/battle_command.cpp:774
 msgid "Magic"
 msgstr "Magie"
 
-#: ../src/modes/battle/battle_command.cpp:769
-#: ../src/modes/battle/battle_command.cpp:775 ../src/modes/menu/menu.cpp:350
+#: ../src/modes/battle/battle_command.cpp:770
+#: ../src/modes/battle/battle_command.cpp:776 ../src/modes/menu/menu.cpp:355
 #: ../src/modes/shop/shop.cpp:70
 msgid "Items"
 msgstr "Gegenstände"
 
-#: ../src/modes/battle/battle_command.cpp:865
-#: ../src/modes/battle/battle_command.cpp:866
+#: ../src/modes/battle/battle_command.cpp:867
+#: ../src/modes/battle/battle_command.cpp:868
 msgid "Bare-hand"
 msgstr "Unbewaffnet"
 
-#: ../src/modes/battle/battle_command.cpp:1435
+#: ../src/modes/battle/battle_command.cpp:1437
 msgid "Select Target"
 msgstr "Wähle Ziel"
 
-#: ../src/modes/battle/battle_command.cpp:1442
-#: ../src/modes/battle/battle_command.cpp:1470
+#: ../src/modes/battle/battle_command.cpp:1444
+#: ../src/modes/battle/battle_command.cpp:1472
 #: ../src/modes/battle/battle_utils.cpp:774
 msgid "All Enemies"
 msgstr "Alle Gegner"
 
-#: ../src/modes/battle/battle_command.cpp:1482
+#: ../src/modes/battle/battle_command.cpp:1484
 msgid "Select Attack Point"
 msgstr "Wähle Angriffspunkt"
 
-#: ../src/modes/battle/battle_command.cpp:1504
+#: ../src/modes/battle/battle_command.cpp:1506
 msgid "Skill Points: "
 msgstr "Fertigkeitspunkte: "
 
-#: ../src/modes/battle/battle_command.cpp:1505
-#: ../src/modes/battle/battle_command.cpp:1512
+#: ../src/modes/battle/battle_command.cpp:1507
+#: ../src/modes/battle/battle_command.cpp:1514
 msgid "Target Type: "
 msgstr "Zieltyp: "
 
-#: ../src/modes/battle/battle_command.cpp:1506
+#: ../src/modes/battle/battle_command.cpp:1508
 msgid "Prep Time: "
 msgstr "Vorbereitungszeit: "
 
-#: ../src/modes/battle/battle_command.cpp:1507
+#: ../src/modes/battle/battle_command.cpp:1509
 msgid "Cool Time: "
 msgstr "Regenerationszeit: "
 
-#: ../src/modes/battle/battle_command.cpp:1511
+#: ../src/modes/battle/battle_command.cpp:1513
 msgid "Quantity: "
 msgstr "Menge: "
 
@@ -187,11 +187,11 @@ msgstr "Neuer Versuch"
 msgid "End"
 msgstr "Ende"
 
-#: ../src/modes/battle/battle_finish.cpp:160 ../src/modes/boot/boot.cpp:733
+#: ../src/modes/battle/battle_finish.cpp:160 ../src/modes/boot/boot.cpp:735
 msgid "Yes"
 msgstr "Ja"
 
-#: ../src/modes/battle/battle_finish.cpp:161 ../src/modes/boot/boot.cpp:735
+#: ../src/modes/battle/battle_finish.cpp:161 ../src/modes/boot/boot.cpp:737
 msgid "No"
 msgstr "Nein"
 
@@ -302,222 +302,222 @@ msgstr " — "
 msgid "[Invalid Target]"
 msgstr "[Ungültiges Ziel]"
 
-#: ../src/modes/boot/boot.cpp:457
+#: ../src/modes/boot/boot.cpp:459
 msgid "New Game"
 msgstr "Neues Spiel"
 
-#: ../src/modes/boot/boot.cpp:458 ../src/modes/save/save_mode.cpp:94
+#: ../src/modes/boot/boot.cpp:460 ../src/modes/save/save_mode.cpp:94
 msgid "Load Game"
 msgstr "Fortsetzen"
 
-#: ../src/modes/boot/boot.cpp:459
+#: ../src/modes/boot/boot.cpp:461
 msgid "Options"
 msgstr "Einstellungen"
 
-#: ../src/modes/boot/boot.cpp:464 ../src/modes/menu/menu_views.cpp:1190
+#: ../src/modes/boot/boot.cpp:466 ../src/modes/menu/menu_views.cpp:1190
 msgid "Battle"
 msgstr "Kampf"
 
-#: ../src/modes/boot/boot.cpp:465 ../src/modes/boot/boot.cpp:723
+#: ../src/modes/boot/boot.cpp:467 ../src/modes/boot/boot.cpp:725
 #: ../src/modes/mode_help_window.cpp:247
 msgid "Menu"
 msgstr "Menü"
 
-#: ../src/modes/boot/boot.cpp:466
+#: ../src/modes/boot/boot.cpp:468
 msgid "Shop"
 msgstr "Händler"
 
-#: ../src/modes/boot/boot.cpp:470 ../src/modes/mode_help_window.cpp:152
+#: ../src/modes/boot/boot.cpp:472 ../src/modes/mode_help_window.cpp:152
 #: ../src/modes/mode_help_window.cpp:200 ../src/modes/mode_help_window.cpp:262
 msgid "Quit"
 msgstr "Verlassen"
 
-#: ../src/modes/boot/boot.cpp:498
+#: ../src/modes/boot/boot.cpp:500
 msgid "Video"
 msgstr "Video"
 
-#: ../src/modes/boot/boot.cpp:499
+#: ../src/modes/boot/boot.cpp:501
 msgid "Audio"
 msgstr "Audio"
 
-#: ../src/modes/boot/boot.cpp:500
+#: ../src/modes/boot/boot.cpp:502
 msgid "Language"
 msgstr "Sprache"
 
-#: ../src/modes/boot/boot.cpp:501
+#: ../src/modes/boot/boot.cpp:503
 msgid "Key Settings"
 msgstr "Tastenbelegung"
 
-#: ../src/modes/boot/boot.cpp:502
+#: ../src/modes/boot/boot.cpp:504
 msgid "Joystick Settings"
 msgstr "Joystick"
 
-#: ../src/modes/boot/boot.cpp:521
+#: ../src/modes/boot/boot.cpp:523
 msgid "Resolution:"
 msgstr "Auflösung:"
 
-#: ../src/modes/boot/boot.cpp:523
+#: ../src/modes/boot/boot.cpp:525
 msgid "Window mode:"
 msgstr "Fenstermodus:"
 
-#: ../src/modes/boot/boot.cpp:524
+#: ../src/modes/boot/boot.cpp:526
 msgid "Brightness:"
 msgstr "Helligkeit:"
 
-#: ../src/modes/boot/boot.cpp:525 ../src/modes/boot/boot.cpp:699
-#: ../src/modes/boot/boot.cpp:701
+#: ../src/modes/boot/boot.cpp:527 ../src/modes/boot/boot.cpp:701
+#: ../src/modes/boot/boot.cpp:703
 msgid "Map tiles: "
 msgstr "Kacheln: "
 
-#: ../src/modes/boot/boot.cpp:544 ../src/modes/boot/boot.cpp:708
+#: ../src/modes/boot/boot.cpp:546 ../src/modes/boot/boot.cpp:710
 msgid "Sound Volume: "
 msgstr "Tonlautstärke:"
 
-#: ../src/modes/boot/boot.cpp:545 ../src/modes/boot/boot.cpp:709
+#: ../src/modes/boot/boot.cpp:547 ../src/modes/boot/boot.cpp:711
 msgid "Music Volume: "
 msgstr "Musiklautstärke:"
 
-#: ../src/modes/boot/boot.cpp:612
+#: ../src/modes/boot/boot.cpp:614
 msgid "Up: "
 msgstr "Hoch: "
 
-#: ../src/modes/boot/boot.cpp:613
+#: ../src/modes/boot/boot.cpp:615
 msgid "Down: "
 msgstr "Runter: "
 
-#: ../src/modes/boot/boot.cpp:614
+#: ../src/modes/boot/boot.cpp:616
 msgid "Left: "
 msgstr "Links: "
 
-#: ../src/modes/boot/boot.cpp:615
+#: ../src/modes/boot/boot.cpp:617
 msgid "Right: "
 msgstr "Rechts: "
 
-#: ../src/modes/boot/boot.cpp:616
+#: ../src/modes/boot/boot.cpp:618
 msgid "Confirm: "
 msgstr "Bestätigen: "
 
-#: ../src/modes/boot/boot.cpp:617
+#: ../src/modes/boot/boot.cpp:619
 msgid "Cancel: "
 msgstr "Abbrechen: "
 
-#: ../src/modes/boot/boot.cpp:618
+#: ../src/modes/boot/boot.cpp:620
 msgid "Menu: "
 msgstr "Menü: "
 
-#: ../src/modes/boot/boot.cpp:619
+#: ../src/modes/boot/boot.cpp:621
 msgid "Pause: "
 msgstr "Pause: "
 
-#: ../src/modes/boot/boot.cpp:620 ../src/modes/boot/boot.cpp:650
+#: ../src/modes/boot/boot.cpp:622 ../src/modes/boot/boot.cpp:652
 msgid "Restore defaults"
 msgstr "Zurücksetzen"
 
-#: ../src/modes/boot/boot.cpp:686
+#: ../src/modes/boot/boot.cpp:688
 msgid "Resolution: "
 msgstr "Auflösung: "
 
-#: ../src/modes/boot/boot.cpp:690 ../src/modes/boot/boot.cpp:692
+#: ../src/modes/boot/boot.cpp:692 ../src/modes/boot/boot.cpp:694
 msgid "Window mode: "
 msgstr "Fenstermodus: "
 
-#: ../src/modes/boot/boot.cpp:690
+#: ../src/modes/boot/boot.cpp:692
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: ../src/modes/boot/boot.cpp:692
+#: ../src/modes/boot/boot.cpp:694
 msgid "Windowed"
 msgstr "Fenster"
 
-#: ../src/modes/boot/boot.cpp:695
+#: ../src/modes/boot/boot.cpp:697
 msgid "Brightness: "
 msgstr "Helligkeit: "
 
-#: ../src/modes/boot/boot.cpp:699
+#: ../src/modes/boot/boot.cpp:701
 msgid "Smoothed"
 msgstr "Geglättet"
 
-#: ../src/modes/boot/boot.cpp:701
+#: ../src/modes/boot/boot.cpp:703
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/modes/boot/boot.cpp:717
+#: ../src/modes/boot/boot.cpp:719
 msgid "Move Up"
 msgstr "Nach oben"
 
-#: ../src/modes/boot/boot.cpp:718
+#: ../src/modes/boot/boot.cpp:720
 msgid "Move Down"
 msgstr "Nach unten"
 
-#: ../src/modes/boot/boot.cpp:719
+#: ../src/modes/boot/boot.cpp:721
 msgid "Move Left"
 msgstr "Nach links"
 
-#: ../src/modes/boot/boot.cpp:720
+#: ../src/modes/boot/boot.cpp:722
 msgid "Move Right"
 msgstr "Nach rechts"
 
-#: ../src/modes/boot/boot.cpp:721 ../src/modes/mode_help_window.cpp:146
+#: ../src/modes/boot/boot.cpp:723 ../src/modes/mode_help_window.cpp:146
 #: ../src/modes/mode_help_window.cpp:188 ../src/modes/mode_help_window.cpp:241
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: ../src/modes/boot/boot.cpp:722 ../src/modes/mode_help_window.cpp:149
+#: ../src/modes/boot/boot.cpp:724 ../src/modes/mode_help_window.cpp:149
 #: ../src/modes/mode_help_window.cpp:191 ../src/modes/mode_help_window.cpp:244
 #: ../src/modes/pause.cpp:75 ../src/modes/save/save_mode.cpp:140
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ../src/modes/boot/boot.cpp:724 ../src/modes/mode_help_window.cpp:197
+#: ../src/modes/boot/boot.cpp:726 ../src/modes/mode_help_window.cpp:197
 #: ../src/modes/mode_help_window.cpp:259
 msgid "Pause"
 msgstr "Pause"
 
-#: ../src/modes/boot/boot.cpp:733 ../src/modes/boot/boot.cpp:735
+#: ../src/modes/boot/boot.cpp:735 ../src/modes/boot/boot.cpp:737
 msgid "Input enabled: "
 msgstr "Aktive Eingabe:"
 
-#: ../src/modes/boot/boot.cpp:737
+#: ../src/modes/boot/boot.cpp:739
 msgid "X Axis"
 msgstr "X Achse"
 
-#: ../src/modes/boot/boot.cpp:738
+#: ../src/modes/boot/boot.cpp:740
 msgid "Y Axis"
 msgstr "Y Achse"
 
-#: ../src/modes/boot/boot.cpp:739
+#: ../src/modes/boot/boot.cpp:741
 msgid "Threshold"
 msgstr "Grenzbereich"
 
-#: ../src/modes/boot/boot.cpp:740
+#: ../src/modes/boot/boot.cpp:742
 msgid "Confirm: Button"
 msgstr "Bestätigen: Taste"
 
-#: ../src/modes/boot/boot.cpp:741
+#: ../src/modes/boot/boot.cpp:743
 msgid "Cancel: Button"
 msgstr "Abbrechen: Taste"
 
-#: ../src/modes/boot/boot.cpp:742
+#: ../src/modes/boot/boot.cpp:744
 msgid "Menu: Button"
 msgstr "Menü: Taste"
 
-#: ../src/modes/boot/boot.cpp:743
+#: ../src/modes/boot/boot.cpp:745
 msgid "Pause: Button"
 msgstr "Pause: Taste"
 
-#: ../src/modes/boot/boot.cpp:744
+#: ../src/modes/boot/boot.cpp:746
 msgid "Quit: Button"
 msgstr "Verlassen: Taste"
 
-#: ../src/modes/boot/boot.cpp:1053
+#: ../src/modes/boot/boot.cpp:1055
 msgid "Please press a new joystick button."
 msgstr "Bitte einen Joystick-Knopf drücken."
 
-#: ../src/modes/boot/boot.cpp:1055
+#: ../src/modes/boot/boot.cpp:1057
 msgid "Please press a new key."
 msgstr "Bitte eine Taste drücken."
 
-#: ../src/modes/boot/boot.cpp:1057
+#: ../src/modes/boot/boot.cpp:1059
 msgid "Please move an axis."
 msgstr "Bitte eine Joystick-Achse bewegen."
 
@@ -529,35 +529,35 @@ msgstr "Du erhälst"
 msgid "Ok"
 msgstr "Okay"
 
-#: ../src/modes/map/map_treasure.cpp:325
+#: ../src/modes/map/map_treasure.cpp:159 ../src/modes/map/map_treasure.cpp:327
 msgid "Drunes"
 msgstr "Runen"
 
-#: ../src/modes/menu/menu.cpp:228
+#: ../src/modes/menu/menu.cpp:233
 msgid "Inventory"
 msgstr "Inventar"
 
-#: ../src/modes/menu/menu.cpp:229
+#: ../src/modes/menu/menu.cpp:234
 msgid "Skills"
 msgstr "Fertigkeiten"
 
-#: ../src/modes/menu/menu.cpp:230
+#: ../src/modes/menu/menu.cpp:235
 msgid "Party"
 msgstr "Gruppe"
 
-#: ../src/modes/menu/menu.cpp:231
+#: ../src/modes/menu/menu.cpp:236
 msgid "Quests"
 msgstr "Aufgaben"
 
-#: ../src/modes/menu/menu.cpp:232
+#: ../src/modes/menu/menu.cpp:237
 msgid "Map"
 msgstr "Karte"
 
-#: ../src/modes/menu/menu.cpp:306
+#: ../src/modes/menu/menu.cpp:311
 msgid "Select to view Quest Log."
 msgstr "Aufgaben-Logbuch anzeigen"
 
-#: ../src/modes/menu/menu.cpp:315
+#: ../src/modes/menu/menu.cpp:320
 msgid ""
 "Select to view current world map.\n"
 "Use left / right to cycle through locations.\n"
@@ -567,24 +567,24 @@ msgstr ""
 "Benutze 'Links' / 'Rechts' um nächste / vorherige Ortschaft auszuwählen.\n"
 "Benutze 'Abbrechen' um Karte auszublenden"
 
-#: ../src/modes/menu/menu.cpp:351
+#: ../src/modes/menu/menu.cpp:356
 msgid "Equip"
 msgstr "Ausrüsten"
 
-#: ../src/modes/menu/menu.cpp:352
+#: ../src/modes/menu/menu.cpp:357
 msgid "Remove"
 msgstr "Ablegen"
 
-#: ../src/modes/menu/menu.cpp:353 ../src/modes/menu/menu.cpp:432
-#: ../src/modes/menu/menu.cpp:497
+#: ../src/modes/menu/menu.cpp:358 ../src/modes/menu/menu.cpp:437
+#: ../src/modes/menu/menu.cpp:502
 msgid "Back"
 msgstr "Zurück"
 
-#: ../src/modes/menu/menu.cpp:431
+#: ../src/modes/menu/menu.cpp:436
 msgid "View/Reorder"
 msgstr "Status / Formation"
 
-#: ../src/modes/menu/menu.cpp:439
+#: ../src/modes/menu/menu.cpp:444
 msgid ""
 "View character Information.\n"
 "Select a character to change formation."
@@ -592,56 +592,52 @@ msgstr ""
 "Charakter Information anzeigen.\n"
 "Wähle Charakter um die Formation zu ändern."
 
-#: ../src/modes/menu/menu.cpp:496
+#: ../src/modes/menu/menu.cpp:501
 msgid "Use"
 msgstr "Benutzen"
 
-#: ../src/modes/menu/menu.cpp:770
+#: ../src/modes/menu/menu.cpp:776
 msgid "This item is a key item and can be neither consumed nor sold."
 msgstr ""
 "Dies ist ein Schlüsselgegenstand. Er kann weder benutzt noch verkauft werden."
 
-#: ../src/modes/menu/menu.cpp:778
-msgid "This item is a crystal shard and can be associated with equipment."
+#: ../src/modes/menu/menu.cpp:784
+msgid "This item is an elemental spirit and can be associated with equipment."
 msgstr ""
-"Dieses Objekt is eine Kristallscherbe und kann mit der Ausrüstung kombiniert "
+"Dieser Gegenstand ist ein Elementargeist und kann an Ausrüstung gebunden "
 "werden."
 
-#: ../src/modes/menu/menu.cpp:917
-msgid "Time: "
-msgstr "Zeit: "
+#: ../src/modes/menu/menu.cpp:879 ../src/modes/shop/shop.cpp:210
+msgid "Skills obtained:"
+msgstr "Neue Fertigkeiten: "
 
-#: ../src/modes/menu/menu.cpp:918
-msgid "Drunes: "
-msgstr "Runen: "
-
-#: ../src/modes/menu/menu.cpp:1049 ../src/modes/shop/shop.cpp:199
-#: ../src/modes/shop/shop.cpp:521
+#: ../src/modes/menu/menu.cpp:1093 ../src/modes/shop/shop.cpp:199
+#: ../src/modes/shop/shop.cpp:524
 msgid "ATK:"
 msgstr "ATK:"
 
-#: ../src/modes/menu/menu.cpp:1050 ../src/modes/shop/shop.cpp:201
-#: ../src/modes/shop/shop.cpp:522
+#: ../src/modes/menu/menu.cpp:1094 ../src/modes/shop/shop.cpp:201
+#: ../src/modes/shop/shop.cpp:525
 msgid "M.ATK:"
 msgstr "M.ATK:"
 
-#: ../src/modes/menu/menu.cpp:1053 ../src/modes/shop/shop.cpp:529
+#: ../src/modes/menu/menu.cpp:1097 ../src/modes/shop/shop.cpp:532
 msgid "DEF:"
 msgstr "DEF:"
 
-#: ../src/modes/menu/menu.cpp:1054 ../src/modes/shop/shop.cpp:530
+#: ../src/modes/menu/menu.cpp:1098 ../src/modes/shop/shop.cpp:533
 msgid "M.DEF:"
 msgstr "M.DEF:"
 
-#: ../src/modes/menu/menu_views.cpp:100 ../src/modes/save/save_mode.cpp:695
+#: ../src/modes/menu/menu_views.cpp:100 ../src/modes/save/save_mode.cpp:698
 msgid "Lv: "
 msgstr "Lv: "
 
-#: ../src/modes/menu/menu_views.cpp:104 ../src/modes/save/save_mode.cpp:699
+#: ../src/modes/menu/menu_views.cpp:104 ../src/modes/save/save_mode.cpp:702
 msgid "HP: "
 msgstr "HP: "
 
-#: ../src/modes/menu/menu_views.cpp:109 ../src/modes/save/save_mode.cpp:704
+#: ../src/modes/menu/menu_views.cpp:109 ../src/modes/save/save_mode.cpp:707
 msgid "SP: "
 msgstr "SP: "
 
@@ -673,8 +669,8 @@ msgstr "Kop"
 msgid "Tor"
 msgstr "Tor"
 
-#: ../src/modes/menu/menu_views.cpp:223 ../dat/actors/enemies.lua:638
-#: ../dat/actors/enemies.lua:758 ../dat/actors/enemies.lua:1194
+#: ../src/modes/menu/menu_views.cpp:223 ../dat/actors/enemies.lua:637
+#: ../dat/actors/enemies.lua:757 ../dat/actors/enemies.lua:1193
 msgid "Leg"
 msgstr "Bei"
 
@@ -770,79 +766,79 @@ msgstr "Ausweichen (EVD): "
 msgid "Field"
 msgstr "Feld"
 
-#: ../src/modes/menu/menu_views.cpp:1345
+#: ../src/modes/menu/menu_views.cpp:1349
 msgid "Weapon skill"
 msgstr "Waffen"
 
-#: ../src/modes/menu/menu_views.cpp:1347
+#: ../src/modes/menu/menu_views.cpp:1351
 msgid "Bare hands"
 msgstr "Unbewaffnet"
 
-#: ../src/modes/menu/menu_views.cpp:1350
+#: ../src/modes/menu/menu_views.cpp:1354
 msgid "Magic skill"
 msgstr "Magie"
 
-#: ../src/modes/menu/menu_views.cpp:1356
+#: ../src/modes/menu/menu_views.cpp:1360
 msgid "Special skill"
 msgstr "Spezial"
 
-#: ../src/modes/menu/menu_views.cpp:1477
+#: ../src/modes/menu/menu_views.cpp:1481
 msgid " SP"
 msgstr "SP"
 
-#: ../src/modes/menu/menu_views.cpp:1532 ../dat/actors/characters.lua:61
+#: ../src/modes/menu/menu_views.cpp:1536 ../dat/actors/characters.lua:61
 #: ../dat/actors/characters.lua:200 ../dat/actors/characters.lua:335
 #: ../dat/actors/characters.lua:471 ../dat/actors/enemies.lua:91
 #: ../dat/actors/enemies.lua:149 ../dat/actors/enemies.lua:204
 #: ../dat/actors/enemies.lua:374 ../dat/actors/enemies.lua:434
-#: ../dat/actors/enemies.lua:489 ../dat/actors/enemies.lua:553
-#: ../dat/actors/enemies.lua:622 ../dat/actors/enemies.lua:687
-#: ../dat/actors/enemies.lua:742 ../dat/actors/enemies.lua:1122
-#: ../dat/actors/enemies.lua:1178 ../dat/actors/enemies.lua:1397
-#: ../dat/actors/enemies.lua:1454 ../dat/actors/enemies.lua:1511
-#: ../dat/actors/enemies.lua:1577 ../dat/actors/enemies.lua:1633
+#: ../dat/actors/enemies.lua:488 ../dat/actors/enemies.lua:552
+#: ../dat/actors/enemies.lua:621 ../dat/actors/enemies.lua:686
+#: ../dat/actors/enemies.lua:741 ../dat/actors/enemies.lua:1121
+#: ../dat/actors/enemies.lua:1177 ../dat/actors/enemies.lua:1396
+#: ../dat/actors/enemies.lua:1453 ../dat/actors/enemies.lua:1510
+#: ../dat/actors/enemies.lua:1576 ../dat/actors/enemies.lua:1632
 msgid "Head"
 msgstr "Kopf"
 
-#: ../src/modes/menu/menu_views.cpp:1534 ../dat/actors/characters.lua:70
+#: ../src/modes/menu/menu_views.cpp:1538 ../dat/actors/characters.lua:70
 #: ../dat/actors/characters.lua:209 ../dat/actors/characters.lua:344
 #: ../dat/actors/characters.lua:480 ../dat/actors/enemies.lua:315
-#: ../dat/actors/enemies.lua:498 ../dat/actors/enemies.lua:562
-#: ../dat/actors/enemies.lua:814 ../dat/actors/enemies.lua:934
+#: ../dat/actors/enemies.lua:497 ../dat/actors/enemies.lua:561
+#: ../dat/actors/enemies.lua:813 ../dat/actors/enemies.lua:933
 msgid "Torso"
 msgstr "Torso"
 
-#: ../src/modes/menu/menu_views.cpp:1536 ../dat/actors/characters.lua:78
+#: ../src/modes/menu/menu_views.cpp:1540 ../dat/actors/characters.lua:78
 #: ../dat/actors/characters.lua:217 ../dat/actors/characters.lua:352
 #: ../dat/actors/characters.lua:488
 msgid "Arms"
 msgstr "Arme"
 
-#: ../src/modes/menu/menu_views.cpp:1538 ../dat/actors/characters.lua:87
+#: ../src/modes/menu/menu_views.cpp:1542 ../dat/actors/characters.lua:87
 #: ../dat/actors/characters.lua:226 ../dat/actors/characters.lua:361
-#: ../dat/actors/characters.lua:497 ../dat/actors/enemies.lua:506
-#: ../dat/actors/enemies.lua:570 ../dat/actors/enemies.lua:1258
-#: ../dat/actors/enemies.lua:1535 ../dat/actors/enemies.lua:1649
+#: ../dat/actors/characters.lua:497 ../dat/actors/enemies.lua:505
+#: ../dat/actors/enemies.lua:569 ../dat/actors/enemies.lua:1257
+#: ../dat/actors/enemies.lua:1534 ../dat/actors/enemies.lua:1648
 msgid "Legs"
 msgstr "Beine"
 
-#: ../src/modes/menu/menu_views.cpp:1914
+#: ../src/modes/menu/menu_views.cpp:1918
 msgid "No weapon"
 msgstr "Keine Waffe"
 
-#: ../src/modes/menu/menu_views.cpp:1915
+#: ../src/modes/menu/menu_views.cpp:1919
 msgid "No head armor"
 msgstr "Nichts ausgerüstet"
 
-#: ../src/modes/menu/menu_views.cpp:1916
+#: ../src/modes/menu/menu_views.cpp:1920
 msgid "No torso armor"
 msgstr "Nichts ausgerüstet"
 
-#: ../src/modes/menu/menu_views.cpp:1917
+#: ../src/modes/menu/menu_views.cpp:1921
 msgid "No arms armor"
 msgstr "Nichts ausgerüstet"
 
-#: ../src/modes/menu/menu_views.cpp:1918
+#: ../src/modes/menu/menu_views.cpp:1922
 msgid "No legs armor"
 msgstr "Nichts ausgerüstet"
 
@@ -963,11 +959,8 @@ msgid "The table below lists the default game controls.\n"
 msgstr "Die unten stehende Tabelle zeigt die Standardtastenbelegung.\n"
 
 #: ../src/modes/mode_help_window.cpp:209
-msgid ""
-"The control mappings can be changed in the options menu on the next screen."
-msgstr ""
-"Die Tastenbelegung kann auf dem nächsten Bildschirm bei den Einstellungen "
-"geändert werden."
+msgid "The control mappings can be changed in the options menu."
+msgstr "Die Tastenbelegung kann im Einstellungen-Menü geändert werden."
 
 #: ../src/modes/mode_help_window.cpp:219
 msgid "Default Key"
@@ -1143,21 +1136,13 @@ msgstr ""
 msgid "No valid saves found!"
 msgstr "Keine gültigen Speicherpunkte!"
 
-#: ../src/modes/save/save_mode.cpp:450
+#: ../src/modes/save/save_mode.cpp:460
 msgid "Invalid data!"
 msgstr "Fehlerhafte Daten!"
 
-#: ../src/modes/save/save_mode.cpp:452
+#: ../src/modes/save/save_mode.cpp:462
 msgid "No data"
 msgstr "Keine Daten"
-
-#: ../src/modes/save/save_mode.cpp:575
-msgid "Time - "
-msgstr "Zeit - "
-
-#: ../src/modes/save/save_mode.cpp:582
-msgid "Drunes - "
-msgstr "Runen - "
 
 #: ../src/modes/shop/shop_buy.cpp:60 ../src/modes/shop/shop_sell.cpp:60
 #: ../src/modes/shop/shop_trade.cpp:57
@@ -1204,8 +1189,8 @@ msgid "Leg Armor"
 msgstr "Beinrüstung"
 
 #: ../src/modes/shop/shop.cpp:76
-msgid "Shards"
-msgstr "Scherben"
+msgid "Spirits"
+msgstr "Seelen"
 
 #: ../src/modes/shop/shop.cpp:77
 msgid "Key Items"
@@ -1231,47 +1216,47 @@ msgstr "Ziel:"
 msgid "Conditions:"
 msgstr "Bedingungen:"
 
-#: ../src/modes/shop/shop.cpp:698
+#: ../src/modes/shop/shop.cpp:719
 msgid "Buy count: x "
 msgstr "Gekauft: x "
 
-#: ../src/modes/shop/shop.cpp:701
+#: ../src/modes/shop/shop.cpp:722
 msgid "Sell count: x "
 msgstr "Verkauft: x "
 
-#: ../src/modes/shop/shop.cpp:704
+#: ../src/modes/shop/shop.cpp:725
 msgid "Trade count: x "
 msgstr "Eingetauscht: x "
 
-#: ../src/modes/shop/shop.cpp:979 ../src/modes/shop/shop.cpp:1133
+#: ../src/modes/shop/shop.cpp:1029 ../src/modes/shop/shop.cpp:1184
 msgid "Buy"
 msgstr "Kaufen"
 
-#: ../src/modes/shop/shop.cpp:980 ../src/modes/shop/shop.cpp:1134
+#: ../src/modes/shop/shop.cpp:1030 ../src/modes/shop/shop.cpp:1185
 msgid "Sell"
 msgstr "Verkaufen"
 
-#: ../src/modes/shop/shop.cpp:981 ../src/modes/shop/shop.cpp:1135
+#: ../src/modes/shop/shop.cpp:1031 ../src/modes/shop/shop.cpp:1186
 msgid "Trade"
 msgstr "Tauschen"
 
-#: ../src/modes/shop/shop.cpp:1136
+#: ../src/modes/shop/shop.cpp:1187
 msgid "Leave"
 msgstr "Verlassen"
 
-#: ../src/modes/shop/shop.cpp:1560
+#: ../src/modes/shop/shop.cpp:1604
 msgid "Funds: "
 msgstr "Geld: "
 
-#: ../src/modes/shop/shop.cpp:1562
+#: ../src/modes/shop/shop.cpp:1606
 msgid "Purchases: "
 msgstr "Einkäufe: "
 
-#: ../src/modes/shop/shop.cpp:1563 ../src/modes/shop/shop.cpp:1566
+#: ../src/modes/shop/shop.cpp:1607 ../src/modes/shop/shop.cpp:1610
 msgid "Total: "
 msgstr "Total: "
 
-#: ../src/modes/shop/shop.cpp:1565
+#: ../src/modes/shop/shop.cpp:1609
 msgid "Sales: +"
 msgstr "Verkäufe: +"
 
@@ -1297,7 +1282,7 @@ msgstr "\"Herzlich Willkommen! Sehen Sie sich ruhig um.\""
 msgid "Bronann"
 msgstr "Bronann"
 
-#: ../dat/actors/characters.lua:19
+#: ../dat/actors/characters.lua:19 ../dat/skills/magic.lua:815
 msgid "Holy"
 msgstr "Heilig"
 
@@ -1333,9 +1318,9 @@ msgstr "Grüner Schleim"
 #: ../dat/actors/enemies.lua:47 ../dat/actors/enemies.lua:158
 #: ../dat/actors/enemies.lua:213 ../dat/actors/enemies.lua:269
 #: ../dat/actors/enemies.lua:383 ../dat/actors/enemies.lua:443
-#: ../dat/actors/enemies.lua:878 ../dat/actors/enemies.lua:981
-#: ../dat/actors/enemies.lua:1028 ../dat/actors/enemies.lua:1075
-#: ../dat/actors/enemies.lua:1405
+#: ../dat/actors/enemies.lua:877 ../dat/actors/enemies.lua:980
+#: ../dat/actors/enemies.lua:1027 ../dat/actors/enemies.lua:1074
+#: ../dat/actors/enemies.lua:1404
 msgid "Body"
 msgstr "Körper"
 
@@ -1343,8 +1328,8 @@ msgstr "Körper"
 msgid "Spider"
 msgstr "Spinne"
 
-#: ../dat/actors/enemies.lua:100 ../dat/actors/enemies.lua:630
-#: ../dat/actors/enemies.lua:1462
+#: ../dat/actors/enemies.lua:100 ../dat/actors/enemies.lua:629
+#: ../dat/actors/enemies.lua:1461
 msgid "Abdomen"
 msgstr "Bauch"
 
@@ -1357,8 +1342,8 @@ msgstr "Fenrir"
 msgid "Snake"
 msgstr "Schlange"
 
-#: ../dat/actors/enemies.lua:221 ../dat/actors/enemies.lua:695
-#: ../dat/actors/enemies.lua:1413 ../dat/actors/enemies.lua:1470
+#: ../dat/actors/enemies.lua:221 ../dat/actors/enemies.lua:694
+#: ../dat/actors/enemies.lua:1412 ../dat/actors/enemies.lua:1469
 msgid "Tail"
 msgstr "Schwanz"
 
@@ -1378,133 +1363,133 @@ msgstr "Flügel"
 msgid "Dark Soldier"
 msgstr "Dunkler Soldat"
 
-#: ../dat/actors/enemies.lua:527
+#: ../dat/actors/enemies.lua:526
 msgid "Lord Banesore"
 msgstr "Lord Banesore"
 
-#: ../dat/actors/enemies.lua:601
+#: ../dat/actors/enemies.lua:600
 msgid "Scorpion"
 msgstr "Skorpion"
 
-#: ../dat/actors/enemies.lua:666
+#: ../dat/actors/enemies.lua:665
 msgid "Dune Crawler"
 msgstr "Dünenraupe"
 
-#: ../dat/actors/enemies.lua:721
+#: ../dat/actors/enemies.lua:720
 msgid "Skeleton"
 msgstr "Skelett"
 
-#: ../dat/actors/enemies.lua:750 ../dat/actors/enemies.lua:1130
-#: ../dat/actors/enemies.lua:1519 ../dat/actors/enemies.lua:1585
-#: ../dat/actors/enemies.lua:1641
+#: ../dat/actors/enemies.lua:749 ../dat/actors/enemies.lua:1129
+#: ../dat/actors/enemies.lua:1518 ../dat/actors/enemies.lua:1584
+#: ../dat/actors/enemies.lua:1640
 msgid "Chest"
 msgstr "Brust"
 
-#: ../dat/actors/enemies.lua:785
+#: ../dat/actors/enemies.lua:784
 msgid "Stygian Lizard"
 msgstr "Styx-Eidechse"
 
-#: ../dat/actors/enemies.lua:806
+#: ../dat/actors/enemies.lua:805
 msgid "Eye"
 msgstr "Auge"
 
-#: ../dat/actors/enemies.lua:822 ../dat/actors/enemies.lua:886
+#: ../dat/actors/enemies.lua:821 ../dat/actors/enemies.lua:885
 msgid "Claw"
 msgstr "Klaue"
 
-#: ../dat/actors/enemies.lua:849
+#: ../dat/actors/enemies.lua:848
 msgid "Demonic Essence"
 msgstr "Dämonische Essenz"
 
-#: ../dat/actors/enemies.lua:870
+#: ../dat/actors/enemies.lua:869
 msgid "Face"
 msgstr "Gesicht"
 
-#: ../dat/actors/enemies.lua:913
+#: ../dat/actors/enemies.lua:912
 msgid "Yeti"
 msgstr "Yeti"
 
-#: ../dat/actors/enemies.lua:960
+#: ../dat/actors/enemies.lua:959
 msgid "Red Slime"
 msgstr "Roter Schleim"
 
-#: ../dat/actors/enemies.lua:1007
+#: ../dat/actors/enemies.lua:1006
 msgid "Thing"
 msgstr "Ding"
 
-#: ../dat/actors/enemies.lua:1054
+#: ../dat/actors/enemies.lua:1053
 msgid "Mushroom Zombie"
 msgstr "Pilz-Zombie"
 
-#: ../dat/actors/enemies.lua:1101
+#: ../dat/actors/enemies.lua:1100
 msgid "Rat"
 msgstr "Ratte"
 
-#: ../dat/actors/enemies.lua:1157
+#: ../dat/actors/enemies.lua:1156
 msgid "Scorpion Goliath"
 msgstr "Skorpion Goliath"
 
-#: ../dat/actors/enemies.lua:1186
+#: ../dat/actors/enemies.lua:1185
 msgid "Pincer"
 msgstr "Zange"
 
-#: ../dat/actors/enemies.lua:1221
+#: ../dat/actors/enemies.lua:1220
 msgid "Armored Beast"
 msgstr "Gepanzertes Biest"
 
-#: ../dat/actors/enemies.lua:1242
+#: ../dat/actors/enemies.lua:1241
 msgid "Mesosoma"
 msgstr "Mesosoma"
 
-#: ../dat/actors/enemies.lua:1250
+#: ../dat/actors/enemies.lua:1249
 msgid "Pincers"
 msgstr "Zangen"
 
-#: ../dat/actors/enemies.lua:1278
+#: ../dat/actors/enemies.lua:1277
 msgid "Daemarbora"
 msgstr "Daemarbora"
 
-#: ../dat/actors/enemies.lua:1299
+#: ../dat/actors/enemies.lua:1298
 msgid "Trunk"
 msgstr "Stamm"
 
-#: ../dat/actors/enemies.lua:1307
+#: ../dat/actors/enemies.lua:1306
 msgid "Branches"
 msgstr "Zweige"
 
-#: ../dat/actors/enemies.lua:1327
+#: ../dat/actors/enemies.lua:1326
 msgid "Aerocephal"
 msgstr "Aerocephal"
 
-#: ../dat/actors/enemies.lua:1348
+#: ../dat/actors/enemies.lua:1347
 msgid "Forehead"
 msgstr "Stirn"
 
-#: ../dat/actors/enemies.lua:1356
+#: ../dat/actors/enemies.lua:1355
 msgid "Orifice"
 msgstr "Öffnung"
 
-#: ../dat/actors/enemies.lua:1376
+#: ../dat/actors/enemies.lua:1375
 msgid "Arcana Drake"
 msgstr "Arcana Drake"
 
-#: ../dat/actors/enemies.lua:1433
+#: ../dat/actors/enemies.lua:1432
 msgid "Nagaruda"
 msgstr "Nagaruda"
 
-#: ../dat/actors/enemies.lua:1490
+#: ../dat/actors/enemies.lua:1489
 msgid "Deceleon"
 msgstr "Deceleon"
 
-#: ../dat/actors/enemies.lua:1527 ../dat/actors/enemies.lua:1593
+#: ../dat/actors/enemies.lua:1526 ../dat/actors/enemies.lua:1592
 msgid "Arm"
 msgstr "Arme"
 
-#: ../dat/actors/enemies.lua:1555
+#: ../dat/actors/enemies.lua:1554
 msgid "Aurum Drakueli"
 msgstr "Aurum Drakueli"
 
-#: ../dat/actors/enemies.lua:1612
+#: ../dat/actors/enemies.lua:1611
 msgid "Kyle"
 msgstr "Kyle"
 
@@ -1590,8 +1575,8 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:305
 #: ../dat/maps/layna_village/layna_village_center_script.lua:502
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1006
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:319
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:450
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:322
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:453
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:551
 msgid "..."
 msgstr "..."
@@ -2016,7 +2001,7 @@ msgstr "Es scheint, als ob Orlinn irgendwie an diesen Platformen vorbei ist."
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:470
 msgid "Let's make our way through this before something bad happens to him."
 msgstr ""
-"Wir müssen hier durch, und ihn einholen bevor ihm möglicherweise etwas "
+"Wir müssen hier durch und ihn einholen bevor ihm möglicherweise etwas "
 "Schlimmes zustößt."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:472
@@ -2034,6 +2019,10 @@ msgid "(I also heard something falling outside. Let's hope it's nothing bad.)"
 msgstr ""
 "(Draußen muss etwas eingestürzt sein. Hoffentlich macht es uns später keine "
 "Probleme.)"
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:163
+msgid "Stone sign"
+msgstr "Steintafel"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:195
 msgid "Only the last one standing shall pass ..."
@@ -2317,56 +2306,56 @@ msgstr ""
 "sollten besser zurück ins Dorf und sobald wie möglich die Ältesten "
 "informieren."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:482
-#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:646
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:484
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:648
 msgid "What's that?!"
 msgstr "Was ist das?!"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:497
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:499
 msgid "Can you also see this strange circle surrounded by light?"
 msgstr "Kannst du auch diesen seltsamen von Licht umgebenen Kreis sehen?"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:499
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:501
 msgid "When I'm standing near you, I can."
 msgstr "Wenn ich mich zu dir stelle, ja."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:501
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:503
 msgid "Strange... it sounds familiar to me. Like... A safe place to be."
 msgstr "Seltsam... es fühlt sich vertraut an. Wie... ein sicherer Ort."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:503
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:505
 msgid "I feel like I can go in there..."
 msgstr "Ich denke, ich kann es betreten..."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:505
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:507
 msgid "Be careful, Kalya!"
 msgstr "Sei vorsichtig, Kalya!"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:507
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:509
 msgid "It is like... it's calling me."
 msgstr "Es ist als... würde es mich rufen."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:520
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:522
 msgid "See... It brings no harm."
 msgstr "Siehst du... Es ist ungefährlich."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:522
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:524
 msgid "Err... Are you sure?"
 msgstr "Äh... Bist du sicher?"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:524
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:526
 msgid "Sure! Do you trust me?"
 msgstr "Ja! Vertraust du mir?"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:526
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:528
 msgid "... I do trust you, Kalya."
 msgstr "... Ich vertraue dir, Kalya."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:530
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:532
 msgid "Ok, I... I'll do it."
 msgstr "Okay, Ich... Ich mach es."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:542
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:544
 msgid ""
 "Oh, I almost forgot, have you seen up here? There is a Layna spring! We can "
 "heal our wounds there."
@@ -2374,29 +2363,29 @@ msgstr ""
 "Ach ja, fast vergessen, siehst du das da? Dort is eine Layna Quelle! Wir "
 "können unsere Verletzungen dort heilen."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:546
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:548
 msgid "Ok, thanks."
 msgstr "Okay, danke."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:548
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:550
 msgid "... What are you waiting for? Come."
 msgstr "... Worauf wartest du noch? Gehen wir."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:550
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:552
 msgid "Huh? I... I'm coming."
 msgstr "Hä? Ich... ich komme."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:562
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:564
 msgid "You're right. This place makes me feel good."
 msgstr "Du hast recht. Ich verspüre ein angenehmes Gefühl hier."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:564
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:566
 msgid "See? Now let's find my brother before he gets hurt."
 msgstr ""
 "Siehst du? Jetzt sollten wir los und meinen Bruder finden, bevor ihm noch "
 "etwas zustößt."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:681
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:683
 msgid ""
 "Woah, that was quite a nasty fight. Why on earth was an arctic north fenrir "
 "lurking in the forest? I thought such animals were part of the myths."
@@ -2405,7 +2394,7 @@ msgstr ""
 "Arktischer Fenrir im Wald? Ich dachte solche Tiere kämen nur in Mythen und "
 "Märchen vor."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:683
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:685
 msgid ""
 "He just ran away. I'm almost sure we'll meet it again. We'd better be well "
 "prepared, then."
@@ -2413,7 +2402,7 @@ msgstr ""
 "Er is weg, vorerst. Ich bin ziemlich sicher, dass wir wieder auf ihn treffen "
 "werden. Es wäre besser, wenn wir darauf vorbereitet sind."
 
-#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:685
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:687
 msgid ""
 "I'll try not to think about what it could have done to Orlinn ... Let's find "
 "him quickly."
@@ -2421,94 +2410,94 @@ msgstr ""
 "Ich versuche nicht daran zu denken, was er Orlinn angetan haben könnte ... "
 "Lass uns ihn schnell finden. "
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1023
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1025
 msgid "Orlinn!"
 msgstr "Orlinn!"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1038
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1040
 msgid "Orlinn, stop it RIGHT NOW!!"
 msgstr "Orlinn, halt, geh nicht weiter!!"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1040
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1042
 msgid "I can't sis. I can feel it... calling me..."
 msgstr ""
 "Ich kann nicht Schwesterchen. Ich kann fühlen... wie es mich zu sich ruft..."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1062
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1064
 msgid "Quick! Let's follow him."
 msgstr "Schnell! Wir folgen ihm."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1064
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1066
 msgid "Right!"
 msgstr "Los!"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1089
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1091
 msgid "Great! The tremor has just opened a path."
 msgstr "Großartig! Das Beben hat einen Durchgang freigegeben."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1091
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1093
 msgid "We can easily return to the village from there."
 msgstr "Von hier aus ist es nicht weit zum Dorf."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1120
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1122
 msgid "We're almost there!"
 msgstr "Wir sind fast da!"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1122
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1124
 msgid "Say Sister, do you think Herth will be angry with me for what happened?"
 msgstr ""
 "Sag mal Schwester, denkst du Herth wird mir böse sein wegen dem, was "
 "passiert ist?"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1124
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1126
 msgid ""
 "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
 msgstr ""
 "Ich denke nicht, Orlinn. Wir wissen beide, dass du es nicht absichtlich "
 "getan hast, richtig?"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1126
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1128
 msgid "Ok..."
 msgstr "Okay..."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1142
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1144
 msgid "Kalya, ... Err ..."
 msgstr "Kalya, ... Ähm ..."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1144
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1146
 msgid "What is it, Bronann?"
 msgstr "Was ist es, Bronann?"
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1146
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1148
 msgid "Hmm... Nevermind."
 msgstr "Hmm... Schon gut."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1148
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1150
 msgid "Don't worry too much, Bronann, Herth will be able to help you."
 msgstr ""
 "Mach dir nicht zuviele Sorgen, Bronann, Herth wird dir sicher helfen können."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1150
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1152
 msgid "Me? But ..."
 msgstr "Ich? aber ..."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1152
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1154
 msgid "Thanks ..."
 msgstr "Danke ..."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1154
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1156
 msgid "Thanks for your help there ..."
 msgstr "Danke für deine Hilfe da draußen ..."
 
-#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1156
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1158
 msgid "... You're welcome."
 msgstr "... Gern geschehen."
 
-#: ../dat/maps/layna_forest/layna_forest_south_west_script.lua:691
+#: ../dat/maps/layna_forest/layna_forest_south_west_script.lua:693
 msgid "Woah, wait!"
 msgstr "Woah, warte!"
 
-#: ../dat/maps/layna_forest/layna_forest_south_west_script.lua:693
+#: ../dat/maps/layna_forest/layna_forest_south_west_script.lua:695
 msgid ""
 "Look at that grass. The snakes like it very much. Beware of them, their "
 "venom can send you to sleep."
@@ -2907,7 +2896,7 @@ msgstr "Warum will mir niemand sagen was los ist!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:419
 msgid ""
-"Still, I have go there and figure out what they're trying to hide from me."
+"Still, I have to go there and figure out what they're trying to hide from me."
 msgstr ""
 "Wie auch immer, ich muss hin und rausfinden was sie versuchen vor mir zu "
 "verbergen."
@@ -2955,7 +2944,7 @@ msgid "Huh? Hey, what's happening here?!"
 msgstr "Was? Hey, was passiert hier?!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:506
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:309
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:312
 msgid "Bronann, I ..."
 msgstr "Bronann, ich..."
 
@@ -3005,7 +2994,7 @@ msgstr "Herth, wir beide wissen, dass es wahrscheinlich..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:535
 msgid "Do as I say and it'll be alright."
-msgstr "Tue was ich sage und alles wird gut."
+msgstr "Mach was ich sage und alles wird gut."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:537
 msgid "But..."
@@ -3240,8 +3229,8 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:926
 #: ../dat/maps/layna_village/layna_village_center_script.lua:957
-msgid "Shall you find it, I would be entrustfully obliged to you!"
-msgstr "Ich wäre dir zutiefst verpflichtet, soltest du ihn finden!"
+msgid "Shall you find it, I would be extremely obliged to you!"
+msgstr "Wenn du ihn finden könntest, wäre ich dir zutiefst verpflichtet!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:928
 #: ../dat/maps/layna_village/layna_village_center_script.lua:959
@@ -3269,7 +3258,7 @@ msgstr "Hä, ... Nun, ich kann nichts besonderes hören..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:943
 msgid ""
-"That's the point! Can't you hear the magnificient sound of nature, so "
+"That's the point! Can't you hear the magnificent sound of nature, so "
 "invisible to our adapted ears?"
 msgstr ""
 "Das ist der Punkt! Kannst du den herrlichen Klang der Natur nicht hören? "
@@ -3424,7 +3413,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:195
 msgid ""
-"? ... This is the first time that I've see you wear such a worrisome "
+"? ... This is the first time that I've seen you wear such a worrisome "
 "expression."
 msgstr "? ... Es ist das erste Mal, dass ich dich so besorgt sehe."
 
@@ -3523,20 +3512,20 @@ msgstr ""
 "Ach! Sicherlich möchtest du zu der jungen Dame, die weiter oben lebt. Ach, "
 "die Jugend..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:246
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:249
 msgid "Bronann, how do you feel?"
 msgstr "Orlinn, bist du in Ordnung?"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:248
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:251
 msgid "Better... Somehow, the pain faded away the second I entered here..."
 msgstr ""
 "Besser... Irgendwie war der Schmerz, als ich hier rein bin, plötzlich weg..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:250
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:253
 msgid "By the way, where are we?"
 msgstr "Übrigens, wo sind wir?"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:252
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:255
 msgid ""
 "In our basement. The other stairs there are leading to my room. This house "
 "is an ancient sanctuary, so it might explain you're feeling better..."
@@ -3545,25 +3534,25 @@ msgstr ""
 "ein vorzeitliches Heiligtum, das könnte erklären wieso du dich besser "
 "fühlst..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:254
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:257
 msgid "Orlinn. Go get the packings. We're leaving..."
 msgstr "Orlinn. Hol deine Sachen. Wir müssen weg..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:256
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:259
 msgid "... Ok..."
 msgstr "... Okay..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:289
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:292
 msgid "We're leaving the village now..."
 msgstr "Wir verlassen das Dorf jetzt..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:291
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:294
 msgid "I feel dizzy... So much things happened in so little time..."
 msgstr ""
 "Ich fühle mich etwas benommen... Es ist so viel is passiert in so kurzer "
 "Zeit..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:293
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:296
 msgid ""
 "The soldiers might be here within minutes. We'll leave to the north and "
 "cross the north-west plain up to..."
@@ -3571,27 +3560,27 @@ msgstr ""
 "Die Soldaten könnten jede Minute hier sein. Wir gehen Richtung Norden über "
 "die Nordwest-Ebene bis..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:295
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:298
 msgid "No."
 msgstr "Nein."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:297
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:300
 msgid "No?!"
 msgstr "Nein?!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:299
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:302
 msgid "No, I won't follow you anymore..."
 msgstr "Nein, ich gehe keinen Schritt weiter..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:301
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:304
 msgid "Look, I..."
 msgstr "Sieh mal, Ich..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:303
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:306
 msgid "Enough!"
 msgstr "Genug!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:305
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:308
 msgid ""
 "Nobody told me what was happening. Herth and the Lord seemed to know each "
 "other... And now you..."
@@ -3599,49 +3588,49 @@ msgstr ""
 "Niemand hat mir gesagt was vor sich geht. Herth und der Lord scheinen sich "
 "zu kennen... Und jetzt du..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:307
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:310
 msgid "You seem so calm, ready and prepared..."
 msgstr "Du scheinst so abgeklärt und vorbereitet..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:311
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:314
 msgid "Enough! You hid things to me. You're a liar, like everyone else!"
 msgstr ""
 "Es reicht! Du hast Sachen vor mir verheimlicht. Du bist eine Lügnerin, wie "
 "alle anderen!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:313
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:316
 msgid "Bronann, you'll get everything explained in time, I..."
 msgstr ""
 "Bronann, du wirst alles erklärt bekommen sobald die Umstände es zulassen, "
 "ich..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:315
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:318
 msgid "No! I want the truth now, or I won't come!"
 msgstr "Nein! Ich will die Wahrheit hören, jetzt, oder ich komme nicht mit!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:317
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:320
 msgid "... Fine."
 msgstr "... Gut."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:321
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:324
 msgid "I knew the crystal would appear..."
 msgstr "Ich wusste, dass der Kristall auftauchen wird..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:323
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:326
 msgid "What?"
 msgstr "Was?"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:325
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:328
 msgid "But I didn't know who it would choose."
 msgstr "Ich wusste jedoch nicht wen es wählen würde."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:327
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:330
 msgid "Herth prepared me... All my entire life... For this very day..."
 msgstr ""
 "Herth hat mich vorbereitet... Mein ganzes Leben lang... Für diesen einen "
 "Tag..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:329
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:332
 msgid ""
 "He trained me, taught me magic, and told me the crystal would appear one "
 "day..."
@@ -3649,7 +3638,7 @@ msgstr ""
 "Er hat mich unterrichtet, Umgang mit Magie gelehrt, und das Erscheinen des "
 "Kristalls vorhergesagt..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:331
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:334
 msgid ""
 "He did think I would be the one. But it seems he was wrong, and that now my "
 "duty is to look after you..."
@@ -3657,21 +3646,21 @@ msgstr ""
 "Er dachte, ich würde die jenige sein. Es scheint, er habe sich geirrt, und "
 "nun ist es meine Pflicht dir beizustehen..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:333
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:336
 msgid "You must believe me Bronann..."
 msgstr "Du must mir glauben Bronann..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:335
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:338
 msgid "The crystal chose me? But I'm just..."
 msgstr "Der Kristall wählte mich? Aber ich bin nur..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:337
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:340
 msgid "... someone brave enough to jump between my brother and it..."
 msgstr ""
 "... jemand der mutig genug war, sich schutzend vor meinen Bruder zu stellen, "
 "und es..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:339
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:342
 msgid ""
 "It should have been me... But I couldn't move. And now, I have to fix my "
 "mistake..."
@@ -3679,27 +3668,27 @@ msgstr ""
 "Ich hätte es sein müssen... Aber ich war wie erstarrt. Und nun muss ich "
 "meinen Fehler wiedergutmachen..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:341
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:344
 msgid "How?"
 msgstr "Wie?"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:343
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:346
 msgid "I..."
 msgstr "Ich..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:345
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:348
 msgid "Sis!!"
 msgstr "Schwester!!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:365
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:368
 msgid "Sis!! They're in front of the house!"
 msgstr "Schwester!! Sie stehen vor dem Haus!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:367
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:370
 msgid "Quick, we must go now!!"
 msgstr "Schnell, wir müssen jetzt gehen!!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:369
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:372
 msgid ""
 "We won't be able to come back here once out. So, feel free to pick up "
 "everything needed and prepare yourself..."
@@ -3707,7 +3696,7 @@ msgstr ""
 "Wir werden nicht mehr zurück können, wenn wir hier raus sind. Also nimm "
 "alles was du brauchst, und stelle sicher, dass du bereit bist..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:371
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:374
 msgid ""
 "Wait! There is one more thing... Why are you calling your own dad by his "
 "actual name?"
@@ -3715,27 +3704,27 @@ msgstr ""
 "Warte! Eine Kleinigkeit noch... Wieso nennst du deinen Vater bei seinem "
 "Vornamen?"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:373
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:376
 msgid "That's because he's not our father..."
 msgstr "Weil er nicht unser leiblicher Vater ist..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:375
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:378
 msgid "Our parents have been killed a long time ago..."
 msgstr "Unsere Eltern wurden vor langer Zeit getötet..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:377
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:380
 msgid "Orlinn..."
 msgstr "Orlinn..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:379
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:382
 msgid "Don't worry, sis. It's fine, we can tell him."
 msgstr "Keine Sorge, Schwester. Es ist okay, wir können es ihm sagen."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:381
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:384
 msgid "I also left my parents behind..."
 msgstr "Ich muss meine Eltern jetzt auch zurücklassen..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:383
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:386
 msgid ""
 "... They'll be fine, Bronann. We must prevent Banesore from obtaining the "
 "crystal."
@@ -3743,24 +3732,24 @@ msgstr ""
 "... Es wird ihnen nichts passieren, Bronann. Wir müssen Banesore davon "
 "abhalten den Kristall zu kriegen."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:385
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:388
 msgid "Anyway, let's go now..."
 msgstr "Wie auch immer, wir sollten jetzt los..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:415
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:418
 msgid "Wow!"
 msgstr "Wow!"
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:417
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:444
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:420
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:447
 msgid "It's time..."
 msgstr "Es ist Zeit..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:429
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:432
 msgid "We can't go back now..."
 msgstr "Wir können noch nicht zurück..."
 
-#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:436
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:439
 msgid "It's my room upstairs. Don't even think about it!"
 msgstr "Da oben ist mein Zimmer. Denke nicht mal daran!"
 
@@ -4068,7 +4057,7 @@ msgid "You'll never find me hiding behind the..."
 msgstr "Du findest mich niemals, wenn ich mich..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:253
-msgid "Hey, why would I telling you my hiding spots?!"
+msgid "Hey, why would I tell you my hiding spots?!"
 msgstr "Hey, wieso sollte ich dir meine Verstecke verraten?!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:271
@@ -4266,7 +4255,7 @@ msgid "Yiek!!! Hey, you scared me."
 msgstr "Kreisch!!! Hey, du hast mich erschreckt."
 
 #: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:274
-msgid "But You'll never find me hiding on top of the cliffs!"
+msgid "But you'll never find me hiding on top of the cliffs!"
 msgstr "Du findest mich niemals, wenn ich mich auf einer Felskuppe verstecke."
 
 #: ../dat/maps/to_be_continued_anim.lua:31
@@ -4460,27 +4449,79 @@ msgstr "Eisenerz"
 msgid "A small amount of iron ore."
 msgstr "Kleine Menge Eisenerz."
 
-#: ../dat/objects/items.lua:377
+#: ../dat/objects/items.lua:374
+msgid "Titanium Ore"
+msgstr "Titanerz"
+
+#: ../dat/objects/items.lua:375
+msgid "A small amount of Titanium ore."
+msgstr "Kleine Menge Titanerz."
+
+#: ../dat/objects/items.lua:381
+msgid "Anthozium Ore"
+msgstr "Antoziumerz"
+
+#: ../dat/objects/items.lua:382
+msgid "A small amount of Anthozium ore."
+msgstr "Kleine Menge Anthoziumerz."
+
+#: ../dat/objects/items.lua:388
+msgid "Auridium Ore"
+msgstr "Auridiumerz"
+
+#: ../dat/objects/items.lua:389
+msgid "A small amount of Auridium ore."
+msgstr "Kleine Menge Auridiumerz."
+
+#: ../dat/objects/items.lua:395
+msgid "Borium Ore"
+msgstr "Boriumerz"
+
+#: ../dat/objects/items.lua:396
+msgid "A small amount of Borium ore."
+msgstr "Kleine Menge Boriumerz."
+
+#: ../dat/objects/items.lua:402
+msgid "Evanium Ore"
+msgstr "Evaniumerz"
+
+#: ../dat/objects/items.lua:403
+msgid "A small amount of Evanium ore."
+msgstr "Kleine Menge Evaniumerz."
+
+#: ../dat/objects/items.lua:409
+msgid "Phoenix Feather"
+msgstr "Phönixfeder"
+
+#: ../dat/objects/items.lua:410
+msgid ""
+"A genuine and perfect feather from the great Fire Bird. It is known to bring "
+"life to inanimated items."
+msgstr ""
+"Eine echte, perfekt erhaltene Feuervogelfeder. Sie ist dafür bekannt "
+"unbeseelte Gegenstände lebending zu machen."
+
+#: ../dat/objects/items.lua:419
 msgid "Pen"
 msgstr "Stift"
 
-#: ../dat/objects/items.lua:378
+#: ../dat/objects/items.lua:420
 msgid "Georges' pen, presumably used to write poetry."
 msgstr "Georges Stift, vermutlich verwendet um Gedichte zu schreiben."
 
-#: ../dat/objects/items.lua:385
+#: ../dat/objects/items.lua:427
 msgid "Barley Meal"
 msgstr "Gerstenmehl"
 
-#: ../dat/objects/items.lua:386
+#: ../dat/objects/items.lua:428
 msgid "Basic yet good and cheap flour."
 msgstr "Grundlegendes, dennoch gutes und preiswertes Mehl"
 
-#: ../dat/objects/items.lua:393
+#: ../dat/objects/items.lua:435
 msgid "Wolfpain Necklace"
 msgstr "Wolfsschmerz Halskette"
 
-#: ../dat/objects/items.lua:394
+#: ../dat/objects/items.lua:436
 msgid "A strange necklace with unknown powers."
 msgstr "Seltsame Halskette mit unbekannten Kräften."
 
@@ -4515,6 +4556,73 @@ msgid ""
 msgstr ""
 "Standard Beinschienen, die zusätzlich getempert wurden um ihre Haltbarkeit "
 "und Festigkeit zu erhöhen."
+
+#: ../dat/objects/spirits.lua:23
+msgid "Ardoris"
+msgstr "Ardoris"
+
+#: ../dat/objects/spirits.lua:24
+msgid "An enchanting child of Fire."
+msgstr "Ein bezauberndes Kind des Feuers."
+
+#: ../dat/objects/spirits.lua:55
+msgid "Undine"
+msgstr "Undine"
+
+#: ../dat/objects/spirits.lua:56
+msgid "A mesmerizing spirit of living water."
+msgstr "Ein faszinierender Geist des Wassers."
+
+#: ../dat/objects/spirits.lua:87
+msgid "Sylphid"
+msgstr "Sylphide"
+
+#: ../dat/objects/spirits.lua:88
+msgid "A very rare spirit of Wind, usually neither tamable nor catchable."
+msgstr ""
+"Ein sehr seltener Geist des Windes, in der Regel weder einfangbar noch "
+"zähmbar."
+
+#: ../dat/objects/spirits.lua:119
+msgid "Dryad"
+msgstr "Dryade"
+
+#: ../dat/objects/spirits.lua:120
+msgid "A fragile spirit, child of Mother Nature."
+msgstr "Ein zerbrechlicher Geist, ein Kind der Mutter Natur."
+
+#: ../dat/objects/spirits.lua:151
+msgid "Fairy"
+msgstr "Fee"
+
+#: ../dat/objects/spirits.lua:152
+msgid "Blinding as the sun, she brings life even where Death belongs."
+msgstr ""
+"Blendend wie die Sonne, bringt sie Leben selbst an Orte an denen der Tod "
+"herrscht."
+
+#: ../dat/objects/spirits.lua:183
+msgid "Demona"
+msgstr "Demona"
+
+#: ../dat/objects/spirits.lua:184
+msgid ""
+"Spirit of the Dark. It can't be possessed: it only chose to be possessed, "
+"waiting for its hour..."
+msgstr ""
+"Geist der Dunkelheit. Sie kann nicht einfach in Besitz genommen werden, "
+"sondern wählt ihren Besitzer, und wartet auf ihre Gelegenheit..."
+
+#: ../dat/objects/spirits.lua:215
+msgid "Oblivion"
+msgstr "Oblivion"
+
+#: ../dat/objects/spirits.lua:216
+msgid ""
+"Touched neither by the time nor space, this spirit is dwelling in pure "
+"energy."
+msgstr ""
+"Unantastbar von Zeit und Raum, verweilt dieser Geist in reiner Energie."
 
 #: ../dat/objects/torso_armor.lua:41
 msgid "Rookie Tunic"
@@ -4584,19 +4692,28 @@ msgid ""
 msgstr ""
 "Brustplatte mit etwas dickerer Panzerung und zusätzlichem Schulterschutz."
 
-#: ../dat/objects/weapons.lua:41
+#: ../dat/objects/weapons.lua:43
 msgid "Wooden Sword"
 msgstr "Holzschwert"
 
-#: ../dat/objects/weapons.lua:42
+#: ../dat/objects/weapons.lua:44 ../dat/objects/weapons.lua:77
+#: ../dat/objects/weapons.lua:116
 msgid "A sword made of wood with a steel hilt, very good for practising."
 msgstr "Ein Schwert aus Holz mit einem Stahlgriff, sehr gut zum Üben geeignet."
 
-#: ../dat/objects/weapons.lua:74
+#: ../dat/objects/weapons.lua:76
+msgid "Reinforced wooden Sword"
+msgstr "Armiertes Holzschwert"
+
+#: ../dat/objects/weapons.lua:115
+msgid "Perfect wooden Sword"
+msgstr "Perfektes Holzschwert"
+
+#: ../dat/objects/weapons.lua:157
 msgid "Iron Sword"
 msgstr "Eisenschwert"
 
-#: ../dat/objects/weapons.lua:75
+#: ../dat/objects/weapons.lua:158
 msgid ""
 "A sturdy but somewhat dull sword whose blade was forged from a single block "
 "of solid iron."
@@ -4604,184 +4721,599 @@ msgstr ""
 "Ein robustes, wenn auch etwas dumpfes Schwert, dessen Klinge aus einem "
 "soliden Eisenblock geschmiedet wurde."
 
-#: ../dat/objects/weapons.lua:106
+#: ../dat/objects/weapons.lua:189
+msgid "Soldier Sword"
+msgstr "Soldatenklinge"
+
+#: ../dat/objects/weapons.lua:190
+msgid ""
+"Standard soldier sword. A light weight iron sword suitable for most "
+"skirmishes."
+msgstr ""
+"Gewöhnliche Soldatenklinge. Ein leichtes Eisenschwert, adäquat für die "
+"meisten Auseinandersetzungen."
+
+#: ../dat/objects/weapons.lua:228
 msgid "Knight's Blade"
 msgstr "Ritterschwert"
 
-#: ../dat/objects/weapons.lua:107
+#: ../dat/objects/weapons.lua:229
 msgid "A weapon bestowed to seasoned veterans of the knighthood."
 msgstr "Eine Waffe, die an im Kampf bewährte Ritter verliehen wird."
 
-#: ../dat/objects/weapons.lua:138
+#: ../dat/objects/weapons.lua:267
 msgid "Paladin's Sword"
 msgstr "Paladinschwert"
 
-#: ../dat/objects/weapons.lua:139
+#: ../dat/objects/weapons.lua:268
 msgid "A mythical weapon blessed with a magical fire."
 msgstr "Eine mystische Waffe vom magischen Feuer gesegnet."
 
-#: ../dat/objects/weapons.lua:191
-msgid "Karlate Sword"
-msgstr "Karlate Schwert"
-
-#: ../dat/objects/weapons.lua:192
-msgid ""
-"Standard Karlate issued equipment. A light weight iron sword suitable for "
-"most skirmishes."
-msgstr ""
-"Karlate Standardausrüstung. Ein leichtes Eisenschwert, adäquat für die "
-"meisten Auseinandersetzungen."
-
-#: ../dat/objects/weapons.lua:224
+#: ../dat/objects/weapons.lua:317
 msgid "Omni Sword"
 msgstr "Omni-Klinge"
 
-#: ../dat/objects/weapons.lua:295
+#: ../dat/objects/weapons.lua:390
 msgid "Arbalest"
 msgstr "Arbalest"
 
-#: ../dat/objects/weapons.lua:296
+#: ../dat/objects/weapons.lua:391
 msgid "A standard wooden arbalest."
 msgstr "Eine einfache hölzerne Arbalest."
 
-#: ../dat/skills/magic.lua:43
-msgid "Defensive Stance"
-msgstr "Verteidigungshaltung"
+#: ../dat/skills/barehands.lua:28
+msgid "Punch"
+msgstr "Faustschlag"
 
-#: ../dat/skills/magic.lua:44
+#: ../dat/skills/barehands.lua:29
+msgid "A simple punch. Better than nothing..."
+msgstr "Ein enfacher Faustschlag. Besser als gar nichts..."
+
+#: ../dat/skills/barehands.lua:56
+msgid "Throw stone"
+msgstr "Steinwurf"
+
+#: ../dat/skills/barehands.lua:57
+msgid "Kalya's attack when she's got no weapon."
+msgstr "Kalya's bevorzugte Angriffsmethode wenn keine Waffe zur Hand ist."
+
+#: ../dat/skills/magic.lua:46
+msgid "Shield"
+msgstr "Schutz"
+
+#: ../dat/skills/magic.lua:47
 msgid "Increases an ally's physical defense by a slight degree."
 msgstr "Erhöht die physische Verteidigung des Ziels in geringem Maße."
 
-#: ../dat/skills/magic.lua:74
+#: ../dat/skills/magic.lua:77
 msgid "First Aid"
 msgstr "Erste Hilfe"
 
-#: ../dat/skills/magic.lua:75
+#: ../dat/skills/magic.lua:78
 msgid ""
 "Performs basic medical assistance, healing the target by a minor degree."
 msgstr ""
 "Grundlegende medizinische Behandlung, das Ziel wird in einem geringen Ausmaß "
 "geheilt."
 
-#: ../dat/skills/magic.lua:101
+#: ../dat/skills/magic.lua:104
 msgid "Leader Call"
 msgstr "Schlachtruf"
 
-#: ../dat/skills/magic.lua:102
+#: ../dat/skills/magic.lua:105
 msgid "Temporarily increases the strength of all allies."
 msgstr "Erhöht vorübergehend die Stärke aller Verbündeten."
 
-#: ../dat/skills/magic.lua:128
+#: ../dat/skills/magic.lua:135
 msgid "Fire burst"
 msgstr "Feuerschub"
 
-#: ../dat/skills/magic.lua:129
+#: ../dat/skills/magic.lua:136
 msgid "Creates a small fire that burns an enemy."
 msgstr "Entfacht ein kleines Feuer, das den Gegner verbrennt."
 
-#: ../dat/skills/magic.lua:155
+#: ../dat/skills/magic.lua:162
+msgid "Fire Circle"
+msgstr "Feuerzirkel"
+
+#: ../dat/skills/magic.lua:163
+msgid "Increases the Fire elemental defense on a character."
+msgstr "Erhöht Abwehr gegen das Feuerelement."
+
+#: ../dat/skills/magic.lua:178
+msgid "Lava"
+msgstr "Lava"
+
+#: ../dat/skills/magic.lua:179
+msgid "Magical attack combining Earth and Fire damages."
+msgstr "Magischer Angriff, der Erd- und Feuerschaden zufügt."
+
+#: ../dat/skills/magic.lua:194
+msgid "Fog"
+msgstr "Nebel"
+
+#: ../dat/skills/magic.lua:195
+msgid "Increases the evade rate of an ally."
+msgstr "Erhöht die Ausweichfähigkeit eines Verbündeten."
+
+#: ../dat/skills/magic.lua:210
+msgid "Fire Breath"
+msgstr "Feueratem"
+
+#: ../dat/skills/magic.lua:211
+msgid "Magical attack combining Air and Fire damages."
+msgstr "Magischer Angriff, der Luft- und Feuerschaden zufügt."
+
+#: ../dat/skills/magic.lua:226
+msgid "Focus"
+msgstr "Fokus"
+
+#: ../dat/skills/magic.lua:227 ../dat/skills/magic.lua:375
+msgid "Increases the Magical Defence of an ally."
+msgstr "Erhöht die Magieabwehr eines Verbündeten."
+
+#: ../dat/skills/magic.lua:242
+msgid "Holy Fire"
+msgstr "Heiliges Feuer"
+
+#: ../dat/skills/magic.lua:243
+msgid "Magical attack combining Life and Fire damages."
+msgstr "Magischer Angriff, der Lebens- und Feuerschaden zufügt."
+
+#: ../dat/skills/magic.lua:259
+msgid "Revives a fallen ally."
+msgstr "Belebt einen gefallenen Verbündeten wieder."
+
+#: ../dat/skills/magic.lua:274
+msgid "Petrify"
+msgstr "Versteinern"
+
+#: ../dat/skills/magic.lua:275
+msgid "Turns an enemy into stone."
+msgstr "Vesteinert den Gegner."
+
+#: ../dat/skills/magic.lua:290
+msgid "Rage"
+msgstr "Wut"
+
+#: ../dat/skills/magic.lua:291
+msgid ""
+"Enrages an ally, increasing its Attack and Speed, but reducing its Defence."
+msgstr ""
+"Versetzt Verbündeten in Rage, erhöht seinen Angriff und Geschwindgkeit, "
+"senkt jedoch die Verteidigung."
+
+#: ../dat/skills/magic.lua:306
+msgid "Rock Fall"
+msgstr "Steinschlag"
+
+#: ../dat/skills/magic.lua:307
+msgid "Rocks fall on an enemy."
+msgstr "Steine fallen auf den Gegner nieder."
+
+#: ../dat/skills/magic.lua:333
+msgid "Earth Circle"
+msgstr "Erdzirkel"
+
+#: ../dat/skills/magic.lua:334
+msgid "Increases the Earth elemental defense on a character."
+msgstr "Erhöht Abwehr gegen das Erdelement."
+
+#: ../dat/skills/magic.lua:358
+msgid "Entangle"
+msgstr "Verwirren"
+
+#: ../dat/skills/magic.lua:359
+msgid "Decreases the evade rate of an enemy."
+msgstr "Verringert die Ausweichfähigkeit des Gegners."
+
+#: ../dat/skills/magic.lua:374
+msgid "Magical Armor"
+msgstr "Magische Rüstung"
+
+#: ../dat/skills/magic.lua:390
+msgid "Haste"
+msgstr "Hast"
+
+#: ../dat/skills/magic.lua:391
+msgid "Increases the Battle Speed of an ally."
+msgstr "Erhöht die Geschwindigkeit eines Verbündeten."
+
+#: ../dat/skills/magic.lua:406
+msgid "Moon"
+msgstr "Mond"
+
+#: ../dat/skills/magic.lua:407
+msgid "Makes an enemy attack its own allies."
+msgstr "Bringt den Feind dazu seine Verbündeten anzugreifen."
+
+#: ../dat/skills/magic.lua:422
+msgid "Cure"
+msgstr "Kurieren"
+
+#: ../dat/skills/magic.lua:423
+msgid "Cures the poison from an ally."
+msgstr "Hebt die Vergiftung eines Verbündeten auf."
+
+#: ../dat/skills/magic.lua:438
+msgid "Drain"
+msgstr "Aufzehren"
+
+#: ../dat/skills/magic.lua:439
+msgid "Steals HP from an enemy."
+msgstr "Raubt Lebenspunkte von enem Gegner."
+
+#: ../dat/skills/magic.lua:454
+msgid "Curse"
+msgstr "Fluch"
+
+#: ../dat/skills/magic.lua:455
+msgid "Severely decreases several random stats of an enemy."
+msgstr "Reduziert gravierend einige zufällig gewählte Attribute des Gegners."
+
+#: ../dat/skills/magic.lua:470
+msgid "Meteor"
+msgstr "Meteor"
+
+#: ../dat/skills/magic.lua:471
+msgid "High Earth damages on all foes."
+msgstr "Fügt allen Gegnern schweren Erdschaden zu."
+
+#: ../dat/skills/magic.lua:486
 msgid "Wave"
 msgstr "Welle"
 
-#: ../dat/skills/magic.lua:156
+#: ../dat/skills/magic.lua:487
 msgid "Makes waves fall on an enemy."
-msgstr "Schleudert eine Schockwelle richtung Feind."
+msgstr "Lässt Wellen auf den Gegner niedergehen."
 
-#: ../dat/skills/special.lua:49
+#: ../dat/skills/magic.lua:513
+msgid "Water Circle"
+msgstr "Wasserzirkel"
+
+#: ../dat/skills/magic.lua:514
+msgid "Increases the Water elemental defense on a character."
+msgstr "Erhöht Abwehr gegen das Wasserelement."
+
+#: ../dat/skills/magic.lua:538
+msgid "Whirlwind"
+msgstr "Wirbelwind"
+
+#: ../dat/skills/magic.lua:539
+msgid "Magical attack combining Water and Air damages."
+msgstr "Magischer Angriff, der Wasser- und Luftschaden zufügt."
+
+#: ../dat/skills/magic.lua:554
+msgid "Slow"
+msgstr "Verlangsamen"
+
+#: ../dat/skills/magic.lua:555
+msgid "Decreases the battle speed of an enemy."
+msgstr "Verlangsamt den Gegner."
+
+#: ../dat/skills/magic.lua:570
+msgid "Blindness"
+msgstr "Blenden"
+
+#: ../dat/skills/magic.lua:571
+msgid "Prevents an enemy from succeeding any physical attacks."
+msgstr "Physische Angriffe des Gegners laufen ins Leere."
+
+#: ../dat/skills/magic.lua:586
+msgid "Heal"
+msgstr "Heilen"
+
+#: ../dat/skills/magic.lua:587
+msgid "Restores Health of an ally."
+msgstr "Stellt die Lebenspunkte eines Verbündeten wieder her."
+
+#: ../dat/skills/magic.lua:603
+msgid "Poison"
+msgstr "Vergiften"
+
+#: ../dat/skills/magic.lua:604
+msgid "Inflicts poison to an enemy."
+msgstr "Vergiftet den Gegner."
+
+#: ../dat/skills/magic.lua:619
+msgid "Stun"
+msgstr "Betäuben"
+
+#: ../dat/skills/magic.lua:620
+msgid "Stuns an enemy."
+msgstr "Betäubt den Gegner."
+
+#: ../dat/skills/magic.lua:635
+msgid "Tsunami"
+msgstr "Tsunami"
+
+#: ../dat/skills/magic.lua:636
+msgid "High Water damages on all foes."
+msgstr "Fügt allen Gegnern schweren Wasserschaden zu."
+
+#: ../dat/skills/magic.lua:651
+msgid "Healing Rain"
+msgstr "Heilender Regen"
+
+#: ../dat/skills/magic.lua:652
+msgid "Cures health of all allies."
+msgstr "Stell die Lebenspunkte aller Verbündeten wieder her."
+
+#: ../dat/skills/magic.lua:667
+msgid "Wind"
+msgstr "Wind"
+
+#: ../dat/skills/magic.lua:668
+msgid "The wind slashes an enemy."
+msgstr "Trifft den Gegner mit einem schneidenden Windstoß."
+
+#: ../dat/skills/magic.lua:694
+msgid "Wind Circle"
+msgstr "Windzirkel"
+
+#: ../dat/skills/magic.lua:695
+msgid "Increases the Air elemental defense on an ally."
+msgstr "Erhöht Abwehr gegen das Luftelement."
+
+#: ../dat/skills/magic.lua:719
+msgid "Lightning"
+msgstr "Blitz"
+
+#: ../dat/skills/magic.lua:720
+msgid "Magical attack combining Life and Air damages."
+msgstr "Magischer Angriff, der Lebens- und Luftschaden zufügt."
+
+#: ../dat/skills/magic.lua:735
+msgid "Regen"
+msgstr "Beleben"
+
+#: ../dat/skills/magic.lua:736
+msgid "Makes an ally recover slowly its health."
+msgstr "Die Lebenspunkte eines Verbündeten werden langsam regeneriert."
+
+#: ../dat/skills/magic.lua:751
+msgid "Magic Drain"
+msgstr "Magie aufzehren"
+
+#: ../dat/skills/magic.lua:752
+msgid "Steals Skill Points from an enemy."
+msgstr "Raubt SP von einem Gegner."
+
+#: ../dat/skills/magic.lua:767
+msgid "Silence"
+msgstr "Verstummen"
+
+#: ../dat/skills/magic.lua:768
+msgid "Prevents an enemy from using any magic skills."
+msgstr "Hindert den Gegner am Anwenden magischer Fertigkeiten."
+
+#: ../dat/skills/magic.lua:783
+msgid "Storm"
+msgstr "Sturm"
+
+#: ../dat/skills/magic.lua:784
+msgid "High Air damages on all foes."
+msgstr "Allen Gegnern wird schwerer Luftschaden zugefügt."
+
+#: ../dat/skills/magic.lua:799
+msgid "Stop"
+msgstr "Stopp"
+
+#: ../dat/skills/magic.lua:800
+msgid "Stops an enemy for quite a long time."
+msgstr "Stoppt einen Gegner für einen längeren Zeitraum."
+
+#: ../dat/skills/magic.lua:816
+msgid "A holy light strikes an enemy."
+msgstr "Ein heiliger Lichtstrahl trifft den Gegner."
+
+#: ../dat/skills/magic.lua:842
+msgid "Life Circle"
+msgstr "Lebenszirkel"
+
+#: ../dat/skills/magic.lua:843
+msgid "Increases the Life elemental defense on a character."
+msgstr "Erhöht Abwehr gegen das Lebenselement."
+
+#: ../dat/skills/magic.lua:858
+msgid "Purify"
+msgstr "Läutern"
+
+#: ../dat/skills/magic.lua:859
+msgid "Cures all bad effects on a character, except the poison."
+msgstr "Hebt alle negativen Statuseffekte ausser Gift auf."
+
+#: ../dat/skills/magic.lua:874
+msgid "Sun Haze"
+msgstr "Sonnenstrahl"
+
+#: ../dat/skills/magic.lua:875
+msgid "High Life damages on all foes."
+msgstr "Fügt allen Gegnern schweren Lebensshaden zu."
+
+#: ../dat/skills/magic.lua:890
+msgid "Aura"
+msgstr "Aura"
+
+#: ../dat/skills/magic.lua:891
+msgid "Boost an ally speed and recovers slowly its health."
+msgstr ""
+"Erhöht die Geschwindigkeit eines Verbündeten, und regeneriert langsam seine "
+"Lebenspunkte."
+
+#: ../dat/skills/magic.lua:907
+msgid "Death tries and take an enemy with it."
+msgstr "Der Gegner wird vom Tod ins Jenseits gezogen."
+
+#: ../dat/skills/magic.lua:933
+msgid "Death Circle"
+msgstr "Todeszirkel"
+
+#: ../dat/skills/magic.lua:934
+msgid "Increases the Death elemental defense on an ally."
+msgstr "Erhöht Abwehr gegen das Todeselement."
+
+#: ../dat/skills/magic.lua:949
+msgid "Doom"
+msgstr "Todesurteil"
+
+#: ../dat/skills/magic.lua:950
+msgid "Adds a Death counter upon the enemy's head."
+msgstr "Die Lebensuhr des Gegners läuft ab."
+
+#: ../dat/skills/magic.lua:965
+msgid "Magical Reflection"
+msgstr "Spiegel"
+
+#: ../dat/skills/magic.lua:966
+msgid "Makes the next enemy spell targeting the ally be cast upon itself."
+msgstr ""
+"Der nächste magische Angriff auf einen Verbündeten wird auf den Gegner "
+"zurückgeworfen."
+
+#: ../dat/skills/magic.lua:981
+msgid "Dispell"
+msgstr "Bann"
+
+#: ../dat/skills/magic.lua:982
+msgid ""
+"Removes any status effect, elemental effect, and active spell on an enemy."
+msgstr ""
+"Hebt jegliche auf den Gegner wirkenden Status-, Elementareffekte oder Zauber "
+"auf."
+
+#: ../dat/skills/magic.lua:1008
+msgid "Shell"
+msgstr "Panzer"
+
+#: ../dat/skills/magic.lua:1009
+msgid "Increases all elemental effects on one character."
+msgstr "Erhöht alle Elementareffekte eines Charakters."
+
+#: ../dat/skills/magic.lua:1024
+msgid "?"
+msgstr "?"
+
+#: ../dat/skills/magic.lua:1025
+msgid ""
+"A mystic spell happening when offensively combining opposite elementals."
+msgstr ""
+"Ein mystischer Zauber, der durch das Kombinieren gegensätlicher Elemente "
+"ausgelöst wird."
+
+#: ../dat/skills/magic.lua:1040
+msgid "Counter"
+msgstr "Konter"
+
+#: ../dat/skills/magic.lua:1041
+msgid "Makes an ally counter-attack if hurt."
+msgstr "Bei Schaden führt der Charakter einem Konterschlag aus."
+
+#: ../dat/skills/magic.lua:1056
+msgid "Phoenix Call"
+msgstr "Phönixruf"
+
+#: ../dat/skills/magic.lua:1057
+msgid "Revives all allies."
+msgstr "Belebt alle Verbündeten wieder."
+
+#: ../dat/skills/magic.lua:1072
+msgid "Bio"
+msgstr "Bio"
+
+#: ../dat/skills/magic.lua:1073
+msgid "Cures poison on all characters."
+msgstr "Hebt die Verguftung bei allen Verbündeten auf"
+
+#: ../dat/skills/special.lua:74
 msgid "Wolf Pain"
 msgstr "Wolfschmerz"
 
-#: ../dat/skills/special.lua:50
+#: ../dat/skills/special.lua:75
 msgid "Calls the defender of the Arctic."
 msgstr "Ruft den Beschützer der Arktis."
 
-#: ../dat/skills/special.lua:69
+#: ../dat/skills/special.lua:190
 msgid "Slime Spawn"
 msgstr "Schleimruf"
 
-#: ../dat/skills/special.lua:70
+#: ../dat/skills/special.lua:191
 msgid "Creates a slime."
 msgstr "Erzeugt einen Schleim."
 
-#: ../dat/skills/weapon.lua:61
+#: ../dat/skills/weapon.lua:78
 msgid "Sword Slash"
 msgstr "Schwerthieb"
 
-#: ../dat/skills/weapon.lua:62
-msgid "A textbook manoeuver that deals an effective blow."
+#: ../dat/skills/weapon.lua:79
+msgid "A textbook maneuver that deals an effective blow."
 msgstr "Ein effektiver Angriff, frei nach Lehrbuch."
 
-#: ../dat/skills/weapon.lua:89
+#: ../dat/skills/weapon.lua:106
 msgid "Forward Thrust"
 msgstr "Vorwärtsschub"
 
-#: ../dat/skills/weapon.lua:90
+#: ../dat/skills/weapon.lua:107
 msgid "A quicker and more powerful blow than the standard sword slash."
 msgstr ""
 "Ein schnellerer und stärkerer Angriff verglichen mit dem einfachen "
 "Schwerthieb."
 
-#: ../dat/skills/weapon.lua:117
+#: ../dat/skills/weapon.lua:134
 msgid "Stun Strike"
 msgstr "Betäubungshieb"
 
-#: ../dat/skills/weapon.lua:118
+#: ../dat/skills/weapon.lua:135
 msgid "A blow which temporarily stun its target."
-msgstr "Ein Schlag der vorübergehend das Ziel betäubt."
+msgstr "Ein Schlag, der vorübergehend das Ziel betäubt."
 
-#: ../dat/skills/weapon.lua:148
+#: ../dat/skills/weapon.lua:165
 msgid "Blade Rush"
 msgstr "Klingensturm"
 
-#: ../dat/skills/weapon.lua:149
+#: ../dat/skills/weapon.lua:166
 msgid ""
 "A strong and aggressive attack with a blade that deals significant damage."
 msgstr ""
 "Starker und aggressiver Angriff mit einer Klinge, der erheblichen Schaden "
 "zufügt."
 
-#: ../dat/skills/weapon.lua:182
+#: ../dat/skills/weapon.lua:199
 msgid "Single Shot"
 msgstr "Einzelner Schuss"
 
-#: ../dat/skills/weapon.lua:183
+#: ../dat/skills/weapon.lua:200
 msgid "A simple shot using an arbalest."
 msgstr "Einfacher Schuss mit einer Arbalest."
 
-#: ../dat/skills/weapon.lua:209
+#: ../dat/skills/weapon.lua:225
+msgid "Incapacitating Shot"
+msgstr "Schockschuss"
+
+#: ../dat/skills/weapon.lua:226
+msgid "A powerful aimed shot lowering the enemy attack."
+msgstr ""
+"Ein gezielter kraftvoller Schuss, der die Angrifsfähigkeit des Gegners "
+"reduziert."
+
+#: ../dat/skills/weapon.lua:254
 msgid "Dagger Slash"
 msgstr "Dolchhieb"
 
-#: ../dat/skills/weapon.lua:210
+#: ../dat/skills/weapon.lua:255
 msgid "A simple but efficient dagger attack."
 msgstr "Einfacher aber effizienter Dolchangriff"
-
-#: ../dat/skills/weapon.lua:231
-msgid "Throw stone"
-msgstr "Steinwurf"
-
-#: ../dat/skills/weapon.lua:232
-msgid "Kalya's attack when she's got no weapon."
-msgstr "Kalya's bevorzugte Angriffsmethode wenn keine Waffe zur Hand ist."
-
-#: ../dat/skills/weapon.lua:258
-msgid "Punch"
-msgstr "Faustschlag"
-
-#: ../dat/skills/weapon.lua:259
-msgid "A simple punch. Better than nothing..."
-msgstr "Ein enfacher Faustschlag. Besser als gar nichts..."
 
 #: ../src/modes/menu/menu_views.cpp:222
 msgid "Menu|Arm"
 msgstr "Menu|Arm"
 
-#: ../src/modes/boot/boot.cpp:480
+#: ../src/modes/boot/boot.cpp:482
 #, c-format
 msgid "Press '%s' to get to know about the game keys."
 msgstr "Drücke '%s' um mehr über die Spielsteuerung zu erfahren."
 
-#: ../src/modes/map/map_treasure.cpp:327
+#: ../src/modes/map/map_treasure.cpp:329
 #, c-format
 msgid ""
 "With the additional %u drunes found in this treasure added, the party now "
@@ -4789,21 +5321,21 @@ msgid ""
 msgstr ""
 "Mit den %u Runen aus diesem Schatz, hat die Gruppe nun insgesamt %u Runen."
 
-#: ../src/modes/shop/shop.cpp:675
+#: ../src/modes/shop/shop.cpp:696
 #, c-format
 msgid "Press %s to add items to buy and %s to remove items from your purchase."
 msgstr ""
 "Drücke %s um Gegenstände zur Einkaufsliste hinzuzufügen und %s um sie zu "
 "entfernen."
 
-#: ../src/modes/shop/shop.cpp:678
+#: ../src/modes/shop/shop.cpp:699
 #, c-format
 msgid "Press %s to add items to sell and %s to remove items from your sale."
 msgstr ""
 "Drücke %s um Gegestände zur Verkaufsliste hinzuzufügen und %s um sie zu "
 "entfernen."
 
-#: ../src/modes/shop/shop.cpp:681
+#: ../src/modes/shop/shop.cpp:702
 #, c-format
 msgid "Press %s to add items to trade and %s to remove them."
 msgstr ""
@@ -4840,13 +5372,13 @@ msgstr "Beenden-Menü: %s"
 msgid "Help Menu: %s"
 msgstr "Hilfe-Menü: %s"
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:528
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:530
 #, c-format
 msgid ""
 "If so, then come and try for yourself. Push '%s' and you'll feel safe, too."
 msgstr "Wenn das so ist, dann komm und probiere es selbst aus. Drücke '%s'."
 
-#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:544
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:546
 #, c-format
 msgid ""
 "Just stand in front of the goddess statue below the spring and push '%s'."
@@ -4916,6 +5448,27 @@ msgstr "Lillys Haus"
 #: map_names_tr.lua:111 map_names_tr.lua:219
 msgid "Village entrance"
 msgstr "Dorfeingang"
+
+#~ msgid "Time: "
+#~ msgstr "Zeit: "
+
+#~ msgid "Drunes: "
+#~ msgstr "Runen: "
+
+#~ msgid "Time - "
+#~ msgstr "Zeit - "
+
+#~ msgid "Drunes - "
+#~ msgstr "Runen - "
+
+#~ msgid "Shards"
+#~ msgstr "Scherben"
+
+#~ msgid "Karlate Sword"
+#~ msgstr "Karlate Schwert"
+
+#~ msgid "Defensive Stance"
+#~ msgstr "Verteidigungshaltung"
 
 #~ msgid ""
 #~ "I should follow them silently. They will probably lead me to the others "
@@ -5010,9 +5563,6 @@ msgstr "Dorfeingang"
 
 #~ msgid "Support"
 #~ msgstr "Unterst"
-
-#~ msgid "??"
-#~ msgstr "??"
 
 #~ msgid "Development Release"
 #~ msgstr "Entwicklungsversion"
@@ -5131,9 +5681,6 @@ msgstr "Dorfeingang"
 
 #~ msgid "View Order"
 #~ msgstr "Bestellung anzeigen"
-
-#~ msgid "Confirm Order"
-#~ msgstr "Bestellung bestätigen"
 
 #~ msgid "Shop Name"
 #~ msgstr "Laden"
@@ -5434,9 +5981,6 @@ msgstr "Dorfeingang"
 #~ msgid "Overwrite? Confirm/Cancel"
 #~ msgstr "Überschreiben? Ja/Nein"
 
-#~ msgid "Press any key to continue."
-#~ msgstr "Drücke eine beliebige Taste um fortzufahren."
-
 #~ msgid "Finished"
 #~ msgstr "Fertig"
 
@@ -5468,6 +6012,3 @@ msgstr "Dorfeingang"
 
 #~ msgid "Hi hi hi!!"
 #~ msgstr "Hi hi hi!!"
-
-#~ msgid "Encouraging Shout"
-#~ msgstr "Schlachtruf"
