@@ -417,6 +417,7 @@ end
 
 -- Keeps track of time elapsed during fade effcts
 local fade_effect_time = 0.0;
+local fade_color = vt_video.Color(0.0, 0.0, 0.0, 1.0);
 -- Tells where the hero character will reappear
 local destination_x = 0.0;
 local destination_y = 0.0;
@@ -646,7 +647,8 @@ map_functions = {
         fade_effect_time = fade_effect_time + SystemManager:GetUpdateTime();
 
         if (fade_effect_time < 200.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, fade_effect_time / 200.0));
+            fade_color:SetAlpha(fade_effect_time / 200.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(fade_color);
             return false;
         end
 
@@ -658,7 +660,8 @@ map_functions = {
                 destination_set = true;
             end
 
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, ((1000.0 - fade_effect_time) / 200.0)));
+            fade_color:SetAlpha((1000.0 - fade_effect_time) / 200.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(fade_color);
             return false;
         end
 

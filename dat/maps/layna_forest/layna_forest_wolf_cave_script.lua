@@ -427,6 +427,7 @@ end
 
 -- Effect time used when applying the heal light effect
 local heal_effect_time = 0;
+local heal_color = vt_video.Color(0.0, 1.0, 0.0, 1.0); -- green effect
 
 -- Map Custom functions
 -- Used through scripted events
@@ -461,12 +462,14 @@ map_functions = {
         heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
 
         if (heal_effect_time < 300.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 1.0, 0.0, heal_effect_time / 300.0 / 3.0 ));
+            heal_color:SetAlpha(heal_effect_time / 300.0 / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
             return false;
         end
 
         if (heal_effect_time < 1000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 1.0, 0.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
+            heal_color:SetAlpha(((1000.0 - heal_effect_time) / 700.0) / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
             return false;
         end
         return true;

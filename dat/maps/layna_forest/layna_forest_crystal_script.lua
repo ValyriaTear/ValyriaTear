@@ -838,8 +838,10 @@ end
 
 -- Effect time used when applying the heal light effect
 local heal_effect_time = 0;
+local heal_color = vt_video.Color(0.0, 0.0, 1.0, 1.0);
 
 local flash_effect_time = 0;
+local flash_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 local crystal_appearance_time = 0;
 local crystal_visible = false;
@@ -882,12 +884,14 @@ map_functions = {
         heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
 
         if (heal_effect_time < 300.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 1.0, heal_effect_time / 300.0 / 3.0 ));
+            heal_color:SetAlpha(heal_effect_time / 300.0 / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
             return false;
         end
 
         if (heal_effect_time < 1000.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 1.0, ((1000.0 - heal_effect_time) / 700.0) / 3.0));
+            heal_color:SetAlpha(((1000.0 - heal_effect_time) / 700.0) / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
             return false;
         end
 
@@ -964,7 +968,8 @@ map_functions = {
         flash_effect_time = flash_effect_time + SystemManager:GetUpdateTime();
 
         if (flash_effect_time < 300.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, flash_effect_time / 300.0));
+            flash_color:SetAlpha(flash_effect_time / 300.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(flash_color);
             return false;
         elseif (flash_effect_time >= 300.0 and flash_effect_time <= 1000.0) then
             if (crystal_visible == true) then
@@ -978,7 +983,8 @@ map_functions = {
             end
             return false; -- do nothing
         elseif (flash_effect_time > 1000.0 and flash_effect_time < 2500.0) then
-            Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, 1.0 - (flash_effect_time - 1000.0) / (2500.0 - 1000.0)));
+            flash_color:SetAlpha(1.0 - (flash_effect_time - 1000.0) / (2500.0 - 1000.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(flash_color);
             return false;
         end
 

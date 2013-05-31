@@ -79,9 +79,12 @@ function Initialize(battle_instance)
     _SetTwilightValues();
 end
 
+local twilight_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 function DrawForeground()
     -- Useful for the map mode
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_LEFT);
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_TOP);
-    Script:DrawImage(light_layer_id, 0.0, 0.0, vt_video.Color(twilight_red, twilight_green, twilight_blue, twilight_alpha));
+    twilight_color:SetColor(twilight_red, twilight_green, twilight_blue, twilight_alpha);
+    Script:DrawImage(light_layer_id, 0.0, 0.0, twilight_color);
 end
