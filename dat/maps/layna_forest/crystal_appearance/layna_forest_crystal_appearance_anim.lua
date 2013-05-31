@@ -169,6 +169,8 @@ function _GetRandomLightningId()
     return lightning3_id;
 end
 
+local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 -- Draw the lightning effects
 function _DrawLightnings()
     -- trigger the lightnings
@@ -178,7 +180,7 @@ function _DrawLightnings()
             lightning1_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
         end
-        Script:DrawImage(lightning1_id, pos_x + 42.0, pos_y - 2.0, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning1_id, pos_x + 42.0, pos_y - 2.0, white_color);
     end
 
     if (lightning_time >= 3000 and lightning_time <= 3300) then
@@ -188,7 +190,7 @@ function _DrawLightnings()
             lightning2_pos_x = _GetRandomLightningXPlacement();
             lightning2_pos_y = _GetRandomLightningYPlacement();
         end
-        Script:DrawImage(lightning2_id, lightning2_pos_x, lightning2_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning2_id, lightning2_pos_x, lightning2_pos_y, white_color);
     end
 
     if (lightning_time >= 3500 and lightning_time <= 3800) then
@@ -198,7 +200,7 @@ function _DrawLightnings()
             lightning3_pos_x = _GetRandomLightningXPlacement();
             lightning3_pos_y = _GetRandomLightningYPlacement();
         end
-        Script:DrawImage(lightning3_id, lightning3_pos_x, lightning3_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning3_id, lightning3_pos_x, lightning3_pos_y, white_color);
     end
 
     if (lightning_time >= 4000 and lightning_time <= 4300) then
@@ -209,7 +211,7 @@ function _DrawLightnings()
             lightning4_pos_y = _GetRandomLightningYPlacement();
             lightning4_id = _GetRandomLightningId();
         end
-        Script:DrawImage(lightning4_id, lightning4_pos_x, lightning4_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning4_id, lightning4_pos_x, lightning4_pos_y, white_color);
     end
 
     if (lightning_time >= 4200 and lightning_time <= 4500) then
@@ -220,7 +222,7 @@ function _DrawLightnings()
             lightning5_pos_y = _GetRandomLightningYPlacement();
             lightning5_id = _GetRandomLightningId();
         end
-        Script:DrawImage(lightning5_id, lightning5_pos_x, lightning5_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning5_id, lightning5_pos_x, lightning5_pos_y, white_color);
     end
 
     if (lightning_time >= 4400 and lightning_time <= 4700) then
@@ -231,7 +233,7 @@ function _DrawLightnings()
             lightning6_pos_y = _GetRandomLightningYPlacement();
             lightning6_id = _GetRandomLightningId();
         end
-        Script:DrawImage(lightning6_id, lightning6_pos_x, lightning6_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning6_id, lightning6_pos_x, lightning6_pos_y, white_color);
     end
 
     if (lightning_time >= 4800 and lightning_time <= 5200) then
@@ -242,7 +244,7 @@ function _DrawLightnings()
             lightning7_pos_y = _GetRandomLightningYPlacement();
             lightning7_id = _GetRandomLightningId();
         end
-        Script:DrawImage(lightning7_id, lightning7_pos_x, lightning7_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning7_id, lightning7_pos_x, lightning7_pos_y, white_color);
     end
 
     if (lightning_time >= 5000 and lightning_time <= 5300) then
@@ -253,7 +255,7 @@ function _DrawLightnings()
             lightning8_pos_y = _GetRandomLightningYPlacement();
             lightning8_id = _GetRandomLightningId();
         end
-        Script:DrawImage(lightning8_id, lightning8_pos_x, lightning8_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning8_id, lightning8_pos_x, lightning8_pos_y, white_color);
     end
 
     if (lightning_time >= 5200 and lightning_time <= 5400) then
@@ -264,7 +266,7 @@ function _DrawLightnings()
             lightning9_pos_y = _GetRandomLightningYPlacement();
             lightning9_id = _GetRandomLightningId();
         end
-        Script:DrawImage(lightning9_id, lightning9_pos_x, lightning9_pos_y, vt_video.Color(1.0, 1.0, 1.0, 1.0));
+        Script:DrawImage(lightning9_id, lightning9_pos_x, lightning9_pos_y, white_color);
     elseif (lightning_time > 5400) then
         -- loop the last lightnings until the effect is gone
         lightning_time = 4000;
@@ -276,6 +278,11 @@ function _DrawLightnings()
         lightning9_triggered = false;
     end
 end
+
+local overlay_color = vt_video.Color(0.0, 0.0, 0.0, 0.0);
+local vortex_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local crystal_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local flash_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawPostEffects()
     -- Only show the image if requested by the events
@@ -292,14 +299,17 @@ function DrawPostEffects()
     -- Apply a dark overlay first.
     local overlay_alpha = 0.8;
     if (display_time >= 0 and display_time <= 2500) then
-		overlay_alpha = 0.8 * (display_time / 2500);
-        Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, overlay_alpha));
+        overlay_alpha = 0.8 * (display_time / 2500);
+        overlay_color:SetAlpha(overlay_alpha);
+        Map:GetEffectSupervisor():EnableLightingOverlay(overlay_color);
     elseif (display_time > 2500 and display_time <= 6500) then
         overlay_alpha = 0.8;
-        Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, overlay_alpha));
+        overlay_color:SetAlpha(overlay_alpha);
+        Map:GetEffectSupervisor():EnableLightingOverlay(overlay_color);
     elseif (display_time > 6500 and display_time <= 8000) then
         overlay_alpha = 0.8 - (display_time - 6500) / (8000 - 6500);
-        Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, overlay_alpha));
+        overlay_color:SetAlpha(overlay_alpha);
+        Map:GetEffectSupervisor():EnableLightingOverlay(overlay_color);
     elseif (overlay_alpha > 0.0 and display_time > 8000) then
         overlay_alpha = 0.0;
         Map:GetEffectSupervisor():DisableLightingOverlay();
@@ -313,25 +323,31 @@ function DrawPostEffects()
         crystal_alpha = (display_time - 4000) / (5000 - 4000);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_CENTER);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_CENTER);
-        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vt_video.Color(1.0, 1.0, 1.0, vortex_alpha), vortex_angle);
+        vortex_color:SetAlpha(vortex_alpha);
+        crystal_color:SetAlpha(crystal_alpha);
+        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vortex_color, vortex_angle);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_BOTTOM);
-        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, vt_video.Color(1.0, 1.0, 1.0, crystal_alpha));
+        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, crystal_color);
     elseif (display_time > 5000 and display_time <= 6500) then
         vortex_alpha = 0.2;
         crystal_alpha = 1.0;
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_CENTER);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_CENTER);
-        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vt_video.Color(1.0, 1.0, 1.0, vortex_alpha), vortex_angle);
+        vortex_color:SetAlpha(vortex_alpha);
+        crystal_color:SetAlpha(crystal_alpha);
+        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vortex_color, vortex_angle);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_BOTTOM);
-        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, vt_video.Color(1.0, 1.0, 1.0, crystal_alpha));
+        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, crystal_color);
     elseif (display_time > 6500 and display_time <= 10600) then
         vortex_alpha = 0.2 - 0.2 * (display_time - 6500) / (10600 - 6500);
         crystal_alpha = 1.0 - (display_time - 6500) / (10600 - 6500);
+        vortex_color:SetAlpha(vortex_alpha);
+        crystal_color:SetAlpha(crystal_alpha);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_CENTER);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_CENTER);
-        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vt_video.Color(1.0, 1.0, 1.0, vortex_alpha), vortex_angle);
+        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vortex_color, vortex_angle);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_BOTTOM);
-        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, vt_video.Color(1.0, 1.0, 1.0, crystal_alpha));
+        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, crystal_color);
     elseif (vortex_alpha > 0.0 and display_time > 10600) then
         vortex_alpha = 0.0;
         crystal_alpha = 0.0;
@@ -341,14 +357,17 @@ function DrawPostEffects()
     -- Then apply a white flash
     local flash_alpha = 0.0;
     if (display_time >= 8000 and display_time <= 8500) then
-		flash_alpha = 1.0 * (display_time - 8000) / (8500 - 8000);
-        Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, flash_alpha));
+        flash_alpha = 1.0 * (display_time - 8000) / (8500 - 8000);
+        flash_color:SetAlpha(flash_alpha);
+        Map:GetEffectSupervisor():EnableLightingOverlay(flash_color);
     elseif (display_time > 8500 and display_time <= 11000) then
         flash_alpha = 1.0;
-        Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, flash_alpha));
+        flash_color:SetAlpha(flash_alpha);
+        Map:GetEffectSupervisor():EnableLightingOverlay(flash_color);
     elseif (display_time > 11000 and display_time <= 17000) then
         flash_alpha = 1.0 - (display_time - 11000) / (17000 - 11000);
-        Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(1.0, 1.0, 1.0, flash_alpha));
+        flash_color:SetAlpha(flash_alpha);
+        Map:GetEffectSupervisor():EnableLightingOverlay(flash_color);
     elseif (flash_alpha > -1.0 and display_time > 17000) then
         flash_alpha = -1.0;
         Map:GetEffectSupervisor():DisableLightingOverlay();
