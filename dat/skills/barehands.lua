@@ -78,3 +78,30 @@ skills[30002] = {
        [KALYA] = "dat/battles/characters_animations/kalya_throw_stone.lua"
    }
 }
+
+skills[30003] = {
+   name = vt_system.Translate("Tornado Punch"),
+   description = vt_system.Translate("Spin knuckles attack doing Wind damages."),
+   sp_required = 20,
+   warmup_time = 1000,
+   cooldown_time = 200,
+   action_name = "throw_stone",
+   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+   BattleExecute = function(user, target)
+       local target_actor = target:GetActor();
+--TODO
+       if (vt_battle.CalculateStandardEvasion(target) == false) then
+           -- Attack: Strength / 3
+           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+           AudioManager:PlaySound("snd/punch.wav");
+       else
+           target_actor:RegisterMiss(true);
+           AudioManager:PlaySound("snd/missed_target.wav");
+       end
+   end,
+
+   animation_scripts = {
+       [KALYA] = "dat/battles/characters_animations/kalya_throw_stone.lua"
+   }
+}

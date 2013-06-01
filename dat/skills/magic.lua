@@ -127,6 +127,166 @@ skills[10003] = {
     end,
 }
 
+skills[10004] = {
+    name = vt_system.Translate("Holy Veil"),
+    description = vt_system.Translate("Increases the attack and magical attack of all allies."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 64,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
+
+    BattleExecute = function(user, target)
+        local index = 0;
+        local effect_duration = user:GetVigor() * 3000;
+        while true do
+            local target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
+                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                        effect_duration);
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE,
+                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                        effect_duration);
+            index = index + 1;
+        end
+    end,
+}
+
+skills[10005] = {
+    name = vt_system.Translate("Ancient Strength"),
+    description = vt_system.Translate("Increases every elemental resistance of all allies."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 56,
+    warmup_time = 4000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
+
+    BattleExecute = function(user, target)
+        local index = 0;
+        local effect_duration = user:GetVigor() * 3000;
+        while true do
+            local target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+            --TODO: Add elemental effect
+            index = index + 1;
+        end
+    end,
+}
+
+skills[10006] = {
+    name = vt_system.Translate("Divine Wish"),
+    description = vt_system.Translate("Revives an ally, restoring all his/her HP and SP."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 100,
+    warmup_time = 6000,
+    cooldown_time = 1750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:GetHitPoints() <= 0) then
+            target_actor:RegisterRevive(10000);
+            target_actor:RegisterHealing(10000, false);
+        end
+    end,
+}
+
+skills[10007] = {
+    name = vt_system.Translate("Magical Poison"),
+    description = vt_system.Translate("Makes an enemy lose its SP little by little."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 40,
+    warmup_time = 3000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        --TODO
+    end,
+}
+
+skills[10008] = {
+    name = vt_system.Translate("Steal Song"),
+    description = vt_system.Translate("Steals positive effects from an enemy."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 40,
+    warmup_time = 2000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        --TODO
+    end,
+}
+
+skills[10009] = {
+    name = vt_system.Translate("Terrify"),
+    description = vt_system.Translate("Makes a normal enemy leave."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 12,
+    warmup_time = 3000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        --TODO
+    end,
+}
+
+skills[10010] = {
+    name = vt_system.Translate("Decay Dirge"),
+    description = vt_system.Translate("Steals both physical and magical defense of an ally."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 24,
+    warmup_time = 3000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        --TODO
+    end,
+}
+
+skills[10011] = {
+    name = vt_system.Translate("War God"),
+    description = vt_system.Translate("Steals both the physical and magical defense of all enemies and gives it to the party."),
+    --icon = "img/icons/magic/leader_call.png",
+    sp_required = 96,
+    warmup_time = 3000,
+    cooldown_time = 750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        --TODO
+    end,
+}
+
 -------------------------------------------------------------
 -- 10100 - 10199 - Shards skills, obtained through equipping shards to equipment
 -------------------------------------------------------------
