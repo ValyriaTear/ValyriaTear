@@ -618,6 +618,10 @@ public:
         return _state == HOSTILE;
     }
 
+    bool IsBoss() const {
+        return _is_boss;
+    }
+
     void SetZone(EnemyZone *zone) {
         _zone = zone;
     }
@@ -636,6 +640,10 @@ public:
 
     void SetTimeToSpawn(uint32 time) {
         _time_to_spawn = time;
+    }
+
+    void SetBoss(bool is_boss) {
+        _is_boss = is_boss;
     }
 
     void SetBattleMusicTheme(const std::string &music_theme) {
@@ -697,6 +705,9 @@ private:
 
     //! \brief The filenames of the script to pass to the battle
     std::vector<std::string> _script_files;
+
+    //! \brief Tells whether the sprite is a boss.
+    bool _is_boss;
 
     //! \brief The custom script filename
     // TODO: Actually use it for animation and/or custom battle AI ??

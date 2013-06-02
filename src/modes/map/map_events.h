@@ -436,7 +436,7 @@ public:
         _battle_background = filename;
     }
 
-    void IsBoss(bool is_boss) {
+    void SetBoss(bool is_boss) {
         _is_boss = is_boss;
     }
 

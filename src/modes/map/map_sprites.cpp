@@ -540,7 +540,7 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
     if(!enemy_battle_scripts.empty())
         BM->GetScriptSupervisor().SetScripts(enemy_battle_scripts);
 
-    TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
+    TransitionToBattleMode *TM = new TransitionToBattleMode(BM, enemy->IsBoss());
 
     // Indicates to the potential enemy zone that this spawn is dead.
     EnemyZone *zone = enemy->GetEnemyZone();
@@ -1161,7 +1161,9 @@ EnemySprite::EnemySprite() :
     _color(1.0f, 1.0f, 1.0f, 0.0f),
     _aggro_range(8.0f),
     _time_dir_change(2500),
-    _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME)
+    _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME),
+    _out_of_zone(false),
+    _is_boss(false)
 {
     MapObject::_object_type = ENEMY_TYPE;
     moving = true;
@@ -1175,7 +1177,9 @@ EnemySprite::EnemySprite(const std::string &file) :
     _color(1.0f, 1.0f, 1.0f, 0.0f),
     _aggro_range(8.0f),
     _time_dir_change(2500),
-    _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME)
+    _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME),
+    _out_of_zone(false),
+    _is_boss(false)
 {
     _filename = file;
     MapObject::_object_type = ENEMY_TYPE;

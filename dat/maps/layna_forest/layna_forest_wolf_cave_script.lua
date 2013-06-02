@@ -366,7 +366,7 @@ function _CreateEvents()
     event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
     event:AddEnemy(7, 512, 500);
-    event:IsBoss(true);
+    event:SetBoss(true);
     event:AddEventLinkAtEnd("Make the fenrir disappear");
     EventManager:RegisterEvent(event);
 
