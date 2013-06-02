@@ -4,20 +4,6 @@ tileset.image = "img/tilesets/mountain_landscape.png"
 tileset.num_tile_cols = 16
 tileset.num_tile_rows = 16
 
-tileset.autotiling = {}
-tileset.autotiling[10] = "CrackedEarth"
-tileset.autotiling[14] = "Pavers"
-tileset.autotiling[15] = "Pavers"
-tileset.autotiling[26] = "CrackedEarth"
-tileset.autotiling[30] = "Pavers"
-tileset.autotiling[31] = "Pavers"
-tileset.autotiling[42] = "CrackedEarth"
-tileset.autotiling[76] = "Pavers"
-tileset.autotiling[78] = "Grass"
-tileset.autotiling[79] = "Grass"
-tileset.autotiling[94] = "Grass"
-tileset.autotiling[95] = "Grass"
-
 -- The general walkability of the tiles in the tileset. Zero indicates walkable. One tile has four walkable quadrants listed as: NW corner, NE corner, SW corner, SE corner.
 tileset.walkability = {}
 tileset.walkability[0] = {}
