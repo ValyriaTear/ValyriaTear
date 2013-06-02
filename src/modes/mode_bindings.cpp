@@ -530,6 +530,7 @@ void BindModeCode()
             .def(luabind::constructor<std::string>())
             .def("SetMusic", &BattleEncounterEvent::SetMusic)
             .def("SetBackground", &BattleEncounterEvent::SetBackground)
+            .def("IsBoss", &BattleEncounterEvent::IsBoss)
             .def("AddScript", &BattleEncounterEvent::AddScript)
             .def("AddEnemy", &BattleEncounterEvent::AddEnemy)
         ];

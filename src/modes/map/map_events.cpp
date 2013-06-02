@@ -247,7 +247,7 @@ void BattleEncounterEvent::_Start()
         for(uint32 i = 0; i < _battle_scripts.size(); ++i)
             BM->GetScriptSupervisor().AddScript(_battle_scripts[i]);
 
-        TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
+        TransitionToBattleMode *TM = new TransitionToBattleMode(BM, _is_boss);
 
         ModeManager->Push(TM);
     } catch(const luabind::error &e) {

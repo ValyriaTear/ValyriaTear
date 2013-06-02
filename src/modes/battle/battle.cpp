@@ -1249,11 +1249,17 @@ static std::string encounter_sound_filenames[] = {
     "snd/battle_encounter_03.ogg"
 };
 
-TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM):
+// Available encounter sounds
+static std::string boss_encounter_sound_filenames[] = {
+    "snd/gong.wav",
+    "snd/gong2.wav"
+};
+
+TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM, bool is_boss):
     _position(0.0f),
+    _is_boss(is_boss),
     _BM(BM)
 {
-
     _screen_capture = VideoManager->CaptureScreen();
     _screen_capture.SetDimensions(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
 }
@@ -1311,8 +1317,14 @@ void TransitionToBattleMode::Reset()
     AudioManager->StopAllMusic();
 
     // Play a random encounter sound
-    uint32 file_id = vt_utils::RandomBoundedInteger(0, 2);
-    vt_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
+    if (_is_boss) {
+        uint32 file_id = vt_utils::RandomBoundedInteger(0, 1);
+        vt_audio::AudioManager->PlaySound(boss_encounter_sound_filenames[file_id]);
+    }
+    else {
+        uint32 file_id = vt_utils::RandomBoundedInteger(0, 2);
+        vt_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
+    }
 }
 
 } // namespace vt_battle

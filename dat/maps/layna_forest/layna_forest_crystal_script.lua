@@ -433,6 +433,7 @@ function _CreateEvents()
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
     event:AddEnemy(8, 512, 500);
+    event:IsBoss(true);
     event:AddEventLinkAtEnd("Make the wolf disappear");
     EventManager:RegisterEvent(event);
 

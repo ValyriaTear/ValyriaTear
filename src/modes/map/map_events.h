@@ -436,6 +436,10 @@ public:
         _battle_background = filename;
     }
 
+    void IsBoss(bool is_boss) {
+        _is_boss = is_boss;
+    }
+
     void AddEnemy(uint32 enemy_id, float position_x, float position_y);
 
     void AddScript(const std::string &filename) {
@@ -454,6 +458,9 @@ protected:
 
     //! \brief Filenames of the battle scripts
     std::vector<std::string> _battle_scripts;
+
+    //! \brief Tells whether the battle is against a boss
+    bool _is_boss;
 
     //! \brief Starts the battle
     void _Start();

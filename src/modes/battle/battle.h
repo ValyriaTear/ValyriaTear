@@ -647,7 +647,7 @@ private:
 class TransitionToBattleMode : public vt_mode_manager::GameMode
 {
 public:
-    TransitionToBattleMode(BattleMode *BM);
+    TransitionToBattleMode(BattleMode *BM, bool is_boss = false);
 
     ~TransitionToBattleMode() {
         // If the game quits while in pause mode during a transition to battle,
@@ -671,6 +671,9 @@ private:
 
     //! \brief Used to display the effect
     float _position;
+
+    //! \brief Tells whether the boss trigger sound is to be played or not.
+    bool _is_boss;
 
     //! \brief The Battle mode to trigger afterward. Must not be NULL.
     BattleMode *_BM;

@@ -704,6 +704,7 @@ function _CreateEvents()
     event:SetMusic("mus/the_recon_mission.ogg");
     event:SetBackground("img/backdrops/battle/mountain_village_single_house.png");
     event:AddEnemy(10, 640, 575);
+    event:IsBoss(true);
     event:AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
     event:AddScript("dat/maps/common/at_night.lua");
 
