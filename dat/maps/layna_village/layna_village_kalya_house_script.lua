@@ -198,8 +198,8 @@ function _CreateEvents()
     local text = {};
 
     -- Triggered events
-    event = vt_map.MapTransitionEvent("to Mt Elbrus", "dat/maps/mt_elbrus/mt_elbrus_low_part1_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_low_part1_script.lua", "from_kalya_house_basement");
+    event = vt_map.MapTransitionEvent("to Mt Elbrus", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                      "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_kalya_house_basement");
     EventManager:RegisterEvent(event);
 
     -- Generic events
