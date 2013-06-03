@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-27 03:10+0200\n"
-"PO-Revision-Date: 2013-05-27 03:12+0100\n"
+"PO-Revision-Date: 2013-06-03 02:19+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -3674,7 +3674,7 @@ msgstr "Soeurette !! Ils sont devant la maison !"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:370
 msgid "Quick, we must go now!!"
-msgstr "Vite, nous devons y aller maintenant ::"
+msgstr "Vite, nous devons y aller maintenant !!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:372
 msgid ""
@@ -4011,7 +4011,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:799
 msgid "He is the only one that can get what I'm looking for..."
-msgstr "Il est le seul qui peut obtenir ce que je recherche ..."
+msgstr "Il est le seul qui puisse obtenir ce que je recherche ..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:801
 msgid "Soldiers! Give them a few minutes before starting the chase."
