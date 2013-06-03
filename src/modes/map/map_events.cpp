@@ -1298,6 +1298,9 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite)
 
 void EventSupervisor::Update()
 {
+    // Store the events that became active in the delayed event loop.
+    std::vector<MapEvent *> events_to_start;
+
     // Update all launch event timers and start all events whose timers have finished
     for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
@@ -1306,12 +1309,18 @@ void EventSupervisor::Update()
         if(it->first <= 0) {  // Timer has expired
             MapEvent *start_event = it->second;
             it = _active_delayed_events.erase(it);
-            // We begin the event only after it has been removed from the launch list
-            StartEvent(start_event);
+
+            // We add the event ready to start i a vector, waiting for the loop to end
+            // before starting it.
+            events_to_start.push_back(start_event);
         } else {
             ++it;
         }
     }
+
+    // Starts the events that became active.
+    for(std::vector<MapEvent *>::iterator it = events_to_start.begin(); it != events_to_start.end(); ++it)
+        StartEvent(*it);
 
     // Store the events that ended within the update loop.
     std::vector<MapEvent *> finished_events;
