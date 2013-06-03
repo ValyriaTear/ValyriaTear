@@ -1072,18 +1072,14 @@ void BattleEnemy::DrawSprite()
 
     } else if(GetHitPoints() == GetMaxHitPoints()) {
         _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
-    } else if(hp_percent > 0.666f) {
+    } else if(hp_percent > 0.75f) {
         _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
-        float alpha = 1.0f - ((hp_percent - 0.666f) * 3.0f);
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
-    } else if(hp_percent >  0.333f) {
+    } else if(hp_percent >  0.5f) {
         _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw();
-        float alpha = 1.0f - ((hp_percent - 0.333f) * 3.0f);
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
-    } else { // (hp_precent > 0.0f)
+    } else if(hp_percent >  0.25f) {
         _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw();
-        float alpha = 1.0f - (hp_percent * 3.0f);
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+    } else { // (hp_precent > 0.0f)
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw();
     }
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
