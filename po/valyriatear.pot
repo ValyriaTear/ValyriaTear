@@ -3028,7 +3028,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:906
 msgid ""
-"You're the nicest person I know, Bronnan. I well tell everyone how brave "
+"You're the nicest person I know, Bronann. I well tell everyone how brave "
 "you..."
 msgstr ""
 
@@ -3167,6 +3167,8 @@ msgid "Heya bro! Wanna play with me?"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:164
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:187
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:208
 msgid "Hi Bronann! What can I do for you?"
 msgstr ""
 
@@ -3194,11 +3196,6 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:199
 msgid ""
 "He's probably 'musing' around the cliffs in the village center right now."
-msgstr ""
-
-#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:187
-#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:208
-msgid "Hi Bronnan! What can I do for you?"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:189

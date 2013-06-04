@@ -184,7 +184,7 @@ function _UpdateFloraDialogue()
         return;
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue();
-        text = vt_system.Translate("Hi Bronnan! What can I do for you?");
+        text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Hi Flora! Do you have some barley meal left?");
         dialogue:AddLine(text, bronann);
@@ -205,7 +205,7 @@ function _UpdateFloraDialogue()
     end
     --default behaviour
     dialogue = vt_map.SpriteDialogue("ep1_layna_village_flora_default");
-    text = vt_system.Translate("Hi Bronnan! What can I do for you?");
+    text = vt_system.Translate("Hi Bronann! What can I do for you?");
     dialogue:AddLineEvent(text, flora, "", "layna: open shop");
     DialogueManager:AddDialogue(dialogue);
     flora:AddDialogueReference(dialogue);

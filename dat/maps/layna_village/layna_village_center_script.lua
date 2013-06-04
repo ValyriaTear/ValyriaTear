@@ -621,10 +621,10 @@ function _CreateEvents()
 
     event = vt_map.PathMoveSpriteEvent("Quest2: Carson starts to leave to south", carson, 90.0, 76.0, false);
     event:AddEventLinkAtEnd("Quest2: Carson talks to Bronann once last time");
-    event:AddEventLinkAtEnd("Quest2: Carson looks at Bronnan from south");
+    event:AddEventLinkAtEnd("Quest2: Carson looks at Bronann from south");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Bronnan from south", carson, vt_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Bronann from south", carson, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
@@ -672,7 +672,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Map:PopState()");
     EventManager:RegisterEvent(event);
 
-    -- Kalya explains Bronnan about dungeons and equipment,
+    -- Kalya explains Bronann about dungeons and equipment,
     event = vt_map.ScriptedEvent("Quest2: Kalya's equipment and dungeons speech start", "Quest2_equip_speech_start", "");
     event:AddEventLinkAtEnd("Quest2: Kalya walks off from Bronann");
     event:AddEventLinkAtEnd("Quest2: Bronann goes in front of Kalya");
@@ -903,7 +903,7 @@ function _UpdateGeorgesDialogue()
         dialogue = vt_map.SpriteDialogue();
         text = vt_system.Translate("Here it is, Georges.");
         dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("You're the nicest person I know, Bronnan. I well tell everyone how brave you...");
+        text = vt_system.Translate("You're the nicest person I know, Bronann. I well tell everyone how brave you...");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("(Sigh...) Georges!");
         dialogue:AddLine(text, bronann);
