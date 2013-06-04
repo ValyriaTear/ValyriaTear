@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-27 03:10+0200\n"
-"PO-Revision-Date: 2013-05-28 16:26+0100\n"
-"Last-Translator: \n"
-"Language-Team: German\n"
+"PO-Revision-Date: 2013-06-04 19:35+0100\n"
+"Last-Translator: <>\n"
+"Language-Team:  <German>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -395,7 +395,7 @@ msgstr "Rechts: "
 
 #: ../src/modes/boot/boot.cpp:618
 msgid "Confirm: "
-msgstr "Bestätigen: "
+msgstr "Bestätige: "
 
 #: ../src/modes/boot/boot.cpp:619
 msgid "Cancel: "
@@ -491,7 +491,7 @@ msgstr "Grenzbereich"
 
 #: ../src/modes/boot/boot.cpp:742
 msgid "Confirm: Button"
-msgstr "Bestätigen: Taste"
+msgstr "Bestätige: Taste"
 
 #: ../src/modes/boot/boot.cpp:743
 msgid "Cancel: Button"
@@ -676,7 +676,7 @@ msgstr "Bei"
 
 #: ../src/modes/menu/menu_views.cpp:224
 msgid "Key"
-msgstr "Schl"
+msgstr "Taste"
 
 #: ../src/modes/menu/menu_views.cpp:573
 msgid "This character cannot equip this item."
@@ -843,7 +843,6 @@ msgid "No legs armor"
 msgstr "Nichts ausgerüstet"
 
 #: ../src/modes/mode_help_window.cpp:115
-#, c-format
 msgid "Press '%s' anytime to show/hide help."
 msgstr "Drücke '% s' um Hilfe ein- oder auszublenden."
 
@@ -932,7 +931,7 @@ msgstr "Runter"
 
 #: ../src/modes/mode_help_window.cpp:187
 msgid "Move down in the item list."
-msgstr "In der Liste runterbewegen"
+msgstr "In der Liste runterbewegen."
 
 #: ../src/modes/mode_help_window.cpp:190
 msgid "Show details or confirm a transaction"
@@ -1736,7 +1735,7 @@ msgid ""
 "He spoke about losing it near a tree but also told me people in the village "
 "might know more..."
 msgstr ""
-"Um von Georges zu erfahren wem er seinen Gerstenmehlrest gegeben hat, muss "
+"Um von Georges zu erfahren, wem er seinen Gerstenmehlrest gegeben hat, muss "
 "ich seinen Stift wiederfinden.\n"
 " \n"
 "Er meinte, er könnte ihn in der Nähe eines Baums verloren haben, empfahl "
@@ -2001,7 +2000,7 @@ msgstr "Es scheint, als ob Orlinn irgendwie an diesen Platformen vorbei ist."
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:470
 msgid "Let's make our way through this before something bad happens to him."
 msgstr ""
-"Wir müssen hier durch und ihn einholen bevor ihm möglicherweise etwas "
+"Wir müssen hier durch und ihn einholen, bevor ihm möglicherweise etwas "
 "Schlimmes zustößt."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:472
@@ -2446,7 +2445,7 @@ msgstr "Wir sind fast da!"
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1124
 msgid "Say Sister, do you think Herth will be angry with me for what happened?"
 msgstr ""
-"Sag mal Schwester, denkst du Herth wird mir böse sein wegen dem, was "
+"Sag mal Schwester, denkst du Herth wird mir böse sein wegen dessen, was "
 "passiert ist?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1126
@@ -2591,7 +2590,7 @@ msgstr "Banesore"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:57
 msgid "So... Do you think you can hurt me?"
-msgstr "So... Du glaubst du könntest mir Schaden zufügen?"
+msgstr "So... Du glaubst, du könntest mir Schaden zufügen?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:59
 msgid "You? A child with an old wooden stick?"
@@ -2755,7 +2754,7 @@ msgstr "Vielleicht sollten wir es ihm sagen..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:389
 msgid "It's too early, darling. We might be wrong."
-msgstr "Es ist zu früh, Liebling. Wir könnten falsch liegen."
+msgstr "Es ist zu früh, Liebling. Wir könnten uns irren."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:391
 msgid "I really hope we are..."
@@ -2791,7 +2790,7 @@ msgstr "Äh-äh? Ich bin deine Mutter, schon vergessen?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:510
 msgid "Don't venture too far, I'll need your help quite soon!"
-msgstr "Geh nicht zu weit raus, ich brauche  in Kürze deine Hilfe!"
+msgstr "Geh nicht zu weit raus, ich brauche in Kürze deine Hilfe!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:267
 msgid "Back home, finally..."
@@ -2898,7 +2897,7 @@ msgstr "Warum will mir niemand sagen was los ist!"
 msgid ""
 "Still, I have to go there and figure out what they're trying to hide from me."
 msgstr ""
-"Wie auch immer, ich muss hin und rausfinden was sie versuchen vor mir zu "
+"Wie auch immer, ich muss hin und rausfinden, was sie versuchen vor mir zu "
 "verbergen."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:429
@@ -2917,7 +2916,7 @@ msgstr "... Bronann! Warte!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:480
 msgid "I suppose you just saw that light, right?"
-msgstr "Ich nehme an, du hast das Licht gerade gesehen, richtig?"
+msgstr "Ich nehme an, du hast das Licht gerade gesehen, oder?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:482
 msgid "... Hmmm..."
@@ -3022,7 +3021,7 @@ msgstr "Was? Hey! Aber..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:551
 msgid "He won't slow you down, believe me. Right, Bronann?"
-msgstr "Er wird dir nich zu Last fallen, glaube mir. Richtig, Bronann?"
+msgstr "Er wird dir nich zu Last fallen, glaube mir. Nicht wahr, Bronann?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:553
 msgid "But father!"
@@ -3056,7 +3055,7 @@ msgid ""
 "I know, but everything has changed. I'll explain it to you once it is all "
 "finished. Now go, my son."
 msgstr ""
-"Ich weiß, aber die Situation hat sich geändert. Ich erkläre es dir sobald "
+"Ich weiß, aber die Situation hat sich geändert. Ich erkläre es dir, sobald "
 "das alles vorbei ist. Geh nun, mein Sohn."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:606
@@ -3176,7 +3175,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:866
 msgid "Good luck Bronann."
-msgstr "Viel Glück Bronann."
+msgstr "Viel Glück, Bronann."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:891
 #: ../dat/maps/layna_village/layna_village_center_script.lua:912
@@ -3211,7 +3210,7 @@ msgstr "(Seufz...) Georges!"
 #: ../dat/maps/layna_village/layna_village_center_script.lua:910
 msgid "Ok ok. Just having a bit of spirit, young man."
 msgstr ""
-"Okay okay. Ich wollte doch nur meine Begeisterung zum Ausdruck bringen, "
+"Okay, okay. Ich wollte doch nur meine Begeisterung zum Ausdruck bringen, "
 "junger Mann."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:916
@@ -3266,7 +3265,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:945
 msgid "Huh, please Georges. I do not want to run away like the last time..."
-msgstr "Hä, bitte Georges. Ich werde nicht weggehen wie das letzte Mal..."
+msgstr "Hä, bitte Georges. Ich werde nicht weggehen, wie das letzte Mal..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:947
 msgid ""
@@ -3402,7 +3401,7 @@ msgstr "Hallo Flora! Hast du etwas Gerstenmehl übrig?"
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:191
 msgid "Oh sorry, our 'great' poet came earlier and took all the rest of it."
 msgstr ""
-"Oh tut mir leid, unser *großer* Dichter kam vorhin vorbei und hat den Rest "
+"Oh, tut mir leid, unser *großer* Dichter kam vorhin vorbei und hat den Rest "
 "mitgenommen."
 
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:193
@@ -3824,13 +3823,13 @@ msgid ""
 "So much to lose and still looking at me in the eyes... I admire such a "
 "courageous heart, my dear one."
 msgstr ""
-"So viel zu verlieren und trotzdem stehst du vor mir erhobenen Hauptes... Ich "
-"bewundere solch ein tapferes Herz, meine Liebe."
+"So viel zu verlieren, und trotzdem stehst du vor mir erhobenen Hauptes... "
+"Ich bewundere solch ein tapferes Herz, meine Liebe."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:533
 msgid "Therefore, I'm inclined to ask the questions one last time:"
 msgstr ""
-"Deswegen, bin ich dazu geneigt dich noch ein allerletzes mal zu fragen:"
+"Deswegen, bin ich dazu geneigt dich noch ein allerletztes Mal zu fragen:"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:535
 msgid "Where is the Crystal? Where is... the boy?"
@@ -4100,7 +4099,7 @@ msgstr "Los Orlinn!"
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:380
 msgid "I found that pen near the tree behind you. I just wanted to play..."
 msgstr ""
-"Ich habe den Stift neben dem Baum hinter dir gefunden. Ich wollte nur "
+"Ich habe den Stift dahinten neben dem Baum gefunden. Ich wollte nur "
 "spielen..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:382
@@ -4130,8 +4129,8 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:417
 msgid "Well anyway, she's been ignoring me since the first day I saw her..."
 msgstr ""
-"Wie auch immer, sie hat mich seit dem Tag an dem ich sie zum ersten Mal traf "
-"ignoriert..."
+"Wie auch immer, sie hat mich seit dem Tag, an dem ich sie zum ersten Mal "
+"traf, ignoriert..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:419
 msgid "Eh? You really know nothing about women, do you?"
@@ -4203,7 +4202,7 @@ msgid ""
 "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
 "grab it and bring it back to you."
 msgstr ""
-"Ah ha! Ich wollte nur deine Reaktion sehen. Ich habe noch ein wenig übrig. "
+"Ah ha! Ich wollte nur deine Reaktion sehen. Ich habe noch etwas übrig. "
 "Warte, ich hole es."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:629
@@ -4346,19 +4345,19 @@ msgstr "Ein robuster Helm mit aufklappbaren Gesichtschutz."
 
 #: ../dat/objects/items.lua:73
 msgid "Minor Healing Potion"
-msgstr "Kleiner Heilender Trank"
+msgstr "Kleiner Heiltrank"
 
 #: ../dat/objects/items.lua:74
 msgid "Restores a small amount of hit points to an ally."
-msgstr "Stellt eine geringe Menge an HP wieder her."
+msgstr "Stellt eine geringe Menge an Lebenspunkten wieder her."
 
 #: ../dat/objects/items.lua:92
 msgid "Medium Healing Potion"
-msgstr "Mittlerer Heilender Trank"
+msgstr "Mittlerer Heiltrank"
 
 #: ../dat/objects/items.lua:93
 msgid "Restores a reasonable amount of hit points to an ally."
-msgstr "Stellt eine mäßige Menge an HP wieder her."
+msgstr "Stellt eine mäßige Menge an Lebenspunkten wieder her."
 
 #: ../dat/objects/items.lua:117
 msgid "Healing Potion"
@@ -4366,15 +4365,15 @@ msgstr "Heilender Trank"
 
 #: ../dat/objects/items.lua:118
 msgid "Restores a large amount of hit points to an ally."
-msgstr "Stellt eine große Menge an HP wieder her."
+msgstr "Stellt eine große Menge an Lebenspunkten wieder her."
 
 #: ../dat/objects/items.lua:142
 msgid "Mega Healing Potion"
-msgstr "Mega Heilender Trank"
+msgstr "Großer Heiltrank"
 
 #: ../dat/objects/items.lua:143
 msgid "Restores a very high amount of hit points to an ally."
-msgstr "Stellt eine sehr große Menge an HP wieder her."
+msgstr "Stellt eine sehr große Menge an Lebenspunkten wieder her."
 
 #: ../dat/objects/items.lua:187
 msgid "Small Moon Juice Potion"
@@ -4402,7 +4401,7 @@ msgstr "Stellt eine große Menge an Fertigkeitspunkten wieder her."
 
 #: ../dat/objects/items.lua:244
 msgid "Mega Moon Juice Potion"
-msgstr "Mega Mondsaft Trank"
+msgstr "Großer Mondsaft Trank"
 
 #: ../dat/objects/items.lua:245
 msgid "Restores a very high amount of skill points to an ally."
@@ -4417,7 +4416,7 @@ msgid ""
 "Revive a character, or improve the character status when it is sane or "
 "reduces ailing status effects by a limited degree."
 msgstr ""
-"Belebt Charakter wieder oder erhöht Charakterstatus, sonst reduziert "
+"Belebt einen Charakter wieder oder erhöht Charakterstatus, sonst reduziert "
 "negative Statuseffekte in begrenztem Maße."
 
 #: ../dat/objects/items.lua:319
@@ -4429,8 +4428,8 @@ msgid ""
 "Revive a character with half of its Hit Points, or reduces almost all its "
 "ailing status effects if the potion is drunk when alive."
 msgstr ""
-"Belebt einen Charakter wieder und regeneriert die Hälfte der Lebenspunkte "
-"(HP). Verringert fast alle negativen Statuseffekte bei Anwendung auf einen "
+"Belebt einen Charakter wieder und regeneriert die Hälfte der Lebenspunkte. "
+"Verringert fast alle negativen Statuseffekte, bei Anwendung auf einen "
 "lebenden Körper."
 
 #: ../dat/objects/items.lua:360
@@ -4626,7 +4625,7 @@ msgstr ""
 
 #: ../dat/objects/torso_armor.lua:41
 msgid "Rookie Tunic"
-msgstr "Anfänger-Tunika"
+msgstr "Anfänger Tunika"
 
 #: ../dat/objects/torso_armor.lua:42
 msgid ""
@@ -4775,7 +4774,7 @@ msgstr "Steinwurf"
 
 #: ../dat/skills/barehands.lua:57
 msgid "Kalya's attack when she's got no weapon."
-msgstr "Kalya's bevorzugte Angriffsmethode wenn keine Waffe zur Hand ist."
+msgstr "Kalya's bevorzugte Angriffsmethode, wenn keine Waffe zur Hand ist."
 
 #: ../dat/skills/magic.lua:46
 msgid "Shield"
@@ -4826,7 +4825,7 @@ msgstr "Lava"
 
 #: ../dat/skills/magic.lua:179
 msgid "Magical attack combining Earth and Fire damages."
-msgstr "Magischer Angriff, der Erd- und Feuerschaden zufügt."
+msgstr "Magischer Angriff, der Erd- und Feuerschaden kombiniert."
 
 #: ../dat/skills/magic.lua:194
 msgid "Fog"
@@ -4842,7 +4841,7 @@ msgstr "Feueratem"
 
 #: ../dat/skills/magic.lua:211
 msgid "Magical attack combining Air and Fire damages."
-msgstr "Magischer Angriff, der Luft- und Feuerschaden zufügt."
+msgstr "Magischer Angriff, der Luft- und Feuerschaden kombiniert."
 
 #: ../dat/skills/magic.lua:226
 msgid "Focus"
@@ -4858,7 +4857,7 @@ msgstr "Heiliges Feuer"
 
 #: ../dat/skills/magic.lua:243
 msgid "Magical attack combining Life and Fire damages."
-msgstr "Magischer Angriff, der Lebens- und Feuerschaden zufügt."
+msgstr "Magischer Angriff, der Lebens- und Feuerschaden kombiniert."
 
 #: ../dat/skills/magic.lua:259
 msgid "Revives a fallen ally."
@@ -4981,7 +4980,7 @@ msgstr "Wirbelwind"
 
 #: ../dat/skills/magic.lua:539
 msgid "Magical attack combining Water and Air damages."
-msgstr "Magischer Angriff, der Wasser- und Luftschaden zufügt."
+msgstr "Magischer Angriff, der Wasser- und Luftschaden kombiniert."
 
 #: ../dat/skills/magic.lua:554
 msgid "Slow"
@@ -5037,7 +5036,7 @@ msgstr "Heilender Regen"
 
 #: ../dat/skills/magic.lua:652
 msgid "Cures health of all allies."
-msgstr "Stell die Lebenspunkte aller Verbündeten wieder her."
+msgstr "Stellt die Lebenspunkte aller Verbündeten wieder her."
 
 #: ../dat/skills/magic.lua:667
 msgid "Wind"
@@ -5061,7 +5060,7 @@ msgstr "Blitz"
 
 #: ../dat/skills/magic.lua:720
 msgid "Magical attack combining Life and Air damages."
-msgstr "Magischer Angriff, der Lebens- und Luftschaden zufügt."
+msgstr "Magischer Angriff, der Lebens- und Luftschaden kombiniert."
 
 #: ../dat/skills/magic.lua:735
 msgid "Regen"
@@ -5077,7 +5076,7 @@ msgstr "Magie aufzehren"
 
 #: ../dat/skills/magic.lua:752
 msgid "Steals Skill Points from an enemy."
-msgstr "Raubt SP von einem Gegner."
+msgstr "Raubt Fertigkeitspunkte von einem Gegner."
 
 #: ../dat/skills/magic.lua:767
 msgid "Silence"
@@ -5207,7 +5206,7 @@ msgstr "Konter"
 
 #: ../dat/skills/magic.lua:1041
 msgid "Makes an ally counter-attack if hurt."
-msgstr "Bei Schaden führt der Charakter einem Konterschlag aus."
+msgstr "Bei Schaden führt der Charakter einen Konterschlag aus."
 
 #: ../dat/skills/magic.lua:1056
 msgid "Phoenix Call"
@@ -5223,7 +5222,7 @@ msgstr "Bio"
 
 #: ../dat/skills/magic.lua:1073
 msgid "Cures poison on all characters."
-msgstr "Hebt die Verguftung bei allen Verbündeten auf"
+msgstr "Hebt die Vergiftung bei allen Verbündeten auf."
 
 #: ../dat/skills/special.lua:74
 msgid "Wolf Pain"
