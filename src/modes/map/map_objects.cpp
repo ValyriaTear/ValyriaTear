@@ -760,7 +760,7 @@ void TreasureObject::Update()
         for (; it != _events.end();) {
             // Once the event has finished, we forget it
             if (!event_manager->IsEventActive(*it))
-                _events.erase(it);
+                it = _events.erase(it);
             else
                 ++it;
         }
