@@ -268,7 +268,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann looks at Orlinn", 1500);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn goes upstairs", orlinn, 40.0, 29.5, false);
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes upstairs", orlinn, 40.0, 27.5, false);
     event:AddEventLinkAtEnd("Make Orlinn invisible");
     EventManager:RegisterEvent(event);
 
@@ -471,7 +471,7 @@ function _CreateZones()
     downstairs_zone = vt_map.CameraZone(38, 42, 20, 22);
     Map:AddZone(downstairs_zone);
 
-    upstairs_zone = vt_map.CameraZone(38, 42, 28, 30);
+    upstairs_zone = vt_map.CameraZone(38, 42, 26, 28);
     Map:AddZone(upstairs_zone);
 
     to_mt_elbrus_zone = vt_map.CameraZone(30, 36, 12, 14);

@@ -53,6 +53,7 @@ function Load(m)
 
     -- Add clouds overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
 end
 
@@ -151,18 +152,13 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(49, 62, 26, 39);
 
-    -- Day and first encounters (slimes and spiders)
-    enemy = CreateEnemySprite(Map, "slime");
+    -- Dark soldier 1
+    enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(2);
+    enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, Map, 1);
-
+    roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     Map:AddZone(roam_zone);
 end
 
@@ -203,7 +199,8 @@ end
 function _SetBattleEnvironment(enemy)
     -- default values
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/boot/background.png");
+    enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
+    enemy:AddBattleScript("dat/maps/common/at_night.lua");
     -- TODO: add script showing the scenery.
 end
 

@@ -276,15 +276,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Bronann runs midway to Kalya", bronann, 55.0, 45.0, true);
-    event:AddEventLinkAtEnd("Bronann looks south before suffering", 300);
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south before suffering", bronann, vt_map.MapMode.SOUTH);
-    event:AddEventLinkAtEnd("Bronann kneels due to suffering", 500);
+    event:AddEventLinkAtEnd("Bronann kneels due to suffering", 300);
     event:AddEventLinkAtEnd("Kalya goes near Bronann", 800);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann kneels due to suffering", bronann, "kneeling", 999999);
+    event = vt_map.AnimateSpriteEvent("Bronann kneels due to suffering", bronann, "kneeling_left", 999999);
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Kalya goes near Bronann", kalya, 53.0, 45.0, true);
