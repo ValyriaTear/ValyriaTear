@@ -815,22 +815,16 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     if(sheet == NULL) {
         delete new_image;
         throw Exception("could not create texture sheet to store captured screen", __FILE__, __LINE__, __FUNCTION__);
-        screen_image.Clear();
-        return screen_image;
     }
     if(sheet->InsertTexture(new_image) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("could not insert captured screen image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
-        screen_image.Clear();
-        return screen_image;
     }
     if(sheet->CopyScreenRect(0, 0, screen_rect) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("call to TexSheet::CopyScreenRect() failed", __FILE__, __LINE__, __FUNCTION__);
-        screen_image.Clear();
-        return screen_image;
     }
 
     // Store the image element to the saved image (with a flipped y axis)
@@ -855,7 +849,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     if(!raw_image)
     {
         throw Exception("raw_image is NULL, cannot create a StillImage", __FILE__, __LINE__, __FUNCTION__);
-        return still_image;
     }
 
     still_image.SetDimensions(raw_image->width, raw_image->height);
@@ -874,7 +867,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
         else
         {
             throw Exception("image already exists in texture manager", __FILE__, __LINE__, __FUNCTION__);
-            return still_image;
         }
     }
 
@@ -890,7 +882,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     if(sheet == NULL) {
         delete new_image;
         throw Exception("could not create texture sheet to store still image", __FILE__, __LINE__, __FUNCTION__);
-        return still_image;
     }
 
     if(sheet->InsertTexture(new_image) == false)
@@ -898,7 +889,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("could not insert raw image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
-        return still_image;
     }
 
     if(sheet->CopyRect(0, 0, *raw_image) == false)
@@ -906,8 +896,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("call to TexSheet::CopyRect() failed", __FILE__, __LINE__, __FUNCTION__);
-        still_image.Clear();
-        return still_image;
     }
 
     // Store the image element to the saved image (with a flipped y axis)

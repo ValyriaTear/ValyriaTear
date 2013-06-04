@@ -141,8 +141,8 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
 
     if (!read_data.OpenTable("tileset")) {
         read_data.CloseFile();
-        return false;
         qDebug("Failed to open the 'tileset' table");
+        return false;
     }
 
     _tileset_image_filename = QString::fromStdString(read_data.ReadString("image"));

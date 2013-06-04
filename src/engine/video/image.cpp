@@ -210,7 +210,6 @@ void ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, ui
 
     if(ext_position == std::string::npos) {
         throw Exception("could not decipher file extension for filename: " + filename, __FILE__, __LINE__, __FUNCTION__);
-        return;
     }
 
     std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
@@ -653,7 +652,6 @@ void ImageDescriptor::_GetPngImageInfo(const std::string &filename, uint32 &rows
 
     if(fp == NULL) {
         throw Exception("failed to open file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-        return;
     }
 
     // check the signature - make sure it is actually a PNG! otherwise BAD THINGS would happen
@@ -661,9 +659,8 @@ void ImageDescriptor::_GetPngImageInfo(const std::string &filename, uint32 &rows
 
     fread(test_buffer, 1, 8, fp);
     if(png_sig_cmp(test_buffer, 0, 8)) {
-        throw Exception("png_sig_cmp() failed for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
         fclose(fp);
-        return;
+        throw Exception("png_sig_cmp() failed for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
     }
 
     // open up our PNG file
@@ -681,7 +678,6 @@ void ImageDescriptor::_GetPngImageInfo(const std::string &filename, uint32 &rows
         png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
         fclose(fp);
         throw Exception("png_create_info_struct() returned NULL for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-        return;
     }
 
     // error checking
@@ -689,7 +685,6 @@ void ImageDescriptor::_GetPngImageInfo(const std::string &filename, uint32 &rows
         png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
         fclose(fp);
         throw Exception("setjmp returned non-zero value for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-        return;
     }
 
     // open up the IO stuff and read the PNG
@@ -722,7 +717,6 @@ void ImageDescriptor::_GetJpgImageInfo(const std::string &filename, uint32 &rows
 
     if(fp == NULL) {
         throw Exception("failed to open file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-        return;
     }
 
     // do our magical setup: create a jpeg decompressor and the relevant error stuff
