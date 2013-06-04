@@ -210,6 +210,7 @@ SaveMode::~SaveMode()
     _window.Destroy();
 
     _left_window.Destroy();
+    _title_window.Destroy();
 
     for(uint32 i = 0; i < 4; ++i) {
         _character_window[i].Destroy();
