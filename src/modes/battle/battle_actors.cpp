@@ -528,7 +528,15 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
         if(BattleMode::CurrentInstance()->GetCommandSupervisor()->GetCommandCharacter() == this)
             ChangeState(ACTOR_STATE_COMMAND);
 
-        std::string animation_name = _action->GetWarmupActionName().empty() ? "idle" : _action->GetWarmupActionName();
+        std::string animation_name = _action->GetWarmupActionName();
+        // Set the default animation name when it is empty.
+        if (animation_name.empty()) {
+            if(GetHitPoints() < (GetMaxHitPoints() / 4))
+                animation_name = "poor";
+            else
+                animation_name = "idle";
+        }
+
         ChangeSpriteAnimation(animation_name);
         break;
     }
