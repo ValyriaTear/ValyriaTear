@@ -578,6 +578,8 @@ img/sprites/map/characters/bronann_hurt_unarmed.lua             GPLv2           
 img/sprites/map/characters/bronann_idle_guard_south.png         GPLv2                    Allacrost
 img/sprites/map/characters/bronann_idle_guard_west.png          GPLv2                    Allacrost
 img/sprites/map/characters/bronann_kneeling.lua                 GPLv2                    Bertram
+img/sprites/map/characters/bronann_kneeling_left.lua            GPLv3                    Bertram
+img/sprites/map/characters/bronann_kneeling_left.png            GPLv2                    Allacrost + Lilou
 img/sprites/map/characters/bronann_run.png                      GPLv2                    Allacrost
 img/sprites/map/characters/bronann_walk.png                     GPLv2                    Allacrost
 img/sprites/map/characters/kalya_kneeling.lua                   GPLv2                    Bertram
