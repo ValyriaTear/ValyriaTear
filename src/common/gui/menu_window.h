@@ -147,18 +147,9 @@ public:
 *** the display of dialogue text, inventory lists, etc. This class is designed
 *** with that practice in mind.
 ***
-*** \todo Allow the user to specify an arbitrary amount of time for showing/
-*** hiding the menu window.
-***
 *** \todo Determine function/behavior of copy constructor and copy assignment
 *** operator. Should these be set to private, or implemented? How should the
 *** texture be copied if it is implemented?
-***
-*** \todo Why doesn't the class destructor do what the Destroy function implements?
-*** It would be much safer for the destructor to auto-destroy anything, or at the
-*** very least it could print a warning if the class destructor is called when
-*** destroy has not yet been invoked. If this is changed, remember to update
-*** the documentation on the wiki for this as well.
 *** ***************************************************************************/
 class MenuWindow : public private_gui::GUIElement
 {
@@ -166,8 +157,11 @@ class MenuWindow : public private_gui::GUIElement
 public:
     MenuWindow();
 
-    ~MenuWindow()
-    {}
+    ~MenuWindow() {
+        // Free the memory in case its needed.
+        if (_skin)
+            Destroy();
+    }
 
     /** \brief Sets the width and height of the menu.
     *** \param skin_name The name of the menu skin with which to construct this menu window.
