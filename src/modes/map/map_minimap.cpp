@@ -47,8 +47,8 @@ struct SDLSurfaceController {
     }
 };
 
-static vt_video::Color default_opacity = vt_video::Color(1.0f, 1.0f, 1.0f, 0.75f);
-static vt_video::Color overlap_opacity = vt_video::Color(1.0f, 1.0f, 1.0f, 0.65f);
+static const vt_video::Color default_opacity(1.0f, 1.0f, 1.0f, 0.75f);
+static const vt_video::Color overlap_opacity(1.0f, 1.0f, 1.0f, 0.65f);
 
 Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map_name) :
     _current_position_x(-1),
@@ -118,7 +118,7 @@ Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map
 
 static inline bool _PrepareSurface(SDL_Surface *temp_surface)
 {
-    static SDLSurfaceController white_noise("img/menus/minimap_collision.png");
+    static const SDLSurfaceController white_noise("img/menus/minimap_collision.png");
     SDL_Rect r;
     r.x = r.y = 0;
 
