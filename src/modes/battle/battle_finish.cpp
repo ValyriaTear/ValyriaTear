@@ -712,12 +712,13 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
     // Add the XP amount to the characters appropriately
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-    // Tell whether the character can receive XP
-    bool level_maxed_out = false;
     for(uint32 i = 0; i < _characters_number; ++i) {
         // Don't add experience points to dead characters
         if(!battle_characters[i]->IsAlive())
             continue;
+
+        // Tells whether the character can receive XP
+        bool level_maxed_out = false;
 
         // Don't permit to earn XP when the maximum level has been reached.
         if(battle_characters[i]->GetGlobalCharacter()->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
