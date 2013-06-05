@@ -1214,9 +1214,9 @@ void EnemySprite::AddEnemy(uint32 enemy_id, float position_x, float position_y)
 
 
 // Static empty enemy party used to prevent temporary reference returns.
-static std::vector<BattleEnemyInfo> empty_enemy_party;
+static const std::vector<BattleEnemyInfo> empty_enemy_party;
 
-const std::vector<BattleEnemyInfo>& EnemySprite::RetrieveRandomParty()
+const std::vector<BattleEnemyInfo>& EnemySprite::RetrieveRandomParty() const
 {
     if(_enemy_parties.empty()) {
         PRINT_ERROR << "No enemy parties exist and none can be created." << std::endl;
