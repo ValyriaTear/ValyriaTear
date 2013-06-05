@@ -602,7 +602,7 @@ public:
     *** \param quest_id the quest id
     *** \return a reference to the given quest log info or an empty quest log info.
     **/
-    QuestLogInfo& GetQuestInfo(const std::string &quest_id);
+    const QuestLogInfo& GetQuestInfo(const std::string &quest_id) const;
     //@}
 
     //! \note The overflow condition is not checked here: we just assume it will never occur
