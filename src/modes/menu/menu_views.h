@@ -692,8 +692,8 @@ private:
     vt_gui::TextBox _location_subname;
 
     //! \brief the currently viewing location image and location subimage
-    vt_video::StillImage *_location_image;
-    vt_video::StillImage *_location_subimage;
+    const vt_video::StillImage *_location_image;
+    const vt_video::StillImage *_location_subimage;
 
 };
 

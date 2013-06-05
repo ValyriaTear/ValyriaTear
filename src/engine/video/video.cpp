@@ -41,18 +41,18 @@ bool VIDEO_DEBUG = false;
 // Static variable for the Color class
 //-----------------------------------------------------------------------------
 
-Color Color::clear(0.0f, 0.0f, 0.0f, 0.0f);
-Color Color::white(1.0f, 1.0f, 1.0f, 1.0f);
-Color Color::gray(0.5f, 0.5f, 0.5f, 1.0f);
-Color Color::black(0.0f, 0.0f, 0.0f, 1.0f);
-Color Color::red(1.0f, 0.0f, 0.0f, 1.0f);
-Color Color::orange(1.0f, 0.4f, 0.0f, 1.0f);
-Color Color::yellow(1.0f, 1.0f, 0.0f, 1.0f);
-Color Color::green(0.0f, 1.0f, 0.0f, 1.0f);
-Color Color::aqua(0.0f, 1.0f, 1.0f, 1.0f);
-Color Color::blue(0.0f, 0.0f, 1.0f, 1.0f);
-Color Color::violet(0.0f, 0.0f, 1.0f, 1.0f);
-Color Color::brown(0.6f, 0.3f, 0.1f, 1.0f);
+const Color Color::clear(0.0f, 0.0f, 0.0f, 0.0f);
+const Color Color::white(1.0f, 1.0f, 1.0f, 1.0f);
+const Color Color::gray(0.5f, 0.5f, 0.5f, 1.0f);
+const Color Color::black(0.0f, 0.0f, 0.0f, 1.0f);
+const Color Color::red(1.0f, 0.0f, 0.0f, 1.0f);
+const Color Color::orange(1.0f, 0.4f, 0.0f, 1.0f);
+const Color Color::yellow(1.0f, 1.0f, 0.0f, 1.0f);
+const Color Color::green(0.0f, 1.0f, 0.0f, 1.0f);
+const Color Color::aqua(0.0f, 1.0f, 1.0f, 1.0f);
+const Color Color::blue(0.0f, 0.0f, 1.0f, 1.0f);
+const Color Color::violet(0.0f, 0.0f, 1.0f, 1.0f);
+const Color Color::brown(0.6f, 0.3f, 0.1f, 1.0f);
 
 void RotatePoint(float &x, float &y, float angle)
 {

@@ -329,7 +329,7 @@ public:
 
     ustring substr(size_t pos = 0, size_t n = npos) const;
 
-    ustring operator + (const ustring &s);
+    ustring operator + (const ustring &s) const;
 
     ustring &operator += (uint16 c);
 

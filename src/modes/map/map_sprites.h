@@ -578,7 +578,7 @@ public:
     }
 
     //! \brief Returns a reference to a random party of enemies
-    const std::vector<BattleEnemyInfo>& RetrieveRandomParty();
+    const std::vector<BattleEnemyInfo>& RetrieveRandomParty() const;
 
     //! \name Class Member Access Functions
     //@{

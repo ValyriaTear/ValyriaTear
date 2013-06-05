@@ -711,11 +711,11 @@ uint32 GameGlobal::GetNumberEvents(const std::string &group_name) const
 // GameGlobal class - Quests Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-static QuestLogInfo _empty_quest_log_info;
+static const QuestLogInfo _empty_quest_log_info;
 
-QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id)
+const QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id) const
 {
-    std::map<std::string, QuestLogInfo>::iterator itr = _quest_log_info.find(quest_id);
+    std::map<std::string, QuestLogInfo>::const_iterator itr = _quest_log_info.find(quest_id);
     if(itr == _quest_log_info.end())
         return _empty_quest_log_info;
     return itr->second;
