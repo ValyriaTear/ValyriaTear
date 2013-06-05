@@ -184,7 +184,7 @@ ustring ustring::substr(size_t pos, size_t n) const
 
 
 // Concatenates string to another
-ustring ustring::operator + (const ustring &s)
+ustring ustring::operator + (const ustring &s) const
 {
     ustring temp = *this;
 

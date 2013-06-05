@@ -114,7 +114,7 @@ private:
     uint32 _grid_height;
 
     //! \brief opacities for when the character is under the map location
-    vt_video::Color *_current_opacity;
+    const vt_video::Color *_current_opacity;
 
     //! \brief specifies the additive alpha we get from the map class
     float _map_alpha_scale;

@@ -2074,10 +2074,9 @@ void EquipWindow::Draw()
 // QuestListWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
-// TODO: This should be const. OptionsBox doesn't take const ustrings.
-static ustring spacing = MakeUnicodeString("<20>");
-static ustring exclamation_file = MakeUnicodeString("<img/effects/emotes/exclamation.png>") + spacing;
-static ustring check_file = MakeUnicodeString("<img/menus/green_check.png>") + spacing;
+static const ustring spacing = MakeUnicodeString("<20>");
+static const ustring exclamation_file = MakeUnicodeString("<img/effects/emotes/exclamation.png>") + spacing;
+static const ustring check_file = MakeUnicodeString("<img/menus/green_check.png>") + spacing;
 
 QuestListWindow::QuestListWindow() :
     _active_box(false)
@@ -2321,7 +2320,7 @@ void QuestWindow::Update()
 
     // otherwise, put the text description for the quest in
     // Not calling ClearText each time will permit to set up the textbox text only when necessary
-    QuestLogInfo& info = GlobalManager->GetQuestInfo(_viewing_quest_id);
+    const QuestLogInfo& info = GlobalManager->GetQuestInfo(_viewing_quest_id);
     if(!info._description.empty())
     {
         _quest_description.SetDisplayText(info._description);

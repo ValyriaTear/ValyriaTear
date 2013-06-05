@@ -1250,14 +1250,14 @@ void BattleMode::_DrawIndicators()
 
 
 // Available encounter sounds
-static std::string encounter_sound_filenames[] = {
+static const std::string encounter_sound_filenames[] = {
     "snd/battle_encounter_01.ogg",
     "snd/battle_encounter_02.ogg",
     "snd/battle_encounter_03.ogg"
 };
 
 // Available encounter sounds
-static std::string boss_encounter_sound_filenames[] = {
+static const std::string boss_encounter_sound_filenames[] = {
     "snd/gong.wav",
     "snd/gong2.wav"
 };
