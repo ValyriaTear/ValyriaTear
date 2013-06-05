@@ -565,7 +565,14 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         GetEffectSupervisor().DisableEffects();
         break;
     case BATTLE_STATE_NORMAL:
-        // Restart the battle actors in case they were paused
+        if(_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE) {
+            for(uint32 i = 0; i < _character_actors.size(); i++) {
+                if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND)
+                    return;
+            }
+        }
+        // If no other character is waiting for a command (in wait battle modes),
+        // restart the battle actors in case they were paused.
         _actor_state_paused = false;
         break;
     case BATTLE_STATE_COMMAND:
