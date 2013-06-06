@@ -119,6 +119,10 @@ public:
     void SetYOrigin(float y) {
         _y_absolute_position = y;
     }
+
+    INDICATOR_TYPE GetType() const {
+        return _indicator_type;
+    }
     //@}
 
 protected:

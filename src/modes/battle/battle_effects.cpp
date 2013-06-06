@@ -50,6 +50,8 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     _opposite_effect(GLOBAL_STATUS_INVALID),
     _affected_actor(actor),
     _timer(0),
+    _update_timer(0),
+    _use_update_timer(false),
     _icon_image(NULL),
     _intensity_changed(false)
 {
@@ -84,6 +86,10 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
         duration = script_file.ReadUInt("default_duration");
     _timer.SetDuration(duration);
 
+    uint32 update_every = script_file.ReadUInt("update_every");
+    if (update_every > 0)
+        _update_timer.SetDuration(update_every);
+
     _icon_index = script_file.ReadUInt("icon_index");
     _opposite_effect = static_cast<GLOBAL_STATUS>(script_file.ReadInt("opposite_effect"));
 
@@ -117,6 +123,15 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     _timer.EnableManualUpdate();
     _timer.Reset();
     _timer.Run();
+
+    // Init the update effect timer
+    if (update_every > 0) {
+        _update_timer.EnableManualUpdate();
+        _update_timer.Reset();
+        _update_timer.Run();
+        _use_update_timer = true;
+    }
+
     _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
 }
 
@@ -203,9 +218,16 @@ void EffectsSupervisor::Update()
         bool effect_removed = false;
 
         vt_system::SystemTimer *effect_timer = _status_effects[i]->GetTimer();
+        vt_system::SystemTimer *update_timer = _status_effects[i]->GetUpdateTimer();
 
         // Update the effect time while taking in account the battle speed
-        effect_timer->Update(SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor());
+        uint32 update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
+        effect_timer->Update(update_time);
+
+        // Update the update timer if it is running
+        bool use_update_timer = _status_effects[i]->IsUsingUpdateTimer();
+        if (use_update_timer)
+            update_timer->Update(update_time);
 
         // Decrease the intensity of the status by one level when its timer expires. This may result in
         // the status effect being removed from the actor if its intensity changes to the neutral level.
@@ -222,10 +244,24 @@ void EffectsSupervisor::Update()
             ChangeStatus(_status_effects[i]->GetType(), GLOBAL_INTENSITY_NEG_LESSER, duration);
         }
 
+        if (effect_removed)
+            continue;
+
         // Update the effect according to the script function
-        if(!effect_removed) {
+        if (!use_update_timer || update_timer->IsFinished()) {
             ScriptCallFunction<void>(_status_effects[i]->GetUpdateFunction(), _status_effects[i]);
+            // If the character has his effects removed because of the effect update (when dying)
+            // The effect doesn't exist anymore, so we have to check this here.
+            if (!_status_effects[i])
+                continue;
+
             _status_effects[i]->ResetIntensityChanged();
+
+            // Restart the update timer when needed
+            if (use_update_timer) {
+                update_timer->Reset();
+                update_timer->Run();
+            }
         }
     }
 }

@@ -772,6 +772,12 @@ skills[10126] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        -- TODO : Balance this
+        local effect_duration = user:GetVigor() * 3000;
+
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN,
+                    vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                    effect_duration);
     end,
 }
 
@@ -904,6 +910,12 @@ skills[10133] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        -- TODO : Balance this
+        local effect_duration = user:GetVigor() * 3000;
+
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP_REGEN,
+                    vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                    effect_duration);
     end,
 }
 

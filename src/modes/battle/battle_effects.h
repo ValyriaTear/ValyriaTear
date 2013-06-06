@@ -119,6 +119,15 @@ public:
         return &_timer;
     }
 
+    vt_system::SystemTimer *GetUpdateTimer() {
+        return &_update_timer;
+    }
+
+    //! \brief Tells wether the effect should update only when its update timer has finished.
+    bool IsUsingUpdateTimer() const {
+        return _use_update_timer;
+    }
+
     vt_video::StillImage *GetIconImage() const {
         return _icon_image;
     }
@@ -156,6 +165,14 @@ private:
 
     //! \brief A timer used to determine how long the status effect lasts
     vt_system::SystemTimer _timer;
+
+    //! \brief A timer used when the effect should call its Update function after a certain time
+    //! E.g.: When poisoning a character the poison effect shouldn't be applied every cycles,
+    //! but every 2-3 seconds.
+    vt_system::SystemTimer _update_timer;
+
+    //! \brief Tells whether the update timer should be used.
+    bool _use_update_timer;
 
     //! \brief A pointer to the icon image that represents the status. Will be NULL if the status is invalid
     vt_video::StillImage *_icon_image;

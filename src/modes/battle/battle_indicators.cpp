@@ -415,8 +415,11 @@ bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement *el
     if(!overlapped_element)
         return false; // No overlapping
 
-    // Move the next indicator a bit.
-    element->SetXOrigin(element->GetXOrigin() + 15.0f);
+    // Move the next indicator a bit depending on its type
+    if(element->GetType() == DAMAGE_INDICATOR)
+        element->SetXOrigin(element->GetXOrigin() + 1.0f);
+    else
+        element->SetXOrigin(element->GetXOrigin() + 15.0f);
     return true;
 }
 
