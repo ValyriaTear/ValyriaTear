@@ -286,6 +286,9 @@ void BattleMode::RestartBattle()
     for(uint32 i = 0; i < _enemy_actors.size(); ++i)
         _enemy_actors[i]->ResetActor();
 
+    // Setup the default actor locations when necessary
+    _DetermineActorLocations();
+
     // Reset battle inventory and available actions
     delete _command_supervisor;
     _command_supervisor = new CommandSupervisor();
