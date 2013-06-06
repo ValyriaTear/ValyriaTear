@@ -397,6 +397,7 @@ void ItemCommand::ResetItemList()
 void ItemCommand::ConstructList()
 {
     _item_list.ClearOptions();
+    _item_target_list.ClearOptions();
 
     uint32 option_index = 0;
     for(uint32 i = 0; i < _items.size(); i++) {
@@ -838,6 +839,9 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     _active_settings = &(_character_settings.find(character)->second);
     // Update _skill_list to check, if some skills need to be deactivated due to low amount of SP
     _active_settings->RefreshLists();
+    // Also refresh the item list
+    _item_command.ConstructList();
+
     _category_options.SetSelection(_active_settings->GetLastCategory());
 
     // Determine which categories should be enabled or disabled

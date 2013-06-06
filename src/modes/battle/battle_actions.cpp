@@ -252,7 +252,7 @@ ItemAction::ItemAction(BattleActor *source, BattleTarget target, BattleItem *ite
     _action_canceled(false)
 {
     if(item == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL item argument" << std::endl;
+        PRINT_WARNING << "Item action without valid item!!" << std::endl;
         return;
     }
 
@@ -272,11 +272,14 @@ bool ItemAction::Execute()
     // step.
 
     const ScriptObject &script_function = _item->GetItem().GetBattleUseFunction();
-    bool ret = false;
     if(!script_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
+
+        Cancel();
+        return false;
     }
 
+    bool ret = false;
     try {
         ret = ScriptCallFunction<bool>(script_function, _actor, _target);
     } catch(const luabind::error &err) {
@@ -300,7 +303,8 @@ void ItemAction::Cancel()
         return;
 
     // Give the item back in that case
-    _item->IncrementBattleCount();
+    if (_item)
+        _item->IncrementBattleCount();
 
     // Permit to cancel only once.
     _action_canceled = true;

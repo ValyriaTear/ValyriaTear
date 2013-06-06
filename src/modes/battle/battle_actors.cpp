@@ -439,15 +439,20 @@ void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
 
 void BattleActor::SetAction(BattleAction *action)
 {
-    if(action == NULL) {
+    if(!action) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
         return;
     }
-    if(_action != NULL) {
-        // Note: we do not display any warning if we are overwriting a previously set action in idle or command states. This is a valid operation in those states
+
+    // If a previous action exists, we cancel and delete it.
+    if (_action) {
+        // Note: we do not display any warning if we are overwriting a previously set action in idle or command states.
+        // This is a valid operation in those states
         if((_state != ACTOR_STATE_IDLE) && (_state != ACTOR_STATE_COMMAND)) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "overwriting previously set action while in actor state: " << _state << std::endl;
         }
+
+        _action->Cancel();
         delete _action;
     }
 

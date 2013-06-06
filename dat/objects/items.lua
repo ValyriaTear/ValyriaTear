@@ -46,27 +46,26 @@ end
 --------------------------------------------------------------------------------
 
 function battle_healing_potion(target, hit_points)
-		if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
-			target:RegisterHealing(hit_points, true);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-			return true;
-		else
-			target:RegisterMiss(false);
-			return false;
-		end
+    if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
+        target:RegisterHealing(hit_points, true);
+        AudioManager:PlaySound("snd/potion_drink.wav");
+        return true;
+    else
+        return false;
+    end
 end
 
 -- The return value tells the inventory whether the item was used successfully,
 -- and then whether it can be removed from it.
 function field_healing_potion(target, hit_points)
-	if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
-		target:AddHitPoints(hit_points);
-		AudioManager:PlaySound("snd/potion_drink.wav");
-		return true;
-	else
-		AudioManager:PlaySound("snd/cancel.wav");
-		return false;
-	end
+    if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
+        target:AddHitPoints(hit_points);
+        AudioManager:PlaySound("snd/potion_drink.wav");
+        return true;
+    else
+        AudioManager:PlaySound("snd/cancel.wav");
+        return false;
+    end
 end
 
 items[1] = {
@@ -159,27 +158,26 @@ items[4] = {
 
 -- Moon juices : Skill points
 function battle_skill_potion(target, skill_points)
-		if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
-			target:RegisterHealing(skill_points, false);
-			AudioManager:PlaySound("snd/potion_drink.wav");
-			return true;
-		else
-			target:RegisterMiss(false);
-			return false;
-		end
+    if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
+        target:RegisterHealing(skill_points, false);
+        AudioManager:PlaySound("snd/potion_drink.wav");
+        return true;
+    else
+        return false;
+    end
 end
 
 -- The return value tells the inventory whether the item was used successfully,
 -- and then whether it can be removed from it.
 function field_skill_potion(target, skill_points)
-	if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
-		target:AddSkillPoints(skill_points);
-		AudioManager:PlaySound("snd/potion_drink.wav");
-		return true;
-	else
-		AudioManager:PlaySound("snd/cancel.wav");
-		return false;
-	end
+    if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
+        target:AddSkillPoints(skill_points);
+        AudioManager:PlaySound("snd/potion_drink.wav");
+        return true;
+    else
+        AudioManager:PlaySound("snd/cancel.wav");
+        return false;
+    end
 end
 
 
@@ -272,11 +270,10 @@ decrement_negative_effects = function(target_actor, intensity)
         target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE, intensity, 30000);
         target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_RAISE, intensity, 30000);
         target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EVADE_RAISE, intensity, 30000);
-	AudioManager:PlaySound("snd/potion_drink.wav");
-	return true;
+        AudioManager:PlaySound("snd/potion_drink.wav");
+        return true;
     else
-        target_actor:RegisterMiss(false);
-	return false;
+        return false;
     end
 end
 
