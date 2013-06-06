@@ -817,6 +817,6 @@ void BattleItem::DecrementBattleCount()
 }
 
 
-} // namespace private_shop
+} // namespace private_battle
 
-} // namespace vt_shop
+} // namespace vt_battle

@@ -335,7 +335,7 @@ void GlobalWeapon::_LoadWeaponBattleAnimations(ReadScriptDescriptor& script)
         for (uint32 j = 0; j < anim_aliases.size(); ++j) {
             std::string anim_alias = anim_aliases[j];
             std::string anim_file = script.ReadString(anim_alias);
-            _weapon_animations[char_id].insert(std::make_pair<std::string, std::string>(anim_alias, anim_file));
+            _weapon_animations[char_id].insert(std::make_pair(anim_alias, anim_file));
         }
 
         script.CloseTable(); // char_id

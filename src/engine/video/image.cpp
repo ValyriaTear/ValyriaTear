@@ -1299,7 +1299,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
 
         frames_ids.push_back((uint32)frame_id);
         frames_duration.push_back((uint32)frame_duration);
-        frames_offsets.push_back(std::make_pair<float, float>(x_offset, y_offset));
+        frames_offsets.push_back(std::make_pair(x_offset, y_offset));
 
         image_script.CloseTable(); // frames[frame_table_id] table
     }
