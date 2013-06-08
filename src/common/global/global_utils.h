@@ -205,7 +205,21 @@ enum GLOBAL_STATUS {
     GLOBAL_STATUS_SP_REGEN          = 14,
     GLOBAL_STATUS_SP_DRAIN          = 15,
     GLOBAL_STATUS_PARALYSIS         = 16,
-    GLOBAL_STATUS_TOTAL             = 17
+    GLOBAL_STATUS_FIRE_RAISE        = 17,
+    GLOBAL_STATUS_FIRE_LOWER        = 18,
+    GLOBAL_STATUS_WATER_RAISE       = 19,
+    GLOBAL_STATUS_WATER_LOWER       = 20,
+    GLOBAL_STATUS_VOLT_RAISE        = 21,
+    GLOBAL_STATUS_VOLT_LOWER        = 22,
+    GLOBAL_STATUS_EARTH_RAISE       = 23,
+    GLOBAL_STATUS_EARTH_LOWER       = 24,
+    GLOBAL_STATUS_LIFE_RAISE        = 25,
+    GLOBAL_STATUS_LIFE_LOWER        = 26,
+    GLOBAL_STATUS_DEATH_RAISE       = 27,
+    GLOBAL_STATUS_DEATH_LOWER       = 28,
+    GLOBAL_STATUS_NEUTRAL_RAISE     = 29,
+    GLOBAL_STATUS_NEUTRAL_LOWER     = 30,
+    GLOBAL_STATUS_TOTAL             = 31
 };
 
 /** \name Effect Intensity Levels
@@ -310,8 +324,11 @@ bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 **/
 bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 
-//! Give the opposite status effect if there is one of GLOBAL_STATUS_INVALID if none.
+//! Gives the opposite status effect if there is one of GLOBAL_STATUS_INVALID if none.
 GLOBAL_STATUS GetOppositeStatusEffect(GLOBAL_STATUS status_effect);
+
+//! Gives the opposite effect intensity if there is one of GLOBAL_INTENSITY_INVALID if none.
+GLOBAL_INTENSITY GetOppositeIntensity(GLOBAL_INTENSITY intensity);
 
 /** \brief A simple class used to store commonly used media files.
 *** It is used as a member of the game global class.

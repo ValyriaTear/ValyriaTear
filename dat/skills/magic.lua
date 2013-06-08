@@ -502,7 +502,11 @@ skills[10111] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        -- TODO: Set elemental defense type based on character stats
+        -- TODO : Balance this
+        local effect_duration = user:GetVigor() * 3000;
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EARTH_RAISE,
+                    vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                    effect_duration);
         -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
         local Battle = ModeManager:GetTop();
         Battle:TriggerBattleParticleEffect("dat/effects/particles/earth_circle.lua",

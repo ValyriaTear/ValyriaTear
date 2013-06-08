@@ -259,6 +259,33 @@ GLOBAL_STATUS GetOppositeStatusEffect(GLOBAL_STATUS status_effect)
     }
 }
 
+GLOBAL_INTENSITY GetOppositeIntensity(GLOBAL_INTENSITY intensity) {
+    switch(intensity) {
+    default:
+        return GLOBAL_INTENSITY_INVALID;
+    case GLOBAL_INTENSITY_NEG_EXTREME:
+        return GLOBAL_INTENSITY_POS_EXTREME;
+    case GLOBAL_INTENSITY_NEG_GREATER:
+        return GLOBAL_INTENSITY_POS_GREATER;
+    case GLOBAL_INTENSITY_NEG_MODERATE:
+        return GLOBAL_INTENSITY_POS_MODERATE;
+    case GLOBAL_INTENSITY_NEG_LESSER:
+        return GLOBAL_INTENSITY_POS_LESSER;
+
+    case GLOBAL_INTENSITY_NEUTRAL:
+        return GLOBAL_INTENSITY_NEUTRAL;
+
+    case GLOBAL_INTENSITY_POS_LESSER:
+        return GLOBAL_INTENSITY_NEG_LESSER;
+    case GLOBAL_INTENSITY_POS_MODERATE:
+        return GLOBAL_INTENSITY_NEG_MODERATE;
+    case GLOBAL_INTENSITY_POS_GREATER:
+        return GLOBAL_INTENSITY_NEG_GREATER;
+    case GLOBAL_INTENSITY_POS_EXTREME:
+        return GLOBAL_INTENSITY_NEG_EXTREME;
+    }
+}
+
 // GlobalMedia functions
 
 void GlobalMedia::Initialize()
@@ -432,6 +459,88 @@ vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTE
     if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
         PRINT_WARNING << "Invalid intensity: " << intensity << std::endl;
         return NULL;
+    }
+
+    // Return elemental effect images.
+    if (type >= GLOBAL_STATUS_FIRE_RAISE && type <= GLOBAL_STATUS_NEUTRAL_LOWER) {
+        GLOBAL_ELEMENTAL element_type = GLOBAL_ELEMENTAL_INVALID;
+
+        switch (type) {
+        default:
+            return NULL;
+
+        case GLOBAL_STATUS_FIRE_LOWER:
+            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_FIRE;
+            break;
+        case GLOBAL_STATUS_FIRE_RAISE:
+            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_FIRE;
+            break;
+        case GLOBAL_STATUS_WATER_LOWER:
+            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_WATER;
+            break;
+        case GLOBAL_STATUS_WATER_RAISE:
+            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_WATER;
+            break;
+        case GLOBAL_STATUS_VOLT_LOWER:
+            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_VOLT;
+            break;
+        case GLOBAL_STATUS_VOLT_RAISE:
+            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_VOLT;
+            break;
+        case GLOBAL_STATUS_EARTH_LOWER:
+            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_EARTH;
+            break;
+        case GLOBAL_STATUS_EARTH_RAISE:
+            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_EARTH;
+            break;
+        case GLOBAL_STATUS_LIFE_LOWER:
+            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_LIFE;
+            break;
+        case GLOBAL_STATUS_LIFE_RAISE:
+            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_LIFE;
+            break;
+        case GLOBAL_STATUS_DEATH_LOWER:
+            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_DEATH;
+            break;
+        case GLOBAL_STATUS_DEATH_RAISE:
+            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_DEATH;
+            break;
+        case GLOBAL_STATUS_NEUTRAL_LOWER:
+            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_NEUTRAL;
+            break;
+        case GLOBAL_STATUS_NEUTRAL_RAISE:
+            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
+                intensity = GetOppositeIntensity(intensity);
+            element_type = GLOBAL_ELEMENTAL_NEUTRAL;
+            break;
+        }
+        return GetElementalIcon(element_type, intensity);
     }
 
     const uint32 IMAGE_ROWS = 5;
