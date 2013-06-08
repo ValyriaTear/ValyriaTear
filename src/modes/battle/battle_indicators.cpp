@@ -255,8 +255,10 @@ IndicatorImage::IndicatorImage(BattleActor *actor, const StillImage &image,
                                INDICATOR_TYPE indicator_type) :
     IndicatorElement(actor, indicator_type),
     _image(image)
-{} // TODO: check if the image argument is valid...currently seems the only possible check is that its filename is not an empty string.
-
+{
+    if (_image.GetFilename().empty())
+        PRINT_ERROR << "Invalid indicator image." << std::endl;
+}
 
 
 void IndicatorImage::Draw()
