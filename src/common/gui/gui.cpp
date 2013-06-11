@@ -236,43 +236,43 @@ bool GUISystem::SingletonInitialize()
 
 
 
-bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &border_image, const std::string &background_image, bool make_default)
+bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image, const std::string &background_image, bool make_default)
 {
-    return LoadMenuSkin(skin_name, border_image, background_image,
+    return LoadMenuSkin(skin_name, cursor_file, border_image, background_image,
                         Color::clear, Color::clear, Color::clear, Color::clear, make_default);
 }
 
 
 
-bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &border_image, const Color &background_color, bool make_default)
+bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image, const Color &background_color, bool make_default)
 {
-    return LoadMenuSkin(skin_name, border_image, "", background_color, background_color,
+    return LoadMenuSkin(skin_name, cursor_file, border_image, "", background_color, background_color,
                         background_color, background_color, make_default);
 }
 
 
 
-bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &border_image,
+bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
                              const Color &top_left, const Color &top_right,
                              const Color &bottom_left, const Color &bottom_right, bool make_default)
 {
-    return LoadMenuSkin(skin_name, border_image, "", top_left, top_right,
+    return LoadMenuSkin(skin_name, cursor_file, border_image, "", top_left, top_right,
                         bottom_left, bottom_right, make_default);
 }
 
 
 
-bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &border_image,
+bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
                              const std::string &background_image,
                              const Color &background_color, bool make_default)
 {
-    return LoadMenuSkin(skin_name, border_image, background_image, background_color,
+    return LoadMenuSkin(skin_name, cursor_file, border_image, background_image, background_color,
                         background_color, background_color, background_color, make_default);
 }
 
 
 
-bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &border_image, const std::string &background_image,
+bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image, const std::string &background_image,
                              const Color &top_left, const Color &top_right, const Color &bottom_left, const Color &bottom_right, bool make_default)
 {
     // ----- (1) Check that the skin_name is not already used by another skin
@@ -283,6 +283,9 @@ bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &bo
 
     _menu_skins.insert(std::make_pair(skin_name, MenuSkin()));
     MenuSkin &new_skin = _menu_skins[skin_name];
+
+    // Store the cursor image.
+    new_skin.cursor_file = cursor_file;
 
     // ----- (2) Load the MultiImage containing the borders of the skin.
     std::vector<StillImage> skin_borders;
@@ -330,19 +333,121 @@ bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &bo
     return true;
 } // bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string background_image, ...)
 
-
-
 void GUISystem::SetDefaultMenuSkin(const std::string &skin_name)
 {
     if(_menu_skins.find(skin_name) == _menu_skins.end()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered" << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin name " << skin_name << " was not registered." << std::endl;
         return;
     }
 
     _default_skin = &_menu_skins[skin_name];
+    if(!VideoManager->SetDefaultCursor(_default_skin->cursor_file)) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't load the GUI cursor file: '" << _default_skin->cursor_file << "'." << std::endl;
+    }
 }
 
+void GUISystem::SetNextDefaultMenuSkin()
+{
+    if (_menu_skins.size() > 0 && _default_skin != NULL) {
 
+        std::vector<std::string> names;
+        std::string current_name;
+
+        std::map<std::string, private_gui::MenuSkin>::const_iterator it;
+        for (it = _menu_skins.begin(); it != _menu_skins.end(); ++it) {
+
+            // Find the default skin's name.
+            if (&(it->second) == _default_skin) {
+
+                current_name = it->first;
+            }
+
+            // Store the name.
+            names.push_back(it->first);
+        }
+
+        // Find the default skin in the list of names.
+        std::vector<std::string>::iterator default_skin = std::find(names.begin(), names.end(), current_name);
+
+        // Increment to the next skin.
+        ++default_skin;
+
+        // Wrap around case.
+        if (default_skin == names.end()) {
+
+            default_skin = names.begin();
+        }
+
+        // Store the result.
+        _default_skin = &_menu_skins[*default_skin];
+        if(!VideoManager->SetDefaultCursor(_default_skin->cursor_file)) {
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't load the GUI cursor file: '" << _default_skin->cursor_file << "'." << std::endl;
+        }
+    }
+}
+
+void GUISystem::SetPreviousDefaultMenuSkin()
+{
+    if (_menu_skins.size() > 0 && _default_skin != NULL) {
+
+        std::vector<std::string> names;
+        std::string current_name;
+
+        std::map<std::string, private_gui::MenuSkin>::const_iterator it;
+        for (it = _menu_skins.begin(); it != _menu_skins.end(); ++it) {
+
+            // Find the default skin's name.
+            if (&(it->second) == _default_skin) {
+
+                current_name = it->first;
+            }
+
+            // Store the name.
+            names.push_back(it->first);
+        }
+
+        // Find the default skin in the list of names.
+        std::vector<std::string>::iterator default_skin = std::find(names.begin(), names.end(), current_name);
+
+        // Make sure we are not already at the beginning.
+        if (default_skin == names.begin()) {
+
+            default_skin = names.end();
+        }
+
+        // Decrement to the previous skin.
+        --default_skin;
+
+        // Store the result.
+        _default_skin = &_menu_skins[*default_skin];
+        if(!VideoManager->SetDefaultCursor(_default_skin->cursor_file)) {
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't load the GUI cursor file: '" << _default_skin->cursor_file << "'." << std::endl;
+        }
+    }
+}
+
+std::string GUISystem::GetDefaultMenuSkin()
+{
+    std::string result;
+
+    if (_default_skin != NULL) {
+
+        // Iterate over the menu skins.
+        std::map<std::string, private_gui::MenuSkin>::const_iterator it;
+        for (it = _menu_skins.begin(); it != _menu_skins.end(); ++it) {
+            
+            // If we find the default skin...
+            if (&(it->second) == _default_skin) {
+                
+                // Return its name.
+                result = it->first;
+                break;
+            }
+        }
+    }
+
+    return result;
+}
 
 void GUISystem::DeleteMenuSkin(const std::string &skin_name)
 {

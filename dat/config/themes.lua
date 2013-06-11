@@ -7,7 +7,6 @@
 
 themes = {
     -- Theme name = { win background file path, windows border file, cursor file }
-    -- TODO: Add the possibility to switch theme at run time, from the boot menu.
     ["Royal Silk"] = {
         win_background_file = "img/menus/themes/royal_silk/win_background.png",
         win_border_file = "img/menus/themes/royal_silk/win_border.png",

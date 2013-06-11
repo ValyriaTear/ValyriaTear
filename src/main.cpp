@@ -285,8 +285,6 @@ static void LoadFonts(const std::string &font_script_filename)
 }
 
 //! Loads the default window GUI theme for the game.
-//! TODO: Make this changeable from the boot menu
-//! and handle keeping the them in memory through config
 static void LoadGUIThemes(const std::string& theme_script_filename)
 {
     vt_script::ReadScriptDescriptor theme_script;
@@ -333,7 +331,7 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         std::string win_background_file = theme_script.ReadString("win_background_file");
         std::string cursor_file = theme_script.ReadString("cursor_file");
 
-        if(!GUIManager->LoadMenuSkin(theme_names[i], win_border_file, win_background_file)) {
+        if(!GUIManager->LoadMenuSkin(theme_names[i], cursor_file, win_border_file, win_background_file)) {
             // Check whether the default font is invalid
             if(default_theme == theme_names[i]) {
                 theme_script.CloseAllTables();
@@ -348,13 +346,6 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
         if(default_theme == theme_names[i]) {
             default_theme_found = true;
-            if(!VideoManager->SetDefaultCursor(cursor_file)) {
-                theme_script.CloseAllTables();
-                theme_script.CloseFile();
-                PRINT_ERROR << "Couldn't load the GUI cursor file: '" << cursor_file
-                    << "'. Exitting." << std::endl;
-                exit(EXIT_FAILURE);
-            }
         }
 
         theme_script.CloseTable(); // Theme name
@@ -368,8 +359,7 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    // Activate the default theme
-    // TODO: Obtain it from config
+    // Activate the default theme.
     GUIManager->SetDefaultMenuSkin(default_theme);
 }
 
