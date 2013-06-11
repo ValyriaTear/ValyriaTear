@@ -1,0 +1,1 @@
+for /R ..\..\ValyriaTear-VS2012-Dependencies\ %%f in (*.dll) do copy %%f ..\..
