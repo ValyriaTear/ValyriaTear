@@ -22,6 +22,13 @@ A Code::Blocks project file is also provided when compiling under Windows.
 In that case, you might need the dependencies and headers files that can be downloaded at:
 https://dl.dropbox.com/s/et9x2e73r6etbta/valyriatear-win32-depends-2012.08.30.zip?dl=1
 
+To build on Windows with Visual Studio 2012, do this:
+1.) git clone https://github.com/authenticate/ValyriaTear-VS2012-Dependencies.git
+2.) Copy the ValyriaTear-VS2012-Dependencies folder into your Valyria Tear repository.
+3.) Open the VS 2012 solution file: .../ValyriaTearRepository/vs2012/ValyriaTear.sln
+4.) Build (F7)
+5.) Run (F5)
+
 Game directories included and used are:
 dat/ img/ mus/ snd/ src/ po/
 
