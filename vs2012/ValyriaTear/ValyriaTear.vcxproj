@@ -46,11 +46,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\src;..\..\ValyriaTear-VS2012-Dependencies\SDL-1.2.15\include\;..\..\ValyriaTear-VS2012-Dependencies\SDL-1.2.15\include\SDL\;..\..\ValyriaTear-VS2012-Dependencies\SDL_ttf-2.0.11\include\;..\..\ValyriaTear-VS2012-Dependencies\boost_1_53_0\;..\..\ValyriaTear-VS2012-Dependencies\openal-soft-1.15.1\include\AL\;..\..\ValyriaTear-VS2012-Dependencies\libiconv-1.9.2-1\include\;..\..\ValyriaTear-VS2012-Dependencies\libintl-0.14.4\include\;..\..\ValyriaTear-VS2012-Dependencies\lua-5.1.5\src\;..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\;..\..\ValyriaTear-VS2012-Dependencies\libogg-1.3.1\include\;..\..\ValyriaTear-VS2012-Dependencies\libvorbis-1.3.3\include\;..\..\ValyriaTear-VS2012-Dependencies\SDL_image-1.2.12\include\;..\..\ValyriaTear-VS2012-Dependencies\libjpeg-9\include\;..\..\ValyriaTear-VS2012-Dependencies\libpng-1.2.37\include\;..\..\ValyriaTear-VS2012-Dependencies\zlib-1.2.3\include\</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4121;4290;4611;4702;4800;4996;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4121;4146;4244;4290;4305;4611;4702;4800;4996;</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessorDefinitions>_DEBUG;_WIN32;LUABIND_NO_ERROR_CHECKING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -73,13 +73,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\src;..\..\ValyriaTear-VS2012-Dependencies\SDL-1.2.15\include\;..\..\ValyriaTear-VS2012-Dependencies\SDL-1.2.15\include\SDL\;..\..\ValyriaTear-VS2012-Dependencies\SDL_ttf-2.0.11\include\;..\..\ValyriaTear-VS2012-Dependencies\boost_1_53_0\;..\..\ValyriaTear-VS2012-Dependencies\openal-soft-1.15.1\include\AL\;..\..\ValyriaTear-VS2012-Dependencies\libiconv-1.9.2-1\include\;..\..\ValyriaTear-VS2012-Dependencies\libintl-0.14.4\include\;..\..\ValyriaTear-VS2012-Dependencies\lua-5.1.5\src\;..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\;..\..\ValyriaTear-VS2012-Dependencies\libogg-1.3.1\include\;..\..\ValyriaTear-VS2012-Dependencies\libvorbis-1.3.3\include\;..\..\ValyriaTear-VS2012-Dependencies\SDL_image-1.2.12\include\;..\..\ValyriaTear-VS2012-Dependencies\libjpeg-9\include\;..\..\ValyriaTear-VS2012-Dependencies\libpng-1.2.37\include\;..\..\ValyriaTear-VS2012-Dependencies\zlib-1.2.3\include\</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4121;4290;4611;4702;4800;4996;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4121;4146;4244;4290;4305;4611;4702;4800;4996;</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>_WIN32;NDEBUG;LUABIND_NO_ERROR_CHECKING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
