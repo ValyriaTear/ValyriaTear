@@ -83,3 +83,6 @@ ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata
 Xcode/ValyriaTear.xcodeproj/xcuserdata
 Xcode/ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata
 Xcode/Release/*.dmg
+
+# VS Dependencies Directory
+ValyriaTear-VS2012-Dependencies
