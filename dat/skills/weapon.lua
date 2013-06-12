@@ -426,7 +426,11 @@ skills[300] = {
             target_actor:RegisterMiss(true);
             AudioManager:PlaySound("snd/missed_target.wav");
         end
-    end
+    end,
+
+    animation_scripts = {
+        [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
+    }
 }
 
 skills[301] = {
