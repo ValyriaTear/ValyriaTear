@@ -276,23 +276,24 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
     return static_cast<uint32>(total_dmg);
 } // uint32 CalculatePhysicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_phys, float std_dev)
 
-uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target)
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element)
 {
-    return CalculateMagicalDamageAdder(attacker, target, 0, 0.10f);
+    return CalculateMagicalDamageAdder(attacker, target, element, 0, 0.10f);
 }
 
-uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, float std_dev)
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, float std_dev)
 {
-    return CalculateMagicalDamageAdder(attacker, target, 0, std_dev);
+    return CalculateMagicalDamageAdder(attacker, target, element, 0, std_dev);
 }
 
-uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk)
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, int32 add_atk)
 {
-    return CalculateMagicalDamageAdder(attacker, target, add_atk, 0.10f);
+    return CalculateMagicalDamageAdder(attacker, target, element, add_atk, 0.10f);
 }
 
 
-uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk, float std_dev)
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
+                                   GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev)
 {
     if(attacker == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
@@ -312,7 +313,7 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, 
     }
 
     // Holds the total physical attack of the attacker and modifier
-    int32 total_mag_atk = attacker->GetTotalMagicalAttack() + add_atk;
+    int32 total_mag_atk = attacker->GetTotalMagicalAttack(element) + add_atk;
     if(total_mag_atk < 0)
         total_mag_atk = 0;
 
@@ -320,9 +321,9 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, 
     int32 total_mag_def = 0;
 
     if(IsTargetPoint(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense();
+        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense(element);
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAverageMagicalDefense();
+        total_mag_def = target->GetActor()->GetAverageMagicalDefense(element);
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;
@@ -350,12 +351,14 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, 
     return static_cast<uint32>(total_dmg);
 } // uint32 CalculateMagicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev)
 
-uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk)
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
+                                        GLOBAL_ELEMENTAL element, float mul_atk)
 {
-    return CalculateMagicalDamageMultiplier(attacker, target, mul_atk, 0.10f);
+    return CalculateMagicalDamageMultiplier(attacker, target, element, mul_atk, 0.10f);
 }
 
-uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk, float std_dev)
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
+                                        GLOBAL_ELEMENTAL element, float mul_atk, float std_dev)
 {
     if(attacker == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
@@ -379,7 +382,7 @@ uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *tar
     }
 
     // Retrieve the total physical attack of the attacker and apply the modifier
-    int32 total_mag_atk = static_cast<int32>(static_cast<float>(attacker->GetTotalMagicalAttack()) * mul_atk);
+    int32 total_mag_atk = static_cast<int32>(static_cast<float>(attacker->GetTotalMagicalAttack(element)) * mul_atk);
 
     if(total_mag_atk < 0)
         total_mag_atk = 0;
@@ -388,9 +391,9 @@ uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *tar
     int32 total_mag_def = 0;
 
     if(IsTargetPoint(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense();
+        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense(element);
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAverageMagicalDefense();
+        total_mag_def = target->GetActor()->GetAverageMagicalDefense(element);
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;

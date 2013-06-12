@@ -1029,7 +1029,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 
             _spirit_number = wpn ? wpn->GetSpiritSlots().size() : 0;
             equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
-            equip_mag_stat = wpn ? wpn->GetMagicalAttack() : 0;
+            equip_mag_stat = wpn ? wpn->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL) : 0;
 
             const std::vector<uint32>& equip_skills = wpn->GetEquipmentSkills();
             _equip_skills.clear();
@@ -1068,7 +1068,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 
             _spirit_number = armor ? armor->GetSpiritSlots().size() : 0;
             equip_phys_stat = armor ? armor->GetPhysicalDefense() : 0;
-            equip_mag_stat = armor ? armor->GetMagicalDefense() : 0;
+            equip_mag_stat = armor ? armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0;
 
             const std::vector<uint32>& equip_skills = armor->GetEquipmentSkills();
             _equip_skills.clear();
@@ -1116,7 +1116,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         uint32 char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (wpn ? wpn->GetPhysicalAttack() : 0);
-            char_mag_stat = (wpn ? wpn->GetMagicalAttack() : 0);
+            char_mag_stat = (wpn ? wpn->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL) : 0);
 
             phys_stat_diff = equip_phys_stat - char_phys_stat;
             mag_stat_diff = equip_mag_stat - char_mag_stat;
@@ -1133,7 +1133,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         uint32 char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (armor ? armor->GetPhysicalDefense() : 0);
-            char_mag_stat = (armor ? armor->GetMagicalDefense() : 0);
+            char_mag_stat = (armor ? armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0);
 
             phys_stat_diff = equip_phys_stat - char_phys_stat;
             mag_stat_diff = equip_mag_stat - char_mag_stat;

@@ -30,7 +30,8 @@
 function trigger_potential_stun(user, target)
     local target_actor = target:GetActor();
     local attack_point = target_actor:GetAttackPoint(target:GetPoint());
-    local chance_modifier = (user:GetTotalMagicalAttack() - attack_point:GetTotalMagicalDefense()) * 3.0;
+    local chance_modifier = (user:GetTotalMagicalAttack(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)
+                            - attack_point:GetTotalMagicalDefense(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)) * 3.0;
     local chance = (vt_utils.RandomFloat() * 100.0);
     --print( chance.. "/".. 50.0 + chance_modifier);
     if (chance > (50.0 + chance_modifier)) then
@@ -49,7 +50,8 @@ end
 function trigger_potential_attack_lowering(user, target)
     local target_actor = target:GetActor();
     local attack_point = target_actor:GetAttackPoint(target:GetPoint());
-    local chance_modifier = (user:GetTotalMagicalAttack() - attack_point:GetTotalMagicalDefense()) * 3.0;
+    local chance_modifier = (user:GetTotalMagicalAttack(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)
+                            - attack_point:GetTotalMagicalDefense(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)) * 3.0;
     local chance = (vt_utils.RandomFloat() * 100.0);
     --print( chance.. "/".. 50.0 + chance_modifier);
     if (chance > (50.0 + chance_modifier)) then

@@ -956,9 +956,9 @@ void PartyWindow::UpdateStatus()
     _character_status_numbers.SetText(text);
 
     text = MakeUnicodeString(NumberToString(ch->GetTotalPhysicalAttack())) + MakeUnicodeString("\n")
-        + MakeUnicodeString(NumberToString(ch->GetTotalMagicalAttack())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetTotalMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL))) + MakeUnicodeString("\n\n")
         + MakeUnicodeString(NumberToString(ch->GetAverageDefense())) + MakeUnicodeString("\n")
-        + MakeUnicodeString(NumberToString(ch->GetAverageMagicalDefense()));
+        + MakeUnicodeString(NumberToString(ch->GetAverageMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL)));
 
     _average_atk_def_numbers.SetText(text);
 
@@ -1007,10 +1007,10 @@ void PartyWindow::UpdateStatus()
     _focused_def_numbers.SetText(text);
 
     text = MakeUnicodeString("\n") // Skip titles
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (head_armor ? head_armor->GetMagicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (torso_armor ? torso_armor->GetMagicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (arm_armor ? arm_armor->GetMagicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (leg_armor ? leg_armor->GetMagicalDefense() : 0)) + "\n");
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (head_armor ? head_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (torso_armor ? torso_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (arm_armor ? arm_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (leg_armor ? leg_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n");
 
     _focused_mdef_numbers.SetText(text);
 }

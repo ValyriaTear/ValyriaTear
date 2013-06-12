@@ -138,8 +138,11 @@ public:
         return _total_physical_defense;
     }
 
-    uint16 GetTotalMagicalDefense() const {
-        return _total_magical_defense;
+    uint16 GetTotalMagicalDefense(GLOBAL_ELEMENTAL element) const {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            element = GLOBAL_ELEMENTAL_NEUTRAL;
+
+        return _total_magical_defense[element];
     }
 
     float GetTotalEvadeRating() const {
@@ -197,7 +200,8 @@ private:
     **/
     //@{
     uint16 _total_physical_defense;
-    uint16 _total_magical_defense;
+    //! \brief The magical defense is computed against each elements.
+    uint16 _total_magical_defense[GLOBAL_ELEMENTAL_TOTAL];
     float _total_evade_rating;
     //@}
 
@@ -327,13 +331,16 @@ public:
         return _total_physical_attack;
     }
 
-    uint32 GetTotalMagicalAttack() const {
-        return _total_magical_attack;
+    uint32 GetTotalMagicalAttack(GLOBAL_ELEMENTAL element) const {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            element = GLOBAL_ELEMENTAL_NEUTRAL;
+        return _total_magical_attack[element];
     }
 
     uint32 GetTotalPhysicalDefense(uint32 index) const;
 
-    uint32 GetTotalMagicalDefense(uint32 index) const;
+    //! \brief Get the magical defense of a body point against the given element.
+    uint32 GetTotalMagicalDefense(uint32 index, GLOBAL_ELEMENTAL element) const;
 
     float GetTotalEvadeRating(uint32 index) const;
 
@@ -341,7 +348,7 @@ public:
     *** of all of the actor's attack points. It used against global attacks.
     **/
     uint32 GetAverageDefense();
-    uint32 GetAverageMagicalDefense();
+    uint32 GetAverageMagicalDefense(GLOBAL_ELEMENTAL element);
     float GetAverageEvadeRating();
 
     const std::vector<GlobalAttackPoint *>& GetAttackPoints() {
@@ -529,8 +536,8 @@ protected:
     //! \brief The sum of the character's strength and their weapon's physical attack
     uint32 _total_physical_attack;
 
-    //! \brief The sum of the character's vigor and their weapon's magical attack
-    uint32 _total_magical_attack;
+    //! \brief The sum of the character's vigor and their weapon's magical attack for each elements.
+    uint32 _total_magical_attack[GLOBAL_ELEMENTAL_TOTAL];
 
     /** \brief The attack points that are located on the actor
     *** \note All actors must have at least one attack point.

@@ -264,7 +264,50 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
     _LoadEquipmentSkills(script_file);
 
     _physical_attack = script_file.ReadUInt("physical_attack");
-    _magical_attack = script_file.ReadUInt("magical_attack");
+    uint32 magical_attack = script_file.ReadUInt("magical_attack");
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+        _magical_attack[i] = magical_attack;
+    }
+
+    // Add elemental effects to atk
+    for (uint32 i = 0; i < _elemental_effects.size(); ++i) {
+        // TODO: Use the status effect script to get the value
+        // FIXME: this is for now hardcoded.
+        GLOBAL_ELEMENTAL element = _elemental_effects[i].first;
+        float modifier = 1.0f;
+        switch(_elemental_effects[i].second) {
+        default:
+        case GLOBAL_INTENSITY_NEUTRAL:
+            break;
+        case GLOBAL_INTENSITY_NEG_EXTREME:
+            modifier = -0.8;
+            break;
+        case GLOBAL_INTENSITY_NEG_GREATER:
+            modifier = -0.6;
+            break;
+        case GLOBAL_INTENSITY_NEG_MODERATE:
+            modifier = -0.4;
+            break;
+        case GLOBAL_INTENSITY_NEG_LESSER:
+            modifier = -0.2;
+            break;
+        case GLOBAL_INTENSITY_POS_LESSER:
+            modifier = 1.2;
+            break;
+        case GLOBAL_INTENSITY_POS_MODERATE:
+            modifier = 1.4;
+            break;
+        case GLOBAL_INTENSITY_POS_GREATER:
+            modifier = 1.6;
+            break;
+        case GLOBAL_INTENSITY_POS_EXTREME:
+            modifier = 1.8;
+            break;
+        }
+        float tmp_mag_attack = (float) _magical_attack[element];
+        _magical_attack[element] = (uint32)tmp_mag_attack * modifier;
+    }
+
     _usable_by = script_file.ReadUInt("usable_by");
 
     uint32 spirits_number = script_file.ReadUInt("slots");
@@ -393,7 +436,51 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
     _LoadEquipmentSkills(*script_file);
 
     _physical_defense = script_file->ReadUInt("physical_defense");
-    _magical_defense = script_file->ReadUInt("magical_defense");
+    uint32 magical_defense = script_file->ReadUInt("magical_defense");
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+        _magical_defense[i] = magical_defense;
+    }
+
+    // Add elemental effects to def
+    for (uint32 i = 0; i < _elemental_effects.size(); ++i) {
+        // TODO: Use the status effect script to get the value
+        // FIXME: this is for now hardcoded.
+        // To dehardcode this, the status effects need to be simplified
+        GLOBAL_ELEMENTAL element = _elemental_effects[i].first;
+        float modifier = 1.0f;
+        switch(_elemental_effects[i].second) {
+        default:
+        case GLOBAL_INTENSITY_NEUTRAL:
+            break;
+        case GLOBAL_INTENSITY_NEG_EXTREME:
+            modifier = 0.2;
+            break;
+        case GLOBAL_INTENSITY_NEG_GREATER:
+            modifier = 0.4;
+            break;
+        case GLOBAL_INTENSITY_NEG_MODERATE:
+            modifier = 0.6;
+            break;
+        case GLOBAL_INTENSITY_NEG_LESSER:
+            modifier = 0.8;
+            break;
+        case GLOBAL_INTENSITY_POS_LESSER:
+            modifier = 1.2;
+            break;
+        case GLOBAL_INTENSITY_POS_MODERATE:
+            modifier = 1.4;
+            break;
+        case GLOBAL_INTENSITY_POS_GREATER:
+            modifier = 1.6;
+            break;
+        case GLOBAL_INTENSITY_POS_EXTREME:
+            modifier = 1.8;
+            break;
+        }
+        float tmp_mag_def = (float) _magical_defense[element];
+        _magical_defense[element] = (uint32)tmp_mag_def * modifier;
+    }
+
     _usable_by = script_file->ReadUInt("usable_by");
 
     uint32 spirits_number = script_file->ReadUInt("slots");

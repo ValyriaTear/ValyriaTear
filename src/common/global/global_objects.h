@@ -354,8 +354,10 @@ public:
         return _physical_attack;
     }
 
-    uint32 GetMagicalAttack() const {
-        return _magical_attack;
+    uint32 GetMagicalAttack(GLOBAL_ELEMENTAL element) const {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            element = GLOBAL_ELEMENTAL_NEUTRAL;
+        return _magical_attack[element];
     }
 
     uint32 GetUsableBy() const {
@@ -387,8 +389,8 @@ private:
     //! \brief The amount of physical damage that the weapon causes
     uint32 _physical_attack;
 
-    //! \brief The amount of magical damage that the weapon causes
-    uint32 _magical_attack;
+    //! \brief The amount of magical damage that the weapon causes for each elements.
+    uint32 _magical_attack[GLOBAL_ELEMENTAL_TOTAL];
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
@@ -442,8 +444,10 @@ public:
         return _physical_defense;
     }
 
-    uint32 GetMagicalDefense() const {
-        return _magical_defense;
+    uint32 GetMagicalDefense(GLOBAL_ELEMENTAL element) const {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            element = GLOBAL_ELEMENTAL_NEUTRAL;
+        return _magical_defense[element];
     }
 
     uint32 GetUsableBy() const {
@@ -463,8 +467,8 @@ private:
     //! \brief The amount of physical defense that the armor provides
     uint32 _physical_defense;
 
-    //! \brief The amount of magical defense that the armor provides
-    uint32 _magical_defense;
+    //! \brief The amount of magical defense that the armor provides against each elements
+    uint32 _magical_defense[GLOBAL_ELEMENTAL_TOTAL];
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information

@@ -575,12 +575,12 @@ void BindModeCode()
             luabind::def("CalculatePhysicalDamageAdder", (uint32( *)(BattleActor *, BattleTarget *, int32, float)) &CalculatePhysicalDamageAdder),
             luabind::def("CalculatePhysicalDamageMultiplier", (uint32( *)(BattleActor *, BattleTarget *, float)) &CalculatePhysicalDamageMultiplier),
             luabind::def("CalculatePhysicalDamageMultiplier", (uint32( *)(BattleActor *, BattleTarget *, float, float)) &CalculatePhysicalDamageMultiplier),
-            luabind::def("CalculateMagicalDamage", (uint32( *)(BattleActor *, BattleTarget *)) &CalculateMagicalDamage),
-            luabind::def("CalculateMagicalDamage", (uint32( *)(BattleActor *, BattleTarget *, float)) &CalculateMagicalDamage),
-            luabind::def("CalculateMagicalDamageAdder", (uint32( *)(BattleActor *, BattleTarget *, int32)) &CalculateMagicalDamageAdder),
-            luabind::def("CalculateMagicalDamageAdder", (uint32( *)(BattleActor *, BattleTarget *, int32, float)) &CalculateMagicalDamageAdder),
-            luabind::def("CalculateMagicalDamageMultiplier", (uint32( *)(BattleActor *, BattleTarget *, float)) &CalculateMagicalDamageMultiplier),
-            luabind::def("CalculateMagicalDamageMultiplier", (uint32( *)(BattleActor *, BattleTarget *, float, float)) &CalculateMagicalDamageMultiplier)
+            luabind::def("CalculateMagicalDamage", (uint32( *)(BattleActor *, BattleTarget *, vt_global::GLOBAL_ELEMENTAL)) &CalculateMagicalDamage),
+            luabind::def("CalculateMagicalDamage", (uint32( *)(BattleActor *, BattleTarget *, vt_global::GLOBAL_ELEMENTAL, float)) &CalculateMagicalDamage),
+            luabind::def("CalculateMagicalDamageAdder", (uint32( *)(BattleActor *, BattleTarget *, vt_global::GLOBAL_ELEMENTAL, int32)) &CalculateMagicalDamageAdder),
+            luabind::def("CalculateMagicalDamageAdder", (uint32( *)(BattleActor *, BattleTarget *, vt_global::GLOBAL_ELEMENTAL, int32, float)) &CalculateMagicalDamageAdder),
+            luabind::def("CalculateMagicalDamageMultiplier", (uint32( *)(BattleActor *, BattleTarget *, vt_global::GLOBAL_ELEMENTAL, float)) &CalculateMagicalDamageMultiplier),
+            luabind::def("CalculateMagicalDamageMultiplier", (uint32( *)(BattleActor *, BattleTarget *, vt_global::GLOBAL_ELEMENTAL, float, float)) &CalculateMagicalDamageMultiplier)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")

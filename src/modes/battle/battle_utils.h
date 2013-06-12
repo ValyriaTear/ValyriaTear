@@ -247,6 +247,7 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
 /** \brief Determines the amount of damage caused with a magical attack
 *** \param attacker A pointer to the attacker who is causing the damage
 *** \param target A pointer to the target that will be receiving the damage
+*** \param element The element used when attacking using magic.
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 ***
 *** This function uses the magical attack/defense ratings to calculate the total damage caused. This function
@@ -254,11 +255,12 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
 *** damage caused. Therefore this function may return different values each time it is called with the same arguments.
 *** If the amount of damage calculates out to zero, a small random non-zero value will be returned instead.
 **/
-uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target);
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, vt_global::GLOBAL_ELEMENTAL element);
 
 /** \brief Determines the amount of damage caused with a magical attack
 *** \param attacker A pointer to the attacker who is causing the damage
 *** \param target A pointer to the target that will be receiving the damage
+*** \param element The element used when attacking using magic.
 *** \param std_dev The standard deviation to use in the gaussian distribution, where "0.075f" would represent 7.5% standard deviation
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 ***
@@ -266,31 +268,35 @@ uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target);
 *** This means that you can -not- use this function to declare an absolute standard deviation, such as a value of 20 damage
 *** points.
 **/
-uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, float std_dev);
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, vt_global::GLOBAL_ELEMENTAL element, float std_dev);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing an addition modifier
 *** \param attacker A pointer to the attacker who is causing the damage
 *** \param target A pointer to the target that will be receiving the damage
+*** \param element The element used when attacking using magic.
 *** \param add_atk An additional amount to add to the magical damage dealt
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 ***
 *** The add_atk argument may be positive or negative. Large negative values can skew the damage calculation
 *** and cause the damage dealt to drop to zero, so be cautious when setting this argument to a negative value.
 **/
-uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk);
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, vt_global::GLOBAL_ELEMENTAL element, int32 add_atk);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing an addition modifier
 *** \param attacker A pointer to the attacker who is causing the damage
 *** \param target A pointer to the target that will be receiving the damage
+*** \param element The element used when attacking using magic.
 *** \param add_atk An additional amount to add to the magical damage dealt
 *** \param std_dev The standard deviation to use in the gaussian distribution, where "0.075f" would represent 7.5% standard deviation
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 **/
-uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk, float std_dev);
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
+                                   vt_global::GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing a multiplication modifier
 *** \param attacker A pointer to the attacker who is causing the damage
 *** \param target A pointer to the target that will be receiving the damage
+*** \param element The element used when attacking using magic.
 *** \param mul_atk An additional amount to be multiplied to the magical damage dealt
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 ***
@@ -300,18 +306,21 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, 
 *** be 0.8f. If a negative multiplier value is passed to this function, its absoute value will be used and
 *** a warning will be printed.
 **/
-uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk);
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
+                                        vt_global::GLOBAL_ELEMENTAL element, float mul_atk);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing a multiplication modifier
 *** \param attacker A pointer to the attacker who is causing the damage
 *** \param target A pointer to the target that will be receiving the damage
+*** \param element The element used when attacking using magic.
 *** \param mul_atk A modifier to be multiplied to the magical damage dealt
 *** \param std_dev The standard deviation to use in the gaussian distribution, where "0.075f" would represent 7.5% standard deviation
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 ***
 *** This function signature allows the additional option of setting the standard deviation in the gaussian random value calculation.
 **/
-uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk, float std_dev);
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
+                                        vt_global::GLOBAL_ELEMENTAL element, float mul_atk, float std_dev);
 //@}
 
 /** ****************************************************************************

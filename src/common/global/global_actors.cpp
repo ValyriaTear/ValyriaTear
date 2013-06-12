@@ -43,11 +43,11 @@ GlobalAttackPoint::GlobalAttackPoint(GlobalActor *owner) :
     _protection_modifier(0.0f),
     _evade_modifier(0.0f),
     _total_physical_defense(0),
-    _total_magical_defense(0),
     _total_evade_rating(0)
-{}
-
-
+{
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        _total_magical_defense[i] = 0;
+}
 
 bool GlobalAttackPoint::LoadData(ReadScriptDescriptor &script)
 {
@@ -104,15 +104,20 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor *equipped_armor)
     else
         _total_physical_defense = _actor_owner->GetFortitude() + static_cast<int32>(_actor_owner->GetFortitude() * _fortitude_modifier);
 
-    if(_protection_modifier <= -1.0f)  // If the modifier is less than or equal to -100%, set the total defense to zero
-        _total_magical_defense = 0;
-    else
-        _total_magical_defense = _actor_owner->GetProtection() + static_cast<int32>(_actor_owner->GetProtection() * _protection_modifier);
+    // If the modifier is less than or equal to -100%, set the total defense to zero
+    uint32 magical_base = 0;
+    if(_protection_modifier > -1.0f)
+        magical_base = _actor_owner->GetProtection() + static_cast<int32>(_actor_owner->GetProtection() * _protection_modifier);
+    
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        _total_magical_defense[i] = magical_base;
 
     // If present, add defense ratings from the armor equipped
-    if(equipped_armor != NULL) {
+    if(equipped_armor) {
         _total_physical_defense += equipped_armor->GetPhysicalDefense();
-        _total_magical_defense += equipped_armor->GetMagicalDefense();
+        // Apply elemental passive effects of the armor.
+        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+            _total_magical_defense[i] += equipped_armor->GetMagicalDefense((GLOBAL_ELEMENTAL) i);
     }
 }
 
@@ -149,9 +154,11 @@ GlobalActor::GlobalActor() :
     _protection(0),
     _agility(0),
     _evade(0.0f),
-    _total_physical_attack(0),
-    _total_magical_attack(0)
-{}
+    _total_physical_attack(0)
+{
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        _total_magical_attack[i] = 0;
+}
 
 
 GlobalActor::~GlobalActor()
@@ -191,7 +198,8 @@ GlobalActor::GlobalActor(const GlobalActor &copy)
     _agility = copy._agility;
     _evade = copy._evade;
     _total_physical_attack = copy._total_physical_attack;
-    _total_magical_attack = copy._total_magical_attack;
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        _total_magical_attack[i] = copy._total_magical_attack[i];
 
     // Copy all attack points
     for(uint32 i = 0; i < copy._attack_points.size(); i++) {
@@ -206,8 +214,6 @@ GlobalActor::GlobalActor(const GlobalActor &copy)
         _skills_id.push_back(copy._skills_id[i]);
     }
 }
-
-
 
 GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
 {
@@ -232,7 +238,8 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     _agility = copy._agility;
     _evade = copy._evade;
     _total_physical_attack = copy._total_physical_attack;
-    _total_magical_attack = copy._total_magical_attack;
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        _total_magical_attack[i] = copy._total_magical_attack[i];
 
     // Copy all attack points
     for(uint32 i = 0; i < copy._attack_points.size(); i++) {
@@ -268,19 +275,18 @@ uint32 GlobalActor::GetTotalPhysicalDefense(uint32 index) const
     return _attack_points[index]->GetTotalPhysicalDefense();
 }
 
-
-
-uint32 GlobalActor::GetTotalMagicalDefense(uint32 index) const
+uint32 GlobalActor::GetTotalMagicalDefense(uint32 index, GLOBAL_ELEMENTAL element) const
 {
     if(index >= _attack_points.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
         return 0;
     }
 
-    return _attack_points[index]->GetTotalMagicalDefense();
+    if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+        element = GLOBAL_ELEMENTAL_NEUTRAL;
+
+    return _attack_points[index]->GetTotalMagicalDefense(element);
 }
-
-
 
 float GlobalActor::GetTotalEvadeRating(uint32 index) const
 {
@@ -294,6 +300,9 @@ float GlobalActor::GetTotalEvadeRating(uint32 index) const
 
 uint32 GlobalActor::GetAverageDefense()
 {
+    if (_attack_points.empty())
+        return 0;
+
     uint32 phys_defense = 0;
 
     for(uint32 i = 0; i < _attack_points.size(); i++)
@@ -303,18 +312,24 @@ uint32 GlobalActor::GetAverageDefense()
     return phys_defense;
 }
 
-uint32 GlobalActor::GetAverageMagicalDefense()
+uint32 GlobalActor::GetAverageMagicalDefense(GLOBAL_ELEMENTAL element)
 {
+    if (_attack_points.empty())
+        return 0;
+
     uint32 mag_defense = 0;
 
     for(uint32 i = 0; i < _attack_points.size(); i++)
-        mag_defense += _attack_points[i]->GetTotalMagicalDefense();
+        mag_defense += _attack_points[i]->GetTotalMagicalDefense(element);
     mag_defense /= _attack_points.size();
     return mag_defense;
 }
 
 float GlobalActor::GetAverageEvadeRating()
 {
+    if (_attack_points.empty())
+        return 0;
+
     float evade = 0.0f;
 
     for(uint32 i = 0; i < _attack_points.size(); i++)
@@ -613,7 +628,8 @@ void GlobalActor::SubtractEvade(float amount)
 void GlobalActor::_CalculateAttackRatings()
 {
     _total_physical_attack = _strength;
-    _total_magical_attack = _vigor;
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        _total_magical_attack[i] = _vigor;
 }
 
 
@@ -1273,11 +1289,13 @@ void GlobalCharacter::AcknowledgeGrowth() {
 void GlobalCharacter::_CalculateAttackRatings()
 {
     _total_physical_attack = _strength;
-    _total_magical_attack = _vigor;
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        _total_magical_attack[i] = _vigor;
 
-    if(_weapon_equipped != NULL) {
+    if(_weapon_equipped) {
         _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
-        _total_magical_attack += _weapon_equipped->GetMagicalAttack();
+        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+            _total_magical_attack[i] += _weapon_equipped->GetMagicalAttack((GLOBAL_ELEMENTAL) i);
     }
 }
 
