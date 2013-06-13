@@ -378,6 +378,14 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 **/
 void InitializeEngine() throw(Exception)
 {
+    // use display #0 unless already specified
+    // behavior of fullscreen mode is eratic without this value set
+#ifndef _WIN32
+    setenv("SDL_VIDEO_FULLSCREEN_DISPLAY","0",0); 
+#else
+    _putenv_s("SDL_VIDEO_FULLSCREEN_DISPLAY", "0");
+#endif
+
     // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
     if(SDL_Init(SDL_INIT_TIMER) != 0) {
         throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
