@@ -90,14 +90,6 @@ public:
         return _name;
     }
 
-    uint32 GetIconIndex() const {
-        return _icon_index;
-    }
-
-    vt_global::GLOBAL_STATUS GetOppositeEffect() const {
-        return _opposite_effect;
-    }
-
     BattleActor *GetAffectedActor() const {
         return _affected_actor;
     }
@@ -144,12 +136,6 @@ public:
 private:
     //! \brief Holds the translated name of the status effect
     std::string _name;
-
-    //! \brief Holds the index to the row where the icons for this effect are stored in the status effect multi image
-    uint32 _icon_index;
-
-    //! \brief The opposte effect for the status, set to GLOBAL_STATUS_INVALID if no opposite effect exists
-    vt_global::GLOBAL_STATUS _opposite_effect;
 
     //! \brief A pointer to the script function that applies the initial effect
     ScriptObject _apply_function;

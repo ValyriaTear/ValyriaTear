@@ -100,22 +100,7 @@ void GlobalObject::_LoadStatusEffects(vt_script::ReadScriptDescriptor &script)
 
         int32 intensity = script.ReadInt(key);
         // Note: The intensity of a status effect can only be positive
-        if(intensity < GLOBAL_INTENSITY_NEUTRAL || intensity >= GLOBAL_INTENSITY_TOTAL)
-            continue;
-
-        // Check whether an opposite effect exists.
-        bool effect_replaced = false;
-        for (uint32 j = 0; j < _status_effects.size(); ++j) {
-            GLOBAL_STATUS opposite_effect = GetOppositeStatusEffect((GLOBAL_STATUS) key);
-            if (_status_effects[j].first != opposite_effect)
-                continue;
-
-            PRINT_WARNING << "The item (id:" << _id << ") has opposing passive status effects." << std::endl;
-            effect_replaced = true;
-            break;
-        }
-
-        if (effect_replaced)
+        if(intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL)
             continue;
 
         _status_effects.push_back(std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY>((GLOBAL_STATUS)key, (GLOBAL_INTENSITY)intensity));

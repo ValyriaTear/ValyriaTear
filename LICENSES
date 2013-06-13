@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.06.04
+Last update: 2013.06.12
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -227,8 +227,7 @@ img/icons/battle/mist.png                                       GPLv2           
 img/icons/specials/moon.png                                     CC by SA 3.0             Bertram, the moon part is based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture
 
 img/icons/effects/attack_types.png                              GPLv2                    Taken from the elemental.png file. (Allacrost)
-img/icons/effects/elemental.png                                 GPLv2                    Allacrost + changes from Bertram
-img/icons/effects/status.png                                    GPLv2                    Allacrost, HP, SP icons from Bertram
+img/icons/effects/status.png                                    GPLv2                    Allacrost, HP, SP icons and other minor changes from Bertram
 img/icons/effects/targets.png                                   GPLv2                    Allacrost
 img/icons/effects/templates.png                                 GPLv2                    Allacrost, simplified from the original version by Bertram
 

@@ -385,10 +385,9 @@ public:
     void AddMissIndicator();
 
     /** \brief Creates an indicator that illustrates a change in an actor's status
-    *** \param old_status The type of the old status effect
-    *** \param old_intensity The intensity of the old status effect
-    *** \param new_status The type of the new status effect
-    *** \param new_intensity The intensity of the new status effect
+    *** \param status The type of the status effect
+    *** \param old_intensity The previous intensity of the status effect
+    *** \param new_intensity The new intensity of the status effect
     ***
     *** The arguments are used to determine which status icon images to use for the indicator. Most of the time
     *** this function will choose two status icons (one old, and one new) for use in the indicator. Occasionally
@@ -396,8 +395,8 @@ public:
     *** example, when the timer for the status effect is reset. If the status and intensity arguments are equal,
     *** only a single icon image will be used in the indicator.
     **/
-    void AddStatusIndicator(vt_global::GLOBAL_STATUS old_status, vt_global::GLOBAL_INTENSITY old_intensity,
-                            vt_global::GLOBAL_STATUS new_status, vt_global::GLOBAL_INTENSITY new_intensity);
+    void AddStatusIndicator(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY old_intensity,
+                            vt_global::GLOBAL_INTENSITY new_intensity);
 
     //! \brief Creates indicator with item image above the character
     void AddItemIndicator(const vt_global::GlobalItem &item);

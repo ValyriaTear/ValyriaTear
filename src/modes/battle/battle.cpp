@@ -836,7 +836,7 @@ static void SetEffectMaximum(GLOBAL_INTENSITY *max_effect, const std::vector<std
         //we are only interested in attribute effects
 
         if(status_effects[i].first == GLOBAL_STATUS_INVALID ||
-           status_effects[i].first > GLOBAL_STATUS_EVADE_LOWER)
+           status_effects[i].first > GLOBAL_STATUS_EVADE)
             continue;
         if(status_effects[i].second < GLOBAL_INTENSITY_NEG_EXTREME ||
            status_effects[i].second > GLOBAL_INTENSITY_POS_EXTREME)

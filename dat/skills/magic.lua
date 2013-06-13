@@ -57,7 +57,7 @@ skills[10001] = {
         local target_actor = target:GetActor();
         local effect_duration = user:GetProtection() * 2000;
         if (effect_duration < 10000) then effect_duration = 10000 end
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE_RAISE,
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
                                           vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                           effect_duration);
         local Battle = ModeManager:GetTop();
@@ -119,7 +119,7 @@ skills[10003] = {
             if (target_actor == nil) then
                 break;
             end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
                         vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
                         effect_duration);
             index = index + 1;
@@ -146,10 +146,10 @@ skills[10004] = {
             if (target_actor == nil) then
                 break;
             end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_RAISE,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
                         vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                         effect_duration);
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR,
                         vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                         effect_duration);
             index = index + 1;
@@ -502,7 +502,7 @@ skills[10111] = {
         local target_actor = target:GetActor();
         -- TODO : Balance this
         local effect_duration = user:GetVigor() * 3000;
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EARTH_RAISE,
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EARTH,
                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                     effect_duration);
         -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
@@ -776,8 +776,8 @@ skills[10126] = {
         -- TODO : Balance this
         local effect_duration = user:GetVigor() * 3000;
 
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP_DRAIN,
-                    vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                    vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                     effect_duration);
     end,
 }
@@ -913,7 +913,7 @@ skills[10133] = {
         -- TODO : Balance this
         local effect_duration = user:GetVigor() * 3000;
 
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP_REGEN,
+        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                     effect_duration);
     end,

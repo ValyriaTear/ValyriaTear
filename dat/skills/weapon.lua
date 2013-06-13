@@ -43,7 +43,7 @@ function trigger_potential_stun(user, target)
     local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
     target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
-                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                       effect_duration);
 end
 
@@ -62,8 +62,8 @@ function trigger_potential_attack_lowering(user, target)
     -- Compute an effect duration time based on the characters' stats
     local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
-    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER,
-                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                       effect_duration);
 end
 
@@ -180,8 +180,8 @@ skills[4] = {
         if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
-                                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                             effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
@@ -240,8 +240,8 @@ skills[6] = {
         if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
-                                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                             effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
@@ -552,8 +552,8 @@ skills[1005] = {
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER,
-                                                vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                 effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly

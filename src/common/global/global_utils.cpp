@@ -197,66 +197,14 @@ bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount)
     // This check protects against overflow conditions
     if(amount > (GLOBAL_INTENSITY_TOTAL * 2)) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity by an excessive amount: " << amount << std::endl;
-        if(intensity == GLOBAL_INTENSITY_NEG_EXTREME) {
-            return false;
-        } else {
-            intensity = GLOBAL_INTENSITY_NEG_EXTREME;
-            return true;
-        }
+        intensity = GLOBAL_INTENSITY_NEG_EXTREME;
+        return true;
     }
 
     intensity = GLOBAL_INTENSITY(intensity - amount);
     if(intensity <= GLOBAL_INTENSITY_INVALID)
         intensity = GLOBAL_INTENSITY_NEG_EXTREME;
     return true;
-}
-
-GLOBAL_STATUS GetOppositeStatusEffect(GLOBAL_STATUS status_effect)
-{
-    switch (status_effect) {
-    default:
-        return GLOBAL_STATUS_INVALID;
-
-    case GLOBAL_STATUS_STRENGTH_RAISE:
-        return GLOBAL_STATUS_STRENGTH_LOWER;
-    case GLOBAL_STATUS_STRENGTH_LOWER:
-        return GLOBAL_STATUS_STRENGTH_RAISE;
-
-    case GLOBAL_STATUS_VIGOR_RAISE:
-        return GLOBAL_STATUS_VIGOR_LOWER;
-    case GLOBAL_STATUS_VIGOR_LOWER:
-        return GLOBAL_STATUS_VIGOR_RAISE;
-
-    case GLOBAL_STATUS_FORTITUDE_RAISE:
-        return GLOBAL_STATUS_FORTITUDE_LOWER;
-    case GLOBAL_STATUS_FORTITUDE_LOWER:
-        return GLOBAL_STATUS_FORTITUDE_RAISE;
-
-    case GLOBAL_STATUS_PROTECTION_RAISE:
-        return GLOBAL_STATUS_PROTECTION_LOWER;
-    case GLOBAL_STATUS_PROTECTION_LOWER:
-        return GLOBAL_STATUS_PROTECTION_RAISE;
-
-    case GLOBAL_STATUS_AGILITY_RAISE:
-        return GLOBAL_STATUS_AGILITY_LOWER;
-    case GLOBAL_STATUS_AGILITY_LOWER:
-        return GLOBAL_STATUS_AGILITY_RAISE;
-
-    case GLOBAL_STATUS_EVADE_RAISE:
-        return GLOBAL_STATUS_EVADE_LOWER;
-    case GLOBAL_STATUS_EVADE_LOWER:
-        return GLOBAL_STATUS_EVADE_RAISE;
-
-    case GLOBAL_STATUS_HP_REGEN:
-        return GLOBAL_STATUS_HP_DRAIN;
-    case GLOBAL_STATUS_HP_DRAIN:
-        return GLOBAL_STATUS_HP_REGEN;
-
-    case GLOBAL_STATUS_SP_REGEN:
-        return GLOBAL_STATUS_SP_DRAIN;
-    case GLOBAL_STATUS_SP_DRAIN:
-        return GLOBAL_STATUS_SP_REGEN;
-    }
 }
 
 GLOBAL_INTENSITY GetOppositeIntensity(GLOBAL_INTENSITY intensity) {
@@ -315,9 +263,6 @@ void GlobalMedia::Initialize()
     if (!_clock_icon.Load("img/menus/clock.png"))
         PRINT_WARNING << "Failed to load clock icon image" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_elemental_icons, "img/icons/effects/elemental.png", 7, 9))
-        PRINT_WARNING << "Failed to load elemental icon images" << std::endl;
-
     if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
         PRINT_WARNING << "Failed to load status icon images" << std::endl;
 
@@ -343,38 +288,45 @@ GlobalMedia::~GlobalMedia()
 
 vt_video::StillImage* GlobalMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_type, GLOBAL_INTENSITY intensity)
 {
-    const uint32 NUMBER_INTENSTIY_LEVELS = 9;
-
-    // Row/col coordinates for where the specific icon can be found in the multi image array
-    uint32 row = 0, col = 0;
-
-    // Elemental type determines the icon's row
-    switch(element_type) {
+    GLOBAL_STATUS status_type = GLOBAL_STATUS_INVALID;
+    switch (element_type) {
+    default:
+        return NULL;
     case GLOBAL_ELEMENTAL_FIRE:
-        row = 0;
+        status_type = GLOBAL_STATUS_FIRE;
         break;
     case GLOBAL_ELEMENTAL_WATER:
-        row = 1;
-        break;
-    case GLOBAL_ELEMENTAL_VOLT:
-        row = 2;
+        status_type = GLOBAL_STATUS_WATER;
         break;
     case GLOBAL_ELEMENTAL_EARTH:
-        row = 3;
+        status_type = GLOBAL_STATUS_EARTH;
+        break;
+    case GLOBAL_ELEMENTAL_VOLT:
+        status_type = GLOBAL_STATUS_VOLT;
         break;
     case GLOBAL_ELEMENTAL_LIFE:
-        row = 4;
+        status_type = GLOBAL_STATUS_LIFE;
         break;
     case GLOBAL_ELEMENTAL_DEATH:
-        row = 5;
+        status_type = GLOBAL_STATUS_DEATH;
         break;
     case GLOBAL_ELEMENTAL_NEUTRAL:
-        row = 6;
+        status_type = GLOBAL_STATUS_NEUTRAL;
         break;
-    default:
-        PRINT_WARNING << "Invalid elemental type: " << element_type << std::endl;
-        return NULL;
     }
+
+    return GetStatusIcon(status_type, intensity);
+}
+
+vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity)
+{
+    if (status_type <= GLOBAL_STATUS_INVALID || status_type >= GLOBAL_STATUS_TOTAL)
+        return NULL;
+
+    const uint32 NUMBER_INTENSITY_LEVELS = 9;
+
+    // col coordinate for where the specific icon can be found in the multi image array
+    uint32 col = 0;
 
     // Intensity determines the icon's column
     switch(intensity) {
@@ -410,7 +362,7 @@ vt_video::StillImage* GlobalMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_typ
         return NULL;
     }
 
-    return &(_elemental_icons[(row * NUMBER_INTENSTIY_LEVELS) + col]);
+    return &(_status_icons[(((uint32) status_type) * NUMBER_INTENSITY_LEVELS) + col]);
 }
 
 vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type)
@@ -447,104 +399,6 @@ vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type
     }
 
     return &(_all_category_icons[index]);
-}
-
-vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity)
-{
-    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
-        PRINT_WARNING << "Invalid type: " << type << std::endl;
-        return NULL;
-    }
-
-    if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-        PRINT_WARNING << "Invalid intensity: " << intensity << std::endl;
-        return NULL;
-    }
-
-    // Return elemental effect images.
-    if (type >= GLOBAL_STATUS_FIRE_RAISE && type <= GLOBAL_STATUS_NEUTRAL_LOWER) {
-        GLOBAL_ELEMENTAL element_type = GLOBAL_ELEMENTAL_INVALID;
-
-        switch (type) {
-        default:
-            return NULL;
-
-        case GLOBAL_STATUS_FIRE_LOWER:
-            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_FIRE;
-            break;
-        case GLOBAL_STATUS_FIRE_RAISE:
-            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_FIRE;
-            break;
-        case GLOBAL_STATUS_WATER_LOWER:
-            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_WATER;
-            break;
-        case GLOBAL_STATUS_WATER_RAISE:
-            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_WATER;
-            break;
-        case GLOBAL_STATUS_VOLT_LOWER:
-            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_VOLT;
-            break;
-        case GLOBAL_STATUS_VOLT_RAISE:
-            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_VOLT;
-            break;
-        case GLOBAL_STATUS_EARTH_LOWER:
-            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_EARTH;
-            break;
-        case GLOBAL_STATUS_EARTH_RAISE:
-            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_EARTH;
-            break;
-        case GLOBAL_STATUS_LIFE_LOWER:
-            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_LIFE;
-            break;
-        case GLOBAL_STATUS_LIFE_RAISE:
-            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_LIFE;
-            break;
-        case GLOBAL_STATUS_DEATH_LOWER:
-            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_DEATH;
-            break;
-        case GLOBAL_STATUS_DEATH_RAISE:
-            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_DEATH;
-            break;
-        case GLOBAL_STATUS_NEUTRAL_LOWER:
-            if (intensity > GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_NEUTRAL;
-            break;
-        case GLOBAL_STATUS_NEUTRAL_RAISE:
-            if (intensity < GLOBAL_INTENSITY_NEUTRAL)
-                intensity = GetOppositeIntensity(intensity);
-            element_type = GLOBAL_ELEMENTAL_NEUTRAL;
-            break;
-        }
-        return GetElementalIcon(element_type, intensity);
-    }
-
-    const uint32 IMAGE_ROWS = 5;
-    return &(_status_icons[(type * IMAGE_ROWS) + intensity]);
 }
 
 void GlobalMedia::PlaySound(const std::string &identifier)

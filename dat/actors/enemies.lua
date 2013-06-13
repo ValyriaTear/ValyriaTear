@@ -94,7 +94,7 @@ enemies[2] = {
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Abdomen"),
@@ -152,7 +152,7 @@ enemies[3] = {
             fortitude_modifier = -0.2,
             protection_modifier = 0,
             evade_modifier = 0.2,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -207,7 +207,7 @@ enemies[4] = {
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.2,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -224,7 +224,7 @@ enemies[4] = {
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.2,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
         }
     },
 
@@ -326,7 +326,7 @@ enemies[6] = {
             fortitude_modifier = -0.5,
             protection_modifier = 0.0,
             evade_modifier = 0.4,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 25.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 25.0 }
         },
     },
 
@@ -377,7 +377,7 @@ enemies[7] = {
             fortitude_modifier = -0.2,
             protection_modifier = 0,
             evade_modifier = 0.2,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -437,7 +437,7 @@ enemies[8] = {
             fortitude_modifier = -0.2,
             protection_modifier = 0,
             evade_modifier = 0.2,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Body"),
@@ -491,7 +491,7 @@ enemies[9] = {
             fortitude_modifier = -0.2,
             protection_modifier = -0.2,
             evade_modifier = 0.2,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Torso"),
@@ -508,7 +508,7 @@ enemies[9] = {
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.1,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
         }
     },
 
@@ -555,7 +555,7 @@ enemies[10] = {
             fortitude_modifier = -0.2,
             protection_modifier = -0.2,
             evade_modifier = 0.4,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
         [2] = {
             name = vt_system.Translate("Torso"),
@@ -572,7 +572,7 @@ enemies[10] = {
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.4,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
         }
     },
 
@@ -640,7 +640,7 @@ enemies[59] = {
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
         }
     },
 
@@ -760,7 +760,7 @@ enemies[61] = {
             fortitude_modifier = 0.0,
             protection_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 20.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
         }
     },
 

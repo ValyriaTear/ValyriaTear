@@ -184,42 +184,27 @@ enum GLOBAL_ELEMENTAL {
 };
 
 /** \name Status Effect Types
-*** \brief Used to identify the various types of status effects
+*** \brief Used to identify the various types of status (and elemental) effects
 **/
 enum GLOBAL_STATUS {
     GLOBAL_STATUS_INVALID           = -1,
-    GLOBAL_STATUS_STRENGTH_RAISE    =  0,
-    GLOBAL_STATUS_STRENGTH_LOWER    =  1,
-    GLOBAL_STATUS_VIGOR_RAISE       =  2,
-    GLOBAL_STATUS_VIGOR_LOWER       =  3,
-    GLOBAL_STATUS_FORTITUDE_RAISE   =  4,
-    GLOBAL_STATUS_FORTITUDE_LOWER   =  5,
-    GLOBAL_STATUS_PROTECTION_RAISE  =  6,
-    GLOBAL_STATUS_PROTECTION_LOWER  =  7,
-    GLOBAL_STATUS_AGILITY_RAISE     =  8,
-    GLOBAL_STATUS_AGILITY_LOWER     =  9,
-    GLOBAL_STATUS_EVADE_RAISE       = 10,
-    GLOBAL_STATUS_EVADE_LOWER       = 11,
-    GLOBAL_STATUS_HP_REGEN          = 12,
-    GLOBAL_STATUS_HP_DRAIN          = 13,
-    GLOBAL_STATUS_SP_REGEN          = 14,
-    GLOBAL_STATUS_SP_DRAIN          = 15,
-    GLOBAL_STATUS_PARALYSIS         = 16,
-    GLOBAL_STATUS_FIRE_RAISE        = 17,
-    GLOBAL_STATUS_FIRE_LOWER        = 18,
-    GLOBAL_STATUS_WATER_RAISE       = 19,
-    GLOBAL_STATUS_WATER_LOWER       = 20,
-    GLOBAL_STATUS_VOLT_RAISE        = 21,
-    GLOBAL_STATUS_VOLT_LOWER        = 22,
-    GLOBAL_STATUS_EARTH_RAISE       = 23,
-    GLOBAL_STATUS_EARTH_LOWER       = 24,
-    GLOBAL_STATUS_LIFE_RAISE        = 25,
-    GLOBAL_STATUS_LIFE_LOWER        = 26,
-    GLOBAL_STATUS_DEATH_RAISE       = 27,
-    GLOBAL_STATUS_DEATH_LOWER       = 28,
-    GLOBAL_STATUS_NEUTRAL_RAISE     = 29,
-    GLOBAL_STATUS_NEUTRAL_LOWER     = 30,
-    GLOBAL_STATUS_TOTAL             = 31
+    GLOBAL_STATUS_STRENGTH          =  0,
+    GLOBAL_STATUS_VIGOR             =  1,
+    GLOBAL_STATUS_FORTITUDE         =  2,
+    GLOBAL_STATUS_PROTECTION        =  3,
+    GLOBAL_STATUS_AGILITY           =  4,
+    GLOBAL_STATUS_EVADE             =  5,
+    GLOBAL_STATUS_HP                =  6,
+    GLOBAL_STATUS_SP                =  7,
+    GLOBAL_STATUS_PARALYSIS         =  8,
+    GLOBAL_STATUS_FIRE              =  9,
+    GLOBAL_STATUS_WATER             = 10,
+    GLOBAL_STATUS_VOLT              = 11,
+    GLOBAL_STATUS_EARTH             = 12,
+    GLOBAL_STATUS_LIFE              = 13,
+    GLOBAL_STATUS_DEATH             = 14,
+    GLOBAL_STATUS_NEUTRAL           = 15,
+    GLOBAL_STATUS_TOTAL             = 16
 };
 
 /** \name Effect Intensity Levels
@@ -323,9 +308,6 @@ bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 *** \note The intensity will not be allowed to decrease beyond the valid intensity range
 **/
 bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
-
-//! Gives the opposite status effect if there is one of GLOBAL_STATUS_INVALID if none.
-GLOBAL_STATUS GetOppositeStatusEffect(GLOBAL_STATUS status_effect);
 
 //! Gives the opposite effect intensity if there is one of GLOBAL_INTENSITY_INVALID if none.
 GLOBAL_INTENSITY GetOppositeIntensity(GLOBAL_INTENSITY intensity);
@@ -437,9 +419,6 @@ private:
 
     //! \brief The clock icon
     vt_video::StillImage _clock_icon;
-
-    //! \brief Retains all icon images that represent the game's elementals
-    std::vector<vt_video::StillImage> _elemental_icons;
 
     //! \brief Retains all icon images that represent the game's status effects
     std::vector<vt_video::StillImage> _status_icons;

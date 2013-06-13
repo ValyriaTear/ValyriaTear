@@ -789,10 +789,10 @@ MenuMode::MenuMode() :
     _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
-    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH_RAISE, GLOBAL_INTENSITY_NEUTRAL);
-    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR_RAISE, GLOBAL_INTENSITY_NEUTRAL);
-    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
-    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH, GLOBAL_INTENSITY_NEUTRAL);
+    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR, GLOBAL_INTENSITY_NEUTRAL);
+    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL);
+    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL);
 
     _clock_icon = vt_global::GlobalManager->Media().GetClockIcon();
     _clock_icon->SetWidthKeepRatio(30.0f);

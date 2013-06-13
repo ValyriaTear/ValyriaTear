@@ -85,8 +85,6 @@ void GlobalElementalEffect::IncrementIntensity(uint8 amount)
     vt_global::IncrementIntensity(_intensity, amount);
 }
 
-
-
 void GlobalElementalEffect::DecrementIntensity(uint8 amount)
 {
     vt_global::DecrementIntensity(_intensity, amount);
@@ -101,22 +99,9 @@ bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
     return vt_global::IncrementIntensity(_intensity, amount);
 }
 
-
-
 bool GlobalStatusEffect::DecrementIntensity(uint8 amount)
 {
-    GLOBAL_INTENSITY previous_intensity = _intensity;
-    bool intensity_modified = vt_global::DecrementIntensity(_intensity, amount);
-
-    if(intensity_modified == true) {
-        if(_intensity < GLOBAL_INTENSITY_NEUTRAL) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity below neutral level" << std::endl;
-            _intensity = GLOBAL_INTENSITY_NEUTRAL;
-            if(_intensity == previous_intensity)
-                intensity_modified = false;
-        }
-    }
-    return intensity_modified;
+    return vt_global::DecrementIntensity(_intensity, amount);
 }
 
 } // namespace vt_global

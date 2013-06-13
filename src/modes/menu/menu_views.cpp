@@ -836,8 +836,8 @@ void PartyWindow::_InitCharSelect()
     _focused_mdef_numbers.SetStyle(TextStyle("text18"));
 
     _focused_def_category_icons.Load("img/menus/status/menu_point_atk_def.png");
-    _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE_RAISE, GLOBAL_INTENSITY_NEUTRAL);
-    _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION_RAISE, GLOBAL_INTENSITY_NEUTRAL);
+    _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL);
+    _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL);
 
     UpdateStatus();
 }

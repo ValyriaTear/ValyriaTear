@@ -255,7 +255,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
             std::vector<std::pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
             for(std::vector<std::pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); i++) {
                 if(RandomFloat(0.0f, 100.0f) <= i->second) {
-                    RegisterStatusChange(i->first, GLOBAL_INTENSITY_POS_LESSER);
+                    RegisterStatusChange(i->first, GLOBAL_INTENSITY_NEG_LESSER);
                 }
             }
         }

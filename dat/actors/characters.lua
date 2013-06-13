@@ -64,7 +64,7 @@ characters[BRONANN] = {
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
@@ -81,7 +81,7 @@ characters[BRONANN] = {
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
@@ -90,7 +90,7 @@ characters[BRONANN] = {
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
         }
     },
 
@@ -203,7 +203,7 @@ characters[KALYA] = {
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
@@ -220,7 +220,7 @@ characters[KALYA] = {
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
@@ -229,7 +229,7 @@ characters[KALYA] = {
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
         }
     },
 
@@ -338,7 +338,7 @@ characters[SYLVE] = {
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
@@ -355,7 +355,7 @@ characters[SYLVE] = {
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
@@ -364,7 +364,7 @@ characters[SYLVE] = {
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
         }
     },
 
@@ -474,7 +474,7 @@ characters[THANIS] = {
             fortitude_modifier = -0.20,
             protection_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
@@ -491,7 +491,7 @@ characters[THANIS] = {
             fortitude_modifier = 0.10,
             protection_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
@@ -500,7 +500,7 @@ characters[THANIS] = {
             fortitude_modifier = 0.20,
             protection_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY_LOWER] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
         }
     },
 

@@ -526,8 +526,6 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points)
     _wait_queue.push_back(new IndicatorText(_actor, text, style, HEALING_INDICATOR));
 }
 
-
-
 void IndicatorSupervisor::AddMissIndicator()
 {
     std::string text = Translate("Miss");
@@ -535,51 +533,19 @@ void IndicatorSupervisor::AddMissIndicator()
     _wait_queue.push_back(new IndicatorText(_actor, text, style, MISS_INDICATOR));
 }
 
-
-//! \brief Tells whether the new status is better for the character than the previous one
-bool IsNewStatusBetter(GLOBAL_STATUS new_status, GLOBAL_INTENSITY old_intensity, GLOBAL_INTENSITY new_intensity)
-{
-
-    switch(new_status) {
-    case GLOBAL_STATUS_STRENGTH_LOWER:
-    case GLOBAL_STATUS_VIGOR_LOWER:
-    case GLOBAL_STATUS_FORTITUDE_LOWER:
-    case GLOBAL_STATUS_PROTECTION_LOWER:
-    case GLOBAL_STATUS_AGILITY_LOWER:
-    case GLOBAL_STATUS_EVADE_LOWER:
-    case GLOBAL_STATUS_HP_DRAIN:
-    case GLOBAL_STATUS_SP_DRAIN:
-    case GLOBAL_STATUS_PARALYSIS:
-        if(old_intensity < new_intensity)
-            return false;
-        else
-            return true;
-        break;
-    default:
-        if(old_intensity < new_intensity)
-            return true;
-        else
-            return false;
-        break;
-    }
-
-    return true; // by default
-}
-
-
-void IndicatorSupervisor::AddStatusIndicator(GLOBAL_STATUS old_status, GLOBAL_INTENSITY old_intensity,
-        GLOBAL_STATUS new_status, GLOBAL_INTENSITY new_intensity)
+void IndicatorSupervisor::AddStatusIndicator(GLOBAL_STATUS status, GLOBAL_INTENSITY old_intensity,
+                                             GLOBAL_INTENSITY new_intensity)
 {
     // If the status and intensity has not changed, only a single status icon needs to be used
-    if((old_status == new_status) && (old_intensity == new_intensity)) {
-        StillImage *image = GlobalManager->Media().GetStatusIcon(new_status, new_intensity);
+    if(old_intensity == new_intensity) {
+        StillImage *image = GlobalManager->Media().GetStatusIcon(status, new_intensity);
         _wait_queue.push_back(new IndicatorImage(_actor, *image, POSITIVE_STATUS_EFFECT_INDICATOR));
     }
     // Otherwise two status icons need to be used in the indicator image
     else {
-        StillImage *first_image = GlobalManager->Media().GetStatusIcon(old_status, old_intensity);
-        StillImage *second_image = GlobalManager->Media().GetStatusIcon(new_status, new_intensity);
-        INDICATOR_TYPE indicator_type = IsNewStatusBetter(new_status, old_intensity, new_intensity) ?
+        StillImage *first_image = GlobalManager->Media().GetStatusIcon(status, old_intensity);
+        StillImage *second_image = GlobalManager->Media().GetStatusIcon(status, new_intensity);
+        INDICATOR_TYPE indicator_type = (old_intensity <= new_intensity) ?
                                         POSITIVE_STATUS_EFFECT_INDICATOR : NEGATIVE_STATUS_EFFECT_INDICATOR;
         _wait_queue.push_back(new IndicatorBlendedImage(_actor, *first_image, *second_image, indicator_type));
     }

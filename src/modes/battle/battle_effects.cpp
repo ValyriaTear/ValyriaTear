@@ -46,8 +46,6 @@ namespace private_battle
 
 BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, BattleActor *actor, uint32 duration) :
     GlobalStatusEffect(type, intensity),
-    _icon_index(0),
-    _opposite_effect(GLOBAL_STATUS_INVALID),
     _affected_actor(actor),
     _timer(0),
     _update_timer(0),
@@ -89,9 +87,6 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     uint32 update_every = script_file.ReadUInt("update_every");
     if (update_every > 0)
         _update_timer.SetDuration(update_every);
-
-    _icon_index = script_file.ReadUInt("icon_index");
-    _opposite_effect = static_cast<GLOBAL_STATUS>(script_file.ReadInt("opposite_effect"));
 
     if(script_file.DoesFunctionExist("Apply")) {
         _apply_function = script_file.ReadFunctionPointer("Apply");
@@ -138,7 +133,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 
 void BattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
 {
-    if((intensity < GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
+    if((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set status effect to invalid intensity: " << intensity << std::endl;
         return;
     }
@@ -233,7 +228,8 @@ void EffectsSupervisor::Update()
         // the status effect being removed from the actor if its intensity changes to the neutral level.
         if(effect_timer->IsFinished()) {
             // If the intensity of the effect is at its weakest, the call that follows will remove the effect from the actor
-            effect_removed = (_status_effects[i]->GetIntensity() == GLOBAL_INTENSITY_POS_LESSER);
+            effect_removed = (_status_effects[i]->GetIntensity() == GLOBAL_INTENSITY_POS_LESSER
+                              || _status_effects[i]->GetIntensity() == GLOBAL_INTENSITY_NEG_LESSER);
 
             // As the effect is fading, we divide the effect duration time per 2, with at least 1 second of duration.
             // This is done to give more a fading out style onto the effect and not to advantage/disadvantage the target
@@ -241,7 +237,10 @@ void EffectsSupervisor::Update()
             uint32 duration = effect_timer->GetDuration() / 2;
             effect_timer->SetDuration(duration < 1000 ? 1000 : duration);
 
-            ChangeStatus(_status_effects[i]->GetType(), GLOBAL_INTENSITY_NEG_LESSER, duration);
+            if (_status_effects[i]->GetIntensity() > GLOBAL_INTENSITY_NEUTRAL)
+                ChangeStatus(_status_effects[i]->GetType(), GLOBAL_INTENSITY_NEG_LESSER, duration);
+            else
+                ChangeStatus(_status_effects[i]->GetType(), GLOBAL_INTENSITY_POS_LESSER, duration);
         }
 
         if (effect_removed)
@@ -289,24 +288,12 @@ void EffectsSupervisor::DrawVertical()
     }
 }
 
-bool EffectsSupervisor::IsOppositeStatusActive(GLOBAL_STATUS status)
-{
-    for(std::vector<BattleStatusEffect *>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
-        if((*it)->GetOppositeEffect() == status)
-            return true;
-    }
-
-    return false;
-}
-
 void EffectsSupervisor::RemoveAllStatus()
 {
     for(uint32 i = 0; i < _status_effects.size(); ++i) {
         _RemoveStatus(_status_effects[i]);
     }
 }
-
-
 
 bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
 {
@@ -315,7 +302,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
         return false;
     }
 
-    // --- (1): Determine if we are attempting to increment or decrement the intensity of this status
+    // Determine if we are attempting to increment or decrement the intensity of this status
     bool increase_intensity;
     if((intensity < GLOBAL_INTENSITY_NEUTRAL) && (intensity >= GLOBAL_INTENSITY_NEG_EXTREME)) {
         increase_intensity = false;
@@ -329,10 +316,8 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
     // Holds the unsigned amount of change in intensity in either a positive or negative dgree
     uint8 intensity_change = abs(static_cast<int8>(intensity));
 
-    // --- (2): Determine if this status (or its opposite) is already active on the actor
-    bool status_active = false;
-    bool opposite_status_active = false;
-    // Holds a pointer to either the active status or the active opposite status
+    // Determine if this status (or its opposite) is already active on the actor
+    // Holds a pointer to the active status
     BattleStatusEffect *active_effect = NULL;
 
     // Note: We should never run into the case where both the status and its opposite status are active simultaneously
@@ -341,104 +326,47 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
             continue;
 
         if((*it)->GetType() == status) {
-            status_active = true;
-            active_effect = *it;
-            break;
-        } else if((*it)->GetOppositeEffect() == status) {
-            opposite_status_active = true;
             active_effect = *it;
             break;
         }
     }
 
     // variables used to determine the intensity change of the effect.
-    GLOBAL_STATUS previous_status = GLOBAL_STATUS_INVALID;
-    GLOBAL_STATUS new_status = GLOBAL_STATUS_INVALID;
     GLOBAL_INTENSITY previous_intensity = GLOBAL_INTENSITY_INVALID;
     GLOBAL_INTENSITY new_intensity = GLOBAL_INTENSITY_INVALID;
 
     // Set the previous status and intensity return values to match the active effect, if one was found to exist
     if(active_effect == NULL) {
-        previous_status = status;
         previous_intensity = GLOBAL_INTENSITY_NEUTRAL;
     } else {
-        previous_status = active_effect->GetType();
         previous_intensity = active_effect->GetIntensity();
     }
 
-    // --- (3): Perform status changes according to the previously determined information
-    // Case 1: We are attempting to decrement the intensity of the status
-    if(increase_intensity == false) {
-        if(status_active == true) {
+    // Perform status changes according to the previously determined information
+    if(active_effect) {
+        if (increase_intensity)
+            active_effect->IncrementIntensity(intensity_change);
+        else
             active_effect->DecrementIntensity(intensity_change);
 
-            new_status = status;
-            new_intensity = active_effect->GetIntensity();
+        new_intensity = active_effect->GetIntensity();
 
-            // If the status was decremented to the neutral level, this means it is no longer active and should be removed
-            if(new_intensity == GLOBAL_INTENSITY_NEUTRAL) {
-                _RemoveStatus(active_effect);
-                active_effect = NULL;
-            }
-
-            _actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
-            return true;
+        // If the status was decremented to the neutral level, this means it is no longer active and should be removed
+        if(new_intensity == GLOBAL_INTENSITY_NEUTRAL) {
+            _RemoveStatus(active_effect);
+            active_effect = NULL;
         }
 
-        // No change can take place if the status we wish to decrease the intensity of is not active. Even if its opposite status is active.
-        return false;
-    }
-    // Case 2: Increase the intensity of an already active effect
-    else if((increase_intensity == true) && (status_active == true)) {
-        active_effect->IncrementIntensity(intensity_change);
-
-        new_status = status;
-        new_intensity = active_effect->GetIntensity();
-        // Note: it is possible that the intensity won't increment if the status is already at its highest intensity level.
-        // We still want to act like a status change did occur though, as we want the player to see that the action that caused the change
-        // did achieve a result (and it actually does, since this condition causes the status effect's timer to get reset).
-        _actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
+        _actor->GetIndicatorSupervisor()->AddStatusIndicator(status, previous_intensity, new_intensity);
         return true;
     }
-    // Case 3: Increase the intensity of an effect that was not active and had no active opposite effect
-    else if((increase_intensity == true) && (status_active == false) && (opposite_status_active == false)) {
+    else {
         _CreateNewStatus(status, intensity, duration);
-
-        new_status = status;
         new_intensity = intensity;
 
-        _actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
-        return true;
+        _actor->GetIndicatorSupervisor()->AddStatusIndicator(status, previous_intensity, new_intensity);
     }
-    // Case 4: Increase the intensity of an effect when its opposing effect is currently active
-    else if((increase_intensity == true) && (opposite_status_active == true)) {
-        active_effect->DecrementIntensity(intensity_change);
-
-        // Case 4a: The opposite status effect intensity was decreased. However the opposite status is still active.
-        if(intensity < previous_intensity) {
-            new_status = active_effect->GetType();
-            new_intensity = active_effect->GetIntensity();
-        }
-        // Case 4b: The opposite status effect was completely nullifed. No new status is to be created
-        else if(intensity == previous_intensity) {
-            new_status = previous_status;
-            new_intensity = GLOBAL_INTENSITY_NEUTRAL;
-            _RemoveStatus(active_effect);
-        }
-        // Case 4c: The opposite status effect was completely nullified and the new status is to be created
-        else { // (intensity > previous_intensity)
-            new_status = status;
-            DecrementIntensity(new_intensity, static_cast<int8>(previous_intensity));
-            _RemoveStatus(active_effect);
-            _CreateNewStatus(new_status, new_intensity, duration);
-        }
-
-        _actor->GetIndicatorSupervisor()->AddStatusIndicator(previous_status, previous_intensity, new_status, new_intensity);
-        return true;
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown/unhandled condition occured when trying to perform a status change, aborting operation" << std::endl;
-    }
-
+ 
     return false;
 } // bool EffectsSupervisor::ChangeStatus( ... )
 
@@ -450,7 +378,7 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
         return;
     }
 
-    if((intensity <= GLOBAL_INTENSITY_NEUTRAL) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
+    if((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid intensity argument: " << intensity << std::endl;
         return;
     }
