@@ -875,6 +875,7 @@ map_functions = {
         -- Should be sufficient to heal anybody
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
+        Map:SetStamina(10000);
         AudioManager:PlaySound("snd/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();

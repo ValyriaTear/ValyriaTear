@@ -116,6 +116,8 @@ void BindModeCode()
             .def("CurrentState", &MapMode::CurrentState)
             .def("DrawMapLayers", &MapMode::_DrawMapLayers)
             .def("ShowMinimap", &MapMode::ShowMinimap)
+            .def("GetStamina", &MapMode::GetStamina)
+            .def("SetStamina", &MapMode::SetStamina)
 
             // Namespace constants
             .enum_("constants") [
