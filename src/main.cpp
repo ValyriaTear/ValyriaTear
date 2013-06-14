@@ -200,6 +200,20 @@ bool LoadSettings()
 
         settings.CloseTable(); // audio_settings
     }
+
+    // Load UI Theme settings
+    if (!settings.OpenTable("ui_theme_settings")) {
+        PRINT_ERROR << "Couldn't open the 'ui_theme_settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+            settings.CloseFile();
+        return false;
+    }
+
+    GUIManager->SetUserMenuSkin(settings.ReadString("user_ui_theme"));
+
+    settings.CloseTable(); // ui_theme_settings
+
     settings.CloseTable(); // settings
 
     if(settings.IsErrorDetected()) {
@@ -344,9 +358,8 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
             }
         }
 
-        if(default_theme == theme_names[i]) {
+        if (default_theme == theme_names[i])
             default_theme_found = true;
-        }
 
         theme_script.CloseTable(); // Theme name
     }
@@ -359,8 +372,15 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    // Activate the default theme.
-    GUIManager->SetDefaultMenuSkin(default_theme);
+    // Query for the user menu skin which could have been set in the user settings lua file.
+    std::string user_theme = GUIManager->GetUserMenuSkin();
+    if (user_theme != "") {
+        // Activate the user theme.
+        GUIManager->SetDefaultMenuSkin(user_theme);
+    } else {
+        // Activate the default theme.
+        GUIManager->SetDefaultMenuSkin(default_theme);
+    }
 }
 
 /** \brief Initializes all engine components and makes other preparations for the game to start
@@ -428,7 +448,7 @@ void InitializeEngine() throw(Exception)
     if(VideoManager->FinalizeInitialization() == false)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
 
-    // Loads the default GUI skin
+    // Loads the GUI skins.
     LoadGUIThemes("dat/config/themes.lua");
 
     // NOTE: This function call should have its argument set to false for release builds

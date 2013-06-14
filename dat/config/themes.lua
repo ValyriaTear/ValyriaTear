@@ -7,13 +7,13 @@
 
 themes = {
     -- Theme name = { win background file path, windows border file, cursor file }
-    ["Royal Silk"] = {
+    [vt_system.Translate("Royal Silk")] = {
         win_background_file = "img/menus/themes/royal_silk/win_background.png",
         win_border_file = "img/menus/themes/royal_silk/win_border.png",
         cursor_file = "img/menus/themes/royal_silk/cursor.png"
     },
 
-    ["Black Sleet"] = {
+    [vt_system.Translate("Black Sleet")] = {
         win_background_file = "img/menus/themes/black_sleet/black_sleet_texture.png",
         win_border_file = "img/menus/themes/black_sleet/black_sleet_skin.png",
         cursor_file = "img/menus/themes/black_sleet/cursor.png"
@@ -21,4 +21,4 @@ themes = {
 }
 
 -- The default theme used when no settings is given, or when settings are bad.
-default_theme = "Royal Silk";
+default_theme = vt_system.Translate("Royal Silk");

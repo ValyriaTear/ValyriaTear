@@ -333,6 +333,16 @@ bool GUISystem::LoadMenuSkin(const std::string &skin_name, const std::string &cu
     return true;
 } // bool GUISystem::LoadMenuSkin(string skin_name, string border_image, string background_image, ...)
 
+void GUISystem::SetUserMenuSkin(const std::string &skin_name)
+{
+    _user_menu_skin = skin_name;
+}
+
+std::string GUISystem::GetUserMenuSkin()
+{
+    return _user_menu_skin;
+}
+
 void GUISystem::SetDefaultMenuSkin(const std::string &skin_name)
 {
     if(_menu_skins.find(skin_name) == _menu_skins.end()) {
@@ -341,26 +351,21 @@ void GUISystem::SetDefaultMenuSkin(const std::string &skin_name)
     }
 
     _default_skin = &_menu_skins[skin_name];
-    if(!VideoManager->SetDefaultCursor(_default_skin->cursor_file)) {
+    if (!VideoManager->SetDefaultCursor(_default_skin->cursor_file))
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't load the GUI cursor file: '" << _default_skin->cursor_file << "'." << std::endl;
-    }
 }
 
 void GUISystem::SetNextDefaultMenuSkin()
 {
     if (_menu_skins.size() > 0 && _default_skin != NULL) {
-
         std::vector<std::string> names;
         std::string current_name;
 
         std::map<std::string, private_gui::MenuSkin>::const_iterator it;
         for (it = _menu_skins.begin(); it != _menu_skins.end(); ++it) {
-
             // Find the default skin's name.
-            if (&(it->second) == _default_skin) {
-
+            if (&(it->second) == _default_skin)
                 current_name = it->first;
-            }
 
             // Store the name.
             names.push_back(it->first);
@@ -373,34 +378,27 @@ void GUISystem::SetNextDefaultMenuSkin()
         ++default_skin;
 
         // Wrap around case.
-        if (default_skin == names.end()) {
-
+        if (default_skin == names.end())
             default_skin = names.begin();
-        }
 
         // Store the result.
         _default_skin = &_menu_skins[*default_skin];
-        if(!VideoManager->SetDefaultCursor(_default_skin->cursor_file)) {
+        if (!VideoManager->SetDefaultCursor(_default_skin->cursor_file))
             IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't load the GUI cursor file: '" << _default_skin->cursor_file << "'." << std::endl;
-        }
     }
 }
 
 void GUISystem::SetPreviousDefaultMenuSkin()
 {
     if (_menu_skins.size() > 0 && _default_skin != NULL) {
-
         std::vector<std::string> names;
         std::string current_name;
 
         std::map<std::string, private_gui::MenuSkin>::const_iterator it;
         for (it = _menu_skins.begin(); it != _menu_skins.end(); ++it) {
-
             // Find the default skin's name.
-            if (&(it->second) == _default_skin) {
-
+            if (&(it->second) == _default_skin)
                 current_name = it->first;
-            }
 
             // Store the name.
             names.push_back(it->first);
@@ -410,19 +408,16 @@ void GUISystem::SetPreviousDefaultMenuSkin()
         std::vector<std::string>::iterator default_skin = std::find(names.begin(), names.end(), current_name);
 
         // Make sure we are not already at the beginning.
-        if (default_skin == names.begin()) {
-
+        if (default_skin == names.begin())
             default_skin = names.end();
-        }
 
         // Decrement to the previous skin.
         --default_skin;
 
         // Store the result.
         _default_skin = &_menu_skins[*default_skin];
-        if(!VideoManager->SetDefaultCursor(_default_skin->cursor_file)) {
+        if (!VideoManager->SetDefaultCursor(_default_skin->cursor_file))
             IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't load the GUI cursor file: '" << _default_skin->cursor_file << "'." << std::endl;
-        }
     }
 }
 
@@ -431,14 +426,11 @@ std::string GUISystem::GetDefaultMenuSkin()
     std::string result;
 
     if (_default_skin != NULL) {
-
         // Iterate over the menu skins.
         std::map<std::string, private_gui::MenuSkin>::const_iterator it;
-        for (it = _menu_skins.begin(); it != _menu_skins.end(); ++it) {
-            
+        for (it = _menu_skins.begin(); it != _menu_skins.end(); ++it) {          
             // If we find the default skin...
             if (&(it->second) == _default_skin) {
-                
                 // Return its name.
                 result = it->first;
                 break;

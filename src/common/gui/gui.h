@@ -262,7 +262,7 @@ public:
     *** These methods all attempt to load a menu skin. The differences between these implementations are
     *** whether the skin includes a background image, cursor image, single background color, multiple background colors,
     *** or some combination thereof. Only the skin_name and border_image arguments are mandatory for all
-    *** versions of this function to have
+    *** versions of this function to have.
     ***
     *** \param skin_name The name that will be used to refer to the skin after it is successfully loaded
     *** \param cursor_file The filename for the image that contains the menu's cursor image.
@@ -306,6 +306,17 @@ public:
                       const vt_video::Color &bottom_left, const vt_video::Color &bottom_right, bool make_default = false);
     //@}
 
+    /** \brief Stores the name of the user menu skin.
+    *** \param skin_name The name of the user menu skin.
+    ***
+    *** This function stores the name of the user menu skin.  It does not change
+    *** the default menu skin directly.
+    **/
+    void SetUserMenuSkin(const std::string &skin_name);
+
+    //! \brief Returns the name of the user menu skin.
+    std::string GetUserMenuSkin();
+
     /** \brief Deletes a menu skin that has been loaded
     *** \param skin_name The name of the loaded menu skin that should be removed
     ***
@@ -344,6 +355,17 @@ public:
     //! \brief Returns the name of the default menu skin.  Returns the empty string if there is no default menu skin.
     std::string GetDefaultMenuSkin();
 
+    /** \brief Returns a pointer to a vector of scroll arrow images.
+    ***
+    *** The size of this vector is eight. The first four images are the standard arrows and the last
+    *** four are greyed out arrows (used to indicate the end of scrolling). The first four arrow
+    *** images represent up, down, left, right in that order, and the last four arrows follow this
+    *** format as well.
+    **/
+    std::vector<vt_video::StillImage>* GetScrollArrows() {
+        return &_scroll_arrows;
+    }
+
     //! \brief Returns true if GUI elements should have outlines drawn over their boundaries
     bool DEBUG_DrawOutlines() const {
         return _DEBUG_draw_outlines;
@@ -354,11 +376,6 @@ public:
     **/
     void DEBUG_EnableGUIOutlines(bool enable) {
         _DEBUG_draw_outlines = enable;
-    }
-
-    // Don't commit this.
-    std::vector<vt_video::StillImage>* GetScrollArrows() {
-        return &_scroll_arrows;
     }
 
 private:
@@ -383,6 +400,9 @@ private:
     *** must be re-drawn when the properties of a menu skin that it uses changes.
     **/
     std::map<uint32, MenuWindow *> _menu_windows;
+
+    //! \brief The name of the user menu skin.
+    std::string _user_menu_skin;
 
     /** \brief A pointer to the default menu skin that GUI objects will use if a skin is not explicitly declared
     *** If no menu skins exist, this member will be NULL. It will never be NULL as long as one menu skin is loaded.

@@ -704,7 +704,7 @@ void BootMode::_RefreshVideoOptions()
         _video_options_menu.SetOptionText(3, UTranslate("Map tiles: ") + UTranslate("Normal"));
 
     // Update the UI theme.
-    _video_options_menu.SetOptionText(4, UTranslate("UI Theme: ") + UTranslate(GUIManager->GetDefaultMenuSkin()));
+    _video_options_menu.SetOptionText(4, UTranslate("UI Theme: ") + MakeUnicodeString(GUIManager->GetDefaultMenuSkin()));
 }
 
 
@@ -929,12 +929,14 @@ void BootMode::_OnUIThemeLeft()
 {
     GUIManager->SetPreviousDefaultMenuSkin();
     _ReloadGUIDefaultSkin();
+    _has_modified_settings = true;
 }
 
 void BootMode::_OnUIThemeRight()
 {
     GUIManager->SetNextDefaultMenuSkin();
     _ReloadGUIDefaultSkin();
+    _has_modified_settings = true;
 }
 
 void BootMode::_OnSoundLeft()
@@ -1204,6 +1206,14 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("pause", InputManager->GetPauseJoy());
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
     settings_lua.EndTable(); // joystick_settings
+
+    // ui theme
+    settings_lua.InsertNewLine();
+    settings_lua.WriteComment("--UI Theme settings--");
+    settings_lua.BeginTable("ui_theme_settings");
+    settings_lua.WriteComment("The user UI Theme to load.");
+    settings_lua.WriteString("user_ui_theme", GUIManager->GetDefaultMenuSkin());
+    settings_lua.EndTable(); // ui_theme_settings
 
     settings_lua.EndTable(); // settings
 
