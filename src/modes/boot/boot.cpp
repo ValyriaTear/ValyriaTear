@@ -14,7 +14,7 @@
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for boot mode interface.
 *** ***************************************************************************/
-
+#include <boost/lexical_cast.hpp>
 #include "modes/boot/boot.h"
 
 #include "engine/audio/audio.h"
@@ -511,7 +511,7 @@ void BootMode::_SetupVideoOptionsMenu()
 {
     _video_options_menu.ClearOptions();
     _video_options_menu.SetPosition(512.0f, 468.0f);
-    _video_options_menu.SetDimensions(300.0f, 400.0f, 1, 4, 1, 4);
+    _video_options_menu.SetDimensions(300.0f, 400.0f, 1, 5, 1, 5);
     _video_options_menu.SetTextStyle(TextStyle("title22"));
     _video_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _video_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -525,6 +525,7 @@ void BootMode::_SetupVideoOptionsMenu()
     _video_options_menu.AddOption(UTranslate("Window mode:"), &BootMode::_OnToggleFullscreen, NULL, NULL, &BootMode::_OnToggleFullscreen, &BootMode::_OnToggleFullscreen);
     _video_options_menu.AddOption(UTranslate("Brightness:"), NULL, NULL, NULL, &BootMode::_OnBrightnessLeft, &BootMode::_OnBrightnessRight);
     _video_options_menu.AddOption(UTranslate("Map tiles: "), &BootMode::_OnTogglePixelArtSmoothed, NULL, NULL, &BootMode::_OnTogglePixelArtSmoothed, &BootMode::_OnTogglePixelArtSmoothed);
+    _video_options_menu.AddOption(UTranslate("Monitor:"), &BootMode::_OnFullscreenMonitor);
 
     _video_options_menu.SetSelection(0);
 }
@@ -701,6 +702,13 @@ void BootMode::_RefreshVideoOptions()
         _video_options_menu.SetOptionText(3, UTranslate("Map tiles: ") + UTranslate("Smoothed"));
     else
         _video_options_menu.SetOptionText(3, UTranslate("Map tiles: ") + UTranslate("Normal"));
+
+    // configure monitor to use for fullscreen mode
+   _video_options_menu.SetOptionText(4, UTranslate("Monitor: ") + 
+        UTranslate(boost::lexical_cast<std::string>(
+            VideoManager->GetFullscreenMonitor() + 1
+        )
+    ));
 }
 
 
@@ -867,6 +875,19 @@ void BootMode::_OnTogglePixelArtSmoothed()
     _has_modified_settings = true;
 }
 
+void BootMode::_OnFullscreenMonitor()
+{
+    uint8 selected_monitor = VideoManager->GetFullscreenMonitor();
+    selected_monitor++;
+
+    if(selected_monitor > 4){ selected_monitor = 0; }
+
+    VideoManager->SetFullscreenMonitor(selected_monitor);
+
+    _has_modified_settings = true;
+   
+    _RefreshVideoOptions(); 
+}
 
 void BootMode::_OnResolution()
 {
