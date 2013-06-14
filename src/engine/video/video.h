@@ -321,6 +321,17 @@ public:
         SetFullscreen(!_temp_fullscreen);
     }
 
+    /** \brief Sets the monitor number used for fullscreen mode
+     *  \note  Monitors are 0 based. setting is effective for the lifetime of the application
+     */
+    void SetFullscreenMonitor(uint16 monitor_number) {
+        _fullscreen_monitor = monitor_number;
+    }
+
+    uint16 GetFullscreenMonitor(){
+        return _fullscreen_monitor;
+    }
+
     //! \brief Will make the pixel art related images smoothed (only used for map tiles at the moment)
     void SetPixelArtSmoothed(bool smooth) {
         _smooth_pixel_art = smooth;
@@ -859,6 +870,9 @@ private:
 
     //! holds the desired fullscreen status (true=fullscreen, false=windowed). Not actually applied until ApplySettings() is called
     bool _temp_fullscreen;
+
+    // ! holds the index of the monitor used for fullscreen mode
+    uint16 _fullscreen_monitor;
 
     //! holds the desired screen width. Not actually applied until ApplySettings() is called
     int32 _temp_width;

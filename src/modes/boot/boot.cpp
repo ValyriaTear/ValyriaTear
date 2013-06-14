@@ -1123,6 +1123,7 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("screen_resy", VideoManager->GetScreenHeight());
     settings_lua.WriteComment("Run the screen fullscreen/in a window");
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
+    settings_lua.WriteInt("fullscreen_monitor", VideoManager->GetFullscreenMonitor());
     settings_lua.EndTable(); // video_settings
 
     // audio

@@ -87,6 +87,7 @@ VideoEngine::VideoEngine():
     _screen_width(0),
     _screen_height(0),
     _fullscreen(false),
+    _fullscreen_monitor(0),
     _x_cursor(0),
     _y_cursor(0),
     _debug_info(false),
@@ -192,13 +193,6 @@ bool VideoEngine::SingletonInitialize()
     // check to see if the singleton is already initialized
     if(_initialized)
         return true;
-
-    if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
-        PRINT_ERROR << "SDL video initialization failed" << std::endl;
-        return false;
-    }
-
-
 
     return true;
 } // bool VideoEngine::SingletonInitialize()

@@ -1119,7 +1119,7 @@ const std::string GetSettingsFilename()
 {
     if (_config_filename.empty())
         _config_filename = _SetupSettingsFilename();
-
+std::cout << "settings file " << _config_filename << std::endl;
     return _config_filename;
 }
 
