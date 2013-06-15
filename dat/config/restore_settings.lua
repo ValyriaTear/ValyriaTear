@@ -10,6 +10,7 @@ settings_defaults.video_defaults.full_screen = false
 settings_defaults.video_defaults.screen_resx = 800
 settings_defaults.video_defaults.screen_resy = 600
 settings_defaults.video_defaults.smooth_graphics = true
+settings_defaults.video_settings.ui_theme = vt_system.Translate("Royal Silk")
 
 settings_defaults.audio_defaults = {}
 settings_defaults.audio_defaults.music_vol = 70

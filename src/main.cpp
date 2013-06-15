@@ -130,7 +130,7 @@ bool LoadSettings()
         PRINT_ERROR << "Couldn't open the 'key_settings' table in: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
-            settings.CloseFile();
+        settings.CloseFile();
         return false;
     }
 
@@ -148,7 +148,7 @@ bool LoadSettings()
         PRINT_ERROR << "Couldn't open the 'joystick_settings' table in: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
-            settings.CloseFile();
+        settings.CloseFile();
         return false;
     }
 
@@ -174,7 +174,7 @@ bool LoadSettings()
         PRINT_ERROR << "Couldn't open the 'video_settings' table in: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
-            settings.CloseFile();
+        settings.CloseFile();
         return false;
     }
 
@@ -183,6 +183,7 @@ bool LoadSettings()
     int32 resy = settings.ReadInt("screen_resy");
     VideoManager->SetInitialResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
+    GUIManager->SetUserMenuSkin(settings.ReadString("ui_theme"));
     settings.CloseTable(); // video_settings
 
     // Load Audio settings
@@ -191,7 +192,7 @@ bool LoadSettings()
             PRINT_ERROR << "Couldn't open the 'audio_settings' table in: "
                 << settings.GetFilename() << std::endl
                 << settings.GetErrorMessages() << std::endl;
-                settings.CloseFile();
+            settings.CloseFile();
             return false;
         }
 
@@ -201,25 +202,13 @@ bool LoadSettings()
         settings.CloseTable(); // audio_settings
     }
 
-    // Load UI Theme settings
-    if (!settings.OpenTable("ui_theme_settings")) {
-        PRINT_ERROR << "Couldn't open the 'ui_theme_settings' table in: "
-            << settings.GetFilename() << std::endl
-            << settings.GetErrorMessages() << std::endl;
-            settings.CloseFile();
-        return false;
-    }
-
-    GUIManager->SetUserMenuSkin(settings.ReadString("user_ui_theme"));
-
-    settings.CloseTable(); // ui_theme_settings
-
     settings.CloseTable(); // settings
 
     if(settings.IsErrorDetected()) {
         PRINT_ERROR << "Errors while attempting to load the setting file: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
         return false;
     }
 
@@ -238,8 +227,7 @@ static void LoadFonts(const std::string &font_script_filename)
 
     //Checking the file existence and validity.
     if(!font_script.OpenFile(font_script_filename)) {
-        PRINT_ERROR << "Couldn't open font file: " << font_script_filename
-                    << std::endl;
+        PRINT_ERROR << "Couldn't open font file: " << font_script_filename << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -317,14 +305,6 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    std::string default_theme = theme_script.ReadString("default_theme");
-    if (default_theme.empty()) {
-        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
-                    << std::endl;
-        theme_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
     std::vector<std::string> theme_names;
     theme_script.ReadTableKeys("themes", theme_names);
     if (theme_names.empty()) {
@@ -336,8 +316,6 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
     theme_script.OpenTable("themes");
 
-    bool default_theme_found = false;
-
     for(uint32 i = 0; i < theme_names.size(); ++i) {
         theme_script.OpenTable(theme_names[i]); // Theme name
 
@@ -346,41 +324,23 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         std::string cursor_file = theme_script.ReadString("cursor_file");
 
         if(!GUIManager->LoadMenuSkin(theme_names[i], cursor_file, win_border_file, win_background_file)) {
-            // Check whether the default font is invalid
-            if(default_theme == theme_names[i]) {
-                theme_script.CloseAllTables();
-                theme_script.CloseFile();
-                PRINT_ERROR << "The default theme '" << default_theme
-                            << "' couldn't be loaded in file: '" << theme_script_filename
-                            << "'. Exitting." << std::endl;
-                exit(EXIT_FAILURE);
-                return; // Superfluous but for readability.
-            }
+            theme_script.CloseAllTables();
+            theme_script.CloseFile();
+            PRINT_ERROR << "The theme '" << theme_names[i]
+                        << "' couldn't be loaded in file: '" << theme_script_filename
+                        << "'. Exitting." << std::endl;
+            exit(EXIT_FAILURE);
+            return; // Superfluous but for readability.
         }
-
-        if (default_theme == theme_names[i])
-            default_theme_found = true;
 
         theme_script.CloseTable(); // Theme name
     }
 
     theme_script.CloseFile();
 
-    if (!default_theme_found) {
-        PRINT_ERROR << "Couldn't find the default theme: '" << default_theme
-            << "' in file: '" << theme_script_filename << "'. Exitting." << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // Query for the user menu skin which could have been set in the user settings lua file.
+    // Set the UI theme.
     std::string user_theme = GUIManager->GetUserMenuSkin();
-    if (user_theme != "") {
-        // Activate the user theme.
-        GUIManager->SetDefaultMenuSkin(user_theme);
-    } else {
-        // Activate the default theme.
-        GUIManager->SetDefaultMenuSkin(default_theme);
-    }
+    GUIManager->SetDefaultMenuSkin(user_theme);
 }
 
 /** \brief Initializes all engine components and makes other preparations for the game to start

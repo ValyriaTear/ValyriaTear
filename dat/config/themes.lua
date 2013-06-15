@@ -19,6 +19,3 @@ themes = {
         cursor_file = "img/menus/themes/black_sleet/cursor.png"
     }
 }
-
--- The default theme used when no settings is given, or when settings are bad.
-default_theme = vt_system.Translate("Royal Silk");

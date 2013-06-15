@@ -1163,6 +1163,8 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("screen_resy", VideoManager->GetScreenHeight());
     settings_lua.WriteComment("Run the screen fullscreen/in a window");
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
+    settings_lua.WriteComment("The UI Theme to load.");
+    settings_lua.WriteString("ui_theme", GUIManager->GetDefaultMenuSkin());
     settings_lua.EndTable(); // video_settings
 
     // audio
@@ -1206,16 +1208,6 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("pause", InputManager->GetPauseJoy());
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
     settings_lua.EndTable(); // joystick_settings
-
-    // ui theme
-    settings_lua.InsertNewLine();
-    settings_lua.WriteComment("--UI Theme settings--");
-    settings_lua.BeginTable("ui_theme_settings");
-    settings_lua.WriteComment("The user UI Theme to load.");
-    settings_lua.WriteString("user_ui_theme", GUIManager->GetDefaultMenuSkin());
-    settings_lua.EndTable(); // ui_theme_settings
-
-    settings_lua.EndTable(); // settings
 
     // and save it!
     settings_lua.SaveFile();
