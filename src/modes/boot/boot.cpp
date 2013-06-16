@@ -1209,6 +1209,8 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
     settings_lua.EndTable(); // joystick_settings
 
+    settings_lua.EndTable(); // settings
+
     // and save it!
     settings_lua.SaveFile();
     settings_lua.CloseFile();
