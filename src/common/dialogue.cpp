@@ -213,7 +213,6 @@ CommonDialogueWindow::CommonDialogueWindow() :
     _display_optionbox.SetSelectMode(VIDEO_SELECT_SINGLE);
     _display_optionbox.SetCursorOffset(-55.0f, -25.0f);
     _display_optionbox.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
-    _display_optionbox.SetSelection(0);
 
     _name_text.SetStyle(TextStyle("title22", Color::black, VIDEO_TEXT_SHADOW_LIGHT));
 
