@@ -56,6 +56,56 @@ class GlobalCharacter;
 class GlobalSkill;
 class GlobalWeapon;
 
+class GlobalStat {
+
+public:
+    GlobalStat():
+        _base_value(0.0f),
+        _modifier(1.0f),
+        _final_value(0.0f)
+    {}
+
+    GlobalStat(float value):
+        _base_value(value),
+        _modifier(1.0f),
+        _final_value(value)
+    {}
+
+    void SetBase(float value) {
+        _base_value = value;
+        _ComputeFinalValue();
+    }
+
+    void SetModifier(float value) {
+        _modifier = value;
+        _ComputeFinalValue();
+    }
+
+    float GetValue() const {
+        return _final_value;
+    }
+
+    float GetModifier() const {
+        return _modifier;
+    }
+
+    float GetBase() const {
+        return _base_value;
+    }
+
+private:
+
+    float _base_value;
+
+    float _modifier;
+
+    float _final_value;
+
+    void _ComputeFinalValue() {
+        _final_value = _base_value * _modifier;
+    }
+}; // class GlobalStat
+
 /** ****************************************************************************
 *** \brief Represents the points of attack present on an actor
 ***
@@ -304,27 +354,51 @@ public:
     }
 
     uint32 GetStrength() const {
-        return _strength;
+        return (uint32)_strength.GetValue();
+    }
+
+    float GetStrengthModifier() const {
+        return _strength.GetModifier();
     }
 
     uint32 GetVigor() const {
-        return _vigor;
+        return (uint32)_vigor.GetValue();
+    }
+
+    float GetVigorModifier() const {
+        return _vigor.GetModifier();
     }
 
     uint32 GetFortitude() const {
-        return _fortitude;
+        return (uint32)_fortitude.GetValue();
+    }
+
+    float GetFortitudeModifier() const {
+        return _fortitude.GetModifier();
     }
 
     uint32 GetProtection() const {
-        return _protection;
+        return (uint32)_protection.GetValue();
+    }
+
+    float GetProtectionModifier() const {
+        return _protection.GetModifier();
     }
 
     uint32 GetAgility() const {
-        return _agility;
+        return (uint32)_agility.GetValue();
+    }
+
+    float GetAgilityModifier() const {
+        return _agility.GetModifier();
     }
 
     float GetEvade() const {
-        return _evade;
+        return _evade.GetValue();
+    }
+
+    float GetEvadeModifier() const {
+        return _evade.GetModifier();
     }
 
     uint32 GetTotalPhysicalAttack() const {
@@ -397,8 +471,18 @@ public:
         _CalculateAttackRatings();
     }
 
+    virtual void SetStrengthModifier(float mod) {
+        _strength.SetModifier(mod);
+        _CalculateAttackRatings();
+    }
+
     virtual void SetVigor(uint32 vi) {
         _vigor = vi;
+        _CalculateAttackRatings();
+    }
+
+    virtual void SetVigorModifier(float mod) {
+        _vigor.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
@@ -407,8 +491,18 @@ public:
         _CalculateDefenseRatings();
     }
 
+    virtual void SetFortitudeModifier(float mod) {
+        _fortitude.SetModifier(mod);
+        _CalculateDefenseRatings();
+    }
+
     virtual void SetProtection(uint32 pr) {
         _protection = pr;
+        _CalculateDefenseRatings();
+    }
+
+    virtual void SetProtectionModifier(float mod) {
+        _protection.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
@@ -417,8 +511,17 @@ public:
         _agility = ag;
     }
 
+    virtual void SetAgilityModifier(float mod) {
+        _agility.SetModifier(mod);
+    }
+
     virtual void SetEvade(float ev) {
         _evade = ev;
+        _CalculateEvadeRatings();
+    }
+
+    virtual void SetEvadeModifier(float mod) {
+        _evade.SetModifier(mod);
         _CalculateEvadeRatings();
     }
     //@}
@@ -515,22 +618,22 @@ protected:
     uint32 _max_skill_points;
 
     //! \brief Used to determine the actor's physical attack rating
-    uint32 _strength;
+    GlobalStat _strength;
 
     //! \brief Used to determine the actor's magical attack rating
-    uint32 _vigor;
+    GlobalStat _vigor;
 
     //! \brief Used to determine the actor's physical defense rating
-    uint32 _fortitude;
+    GlobalStat _fortitude;
 
     //! \brief Used to determine the actor's magical defense rating
-    uint32 _protection;
+    GlobalStat _protection;
 
     //! \brief Used to calculate the time it takes to recover stamina in battles
-    uint32 _agility;
+    GlobalStat _agility;
 
     //! \brief The attack evade percentage of the actor, ranged from 0.0 to 1.0
-    float _evade;
+    GlobalStat _evade;
     //@}
 
     //! \brief The sum of the character's strength and their weapon's physical attack
@@ -642,24 +745,63 @@ public:
         _experience_level = xp_level;
     }
 
+    uint32 GetStrengthBase() const {
+        return (uint32) _strength.GetBase();
+    }
+    uint32 GetVigorBase() const {
+        return (uint32) _vigor.GetBase();
+    }
+    uint32 GetFortitudeBase() const {
+        return (uint32) _fortitude.GetBase();
+    }
+    uint32 GetProtectionBase() const {
+        return (uint32) _protection.GetBase();
+    }
+    uint32 GetAgilityBase() const {
+        return (uint32) _agility.GetBase();
+    }
+    float GetEvadeBase() const {
+        return _evade.GetBase();
+    }
+
     // Character's stats changers, taking equipment in account
     virtual void SetStrength(uint32 st) {
-        _strength = st;
+        _strength.SetBase(st);
+        _CalculateAttackRatings();
+    }
+
+    virtual void SetStrengthModifier(float mod) {
+        _strength.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
     virtual void SetVigor(uint32 vi) {
-        _vigor = vi;
+        _vigor.SetBase(vi);
+        _CalculateAttackRatings();
+    }
+
+    virtual void SetVigorModifier(float mod) {
+        _vigor.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
     virtual void SetFortitude(uint32 fo) {
-        _fortitude = fo;
+        _fortitude.SetBase(fo);
+        _CalculateDefenseRatings();
+    }
+
+    virtual void SetFortitudeModifier(float mod) {
+        _fortitude.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
     virtual void SetProtection(uint32 pr) {
-        _protection = pr;
+        _protection.SetBase(pr);
+        _CalculateDefenseRatings();
+    }
+
+    virtual void SetProtectionModifier(float mod) {
+        _protection.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
@@ -983,19 +1125,6 @@ protected:
     //! \brief Recomputes which skills are available, based on equipment and permanent skills.
     void _UpdatesAvailableSkills();
 
-    // TODO: elemental and status effects on the global character
-// 	std::vector<GlobalElementalEffect*>& GetElementalAttackBonuses()
-// 		{ return _elemental_attack_bonuses; }
-//
-// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusAttackBonuses()
-// 		{ return _status_attack_bonuses; }
-//
-// 	std::vector<GlobalElementalEffect*>& GetElementalDefenseBonuses()
-// 		{ return _elemental_defense_bonuses; }
-//
-// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusDefenseBonuses()
-// 		{ return _status_defense_bonuses; }
-
 private:
     /** \brief The remaining experience points required to reach the next experience level
     ***
@@ -1046,34 +1175,6 @@ private:
     *** are removed from a character should also be removed from this container if they exist.
     **/
     std::vector<GlobalSkill*> _new_skills_learned;
-
-    /** \brief The elemental effects added to the character's attack
-    *** Actors may carry various elemental attack bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the weapon that the character may have equipped.
-    **/
-// 	std::vector<GlobalElementalEffect*> _elemental_attack_bonuses;
-
-    /** \brief The status effects added to the character's attack
-    *** Actors may carry various status attack bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the weapon that the character may have equipped. The first member
-    *** in the pair is the likelihood (between 0.0 and 1.0) that the character has of inflicting that status
-    *** effect upon a targeted foe.
-    **/
-// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_attack_bonuses;
-
-    /** \brief The elemental effects added to the character's defense
-    *** Actors may carry various elemental defense bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by all of the armors that the character may have equipped.
-    **/
-// 	std::vector<GlobalElementalEffect*> _elemental_defense_bonuses;
-
-    /** \brief The status effects added to the character's defense
-    *** Actors may carry various status defense bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the armors that the character may have equipped. The first member
-    *** in the pair is the reduction in the likelihood (between 0.0 and 1.0) that the character has of
-    *** repelling an attack with a status effect.
-    **/
-// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_defense_bonuses;
 
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's strength/vigor with their weapon's attack ratings

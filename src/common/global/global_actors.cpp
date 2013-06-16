@@ -108,7 +108,7 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor *equipped_armor)
     uint32 magical_base = 0;
     if(_protection_modifier > -1.0f)
         magical_base = _actor_owner->GetProtection() + static_cast<int32>(_actor_owner->GetProtection() * _protection_modifier);
-    
+
     for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
         _total_magical_defense[i] = magical_base;
 
@@ -455,13 +455,7 @@ void GlobalActor::SubtractMaxSkillPoints(uint32 amount)
 
 void GlobalActor::AddStrength(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _strength) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _strength = 0xFFFFFFFF;
-    } else {
-        _strength += amount;
-    }
-
+    _strength.SetBase(_strength.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
@@ -469,11 +463,8 @@ void GlobalActor::AddStrength(uint32 amount)
 
 void GlobalActor::SubtractStrength(uint32 amount)
 {
-    if(amount >= _strength)
-        _strength = 0;
-    else
-        _strength -= amount;
-
+    float new_base = _strength.GetBase() - (float)amount;
+    _strength.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
@@ -481,13 +472,7 @@ void GlobalActor::SubtractStrength(uint32 amount)
 
 void GlobalActor::AddVigor(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _vigor) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _vigor = 0xFFFFFFFF;
-    } else {
-        _vigor += amount;
-    }
-
+    _vigor.SetBase(_vigor.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
@@ -495,11 +480,8 @@ void GlobalActor::AddVigor(uint32 amount)
 
 void GlobalActor::SubtractVigor(uint32 amount)
 {
-    if(amount >= _vigor)
-        _vigor = 0;
-    else
-        _vigor -= amount;
-
+    float new_base = _vigor.GetBase() - (float)amount;
+    _vigor.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
@@ -507,13 +489,7 @@ void GlobalActor::SubtractVigor(uint32 amount)
 
 void GlobalActor::AddFortitude(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _fortitude) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _fortitude = 0xFFFFFFFF;
-    } else {
-        _fortitude += amount;
-    }
-
+    _fortitude.SetBase(_fortitude.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
@@ -521,11 +497,8 @@ void GlobalActor::AddFortitude(uint32 amount)
 
 void GlobalActor::SubtractFortitude(uint32 amount)
 {
-    if(amount >= _fortitude)
-        _fortitude = 0;
-    else
-        _fortitude -= amount;
-
+    float new_base = _fortitude.GetBase() - (float)amount;
+    _fortitude.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
@@ -533,13 +506,7 @@ void GlobalActor::SubtractFortitude(uint32 amount)
 
 void GlobalActor::AddProtection(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _protection) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _protection = 0xFFFFFFFF;
-    } else {
-        _protection += amount;
-    }
-
+    _protection.SetBase(_protection.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
@@ -547,11 +514,8 @@ void GlobalActor::AddProtection(uint32 amount)
 
 void GlobalActor::SubtractProtection(uint32 amount)
 {
-    if(amount >= _protection)
-        _protection = 0;
-    else
-        _protection -= amount;
-
+    float new_base = _protection.GetBase() - (float)amount;
+    _protection.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
@@ -559,44 +523,23 @@ void GlobalActor::SubtractProtection(uint32 amount)
 
 void GlobalActor::AddAgility(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _agility) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _agility = 0xFFFFFFFF;
-    } else {
-        _agility += amount;
-    }
+    _agility.SetBase(_agility.GetBase() + (float)amount);
 }
 
 
 
 void GlobalActor::SubtractAgility(uint32 amount)
 {
-    if(amount >= _agility)
-        _agility = 0;
-    else
-        _agility -= amount;
+    float new_base = _agility.GetBase() - (float)amount;
+    _agility.SetBase(new_base < 0.0f ? 0.0f : new_base);
 }
 
 
 
 void GlobalActor::AddEvade(float amount)
 {
-    if(amount < 0.0f) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received negative argument value: " << amount << std::endl;
-        return;
-    }
-
-    float new_evade = _evade + amount;
-    if(new_evade < _evade) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "floating point overflow condition detected: " << amount << std::endl;
-        _evade = 1.0f;
-    } else if(new_evade > 1.0f) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "evade rating increased above 1.0f: " << amount << std::endl;
-        _evade = 1.0f;
-    } else {
-        _evade = new_evade;
-    }
-
+    float new_base = _evade.GetBase() + amount;
+    _evade.SetBase(new_base > 1.0f ? 1.0f : new_base);
     _CalculateEvadeRatings();
 }
 
@@ -604,22 +547,8 @@ void GlobalActor::AddEvade(float amount)
 
 void GlobalActor::SubtractEvade(float amount)
 {
-    if(amount > 0.0f) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received positive argument value: " << amount << std::endl;
-        return;
-    }
-
-    float new_evade = _evade + amount;
-    if(new_evade > _evade) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "floating point overflow condition detected: " << amount << std::endl;
-        _evade = 0.0f;
-    } else if(new_evade < 0.0f) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "evade rating decreased below 0.0f: " << amount << std::endl;
-        _evade = 0.0f;
-    } else {
-        _evade = new_evade;
-    }
-
+    float new_base = _evade.GetBase() - amount;
+    _evade.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateEvadeRatings();
 }
 
@@ -627,9 +556,9 @@ void GlobalActor::SubtractEvade(float amount)
 
 void GlobalActor::_CalculateAttackRatings()
 {
-    _total_physical_attack = _strength;
+    _total_physical_attack = _strength.GetValue();
     for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-        _total_magical_attack[i] = _vigor;
+        _total_magical_attack[i] = _vigor.GetValue();
 }
 
 
@@ -933,89 +862,53 @@ bool GlobalCharacter::AddExperiencePoints(uint32 xp)
 
 void GlobalCharacter::AddStrength(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _strength) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _strength = 0xFFFFFFFF;
-    } else {
-        _strength += amount;
-    }
-
+    _strength.SetBase(_strength.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
 void GlobalCharacter::SubtractStrength(uint32 amount)
 {
-    if(amount >= _strength)
-        _strength = 0;
-    else
-        _strength -= amount;
-
+    float new_base = _strength.GetBase() - (float)amount;
+    _strength.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
 void GlobalCharacter::AddVigor(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _vigor) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _vigor = 0xFFFFFFFF;
-    } else {
-        _vigor += amount;
-    }
-
+    _vigor.SetBase(_vigor.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
 void GlobalCharacter::SubtractVigor(uint32 amount)
 {
-    if(amount >= _vigor)
-        _vigor = 0;
-    else
-        _vigor -= amount;
-
+    float new_base = _vigor.GetBase() - (float)amount;
+    _vigor.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
 void GlobalCharacter::AddFortitude(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _fortitude) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _fortitude = 0xFFFFFFFF;
-    } else {
-        _fortitude += amount;
-    }
-
+    _fortitude.SetBase(_fortitude.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
 void GlobalCharacter::SubtractFortitude(uint32 amount)
 {
-    if(amount >= _fortitude)
-        _fortitude = 0;
-    else
-        _fortitude -= amount;
-
+    float new_base = _fortitude.GetBase() - (float)amount;
+    _fortitude.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
 void GlobalCharacter::AddProtection(uint32 amount)
 {
-    if((0xFFFFFFFF - amount) < _protection) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
-        _protection = 0xFFFFFFFF;
-    } else {
-        _protection += amount;
-    }
-
+    _protection.SetBase(_protection.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
 void GlobalCharacter::SubtractProtection(uint32 amount)
 {
-    if(amount >= _protection)
-        _protection = 0;
-    else
-        _protection -= amount;
-
+    float new_base = _protection.GetBase() - (float)amount;
+    _protection.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
@@ -1288,9 +1181,9 @@ void GlobalCharacter::AcknowledgeGrowth() {
 
 void GlobalCharacter::_CalculateAttackRatings()
 {
-    _total_physical_attack = _strength;
+    _total_physical_attack = _strength.GetValue();
     for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-        _total_magical_attack[i] = _vigor;
+        _total_magical_attack[i] = _vigor.GetValue();
 
     if(_weapon_equipped) {
         _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
@@ -1514,20 +1407,20 @@ void GlobalEnemy::Initialize()
     // Randomize the stats by using a guassian random variable
     if(_no_stat_randomization == false) {
         // Use the base stats as the means and a standard deviation of 10% of the mean
-        _max_hit_points     = GaussianRandomValue(_max_hit_points, _max_hit_points / 10.0f);
-        _max_skill_points   = GaussianRandomValue(_max_skill_points, _max_skill_points / 10.0f);
-        _experience_points  = GaussianRandomValue(_experience_points, _experience_points / 10.0f);
-        _strength           = GaussianRandomValue(_strength, _strength / 10.0f);
-        _vigor              = GaussianRandomValue(_strength, _strength / 10.0f);
-        _fortitude          = GaussianRandomValue(_fortitude, _fortitude / 10.0f);
-        _protection         = GaussianRandomValue(_protection, _protection / 10.0f);
-        _agility            = GaussianRandomValue(_agility, _agility / 10.0f);
+        _max_hit_points = GaussianRandomValue(_max_hit_points, _max_hit_points / 10.0f);
+        _max_skill_points = GaussianRandomValue(_max_skill_points, _max_skill_points / 10.0f);
+        _experience_points = GaussianRandomValue(_experience_points, _experience_points / 10.0f);
+        _strength.SetBase(GaussianRandomValue(_strength.GetBase(), _strength.GetBase() / 10.0f));
+        _vigor.SetBase(GaussianRandomValue(_vigor.GetBase(), _vigor.GetBase() / 10.0f));
+        _fortitude.SetBase(GaussianRandomValue(_fortitude.GetBase(), _fortitude.GetBase() / 10.0f));
+        _protection.SetBase(GaussianRandomValue(_protection.GetBase(), _protection.GetBase() / 10.0f));
+        _agility.SetBase(GaussianRandomValue(_agility.GetBase(), _agility.GetBase() / 10.0f));
 
         // Multiply the evade value by 10 to permit the decimal to be kept
-        float evade = _evade * 10.0f;
-        _evade              = (static_cast<float>(GaussianRandomValue(evade, evade / 10.0f)) / 10.0f);
+        float evade = _evade.GetBase() * 10.0f;
+        _evade.SetBase(static_cast<float>(GaussianRandomValue(evade, evade / 10.0f)) / 10.0f);
 
-        _drunes_dropped     = GaussianRandomValue(_drunes_dropped, _drunes_dropped / 10.0f);
+        _drunes_dropped = GaussianRandomValue(_drunes_dropped, _drunes_dropped / 10.0f);
     }
 
     // Set the current hit points and skill points to their new maximum values

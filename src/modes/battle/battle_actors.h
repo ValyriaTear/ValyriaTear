@@ -438,6 +438,9 @@ public:
     //! SetAgility() overloading the GlobalActor one, to permit updating the idle State timer also.
     void SetAgility(uint32 agility);
 
+    //! SetAgilityModifier() overloading the GlobalActor one, to permit updating the idle State timer also.
+    void SetAgilityModifier(float modifier);
+
     void ResetEvade() {
         SetEvade(_global_actor->GetEvade());
     }

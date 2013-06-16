@@ -248,7 +248,21 @@ void EffectsSupervisor::Update()
 
         // Update the effect according to the script function
         if (!use_update_timer || update_timer->IsFinished()) {
-            ScriptCallFunction<void>(_status_effects[i]->GetUpdateFunction(), _status_effects[i]);
+            if (_status_effects[i]->GetUpdateFunction().is_valid()) {
+
+                try {
+                    ScriptCallFunction<void>(_status_effects[i]->GetUpdateFunction(), _status_effects[i]);
+                } catch(const luabind::error &e) {
+                    PRINT_ERROR << "Error while loading status effect Update function" << std::endl;
+                    ScriptManager->HandleLuaError(e);
+                } catch(const luabind::cast_failed &e) {
+                    PRINT_ERROR << "Error while loading status effect Update function" << std::endl;
+                    ScriptManager->HandleCastError(e);
+                }
+            }
+            else {
+                PRINT_WARNING << "No status effect Update function defined." << std::endl;
+            }
             // If the character has his effects removed because of the effect update (when dying)
             // The effect doesn't exist anymore, so we have to check this here.
             if (!_status_effects[i])
@@ -366,7 +380,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 
         _actor->GetIndicatorSupervisor()->AddStatusIndicator(status, previous_intensity, new_intensity);
     }
- 
+
     return false;
 } // bool EffectsSupervisor::ChangeStatus( ... )
 
@@ -390,9 +404,21 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
     BattleStatusEffect *new_effect = new BattleStatusEffect(status, intensity, _actor, duration);
     _status_effects[status] = new_effect;
 
+    if (!new_effect->GetApplyFunction().is_valid()) {
+        PRINT_WARNING << "No valid status effect Apply function to call" << std::endl;
+        return;
+    }
 
     // Call the apply script function now that this new status is active on the actor
-    ScriptCallFunction<void>(new_effect->GetApplyFunction(), new_effect);
+    try {
+        ScriptCallFunction<void>(new_effect->GetApplyFunction(), new_effect);
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading status effect Apply function" << std::endl;
+        ScriptManager->HandleLuaError(e);
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading status effect Apply function" << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
 }
 
 
@@ -405,7 +431,22 @@ void EffectsSupervisor::_RemoveStatus(BattleStatusEffect *status_effect)
     // Remove the status effect from the active effects list if it registered there.
     GLOBAL_STATUS effect_type = status_effect->GetType();
     if(_status_effects[effect_type] && _status_effects[effect_type] == status_effect) {
-        ScriptCallFunction<void>(status_effect->GetRemoveFunction(), status_effect);
+
+        if (status_effect->GetRemoveFunction().is_valid()) {
+            try {
+                ScriptCallFunction<void>(status_effect->GetRemoveFunction(), status_effect);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while loading status effect Remove function" << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while loading status effect Remove function" << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
+        }
+        else {
+            PRINT_WARNING << "No status effect Remove function defined." << std::endl;
+        }
+
         _status_effects[effect_type] = 0;
     }
     // But delete the effect anyway.

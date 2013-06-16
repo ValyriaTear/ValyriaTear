@@ -465,6 +465,12 @@ void BattleActor::SetAgility(uint32 agility)
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 }
 
+void BattleActor::SetAgilityModifier(float modifier)
+{
+    GlobalActor::SetAgilityModifier(modifier);
+    BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // BattleCharacter class
 ////////////////////////////////////////////////////////////////////////////////

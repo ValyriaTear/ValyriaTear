@@ -48,15 +48,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     end,
 
     Remove = function(effect)
-        effect:GetAffectedActor():ResetStrength();
+        local actor = effect:GetAffectedActor();
+        actor:SetStrengthModifier(1.0);
     end,
 
     ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        actor:ResetStrength();
-        local base_value = actor:GetStrength();
         local attribute_modifier = 1;
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
@@ -81,7 +80,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
             print("Lua warning: status effect had an invalid intensity value: " .. intensity);
         end
 
-        actor:SetStrength(base_value * attribute_modifier);
+        actor:SetStrengthModifier(attribute_modifier);
     end
 }
 
@@ -100,15 +99,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     end,
 
     Remove = function(effect)
-        effect:GetAffectedActor():ResetVigor();
+        local actor = effect:GetAffectedActor();
+        actor:SetVigorModifier(1.0);
     end,
 
     ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        actor:ResetVigor();
-        local base_value = actor:GetVigor();
         local attribute_modifier = 1;
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
@@ -133,7 +131,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
             print("Lua warning: status effect had an invalid intensity value: " .. intensity);
         end
 
-        actor:SetVigor(base_value * attribute_modifier);
+        actor:SetVigorModifier(attribute_modifier);
     end
 }
 
@@ -152,15 +150,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     end,
 
     Remove = function(effect)
-        effect:GetAffectedActor():ResetFortitude();
+        local actor = effect:GetAffectedActor();
+        actor:SetFortitudeModifier(1.0);
     end,
 
     ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        actor:ResetFortitude();
-        local base_value = actor:GetFortitude();
         local attribute_modifier = 1;
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
@@ -185,7 +182,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
             print("Lua warning: status effect had an invalid intensity value: " .. intensity);
         end
 
-        actor:SetFortitude(base_value * attribute_modifier);
+        actor:SetFortitudeModifier(attribute_modifier);
     end
 }
 
@@ -204,15 +201,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     end,
 
     Remove = function(effect)
-        effect:GetAffectedActor():ResetProtection();
+        local actor = effect:GetAffectedActor();
+        actor:SetProtectionModifier(1.0);
     end,
 
     ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        actor:ResetProtection();
-        local base_value = actor:GetProtection();
         local attribute_modifier = 1;
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
@@ -237,7 +233,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
             print("Lua warning: status effect had an invalid intensity value: " .. intensity);
         end
 
-        actor:SetProtection(base_value * attribute_modifier);
+        actor:SetProtectionModifier(attribute_modifier);
     end
 }
 
@@ -257,15 +253,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
 
     -- Note: This modifies the actor's idle state wait time accordingly.
     Remove = function(effect)
-        effect:GetAffectedActor():ResetAgility();
+        local actor = effect:GetAffectedActor();
+        actor:SetAgilityModifier(1.0);
     end,
 
     ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        actor:ResetAgility();
-        local base_value = actor:GetAgility();
         local attribute_modifier = 1;
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
@@ -291,7 +286,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
         end
 
         -- Note: This modifies the actor's idle state wait time accordingly.
-        actor:SetAgility(base_value * attribute_modifier);
+        actor:SetAgilityModifier(attribute_modifier);
     end
 }
 
@@ -310,15 +305,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
     end,
 
     Remove = function(effect)
-        effect:GetAffectedActor():ResetEvade();
+        local actor = effect:GetAffectedActor();
+        actor:SetEvadeModifier(1.0);
     end,
 
     ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        actor:ResetEvade();
-        local base_value = actor:GetEvade();
         local attribute_modifier = 1;
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
@@ -343,10 +337,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
             print("Lua warning: status effect had an invalid intensity value: " .. intensity);
         end
 
-        -- Note: this has a possiblitiy to set the evade above the max value of 1.0 (100%). This shouldn't
-        -- pose a problem though, and its probably very unlikely that any actor would have an evade rating
-        -- high enough to cause this condition.
-        actor:SetEvade(base_value * attribute_modifier);
+        actor:SetEvadeModifier(attribute_modifier);
     end
 }
 
@@ -431,8 +422,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     default_duration = 10000,
 
     Apply = function(effect)
-        local battle_actor = effect:GetAffectedActor();
-        battle_actor:SetStunned(true);
+        -- Let's stun only when the effect is negative
+        if (effect:GetIntensity() < vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+            local battle_actor = effect:GetAffectedActor();
+            battle_actor:SetStunned(true);
+        end
     end,
 
     Update = function(effect)

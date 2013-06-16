@@ -1079,17 +1079,18 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\texperience_points = " + NumberToString(character->GetExperiencePoints()) + ",");
     file.WriteLine("\t\texperience_points_next = " + NumberToString(character->GetExperienceForNextLevel()) + ", ");
 
+    // The values stored are the unmodified ones.
     file.WriteLine("\t\tmax_hit_points = " + NumberToString(character->GetMaxHitPoints()) + ",");
     file.WriteLine("\t\thit_points = " + NumberToString(character->GetHitPoints()) + ",");
     file.WriteLine("\t\tmax_skill_points = " + NumberToString(character->GetMaxSkillPoints()) + ",");
     file.WriteLine("\t\tskill_points = " + NumberToString(character->GetSkillPoints()) + ",");
 
-    file.WriteLine("\t\tstrength = " + NumberToString(character->GetStrength()) + ",");
-    file.WriteLine("\t\tvigor = " + NumberToString(character->GetVigor()) + ",");
-    file.WriteLine("\t\tfortitude = " + NumberToString(character->GetFortitude()) + ",");
-    file.WriteLine("\t\tprotection = " + NumberToString(character->GetProtection()) + ",");
-    file.WriteLine("\t\tagility = " + NumberToString(character->GetAgility()) + ",");
-    file.WriteLine("\t\tevade = " + NumberToString(character->GetEvade()) + ",");
+    file.WriteLine("\t\tstrength = " + NumberToString(character->GetStrengthBase()) + ",");
+    file.WriteLine("\t\tvigor = " + NumberToString(character->GetVigorBase()) + ",");
+    file.WriteLine("\t\tfortitude = " + NumberToString(character->GetFortitudeBase()) + ",");
+    file.WriteLine("\t\tprotection = " + NumberToString(character->GetProtectionBase()) + ",");
+    file.WriteLine("\t\tagility = " + NumberToString(character->GetAgilityBase()) + ",");
+    file.WriteLine("\t\tevade = " + NumberToString(character->GetEvadeBase()) + ",");
 
     // ----- (2): Write out the character's equipment
     uint32 weapon_id = 0;
