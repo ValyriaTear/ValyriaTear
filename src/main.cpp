@@ -298,6 +298,14 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
+    std::string default_theme = theme_script.ReadString("default_theme");
+    if (default_theme.empty()) {
+        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
+                    << std::endl;
+        theme_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
     if(!theme_script.DoesTableExist("themes")) {
         PRINT_ERROR << "No 'themes' table in file: " << theme_script_filename
                     << std::endl;
@@ -316,6 +324,8 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
     theme_script.OpenTable("themes");
 
+    bool default_theme_found = false;
+
     for(uint32 i = 0; i < theme_names.size(); ++i) {
         theme_script.OpenTable(theme_names[i]); // Theme name
 
@@ -323,7 +333,10 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         std::string win_background_file = theme_script.ReadString("win_background_file");
         std::string cursor_file = theme_script.ReadString("cursor_file");
 
-        if(!GUIManager->LoadMenuSkin(theme_names[i], cursor_file, win_border_file, win_background_file)) {
+        if (default_theme == theme_names[i])
+            default_theme_found = true;
+
+        if (!GUIManager->LoadMenuSkin(theme_names[i], cursor_file, win_border_file, win_background_file)) {
             theme_script.CloseAllTables();
             theme_script.CloseFile();
             PRINT_ERROR << "The theme '" << theme_names[i]
@@ -336,11 +349,21 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         theme_script.CloseTable(); // Theme name
     }
 
+    theme_script.CloseTable(); // themes
     theme_script.CloseFile();
 
-    // Set the UI theme.
+    // Query for the user menu skin which could have been set in the user settings lua file.
     std::string user_theme = GUIManager->GetUserMenuSkin();
-    GUIManager->SetDefaultMenuSkin(user_theme);
+    if (user_theme != "") {
+        // Activate the user theme.
+        GUIManager->SetDefaultMenuSkin(user_theme);
+    } else if (default_theme_found) {
+        // Activate the default theme.
+        GUIManager->SetDefaultMenuSkin(default_theme);
+    } else {
+        PRINT_ERROR << "No default or user settings UI theme found.  Exitting." << std::endl;
+        exit(EXIT_FAILURE);
+    }
 }
 
 /** \brief Initializes all engine components and makes other preparations for the game to start

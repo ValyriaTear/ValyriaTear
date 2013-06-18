@@ -1149,7 +1149,6 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteComment("Show the first time help window");
     settings_lua.WriteInt("first_start", 0);
 
-
     //Save language settings
     settings_lua.WriteComment("The GUI and in game dialogues language used");
     settings_lua.WriteString("language", SystemManager->GetLanguage());
