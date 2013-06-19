@@ -239,9 +239,6 @@ private:
     //! \brief The number of spirit the equipment can support.
     uint32 _spirit_number;
 
-    //! \brief Icon images representing elemental effects and intensity properties of the selected object
-    std::vector<vt_video::StillImage *> _elemental_icons;
-
     //! \brief Icon images representing status effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _status_icons;
 
@@ -298,15 +295,6 @@ private:
     *** \param mag_diff The magical change amount
     **/
     void _SetChangeText(uint32 index, int32 phys_diff, int32 mag_diff);
-
-    /** \brief Sets all elemental icons to the proper image when given a container
-    *** \param elemental_effects A const reference to a map of elemental effect types and their associated intensities
-    ***
-    *** The argument is presumed to have an entrity for each type of element. This condition is not checked by the function.
-    *** The format of the parameter comes from the global object code, as object classes return a const std::map reference
-    *** of this type to indicate their elemental effects.
-    **/
-    void _SetElementalIcons(const std::vector<std::pair<vt_global::GLOBAL_ELEMENTAL, vt_global::GLOBAL_INTENSITY> >& elemental_effects);
 
     /** \brief Sets all statusicons to the proper image when given a container
     *** \param status_effects A const reference to a map of status effect types and their associated intensities

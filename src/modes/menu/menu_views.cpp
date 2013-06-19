@@ -1007,10 +1007,10 @@ void PartyWindow::UpdateStatus()
     _focused_def_numbers.SetText(text);
 
     text = MakeUnicodeString("\n") // Skip titles
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (head_armor ? head_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (torso_armor ? torso_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (arm_armor ? arm_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (leg_armor ? leg_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0)) + "\n");
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (head_armor ? head_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (torso_armor ? torso_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (arm_armor ? arm_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetProtection() + (leg_armor ? leg_armor->GetMagicalDefense() : 0)) + "\n");
 
     _focused_mdef_numbers.SetText(text);
 }

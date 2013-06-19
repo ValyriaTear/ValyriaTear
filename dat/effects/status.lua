@@ -12,6 +12,10 @@
 -- {Apply} - A function executed when the status effect is applied to the target
 -- {Update} - A function executed periodically while the status is still in effect
 -- {Remove} - A function executed when the status effect is no longer active on the target
+
+-- {ApplyPassive} - This function is called when equipping and should be used on the global actor, not on the battle one.
+-- {UpdatePassive} - A function executed periodically while the passive (from equipment) status is still in effect.
+-- {RemovePassive} - function is called when unequipping and should be used on the global actor, not on the battle one.
 --
 -- To verify what a status effect's icon_index should be, examine the image file
 -- img/icons/effects/status.png and find the appropriate row of icons.
@@ -33,17 +37,45 @@ if (status_effects == nil) then
     status_effects = {}
 end
 
+status_effects.GetStatModifier = function(intensity)
+        local attribute_modifier = 1;
+
+        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+            attribute_modifier = 1;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+            attribute_modifer = 1.2;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+            attribute_modifier = 1.4;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+            attribute_modifier = 1.6;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+            attribute_modifier = 1.8;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
+            attribute_modifier = 0.8;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            attribute_modifier = 0.6;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            attribute_modifier = 0.4;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
+            attribute_modifier = 0.2;
+        else
+            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
+        end
+
+        return attribute_modifier;
+end
+
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     name = vt_system.Translate("Strength"),
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(effect);
         end
     end,
 
@@ -52,36 +84,27 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
         actor:SetStrengthModifier(1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
-
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
-
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
         actor:SetStrengthModifier(attribute_modifier);
-    end
+    end,
+
+
+    ApplyPassive = function(global_actor, intensity)
+        local modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetStrengthModifier(modifier);
+    end,
+
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetStrengthModifier(1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
@@ -89,12 +112,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(effect);
         end
     end,
 
@@ -103,36 +126,26 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
         actor:SetVigorModifier(1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
-
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
-
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
         actor:SetVigorModifier(attribute_modifier);
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        local modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetVigorModifier(modifier);
+    end,
+
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetVigorModifier(1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
@@ -140,12 +153,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(effect);
         end
     end,
 
@@ -154,36 +167,26 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
         actor:SetFortitudeModifier(1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
-
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
-
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
         actor:SetFortitudeModifier(attribute_modifier);
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        local modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetFortitudeModifier(modifier);
+    end,
+
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetFortitudeModifier(1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
@@ -191,12 +194,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(effect);
         end
     end,
 
@@ -205,36 +208,26 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
         actor:SetProtectionModifier(1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
-
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
-
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
         actor:SetProtectionModifier(attribute_modifier);
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        local modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetProtectionModifier(modifier);
+    end,
+
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetProtectionModifier(1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
@@ -242,12 +235,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(effect);
         end
     end,
 
@@ -257,37 +250,28 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
         actor:SetAgilityModifier(1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
-
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
 
         -- Note: This modifies the actor's idle state wait time accordingly.
         actor:SetAgilityModifier(attribute_modifier);
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        local modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetAgilityModifier(modifier);
+    end,
+
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetAgilityModifier(1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
@@ -295,12 +279,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(effect);
         end
     end,
 
@@ -309,36 +293,26 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
         actor:SetEvadeModifier(1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
-
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
-
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
         actor:SetEvadeModifier(attribute_modifier);
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        local modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetEvadeModifier(modifier);
+    end,
+
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetEvadeModifier(1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
@@ -376,7 +350,19 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 
     Remove = function(effect)
         -- Nothing to do.
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        -- Nothing to do.
+    end,
+
+    UpdatePassive = function(effect)
+        -- TODO: Needs first a status effect handler for the map mode and a passive effect handler in the battle mode.
+    end,
+
+    RemovePassive = function(global_actor)
+        -- Nothing to do.
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
@@ -402,19 +388,31 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
             actor:RegisterHealing(8, false);
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            --actor:RegisterHealing(-1, false);
+            actor:RegisterSPDamage(1);
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            --actor:RegisterHealing(-2, false);
+            actor:RegisterSPDamage(2);
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            --actor:RegisterHealing(-4, false);
+            actor:RegisterSPDamage(4);
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            --actor:RegisterHealing(-8, false);
+            actor:RegisterSPDamage(8);
         end
     end,
 
     Remove = function(effect)
         -- Nothing to do.
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        -- Nothing to do.
+    end,
+
+    UpdatePassive = function(effect)
+        -- TODO: Needs first a status effect handler for the map mode and a passive effect handler in the battle mode.
+    end,
+
+    RemovePassive = function(global_actor)
+        -- Nothing to do.
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
@@ -436,7 +434,19 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     Remove = function(effect)
         local battle_actor = effect:GetAffectedActor();
         battle_actor:SetStunned(false);
-    end
+    end,
+
+    ApplyPassive = function(global_actor, intensity)
+        -- TODO: Needs first a status effect handler for the map mode and a passive effect handler in the battle mode.
+    end,
+
+    UpdatePassive = function(effect)
+        -- Nothing to do.
+    end,
+
+    RemovePassive = function(global_actor)
+        -- TODO: Needs first a status effect handler for the map mode and a passive effect handler in the battle mode.
+    end,
 }
 
 -- Elemental status effects
@@ -445,50 +455,39 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(effect);
         end
     end,
 
     Remove = function(effect)
-    -- TODO
-        --effect:GetAffectedActor():ResetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE);
+        effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, attribute_modifier);
+    end,
 
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+    ApplyPassive = function(global_actor, intensity)
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, attribute_modifier);
+    end,
 
-        --actor:SetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, attribute_modifier);
-    end
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
+    end,
 }
 
 -- Water
@@ -497,50 +496,39 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(effect);
         end
     end,
 
     Remove = function(effect)
-    -- TODO
-        --effect:GetAffectedActor():ResetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER);
+        effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, attribute_modifier);
+    end,
 
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+    ApplyPassive = function(global_actor, intensity)
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, attribute_modifier);
+    end,
 
-        --actor:SetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, attribute_modifier);
-    end
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
@@ -548,50 +536,39 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(effect);
         end
     end,
 
     Remove = function(effect)
-    -- TODO
-        --effect:GetAffectedActor():ResetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT);
+        effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, attribute_modifier);
+    end,
 
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+    ApplyPassive = function(global_actor, intensity)
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, attribute_modifier);
+    end,
 
-        --actor:SetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, attribute_modifier);
-    end
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
@@ -599,50 +576,39 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(effect);
         end
     end,
 
     Remove = function(effect)
-    -- TODO
-        --effect:GetAffectedActor():ResetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH);
+        effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, attribute_modifier);
+    end,
 
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+    ApplyPassive = function(global_actor, intensity)
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, attribute_modifier);
+    end,
 
-        --actor:SetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, attribute_modifier);
-    end
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
@@ -650,50 +616,39 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(effect);
         end
     end,
 
     Remove = function(effect)
-    -- TODO
-        --effect:GetAffectedActor():ResetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE);
+        effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, attribute_modifier);
+    end,
 
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+    ApplyPassive = function(global_actor, intensity)
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, attribute_modifier);
+    end,
 
-        --actor:SetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, attribute_modifier);
-    end
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
+    end,
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
@@ -701,50 +656,39 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(effect);
         end
     end,
 
     Remove = function(effect)
-    -- TODO
-        --effect:GetAffectedActor():ResetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH);
+        effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, attribute_modifier);
+    end,
 
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+    ApplyPassive = function(global_actor, intensity)
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, attribute_modifier);
+    end,
 
-        --actor:SetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, attribute_modifier);
-    end
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
+    end,
 }
 
 -- Neutral (default magical strength)
@@ -753,48 +697,37 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
     default_duration = 30000,
 
     Apply = function(effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL].ModifyAttribute(effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(effect);
     end,
 
     Update = function(effect)
         if (effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL].ModifyAttribute(effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(effect);
         end
     end,
 
     Remove = function(effect)
-    -- TODO
-        --effect:GetAffectedActor():ResetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL);
+        effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
     end,
 
-    ModifyAttribute = function(effect)
+    _ModifyAttribute = function(effect)
         local actor = effect:GetAffectedActor();
         local intensity = effect:GetIntensity();
 
-        local attribute_modifier = 1;
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, attribute_modifier);
+    end,
 
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            attribute_modifier = 1;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
-        else
-            print("Lua warning: status effect had an invalid intensity value: " .. intensity);
-        end
+    ApplyPassive = function(global_actor, intensity)
+        local attribute_modifier = status_effects.GetStatModifier(intensity);
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, attribute_modifier);
+    end,
 
-        --actor:SetElementalEffect(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, attribute_modifier);
-    end
+    UpdatePassive = function(effect)
+        -- Nothing to do
+    end,
+
+    RemovePassive = function(global_actor)
+        global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
+    end,
 }

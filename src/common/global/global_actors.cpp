@@ -22,6 +22,8 @@
 #include "global_effects.h"
 #include "global_skills.h"
 
+#include "common/global/global.h"
+
 using namespace vt_utils;
 using namespace vt_video;
 using namespace vt_script;
@@ -109,15 +111,18 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor *equipped_armor)
     if(_protection_modifier > -1.0f)
         magical_base = _actor_owner->GetProtection() + static_cast<int32>(_actor_owner->GetProtection() * _protection_modifier);
 
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-        _total_magical_defense[i] = magical_base;
-
     // If present, add defense ratings from the armor equipped
     if(equipped_armor) {
         _total_physical_defense += equipped_armor->GetPhysicalDefense();
-        // Apply elemental passive effects of the armor.
+
+        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+            _total_magical_defense[i] = (magical_base + equipped_armor->GetMagicalDefense())
+                                        * _actor_owner->GetElementalModifier((GLOBAL_ELEMENTAL) i);
+        }
+    }
+    else {
         for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-            _total_magical_defense[i] += equipped_armor->GetMagicalDefense((GLOBAL_ELEMENTAL) i);
+            _total_magical_defense[i] = magical_base * _actor_owner->GetElementalModifier((GLOBAL_ELEMENTAL) i);
     }
 }
 
@@ -148,14 +153,11 @@ GlobalActor::GlobalActor() :
     _max_hit_points(0),
     _skill_points(0),
     _max_skill_points(0),
-    _strength(0),
-    _vigor(0),
-    _fortitude(0),
-    _protection(0),
-    _agility(0),
-    _evade(0.0f),
     _total_physical_attack(0)
 {
+    // Init the elemental strength intensity container
+    _elemental_modifier.resize(GLOBAL_ELEMENTAL_TOTAL, 1.0f);
+
     for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
         _total_magical_attack[i] = 0;
 }
@@ -191,15 +193,27 @@ GlobalActor::GlobalActor(const GlobalActor &copy)
     _max_hit_points = copy._max_hit_points;
     _skill_points = copy._skill_points;
     _max_skill_points = copy._max_skill_points;
-    _strength = copy._strength;
-    _vigor = copy._vigor;
-    _fortitude = copy._fortitude;
-    _protection = copy._protection;
-    _agility = copy._agility;
-    _evade = copy._evade;
+
+    _strength.SetBase(copy._strength.GetBase());
+    _strength.SetModifier(copy._strength.GetModifier());
+    _vigor.SetBase(copy._vigor.GetBase());
+    _vigor.SetModifier(copy._vigor.GetModifier());
+    _fortitude.SetBase(copy._fortitude.GetBase());
+    _fortitude.SetModifier(copy._fortitude.GetModifier());
+    _protection.SetBase(copy._protection.GetBase());
+    _protection.SetModifier(copy._protection.GetModifier());
+    _agility.SetBase(copy._agility.GetBase());
+    _agility.SetModifier(copy._agility.GetModifier());
+    _evade.SetBase(copy._evade.GetBase());
+    _evade.SetModifier(copy._evade.GetModifier());
+
     _total_physical_attack = copy._total_physical_attack;
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+    // init the elemental modifier size to avoid a segfault
+    _elemental_modifier.resize(GLOBAL_ELEMENTAL_TOTAL, 1.0f);
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
         _total_magical_attack[i] = copy._total_magical_attack[i];
+        _elemental_modifier[i] = copy._elemental_modifier[i];
+    }
 
     // Copy all attack points
     for(uint32 i = 0; i < copy._attack_points.size(); i++) {
@@ -231,15 +245,26 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     _max_hit_points = copy._max_hit_points;
     _skill_points = copy._skill_points;
     _max_skill_points = copy._max_skill_points;
-    _strength = copy._strength;
-    _vigor = copy._vigor;
-    _fortitude = copy._fortitude;
-    _protection = copy._protection;
-    _agility = copy._agility;
-    _evade = copy._evade;
+
+    _strength.SetBase(copy._strength.GetBase());
+    _strength.SetModifier(copy._strength.GetModifier());
+    _vigor.SetBase(copy._vigor.GetBase());
+    _vigor.SetModifier(copy._vigor.GetModifier());
+    _fortitude.SetBase(copy._fortitude.GetBase());
+    _fortitude.SetModifier(copy._fortitude.GetModifier());
+    _protection.SetBase(copy._protection.GetBase());
+    _protection.SetModifier(copy._protection.GetModifier());
+    _agility.SetBase(copy._agility.GetBase());
+    _agility.SetModifier(copy._agility.GetModifier());
+    _evade.SetBase(copy._evade.GetBase());
+    _evade.SetModifier(copy._evade.GetModifier());
+
     _total_physical_attack = copy._total_physical_attack;
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+    _elemental_modifier.resize(GLOBAL_ELEMENTAL_TOTAL, 1.0f);
+    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
         _total_magical_attack[i] = copy._total_magical_attack[i];
+        _elemental_modifier[i] = copy._elemental_modifier[i];
+    }
 
     // Copy all attack points
     for(uint32 i = 0; i < copy._attack_points.size(); i++) {
@@ -558,7 +583,7 @@ void GlobalActor::_CalculateAttackRatings()
 {
     _total_physical_attack = _strength.GetValue();
     for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-        _total_magical_attack[i] = _vigor.GetValue();
+        _total_magical_attack[i] = _vigor.GetValue() * _elemental_modifier[i];
 }
 
 
@@ -701,12 +726,12 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
         _hit_points = _max_hit_points;
         _max_skill_points = char_script.ReadUInt("max_skill_points");
         _skill_points = _max_skill_points;
-        _strength = char_script.ReadUInt("strength");
-        _vigor = char_script.ReadUInt("vigor");
-        _fortitude = char_script.ReadUInt("fortitude");
-        _protection = char_script.ReadUInt("protection");
-        _agility = char_script.ReadUInt("agility");
-        _evade = char_script.ReadFloat("evade");
+        _strength.SetBase(char_script.ReadUInt("strength"));
+        _vigor.SetBase(char_script.ReadUInt("vigor"));
+        _fortitude.SetBase(char_script.ReadUInt("fortitude"));
+        _protection.SetBase(char_script.ReadUInt("protection"));
+        _agility.SetBase(char_script.ReadUInt("agility"));
+        _evade.SetBase(char_script.ReadFloat("evade"));
 
         // Add the character's initial equipment. If any equipment ids are zero, that indicates nothing is to be equipped.
         uint32 equipment_id = 0;
@@ -835,6 +860,10 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     }
     char_script.CloseFile();
 
+    // Init and updates the status effects according to current equipment.
+    _equipment_status_effects.resize(GLOBAL_STATUS_TOTAL, GLOBAL_INTENSITY_NEUTRAL);
+    _UpdateEquipmentStatusEffects();
+
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
     _CalculateEvadeRatings();
@@ -917,13 +946,14 @@ GlobalWeapon *GlobalCharacter::EquipWeapon(GlobalWeapon *weapon)
     GlobalWeapon *old_weapon = _weapon_equipped;
     _weapon_equipped = weapon;
 
+    // Updates the equipment status effects first
+    _UpdateEquipmentStatusEffects();
+
     _CalculateAttackRatings();
     _UpdatesAvailableSkills();
 
     return old_weapon;
 }
-
-
 
 GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32 index)
 {
@@ -941,6 +971,9 @@ GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32 index)
         }
     }
 
+    // Updates the equipment status effect first
+    _UpdateEquipmentStatusEffects();
+    // This is a subset of _CalculateDefenseRatings(), but just for the given armor.
     _attack_points[index]->CalculateTotalDefense(_armor_equipped[index]);
 
     // Reloads available skill according to equipment
@@ -969,6 +1002,120 @@ bool GlobalCharacter::HasEquipment() const
             return true;
     }
     return false;
+}
+
+void GlobalCharacter::_UpdateEquipmentStatusEffects()
+{
+    // Reset the status effect intensities
+    for (uint32 i = 0; i < _equipment_status_effects.size(); ++i)
+        _equipment_status_effects[i] = GLOBAL_INTENSITY_NEUTRAL;
+
+    // For each piece of equipment, we add the intensity of the given status
+    // effect on the status effect cache
+    if (_weapon_equipped) {
+        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _weapon_equipped->GetStatusEffects();
+
+        for (uint32 i = 0; i < _effects.size(); ++i) {
+
+            GLOBAL_STATUS effect = _effects[i].first;
+            GLOBAL_INTENSITY intensity = _effects[i].second;
+
+            // Check bounds and update the intensity
+            if (_equipment_status_effects[effect] + intensity > GLOBAL_INTENSITY_POS_EXTREME)
+                _equipment_status_effects[effect] = GLOBAL_INTENSITY_POS_EXTREME;
+            else if (_equipment_status_effects[effect] + intensity < GLOBAL_INTENSITY_NEG_EXTREME)
+                _equipment_status_effects[effect] = GLOBAL_INTENSITY_NEG_EXTREME;
+            else
+                _equipment_status_effects[effect] = (GLOBAL_INTENSITY)(_equipment_status_effects[effect] + intensity);
+        }
+    }
+
+    // armors
+    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
+        if (!_armor_equipped[i])
+            continue;
+
+        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _armor_equipped[i]->GetStatusEffects();
+
+        for (uint32 j = 0; j < _effects.size(); ++j) {
+
+            GLOBAL_STATUS effect = _effects[j].first;
+            GLOBAL_INTENSITY intensity = _effects[j].second;
+
+            // Check bounds and update the intensity
+            if (_equipment_status_effects[effect] + intensity > GLOBAL_INTENSITY_POS_EXTREME)
+                _equipment_status_effects[effect] = GLOBAL_INTENSITY_POS_EXTREME;
+            else if (_equipment_status_effects[effect] + intensity < GLOBAL_INTENSITY_NEG_EXTREME)
+                _equipment_status_effects[effect] = GLOBAL_INTENSITY_NEG_EXTREME;
+            else
+                _equipment_status_effects[effect] = (GLOBAL_INTENSITY)(_equipment_status_effects[effect] + intensity);
+        }
+    }
+
+    // Actually apply the effects on the character now
+    ReadScriptDescriptor &script_file = vt_global::GlobalManager->GetStatusEffectsScript();
+    for (uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
+        GLOBAL_INTENSITY intensity = _equipment_status_effects[i];
+
+        if (!script_file.OpenTable(i)) {
+            PRINT_WARNING << "No status effect defined for this status value: " << i << std::endl;
+            continue;
+        }
+
+        if (intensity == GLOBAL_INTENSITY_NEUTRAL) {
+
+            // Call RemovePassive(global_actor)
+            if(!script_file.DoesFunctionExist("RemovePassive")) {
+                PRINT_WARNING << "No RemovePassive() function found in Lua definition file for status: " << i << std::endl;
+                script_file.CloseTable(); // effect id
+                continue;
+            }
+
+            ScriptObject remove_passive_function = script_file.ReadFunctionPointer("RemovePassive");
+            script_file.CloseTable(); // effect id
+
+            if (!remove_passive_function.is_valid()) {
+                PRINT_WARNING << "Invalid RemovePassive() function found in Lua definition file for status: " << i << std::endl;
+                continue;
+            }
+
+            try {
+                ScriptCallFunction<void>(remove_passive_function, this);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while loading status effect RemovePassive() function" << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while loading status effect RemovePassive() function" << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
+        }
+        else {
+            // Call ApplyPassive(global_actor, intensity)
+            if(!script_file.DoesFunctionExist("ApplyPassive")) {
+                PRINT_WARNING << "No ApplyPassive() function found in Lua definition file for status: " << i << std::endl;
+                script_file.CloseTable(); // effect id
+                continue;
+            }
+
+            ScriptObject apply_passive_function = script_file.ReadFunctionPointer("ApplyPassive");
+            script_file.CloseTable(); // effect id
+
+            if (!apply_passive_function.is_valid()) {
+                PRINT_WARNING << "Invalid ApplyPassive() function found in Lua definition file for status: " << i << std::endl;
+                continue;
+            }
+
+            try {
+                ScriptCallFunction<void>(apply_passive_function, this, intensity);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while loading status effect ApplyPassive() function" << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while loading status effect ApplyPassive() function" << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
+        } // Call function depending on intensity
+    } // For each equipment status effect
 }
 
 bool GlobalCharacter::AddSkill(uint32 skill_id, bool permanently)
@@ -1182,13 +1329,18 @@ void GlobalCharacter::AcknowledgeGrowth() {
 void GlobalCharacter::_CalculateAttackRatings()
 {
     _total_physical_attack = _strength.GetValue();
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-        _total_magical_attack[i] = _vigor.GetValue();
 
     if(_weapon_equipped) {
         _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
-        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-            _total_magical_attack[i] += _weapon_equipped->GetMagicalAttack((GLOBAL_ELEMENTAL) i);
+        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+            _total_magical_attack[i] = (_vigor.GetValue() + _weapon_equipped->GetMagicalAttack())
+                                       * GetElementalModifier((GLOBAL_ELEMENTAL) i);
+        }
+    }
+    else {
+        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+            _total_magical_attack[i] = _vigor.GetValue() * GetElementalModifier((GLOBAL_ELEMENTAL) i);
+        }
     }
 }
 
@@ -1297,12 +1449,12 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
         _max_skill_points = enemy_data.ReadUInt("skill_points");
         _skill_points = _max_skill_points;
         _experience_points = enemy_data.ReadUInt("experience_points");
-        _strength = enemy_data.ReadUInt("strength");
-        _vigor = enemy_data.ReadUInt("vigor");
-        _fortitude = enemy_data.ReadUInt("fortitude");
-        _protection = enemy_data.ReadUInt("protection");
-        _agility = enemy_data.ReadUInt("agility");
-        _evade = enemy_data.ReadFloat("evade");
+        _strength.SetBase(enemy_data.ReadUInt("strength"));
+        _vigor.SetBase(enemy_data.ReadUInt("vigor"));
+        _fortitude.SetBase(enemy_data.ReadUInt("fortitude"));
+        _protection.SetBase(enemy_data.ReadUInt("protection"));
+        _agility.SetBase(enemy_data.ReadUInt("agility"));
+        _evade.SetBase(enemy_data.ReadFloat("evade"));
         _drunes_dropped = enemy_data.ReadUInt("drunes");
         enemy_data.CloseTable();
     }

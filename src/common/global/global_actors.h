@@ -249,9 +249,9 @@ private:
     *** armor that is equipped on the attack point.
     **/
     //@{
-    uint16 _total_physical_defense;
+    uint32 _total_physical_defense;
     //! \brief The magical defense is computed against each elements.
-    uint16 _total_magical_defense[GLOBAL_ELEMENTAL_TOTAL];
+    uint32 _total_magical_defense[GLOBAL_ELEMENTAL_TOTAL];
     float _total_evade_rating;
     //@}
 
@@ -467,7 +467,7 @@ public:
     }
 
     virtual void SetStrength(uint32 st) {
-        _strength = st;
+        _strength.SetBase((float) st);
         _CalculateAttackRatings();
     }
 
@@ -477,7 +477,7 @@ public:
     }
 
     virtual void SetVigor(uint32 vi) {
-        _vigor = vi;
+        _vigor.SetBase((float) vi);
         _CalculateAttackRatings();
     }
 
@@ -487,7 +487,7 @@ public:
     }
 
     virtual void SetFortitude(uint32 fo) {
-        _fortitude = fo;
+        _fortitude.SetBase((float) fo);
         _CalculateDefenseRatings();
     }
 
@@ -497,7 +497,7 @@ public:
     }
 
     virtual void SetProtection(uint32 pr) {
-        _protection = pr;
+        _protection.SetBase((float) pr);
         _CalculateDefenseRatings();
     }
 
@@ -508,7 +508,7 @@ public:
 
     //! Made virtual to permit Battle Actors to recompute the idle state time.
     virtual void SetAgility(uint32 ag) {
-        _agility = ag;
+        _agility.SetBase((float) ag);
     }
 
     virtual void SetAgilityModifier(float mod) {
@@ -516,13 +516,28 @@ public:
     }
 
     virtual void SetEvade(float ev) {
-        _evade = ev;
+        _evade.SetBase(ev);
         _CalculateEvadeRatings();
     }
 
     virtual void SetEvadeModifier(float mod) {
         _evade.SetModifier(mod);
         _CalculateEvadeRatings();
+    }
+
+    float GetElementalModifier(GLOBAL_ELEMENTAL element) const {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            return 1.0f;
+        return _elemental_modifier[element];
+    }
+
+    void SetElementalModifier(GLOBAL_ELEMENTAL element, float value) {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            return;
+        _elemental_modifier[element] = value;
+        // Updates ratings
+        _CalculateAttackRatings();
+        _CalculateDefenseRatings();
     }
     //@}
 
@@ -641,6 +656,10 @@ protected:
 
     //! \brief The sum of the character's vigor and their weapon's magical attack for each elements.
     uint32 _total_magical_attack[GLOBAL_ELEMENTAL_TOTAL];
+
+    //! \brief Tells the current mag atk/def stats modifier of the actor against each elemental.
+    //! \note The modifier is multiplied to the current magical atk/def for the given elemental.
+    std::vector<float> _elemental_modifier;
 
     /** \brief The attack points that are located on the actor
     *** \note All actors must have at least one attack point.
@@ -1111,6 +1130,16 @@ protected:
     **/
     std::vector<GlobalArmor *> _armor_equipped;
 
+    /** \brief The status effects given by equipment, aka passive status effects.
+    *** \note elemental effects are handled as status effects also.
+    *** The vector is initialized with the size of GLOBAL_STATUS_TOTAL with
+    *** GLOBAL_INTENSITY_NEUTRAL values. Those intensities corresponds to each
+    *** status effect passive intensity.
+    *** On equipping/unequipping, this vector should be updated, and his values
+    *** applied on the character stats by calling the corresponding status effect function.
+    **/
+    std::vector<GLOBAL_INTENSITY> _equipment_status_effects;
+
     /** \brief Equips a new armor on the character
     *** \param armor The piece of armor to equip
     *** \param index The index into the _armor_equipped vector where to equip the armor
@@ -1121,6 +1150,9 @@ protected:
     *** the function will return the armor argument.
     **/
     GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32 index);
+
+    //! \brief Updates the equipment status effects.
+    void _UpdateEquipmentStatusEffects();
 
     //! \brief Recomputes which skills are available, based on equipment and permanent skills.
     void _UpdatesAvailableSkills();

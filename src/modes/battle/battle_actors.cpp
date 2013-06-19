@@ -217,7 +217,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
     }
 
     SubtractHitPoints(amount);
-    _indicator_supervisor->AddDamageIndicator(amount);
+    _indicator_supervisor->AddDamageIndicator(amount, false);
 
     if(GetHitPoints() == 0) {
         ChangeState(ACTOR_STATE_DYING);
@@ -260,6 +260,23 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
             }
         }
     }
+}
+
+void BattleActor::RegisterSPDamage(uint32 amount)
+{
+    if(amount == 0) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
+        RegisterMiss(true);
+        return;
+    }
+    if(_state == ACTOR_STATE_DYING || _state == ACTOR_STATE_DEAD) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function called when actor state was dead" << std::endl;
+        RegisterMiss();
+        return;
+    }
+
+    SubtractSkillPoints(amount);
+    _indicator_supervisor->AddDamageIndicator(amount, true);
 }
 
 void BattleActor::RegisterHealing(uint32 amount, bool hit_points)

@@ -574,9 +574,6 @@ private:
     vt_video::Color _phys_diff_color;
     vt_video::Color _mag_diff_color;
 
-    //! \brief Icon images representing elemental effects and intensity properties of the selected object
-    std::vector<vt_video::StillImage *> _elemental_icons;
-
     //! \brief Icon images representing status effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _status_icons;
 

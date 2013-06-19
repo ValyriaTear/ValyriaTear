@@ -264,6 +264,7 @@ void BindCommonCode()
             .def("SetProtectionModifier", &GlobalActor::SetProtectionModifier)
             .def("SetAgilityModifier", &GlobalActor::SetAgilityModifier)
             .def("SetEvadeModifier", &GlobalActor::SetEvadeModifier)
+            .def("SetElementalModifier", &GlobalActor::SetElementalModifier)
 
             .def("AddHitPoints", &GlobalActor::AddHitPoints)
             .def("SubtractHitPoints", &GlobalActor::SubtractHitPoints)
@@ -352,11 +353,6 @@ void BindCommonCode()
             luabind::class_<GlobalStatusEffect>("GlobalStatusEffect")
             .def("GetType", &GlobalStatusEffect::GetType)
             .def("GetIntensity", &GlobalStatusEffect::GetIntensity)
-        ];
-
-        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
-        [
-            luabind::class_<GlobalElementalEffect>("GlobalElementalEffect")
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

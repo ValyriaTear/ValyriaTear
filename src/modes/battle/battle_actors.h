@@ -280,6 +280,9 @@ public:
     **/
     void RegisterDamage(uint32 amount);
 
+    //! \brief Steals the actor skill points
+    void RegisterSPDamage(uint32 amount);
+
     /** \brief Deals damage to the actor by reducing its hit points by a certain amount
     *** \param amount The number of hit points to decrease on the actor
     *** \param target A pointer to the target information that was used to inflict this damage

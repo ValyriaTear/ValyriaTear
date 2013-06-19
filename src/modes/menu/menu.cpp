@@ -969,7 +969,6 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
     // Clear the corresponding texts when there is no corresponding data
     if (!_object) {
         _object_name.Clear();
-        _elemental_icons.clear();
         _status_icons.clear();
         _spirit_number = 0;
         _equip_skills.clear();
@@ -993,15 +992,6 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         return;
 
     _object_name.SetText(_object->GetName());
-
-    // Loads elemental icons
-    const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& elemental_effects = _object->GetElementalEffects();
-    _elemental_icons.clear();
-    for(std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
-            it != elemental_effects.end(); ++it) {
-        if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _elemental_icons.push_back(GlobalManager->Media().GetElementalIcon(it->first, it->second));
-    }
 
     // Loads status effects.
     const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects = _object->GetStatusEffects();
@@ -1029,7 +1019,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 
             _spirit_number = wpn ? wpn->GetSpiritSlots().size() : 0;
             equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
-            equip_mag_stat = wpn ? wpn->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL) : 0;
+            equip_mag_stat = wpn ? wpn->GetMagicalAttack() : 0;
 
             const std::vector<uint32>& equip_skills = wpn->GetEquipmentSkills();
             _equip_skills.clear();
@@ -1068,7 +1058,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 
             _spirit_number = armor ? armor->GetSpiritSlots().size() : 0;
             equip_phys_stat = armor ? armor->GetPhysicalDefense() : 0;
-            equip_mag_stat = armor ? armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0;
+            equip_mag_stat = armor ? armor->GetMagicalDefense() : 0;
 
             const std::vector<uint32>& equip_skills = armor->GetEquipmentSkills();
             _equip_skills.clear();
@@ -1116,7 +1106,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         uint32 char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (wpn ? wpn->GetPhysicalAttack() : 0);
-            char_mag_stat = (wpn ? wpn->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL) : 0);
+            char_mag_stat = (wpn ? wpn->GetMagicalAttack() : 0);
 
             phys_stat_diff = equip_phys_stat - char_phys_stat;
             mag_stat_diff = equip_mag_stat - char_mag_stat;
@@ -1133,7 +1123,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         uint32 char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (armor ? armor->GetPhysicalDefense() : 0);
-            char_mag_stat = (armor ? armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0);
+            char_mag_stat = (armor ? armor->GetMagicalDefense() : 0);
 
             phys_stat_diff = equip_phys_stat - char_phys_stat;
             mag_stat_diff = equip_mag_stat - char_mag_stat;
@@ -1244,27 +1234,27 @@ void MenuMode::DrawEquipmentInfo()
             j -= 25.0f;
         }
     }
-    VideoManager->MoveRelative(j, -35.0f);
-
-    // Draw elemental effect icons
-    uint32 element_size = _elemental_icons.size();
-    VideoManager->MoveRelative((18.0f * element_size) - 12.0f, 0.0f);
-    for(uint32 i = 0; i < element_size; ++i) {
-        _elemental_icons[i]->Draw();
-        VideoManager->MoveRelative(-18.0f, 0.0f);
-    }
-    VideoManager->MoveRelative(0.0f, -25.0f);
+    VideoManager->MoveRelative(j, -55.0f);
 
     // Draw status effects icons
-    element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
     VideoManager->MoveRelative((18.0f * element_size), 0.0f);
     for(uint32 i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
+    VideoManager->MoveRelative(0.0f, 20.0f);
+    if (_status_icons.size() > 9) {
+        element_size = _status_icons.size();
+        VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
+        for(uint32 i = 9; i < element_size; ++i) {
+            _status_icons[i]->Draw();
+            VideoManager->MoveRelative(-18.0f, 0.0f);
+        }
+    }
 
     // Draw possible equipment skills
-    VideoManager->MoveRelative(250.0f, 0.0f);
+    VideoManager->MoveRelative(250.0f, -20.0f);
     element_size = _equip_skills.size();
     if (element_size > 0)
         _equip_skills_header.Draw();

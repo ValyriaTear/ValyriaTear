@@ -432,14 +432,15 @@ void IndicatorSupervisor::Draw()
     }
 }
 
-
-
-void IndicatorSupervisor::AddDamageIndicator(uint32 amount)
+void IndicatorSupervisor::AddDamageIndicator(uint32 amount, bool is_sp_damage)
 {
     const Color low_red(1.0f, 0.75f, 0.0f, 1.0f);
     const Color mid_red(1.0f, 0.50f, 0.0f, 1.0f);
     const Color high_red(1.0f, 0.25f, 0.0f, 1.0f);
-    const Color full_red(Color::red);
+
+    const Color low_blue(0.0f, 0.75f, 1.0f, 1.0f);
+    const Color mid_blue(0.0f, 0.50f, 1.0f, 1.0f);
+    const Color high_blue(0.0f, 0.25f, 1.0f, 1.0f);
 
     if(amount == 0) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function was given a zero value argument" << std::endl;
@@ -452,16 +453,16 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount)
 
     float damage_percent = static_cast<float>(amount) / static_cast<float>(_actor->GetMaxHitPoints());
     if(damage_percent < 0.10f) {
-        style.color = low_red;
+        style.color = is_sp_damage ? low_blue : low_red;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     } else if(damage_percent < 0.20f) {
-        style.color = mid_red;
+        style.color = is_sp_damage ? mid_blue : mid_red;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     } else if(damage_percent < 0.30f) {
-        style.color = high_red;
+        style.color = is_sp_damage ? high_blue : high_red;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     } else { // (damage_percent >= 0.30f)
-        style.color = full_red;
+        style.color = is_sp_damage ? Color::blue : Color::red;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     }
 

@@ -37,7 +37,6 @@ namespace vt_global
 **/
 std::string GetElementName(GLOBAL_ELEMENTAL type);
 
-
 /** \brief Retrieves a string representation for any GLOBAL_STATUS enum value
 *** \param type The status enum value to find the string for
 *** \return Translated text that describes the status
@@ -48,68 +47,6 @@ std::string GetElementName(GLOBAL_ELEMENTAL type);
 *** number of script file accesses that need to take place.
 **/
 std::string GetStatusName(GLOBAL_STATUS type);
-
-
-/** ****************************************************************************
-*** \brief Represents an elemental effect in the game
-***
-*** This class is a simple container of two enumerated values: an elemental type
-*** and an intensity. Elemental effects provide for special types of attack and
-*** defense bonuses. There are really two types of elemental effects: physical
-*** and magical, the same as the two attack damage types. Whether the elemental
-*** effect represented by objects of this class are meant to serve as a defensive boost
-*** or an offensive boost is determined by the context in which the class object is used.
-***
-*** \todo Explain any differences between how physical versus magical elements
-*** function in the game once that decision has been reached.
-*** ***************************************************************************/
-class GlobalElementalEffect
-{
-public:
-    /** \param type The elemental type that this class object should represent
-    *** \param intensity The intensity of the elemental (default value == GLOBAL_INTENSITY_NEUTRAL)
-    **/
-    GlobalElementalEffect(GLOBAL_ELEMENTAL type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
-        _type(type), _intensity(intensity) {}
-
-    ~GlobalElementalEffect()
-    {}
-
-    //! \brief Class Member Access Functions
-    //@{
-    GLOBAL_ELEMENTAL GetType() const {
-        return _type;
-    }
-
-    GLOBAL_INTENSITY GetIntensity() const {
-        return _intensity;
-    }
-
-    void SetIntensity(GLOBAL_INTENSITY intensity) {
-        _intensity = intensity;
-    }
-    //@}
-
-    /** \brief Increments the elemental effect's intensity
-    *** \param amount The number of levels to increase the intensity by (default = 1)
-    *** \note The intensity will not be allowed to increase beyond the valid intensity range
-    **/
-    void IncrementIntensity(uint8 amount = 1);
-
-    /** \brief Decrements the elemental effect's intensity
-    *** \param amount The number of levels to decrease the intensity by (default = 1)
-    *** \note The intensity will not be allowed to decrease beyond the valid intensity range
-    **/
-    void DecrementIntensity(uint8 amount = 1);
-
-protected:
-    //! \brief The type of elemental that the object represents
-    GLOBAL_ELEMENTAL _type;
-
-    //! \brief The intensity level of this elemental effect
-    GLOBAL_INTENSITY _intensity;
-}; // class GlobalElementalEffect
-
 
 /** ****************************************************************************
 *** \brief Represents a status effect in the game

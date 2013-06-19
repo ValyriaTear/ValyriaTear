@@ -362,12 +362,13 @@ public:
 
     /** \brief Creates indicator text representing a numeric amount of damage dealt
     *** \param amount The amount of damage to display, in hit points. Should be non-zero.
+    *** \param is_sp_damage Tells whether what's removed is hp or sp.
     ***
     *** This function will not actually cause any damage to come to the actor (that is, the actor's
     *** hit points are not modified by this function). The degree of damage relative to the character's
     *** maximum hit points determines the color and size of the text rendered.
     **/
-    void AddDamageIndicator(uint32 amount);
+    void AddDamageIndicator(uint32 amount, bool is_sp_damage);
 
     /** \brief Creates indicator text representing a numeric amount of healing dealt
     *** \param amount The amount of healing to display, in points. Should be non-zero.

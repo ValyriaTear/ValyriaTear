@@ -105,7 +105,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     } else {
         PRINT_WARNING << "no Remove function found in Lua definition file for status: " << table_id << std::endl;
     }
-    script_file.CloseTable();
+    script_file.CloseTable(); // table_id
 
     if(script_file.IsErrorDetected()) {
         if(BATTLE_DEBUG) {

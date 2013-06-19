@@ -524,17 +524,15 @@ void ShopObjectViewer::_SetEquipmentData()
         _phys_header.SetText(UTranslate("ATK:"));
         _mag_header.SetText(UTranslate("M.ATK:"));
         _phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
-        _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL)));
+        _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack()));
         _spirit_number = selected_weapon->GetSpiritSlots().size();
-        _SetElementalIcons(selected_weapon->GetElementalEffects());
         _SetStatusIcons(selected_weapon->GetStatusEffects());
     } else if(selected_armor) {
         _phys_header.SetText(UTranslate("DEF:"));
         _mag_header.SetText(UTranslate("M.DEF:"));
         _phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
-        _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL)));
+        _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense()));
         _spirit_number = selected_armor->GetSpiritSlots().size();
-        _SetElementalIcons(selected_armor->GetElementalEffects());
         _SetStatusIcons(selected_armor->GetStatusEffects());
     }
 
@@ -588,7 +586,7 @@ void ShopObjectViewer::_SetEquipmentData()
             // Case 2: if the player does not have any weapon equipped, the stat diff is equal to the selected weapon's ratings
             if(equipped_weapon == NULL) {
                 phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack());
-                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack());
             }
             // Case 3: if the player already has this weapon equipped, indicate thus and move on to the next character
             else if(selected_weapon->GetID() == equipped_weapon->GetID()) {
@@ -599,8 +597,8 @@ void ShopObjectViewer::_SetEquipmentData()
             else {
                 phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack()) -
                             static_cast<int32>(equipped_weapon->GetPhysicalAttack());
-                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL)) -
-                            static_cast<int32>(equipped_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack()) -
+                            static_cast<int32>(equipped_weapon->GetMagicalAttack());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
@@ -627,7 +625,7 @@ void ShopObjectViewer::_SetEquipmentData()
             // Case 2: if the player does not have any armor equipped, the stat diff is equal to the selected armor's ratings
             if(equipped_armor == NULL) {
                 phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense());
-                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense());
             }
             // Case 3: if the player already has this armor equipped, indicate thus and move on to the next character
             else if(selected_armor->GetID() == equipped_armor->GetID()) {
@@ -638,8 +636,8 @@ void ShopObjectViewer::_SetEquipmentData()
             else {
                 phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense()) -
                             static_cast<int32>(equipped_armor->GetPhysicalDefense());
-                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL)) -
-                            static_cast<int32>(equipped_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense()) -
+                            static_cast<int32>(equipped_armor->GetMagicalDefense());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
@@ -774,16 +772,6 @@ void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 mag_d
     }
 }
 
-void ShopObjectViewer::_SetElementalIcons(const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& elemental_effects)
-{
-    _elemental_icons.clear();
-    for(std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
-            it != elemental_effects.end(); ++it) {
-        if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _elemental_icons.push_back(GlobalManager->Media().GetElementalIcon(it->first, it->second));
-    }
-}
-
 void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects)
 {
     _status_icons.clear();
@@ -870,29 +858,29 @@ void ShopObjectViewer::_DrawEquipment()
             j -= 25.0f;
         }
     }
-    VideoManager->MoveRelative(j, -35.0f);
-
-    // Draw elemental effect icons
-    uint32 element_size = _elemental_icons.size();
-    VideoManager->MoveRelative((18.0f * element_size) - 12.0f, 0.0f);
-    for(uint32 i = 0; i < element_size; ++i) {
-        _elemental_icons[i]->Draw();
-        VideoManager->MoveRelative(-18.0f, 0.0f);
-    }
-    VideoManager->MoveRelative(0.0f, -25.0f);
+    VideoManager->MoveRelative(j, -65.0f);
 
     // Draw status effects icons
-    element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
     VideoManager->MoveRelative((18.0f * element_size), 0.0f);
     for(uint32 i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
+    VideoManager->MoveRelative(0.0f, 20.0f);
+    if (_status_icons.size() > 9) {
+        element_size = _status_icons.size();
+        VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
+        for(uint32 i = 9; i < element_size; ++i) {
+            _status_icons[i]->Draw();
+            VideoManager->MoveRelative(-18.0f, 0.0f);
+        }
+    }
 
     // Split character and skills display depending on the current view
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(210.0f, -20.0f);
+        VideoManager->MoveRelative(210.0f, -30.0f);
     }
     else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
         // In info view mode, draw on the left side

@@ -252,11 +252,6 @@ private:
     //! \brief A pointer to the actor that this class supervises effects for
     BattleActor *_actor;
 
-    // TODO: support for elemental effects may be added here at a later time
-//	//! \brief Contains all active element effects
-// 	std::vector<BattleElementEffect*> _element_effects;
-//vt_global::GLOBAL_ELEMENTAL_TOTAL <-- Reserve this
-
     //! \brief Contains all possible status effects.
     //! The vector is initialized with the size of all possible status effects slots.
     //! Inactive status effect are NULL pointers.

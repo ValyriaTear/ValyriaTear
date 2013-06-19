@@ -281,13 +281,10 @@ weapons[10014] = {
         -- TODO: Add 1 fire salamander
     },
 
-    elemental_effects = {
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
-    },
-
     status_effects = {
         [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
-        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+        [vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
     },
 
     battle_animations = {
@@ -335,16 +332,6 @@ weapons[10999] = {
         [11] = 8      -- 8 Small moon juice
     },
 
-    elemental_effects = {
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
-    },
-
     status_effects = {
         [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
         [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
@@ -353,7 +340,14 @@ weapons[10999] = {
         [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
         [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
         [vt_global.GameGlobal.GLOBAL_STATUS_HP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_STATUS_SP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
+        [vt_global.GameGlobal.GLOBAL_STATUS_SP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_WATER] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
     },
 
     -- A max of 5 skills can be earned through a piece of equipment.

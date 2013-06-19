@@ -149,10 +149,6 @@ public:
         return _icon_image;
     }
 
-    const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& GetElementalEffects() const {
-        return _elemental_effects;
-    }
-
     const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& GetStatusEffects() const {
         return _status_effects;
     }
@@ -189,11 +185,6 @@ protected:
     //! \brief A loaded icon image of the object at its original size of 60x60 pixels
     vt_video::StillImage _icon_image;
 
-    /** \brief Container that holds the intensity of each type of elemental effect of the object
-    *** Elements with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no elemental bonus
-    **/
-    std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> > _elemental_effects;
-
     /** \brief Container that holds the intensity of each type of status effect of the object
     *** Effects with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no status effect bonus
     **/
@@ -216,9 +207,6 @@ protected:
     *** the open table in the script file and return.
     **/
     void _LoadObjectData(vt_script::ReadScriptDescriptor &script);
-
-    //! \brief Loads elemental effects data
-    void _LoadElementalEffects(vt_script::ReadScriptDescriptor &script);
 
     //! \brief Loads status effects data
     void _LoadStatusEffects(vt_script::ReadScriptDescriptor &script);
@@ -354,10 +342,8 @@ public:
         return _physical_attack;
     }
 
-    uint32 GetMagicalAttack(GLOBAL_ELEMENTAL element) const {
-        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
-            element = GLOBAL_ELEMENTAL_NEUTRAL;
-        return _magical_attack[element];
+    uint32 GetMagicalAttack() const {
+        return _magical_attack;
     }
 
     uint32 GetUsableBy() const {
@@ -390,7 +376,7 @@ private:
     uint32 _physical_attack;
 
     //! \brief The amount of magical damage that the weapon causes for each elements.
-    uint32 _magical_attack[GLOBAL_ELEMENTAL_TOTAL];
+    uint32 _magical_attack;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
@@ -444,10 +430,8 @@ public:
         return _physical_defense;
     }
 
-    uint32 GetMagicalDefense(GLOBAL_ELEMENTAL element) const {
-        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
-            element = GLOBAL_ELEMENTAL_NEUTRAL;
-        return _magical_defense[element];
+    uint32 GetMagicalDefense() const {
+        return _magical_defense;
     }
 
     uint32 GetUsableBy() const {
@@ -468,7 +452,7 @@ private:
     uint32 _physical_defense;
 
     //! \brief The amount of magical defense that the armor provides against each elements
-    uint32 _magical_defense[GLOBAL_ELEMENTAL_TOTAL];
+    uint32 _magical_defense;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information

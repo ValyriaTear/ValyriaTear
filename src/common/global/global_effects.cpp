@@ -50,8 +50,6 @@ std::string GetElementName(GLOBAL_ELEMENTAL type)
     }
 }
 
-
-
 std::string GetStatusName(GLOBAL_STATUS type)
 {
     std::string result;
@@ -70,24 +68,10 @@ std::string GetStatusName(GLOBAL_STATUS type)
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << type << std::endl;
     }
 
-    if(result == "") {
+    if(result.empty()) {
         result = Translate("Invalid Status");
     }
     return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// GlobalElementalEffect class
-////////////////////////////////////////////////////////////////////////////////
-
-void GlobalElementalEffect::IncrementIntensity(uint8 amount)
-{
-    vt_global::IncrementIntensity(_intensity, amount);
-}
-
-void GlobalElementalEffect::DecrementIntensity(uint8 amount)
-{
-    vt_global::DecrementIntensity(_intensity, amount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
