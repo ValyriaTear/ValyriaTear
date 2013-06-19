@@ -538,17 +538,17 @@ bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
         return true;
     } else {
         // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
-        if((obj->GetTradeCount() >= obj->GetStockCount()))
+        if((obj->GetTradeCount() > obj->GetStockCount()))
             return false;
 
-        if(obj->GetObject()->GetTradeConditions().size() < 1)
+        if(obj->GetObject()->GetTradeConditions().empty())
             return false;
 
         for(uint32 i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
             if(!GlobalManager->IsObjectInInventory(obj->GetObject()->GetTradeConditions()[i].first))
                 return false;
 
-            if(obj->GetTradeCount() * obj->GetObject()->GetTradeConditions()[i].second >= GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first))
+            if(obj->GetTradeCount() * obj->GetObject()->GetTradeConditions()[i].second > GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first))
                 return false;
         }
 
