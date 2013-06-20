@@ -131,18 +131,66 @@ function _CreateObjects()
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
-    object = CreateObject(Map, "Tree Small3", 23, 18);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 40, 14);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Big1", 4, 41);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock2", 1, 27);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Little2", 15, 8);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Tiny4", 29, 37);
-    Map:AddGroundObject(object);
+    -- Objects array
+    local map_objects = {
+        --  near the bridge
+        { "Tree Big1", 126, 88 },
+        { "Tree Big1", 127, 94 },
+        { "Tree Big2", 124, 98 },
+        { "Tree Big2", 110, 98 },
+
+        -- Right border
+        { "Tree Big2", 126, 62 },
+        { "Tree Big2", 126, 56 },
+        { "Tree Big2", 127, 49 },
+        { "Tree Big2", 121, 52 },
+        { "Tree Big2", 117, 50 },
+        { "Tree Big2", 121, 58 },
+        { "Tree Big1", 123, 60 },
+        { "Tree Big2", 125, 51 },
+        { "Rock2", 124, 64 },
+        { "Rock2", 123, 66.5 },
+        { "Rock2", 122, 69 },
+        { "Rock1", 111, 45 },
+
+        { "Tree Big2", 105, 38 },
+        { "Tree Big1", 117, 37 },
+        { "Tree Big2", 114, 47 },
+        { "Tree Big2", 109, 48 },
+        { "Tree Big1", 105, 46 },
+    }
+
+    -- Loads the trees according to the array
+    for my_index, my_array in pairs(map_objects) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        Map:AddGroundObject(object);
+    end
+
+    -- grass array
+    local map_grass = {
+        --  right border
+        { "Grass Clump1", 119, 67 },
+        { "Grass Clump1", 125, 65 },
+        { "Grass Clump1", 127, 68 },
+        { "Grass Clump1", 122, 71 },
+        { "Grass Clump1", 126, 72 },
+        { "Grass Clump1", 118, 51 },
+        { "Grass Clump1", 122, 47 },
+        { "Grass Clump1", 112, 69 },
+
+        { "Grass Clump1", 105.5, 47 },
+
+    }
+
+    -- Loads the grass clumps according to the array
+    for my_index, my_array in pairs(map_grass) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        Map:AddGroundObject(object);
+    end
+
 end
 
 function _CreateEnemies()
