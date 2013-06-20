@@ -685,6 +685,15 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
         _particles[i].y += emitter._y;
         break;
     }
+    case EMITTER_SHAPE_ELLIPSE: {
+        float angle = RandomFloat(0.0f, UTILS_2PI);
+        _particles[i].x = emitter._x * cosf(angle);
+        _particles[i].y = emitter._y * sinf(angle);
+        // Apply offset
+        _particles[i].x += emitter._x2;
+        _particles[i].y += emitter._y2;
+        break;
+    }
     case EMITTER_SHAPE_FILLED_CIRCLE: {
         float radius_squared = emitter._radius;
         radius_squared *= radius_squared;

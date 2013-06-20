@@ -66,10 +66,10 @@ enum EMITTER_SHAPE {
     EMITTER_SHAPE_POINT            =  0,   //! point (_x, _y)
     EMITTER_SHAPE_LINE             =  1,   //! line from (_x, _y) to (_x2, _y2)
     EMITTER_SHAPE_CIRCLE           =  2,   //! outlined circle with radius of _radius, and transposed by (_x, _y)
-    EMITTER_SHAPE_FILLED_CIRCLE    =  3,   //! filled circle with radius of _radius, and transposed by (_x, _y)
-    EMITTER_SHAPE_FILLED_RECTANGLE =  4,   //! filled rectangle from (_x, _y) to (_x2, _y2)
-
-    EMITTER_SHAPE_TOTAL = 5
+    EMITTER_SHAPE_ELLIPSE          =  3,   //! outlined ellipse with two different lengths at (_x) and small one (_y), and transposed by (_x2, _y2)
+    EMITTER_SHAPE_FILLED_CIRCLE    =  4,   //! filled circle with radius of _radius, and transposed by (_x, _y)
+    EMITTER_SHAPE_FILLED_RECTANGLE =  5,   //! filled rectangle from (_x, _y) to (_x2, _y2)
+    EMITTER_SHAPE_TOTAL            =  6
 };
 
 /*!***************************************************************************

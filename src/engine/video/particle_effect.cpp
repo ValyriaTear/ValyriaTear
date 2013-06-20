@@ -115,6 +115,8 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
             sys_def.emitter._shape = EMITTER_SHAPE_POINT;
         else if(!strcasecmp(shape_string.c_str(), "line"))
             sys_def.emitter._shape = EMITTER_SHAPE_LINE;
+        else if(!strcasecmp(shape_string.c_str(), "ellipse outline"))
+            sys_def.emitter._shape = EMITTER_SHAPE_ELLIPSE;
         else if(!strcasecmp(shape_string.c_str(), "circle outline"))
             sys_def.emitter._shape = EMITTER_SHAPE_CIRCLE;
         else if(!strcasecmp(shape_string.c_str(), "circle"))
