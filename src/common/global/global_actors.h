@@ -983,6 +983,10 @@ public:
         return _permanent_skills;
     }
 
+    const std::vector<GLOBAL_INTENSITY>& GetEquipementStatusEffects() const {
+        return _equipment_status_effects;
+    }
+
     uint32 GetHitPointsGrowth() const {
         return _hit_points_growth;
     }

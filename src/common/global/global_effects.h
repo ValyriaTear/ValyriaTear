@@ -28,6 +28,8 @@
 
 #include "global_utils.h"
 
+#include "engine/system.h"
+
 namespace vt_global
 {
 
@@ -61,10 +63,9 @@ class GlobalStatusEffect
 {
 public:
     /** \param type The status type that this class object should represent
-    *** \param intensity The intensity of the status (default value == GLOBAL_INTENSITY_NEUTRAL)
+    *** \param intensity The intensity of the status.
     **/
-    GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
-        _type(type), _intensity(intensity) {}
+    GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL);
 
     virtual ~GlobalStatusEffect()
     {}
@@ -98,12 +99,30 @@ public:
     **/
     virtual bool DecrementIntensity(uint8 amount);
 
+    vt_system::SystemTimer *GetUpdateTimer() {
+        return &_update_timer;
+    }
+
+    //! \brief Tells wether the effect should update only when its update timer has finished.
+    bool IsUsingUpdateTimer() const {
+        return _use_update_timer;
+    }
+
 protected:
     //! \brief The type of status that the object represents
     GLOBAL_STATUS _type;
 
     //! \brief The intensity level of this status effect
     GLOBAL_INTENSITY _intensity;
+
+    //! \brief A timer used when the effect should call its Update function after a certain time
+    //! E.g.: When poisoning a character the poison effect shouldn't be applied every cycles,
+    //! but every few seconds.
+    vt_system::SystemTimer _update_timer;
+
+    //! \brief Tells whether the update timer should be used.
+    bool _use_update_timer;
+
 }; // class GlobalStatusEffect
 
 } // namespace vt_global

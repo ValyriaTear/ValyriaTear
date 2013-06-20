@@ -531,6 +531,18 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
 
     // Prepare the flying height of potential ammo weapons
     _ammo.SetFlyingHeight(GetSpriteHeight() / 2.0f);
+
+    // Apply passive status effect from equipment
+    const std::vector<GLOBAL_INTENSITY>& passive_effects = _global_character->GetEquipementStatusEffects();
+    for (uint32 i = 0; i < passive_effects.size(); ++i) {
+        GLOBAL_INTENSITY intensity = passive_effects.at(i);
+
+        if (intensity == GLOBAL_INTENSITY_NEUTRAL)
+            continue;
+
+        GLOBAL_STATUS status_effect = (GLOBAL_STATUS) i;
+        _effects_supervisor->AddPassiveStatusEffect(status_effect, intensity);
+    }
 }
 
 void BattleCharacter::ResetActor()

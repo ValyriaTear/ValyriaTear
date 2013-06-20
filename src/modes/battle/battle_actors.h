@@ -376,6 +376,11 @@ public:
         _is_stunned = stun;
     }
 
+    //! \brief Tells whether the actor is stunned.
+    bool IsStunned() const {
+        return _is_stunned;
+    }
+
     /** \brief Updates the state of the actor
     ***
     *** The optional boolean parameter is primarily used by battle sequences which desire to update the sprite graphics

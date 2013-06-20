@@ -48,12 +48,10 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     GlobalStatusEffect(type, intensity),
     _affected_actor(actor),
     _timer(0),
-    _update_timer(0),
-    _use_update_timer(false),
     _icon_image(NULL),
     _intensity_changed(false)
 {
-    // --- (1): Check that the constructor arguments are valid
+    // Check that the constructor arguments are valid
     if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received an invalid type argument: " << type << std::endl;
         return;
@@ -70,13 +68,12 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     // Make sure that a table entry exists for this status element
     uint32 table_id = static_cast<uint32>(type);
     ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-    if(script_file.DoesTableExist(table_id) == false) {
+    if(!script_file.OpenTable(table_id)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
         return;
     }
 
     // Read in the status effect's property data
-    script_file.OpenTable(table_id);
     _name = script_file.ReadString("name");
 
     // Read the fall back duration when none is given.
@@ -84,48 +81,40 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
         duration = script_file.ReadUInt("default_duration");
     _timer.SetDuration(duration);
 
-    uint32 update_every = script_file.ReadUInt("update_every");
-    if (update_every > 0)
-        _update_timer.SetDuration(update_every);
-
-    if(script_file.DoesFunctionExist("Apply")) {
-        _apply_function = script_file.ReadFunctionPointer("Apply");
+    if(script_file.DoesFunctionExist("BattleApply")) {
+        _apply_function = script_file.ReadFunctionPointer("BattleApply");
     } else {
-        PRINT_WARNING << "no Apply function found in Lua definition file for status: " << table_id << std::endl;
+        PRINT_WARNING << "No BattleApply() function found in Lua definition file for status: " << table_id << std::endl;
     }
 
-    if(script_file.DoesFunctionExist("Update")) {
-        _update_function = script_file.ReadFunctionPointer("Update");
+    if(script_file.DoesFunctionExist("BattleUpdate")) {
+        _update_function = script_file.ReadFunctionPointer("BattleUpdate");
     } else {
-        PRINT_WARNING << "no Update function found in Lua definition file for status: " << table_id << std::endl;
+        PRINT_WARNING << "No BattleUpdate() function found in Lua definition file for status: " << table_id << std::endl;
     }
 
-    if(script_file.DoesFunctionExist("Remove")) {
-        _remove_function = script_file.ReadFunctionPointer("Remove");
+    if(script_file.DoesFunctionExist("BattleUpdatePassive")) {
+        _update_function = script_file.ReadFunctionPointer("BattleUpdatePassive");
     } else {
-        PRINT_WARNING << "no Remove function found in Lua definition file for status: " << table_id << std::endl;
+        PRINT_WARNING << "No BattleUpdatePassive() function found in Lua definition file for status: " << table_id << std::endl;
+    }
+
+    if(script_file.DoesFunctionExist("BattleRemove")) {
+        _remove_function = script_file.ReadFunctionPointer("BattleRemove");
+    } else {
+        PRINT_WARNING << "No BattleRemove() function found in Lua definition file for status: " << table_id << std::endl;
     }
     script_file.CloseTable(); // table_id
 
     if(script_file.IsErrorDetected()) {
-        if(BATTLE_DEBUG) {
-            PRINT_WARNING << "one or more errors occurred while reading status effect data - they are listed below"
-                          << std::endl << script_file.GetErrorMessages() << std::endl;
-        }
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "one or more errors occurred while reading status effect data - they are listed below"
+            << std::endl << script_file.GetErrorMessages() << std::endl;
     }
 
     // Init the effect timer
     _timer.EnableManualUpdate();
     _timer.Reset();
     _timer.Run();
-
-    // Init the update effect timer
-    if (update_every > 0) {
-        _update_timer.EnableManualUpdate();
-        _update_timer.Reset();
-        _update_timer.Run();
-        _use_update_timer = true;
-    }
 
     _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
 }
@@ -196,6 +185,47 @@ EffectsSupervisor::~EffectsSupervisor()
         delete(*it);
     }
     _status_effects.clear();
+}
+
+void EffectsSupervisor::_UpdatePassive()
+{
+    for(uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
+        BattleStatusEffect& effect = _equipment_status_effects.at(i);
+
+        if (!effect.GetUpdateFunction().is_valid())
+            continue;
+
+        BattleMode *BM = BattleMode::CurrentInstance();
+        uint32 update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
+
+        vt_system::SystemTimer *update_timer = effect.GetUpdateTimer();
+
+        // Update the update timer if it is running
+        bool use_update_timer = effect.IsUsingUpdateTimer();
+        if (use_update_timer)
+            update_timer->Update(update_time);
+
+        if (!use_update_timer || update_timer->IsFinished()) {
+
+            // Call the update passive function
+            try {
+                ScriptCallFunction<void>(effect.GetUpdatePassiveFunction(), _actor, effect.GetIntensity());
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while loading status effect BattleUpdatePassive() function" << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while loading status effect BattleUpdatePassive() function" << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
+
+            // Restart the update timer when needed
+            if (use_update_timer) {
+                update_timer->Reset();
+                update_timer->Run();
+            }
+        }
+    }
+
 }
 
 void EffectsSupervisor::Update()
@@ -277,6 +307,8 @@ void EffectsSupervisor::Update()
             }
         }
     }
+
+    _UpdatePassive();
 }
 
 void EffectsSupervisor::Draw()
@@ -383,6 +415,12 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 
     return false;
 } // bool EffectsSupervisor::ChangeStatus( ... )
+
+void EffectsSupervisor::AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_effect, vt_global::GLOBAL_INTENSITY intensity)
+{
+    BattleStatusEffect effect(status_effect, intensity, _actor, 0);
+    _equipment_status_effects.push_back(effect);
+}
 
 void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
         uint32 duration)

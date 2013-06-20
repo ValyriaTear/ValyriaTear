@@ -21,10 +21,7 @@
 #ifndef __BATTLE_EFFECTS_HEADER__
 #define __BATTLE_EFFECTS_HEADER__
 
-#include "utils.h"
-
 #include "engine/script/script.h"
-#include "engine/system.h"
 
 #include "common/global/global_effects.h"
 
@@ -43,16 +40,9 @@ namespace private_battle
 *** image icon, a timer, and script functions to implement the effect.
 ***
 *** This class represents an active effect on a single actor. Objects of this
-*** class are not shared on multiple actors in any form. Status effects only
-*** have positive intensity values and will naturally decrease in intensity over
-*** time until they reach the neutral intensity level. Some types of status
-*** effects have an opposite type. For example, one status effect may boost the
-*** actor's strength while another drains strength. We do not allow these two
-*** statuses to co-exist on the same actor, thus the two have a cancelation effect
-*** on each other and the stronger (more intense) effect will remain.
-***
-*** \todo Implement opposite types for status effects and possibly add a boolean
-*** member to indicate whether the status is aiding or ailing.
+*** class are not shared on multiple actors in any form. Status effects
+*** intensity values will naturally decrease in intensity over
+*** time until they reach the neutral intensity level.
 *** ***************************************************************************/
 class BattleStatusEffect : public vt_global::GlobalStatusEffect
 {
@@ -102,6 +92,11 @@ public:
         return _update_function;
     }
 
+    //! \brief Returns the update script function of this effect when used as passive effect.
+    const ScriptObject& GetUpdatePassiveFunction() const {
+        return _update_passive_function;
+    }
+
     const ScriptObject& GetRemoveFunction() const {
         return _remove_function;
     }
@@ -109,15 +104,6 @@ public:
     //! \note Returns a pointer instead of a reference so that Lua functions can access the timer
     vt_system::SystemTimer *GetTimer() {
         return &_timer;
-    }
-
-    vt_system::SystemTimer *GetUpdateTimer() {
-        return &_update_timer;
-    }
-
-    //! \brief Tells wether the effect should update only when its update timer has finished.
-    bool IsUsingUpdateTimer() const {
-        return _use_update_timer;
     }
 
     vt_video::StillImage *GetIconImage() const {
@@ -143,6 +129,9 @@ private:
     //! \brief A pointer to the script function that updates any necessary changes caused by the effect
     ScriptObject _update_function;
 
+    //! The UpdatePassive() scripted function of this effect when used as passive one (from equipment)
+    ScriptObject _update_passive_function;
+
     //! \brief A pointer to the script function that removes the effect and restores the actor to their original state
     ScriptObject _remove_function;
 
@@ -151,14 +140,6 @@ private:
 
     //! \brief A timer used to determine how long the status effect lasts
     vt_system::SystemTimer _timer;
-
-    //! \brief A timer used when the effect should call its Update function after a certain time
-    //! E.g.: When poisoning a character the poison effect shouldn't be applied every cycles,
-    //! but every 2-3 seconds.
-    vt_system::SystemTimer _update_timer;
-
-    //! \brief Tells whether the update timer should be used.
-    bool _use_update_timer;
 
     //! \brief A pointer to the icon image that represents the status. Will be NULL if the status is invalid
     vt_video::StillImage *_icon_image;
@@ -248,6 +229,10 @@ public:
     **/
     bool ChangeStatus(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity, uint32 duration = 0);
 
+    //! \brief Adds a passive (neverending) status effect and only updates it,
+    //! calling the respective UpdatePassive() script function.
+    void AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_effect, vt_global::GLOBAL_INTENSITY intensity);
+
 private:
     //! \brief A pointer to the actor that this class supervises effects for
     BattleActor *_actor;
@@ -256,6 +241,10 @@ private:
     //! The vector is initialized with the size of all possible status effects slots.
     //! Inactive status effect are NULL pointers.
     std::vector<BattleStatusEffect *> _status_effects;
+
+    //! \brief Passive (from equipment) status effects.
+    //! Those status effects can never be cancelled. They are simply updated.
+    std::vector<BattleStatusEffect> _equipment_status_effects;
 
     /** \brief Creates a new status effect and applies it to the actor
     *** \param status The type of the status to create
@@ -276,6 +265,10 @@ private:
     *** NULL immediately after the function call returns.
     **/
     void _RemoveStatus(BattleStatusEffect *status_effect);
+
+    //! \brief Updates the passive (equipment) status effects
+    //! \note This method is called from within Update()
+    void _UpdatePassive();
 }; // class EffectsSupervisor
 
 } // namespace private_battle
