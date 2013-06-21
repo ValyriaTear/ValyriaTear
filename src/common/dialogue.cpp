@@ -22,6 +22,8 @@
 
 #include "engine/video/video.h"
 
+#include <iostream>
+
 using namespace vt_system;
 using namespace vt_utils;
 using namespace vt_video;

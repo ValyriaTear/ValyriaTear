@@ -36,6 +36,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 namespace vt_utils
 {

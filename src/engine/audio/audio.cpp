@@ -20,11 +20,12 @@
 ***
 *** \note This code uses the OpenAL audio library. See http://www.openal.com/
 *** ***************************************************************************/
-#include <iostream>
 
 #include "engine/audio/audio.h"
 #include "engine/system.h"
 #include "engine/mode_manager.h"
+
+#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_system;

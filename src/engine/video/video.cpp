@@ -514,6 +514,27 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
     glTranslatef(0.03125, 0.03125, 0);
 }
 
+void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
+{
+    static GLint viewport_dimensions[4] = {(GLint)0};
+    glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
+    x = (float) viewport_dimensions[0];
+    y = (float) viewport_dimensions[1];
+    width = (float) viewport_dimensions[2];
+    height = (float) viewport_dimensions[3];
+}
+
+void VideoEngine::SetViewport(float x, float y, float width, float height)
+{
+    if(width <= 0 || height <= 0)
+    {
+        PRINT_WARNING << "attempted to set an invalid viewport size: " << x << "," << y
+            << " at " << width << ":" << height << std::endl;
+        return;
+    }
+    glViewport((GLint) x, (GLint)y, (GLsizei)width, (GLsizei)height);
+}
+
 void VideoEngine::EnableScissoring()
 {
     _current_context.scissoring_enabled = true;

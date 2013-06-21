@@ -21,6 +21,8 @@
 
 #include "engine/video/particle_effect.h"
 
+#include <iostream>
+
 using namespace vt_script;
 using namespace vt_video;
 

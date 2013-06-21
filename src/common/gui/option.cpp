@@ -15,10 +15,11 @@
 *** \brief   Header file for OptionBox GUI control and supporting classes
 *** ***************************************************************************/
 
-#include <sstream>
-
 #include "option.h"
 #include "engine/video/video.h"
+
+#include <iostream>
+#include <sstream>
 
 using namespace vt_utils;
 using namespace vt_video;

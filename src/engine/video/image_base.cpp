@@ -25,6 +25,7 @@ extern "C" {
 
 #include <cstdarg>
 #include <math.h>
+#include <iostream>
 
 #include <SDL_image.h>
 

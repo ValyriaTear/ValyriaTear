@@ -532,4 +532,43 @@ void SystemEngine::UnlockThread(Semaphore *s)
 #endif
 }
 
+template <class T> struct generic_class_func_info {
+    static int SpawnThread_Intermediate(void *vptr) {
+        ((((generic_class_func_info <T> *) vptr)->myclass)->*(((generic_class_func_info <T> *) vptr)->func))();
+        return 0;
+    }
+
+    T *myclass;
+    void (T::*func)();
+};
+
+
+
+template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *myclass)
+{
+#if (THREAD_TYPE == SDL_THREADS)
+    Thread *thread;
+    static generic_class_func_info <T> gen;
+    gen.func = func;
+    gen.myclass = myclass;
+
+    // Winter Knight: There is a potential, but unlikely race condition here.
+    // gen may be overwritten prematurely if this function, SpawnThread, gets
+    // called a second time before SpawnThread_Intermediate calls myclass->*func
+    // This will result in a segfault.
+    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen);
+    if(thread == NULL) {
+        PRINT_ERROR << "Unable to create thread: " << SDL_GetError() << std::endl;
+        return NULL;
+    }
+    return thread;
+#elif (THREAD_TYPE == NO_THREADS)
+    (myclass->*func)();
+    return 1;
+#else
+    PRINT_ERROR << "Invalid THREAD_TYPE." << std::endl;
+    return 0;
+#endif
+}
+
 } // namespace vt_system

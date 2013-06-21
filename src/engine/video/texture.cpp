@@ -19,6 +19,8 @@
 
 #include "texture.h"
 
+#include <iostream>
+
 using namespace vt_utils;
 
 namespace vt_video

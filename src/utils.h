@@ -53,7 +53,6 @@
 #ifndef __UTILS_HEADER__
 #define __UTILS_HEADER__
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -64,14 +63,6 @@
 #include <SDL/SDL_config.h>
 #ifdef HAVE_STDINT_H
 #include <stdint.h> // Using the C header, because the C++ header, <cstdint> is only available in ISO C++0x
-#endif
-
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
 #endif
 
 #ifdef _WIN32
@@ -450,23 +441,15 @@ protected:
 public:
     //! \brief Creates and returns an instance of the singleton class
     static T *SingletonCreate() {
-        if(_singleton_reference == NULL) {
+        if(_singleton_reference == NULL)
             _singleton_reference = new T();
-        } else {
-            if(UTILS_DEBUG)
-                std::cerr << "UTILS WARNING: Singleton::SingletonCreate() was invoked when the class object was already instantiated" << std::endl;
-        }
         return _singleton_reference;
     }
 
     //! \brief Destroys the singleton class instance
     static void SingletonDestroy() {
-        if(_singleton_reference != NULL) {
+        if(_singleton_reference != NULL)
             delete _singleton_reference;
-        } else {
-            if(UTILS_DEBUG)
-                std::cerr << "UTILS WARNING: Singleton::SingletonDestroy() was invoked when the class object was not instantiated" << std::endl;
-        }
         _singleton_reference = NULL;
     }
 

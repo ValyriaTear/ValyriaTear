@@ -22,11 +22,12 @@
 *** requests integer arguments.
 *** ***************************************************************************/
 
+#include "video.h"
+
 #include <cassert>
 #include <cstdarg>
 #include <math.h>
-
-#include "video.h"
+#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_video::private_video;

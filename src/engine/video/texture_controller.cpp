@@ -19,6 +19,8 @@
 
 #include "texture_controller.h"
 
+#include <iostream>
+
 using namespace vt_utils;
 using namespace vt_video::private_video;
 

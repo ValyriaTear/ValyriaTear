@@ -15,11 +15,12 @@
 *** \brief   Source file for Interpolator class
 *** ***************************************************************************/
 
+#include "interpolator.h"
+
 #include <cassert>
 #include <cstdarg>
 #include <math.h>
-
-#include "interpolator.h"
+#include <iostream>
 
 namespace vt_mode_manager
 {

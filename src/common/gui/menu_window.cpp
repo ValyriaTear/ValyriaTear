@@ -15,10 +15,11 @@
 *** \brief   Header file for menu window class
 *** ***************************************************************************/
 
-#include <sstream>
-
 #include "engine/video/video.h"
 #include "menu_window.h"
+
+#include <iostream>
+#include <sstream>
 
 using namespace vt_utils;
 using namespace vt_video;

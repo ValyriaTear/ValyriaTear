@@ -26,6 +26,8 @@
 #include "audio_descriptor.h"
 #include "engine/system.h"
 
+#include <iostream>
+
 using namespace vt_audio::private_audio;
 
 namespace vt_audio

@@ -23,7 +23,9 @@
 *** ***************************************************************************/
 
 #include "audio_input.h"
+
 #include <SDL/SDL_endian.h>
+#include <iostream>
 
 namespace vt_audio
 {
