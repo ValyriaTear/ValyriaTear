@@ -713,7 +713,8 @@ void BattleCharacter::DrawSprite()
     _current_sprite_animation->Draw();
     _current_weapon_animation.Draw();
 
-    if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
+    if(_is_stunned && (_state == ACTOR_STATE_COMMAND || _state == ACTOR_STATE_IDLE ||
+                       _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
         VideoManager->MoveRelative(0, -GetSpriteHeight());
         BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
     }
