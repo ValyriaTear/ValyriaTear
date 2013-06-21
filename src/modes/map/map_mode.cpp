@@ -746,7 +746,8 @@ void MapMode::_UpdateExplore()
                     treasure_object->Open();
                 }
             } else if(obj->GetType() == SAVE_TYPE) {
-                SaveMode *save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition());
+                // Make sure the character will be centered in the save point
+                SaveMode *save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition() - 1.0f);
                 ModeManager->Push(save_mode, false, false);
             }
         }
