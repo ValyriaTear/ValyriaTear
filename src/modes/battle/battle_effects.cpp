@@ -94,7 +94,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     }
 
     if(script_file.DoesFunctionExist("BattleUpdatePassive")) {
-        _update_function = script_file.ReadFunctionPointer("BattleUpdatePassive");
+        _update_passive_function = script_file.ReadFunctionPointer("BattleUpdatePassive");
     } else {
         PRINT_WARNING << "No BattleUpdatePassive() function found in Lua definition file for status: " << table_id << std::endl;
     }
@@ -192,18 +192,17 @@ void EffectsSupervisor::_UpdatePassive()
     for(uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
         BattleStatusEffect& effect = _equipment_status_effects.at(i);
 
-        if (!effect.GetUpdateFunction().is_valid())
+        if (!effect.GetUpdatePassiveFunction().is_valid())
             continue;
 
-        BattleMode *BM = BattleMode::CurrentInstance();
-        uint32 update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
-
-        vt_system::SystemTimer *update_timer = effect.GetUpdateTimer();
-
         // Update the update timer if it is running
+        vt_system::SystemTimer *update_timer = effect.GetUpdateTimer();
         bool use_update_timer = effect.IsUsingUpdateTimer();
-        if (use_update_timer)
+        if (use_update_timer) {
+            BattleMode *BM = BattleMode::CurrentInstance();
+            uint32 update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
             update_timer->Update(update_time);
+        }
 
         if (!use_update_timer || update_timer->IsFinished()) {
 
