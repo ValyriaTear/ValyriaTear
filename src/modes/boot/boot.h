@@ -204,6 +204,11 @@ private:
     **/
     void _ReloadTranslatableMenus();
 
+    /** \brief Reloads the options window to display the new default GUI skin.
+    *** Called in the video options menu.
+    **/
+    void _ReloadGUIDefaultSkin();
+
     //! \brief Setup functions for the various boot menus
     //@{
     void _SetupMainMenu();
@@ -260,6 +265,8 @@ private:
     void _OnResolution1280x1024();
     void _OnBrightnessLeft();
     void _OnBrightnessRight();
+    void _OnUIThemeLeft();
+    void _OnUIThemeRight();
     //@}
 
     //! \brief Handler methods for the audio options menu
