@@ -984,7 +984,7 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
                 return false;
         } else  { // The bottom boundary was exceeded
             if(_vertical_wrap_mode == VIDEO_WRAP_MODE_STRAIGHT) {
-                if(row + offset >= _number_rows)
+                if(row + offset > _number_rows)
                     offset -= GetNumberOptions();
             }
             // Make sure horizontal wrapping is allowed if vertical wrap mode is shifting
