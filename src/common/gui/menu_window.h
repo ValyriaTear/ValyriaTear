@@ -104,6 +104,9 @@ public:
     ~MenuSkin()
     {}
 
+    //! \brief The file name for the cursor image for this skin.
+    std::string cursor_file;
+
     /** \brief A 2d array that holds the border images for the menu skin
     *** The entries in this array represent the following parts:
     *** - borders[0][0]: upper left corner
