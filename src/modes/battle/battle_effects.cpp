@@ -41,10 +41,62 @@ namespace private_battle
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-// BattleStatusEffect class
+// PassiveBattleStatusEffect class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, BattleActor *actor, uint32 duration) :
+PassiveBattleStatusEffect::PassiveBattleStatusEffect(GLOBAL_STATUS type,
+                                                     GLOBAL_INTENSITY intensity,
+                                                     BattleActor *actor):
+    GlobalStatusEffect(type, intensity),
+    _affected_actor(actor),
+    _icon_image(NULL)
+{
+    // Check that the constructor arguments are valid
+    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received an invalid type argument: " << type << std::endl;
+        return;
+    }
+    if((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received an invalid intensity argument: " << intensity << std::endl;
+        return;
+    }
+    if(actor == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor argument" << std::endl;
+        return;
+    }
+
+    // Make sure that a table entry exists for this status element
+    uint32 table_id = static_cast<uint32>(type);
+    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
+    if(!script_file.OpenTable(table_id)) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
+        return;
+    }
+
+    // Read in the status effect's property data
+    _name = script_file.ReadString("name");
+
+    if(script_file.DoesFunctionExist("BattleUpdatePassive")) {
+        _update_passive_function = script_file.ReadFunctionPointer("BattleUpdatePassive");
+    } else {
+        PRINT_WARNING << "No BattleUpdatePassive() function found in Lua definition file for status: " << table_id << std::endl;
+    }
+
+    script_file.CloseTable(); // table_id
+
+    if(script_file.IsErrorDetected()) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "one or more errors occurred while reading status effect data - they are listed below"
+            << std::endl << script_file.GetErrorMessages() << std::endl;
+    }
+
+    _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// ActiveBattleStatusEffect class
+////////////////////////////////////////////////////////////////////////////////
+
+ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, BattleActor *actor, uint32 duration) :
     GlobalStatusEffect(type, intensity),
     _affected_actor(actor),
     _timer(0),
@@ -93,12 +145,6 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
         PRINT_WARNING << "No BattleUpdate() function found in Lua definition file for status: " << table_id << std::endl;
     }
 
-    if(script_file.DoesFunctionExist("BattleUpdatePassive")) {
-        _update_passive_function = script_file.ReadFunctionPointer("BattleUpdatePassive");
-    } else {
-        PRINT_WARNING << "No BattleUpdatePassive() function found in Lua definition file for status: " << table_id << std::endl;
-    }
-
     if(script_file.DoesFunctionExist("BattleRemove")) {
         _remove_function = script_file.ReadFunctionPointer("BattleRemove");
     } else {
@@ -119,8 +165,7 @@ BattleStatusEffect::BattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
 }
 
-
-void BattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
+void ActiveBattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
 {
     if((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set status effect to invalid intensity: " << intensity << std::endl;
@@ -132,27 +177,21 @@ void BattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
     _ProcessIntensityChange(no_intensity_change);
 }
 
-
-
-bool BattleStatusEffect::IncrementIntensity(uint8 amount)
+bool ActiveBattleStatusEffect::IncrementIntensity(uint8 amount)
 {
     bool change = GlobalStatusEffect::IncrementIntensity(amount);
     _ProcessIntensityChange(!change);
     return change;
 }
 
-
-
-bool BattleStatusEffect::DecrementIntensity(uint8 amount)
+bool ActiveBattleStatusEffect::DecrementIntensity(uint8 amount)
 {
     bool change = GlobalStatusEffect::DecrementIntensity(amount);
     _ProcessIntensityChange(!change);
     return change;
 }
 
-
-
-void BattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
+void ActiveBattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
 {
     _timer.Reset();
     _timer.Run();
@@ -180,7 +219,7 @@ EffectsSupervisor::EffectsSupervisor(BattleActor *actor) :
 
 EffectsSupervisor::~EffectsSupervisor()
 {
-    for(std::vector<BattleStatusEffect *>::iterator it = _status_effects.begin();
+    for(std::vector<ActiveBattleStatusEffect *>::iterator it = _status_effects.begin();
             it != _status_effects.end(); ++it) {
         delete(*it);
     }
@@ -190,7 +229,7 @@ EffectsSupervisor::~EffectsSupervisor()
 void EffectsSupervisor::_UpdatePassive()
 {
     for(uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
-        BattleStatusEffect& effect = _equipment_status_effects.at(i);
+        PassiveBattleStatusEffect& effect = _equipment_status_effects.at(i);
 
         if (!effect.GetUpdatePassiveFunction().is_valid())
             continue;
@@ -224,7 +263,6 @@ void EffectsSupervisor::_UpdatePassive()
             }
         }
     }
-
 }
 
 void EffectsSupervisor::Update()
@@ -315,7 +353,7 @@ void EffectsSupervisor::Draw()
     // Draw in reverse to not overlap the arrow symbol
     VideoManager->MoveRelative(6.0f * 16.0f, 0.0f);
 
-    for(std::vector<BattleStatusEffect *>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
+    for(std::vector<ActiveBattleStatusEffect *>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
         if(*it) {
             (*it)->GetIconImage()->Draw();
             VideoManager->MoveRelative(-16.0f, 0.0f);
@@ -325,7 +363,7 @@ void EffectsSupervisor::Draw()
 
 void EffectsSupervisor::DrawVertical()
 {
-    for(std::vector<BattleStatusEffect *>::reverse_iterator it = _status_effects.rbegin(); it != _status_effects.rend(); ++it) {
+    for(std::vector<ActiveBattleStatusEffect *>::reverse_iterator it = _status_effects.rbegin(); it != _status_effects.rend(); ++it) {
         if(*it) {
             (*it)->GetIconImage()->Draw();
             VideoManager->MoveRelative(0.0f, 16.0f);
@@ -333,7 +371,7 @@ void EffectsSupervisor::DrawVertical()
     }
 }
 
-void EffectsSupervisor::RemoveAllStatus()
+void EffectsSupervisor::RemoveAllActiveStatusEffects()
 {
     for(uint32 i = 0; i < _status_effects.size(); ++i) {
         _RemoveStatus(_status_effects[i]);
@@ -363,10 +401,10 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 
     // Determine if this status (or its opposite) is already active on the actor
     // Holds a pointer to the active status
-    BattleStatusEffect *active_effect = NULL;
+    ActiveBattleStatusEffect *active_effect = NULL;
 
     // Note: We should never run into the case where both the status and its opposite status are active simultaneously
-    for(std::vector<BattleStatusEffect *>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
+    for(std::vector<ActiveBattleStatusEffect *>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
         if(!(*it))
             continue;
 
@@ -417,7 +455,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
 
 void EffectsSupervisor::AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_effect, vt_global::GLOBAL_INTENSITY intensity)
 {
-    BattleStatusEffect effect(status_effect, intensity, _actor, 0);
+    PassiveBattleStatusEffect effect(status_effect, intensity, _actor);
     _equipment_status_effects.push_back(effect);
 }
 
@@ -438,7 +476,7 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
     if(_status_effects[status])
         _RemoveStatus(_status_effects[status]);
 
-    BattleStatusEffect *new_effect = new BattleStatusEffect(status, intensity, _actor, duration);
+    ActiveBattleStatusEffect *new_effect = new ActiveBattleStatusEffect(status, intensity, _actor, duration);
     _status_effects[status] = new_effect;
 
     if (!new_effect->GetApplyFunction().is_valid()) {
@@ -460,7 +498,7 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
 
 
 
-void EffectsSupervisor::_RemoveStatus(BattleStatusEffect *status_effect)
+void EffectsSupervisor::_RemoveStatus(ActiveBattleStatusEffect *status_effect)
 {
     if(!status_effect)
         return;

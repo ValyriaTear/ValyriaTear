@@ -114,7 +114,7 @@ BattleActor::~BattleActor()
 
 void BattleActor::ResetActor()
 {
-    _effects_supervisor->RemoveAllStatus();
+    _effects_supervisor->RemoveAllActiveStatusEffects();
 
     ResetHitPoints();
     ResetSkillPoints();
@@ -190,7 +190,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         // or In BattleEnemy
 
         // Make the battle engine aware of the actor death
-        _effects_supervisor->RemoveAllStatus();
+        _effects_supervisor->RemoveAllActiveStatusEffects();
         BattleMode::CurrentInstance()->NotifyActorDeath(this);
         break;
     default:
@@ -1013,7 +1013,7 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
         ChangeSpriteAnimation("dying");
 
         // Make the battle engine aware of the actor death
-        _effects_supervisor->RemoveAllStatus();
+        _effects_supervisor->RemoveAllActiveStatusEffects();
         BattleMode::CurrentInstance()->NotifyActorDeath(this);
         break;
     default:

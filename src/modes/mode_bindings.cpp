@@ -761,10 +761,10 @@ void BindModeCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
         [
-            luabind::class_<BattleStatusEffect, vt_global::GlobalStatusEffect>("BattleStatusEffect")
-            .def("GetAffectedActor", &BattleStatusEffect::GetAffectedActor)
-            .def("GetTimer", &BattleStatusEffect::GetTimer)
-            .def("HasIntensityChanged", &BattleStatusEffect::HasIntensityChanged)
+            luabind::class_<ActiveBattleStatusEffect, vt_global::GlobalStatusEffect>("ActiveBattleStatusEffect")
+            .def("GetAffectedActor", &ActiveBattleStatusEffect::GetAffectedActor)
+            .def("GetTimer", &ActiveBattleStatusEffect::GetTimer)
+            .def("HasIntensityChanged", &ActiveBattleStatusEffect::HasIntensityChanged)
         ];
 
     } // End using battle mode namespaces

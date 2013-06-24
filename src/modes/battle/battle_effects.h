@@ -44,7 +44,7 @@ namespace private_battle
 *** intensity values will naturally decrease in intensity over
 *** time until they reach the neutral intensity level.
 *** ***************************************************************************/
-class BattleStatusEffect : public vt_global::GlobalStatusEffect
+class ActiveBattleStatusEffect : public vt_global::GlobalStatusEffect
 {
 public:
     /** \param type The status type that this class object should represent
@@ -52,10 +52,12 @@ public:
     *** \param actor A pointer to the actor affected by the status
     *** \param duration The effect duration, a default value is used when none is given.
     **/
-    BattleStatusEffect(vt_global::GLOBAL_STATUS type, vt_global::GLOBAL_INTENSITY intensity, BattleActor *actor,
-                       uint32 duration = 0);
+    ActiveBattleStatusEffect(vt_global::GLOBAL_STATUS type,
+                             vt_global::GLOBAL_INTENSITY intensity,
+                             BattleActor *actor,
+                             uint32 duration = 0);
 
-    ~BattleStatusEffect()
+    ~ActiveBattleStatusEffect()
     {}
 
     /** \brief Increments the status effect intensity by a positive amount
@@ -92,11 +94,6 @@ public:
         return _update_function;
     }
 
-    //! \brief Returns the update script function of this effect when used as passive effect.
-    const ScriptObject& GetUpdatePassiveFunction() const {
-        return _update_passive_function;
-    }
-
     const ScriptObject& GetRemoveFunction() const {
         return _remove_function;
     }
@@ -129,9 +126,6 @@ private:
     //! \brief A pointer to the script function that updates any necessary changes caused by the effect
     ScriptObject _update_function;
 
-    //! The UpdatePassive() scripted function of this effect when used as passive one (from equipment)
-    ScriptObject _update_passive_function;
-
     //! \brief A pointer to the script function that removes the effect and restores the actor to their original state
     ScriptObject _remove_function;
 
@@ -154,6 +148,63 @@ private:
     **/
     void _ProcessIntensityChange(bool reset_timer_only);
 }; // class BattleStatusEffect : public vt_global::GlobalStatusEffect
+
+
+/** ****************************************************************************
+*** \brief Manages all data related to a single passive status effect in battle
+***
+*** This class extends the GlobalStatusEffect class, which contains nothing
+*** more than two enum members representing the status type and intensity.
+***
+*** This class represents a passive (from equipment) effect on a single actor.
+*** ***************************************************************************/
+class PassiveBattleStatusEffect : public vt_global::GlobalStatusEffect
+{
+public:
+    /** \param type The status type that this class object should represent
+    *** \param intensity The intensity of the status
+    *** \param actor A pointer to the actor affected by the status
+    *** \param duration The effect duration, a default value is used when none is given.
+    **/
+    PassiveBattleStatusEffect(vt_global::GLOBAL_STATUS type, vt_global::GLOBAL_INTENSITY intensity,
+                              BattleActor *actor);
+
+    ~PassiveBattleStatusEffect()
+    {}
+
+    //! \brief Class Member Access Functions
+    //@{
+    const std::string &GetName() const {
+        return _name;
+    }
+
+    BattleActor *GetAffectedActor() const {
+        return _affected_actor;
+    }
+
+    //! \brief Returns the update script function of this passive effect.
+    const ScriptObject& GetUpdatePassiveFunction() const {
+        return _update_passive_function;
+    }
+
+    vt_video::StillImage *GetIconImage() const {
+        return _icon_image;
+    }
+    //@}
+
+private:
+    //! \brief Holds the translated name of the status effect
+    std::string _name;
+
+    //! The UpdatePassive() scripted function of this effect when used as passive one (from equipment)
+    ScriptObject _update_passive_function;
+
+    //! \brief A pointer to the actor that is affected by this status
+    BattleActor *_affected_actor;
+
+    //! \brief A pointer to the icon image that represents the status. Will be NULL if the status is invalid
+    vt_video::StillImage *_icon_image;
+}; // class PassiveBattleStatusEffect : public vt_global::GlobalStatusEffect
 
 
 /** ****************************************************************************
@@ -209,7 +260,7 @@ public:
     *** active and at what intensity before they were removed. If you wish to remove all status while displaying indicators,
     *** use a combination of GetActiveStatusEffects() and repeated calls to ChangeStatus() for each effect.
     **/
-    void RemoveAllStatus();
+    void RemoveAllActiveStatusEffects();
 
     /** \brief Changes the intensity level of a status effect
     *** \param status The status effect type to change
@@ -240,11 +291,11 @@ private:
     //! \brief Contains all possible status effects.
     //! The vector is initialized with the size of all possible status effects slots.
     //! Inactive status effect are NULL pointers.
-    std::vector<BattleStatusEffect *> _status_effects;
+    std::vector<ActiveBattleStatusEffect *> _status_effects;
 
     //! \brief Passive (from equipment) status effects.
     //! Those status effects can never be cancelled. They are simply updated.
-    std::vector<BattleStatusEffect> _equipment_status_effects;
+    std::vector<PassiveBattleStatusEffect> _equipment_status_effects;
 
     /** \brief Creates a new status effect and applies it to the actor
     *** \param status The type of the status to create
@@ -264,7 +315,7 @@ private:
     *** be invalid and should not be used. It is good practice for the caller to set the pointer passed in to this function to
     *** NULL immediately after the function call returns.
     **/
-    void _RemoveStatus(BattleStatusEffect *status_effect);
+    void _RemoveStatus(ActiveBattleStatusEffect *status_effect);
 
     //! \brief Updates the passive (equipment) status effects
     //! \note This method is called from within Update()
