@@ -25,7 +25,7 @@
 #ifndef __AUDIO_HEADER__
 #define __AUDIO_HEADER__
 
-#include "utils.h"
+#include "utils/singleton.h"
 
 #include "audio_descriptor.h"
 #include "audio_effects.h"

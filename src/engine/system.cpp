@@ -19,6 +19,8 @@
 #include "engine/system.h"
 #include "engine/script/script.h"
 
+#include "utils/utils_strings.h"
+
 #ifndef EDITOR_BUILD
 #include "mode_manager.h"
 #endif

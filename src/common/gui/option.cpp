@@ -18,8 +18,9 @@
 #include "option.h"
 #include "engine/video/video.h"
 
+#include "utils/utils_strings.h"
+
 #include <iostream>
-#include <sstream>
 
 using namespace vt_utils;
 using namespace vt_video;

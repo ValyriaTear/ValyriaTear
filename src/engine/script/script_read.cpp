@@ -16,10 +16,11 @@
 *** \brief   Source file for the ReadScriptDescriptor class.
 *** ***************************************************************************/
 
-#include "utils.h"
-
 #include "script.h"
 #include "script_read.h"
+
+#include "utils/utils_files.h"
+#include "utils/utils_strings.h"
 
 using namespace luabind;
 

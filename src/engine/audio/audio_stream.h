@@ -29,7 +29,7 @@
 #include "alc.h"
 #endif
 
-#include "utils.h"
+#include "utils/utils_common.h"
 
 #include "audio_input.h"
 

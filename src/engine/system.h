@@ -25,7 +25,8 @@
 #ifndef __SYSTEM_HEADER__
 #define __SYSTEM_HEADER__
 
-#include "utils.h"
+#include "utils/ustring.h"
+#include "utils/singleton.h"
 
 #include <set>
 #include <SDL/SDL.h>

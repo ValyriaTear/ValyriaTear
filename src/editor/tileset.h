@@ -25,7 +25,7 @@
 #include <QVariant>
 
 #include "engine/script/script.h"
-#include "utils.h"
+#include "utils/utils_common.h"
 #include "engine/video/video.h"
 
 //! All calls to the editor are wrapped in this namespace.

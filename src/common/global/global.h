@@ -25,6 +25,8 @@
 #ifndef __GLOBAL_HEADER__
 #define __GLOBAL_HEADER__
 
+#include "utils/utils_strings.h"
+
 #include "engine/script/script_read.h"
 #include "engine/script/script_write.h"
 
@@ -842,7 +844,7 @@ public:
         if (_world_map_image)
             return _world_map_image->GetFilename();
         else
-            return _empty_string;
+            return vt_utils::_empty_string;
     }
 
     std::vector<GlobalCharacter *>* GetOrderedCharacters() {

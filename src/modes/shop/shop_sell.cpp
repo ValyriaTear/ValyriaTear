@@ -23,7 +23,7 @@
 
 #include "shop.h"
 
-#include "utils.h"
+#include "utils/utils_common.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"

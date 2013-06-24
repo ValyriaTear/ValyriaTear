@@ -21,7 +21,7 @@
 
 #include "script.h"
 
-#include "utils.h"
+#include "utils/ustring.h"
 
 namespace vt_script
 {

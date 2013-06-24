@@ -17,8 +17,6 @@
 
 #include "main_options.h"
 
-#include "utils.h"
-
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 #include "engine/script/script.h"

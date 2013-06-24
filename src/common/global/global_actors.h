@@ -29,6 +29,8 @@
 
 #include "engine/video/image.h"
 
+#include "utils/ustring.h"
+
 #include <map>
 #include <deque>
 

@@ -18,9 +18,10 @@
 #ifndef __MAP_UTILS_HEADER__
 #define __MAP_UTILS_HEADER__
 
-#include "utils.h"
+#include "utils/utils_common.h"
 
 #include <cmath>
+#include <vector>
 
 namespace vt_map
 {

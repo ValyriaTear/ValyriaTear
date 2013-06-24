@@ -20,6 +20,8 @@
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 
+#include "utils/utils_random.h"
+
 using namespace vt_video;
 
 namespace vt_mode_manager

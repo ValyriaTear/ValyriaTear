@@ -34,6 +34,8 @@
 #include "common/global/global_skills.h"
 #include "common/global/global_utils.h"
 
+#include "utils/utils_random.h"
+
 namespace vt_defs
 {
 

@@ -22,7 +22,11 @@
 
 #include "engine/video/color.h"
 
+#include "utils/singleton.h"
+
 #include <map>
+#include <string>
+#include <vector>
 
 namespace vt_video
 {

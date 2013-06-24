@@ -50,6 +50,10 @@
 
 #include "image_base.h"
 
+#include "utils/exception.h"
+
+#include <vector>
+
 namespace vt_mode_manager
 {
 class ParticleSystem;

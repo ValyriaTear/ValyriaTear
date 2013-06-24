@@ -19,6 +19,8 @@
 
 #include "modes/map/map_sprites.h"
 
+#include "utils/utils_random.h"
+
 using namespace vt_utils;
 
 namespace vt_map

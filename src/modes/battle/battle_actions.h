@@ -23,12 +23,12 @@
 #ifndef __BATTLE_ACTIONS_HEADER__
 #define __BATTLE_ACTIONS_HEADER__
 
-#include "utils.h"
-
 #include "engine/system.h"
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
+
+#include "utils/utils_random.h"
 
 namespace vt_battle
 {

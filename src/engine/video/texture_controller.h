@@ -22,7 +22,8 @@
 #ifndef __TEXTURE_CONTROLLER_HEADER__
 #define __TEXTURE_CONTROLLER_HEADER__
 
-#include "utils.h"
+#include "utils/utils_files.h"
+#include "utils/singleton.h"
 
 #include "texture.h"
 #include "image_base.h"

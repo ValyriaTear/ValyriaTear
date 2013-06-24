@@ -25,7 +25,7 @@
 
 #include "modes/battle/battle_utils.h"
 
-#include "utils.h"
+#include "utils/utils_common.h"
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"

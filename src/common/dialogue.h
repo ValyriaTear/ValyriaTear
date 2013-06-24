@@ -18,7 +18,7 @@
 #ifndef __DIALOGUE_HEADER__
 #define __DIALOGUE_HEADER__
 
-#include "utils.h"
+#include "utils/ustring.h"
 
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"

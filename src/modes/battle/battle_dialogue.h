@@ -35,7 +35,7 @@
 #ifndef __BATTLE_DIALOGUE_HEADER__
 #define __BATTLE_DIALOGUE_HEADER__
 
-#include "utils.h"
+#include "utils/utils_common.h"
 
 #include "engine/video/video.h"
 

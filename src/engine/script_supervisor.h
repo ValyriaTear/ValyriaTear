@@ -16,7 +16,7 @@
 #ifndef __SCRIPT_SUPERVISOR_HEADER__
 #define __SCRIPT_SUPERVISOR_HEADER__
 
-#include "utils.h"
+#include "utils/utils_common.h"
 #include "engine/script/script_read.h"
 #include "engine/video/video.h"
 

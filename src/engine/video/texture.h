@@ -43,7 +43,7 @@
 #ifndef __TEXTURE_HEADER__
 #define __TEXTURE_HEADER__
 
-#include "utils.h"
+#include "utils/utils_common.h"
 
 #ifdef _VS
 #include <GL/glew.h>

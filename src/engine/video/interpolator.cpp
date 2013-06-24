@@ -17,6 +17,8 @@
 
 #include "interpolator.h"
 
+#include "utils/utils_numeric.h"
+
 #include <cassert>
 #include <cstdarg>
 #include <math.h>

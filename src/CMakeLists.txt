@@ -273,8 +273,20 @@ engine/script/script_read.h
 engine/script/script_read.cpp
 engine/script/script_write.h
 engine/script/script_write.cpp
-utils.h
-utils.cpp
+utils/utils_common.h
+utils/ustring.h
+utils/ustring.cpp
+utils/singleton.h
+utils/exception.h
+utils/exception.cpp
+utils/utils_files.h
+utils/utils_files.cpp
+utils/utils_random.h
+utils/utils_random.cpp
+utils/utils_numeric.h
+utils/utils_numeric.cpp
+utils/utils_strings.h
+utils/utils_strings.cpp
 )
 
 SET(SRCS
@@ -402,7 +414,6 @@ engine/video/particle_keyframe.h
 engine/video/context.h
 engine/video/particle.h
 engine/video/coord_sys.h
-utils.h
 main_options.cpp
     )
 

@@ -26,7 +26,7 @@
 #ifndef __SCRIPT_HEADER__
 #define __SCRIPT_HEADER__
 
-#include "utils.h"
+#include "utils/singleton.h"
 
 // Prevents redefinition errors on OSX against old boost libraries.
 #ifdef __APPLE__

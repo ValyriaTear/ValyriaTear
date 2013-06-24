@@ -21,7 +21,7 @@
 #ifndef __GLOBAL_UTILS_HEADER__
 #define __GLOBAL_UTILS_HEADER__
 
-#include "utils.h"
+#include "utils/utils_common.h"
 #include "engine/video/image.h"
 
 #include <map>

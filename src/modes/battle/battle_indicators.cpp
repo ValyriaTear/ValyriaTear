@@ -25,6 +25,8 @@
 #include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
+#include "utils/utils_random.h"
+
 using namespace vt_utils;
 using namespace vt_system;
 using namespace vt_video;

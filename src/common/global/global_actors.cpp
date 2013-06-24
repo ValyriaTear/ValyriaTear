@@ -24,6 +24,9 @@
 
 #include "common/global/global.h"
 
+#include "utils/utils_files.h"
+#include "utils/utils_random.h"
+
 using namespace vt_utils;
 using namespace vt_video;
 using namespace vt_script;

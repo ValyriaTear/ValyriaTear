@@ -25,8 +25,6 @@
 #include <QListWidget>
 #include <QTreeWidget>
 
-#include "utils.h"
-
 #include "editor.h"
 #include "grid.h"
 

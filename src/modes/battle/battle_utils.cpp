@@ -27,6 +27,8 @@
 
 #include "engine/system.h"
 
+#include "utils/utils_random.h"
+
 using namespace vt_utils;
 using namespace vt_system;
 using namespace vt_global;

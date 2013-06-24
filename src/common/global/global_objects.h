@@ -26,6 +26,8 @@
 #include "engine/video/image.h"
 #include "engine/script/script.h"
 
+#include "utils/ustring.h"
+
 namespace vt_script {
 class ReadScriptDescriptor;
 }

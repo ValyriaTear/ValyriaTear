@@ -20,7 +20,8 @@
 
 #include <SDL/SDL.h>
 
-#include "utils.h"
+#include "utils/utils_strings.h"
+#include "utils/singleton.h"
 
 //! All calls to the input engine are wrapped in this namespace.
 namespace vt_input

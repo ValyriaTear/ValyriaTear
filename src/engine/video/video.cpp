@@ -21,6 +21,8 @@
 
 #include "engine/system.h"
 
+#include "utils/utils_strings.h"
+
 // Avoid a useless dependency on the mode manager for the editor build
 #ifndef EDITOR_BUILD
 #include "engine/mode_manager.h"

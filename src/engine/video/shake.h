@@ -18,7 +18,6 @@
 #ifndef __SHAKE_HEADER__
 #define __SHAKE_HEADER__
 
-#include "utils.h"
 #include "interpolator.h"
 
 namespace vt_mode_manager

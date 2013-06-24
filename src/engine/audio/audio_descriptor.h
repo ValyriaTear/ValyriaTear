@@ -29,6 +29,7 @@
 #include "audio_effects.h"
 
 #include <cstring>
+#include <vector>
 
 namespace vt_mode_manager {
 class GameMode;

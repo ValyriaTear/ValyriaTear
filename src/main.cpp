@@ -27,6 +27,8 @@
 *** -# Update the game status based on how much time expired from the last update.
 *** ***************************************************************************/
 
+#include "utils/utils_files.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"

@@ -26,6 +26,8 @@
 #include "engine/video/particle_effect.h"
 #include "engine/audio/audio.h"
 
+#include "utils/utils_random.h"
+
 using namespace vt_utils;
 using namespace vt_audio;
 using namespace vt_script;

@@ -25,6 +25,8 @@
 #include "engine/system.h"
 #include "engine/mode_manager.h"
 
+#include "utils/utils_strings.h"
+
 #include <iostream>
 
 using namespace vt_utils;

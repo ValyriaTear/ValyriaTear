@@ -32,8 +32,6 @@
 #ifndef __PARTICLE_EMITTER_HEADER__
 #define __PARTICLE_EMITTER_HEADER__
 
-#include "utils.h"
-
 namespace vt_mode_manager
 {
 

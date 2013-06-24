@@ -17,6 +17,8 @@
 
 #include "editor.h"
 
+#include "utils/utils_random.h"
+
 #include <QTableWidgetItem>
 #include <QScrollBar>
 
