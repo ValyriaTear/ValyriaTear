@@ -509,7 +509,7 @@ uint32 ItemCommand::GetItemIndex() const
 
     int32 selection = _item_list.GetSelection();
     for(uint32 i = 0; i < _items.size(); i++) {
-        if(_item_mappings[selection] == i) {
+        if(_item_mappings[selection] == (int32)i) {
             return static_cast<uint32>(_item_mappings[selection]);
         }
     }
