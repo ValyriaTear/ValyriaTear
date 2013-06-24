@@ -300,14 +300,6 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    std::string default_theme = theme_script.ReadString("default_theme");
-    if (default_theme.empty()) {
-        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
-                    << std::endl;
-        theme_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
     if(!theme_script.DoesTableExist("themes")) {
         PRINT_ERROR << "No 'themes' table in file: " << theme_script_filename
                     << std::endl;
@@ -315,9 +307,9 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    std::vector<std::string> theme_names;
-    theme_script.ReadTableKeys("themes", theme_names);
-    if (theme_names.empty()) {
+    std::vector<std::string> theme_ids;
+    theme_script.ReadTableKeys("themes", theme_ids);
+    if (theme_ids.empty()) {
         PRINT_ERROR << "No themes defined in the 'themes' table of file: "
                     << theme_script_filename << std::endl;
         theme_script.CloseFile();
@@ -326,22 +318,35 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
     theme_script.OpenTable("themes");
 
+    std::string default_theme_id = theme_script.ReadString("default_theme");
+    if (default_theme_id.empty()) {
+        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
+                    << std::endl;
+        theme_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
     bool default_theme_found = false;
 
-    for(uint32 i = 0; i < theme_names.size(); ++i) {
-        theme_script.OpenTable(theme_names[i]); // Theme name
+    for(uint32 i = 0; i < theme_ids.size(); ++i) {
+        // Skip the default theme value
+        if (theme_ids[i] == "default_theme")
+            continue;
 
+        theme_script.OpenTable(theme_ids[i]); // Theme name
+
+        std::string theme_name = theme_script.ReadString("name");
         std::string win_border_file = theme_script.ReadString("win_border_file");
         std::string win_background_file = theme_script.ReadString("win_background_file");
         std::string cursor_file = theme_script.ReadString("cursor_file");
 
-        if (default_theme == theme_names[i])
+        if (default_theme_id == theme_ids[i])
             default_theme_found = true;
 
-        if (!GUIManager->LoadMenuSkin(theme_names[i], cursor_file, win_border_file, win_background_file)) {
+        if (!GUIManager->LoadMenuSkin(theme_ids[i], theme_name, cursor_file, win_border_file, win_background_file)) {
             theme_script.CloseAllTables();
             theme_script.CloseFile();
-            PRINT_ERROR << "The theme '" << theme_names[i]
+            PRINT_ERROR << "The theme '" << theme_ids[i]
                         << "' couldn't be loaded in file: '" << theme_script_filename
                         << "'. Exitting." << std::endl;
             exit(EXIT_FAILURE);
@@ -355,13 +360,13 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
     theme_script.CloseFile();
 
     // Query for the user menu skin which could have been set in the user settings lua file.
-    std::string user_theme = GUIManager->GetUserMenuSkin();
-    if (user_theme != "") {
+    std::string user_theme_id = GUIManager->GetUserMenuSkinId();
+    if (!user_theme_id.empty()) {
         // Activate the user theme.
-        GUIManager->SetDefaultMenuSkin(user_theme);
+        GUIManager->SetDefaultMenuSkin(user_theme_id);
     } else if (default_theme_found) {
         // Activate the default theme.
-        GUIManager->SetDefaultMenuSkin(default_theme);
+        GUIManager->SetDefaultMenuSkin(default_theme_id);
     } else {
         PRINT_ERROR << "No default or user settings UI theme found.  Exitting." << std::endl;
         exit(EXIT_FAILURE);

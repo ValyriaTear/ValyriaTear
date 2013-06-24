@@ -525,7 +525,7 @@ void BootMode::_SetupVideoOptionsMenu()
     _video_options_menu.AddOption(UTranslate("Window mode: "), &BootMode::_OnToggleFullscreen, NULL, NULL, &BootMode::_OnToggleFullscreen, &BootMode::_OnToggleFullscreen);
     _video_options_menu.AddOption(UTranslate("Brightness: "), NULL, NULL, NULL, &BootMode::_OnBrightnessLeft, &BootMode::_OnBrightnessRight);
     _video_options_menu.AddOption(UTranslate("Map tiles: "), &BootMode::_OnTogglePixelArtSmoothed, NULL, NULL, &BootMode::_OnTogglePixelArtSmoothed, &BootMode::_OnTogglePixelArtSmoothed);
-    _video_options_menu.AddOption(UTranslate("UI Theme: "), &BootMode::_OnUIThemeRight, NULL, NULL, &BootMode::_OnUIThemeLeft, &BootMode::_OnUIThemeRight); 
+    _video_options_menu.AddOption(UTranslate("UI Theme: "), &BootMode::_OnUIThemeRight, NULL, NULL, &BootMode::_OnUIThemeLeft, &BootMode::_OnUIThemeRight);
 
     _video_options_menu.SetSelection(0);
 }
@@ -704,7 +704,7 @@ void BootMode::_RefreshVideoOptions()
         _video_options_menu.SetOptionText(3, UTranslate("Map tiles: ") + UTranslate("Normal"));
 
     // Update the UI theme.
-    _video_options_menu.SetOptionText(4, UTranslate("UI Theme: ") + MakeUnicodeString(GUIManager->GetDefaultMenuSkin()));
+    _video_options_menu.SetOptionText(4, UTranslate("UI Theme: ") + GUIManager->GetDefaultMenuSkinName());
 }
 
 
@@ -1110,7 +1110,7 @@ void BootMode::_ReloadGUIDefaultSkin()
     _active_menu = &_video_options_menu;
     
     // Currently, the GUI default skin option is 4.
-    _video_options_menu.SetSelection(4);  
+    _video_options_menu.SetSelection(4);
     _RefreshVideoOptions();
 }
 
@@ -1163,7 +1163,7 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteComment("Run the screen fullscreen/in a window");
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
     settings_lua.WriteComment("The UI Theme to load.");
-    settings_lua.WriteString("ui_theme", GUIManager->GetDefaultMenuSkin());
+    settings_lua.WriteString("ui_theme", GUIManager->GetDefaultMenuSkinId());
     settings_lua.EndTable(); // video_settings
 
     // audio

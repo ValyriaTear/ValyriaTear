@@ -23,10 +23,9 @@
 #include "engine/video/color.h"
 
 #include "utils/singleton.h"
+#include "utils/ustring.h"
 
 #include <map>
-#include <string>
-#include <vector>
 
 namespace vt_video
 {
@@ -286,43 +285,48 @@ public:
     **/
     //@{
     //! \brief Loads a background image with no background colors
-    bool LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
+    bool LoadMenuSkin(const std::string &skin_id,
+                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
                       const std::string &background_image, bool make_default = false);
 
     //! \brief Loads a single background color with no background image
-    bool LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
+    bool LoadMenuSkin(const std::string &skin_id,
+                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
                       const vt_video::Color &background_color, bool make_default = false);
 
     //! \brief Loads multiple multiple background colors with no background image
-    bool LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
+    bool LoadMenuSkin(const std::string &skin_id,
+                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
                       const vt_video::Color &top_left, const vt_video::Color &top_right,
                       const vt_video::Color &bottom_left, const vt_video::Color &bottom_right, bool make_default = false);
 
     //! \brief Loads a background image with a single background color
-    bool LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
+    bool LoadMenuSkin(const std::string &skin_id,
+                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
                       const std::string &background_image,
                       const vt_video::Color &background_color, bool make_default = false);
 
     //! \brief Loads a background image with multiple background colors
-    bool LoadMenuSkin(const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
+    bool LoadMenuSkin(const std::string &skin_id,
+                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
                       const std::string &background_image,
                       const vt_video::Color &top_left, const vt_video::Color &top_right,
                       const vt_video::Color &bottom_left, const vt_video::Color &bottom_right, bool make_default = false);
     //@}
 
-    /** \brief Stores the name of the user menu skin.
-    *** \param skin_name The name of the user menu skin.
+    /** \brief Stores the id of the user menu skin.
+    *** \param skin_id The id of the user menu skin.
     ***
     *** This function stores the name of the user menu skin.  It does not change
     *** the default menu skin directly.
     **/
-    void SetUserMenuSkin(const std::string &skin_name);
+    void SetUserMenuSkin(const std::string& skin_id);
 
-    //! \brief Returns the name of the user menu skin.
-    std::string GetUserMenuSkin();
+    //! \brief Returns the id of the user menu skin.
+    std::string GetUserMenuSkinId();
 
     /** \brief Deletes a menu skin that has been loaded
-    *** \param skin_name The name of the loaded menu skin that should be removed
+    *** \param skin_id The id of the loaded menu skin that should be removed
     ***
     *** This function could fail on one of two circumstances. First, if there is no MenuSkin loaded for
     *** the key skin_name, the function will do nothing. Second, if any MenuWindow objects are still
@@ -330,19 +334,19 @@ public:
     *** and not delete the skin. Therefore, <b>before you call this function, you must delete any and all
     *** MenuWindow objects which make use of this skin, or change the skin used by those objects</b>.
     **/
-    void DeleteMenuSkin(const std::string &skin_name);
+    void DeleteMenuSkin(const std::string &skin_id);
 
-    //! \brief Returns true if there is a menu skin avialable corresponding to the argument name
-    bool IsMenuSkinAvailable(const std::string &skin_name) const;
+    //! \brief Returns true if there is a menu skin available corresponding to the argument name
+    bool IsMenuSkinAvailable(const std::string &skin_id) const;
 
     /** \brief Sets the default menu skin to use from the set of pre-loaded skins
-    *** \param skin_name The name of the already loaded menu skin that should be made the default skin
+    *** \param skin_id The name of the already loaded menu skin that should be made the default skin
     ***
-    *** If the skin_name does not refer to a valid skin, a warning message will be printed and no change
+    *** If the skin_id does not refer to a valid skin, a warning message will be printed and no change
     *** will occur.
     *** \note This method will <b>not</b> change the skins of any active menu windows.
     **/
-    void SetDefaultMenuSkin(const std::string &skin_name);
+    void SetDefaultMenuSkin(const std::string &skin_id);
 
     /** \brief Sets the next default menu skin to use from the set of pre-loaded skins
     ***
@@ -356,8 +360,11 @@ public:
     **/
     void SetPreviousDefaultMenuSkin();
 
-    //! \brief Returns the name of the default menu skin.  Returns the empty string if there is no default menu skin.
-    std::string GetDefaultMenuSkin();
+    //! \brief Returns the id of the default menu skin.  Returns the empty string if there is no default menu skin.
+    std::string GetDefaultMenuSkinId();
+
+    //! \brief Returns the translated name of the user menu skin.
+    vt_utils::ustring GetDefaultMenuSkinName();
 
     /** \brief Returns a pointer to a vector of scroll arrow images.
     ***
@@ -405,7 +412,7 @@ private:
     **/
     std::map<uint32, MenuWindow *> _menu_windows;
 
-    //! \brief The name of the user menu skin.
+    //! \brief The id of the user menu skin.
     std::string _user_menu_skin;
 
     /** \brief A pointer to the default menu skin that GUI objects will use if a skin is not explicitly declared
@@ -425,10 +432,10 @@ private:
     // ---------- Private methods
 
     /** \brief Returns a pointer to the MenuSkin of a corresponding skin name
-    *** \param skin_name The name of the menu skin to grab
+    *** \param skin_id The id of the menu skin to grab
     *** \return A pointer to the MenuSkin, or NULL if the skin name was not found
     **/
-    private_gui::MenuSkin *_GetMenuSkin(const std::string &skin_name);
+    private_gui::MenuSkin *_GetMenuSkin(const std::string &skin_id);
 
     //! \brief Returns a pointer to the default menu skin
     private_gui::MenuSkin *_GetDefaultMenuSkin() const {

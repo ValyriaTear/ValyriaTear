@@ -104,6 +104,9 @@ public:
     ~MenuSkin()
     {}
 
+    //! \brief The translated skin name
+    vt_utils::ustring skin_name;
+
     //! \brief The file name for the cursor image for this skin.
     std::string cursor_file;
 
