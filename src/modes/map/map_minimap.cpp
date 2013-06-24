@@ -48,52 +48,28 @@ struct SDLSurfaceController {
 };
 
 static const vt_video::Color default_opacity(1.0f, 1.0f, 1.0f, 0.75f);
-static const vt_video::Color overlap_opacity(1.0f, 1.0f, 1.0f, 0.65f);
+static const vt_video::Color overlap_opacity(1.0f, 1.0f, 1.0f, 0.45f);
 
-Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map_name) :
-    _current_position_x(-1),
-    _current_position_y(-1),
-    _box_x_length(20.0f),
+Minimap::Minimap(const std::string& minimap_image_filename) :
+    _current_position_x(-1.0f),
+    _current_position_y(-1.0f),
+    _box_x_length(20),
     _box_y_length(_box_x_length * .75f),
-    _x_offset(0),
-    _y_offset(0),
+    _x_offset(0.0f),
+    _y_offset(0.0f),
     _x_half_len(1.75f * TILES_ON_X_AXIS * _box_x_length),
     _y_half_len(1.75f * TILES_ON_Y_AXIS * _box_y_length),
     _map_alpha_scale(1.0f)
 {
-    if(!map_object_supervisor)
-    {
-        PRINT_ERROR << "map object supervisor is not instantiated" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
     //save the viewport
     vt_video::VideoManager->GetCurrentViewport(_viewport_original_x, _viewport_original_y,
                                                 _viewport_original_width, _viewport_original_height);
 
-    //create a temporary SDL surface on which to generate the collision map
-    SDL_Surface *temp_surface = _ProcedurallyDraw(map_object_supervisor);
-    if (!temp_surface) {
-        MapMode::CurrentInstance()->ShowMinimap(false);
+    // If no minimap image is given, we create one.
+    if (minimap_image_filename.empty() ||
+        !_minimap_image.Load(minimap_image_filename, _grid_width * _box_x_length, _grid_height * _box_y_length)) {
+        _minimap_image = _CreateProcedurally();
     }
-
-    SDL_LockSurface(temp_surface);
-    //setup a temporary memory space to copy the SDL data into
-    vt_video::private_video::ImageMemory temp_data;
-    temp_data.rgb_format = false;
-    temp_data.width = temp_surface->w;
-    temp_data.height = temp_surface->h;
-    size_t len = temp_surface->h * temp_surface->w * ((unsigned short) (temp_surface->format->BitsPerPixel) / 8) ;
-    temp_data.pixels = malloc(len);
-    //copy the data
-    memcpy(temp_data.pixels, temp_surface->pixels, len);
-    SDL_UnlockSurface(temp_surface);
-    //at this point, the screen data is set up. We can get rid of unncesary data here
-    SDL_FreeSurface(temp_surface);
-    //do the image file creationg
-    std::string map_name_cmap = map_name + "_cmap";
-    _minimap_image = vt_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
-    free(temp_data.pixels);
 
     //setup the map window, if it isn't already created
     _background.Load("img/menus/minimap_background.png");
@@ -124,14 +100,11 @@ static inline bool _PrepareSurface(SDL_Surface *temp_surface)
 
     //prepare the surface with the image. we tile the white noise image onto the surface
     //with full alpha
-    for(int x = 0; x < temp_surface->w; x += white_noise._surface->w)
-    {
+    for(int x = 0; x < temp_surface->w; x += white_noise._surface->w) {
         r.x = x;
-        for(int y = 0; y < temp_surface->h; y += white_noise._surface->h)
-        {
+        for(int y = 0; y < temp_surface->h; y += white_noise._surface->h) {
             r.y = y;
-            if(SDL_BlitSurface(white_noise._surface, NULL, temp_surface, &r))
-            {
+            if(SDL_BlitSurface(white_noise._surface, NULL, temp_surface, &r)) {
                 PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                 return false;
             }
@@ -140,8 +113,9 @@ static inline bool _PrepareSurface(SDL_Surface *temp_surface)
     return true;
 }
 
-SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
+vt_video::StillImage Minimap::_CreateProcedurally()
 {
+    ObjectSupervisor *map_object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
 
     float x, y, width, height;
     vt_video::VideoManager->GetCurrentViewport(x, y, width, height);
@@ -159,7 +133,8 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 
     if(!temp_surface) {
         PRINT_ERROR << "Couldn't create temp_surface for collision map: " << SDL_GetError() << std::endl;
-        return NULL;
+        MapMode::CurrentInstance()->ShowMinimap(false);
+        return vt_video::StillImage();
     }
 
     //set the basic rect information
@@ -174,7 +149,8 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
     //note that the ordering needs to be transposed for drawing
     if (!_PrepareSurface(temp_surface)) {
         SDL_FreeSurface(temp_surface);
-        return NULL;
+        MapMode::CurrentInstance()->ShowMinimap(false);
+        return vt_video::StillImage();
     }
 
     for(uint32 row = 0; row < _grid_width; ++row)
@@ -200,14 +176,37 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 
     //flush the SDL surface. This forces any pending writes onto the surface to complete
     SDL_UpdateRect(temp_surface, 0, 0, 0, 0);
-    return temp_surface;
+
+    if (!temp_surface) {
+        MapMode::CurrentInstance()->ShowMinimap(false);
+        return vt_video::StillImage();
+    }
+
+    SDL_LockSurface(temp_surface);
+    //setup a temporary memory space to copy the SDL data into
+    vt_video::private_video::ImageMemory temp_data;
+    temp_data.rgb_format = false;
+    temp_data.width = temp_surface->w;
+    temp_data.height = temp_surface->h;
+    size_t len = temp_surface->h * temp_surface->w * ((unsigned short) (temp_surface->format->BitsPerPixel) / 8) ;
+    temp_data.pixels = malloc(len);
+    //copy the data
+    memcpy(temp_data.pixels, temp_surface->pixels, len);
+    SDL_UnlockSurface(temp_surface);
+    //at this point, the screen data is set up. We can get rid of unnecessary data here
+    SDL_FreeSurface(temp_surface);
+    //do the image file creation
+    std::string map_name_cmap = MapMode::CurrentInstance()->GetMapScriptFilename() + "_cmap";
+    vt_video::StillImage minimap_image = vt_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
+    free(temp_data.pixels);
+
+    return minimap_image;
 }
 
 void Minimap::Draw()
 {
     using namespace vt_video;
-    if(_current_position_x > -1)
-    {
+    if(_current_position_x > -1) {
         Color resultant_opacity = *_current_opacity;
         if(_map_alpha_scale < resultant_opacity.GetAlpha())
             resultant_opacity.SetAlpha(_map_alpha_scale);

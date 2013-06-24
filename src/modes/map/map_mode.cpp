@@ -678,7 +678,7 @@ bool MapMode::_CreateMinimap()
         _minimap = NULL;
     }
 
-    _minimap = new Minimap(_object_supervisor, this->GetMapScriptFilename());
+    _minimap = new Minimap();
     return true;
 }
 

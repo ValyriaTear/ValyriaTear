@@ -41,17 +41,11 @@ class VirtualSprite;
 //! \brief Handles the Collision minimap generation, caching, drawing and updating the minimap
 class Minimap {
 public:
-    /** \brief constructor taking the target map mode. This also creates the actual collision map
-    *** Currently, there is only one global map supervisor instance, so technically I could call the static GetInstance function.
-    *** However, I want the target map mode to be sent in explicitly. This will eliminate some of the confusion
-    *** that can sometimes occur when having multiple targets and singletons -- IE temporal allocation is reduced since
-    *** we explicitly force the pointer to be sent in
-    *** \param map_object_supervisor the target map object supervisor
-    *** \param map_name name of the actual map we are generating for
+    /** \brief constructor creating the minimap image.
+    *** \param minimap_image_filename filename of a pre-made minimap image.
+    *** If empty, the minimap is generated using the map script collision map.
     **/
-    Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map_name);
-
-    Minimap() {}
+    Minimap(const std::string& minimap_image_filename = std::string());
 
     ~Minimap() {
         _minimap_image.Clear();
@@ -73,8 +67,8 @@ private:
     //! \brief the generated collision map image for this collision map
     vt_video::StillImage _minimap_image;
 
-    //! \brief creates the procedural collision map
-    SDL_Surface *_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor);
+    //! \brief creates the procedural collision minimap image
+    vt_video::StillImage _CreateProcedurally();
 
     //! \brief objects for the "window" which will hold the map
     //! \note we plan to move this to a Controller object, or something similar
