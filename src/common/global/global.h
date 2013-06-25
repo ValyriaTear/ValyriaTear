@@ -38,6 +38,8 @@
 
 #include "modes/map/map_utils.h"
 
+#include <iostream>
+
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace vt_global
 {
