@@ -18,15 +18,6 @@
 #ifndef __UTILS_FILES_HEADER__
 #define __UTILS_FILES_HEADER__
 
-#ifdef _WIN32
-// Even though the game is platform independent, OpenGL on Windows requires windows.h to be included
-#include <windows.h>
-// Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
-#ifndef strcasecmp
-#define strcasecmp stricmp
-#endif
-#endif
-
 #include <string>
 #include <vector>
 

@@ -38,8 +38,6 @@
 
 #include "modes/map/map_utils.h"
 
-#include <iostream>
-
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace vt_global
 {
@@ -200,7 +198,9 @@ private:
 };
 
 // A simple structure used to store quest log system info.
-struct QuestLogInfo {
+class QuestLogInfo {
+
+public:
     QuestLogInfo(const vt_utils::ustring &title,
                  const vt_utils::ustring &description,
                  const vt_utils::ustring &completion_description,
@@ -209,38 +209,7 @@ struct QuestLogInfo {
                  const vt_utils::ustring &location_name,
                  const std::string &location_banner_filename,
                  const vt_utils::ustring &location_subname,
-                 const std::string &location_subimage_filename) :
-        _title(title),
-        _description(description),
-        _completion_description(completion_description),
-        _completion_event_group(completion_event_group),
-        _completion_event_name(completion_event_name),
-        _location_name(location_name),
-        _location_subname(location_subname)
-    {
-        if(!_location_image.Load(location_banner_filename))
-        {
-            PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
-            return;
-        }
-        //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
-        //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
-        if(_location_image.GetHeight() > 90.0f)
-            _location_image.SetHeightKeepRatio(90.0f);
-
-        if(!_location_subimage.Load(location_subimage_filename))
-        {
-            PRINT_ERROR << "image: " << location_subimage_filename << " not able to load" << std::endl;
-            return;
-        }
-        //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
-        //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
-        if(_location_subimage.GetHeight() > 90.0f)
-            _location_subimage.SetHeightKeepRatio(90.0f);
-
-
-
-    }
+                 const std::string &location_subimage_filename);
 
     QuestLogInfo()
     {}
@@ -273,19 +242,10 @@ struct WorldMapLocation
 {
 public:
     WorldMapLocation()
-    {
-        _image.SetStatic(true);
-    }
+    {}
 
-    WorldMapLocation(float x, float y, const std::string &location_name, const std::string &image_path, const std::string &world_map_location_id) :
-        _x(x),
-        _y(y),
-        _location_name(location_name),
-        _world_map_location_id(world_map_location_id)
-    {
-        if(!_image.Load(image_path))
-            PRINT_ERROR << "image: " << image_path << " not able to load" << std::endl;
-    }
+    WorldMapLocation(float x, float y, const std::string &location_name,
+                     const std::string &image_path, const std::string &world_map_location_id);
 
     WorldMapLocation(const WorldMapLocation &other):
         _x(other._x),

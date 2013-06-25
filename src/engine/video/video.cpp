@@ -28,6 +28,23 @@
 #include "engine/mode_manager.h"
 #endif
 
+#ifdef _WIN32
+#include <windows.h> // needs to be included before gl.h
+#endif
+
+// just required for VS
+#ifdef _VS
+#include <GL/glew.h>
+#endif
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
+
 using namespace vt_utils;
 using namespace vt_video::private_video;
 
@@ -369,7 +386,6 @@ void VideoEngine::Update()
     _screen_fader.Update(frame_time);
 }
 
-
 void VideoEngine::Draw()
 {
     PushState();
@@ -385,7 +401,13 @@ void VideoEngine::Draw()
     PopState();
 } // void VideoEngine::Draw()
 
+bool VideoEngine::CheckGLError() {
+    if(!VIDEO_DEBUG)
+        return false;
 
+    _gl_error_code = glGetError();
+    return (_gl_error_code != GL_NO_ERROR);
+}
 
 const std::string VideoEngine::CreateGLErrorString()
 {
@@ -744,8 +766,15 @@ void VideoEngine::MoveRelative(float x, float y)
     _y_cursor += y;
 }
 
+void VideoEngine::PushMatrix()
+{
+    glPushMatrix();
+}
 
-
+void VideoEngine::PopMatrix()
+{
+    glPopMatrix();
+}
 
 void VideoEngine::PushState()
 {
@@ -786,7 +815,15 @@ void VideoEngine::PopState()
     }
 }
 
+void VideoEngine::Rotate(float angle)
+{
+    glRotatef(angle, 0, 0, 1);
+}
 
+void VideoEngine::Scale(float x, float y)
+{
+    glScalef(x, y, 1.0f);
+}
 
 void VideoEngine::SetTransform(float matrix[16])
 {

@@ -45,6 +45,12 @@
 #include <unistd.h>
 #endif
 
+// Used for SetEnvironmentalVariable() aka setenv()
+#ifdef _WIN32
+#include <windows.h>
+#include <stdlib.h>
+#endif
+
 #include <SDL_image.h>
 #include <time.h>
 
@@ -381,9 +387,9 @@ void InitializeEngine() throw(Exception)
     // use display #0 unless already specified
     // behavior of fullscreen mode is eratic without this value set
 #ifndef _WIN32
-    setenv("SDL_VIDEO_FULLSCREEN_DISPLAY","0",0); 
+    setenv("SDL_VIDEO_FULLSCREEN_DISPLAY", "0", 0);
 #else
-    _putenv_s("SDL_VIDEO_FULLSCREEN_DISPLAY", "0");
+    SetEnvironmentVariable("SDL_VIDEO_FULLSCREEN_DISPLAY", "0");
 #endif
 
     // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.

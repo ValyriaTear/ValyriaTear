@@ -59,6 +59,7 @@
 #include <stdint.h> // Using the C header, because the C++ header, <cstdint> is only available in ISO C++0x
 #endif
 
+// defines NULL among other things
 #include <cstdlib>
 
 /** \name Print Message Helper Macros

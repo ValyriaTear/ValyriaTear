@@ -38,30 +38,6 @@
 #include "texture_controller.h"
 #include "text.h"
 
-// required for Code::Blocks and VS
-#ifdef _WIN32
-#include <windows.h> // needs to be included before gl.h
-#endif
-
-// just required for VS
-#ifdef _VS
-#include <GL/glew.h>
-#endif
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#ifdef __APPLE__
-#include <SDL_ttf/SDL_ttf.h>
-#else
-#include <SDL/SDL_ttf.h>
-#endif
-
 #include <stack>
 
 namespace vt_gui {
@@ -259,11 +235,7 @@ public:
     *** because the call to glGetError() requires a round trip to the GPU and a flush of the rendering pipeline; a fairly
     *** expensive operation. If VIDEO_DEBUG is false, the function will always return false immediately.
     **/
-    bool CheckGLError() {
-        if(VIDEO_DEBUG == false) return false;
-        _gl_error_code = glGetError();
-        return (_gl_error_code != GL_NO_ERROR);
-    }
+    bool CheckGLError();
 
     //! \brief Returns the value of the most recently fetched OpenGL error code
     GLenum GetGLError() {
@@ -479,14 +451,10 @@ public:
     *** What this means is that it save the combined result of all transformation
     *** calls (Move/MoveRelative/Scale/Rotate)
     **/
-    void PushMatrix() {
-        glPushMatrix();
-    }
+    void PushMatrix();
 
     //! \brief Pops the modelview transformation from the stack
-    void PopMatrix() {
-        glPopMatrix();
-    }
+    void PopMatrix();
 
     /** \brief Saves relevant state of the video engine on to an internal stack
     *** The contents saved include the modelview transformation and the current
@@ -509,9 +477,7 @@ public:
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/
-    void Rotate(float angle) {
-        glRotatef(angle, 0, 0, 1);
-    }
+    void Rotate(float angle);
 
     /** \brief Scales all subsequent image drawing calls in the horizontal and vertical direction
     *** \param x The amount of horizontal scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
@@ -519,9 +485,7 @@ public:
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/
-    void Scale(float x, float y) {
-        glScalef(x, y, 1.0f);
-    }
+    void Scale(float x, float y);
 
     /** \brief Sets the OpenGL transform to the contents of 4x4 matrix
     *** \param matrix A pointer to an array of 16 float values that form a 4x4 transformation matrix
@@ -828,7 +792,7 @@ private:
     // Shaking effects
 
     //! X offset to shake the screen by (if any)
-    float  _x_shake;
+    float _x_shake;
 
     //! Y offset to shake the screen by (if any)
     float _y_shake;

@@ -28,7 +28,6 @@
 #include "modes/battle/battle_utils.h"
 
 #include "modes/boot/boot.h"
-#include <boost/concept_check.hpp>
 
 using namespace vt_utils;
 using namespace vt_audio;

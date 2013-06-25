@@ -23,6 +23,23 @@ extern "C" {
 #include <jpeglib.h>
 }
 
+#ifdef _WIN32
+#include <windows.h> // needs to be included before gl.h
+#endif
+
+// just required for VS
+#ifdef _VS
+#include <GL/glew.h>
+#endif
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
+
 #include <cstdarg>
 #include <math.h>
 #include <iostream>

@@ -26,6 +26,7 @@
 #endif
 
 #ifdef _WIN32
+#include <windows.h>
 #include <direct.h>
 #include <stdlib.h>          // defines _MAX_PATH constant
 #ifndef PATH_MAX

@@ -24,6 +24,26 @@
 
 #include "video.h"
 
+#ifdef _WIN32
+#include <windows.h> // needs to be included before gl.h
+#endif
+
+// OpenGL includes
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
+
+// SDL_TTF includes
+#ifdef __APPLE__
+#include <SDL_ttf/SDL_ttf.h>
+#else
+#include <SDL/SDL_ttf.h>
+#endif
+
 #include <cassert>
 #include <cstdarg>
 #include <math.h>
