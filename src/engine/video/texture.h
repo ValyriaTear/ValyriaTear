@@ -45,8 +45,9 @@
 
 #include "utils/utils_common.h"
 
-#ifdef _VS
-#include <GL/glew.h>
+// required for Code::Blocks and VS
+#ifdef _WIN32
+#include <windows.h> // needs to be included before gl.h
 #endif
 
 // OpenGL includes
