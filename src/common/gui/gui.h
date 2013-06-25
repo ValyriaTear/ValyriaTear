@@ -366,6 +366,9 @@ public:
     //! \brief Returns the translated name of the user menu skin.
     vt_utils::ustring GetDefaultMenuSkinName();
 
+    //! \brief Reloads the translated theme names when changing the language.
+    void ReloadSkinNames(const std::string& theme_filename);
+
     /** \brief Returns a pointer to a vector of scroll arrow images.
     ***
     *** The size of this vector is eight. The first four images are the standard arrows and the last
@@ -399,7 +402,7 @@ private:
     std::vector<vt_video::StillImage> _scroll_arrows;
 
     /** \brief A map containing all of the menu skins which have been loaded
-    *** The string argument is the reference name of the menu, which is defined
+    *** The string argument is the reference id of the menu, which is defined
     *** by the user when they load a new skin.
     ***
     **/

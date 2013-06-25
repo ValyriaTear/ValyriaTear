@@ -984,6 +984,9 @@ void BootMode::_OnLanguageSelect()
     SystemManager->SetLanguage(_po_files[_language_options_menu.GetSelection()]);
     _has_modified_settings = true;
 
+    // Reloads the theme names before the menus
+    GUIManager->ReloadSkinNames("dat/config/themes.lua");
+
     // Reload all the translatable text in the boot menus.
     _ReloadTranslatableMenus();
 
@@ -1108,7 +1111,7 @@ void BootMode::_ReloadGUIDefaultSkin()
     _SetupResolutionMenu();
 
     _active_menu = &_video_options_menu;
-    
+
     // Currently, the GUI default skin option is 4.
     _video_options_menu.SetSelection(4);
     _RefreshVideoOptions();

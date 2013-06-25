@@ -21,6 +21,8 @@
 #include "engine/video/video.h"
 #include "common/gui/menu_window.h"
 
+#include "engine/script/script_read.h"
+
 #include <iostream>
 
 using namespace vt_utils;
@@ -491,6 +493,33 @@ bool GUISystem::IsMenuSkinAvailable(const std::string &skin_id) const
         return false;
     else
         return true;
+}
+
+void GUISystem::ReloadSkinNames(const std::string& theme_script_filename)
+{
+    vt_script::ReadScriptDescriptor theme_script;
+
+    if(!theme_script.OpenFile(theme_script_filename))
+        return;
+
+    if (!theme_script.OpenTable("themes")) {
+        theme_script.CloseFile();
+        return;
+    }
+
+
+    for (std::map<std::string, MenuSkin>::iterator it = _menu_skins.begin();
+            it != _menu_skins.end(); ++it) {
+        std::string theme_id = it->first;
+
+        if (!theme_script.OpenTable(theme_id))
+            continue;
+
+        it->second.skin_name = MakeUnicodeString(theme_script.ReadString("name"));
+        theme_script.CloseTable();
+    }
+
+    theme_script.CloseFile();
 }
 
 private_gui::MenuSkin *GUISystem::_GetMenuSkin(const std::string &skin_name)
