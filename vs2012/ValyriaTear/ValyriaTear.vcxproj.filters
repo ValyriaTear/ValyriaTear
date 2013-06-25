@@ -43,11 +43,13 @@
     <Filter Include="modes\shop">
       <UniqueIdentifier>{4083d070-ef5f-43d9-b105-4313a0299959}</UniqueIdentifier>
     </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{941fa1c7-82b7-49ca-a92a-04313cbda490}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\main_options.cpp" />
-    <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\common\global\global.cpp">
       <Filter>common\global</Filter>
     </ClCompile>
@@ -264,10 +266,27 @@
     <ClCompile Include="..\..\src\modes\pause.cpp">
       <Filter>modes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\utils\exception.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\ustring.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\utils_files.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\utils_numeric.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\utils_random.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\utils_strings.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\main_options.h" />
-    <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\common\global\global.h">
       <Filter>common\global</Filter>
     </ClInclude>
@@ -498,6 +517,30 @@
     </ClInclude>
     <ClInclude Include="..\..\src\modes\pause.h">
       <Filter>modes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\exception.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\singleton.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\ustring.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\utils_common.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\utils_files.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\utils_numeric.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\utils_random.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\utils_strings.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

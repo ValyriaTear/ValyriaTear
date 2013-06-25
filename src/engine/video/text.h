@@ -26,6 +26,11 @@
 
 #include "utils/ustring.h"
 
+// required for Code::Blocks and VS
+#ifdef _WIN32
+#include <windows.h> // needs to be included before gl.h
+#endif
+
 // OpenGL includes
 #ifdef __APPLE__
 #include <OpenGL/gl.h>

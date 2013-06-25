@@ -27,6 +27,8 @@
 #include <SDL/SDL_endian.h>
 #include <iostream>
 
+#include <string>
+
 namespace vt_audio
 {
 
@@ -232,7 +234,7 @@ bool OggFile::Initialize()
     // Windows requires a special loading method in order load ogg files
     // properly when dynamically linking vorbis libs. The workaround is
     // to use the ov_open_callbacks function
-#ifdef WIN32
+#ifdef _WIN32
     // Callbacks struct defining the open, closing, seeking and location behaviors.
     ov_callbacks callbacks =  {
         (size_t ( *)(void *, size_t, size_t, void *)) fread,
@@ -251,7 +253,6 @@ bool OggFile::Initialize()
         IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
         return false;
     }
-
 #else
     // File loading code for non Win32 platforms.  Much simpler.
     FILE *file = fopen(_filename.c_str(), "rb");
