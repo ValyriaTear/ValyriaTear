@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.06.12
+Last update: 2013.06.25
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -66,12 +66,16 @@ dat/config/debug_shop.lua                                       GPLv2 or later  
 dat/config/debug_battle.lua                                     GPLv2 or later           Bertram (Completely redone it.)
 dat/config/fonts.lua                                            GPLv2 or later           Bertram
 dat/config/themes.lua                                           GPLv2 or later           Bertram
+dat/config/restore_settings.lua                                 GPLv2 or later           Bertram
+dat/config/settings.lua                                         GPLv2 or later           Bertram
+dat/config/languages.lua                                        GPLv2 or later           Bertram
 
 dat/credits/old_credits.lua                                     GPLv2                    Allacrost
-dat/credits/episode1_credits.lua                                GPLv2                    Bertram
+dat/credits/episode1_credits.lua                                GPLv2 or later           Bertram
 
 dat/effects/lightning.lua                                       GPLv2 or later           Bertram
 dat/effects/emotes.lua                                          GPLv2 or later           Bertram
+dat/effects/status.lua                                          GPLv2 or later           Bertram
 
 dat/effects/particles/rain.lua                                  GPLv2 or later           roos + Bertram modifications
 dat/effects/particles/snow.lua                                  GPLv2 or later           roos + Bertram modifications
@@ -126,6 +130,18 @@ dat/tilesets/mountain_landscape.lua                             GPLv2 or later  
 dat/tilesets/mountain_house_interior.lua                        GPLv2 or later           Allacrost + Bertram
 dat/tilesets/snow-tileset.lua                                   GPLv2 or later           Bertram
 dat/tilesets/wood-tileset.lua                                   GPLv2 or later           Bertram
+dat/tilesets/autotiling.lua                                     GPLv2                    Allacrost
+dat/tilesets/desert_cave.lua                                    GPLv2                    Allacrost
+dat/tilesets/desert_ground.lua                                  GPLv2                    Allacrost
+dat/tilesets/castle_exterior_01.lua                             GPLv2                    Allacrost
+dat/tilesets/desert_cave_walls.lua                              GPLv2                    Allacrost
+dat/tilesets/mountain_house_exterior2.lua                       GPLv2                    Allacrost
+dat/tilesets/harrvah_house_exterior.lua                         GPLv2                    Allacrost
+dat/tilesets/harrvah_house.lua                                  GPLv2                    Allacrost
+dat/tilesets/desert_cave_walls2.lua                             GPLv2                    Allacrost
+dat/tilesets/mountain_house_exterior.lua                        GPLv2                    Allacrost
+dat/tilesets/desert_cave_ground.lua                             GPLv2                    Allacrost
+dat/tilesets/desert_cave_water.lua                              GPLv2                    Allacrost
 
 img/ambient/dark.png                                            CC0                      Bertram
 img/ambient/fog.png                                             GPLv2 or later           Bertram
@@ -680,6 +696,8 @@ img/sprites/map/objects/flower_pot2.lua                         GPLv2           
 img/sprites/map/objects/flower_pot2.png                         GPLv2                    Allacrost
 img/sprites/map/objects/grass_clump1.lua                        GPLv2                    Bertram
 img/sprites/map/objects/grass_clump1.png                        CC by SA 3.0             Len + Zabin (OGA) From the mountain_landscape tileset.
+img/sprites/map/objects/layna_statue.lua                        GPLv3                    Bertram
+img/sprites/map/objects/layna_statue.png                        
 img/sprites/map/objects/locker.lua                              GPLv2                    Bertram
 img/sprites/map/objects/locker.png                              GPLv2                    Allacrost
 img/sprites/map/objects/paper_feather.lua                       GPLv2                    Bertram
@@ -773,6 +791,16 @@ img/tilesets/village_exterior.png                               CC by SA 3.0    
 img/tilesets/water_tileset.png                                  CC by SA 3.0/GPLv2       From C. Nilsson for the water lilies with transparent background (OGA/CC by SA 3.0) + LPC Team for the water lights (OGA/CC by SA 3.0), Leonard Pabin (Len) GPLv2 for the stones, the water original tiles, and the water lili with a dark blue background + Bertram's small variations.
 img/tilesets/wood_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Bertram additions + Zabin (OGA) additions.
 img/tilesets/snow_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
+img/tilesets/mountain_house_exterior.png                        GPLv2                    Allacrost
+img/tilesets/desert_cave_walls.png                              GPLv2                    Allacrost
+img/tilesets/desert_cave_water.png                              GPLv2                    Allacrost
+img/tilesets/desert_cave_ground.png                             GPLv2                    Allacrost
+img/tilesets/desert_cave_walls2.png                             GPLv2                    Allacrost
+img/tilesets/harrvah_house.png                                  GPLv2                    Allacrost
+img/tilesets/desert_ground.png                                  GPLv2                    Allacrost
+img/tilesets/harrvah_house_exterior.png                         GPLv2                    Allacrost
+img/tilesets/desert_cave.png                                    GPLv2                    Allacrost
+img/tilesets/castle_exterior_01.png                             GPLv2                    Allacrost
 
 mus/accion-OGA-djsaryon.ogg                                     CC by SA 3.0, GPLv3      djsaryon (OGA) - http://opengameart.org/content/battle-midi
 mus/Battle_lost-OGA-Mumu.ogg                                    CC0                      Mumu (OGA) - http://opengameart.org/content/game-over-muisc
@@ -874,17 +902,6 @@ Files:
 ./snd/female_scream.ogg
 ./snd/swordslice3.wav
 
-./img/tilesets/mountain_house_exterior.png
-./img/tilesets/desert_cave_walls.png
-./img/tilesets/desert_cave_water.png
-./img/tilesets/desert_cave_ground.png
-./img/tilesets/desert_cave_walls2.png
-./img/tilesets/harrvah_house.png
-./img/tilesets/desert_ground.png
-./img/tilesets/harrvah_house_exterior.png
-./img/tilesets/desert_cave.png
-./img/tilesets/castle_exterior_01.png
-
 ./img/sprites/battle/enemies/spider.png
 ./img/sprites/battle/enemies/skeleton.png
 ./img/sprites/battle/enemies/scorpion.png
@@ -904,7 +921,6 @@ Files:
 ./img/sprites/battle/enemies/stygian_lizard.png
 ./img/sprites/battle/enemies/rat.png
 
-./img/logos/mac_logo.icns
 ./img/logos/main_logo_sword.png
 
 ./img/misc/chest1.png
@@ -1006,22 +1022,3 @@ Files:
 ./img/icons/armor/tempered_greaves.png
 ./img/icons/armor/metal_shield.png
 ./img/icons/armor/butterfly_pins.png
-
-./dat/tilesets/autotiling.lua
-./dat/tilesets/desert_cave.lua
-./dat/tilesets/desert_ground.lua
-./dat/tilesets/castle_exterior_01.lua
-./dat/tilesets/desert_cave_walls.lua
-./dat/tilesets/mountain_house_exterior2.lua
-./dat/tilesets/harrvah_house_exterior.lua
-./dat/tilesets/harrvah_house.lua
-./dat/tilesets/desert_cave_walls2.lua
-./dat/tilesets/mountain_house_exterior.lua
-./dat/tilesets/desert_cave_ground.lua
-./dat/tilesets/desert_cave_water.lua
-
-./dat/config/restore_settings.lua
-./dat/config/settings.lua
-./dat/config/languages.lua
-
-./dat/effects/status.lua

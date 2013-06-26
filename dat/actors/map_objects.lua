@@ -256,6 +256,14 @@ objects["Knife1"] = {
     img_height = 2.0
 }
 
+objects["Layna Statue"] = {
+    animation_filename = "img/sprites/map/objects/layna_statue.lua",
+    coll_half_width = 0.93,
+    coll_height = 2.0,
+    img_half_width = 0.93,
+    img_height = 5.31
+}
+
 objects["Locker"] = {
     animation_filename = "img/sprites/map/objects/locker.lua",
     coll_half_width = 0.75,

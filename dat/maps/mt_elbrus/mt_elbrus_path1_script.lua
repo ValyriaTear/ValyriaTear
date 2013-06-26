@@ -11,7 +11,7 @@ map_subname = "Low Mountain"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "" -- TODO : Crystallized
+music_filename = "" -- TODO
 
 -- c++ objects instances
 local Map = {};
@@ -120,7 +120,7 @@ function _CreateObjects()
     Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 27, 23);
+    npc = CreateSprite(Map, "Butterfly", 104, 56);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
@@ -130,6 +130,8 @@ function _CreateObjects()
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
+    npc = CreateObject(Map, "Layna Statue", 104, 56);
+    Map:AddGroundObject(npc);
 
     -- Objects array
     local map_objects = {
@@ -158,6 +160,20 @@ function _CreateObjects()
         { "Tree Big2", 114, 47 },
         { "Tree Big2", 109, 48 },
         { "Tree Big1", 105, 46 },
+        { "Tree Big1", 97, 46.5 },
+
+        { "Tree Big1", 105, 54 },
+        { "Tree Big1", 100, 56 },
+        { "Tree Big2", 102, 61 },
+        { "Tree Big1", 90, 62 },
+        { "Tree Big2", 106, 60 },
+        { "Tree Big1", 88, 70 },
+        { "Tree Small1", 90, 76 },
+        { "Tree Small2", 97, 52 },
+        { "Tree Big1", 98, 65 },
+        { "Tree Big1", 93, 67 },
+        { "Tree Big2", 95, 71 },
+        { "Tree Small1", 99, 68 },
     }
 
     -- Loads the trees according to the array
