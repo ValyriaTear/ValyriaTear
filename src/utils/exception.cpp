@@ -21,6 +21,12 @@
 
 #include <sstream>
 
+// The Windows API defines GetMessage.
+// Undefine it here to prevent conflicts with Exception::GetMessage.
+#ifdef _WIN32
+#   undef GetMessage
+#endif
+
 template <typename T>
 std::string _NumberToString(const T t)
 {

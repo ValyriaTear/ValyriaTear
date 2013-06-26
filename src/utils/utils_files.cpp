@@ -23,11 +23,6 @@
 // dealing with directories, hence the need for conditional includes
 #ifdef _WIN32
 #include <windows.h>
-// Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
-#ifndef strcasecmp
-#define strcasecmp stricmp
-#endif
-
 #include <direct.h>
 #include <shlobj.h>
 #else

@@ -43,12 +43,6 @@
 #include <libintl.h>
 #endif
 
-// The Windows API defines CreateSemaphore.
-// Undefine it here to prevent conflicts with SystemEngine::CreateSemaphore.
-#ifdef _WIN32
-#   undef CreateSemaphore
-#endif
-
 using namespace vt_utils;
 using namespace vt_script;
 using namespace vt_mode_manager;
