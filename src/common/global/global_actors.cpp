@@ -27,6 +27,8 @@
 #include "utils/utils_files.h"
 #include "utils/utils_random.h"
 
+#include <iostream>
+
 using namespace vt_utils;
 using namespace vt_video;
 using namespace vt_script;

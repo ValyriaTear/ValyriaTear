@@ -22,6 +22,7 @@
 #include "utils/utils_common.h"
 
 #include <fstream>
+#include <iostream>
 
 using namespace vt_utils;
 

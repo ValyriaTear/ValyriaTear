@@ -23,6 +23,8 @@
 
 #include "utils/ustring.h"
 
+#include <iostream>
+
 namespace vt_script
 {
 
