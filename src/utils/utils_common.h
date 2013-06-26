@@ -52,7 +52,7 @@
 #define __UTILS_COMMON_HEADER__
 
 #ifdef _WIN32
-#include <Windows.h>
+#include <windows.h>
 #endif
 
 // We include SDL_config.h, which compensates for non ISO C99 compilers.
