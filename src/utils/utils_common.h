@@ -51,6 +51,10 @@
 #ifndef __UTILS_COMMON_HEADER__
 #define __UTILS_COMMON_HEADER__
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 // We include SDL_config.h, which compensates for non ISO C99 compilers.
 // SDL_config.h defines the int??_t types for non ISO C99 compilers,
 // and defines HAVE_STDINT_H for compliant compilers
