@@ -316,6 +316,14 @@ public:
         _show_minimap = visibility;
         return previous_visibility;
     }
+
+    //! \brief Tells the system to load a custom minimap image.
+    void SetMinimapImage(const std::string& filename) {
+        _minimap_custom_image_file = filename;
+        // This also implies the minimap will be shown
+        ShowMinimap(true);
+    }
+
     //@}
 
 private:
@@ -476,16 +484,16 @@ private:
     //! \brief flag that enables minimap rendering or not
     bool _show_minimap;
 
+    //! \brief Stores the potential custom minimap image filename
+    std::string _minimap_custom_image_file;
+
     // ----- Methods -----
 
     //! \brief Loads all map data contained in the Lua file that defines the map
     bool _Load();
 
-    /** \brief Auto-generates the Collision mini-map for the current location.
-    *** This is done by using the collision markers in the current map context and setting up an image where
-    *** areas that cannot be moved onto, and mapping them as "white" blocks into a black image
-    *** actual rendering is done through SDL, as we currently don't have off-screen rendering / render
-    *** to texture available throught he vt_engine
+    /** Triggers the minimap creation either by trying to load the minimap file given.
+    *** Or by creating a minimap procedurally.
     **/
     bool _CreateMinimap();
 

@@ -133,6 +133,11 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
         return;
     }
 
+    // Once the minimap file has been set (in the load function),
+    // we can create the minimap
+    if(!_CreateMinimap())
+        PRINT_WARNING << "Unable to create the minimap for " << _map_data_filename << std::endl;
+
     // Load miscellaneous map graphics
     _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
     ScaleToMapCoords(_dialogue_icon);
@@ -219,9 +224,6 @@ void MapMode::Reset()
     // I.e: When going out of the menu mode.
     if(CurrentState() == private_map::STATE_EXPLORE)
         _object_supervisor->ReloadVisiblePartyMember();
-
-    if(!_CreateMinimap())
-        PRINT_WARNING << "Unable to create the minimap for " << _map_data_filename << std::endl;
 }
 
 
@@ -678,7 +680,7 @@ bool MapMode::_CreateMinimap()
         _minimap = NULL;
     }
 
-    _minimap = new Minimap();
+    _minimap = new Minimap(_minimap_custom_image_file);
     return true;
 }
 

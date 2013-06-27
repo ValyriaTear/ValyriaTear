@@ -116,6 +116,7 @@ void BindModeCode()
             .def("CurrentState", &MapMode::CurrentState)
             .def("DrawMapLayers", &MapMode::_DrawMapLayers)
             .def("ShowMinimap", &MapMode::ShowMinimap)
+            .def("SetMinimapImage", &MapMode::SetMinimapImage)
             .def("GetStamina", &MapMode::GetStamina)
             .def("SetStamina", &MapMode::SetStamina)
 

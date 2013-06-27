@@ -53,7 +53,7 @@ static const vt_video::Color overlap_opacity(1.0f, 1.0f, 1.0f, 0.45f);
 Minimap::Minimap(const std::string& minimap_image_filename) :
     _current_position_x(-1.0f),
     _current_position_y(-1.0f),
-    _box_x_length(20),
+    _box_x_length(10),
     _box_y_length(_box_x_length * .75f),
     _x_offset(0.0f),
     _y_offset(0.0f),
@@ -65,9 +65,12 @@ Minimap::Minimap(const std::string& minimap_image_filename) :
     vt_video::VideoManager->GetCurrentViewport(_viewport_original_x, _viewport_original_y,
                                                 _viewport_original_width, _viewport_original_height);
 
+    ObjectSupervisor *map_object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
+    map_object_supervisor->GetGridAxis(_grid_width, _grid_height);
+
     // If no minimap image is given, we create one.
     if (minimap_image_filename.empty() ||
-        !_minimap_image.Load(minimap_image_filename, _grid_width * _box_x_length, _grid_height * _box_y_length)) {
+            !_minimap_image.Load(minimap_image_filename, _grid_width * _box_x_length, _grid_height * _box_y_length)) {
         _minimap_image = _CreateProcedurally();
     }
 
@@ -119,8 +122,6 @@ vt_video::StillImage Minimap::_CreateProcedurally()
 
     float x, y, width, height;
     vt_video::VideoManager->GetCurrentViewport(x, y, width, height);
-
-    map_object_supervisor->GetGridAxis(_grid_width, _grid_height);
 
     //create a new SDL surface that is the rendering dimensions we want.
     SDL_Surface *temp_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
@@ -203,70 +204,75 @@ vt_video::StillImage Minimap::_CreateProcedurally()
     return minimap_image;
 }
 
+const float minimap_pos_x = 775.0f;
+const float minimap_pos_y = 545.0f;
+
 void Minimap::Draw()
 {
     using namespace vt_video;
-    if(_current_position_x > -1) {
-        Color resultant_opacity = *_current_opacity;
-        if(_map_alpha_scale < resultant_opacity.GetAlpha())
-            resultant_opacity.SetAlpha(_map_alpha_scale);
-        //save the current video manager state
-        VideoManager->PushState();
-        //set the new coordinates to match our viewport
-        VideoManager->SetStandardCoordSys();
-        //draw the background in the current viewport and coordinate space
-        VideoManager->Move(775.0f, 545.0f);
-        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-        _background.Draw(resultant_opacity);
-        //assign the viewport to be "inside" the above area
-        VideoManager->SetViewport(_viewport_x, _viewport_y, _viewport_width, _viewport_height);
-        //scale and translate the orthographic projection such that it "centers" on our calculated positions
-        VideoManager->SetCoordSys(_x_cent - _x_half_len, _x_cent + _x_half_len, _y_cent + _y_half_len, _y_cent - _y_half_len);
+    if(_current_position_x <= -1.0f)
+        return;
 
-        float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
-        float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight()/ 2.0f;
+    Color resultant_opacity = *_current_opacity;
+    if(_map_alpha_scale < resultant_opacity.GetAlpha())
+        resultant_opacity.SetAlpha(_map_alpha_scale);
+    // Save the current video manager state
+    VideoManager->PushState();
+    // Set the new coordinates to match our viewport
+    VideoManager->SetStandardCoordSys();
+    // Draw the background in the current viewport and coordinate space
+    VideoManager->Move(minimap_pos_x, minimap_pos_y);
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
+    _background.Draw(resultant_opacity);
+    // Assign the viewport to be "inside" the above area
+    VideoManager->SetViewport(_viewport_x, _viewport_y, _viewport_width, _viewport_height);
+    // Scale and translate the orthographic projection such that it "centers" on our calculated positions
+    VideoManager->SetCoordSys(_x_cent - _x_half_len, _x_cent + _x_half_len, _y_cent + _y_half_len, _y_cent - _y_half_len);
 
-        VideoManager->Move(0, 0);
-        //adjust the currnet opacity for the map scale
+    float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
+    float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight()/ 2.0f;
 
-        _minimap_image.Draw(resultant_opacity + Color(0.0f, 0.0f, 0.0f, -0.15f));
+    VideoManager->Move(0, 0);
+    // Adjust the current opacity for the map scale
+    _minimap_image.Draw(resultant_opacity);
 
-        VideoManager->Move(x_location, y_location);
-        _location_marker.Draw(resultant_opacity);
+    VideoManager->Move(x_location, y_location);
+    _location_marker.Draw(resultant_opacity);
 
-        VideoManager->PopState();
+    VideoManager->PopState();
 
-        //remember kids: please be kind and rewind!
-        VideoManager->SetViewport(_viewport_original_x, _viewport_original_y,
-                                  _viewport_original_width, _viewport_original_height);
-    }
+    // Reset the original viewport
+    VideoManager->SetViewport(_viewport_original_x, _viewport_original_y,
+                              _viewport_original_width, _viewport_original_height);
 }
 
 void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
 {
-    //in case the camera isn't specified, we don't do anything
+    // In case the camera isn't specified, we don't do anything
     if(!camera)
         return;
 
+    MapMode* map_mode = MapMode::CurrentInstance();
+
     _map_alpha_scale = map_alpha_scale;
 
-    //get the collision-map transformed location of the camera
+    // Get the collision-map transformed location of the camera
     _current_position_x = camera->GetPosition().x;
     _current_position_y = camera->GetPosition().y;
     _x_cent = _box_x_length * _current_position_x;
     _y_cent = _box_y_length * _current_position_y;
 
-    //update the opacity based on the camera location.
-    //we decrease the opacity if it is in the region covered by the collision map
-    if((_minimap_image.GetWidth() - _x_cent) <= 180.0f &&
-            (_minimap_image.GetHeight() - _y_cent) <= 115.0f)
+    // Update the opacity based on the camera location.
+    // We decrease the opacity if it is in the region covered by the collision map
+    if(map_mode->GetScreenXCoordinate(_current_position_x) >= minimap_pos_x &&
+            map_mode->GetScreenYCoordinate(_current_position_y) >= minimap_pos_y)
         _current_opacity = &overlap_opacity;
     else
         _current_opacity = &default_opacity;
 
-    //update the orthographic projection information based on the camera location
-    //we "lock" the minimap so that if it is against an edge of the map the orthographic
-    //projection doesn't roll over the edge.
+    // Update the orthographic projection information based on the camera location
+    // We "lock" the minimap so that if it is against an edge of the map the orthographic
+    // projection doesn't roll over the edge.
     if(_x_cent - _x_half_len < 0)
         _x_cent = _x_half_len;
     if(_x_cent + _x_half_len > _grid_width * _box_x_length)
@@ -277,19 +283,27 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
     if(_y_cent + _y_half_len > _grid_height * _box_y_length)
         _y_cent = _grid_height * _box_y_length - _y_half_len;
 
-    //set the indicator frame based on what direction the camera is moving
+    // Set the indicator frame based on what direction the camera is moving
     switch(camera->GetDirection())
     {
-        case 0x1:
+        case NORTH:
+        case NW_NORTH:
+        case NE_NORTH:
             _location_marker.SetFrameIndex(0);
         break;
-        case 0x8:
+        case EAST:
+        case NE_EAST:
+        case SE_EAST:
             _location_marker.SetFrameIndex(3);
         break;
-        case 0x2:
+        case SOUTH:
+        case SW_SOUTH:
+        case SE_SOUTH:
             _location_marker.SetFrameIndex(2);
         break;
-        case 0x4:
+        case WEST:
+        case NW_WEST:
+        case SW_WEST:
             _location_marker.SetFrameIndex(1);
         break;
         default:
@@ -298,6 +312,6 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
 
 }
 
-}
+} // private_map
 
-}
+} // vt_map
