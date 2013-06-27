@@ -88,7 +88,7 @@ function _CreateCharacters()
 
     -- Create secondary characters
     kalya = CreateSprite(Map, "Kalya",
-                            hero:GetXPosition(), hero:GetYPosition());
+                         hero:GetXPosition(), hero:GetYPosition());
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -96,7 +96,7 @@ function _CreateCharacters()
     Map:AddGroundObject(kalya);
 
     orlinn = CreateSprite(Map, "Orlinn",
-                            hero:GetXPosition(), hero:GetYPosition());
+                          hero:GetXPosition(), hero:GetYPosition());
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -127,7 +127,7 @@ function _CreateObjects()
     Map:AddGroundObject(npc);
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
+    dialogue:AddLineEvent(text, npc, "Heal event", "");
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
     npc = CreateObject(Map, "Layna Statue", 104, 56);
@@ -174,6 +174,63 @@ function _CreateObjects()
         { "Tree Big1", 93, 67 },
         { "Tree Big2", 95, 71 },
         { "Tree Small1", 99, 68 },
+        { "Tree Small2", 73, 73 },
+        { "Tree Small1", 79, 78 },
+        { "Tree Big2", 88, 46 },
+        { "Tree Big1", 83, 48 },
+        { "Tree Big1", 73, 46.2 },
+        { "Tree Big1", 93, 49 },
+        { "Tree Big1", 85, 60 },
+        { "Tree Small1", 80, 58 },
+
+        { "Tree Big1", 67, 54 },
+        { "Tree Big1", 64, 57 },
+        { "Tree Big1", 70, 59 },
+
+        { "Tree Big1", 44, 89 },
+        { "Tree Small1", 27, 87 },
+        { "Tree Big1", 21, 83 },
+        { "Tree Big1", 6, 87.2 },
+        { "Tree Big1", 2, 89 },
+        { "Tree Big1", 1, 92 },
+        { "Tree Big1", 3, 96 },
+        { "Tree Big1", 5, 98 },
+
+        { "Tree Tiny1", 17, 75 },
+        { "Tree Big2", 55, 63 },
+        { "Tree Big2", 43, 92 },
+        { "Tree Big2", 47, 84.5 },
+        { "Tree Big2", 45, 80 },
+        { "Tree Big2", 42, 77 },
+        { "Tree Big2", 51, 79 },
+        { "Tree Big2", 52, 73 },
+        { "Tree Big2", 44, 71 },
+        { "Tree Big2", 70, 51 },
+        { "Tree Big2", 73.5, 49 },
+        { "Tree Big2", 77, 59 },
+        { "Tree Big2", 74, 57 },
+        { "Tree Big2", 50, 82 },
+        { "Tree Big2", 49, 75.5 },
+        { "Tree Big2", 46, 50 },
+        { "Tree Big2", 50, 56 },
+        { "Tree Big1", 47, 53 },
+
+        { "Rock2", 124, 31 },
+        { "Rock1", 127, 30 },
+        { "Rock2", 123, 39 },
+        { "Rock1", 126, 31.5 },
+        { "Rock1", 128, 35 },
+        { "Rock1", 108, 72 },
+        { "Rock2", 96, 76 },
+        { "Rock1", 85, 73.5 },
+        { "Rock2", 46, 94 },
+        { "Rock1", 48, 96 },
+
+        { "Rock1", 54, 45 },
+        { "Rock1", 53, 48 },
+        { "Rock1", 50, 47 },
+        { "Rock1", 52, 58 },
+        { "Rock1", 54, 59.5 },
     }
 
     -- Loads the trees according to the array
@@ -196,6 +253,18 @@ function _CreateObjects()
         { "Grass Clump1", 112, 69 },
 
         { "Grass Clump1", 105.5, 47 },
+        { "Grass Clump1", 125, 32.5 },
+        { "Grass Clump1", 122, 31 },
+        { "Grass Clump1", 103.5, 57 },
+        { "Grass Clump1", 92, 69 },
+        { "Grass Clump1", 99, 58 },
+        { "Grass Clump1", 84, 70 },
+
+        { "Grass Clump1", 38, 63 },
+        { "Grass Clump1", 51, 49 },
+        { "Grass Clump1", 53, 46 },
+        { "Grass Clump1", 48, 94 },
+        { "Grass Clump1", 80, 59.2 },
 
     }
 
@@ -242,7 +311,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Heal point
-    event = vt_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
+    event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
 
 end
@@ -282,6 +351,7 @@ map_functions = {
         -- Should be sufficient to heal anybody
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
+        Map:SetStamina(10000);
         AudioManager:PlaySound("snd/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
