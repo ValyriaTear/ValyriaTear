@@ -26,7 +26,7 @@ local hero = {};
 local kalya = {};
 local orlinn = {};
 
--- Name of the main sprite. Used to reload the good one at the end of the firt forest entrance event.
+-- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
 
 -- the main map loading code
@@ -214,6 +214,7 @@ function _CreateObjects()
         { "Tree Big2", 46, 50 },
         { "Tree Big2", 50, 56 },
         { "Tree Big1", 47, 53 },
+        { "Tree Big1", 68, 74 },
 
         { "Rock2", 124, 31 },
         { "Rock1", 127, 30 },
@@ -231,6 +232,12 @@ function _CreateObjects()
         { "Rock1", 50, 47 },
         { "Rock1", 52, 58 },
         { "Rock1", 54, 59.5 },
+
+        { "Rock2", 81, 82 },
+        { "Rock2", 64, 78 },
+        { "Rock2", 54, 87 },
+        { "Rock2", 73, 67 },
+        { "Rock2", 85, 63 },
     }
 
     -- Loads the trees according to the array
@@ -296,7 +303,8 @@ function _CreateEnemies()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {}
+local kalya_move_next_to_hero_event = {}
+local orlinn_move_next_to_hero_event = {}
 local move_back_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
@@ -305,27 +313,57 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    -- After the forest dungeon
-    event = vt_map.MapTransitionEvent("exit forest at night", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
+    -- To the first cave
+    event = vt_map.MapTransitionEvent("to first cave", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_right_entrance");
     EventManager:RegisterEvent(event);
 
     -- Heal point
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
 
+    -- Generic event
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, hero);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya);
+    EventManager:RegisterEvent(event);
+
+    -- Kalya sees the first guard and tells more about the heroes destination.
+    event = vt_map.ScriptedEvent("Kalya tells about the soliders and their destination", "kalya_sees_the_soldiers_dialogue_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
+    event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at Bronann");
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks at Kalya");
+    --kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya tells Bronann about the soldiers");
+    EventManager:RegisterEvent(kalya_move_next_to_hero_event);
+    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
+    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks at Kalya");
+    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
+
 end
 
 -- zones
-
+local see_first_guard_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
+    -- N.B.: left, right, top, bottom
+    see_first_guard_zone = vt_map.CameraZone(86, 88, 70, 86);
+    Map:AddZone(see_first_guard_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-
+    if (see_first_guard_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("Kalya tells about the soliders and their destination");
+    end
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -377,5 +415,26 @@ map_functions = {
 
     SetCamera = function(sprite)
         Map:SetCamera(sprite, 800);
-    end
+    end,
+
+    kalya_sees_the_soldiers_dialogue_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        kalya_move_next_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition() - 2.0, false);
+        orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition() - 2.0, false);
+    end,
 }
