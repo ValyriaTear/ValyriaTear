@@ -32,6 +32,7 @@
 #ifndef PATH_MAX
 #define PATH_MAX _MAX_PATH   // redefine _MAX_PATH to be compatible with Darwin's PATH_MAX
 #endif
+#undef CreateSemaphore       // Windows API defines CreateSemaphore
 #elif defined __APPLE__
 #include <unistd.h>
 #include <cstdlib>

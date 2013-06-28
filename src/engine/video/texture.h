@@ -46,11 +46,9 @@
 #include "utils/utils_common.h"
 
 // We add the gl headers here for the GLuint and GLenum declarations.
-// Note that no windows.h is included here as it isn't needed.
 
-// Visual studio
-#ifdef _VS
-#include <GL/glew.h>
+#ifdef _MSC_VER
+#include <windows.h> // needs to be included before gl.h
 #endif
 
 #ifdef __APPLE__

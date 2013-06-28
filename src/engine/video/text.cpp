@@ -24,7 +24,7 @@
 
 #include "video.h"
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #include <windows.h> // needs to be included before gl.h
 #endif
 
