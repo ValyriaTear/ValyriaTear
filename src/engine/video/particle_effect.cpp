@@ -23,8 +23,10 @@
 #include "engine/script/script_read.h"
 
 // Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
+#ifdef _WIN32
 #ifndef strcasecmp
 #define strcasecmp stricmp
+#endif
 #endif
 
 using namespace vt_script;
