@@ -618,6 +618,11 @@ void PathMoveSpriteEvent::_Start()
 
     MapPosition dest(_destination_x, _destination_y);
 
+    // If the sprite is at the destination, we don't have to compute anything
+    if ((uint32)_sprite->GetXPosition() == (uint32)_destination_x
+            && (uint32)_sprite->GetYPosition() == (uint32)_destination_y)
+        return;
+
     _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, dest);
     if(_path.empty()) {
         PRINT_ERROR << "No path to destination (" << _destination_x

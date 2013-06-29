@@ -292,7 +292,7 @@ function _CreateEnemies()
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(49, 62, 26, 39);
+    roam_zone = vt_map.EnemyZone(59, 62, 61, 85);
 
     -- Dark soldier 1
     dark_soldier1 = CreateEnemySprite(Map, "Dark Soldier");
@@ -340,6 +340,14 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Kalya sees the first guard and tells more about the heroes destination.
+    event = vt_map.ScriptedEvent("Set scene state for dialogue about soldiers", "soldiers_dialogue_set_scene_state", "");
+    event:AddEventLinkAtEnd("The hero moves to a good watch point");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("The hero moves to a good watch point", hero, 88, 79, false);
+    event:AddEventLinkAtEnd("Kalya tells about the soliders and their destination");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.ScriptedEvent("Kalya tells about the soliders and their destination", "kalya_sees_the_soldiers_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
@@ -403,12 +411,16 @@ end
 
 -- zones
 local see_first_guard_zone = {};
+local to_first_cave_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
     see_first_guard_zone = vt_map.CameraZone(86, 88, 70, 86);
     Map:AddZone(see_first_guard_zone);
+
+    to_first_cave_zone = vt_map.CameraZone(62, 66, 43, 45);
+    Map:AddZone(to_first_cave_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -416,8 +428,11 @@ function _CheckZones()
     if (see_first_guard_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
         if (GlobalManager:GetEventValue("story", "mt_elbrus_kalya_sees_the_soldiers") == 0) then
             hero:SetMoving(false);
-            EventManager:StartEvent("Kalya tells about the soliders and their destination");
+            EventManager:StartEvent("Set scene state for dialogue about soldiers");
         end
+    elseif (to_first_cave_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to first cave");
     end
 end
 
@@ -472,10 +487,11 @@ map_functions = {
         Map:SetCamera(sprite, 800);
     end,
 
-    kalya_sees_the_soldiers_dialogue_start = function()
+    soldiers_dialogue_set_scene_state = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
-        hero:SetMoving(false);
+    end,
 
+    kalya_sees_the_soldiers_dialogue_start = function()
         -- Keep a reference of the correct sprite for the event end.
         main_sprite_name = hero:GetSpriteName();
 
