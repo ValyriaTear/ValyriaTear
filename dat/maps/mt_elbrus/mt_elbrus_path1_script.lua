@@ -285,6 +285,8 @@ function _CreateObjects()
 
 end
 
+local dark_soldier1 = {}
+
 function _CreateEnemies()
     local enemy = {};
     local roam_zone = {};
@@ -293,11 +295,11 @@ function _CreateEnemies()
     roam_zone = vt_map.EnemyZone(49, 62, 26, 39);
 
     -- Dark soldier 1
-    enemy = CreateEnemySprite(Map, "Dark Soldier");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(9);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    dark_soldier1 = CreateEnemySprite(Map, "Dark Soldier");
+    _SetBattleEnvironment(dark_soldier1);
+    dark_soldier1:NewEnemyParty();
+    dark_soldier1:AddEnemy(9);
+    roam_zone:AddEnemy(dark_soldier1, Map, 1);
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     Map:AddZone(roam_zone);
 end
@@ -330,6 +332,13 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya);
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks west", hero, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+
     -- Kalya sees the first guard and tells more about the heroes destination.
     event = vt_map.ScriptedEvent("Kalya tells about the soliders and their destination", "kalya_sees_the_soldiers_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
@@ -338,14 +347,58 @@ function _CreateEvents()
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
-    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at Bronann");
-    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks at Kalya");
-    --kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya tells Bronann about the soldiers");
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks west");
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks west");
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya sees the soldier");
     EventManager:RegisterEvent(kalya_move_next_to_hero_event);
     orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
-    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks at Kalya");
+    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks west");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Look!");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya sees the soldier", dialogue);
+    event:AddEventLinkAtEnd("Set the Camera on the soldier", 200);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set the Camera on the soldier", "set_the_camera_on_the_soldier", "is_camera_moving_finished");
+    event:AddEventLinkAtEnd("Set the camera back to Bronann", 1000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set the camera back to Bronann", "set_the_camera_back_on_bronann", "is_camera_moving_finished");
+    event:AddEventLinkAtEnd("Kalya tells the plan");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Banesore's minions are already all over the place ...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Bronann looks at Kalya");
+    text = vt_system.Translate("The dark soldiers as we call them are fanatics. They'll follow Banesore's orders even if it means death.");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("We don't how he does that, but he can turn anybody into a servile subject.");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("Their strength is also increased by the transformation. That's why we call them the zombified army.");
+    dialogue:AddLine(text, kalya);    
+    text = vt_system.Translate("We must absolutely try to avoid them or they'll call reinforcement.");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
+    text = vt_system.Translate("They are too strong. If they catch us, we're doomed.");
+    dialogue:AddLine(text, kalya);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya tells the plan", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party");
+    event:AddEventLinkAtEnd("Kalya goes back to party");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+
+    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+    kalya_move_back_to_hero_event:AddEventLinkAtEnd("End of dialogue about the soldiers");
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
+
+    event = vt_map.ScriptedEvent("End of dialogue about the soldiers", "end_of_dialogue_about_soldiers", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -360,9 +413,11 @@ end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-    if (see_first_guard_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
-        EventManager:StartEvent("Kalya tells about the soliders and their destination");
+    if (see_first_guard_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_kalya_sees_the_soldiers") == 0) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("Kalya tells about the soliders and their destination");
+        end
     end
 end
 
@@ -436,5 +491,36 @@ map_functions = {
 
         kalya_move_next_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition() - 2.0, false);
         orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition() - 2.0, false);
+    end,
+
+    end_of_dialogue_about_soldiers = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_kalya_sees_the_soldiers", 1);
+    end,
+
+    set_the_camera_on_the_soldier = function()
+        Map:SetCamera(dark_soldier1, 1500);
+    end,
+
+    is_camera_moving_finished = function()
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        return true;
+    end,
+
+    set_the_camera_back_on_bronann = function()
+        Map:SetCamera(hero, 1500);
     end,
 }
