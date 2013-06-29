@@ -37,7 +37,7 @@ function Load(m)
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
-
+    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png");
     Map.unlimited_stamina = false;
 
     _CreateCharacters();

@@ -112,6 +112,13 @@ private:
 
     //! \brief specifies the additive alpha we get from the map class
     float _map_alpha_scale;
+
+#ifdef DEBUG_FEATURES
+    //! \brief Writes a XPM file with the minimap equivalient in it.
+    //! It is used to easily have a base to create nicer minimaps.
+    void _DEV_CreateXPMFromCollisionMap(const std::string& output_file);
+#endif
+
 };
 
 }

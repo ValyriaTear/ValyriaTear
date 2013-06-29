@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.06.25
+Last update: 2013.06.29
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -107,6 +107,8 @@ dat/maps/layna_forest/crystal_appearance/blue_lightning3.png    CC by SA 3.0    
 dat/maps/layna_forest/crystal_appearance/crystal_shadow.png     CC by SA 3.0             Len + Bertram modifications
 dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua        GPLv2 Bertram
 dat/maps/layna_forest/crystal_appearance/vortex.png             CC by SA 3.0             Bertram
+
+dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png CC by SA 3.0             Bertram
 
 dat/maps/layna_village/kalya_house_fake_wall.png                GPLv2 or later           Bertram, based on Jetrel harrvah tileset.
 

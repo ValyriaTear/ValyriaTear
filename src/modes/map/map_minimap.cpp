@@ -21,6 +21,12 @@
 #include "engine/video/video.h"
 #include "common/gui/menu_window.h"
 
+// Used for the collision to XPM dev function
+#ifdef DEBUG_FEATURES
+#include "engine/script/script_write.h"
+#include <sstream>
+#endif
+
 #include <algorithm>
 #include <SDL_image.h>
 
@@ -201,6 +207,11 @@ vt_video::StillImage Minimap::_CreateProcedurally()
     vt_video::StillImage minimap_image = vt_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
     free(temp_data.pixels);
 
+#ifdef DEBUG_FEATURES
+    // Uncomment and compile this to generate XPM minimaps.
+    //_DEV_CreateXPMFromCollisionMap(map_name_cmap + ".xpm");
+#endif
+
     return minimap_image;
 }
 
@@ -311,6 +322,52 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
     };
 
 }
+
+#ifdef DEBUG_FEATURES
+void Minimap::_DEV_CreateXPMFromCollisionMap(const std::string& output_file)
+{
+    vt_script::WriteScriptDescriptor xpm_file;
+    if(!xpm_file.OpenFile(output_file)) {
+        PRINT_ERROR << "Failed to open xpm file: " << output_file << std::endl;
+        return;
+    }
+
+    ObjectSupervisor *map_object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
+    uint32 grid_width = 0;
+    uint32 grid_height = 0;
+    map_object_supervisor->GetGridAxis(grid_width, grid_height);
+
+    xpm_file.WriteLine("/* XPM */");
+    xpm_file.WriteLine("static char * minimap_xpm[] = {");
+    std::ostringstream text("");
+    text << "\"" << grid_width << " " << grid_height << " 2 1\",";
+    xpm_file.WriteLine(text.str());
+    xpm_file.WriteLine("\"1 c None\",");
+    xpm_file.WriteLine("\"0 c #FFFFFF\",");
+
+    for(uint32 col = 0; col < grid_height; ++col)
+    {
+        std::ostringstream text("");
+        text << "\"";
+
+        for(uint32 row = 0; row < grid_width; ++row)
+        {
+            if(map_object_supervisor->IsStaticCollision(row, col))
+                text << "1";
+            else
+                text << "0";
+        }
+
+        text << "\",";
+        xpm_file.WriteLine(text.str());
+    }
+
+    xpm_file.WriteLine("};");
+
+    xpm_file.SaveFile();
+    xpm_file.CloseFile();
+}
+#endif
 
 } // private_map
 
