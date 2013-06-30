@@ -676,8 +676,9 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
         // If text shadows are enabled, draw the shadow first
         if(style.shadow_style != VIDEO_TEXT_SHADOW_NONE) {
             VideoManager->PushMatrix();
-            VideoManager->MoveRelative(VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x, 0.0f);
-            VideoManager->MoveRelative(0.0f, VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y);
+            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x;
+            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y;
+            VideoManager->MoveRelative(dx, dy);
             _DrawTextHelper(buffer, fp, _GetTextShadowColor(style));
             VideoManager->PopMatrix();
         }
