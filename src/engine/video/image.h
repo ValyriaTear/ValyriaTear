@@ -300,7 +300,7 @@ protected:
     ***
     *** \note This method modifies the draw cursor position and does not restore it before finishing. Therefore
     *** under most circumstances, you will want to call VideoManager->PushState()/PopState(), or
-    *** glPushMatrix()/glPopMatrix() before and after calling this function. The latter is preferred due to the
+    *** PushMatrix()/PopMatrix() before and after calling this function. The latter is preferred due to the
     *** lower cost of the call, but some circumstances may require using the former when more state information
     *** needs to be retained.
     **/
