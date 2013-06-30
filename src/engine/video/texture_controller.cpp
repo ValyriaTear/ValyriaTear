@@ -234,13 +234,13 @@ void TextureController::DEBUG_ShowTexSheet()
     VideoManager->SetDrawFlags(VIDEO_NO_BLEND, VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->SetStandardCoordSys();
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
     VideoManager->Move(0.0f, 368.0f);
-    glScalef(sheet->width / 2.0f, sheet->height / 2.0f, 1.0f);
+    VideoManager->Scale(sheet->width / 2.0f, sheet->height / 2.0f);
 
     sheet->DEBUG_Draw();
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 
     char buf[200];
 

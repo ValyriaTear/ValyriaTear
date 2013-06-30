@@ -290,7 +290,7 @@ void TextElement::Draw(const Color &draw_color) const
     if(IsFloatEqual(draw_color[3], 0.0f))
         return;
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
     _DrawOrientation();
 
     if(draw_color == Color::white) {
@@ -305,7 +305,7 @@ void TextElement::Draw(const Color &draw_color) const
         _DrawTexture(modulated_colors);
     }
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 } // void TextElement::Draw(const Color& draw_color) const
 
 
@@ -425,12 +425,12 @@ void TextImage::Clear()
 
 void TextImage::Draw() const
 {
-    glPushMatrix();
+    VideoManager->PushMatrix();
     for(uint32 i = 0; i < _text_sections.size(); ++i) {
         _text_sections[i]->Draw();
         VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
     }
-    glPopMatrix();
+    VideoManager->PopMatrix();
 }
 
 
@@ -441,12 +441,12 @@ void TextImage::Draw(const Color &draw_color) const
     if(IsFloatEqual(draw_color[3], 0.0f))
         return;
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
     for(uint32 i = 0; i < _text_sections.size(); ++i) {
         _text_sections[i]->Draw(draw_color);
         VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
     }
-    glPopMatrix();
+    VideoManager->PopMatrix();
 }
 
 
@@ -671,20 +671,21 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
         }
 
         // Save the draw cursor position before drawing this text
-        glPushMatrix();
+        VideoManager->PushMatrix();
 
         // If text shadows are enabled, draw the shadow first
         if(style.shadow_style != VIDEO_TEXT_SHADOW_NONE) {
-            glPushMatrix();
-            VideoManager->MoveRelative(VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x, 0.0f);
-            VideoManager->MoveRelative(0.0f, VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y);
+            VideoManager->PushMatrix();
+            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x;
+            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y;
+            VideoManager->MoveRelative(dx, dy);
             _DrawTextHelper(buffer, fp, _GetTextShadowColor(style));
-            glPopMatrix();
+            VideoManager->PopMatrix();
         }
 
         // Now draw the text itself, restore the position of the draw cursor, and move the draw cursor one line down
         _DrawTextHelper(buffer, fp, style.color);
-        glPopMatrix();
+        VideoManager->PopMatrix();
         VideoManager->MoveRelative(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
 
     } while(last_line < text.length());
@@ -909,7 +910,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     VideoManager->EnableTexture2D();
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
 
     int font_width, font_height;
     if(TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
@@ -979,7 +980,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         xpos += glyph_info->advance;
     } // for (const uint16* glyph = text; *glyph != 0; glyph++)
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 } // void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* fp, Color color)
 
 

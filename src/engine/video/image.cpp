@@ -549,7 +549,7 @@ void ImageDescriptor::_DrawOrientation() const
         x_scale = -x_scale;
     if(current_context.coordinate_system.GetVerticalDirection() < 0.0f)
         y_scale = -y_scale;
-    glScalef(x_scale, y_scale, 1.0f);
+    VideoManager->Scale(x_scale, y_scale);
 }
 
 
@@ -1041,7 +1041,7 @@ void StillImage::Draw(const Color &draw_color) const
     if(IsFloatEqual(draw_color[3], 0.0f))
         return;
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
     if (_x_offset != 0.0f || _y_offset != 0.0f)
         VideoManager->MoveRelative(_x_offset, _y_offset);
 
@@ -1062,7 +1062,7 @@ void StillImage::Draw(const Color &draw_color) const
         _DrawTexture(modulated_colors);
     }
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 } // void StillImage::Draw(const Color& draw_color) const
 
 
@@ -1654,7 +1654,7 @@ void CompositeImage::Draw(const Color &draw_color) const
                            coord_sys.GetVerticalDirection();
 
     // Save the draw cursor position as we move to draw each element
-    glPushMatrix();
+    VideoManager->PushMatrix();
 
     VideoManager->MoveRelative(x_align_offset, y_align_offset);
 
@@ -1676,7 +1676,7 @@ void CompositeImage::Draw(const Color &draw_color) const
         x_off += x_shake;
         y_off += y_shake;
 
-        glPushMatrix();
+        VideoManager->PushMatrix();
         VideoManager->MoveRelative(x_off * coord_sys.GetHorizontalDirection(),
                                    y_off * coord_sys.GetVerticalDirection());
 
@@ -1700,9 +1700,9 @@ void CompositeImage::Draw(const Color &draw_color) const
             modulated_colors[3] = _color[3] * draw_color;
             _elements[i].image._DrawTexture(modulated_colors);
         }
-        glPopMatrix();
+        VideoManager->PopMatrix();
     }
-    glPopMatrix();
+    VideoManager->PopMatrix();
 } // void CompositeImage::Draw(const Color& draw_color) const
 
 
