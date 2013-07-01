@@ -775,7 +775,7 @@ void VideoEngine::PushState()
 {
     // Push current modelview transformation
     glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+    PushMatrix();
 
     _context_stack.push(_current_context);
 }
@@ -795,7 +795,7 @@ void VideoEngine::PopState()
 
     // Restore the modelview transformation
     glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    PopMatrix();
     glViewport(_current_context.viewport.left, _current_context.viewport.top, _current_context.viewport.width, _current_context.viewport.height);
 
     if(_current_context.scissoring_enabled) {
