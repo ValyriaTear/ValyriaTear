@@ -15,12 +15,8 @@
 *** \brief   Source file for the UTF16 string code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "ustring.h"
-
-#include <iconv.h>
-#include <stdexcept>
-#include <cstdio>
-#include <SDL/SDL.h>
 
 namespace vt_utils
 {

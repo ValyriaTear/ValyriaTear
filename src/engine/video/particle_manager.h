@@ -22,11 +22,6 @@
 #ifndef __PARTICLE_MANAGER_HEADER__
 #define __PARTICLE_MANAGER_HEADER__
 
-#include "utils/utils_common.h"
-
-#include <string>
-#include <vector>
-
 namespace vt_mode_manager
 {
 

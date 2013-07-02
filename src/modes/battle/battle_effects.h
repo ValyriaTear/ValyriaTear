@@ -25,6 +25,8 @@
 
 #include "common/global/global_effects.h"
 
+#include "modes/battle/battle_actors.h"
+
 namespace vt_battle
 {
 

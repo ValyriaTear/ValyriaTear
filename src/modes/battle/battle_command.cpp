@@ -15,6 +15,9 @@
 *** \brief   Source file for battle menu windows
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_command.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/system.h"
@@ -23,7 +26,6 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_command.h"
 #include "modes/battle/battle_utils.h"
 
 using namespace vt_utils;

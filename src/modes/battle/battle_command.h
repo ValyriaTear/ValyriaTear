@@ -27,6 +27,7 @@
 #include "common/gui/option.h"
 
 #include "battle_utils.h"
+#include "battle_actors.h"
 
 namespace vt_battle
 {

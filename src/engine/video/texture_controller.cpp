@@ -15,25 +15,12 @@
 *** \brief   Source file for texture management code
 *** ***************************************************************************/
 
-#include "video.h"
-
+#include "utils/utils_pch.h"
 #include "texture_controller.h"
 #include "utils/utils_files.h"
 
-#ifdef _MSC_VER
-#include <windows.h> // needs to be included before gl.h
-#endif
-
-// OpenGL includes
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#include <iostream>
+#include "engine/mode_manager.h"
+#include "engine/video/video.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;

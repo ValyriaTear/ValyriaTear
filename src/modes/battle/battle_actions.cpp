@@ -17,13 +17,12 @@
 *** \brief   Source file for actions that occur in battles.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <sstream>
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_actions.h"
 
 #include "engine/script/script.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_utils.h"
 

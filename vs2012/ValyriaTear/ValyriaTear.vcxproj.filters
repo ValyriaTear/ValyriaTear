@@ -284,6 +284,9 @@
     <ClCompile Include="..\..\src\utils\utils_strings.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\utils\utils_pch.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\main_options.h" />
@@ -527,9 +530,6 @@
     <ClInclude Include="..\..\src\utils\ustring.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\utils\utils_common.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\utils\utils_files.h">
       <Filter>utils</Filter>
     </ClInclude>
@@ -540,6 +540,9 @@
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\utils\utils_strings.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\utils_pch.h">
       <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>

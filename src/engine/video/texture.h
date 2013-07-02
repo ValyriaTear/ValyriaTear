@@ -43,24 +43,6 @@
 #ifndef __TEXTURE_HEADER__
 #define __TEXTURE_HEADER__
 
-#include "utils/utils_common.h"
-
-// We add the gl headers here for the GLuint and GLenum declarations.
-
-#ifdef _MSC_VER
-#include <windows.h> // needs to be included before gl.h
-#endif
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#include <set>
-
 namespace vt_video
 {
 

@@ -179,6 +179,7 @@
     <ClCompile Include="..\..\src\utils\ustring.cpp" />
     <ClCompile Include="..\..\src\utils\utils_files.cpp" />
     <ClCompile Include="..\..\src\utils\utils_numeric.cpp" />
+    <ClCompile Include="..\..\src\utils\utils_pch.cpp" />
     <ClCompile Include="..\..\src\utils\utils_random.cpp" />
     <ClCompile Include="..\..\src\utils\utils_strings.cpp" />
   </ItemGroup>
@@ -264,7 +265,7 @@
     <ClInclude Include="..\..\src\utils\exception.h" />
     <ClInclude Include="..\..\src\utils\singleton.h" />
     <ClInclude Include="..\..\src\utils\ustring.h" />
-    <ClInclude Include="..\..\src\utils\utils_common.h" />
+    <ClInclude Include="..\..\src\utils\utils_pch.h" />
     <ClInclude Include="..\..\src\utils\utils_files.h" />
     <ClInclude Include="..\..\src\utils\utils_numeric.h" />
     <ClInclude Include="..\..\src\utils\utils_random.h" />

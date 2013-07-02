@@ -52,8 +52,6 @@
 
 #include "utils/exception.h"
 
-#include <vector>
-
 namespace vt_mode_manager
 {
 class ParticleSystem;

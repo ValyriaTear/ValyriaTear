@@ -16,32 +16,15 @@
 *** \brief   Source file for system code management
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/system.h"
+
 #include "engine/script/script.h"
 
 #include "utils/utils_strings.h"
 
 #ifndef EDITOR_BUILD
-#include "mode_manager.h"
-#endif
-
-#ifdef _WIN32
-#include <windows.h>
-#include <direct.h>
-#include <stdlib.h>          // defines _MAX_PATH constant
-#ifndef PATH_MAX
-#define PATH_MAX _MAX_PATH   // redefine _MAX_PATH to be compatible with Darwin's PATH_MAX
-#endif
-#undef CreateSemaphore       // Windows API defines CreateSemaphore
-#elif defined __APPLE__
-#include <unistd.h>
-#include <cstdlib>
-#elif defined __linux__
-#include <limits.h>
-#endif
-
-#ifndef DISABLE_TRANSLATIONS
-#include <libintl.h>
+#   include "mode_manager.h"
 #endif
 
 using namespace vt_utils;

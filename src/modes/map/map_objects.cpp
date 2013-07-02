@@ -15,6 +15,7 @@
 *** \brief   Source file for map mode objects.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_objects.h"
 
 #include "modes/map/map_mode.h"

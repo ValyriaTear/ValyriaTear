@@ -15,12 +15,12 @@
 *** \brief   Header file for OptionBox GUI control and supporting classes
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "option.h"
+
 #include "engine/video/video.h"
 
 #include "utils/utils_strings.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_video;

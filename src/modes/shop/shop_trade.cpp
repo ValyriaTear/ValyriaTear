@@ -16,11 +16,10 @@
 *** \brief   Source file for sell interface of shop mode
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "shop_trade.h"
 
 #include "shop.h"
-
-#include "utils/utils_common.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"

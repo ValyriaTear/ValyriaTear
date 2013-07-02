@@ -15,8 +15,9 @@
 *** \brief   Source file for video engine interface.
 *** ***************************************************************************/
 
-
+#include "utils/utils_pch.h"
 #include "engine/video/video.h"
+
 #include "engine/script/script_read.h"
 
 #include "engine/system.h"
@@ -25,19 +26,7 @@
 
 // Avoid a useless dependency on the mode manager for the editor build
 #ifndef EDITOR_BUILD
-#include "engine/mode_manager.h"
-#endif
-
-#ifdef _MSC_VER
-#include <windows.h> // needs to be included before gl.h
-#endif
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
+#   include "engine/mode_manager.h"
 #endif
 
 using namespace vt_utils;
@@ -1199,12 +1188,15 @@ void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, fl
 
 void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)
 {
-    //PushMatrix();
     char old_blend_mode = _current_context.blend;
     _current_context.blend = VIDEO_BLEND_ADD;
     id.Draw(color);
     _current_context.blend = old_blend_mode;
-    //PopMatrix();
+}
+
+TextureController* VideoEngine::Textures()
+{
+    return TextureManager;
 }
 
 }  // namespace vt_video

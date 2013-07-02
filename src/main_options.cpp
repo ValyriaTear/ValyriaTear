@@ -15,6 +15,7 @@
 *** \brief   Implementations for functions that handle command-line arguments.
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "main_options.h"
 
 #include "engine/audio/audio.h"
@@ -25,13 +26,6 @@
 #include "engine/mode_manager.h"
 
 #include "common/global/global.h"
-
-// SDL_TTF includes
-#ifdef __APPLE__
-#include <SDL_ttf/SDL_ttf.h>
-#else
-#include <SDL/SDL_ttf.h>
-#endif
 
 namespace vt_battle {
 extern bool BATTLE_DEBUG;

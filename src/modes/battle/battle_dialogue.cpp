@@ -15,6 +15,9 @@
 *** \brief   Source file for battle dialogue code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_dialogue.h"
+
 #include "engine/input.h"
 #include "engine/video/video.h"
 
@@ -22,9 +25,8 @@
 #include "common/global/global.h"
 #include "common/gui/gui.h"
 
-#include "battle.h"
-#include "battle_actors.h"
-#include "battle_dialogue.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
 
 using namespace vt_utils;
 using namespace vt_input;

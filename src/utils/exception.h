@@ -20,14 +20,6 @@
 #ifndef __EXCEPTION_HEADER__
 #define __EXCEPTION_HEADER__
 
-#include <string>
-
-// The Windows API defines GetMessage.
-// Undefine it here to prevent conflicts with Exception::GetMessage.
-#ifdef _WIN32
-#   undef GetMessage
-#endif
-
 /** \brief Forces the application to abort with an error
 *** \param message An error message string to report
 *** This macro throws an Exception which if unhandled, will be caught at the end of the main game loop.

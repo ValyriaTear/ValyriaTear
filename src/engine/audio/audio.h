@@ -30,17 +30,6 @@
 #include "audio_descriptor.h"
 #include "audio_effects.h"
 
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
-#endif
-
-#include <map>
-#include <cstring>
-
 //! \brief All related audio engine code is wrapped within this namespace
 namespace vt_audio
 {

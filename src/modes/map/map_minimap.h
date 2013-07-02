@@ -22,8 +22,6 @@
 
 #include "engine/video/image.h"
 
-#include <string>
-
 //forward declerations
 namespace vt_gui
 {

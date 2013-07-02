@@ -15,18 +15,19 @@
 *** \brief   Source file for boot mode interface.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/boot/boot.h"
-
-#include "engine/audio/audio.h"
-#include "engine/script/script_write.h"
-#include "engine/input.h"
-#include "engine/system.h"
 
 #include "common/global/global.h"
 
+#include "engine/audio/audio.h"
+#include "engine/input.h"
+#include "engine/script/script_write.h"
+#include "engine/system.h"
+
 #include "modes/map/map_mode.h"
-#include "modes/save/save_mode.h"
 #include "modes/mode_help_window.h"
+#include "modes/save/save_mode.h"
 
 #ifdef DEBUG_FEATURES
 // Files below are used for boot mode to do a test launch of other modes
@@ -36,9 +37,6 @@
 #endif
 
 #include "utils/utils_files.h"
-
-#include <iostream>
-#include <sstream>
 
 using namespace vt_utils;
 

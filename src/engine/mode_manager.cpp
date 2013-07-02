@@ -15,7 +15,9 @@
 *** \brief  Source file for managing user settings
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "mode_manager.h"
+
 #include "system.h"
 
 #include "engine/video/video.h"
@@ -86,6 +88,28 @@ void GameMode::DrawEffects()
     _effect_supervisor.DrawEffects();
 }
 
+void GameMode::DrawPostEffects()
+{
+}
+
+void GameMode::Deactivate()
+{
+}
+
+EffectSupervisor& GameMode::GetEffectSupervisor()
+{
+    return _effect_supervisor;
+}
+
+ParticleManager& GameMode::GetParticleManager()
+{
+    return _particle_manager;
+}
+
+ScriptSupervisor& GameMode::GetScriptSupervisor()
+{
+    return _script_supervisor;
+}
 
 // ****************************************************************************
 // ***** ModeEngine class

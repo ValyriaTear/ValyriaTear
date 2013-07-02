@@ -18,8 +18,6 @@
 #ifndef __UTILS_RANDOM_HEADER__
 #define __UTILS_RANDOM_HEADER__
 
-#include "utils/utils_common.h"
-
 //! Contains utility code used across the entire source code
 namespace vt_utils
 {

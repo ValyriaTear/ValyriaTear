@@ -16,8 +16,10 @@
 *** \brief   Source file for the ReadScriptDescriptor class.
 *** ***************************************************************************/
 
-#include "script.h"
+#include "utils/utils_pch.h"
 #include "script_read.h"
+
+#include "script.h"
 
 #include "utils/utils_files.h"
 #include "utils/utils_strings.h"

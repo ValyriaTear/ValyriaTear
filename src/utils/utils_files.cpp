@@ -15,28 +15,8 @@
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "utils_files.h"
-
-#include "utils/utils_common.h"
-
-// Headers included for directory manipulation. Windows has its own way of
-// dealing with directories, hence the need for conditional includes
-#ifdef _WIN32
-#include <windows.h>
-#include <direct.h>
-#include <shlobj.h>
-#else
-#include <dirent.h>
-#include <sys/types.h>
-#include <pwd.h>
-#include <unistd.h>
-#endif
-
-#include <sys/stat.h>
-#include <cstdio>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 
 namespace vt_utils
 {

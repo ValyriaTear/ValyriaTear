@@ -18,6 +18,7 @@
 *** classes.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/battle/battle_utils.h"
 
 #include "modes/battle/battle.h"

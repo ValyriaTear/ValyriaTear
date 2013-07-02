@@ -28,26 +28,6 @@
 #include "utils/ustring.h"
 #include "utils/singleton.h"
 
-#include <set>
-#include <SDL/SDL.h>
-
-#define NO_THREADS 0
-#define SDL_THREADS 1
-
-/* Set this to NO_THREADS to disable threads. Set this to SDL_THREADS to use
- * SDL Threads. */
-#define THREAD_TYPE SDL_THREADS
-
-#if (THREAD_TYPE == SDL_THREADS)
-#include <SDL/SDL_thread.h>
-#include <SDL/SDL_mutex.h>
-typedef SDL_Thread Thread;
-typedef SDL_sem Semaphore;
-#else
-typedef int Thread;
-typedef int Semaphore;
-#endif
-
 namespace vt_mode_manager {
 class GameMode;
 }

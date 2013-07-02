@@ -15,11 +15,8 @@
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "utils_strings.h"
-
-#include <algorithm>
-#include <stdarg.h>
-#include <cstdio>
 
 namespace vt_utils
 {

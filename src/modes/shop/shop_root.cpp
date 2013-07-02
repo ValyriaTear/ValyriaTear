@@ -15,9 +15,8 @@
 *** \brief   Source file for root interface of shop mode
 *** ***************************************************************************/
 
-#include <iostream>
-
-#include "utils/utils_common.h"
+#include "utils/utils_pch.h"
+#include "shop_root.h"
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
@@ -28,7 +27,6 @@
 #include "common/global/global.h"
 
 #include "shop.h"
-#include "shop_root.h"
 
 using namespace vt_utils;
 using namespace vt_audio;
