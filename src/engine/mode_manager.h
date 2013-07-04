@@ -27,6 +27,7 @@ namespace vt_mode_manager
 {
 
 class HelpWindow;
+class ModeEngine;
 
 //! The singleton pointer responsible for maintaining and updating the game mode state.
 extern ModeEngine *ModeManager;

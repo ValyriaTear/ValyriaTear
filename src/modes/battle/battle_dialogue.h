@@ -37,8 +37,6 @@
 
 #include "utils/utils_common.h"
 
-#include "engine/video/video.h"
-
 #include "common/dialogue.h"
 
 namespace vt_battle

@@ -26,7 +26,6 @@
 
 #include "engine/script/script.h"
 #include "utils/utils_common.h"
-#include "engine/video/video.h"
 
 //! All calls to the editor are wrapped in this namespace.
 namespace vt_editor
