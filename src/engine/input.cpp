@@ -18,11 +18,12 @@
 #include "engine/input.h"
 #include "engine/video/video.h"
 #include "engine/script/script_read.h"
+#include "engine/mode_manager.h"
+#include "engine/system.h"
 
 #include "modes/mode_help_window.h"
 
-#include "mode_manager.h"
-#include "system.h"
+#include "utils/utils_files.h"
 
 using namespace vt_utils;
 using namespace vt_video;

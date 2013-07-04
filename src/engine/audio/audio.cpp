@@ -26,6 +26,7 @@
 #include "engine/mode_manager.h"
 
 #include "utils/utils_strings.h"
+#include "utils/utils_files.h"
 
 #include <iostream>
 
