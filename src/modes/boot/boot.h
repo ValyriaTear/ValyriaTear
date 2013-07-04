@@ -22,7 +22,6 @@
 #define __BOOT_HEADER__
 
 #include "engine/mode_manager.h"
-#include "engine/video/video.h"
 #include "engine/script/script.h"
 
 #include "modes/menu/menu_views.h"

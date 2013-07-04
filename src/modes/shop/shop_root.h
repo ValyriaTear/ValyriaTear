@@ -18,7 +18,6 @@
 #ifndef __SHOP_ROOT_HEADER__
 #define __SHOP_ROOT_HEADER__
 
-#include "engine/video/video.h"
 #include "common/global/global.h"
 
 #include "shop_utils.h"
