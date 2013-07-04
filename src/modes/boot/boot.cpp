@@ -26,7 +26,6 @@
 
 #include "modes/map/map_mode.h"
 #include "modes/save/save_mode.h"
-
 #include "modes/mode_help_window.h"
 
 #ifdef DEBUG_FEATURES
@@ -35,6 +34,8 @@
 #include "modes/menu/menu.h"
 #include "modes/shop/shop.h"
 #endif
+
+#include "utils/utils_files.h"
 
 #include <iostream>
 #include <sstream>

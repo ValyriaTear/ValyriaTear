@@ -20,6 +20,7 @@
 #include "engine/system.h"
 
 #include "utils/utils_strings.h"
+#include "utils/utils_files.h"
 
 #ifdef _MSC_VER
 #include <windows.h> // needs to be included before gl.h

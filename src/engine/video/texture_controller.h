@@ -22,7 +22,6 @@
 #ifndef __TEXTURE_CONTROLLER_HEADER__
 #define __TEXTURE_CONTROLLER_HEADER__
 
-#include "utils/utils_files.h"
 #include "utils/singleton.h"
 
 #include "texture.h"
@@ -147,9 +146,7 @@ private:
     /** \brief Deletes any temporary textures that were saved in the "img/temp" directory
     *** \return True if the "img/temp" directory was successfully emptied
     **/
-    bool _DeleteTempTextures() {
-        return vt_utils::CleanDirectory("img/temp");
-    }
+    bool _DeleteTempTextures();
     //@}
 
     //! \name Texture Sheet Operations
