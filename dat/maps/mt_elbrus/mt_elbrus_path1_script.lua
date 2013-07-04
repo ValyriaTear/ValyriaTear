@@ -79,9 +79,9 @@ function _CreateCharacters()
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_kalya_house_basement") then
-        hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(117.0, 93.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit1") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(64.0, 47.0);
     end
 
     Map:AddGroundObject(hero);
@@ -265,7 +265,7 @@ function _CreateObjects()
         { "Grass Clump1", 103.5, 57 },
         { "Grass Clump1", 92, 69 },
         { "Grass Clump1", 99, 58 },
-        { "Grass Clump1", 84, 70 },
+        { "Grass Clump1", 84, 70.2 },
 
         { "Grass Clump1", 38, 63 },
         { "Grass Clump1", 51, 49 },
@@ -317,7 +317,7 @@ function _CreateEvents()
 
     -- To the first cave
     event = vt_map.MapTransitionEvent("to first cave", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_right_entrance");
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance1");
     EventManager:RegisterEvent(event);
 
     -- Heal point
@@ -387,7 +387,7 @@ function _CreateEvents()
     text = vt_system.Translate("We don't how he does that, but he can turn anybody into a servile subject.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Their strength is also increased by the transformation. That's why we call them the zombified army.");
-    dialogue:AddLine(text, kalya);    
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("We must absolutely try to avoid them or they'll call reinforcement.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("They are too strong. If they catch us, we're doomed.");
