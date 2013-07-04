@@ -24,7 +24,6 @@
 #define __BATTLE_ACTIONS_HEADER__
 
 #include "engine/system.h"
-#include "engine/video/video.h"
 
 #include "common/global/global.h"
 
