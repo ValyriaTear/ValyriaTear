@@ -420,7 +420,7 @@ sprites["Dark Soldier"] = {
     coll_height = 1.2,
     img_half_width = 1.0,
     img_height = 4.0,
-    movement_speed = SLOW_SPEED,
+    movement_speed = ENEMY_SPEED,
     face_portrait = "img/portraits/npcs/dark_soldier.png",
 
     -- using special animation files.
