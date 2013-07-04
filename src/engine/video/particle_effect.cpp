@@ -22,6 +22,8 @@
 #include "engine/video/video.h"
 #include "engine/script/script_read.h"
 
+#include "utils/utils_files.h"
+
 // Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
 #ifdef _WIN32
 #ifndef strcasecmp

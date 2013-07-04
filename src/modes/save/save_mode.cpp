@@ -23,6 +23,7 @@
 #include "engine/input.h"
 #include "modes/boot/boot.h"
 #include "modes/map/map_mode.h"
+#include "utils/utils_files.h"
 
 using namespace vt_utils;
 using namespace vt_audio;

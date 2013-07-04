@@ -18,6 +18,7 @@
 #include "video.h"
 
 #include "texture_controller.h"
+#include "utils/utils_files.h"
 
 #ifdef _MSC_VER
 #include <windows.h> // needs to be included before gl.h
@@ -362,6 +363,13 @@ bool TextureController::_SaveTempTextures()
         }
     }
     return success;
+}
+
+
+
+bool TextureController::_DeleteTempTextures()
+{
+    return vt_utils::CleanDirectory("img/temp");
 }
 
 
