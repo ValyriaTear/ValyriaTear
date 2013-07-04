@@ -587,6 +587,60 @@ enemies[10] = {
     }
 }
 
+enemies[11] = {
+    name = vt_system.Translate("Shroom"),
+    --stamina_icon = "img/icons/actors/enemies/bat.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/shroom_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/shroom_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/shroom_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/shroom_0.lua"
+    },
+-- TODO: Balance this
+    base_stats = {
+        hit_points = 75,
+        skill_points = 10,
+        strength = 22,
+        vigor = 20,
+        fortitude = 10,
+        protection = 8,
+        agility = 35,
+        evade = 6.0,
+        experience_points = 32,
+        drunes = 15
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Torso"),
+            x_position = 0,
+            y_position = 95,
+            fortitude_modifier = 0.2,
+            protection_modifier = 0.0,
+            evade_modifier = 0.1
+        },
+        [2] = {
+            name = vt_system.Translate("Wing"),
+            x_position = -40,
+            y_position = 90,
+            fortitude_modifier = -0.5,
+            protection_modifier = 0.0,
+            evade_modifier = 0.4,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 25.0 }
+        },
+    },
+
+    skills = {
+        1007  -- HP drain
+    },
+
+    drop_objects = {
+        { 1, 0.15 },  -- Minor Healing Potion
+        { 11, 0.15 } -- Minor Moon Juice
+    }
+}
+
 -- ======== Unbalanced ========
 
 -- Traits -----------------------------------------------------------------------
@@ -599,9 +653,6 @@ enemies[10] = {
 enemies[59] = {
     name = vt_system.Translate("Scorpion"),
     stamina_icon = "img/icons/actors/enemies/scorpion.png",
-    battle_sprites = "img/sprites/battle/enemies/scorpion.png",
-    sprite_width = 64,
-    sprite_height = 64,
 
     base_stats = {
         hit_points = 122,

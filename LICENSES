@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.06.29
+Last update: 2013.07.03
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -579,6 +579,8 @@ img/sprites/battle/enemies/green_snake_0.lua                    GPLv2           
 img/sprites/battle/enemies/green_snake_1.lua                    GPLv2                    Bertram
 img/sprites/battle/enemies/green_snake_2.lua                    GPLv2                    Bertram
 img/sprites/battle/enemies/green_snake_3.lua                    GPLv2                    Bertram
+img/sprites/battle/enemies/shroom.png                           CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites
+img/sprites/battle/enemies/shroom_0.lua                         GPLv3                    Bertram
 img/sprites/battle/enemies/spider_0.lua                         GPLv2                    Bertram
 img/sprites/battle/enemies/spider_1.lua                         GPLv2                    Bertram
 img/sprites/battle/enemies/spider_2.lua                         GPLv2                    Bertram
@@ -627,6 +629,10 @@ img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2           
 img/sprites/map/enemies/spider_idle.lua                         GPLv2                    Bertram
 img/sprites/map/enemies/spider_spritesheet.png                  GPLv2                    The Mana World + Made it brown (Bertram)
 img/sprites/map/enemies/spider_walk.lua                         GPLv2                    Bertram
+img/sprites/map/enemies/spiky_mushroom.png                      GPLv2                    Yuuki - The Mana World - http://www.themanaworld.org
+img/sprites/map/enemies/spiky_mushroom_dead.lua                 GPLv2                    Bertram
+img/sprites/map/enemies/spiky_mushroom_idle.lua                 GPLv2                    Bertram
+img/sprites/map/enemies/spiky_mushroom_walk.lua                 GPLv2                    Bertram
 img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2                    Bertram - adapted from the wolf spritesheet
 img/sprites/map/enemies/fenrir_idle.lua                         GPLv2                    Bertram
 img/sprites/map/enemies/fenrir_walk.lua                         GPLv2                    Bertram
@@ -714,6 +720,7 @@ img/sprites/map/objects/rock3.lua                               GPLv2           
 img/sprites/map/objects/rock3.png                               CC by 3.0                Daniel Cook
 img/sprites/map/objects/stone_sign1.lua                         GPLv2                    Bertram
 img/sprites/map/objects/stone_sign1.png                         CC by 3.0                Daniel Cook + Small edit from Bertram
+img/sprites/map/objects/shroom1.lua                             GPLv2                    Bertram
 img/sprites/map/objects/table1.lua                              GPLv2                    Bertram
 img/sprites/map/objects/table1.png                              GPLv2                    Allacrost
 img/sprites/map/objects/table2.lua                              GPLv2                    Bertram
