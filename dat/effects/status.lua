@@ -339,7 +339,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 
     BattleUpdate = function(battle_effect)
         local battle_actor = battle_effect:GetAffectedActor();
-        local intensity = effect:GetIntensity();
+        local intensity = battle_effect:GetIntensity();
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
             battle_actor:RegisterHealing(1, true);
