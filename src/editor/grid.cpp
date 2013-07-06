@@ -22,13 +22,14 @@
 #include "engine/script/script_write.h"
 #include "engine/script/script_read.h"
 
+#include "engine/video/video.h"
+
 #include <QScrollBar>
 
 #include <sstream>
 #include <iostream>
 
 using namespace vt_script;
-using namespace vt_map::private_map;
 using namespace vt_video;
 
 namespace vt_editor

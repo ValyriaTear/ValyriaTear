@@ -17,6 +17,8 @@
 
 #include "tileset_editor.h"
 
+#include "engine/video/video.h"
+
 using namespace vt_script;
 using namespace vt_video;
 

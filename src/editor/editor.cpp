@@ -18,6 +18,7 @@
 #include "editor.h"
 
 #include "utils/utils_random.h"
+#include "engine/video/video.h"
 
 #include <QTableWidgetItem>
 #include <QScrollBar>
