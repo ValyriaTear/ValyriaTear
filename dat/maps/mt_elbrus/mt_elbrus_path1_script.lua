@@ -11,7 +11,7 @@ map_subname = "Low Mountain"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "" -- TODO
+music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = {};

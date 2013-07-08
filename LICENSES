@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.07.03
+Last update: 2013.07.08
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -812,6 +812,7 @@ img/tilesets/desert_cave.png                                    GPLv2           
 img/tilesets/castle_exterior_01.png                             GPLv2                    Allacrost
 
 mus/accion-OGA-djsaryon.ogg                                     CC by SA 3.0, GPLv3      djsaryon (OGA) - http://opengameart.org/content/battle-midi
+mus/awareness_el_corleo.ogg                                     CC by SA 3.0             Eliot Corley - el-corleo (OGA) - http://opengameart.org/content/awareness
 mus/Battle_lost-OGA-Mumu.ogg                                    CC0                      Mumu (OGA) - http://opengameart.org/content/game-over-muisc
 mus/Caketown_1-OGA-mat-pablo.ogg                                CC by SA 3.0, GPLv3      Mathew Pablo (OGA)
 mus/Fanfare.ogg                                                 GPLv2                    Allacrost
