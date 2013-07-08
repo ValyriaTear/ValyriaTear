@@ -1238,6 +1238,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         return false;
 
     if(!image_script.DoesTableExist("animation")) {
+        PRINT_WARNING << "No animation table in " << filename << std::endl;
         image_script.CloseFile();
         return false;
     }

@@ -442,6 +442,10 @@ public:
 
     void AddEnemy(uint32 enemy_id, float position_x, float position_y);
 
+    void AddEnemy(uint32 enemy_id) {
+        AddEnemy(enemy_id, 0, 0);
+    }
+
     void AddScript(const std::string &filename) {
         _battle_scripts.push_back(filename);
     }

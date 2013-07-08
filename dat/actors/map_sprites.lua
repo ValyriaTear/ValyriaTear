@@ -451,6 +451,28 @@ sprites["Lord"] = {
     }
 }
 
+-- First actual Mt. Elbrus monster
+sprites["Shroom"] = {
+    name = vt_system.Translate("Shroom"),
+    coll_half_width = 1.25,
+    coll_height = 2.6,
+    img_half_width = 1.25,
+    img_height = 2.6,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/spiky_mushroom_idle.lua",
+        walk = "img/sprites/map/enemies/spiky_mushroom_walk.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        mushroom_ko = "img/sprites/map/enemies/spiky_mushroom_dead.lua",
+    }
+}
+
 
 
 function CreateSprite(Map, name, x, y)
@@ -489,8 +511,8 @@ function CreateSprite(Map, name, x, y)
     end
     -- Load custom animations
     if (sprites[name].custom_animations ~= nil) then
-        for name,file in pairs(sprites[name].custom_animations) do
-            sprite:LoadCustomAnimation(name, file);
+        for animation_name,file in pairs(sprites[name].custom_animations) do
+            sprite:LoadCustomAnimation(animation_name, file);
         end
     end
 
@@ -535,8 +557,8 @@ function CreateNPCSprite(Map, name, npc_name, x, y)
     end
     -- Load custom animations
     if (sprites[name].custom_animations ~= nil) then
-        for name,file in pairs(sprites[name].custom_animations) do
-            sprite:LoadCustomAnimation(name, file);
+        for animation_name,file in pairs(sprites[name].custom_animations) do
+            sprite:LoadCustomAnimation(animation_name, file);
         end
     end
 

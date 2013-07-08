@@ -537,7 +537,8 @@ void BindModeCode()
             .def("SetBackground", &BattleEncounterEvent::SetBackground)
             .def("SetBoss", &BattleEncounterEvent::SetBoss)
             .def("AddScript", &BattleEncounterEvent::AddScript)
-            .def("AddEnemy", &BattleEncounterEvent::AddEnemy)
+            .def("AddEnemy", (void(BattleEncounterEvent:: *)(uint32, float, float))&BattleEncounterEvent::AddEnemy)
+            .def("AddEnemy", (void(BattleEncounterEvent:: *)(uint32))&BattleEncounterEvent::AddEnemy)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
