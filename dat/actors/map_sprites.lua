@@ -454,8 +454,8 @@ sprites["Lord"] = {
 -- First actual Mt. Elbrus monster
 sprites["Shroom"] = {
     name = vt_system.Translate("Shroom"),
-    coll_half_width = 1.25,
-    coll_height = 2.6,
+    coll_half_width = 0.9,
+    coll_height = 2.1,
     img_half_width = 1.25,
     img_height = 2.6,
     movement_speed = ENEMY_SPEED,

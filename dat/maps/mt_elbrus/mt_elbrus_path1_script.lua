@@ -82,6 +82,9 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit1") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(64.0, 47.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit2") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(32.0, 53.0);
     end
 
     Map:AddGroundObject(hero);
@@ -316,8 +319,11 @@ function _CreateEvents()
     local text = {};
 
     -- To the first cave
-    event = vt_map.MapTransitionEvent("to first cave", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+    event = vt_map.MapTransitionEvent("to cave 1", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance1");
+    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to cave 2", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance2");
     EventManager:RegisterEvent(event);
 
     -- Heal point
@@ -411,7 +417,8 @@ end
 
 -- zones
 local see_first_guard_zone = {};
-local to_first_cave_zone = {};
+local to_cave1_zone = {};
+local to_cave2_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -419,8 +426,10 @@ function _CreateZones()
     see_first_guard_zone = vt_map.CameraZone(86, 88, 70, 86);
     Map:AddZone(see_first_guard_zone);
 
-    to_first_cave_zone = vt_map.CameraZone(62, 66, 43, 45);
-    Map:AddZone(to_first_cave_zone);
+    to_cave1_zone = vt_map.CameraZone(62, 66, 43, 45);
+    Map:AddZone(to_cave1_zone);
+    to_cave2_zone = vt_map.CameraZone(30, 34, 49, 50);
+    Map:AddZone(to_cave2_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -430,9 +439,12 @@ function _CheckZones()
             hero:SetMoving(false);
             EventManager:StartEvent("Set scene state for dialogue about soldiers");
         end
-    elseif (to_first_cave_zone:IsCameraEntering() == true) then
+    elseif (to_cave1_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        EventManager:StartEvent("to first cave");
+        EventManager:StartEvent("to cave 1");
+    elseif (to_cave2_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to cave 2");
     end
 end
 

@@ -61,7 +61,7 @@ function _CreateCharacters()
 
     if (GlobalManager:GetPreviousLocation() == "from_entrance2") then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(12, 77); -- TODO
+        hero:SetPosition(9, 77);
     end
 
     Map:AddGroundObject(hero);
@@ -101,7 +101,7 @@ function _CreateObjects()
     Map:AddGroundObject(shroom1);
 
     event = vt_map.BattleEncounterEvent("Fight with Shroom 1");
-    event:AddEnemy(11); -- one shroom
+    event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
     EventManager:RegisterEvent(event);
@@ -120,7 +120,7 @@ function _CreateObjects()
     Map:AddGroundObject(shroom2);
 
     event = vt_map.BattleEncounterEvent("Fight with Shroom 2");
-    event:AddEnemy(11); -- one shroom
+    event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 2 after fight", 100);
     EventManager:RegisterEvent(event);
@@ -146,17 +146,24 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to exit 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit1");
     EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to exit 2", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit2");
+    EventManager:RegisterEvent(event);
 
 end
 
 -- zones
 local exit1_zone = {};
+local exit2_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
     exit1_zone = vt_map.CameraZone(84, 94, 78, 80);
     Map:AddZone(exit1_zone);
+
+    exit2_zone = vt_map.CameraZone(4, 15, 78, 80);
+    Map:AddZone(exit2_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -164,6 +171,9 @@ function _CheckZones()
     if (exit1_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to exit 1");
+    elseif (exit2_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to exit 2");
     end
 end
 
@@ -186,16 +196,16 @@ map_functions = {
         -- Determine the hero position relative to the shroom
         if (hero_y > shroom_y + 0.3) then
             -- the hero is below, the shroom is pushed upward.
-            shroom_new_y = shroom_new_y - 2.0;
+            shroom_new_y = shroom_new_y - 2.1;
         elseif (hero_y < shroom_y - 2.2) then
             -- the hero is above, the shroom is pushed downward.
-            shroom_new_y = shroom_new_y + 2.0;
+            shroom_new_y = shroom_new_y + 2.2;
         elseif (hero_x < shroom_x - 1.2) then
             -- the hero is on the left, the shroom is pushed to the right.
-            shroom_new_x = shroom_new_x + 2.0;
+            shroom_new_x = shroom_new_x + 2.1;
         elseif (hero_x > shroom_x + 1.2) then
             -- the hero is on the right, the shroom is pushed to the left.
-            shroom_new_x = shroom_new_x - 2.0;
+            shroom_new_x = shroom_new_x - 2.1;
         end
 
         -- Place the shroom
