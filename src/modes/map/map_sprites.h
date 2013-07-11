@@ -389,19 +389,20 @@ public:
     /** \brief Tells the sprite to use a custom animation
     *** \param The animation name used as a key to find the custom animation declared in map_sprites.lua
     *** You can set the animation key to empty to disable the custom animation.
-    *** \param The time to display the given animation or 0 for the default time.
+    *** \param The time to display the given animation, -1 for the default time and 0 for an infinite amount of time.
     **/
-    void SetCustomAnimation(const std::string &animaton_name, uint32 time);
+    void SetCustomAnimation(const std::string &animaton_name, int32 time);
 
     bool IsAnimationCustom() const {
         return _custom_animation_on;
     }
 
     /** \brief Disable a posible running custom animation.
-    *** Useful when setting an inifinite running animation, for instance.
+    *** Useful after setting an inifinite running animation, for instance.
     **/
     void DisableCustomAnimation() {
         _custom_animation_on = false;
+        _infinite_custom_animation = false;
     }
 
     void SetSpriteName(const std::string &map_sprite_name) {
@@ -483,6 +484,9 @@ protected:
 
     //! \brief Tells how much time left the custom animation will have to be drawn
     int32  _custom_animation_time;
+
+    //! Tells whether the animation has got an infinite duration
+    bool _infinite_custom_animation;
 
     /** \name Saved state attributes
     *** These attributes are used to save and load the state of a VirtualSprite

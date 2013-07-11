@@ -276,7 +276,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue part 2");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann looks angry", bronann, "hero_stance", 999999);
+    event = vt_map.AnimateSpriteEvent("Bronann looks angry", bronann, "hero_stance", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Stop Bronann looks angry", "terminate_bronann_events", "");

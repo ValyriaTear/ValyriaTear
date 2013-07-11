@@ -793,7 +793,7 @@ void RandomMoveSpriteEvent::Terminate()
 // -----------------------------------------------------------------------------
 
 AnimateSpriteEvent::AnimateSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                                       const std::string &animation_name, uint32 animation_time) :
+                                       const std::string &animation_name, int32 animation_time) :
     SpriteEvent(event_id, ANIMATE_SPRITE_EVENT, sprite),
     _animation_name(animation_name),
     _animation_time(animation_time)

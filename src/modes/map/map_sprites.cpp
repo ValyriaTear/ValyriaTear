@@ -572,6 +572,7 @@ MapSprite::MapSprite() :
     _dialogue_started(false),
     _custom_animation_on(false),
     _custom_animation_time(0),
+    _infinite_custom_animation(false),
     _saved_current_anim_direction(ANIM_SOUTH)
 {
     MapObject::_object_type = SPRITE_TYPE;
@@ -728,6 +729,7 @@ void MapSprite::ClearAnimations()
     _current_custom_animation = 0;
     _custom_animation_on = false;
     _custom_animation_time = 0;
+    _infinite_custom_animation = false;
     _custom_animations.clear();
 }
 
@@ -765,7 +767,7 @@ bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std
     return false;
 } // bool MapSprite::LoadCustomAnimations()
 
-void MapSprite::SetCustomAnimation(const std::string &animation_name, uint32 time)
+void MapSprite::SetCustomAnimation(const std::string &animation_name, int32 time)
 {
     // If there is no key, there will be no custom animation to display
     if(animation_name.empty()) {
@@ -784,18 +786,15 @@ void MapSprite::SetCustomAnimation(const std::string &animation_name, uint32 tim
 
     AnimatedImage &animation = it->second;
     animation.ResetAnimation();
-    if(time == 0) {
-        time = animation.GetAnimationLength();
-    }
-    // Still check the animation length
-    if(time == 0) {
-        _custom_animation_on = false;
-        PRINT_WARNING << "Zero-length custom animation '" << animation_name
-            << "' for sprite: " << GetSpriteName() << std::endl;
-        return;
-    }
 
-    _custom_animation_time = (int32)time;
+    _infinite_custom_animation = false;
+    if(time == -1)
+        time = animation.GetAnimationLength();
+    else if (time == 0)
+        _infinite_custom_animation = true;
+
+
+    _custom_animation_time = time;
     _current_custom_animation = &animation;
     _custom_animation_on = true;
 }
@@ -883,12 +882,13 @@ void MapSprite::Update()
     // if it's a custom animation, just display that and ignore everything else
     if(_custom_animation_on && _current_custom_animation) {
         // Check whether the custom animation can be freed
-        if(_custom_animation_time <= 0) {
+        if(!_infinite_custom_animation && _custom_animation_time <= 0) {
             _custom_animation_on = false;
             _current_custom_animation = 0;
             _custom_animation_time = 0;
         } else {
-            _custom_animation_time -= SystemManager->GetUpdateTime();
+            if (!_infinite_custom_animation)
+                _custom_animation_time -= SystemManager->GetUpdateTime();
             _current_custom_animation->Update();
         }
 

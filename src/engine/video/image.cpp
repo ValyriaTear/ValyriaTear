@@ -1333,9 +1333,6 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         image_frames[frames_ids[i]].SetDimensions(_width, _height);
 
         AddFrame(image_frames[frames_ids[i]], frames_duration[i]);
-        if(frames_duration[i] == 0) {
-            PRINT_WARNING << "Added a frame time value of zero when loading file: " << filename << std::endl;
-        }
     }
 
     return true;
@@ -1507,8 +1504,14 @@ void AnimatedImage::Update(uint32 elapsed_time)
     // Get the amount of milliseconds that have pass since the last display
     uint32 ms_change = (elapsed_time == 0) ? vt_system::SystemManager->GetUpdateTime() : elapsed_time;
     _frame_counter += ms_change;
+
     // If the frame time has expired, update the frame index and counter.
     while(_frame_counter >= _frames[_frame_index].frame_time) {
+        // If the frame time is 0, it means the frame is a terminator and should be displayed 'forever'.
+        if (_frames[_frame_index].frame_time == 0) {
+            _loops_finished = true;
+            return;
+        }
         ms_change = _frame_counter - _frames[_frame_index].frame_time;
         _frame_index++;
         if(_frame_index >= _frames.size()) {
@@ -1534,12 +1537,6 @@ bool AnimatedImage::AddFrame(const std::string &frame, uint32 frame_time)
     if(!img.Load(frame, _width, _height)) {
         return false;
     }
-    if(frame_time == 0) {
-        PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
-                      << frame << std::endl;
-        return false;
-    }
-
 
     AnimationFrame new_frame;
     new_frame.frame_time = frame_time;
@@ -1553,11 +1550,6 @@ bool AnimatedImage::AddFrame(const StillImage &frame, uint32 frame_time)
 {
     if(!frame._image_texture) {
         PRINT_WARNING << "The StillImage argument did not contain any image elements" << std::endl;
-        return false;
-    }
-    if(frame_time == 0) {
-        PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
-                      << frame.GetFilename() << std::endl;
         return false;
     }
 

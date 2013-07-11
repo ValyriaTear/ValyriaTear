@@ -255,7 +255,7 @@ map_functions = {
 
         -- Place the shroom
         shroom:SetPosition(shroom_new_x, shroom_new_y);
-        shroom:SetCustomAnimation("mushroom_ko", 999999);
+        shroom:SetCustomAnimation("mushroom_ko", 0); -- 0 means forever
         -- Remove its dialogue (preventing a new fight)
         shroom:ClearDialogueReferences();
     end,

@@ -410,7 +410,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Bronann looks at Orlinn", bronann, orlinn);
     EventManager:RegisterEvent(event);
-    event = vt_map.AnimateSpriteEvent("Bronann is frightened by Orlinn", bronann, "frightened", 0); -- defaut time
+    event = vt_map.AnimateSpriteEvent("Bronann is frightened by Orlinn", bronann, "frightened", -1); -- defaut time
     EventManager:RegisterEvent(event);
 
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, bronann);
@@ -476,7 +476,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Restart map");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann is surprised", bronann, "frightened_fixed", 999999);
+    event = vt_map.AnimateSpriteEvent("Bronann is surprised", bronann, "frightened_fixed", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("Restart map", "dat/maps/layna_village/layna_village_riverbank_map.lua",
@@ -719,18 +719,18 @@ function _CreateEvents()
 
     -- The after-fight scene
     -- The soldiers 4, 15 and 16 have been ko'd by Herth
-    event = vt_map.AnimateSpriteEvent("Soldier4 is KO", soldier4, "ko", 999999);
+    event = vt_map.AnimateSpriteEvent("Soldier4 is KO", soldier4, "ko", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
-    event = vt_map.AnimateSpriteEvent("Soldier15 is KO", soldier15, "ko", 999999);
+    event = vt_map.AnimateSpriteEvent("Soldier15 is KO", soldier15, "ko", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
-    event = vt_map.AnimateSpriteEvent("Soldier16 is KO", soldier16, "ko", 999999);
+    event = vt_map.AnimateSpriteEvent("Soldier16 is KO", soldier16, "ko", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
     -- Herth is in front of Bronann, protecting him from Banesore
     event = vt_map.ScriptedEvent("Place Herth next to Bronann", "place_herth_next_to_bronann", "");
     EventManager:RegisterEvent(event);
 
     -- Bronann is hurt by the summoned Tear
-    event = vt_map.AnimateSpriteEvent("Bronann is looking poor", bronann, "kneeling", 999999);
+    event = vt_map.AnimateSpriteEvent("Bronann is looking poor", bronann, "kneeling", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Show both crystals", "show_both_crystals", "show_both_crystals_update");

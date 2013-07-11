@@ -896,9 +896,11 @@ class AnimateSpriteEvent : public SpriteEvent
 public:
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
+    *** \param animation_name The name of the custom animation to play
+    *** \param animation_time The custom animation time, 0 if infinite, and -1 is default time used.
     **/
     AnimateSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                       const std::string &animation_name, uint32 animation_time);
+                       const std::string &animation_name, int32 animation_time);
 
     ~AnimateSpriteEvent()
     {}
@@ -911,7 +913,7 @@ protected:
     std::string _animation_name;
 
     //! The custom animation time.
-    uint32 _animation_time;
+    int32 _animation_time;
 
     //! A reference to the map sprite object
     MapSprite *_map_sprite;

@@ -280,7 +280,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya goes near Bronann", 800);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann kneels due to suffering", bronann, "kneeling_left", 999999);
+    event = vt_map.AnimateSpriteEvent("Bronann kneels due to suffering", bronann, "kneeling_left", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Kalya goes near Bronann", kalya, 53.0, 45.0, true);

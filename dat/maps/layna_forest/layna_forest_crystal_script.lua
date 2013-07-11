@@ -621,7 +621,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann is sleeping");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann is sleeping", hero, "sleeping", 999999);
+    event = vt_map.AnimateSpriteEvent("Bronann is sleeping", hero, "sleeping", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("white flash", "white_flash", "white_flash_update");
@@ -642,7 +642,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("seventh dialogue part", 600);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Kalya kneels", kalya_sprite, "kneeling", 999999);
+    event = vt_map.AnimateSpriteEvent("Kalya kneels", kalya_sprite, "kneeling", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
     -- Simply stop the custom animation
@@ -654,7 +654,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann kneels");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann kneels", hero, "kneeling", 999999);
+    event = vt_map.AnimateSpriteEvent("Bronann kneels", hero, "kneeling", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
     -- Simply stop the custom animation

@@ -634,7 +634,7 @@ map_functions = {
     end,
 
     make_kalya_struggle = function()
-        kalya:SetCustomAnimation("struggling", 999999);
+        kalya:SetCustomAnimation("struggling", 0); -- 0 means forever
     end,
 
     kalya_captured_scene_end = function()
