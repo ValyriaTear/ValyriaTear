@@ -92,6 +92,7 @@ function _CreateObjects()
     local text = {}
 
     shroom1 = CreateSprite(Map, "Shroom", 45, 42);
+    shroom1:SetName("");
     shroom1:SetDirection(vt_map.MapMode.SOUTH);
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("...");
@@ -111,6 +112,7 @@ function _CreateObjects()
 
 
     shroom2 = CreateSprite(Map, "Shroom", 47, 24);
+    shroom2:SetName("");
     shroom2:SetDirection(vt_map.MapMode.SOUTH);
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("...");
@@ -126,6 +128,39 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedSpriteEvent("Place Shroom 2 after fight", shroom2, "place_shroom_after_fight", "")
+    EventManager:RegisterEvent(event);
+
+    -- left jump event
+    event = vt_map.ScriptedEvent("Prepare left jump dialogue", "add_scene_state", "")
+    event:AddEventLinkAtEnd("Jump to exit 2 choice");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Shall we jump?");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("...");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("Yes, let's go.");
+    dialogue:AddOption(text, 2);
+    text = vt_system.Translate("Not now...");
+    dialogue:AddOptionEvent(text, 4, "Make hero step back from left jump");
+    -- [Line 2] Yes
+    text = vt_system.Translate("Ok!");
+    dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 2"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Jump to exit 2 choice", dialogue);
+    EventManager:RegisterEvent(event);
+
+    -- After dialogue choice
+    event = vt_map.ScriptedEvent("Make hero jump to exit 2", "make_hero_jump_to_exit2", "jump_update")
+    event:AddEventLinkAtEnd("Finish left jump dialogue");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Make hero step back from left jump", hero, 6.2, 61.0, false)
+    event:AddEventLinkAtEnd("Finish left jump dialogue");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Finish left jump dialogue", "remove_scene_state", "")
     EventManager:RegisterEvent(event);
 
 end
@@ -156,6 +191,9 @@ end
 local exit1_zone = {};
 local exit2_zone = {};
 
+local left_jump_zone = {};
+local right_jump_zone = {};
+
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -164,6 +202,9 @@ function _CreateZones()
 
     exit2_zone = vt_map.CameraZone(4, 15, 78, 80);
     Map:AddZone(exit2_zone);
+
+    left_jump_zone = vt_map.CameraZone(4, 8, 63, 64);
+    Map:AddZone(left_jump_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -174,6 +215,10 @@ function _CheckZones()
     elseif (exit2_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to exit 2");
+    elseif (left_jump_zone:IsCameraEntering() == true
+            and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("Prepare left jump dialogue");
     end
 end
 
@@ -213,5 +258,28 @@ map_functions = {
         shroom:SetCustomAnimation("mushroom_ko", 999999);
         -- Remove its dialogue (preventing a new fight)
         shroom:ClearDialogueReferences();
-    end
+    end,
+
+    add_scene_state = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+
+    remove_scene_state = function()
+        Map:PopState();
+    end,
+
+    make_hero_jump_to_exit2 = function()
+
+    end,
+
+    jump_update = function()
+        if (hero:GetYPosition() >= 68.0) then
+            return true;
+        end
+        local update_time = SystemManager:GetUpdateTime();
+        if (hero:GetYPosition() < 68.0) then
+            hero:SetYPosition(hero:GetYPosition() + 0.020 * update_time);
+        end
+        return false;
+    end,
 }
