@@ -19,8 +19,6 @@
 #ifndef __SCREEN_RECT_HEADER__
 #define __SCREEN_RECT_HEADER__
 
-#include "utils/utils_common.h"
-
 namespace vt_video
 {
 

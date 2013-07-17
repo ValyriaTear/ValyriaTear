@@ -24,6 +24,8 @@
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
+
 #include "common.h"
 #include "dialogue.h"
 

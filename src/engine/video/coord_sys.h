@@ -18,8 +18,6 @@
 #ifndef __COORD_SYS_HEADER__
 #define __COORD_SYS_HEADER__
 
-#include <cmath>
-
 namespace vt_video
 {
 

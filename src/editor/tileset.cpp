@@ -16,6 +16,7 @@
 ***          "list" of tiles to select from for painting on the map.
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "tileset.h"
 
 #include "engine/script/script_read.h"
@@ -84,7 +85,7 @@ bool Tileset::New(const QString &img_filename, bool one_image)
         tiles.clear();
         tiles.resize(1);
         tiles[0].SetDimensions(16.0f, 16.0f);
-        if(tiles[0].Load(std::string(img_filename.toAscii()), 16, 16) == false) {
+        if(tiles[0].Load(std::string(img_filename.toStdString()), 16, 16) == false) {
             qDebug("Failed to load tileset image: %s",
                    img_filename.toStdString().c_str());
             return false;
@@ -95,7 +96,7 @@ bool Tileset::New(const QString &img_filename, bool one_image)
         for(uint32 i = 0; i < 256; i++)
             tiles[i].SetDimensions(1.0f, 1.0f);
         if(ImageDescriptor::LoadMultiImageFromElementGrid(tiles,
-                std::string(img_filename.toAscii()), 16, 16) == false) {
+                std::string(img_filename.toStdString()), 16, 16) == false) {
             qDebug("Failed to load tileset image: %s",
                    img_filename.toStdString().c_str());
             return false;
@@ -134,7 +135,7 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
 
     // Set up for reading the tileset definition file.
     ReadScriptDescriptor read_data;
-    if(!read_data.OpenFile(std::string(def_filename.toAscii()))) {
+    if(!read_data.OpenFile(std::string(def_filename.toStdString()))) {
         _initialized = false;
         return false;
     }

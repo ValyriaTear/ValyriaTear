@@ -24,6 +24,7 @@
 *** **************************************************************************/
 
 // Common code headers
+#include "utils/utils_pch.h"
 #include "common/dialogue.h"
 #include "common/global/global_actors.h"
 #include "common/global/global_effects.h"

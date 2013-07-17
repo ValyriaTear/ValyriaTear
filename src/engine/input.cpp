@@ -15,7 +15,9 @@
 *** \brief  Source file for processing user input
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/input.h"
+
 #include "engine/video/video.h"
 #include "engine/script/script_read.h"
 #include "engine/mode_manager.h"

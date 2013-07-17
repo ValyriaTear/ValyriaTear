@@ -27,6 +27,8 @@
 *** -# Update the game status based on how much time expired from the last update.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+
 #include "utils/utils_files.h"
 
 #include "engine/audio/audio.h"
@@ -40,19 +42,6 @@
 
 #include "modes/boot/boot.h"
 #include "main_options.h"
-
-#ifdef __APPLE__
-#include <unistd.h>
-#endif
-
-// Used for SetEnvironmentalVariable() aka setenv()
-#ifdef _WIN32
-#include <windows.h>
-#include <stdlib.h>
-#endif
-
-#include <SDL_image.h>
-#include <time.h>
 
 using namespace vt_utils;
 using namespace vt_audio;

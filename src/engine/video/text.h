@@ -21,9 +21,9 @@
 #ifndef __TEXT_HEADER__
 #define __TEXT_HEADER__
 
-#include "utils/utils_common.h"
 #include "engine/video/image.h"
 
+#include "utils/singleton.h"
 #include "utils/ustring.h"
 
 typedef struct _TTF_Font TTF_Font;

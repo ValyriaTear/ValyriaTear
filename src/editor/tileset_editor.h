@@ -18,11 +18,6 @@
 #ifndef __TILESET_EDITOR_HEADER__
 #define __TILESET_EDITOR_HEADER__
 
-#include <vector>
-
-#ifdef _VS
-#include <GL/glew.h>
-#endif
 #include <QGLWidget>
 #include <QDialog>
 #include <QMessageBox>

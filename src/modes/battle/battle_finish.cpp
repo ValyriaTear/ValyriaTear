@@ -15,6 +15,9 @@
 *** \brief   Source file for battle finish menu
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_finish.h"
+
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/input.h"
@@ -24,7 +27,6 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_finish.h"
 #include "modes/battle/battle_utils.h"
 
 #include "modes/boot/boot.h"

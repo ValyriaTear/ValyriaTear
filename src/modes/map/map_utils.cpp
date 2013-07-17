@@ -15,6 +15,7 @@
 *** \brief   Source file for map mode utility code
 *** *****************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "map_utils.h"
 
 namespace vt_map

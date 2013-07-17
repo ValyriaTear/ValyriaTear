@@ -8,18 +8,13 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    common.cpp
+/** ***************************************************************************(
+*** \file    utils_pch.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Source file for common code shared across the source tree
+*** \brief   Precompiled header source file.
+***
+*** Leave this file empty.  Reference additional headers in utils_pch.h.
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
-#include "common.h"
-
-namespace vt_common {
-
-bool COMMON_DEBUG = false;
-
-} // namespace vt_common

@@ -21,11 +21,6 @@
 #ifndef __USTRING_HEADER__
 #define __USTRING_HEADER__
 
-#include "utils/utils_common.h"
-
-#include <vector>
-#include <string>
-
 //! Contains utility code used across the entire source code
 namespace vt_utils
 {

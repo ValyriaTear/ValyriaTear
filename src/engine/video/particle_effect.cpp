@@ -15,21 +15,16 @@
 *** \brief   Source file for particle effects
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/video/particle_effect.h"
-#include "engine/video/particle_system.h"
 
-#include "engine/system.h"
+#include "engine/video/particle_system.h"
 #include "engine/video/video.h"
+
 #include "engine/script/script_read.h"
+#include "engine/system.h"
 
 #include "utils/utils_files.h"
-
-// Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else
-#ifdef _WIN32
-#ifndef strcasecmp
-#define strcasecmp stricmp
-#endif
-#endif
 
 using namespace vt_script;
 using namespace vt_video;

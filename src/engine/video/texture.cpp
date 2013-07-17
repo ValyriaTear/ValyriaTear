@@ -15,11 +15,10 @@
 *** \brief   Source file for texture management code
 *** ***************************************************************************/
 
-#include "video.h"
-
+#include "utils/utils_pch.h"
 #include "texture.h"
 
-#include <iostream>
+#include "video.h"
 
 using namespace vt_utils;
 

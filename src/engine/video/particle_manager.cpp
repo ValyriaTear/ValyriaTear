@@ -15,13 +15,12 @@
 *** \brief   Source file for particle manager
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/video/particle_manager.h"
 
 #include "engine/video/video.h"
 
 #include "engine/video/particle_effect.h"
-
-#include <iostream>
 
 using namespace vt_script;
 using namespace vt_video;

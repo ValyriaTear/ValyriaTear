@@ -18,6 +18,9 @@
 *** \brief   Source file for battle mode interface.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/battle/battle.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -26,7 +29,6 @@
 
 #include "modes/pause.h"
 
-#include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_command.h"

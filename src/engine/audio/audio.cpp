@@ -21,14 +21,14 @@
 *** \note This code uses the OpenAL audio library. See http://www.openal.com/
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/audio/audio.h"
+
 #include "engine/system.h"
 #include "engine/mode_manager.h"
 
 #include "utils/utils_strings.h"
 #include "utils/utils_files.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_system;

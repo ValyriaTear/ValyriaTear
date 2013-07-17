@@ -15,6 +15,7 @@
 *** \brief   Source file for editor's tileset editor dialog
 *******************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "tileset_editor.h"
 
 #include "engine/video/video.h"

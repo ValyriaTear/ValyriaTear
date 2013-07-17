@@ -26,7 +26,6 @@
 
 #include "particle_keyframe.h"
 
-
 namespace vt_mode_manager
 {
 

@@ -15,11 +15,7 @@
 *** \brief   Source file for editor's main() function.
 *** ***************************************************************************/
 
-#ifdef __MACH__
-#include <unistd.h>
-#include <string>
-#endif
-
+#include "utils/utils_pch.h"
 #include "editor.h"
 
 // Used to permit compilation as qmake will create a makefile requiring qMain

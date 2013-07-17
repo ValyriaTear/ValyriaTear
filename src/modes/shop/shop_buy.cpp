@@ -19,11 +19,10 @@
 *** to see if it should have similar changes made.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "shop_buy.h"
 
 #include "shop.h"
-
-#include "utils/utils_common.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"

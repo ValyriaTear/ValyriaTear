@@ -23,7 +23,9 @@
 #ifndef __BATTLE_INDICATORS_HEADER__
 #define __BATTLE_INDICATORS_HEADER__
 
-#include "battle_utils.h"
+#include "engine/video/text.h"
+
+#include "modes/battle/battle_utils.h"
 
 namespace vt_battle
 {

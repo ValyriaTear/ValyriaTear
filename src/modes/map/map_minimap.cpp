@@ -13,6 +13,7 @@
 *** \brief   Source file for the minimaps.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_minimap.h"
 
 #include "modes/map/map_objects.h"
@@ -24,11 +25,7 @@
 // Used for the collision to XPM dev function
 #ifdef DEBUG_FEATURES
 #include "engine/script/script_write.h"
-#include <sstream>
 #endif
-
-#include <algorithm>
-#include <SDL_image.h>
 
 namespace vt_map
 {

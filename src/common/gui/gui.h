@@ -25,8 +25,6 @@
 #include "utils/singleton.h"
 #include "utils/ustring.h"
 
-#include <map>
-
 namespace vt_video
 {
 class StillImage;

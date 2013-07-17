@@ -17,10 +17,9 @@
 *** \brief   Source file for the scripting engine.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <stdarg.h>
-
+#include "utils/utils_pch.h"
 #include "script.h"
+
 #include "script_read.h"
 
 using namespace luabind;

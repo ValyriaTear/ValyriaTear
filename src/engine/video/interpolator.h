@@ -21,8 +21,6 @@
 #ifndef __INTERPOLATOR_HEADER__
 #define __INTERPOLATOR_HEADER__
 
-#include "utils/utils_common.h"
-
 namespace vt_mode_manager
 {
 

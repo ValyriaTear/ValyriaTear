@@ -25,7 +25,6 @@
 //! All calls to the mode management code are wrapped inside this namespace
 namespace vt_mode_manager
 {
-
 class HelpWindow;
 class ModeEngine;
 
@@ -96,7 +95,7 @@ public:
     *** Draws the next screen frame for the game mode, but unaffected
     *** by potential light and fade effects.
     **/
-    virtual void DrawPostEffects() {};
+    virtual void DrawPostEffects();
 
     /** \brief Resets the state of the class.
     ***
@@ -107,20 +106,16 @@ public:
     virtual void Reset() = 0;
 
     //! \brief Called when a game mode is made inactive
-    virtual void Deactivate()
-    {}
+    virtual void Deactivate();
 
-    EffectSupervisor &GetEffectSupervisor() {
-        return _effect_supervisor;
-    }
+    //! \brief Returns the effect supervisor.
+    EffectSupervisor &GetEffectSupervisor();
 
-    ParticleManager &GetParticleManager() {
-        return _particle_manager;
-    }
+    //! \brief Returns the particle manager.
+    ParticleManager &GetParticleManager();
 
-    ScriptSupervisor &GetScriptSupervisor() {
-        return _script_supervisor;
-    }
+    //! \brief Returns the script supervisor.
+    ScriptSupervisor &GetScriptSupervisor();
 
 private:
     //! \brief Handles all the custom scripted animation for the given mode.

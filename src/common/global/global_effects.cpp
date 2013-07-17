@@ -15,12 +15,12 @@
 *** \brief   Source file for global game effects
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "global_effects.h"
+
 #include "global.h"
 
 #include "engine/system.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 

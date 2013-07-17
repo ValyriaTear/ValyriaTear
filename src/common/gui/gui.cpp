@@ -16,14 +16,13 @@
 ***
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "gui.h"
 
 #include "engine/video/video.h"
 #include "common/gui/menu_window.h"
 
 #include "engine/script/script_read.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_video;

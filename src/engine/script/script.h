@@ -26,28 +26,8 @@
 #ifndef __SCRIPT_HEADER__
 #define __SCRIPT_HEADER__
 
+#include "utils/utils_pch.h"
 #include "utils/singleton.h"
-
-// Prevents redefinition errors on OSX against old boost libraries.
-#ifdef __APPLE__
-#undef check
-#endif
-
-#include <sstream>
-#include <fstream>
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
-#include <luabind/luabind.hpp>
-#include <luabind/object.hpp>
-#include <luabind/adopt_policy.hpp>
-
-#if LUA_VERSION_NUM < 502
-# define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
-#endif
 
 //! \brief All calls to the scripting engine are wrapped in this namespace.
 namespace vt_script

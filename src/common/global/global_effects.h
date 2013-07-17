@@ -24,8 +24,6 @@
 #ifndef __GLOBAL_EFFECTS_HEADER__
 #define __GLOBAL_EFFECTS_HEADER__
 
-#include "utils/utils_common.h"
-
 #include "global_utils.h"
 
 #include "engine/system.h"

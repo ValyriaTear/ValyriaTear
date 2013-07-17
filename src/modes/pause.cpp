@@ -15,12 +15,14 @@
 *** \brief   Source file for pause mode interface.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/pause.h"
+
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 #include "engine/input.h"
 #include "engine/system.h"
 #include "modes/boot/boot.h"
-#include "modes/pause.h"
 
 using namespace vt_utils;
 using namespace vt_audio;

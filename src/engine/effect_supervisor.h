@@ -21,8 +21,6 @@
 #include "engine/video/image.h"
 #include "engine/video/shake.h"
 
-#include <deque>
-
 namespace vt_mode_manager
 {
 

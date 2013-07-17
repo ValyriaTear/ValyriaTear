@@ -15,8 +15,10 @@
 *** \brief   Source file for the boot menus
 *** ***************************************************************************/
 
-#include "boot.h"
+#include "utils/utils_pch.h"
 #include "boot_menu.h"
+
+#include "boot.h"
 
 using namespace vt_utils;
 using namespace vt_video;

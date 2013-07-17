@@ -22,12 +22,8 @@
 *** \note This code uses Ogg-vorbis library for loading Ogg files
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "audio_input.h"
-
-#include <SDL/SDL_endian.h>
-#include <iostream>
-
-#include <string>
 
 namespace vt_audio
 {

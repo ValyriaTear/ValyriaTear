@@ -35,7 +35,7 @@
 #ifndef __BATTLE_DIALOGUE_HEADER__
 #define __BATTLE_DIALOGUE_HEADER__
 
-#include "utils/utils_common.h"
+#include "engine/video/video.h"
 
 #include "common/dialogue.h"
 
@@ -44,6 +44,9 @@ namespace vt_battle
 
 namespace private_battle
 {
+
+class BattleCharacter;
+class BattleEnemy;
 
 //! \brief Defines the different states the dialogue can be in.
 enum DIALOGUE_STATE {

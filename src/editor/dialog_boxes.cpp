@@ -15,6 +15,7 @@
 *** \brief   Source file for all of the editor's dialog boxes.
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "dialog_boxes.h"
 
 namespace vt_editor

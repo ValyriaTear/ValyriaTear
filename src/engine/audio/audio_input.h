@@ -26,19 +26,6 @@
 #ifndef __AUDIO_INPUT_HEADER__
 #define __AUDIO_INPUT_HEADER__
 
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
-#endif
-
-#include "utils/utils_common.h"
-
-#include <vorbis/vorbisfile.h>
-#include <fstream>
-
 namespace vt_audio
 {
 

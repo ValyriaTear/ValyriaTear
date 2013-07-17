@@ -16,9 +16,12 @@
 #ifndef __SCRIPT_SUPERVISOR_HEADER__
 #define __SCRIPT_SUPERVISOR_HEADER__
 
-#include "utils/utils_common.h"
 #include "engine/script/script_read.h"
 #include "engine/video/video.h" // only needed for vt_video::VIDEO_DRAW_FLAGS
+
+namespace vt_video {
+enum VIDEO_DRAW_FLAGS;
+}
 
 namespace vt_mode_manager {
 class GameMode;
