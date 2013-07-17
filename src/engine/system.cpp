@@ -365,8 +365,8 @@ void SystemEngine::SetLanguage(const std::string& lang)
 #ifdef _WIN32
     std::string lang_var = "LANGUAGE=" + _language;
     putenv(lang_var.c_str());
-    SetEnvironmentVariable("LANGUAGE", _language.c_str());
-    SetEnvironmentVariable("LANG", _language.c_str());
+    SetEnvironmentVariableA("LANGUAGE", _language.c_str());
+    SetEnvironmentVariableA("LANG", _language.c_str());
 #else
     setenv("LANGUAGE", _language.c_str(), 1);
     setenv("LANG", _language.c_str(), 1);

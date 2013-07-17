@@ -16,6 +16,7 @@
 ***          where tiles are painted, edited, etc.
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "grid.h"
 #include "editor.h"
 
@@ -25,9 +26,6 @@
 #include "engine/video/video.h"
 
 #include <QScrollBar>
-
-#include <sstream>
-#include <iostream>
 
 using namespace vt_script;
 using namespace vt_video;
@@ -158,7 +156,7 @@ bool Grid::LoadMap()
     QString message_box_title("Load File Error");
 
     // Open the map file for reading
-    if(!read_data.OpenFile(std::string(_file_name.toAscii()))) {
+    if(!read_data.OpenFile(std::string(_file_name.toStdString()))) {
         read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
                              QString("Could not open file %1 for reading.").arg(_file_name));
@@ -329,7 +327,7 @@ void Grid::SaveMap()
     for(QStringList::Iterator qit = tileset_def_names.begin();
             qit != tileset_def_names.end(); ++qit) {
         ++i;
-        write_data.WriteString(i, (*qit).toAscii().data());
+        write_data.WriteString(i, (*qit).toStdString());
     } // iterate through tileset_names writing each element
     write_data.EndTable();
     write_data.InsertNewLine();

@@ -18,8 +18,6 @@
 #ifndef __EDITOR_HEADER__
 #define __EDITOR_HEADER__
 
-#include <map>
-
 #include <QApplication>
 #include <QCheckBox>
 #include <QCloseEvent>
