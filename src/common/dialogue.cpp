@@ -15,14 +15,13 @@
 *** \brief   Source file for common dialogue code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "dialogue.h"
 
 #include "common.h"
 #include "common/gui/gui.h"
 
 #include "engine/video/video.h"
-
-#include <iostream>
 
 using namespace vt_system;
 using namespace vt_utils;

@@ -9,12 +9,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************(
-*** \file    utils_common.h
+*** \file    utils_pch.h
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Header file for the utility code.
+*** \brief   Precompiled Header file for the project.
 ***
-*** This code includes the common types used all around the code.
+*** This code includes the headers and common types used all around the code.
 ***
 *** \note Use the following macros for OS-dependent code.
 ***   - Windows    #ifdef _WIN32
@@ -48,20 +48,146 @@
 ***   - char*     Acceptable, but use strings instead wherever possible.
 *** ***************************************************************************/
 
-#ifndef __UTILS_COMMON_HEADER__
-#define __UTILS_COMMON_HEADER__
+#ifndef __UTILS_PCH_HEADER__
+#define __UTILS_PCH_HEADER__
 
+//
+// Include Common Headers
+//
+
+#ifdef _WIN32
+#   include <windows.h>
+#   include <direct.h>
+#   include <shlobj.h>
+#   include <stdlib.h>
+#   ifndef PATH_MAX
+#       define PATH_MAX _MAX_PATH   // redefine _MAX_PATH to be compatible with Darwin's PATH_MAX
+#   endif
+#else
+#   include <dirent.h>
+#   include <pwd.h>
+#   include <sys/types.h>
+#   include <unistd.h>
+#endif
+
+#ifdef __APPLE__
+#   include <OpenAL/al.h>
+#   include <OpenAL/alc.h>
+#   include <OpenGL/gl.h>
+#   include <OpenGL/glu.h>
+#   include <unistd.h>
+#   undef check
+#else
+#   include "al.h"
+#   include "alc.h"
+#   include <GL/gl.h>
+#   include <GL/glu.h>
+#endif
+
+#ifdef __linux__
+#   include <limits.h>
+#endif
+
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <deque>
+#include <fstream>
+#include <iconv.h>
+#include <iostream>
+
+#ifndef DISABLE_TRANSLATIONS
+#   include <libintl.h>
+#endif
+
+#include <list>
+#include <map>
+#include <math.h>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <stdarg.h>
+
+#ifdef HAVE_STDINT_H
+#   include <stdint.h> // Using the C header, because the C++ header, <cstdint> is only available in ISO C++0x
+#endif
+
+#include <stdexcept>
+#include <string>
+#include <sys/stat.h>
+#include <time.h>
+#include <vector>
+
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
+
+#include <luabind/luabind.hpp>
+#include <luabind/adopt_policy.hpp>
+#include <luabind/object.hpp>
+
+#if LUA_VERSION_NUM < 502
+# define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+#endif
+
+#include <png.h>
+extern "C" {
+#include <jpeglib.h>
+}
 
 // We include SDL_config.h, which compensates for non ISO C99 compilers.
 // SDL_config.h defines the int??_t types for non ISO C99 compilers,
 // and defines HAVE_STDINT_H for compliant compilers
+#include <SDL/SDL.h>
 #include <SDL/SDL_config.h>
-#ifdef HAVE_STDINT_H
-#include <stdint.h> // Using the C header, because the C++ header, <cstdint> is only available in ISO C++0x
+#include <SDL/SDL_endian.h>
+#include <SDL_image.h>
+
+#define NO_THREADS 0
+#define SDL_THREADS 1
+
+/* Set this to NO_THREADS to disable threads. Set this to SDL_THREADS to use
+ * SDL Threads. */
+#define THREAD_TYPE SDL_THREADS
+
+#if (THREAD_TYPE == SDL_THREADS)
+#   include <SDL/SDL_thread.h>
+#   include <SDL/SDL_mutex.h>
+    typedef SDL_Thread Thread;
+    typedef SDL_sem Semaphore;
+#else
+    typedef int Thread;
+    typedef int Semaphore;
 #endif
 
-// defines NULL among other things
-#include <cstdlib>
+#ifdef __APPLE__
+#   include <SDL_ttf/SDL_ttf.h>
+#else
+#   include <SDL/SDL_ttf.h>
+#endif
+
+#include <vorbis/vorbisfile.h>
+
+// The Windows API defines GetMessage and CreateSemaphore.
+// Undefine it here to prevent conflicts within the code base.
+// Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else.
+#ifdef _WIN32
+#   undef GetMessage
+#   undef CreateSemaphore
+#   ifndef strcasecmp
+#       define strcasecmp stricmp
+#   endif
+#endif
+
+//
+// Common Defines and Typedefs
+//
 
 /** \name Print Message Helper Macros
 *** These macros assist programmers with writing debug, warning, or error messages that are to be printed to
@@ -117,4 +243,4 @@ extern bool UTILS_DEBUG;
 
 } // vt_utils
 
-#endif // __UTILS_COMMON_HEADER__
+#endif // __UTILS_PCH_HEADER__

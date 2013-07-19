@@ -16,13 +16,10 @@
 *** \brief   Source file for the WriteScriptDescriptor class.
 *** ***************************************************************************/
 
-#include "script.h"
+#include "utils/utils_pch.h"
 #include "script_write.h"
 
-#include "utils/utils_common.h"
-
-#include <fstream>
-#include <iostream>
+#include "script.h"
 
 using namespace vt_utils;
 

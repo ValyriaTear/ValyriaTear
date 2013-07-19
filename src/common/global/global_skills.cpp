@@ -15,10 +15,12 @@
 *** \brief   Source file for global game skills.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "global_skills.h"
+
 #include "engine/script/script.h"
 #include "engine/video/video.h"
 
-#include "global_skills.h"
 #include "global.h"
 
 using namespace vt_utils;

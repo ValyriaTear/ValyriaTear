@@ -15,6 +15,7 @@
 *** \brief   Source file for global game actors
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "global_actors.h"
 
 #include "engine/script/script_read.h"
@@ -26,8 +27,6 @@
 
 #include "utils/utils_files.h"
 #include "utils/utils_random.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_video;

@@ -15,10 +15,8 @@
 *** \brief   Source file for the random number utility code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "utils_random.h"
-
-#include <iostream>
-#include <cmath>
 
 namespace vt_utils
 {

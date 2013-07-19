@@ -22,13 +22,13 @@
 *** \note This code uses the OpenAL audio library. See http://www.openal.com/
 *** ***************************************************************************/
 
-#include "audio.h"
+#include "utils/utils_pch.h"
 #include "audio_descriptor.h"
+
+#include "audio.h"
 #include "engine/system.h"
 
 #include "utils/utils_strings.h"
-
-#include <iostream>
 
 using namespace vt_audio::private_audio;
 

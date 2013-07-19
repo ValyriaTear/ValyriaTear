@@ -18,8 +18,6 @@
 #ifndef __COLOR_HEADER__
 #define __COLOR_HEADER__
 
-#include <SDL/SDL.h>
-
 #include "utils/utils_numeric.h"
 
 namespace vt_video

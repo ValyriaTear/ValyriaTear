@@ -18,9 +18,6 @@
 #ifndef __UTILS_FILES_HEADER__
 #define __UTILS_FILES_HEADER__
 
-#include <string>
-#include <vector>
-
 //! Contains utility code used across the entire source code
 namespace vt_utils
 {

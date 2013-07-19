@@ -29,16 +29,14 @@
 #ifndef __VIDEO_HEADER__
 #define __VIDEO_HEADER__
 
-#include "context.h"
-#include "color.h"
-#include "coord_sys.h"
-#include "fade.h"
-#include "image.h"
-#include "screen_rect.h"
-#include "texture_controller.h"
-#include "text.h"
-
-#include <stack>
+#include "engine/video/context.h"
+#include "engine/video/color.h"
+#include "engine/video/coord_sys.h"
+#include "engine/video/fade.h"
+#include "engine/video/image.h"
+#include "engine/video/screen_rect.h"
+#include "engine/video/texture_controller.h"
+#include "engine/video/text.h"
 
 namespace vt_gui {
 class TextBox;
@@ -552,9 +550,7 @@ public:
     *** \note This function is guaranteed to return a valid pointer so long as the VideoEngine class
     *** has been properly initialized
     **/
-    TextureController *Textures() {
-        return TextureManager;
-    }
+    TextureController* Textures();
 
     //-- Overlays: Lighting, Lightning  -----------------------------------------------------
 

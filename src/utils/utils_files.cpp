@@ -15,28 +15,8 @@
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "utils_files.h"
-
-#include "utils/utils_common.h"
-
-// Headers included for directory manipulation. Windows has its own way of
-// dealing with directories, hence the need for conditional includes
-#ifdef _WIN32
-#include <windows.h>
-#include <direct.h>
-#include <shlobj.h>
-#else
-#include <dirent.h>
-#include <sys/types.h>
-#include <pwd.h>
-#include <unistd.h>
-#endif
-
-#include <sys/stat.h>
-#include <cstdio>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 
 namespace vt_utils
 {
@@ -47,7 +27,7 @@ bool DoesFileExist(const std::string &file_name)
     // but on POSIX compliant systems it does, and GetFileAttributes works for both folders and
     // directories on win32
 #ifdef _WIN32
-    return GetFileAttributes(file_name.c_str()) != INVALID_FILE_ATTRIBUTES;
+    return GetFileAttributesA(file_name.c_str()) != INVALID_FILE_ATTRIBUTES;
 #else
     struct stat buf;
     if(stat(file_name.c_str(), &buf) == 0)
@@ -303,9 +283,9 @@ static void _CopyOldSaveFiles(const std::string &destination_path)
     if(!DoesFileExist(old_path))
         return; // Nothing to do.
 #elif defined _WIN32
-    TCHAR path[MAX_PATH];
+    char path[MAX_PATH];
     // %USERPROFILE%\My Documents
-    if(!(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, path))))
+    if(!(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path))))
         return; // No folder, nothing to do.
 
     std::string old_path = std::string(path) + "/"APPUPCASEDIRNAME"/";
@@ -355,9 +335,9 @@ static void _CopyOldSettingsFile(const std::string &destination_path)
         return; // Nothing to do.
 
 #elif defined _WIN32
-    TCHAR path[MAX_PATH];
+    char path[MAX_PATH];
     // %USERPROFILE%\My Documents
-    if(!(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, path))))
+    if(!(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path))))
         return; // No folder, nothing to do.
 
     std::string old_file = std::string(path) + "/"APPUPCASEDIRNAME"/settings.lua";
@@ -379,9 +359,9 @@ static void _CopyOldSettingsFile(const std::string &destination_path)
 static const std::string _SetupUserDataPath()
 {
 #if defined _WIN32
-    TCHAR path[MAX_PATH];
+    char path[MAX_PATH];
     // %APPDATA% (%USERPROFILE%\Application Data)
-    if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path))) {
+    if(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, path))) {
         std::string user_path = std::string(path) + "/"APPUPCASEDIRNAME"/";
         if(!DoesFileExist(user_path))
             MakeDirectory(user_path);
@@ -442,9 +422,9 @@ static const std::string _SetupUserDataPath()
 static const std::string _SetupUserConfigPath()
 {
 #if defined _WIN32
-    TCHAR path[MAX_PATH];
+    char path[MAX_PATH];
     // %APPDATA% (%USERPROFILE%\Application Data)
-    if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path))) {
+    if(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, path))) {
         std::string user_path = std::string(path) + "/"APPUPCASEDIRNAME"/";
         if(!DoesFileExist(user_path))
             MakeDirectory(user_path);

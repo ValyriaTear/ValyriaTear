@@ -18,8 +18,6 @@
 #ifndef __MENU_WINDOW_HEADER__
 #define __MENU_WINDOW_HEADER__
 
-#include "utils/utils_common.h"
-
 #include "gui.h"
 #include "engine/video/screen_rect.h"
 #include "engine/video/image.h"

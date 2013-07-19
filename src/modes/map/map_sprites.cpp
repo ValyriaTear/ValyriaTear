@@ -15,6 +15,7 @@
 *** \brief   Source file for map mode sprites.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_sprites.h"
 
 #include "modes/map/map_events.h"

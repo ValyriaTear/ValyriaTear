@@ -38,8 +38,6 @@
 
 #include "engine/video/particle_system.h"
 
-#include "utils/utils_common.h"
-
 namespace vt_script {
 class ReadScriptDescriptor;
 }

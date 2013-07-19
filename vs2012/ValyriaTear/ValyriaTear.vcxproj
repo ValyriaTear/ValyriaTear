@@ -54,6 +54,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessorDefinitions>_DEBUG;_WIN32;LUABIND_NO_ERROR_CHECKING;_MBCS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>utils/utils_pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -82,6 +84,8 @@
       <DisableSpecificWarnings>4121;4146;4244;4290;4305;4611;4702;4800;4996;</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>_WIN32;NDEBUG;LUABIND_NO_ERROR_CHECKING;_MBCS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>utils/utils_pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -179,6 +183,10 @@
     <ClCompile Include="..\..\src\utils\ustring.cpp" />
     <ClCompile Include="..\..\src\utils\utils_files.cpp" />
     <ClCompile Include="..\..\src\utils\utils_numeric.cpp" />
+    <ClCompile Include="..\..\src\utils\utils_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\src\utils\utils_random.cpp" />
     <ClCompile Include="..\..\src\utils\utils_strings.cpp" />
   </ItemGroup>
@@ -264,7 +272,7 @@
     <ClInclude Include="..\..\src\utils\exception.h" />
     <ClInclude Include="..\..\src\utils\singleton.h" />
     <ClInclude Include="..\..\src\utils\ustring.h" />
-    <ClInclude Include="..\..\src\utils\utils_common.h" />
+    <ClInclude Include="..\..\src\utils\utils_pch.h" />
     <ClInclude Include="..\..\src\utils\utils_files.h" />
     <ClInclude Include="..\..\src\utils\utils_numeric.h" />
     <ClInclude Include="..\..\src\utils\utils_random.h" />

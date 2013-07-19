@@ -15,11 +15,11 @@
 *** \brief   Source file for the global game manager
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "global.h"
+
 #include "engine/system.h"
 #include "modes/map/map_mode.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 

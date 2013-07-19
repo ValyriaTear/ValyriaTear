@@ -18,8 +18,6 @@
 #ifndef __INPUT_HEADER__
 #define __INPUT_HEADER__
 
-#include <SDL/SDL.h>
-
 #include "utils/utils_strings.h"
 #include "utils/singleton.h"
 

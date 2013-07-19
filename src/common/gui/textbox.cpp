@@ -15,13 +15,11 @@
 *** \brief   Header file for TextBox class
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "textbox.h"
 
 #include "common/gui/menu_window.h"
 #include "engine/video/video.h"
-
-#include <iostream>
-#include <sstream>
 
 using namespace vt_utils;
 using namespace vt_video;

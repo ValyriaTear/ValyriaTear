@@ -31,9 +31,6 @@
 
 #include "utils/ustring.h"
 
-#include <map>
-#include <deque>
-
 /** \brief Namespace which contains all binding functions
 *** Contains the binding code which makes the C++ engine available to Lua
 *** This method should <b>only be called once</b>. It must be called after the

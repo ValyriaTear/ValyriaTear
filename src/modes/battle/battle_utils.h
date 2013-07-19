@@ -24,8 +24,6 @@
 #include "engine/system.h"
 #include "common/global/global_objects.h"
 
-#include <deque>
-
 namespace vt_battle
 {
 

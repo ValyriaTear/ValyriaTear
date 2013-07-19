@@ -15,31 +15,10 @@
 *** \brief   Source file for image base classes
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "image_base.h"
+
 #include "video.h"
-
-#include <png.h>
-extern "C" {
-#include <jpeglib.h>
-}
-
-#ifdef _MSC_VER
-#include <windows.h> // needs to be included before gl.h
-#endif
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#include <cstdarg>
-#include <math.h>
-#include <iostream>
-
-#include <SDL_image.h>
 
 using namespace vt_utils;
 

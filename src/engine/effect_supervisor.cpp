@@ -14,6 +14,7 @@
 *** \brief  Source file for managing visual ambient effects
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "effect_supervisor.h"
 
 #include "engine/script/script_read.h"

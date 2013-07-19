@@ -27,19 +27,16 @@
 #include "texture.h"
 #include "image_base.h"
 
-#include <map>
+namespace vt_mode_manager {
+class ParticleSystem;
+}
 
 namespace vt_video
 {
 
-class TextureController;
-
 namespace private_video {
 class TextTexture;
 }
-
-//! \brief The singleton pointer for the instance of the texture controller
-extern TextureController *TextureManager;
 
 class TextureController : public vt_utils::Singleton<TextureController>
 {
@@ -234,6 +231,9 @@ private:
     }
     //@}
 }; // class TextureController : public vt_utils::Singleton<TextureController>
+
+//! \brief The singleton pointer for the instance of the texture controller
+extern TextureController *TextureManager;
 
 } // namespace vt_video
 

@@ -19,14 +19,13 @@
 *** shop keeper.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "shop.h"
 
 #include "shop_root.h"
 #include "shop_buy.h"
 #include "shop_sell.h"
 #include "shop_trade.h"
-
-#include "utils/utils_common.h"
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
@@ -37,8 +36,6 @@
 
 #include "engine/mode_manager.h"
 #include "modes/pause.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_audio;

@@ -21,16 +21,6 @@
 #ifndef __AUDIO_STREAM_HEADER__
 #define __AUDIO_STREAM_HEADER__
 
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
-#endif
-
-#include "utils/utils_common.h"
-
 #include "audio_input.h"
 
 namespace vt_audio

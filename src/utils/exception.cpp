@@ -15,17 +15,8 @@
 *** \brief   Source file for the exception code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "exception.h"
-
-#include "utils/utils_common.h"
-
-#include <sstream>
-
-// The Windows API defines GetMessage.
-// Undefine it here to prevent conflicts with Exception::GetMessage.
-#ifdef _WIN32
-#   undef GetMessage
-#endif
 
 template <typename T>
 std::string _NumberToString(const T t)

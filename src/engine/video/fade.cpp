@@ -15,15 +15,13 @@
 *** \brief   Header file for ScreenFader class.
 *** ***************************************************************************/
 
-#include <cassert>
-#include <cstdarg>
-#include <math.h>
-
+#include "utils/utils_pch.h"
 #include "fade.h"
+
 #include "video.h"
 
 #ifndef EDITOR_BUILD
-#include "engine/mode_manager.h"
+#   include "engine/mode_manager.h"
 #endif
 
 using namespace vt_utils;

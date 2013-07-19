@@ -17,15 +17,14 @@
 *** \brief   Source file for various menu views.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <sstream>
-#include <algorithm>
+#include "utils/utils_pch.h"
+#include "modes/menu/menu_views.h"
+
+#include "modes/menu/menu.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/system.h"
-
-#include "modes/menu/menu.h"
 
 using namespace vt_menu::private_menu;
 using namespace vt_utils;

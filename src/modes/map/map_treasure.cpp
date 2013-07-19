@@ -15,6 +15,7 @@
 *** \brief   Source file for map mode treasures.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_treasure.h"
 
 #include "modes/map/map_mode.h"
