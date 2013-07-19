@@ -156,7 +156,7 @@ bool Grid::LoadMap()
     QString message_box_title("Load File Error");
 
     // Open the map file for reading
-    if(!read_data.OpenFile(std::string(_file_name.toStdString()))) {
+    if(!read_data.OpenFile(_file_name.toStdString())) {
         read_data.CloseFile();
         QMessageBox::warning(this, message_box_title,
                              QString("Could not open file %1 for reading.").arg(_file_name));
