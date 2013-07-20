@@ -273,7 +273,8 @@ engine/script/script_read.h
 engine/script/script_read.cpp
 engine/script/script_write.h
 engine/script/script_write.cpp
-utils/utils_common.h
+utils/utils_pch.h
+utils/utils_pch.cpp
 utils/ustring.h
 utils/ustring.cpp
 utils/singleton.h
