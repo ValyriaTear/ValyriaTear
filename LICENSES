@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.07.08
+Last update: 2013.07.22
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -229,6 +229,7 @@ img/icons/actors/enemies/green_snake.png                        GPLv2           
 img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
 img/icons/actors/enemies/fenrir.png                             CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
+img/icons/actors/enemies/shroom.png                             CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites
 
 img/icons/battle/default_weapon.png                             GPLv2                    Allacrost
 img/icons/battle/default_special.png                            CC by SA 3.0             Bertram

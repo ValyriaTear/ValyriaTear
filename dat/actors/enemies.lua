@@ -589,7 +589,7 @@ enemies[10] = {
 
 enemies[11] = {
     name = vt_system.Translate("Shroom"),
-    --stamina_icon = "img/icons/actors/enemies/bat.png",
+    stamina_icon = "img/icons/actors/enemies/shroom.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/shroom_0.lua",
