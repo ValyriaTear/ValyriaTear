@@ -611,6 +611,8 @@ img/sprites/map/characters/kalya_struggling.png                 GPLv2           
 img/sprites/map/characters/sylve_run.png                        GPLv2                    Allacrost
 img/sprites/map/characters/sylve_walk.png                       GPLv2                    Allacrost
 img/sprites/map/characters/thanis_walk.png                      GPLv2                    Allacrost
+img/sprites/map/characters/bronann_jump_south.lua               GPLv3                    Bertram
+img/sprites/map/characters/kalya_jump_south.lua                 GPLv3                    Bertram
 
 img/sprites/map/enemies/bat_spritesheet.png                     CC by SA 3.0             From the Liberated Pixel Cup Bat enemy - http://lpc.opengameart.org/ (OGA)
 img/sprites/map/enemies/big_slime_idle.lua                      GPLv2                    Bertram

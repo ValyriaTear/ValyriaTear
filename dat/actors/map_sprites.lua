@@ -32,7 +32,8 @@ sprites["Bronann"] = {
         hurt = "img/sprites/map/characters/bronann_hurt_unarmed.lua",
         sleeping = "img/sprites/map/characters/bronann_dead.lua",
         kneeling = "img/sprites/map/characters/bronann_kneeling.lua",
-        kneeling_left = "img/sprites/map/characters/bronann_kneeling_left.lua"
+        kneeling_left = "img/sprites/map/characters/bronann_kneeling_left.lua",
+        jump_south = "img/sprites/map/characters/bronann_jump_south.lua"
     }
 }
 
@@ -55,7 +56,8 @@ sprites["Kalya"] = {
     -- using standard (one direction only) animation files.
     custom_animations = {
         kneeling = "img/sprites/map/characters/kalya_kneeling.lua",
-        struggling = "img/sprites/map/characters/kalya_struggling.lua"
+        struggling = "img/sprites/map/characters/kalya_struggling.lua",
+        jump_south = "img/sprites/map/characters/kalya_jump_south.lua"
     }
 }
 
