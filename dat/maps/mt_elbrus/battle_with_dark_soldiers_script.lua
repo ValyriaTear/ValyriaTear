@@ -49,12 +49,10 @@ function Initialize(battle_instance)
     time_left_text = "2:00";
     time_left_header_text = vt_system.Translate("Time left:");
 
-    battle_time = 0;
     dialogue1_done = false;
 end
 
 function Restart()
-    battle_time = 0;
     dialogue1_done = false;
 
     start_timer:Reset();
