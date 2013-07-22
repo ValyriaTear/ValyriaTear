@@ -42,6 +42,7 @@ void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
         }
 
         _reset_functions.push_back(scene_script.ReadFunctionPointer("Reset"));
+        _restart_functions.push_back(scene_script.ReadFunctionPointer("Restart"));
         _update_functions.push_back(scene_script.ReadFunctionPointer("Update"));
         _draw_background_functions.push_back(scene_script.ReadFunctionPointer("DrawBackground"));
         _draw_foreground_functions.push_back(scene_script.ReadFunctionPointer("DrawForeground"));
@@ -69,6 +70,13 @@ void ScriptSupervisor::Reset()
     // Updates custom scripts
     for(uint32 i = 0; i < _reset_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_reset_functions[i]);
+}
+
+void ScriptSupervisor::Restart()
+{
+    // Updates custom scripts
+    for(uint32 i = 0; i < _restart_functions.size(); ++i)
+        ReadScriptDescriptor::RunScriptObject(_restart_functions[i]);
 }
 
 void ScriptSupervisor::Update()

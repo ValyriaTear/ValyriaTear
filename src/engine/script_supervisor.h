@@ -59,6 +59,10 @@ public:
     ///! \brief calls the reset function of each scripts.
     void Reset();
 
+    ///! \brief calls the Restart function of each scripts.
+    //! Useful when restarting a lost battle.
+    void Restart();
+
     /** \brief Draws all background images and animations
     *** The images and effects drawn by this function will never be drawn over anything else
     *** (sprites, menus, etc.).
@@ -132,6 +136,11 @@ private:
     *** one common operation is to reset the scene state when coming back to a given mode from another.
     **/
     std::vector<ScriptObject> _reset_functions;
+
+    /** \brief Script functions which assists with the #Restart method
+    *** This function is called when a battle is restarted
+    **/
+    std::vector<ScriptObject> _restart_functions;
 
     /** \brief Script functions which assists with the #Update method
     *** Those functions execute any code that needs to be performed on an update call. An example of

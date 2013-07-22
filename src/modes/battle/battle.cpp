@@ -277,8 +277,8 @@ void BattleMode::RestartBattle()
     if (GetState() == BATTLE_STATE_INVALID)
         return;
 
-    // Reset potential battle scripts
-    GetScriptSupervisor().Reset();
+    // Restart potential battle scripts
+    GetScriptSupervisor().Restart();
 
     // Removes all enemies and readd only the ones that were present
     // at the beginning of the battle.

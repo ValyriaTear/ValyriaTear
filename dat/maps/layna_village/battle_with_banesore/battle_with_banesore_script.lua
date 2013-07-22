@@ -119,7 +119,7 @@ function Initialize(battle_instance)
     bronann = Battle:GetCharacterActor(0);
 end
 
-function Reset()
+function Restart()
     battle_time = 0;
     dialogue1_done = false;
     dialogue2_done = false;
