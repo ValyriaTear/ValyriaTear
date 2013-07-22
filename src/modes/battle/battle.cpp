@@ -188,6 +188,19 @@ StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
 // BattleMode class -- primary methods
 ////////////////////////////////////////////////////////////////////////////////
 
+// Fallback positions for enemies when not set by scripts
+const float DEFAULT_ENEMY_LOCATIONS[][2] = {
+    { 515.0f, 600.0f },
+    { 494.0f, 450.0f },
+    { 560.0f, 550.0f },
+    { 580.0f, 630.0f },
+    { 675.0f, 390.0f },
+    { 655.0f, 494.0f },
+    { 793.0f, 505.0f },
+    { 730.0f, 600.0f }
+}; // 8 positions are set [0-7]
+const uint32 NUM_DEFAULT_LOCATIONS = 8;
+
 BattleMode::BattleMode() :
     _state(BATTLE_STATE_INVALID),
     _sequence_supervisor(NULL),
@@ -523,6 +536,20 @@ void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_
 
     new_enemy->Initialize();
     BattleEnemy *new_battle_enemy = new BattleEnemy(new_enemy);
+
+    // Compute a position when needed.
+    if (position_x == 0.0f && position_y == 0.0f) {
+        uint32 default_pos_id = _enemy_actors.size();
+        position_x = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][0];
+        position_y = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][1];
+        // Add an artifical offset when cycling within the default positions.
+        // This will permit to still see all the enemies, even when there are more than 8 of them.
+        if(default_pos_id > NUM_DEFAULT_LOCATIONS - 1) {
+            position_x += default_pos_id * 3;
+            position_y += default_pos_id * 3;
+        }
+    }
+
     // Set the battleground position
     new_battle_enemy->SetXLocation(position_x);
     new_battle_enemy->SetYLocation(position_y);
@@ -845,19 +872,6 @@ void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename,
 
 void BattleMode::_DetermineActorLocations()
 {
-    // Fallback positions for enemies when not set by scripts
-    const float DEFAULT_ENEMY_LOCATIONS[][2] = {
-        { 515.0f, 600.0f },
-        { 494.0f, 450.0f },
-        { 560.0f, 550.0f },
-        { 580.0f, 630.0f },
-        { 675.0f, 390.0f },
-        { 655.0f, 494.0f },
-        { 793.0f, 505.0f },
-        { 730.0f, 600.0f }
-    }; // 8 positions are set [0-7]
-    const uint32 NUM_DEFAULT_LOCATIONS = 8;
-
     float position_x, position_y;
 
     // Determine the default position of the first character in the party,

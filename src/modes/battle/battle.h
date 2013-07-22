@@ -279,6 +279,7 @@ public:
     /** \brief Adds a new active enemy to the battle field
     *** \param new_enemy_id The id number of the new enemy to add to the battle
     *** \param position_x, position_y The enemy sprite position on the battle ground in pixels
+    *** If both are equal to 0.0f, the position is automatically computed.
     *** This method works precisely the same was as the method which takes a GlobalEnemy argument,
     *** only this version will construct the global enemy just using its id (meaning that it has
     *** to open up the Lua file which defines the enemy). If the GlobalEnemy has already been
@@ -286,6 +287,9 @@ public:
     *** function.
     **/
     void AddEnemy(uint32 new_enemy_id, float position_x, float position_y);
+    void AddEnemy(uint32 new_enemy_id) {
+        AddEnemy(new_enemy_id, 0.0f, 0.0f);
+    }
 
     /** \brief Restores the battle to its initial state, allowing the player another attempt to achieve victory
     *** This function is permitted only when the battle state isn't invalid, as this value is reserved
