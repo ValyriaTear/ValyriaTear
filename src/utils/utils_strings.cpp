@@ -18,6 +18,11 @@
 #include "utils/utils_pch.h"
 #include "utils_strings.h"
 
+// Fix linkage when using vsnprintf by undefining the libintl equivalent function.
+#ifndef DISABLE_TRANSLATIONS
+#undef vsnprintf
+#endif
+
 namespace vt_utils
 {
 
