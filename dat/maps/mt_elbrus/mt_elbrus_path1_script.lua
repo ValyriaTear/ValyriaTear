@@ -66,8 +66,8 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 3, 30);
-    hero:SetDirection(vt_map.MapMode.EAST);
+    hero = CreateSprite(Map, "Bronann", 117, 94);
+    hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
@@ -85,6 +85,12 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit2") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(32.0, 53.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit3") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(118.0, 32.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit4") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(102.5, 22.0);
     end
 
     Map:AddGroundObject(hero);
@@ -159,7 +165,7 @@ function _CreateObjects()
         { "Rock1", 111, 45 },
 
         { "Tree Big2", 105, 38 },
-        { "Tree Big1", 117, 37 },
+        { "Tree Big1", 117, 38 },
         { "Tree Big2", 114, 47 },
         { "Tree Big2", 109, 48 },
         { "Tree Big1", 105, 46 },
@@ -219,6 +225,65 @@ function _CreateObjects()
         { "Tree Big1", 47, 53 },
         { "Tree Big1", 68, 74 },
 
+        { "Tree Big1", 10, 98 },
+        { "Tree Big1", 14, 99 },
+        { "Tree Big2", 17, 100 },
+        { "Tree Big1", 20, 97 },
+        { "Tree Big2", 25, 96.5 },
+        { "Tree Big2", 28, 93.5 },
+        { "Tree Big1", 29, 90 },
+        { "Tree Big1", 39, 94 },
+        { "Tree Big1", 37, 96 },
+        { "Tree Big1", 33, 98 },
+        { "Tree Big1", 29, 101 },
+        { "Tree Big2", 36, 87 },
+        { "Tree Small2", 28, 69 },
+
+        { "Tree Small1", 10, 55 },
+        { "Tree Big2", 11, 61 },
+        { "Tree Small2", 10, 65 },
+        { "Tree Big1", 12, 67 },
+        { "Tree Small2", 11, 70 },
+        { "Tree Small2", 47, 57 },
+
+        { "Tree Big2", 17, 45 },
+        { "Tree Big2", 17, 30 },
+        { "Tree Small2", 33, 28 },
+        { "Tree Small1", 43, 28.5 },
+        { "Tree Big2", 51, 35 },
+        { "Tree Big2", 73, 36 },
+        { "Tree Big1", 83, 34 },
+        { "Tree Big2", 19, 27 },
+        { "Tree Big1", 20, 24 },
+        { "Tree Big2", 23, 21 },
+        { "Tree Big2", 35, 42 },
+        { "Tree Big2", 44, 33 },
+
+        { "Tree Big2", 68, 31 },
+        { "Tree Big1", 57, 27 },
+        { "Tree Big2", 79, 22 },
+        { "Tree Big2", 91, 33 },
+
+        { "Tree Small2", 75, 11 },
+        { "Tree Big2", 63, 12 },
+        { "Tree Big1", 23, 13 },
+        { "Tree Big1", 123, 24 },
+        { "Tree Big1", 107, 12 },
+        { "Tree Big1", 73, 15 },
+        { "Tree Big1", 68, 14 },
+
+        { "Tree Big1", 116, 8 },
+        { "Tree Big2", 121, 14 },
+        { "Tree Big1", 96, 6 },
+        { "Tree Small2", 81, 5.5 },
+        { "Tree Big2", 69, 4 },
+        { "Tree Big1", 52, 6 },
+        { "Tree Big1", 34, 5.5 },
+
+        { "Tree Big2", 15.5, 14 },
+        { "Tree Big1", 11, 18 },
+        { "Tree Big2", 11.5, 22 },
+
         { "Rock2", 124, 31 },
         { "Rock1", 127, 30 },
         { "Rock2", 123, 39 },
@@ -227,7 +292,7 @@ function _CreateObjects()
         { "Rock1", 108, 72 },
         { "Rock2", 96, 76 },
         { "Rock1", 85, 73.5 },
-        { "Rock2", 46, 94 },
+        { "Rock2", 46, 94.2 },
         { "Rock1", 48, 96 },
 
         { "Rock1", 54, 45 },
@@ -241,6 +306,37 @@ function _CreateObjects()
         { "Rock2", 54, 87 },
         { "Rock2", 73, 67 },
         { "Rock2", 85, 63 },
+
+        { "Rock2", 39, 62 },
+        { "Rock1", 30, 77 },
+        { "Rock1", 38, 80 },
+        { "Rock1", 22, 90 },
+
+        { "Rock1", 6, 75 },
+        { "Rock1", 3, 63 },
+        { "Rock1", 7, 51 },
+        { "Rock1", 18, 59 },
+        { "Rock1", 20, 65 },
+        { "Rock1", 43, 48 },
+        { "Rock2", 40, 46 },
+        { "Rock1", 38, 43 },
+        { "Rock1", 38, 47.5 },
+
+        { "Rock1", 21, 28 },
+        { "Rock1", 25, 23 },
+        { "Rock1", 98, 21 },
+        { "Rock1", 100, 23 },
+        { "Rock2", 99, 25 },
+
+        { "Rock2", 11, 35 },
+        { "Rock2", 9, 33 },
+        { "Rock2", 7, 31 },
+        { "Rock2", 5, 29 },
+        { "Rock2", 2.5, 28 },
+        { "Rock2", 0, 28 },
+        { "Rock2", 4, 12 },
+        { "Rock2", 2, 14 },
+        { "Rock2", 0, 16 },
     }
 
     -- Loads the trees according to the array
@@ -264,7 +360,7 @@ function _CreateObjects()
 
         { "Grass Clump1", 105.5, 47 },
         { "Grass Clump1", 125, 32.5 },
-        { "Grass Clump1", 122, 31 },
+        { "Grass Clump1", 122, 31.2 },
         { "Grass Clump1", 103.5, 57 },
         { "Grass Clump1", 92, 69 },
         { "Grass Clump1", 99, 58 },
@@ -275,6 +371,27 @@ function _CreateObjects()
         { "Grass Clump1", 53, 46 },
         { "Grass Clump1", 48, 94 },
         { "Grass Clump1", 80, 59.2 },
+
+        { "Grass Clump1", 36, 69 },
+        { "Grass Clump1", 29, 70 },
+        { "Grass Clump1", 22, 75 },
+
+        { "Grass Clump1", 31, 52 },
+        { "Grass Clump1", 33, 51 },
+        { "Grass Clump1", 41, 47 },
+        { "Grass Clump1", 39, 44 },
+
+        { "Grass Clump1", 63, 45 },
+        { "Grass Clump1", 65, 45.5 },
+
+        { "Grass Clump1", 19, 48 },
+        { "Grass Clump1", 29, 46 },
+        { "Grass Clump1", 43.5, 34 },
+        { "Grass Clump1", 22, 25 },
+        { "Grass Clump1", 98, 22 },
+        { "Grass Clump1", 99, 26 },
+        { "Grass Clump1", 67, 15 },
+        { "Grass Clump1", 74, 16 },
 
     }
 
@@ -300,6 +417,8 @@ function _CreateEnemies()
     -- Dark soldier 1
     dark_soldier1 = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(dark_soldier1);
+    -- Add special timer script
+    dark_soldier1:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
     dark_soldier1:NewEnemyParty();
     dark_soldier1:AddEnemy(9);
     roam_zone:AddEnemy(dark_soldier1, Map, 1);
@@ -324,6 +443,12 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to cave 2", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance2");
+    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to cave 3", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance3");
+    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to cave 4", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance4");
     EventManager:RegisterEvent(event);
 
     -- Heal point
@@ -419,6 +544,8 @@ end
 local see_first_guard_zone = {};
 local to_cave1_zone = {};
 local to_cave2_zone = {};
+local to_cave3_zone = {};
+local to_cave4_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -430,6 +557,10 @@ function _CreateZones()
     Map:AddZone(to_cave1_zone);
     to_cave2_zone = vt_map.CameraZone(30, 34, 49, 50);
     Map:AddZone(to_cave2_zone);
+    to_cave3_zone = vt_map.CameraZone(116, 120, 29, 30);
+    Map:AddZone(to_cave3_zone);
+    to_cave4_zone = vt_map.CameraZone(100, 104, 19, 20);
+    Map:AddZone(to_cave4_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -445,6 +576,12 @@ function _CheckZones()
     elseif (to_cave2_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to cave 2");
+    elseif (to_cave3_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to cave 3");
+    elseif (to_cave4_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to cave 4");
     end
 end
 
