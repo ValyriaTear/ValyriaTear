@@ -497,7 +497,10 @@
 		<Unit filename="src/utils/utils_numeric.cpp" />
 		<Unit filename="src/utils/utils_numeric.h" />
 		<Unit filename="src/utils/utils_pch.cpp" />
-		<Unit filename="src/utils/utils_pch.h" />
+		<Unit filename="src/utils/utils_pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="src/utils/utils_random.cpp" />
 		<Unit filename="src/utils/utils_random.h" />
 		<Unit filename="src/utils/utils_strings.cpp" />
