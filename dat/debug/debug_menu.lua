@@ -124,6 +124,7 @@ function BootMenuTest()
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:ShowWorldLocation("layna forest")
     GlobalManager:SetCurrentLocationId("layna forest")
+    GlobalManager:AddQuestLog("flee_from_the_dark_soldiers")
 
     GlobalManager:SetMap("dummy_map", "dummy_script",
                          "img/menus/locations/desert_cave.png",

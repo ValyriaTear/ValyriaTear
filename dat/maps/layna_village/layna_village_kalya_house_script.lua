@@ -547,6 +547,7 @@ map_functions = {
     end_of_basement_dialogue = function()
         Map:PopState();
         GlobalManager:SetEventValue("story", "kalya_basement_scene", 1);
+        GlobalManager:AddQuestLog("flee_from_the_dark_soldiers");
     end,
 
     to_be_continued = function()

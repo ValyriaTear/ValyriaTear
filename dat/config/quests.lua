@@ -79,12 +79,28 @@ quests = {
         -- Description
         vt_system.Translate("After seeing that strange light, Orlinn just ran away into the woods. He's just a kid, even if a quick one!\n \nMy own father asked me to go there with Kalya and get him back safe and sound.\n \nI can't let them down!"),
         -- Completion Description
-        vt_system.Translate("..."),
+        vt_system.Translate("We finally retrieved Orlinn in the center of the forest. A mysterious wolf was protecting him, and we came just on time to prevent him from approaching a strange crystal..."),
+        -- Group and event for the quest to be complete.
+        "story", "layna_forest_crystal_event_done",
+        -- Location name and banner image filename
+        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        -- Location sub-name and image filename
+        vt_system.Translate("Village center"), "img/menus/quests/bring_orlinn_back.png",
+    },
+
+    -- Quest id
+    ["flee_from_the_dark_soldiers"] = {
+        -- Title
+        vt_system.Translate("We must escape from the soldiers..."),
+        -- Description
+        vt_system.Translate("After we came back to our village, Kalya was caught by strange soldiers. The country Lord himself provoked me in battle, and thanks to her, we escaped for now.\n \nBut this isn't over, the soldiers are after us and we have to make our way through..."),
+        -- Completion Description
+        vt_system.Translate("We managed to find a way up to the mountain top."),
         -- Group and event for the quest to be complete.
         "none", "none",
         -- Location name and banner image filename
         vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Village center"), "img/menus/quests/bring_orlinn_back.png",
+        vt_system.Translate("Kalya's home basement"), "img/menus/quests/flee_from_dark_soldiers.png",
     }
 }
