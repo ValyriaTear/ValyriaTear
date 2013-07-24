@@ -223,9 +223,8 @@ public:
     **/
     void Update();
 
-    /** \brief Displays the newly drawn contents onto the screen
-    **/
-    void Draw();
+    //! \brief Displays potential debug information (FPS and textures).
+    void DrawDebugInfo();
 
     /** \brief Retrieves the OpenGL error code and retains it in the _gl_error_code member
     *** \return True if an OpenGL error has been detected, false if no errors were detected

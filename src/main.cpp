@@ -546,10 +546,11 @@ int main(int argc, char *argv[])
             // 1) Render the scene
             VideoManager->Clear();
             ModeManager->Draw();
-            VideoManager->Draw();
             ModeManager->DrawEffects();
             ModeManager->DrawPostEffects();
             VideoManager->DrawFadeEffect();
+            VideoManager->DrawDebugInfo();
+
             // Swap the buffers once the draw operations are done.
             SDL_GL_SwapBuffers();
 

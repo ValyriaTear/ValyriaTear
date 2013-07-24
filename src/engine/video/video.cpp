@@ -227,8 +227,6 @@ bool VideoEngine::FinalizeInitialization()
 
     // Prepare the screen for rendering
     Clear();
-    Draw();
-    Clear();
 
     // TEMP: this is a hack and should be removed when we can support procedural images
     if(_rectangle_image.Load("") == false) {
@@ -370,8 +368,11 @@ void VideoEngine::Update()
     _screen_fader.Update(frame_time);
 }
 
-void VideoEngine::Draw()
+void VideoEngine::DrawDebugInfo()
 {
+    if(TextureManager->debug_current_sheet < 0 && !_fps_display)
+        return;
+
     PushState();
 
     // Restore possible previous coords changes
