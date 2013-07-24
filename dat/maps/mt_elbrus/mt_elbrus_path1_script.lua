@@ -55,6 +55,10 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
+    -- Show the new location on map,
+    GlobalManager:ShowWorldLocation("mt elbrus");
+    GlobalManager:SetCurrentLocationId("mt elbrus");
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -625,7 +629,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Bronann looks at Kalya");
     text = vt_system.Translate("The dark soldiers as we call them are fanatics. They'll follow Banesore's orders even if it means death.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("We don't how he does that, but he can turn anybody into a servile subject.");
+    text = vt_system.Translate("We don't know how he does that, but he can turn anybody into a servile subject.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Their strength is also increased by the transformation. That's why we call them the zombified army.");
     dialogue:AddLine(text, kalya);

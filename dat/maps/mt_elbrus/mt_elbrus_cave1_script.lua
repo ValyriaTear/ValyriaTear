@@ -44,6 +44,9 @@ function Load(m)
     _CreateEvents();
     _CreateZones();
 
+    -- Add a mediumly dark overlay
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -96,6 +99,14 @@ function _CreateObjects()
     local event = {}
     local dialogue = {}
     local text = {}
+
+    -- Add a halo showing the cave entrances
+    -- exit 1
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 89, 88,
+        vt_video.Color(0.3, 0.3, 0.46, 0.8));
+    -- exit 2
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 9.5, 88,
+        vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
     shroom1 = CreateSprite(Map, "Shroom", 45, 42);
     shroom1:SetName("");
@@ -388,6 +399,8 @@ map_functions = {
         if (hero:GetYPosition() >= 68.0) then
             -- Remove the custom animation
             hero:DisableCustomAnimation();
+            -- Make him/her look south after the jump.
+            hero:SetDirection(vt_map.MapMode.SOUTH);
             return true;
         end
         local update_time = SystemManager:GetUpdateTime();
@@ -398,13 +411,15 @@ map_functions = {
     end,
 
     jump_update_right = function()
-        if (hero:GetYPosition() >= 34.0) then
+        if (hero:GetYPosition() >= 33.6) then
             -- Remove the custom animation
             hero:DisableCustomAnimation();
+            -- Make him/her look south after the jump.
+            hero:SetDirection(vt_map.MapMode.SOUTH);
             return true;
         end
         local update_time = SystemManager:GetUpdateTime();
-        if (hero:GetYPosition() < 34.0) then
+        if (hero:GetYPosition() < 33.6) then
             hero:SetYPosition(hero:GetYPosition() + 0.020 * update_time);
         end
         return false;
