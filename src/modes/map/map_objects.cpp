@@ -1371,10 +1371,11 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
 } // bool ObjectSupervisor::DetectCollision(VirtualSprite* sprite, float x, float y, MapObject** collision_object_ptr)
 
 
-Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destination)
+Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost)
 {
     // NOTE: Refer to the implementation of the A* algorithm to understand
     // what all these lists and score values are for.
+    static const uint32 basic_gcost = 10;
 
     // NOTE(bis): On the outer scope, we'll use float based positions,
     // but we still use integer positions for path finding.
@@ -1466,23 +1467,27 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
             if(collision_type == WALL_COLLISION)
                 continue;
 
-            // ---------- (B): Check if the node is already in the closed list
-            if(find(closed_list.begin(), closed_list.end(), nodes[i]) != closed_list.end())
-                continue;
-
-            // ---------- (C): If this point has been reached, the node is valid for the sprite to move to
+            // ---------- (B): If this point has been reached, the node is valid for the sprite to move to
             // If this is a lateral adjacent node, g_score is +10, otherwise diagonal adjacent node is +14
             if(i < 4)
-                g_add = 10;
+                g_add = basic_gcost;
             else
-                g_add = 14;
+                g_add = basic_gcost + 4;
 
             // Add some g cost when there is another sprite there,
             // so the NPC try to get around when possible,
             // but will still go through it when there are no other choices.
             if(collision_type == CHARACTER_COLLISION
                     || collision_type == ENEMY_COLLISION)
-                g_add += 20;
+                g_add += basic_gcost * 2;
+
+            // If the path has reached the maximum length requested, we abort the path
+            if (max_cost > 0 && (uint32)(best_node.g_score + g_add) >= max_cost * basic_gcost)
+                return path;
+
+            // ---------- (C): Check if the node is already in the closed list
+            if(find(closed_list.begin(), closed_list.end(), nodes[i]) != closed_list.end())
+                continue;
 
             // Set the node's parent and calculate its g_score
             nodes[i].parent_x = best_node.tile_x;

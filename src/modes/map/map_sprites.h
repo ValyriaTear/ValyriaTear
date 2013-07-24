@@ -741,8 +741,12 @@ private:
     uint32 _current_way_point_id;
 
     //! \brief Set the new path destination of the sprite.
+    //! \param destination_x The pixel x destination to find a path to.
+    //! \param destination_y The pixel y destination to find a path to.
+    //! \param max_cost More or less the path max length in nodes or 0 if no limitations.
+    //! Use this to avoid heavy computations.
     //! \return whether it failed.
-    bool _SetDestination(float destination_x, float destination_y);
+    bool _SetDestination(float destination_x, float destination_y, uint32 max_cost = 20);
 
     //! \brief Set the actual sprite direction according to the current path node.
     void _SetSpriteDirection();
@@ -753,6 +757,9 @@ private:
     //! \brief Set a path for the sprite being the next way point given.
     //! \return whether it failed.
     bool _SetPathToNextWayPoint();
+
+    //! \brief Set a random path for the enemy
+    void _SetRandomPath();
 
 }; // class EnemySprite : public MapSprite
 

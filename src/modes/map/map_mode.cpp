@@ -532,7 +532,7 @@ bool MapMode::IsCameraOnVirtualFocus()
 
 bool MapMode::AttackAllowed()
 {
-    return (CurrentState() != STATE_DIALOGUE && CurrentState() != STATE_TREASURE && !IsCameraOnVirtualFocus());
+    return (CurrentState() == STATE_EXPLORE && !IsCameraOnVirtualFocus());
 }
 
 float MapMode::GetScreenXCoordinate(float tile_position_x) const

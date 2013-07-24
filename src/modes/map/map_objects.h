@@ -951,6 +951,9 @@ public:
     *** \param sprite A pointer of the sprite to find the path for
     *** \param dest The destination coordinates
     *** \param path A vector of PathNode objects storing the path
+    *** \param max_cost Tells how far a path node can be computed agains the starting path node.
+    *** This is used to avoid heavy computations.
+    *** If this param is equal to 0, there is no limitation.
     ***
     *** This algorithm uses the A* algorithm to find a path from a source to a destination.
     *** This function ignores the position of all other objects and only concerns itself with
@@ -958,7 +961,7 @@ public:
     ***
     *** \note If an error is detected or a path could not be found, the function will empty the path vector before returning
     **/
-    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination);
+    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost = 0);
 
     /** \brief Returns the pointer to the virtual focus.
     **/

@@ -1246,22 +1246,25 @@ void EnemySprite::Update()
 
         // Set the sprite's direction so that it seeks to collide with the map camera's position
     case HOSTILE: {
-        // Update the wait time until next path
-        if (!moving)
-            _time_elapsed += SystemManager->GetUpdateTime();
-
         // Holds the x and y deltas between the sprite and map camera coordinate pairs
-        float xdelta, ydelta;
         VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
         float camera_x = camera->GetXPosition();
         float camera_y = camera->GetYPosition();
 
-        xdelta = GetXPosition() - camera_x;
-        ydelta = GetYPosition() - camera_y;
+        float xdelta = fabs(GetXPosition() - camera_x);
+        float ydelta = fabs(GetYPosition() - camera_y);
+
+        // Don't update enemies that are too far away...
+        if (xdelta > SCREEN_GRID_X_LENGTH || ydelta > SCREEN_GRID_Y_LENGTH)
+            return;
+
+        // Update the wait time until next path
+        if (!moving)
+            _time_elapsed += SystemManager->GetUpdateTime();
 
         // Test whether the monster has spotted its target.
         bool player_in_aggro_range = false;
-        if(fabs(xdelta) <= _aggro_range && fabs(ydelta) <= _aggro_range)
+        if(xdelta <= _aggro_range && ydelta <= _aggro_range)
             player_in_aggro_range = true;
 
         // check whether the monster has the right to get out of the roaming zone
@@ -1271,15 +1274,13 @@ void EnemySprite::Update()
         else if(!player_in_aggro_range && !_zone->IsRoamingRestrained())
             can_get_out_of_zone = true;
 
-        // If the sprite has moved outside of its zone and it should not, reverse the sprite's direction
+        // If the sprite has moved outside of its zone and it should not, Set the way back home
         if(_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition())
                 && !can_get_out_of_zone) {
-            // Make sure it wasn't already out (stuck on boundaries fix)
-            if (_path.empty() && !_SetPathToNextWayPoint()) {
-                float dest_x = 0.0f;
-                float dest_y = 0.0f;
-                _zone->RandomPosition(dest_x, dest_y);
-                _SetDestination(dest_x, dest_y);
+            if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
+                if (!_SetPathToNextWayPoint())
+                    _SetRandomPath();
+                _time_elapsed = 0;
             }
             // The sprite is now finding its way back into the zone
             _out_of_zone = true;
@@ -1293,30 +1294,25 @@ void EnemySprite::Update()
             // the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
             if(MapMode::CurrentInstance()->AttackAllowed()
                     && (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y)))) {
+
+                if (moving)
+                    _time_elapsed += SystemManager->GetUpdateTime();
+
                 // We set the destination to the character's position if it's not the case
-                if (_path.empty() ||
-                        !vt_utils::IsFloatEqual(camera_x, _destination_x, 1.0f) ||
-                        !vt_utils::IsFloatEqual(camera_y, _destination_y, 1.0f)) {
-                    _SetDestination(camera_x, camera_y);
+                if (_time_elapsed >= 600) {
+                    // Avoid heavy paths here.
+                    if (!_SetDestination(camera_x, camera_y, 20))
+                        _SetRandomPath();
+                    _time_elapsed = 0;
                 }
             }
             // If the sprite is not within the aggression range, pick a random destination to move
             // If there is no path left, and the time to set a new destination has passed,
             // we set a new random destination.
             else if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
+                if (!_SetPathToNextWayPoint())
+                    _SetRandomPath();
                 _time_elapsed = 0;
-                if (!_SetPathToNextWayPoint()) {
-                    float pos_x = 0.0f;
-                    float pos_y = 0.0f;
-                    if (_zone)
-                        _zone->RandomPosition(pos_x, pos_y);
-                    else {
-                        // set up a random position around the current point
-                        pos_x = RandomFloat(GetXPosition() - 2.0f, GetXPosition() + 2.0f);
-                        pos_y = RandomFloat(GetYPosition() - 2.0f, GetYPosition() + 2.0f);
-                    }
-                    _SetDestination(pos_x, pos_y);
-                }
             }
         }
 
@@ -1372,6 +1368,22 @@ void EnemySprite::AddWayPoint(float destination_x, float destination_y)
     _way_points.push_back(destination);
 }
 
+void EnemySprite::_SetRandomPath()
+{
+    float pos_x = 0.0f;
+    float pos_y = 0.0f;
+    if (_zone) {
+        _zone->RandomPosition(pos_x, pos_y);
+    }
+    else {
+        // set up a random position around the current point
+        pos_x = RandomFloat(GetXPosition() - 2.0f, GetXPosition() + 2.0f);
+        pos_y = RandomFloat(GetYPosition() - 2.0f, GetYPosition() + 2.0f);
+    }
+    _SetDestination(pos_x, pos_y, _zone ? 0 : 20); // Avoid heavy paths if no zones.
+    _time_elapsed = 0;
+}
+
 bool EnemySprite::_SetPathToNextWayPoint()
 {
     // There must be at least two way points to permit supporting those.
@@ -1381,7 +1393,7 @@ bool EnemySprite::_SetPathToNextWayPoint()
     if (_current_way_point_id >= _way_points.size())
         _current_way_point_id = 0;
 
-    bool ret = _SetDestination(_way_points[_current_way_point_id].x, _way_points[_current_way_point_id].y);
+    bool ret = _SetDestination(_way_points[_current_way_point_id].x, _way_points[_current_way_point_id].y, 0);
     ++_current_way_point_id;
 
     return ret;
@@ -1421,7 +1433,7 @@ void EnemySprite::_UpdatePath()
     }
 }
 
-bool EnemySprite::_SetDestination(float destination_x, float destination_y)
+bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint32 max_cost)
 {
     _path.clear();
 
@@ -1437,7 +1449,7 @@ bool EnemySprite::_SetDestination(float destination_x, float destination_y)
     MapPosition dest(destination_x, destination_y);
     // We set the correct mask before finding the path
     collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
-    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest);
+    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest, max_cost);
 
     if (_path.empty())
         return false;
