@@ -182,6 +182,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Winvalid-pch" />
 			<Add directory="src" />
 			<Add directory="src/common/gui" />
 			<Add directory="src/common/global" />
