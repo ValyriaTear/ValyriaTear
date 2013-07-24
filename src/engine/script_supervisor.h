@@ -60,7 +60,7 @@ public:
     void Reset();
 
     ///! \brief calls the Restart function of each scripts.
-    //! Useful when restarting a lost battle.
+    //! Used only when restarting a lost battle at the moment.
     void Restart();
 
     /** \brief Draws all background images and animations
