@@ -118,15 +118,15 @@ public:
     //! \brief Draws the map zone on screen for debugging purpose
     virtual void Draw();
 
+    /** \brief Returns random x, y position coordinates within the zone
+    *** \param x A reference where to store the value of the x position
+    *** \param y A reference where to store the value of the y position
+    **/
+    void RandomPosition(float &x, float &y);
+
 protected:
     //! \brief The rectangular sections which compose the map zone
     std::vector<ZoneSection> _sections;
-
-    /** \brief Returns random x, y position coordinates within the zone
-    *** \param x A reference where to store the value of the x position
-    *** \param y A reference where to store the value of the x position
-    **/
-    void _RandomPosition(float &x, float &y);
 
     //! \brief Tells whether a section is on screen and place the drawing cursor in that case.
     bool _ShouldDraw(const ZoneSection &section);

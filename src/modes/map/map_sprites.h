@@ -547,11 +547,8 @@ private:
     };
 
 public:
-    //! \brief The default constructor which typically requires that the user make several additional calls to setup the sprite properties
+    //! \brief The default constructor
     EnemySprite();
-
-    //! \brief A constructor for when the enemy sprite is stored in the definition of a single file
-    EnemySprite(const std::string &file);
 
     //! \brief Resets various members of the class so that the enemy is dead, invisible, and does not produce a collision
     void Reset();
@@ -590,8 +587,8 @@ public:
         return _aggro_range;
     }
 
-    uint32 GetTimeToChange() const {
-        return _time_dir_change;
+    uint32 GetTimeBeforeNewDestination() const {
+        return _time_before_new_destination;
     }
 
     uint32 GetTimeToSpawn() const {
@@ -638,8 +635,8 @@ public:
         _aggro_range = range;
     }
 
-    void SetTimeToChange(uint32 time) {
-        _time_dir_change = time;
+    void SetTimeBeforeNewDestination(uint32 time) {
+        _time_before_new_destination = time;
     }
 
     void SetTimeToSpawn(uint32 time) {
@@ -674,6 +671,11 @@ public:
     }
 
     void ChangeStateHostile();
+
+    //! Makes an enemy follow way point when not running after a hero
+    //! \note You'll have to add at least two valid way point to make those
+    //! taken into account by the enemy sprite.
+    void AddWayPoint(float destination_x, float destination_y);
     //@}
 
 private:
@@ -692,10 +694,10 @@ private:
     //! \brief A value which determines how close the player needs to be for the enemy to aggressively seek to confront it
     float _aggro_range;
 
-    //! \brief ???
-    uint32 _time_dir_change;
+    //! \brief Tells the time the sprite is waiting before going to a new destination.
+    uint32 _time_before_new_destination;
 
-    //! \brief ???
+    //! \brief Tells the time in milliseconds the sprite will use to respawn. This will set up the fade in speed.
     uint32 _time_to_spawn;
 
     //! \brief Indicates if the enemy is outside of its zone. If it is, it won't change direction until it gets back in.
@@ -713,14 +715,45 @@ private:
     //! \brief Tells whether the sprite is a boss.
     bool _is_boss;
 
-    //! \brief The custom script filename
-    // TODO: Actually use it for animation and/or custom battle AI ??
-    std::string _filename;
-
     /** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
     *** The numbers contained within this member are ID numbers for the enemy.
     **/
     std::vector<std::vector<BattleEnemyInfo> > _enemy_parties;
+
+    //! \brief Used to store the previous coordinates of the sprite during path movement,
+    //! so as to set the proper direction of the sprite as it moves
+    float _last_node_x_position, _last_node_y_position;
+
+    //! \brief Used to store the current node collision position (with offset)
+    float _current_node_x, _current_node_y;
+
+    //! \brief An index to the path vector containing the node that the sprite currently occupies
+    uint32 _current_node_id;
+
+    //! \brief The current destination of the sprite.
+    float _destination_x, _destination_y;
+
+    //! \brief Holds the path needed to traverse from source to destination
+    Path _path;
+
+    //! \brief Way points used by the enemy when not hostile
+    std::vector<MapPosition> _way_points;
+    uint32 _current_way_point_id;
+
+    //! \brief Set the new path destination of the sprite.
+    //! \return whether it failed.
+    bool _SetDestination(float destination_x, float destination_y);
+
+    //! \brief Set the actual sprite direction according to the current path node.
+    void _SetSpriteDirection();
+
+    //! \brief Update the sprite direction according to the current path.
+    void _UpdatePath();
+
+    //! \brief Set a path for the sprite being the next way point given.
+    //! \return whether it failed.
+    bool _SetPathToNextWayPoint();
+
 }; // class EnemySprite : public MapSprite
 
 } // namespace private_map

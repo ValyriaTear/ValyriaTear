@@ -82,7 +82,7 @@ void MapZone::Draw()
     }
 }
 
-void MapZone::_RandomPosition(float &x, float &y)
+void MapZone::RandomPosition(float &x, float &y)
 {
     // Select a random ZoneSection
     uint16 i = RandomBoundedInteger(0, _sections.size() - 1);
@@ -253,8 +253,6 @@ void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_
     for(uint8 i = 1; i < enemy_number; ++i) {
         EnemySprite *copy = new EnemySprite(*enemy);
         copy->SetObjectID(map_instance->GetObjectSupervisor()->GenerateObjectID());
-        // Add a 10% random margin of error to make enemies look less synchronized
-        copy->SetTimeToChange(static_cast<uint32>(copy->GetTimeToChange() * (1 + RandomFloat() * 10)));
         copy->Reset();
 
         map_instance->AddGroundObject(copy);
@@ -377,7 +375,7 @@ void EnemyZone::Update()
     }
     // If there is a collision, retry a different location
     do {
-        spawning_zone->_RandomPosition(x, y);
+        spawning_zone->RandomPosition(x, y);
         _enemies[index]->SetPosition(x, y);
         collision = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(_enemies[index],
                     _enemies[index]->GetXPosition(),
