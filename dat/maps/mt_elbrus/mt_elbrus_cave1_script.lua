@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mt. Elbrus"
-map_image_filename = "img/menus/locations/mt_elrus.png"
+map_image_filename = "img/menus/locations/mt_elbrus.png"
 map_subname = "Elbrus Grotto"
 
 -- The music file used as default background music on this map.

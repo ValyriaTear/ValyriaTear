@@ -118,13 +118,14 @@ function BootMenuTest()
     GlobalManager:AddQuestLog("find_pen");
     GlobalManager:AddQuestLog("wants_to_go_into_the_forest");
     GlobalManager:AddQuestLog("bring_orlinn_back");
+    GlobalManager:AddQuestLog("flee_from_the_dark_soldiers");
 
     -- Used to debug World Map
     GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:ShowWorldLocation("layna forest")
+    GlobalManager:ShowWorldLocation("mt elbrus")
     GlobalManager:SetCurrentLocationId("layna forest")
-    GlobalManager:AddQuestLog("flee_from_the_dark_soldiers")
 
     GlobalManager:SetMap("dummy_map", "dummy_script",
                          "img/menus/locations/desert_cave.png",

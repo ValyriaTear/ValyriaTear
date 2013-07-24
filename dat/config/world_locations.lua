@@ -30,4 +30,15 @@ world_locations = {
         -- banner filename,
         "img/menus/locations/layna_forest.png"
     },
+    -- world location id
+    ["mt elbrus"] = {
+        -- X location
+        "220",
+        -- Y location
+        "70",
+        -- location name
+        vt_system.Translate("Mt Elbrus"),
+        -- banner filename,
+        "img/menus/locations/mt_elbrus.png"
+    },
 }
