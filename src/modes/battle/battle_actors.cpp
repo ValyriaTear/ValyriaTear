@@ -714,10 +714,16 @@ void BattleCharacter::DrawSprite()
     _current_sprite_animation->Draw();
     _current_weapon_animation.Draw();
 
+    BattleMode *BM = BattleMode::CurrentInstance();
+
+    //! Don't display effects on characters when the battle is over
+    if (BM->GetState() != BATTLE_STATE_NORMAL && BM->GetState() != BATTLE_STATE_COMMAND)
+        return;
+
     if(_is_stunned && (_state == ACTOR_STATE_COMMAND || _state == ACTOR_STATE_IDLE ||
                        _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
         VideoManager->MoveRelative(0, -GetSpriteHeight());
-        BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
+        BM->GetMedia().GetStunnedIcon().Draw();
     }
 } // void BattleCharacter::DrawSprite()
 
