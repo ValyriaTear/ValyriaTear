@@ -142,6 +142,13 @@ function _CreateObjects()
     npc = CreateObject(Map, "Layna Statue", 104, 56);
     Map:AddGroundObject(npc);
 
+    -- Treasure box
+    local chest = CreateTreasure(Map, "elbrus_path1_chest1", "Wood_Chest1", 7, 92);
+    if (chest ~= nil) then
+        chest:AddObject(2, 1); -- Medium healing potion
+        Map:AddGroundObject(chest);
+    end
+
     -- Objects array
     local map_objects = {
         --  near the bridge
@@ -413,7 +420,6 @@ function _CreateEnemies()
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(59, 62, 61, 85);
-
     -- Dark soldier 1
     dark_soldier1 = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(dark_soldier1);
@@ -423,7 +429,111 @@ function _CreateEnemies()
     dark_soldier1:AddEnemy(9);
     roam_zone:AddEnemy(dark_soldier1, Map, 1);
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    -- Patrol way points
+    dark_soldier1:AddWayPoint(60, 62);
+    dark_soldier1:AddWayPoint(60, 84);
     Map:AddZone(roam_zone);
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(3, 15, 43, 76);
+    -- Dark soldier 2
+    enemy = CreateEnemySprite(Map, "Dark Soldier");
+    _SetBattleEnvironment(enemy);
+    -- Add special timer script
+    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(9);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    enemy:AddWayPoint(4, 44);
+    enemy:AddWayPoint(14, 44);
+    enemy:AddWayPoint(14, 74);
+    enemy:AddWayPoint(4, 74);
+    Map:AddZone(roam_zone);
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(28, 47, 22, 38);
+    -- Dark soldier 3
+    enemy = CreateEnemySprite(Map, "Dark Soldier");
+    _SetBattleEnvironment(enemy);
+    -- Add special timer script
+    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(9);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    enemy:AddWayPoint(29, 23);
+    enemy:AddWayPoint(46, 23);
+    enemy:AddWayPoint(46, 37);
+    enemy:AddWayPoint(29, 37);
+    Map:AddZone(roam_zone);
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(62, 65, 21, 36);
+    -- Dark soldier 4
+    enemy = CreateEnemySprite(Map, "Dark Soldier");
+    _SetBattleEnvironment(enemy);
+    -- Add special timer script
+    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(9);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    enemy:AddWayPoint(63, 22);
+    enemy:AddWayPoint(63, 35);
+    Map:AddZone(roam_zone);
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(6, 19, 10, 24);
+    -- Dark soldier 4
+    enemy = CreateEnemySprite(Map, "Dark Soldier");
+    _SetBattleEnvironment(enemy);
+    -- Add special timer script
+    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(9);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+    enemy:AddWayPoint(7, 12);
+    enemy:AddWayPoint(18, 10);
+    enemy:AddWayPoint(14, 24);
+    enemy:AddWayPoint(6.2, 23);
+    Map:AddZone(roam_zone);
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(10, 21, 86, 92);
+    -- Some bats
+    enemy = CreateEnemySprite(Map, "bat");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(6);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(84, 92, 20, 24);
+    -- Some bats
+    enemy = CreateEnemySprite(Map, "bat");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(6);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
+
 end
 
 -- Special event references which destinations must be updated just before being called.

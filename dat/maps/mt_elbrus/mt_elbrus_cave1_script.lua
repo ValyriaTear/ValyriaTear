@@ -205,7 +205,7 @@ function _CreateObjects()
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_grotto1_chest1", "Wood_Chest1", 9, 17);
     if (chest ~= nil) then
-        chest:AddObject(2, 1); -- Medium healing potion
+        chest:AddObject(3001, 1); -- Copper ore
         Map:AddGroundObject(chest);
     end
 
@@ -217,8 +217,26 @@ function _CreateEnemies()
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(7, 13, 36, 41);
-
     -- Lonely bats
+    enemy = CreateEnemySprite(Map, "bat");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(6);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(4);
+    enemy:AddEnemy(6);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(7, 13, 16, 21);
+    -- bats, again
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
